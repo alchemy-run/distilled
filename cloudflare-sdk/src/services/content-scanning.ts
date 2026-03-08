@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // ContentScanning
@@ -25,9 +23,13 @@ export interface GetContentScanningRequest {
 }
 
 export const GetContentScanningRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/content-upload-scan/settings" })) as unknown as Schema.Schema<GetContentScanningRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
+) as unknown as Schema.Schema<GetContentScanningRequest>;
 
 export interface GetContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
@@ -38,11 +40,10 @@ export interface GetContentScanningResponse {
 
 export const GetContentScanningResponse = Schema.Struct({
   modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
+  value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetContentScanningResponse>;
 
-export type GetContentScanningError =
-  | DefaultErrors;
+export type GetContentScanningError = DefaultErrors;
 
 export const getContentScanning: API.OperationMethod<
   GetContentScanningRequest,
@@ -64,9 +65,13 @@ export interface CreateContentScanningRequest {
 
 export const CreateContentScanningRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literals(["enabled", "disabled"])
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/content-upload-scan/settings" })) as unknown as Schema.Schema<CreateContentScanningRequest>;
+  value: Schema.Literals(["enabled", "disabled"]),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
+) as unknown as Schema.Schema<CreateContentScanningRequest>;
 
 export interface CreateContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
@@ -77,11 +82,10 @@ export interface CreateContentScanningResponse {
 
 export const CreateContentScanningResponse = Schema.Struct({
   modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
+  value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateContentScanningResponse>;
 
-export type CreateContentScanningError =
-  | DefaultErrors;
+export type CreateContentScanningError = DefaultErrors;
 
 export const createContentScanning: API.OperationMethod<
   CreateContentScanningRequest,
@@ -103,9 +107,13 @@ export interface PutContentScanningRequest {
 
 export const PutContentScanningRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literals(["enabled", "disabled"])
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/content-upload-scan/settings" })) as unknown as Schema.Schema<PutContentScanningRequest>;
+  value: Schema.Literals(["enabled", "disabled"]),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
+) as unknown as Schema.Schema<PutContentScanningRequest>;
 
 export interface PutContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
@@ -116,11 +124,10 @@ export interface PutContentScanningResponse {
 
 export const PutContentScanningResponse = Schema.Struct({
   modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
+  value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutContentScanningResponse>;
 
-export type PutContentScanningError =
-  | DefaultErrors;
+export type PutContentScanningError = DefaultErrors;
 
 export const putContentScanning: API.OperationMethod<
   PutContentScanningRequest,
@@ -139,16 +146,20 @@ export interface EnableContentScanningRequest {
 }
 
 export const EnableContentScanningRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/content-upload-scan/enable" })) as unknown as Schema.Schema<EnableContentScanningRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/content-upload-scan/enable",
+  }),
+) as unknown as Schema.Schema<EnableContentScanningRequest>;
 
 export type EnableContentScanningResponse = unknown;
 
-export const EnableContentScanningResponse = Schema.Unknown as unknown as Schema.Schema<EnableContentScanningResponse>;
+export const EnableContentScanningResponse =
+  Schema.Unknown as unknown as Schema.Schema<EnableContentScanningResponse>;
 
-export type EnableContentScanningError =
-  | DefaultErrors;
+export type EnableContentScanningError = DefaultErrors;
 
 export const enableContentScanning: API.OperationMethod<
   EnableContentScanningRequest,
@@ -167,16 +178,20 @@ export interface DisableContentScanningRequest {
 }
 
 export const DisableContentScanningRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/content-upload-scan/disable" })) as unknown as Schema.Schema<DisableContentScanningRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/content-upload-scan/disable",
+  }),
+) as unknown as Schema.Schema<DisableContentScanningRequest>;
 
 export type DisableContentScanningResponse = unknown;
 
-export const DisableContentScanningResponse = Schema.Unknown as unknown as Schema.Schema<DisableContentScanningResponse>;
+export const DisableContentScanningResponse =
+  Schema.Unknown as unknown as Schema.Schema<DisableContentScanningResponse>;
 
-export type DisableContentScanningError =
-  | DefaultErrors;
+export type DisableContentScanningError = DefaultErrors;
 
 export const disableContentScanning: API.OperationMethod<
   DisableContentScanningRequest,
@@ -189,7 +204,6 @@ export const disableContentScanning: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Payload
 // =============================================================================
@@ -200,19 +214,24 @@ export interface ListPayloadsRequest {
 }
 
 export const ListPayloadsRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/content-upload-scan/payloads" })) as unknown as Schema.Schema<ListPayloadsRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/payloads",
+  }),
+) as unknown as Schema.Schema<ListPayloadsRequest>;
 
 export type ListPayloadsResponse = { id?: string; payload?: string }[];
 
-export const ListPayloadsResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListPayloadsResponse>;
+export const ListPayloadsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListPayloadsResponse>;
 
-export type ListPayloadsError =
-  | DefaultErrors;
+export type ListPayloadsError = DefaultErrors;
 
 export const listPayloads: API.OperationMethod<
   ListPayloadsRequest,
@@ -234,21 +253,28 @@ export interface CreatePayloadRequest {
 
 export const CreatePayloadRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Array(Schema.Struct({
-  payload: Schema.String
-})).pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/content-upload-scan/payloads" })) as unknown as Schema.Schema<CreatePayloadRequest>;
+  body: Schema.Array(
+    Schema.Struct({
+      payload: Schema.String,
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/content-upload-scan/payloads",
+  }),
+) as unknown as Schema.Schema<CreatePayloadRequest>;
 
 export type CreatePayloadResponse = { id?: string; payload?: string }[];
 
-export const CreatePayloadResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<CreatePayloadResponse>;
+export const CreatePayloadResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<CreatePayloadResponse>;
 
-export type CreatePayloadError =
-  | DefaultErrors;
+export type CreatePayloadError = DefaultErrors;
 
 export const createPayload: API.OperationMethod<
   CreatePayloadRequest,
@@ -269,19 +295,24 @@ export interface DeletePayloadRequest {
 
 export const DeletePayloadRequest = Schema.Struct({
   expressionId: Schema.String.pipe(T.HttpPath("expressionId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/content-upload-scan/payloads/{expressionId}" })) as unknown as Schema.Schema<DeletePayloadRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/content-upload-scan/payloads/{expressionId}",
+  }),
+) as unknown as Schema.Schema<DeletePayloadRequest>;
 
 export type DeletePayloadResponse = { id?: string; payload?: string }[];
 
-export const DeletePayloadResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<DeletePayloadResponse>;
+export const DeletePayloadResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<DeletePayloadResponse>;
 
-export type DeletePayloadError =
-  | DefaultErrors;
+export type DeletePayloadError = DefaultErrors;
 
 export const deletePayload: API.OperationMethod<
   DeletePayloadRequest,
@@ -294,7 +325,6 @@ export const deletePayload: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Setting
 // =============================================================================
@@ -305,9 +335,13 @@ export interface GetSettingRequest {
 }
 
 export const GetSettingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/content-upload-scan/settings" })) as unknown as Schema.Schema<GetSettingRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
+) as unknown as Schema.Schema<GetSettingRequest>;
 
 export interface GetSettingResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
@@ -318,11 +352,10 @@ export interface GetSettingResponse {
 
 export const GetSettingResponse = Schema.Struct({
   modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
+  value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
-export type GetSettingError =
-  | DefaultErrors;
+export type GetSettingError = DefaultErrors;
 
 export const getSetting: API.OperationMethod<
   GetSettingRequest,

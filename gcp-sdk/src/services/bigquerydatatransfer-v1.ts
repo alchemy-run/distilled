@@ -53,36 +53,54 @@ export interface DataSourceParameter {
   /** For list parameters, the max size of the list. */
   maxListSize?: string;
   /** Parameter type. */
-  type?: "TYPE_UNSPECIFIED" | "STRING" | "INTEGER" | "DOUBLE" | "BOOLEAN" | "RECORD" | "PLUS_PAGE" | "LIST" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "STRING"
+    | "INTEGER"
+    | "DOUBLE"
+    | "BOOLEAN"
+    | "RECORD"
+    | "PLUS_PAGE"
+    | "LIST"
+    | (string & {});
   /** For integer and double values specifies minimum allowed value. */
   minValue?: number;
   /** Cannot be changed after initial creation. */
   immutable?: boolean;
 }
 
-export const DataSourceParameter: Schema.Schema<DataSourceParameter> = Schema.suspend(() => Schema.Struct({
-  paramId: Schema.optional(Schema.String),
-  validationRegex: Schema.optional(Schema.String),
-  allowedValues: Schema.optional(Schema.Array(Schema.String)),
-  repeated: Schema.optional(Schema.Boolean),
-  required: Schema.optional(Schema.Boolean),
-  description: Schema.optional(Schema.String),
-  maxValue: Schema.optional(Schema.Number),
-  validationHelpUrl: Schema.optional(Schema.String),
-  recurse: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  deprecated: Schema.optional(Schema.Boolean),
-  validationDescription: Schema.optional(Schema.String),
-  fields: Schema.optional(Schema.Array(DataSourceParameter)),
-  maxListSize: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  minValue: Schema.optional(Schema.Number),
-  immutable: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DataSourceParameter" }) as any as Schema.Schema<DataSourceParameter>;
+export const DataSourceParameter: Schema.Schema<DataSourceParameter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      paramId: Schema.optional(Schema.String),
+      validationRegex: Schema.optional(Schema.String),
+      allowedValues: Schema.optional(Schema.Array(Schema.String)),
+      repeated: Schema.optional(Schema.Boolean),
+      required: Schema.optional(Schema.Boolean),
+      description: Schema.optional(Schema.String),
+      maxValue: Schema.optional(Schema.Number),
+      validationHelpUrl: Schema.optional(Schema.String),
+      recurse: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      deprecated: Schema.optional(Schema.Boolean),
+      validationDescription: Schema.optional(Schema.String),
+      fields: Schema.optional(Schema.Array(DataSourceParameter)),
+      maxListSize: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      minValue: Schema.optional(Schema.Number),
+      immutable: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DataSourceParameter",
+  }) as any as Schema.Schema<DataSourceParameter>;
 
 export interface DataSource {
   /** Deprecated. This field has no effect. */
-  transferType?: "TRANSFER_TYPE_UNSPECIFIED" | "BATCH" | "STREAMING" | (string & {});
+  transferType?:
+    | "TRANSFER_TYPE_UNSPECIFIED"
+    | "BATCH"
+    | "STREAMING"
+    | (string & {});
   /** User friendly data source name. */
   displayName?: string;
   /** Default data refresh window on days. Only meaningful when `data_refresh_type` = `SLIDING_WINDOW`. */
@@ -102,7 +120,11 @@ export interface DataSource {
   /** Data source parameters. */
   parameters?: Array<DataSourceParameter>;
   /** Specifies whether the data source supports automatic data refresh for the past few days, and how it's supported. For some data sources, data might not be complete until a few days later, so it's useful to refresh data automatically. */
-  dataRefreshType?: "DATA_REFRESH_TYPE_UNSPECIFIED" | "SLIDING_WINDOW" | "CUSTOM_SLIDING_WINDOW" | (string & {});
+  dataRefreshType?:
+    | "DATA_REFRESH_TYPE_UNSPECIFIED"
+    | "SLIDING_WINDOW"
+    | "CUSTOM_SLIDING_WINDOW"
+    | (string & {});
   /** Deprecated. This field has no effect. */
   supportsMultipleTransfers?: boolean;
   /** Api auth scopes for which refresh token needs to be obtained. These are scopes needed by a data source to prepare data and ingest them into BigQuery, e.g., https://www.googleapis.com/auth/bigquery */
@@ -114,31 +136,38 @@ export interface DataSource {
   /** The minimum interval for scheduler to schedule runs. */
   minimumScheduleInterval?: string;
   /** Indicates the type of authorization. */
-  authorizationType?: "AUTHORIZATION_TYPE_UNSPECIFIED" | "AUTHORIZATION_CODE" | "GOOGLE_PLUS_AUTHORIZATION_CODE" | "FIRST_PARTY_OAUTH" | (string & {});
+  authorizationType?:
+    | "AUTHORIZATION_TYPE_UNSPECIFIED"
+    | "AUTHORIZATION_CODE"
+    | "GOOGLE_PLUS_AUTHORIZATION_CODE"
+    | "FIRST_PARTY_OAUTH"
+    | (string & {});
   /** Data source client id which should be used to receive refresh token. */
   clientId?: string;
 }
 
-export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() => Schema.Struct({
-  transferType: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  defaultDataRefreshWindowDays: Schema.optional(Schema.Number),
-  defaultSchedule: Schema.optional(Schema.String),
-  supportsCustomSchedule: Schema.optional(Schema.Boolean),
-  manualRunsDisabled: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  dataSourceId: Schema.optional(Schema.String),
-  updateDeadlineSeconds: Schema.optional(Schema.Number),
-  parameters: Schema.optional(Schema.Array(DataSourceParameter)),
-  dataRefreshType: Schema.optional(Schema.String),
-  supportsMultipleTransfers: Schema.optional(Schema.Boolean),
-  scopes: Schema.optional(Schema.Array(Schema.String)),
-  description: Schema.optional(Schema.String),
-  helpUrl: Schema.optional(Schema.String),
-  minimumScheduleInterval: Schema.optional(Schema.String),
-  authorizationType: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
+export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() =>
+  Schema.Struct({
+    transferType: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    defaultDataRefreshWindowDays: Schema.optional(Schema.Number),
+    defaultSchedule: Schema.optional(Schema.String),
+    supportsCustomSchedule: Schema.optional(Schema.Boolean),
+    manualRunsDisabled: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    dataSourceId: Schema.optional(Schema.String),
+    updateDeadlineSeconds: Schema.optional(Schema.Number),
+    parameters: Schema.optional(Schema.Array(DataSourceParameter)),
+    dataRefreshType: Schema.optional(Schema.String),
+    supportsMultipleTransfers: Schema.optional(Schema.Boolean),
+    scopes: Schema.optional(Schema.Array(Schema.String)),
+    description: Schema.optional(Schema.String),
+    helpUrl: Schema.optional(Schema.String),
+    minimumScheduleInterval: Schema.optional(Schema.String),
+    authorizationType: Schema.optional(Schema.String),
+    clientId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
 
 export interface ListDataSourcesResponse {
   /** List of supported data sources and their transfer settings. */
@@ -147,10 +176,15 @@ export interface ListDataSourcesResponse {
   nextPageToken?: string;
 }
 
-export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> = Schema.suspend(() => Schema.Struct({
-  dataSources: Schema.optional(Schema.Array(DataSource)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDataSourcesResponse" }) as any as Schema.Schema<ListDataSourcesResponse>;
+export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataSources: Schema.optional(Schema.Array(DataSource)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDataSourcesResponse",
+  }) as any as Schema.Schema<ListDataSourcesResponse>;
 
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -161,20 +195,29 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface EmailPreferences {
   /** If true, email notifications will be sent on transfer run failures. */
   enableFailureEmail?: boolean;
 }
 
-export const EmailPreferences: Schema.Schema<EmailPreferences> = Schema.suspend(() => Schema.Struct({
-  enableFailureEmail: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "EmailPreferences" }) as any as Schema.Schema<EmailPreferences>;
+export const EmailPreferences: Schema.Schema<EmailPreferences> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      enableFailureEmail: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "EmailPreferences",
+}) as any as Schema.Schema<EmailPreferences>;
 
 export interface TransferRun {
   /** Output only. The BigQuery target dataset id. */
@@ -192,7 +235,14 @@ export interface TransferRun {
   /** Status of the transfer run. */
   errorStatus?: Status;
   /** Data transfer run state. Ignored for input requests. */
-  state?: "TRANSFER_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "TRANSFER_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
   /** Output only. Time when transfer run was started. Parameter ignored by server for input requests. */
   startTime?: string;
   /** For batch transfer runs, specifies the date and time of the data should be ingested. */
@@ -209,32 +259,39 @@ export interface TransferRun {
   dataSourceId?: string;
 }
 
-export const TransferRun: Schema.Schema<TransferRun> = Schema.suspend(() => Schema.Struct({
-  destinationDatasetId: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  endTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  notificationPubsubTopic: Schema.optional(Schema.String),
-  errorStatus: Schema.optional(Status),
-  state: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  runTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  schedule: Schema.optional(Schema.String),
-  emailPreferences: Schema.optional(EmailPreferences),
-  scheduleTime: Schema.optional(Schema.String),
-  dataSourceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferRun" }) as any as Schema.Schema<TransferRun>;
+export const TransferRun: Schema.Schema<TransferRun> = Schema.suspend(() =>
+  Schema.Struct({
+    destinationDatasetId: Schema.optional(Schema.String),
+    userId: Schema.optional(Schema.String),
+    params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    endTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    notificationPubsubTopic: Schema.optional(Schema.String),
+    errorStatus: Schema.optional(Status),
+    state: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    runTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    schedule: Schema.optional(Schema.String),
+    emailPreferences: Schema.optional(EmailPreferences),
+    scheduleTime: Schema.optional(Schema.String),
+    dataSourceId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TransferRun" }) as any as Schema.Schema<TransferRun>;
 
 export interface StartManualTransferRunsResponse {
   /** The transfer runs that were created. */
   runs?: Array<TransferRun>;
 }
 
-export const StartManualTransferRunsResponse: Schema.Schema<StartManualTransferRunsResponse> = Schema.suspend(() => Schema.Struct({
-  runs: Schema.optional(Schema.Array(TransferRun)),
-})).annotate({ identifier: "StartManualTransferRunsResponse" }) as any as Schema.Schema<StartManualTransferRunsResponse>;
+export const StartManualTransferRunsResponse: Schema.Schema<StartManualTransferRunsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      runs: Schema.optional(Schema.Array(TransferRun)),
+    }),
+  ).annotate({
+    identifier: "StartManualTransferRunsResponse",
+  }) as any as Schema.Schema<StartManualTransferRunsResponse>;
 
 export interface TimeBasedSchedule {
   /** Specifies time to start scheduling transfer runs. The first run will be scheduled at or after the start time according to a recurrence pattern defined in the schedule string. The start time can be changed at any moment. */
@@ -245,26 +302,38 @@ export interface TimeBasedSchedule {
   endTime?: string;
 }
 
-export const TimeBasedSchedule: Schema.Schema<TimeBasedSchedule> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  schedule: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeBasedSchedule" }) as any as Schema.Schema<TimeBasedSchedule>;
+export const TimeBasedSchedule: Schema.Schema<TimeBasedSchedule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      schedule: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TimeBasedSchedule",
+  }) as any as Schema.Schema<TimeBasedSchedule>;
 
 export interface EventDrivenSchedule {
   /** Pub/Sub subscription name used to receive events. Only Google Cloud Storage data source support this option. Format: projects/{project}/subscriptions/{subscription} */
   pubsubSubscription?: string;
 }
 
-export const EventDrivenSchedule: Schema.Schema<EventDrivenSchedule> = Schema.suspend(() => Schema.Struct({
-  pubsubSubscription: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventDrivenSchedule" }) as any as Schema.Schema<EventDrivenSchedule>;
+export const EventDrivenSchedule: Schema.Schema<EventDrivenSchedule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pubsubSubscription: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventDrivenSchedule",
+  }) as any as Schema.Schema<EventDrivenSchedule>;
 
-export interface ManualSchedule {
-}
+export interface ManualSchedule {}
 
-export const ManualSchedule: Schema.Schema<ManualSchedule> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ManualSchedule" }) as any as Schema.Schema<ManualSchedule>;
+export const ManualSchedule: Schema.Schema<ManualSchedule> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "ManualSchedule",
+}) as any as Schema.Schema<ManualSchedule>;
 
 export interface ScheduleOptionsV2 {
   /** Time based transfer schedule options. This is the default schedule option. */
@@ -275,11 +344,16 @@ export interface ScheduleOptionsV2 {
   manualSchedule?: ManualSchedule;
 }
 
-export const ScheduleOptionsV2: Schema.Schema<ScheduleOptionsV2> = Schema.suspend(() => Schema.Struct({
-  timeBasedSchedule: Schema.optional(TimeBasedSchedule),
-  eventDrivenSchedule: Schema.optional(EventDrivenSchedule),
-  manualSchedule: Schema.optional(ManualSchedule),
-})).annotate({ identifier: "ScheduleOptionsV2" }) as any as Schema.Schema<ScheduleOptionsV2>;
+export const ScheduleOptionsV2: Schema.Schema<ScheduleOptionsV2> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeBasedSchedule: Schema.optional(TimeBasedSchedule),
+      eventDrivenSchedule: Schema.optional(EventDrivenSchedule),
+      manualSchedule: Schema.optional(ManualSchedule),
+    }),
+  ).annotate({
+    identifier: "ScheduleOptionsV2",
+  }) as any as Schema.Schema<ScheduleOptionsV2>;
 
 export interface ScheduleOptions {
   /** If true, automatic scheduling of data transfer runs for this configuration will be disabled. The runs can be started on ad-hoc basis using StartManualTransferRuns API. When automatic scheduling is disabled, the TransferConfig.schedule field will be ignored. */
@@ -290,35 +364,54 @@ export interface ScheduleOptions {
   endTime?: string;
 }
 
-export const ScheduleOptions: Schema.Schema<ScheduleOptions> = Schema.suspend(() => Schema.Struct({
-  disableAutoScheduling: Schema.optional(Schema.Boolean),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ScheduleOptions" }) as any as Schema.Schema<ScheduleOptions>;
+export const ScheduleOptions: Schema.Schema<ScheduleOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      disableAutoScheduling: Schema.optional(Schema.Boolean),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ScheduleOptions",
+}) as any as Schema.Schema<ScheduleOptions>;
 
 export interface UserInfo {
   /** E-mail address of the user. */
   email?: string;
 }
 
-export const UserInfo: Schema.Schema<UserInfo> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
+export const UserInfo: Schema.Schema<UserInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    email: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
 
 export interface EncryptionConfiguration {
   /** The name of the KMS key used for encrypting BigQuery data. */
   kmsKeyName?: string;
 }
 
-export const EncryptionConfiguration: Schema.Schema<EncryptionConfiguration> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "EncryptionConfiguration" }) as any as Schema.Schema<EncryptionConfiguration>;
+export const EncryptionConfiguration: Schema.Schema<EncryptionConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EncryptionConfiguration",
+  }) as any as Schema.Schema<EncryptionConfiguration>;
 
 export interface TransferConfig {
   /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
   dataRefreshWindowDays?: number;
   /** Output only. State of the most recently updated transfer run. */
-  state?: "TRANSFER_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "TRANSFER_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
   name?: string;
   /** User specified display name for the data transfer. */
@@ -344,7 +437,11 @@ export interface TransferConfig {
   /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
   ownerInfo?: UserInfo;
   /** The classification of the destination table. */
-  managedTableType?: "MANAGED_TABLE_TYPE_UNSPECIFIED" | "NATIVE" | "BIGLAKE" | (string & {});
+  managedTableType?:
+    | "MANAGED_TABLE_TYPE_UNSPECIFIED"
+    | "NATIVE"
+    | "BIGLAKE"
+    | (string & {});
   /** Output only. Data transfer modification time. Ignored by server on input. */
   updateTime?: string;
   /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
@@ -359,35 +456,41 @@ export interface TransferConfig {
   nextRunTime?: string;
 }
 
-export const TransferConfig: Schema.Schema<TransferConfig> = Schema.suspend(() => Schema.Struct({
-  dataRefreshWindowDays: Schema.optional(Schema.Number),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  error: Schema.optional(Status),
-  scheduleOptionsV2: Schema.optional(ScheduleOptionsV2),
-  scheduleOptions: Schema.optional(ScheduleOptions),
-  userId: Schema.optional(Schema.String),
-  emailPreferences: Schema.optional(EmailPreferences),
-  dataSourceId: Schema.optional(Schema.String),
-  disabled: Schema.optional(Schema.Boolean),
-  destinationDatasetId: Schema.optional(Schema.String),
-  ownerInfo: Schema.optional(UserInfo),
-  managedTableType: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  schedule: Schema.optional(Schema.String),
-  encryptionConfiguration: Schema.optional(EncryptionConfiguration),
-  notificationPubsubTopic: Schema.optional(Schema.String),
-  datasetRegion: Schema.optional(Schema.String),
-  nextRunTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferConfig" }) as any as Schema.Schema<TransferConfig>;
+export const TransferConfig: Schema.Schema<TransferConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      dataRefreshWindowDays: Schema.optional(Schema.Number),
+      state: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      error: Schema.optional(Status),
+      scheduleOptionsV2: Schema.optional(ScheduleOptionsV2),
+      scheduleOptions: Schema.optional(ScheduleOptions),
+      userId: Schema.optional(Schema.String),
+      emailPreferences: Schema.optional(EmailPreferences),
+      dataSourceId: Schema.optional(Schema.String),
+      disabled: Schema.optional(Schema.Boolean),
+      destinationDatasetId: Schema.optional(Schema.String),
+      ownerInfo: Schema.optional(UserInfo),
+      managedTableType: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      schedule: Schema.optional(Schema.String),
+      encryptionConfiguration: Schema.optional(EncryptionConfiguration),
+      notificationPubsubTopic: Schema.optional(Schema.String),
+      datasetRegion: Schema.optional(Schema.String),
+      nextRunTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TransferConfig",
+}) as any as Schema.Schema<TransferConfig>;
 
-export interface CheckValidCredsRequest {
-}
+export interface CheckValidCredsRequest {}
 
-export const CheckValidCredsRequest: Schema.Schema<CheckValidCredsRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CheckValidCredsRequest" }) as any as Schema.Schema<CheckValidCredsRequest>;
+export const CheckValidCredsRequest: Schema.Schema<CheckValidCredsRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CheckValidCredsRequest",
+  }) as any as Schema.Schema<CheckValidCredsRequest>;
 
 export interface TimeRange {
   /** Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. The start_time must be strictly less than the end_time. Creates transfer runs where run_time is in the range between start_time (inclusive) and end_time (exclusive). */
@@ -396,10 +499,12 @@ export interface TimeRange {
   endTime?: string;
 }
 
-export const TimeRange: Schema.Schema<TimeRange> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
+export const TimeRange: Schema.Schema<TimeRange> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
 
 export interface Location {
   /** The canonical id for this location. For example: `"us-east1"`. */
@@ -414,13 +519,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  locationId: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    locationId: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -429,19 +536,29 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface UnenrollDataSourcesRequest {
   /** Data sources that are unenrolled. It is required to provide at least one data source id. */
   dataSourceIds?: Array<string>;
 }
 
-export const UnenrollDataSourcesRequest: Schema.Schema<UnenrollDataSourcesRequest> = Schema.suspend(() => Schema.Struct({
-  dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "UnenrollDataSourcesRequest" }) as any as Schema.Schema<UnenrollDataSourcesRequest>;
+export const UnenrollDataSourcesRequest: Schema.Schema<UnenrollDataSourcesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UnenrollDataSourcesRequest",
+  }) as any as Schema.Schema<UnenrollDataSourcesRequest>;
 
 export interface ListTransferConfigsResponse {
   /** Output only. The stored pipeline transfer configurations. */
@@ -450,10 +567,15 @@ export interface ListTransferConfigsResponse {
   nextPageToken?: string;
 }
 
-export const ListTransferConfigsResponse: Schema.Schema<ListTransferConfigsResponse> = Schema.suspend(() => Schema.Struct({
-  transferConfigs: Schema.optional(Schema.Array(TransferConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTransferConfigsResponse" }) as any as Schema.Schema<ListTransferConfigsResponse>;
+export const ListTransferConfigsResponse: Schema.Schema<ListTransferConfigsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transferConfigs: Schema.optional(Schema.Array(TransferConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTransferConfigsResponse",
+  }) as any as Schema.Schema<ListTransferConfigsResponse>;
 
 export interface ScheduleTransferRunsRequest {
   /** Required. Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. */
@@ -462,10 +584,15 @@ export interface ScheduleTransferRunsRequest {
   endTime?: string;
 }
 
-export const ScheduleTransferRunsRequest: Schema.Schema<ScheduleTransferRunsRequest> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ScheduleTransferRunsRequest" }) as any as Schema.Schema<ScheduleTransferRunsRequest>;
+export const ScheduleTransferRunsRequest: Schema.Schema<ScheduleTransferRunsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ScheduleTransferRunsRequest",
+  }) as any as Schema.Schema<ScheduleTransferRunsRequest>;
 
 export interface TransferMessage {
   /** Message text. */
@@ -473,14 +600,24 @@ export interface TransferMessage {
   /** Time when message was logged. */
   messageTime?: string;
   /** Message severity. */
-  severity?: "MESSAGE_SEVERITY_UNSPECIFIED" | "INFO" | "WARNING" | "ERROR" | (string & {});
+  severity?:
+    | "MESSAGE_SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "ERROR"
+    | (string & {});
 }
 
-export const TransferMessage: Schema.Schema<TransferMessage> = Schema.suspend(() => Schema.Struct({
-  messageText: Schema.optional(Schema.String),
-  messageTime: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferMessage" }) as any as Schema.Schema<TransferMessage>;
+export const TransferMessage: Schema.Schema<TransferMessage> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      messageText: Schema.optional(Schema.String),
+      messageTime: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TransferMessage",
+}) as any as Schema.Schema<TransferMessage>;
 
 export interface ListTransferRunsResponse {
   /** Output only. The stored pipeline transfer runs. */
@@ -489,19 +626,29 @@ export interface ListTransferRunsResponse {
   nextPageToken?: string;
 }
 
-export const ListTransferRunsResponse: Schema.Schema<ListTransferRunsResponse> = Schema.suspend(() => Schema.Struct({
-  transferRuns: Schema.optional(Schema.Array(TransferRun)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTransferRunsResponse" }) as any as Schema.Schema<ListTransferRunsResponse>;
+export const ListTransferRunsResponse: Schema.Schema<ListTransferRunsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transferRuns: Schema.optional(Schema.Array(TransferRun)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTransferRunsResponse",
+  }) as any as Schema.Schema<ListTransferRunsResponse>;
 
 export interface EnrollDataSourcesRequest {
   /** Data sources that are enrolled. It is required to provide at least one data source id. */
   dataSourceIds?: Array<string>;
 }
 
-export const EnrollDataSourcesRequest: Schema.Schema<EnrollDataSourcesRequest> = Schema.suspend(() => Schema.Struct({
-  dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "EnrollDataSourcesRequest" }) as any as Schema.Schema<EnrollDataSourcesRequest>;
+export const EnrollDataSourcesRequest: Schema.Schema<EnrollDataSourcesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "EnrollDataSourcesRequest",
+  }) as any as Schema.Schema<EnrollDataSourcesRequest>;
 
 export interface StartManualTransferRunsRequest {
   /** A run_time timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_run_time must be a past time and cannot include future time values. */
@@ -510,34 +657,49 @@ export interface StartManualTransferRunsRequest {
   requestedTimeRange?: TimeRange;
 }
 
-export const StartManualTransferRunsRequest: Schema.Schema<StartManualTransferRunsRequest> = Schema.suspend(() => Schema.Struct({
-  requestedRunTime: Schema.optional(Schema.String),
-  requestedTimeRange: Schema.optional(TimeRange),
-})).annotate({ identifier: "StartManualTransferRunsRequest" }) as any as Schema.Schema<StartManualTransferRunsRequest>;
+export const StartManualTransferRunsRequest: Schema.Schema<StartManualTransferRunsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestedRunTime: Schema.optional(Schema.String),
+      requestedTimeRange: Schema.optional(TimeRange),
+    }),
+  ).annotate({
+    identifier: "StartManualTransferRunsRequest",
+  }) as any as Schema.Schema<StartManualTransferRunsRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ScheduleTransferRunsResponse {
   /** The transfer runs that were scheduled. */
   runs?: Array<TransferRun>;
 }
 
-export const ScheduleTransferRunsResponse: Schema.Schema<ScheduleTransferRunsResponse> = Schema.suspend(() => Schema.Struct({
-  runs: Schema.optional(Schema.Array(TransferRun)),
-})).annotate({ identifier: "ScheduleTransferRunsResponse" }) as any as Schema.Schema<ScheduleTransferRunsResponse>;
+export const ScheduleTransferRunsResponse: Schema.Schema<ScheduleTransferRunsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      runs: Schema.optional(Schema.Array(TransferRun)),
+    }),
+  ).annotate({
+    identifier: "ScheduleTransferRunsResponse",
+  }) as any as Schema.Schema<ScheduleTransferRunsResponse>;
 
 export interface CheckValidCredsResponse {
   /** If set to `true`, the credentials exist and are valid. */
   hasValidCreds?: boolean;
 }
 
-export const CheckValidCredsResponse: Schema.Schema<CheckValidCredsResponse> = Schema.suspend(() => Schema.Struct({
-  hasValidCreds: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CheckValidCredsResponse" }) as any as Schema.Schema<CheckValidCredsResponse>;
+export const CheckValidCredsResponse: Schema.Schema<CheckValidCredsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hasValidCreds: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CheckValidCredsResponse",
+  }) as any as Schema.Schema<CheckValidCredsResponse>;
 
 export interface ListTransferLogsResponse {
   /** Output only. The next-pagination token. For multiple-page list results, this token can be used as the `GetTransferRunLogRequest.page_token` to request the next page of list results. */
@@ -546,10 +708,15 @@ export interface ListTransferLogsResponse {
   transferMessages?: Array<TransferMessage>;
 }
 
-export const ListTransferLogsResponse: Schema.Schema<ListTransferLogsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  transferMessages: Schema.optional(Schema.Array(TransferMessage)),
-})).annotate({ identifier: "ListTransferLogsResponse" }) as any as Schema.Schema<ListTransferLogsResponse>;
+export const ListTransferLogsResponse: Schema.Schema<ListTransferLogsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      transferMessages: Schema.optional(Schema.Array(TransferMessage)),
+    }),
+  ).annotate({
+    identifier: "ListTransferLogsResponse",
+  }) as any as Schema.Schema<ListTransferLogsResponse>;
 
 // ==========================================================================
 // Operations
@@ -566,7 +733,11 @@ export const EnrollDataSourcesProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}:enrollDataSources", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}:enrollDataSources",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EnrollDataSourcesProjectsRequest>;
 
@@ -576,7 +747,12 @@ export const EnrollDataSourcesProjectsResponse = Empty;
 export type EnrollDataSourcesProjectsError = DefaultErrors;
 
 /** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
-export const enrollDataSourcesProjects: API.OperationMethod<EnrollDataSourcesProjectsRequest, EnrollDataSourcesProjectsResponse, EnrollDataSourcesProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const enrollDataSourcesProjects: API.OperationMethod<
+  EnrollDataSourcesProjectsRequest,
+  EnrollDataSourcesProjectsResponse,
+  EnrollDataSourcesProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EnrollDataSourcesProjectsRequest,
   output: EnrollDataSourcesProjectsResponse,
   errors: [],
@@ -590,7 +766,10 @@ export interface GetProjectsDataSourcesRequest {
 export const GetProjectsDataSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsDataSourcesRequest>;
 
@@ -600,7 +779,12 @@ export const GetProjectsDataSourcesResponse = DataSource;
 export type GetProjectsDataSourcesError = DefaultErrors;
 
 /** Retrieves a supported data source and returns its settings. */
-export const getProjectsDataSources: API.OperationMethod<GetProjectsDataSourcesRequest, GetProjectsDataSourcesResponse, GetProjectsDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDataSources: API.OperationMethod<
+  GetProjectsDataSourcesRequest,
+  GetProjectsDataSourcesResponse,
+  GetProjectsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDataSourcesRequest,
   output: GetProjectsDataSourcesResponse,
   errors: [],
@@ -630,7 +814,12 @@ export const ListProjectsDataSourcesResponse = ListDataSourcesResponse;
 export type ListProjectsDataSourcesError = DefaultErrors;
 
 /** Lists supported data sources and returns their settings. */
-export const listProjectsDataSources: API.PaginatedOperationMethod<ListProjectsDataSourcesRequest, ListProjectsDataSourcesResponse, ListProjectsDataSourcesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsDataSources: API.PaginatedOperationMethod<
+  ListProjectsDataSourcesRequest,
+  ListProjectsDataSourcesResponse,
+  ListProjectsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsDataSourcesRequest,
   output: ListProjectsDataSourcesResponse,
   errors: [],
@@ -651,17 +840,28 @@ export const CheckValidCredsProjectsDataSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CheckValidCredsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}:checkValidCreds", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}:checkValidCreds",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CheckValidCredsProjectsDataSourcesRequest>;
 
-export type CheckValidCredsProjectsDataSourcesResponse = CheckValidCredsResponse;
-export const CheckValidCredsProjectsDataSourcesResponse = CheckValidCredsResponse;
+export type CheckValidCredsProjectsDataSourcesResponse =
+  CheckValidCredsResponse;
+export const CheckValidCredsProjectsDataSourcesResponse =
+  CheckValidCredsResponse;
 
 export type CheckValidCredsProjectsDataSourcesError = DefaultErrors;
 
 /** Returns true if valid credentials exist for the given data source and requesting user. */
-export const checkValidCredsProjectsDataSources: API.OperationMethod<CheckValidCredsProjectsDataSourcesRequest, CheckValidCredsProjectsDataSourcesResponse, CheckValidCredsProjectsDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const checkValidCredsProjectsDataSources: API.OperationMethod<
+  CheckValidCredsProjectsDataSourcesRequest,
+  CheckValidCredsProjectsDataSourcesResponse,
+  CheckValidCredsProjectsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CheckValidCredsProjectsDataSourcesRequest,
   output: CheckValidCredsProjectsDataSourcesResponse,
   errors: [],
@@ -678,17 +878,28 @@ export const StartManualRunsProjectsTransferConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:startManualRuns", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:startManualRuns",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartManualRunsProjectsTransferConfigsRequest>;
 
-export type StartManualRunsProjectsTransferConfigsResponse = StartManualTransferRunsResponse;
-export const StartManualRunsProjectsTransferConfigsResponse = StartManualTransferRunsResponse;
+export type StartManualRunsProjectsTransferConfigsResponse =
+  StartManualTransferRunsResponse;
+export const StartManualRunsProjectsTransferConfigsResponse =
+  StartManualTransferRunsResponse;
 
 export type StartManualRunsProjectsTransferConfigsError = DefaultErrors;
 
 /** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
-export const startManualRunsProjectsTransferConfigs: API.OperationMethod<StartManualRunsProjectsTransferConfigsRequest, StartManualRunsProjectsTransferConfigsResponse, StartManualRunsProjectsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startManualRunsProjectsTransferConfigs: API.OperationMethod<
+  StartManualRunsProjectsTransferConfigsRequest,
+  StartManualRunsProjectsTransferConfigsResponse,
+  StartManualRunsProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartManualRunsProjectsTransferConfigsRequest,
   output: StartManualRunsProjectsTransferConfigsResponse,
   errors: [],
@@ -710,14 +921,22 @@ export interface PatchProjectsTransferConfigsRequest {
 }
 
 export const PatchProjectsTransferConfigsRequest = Schema.Struct({
-  serviceAccountName: Schema.optional(Schema.String).pipe(T.HttpQuery("serviceAccountName")),
-  authorizationCode: Schema.optional(Schema.String).pipe(T.HttpQuery("authorizationCode")),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
+  authorizationCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("authorizationCode"),
+  ),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsTransferConfigsRequest>;
 
@@ -727,7 +946,12 @@ export const PatchProjectsTransferConfigsResponse = TransferConfig;
 export type PatchProjectsTransferConfigsError = DefaultErrors;
 
 /** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
-export const patchProjectsTransferConfigs: API.OperationMethod<PatchProjectsTransferConfigsRequest, PatchProjectsTransferConfigsResponse, PatchProjectsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsTransferConfigs: API.OperationMethod<
+  PatchProjectsTransferConfigsRequest,
+  PatchProjectsTransferConfigsResponse,
+  PatchProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsTransferConfigsRequest,
   output: PatchProjectsTransferConfigsResponse,
   errors: [],
@@ -741,7 +965,10 @@ export interface DeleteProjectsTransferConfigsRequest {
 export const DeleteProjectsTransferConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRequest>;
 
@@ -751,7 +978,12 @@ export const DeleteProjectsTransferConfigsResponse = Empty;
 export type DeleteProjectsTransferConfigsError = DefaultErrors;
 
 /** Deletes a data transfer configuration, including any associated transfer runs and logs. */
-export const deleteProjectsTransferConfigs: API.OperationMethod<DeleteProjectsTransferConfigsRequest, DeleteProjectsTransferConfigsResponse, DeleteProjectsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsTransferConfigs: API.OperationMethod<
+  DeleteProjectsTransferConfigsRequest,
+  DeleteProjectsTransferConfigsResponse,
+  DeleteProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsTransferConfigsRequest,
   output: DeleteProjectsTransferConfigsResponse,
   errors: [],
@@ -769,7 +1001,9 @@ export interface ListProjectsTransferConfigsRequest {
 }
 
 export const ListProjectsTransferConfigsRequest = Schema.Struct({
-  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("dataSourceIds")),
+  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dataSourceIds"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -784,7 +1018,12 @@ export const ListProjectsTransferConfigsResponse = ListTransferConfigsResponse;
 export type ListProjectsTransferConfigsError = DefaultErrors;
 
 /** Returns information about all transfer configs owned by a project in the specified location. */
-export const listProjectsTransferConfigs: API.PaginatedOperationMethod<ListProjectsTransferConfigsRequest, ListProjectsTransferConfigsResponse, ListProjectsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsTransferConfigs: API.PaginatedOperationMethod<
+  ListProjectsTransferConfigsRequest,
+  ListProjectsTransferConfigsResponse,
+  ListProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRequest,
   output: ListProjectsTransferConfigsResponse,
   errors: [],
@@ -805,17 +1044,28 @@ export const ScheduleRunsProjectsTransferConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ScheduleTransferRunsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:scheduleRuns", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:scheduleRuns",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ScheduleRunsProjectsTransferConfigsRequest>;
 
-export type ScheduleRunsProjectsTransferConfigsResponse = ScheduleTransferRunsResponse;
-export const ScheduleRunsProjectsTransferConfigsResponse = ScheduleTransferRunsResponse;
+export type ScheduleRunsProjectsTransferConfigsResponse =
+  ScheduleTransferRunsResponse;
+export const ScheduleRunsProjectsTransferConfigsResponse =
+  ScheduleTransferRunsResponse;
 
 export type ScheduleRunsProjectsTransferConfigsError = DefaultErrors;
 
 /** Creates transfer runs for a time range [start_time, end_time]. For each date - or whatever granularity the data source supports - in the range, one transfer run is created. Note that runs are created per UTC time in the time range. DEPRECATED: use StartManualTransferRuns instead. */
-export const scheduleRunsProjectsTransferConfigs: API.OperationMethod<ScheduleRunsProjectsTransferConfigsRequest, ScheduleRunsProjectsTransferConfigsResponse, ScheduleRunsProjectsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const scheduleRunsProjectsTransferConfigs: API.OperationMethod<
+  ScheduleRunsProjectsTransferConfigsRequest,
+  ScheduleRunsProjectsTransferConfigsResponse,
+  ScheduleRunsProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ScheduleRunsProjectsTransferConfigsRequest,
   output: ScheduleRunsProjectsTransferConfigsResponse,
   errors: [],
@@ -829,7 +1079,10 @@ export interface GetProjectsTransferConfigsRequest {
 export const GetProjectsTransferConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsTransferConfigsRequest>;
 
@@ -839,7 +1092,12 @@ export const GetProjectsTransferConfigsResponse = TransferConfig;
 export type GetProjectsTransferConfigsError = DefaultErrors;
 
 /** Returns information about a data transfer config. */
-export const getProjectsTransferConfigs: API.OperationMethod<GetProjectsTransferConfigsRequest, GetProjectsTransferConfigsResponse, GetProjectsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsTransferConfigs: API.OperationMethod<
+  GetProjectsTransferConfigsRequest,
+  GetProjectsTransferConfigsResponse,
+  GetProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsTransferConfigsRequest,
   output: GetProjectsTransferConfigsResponse,
   errors: [],
@@ -861,11 +1119,19 @@ export interface CreateProjectsTransferConfigsRequest {
 export const CreateProjectsTransferConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  authorizationCode: Schema.optional(Schema.String).pipe(T.HttpQuery("authorizationCode")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(T.HttpQuery("serviceAccountName")),
+  authorizationCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("authorizationCode"),
+  ),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
   body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/transferConfigs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/transferConfigs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsTransferConfigsRequest>;
 
@@ -875,7 +1141,12 @@ export const CreateProjectsTransferConfigsResponse = TransferConfig;
 export type CreateProjectsTransferConfigsError = DefaultErrors;
 
 /** Creates a new data transfer configuration. */
-export const createProjectsTransferConfigs: API.OperationMethod<CreateProjectsTransferConfigsRequest, CreateProjectsTransferConfigsResponse, CreateProjectsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsTransferConfigs: API.OperationMethod<
+  CreateProjectsTransferConfigsRequest,
+  CreateProjectsTransferConfigsResponse,
+  CreateProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsTransferConfigsRequest,
   output: CreateProjectsTransferConfigsResponse,
   errors: [],
@@ -883,7 +1154,14 @@ export const createProjectsTransferConfigs: API.OperationMethod<CreateProjectsTr
 
 export interface ListProjectsTransferConfigsRunsRequest {
   /** When specified, only transfer runs with requested states are returned. */
-  states?: "TRANSFER_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | (string & {})[];
+  states?:
+    | "TRANSFER_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {})[];
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
   /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
@@ -895,13 +1173,18 @@ export interface ListProjectsTransferConfigsRunsRequest {
 }
 
 export const ListProjectsTransferConfigsRunsRequest = Schema.Struct({
-  states: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("states")),
+  states: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("states"),
+  ),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsRequest>;
 
@@ -911,7 +1194,12 @@ export const ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
 export type ListProjectsTransferConfigsRunsError = DefaultErrors;
 
 /** Returns information about running and completed transfer runs. */
-export const listProjectsTransferConfigsRuns: API.PaginatedOperationMethod<ListProjectsTransferConfigsRunsRequest, ListProjectsTransferConfigsRunsResponse, ListProjectsTransferConfigsRunsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsTransferConfigsRuns: API.PaginatedOperationMethod<
+  ListProjectsTransferConfigsRunsRequest,
+  ListProjectsTransferConfigsRunsResponse,
+  ListProjectsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRunsRequest,
   output: ListProjectsTransferConfigsRunsResponse,
   errors: [],
@@ -929,7 +1217,10 @@ export interface DeleteProjectsTransferConfigsRunsRequest {
 export const DeleteProjectsTransferConfigsRunsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRunsRequest>;
 
@@ -939,7 +1230,12 @@ export const DeleteProjectsTransferConfigsRunsResponse = Empty;
 export type DeleteProjectsTransferConfigsRunsError = DefaultErrors;
 
 /** Deletes the specified transfer run. */
-export const deleteProjectsTransferConfigsRuns: API.OperationMethod<DeleteProjectsTransferConfigsRunsRequest, DeleteProjectsTransferConfigsRunsResponse, DeleteProjectsTransferConfigsRunsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsTransferConfigsRuns: API.OperationMethod<
+  DeleteProjectsTransferConfigsRunsRequest,
+  DeleteProjectsTransferConfigsRunsResponse,
+  DeleteProjectsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsTransferConfigsRunsRequest,
   output: DeleteProjectsTransferConfigsRunsResponse,
   errors: [],
@@ -953,7 +1249,10 @@ export interface GetProjectsTransferConfigsRunsRequest {
 export const GetProjectsTransferConfigsRunsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsTransferConfigsRunsRequest>;
 
@@ -963,7 +1262,12 @@ export const GetProjectsTransferConfigsRunsResponse = TransferRun;
 export type GetProjectsTransferConfigsRunsError = DefaultErrors;
 
 /** Returns information about the particular transfer run. */
-export const getProjectsTransferConfigsRuns: API.OperationMethod<GetProjectsTransferConfigsRunsRequest, GetProjectsTransferConfigsRunsResponse, GetProjectsTransferConfigsRunsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsTransferConfigsRuns: API.OperationMethod<
+  GetProjectsTransferConfigsRunsRequest,
+  GetProjectsTransferConfigsRunsResponse,
+  GetProjectsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsTransferConfigsRunsRequest,
   output: GetProjectsTransferConfigsRunsResponse,
   errors: [],
@@ -971,7 +1275,12 @@ export const getProjectsTransferConfigsRuns: API.OperationMethod<GetProjectsTran
 
 export interface ListProjectsTransferConfigsRunsTransferLogsRequest {
   /** Message types to return. If not populated - INFO, WARNING and ERROR messages are returned. */
-  messageTypes?: "MESSAGE_SEVERITY_UNSPECIFIED" | "INFO" | "WARNING" | "ERROR" | (string & {})[];
+  messageTypes?:
+    | "MESSAGE_SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "ERROR"
+    | (string & {})[];
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
   /** Pagination token, which can be used to request a specific page of `ListTransferLogsRequest` list results. For multiple-page results, `ListTransferLogsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
@@ -980,23 +1289,37 @@ export interface ListProjectsTransferConfigsRunsTransferLogsRequest {
   parent: string;
 }
 
-export const ListProjectsTransferConfigsRunsTransferLogsRequest = Schema.Struct({
-  messageTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("messageTypes")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}/transferLogs" }),
+export const ListProjectsTransferConfigsRunsTransferLogsRequest = Schema.Struct(
+  {
+    messageTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("messageTypes"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}/transferLogs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsTransferLogsRequest>;
 
-export type ListProjectsTransferConfigsRunsTransferLogsResponse = ListTransferLogsResponse;
-export const ListProjectsTransferConfigsRunsTransferLogsResponse = ListTransferLogsResponse;
+export type ListProjectsTransferConfigsRunsTransferLogsResponse =
+  ListTransferLogsResponse;
+export const ListProjectsTransferConfigsRunsTransferLogsResponse =
+  ListTransferLogsResponse;
 
 export type ListProjectsTransferConfigsRunsTransferLogsError = DefaultErrors;
 
 /** Returns log messages for the transfer run. */
-export const listProjectsTransferConfigsRunsTransferLogs: API.PaginatedOperationMethod<ListProjectsTransferConfigsRunsTransferLogsRequest, ListProjectsTransferConfigsRunsTransferLogsResponse, ListProjectsTransferConfigsRunsTransferLogsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsTransferConfigsRunsTransferLogs: API.PaginatedOperationMethod<
+  ListProjectsTransferConfigsRunsTransferLogsRequest,
+  ListProjectsTransferConfigsRunsTransferLogsResponse,
+  ListProjectsTransferConfigsRunsTransferLogsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRunsTransferLogsRequest,
   output: ListProjectsTransferConfigsRunsTransferLogsResponse,
   errors: [],
@@ -1020,7 +1343,9 @@ export interface ListProjectsLocationsRequest {
 }
 
 export const ListProjectsLocationsRequest = Schema.Struct({
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
   name: Schema.String.pipe(T.HttpPath("name")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
@@ -1036,7 +1361,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1054,7 +1384,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1064,7 +1397,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1081,7 +1419,11 @@ export const UnenrollDataSourcesProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UnenrollDataSourcesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}:unenrollDataSources", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:unenrollDataSources",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UnenrollDataSourcesProjectsLocationsRequest>;
 
@@ -1091,7 +1433,12 @@ export const UnenrollDataSourcesProjectsLocationsResponse = Empty;
 export type UnenrollDataSourcesProjectsLocationsError = DefaultErrors;
 
 /** Unenroll data sources in a user project. This allows users to remove transfer configurations for these data sources. They will no longer appear in the ListDataSources RPC and will also no longer appear in the [BigQuery UI](https://console.cloud.google.com/bigquery). Data transfers configurations of unenrolled data sources will not be scheduled. */
-export const unenrollDataSourcesProjectsLocations: API.OperationMethod<UnenrollDataSourcesProjectsLocationsRequest, UnenrollDataSourcesProjectsLocationsResponse, UnenrollDataSourcesProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const unenrollDataSourcesProjectsLocations: API.OperationMethod<
+  UnenrollDataSourcesProjectsLocationsRequest,
+  UnenrollDataSourcesProjectsLocationsResponse,
+  UnenrollDataSourcesProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UnenrollDataSourcesProjectsLocationsRequest,
   output: UnenrollDataSourcesProjectsLocationsResponse,
   errors: [],
@@ -1108,7 +1455,11 @@ export const EnrollDataSourcesProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}:enrollDataSources", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:enrollDataSources",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EnrollDataSourcesProjectsLocationsRequest>;
 
@@ -1118,7 +1469,12 @@ export const EnrollDataSourcesProjectsLocationsResponse = Empty;
 export type EnrollDataSourcesProjectsLocationsError = DefaultErrors;
 
 /** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
-export const enrollDataSourcesProjectsLocations: API.OperationMethod<EnrollDataSourcesProjectsLocationsRequest, EnrollDataSourcesProjectsLocationsResponse, EnrollDataSourcesProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const enrollDataSourcesProjectsLocations: API.OperationMethod<
+  EnrollDataSourcesProjectsLocationsRequest,
+  EnrollDataSourcesProjectsLocationsResponse,
+  EnrollDataSourcesProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EnrollDataSourcesProjectsLocationsRequest,
   output: EnrollDataSourcesProjectsLocationsResponse,
   errors: [],
@@ -1131,21 +1487,34 @@ export interface CheckValidCredsProjectsLocationsDataSourcesRequest {
   body?: CheckValidCredsRequest;
 }
 
-export const CheckValidCredsProjectsLocationsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CheckValidCredsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}:checkValidCreds", hasBody: true }),
+export const CheckValidCredsProjectsLocationsDataSourcesRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CheckValidCredsRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}:checkValidCreds",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CheckValidCredsProjectsLocationsDataSourcesRequest>;
 
-export type CheckValidCredsProjectsLocationsDataSourcesResponse = CheckValidCredsResponse;
-export const CheckValidCredsProjectsLocationsDataSourcesResponse = CheckValidCredsResponse;
+export type CheckValidCredsProjectsLocationsDataSourcesResponse =
+  CheckValidCredsResponse;
+export const CheckValidCredsProjectsLocationsDataSourcesResponse =
+  CheckValidCredsResponse;
 
 export type CheckValidCredsProjectsLocationsDataSourcesError = DefaultErrors;
 
 /** Returns true if valid credentials exist for the given data source and requesting user. */
-export const checkValidCredsProjectsLocationsDataSources: API.OperationMethod<CheckValidCredsProjectsLocationsDataSourcesRequest, CheckValidCredsProjectsLocationsDataSourcesResponse, CheckValidCredsProjectsLocationsDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const checkValidCredsProjectsLocationsDataSources: API.OperationMethod<
+  CheckValidCredsProjectsLocationsDataSourcesRequest,
+  CheckValidCredsProjectsLocationsDataSourcesResponse,
+  CheckValidCredsProjectsLocationsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CheckValidCredsProjectsLocationsDataSourcesRequest,
   output: CheckValidCredsProjectsLocationsDataSourcesResponse,
   errors: [],
@@ -1159,7 +1528,10 @@ export interface GetProjectsLocationsDataSourcesRequest {
 export const GetProjectsLocationsDataSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsDataSourcesRequest>;
 
@@ -1169,7 +1541,12 @@ export const GetProjectsLocationsDataSourcesResponse = DataSource;
 export type GetProjectsLocationsDataSourcesError = DefaultErrors;
 
 /** Retrieves a supported data source and returns its settings. */
-export const getProjectsLocationsDataSources: API.OperationMethod<GetProjectsLocationsDataSourcesRequest, GetProjectsLocationsDataSourcesResponse, GetProjectsLocationsDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsDataSources: API.OperationMethod<
+  GetProjectsLocationsDataSourcesRequest,
+  GetProjectsLocationsDataSourcesResponse,
+  GetProjectsLocationsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsDataSourcesRequest,
   output: GetProjectsLocationsDataSourcesResponse,
   errors: [],
@@ -1189,7 +1566,10 @@ export const ListProjectsLocationsDataSourcesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsDataSourcesRequest>;
 
@@ -1199,7 +1579,12 @@ export const ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
 export type ListProjectsLocationsDataSourcesError = DefaultErrors;
 
 /** Lists supported data sources and returns their settings. */
-export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<ListProjectsLocationsDataSourcesRequest, ListProjectsLocationsDataSourcesResponse, ListProjectsLocationsDataSourcesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<
+  ListProjectsLocationsDataSourcesRequest,
+  ListProjectsLocationsDataSourcesResponse,
+  ListProjectsLocationsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataSourcesRequest,
   output: ListProjectsLocationsDataSourcesResponse,
   errors: [],
@@ -1217,7 +1602,10 @@ export interface DeleteProjectsLocationsTransferConfigsRequest {
 export const DeleteProjectsLocationsTransferConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsTransferConfigsRequest>;
 
@@ -1227,7 +1615,12 @@ export const DeleteProjectsLocationsTransferConfigsResponse = Empty;
 export type DeleteProjectsLocationsTransferConfigsError = DefaultErrors;
 
 /** Deletes a data transfer configuration, including any associated transfer runs and logs. */
-export const deleteProjectsLocationsTransferConfigs: API.OperationMethod<DeleteProjectsLocationsTransferConfigsRequest, DeleteProjectsLocationsTransferConfigsResponse, DeleteProjectsLocationsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsTransferConfigs: API.OperationMethod<
+  DeleteProjectsLocationsTransferConfigsRequest,
+  DeleteProjectsLocationsTransferConfigsResponse,
+  DeleteProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsTransferConfigsRequest,
   output: DeleteProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1248,12 +1641,20 @@ export interface CreateProjectsLocationsTransferConfigsRequest {
 
 export const CreateProjectsLocationsTransferConfigsRequest = Schema.Struct({
   versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  authorizationCode: Schema.optional(Schema.String).pipe(T.HttpQuery("authorizationCode")),
+  authorizationCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("authorizationCode"),
+  ),
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(T.HttpQuery("serviceAccountName")),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
   body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsTransferConfigsRequest>;
 
@@ -1263,7 +1664,12 @@ export const CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
 export type CreateProjectsLocationsTransferConfigsError = DefaultErrors;
 
 /** Creates a new data transfer configuration. */
-export const createProjectsLocationsTransferConfigs: API.OperationMethod<CreateProjectsLocationsTransferConfigsRequest, CreateProjectsLocationsTransferConfigsResponse, CreateProjectsLocationsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsTransferConfigs: API.OperationMethod<
+  CreateProjectsLocationsTransferConfigsRequest,
+  CreateProjectsLocationsTransferConfigsResponse,
+  CreateProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsTransferConfigsRequest,
   output: CreateProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1276,21 +1682,33 @@ export interface ScheduleRunsProjectsLocationsTransferConfigsRequest {
   body?: ScheduleTransferRunsRequest;
 }
 
-export const ScheduleRunsProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ScheduleTransferRunsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}:scheduleRuns", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ScheduleRunsProjectsLocationsTransferConfigsRequest>;
+export const ScheduleRunsProjectsLocationsTransferConfigsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ScheduleTransferRunsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}:scheduleRuns",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ScheduleRunsProjectsLocationsTransferConfigsRequest>;
 
-export type ScheduleRunsProjectsLocationsTransferConfigsResponse = ScheduleTransferRunsResponse;
-export const ScheduleRunsProjectsLocationsTransferConfigsResponse = ScheduleTransferRunsResponse;
+export type ScheduleRunsProjectsLocationsTransferConfigsResponse =
+  ScheduleTransferRunsResponse;
+export const ScheduleRunsProjectsLocationsTransferConfigsResponse =
+  ScheduleTransferRunsResponse;
 
 export type ScheduleRunsProjectsLocationsTransferConfigsError = DefaultErrors;
 
 /** Creates transfer runs for a time range [start_time, end_time]. For each date - or whatever granularity the data source supports - in the range, one transfer run is created. Note that runs are created per UTC time in the time range. DEPRECATED: use StartManualTransferRuns instead. */
-export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<ScheduleRunsProjectsLocationsTransferConfigsRequest, ScheduleRunsProjectsLocationsTransferConfigsResponse, ScheduleRunsProjectsLocationsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<
+  ScheduleRunsProjectsLocationsTransferConfigsRequest,
+  ScheduleRunsProjectsLocationsTransferConfigsResponse,
+  ScheduleRunsProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ScheduleRunsProjectsLocationsTransferConfigsRequest,
   output: ScheduleRunsProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1309,21 +1727,33 @@ export interface ListProjectsLocationsTransferConfigsRequest {
 
 export const ListProjectsLocationsTransferConfigsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("dataSourceIds")),
+  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dataSourceIds"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRequest>;
 
-export type ListProjectsLocationsTransferConfigsResponse = ListTransferConfigsResponse;
-export const ListProjectsLocationsTransferConfigsResponse = ListTransferConfigsResponse;
+export type ListProjectsLocationsTransferConfigsResponse =
+  ListTransferConfigsResponse;
+export const ListProjectsLocationsTransferConfigsResponse =
+  ListTransferConfigsResponse;
 
 export type ListProjectsLocationsTransferConfigsError = DefaultErrors;
 
 /** Returns information about all transfer configs owned by a project in the specified location. */
-export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<ListProjectsLocationsTransferConfigsRequest, ListProjectsLocationsTransferConfigsResponse, ListProjectsLocationsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<
+  ListProjectsLocationsTransferConfigsRequest,
+  ListProjectsLocationsTransferConfigsResponse,
+  ListProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRequest,
   output: ListProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1340,21 +1770,34 @@ export interface StartManualRunsProjectsLocationsTransferConfigsRequest {
   body?: StartManualTransferRunsRequest;
 }
 
-export const StartManualRunsProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}:startManualRuns", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<StartManualRunsProjectsLocationsTransferConfigsRequest>;
+export const StartManualRunsProjectsLocationsTransferConfigsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}:startManualRuns",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StartManualRunsProjectsLocationsTransferConfigsRequest>;
 
-export type StartManualRunsProjectsLocationsTransferConfigsResponse = StartManualTransferRunsResponse;
-export const StartManualRunsProjectsLocationsTransferConfigsResponse = StartManualTransferRunsResponse;
+export type StartManualRunsProjectsLocationsTransferConfigsResponse =
+  StartManualTransferRunsResponse;
+export const StartManualRunsProjectsLocationsTransferConfigsResponse =
+  StartManualTransferRunsResponse;
 
-export type StartManualRunsProjectsLocationsTransferConfigsError = DefaultErrors;
+export type StartManualRunsProjectsLocationsTransferConfigsError =
+  DefaultErrors;
 
 /** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
-export const startManualRunsProjectsLocationsTransferConfigs: API.OperationMethod<StartManualRunsProjectsLocationsTransferConfigsRequest, StartManualRunsProjectsLocationsTransferConfigsResponse, StartManualRunsProjectsLocationsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startManualRunsProjectsLocationsTransferConfigs: API.OperationMethod<
+  StartManualRunsProjectsLocationsTransferConfigsRequest,
+  StartManualRunsProjectsLocationsTransferConfigsResponse,
+  StartManualRunsProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartManualRunsProjectsLocationsTransferConfigsRequest,
   output: StartManualRunsProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1378,12 +1821,20 @@ export interface PatchProjectsLocationsTransferConfigsRequest {
 export const PatchProjectsLocationsTransferConfigsRequest = Schema.Struct({
   versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
   name: Schema.String.pipe(T.HttpPath("name")),
-  authorizationCode: Schema.optional(Schema.String).pipe(T.HttpQuery("authorizationCode")),
+  authorizationCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("authorizationCode"),
+  ),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(T.HttpQuery("serviceAccountName")),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
   body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsTransferConfigsRequest>;
 
@@ -1393,7 +1844,12 @@ export const PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
 export type PatchProjectsLocationsTransferConfigsError = DefaultErrors;
 
 /** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
-export const patchProjectsLocationsTransferConfigs: API.OperationMethod<PatchProjectsLocationsTransferConfigsRequest, PatchProjectsLocationsTransferConfigsResponse, PatchProjectsLocationsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsTransferConfigs: API.OperationMethod<
+  PatchProjectsLocationsTransferConfigsRequest,
+  PatchProjectsLocationsTransferConfigsResponse,
+  PatchProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsTransferConfigsRequest,
   output: PatchProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1407,7 +1863,10 @@ export interface GetProjectsLocationsTransferConfigsRequest {
 export const GetProjectsLocationsTransferConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRequest>;
 
@@ -1417,7 +1876,12 @@ export const GetProjectsLocationsTransferConfigsResponse = TransferConfig;
 export type GetProjectsLocationsTransferConfigsError = DefaultErrors;
 
 /** Returns information about a data transfer config. */
-export const getProjectsLocationsTransferConfigs: API.OperationMethod<GetProjectsLocationsTransferConfigsRequest, GetProjectsLocationsTransferConfigsResponse, GetProjectsLocationsTransferConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsTransferConfigs: API.OperationMethod<
+  GetProjectsLocationsTransferConfigsRequest,
+  GetProjectsLocationsTransferConfigsResponse,
+  GetProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsTransferConfigsRequest,
   output: GetProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1431,7 +1895,10 @@ export interface DeleteProjectsLocationsTransferConfigsRunsRequest {
 export const DeleteProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsTransferConfigsRunsRequest>;
 
@@ -1441,7 +1908,12 @@ export const DeleteProjectsLocationsTransferConfigsRunsResponse = Empty;
 export type DeleteProjectsLocationsTransferConfigsRunsError = DefaultErrors;
 
 /** Deletes the specified transfer run. */
-export const deleteProjectsLocationsTransferConfigsRuns: API.OperationMethod<DeleteProjectsLocationsTransferConfigsRunsRequest, DeleteProjectsLocationsTransferConfigsRunsResponse, DeleteProjectsLocationsTransferConfigsRunsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsTransferConfigsRuns: API.OperationMethod<
+  DeleteProjectsLocationsTransferConfigsRunsRequest,
+  DeleteProjectsLocationsTransferConfigsRunsResponse,
+  DeleteProjectsLocationsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsTransferConfigsRunsRequest,
   output: DeleteProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
@@ -1455,7 +1927,10 @@ export interface GetProjectsLocationsTransferConfigsRunsRequest {
 export const GetProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRunsRequest>;
 
@@ -1465,7 +1940,12 @@ export const GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
 export type GetProjectsLocationsTransferConfigsRunsError = DefaultErrors;
 
 /** Returns information about the particular transfer run. */
-export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<GetProjectsLocationsTransferConfigsRunsRequest, GetProjectsLocationsTransferConfigsRunsResponse, GetProjectsLocationsTransferConfigsRunsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<
+  GetProjectsLocationsTransferConfigsRunsRequest,
+  GetProjectsLocationsTransferConfigsRunsResponse,
+  GetProjectsLocationsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsTransferConfigsRunsRequest,
   output: GetProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
@@ -1473,7 +1953,14 @@ export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<GetPro
 
 export interface ListProjectsLocationsTransferConfigsRunsRequest {
   /** When specified, only transfer runs with requested states are returned. */
-  states?: "TRANSFER_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | (string & {})[];
+  states?:
+    | "TRANSFER_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {})[];
   /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
   /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
@@ -1485,23 +1972,35 @@ export interface ListProjectsLocationsTransferConfigsRunsRequest {
 }
 
 export const ListProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
-  states: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("states")),
+  states: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("states"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRunsRequest>;
 
-export type ListProjectsLocationsTransferConfigsRunsResponse = ListTransferRunsResponse;
-export const ListProjectsLocationsTransferConfigsRunsResponse = ListTransferRunsResponse;
+export type ListProjectsLocationsTransferConfigsRunsResponse =
+  ListTransferRunsResponse;
+export const ListProjectsLocationsTransferConfigsRunsResponse =
+  ListTransferRunsResponse;
 
 export type ListProjectsLocationsTransferConfigsRunsError = DefaultErrors;
 
 /** Returns information about running and completed transfer runs. */
-export const listProjectsLocationsTransferConfigsRuns: API.PaginatedOperationMethod<ListProjectsLocationsTransferConfigsRunsRequest, ListProjectsLocationsTransferConfigsRunsResponse, ListProjectsLocationsTransferConfigsRunsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsTransferConfigsRuns: API.PaginatedOperationMethod<
+  ListProjectsLocationsTransferConfigsRunsRequest,
+  ListProjectsLocationsTransferConfigsRunsResponse,
+  ListProjectsLocationsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRunsRequest,
   output: ListProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
@@ -1515,30 +2014,49 @@ export interface ListProjectsLocationsTransferConfigsRunsTransferLogsRequest {
   /** Pagination token, which can be used to request a specific page of `ListTransferLogsRequest` list results. For multiple-page results, `ListTransferLogsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
   /** Message types to return. If not populated - INFO, WARNING and ERROR messages are returned. */
-  messageTypes?: "MESSAGE_SEVERITY_UNSPECIFIED" | "INFO" | "WARNING" | "ERROR" | (string & {})[];
+  messageTypes?:
+    | "MESSAGE_SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "ERROR"
+    | (string & {})[];
   /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
   parent: string;
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
 }
 
-export const ListProjectsLocationsTransferConfigsRunsTransferLogsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  messageTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("messageTypes")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}/transferLogs" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRunsTransferLogsRequest>;
+export const ListProjectsLocationsTransferConfigsRunsTransferLogsRequest =
+  Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    messageTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("messageTypes"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}/transferLogs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRunsTransferLogsRequest>;
 
-export type ListProjectsLocationsTransferConfigsRunsTransferLogsResponse = ListTransferLogsResponse;
-export const ListProjectsLocationsTransferConfigsRunsTransferLogsResponse = ListTransferLogsResponse;
+export type ListProjectsLocationsTransferConfigsRunsTransferLogsResponse =
+  ListTransferLogsResponse;
+export const ListProjectsLocationsTransferConfigsRunsTransferLogsResponse =
+  ListTransferLogsResponse;
 
-export type ListProjectsLocationsTransferConfigsRunsTransferLogsError = DefaultErrors;
+export type ListProjectsLocationsTransferConfigsRunsTransferLogsError =
+  DefaultErrors;
 
 /** Returns log messages for the transfer run. */
-export const listProjectsLocationsTransferConfigsRunsTransferLogs: API.PaginatedOperationMethod<ListProjectsLocationsTransferConfigsRunsTransferLogsRequest, ListProjectsLocationsTransferConfigsRunsTransferLogsResponse, ListProjectsLocationsTransferConfigsRunsTransferLogsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsTransferConfigsRunsTransferLogs: API.PaginatedOperationMethod<
+  ListProjectsLocationsTransferConfigsRunsTransferLogsRequest,
+  ListProjectsLocationsTransferConfigsRunsTransferLogsResponse,
+  ListProjectsLocationsTransferConfigsRunsTransferLogsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRunsTransferLogsRequest,
   output: ListProjectsLocationsTransferConfigsRunsTransferLogsResponse,
   errors: [],
@@ -1547,4 +2065,3 @@ export const listProjectsLocationsTransferConfigsRunsTransferLogs: API.Paginated
     outputToken: "nextPageToken",
   },
 }));
-

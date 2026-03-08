@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Configuration
@@ -27,15 +25,45 @@ export interface GetConfigurationRequest {
 
 export const GetConfigurationRequest = Schema.Struct({
   configId: Schema.String.pipe(T.HttpPath("configId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/config/{configId}" })) as unknown as Schema.Schema<GetConfigurationRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/token_validation/config/{configId}",
+  }),
+) as unknown as Schema.Schema<GetConfigurationRequest>;
 
 export interface GetConfigurationResponse {
   /** UUID. */
   id: string;
   createdAt: string;
-  credentials: { keys: ({ alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512"; e: string; kid: string; kty: "RSA"; n: string } | { alg: "ES256"; crv: "P-256"; kid: string; kty: "EC"; x: string; y: string } | { alg: "ES384"; crv: "P-384"; kid: string; kty: "EC"; x: string; y: string })[] };
+  credentials: {
+    keys: (
+      | {
+          alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512";
+          e: string;
+          kid: string;
+          kty: "RSA";
+          n: string;
+        }
+      | {
+          alg: "ES256";
+          crv: "P-256";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+      | {
+          alg: "ES384";
+          crv: "P-384";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+    )[];
+  };
   description: string;
   lastUpdated: string;
   title: string;
@@ -47,37 +75,60 @@ export const GetConfigurationResponse = Schema.Struct({
   id: Schema.String,
   createdAt: Schema.String,
   credentials: Schema.Struct({
-  keys: Schema.Array(Schema.Union([Schema.Struct({
-    alg: Schema.Literals(["RS256", "RS384", "RS512", "PS256", "PS384", "PS512"]),
-    e: Schema.String,
-    kid: Schema.String,
-    kty: Schema.Literal("RSA"),
-    n: Schema.String
-  }), Schema.Struct({
-    alg: Schema.Literal("ES256"),
-    crv: Schema.Literal("P-256"),
-    kid: Schema.String,
-    kty: Schema.Literal("EC"),
-    x: Schema.String,
-    y: Schema.String
-  }), Schema.Struct({
-    alg: Schema.Literal("ES384"),
-    crv: Schema.Literal("P-384"),
-    kid: Schema.String,
-    kty: Schema.Literal("EC"),
-    x: Schema.String,
-    y: Schema.String
-  })]))
-}),
+    keys: Schema.Array(
+      Schema.Union([
+        Schema.Struct({
+          alg: Schema.Literals([
+            "RS256",
+            "RS384",
+            "RS512",
+            "PS256",
+            "PS384",
+            "PS512",
+          ]),
+          e: Schema.String,
+          kid: Schema.String,
+          kty: Schema.Literal("RSA"),
+          n: Schema.String,
+        }),
+        Schema.Struct({
+          alg: Schema.Literal("ES256"),
+          crv: Schema.Literal("P-256"),
+          kid: Schema.String,
+          kty: Schema.Literal("EC"),
+          x: Schema.String,
+          y: Schema.String,
+        }),
+        Schema.Struct({
+          alg: Schema.Literal("ES384"),
+          crv: Schema.Literal("P-384"),
+          kid: Schema.String,
+          kty: Schema.Literal("EC"),
+          x: Schema.String,
+          y: Schema.String,
+        }),
+      ]),
+    ),
+  }),
   description: Schema.String,
   lastUpdated: Schema.String,
   title: Schema.String,
   tokenSources: Schema.Array(Schema.String),
-  tokenType: Schema.Literal("JWT")
-}).pipe(Schema.encodeKeys({ id: "id", createdAt: "created_at", credentials: "credentials", description: "description", lastUpdated: "last_updated", title: "title", tokenSources: "token_sources", tokenType: "token_type" })) as unknown as Schema.Schema<GetConfigurationResponse>;
+  tokenType: Schema.Literal("JWT"),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    credentials: "credentials",
+    description: "description",
+    lastUpdated: "last_updated",
+    title: "title",
+    tokenSources: "token_sources",
+    tokenType: "token_type",
+  }),
+) as unknown as Schema.Schema<GetConfigurationResponse>;
 
-export type GetConfigurationError =
-  | DefaultErrors;
+export type GetConfigurationError = DefaultErrors;
 
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest,
@@ -96,47 +147,108 @@ export interface ListConfigurationsRequest {
 }
 
 export const ListConfigurationsRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/config" })) as unknown as Schema.Schema<ListConfigurationsRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/config" }),
+) as unknown as Schema.Schema<ListConfigurationsRequest>;
 
-export type ListConfigurationsResponse = ({ id: string; createdAt: string; credentials: { keys: ({ alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512"; e: string; kid: string; kty: "RSA"; n: string } | { alg: "ES256"; crv: "P-256"; kid: string; kty: "EC"; x: string; y: string } | { alg: "ES384"; crv: "P-384"; kid: string; kty: "EC"; x: string; y: string })[] }; description: string; lastUpdated: string; title: string; tokenSources: string[]; tokenType: "JWT" })[];
+export type ListConfigurationsResponse = {
+  id: string;
+  createdAt: string;
+  credentials: {
+    keys: (
+      | {
+          alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512";
+          e: string;
+          kid: string;
+          kty: "RSA";
+          n: string;
+        }
+      | {
+          alg: "ES256";
+          crv: "P-256";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+      | {
+          alg: "ES384";
+          crv: "P-384";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+    )[];
+  };
+  description: string;
+  lastUpdated: string;
+  title: string;
+  tokenSources: string[];
+  tokenType: "JWT";
+}[];
 
-export const ListConfigurationsResponse = Schema.Array(Schema.Struct({
-  id: Schema.String,
-  createdAt: Schema.String,
-  credentials: Schema.Struct({
-    keys: Schema.Array(Schema.Union([Schema.Struct({
-      alg: Schema.Literals(["RS256", "RS384", "RS512", "PS256", "PS384", "PS512"]),
-      e: Schema.String,
-      kid: Schema.String,
-      kty: Schema.Literal("RSA"),
-      n: Schema.String
-    }), Schema.Struct({
-      alg: Schema.Literal("ES256"),
-      crv: Schema.Literal("P-256"),
-      kid: Schema.String,
-      kty: Schema.Literal("EC"),
-      x: Schema.String,
-      y: Schema.String
-    }), Schema.Struct({
-      alg: Schema.Literal("ES384"),
-      crv: Schema.Literal("P-384"),
-      kid: Schema.String,
-      kty: Schema.Literal("EC"),
-      x: Schema.String,
-      y: Schema.String
-    })]))
-  }),
-  description: Schema.String,
-  lastUpdated: Schema.String,
-  title: Schema.String,
-  tokenSources: Schema.Array(Schema.String),
-  tokenType: Schema.Literal("JWT")
-}).pipe(Schema.encodeKeys({ id: "id", createdAt: "created_at", credentials: "credentials", description: "description", lastUpdated: "last_updated", title: "title", tokenSources: "token_sources", tokenType: "token_type" }))) as unknown as Schema.Schema<ListConfigurationsResponse>;
+export const ListConfigurationsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    createdAt: Schema.String,
+    credentials: Schema.Struct({
+      keys: Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            alg: Schema.Literals([
+              "RS256",
+              "RS384",
+              "RS512",
+              "PS256",
+              "PS384",
+              "PS512",
+            ]),
+            e: Schema.String,
+            kid: Schema.String,
+            kty: Schema.Literal("RSA"),
+            n: Schema.String,
+          }),
+          Schema.Struct({
+            alg: Schema.Literal("ES256"),
+            crv: Schema.Literal("P-256"),
+            kid: Schema.String,
+            kty: Schema.Literal("EC"),
+            x: Schema.String,
+            y: Schema.String,
+          }),
+          Schema.Struct({
+            alg: Schema.Literal("ES384"),
+            crv: Schema.Literal("P-384"),
+            kid: Schema.String,
+            kty: Schema.Literal("EC"),
+            x: Schema.String,
+            y: Schema.String,
+          }),
+        ]),
+      ),
+    }),
+    description: Schema.String,
+    lastUpdated: Schema.String,
+    title: Schema.String,
+    tokenSources: Schema.Array(Schema.String),
+    tokenType: Schema.Literal("JWT"),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      credentials: "credentials",
+      description: "description",
+      lastUpdated: "last_updated",
+      title: "title",
+      tokenSources: "token_sources",
+      tokenType: "token_type",
+    }),
+  ),
+) as unknown as Schema.Schema<ListConfigurationsResponse>;
 
-export type ListConfigurationsError =
-  | DefaultErrors;
+export type ListConfigurationsError = DefaultErrors;
 
 export const listConfigurations: API.OperationMethod<
   ListConfigurationsRequest,
@@ -153,7 +265,33 @@ export interface CreateConfigurationRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: */
-  credentials: { keys: ({ alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512"; e: string; kid: string; kty: "RSA"; n: string } | { alg: "ES256"; crv: "P-256"; kid: string; kty: "EC"; x: string; y: string } | { alg: "ES384"; crv: "P-384"; kid: string; kty: "EC"; x: string; y: string })[] };
+  credentials: {
+    keys: (
+      | {
+          alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512";
+          e: string;
+          kid: string;
+          kty: "RSA";
+          n: string;
+        }
+      | {
+          alg: "ES256";
+          crv: "P-256";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+      | {
+          alg: "ES384";
+          crv: "P-384";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+    )[];
+  };
   /** Body param: */
   description: string;
   /** Body param: */
@@ -167,40 +305,87 @@ export interface CreateConfigurationRequest {
 export const CreateConfigurationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   credentials: Schema.Struct({
-  keys: Schema.Array(Schema.Union([Schema.Struct({
-    alg: Schema.Literals(["RS256", "RS384", "RS512", "PS256", "PS384", "PS512"]),
-    e: Schema.String,
-    kid: Schema.String,
-    kty: Schema.Literal("RSA"),
-    n: Schema.String
-  }), Schema.Struct({
-    alg: Schema.Literal("ES256"),
-    crv: Schema.Literal("P-256"),
-    kid: Schema.String,
-    kty: Schema.Literal("EC"),
-    x: Schema.String,
-    y: Schema.String
-  }), Schema.Struct({
-    alg: Schema.Literal("ES384"),
-    crv: Schema.Literal("P-384"),
-    kid: Schema.String,
-    kty: Schema.Literal("EC"),
-    x: Schema.String,
-    y: Schema.String
-  })]))
-}),
+    keys: Schema.Array(
+      Schema.Union([
+        Schema.Struct({
+          alg: Schema.Literals([
+            "RS256",
+            "RS384",
+            "RS512",
+            "PS256",
+            "PS384",
+            "PS512",
+          ]),
+          e: Schema.String,
+          kid: Schema.String,
+          kty: Schema.Literal("RSA"),
+          n: Schema.String,
+        }),
+        Schema.Struct({
+          alg: Schema.Literal("ES256"),
+          crv: Schema.Literal("P-256"),
+          kid: Schema.String,
+          kty: Schema.Literal("EC"),
+          x: Schema.String,
+          y: Schema.String,
+        }),
+        Schema.Struct({
+          alg: Schema.Literal("ES384"),
+          crv: Schema.Literal("P-384"),
+          kid: Schema.String,
+          kty: Schema.Literal("EC"),
+          x: Schema.String,
+          y: Schema.String,
+        }),
+      ]),
+    ),
+  }),
   description: Schema.String,
   title: Schema.String,
   tokenSources: Schema.Array(Schema.String),
-  tokenType: Schema.Literal("JWT")
-})
-  .pipe(Schema.encodeKeys({ credentials: "credentials", description: "description", title: "title", tokenSources: "token_sources", tokenType: "token_type" }), T.Http({ method: "POST", path: "/zones/{zone_id}/token_validation/config" })) as unknown as Schema.Schema<CreateConfigurationRequest>;
+  tokenType: Schema.Literal("JWT"),
+}).pipe(
+  Schema.encodeKeys({
+    credentials: "credentials",
+    description: "description",
+    title: "title",
+    tokenSources: "token_sources",
+    tokenType: "token_type",
+  }),
+  T.Http({ method: "POST", path: "/zones/{zone_id}/token_validation/config" }),
+) as unknown as Schema.Schema<CreateConfigurationRequest>;
 
 export interface CreateConfigurationResponse {
   /** UUID. */
   id: string;
   createdAt: string;
-  credentials: { keys: ({ alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512"; e: string; kid: string; kty: "RSA"; n: string } | { alg: "ES256"; crv: "P-256"; kid: string; kty: "EC"; x: string; y: string } | { alg: "ES384"; crv: "P-384"; kid: string; kty: "EC"; x: string; y: string })[] };
+  credentials: {
+    keys: (
+      | {
+          alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512";
+          e: string;
+          kid: string;
+          kty: "RSA";
+          n: string;
+        }
+      | {
+          alg: "ES256";
+          crv: "P-256";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+      | {
+          alg: "ES384";
+          crv: "P-384";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+    )[];
+  };
   description: string;
   lastUpdated: string;
   title: string;
@@ -212,37 +397,60 @@ export const CreateConfigurationResponse = Schema.Struct({
   id: Schema.String,
   createdAt: Schema.String,
   credentials: Schema.Struct({
-  keys: Schema.Array(Schema.Union([Schema.Struct({
-    alg: Schema.Literals(["RS256", "RS384", "RS512", "PS256", "PS384", "PS512"]),
-    e: Schema.String,
-    kid: Schema.String,
-    kty: Schema.Literal("RSA"),
-    n: Schema.String
-  }), Schema.Struct({
-    alg: Schema.Literal("ES256"),
-    crv: Schema.Literal("P-256"),
-    kid: Schema.String,
-    kty: Schema.Literal("EC"),
-    x: Schema.String,
-    y: Schema.String
-  }), Schema.Struct({
-    alg: Schema.Literal("ES384"),
-    crv: Schema.Literal("P-384"),
-    kid: Schema.String,
-    kty: Schema.Literal("EC"),
-    x: Schema.String,
-    y: Schema.String
-  })]))
-}),
+    keys: Schema.Array(
+      Schema.Union([
+        Schema.Struct({
+          alg: Schema.Literals([
+            "RS256",
+            "RS384",
+            "RS512",
+            "PS256",
+            "PS384",
+            "PS512",
+          ]),
+          e: Schema.String,
+          kid: Schema.String,
+          kty: Schema.Literal("RSA"),
+          n: Schema.String,
+        }),
+        Schema.Struct({
+          alg: Schema.Literal("ES256"),
+          crv: Schema.Literal("P-256"),
+          kid: Schema.String,
+          kty: Schema.Literal("EC"),
+          x: Schema.String,
+          y: Schema.String,
+        }),
+        Schema.Struct({
+          alg: Schema.Literal("ES384"),
+          crv: Schema.Literal("P-384"),
+          kid: Schema.String,
+          kty: Schema.Literal("EC"),
+          x: Schema.String,
+          y: Schema.String,
+        }),
+      ]),
+    ),
+  }),
   description: Schema.String,
   lastUpdated: Schema.String,
   title: Schema.String,
   tokenSources: Schema.Array(Schema.String),
-  tokenType: Schema.Literal("JWT")
-}).pipe(Schema.encodeKeys({ id: "id", createdAt: "created_at", credentials: "credentials", description: "description", lastUpdated: "last_updated", title: "title", tokenSources: "token_sources", tokenType: "token_type" })) as unknown as Schema.Schema<CreateConfigurationResponse>;
+  tokenType: Schema.Literal("JWT"),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    credentials: "credentials",
+    description: "description",
+    lastUpdated: "last_updated",
+    title: "title",
+    tokenSources: "token_sources",
+    tokenType: "token_type",
+  }),
+) as unknown as Schema.Schema<CreateConfigurationResponse>;
 
-export type CreateConfigurationError =
-  | DefaultErrors;
+export type CreateConfigurationError = DefaultErrors;
 
 export const createConfiguration: API.OperationMethod<
   CreateConfigurationRequest,
@@ -272,9 +480,18 @@ export const PatchConfigurationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
   title: Schema.optional(Schema.String),
-  tokenSources: Schema.optional(Schema.Array(Schema.String))
-})
-  .pipe(Schema.encodeKeys({ description: "description", title: "title", tokenSources: "token_sources" }), T.Http({ method: "PATCH", path: "/zones/{zone_id}/token_validation/config/{configId}" })) as unknown as Schema.Schema<PatchConfigurationRequest>;
+  tokenSources: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    description: "description",
+    title: "title",
+    tokenSources: "token_sources",
+  }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/token_validation/config/{configId}",
+  }),
+) as unknown as Schema.Schema<PatchConfigurationRequest>;
 
 export interface PatchConfigurationResponse {
   description?: string;
@@ -285,11 +502,16 @@ export interface PatchConfigurationResponse {
 export const PatchConfigurationResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
   title: Schema.optional(Schema.String),
-  tokenSources: Schema.optional(Schema.Array(Schema.String))
-}).pipe(Schema.encodeKeys({ description: "description", title: "title", tokenSources: "token_sources" })) as unknown as Schema.Schema<PatchConfigurationResponse>;
+  tokenSources: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    description: "description",
+    title: "title",
+    tokenSources: "token_sources",
+  }),
+) as unknown as Schema.Schema<PatchConfigurationResponse>;
 
-export type PatchConfigurationError =
-  | DefaultErrors;
+export type PatchConfigurationError = DefaultErrors;
 
 export const patchConfiguration: API.OperationMethod<
   PatchConfigurationRequest,
@@ -310,9 +532,13 @@ export interface DeleteConfigurationRequest {
 
 export const DeleteConfigurationRequest = Schema.Struct({
   configId: Schema.String.pipe(T.HttpPath("configId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/token_validation/config/{configId}" })) as unknown as Schema.Schema<DeleteConfigurationRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/token_validation/config/{configId}",
+  }),
+) as unknown as Schema.Schema<DeleteConfigurationRequest>;
 
 export interface DeleteConfigurationResponse {
   /** UUID. */
@@ -320,11 +546,10 @@ export interface DeleteConfigurationResponse {
 }
 
 export const DeleteConfigurationResponse = Schema.Struct({
-  id: Schema.optional(Schema.String)
+  id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteConfigurationResponse>;
 
-export type DeleteConfigurationError =
-  | DefaultErrors;
+export type DeleteConfigurationError = DefaultErrors;
 
 export const deleteConfiguration: API.OperationMethod<
   DeleteConfigurationRequest,
@@ -337,7 +562,6 @@ export const deleteConfiguration: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // ConfigurationCredential
 // =============================================================================
@@ -347,39 +571,104 @@ export interface PutConfigurationCredentialRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: */
-  keys: ({ alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512"; e: string; kid: string; kty: "RSA"; n: string } | { alg: "ES256"; crv: "P-256"; kid: string; kty: "EC"; x: string; y: string } | { alg: "ES384"; crv: "P-384"; kid: string; kty: "EC"; x: string; y: string })[];
+  keys: (
+    | {
+        alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512";
+        e: string;
+        kid: string;
+        kty: "RSA";
+        n: string;
+      }
+    | {
+        alg: "ES256";
+        crv: "P-256";
+        kid: string;
+        kty: "EC";
+        x: string;
+        y: string;
+      }
+    | {
+        alg: "ES384";
+        crv: "P-384";
+        kid: string;
+        kty: "EC";
+        x: string;
+        y: string;
+      }
+  )[];
 }
 
 export const PutConfigurationCredentialRequest = Schema.Struct({
   configId: Schema.String.pipe(T.HttpPath("configId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  keys: Schema.Array(Schema.Union([Schema.Struct({
-  alg: Schema.Literals(["RS256", "RS384", "RS512", "PS256", "PS384", "PS512"]),
-  e: Schema.String,
-  kid: Schema.String,
-  kty: Schema.Literal("RSA"),
-  n: Schema.String
-}), Schema.Struct({
-  alg: Schema.Literal("ES256"),
-  crv: Schema.Literal("P-256"),
-  kid: Schema.String,
-  kty: Schema.Literal("EC"),
-  x: Schema.String,
-  y: Schema.String
-}), Schema.Struct({
-  alg: Schema.Literal("ES384"),
-  crv: Schema.Literal("P-384"),
-  kid: Schema.String,
-  kty: Schema.Literal("EC"),
-  x: Schema.String,
-  y: Schema.String
-})]))
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/token_validation/config/{configId}/credentials" })) as unknown as Schema.Schema<PutConfigurationCredentialRequest>;
+  keys: Schema.Array(
+    Schema.Union([
+      Schema.Struct({
+        alg: Schema.Literals([
+          "RS256",
+          "RS384",
+          "RS512",
+          "PS256",
+          "PS384",
+          "PS512",
+        ]),
+        e: Schema.String,
+        kid: Schema.String,
+        kty: Schema.Literal("RSA"),
+        n: Schema.String,
+      }),
+      Schema.Struct({
+        alg: Schema.Literal("ES256"),
+        crv: Schema.Literal("P-256"),
+        kid: Schema.String,
+        kty: Schema.Literal("EC"),
+        x: Schema.String,
+        y: Schema.String,
+      }),
+      Schema.Struct({
+        alg: Schema.Literal("ES384"),
+        crv: Schema.Literal("P-384"),
+        kid: Schema.String,
+        kty: Schema.Literal("EC"),
+        x: Schema.String,
+        y: Schema.String,
+      }),
+    ]),
+  ),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/token_validation/config/{configId}/credentials",
+  }),
+) as unknown as Schema.Schema<PutConfigurationCredentialRequest>;
 
 export interface PutConfigurationCredentialResponse {
   errors: unknown;
-  keys: ({ alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512"; e: string; kid: string; kty: "RSA"; n: string } | { alg: "ES256"; crv: "P-256"; kid: string; kty: "EC"; x: string; y: string } | { alg: "ES384"; crv: "P-384"; kid: string; kty: "EC"; x: string; y: string })[];
+  keys: (
+    | {
+        alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512";
+        e: string;
+        kid: string;
+        kty: "RSA";
+        n: string;
+      }
+    | {
+        alg: "ES256";
+        crv: "P-256";
+        kid: string;
+        kty: "EC";
+        x: string;
+        y: string;
+      }
+    | {
+        alg: "ES384";
+        crv: "P-384";
+        kid: string;
+        kty: "EC";
+        x: string;
+        y: string;
+      }
+  )[];
   messages: unknown;
   /** Whether the API call was successful. */
   success: true;
@@ -387,33 +676,45 @@ export interface PutConfigurationCredentialResponse {
 
 export const PutConfigurationCredentialResponse = Schema.Struct({
   errors: Schema.Unknown,
-  keys: Schema.Array(Schema.Union([Schema.Struct({
-  alg: Schema.Literals(["RS256", "RS384", "RS512", "PS256", "PS384", "PS512"]),
-  e: Schema.String,
-  kid: Schema.String,
-  kty: Schema.Literal("RSA"),
-  n: Schema.String
-}), Schema.Struct({
-  alg: Schema.Literal("ES256"),
-  crv: Schema.Literal("P-256"),
-  kid: Schema.String,
-  kty: Schema.Literal("EC"),
-  x: Schema.String,
-  y: Schema.String
-}), Schema.Struct({
-  alg: Schema.Literal("ES384"),
-  crv: Schema.Literal("P-384"),
-  kid: Schema.String,
-  kty: Schema.Literal("EC"),
-  x: Schema.String,
-  y: Schema.String
-})])),
+  keys: Schema.Array(
+    Schema.Union([
+      Schema.Struct({
+        alg: Schema.Literals([
+          "RS256",
+          "RS384",
+          "RS512",
+          "PS256",
+          "PS384",
+          "PS512",
+        ]),
+        e: Schema.String,
+        kid: Schema.String,
+        kty: Schema.Literal("RSA"),
+        n: Schema.String,
+      }),
+      Schema.Struct({
+        alg: Schema.Literal("ES256"),
+        crv: Schema.Literal("P-256"),
+        kid: Schema.String,
+        kty: Schema.Literal("EC"),
+        x: Schema.String,
+        y: Schema.String,
+      }),
+      Schema.Struct({
+        alg: Schema.Literal("ES384"),
+        crv: Schema.Literal("P-384"),
+        kid: Schema.String,
+        kty: Schema.Literal("EC"),
+        x: Schema.String,
+        y: Schema.String,
+      }),
+    ]),
+  ),
   messages: Schema.Unknown,
-  success: Schema.Literal(true)
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<PutConfigurationCredentialResponse>;
 
-export type PutConfigurationCredentialError =
-  | DefaultErrors;
+export type PutConfigurationCredentialError = DefaultErrors;
 
 export const putConfigurationCredential: API.OperationMethod<
   PutConfigurationCredentialRequest,
@@ -425,7 +726,6 @@ export const putConfigurationCredential: API.OperationMethod<
   output: PutConfigurationCredentialResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Rule
@@ -439,9 +739,13 @@ export interface GetRuleRequest {
 
 export const GetRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/rules/{ruleId}" })) as unknown as Schema.Schema<GetRuleRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/token_validation/rules/{ruleId}",
+  }),
+) as unknown as Schema.Schema<GetRuleRequest>;
 
 export interface GetRuleResponse {
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
@@ -453,7 +757,10 @@ export interface GetRuleResponse {
   /** Rule expression. Requests that fail to match this expression will be subject to `action`.  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/j */
   expression: string;
   /** Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
-  selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null };
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
@@ -468,21 +775,46 @@ export const GetRuleResponse = Schema.Struct({
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
-  exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    operationIds: Schema.optional(Schema.Array(Schema.String))
-  }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-  include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    host: Schema.optional(Schema.Array(Schema.String))
-  })), Schema.Null]))
-}),
+    exclude: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    include: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            host: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ action: "action", description: "description", enabled: "enabled", expression: "expression", selector: "selector", title: "title", id: "id", createdAt: "created_at", lastUpdated: "last_updated" })) as unknown as Schema.Schema<GetRuleResponse>;
+  lastUpdated: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    action: "action",
+    description: "description",
+    enabled: "enabled",
+    expression: "expression",
+    selector: "selector",
+    title: "title",
+    id: "id",
+    createdAt: "created_at",
+    lastUpdated: "last_updated",
+  }),
+) as unknown as Schema.Schema<GetRuleResponse>;
 
-export type GetRuleError =
-  | DefaultErrors;
+export type GetRuleError = DefaultErrors;
 
 export const getRule: API.OperationMethod<
   GetRuleRequest,
@@ -517,38 +849,83 @@ export interface ListRulesRequest {
 export const ListRulesRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
-  action: Schema.optional(Schema.Literals(["log", "block"])).pipe(T.HttpQuery("action")),
+  action: Schema.optional(Schema.Literals(["log", "block"])).pipe(
+    T.HttpQuery("action"),
+  ),
   enabled: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("enabled")),
   host: Schema.optional(Schema.String).pipe(T.HttpQuery("host")),
   hostname: Schema.optional(Schema.String).pipe(T.HttpQuery("hostname")),
   ruleId: Schema.optional(Schema.String).pipe(T.HttpQuery("rule_id")),
-  tokenConfiguration: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("token_configuration"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/rules" })) as unknown as Schema.Schema<ListRulesRequest>;
+  tokenConfiguration: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("token_configuration"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/rules" }),
+) as unknown as Schema.Schema<ListRulesRequest>;
 
-export type ListRulesResponse = ({ action: "log" | "block"; description: string; enabled: boolean; expression: string; selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null }; title: string; id?: string; createdAt?: string; lastUpdated?: string })[];
+export type ListRulesResponse = {
+  action: "log" | "block";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
+  title: string;
+  id?: string;
+  createdAt?: string;
+  lastUpdated?: string;
+}[];
 
-export const ListRulesResponse = Schema.Array(Schema.Struct({
-  action: Schema.Literals(["log", "block"]),
-  description: Schema.String,
-  enabled: Schema.Boolean,
-  expression: Schema.String,
-  selector: Schema.Struct({
-    exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      operationIds: Schema.optional(Schema.Array(Schema.String))
-    }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-    include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      host: Schema.optional(Schema.Array(Schema.String))
-    })), Schema.Null]))
-  }),
-  title: Schema.String,
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ action: "action", description: "description", enabled: "enabled", expression: "expression", selector: "selector", title: "title", id: "id", createdAt: "created_at", lastUpdated: "last_updated" }))) as unknown as Schema.Schema<ListRulesResponse>;
+export const ListRulesResponse = Schema.Array(
+  Schema.Struct({
+    action: Schema.Literals(["log", "block"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    selector: Schema.Struct({
+      exclude: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      include: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              host: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    title: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    lastUpdated: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      selector: "selector",
+      title: "title",
+      id: "id",
+      createdAt: "created_at",
+      lastUpdated: "last_updated",
+    }),
+  ),
+) as unknown as Schema.Schema<ListRulesResponse>;
 
-export type ListRulesError =
-  | DefaultErrors;
+export type ListRulesError = DefaultErrors;
 
 export const listRules: API.OperationMethod<
   ListRulesRequest,
@@ -573,7 +950,10 @@ export interface CreateRuleRequest {
   /** Body param: Rule expression. Requests that fail to match this expression will be subject to `action`.  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shiel */
   expression: string;
   /** Body param: Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
-  selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null };
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
   /** Body param: A human-readable name for the rule. */
   title: string;
 }
@@ -585,16 +965,31 @@ export const CreateRuleRequest = Schema.Struct({
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
-  exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    operationIds: Schema.optional(Schema.Array(Schema.String))
-  }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-  include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    host: Schema.optional(Schema.Array(Schema.String))
-  })), Schema.Null]))
-}),
-  title: Schema.String
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/token_validation/rules" })) as unknown as Schema.Schema<CreateRuleRequest>;
+    exclude: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    include: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            host: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }),
+  title: Schema.String,
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/token_validation/rules" }),
+) as unknown as Schema.Schema<CreateRuleRequest>;
 
 export interface CreateRuleResponse {
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
@@ -606,7 +1001,10 @@ export interface CreateRuleResponse {
   /** Rule expression. Requests that fail to match this expression will be subject to `action`.  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/j */
   expression: string;
   /** Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
-  selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null };
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
@@ -621,21 +1019,46 @@ export const CreateRuleResponse = Schema.Struct({
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
-  exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    operationIds: Schema.optional(Schema.Array(Schema.String))
-  }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-  include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    host: Schema.optional(Schema.Array(Schema.String))
-  })), Schema.Null]))
-}),
+    exclude: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    include: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            host: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ action: "action", description: "description", enabled: "enabled", expression: "expression", selector: "selector", title: "title", id: "id", createdAt: "created_at", lastUpdated: "last_updated" })) as unknown as Schema.Schema<CreateRuleResponse>;
+  lastUpdated: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    action: "action",
+    description: "description",
+    enabled: "enabled",
+    expression: "expression",
+    selector: "selector",
+    title: "title",
+    id: "id",
+    createdAt: "created_at",
+    lastUpdated: "last_updated",
+  }),
+) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export type CreateRuleError =
-  | DefaultErrors;
+export type CreateRuleError = DefaultErrors;
 
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
@@ -663,7 +1086,10 @@ export interface PatchRuleRequest {
   /** Body param: Update rule order among zone rules. */
   position?: { index: number } | { before?: string } | { after?: string };
   /** Body param: Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
-  selector?: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null };
+  selector?: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
   /** Body param: A human-readable name for the rule. */
   title?: string;
 }
@@ -675,24 +1101,50 @@ export const PatchRuleRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   expression: Schema.optional(Schema.String),
-  position: Schema.optional(Schema.Union([Schema.Struct({
-  index: Schema.Number
-}), Schema.Struct({
-  before: Schema.optional(Schema.String)
-}), Schema.Struct({
-  after: Schema.optional(Schema.String)
-})])),
-  selector: Schema.optional(Schema.Struct({
-  exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    operationIds: Schema.optional(Schema.Array(Schema.String))
-  }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-  include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    host: Schema.optional(Schema.Array(Schema.String))
-  })), Schema.Null]))
-})),
-  title: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/zones/{zone_id}/token_validation/rules/{ruleId}" })) as unknown as Schema.Schema<PatchRuleRequest>;
+  position: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        index: Schema.Number,
+      }),
+      Schema.Struct({
+        before: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        after: Schema.optional(Schema.String),
+      }),
+    ]),
+  ),
+  selector: Schema.optional(
+    Schema.Struct({
+      exclude: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      include: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              host: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+  ),
+  title: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/token_validation/rules/{ruleId}",
+  }),
+) as unknown as Schema.Schema<PatchRuleRequest>;
 
 export interface PatchRuleResponse {
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
@@ -704,7 +1156,10 @@ export interface PatchRuleResponse {
   /** Rule expression. Requests that fail to match this expression will be subject to `action`.  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/j */
   expression: string;
   /** Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
-  selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null };
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
@@ -719,21 +1174,46 @@ export const PatchRuleResponse = Schema.Struct({
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
-  exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    operationIds: Schema.optional(Schema.Array(Schema.String))
-  }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-  include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-    host: Schema.optional(Schema.Array(Schema.String))
-  })), Schema.Null]))
-}),
+    exclude: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    include: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            host: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ action: "action", description: "description", enabled: "enabled", expression: "expression", selector: "selector", title: "title", id: "id", createdAt: "created_at", lastUpdated: "last_updated" })) as unknown as Schema.Schema<PatchRuleResponse>;
+  lastUpdated: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    action: "action",
+    description: "description",
+    enabled: "enabled",
+    expression: "expression",
+    selector: "selector",
+    title: "title",
+    id: "id",
+    createdAt: "created_at",
+    lastUpdated: "last_updated",
+  }),
+) as unknown as Schema.Schema<PatchRuleResponse>;
 
-export type PatchRuleError =
-  | DefaultErrors;
+export type PatchRuleError = DefaultErrors;
 
 export const patchRule: API.OperationMethod<
   PatchRuleRequest,
@@ -754,16 +1234,20 @@ export interface DeleteRuleRequest {
 
 export const DeleteRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/token_validation/rules/{ruleId}" })) as unknown as Schema.Schema<DeleteRuleRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/token_validation/rules/{ruleId}",
+  }),
+) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export type DeleteRuleResponse = unknown;
 
-export const DeleteRuleResponse = Schema.Unknown as unknown as Schema.Schema<DeleteRuleResponse>;
+export const DeleteRuleResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export type DeleteRuleError =
-  | DefaultErrors;
+export type DeleteRuleError = DefaultErrors;
 
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
@@ -780,52 +1264,122 @@ export interface BulkCreateRulesRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: */
-  body: ({ action: "log" | "block"; description: string; enabled: boolean; expression: string; selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null }; title: string })[];
+  body: {
+    action: "log" | "block";
+    description: string;
+    enabled: boolean;
+    expression: string;
+    selector: {
+      exclude?: { operationIds?: string[] }[] | null;
+      include?: { host?: string[] }[] | null;
+    };
+    title: string;
+  }[];
 }
 
 export const BulkCreateRulesRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Array(Schema.Struct({
-  action: Schema.Literals(["log", "block"]),
-  description: Schema.String,
-  enabled: Schema.Boolean,
-  expression: Schema.String,
-  selector: Schema.Struct({
-    exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      operationIds: Schema.optional(Schema.Array(Schema.String))
-    }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-    include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      host: Schema.optional(Schema.Array(Schema.String))
-    })), Schema.Null]))
+  body: Schema.Array(
+    Schema.Struct({
+      action: Schema.Literals(["log", "block"]),
+      description: Schema.String,
+      enabled: Schema.Boolean,
+      expression: Schema.String,
+      selector: Schema.Struct({
+        exclude: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                operationIds: Schema.optional(Schema.Array(Schema.String)),
+              }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        include: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                host: Schema.optional(Schema.Array(Schema.String)),
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      title: Schema.String,
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/token_validation/rules/bulk",
   }),
-  title: Schema.String
-})).pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/token_validation/rules/bulk" })) as unknown as Schema.Schema<BulkCreateRulesRequest>;
+) as unknown as Schema.Schema<BulkCreateRulesRequest>;
 
-export type BulkCreateRulesResponse = ({ action: "log" | "block"; description: string; enabled: boolean; expression: string; selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null }; title: string; id?: string; createdAt?: string; lastUpdated?: string })[];
+export type BulkCreateRulesResponse = {
+  action: "log" | "block";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
+  title: string;
+  id?: string;
+  createdAt?: string;
+  lastUpdated?: string;
+}[];
 
-export const BulkCreateRulesResponse = Schema.Array(Schema.Struct({
-  action: Schema.Literals(["log", "block"]),
-  description: Schema.String,
-  enabled: Schema.Boolean,
-  expression: Schema.String,
-  selector: Schema.Struct({
-    exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      operationIds: Schema.optional(Schema.Array(Schema.String))
-    }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-    include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      host: Schema.optional(Schema.Array(Schema.String))
-    })), Schema.Null]))
-  }),
-  title: Schema.String,
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ action: "action", description: "description", enabled: "enabled", expression: "expression", selector: "selector", title: "title", id: "id", createdAt: "created_at", lastUpdated: "last_updated" }))) as unknown as Schema.Schema<BulkCreateRulesResponse>;
+export const BulkCreateRulesResponse = Schema.Array(
+  Schema.Struct({
+    action: Schema.Literals(["log", "block"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    selector: Schema.Struct({
+      exclude: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      include: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              host: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    title: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    lastUpdated: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      selector: "selector",
+      title: "title",
+      id: "id",
+      createdAt: "created_at",
+      lastUpdated: "last_updated",
+    }),
+  ),
+) as unknown as Schema.Schema<BulkCreateRulesResponse>;
 
-export type BulkCreateRulesError =
-  | DefaultErrors;
+export type BulkCreateRulesError = DefaultErrors;
 
 export const bulkCreateRules: API.OperationMethod<
   BulkCreateRulesRequest,
@@ -842,60 +1396,140 @@ export interface BulkPatchRulesRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: */
-  body: ({ id: string; action?: "log" | "block"; description?: string; enabled?: boolean; expression?: string; position?: { index: number } | { before?: string } | { after?: string }; selector?: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null }; title?: string })[];
+  body: {
+    id: string;
+    action?: "log" | "block";
+    description?: string;
+    enabled?: boolean;
+    expression?: string;
+    position?: { index: number } | { before?: string } | { after?: string };
+    selector?: {
+      exclude?: { operationIds?: string[] }[] | null;
+      include?: { host?: string[] }[] | null;
+    };
+    title?: string;
+  }[];
 }
 
 export const BulkPatchRulesRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Array(Schema.Struct({
-  id: Schema.String,
-  action: Schema.optional(Schema.Literals(["log", "block"])),
-  description: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  expression: Schema.optional(Schema.String),
-  position: Schema.optional(Schema.Union([Schema.Struct({
-    index: Schema.Number
-  }), Schema.Struct({
-    before: Schema.optional(Schema.String)
-  }), Schema.Struct({
-    after: Schema.optional(Schema.String)
-  })])),
-  selector: Schema.optional(Schema.Struct({
-    exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      operationIds: Schema.optional(Schema.Array(Schema.String))
-    }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-    include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      host: Schema.optional(Schema.Array(Schema.String))
-    })), Schema.Null]))
-  })),
-  title: Schema.optional(Schema.String)
-})).pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "PATCH", path: "/zones/{zone_id}/token_validation/rules/bulk" })) as unknown as Schema.Schema<BulkPatchRulesRequest>;
-
-export type BulkPatchRulesResponse = ({ action: "log" | "block"; description: string; enabled: boolean; expression: string; selector: { exclude?: { operationIds?: string[] }[] | null; include?: { host?: string[] }[] | null }; title: string; id?: string; createdAt?: string; lastUpdated?: string })[];
-
-export const BulkPatchRulesResponse = Schema.Array(Schema.Struct({
-  action: Schema.Literals(["log", "block"]),
-  description: Schema.String,
-  enabled: Schema.Boolean,
-  expression: Schema.String,
-  selector: Schema.Struct({
-    exclude: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      operationIds: Schema.optional(Schema.Array(Schema.String))
-    }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" }))), Schema.Null])),
-    include: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-      host: Schema.optional(Schema.Array(Schema.String))
-    })), Schema.Null]))
+  body: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      action: Schema.optional(Schema.Literals(["log", "block"])),
+      description: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+      expression: Schema.optional(Schema.String),
+      position: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            index: Schema.Number,
+          }),
+          Schema.Struct({
+            before: Schema.optional(Schema.String),
+          }),
+          Schema.Struct({
+            after: Schema.optional(Schema.String),
+          }),
+        ]),
+      ),
+      selector: Schema.optional(
+        Schema.Struct({
+          exclude: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  operationIds: Schema.optional(Schema.Array(Schema.String)),
+                }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          include: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  host: Schema.optional(Schema.Array(Schema.String)),
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }),
+      ),
+      title: Schema.optional(Schema.String),
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/token_validation/rules/bulk",
   }),
-  title: Schema.String,
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ action: "action", description: "description", enabled: "enabled", expression: "expression", selector: "selector", title: "title", id: "id", createdAt: "created_at", lastUpdated: "last_updated" }))) as unknown as Schema.Schema<BulkPatchRulesResponse>;
+) as unknown as Schema.Schema<BulkPatchRulesRequest>;
 
-export type BulkPatchRulesError =
-  | DefaultErrors;
+export type BulkPatchRulesResponse = {
+  action: "log" | "block";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
+  title: string;
+  id?: string;
+  createdAt?: string;
+  lastUpdated?: string;
+}[];
+
+export const BulkPatchRulesResponse = Schema.Array(
+  Schema.Struct({
+    action: Schema.Literals(["log", "block"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    selector: Schema.Struct({
+      exclude: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      include: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              host: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    title: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    lastUpdated: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      selector: "selector",
+      title: "title",
+      id: "id",
+      createdAt: "created_at",
+      lastUpdated: "last_updated",
+    }),
+  ),
+) as unknown as Schema.Schema<BulkPatchRulesResponse>;
+
+export type BulkPatchRulesError = DefaultErrors;
 
 export const bulkPatchRules: API.OperationMethod<
   BulkPatchRulesRequest,

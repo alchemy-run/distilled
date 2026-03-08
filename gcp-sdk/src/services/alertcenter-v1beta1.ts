@@ -30,19 +30,29 @@ export interface DomainWideTakeoutInitiated {
   takeoutRequestId?: string;
 }
 
-export const DomainWideTakeoutInitiated: Schema.Schema<DomainWideTakeoutInitiated> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  takeoutRequestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DomainWideTakeoutInitiated" }) as any as Schema.Schema<DomainWideTakeoutInitiated>;
+export const DomainWideTakeoutInitiated: Schema.Schema<DomainWideTakeoutInitiated> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      takeoutRequestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DomainWideTakeoutInitiated",
+  }) as any as Schema.Schema<DomainWideTakeoutInitiated>;
 
 export interface UndeleteAlertRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string;
 }
 
-export const UndeleteAlertRequest: Schema.Schema<UndeleteAlertRequest> = Schema.suspend(() => Schema.Struct({
-  customerId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UndeleteAlertRequest" }) as any as Schema.Schema<UndeleteAlertRequest>;
+export const UndeleteAlertRequest: Schema.Schema<UndeleteAlertRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UndeleteAlertRequest",
+  }) as any as Schema.Schema<UndeleteAlertRequest>;
 
 export interface ResourceInfo {
   /** Chat attachment ID. */
@@ -59,29 +69,38 @@ export interface ResourceInfo {
   chatMessageId?: string;
 }
 
-export const ResourceInfo: Schema.Schema<ResourceInfo> = Schema.suspend(() => Schema.Struct({
-  chatAttachmentId: Schema.optional(Schema.String),
-  resourceTitle: Schema.optional(Schema.String),
-  documentId: Schema.optional(Schema.String),
-  messageId: Schema.optional(Schema.String),
-  deviceId: Schema.optional(Schema.String),
-  chatMessageId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResourceInfo" }) as any as Schema.Schema<ResourceInfo>;
+export const ResourceInfo: Schema.Schema<ResourceInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    chatAttachmentId: Schema.optional(Schema.String),
+    resourceTitle: Schema.optional(Schema.String),
+    documentId: Schema.optional(Schema.String),
+    messageId: Schema.optional(Schema.String),
+    deviceId: Schema.optional(Schema.String),
+    chatMessageId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ResourceInfo",
+}) as any as Schema.Schema<ResourceInfo>;
 
-export interface ActionInfo {
-}
+export interface ActionInfo {}
 
-export const ActionInfo: Schema.Schema<ActionInfo> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ActionInfo" }) as any as Schema.Schema<ActionInfo>;
+export const ActionInfo: Schema.Schema<ActionInfo> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "ActionInfo" }) as any as Schema.Schema<ActionInfo>;
 
 export interface PredefinedDetectorInfo {
   /** Name that uniquely identifies the detector. */
   detectorName?: string;
 }
 
-export const PredefinedDetectorInfo: Schema.Schema<PredefinedDetectorInfo> = Schema.suspend(() => Schema.Struct({
-  detectorName: Schema.optional(Schema.String),
-})).annotate({ identifier: "PredefinedDetectorInfo" }) as any as Schema.Schema<PredefinedDetectorInfo>;
+export const PredefinedDetectorInfo: Schema.Schema<PredefinedDetectorInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      detectorName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PredefinedDetectorInfo",
+  }) as any as Schema.Schema<PredefinedDetectorInfo>;
 
 export interface UserDefinedDetectorInfo {
   /** Resource name that uniquely identifies the detector. */
@@ -90,10 +109,15 @@ export interface UserDefinedDetectorInfo {
   displayName?: string;
 }
 
-export const UserDefinedDetectorInfo: Schema.Schema<UserDefinedDetectorInfo> = Schema.suspend(() => Schema.Struct({
-  resourceName: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserDefinedDetectorInfo" }) as any as Schema.Schema<UserDefinedDetectorInfo>;
+export const UserDefinedDetectorInfo: Schema.Schema<UserDefinedDetectorInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceName: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserDefinedDetectorInfo",
+  }) as any as Schema.Schema<UserDefinedDetectorInfo>;
 
 export interface MatchInfo {
   /** For matched detector predefined by Google. */
@@ -102,10 +126,12 @@ export interface MatchInfo {
   userDefinedDetector?: UserDefinedDetectorInfo;
 }
 
-export const MatchInfo: Schema.Schema<MatchInfo> = Schema.suspend(() => Schema.Struct({
-  predefinedDetector: Schema.optional(PredefinedDetectorInfo),
-  userDefinedDetector: Schema.optional(UserDefinedDetectorInfo),
-})).annotate({ identifier: "MatchInfo" }) as any as Schema.Schema<MatchInfo>;
+export const MatchInfo: Schema.Schema<MatchInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    predefinedDetector: Schema.optional(PredefinedDetectorInfo),
+    userDefinedDetector: Schema.optional(UserDefinedDetectorInfo),
+  }),
+).annotate({ identifier: "MatchInfo" }) as any as Schema.Schema<MatchInfo>;
 
 export interface RuleInfo {
   /** Resource name that uniquely identifies the rule. */
@@ -114,26 +140,97 @@ export interface RuleInfo {
   displayName?: string;
 }
 
-export const RuleInfo: Schema.Schema<RuleInfo> = Schema.suspend(() => Schema.Struct({
-  resourceName: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "RuleInfo" }) as any as Schema.Schema<RuleInfo>;
+export const RuleInfo: Schema.Schema<RuleInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    resourceName: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RuleInfo" }) as any as Schema.Schema<RuleInfo>;
 
 export interface RuleViolationInfo {
   /** Source of the data. */
-  dataSource?: "DATA_SOURCE_UNSPECIFIED" | "DRIVE" | "CHROME" | "CHAT" | (string & {});
+  dataSource?:
+    | "DATA_SOURCE_UNSPECIFIED"
+    | "DRIVE"
+    | "CHROME"
+    | "CHAT"
+    | (string & {});
   /** Details of the resource which violated the rule. */
   resourceInfo?: ResourceInfo;
   /** Metadata related to the triggered actions. */
   triggeredActionInfo?: Array<ActionInfo>;
   /** Trigger of the rule. */
-  trigger?: "TRIGGER_UNSPECIFIED" | "DRIVE_SHARE" | "CHROME_FILE_DOWNLOAD" | "CHROME_FILE_UPLOAD" | "CHROME_WEB_CONTENT_UPLOAD" | "CHAT_MESSAGE_SENT" | "CHAT_ATTACHMENT_UPLOADED" | "CHROME_PAGE_PRINT" | "CHROME_URL_VISITED" | (string & {});
+  trigger?:
+    | "TRIGGER_UNSPECIFIED"
+    | "DRIVE_SHARE"
+    | "CHROME_FILE_DOWNLOAD"
+    | "CHROME_FILE_UPLOAD"
+    | "CHROME_WEB_CONTENT_UPLOAD"
+    | "CHAT_MESSAGE_SENT"
+    | "CHAT_ATTACHMENT_UPLOADED"
+    | "CHROME_PAGE_PRINT"
+    | "CHROME_URL_VISITED"
+    | (string & {});
   /** Actions applied as a consequence of the rule being triggered. */
-  triggeredActionTypes?: Array<"ACTION_TYPE_UNSPECIFIED" | "DRIVE_BLOCK_EXTERNAL_SHARING" | "DRIVE_WARN_ON_EXTERNAL_SHARING" | "DRIVE_RESTRICT_DOWNLOAD_PRINT_COPY" | "DRIVE_APPLY_DRIVE_LABELS" | "CHROME_BLOCK_FILE_DOWNLOAD" | "CHROME_WARN_FILE_DOWNLOAD" | "CHROME_BLOCK_FILE_UPLOAD" | "CHROME_WARN_FILE_UPLOAD" | "CHROME_BLOCK_WEB_CONTENT_UPLOAD" | "CHROME_WARN_WEB_CONTENT_UPLOAD" | "CHROME_BLOCK_PAGE_PRINT" | "CHROME_WARN_PAGE_PRINT" | "CHROME_BLOCK_URL_VISITED" | "CHROME_WARN_URL_VISITED" | "CHROME_BLOCK_SCREENSHOT" | "CHROME_STORE_CONTENT" | "DELETE_WEBPROTECT_EVIDENCE" | "CHAT_BLOCK_CONTENT" | "CHAT_WARN_USER" | "ALERT" | "RULE_ACTIVATE" | "RULE_DEACTIVATE" | (string & {})>;
+  triggeredActionTypes?: Array<
+    | "ACTION_TYPE_UNSPECIFIED"
+    | "DRIVE_BLOCK_EXTERNAL_SHARING"
+    | "DRIVE_WARN_ON_EXTERNAL_SHARING"
+    | "DRIVE_RESTRICT_DOWNLOAD_PRINT_COPY"
+    | "DRIVE_APPLY_DRIVE_LABELS"
+    | "CHROME_BLOCK_FILE_DOWNLOAD"
+    | "CHROME_WARN_FILE_DOWNLOAD"
+    | "CHROME_BLOCK_FILE_UPLOAD"
+    | "CHROME_WARN_FILE_UPLOAD"
+    | "CHROME_BLOCK_WEB_CONTENT_UPLOAD"
+    | "CHROME_WARN_WEB_CONTENT_UPLOAD"
+    | "CHROME_BLOCK_PAGE_PRINT"
+    | "CHROME_WARN_PAGE_PRINT"
+    | "CHROME_BLOCK_URL_VISITED"
+    | "CHROME_WARN_URL_VISITED"
+    | "CHROME_BLOCK_SCREENSHOT"
+    | "CHROME_STORE_CONTENT"
+    | "DELETE_WEBPROTECT_EVIDENCE"
+    | "CHAT_BLOCK_CONTENT"
+    | "CHAT_WARN_USER"
+    | "ALERT"
+    | "RULE_ACTIVATE"
+    | "RULE_DEACTIVATE"
+    | (string & {})
+  >;
   /** Actions suppressed due to other actions with higher priority. */
-  suppressedActionTypes?: Array<"ACTION_TYPE_UNSPECIFIED" | "DRIVE_BLOCK_EXTERNAL_SHARING" | "DRIVE_WARN_ON_EXTERNAL_SHARING" | "DRIVE_RESTRICT_DOWNLOAD_PRINT_COPY" | "DRIVE_APPLY_DRIVE_LABELS" | "CHROME_BLOCK_FILE_DOWNLOAD" | "CHROME_WARN_FILE_DOWNLOAD" | "CHROME_BLOCK_FILE_UPLOAD" | "CHROME_WARN_FILE_UPLOAD" | "CHROME_BLOCK_WEB_CONTENT_UPLOAD" | "CHROME_WARN_WEB_CONTENT_UPLOAD" | "CHROME_BLOCK_PAGE_PRINT" | "CHROME_WARN_PAGE_PRINT" | "CHROME_BLOCK_URL_VISITED" | "CHROME_WARN_URL_VISITED" | "CHROME_BLOCK_SCREENSHOT" | "CHROME_STORE_CONTENT" | "DELETE_WEBPROTECT_EVIDENCE" | "CHAT_BLOCK_CONTENT" | "CHAT_WARN_USER" | "ALERT" | "RULE_ACTIVATE" | "RULE_DEACTIVATE" | (string & {})>;
+  suppressedActionTypes?: Array<
+    | "ACTION_TYPE_UNSPECIFIED"
+    | "DRIVE_BLOCK_EXTERNAL_SHARING"
+    | "DRIVE_WARN_ON_EXTERNAL_SHARING"
+    | "DRIVE_RESTRICT_DOWNLOAD_PRINT_COPY"
+    | "DRIVE_APPLY_DRIVE_LABELS"
+    | "CHROME_BLOCK_FILE_DOWNLOAD"
+    | "CHROME_WARN_FILE_DOWNLOAD"
+    | "CHROME_BLOCK_FILE_UPLOAD"
+    | "CHROME_WARN_FILE_UPLOAD"
+    | "CHROME_BLOCK_WEB_CONTENT_UPLOAD"
+    | "CHROME_WARN_WEB_CONTENT_UPLOAD"
+    | "CHROME_BLOCK_PAGE_PRINT"
+    | "CHROME_WARN_PAGE_PRINT"
+    | "CHROME_BLOCK_URL_VISITED"
+    | "CHROME_WARN_URL_VISITED"
+    | "CHROME_BLOCK_SCREENSHOT"
+    | "CHROME_STORE_CONTENT"
+    | "DELETE_WEBPROTECT_EVIDENCE"
+    | "CHAT_BLOCK_CONTENT"
+    | "CHAT_WARN_USER"
+    | "ALERT"
+    | "RULE_ACTIVATE"
+    | "RULE_DEACTIVATE"
+    | (string & {})
+  >;
   /** Event associated with this alert after applying the rule. */
-  eventType?: "EVENT_TYPE_UNSPECIFIED" | "ACCESS_BLOCKED" | "SHARING_BLOCKED" | (string & {});
+  eventType?:
+    | "EVENT_TYPE_UNSPECIFIED"
+    | "ACCESS_BLOCKED"
+    | "SHARING_BLOCKED"
+    | (string & {});
   /** List of matches that were found in the resource content. */
   matchInfo?: Array<MatchInfo>;
   /** Details of the violated rule. */
@@ -144,19 +241,24 @@ export interface RuleViolationInfo {
   recipients?: Array<string>;
 }
 
-export const RuleViolationInfo: Schema.Schema<RuleViolationInfo> = Schema.suspend(() => Schema.Struct({
-  dataSource: Schema.optional(Schema.String),
-  resourceInfo: Schema.optional(ResourceInfo),
-  triggeredActionInfo: Schema.optional(Schema.Array(ActionInfo)),
-  trigger: Schema.optional(Schema.String),
-  triggeredActionTypes: Schema.optional(Schema.Array(Schema.String)),
-  suppressedActionTypes: Schema.optional(Schema.Array(Schema.String)),
-  eventType: Schema.optional(Schema.String),
-  matchInfo: Schema.optional(Schema.Array(MatchInfo)),
-  ruleInfo: Schema.optional(RuleInfo),
-  triggeringUserEmail: Schema.optional(Schema.String),
-  recipients: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RuleViolationInfo" }) as any as Schema.Schema<RuleViolationInfo>;
+export const RuleViolationInfo: Schema.Schema<RuleViolationInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataSource: Schema.optional(Schema.String),
+      resourceInfo: Schema.optional(ResourceInfo),
+      triggeredActionInfo: Schema.optional(Schema.Array(ActionInfo)),
+      trigger: Schema.optional(Schema.String),
+      triggeredActionTypes: Schema.optional(Schema.Array(Schema.String)),
+      suppressedActionTypes: Schema.optional(Schema.Array(Schema.String)),
+      eventType: Schema.optional(Schema.String),
+      matchInfo: Schema.optional(Schema.Array(MatchInfo)),
+      ruleInfo: Schema.optional(RuleInfo),
+      triggeringUserEmail: Schema.optional(Schema.String),
+      recipients: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "RuleViolationInfo",
+  }) as any as Schema.Schema<RuleViolationInfo>;
 
 export interface BatchDeleteAlertsRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
@@ -165,10 +267,15 @@ export interface BatchDeleteAlertsRequest {
   alertId?: Array<string>;
 }
 
-export const BatchDeleteAlertsRequest: Schema.Schema<BatchDeleteAlertsRequest> = Schema.suspend(() => Schema.Struct({
-  customerId: Schema.optional(Schema.String),
-  alertId: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchDeleteAlertsRequest" }) as any as Schema.Schema<BatchDeleteAlertsRequest>;
+export const BatchDeleteAlertsRequest: Schema.Schema<BatchDeleteAlertsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customerId: Schema.optional(Schema.String),
+      alertId: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchDeleteAlertsRequest",
+  }) as any as Schema.Schema<BatchDeleteAlertsRequest>;
 
 export interface RequestInfo {
   /** Required. The application that requires the SQL setup. */
@@ -179,11 +286,13 @@ export interface RequestInfo {
   numberOfRequests?: string;
 }
 
-export const RequestInfo: Schema.Schema<RequestInfo> = Schema.suspend(() => Schema.Struct({
-  appKey: Schema.optional(Schema.String),
-  appDeveloperEmail: Schema.optional(Schema.Array(Schema.String)),
-  numberOfRequests: Schema.optional(Schema.String),
-})).annotate({ identifier: "RequestInfo" }) as any as Schema.Schema<RequestInfo>;
+export const RequestInfo: Schema.Schema<RequestInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    appKey: Schema.optional(Schema.String),
+    appDeveloperEmail: Schema.optional(Schema.Array(Schema.String)),
+    numberOfRequests: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RequestInfo" }) as any as Schema.Schema<RequestInfo>;
 
 export interface SuspiciousActivitySecurityDetail {
   /** The serial number of the device. */
@@ -206,42 +315,64 @@ export interface SuspiciousActivitySecurityDetail {
   newValue?: string;
 }
 
-export const SuspiciousActivitySecurityDetail: Schema.Schema<SuspiciousActivitySecurityDetail> = Schema.suspend(() => Schema.Struct({
-  serialNumber: Schema.optional(Schema.String),
-  oldValue: Schema.optional(Schema.String),
-  deviceModel: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  iosVendorId: Schema.optional(Schema.String),
-  deviceType: Schema.optional(Schema.String),
-  deviceProperty: Schema.optional(Schema.String),
-  deviceId: Schema.optional(Schema.String),
-  newValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "SuspiciousActivitySecurityDetail" }) as any as Schema.Schema<SuspiciousActivitySecurityDetail>;
+export const SuspiciousActivitySecurityDetail: Schema.Schema<SuspiciousActivitySecurityDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      serialNumber: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      deviceModel: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      iosVendorId: Schema.optional(Schema.String),
+      deviceType: Schema.optional(Schema.String),
+      deviceProperty: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+      newValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SuspiciousActivitySecurityDetail",
+  }) as any as Schema.Schema<SuspiciousActivitySecurityDetail>;
 
 export interface VaultAcceleratedDeletion {
   /** The action can be one of create and cancel */
-  actionType?: "VAULT_ACCELERATED_DELETION_ACTION_TYPE_UNSPECIFIED" | "VAULT_ACCELERATED_DELETION_ACTION_TYPE_CREATE" | "VAULT_ACCELERATED_DELETION_ACTION_TYPE_CANCEL" | (string & {});
+  actionType?:
+    | "VAULT_ACCELERATED_DELETION_ACTION_TYPE_UNSPECIFIED"
+    | "VAULT_ACCELERATED_DELETION_ACTION_TYPE_CREATE"
+    | "VAULT_ACCELERATED_DELETION_ACTION_TYPE_CANCEL"
+    | (string & {});
   /** Matter ID of the accelerated deletion request intended to be used to construct the Vault UI link to the AD request */
   matterId?: string;
   /** Accelerated deletion request ID intended to be used to construct the Vault UI link to the AD request */
   deletionRequestId?: string;
   /** Currentlty only Gmail is supported as app type */
-  appType?: "VAULT_ACCELERATED_DELETION_APP_TYPE_UNSPECIFIED" | "VAULT_ACCELERATED_DELETION_APP_TYPE_GMAIL" | (string & {});
+  appType?:
+    | "VAULT_ACCELERATED_DELETION_APP_TYPE_UNSPECIFIED"
+    | "VAULT_ACCELERATED_DELETION_APP_TYPE_GMAIL"
+    | (string & {});
   /** The UTC timestamp of when the AD request was created */
   createTime?: string;
 }
 
-export const VaultAcceleratedDeletion: Schema.Schema<VaultAcceleratedDeletion> = Schema.suspend(() => Schema.Struct({
-  actionType: Schema.optional(Schema.String),
-  matterId: Schema.optional(Schema.String),
-  deletionRequestId: Schema.optional(Schema.String),
-  appType: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "VaultAcceleratedDeletion" }) as any as Schema.Schema<VaultAcceleratedDeletion>;
+export const VaultAcceleratedDeletion: Schema.Schema<VaultAcceleratedDeletion> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionType: Schema.optional(Schema.String),
+      matterId: Schema.optional(Schema.String),
+      deletionRequestId: Schema.optional(Schema.String),
+      appType: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VaultAcceleratedDeletion",
+  }) as any as Schema.Schema<VaultAcceleratedDeletion>;
 
 export interface AlertFeedback {
   /** Required. The type of the feedback. */
-  type?: "ALERT_FEEDBACK_TYPE_UNSPECIFIED" | "NOT_USEFUL" | "SOMEWHAT_USEFUL" | "VERY_USEFUL" | (string & {});
+  type?:
+    | "ALERT_FEEDBACK_TYPE_UNSPECIFIED"
+    | "NOT_USEFUL"
+    | "SOMEWHAT_USEFUL"
+    | "VERY_USEFUL"
+    | (string & {});
   /** Output only. The unique identifier of the Google Workspace account of the customer. */
   customerId?: string;
   /** Output only. The unique identifier for the feedback. */
@@ -254,23 +385,32 @@ export interface AlertFeedback {
   alertId?: string;
 }
 
-export const AlertFeedback: Schema.Schema<AlertFeedback> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  customerId: Schema.optional(Schema.String),
-  feedbackId: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  alertId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AlertFeedback" }) as any as Schema.Schema<AlertFeedback>;
+export const AlertFeedback: Schema.Schema<AlertFeedback> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    customerId: Schema.optional(Schema.String),
+    feedbackId: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    alertId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AlertFeedback",
+}) as any as Schema.Schema<AlertFeedback>;
 
 export interface ListAlertFeedbackResponse {
   /** The list of alert feedback. Feedback entries for each alert are ordered by creation time descending. */
   feedback?: Array<AlertFeedback>;
 }
 
-export const ListAlertFeedbackResponse: Schema.Schema<ListAlertFeedbackResponse> = Schema.suspend(() => Schema.Struct({
-  feedback: Schema.optional(Schema.Array(AlertFeedback)),
-})).annotate({ identifier: "ListAlertFeedbackResponse" }) as any as Schema.Schema<ListAlertFeedbackResponse>;
+export const ListAlertFeedbackResponse: Schema.Schema<ListAlertFeedbackResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      feedback: Schema.optional(Schema.Array(AlertFeedback)),
+    }),
+  ).annotate({
+    identifier: "ListAlertFeedbackResponse",
+  }) as any as Schema.Schema<ListAlertFeedbackResponse>;
 
 export interface AppSettingsChanged {
   /** Any other associated alert details, for example, AlertConfiguration. */
@@ -279,10 +419,15 @@ export interface AppSettingsChanged {
   name?: string;
 }
 
-export const AppSettingsChanged: Schema.Schema<AppSettingsChanged> = Schema.suspend(() => Schema.Struct({
-  alertDetails: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AppSettingsChanged" }) as any as Schema.Schema<AppSettingsChanged>;
+export const AppSettingsChanged: Schema.Schema<AppSettingsChanged> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alertDetails: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AppSettingsChanged",
+  }) as any as Schema.Schema<AppSettingsChanged>;
 
 export interface ApnsCertificateExpirationInfo {
   /** The UID of the certificate. */
@@ -293,11 +438,16 @@ export interface ApnsCertificateExpirationInfo {
   appleId?: string;
 }
 
-export const ApnsCertificateExpirationInfo: Schema.Schema<ApnsCertificateExpirationInfo> = Schema.suspend(() => Schema.Struct({
-  uid: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-  appleId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApnsCertificateExpirationInfo" }) as any as Schema.Schema<ApnsCertificateExpirationInfo>;
+export const ApnsCertificateExpirationInfo: Schema.Schema<ApnsCertificateExpirationInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      uid: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+      appleId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApnsCertificateExpirationInfo",
+  }) as any as Schema.Schema<ApnsCertificateExpirationInfo>;
 
 export interface ReportingRule {
   /** Alert Rule query Sample Query query { condition { filter { expected_application_id: 777491262838 expected_event_name: "indexable_content_change" filter_op: IN } } conjunction_operator: OR } */
@@ -308,11 +458,15 @@ export interface ReportingRule {
   name?: string;
 }
 
-export const ReportingRule: Schema.Schema<ReportingRule> = Schema.suspend(() => Schema.Struct({
-  query: Schema.optional(Schema.String),
-  alertDetails: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReportingRule" }) as any as Schema.Schema<ReportingRule>;
+export const ReportingRule: Schema.Schema<ReportingRule> = Schema.suspend(() =>
+  Schema.Struct({
+    query: Schema.optional(Schema.String),
+    alertDetails: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ReportingRule",
+}) as any as Schema.Schema<ReportingRule>;
 
 export interface AlertMetadata {
   /** Output only. The unique identifier of the Google Workspace account of the customer. */
@@ -331,15 +485,19 @@ export interface AlertMetadata {
   severity?: string;
 }
 
-export const AlertMetadata: Schema.Schema<AlertMetadata> = Schema.suspend(() => Schema.Struct({
-  customerId: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  assignee: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  alertId: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-})).annotate({ identifier: "AlertMetadata" }) as any as Schema.Schema<AlertMetadata>;
+export const AlertMetadata: Schema.Schema<AlertMetadata> = Schema.suspend(() =>
+  Schema.Struct({
+    customerId: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    assignee: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    alertId: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AlertMetadata",
+}) as any as Schema.Schema<AlertMetadata>;
 
 export interface Alert {
   /** Output only. An optional [Security Investigation Tool](https://support.google.com/a/answer/7575955) query for this alert. */
@@ -370,21 +528,23 @@ export interface Alert {
   source?: string;
 }
 
-export const Alert: Schema.Schema<Alert> = Schema.suspend(() => Schema.Struct({
-  securityInvestigationToolLink: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  customerId: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  metadata: Schema.optional(AlertMetadata),
-  alertId: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  deleted: Schema.optional(Schema.Boolean),
-  createTime: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-})).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
+export const Alert: Schema.Schema<Alert> = Schema.suspend(() =>
+  Schema.Struct({
+    securityInvestigationToolLink: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    customerId: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    metadata: Schema.optional(AlertMetadata),
+    alertId: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    deleted: Schema.optional(Schema.Boolean),
+    createTime: Schema.optional(Schema.String),
+    source: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
 
 export interface ListAlertsResponse {
   /** The list of alerts. */
@@ -393,19 +553,26 @@ export interface ListAlertsResponse {
   nextPageToken?: string;
 }
 
-export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> = Schema.suspend(() => Schema.Struct({
-  alerts: Schema.optional(Schema.Array(Alert)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAlertsResponse" }) as any as Schema.Schema<ListAlertsResponse>;
+export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alerts: Schema.optional(Schema.Array(Alert)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAlertsResponse",
+  }) as any as Schema.Schema<ListAlertsResponse>;
 
 export interface CsvRow {
   /** The data entries in a CSV file row, as a string array rather than a single comma-separated string. */
   entries?: Array<string>;
 }
 
-export const CsvRow: Schema.Schema<CsvRow> = Schema.suspend(() => Schema.Struct({
-  entries: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CsvRow" }) as any as Schema.Schema<CsvRow>;
+export const CsvRow: Schema.Schema<CsvRow> = Schema.suspend(() =>
+  Schema.Struct({
+    entries: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "CsvRow" }) as any as Schema.Schema<CsvRow>;
 
 export interface Csv {
   /** The list of headers for data columns in a CSV file. */
@@ -414,58 +581,87 @@ export interface Csv {
   dataRows?: Array<CsvRow>;
 }
 
-export const Csv: Schema.Schema<Csv> = Schema.suspend(() => Schema.Struct({
-  headers: Schema.optional(Schema.Array(Schema.String)),
-  dataRows: Schema.optional(Schema.Array(CsvRow)),
-})).annotate({ identifier: "Csv" }) as any as Schema.Schema<Csv>;
+export const Csv: Schema.Schema<Csv> = Schema.suspend(() =>
+  Schema.Struct({
+    headers: Schema.optional(Schema.Array(Schema.String)),
+    dataRows: Schema.optional(Schema.Array(CsvRow)),
+  }),
+).annotate({ identifier: "Csv" }) as any as Schema.Schema<Csv>;
 
 export interface TransferError {
   /** Ring group or auto attendant ID. Not set for users. */
   id?: string;
   /** Type of entity being transferred to. For ring group members, this should always be USER. */
-  entityType?: "TRANSFER_ENTITY_TYPE_UNSPECIFIED" | "TRANSFER_AUTO_ATTENDANT" | "TRANSFER_RING_GROUP" | "TRANSFER_USER" | (string & {});
+  entityType?:
+    | "TRANSFER_ENTITY_TYPE_UNSPECIFIED"
+    | "TRANSFER_AUTO_ATTENDANT"
+    | "TRANSFER_RING_GROUP"
+    | "TRANSFER_USER"
+    | (string & {});
   /** User's email address. This may be unavailable if the entity was deleted. */
   email?: string;
   /** User's full name, or the ring group / auto attendant name. This may be unavailable if the entity was deleted. */
   name?: string;
   /** Reason for the error. */
-  invalidReason?: "TRANSFER_INVALID_REASON_UNSPECIFIED" | "TRANSFER_TARGET_DELETED" | "UNLICENSED" | "SUSPENDED" | "NO_PHONE_NUMBER" | (string & {});
+  invalidReason?:
+    | "TRANSFER_INVALID_REASON_UNSPECIFIED"
+    | "TRANSFER_TARGET_DELETED"
+    | "UNLICENSED"
+    | "SUSPENDED"
+    | "NO_PHONE_NUMBER"
+    | (string & {});
 }
 
-export const TransferError: Schema.Schema<TransferError> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  entityType: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  invalidReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferError" }) as any as Schema.Schema<TransferError>;
+export const TransferError: Schema.Schema<TransferError> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    entityType: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    invalidReason: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "TransferError",
+}) as any as Schema.Schema<TransferError>;
 
 export interface TransferMisconfiguration {
   /** Details for each invalid transfer or forward. */
   errors?: Array<TransferError>;
 }
 
-export const TransferMisconfiguration: Schema.Schema<TransferMisconfiguration> = Schema.suspend(() => Schema.Struct({
-  errors: Schema.optional(Schema.Array(TransferError)),
-})).annotate({ identifier: "TransferMisconfiguration" }) as any as Schema.Schema<TransferMisconfiguration>;
+export const TransferMisconfiguration: Schema.Schema<TransferMisconfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      errors: Schema.optional(Schema.Array(TransferError)),
+    }),
+  ).annotate({
+    identifier: "TransferMisconfiguration",
+  }) as any as Schema.Schema<TransferMisconfiguration>;
 
 export interface SSOProfileDeletedEvent {
   /** sso profile name which got deleted */
   inboundSsoProfileName?: string;
 }
 
-export const SSOProfileDeletedEvent: Schema.Schema<SSOProfileDeletedEvent> = Schema.suspend(() => Schema.Struct({
-  inboundSsoProfileName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SSOProfileDeletedEvent" }) as any as Schema.Schema<SSOProfileDeletedEvent>;
+export const SSOProfileDeletedEvent: Schema.Schema<SSOProfileDeletedEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inboundSsoProfileName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SSOProfileDeletedEvent",
+  }) as any as Schema.Schema<SSOProfileDeletedEvent>;
 
 export interface DomainId {
   /** The primary domain for the customer. */
   customerPrimaryDomain?: string;
 }
 
-export const DomainId: Schema.Schema<DomainId> = Schema.suspend(() => Schema.Struct({
-  customerPrimaryDomain: Schema.optional(Schema.String),
-})).annotate({ identifier: "DomainId" }) as any as Schema.Schema<DomainId>;
+export const DomainId: Schema.Schema<DomainId> = Schema.suspend(() =>
+  Schema.Struct({
+    customerPrimaryDomain: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DomainId" }) as any as Schema.Schema<DomainId>;
 
 export interface MergeInfo {
   /** Optional. New alert ID. Reference the [google.apps.alertcenter.Alert] with this ID for the current state. */
@@ -474,10 +670,12 @@ export interface MergeInfo {
   newIncidentTrackingId?: string;
 }
 
-export const MergeInfo: Schema.Schema<MergeInfo> = Schema.suspend(() => Schema.Struct({
-  newAlertId: Schema.optional(Schema.String),
-  newIncidentTrackingId: Schema.optional(Schema.String),
-})).annotate({ identifier: "MergeInfo" }) as any as Schema.Schema<MergeInfo>;
+export const MergeInfo: Schema.Schema<MergeInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    newAlertId: Schema.optional(Schema.String),
+    newIncidentTrackingId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "MergeInfo" }) as any as Schema.Schema<MergeInfo>;
 
 export interface User {
   /** Email address of the user. */
@@ -486,10 +684,12 @@ export interface User {
   displayName?: string;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() => Schema.Struct({
-  emailAddress: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> = Schema.suspend(() =>
+  Schema.Struct({
+    emailAddress: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface PrimaryAdminChangedEvent {
   /** Email of person who is the primary admin after the action */
@@ -500,11 +700,16 @@ export interface PrimaryAdminChangedEvent {
   previousAdminEmail?: string;
 }
 
-export const PrimaryAdminChangedEvent: Schema.Schema<PrimaryAdminChangedEvent> = Schema.suspend(() => Schema.Struct({
-  updatedAdminEmail: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-  previousAdminEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrimaryAdminChangedEvent" }) as any as Schema.Schema<PrimaryAdminChangedEvent>;
+export const PrimaryAdminChangedEvent: Schema.Schema<PrimaryAdminChangedEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updatedAdminEmail: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+      previousAdminEmail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrimaryAdminChangedEvent",
+  }) as any as Schema.Schema<PrimaryAdminChangedEvent>;
 
 export interface ActivityRule {
   /** Description of the rule. */
@@ -533,20 +738,24 @@ export interface ActivityRule {
   triggerSource?: string;
 }
 
-export const ActivityRule: Schema.Schema<ActivityRule> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  actionNames: Schema.optional(Schema.Array(Schema.String)),
-  supersedingAlert: Schema.optional(Schema.String),
-  windowSize: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  threshold: Schema.optional(Schema.String),
-  supersededAlerts: Schema.optional(Schema.Array(Schema.String)),
-  query: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  triggerSource: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActivityRule" }) as any as Schema.Schema<ActivityRule>;
+export const ActivityRule: Schema.Schema<ActivityRule> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    actionNames: Schema.optional(Schema.Array(Schema.String)),
+    supersedingAlert: Schema.optional(Schema.String),
+    windowSize: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    threshold: Schema.optional(Schema.String),
+    supersededAlerts: Schema.optional(Schema.Array(Schema.String)),
+    query: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    triggerSource: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ActivityRule",
+}) as any as Schema.Schema<ActivityRule>;
 
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -557,11 +766,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface DeviceCompromisedSecurityDetail {
   /** Required for iOS, empty for others. */
@@ -580,15 +793,20 @@ export interface DeviceCompromisedSecurityDetail {
   serialNumber?: string;
 }
 
-export const DeviceCompromisedSecurityDetail: Schema.Schema<DeviceCompromisedSecurityDetail> = Schema.suspend(() => Schema.Struct({
-  iosVendorId: Schema.optional(Schema.String),
-  deviceType: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  deviceCompromisedState: Schema.optional(Schema.String),
-  deviceId: Schema.optional(Schema.String),
-  deviceModel: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeviceCompromisedSecurityDetail" }) as any as Schema.Schema<DeviceCompromisedSecurityDetail>;
+export const DeviceCompromisedSecurityDetail: Schema.Schema<DeviceCompromisedSecurityDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      iosVendorId: Schema.optional(Schema.String),
+      deviceType: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      deviceCompromisedState: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+      deviceModel: Schema.optional(Schema.String),
+      serialNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeviceCompromisedSecurityDetail",
+  }) as any as Schema.Schema<DeviceCompromisedSecurityDetail>;
 
 export interface MaliciousEntity {
   /** The sender email address. */
@@ -599,11 +817,16 @@ export interface MaliciousEntity {
   displayName?: string;
 }
 
-export const MaliciousEntity: Schema.Schema<MaliciousEntity> = Schema.suspend(() => Schema.Struct({
-  fromHeader: Schema.optional(Schema.String),
-  entity: Schema.optional(User),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "MaliciousEntity" }) as any as Schema.Schema<MaliciousEntity>;
+export const MaliciousEntity: Schema.Schema<MaliciousEntity> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      fromHeader: Schema.optional(Schema.String),
+      entity: Schema.optional(User),
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MaliciousEntity",
+}) as any as Schema.Schema<MaliciousEntity>;
 
 export interface GmailMessageInfo {
   /** The recipient of this email. */
@@ -626,21 +849,30 @@ export interface GmailMessageInfo {
   messageBodySnippet?: string;
 }
 
-export const GmailMessageInfo: Schema.Schema<GmailMessageInfo> = Schema.suspend(() => Schema.Struct({
-  recipient: Schema.optional(Schema.String),
-  messageId: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  md5HashSubject: Schema.optional(Schema.String),
-  subjectText: Schema.optional(Schema.String),
-  sentTime: Schema.optional(Schema.String),
-  attachmentsSha256Hash: Schema.optional(Schema.Array(Schema.String)),
-  md5HashMessageBody: Schema.optional(Schema.String),
-  messageBodySnippet: Schema.optional(Schema.String),
-})).annotate({ identifier: "GmailMessageInfo" }) as any as Schema.Schema<GmailMessageInfo>;
+export const GmailMessageInfo: Schema.Schema<GmailMessageInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      recipient: Schema.optional(Schema.String),
+      messageId: Schema.optional(Schema.String),
+      date: Schema.optional(Schema.String),
+      md5HashSubject: Schema.optional(Schema.String),
+      subjectText: Schema.optional(Schema.String),
+      sentTime: Schema.optional(Schema.String),
+      attachmentsSha256Hash: Schema.optional(Schema.Array(Schema.String)),
+      md5HashMessageBody: Schema.optional(Schema.String),
+      messageBodySnippet: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GmailMessageInfo",
+}) as any as Schema.Schema<GmailMessageInfo>;
 
 export interface MailPhishing {
   /** System actions on the messages. */
-  systemActionType?: "SYSTEM_ACTION_TYPE_UNSPECIFIED" | "NO_OPERATION" | "REMOVED_FROM_INBOX" | (string & {});
+  systemActionType?:
+    | "SYSTEM_ACTION_TYPE_UNSPECIFIED"
+    | "NO_OPERATION"
+    | "REMOVED_FROM_INBOX"
+    | (string & {});
   /** The entity whose actions triggered a Gmail phishing alert. */
   maliciousEntity?: MaliciousEntity;
   /** The list of messages contained by this alert. */
@@ -651,25 +883,38 @@ export interface MailPhishing {
   domainId?: DomainId;
 }
 
-export const MailPhishing: Schema.Schema<MailPhishing> = Schema.suspend(() => Schema.Struct({
-  systemActionType: Schema.optional(Schema.String),
-  maliciousEntity: Schema.optional(MaliciousEntity),
-  messages: Schema.optional(Schema.Array(GmailMessageInfo)),
-  isInternal: Schema.optional(Schema.Boolean),
-  domainId: Schema.optional(DomainId),
-})).annotate({ identifier: "MailPhishing" }) as any as Schema.Schema<MailPhishing>;
+export const MailPhishing: Schema.Schema<MailPhishing> = Schema.suspend(() =>
+  Schema.Struct({
+    systemActionType: Schema.optional(Schema.String),
+    maliciousEntity: Schema.optional(MaliciousEntity),
+    messages: Schema.optional(Schema.Array(GmailMessageInfo)),
+    isInternal: Schema.optional(Schema.Boolean),
+    domainId: Schema.optional(DomainId),
+  }),
+).annotate({
+  identifier: "MailPhishing",
+}) as any as Schema.Schema<MailPhishing>;
 
 export interface VoicemailRecipientError {
   /** Reason for the error. */
-  invalidReason?: "EMAIL_INVALID_REASON_UNSPECIFIED" | "OUT_OF_QUOTA" | "RECIPIENT_DELETED" | (string & {});
+  invalidReason?:
+    | "EMAIL_INVALID_REASON_UNSPECIFIED"
+    | "OUT_OF_QUOTA"
+    | "RECIPIENT_DELETED"
+    | (string & {});
   /** Email address of the invalid recipient. This may be unavailable if the recipient was deleted. */
   email?: string;
 }
 
-export const VoicemailRecipientError: Schema.Schema<VoicemailRecipientError> = Schema.suspend(() => Schema.Struct({
-  invalidReason: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "VoicemailRecipientError" }) as any as Schema.Schema<VoicemailRecipientError>;
+export const VoicemailRecipientError: Schema.Schema<VoicemailRecipientError> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      invalidReason: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VoicemailRecipientError",
+  }) as any as Schema.Schema<VoicemailRecipientError>;
 
 export interface SSOProfileUpdatedEvent {
   /** sso profile name which got updated */
@@ -678,10 +923,15 @@ export interface SSOProfileUpdatedEvent {
   inboundSsoProfileChanges?: string;
 }
 
-export const SSOProfileUpdatedEvent: Schema.Schema<SSOProfileUpdatedEvent> = Schema.suspend(() => Schema.Struct({
-  inboundSsoProfileName: Schema.optional(Schema.String),
-  inboundSsoProfileChanges: Schema.optional(Schema.String),
-})).annotate({ identifier: "SSOProfileUpdatedEvent" }) as any as Schema.Schema<SSOProfileUpdatedEvent>;
+export const SSOProfileUpdatedEvent: Schema.Schema<SSOProfileUpdatedEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inboundSsoProfileName: Schema.optional(Schema.String),
+      inboundSsoProfileChanges: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SSOProfileUpdatedEvent",
+  }) as any as Schema.Schema<SSOProfileUpdatedEvent>;
 
 export interface Entity {
   /** Link to a Security Investigation Tool search based on this entity, if available. */
@@ -692,11 +942,13 @@ export interface Entity {
   name?: string;
 }
 
-export const Entity: Schema.Schema<Entity> = Schema.suspend(() => Schema.Struct({
-  link: Schema.optional(Schema.String),
-  values: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
+export const Entity: Schema.Schema<Entity> = Schema.suspend(() =>
+  Schema.Struct({
+    link: Schema.optional(Schema.String),
+    values: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
 
 export interface BatchDeleteAlertsResponse {
   /** The successful list of alert IDs. */
@@ -705,19 +957,29 @@ export interface BatchDeleteAlertsResponse {
   failedAlertStatus?: Record<string, Status>;
 }
 
-export const BatchDeleteAlertsResponse: Schema.Schema<BatchDeleteAlertsResponse> = Schema.suspend(() => Schema.Struct({
-  successAlertIds: Schema.optional(Schema.Array(Schema.String)),
-  failedAlertStatus: Schema.optional(Schema.Record(Schema.String, Status)),
-})).annotate({ identifier: "BatchDeleteAlertsResponse" }) as any as Schema.Schema<BatchDeleteAlertsResponse>;
+export const BatchDeleteAlertsResponse: Schema.Schema<BatchDeleteAlertsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      successAlertIds: Schema.optional(Schema.Array(Schema.String)),
+      failedAlertStatus: Schema.optional(Schema.Record(Schema.String, Status)),
+    }),
+  ).annotate({
+    identifier: "BatchDeleteAlertsResponse",
+  }) as any as Schema.Schema<BatchDeleteAlertsResponse>;
 
 export interface DlpRuleViolation {
   /** Details about the violated DLP rule. Admins can use the predefined detectors provided by Google Cloud DLP https://cloud.google.com/dlp/ when setting up a DLP rule. Matched Cloud DLP detectors in this violation if any will be captured in the MatchInfo.predefined_detector. */
   ruleViolationInfo?: RuleViolationInfo;
 }
 
-export const DlpRuleViolation: Schema.Schema<DlpRuleViolation> = Schema.suspend(() => Schema.Struct({
-  ruleViolationInfo: Schema.optional(RuleViolationInfo),
-})).annotate({ identifier: "DlpRuleViolation" }) as any as Schema.Schema<DlpRuleViolation>;
+export const DlpRuleViolation: Schema.Schema<DlpRuleViolation> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      ruleViolationInfo: Schema.optional(RuleViolationInfo),
+    }),
+).annotate({
+  identifier: "DlpRuleViolation",
+}) as any as Schema.Schema<DlpRuleViolation>;
 
 export interface SupportTicket {
   /** Link to support ticket */
@@ -726,10 +988,14 @@ export interface SupportTicket {
   ticketId?: string;
 }
 
-export const SupportTicket: Schema.Schema<SupportTicket> = Schema.suspend(() => Schema.Struct({
-  ticketUrl: Schema.optional(Schema.String),
-  ticketId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SupportTicket" }) as any as Schema.Schema<SupportTicket>;
+export const SupportTicket: Schema.Schema<SupportTicket> = Schema.suspend(() =>
+  Schema.Struct({
+    ticketUrl: Schema.optional(Schema.String),
+    ticketId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SupportTicket",
+}) as any as Schema.Schema<SupportTicket>;
 
 export interface AccessApproval {
   /** Scope of access, also known as a resource. This is further narrowed down by the product field. */
@@ -737,7 +1003,15 @@ export interface AccessApproval {
   /** Support tickets related to this Access Approvals request. Populated if there is an associated case number. */
   tickets?: Array<SupportTicket>;
   /** Justification for data access based on justification enums. */
-  justificationReason?: Array<"JUSTIFICATION_UNSPECIFIED" | "CUSTOMER_INITIATED_SUPPORT" | "GOOGLE_INITIATED_REVIEW" | "GOOGLE_INITIATED_SERVICE" | "THIRD_PARTY_DATA_REQUEST" | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT" | (string & {})>;
+  justificationReason?: Array<
+    | "JUSTIFICATION_UNSPECIFIED"
+    | "CUSTOMER_INITIATED_SUPPORT"
+    | "GOOGLE_INITIATED_REVIEW"
+    | "GOOGLE_INITIATED_SERVICE"
+    | "THIRD_PARTY_DATA_REQUEST"
+    | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+    | (string & {})
+  >;
   /** Products within scope of the Access Approvals request. */
   products?: Array<string>;
   /** ID of the Access Approvals request. This is a helpful field when requesting support from Google. */
@@ -746,14 +1020,19 @@ export interface AccessApproval {
   officeLocation?: string;
 }
 
-export const AccessApproval: Schema.Schema<AccessApproval> = Schema.suspend(() => Schema.Struct({
-  scope: Schema.optional(Schema.String),
-  tickets: Schema.optional(Schema.Array(SupportTicket)),
-  justificationReason: Schema.optional(Schema.Array(Schema.String)),
-  products: Schema.optional(Schema.Array(Schema.String)),
-  requestId: Schema.optional(Schema.String),
-  officeLocation: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccessApproval" }) as any as Schema.Schema<AccessApproval>;
+export const AccessApproval: Schema.Schema<AccessApproval> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      scope: Schema.optional(Schema.String),
+      tickets: Schema.optional(Schema.Array(SupportTicket)),
+      justificationReason: Schema.optional(Schema.Array(Schema.String)),
+      products: Schema.optional(Schema.Array(Schema.String)),
+      requestId: Schema.optional(Schema.String),
+      officeLocation: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AccessApproval",
+}) as any as Schema.Schema<AccessApproval>;
 
 export interface EntityList {
   /** List of entities affected by the alert. */
@@ -764,11 +1043,13 @@ export interface EntityList {
   name?: string;
 }
 
-export const EntityList: Schema.Schema<EntityList> = Schema.suspend(() => Schema.Struct({
-  entities: Schema.optional(Schema.Array(Entity)),
-  headers: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntityList" }) as any as Schema.Schema<EntityList>;
+export const EntityList: Schema.Schema<EntityList> = Schema.suspend(() =>
+  Schema.Struct({
+    entities: Schema.optional(Schema.Array(Entity)),
+    headers: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EntityList" }) as any as Schema.Schema<EntityList>;
 
 export interface AbuseDetected {
   /** List of abusive users/entities to be displayed in a table in the alert. */
@@ -778,15 +1059,23 @@ export interface AbuseDetected {
   /** Product that the abuse is originating from. */
   product?: string;
   /** Variation of AbuseDetected alerts. The variation_type determines the texts displayed the alert details. This differs from sub_alert_id because each sub alert can have multiple variation_types, representing different stages of the alert. */
-  variationType?: "ABUSE_DETECTED_VARIATION_TYPE_UNSPECIFIED" | "DRIVE_ABUSIVE_CONTENT" | "LIMITED_DISABLE" | (string & {});
+  variationType?:
+    | "ABUSE_DETECTED_VARIATION_TYPE_UNSPECIFIED"
+    | "DRIVE_ABUSIVE_CONTENT"
+    | "LIMITED_DISABLE"
+    | (string & {});
 }
 
-export const AbuseDetected: Schema.Schema<AbuseDetected> = Schema.suspend(() => Schema.Struct({
-  additionalDetails: Schema.optional(EntityList),
-  subAlertId: Schema.optional(Schema.String),
-  product: Schema.optional(Schema.String),
-  variationType: Schema.optional(Schema.String),
-})).annotate({ identifier: "AbuseDetected" }) as any as Schema.Schema<AbuseDetected>;
+export const AbuseDetected: Schema.Schema<AbuseDetected> = Schema.suspend(() =>
+  Schema.Struct({
+    additionalDetails: Schema.optional(EntityList),
+    subAlertId: Schema.optional(Schema.String),
+    product: Schema.optional(Schema.String),
+    variationType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AbuseDetected",
+}) as any as Schema.Schema<AbuseDetected>;
 
 export interface MandatoryServiceAnnouncement {
   /** One line summary of the announcement */
@@ -795,10 +1084,15 @@ export interface MandatoryServiceAnnouncement {
   description?: string;
 }
 
-export const MandatoryServiceAnnouncement: Schema.Schema<MandatoryServiceAnnouncement> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "MandatoryServiceAnnouncement" }) as any as Schema.Schema<MandatoryServiceAnnouncement>;
+export const MandatoryServiceAnnouncement: Schema.Schema<MandatoryServiceAnnouncement> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MandatoryServiceAnnouncement",
+  }) as any as Schema.Schema<MandatoryServiceAnnouncement>;
 
 export interface LoginDetails {
   /** Optional. The successful login time that is associated with the warning event. This isn't present for blocked login attempts. */
@@ -807,10 +1101,14 @@ export interface LoginDetails {
   ipAddress?: string;
 }
 
-export const LoginDetails: Schema.Schema<LoginDetails> = Schema.suspend(() => Schema.Struct({
-  loginTime: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoginDetails" }) as any as Schema.Schema<LoginDetails>;
+export const LoginDetails: Schema.Schema<LoginDetails> = Schema.suspend(() =>
+  Schema.Struct({
+    loginTime: Schema.optional(Schema.String),
+    ipAddress: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "LoginDetails",
+}) as any as Schema.Schema<LoginDetails>;
 
 export interface AccountWarning {
   /** Optional. Details of the login action associated with the warning event. This is only available for: * Suspicious login * Suspicious login (less secure app) * Suspicious programmatic login * User suspended (suspicious activity) */
@@ -819,16 +1117,21 @@ export interface AccountWarning {
   email?: string;
 }
 
-export const AccountWarning: Schema.Schema<AccountWarning> = Schema.suspend(() => Schema.Struct({
-  loginDetails: Schema.optional(LoginDetails),
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountWarning" }) as any as Schema.Schema<AccountWarning>;
+export const AccountWarning: Schema.Schema<AccountWarning> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      loginDetails: Schema.optional(LoginDetails),
+      email: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AccountWarning",
+}) as any as Schema.Schema<AccountWarning>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface DeviceCompromised {
   /** The email of the user this alert was created for. */
@@ -837,10 +1140,15 @@ export interface DeviceCompromised {
   events?: Array<DeviceCompromisedSecurityDetail>;
 }
 
-export const DeviceCompromised: Schema.Schema<DeviceCompromised> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  events: Schema.optional(Schema.Array(DeviceCompromisedSecurityDetail)),
-})).annotate({ identifier: "DeviceCompromised" }) as any as Schema.Schema<DeviceCompromised>;
+export const DeviceCompromised: Schema.Schema<DeviceCompromised> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      events: Schema.optional(Schema.Array(DeviceCompromisedSecurityDetail)),
+    }),
+  ).annotate({
+    identifier: "DeviceCompromised",
+  }) as any as Schema.Schema<DeviceCompromised>;
 
 export interface BatchUndeleteAlertsResponse {
   /** The successful list of alert IDs. */
@@ -849,19 +1157,29 @@ export interface BatchUndeleteAlertsResponse {
   failedAlertStatus?: Record<string, Status>;
 }
 
-export const BatchUndeleteAlertsResponse: Schema.Schema<BatchUndeleteAlertsResponse> = Schema.suspend(() => Schema.Struct({
-  successAlertIds: Schema.optional(Schema.Array(Schema.String)),
-  failedAlertStatus: Schema.optional(Schema.Record(Schema.String, Status)),
-})).annotate({ identifier: "BatchUndeleteAlertsResponse" }) as any as Schema.Schema<BatchUndeleteAlertsResponse>;
+export const BatchUndeleteAlertsResponse: Schema.Schema<BatchUndeleteAlertsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      successAlertIds: Schema.optional(Schema.Array(Schema.String)),
+      failedAlertStatus: Schema.optional(Schema.Record(Schema.String, Status)),
+    }),
+  ).annotate({
+    identifier: "BatchUndeleteAlertsResponse",
+  }) as any as Schema.Schema<BatchUndeleteAlertsResponse>;
 
 export interface VoicemailMisconfiguration {
   /** Issue(s) with voicemail recipients. */
   errors?: Array<VoicemailRecipientError>;
 }
 
-export const VoicemailMisconfiguration: Schema.Schema<VoicemailMisconfiguration> = Schema.suspend(() => Schema.Struct({
-  errors: Schema.optional(Schema.Array(VoicemailRecipientError)),
-})).annotate({ identifier: "VoicemailMisconfiguration" }) as any as Schema.Schema<VoicemailMisconfiguration>;
+export const VoicemailMisconfiguration: Schema.Schema<VoicemailMisconfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      errors: Schema.optional(Schema.Array(VoicemailRecipientError)),
+    }),
+  ).annotate({
+    identifier: "VoicemailMisconfiguration",
+  }) as any as Schema.Schema<VoicemailMisconfiguration>;
 
 export interface VoiceMisconfiguration {
   /** Link that the admin can follow to fix the issue. */
@@ -871,30 +1189,41 @@ export interface VoiceMisconfiguration {
   /** Name of the entity whose configuration is now invalid. */
   entityName?: string;
   /** Type of the entity whose configuration is now invalid. */
-  entityType?: "ENTITY_TYPE_UNSPECIFIED" | "AUTO_ATTENDANT" | "RING_GROUP" | (string & {});
+  entityType?:
+    | "ENTITY_TYPE_UNSPECIFIED"
+    | "AUTO_ATTENDANT"
+    | "RING_GROUP"
+    | (string & {});
   /** Issue(s) with members of a ring group. */
   membersMisconfiguration?: TransferMisconfiguration;
   /** Issue(s) with sending to voicemail. */
   voicemailMisconfiguration?: VoicemailMisconfiguration;
 }
 
-export const VoiceMisconfiguration: Schema.Schema<VoiceMisconfiguration> = Schema.suspend(() => Schema.Struct({
-  fixUri: Schema.optional(Schema.String),
-  transferMisconfiguration: Schema.optional(TransferMisconfiguration),
-  entityName: Schema.optional(Schema.String),
-  entityType: Schema.optional(Schema.String),
-  membersMisconfiguration: Schema.optional(TransferMisconfiguration),
-  voicemailMisconfiguration: Schema.optional(VoicemailMisconfiguration),
-})).annotate({ identifier: "VoiceMisconfiguration" }) as any as Schema.Schema<VoiceMisconfiguration>;
+export const VoiceMisconfiguration: Schema.Schema<VoiceMisconfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fixUri: Schema.optional(Schema.String),
+      transferMisconfiguration: Schema.optional(TransferMisconfiguration),
+      entityName: Schema.optional(Schema.String),
+      entityType: Schema.optional(Schema.String),
+      membersMisconfiguration: Schema.optional(TransferMisconfiguration),
+      voicemailMisconfiguration: Schema.optional(VoicemailMisconfiguration),
+    }),
+  ).annotate({
+    identifier: "VoiceMisconfiguration",
+  }) as any as Schema.Schema<VoiceMisconfiguration>;
 
 export interface UserChanges {
   /** Rule name */
   name?: string;
 }
 
-export const UserChanges: Schema.Schema<UserChanges> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserChanges" }) as any as Schema.Schema<UserChanges>;
+export const UserChanges: Schema.Schema<UserChanges> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserChanges" }) as any as Schema.Schema<UserChanges>;
 
 export interface AppsOutage {
   /** Link to the outage event in Google Workspace Status Dashboard */
@@ -906,22 +1235,33 @@ export interface AppsOutage {
   /** Timestamp when the outage is expected to be resolved, or has confirmed resolution. Provided only when known. */
   resolutionTime?: string;
   /** Current outage status. */
-  status?: "STATUS_UNSPECIFIED" | "NEW" | "ONGOING" | "RESOLVED" | "FALSE_POSITIVE" | "PARTIALLY_RESOLVED" | "MERGED" | "DOWNGRADED" | (string & {});
+  status?:
+    | "STATUS_UNSPECIFIED"
+    | "NEW"
+    | "ONGOING"
+    | "RESOLVED"
+    | "FALSE_POSITIVE"
+    | "PARTIALLY_RESOLVED"
+    | "MERGED"
+    | "DOWNGRADED"
+    | (string & {});
   /** Incident tracking ID. */
   incidentTrackingId?: string;
   /** Indicates new alert details under which the outage is communicated. Only populated when Status is MERGED. */
   mergeInfo?: MergeInfo;
 }
 
-export const AppsOutage: Schema.Schema<AppsOutage> = Schema.suspend(() => Schema.Struct({
-  dashboardUri: Schema.optional(Schema.String),
-  products: Schema.optional(Schema.Array(Schema.String)),
-  nextUpdateTime: Schema.optional(Schema.String),
-  resolutionTime: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  incidentTrackingId: Schema.optional(Schema.String),
-  mergeInfo: Schema.optional(MergeInfo),
-})).annotate({ identifier: "AppsOutage" }) as any as Schema.Schema<AppsOutage>;
+export const AppsOutage: Schema.Schema<AppsOutage> = Schema.suspend(() =>
+  Schema.Struct({
+    dashboardUri: Schema.optional(Schema.String),
+    products: Schema.optional(Schema.Array(Schema.String)),
+    nextUpdateTime: Schema.optional(Schema.String),
+    resolutionTime: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    incidentTrackingId: Schema.optional(Schema.String),
+    mergeInfo: Schema.optional(MergeInfo),
+  }),
+).annotate({ identifier: "AppsOutage" }) as any as Schema.Schema<AppsOutage>;
 
 export interface CloudPubsubTopic {
   /** The `name` field of a Cloud Pubsub [Topic] (https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics#Topic). */
@@ -930,46 +1270,67 @@ export interface CloudPubsubTopic {
   payloadFormat?: "PAYLOAD_FORMAT_UNSPECIFIED" | "JSON" | (string & {});
 }
 
-export const CloudPubsubTopic: Schema.Schema<CloudPubsubTopic> = Schema.suspend(() => Schema.Struct({
-  topicName: Schema.optional(Schema.String),
-  payloadFormat: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudPubsubTopic" }) as any as Schema.Schema<CloudPubsubTopic>;
+export const CloudPubsubTopic: Schema.Schema<CloudPubsubTopic> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      topicName: Schema.optional(Schema.String),
+      payloadFormat: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CloudPubsubTopic",
+}) as any as Schema.Schema<CloudPubsubTopic>;
 
 export interface Notification {
   /** A Google Cloud Pub/sub topic destination. */
   cloudPubsubTopic?: CloudPubsubTopic;
 }
 
-export const Notification: Schema.Schema<Notification> = Schema.suspend(() => Schema.Struct({
-  cloudPubsubTopic: Schema.optional(CloudPubsubTopic),
-})).annotate({ identifier: "Notification" }) as any as Schema.Schema<Notification>;
+export const Notification: Schema.Schema<Notification> = Schema.suspend(() =>
+  Schema.Struct({
+    cloudPubsubTopic: Schema.optional(CloudPubsubTopic),
+  }),
+).annotate({
+  identifier: "Notification",
+}) as any as Schema.Schema<Notification>;
 
 export interface AppMakerSqlSetupNotification {
   /** List of applications with requests for default SQL set up. */
   requestInfo?: Array<RequestInfo>;
 }
 
-export const AppMakerSqlSetupNotification: Schema.Schema<AppMakerSqlSetupNotification> = Schema.suspend(() => Schema.Struct({
-  requestInfo: Schema.optional(Schema.Array(RequestInfo)),
-})).annotate({ identifier: "AppMakerSqlSetupNotification" }) as any as Schema.Schema<AppMakerSqlSetupNotification>;
+export const AppMakerSqlSetupNotification: Schema.Schema<AppMakerSqlSetupNotification> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestInfo: Schema.optional(Schema.Array(RequestInfo)),
+    }),
+  ).annotate({
+    identifier: "AppMakerSqlSetupNotification",
+  }) as any as Schema.Schema<AppMakerSqlSetupNotification>;
 
 export interface SuperAdminPasswordResetEvent {
   /** email of person whose password was reset */
   userEmail?: string;
 }
 
-export const SuperAdminPasswordResetEvent: Schema.Schema<SuperAdminPasswordResetEvent> = Schema.suspend(() => Schema.Struct({
-  userEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "SuperAdminPasswordResetEvent" }) as any as Schema.Schema<SuperAdminPasswordResetEvent>;
+export const SuperAdminPasswordResetEvent: Schema.Schema<SuperAdminPasswordResetEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userEmail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SuperAdminPasswordResetEvent",
+  }) as any as Schema.Schema<SuperAdminPasswordResetEvent>;
 
 export interface Settings {
   /** The list of notifications. */
   notifications?: Array<Notification>;
 }
 
-export const Settings: Schema.Schema<Settings> = Schema.suspend(() => Schema.Struct({
-  notifications: Schema.optional(Schema.Array(Notification)),
-})).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
+export const Settings: Schema.Schema<Settings> = Schema.suspend(() =>
+  Schema.Struct({
+    notifications: Schema.optional(Schema.Array(Notification)),
+  }),
+).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
 
 export interface BatchUndeleteAlertsRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
@@ -978,19 +1339,29 @@ export interface BatchUndeleteAlertsRequest {
   alertId?: Array<string>;
 }
 
-export const BatchUndeleteAlertsRequest: Schema.Schema<BatchUndeleteAlertsRequest> = Schema.suspend(() => Schema.Struct({
-  customerId: Schema.optional(Schema.String),
-  alertId: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchUndeleteAlertsRequest" }) as any as Schema.Schema<BatchUndeleteAlertsRequest>;
+export const BatchUndeleteAlertsRequest: Schema.Schema<BatchUndeleteAlertsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customerId: Schema.optional(Schema.String),
+      alertId: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchUndeleteAlertsRequest",
+  }) as any as Schema.Schema<BatchUndeleteAlertsRequest>;
 
 export interface SSOProfileCreatedEvent {
   /** sso profile name which got created */
   inboundSsoProfileName?: string;
 }
 
-export const SSOProfileCreatedEvent: Schema.Schema<SSOProfileCreatedEvent> = Schema.suspend(() => Schema.Struct({
-  inboundSsoProfileName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SSOProfileCreatedEvent" }) as any as Schema.Schema<SSOProfileCreatedEvent>;
+export const SSOProfileCreatedEvent: Schema.Schema<SSOProfileCreatedEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inboundSsoProfileName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SSOProfileCreatedEvent",
+  }) as any as Schema.Schema<SSOProfileCreatedEvent>;
 
 export interface SensitiveAdminAction {
   /** Email of person who performed the action */
@@ -1009,51 +1380,89 @@ export interface SensitiveAdminAction {
   primaryAdminChangedEvent?: PrimaryAdminChangedEvent;
 }
 
-export const SensitiveAdminAction: Schema.Schema<SensitiveAdminAction> = Schema.suspend(() => Schema.Struct({
-  actorEmail: Schema.optional(Schema.String),
-  ssoProfileUpdatedEvent: Schema.optional(SSOProfileUpdatedEvent),
-  eventTime: Schema.optional(Schema.String),
-  ssoProfileCreatedEvent: Schema.optional(SSOProfileCreatedEvent),
-  superAdminPasswordResetEvent: Schema.optional(SuperAdminPasswordResetEvent),
-  ssoProfileDeletedEvent: Schema.optional(SSOProfileDeletedEvent),
-  primaryAdminChangedEvent: Schema.optional(PrimaryAdminChangedEvent),
-})).annotate({ identifier: "SensitiveAdminAction" }) as any as Schema.Schema<SensitiveAdminAction>;
+export const SensitiveAdminAction: Schema.Schema<SensitiveAdminAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actorEmail: Schema.optional(Schema.String),
+      ssoProfileUpdatedEvent: Schema.optional(SSOProfileUpdatedEvent),
+      eventTime: Schema.optional(Schema.String),
+      ssoProfileCreatedEvent: Schema.optional(SSOProfileCreatedEvent),
+      superAdminPasswordResetEvent: Schema.optional(
+        SuperAdminPasswordResetEvent,
+      ),
+      ssoProfileDeletedEvent: Schema.optional(SSOProfileDeletedEvent),
+      primaryAdminChangedEvent: Schema.optional(PrimaryAdminChangedEvent),
+    }),
+  ).annotate({
+    identifier: "SensitiveAdminAction",
+  }) as any as Schema.Schema<SensitiveAdminAction>;
 
 export interface AccountSuspensionDetails {
   /** The name of the product being abused. This is restricted to only the following values: "Gmail" "Google Workspace" "Payments" "Voice" "YouTube" "Other" */
   productName?: string;
   /** The reason why this account is receiving an account suspension warning. */
-  abuseReason?: "ACCOUNT_SUSPENSION_ABUSE_REASON_UNSPECIFIED" | "TOS_VIOLATION" | "SPAM" | "PHISHING" | "TRAFFIC_PUMPING" | "FRAUD" | "NUMBER_HARVESTING" | "PAYMENTS_FRAUD" | "UNWANTED_CONTENT" | "UNQUALIFIED_EDU" | (string & {});
+  abuseReason?:
+    | "ACCOUNT_SUSPENSION_ABUSE_REASON_UNSPECIFIED"
+    | "TOS_VIOLATION"
+    | "SPAM"
+    | "PHISHING"
+    | "TRAFFIC_PUMPING"
+    | "FRAUD"
+    | "NUMBER_HARVESTING"
+    | "PAYMENTS_FRAUD"
+    | "UNWANTED_CONTENT"
+    | "UNQUALIFIED_EDU"
+    | (string & {});
 }
 
-export const AccountSuspensionDetails: Schema.Schema<AccountSuspensionDetails> = Schema.suspend(() => Schema.Struct({
-  productName: Schema.optional(Schema.String),
-  abuseReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountSuspensionDetails" }) as any as Schema.Schema<AccountSuspensionDetails>;
+export const AccountSuspensionDetails: Schema.Schema<AccountSuspensionDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      productName: Schema.optional(Schema.String),
+      abuseReason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountSuspensionDetails",
+  }) as any as Schema.Schema<AccountSuspensionDetails>;
 
 export interface AccountSuspensionWarning {
   /** Account suspension warning state. */
-  state?: "ACCOUNT_SUSPENSION_WARNING_STATE_UNSPECIFIED" | "WARNING" | "SUSPENDED" | "APPEAL_APPROVED" | "APPEAL_SUBMITTED" | (string & {});
+  state?:
+    | "ACCOUNT_SUSPENSION_WARNING_STATE_UNSPECIFIED"
+    | "WARNING"
+    | "SUSPENDED"
+    | "APPEAL_APPROVED"
+    | "APPEAL_SUBMITTED"
+    | (string & {});
   /** Details about why an account is being suspended. */
   suspensionDetails?: Array<AccountSuspensionDetails>;
   /** The amount of time remaining to appeal an imminent suspension. After this window has elapsed, the account will be suspended. Only populated if the account suspension is in WARNING state. */
   appealWindow?: string;
 }
 
-export const AccountSuspensionWarning: Schema.Schema<AccountSuspensionWarning> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  suspensionDetails: Schema.optional(Schema.Array(AccountSuspensionDetails)),
-  appealWindow: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountSuspensionWarning" }) as any as Schema.Schema<AccountSuspensionWarning>;
+export const AccountSuspensionWarning: Schema.Schema<AccountSuspensionWarning> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      suspensionDetails: Schema.optional(
+        Schema.Array(AccountSuspensionDetails),
+      ),
+      appealWindow: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountSuspensionWarning",
+  }) as any as Schema.Schema<AccountSuspensionWarning>;
 
 export interface Attachment {
   /** A CSV file attachment. */
   csv?: Csv;
 }
 
-export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() => Schema.Struct({
-  csv: Schema.optional(Csv),
-})).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
+export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() =>
+  Schema.Struct({
+    csv: Schema.optional(Csv),
+  }),
+).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
 
 export interface GoogleOperations {
   /** A one-line incident description. */
@@ -1070,14 +1479,19 @@ export interface GoogleOperations {
   header?: string;
 }
 
-export const GoogleOperations: Schema.Schema<GoogleOperations> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  affectedUserEmails: Schema.optional(Schema.Array(Schema.String)),
-  description: Schema.optional(Schema.String),
-  attachmentData: Schema.optional(Attachment),
-  domain: Schema.optional(Schema.String),
-  header: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleOperations" }) as any as Schema.Schema<GoogleOperations>;
+export const GoogleOperations: Schema.Schema<GoogleOperations> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      affectedUserEmails: Schema.optional(Schema.Array(Schema.String)),
+      description: Schema.optional(Schema.String),
+      attachmentData: Schema.optional(Attachment),
+      domain: Schema.optional(Schema.String),
+      header: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GoogleOperations",
+}) as any as Schema.Schema<GoogleOperations>;
 
 export interface SuspiciousActivity {
   /** Required. The list of security events. */
@@ -1086,10 +1500,15 @@ export interface SuspiciousActivity {
   email?: string;
 }
 
-export const SuspiciousActivity: Schema.Schema<SuspiciousActivity> = Schema.suspend(() => Schema.Struct({
-  events: Schema.optional(Schema.Array(SuspiciousActivitySecurityDetail)),
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "SuspiciousActivity" }) as any as Schema.Schema<SuspiciousActivity>;
+export const SuspiciousActivity: Schema.Schema<SuspiciousActivity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      events: Schema.optional(Schema.Array(SuspiciousActivitySecurityDetail)),
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SuspiciousActivity",
+  }) as any as Schema.Schema<SuspiciousActivity>;
 
 export interface DeviceManagementRule {
   /** Obfuscated ID of the owner of the device */
@@ -1114,18 +1533,23 @@ export interface DeviceManagementRule {
   id?: string;
 }
 
-export const DeviceManagementRule: Schema.Schema<DeviceManagementRule> = Schema.suspend(() => Schema.Struct({
-  ownerId: Schema.optional(Schema.String),
-  deviceId: Schema.optional(Schema.String),
-  iosVendorId: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  deviceType: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  deviceModel: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  ruleAction: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeviceManagementRule" }) as any as Schema.Schema<DeviceManagementRule>;
+export const DeviceManagementRule: Schema.Schema<DeviceManagementRule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ownerId: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+      iosVendorId: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      deviceType: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      deviceModel: Schema.optional(Schema.String),
+      serialNumber: Schema.optional(Schema.String),
+      ruleAction: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeviceManagementRule",
+  }) as any as Schema.Schema<DeviceManagementRule>;
 
 export interface PhishingSpike {
   /** The domain ID. */
@@ -1138,12 +1562,16 @@ export interface PhishingSpike {
   isInternal?: boolean;
 }
 
-export const PhishingSpike: Schema.Schema<PhishingSpike> = Schema.suspend(() => Schema.Struct({
-  domainId: Schema.optional(DomainId),
-  maliciousEntity: Schema.optional(MaliciousEntity),
-  messages: Schema.optional(Schema.Array(GmailMessageInfo)),
-  isInternal: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PhishingSpike" }) as any as Schema.Schema<PhishingSpike>;
+export const PhishingSpike: Schema.Schema<PhishingSpike> = Schema.suspend(() =>
+  Schema.Struct({
+    domainId: Schema.optional(DomainId),
+    maliciousEntity: Schema.optional(MaliciousEntity),
+    messages: Schema.optional(Schema.Array(GmailMessageInfo)),
+    isInternal: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "PhishingSpike",
+}) as any as Schema.Schema<PhishingSpike>;
 
 export interface BadWhitelist {
   /** The entity whose actions triggered a Gmail phishing alert. */
@@ -1156,21 +1584,30 @@ export interface BadWhitelist {
   domainId?: DomainId;
 }
 
-export const BadWhitelist: Schema.Schema<BadWhitelist> = Schema.suspend(() => Schema.Struct({
-  maliciousEntity: Schema.optional(MaliciousEntity),
-  messages: Schema.optional(Schema.Array(GmailMessageInfo)),
-  sourceIp: Schema.optional(Schema.String),
-  domainId: Schema.optional(DomainId),
-})).annotate({ identifier: "BadWhitelist" }) as any as Schema.Schema<BadWhitelist>;
+export const BadWhitelist: Schema.Schema<BadWhitelist> = Schema.suspend(() =>
+  Schema.Struct({
+    maliciousEntity: Schema.optional(MaliciousEntity),
+    messages: Schema.optional(Schema.Array(GmailMessageInfo)),
+    sourceIp: Schema.optional(Schema.String),
+    domainId: Schema.optional(DomainId),
+  }),
+).annotate({
+  identifier: "BadWhitelist",
+}) as any as Schema.Schema<BadWhitelist>;
 
 export interface StateSponsoredAttack {
   /** The email of the user this incident was created for. */
   email?: string;
 }
 
-export const StateSponsoredAttack: Schema.Schema<StateSponsoredAttack> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "StateSponsoredAttack" }) as any as Schema.Schema<StateSponsoredAttack>;
+export const StateSponsoredAttack: Schema.Schema<StateSponsoredAttack> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StateSponsoredAttack",
+  }) as any as Schema.Schema<StateSponsoredAttack>;
 
 // ==========================================================================
 // Operations
@@ -1197,7 +1634,12 @@ export const DeleteAlertsResponse = Empty;
 export type DeleteAlertsError = DefaultErrors;
 
 /** Marks the specified alert for deletion. An alert that has been marked for deletion is removed from Alert Center after 30 days. Marking an alert for deletion has no effect on an alert which has already been marked for deletion. Attempting to mark a nonexistent alert for deletion results in a `NOT_FOUND` error. */
-export const deleteAlerts: API.OperationMethod<DeleteAlertsRequest, DeleteAlertsResponse, DeleteAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAlerts: API.OperationMethod<
+  DeleteAlertsRequest,
+  DeleteAlertsResponse,
+  DeleteAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAlertsRequest,
   output: DeleteAlertsResponse,
   errors: [],
@@ -1214,7 +1656,11 @@ export const UndeleteAlertsRequest = Schema.Struct({
   alertId: Schema.String.pipe(T.HttpPath("alertId")),
   body: Schema.optional(UndeleteAlertRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/alerts/{alertId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/alerts/{alertId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteAlertsRequest>;
 
@@ -1224,7 +1670,12 @@ export const UndeleteAlertsResponse = Alert;
 export type UndeleteAlertsError = DefaultErrors;
 
 /** Restores, or "undeletes", an alert that was marked for deletion within the past 30 days. Attempting to undelete an alert which was marked for deletion over 30 days ago (which has been removed from the Alert Center database) or a nonexistent alert returns a `NOT_FOUND` error. Attempting to undelete an alert which has not been marked for deletion has no effect. */
-export const undeleteAlerts: API.OperationMethod<UndeleteAlertsRequest, UndeleteAlertsResponse, UndeleteAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteAlerts: API.OperationMethod<
+  UndeleteAlertsRequest,
+  UndeleteAlertsResponse,
+  UndeleteAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteAlertsRequest,
   output: UndeleteAlertsResponse,
   errors: [],
@@ -1248,7 +1699,12 @@ export const BatchDeleteAlertsResponse_Op = BatchDeleteAlertsResponse;
 export type BatchDeleteAlertsError = DefaultErrors;
 
 /** Performs batch delete operation on alerts. */
-export const batchDeleteAlerts: API.OperationMethod<BatchDeleteAlertsRequest_Op, BatchDeleteAlertsResponse_Op, BatchDeleteAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchDeleteAlerts: API.OperationMethod<
+  BatchDeleteAlertsRequest_Op,
+  BatchDeleteAlertsResponse_Op,
+  BatchDeleteAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchDeleteAlertsRequest_Op,
   output: BatchDeleteAlertsResponse_Op,
   errors: [],
@@ -1262,7 +1718,11 @@ export interface BatchUndeleteAlertsRequest_Op {
 export const BatchUndeleteAlertsRequest_Op = Schema.Struct({
   body: Schema.optional(BatchUndeleteAlertsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/alerts:batchUndelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/alerts:batchUndelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchUndeleteAlertsRequest_Op>;
 
@@ -1272,7 +1732,12 @@ export const BatchUndeleteAlertsResponse_Op = BatchUndeleteAlertsResponse;
 export type BatchUndeleteAlertsError = DefaultErrors;
 
 /** Performs batch undelete operation on alerts. */
-export const batchUndeleteAlerts: API.OperationMethod<BatchUndeleteAlertsRequest_Op, BatchUndeleteAlertsResponse_Op, BatchUndeleteAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchUndeleteAlerts: API.OperationMethod<
+  BatchUndeleteAlertsRequest_Op,
+  BatchUndeleteAlertsResponse_Op,
+  BatchUndeleteAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchUndeleteAlertsRequest_Op,
   output: BatchUndeleteAlertsResponse_Op,
   errors: [],
@@ -1299,7 +1764,12 @@ export const GetMetadataAlertsResponse = AlertMetadata;
 export type GetMetadataAlertsError = DefaultErrors;
 
 /** Returns the metadata of an alert. Attempting to get metadata for a non-existent alert returns `NOT_FOUND` error. */
-export const getMetadataAlerts: API.OperationMethod<GetMetadataAlertsRequest, GetMetadataAlertsResponse, GetMetadataAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getMetadataAlerts: API.OperationMethod<
+  GetMetadataAlertsRequest,
+  GetMetadataAlertsResponse,
+  GetMetadataAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetMetadataAlertsRequest,
   output: GetMetadataAlertsResponse,
   errors: [],
@@ -1335,7 +1805,12 @@ export const ListAlertsResponse_Op = ListAlertsResponse;
 export type ListAlertsError = DefaultErrors;
 
 /** Lists the alerts. */
-export const listAlerts: API.PaginatedOperationMethod<ListAlertsRequest, ListAlertsResponse_Op, ListAlertsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAlerts: API.PaginatedOperationMethod<
+  ListAlertsRequest,
+  ListAlertsResponse_Op,
+  ListAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAlertsRequest,
   output: ListAlertsResponse_Op,
   errors: [],
@@ -1366,7 +1841,12 @@ export const GetAlertsResponse = Alert;
 export type GetAlertsError = DefaultErrors;
 
 /** Gets the specified alert. Attempting to get a nonexistent alert returns `NOT_FOUND` error. */
-export const getAlerts: API.OperationMethod<GetAlertsRequest, GetAlertsResponse, GetAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAlerts: API.OperationMethod<
+  GetAlertsRequest,
+  GetAlertsResponse,
+  GetAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAlertsRequest,
   output: GetAlertsResponse,
   errors: [],
@@ -1386,7 +1866,11 @@ export const CreateAlertsFeedbackRequest = Schema.Struct({
   alertId: Schema.String.pipe(T.HttpPath("alertId")),
   body: Schema.optional(AlertFeedback).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/alerts/{alertId}/feedback", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/alerts/{alertId}/feedback",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAlertsFeedbackRequest>;
 
@@ -1396,7 +1880,12 @@ export const CreateAlertsFeedbackResponse = AlertFeedback;
 export type CreateAlertsFeedbackError = DefaultErrors;
 
 /** Creates new feedback for an alert. Attempting to create a feedback for a non-existent alert returns `NOT_FOUND` error. Attempting to create a feedback for an alert that is marked for deletion returns `FAILED_PRECONDITION' error. */
-export const createAlertsFeedback: API.OperationMethod<CreateAlertsFeedbackRequest, CreateAlertsFeedbackResponse, CreateAlertsFeedbackError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAlertsFeedback: API.OperationMethod<
+  CreateAlertsFeedbackRequest,
+  CreateAlertsFeedbackResponse,
+  CreateAlertsFeedbackError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAlertsFeedbackRequest,
   output: CreateAlertsFeedbackResponse,
   errors: [],
@@ -1426,7 +1915,12 @@ export const ListAlertsFeedbackResponse = ListAlertFeedbackResponse;
 export type ListAlertsFeedbackError = DefaultErrors;
 
 /** Lists all the feedback for an alert. Attempting to list feedbacks for a non-existent alert returns `NOT_FOUND` error. */
-export const listAlertsFeedback: API.OperationMethod<ListAlertsFeedbackRequest, ListAlertsFeedbackResponse, ListAlertsFeedbackError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listAlertsFeedback: API.OperationMethod<
+  ListAlertsFeedbackRequest,
+  ListAlertsFeedbackResponse,
+  ListAlertsFeedbackError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListAlertsFeedbackRequest,
   output: ListAlertsFeedbackResponse,
   errors: [],
@@ -1450,7 +1944,12 @@ export const GetSettingsV1beta1Response = Settings;
 export type GetSettingsV1beta1Error = DefaultErrors;
 
 /** Returns customer-level settings. */
-export const getSettingsV1beta1: API.OperationMethod<GetSettingsV1beta1Request, GetSettingsV1beta1Response, GetSettingsV1beta1Error, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSettingsV1beta1: API.OperationMethod<
+  GetSettingsV1beta1Request,
+  GetSettingsV1beta1Response,
+  GetSettingsV1beta1Error,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSettingsV1beta1Request,
   output: GetSettingsV1beta1Response,
   errors: [],
@@ -1477,9 +1976,13 @@ export const UpdateSettingsV1beta1Response = Settings;
 export type UpdateSettingsV1beta1Error = DefaultErrors;
 
 /** Updates the customer-level settings. */
-export const updateSettingsV1beta1: API.OperationMethod<UpdateSettingsV1beta1Request, UpdateSettingsV1beta1Response, UpdateSettingsV1beta1Error, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSettingsV1beta1: API.OperationMethod<
+  UpdateSettingsV1beta1Request,
+  UpdateSettingsV1beta1Response,
+  UpdateSettingsV1beta1Error,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSettingsV1beta1Request,
   output: UpdateSettingsV1beta1Response,
   errors: [],
 }));
-

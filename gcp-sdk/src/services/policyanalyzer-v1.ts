@@ -30,10 +30,15 @@ export interface GoogleCloudPolicyanalyzerV1ObservationPeriod {
   endTime?: string;
 }
 
-export const GoogleCloudPolicyanalyzerV1ObservationPeriod: Schema.Schema<GoogleCloudPolicyanalyzerV1ObservationPeriod> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicyanalyzerV1ObservationPeriod" }) as any as Schema.Schema<GoogleCloudPolicyanalyzerV1ObservationPeriod>;
+export const GoogleCloudPolicyanalyzerV1ObservationPeriod: Schema.Schema<GoogleCloudPolicyanalyzerV1ObservationPeriod> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicyanalyzerV1ObservationPeriod",
+  }) as any as Schema.Schema<GoogleCloudPolicyanalyzerV1ObservationPeriod>;
 
 export interface GoogleCloudPolicyanalyzerV1Activity {
   /** The full resource name that identifies the resource. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
@@ -46,12 +51,19 @@ export interface GoogleCloudPolicyanalyzerV1Activity {
   activityType?: string;
 }
 
-export const GoogleCloudPolicyanalyzerV1Activity: Schema.Schema<GoogleCloudPolicyanalyzerV1Activity> = Schema.suspend(() => Schema.Struct({
-  fullResourceName: Schema.optional(Schema.String),
-  observationPeriod: Schema.optional(GoogleCloudPolicyanalyzerV1ObservationPeriod),
-  activity: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  activityType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicyanalyzerV1Activity" }) as any as Schema.Schema<GoogleCloudPolicyanalyzerV1Activity>;
+export const GoogleCloudPolicyanalyzerV1Activity: Schema.Schema<GoogleCloudPolicyanalyzerV1Activity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fullResourceName: Schema.optional(Schema.String),
+      observationPeriod: Schema.optional(
+        GoogleCloudPolicyanalyzerV1ObservationPeriod,
+      ),
+      activity: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      activityType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicyanalyzerV1Activity",
+  }) as any as Schema.Schema<GoogleCloudPolicyanalyzerV1Activity>;
 
 export interface GoogleCloudPolicyanalyzerV1QueryActivityResponse {
   /** The set of activities that match the filter included in the request. */
@@ -60,10 +72,17 @@ export interface GoogleCloudPolicyanalyzerV1QueryActivityResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudPolicyanalyzerV1QueryActivityResponse: Schema.Schema<GoogleCloudPolicyanalyzerV1QueryActivityResponse> = Schema.suspend(() => Schema.Struct({
-  activities: Schema.optional(Schema.Array(GoogleCloudPolicyanalyzerV1Activity)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicyanalyzerV1QueryActivityResponse" }) as any as Schema.Schema<GoogleCloudPolicyanalyzerV1QueryActivityResponse>;
+export const GoogleCloudPolicyanalyzerV1QueryActivityResponse: Schema.Schema<GoogleCloudPolicyanalyzerV1QueryActivityResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      activities: Schema.optional(
+        Schema.Array(GoogleCloudPolicyanalyzerV1Activity),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicyanalyzerV1QueryActivityResponse",
+  }) as any as Schema.Schema<GoogleCloudPolicyanalyzerV1QueryActivityResponse>;
 
 // ==========================================================================
 // Operations
@@ -80,23 +99,35 @@ export interface QueryOrganizationsLocationsActivityTypesActivitiesRequest {
   pageToken?: string;
 }
 
-export const QueryOrganizationsLocationsActivityTypesActivitiesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/activityTypes/{activityTypesId}/activities:query" }),
-  svc,
-) as unknown as Schema.Schema<QueryOrganizationsLocationsActivityTypesActivitiesRequest>;
+export const QueryOrganizationsLocationsActivityTypesActivitiesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/activityTypes/{activityTypesId}/activities:query",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryOrganizationsLocationsActivityTypesActivitiesRequest>;
 
-export type QueryOrganizationsLocationsActivityTypesActivitiesResponse = GoogleCloudPolicyanalyzerV1QueryActivityResponse;
-export const QueryOrganizationsLocationsActivityTypesActivitiesResponse = GoogleCloudPolicyanalyzerV1QueryActivityResponse;
+export type QueryOrganizationsLocationsActivityTypesActivitiesResponse =
+  GoogleCloudPolicyanalyzerV1QueryActivityResponse;
+export const QueryOrganizationsLocationsActivityTypesActivitiesResponse =
+  GoogleCloudPolicyanalyzerV1QueryActivityResponse;
 
-export type QueryOrganizationsLocationsActivityTypesActivitiesError = DefaultErrors;
+export type QueryOrganizationsLocationsActivityTypesActivitiesError =
+  DefaultErrors;
 
 /** Queries policy activities on Google Cloud resources. */
-export const queryOrganizationsLocationsActivityTypesActivities: API.PaginatedOperationMethod<QueryOrganizationsLocationsActivityTypesActivitiesRequest, QueryOrganizationsLocationsActivityTypesActivitiesResponse, QueryOrganizationsLocationsActivityTypesActivitiesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const queryOrganizationsLocationsActivityTypesActivities: API.PaginatedOperationMethod<
+  QueryOrganizationsLocationsActivityTypesActivitiesRequest,
+  QueryOrganizationsLocationsActivityTypesActivitiesResponse,
+  QueryOrganizationsLocationsActivityTypesActivitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: QueryOrganizationsLocationsActivityTypesActivitiesRequest,
   output: QueryOrganizationsLocationsActivityTypesActivitiesResponse,
   errors: [],
@@ -117,23 +148,34 @@ export interface QueryProjectsLocationsActivityTypesActivitiesRequest {
   pageToken?: string;
 }
 
-export const QueryProjectsLocationsActivityTypesActivitiesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/activityTypes/{activityTypesId}/activities:query" }),
-  svc,
-) as unknown as Schema.Schema<QueryProjectsLocationsActivityTypesActivitiesRequest>;
+export const QueryProjectsLocationsActivityTypesActivitiesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/activityTypes/{activityTypesId}/activities:query",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryProjectsLocationsActivityTypesActivitiesRequest>;
 
-export type QueryProjectsLocationsActivityTypesActivitiesResponse = GoogleCloudPolicyanalyzerV1QueryActivityResponse;
-export const QueryProjectsLocationsActivityTypesActivitiesResponse = GoogleCloudPolicyanalyzerV1QueryActivityResponse;
+export type QueryProjectsLocationsActivityTypesActivitiesResponse =
+  GoogleCloudPolicyanalyzerV1QueryActivityResponse;
+export const QueryProjectsLocationsActivityTypesActivitiesResponse =
+  GoogleCloudPolicyanalyzerV1QueryActivityResponse;
 
 export type QueryProjectsLocationsActivityTypesActivitiesError = DefaultErrors;
 
 /** Queries policy activities on Google Cloud resources. */
-export const queryProjectsLocationsActivityTypesActivities: API.PaginatedOperationMethod<QueryProjectsLocationsActivityTypesActivitiesRequest, QueryProjectsLocationsActivityTypesActivitiesResponse, QueryProjectsLocationsActivityTypesActivitiesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const queryProjectsLocationsActivityTypesActivities: API.PaginatedOperationMethod<
+  QueryProjectsLocationsActivityTypesActivitiesRequest,
+  QueryProjectsLocationsActivityTypesActivitiesResponse,
+  QueryProjectsLocationsActivityTypesActivitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: QueryProjectsLocationsActivityTypesActivitiesRequest,
   output: QueryProjectsLocationsActivityTypesActivitiesResponse,
   errors: [],
@@ -154,23 +196,34 @@ export interface QueryFoldersLocationsActivityTypesActivitiesRequest {
   filter?: string;
 }
 
-export const QueryFoldersLocationsActivityTypesActivitiesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/activityTypes/{activityTypesId}/activities:query" }),
-  svc,
-) as unknown as Schema.Schema<QueryFoldersLocationsActivityTypesActivitiesRequest>;
+export const QueryFoldersLocationsActivityTypesActivitiesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/folders/{foldersId}/locations/{locationsId}/activityTypes/{activityTypesId}/activities:query",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryFoldersLocationsActivityTypesActivitiesRequest>;
 
-export type QueryFoldersLocationsActivityTypesActivitiesResponse = GoogleCloudPolicyanalyzerV1QueryActivityResponse;
-export const QueryFoldersLocationsActivityTypesActivitiesResponse = GoogleCloudPolicyanalyzerV1QueryActivityResponse;
+export type QueryFoldersLocationsActivityTypesActivitiesResponse =
+  GoogleCloudPolicyanalyzerV1QueryActivityResponse;
+export const QueryFoldersLocationsActivityTypesActivitiesResponse =
+  GoogleCloudPolicyanalyzerV1QueryActivityResponse;
 
 export type QueryFoldersLocationsActivityTypesActivitiesError = DefaultErrors;
 
 /** Queries policy activities on Google Cloud resources. */
-export const queryFoldersLocationsActivityTypesActivities: API.PaginatedOperationMethod<QueryFoldersLocationsActivityTypesActivitiesRequest, QueryFoldersLocationsActivityTypesActivitiesResponse, QueryFoldersLocationsActivityTypesActivitiesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const queryFoldersLocationsActivityTypesActivities: API.PaginatedOperationMethod<
+  QueryFoldersLocationsActivityTypesActivitiesRequest,
+  QueryFoldersLocationsActivityTypesActivitiesResponse,
+  QueryFoldersLocationsActivityTypesActivitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: QueryFoldersLocationsActivityTypesActivitiesRequest,
   output: QueryFoldersLocationsActivityTypesActivitiesResponse,
   errors: [],
@@ -179,4 +232,3 @@ export const queryFoldersLocationsActivityTypesActivities: API.PaginatedOperatio
     outputToken: "nextPageToken",
   },
 }));
-

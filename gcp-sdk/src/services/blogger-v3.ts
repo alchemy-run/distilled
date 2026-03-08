@@ -35,7 +35,12 @@ export interface Comment {
   /** RFC 3339 date-time when this comment was published. */
   published?: string;
   /** The author of this Comment. */
-  author?: { displayName?: string; image?: { url?: string }; id?: string; url?: string };
+  author?: {
+    displayName?: string;
+    image?: { url?: string };
+    id?: string;
+    url?: string;
+  };
   /** Data about the post containing this comment. */
   post?: { id?: string };
   /** Data about the blog containing this comment. */
@@ -48,19 +53,36 @@ export interface Comment {
   updated?: string;
 }
 
-export const Comment: Schema.Schema<Comment> = Schema.suspend(() => Schema.Struct({
-  selfLink: Schema.optional(Schema.String),
-  inReplyTo: Schema.optional(Schema.Struct({ id: Schema.optional(Schema.String) })),
-  kind: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  published: Schema.optional(Schema.String),
-  author: Schema.optional(Schema.Struct({ displayName: Schema.optional(Schema.String), image: Schema.optional(Schema.Struct({ url: Schema.optional(Schema.String) })), id: Schema.optional(Schema.String), url: Schema.optional(Schema.String) })),
-  post: Schema.optional(Schema.Struct({ id: Schema.optional(Schema.String) })),
-  blog: Schema.optional(Schema.Struct({ id: Schema.optional(Schema.String) })),
-  id: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-})).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
+export const Comment: Schema.Schema<Comment> = Schema.suspend(() =>
+  Schema.Struct({
+    selfLink: Schema.optional(Schema.String),
+    inReplyTo: Schema.optional(
+      Schema.Struct({ id: Schema.optional(Schema.String) }),
+    ),
+    kind: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    published: Schema.optional(Schema.String),
+    author: Schema.optional(
+      Schema.Struct({
+        displayName: Schema.optional(Schema.String),
+        image: Schema.optional(
+          Schema.Struct({ url: Schema.optional(Schema.String) }),
+        ),
+        id: Schema.optional(Schema.String),
+        url: Schema.optional(Schema.String),
+      }),
+    ),
+    post: Schema.optional(
+      Schema.Struct({ id: Schema.optional(Schema.String) }),
+    ),
+    blog: Schema.optional(
+      Schema.Struct({ id: Schema.optional(Schema.String) }),
+    ),
+    id: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
 
 export interface Post {
   /** Status of the post. Only set for admin-level requests. */
@@ -78,13 +100,22 @@ export interface Post {
   /** The URL where this Post is displayed. */
   url?: string;
   /** The author of this Post. */
-  author?: { displayName?: string; image?: { url?: string }; id?: string; url?: string };
+  author?: {
+    displayName?: string;
+    image?: { url?: string };
+    id?: string;
+    url?: string;
+  };
   /** The JSON meta-data for the Post. */
   customMetaData?: string;
   /** Display image for the Post. */
   images?: Array<{ url?: string }>;
   /** Comment control and display setting for readers of this post. */
-  readerComments?: "ALLOW" | "DONT_ALLOW_SHOW_EXISTING" | "DONT_ALLOW_HIDE_EXISTING" | (string & {});
+  readerComments?:
+    | "ALLOW"
+    | "DONT_ALLOW_SHOW_EXISTING"
+    | "DONT_ALLOW_HIDE_EXISTING"
+    | (string & {});
   /** RFC 3339 date-time when this Post was last updated. */
   updated?: string;
   /** Data about the blog containing this Post. */
@@ -105,28 +136,56 @@ export interface Post {
   titleLink?: string;
 }
 
-export const Post: Schema.Schema<Post> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  trashed: Schema.optional(Schema.String),
-  published: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  author: Schema.optional(Schema.Struct({ displayName: Schema.optional(Schema.String), image: Schema.optional(Schema.Struct({ url: Schema.optional(Schema.String) })), id: Schema.optional(Schema.String), url: Schema.optional(Schema.String) })),
-  customMetaData: Schema.optional(Schema.String),
-  images: Schema.optional(Schema.Array(Schema.Struct({ url: Schema.optional(Schema.String) }))),
-  readerComments: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  blog: Schema.optional(Schema.Struct({ id: Schema.optional(Schema.String) })),
-  content: Schema.optional(Schema.String),
-  replies: Schema.optional(Schema.Struct({ totalItems: Schema.optional(Schema.String), selfLink: Schema.optional(Schema.String), items: Schema.optional(Schema.Array(Comment)) })),
-  location: Schema.optional(Schema.Struct({ name: Schema.optional(Schema.String), lat: Schema.optional(Schema.Number), span: Schema.optional(Schema.String), lng: Schema.optional(Schema.Number) })),
-  selfLink: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Array(Schema.String)),
-  etag: Schema.optional(Schema.String),
-  titleLink: Schema.optional(Schema.String),
-})).annotate({ identifier: "Post" }) as any as Schema.Schema<Post>;
+export const Post: Schema.Schema<Post> = Schema.suspend(() =>
+  Schema.Struct({
+    status: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    trashed: Schema.optional(Schema.String),
+    published: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+    author: Schema.optional(
+      Schema.Struct({
+        displayName: Schema.optional(Schema.String),
+        image: Schema.optional(
+          Schema.Struct({ url: Schema.optional(Schema.String) }),
+        ),
+        id: Schema.optional(Schema.String),
+        url: Schema.optional(Schema.String),
+      }),
+    ),
+    customMetaData: Schema.optional(Schema.String),
+    images: Schema.optional(
+      Schema.Array(Schema.Struct({ url: Schema.optional(Schema.String) })),
+    ),
+    readerComments: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    blog: Schema.optional(
+      Schema.Struct({ id: Schema.optional(Schema.String) }),
+    ),
+    content: Schema.optional(Schema.String),
+    replies: Schema.optional(
+      Schema.Struct({
+        totalItems: Schema.optional(Schema.String),
+        selfLink: Schema.optional(Schema.String),
+        items: Schema.optional(Schema.Array(Comment)),
+      }),
+    ),
+    location: Schema.optional(
+      Schema.Struct({
+        name: Schema.optional(Schema.String),
+        lat: Schema.optional(Schema.Number),
+        span: Schema.optional(Schema.String),
+        lng: Schema.optional(Schema.Number),
+      }),
+    ),
+    selfLink: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Array(Schema.String)),
+    etag: Schema.optional(Schema.String),
+    titleLink: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Post" }) as any as Schema.Schema<Post>;
 
 export interface PostPerUserInfo {
   /** ID of the Blog that the post resource belongs to. */
@@ -141,13 +200,18 @@ export interface PostPerUserInfo {
   kind?: string;
 }
 
-export const PostPerUserInfo: Schema.Schema<PostPerUserInfo> = Schema.suspend(() => Schema.Struct({
-  blogId: Schema.optional(Schema.String),
-  hasEditAccess: Schema.optional(Schema.Boolean),
-  userId: Schema.optional(Schema.String),
-  postId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "PostPerUserInfo" }) as any as Schema.Schema<PostPerUserInfo>;
+export const PostPerUserInfo: Schema.Schema<PostPerUserInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      blogId: Schema.optional(Schema.String),
+      hasEditAccess: Schema.optional(Schema.Boolean),
+      userId: Schema.optional(Schema.String),
+      postId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PostPerUserInfo",
+}) as any as Schema.Schema<PostPerUserInfo>;
 
 export interface PostUserInfo {
   /** The Post resource. */
@@ -158,11 +222,15 @@ export interface PostUserInfo {
   kind?: string;
 }
 
-export const PostUserInfo: Schema.Schema<PostUserInfo> = Schema.suspend(() => Schema.Struct({
-  post: Schema.optional(Post),
-  post_user_info: Schema.optional(PostPerUserInfo),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "PostUserInfo" }) as any as Schema.Schema<PostUserInfo>;
+export const PostUserInfo: Schema.Schema<PostUserInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    post: Schema.optional(Post),
+    post_user_info: Schema.optional(PostPerUserInfo),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PostUserInfo",
+}) as any as Schema.Schema<PostUserInfo>;
 
 export interface PostUserInfosList {
   /** The list of Posts with User information for the post, for this Blog. */
@@ -173,11 +241,16 @@ export interface PostUserInfosList {
   nextPageToken?: string;
 }
 
-export const PostUserInfosList: Schema.Schema<PostUserInfosList> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(PostUserInfo)),
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "PostUserInfosList" }) as any as Schema.Schema<PostUserInfosList>;
+export const PostUserInfosList: Schema.Schema<PostUserInfosList> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(PostUserInfo)),
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PostUserInfosList",
+  }) as any as Schema.Schema<PostUserInfosList>;
 
 export interface User {
   /** The display name. */
@@ -200,23 +273,38 @@ export interface User {
   blogs?: { selfLink?: string };
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  about: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  locale: Schema.optional(Schema.Struct({ variant: Schema.optional(Schema.String), country: Schema.optional(Schema.String), language: Schema.optional(Schema.String) })),
-  id: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  blogs: Schema.optional(Schema.Struct({ selfLink: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    about: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+    locale: Schema.optional(
+      Schema.Struct({
+        variant: Schema.optional(Schema.String),
+        country: Schema.optional(Schema.String),
+        language: Schema.optional(Schema.String),
+      }),
+    ),
+    id: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    blogs: Schema.optional(
+      Schema.Struct({ selfLink: Schema.optional(Schema.String) }),
+    ),
+  }),
+).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface BlogPerUserInfo {
   /** ID of the Blog resource. */
   blogId?: string;
   /** Access permissions that the user has for the blog (ADMIN, AUTHOR, or READER). */
-  role?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  role?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
   /** ID of the User. */
   userId?: string;
   /** True if the user has Admin level access to the blog. */
@@ -227,14 +315,19 @@ export interface BlogPerUserInfo {
   photosAlbumKey?: string;
 }
 
-export const BlogPerUserInfo: Schema.Schema<BlogPerUserInfo> = Schema.suspend(() => Schema.Struct({
-  blogId: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-  hasAdminAccess: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  photosAlbumKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "BlogPerUserInfo" }) as any as Schema.Schema<BlogPerUserInfo>;
+export const BlogPerUserInfo: Schema.Schema<BlogPerUserInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      blogId: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      hasAdminAccess: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      photosAlbumKey: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "BlogPerUserInfo",
+}) as any as Schema.Schema<BlogPerUserInfo>;
 
 export interface Page {
   /** The identifier for this resource. */
@@ -248,7 +341,12 @@ export interface Page {
   /** The URL that this Page is displayed at. */
   url?: string;
   /** The author of this Page. */
-  author?: { displayName?: string; image?: { url?: string }; id?: string; url?: string };
+  author?: {
+    displayName?: string;
+    image?: { url?: string };
+    id?: string;
+    url?: string;
+  };
   /** The kind of this entity. Always blogger#page. */
   kind?: string;
   /** RFC 3339 date-time when this Page was trashed. */
@@ -265,21 +363,34 @@ export interface Page {
   content?: string;
 }
 
-export const Page: Schema.Schema<Page> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  published: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  author: Schema.optional(Schema.Struct({ displayName: Schema.optional(Schema.String), image: Schema.optional(Schema.Struct({ url: Schema.optional(Schema.String) })), id: Schema.optional(Schema.String), url: Schema.optional(Schema.String) })),
-  kind: Schema.optional(Schema.String),
-  trashed: Schema.optional(Schema.String),
-  blog: Schema.optional(Schema.Struct({ id: Schema.optional(Schema.String) })),
-  updated: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-})).annotate({ identifier: "Page" }) as any as Schema.Schema<Page>;
+export const Page: Schema.Schema<Page> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    published: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+    author: Schema.optional(
+      Schema.Struct({
+        displayName: Schema.optional(Schema.String),
+        image: Schema.optional(
+          Schema.Struct({ url: Schema.optional(Schema.String) }),
+        ),
+        id: Schema.optional(Schema.String),
+        url: Schema.optional(Schema.String),
+      }),
+    ),
+    kind: Schema.optional(Schema.String),
+    trashed: Schema.optional(Schema.String),
+    blog: Schema.optional(
+      Schema.Struct({ id: Schema.optional(Schema.String) }),
+    ),
+    updated: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Page" }) as any as Schema.Schema<Page>;
 
 export interface PageList {
   /** The kind of this entity. Always blogger#pageList. */
@@ -292,12 +403,14 @@ export interface PageList {
   etag?: string;
 }
 
-export const PageList: Schema.Schema<PageList> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Page)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "PageList" }) as any as Schema.Schema<PageList>;
+export const PageList: Schema.Schema<PageList> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    nextPageToken: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Page)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PageList" }) as any as Schema.Schema<PageList>;
 
 export interface Blog {
   /** The identifier for this resource. */
@@ -328,21 +441,40 @@ export interface Blog {
   posts?: { totalItems?: number; selfLink?: string; items?: Array<Post> };
 }
 
-export const Blog: Schema.Schema<Blog> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  customMetaData: Schema.optional(Schema.String),
-  pages: Schema.optional(Schema.Struct({ totalItems: Schema.optional(Schema.Number), selfLink: Schema.optional(Schema.String) })),
-  kind: Schema.optional(Schema.String),
-  published: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  locale: Schema.optional(Schema.Struct({ country: Schema.optional(Schema.String), language: Schema.optional(Schema.String), variant: Schema.optional(Schema.String) })),
-  updated: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  posts: Schema.optional(Schema.Struct({ totalItems: Schema.optional(Schema.Number), selfLink: Schema.optional(Schema.String), items: Schema.optional(Schema.Array(Post)) })),
-})).annotate({ identifier: "Blog" }) as any as Schema.Schema<Blog>;
+export const Blog: Schema.Schema<Blog> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    customMetaData: Schema.optional(Schema.String),
+    pages: Schema.optional(
+      Schema.Struct({
+        totalItems: Schema.optional(Schema.Number),
+        selfLink: Schema.optional(Schema.String),
+      }),
+    ),
+    kind: Schema.optional(Schema.String),
+    published: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    locale: Schema.optional(
+      Schema.Struct({
+        country: Schema.optional(Schema.String),
+        language: Schema.optional(Schema.String),
+        variant: Schema.optional(Schema.String),
+      }),
+    ),
+    updated: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    posts: Schema.optional(
+      Schema.Struct({
+        totalItems: Schema.optional(Schema.Number),
+        selfLink: Schema.optional(Schema.String),
+        items: Schema.optional(Schema.Array(Post)),
+      }),
+    ),
+  }),
+).annotate({ identifier: "Blog" }) as any as Schema.Schema<Blog>;
 
 export interface BlogUserInfo {
   /** The kind of this entity. Always blogger#blogUserInfo. */
@@ -353,11 +485,15 @@ export interface BlogUserInfo {
   blog?: Blog;
 }
 
-export const BlogUserInfo: Schema.Schema<BlogUserInfo> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  blog_user_info: Schema.optional(BlogPerUserInfo),
-  blog: Schema.optional(Blog),
-})).annotate({ identifier: "BlogUserInfo" }) as any as Schema.Schema<BlogUserInfo>;
+export const BlogUserInfo: Schema.Schema<BlogUserInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    blog_user_info: Schema.optional(BlogPerUserInfo),
+    blog: Schema.optional(Blog),
+  }),
+).annotate({
+  identifier: "BlogUserInfo",
+}) as any as Schema.Schema<BlogUserInfo>;
 
 export interface CommentList {
   /** The List of Comments for a Post. */
@@ -372,28 +508,42 @@ export interface CommentList {
   prevPageToken?: string;
 }
 
-export const CommentList: Schema.Schema<CommentList> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(Comment)),
-  etag: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  prevPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommentList" }) as any as Schema.Schema<CommentList>;
+export const CommentList: Schema.Schema<CommentList> = Schema.suspend(() =>
+  Schema.Struct({
+    items: Schema.optional(Schema.Array(Comment)),
+    etag: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    nextPageToken: Schema.optional(Schema.String),
+    prevPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CommentList" }) as any as Schema.Schema<CommentList>;
 
 export interface Pageviews {
   /** Blog Id. */
   blogId?: string;
   /** The container of posts in this blog. */
-  counts?: Array<{ count?: string; timeRange?: "ALL_TIME" | "THIRTY_DAYS" | "SEVEN_DAYS" | (string & {}) }>;
+  counts?: Array<{
+    count?: string;
+    timeRange?: "ALL_TIME" | "THIRTY_DAYS" | "SEVEN_DAYS" | (string & {});
+  }>;
   /** The kind of this entry. Always blogger#page_views. */
   kind?: string;
 }
 
-export const Pageviews: Schema.Schema<Pageviews> = Schema.suspend(() => Schema.Struct({
-  blogId: Schema.optional(Schema.String),
-  counts: Schema.optional(Schema.Array(Schema.Struct({ count: Schema.optional(Schema.String), timeRange: Schema.optional(Schema.String) }))),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Pageviews" }) as any as Schema.Schema<Pageviews>;
+export const Pageviews: Schema.Schema<Pageviews> = Schema.suspend(() =>
+  Schema.Struct({
+    blogId: Schema.optional(Schema.String),
+    counts: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          count: Schema.optional(Schema.String),
+          timeRange: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Pageviews" }) as any as Schema.Schema<Pageviews>;
 
 export interface BlogList {
   /** The kind of this entity. Always blogger#blogList. */
@@ -404,11 +554,13 @@ export interface BlogList {
   items?: Array<Blog>;
 }
 
-export const BlogList: Schema.Schema<BlogList> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  blogUserInfos: Schema.optional(Schema.Array(BlogUserInfo)),
-  items: Schema.optional(Schema.Array(Blog)),
-})).annotate({ identifier: "BlogList" }) as any as Schema.Schema<BlogList>;
+export const BlogList: Schema.Schema<BlogList> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    blogUserInfos: Schema.optional(Schema.Array(BlogUserInfo)),
+    items: Schema.optional(Schema.Array(Blog)),
+  }),
+).annotate({ identifier: "BlogList" }) as any as Schema.Schema<BlogList>;
 
 export interface PostList {
   /** Pagination token to fetch the next page, if one exists. */
@@ -423,13 +575,15 @@ export interface PostList {
   etag?: string;
 }
 
-export const PostList: Schema.Schema<PostList> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  prevPageToken: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Post)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "PostList" }) as any as Schema.Schema<PostList>;
+export const PostList: Schema.Schema<PostList> = Schema.suspend(() =>
+  Schema.Struct({
+    nextPageToken: Schema.optional(Schema.String),
+    prevPageToken: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Post)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PostList" }) as any as Schema.Schema<PostList>;
 
 // ==========================================================================
 // Operations
@@ -442,7 +596,9 @@ export interface GetPageViewsRequest {
 
 export const GetPageViewsRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
-  range: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("range")),
+  range: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("range"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v3/blogs/{blogId}/pageviews" }),
   svc,
@@ -454,7 +610,12 @@ export const GetPageViewsResponse = Pageviews;
 export type GetPageViewsError = DefaultErrors;
 
 /** Gets page views by blog id. */
-export const getPageViews: API.OperationMethod<GetPageViewsRequest, GetPageViewsResponse, GetPageViewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPageViews: API.OperationMethod<
+  GetPageViewsRequest,
+  GetPageViewsResponse,
+  GetPageViewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPageViewsRequest,
   output: GetPageViewsResponse,
   errors: [],
@@ -463,7 +624,12 @@ export const getPageViews: API.OperationMethod<GetPageViewsRequest, GetPageViews
 export interface GetPagesRequest {
   pageId: string;
   blogId: string;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
 }
 
 export const GetPagesRequest = Schema.Struct({
@@ -481,7 +647,12 @@ export const GetPagesResponse = Page;
 export type GetPagesError = DefaultErrors;
 
 /** Gets a page by blog id and page id. */
-export const getPages: API.OperationMethod<GetPagesRequest, GetPagesResponse, GetPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPages: API.OperationMethod<
+  GetPagesRequest,
+  GetPagesResponse,
+  GetPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPagesRequest,
   output: GetPagesResponse,
   errors: [],
@@ -504,12 +675,18 @@ export const DeletePagesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeletePagesRequest>;
 
 export interface DeletePagesResponse {}
-export const DeletePagesResponse: Schema.Schema<DeletePagesResponse> = Schema.Struct({}) as any as Schema.Schema<DeletePagesResponse>;
+export const DeletePagesResponse: Schema.Schema<DeletePagesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeletePagesResponse>;
 
 export type DeletePagesError = DefaultErrors;
 
 /** Deletes a page by blog id and page id. */
-export const deletePages: API.OperationMethod<DeletePagesRequest, DeletePagesResponse, DeletePagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deletePages: API.OperationMethod<
+  DeletePagesRequest,
+  DeletePagesResponse,
+  DeletePagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeletePagesRequest,
   output: DeletePagesResponse,
   errors: [],
@@ -531,7 +708,11 @@ export const PatchPagesRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   body: Schema.optional(Page).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3/blogs/{blogId}/pages/{pageId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3/blogs/{blogId}/pages/{pageId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchPagesRequest>;
 
@@ -541,7 +722,12 @@ export const PatchPagesResponse = Page;
 export type PatchPagesError = DefaultErrors;
 
 /** Patches a page. */
-export const patchPages: API.OperationMethod<PatchPagesRequest, PatchPagesResponse, PatchPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchPages: API.OperationMethod<
+  PatchPagesRequest,
+  PatchPagesResponse,
+  PatchPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchPagesRequest,
   output: PatchPagesResponse,
   errors: [],
@@ -556,7 +742,11 @@ export const PublishPagesRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   pageId: Schema.String.pipe(T.HttpPath("pageId")),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/blogs/{blogId}/pages/{pageId}/publish", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/blogs/{blogId}/pages/{pageId}/publish",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PublishPagesRequest>;
 
@@ -566,7 +756,12 @@ export const PublishPagesResponse = Page;
 export type PublishPagesError = DefaultErrors;
 
 /** Publishes a page. */
-export const publishPages: API.OperationMethod<PublishPagesRequest, PublishPagesResponse, PublishPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const publishPages: API.OperationMethod<
+  PublishPagesRequest,
+  PublishPagesResponse,
+  PublishPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PublishPagesRequest,
   output: PublishPagesResponse,
   errors: [],
@@ -581,7 +776,11 @@ export const RevertPagesRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   pageId: Schema.String.pipe(T.HttpPath("pageId")),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/blogs/{blogId}/pages/{pageId}/revert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/blogs/{blogId}/pages/{pageId}/revert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RevertPagesRequest>;
 
@@ -591,7 +790,12 @@ export const RevertPagesResponse = Page;
 export type RevertPagesError = DefaultErrors;
 
 /** Reverts a published or scheduled page to draft state. */
-export const revertPages: API.OperationMethod<RevertPagesRequest, RevertPagesResponse, RevertPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const revertPages: API.OperationMethod<
+  RevertPagesRequest,
+  RevertPagesResponse,
+  RevertPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RevertPagesRequest,
   output: RevertPagesResponse,
   errors: [],
@@ -613,7 +817,11 @@ export const UpdatePagesRequest = Schema.Struct({
   revert: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("revert")),
   body: Schema.optional(Page).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v3/blogs/{blogId}/pages/{pageId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v3/blogs/{blogId}/pages/{pageId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdatePagesRequest>;
 
@@ -623,7 +831,12 @@ export const UpdatePagesResponse = Page;
 export type UpdatePagesError = DefaultErrors;
 
 /** Updates a page by blog id and page id. */
-export const updatePages: API.OperationMethod<UpdatePagesRequest, UpdatePagesResponse, UpdatePagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePages: API.OperationMethod<
+  UpdatePagesRequest,
+  UpdatePagesResponse,
+  UpdatePagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePagesRequest,
   output: UpdatePagesResponse,
   errors: [],
@@ -651,7 +864,12 @@ export const InsertPagesResponse = Page;
 export type InsertPagesError = DefaultErrors;
 
 /** Inserts a page. */
-export const insertPages: API.OperationMethod<InsertPagesRequest, InsertPagesResponse, InsertPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertPages: API.OperationMethod<
+  InsertPagesRequest,
+  InsertPagesResponse,
+  InsertPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertPagesRequest,
   output: InsertPagesResponse,
   errors: [],
@@ -662,7 +880,12 @@ export interface ListPagesRequest {
   pageToken?: string;
   maxResults?: number;
   status?: "LIVE" | "DRAFT" | "SOFT_TRASHED" | (string & {})[];
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
   fetchBodies?: boolean;
 }
 
@@ -670,7 +893,9 @@ export const ListPagesRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  status: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("status")),
+  status: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("status"),
+  ),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   fetchBodies: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("fetchBodies")),
 }).pipe(
@@ -684,7 +909,12 @@ export const ListPagesResponse = PageList;
 export type ListPagesError = DefaultErrors;
 
 /** Lists pages. */
-export const listPages: API.PaginatedOperationMethod<ListPagesRequest, ListPagesResponse, ListPagesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPages: API.PaginatedOperationMethod<
+  ListPagesRequest,
+  ListPagesResponse,
+  ListPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPagesRequest,
   output: ListPagesResponse,
   errors: [],
@@ -706,13 +936,20 @@ export interface ListPostUserInfosRequest {
   orderBy?: "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPDATED" | (string & {});
   endDate?: string;
   startDate?: string;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
 }
 
 export const ListPostUserInfosRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  status: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("status")),
+  status: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("status"),
+  ),
   fetchBodies: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("fetchBodies")),
   labels: Schema.optional(Schema.String).pipe(T.HttpQuery("labels")),
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
@@ -732,7 +969,12 @@ export const ListPostUserInfosResponse = PostUserInfosList;
 export type ListPostUserInfosError = DefaultErrors;
 
 /** Lists post and user info pairs. */
-export const listPostUserInfos: API.PaginatedOperationMethod<ListPostUserInfosRequest, ListPostUserInfosResponse, ListPostUserInfosError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPostUserInfos: API.PaginatedOperationMethod<
+  ListPostUserInfosRequest,
+  ListPostUserInfosResponse,
+  ListPostUserInfosError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPostUserInfosRequest,
   output: ListPostUserInfosResponse,
   errors: [],
@@ -756,7 +998,10 @@ export const GetPostUserInfosRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   maxComments: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxComments")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/users/{userId}/blogs/{blogId}/posts/{postId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/users/{userId}/blogs/{blogId}/posts/{postId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPostUserInfosRequest>;
 
@@ -766,7 +1011,12 @@ export const GetPostUserInfosResponse = PostUserInfo;
 export type GetPostUserInfosError = DefaultErrors;
 
 /** Gets one post and user info pair, by post_id and user_id. */
-export const getPostUserInfos: API.OperationMethod<GetPostUserInfosRequest, GetPostUserInfosResponse, GetPostUserInfosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPostUserInfos: API.OperationMethod<
+  GetPostUserInfosRequest,
+  GetPostUserInfosResponse,
+  GetPostUserInfosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPostUserInfosRequest,
   output: GetPostUserInfosResponse,
   errors: [],
@@ -776,7 +1026,12 @@ export interface GetCommentsRequest {
   postId: string;
   blogId: string;
   commentId: string;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
 }
 
 export const GetCommentsRequest = Schema.Struct({
@@ -785,7 +1040,10 @@ export const GetCommentsRequest = Schema.Struct({
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCommentsRequest>;
 
@@ -795,7 +1053,12 @@ export const GetCommentsResponse = Comment;
 export type GetCommentsError = DefaultErrors;
 
 /** Gets a comment by id. */
-export const getComments: API.OperationMethod<GetCommentsRequest, GetCommentsResponse, GetCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getComments: API.OperationMethod<
+  GetCommentsRequest,
+  GetCommentsResponse,
+  GetCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCommentsRequest,
   output: GetCommentsResponse,
   errors: [],
@@ -812,17 +1075,26 @@ export const DeleteCommentsRequest = Schema.Struct({
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   postId: Schema.String.pipe(T.HttpPath("postId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteCommentsRequest>;
 
 export interface DeleteCommentsResponse {}
-export const DeleteCommentsResponse: Schema.Schema<DeleteCommentsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteCommentsResponse>;
+export const DeleteCommentsResponse: Schema.Schema<DeleteCommentsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteCommentsResponse>;
 
 export type DeleteCommentsError = DefaultErrors;
 
 /** Deletes a comment by blog id, post id and comment id. */
-export const deleteComments: API.OperationMethod<DeleteCommentsRequest, DeleteCommentsResponse, DeleteCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteComments: API.OperationMethod<
+  DeleteCommentsRequest,
+  DeleteCommentsResponse,
+  DeleteCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCommentsRequest,
   output: DeleteCommentsResponse,
   errors: [],
@@ -842,7 +1114,9 @@ export const ListByBlogCommentsRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  status: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("status")),
+  status: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("status"),
+  ),
   endDate: Schema.optional(Schema.String).pipe(T.HttpQuery("endDate")),
   startDate: Schema.optional(Schema.String).pipe(T.HttpQuery("startDate")),
   fetchBodies: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("fetchBodies")),
@@ -857,7 +1131,12 @@ export const ListByBlogCommentsResponse = CommentList;
 export type ListByBlogCommentsError = DefaultErrors;
 
 /** Lists comments by blog. */
-export const listByBlogComments: API.PaginatedOperationMethod<ListByBlogCommentsRequest, ListByBlogCommentsResponse, ListByBlogCommentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listByBlogComments: API.PaginatedOperationMethod<
+  ListByBlogCommentsRequest,
+  ListByBlogCommentsResponse,
+  ListByBlogCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListByBlogCommentsRequest,
   output: ListByBlogCommentsResponse,
   errors: [],
@@ -879,7 +1158,11 @@ export const RemoveContentCommentsRequest = Schema.Struct({
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   postId: Schema.String.pipe(T.HttpPath("postId")),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}/removecontent", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}/removecontent",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveContentCommentsRequest>;
 
@@ -889,7 +1172,12 @@ export const RemoveContentCommentsResponse = Comment;
 export type RemoveContentCommentsError = DefaultErrors;
 
 /** Removes the content of a comment by blog id, post id and comment id. */
-export const removeContentComments: API.OperationMethod<RemoveContentCommentsRequest, RemoveContentCommentsResponse, RemoveContentCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeContentComments: API.OperationMethod<
+  RemoveContentCommentsRequest,
+  RemoveContentCommentsResponse,
+  RemoveContentCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveContentCommentsRequest,
   output: RemoveContentCommentsResponse,
   errors: [],
@@ -906,7 +1194,11 @@ export const ApproveCommentsRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}/approve", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}/approve",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ApproveCommentsRequest>;
 
@@ -916,7 +1208,12 @@ export const ApproveCommentsResponse = Comment;
 export type ApproveCommentsError = DefaultErrors;
 
 /** Marks a comment as not spam by blog id, post id and comment id. */
-export const approveComments: API.OperationMethod<ApproveCommentsRequest, ApproveCommentsResponse, ApproveCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const approveComments: API.OperationMethod<
+  ApproveCommentsRequest,
+  ApproveCommentsResponse,
+  ApproveCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ApproveCommentsRequest,
   output: ApproveCommentsResponse,
   errors: [],
@@ -925,7 +1222,12 @@ export const approveComments: API.OperationMethod<ApproveCommentsRequest, Approv
 export interface ListCommentsRequest {
   endDate?: string;
   startDate?: string;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
   postId: string;
   blogId: string;
   pageToken?: string;
@@ -955,7 +1257,12 @@ export const ListCommentsResponse = CommentList;
 export type ListCommentsError = DefaultErrors;
 
 /** Lists comments. */
-export const listComments: API.PaginatedOperationMethod<ListCommentsRequest, ListCommentsResponse, ListCommentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listComments: API.PaginatedOperationMethod<
+  ListCommentsRequest,
+  ListCommentsResponse,
+  ListCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCommentsRequest,
   output: ListCommentsResponse,
   errors: [],
@@ -977,7 +1284,11 @@ export const MarkAsSpamCommentsRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}/spam", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/blogs/{blogId}/posts/{postId}/comments/{commentId}/spam",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MarkAsSpamCommentsRequest>;
 
@@ -987,7 +1298,12 @@ export const MarkAsSpamCommentsResponse = Comment;
 export type MarkAsSpamCommentsError = DefaultErrors;
 
 /** Marks a comment as spam by blog id, post id and comment id. */
-export const markAsSpamComments: API.OperationMethod<MarkAsSpamCommentsRequest, MarkAsSpamCommentsResponse, MarkAsSpamCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const markAsSpamComments: API.OperationMethod<
+  MarkAsSpamCommentsRequest,
+  MarkAsSpamCommentsResponse,
+  MarkAsSpamCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MarkAsSpamCommentsRequest,
   output: MarkAsSpamCommentsResponse,
   errors: [],
@@ -995,7 +1311,12 @@ export const markAsSpamComments: API.OperationMethod<MarkAsSpamCommentsRequest, 
 
 export interface GetPostsRequest {
   maxComments?: number;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
   fetchBody?: boolean;
   blogId: string;
   postId: string;
@@ -1020,7 +1341,12 @@ export const GetPostsResponse = Post;
 export type GetPostsError = DefaultErrors;
 
 /** Gets a post by blog id and post id */
-export const getPosts: API.OperationMethod<GetPostsRequest, GetPostsResponse, GetPostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPosts: API.OperationMethod<
+  GetPostsRequest,
+  GetPostsResponse,
+  GetPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPostsRequest,
   output: GetPostsResponse,
   errors: [],
@@ -1043,12 +1369,18 @@ export const DeletePostsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeletePostsRequest>;
 
 export interface DeletePostsResponse {}
-export const DeletePostsResponse: Schema.Schema<DeletePostsResponse> = Schema.Struct({}) as any as Schema.Schema<DeletePostsResponse>;
+export const DeletePostsResponse: Schema.Schema<DeletePostsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeletePostsResponse>;
 
 export type DeletePostsError = DefaultErrors;
 
 /** Deletes a post by blog id and post id. */
-export const deletePosts: API.OperationMethod<DeletePostsRequest, DeletePostsResponse, DeletePostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deletePosts: API.OperationMethod<
+  DeletePostsRequest,
+  DeletePostsResponse,
+  DeletePostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeletePostsRequest,
   output: DeletePostsResponse,
   errors: [],
@@ -1065,7 +1397,11 @@ export const PublishPostsRequest = Schema.Struct({
   publishDate: Schema.optional(Schema.String).pipe(T.HttpQuery("publishDate")),
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/blogs/{blogId}/posts/{postId}/publish", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/blogs/{blogId}/posts/{postId}/publish",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PublishPostsRequest>;
 
@@ -1075,7 +1411,12 @@ export const PublishPostsResponse = Post;
 export type PublishPostsError = DefaultErrors;
 
 /** Publishes a post. */
-export const publishPosts: API.OperationMethod<PublishPostsRequest, PublishPostsResponse, PublishPostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const publishPosts: API.OperationMethod<
+  PublishPostsRequest,
+  PublishPostsResponse,
+  PublishPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PublishPostsRequest,
   output: PublishPostsResponse,
   errors: [],
@@ -1104,7 +1445,12 @@ export const SearchPostsResponse = PostList;
 export type SearchPostsError = DefaultErrors;
 
 /** Searches for posts matching given query terms in the specified blog. */
-export const searchPosts: API.OperationMethod<SearchPostsRequest, SearchPostsResponse, SearchPostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const searchPosts: API.OperationMethod<
+  SearchPostsRequest,
+  SearchPostsResponse,
+  SearchPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SearchPostsRequest,
   output: SearchPostsResponse,
   errors: [],
@@ -1113,7 +1459,12 @@ export const searchPosts: API.OperationMethod<SearchPostsRequest, SearchPostsRes
 export interface GetByPathPostsRequest {
   blogId: string;
   maxComments?: number;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
   path: string;
 }
 
@@ -1133,17 +1484,31 @@ export const GetByPathPostsResponse = Post;
 export type GetByPathPostsError = DefaultErrors;
 
 /** Gets a post by path. */
-export const getByPathPosts: API.OperationMethod<GetByPathPostsRequest, GetByPathPostsResponse, GetByPathPostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getByPathPosts: API.OperationMethod<
+  GetByPathPostsRequest,
+  GetByPathPostsResponse,
+  GetByPathPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetByPathPostsRequest,
   output: GetByPathPostsResponse,
   errors: [],
 }));
 
 export interface ListPostsRequest {
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
   startDate?: string;
   /** Sort direction applied to post list. */
-  sortOption?: "SORT_OPTION_UNSPECIFIED" | "DESCENDING" | "ASCENDING" | (string & {});
+  sortOption?:
+    | "SORT_OPTION_UNSPECIFIED"
+    | "DESCENDING"
+    | "ASCENDING"
+    | (string & {});
   endDate?: string;
   blogId: string;
   orderBy?: "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPDATED" | (string & {});
@@ -1167,7 +1532,9 @@ export const ListPostsRequest = Schema.Struct({
   fetchBodies: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("fetchBodies")),
   fetchImages: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("fetchImages")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  status: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("status")),
+  status: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("status"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v3/blogs/{blogId}/posts" }),
   svc,
@@ -1179,7 +1546,12 @@ export const ListPostsResponse = PostList;
 export type ListPostsError = DefaultErrors;
 
 /** Lists posts. */
-export const listPosts: API.PaginatedOperationMethod<ListPostsRequest, ListPostsResponse, ListPostsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPosts: API.PaginatedOperationMethod<
+  ListPostsRequest,
+  ListPostsResponse,
+  ListPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPostsRequest,
   output: ListPostsResponse,
   errors: [],
@@ -1212,7 +1584,11 @@ export const PatchPostsRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   body: Schema.optional(Post).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3/blogs/{blogId}/posts/{postId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3/blogs/{blogId}/posts/{postId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchPostsRequest>;
 
@@ -1222,7 +1598,12 @@ export const PatchPostsResponse = Post;
 export type PatchPostsError = DefaultErrors;
 
 /** Patches a post. */
-export const patchPosts: API.OperationMethod<PatchPostsRequest, PatchPostsResponse, PatchPostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchPosts: API.OperationMethod<
+  PatchPostsRequest,
+  PatchPostsResponse,
+  PatchPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchPostsRequest,
   output: PatchPostsResponse,
   errors: [],
@@ -1237,7 +1618,11 @@ export const RevertPostsRequest = Schema.Struct({
   blogId: Schema.String.pipe(T.HttpPath("blogId")),
   postId: Schema.String.pipe(T.HttpPath("postId")),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/blogs/{blogId}/posts/{postId}/revert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/blogs/{blogId}/posts/{postId}/revert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RevertPostsRequest>;
 
@@ -1247,7 +1632,12 @@ export const RevertPostsResponse = Post;
 export type RevertPostsError = DefaultErrors;
 
 /** Reverts a published or scheduled post to draft state. */
-export const revertPosts: API.OperationMethod<RevertPostsRequest, RevertPostsResponse, RevertPostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const revertPosts: API.OperationMethod<
+  RevertPostsRequest,
+  RevertPostsResponse,
+  RevertPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RevertPostsRequest,
   output: RevertPostsResponse,
   errors: [],
@@ -1275,7 +1665,11 @@ export const UpdatePostsRequest = Schema.Struct({
   maxComments: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxComments")),
   body: Schema.optional(Post).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v3/blogs/{blogId}/posts/{postId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v3/blogs/{blogId}/posts/{postId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdatePostsRequest>;
 
@@ -1285,7 +1679,12 @@ export const UpdatePostsResponse = Post;
 export type UpdatePostsError = DefaultErrors;
 
 /** Updates a post by blog id and post id. */
-export const updatePosts: API.OperationMethod<UpdatePostsRequest, UpdatePostsResponse, UpdatePostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePosts: API.OperationMethod<
+  UpdatePostsRequest,
+  UpdatePostsResponse,
+  UpdatePostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePostsRequest,
   output: UpdatePostsResponse,
   errors: [],
@@ -1317,7 +1716,12 @@ export const InsertPostsResponse = Post;
 export type InsertPostsError = DefaultErrors;
 
 /** Inserts a post. */
-export const insertPosts: API.OperationMethod<InsertPostsRequest, InsertPostsResponse, InsertPostsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertPosts: API.OperationMethod<
+  InsertPostsRequest,
+  InsertPostsResponse,
+  InsertPostsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertPostsRequest,
   output: InsertPostsResponse,
   errors: [],
@@ -1325,7 +1729,12 @@ export const insertPosts: API.OperationMethod<InsertPostsRequest, InsertPostsRes
 
 export interface GetByUrlBlogsRequest {
   url: string;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
 }
 
 export const GetByUrlBlogsRequest = Schema.Struct({
@@ -1342,16 +1751,31 @@ export const GetByUrlBlogsResponse = Blog;
 export type GetByUrlBlogsError = DefaultErrors;
 
 /** Gets a blog by url. */
-export const getByUrlBlogs: API.OperationMethod<GetByUrlBlogsRequest, GetByUrlBlogsResponse, GetByUrlBlogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getByUrlBlogs: API.OperationMethod<
+  GetByUrlBlogsRequest,
+  GetByUrlBlogsResponse,
+  GetByUrlBlogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetByUrlBlogsRequest,
   output: GetByUrlBlogsResponse,
   errors: [],
 }));
 
 export interface ListByUserBlogsRequest {
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
   fetchUserInfo?: boolean;
-  role?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {})[];
+  role?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {})[];
   userId: string;
   /** Default value of status is LIVE. */
   status?: "LIVE" | "DELETED" | (string & {})[];
@@ -1359,10 +1783,14 @@ export interface ListByUserBlogsRequest {
 
 export const ListByUserBlogsRequest = Schema.Struct({
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  fetchUserInfo: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("fetchUserInfo")),
+  fetchUserInfo: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("fetchUserInfo"),
+  ),
   role: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("role")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  status: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("status")),
+  status: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("status"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v3/users/{userId}/blogs" }),
   svc,
@@ -1374,7 +1802,12 @@ export const ListByUserBlogsResponse = BlogList;
 export type ListByUserBlogsError = DefaultErrors;
 
 /** Lists blogs by user. */
-export const listByUserBlogs: API.OperationMethod<ListByUserBlogsRequest, ListByUserBlogsResponse, ListByUserBlogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listByUserBlogs: API.OperationMethod<
+  ListByUserBlogsRequest,
+  ListByUserBlogsResponse,
+  ListByUserBlogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListByUserBlogsRequest,
   output: ListByUserBlogsResponse,
   errors: [],
@@ -1383,7 +1816,12 @@ export const listByUserBlogs: API.OperationMethod<ListByUserBlogsRequest, ListBy
 export interface GetBlogsRequest {
   blogId: string;
   maxPosts?: number;
-  view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "READER"
+    | "AUTHOR"
+    | "ADMIN"
+    | (string & {});
 }
 
 export const GetBlogsRequest = Schema.Struct({
@@ -1401,7 +1839,12 @@ export const GetBlogsResponse = Blog;
 export type GetBlogsError = DefaultErrors;
 
 /** Gets a blog by id. */
-export const getBlogs: API.OperationMethod<GetBlogsRequest, GetBlogsResponse, GetBlogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBlogs: API.OperationMethod<
+  GetBlogsRequest,
+  GetBlogsResponse,
+  GetBlogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBlogsRequest,
   output: GetBlogsResponse,
   errors: [],
@@ -1428,7 +1871,12 @@ export const GetBlogUserInfosResponse = BlogUserInfo;
 export type GetBlogUserInfosError = DefaultErrors;
 
 /** Gets one blog and user info pair by blog id and user id. */
-export const getBlogUserInfos: API.OperationMethod<GetBlogUserInfosRequest, GetBlogUserInfosResponse, GetBlogUserInfosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBlogUserInfos: API.OperationMethod<
+  GetBlogUserInfosRequest,
+  GetBlogUserInfosResponse,
+  GetBlogUserInfosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBlogUserInfosRequest,
   output: GetBlogUserInfosResponse,
   errors: [],
@@ -1451,9 +1899,13 @@ export const GetUsersResponse = User;
 export type GetUsersError = DefaultErrors;
 
 /** Gets one user by user_id. */
-export const getUsers: API.OperationMethod<GetUsersRequest, GetUsersResponse, GetUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsers: API.OperationMethod<
+  GetUsersRequest,
+  GetUsersResponse,
+  GetUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,
   errors: [],
 }));
-

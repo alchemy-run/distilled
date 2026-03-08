@@ -32,11 +32,15 @@ export interface PrinterModel {
   makeAndModel?: string;
 }
 
-export const PrinterModel: Schema.Schema<PrinterModel> = Schema.suspend(() => Schema.Struct({
-  manufacturer: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  makeAndModel: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrinterModel" }) as any as Schema.Schema<PrinterModel>;
+export const PrinterModel: Schema.Schema<PrinterModel> = Schema.suspend(() =>
+  Schema.Struct({
+    manufacturer: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    makeAndModel: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PrinterModel",
+}) as any as Schema.Schema<PrinterModel>;
 
 export interface ListPrinterModelsResponse {
   /** Printer models that are currently allowed to be configured for ChromeOs. Some printers may be added or removed over time. */
@@ -45,25 +49,40 @@ export interface ListPrinterModelsResponse {
   nextPageToken?: string;
 }
 
-export const ListPrinterModelsResponse: Schema.Schema<ListPrinterModelsResponse> = Schema.suspend(() => Schema.Struct({
-  printerModels: Schema.optional(Schema.Array(PrinterModel)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPrinterModelsResponse" }) as any as Schema.Schema<ListPrinterModelsResponse>;
+export const ListPrinterModelsResponse: Schema.Schema<ListPrinterModelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printerModels: Schema.optional(Schema.Array(PrinterModel)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPrinterModelsResponse",
+  }) as any as Schema.Schema<ListPrinterModelsResponse>;
 
 export interface AuxiliaryMessage {
   /** Message severity */
-  severity?: "SEVERITY_UNSPECIFIED" | "SEVERITY_INFO" | "SEVERITY_WARNING" | "SEVERITY_ERROR" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "SEVERITY_INFO"
+    | "SEVERITY_WARNING"
+    | "SEVERITY_ERROR"
+    | (string & {});
   /** Field that this message concerns. */
   fieldMask?: string;
   /** Human readable message in English. Example: "Given printer is invalid or no longer supported." */
   auxiliaryMessage?: string;
 }
 
-export const AuxiliaryMessage: Schema.Schema<AuxiliaryMessage> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  fieldMask: Schema.optional(Schema.String),
-  auxiliaryMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "AuxiliaryMessage" }) as any as Schema.Schema<AuxiliaryMessage>;
+export const AuxiliaryMessage: Schema.Schema<AuxiliaryMessage> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      severity: Schema.optional(Schema.String),
+      fieldMask: Schema.optional(Schema.String),
+      auxiliaryMessage: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AuxiliaryMessage",
+}) as any as Schema.Schema<AuxiliaryMessage>;
 
 export interface Printer {
   /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
@@ -88,18 +107,20 @@ export interface Printer {
   useDriverlessConfig?: boolean;
 }
 
-export const Printer: Schema.Schema<Printer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  makeAndModel: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  orgUnitId: Schema.optional(Schema.String),
-  auxiliaryMessages: Schema.optional(Schema.Array(AuxiliaryMessage)),
-  useDriverlessConfig: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Printer" }) as any as Schema.Schema<Printer>;
+export const Printer: Schema.Schema<Printer> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    makeAndModel: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    orgUnitId: Schema.optional(Schema.String),
+    auxiliaryMessages: Schema.optional(Schema.Array(AuxiliaryMessage)),
+    useDriverlessConfig: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Printer" }) as any as Schema.Schema<Printer>;
 
 export interface ListPrintersResponse {
   /** List of printers. If `org_unit_id` was given in the request, then only printers visible for this OU will be returned. If `org_unit_id` was not given in the request, then all printers will be returned. */
@@ -108,10 +129,15 @@ export interface ListPrintersResponse {
   nextPageToken?: string;
 }
 
-export const ListPrintersResponse: Schema.Schema<ListPrintersResponse> = Schema.suspend(() => Schema.Struct({
-  printers: Schema.optional(Schema.Array(Printer)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPrintersResponse" }) as any as Schema.Schema<ListPrintersResponse>;
+export const ListPrintersResponse: Schema.Schema<ListPrintersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printers: Schema.optional(Schema.Array(Printer)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPrintersResponse",
+  }) as any as Schema.Schema<ListPrintersResponse>;
 
 export interface CreatePrinterRequest {
   /** Required. The name of the customer. Format: customers/{customer_id} */
@@ -120,19 +146,29 @@ export interface CreatePrinterRequest {
   printer?: Printer;
 }
 
-export const CreatePrinterRequest: Schema.Schema<CreatePrinterRequest> = Schema.suspend(() => Schema.Struct({
-  parent: Schema.optional(Schema.String),
-  printer: Schema.optional(Printer),
-})).annotate({ identifier: "CreatePrinterRequest" }) as any as Schema.Schema<CreatePrinterRequest>;
+export const CreatePrinterRequest: Schema.Schema<CreatePrinterRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parent: Schema.optional(Schema.String),
+      printer: Schema.optional(Printer),
+    }),
+  ).annotate({
+    identifier: "CreatePrinterRequest",
+  }) as any as Schema.Schema<CreatePrinterRequest>;
 
 export interface BatchCreatePrintersRequest {
   /** A list of Printers to be created. Max 50 at a time. */
   requests?: Array<CreatePrinterRequest>;
 }
 
-export const BatchCreatePrintersRequest: Schema.Schema<BatchCreatePrintersRequest> = Schema.suspend(() => Schema.Struct({
-  requests: Schema.optional(Schema.Array(CreatePrinterRequest)),
-})).annotate({ identifier: "BatchCreatePrintersRequest" }) as any as Schema.Schema<BatchCreatePrintersRequest>;
+export const BatchCreatePrintersRequest: Schema.Schema<BatchCreatePrintersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requests: Schema.optional(Schema.Array(CreatePrinterRequest)),
+    }),
+  ).annotate({
+    identifier: "BatchCreatePrintersRequest",
+  }) as any as Schema.Schema<BatchCreatePrintersRequest>;
 
 export interface FailureInfo {
   /** Id of a failed printer. */
@@ -140,17 +176,37 @@ export interface FailureInfo {
   /** Failed printer. */
   printer?: Printer;
   /** Canonical code for why the update failed to apply. */
-  errorCode?: "OK" | "CANCELLED" | "UNKNOWN" | "INVALID_ARGUMENT" | "DEADLINE_EXCEEDED" | "NOT_FOUND" | "ALREADY_EXISTS" | "PERMISSION_DENIED" | "UNAUTHENTICATED" | "RESOURCE_EXHAUSTED" | "FAILED_PRECONDITION" | "ABORTED" | "OUT_OF_RANGE" | "UNIMPLEMENTED" | "INTERNAL" | "UNAVAILABLE" | "DATA_LOSS" | (string & {});
+  errorCode?:
+    | "OK"
+    | "CANCELLED"
+    | "UNKNOWN"
+    | "INVALID_ARGUMENT"
+    | "DEADLINE_EXCEEDED"
+    | "NOT_FOUND"
+    | "ALREADY_EXISTS"
+    | "PERMISSION_DENIED"
+    | "UNAUTHENTICATED"
+    | "RESOURCE_EXHAUSTED"
+    | "FAILED_PRECONDITION"
+    | "ABORTED"
+    | "OUT_OF_RANGE"
+    | "UNIMPLEMENTED"
+    | "INTERNAL"
+    | "UNAVAILABLE"
+    | "DATA_LOSS"
+    | (string & {});
   /** Failure reason message. */
   errorMessage?: string;
 }
 
-export const FailureInfo: Schema.Schema<FailureInfo> = Schema.suspend(() => Schema.Struct({
-  printerId: Schema.optional(Schema.String),
-  printer: Schema.optional(Printer),
-  errorCode: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "FailureInfo" }) as any as Schema.Schema<FailureInfo>;
+export const FailureInfo: Schema.Schema<FailureInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    printerId: Schema.optional(Schema.String),
+    printer: Schema.optional(Printer),
+    errorCode: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "FailureInfo" }) as any as Schema.Schema<FailureInfo>;
 
 export interface BatchCreatePrintersResponse {
   /** A list of successfully created printers with their IDs populated. */
@@ -159,25 +215,35 @@ export interface BatchCreatePrintersResponse {
   failures?: Array<FailureInfo>;
 }
 
-export const BatchCreatePrintersResponse: Schema.Schema<BatchCreatePrintersResponse> = Schema.suspend(() => Schema.Struct({
-  printers: Schema.optional(Schema.Array(Printer)),
-  failures: Schema.optional(Schema.Array(FailureInfo)),
-})).annotate({ identifier: "BatchCreatePrintersResponse" }) as any as Schema.Schema<BatchCreatePrintersResponse>;
+export const BatchCreatePrintersResponse: Schema.Schema<BatchCreatePrintersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printers: Schema.optional(Schema.Array(Printer)),
+      failures: Schema.optional(Schema.Array(FailureInfo)),
+    }),
+  ).annotate({
+    identifier: "BatchCreatePrintersResponse",
+  }) as any as Schema.Schema<BatchCreatePrintersResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface BatchDeletePrintersRequest {
   /** A list of Printer.id that should be deleted. Max 100 at a time. */
   printerIds?: Array<string>;
 }
 
-export const BatchDeletePrintersRequest: Schema.Schema<BatchDeletePrintersRequest> = Schema.suspend(() => Schema.Struct({
-  printerIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchDeletePrintersRequest" }) as any as Schema.Schema<BatchDeletePrintersRequest>;
+export const BatchDeletePrintersRequest: Schema.Schema<BatchDeletePrintersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printerIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchDeletePrintersRequest",
+  }) as any as Schema.Schema<BatchDeletePrintersRequest>;
 
 export interface BatchDeletePrintersResponse {
   /** A list of Printer.id that were successfully deleted. */
@@ -186,10 +252,15 @@ export interface BatchDeletePrintersResponse {
   failedPrinters?: Array<FailureInfo>;
 }
 
-export const BatchDeletePrintersResponse: Schema.Schema<BatchDeletePrintersResponse> = Schema.suspend(() => Schema.Struct({
-  printerIds: Schema.optional(Schema.Array(Schema.String)),
-  failedPrinters: Schema.optional(Schema.Array(FailureInfo)),
-})).annotate({ identifier: "BatchDeletePrintersResponse" }) as any as Schema.Schema<BatchDeletePrintersResponse>;
+export const BatchDeletePrintersResponse: Schema.Schema<BatchDeletePrintersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printerIds: Schema.optional(Schema.Array(Schema.String)),
+      failedPrinters: Schema.optional(Schema.Array(FailureInfo)),
+    }),
+  ).annotate({
+    identifier: "BatchDeletePrintersResponse",
+  }) as any as Schema.Schema<BatchDeletePrintersResponse>;
 
 export interface PrintServer {
   /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
@@ -208,15 +279,17 @@ export interface PrintServer {
   orgUnitId?: string;
 }
 
-export const PrintServer: Schema.Schema<PrintServer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  orgUnitId: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrintServer" }) as any as Schema.Schema<PrintServer>;
+export const PrintServer: Schema.Schema<PrintServer> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    orgUnitId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PrintServer" }) as any as Schema.Schema<PrintServer>;
 
 export interface ListPrintServersResponse {
   /** List of print servers. */
@@ -225,10 +298,15 @@ export interface ListPrintServersResponse {
   nextPageToken?: string;
 }
 
-export const ListPrintServersResponse: Schema.Schema<ListPrintServersResponse> = Schema.suspend(() => Schema.Struct({
-  printServers: Schema.optional(Schema.Array(PrintServer)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPrintServersResponse" }) as any as Schema.Schema<ListPrintServersResponse>;
+export const ListPrintServersResponse: Schema.Schema<ListPrintServersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printServers: Schema.optional(Schema.Array(PrintServer)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPrintServersResponse",
+  }) as any as Schema.Schema<ListPrintServersResponse>;
 
 export interface CreatePrintServerRequest {
   /** Required. The [unique ID](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customers) of the customer's Google Workspace account. Format: `customers/{id}` */
@@ -237,19 +315,29 @@ export interface CreatePrintServerRequest {
   printServer?: PrintServer;
 }
 
-export const CreatePrintServerRequest: Schema.Schema<CreatePrintServerRequest> = Schema.suspend(() => Schema.Struct({
-  parent: Schema.optional(Schema.String),
-  printServer: Schema.optional(PrintServer),
-})).annotate({ identifier: "CreatePrintServerRequest" }) as any as Schema.Schema<CreatePrintServerRequest>;
+export const CreatePrintServerRequest: Schema.Schema<CreatePrintServerRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parent: Schema.optional(Schema.String),
+      printServer: Schema.optional(PrintServer),
+    }),
+  ).annotate({
+    identifier: "CreatePrintServerRequest",
+  }) as any as Schema.Schema<CreatePrintServerRequest>;
 
 export interface BatchCreatePrintServersRequest {
   /** Required. A list of `PrintServer` resources to be created (max `50` per batch). */
   requests?: Array<CreatePrintServerRequest>;
 }
 
-export const BatchCreatePrintServersRequest: Schema.Schema<BatchCreatePrintServersRequest> = Schema.suspend(() => Schema.Struct({
-  requests: Schema.optional(Schema.Array(CreatePrintServerRequest)),
-})).annotate({ identifier: "BatchCreatePrintServersRequest" }) as any as Schema.Schema<BatchCreatePrintServersRequest>;
+export const BatchCreatePrintServersRequest: Schema.Schema<BatchCreatePrintServersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requests: Schema.optional(Schema.Array(CreatePrintServerRequest)),
+    }),
+  ).annotate({
+    identifier: "BatchCreatePrintServersRequest",
+  }) as any as Schema.Schema<BatchCreatePrintServersRequest>;
 
 export interface PrintServerFailureInfo {
   /** ID of a failed print server. */
@@ -257,17 +345,40 @@ export interface PrintServerFailureInfo {
   /** Failed print server. */
   printServer?: PrintServer;
   /** Canonical code for why the update failed to apply. */
-  errorCode?: "OK" | "CANCELLED" | "UNKNOWN" | "INVALID_ARGUMENT" | "DEADLINE_EXCEEDED" | "NOT_FOUND" | "ALREADY_EXISTS" | "PERMISSION_DENIED" | "UNAUTHENTICATED" | "RESOURCE_EXHAUSTED" | "FAILED_PRECONDITION" | "ABORTED" | "OUT_OF_RANGE" | "UNIMPLEMENTED" | "INTERNAL" | "UNAVAILABLE" | "DATA_LOSS" | (string & {});
+  errorCode?:
+    | "OK"
+    | "CANCELLED"
+    | "UNKNOWN"
+    | "INVALID_ARGUMENT"
+    | "DEADLINE_EXCEEDED"
+    | "NOT_FOUND"
+    | "ALREADY_EXISTS"
+    | "PERMISSION_DENIED"
+    | "UNAUTHENTICATED"
+    | "RESOURCE_EXHAUSTED"
+    | "FAILED_PRECONDITION"
+    | "ABORTED"
+    | "OUT_OF_RANGE"
+    | "UNIMPLEMENTED"
+    | "INTERNAL"
+    | "UNAVAILABLE"
+    | "DATA_LOSS"
+    | (string & {});
   /** Failure reason message. */
   errorMessage?: string;
 }
 
-export const PrintServerFailureInfo: Schema.Schema<PrintServerFailureInfo> = Schema.suspend(() => Schema.Struct({
-  printServerId: Schema.optional(Schema.String),
-  printServer: Schema.optional(PrintServer),
-  errorCode: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrintServerFailureInfo" }) as any as Schema.Schema<PrintServerFailureInfo>;
+export const PrintServerFailureInfo: Schema.Schema<PrintServerFailureInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printServerId: Schema.optional(Schema.String),
+      printServer: Schema.optional(PrintServer),
+      errorCode: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrintServerFailureInfo",
+  }) as any as Schema.Schema<PrintServerFailureInfo>;
 
 export interface BatchCreatePrintServersResponse {
   /** A list of successfully created print servers with their IDs populated. */
@@ -276,19 +387,29 @@ export interface BatchCreatePrintServersResponse {
   failures?: Array<PrintServerFailureInfo>;
 }
 
-export const BatchCreatePrintServersResponse: Schema.Schema<BatchCreatePrintServersResponse> = Schema.suspend(() => Schema.Struct({
-  printServers: Schema.optional(Schema.Array(PrintServer)),
-  failures: Schema.optional(Schema.Array(PrintServerFailureInfo)),
-})).annotate({ identifier: "BatchCreatePrintServersResponse" }) as any as Schema.Schema<BatchCreatePrintServersResponse>;
+export const BatchCreatePrintServersResponse: Schema.Schema<BatchCreatePrintServersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printServers: Schema.optional(Schema.Array(PrintServer)),
+      failures: Schema.optional(Schema.Array(PrintServerFailureInfo)),
+    }),
+  ).annotate({
+    identifier: "BatchCreatePrintServersResponse",
+  }) as any as Schema.Schema<BatchCreatePrintServersResponse>;
 
 export interface BatchDeletePrintServersRequest {
   /** A list of print server IDs that should be deleted (max `100` per batch). */
   printServerIds?: Array<string>;
 }
 
-export const BatchDeletePrintServersRequest: Schema.Schema<BatchDeletePrintServersRequest> = Schema.suspend(() => Schema.Struct({
-  printServerIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchDeletePrintServersRequest" }) as any as Schema.Schema<BatchDeletePrintServersRequest>;
+export const BatchDeletePrintServersRequest: Schema.Schema<BatchDeletePrintServersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printServerIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchDeletePrintServersRequest",
+  }) as any as Schema.Schema<BatchDeletePrintServersRequest>;
 
 export interface BatchDeletePrintServersResponse {
   /** A list of print server IDs that were successfully deleted. */
@@ -297,10 +418,15 @@ export interface BatchDeletePrintServersResponse {
   failedPrintServers?: Array<PrintServerFailureInfo>;
 }
 
-export const BatchDeletePrintServersResponse: Schema.Schema<BatchDeletePrintServersResponse> = Schema.suspend(() => Schema.Struct({
-  printServerIds: Schema.optional(Schema.Array(Schema.String)),
-  failedPrintServers: Schema.optional(Schema.Array(PrintServerFailureInfo)),
-})).annotate({ identifier: "BatchDeletePrintServersResponse" }) as any as Schema.Schema<BatchDeletePrintServersResponse>;
+export const BatchDeletePrintServersResponse: Schema.Schema<BatchDeletePrintServersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      printServerIds: Schema.optional(Schema.Array(Schema.String)),
+      failedPrintServers: Schema.optional(Schema.Array(PrintServerFailureInfo)),
+    }),
+  ).annotate({
+    identifier: "BatchDeletePrintServersResponse",
+  }) as any as Schema.Schema<BatchDeletePrintServersResponse>;
 
 export interface ChromeOsDeviceAction {
   /** Action to be taken on the Chrome OS device. */
@@ -309,14 +435,24 @@ export interface ChromeOsDeviceAction {
   deprovisionReason?: string;
 }
 
-export const ChromeOsDeviceAction: Schema.Schema<ChromeOsDeviceAction> = Schema.suspend(() => Schema.Struct({
-  action: Schema.optional(Schema.String),
-  deprovisionReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChromeOsDeviceAction" }) as any as Schema.Schema<ChromeOsDeviceAction>;
+export const ChromeOsDeviceAction: Schema.Schema<ChromeOsDeviceAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      action: Schema.optional(Schema.String),
+      deprovisionReason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ChromeOsDeviceAction",
+  }) as any as Schema.Schema<ChromeOsDeviceAction>;
 
 export interface OsUpdateStatus {
   /** The update state of an OS update. */
-  state?: "updateStateUnspecified" | "updateStateNotStarted" | "updateStateDownloadInProgress" | "updateStateNeedReboot" | (string & {});
+  state?:
+    | "updateStateUnspecified"
+    | "updateStateNotStarted"
+    | "updateStateDownloadInProgress"
+    | "updateStateNeedReboot"
+    | (string & {});
   /** New platform version of the OS image being downloaded and applied. It is only set when update status is UPDATE_STATUS_DOWNLOAD_IN_PROGRESS or UPDATE_STATUS_NEED_REBOOT. Note this could be a dummy "0.0.0.0" for UPDATE_STATUS_NEED_REBOOT for some edge cases, e.g. update engine is restarted without a reboot. */
   targetOsVersion?: string;
   /** New required platform version from the pending updated kiosk app. */
@@ -329,14 +465,19 @@ export interface OsUpdateStatus {
   rebootTime?: string;
 }
 
-export const OsUpdateStatus: Schema.Schema<OsUpdateStatus> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  targetOsVersion: Schema.optional(Schema.String),
-  targetKioskAppVersion: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  updateCheckTime: Schema.optional(Schema.String),
-  rebootTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "OsUpdateStatus" }) as any as Schema.Schema<OsUpdateStatus>;
+export const OsUpdateStatus: Schema.Schema<OsUpdateStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      targetOsVersion: Schema.optional(Schema.String),
+      targetKioskAppVersion: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      updateCheckTime: Schema.optional(Schema.String),
+      rebootTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "OsUpdateStatus",
+}) as any as Schema.Schema<OsUpdateStatus>;
 
 export interface BacklightInfo {
   /** Output only. Path to this backlight on the system. Useful if the caller needs to correlate with other information. */
@@ -347,20 +488,26 @@ export interface BacklightInfo {
   brightness?: number;
 }
 
-export const BacklightInfo: Schema.Schema<BacklightInfo> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  maxBrightness: Schema.optional(Schema.Number),
-  brightness: Schema.optional(Schema.Number),
-})).annotate({ identifier: "BacklightInfo" }) as any as Schema.Schema<BacklightInfo>;
+export const BacklightInfo: Schema.Schema<BacklightInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    path: Schema.optional(Schema.String),
+    maxBrightness: Schema.optional(Schema.Number),
+    brightness: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "BacklightInfo",
+}) as any as Schema.Schema<BacklightInfo>;
 
 export interface FanInfo {
   /** Output only. Fan speed in RPM. */
   speedRpm?: number;
 }
 
-export const FanInfo: Schema.Schema<FanInfo> = Schema.suspend(() => Schema.Struct({
-  speedRpm: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FanInfo" }) as any as Schema.Schema<FanInfo>;
+export const FanInfo: Schema.Schema<FanInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    speedRpm: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "FanInfo" }) as any as Schema.Schema<FanInfo>;
 
 export interface ByteUsage {
   /** Output only. The total capacity value, in bytes. */
@@ -369,10 +516,12 @@ export interface ByteUsage {
   usedBytes?: string;
 }
 
-export const ByteUsage: Schema.Schema<ByteUsage> = Schema.suspend(() => Schema.Struct({
-  capacityBytes: Schema.optional(Schema.String),
-  usedBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "ByteUsage" }) as any as Schema.Schema<ByteUsage>;
+export const ByteUsage: Schema.Schema<ByteUsage> = Schema.suspend(() =>
+  Schema.Struct({
+    capacityBytes: Schema.optional(Schema.String),
+    usedBytes: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ByteUsage" }) as any as Schema.Schema<ByteUsage>;
 
 export interface BluetoothAdapterInfo {
   /** Output only. The MAC address of the adapter. */
@@ -381,10 +530,15 @@ export interface BluetoothAdapterInfo {
   numConnectedDevices?: number;
 }
 
-export const BluetoothAdapterInfo: Schema.Schema<BluetoothAdapterInfo> = Schema.suspend(() => Schema.Struct({
-  address: Schema.optional(Schema.String),
-  numConnectedDevices: Schema.optional(Schema.Number),
-})).annotate({ identifier: "BluetoothAdapterInfo" }) as any as Schema.Schema<BluetoothAdapterInfo>;
+export const BluetoothAdapterInfo: Schema.Schema<BluetoothAdapterInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      address: Schema.optional(Schema.String),
+      numConnectedDevices: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "BluetoothAdapterInfo",
+  }) as any as Schema.Schema<BluetoothAdapterInfo>;
 
 export interface ChromeOsDevice {
   /** The unique ID of the Chrome device. */
@@ -436,17 +590,45 @@ export interface ChromeOsDevice {
   /** ETag of the resource. */
   etag?: string;
   /** Reports of disk space and other info about mounted/connected volumes. */
-  diskVolumeReports?: Array<{ volumeInfo?: Array<{ volumeId?: string; storageTotal?: string; storageFree?: string }> }>;
+  diskVolumeReports?: Array<{
+    volumeInfo?: Array<{
+      volumeId?: string;
+      storageTotal?: string;
+      storageFree?: string;
+    }>;
+  }>;
   /** Total RAM on the device [in bytes] (Read-only) */
   systemRamTotal?: string;
   /** Reports of CPU utilization and temperature (Read-only) */
-  cpuStatusReports?: Array<{ reportTime?: string; cpuUtilizationPercentageInfo?: Array<number>; cpuTemperatureInfo?: Array<{ temperature?: number; label?: string }> }>;
+  cpuStatusReports?: Array<{
+    reportTime?: string;
+    cpuUtilizationPercentageInfo?: Array<number>;
+    cpuTemperatureInfo?: Array<{ temperature?: number; label?: string }>;
+  }>;
   /** Information regarding CPU specs in the device. */
-  cpuInfo?: Array<{ model?: string; architecture?: string; maxClockSpeedKhz?: number; logicalCpus?: Array<{ maxScalingFrequencyKhz?: number; currentScalingFrequencyKhz?: number; idleDuration?: string; cStates?: Array<{ displayName?: string; sessionDuration?: string }> }> }>;
+  cpuInfo?: Array<{
+    model?: string;
+    architecture?: string;
+    maxClockSpeedKhz?: number;
+    logicalCpus?: Array<{
+      maxScalingFrequencyKhz?: number;
+      currentScalingFrequencyKhz?: number;
+      idleDuration?: string;
+      cStates?: Array<{ displayName?: string; sessionDuration?: string }>;
+    }>;
+  }>;
   /** A list of device files to download (Read-only) */
-  deviceFiles?: Array<{ name?: string; type?: string; downloadUrl?: string; createTime?: string }>;
+  deviceFiles?: Array<{
+    name?: string;
+    type?: string;
+    downloadUrl?: string;
+    createTime?: string;
+  }>;
   /** Reports of amounts of available RAM memory (Read-only) */
-  systemRamFreeReports?: Array<{ reportTime?: string; systemRamFreeInfo?: Array<string> }>;
+  systemRamFreeReports?: Array<{
+    reportTime?: string;
+    systemRamFreeInfo?: Array<string>;
+  }>;
   /** Contains last known network (Read-only) */
   lastKnownNetwork?: Array<{ ipAddress?: string; wanIpAddress?: string }>;
   /** (Read-only) The timestamp after which the device will stop receiving Chrome updates or support. Please use "autoUpdateThrough" instead. */
@@ -460,9 +642,21 @@ export interface ChromeOsDevice {
   /** The full parent path with the organizational unit's name associated with the device. Path names are case insensitive. If the parent organizational unit is the top-level organization, it is represented as a forward slash, `/`. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
   orgUnitPath?: string;
   /** Trusted Platform Module (TPM) (Read-only) */
-  tpmVersionInfo?: { family?: string; specLevel?: string; manufacturer?: string; tpmModel?: string; firmwareVersion?: string; vendorSpecific?: string };
+  tpmVersionInfo?: {
+    family?: string;
+    specLevel?: string;
+    manufacturer?: string;
+    tpmModel?: string;
+    firmwareVersion?: string;
+    vendorSpecific?: string;
+  };
   /** A list of screenshot files to download. Type is always "SCREENSHOT_FILE". (Read-only) */
-  screenshotFiles?: Array<{ name?: string; type?: string; downloadUrl?: string; createTime?: string }>;
+  screenshotFiles?: Array<{
+    name?: string;
+    type?: string;
+    downloadUrl?: string;
+    createTime?: string;
+  }>;
   /** The unique ID of the organizational unit. orgUnitPath is the human readable version of orgUnitId. While orgUnitPath may change by renaming an organizational unit within the path, orgUnitId is unchangeable for one organizational unit. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
   orgUnitId?: string;
   /** The status of the OS updates for the device. */
@@ -472,9 +666,32 @@ export interface ChromeOsDevice {
   /** (Read-only) Date and time for the last deprovision of the device. */
   lastDeprovisionTimestamp?: string;
   /** (Read-only) Deprovision reason. */
-  deprovisionReason?: "DEPROVISION_REASON_UNSPECIFIED" | "DEPROVISION_REASON_SAME_MODEL_REPLACEMENT" | "DEPROVISION_REASON_UPGRADE" | "DEPROVISION_REASON_DOMAIN_MOVE" | "DEPROVISION_REASON_SERVICE_EXPIRATION" | "DEPROVISION_REASON_OTHER" | "DEPROVISION_REASON_DIFFERENT_MODEL_REPLACEMENT" | "DEPROVISION_REASON_RETIRING_DEVICE" | "DEPROVISION_REASON_UPGRADE_TRANSFER" | "DEPROVISION_REASON_NOT_REQUIRED" | "DEPROVISION_REASON_REPAIR_CENTER" | (string & {});
+  deprovisionReason?:
+    | "DEPROVISION_REASON_UNSPECIFIED"
+    | "DEPROVISION_REASON_SAME_MODEL_REPLACEMENT"
+    | "DEPROVISION_REASON_UPGRADE"
+    | "DEPROVISION_REASON_DOMAIN_MOVE"
+    | "DEPROVISION_REASON_SERVICE_EXPIRATION"
+    | "DEPROVISION_REASON_OTHER"
+    | "DEPROVISION_REASON_DIFFERENT_MODEL_REPLACEMENT"
+    | "DEPROVISION_REASON_RETIRING_DEVICE"
+    | "DEPROVISION_REASON_UPGRADE_TRANSFER"
+    | "DEPROVISION_REASON_NOT_REQUIRED"
+    | "DEPROVISION_REASON_REPAIR_CENTER"
+    | (string & {});
   /** Output only. Device license type. */
-  deviceLicenseType?: "deviceLicenseTypeUnspecified" | "enterprise" | "enterpriseUpgrade" | "educationUpgrade" | "education" | "kioskUpgrade" | "enterpriseUpgradePerpetual" | "enterpriseUpgradeFixedTerm" | "educationUpgradePerpetual" | "educationUpgradeFixedTerm" | (string & {});
+  deviceLicenseType?:
+    | "deviceLicenseTypeUnspecified"
+    | "enterprise"
+    | "enterpriseUpgrade"
+    | "educationUpgrade"
+    | "education"
+    | "kioskUpgrade"
+    | "enterpriseUpgradePerpetual"
+    | "enterpriseUpgradeFixedTerm"
+    | "educationUpgradePerpetual"
+    | "educationUpgradeFixedTerm"
+    | (string & {});
   /** Output only. Contains backlight information for the device. */
   backlightInfo?: Array<BacklightInfo>;
   /** Output only. The timestamp after which the device will stop receiving Chrome updates or support. */
@@ -488,71 +705,196 @@ export interface ChromeOsDevice {
   /** Output only. Fan information for the device. */
   fanInfo?: Array<FanInfo>;
   /** Output only. Chrome OS type of the device. */
-  chromeOsType?: "chromeOsTypeUnspecified" | "chromeOsFlex" | "chromeOs" | (string & {});
+  chromeOsType?:
+    | "chromeOsTypeUnspecified"
+    | "chromeOsFlex"
+    | "chromeOs"
+    | (string & {});
   /** Output only. How much disk space the device has available and is currently using. */
   diskSpaceUsage?: ByteUsage;
   /** Output only. Device policy compliance status of the OS version. */
-  osVersionCompliance?: "complianceUnspecified" | "compliant" | "pending" | "notCompliant" | (string & {});
+  osVersionCompliance?:
+    | "complianceUnspecified"
+    | "compliant"
+    | "pending"
+    | "notCompliant"
+    | (string & {});
   /** Output only. Information about Bluetooth adapters of the device. */
   bluetoothAdapterInfo?: Array<BluetoothAdapterInfo>;
 }
 
-export const ChromeOsDevice: Schema.Schema<ChromeOsDevice> = Schema.suspend(() => Schema.Struct({
-  deviceId: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  lastSync: Schema.optional(Schema.String),
-  supportEndDate: Schema.optional(Schema.String),
-  annotatedUser: Schema.optional(Schema.String),
-  annotatedLocation: Schema.optional(Schema.String),
-  notes: Schema.optional(Schema.String),
-  model: Schema.optional(Schema.String),
-  meid: Schema.optional(Schema.String),
-  orderNumber: Schema.optional(Schema.String),
-  willAutoRenew: Schema.optional(Schema.Boolean),
-  osVersion: Schema.optional(Schema.String),
-  platformVersion: Schema.optional(Schema.String),
-  firmwareVersion: Schema.optional(Schema.String),
-  macAddress: Schema.optional(Schema.String),
-  bootMode: Schema.optional(Schema.String),
-  lastEnrollmentTime: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  recentUsers: Schema.optional(Schema.Array(Schema.Struct({ type: Schema.optional(Schema.String), email: Schema.optional(Schema.String) }))),
-  activeTimeRanges: Schema.optional(Schema.Array(Schema.Struct({ activeTime: Schema.optional(Schema.Number), date: Schema.optional(Schema.String) }))),
-  ethernetMacAddress: Schema.optional(Schema.String),
-  annotatedAssetId: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  diskVolumeReports: Schema.optional(Schema.Array(Schema.Struct({ volumeInfo: Schema.optional(Schema.Array(Schema.Struct({ volumeId: Schema.optional(Schema.String), storageTotal: Schema.optional(Schema.String), storageFree: Schema.optional(Schema.String) }))) }))),
-  systemRamTotal: Schema.optional(Schema.String),
-  cpuStatusReports: Schema.optional(Schema.Array(Schema.Struct({ reportTime: Schema.optional(Schema.String), cpuUtilizationPercentageInfo: Schema.optional(Schema.Array(Schema.Number)), cpuTemperatureInfo: Schema.optional(Schema.Array(Schema.Struct({ temperature: Schema.optional(Schema.Number), label: Schema.optional(Schema.String) }))) }))),
-  cpuInfo: Schema.optional(Schema.Array(Schema.Struct({ model: Schema.optional(Schema.String), architecture: Schema.optional(Schema.String), maxClockSpeedKhz: Schema.optional(Schema.Number), logicalCpus: Schema.optional(Schema.Array(Schema.Struct({ maxScalingFrequencyKhz: Schema.optional(Schema.Number), currentScalingFrequencyKhz: Schema.optional(Schema.Number), idleDuration: Schema.optional(Schema.String), cStates: Schema.optional(Schema.Array(Schema.Struct({ displayName: Schema.optional(Schema.String), sessionDuration: Schema.optional(Schema.String) }))) }))) }))),
-  deviceFiles: Schema.optional(Schema.Array(Schema.Struct({ name: Schema.optional(Schema.String), type: Schema.optional(Schema.String), downloadUrl: Schema.optional(Schema.String), createTime: Schema.optional(Schema.String) }))),
-  systemRamFreeReports: Schema.optional(Schema.Array(Schema.Struct({ reportTime: Schema.optional(Schema.String), systemRamFreeInfo: Schema.optional(Schema.Array(Schema.String)) }))),
-  lastKnownNetwork: Schema.optional(Schema.Array(Schema.Struct({ ipAddress: Schema.optional(Schema.String), wanIpAddress: Schema.optional(Schema.String) }))),
-  autoUpdateExpiration: Schema.optional(Schema.String),
-  ethernetMacAddress0: Schema.optional(Schema.String),
-  dockMacAddress: Schema.optional(Schema.String),
-  manufactureDate: Schema.optional(Schema.String),
-  orgUnitPath: Schema.optional(Schema.String),
-  tpmVersionInfo: Schema.optional(Schema.Struct({ family: Schema.optional(Schema.String), specLevel: Schema.optional(Schema.String), manufacturer: Schema.optional(Schema.String), tpmModel: Schema.optional(Schema.String), firmwareVersion: Schema.optional(Schema.String), vendorSpecific: Schema.optional(Schema.String) })),
-  screenshotFiles: Schema.optional(Schema.Array(Schema.Struct({ name: Schema.optional(Schema.String), type: Schema.optional(Schema.String), downloadUrl: Schema.optional(Schema.String), createTime: Schema.optional(Schema.String) }))),
-  orgUnitId: Schema.optional(Schema.String),
-  osUpdateStatus: Schema.optional(OsUpdateStatus),
-  firstEnrollmentTime: Schema.optional(Schema.String),
-  lastDeprovisionTimestamp: Schema.optional(Schema.String),
-  deprovisionReason: Schema.optional(Schema.String),
-  deviceLicenseType: Schema.optional(Schema.String),
-  backlightInfo: Schema.optional(Schema.Array(BacklightInfo)),
-  autoUpdateThrough: Schema.optional(Schema.String),
-  extendedSupportEligible: Schema.optional(Schema.Boolean),
-  extendedSupportStart: Schema.optional(Schema.String),
-  extendedSupportEnabled: Schema.optional(Schema.Boolean),
-  fanInfo: Schema.optional(Schema.Array(FanInfo)),
-  chromeOsType: Schema.optional(Schema.String),
-  diskSpaceUsage: Schema.optional(ByteUsage),
-  osVersionCompliance: Schema.optional(Schema.String),
-  bluetoothAdapterInfo: Schema.optional(Schema.Array(BluetoothAdapterInfo)),
-})).annotate({ identifier: "ChromeOsDevice" }) as any as Schema.Schema<ChromeOsDevice>;
+export const ChromeOsDevice: Schema.Schema<ChromeOsDevice> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      deviceId: Schema.optional(Schema.String),
+      serialNumber: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      lastSync: Schema.optional(Schema.String),
+      supportEndDate: Schema.optional(Schema.String),
+      annotatedUser: Schema.optional(Schema.String),
+      annotatedLocation: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      model: Schema.optional(Schema.String),
+      meid: Schema.optional(Schema.String),
+      orderNumber: Schema.optional(Schema.String),
+      willAutoRenew: Schema.optional(Schema.Boolean),
+      osVersion: Schema.optional(Schema.String),
+      platformVersion: Schema.optional(Schema.String),
+      firmwareVersion: Schema.optional(Schema.String),
+      macAddress: Schema.optional(Schema.String),
+      bootMode: Schema.optional(Schema.String),
+      lastEnrollmentTime: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      recentUsers: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            type: Schema.optional(Schema.String),
+            email: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      activeTimeRanges: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            activeTime: Schema.optional(Schema.Number),
+            date: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      ethernetMacAddress: Schema.optional(Schema.String),
+      annotatedAssetId: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      diskVolumeReports: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            volumeInfo: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  volumeId: Schema.optional(Schema.String),
+                  storageTotal: Schema.optional(Schema.String),
+                  storageFree: Schema.optional(Schema.String),
+                }),
+              ),
+            ),
+          }),
+        ),
+      ),
+      systemRamTotal: Schema.optional(Schema.String),
+      cpuStatusReports: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            reportTime: Schema.optional(Schema.String),
+            cpuUtilizationPercentageInfo: Schema.optional(
+              Schema.Array(Schema.Number),
+            ),
+            cpuTemperatureInfo: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  temperature: Schema.optional(Schema.Number),
+                  label: Schema.optional(Schema.String),
+                }),
+              ),
+            ),
+          }),
+        ),
+      ),
+      cpuInfo: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            model: Schema.optional(Schema.String),
+            architecture: Schema.optional(Schema.String),
+            maxClockSpeedKhz: Schema.optional(Schema.Number),
+            logicalCpus: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  maxScalingFrequencyKhz: Schema.optional(Schema.Number),
+                  currentScalingFrequencyKhz: Schema.optional(Schema.Number),
+                  idleDuration: Schema.optional(Schema.String),
+                  cStates: Schema.optional(
+                    Schema.Array(
+                      Schema.Struct({
+                        displayName: Schema.optional(Schema.String),
+                        sessionDuration: Schema.optional(Schema.String),
+                      }),
+                    ),
+                  ),
+                }),
+              ),
+            ),
+          }),
+        ),
+      ),
+      deviceFiles: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            name: Schema.optional(Schema.String),
+            type: Schema.optional(Schema.String),
+            downloadUrl: Schema.optional(Schema.String),
+            createTime: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      systemRamFreeReports: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            reportTime: Schema.optional(Schema.String),
+            systemRamFreeInfo: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ),
+      ),
+      lastKnownNetwork: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            ipAddress: Schema.optional(Schema.String),
+            wanIpAddress: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      autoUpdateExpiration: Schema.optional(Schema.String),
+      ethernetMacAddress0: Schema.optional(Schema.String),
+      dockMacAddress: Schema.optional(Schema.String),
+      manufactureDate: Schema.optional(Schema.String),
+      orgUnitPath: Schema.optional(Schema.String),
+      tpmVersionInfo: Schema.optional(
+        Schema.Struct({
+          family: Schema.optional(Schema.String),
+          specLevel: Schema.optional(Schema.String),
+          manufacturer: Schema.optional(Schema.String),
+          tpmModel: Schema.optional(Schema.String),
+          firmwareVersion: Schema.optional(Schema.String),
+          vendorSpecific: Schema.optional(Schema.String),
+        }),
+      ),
+      screenshotFiles: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            name: Schema.optional(Schema.String),
+            type: Schema.optional(Schema.String),
+            downloadUrl: Schema.optional(Schema.String),
+            createTime: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      orgUnitId: Schema.optional(Schema.String),
+      osUpdateStatus: Schema.optional(OsUpdateStatus),
+      firstEnrollmentTime: Schema.optional(Schema.String),
+      lastDeprovisionTimestamp: Schema.optional(Schema.String),
+      deprovisionReason: Schema.optional(Schema.String),
+      deviceLicenseType: Schema.optional(Schema.String),
+      backlightInfo: Schema.optional(Schema.Array(BacklightInfo)),
+      autoUpdateThrough: Schema.optional(Schema.String),
+      extendedSupportEligible: Schema.optional(Schema.Boolean),
+      extendedSupportStart: Schema.optional(Schema.String),
+      extendedSupportEnabled: Schema.optional(Schema.Boolean),
+      fanInfo: Schema.optional(Schema.Array(FanInfo)),
+      chromeOsType: Schema.optional(Schema.String),
+      diskSpaceUsage: Schema.optional(ByteUsage),
+      osVersionCompliance: Schema.optional(Schema.String),
+      bluetoothAdapterInfo: Schema.optional(Schema.Array(BluetoothAdapterInfo)),
+    }),
+).annotate({
+  identifier: "ChromeOsDevice",
+}) as any as Schema.Schema<ChromeOsDevice>;
 
 export interface ChromeOsDevices {
   /** Kind of resource this is. */
@@ -565,46 +907,82 @@ export interface ChromeOsDevices {
   nextPageToken?: string;
 }
 
-export const ChromeOsDevices: Schema.Schema<ChromeOsDevices> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  chromeosdevices: Schema.optional(Schema.Array(ChromeOsDevice)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChromeOsDevices" }) as any as Schema.Schema<ChromeOsDevices>;
+export const ChromeOsDevices: Schema.Schema<ChromeOsDevices> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      chromeosdevices: Schema.optional(Schema.Array(ChromeOsDevice)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ChromeOsDevices",
+}) as any as Schema.Schema<ChromeOsDevices>;
 
 export interface ChromeOsMoveDevicesToOu {
   /** Chrome OS devices to be moved to OU */
   deviceIds?: Array<string>;
 }
 
-export const ChromeOsMoveDevicesToOu: Schema.Schema<ChromeOsMoveDevicesToOu> = Schema.suspend(() => Schema.Struct({
-  deviceIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ChromeOsMoveDevicesToOu" }) as any as Schema.Schema<ChromeOsMoveDevicesToOu>;
+export const ChromeOsMoveDevicesToOu: Schema.Schema<ChromeOsMoveDevicesToOu> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deviceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ChromeOsMoveDevicesToOu",
+  }) as any as Schema.Schema<ChromeOsMoveDevicesToOu>;
 
 export interface DirectoryChromeosdevicesIssueCommandRequest {
   /** The type of command. */
-  commandType?: "COMMAND_TYPE_UNSPECIFIED" | "REBOOT" | "TAKE_A_SCREENSHOT" | "SET_VOLUME" | "WIPE_USERS" | "REMOTE_POWERWASH" | "DEVICE_START_CRD_SESSION" | "CAPTURE_LOGS" | "FETCH_CRD_AVAILABILITY_INFO" | "FETCH_SUPPORT_PACKET" | (string & {});
+  commandType?:
+    | "COMMAND_TYPE_UNSPECIFIED"
+    | "REBOOT"
+    | "TAKE_A_SCREENSHOT"
+    | "SET_VOLUME"
+    | "WIPE_USERS"
+    | "REMOTE_POWERWASH"
+    | "DEVICE_START_CRD_SESSION"
+    | "CAPTURE_LOGS"
+    | "FETCH_CRD_AVAILABILITY_INFO"
+    | "FETCH_SUPPORT_PACKET"
+    | (string & {});
   /** The payload for the command, provide it only if command supports it. The following commands support adding payload: * `SET_VOLUME`: Payload is a stringified JSON object in the form: { "volume": 50 }. The volume has to be an integer in the range [0,100]. * `DEVICE_START_CRD_SESSION`: Payload is optionally a stringified JSON object in the form: { "ackedUserPresence": true, "crdSessionType": string }. `ackedUserPresence` is a boolean. By default, `ackedUserPresence` is set to `false`. To start a Chrome Remote Desktop session for an active device, set `ackedUserPresence` to `true`. `crdSessionType` can only select from values `private` (which grants the remote admin exclusive control of the ChromeOS device) or `shared` (which allows the admin and the local user to share control of the ChromeOS device). If not set, `crdSessionType` defaults to `shared`. The `FETCH_CRD_AVAILABILITY_INFO` command can be used to determine available session types on the device. * `REBOOT`: Payload is a stringified JSON object in the form: { "user_session_delay_seconds": 300 }. The `user_session_delay_seconds` is the amount of seconds to wait before rebooting the device if a user is logged in. It has to be an integer in the range [0,300]. When payload is not present for reboot, 0 delay is the default. Note: This only applies if an actual user is logged in, including a Guest. If the device is in the login screen or in Kiosk mode the value is not respected and the device immediately reboots. * `FETCH_SUPPORT_PACKET`: Payload is optionally a stringified JSON object in the form: {"supportPacketDetails":{ "issueCaseId": optional_support_case_id_string, "issueDescription": optional_issue_description_string, "requestedDataCollectors": []}} The list of available `data_collector_enums` are as following: Chrome System Information (1), Crash IDs (2), Memory Details (3), UI Hierarchy (4), Additional ChromeOS Platform Logs (5), Device Event (6), Intel WiFi NICs Debug Dump (7), Touch Events (8), Lacros (9), Lacros System Information (10), ChromeOS Flex Logs (11), DBus Details (12), ChromeOS Network Routes (13), ChromeOS Shill (Connection Manager) Logs (14), Policies (15), ChromeOS System State and Logs (16), ChromeOS System Logs (17), ChromeOS Chrome User Logs (18), ChromeOS Bluetooth (19), ChromeOS Connected Input Devices (20), ChromeOS Traffic Counters (21), ChromeOS Virtual Keyboard (22), ChromeOS Network Health (23). See more details in [help article](https://support.google.com/chrome/a?p=remote-log). */
   payload?: string;
 }
 
-export const DirectoryChromeosdevicesIssueCommandRequest: Schema.Schema<DirectoryChromeosdevicesIssueCommandRequest> = Schema.suspend(() => Schema.Struct({
-  commandType: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.String),
-})).annotate({ identifier: "DirectoryChromeosdevicesIssueCommandRequest" }) as any as Schema.Schema<DirectoryChromeosdevicesIssueCommandRequest>;
+export const DirectoryChromeosdevicesIssueCommandRequest: Schema.Schema<DirectoryChromeosdevicesIssueCommandRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commandType: Schema.optional(Schema.String),
+      payload: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectoryChromeosdevicesIssueCommandRequest",
+  }) as any as Schema.Schema<DirectoryChromeosdevicesIssueCommandRequest>;
 
 export interface DirectoryChromeosdevicesIssueCommandResponse {
   /** The unique ID of the issued command, used to retrieve the command status. */
   commandId?: string;
 }
 
-export const DirectoryChromeosdevicesIssueCommandResponse: Schema.Schema<DirectoryChromeosdevicesIssueCommandResponse> = Schema.suspend(() => Schema.Struct({
-  commandId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DirectoryChromeosdevicesIssueCommandResponse" }) as any as Schema.Schema<DirectoryChromeosdevicesIssueCommandResponse>;
+export const DirectoryChromeosdevicesIssueCommandResponse: Schema.Schema<DirectoryChromeosdevicesIssueCommandResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commandId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectoryChromeosdevicesIssueCommandResponse",
+  }) as any as Schema.Schema<DirectoryChromeosdevicesIssueCommandResponse>;
 
 export interface DirectoryChromeosdevicesCommandResult {
   /** The result of the command. */
-  result?: "COMMAND_RESULT_TYPE_UNSPECIFIED" | "IGNORED" | "FAILURE" | "SUCCESS" | (string & {});
+  result?:
+    | "COMMAND_RESULT_TYPE_UNSPECIFIED"
+    | "IGNORED"
+    | "FAILURE"
+    | "SUCCESS"
+    | (string & {});
   /** The time at which the command was executed or failed to execute. */
   executeTime?: string;
   /** The error message with a short explanation as to why the command failed. Only present if the command failed. */
@@ -613,22 +991,46 @@ export interface DirectoryChromeosdevicesCommandResult {
   commandResultPayload?: string;
 }
 
-export const DirectoryChromeosdevicesCommandResult: Schema.Schema<DirectoryChromeosdevicesCommandResult> = Schema.suspend(() => Schema.Struct({
-  result: Schema.optional(Schema.String),
-  executeTime: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-  commandResultPayload: Schema.optional(Schema.String),
-})).annotate({ identifier: "DirectoryChromeosdevicesCommandResult" }) as any as Schema.Schema<DirectoryChromeosdevicesCommandResult>;
+export const DirectoryChromeosdevicesCommandResult: Schema.Schema<DirectoryChromeosdevicesCommandResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      result: Schema.optional(Schema.String),
+      executeTime: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+      commandResultPayload: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectoryChromeosdevicesCommandResult",
+  }) as any as Schema.Schema<DirectoryChromeosdevicesCommandResult>;
 
 export interface DirectoryChromeosdevicesCommand {
   /** Unique ID of a device command. */
   commandId?: string;
   /** The type of the command. */
-  type?: "COMMAND_TYPE_UNSPECIFIED" | "REBOOT" | "TAKE_A_SCREENSHOT" | "SET_VOLUME" | "WIPE_USERS" | "REMOTE_POWERWASH" | "DEVICE_START_CRD_SESSION" | "CAPTURE_LOGS" | "FETCH_CRD_AVAILABILITY_INFO" | "FETCH_SUPPORT_PACKET" | (string & {});
+  type?:
+    | "COMMAND_TYPE_UNSPECIFIED"
+    | "REBOOT"
+    | "TAKE_A_SCREENSHOT"
+    | "SET_VOLUME"
+    | "WIPE_USERS"
+    | "REMOTE_POWERWASH"
+    | "DEVICE_START_CRD_SESSION"
+    | "CAPTURE_LOGS"
+    | "FETCH_CRD_AVAILABILITY_INFO"
+    | "FETCH_SUPPORT_PACKET"
+    | (string & {});
   /** The timestamp when the command was issued by the admin. */
   issueTime?: string;
   /** Indicates the command state. */
-  state?: "STATE_UNSPECIFIED" | "PENDING" | "EXPIRED" | "CANCELLED" | "SENT_TO_CLIENT" | "ACKED_BY_CLIENT" | "EXECUTED_BY_CLIENT" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "PENDING"
+    | "EXPIRED"
+    | "CANCELLED"
+    | "SENT_TO_CLIENT"
+    | "ACKED_BY_CLIENT"
+    | "EXECUTED_BY_CLIENT"
+    | (string & {});
   /** The time at which the command will expire. If the device doesn't execute the command within this time the command will become expired. */
   commandExpireTime?: string;
   /** The result of the command execution. */
@@ -637,30 +1039,57 @@ export interface DirectoryChromeosdevicesCommand {
   payload?: string;
 }
 
-export const DirectoryChromeosdevicesCommand: Schema.Schema<DirectoryChromeosdevicesCommand> = Schema.suspend(() => Schema.Struct({
-  commandId: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  issueTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  commandExpireTime: Schema.optional(Schema.String),
-  commandResult: Schema.optional(DirectoryChromeosdevicesCommandResult),
-  payload: Schema.optional(Schema.String),
-})).annotate({ identifier: "DirectoryChromeosdevicesCommand" }) as any as Schema.Schema<DirectoryChromeosdevicesCommand>;
+export const DirectoryChromeosdevicesCommand: Schema.Schema<DirectoryChromeosdevicesCommand> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commandId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      issueTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      commandExpireTime: Schema.optional(Schema.String),
+      commandResult: Schema.optional(DirectoryChromeosdevicesCommandResult),
+      payload: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectoryChromeosdevicesCommand",
+  }) as any as Schema.Schema<DirectoryChromeosdevicesCommand>;
 
 export interface BatchChangeChromeOsDeviceStatusRequest {
   /** Required. List of the IDs of the ChromeOS devices to change. Maximum 50. */
   deviceIds?: Array<string>;
   /** Required. The action to take on the ChromeOS device in order to change its status. */
-  changeChromeOsDeviceStatusAction?: "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_UNSPECIFIED" | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DEPROVISION" | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DISABLE" | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_REENABLE" | (string & {});
+  changeChromeOsDeviceStatusAction?:
+    | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_UNSPECIFIED"
+    | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DEPROVISION"
+    | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DISABLE"
+    | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_REENABLE"
+    | (string & {});
   /** Optional. The reason behind a device deprovision. Must be provided if 'changeChromeOsDeviceStatusAction' is set to 'CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DEPROVISION'. Otherwise, omit this field. */
-  deprovisionReason?: "DEPROVISION_REASON_UNSPECIFIED" | "DEPROVISION_REASON_SAME_MODEL_REPLACEMENT" | "DEPROVISION_REASON_UPGRADE" | "DEPROVISION_REASON_DOMAIN_MOVE" | "DEPROVISION_REASON_SERVICE_EXPIRATION" | "DEPROVISION_REASON_OTHER" | "DEPROVISION_REASON_DIFFERENT_MODEL_REPLACEMENT" | "DEPROVISION_REASON_RETIRING_DEVICE" | "DEPROVISION_REASON_UPGRADE_TRANSFER" | "DEPROVISION_REASON_NOT_REQUIRED" | "DEPROVISION_REASON_REPAIR_CENTER" | (string & {});
+  deprovisionReason?:
+    | "DEPROVISION_REASON_UNSPECIFIED"
+    | "DEPROVISION_REASON_SAME_MODEL_REPLACEMENT"
+    | "DEPROVISION_REASON_UPGRADE"
+    | "DEPROVISION_REASON_DOMAIN_MOVE"
+    | "DEPROVISION_REASON_SERVICE_EXPIRATION"
+    | "DEPROVISION_REASON_OTHER"
+    | "DEPROVISION_REASON_DIFFERENT_MODEL_REPLACEMENT"
+    | "DEPROVISION_REASON_RETIRING_DEVICE"
+    | "DEPROVISION_REASON_UPGRADE_TRANSFER"
+    | "DEPROVISION_REASON_NOT_REQUIRED"
+    | "DEPROVISION_REASON_REPAIR_CENTER"
+    | (string & {});
 }
 
-export const BatchChangeChromeOsDeviceStatusRequest: Schema.Schema<BatchChangeChromeOsDeviceStatusRequest> = Schema.suspend(() => Schema.Struct({
-  deviceIds: Schema.optional(Schema.Array(Schema.String)),
-  changeChromeOsDeviceStatusAction: Schema.optional(Schema.String),
-  deprovisionReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "BatchChangeChromeOsDeviceStatusRequest" }) as any as Schema.Schema<BatchChangeChromeOsDeviceStatusRequest>;
+export const BatchChangeChromeOsDeviceStatusRequest: Schema.Schema<BatchChangeChromeOsDeviceStatusRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deviceIds: Schema.optional(Schema.Array(Schema.String)),
+      changeChromeOsDeviceStatusAction: Schema.optional(Schema.String),
+      deprovisionReason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BatchChangeChromeOsDeviceStatusRequest",
+  }) as any as Schema.Schema<BatchChangeChromeOsDeviceStatusRequest>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -671,17 +1100,22 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
-export interface ChangeChromeOsDeviceStatusSucceeded {
-}
+export interface ChangeChromeOsDeviceStatusSucceeded {}
 
-export const ChangeChromeOsDeviceStatusSucceeded: Schema.Schema<ChangeChromeOsDeviceStatusSucceeded> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ChangeChromeOsDeviceStatusSucceeded" }) as any as Schema.Schema<ChangeChromeOsDeviceStatusSucceeded>;
+export const ChangeChromeOsDeviceStatusSucceeded: Schema.Schema<ChangeChromeOsDeviceStatusSucceeded> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ChangeChromeOsDeviceStatusSucceeded",
+  }) as any as Schema.Schema<ChangeChromeOsDeviceStatusSucceeded>;
 
 export interface ChangeChromeOsDeviceStatusResult {
   /** The unique ID of the ChromeOS device. */
@@ -692,29 +1126,46 @@ export interface ChangeChromeOsDeviceStatusResult {
   response?: ChangeChromeOsDeviceStatusSucceeded;
 }
 
-export const ChangeChromeOsDeviceStatusResult: Schema.Schema<ChangeChromeOsDeviceStatusResult> = Schema.suspend(() => Schema.Struct({
-  deviceId: Schema.optional(Schema.String),
-  error: Schema.optional(Status),
-  response: Schema.optional(ChangeChromeOsDeviceStatusSucceeded),
-})).annotate({ identifier: "ChangeChromeOsDeviceStatusResult" }) as any as Schema.Schema<ChangeChromeOsDeviceStatusResult>;
+export const ChangeChromeOsDeviceStatusResult: Schema.Schema<ChangeChromeOsDeviceStatusResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deviceId: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      response: Schema.optional(ChangeChromeOsDeviceStatusSucceeded),
+    }),
+  ).annotate({
+    identifier: "ChangeChromeOsDeviceStatusResult",
+  }) as any as Schema.Schema<ChangeChromeOsDeviceStatusResult>;
 
 export interface BatchChangeChromeOsDeviceStatusResponse {
   /** The results for each of the ChromeOS devices provided in the request. */
   changeChromeOsDeviceStatusResults?: Array<ChangeChromeOsDeviceStatusResult>;
 }
 
-export const BatchChangeChromeOsDeviceStatusResponse: Schema.Schema<BatchChangeChromeOsDeviceStatusResponse> = Schema.suspend(() => Schema.Struct({
-  changeChromeOsDeviceStatusResults: Schema.optional(Schema.Array(ChangeChromeOsDeviceStatusResult)),
-})).annotate({ identifier: "BatchChangeChromeOsDeviceStatusResponse" }) as any as Schema.Schema<BatchChangeChromeOsDeviceStatusResponse>;
+export const BatchChangeChromeOsDeviceStatusResponse: Schema.Schema<BatchChangeChromeOsDeviceStatusResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      changeChromeOsDeviceStatusResults: Schema.optional(
+        Schema.Array(ChangeChromeOsDeviceStatusResult),
+      ),
+    }),
+  ).annotate({
+    identifier: "BatchChangeChromeOsDeviceStatusResponse",
+  }) as any as Schema.Schema<BatchChangeChromeOsDeviceStatusResponse>;
 
 export interface CountChromeOsDevicesResponse {
   /** The total number of devices matching the request. */
   count?: string;
 }
 
-export const CountChromeOsDevicesResponse: Schema.Schema<CountChromeOsDevicesResponse> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Schema.String),
-})).annotate({ identifier: "CountChromeOsDevicesResponse" }) as any as Schema.Schema<CountChromeOsDevicesResponse>;
+export const CountChromeOsDevicesResponse: Schema.Schema<CountChromeOsDevicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      count: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CountChromeOsDevicesResponse",
+  }) as any as Schema.Schema<CountChromeOsDevicesResponse>;
 
 export interface Asp {
   /** The unique ID of the ASP. */
@@ -733,15 +1184,17 @@ export interface Asp {
   etag?: string;
 }
 
-export const Asp: Schema.Schema<Asp> = Schema.suspend(() => Schema.Struct({
-  codeId: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  creationTime: Schema.optional(Schema.String),
-  lastTimeUsed: Schema.optional(Schema.String),
-  userKey: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Asp" }) as any as Schema.Schema<Asp>;
+export const Asp: Schema.Schema<Asp> = Schema.suspend(() =>
+  Schema.Struct({
+    codeId: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    creationTime: Schema.optional(Schema.String),
+    lastTimeUsed: Schema.optional(Schema.String),
+    userKey: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Asp" }) as any as Schema.Schema<Asp>;
 
 export interface Asps {
   /** The type of the API resource. This is always `admin#directory#aspList`. */
@@ -752,11 +1205,13 @@ export interface Asps {
   items?: Array<Asp>;
 }
 
-export const Asps: Schema.Schema<Asps> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Asp)),
-})).annotate({ identifier: "Asps" }) as any as Schema.Schema<Asps>;
+export const Asps: Schema.Schema<Asps> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Asp)),
+  }),
+).annotate({ identifier: "Asps" }) as any as Schema.Schema<Asps>;
 
 export interface Channel {
   /** A UUID or similar unique string that identifies this channel. */
@@ -781,18 +1236,20 @@ export interface Channel {
   kind?: string;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  expiration: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  address: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.Boolean),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  resourceId: Schema.optional(Schema.String),
-  resourceUri: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    token: Schema.optional(Schema.String),
+    expiration: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    address: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.Boolean),
+    params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    resourceId: Schema.optional(Schema.String),
+    resourceUri: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface CustomerPostalAddress {
   /** This is a required property. For `countryCode` information see the [ISO 3166 country code elements](https://www.iso.org/iso/country_codes.htm). */
@@ -815,17 +1272,22 @@ export interface CustomerPostalAddress {
   contactName?: string;
 }
 
-export const CustomerPostalAddress: Schema.Schema<CustomerPostalAddress> = Schema.suspend(() => Schema.Struct({
-  countryCode: Schema.optional(Schema.String),
-  addressLine2: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  addressLine3: Schema.optional(Schema.String),
-  locality: Schema.optional(Schema.String),
-  postalCode: Schema.optional(Schema.String),
-  addressLine1: Schema.optional(Schema.String),
-  organizationName: Schema.optional(Schema.String),
-  contactName: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomerPostalAddress" }) as any as Schema.Schema<CustomerPostalAddress>;
+export const CustomerPostalAddress: Schema.Schema<CustomerPostalAddress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      countryCode: Schema.optional(Schema.String),
+      addressLine2: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      addressLine3: Schema.optional(Schema.String),
+      locality: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      addressLine1: Schema.optional(Schema.String),
+      organizationName: Schema.optional(Schema.String),
+      contactName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomerPostalAddress",
+  }) as any as Schema.Schema<CustomerPostalAddress>;
 
 export interface Customer {
   /** The unique ID for the customer's Google Workspace account. (Readonly) */
@@ -848,17 +1310,19 @@ export interface Customer {
   language?: string;
 }
 
-export const Customer: Schema.Schema<Customer> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  customerDomain: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  alternateEmail: Schema.optional(Schema.String),
-  customerCreationTime: Schema.optional(Schema.String),
-  postalAddress: Schema.optional(CustomerPostalAddress),
-  phoneNumber: Schema.optional(Schema.String),
-  language: Schema.optional(Schema.String),
-})).annotate({ identifier: "Customer" }) as any as Schema.Schema<Customer>;
+export const Customer: Schema.Schema<Customer> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    customerDomain: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    alternateEmail: Schema.optional(Schema.String),
+    customerCreationTime: Schema.optional(Schema.String),
+    postalAddress: Schema.optional(CustomerPostalAddress),
+    phoneNumber: Schema.optional(Schema.String),
+    language: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Customer" }) as any as Schema.Schema<Customer>;
 
 export interface DomainAlias {
   /** Kind of resource this is. */
@@ -875,14 +1339,16 @@ export interface DomainAlias {
   domainAliasName?: string;
 }
 
-export const DomainAlias: Schema.Schema<DomainAlias> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  parentDomainName: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.Boolean),
-  creationTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  domainAliasName: Schema.optional(Schema.String),
-})).annotate({ identifier: "DomainAlias" }) as any as Schema.Schema<DomainAlias>;
+export const DomainAlias: Schema.Schema<DomainAlias> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    parentDomainName: Schema.optional(Schema.String),
+    verified: Schema.optional(Schema.Boolean),
+    creationTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    domainAliasName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DomainAlias" }) as any as Schema.Schema<DomainAlias>;
 
 export interface DomainAliases {
   /** Kind of resource this is. */
@@ -893,11 +1359,15 @@ export interface DomainAliases {
   domainAliases?: Array<DomainAlias>;
 }
 
-export const DomainAliases: Schema.Schema<DomainAliases> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  domainAliases: Schema.optional(Schema.Array(DomainAlias)),
-})).annotate({ identifier: "DomainAliases" }) as any as Schema.Schema<DomainAliases>;
+export const DomainAliases: Schema.Schema<DomainAliases> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    domainAliases: Schema.optional(Schema.Array(DomainAlias)),
+  }),
+).annotate({
+  identifier: "DomainAliases",
+}) as any as Schema.Schema<DomainAliases>;
 
 export interface Domains {
   /** Kind of resource this is. */
@@ -916,15 +1386,17 @@ export interface Domains {
   domainName?: string;
 }
 
-export const Domains: Schema.Schema<Domains> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  domainAliases: Schema.optional(Schema.Array(DomainAlias)),
-  verified: Schema.optional(Schema.Boolean),
-  etag: Schema.optional(Schema.String),
-  creationTime: Schema.optional(Schema.String),
-  isPrimary: Schema.optional(Schema.Boolean),
-  domainName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Domains" }) as any as Schema.Schema<Domains>;
+export const Domains: Schema.Schema<Domains> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    domainAliases: Schema.optional(Schema.Array(DomainAlias)),
+    verified: Schema.optional(Schema.Boolean),
+    etag: Schema.optional(Schema.String),
+    creationTime: Schema.optional(Schema.String),
+    isPrimary: Schema.optional(Schema.Boolean),
+    domainName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Domains" }) as any as Schema.Schema<Domains>;
 
 export interface Domains2 {
   /** Kind of resource this is. */
@@ -935,11 +1407,13 @@ export interface Domains2 {
   domains?: Array<Domains>;
 }
 
-export const Domains2: Schema.Schema<Domains2> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  domains: Schema.optional(Schema.Array(Domains)),
-})).annotate({ identifier: "Domains2" }) as any as Schema.Schema<Domains2>;
+export const Domains2: Schema.Schema<Domains2> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    domains: Schema.optional(Schema.Array(Domains)),
+  }),
+).annotate({ identifier: "Domains2" }) as any as Schema.Schema<Domains2>;
 
 export interface Group {
   /** Read-only. The unique ID of a group. A group `id` can be used as a group request URI's `groupKey`. */
@@ -964,18 +1438,20 @@ export interface Group {
   nonEditableAliases?: Array<string>;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  adminCreated: Schema.optional(Schema.Boolean),
-  directMembersCount: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  aliases: Schema.optional(Schema.Array(Schema.String)),
-  nonEditableAliases: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    adminCreated: Schema.optional(Schema.Boolean),
+    directMembersCount: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    aliases: Schema.optional(Schema.Array(Schema.String)),
+    nonEditableAliases: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface Groups {
   /** Kind of resource this is. */
@@ -988,12 +1464,14 @@ export interface Groups {
   nextPageToken?: string;
 }
 
-export const Groups: Schema.Schema<Groups> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  groups: Schema.optional(Schema.Array(Group)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Groups" }) as any as Schema.Schema<Groups>;
+export const Groups: Schema.Schema<Groups> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    groups: Schema.optional(Schema.Array(Group)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Groups" }) as any as Schema.Schema<Groups>;
 
 export interface GroupAlias {
   /** The unique ID of the group. */
@@ -1008,13 +1486,15 @@ export interface GroupAlias {
   etag?: string;
 }
 
-export const GroupAlias: Schema.Schema<GroupAlias> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  primaryEmail: Schema.optional(Schema.String),
-  alias: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "GroupAlias" }) as any as Schema.Schema<GroupAlias>;
+export const GroupAlias: Schema.Schema<GroupAlias> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    primaryEmail: Schema.optional(Schema.String),
+    alias: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GroupAlias" }) as any as Schema.Schema<GroupAlias>;
 
 export interface Member {
   /** The type of the API resource. For Members resources, the value is `admin#directory#member`. */
@@ -1035,25 +1515,32 @@ export interface Member {
   id?: string;
 }
 
-export const Member: Schema.Schema<Member> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  delivery_settings: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "Member" }) as any as Schema.Schema<Member>;
+export const Member: Schema.Schema<Member> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    role: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    delivery_settings: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Member" }) as any as Schema.Schema<Member>;
 
 export interface MembersHasMember {
   /** Output only. Identifies whether the given user is a member of the group. Membership can be direct or nested. */
   isMember?: boolean;
 }
 
-export const MembersHasMember: Schema.Schema<MembersHasMember> = Schema.suspend(() => Schema.Struct({
-  isMember: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "MembersHasMember" }) as any as Schema.Schema<MembersHasMember>;
+export const MembersHasMember: Schema.Schema<MembersHasMember> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      isMember: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "MembersHasMember",
+}) as any as Schema.Schema<MembersHasMember>;
 
 export interface Members {
   /** Kind of resource this is. */
@@ -1066,21 +1553,28 @@ export interface Members {
   nextPageToken?: string;
 }
 
-export const Members: Schema.Schema<Members> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Member)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Members" }) as any as Schema.Schema<Members>;
+export const Members: Schema.Schema<Members> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Member)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Members" }) as any as Schema.Schema<Members>;
 
 export interface MobileDeviceAction {
   /** The action to be performed on the device. */
   action?: string;
 }
 
-export const MobileDeviceAction: Schema.Schema<MobileDeviceAction> = Schema.suspend(() => Schema.Struct({
-  action: Schema.optional(Schema.String),
-})).annotate({ identifier: "MobileDeviceAction" }) as any as Schema.Schema<MobileDeviceAction>;
+export const MobileDeviceAction: Schema.Schema<MobileDeviceAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      action: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MobileDeviceAction",
+  }) as any as Schema.Schema<MobileDeviceAction>;
 
 export interface MobileDevice {
   /** The type of the API resource. For Mobiledevices resources, the value is `admin#directory#mobiledevice`. */
@@ -1162,51 +1656,71 @@ export interface MobileDevice {
   /** DMAgentPermission (Read-only) */
   privilege?: string;
   /** The list of applications installed on an Android mobile device. It is not applicable to Google Sync and iOS devices. The list includes any Android applications that access Google Workspace data. When updating an applications list, it is important to note that updates replace the existing list. If the Android device has two existing applications and the API updates the list with five applications, the is now the updated list of five applications. */
-  applications?: Array<{ packageName?: string; displayName?: string; versionName?: string; versionCode?: number; permission?: Array<string> }>;
+  applications?: Array<{
+    packageName?: string;
+    displayName?: string;
+    versionName?: string;
+    versionCode?: number;
+    permission?: Array<string>;
+  }>;
 }
 
-export const MobileDevice: Schema.Schema<MobileDevice> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  deviceId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.Array(Schema.String)),
-  email: Schema.optional(Schema.Array(Schema.String)),
-  model: Schema.optional(Schema.String),
-  os: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  hardwareId: Schema.optional(Schema.String),
-  firstSync: Schema.optional(Schema.String),
-  lastSync: Schema.optional(Schema.String),
-  userAgent: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  imei: Schema.optional(Schema.String),
-  meid: Schema.optional(Schema.String),
-  wifiMacAddress: Schema.optional(Schema.String),
-  networkOperator: Schema.optional(Schema.String),
-  defaultLanguage: Schema.optional(Schema.String),
-  managedAccountIsOnOwnerProfile: Schema.optional(Schema.Boolean),
-  deviceCompromisedStatus: Schema.optional(Schema.String),
-  buildNumber: Schema.optional(Schema.String),
-  kernelVersion: Schema.optional(Schema.String),
-  basebandVersion: Schema.optional(Schema.String),
-  unknownSourcesStatus: Schema.optional(Schema.Boolean),
-  developerOptionsStatus: Schema.optional(Schema.Boolean),
-  otherAccountsInfo: Schema.optional(Schema.Array(Schema.String)),
-  adbStatus: Schema.optional(Schema.Boolean),
-  supportsWorkProfile: Schema.optional(Schema.Boolean),
-  manufacturer: Schema.optional(Schema.String),
-  releaseVersion: Schema.optional(Schema.String),
-  securityPatchLevel: Schema.optional(Schema.String),
-  brand: Schema.optional(Schema.String),
-  bootloaderVersion: Schema.optional(Schema.String),
-  hardware: Schema.optional(Schema.String),
-  encryptionStatus: Schema.optional(Schema.String),
-  devicePasswordStatus: Schema.optional(Schema.String),
-  privilege: Schema.optional(Schema.String),
-  applications: Schema.optional(Schema.Array(Schema.Struct({ packageName: Schema.optional(Schema.String), displayName: Schema.optional(Schema.String), versionName: Schema.optional(Schema.String), versionCode: Schema.optional(Schema.Number), permission: Schema.optional(Schema.Array(Schema.String)) }))),
-})).annotate({ identifier: "MobileDevice" }) as any as Schema.Schema<MobileDevice>;
+export const MobileDevice: Schema.Schema<MobileDevice> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    resourceId: Schema.optional(Schema.String),
+    deviceId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Array(Schema.String)),
+    email: Schema.optional(Schema.Array(Schema.String)),
+    model: Schema.optional(Schema.String),
+    os: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    hardwareId: Schema.optional(Schema.String),
+    firstSync: Schema.optional(Schema.String),
+    lastSync: Schema.optional(Schema.String),
+    userAgent: Schema.optional(Schema.String),
+    serialNumber: Schema.optional(Schema.String),
+    imei: Schema.optional(Schema.String),
+    meid: Schema.optional(Schema.String),
+    wifiMacAddress: Schema.optional(Schema.String),
+    networkOperator: Schema.optional(Schema.String),
+    defaultLanguage: Schema.optional(Schema.String),
+    managedAccountIsOnOwnerProfile: Schema.optional(Schema.Boolean),
+    deviceCompromisedStatus: Schema.optional(Schema.String),
+    buildNumber: Schema.optional(Schema.String),
+    kernelVersion: Schema.optional(Schema.String),
+    basebandVersion: Schema.optional(Schema.String),
+    unknownSourcesStatus: Schema.optional(Schema.Boolean),
+    developerOptionsStatus: Schema.optional(Schema.Boolean),
+    otherAccountsInfo: Schema.optional(Schema.Array(Schema.String)),
+    adbStatus: Schema.optional(Schema.Boolean),
+    supportsWorkProfile: Schema.optional(Schema.Boolean),
+    manufacturer: Schema.optional(Schema.String),
+    releaseVersion: Schema.optional(Schema.String),
+    securityPatchLevel: Schema.optional(Schema.String),
+    brand: Schema.optional(Schema.String),
+    bootloaderVersion: Schema.optional(Schema.String),
+    hardware: Schema.optional(Schema.String),
+    encryptionStatus: Schema.optional(Schema.String),
+    devicePasswordStatus: Schema.optional(Schema.String),
+    privilege: Schema.optional(Schema.String),
+    applications: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          packageName: Schema.optional(Schema.String),
+          displayName: Schema.optional(Schema.String),
+          versionName: Schema.optional(Schema.String),
+          versionCode: Schema.optional(Schema.Number),
+          permission: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "MobileDevice",
+}) as any as Schema.Schema<MobileDevice>;
 
 export interface MobileDevices {
   /** Kind of resource this is. */
@@ -1219,12 +1733,16 @@ export interface MobileDevices {
   nextPageToken?: string;
 }
 
-export const MobileDevices: Schema.Schema<MobileDevices> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  mobiledevices: Schema.optional(Schema.Array(MobileDevice)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "MobileDevices" }) as any as Schema.Schema<MobileDevices>;
+export const MobileDevices: Schema.Schema<MobileDevices> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    mobiledevices: Schema.optional(Schema.Array(MobileDevice)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "MobileDevices",
+}) as any as Schema.Schema<MobileDevices>;
 
 export interface OrgUnit {
   /** The type of the API resource. For Orgunits resources, the value is `admin#directory#orgUnit`. */
@@ -1247,17 +1765,19 @@ export interface OrgUnit {
   parentOrgUnitPath?: string;
 }
 
-export const OrgUnit: Schema.Schema<OrgUnit> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  blockInheritance: Schema.optional(Schema.Boolean),
-  orgUnitId: Schema.optional(Schema.String),
-  orgUnitPath: Schema.optional(Schema.String),
-  parentOrgUnitId: Schema.optional(Schema.String),
-  parentOrgUnitPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "OrgUnit" }) as any as Schema.Schema<OrgUnit>;
+export const OrgUnit: Schema.Schema<OrgUnit> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    blockInheritance: Schema.optional(Schema.Boolean),
+    orgUnitId: Schema.optional(Schema.String),
+    orgUnitPath: Schema.optional(Schema.String),
+    parentOrgUnitId: Schema.optional(Schema.String),
+    parentOrgUnitPath: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OrgUnit" }) as any as Schema.Schema<OrgUnit>;
 
 export interface OrgUnits {
   /** The type of the API resource. For Org Unit resources, the type is `admin#directory#orgUnits`. */
@@ -1268,11 +1788,13 @@ export interface OrgUnits {
   organizationUnits?: Array<OrgUnit>;
 }
 
-export const OrgUnits: Schema.Schema<OrgUnits> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  organizationUnits: Schema.optional(Schema.Array(OrgUnit)),
-})).annotate({ identifier: "OrgUnits" }) as any as Schema.Schema<OrgUnits>;
+export const OrgUnits: Schema.Schema<OrgUnits> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    organizationUnits: Schema.optional(Schema.Array(OrgUnit)),
+  }),
+).annotate({ identifier: "OrgUnits" }) as any as Schema.Schema<OrgUnits>;
 
 export interface Privilege {
   /** The obfuscated ID of the service this privilege is for. This value is returned with [`Privileges.list()`](https://developers.google.com/workspace/admin/directory/v1/reference/privileges/list). */
@@ -1291,15 +1813,17 @@ export interface Privilege {
   serviceName?: string;
 }
 
-export const Privilege: Schema.Schema<Privilege> = Schema.suspend(() => Schema.Struct({
-  serviceId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  isOuScopable: Schema.optional(Schema.Boolean),
-  childPrivileges: Schema.optional(Schema.Array(Privilege)),
-  privilegeName: Schema.optional(Schema.String),
-  serviceName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Privilege" }) as any as Schema.Schema<Privilege>;
+export const Privilege: Schema.Schema<Privilege> = Schema.suspend(() =>
+  Schema.Struct({
+    serviceId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    isOuScopable: Schema.optional(Schema.Boolean),
+    childPrivileges: Schema.optional(Schema.Array(Privilege)),
+    privilegeName: Schema.optional(Schema.String),
+    serviceName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Privilege" }) as any as Schema.Schema<Privilege>;
 
 export interface Privileges {
   /** The type of the API resource. This is always `admin#directory#privileges`. */
@@ -1310,11 +1834,13 @@ export interface Privileges {
   items?: Array<Privilege>;
 }
 
-export const Privileges: Schema.Schema<Privileges> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Privilege)),
-})).annotate({ identifier: "Privileges" }) as any as Schema.Schema<Privileges>;
+export const Privileges: Schema.Schema<Privileges> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Privilege)),
+  }),
+).annotate({ identifier: "Privileges" }) as any as Schema.Schema<Privileges>;
 
 export interface RoleAssignment {
   /** ID of this roleAssignment. */
@@ -1337,17 +1863,22 @@ export interface RoleAssignment {
   condition?: string;
 }
 
-export const RoleAssignment: Schema.Schema<RoleAssignment> = Schema.suspend(() => Schema.Struct({
-  roleAssignmentId: Schema.optional(Schema.String),
-  roleId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  assignedTo: Schema.optional(Schema.String),
-  assigneeType: Schema.optional(Schema.String),
-  scopeType: Schema.optional(Schema.String),
-  orgUnitId: Schema.optional(Schema.String),
-  condition: Schema.optional(Schema.String),
-})).annotate({ identifier: "RoleAssignment" }) as any as Schema.Schema<RoleAssignment>;
+export const RoleAssignment: Schema.Schema<RoleAssignment> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      roleAssignmentId: Schema.optional(Schema.String),
+      roleId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      assignedTo: Schema.optional(Schema.String),
+      assigneeType: Schema.optional(Schema.String),
+      scopeType: Schema.optional(Schema.String),
+      orgUnitId: Schema.optional(Schema.String),
+      condition: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RoleAssignment",
+}) as any as Schema.Schema<RoleAssignment>;
 
 export interface RoleAssignments {
   /** The type of the API resource. This is always `admin#directory#roleAssignments`. */
@@ -1359,12 +1890,17 @@ export interface RoleAssignments {
   nextPageToken?: string;
 }
 
-export const RoleAssignments: Schema.Schema<RoleAssignments> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(RoleAssignment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "RoleAssignments" }) as any as Schema.Schema<RoleAssignments>;
+export const RoleAssignments: Schema.Schema<RoleAssignments> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(RoleAssignment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RoleAssignments",
+}) as any as Schema.Schema<RoleAssignments>;
 
 export interface BuildingCoordinates {
   /** Latitude in decimal degrees. */
@@ -1373,10 +1909,15 @@ export interface BuildingCoordinates {
   longitude?: number;
 }
 
-export const BuildingCoordinates: Schema.Schema<BuildingCoordinates> = Schema.suspend(() => Schema.Struct({
-  latitude: Schema.optional(Schema.Number),
-  longitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "BuildingCoordinates" }) as any as Schema.Schema<BuildingCoordinates>;
+export const BuildingCoordinates: Schema.Schema<BuildingCoordinates> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      latitude: Schema.optional(Schema.Number),
+      longitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "BuildingCoordinates",
+  }) as any as Schema.Schema<BuildingCoordinates>;
 
 export interface BuildingAddress {
   /** Required. CLDR region code of the country/region of the address. */
@@ -1395,15 +1936,20 @@ export interface BuildingAddress {
   addressLines?: Array<string>;
 }
 
-export const BuildingAddress: Schema.Schema<BuildingAddress> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  postalCode: Schema.optional(Schema.String),
-  administrativeArea: Schema.optional(Schema.String),
-  locality: Schema.optional(Schema.String),
-  sublocality: Schema.optional(Schema.String),
-  addressLines: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BuildingAddress" }) as any as Schema.Schema<BuildingAddress>;
+export const BuildingAddress: Schema.Schema<BuildingAddress> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      regionCode: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      administrativeArea: Schema.optional(Schema.String),
+      locality: Schema.optional(Schema.String),
+      sublocality: Schema.optional(Schema.String),
+      addressLines: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "BuildingAddress",
+}) as any as Schema.Schema<BuildingAddress>;
 
 export interface Building {
   /** Unique identifier for the building. The maximum length is 100 characters. */
@@ -1424,16 +1970,18 @@ export interface Building {
   address?: BuildingAddress;
 }
 
-export const Building: Schema.Schema<Building> = Schema.suspend(() => Schema.Struct({
-  buildingId: Schema.optional(Schema.String),
-  buildingName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  coordinates: Schema.optional(BuildingCoordinates),
-  kind: Schema.optional(Schema.String),
-  etags: Schema.optional(Schema.String),
-  floorNames: Schema.optional(Schema.Array(Schema.String)),
-  address: Schema.optional(BuildingAddress),
-})).annotate({ identifier: "Building" }) as any as Schema.Schema<Building>;
+export const Building: Schema.Schema<Building> = Schema.suspend(() =>
+  Schema.Struct({
+    buildingId: Schema.optional(Schema.String),
+    buildingName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    coordinates: Schema.optional(BuildingCoordinates),
+    kind: Schema.optional(Schema.String),
+    etags: Schema.optional(Schema.String),
+    floorNames: Schema.optional(Schema.Array(Schema.String)),
+    address: Schema.optional(BuildingAddress),
+  }),
+).annotate({ identifier: "Building" }) as any as Schema.Schema<Building>;
 
 export interface Buildings {
   /** Kind of resource this is. */
@@ -1446,12 +1994,14 @@ export interface Buildings {
   nextPageToken?: string;
 }
 
-export const Buildings: Schema.Schema<Buildings> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  buildings: Schema.optional(Schema.Array(Building)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Buildings" }) as any as Schema.Schema<Buildings>;
+export const Buildings: Schema.Schema<Buildings> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    buildings: Schema.optional(Schema.Array(Building)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Buildings" }) as any as Schema.Schema<Buildings>;
 
 export interface CalendarResource {
   /** The type of the resource. For calendar resources, the value is `admin#directory#resources#calendars#CalendarResource`. */
@@ -1486,23 +2036,28 @@ export interface CalendarResource {
   floorSection?: string;
 }
 
-export const CalendarResource: Schema.Schema<CalendarResource> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etags: Schema.optional(Schema.String),
-  resourceName: Schema.optional(Schema.String),
-  resourceDescription: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-  resourceEmail: Schema.optional(Schema.String),
-  resourceCategory: Schema.optional(Schema.String),
-  userVisibleDescription: Schema.optional(Schema.String),
-  generatedResourceName: Schema.optional(Schema.String),
-  featureInstances: Schema.optional(Schema.Unknown),
-  resourceId: Schema.optional(Schema.String),
-  capacity: Schema.optional(Schema.Number),
-  floorName: Schema.optional(Schema.String),
-  buildingId: Schema.optional(Schema.String),
-  floorSection: Schema.optional(Schema.String),
-})).annotate({ identifier: "CalendarResource" }) as any as Schema.Schema<CalendarResource>;
+export const CalendarResource: Schema.Schema<CalendarResource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etags: Schema.optional(Schema.String),
+      resourceName: Schema.optional(Schema.String),
+      resourceDescription: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      resourceEmail: Schema.optional(Schema.String),
+      resourceCategory: Schema.optional(Schema.String),
+      userVisibleDescription: Schema.optional(Schema.String),
+      generatedResourceName: Schema.optional(Schema.String),
+      featureInstances: Schema.optional(Schema.Unknown),
+      resourceId: Schema.optional(Schema.String),
+      capacity: Schema.optional(Schema.Number),
+      floorName: Schema.optional(Schema.String),
+      buildingId: Schema.optional(Schema.String),
+      floorSection: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CalendarResource",
+}) as any as Schema.Schema<CalendarResource>;
 
 export interface CalendarResources {
   /** Identifies this as a collection of CalendarResources. This is always `admin#directory#resources#calendars#calendarResourcesList`. */
@@ -1515,12 +2070,17 @@ export interface CalendarResources {
   nextPageToken?: string;
 }
 
-export const CalendarResources: Schema.Schema<CalendarResources> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(CalendarResource)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "CalendarResources" }) as any as Schema.Schema<CalendarResources>;
+export const CalendarResources: Schema.Schema<CalendarResources> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(CalendarResource)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CalendarResources",
+  }) as any as Schema.Schema<CalendarResources>;
 
 export interface Feature {
   /** ETag of the resource. */
@@ -1531,11 +2091,13 @@ export interface Feature {
   name?: string;
 }
 
-export const Feature: Schema.Schema<Feature> = Schema.suspend(() => Schema.Struct({
-  etags: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Feature" }) as any as Schema.Schema<Feature>;
+export const Feature: Schema.Schema<Feature> = Schema.suspend(() =>
+  Schema.Struct({
+    etags: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Feature" }) as any as Schema.Schema<Feature>;
 
 export interface Features {
   /** Kind of resource this is. */
@@ -1548,21 +2110,27 @@ export interface Features {
   nextPageToken?: string;
 }
 
-export const Features: Schema.Schema<Features> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  features: Schema.optional(Schema.Array(Feature)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Features" }) as any as Schema.Schema<Features>;
+export const Features: Schema.Schema<Features> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    features: Schema.optional(Schema.Array(Feature)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Features" }) as any as Schema.Schema<Features>;
 
 export interface FeatureRename {
   /** New name of the feature. */
   newName?: string;
 }
 
-export const FeatureRename: Schema.Schema<FeatureRename> = Schema.suspend(() => Schema.Struct({
-  newName: Schema.optional(Schema.String),
-})).annotate({ identifier: "FeatureRename" }) as any as Schema.Schema<FeatureRename>;
+export const FeatureRename: Schema.Schema<FeatureRename> = Schema.suspend(() =>
+  Schema.Struct({
+    newName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "FeatureRename",
+}) as any as Schema.Schema<FeatureRename>;
 
 export interface Role {
   /** ID of the role. */
@@ -1583,16 +2151,25 @@ export interface Role {
   etag?: string;
 }
 
-export const Role: Schema.Schema<Role> = Schema.suspend(() => Schema.Struct({
-  roleId: Schema.optional(Schema.String),
-  roleName: Schema.optional(Schema.String),
-  roleDescription: Schema.optional(Schema.String),
-  rolePrivileges: Schema.optional(Schema.Array(Schema.Struct({ serviceId: Schema.optional(Schema.String), privilegeName: Schema.optional(Schema.String) }))),
-  isSystemRole: Schema.optional(Schema.Boolean),
-  isSuperAdminRole: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Role" }) as any as Schema.Schema<Role>;
+export const Role: Schema.Schema<Role> = Schema.suspend(() =>
+  Schema.Struct({
+    roleId: Schema.optional(Schema.String),
+    roleName: Schema.optional(Schema.String),
+    roleDescription: Schema.optional(Schema.String),
+    rolePrivileges: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          serviceId: Schema.optional(Schema.String),
+          privilegeName: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    isSystemRole: Schema.optional(Schema.Boolean),
+    isSuperAdminRole: Schema.optional(Schema.Boolean),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Role" }) as any as Schema.Schema<Role>;
 
 export interface Roles {
   /** The type of the API resource. This is always `admin#directory#roles`. */
@@ -1604,12 +2181,14 @@ export interface Roles {
   nextPageToken?: string;
 }
 
-export const Roles: Schema.Schema<Roles> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Role)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Roles" }) as any as Schema.Schema<Roles>;
+export const Roles: Schema.Schema<Roles> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Role)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Roles" }) as any as Schema.Schema<Roles>;
 
 export interface SchemaFieldSpec {
   /** The name of the field. */
@@ -1634,18 +2213,28 @@ export interface SchemaFieldSpec {
   numericIndexingSpec?: { minValue?: number; maxValue?: number };
 }
 
-export const SchemaFieldSpec: Schema.Schema<SchemaFieldSpec> = Schema.suspend(() => Schema.Struct({
-  fieldName: Schema.optional(Schema.String),
-  fieldId: Schema.optional(Schema.String),
-  fieldType: Schema.optional(Schema.String),
-  multiValued: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  indexed: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  readAccessType: Schema.optional(Schema.String),
-  numericIndexingSpec: Schema.optional(Schema.Struct({ minValue: Schema.optional(Schema.Number), maxValue: Schema.optional(Schema.Number) })),
-})).annotate({ identifier: "SchemaFieldSpec" }) as any as Schema.Schema<SchemaFieldSpec>;
+export const SchemaFieldSpec: Schema.Schema<SchemaFieldSpec> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      fieldName: Schema.optional(Schema.String),
+      fieldId: Schema.optional(Schema.String),
+      fieldType: Schema.optional(Schema.String),
+      multiValued: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      indexed: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      readAccessType: Schema.optional(Schema.String),
+      numericIndexingSpec: Schema.optional(
+        Schema.Struct({
+          minValue: Schema.optional(Schema.Number),
+          maxValue: Schema.optional(Schema.Number),
+        }),
+      ),
+    }),
+).annotate({
+  identifier: "SchemaFieldSpec",
+}) as any as Schema.Schema<SchemaFieldSpec>;
 
 export interface Admin_Schema {
   /** The unique identifier of the schema (Read-only) */
@@ -1662,14 +2251,18 @@ export interface Admin_Schema {
   etag?: string;
 }
 
-export const Admin_Schema: Schema.Schema<Admin_Schema> = Schema.suspend(() => Schema.Struct({
-  schemaId: Schema.optional(Schema.String),
-  schemaName: Schema.optional(Schema.String),
-  fields: Schema.optional(Schema.Array(SchemaFieldSpec)),
-  displayName: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Admin_Schema" }) as any as Schema.Schema<Admin_Schema>;
+export const Admin_Schema: Schema.Schema<Admin_Schema> = Schema.suspend(() =>
+  Schema.Struct({
+    schemaId: Schema.optional(Schema.String),
+    schemaName: Schema.optional(Schema.String),
+    fields: Schema.optional(Schema.Array(SchemaFieldSpec)),
+    displayName: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Admin_Schema",
+}) as any as Schema.Schema<Admin_Schema>;
 
 export interface Schemas {
   /** Kind of resource this is. */
@@ -1680,11 +2273,13 @@ export interface Schemas {
   schemas?: Array<Admin_Schema>;
 }
 
-export const Schemas: Schema.Schema<Schemas> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  schemas: Schema.optional(Schema.Array(Admin_Schema)),
-})).annotate({ identifier: "Schemas" }) as any as Schema.Schema<Schemas>;
+export const Schemas: Schema.Schema<Schemas> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    schemas: Schema.optional(Schema.Array(Admin_Schema)),
+  }),
+).annotate({ identifier: "Schemas" }) as any as Schema.Schema<Schemas>;
 
 export interface Token {
   /** The Client ID of the application the token is issued to. */
@@ -1705,16 +2300,18 @@ export interface Token {
   etag?: string;
 }
 
-export const Token: Schema.Schema<Token> = Schema.suspend(() => Schema.Struct({
-  clientId: Schema.optional(Schema.String),
-  scopes: Schema.optional(Schema.Array(Schema.String)),
-  userKey: Schema.optional(Schema.String),
-  anonymous: Schema.optional(Schema.Boolean),
-  displayText: Schema.optional(Schema.String),
-  nativeApp: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Token" }) as any as Schema.Schema<Token>;
+export const Token: Schema.Schema<Token> = Schema.suspend(() =>
+  Schema.Struct({
+    clientId: Schema.optional(Schema.String),
+    scopes: Schema.optional(Schema.Array(Schema.String)),
+    userKey: Schema.optional(Schema.String),
+    anonymous: Schema.optional(Schema.Boolean),
+    displayText: Schema.optional(Schema.String),
+    nativeApp: Schema.optional(Schema.Boolean),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Token" }) as any as Schema.Schema<Token>;
 
 export interface Tokens {
   /** The type of the API resource. This is always `admin#directory#tokenList`. */
@@ -1725,11 +2322,13 @@ export interface Tokens {
   items?: Array<Token>;
 }
 
-export const Tokens: Schema.Schema<Tokens> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Token)),
-})).annotate({ identifier: "Tokens" }) as any as Schema.Schema<Tokens>;
+export const Tokens: Schema.Schema<Tokens> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Token)),
+  }),
+).annotate({ identifier: "Tokens" }) as any as Schema.Schema<Tokens>;
 
 export interface UserName {
   /** The user's full name formed by concatenating the first and last name values. */
@@ -1742,24 +2341,35 @@ export interface UserName {
   displayName?: string;
 }
 
-export const UserName: Schema.Schema<UserName> = Schema.suspend(() => Schema.Struct({
-  fullName: Schema.optional(Schema.String),
-  familyName: Schema.optional(Schema.String),
-  givenName: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserName" }) as any as Schema.Schema<UserName>;
+export const UserName: Schema.Schema<UserName> = Schema.suspend(() =>
+  Schema.Struct({
+    fullName: Schema.optional(Schema.String),
+    familyName: Schema.optional(Schema.String),
+    givenName: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserName" }) as any as Schema.Schema<UserName>;
 
 export type UserCustomProperties = Record<string, unknown>;
-export const UserCustomProperties: Schema.Schema<UserCustomProperties> = Schema.Record(Schema.String, Schema.Unknown) as any as Schema.Schema<UserCustomProperties>;
+export const UserCustomProperties: Schema.Schema<UserCustomProperties> =
+  Schema.Record(
+    Schema.String,
+    Schema.Unknown,
+  ) as any as Schema.Schema<UserCustomProperties>;
 
 export interface GuestAccountInfo {
   /** Immutable. The guest's external email. */
   primaryGuestEmail?: string;
 }
 
-export const GuestAccountInfo: Schema.Schema<GuestAccountInfo> = Schema.suspend(() => Schema.Struct({
-  primaryGuestEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "GuestAccountInfo" }) as any as Schema.Schema<GuestAccountInfo>;
+export const GuestAccountInfo: Schema.Schema<GuestAccountInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      primaryGuestEmail: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GuestAccountInfo",
+}) as any as Schema.Schema<GuestAccountInfo>;
 
 export interface User {
   /** The unique ID for the user. A user `id` can be used as a user request URI's `userKey`. */
@@ -1859,56 +2469,60 @@ export interface User {
   guestAccountInfo?: GuestAccountInfo;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  primaryEmail: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  hashFunction: Schema.optional(Schema.String),
-  isAdmin: Schema.optional(Schema.Boolean),
-  isDelegatedAdmin: Schema.optional(Schema.Boolean),
-  agreedToTerms: Schema.optional(Schema.Boolean),
-  suspended: Schema.optional(Schema.Boolean),
-  changePasswordAtNextLogin: Schema.optional(Schema.Boolean),
-  ipWhitelisted: Schema.optional(Schema.Boolean),
-  name: Schema.optional(UserName),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  emails: Schema.optional(Schema.Unknown),
-  externalIds: Schema.optional(Schema.Unknown),
-  relations: Schema.optional(Schema.Unknown),
-  aliases: Schema.optional(Schema.Array(Schema.String)),
-  isMailboxSetup: Schema.optional(Schema.Boolean),
-  customerId: Schema.optional(Schema.String),
-  addresses: Schema.optional(Schema.Unknown),
-  organizations: Schema.optional(Schema.Unknown),
-  lastLoginTime: Schema.optional(Schema.String),
-  phones: Schema.optional(Schema.Unknown),
-  suspensionReason: Schema.optional(Schema.String),
-  thumbnailPhotoUrl: Schema.optional(Schema.String),
-  languages: Schema.optional(Schema.Unknown),
-  posixAccounts: Schema.optional(Schema.Unknown),
-  creationTime: Schema.optional(Schema.String),
-  nonEditableAliases: Schema.optional(Schema.Array(Schema.String)),
-  sshPublicKeys: Schema.optional(Schema.Unknown),
-  notes: Schema.optional(Schema.Unknown),
-  websites: Schema.optional(Schema.Unknown),
-  locations: Schema.optional(Schema.Unknown),
-  includeInGlobalAddressList: Schema.optional(Schema.Boolean),
-  keywords: Schema.optional(Schema.Unknown),
-  deletionTime: Schema.optional(Schema.String),
-  gender: Schema.optional(Schema.Unknown),
-  thumbnailPhotoEtag: Schema.optional(Schema.String),
-  ims: Schema.optional(Schema.Unknown),
-  customSchemas: Schema.optional(Schema.Record(Schema.String, UserCustomProperties)),
-  isEnrolledIn2Sv: Schema.optional(Schema.Boolean),
-  isEnforcedIn2Sv: Schema.optional(Schema.Boolean),
-  archived: Schema.optional(Schema.Boolean),
-  orgUnitPath: Schema.optional(Schema.String),
-  recoveryEmail: Schema.optional(Schema.String),
-  recoveryPhone: Schema.optional(Schema.String),
-  isGuestUser: Schema.optional(Schema.Boolean),
-  guestAccountInfo: Schema.optional(GuestAccountInfo),
-})).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    primaryEmail: Schema.optional(Schema.String),
+    password: Schema.optional(Schema.String),
+    hashFunction: Schema.optional(Schema.String),
+    isAdmin: Schema.optional(Schema.Boolean),
+    isDelegatedAdmin: Schema.optional(Schema.Boolean),
+    agreedToTerms: Schema.optional(Schema.Boolean),
+    suspended: Schema.optional(Schema.Boolean),
+    changePasswordAtNextLogin: Schema.optional(Schema.Boolean),
+    ipWhitelisted: Schema.optional(Schema.Boolean),
+    name: Schema.optional(UserName),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    emails: Schema.optional(Schema.Unknown),
+    externalIds: Schema.optional(Schema.Unknown),
+    relations: Schema.optional(Schema.Unknown),
+    aliases: Schema.optional(Schema.Array(Schema.String)),
+    isMailboxSetup: Schema.optional(Schema.Boolean),
+    customerId: Schema.optional(Schema.String),
+    addresses: Schema.optional(Schema.Unknown),
+    organizations: Schema.optional(Schema.Unknown),
+    lastLoginTime: Schema.optional(Schema.String),
+    phones: Schema.optional(Schema.Unknown),
+    suspensionReason: Schema.optional(Schema.String),
+    thumbnailPhotoUrl: Schema.optional(Schema.String),
+    languages: Schema.optional(Schema.Unknown),
+    posixAccounts: Schema.optional(Schema.Unknown),
+    creationTime: Schema.optional(Schema.String),
+    nonEditableAliases: Schema.optional(Schema.Array(Schema.String)),
+    sshPublicKeys: Schema.optional(Schema.Unknown),
+    notes: Schema.optional(Schema.Unknown),
+    websites: Schema.optional(Schema.Unknown),
+    locations: Schema.optional(Schema.Unknown),
+    includeInGlobalAddressList: Schema.optional(Schema.Boolean),
+    keywords: Schema.optional(Schema.Unknown),
+    deletionTime: Schema.optional(Schema.String),
+    gender: Schema.optional(Schema.Unknown),
+    thumbnailPhotoEtag: Schema.optional(Schema.String),
+    ims: Schema.optional(Schema.Unknown),
+    customSchemas: Schema.optional(
+      Schema.Record(Schema.String, UserCustomProperties),
+    ),
+    isEnrolledIn2Sv: Schema.optional(Schema.Boolean),
+    isEnforcedIn2Sv: Schema.optional(Schema.Boolean),
+    archived: Schema.optional(Schema.Boolean),
+    orgUnitPath: Schema.optional(Schema.String),
+    recoveryEmail: Schema.optional(Schema.String),
+    recoveryPhone: Schema.optional(Schema.String),
+    isGuestUser: Schema.optional(Schema.Boolean),
+    guestAccountInfo: Schema.optional(GuestAccountInfo),
+  }),
+).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface DirectoryUsersCreateGuestRequest {
   /** Immutable. External email of the guest user being created. */
@@ -1917,10 +2531,15 @@ export interface DirectoryUsersCreateGuestRequest {
   customer?: string;
 }
 
-export const DirectoryUsersCreateGuestRequest: Schema.Schema<DirectoryUsersCreateGuestRequest> = Schema.suspend(() => Schema.Struct({
-  primaryGuestEmail: Schema.optional(Schema.String),
-  customer: Schema.optional(Schema.String),
-})).annotate({ identifier: "DirectoryUsersCreateGuestRequest" }) as any as Schema.Schema<DirectoryUsersCreateGuestRequest>;
+export const DirectoryUsersCreateGuestRequest: Schema.Schema<DirectoryUsersCreateGuestRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      primaryGuestEmail: Schema.optional(Schema.String),
+      customer: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectoryUsersCreateGuestRequest",
+  }) as any as Schema.Schema<DirectoryUsersCreateGuestRequest>;
 
 export interface Users {
   /** Kind of resource this is. */
@@ -1935,31 +2554,41 @@ export interface Users {
   nextPageToken?: string;
 }
 
-export const Users: Schema.Schema<Users> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  trigger_event: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  users: Schema.optional(Schema.Array(User)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Users" }) as any as Schema.Schema<Users>;
+export const Users: Schema.Schema<Users> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    trigger_event: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    users: Schema.optional(Schema.Array(User)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Users" }) as any as Schema.Schema<Users>;
 
 export interface UserMakeAdmin {
   /** Indicates the administrator status of the user. */
   status?: boolean;
 }
 
-export const UserMakeAdmin: Schema.Schema<UserMakeAdmin> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UserMakeAdmin" }) as any as Schema.Schema<UserMakeAdmin>;
+export const UserMakeAdmin: Schema.Schema<UserMakeAdmin> = Schema.suspend(() =>
+  Schema.Struct({
+    status: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "UserMakeAdmin",
+}) as any as Schema.Schema<UserMakeAdmin>;
 
 export interface UserUndelete {
   /** OrgUnit of User */
   orgUnitPath?: string;
 }
 
-export const UserUndelete: Schema.Schema<UserUndelete> = Schema.suspend(() => Schema.Struct({
-  orgUnitPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserUndelete" }) as any as Schema.Schema<UserUndelete>;
+export const UserUndelete: Schema.Schema<UserUndelete> = Schema.suspend(() =>
+  Schema.Struct({
+    orgUnitPath: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "UserUndelete",
+}) as any as Schema.Schema<UserUndelete>;
 
 export interface UserAlias {
   /** The unique ID for the user. */
@@ -1974,13 +2603,15 @@ export interface UserAlias {
   etag?: string;
 }
 
-export const UserAlias: Schema.Schema<UserAlias> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  primaryEmail: Schema.optional(Schema.String),
-  alias: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserAlias" }) as any as Schema.Schema<UserAlias>;
+export const UserAlias: Schema.Schema<UserAlias> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    primaryEmail: Schema.optional(Schema.String),
+    alias: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserAlias" }) as any as Schema.Schema<UserAlias>;
 
 export interface UserPhoto {
   /** The ID the API uses to uniquely identify the user. */
@@ -2001,16 +2632,18 @@ export interface UserPhoto {
   height?: number;
 }
 
-export const UserPhoto: Schema.Schema<UserPhoto> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  primaryEmail: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  photoData: Schema.optional(Schema.String),
-  mimeType: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number),
-  height: Schema.optional(Schema.Number),
-})).annotate({ identifier: "UserPhoto" }) as any as Schema.Schema<UserPhoto>;
+export const UserPhoto: Schema.Schema<UserPhoto> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    primaryEmail: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    photoData: Schema.optional(Schema.String),
+    mimeType: Schema.optional(Schema.String),
+    width: Schema.optional(Schema.Number),
+    height: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "UserPhoto" }) as any as Schema.Schema<UserPhoto>;
 
 export interface VerificationCode {
   /** The obfuscated unique ID of the user. */
@@ -2023,12 +2656,17 @@ export interface VerificationCode {
   etag?: string;
 }
 
-export const VerificationCode: Schema.Schema<VerificationCode> = Schema.suspend(() => Schema.Struct({
-  userId: Schema.optional(Schema.String),
-  verificationCode: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "VerificationCode" }) as any as Schema.Schema<VerificationCode>;
+export const VerificationCode: Schema.Schema<VerificationCode> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      userId: Schema.optional(Schema.String),
+      verificationCode: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VerificationCode",
+}) as any as Schema.Schema<VerificationCode>;
 
 export interface VerificationCodes {
   /** The type of the resource. This is always `admin#directory#verificationCodesList`. */
@@ -2039,11 +2677,16 @@ export interface VerificationCodes {
   items?: Array<VerificationCode>;
 }
 
-export const VerificationCodes: Schema.Schema<VerificationCodes> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(VerificationCode)),
-})).annotate({ identifier: "VerificationCodes" }) as any as Schema.Schema<VerificationCodes>;
+export const VerificationCodes: Schema.Schema<VerificationCodes> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(VerificationCode)),
+    }),
+  ).annotate({
+    identifier: "VerificationCodes",
+  }) as any as Schema.Schema<VerificationCodes>;
 
 export interface Alias {
   alias?: string;
@@ -2053,13 +2696,15 @@ export interface Alias {
   primaryEmail?: string;
 }
 
-export const Alias: Schema.Schema<Alias> = Schema.suspend(() => Schema.Struct({
-  alias: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  primaryEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "Alias" }) as any as Schema.Schema<Alias>;
+export const Alias: Schema.Schema<Alias> = Schema.suspend(() =>
+  Schema.Struct({
+    alias: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    primaryEmail: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Alias" }) as any as Schema.Schema<Alias>;
 
 export interface Aliases {
   aliases?: Array<unknown>;
@@ -2067,20 +2712,27 @@ export interface Aliases {
   kind?: string;
 }
 
-export const Aliases: Schema.Schema<Aliases> = Schema.suspend(() => Schema.Struct({
-  aliases: Schema.optional(Schema.Array(Schema.Unknown)),
-  etag: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Aliases" }) as any as Schema.Schema<Aliases>;
+export const Aliases: Schema.Schema<Aliases> = Schema.suspend(() =>
+  Schema.Struct({
+    aliases: Schema.optional(Schema.Array(Schema.Unknown)),
+    etag: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Aliases" }) as any as Schema.Schema<Aliases>;
 
 export interface FeatureInstance {
   /** The feature that this is an instance of. A calendar resource may have multiple instances of a feature. */
   feature?: Feature;
 }
 
-export const FeatureInstance: Schema.Schema<FeatureInstance> = Schema.suspend(() => Schema.Struct({
-  feature: Schema.optional(Feature),
-})).annotate({ identifier: "FeatureInstance" }) as any as Schema.Schema<FeatureInstance>;
+export const FeatureInstance: Schema.Schema<FeatureInstance> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      feature: Schema.optional(Feature),
+    }),
+).annotate({
+  identifier: "FeatureInstance",
+}) as any as Schema.Schema<FeatureInstance>;
 
 export interface UserAbout {
   /** About entry can have a type which indicates the content type. It can either be plain or html. By default, notes contents are assumed to contain plain text. */
@@ -2089,10 +2741,12 @@ export interface UserAbout {
   value?: string;
 }
 
-export const UserAbout: Schema.Schema<UserAbout> = Schema.suspend(() => Schema.Struct({
-  contentType: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserAbout" }) as any as Schema.Schema<UserAbout>;
+export const UserAbout: Schema.Schema<UserAbout> = Schema.suspend(() =>
+  Schema.Struct({
+    contentType: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserAbout" }) as any as Schema.Schema<UserAbout>;
 
 export interface UserAddress {
   /** Country. */
@@ -2123,21 +2777,23 @@ export interface UserAddress {
   type?: string;
 }
 
-export const UserAddress: Schema.Schema<UserAddress> = Schema.suspend(() => Schema.Struct({
-  country: Schema.optional(Schema.String),
-  countryCode: Schema.optional(Schema.String),
-  customType: Schema.optional(Schema.String),
-  extendedAddress: Schema.optional(Schema.String),
-  formatted: Schema.optional(Schema.String),
-  locality: Schema.optional(Schema.String),
-  poBox: Schema.optional(Schema.String),
-  postalCode: Schema.optional(Schema.String),
-  primary: Schema.optional(Schema.Boolean),
-  region: Schema.optional(Schema.String),
-  sourceIsStructured: Schema.optional(Schema.Boolean),
-  streetAddress: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserAddress" }) as any as Schema.Schema<UserAddress>;
+export const UserAddress: Schema.Schema<UserAddress> = Schema.suspend(() =>
+  Schema.Struct({
+    country: Schema.optional(Schema.String),
+    countryCode: Schema.optional(Schema.String),
+    customType: Schema.optional(Schema.String),
+    extendedAddress: Schema.optional(Schema.String),
+    formatted: Schema.optional(Schema.String),
+    locality: Schema.optional(Schema.String),
+    poBox: Schema.optional(Schema.String),
+    postalCode: Schema.optional(Schema.String),
+    primary: Schema.optional(Schema.Boolean),
+    region: Schema.optional(Schema.String),
+    sourceIsStructured: Schema.optional(Schema.Boolean),
+    streetAddress: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserAddress" }) as any as Schema.Schema<UserAddress>;
 
 export interface UserEmail {
   /** Email id of the user. */
@@ -2149,16 +2805,28 @@ export interface UserEmail {
   /** Each entry can have a type which indicates standard types of that entry. For example email could be of home, work etc. In addition to the standard type, an entry can have a custom type and can take any value Such types should have the CUSTOM value as type and also have a customType value. */
   type?: string;
   /** Public Key Encryption Certificates. Current limit: 1 per email address, and 5 per user. */
-  public_key_encryption_certificates?: { certificate?: string; is_default?: boolean; state?: string };
+  public_key_encryption_certificates?: {
+    certificate?: string;
+    is_default?: boolean;
+    state?: string;
+  };
 }
 
-export const UserEmail: Schema.Schema<UserEmail> = Schema.suspend(() => Schema.Struct({
-  address: Schema.optional(Schema.String),
-  customType: Schema.optional(Schema.String),
-  primary: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-  public_key_encryption_certificates: Schema.optional(Schema.Struct({ certificate: Schema.optional(Schema.String), is_default: Schema.optional(Schema.Boolean), state: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "UserEmail" }) as any as Schema.Schema<UserEmail>;
+export const UserEmail: Schema.Schema<UserEmail> = Schema.suspend(() =>
+  Schema.Struct({
+    address: Schema.optional(Schema.String),
+    customType: Schema.optional(Schema.String),
+    primary: Schema.optional(Schema.Boolean),
+    type: Schema.optional(Schema.String),
+    public_key_encryption_certificates: Schema.optional(
+      Schema.Struct({
+        certificate: Schema.optional(Schema.String),
+        is_default: Schema.optional(Schema.Boolean),
+        state: Schema.optional(Schema.String),
+      }),
+    ),
+  }),
+).annotate({ identifier: "UserEmail" }) as any as Schema.Schema<UserEmail>;
 
 export interface UserExternalId {
   /** Custom type. */
@@ -2169,11 +2837,16 @@ export interface UserExternalId {
   value?: string;
 }
 
-export const UserExternalId: Schema.Schema<UserExternalId> = Schema.suspend(() => Schema.Struct({
-  customType: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserExternalId" }) as any as Schema.Schema<UserExternalId>;
+export const UserExternalId: Schema.Schema<UserExternalId> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      customType: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UserExternalId",
+}) as any as Schema.Schema<UserExternalId>;
 
 export interface UserGender {
   /** AddressMeAs. A human-readable string containing the proper way to refer to the profile owner by humans for example he/him/his or they/them/their. */
@@ -2184,11 +2857,13 @@ export interface UserGender {
   type?: string;
 }
 
-export const UserGender: Schema.Schema<UserGender> = Schema.suspend(() => Schema.Struct({
-  addressMeAs: Schema.optional(Schema.String),
-  customGender: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserGender" }) as any as Schema.Schema<UserGender>;
+export const UserGender: Schema.Schema<UserGender> = Schema.suspend(() =>
+  Schema.Struct({
+    addressMeAs: Schema.optional(Schema.String),
+    customGender: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserGender" }) as any as Schema.Schema<UserGender>;
 
 export interface UserIm {
   /** Custom protocol. */
@@ -2205,14 +2880,16 @@ export interface UserIm {
   type?: string;
 }
 
-export const UserIm: Schema.Schema<UserIm> = Schema.suspend(() => Schema.Struct({
-  customProtocol: Schema.optional(Schema.String),
-  customType: Schema.optional(Schema.String),
-  im: Schema.optional(Schema.String),
-  primary: Schema.optional(Schema.Boolean),
-  protocol: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserIm" }) as any as Schema.Schema<UserIm>;
+export const UserIm: Schema.Schema<UserIm> = Schema.suspend(() =>
+  Schema.Struct({
+    customProtocol: Schema.optional(Schema.String),
+    customType: Schema.optional(Schema.String),
+    im: Schema.optional(Schema.String),
+    primary: Schema.optional(Schema.Boolean),
+    protocol: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserIm" }) as any as Schema.Schema<UserIm>;
 
 export interface UserKeyword {
   /** Custom Type. */
@@ -2223,11 +2900,13 @@ export interface UserKeyword {
   value?: string;
 }
 
-export const UserKeyword: Schema.Schema<UserKeyword> = Schema.suspend(() => Schema.Struct({
-  customType: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserKeyword" }) as any as Schema.Schema<UserKeyword>;
+export const UserKeyword: Schema.Schema<UserKeyword> = Schema.suspend(() =>
+  Schema.Struct({
+    customType: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserKeyword" }) as any as Schema.Schema<UserKeyword>;
 
 export interface UserLanguage {
   /** Other language. User can provide their own language name if there is no corresponding ISO 639 language code. If this is set, `languageCode` can't be set. */
@@ -2238,11 +2917,15 @@ export interface UserLanguage {
   preference?: string;
 }
 
-export const UserLanguage: Schema.Schema<UserLanguage> = Schema.suspend(() => Schema.Struct({
-  customLanguage: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  preference: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserLanguage" }) as any as Schema.Schema<UserLanguage>;
+export const UserLanguage: Schema.Schema<UserLanguage> = Schema.suspend(() =>
+  Schema.Struct({
+    customLanguage: Schema.optional(Schema.String),
+    languageCode: Schema.optional(Schema.String),
+    preference: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "UserLanguage",
+}) as any as Schema.Schema<UserLanguage>;
 
 export interface UserLocation {
   /** Textual location. This is most useful for display purposes to concisely describe the location. For example 'Mountain View, CA', 'Near Seattle', 'US-NYC-9TH 9A209A.'' */
@@ -2261,15 +2944,19 @@ export interface UserLocation {
   type?: string;
 }
 
-export const UserLocation: Schema.Schema<UserLocation> = Schema.suspend(() => Schema.Struct({
-  area: Schema.optional(Schema.String),
-  buildingId: Schema.optional(Schema.String),
-  customType: Schema.optional(Schema.String),
-  deskCode: Schema.optional(Schema.String),
-  floorName: Schema.optional(Schema.String),
-  floorSection: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserLocation" }) as any as Schema.Schema<UserLocation>;
+export const UserLocation: Schema.Schema<UserLocation> = Schema.suspend(() =>
+  Schema.Struct({
+    area: Schema.optional(Schema.String),
+    buildingId: Schema.optional(Schema.String),
+    customType: Schema.optional(Schema.String),
+    deskCode: Schema.optional(Schema.String),
+    floorName: Schema.optional(Schema.String),
+    floorSection: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "UserLocation",
+}) as any as Schema.Schema<UserLocation>;
 
 export interface UserOrganization {
   /** The cost center of the users department. */
@@ -2298,20 +2985,25 @@ export interface UserOrganization {
   type?: string;
 }
 
-export const UserOrganization: Schema.Schema<UserOrganization> = Schema.suspend(() => Schema.Struct({
-  costCenter: Schema.optional(Schema.String),
-  customType: Schema.optional(Schema.String),
-  department: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-  fullTimeEquivalent: Schema.optional(Schema.Number),
-  location: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  primary: Schema.optional(Schema.Boolean),
-  symbol: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserOrganization" }) as any as Schema.Schema<UserOrganization>;
+export const UserOrganization: Schema.Schema<UserOrganization> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      costCenter: Schema.optional(Schema.String),
+      customType: Schema.optional(Schema.String),
+      department: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+      fullTimeEquivalent: Schema.optional(Schema.Number),
+      location: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      primary: Schema.optional(Schema.Boolean),
+      symbol: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UserOrganization",
+}) as any as Schema.Schema<UserOrganization>;
 
 export interface UserPhone {
   /** Custom Type. */
@@ -2324,12 +3016,14 @@ export interface UserPhone {
   value?: string;
 }
 
-export const UserPhone: Schema.Schema<UserPhone> = Schema.suspend(() => Schema.Struct({
-  customType: Schema.optional(Schema.String),
-  primary: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserPhone" }) as any as Schema.Schema<UserPhone>;
+export const UserPhone: Schema.Schema<UserPhone> = Schema.suspend(() =>
+  Schema.Struct({
+    customType: Schema.optional(Schema.String),
+    primary: Schema.optional(Schema.Boolean),
+    type: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserPhone" }) as any as Schema.Schema<UserPhone>;
 
 export interface UserPosixAccount {
   /** A POSIX account field identifier. */
@@ -2354,18 +3048,23 @@ export interface UserPosixAccount {
   username?: string;
 }
 
-export const UserPosixAccount: Schema.Schema<UserPosixAccount> = Schema.suspend(() => Schema.Struct({
-  accountId: Schema.optional(Schema.String),
-  gecos: Schema.optional(Schema.String),
-  gid: Schema.optional(Schema.String),
-  homeDirectory: Schema.optional(Schema.String),
-  operatingSystemType: Schema.optional(Schema.String),
-  primary: Schema.optional(Schema.Boolean),
-  shell: Schema.optional(Schema.String),
-  systemId: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserPosixAccount" }) as any as Schema.Schema<UserPosixAccount>;
+export const UserPosixAccount: Schema.Schema<UserPosixAccount> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+      gecos: Schema.optional(Schema.String),
+      gid: Schema.optional(Schema.String),
+      homeDirectory: Schema.optional(Schema.String),
+      operatingSystemType: Schema.optional(Schema.String),
+      primary: Schema.optional(Schema.Boolean),
+      shell: Schema.optional(Schema.String),
+      systemId: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UserPosixAccount",
+}) as any as Schema.Schema<UserPosixAccount>;
 
 export interface UserRelation {
   /** Custom Type. */
@@ -2376,11 +3075,15 @@ export interface UserRelation {
   value?: string;
 }
 
-export const UserRelation: Schema.Schema<UserRelation> = Schema.suspend(() => Schema.Struct({
-  customType: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserRelation" }) as any as Schema.Schema<UserRelation>;
+export const UserRelation: Schema.Schema<UserRelation> = Schema.suspend(() =>
+  Schema.Struct({
+    customType: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "UserRelation",
+}) as any as Schema.Schema<UserRelation>;
 
 export interface UserSshPublicKey {
   /** An expiration time in microseconds since epoch. */
@@ -2391,11 +3094,16 @@ export interface UserSshPublicKey {
   key?: string;
 }
 
-export const UserSshPublicKey: Schema.Schema<UserSshPublicKey> = Schema.suspend(() => Schema.Struct({
-  expirationTimeUsec: Schema.optional(Schema.String),
-  fingerprint: Schema.optional(Schema.String),
-  key: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserSshPublicKey" }) as any as Schema.Schema<UserSshPublicKey>;
+export const UserSshPublicKey: Schema.Schema<UserSshPublicKey> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      expirationTimeUsec: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UserSshPublicKey",
+}) as any as Schema.Schema<UserSshPublicKey>;
 
 export interface UserWebsite {
   /** Custom Type. */
@@ -2408,12 +3116,14 @@ export interface UserWebsite {
   value?: string;
 }
 
-export const UserWebsite: Schema.Schema<UserWebsite> = Schema.suspend(() => Schema.Struct({
-  customType: Schema.optional(Schema.String),
-  primary: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserWebsite" }) as any as Schema.Schema<UserWebsite>;
+export const UserWebsite: Schema.Schema<UserWebsite> = Schema.suspend(() =>
+  Schema.Struct({
+    customType: Schema.optional(Schema.String),
+    primary: Schema.optional(Schema.Boolean),
+    type: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserWebsite" }) as any as Schema.Schema<UserWebsite>;
 
 // ==========================================================================
 // Operations
@@ -2433,17 +3143,27 @@ export const ActionChromeosdevicesRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(ChromeOsDeviceAction).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{resourceId}/action", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{resourceId}/action",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ActionChromeosdevicesRequest>;
 
 export interface ActionChromeosdevicesResponse {}
-export const ActionChromeosdevicesResponse: Schema.Schema<ActionChromeosdevicesResponse> = Schema.Struct({}) as any as Schema.Schema<ActionChromeosdevicesResponse>;
+export const ActionChromeosdevicesResponse: Schema.Schema<ActionChromeosdevicesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<ActionChromeosdevicesResponse>;
 
 export type ActionChromeosdevicesError = DefaultErrors;
 
 /** Use [BatchChangeChromeOsDeviceStatus](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customer.devices.chromeos/batchChangeStatus) instead. Takes an action that affects a Chrome OS Device. This includes deprovisioning, disabling, and re-enabling devices. *Warning:* * Deprovisioning a device will stop device policy syncing and remove device-level printers. After a device is deprovisioned, it must be wiped before it can be re-enrolled. * Lost or stolen devices should use the disable action. * Re-enabling a disabled device will consume a device license. If you do not have sufficient licenses available when completing the re-enable action, you will receive an error. For more information about deprovisioning and disabling devices, visit the [help center](https://support.google.com/chrome/a/answer/3523633). */
-export const actionChromeosdevices: API.OperationMethod<ActionChromeosdevicesRequest, ActionChromeosdevicesResponse, ActionChromeosdevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const actionChromeosdevices: API.OperationMethod<
+  ActionChromeosdevicesRequest,
+  ActionChromeosdevicesResponse,
+  ActionChromeosdevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ActionChromeosdevicesRequest,
   output: ActionChromeosdevicesResponse,
   errors: [],
@@ -2463,7 +3183,10 @@ export const GetChromeosdevicesRequest = Schema.Struct({
   deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
   projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetChromeosdevicesRequest>;
 
@@ -2473,7 +3196,12 @@ export const GetChromeosdevicesResponse = ChromeOsDevice;
 export type GetChromeosdevicesError = DefaultErrors;
 
 /** Retrieves a Chrome OS device's properties. */
-export const getChromeosdevices: API.OperationMethod<GetChromeosdevicesRequest, GetChromeosdevicesResponse, GetChromeosdevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getChromeosdevices: API.OperationMethod<
+  GetChromeosdevicesRequest,
+  GetChromeosdevicesResponse,
+  GetChromeosdevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetChromeosdevicesRequest,
   output: GetChromeosdevicesResponse,
   errors: [],
@@ -2485,7 +3213,14 @@ export interface ListChromeosdevicesRequest {
   /** Maximum number of results to return. Value should not exceed 300. */
   maxResults?: number;
   /** Device property to use for sorting results. */
-  orderBy?: "annotatedLocation" | "annotatedUser" | "lastSync" | "notes" | "serialNumber" | "status" | (string & {});
+  orderBy?:
+    | "annotatedLocation"
+    | "annotatedUser"
+    | "lastSync"
+    | "notes"
+    | "serialNumber"
+    | "status"
+    | (string & {});
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath?: string;
   /** The `pageToken` query parameter is used to request the next page of query results. The follow-on request's `pageToken` query parameter is the `nextPageToken` from your previous response. */
@@ -2509,9 +3244,14 @@ export const ListChromeosdevicesRequest = Schema.Struct({
   projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   sortOrder: Schema.optional(Schema.String).pipe(T.HttpQuery("sortOrder")),
-  includeChildOrgunits: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeChildOrgunits")),
+  includeChildOrgunits: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeChildOrgunits"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/devices/chromeos" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListChromeosdevicesRequest>;
 
@@ -2521,7 +3261,12 @@ export const ListChromeosdevicesResponse = ChromeOsDevices;
 export type ListChromeosdevicesError = DefaultErrors;
 
 /** Retrieves a paginated list of Chrome OS devices within an account. */
-export const listChromeosdevices: API.PaginatedOperationMethod<ListChromeosdevicesRequest, ListChromeosdevicesResponse, ListChromeosdevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listChromeosdevices: API.PaginatedOperationMethod<
+  ListChromeosdevicesRequest,
+  ListChromeosdevicesResponse,
+  ListChromeosdevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListChromeosdevicesRequest,
   output: ListChromeosdevicesResponse,
   errors: [],
@@ -2545,17 +3290,29 @@ export const MoveDevicesToOuChromeosdevicesRequest = Schema.Struct({
   orgUnitPath: Schema.String.pipe(T.HttpQuery("orgUnitPath")),
   body: Schema.optional(ChromeOsMoveDevicesToOu).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customerId}/devices/chromeos/moveDevicesToOu", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos/moveDevicesToOu",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveDevicesToOuChromeosdevicesRequest>;
 
 export interface MoveDevicesToOuChromeosdevicesResponse {}
-export const MoveDevicesToOuChromeosdevicesResponse: Schema.Schema<MoveDevicesToOuChromeosdevicesResponse> = Schema.Struct({}) as any as Schema.Schema<MoveDevicesToOuChromeosdevicesResponse>;
+export const MoveDevicesToOuChromeosdevicesResponse: Schema.Schema<MoveDevicesToOuChromeosdevicesResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<MoveDevicesToOuChromeosdevicesResponse>;
 
 export type MoveDevicesToOuChromeosdevicesError = DefaultErrors;
 
 /** Moves or inserts multiple Chrome OS devices to an organizational unit. You can move up to 50 devices at once. */
-export const moveDevicesToOuChromeosdevices: API.OperationMethod<MoveDevicesToOuChromeosdevicesRequest, MoveDevicesToOuChromeosdevicesResponse, MoveDevicesToOuChromeosdevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveDevicesToOuChromeosdevices: API.OperationMethod<
+  MoveDevicesToOuChromeosdevicesRequest,
+  MoveDevicesToOuChromeosdevicesResponse,
+  MoveDevicesToOuChromeosdevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveDevicesToOuChromeosdevicesRequest,
   output: MoveDevicesToOuChromeosdevicesResponse,
   errors: [],
@@ -2578,7 +3335,11 @@ export const PatchChromeosdevicesRequest = Schema.Struct({
   projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
   body: Schema.optional(ChromeOsDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchChromeosdevicesRequest>;
 
@@ -2588,7 +3349,12 @@ export const PatchChromeosdevicesResponse = ChromeOsDevice;
 export type PatchChromeosdevicesError = DefaultErrors;
 
 /** Updates a device's updatable properties, such as `annotatedUser`, `annotatedLocation`, `notes`, `orgUnitPath`, or `annotatedAssetId`. This method supports [patch semantics](https://developers.google.com/workspace/admin/directory/v1/guides/performance#patch). */
-export const patchChromeosdevices: API.OperationMethod<PatchChromeosdevicesRequest, PatchChromeosdevicesResponse, PatchChromeosdevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchChromeosdevices: API.OperationMethod<
+  PatchChromeosdevicesRequest,
+  PatchChromeosdevicesResponse,
+  PatchChromeosdevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchChromeosdevicesRequest,
   output: PatchChromeosdevicesResponse,
   errors: [],
@@ -2611,7 +3377,11 @@ export const UpdateChromeosdevicesRequest = Schema.Struct({
   projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
   body: Schema.optional(ChromeOsDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateChromeosdevicesRequest>;
 
@@ -2621,7 +3391,12 @@ export const UpdateChromeosdevicesResponse = ChromeOsDevice;
 export type UpdateChromeosdevicesError = DefaultErrors;
 
 /** Updates a device's updatable properties, such as `annotatedUser`, `annotatedLocation`, `notes`, `orgUnitPath`, or `annotatedAssetId`. */
-export const updateChromeosdevices: API.OperationMethod<UpdateChromeosdevicesRequest, UpdateChromeosdevicesResponse, UpdateChromeosdevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateChromeosdevices: API.OperationMethod<
+  UpdateChromeosdevicesRequest,
+  UpdateChromeosdevicesResponse,
+  UpdateChromeosdevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateChromeosdevicesRequest,
   output: UpdateChromeosdevicesResponse,
   errors: [],
@@ -2639,19 +3414,32 @@ export interface IssueCommandCustomerDevicesChromeosRequest {
 export const IssueCommandCustomerDevicesChromeosRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
-  body: Schema.optional(DirectoryChromeosdevicesIssueCommandRequest).pipe(T.HttpBody()),
+  body: Schema.optional(DirectoryChromeosdevicesIssueCommandRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}:issueCommand", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}:issueCommand",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<IssueCommandCustomerDevicesChromeosRequest>;
 
-export type IssueCommandCustomerDevicesChromeosResponse = DirectoryChromeosdevicesIssueCommandResponse;
-export const IssueCommandCustomerDevicesChromeosResponse = DirectoryChromeosdevicesIssueCommandResponse;
+export type IssueCommandCustomerDevicesChromeosResponse =
+  DirectoryChromeosdevicesIssueCommandResponse;
+export const IssueCommandCustomerDevicesChromeosResponse =
+  DirectoryChromeosdevicesIssueCommandResponse;
 
 export type IssueCommandCustomerDevicesChromeosError = DefaultErrors;
 
 /** Issues a command for the device to execute. */
-export const issueCommandCustomerDevicesChromeos: API.OperationMethod<IssueCommandCustomerDevicesChromeosRequest, IssueCommandCustomerDevicesChromeosResponse, IssueCommandCustomerDevicesChromeosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const issueCommandCustomerDevicesChromeos: API.OperationMethod<
+  IssueCommandCustomerDevicesChromeosRequest,
+  IssueCommandCustomerDevicesChromeosResponse,
+  IssueCommandCustomerDevicesChromeosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: IssueCommandCustomerDevicesChromeosRequest,
   output: IssueCommandCustomerDevicesChromeosResponse,
   errors: [],
@@ -2666,19 +3454,32 @@ export interface BatchChangeStatusCustomerDevicesChromeosRequest {
 
 export const BatchChangeStatusCustomerDevicesChromeosRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
-  body: Schema.optional(BatchChangeChromeOsDeviceStatusRequest).pipe(T.HttpBody()),
+  body: Schema.optional(BatchChangeChromeOsDeviceStatusRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customerId}/devices/chromeos:batchChangeStatus", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos:batchChangeStatus",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchChangeStatusCustomerDevicesChromeosRequest>;
 
-export type BatchChangeStatusCustomerDevicesChromeosResponse = BatchChangeChromeOsDeviceStatusResponse;
-export const BatchChangeStatusCustomerDevicesChromeosResponse = BatchChangeChromeOsDeviceStatusResponse;
+export type BatchChangeStatusCustomerDevicesChromeosResponse =
+  BatchChangeChromeOsDeviceStatusResponse;
+export const BatchChangeStatusCustomerDevicesChromeosResponse =
+  BatchChangeChromeOsDeviceStatusResponse;
 
 export type BatchChangeStatusCustomerDevicesChromeosError = DefaultErrors;
 
 /** Changes the status of a batch of ChromeOS devices. For more information about changing a ChromeOS device state [Repair, repurpose, or retire ChromeOS devices](https://support.google.com/chrome/a/answer/3523633). */
-export const batchChangeStatusCustomerDevicesChromeos: API.OperationMethod<BatchChangeStatusCustomerDevicesChromeosRequest, BatchChangeStatusCustomerDevicesChromeosResponse, BatchChangeStatusCustomerDevicesChromeosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchChangeStatusCustomerDevicesChromeos: API.OperationMethod<
+  BatchChangeStatusCustomerDevicesChromeosRequest,
+  BatchChangeStatusCustomerDevicesChromeosResponse,
+  BatchChangeStatusCustomerDevicesChromeosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchChangeStatusCustomerDevicesChromeosRequest,
   output: BatchChangeStatusCustomerDevicesChromeosResponse,
   errors: [],
@@ -2695,23 +3496,39 @@ export interface CountChromeOsDevicesCustomerDevicesChromeosRequest {
   includeChildOrgunits?: boolean;
 }
 
-export const CountChromeOsDevicesCustomerDevicesChromeosRequest = Schema.Struct({
-  customerId: Schema.String.pipe(T.HttpPath("customerId")),
-  orgUnitPath: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitPath")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  includeChildOrgunits: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeChildOrgunits")),
-}).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/devices/chromeos:countChromeOsDevices" }),
+export const CountChromeOsDevicesCustomerDevicesChromeosRequest = Schema.Struct(
+  {
+    customerId: Schema.String.pipe(T.HttpPath("customerId")),
+    orgUnitPath: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("orgUnitPath"),
+    ),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    includeChildOrgunits: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeChildOrgunits"),
+    ),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos:countChromeOsDevices",
+  }),
   svc,
 ) as unknown as Schema.Schema<CountChromeOsDevicesCustomerDevicesChromeosRequest>;
 
-export type CountChromeOsDevicesCustomerDevicesChromeosResponse = CountChromeOsDevicesResponse;
-export const CountChromeOsDevicesCustomerDevicesChromeosResponse = CountChromeOsDevicesResponse;
+export type CountChromeOsDevicesCustomerDevicesChromeosResponse =
+  CountChromeOsDevicesResponse;
+export const CountChromeOsDevicesCustomerDevicesChromeosResponse =
+  CountChromeOsDevicesResponse;
 
 export type CountChromeOsDevicesCustomerDevicesChromeosError = DefaultErrors;
 
 /** Counts ChromeOS devices matching the request. */
-export const countChromeOsDevicesCustomerDevicesChromeos: API.OperationMethod<CountChromeOsDevicesCustomerDevicesChromeosRequest, CountChromeOsDevicesCustomerDevicesChromeosResponse, CountChromeOsDevicesCustomerDevicesChromeosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const countChromeOsDevicesCustomerDevicesChromeos: API.OperationMethod<
+  CountChromeOsDevicesCustomerDevicesChromeosRequest,
+  CountChromeOsDevicesCustomerDevicesChromeosResponse,
+  CountChromeOsDevicesCustomerDevicesChromeosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CountChromeOsDevicesCustomerDevicesChromeosRequest,
   output: CountChromeOsDevicesCustomerDevicesChromeosResponse,
   errors: [],
@@ -2731,17 +3548,27 @@ export const GetCustomerDevicesChromeosCommandsRequest = Schema.Struct({
   deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
   commandId: Schema.String.pipe(T.HttpPath("commandId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}/commands/{commandId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}/commands/{commandId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCustomerDevicesChromeosCommandsRequest>;
 
-export type GetCustomerDevicesChromeosCommandsResponse = DirectoryChromeosdevicesCommand;
-export const GetCustomerDevicesChromeosCommandsResponse = DirectoryChromeosdevicesCommand;
+export type GetCustomerDevicesChromeosCommandsResponse =
+  DirectoryChromeosdevicesCommand;
+export const GetCustomerDevicesChromeosCommandsResponse =
+  DirectoryChromeosdevicesCommand;
 
 export type GetCustomerDevicesChromeosCommandsError = DefaultErrors;
 
 /** Gets command data a specific command issued to the device. */
-export const getCustomerDevicesChromeosCommands: API.OperationMethod<GetCustomerDevicesChromeosCommandsRequest, GetCustomerDevicesChromeosCommandsResponse, GetCustomerDevicesChromeosCommandsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomerDevicesChromeosCommands: API.OperationMethod<
+  GetCustomerDevicesChromeosCommandsRequest,
+  GetCustomerDevicesChromeosCommandsResponse,
+  GetCustomerDevicesChromeosCommandsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomerDevicesChromeosCommandsRequest,
   output: GetCustomerDevicesChromeosCommandsResponse,
   errors: [],
@@ -2758,17 +3585,26 @@ export const DeleteAspsRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   codeId: Schema.Number.pipe(T.HttpPath("codeId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/users/{userKey}/asps/{codeId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/users/{userKey}/asps/{codeId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAspsRequest>;
 
 export interface DeleteAspsResponse {}
-export const DeleteAspsResponse: Schema.Schema<DeleteAspsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteAspsResponse>;
+export const DeleteAspsResponse: Schema.Schema<DeleteAspsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteAspsResponse>;
 
 export type DeleteAspsError = DefaultErrors;
 
 /** Deletes an ASP issued by a user. */
-export const deleteAsps: API.OperationMethod<DeleteAspsRequest, DeleteAspsResponse, DeleteAspsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAsps: API.OperationMethod<
+  DeleteAspsRequest,
+  DeleteAspsResponse,
+  DeleteAspsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAspsRequest,
   output: DeleteAspsResponse,
   errors: [],
@@ -2785,7 +3621,10 @@ export const GetAspsRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   codeId: Schema.Number.pipe(T.HttpPath("codeId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/users/{userKey}/asps/{codeId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/users/{userKey}/asps/{codeId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAspsRequest>;
 
@@ -2795,7 +3634,12 @@ export const GetAspsResponse = Asp;
 export type GetAspsError = DefaultErrors;
 
 /** Gets information about an ASP issued by a user. */
-export const getAsps: API.OperationMethod<GetAspsRequest, GetAspsResponse, GetAspsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAsps: API.OperationMethod<
+  GetAspsRequest,
+  GetAspsResponse,
+  GetAspsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAspsRequest,
   output: GetAspsResponse,
   errors: [],
@@ -2819,7 +3663,12 @@ export const ListAspsResponse = Asps;
 export type ListAspsError = DefaultErrors;
 
 /** Lists the ASPs issued by a user. */
-export const listAsps: API.OperationMethod<ListAspsRequest, ListAspsResponse, ListAspsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listAsps: API.OperationMethod<
+  ListAspsRequest,
+  ListAspsResponse,
+  ListAspsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListAspsRequest,
   output: ListAspsResponse,
   errors: [],
@@ -2833,17 +3682,27 @@ export interface StopChannelsRequest {
 export const StopChannelsRequest = Schema.Struct({
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory_v1/channels/stop", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory_v1/channels/stop",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StopChannelsRequest>;
 
 export interface StopChannelsResponse {}
-export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> = Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
+export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
 
 export type StopChannelsError = DefaultErrors;
 
 /** Stops watching resources through this channel. */
-export const stopChannels: API.OperationMethod<StopChannelsRequest, StopChannelsResponse, StopChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopChannels: API.OperationMethod<
+  StopChannelsRequest,
+  StopChannelsResponse,
+  StopChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
@@ -2867,7 +3726,12 @@ export const GetCustomersResponse = Customer;
 export type GetCustomersError = DefaultErrors;
 
 /** Retrieves a customer. */
-export const getCustomers: API.OperationMethod<GetCustomersRequest, GetCustomersResponse, GetCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomers: API.OperationMethod<
+  GetCustomersRequest,
+  GetCustomersResponse,
+  GetCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomersRequest,
   output: GetCustomersResponse,
   errors: [],
@@ -2884,7 +3748,11 @@ export const UpdateCustomersRequest = Schema.Struct({
   customerKey: Schema.String.pipe(T.HttpPath("customerKey")),
   body: Schema.optional(Customer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customers/{customerKey}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customers/{customerKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateCustomersRequest>;
 
@@ -2894,7 +3762,12 @@ export const UpdateCustomersResponse = Customer;
 export type UpdateCustomersError = DefaultErrors;
 
 /** Updates a customer. */
-export const updateCustomers: API.OperationMethod<UpdateCustomersRequest, UpdateCustomersResponse, UpdateCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateCustomers: API.OperationMethod<
+  UpdateCustomersRequest,
+  UpdateCustomersResponse,
+  UpdateCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateCustomersRequest,
   output: UpdateCustomersResponse,
   errors: [],
@@ -2911,7 +3784,11 @@ export const PatchCustomersRequest = Schema.Struct({
   customerKey: Schema.String.pipe(T.HttpPath("customerKey")),
   body: Schema.optional(Customer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customers/{customerKey}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customers/{customerKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersRequest>;
 
@@ -2921,7 +3798,12 @@ export const PatchCustomersResponse = Customer;
 export type PatchCustomersError = DefaultErrors;
 
 /** Patches a customer. */
-export const patchCustomers: API.OperationMethod<PatchCustomersRequest, PatchCustomersResponse, PatchCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCustomers: API.OperationMethod<
+  PatchCustomersRequest,
+  PatchCustomersResponse,
+  PatchCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCustomersRequest,
   output: PatchCustomersResponse,
   errors: [],
@@ -2944,17 +3826,27 @@ export const ListPrinterModelsCustomersChromePrintersRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customers/{customersId}/chrome/printers:listPrinterModels" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers:listPrinterModels",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListPrinterModelsCustomersChromePrintersRequest>;
 
-export type ListPrinterModelsCustomersChromePrintersResponse = ListPrinterModelsResponse;
-export const ListPrinterModelsCustomersChromePrintersResponse = ListPrinterModelsResponse;
+export type ListPrinterModelsCustomersChromePrintersResponse =
+  ListPrinterModelsResponse;
+export const ListPrinterModelsCustomersChromePrintersResponse =
+  ListPrinterModelsResponse;
 
 export type ListPrinterModelsCustomersChromePrintersError = DefaultErrors;
 
 /** Lists the supported printer models. */
-export const listPrinterModelsCustomersChromePrinters: API.PaginatedOperationMethod<ListPrinterModelsCustomersChromePrintersRequest, ListPrinterModelsCustomersChromePrintersResponse, ListPrinterModelsCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPrinterModelsCustomersChromePrinters: API.PaginatedOperationMethod<
+  ListPrinterModelsCustomersChromePrintersRequest,
+  ListPrinterModelsCustomersChromePrintersResponse,
+  ListPrinterModelsCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPrinterModelsCustomersChromePrintersRequest,
   output: ListPrinterModelsCustomersChromePrintersResponse,
   errors: [],
@@ -2987,7 +3879,10 @@ export const ListCustomersChromePrintersRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customers/{customersId}/chrome/printers" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCustomersChromePrintersRequest>;
 
@@ -2997,7 +3892,12 @@ export const ListCustomersChromePrintersResponse = ListPrintersResponse;
 export type ListCustomersChromePrintersError = DefaultErrors;
 
 /** List printers configs. */
-export const listCustomersChromePrinters: API.PaginatedOperationMethod<ListCustomersChromePrintersRequest, ListCustomersChromePrintersResponse, ListCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersChromePrinters: API.PaginatedOperationMethod<
+  ListCustomersChromePrintersRequest,
+  ListCustomersChromePrintersResponse,
+  ListCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersChromePrintersRequest,
   output: ListCustomersChromePrintersResponse,
   errors: [],
@@ -3015,7 +3915,10 @@ export interface GetCustomersChromePrintersRequest {
 export const GetCustomersChromePrintersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customers/{customersId}/chrome/printers/{printersId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers/{printersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCustomersChromePrintersRequest>;
 
@@ -3025,7 +3928,12 @@ export const GetCustomersChromePrintersResponse = Printer;
 export type GetCustomersChromePrintersError = DefaultErrors;
 
 /** Returns a `Printer` resource (printer's config). */
-export const getCustomersChromePrinters: API.OperationMethod<GetCustomersChromePrintersRequest, GetCustomersChromePrintersResponse, GetCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomersChromePrinters: API.OperationMethod<
+  GetCustomersChromePrintersRequest,
+  GetCustomersChromePrintersResponse,
+  GetCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomersChromePrintersRequest,
   output: GetCustomersChromePrintersResponse,
   errors: [],
@@ -3042,7 +3950,11 @@ export const CreateCustomersChromePrintersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Printer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customers/{customersId}/chrome/printers", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersChromePrintersRequest>;
 
@@ -3052,7 +3964,12 @@ export const CreateCustomersChromePrintersResponse = Printer;
 export type CreateCustomersChromePrintersError = DefaultErrors;
 
 /** Creates a printer under given Organization Unit. */
-export const createCustomersChromePrinters: API.OperationMethod<CreateCustomersChromePrintersRequest, CreateCustomersChromePrintersResponse, CreateCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersChromePrinters: API.OperationMethod<
+  CreateCustomersChromePrintersRequest,
+  CreateCustomersChromePrintersResponse,
+  CreateCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersChromePrintersRequest,
   output: CreateCustomersChromePrintersResponse,
   errors: [],
@@ -3069,17 +3986,28 @@ export const BatchCreatePrintersCustomersChromePrintersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchCreatePrintersRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customers/{customersId}/chrome/printers:batchCreatePrinters", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers:batchCreatePrinters",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchCreatePrintersCustomersChromePrintersRequest>;
 
-export type BatchCreatePrintersCustomersChromePrintersResponse = BatchCreatePrintersResponse;
-export const BatchCreatePrintersCustomersChromePrintersResponse = BatchCreatePrintersResponse;
+export type BatchCreatePrintersCustomersChromePrintersResponse =
+  BatchCreatePrintersResponse;
+export const BatchCreatePrintersCustomersChromePrintersResponse =
+  BatchCreatePrintersResponse;
 
 export type BatchCreatePrintersCustomersChromePrintersError = DefaultErrors;
 
 /** Creates printers under given Organization Unit. */
-export const batchCreatePrintersCustomersChromePrinters: API.OperationMethod<BatchCreatePrintersCustomersChromePrintersRequest, BatchCreatePrintersCustomersChromePrintersResponse, BatchCreatePrintersCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchCreatePrintersCustomersChromePrinters: API.OperationMethod<
+  BatchCreatePrintersCustomersChromePrintersRequest,
+  BatchCreatePrintersCustomersChromePrintersResponse,
+  BatchCreatePrintersCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchCreatePrintersCustomersChromePrintersRequest,
   output: BatchCreatePrintersCustomersChromePrintersResponse,
   errors: [],
@@ -3102,7 +4030,11 @@ export const PatchCustomersChromePrintersRequest = Schema.Struct({
   clearMask: Schema.optional(Schema.String).pipe(T.HttpQuery("clearMask")),
   body: Schema.optional(Printer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customers/{customersId}/chrome/printers/{printersId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers/{printersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersChromePrintersRequest>;
 
@@ -3112,7 +4044,12 @@ export const PatchCustomersChromePrintersResponse = Printer;
 export type PatchCustomersChromePrintersError = DefaultErrors;
 
 /** Updates a `Printer` resource. */
-export const patchCustomersChromePrinters: API.OperationMethod<PatchCustomersChromePrintersRequest, PatchCustomersChromePrintersResponse, PatchCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCustomersChromePrinters: API.OperationMethod<
+  PatchCustomersChromePrintersRequest,
+  PatchCustomersChromePrintersResponse,
+  PatchCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCustomersChromePrintersRequest,
   output: PatchCustomersChromePrintersResponse,
   errors: [],
@@ -3126,7 +4063,10 @@ export interface DeleteCustomersChromePrintersRequest {
 export const DeleteCustomersChromePrintersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customers/{customersId}/chrome/printers/{printersId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers/{printersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteCustomersChromePrintersRequest>;
 
@@ -3136,7 +4076,12 @@ export const DeleteCustomersChromePrintersResponse = Empty;
 export type DeleteCustomersChromePrintersError = DefaultErrors;
 
 /** Deletes a `Printer`. */
-export const deleteCustomersChromePrinters: API.OperationMethod<DeleteCustomersChromePrintersRequest, DeleteCustomersChromePrintersResponse, DeleteCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCustomersChromePrinters: API.OperationMethod<
+  DeleteCustomersChromePrintersRequest,
+  DeleteCustomersChromePrintersResponse,
+  DeleteCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCustomersChromePrintersRequest,
   output: DeleteCustomersChromePrintersResponse,
   errors: [],
@@ -3153,17 +4098,28 @@ export const BatchDeletePrintersCustomersChromePrintersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchDeletePrintersRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customers/{customersId}/chrome/printers:batchDeletePrinters", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printers:batchDeletePrinters",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchDeletePrintersCustomersChromePrintersRequest>;
 
-export type BatchDeletePrintersCustomersChromePrintersResponse = BatchDeletePrintersResponse;
-export const BatchDeletePrintersCustomersChromePrintersResponse = BatchDeletePrintersResponse;
+export type BatchDeletePrintersCustomersChromePrintersResponse =
+  BatchDeletePrintersResponse;
+export const BatchDeletePrintersCustomersChromePrintersResponse =
+  BatchDeletePrintersResponse;
 
 export type BatchDeletePrintersCustomersChromePrintersError = DefaultErrors;
 
 /** Deletes printers in batch. */
-export const batchDeletePrintersCustomersChromePrinters: API.OperationMethod<BatchDeletePrintersCustomersChromePrintersRequest, BatchDeletePrintersCustomersChromePrintersResponse, BatchDeletePrintersCustomersChromePrintersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchDeletePrintersCustomersChromePrinters: API.OperationMethod<
+  BatchDeletePrintersCustomersChromePrintersRequest,
+  BatchDeletePrintersCustomersChromePrintersResponse,
+  BatchDeletePrintersCustomersChromePrintersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchDeletePrintersCustomersChromePrintersRequest,
   output: BatchDeletePrintersCustomersChromePrintersResponse,
   errors: [],
@@ -3192,7 +4148,10 @@ export const ListCustomersChromePrintServersRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customers/{customersId}/chrome/printServers" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printServers",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCustomersChromePrintServersRequest>;
 
@@ -3202,7 +4161,12 @@ export const ListCustomersChromePrintServersResponse = ListPrintServersResponse;
 export type ListCustomersChromePrintServersError = DefaultErrors;
 
 /** Lists print server configurations. */
-export const listCustomersChromePrintServers: API.PaginatedOperationMethod<ListCustomersChromePrintServersRequest, ListCustomersChromePrintServersResponse, ListCustomersChromePrintServersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersChromePrintServers: API.PaginatedOperationMethod<
+  ListCustomersChromePrintServersRequest,
+  ListCustomersChromePrintServersResponse,
+  ListCustomersChromePrintServersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersChromePrintServersRequest,
   output: ListCustomersChromePrintServersResponse,
   errors: [],
@@ -3220,7 +4184,10 @@ export interface GetCustomersChromePrintServersRequest {
 export const GetCustomersChromePrintServersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customers/{customersId}/chrome/printServers/{printServersId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printServers/{printServersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCustomersChromePrintServersRequest>;
 
@@ -3230,7 +4197,12 @@ export const GetCustomersChromePrintServersResponse = PrintServer;
 export type GetCustomersChromePrintServersError = DefaultErrors;
 
 /** Returns a print server's configuration. */
-export const getCustomersChromePrintServers: API.OperationMethod<GetCustomersChromePrintServersRequest, GetCustomersChromePrintServersResponse, GetCustomersChromePrintServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomersChromePrintServers: API.OperationMethod<
+  GetCustomersChromePrintServersRequest,
+  GetCustomersChromePrintServersResponse,
+  GetCustomersChromePrintServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomersChromePrintServersRequest,
   output: GetCustomersChromePrintServersResponse,
   errors: [],
@@ -3247,7 +4219,11 @@ export const CreateCustomersChromePrintServersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(PrintServer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customers/{customersId}/chrome/printServers", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printServers",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersChromePrintServersRequest>;
 
@@ -3257,7 +4233,12 @@ export const CreateCustomersChromePrintServersResponse = PrintServer;
 export type CreateCustomersChromePrintServersError = DefaultErrors;
 
 /** Creates a print server. */
-export const createCustomersChromePrintServers: API.OperationMethod<CreateCustomersChromePrintServersRequest, CreateCustomersChromePrintServersResponse, CreateCustomersChromePrintServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersChromePrintServers: API.OperationMethod<
+  CreateCustomersChromePrintServersRequest,
+  CreateCustomersChromePrintServersResponse,
+  CreateCustomersChromePrintServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersChromePrintServersRequest,
   output: CreateCustomersChromePrintServersResponse,
   errors: [],
@@ -3270,21 +4251,34 @@ export interface BatchCreatePrintServersCustomersChromePrintServersRequest {
   body?: BatchCreatePrintServersRequest;
 }
 
-export const BatchCreatePrintServersCustomersChromePrintServersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchCreatePrintServersRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customers/{customersId}/chrome/printServers:batchCreatePrintServers", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BatchCreatePrintServersCustomersChromePrintServersRequest>;
+export const BatchCreatePrintServersCustomersChromePrintServersRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchCreatePrintServersRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "admin/directory/v1/customers/{customersId}/chrome/printServers:batchCreatePrintServers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchCreatePrintServersCustomersChromePrintServersRequest>;
 
-export type BatchCreatePrintServersCustomersChromePrintServersResponse = BatchCreatePrintServersResponse;
-export const BatchCreatePrintServersCustomersChromePrintServersResponse = BatchCreatePrintServersResponse;
+export type BatchCreatePrintServersCustomersChromePrintServersResponse =
+  BatchCreatePrintServersResponse;
+export const BatchCreatePrintServersCustomersChromePrintServersResponse =
+  BatchCreatePrintServersResponse;
 
-export type BatchCreatePrintServersCustomersChromePrintServersError = DefaultErrors;
+export type BatchCreatePrintServersCustomersChromePrintServersError =
+  DefaultErrors;
 
 /** Creates multiple print servers. */
-export const batchCreatePrintServersCustomersChromePrintServers: API.OperationMethod<BatchCreatePrintServersCustomersChromePrintServersRequest, BatchCreatePrintServersCustomersChromePrintServersResponse, BatchCreatePrintServersCustomersChromePrintServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchCreatePrintServersCustomersChromePrintServers: API.OperationMethod<
+  BatchCreatePrintServersCustomersChromePrintServersRequest,
+  BatchCreatePrintServersCustomersChromePrintServersResponse,
+  BatchCreatePrintServersCustomersChromePrintServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchCreatePrintServersCustomersChromePrintServersRequest,
   output: BatchCreatePrintServersCustomersChromePrintServersResponse,
   errors: [],
@@ -3304,7 +4298,11 @@ export const PatchCustomersChromePrintServersRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(PrintServer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customers/{customersId}/chrome/printServers/{printServersId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printServers/{printServersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersChromePrintServersRequest>;
 
@@ -3314,7 +4312,12 @@ export const PatchCustomersChromePrintServersResponse = PrintServer;
 export type PatchCustomersChromePrintServersError = DefaultErrors;
 
 /** Updates a print server's configuration. */
-export const patchCustomersChromePrintServers: API.OperationMethod<PatchCustomersChromePrintServersRequest, PatchCustomersChromePrintServersResponse, PatchCustomersChromePrintServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCustomersChromePrintServers: API.OperationMethod<
+  PatchCustomersChromePrintServersRequest,
+  PatchCustomersChromePrintServersResponse,
+  PatchCustomersChromePrintServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCustomersChromePrintServersRequest,
   output: PatchCustomersChromePrintServersResponse,
   errors: [],
@@ -3328,7 +4331,10 @@ export interface DeleteCustomersChromePrintServersRequest {
 export const DeleteCustomersChromePrintServersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customers/{customersId}/chrome/printServers/{printServersId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customers/{customersId}/chrome/printServers/{printServersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteCustomersChromePrintServersRequest>;
 
@@ -3338,7 +4344,12 @@ export const DeleteCustomersChromePrintServersResponse = Empty;
 export type DeleteCustomersChromePrintServersError = DefaultErrors;
 
 /** Deletes a print server. */
-export const deleteCustomersChromePrintServers: API.OperationMethod<DeleteCustomersChromePrintServersRequest, DeleteCustomersChromePrintServersResponse, DeleteCustomersChromePrintServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCustomersChromePrintServers: API.OperationMethod<
+  DeleteCustomersChromePrintServersRequest,
+  DeleteCustomersChromePrintServersResponse,
+  DeleteCustomersChromePrintServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCustomersChromePrintServersRequest,
   output: DeleteCustomersChromePrintServersResponse,
   errors: [],
@@ -3351,21 +4362,34 @@ export interface BatchDeletePrintServersCustomersChromePrintServersRequest {
   body?: BatchDeletePrintServersRequest;
 }
 
-export const BatchDeletePrintServersCustomersChromePrintServersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchDeletePrintServersRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customers/{customersId}/chrome/printServers:batchDeletePrintServers", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BatchDeletePrintServersCustomersChromePrintServersRequest>;
+export const BatchDeletePrintServersCustomersChromePrintServersRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchDeletePrintServersRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "admin/directory/v1/customers/{customersId}/chrome/printServers:batchDeletePrintServers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchDeletePrintServersCustomersChromePrintServersRequest>;
 
-export type BatchDeletePrintServersCustomersChromePrintServersResponse = BatchDeletePrintServersResponse;
-export const BatchDeletePrintServersCustomersChromePrintServersResponse = BatchDeletePrintServersResponse;
+export type BatchDeletePrintServersCustomersChromePrintServersResponse =
+  BatchDeletePrintServersResponse;
+export const BatchDeletePrintServersCustomersChromePrintServersResponse =
+  BatchDeletePrintServersResponse;
 
-export type BatchDeletePrintServersCustomersChromePrintServersError = DefaultErrors;
+export type BatchDeletePrintServersCustomersChromePrintServersError =
+  DefaultErrors;
 
 /** Deletes multiple print servers. */
-export const batchDeletePrintServersCustomersChromePrintServers: API.OperationMethod<BatchDeletePrintServersCustomersChromePrintServersRequest, BatchDeletePrintServersCustomersChromePrintServersResponse, BatchDeletePrintServersCustomersChromePrintServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchDeletePrintServersCustomersChromePrintServers: API.OperationMethod<
+  BatchDeletePrintServersCustomersChromePrintServersRequest,
+  BatchDeletePrintServersCustomersChromePrintServersResponse,
+  BatchDeletePrintServersCustomersChromePrintServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchDeletePrintServersCustomersChromePrintServersRequest,
   output: BatchDeletePrintServersCustomersChromePrintServersResponse,
   errors: [],
@@ -3382,17 +4406,26 @@ export const DeleteDomainAliasesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   domainAliasName: Schema.String.pipe(T.HttpPath("domainAliasName")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customer}/domainaliases/{domainAliasName}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customer}/domainaliases/{domainAliasName}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteDomainAliasesRequest>;
 
 export interface DeleteDomainAliasesResponse {}
-export const DeleteDomainAliasesResponse: Schema.Schema<DeleteDomainAliasesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteDomainAliasesResponse>;
+export const DeleteDomainAliasesResponse: Schema.Schema<DeleteDomainAliasesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteDomainAliasesResponse>;
 
 export type DeleteDomainAliasesError = DefaultErrors;
 
 /** Deletes a domain Alias of the customer. */
-export const deleteDomainAliases: API.OperationMethod<DeleteDomainAliasesRequest, DeleteDomainAliasesResponse, DeleteDomainAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteDomainAliases: API.OperationMethod<
+  DeleteDomainAliasesRequest,
+  DeleteDomainAliasesResponse,
+  DeleteDomainAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteDomainAliasesRequest,
   output: DeleteDomainAliasesResponse,
   errors: [],
@@ -3409,7 +4442,10 @@ export const GetDomainAliasesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   domainAliasName: Schema.String.pipe(T.HttpPath("domainAliasName")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/domainaliases/{domainAliasName}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/domainaliases/{domainAliasName}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDomainAliasesRequest>;
 
@@ -3419,7 +4455,12 @@ export const GetDomainAliasesResponse = DomainAlias;
 export type GetDomainAliasesError = DefaultErrors;
 
 /** Retrieves a domain alias of the customer. */
-export const getDomainAliases: API.OperationMethod<GetDomainAliasesRequest, GetDomainAliasesResponse, GetDomainAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDomainAliases: API.OperationMethod<
+  GetDomainAliasesRequest,
+  GetDomainAliasesResponse,
+  GetDomainAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDomainAliasesRequest,
   output: GetDomainAliasesResponse,
   errors: [],
@@ -3436,7 +4477,11 @@ export const InsertDomainAliasesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   body: Schema.optional(DomainAlias).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/domainaliases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/domainaliases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertDomainAliasesRequest>;
 
@@ -3446,7 +4491,12 @@ export const InsertDomainAliasesResponse = DomainAlias;
 export type InsertDomainAliasesError = DefaultErrors;
 
 /** Inserts a domain alias of the customer. */
-export const insertDomainAliases: API.OperationMethod<InsertDomainAliasesRequest, InsertDomainAliasesResponse, InsertDomainAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertDomainAliases: API.OperationMethod<
+  InsertDomainAliasesRequest,
+  InsertDomainAliasesResponse,
+  InsertDomainAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertDomainAliasesRequest,
   output: InsertDomainAliasesResponse,
   errors: [],
@@ -3461,9 +4511,14 @@ export interface ListDomainAliasesRequest {
 
 export const ListDomainAliasesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
-  parentDomainName: Schema.optional(Schema.String).pipe(T.HttpQuery("parentDomainName")),
+  parentDomainName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("parentDomainName"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/domainaliases" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/domainaliases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListDomainAliasesRequest>;
 
@@ -3473,7 +4528,12 @@ export const ListDomainAliasesResponse = DomainAliases;
 export type ListDomainAliasesError = DefaultErrors;
 
 /** Lists the domain aliases of the customer. */
-export const listDomainAliases: API.OperationMethod<ListDomainAliasesRequest, ListDomainAliasesResponse, ListDomainAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listDomainAliases: API.OperationMethod<
+  ListDomainAliasesRequest,
+  ListDomainAliasesResponse,
+  ListDomainAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListDomainAliasesRequest,
   output: ListDomainAliasesResponse,
   errors: [],
@@ -3490,17 +4550,26 @@ export const DeleteDomainsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customer}/domains/{domainName}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customer}/domains/{domainName}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteDomainsRequest>;
 
 export interface DeleteDomainsResponse {}
-export const DeleteDomainsResponse: Schema.Schema<DeleteDomainsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteDomainsResponse>;
+export const DeleteDomainsResponse: Schema.Schema<DeleteDomainsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteDomainsResponse>;
 
 export type DeleteDomainsError = DefaultErrors;
 
 /** Deletes a domain of the customer. */
-export const deleteDomains: API.OperationMethod<DeleteDomainsRequest, DeleteDomainsResponse, DeleteDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteDomains: API.OperationMethod<
+  DeleteDomainsRequest,
+  DeleteDomainsResponse,
+  DeleteDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteDomainsRequest,
   output: DeleteDomainsResponse,
   errors: [],
@@ -3517,7 +4586,10 @@ export const GetDomainsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/domains/{domainName}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/domains/{domainName}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDomainsRequest>;
 
@@ -3527,7 +4599,12 @@ export const GetDomainsResponse = Domains;
 export type GetDomainsError = DefaultErrors;
 
 /** Retrieves a domain of the customer. */
-export const getDomains: API.OperationMethod<GetDomainsRequest, GetDomainsResponse, GetDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDomains: API.OperationMethod<
+  GetDomainsRequest,
+  GetDomainsResponse,
+  GetDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDomainsRequest,
   output: GetDomainsResponse,
   errors: [],
@@ -3544,7 +4621,11 @@ export const InsertDomainsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   body: Schema.optional(Domains).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/domains", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/domains",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertDomainsRequest>;
 
@@ -3554,7 +4635,12 @@ export const InsertDomainsResponse = Domains;
 export type InsertDomainsError = DefaultErrors;
 
 /** Inserts a domain of the customer. */
-export const insertDomains: API.OperationMethod<InsertDomainsRequest, InsertDomainsResponse, InsertDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertDomains: API.OperationMethod<
+  InsertDomainsRequest,
+  InsertDomainsResponse,
+  InsertDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertDomainsRequest,
   output: InsertDomainsResponse,
   errors: [],
@@ -3568,7 +4654,10 @@ export interface ListDomainsRequest {
 export const ListDomainsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/domains" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/domains",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListDomainsRequest>;
 
@@ -3578,7 +4667,12 @@ export const ListDomainsResponse = Domains2;
 export type ListDomainsError = DefaultErrors;
 
 /** Lists the domains of the customer. */
-export const listDomains: API.OperationMethod<ListDomainsRequest, ListDomainsResponse, ListDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
+  ListDomainsResponse,
+  ListDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse,
   errors: [],
@@ -3597,12 +4691,18 @@ export const DeleteGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteGroupsRequest>;
 
 export interface DeleteGroupsResponse {}
-export const DeleteGroupsResponse: Schema.Schema<DeleteGroupsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteGroupsResponse>;
+export const DeleteGroupsResponse: Schema.Schema<DeleteGroupsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteGroupsResponse>;
 
 export type DeleteGroupsError = DefaultErrors;
 
 /** Deletes a group. */
-export const deleteGroups: API.OperationMethod<DeleteGroupsRequest, DeleteGroupsResponse, DeleteGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteGroups: API.OperationMethod<
+  DeleteGroupsRequest,
+  DeleteGroupsResponse,
+  DeleteGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteGroupsRequest,
   output: DeleteGroupsResponse,
   errors: [],
@@ -3626,7 +4726,12 @@ export const GetGroupsResponse = Group;
 export type GetGroupsError = DefaultErrors;
 
 /** Retrieves a group's properties. */
-export const getGroups: API.OperationMethod<GetGroupsRequest, GetGroupsResponse, GetGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getGroups: API.OperationMethod<
+  GetGroupsRequest,
+  GetGroupsResponse,
+  GetGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetGroupsRequest,
   output: GetGroupsResponse,
   errors: [],
@@ -3650,7 +4755,12 @@ export const InsertGroupsResponse = Group;
 export type InsertGroupsError = DefaultErrors;
 
 /** Creates a group. */
-export const insertGroups: API.OperationMethod<InsertGroupsRequest, InsertGroupsResponse, InsertGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertGroups: API.OperationMethod<
+  InsertGroupsRequest,
+  InsertGroupsResponse,
+  InsertGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertGroupsRequest,
   output: InsertGroupsResponse,
   errors: [],
@@ -3695,7 +4805,12 @@ export const ListGroupsResponse = Groups;
 export type ListGroupsError = DefaultErrors;
 
 /** Retrieves all groups of a domain or of a user given a userKey (paginated). */
-export const listGroups: API.PaginatedOperationMethod<ListGroupsRequest, ListGroupsResponse, ListGroupsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listGroups: API.PaginatedOperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  ListGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [],
@@ -3716,7 +4831,11 @@ export const UpdateGroupsRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   body: Schema.optional(Group).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/groups/{groupKey}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/groups/{groupKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateGroupsRequest>;
 
@@ -3726,7 +4845,12 @@ export const UpdateGroupsResponse = Group;
 export type UpdateGroupsError = DefaultErrors;
 
 /** Updates a group's properties. */
-export const updateGroups: API.OperationMethod<UpdateGroupsRequest, UpdateGroupsResponse, UpdateGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateGroups: API.OperationMethod<
+  UpdateGroupsRequest,
+  UpdateGroupsResponse,
+  UpdateGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateGroupsRequest,
   output: UpdateGroupsResponse,
   errors: [],
@@ -3743,7 +4867,11 @@ export const PatchGroupsRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   body: Schema.optional(Group).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/groups/{groupKey}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/groups/{groupKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchGroupsRequest>;
 
@@ -3753,7 +4881,12 @@ export const PatchGroupsResponse = Group;
 export type PatchGroupsError = DefaultErrors;
 
 /** Updates a group's properties. This method supports [patch semantics](https://developers.google.com/workspace/admin/directory/v1/guides/performance#patch). */
-export const patchGroups: API.OperationMethod<PatchGroupsRequest, PatchGroupsResponse, PatchGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchGroups: API.OperationMethod<
+  PatchGroupsRequest,
+  PatchGroupsResponse,
+  PatchGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchGroupsRequest,
   output: PatchGroupsResponse,
   errors: [],
@@ -3770,17 +4903,26 @@ export const DeleteGroupsAliasesRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   alias: Schema.String.pipe(T.HttpPath("alias")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/groups/{groupKey}/aliases/{alias}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/groups/{groupKey}/aliases/{alias}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteGroupsAliasesRequest>;
 
 export interface DeleteGroupsAliasesResponse {}
-export const DeleteGroupsAliasesResponse: Schema.Schema<DeleteGroupsAliasesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteGroupsAliasesResponse>;
+export const DeleteGroupsAliasesResponse: Schema.Schema<DeleteGroupsAliasesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteGroupsAliasesResponse>;
 
 export type DeleteGroupsAliasesError = DefaultErrors;
 
 /** Removes an alias. */
-export const deleteGroupsAliases: API.OperationMethod<DeleteGroupsAliasesRequest, DeleteGroupsAliasesResponse, DeleteGroupsAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteGroupsAliases: API.OperationMethod<
+  DeleteGroupsAliasesRequest,
+  DeleteGroupsAliasesResponse,
+  DeleteGroupsAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteGroupsAliasesRequest,
   output: DeleteGroupsAliasesResponse,
   errors: [],
@@ -3797,7 +4939,11 @@ export const InsertGroupsAliasesRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   body: Schema.optional(Alias).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/groups/{groupKey}/aliases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/groups/{groupKey}/aliases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertGroupsAliasesRequest>;
 
@@ -3807,7 +4953,12 @@ export const InsertGroupsAliasesResponse = Alias;
 export type InsertGroupsAliasesError = DefaultErrors;
 
 /** Adds an alias for the group. */
-export const insertGroupsAliases: API.OperationMethod<InsertGroupsAliasesRequest, InsertGroupsAliasesResponse, InsertGroupsAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertGroupsAliases: API.OperationMethod<
+  InsertGroupsAliasesRequest,
+  InsertGroupsAliasesResponse,
+  InsertGroupsAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertGroupsAliasesRequest,
   output: InsertGroupsAliasesResponse,
   errors: [],
@@ -3821,7 +4972,10 @@ export interface ListGroupsAliasesRequest {
 export const ListGroupsAliasesRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/groups/{groupKey}/aliases" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/groups/{groupKey}/aliases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListGroupsAliasesRequest>;
 
@@ -3831,7 +4985,12 @@ export const ListGroupsAliasesResponse = Aliases;
 export type ListGroupsAliasesError = DefaultErrors;
 
 /** Lists all aliases for a group. */
-export const listGroupsAliases: API.OperationMethod<ListGroupsAliasesRequest, ListGroupsAliasesResponse, ListGroupsAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listGroupsAliases: API.OperationMethod<
+  ListGroupsAliasesRequest,
+  ListGroupsAliasesResponse,
+  ListGroupsAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListGroupsAliasesRequest,
   output: ListGroupsAliasesResponse,
   errors: [],
@@ -3848,17 +5007,26 @@ export const DeleteMembersRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   memberKey: Schema.String.pipe(T.HttpPath("memberKey")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteMembersRequest>;
 
 export interface DeleteMembersResponse {}
-export const DeleteMembersResponse: Schema.Schema<DeleteMembersResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteMembersResponse>;
+export const DeleteMembersResponse: Schema.Schema<DeleteMembersResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteMembersResponse>;
 
 export type DeleteMembersError = DefaultErrors;
 
 /** Removes a member from a group. */
-export const deleteMembers: API.OperationMethod<DeleteMembersRequest, DeleteMembersResponse, DeleteMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteMembers: API.OperationMethod<
+  DeleteMembersRequest,
+  DeleteMembersResponse,
+  DeleteMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteMembersRequest,
   output: DeleteMembersResponse,
   errors: [],
@@ -3875,7 +5043,10 @@ export const GetMembersRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   memberKey: Schema.String.pipe(T.HttpPath("memberKey")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetMembersRequest>;
 
@@ -3885,7 +5056,12 @@ export const GetMembersResponse = Member;
 export type GetMembersError = DefaultErrors;
 
 /** Retrieves a group member's properties. */
-export const getMembers: API.OperationMethod<GetMembersRequest, GetMembersResponse, GetMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getMembers: API.OperationMethod<
+  GetMembersRequest,
+  GetMembersResponse,
+  GetMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetMembersRequest,
   output: GetMembersResponse,
   errors: [],
@@ -3902,7 +5078,10 @@ export const HasMemberMembersRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   memberKey: Schema.String.pipe(T.HttpPath("memberKey")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/groups/{groupKey}/hasMember/{memberKey}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/groups/{groupKey}/hasMember/{memberKey}",
+  }),
   svc,
 ) as unknown as Schema.Schema<HasMemberMembersRequest>;
 
@@ -3912,7 +5091,12 @@ export const HasMemberMembersResponse = MembersHasMember;
 export type HasMemberMembersError = DefaultErrors;
 
 /** Checks whether the given user is a member of the group. Membership can be direct or nested, but if nested, the `memberKey` and `groupKey` must be entities in the same domain or an `Invalid input` error is returned. To check for nested memberships that include entities outside of the group's domain, use the [`checkTransitiveMembership()`](https://cloud.google.com/identity/docs/reference/rest/v1/groups.memberships/checkTransitiveMembership) method in the Cloud Identity Groups API. */
-export const hasMemberMembers: API.OperationMethod<HasMemberMembersRequest, HasMemberMembersResponse, HasMemberMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const hasMemberMembers: API.OperationMethod<
+  HasMemberMembersRequest,
+  HasMemberMembersResponse,
+  HasMemberMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: HasMemberMembersRequest,
   output: HasMemberMembersResponse,
   errors: [],
@@ -3929,7 +5113,11 @@ export const InsertMembersRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
   body: Schema.optional(Member).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/groups/{groupKey}/members", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/groups/{groupKey}/members",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertMembersRequest>;
 
@@ -3939,7 +5127,12 @@ export const InsertMembersResponse = Member;
 export type InsertMembersError = DefaultErrors;
 
 /** Adds a user to the specified group. */
-export const insertMembers: API.OperationMethod<InsertMembersRequest, InsertMembersResponse, InsertMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertMembers: API.OperationMethod<
+  InsertMembersRequest,
+  InsertMembersResponse,
+  InsertMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertMembersRequest,
   output: InsertMembersResponse,
   errors: [],
@@ -3960,12 +5153,17 @@ export interface ListMembersRequest {
 
 export const ListMembersRequest = Schema.Struct({
   groupKey: Schema.String.pipe(T.HttpPath("groupKey")),
-  includeDerivedMembership: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeDerivedMembership")),
+  includeDerivedMembership: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeDerivedMembership"),
+  ),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   roles: Schema.optional(Schema.String).pipe(T.HttpQuery("roles")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/groups/{groupKey}/members" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/groups/{groupKey}/members",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListMembersRequest>;
 
@@ -3975,7 +5173,12 @@ export const ListMembersResponse = Members;
 export type ListMembersError = DefaultErrors;
 
 /** Retrieves a paginated list of all members in a group. This method times out after 60 minutes. For more information, see [Troubleshoot error codes](https://developers.google.com/workspace/admin/directory/v1/guides/troubleshoot-error-codes). */
-export const listMembers: API.PaginatedOperationMethod<ListMembersRequest, ListMembersResponse, ListMembersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listMembers: API.PaginatedOperationMethod<
+  ListMembersRequest,
+  ListMembersResponse,
+  ListMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListMembersRequest,
   output: ListMembersResponse,
   errors: [],
@@ -3999,7 +5202,11 @@ export const UpdateMembersRequest = Schema.Struct({
   memberKey: Schema.String.pipe(T.HttpPath("memberKey")),
   body: Schema.optional(Member).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateMembersRequest>;
 
@@ -4009,7 +5216,12 @@ export const UpdateMembersResponse = Member;
 export type UpdateMembersError = DefaultErrors;
 
 /** Updates the membership of a user in the specified group. */
-export const updateMembers: API.OperationMethod<UpdateMembersRequest, UpdateMembersResponse, UpdateMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateMembers: API.OperationMethod<
+  UpdateMembersRequest,
+  UpdateMembersResponse,
+  UpdateMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateMembersRequest,
   output: UpdateMembersResponse,
   errors: [],
@@ -4029,7 +5241,11 @@ export const PatchMembersRequest = Schema.Struct({
   memberKey: Schema.String.pipe(T.HttpPath("memberKey")),
   body: Schema.optional(Member).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/groups/{groupKey}/members/{memberKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchMembersRequest>;
 
@@ -4039,7 +5255,12 @@ export const PatchMembersResponse = Member;
 export type PatchMembersError = DefaultErrors;
 
 /** Updates the membership properties of a user in the specified group. This method supports [patch semantics](https://developers.google.com/workspace/admin/directory/v1/guides/performance#patch). */
-export const patchMembers: API.OperationMethod<PatchMembersRequest, PatchMembersResponse, PatchMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchMembers: API.OperationMethod<
+  PatchMembersRequest,
+  PatchMembersResponse,
+  PatchMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchMembersRequest,
   output: PatchMembersResponse,
   errors: [],
@@ -4059,17 +5280,27 @@ export const ActionMobiledevicesRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(MobileDeviceAction).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}/action", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}/action",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ActionMobiledevicesRequest>;
 
 export interface ActionMobiledevicesResponse {}
-export const ActionMobiledevicesResponse: Schema.Schema<ActionMobiledevicesResponse> = Schema.Struct({}) as any as Schema.Schema<ActionMobiledevicesResponse>;
+export const ActionMobiledevicesResponse: Schema.Schema<ActionMobiledevicesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<ActionMobiledevicesResponse>;
 
 export type ActionMobiledevicesError = DefaultErrors;
 
 /** Takes an action that affects a mobile device. For example, remotely wiping a device. */
-export const actionMobiledevices: API.OperationMethod<ActionMobiledevicesRequest, ActionMobiledevicesResponse, ActionMobiledevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const actionMobiledevices: API.OperationMethod<
+  ActionMobiledevicesRequest,
+  ActionMobiledevicesResponse,
+  ActionMobiledevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ActionMobiledevicesRequest,
   output: ActionMobiledevicesResponse,
   errors: [],
@@ -4086,17 +5317,26 @@ export const DeleteMobiledevicesRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteMobiledevicesRequest>;
 
 export interface DeleteMobiledevicesResponse {}
-export const DeleteMobiledevicesResponse: Schema.Schema<DeleteMobiledevicesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteMobiledevicesResponse>;
+export const DeleteMobiledevicesResponse: Schema.Schema<DeleteMobiledevicesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteMobiledevicesResponse>;
 
 export type DeleteMobiledevicesError = DefaultErrors;
 
 /** Removes a mobile device. */
-export const deleteMobiledevices: API.OperationMethod<DeleteMobiledevicesRequest, DeleteMobiledevicesResponse, DeleteMobiledevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteMobiledevices: API.OperationMethod<
+  DeleteMobiledevicesRequest,
+  DeleteMobiledevicesResponse,
+  DeleteMobiledevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteMobiledevicesRequest,
   output: DeleteMobiledevicesResponse,
   errors: [],
@@ -4116,7 +5356,10 @@ export const GetMobiledevicesRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetMobiledevicesRequest>;
 
@@ -4126,7 +5369,12 @@ export const GetMobiledevicesResponse = MobileDevice;
 export type GetMobiledevicesError = DefaultErrors;
 
 /** Retrieves a mobile device's properties. */
-export const getMobiledevices: API.OperationMethod<GetMobiledevicesRequest, GetMobiledevicesResponse, GetMobiledevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getMobiledevices: API.OperationMethod<
+  GetMobiledevicesRequest,
+  GetMobiledevicesResponse,
+  GetMobiledevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetMobiledevicesRequest,
   output: GetMobiledevicesResponse,
   errors: [],
@@ -4138,7 +5386,16 @@ export interface ListMobiledevicesRequest {
   /** Maximum number of results to return. Max allowed value is 100. */
   maxResults?: number;
   /** Device property to use for sorting results. */
-  orderBy?: "deviceId" | "email" | "lastSync" | "model" | "name" | "os" | "status" | "type" | (string & {});
+  orderBy?:
+    | "deviceId"
+    | "email"
+    | "lastSync"
+    | "model"
+    | "name"
+    | "os"
+    | "status"
+    | "type"
+    | (string & {});
   /** Token to specify next page in the list */
   pageToken?: string;
   /** Restrict information returned to a set of selected fields. */
@@ -4158,7 +5415,10 @@ export const ListMobiledevicesRequest = Schema.Struct({
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   sortOrder: Schema.optional(Schema.String).pipe(T.HttpQuery("sortOrder")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/devices/mobile" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/devices/mobile",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListMobiledevicesRequest>;
 
@@ -4168,7 +5428,12 @@ export const ListMobiledevicesResponse = MobileDevices;
 export type ListMobiledevicesError = DefaultErrors;
 
 /** Retrieves a paginated list of all user-owned mobile devices for an account. To retrieve a list that includes company-owned devices, use the Cloud Identity [Devices API](https://cloud.google.com/identity/docs/concepts/overview-devices) instead. This method times out after 60 minutes. For more information, see [Troubleshoot error codes](https://developers.google.com/workspace/admin/directory/v1/guides/troubleshoot-error-codes). */
-export const listMobiledevices: API.PaginatedOperationMethod<ListMobiledevicesRequest, ListMobiledevicesResponse, ListMobiledevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listMobiledevices: API.PaginatedOperationMethod<
+  ListMobiledevicesRequest,
+  ListMobiledevicesResponse,
+  ListMobiledevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListMobiledevicesRequest,
   output: ListMobiledevicesResponse,
   errors: [],
@@ -4189,17 +5454,26 @@ export const DeleteOrgunitsRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   orgUnitPath: Schema.String.pipe(T.HttpPath("orgUnitPath")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteOrgunitsRequest>;
 
 export interface DeleteOrgunitsResponse {}
-export const DeleteOrgunitsResponse: Schema.Schema<DeleteOrgunitsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteOrgunitsResponse>;
+export const DeleteOrgunitsResponse: Schema.Schema<DeleteOrgunitsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteOrgunitsResponse>;
 
 export type DeleteOrgunitsError = DefaultErrors;
 
 /** Removes an organizational unit. */
-export const deleteOrgunits: API.OperationMethod<DeleteOrgunitsRequest, DeleteOrgunitsResponse, DeleteOrgunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOrgunits: API.OperationMethod<
+  DeleteOrgunitsRequest,
+  DeleteOrgunitsResponse,
+  DeleteOrgunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOrgunitsRequest,
   output: DeleteOrgunitsResponse,
   errors: [],
@@ -4216,7 +5490,10 @@ export const GetOrgunitsRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   orgUnitPath: Schema.String.pipe(T.HttpPath("orgUnitPath")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrgunitsRequest>;
 
@@ -4226,7 +5503,12 @@ export const GetOrgunitsResponse = OrgUnit;
 export type GetOrgunitsError = DefaultErrors;
 
 /** Retrieves an organizational unit. */
-export const getOrgunits: API.OperationMethod<GetOrgunitsRequest, GetOrgunitsResponse, GetOrgunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrgunits: API.OperationMethod<
+  GetOrgunitsRequest,
+  GetOrgunitsResponse,
+  GetOrgunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrgunitsRequest,
   output: GetOrgunitsResponse,
   errors: [],
@@ -4243,7 +5525,11 @@ export const InsertOrgunitsRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   body: Schema.optional(OrgUnit).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customerId}/orgunits", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customerId}/orgunits",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertOrgunitsRequest>;
 
@@ -4253,7 +5539,12 @@ export const InsertOrgunitsResponse = OrgUnit;
 export type InsertOrgunitsError = DefaultErrors;
 
 /** Adds an organizational unit. */
-export const insertOrgunits: API.OperationMethod<InsertOrgunitsRequest, InsertOrgunitsResponse, InsertOrgunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertOrgunits: API.OperationMethod<
+  InsertOrgunitsRequest,
+  InsertOrgunitsResponse,
+  InsertOrgunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertOrgunitsRequest,
   output: InsertOrgunitsResponse,
   errors: [],
@@ -4273,7 +5564,10 @@ export const ListOrgunitsRequest = Schema.Struct({
   orgUnitPath: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitPath")),
   type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/orgunits" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/orgunits",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrgunitsRequest>;
 
@@ -4283,7 +5577,12 @@ export const ListOrgunitsResponse = OrgUnits;
 export type ListOrgunitsError = DefaultErrors;
 
 /** Retrieves a list of all organizational units for an account. */
-export const listOrgunits: API.OperationMethod<ListOrgunitsRequest, ListOrgunitsResponse, ListOrgunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listOrgunits: API.OperationMethod<
+  ListOrgunitsRequest,
+  ListOrgunitsResponse,
+  ListOrgunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListOrgunitsRequest,
   output: ListOrgunitsResponse,
   errors: [],
@@ -4303,7 +5602,11 @@ export const UpdateOrgunitsRequest = Schema.Struct({
   orgUnitPath: Schema.String.pipe(T.HttpPath("orgUnitPath")),
   body: Schema.optional(OrgUnit).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateOrgunitsRequest>;
 
@@ -4313,7 +5616,12 @@ export const UpdateOrgunitsResponse = OrgUnit;
 export type UpdateOrgunitsError = DefaultErrors;
 
 /** Updates an organizational unit. */
-export const updateOrgunits: API.OperationMethod<UpdateOrgunitsRequest, UpdateOrgunitsResponse, UpdateOrgunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateOrgunits: API.OperationMethod<
+  UpdateOrgunitsRequest,
+  UpdateOrgunitsResponse,
+  UpdateOrgunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateOrgunitsRequest,
   output: UpdateOrgunitsResponse,
   errors: [],
@@ -4333,7 +5641,11 @@ export const PatchOrgunitsRequest = Schema.Struct({
   orgUnitPath: Schema.String.pipe(T.HttpPath("orgUnitPath")),
   body: Schema.optional(OrgUnit).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgunitsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchOrgunitsRequest>;
 
@@ -4343,7 +5655,12 @@ export const PatchOrgunitsResponse = OrgUnit;
 export type PatchOrgunitsError = DefaultErrors;
 
 /** Updates an organizational unit. This method supports [patch semantics](https://developers.google.com/workspace/admin/directory/v1/guides/performance#patch) */
-export const patchOrgunits: API.OperationMethod<PatchOrgunitsRequest, PatchOrgunitsResponse, PatchOrgunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOrgunits: API.OperationMethod<
+  PatchOrgunitsRequest,
+  PatchOrgunitsResponse,
+  PatchOrgunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOrgunitsRequest,
   output: PatchOrgunitsResponse,
   errors: [],
@@ -4357,7 +5674,10 @@ export interface ListPrivilegesRequest {
 export const ListPrivilegesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/roles/ALL/privileges" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/roles/ALL/privileges",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListPrivilegesRequest>;
 
@@ -4367,7 +5687,12 @@ export const ListPrivilegesResponse = Privileges;
 export type ListPrivilegesError = DefaultErrors;
 
 /** Retrieves a paginated list of all privileges for a customer. */
-export const listPrivileges: API.OperationMethod<ListPrivilegesRequest, ListPrivilegesResponse, ListPrivilegesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listPrivileges: API.OperationMethod<
+  ListPrivilegesRequest,
+  ListPrivilegesResponse,
+  ListPrivilegesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListPrivilegesRequest,
   output: ListPrivilegesResponse,
   errors: [],
@@ -4384,17 +5709,26 @@ export const DeleteRoleAssignmentsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   roleAssignmentId: Schema.String.pipe(T.HttpPath("roleAssignmentId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customer}/roleassignments/{roleAssignmentId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customer}/roleassignments/{roleAssignmentId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteRoleAssignmentsRequest>;
 
 export interface DeleteRoleAssignmentsResponse {}
-export const DeleteRoleAssignmentsResponse: Schema.Schema<DeleteRoleAssignmentsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteRoleAssignmentsResponse>;
+export const DeleteRoleAssignmentsResponse: Schema.Schema<DeleteRoleAssignmentsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteRoleAssignmentsResponse>;
 
 export type DeleteRoleAssignmentsError = DefaultErrors;
 
 /** Deletes a role assignment. */
-export const deleteRoleAssignments: API.OperationMethod<DeleteRoleAssignmentsRequest, DeleteRoleAssignmentsResponse, DeleteRoleAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteRoleAssignments: API.OperationMethod<
+  DeleteRoleAssignmentsRequest,
+  DeleteRoleAssignmentsResponse,
+  DeleteRoleAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteRoleAssignmentsRequest,
   output: DeleteRoleAssignmentsResponse,
   errors: [],
@@ -4411,7 +5745,10 @@ export const GetRoleAssignmentsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   roleAssignmentId: Schema.String.pipe(T.HttpPath("roleAssignmentId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/roleassignments/{roleAssignmentId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/roleassignments/{roleAssignmentId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetRoleAssignmentsRequest>;
 
@@ -4421,7 +5758,12 @@ export const GetRoleAssignmentsResponse = RoleAssignment;
 export type GetRoleAssignmentsError = DefaultErrors;
 
 /** Retrieves a role assignment. */
-export const getRoleAssignments: API.OperationMethod<GetRoleAssignmentsRequest, GetRoleAssignmentsResponse, GetRoleAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getRoleAssignments: API.OperationMethod<
+  GetRoleAssignmentsRequest,
+  GetRoleAssignmentsResponse,
+  GetRoleAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetRoleAssignmentsRequest,
   output: GetRoleAssignmentsResponse,
   errors: [],
@@ -4438,7 +5780,11 @@ export const InsertRoleAssignmentsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   body: Schema.optional(RoleAssignment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/roleassignments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/roleassignments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertRoleAssignmentsRequest>;
 
@@ -4448,7 +5794,12 @@ export const InsertRoleAssignmentsResponse = RoleAssignment;
 export type InsertRoleAssignmentsError = DefaultErrors;
 
 /** Creates a role assignment. */
-export const insertRoleAssignments: API.OperationMethod<InsertRoleAssignmentsRequest, InsertRoleAssignmentsResponse, InsertRoleAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertRoleAssignments: API.OperationMethod<
+  InsertRoleAssignmentsRequest,
+  InsertRoleAssignmentsResponse,
+  InsertRoleAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertRoleAssignmentsRequest,
   output: InsertRoleAssignmentsResponse,
   errors: [],
@@ -4475,9 +5826,14 @@ export const ListRoleAssignmentsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   roleId: Schema.optional(Schema.String).pipe(T.HttpQuery("roleId")),
   userKey: Schema.optional(Schema.String).pipe(T.HttpQuery("userKey")),
-  includeIndirectRoleAssignments: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeIndirectRoleAssignments")),
+  includeIndirectRoleAssignments: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeIndirectRoleAssignments"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/roleassignments" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/roleassignments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListRoleAssignmentsRequest>;
 
@@ -4487,7 +5843,12 @@ export const ListRoleAssignmentsResponse = RoleAssignments;
 export type ListRoleAssignmentsError = DefaultErrors;
 
 /** Retrieves a paginated list of all roleAssignments. */
-export const listRoleAssignments: API.PaginatedOperationMethod<ListRoleAssignmentsRequest, ListRoleAssignmentsResponse, ListRoleAssignmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listRoleAssignments: API.PaginatedOperationMethod<
+  ListRoleAssignmentsRequest,
+  ListRoleAssignmentsResponse,
+  ListRoleAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListRoleAssignmentsRequest,
   output: ListRoleAssignmentsResponse,
   errors: [],
@@ -4509,17 +5870,26 @@ export const DeleteResourcesBuildingsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   buildingId: Schema.String.pipe(T.HttpPath("buildingId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteResourcesBuildingsRequest>;
 
 export interface DeleteResourcesBuildingsResponse {}
-export const DeleteResourcesBuildingsResponse: Schema.Schema<DeleteResourcesBuildingsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteResourcesBuildingsResponse>;
+export const DeleteResourcesBuildingsResponse: Schema.Schema<DeleteResourcesBuildingsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteResourcesBuildingsResponse>;
 
 export type DeleteResourcesBuildingsError = DefaultErrors;
 
 /** Deletes a building. */
-export const deleteResourcesBuildings: API.OperationMethod<DeleteResourcesBuildingsRequest, DeleteResourcesBuildingsResponse, DeleteResourcesBuildingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteResourcesBuildings: API.OperationMethod<
+  DeleteResourcesBuildingsRequest,
+  DeleteResourcesBuildingsResponse,
+  DeleteResourcesBuildingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteResourcesBuildingsRequest,
   output: DeleteResourcesBuildingsResponse,
   errors: [],
@@ -4536,7 +5906,10 @@ export const GetResourcesBuildingsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   buildingId: Schema.String.pipe(T.HttpPath("buildingId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetResourcesBuildingsRequest>;
 
@@ -4546,7 +5919,12 @@ export const GetResourcesBuildingsResponse = Building;
 export type GetResourcesBuildingsError = DefaultErrors;
 
 /** Retrieves a building. */
-export const getResourcesBuildings: API.OperationMethod<GetResourcesBuildingsRequest, GetResourcesBuildingsResponse, GetResourcesBuildingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getResourcesBuildings: API.OperationMethod<
+  GetResourcesBuildingsRequest,
+  GetResourcesBuildingsResponse,
+  GetResourcesBuildingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetResourcesBuildingsRequest,
   output: GetResourcesBuildingsResponse,
   errors: [],
@@ -4556,17 +5934,27 @@ export interface InsertResourcesBuildingsRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
   /** Source from which Building.coordinates are derived. */
-  coordinatesSource?: "CLIENT_SPECIFIED" | "RESOLVED_FROM_ADDRESS" | "SOURCE_UNSPECIFIED" | (string & {});
+  coordinatesSource?:
+    | "CLIENT_SPECIFIED"
+    | "RESOLVED_FROM_ADDRESS"
+    | "SOURCE_UNSPECIFIED"
+    | (string & {});
   /** Request body */
   body?: Building;
 }
 
 export const InsertResourcesBuildingsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
-  coordinatesSource: Schema.optional(Schema.String).pipe(T.HttpQuery("coordinatesSource")),
+  coordinatesSource: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("coordinatesSource"),
+  ),
   body: Schema.optional(Building).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/resources/buildings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/resources/buildings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertResourcesBuildingsRequest>;
 
@@ -4576,7 +5964,12 @@ export const InsertResourcesBuildingsResponse = Building;
 export type InsertResourcesBuildingsError = DefaultErrors;
 
 /** Inserts a building. */
-export const insertResourcesBuildings: API.OperationMethod<InsertResourcesBuildingsRequest, InsertResourcesBuildingsResponse, InsertResourcesBuildingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertResourcesBuildings: API.OperationMethod<
+  InsertResourcesBuildingsRequest,
+  InsertResourcesBuildingsResponse,
+  InsertResourcesBuildingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertResourcesBuildingsRequest,
   output: InsertResourcesBuildingsResponse,
   errors: [],
@@ -4596,7 +5989,10 @@ export const ListResourcesBuildingsRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/resources/buildings" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/resources/buildings",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListResourcesBuildingsRequest>;
 
@@ -4606,7 +6002,12 @@ export const ListResourcesBuildingsResponse = Buildings;
 export type ListResourcesBuildingsError = DefaultErrors;
 
 /** Retrieves a list of buildings for an account. */
-export const listResourcesBuildings: API.PaginatedOperationMethod<ListResourcesBuildingsRequest, ListResourcesBuildingsResponse, ListResourcesBuildingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listResourcesBuildings: API.PaginatedOperationMethod<
+  ListResourcesBuildingsRequest,
+  ListResourcesBuildingsResponse,
+  ListResourcesBuildingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListResourcesBuildingsRequest,
   output: ListResourcesBuildingsResponse,
   errors: [],
@@ -4622,7 +6023,11 @@ export interface UpdateResourcesBuildingsRequest {
   /** The id of the building to update. */
   buildingId: string;
   /** Source from which Building.coordinates are derived. */
-  coordinatesSource?: "CLIENT_SPECIFIED" | "RESOLVED_FROM_ADDRESS" | "SOURCE_UNSPECIFIED" | (string & {});
+  coordinatesSource?:
+    | "CLIENT_SPECIFIED"
+    | "RESOLVED_FROM_ADDRESS"
+    | "SOURCE_UNSPECIFIED"
+    | (string & {});
   /** Request body */
   body?: Building;
 }
@@ -4630,10 +6035,16 @@ export interface UpdateResourcesBuildingsRequest {
 export const UpdateResourcesBuildingsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   buildingId: Schema.String.pipe(T.HttpPath("buildingId")),
-  coordinatesSource: Schema.optional(Schema.String).pipe(T.HttpQuery("coordinatesSource")),
+  coordinatesSource: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("coordinatesSource"),
+  ),
   body: Schema.optional(Building).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateResourcesBuildingsRequest>;
 
@@ -4643,7 +6054,12 @@ export const UpdateResourcesBuildingsResponse = Building;
 export type UpdateResourcesBuildingsError = DefaultErrors;
 
 /** Updates a building. */
-export const updateResourcesBuildings: API.OperationMethod<UpdateResourcesBuildingsRequest, UpdateResourcesBuildingsResponse, UpdateResourcesBuildingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateResourcesBuildings: API.OperationMethod<
+  UpdateResourcesBuildingsRequest,
+  UpdateResourcesBuildingsResponse,
+  UpdateResourcesBuildingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateResourcesBuildingsRequest,
   output: UpdateResourcesBuildingsResponse,
   errors: [],
@@ -4655,7 +6071,11 @@ export interface PatchResourcesBuildingsRequest {
   /** The id of the building to update. */
   buildingId: string;
   /** Source from which Building.coordinates are derived. */
-  coordinatesSource?: "CLIENT_SPECIFIED" | "RESOLVED_FROM_ADDRESS" | "SOURCE_UNSPECIFIED" | (string & {});
+  coordinatesSource?:
+    | "CLIENT_SPECIFIED"
+    | "RESOLVED_FROM_ADDRESS"
+    | "SOURCE_UNSPECIFIED"
+    | (string & {});
   /** Request body */
   body?: Building;
 }
@@ -4663,10 +6083,16 @@ export interface PatchResourcesBuildingsRequest {
 export const PatchResourcesBuildingsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   buildingId: Schema.String.pipe(T.HttpPath("buildingId")),
-  coordinatesSource: Schema.optional(Schema.String).pipe(T.HttpQuery("coordinatesSource")),
+  coordinatesSource: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("coordinatesSource"),
+  ),
   body: Schema.optional(Building).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchResourcesBuildingsRequest>;
 
@@ -4676,7 +6102,12 @@ export const PatchResourcesBuildingsResponse = Building;
 export type PatchResourcesBuildingsError = DefaultErrors;
 
 /** Patches a building. */
-export const patchResourcesBuildings: API.OperationMethod<PatchResourcesBuildingsRequest, PatchResourcesBuildingsResponse, PatchResourcesBuildingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchResourcesBuildings: API.OperationMethod<
+  PatchResourcesBuildingsRequest,
+  PatchResourcesBuildingsResponse,
+  PatchResourcesBuildingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchResourcesBuildingsRequest,
   output: PatchResourcesBuildingsResponse,
   errors: [],
@@ -4693,17 +6124,26 @@ export const DeleteResourcesCalendarsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   calendarResourceId: Schema.String.pipe(T.HttpPath("calendarResourceId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteResourcesCalendarsRequest>;
 
 export interface DeleteResourcesCalendarsResponse {}
-export const DeleteResourcesCalendarsResponse: Schema.Schema<DeleteResourcesCalendarsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteResourcesCalendarsResponse>;
+export const DeleteResourcesCalendarsResponse: Schema.Schema<DeleteResourcesCalendarsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteResourcesCalendarsResponse>;
 
 export type DeleteResourcesCalendarsError = DefaultErrors;
 
 /** Deletes a calendar resource. */
-export const deleteResourcesCalendars: API.OperationMethod<DeleteResourcesCalendarsRequest, DeleteResourcesCalendarsResponse, DeleteResourcesCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteResourcesCalendars: API.OperationMethod<
+  DeleteResourcesCalendarsRequest,
+  DeleteResourcesCalendarsResponse,
+  DeleteResourcesCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteResourcesCalendarsRequest,
   output: DeleteResourcesCalendarsResponse,
   errors: [],
@@ -4720,7 +6160,10 @@ export const GetResourcesCalendarsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   calendarResourceId: Schema.String.pipe(T.HttpPath("calendarResourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetResourcesCalendarsRequest>;
 
@@ -4730,7 +6173,12 @@ export const GetResourcesCalendarsResponse = CalendarResource;
 export type GetResourcesCalendarsError = DefaultErrors;
 
 /** Retrieves a calendar resource. */
-export const getResourcesCalendars: API.OperationMethod<GetResourcesCalendarsRequest, GetResourcesCalendarsResponse, GetResourcesCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getResourcesCalendars: API.OperationMethod<
+  GetResourcesCalendarsRequest,
+  GetResourcesCalendarsResponse,
+  GetResourcesCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetResourcesCalendarsRequest,
   output: GetResourcesCalendarsResponse,
   errors: [],
@@ -4747,7 +6195,11 @@ export const InsertResourcesCalendarsRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   body: Schema.optional(CalendarResource).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/resources/calendars", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/resources/calendars",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertResourcesCalendarsRequest>;
 
@@ -4757,7 +6209,12 @@ export const InsertResourcesCalendarsResponse = CalendarResource;
 export type InsertResourcesCalendarsError = DefaultErrors;
 
 /** Inserts a calendar resource. */
-export const insertResourcesCalendars: API.OperationMethod<InsertResourcesCalendarsRequest, InsertResourcesCalendarsResponse, InsertResourcesCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertResourcesCalendars: API.OperationMethod<
+  InsertResourcesCalendarsRequest,
+  InsertResourcesCalendarsResponse,
+  InsertResourcesCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertResourcesCalendarsRequest,
   output: InsertResourcesCalendarsResponse,
   errors: [],
@@ -4783,7 +6240,10 @@ export const ListResourcesCalendarsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/resources/calendars" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/resources/calendars",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListResourcesCalendarsRequest>;
 
@@ -4793,7 +6253,12 @@ export const ListResourcesCalendarsResponse = CalendarResources;
 export type ListResourcesCalendarsError = DefaultErrors;
 
 /** Retrieves a list of calendar resources for an account. */
-export const listResourcesCalendars: API.PaginatedOperationMethod<ListResourcesCalendarsRequest, ListResourcesCalendarsResponse, ListResourcesCalendarsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listResourcesCalendars: API.PaginatedOperationMethod<
+  ListResourcesCalendarsRequest,
+  ListResourcesCalendarsResponse,
+  ListResourcesCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListResourcesCalendarsRequest,
   output: ListResourcesCalendarsResponse,
   errors: [],
@@ -4818,7 +6283,11 @@ export const UpdateResourcesCalendarsRequest = Schema.Struct({
   calendarResourceId: Schema.String.pipe(T.HttpPath("calendarResourceId")),
   body: Schema.optional(CalendarResource).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateResourcesCalendarsRequest>;
 
@@ -4828,7 +6297,12 @@ export const UpdateResourcesCalendarsResponse = CalendarResource;
 export type UpdateResourcesCalendarsError = DefaultErrors;
 
 /** Updates a calendar resource. This method supports patch semantics, meaning you only need to include the fields you wish to update. Fields that are not present in the request will be preserved. */
-export const updateResourcesCalendars: API.OperationMethod<UpdateResourcesCalendarsRequest, UpdateResourcesCalendarsResponse, UpdateResourcesCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateResourcesCalendars: API.OperationMethod<
+  UpdateResourcesCalendarsRequest,
+  UpdateResourcesCalendarsResponse,
+  UpdateResourcesCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateResourcesCalendarsRequest,
   output: UpdateResourcesCalendarsResponse,
   errors: [],
@@ -4848,7 +6322,11 @@ export const PatchResourcesCalendarsRequest = Schema.Struct({
   calendarResourceId: Schema.String.pipe(T.HttpPath("calendarResourceId")),
   body: Schema.optional(CalendarResource).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchResourcesCalendarsRequest>;
 
@@ -4858,7 +6336,12 @@ export const PatchResourcesCalendarsResponse = CalendarResource;
 export type PatchResourcesCalendarsError = DefaultErrors;
 
 /** Patches a calendar resource. */
-export const patchResourcesCalendars: API.OperationMethod<PatchResourcesCalendarsRequest, PatchResourcesCalendarsResponse, PatchResourcesCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchResourcesCalendars: API.OperationMethod<
+  PatchResourcesCalendarsRequest,
+  PatchResourcesCalendarsResponse,
+  PatchResourcesCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchResourcesCalendarsRequest,
   output: PatchResourcesCalendarsResponse,
   errors: [],
@@ -4875,17 +6358,26 @@ export const DeleteResourcesFeaturesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   featureKey: Schema.String.pipe(T.HttpPath("featureKey")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteResourcesFeaturesRequest>;
 
 export interface DeleteResourcesFeaturesResponse {}
-export const DeleteResourcesFeaturesResponse: Schema.Schema<DeleteResourcesFeaturesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteResourcesFeaturesResponse>;
+export const DeleteResourcesFeaturesResponse: Schema.Schema<DeleteResourcesFeaturesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteResourcesFeaturesResponse>;
 
 export type DeleteResourcesFeaturesError = DefaultErrors;
 
 /** Deletes a feature. */
-export const deleteResourcesFeatures: API.OperationMethod<DeleteResourcesFeaturesRequest, DeleteResourcesFeaturesResponse, DeleteResourcesFeaturesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteResourcesFeatures: API.OperationMethod<
+  DeleteResourcesFeaturesRequest,
+  DeleteResourcesFeaturesResponse,
+  DeleteResourcesFeaturesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteResourcesFeaturesRequest,
   output: DeleteResourcesFeaturesResponse,
   errors: [],
@@ -4902,7 +6394,10 @@ export const GetResourcesFeaturesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   featureKey: Schema.String.pipe(T.HttpPath("featureKey")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetResourcesFeaturesRequest>;
 
@@ -4912,7 +6407,12 @@ export const GetResourcesFeaturesResponse = Feature;
 export type GetResourcesFeaturesError = DefaultErrors;
 
 /** Retrieves a feature. */
-export const getResourcesFeatures: API.OperationMethod<GetResourcesFeaturesRequest, GetResourcesFeaturesResponse, GetResourcesFeaturesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getResourcesFeatures: API.OperationMethod<
+  GetResourcesFeaturesRequest,
+  GetResourcesFeaturesResponse,
+  GetResourcesFeaturesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetResourcesFeaturesRequest,
   output: GetResourcesFeaturesResponse,
   errors: [],
@@ -4929,7 +6429,11 @@ export const InsertResourcesFeaturesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   body: Schema.optional(Feature).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/resources/features", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/resources/features",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertResourcesFeaturesRequest>;
 
@@ -4939,7 +6443,12 @@ export const InsertResourcesFeaturesResponse = Feature;
 export type InsertResourcesFeaturesError = DefaultErrors;
 
 /** Inserts a feature. */
-export const insertResourcesFeatures: API.OperationMethod<InsertResourcesFeaturesRequest, InsertResourcesFeaturesResponse, InsertResourcesFeaturesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertResourcesFeatures: API.OperationMethod<
+  InsertResourcesFeaturesRequest,
+  InsertResourcesFeaturesResponse,
+  InsertResourcesFeaturesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertResourcesFeaturesRequest,
   output: InsertResourcesFeaturesResponse,
   errors: [],
@@ -4959,7 +6468,10 @@ export const ListResourcesFeaturesRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/resources/features" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/resources/features",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListResourcesFeaturesRequest>;
 
@@ -4969,7 +6481,12 @@ export const ListResourcesFeaturesResponse = Features;
 export type ListResourcesFeaturesError = DefaultErrors;
 
 /** Retrieves a list of features for an account. */
-export const listResourcesFeatures: API.PaginatedOperationMethod<ListResourcesFeaturesRequest, ListResourcesFeaturesResponse, ListResourcesFeaturesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listResourcesFeatures: API.PaginatedOperationMethod<
+  ListResourcesFeaturesRequest,
+  ListResourcesFeaturesResponse,
+  ListResourcesFeaturesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListResourcesFeaturesRequest,
   output: ListResourcesFeaturesResponse,
   errors: [],
@@ -4993,17 +6510,27 @@ export const RenameResourcesFeaturesRequest = Schema.Struct({
   oldName: Schema.String.pipe(T.HttpPath("oldName")),
   body: Schema.optional(FeatureRename).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/resources/features/{oldName}/rename", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/resources/features/{oldName}/rename",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RenameResourcesFeaturesRequest>;
 
 export interface RenameResourcesFeaturesResponse {}
-export const RenameResourcesFeaturesResponse: Schema.Schema<RenameResourcesFeaturesResponse> = Schema.Struct({}) as any as Schema.Schema<RenameResourcesFeaturesResponse>;
+export const RenameResourcesFeaturesResponse: Schema.Schema<RenameResourcesFeaturesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<RenameResourcesFeaturesResponse>;
 
 export type RenameResourcesFeaturesError = DefaultErrors;
 
 /** Renames a feature. */
-export const renameResourcesFeatures: API.OperationMethod<RenameResourcesFeaturesRequest, RenameResourcesFeaturesResponse, RenameResourcesFeaturesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const renameResourcesFeatures: API.OperationMethod<
+  RenameResourcesFeaturesRequest,
+  RenameResourcesFeaturesResponse,
+  RenameResourcesFeaturesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RenameResourcesFeaturesRequest,
   output: RenameResourcesFeaturesResponse,
   errors: [],
@@ -5023,7 +6550,11 @@ export const UpdateResourcesFeaturesRequest = Schema.Struct({
   featureKey: Schema.String.pipe(T.HttpPath("featureKey")),
   body: Schema.optional(Feature).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateResourcesFeaturesRequest>;
 
@@ -5033,7 +6564,12 @@ export const UpdateResourcesFeaturesResponse = Feature;
 export type UpdateResourcesFeaturesError = DefaultErrors;
 
 /** Updates a feature. */
-export const updateResourcesFeatures: API.OperationMethod<UpdateResourcesFeaturesRequest, UpdateResourcesFeaturesResponse, UpdateResourcesFeaturesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateResourcesFeatures: API.OperationMethod<
+  UpdateResourcesFeaturesRequest,
+  UpdateResourcesFeaturesResponse,
+  UpdateResourcesFeaturesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateResourcesFeaturesRequest,
   output: UpdateResourcesFeaturesResponse,
   errors: [],
@@ -5053,7 +6589,11 @@ export const PatchResourcesFeaturesRequest = Schema.Struct({
   featureKey: Schema.String.pipe(T.HttpPath("featureKey")),
   body: Schema.optional(Feature).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchResourcesFeaturesRequest>;
 
@@ -5063,7 +6603,12 @@ export const PatchResourcesFeaturesResponse = Feature;
 export type PatchResourcesFeaturesError = DefaultErrors;
 
 /** Patches a feature. */
-export const patchResourcesFeatures: API.OperationMethod<PatchResourcesFeaturesRequest, PatchResourcesFeaturesResponse, PatchResourcesFeaturesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchResourcesFeatures: API.OperationMethod<
+  PatchResourcesFeaturesRequest,
+  PatchResourcesFeaturesResponse,
+  PatchResourcesFeaturesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchResourcesFeaturesRequest,
   output: PatchResourcesFeaturesResponse,
   errors: [],
@@ -5080,17 +6625,26 @@ export const DeleteRolesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   roleId: Schema.String.pipe(T.HttpPath("roleId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customer}/roles/{roleId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customer}/roles/{roleId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteRolesRequest>;
 
 export interface DeleteRolesResponse {}
-export const DeleteRolesResponse: Schema.Schema<DeleteRolesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteRolesResponse>;
+export const DeleteRolesResponse: Schema.Schema<DeleteRolesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteRolesResponse>;
 
 export type DeleteRolesError = DefaultErrors;
 
 /** Deletes a role. */
-export const deleteRoles: API.OperationMethod<DeleteRolesRequest, DeleteRolesResponse, DeleteRolesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteRoles: API.OperationMethod<
+  DeleteRolesRequest,
+  DeleteRolesResponse,
+  DeleteRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteRolesRequest,
   output: DeleteRolesResponse,
   errors: [],
@@ -5107,7 +6661,10 @@ export const GetRolesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   roleId: Schema.String.pipe(T.HttpPath("roleId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/roles/{roleId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/roles/{roleId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetRolesRequest>;
 
@@ -5117,7 +6674,12 @@ export const GetRolesResponse = Role;
 export type GetRolesError = DefaultErrors;
 
 /** Retrieves a role. */
-export const getRoles: API.OperationMethod<GetRolesRequest, GetRolesResponse, GetRolesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getRoles: API.OperationMethod<
+  GetRolesRequest,
+  GetRolesResponse,
+  GetRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetRolesRequest,
   output: GetRolesResponse,
   errors: [],
@@ -5134,7 +6696,11 @@ export const InsertRolesRequest = Schema.Struct({
   customer: Schema.String.pipe(T.HttpPath("customer")),
   body: Schema.optional(Role).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customer}/roles", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customer}/roles",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertRolesRequest>;
 
@@ -5144,7 +6710,12 @@ export const InsertRolesResponse = Role;
 export type InsertRolesError = DefaultErrors;
 
 /** Creates a role. */
-export const insertRoles: API.OperationMethod<InsertRolesRequest, InsertRolesResponse, InsertRolesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertRoles: API.OperationMethod<
+  InsertRolesRequest,
+  InsertRolesResponse,
+  InsertRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertRolesRequest,
   output: InsertRolesResponse,
   errors: [],
@@ -5164,7 +6735,10 @@ export const ListRolesRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customer}/roles" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customer}/roles",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListRolesRequest>;
 
@@ -5174,7 +6748,12 @@ export const ListRolesResponse = Roles;
 export type ListRolesError = DefaultErrors;
 
 /** Retrieves a paginated list of all the roles in a domain. */
-export const listRoles: API.PaginatedOperationMethod<ListRolesRequest, ListRolesResponse, ListRolesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listRoles: API.PaginatedOperationMethod<
+  ListRolesRequest,
+  ListRolesResponse,
+  ListRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListRolesRequest,
   output: ListRolesResponse,
   errors: [],
@@ -5199,7 +6778,11 @@ export const UpdateRolesRequest = Schema.Struct({
   roleId: Schema.String.pipe(T.HttpPath("roleId")),
   body: Schema.optional(Role).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customer/{customer}/roles/{roleId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customer/{customer}/roles/{roleId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateRolesRequest>;
 
@@ -5209,7 +6792,12 @@ export const UpdateRolesResponse = Role;
 export type UpdateRolesError = DefaultErrors;
 
 /** Updates a role. */
-export const updateRoles: API.OperationMethod<UpdateRolesRequest, UpdateRolesResponse, UpdateRolesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateRoles: API.OperationMethod<
+  UpdateRolesRequest,
+  UpdateRolesResponse,
+  UpdateRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateRolesRequest,
   output: UpdateRolesResponse,
   errors: [],
@@ -5229,7 +6817,11 @@ export const PatchRolesRequest = Schema.Struct({
   roleId: Schema.String.pipe(T.HttpPath("roleId")),
   body: Schema.optional(Role).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customer/{customer}/roles/{roleId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customer/{customer}/roles/{roleId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchRolesRequest>;
 
@@ -5239,7 +6831,12 @@ export const PatchRolesResponse = Role;
 export type PatchRolesError = DefaultErrors;
 
 /** Patches a role. */
-export const patchRoles: API.OperationMethod<PatchRolesRequest, PatchRolesResponse, PatchRolesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchRoles: API.OperationMethod<
+  PatchRolesRequest,
+  PatchRolesResponse,
+  PatchRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchRolesRequest,
   output: PatchRolesResponse,
   errors: [],
@@ -5256,17 +6853,26 @@ export const DeleteSchemasRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   schemaKey: Schema.String.pipe(T.HttpPath("schemaKey")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSchemasRequest>;
 
 export interface DeleteSchemasResponse {}
-export const DeleteSchemasResponse: Schema.Schema<DeleteSchemasResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteSchemasResponse>;
+export const DeleteSchemasResponse: Schema.Schema<DeleteSchemasResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteSchemasResponse>;
 
 export type DeleteSchemasError = DefaultErrors;
 
 /** Deletes a schema. */
-export const deleteSchemas: API.OperationMethod<DeleteSchemasRequest, DeleteSchemasResponse, DeleteSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSchemas: API.OperationMethod<
+  DeleteSchemasRequest,
+  DeleteSchemasResponse,
+  DeleteSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSchemasRequest,
   output: DeleteSchemasResponse,
   errors: [],
@@ -5283,7 +6889,10 @@ export const GetSchemasRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   schemaKey: Schema.String.pipe(T.HttpPath("schemaKey")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSchemasRequest>;
 
@@ -5293,7 +6902,12 @@ export const GetSchemasResponse = Admin_Schema;
 export type GetSchemasError = DefaultErrors;
 
 /** Retrieves a schema. */
-export const getSchemas: API.OperationMethod<GetSchemasRequest, GetSchemasResponse, GetSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSchemas: API.OperationMethod<
+  GetSchemasRequest,
+  GetSchemasResponse,
+  GetSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSchemasRequest,
   output: GetSchemasResponse,
   errors: [],
@@ -5310,7 +6924,11 @@ export const InsertSchemasRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
   body: Schema.optional(Admin_Schema).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/customer/{customerId}/schemas", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/customer/{customerId}/schemas",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertSchemasRequest>;
 
@@ -5320,7 +6938,12 @@ export const InsertSchemasResponse = Admin_Schema;
 export type InsertSchemasError = DefaultErrors;
 
 /** Creates a schema. */
-export const insertSchemas: API.OperationMethod<InsertSchemasRequest, InsertSchemasResponse, InsertSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertSchemas: API.OperationMethod<
+  InsertSchemasRequest,
+  InsertSchemasResponse,
+  InsertSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertSchemasRequest,
   output: InsertSchemasResponse,
   errors: [],
@@ -5334,7 +6957,10 @@ export interface ListSchemasRequest {
 export const ListSchemasRequest = Schema.Struct({
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/customer/{customerId}/schemas" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/customer/{customerId}/schemas",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListSchemasRequest>;
 
@@ -5344,7 +6970,12 @@ export const ListSchemasResponse = Schemas;
 export type ListSchemasError = DefaultErrors;
 
 /** Retrieves all schemas for a customer. */
-export const listSchemas: API.OperationMethod<ListSchemasRequest, ListSchemasResponse, ListSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listSchemas: API.OperationMethod<
+  ListSchemasRequest,
+  ListSchemasResponse,
+  ListSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListSchemasRequest,
   output: ListSchemasResponse,
   errors: [],
@@ -5364,7 +6995,11 @@ export const PatchSchemasRequest = Schema.Struct({
   schemaKey: Schema.String.pipe(T.HttpPath("schemaKey")),
   body: Schema.optional(Admin_Schema).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchSchemasRequest>;
 
@@ -5374,7 +7009,12 @@ export const PatchSchemasResponse = Admin_Schema;
 export type PatchSchemasError = DefaultErrors;
 
 /** Patches a schema. */
-export const patchSchemas: API.OperationMethod<PatchSchemasRequest, PatchSchemasResponse, PatchSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSchemas: API.OperationMethod<
+  PatchSchemasRequest,
+  PatchSchemasResponse,
+  PatchSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSchemasRequest,
   output: PatchSchemasResponse,
   errors: [],
@@ -5394,7 +7034,11 @@ export const UpdateSchemasRequest = Schema.Struct({
   schemaKey: Schema.String.pipe(T.HttpPath("schemaKey")),
   body: Schema.optional(Admin_Schema).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSchemasRequest>;
 
@@ -5404,7 +7048,12 @@ export const UpdateSchemasResponse = Admin_Schema;
 export type UpdateSchemasError = DefaultErrors;
 
 /** Updates a schema. */
-export const updateSchemas: API.OperationMethod<UpdateSchemasRequest, UpdateSchemasResponse, UpdateSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSchemas: API.OperationMethod<
+  UpdateSchemasRequest,
+  UpdateSchemasResponse,
+  UpdateSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSchemasRequest,
   output: UpdateSchemasResponse,
   errors: [],
@@ -5421,17 +7070,26 @@ export const DeleteTokensRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   clientId: Schema.String.pipe(T.HttpPath("clientId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/users/{userKey}/tokens/{clientId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/users/{userKey}/tokens/{clientId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteTokensRequest>;
 
 export interface DeleteTokensResponse {}
-export const DeleteTokensResponse: Schema.Schema<DeleteTokensResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteTokensResponse>;
+export const DeleteTokensResponse: Schema.Schema<DeleteTokensResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteTokensResponse>;
 
 export type DeleteTokensError = DefaultErrors;
 
 /** Deletes all access tokens issued by a user for an application. */
-export const deleteTokens: API.OperationMethod<DeleteTokensRequest, DeleteTokensResponse, DeleteTokensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTokens: API.OperationMethod<
+  DeleteTokensRequest,
+  DeleteTokensResponse,
+  DeleteTokensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTokensRequest,
   output: DeleteTokensResponse,
   errors: [],
@@ -5448,7 +7106,10 @@ export const GetTokensRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   clientId: Schema.String.pipe(T.HttpPath("clientId")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/users/{userKey}/tokens/{clientId}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/users/{userKey}/tokens/{clientId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetTokensRequest>;
 
@@ -5458,7 +7119,12 @@ export const GetTokensResponse = Token;
 export type GetTokensError = DefaultErrors;
 
 /** Gets information about an access token issued by a user. */
-export const getTokens: API.OperationMethod<GetTokensRequest, GetTokensResponse, GetTokensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTokens: API.OperationMethod<
+  GetTokensRequest,
+  GetTokensResponse,
+  GetTokensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTokensRequest,
   output: GetTokensResponse,
   errors: [],
@@ -5482,7 +7148,12 @@ export const ListTokensResponse = Tokens;
 export type ListTokensError = DefaultErrors;
 
 /** Returns the set of tokens specified user has issued to 3rd party applications. */
-export const listTokens: API.OperationMethod<ListTokensRequest, ListTokensResponse, ListTokensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listTokens: API.OperationMethod<
+  ListTokensRequest,
+  ListTokensResponse,
+  ListTokensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListTokensRequest,
   output: ListTokensResponse,
   errors: [],
@@ -5496,17 +7167,27 @@ export interface TurnOffTwoStepVerificationRequest {
 export const TurnOffTwoStepVerificationRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/twoStepVerification/turnOff", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/twoStepVerification/turnOff",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TurnOffTwoStepVerificationRequest>;
 
 export interface TurnOffTwoStepVerificationResponse {}
-export const TurnOffTwoStepVerificationResponse: Schema.Schema<TurnOffTwoStepVerificationResponse> = Schema.Struct({}) as any as Schema.Schema<TurnOffTwoStepVerificationResponse>;
+export const TurnOffTwoStepVerificationResponse: Schema.Schema<TurnOffTwoStepVerificationResponse> =
+  Schema.Struct({}) as any as Schema.Schema<TurnOffTwoStepVerificationResponse>;
 
 export type TurnOffTwoStepVerificationError = DefaultErrors;
 
 /** Turns off 2-Step Verification for user. */
-export const turnOffTwoStepVerification: API.OperationMethod<TurnOffTwoStepVerificationRequest, TurnOffTwoStepVerificationResponse, TurnOffTwoStepVerificationError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const turnOffTwoStepVerification: API.OperationMethod<
+  TurnOffTwoStepVerificationRequest,
+  TurnOffTwoStepVerificationResponse,
+  TurnOffTwoStepVerificationError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TurnOffTwoStepVerificationRequest,
   output: TurnOffTwoStepVerificationResponse,
   errors: [],
@@ -5525,12 +7206,18 @@ export const DeleteUsersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteUsersRequest>;
 
 export interface DeleteUsersResponse {}
-export const DeleteUsersResponse: Schema.Schema<DeleteUsersResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersResponse>;
+export const DeleteUsersResponse: Schema.Schema<DeleteUsersResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersResponse>;
 
 export type DeleteUsersError = DefaultErrors;
 
 /** Deletes a user. */
-export const deleteUsers: API.OperationMethod<DeleteUsersRequest, DeleteUsersResponse, DeleteUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsers: API.OperationMethod<
+  DeleteUsersRequest,
+  DeleteUsersResponse,
+  DeleteUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersRequest,
   output: DeleteUsersResponse,
   errors: [],
@@ -5549,7 +7236,9 @@ export interface GetUsersRequest {
 
 export const GetUsersRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
-  customFieldMask: Schema.optional(Schema.String).pipe(T.HttpQuery("customFieldMask")),
+  customFieldMask: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("customFieldMask"),
+  ),
   projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
   viewType: Schema.optional(Schema.String).pipe(T.HttpQuery("viewType")),
 }).pipe(
@@ -5563,7 +7252,12 @@ export const GetUsersResponse = User;
 export type GetUsersError = DefaultErrors;
 
 /** Retrieves a user. */
-export const getUsers: API.OperationMethod<GetUsersRequest, GetUsersResponse, GetUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsers: API.OperationMethod<
+  GetUsersRequest,
+  GetUsersResponse,
+  GetUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,
   errors: [],
@@ -5577,7 +7271,9 @@ export interface InsertUsersRequest {
 }
 
 export const InsertUsersRequest = Schema.Struct({
-  resolveConflictAccount: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("resolveConflictAccount")),
+  resolveConflictAccount: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("resolveConflictAccount"),
+  ),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "admin/directory/v1/users", hasBody: true }),
@@ -5590,7 +7286,12 @@ export const InsertUsersResponse = User;
 export type InsertUsersError = DefaultErrors;
 
 /** Creates a user. Mutate calls immediately following user creation might sometimes fail as the user isn't fully created due to propagation delay in our backends. Check the error details for the "User creation is not complete" message to see if this is the case. Retrying the calls after some time can help in this case. If `resolveConflictAccount` is set to `true`, a `202` response code means that a conflicting unmanaged account exists and was invited to join the organization. A `409` response code means that a conflicting account exists so the user wasn't created based on the [handling unmanaged user accounts](https://support.google.com/a/answer/11112794) option selected. */
-export const insertUsers: API.OperationMethod<InsertUsersRequest, InsertUsersResponse, InsertUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertUsers: API.OperationMethod<
+  InsertUsersRequest,
+  InsertUsersResponse,
+  InsertUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertUsersRequest,
   output: InsertUsersResponse,
   errors: [],
@@ -5604,7 +7305,11 @@ export interface CreateGuestUsersRequest {
 export const CreateGuestUsersRequest = Schema.Struct({
   body: Schema.optional(DirectoryUsersCreateGuestRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users:createGuest", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users:createGuest",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateGuestUsersRequest>;
 
@@ -5614,7 +7319,12 @@ export const CreateGuestUsersResponse = User;
 export type CreateGuestUsersError = DefaultErrors;
 
 /** Create a guest user with access to a [subset of Workspace capabilities](https://support.google.com/a/answer/16558545). This feature is currently in Alpha. Please reach out to support if you are interested in trying this feature. */
-export const createGuestUsers: API.OperationMethod<CreateGuestUsersRequest, CreateGuestUsersResponse, CreateGuestUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createGuestUsers: API.OperationMethod<
+  CreateGuestUsersRequest,
+  CreateGuestUsersResponse,
+  CreateGuestUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateGuestUsersRequest,
   output: CreateGuestUsersResponse,
   errors: [],
@@ -5628,7 +7338,13 @@ export interface ListUsersRequest {
   /** The domain name. Use this field to get users from only one domain. To return all domains for a customer account, use the `customer` query parameter instead. Either the `customer` or the `domain` parameter must be provided. */
   domain?: string;
   /** Event on which subscription is intended (if subscribing) */
-  event?: "add" | "delete" | "makeAdmin" | "undelete" | "update" | (string & {});
+  event?:
+    | "add"
+    | "delete"
+    | "makeAdmin"
+    | "undelete"
+    | "update"
+    | (string & {});
   /** Maximum number of results to return. */
   maxResults?: number;
   /** Property to use for sorting results. */
@@ -5648,7 +7364,9 @@ export interface ListUsersRequest {
 }
 
 export const ListUsersRequest = Schema.Struct({
-  customFieldMask: Schema.optional(Schema.String).pipe(T.HttpQuery("customFieldMask")),
+  customFieldMask: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("customFieldMask"),
+  ),
   customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
   event: Schema.optional(Schema.String).pipe(T.HttpQuery("event")),
@@ -5671,7 +7389,12 @@ export const ListUsersResponse = Users;
 export type ListUsersError = DefaultErrors;
 
 /** Retrieves a paginated list of either deleted users or all users in a domain. */
-export const listUsers: API.PaginatedOperationMethod<ListUsersRequest, ListUsersResponse, ListUsersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsers: API.PaginatedOperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  ListUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [],
@@ -5692,17 +7415,27 @@ export const MakeAdminUsersRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   body: Schema.optional(UserMakeAdmin).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/makeAdmin", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/makeAdmin",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MakeAdminUsersRequest>;
 
 export interface MakeAdminUsersResponse {}
-export const MakeAdminUsersResponse: Schema.Schema<MakeAdminUsersResponse> = Schema.Struct({}) as any as Schema.Schema<MakeAdminUsersResponse>;
+export const MakeAdminUsersResponse: Schema.Schema<MakeAdminUsersResponse> =
+  Schema.Struct({}) as any as Schema.Schema<MakeAdminUsersResponse>;
 
 export type MakeAdminUsersError = DefaultErrors;
 
 /** Makes a user a super administrator. */
-export const makeAdminUsers: API.OperationMethod<MakeAdminUsersRequest, MakeAdminUsersResponse, MakeAdminUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const makeAdminUsers: API.OperationMethod<
+  MakeAdminUsersRequest,
+  MakeAdminUsersResponse,
+  MakeAdminUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MakeAdminUsersRequest,
   output: MakeAdminUsersResponse,
   errors: [],
@@ -5719,7 +7452,11 @@ export const PatchUsersRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/users/{userKey}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/users/{userKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersRequest>;
 
@@ -5729,7 +7466,12 @@ export const PatchUsersResponse = User;
 export type PatchUsersError = DefaultErrors;
 
 /** Updates a user using patch semantics. The update method should be used instead, because it also supports patch semantics and has better performance. If you're mapping an external identity to a Google identity, use the [`update`](https://developers.google.com/workspace/admin/directory/v1/reference/users/update) method instead of the `patch` method. This method is unable to clear fields that contain repeated objects (`addresses`, `phones`, etc). Use the update method instead. */
-export const patchUsers: API.OperationMethod<PatchUsersRequest, PatchUsersResponse, PatchUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchUsers: API.OperationMethod<
+  PatchUsersRequest,
+  PatchUsersResponse,
+  PatchUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchUsersRequest,
   output: PatchUsersResponse,
   errors: [],
@@ -5746,17 +7488,27 @@ export const UndeleteUsersRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   body: Schema.optional(UserUndelete).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteUsersRequest>;
 
 export interface UndeleteUsersResponse {}
-export const UndeleteUsersResponse: Schema.Schema<UndeleteUsersResponse> = Schema.Struct({}) as any as Schema.Schema<UndeleteUsersResponse>;
+export const UndeleteUsersResponse: Schema.Schema<UndeleteUsersResponse> =
+  Schema.Struct({}) as any as Schema.Schema<UndeleteUsersResponse>;
 
 export type UndeleteUsersError = DefaultErrors;
 
 /** Undeletes a deleted user. */
-export const undeleteUsers: API.OperationMethod<UndeleteUsersRequest, UndeleteUsersResponse, UndeleteUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteUsers: API.OperationMethod<
+  UndeleteUsersRequest,
+  UndeleteUsersResponse,
+  UndeleteUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteUsersRequest,
   output: UndeleteUsersResponse,
   errors: [],
@@ -5773,7 +7525,11 @@ export const UpdateUsersRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/users/{userKey}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/users/{userKey}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersRequest>;
 
@@ -5783,7 +7539,12 @@ export const UpdateUsersResponse = User;
 export type UpdateUsersError = DefaultErrors;
 
 /** Updates a user. This method supports patch semantics, meaning that you only need to include the fields you wish to update. Fields that are not present in the request will be preserved, and fields set to `null` will be cleared. For repeating fields that contain arrays, individual items in the array can't be patched piecemeal; they must be supplied in the request body with the desired values for all items. See the [user accounts guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#update_user) for more information. */
-export const updateUsers: API.OperationMethod<UpdateUsersRequest, UpdateUsersResponse, UpdateUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsers: API.OperationMethod<
+  UpdateUsersRequest,
+  UpdateUsersResponse,
+  UpdateUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersRequest,
   output: UpdateUsersResponse,
   errors: [],
@@ -5795,7 +7556,13 @@ export interface WatchUsersRequest {
   /** Immutable ID of the Google Workspace account. In case of multi-domain, to fetch all users for a customer, fill this field instead of domain. */
   customer?: string;
   /** Events to watch for. */
-  event?: "add" | "delete" | "makeAdmin" | "undelete" | "update" | (string & {});
+  event?:
+    | "add"
+    | "delete"
+    | "makeAdmin"
+    | "undelete"
+    | "update"
+    | (string & {});
   /** Comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when projection=custom. */
   customFieldMask?: string;
   /** Maximum number of results to return. */
@@ -5822,7 +7589,9 @@ export const WatchUsersRequest = Schema.Struct({
   domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
   customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   event: Schema.optional(Schema.String).pipe(T.HttpQuery("event")),
-  customFieldMask: Schema.optional(Schema.String).pipe(T.HttpQuery("customFieldMask")),
+  customFieldMask: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("customFieldMask"),
+  ),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -5833,7 +7602,11 @@ export const WatchUsersRequest = Schema.Struct({
   viewType: Schema.optional(Schema.String).pipe(T.HttpQuery("viewType")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchUsersRequest>;
 
@@ -5843,7 +7616,12 @@ export const WatchUsersResponse = Channel;
 export type WatchUsersError = DefaultErrors;
 
 /** Watches for changes in users list. */
-export const watchUsers: API.OperationMethod<WatchUsersRequest, WatchUsersResponse, WatchUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchUsers: API.OperationMethod<
+  WatchUsersRequest,
+  WatchUsersResponse,
+  WatchUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchUsersRequest,
   output: WatchUsersResponse,
   errors: [],
@@ -5857,17 +7635,27 @@ export interface SignOutUsersRequest {
 export const SignOutUsersRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/signOut", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/signOut",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SignOutUsersRequest>;
 
 export interface SignOutUsersResponse {}
-export const SignOutUsersResponse: Schema.Schema<SignOutUsersResponse> = Schema.Struct({}) as any as Schema.Schema<SignOutUsersResponse>;
+export const SignOutUsersResponse: Schema.Schema<SignOutUsersResponse> =
+  Schema.Struct({}) as any as Schema.Schema<SignOutUsersResponse>;
 
 export type SignOutUsersError = DefaultErrors;
 
 /** Signs a user out of all web and device sessions and reset their sign-in cookies. User will have to sign in by authenticating again. */
-export const signOutUsers: API.OperationMethod<SignOutUsersRequest, SignOutUsersResponse, SignOutUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signOutUsers: API.OperationMethod<
+  SignOutUsersRequest,
+  SignOutUsersResponse,
+  SignOutUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignOutUsersRequest,
   output: SignOutUsersResponse,
   errors: [],
@@ -5884,17 +7672,26 @@ export const DeleteUsersAliasesRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   alias: Schema.String.pipe(T.HttpPath("alias")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/users/{userKey}/aliases/{alias}" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/users/{userKey}/aliases/{alias}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersAliasesRequest>;
 
 export interface DeleteUsersAliasesResponse {}
-export const DeleteUsersAliasesResponse: Schema.Schema<DeleteUsersAliasesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersAliasesResponse>;
+export const DeleteUsersAliasesResponse: Schema.Schema<DeleteUsersAliasesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersAliasesResponse>;
 
 export type DeleteUsersAliasesError = DefaultErrors;
 
 /** Removes an alias. */
-export const deleteUsersAliases: API.OperationMethod<DeleteUsersAliasesRequest, DeleteUsersAliasesResponse, DeleteUsersAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersAliases: API.OperationMethod<
+  DeleteUsersAliasesRequest,
+  DeleteUsersAliasesResponse,
+  DeleteUsersAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersAliasesRequest,
   output: DeleteUsersAliasesResponse,
   errors: [],
@@ -5911,7 +7708,11 @@ export const InsertUsersAliasesRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   body: Schema.optional(Alias).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/aliases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/aliases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertUsersAliasesRequest>;
 
@@ -5921,7 +7722,12 @@ export const InsertUsersAliasesResponse = Alias;
 export type InsertUsersAliasesError = DefaultErrors;
 
 /** Adds an alias. */
-export const insertUsersAliases: API.OperationMethod<InsertUsersAliasesRequest, InsertUsersAliasesResponse, InsertUsersAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertUsersAliases: API.OperationMethod<
+  InsertUsersAliasesRequest,
+  InsertUsersAliasesResponse,
+  InsertUsersAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertUsersAliasesRequest,
   output: InsertUsersAliasesResponse,
   errors: [],
@@ -5948,7 +7754,12 @@ export const ListUsersAliasesResponse = Aliases;
 export type ListUsersAliasesError = DefaultErrors;
 
 /** Lists all aliases for a user. */
-export const listUsersAliases: API.OperationMethod<ListUsersAliasesRequest, ListUsersAliasesResponse, ListUsersAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersAliases: API.OperationMethod<
+  ListUsersAliasesRequest,
+  ListUsersAliasesResponse,
+  ListUsersAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersAliasesRequest,
   output: ListUsersAliasesResponse,
   errors: [],
@@ -5968,7 +7779,11 @@ export const WatchUsersAliasesRequest = Schema.Struct({
   event: Schema.optional(Schema.String).pipe(T.HttpQuery("event")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/aliases/watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/aliases/watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchUsersAliasesRequest>;
 
@@ -5978,7 +7793,12 @@ export const WatchUsersAliasesResponse = Channel;
 export type WatchUsersAliasesError = DefaultErrors;
 
 /** Watches for changes in users list. */
-export const watchUsersAliases: API.OperationMethod<WatchUsersAliasesRequest, WatchUsersAliasesResponse, WatchUsersAliasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchUsersAliases: API.OperationMethod<
+  WatchUsersAliasesRequest,
+  WatchUsersAliasesResponse,
+  WatchUsersAliasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchUsersAliasesRequest,
   output: WatchUsersAliasesResponse,
   errors: [],
@@ -5992,17 +7812,26 @@ export interface DeleteUsersPhotosRequest {
 export const DeleteUsersPhotosRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "admin/directory/v1/users/{userKey}/photos/thumbnail" }),
+  T.Http({
+    method: "DELETE",
+    path: "admin/directory/v1/users/{userKey}/photos/thumbnail",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersPhotosRequest>;
 
 export interface DeleteUsersPhotosResponse {}
-export const DeleteUsersPhotosResponse: Schema.Schema<DeleteUsersPhotosResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersPhotosResponse>;
+export const DeleteUsersPhotosResponse: Schema.Schema<DeleteUsersPhotosResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersPhotosResponse>;
 
 export type DeleteUsersPhotosError = DefaultErrors;
 
 /** Removes the user's photo. */
-export const deleteUsersPhotos: API.OperationMethod<DeleteUsersPhotosRequest, DeleteUsersPhotosResponse, DeleteUsersPhotosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersPhotos: API.OperationMethod<
+  DeleteUsersPhotosRequest,
+  DeleteUsersPhotosResponse,
+  DeleteUsersPhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersPhotosRequest,
   output: DeleteUsersPhotosResponse,
   errors: [],
@@ -6016,7 +7845,10 @@ export interface GetUsersPhotosRequest {
 export const GetUsersPhotosRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/users/{userKey}/photos/thumbnail" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/users/{userKey}/photos/thumbnail",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersPhotosRequest>;
 
@@ -6026,7 +7858,12 @@ export const GetUsersPhotosResponse = UserPhoto;
 export type GetUsersPhotosError = DefaultErrors;
 
 /** Retrieves the user's photo. */
-export const getUsersPhotos: API.OperationMethod<GetUsersPhotosRequest, GetUsersPhotosResponse, GetUsersPhotosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersPhotos: API.OperationMethod<
+  GetUsersPhotosRequest,
+  GetUsersPhotosResponse,
+  GetUsersPhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersPhotosRequest,
   output: GetUsersPhotosResponse,
   errors: [],
@@ -6043,7 +7880,11 @@ export const UpdateUsersPhotosRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   body: Schema.optional(UserPhoto).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "admin/directory/v1/users/{userKey}/photos/thumbnail", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "admin/directory/v1/users/{userKey}/photos/thumbnail",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersPhotosRequest>;
 
@@ -6053,7 +7894,12 @@ export const UpdateUsersPhotosResponse = UserPhoto;
 export type UpdateUsersPhotosError = DefaultErrors;
 
 /** Adds a photo for the user. */
-export const updateUsersPhotos: API.OperationMethod<UpdateUsersPhotosRequest, UpdateUsersPhotosResponse, UpdateUsersPhotosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsersPhotos: API.OperationMethod<
+  UpdateUsersPhotosRequest,
+  UpdateUsersPhotosResponse,
+  UpdateUsersPhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersPhotosRequest,
   output: UpdateUsersPhotosResponse,
   errors: [],
@@ -6070,7 +7916,11 @@ export const PatchUsersPhotosRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   body: Schema.optional(UserPhoto).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "admin/directory/v1/users/{userKey}/photos/thumbnail", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "admin/directory/v1/users/{userKey}/photos/thumbnail",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersPhotosRequest>;
 
@@ -6080,7 +7930,12 @@ export const PatchUsersPhotosResponse = UserPhoto;
 export type PatchUsersPhotosError = DefaultErrors;
 
 /** Adds a photo for the user. This method supports [patch semantics](https://developers.google.com/workspace/admin/directory/v1/guides/performance#patch). */
-export const patchUsersPhotos: API.OperationMethod<PatchUsersPhotosRequest, PatchUsersPhotosResponse, PatchUsersPhotosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchUsersPhotos: API.OperationMethod<
+  PatchUsersPhotosRequest,
+  PatchUsersPhotosResponse,
+  PatchUsersPhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchUsersPhotosRequest,
   output: PatchUsersPhotosResponse,
   errors: [],
@@ -6094,17 +7949,27 @@ export interface GenerateVerificationCodesRequest {
 export const GenerateVerificationCodesRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/verificationCodes/generate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/verificationCodes/generate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateVerificationCodesRequest>;
 
 export interface GenerateVerificationCodesResponse {}
-export const GenerateVerificationCodesResponse: Schema.Schema<GenerateVerificationCodesResponse> = Schema.Struct({}) as any as Schema.Schema<GenerateVerificationCodesResponse>;
+export const GenerateVerificationCodesResponse: Schema.Schema<GenerateVerificationCodesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<GenerateVerificationCodesResponse>;
 
 export type GenerateVerificationCodesError = DefaultErrors;
 
 /** Generates new backup verification codes for the user. */
-export const generateVerificationCodes: API.OperationMethod<GenerateVerificationCodesRequest, GenerateVerificationCodesResponse, GenerateVerificationCodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateVerificationCodes: API.OperationMethod<
+  GenerateVerificationCodesRequest,
+  GenerateVerificationCodesResponse,
+  GenerateVerificationCodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateVerificationCodesRequest,
   output: GenerateVerificationCodesResponse,
   errors: [],
@@ -6118,17 +7983,29 @@ export interface InvalidateVerificationCodesRequest {
 export const InvalidateVerificationCodesRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/directory/v1/users/{userKey}/verificationCodes/invalidate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/directory/v1/users/{userKey}/verificationCodes/invalidate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InvalidateVerificationCodesRequest>;
 
 export interface InvalidateVerificationCodesResponse {}
-export const InvalidateVerificationCodesResponse: Schema.Schema<InvalidateVerificationCodesResponse> = Schema.Struct({}) as any as Schema.Schema<InvalidateVerificationCodesResponse>;
+export const InvalidateVerificationCodesResponse: Schema.Schema<InvalidateVerificationCodesResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<InvalidateVerificationCodesResponse>;
 
 export type InvalidateVerificationCodesError = DefaultErrors;
 
 /** Invalidates the current backup verification codes for the user. */
-export const invalidateVerificationCodes: API.OperationMethod<InvalidateVerificationCodesRequest, InvalidateVerificationCodesResponse, InvalidateVerificationCodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const invalidateVerificationCodes: API.OperationMethod<
+  InvalidateVerificationCodesRequest,
+  InvalidateVerificationCodesResponse,
+  InvalidateVerificationCodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InvalidateVerificationCodesRequest,
   output: InvalidateVerificationCodesResponse,
   errors: [],
@@ -6142,7 +8019,10 @@ export interface ListVerificationCodesRequest {
 export const ListVerificationCodesRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/directory/v1/users/{userKey}/verificationCodes" }),
+  T.Http({
+    method: "GET",
+    path: "admin/directory/v1/users/{userKey}/verificationCodes",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListVerificationCodesRequest>;
 
@@ -6152,9 +8032,13 @@ export const ListVerificationCodesResponse = VerificationCodes;
 export type ListVerificationCodesError = DefaultErrors;
 
 /** Returns the current set of valid backup verification codes for the specified user. */
-export const listVerificationCodes: API.OperationMethod<ListVerificationCodesRequest, ListVerificationCodesResponse, ListVerificationCodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listVerificationCodes: API.OperationMethod<
+  ListVerificationCodesRequest,
+  ListVerificationCodesResponse,
+  ListVerificationCodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListVerificationCodesRequest,
   output: ListVerificationCodesResponse,
   errors: [],
 }));
-

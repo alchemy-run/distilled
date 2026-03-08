@@ -11,9 +11,9 @@
   "scripts": {
     "typecheck": "tsgo",
     "fmt": "oxfmt --write src",
-    "lint": "oxlint src",
+    "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",
-    "generate": "bun run scripts/generate.ts",
+    "generate": "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
     "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-planetscale && git -C specs/distilled-spec-planetscale checkout -- .",
     "specs:update": "git -C specs/distilled-spec-planetscale fetch && git -C specs/distilled-spec-planetscale checkout main && git -C specs/distilled-spec-planetscale pull"
   },

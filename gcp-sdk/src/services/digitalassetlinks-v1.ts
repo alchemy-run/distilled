@@ -33,34 +33,60 @@ export interface CheckResponse {
   /** Human-readable message containing information intended to help end users understand, reproduce and debug the result. The message will be in English and we are currently not planning to offer any translations. Please note that no guarantees are made about the contents or format of this string. Any aspect of it may be subject to change without notice. You should not attempt to programmatically parse this data. For programmatic access, use the error_code field below. */
   debugString?: string;
   /** Error codes that describe the result of the Check operation. NOTE: Error codes may be populated even when `linked` is true. The error codes do not necessarily imply that the request failed, but rather, specify any errors encountered in the statements file(s) which may or may not impact whether the server determines the requested source and target to be linked. */
-  errorCode?: Array<"ERROR_CODE_UNSPECIFIED" | "ERROR_CODE_INVALID_QUERY" | "ERROR_CODE_FETCH_ERROR" | "ERROR_CODE_FAILED_SSL_VALIDATION" | "ERROR_CODE_REDIRECT" | "ERROR_CODE_TOO_LARGE" | "ERROR_CODE_MALFORMED_HTTP_RESPONSE" | "ERROR_CODE_WRONG_CONTENT_TYPE" | "ERROR_CODE_MALFORMED_CONTENT" | "ERROR_CODE_SECURE_ASSET_INCLUDES_INSECURE" | "ERROR_CODE_FETCH_BUDGET_EXHAUSTED" | (string & {})>;
+  errorCode?: Array<
+    | "ERROR_CODE_UNSPECIFIED"
+    | "ERROR_CODE_INVALID_QUERY"
+    | "ERROR_CODE_FETCH_ERROR"
+    | "ERROR_CODE_FAILED_SSL_VALIDATION"
+    | "ERROR_CODE_REDIRECT"
+    | "ERROR_CODE_TOO_LARGE"
+    | "ERROR_CODE_MALFORMED_HTTP_RESPONSE"
+    | "ERROR_CODE_WRONG_CONTENT_TYPE"
+    | "ERROR_CODE_MALFORMED_CONTENT"
+    | "ERROR_CODE_SECURE_ASSET_INCLUDES_INSECURE"
+    | "ERROR_CODE_FETCH_BUDGET_EXHAUSTED"
+    | (string & {})
+  >;
 }
 
-export const CheckResponse: Schema.Schema<CheckResponse> = Schema.suspend(() => Schema.Struct({
-  linked: Schema.optional(Schema.Boolean),
-  relationExtensions: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  maxAge: Schema.optional(Schema.String),
-  debugString: Schema.optional(Schema.String),
-  errorCode: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CheckResponse" }) as any as Schema.Schema<CheckResponse>;
+export const CheckResponse: Schema.Schema<CheckResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    linked: Schema.optional(Schema.Boolean),
+    relationExtensions: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    maxAge: Schema.optional(Schema.String),
+    debugString: Schema.optional(Schema.String),
+    errorCode: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "CheckResponse",
+}) as any as Schema.Schema<CheckResponse>;
 
 export interface WebAsset {
   /** Web assets are identified by a URL that contains only the scheme, hostname and port parts. The format is http[s]://[:] Hostnames must be fully qualified: they must end in a single period ("`.`"). Only the schemes "http" and "https" are currently allowed. Port numbers are given as a decimal number, and they must be omitted if the standard port numbers are used: 80 for http and 443 for https. We call this limited URL the "site". All URLs that share the same scheme, hostname and port are considered to be a part of the site and thus belong to the web asset. Example: the asset with the site `https://www.google.com` contains all these URLs: * `https://www.google.com/` * `https://www.google.com:443/` * `https://www.google.com/foo` * `https://www.google.com/foo?bar` * `https://www.google.com/foo#bar` * `https://user@password:www.google.com/` But it does not contain these URLs: * `http://www.google.com/` (wrong scheme) * `https://google.com/` (hostname does not match) * `https://www.google.com:444/` (port does not match) REQUIRED */
   site?: string;
 }
 
-export const WebAsset: Schema.Schema<WebAsset> = Schema.suspend(() => Schema.Struct({
-  site: Schema.optional(Schema.String),
-})).annotate({ identifier: "WebAsset" }) as any as Schema.Schema<WebAsset>;
+export const WebAsset: Schema.Schema<WebAsset> = Schema.suspend(() =>
+  Schema.Struct({
+    site: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "WebAsset" }) as any as Schema.Schema<WebAsset>;
 
 export interface CertificateInfo {
   /** The uppercase SHA-265 fingerprint of the certificate. From the PEM certificate, it can be acquired like this: $ keytool -printcert -file $CERTFILE | grep SHA256: SHA256: 14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83: \ 42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 or like this: $ openssl x509 -in $CERTFILE -noout -fingerprint -sha256 SHA256 Fingerprint=14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64: \ 16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 In this example, the contents of this field would be `14:6D:E9:83:C5:73: 06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF: 44:E5`. If these tools are not available to you, you can convert the PEM certificate into the DER format, compute the SHA-256 hash of that string and represent the result as a hexstring (that is, uppercase hexadecimal representations of each octet, separated by colons). */
   sha256Fingerprint?: string;
 }
 
-export const CertificateInfo: Schema.Schema<CertificateInfo> = Schema.suspend(() => Schema.Struct({
-  sha256Fingerprint: Schema.optional(Schema.String),
-})).annotate({ identifier: "CertificateInfo" }) as any as Schema.Schema<CertificateInfo>;
+export const CertificateInfo: Schema.Schema<CertificateInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sha256Fingerprint: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CertificateInfo",
+}) as any as Schema.Schema<CertificateInfo>;
 
 export interface AndroidAppAsset {
   /** Android App assets are naturally identified by their Java package name. For example, the Google Maps app uses the package name `com.google.android.apps.maps`. REQUIRED */
@@ -69,10 +95,15 @@ export interface AndroidAppAsset {
   certificate?: CertificateInfo;
 }
 
-export const AndroidAppAsset: Schema.Schema<AndroidAppAsset> = Schema.suspend(() => Schema.Struct({
-  packageName: Schema.optional(Schema.String),
-  certificate: Schema.optional(CertificateInfo),
-})).annotate({ identifier: "AndroidAppAsset" }) as any as Schema.Schema<AndroidAppAsset>;
+export const AndroidAppAsset: Schema.Schema<AndroidAppAsset> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      packageName: Schema.optional(Schema.String),
+      certificate: Schema.optional(CertificateInfo),
+    }),
+).annotate({
+  identifier: "AndroidAppAsset",
+}) as any as Schema.Schema<AndroidAppAsset>;
 
 export interface Asset {
   /** Set if this is a web asset. */
@@ -81,10 +112,12 @@ export interface Asset {
   androidApp?: AndroidAppAsset;
 }
 
-export const Asset: Schema.Schema<Asset> = Schema.suspend(() => Schema.Struct({
-  web: Schema.optional(WebAsset),
-  androidApp: Schema.optional(AndroidAppAsset),
-})).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
+export const Asset: Schema.Schema<Asset> = Schema.suspend(() =>
+  Schema.Struct({
+    web: Schema.optional(WebAsset),
+    androidApp: Schema.optional(AndroidAppAsset),
+  }),
+).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
 
 export interface StatementTemplate {
   /** The source asset that is asserting the statement. If omitted, you must specify a BulkCheckRequest.default_source value to use here. */
@@ -95,11 +128,16 @@ export interface StatementTemplate {
   target?: Asset;
 }
 
-export const StatementTemplate: Schema.Schema<StatementTemplate> = Schema.suspend(() => Schema.Struct({
-  source: Schema.optional(Asset),
-  relation: Schema.optional(Schema.String),
-  target: Schema.optional(Asset),
-})).annotate({ identifier: "StatementTemplate" }) as any as Schema.Schema<StatementTemplate>;
+export const StatementTemplate: Schema.Schema<StatementTemplate> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      source: Schema.optional(Asset),
+      relation: Schema.optional(Schema.String),
+      target: Schema.optional(Asset),
+    }),
+  ).annotate({
+    identifier: "StatementTemplate",
+  }) as any as Schema.Schema<StatementTemplate>;
 
 export interface BulkCheckRequest {
   /** List of statements to check. For each statement, you can omit a field if the corresponding default_* field below was supplied. Minimum 1 statement; maximum 1,000 statements. Any additional statements will be ignored. */
@@ -114,25 +152,47 @@ export interface BulkCheckRequest {
   returnRelationExtensions?: boolean;
 }
 
-export const BulkCheckRequest: Schema.Schema<BulkCheckRequest> = Schema.suspend(() => Schema.Struct({
-  statements: Schema.optional(Schema.Array(StatementTemplate)),
-  defaultSource: Schema.optional(Asset),
-  defaultRelation: Schema.optional(Schema.String),
-  defaultTarget: Schema.optional(Asset),
-  returnRelationExtensions: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "BulkCheckRequest" }) as any as Schema.Schema<BulkCheckRequest>;
+export const BulkCheckRequest: Schema.Schema<BulkCheckRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      statements: Schema.optional(Schema.Array(StatementTemplate)),
+      defaultSource: Schema.optional(Asset),
+      defaultRelation: Schema.optional(Schema.String),
+      defaultTarget: Schema.optional(Asset),
+      returnRelationExtensions: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "BulkCheckRequest",
+}) as any as Schema.Schema<BulkCheckRequest>;
 
 export interface BulkCheckResponse {
   /** List of results for each check request. Results are returned in the same order in which they were sent in the request. */
   checkResults?: Array<CheckResponse>;
   /** Error code for the entire request. Present only if the entire request failed. Individual check errors will not trigger the presence of this field. */
-  bulkErrorCode?: "ERROR_CODE_UNSPECIFIED" | "ERROR_CODE_INVALID_QUERY" | "ERROR_CODE_FETCH_ERROR" | "ERROR_CODE_FAILED_SSL_VALIDATION" | "ERROR_CODE_REDIRECT" | "ERROR_CODE_TOO_LARGE" | "ERROR_CODE_MALFORMED_HTTP_RESPONSE" | "ERROR_CODE_WRONG_CONTENT_TYPE" | "ERROR_CODE_MALFORMED_CONTENT" | "ERROR_CODE_SECURE_ASSET_INCLUDES_INSECURE" | "ERROR_CODE_FETCH_BUDGET_EXHAUSTED" | (string & {});
+  bulkErrorCode?:
+    | "ERROR_CODE_UNSPECIFIED"
+    | "ERROR_CODE_INVALID_QUERY"
+    | "ERROR_CODE_FETCH_ERROR"
+    | "ERROR_CODE_FAILED_SSL_VALIDATION"
+    | "ERROR_CODE_REDIRECT"
+    | "ERROR_CODE_TOO_LARGE"
+    | "ERROR_CODE_MALFORMED_HTTP_RESPONSE"
+    | "ERROR_CODE_WRONG_CONTENT_TYPE"
+    | "ERROR_CODE_MALFORMED_CONTENT"
+    | "ERROR_CODE_SECURE_ASSET_INCLUDES_INSECURE"
+    | "ERROR_CODE_FETCH_BUDGET_EXHAUSTED"
+    | (string & {});
 }
 
-export const BulkCheckResponse: Schema.Schema<BulkCheckResponse> = Schema.suspend(() => Schema.Struct({
-  checkResults: Schema.optional(Schema.Array(CheckResponse)),
-  bulkErrorCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "BulkCheckResponse" }) as any as Schema.Schema<BulkCheckResponse>;
+export const BulkCheckResponse: Schema.Schema<BulkCheckResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      checkResults: Schema.optional(Schema.Array(CheckResponse)),
+      bulkErrorCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BulkCheckResponse",
+  }) as any as Schema.Schema<BulkCheckResponse>;
 
 export interface Statement {
   /** Every statement has a source asset. REQUIRED */
@@ -145,12 +205,16 @@ export interface Statement {
   relationExtensions?: Record<string, unknown>;
 }
 
-export const Statement: Schema.Schema<Statement> = Schema.suspend(() => Schema.Struct({
-  source: Schema.optional(Asset),
-  relation: Schema.optional(Schema.String),
-  target: Schema.optional(Asset),
-  relationExtensions: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Statement" }) as any as Schema.Schema<Statement>;
+export const Statement: Schema.Schema<Statement> = Schema.suspend(() =>
+  Schema.Struct({
+    source: Schema.optional(Asset),
+    relation: Schema.optional(Schema.String),
+    target: Schema.optional(Asset),
+    relationExtensions: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({ identifier: "Statement" }) as any as Schema.Schema<Statement>;
 
 export interface ListResponse {
   /** A list of all the matching statements that have been found. */
@@ -160,15 +224,32 @@ export interface ListResponse {
   /** Human-readable message containing information intended to help end users understand, reproduce and debug the result. The message will be in English and we are currently not planning to offer any translations. Please note that no guarantees are made about the contents or format of this string. Any aspect of it may be subject to change without notice. You should not attempt to programmatically parse this data. For programmatic access, use the error_code field below. */
   debugString?: string;
   /** Error codes that describe the result of the List operation. */
-  errorCode?: Array<"ERROR_CODE_UNSPECIFIED" | "ERROR_CODE_INVALID_QUERY" | "ERROR_CODE_FETCH_ERROR" | "ERROR_CODE_FAILED_SSL_VALIDATION" | "ERROR_CODE_REDIRECT" | "ERROR_CODE_TOO_LARGE" | "ERROR_CODE_MALFORMED_HTTP_RESPONSE" | "ERROR_CODE_WRONG_CONTENT_TYPE" | "ERROR_CODE_MALFORMED_CONTENT" | "ERROR_CODE_SECURE_ASSET_INCLUDES_INSECURE" | "ERROR_CODE_FETCH_BUDGET_EXHAUSTED" | (string & {})>;
+  errorCode?: Array<
+    | "ERROR_CODE_UNSPECIFIED"
+    | "ERROR_CODE_INVALID_QUERY"
+    | "ERROR_CODE_FETCH_ERROR"
+    | "ERROR_CODE_FAILED_SSL_VALIDATION"
+    | "ERROR_CODE_REDIRECT"
+    | "ERROR_CODE_TOO_LARGE"
+    | "ERROR_CODE_MALFORMED_HTTP_RESPONSE"
+    | "ERROR_CODE_WRONG_CONTENT_TYPE"
+    | "ERROR_CODE_MALFORMED_CONTENT"
+    | "ERROR_CODE_SECURE_ASSET_INCLUDES_INSECURE"
+    | "ERROR_CODE_FETCH_BUDGET_EXHAUSTED"
+    | (string & {})
+  >;
 }
 
-export const ListResponse: Schema.Schema<ListResponse> = Schema.suspend(() => Schema.Struct({
-  statements: Schema.optional(Schema.Array(Statement)),
-  maxAge: Schema.optional(Schema.String),
-  debugString: Schema.optional(Schema.String),
-  errorCode: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListResponse" }) as any as Schema.Schema<ListResponse>;
+export const ListResponse: Schema.Schema<ListResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    statements: Schema.optional(Schema.Array(Statement)),
+    maxAge: Schema.optional(Schema.String),
+    debugString: Schema.optional(Schema.String),
+    errorCode: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "ListResponse",
+}) as any as Schema.Schema<ListResponse>;
 
 // ==========================================================================
 // Operations
@@ -194,14 +275,28 @@ export interface CheckAssetlinksRequest {
 }
 
 export const CheckAssetlinksRequest = Schema.Struct({
-  "source.web.site": Schema.optional(Schema.String).pipe(T.HttpQuery("source.web.site")),
-  "source.androidApp.packageName": Schema.optional(Schema.String).pipe(T.HttpQuery("source.androidApp.packageName")),
-  "source.androidApp.certificate.sha256Fingerprint": Schema.optional(Schema.String).pipe(T.HttpQuery("source.androidApp.certificate.sha256Fingerprint")),
+  "source.web.site": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("source.web.site"),
+  ),
+  "source.androidApp.packageName": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("source.androidApp.packageName"),
+  ),
+  "source.androidApp.certificate.sha256Fingerprint": Schema.optional(
+    Schema.String,
+  ).pipe(T.HttpQuery("source.androidApp.certificate.sha256Fingerprint")),
   relation: Schema.optional(Schema.String).pipe(T.HttpQuery("relation")),
-  "target.web.site": Schema.optional(Schema.String).pipe(T.HttpQuery("target.web.site")),
-  "target.androidApp.packageName": Schema.optional(Schema.String).pipe(T.HttpQuery("target.androidApp.packageName")),
-  "target.androidApp.certificate.sha256Fingerprint": Schema.optional(Schema.String).pipe(T.HttpQuery("target.androidApp.certificate.sha256Fingerprint")),
-  returnRelationExtensions: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnRelationExtensions")),
+  "target.web.site": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("target.web.site"),
+  ),
+  "target.androidApp.packageName": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("target.androidApp.packageName"),
+  ),
+  "target.androidApp.certificate.sha256Fingerprint": Schema.optional(
+    Schema.String,
+  ).pipe(T.HttpQuery("target.androidApp.certificate.sha256Fingerprint")),
+  returnRelationExtensions: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnRelationExtensions"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/assetlinks:check" }),
   svc,
@@ -213,7 +308,12 @@ export const CheckAssetlinksResponse = CheckResponse;
 export type CheckAssetlinksError = DefaultErrors;
 
 /** Determines whether the specified (directional) relationship exists between the specified source and target assets. The relation describes the intent of the link between the two assets as claimed by the source asset. An example for such relationships is the delegation of privileges or permissions. This command is most often used by infrastructure systems to check preconditions for an action. For example, a client may want to know if it is OK to send a web URL to a particular mobile app instead. The client can check for the relevant asset link from the website to the mobile app to decide if the operation should be allowed. A note about security: if you specify a secure asset as the source, such as an HTTPS website or an Android app, the API will ensure that any statements used to generate the response have been made in a secure way by the owner of that asset. Conversely, if the source asset is an insecure HTTP website (that is, the URL starts with `http://` instead of `https://`), the API cannot verify its statements securely, and it is not possible to ensure that the website's statements have not been altered by a third party. For more information, see the [Digital Asset Links technical design specification](https://github.com/google/digitalassetlinks/blob/master/well-known/details.md). */
-export const checkAssetlinks: API.OperationMethod<CheckAssetlinksRequest, CheckAssetlinksResponse, CheckAssetlinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const checkAssetlinks: API.OperationMethod<
+  CheckAssetlinksRequest,
+  CheckAssetlinksResponse,
+  CheckAssetlinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CheckAssetlinksRequest,
   output: CheckAssetlinksResponse,
   errors: [],
@@ -237,7 +337,12 @@ export const BulkCheckAssetlinksResponse = BulkCheckResponse;
 export type BulkCheckAssetlinksError = DefaultErrors;
 
 /** Send a bundle of statement checks in a single RPC to minimize latency and service load. Statements need not be all for the same source and/or target. We recommend using this method when you need to check more than one statement in a short period of time. */
-export const bulkCheckAssetlinks: API.OperationMethod<BulkCheckAssetlinksRequest, BulkCheckAssetlinksResponse, BulkCheckAssetlinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const bulkCheckAssetlinks: API.OperationMethod<
+  BulkCheckAssetlinksRequest,
+  BulkCheckAssetlinksResponse,
+  BulkCheckAssetlinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BulkCheckAssetlinksRequest,
   output: BulkCheckAssetlinksResponse,
   errors: [],
@@ -257,11 +362,19 @@ export interface ListStatementsRequest {
 }
 
 export const ListStatementsRequest = Schema.Struct({
-  "source.web.site": Schema.optional(Schema.String).pipe(T.HttpQuery("source.web.site")),
-  "source.androidApp.packageName": Schema.optional(Schema.String).pipe(T.HttpQuery("source.androidApp.packageName")),
-  "source.androidApp.certificate.sha256Fingerprint": Schema.optional(Schema.String).pipe(T.HttpQuery("source.androidApp.certificate.sha256Fingerprint")),
+  "source.web.site": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("source.web.site"),
+  ),
+  "source.androidApp.packageName": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("source.androidApp.packageName"),
+  ),
+  "source.androidApp.certificate.sha256Fingerprint": Schema.optional(
+    Schema.String,
+  ).pipe(T.HttpQuery("source.androidApp.certificate.sha256Fingerprint")),
   relation: Schema.optional(Schema.String).pipe(T.HttpQuery("relation")),
-  returnRelationExtensions: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnRelationExtensions")),
+  returnRelationExtensions: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnRelationExtensions"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/statements:list" }),
   svc,
@@ -273,9 +386,13 @@ export const ListStatementsResponse = ListResponse;
 export type ListStatementsError = DefaultErrors;
 
 /** Retrieves a list of all statements from a given source that match the specified target and statement string. The API guarantees that all statements with secure source assets, such as HTTPS websites or Android apps, have been made in a secure way by the owner of those assets, as described in the [Digital Asset Links technical design specification](https://github.com/google/digitalassetlinks/blob/master/well-known/details.md). Specifically, you should consider that for insecure websites (that is, where the URL starts with `http://` instead of `https://`), this guarantee cannot be made. The `List` command is most useful in cases where the API client wants to know all the ways in which two assets are related, or enumerate all the relationships from a particular source asset. Example: a feature that helps users navigate to related items. When a mobile app is running on a device, the feature would make it easy to navigate to the corresponding web site or Google+ profile. */
-export const listStatements: API.OperationMethod<ListStatementsRequest, ListStatementsResponse, ListStatementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listStatements: API.OperationMethod<
+  ListStatementsRequest,
+  ListStatementsResponse,
+  ListStatementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListStatementsRequest,
   output: ListStatementsResponse,
   errors: [],
 }));
-

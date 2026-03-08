@@ -30,10 +30,15 @@ export interface DriveDestination {
   file?: string;
 }
 
-export const DriveDestination: Schema.Schema<DriveDestination> = Schema.suspend(() => Schema.Struct({
-  exportUri: Schema.optional(Schema.String),
-  file: Schema.optional(Schema.String),
-})).annotate({ identifier: "DriveDestination" }) as any as Schema.Schema<DriveDestination>;
+export const DriveDestination: Schema.Schema<DriveDestination> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      exportUri: Schema.optional(Schema.String),
+      file: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DriveDestination",
+}) as any as Schema.Schema<DriveDestination>;
 
 export interface Recording {
   /** Output only. Timestamp when the recording started. */
@@ -45,16 +50,23 @@ export interface Recording {
   /** Output only. Recording is saved to Google Drive as an MP4 file. The `drive_destination` includes the Drive `fileId` that can be used to download the file using the `files.get` method of the Drive API. */
   driveDestination?: DriveDestination;
   /** Output only. Current state. */
-  state?: "STATE_UNSPECIFIED" | "STARTED" | "ENDED" | "FILE_GENERATED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STARTED"
+    | "ENDED"
+    | "FILE_GENERATED"
+    | (string & {});
 }
 
-export const Recording: Schema.Schema<Recording> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  driveDestination: Schema.optional(DriveDestination),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "Recording" }) as any as Schema.Schema<Recording>;
+export const Recording: Schema.Schema<Recording> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    driveDestination: Schema.optional(DriveDestination),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Recording" }) as any as Schema.Schema<Recording>;
 
 export interface ListRecordingsResponse {
   /** Token to be circulated back for further List call if current List doesn't include all the recordings. Unset if all recordings are returned. */
@@ -63,10 +75,15 @@ export interface ListRecordingsResponse {
   recordings?: Array<Recording>;
 }
 
-export const ListRecordingsResponse: Schema.Schema<ListRecordingsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  recordings: Schema.optional(Schema.Array(Recording)),
-})).annotate({ identifier: "ListRecordingsResponse" }) as any as Schema.Schema<ListRecordingsResponse>;
+export const ListRecordingsResponse: Schema.Schema<ListRecordingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      recordings: Schema.optional(Schema.Array(Recording)),
+    }),
+  ).annotate({
+    identifier: "ListRecordingsResponse",
+  }) as any as Schema.Schema<ListRecordingsResponse>;
 
 export interface ConferenceRecord {
   /** Output only. The space where the conference was held. */
@@ -81,13 +98,18 @@ export interface ConferenceRecord {
   expireTime?: string;
 }
 
-export const ConferenceRecord: Schema.Schema<ConferenceRecord> = Schema.suspend(() => Schema.Struct({
-  space: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConferenceRecord" }) as any as Schema.Schema<ConferenceRecord>;
+export const ConferenceRecord: Schema.Schema<ConferenceRecord> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      space: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ConferenceRecord",
+}) as any as Schema.Schema<ConferenceRecord>;
 
 export interface ListConferenceRecordsResponse {
   /** List of conferences in one page. */
@@ -96,34 +118,61 @@ export interface ListConferenceRecordsResponse {
   nextPageToken?: string;
 }
 
-export const ListConferenceRecordsResponse: Schema.Schema<ListConferenceRecordsResponse> = Schema.suspend(() => Schema.Struct({
-  conferenceRecords: Schema.optional(Schema.Array(ConferenceRecord)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListConferenceRecordsResponse" }) as any as Schema.Schema<ListConferenceRecordsResponse>;
+export const ListConferenceRecordsResponse: Schema.Schema<ListConferenceRecordsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      conferenceRecords: Schema.optional(Schema.Array(ConferenceRecord)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListConferenceRecordsResponse",
+  }) as any as Schema.Schema<ListConferenceRecordsResponse>;
 
 export interface ModerationRestrictions {
   /** Defines who has permission to send chat messages in the meeting space. */
-  chatRestriction?: "RESTRICTION_TYPE_UNSPECIFIED" | "HOSTS_ONLY" | "NO_RESTRICTION" | (string & {});
+  chatRestriction?:
+    | "RESTRICTION_TYPE_UNSPECIFIED"
+    | "HOSTS_ONLY"
+    | "NO_RESTRICTION"
+    | (string & {});
   /** Defines who has permission to share their screen in the meeting space. */
-  presentRestriction?: "RESTRICTION_TYPE_UNSPECIFIED" | "HOSTS_ONLY" | "NO_RESTRICTION" | (string & {});
+  presentRestriction?:
+    | "RESTRICTION_TYPE_UNSPECIFIED"
+    | "HOSTS_ONLY"
+    | "NO_RESTRICTION"
+    | (string & {});
   /** Defines whether to restrict the default role assigned to users as viewer. */
-  defaultJoinAsViewerType?: "DEFAULT_JOIN_AS_VIEWER_TYPE_UNSPECIFIED" | "ON" | "OFF" | (string & {});
+  defaultJoinAsViewerType?:
+    | "DEFAULT_JOIN_AS_VIEWER_TYPE_UNSPECIFIED"
+    | "ON"
+    | "OFF"
+    | (string & {});
   /** Defines who has permission to send reactions in the meeting space. */
-  reactionRestriction?: "RESTRICTION_TYPE_UNSPECIFIED" | "HOSTS_ONLY" | "NO_RESTRICTION" | (string & {});
+  reactionRestriction?:
+    | "RESTRICTION_TYPE_UNSPECIFIED"
+    | "HOSTS_ONLY"
+    | "NO_RESTRICTION"
+    | (string & {});
 }
 
-export const ModerationRestrictions: Schema.Schema<ModerationRestrictions> = Schema.suspend(() => Schema.Struct({
-  chatRestriction: Schema.optional(Schema.String),
-  presentRestriction: Schema.optional(Schema.String),
-  defaultJoinAsViewerType: Schema.optional(Schema.String),
-  reactionRestriction: Schema.optional(Schema.String),
-})).annotate({ identifier: "ModerationRestrictions" }) as any as Schema.Schema<ModerationRestrictions>;
+export const ModerationRestrictions: Schema.Schema<ModerationRestrictions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      chatRestriction: Schema.optional(Schema.String),
+      presentRestriction: Schema.optional(Schema.String),
+      defaultJoinAsViewerType: Schema.optional(Schema.String),
+      reactionRestriction: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ModerationRestrictions",
+  }) as any as Schema.Schema<ModerationRestrictions>;
 
-export interface EndActiveConferenceRequest {
-}
+export interface EndActiveConferenceRequest {}
 
-export const EndActiveConferenceRequest: Schema.Schema<EndActiveConferenceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "EndActiveConferenceRequest" }) as any as Schema.Schema<EndActiveConferenceRequest>;
+export const EndActiveConferenceRequest: Schema.Schema<EndActiveConferenceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "EndActiveConferenceRequest",
+  }) as any as Schema.Schema<EndActiveConferenceRequest>;
 
 export interface ParticipantSession {
   /** Output only. Timestamp when the user session starts. */
@@ -134,20 +183,34 @@ export interface ParticipantSession {
   name?: string;
 }
 
-export const ParticipantSession: Schema.Schema<ParticipantSession> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ParticipantSession" }) as any as Schema.Schema<ParticipantSession>;
+export const ParticipantSession: Schema.Schema<ParticipantSession> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ParticipantSession",
+  }) as any as Schema.Schema<ParticipantSession>;
 
 export interface RecordingConfig {
   /** Defines whether a meeting space is automatically recorded when someone with the privilege to record joins the meeting. */
-  autoRecordingGeneration?: "AUTO_GENERATION_TYPE_UNSPECIFIED" | "ON" | "OFF" | (string & {});
+  autoRecordingGeneration?:
+    | "AUTO_GENERATION_TYPE_UNSPECIFIED"
+    | "ON"
+    | "OFF"
+    | (string & {});
 }
 
-export const RecordingConfig: Schema.Schema<RecordingConfig> = Schema.suspend(() => Schema.Struct({
-  autoRecordingGeneration: Schema.optional(Schema.String),
-})).annotate({ identifier: "RecordingConfig" }) as any as Schema.Schema<RecordingConfig>;
+export const RecordingConfig: Schema.Schema<RecordingConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      autoRecordingGeneration: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RecordingConfig",
+}) as any as Schema.Schema<RecordingConfig>;
 
 export interface DocsDestination {
   /** Output only. The document ID for the underlying Google Docs transcript file. For example, "1kuceFZohVoCh6FulBHxwy6I15Ogpc4hP". Use the `documents.get` method of the Google Docs API (https://developers.google.com/docs/api/reference/rest/v1/documents/get) to fetch the content. */
@@ -156,10 +219,15 @@ export interface DocsDestination {
   exportUri?: string;
 }
 
-export const DocsDestination: Schema.Schema<DocsDestination> = Schema.suspend(() => Schema.Struct({
-  document: Schema.optional(Schema.String),
-  exportUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "DocsDestination" }) as any as Schema.Schema<DocsDestination>;
+export const DocsDestination: Schema.Schema<DocsDestination> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      document: Schema.optional(Schema.String),
+      exportUri: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DocsDestination",
+}) as any as Schema.Schema<DocsDestination>;
 
 export interface Transcript {
   /** Output only. Where the Google Docs transcript is saved. */
@@ -171,16 +239,23 @@ export interface Transcript {
   /** Output only. Resource name of the transcript. Format: `conferenceRecords/{conference_record}/transcripts/{transcript}`, where `{transcript}` is a 1:1 mapping to each unique transcription session of the conference. */
   name?: string;
   /** Output only. Current state. */
-  state?: "STATE_UNSPECIFIED" | "STARTED" | "ENDED" | "FILE_GENERATED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STARTED"
+    | "ENDED"
+    | "FILE_GENERATED"
+    | (string & {});
 }
 
-export const Transcript: Schema.Schema<Transcript> = Schema.suspend(() => Schema.Struct({
-  docsDestination: Schema.optional(DocsDestination),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "Transcript" }) as any as Schema.Schema<Transcript>;
+export const Transcript: Schema.Schema<Transcript> = Schema.suspend(() =>
+  Schema.Struct({
+    docsDestination: Schema.optional(DocsDestination),
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Transcript" }) as any as Schema.Schema<Transcript>;
 
 export interface ListTranscriptsResponse {
   /** Token to be circulated back for further List call if current List doesn't include all the transcripts. Unset if all transcripts are returned. */
@@ -189,19 +264,26 @@ export interface ListTranscriptsResponse {
   transcripts?: Array<Transcript>;
 }
 
-export const ListTranscriptsResponse: Schema.Schema<ListTranscriptsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  transcripts: Schema.optional(Schema.Array(Transcript)),
-})).annotate({ identifier: "ListTranscriptsResponse" }) as any as Schema.Schema<ListTranscriptsResponse>;
+export const ListTranscriptsResponse: Schema.Schema<ListTranscriptsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      transcripts: Schema.optional(Schema.Array(Transcript)),
+    }),
+  ).annotate({
+    identifier: "ListTranscriptsResponse",
+  }) as any as Schema.Schema<ListTranscriptsResponse>;
 
 export interface PhoneUser {
   /** Output only. Partially redacted user's phone number when calling. */
   displayName?: string;
 }
 
-export const PhoneUser: Schema.Schema<PhoneUser> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "PhoneUser" }) as any as Schema.Schema<PhoneUser>;
+export const PhoneUser: Schema.Schema<PhoneUser> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PhoneUser" }) as any as Schema.Schema<PhoneUser>;
 
 export interface SignedinUser {
   /** Output only. Unique ID for the user. Interoperable with Admin SDK API and People API. Format: `users/{user}` */
@@ -210,28 +292,45 @@ export interface SignedinUser {
   displayName?: string;
 }
 
-export const SignedinUser: Schema.Schema<SignedinUser> = Schema.suspend(() => Schema.Struct({
-  user: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignedinUser" }) as any as Schema.Schema<SignedinUser>;
+export const SignedinUser: Schema.Schema<SignedinUser> = Schema.suspend(() =>
+  Schema.Struct({
+    user: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SignedinUser",
+}) as any as Schema.Schema<SignedinUser>;
 
 export interface SmartNotesConfig {
   /** Defines whether to automatically generate a summary and recap of the meeting for all invitees in the organization when someone with the privilege to enable smart notes joins the meeting. */
-  autoSmartNotesGeneration?: "AUTO_GENERATION_TYPE_UNSPECIFIED" | "ON" | "OFF" | (string & {});
+  autoSmartNotesGeneration?:
+    | "AUTO_GENERATION_TYPE_UNSPECIFIED"
+    | "ON"
+    | "OFF"
+    | (string & {});
 }
 
-export const SmartNotesConfig: Schema.Schema<SmartNotesConfig> = Schema.suspend(() => Schema.Struct({
-  autoSmartNotesGeneration: Schema.optional(Schema.String),
-})).annotate({ identifier: "SmartNotesConfig" }) as any as Schema.Schema<SmartNotesConfig>;
+export const SmartNotesConfig: Schema.Schema<SmartNotesConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      autoSmartNotesGeneration: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SmartNotesConfig",
+}) as any as Schema.Schema<SmartNotesConfig>;
 
 export interface AnonymousUser {
   /** Output only. User provided name when they join a conference anonymously. */
   displayName?: string;
 }
 
-export const AnonymousUser: Schema.Schema<AnonymousUser> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AnonymousUser" }) as any as Schema.Schema<AnonymousUser>;
+export const AnonymousUser: Schema.Schema<AnonymousUser> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AnonymousUser",
+}) as any as Schema.Schema<AnonymousUser>;
 
 export interface Participant {
   /** Output only. Resource name of the participant. Format: `conferenceRecords/{conference_record}/participants/{participant}` */
@@ -248,14 +347,16 @@ export interface Participant {
   phoneUser?: PhoneUser;
 }
 
-export const Participant: Schema.Schema<Participant> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  latestEndTime: Schema.optional(Schema.String),
-  anonymousUser: Schema.optional(AnonymousUser),
-  earliestStartTime: Schema.optional(Schema.String),
-  signedinUser: Schema.optional(SignedinUser),
-  phoneUser: Schema.optional(PhoneUser),
-})).annotate({ identifier: "Participant" }) as any as Schema.Schema<Participant>;
+export const Participant: Schema.Schema<Participant> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    latestEndTime: Schema.optional(Schema.String),
+    anonymousUser: Schema.optional(AnonymousUser),
+    earliestStartTime: Schema.optional(Schema.String),
+    signedinUser: Schema.optional(SignedinUser),
+    phoneUser: Schema.optional(PhoneUser),
+  }),
+).annotate({ identifier: "Participant" }) as any as Schema.Schema<Participant>;
 
 export interface ListParticipantsResponse {
   /** Token to be circulated back for further List call if current List doesn't include all the participants. Unset if all participants are returned. */
@@ -266,11 +367,16 @@ export interface ListParticipantsResponse {
   participants?: Array<Participant>;
 }
 
-export const ListParticipantsResponse: Schema.Schema<ListParticipantsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-  participants: Schema.optional(Schema.Array(Participant)),
-})).annotate({ identifier: "ListParticipantsResponse" }) as any as Schema.Schema<ListParticipantsResponse>;
+export const ListParticipantsResponse: Schema.Schema<ListParticipantsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+      participants: Schema.optional(Schema.Array(Participant)),
+    }),
+  ).annotate({
+    identifier: "ListParticipantsResponse",
+  }) as any as Schema.Schema<ListParticipantsResponse>;
 
 export interface TranscriptEntry {
   /** Output only. The transcribed text of the participant's voice, at maximum 10K words. Note that the limit is subject to change. */
@@ -287,23 +393,37 @@ export interface TranscriptEntry {
   endTime?: string;
 }
 
-export const TranscriptEntry: Schema.Schema<TranscriptEntry> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  participant: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TranscriptEntry" }) as any as Schema.Schema<TranscriptEntry>;
+export const TranscriptEntry: Schema.Schema<TranscriptEntry> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      participant: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TranscriptEntry",
+}) as any as Schema.Schema<TranscriptEntry>;
 
 export interface TranscriptionConfig {
   /** Defines whether the content of a meeting is automatically transcribed when someone with the privilege to transcribe joins the meeting. */
-  autoTranscriptionGeneration?: "AUTO_GENERATION_TYPE_UNSPECIFIED" | "ON" | "OFF" | (string & {});
+  autoTranscriptionGeneration?:
+    | "AUTO_GENERATION_TYPE_UNSPECIFIED"
+    | "ON"
+    | "OFF"
+    | (string & {});
 }
 
-export const TranscriptionConfig: Schema.Schema<TranscriptionConfig> = Schema.suspend(() => Schema.Struct({
-  autoTranscriptionGeneration: Schema.optional(Schema.String),
-})).annotate({ identifier: "TranscriptionConfig" }) as any as Schema.Schema<TranscriptionConfig>;
+export const TranscriptionConfig: Schema.Schema<TranscriptionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoTranscriptionGeneration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TranscriptionConfig",
+  }) as any as Schema.Schema<TranscriptionConfig>;
 
 export interface ArtifactConfig {
   /** Configuration for auto-smart-notes. */
@@ -314,35 +434,55 @@ export interface ArtifactConfig {
   recordingConfig?: RecordingConfig;
 }
 
-export const ArtifactConfig: Schema.Schema<ArtifactConfig> = Schema.suspend(() => Schema.Struct({
-  smartNotesConfig: Schema.optional(SmartNotesConfig),
-  transcriptionConfig: Schema.optional(TranscriptionConfig),
-  recordingConfig: Schema.optional(RecordingConfig),
-})).annotate({ identifier: "ArtifactConfig" }) as any as Schema.Schema<ArtifactConfig>;
+export const ArtifactConfig: Schema.Schema<ArtifactConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      smartNotesConfig: Schema.optional(SmartNotesConfig),
+      transcriptionConfig: Schema.optional(TranscriptionConfig),
+      recordingConfig: Schema.optional(RecordingConfig),
+    }),
+).annotate({
+  identifier: "ArtifactConfig",
+}) as any as Schema.Schema<ArtifactConfig>;
 
 export interface SpaceConfig {
   /** When moderation.ON, these restrictions go into effect for the meeting. When moderation.OFF, will be reset to default ModerationRestrictions. */
   moderationRestrictions?: ModerationRestrictions;
   /** Defines the entry points that can be used to join meetings hosted in this meeting space. Default: EntryPointAccess.ALL */
-  entryPointAccess?: "ENTRY_POINT_ACCESS_UNSPECIFIED" | "ALL" | "CREATOR_APP_ONLY" | (string & {});
+  entryPointAccess?:
+    | "ENTRY_POINT_ACCESS_UNSPECIFIED"
+    | "ALL"
+    | "CREATOR_APP_ONLY"
+    | (string & {});
   /** Configuration pertaining to the auto-generated artifacts that the meeting supports. */
   artifactConfig?: ArtifactConfig;
   /** Whether attendance report is enabled for the meeting space. */
-  attendanceReportGenerationType?: "ATTENDANCE_REPORT_GENERATION_TYPE_UNSPECIFIED" | "GENERATE_REPORT" | "DO_NOT_GENERATE" | (string & {});
+  attendanceReportGenerationType?:
+    | "ATTENDANCE_REPORT_GENERATION_TYPE_UNSPECIFIED"
+    | "GENERATE_REPORT"
+    | "DO_NOT_GENERATE"
+    | (string & {});
   /** Access type of the meeting space that determines who can join without knocking. Default: The user's default access settings. Controlled by the user's admin for enterprise users or RESTRICTED. */
-  accessType?: "ACCESS_TYPE_UNSPECIFIED" | "OPEN" | "TRUSTED" | "RESTRICTED" | (string & {});
+  accessType?:
+    | "ACCESS_TYPE_UNSPECIFIED"
+    | "OPEN"
+    | "TRUSTED"
+    | "RESTRICTED"
+    | (string & {});
   /** The pre-configured moderation mode for the Meeting. Default: Controlled by the user's policies. */
   moderation?: "MODERATION_UNSPECIFIED" | "OFF" | "ON" | (string & {});
 }
 
-export const SpaceConfig: Schema.Schema<SpaceConfig> = Schema.suspend(() => Schema.Struct({
-  moderationRestrictions: Schema.optional(ModerationRestrictions),
-  entryPointAccess: Schema.optional(Schema.String),
-  artifactConfig: Schema.optional(ArtifactConfig),
-  attendanceReportGenerationType: Schema.optional(Schema.String),
-  accessType: Schema.optional(Schema.String),
-  moderation: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpaceConfig" }) as any as Schema.Schema<SpaceConfig>;
+export const SpaceConfig: Schema.Schema<SpaceConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    moderationRestrictions: Schema.optional(ModerationRestrictions),
+    entryPointAccess: Schema.optional(Schema.String),
+    artifactConfig: Schema.optional(ArtifactConfig),
+    attendanceReportGenerationType: Schema.optional(Schema.String),
+    accessType: Schema.optional(Schema.String),
+    moderation: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SpaceConfig" }) as any as Schema.Schema<SpaceConfig>;
 
 export interface ListParticipantSessionsResponse {
   /** Token to be circulated back for further List call if current List doesn't include all the participants. Unset if all participants are returned. */
@@ -351,25 +491,35 @@ export interface ListParticipantSessionsResponse {
   participantSessions?: Array<ParticipantSession>;
 }
 
-export const ListParticipantSessionsResponse: Schema.Schema<ListParticipantSessionsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  participantSessions: Schema.optional(Schema.Array(ParticipantSession)),
-})).annotate({ identifier: "ListParticipantSessionsResponse" }) as any as Schema.Schema<ListParticipantSessionsResponse>;
+export const ListParticipantSessionsResponse: Schema.Schema<ListParticipantSessionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      participantSessions: Schema.optional(Schema.Array(ParticipantSession)),
+    }),
+  ).annotate({
+    identifier: "ListParticipantSessionsResponse",
+  }) as any as Schema.Schema<ListParticipantSessionsResponse>;
 
 export interface ActiveConference {
   /** Output only. Reference to 'ConferenceRecord' resource. Format: `conferenceRecords/{conference_record}` where `{conference_record}` is a unique ID for each instance of a call within a space. */
   conferenceRecord?: string;
 }
 
-export const ActiveConference: Schema.Schema<ActiveConference> = Schema.suspend(() => Schema.Struct({
-  conferenceRecord: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActiveConference" }) as any as Schema.Schema<ActiveConference>;
+export const ActiveConference: Schema.Schema<ActiveConference> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      conferenceRecord: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ActiveConference",
+}) as any as Schema.Schema<ActiveConference>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Space {
   /** Active conference, if it exists. */
@@ -384,13 +534,15 @@ export interface Space {
   config?: SpaceConfig;
 }
 
-export const Space: Schema.Schema<Space> = Schema.suspend(() => Schema.Struct({
-  activeConference: Schema.optional(ActiveConference),
-  name: Schema.optional(Schema.String),
-  meetingUri: Schema.optional(Schema.String),
-  meetingCode: Schema.optional(Schema.String),
-  config: Schema.optional(SpaceConfig),
-})).annotate({ identifier: "Space" }) as any as Schema.Schema<Space>;
+export const Space: Schema.Schema<Space> = Schema.suspend(() =>
+  Schema.Struct({
+    activeConference: Schema.optional(ActiveConference),
+    name: Schema.optional(Schema.String),
+    meetingUri: Schema.optional(Schema.String),
+    meetingCode: Schema.optional(Schema.String),
+    config: Schema.optional(SpaceConfig),
+  }),
+).annotate({ identifier: "Space" }) as any as Schema.Schema<Space>;
 
 export interface ListTranscriptEntriesResponse {
   /** List of TranscriptEntries in one page. */
@@ -399,10 +551,15 @@ export interface ListTranscriptEntriesResponse {
   nextPageToken?: string;
 }
 
-export const ListTranscriptEntriesResponse: Schema.Schema<ListTranscriptEntriesResponse> = Schema.suspend(() => Schema.Struct({
-  transcriptEntries: Schema.optional(Schema.Array(TranscriptEntry)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTranscriptEntriesResponse" }) as any as Schema.Schema<ListTranscriptEntriesResponse>;
+export const ListTranscriptEntriesResponse: Schema.Schema<ListTranscriptEntriesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transcriptEntries: Schema.optional(Schema.Array(TranscriptEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTranscriptEntriesResponse",
+  }) as any as Schema.Schema<ListTranscriptEntriesResponse>;
 
 // ==========================================================================
 // Operations
@@ -426,7 +583,12 @@ export const GetConferenceRecordsResponse = ConferenceRecord;
 export type GetConferenceRecordsError = DefaultErrors;
 
 /** Gets a conference record by conference ID. */
-export const getConferenceRecords: API.OperationMethod<GetConferenceRecordsRequest, GetConferenceRecordsResponse, GetConferenceRecordsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConferenceRecords: API.OperationMethod<
+  GetConferenceRecordsRequest,
+  GetConferenceRecordsResponse,
+  GetConferenceRecordsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConferenceRecordsRequest,
   output: GetConferenceRecordsResponse,
   errors: [],
@@ -456,7 +618,12 @@ export const ListConferenceRecordsResponse_Op = ListConferenceRecordsResponse;
 export type ListConferenceRecordsError = DefaultErrors;
 
 /** Lists the conference records. By default, ordered by start time and in descending order. */
-export const listConferenceRecords: API.PaginatedOperationMethod<ListConferenceRecordsRequest, ListConferenceRecordsResponse_Op, ListConferenceRecordsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listConferenceRecords: API.PaginatedOperationMethod<
+  ListConferenceRecordsRequest,
+  ListConferenceRecordsResponse_Op,
+  ListConferenceRecordsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListConferenceRecordsRequest,
   output: ListConferenceRecordsResponse_Op,
   errors: [],
@@ -474,7 +641,10 @@ export interface GetConferenceRecordsParticipantsRequest {
 export const GetConferenceRecordsParticipantsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/participants/{participantsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/participants/{participantsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConferenceRecordsParticipantsRequest>;
 
@@ -484,7 +654,12 @@ export const GetConferenceRecordsParticipantsResponse = Participant;
 export type GetConferenceRecordsParticipantsError = DefaultErrors;
 
 /** Gets a participant by participant ID. */
-export const getConferenceRecordsParticipants: API.OperationMethod<GetConferenceRecordsParticipantsRequest, GetConferenceRecordsParticipantsResponse, GetConferenceRecordsParticipantsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConferenceRecordsParticipants: API.OperationMethod<
+  GetConferenceRecordsParticipantsRequest,
+  GetConferenceRecordsParticipantsResponse,
+  GetConferenceRecordsParticipantsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConferenceRecordsParticipantsRequest,
   output: GetConferenceRecordsParticipantsResponse,
   errors: [],
@@ -507,17 +682,27 @@ export const ListConferenceRecordsParticipantsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/participants" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/participants",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListConferenceRecordsParticipantsRequest>;
 
-export type ListConferenceRecordsParticipantsResponse = ListParticipantsResponse;
-export const ListConferenceRecordsParticipantsResponse = ListParticipantsResponse;
+export type ListConferenceRecordsParticipantsResponse =
+  ListParticipantsResponse;
+export const ListConferenceRecordsParticipantsResponse =
+  ListParticipantsResponse;
 
 export type ListConferenceRecordsParticipantsError = DefaultErrors;
 
 /** Lists the participants in a conference record. By default, ordered by join time and in descending order. This API supports `fields` as standard parameters like every other API. However, when the `fields` request parameter is omitted, this API defaults to `'participants/*, next_page_token'`. */
-export const listConferenceRecordsParticipants: API.PaginatedOperationMethod<ListConferenceRecordsParticipantsRequest, ListConferenceRecordsParticipantsResponse, ListConferenceRecordsParticipantsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listConferenceRecordsParticipants: API.PaginatedOperationMethod<
+  ListConferenceRecordsParticipantsRequest,
+  ListConferenceRecordsParticipantsResponse,
+  ListConferenceRecordsParticipantsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListConferenceRecordsParticipantsRequest,
   output: ListConferenceRecordsParticipantsResponse,
   errors: [],
@@ -532,20 +717,32 @@ export interface GetConferenceRecordsParticipantsParticipantSessionsRequest {
   name: string;
 }
 
-export const GetConferenceRecordsParticipantsParticipantSessionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/participants/{participantsId}/participantSessions/{participantSessionsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetConferenceRecordsParticipantsParticipantSessionsRequest>;
+export const GetConferenceRecordsParticipantsParticipantSessionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/conferenceRecords/{conferenceRecordsId}/participants/{participantsId}/participantSessions/{participantSessionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetConferenceRecordsParticipantsParticipantSessionsRequest>;
 
-export type GetConferenceRecordsParticipantsParticipantSessionsResponse = ParticipantSession;
-export const GetConferenceRecordsParticipantsParticipantSessionsResponse = ParticipantSession;
+export type GetConferenceRecordsParticipantsParticipantSessionsResponse =
+  ParticipantSession;
+export const GetConferenceRecordsParticipantsParticipantSessionsResponse =
+  ParticipantSession;
 
-export type GetConferenceRecordsParticipantsParticipantSessionsError = DefaultErrors;
+export type GetConferenceRecordsParticipantsParticipantSessionsError =
+  DefaultErrors;
 
 /** Gets a participant session by participant session ID. */
-export const getConferenceRecordsParticipantsParticipantSessions: API.OperationMethod<GetConferenceRecordsParticipantsParticipantSessionsRequest, GetConferenceRecordsParticipantsParticipantSessionsResponse, GetConferenceRecordsParticipantsParticipantSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConferenceRecordsParticipantsParticipantSessions: API.OperationMethod<
+  GetConferenceRecordsParticipantsParticipantSessionsRequest,
+  GetConferenceRecordsParticipantsParticipantSessionsResponse,
+  GetConferenceRecordsParticipantsParticipantSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConferenceRecordsParticipantsParticipantSessionsRequest,
   output: GetConferenceRecordsParticipantsParticipantSessionsResponse,
   errors: [],
@@ -562,23 +759,35 @@ export interface ListConferenceRecordsParticipantsParticipantSessionsRequest {
   parent: string;
 }
 
-export const ListConferenceRecordsParticipantsParticipantSessionsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/participants/{participantsId}/participantSessions" }),
-  svc,
-) as unknown as Schema.Schema<ListConferenceRecordsParticipantsParticipantSessionsRequest>;
+export const ListConferenceRecordsParticipantsParticipantSessionsRequest =
+  Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/conferenceRecords/{conferenceRecordsId}/participants/{participantsId}/participantSessions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListConferenceRecordsParticipantsParticipantSessionsRequest>;
 
-export type ListConferenceRecordsParticipantsParticipantSessionsResponse = ListParticipantSessionsResponse;
-export const ListConferenceRecordsParticipantsParticipantSessionsResponse = ListParticipantSessionsResponse;
+export type ListConferenceRecordsParticipantsParticipantSessionsResponse =
+  ListParticipantSessionsResponse;
+export const ListConferenceRecordsParticipantsParticipantSessionsResponse =
+  ListParticipantSessionsResponse;
 
-export type ListConferenceRecordsParticipantsParticipantSessionsError = DefaultErrors;
+export type ListConferenceRecordsParticipantsParticipantSessionsError =
+  DefaultErrors;
 
 /** Lists the participant sessions of a participant in a conference record. By default, ordered by join time and in descending order. This API supports `fields` as standard parameters like every other API. However, when the `fields` request parameter is omitted this API defaults to `'participantsessions/*, next_page_token'`. */
-export const listConferenceRecordsParticipantsParticipantSessions: API.PaginatedOperationMethod<ListConferenceRecordsParticipantsParticipantSessionsRequest, ListConferenceRecordsParticipantsParticipantSessionsResponse, ListConferenceRecordsParticipantsParticipantSessionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listConferenceRecordsParticipantsParticipantSessions: API.PaginatedOperationMethod<
+  ListConferenceRecordsParticipantsParticipantSessionsRequest,
+  ListConferenceRecordsParticipantsParticipantSessionsResponse,
+  ListConferenceRecordsParticipantsParticipantSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListConferenceRecordsParticipantsParticipantSessionsRequest,
   output: ListConferenceRecordsParticipantsParticipantSessionsResponse,
   errors: [],
@@ -596,7 +805,10 @@ export interface GetConferenceRecordsRecordingsRequest {
 export const GetConferenceRecordsRecordingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/recordings/{recordingsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/recordings/{recordingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConferenceRecordsRecordingsRequest>;
 
@@ -606,7 +818,12 @@ export const GetConferenceRecordsRecordingsResponse = Recording;
 export type GetConferenceRecordsRecordingsError = DefaultErrors;
 
 /** Gets a recording by recording ID. */
-export const getConferenceRecordsRecordings: API.OperationMethod<GetConferenceRecordsRecordingsRequest, GetConferenceRecordsRecordingsResponse, GetConferenceRecordsRecordingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConferenceRecordsRecordings: API.OperationMethod<
+  GetConferenceRecordsRecordingsRequest,
+  GetConferenceRecordsRecordingsResponse,
+  GetConferenceRecordsRecordingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConferenceRecordsRecordingsRequest,
   output: GetConferenceRecordsRecordingsResponse,
   errors: [],
@@ -626,7 +843,10 @@ export const ListConferenceRecordsRecordingsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/recordings" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/recordings",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListConferenceRecordsRecordingsRequest>;
 
@@ -636,7 +856,12 @@ export const ListConferenceRecordsRecordingsResponse = ListRecordingsResponse;
 export type ListConferenceRecordsRecordingsError = DefaultErrors;
 
 /** Lists the recording resources from the conference record. By default, ordered by start time and in ascending order. */
-export const listConferenceRecordsRecordings: API.PaginatedOperationMethod<ListConferenceRecordsRecordingsRequest, ListConferenceRecordsRecordingsResponse, ListConferenceRecordsRecordingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listConferenceRecordsRecordings: API.PaginatedOperationMethod<
+  ListConferenceRecordsRecordingsRequest,
+  ListConferenceRecordsRecordingsResponse,
+  ListConferenceRecordsRecordingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListConferenceRecordsRecordingsRequest,
   output: ListConferenceRecordsRecordingsResponse,
   errors: [],
@@ -654,7 +879,10 @@ export interface GetConferenceRecordsTranscriptsRequest {
 export const GetConferenceRecordsTranscriptsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts/{transcriptsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts/{transcriptsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConferenceRecordsTranscriptsRequest>;
 
@@ -664,7 +892,12 @@ export const GetConferenceRecordsTranscriptsResponse = Transcript;
 export type GetConferenceRecordsTranscriptsError = DefaultErrors;
 
 /** Gets a transcript by transcript ID. */
-export const getConferenceRecordsTranscripts: API.OperationMethod<GetConferenceRecordsTranscriptsRequest, GetConferenceRecordsTranscriptsResponse, GetConferenceRecordsTranscriptsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConferenceRecordsTranscripts: API.OperationMethod<
+  GetConferenceRecordsTranscriptsRequest,
+  GetConferenceRecordsTranscriptsResponse,
+  GetConferenceRecordsTranscriptsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConferenceRecordsTranscriptsRequest,
   output: GetConferenceRecordsTranscriptsResponse,
   errors: [],
@@ -684,7 +917,10 @@ export const ListConferenceRecordsTranscriptsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListConferenceRecordsTranscriptsRequest>;
 
@@ -694,7 +930,12 @@ export const ListConferenceRecordsTranscriptsResponse = ListTranscriptsResponse;
 export type ListConferenceRecordsTranscriptsError = DefaultErrors;
 
 /** Lists the set of transcripts from the conference record. By default, ordered by start time and in ascending order. */
-export const listConferenceRecordsTranscripts: API.PaginatedOperationMethod<ListConferenceRecordsTranscriptsRequest, ListConferenceRecordsTranscriptsResponse, ListConferenceRecordsTranscriptsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listConferenceRecordsTranscripts: API.PaginatedOperationMethod<
+  ListConferenceRecordsTranscriptsRequest,
+  ListConferenceRecordsTranscriptsResponse,
+  ListConferenceRecordsTranscriptsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListConferenceRecordsTranscriptsRequest,
   output: ListConferenceRecordsTranscriptsResponse,
   errors: [],
@@ -712,7 +953,10 @@ export interface GetConferenceRecordsTranscriptsEntriesRequest {
 export const GetConferenceRecordsTranscriptsEntriesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts/{transcriptsId}/entries/{entriesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts/{transcriptsId}/entries/{entriesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConferenceRecordsTranscriptsEntriesRequest>;
 
@@ -722,7 +966,12 @@ export const GetConferenceRecordsTranscriptsEntriesResponse = TranscriptEntry;
 export type GetConferenceRecordsTranscriptsEntriesError = DefaultErrors;
 
 /** Gets a `TranscriptEntry` resource by entry ID. Note: The transcript entries returned by the Google Meet API might not match the transcription found in the Google Docs transcript file. This can occur when 1) we have interleaved speakers within milliseconds, or 2) the Google Docs transcript file is modified after generation. */
-export const getConferenceRecordsTranscriptsEntries: API.OperationMethod<GetConferenceRecordsTranscriptsEntriesRequest, GetConferenceRecordsTranscriptsEntriesResponse, GetConferenceRecordsTranscriptsEntriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConferenceRecordsTranscriptsEntries: API.OperationMethod<
+  GetConferenceRecordsTranscriptsEntriesRequest,
+  GetConferenceRecordsTranscriptsEntriesResponse,
+  GetConferenceRecordsTranscriptsEntriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConferenceRecordsTranscriptsEntriesRequest,
   output: GetConferenceRecordsTranscriptsEntriesResponse,
   errors: [],
@@ -742,17 +991,27 @@ export const ListConferenceRecordsTranscriptsEntriesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts/{transcriptsId}/entries" }),
+  T.Http({
+    method: "GET",
+    path: "v2/conferenceRecords/{conferenceRecordsId}/transcripts/{transcriptsId}/entries",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListConferenceRecordsTranscriptsEntriesRequest>;
 
-export type ListConferenceRecordsTranscriptsEntriesResponse = ListTranscriptEntriesResponse;
-export const ListConferenceRecordsTranscriptsEntriesResponse = ListTranscriptEntriesResponse;
+export type ListConferenceRecordsTranscriptsEntriesResponse =
+  ListTranscriptEntriesResponse;
+export const ListConferenceRecordsTranscriptsEntriesResponse =
+  ListTranscriptEntriesResponse;
 
 export type ListConferenceRecordsTranscriptsEntriesError = DefaultErrors;
 
 /** Lists the structured transcript entries per transcript. By default, ordered by start time and in ascending order. Note: The transcript entries returned by the Google Meet API might not match the transcription found in the Google Docs transcript file. This can occur when 1) we have interleaved speakers within milliseconds, or 2) the Google Docs transcript file is modified after generation. */
-export const listConferenceRecordsTranscriptsEntries: API.PaginatedOperationMethod<ListConferenceRecordsTranscriptsEntriesRequest, ListConferenceRecordsTranscriptsEntriesResponse, ListConferenceRecordsTranscriptsEntriesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listConferenceRecordsTranscriptsEntries: API.PaginatedOperationMethod<
+  ListConferenceRecordsTranscriptsEntriesRequest,
+  ListConferenceRecordsTranscriptsEntriesResponse,
+  ListConferenceRecordsTranscriptsEntriesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListConferenceRecordsTranscriptsEntriesRequest,
   output: ListConferenceRecordsTranscriptsEntriesResponse,
   errors: [],
@@ -780,7 +1039,12 @@ export const GetSpacesResponse = Space;
 export type GetSpacesError = DefaultErrors;
 
 /** Gets details about a meeting space. For an example, see [Get a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#get-meeting-space). */
-export const getSpaces: API.OperationMethod<GetSpacesRequest, GetSpacesResponse, GetSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSpaces: API.OperationMethod<
+  GetSpacesRequest,
+  GetSpacesResponse,
+  GetSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSpacesRequest,
   output: GetSpacesResponse,
   errors: [],
@@ -804,7 +1068,12 @@ export const CreateSpacesResponse = Space;
 export type CreateSpacesError = DefaultErrors;
 
 /** Creates a space. */
-export const createSpaces: API.OperationMethod<CreateSpacesRequest, CreateSpacesResponse, CreateSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSpaces: API.OperationMethod<
+  CreateSpacesRequest,
+  CreateSpacesResponse,
+  CreateSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSpacesRequest,
   output: CreateSpacesResponse,
   errors: [],
@@ -834,7 +1103,12 @@ export const PatchSpacesResponse = Space;
 export type PatchSpacesError = DefaultErrors;
 
 /** Updates details about a meeting space. For an example, see [Update a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#update-meeting-space). */
-export const patchSpaces: API.OperationMethod<PatchSpacesRequest, PatchSpacesResponse, PatchSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSpaces: API.OperationMethod<
+  PatchSpacesRequest,
+  PatchSpacesResponse,
+  PatchSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSpacesRequest,
   output: PatchSpacesResponse,
   errors: [],
@@ -851,7 +1125,11 @@ export const EndActiveConferenceSpacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EndActiveConferenceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/spaces/{spacesId}:endActiveConference", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/spaces/{spacesId}:endActiveConference",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EndActiveConferenceSpacesRequest>;
 
@@ -861,9 +1139,13 @@ export const EndActiveConferenceSpacesResponse = Empty;
 export type EndActiveConferenceSpacesError = DefaultErrors;
 
 /** Ends an active conference (if there's one). For an example, see [End active conference](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#end-active-conference). */
-export const endActiveConferenceSpaces: API.OperationMethod<EndActiveConferenceSpacesRequest, EndActiveConferenceSpacesResponse, EndActiveConferenceSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const endActiveConferenceSpaces: API.OperationMethod<
+  EndActiveConferenceSpacesRequest,
+  EndActiveConferenceSpacesResponse,
+  EndActiveConferenceSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EndActiveConferenceSpacesRequest,
   output: EndActiveConferenceSpacesResponse,
   errors: [],
 }));
-

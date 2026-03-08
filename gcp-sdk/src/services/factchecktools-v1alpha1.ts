@@ -30,10 +30,15 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor {
   imageUrl?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  imageUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      imageUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1Publisher {
   /** The name of this publisher. For instance, "Awesome Fact Checks". */
@@ -42,10 +47,15 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1Publisher {
   site?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1Publisher: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Publisher> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  site: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1Publisher" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Publisher>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1Publisher: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Publisher> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      site: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1Publisher",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Publisher>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview {
   /** The publisher of this claim review. */
@@ -62,14 +72,21 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview {
   title?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview> = Schema.suspend(() => Schema.Struct({
-  publisher: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1Publisher),
-  url: Schema.optional(Schema.String),
-  reviewDate: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  textualRating: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publisher: Schema.optional(
+        GoogleFactcheckingFactchecktoolsV1alpha1Publisher,
+      ),
+      url: Schema.optional(Schema.String),
+      reviewDate: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      textualRating: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1Claim {
   /** The claim text. For instance, "Crime has doubled in the last 2 years." */
@@ -82,27 +99,41 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1Claim {
   claimant?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1Claim: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Claim> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  claimDate: Schema.optional(Schema.String),
-  claimReview: Schema.optional(Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview)),
-  claimant: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1Claim" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Claim>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1Claim: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Claim> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      claimDate: Schema.optional(Schema.String),
+      claimReview: Schema.optional(
+        Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview),
+      ),
+      claimant: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1Claim",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1Claim>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult {
   /** A claim which matched the query. */
   claim?: GoogleFactcheckingFactchecktoolsV1alpha1Claim;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult> = Schema.suspend(() => Schema.Struct({
-  claim: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1Claim),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      claim: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1Claim),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult>;
 
-export interface GoogleProtobufEmpty {
-}
+export interface GoogleProtobufEmpty {}
 
-export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleProtobufEmpty" }) as any as Schema.Schema<GoogleProtobufEmpty>;
+export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleProtobufEmpty",
+  }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating {
   /** Corresponds to `ClaimReview.reviewRating.image`. */
@@ -119,14 +150,19 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating {
   bestRating?: number;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating> = Schema.suspend(() => Schema.Struct({
-  imageUrl: Schema.optional(Schema.String),
-  worstRating: Schema.optional(Schema.Number),
-  ratingExplanation: Schema.optional(Schema.String),
-  textualRating: Schema.optional(Schema.String),
-  ratingValue: Schema.optional(Schema.Number),
-  bestRating: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      imageUrl: Schema.optional(Schema.String),
+      worstRating: Schema.optional(Schema.Number),
+      ratingExplanation: Schema.optional(Schema.String),
+      textualRating: Schema.optional(Schema.String),
+      ratingValue: Schema.optional(Schema.Number),
+      bestRating: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor {
   /** Corresponds to `ClaimReview.itemReviewed.author.sameAs`. */
@@ -139,12 +175,17 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor {
   jobTitle?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor> = Schema.suspend(() => Schema.Struct({
-  sameAs: Schema.optional(Schema.String),
-  imageUrl: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  jobTitle: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sameAs: Schema.optional(Schema.String),
+      imageUrl: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      jobTitle: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup {
   /** This field is optional, and will default to the page URL. We provide this field to allow you the override the default value, but the only permitted override is the page URL plus an optional anchor link ("page jump"). Corresponds to `ClaimReview.url` */
@@ -165,16 +206,25 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup {
   claimAuthor?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  claimReviewed: Schema.optional(Schema.String),
-  claimLocation: Schema.optional(Schema.String),
-  claimFirstAppearance: Schema.optional(Schema.String),
-  rating: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating),
-  claimDate: Schema.optional(Schema.String),
-  claimAppearances: Schema.optional(Schema.Array(Schema.String)),
-  claimAuthor: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      claimReviewed: Schema.optional(Schema.String),
+      claimLocation: Schema.optional(Schema.String),
+      claimFirstAppearance: Schema.optional(Schema.String),
+      rating: Schema.optional(
+        GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating,
+      ),
+      claimDate: Schema.optional(Schema.String),
+      claimAppearances: Schema.optional(Schema.Array(Schema.String)),
+      claimAuthor: Schema.optional(
+        GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {
   /** The URL of the page associated with this `ClaimReview` markup. While every individual `ClaimReview` has its own URL field, semantically this is a page-level field, and each `ClaimReview` on this page will use this value unless individually overridden. Corresponds to `ClaimReview.url` */
@@ -191,14 +241,23 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {
   claimReviewMarkups?: Array<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup>;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage> = Schema.suspend(() => Schema.Struct({
-  pageUrl: Schema.optional(Schema.String),
-  claimReviewAuthor: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor),
-  versionId: Schema.optional(Schema.String),
-  publishDate: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  claimReviewMarkups: Schema.optional(Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup)),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageUrl: Schema.optional(Schema.String),
+      claimReviewAuthor: Schema.optional(
+        GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor,
+      ),
+      versionId: Schema.optional(Schema.String),
+      publishDate: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      claimReviewMarkups: Schema.optional(
+        Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse {
   /** The list of claims and all of their associated information. */
@@ -207,10 +266,18 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchR
   nextPageToken?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse> = Schema.suspend(() => Schema.Struct({
-  claims: Schema.optional(Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1Claim)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      claims: Schema.optional(
+        Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1Claim),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse {
   /** The result list of pages of `ClaimReview` markup. */
@@ -219,10 +286,20 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPa
   nextPageToken?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse> = Schema.suspend(() => Schema.Struct({
-  claimReviewMarkupPages: Schema.optional(Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      claimReviewMarkupPages: Schema.optional(
+        Schema.Array(
+          GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage,
+        ),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse>;
 
 export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse {
   /** The list of claims and all of their associated information. */
@@ -231,10 +308,20 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSe
   nextPageToken?: string;
 }
 
-export const GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse" }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse>;
+export const GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse: Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(
+        Schema.Array(
+          GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult,
+        ),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse",
+  }) as any as Schema.Schema<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse>;
 
 // ==========================================================================
 // Operations
@@ -259,9 +346,13 @@ export interface SearchClaimsRequest {
 
 export const SearchClaimsRequest = Schema.Struct({
   offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
-  reviewPublisherSiteFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("reviewPublisherSiteFilter")),
+  reviewPublisherSiteFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reviewPublisherSiteFilter"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   maxAgeDays: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAgeDays")),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -270,13 +361,20 @@ export const SearchClaimsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<SearchClaimsRequest>;
 
-export type SearchClaimsResponse = GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse;
-export const SearchClaimsResponse = GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse;
+export type SearchClaimsResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse;
+export const SearchClaimsResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse;
 
 export type SearchClaimsError = DefaultErrors;
 
 /** Search through fact-checked claims. */
-export const searchClaims: API.PaginatedOperationMethod<SearchClaimsRequest, SearchClaimsResponse, SearchClaimsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchClaims: API.PaginatedOperationMethod<
+  SearchClaimsRequest,
+  SearchClaimsResponse,
+  SearchClaimsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchClaimsRequest,
   output: SearchClaimsResponse,
   errors: [],
@@ -304,19 +402,28 @@ export const ImageSearchClaimsRequest = Schema.Struct({
   imageUri: Schema.optional(Schema.String).pipe(T.HttpQuery("imageUri")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha1/claims:imageSearch" }),
   svc,
 ) as unknown as Schema.Schema<ImageSearchClaimsRequest>;
 
-export type ImageSearchClaimsResponse = GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse;
-export const ImageSearchClaimsResponse = GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse;
+export type ImageSearchClaimsResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse;
+export const ImageSearchClaimsResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse;
 
 export type ImageSearchClaimsError = DefaultErrors;
 
 /** Search through fact-checked claims using an image as the query. */
-export const imageSearchClaims: API.PaginatedOperationMethod<ImageSearchClaimsRequest, ImageSearchClaimsResponse, ImageSearchClaimsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const imageSearchClaims: API.PaginatedOperationMethod<
+  ImageSearchClaimsRequest,
+  ImageSearchClaimsResponse,
+  ImageSearchClaimsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ImageSearchClaimsRequest,
   output: ImageSearchClaimsResponse,
   errors: [],
@@ -335,19 +442,28 @@ export interface UpdatePagesRequest {
 
 export const UpdatePagesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage,
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "PUT", path: "v1alpha1/pages/{pagesId}", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<UpdatePagesRequest>;
 
-export type UpdatePagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
-export const UpdatePagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+export type UpdatePagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+export const UpdatePagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
 
 export type UpdatePagesError = DefaultErrors;
 
 /** Update for all `ClaimReview` markup on a page Note that this is a full update. To retain the existing `ClaimReview` markup on a page, first perform a Get operation, then modify the returned markup, and finally call Update with the entire `ClaimReview` markup as the body. */
-export const updatePages: API.OperationMethod<UpdatePagesRequest, UpdatePagesResponse, UpdatePagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePages: API.OperationMethod<
+  UpdatePagesRequest,
+  UpdatePagesResponse,
+  UpdatePagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePagesRequest,
   output: UpdatePagesResponse,
   errors: [],
@@ -368,7 +484,9 @@ export interface ListPagesRequest {
 
 export const ListPagesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  organization: Schema.optional(Schema.String).pipe(T.HttpQuery("organization")),
+  organization: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("organization"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   url: Schema.optional(Schema.String).pipe(T.HttpQuery("url")),
   offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
@@ -377,13 +495,20 @@ export const ListPagesRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<ListPagesRequest>;
 
-export type ListPagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse;
-export const ListPagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse;
+export type ListPagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse;
+export const ListPagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse;
 
 export type ListPagesError = DefaultErrors;
 
 /** List the `ClaimReview` markup pages for a specific URL or for an organization. */
-export const listPages: API.PaginatedOperationMethod<ListPagesRequest, ListPagesResponse, ListPagesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPages: API.PaginatedOperationMethod<
+  ListPagesRequest,
+  ListPagesResponse,
+  ListPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPagesRequest,
   output: ListPagesResponse,
   errors: [],
@@ -399,19 +524,28 @@ export interface CreatePagesRequest {
 }
 
 export const CreatePagesRequest = Schema.Struct({
-  body: Schema.optional(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage,
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1alpha1/pages", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<CreatePagesRequest>;
 
-export type CreatePagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
-export const CreatePagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+export type CreatePagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+export const CreatePagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
 
 export type CreatePagesError = DefaultErrors;
 
 /** Create `ClaimReview` markup on a page. */
-export const createPages: API.OperationMethod<CreatePagesRequest, CreatePagesResponse, CreatePagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPages: API.OperationMethod<
+  CreatePagesRequest,
+  CreatePagesResponse,
+  CreatePagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePagesRequest,
   output: CreatePagesResponse,
   errors: [],
@@ -435,7 +569,12 @@ export const DeletePagesResponse = GoogleProtobufEmpty;
 export type DeletePagesError = DefaultErrors;
 
 /** Delete all `ClaimReview` markup on a page. */
-export const deletePages: API.OperationMethod<DeletePagesRequest, DeletePagesResponse, DeletePagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deletePages: API.OperationMethod<
+  DeletePagesRequest,
+  DeletePagesResponse,
+  DeletePagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeletePagesRequest,
   output: DeletePagesResponse,
   errors: [],
@@ -453,15 +592,21 @@ export const GetPagesRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<GetPagesRequest>;
 
-export type GetPagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
-export const GetPagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+export type GetPagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+export const GetPagesResponse =
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
 
 export type GetPagesError = DefaultErrors;
 
 /** Get all `ClaimReview` markup on a page. */
-export const getPages: API.OperationMethod<GetPagesRequest, GetPagesResponse, GetPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPages: API.OperationMethod<
+  GetPagesRequest,
+  GetPagesResponse,
+  GetPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPagesRequest,
   output: GetPagesResponse,
   errors: [],
 }));
-

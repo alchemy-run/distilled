@@ -46,18 +46,20 @@ export interface Address {
   fax?: string;
 }
 
-export const Address: Schema.Schema<Address> = Schema.suspend(() => Schema.Struct({
-  company: Schema.optional(Schema.String),
-  address2: Schema.optional(Schema.String),
-  contact: Schema.optional(Schema.String),
-  address1: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  city: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  zip: Schema.optional(Schema.String),
-  phone: Schema.optional(Schema.String),
-  fax: Schema.optional(Schema.String),
-})).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
+export const Address: Schema.Schema<Address> = Schema.suspend(() =>
+  Schema.Struct({
+    company: Schema.optional(Schema.String),
+    address2: Schema.optional(Schema.String),
+    contact: Schema.optional(Schema.String),
+    address1: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    city: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    zip: Schema.optional(Schema.String),
+    phone: Schema.optional(Schema.String),
+    fax: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
 
 export interface PlatformChildSite {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
@@ -68,26 +70,39 @@ export interface PlatformChildSite {
   domain?: string;
 }
 
-export const PlatformChildSite: Schema.Schema<PlatformChildSite> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  platformGroup: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlatformChildSite" }) as any as Schema.Schema<PlatformChildSite>;
+export const PlatformChildSite: Schema.Schema<PlatformChildSite> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      platformGroup: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PlatformChildSite",
+  }) as any as Schema.Schema<PlatformChildSite>;
 
 export interface Site {
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name?: string;
   /** Output only. State of a site. */
-  state?: "STATE_UNSPECIFIED" | "REQUIRES_REVIEW" | "GETTING_READY" | "READY" | "NEEDS_ATTENTION" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "REQUIRES_REVIEW"
+    | "GETTING_READY"
+    | "READY"
+    | "NEEDS_ATTENTION"
+    | (string & {});
   /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
   domain?: string;
 }
 
-export const Site: Schema.Schema<Site> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-})).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
+export const Site: Schema.Schema<Site> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    domain: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
 
 export interface TimeZone {
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
@@ -96,10 +111,12 @@ export interface TimeZone {
   id?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface Platform {
   /** Identifier. Resource name of a platform. Format: accounts/{account}/platforms/{platform} */
@@ -110,11 +127,13 @@ export interface Platform {
   defaultPlatformGroup?: string;
 }
 
-export const Platform: Schema.Schema<Platform> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  defaultPlatformGroup: Schema.optional(Schema.String),
-})).annotate({ identifier: "Platform" }) as any as Schema.Schema<Platform>;
+export const Platform: Schema.Schema<Platform> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    defaultPlatformGroup: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Platform" }) as any as Schema.Schema<Platform>;
 
 export interface ListPlatformChildSitesResponse {
   /** The platform child sites returned in this list response. */
@@ -123,19 +142,26 @@ export interface ListPlatformChildSitesResponse {
   nextPageToken?: string;
 }
 
-export const ListPlatformChildSitesResponse: Schema.Schema<ListPlatformChildSitesResponse> = Schema.suspend(() => Schema.Struct({
-  platformChildSites: Schema.optional(Schema.Array(PlatformChildSite)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPlatformChildSitesResponse" }) as any as Schema.Schema<ListPlatformChildSitesResponse>;
+export const ListPlatformChildSitesResponse: Schema.Schema<ListPlatformChildSitesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      platformChildSites: Schema.optional(Schema.Array(PlatformChildSite)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPlatformChildSitesResponse",
+  }) as any as Schema.Schema<ListPlatformChildSitesResponse>;
 
 export interface Decimal {
   /** The decimal value, as a string. The string representation consists of an optional sign, `+` (`U+002B`) or `-` (`U+002D`), followed by a sequence of zero or more decimal digits ("the integer"), optionally followed by a fraction, optionally followed by an exponent. An empty string **should** be interpreted as `0`. The fraction consists of a decimal point followed by zero or more decimal digits. The string must contain at least one digit in either the integer or the fraction. The number formed by the sign, the integer and the fraction is referred to as the significand. The exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`) followed by one or more decimal digits. Services **should** normalize decimal values before storing them by: - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`). - Replacing a zero-length integer value with `0` (`.5` -> `0.5`). - Coercing the exponent character to upper-case, with explicit sign (`2.5e8` -> `2.5E+8`). - Removing an explicitly-provided zero exponent (`2.5E0` -> `2.5`). Services **may** perform additional normalization based on its own needs and the internal decimal implementation selected, such as shifting the decimal point and exponent value together (example: `2.5E-1` <-> `0.25`). Additionally, services **may** preserve trailing zeroes in the fraction to indicate increased precision, but are not required to do so. Note that only the `.` character is supported to divide the integer and the fraction; `,` **should not** be supported regardless of locale. Additionally, thousand separators **should not** be supported. If a service does support them, values **must** be normalized. The ENBF grammar is: DecimalString = '' | [Sign] Significand [Exponent]; Sign = '+' | '-'; Significand = Digits '.' | [Digits] '.' Digits; Exponent = ('e' | 'E') [Sign] Digits; Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' }; Services **should** clearly document the range of supported values, the maximum supported precision (total number of digits), and, if applicable, the scale (number of digits after the decimal point), as well as how it behaves when receiving out-of-bounds values. Services **may** choose to accept values passed as input even when the value has a higher precision or scale than the service supports, and **should** round the value to fit the supported scale. Alternatively, the service **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC) if precision would be lost. Services **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC) if the service receives a value outside of the supported range. */
   value?: string;
 }
 
-export const Decimal: Schema.Schema<Decimal> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "Decimal" }) as any as Schema.Schema<Decimal>;
+export const Decimal: Schema.Schema<Decimal> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Decimal" }) as any as Schema.Schema<Decimal>;
 
 export interface PlatformGroup {
   /** Output only. The revenue share of the PlatformGroup, in millipercent (e.g. 15000 = 15%). */
@@ -146,11 +172,15 @@ export interface PlatformGroup {
   description?: string;
 }
 
-export const PlatformGroup: Schema.Schema<PlatformGroup> = Schema.suspend(() => Schema.Struct({
-  revshareMillipercent: Schema.optional(Decimal),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlatformGroup" }) as any as Schema.Schema<PlatformGroup>;
+export const PlatformGroup: Schema.Schema<PlatformGroup> = Schema.suspend(() =>
+  Schema.Struct({
+    revshareMillipercent: Schema.optional(Decimal),
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PlatformGroup",
+}) as any as Schema.Schema<PlatformGroup>;
 
 export interface ListPlatformGroupsResponse {
   /** The platform groups returned in this list response. */
@@ -159,16 +189,22 @@ export interface ListPlatformGroupsResponse {
   nextPageToken?: string;
 }
 
-export const ListPlatformGroupsResponse: Schema.Schema<ListPlatformGroupsResponse> = Schema.suspend(() => Schema.Struct({
-  platformGroups: Schema.optional(Schema.Array(PlatformGroup)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPlatformGroupsResponse" }) as any as Schema.Schema<ListPlatformGroupsResponse>;
+export const ListPlatformGroupsResponse: Schema.Schema<ListPlatformGroupsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      platformGroups: Schema.optional(Schema.Array(PlatformGroup)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPlatformGroupsResponse",
+  }) as any as Schema.Schema<ListPlatformGroupsResponse>;
 
-export interface RequestSiteReviewResponse {
-}
+export interface RequestSiteReviewResponse {}
 
-export const RequestSiteReviewResponse: Schema.Schema<RequestSiteReviewResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RequestSiteReviewResponse" }) as any as Schema.Schema<RequestSiteReviewResponse>;
+export const RequestSiteReviewResponse: Schema.Schema<RequestSiteReviewResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RequestSiteReviewResponse",
+  }) as any as Schema.Schema<RequestSiteReviewResponse>;
 
 export interface ListPlatformsResponse {
   /** The platforms returned in this list response. */
@@ -177,10 +213,15 @@ export interface ListPlatformsResponse {
   nextPageToken?: string;
 }
 
-export const ListPlatformsResponse: Schema.Schema<ListPlatformsResponse> = Schema.suspend(() => Schema.Struct({
-  platforms: Schema.optional(Schema.Array(Platform)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPlatformsResponse" }) as any as Schema.Schema<ListPlatformsResponse>;
+export const ListPlatformsResponse: Schema.Schema<ListPlatformsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      platforms: Schema.optional(Schema.Array(Platform)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPlatformsResponse",
+  }) as any as Schema.Schema<ListPlatformsResponse>;
 
 export interface ListSitesResponse {
   /** The sites returned in this list response. */
@@ -189,14 +230,24 @@ export interface ListSitesResponse {
   nextPageToken?: string;
 }
 
-export const ListSitesResponse: Schema.Schema<ListSitesResponse> = Schema.suspend(() => Schema.Struct({
-  sites: Schema.optional(Schema.Array(Site)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSitesResponse" }) as any as Schema.Schema<ListSitesResponse>;
+export const ListSitesResponse: Schema.Schema<ListSitesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sites: Schema.optional(Schema.Array(Site)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSitesResponse",
+  }) as any as Schema.Schema<ListSitesResponse>;
 
 export interface Account {
   /** Output only. Approval state of the account. */
-  state?: "STATE_UNSPECIFIED" | "UNCHECKED" | "APPROVED" | "DISAPPROVED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "UNCHECKED"
+    | "APPROVED"
+    | "DISAPPROVED"
+    | (string & {});
   /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
   name?: string;
   /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
@@ -211,15 +262,17 @@ export interface Account {
   createTime?: string;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  creationRequestId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  timeZone: Schema.optional(TimeZone),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    creationRequestId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    timeZone: Schema.optional(TimeZone),
+    createTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface ListAccountsResponse {
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
@@ -228,10 +281,15 @@ export interface ListAccountsResponse {
   accounts?: Array<Account>;
 }
 
-export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  accounts: Schema.optional(Schema.Array(Account)),
-})).annotate({ identifier: "ListAccountsResponse" }) as any as Schema.Schema<ListAccountsResponse>;
+export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      accounts: Schema.optional(Schema.Array(Account)),
+    }),
+  ).annotate({
+    identifier: "ListAccountsResponse",
+  }) as any as Schema.Schema<ListAccountsResponse>;
 
 export interface EventInfo {
   /** Required. The email address that is associated with the publisher when performing the event. */
@@ -240,52 +298,67 @@ export interface EventInfo {
   billingAddress?: Address;
 }
 
-export const EventInfo: Schema.Schema<EventInfo> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  billingAddress: Schema.optional(Address),
-})).annotate({ identifier: "EventInfo" }) as any as Schema.Schema<EventInfo>;
+export const EventInfo: Schema.Schema<EventInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    email: Schema.optional(Schema.String),
+    billingAddress: Schema.optional(Address),
+  }),
+).annotate({ identifier: "EventInfo" }) as any as Schema.Schema<EventInfo>;
 
 export interface Event {
   /** Required. Event type. */
-  eventType?: "EVENT_TYPE_UNSPECIFIED" | "LOG_IN_VIA_PLATFORM" | "SIGN_UP_VIA_PLATFORM" | (string & {});
+  eventType?:
+    | "EVENT_TYPE_UNSPECIFIED"
+    | "LOG_IN_VIA_PLATFORM"
+    | "SIGN_UP_VIA_PLATFORM"
+    | (string & {});
   /** Required. Information associated with the event. */
   eventInfo?: EventInfo;
   /** Required. Event timestamp. */
   eventTime?: string;
 }
 
-export const Event: Schema.Schema<Event> = Schema.suspend(() => Schema.Struct({
-  eventType: Schema.optional(Schema.String),
-  eventInfo: Schema.optional(EventInfo),
-  eventTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
+export const Event: Schema.Schema<Event> = Schema.suspend(() =>
+  Schema.Struct({
+    eventType: Schema.optional(Schema.String),
+    eventInfo: Schema.optional(EventInfo),
+    eventTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface LookupAccountResponse {
   /** The name of the Account Format: platforms/{platform}/accounts/{account_id} */
   name?: string;
 }
 
-export const LookupAccountResponse: Schema.Schema<LookupAccountResponse> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "LookupAccountResponse" }) as any as Schema.Schema<LookupAccountResponse>;
+export const LookupAccountResponse: Schema.Schema<LookupAccountResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LookupAccountResponse",
+  }) as any as Schema.Schema<LookupAccountResponse>;
 
-export interface CloseAccountResponse {
-}
+export interface CloseAccountResponse {}
 
-export const CloseAccountResponse: Schema.Schema<CloseAccountResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CloseAccountResponse" }) as any as Schema.Schema<CloseAccountResponse>;
+export const CloseAccountResponse: Schema.Schema<CloseAccountResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CloseAccountResponse",
+  }) as any as Schema.Schema<CloseAccountResponse>;
 
-export interface CloseAccountRequest {
-}
+export interface CloseAccountRequest {}
 
-export const CloseAccountRequest: Schema.Schema<CloseAccountRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CloseAccountRequest" }) as any as Schema.Schema<CloseAccountRequest>;
+export const CloseAccountRequest: Schema.Schema<CloseAccountRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CloseAccountRequest",
+  }) as any as Schema.Schema<CloseAccountRequest>;
 
 // ==========================================================================
 // Operations
@@ -302,7 +375,11 @@ export const CreatePlatformsAccountsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Account).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha/platforms/{platformsId}/accounts", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha/platforms/{platformsId}/accounts",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreatePlatformsAccountsRequest>;
 
@@ -312,7 +389,12 @@ export const CreatePlatformsAccountsResponse = Account;
 export type CreatePlatformsAccountsError = DefaultErrors;
 
 /** Creates a sub-account. */
-export const createPlatformsAccounts: API.OperationMethod<CreatePlatformsAccountsRequest, CreatePlatformsAccountsResponse, CreatePlatformsAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPlatformsAccounts: API.OperationMethod<
+  CreatePlatformsAccountsRequest,
+  CreatePlatformsAccountsResponse,
+  CreatePlatformsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePlatformsAccountsRequest,
   output: CreatePlatformsAccountsResponse,
   errors: [],
@@ -326,7 +408,10 @@ export interface GetPlatformsAccountsRequest {
 export const GetPlatformsAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPlatformsAccountsRequest>;
 
@@ -336,7 +421,12 @@ export const GetPlatformsAccountsResponse = Account;
 export type GetPlatformsAccountsError = DefaultErrors;
 
 /** Gets information about the selected sub-account. */
-export const getPlatformsAccounts: API.OperationMethod<GetPlatformsAccountsRequest, GetPlatformsAccountsResponse, GetPlatformsAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPlatformsAccounts: API.OperationMethod<
+  GetPlatformsAccountsRequest,
+  GetPlatformsAccountsResponse,
+  GetPlatformsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPlatformsAccountsRequest,
   output: GetPlatformsAccountsResponse,
   errors: [],
@@ -350,10 +440,15 @@ export interface LookupPlatformsAccountsRequest {
 }
 
 export const LookupPlatformsAccountsRequest = Schema.Struct({
-  creationRequestId: Schema.optional(Schema.String).pipe(T.HttpQuery("creationRequestId")),
+  creationRequestId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("creationRequestId"),
+  ),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/platforms/{platformsId}/accounts:lookup" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/platforms/{platformsId}/accounts:lookup",
+  }),
   svc,
 ) as unknown as Schema.Schema<LookupPlatformsAccountsRequest>;
 
@@ -363,7 +458,12 @@ export const LookupPlatformsAccountsResponse = LookupAccountResponse;
 export type LookupPlatformsAccountsError = DefaultErrors;
 
 /** Looks up information about a sub-account for a specified creation_request_id. If no account exists for the given creation_request_id, returns 404. */
-export const lookupPlatformsAccounts: API.OperationMethod<LookupPlatformsAccountsRequest, LookupPlatformsAccountsResponse, LookupPlatformsAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const lookupPlatformsAccounts: API.OperationMethod<
+  LookupPlatformsAccountsRequest,
+  LookupPlatformsAccountsResponse,
+  LookupPlatformsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LookupPlatformsAccountsRequest,
   output: LookupPlatformsAccountsResponse,
   errors: [],
@@ -393,7 +493,12 @@ export const ListPlatformsAccountsResponse = ListAccountsResponse;
 export type ListPlatformsAccountsError = DefaultErrors;
 
 /** Lists a partial view of sub-accounts for a specific parent account. */
-export const listPlatformsAccounts: API.PaginatedOperationMethod<ListPlatformsAccountsRequest, ListPlatformsAccountsResponse, ListPlatformsAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPlatformsAccounts: API.PaginatedOperationMethod<
+  ListPlatformsAccountsRequest,
+  ListPlatformsAccountsResponse,
+  ListPlatformsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPlatformsAccountsRequest,
   output: ListPlatformsAccountsResponse,
   errors: [],
@@ -414,7 +519,11 @@ export const ClosePlatformsAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CloseAccountRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}:close", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}:close",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ClosePlatformsAccountsRequest>;
 
@@ -424,7 +533,12 @@ export const ClosePlatformsAccountsResponse = CloseAccountResponse;
 export type ClosePlatformsAccountsError = DefaultErrors;
 
 /** Closes a sub-account. */
-export const closePlatformsAccounts: API.OperationMethod<ClosePlatformsAccountsRequest, ClosePlatformsAccountsResponse, ClosePlatformsAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const closePlatformsAccounts: API.OperationMethod<
+  ClosePlatformsAccountsRequest,
+  ClosePlatformsAccountsResponse,
+  ClosePlatformsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ClosePlatformsAccountsRequest,
   output: ClosePlatformsAccountsResponse,
   errors: [],
@@ -441,7 +555,11 @@ export const CreatePlatformsAccountsEventsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Event).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/events", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/events",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreatePlatformsAccountsEventsRequest>;
 
@@ -451,7 +569,12 @@ export const CreatePlatformsAccountsEventsResponse = Event;
 export type CreatePlatformsAccountsEventsError = DefaultErrors;
 
 /** Creates an account event. */
-export const createPlatformsAccountsEvents: API.OperationMethod<CreatePlatformsAccountsEventsRequest, CreatePlatformsAccountsEventsResponse, CreatePlatformsAccountsEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPlatformsAccountsEvents: API.OperationMethod<
+  CreatePlatformsAccountsEventsRequest,
+  CreatePlatformsAccountsEventsResponse,
+  CreatePlatformsAccountsEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePlatformsAccountsEventsRequest,
   output: CreatePlatformsAccountsEventsResponse,
   errors: [],
@@ -465,7 +588,10 @@ export interface GetPlatformsAccountsSitesRequest {
 export const GetPlatformsAccountsSitesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites/{sitesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites/{sitesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPlatformsAccountsSitesRequest>;
 
@@ -475,7 +601,12 @@ export const GetPlatformsAccountsSitesResponse = Site;
 export type GetPlatformsAccountsSitesError = DefaultErrors;
 
 /** Gets a site from a specified sub-account. */
-export const getPlatformsAccountsSites: API.OperationMethod<GetPlatformsAccountsSitesRequest, GetPlatformsAccountsSitesResponse, GetPlatformsAccountsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPlatformsAccountsSites: API.OperationMethod<
+  GetPlatformsAccountsSitesRequest,
+  GetPlatformsAccountsSitesResponse,
+  GetPlatformsAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPlatformsAccountsSitesRequest,
   output: GetPlatformsAccountsSitesResponse,
   errors: [],
@@ -489,7 +620,10 @@ export interface DeletePlatformsAccountsSitesRequest {
 export const DeletePlatformsAccountsSitesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites/{sitesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites/{sitesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeletePlatformsAccountsSitesRequest>;
 
@@ -499,7 +633,12 @@ export const DeletePlatformsAccountsSitesResponse = Empty;
 export type DeletePlatformsAccountsSitesError = DefaultErrors;
 
 /** Deletes a site from a specified account. */
-export const deletePlatformsAccountsSites: API.OperationMethod<DeletePlatformsAccountsSitesRequest, DeletePlatformsAccountsSitesResponse, DeletePlatformsAccountsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deletePlatformsAccountsSites: API.OperationMethod<
+  DeletePlatformsAccountsSitesRequest,
+  DeletePlatformsAccountsSitesResponse,
+  DeletePlatformsAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeletePlatformsAccountsSitesRequest,
   output: DeletePlatformsAccountsSitesResponse,
   errors: [],
@@ -519,7 +658,10 @@ export const ListPlatformsAccountsSitesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListPlatformsAccountsSitesRequest>;
 
@@ -529,7 +671,12 @@ export const ListPlatformsAccountsSitesResponse = ListSitesResponse;
 export type ListPlatformsAccountsSitesError = DefaultErrors;
 
 /** Lists sites for a specific account. */
-export const listPlatformsAccountsSites: API.PaginatedOperationMethod<ListPlatformsAccountsSitesRequest, ListPlatformsAccountsSitesResponse, ListPlatformsAccountsSitesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPlatformsAccountsSites: API.PaginatedOperationMethod<
+  ListPlatformsAccountsSitesRequest,
+  ListPlatformsAccountsSitesResponse,
+  ListPlatformsAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPlatformsAccountsSitesRequest,
   output: ListPlatformsAccountsSitesResponse,
   errors: [],
@@ -547,17 +694,28 @@ export interface RequestReviewPlatformsAccountsSitesRequest {
 export const RequestReviewPlatformsAccountsSitesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites/{sitesId}:requestReview", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites/{sitesId}:requestReview",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RequestReviewPlatformsAccountsSitesRequest>;
 
-export type RequestReviewPlatformsAccountsSitesResponse = RequestSiteReviewResponse;
-export const RequestReviewPlatformsAccountsSitesResponse = RequestSiteReviewResponse;
+export type RequestReviewPlatformsAccountsSitesResponse =
+  RequestSiteReviewResponse;
+export const RequestReviewPlatformsAccountsSitesResponse =
+  RequestSiteReviewResponse;
 
 export type RequestReviewPlatformsAccountsSitesError = DefaultErrors;
 
 /** Requests the review of a site. The site should be in REQUIRES_REVIEW or NEEDS_ATTENTION state. Note: Make sure you place an [ad tag](https://developers.google.com/adsense/platforms/direct/ad-tags) on your site before requesting a review. */
-export const requestReviewPlatformsAccountsSites: API.OperationMethod<RequestReviewPlatformsAccountsSitesRequest, RequestReviewPlatformsAccountsSitesResponse, RequestReviewPlatformsAccountsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const requestReviewPlatformsAccountsSites: API.OperationMethod<
+  RequestReviewPlatformsAccountsSitesRequest,
+  RequestReviewPlatformsAccountsSitesResponse,
+  RequestReviewPlatformsAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RequestReviewPlatformsAccountsSitesRequest,
   output: RequestReviewPlatformsAccountsSitesResponse,
   errors: [],
@@ -574,7 +732,11 @@ export const CreatePlatformsAccountsSitesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Site).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha/platforms/{platformsId}/accounts/{accountsId}/sites",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreatePlatformsAccountsSitesRequest>;
 
@@ -584,7 +746,12 @@ export const CreatePlatformsAccountsSitesResponse = Site;
 export type CreatePlatformsAccountsSitesError = DefaultErrors;
 
 /** Creates a site for a specified account. */
-export const createPlatformsAccountsSites: API.OperationMethod<CreatePlatformsAccountsSitesRequest, CreatePlatformsAccountsSitesResponse, CreatePlatformsAccountsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPlatformsAccountsSites: API.OperationMethod<
+  CreatePlatformsAccountsSitesRequest,
+  CreatePlatformsAccountsSitesResponse,
+  CreatePlatformsAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePlatformsAccountsSitesRequest,
   output: CreatePlatformsAccountsSitesResponse,
   errors: [],
@@ -598,7 +765,10 @@ export interface GetAccountsPlatformsRequest {
 export const GetAccountsPlatformsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsPlatformsRequest>;
 
@@ -608,7 +778,12 @@ export const GetAccountsPlatformsResponse = Platform;
 export type GetAccountsPlatformsError = DefaultErrors;
 
 /** Gets a platform. */
-export const getAccountsPlatforms: API.OperationMethod<GetAccountsPlatformsRequest, GetAccountsPlatformsResponse, GetAccountsPlatformsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsPlatforms: API.OperationMethod<
+  GetAccountsPlatformsRequest,
+  GetAccountsPlatformsResponse,
+  GetAccountsPlatformsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsPlatformsRequest,
   output: GetAccountsPlatformsResponse,
   errors: [],
@@ -638,7 +813,12 @@ export const ListAccountsPlatformsResponse = ListPlatformsResponse;
 export type ListAccountsPlatformsError = DefaultErrors;
 
 /** Lists platforms for a specified account. */
-export const listAccountsPlatforms: API.PaginatedOperationMethod<ListAccountsPlatformsRequest, ListAccountsPlatformsResponse, ListAccountsPlatformsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsPlatforms: API.PaginatedOperationMethod<
+  ListAccountsPlatformsRequest,
+  ListAccountsPlatformsResponse,
+  ListAccountsPlatformsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsPlatformsRequest,
   output: ListAccountsPlatformsResponse,
   errors: [],
@@ -662,7 +842,11 @@ export const PatchAccountsPlatformsGroupsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(PlatformGroup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/groups/{groupsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/groups/{groupsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsPlatformsGroupsRequest>;
 
@@ -672,7 +856,12 @@ export const PatchAccountsPlatformsGroupsResponse = PlatformGroup;
 export type PatchAccountsPlatformsGroupsError = DefaultErrors;
 
 /** Update a Platform Group. */
-export const patchAccountsPlatformsGroups: API.OperationMethod<PatchAccountsPlatformsGroupsRequest, PatchAccountsPlatformsGroupsResponse, PatchAccountsPlatformsGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsPlatformsGroups: API.OperationMethod<
+  PatchAccountsPlatformsGroupsRequest,
+  PatchAccountsPlatformsGroupsResponse,
+  PatchAccountsPlatformsGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsPlatformsGroupsRequest,
   output: PatchAccountsPlatformsGroupsResponse,
   errors: [],
@@ -686,7 +875,10 @@ export interface GetAccountsPlatformsGroupsRequest {
 export const GetAccountsPlatformsGroupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/groups/{groupsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/groups/{groupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsPlatformsGroupsRequest>;
 
@@ -696,7 +888,12 @@ export const GetAccountsPlatformsGroupsResponse = PlatformGroup;
 export type GetAccountsPlatformsGroupsError = DefaultErrors;
 
 /** Gets a Platform Group for a specified Platform and group. */
-export const getAccountsPlatformsGroups: API.OperationMethod<GetAccountsPlatformsGroupsRequest, GetAccountsPlatformsGroupsResponse, GetAccountsPlatformsGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsPlatformsGroups: API.OperationMethod<
+  GetAccountsPlatformsGroupsRequest,
+  GetAccountsPlatformsGroupsResponse,
+  GetAccountsPlatformsGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsPlatformsGroupsRequest,
   output: GetAccountsPlatformsGroupsResponse,
   errors: [],
@@ -716,7 +913,10 @@ export const ListAccountsPlatformsGroupsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/groups" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/groups",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsPlatformsGroupsRequest>;
 
@@ -726,7 +926,12 @@ export const ListAccountsPlatformsGroupsResponse = ListPlatformGroupsResponse;
 export type ListAccountsPlatformsGroupsError = DefaultErrors;
 
 /** Lists Platform Groups for a specified Platform. */
-export const listAccountsPlatformsGroups: API.PaginatedOperationMethod<ListAccountsPlatformsGroupsRequest, ListAccountsPlatformsGroupsResponse, ListAccountsPlatformsGroupsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsPlatformsGroups: API.PaginatedOperationMethod<
+  ListAccountsPlatformsGroupsRequest,
+  ListAccountsPlatformsGroupsResponse,
+  ListAccountsPlatformsGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsPlatformsGroupsRequest,
   output: ListAccountsPlatformsGroupsResponse,
   errors: [],
@@ -750,17 +955,27 @@ export const ListAccountsPlatformsChildAccountsSitesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/childAccounts/{childAccountsId}/sites" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/childAccounts/{childAccountsId}/sites",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsPlatformsChildAccountsSitesRequest>;
 
-export type ListAccountsPlatformsChildAccountsSitesResponse = ListPlatformChildSitesResponse;
-export const ListAccountsPlatformsChildAccountsSitesResponse = ListPlatformChildSitesResponse;
+export type ListAccountsPlatformsChildAccountsSitesResponse =
+  ListPlatformChildSitesResponse;
+export const ListAccountsPlatformsChildAccountsSitesResponse =
+  ListPlatformChildSitesResponse;
 
 export type ListAccountsPlatformsChildAccountsSitesError = DefaultErrors;
 
 /** Lists Platform Child Sites for a specified Platform Child Account. */
-export const listAccountsPlatformsChildAccountsSites: API.PaginatedOperationMethod<ListAccountsPlatformsChildAccountsSitesRequest, ListAccountsPlatformsChildAccountsSitesResponse, ListAccountsPlatformsChildAccountsSitesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsPlatformsChildAccountsSites: API.PaginatedOperationMethod<
+  ListAccountsPlatformsChildAccountsSitesRequest,
+  ListAccountsPlatformsChildAccountsSitesResponse,
+  ListAccountsPlatformsChildAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsPlatformsChildAccountsSitesRequest,
   output: ListAccountsPlatformsChildAccountsSitesResponse,
   errors: [],
@@ -778,7 +993,10 @@ export interface GetAccountsPlatformsChildAccountsSitesRequest {
 export const GetAccountsPlatformsChildAccountsSitesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/childAccounts/{childAccountsId}/sites/{sitesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/childAccounts/{childAccountsId}/sites/{sitesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsPlatformsChildAccountsSitesRequest>;
 
@@ -788,7 +1006,12 @@ export const GetAccountsPlatformsChildAccountsSitesResponse = PlatformChildSite;
 export type GetAccountsPlatformsChildAccountsSitesError = DefaultErrors;
 
 /** Gets a Platform Child Site for a specified Platform Child Account and site. */
-export const getAccountsPlatformsChildAccountsSites: API.OperationMethod<GetAccountsPlatformsChildAccountsSitesRequest, GetAccountsPlatformsChildAccountsSitesResponse, GetAccountsPlatformsChildAccountsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsPlatformsChildAccountsSites: API.OperationMethod<
+  GetAccountsPlatformsChildAccountsSitesRequest,
+  GetAccountsPlatformsChildAccountsSitesResponse,
+  GetAccountsPlatformsChildAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsPlatformsChildAccountsSitesRequest,
   output: GetAccountsPlatformsChildAccountsSitesResponse,
   errors: [],
@@ -808,19 +1031,29 @@ export const PatchAccountsPlatformsChildAccountsSitesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(PlatformChildSite).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/childAccounts/{childAccountsId}/sites/{sitesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha/accounts/{accountsId}/platforms/{platformsId}/childAccounts/{childAccountsId}/sites/{sitesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsPlatformsChildAccountsSitesRequest>;
 
-export type PatchAccountsPlatformsChildAccountsSitesResponse = PlatformChildSite;
-export const PatchAccountsPlatformsChildAccountsSitesResponse = PlatformChildSite;
+export type PatchAccountsPlatformsChildAccountsSitesResponse =
+  PlatformChildSite;
+export const PatchAccountsPlatformsChildAccountsSitesResponse =
+  PlatformChildSite;
 
 export type PatchAccountsPlatformsChildAccountsSitesError = DefaultErrors;
 
 /** Update a Platform Child Site. */
-export const patchAccountsPlatformsChildAccountsSites: API.OperationMethod<PatchAccountsPlatformsChildAccountsSitesRequest, PatchAccountsPlatformsChildAccountsSitesResponse, PatchAccountsPlatformsChildAccountsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsPlatformsChildAccountsSites: API.OperationMethod<
+  PatchAccountsPlatformsChildAccountsSitesRequest,
+  PatchAccountsPlatformsChildAccountsSitesResponse,
+  PatchAccountsPlatformsChildAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsPlatformsChildAccountsSitesRequest,
   output: PatchAccountsPlatformsChildAccountsSitesResponse,
   errors: [],
 }));
-

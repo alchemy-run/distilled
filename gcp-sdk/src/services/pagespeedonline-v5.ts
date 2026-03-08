@@ -30,19 +30,25 @@ export interface RuntimeError {
   code?: string;
 }
 
-export const RuntimeError: Schema.Schema<RuntimeError> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
-})).annotate({ identifier: "RuntimeError" }) as any as Schema.Schema<RuntimeError>;
+export const RuntimeError: Schema.Schema<RuntimeError> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "RuntimeError",
+}) as any as Schema.Schema<RuntimeError>;
 
 export interface Timing {
   /** The total duration of Lighthouse's run. */
   total?: number;
 }
 
-export const Timing: Schema.Schema<Timing> = Schema.suspend(() => Schema.Struct({
-  total: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Timing" }) as any as Schema.Schema<Timing>;
+export const Timing: Schema.Schema<Timing> = Schema.suspend(() =>
+  Schema.Struct({
+    total: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Timing" }) as any as Schema.Schema<Timing>;
 
 export interface AuditRefs {
   /** The category group that the audit belongs to (optional). */
@@ -57,13 +63,15 @@ export interface AuditRefs {
   relevantAudits?: Array<string>;
 }
 
-export const AuditRefs: Schema.Schema<AuditRefs> = Schema.suspend(() => Schema.Struct({
-  group: Schema.optional(Schema.String),
-  acronym: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  weight: Schema.optional(Schema.Number),
-  relevantAudits: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditRefs" }) as any as Schema.Schema<AuditRefs>;
+export const AuditRefs: Schema.Schema<AuditRefs> = Schema.suspend(() =>
+  Schema.Struct({
+    group: Schema.optional(Schema.String),
+    acronym: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    weight: Schema.optional(Schema.Number),
+    relevantAudits: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "AuditRefs" }) as any as Schema.Schema<AuditRefs>;
 
 export interface LighthouseCategoryV5 {
   /** The overall score of the category, the weighted average of all its audits. (The category's score, can be null.) */
@@ -80,14 +88,19 @@ export interface LighthouseCategoryV5 {
   auditRefs?: Array<AuditRefs>;
 }
 
-export const LighthouseCategoryV5: Schema.Schema<LighthouseCategoryV5> = Schema.suspend(() => Schema.Struct({
-  score: Schema.optional(Schema.Unknown),
-  description: Schema.optional(Schema.String),
-  manualDescription: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  auditRefs: Schema.optional(Schema.Array(AuditRefs)),
-})).annotate({ identifier: "LighthouseCategoryV5" }) as any as Schema.Schema<LighthouseCategoryV5>;
+export const LighthouseCategoryV5: Schema.Schema<LighthouseCategoryV5> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      score: Schema.optional(Schema.Unknown),
+      description: Schema.optional(Schema.String),
+      manualDescription: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      auditRefs: Schema.optional(Schema.Array(AuditRefs)),
+    }),
+  ).annotate({
+    identifier: "LighthouseCategoryV5",
+  }) as any as Schema.Schema<LighthouseCategoryV5>;
 
 export interface Categories {
   /** The Search-Engine-Optimization (SEO) category, containing all seo related audits. */
@@ -102,13 +115,15 @@ export interface Categories {
   pwa?: LighthouseCategoryV5;
 }
 
-export const Categories: Schema.Schema<Categories> = Schema.suspend(() => Schema.Struct({
-  seo: Schema.optional(LighthouseCategoryV5),
-  "best-practices": Schema.optional(LighthouseCategoryV5),
-  performance: Schema.optional(LighthouseCategoryV5),
-  accessibility: Schema.optional(LighthouseCategoryV5),
-  pwa: Schema.optional(LighthouseCategoryV5),
-})).annotate({ identifier: "Categories" }) as any as Schema.Schema<Categories>;
+export const Categories: Schema.Schema<Categories> = Schema.suspend(() =>
+  Schema.Struct({
+    seo: Schema.optional(LighthouseCategoryV5),
+    "best-practices": Schema.optional(LighthouseCategoryV5),
+    performance: Schema.optional(LighthouseCategoryV5),
+    accessibility: Schema.optional(LighthouseCategoryV5),
+    pwa: Schema.optional(LighthouseCategoryV5),
+  }),
+).annotate({ identifier: "Categories" }) as any as Schema.Schema<Categories>;
 
 export interface StackPack {
   /** The stack pack id. */
@@ -121,12 +136,14 @@ export interface StackPack {
   descriptions?: Record<string, string>;
 }
 
-export const StackPack: Schema.Schema<StackPack> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  iconDataURL: Schema.optional(Schema.String),
-  descriptions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "StackPack" }) as any as Schema.Schema<StackPack>;
+export const StackPack: Schema.Schema<StackPack> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    iconDataURL: Schema.optional(Schema.String),
+    descriptions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "StackPack" }) as any as Schema.Schema<StackPack>;
 
 export interface Environment {
   /** The version of libraries with which these results were generated. Ex: axe-core. */
@@ -139,12 +156,14 @@ export interface Environment {
   networkUserAgent?: string;
 }
 
-export const Environment: Schema.Schema<Environment> = Schema.suspend(() => Schema.Struct({
-  credits: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  hostUserAgent: Schema.optional(Schema.String),
-  benchmarkIndex: Schema.optional(Schema.Number),
-  networkUserAgent: Schema.optional(Schema.String),
-})).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
+export const Environment: Schema.Schema<Environment> = Schema.suspend(() =>
+  Schema.Struct({
+    credits: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    hostUserAgent: Schema.optional(Schema.String),
+    benchmarkIndex: Schema.optional(Schema.Number),
+    networkUserAgent: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
 
 export interface LhrEntity {
   /** Optional. An optional flag indicating if the entity is not recognized. */
@@ -161,14 +180,16 @@ export interface LhrEntity {
   origins?: Array<string>;
 }
 
-export const LhrEntity: Schema.Schema<LhrEntity> = Schema.suspend(() => Schema.Struct({
-  isUnrecognized: Schema.optional(Schema.Boolean),
-  homepage: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  isFirstParty: Schema.optional(Schema.Boolean),
-  origins: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "LhrEntity" }) as any as Schema.Schema<LhrEntity>;
+export const LhrEntity: Schema.Schema<LhrEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    isUnrecognized: Schema.optional(Schema.Boolean),
+    homepage: Schema.optional(Schema.String),
+    category: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    isFirstParty: Schema.optional(Schema.Boolean),
+    origins: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "LhrEntity" }) as any as Schema.Schema<LhrEntity>;
 
 export interface RendererFormattedStrings {
   /** Label for a row in a table that describes the network throttling conditions that were used during a Lighthouse run, if any. */
@@ -269,65 +290,72 @@ export interface RendererFormattedStrings {
   dropdownDarkTheme?: string;
 }
 
-export const RendererFormattedStrings: Schema.Schema<RendererFormattedStrings> = Schema.suspend(() => Schema.Struct({
-  runtimeSettingsNetworkThrottling: Schema.optional(Schema.String),
-  dropdownViewer: Schema.optional(Schema.String),
-  scorescaleLabel: Schema.optional(Schema.String),
-  runtimeSettingsTitle: Schema.optional(Schema.String),
-  errorMissingAuditInfo: Schema.optional(Schema.String),
-  runtimeSettingsUrl: Schema.optional(Schema.String),
-  dropdownSaveJSON: Schema.optional(Schema.String),
-  runtimeSettingsAxeVersion: Schema.optional(Schema.String),
-  runtimeDesktopEmulation: Schema.optional(Schema.String),
-  dropdownPrintSummary: Schema.optional(Schema.String),
-  varianceDisclaimer: Schema.optional(Schema.String),
-  runtimeUnknown: Schema.optional(Schema.String),
-  dropdownSaveGist: Schema.optional(Schema.String),
-  throttlingProvided: Schema.optional(Schema.String),
-  calculatorLink: Schema.optional(Schema.String),
-  auditGroupExpandTooltip: Schema.optional(Schema.String),
-  runtimeSettingsFetchTime: Schema.optional(Schema.String),
-  runtimeSettingsCPUThrottling: Schema.optional(Schema.String),
-  thirdPartyResourcesLabel: Schema.optional(Schema.String),
-  manualAuditsGroupTitle: Schema.optional(Schema.String),
-  runtimeNoEmulation: Schema.optional(Schema.String),
-  runtimeSettingsChannel: Schema.optional(Schema.String),
-  notApplicableAuditsGroupTitle: Schema.optional(Schema.String),
-  lsPerformanceCategoryDescription: Schema.optional(Schema.String),
-  viewTreemapLabel: Schema.optional(Schema.String),
-  dropdownPrintExpanded: Schema.optional(Schema.String),
-  warningAuditsGroupTitle: Schema.optional(Schema.String),
-  dropdownCopyJSON: Schema.optional(Schema.String),
-  labDataTitle: Schema.optional(Schema.String),
-  runtimeSettingsUA: Schema.optional(Schema.String),
-  runtimeSettingsUANetwork: Schema.optional(Schema.String),
-  opportunitySavingsColumnLabel: Schema.optional(Schema.String),
-  warningHeader: Schema.optional(Schema.String),
-  crcInitialNavigation: Schema.optional(Schema.String),
-  snippetCollapseButtonLabel: Schema.optional(Schema.String),
-  passedAuditsGroupTitle: Schema.optional(Schema.String),
-  toplevelWarningsMessage: Schema.optional(Schema.String),
-  footerIssue: Schema.optional(Schema.String),
-  snippetExpandButtonLabel: Schema.optional(Schema.String),
-  runtimeMobileEmulation: Schema.optional(Schema.String),
-  dropdownSaveHTML: Schema.optional(Schema.String),
-  opportunityResourceColumnLabel: Schema.optional(Schema.String),
-  runtimeSettingsDevice: Schema.optional(Schema.String),
-  crcLongestDurationLabel: Schema.optional(Schema.String),
-  runtimeSettingsBenchmark: Schema.optional(Schema.String),
-  showRelevantAudits: Schema.optional(Schema.String),
-  errorLabel: Schema.optional(Schema.String),
-  dropdownDarkTheme: Schema.optional(Schema.String),
-})).annotate({ identifier: "RendererFormattedStrings" }) as any as Schema.Schema<RendererFormattedStrings>;
+export const RendererFormattedStrings: Schema.Schema<RendererFormattedStrings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      runtimeSettingsNetworkThrottling: Schema.optional(Schema.String),
+      dropdownViewer: Schema.optional(Schema.String),
+      scorescaleLabel: Schema.optional(Schema.String),
+      runtimeSettingsTitle: Schema.optional(Schema.String),
+      errorMissingAuditInfo: Schema.optional(Schema.String),
+      runtimeSettingsUrl: Schema.optional(Schema.String),
+      dropdownSaveJSON: Schema.optional(Schema.String),
+      runtimeSettingsAxeVersion: Schema.optional(Schema.String),
+      runtimeDesktopEmulation: Schema.optional(Schema.String),
+      dropdownPrintSummary: Schema.optional(Schema.String),
+      varianceDisclaimer: Schema.optional(Schema.String),
+      runtimeUnknown: Schema.optional(Schema.String),
+      dropdownSaveGist: Schema.optional(Schema.String),
+      throttlingProvided: Schema.optional(Schema.String),
+      calculatorLink: Schema.optional(Schema.String),
+      auditGroupExpandTooltip: Schema.optional(Schema.String),
+      runtimeSettingsFetchTime: Schema.optional(Schema.String),
+      runtimeSettingsCPUThrottling: Schema.optional(Schema.String),
+      thirdPartyResourcesLabel: Schema.optional(Schema.String),
+      manualAuditsGroupTitle: Schema.optional(Schema.String),
+      runtimeNoEmulation: Schema.optional(Schema.String),
+      runtimeSettingsChannel: Schema.optional(Schema.String),
+      notApplicableAuditsGroupTitle: Schema.optional(Schema.String),
+      lsPerformanceCategoryDescription: Schema.optional(Schema.String),
+      viewTreemapLabel: Schema.optional(Schema.String),
+      dropdownPrintExpanded: Schema.optional(Schema.String),
+      warningAuditsGroupTitle: Schema.optional(Schema.String),
+      dropdownCopyJSON: Schema.optional(Schema.String),
+      labDataTitle: Schema.optional(Schema.String),
+      runtimeSettingsUA: Schema.optional(Schema.String),
+      runtimeSettingsUANetwork: Schema.optional(Schema.String),
+      opportunitySavingsColumnLabel: Schema.optional(Schema.String),
+      warningHeader: Schema.optional(Schema.String),
+      crcInitialNavigation: Schema.optional(Schema.String),
+      snippetCollapseButtonLabel: Schema.optional(Schema.String),
+      passedAuditsGroupTitle: Schema.optional(Schema.String),
+      toplevelWarningsMessage: Schema.optional(Schema.String),
+      footerIssue: Schema.optional(Schema.String),
+      snippetExpandButtonLabel: Schema.optional(Schema.String),
+      runtimeMobileEmulation: Schema.optional(Schema.String),
+      dropdownSaveHTML: Schema.optional(Schema.String),
+      opportunityResourceColumnLabel: Schema.optional(Schema.String),
+      runtimeSettingsDevice: Schema.optional(Schema.String),
+      crcLongestDurationLabel: Schema.optional(Schema.String),
+      runtimeSettingsBenchmark: Schema.optional(Schema.String),
+      showRelevantAudits: Schema.optional(Schema.String),
+      errorLabel: Schema.optional(Schema.String),
+      dropdownDarkTheme: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RendererFormattedStrings",
+  }) as any as Schema.Schema<RendererFormattedStrings>;
 
 export interface I18n {
   /** Internationalized strings that are formatted to the locale in configSettings. */
   rendererFormattedStrings?: RendererFormattedStrings;
 }
 
-export const I18n: Schema.Schema<I18n> = Schema.suspend(() => Schema.Struct({
-  rendererFormattedStrings: Schema.optional(RendererFormattedStrings),
-})).annotate({ identifier: "I18n" }) as any as Schema.Schema<I18n>;
+export const I18n: Schema.Schema<I18n> = Schema.suspend(() =>
+  Schema.Struct({
+    rendererFormattedStrings: Schema.optional(RendererFormattedStrings),
+  }),
+).annotate({ identifier: "I18n" }) as any as Schema.Schema<I18n>;
 
 export interface MetricSavings {
   /** Optional. Optional numeric value representing the audit's savings for the FCP metric. */
@@ -342,13 +370,17 @@ export interface MetricSavings {
   INP?: number;
 }
 
-export const MetricSavings: Schema.Schema<MetricSavings> = Schema.suspend(() => Schema.Struct({
-  FCP: Schema.optional(Schema.Number),
-  CLS: Schema.optional(Schema.Number),
-  LCP: Schema.optional(Schema.Number),
-  TBT: Schema.optional(Schema.Number),
-  INP: Schema.optional(Schema.Number),
-})).annotate({ identifier: "MetricSavings" }) as any as Schema.Schema<MetricSavings>;
+export const MetricSavings: Schema.Schema<MetricSavings> = Schema.suspend(() =>
+  Schema.Struct({
+    FCP: Schema.optional(Schema.Number),
+    CLS: Schema.optional(Schema.Number),
+    LCP: Schema.optional(Schema.Number),
+    TBT: Schema.optional(Schema.Number),
+    INP: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "MetricSavings",
+}) as any as Schema.Schema<MetricSavings>;
 
 export interface LighthouseAuditResultV5 {
   /** The enumerated score display mode. */
@@ -379,21 +411,26 @@ export interface LighthouseAuditResultV5 {
   numericValue?: number;
 }
 
-export const LighthouseAuditResultV5: Schema.Schema<LighthouseAuditResultV5> = Schema.suspend(() => Schema.Struct({
-  scoreDisplayMode: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  id: Schema.optional(Schema.String),
-  warnings: Schema.optional(Schema.Unknown),
-  score: Schema.optional(Schema.Unknown),
-  displayValue: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  explanation: Schema.optional(Schema.String),
-  numericUnit: Schema.optional(Schema.String),
-  metricSavings: Schema.optional(MetricSavings),
-  numericValue: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LighthouseAuditResultV5" }) as any as Schema.Schema<LighthouseAuditResultV5>;
+export const LighthouseAuditResultV5: Schema.Schema<LighthouseAuditResultV5> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      scoreDisplayMode: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      details: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      id: Schema.optional(Schema.String),
+      warnings: Schema.optional(Schema.Unknown),
+      score: Schema.optional(Schema.Unknown),
+      displayValue: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      explanation: Schema.optional(Schema.String),
+      numericUnit: Schema.optional(Schema.String),
+      metricSavings: Schema.optional(MetricSavings),
+      numericValue: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "LighthouseAuditResultV5",
+  }) as any as Schema.Schema<LighthouseAuditResultV5>;
 
 export interface CategoryGroupV5 {
   /** The human readable title of the group */
@@ -402,10 +439,15 @@ export interface CategoryGroupV5 {
   description?: string;
 }
 
-export const CategoryGroupV5: Schema.Schema<CategoryGroupV5> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "CategoryGroupV5" }) as any as Schema.Schema<CategoryGroupV5>;
+export const CategoryGroupV5: Schema.Schema<CategoryGroupV5> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CategoryGroupV5",
+}) as any as Schema.Schema<CategoryGroupV5>;
 
 export interface ConfigSettings {
   /** List of categories of audits the run should conduct. */
@@ -420,13 +462,18 @@ export interface ConfigSettings {
   emulatedFormFactor?: string;
 }
 
-export const ConfigSettings: Schema.Schema<ConfigSettings> = Schema.suspend(() => Schema.Struct({
-  onlyCategories: Schema.optional(Schema.Unknown),
-  locale: Schema.optional(Schema.String),
-  channel: Schema.optional(Schema.String),
-  formFactor: Schema.optional(Schema.String),
-  emulatedFormFactor: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConfigSettings" }) as any as Schema.Schema<ConfigSettings>;
+export const ConfigSettings: Schema.Schema<ConfigSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      onlyCategories: Schema.optional(Schema.Unknown),
+      locale: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+      formFactor: Schema.optional(Schema.String),
+      emulatedFormFactor: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ConfigSettings",
+}) as any as Schema.Schema<ConfigSettings>;
 
 export interface LighthouseResultV5 {
   /** Timing information for this LHR. */
@@ -469,27 +516,36 @@ export interface LighthouseResultV5 {
   runtimeError?: RuntimeError;
 }
 
-export const LighthouseResultV5: Schema.Schema<LighthouseResultV5> = Schema.suspend(() => Schema.Struct({
-  timing: Schema.optional(Timing),
-  mainDocumentUrl: Schema.optional(Schema.String),
-  categories: Schema.optional(Categories),
-  stackPacks: Schema.optional(Schema.Array(StackPack)),
-  fullPageScreenshot: Schema.optional(Schema.Unknown),
-  finalDisplayedUrl: Schema.optional(Schema.String),
-  environment: Schema.optional(Environment),
-  entities: Schema.optional(Schema.Array(LhrEntity)),
-  lighthouseVersion: Schema.optional(Schema.String),
-  fetchTime: Schema.optional(Schema.String),
-  requestedUrl: Schema.optional(Schema.String),
-  runWarnings: Schema.optional(Schema.Array(Schema.Unknown)),
-  i18n: Schema.optional(I18n),
-  userAgent: Schema.optional(Schema.String),
-  audits: Schema.optional(Schema.Record(Schema.String, LighthouseAuditResultV5)),
-  categoryGroups: Schema.optional(Schema.Record(Schema.String, CategoryGroupV5)),
-  configSettings: Schema.optional(ConfigSettings),
-  finalUrl: Schema.optional(Schema.String),
-  runtimeError: Schema.optional(RuntimeError),
-})).annotate({ identifier: "LighthouseResultV5" }) as any as Schema.Schema<LighthouseResultV5>;
+export const LighthouseResultV5: Schema.Schema<LighthouseResultV5> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timing: Schema.optional(Timing),
+      mainDocumentUrl: Schema.optional(Schema.String),
+      categories: Schema.optional(Categories),
+      stackPacks: Schema.optional(Schema.Array(StackPack)),
+      fullPageScreenshot: Schema.optional(Schema.Unknown),
+      finalDisplayedUrl: Schema.optional(Schema.String),
+      environment: Schema.optional(Environment),
+      entities: Schema.optional(Schema.Array(LhrEntity)),
+      lighthouseVersion: Schema.optional(Schema.String),
+      fetchTime: Schema.optional(Schema.String),
+      requestedUrl: Schema.optional(Schema.String),
+      runWarnings: Schema.optional(Schema.Array(Schema.Unknown)),
+      i18n: Schema.optional(I18n),
+      userAgent: Schema.optional(Schema.String),
+      audits: Schema.optional(
+        Schema.Record(Schema.String, LighthouseAuditResultV5),
+      ),
+      categoryGroups: Schema.optional(
+        Schema.Record(Schema.String, CategoryGroupV5),
+      ),
+      configSettings: Schema.optional(ConfigSettings),
+      finalUrl: Schema.optional(Schema.String),
+      runtimeError: Schema.optional(RuntimeError),
+    }),
+  ).annotate({
+    identifier: "LighthouseResultV5",
+  }) as any as Schema.Schema<LighthouseResultV5>;
 
 export interface Bucket {
   /** Lower bound for a bucket's range. */
@@ -500,11 +556,13 @@ export interface Bucket {
   max?: number;
 }
 
-export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() => Schema.Struct({
-  min: Schema.optional(Schema.Number),
-  proportion: Schema.optional(Schema.Number),
-  max: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
+export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() =>
+  Schema.Struct({
+    min: Schema.optional(Schema.Number),
+    proportion: Schema.optional(Schema.Number),
+    max: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
 
 export interface UserPageLoadMetricV5 {
   /** Identifies the form factor of the metric being collected. */
@@ -521,14 +579,19 @@ export interface UserPageLoadMetricV5 {
   category?: string;
 }
 
-export const UserPageLoadMetricV5: Schema.Schema<UserPageLoadMetricV5> = Schema.suspend(() => Schema.Struct({
-  formFactor: Schema.optional(Schema.String),
-  distributions: Schema.optional(Schema.Array(Bucket)),
-  median: Schema.optional(Schema.Number),
-  metricId: Schema.optional(Schema.String),
-  percentile: Schema.optional(Schema.Number),
-  category: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserPageLoadMetricV5" }) as any as Schema.Schema<UserPageLoadMetricV5>;
+export const UserPageLoadMetricV5: Schema.Schema<UserPageLoadMetricV5> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      formFactor: Schema.optional(Schema.String),
+      distributions: Schema.optional(Schema.Array(Bucket)),
+      median: Schema.optional(Schema.Number),
+      metricId: Schema.optional(Schema.String),
+      percentile: Schema.optional(Schema.Number),
+      category: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserPageLoadMetricV5",
+  }) as any as Schema.Schema<UserPageLoadMetricV5>;
 
 export interface PagespeedApiLoadingExperienceV5 {
   /** The map of . */
@@ -543,13 +606,20 @@ export interface PagespeedApiLoadingExperienceV5 {
   id?: string;
 }
 
-export const PagespeedApiLoadingExperienceV5: Schema.Schema<PagespeedApiLoadingExperienceV5> = Schema.suspend(() => Schema.Struct({
-  metrics: Schema.optional(Schema.Record(Schema.String, UserPageLoadMetricV5)),
-  overall_category: Schema.optional(Schema.String),
-  initial_url: Schema.optional(Schema.String),
-  origin_fallback: Schema.optional(Schema.Boolean),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "PagespeedApiLoadingExperienceV5" }) as any as Schema.Schema<PagespeedApiLoadingExperienceV5>;
+export const PagespeedApiLoadingExperienceV5: Schema.Schema<PagespeedApiLoadingExperienceV5> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      metrics: Schema.optional(
+        Schema.Record(Schema.String, UserPageLoadMetricV5),
+      ),
+      overall_category: Schema.optional(Schema.String),
+      initial_url: Schema.optional(Schema.String),
+      origin_fallback: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PagespeedApiLoadingExperienceV5",
+  }) as any as Schema.Schema<PagespeedApiLoadingExperienceV5>;
 
 export interface PagespeedVersion {
   /** The major version number of PageSpeed used to generate these results. */
@@ -558,10 +628,15 @@ export interface PagespeedVersion {
   minor?: string;
 }
 
-export const PagespeedVersion: Schema.Schema<PagespeedVersion> = Schema.suspend(() => Schema.Struct({
-  major: Schema.optional(Schema.String),
-  minor: Schema.optional(Schema.String),
-})).annotate({ identifier: "PagespeedVersion" }) as any as Schema.Schema<PagespeedVersion>;
+export const PagespeedVersion: Schema.Schema<PagespeedVersion> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      major: Schema.optional(Schema.String),
+      minor: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PagespeedVersion",
+}) as any as Schema.Schema<PagespeedVersion>;
 
 export interface PagespeedApiPagespeedResponseV5 {
   /** The UTC timestamp of this analysis. */
@@ -582,16 +657,21 @@ export interface PagespeedApiPagespeedResponseV5 {
   kind?: string;
 }
 
-export const PagespeedApiPagespeedResponseV5: Schema.Schema<PagespeedApiPagespeedResponseV5> = Schema.suspend(() => Schema.Struct({
-  analysisUTCTimestamp: Schema.optional(Schema.String),
-  lighthouseResult: Schema.optional(LighthouseResultV5),
-  captchaResult: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  originLoadingExperience: Schema.optional(PagespeedApiLoadingExperienceV5),
-  loadingExperience: Schema.optional(PagespeedApiLoadingExperienceV5),
-  version: Schema.optional(PagespeedVersion),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "PagespeedApiPagespeedResponseV5" }) as any as Schema.Schema<PagespeedApiPagespeedResponseV5>;
+export const PagespeedApiPagespeedResponseV5: Schema.Schema<PagespeedApiPagespeedResponseV5> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      analysisUTCTimestamp: Schema.optional(Schema.String),
+      lighthouseResult: Schema.optional(LighthouseResultV5),
+      captchaResult: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      originLoadingExperience: Schema.optional(PagespeedApiLoadingExperienceV5),
+      loadingExperience: Schema.optional(PagespeedApiLoadingExperienceV5),
+      version: Schema.optional(PagespeedVersion),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PagespeedApiPagespeedResponseV5",
+  }) as any as Schema.Schema<PagespeedApiPagespeedResponseV5>;
 
 // ==========================================================================
 // Operations
@@ -607,7 +687,14 @@ export interface RunpagespeedPagespeedapiRequest {
   /** The captcha token passed when filling out a captcha. */
   captchaToken?: string;
   /** A Lighthouse category to run; if none are given, only Performance category will be run */
-  category?: "CATEGORY_UNSPECIFIED" | "ACCESSIBILITY" | "BEST_PRACTICES" | "PERFORMANCE" | "PWA" | "SEO" | (string & {})[];
+  category?:
+    | "CATEGORY_UNSPECIFIED"
+    | "ACCESSIBILITY"
+    | "BEST_PRACTICES"
+    | "PERFORMANCE"
+    | "PWA"
+    | "SEO"
+    | (string & {})[];
   /** The locale used to localize formatted results */
   locale?: string;
   /** Campaign name for analytics. */
@@ -618,10 +705,16 @@ export const RunpagespeedPagespeedapiRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpQuery("url")),
   utm_source: Schema.optional(Schema.String).pipe(T.HttpQuery("utm_source")),
   strategy: Schema.optional(Schema.String).pipe(T.HttpQuery("strategy")),
-  captchaToken: Schema.optional(Schema.String).pipe(T.HttpQuery("captchaToken")),
-  category: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("category")),
+  captchaToken: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("captchaToken"),
+  ),
+  category: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("category"),
+  ),
   locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  utm_campaign: Schema.optional(Schema.String).pipe(T.HttpQuery("utm_campaign")),
+  utm_campaign: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("utm_campaign"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "pagespeedonline/v5/runPagespeed" }),
   svc,
@@ -633,9 +726,13 @@ export const RunpagespeedPagespeedapiResponse = PagespeedApiPagespeedResponseV5;
 export type RunpagespeedPagespeedapiError = DefaultErrors;
 
 /** Runs PageSpeed analysis on the page at the specified URL, and returns PageSpeed scores, a list of suggestions to make that page faster, and other information. */
-export const runpagespeedPagespeedapi: API.OperationMethod<RunpagespeedPagespeedapiRequest, RunpagespeedPagespeedapiResponse, RunpagespeedPagespeedapiError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const runpagespeedPagespeedapi: API.OperationMethod<
+  RunpagespeedPagespeedapiRequest,
+  RunpagespeedPagespeedapiResponse,
+  RunpagespeedPagespeedapiError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RunpagespeedPagespeedapiRequest,
   output: RunpagespeedPagespeedapiResponse,
   errors: [],
 }));
-

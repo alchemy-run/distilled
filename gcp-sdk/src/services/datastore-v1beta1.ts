@@ -30,10 +30,15 @@ export interface GoogleDatastoreAdminV1beta1EntityFilter {
   namespaceIds?: Array<string>;
 }
 
-export const GoogleDatastoreAdminV1beta1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter> = Schema.suspend(() => Schema.Struct({
-  kinds: Schema.optional(Schema.Array(Schema.String)),
-  namespaceIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1EntityFilter" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter>;
+export const GoogleDatastoreAdminV1beta1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kinds: Schema.optional(Schema.Array(Schema.String)),
+      namespaceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1EntityFilter",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter>;
 
 export interface GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
   /** Client-assigned labels. */
@@ -44,11 +49,16 @@ export interface GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
   outputUrlPrefix?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1ExportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest> = Schema.suspend(() => Schema.Struct({
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-  outputUrlPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesRequest" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest>;
+export const GoogleDatastoreAdminV1beta1ExportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+      outputUrlPrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesRequest",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -59,11 +69,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -78,13 +92,18 @@ export interface GoogleLongrunningOperation {
   response?: Record<string, unknown>;
 }
 
-export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "GoogleLongrunningOperation" }) as any as Schema.Schema<GoogleLongrunningOperation>;
+export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningOperation",
+  }) as any as Schema.Schema<GoogleLongrunningOperation>;
 
 export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
   /** Client-assigned labels. */
@@ -95,11 +114,16 @@ export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
   entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
 }
 
-export const GoogleDatastoreAdminV1beta1ImportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest> = Schema.suspend(() => Schema.Struct({
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  inputUrl: Schema.optional(Schema.String),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest>;
+export const GoogleDatastoreAdminV1beta1ImportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      inputUrl: Schema.optional(Schema.String),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest>;
 
 export interface GoogleDatastoreAdminV1beta1CommonMetadata {
   /** The time that work began on the operation. */
@@ -107,20 +131,38 @@ export interface GoogleDatastoreAdminV1beta1CommonMetadata {
   /** The time the operation ended, either successfully or otherwise. */
   endTime?: string;
   /** The type of the operation. Can be used as a filter in ListOperationsRequest. */
-  operationType?: "OPERATION_TYPE_UNSPECIFIED" | "EXPORT_ENTITIES" | "IMPORT_ENTITIES" | (string & {});
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "EXPORT_ENTITIES"
+    | "IMPORT_ENTITIES"
+    | (string & {});
   /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
   labels?: Record<string, string>;
   /** The current state of the Operation. */
-  state?: "STATE_UNSPECIFIED" | "INITIALIZING" | "PROCESSING" | "CANCELLING" | "FINALIZING" | "SUCCESSFUL" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "INITIALIZING"
+    | "PROCESSING"
+    | "CANCELLING"
+    | "FINALIZING"
+    | "SUCCESSFUL"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1beta1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1CommonMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata>;
+export const GoogleDatastoreAdminV1beta1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1CommonMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata>;
 
 export interface GoogleDatastoreAdminV1beta1Progress {
   /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
@@ -129,10 +171,15 @@ export interface GoogleDatastoreAdminV1beta1Progress {
   workEstimated?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1Progress: Schema.Schema<GoogleDatastoreAdminV1beta1Progress> = Schema.suspend(() => Schema.Struct({
-  workCompleted: Schema.optional(Schema.String),
-  workEstimated: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1Progress" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1Progress>;
+export const GoogleDatastoreAdminV1beta1Progress: Schema.Schema<GoogleDatastoreAdminV1beta1Progress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workCompleted: Schema.optional(Schema.String),
+      workEstimated: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1Progress",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1Progress>;
 
 export interface GoogleDatastoreAdminV1beta1ExportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -147,22 +194,32 @@ export interface GoogleDatastoreAdminV1beta1ExportEntitiesMetadata {
   outputUrlPrefix?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-  outputUrlPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1beta1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+      outputUrlPrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1beta1ExportEntitiesResponse {
   /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1beta1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
   outputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse> = Schema.suspend(() => Schema.Struct({
-  outputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesResponse" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse>;
+export const GoogleDatastoreAdminV1beta1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesResponse",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse>;
 
 export interface GoogleDatastoreAdminV1beta1ImportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -177,13 +234,18 @@ export interface GoogleDatastoreAdminV1beta1ImportEntitiesMetadata {
   inputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-  inputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1beta1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+      inputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1CommonMetadata {
   /** The time that work began on the operation. */
@@ -191,20 +253,40 @@ export interface GoogleDatastoreAdminV1CommonMetadata {
   /** The time the operation ended, either successfully or otherwise. */
   endTime?: string;
   /** The type of the operation. Can be used as a filter in ListOperationsRequest. */
-  operationType?: "OPERATION_TYPE_UNSPECIFIED" | "EXPORT_ENTITIES" | "IMPORT_ENTITIES" | "CREATE_INDEX" | "DELETE_INDEX" | (string & {});
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "EXPORT_ENTITIES"
+    | "IMPORT_ENTITIES"
+    | "CREATE_INDEX"
+    | "DELETE_INDEX"
+    | (string & {});
   /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
   labels?: Record<string, string>;
   /** The current state of the Operation. */
-  state?: "STATE_UNSPECIFIED" | "INITIALIZING" | "PROCESSING" | "CANCELLING" | "FINALIZING" | "SUCCESSFUL" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "INITIALIZING"
+    | "PROCESSING"
+    | "CANCELLING"
+    | "FINALIZING"
+    | "SUCCESSFUL"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1CommonMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1CommonMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1CommonMetadata>;
+export const GoogleDatastoreAdminV1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1CommonMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1CommonMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1CommonMetadata>;
 
 export interface GoogleDatastoreAdminV1Progress {
   /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
@@ -213,10 +295,15 @@ export interface GoogleDatastoreAdminV1Progress {
   workEstimated?: string;
 }
 
-export const GoogleDatastoreAdminV1Progress: Schema.Schema<GoogleDatastoreAdminV1Progress> = Schema.suspend(() => Schema.Struct({
-  workCompleted: Schema.optional(Schema.String),
-  workEstimated: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1Progress" }) as any as Schema.Schema<GoogleDatastoreAdminV1Progress>;
+export const GoogleDatastoreAdminV1Progress: Schema.Schema<GoogleDatastoreAdminV1Progress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workCompleted: Schema.optional(Schema.String),
+      workEstimated: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1Progress",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1Progress>;
 
 export interface GoogleDatastoreAdminV1EntityFilter {
   /** If empty, then this represents all kinds. */
@@ -225,10 +312,15 @@ export interface GoogleDatastoreAdminV1EntityFilter {
   namespaceIds?: Array<string>;
 }
 
-export const GoogleDatastoreAdminV1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1EntityFilter> = Schema.suspend(() => Schema.Struct({
-  kinds: Schema.optional(Schema.Array(Schema.String)),
-  namespaceIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleDatastoreAdminV1EntityFilter" }) as any as Schema.Schema<GoogleDatastoreAdminV1EntityFilter>;
+export const GoogleDatastoreAdminV1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1EntityFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kinds: Schema.optional(Schema.Array(Schema.String)),
+      namespaceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1EntityFilter",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1EntityFilter>;
 
 export interface GoogleDatastoreAdminV1ExportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -243,22 +335,32 @@ export interface GoogleDatastoreAdminV1ExportEntitiesMetadata {
   outputUrlPrefix?: string;
 }
 
-export const GoogleDatastoreAdminV1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
-  outputUrlPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1ExportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
+      outputUrlPrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1ExportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1ExportEntitiesResponse {
   /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
   outputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse> = Schema.suspend(() => Schema.Struct({
-  outputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1ExportEntitiesResponse" }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse>;
+export const GoogleDatastoreAdminV1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1ExportEntitiesResponse",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse>;
 
 export interface GoogleDatastoreAdminV1ImportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -273,13 +375,18 @@ export interface GoogleDatastoreAdminV1ImportEntitiesMetadata {
   inputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
-  inputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1ImportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
+      inputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1ImportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1IndexOperationMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -290,65 +397,137 @@ export interface GoogleDatastoreAdminV1IndexOperationMetadata {
   indexId?: string;
 }
 
-export const GoogleDatastoreAdminV1IndexOperationMetadata: Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-  indexId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1IndexOperationMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata>;
+export const GoogleDatastoreAdminV1IndexOperationMetadata: Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
+      indexId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1IndexOperationMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata>;
 
 export interface GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata {
   /** The current state of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
-  migrationState?: "MIGRATION_STATE_UNSPECIFIED" | "RUNNING" | "PAUSED" | "COMPLETE" | (string & {});
+  migrationState?:
+    | "MIGRATION_STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "PAUSED"
+    | "COMPLETE"
+    | (string & {});
   /** The current step of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
-  migrationStep?: "MIGRATION_STEP_UNSPECIFIED" | "PREPARE" | "START" | "APPLY_WRITES_SYNCHRONOUSLY" | "COPY_AND_VERIFY" | "REDIRECT_EVENTUALLY_CONSISTENT_READS" | "REDIRECT_STRONGLY_CONSISTENT_READS" | "REDIRECT_WRITES" | (string & {});
+  migrationStep?:
+    | "MIGRATION_STEP_UNSPECIFIED"
+    | "PREPARE"
+    | "START"
+    | "APPLY_WRITES_SYNCHRONOUSLY"
+    | "COPY_AND_VERIFY"
+    | "REDIRECT_EVENTUALLY_CONSISTENT_READS"
+    | "REDIRECT_STRONGLY_CONSISTENT_READS"
+    | "REDIRECT_WRITES"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata: Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata> = Schema.suspend(() => Schema.Struct({
-  migrationState: Schema.optional(Schema.String),
-  migrationStep: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata>;
+export const GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata: Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationState: Schema.optional(Schema.String),
+      migrationStep: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata>;
 
 export interface GoogleDatastoreAdminV1PrepareStepDetails {
   /** The concurrency mode this database will use when it reaches the `REDIRECT_WRITES` step. */
-  concurrencyMode?: "CONCURRENCY_MODE_UNSPECIFIED" | "PESSIMISTIC" | "OPTIMISTIC" | "OPTIMISTIC_WITH_ENTITY_GROUPS" | (string & {});
+  concurrencyMode?:
+    | "CONCURRENCY_MODE_UNSPECIFIED"
+    | "PESSIMISTIC"
+    | "OPTIMISTIC"
+    | "OPTIMISTIC_WITH_ENTITY_GROUPS"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1PrepareStepDetails: Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails> = Schema.suspend(() => Schema.Struct({
-  concurrencyMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1PrepareStepDetails" }) as any as Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails>;
+export const GoogleDatastoreAdminV1PrepareStepDetails: Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      concurrencyMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1PrepareStepDetails",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails>;
 
 export interface GoogleDatastoreAdminV1RedirectWritesStepDetails {
   /** The concurrency mode for this database. */
-  concurrencyMode?: "CONCURRENCY_MODE_UNSPECIFIED" | "PESSIMISTIC" | "OPTIMISTIC" | "OPTIMISTIC_WITH_ENTITY_GROUPS" | (string & {});
+  concurrencyMode?:
+    | "CONCURRENCY_MODE_UNSPECIFIED"
+    | "PESSIMISTIC"
+    | "OPTIMISTIC"
+    | "OPTIMISTIC_WITH_ENTITY_GROUPS"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1RedirectWritesStepDetails: Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails> = Schema.suspend(() => Schema.Struct({
-  concurrencyMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1RedirectWritesStepDetails" }) as any as Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails>;
+export const GoogleDatastoreAdminV1RedirectWritesStepDetails: Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      concurrencyMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1RedirectWritesStepDetails",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails>;
 
 export interface GoogleDatastoreAdminV1MigrationProgressEvent {
   /** The step that is starting. An event with step set to `START` indicates that the migration has been reverted back to the initial pre-migration state. */
-  step?: "MIGRATION_STEP_UNSPECIFIED" | "PREPARE" | "START" | "APPLY_WRITES_SYNCHRONOUSLY" | "COPY_AND_VERIFY" | "REDIRECT_EVENTUALLY_CONSISTENT_READS" | "REDIRECT_STRONGLY_CONSISTENT_READS" | "REDIRECT_WRITES" | (string & {});
+  step?:
+    | "MIGRATION_STEP_UNSPECIFIED"
+    | "PREPARE"
+    | "START"
+    | "APPLY_WRITES_SYNCHRONOUSLY"
+    | "COPY_AND_VERIFY"
+    | "REDIRECT_EVENTUALLY_CONSISTENT_READS"
+    | "REDIRECT_STRONGLY_CONSISTENT_READS"
+    | "REDIRECT_WRITES"
+    | (string & {});
   /** Details for the `PREPARE` step. */
   prepareStepDetails?: GoogleDatastoreAdminV1PrepareStepDetails;
   /** Details for the `REDIRECT_WRITES` step. */
   redirectWritesStepDetails?: GoogleDatastoreAdminV1RedirectWritesStepDetails;
 }
 
-export const GoogleDatastoreAdminV1MigrationProgressEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent> = Schema.suspend(() => Schema.Struct({
-  step: Schema.optional(Schema.String),
-  prepareStepDetails: Schema.optional(GoogleDatastoreAdminV1PrepareStepDetails),
-  redirectWritesStepDetails: Schema.optional(GoogleDatastoreAdminV1RedirectWritesStepDetails),
-})).annotate({ identifier: "GoogleDatastoreAdminV1MigrationProgressEvent" }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent>;
+export const GoogleDatastoreAdminV1MigrationProgressEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      step: Schema.optional(Schema.String),
+      prepareStepDetails: Schema.optional(
+        GoogleDatastoreAdminV1PrepareStepDetails,
+      ),
+      redirectWritesStepDetails: Schema.optional(
+        GoogleDatastoreAdminV1RedirectWritesStepDetails,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1MigrationProgressEvent",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent>;
 
 export interface GoogleDatastoreAdminV1MigrationStateEvent {
   /** The new state of the migration. */
-  state?: "MIGRATION_STATE_UNSPECIFIED" | "RUNNING" | "PAUSED" | "COMPLETE" | (string & {});
+  state?:
+    | "MIGRATION_STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "PAUSED"
+    | "COMPLETE"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1MigrationStateEvent" }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent>;
+export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1MigrationStateEvent",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent>;
 
 // ==========================================================================
 // Operations
@@ -363,9 +542,15 @@ export interface ExportProjectsRequest {
 
 export const ExportProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(GoogleDatastoreAdminV1beta1ExportEntitiesRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleDatastoreAdminV1beta1ExportEntitiesRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectId}:export", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectId}:export",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExportProjectsRequest>;
 
@@ -375,7 +560,12 @@ export const ExportProjectsResponse = GoogleLongrunningOperation;
 export type ExportProjectsError = DefaultErrors;
 
 /** Exports a copy of all or a subset of entities from Google Cloud Datastore to another storage system, such as Google Cloud Storage. Recent updates to entities may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. */
-export const exportProjects: API.OperationMethod<ExportProjectsRequest, ExportProjectsResponse, ExportProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const exportProjects: API.OperationMethod<
+  ExportProjectsRequest,
+  ExportProjectsResponse,
+  ExportProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExportProjectsRequest,
   output: ExportProjectsResponse,
   errors: [],
@@ -390,9 +580,15 @@ export interface ImportProjectsRequest {
 
 export const ImportProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(GoogleDatastoreAdminV1beta1ImportEntitiesRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleDatastoreAdminV1beta1ImportEntitiesRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectId}:import", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectId}:import",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ImportProjectsRequest>;
 
@@ -402,9 +598,13 @@ export const ImportProjectsResponse = GoogleLongrunningOperation;
 export type ImportProjectsError = DefaultErrors;
 
 /** Imports entities into Google Cloud Datastore. Existing entities with the same key are overwritten. The import occurs in the background and its progress can be monitored and managed via the Operation resource that is created. If an ImportEntities operation is cancelled, it is possible that a subset of the data has already been imported to Cloud Datastore. */
-export const importProjects: API.OperationMethod<ImportProjectsRequest, ImportProjectsResponse, ImportProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importProjects: API.OperationMethod<
+  ImportProjectsRequest,
+  ImportProjectsResponse,
+  ImportProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportProjectsRequest,
   output: ImportProjectsResponse,
   errors: [],
 }));
-

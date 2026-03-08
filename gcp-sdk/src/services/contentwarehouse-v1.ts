@@ -25,18 +25,29 @@ const svc = T.Service({
 
 export interface GoogleCloudContentwarehouseV1ActionOutput {
   /** State of an action. */
-  actionState?: "UNKNOWN" | "ACTION_SUCCEEDED" | "ACTION_FAILED" | "ACTION_TIMED_OUT" | "ACTION_PENDING" | (string & {});
+  actionState?:
+    | "UNKNOWN"
+    | "ACTION_SUCCEEDED"
+    | "ACTION_FAILED"
+    | "ACTION_TIMED_OUT"
+    | "ACTION_PENDING"
+    | (string & {});
   /** Action execution output message. */
   outputMessage?: string;
   /** ID of the action. */
   actionId?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ActionOutput: Schema.Schema<GoogleCloudContentwarehouseV1ActionOutput> = Schema.suspend(() => Schema.Struct({
-  actionState: Schema.optional(Schema.String),
-  outputMessage: Schema.optional(Schema.String),
-  actionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ActionOutput" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ActionOutput>;
+export const GoogleCloudContentwarehouseV1ActionOutput: Schema.Schema<GoogleCloudContentwarehouseV1ActionOutput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionState: Schema.optional(Schema.String),
+      outputMessage: Schema.optional(Schema.String),
+      actionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ActionOutput",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ActionOutput>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageDetectedLanguage {
   /** The [BCP-47 language code](https://www.unicode.org/reports/tr35/#Unicode_locale_identifier), such as `en-US` or `sr-Latn`. */
@@ -45,10 +56,15 @@ export interface GoogleCloudDocumentaiV1DocumentPageDetectedLanguage {
   confidence?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageDetectedLanguage: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedLanguage" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage>;
+export const GoogleCloudDocumentaiV1DocumentPageDetectedLanguage: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languageCode: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedLanguage",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage>;
 
 export interface GoogleCloudDocumentaiV1Vertex {
   /** Y coordinate (starts from the top of the image). */
@@ -57,10 +73,15 @@ export interface GoogleCloudDocumentaiV1Vertex {
   x?: number;
 }
 
-export const GoogleCloudDocumentaiV1Vertex: Schema.Schema<GoogleCloudDocumentaiV1Vertex> = Schema.suspend(() => Schema.Struct({
-  y: Schema.optional(Schema.Number),
-  x: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1Vertex" }) as any as Schema.Schema<GoogleCloudDocumentaiV1Vertex>;
+export const GoogleCloudDocumentaiV1Vertex: Schema.Schema<GoogleCloudDocumentaiV1Vertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      y: Schema.optional(Schema.Number),
+      x: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1Vertex",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1Vertex>;
 
 export interface GoogleCloudDocumentaiV1NormalizedVertex {
   /** Y coordinate (starts from the top of the image). */
@@ -69,10 +90,15 @@ export interface GoogleCloudDocumentaiV1NormalizedVertex {
   x?: number;
 }
 
-export const GoogleCloudDocumentaiV1NormalizedVertex: Schema.Schema<GoogleCloudDocumentaiV1NormalizedVertex> = Schema.suspend(() => Schema.Struct({
-  y: Schema.optional(Schema.Number),
-  x: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1NormalizedVertex" }) as any as Schema.Schema<GoogleCloudDocumentaiV1NormalizedVertex>;
+export const GoogleCloudDocumentaiV1NormalizedVertex: Schema.Schema<GoogleCloudDocumentaiV1NormalizedVertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      y: Schema.optional(Schema.Number),
+      x: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1NormalizedVertex",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1NormalizedVertex>;
 
 export interface GoogleCloudDocumentaiV1BoundingPoly {
   /** The bounding polygon vertices. */
@@ -81,10 +107,17 @@ export interface GoogleCloudDocumentaiV1BoundingPoly {
   normalizedVertices?: Array<GoogleCloudDocumentaiV1NormalizedVertex>;
 }
 
-export const GoogleCloudDocumentaiV1BoundingPoly: Schema.Schema<GoogleCloudDocumentaiV1BoundingPoly> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1Vertex)),
-  normalizedVertices: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1BoundingPoly" }) as any as Schema.Schema<GoogleCloudDocumentaiV1BoundingPoly>;
+export const GoogleCloudDocumentaiV1BoundingPoly: Schema.Schema<GoogleCloudDocumentaiV1BoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1Vertex)),
+      normalizedVertices: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1BoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1BoundingPoly>;
 
 export interface GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment {
   /** TextSegment start UTF-8 char index in the Document.text. */
@@ -93,10 +126,15 @@ export interface GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment {
   endIndex?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment: Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment> = Schema.suspend(() => Schema.Struct({
-  startIndex: Schema.optional(Schema.String),
-  endIndex: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment>;
+export const GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment: Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startIndex: Schema.optional(Schema.String),
+      endIndex: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment>;
 
 export interface GoogleCloudDocumentaiV1DocumentTextAnchor {
   /** Contains the content of the text span so that users do not have to look it up in the text_segments. It is always populated for formFields. */
@@ -105,14 +143,27 @@ export interface GoogleCloudDocumentaiV1DocumentTextAnchor {
   textSegments?: Array<GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentTextAnchor: Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchor> = Schema.suspend(() => Schema.Struct({
-  content: Schema.optional(Schema.String),
-  textSegments: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchor" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchor>;
+export const GoogleCloudDocumentaiV1DocumentTextAnchor: Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchor> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      content: Schema.optional(Schema.String),
+      textSegments: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentTextAnchor",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentTextAnchor>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageLayout {
   /** Detected orientation for the Layout. */
-  orientation?: "ORIENTATION_UNSPECIFIED" | "PAGE_UP" | "PAGE_RIGHT" | "PAGE_DOWN" | "PAGE_LEFT" | (string & {});
+  orientation?:
+    | "ORIENTATION_UNSPECIFIED"
+    | "PAGE_UP"
+    | "PAGE_RIGHT"
+    | "PAGE_DOWN"
+    | "PAGE_LEFT"
+    | (string & {});
   /** Confidence of the current Layout within context of the object this layout is for. e.g. confidence can be for a single token, a table, a visual element, etc. depending on context. Range `[0, 1]`. */
   confidence?: number;
   /** The bounding polygon for the Layout. */
@@ -121,12 +172,17 @@ export interface GoogleCloudDocumentaiV1DocumentPageLayout {
   textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageLayout: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLayout> = Schema.suspend(() => Schema.Struct({
-  orientation: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  boundingPoly: Schema.optional(GoogleCloudDocumentaiV1BoundingPoly),
-  textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLayout" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLayout>;
+export const GoogleCloudDocumentaiV1DocumentPageLayout: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLayout> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      orientation: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      boundingPoly: Schema.optional(GoogleCloudDocumentaiV1BoundingPoly),
+      textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageLayout",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLayout>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageSymbol {
   /** A list of detected languages together with confidence. */
@@ -135,10 +191,17 @@ export interface GoogleCloudDocumentaiV1DocumentPageSymbol {
   layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageSymbol: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageSymbol> = Schema.suspend(() => Schema.Struct({
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageSymbol" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageSymbol>;
+export const GoogleCloudDocumentaiV1DocumentPageSymbol: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageSymbol> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageSymbol",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageSymbol>;
 
 export interface GoogleCloudContentwarehouseV1PublishAction {
   /** The topic id in the Pub/Sub service for which messages will be published to. */
@@ -147,19 +210,29 @@ export interface GoogleCloudContentwarehouseV1PublishAction {
   messages?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1PublishAction: Schema.Schema<GoogleCloudContentwarehouseV1PublishAction> = Schema.suspend(() => Schema.Struct({
-  topicId: Schema.optional(Schema.String),
-  messages: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1PublishAction" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PublishAction>;
+export const GoogleCloudContentwarehouseV1PublishAction: Schema.Schema<GoogleCloudContentwarehouseV1PublishAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      topicId: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1PublishAction",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PublishAction>;
 
 export interface GoogleCloudContentwarehouseV1DataValidationAction {
   /** Map of (K, V) -> (field, string condition to be evaluated on the field) E.g., ("age", "age > 18 && age < 60") entry triggers validation of field age with the given condition. Map entries will be ANDed during validation. */
   conditions?: Record<string, string>;
 }
 
-export const GoogleCloudContentwarehouseV1DataValidationAction: Schema.Schema<GoogleCloudContentwarehouseV1DataValidationAction> = Schema.suspend(() => Schema.Struct({
-  conditions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DataValidationAction" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DataValidationAction>;
+export const GoogleCloudContentwarehouseV1DataValidationAction: Schema.Schema<GoogleCloudContentwarehouseV1DataValidationAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      conditions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DataValidationAction",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DataValidationAction>;
 
 export interface GoogleCloudContentwarehouseV1RemoveFromFolderAction {
   /** Name of the folder under which new document is to be added. Format: projects/{project_number}/locations/{location}/documents/{document_id}. */
@@ -168,22 +241,37 @@ export interface GoogleCloudContentwarehouseV1RemoveFromFolderAction {
   condition?: string;
 }
 
-export const GoogleCloudContentwarehouseV1RemoveFromFolderAction: Schema.Schema<GoogleCloudContentwarehouseV1RemoveFromFolderAction> = Schema.suspend(() => Schema.Struct({
-  folder: Schema.optional(Schema.String),
-  condition: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RemoveFromFolderAction" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RemoveFromFolderAction>;
+export const GoogleCloudContentwarehouseV1RemoveFromFolderAction: Schema.Schema<GoogleCloudContentwarehouseV1RemoveFromFolderAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      folder: Schema.optional(Schema.String),
+      condition: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RemoveFromFolderAction",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RemoveFromFolderAction>;
 
 export interface GoogleIamV1AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
 }
 
-export const GoogleIamV1AuditLogConfig: Schema.Schema<GoogleIamV1AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-  logType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV1AuditLogConfig" }) as any as Schema.Schema<GoogleIamV1AuditLogConfig>;
+export const GoogleIamV1AuditLogConfig: Schema.Schema<GoogleIamV1AuditLogConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+      logType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1AuditLogConfig",
+  }) as any as Schema.Schema<GoogleIamV1AuditLogConfig>;
 
 export interface GoogleIamV1AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -192,10 +280,15 @@ export interface GoogleIamV1AuditConfig {
   auditLogConfigs?: Array<GoogleIamV1AuditLogConfig>;
 }
 
-export const GoogleIamV1AuditConfig: Schema.Schema<GoogleIamV1AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditLogConfig)),
-})).annotate({ identifier: "GoogleIamV1AuditConfig" }) as any as Schema.Schema<GoogleIamV1AuditConfig>;
+export const GoogleIamV1AuditConfig: Schema.Schema<GoogleIamV1AuditConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      auditLogConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditLogConfig)),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1AuditConfig",
+  }) as any as Schema.Schema<GoogleIamV1AuditConfig>;
 
 export interface GoogleTypeExpr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
@@ -208,12 +301,17 @@ export interface GoogleTypeExpr {
   location?: string;
 }
 
-export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeExpr" }) as any as Schema.Schema<GoogleTypeExpr>;
+export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GoogleTypeExpr",
+}) as any as Schema.Schema<GoogleTypeExpr>;
 
 export interface GoogleIamV1Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -224,11 +322,16 @@ export interface GoogleIamV1Binding {
   condition?: GoogleTypeExpr;
 }
 
-export const GoogleIamV1Binding: Schema.Schema<GoogleIamV1Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(GoogleTypeExpr),
-})).annotate({ identifier: "GoogleIamV1Binding" }) as any as Schema.Schema<GoogleIamV1Binding>;
+export const GoogleIamV1Binding: Schema.Schema<GoogleIamV1Binding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(GoogleTypeExpr),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1Binding",
+  }) as any as Schema.Schema<GoogleIamV1Binding>;
 
 export interface GoogleIamV1Policy {
   /** Specifies cloud audit logging configuration for this policy. */
@@ -241,51 +344,81 @@ export interface GoogleIamV1Policy {
   version?: number;
 }
 
-export const GoogleIamV1Policy: Schema.Schema<GoogleIamV1Policy> = Schema.suspend(() => Schema.Struct({
-  auditConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditConfig)),
-  bindings: Schema.optional(Schema.Array(GoogleIamV1Binding)),
-  etag: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleIamV1Policy" }) as any as Schema.Schema<GoogleIamV1Policy>;
+export const GoogleIamV1Policy: Schema.Schema<GoogleIamV1Policy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      auditConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditConfig)),
+      bindings: Schema.optional(Schema.Array(GoogleIamV1Binding)),
+      etag: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1Policy",
+  }) as any as Schema.Schema<GoogleIamV1Policy>;
 
 export interface GoogleCloudContentwarehouseV1AccessControlAction {
   /** Identifies the type of operation. */
-  operationType?: "UNKNOWN" | "ADD_POLICY_BINDING" | "REMOVE_POLICY_BINDING" | "REPLACE_POLICY_BINDING" | (string & {});
+  operationType?:
+    | "UNKNOWN"
+    | "ADD_POLICY_BINDING"
+    | "REMOVE_POLICY_BINDING"
+    | "REPLACE_POLICY_BINDING"
+    | (string & {});
   /** Represents the new policy from which bindings are added, removed or replaced based on the type of the operation. the policy is limited to a few 10s of KB. */
   policy?: GoogleIamV1Policy;
 }
 
-export const GoogleCloudContentwarehouseV1AccessControlAction: Schema.Schema<GoogleCloudContentwarehouseV1AccessControlAction> = Schema.suspend(() => Schema.Struct({
-  operationType: Schema.optional(Schema.String),
-  policy: Schema.optional(GoogleIamV1Policy),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1AccessControlAction" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1AccessControlAction>;
+export const GoogleCloudContentwarehouseV1AccessControlAction: Schema.Schema<GoogleCloudContentwarehouseV1AccessControlAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operationType: Schema.optional(Schema.String),
+      policy: Schema.optional(GoogleIamV1Policy),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1AccessControlAction",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1AccessControlAction>;
 
 export interface GoogleCloudContentwarehouseV1DataUpdateAction {
   /** Map of (K, V) -> (valid name of the field, new value of the field) E.g., ("age", "60") entry triggers update of field age with a value of 60. If the field is not present then new entry is added. During update action execution, value strings will be casted to appropriate types. */
   entries?: Record<string, string>;
 }
 
-export const GoogleCloudContentwarehouseV1DataUpdateAction: Schema.Schema<GoogleCloudContentwarehouseV1DataUpdateAction> = Schema.suspend(() => Schema.Struct({
-  entries: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DataUpdateAction" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DataUpdateAction>;
+export const GoogleCloudContentwarehouseV1DataUpdateAction: Schema.Schema<GoogleCloudContentwarehouseV1DataUpdateAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entries: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DataUpdateAction",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DataUpdateAction>;
 
 export interface GoogleCloudContentwarehouseV1DeleteDocumentAction {
   /** Boolean field to select between hard vs soft delete options. Set 'true' for 'hard delete' and 'false' for 'soft delete'. */
   enableHardDelete?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1DeleteDocumentAction: Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentAction> = Schema.suspend(() => Schema.Struct({
-  enableHardDelete: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DeleteDocumentAction" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentAction>;
+export const GoogleCloudContentwarehouseV1DeleteDocumentAction: Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableHardDelete: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DeleteDocumentAction",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentAction>;
 
 export interface GoogleCloudContentwarehouseV1AddToFolderAction {
   /** Names of the folder under which new document is to be added. Format: projects/{project_number}/locations/{location}/documents/{document_id}. */
   folders?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1AddToFolderAction: Schema.Schema<GoogleCloudContentwarehouseV1AddToFolderAction> = Schema.suspend(() => Schema.Struct({
-  folders: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1AddToFolderAction" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1AddToFolderAction>;
+export const GoogleCloudContentwarehouseV1AddToFolderAction: Schema.Schema<GoogleCloudContentwarehouseV1AddToFolderAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      folders: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1AddToFolderAction",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1AddToFolderAction>;
 
 export interface GoogleCloudContentwarehouseV1Action {
   /** Action publish to Pub/Sub operation. */
@@ -306,16 +439,35 @@ export interface GoogleCloudContentwarehouseV1Action {
   addToFolder?: GoogleCloudContentwarehouseV1AddToFolderAction;
 }
 
-export const GoogleCloudContentwarehouseV1Action: Schema.Schema<GoogleCloudContentwarehouseV1Action> = Schema.suspend(() => Schema.Struct({
-  publishToPubSub: Schema.optional(GoogleCloudContentwarehouseV1PublishAction),
-  dataValidation: Schema.optional(GoogleCloudContentwarehouseV1DataValidationAction),
-  removeFromFolderAction: Schema.optional(GoogleCloudContentwarehouseV1RemoveFromFolderAction),
-  accessControl: Schema.optional(GoogleCloudContentwarehouseV1AccessControlAction),
-  dataUpdate: Schema.optional(GoogleCloudContentwarehouseV1DataUpdateAction),
-  actionId: Schema.optional(Schema.String),
-  deleteDocumentAction: Schema.optional(GoogleCloudContentwarehouseV1DeleteDocumentAction),
-  addToFolder: Schema.optional(GoogleCloudContentwarehouseV1AddToFolderAction),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1Action" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Action>;
+export const GoogleCloudContentwarehouseV1Action: Schema.Schema<GoogleCloudContentwarehouseV1Action> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publishToPubSub: Schema.optional(
+        GoogleCloudContentwarehouseV1PublishAction,
+      ),
+      dataValidation: Schema.optional(
+        GoogleCloudContentwarehouseV1DataValidationAction,
+      ),
+      removeFromFolderAction: Schema.optional(
+        GoogleCloudContentwarehouseV1RemoveFromFolderAction,
+      ),
+      accessControl: Schema.optional(
+        GoogleCloudContentwarehouseV1AccessControlAction,
+      ),
+      dataUpdate: Schema.optional(
+        GoogleCloudContentwarehouseV1DataUpdateAction,
+      ),
+      actionId: Schema.optional(Schema.String),
+      deleteDocumentAction: Schema.optional(
+        GoogleCloudContentwarehouseV1DeleteDocumentAction,
+      ),
+      addToFolder: Schema.optional(
+        GoogleCloudContentwarehouseV1AddToFolderAction,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1Action",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Action>;
 
 export interface GoogleCloudContentwarehouseV1Rule {
   /** Represents the conditional expression to be evaluated. Expression should evaluate to a boolean result. When the condition is true actions are executed. Example: user_role = "hsbc_role_1" AND doc.salary > 20000 */
@@ -327,16 +479,29 @@ export interface GoogleCloudContentwarehouseV1Rule {
   /** Short description of the rule and its context. */
   description?: string;
   /** Identifies the trigger type for running the policy. */
-  triggerType?: "UNKNOWN" | "ON_CREATE" | "ON_UPDATE" | "ON_CREATE_LINK" | "ON_DELETE_LINK" | (string & {});
+  triggerType?:
+    | "UNKNOWN"
+    | "ON_CREATE"
+    | "ON_UPDATE"
+    | "ON_CREATE_LINK"
+    | "ON_DELETE_LINK"
+    | (string & {});
 }
 
-export const GoogleCloudContentwarehouseV1Rule: Schema.Schema<GoogleCloudContentwarehouseV1Rule> = Schema.suspend(() => Schema.Struct({
-  condition: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1Action)),
-  ruleId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  triggerType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1Rule" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Rule>;
+export const GoogleCloudContentwarehouseV1Rule: Schema.Schema<GoogleCloudContentwarehouseV1Rule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      condition: Schema.optional(Schema.String),
+      actions: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1Action),
+      ),
+      ruleId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      triggerType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1Rule",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Rule>;
 
 export interface GoogleCloudContentwarehouseV1InvalidRule {
   /** Validation error on a parsed expression. */
@@ -345,25 +510,38 @@ export interface GoogleCloudContentwarehouseV1InvalidRule {
   rule?: GoogleCloudContentwarehouseV1Rule;
 }
 
-export const GoogleCloudContentwarehouseV1InvalidRule: Schema.Schema<GoogleCloudContentwarehouseV1InvalidRule> = Schema.suspend(() => Schema.Struct({
-  error: Schema.optional(Schema.String),
-  rule: Schema.optional(GoogleCloudContentwarehouseV1Rule),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1InvalidRule" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1InvalidRule>;
+export const GoogleCloudContentwarehouseV1InvalidRule: Schema.Schema<GoogleCloudContentwarehouseV1InvalidRule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      error: Schema.optional(Schema.String),
+      rule: Schema.optional(GoogleCloudContentwarehouseV1Rule),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1InvalidRule",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1InvalidRule>;
 
 export interface GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter {
   /** This filter specifies the exact document schema(s) Document.document_schema_name to run histogram query against. It is optional. It will perform histogram for property names for all the document schemas if it is not set. At most 10 document schema names are allowed. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
   documentSchemas?: Array<string>;
   /** By default, the y_axis is HISTOGRAM_YAXIS_DOCUMENT if this field is not set. */
-  yAxis?: "HISTOGRAM_YAXIS_DOCUMENT" | "HISTOGRAM_YAXIS_PROPERTY" | (string & {});
+  yAxis?:
+    | "HISTOGRAM_YAXIS_DOCUMENT"
+    | "HISTOGRAM_YAXIS_PROPERTY"
+    | (string & {});
   /** It is optional. It will perform histogram for all the property names if it is not set. The properties need to be defined with the is_filterable flag set to true and the name of the property should be in the format: "schemaId.propertyName". The property needs to be defined in the schema. Example: the schema id is abc. Then the name of property for property MORTGAGE_TYPE will be "abc.MORTGAGE_TYPE". */
   propertyNames?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter: Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter> = Schema.suspend(() => Schema.Struct({
-  documentSchemas: Schema.optional(Schema.Array(Schema.String)),
-  yAxis: Schema.optional(Schema.String),
-  propertyNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter>;
+export const GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter: Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentSchemas: Schema.optional(Schema.Array(Schema.String)),
+      yAxis: Schema.optional(Schema.String),
+      propertyNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter>;
 
 export interface GoogleCloudContentwarehouseV1QAResultHighlight {
   /** End index of the highlight, exclusive. */
@@ -372,10 +550,15 @@ export interface GoogleCloudContentwarehouseV1QAResultHighlight {
   startIndex?: number;
 }
 
-export const GoogleCloudContentwarehouseV1QAResultHighlight: Schema.Schema<GoogleCloudContentwarehouseV1QAResultHighlight> = Schema.suspend(() => Schema.Struct({
-  endIndex: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1QAResultHighlight" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1QAResultHighlight>;
+export const GoogleCloudContentwarehouseV1QAResultHighlight: Schema.Schema<GoogleCloudContentwarehouseV1QAResultHighlight> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endIndex: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1QAResultHighlight",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1QAResultHighlight>;
 
 export interface GoogleCloudContentwarehouseV1QAResult {
   /** The calibrated confidence score for this document, in the range [0., 1.]. This represents the confidence level for whether the returned document and snippet answers the user's query. */
@@ -384,10 +567,17 @@ export interface GoogleCloudContentwarehouseV1QAResult {
   highlights?: Array<GoogleCloudContentwarehouseV1QAResultHighlight>;
 }
 
-export const GoogleCloudContentwarehouseV1QAResult: Schema.Schema<GoogleCloudContentwarehouseV1QAResult> = Schema.suspend(() => Schema.Struct({
-  confidenceScore: Schema.optional(Schema.Number),
-  highlights: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1QAResultHighlight)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1QAResult" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1QAResult>;
+export const GoogleCloudContentwarehouseV1QAResult: Schema.Schema<GoogleCloudContentwarehouseV1QAResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidenceScore: Schema.optional(Schema.Number),
+      highlights: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1QAResultHighlight),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1QAResult",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1QAResult>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell {
   /** How many rows this cell spans. */
@@ -398,20 +588,40 @@ export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBloc
   blocks?: Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell> = Schema.suspend(() => Schema.Struct({
-  rowSpan: Schema.optional(Schema.Number),
-  colSpan: Schema.optional(Schema.Number),
-  blocks: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rowSpan: Schema.optional(Schema.Number),
+      colSpan: Schema.optional(Schema.Number),
+      blocks: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow {
   /** A table row is a list of table cells. */
   cells?: Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow> = Schema.suspend(() => Schema.Struct({
-  cells: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cells: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock {
   /** Header rows at the top of the table. */
@@ -422,20 +632,44 @@ export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBloc
   caption?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock> = Schema.suspend(() => Schema.Struct({
-  headerRows: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow)),
-  bodyRows: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow)),
-  caption: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      headerRows: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow,
+        ),
+      ),
+      bodyRows: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow,
+        ),
+      ),
+      caption: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry {
   /** A list entry is a list of blocks. Repeated blocks support further hierarchies and nested blocks. */
   blocks?: Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry> = Schema.suspend(() => Schema.Struct({
-  blocks: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      blocks: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock {
   /** Type of the list_entries (if exist). Available options are `ordered` and `unordered`. */
@@ -444,10 +678,20 @@ export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBloc
   listEntries?: Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  listEntries: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      listEntries: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan {
   /** Page where block starts in the document. */
@@ -456,10 +700,16 @@ export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBloc
   pageEnd?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan> = Schema.suspend(() => Schema.Struct({
-  pageStart: Schema.optional(Schema.Number),
-  pageEnd: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageStart: Schema.optional(Schema.Number),
+      pageEnd: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock {
   /** Block consisting of text content. */
@@ -474,13 +724,27 @@ export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBloc
   pageSpan?: GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock> = Schema.suspend(() => Schema.Struct({
-  textBlock: Schema.optional(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock),
-  blockId: Schema.optional(Schema.String),
-  tableBlock: Schema.optional(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock),
-  listBlock: Schema.optional(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock),
-  pageSpan: Schema.optional(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      textBlock: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock,
+      ),
+      blockId: Schema.optional(Schema.String),
+      tableBlock: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableBlock,
+      ),
+      listBlock: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListBlock,
+      ),
+      pageSpan: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutPageSpan,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock {
   /** Text content stored in the block. */
@@ -491,11 +755,21 @@ export interface GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBloc
   type?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  blocks: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock)),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      blocks: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock,
+        ),
+      ),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTextBlock>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageAnchorPageRef {
   /** Optional. Identifies the bounding polygon of a layout element on the page. If `layout_type` is set, the bounding polygon must be exactly the same to the layout element it's referring to. */
@@ -507,25 +781,46 @@ export interface GoogleCloudDocumentaiV1DocumentPageAnchorPageRef {
   /** Required. Index into the Document.pages element, for example using `Document.pages` to locate the related page element. This field is skipped when its value is the default `0`. See https://developers.google.com/protocol-buffers/docs/proto3#json. */
   page?: string;
   /** Optional. The type of the layout element that is being referenced if any. */
-  layoutType?: "LAYOUT_TYPE_UNSPECIFIED" | "BLOCK" | "PARAGRAPH" | "LINE" | "TOKEN" | "VISUAL_ELEMENT" | "TABLE" | "FORM_FIELD" | (string & {});
+  layoutType?:
+    | "LAYOUT_TYPE_UNSPECIFIED"
+    | "BLOCK"
+    | "PARAGRAPH"
+    | "LINE"
+    | "TOKEN"
+    | "VISUAL_ELEMENT"
+    | "TABLE"
+    | "FORM_FIELD"
+    | (string & {});
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageAnchorPageRef: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchorPageRef> = Schema.suspend(() => Schema.Struct({
-  boundingPoly: Schema.optional(GoogleCloudDocumentaiV1BoundingPoly),
-  confidence: Schema.optional(Schema.Number),
-  layoutId: Schema.optional(Schema.String),
-  page: Schema.optional(Schema.String),
-  layoutType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageAnchorPageRef" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchorPageRef>;
+export const GoogleCloudDocumentaiV1DocumentPageAnchorPageRef: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchorPageRef> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      boundingPoly: Schema.optional(GoogleCloudDocumentaiV1BoundingPoly),
+      confidence: Schema.optional(Schema.Number),
+      layoutId: Schema.optional(Schema.String),
+      page: Schema.optional(Schema.String),
+      layoutType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageAnchorPageRef",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchorPageRef>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageAnchor {
   /** One or more references to visual page elements */
   pageRefs?: Array<GoogleCloudDocumentaiV1DocumentPageAnchorPageRef>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageAnchor: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchor> = Schema.suspend(() => Schema.Struct({
-  pageRefs: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageAnchorPageRef)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageAnchor" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchor>;
+export const GoogleCloudDocumentaiV1DocumentPageAnchor: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchor> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageRefs: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageAnchorPageRef),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageAnchor",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageAnchor>;
 
 export interface CloudAiPlatformTenantresourceServiceAccountIdentity {
   /** Input/Output [Optional]. The tag that configures the service account, as defined in google3/configs/production/cdpush/acl-zanzibar-cloud-prod/activation_grants/activation_grants.gcl. Note: The default P4 service account has the empty tag. */
@@ -534,10 +829,15 @@ export interface CloudAiPlatformTenantresourceServiceAccountIdentity {
   serviceAccountEmail?: string;
 }
 
-export const CloudAiPlatformTenantresourceServiceAccountIdentity: Schema.Schema<CloudAiPlatformTenantresourceServiceAccountIdentity> = Schema.suspend(() => Schema.Struct({
-  tag: Schema.optional(Schema.String),
-  serviceAccountEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceServiceAccountIdentity" }) as any as Schema.Schema<CloudAiPlatformTenantresourceServiceAccountIdentity>;
+export const CloudAiPlatformTenantresourceServiceAccountIdentity: Schema.Schema<CloudAiPlatformTenantresourceServiceAccountIdentity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tag: Schema.optional(Schema.String),
+      serviceAccountEmail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceServiceAccountIdentity",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceServiceAccountIdentity>;
 
 export interface CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions {
   /** The cloud resource name for the CMEK encryption. For example, projects//locations/ */
@@ -548,11 +848,17 @@ export interface CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOp
   cmekServiceName?: string;
 }
 
-export const CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions: Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions> = Schema.suspend(() => Schema.Struct({
-  cmekCloudResourceName: Schema.optional(Schema.String),
-  cmekCloudResourceType: Schema.optional(Schema.String),
-  cmekServiceName: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions" }) as any as Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions>;
+export const CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions: Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cmekCloudResourceName: Schema.optional(Schema.String),
+      cmekCloudResourceType: Schema.optional(Schema.String),
+      cmekServiceName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions>;
 
 export interface CloudAiPlatformTenantresourceInfraSpannerConfig {
   /** Input [Required]. The file path to the spanner SDL bundle. */
@@ -569,19 +875,33 @@ export interface CloudAiPlatformTenantresourceInfraSpannerConfig {
   createDatabaseOptions?: CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions;
 }
 
-export const CloudAiPlatformTenantresourceInfraSpannerConfig: Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfig> = Schema.suspend(() => Schema.Struct({
-  sdlBundlePath: Schema.optional(Schema.String),
-  spannerNamespace: Schema.optional(Schema.String),
-  spannerBorgServiceAccount: Schema.optional(Schema.String),
-  spannerUniverse: Schema.optional(Schema.String),
-  spannerLocalNamePrefix: Schema.optional(Schema.String),
-  kmsKeyReference: Schema.optional(Schema.String),
-  createDatabaseOptions: Schema.optional(CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceInfraSpannerConfig" }) as any as Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfig>;
+export const CloudAiPlatformTenantresourceInfraSpannerConfig: Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sdlBundlePath: Schema.optional(Schema.String),
+      spannerNamespace: Schema.optional(Schema.String),
+      spannerBorgServiceAccount: Schema.optional(Schema.String),
+      spannerUniverse: Schema.optional(Schema.String),
+      spannerLocalNamePrefix: Schema.optional(Schema.String),
+      kmsKeyReference: Schema.optional(Schema.String),
+      createDatabaseOptions: Schema.optional(
+        CloudAiPlatformTenantresourceInfraSpannerConfigCreateDatabaseOptions,
+      ),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceInfraSpannerConfig",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceInfraSpannerConfig>;
 
 export interface CloudAiPlatformTenantresourceIamPolicyBinding {
   /** Input/Output [Required]. Specifies the type of resource that will be accessed by members. */
-  resourceType?: "RESOURCE_TYPE_UNSPECIFIED" | "PROJECT" | "SERVICE_ACCOUNT" | "GCS_BUCKET" | "SERVICE_CONSUMER" | "AR_REPO" | (string & {});
+  resourceType?:
+    | "RESOURCE_TYPE_UNSPECIFIED"
+    | "PROJECT"
+    | "SERVICE_ACCOUNT"
+    | "GCS_BUCKET"
+    | "SERVICE_CONSUMER"
+    | "AR_REPO"
+    | (string & {});
   /** Input/Output [Required]. The role for members below. */
   role?: string;
   /** Input/Output [Required]. The resource name that will be accessed by members, which also depends on resource_type. Note: placeholders are supported in resource names. For example, ${tpn} will be used when the tenant project number is not ready. */
@@ -590,12 +910,17 @@ export interface CloudAiPlatformTenantresourceIamPolicyBinding {
   members?: Array<string>;
 }
 
-export const CloudAiPlatformTenantresourceIamPolicyBinding: Schema.Schema<CloudAiPlatformTenantresourceIamPolicyBinding> = Schema.suspend(() => Schema.Struct({
-  resourceType: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceIamPolicyBinding" }) as any as Schema.Schema<CloudAiPlatformTenantresourceIamPolicyBinding>;
+export const CloudAiPlatformTenantresourceIamPolicyBinding: Schema.Schema<CloudAiPlatformTenantresourceIamPolicyBinding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceType: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceIamPolicyBinding",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceIamPolicyBinding>;
 
 export interface CloudAiPlatformTenantresourceTenantServiceAccountIdentity {
   /** Input/Output [Required]. The service that the service account belongs to. (e.g. cloudbuild.googleapis.com for GCB service accounts) */
@@ -604,10 +929,15 @@ export interface CloudAiPlatformTenantresourceTenantServiceAccountIdentity {
   serviceAccountEmail?: string;
 }
 
-export const CloudAiPlatformTenantresourceTenantServiceAccountIdentity: Schema.Schema<CloudAiPlatformTenantresourceTenantServiceAccountIdentity> = Schema.suspend(() => Schema.Struct({
-  serviceName: Schema.optional(Schema.String),
-  serviceAccountEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceTenantServiceAccountIdentity" }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantServiceAccountIdentity>;
+export const CloudAiPlatformTenantresourceTenantServiceAccountIdentity: Schema.Schema<CloudAiPlatformTenantresourceTenantServiceAccountIdentity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      serviceName: Schema.optional(Schema.String),
+      serviceAccountEmail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceTenantServiceAccountIdentity",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantServiceAccountIdentity>;
 
 export interface CloudAiPlatformTenantresourceCloudSqlInstanceConfig {
   /** Output only. The CloudSQL instance connection name. */
@@ -626,15 +956,20 @@ export interface CloudAiPlatformTenantresourceCloudSqlInstanceConfig {
   mdbRolesForCorpAccess?: Array<string>;
 }
 
-export const CloudAiPlatformTenantresourceCloudSqlInstanceConfig: Schema.Schema<CloudAiPlatformTenantresourceCloudSqlInstanceConfig> = Schema.suspend(() => Schema.Struct({
-  cloudSqlInstanceConnectionName: Schema.optional(Schema.String),
-  cloudSqlInstanceName: Schema.optional(Schema.String),
-  kmsKeyReference: Schema.optional(Schema.String),
-  slmInstanceTemplate: Schema.optional(Schema.String),
-  slmInstanceType: Schema.optional(Schema.String),
-  slmInstanceName: Schema.optional(Schema.String),
-  mdbRolesForCorpAccess: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceCloudSqlInstanceConfig" }) as any as Schema.Schema<CloudAiPlatformTenantresourceCloudSqlInstanceConfig>;
+export const CloudAiPlatformTenantresourceCloudSqlInstanceConfig: Schema.Schema<CloudAiPlatformTenantresourceCloudSqlInstanceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudSqlInstanceConnectionName: Schema.optional(Schema.String),
+      cloudSqlInstanceName: Schema.optional(Schema.String),
+      kmsKeyReference: Schema.optional(Schema.String),
+      slmInstanceTemplate: Schema.optional(Schema.String),
+      slmInstanceType: Schema.optional(Schema.String),
+      slmInstanceName: Schema.optional(Schema.String),
+      mdbRolesForCorpAccess: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceCloudSqlInstanceConfig",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceCloudSqlInstanceConfig>;
 
 export interface GoogleApiServiceconsumermanagementV1PolicyBinding {
   /** Uses the same format as in IAM policy. `member` must include both a prefix and ID. For example, `user:{emailId}`, `serviceAccount:{emailId}`, `group:{emailId}`. */
@@ -643,19 +978,29 @@ export interface GoogleApiServiceconsumermanagementV1PolicyBinding {
   role?: string;
 }
 
-export const GoogleApiServiceconsumermanagementV1PolicyBinding: Schema.Schema<GoogleApiServiceconsumermanagementV1PolicyBinding> = Schema.suspend(() => Schema.Struct({
-  members: Schema.optional(Schema.Array(Schema.String)),
-  role: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleApiServiceconsumermanagementV1PolicyBinding" }) as any as Schema.Schema<GoogleApiServiceconsumermanagementV1PolicyBinding>;
+export const GoogleApiServiceconsumermanagementV1PolicyBinding: Schema.Schema<GoogleApiServiceconsumermanagementV1PolicyBinding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      members: Schema.optional(Schema.Array(Schema.String)),
+      role: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleApiServiceconsumermanagementV1PolicyBinding",
+  }) as any as Schema.Schema<GoogleApiServiceconsumermanagementV1PolicyBinding>;
 
 export interface GoogleApiServiceconsumermanagementV1BillingConfig {
   /** Name of the billing account. For example `billingAccounts/012345-567890-ABCDEF`. */
   billingAccount?: string;
 }
 
-export const GoogleApiServiceconsumermanagementV1BillingConfig: Schema.Schema<GoogleApiServiceconsumermanagementV1BillingConfig> = Schema.suspend(() => Schema.Struct({
-  billingAccount: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleApiServiceconsumermanagementV1BillingConfig" }) as any as Schema.Schema<GoogleApiServiceconsumermanagementV1BillingConfig>;
+export const GoogleApiServiceconsumermanagementV1BillingConfig: Schema.Schema<GoogleApiServiceconsumermanagementV1BillingConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      billingAccount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleApiServiceconsumermanagementV1BillingConfig",
+  }) as any as Schema.Schema<GoogleApiServiceconsumermanagementV1BillingConfig>;
 
 export interface CloudAiPlatformTenantresourceTenantProjectConfig {
   /** Input/Output [Required]. The policy bindings that are applied to the tenant project during creation. At least one binding must have the role `roles/owner` with either `user` or `group` type. */
@@ -668,12 +1013,21 @@ export interface CloudAiPlatformTenantresourceTenantProjectConfig {
   services?: Array<string>;
 }
 
-export const CloudAiPlatformTenantresourceTenantProjectConfig: Schema.Schema<CloudAiPlatformTenantresourceTenantProjectConfig> = Schema.suspend(() => Schema.Struct({
-  policyBindings: Schema.optional(Schema.Array(GoogleApiServiceconsumermanagementV1PolicyBinding)),
-  billingConfig: Schema.optional(GoogleApiServiceconsumermanagementV1BillingConfig),
-  folder: Schema.optional(Schema.String),
-  services: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceTenantProjectConfig" }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantProjectConfig>;
+export const CloudAiPlatformTenantresourceTenantProjectConfig: Schema.Schema<CloudAiPlatformTenantresourceTenantProjectConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policyBindings: Schema.optional(
+        Schema.Array(GoogleApiServiceconsumermanagementV1PolicyBinding),
+      ),
+      billingConfig: Schema.optional(
+        GoogleApiServiceconsumermanagementV1BillingConfig,
+      ),
+      folder: Schema.optional(Schema.String),
+      services: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceTenantProjectConfig",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantProjectConfig>;
 
 export interface CloudAiPlatformTenantresourceGcsBucketConfig {
   admins?: Array<string>;
@@ -689,14 +1043,19 @@ export interface CloudAiPlatformTenantresourceGcsBucketConfig {
   ttlDays?: number;
 }
 
-export const CloudAiPlatformTenantresourceGcsBucketConfig: Schema.Schema<CloudAiPlatformTenantresourceGcsBucketConfig> = Schema.suspend(() => Schema.Struct({
-  admins: Schema.optional(Schema.Array(Schema.String)),
-  viewers: Schema.optional(Schema.Array(Schema.String)),
-  kmsKeyReference: Schema.optional(Schema.String),
-  entityName: Schema.optional(Schema.String),
-  bucketName: Schema.optional(Schema.String),
-  ttlDays: Schema.optional(Schema.Number),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceGcsBucketConfig" }) as any as Schema.Schema<CloudAiPlatformTenantresourceGcsBucketConfig>;
+export const CloudAiPlatformTenantresourceGcsBucketConfig: Schema.Schema<CloudAiPlatformTenantresourceGcsBucketConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      admins: Schema.optional(Schema.Array(Schema.String)),
+      viewers: Schema.optional(Schema.Array(Schema.String)),
+      kmsKeyReference: Schema.optional(Schema.String),
+      entityName: Schema.optional(Schema.String),
+      bucketName: Schema.optional(Schema.String),
+      ttlDays: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceGcsBucketConfig",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceGcsBucketConfig>;
 
 export interface CloudAiPlatformTenantresourceTenantProjectResource {
   /** The Infra Spanner databases that are provisioned under the tenant project. Note: this is an experimental feature. */
@@ -719,17 +1078,34 @@ export interface CloudAiPlatformTenantresourceTenantProjectResource {
   gcsBuckets?: Array<CloudAiPlatformTenantresourceGcsBucketConfig>;
 }
 
-export const CloudAiPlatformTenantresourceTenantProjectResource: Schema.Schema<CloudAiPlatformTenantresourceTenantProjectResource> = Schema.suspend(() => Schema.Struct({
-  infraSpannerConfigs: Schema.optional(Schema.Array(CloudAiPlatformTenantresourceInfraSpannerConfig)),
-  iamPolicyBindings: Schema.optional(Schema.Array(CloudAiPlatformTenantresourceIamPolicyBinding)),
-  tenantProjectId: Schema.optional(Schema.String),
-  tenantServiceAccounts: Schema.optional(Schema.Array(CloudAiPlatformTenantresourceTenantServiceAccountIdentity)),
-  tenantProjectNumber: Schema.optional(Schema.String),
-  cloudSqlInstances: Schema.optional(Schema.Array(CloudAiPlatformTenantresourceCloudSqlInstanceConfig)),
-  tenantProjectConfig: Schema.optional(CloudAiPlatformTenantresourceTenantProjectConfig),
-  tag: Schema.optional(Schema.String),
-  gcsBuckets: Schema.optional(Schema.Array(CloudAiPlatformTenantresourceGcsBucketConfig)),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceTenantProjectResource" }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantProjectResource>;
+export const CloudAiPlatformTenantresourceTenantProjectResource: Schema.Schema<CloudAiPlatformTenantresourceTenantProjectResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      infraSpannerConfigs: Schema.optional(
+        Schema.Array(CloudAiPlatformTenantresourceInfraSpannerConfig),
+      ),
+      iamPolicyBindings: Schema.optional(
+        Schema.Array(CloudAiPlatformTenantresourceIamPolicyBinding),
+      ),
+      tenantProjectId: Schema.optional(Schema.String),
+      tenantServiceAccounts: Schema.optional(
+        Schema.Array(CloudAiPlatformTenantresourceTenantServiceAccountIdentity),
+      ),
+      tenantProjectNumber: Schema.optional(Schema.String),
+      cloudSqlInstances: Schema.optional(
+        Schema.Array(CloudAiPlatformTenantresourceCloudSqlInstanceConfig),
+      ),
+      tenantProjectConfig: Schema.optional(
+        CloudAiPlatformTenantresourceTenantProjectConfig,
+      ),
+      tag: Schema.optional(Schema.String),
+      gcsBuckets: Schema.optional(
+        Schema.Array(CloudAiPlatformTenantresourceGcsBucketConfig),
+      ),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceTenantProjectResource",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantProjectResource>;
 
 export interface CloudAiPlatformTenantresourceTenantResource {
   /** A list of P4 service accounts (go/p4sa) to provision or deprovision. */
@@ -738,19 +1114,33 @@ export interface CloudAiPlatformTenantresourceTenantResource {
   tenantProjectResources?: Array<CloudAiPlatformTenantresourceTenantProjectResource>;
 }
 
-export const CloudAiPlatformTenantresourceTenantResource: Schema.Schema<CloudAiPlatformTenantresourceTenantResource> = Schema.suspend(() => Schema.Struct({
-  p4ServiceAccounts: Schema.optional(Schema.Array(CloudAiPlatformTenantresourceServiceAccountIdentity)),
-  tenantProjectResources: Schema.optional(Schema.Array(CloudAiPlatformTenantresourceTenantProjectResource)),
-})).annotate({ identifier: "CloudAiPlatformTenantresourceTenantResource" }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantResource>;
+export const CloudAiPlatformTenantresourceTenantResource: Schema.Schema<CloudAiPlatformTenantresourceTenantResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      p4ServiceAccounts: Schema.optional(
+        Schema.Array(CloudAiPlatformTenantresourceServiceAccountIdentity),
+      ),
+      tenantProjectResources: Schema.optional(
+        Schema.Array(CloudAiPlatformTenantresourceTenantProjectResource),
+      ),
+    }),
+  ).annotate({
+    identifier: "CloudAiPlatformTenantresourceTenantResource",
+  }) as any as Schema.Schema<CloudAiPlatformTenantresourceTenantResource>;
 
 export interface GoogleCloudContentwarehouseV1EnumValue {
   /** String value of the enum field. This must match defined set of enums in document schema using EnumTypeOptions. */
   value?: string;
 }
 
-export const GoogleCloudContentwarehouseV1EnumValue: Schema.Schema<GoogleCloudContentwarehouseV1EnumValue> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1EnumValue" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1EnumValue>;
+export const GoogleCloudContentwarehouseV1EnumValue: Schema.Schema<GoogleCloudContentwarehouseV1EnumValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1EnumValue",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1EnumValue>;
 
 export interface GoogleCloudContentwarehouseV1ProcessorInfo {
   /** The processor resource name. Format is `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
@@ -761,11 +1151,16 @@ export interface GoogleCloudContentwarehouseV1ProcessorInfo {
   documentType?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ProcessorInfo: Schema.Schema<GoogleCloudContentwarehouseV1ProcessorInfo> = Schema.suspend(() => Schema.Struct({
-  processorName: Schema.optional(Schema.String),
-  schemaName: Schema.optional(Schema.String),
-  documentType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ProcessorInfo" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ProcessorInfo>;
+export const GoogleCloudContentwarehouseV1ProcessorInfo: Schema.Schema<GoogleCloudContentwarehouseV1ProcessorInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      processorName: Schema.optional(Schema.String),
+      schemaName: Schema.optional(Schema.String),
+      documentType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ProcessorInfo",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ProcessorInfo>;
 
 export interface GoogleCloudDocumentaiV1Barcode {
   /** Raw value encoded in the barcode. For example: `'MEBKM:TITLE:Google;URL:https://www.google.com;;'`. */
@@ -776,11 +1171,16 @@ export interface GoogleCloudDocumentaiV1Barcode {
   format?: string;
 }
 
-export const GoogleCloudDocumentaiV1Barcode: Schema.Schema<GoogleCloudDocumentaiV1Barcode> = Schema.suspend(() => Schema.Struct({
-  rawValue: Schema.optional(Schema.String),
-  valueFormat: Schema.optional(Schema.String),
-  format: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1Barcode" }) as any as Schema.Schema<GoogleCloudDocumentaiV1Barcode>;
+export const GoogleCloudDocumentaiV1Barcode: Schema.Schema<GoogleCloudDocumentaiV1Barcode> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rawValue: Schema.optional(Schema.String),
+      valueFormat: Schema.optional(Schema.String),
+      format: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1Barcode",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1Barcode>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageDetectedBarcode {
   /** Detailed barcode information of the DetectedBarcode. */
@@ -789,10 +1189,15 @@ export interface GoogleCloudDocumentaiV1DocumentPageDetectedBarcode {
   layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageDetectedBarcode: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedBarcode> = Schema.suspend(() => Schema.Struct({
-  barcode: Schema.optional(GoogleCloudDocumentaiV1Barcode),
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedBarcode" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedBarcode>;
+export const GoogleCloudDocumentaiV1DocumentPageDetectedBarcode: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedBarcode> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      barcode: Schema.optional(GoogleCloudDocumentaiV1Barcode),
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedBarcode",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDetectedBarcode>;
 
 export interface GoogleCloudDocumentaiV1DocumentRevisionHumanReview {
   /** A message providing more details about the current state of processing. For example, the rejection reason when the state is `rejected`. */
@@ -801,10 +1206,15 @@ export interface GoogleCloudDocumentaiV1DocumentRevisionHumanReview {
   state?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentRevisionHumanReview: Schema.Schema<GoogleCloudDocumentaiV1DocumentRevisionHumanReview> = Schema.suspend(() => Schema.Struct({
-  stateMessage: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentRevisionHumanReview" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentRevisionHumanReview>;
+export const GoogleCloudDocumentaiV1DocumentRevisionHumanReview: Schema.Schema<GoogleCloudDocumentaiV1DocumentRevisionHumanReview> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      stateMessage: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentRevisionHumanReview",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentRevisionHumanReview>;
 
 export interface GoogleCloudDocumentaiV1DocumentProvenanceParent {
   /** The index of the parent item in the corresponding item list (eg. list of entities, properties within entities, etc.) in the parent revision. */
@@ -815,11 +1225,16 @@ export interface GoogleCloudDocumentaiV1DocumentProvenanceParent {
   id?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentProvenanceParent: Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenanceParent> = Schema.suspend(() => Schema.Struct({
-  index: Schema.optional(Schema.Number),
-  revision: Schema.optional(Schema.Number),
-  id: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentProvenanceParent" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenanceParent>;
+export const GoogleCloudDocumentaiV1DocumentProvenanceParent: Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenanceParent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      index: Schema.optional(Schema.Number),
+      revision: Schema.optional(Schema.Number),
+      id: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentProvenanceParent",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenanceParent>;
 
 export interface GoogleCloudDocumentaiV1DocumentProvenance {
   /** The Id of this operation. Needs to be unique within the scope of the revision. */
@@ -829,15 +1244,31 @@ export interface GoogleCloudDocumentaiV1DocumentProvenance {
   /** References to the original elements that are replaced. */
   parents?: Array<GoogleCloudDocumentaiV1DocumentProvenanceParent>;
   /** The type of provenance operation. */
-  type?: "OPERATION_TYPE_UNSPECIFIED" | "ADD" | "REMOVE" | "UPDATE" | "REPLACE" | "EVAL_REQUESTED" | "EVAL_APPROVED" | "EVAL_SKIPPED" | (string & {});
+  type?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "ADD"
+    | "REMOVE"
+    | "UPDATE"
+    | "REPLACE"
+    | "EVAL_REQUESTED"
+    | "EVAL_APPROVED"
+    | "EVAL_SKIPPED"
+    | (string & {});
 }
 
-export const GoogleCloudDocumentaiV1DocumentProvenance: Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenance> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.Number),
-  revision: Schema.optional(Schema.Number),
-  parents: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentProvenanceParent)),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentProvenance" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenance>;
+export const GoogleCloudDocumentaiV1DocumentProvenance: Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenance> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.Number),
+      revision: Schema.optional(Schema.Number),
+      parents: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentProvenanceParent),
+      ),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentProvenance",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentProvenance>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageParagraph {
   /** Layout for Paragraph. */
@@ -848,20 +1279,32 @@ export interface GoogleCloudDocumentaiV1DocumentPageParagraph {
   provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageParagraph: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageParagraph> = Schema.suspend(() => Schema.Struct({
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageParagraph" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageParagraph>;
+export const GoogleCloudDocumentaiV1DocumentPageParagraph: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageParagraph> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageParagraph",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageParagraph>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak {
   /** Detected break type. */
   type?: "TYPE_UNSPECIFIED" | "SPACE" | "WIDE_SPACE" | "HYPHEN" | (string & {});
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak>;
+export const GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak>;
 
 export interface GoogleTypeTimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
@@ -870,10 +1313,15 @@ export interface GoogleTypeTimeZone {
   version?: string;
 }
 
-export const GoogleTypeTimeZone: Schema.Schema<GoogleTypeTimeZone> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeTimeZone" }) as any as Schema.Schema<GoogleTypeTimeZone>;
+export const GoogleTypeTimeZone: Schema.Schema<GoogleTypeTimeZone> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleTypeTimeZone",
+  }) as any as Schema.Schema<GoogleTypeTimeZone>;
 
 export interface GoogleTypeDateTime {
   /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
@@ -896,26 +1344,36 @@ export interface GoogleTypeDateTime {
   hours?: number;
 }
 
-export const GoogleTypeDateTime: Schema.Schema<GoogleTypeDateTime> = Schema.suspend(() => Schema.Struct({
-  seconds: Schema.optional(Schema.Number),
-  year: Schema.optional(Schema.Number),
-  minutes: Schema.optional(Schema.Number),
-  utcOffset: Schema.optional(Schema.String),
-  day: Schema.optional(Schema.Number),
-  nanos: Schema.optional(Schema.Number),
-  timeZone: Schema.optional(GoogleTypeTimeZone),
-  month: Schema.optional(Schema.Number),
-  hours: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleTypeDateTime" }) as any as Schema.Schema<GoogleTypeDateTime>;
+export const GoogleTypeDateTime: Schema.Schema<GoogleTypeDateTime> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      seconds: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      utcOffset: Schema.optional(Schema.String),
+      day: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      timeZone: Schema.optional(GoogleTypeTimeZone),
+      month: Schema.optional(Schema.Number),
+      hours: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleTypeDateTime",
+  }) as any as Schema.Schema<GoogleTypeDateTime>;
 
 export interface GoogleCloudContentwarehouseV1DateTimeArray {
   /** List of datetime values. Both OffsetDateTime and ZonedDateTime are supported. */
   values?: Array<GoogleTypeDateTime>;
 }
 
-export const GoogleCloudContentwarehouseV1DateTimeArray: Schema.Schema<GoogleCloudContentwarehouseV1DateTimeArray> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(GoogleTypeDateTime)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DateTimeArray" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DateTimeArray>;
+export const GoogleCloudContentwarehouseV1DateTimeArray: Schema.Schema<GoogleCloudContentwarehouseV1DateTimeArray> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(GoogleTypeDateTime)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DateTimeArray",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DateTimeArray>;
 
 export interface GoogleCloudContentwarehouseV1DocumentReference {
   /** Stores the subset of the referenced document's content. This is useful to allow user peek the information of the referenced document. */
@@ -938,17 +1396,22 @@ export interface GoogleCloudContentwarehouseV1DocumentReference {
   documentIsFolder?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1DocumentReference: Schema.Schema<GoogleCloudContentwarehouseV1DocumentReference> = Schema.suspend(() => Schema.Struct({
-  snippet: Schema.optional(Schema.String),
-  documentName: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  documentIsLegalHoldFolder: Schema.optional(Schema.Boolean),
-  documentIsRetentionFolder: Schema.optional(Schema.Boolean),
-  deleteTime: Schema.optional(Schema.String),
-  documentIsFolder: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DocumentReference" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentReference>;
+export const GoogleCloudContentwarehouseV1DocumentReference: Schema.Schema<GoogleCloudContentwarehouseV1DocumentReference> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      snippet: Schema.optional(Schema.String),
+      documentName: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      documentIsLegalHoldFolder: Schema.optional(Schema.Boolean),
+      documentIsRetentionFolder: Schema.optional(Schema.Boolean),
+      deleteTime: Schema.optional(Schema.String),
+      documentIsFolder: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DocumentReference",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentReference>;
 
 export interface GoogleCloudContentwarehouseV1DocumentLink {
   /** Description of this document-link. */
@@ -967,15 +1430,24 @@ export interface GoogleCloudContentwarehouseV1DocumentLink {
   createTime?: string;
 }
 
-export const GoogleCloudContentwarehouseV1DocumentLink: Schema.Schema<GoogleCloudContentwarehouseV1DocumentLink> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  targetDocumentReference: Schema.optional(GoogleCloudContentwarehouseV1DocumentReference),
-  updateTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  sourceDocumentReference: Schema.optional(GoogleCloudContentwarehouseV1DocumentReference),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DocumentLink" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentLink>;
+export const GoogleCloudContentwarehouseV1DocumentLink: Schema.Schema<GoogleCloudContentwarehouseV1DocumentLink> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      targetDocumentReference: Schema.optional(
+        GoogleCloudContentwarehouseV1DocumentReference,
+      ),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      sourceDocumentReference: Schema.optional(
+        GoogleCloudContentwarehouseV1DocumentReference,
+      ),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DocumentLink",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentLink>;
 
 export interface GoogleCloudContentwarehouseV1UserInfo {
   /** A unique user identification string, as determined by the client. The maximum number of allowed characters is 255. Allowed characters include numbers 0 to 9, uppercase and lowercase letters, and restricted special symbols (:, @, +, -, _, ~) The format is "user:xxxx@example.com"; */
@@ -984,19 +1456,29 @@ export interface GoogleCloudContentwarehouseV1UserInfo {
   groupIds?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1UserInfo: Schema.Schema<GoogleCloudContentwarehouseV1UserInfo> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  groupIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1UserInfo" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UserInfo>;
+export const GoogleCloudContentwarehouseV1UserInfo: Schema.Schema<GoogleCloudContentwarehouseV1UserInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      groupIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1UserInfo",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UserInfo>;
 
 export interface GoogleCloudContentwarehouseV1RequestMetadata {
   /** Provides user unique identification and groups information. */
   userInfo?: GoogleCloudContentwarehouseV1UserInfo;
 }
 
-export const GoogleCloudContentwarehouseV1RequestMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RequestMetadata> = Schema.suspend(() => Schema.Struct({
-  userInfo: Schema.optional(GoogleCloudContentwarehouseV1UserInfo),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RequestMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RequestMetadata>;
+export const GoogleCloudContentwarehouseV1RequestMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RequestMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userInfo: Schema.optional(GoogleCloudContentwarehouseV1UserInfo),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RequestMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RequestMetadata>;
 
 export interface GoogleCloudContentwarehouseV1CreateDocumentLinkRequest {
   /** Required. Document links associated with the source documents (source_document_id). */
@@ -1005,10 +1487,17 @@ export interface GoogleCloudContentwarehouseV1CreateDocumentLinkRequest {
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1CreateDocumentLinkRequest: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentLinkRequest> = Schema.suspend(() => Schema.Struct({
-  documentLink: Schema.optional(GoogleCloudContentwarehouseV1DocumentLink),
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentLinkRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentLinkRequest>;
+export const GoogleCloudContentwarehouseV1CreateDocumentLinkRequest: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentLinkRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentLink: Schema.optional(GoogleCloudContentwarehouseV1DocumentLink),
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1CreateDocumentLinkRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentLinkRequest>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageLine {
   /** Layout for Line. */
@@ -1019,20 +1508,36 @@ export interface GoogleCloudDocumentaiV1DocumentPageLine {
   provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageLine: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLine> = Schema.suspend(() => Schema.Struct({
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLine" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLine>;
+export const GoogleCloudDocumentaiV1DocumentPageLine: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLine> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageLine",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageLine>;
 
 export interface GoogleCloudDocumentaiV1DocumentDocumentLayout {
   /** List of blocks in the document. */
   blocks?: Array<GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentDocumentLayout: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayout> = Schema.suspend(() => Schema.Struct({
-  blocks: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayout" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayout>;
+export const GoogleCloudDocumentaiV1DocumentDocumentLayout: Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayout> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      blocks: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayout",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentDocumentLayout>;
 
 export interface GoogleCloudContentwarehouseV1RuleActionsPair {
   /** Outputs of executing the actions associated with the above rule. */
@@ -1041,19 +1546,33 @@ export interface GoogleCloudContentwarehouseV1RuleActionsPair {
   rule?: GoogleCloudContentwarehouseV1Rule;
 }
 
-export const GoogleCloudContentwarehouseV1RuleActionsPair: Schema.Schema<GoogleCloudContentwarehouseV1RuleActionsPair> = Schema.suspend(() => Schema.Struct({
-  actionOutputs: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1ActionOutput)),
-  rule: Schema.optional(GoogleCloudContentwarehouseV1Rule),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleActionsPair" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleActionsPair>;
+export const GoogleCloudContentwarehouseV1RuleActionsPair: Schema.Schema<GoogleCloudContentwarehouseV1RuleActionsPair> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionOutputs: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1ActionOutput),
+      ),
+      rule: Schema.optional(GoogleCloudContentwarehouseV1Rule),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RuleActionsPair",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleActionsPair>;
 
 export interface GoogleCloudContentwarehouseV1ActionExecutorOutput {
   /** List of rule and corresponding actions result. */
   ruleActionsPairs?: Array<GoogleCloudContentwarehouseV1RuleActionsPair>;
 }
 
-export const GoogleCloudContentwarehouseV1ActionExecutorOutput: Schema.Schema<GoogleCloudContentwarehouseV1ActionExecutorOutput> = Schema.suspend(() => Schema.Struct({
-  ruleActionsPairs: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1RuleActionsPair)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ActionExecutorOutput" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ActionExecutorOutput>;
+export const GoogleCloudContentwarehouseV1ActionExecutorOutput: Schema.Schema<GoogleCloudContentwarehouseV1ActionExecutorOutput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ruleActionsPairs: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1RuleActionsPair),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ActionExecutorOutput",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ActionExecutorOutput>;
 
 export interface GoogleCloudContentwarehouseV1RuleEvaluatorOutput {
   /** A subset of triggered rules that are evaluated true for a given request. */
@@ -1064,11 +1583,22 @@ export interface GoogleCloudContentwarehouseV1RuleEvaluatorOutput {
   triggeredRules?: Array<GoogleCloudContentwarehouseV1Rule>;
 }
 
-export const GoogleCloudContentwarehouseV1RuleEvaluatorOutput: Schema.Schema<GoogleCloudContentwarehouseV1RuleEvaluatorOutput> = Schema.suspend(() => Schema.Struct({
-  matchedRules: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1Rule)),
-  invalidRules: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1InvalidRule)),
-  triggeredRules: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1Rule)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleEvaluatorOutput" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleEvaluatorOutput>;
+export const GoogleCloudContentwarehouseV1RuleEvaluatorOutput: Schema.Schema<GoogleCloudContentwarehouseV1RuleEvaluatorOutput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      matchedRules: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1Rule),
+      ),
+      invalidRules: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1InvalidRule),
+      ),
+      triggeredRules: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1Rule),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RuleEvaluatorOutput",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleEvaluatorOutput>;
 
 export interface GoogleCloudContentwarehouseV1RuleEngineOutput {
   /** Output from Action Executor containing rule and corresponding actions execution result. */
@@ -1079,11 +1609,20 @@ export interface GoogleCloudContentwarehouseV1RuleEngineOutput {
   documentName?: string;
 }
 
-export const GoogleCloudContentwarehouseV1RuleEngineOutput: Schema.Schema<GoogleCloudContentwarehouseV1RuleEngineOutput> = Schema.suspend(() => Schema.Struct({
-  actionExecutorOutput: Schema.optional(GoogleCloudContentwarehouseV1ActionExecutorOutput),
-  ruleEvaluatorOutput: Schema.optional(GoogleCloudContentwarehouseV1RuleEvaluatorOutput),
-  documentName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleEngineOutput" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleEngineOutput>;
+export const GoogleCloudContentwarehouseV1RuleEngineOutput: Schema.Schema<GoogleCloudContentwarehouseV1RuleEngineOutput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionExecutorOutput: Schema.optional(
+        GoogleCloudContentwarehouseV1ActionExecutorOutput,
+      ),
+      ruleEvaluatorOutput: Schema.optional(
+        GoogleCloudContentwarehouseV1RuleEvaluatorOutput,
+      ),
+      documentName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RuleEngineOutput",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleEngineOutput>;
 
 export interface GoogleTypeColor {
   /** The amount of red in the color as a value in the interval [0, 1]. */
@@ -1096,12 +1635,17 @@ export interface GoogleTypeColor {
   blue?: number;
 }
 
-export const GoogleTypeColor: Schema.Schema<GoogleTypeColor> = Schema.suspend(() => Schema.Struct({
-  red: Schema.optional(Schema.Number),
-  green: Schema.optional(Schema.Number),
-  alpha: Schema.optional(Schema.Number),
-  blue: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleTypeColor" }) as any as Schema.Schema<GoogleTypeColor>;
+export const GoogleTypeColor: Schema.Schema<GoogleTypeColor> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      red: Schema.optional(Schema.Number),
+      green: Schema.optional(Schema.Number),
+      alpha: Schema.optional(Schema.Number),
+      blue: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GoogleTypeColor",
+}) as any as Schema.Schema<GoogleTypeColor>;
 
 export interface GoogleCloudContentwarehouseV1ListLinkedSourcesRequest {
   /** The meta information collected about the document creator, used to enforce access control for the service. */
@@ -1112,11 +1656,18 @@ export interface GoogleCloudContentwarehouseV1ListLinkedSourcesRequest {
   pageToken?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ListLinkedSourcesRequest: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-  pageSize: Schema.optional(Schema.Number),
-  pageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedSourcesRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesRequest>;
+export const GoogleCloudContentwarehouseV1ListLinkedSourcesRequest: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+      pageSize: Schema.optional(Schema.Number),
+      pageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ListLinkedSourcesRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesRequest>;
 
 export interface GoogleRpcStatus {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -1127,11 +1678,18 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "GoogleRpcStatus" }) as any as Schema.Schema<GoogleRpcStatus>;
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+).annotate({
+  identifier: "GoogleRpcStatus",
+}) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline {
   /** The CDW processor information. */
@@ -1144,30 +1702,49 @@ export interface GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline {
   processorResultsFolderPath?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline: Schema.Schema<GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline> = Schema.suspend(() => Schema.Struct({
-  processorInfo: Schema.optional(GoogleCloudContentwarehouseV1ProcessorInfo),
-  exportFolderPath: Schema.optional(Schema.String),
-  documents: Schema.optional(Schema.Array(Schema.String)),
-  processorResultsFolderPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline>;
+export const GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline: Schema.Schema<GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      processorInfo: Schema.optional(
+        GoogleCloudContentwarehouseV1ProcessorInfo,
+      ),
+      exportFolderPath: Schema.optional(Schema.String),
+      documents: Schema.optional(Schema.Array(Schema.String)),
+      processorResultsFolderPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline>;
 
 export interface GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1DeleteDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DeleteDocumentRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentRequest>;
+export const GoogleCloudContentwarehouseV1DeleteDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DeleteDocumentRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentRequest>;
 
 export interface GoogleCloudContentwarehouseV1SynonymSetSynonym {
   /** For example: sale, invoice, bill, order */
   words?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1SynonymSetSynonym: Schema.Schema<GoogleCloudContentwarehouseV1SynonymSetSynonym> = Schema.suspend(() => Schema.Struct({
-  words: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1SynonymSetSynonym" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SynonymSetSynonym>;
+export const GoogleCloudContentwarehouseV1SynonymSetSynonym: Schema.Schema<GoogleCloudContentwarehouseV1SynonymSetSynonym> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      words: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1SynonymSetSynonym",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SynonymSetSynonym>;
 
 export interface GoogleCloudContentwarehouseV1SynonymSet {
   /** This is a freeform field. Example contexts can be "sales," "engineering," "real estate," "accounting," etc. The context can be supplied during search requests. */
@@ -1178,11 +1755,18 @@ export interface GoogleCloudContentwarehouseV1SynonymSet {
   synonyms?: Array<GoogleCloudContentwarehouseV1SynonymSetSynonym>;
 }
 
-export const GoogleCloudContentwarehouseV1SynonymSet: Schema.Schema<GoogleCloudContentwarehouseV1SynonymSet> = Schema.suspend(() => Schema.Struct({
-  context: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  synonyms: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1SynonymSetSynonym)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1SynonymSet" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SynonymSet>;
+export const GoogleCloudContentwarehouseV1SynonymSet: Schema.Schema<GoogleCloudContentwarehouseV1SynonymSet> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      context: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      synonyms: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1SynonymSetSynonym),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1SynonymSet",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SynonymSet>;
 
 export interface GoogleCloudContentwarehouseV1ListSynonymSetsResponse {
   /** The synonymSets from the specified parent. */
@@ -1191,10 +1775,17 @@ export interface GoogleCloudContentwarehouseV1ListSynonymSetsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ListSynonymSetsResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListSynonymSetsResponse> = Schema.suspend(() => Schema.Struct({
-  synonymSets: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1SynonymSet)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ListSynonymSetsResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListSynonymSetsResponse>;
+export const GoogleCloudContentwarehouseV1ListSynonymSetsResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListSynonymSetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      synonymSets: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1SynonymSet),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ListSynonymSetsResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListSynonymSetsResponse>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo {
   /** Font size in pixels, equal to _unrounded font_size_ * _resolution_ ÷ `72.0`. */
@@ -1229,23 +1820,28 @@ export interface GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo {
   superscript?: boolean;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo> = Schema.suspend(() => Schema.Struct({
-  pixelFontSize: Schema.optional(Schema.Number),
-  subscript: Schema.optional(Schema.Boolean),
-  textColor: Schema.optional(GoogleTypeColor),
-  fontType: Schema.optional(Schema.String),
-  fontWeight: Schema.optional(Schema.Number),
-  letterSpacing: Schema.optional(Schema.Number),
-  bold: Schema.optional(Schema.Boolean),
-  strikeout: Schema.optional(Schema.Boolean),
-  handwritten: Schema.optional(Schema.Boolean),
-  backgroundColor: Schema.optional(GoogleTypeColor),
-  italic: Schema.optional(Schema.Boolean),
-  underlined: Schema.optional(Schema.Boolean),
-  smallcaps: Schema.optional(Schema.Boolean),
-  fontSize: Schema.optional(Schema.Number),
-  superscript: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo>;
+export const GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pixelFontSize: Schema.optional(Schema.Number),
+      subscript: Schema.optional(Schema.Boolean),
+      textColor: Schema.optional(GoogleTypeColor),
+      fontType: Schema.optional(Schema.String),
+      fontWeight: Schema.optional(Schema.Number),
+      letterSpacing: Schema.optional(Schema.Number),
+      bold: Schema.optional(Schema.Boolean),
+      strikeout: Schema.optional(Schema.Boolean),
+      handwritten: Schema.optional(Schema.Boolean),
+      backgroundColor: Schema.optional(GoogleTypeColor),
+      italic: Schema.optional(Schema.Boolean),
+      underlined: Schema.optional(Schema.Boolean),
+      smallcaps: Schema.optional(Schema.Boolean),
+      fontSize: Schema.optional(Schema.Number),
+      superscript: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageToken {
   /** Text style attributes. */
@@ -1260,13 +1856,24 @@ export interface GoogleCloudDocumentaiV1DocumentPageToken {
   detectedLanguages?: Array<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageToken: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageToken> = Schema.suspend(() => Schema.Struct({
-  styleInfo: Schema.optional(GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo),
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  detectedBreak: Schema.optional(GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageToken" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageToken>;
+export const GoogleCloudDocumentaiV1DocumentPageToken: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageToken> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      styleInfo: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo,
+      ),
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      detectedBreak: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak,
+      ),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageToken",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageToken>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageTableTableCell {
   /** A list of detected languages together with confidence. */
@@ -1279,21 +1886,35 @@ export interface GoogleCloudDocumentaiV1DocumentPageTableTableCell {
   layout?: GoogleCloudDocumentaiV1DocumentPageLayout;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageTableTableCell: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableCell> = Schema.suspend(() => Schema.Struct({
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  rowSpan: Schema.optional(Schema.Number),
-  colSpan: Schema.optional(Schema.Number),
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableCell" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableCell>;
+export const GoogleCloudDocumentaiV1DocumentPageTableTableCell: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableCell> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      rowSpan: Schema.optional(Schema.Number),
+      colSpan: Schema.optional(Schema.Number),
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableCell",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableCell>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageTableTableRow {
   /** Cells that make up this row. */
   cells?: Array<GoogleCloudDocumentaiV1DocumentPageTableTableCell>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageTableTableRow: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableRow> = Schema.suspend(() => Schema.Struct({
-  cells: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageTableTableCell)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableRow" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableRow>;
+export const GoogleCloudDocumentaiV1DocumentPageTableTableRow: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableRow> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cells: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageTableTableCell),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableRow",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTableTableRow>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageTable {
   /** A list of detected languages together with confidence. */
@@ -1308,13 +1929,24 @@ export interface GoogleCloudDocumentaiV1DocumentPageTable {
   bodyRows?: Array<GoogleCloudDocumentaiV1DocumentPageTableTableRow>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageTable: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTable> = Schema.suspend(() => Schema.Struct({
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  headerRows: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageTableTableRow)),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-  bodyRows: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageTableTableRow)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTable" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTable>;
+export const GoogleCloudDocumentaiV1DocumentPageTable: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTable> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      headerRows: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageTableTableRow),
+      ),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+      bodyRows: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageTableTableRow),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageTable",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageTable>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect {
   /** Name of the defect type. Supported values are: - `quality/defect_blurry` - `quality/defect_noisy` - `quality/defect_dark` - `quality/defect_faint` - `quality/defect_text_too_small` - `quality/defect_document_cutoff` - `quality/defect_text_cutoff` - `quality/defect_glare` */
@@ -1323,10 +1955,16 @@ export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDe
   confidence?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect>;
+export const GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScores {
   /** The overall quality score. Range `[0, 1]` where `1` is perfect quality. */
@@ -1335,10 +1973,19 @@ export interface GoogleCloudDocumentaiV1DocumentPageImageQualityScores {
   detectedDefects?: Array<GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageImageQualityScores: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScores> = Schema.suspend(() => Schema.Struct({
-  qualityScore: Schema.optional(Schema.Number),
-  detectedDefects: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageImageQualityScores" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScores>;
+export const GoogleCloudDocumentaiV1DocumentPageImageQualityScores: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScores> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      qualityScore: Schema.optional(Schema.Number),
+      detectedDefects: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageImageQualityScores",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImageQualityScores>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageImage {
   /** Encoding [media type (MIME type)](https://www.iana.org/assignments/media-types/media-types.xhtml) for the image. */
@@ -1351,12 +1998,17 @@ export interface GoogleCloudDocumentaiV1DocumentPageImage {
   width?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageImage: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImage> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  height: Schema.optional(Schema.Number),
-  width: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageImage" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImage>;
+export const GoogleCloudDocumentaiV1DocumentPageImage: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      height: Schema.optional(Schema.Number),
+      width: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageImage",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageImage>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageFormField {
   /** Layout for the FormField value. */
@@ -1377,16 +2029,25 @@ export interface GoogleCloudDocumentaiV1DocumentPageFormField {
   provenance?: GoogleCloudDocumentaiV1DocumentProvenance;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageFormField: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageFormField> = Schema.suspend(() => Schema.Struct({
-  fieldValue: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  correctedKeyText: Schema.optional(Schema.String),
-  fieldName: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  valueDetectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  valueType: Schema.optional(Schema.String),
-  correctedValueText: Schema.optional(Schema.String),
-  nameDetectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageFormField" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageFormField>;
+export const GoogleCloudDocumentaiV1DocumentPageFormField: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageFormField> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fieldValue: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      correctedKeyText: Schema.optional(Schema.String),
+      fieldName: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      valueDetectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      valueType: Schema.optional(Schema.String),
+      correctedValueText: Schema.optional(Schema.String),
+      nameDetectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageFormField",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageFormField>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageMatrix {
   /** Number of rows in the matrix. */
@@ -1399,12 +2060,17 @@ export interface GoogleCloudDocumentaiV1DocumentPageMatrix {
   cols?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageMatrix: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageMatrix> = Schema.suspend(() => Schema.Struct({
-  rows: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.Number),
-  data: Schema.optional(Schema.String),
-  cols: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageMatrix" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageMatrix>;
+export const GoogleCloudDocumentaiV1DocumentPageMatrix: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageMatrix> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rows: Schema.optional(Schema.Number),
+      type: Schema.optional(Schema.Number),
+      data: Schema.optional(Schema.String),
+      cols: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageMatrix",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageMatrix>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageDimension {
   /** Dimension unit. */
@@ -1415,11 +2081,16 @@ export interface GoogleCloudDocumentaiV1DocumentPageDimension {
   width?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageDimension: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDimension> = Schema.suspend(() => Schema.Struct({
-  unit: Schema.optional(Schema.String),
-  height: Schema.optional(Schema.Number),
-  width: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDimension" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDimension>;
+export const GoogleCloudDocumentaiV1DocumentPageDimension: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDimension> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unit: Schema.optional(Schema.String),
+      height: Schema.optional(Schema.Number),
+      width: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageDimension",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageDimension>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageBlock {
   /** Layout for Block. */
@@ -1430,11 +2101,18 @@ export interface GoogleCloudDocumentaiV1DocumentPageBlock {
   detectedLanguages?: Array<GoogleCloudDocumentaiV1DocumentPageDetectedLanguage>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageBlock> = Schema.suspend(() => Schema.Struct({
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageBlock" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageBlock>;
+export const GoogleCloudDocumentaiV1DocumentPageBlock: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageBlock> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageBlock",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageBlock>;
 
 export interface GoogleCloudDocumentaiV1DocumentPageVisualElement {
   /** A list of detected languages together with confidence. */
@@ -1445,11 +2123,18 @@ export interface GoogleCloudDocumentaiV1DocumentPageVisualElement {
   type?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPageVisualElement: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageVisualElement> = Schema.suspend(() => Schema.Struct({
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageVisualElement" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageVisualElement>;
+export const GoogleCloudDocumentaiV1DocumentPageVisualElement: Schema.Schema<GoogleCloudDocumentaiV1DocumentPageVisualElement> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPageVisualElement",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPageVisualElement>;
 
 export interface GoogleCloudDocumentaiV1DocumentPage {
   /** A list of visually detected text paragraphs on the page. A collection of lines that a human would perceive as a paragraph. */
@@ -1488,25 +2173,54 @@ export interface GoogleCloudDocumentaiV1DocumentPage {
   detectedBarcodes?: Array<GoogleCloudDocumentaiV1DocumentPageDetectedBarcode>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentPage: Schema.Schema<GoogleCloudDocumentaiV1DocumentPage> = Schema.suspend(() => Schema.Struct({
-  paragraphs: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageParagraph)),
-  tokens: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageToken)),
-  tables: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageTable)),
-  layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
-  imageQualityScores: Schema.optional(GoogleCloudDocumentaiV1DocumentPageImageQualityScores),
-  image: Schema.optional(GoogleCloudDocumentaiV1DocumentPageImage),
-  detectedLanguages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage)),
-  pageNumber: Schema.optional(Schema.Number),
-  lines: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageLine)),
-  formFields: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageFormField)),
-  transforms: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageMatrix)),
-  symbols: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageSymbol)),
-  dimension: Schema.optional(GoogleCloudDocumentaiV1DocumentPageDimension),
-  blocks: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageBlock)),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-  visualElements: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageVisualElement)),
-  detectedBarcodes: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedBarcode)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPage" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPage>;
+export const GoogleCloudDocumentaiV1DocumentPage: Schema.Schema<GoogleCloudDocumentaiV1DocumentPage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      paragraphs: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageParagraph),
+      ),
+      tokens: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageToken),
+      ),
+      tables: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageTable),
+      ),
+      layout: Schema.optional(GoogleCloudDocumentaiV1DocumentPageLayout),
+      imageQualityScores: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentPageImageQualityScores,
+      ),
+      image: Schema.optional(GoogleCloudDocumentaiV1DocumentPageImage),
+      detectedLanguages: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedLanguage),
+      ),
+      pageNumber: Schema.optional(Schema.Number),
+      lines: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageLine),
+      ),
+      formFields: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageFormField),
+      ),
+      transforms: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageMatrix),
+      ),
+      symbols: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageSymbol),
+      ),
+      dimension: Schema.optional(GoogleCloudDocumentaiV1DocumentPageDimension),
+      blocks: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageBlock),
+      ),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+      visualElements: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageVisualElement),
+      ),
+      detectedBarcodes: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentPageDetectedBarcode),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentPage",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentPage>;
 
 export interface GoogleCloudDocumentaiV1DocumentEntityRelation {
   /** Object entity id. */
@@ -1517,11 +2231,16 @@ export interface GoogleCloudDocumentaiV1DocumentEntityRelation {
   relation?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentEntityRelation: Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityRelation> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  subjectId: Schema.optional(Schema.String),
-  relation: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityRelation" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityRelation>;
+export const GoogleCloudDocumentaiV1DocumentEntityRelation: Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityRelation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      subjectId: Schema.optional(Schema.String),
+      relation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentEntityRelation",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityRelation>;
 
 export interface GoogleCloudDocumentaiV1DocumentRevision {
   /** Human Review information of this revision. */
@@ -1540,15 +2259,22 @@ export interface GoogleCloudDocumentaiV1DocumentRevision {
   id?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentRevision: Schema.Schema<GoogleCloudDocumentaiV1DocumentRevision> = Schema.suspend(() => Schema.Struct({
-  humanReview: Schema.optional(GoogleCloudDocumentaiV1DocumentRevisionHumanReview),
-  parent: Schema.optional(Schema.Array(Schema.Number)),
-  parentIds: Schema.optional(Schema.Array(Schema.String)),
-  createTime: Schema.optional(Schema.String),
-  agent: Schema.optional(Schema.String),
-  processor: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentRevision" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentRevision>;
+export const GoogleCloudDocumentaiV1DocumentRevision: Schema.Schema<GoogleCloudDocumentaiV1DocumentRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      humanReview: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentRevisionHumanReview,
+      ),
+      parent: Schema.optional(Schema.Array(Schema.Number)),
+      parentIds: Schema.optional(Schema.Array(Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      agent: Schema.optional(Schema.String),
+      processor: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentRevision",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentRevision>;
 
 export interface GoogleCloudDocumentaiV1DocumentShardInfo {
   /** The 0-based index of this shard. */
@@ -1559,11 +2285,16 @@ export interface GoogleCloudDocumentaiV1DocumentShardInfo {
   textOffset?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentShardInfo: Schema.Schema<GoogleCloudDocumentaiV1DocumentShardInfo> = Schema.suspend(() => Schema.Struct({
-  shardIndex: Schema.optional(Schema.String),
-  shardCount: Schema.optional(Schema.String),
-  textOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentShardInfo" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentShardInfo>;
+export const GoogleCloudDocumentaiV1DocumentShardInfo: Schema.Schema<GoogleCloudDocumentaiV1DocumentShardInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      shardIndex: Schema.optional(Schema.String),
+      shardCount: Schema.optional(Schema.String),
+      textOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentShardInfo",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentShardInfo>;
 
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan {
   /** Page where chunk starts in the document. */
@@ -1572,10 +2303,16 @@ export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpa
   pageEnd?: number;
 }
 
-export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan> = Schema.suspend(() => Schema.Struct({
-  pageStart: Schema.optional(Schema.Number),
-  pageEnd: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan>;
+export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageStart: Schema.optional(Schema.Number),
+      pageEnd: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan>;
 
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter {
   /** Footer in text format. */
@@ -1584,10 +2321,18 @@ export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFoo
   pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan;
 }
 
-export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  pageSpan: Schema.optional(GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter>;
+export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      pageSpan: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter>;
 
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader {
   /** Page span of the header. */
@@ -1596,10 +2341,18 @@ export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHea
   text?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader> = Schema.suspend(() => Schema.Struct({
-  pageSpan: Schema.optional(GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan),
-  text: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader>;
+export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageSpan: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan,
+      ),
+      text: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader>;
 
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk {
   /** Page footers associated with the chunk. */
@@ -1616,23 +2369,45 @@ export interface GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk {
   pageSpan?: GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan;
 }
 
-export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk> = Schema.suspend(() => Schema.Struct({
-  pageFooters: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter)),
-  content: Schema.optional(Schema.String),
-  pageHeaders: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader)),
-  sourceBlockIds: Schema.optional(Schema.Array(Schema.String)),
-  chunkId: Schema.optional(Schema.String),
-  pageSpan: Schema.optional(GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk>;
+export const GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageFooters: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter,
+        ),
+      ),
+      content: Schema.optional(Schema.String),
+      pageHeaders: Schema.optional(
+        Schema.Array(
+          GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageHeader,
+        ),
+      ),
+      sourceBlockIds: Schema.optional(Schema.Array(Schema.String)),
+      chunkId: Schema.optional(Schema.String),
+      pageSpan: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageSpan,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk>;
 
 export interface GoogleCloudDocumentaiV1DocumentChunkedDocument {
   /** List of chunks. */
   chunks?: Array<GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentChunkedDocument: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocument> = Schema.suspend(() => Schema.Struct({
-  chunks: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocument" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocument>;
+export const GoogleCloudDocumentaiV1DocumentChunkedDocument: Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocument> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      chunks: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocument",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentChunkedDocument>;
 
 export interface GoogleCloudDocumentaiV1DocumentStyleFontSize {
   /** Font size for the text. */
@@ -1641,10 +2416,15 @@ export interface GoogleCloudDocumentaiV1DocumentStyleFontSize {
   unit?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentStyleFontSize: Schema.Schema<GoogleCloudDocumentaiV1DocumentStyleFontSize> = Schema.suspend(() => Schema.Struct({
-  size: Schema.optional(Schema.Number),
-  unit: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentStyleFontSize" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentStyleFontSize>;
+export const GoogleCloudDocumentaiV1DocumentStyleFontSize: Schema.Schema<GoogleCloudDocumentaiV1DocumentStyleFontSize> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      size: Schema.optional(Schema.Number),
+      unit: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentStyleFontSize",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentStyleFontSize>;
 
 export interface GoogleCloudDocumentaiV1DocumentStyle {
   /** Text color. */
@@ -1665,16 +2445,21 @@ export interface GoogleCloudDocumentaiV1DocumentStyle {
   fontWeight?: string;
 }
 
-export const GoogleCloudDocumentaiV1DocumentStyle: Schema.Schema<GoogleCloudDocumentaiV1DocumentStyle> = Schema.suspend(() => Schema.Struct({
-  color: Schema.optional(GoogleTypeColor),
-  textStyle: Schema.optional(Schema.String),
-  backgroundColor: Schema.optional(GoogleTypeColor),
-  fontSize: Schema.optional(GoogleCloudDocumentaiV1DocumentStyleFontSize),
-  fontFamily: Schema.optional(Schema.String),
-  textDecoration: Schema.optional(Schema.String),
-  textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
-  fontWeight: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentStyle" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentStyle>;
+export const GoogleCloudDocumentaiV1DocumentStyle: Schema.Schema<GoogleCloudDocumentaiV1DocumentStyle> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      color: Schema.optional(GoogleTypeColor),
+      textStyle: Schema.optional(Schema.String),
+      backgroundColor: Schema.optional(GoogleTypeColor),
+      fontSize: Schema.optional(GoogleCloudDocumentaiV1DocumentStyleFontSize),
+      fontFamily: Schema.optional(Schema.String),
+      textDecoration: Schema.optional(Schema.String),
+      textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
+      fontWeight: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentStyle",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentStyle>;
 
 export interface GoogleCloudDocumentaiV1DocumentTextChange {
   /** The text that replaces the text identified in the `text_anchor`. */
@@ -1685,11 +2470,18 @@ export interface GoogleCloudDocumentaiV1DocumentTextChange {
   textAnchor?: GoogleCloudDocumentaiV1DocumentTextAnchor;
 }
 
-export const GoogleCloudDocumentaiV1DocumentTextChange: Schema.Schema<GoogleCloudDocumentaiV1DocumentTextChange> = Schema.suspend(() => Schema.Struct({
-  changedText: Schema.optional(Schema.String),
-  provenance: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentProvenance)),
-  textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextChange" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentTextChange>;
+export const GoogleCloudDocumentaiV1DocumentTextChange: Schema.Schema<GoogleCloudDocumentaiV1DocumentTextChange> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      changedText: Schema.optional(Schema.String),
+      provenance: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentProvenance),
+      ),
+      textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentTextChange",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentTextChange>;
 
 export interface GoogleTypeDate {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
@@ -1700,11 +2492,16 @@ export interface GoogleTypeDate {
   day?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(() => Schema.Struct({
-  month: Schema.optional(Schema.Number),
-  year: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleTypeDate" }) as any as Schema.Schema<GoogleTypeDate>;
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      month: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GoogleTypeDate",
+}) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GoogleTypePostalAddress {
   /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (For example state/zip validation in the U.S.A.). */
@@ -1731,19 +2528,24 @@ export interface GoogleTypePostalAddress {
   organization?: string;
 }
 
-export const GoogleTypePostalAddress: Schema.Schema<GoogleTypePostalAddress> = Schema.suspend(() => Schema.Struct({
-  postalCode: Schema.optional(Schema.String),
-  sublocality: Schema.optional(Schema.String),
-  recipients: Schema.optional(Schema.Array(Schema.String)),
-  locality: Schema.optional(Schema.String),
-  revision: Schema.optional(Schema.Number),
-  sortingCode: Schema.optional(Schema.String),
-  administrativeArea: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  addressLines: Schema.optional(Schema.Array(Schema.String)),
-  languageCode: Schema.optional(Schema.String),
-  organization: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypePostalAddress" }) as any as Schema.Schema<GoogleTypePostalAddress>;
+export const GoogleTypePostalAddress: Schema.Schema<GoogleTypePostalAddress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      postalCode: Schema.optional(Schema.String),
+      sublocality: Schema.optional(Schema.String),
+      recipients: Schema.optional(Schema.Array(Schema.String)),
+      locality: Schema.optional(Schema.String),
+      revision: Schema.optional(Schema.Number),
+      sortingCode: Schema.optional(Schema.String),
+      administrativeArea: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      addressLines: Schema.optional(Schema.Array(Schema.String)),
+      languageCode: Schema.optional(Schema.String),
+      organization: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleTypePostalAddress",
+  }) as any as Schema.Schema<GoogleTypePostalAddress>;
 
 export interface GoogleTypeMoney {
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
@@ -1754,11 +2556,16 @@ export interface GoogleTypeMoney {
   currencyCode?: string;
 }
 
-export const GoogleTypeMoney: Schema.Schema<GoogleTypeMoney> = Schema.suspend(() => Schema.Struct({
-  units: Schema.optional(Schema.String),
-  nanos: Schema.optional(Schema.Number),
-  currencyCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeMoney" }) as any as Schema.Schema<GoogleTypeMoney>;
+export const GoogleTypeMoney: Schema.Schema<GoogleTypeMoney> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      units: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GoogleTypeMoney",
+}) as any as Schema.Schema<GoogleTypeMoney>;
 
 export interface GoogleCloudDocumentaiV1DocumentEntityNormalizedValue {
   /** Integer value. */
@@ -1779,16 +2586,21 @@ export interface GoogleCloudDocumentaiV1DocumentEntityNormalizedValue {
   datetimeValue?: GoogleTypeDateTime;
 }
 
-export const GoogleCloudDocumentaiV1DocumentEntityNormalizedValue: Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityNormalizedValue> = Schema.suspend(() => Schema.Struct({
-  integerValue: Schema.optional(Schema.Number),
-  booleanValue: Schema.optional(Schema.Boolean),
-  dateValue: Schema.optional(GoogleTypeDate),
-  addressValue: Schema.optional(GoogleTypePostalAddress),
-  moneyValue: Schema.optional(GoogleTypeMoney),
-  text: Schema.optional(Schema.String),
-  floatValue: Schema.optional(Schema.Number),
-  datetimeValue: Schema.optional(GoogleTypeDateTime),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityNormalizedValue" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityNormalizedValue>;
+export const GoogleCloudDocumentaiV1DocumentEntityNormalizedValue: Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityNormalizedValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      integerValue: Schema.optional(Schema.Number),
+      booleanValue: Schema.optional(Schema.Boolean),
+      dateValue: Schema.optional(GoogleTypeDate),
+      addressValue: Schema.optional(GoogleTypePostalAddress),
+      moneyValue: Schema.optional(GoogleTypeMoney),
+      text: Schema.optional(Schema.String),
+      floatValue: Schema.optional(Schema.Number),
+      datetimeValue: Schema.optional(GoogleTypeDateTime),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentEntityNormalizedValue",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentEntityNormalizedValue>;
 
 export interface GoogleCloudDocumentaiV1DocumentEntity {
   /** Optional. Normalized entity value. Absent if the extracted value could not be converted or the type (e.g. address) is not supported for certain parsers. This field is also only populated for certain supported document types. */
@@ -1815,19 +2627,28 @@ export interface GoogleCloudDocumentaiV1DocumentEntity {
   properties?: Array<GoogleCloudDocumentaiV1DocumentEntity>;
 }
 
-export const GoogleCloudDocumentaiV1DocumentEntity: Schema.Schema<GoogleCloudDocumentaiV1DocumentEntity> = Schema.suspend(() => Schema.Struct({
-  normalizedValue: Schema.optional(GoogleCloudDocumentaiV1DocumentEntityNormalizedValue),
-  confidence: Schema.optional(Schema.Number),
-  pageAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentPageAnchor),
-  id: Schema.optional(Schema.String),
-  redacted: Schema.optional(Schema.Boolean),
-  mentionId: Schema.optional(Schema.String),
-  textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
-  type: Schema.optional(Schema.String),
-  provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
-  mentionText: Schema.optional(Schema.String),
-  properties: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentEntity)),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntity" }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentEntity>;
+export const GoogleCloudDocumentaiV1DocumentEntity: Schema.Schema<GoogleCloudDocumentaiV1DocumentEntity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedValue: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentEntityNormalizedValue,
+      ),
+      confidence: Schema.optional(Schema.Number),
+      pageAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentPageAnchor),
+      id: Schema.optional(Schema.String),
+      redacted: Schema.optional(Schema.Boolean),
+      mentionId: Schema.optional(Schema.String),
+      textAnchor: Schema.optional(GoogleCloudDocumentaiV1DocumentTextAnchor),
+      type: Schema.optional(Schema.String),
+      provenance: Schema.optional(GoogleCloudDocumentaiV1DocumentProvenance),
+      mentionText: Schema.optional(Schema.String),
+      properties: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentEntity),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1DocumentEntity",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1DocumentEntity>;
 
 export interface GoogleCloudDocumentaiV1Document {
   /** Visual page layout for the Document. */
@@ -1860,31 +2681,57 @@ export interface GoogleCloudDocumentaiV1Document {
   mimeType?: string;
 }
 
-export const GoogleCloudDocumentaiV1Document: Schema.Schema<GoogleCloudDocumentaiV1Document> = Schema.suspend(() => Schema.Struct({
-  pages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPage)),
-  entityRelations: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentEntityRelation)),
-  revisions: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentRevision)),
-  shardInfo: Schema.optional(GoogleCloudDocumentaiV1DocumentShardInfo),
-  chunkedDocument: Schema.optional(GoogleCloudDocumentaiV1DocumentChunkedDocument),
-  uri: Schema.optional(Schema.String),
-  textStyles: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentStyle)),
-  content: Schema.optional(Schema.String),
-  textChanges: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentTextChange)),
-  text: Schema.optional(Schema.String),
-  entities: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentEntity)),
-  error: Schema.optional(GoogleRpcStatus),
-  documentLayout: Schema.optional(GoogleCloudDocumentaiV1DocumentDocumentLayout),
-  mimeType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDocumentaiV1Document" }) as any as Schema.Schema<GoogleCloudDocumentaiV1Document>;
+export const GoogleCloudDocumentaiV1Document: Schema.Schema<GoogleCloudDocumentaiV1Document> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pages: Schema.optional(Schema.Array(GoogleCloudDocumentaiV1DocumentPage)),
+      entityRelations: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentEntityRelation),
+      ),
+      revisions: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentRevision),
+      ),
+      shardInfo: Schema.optional(GoogleCloudDocumentaiV1DocumentShardInfo),
+      chunkedDocument: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentChunkedDocument,
+      ),
+      uri: Schema.optional(Schema.String),
+      textStyles: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentStyle),
+      ),
+      content: Schema.optional(Schema.String),
+      textChanges: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentTextChange),
+      ),
+      text: Schema.optional(Schema.String),
+      entities: Schema.optional(
+        Schema.Array(GoogleCloudDocumentaiV1DocumentEntity),
+      ),
+      error: Schema.optional(GoogleRpcStatus),
+      documentLayout: Schema.optional(
+        GoogleCloudDocumentaiV1DocumentDocumentLayout,
+      ),
+      mimeType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDocumentaiV1Document",
+  }) as any as Schema.Schema<GoogleCloudDocumentaiV1Document>;
 
 export interface GoogleCloudContentwarehouseV1PropertyArray {
   /** List of property values. */
   properties?: Array<GoogleCloudContentwarehouseV1Property>;
 }
 
-export const GoogleCloudContentwarehouseV1PropertyArray: Schema.Schema<GoogleCloudContentwarehouseV1PropertyArray> = Schema.suspend(() => Schema.Struct({
-  properties: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1Property)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyArray" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyArray>;
+export const GoogleCloudContentwarehouseV1PropertyArray: Schema.Schema<GoogleCloudContentwarehouseV1PropertyArray> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      properties: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1Property),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1PropertyArray",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyArray>;
 
 export interface GoogleCloudContentwarehouseV1TimestampValue {
   /** The string must represent a valid instant in UTC and is parsed using java.time.format.DateTimeFormatter.ISO_INSTANT. e.g. "2013-09-29T18:46:19Z" */
@@ -1893,10 +2740,15 @@ export interface GoogleCloudContentwarehouseV1TimestampValue {
   timestampValue?: string;
 }
 
-export const GoogleCloudContentwarehouseV1TimestampValue: Schema.Schema<GoogleCloudContentwarehouseV1TimestampValue> = Schema.suspend(() => Schema.Struct({
-  textValue: Schema.optional(Schema.String),
-  timestampValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1TimestampValue" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimestampValue>;
+export const GoogleCloudContentwarehouseV1TimestampValue: Schema.Schema<GoogleCloudContentwarehouseV1TimestampValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      textValue: Schema.optional(Schema.String),
+      timestampValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1TimestampValue",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimestampValue>;
 
 export interface GoogleCloudContentwarehouseV1Value {
   /** Represents a string value. */
@@ -1915,69 +2767,110 @@ export interface GoogleCloudContentwarehouseV1Value {
   timestampValue?: GoogleCloudContentwarehouseV1TimestampValue;
 }
 
-export const GoogleCloudContentwarehouseV1Value: Schema.Schema<GoogleCloudContentwarehouseV1Value> = Schema.suspend(() => Schema.Struct({
-  stringValue: Schema.optional(Schema.String),
-  booleanValue: Schema.optional(Schema.Boolean),
-  intValue: Schema.optional(Schema.Number),
-  floatValue: Schema.optional(Schema.Number),
-  enumValue: Schema.optional(GoogleCloudContentwarehouseV1EnumValue),
-  datetimeValue: Schema.optional(GoogleTypeDateTime),
-  timestampValue: Schema.optional(GoogleCloudContentwarehouseV1TimestampValue),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1Value" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Value>;
+export const GoogleCloudContentwarehouseV1Value: Schema.Schema<GoogleCloudContentwarehouseV1Value> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      stringValue: Schema.optional(Schema.String),
+      booleanValue: Schema.optional(Schema.Boolean),
+      intValue: Schema.optional(Schema.Number),
+      floatValue: Schema.optional(Schema.Number),
+      enumValue: Schema.optional(GoogleCloudContentwarehouseV1EnumValue),
+      datetimeValue: Schema.optional(GoogleTypeDateTime),
+      timestampValue: Schema.optional(
+        GoogleCloudContentwarehouseV1TimestampValue,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1Value",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Value>;
 
 export interface GoogleCloudContentwarehouseV1MapProperty {
   /** Unordered map of dynamically typed values. */
   fields?: Record<string, GoogleCloudContentwarehouseV1Value>;
 }
 
-export const GoogleCloudContentwarehouseV1MapProperty: Schema.Schema<GoogleCloudContentwarehouseV1MapProperty> = Schema.suspend(() => Schema.Struct({
-  fields: Schema.optional(Schema.Record(Schema.String, GoogleCloudContentwarehouseV1Value)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1MapProperty" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1MapProperty>;
+export const GoogleCloudContentwarehouseV1MapProperty: Schema.Schema<GoogleCloudContentwarehouseV1MapProperty> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fields: Schema.optional(
+        Schema.Record(Schema.String, GoogleCloudContentwarehouseV1Value),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1MapProperty",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1MapProperty>;
 
 export interface GoogleCloudContentwarehouseV1TextArray {
   /** List of text values. */
   values?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1TextArray: Schema.Schema<GoogleCloudContentwarehouseV1TextArray> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1TextArray" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TextArray>;
+export const GoogleCloudContentwarehouseV1TextArray: Schema.Schema<GoogleCloudContentwarehouseV1TextArray> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1TextArray",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TextArray>;
 
 export interface GoogleCloudContentwarehouseV1IntegerArray {
   /** List of integer values. */
   values?: Array<number>;
 }
 
-export const GoogleCloudContentwarehouseV1IntegerArray: Schema.Schema<GoogleCloudContentwarehouseV1IntegerArray> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.Number)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1IntegerArray" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1IntegerArray>;
+export const GoogleCloudContentwarehouseV1IntegerArray: Schema.Schema<GoogleCloudContentwarehouseV1IntegerArray> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.Number)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1IntegerArray",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1IntegerArray>;
 
 export interface GoogleCloudContentwarehouseV1EnumArray {
   /** List of enum values. */
   values?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1EnumArray: Schema.Schema<GoogleCloudContentwarehouseV1EnumArray> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1EnumArray" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1EnumArray>;
+export const GoogleCloudContentwarehouseV1EnumArray: Schema.Schema<GoogleCloudContentwarehouseV1EnumArray> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1EnumArray",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1EnumArray>;
 
 export interface GoogleCloudContentwarehouseV1TimestampArray {
   /** List of timestamp values. */
   values?: Array<GoogleCloudContentwarehouseV1TimestampValue>;
 }
 
-export const GoogleCloudContentwarehouseV1TimestampArray: Schema.Schema<GoogleCloudContentwarehouseV1TimestampArray> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1TimestampValue)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1TimestampArray" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimestampArray>;
+export const GoogleCloudContentwarehouseV1TimestampArray: Schema.Schema<GoogleCloudContentwarehouseV1TimestampArray> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1TimestampValue),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1TimestampArray",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimestampArray>;
 
 export interface GoogleCloudContentwarehouseV1FloatArray {
   /** List of float values. */
   values?: Array<number>;
 }
 
-export const GoogleCloudContentwarehouseV1FloatArray: Schema.Schema<GoogleCloudContentwarehouseV1FloatArray> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.Number)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1FloatArray" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FloatArray>;
+export const GoogleCloudContentwarehouseV1FloatArray: Schema.Schema<GoogleCloudContentwarehouseV1FloatArray> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.Number)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1FloatArray",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FloatArray>;
 
 export interface GoogleCloudContentwarehouseV1Property {
   /** Date time property values. It is not supported by CMEK compliant deployment. */
@@ -2000,17 +2893,28 @@ export interface GoogleCloudContentwarehouseV1Property {
   floatValues?: GoogleCloudContentwarehouseV1FloatArray;
 }
 
-export const GoogleCloudContentwarehouseV1Property: Schema.Schema<GoogleCloudContentwarehouseV1Property> = Schema.suspend(() => Schema.Struct({
-  dateTimeValues: Schema.optional(GoogleCloudContentwarehouseV1DateTimeArray),
-  name: Schema.optional(Schema.String),
-  propertyValues: Schema.optional(GoogleCloudContentwarehouseV1PropertyArray),
-  mapProperty: Schema.optional(GoogleCloudContentwarehouseV1MapProperty),
-  textValues: Schema.optional(GoogleCloudContentwarehouseV1TextArray),
-  integerValues: Schema.optional(GoogleCloudContentwarehouseV1IntegerArray),
-  enumValues: Schema.optional(GoogleCloudContentwarehouseV1EnumArray),
-  timestampValues: Schema.optional(GoogleCloudContentwarehouseV1TimestampArray),
-  floatValues: Schema.optional(GoogleCloudContentwarehouseV1FloatArray),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1Property" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Property>;
+export const GoogleCloudContentwarehouseV1Property: Schema.Schema<GoogleCloudContentwarehouseV1Property> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dateTimeValues: Schema.optional(
+        GoogleCloudContentwarehouseV1DateTimeArray,
+      ),
+      name: Schema.optional(Schema.String),
+      propertyValues: Schema.optional(
+        GoogleCloudContentwarehouseV1PropertyArray,
+      ),
+      mapProperty: Schema.optional(GoogleCloudContentwarehouseV1MapProperty),
+      textValues: Schema.optional(GoogleCloudContentwarehouseV1TextArray),
+      integerValues: Schema.optional(GoogleCloudContentwarehouseV1IntegerArray),
+      enumValues: Schema.optional(GoogleCloudContentwarehouseV1EnumArray),
+      timestampValues: Schema.optional(
+        GoogleCloudContentwarehouseV1TimestampArray,
+      ),
+      floatValues: Schema.optional(GoogleCloudContentwarehouseV1FloatArray),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1Property",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Property>;
 
 export interface GoogleCloudContentwarehouseV1Document {
   /** The user who lastly updates the document. */
@@ -2026,7 +2930,15 @@ export interface GoogleCloudContentwarehouseV1Document {
   /** Raw document file in Cloud Storage path. */
   rawDocumentPath?: string;
   /** This is used when DocAI was not used to load the document and parsing/ extracting is needed for the inline_raw_document. For example, if inline_raw_document is the byte representation of a PDF file, then this should be set to: RAW_DOCUMENT_FILE_TYPE_PDF. */
-  rawDocumentFileType?: "RAW_DOCUMENT_FILE_TYPE_UNSPECIFIED" | "RAW_DOCUMENT_FILE_TYPE_PDF" | "RAW_DOCUMENT_FILE_TYPE_DOCX" | "RAW_DOCUMENT_FILE_TYPE_XLSX" | "RAW_DOCUMENT_FILE_TYPE_PPTX" | "RAW_DOCUMENT_FILE_TYPE_TEXT" | "RAW_DOCUMENT_FILE_TYPE_TIFF" | (string & {});
+  rawDocumentFileType?:
+    | "RAW_DOCUMENT_FILE_TYPE_UNSPECIFIED"
+    | "RAW_DOCUMENT_FILE_TYPE_PDF"
+    | "RAW_DOCUMENT_FILE_TYPE_DOCX"
+    | "RAW_DOCUMENT_FILE_TYPE_XLSX"
+    | "RAW_DOCUMENT_FILE_TYPE_PPTX"
+    | "RAW_DOCUMENT_FILE_TYPE_TEXT"
+    | "RAW_DOCUMENT_FILE_TYPE_TIFF"
+    | (string & {});
   /** If true, text extraction will not be performed. */
   textExtractionDisabled?: boolean;
   /** Output only. If linked to a Collection with RetentionPolicy, the date when the document becomes mutable. */
@@ -2042,7 +2954,12 @@ export interface GoogleCloudContentwarehouseV1Document {
   /** The resource name of the document. Format: projects/{project_number}/locations/{location}/documents/{document_id}. The name is ignored when creating a document. */
   name?: string;
   /** Indicates the category (image, audio, video etc.) of the original content. */
-  contentCategory?: "CONTENT_CATEGORY_UNSPECIFIED" | "CONTENT_CATEGORY_IMAGE" | "CONTENT_CATEGORY_AUDIO" | "CONTENT_CATEGORY_VIDEO" | (string & {});
+  contentCategory?:
+    | "CONTENT_CATEGORY_UNSPECIFIED"
+    | "CONTENT_CATEGORY_IMAGE"
+    | "CONTENT_CATEGORY_AUDIO"
+    | "CONTENT_CATEGORY_VIDEO"
+    | (string & {});
   /** Output only. The time when the document is created. */
   createTime?: string;
   /** The Document schema name. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
@@ -2057,29 +2974,36 @@ export interface GoogleCloudContentwarehouseV1Document {
   title?: string;
 }
 
-export const GoogleCloudContentwarehouseV1Document: Schema.Schema<GoogleCloudContentwarehouseV1Document> = Schema.suspend(() => Schema.Struct({
-  updater: Schema.optional(Schema.String),
-  cloudAiDocument: Schema.optional(GoogleCloudDocumentaiV1Document),
-  properties: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1Property)),
-  textExtractionEnabled: Schema.optional(Schema.Boolean),
-  plainText: Schema.optional(Schema.String),
-  rawDocumentPath: Schema.optional(Schema.String),
-  rawDocumentFileType: Schema.optional(Schema.String),
-  textExtractionDisabled: Schema.optional(Schema.Boolean),
-  dispositionTime: Schema.optional(Schema.String),
-  referenceId: Schema.optional(Schema.String),
-  displayUri: Schema.optional(Schema.String),
-  inlineRawDocument: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  contentCategory: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  documentSchemaName: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  legalHold: Schema.optional(Schema.Boolean),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1Document" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Document>;
+export const GoogleCloudContentwarehouseV1Document: Schema.Schema<GoogleCloudContentwarehouseV1Document> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updater: Schema.optional(Schema.String),
+      cloudAiDocument: Schema.optional(GoogleCloudDocumentaiV1Document),
+      properties: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1Property),
+      ),
+      textExtractionEnabled: Schema.optional(Schema.Boolean),
+      plainText: Schema.optional(Schema.String),
+      rawDocumentPath: Schema.optional(Schema.String),
+      rawDocumentFileType: Schema.optional(Schema.String),
+      textExtractionDisabled: Schema.optional(Schema.Boolean),
+      dispositionTime: Schema.optional(Schema.String),
+      referenceId: Schema.optional(Schema.String),
+      displayUri: Schema.optional(Schema.String),
+      inlineRawDocument: Schema.optional(Schema.String),
+      creator: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      contentCategory: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      documentSchemaName: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      legalHold: Schema.optional(Schema.Boolean),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1Document",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1Document>;
 
 export interface GoogleCloudContentwarehouseV1MergeFieldsOptions {
   /** When merging message fields, the default behavior is to merge the content of two message fields together. If you instead want to use the field from the source message to replace the corresponding field in the destination message, set this flag to true. When this flag is set, specified submessage fields that are missing in source will be cleared in destination. */
@@ -2088,25 +3012,45 @@ export interface GoogleCloudContentwarehouseV1MergeFieldsOptions {
   replaceRepeatedFields?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1MergeFieldsOptions: Schema.Schema<GoogleCloudContentwarehouseV1MergeFieldsOptions> = Schema.suspend(() => Schema.Struct({
-  replaceMessageFields: Schema.optional(Schema.Boolean),
-  replaceRepeatedFields: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1MergeFieldsOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1MergeFieldsOptions>;
+export const GoogleCloudContentwarehouseV1MergeFieldsOptions: Schema.Schema<GoogleCloudContentwarehouseV1MergeFieldsOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      replaceMessageFields: Schema.optional(Schema.Boolean),
+      replaceRepeatedFields: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1MergeFieldsOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1MergeFieldsOptions>;
 
 export interface GoogleCloudContentwarehouseV1UpdateOptions {
   /** Type for update. */
-  updateType?: "UPDATE_TYPE_UNSPECIFIED" | "UPDATE_TYPE_REPLACE" | "UPDATE_TYPE_MERGE" | "UPDATE_TYPE_INSERT_PROPERTIES_BY_NAMES" | "UPDATE_TYPE_REPLACE_PROPERTIES_BY_NAMES" | "UPDATE_TYPE_DELETE_PROPERTIES_BY_NAMES" | "UPDATE_TYPE_MERGE_AND_REPLACE_OR_INSERT_PROPERTIES_BY_NAMES" | (string & {});
+  updateType?:
+    | "UPDATE_TYPE_UNSPECIFIED"
+    | "UPDATE_TYPE_REPLACE"
+    | "UPDATE_TYPE_MERGE"
+    | "UPDATE_TYPE_INSERT_PROPERTIES_BY_NAMES"
+    | "UPDATE_TYPE_REPLACE_PROPERTIES_BY_NAMES"
+    | "UPDATE_TYPE_DELETE_PROPERTIES_BY_NAMES"
+    | "UPDATE_TYPE_MERGE_AND_REPLACE_OR_INSERT_PROPERTIES_BY_NAMES"
+    | (string & {});
   /** Options for merging. */
   mergeFieldsOptions?: GoogleCloudContentwarehouseV1MergeFieldsOptions;
   /** Field mask for merging Document fields. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
 }
 
-export const GoogleCloudContentwarehouseV1UpdateOptions: Schema.Schema<GoogleCloudContentwarehouseV1UpdateOptions> = Schema.suspend(() => Schema.Struct({
-  updateType: Schema.optional(Schema.String),
-  mergeFieldsOptions: Schema.optional(GoogleCloudContentwarehouseV1MergeFieldsOptions),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateOptions>;
+export const GoogleCloudContentwarehouseV1UpdateOptions: Schema.Schema<GoogleCloudContentwarehouseV1UpdateOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateType: Schema.optional(Schema.String),
+      mergeFieldsOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1MergeFieldsOptions,
+      ),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1UpdateOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateOptions>;
 
 export interface GoogleCloudContentwarehouseV1SetAclRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
@@ -2117,29 +3061,48 @@ export interface GoogleCloudContentwarehouseV1SetAclRequest {
   policy?: GoogleIamV1Policy;
 }
 
-export const GoogleCloudContentwarehouseV1SetAclRequest: Schema.Schema<GoogleCloudContentwarehouseV1SetAclRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-  projectOwner: Schema.optional(Schema.Boolean),
-  policy: Schema.optional(GoogleIamV1Policy),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1SetAclRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SetAclRequest>;
+export const GoogleCloudContentwarehouseV1SetAclRequest: Schema.Schema<GoogleCloudContentwarehouseV1SetAclRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+      projectOwner: Schema.optional(Schema.Boolean),
+      policy: Schema.optional(GoogleIamV1Policy),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1SetAclRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SetAclRequest>;
 
-export interface GoogleCloudContentwarehouseV1FloatTypeOptions {
-}
+export interface GoogleCloudContentwarehouseV1FloatTypeOptions {}
 
-export const GoogleCloudContentwarehouseV1FloatTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1FloatTypeOptions> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1FloatTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FloatTypeOptions>;
+export const GoogleCloudContentwarehouseV1FloatTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1FloatTypeOptions> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1FloatTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FloatTypeOptions>;
 
 export interface GoogleCloudContentwarehouseV1beta1InitializeProjectResponse {
   /** The message of the project initialization process. */
   message?: string;
   /** The state of the project initialization process. */
-  state?: "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "RUNNING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | "RUNNING"
+    | (string & {});
 }
 
-export const GoogleCloudContentwarehouseV1beta1InitializeProjectResponse: Schema.Schema<GoogleCloudContentwarehouseV1beta1InitializeProjectResponse> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1beta1InitializeProjectResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1beta1InitializeProjectResponse>;
+export const GoogleCloudContentwarehouseV1beta1InitializeProjectResponse: Schema.Schema<GoogleCloudContentwarehouseV1beta1InitializeProjectResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1beta1InitializeProjectResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1beta1InitializeProjectResponse>;
 
 export interface GoogleCloudContentwarehouseV1PropertyFilter {
   /** The filter condition. The syntax for this expression is a subset of SQL syntax. Supported operators are: `=`, `!=`, `<`, `<=`, `>`, `>=`, and `~~` where the left of the operator is a property name and the right of the operator is a number or a quoted string. You must escape backslash (\\) and quote (\") characters. `~~` is the LIKE operator. The right of the operator must be a string. The only supported property data type for LIKE is text_values. It provides semantic search functionality by parsing, stemming and doing synonyms expansion against the input query. It matches if the property contains semantic similar content to the query. It is not regex matching or wildcard matching. For example, "property.company ~~ \"google\"" will match records whose property `property.compnay` have values like "Google Inc.", "Google LLC" or "Google Company". Supported functions are `LOWER([property_name])` to perform a case insensitive match and `EMPTY([property_name])` to filter on the existence of a key. Boolean expressions (AND/OR/NOT) are supported up to 3 levels of nesting (for example, "((A AND B AND C) OR NOT D) AND E"), a maximum of 100 comparisons or functions are allowed in the expression. The expression must be < 6000 bytes in length. Only properties that are marked filterable are allowed (PropertyDefinition.is_filterable). Property names do not need to be prefixed by the document schema id (as is the case with histograms), however property names will need to be prefixed by its parent hierarchy, if any. For example: top_property_name.sub_property_name. Sample Query: `(LOWER(driving_license)="class \"a\"" OR EMPTY(driving_license)) AND driving_years > 10` CMEK compliant deployment only supports: * Operators: `=`, `<`, `<=`, `>`, and `>=`. * Boolean expressions: AND and OR. */
@@ -2148,10 +3111,15 @@ export interface GoogleCloudContentwarehouseV1PropertyFilter {
   documentSchemaName?: string;
 }
 
-export const GoogleCloudContentwarehouseV1PropertyFilter: Schema.Schema<GoogleCloudContentwarehouseV1PropertyFilter> = Schema.suspend(() => Schema.Struct({
-  condition: Schema.optional(Schema.String),
-  documentSchemaName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyFilter" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyFilter>;
+export const GoogleCloudContentwarehouseV1PropertyFilter: Schema.Schema<GoogleCloudContentwarehouseV1PropertyFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      condition: Schema.optional(Schema.String),
+      documentSchemaName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1PropertyFilter",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyFilter>;
 
 export interface GoogleCloudContentwarehouseV1ListLinkedSourcesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -2160,10 +3128,17 @@ export interface GoogleCloudContentwarehouseV1ListLinkedSourcesResponse {
   documentLinks?: Array<GoogleCloudContentwarehouseV1DocumentLink>;
 }
 
-export const GoogleCloudContentwarehouseV1ListLinkedSourcesResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  documentLinks: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1DocumentLink)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedSourcesResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesResponse>;
+export const GoogleCloudContentwarehouseV1ListLinkedSourcesResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      documentLinks: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1DocumentLink),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ListLinkedSourcesResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesResponse>;
 
 export interface GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata {
   /** The input list of all the resource names of the documents to be exported. */
@@ -2174,11 +3149,17 @@ export interface GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipe
   docAiDataset?: string;
 }
 
-export const GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata> = Schema.suspend(() => Schema.Struct({
-  documents: Schema.optional(Schema.Array(Schema.String)),
-  outputPath: Schema.optional(Schema.String),
-  docAiDataset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata>;
+export const GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documents: Schema.optional(Schema.Array(Schema.String)),
+      outputPath: Schema.optional(Schema.String),
+      docAiDataset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata>;
 
 export interface GoogleCloudContentwarehouseV1IngestPipelineConfig {
   /** The Cloud Function resource name. The Cloud Function needs to live inside consumer project and is accessible to Document AI Warehouse P4SA. Only Cloud Functions V2 is supported. Cloud function execution should complete within 5 minutes or this file ingestion may fail due to timeout. Format: `https://{region}-{project_id}.cloudfunctions.net/{cloud_function}` The following keys are available the request json payload. * display_name * properties * plain_text * reference_id * document_schema_name * raw_document_path * raw_document_file_type The following keys from the cloud function json response payload will be ingested to the Document AI Warehouse as part of Document proto content and/or related information. The original values will be overridden if any key is present in the response. * display_name * properties * plain_text * document_acl_policy * folder */
@@ -2191,12 +3172,17 @@ export interface GoogleCloudContentwarehouseV1IngestPipelineConfig {
   enableDocumentTextExtraction?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1IngestPipelineConfig: Schema.Schema<GoogleCloudContentwarehouseV1IngestPipelineConfig> = Schema.suspend(() => Schema.Struct({
-  cloudFunction: Schema.optional(Schema.String),
-  documentAclPolicy: Schema.optional(GoogleIamV1Policy),
-  folder: Schema.optional(Schema.String),
-  enableDocumentTextExtraction: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1IngestPipelineConfig" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1IngestPipelineConfig>;
+export const GoogleCloudContentwarehouseV1IngestPipelineConfig: Schema.Schema<GoogleCloudContentwarehouseV1IngestPipelineConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudFunction: Schema.optional(Schema.String),
+      documentAclPolicy: Schema.optional(GoogleIamV1Policy),
+      folder: Schema.optional(Schema.String),
+      enableDocumentTextExtraction: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1IngestPipelineConfig",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1IngestPipelineConfig>;
 
 export interface GoogleCloudContentwarehouseV1GcsIngestPipeline {
   /** The flag whether to skip ingested documents. If it is set to true, documents in Cloud Storage contains key "status" with value "status=ingested" in custom metadata will be skipped to ingest. */
@@ -2211,19 +3197,27 @@ export interface GoogleCloudContentwarehouseV1GcsIngestPipeline {
   processorType?: string;
 }
 
-export const GoogleCloudContentwarehouseV1GcsIngestPipeline: Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestPipeline> = Schema.suspend(() => Schema.Struct({
-  skipIngestedDocuments: Schema.optional(Schema.Boolean),
-  inputPath: Schema.optional(Schema.String),
-  pipelineConfig: Schema.optional(GoogleCloudContentwarehouseV1IngestPipelineConfig),
-  schemaName: Schema.optional(Schema.String),
-  processorType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1GcsIngestPipeline" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestPipeline>;
+export const GoogleCloudContentwarehouseV1GcsIngestPipeline: Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestPipeline> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      skipIngestedDocuments: Schema.optional(Schema.Boolean),
+      inputPath: Schema.optional(Schema.String),
+      pipelineConfig: Schema.optional(
+        GoogleCloudContentwarehouseV1IngestPipelineConfig,
+      ),
+      schemaName: Schema.optional(Schema.String),
+      processorType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1GcsIngestPipeline",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestPipeline>;
 
-export interface GoogleCloudContentwarehouseV1CreateDocumentMetadata {
-}
+export interface GoogleCloudContentwarehouseV1CreateDocumentMetadata {}
 
-export const GoogleCloudContentwarehouseV1CreateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentMetadata>;
+export const GoogleCloudContentwarehouseV1CreateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1CreateDocumentMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentMetadata>;
 
 export interface GoogleCloudContentwarehouseV1FetchAclRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
@@ -2232,40 +3226,61 @@ export interface GoogleCloudContentwarehouseV1FetchAclRequest {
   projectOwner?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1FetchAclRequest: Schema.Schema<GoogleCloudContentwarehouseV1FetchAclRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-  projectOwner: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1FetchAclRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FetchAclRequest>;
+export const GoogleCloudContentwarehouseV1FetchAclRequest: Schema.Schema<GoogleCloudContentwarehouseV1FetchAclRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+      projectOwner: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1FetchAclRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FetchAclRequest>;
 
 export interface GoogleCloudContentwarehouseV1ResponseMetadata {
   /** A unique id associated with this call. This id is logged for tracking purpose. */
   requestId?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ResponseMetadata: Schema.Schema<GoogleCloudContentwarehouseV1ResponseMetadata> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ResponseMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ResponseMetadata>;
+export const GoogleCloudContentwarehouseV1ResponseMetadata: Schema.Schema<GoogleCloudContentwarehouseV1ResponseMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ResponseMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ResponseMetadata>;
 
-export interface GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata {
-}
+export interface GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata {}
 
-export const GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata>;
+export const GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1beta1CreateDocumentMetadata>;
 
-export interface GoogleCloudContentwarehouseV1UpdateDocumentMetadata {
-}
+export interface GoogleCloudContentwarehouseV1UpdateDocumentMetadata {}
 
-export const GoogleCloudContentwarehouseV1UpdateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentMetadata>;
+export const GoogleCloudContentwarehouseV1UpdateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1UpdateDocumentMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentMetadata>;
 
 export interface GoogleCloudContentwarehouseV1ListLinkedTargetsRequest {
   /** The meta information collected about the document creator, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1ListLinkedTargetsRequest: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedTargetsRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsRequest>;
+export const GoogleCloudContentwarehouseV1ListLinkedTargetsRequest: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ListLinkedTargetsRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsRequest>;
 
 export interface GoogleCloudContentwarehouseV1UpdateDocumentResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
@@ -2276,11 +3291,18 @@ export interface GoogleCloudContentwarehouseV1UpdateDocumentResponse {
   ruleEngineOutput?: GoogleCloudContentwarehouseV1RuleEngineOutput;
 }
 
-export const GoogleCloudContentwarehouseV1UpdateDocumentResponse: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentResponse> = Schema.suspend(() => Schema.Struct({
-  metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
-  document: Schema.optional(GoogleCloudContentwarehouseV1Document),
-  ruleEngineOutput: Schema.optional(GoogleCloudContentwarehouseV1RuleEngineOutput),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentResponse>;
+export const GoogleCloudContentwarehouseV1UpdateDocumentResponse: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
+      document: Schema.optional(GoogleCloudContentwarehouseV1Document),
+      ruleEngineOutput: Schema.optional(
+        GoogleCloudContentwarehouseV1RuleEngineOutput,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1UpdateDocumentResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentResponse>;
 
 export interface GoogleCloudContentwarehouseV1ExportToCdwPipeline {
   /** Optional. The CDW dataset resource name. This field is optional. If not set, the documents will be exported to Cloud Storage only. Format: projects/{project}/locations/{location}/processors/{processor}/dataset */
@@ -2293,12 +3315,17 @@ export interface GoogleCloudContentwarehouseV1ExportToCdwPipeline {
   exportFolderPath?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ExportToCdwPipeline: Schema.Schema<GoogleCloudContentwarehouseV1ExportToCdwPipeline> = Schema.suspend(() => Schema.Struct({
-  docAiDataset: Schema.optional(Schema.String),
-  trainingSplitRatio: Schema.optional(Schema.Number),
-  documents: Schema.optional(Schema.Array(Schema.String)),
-  exportFolderPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ExportToCdwPipeline" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ExportToCdwPipeline>;
+export const GoogleCloudContentwarehouseV1ExportToCdwPipeline: Schema.Schema<GoogleCloudContentwarehouseV1ExportToCdwPipeline> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      docAiDataset: Schema.optional(Schema.String),
+      trainingSplitRatio: Schema.optional(Schema.Number),
+      documents: Schema.optional(Schema.Array(Schema.String)),
+      exportFolderPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ExportToCdwPipeline",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ExportToCdwPipeline>;
 
 export interface GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata {
   /** The DocAI processor to process the documents with. */
@@ -2307,22 +3334,32 @@ export interface GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocA
   documents?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata> = Schema.suspend(() => Schema.Struct({
-  processorInfo: Schema.optional(GoogleCloudContentwarehouseV1ProcessorInfo),
-  documents: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata>;
+export const GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      processorInfo: Schema.optional(
+        GoogleCloudContentwarehouseV1ProcessorInfo,
+      ),
+      documents: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata>;
 
-export interface GoogleCloudContentwarehouseV1TimestampTypeOptions {
-}
+export interface GoogleCloudContentwarehouseV1TimestampTypeOptions {}
 
-export const GoogleCloudContentwarehouseV1TimestampTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1TimestampTypeOptions> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1TimestampTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimestampTypeOptions>;
+export const GoogleCloudContentwarehouseV1TimestampTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1TimestampTypeOptions> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1TimestampTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimestampTypeOptions>;
 
-export interface GoogleCloudContentwarehouseV1TextTypeOptions {
-}
+export interface GoogleCloudContentwarehouseV1TextTypeOptions {}
 
-export const GoogleCloudContentwarehouseV1TextTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1TextTypeOptions> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1TextTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TextTypeOptions>;
+export const GoogleCloudContentwarehouseV1TextTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1TextTypeOptions> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1TextTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TextTypeOptions>;
 
 export interface GoogleCloudContentwarehouseV1EnumTypeOptions {
   /** Required. List of possible enum values. */
@@ -2331,10 +3368,15 @@ export interface GoogleCloudContentwarehouseV1EnumTypeOptions {
   validationCheckDisabled?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1EnumTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1EnumTypeOptions> = Schema.suspend(() => Schema.Struct({
-  possibleValues: Schema.optional(Schema.Array(Schema.String)),
-  validationCheckDisabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1EnumTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1EnumTypeOptions>;
+export const GoogleCloudContentwarehouseV1EnumTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1EnumTypeOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      possibleValues: Schema.optional(Schema.Array(Schema.String)),
+      validationCheckDisabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1EnumTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1EnumTypeOptions>;
 
 export interface GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource {
   /** The schema name in the source. */
@@ -2343,41 +3385,64 @@ export interface GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource {
   processorType?: string;
 }
 
-export const GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource: Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  processorType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource>;
+export const GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource: Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      processorType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource>;
 
-export interface GoogleCloudContentwarehouseV1MapTypeOptions {
-}
+export interface GoogleCloudContentwarehouseV1MapTypeOptions {}
 
-export const GoogleCloudContentwarehouseV1MapTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1MapTypeOptions> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1MapTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1MapTypeOptions>;
+export const GoogleCloudContentwarehouseV1MapTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1MapTypeOptions> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1MapTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1MapTypeOptions>;
 
-export interface GoogleCloudContentwarehouseV1IntegerTypeOptions {
-}
+export interface GoogleCloudContentwarehouseV1IntegerTypeOptions {}
 
-export const GoogleCloudContentwarehouseV1IntegerTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1IntegerTypeOptions> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1IntegerTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1IntegerTypeOptions>;
+export const GoogleCloudContentwarehouseV1IntegerTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1IntegerTypeOptions> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1IntegerTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1IntegerTypeOptions>;
 
 export interface GoogleCloudContentwarehouseV1PropertyTypeOptions {
   /** Required. List of property definitions. */
   propertyDefinitions?: Array<GoogleCloudContentwarehouseV1PropertyDefinition>;
 }
 
-export const GoogleCloudContentwarehouseV1PropertyTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1PropertyTypeOptions> = Schema.suspend(() => Schema.Struct({
-  propertyDefinitions: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1PropertyDefinition)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyTypeOptions>;
+export const GoogleCloudContentwarehouseV1PropertyTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1PropertyTypeOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      propertyDefinitions: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1PropertyDefinition),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1PropertyTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyTypeOptions>;
 
-export interface GoogleCloudContentwarehouseV1DateTimeTypeOptions {
-}
+export interface GoogleCloudContentwarehouseV1DateTimeTypeOptions {}
 
-export const GoogleCloudContentwarehouseV1DateTimeTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1DateTimeTypeOptions> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DateTimeTypeOptions" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DateTimeTypeOptions>;
+export const GoogleCloudContentwarehouseV1DateTimeTypeOptions: Schema.Schema<GoogleCloudContentwarehouseV1DateTimeTypeOptions> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DateTimeTypeOptions",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DateTimeTypeOptions>;
 
 export interface GoogleCloudContentwarehouseV1PropertyDefinition {
   /** The retrieval importance of the property during search. */
-  retrievalImportance?: "RETRIEVAL_IMPORTANCE_UNSPECIFIED" | "HIGHEST" | "HIGHER" | "HIGH" | "MEDIUM" | "LOW" | "LOWEST" | (string & {});
+  retrievalImportance?:
+    | "RETRIEVAL_IMPORTANCE_UNSPECIFIED"
+    | "HIGHEST"
+    | "HIGHER"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "LOWEST"
+    | (string & {});
   /** Whether the property is user supplied metadata. This out-of-the box placeholder setting can be used to tag derived properties. Its value and interpretation logic should be implemented by API user. */
   isMetadata?: boolean;
   /** Timestamp property. It is not supported by CMEK compliant deployment. */
@@ -2412,25 +3477,50 @@ export interface GoogleCloudContentwarehouseV1PropertyDefinition {
   name?: string;
 }
 
-export const GoogleCloudContentwarehouseV1PropertyDefinition: Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinition> = Schema.suspend(() => Schema.Struct({
-  retrievalImportance: Schema.optional(Schema.String),
-  isMetadata: Schema.optional(Schema.Boolean),
-  timestampTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1TimestampTypeOptions),
-  isRequired: Schema.optional(Schema.Boolean),
-  textTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1TextTypeOptions),
-  floatTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1FloatTypeOptions),
-  enumTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1EnumTypeOptions),
-  isSearchable: Schema.optional(Schema.Boolean),
-  schemaSources: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource)),
-  isRepeatable: Schema.optional(Schema.Boolean),
-  mapTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1MapTypeOptions),
-  integerTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1IntegerTypeOptions),
-  displayName: Schema.optional(Schema.String),
-  propertyTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1PropertyTypeOptions),
-  dateTimeTypeOptions: Schema.optional(GoogleCloudContentwarehouseV1DateTimeTypeOptions),
-  isFilterable: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyDefinition" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinition>;
+export const GoogleCloudContentwarehouseV1PropertyDefinition: Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinition> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      retrievalImportance: Schema.optional(Schema.String),
+      isMetadata: Schema.optional(Schema.Boolean),
+      timestampTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1TimestampTypeOptions,
+      ),
+      isRequired: Schema.optional(Schema.Boolean),
+      textTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1TextTypeOptions,
+      ),
+      floatTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1FloatTypeOptions,
+      ),
+      enumTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1EnumTypeOptions,
+      ),
+      isSearchable: Schema.optional(Schema.Boolean),
+      schemaSources: Schema.optional(
+        Schema.Array(
+          GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource,
+        ),
+      ),
+      isRepeatable: Schema.optional(Schema.Boolean),
+      mapTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1MapTypeOptions,
+      ),
+      integerTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1IntegerTypeOptions,
+      ),
+      displayName: Schema.optional(Schema.String),
+      propertyTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1PropertyTypeOptions,
+      ),
+      dateTimeTypeOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1DateTimeTypeOptions,
+      ),
+      isFilterable: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1PropertyDefinition",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1PropertyDefinition>;
 
 export interface GoogleCloudContentwarehouseV1DocumentSchema {
   /** Document details. */
@@ -2449,21 +3539,29 @@ export interface GoogleCloudContentwarehouseV1DocumentSchema {
   displayName?: string;
 }
 
-export const GoogleCloudContentwarehouseV1DocumentSchema: Schema.Schema<GoogleCloudContentwarehouseV1DocumentSchema> = Schema.suspend(() => Schema.Struct({
-  propertyDefinitions: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1PropertyDefinition)),
-  description: Schema.optional(Schema.String),
-  documentIsFolder: Schema.optional(Schema.Boolean),
-  updateTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DocumentSchema" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentSchema>;
+export const GoogleCloudContentwarehouseV1DocumentSchema: Schema.Schema<GoogleCloudContentwarehouseV1DocumentSchema> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      propertyDefinitions: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1PropertyDefinition),
+      ),
+      description: Schema.optional(Schema.String),
+      documentIsFolder: Schema.optional(Schema.Boolean),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DocumentSchema",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentSchema>;
 
-export interface GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata {
-}
+export interface GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata {}
 
-export const GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata>;
+export const GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata: Schema.Schema<GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1beta1UpdateDocumentMetadata>;
 
 export interface GoogleCloudContentwarehouseV1SetAclResponse {
   /** The policy will be attached to a resource (e.g. projecct, document). */
@@ -2472,10 +3570,15 @@ export interface GoogleCloudContentwarehouseV1SetAclResponse {
   metadata?: GoogleCloudContentwarehouseV1ResponseMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1SetAclResponse: Schema.Schema<GoogleCloudContentwarehouseV1SetAclResponse> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(GoogleIamV1Policy),
-  metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1SetAclResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SetAclResponse>;
+export const GoogleCloudContentwarehouseV1SetAclResponse: Schema.Schema<GoogleCloudContentwarehouseV1SetAclResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(GoogleIamV1Policy),
+      metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1SetAclResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SetAclResponse>;
 
 export interface GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus {
   /** Document identifier of an existing document. */
@@ -2484,10 +3587,16 @@ export interface GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocum
   status?: GoogleRpcStatus;
 }
 
-export const GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus> = Schema.suspend(() => Schema.Struct({
-  documentId: Schema.optional(Schema.String),
-  status: Schema.optional(GoogleRpcStatus),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus>;
+export const GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentId: Schema.optional(Schema.String),
+      status: Schema.optional(GoogleRpcStatus),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus>;
 
 export interface GoogleCloudContentwarehouseV1FetchAclResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
@@ -2496,10 +3605,15 @@ export interface GoogleCloudContentwarehouseV1FetchAclResponse {
   policy?: GoogleIamV1Policy;
 }
 
-export const GoogleCloudContentwarehouseV1FetchAclResponse: Schema.Schema<GoogleCloudContentwarehouseV1FetchAclResponse> = Schema.suspend(() => Schema.Struct({
-  metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
-  policy: Schema.optional(GoogleIamV1Policy),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1FetchAclResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FetchAclResponse>;
+export const GoogleCloudContentwarehouseV1FetchAclResponse: Schema.Schema<GoogleCloudContentwarehouseV1FetchAclResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
+      policy: Schema.optional(GoogleIamV1Policy),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1FetchAclResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FetchAclResponse>;
 
 export interface GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument {
   /** Document that matches the specified SearchDocumentsRequest. This document only contains indexed metadata information. */
@@ -2512,24 +3626,41 @@ export interface GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDoc
   searchTextSnippet?: string;
 }
 
-export const GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument: Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument> = Schema.suspend(() => Schema.Struct({
-  document: Schema.optional(GoogleCloudContentwarehouseV1Document),
-  qaResult: Schema.optional(GoogleCloudContentwarehouseV1QAResult),
-  matchedTokenPageIndices: Schema.optional(Schema.Array(Schema.String)),
-  searchTextSnippet: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument>;
+export const GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument: Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      document: Schema.optional(GoogleCloudContentwarehouseV1Document),
+      qaResult: Schema.optional(GoogleCloudContentwarehouseV1QAResult),
+      matchedTokenPageIndices: Schema.optional(Schema.Array(Schema.String)),
+      searchTextSnippet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument>;
 
 export interface GoogleCloudContentwarehouseV1InitializeProjectResponse {
   /** The message of the project initialization process. */
   message?: string;
   /** The state of the project initialization process. */
-  state?: "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "RUNNING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | "RUNNING"
+    | (string & {});
 }
 
-export const GoogleCloudContentwarehouseV1InitializeProjectResponse: Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectResponse> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1InitializeProjectResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectResponse>;
+export const GoogleCloudContentwarehouseV1InitializeProjectResponse: Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1InitializeProjectResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectResponse>;
 
 export interface GoogleCloudContentwarehouseV1WeightedSchemaProperty {
   /** The document schema name. */
@@ -2538,19 +3669,31 @@ export interface GoogleCloudContentwarehouseV1WeightedSchemaProperty {
   propertyNames?: Array<string>;
 }
 
-export const GoogleCloudContentwarehouseV1WeightedSchemaProperty: Schema.Schema<GoogleCloudContentwarehouseV1WeightedSchemaProperty> = Schema.suspend(() => Schema.Struct({
-  documentSchemaName: Schema.optional(Schema.String),
-  propertyNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1WeightedSchemaProperty" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1WeightedSchemaProperty>;
+export const GoogleCloudContentwarehouseV1WeightedSchemaProperty: Schema.Schema<GoogleCloudContentwarehouseV1WeightedSchemaProperty> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentSchemaName: Schema.optional(Schema.String),
+      propertyNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1WeightedSchemaProperty",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1WeightedSchemaProperty>;
 
 export interface GoogleCloudContentwarehouseV1CustomWeightsMetadata {
   /** List of schema and property name. Allows a maximum of 10 schemas to be specified for relevance boosting. */
   weightedSchemaProperties?: Array<GoogleCloudContentwarehouseV1WeightedSchemaProperty>;
 }
 
-export const GoogleCloudContentwarehouseV1CustomWeightsMetadata: Schema.Schema<GoogleCloudContentwarehouseV1CustomWeightsMetadata> = Schema.suspend(() => Schema.Struct({
-  weightedSchemaProperties: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1WeightedSchemaProperty)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1CustomWeightsMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CustomWeightsMetadata>;
+export const GoogleCloudContentwarehouseV1CustomWeightsMetadata: Schema.Schema<GoogleCloudContentwarehouseV1CustomWeightsMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      weightedSchemaProperties: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1WeightedSchemaProperty),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1CustomWeightsMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CustomWeightsMetadata>;
 
 export interface GoogleTypeInterval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -2559,30 +3702,56 @@ export interface GoogleTypeInterval {
   endTime?: string;
 }
 
-export const GoogleTypeInterval: Schema.Schema<GoogleTypeInterval> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeInterval" }) as any as Schema.Schema<GoogleTypeInterval>;
+export const GoogleTypeInterval: Schema.Schema<GoogleTypeInterval> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleTypeInterval",
+  }) as any as Schema.Schema<GoogleTypeInterval>;
 
 export interface GoogleCloudContentwarehouseV1TimeFilter {
   /** Specifies which time field to filter documents on. Defaults to TimeField.UPLOAD_TIME. */
-  timeField?: "TIME_FIELD_UNSPECIFIED" | "CREATE_TIME" | "UPDATE_TIME" | "DISPOSITION_TIME" | (string & {});
+  timeField?:
+    | "TIME_FIELD_UNSPECIFIED"
+    | "CREATE_TIME"
+    | "UPDATE_TIME"
+    | "DISPOSITION_TIME"
+    | (string & {});
   timeRange?: GoogleTypeInterval;
 }
 
-export const GoogleCloudContentwarehouseV1TimeFilter: Schema.Schema<GoogleCloudContentwarehouseV1TimeFilter> = Schema.suspend(() => Schema.Struct({
-  timeField: Schema.optional(Schema.String),
-  timeRange: Schema.optional(GoogleTypeInterval),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1TimeFilter" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimeFilter>;
+export const GoogleCloudContentwarehouseV1TimeFilter: Schema.Schema<GoogleCloudContentwarehouseV1TimeFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeField: Schema.optional(Schema.String),
+      timeRange: Schema.optional(GoogleTypeInterval),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1TimeFilter",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1TimeFilter>;
 
 export interface GoogleCloudContentwarehouseV1FileTypeFilter {
   /** The type of files to return. */
-  fileType?: "FILE_TYPE_UNSPECIFIED" | "ALL" | "FOLDER" | "DOCUMENT" | "ROOT_FOLDER" | (string & {});
+  fileType?:
+    | "FILE_TYPE_UNSPECIFIED"
+    | "ALL"
+    | "FOLDER"
+    | "DOCUMENT"
+    | "ROOT_FOLDER"
+    | (string & {});
 }
 
-export const GoogleCloudContentwarehouseV1FileTypeFilter: Schema.Schema<GoogleCloudContentwarehouseV1FileTypeFilter> = Schema.suspend(() => Schema.Struct({
-  fileType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1FileTypeFilter" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FileTypeFilter>;
+export const GoogleCloudContentwarehouseV1FileTypeFilter: Schema.Schema<GoogleCloudContentwarehouseV1FileTypeFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fileType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1FileTypeFilter",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1FileTypeFilter>;
 
 export interface GoogleCloudContentwarehouseV1DocumentQuery {
   /** Experimental, do not use. If the query is a natural language question. False by default. If true, then the question-answering feature will be used instead of search, and `result_count` in SearchDocumentsRequest must be set. In addition, all other input fields related to search (pagination, histograms, etc.) will be ignored. */
@@ -2611,20 +3780,33 @@ export interface GoogleCloudContentwarehouseV1DocumentQuery {
   fileTypeFilter?: GoogleCloudContentwarehouseV1FileTypeFilter;
 }
 
-export const GoogleCloudContentwarehouseV1DocumentQuery: Schema.Schema<GoogleCloudContentwarehouseV1DocumentQuery> = Schema.suspend(() => Schema.Struct({
-  isNlQuery: Schema.optional(Schema.Boolean),
-  documentNameFilter: Schema.optional(Schema.Array(Schema.String)),
-  customWeightsMetadata: Schema.optional(GoogleCloudContentwarehouseV1CustomWeightsMetadata),
-  query: Schema.optional(Schema.String),
-  documentSchemaNames: Schema.optional(Schema.Array(Schema.String)),
-  folderNameFilter: Schema.optional(Schema.String),
-  timeFilters: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1TimeFilter)),
-  queryContext: Schema.optional(Schema.Array(Schema.String)),
-  documentCreatorFilter: Schema.optional(Schema.Array(Schema.String)),
-  propertyFilter: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1PropertyFilter)),
-  customPropertyFilter: Schema.optional(Schema.String),
-  fileTypeFilter: Schema.optional(GoogleCloudContentwarehouseV1FileTypeFilter),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DocumentQuery" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentQuery>;
+export const GoogleCloudContentwarehouseV1DocumentQuery: Schema.Schema<GoogleCloudContentwarehouseV1DocumentQuery> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      isNlQuery: Schema.optional(Schema.Boolean),
+      documentNameFilter: Schema.optional(Schema.Array(Schema.String)),
+      customWeightsMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1CustomWeightsMetadata,
+      ),
+      query: Schema.optional(Schema.String),
+      documentSchemaNames: Schema.optional(Schema.Array(Schema.String)),
+      folderNameFilter: Schema.optional(Schema.String),
+      timeFilters: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1TimeFilter),
+      ),
+      queryContext: Schema.optional(Schema.Array(Schema.String)),
+      documentCreatorFilter: Schema.optional(Schema.Array(Schema.String)),
+      propertyFilter: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1PropertyFilter),
+      ),
+      customPropertyFilter: Schema.optional(Schema.String),
+      fileTypeFilter: Schema.optional(
+        GoogleCloudContentwarehouseV1FileTypeFilter,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DocumentQuery",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DocumentQuery>;
 
 export interface GoogleCloudContentwarehouseV1HistogramQuery {
   /** Controls if the histogram query requires the return of a precise count. Enable this flag may adversely impact performance. Defaults to true. */
@@ -2635,11 +3817,18 @@ export interface GoogleCloudContentwarehouseV1HistogramQuery {
   filters?: GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter;
 }
 
-export const GoogleCloudContentwarehouseV1HistogramQuery: Schema.Schema<GoogleCloudContentwarehouseV1HistogramQuery> = Schema.suspend(() => Schema.Struct({
-  requirePreciseResultSize: Schema.optional(Schema.Boolean),
-  histogramQuery: Schema.optional(Schema.String),
-  filters: Schema.optional(GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1HistogramQuery" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1HistogramQuery>;
+export const GoogleCloudContentwarehouseV1HistogramQuery: Schema.Schema<GoogleCloudContentwarehouseV1HistogramQuery> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requirePreciseResultSize: Schema.optional(Schema.Boolean),
+      histogramQuery: Schema.optional(Schema.String),
+      filters: Schema.optional(
+        GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1HistogramQuery",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1HistogramQuery>;
 
 export interface GoogleCloudContentwarehouseV1SearchDocumentsRequest {
   /** An integer that specifies the current offset (that is, starting result location, amongst the documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. The maximum allowed value is 5000. Otherwise an error is thrown. For example, 0 means to return results starting from the first matching document, and 10 means to return from the 11th document. This can be used for pagination, (for example, pageSize = 10 and offset = 10 means to return from the second page). */
@@ -2659,23 +3848,38 @@ export interface GoogleCloudContentwarehouseV1SearchDocumentsRequest {
   /** The criteria determining how search results are sorted. For non-empty query, default is `"relevance desc"`. For empty query, default is `"upload_date desc"`. Supported options are: * `"relevance desc"`: By relevance descending, as determined by the API algorithms. * `"upload_date desc"`: By upload date descending. * `"upload_date"`: By upload date ascending. * `"update_date desc"`: By last updated date descending. * `"update_date"`: By last updated date ascending. * `"retrieval_importance desc"`: By retrieval importance of properties descending. This feature is still under development, please do not use unless otherwise instructed to do so. */
   orderBy?: string;
   /** Controls if the search document request requires the return of a total size of matched documents. See SearchDocumentsResponse.total_size. */
-  totalResultSize?: "TOTAL_RESULT_SIZE_UNSPECIFIED" | "ESTIMATED_SIZE" | "ACTUAL_SIZE" | (string & {});
+  totalResultSize?:
+    | "TOTAL_RESULT_SIZE_UNSPECIFIED"
+    | "ESTIMATED_SIZE"
+    | "ACTUAL_SIZE"
+    | (string & {});
   /** The token specifying the current offset within search results. See SearchDocumentsResponse.next_page_token for an explanation of how to obtain the next set of query results. */
   pageToken?: string;
 }
 
-export const GoogleCloudContentwarehouseV1SearchDocumentsRequest: Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsRequest> = Schema.suspend(() => Schema.Struct({
-  offset: Schema.optional(Schema.Number),
-  qaSizeLimit: Schema.optional(Schema.Number),
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-  documentQuery: Schema.optional(GoogleCloudContentwarehouseV1DocumentQuery),
-  requireTotalSize: Schema.optional(Schema.Boolean),
-  histogramQueries: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1HistogramQuery)),
-  pageSize: Schema.optional(Schema.Number),
-  orderBy: Schema.optional(Schema.String),
-  totalResultSize: Schema.optional(Schema.String),
-  pageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1SearchDocumentsRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsRequest>;
+export const GoogleCloudContentwarehouseV1SearchDocumentsRequest: Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      offset: Schema.optional(Schema.Number),
+      qaSizeLimit: Schema.optional(Schema.Number),
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+      documentQuery: Schema.optional(
+        GoogleCloudContentwarehouseV1DocumentQuery,
+      ),
+      requireTotalSize: Schema.optional(Schema.Boolean),
+      histogramQueries: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1HistogramQuery),
+      ),
+      pageSize: Schema.optional(Schema.Number),
+      orderBy: Schema.optional(Schema.String),
+      totalResultSize: Schema.optional(Schema.String),
+      pageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1SearchDocumentsRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsRequest>;
 
 export interface GoogleCloudContentwarehouseV1RuleSet {
   /** The resource name of the rule set. Managed internally. Format: projects/{project_number}/locations/{location}/ruleSet/{rule_set_id}. The name is ignored when creating a rule set. */
@@ -2688,30 +3892,47 @@ export interface GoogleCloudContentwarehouseV1RuleSet {
   source?: string;
 }
 
-export const GoogleCloudContentwarehouseV1RuleSet: Schema.Schema<GoogleCloudContentwarehouseV1RuleSet> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  rules: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1Rule)),
-  description: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleSet" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleSet>;
+export const GoogleCloudContentwarehouseV1RuleSet: Schema.Schema<GoogleCloudContentwarehouseV1RuleSet> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      rules: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1Rule)),
+      description: Schema.optional(Schema.String),
+      source: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RuleSet",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RuleSet>;
 
 export interface GoogleCloudContentwarehouseV1UpdateRuleSetRequest {
   /** Required. The rule set to update. */
   ruleSet?: GoogleCloudContentwarehouseV1RuleSet;
 }
 
-export const GoogleCloudContentwarehouseV1UpdateRuleSetRequest: Schema.Schema<GoogleCloudContentwarehouseV1UpdateRuleSetRequest> = Schema.suspend(() => Schema.Struct({
-  ruleSet: Schema.optional(GoogleCloudContentwarehouseV1RuleSet),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateRuleSetRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateRuleSetRequest>;
+export const GoogleCloudContentwarehouseV1UpdateRuleSetRequest: Schema.Schema<GoogleCloudContentwarehouseV1UpdateRuleSetRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ruleSet: Schema.optional(GoogleCloudContentwarehouseV1RuleSet),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1UpdateRuleSetRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateRuleSetRequest>;
 
 export interface GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest {
   /** Required. The document schema to update with. */
   documentSchema?: GoogleCloudContentwarehouseV1DocumentSchema;
 }
 
-export const GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest> = Schema.suspend(() => Schema.Struct({
-  documentSchema: Schema.optional(GoogleCloudContentwarehouseV1DocumentSchema),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest>;
+export const GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentSchema: Schema.optional(
+        GoogleCloudContentwarehouseV1DocumentSchema,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest>;
 
 export interface GoogleCloudContentwarehouseV1CloudAIDocumentOption {
   /** Whether to convert all the entities to properties. */
@@ -2720,10 +3941,17 @@ export interface GoogleCloudContentwarehouseV1CloudAIDocumentOption {
   customizedEntitiesPropertiesConversions?: Record<string, string>;
 }
 
-export const GoogleCloudContentwarehouseV1CloudAIDocumentOption: Schema.Schema<GoogleCloudContentwarehouseV1CloudAIDocumentOption> = Schema.suspend(() => Schema.Struct({
-  enableEntitiesConversions: Schema.optional(Schema.Boolean),
-  customizedEntitiesPropertiesConversions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1CloudAIDocumentOption" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CloudAIDocumentOption>;
+export const GoogleCloudContentwarehouseV1CloudAIDocumentOption: Schema.Schema<GoogleCloudContentwarehouseV1CloudAIDocumentOption> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableEntitiesConversions: Schema.optional(Schema.Boolean),
+      customizedEntitiesPropertiesConversions: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1CloudAIDocumentOption",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CloudAIDocumentOption>;
 
 export interface GoogleCloudContentwarehouseV1UpdateDocumentRequest {
   /** Options for the update operation. */
@@ -2736,45 +3964,86 @@ export interface GoogleCloudContentwarehouseV1UpdateDocumentRequest {
   document?: GoogleCloudContentwarehouseV1Document;
 }
 
-export const GoogleCloudContentwarehouseV1UpdateDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentRequest> = Schema.suspend(() => Schema.Struct({
-  updateOptions: Schema.optional(GoogleCloudContentwarehouseV1UpdateOptions),
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-  cloudAiDocumentOption: Schema.optional(GoogleCloudContentwarehouseV1CloudAIDocumentOption),
-  document: Schema.optional(GoogleCloudContentwarehouseV1Document),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentRequest>;
+export const GoogleCloudContentwarehouseV1UpdateDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateOptions: Schema.optional(
+        GoogleCloudContentwarehouseV1UpdateOptions,
+      ),
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+      cloudAiDocumentOption: Schema.optional(
+        GoogleCloudContentwarehouseV1CloudAIDocumentOption,
+      ),
+      document: Schema.optional(GoogleCloudContentwarehouseV1Document),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1UpdateDocumentRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1UpdateDocumentRequest>;
 
 export interface GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest {
   /** The meta information collected about the document creator, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest: Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest>;
+export const GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest: Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest>;
 
 export interface GoogleCloudContentwarehouseV1ProjectStatus {
   /** Access control mode. */
-  accessControlMode?: "ACL_MODE_UNKNOWN" | "ACL_MODE_UNIVERSAL_ACCESS" | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_BYOID" | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_GCI" | (string & {});
+  accessControlMode?:
+    | "ACL_MODE_UNKNOWN"
+    | "ACL_MODE_UNIVERSAL_ACCESS"
+    | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_BYOID"
+    | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_GCI"
+    | (string & {});
   /** If the qa is enabled on this project. */
   qaEnabled?: boolean;
   /** Database type. */
-  databaseType?: "DB_UNKNOWN" | "DB_INFRA_SPANNER" | "DB_CLOUD_SQL_POSTGRES" | (string & {});
+  databaseType?:
+    | "DB_UNKNOWN"
+    | "DB_INFRA_SPANNER"
+    | "DB_CLOUD_SQL_POSTGRES"
+    | (string & {});
   /** The location of the queried project. */
   location?: string;
   /** The default role for the person who create a document. */
   documentCreatorDefaultRole?: string;
   /** State of the project. */
-  state?: "PROJECT_STATE_UNSPECIFIED" | "PROJECT_STATE_PENDING" | "PROJECT_STATE_COMPLETED" | "PROJECT_STATE_FAILED" | "PROJECT_STATE_DELETING" | "PROJECT_STATE_DELETING_FAILED" | "PROJECT_STATE_DELETED" | "PROJECT_STATE_NOT_FOUND" | (string & {});
+  state?:
+    | "PROJECT_STATE_UNSPECIFIED"
+    | "PROJECT_STATE_PENDING"
+    | "PROJECT_STATE_COMPLETED"
+    | "PROJECT_STATE_FAILED"
+    | "PROJECT_STATE_DELETING"
+    | "PROJECT_STATE_DELETING_FAILED"
+    | "PROJECT_STATE_DELETED"
+    | "PROJECT_STATE_NOT_FOUND"
+    | (string & {});
 }
 
-export const GoogleCloudContentwarehouseV1ProjectStatus: Schema.Schema<GoogleCloudContentwarehouseV1ProjectStatus> = Schema.suspend(() => Schema.Struct({
-  accessControlMode: Schema.optional(Schema.String),
-  qaEnabled: Schema.optional(Schema.Boolean),
-  databaseType: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  documentCreatorDefaultRole: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ProjectStatus" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ProjectStatus>;
+export const GoogleCloudContentwarehouseV1ProjectStatus: Schema.Schema<GoogleCloudContentwarehouseV1ProjectStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessControlMode: Schema.optional(Schema.String),
+      qaEnabled: Schema.optional(Schema.Boolean),
+      databaseType: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      documentCreatorDefaultRole: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ProjectStatus",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ProjectStatus>;
 
 export interface GoogleCloudContentwarehouseV1ListDocumentSchemasResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -2783,19 +4052,32 @@ export interface GoogleCloudContentwarehouseV1ListDocumentSchemasResponse {
   documentSchemas?: Array<GoogleCloudContentwarehouseV1DocumentSchema>;
 }
 
-export const GoogleCloudContentwarehouseV1ListDocumentSchemasResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListDocumentSchemasResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  documentSchemas: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1DocumentSchema)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ListDocumentSchemasResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListDocumentSchemasResponse>;
+export const GoogleCloudContentwarehouseV1ListDocumentSchemasResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListDocumentSchemasResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      documentSchemas: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1DocumentSchema),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ListDocumentSchemasResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListDocumentSchemasResponse>;
 
 export interface GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata {
   /** The input Cloud Storage folder in this pipeline. Format: `gs:///`. */
   inputPath?: string;
 }
 
-export const GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata> = Schema.suspend(() => Schema.Struct({
-  inputPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata>;
+export const GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata>;
 
 export interface GoogleCloudContentwarehouseV1RunPipelineMetadata {
   /** Number of files that have failed at some point in the pipeline. */
@@ -2814,15 +4096,30 @@ export interface GoogleCloudContentwarehouseV1RunPipelineMetadata {
   totalFileCount?: number;
 }
 
-export const GoogleCloudContentwarehouseV1RunPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadata> = Schema.suspend(() => Schema.Struct({
-  failedFileCount: Schema.optional(Schema.Number),
-  exportToCdwPipelineMetadata: Schema.optional(GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata),
-  userInfo: Schema.optional(GoogleCloudContentwarehouseV1UserInfo),
-  processWithDocAiPipelineMetadata: Schema.optional(GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata),
-  individualDocumentStatuses: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus)),
-  gcsIngestPipelineMetadata: Schema.optional(GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata),
-  totalFileCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineMetadata" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadata>;
+export const GoogleCloudContentwarehouseV1RunPipelineMetadata: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      failedFileCount: Schema.optional(Schema.Number),
+      exportToCdwPipelineMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RunPipelineMetadataExportToCdwPipelineMetadata,
+      ),
+      userInfo: Schema.optional(GoogleCloudContentwarehouseV1UserInfo),
+      processWithDocAiPipelineMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RunPipelineMetadataProcessWithDocAiPipelineMetadata,
+      ),
+      individualDocumentStatuses: Schema.optional(
+        Schema.Array(
+          GoogleCloudContentwarehouseV1RunPipelineMetadataIndividualDocumentStatus,
+        ),
+      ),
+      gcsIngestPipelineMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RunPipelineMetadataGcsIngestPipelineMetadata,
+      ),
+      totalFileCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RunPipelineMetadata",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineMetadata>;
 
 export interface GoogleLongrunningOperation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -2837,19 +4134,25 @@ export interface GoogleLongrunningOperation {
   name?: string;
 }
 
-export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> = Schema.suspend(() => Schema.Struct({
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(GoogleRpcStatus),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleLongrunningOperation" }) as any as Schema.Schema<GoogleLongrunningOperation>;
+export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(GoogleRpcStatus),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningOperation",
+  }) as any as Schema.Schema<GoogleLongrunningOperation>;
 
-export interface GoogleProtobufEmpty {
-}
+export interface GoogleProtobufEmpty {}
 
-export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleProtobufEmpty" }) as any as Schema.Schema<GoogleProtobufEmpty>;
+export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleProtobufEmpty",
+  }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
 export interface GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline {
   /** The input Cloud Storage folder. All files under this folder will be imported to Document Warehouse. Format: `gs:///`. */
@@ -2866,14 +4169,26 @@ export interface GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeli
   skipIngestedDocuments?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline: Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline> = Schema.suspend(() => Schema.Struct({
-  inputPath: Schema.optional(Schema.String),
-  processorResultsFolderPath: Schema.optional(Schema.String),
-  pipelineConfig: Schema.optional(GoogleCloudContentwarehouseV1IngestPipelineConfig),
-  splitClassifyProcessorInfo: Schema.optional(GoogleCloudContentwarehouseV1ProcessorInfo),
-  extractProcessorInfos: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1ProcessorInfo)),
-  skipIngestedDocuments: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline>;
+export const GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline: Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputPath: Schema.optional(Schema.String),
+      processorResultsFolderPath: Schema.optional(Schema.String),
+      pipelineConfig: Schema.optional(
+        GoogleCloudContentwarehouseV1IngestPipelineConfig,
+      ),
+      splitClassifyProcessorInfo: Schema.optional(
+        GoogleCloudContentwarehouseV1ProcessorInfo,
+      ),
+      extractProcessorInfos: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1ProcessorInfo),
+      ),
+      skipIngestedDocuments: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline>;
 
 export interface GoogleCloudContentwarehouseV1RunPipelineRequest {
   /** Use DocAI processors to process documents in Cloud Storage and ingest them to Document Warehouse. */
@@ -2888,43 +4203,84 @@ export interface GoogleCloudContentwarehouseV1RunPipelineRequest {
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1RunPipelineRequest: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineRequest> = Schema.suspend(() => Schema.Struct({
-  gcsIngestWithDocAiProcessorsPipeline: Schema.optional(GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline),
-  gcsIngestPipeline: Schema.optional(GoogleCloudContentwarehouseV1GcsIngestPipeline),
-  exportCdwPipeline: Schema.optional(GoogleCloudContentwarehouseV1ExportToCdwPipeline),
-  processWithDocAiPipeline: Schema.optional(GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline),
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineRequest>;
+export const GoogleCloudContentwarehouseV1RunPipelineRequest: Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsIngestWithDocAiProcessorsPipeline: Schema.optional(
+        GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline,
+      ),
+      gcsIngestPipeline: Schema.optional(
+        GoogleCloudContentwarehouseV1GcsIngestPipeline,
+      ),
+      exportCdwPipeline: Schema.optional(
+        GoogleCloudContentwarehouseV1ExportToCdwPipeline,
+      ),
+      processWithDocAiPipeline: Schema.optional(
+        GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline,
+      ),
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1RunPipelineRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1RunPipelineRequest>;
 
 export interface GoogleCloudContentwarehouseV1GetDocumentRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1GetDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1GetDocumentRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1GetDocumentRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1GetDocumentRequest>;
+export const GoogleCloudContentwarehouseV1GetDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1GetDocumentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1GetDocumentRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1GetDocumentRequest>;
 
 export interface GoogleCloudContentwarehouseV1InitializeProjectRequest {
   /** Optional. The KMS key used for CMEK encryption. It is required that the kms key is in the same region as the endpoint. The same key will be used for all provisioned resources, if encryption is available. If the kms_key is left empty, no encryption will be enforced. */
   kmsKey?: string;
   /** Required. The access control mode for accessing the customer data */
-  accessControlMode?: "ACL_MODE_UNKNOWN" | "ACL_MODE_UNIVERSAL_ACCESS" | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_BYOID" | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_GCI" | (string & {});
+  accessControlMode?:
+    | "ACL_MODE_UNKNOWN"
+    | "ACL_MODE_UNIVERSAL_ACCESS"
+    | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_BYOID"
+    | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_GCI"
+    | (string & {});
   /** Required. The type of database used to store customer data */
-  databaseType?: "DB_UNKNOWN" | "DB_INFRA_SPANNER" | "DB_CLOUD_SQL_POSTGRES" | (string & {});
+  databaseType?:
+    | "DB_UNKNOWN"
+    | "DB_INFRA_SPANNER"
+    | "DB_CLOUD_SQL_POSTGRES"
+    | (string & {});
   /** Optional. The default role for the person who create a document. */
-  documentCreatorDefaultRole?: "DOCUMENT_CREATOR_DEFAULT_ROLE_UNSPECIFIED" | "DOCUMENT_ADMIN" | "DOCUMENT_EDITOR" | "DOCUMENT_VIEWER" | (string & {});
+  documentCreatorDefaultRole?:
+    | "DOCUMENT_CREATOR_DEFAULT_ROLE_UNSPECIFIED"
+    | "DOCUMENT_ADMIN"
+    | "DOCUMENT_EDITOR"
+    | "DOCUMENT_VIEWER"
+    | (string & {});
   /** Optional. Whether to enable CAL user email logging. */
   enableCalUserEmailLogging?: boolean;
 }
 
-export const GoogleCloudContentwarehouseV1InitializeProjectRequest: Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectRequest> = Schema.suspend(() => Schema.Struct({
-  kmsKey: Schema.optional(Schema.String),
-  accessControlMode: Schema.optional(Schema.String),
-  databaseType: Schema.optional(Schema.String),
-  documentCreatorDefaultRole: Schema.optional(Schema.String),
-  enableCalUserEmailLogging: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1InitializeProjectRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectRequest>;
+export const GoogleCloudContentwarehouseV1InitializeProjectRequest: Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKey: Schema.optional(Schema.String),
+      accessControlMode: Schema.optional(Schema.String),
+      databaseType: Schema.optional(Schema.String),
+      documentCreatorDefaultRole: Schema.optional(Schema.String),
+      enableCalUserEmailLogging: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1InitializeProjectRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1InitializeProjectRequest>;
 
 export interface GoogleCloudContentwarehouseV1HistogramQueryResult {
   /** A map from the values of the facet associated with distinct values to the number of matching entries with corresponding value. The key format is: * (for string histogram) string values stored in the field. */
@@ -2933,10 +4289,15 @@ export interface GoogleCloudContentwarehouseV1HistogramQueryResult {
   histogramQuery?: string;
 }
 
-export const GoogleCloudContentwarehouseV1HistogramQueryResult: Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryResult> = Schema.suspend(() => Schema.Struct({
-  histogram: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  histogramQuery: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1HistogramQueryResult" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryResult>;
+export const GoogleCloudContentwarehouseV1HistogramQueryResult: Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      histogram: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      histogramQuery: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1HistogramQueryResult",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1HistogramQueryResult>;
 
 export interface GoogleCloudContentwarehouseV1SearchDocumentsResponse {
   /** The total number of matched documents which is available only if the client set SearchDocumentsRequest.require_total_size to `true` or set SearchDocumentsRequest.total_result_size to `ESTIMATED_SIZE` or `ACTUAL_SIZE`. Otherwise, the value will be `-1`. Typically a UI would handle this condition by displaying "of many", for example: "Displaying 10 of many". */
@@ -2953,14 +4314,25 @@ export interface GoogleCloudContentwarehouseV1SearchDocumentsResponse {
   histogramQueryResults?: Array<GoogleCloudContentwarehouseV1HistogramQueryResult>;
 }
 
-export const GoogleCloudContentwarehouseV1SearchDocumentsResponse: Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponse> = Schema.suspend(() => Schema.Struct({
-  totalSize: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-  metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
-  questionAnswer: Schema.optional(Schema.String),
-  matchingDocuments: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument)),
-  histogramQueryResults: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1HistogramQueryResult)),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1SearchDocumentsResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponse>;
+export const GoogleCloudContentwarehouseV1SearchDocumentsResponse: Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      totalSize: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+      metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
+      questionAnswer: Schema.optional(Schema.String),
+      matchingDocuments: Schema.optional(
+        Schema.Array(
+          GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument,
+        ),
+      ),
+      histogramQueryResults: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1HistogramQueryResult),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1SearchDocumentsResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponse>;
 
 export interface GoogleCloudContentwarehouseV1LockDocumentRequest {
   /** The user information who locks the document. */
@@ -2969,10 +4341,15 @@ export interface GoogleCloudContentwarehouseV1LockDocumentRequest {
   collectionId?: string;
 }
 
-export const GoogleCloudContentwarehouseV1LockDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1LockDocumentRequest> = Schema.suspend(() => Schema.Struct({
-  lockingUser: Schema.optional(GoogleCloudContentwarehouseV1UserInfo),
-  collectionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1LockDocumentRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1LockDocumentRequest>;
+export const GoogleCloudContentwarehouseV1LockDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1LockDocumentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lockingUser: Schema.optional(GoogleCloudContentwarehouseV1UserInfo),
+      collectionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1LockDocumentRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1LockDocumentRequest>;
 
 export interface GoogleCloudContentwarehouseV1CreateDocumentRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
@@ -2987,13 +4364,22 @@ export interface GoogleCloudContentwarehouseV1CreateDocumentRequest {
   policy?: GoogleIamV1Policy;
 }
 
-export const GoogleCloudContentwarehouseV1CreateDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentRequest> = Schema.suspend(() => Schema.Struct({
-  requestMetadata: Schema.optional(GoogleCloudContentwarehouseV1RequestMetadata),
-  cloudAiDocumentOption: Schema.optional(GoogleCloudContentwarehouseV1CloudAIDocumentOption),
-  createMask: Schema.optional(Schema.String),
-  document: Schema.optional(GoogleCloudContentwarehouseV1Document),
-  policy: Schema.optional(GoogleIamV1Policy),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentRequest" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentRequest>;
+export const GoogleCloudContentwarehouseV1CreateDocumentRequest: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestMetadata: Schema.optional(
+        GoogleCloudContentwarehouseV1RequestMetadata,
+      ),
+      cloudAiDocumentOption: Schema.optional(
+        GoogleCloudContentwarehouseV1CloudAIDocumentOption,
+      ),
+      createMask: Schema.optional(Schema.String),
+      document: Schema.optional(GoogleCloudContentwarehouseV1Document),
+      policy: Schema.optional(GoogleIamV1Policy),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1CreateDocumentRequest",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentRequest>;
 
 export interface GoogleCloudContentwarehouseV1ListLinkedTargetsResponse {
   /** Target document-links. */
@@ -3002,10 +4388,17 @@ export interface GoogleCloudContentwarehouseV1ListLinkedTargetsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ListLinkedTargetsResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsResponse> = Schema.suspend(() => Schema.Struct({
-  documentLinks: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1DocumentLink)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedTargetsResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsResponse>;
+export const GoogleCloudContentwarehouseV1ListLinkedTargetsResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentLinks: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1DocumentLink),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ListLinkedTargetsResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsResponse>;
 
 export interface GoogleCloudContentwarehouseV1CreateDocumentResponse {
   /** Document created after executing create request. */
@@ -3018,12 +4411,21 @@ export interface GoogleCloudContentwarehouseV1CreateDocumentResponse {
   metadata?: GoogleCloudContentwarehouseV1ResponseMetadata;
 }
 
-export const GoogleCloudContentwarehouseV1CreateDocumentResponse: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentResponse> = Schema.suspend(() => Schema.Struct({
-  document: Schema.optional(GoogleCloudContentwarehouseV1Document),
-  ruleEngineOutput: Schema.optional(GoogleCloudContentwarehouseV1RuleEngineOutput),
-  longRunningOperations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
-  metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentResponse>;
+export const GoogleCloudContentwarehouseV1CreateDocumentResponse: Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      document: Schema.optional(GoogleCloudContentwarehouseV1Document),
+      ruleEngineOutput: Schema.optional(
+        GoogleCloudContentwarehouseV1RuleEngineOutput,
+      ),
+      longRunningOperations: Schema.optional(
+        Schema.Array(GoogleLongrunningOperation),
+      ),
+      metadata: Schema.optional(GoogleCloudContentwarehouseV1ResponseMetadata),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1CreateDocumentResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1CreateDocumentResponse>;
 
 export interface GoogleCloudContentwarehouseV1ListRuleSetsResponse {
   /** The rule sets from the specified parent. */
@@ -3032,10 +4434,17 @@ export interface GoogleCloudContentwarehouseV1ListRuleSetsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudContentwarehouseV1ListRuleSetsResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListRuleSetsResponse> = Schema.suspend(() => Schema.Struct({
-  ruleSets: Schema.optional(Schema.Array(GoogleCloudContentwarehouseV1RuleSet)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudContentwarehouseV1ListRuleSetsResponse" }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListRuleSetsResponse>;
+export const GoogleCloudContentwarehouseV1ListRuleSetsResponse: Schema.Schema<GoogleCloudContentwarehouseV1ListRuleSetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ruleSets: Schema.optional(
+        Schema.Array(GoogleCloudContentwarehouseV1RuleSet),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudContentwarehouseV1ListRuleSetsResponse",
+  }) as any as Schema.Schema<GoogleCloudContentwarehouseV1ListRuleSetsResponse>;
 
 // ==========================================================================
 // Operations
@@ -3050,19 +4459,32 @@ export interface FetchAclProjectsRequest {
 
 export const FetchAclProjectsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1FetchAclRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1FetchAclRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}:fetchAcl", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}:fetchAcl",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<FetchAclProjectsRequest>;
 
-export type FetchAclProjectsResponse = GoogleCloudContentwarehouseV1FetchAclResponse;
-export const FetchAclProjectsResponse = GoogleCloudContentwarehouseV1FetchAclResponse;
+export type FetchAclProjectsResponse =
+  GoogleCloudContentwarehouseV1FetchAclResponse;
+export const FetchAclProjectsResponse =
+  GoogleCloudContentwarehouseV1FetchAclResponse;
 
 export type FetchAclProjectsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns NOT_FOUND error if the resource does not exist. Returns an empty policy if the resource exists but does not have a policy set. */
-export const fetchAclProjects: API.OperationMethod<FetchAclProjectsRequest, FetchAclProjectsResponse, FetchAclProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const fetchAclProjects: API.OperationMethod<
+  FetchAclProjectsRequest,
+  FetchAclProjectsResponse,
+  FetchAclProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FetchAclProjectsRequest,
   output: FetchAclProjectsResponse,
   errors: [],
@@ -3077,19 +4499,32 @@ export interface SetAclProjectsRequest {
 
 export const SetAclProjectsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1SetAclRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1SetAclRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}:setAcl", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}:setAcl",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetAclProjectsRequest>;
 
-export type SetAclProjectsResponse = GoogleCloudContentwarehouseV1SetAclResponse;
-export const SetAclProjectsResponse = GoogleCloudContentwarehouseV1SetAclResponse;
+export type SetAclProjectsResponse =
+  GoogleCloudContentwarehouseV1SetAclResponse;
+export const SetAclProjectsResponse =
+  GoogleCloudContentwarehouseV1SetAclResponse;
 
 export type SetAclProjectsError = DefaultErrors;
 
 /** Sets the access control policy for a resource. Replaces any existing policy. */
-export const setAclProjects: API.OperationMethod<SetAclProjectsRequest, SetAclProjectsResponse, SetAclProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setAclProjects: API.OperationMethod<
+  SetAclProjectsRequest,
+  SetAclProjectsResponse,
+  SetAclProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetAclProjectsRequest,
   output: SetAclProjectsResponse,
   errors: [],
@@ -3103,17 +4538,27 @@ export interface GetStatusProjectsLocationsRequest {
 export const GetStatusProjectsLocationsRequest = Schema.Struct({
   location: Schema.String.pipe(T.HttpPath("location")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}:getStatus" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:getStatus",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetStatusProjectsLocationsRequest>;
 
-export type GetStatusProjectsLocationsResponse = GoogleCloudContentwarehouseV1ProjectStatus;
-export const GetStatusProjectsLocationsResponse = GoogleCloudContentwarehouseV1ProjectStatus;
+export type GetStatusProjectsLocationsResponse =
+  GoogleCloudContentwarehouseV1ProjectStatus;
+export const GetStatusProjectsLocationsResponse =
+  GoogleCloudContentwarehouseV1ProjectStatus;
 
 export type GetStatusProjectsLocationsError = DefaultErrors;
 
 /** Get the project status. */
-export const getStatusProjectsLocations: API.OperationMethod<GetStatusProjectsLocationsRequest, GetStatusProjectsLocationsResponse, GetStatusProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getStatusProjectsLocations: API.OperationMethod<
+  GetStatusProjectsLocationsRequest,
+  GetStatusProjectsLocationsResponse,
+  GetStatusProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetStatusProjectsLocationsRequest,
   output: GetStatusProjectsLocationsResponse,
   errors: [],
@@ -3128,9 +4573,15 @@ export interface RunPipelineProjectsLocationsRequest {
 
 export const RunPipelineProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1RunPipelineRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1RunPipelineRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}:runPipeline", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:runPipeline",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RunPipelineProjectsLocationsRequest>;
 
@@ -3140,7 +4591,12 @@ export const RunPipelineProjectsLocationsResponse = GoogleLongrunningOperation;
 export type RunPipelineProjectsLocationsError = DefaultErrors;
 
 /** Run a predefined pipeline. */
-export const runPipelineProjectsLocations: API.OperationMethod<RunPipelineProjectsLocationsRequest, RunPipelineProjectsLocationsResponse, RunPipelineProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const runPipelineProjectsLocations: API.OperationMethod<
+  RunPipelineProjectsLocationsRequest,
+  RunPipelineProjectsLocationsResponse,
+  RunPipelineProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RunPipelineProjectsLocationsRequest,
   output: RunPipelineProjectsLocationsResponse,
   errors: [],
@@ -3155,9 +4611,15 @@ export interface InitializeProjectsLocationsRequest {
 
 export const InitializeProjectsLocationsRequest = Schema.Struct({
   location: Schema.String.pipe(T.HttpPath("location")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1InitializeProjectRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1InitializeProjectRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}:initialize", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:initialize",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InitializeProjectsLocationsRequest>;
 
@@ -3167,7 +4629,12 @@ export const InitializeProjectsLocationsResponse = GoogleLongrunningOperation;
 export type InitializeProjectsLocationsError = DefaultErrors;
 
 /** Provisions resources for given tenant project. Returns a long running operation. */
-export const initializeProjectsLocations: API.OperationMethod<InitializeProjectsLocationsRequest, InitializeProjectsLocationsResponse, InitializeProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const initializeProjectsLocations: API.OperationMethod<
+  InitializeProjectsLocationsRequest,
+  InitializeProjectsLocationsResponse,
+  InitializeProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InitializeProjectsLocationsRequest,
   output: InitializeProjectsLocationsResponse,
   errors: [],
@@ -3182,19 +4649,32 @@ export interface FetchAclProjectsLocationsDocumentsRequest {
 
 export const FetchAclProjectsLocationsDocumentsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1FetchAclRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1FetchAclRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:fetchAcl", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:fetchAcl",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<FetchAclProjectsLocationsDocumentsRequest>;
 
-export type FetchAclProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1FetchAclResponse;
-export const FetchAclProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1FetchAclResponse;
+export type FetchAclProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1FetchAclResponse;
+export const FetchAclProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1FetchAclResponse;
 
 export type FetchAclProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns NOT_FOUND error if the resource does not exist. Returns an empty policy if the resource exists but does not have a policy set. */
-export const fetchAclProjectsLocationsDocuments: API.OperationMethod<FetchAclProjectsLocationsDocumentsRequest, FetchAclProjectsLocationsDocumentsResponse, FetchAclProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const fetchAclProjectsLocationsDocuments: API.OperationMethod<
+  FetchAclProjectsLocationsDocumentsRequest,
+  FetchAclProjectsLocationsDocumentsResponse,
+  FetchAclProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FetchAclProjectsLocationsDocumentsRequest,
   output: FetchAclProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3209,19 +4689,32 @@ export interface GetProjectsLocationsDocumentsRequest {
 
 export const GetProjectsLocationsDocumentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1GetDocumentRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1GetDocumentRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:get", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:get",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsDocumentsRequest>;
 
-export type GetProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1Document;
-export const GetProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1Document;
+export type GetProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1Document;
+export const GetProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1Document;
 
 export type GetProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Gets a document. Returns NOT_FOUND if the document does not exist. */
-export const getProjectsLocationsDocuments: API.OperationMethod<GetProjectsLocationsDocumentsRequest, GetProjectsLocationsDocumentsResponse, GetProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsDocuments: API.OperationMethod<
+  GetProjectsLocationsDocumentsRequest,
+  GetProjectsLocationsDocumentsResponse,
+  GetProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsDocumentsRequest,
   output: GetProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3236,9 +4729,15 @@ export interface DeleteProjectsLocationsDocumentsRequest {
 
 export const DeleteProjectsLocationsDocumentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1DeleteDocumentRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1DeleteDocumentRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:delete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:delete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsDocumentsRequest>;
 
@@ -3248,7 +4747,12 @@ export const DeleteProjectsLocationsDocumentsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Deletes a document. Returns NOT_FOUND if the document does not exist. */
-export const deleteProjectsLocationsDocuments: API.OperationMethod<DeleteProjectsLocationsDocumentsRequest, DeleteProjectsLocationsDocumentsResponse, DeleteProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsDocuments: API.OperationMethod<
+  DeleteProjectsLocationsDocumentsRequest,
+  DeleteProjectsLocationsDocumentsResponse,
+  DeleteProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentsRequest,
   output: DeleteProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3263,19 +4767,32 @@ export interface LinkedSourcesProjectsLocationsDocumentsRequest {
 
 export const LinkedSourcesProjectsLocationsDocumentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1ListLinkedSourcesRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1ListLinkedSourcesRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/linkedSources", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/linkedSources",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LinkedSourcesProjectsLocationsDocumentsRequest>;
 
-export type LinkedSourcesProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1ListLinkedSourcesResponse;
-export const LinkedSourcesProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1ListLinkedSourcesResponse;
+export type LinkedSourcesProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1ListLinkedSourcesResponse;
+export const LinkedSourcesProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1ListLinkedSourcesResponse;
 
 export type LinkedSourcesProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Return all source document-links from the document. */
-export const linkedSourcesProjectsLocationsDocuments: API.OperationMethod<LinkedSourcesProjectsLocationsDocumentsRequest, LinkedSourcesProjectsLocationsDocumentsResponse, LinkedSourcesProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const linkedSourcesProjectsLocationsDocuments: API.OperationMethod<
+  LinkedSourcesProjectsLocationsDocumentsRequest,
+  LinkedSourcesProjectsLocationsDocumentsResponse,
+  LinkedSourcesProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LinkedSourcesProjectsLocationsDocumentsRequest,
   output: LinkedSourcesProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3290,19 +4807,32 @@ export interface SetAclProjectsLocationsDocumentsRequest {
 
 export const SetAclProjectsLocationsDocumentsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1SetAclRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1SetAclRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:setAcl", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:setAcl",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetAclProjectsLocationsDocumentsRequest>;
 
-export type SetAclProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1SetAclResponse;
-export const SetAclProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1SetAclResponse;
+export type SetAclProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1SetAclResponse;
+export const SetAclProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1SetAclResponse;
 
 export type SetAclProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Sets the access control policy for a resource. Replaces any existing policy. */
-export const setAclProjectsLocationsDocuments: API.OperationMethod<SetAclProjectsLocationsDocumentsRequest, SetAclProjectsLocationsDocumentsResponse, SetAclProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setAclProjectsLocationsDocuments: API.OperationMethod<
+  SetAclProjectsLocationsDocumentsRequest,
+  SetAclProjectsLocationsDocumentsResponse,
+  SetAclProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetAclProjectsLocationsDocumentsRequest,
   output: SetAclProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3317,19 +4847,32 @@ export interface SearchProjectsLocationsDocumentsRequest {
 
 export const SearchProjectsLocationsDocumentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1SearchDocumentsRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1SearchDocumentsRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents:search", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents:search",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchProjectsLocationsDocumentsRequest>;
 
-export type SearchProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1SearchDocumentsResponse;
-export const SearchProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1SearchDocumentsResponse;
+export type SearchProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1SearchDocumentsResponse;
+export const SearchProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1SearchDocumentsResponse;
 
 export type SearchProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Searches for documents using provided SearchDocumentsRequest. This call only returns documents that the caller has permission to search against. */
-export const searchProjectsLocationsDocuments: API.OperationMethod<SearchProjectsLocationsDocumentsRequest, SearchProjectsLocationsDocumentsResponse, SearchProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const searchProjectsLocationsDocuments: API.OperationMethod<
+  SearchProjectsLocationsDocumentsRequest,
+  SearchProjectsLocationsDocumentsResponse,
+  SearchProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SearchProjectsLocationsDocumentsRequest,
   output: SearchProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3344,19 +4887,32 @@ export interface LockProjectsLocationsDocumentsRequest {
 
 export const LockProjectsLocationsDocumentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1LockDocumentRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1LockDocumentRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:lock", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}:lock",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LockProjectsLocationsDocumentsRequest>;
 
-export type LockProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1Document;
-export const LockProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1Document;
+export type LockProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1Document;
+export const LockProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1Document;
 
 export type LockProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Lock the document so the document cannot be updated by other users. */
-export const lockProjectsLocationsDocuments: API.OperationMethod<LockProjectsLocationsDocumentsRequest, LockProjectsLocationsDocumentsResponse, LockProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const lockProjectsLocationsDocuments: API.OperationMethod<
+  LockProjectsLocationsDocumentsRequest,
+  LockProjectsLocationsDocumentsResponse,
+  LockProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LockProjectsLocationsDocumentsRequest,
   output: LockProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3371,19 +4927,32 @@ export interface CreateProjectsLocationsDocumentsRequest {
 
 export const CreateProjectsLocationsDocumentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1CreateDocumentRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1CreateDocumentRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsDocumentsRequest>;
 
-export type CreateProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1CreateDocumentResponse;
-export const CreateProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1CreateDocumentResponse;
+export type CreateProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1CreateDocumentResponse;
+export const CreateProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1CreateDocumentResponse;
 
 export type CreateProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Creates a document. */
-export const createProjectsLocationsDocuments: API.OperationMethod<CreateProjectsLocationsDocumentsRequest, CreateProjectsLocationsDocumentsResponse, CreateProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsDocuments: API.OperationMethod<
+  CreateProjectsLocationsDocumentsRequest,
+  CreateProjectsLocationsDocumentsResponse,
+  CreateProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsDocumentsRequest,
   output: CreateProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3398,19 +4967,32 @@ export interface PatchProjectsLocationsDocumentsRequest {
 
 export const PatchProjectsLocationsDocumentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1UpdateDocumentRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1UpdateDocumentRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsDocumentsRequest>;
 
-export type PatchProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1UpdateDocumentResponse;
-export const PatchProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1UpdateDocumentResponse;
+export type PatchProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1UpdateDocumentResponse;
+export const PatchProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1UpdateDocumentResponse;
 
 export type PatchProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Updates a document. Returns INVALID_ARGUMENT if the name of the document is non-empty and does not equal the existing name. */
-export const patchProjectsLocationsDocuments: API.OperationMethod<PatchProjectsLocationsDocumentsRequest, PatchProjectsLocationsDocumentsResponse, PatchProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsDocuments: API.OperationMethod<
+  PatchProjectsLocationsDocumentsRequest,
+  PatchProjectsLocationsDocumentsResponse,
+  PatchProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsDocumentsRequest,
   output: PatchProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3425,19 +5007,32 @@ export interface LinkedTargetsProjectsLocationsDocumentsRequest {
 
 export const LinkedTargetsProjectsLocationsDocumentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1ListLinkedTargetsRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1ListLinkedTargetsRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/linkedTargets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/linkedTargets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LinkedTargetsProjectsLocationsDocumentsRequest>;
 
-export type LinkedTargetsProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1ListLinkedTargetsResponse;
-export const LinkedTargetsProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouseV1ListLinkedTargetsResponse;
+export type LinkedTargetsProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1ListLinkedTargetsResponse;
+export const LinkedTargetsProjectsLocationsDocumentsResponse =
+  GoogleCloudContentwarehouseV1ListLinkedTargetsResponse;
 
 export type LinkedTargetsProjectsLocationsDocumentsError = DefaultErrors;
 
 /** Return all target document-links from the document. */
-export const linkedTargetsProjectsLocationsDocuments: API.OperationMethod<LinkedTargetsProjectsLocationsDocumentsRequest, LinkedTargetsProjectsLocationsDocumentsResponse, LinkedTargetsProjectsLocationsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const linkedTargetsProjectsLocationsDocuments: API.OperationMethod<
+  LinkedTargetsProjectsLocationsDocumentsRequest,
+  LinkedTargetsProjectsLocationsDocumentsResponse,
+  LinkedTargetsProjectsLocationsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LinkedTargetsProjectsLocationsDocumentsRequest,
   output: LinkedTargetsProjectsLocationsDocumentsResponse,
   errors: [],
@@ -3450,21 +5045,35 @@ export interface CreateProjectsLocationsDocumentsDocumentLinksRequest {
   body?: GoogleCloudContentwarehouseV1CreateDocumentLinkRequest;
 }
 
-export const CreateProjectsLocationsDocumentsDocumentLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1CreateDocumentLinkRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/documentLinks", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDocumentsDocumentLinksRequest>;
+export const CreateProjectsLocationsDocumentsDocumentLinksRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContentwarehouseV1CreateDocumentLinkRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/documentLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDocumentsDocumentLinksRequest>;
 
-export type CreateProjectsLocationsDocumentsDocumentLinksResponse = GoogleCloudContentwarehouseV1DocumentLink;
-export const CreateProjectsLocationsDocumentsDocumentLinksResponse = GoogleCloudContentwarehouseV1DocumentLink;
+export type CreateProjectsLocationsDocumentsDocumentLinksResponse =
+  GoogleCloudContentwarehouseV1DocumentLink;
+export const CreateProjectsLocationsDocumentsDocumentLinksResponse =
+  GoogleCloudContentwarehouseV1DocumentLink;
 
 export type CreateProjectsLocationsDocumentsDocumentLinksError = DefaultErrors;
 
 /** Create a link between a source document and a target document. */
-export const createProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<CreateProjectsLocationsDocumentsDocumentLinksRequest, CreateProjectsLocationsDocumentsDocumentLinksResponse, CreateProjectsLocationsDocumentsDocumentLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
+  CreateProjectsLocationsDocumentsDocumentLinksRequest,
+  CreateProjectsLocationsDocumentsDocumentLinksResponse,
+  CreateProjectsLocationsDocumentsDocumentLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsDocumentsDocumentLinksRequest,
   output: CreateProjectsLocationsDocumentsDocumentLinksResponse,
   errors: [],
@@ -3477,21 +5086,35 @@ export interface DeleteProjectsLocationsDocumentsDocumentLinksRequest {
   body?: GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest;
 }
 
-export const DeleteProjectsLocationsDocumentsDocumentLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/documentLinks/{documentLinksId}:delete", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDocumentsDocumentLinksRequest>;
+export const DeleteProjectsLocationsDocumentsDocumentLinksRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/documents/{documentsId}/documentLinks/{documentLinksId}:delete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDocumentsDocumentLinksRequest>;
 
-export type DeleteProjectsLocationsDocumentsDocumentLinksResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsDocumentsDocumentLinksResponse = GoogleProtobufEmpty;
+export type DeleteProjectsLocationsDocumentsDocumentLinksResponse =
+  GoogleProtobufEmpty;
+export const DeleteProjectsLocationsDocumentsDocumentLinksResponse =
+  GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDocumentsDocumentLinksError = DefaultErrors;
 
 /** Remove the link between the source and target documents. */
-export const deleteProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<DeleteProjectsLocationsDocumentsDocumentLinksRequest, DeleteProjectsLocationsDocumentsDocumentLinksResponse, DeleteProjectsLocationsDocumentsDocumentLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
+  DeleteProjectsLocationsDocumentsDocumentLinksRequest,
+  DeleteProjectsLocationsDocumentsDocumentLinksResponse,
+  DeleteProjectsLocationsDocumentsDocumentLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentsDocumentLinksRequest,
   output: DeleteProjectsLocationsDocumentsDocumentLinksResponse,
   errors: [],
@@ -3506,19 +5129,32 @@ export interface PatchProjectsLocationsDocumentsReferenceIdRequest {
 
 export const PatchProjectsLocationsDocumentsReferenceIdRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1UpdateDocumentRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1UpdateDocumentRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/referenceId/{referenceIdId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/referenceId/{referenceIdId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsDocumentsReferenceIdRequest>;
 
-export type PatchProjectsLocationsDocumentsReferenceIdResponse = GoogleCloudContentwarehouseV1UpdateDocumentResponse;
-export const PatchProjectsLocationsDocumentsReferenceIdResponse = GoogleCloudContentwarehouseV1UpdateDocumentResponse;
+export type PatchProjectsLocationsDocumentsReferenceIdResponse =
+  GoogleCloudContentwarehouseV1UpdateDocumentResponse;
+export const PatchProjectsLocationsDocumentsReferenceIdResponse =
+  GoogleCloudContentwarehouseV1UpdateDocumentResponse;
 
 export type PatchProjectsLocationsDocumentsReferenceIdError = DefaultErrors;
 
 /** Updates a document. Returns INVALID_ARGUMENT if the name of the document is non-empty and does not equal the existing name. */
-export const patchProjectsLocationsDocumentsReferenceId: API.OperationMethod<PatchProjectsLocationsDocumentsReferenceIdRequest, PatchProjectsLocationsDocumentsReferenceIdResponse, PatchProjectsLocationsDocumentsReferenceIdError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsDocumentsReferenceId: API.OperationMethod<
+  PatchProjectsLocationsDocumentsReferenceIdRequest,
+  PatchProjectsLocationsDocumentsReferenceIdResponse,
+  PatchProjectsLocationsDocumentsReferenceIdError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsDocumentsReferenceIdRequest,
   output: PatchProjectsLocationsDocumentsReferenceIdResponse,
   errors: [],
@@ -3531,21 +5167,36 @@ export interface DeleteProjectsLocationsDocumentsReferenceIdRequest {
   body?: GoogleCloudContentwarehouseV1DeleteDocumentRequest;
 }
 
-export const DeleteProjectsLocationsDocumentsReferenceIdRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1DeleteDocumentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/referenceId/{referenceIdId}:delete", hasBody: true }),
+export const DeleteProjectsLocationsDocumentsReferenceIdRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudContentwarehouseV1DeleteDocumentRequest,
+    ).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/referenceId/{referenceIdId}:delete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsDocumentsReferenceIdRequest>;
 
-export type DeleteProjectsLocationsDocumentsReferenceIdResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsDocumentsReferenceIdResponse = GoogleProtobufEmpty;
+export type DeleteProjectsLocationsDocumentsReferenceIdResponse =
+  GoogleProtobufEmpty;
+export const DeleteProjectsLocationsDocumentsReferenceIdResponse =
+  GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDocumentsReferenceIdError = DefaultErrors;
 
 /** Deletes a document. Returns NOT_FOUND if the document does not exist. */
-export const deleteProjectsLocationsDocumentsReferenceId: API.OperationMethod<DeleteProjectsLocationsDocumentsReferenceIdRequest, DeleteProjectsLocationsDocumentsReferenceIdResponse, DeleteProjectsLocationsDocumentsReferenceIdError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsDocumentsReferenceId: API.OperationMethod<
+  DeleteProjectsLocationsDocumentsReferenceIdRequest,
+  DeleteProjectsLocationsDocumentsReferenceIdResponse,
+  DeleteProjectsLocationsDocumentsReferenceIdError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentsReferenceIdRequest,
   output: DeleteProjectsLocationsDocumentsReferenceIdResponse,
   errors: [],
@@ -3560,19 +5211,32 @@ export interface GetProjectsLocationsDocumentsReferenceIdRequest {
 
 export const GetProjectsLocationsDocumentsReferenceIdRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1GetDocumentRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1GetDocumentRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documents/referenceId/{referenceIdId}:get", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documents/referenceId/{referenceIdId}:get",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsDocumentsReferenceIdRequest>;
 
-export type GetProjectsLocationsDocumentsReferenceIdResponse = GoogleCloudContentwarehouseV1Document;
-export const GetProjectsLocationsDocumentsReferenceIdResponse = GoogleCloudContentwarehouseV1Document;
+export type GetProjectsLocationsDocumentsReferenceIdResponse =
+  GoogleCloudContentwarehouseV1Document;
+export const GetProjectsLocationsDocumentsReferenceIdResponse =
+  GoogleCloudContentwarehouseV1Document;
 
 export type GetProjectsLocationsDocumentsReferenceIdError = DefaultErrors;
 
 /** Gets a document. Returns NOT_FOUND if the document does not exist. */
-export const getProjectsLocationsDocumentsReferenceId: API.OperationMethod<GetProjectsLocationsDocumentsReferenceIdRequest, GetProjectsLocationsDocumentsReferenceIdResponse, GetProjectsLocationsDocumentsReferenceIdError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsDocumentsReferenceId: API.OperationMethod<
+  GetProjectsLocationsDocumentsReferenceIdRequest,
+  GetProjectsLocationsDocumentsReferenceIdResponse,
+  GetProjectsLocationsDocumentsReferenceIdError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsDocumentsReferenceIdRequest,
   output: GetProjectsLocationsDocumentsReferenceIdResponse,
   errors: [],
@@ -3586,17 +5250,27 @@ export interface GetProjectsLocationsDocumentSchemasRequest {
 export const GetProjectsLocationsDocumentSchemasRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas/{documentSchemasId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas/{documentSchemasId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsDocumentSchemasRequest>;
 
-export type GetProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1DocumentSchema;
-export const GetProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1DocumentSchema;
+export type GetProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1DocumentSchema;
+export const GetProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1DocumentSchema;
 
 export type GetProjectsLocationsDocumentSchemasError = DefaultErrors;
 
 /** Gets a document schema. Returns NOT_FOUND if the document schema does not exist. */
-export const getProjectsLocationsDocumentSchemas: API.OperationMethod<GetProjectsLocationsDocumentSchemasRequest, GetProjectsLocationsDocumentSchemasResponse, GetProjectsLocationsDocumentSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsDocumentSchemas: API.OperationMethod<
+  GetProjectsLocationsDocumentSchemasRequest,
+  GetProjectsLocationsDocumentSchemasResponse,
+  GetProjectsLocationsDocumentSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsDocumentSchemasRequest,
   output: GetProjectsLocationsDocumentSchemasResponse,
   errors: [],
@@ -3616,17 +5290,27 @@ export const ListProjectsLocationsDocumentSchemasRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsDocumentSchemasRequest>;
 
-export type ListProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1ListDocumentSchemasResponse;
-export const ListProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1ListDocumentSchemasResponse;
+export type ListProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1ListDocumentSchemasResponse;
+export const ListProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1ListDocumentSchemasResponse;
 
 export type ListProjectsLocationsDocumentSchemasError = DefaultErrors;
 
 /** Lists document schemas. */
-export const listProjectsLocationsDocumentSchemas: API.PaginatedOperationMethod<ListProjectsLocationsDocumentSchemasRequest, ListProjectsLocationsDocumentSchemasResponse, ListProjectsLocationsDocumentSchemasError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsDocumentSchemas: API.PaginatedOperationMethod<
+  ListProjectsLocationsDocumentSchemasRequest,
+  ListProjectsLocationsDocumentSchemasResponse,
+  ListProjectsLocationsDocumentSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsDocumentSchemasRequest,
   output: ListProjectsLocationsDocumentSchemasResponse,
   errors: [],
@@ -3645,19 +5329,32 @@ export interface CreateProjectsLocationsDocumentSchemasRequest {
 
 export const CreateProjectsLocationsDocumentSchemasRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1DocumentSchema).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1DocumentSchema).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsDocumentSchemasRequest>;
 
-export type CreateProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1DocumentSchema;
-export const CreateProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1DocumentSchema;
+export type CreateProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1DocumentSchema;
+export const CreateProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1DocumentSchema;
 
 export type CreateProjectsLocationsDocumentSchemasError = DefaultErrors;
 
 /** Creates a document schema. */
-export const createProjectsLocationsDocumentSchemas: API.OperationMethod<CreateProjectsLocationsDocumentSchemasRequest, CreateProjectsLocationsDocumentSchemasResponse, CreateProjectsLocationsDocumentSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsDocumentSchemas: API.OperationMethod<
+  CreateProjectsLocationsDocumentSchemasRequest,
+  CreateProjectsLocationsDocumentSchemasResponse,
+  CreateProjectsLocationsDocumentSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsDocumentSchemasRequest,
   output: CreateProjectsLocationsDocumentSchemasResponse,
   errors: [],
@@ -3672,19 +5369,32 @@ export interface PatchProjectsLocationsDocumentSchemasRequest {
 
 export const PatchProjectsLocationsDocumentSchemasRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas/{documentSchemasId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas/{documentSchemasId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsDocumentSchemasRequest>;
 
-export type PatchProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1DocumentSchema;
-export const PatchProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwarehouseV1DocumentSchema;
+export type PatchProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1DocumentSchema;
+export const PatchProjectsLocationsDocumentSchemasResponse =
+  GoogleCloudContentwarehouseV1DocumentSchema;
 
 export type PatchProjectsLocationsDocumentSchemasError = DefaultErrors;
 
 /** Updates a Document Schema. Returns INVALID_ARGUMENT if the name of the Document Schema is non-empty and does not equal the existing name. Supports only appending new properties, adding new ENUM possible values, and updating the EnumTypeOptions.validation_check_disabled flag for ENUM possible values. Updating existing properties will result into INVALID_ARGUMENT. */
-export const patchProjectsLocationsDocumentSchemas: API.OperationMethod<PatchProjectsLocationsDocumentSchemasRequest, PatchProjectsLocationsDocumentSchemasResponse, PatchProjectsLocationsDocumentSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsDocumentSchemas: API.OperationMethod<
+  PatchProjectsLocationsDocumentSchemasRequest,
+  PatchProjectsLocationsDocumentSchemasResponse,
+  PatchProjectsLocationsDocumentSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsDocumentSchemasRequest,
   output: PatchProjectsLocationsDocumentSchemasResponse,
   errors: [],
@@ -3698,17 +5408,27 @@ export interface DeleteProjectsLocationsDocumentSchemasRequest {
 export const DeleteProjectsLocationsDocumentSchemasRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas/{documentSchemasId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/documentSchemas/{documentSchemasId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsDocumentSchemasRequest>;
 
-export type DeleteProjectsLocationsDocumentSchemasResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsDocumentSchemasResponse = GoogleProtobufEmpty;
+export type DeleteProjectsLocationsDocumentSchemasResponse =
+  GoogleProtobufEmpty;
+export const DeleteProjectsLocationsDocumentSchemasResponse =
+  GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDocumentSchemasError = DefaultErrors;
 
 /** Deletes a document schema. Returns NOT_FOUND if the document schema does not exist. Returns BAD_REQUEST if the document schema has documents depending on it. */
-export const deleteProjectsLocationsDocumentSchemas: API.OperationMethod<DeleteProjectsLocationsDocumentSchemasRequest, DeleteProjectsLocationsDocumentSchemasResponse, DeleteProjectsLocationsDocumentSchemasError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsDocumentSchemas: API.OperationMethod<
+  DeleteProjectsLocationsDocumentSchemasRequest,
+  DeleteProjectsLocationsDocumentSchemasResponse,
+  DeleteProjectsLocationsDocumentSchemasError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentSchemasRequest,
   output: DeleteProjectsLocationsDocumentSchemasResponse,
   errors: [],
@@ -3722,17 +5442,26 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation;
+export const GetProjectsLocationsOperationsResponse =
+  GoogleLongrunningOperation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -3747,19 +5476,32 @@ export interface PatchProjectsLocationsRuleSetsRequest {
 
 export const PatchProjectsLocationsRuleSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1UpdateRuleSetRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1UpdateRuleSetRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets/{ruleSetsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets/{ruleSetsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsRuleSetsRequest>;
 
-export type PatchProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1RuleSet;
-export const PatchProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1RuleSet;
+export type PatchProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1RuleSet;
+export const PatchProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1RuleSet;
 
 export type PatchProjectsLocationsRuleSetsError = DefaultErrors;
 
 /** Updates a ruleset. Returns INVALID_ARGUMENT if the name of the ruleset is non-empty and does not equal the existing name. */
-export const patchProjectsLocationsRuleSets: API.OperationMethod<PatchProjectsLocationsRuleSetsRequest, PatchProjectsLocationsRuleSetsResponse, PatchProjectsLocationsRuleSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsRuleSets: API.OperationMethod<
+  PatchProjectsLocationsRuleSetsRequest,
+  PatchProjectsLocationsRuleSetsResponse,
+  PatchProjectsLocationsRuleSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsRuleSetsRequest,
   output: PatchProjectsLocationsRuleSetsResponse,
   errors: [],
@@ -3773,17 +5515,27 @@ export interface GetProjectsLocationsRuleSetsRequest {
 export const GetProjectsLocationsRuleSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets/{ruleSetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets/{ruleSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRuleSetsRequest>;
 
-export type GetProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1RuleSet;
-export const GetProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1RuleSet;
+export type GetProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1RuleSet;
+export const GetProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1RuleSet;
 
 export type GetProjectsLocationsRuleSetsError = DefaultErrors;
 
 /** Gets a ruleset. Returns NOT_FOUND if the ruleset does not exist. */
-export const getProjectsLocationsRuleSets: API.OperationMethod<GetProjectsLocationsRuleSetsRequest, GetProjectsLocationsRuleSetsResponse, GetProjectsLocationsRuleSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRuleSets: API.OperationMethod<
+  GetProjectsLocationsRuleSetsRequest,
+  GetProjectsLocationsRuleSetsResponse,
+  GetProjectsLocationsRuleSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRuleSetsRequest,
   output: GetProjectsLocationsRuleSetsResponse,
   errors: [],
@@ -3798,19 +5550,32 @@ export interface CreateProjectsLocationsRuleSetsRequest {
 
 export const CreateProjectsLocationsRuleSetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1RuleSet).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1RuleSet).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsRuleSetsRequest>;
 
-export type CreateProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1RuleSet;
-export const CreateProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1RuleSet;
+export type CreateProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1RuleSet;
+export const CreateProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1RuleSet;
 
 export type CreateProjectsLocationsRuleSetsError = DefaultErrors;
 
 /** Creates a ruleset. */
-export const createProjectsLocationsRuleSets: API.OperationMethod<CreateProjectsLocationsRuleSetsRequest, CreateProjectsLocationsRuleSetsResponse, CreateProjectsLocationsRuleSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsRuleSets: API.OperationMethod<
+  CreateProjectsLocationsRuleSetsRequest,
+  CreateProjectsLocationsRuleSetsResponse,
+  CreateProjectsLocationsRuleSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsRuleSetsRequest,
   output: CreateProjectsLocationsRuleSetsResponse,
   errors: [],
@@ -3830,17 +5595,27 @@ export const ListProjectsLocationsRuleSetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsRuleSetsRequest>;
 
-export type ListProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1ListRuleSetsResponse;
-export const ListProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV1ListRuleSetsResponse;
+export type ListProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1ListRuleSetsResponse;
+export const ListProjectsLocationsRuleSetsResponse =
+  GoogleCloudContentwarehouseV1ListRuleSetsResponse;
 
 export type ListProjectsLocationsRuleSetsError = DefaultErrors;
 
 /** Lists rulesets. */
-export const listProjectsLocationsRuleSets: API.PaginatedOperationMethod<ListProjectsLocationsRuleSetsRequest, ListProjectsLocationsRuleSetsResponse, ListProjectsLocationsRuleSetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRuleSets: API.PaginatedOperationMethod<
+  ListProjectsLocationsRuleSetsRequest,
+  ListProjectsLocationsRuleSetsResponse,
+  ListProjectsLocationsRuleSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRuleSetsRequest,
   output: ListProjectsLocationsRuleSetsResponse,
   errors: [],
@@ -3858,7 +5633,10 @@ export interface DeleteProjectsLocationsRuleSetsRequest {
 export const DeleteProjectsLocationsRuleSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets/{ruleSetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ruleSets/{ruleSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsRuleSetsRequest>;
 
@@ -3868,7 +5646,12 @@ export const DeleteProjectsLocationsRuleSetsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsLocationsRuleSetsError = DefaultErrors;
 
 /** Deletes a ruleset. Returns NOT_FOUND if the document does not exist. */
-export const deleteProjectsLocationsRuleSets: API.OperationMethod<DeleteProjectsLocationsRuleSetsRequest, DeleteProjectsLocationsRuleSetsResponse, DeleteProjectsLocationsRuleSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsRuleSets: API.OperationMethod<
+  DeleteProjectsLocationsRuleSetsRequest,
+  DeleteProjectsLocationsRuleSetsResponse,
+  DeleteProjectsLocationsRuleSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsRuleSetsRequest,
   output: DeleteProjectsLocationsRuleSetsResponse,
   errors: [],
@@ -3882,17 +5665,27 @@ export interface GetProjectsLocationsSynonymSetsRequest {
 export const GetProjectsLocationsSynonymSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets/{synonymSetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets/{synonymSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsSynonymSetsRequest>;
 
-export type GetProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1SynonymSet;
-export const GetProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1SynonymSet;
+export type GetProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1SynonymSet;
+export const GetProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1SynonymSet;
 
 export type GetProjectsLocationsSynonymSetsError = DefaultErrors;
 
 /** Gets a SynonymSet for a particular context. Throws a NOT_FOUND exception if the Synonymset does not exist */
-export const getProjectsLocationsSynonymSets: API.OperationMethod<GetProjectsLocationsSynonymSetsRequest, GetProjectsLocationsSynonymSetsResponse, GetProjectsLocationsSynonymSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsSynonymSets: API.OperationMethod<
+  GetProjectsLocationsSynonymSetsRequest,
+  GetProjectsLocationsSynonymSetsResponse,
+  GetProjectsLocationsSynonymSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsSynonymSetsRequest,
   output: GetProjectsLocationsSynonymSetsResponse,
   errors: [],
@@ -3907,19 +5700,32 @@ export interface CreateProjectsLocationsSynonymSetsRequest {
 
 export const CreateProjectsLocationsSynonymSetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1SynonymSet).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1SynonymSet).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsSynonymSetsRequest>;
 
-export type CreateProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1SynonymSet;
-export const CreateProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1SynonymSet;
+export type CreateProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1SynonymSet;
+export const CreateProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1SynonymSet;
 
 export type CreateProjectsLocationsSynonymSetsError = DefaultErrors;
 
 /** Creates a SynonymSet for a single context. Throws an ALREADY_EXISTS exception if a synonymset already exists for the context. */
-export const createProjectsLocationsSynonymSets: API.OperationMethod<CreateProjectsLocationsSynonymSetsRequest, CreateProjectsLocationsSynonymSetsResponse, CreateProjectsLocationsSynonymSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsSynonymSets: API.OperationMethod<
+  CreateProjectsLocationsSynonymSetsRequest,
+  CreateProjectsLocationsSynonymSetsResponse,
+  CreateProjectsLocationsSynonymSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsSynonymSetsRequest,
   output: CreateProjectsLocationsSynonymSetsResponse,
   errors: [],
@@ -3934,19 +5740,32 @@ export interface PatchProjectsLocationsSynonymSetsRequest {
 
 export const PatchProjectsLocationsSynonymSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudContentwarehouseV1SynonymSet).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudContentwarehouseV1SynonymSet).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets/{synonymSetsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets/{synonymSetsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsSynonymSetsRequest>;
 
-export type PatchProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1SynonymSet;
-export const PatchProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1SynonymSet;
+export type PatchProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1SynonymSet;
+export const PatchProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1SynonymSet;
 
 export type PatchProjectsLocationsSynonymSetsError = DefaultErrors;
 
 /** Remove the existing SynonymSet for the context and replaces it with a new one. Throws a NOT_FOUND exception if the SynonymSet is not found. */
-export const patchProjectsLocationsSynonymSets: API.OperationMethod<PatchProjectsLocationsSynonymSetsRequest, PatchProjectsLocationsSynonymSetsResponse, PatchProjectsLocationsSynonymSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsSynonymSets: API.OperationMethod<
+  PatchProjectsLocationsSynonymSetsRequest,
+  PatchProjectsLocationsSynonymSetsResponse,
+  PatchProjectsLocationsSynonymSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsSynonymSetsRequest,
   output: PatchProjectsLocationsSynonymSetsResponse,
   errors: [],
@@ -3960,7 +5779,10 @@ export interface DeleteProjectsLocationsSynonymSetsRequest {
 export const DeleteProjectsLocationsSynonymSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets/{synonymSetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets/{synonymSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsSynonymSetsRequest>;
 
@@ -3970,7 +5792,12 @@ export const DeleteProjectsLocationsSynonymSetsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsLocationsSynonymSetsError = DefaultErrors;
 
 /** Deletes a SynonymSet for a given context. Throws a NOT_FOUND exception if the SynonymSet is not found. */
-export const deleteProjectsLocationsSynonymSets: API.OperationMethod<DeleteProjectsLocationsSynonymSetsRequest, DeleteProjectsLocationsSynonymSetsResponse, DeleteProjectsLocationsSynonymSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsSynonymSets: API.OperationMethod<
+  DeleteProjectsLocationsSynonymSetsRequest,
+  DeleteProjectsLocationsSynonymSetsResponse,
+  DeleteProjectsLocationsSynonymSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsSynonymSetsRequest,
   output: DeleteProjectsLocationsSynonymSetsResponse,
   errors: [],
@@ -3990,17 +5817,27 @@ export const ListProjectsLocationsSynonymSetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/synonymSets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsSynonymSetsRequest>;
 
-export type ListProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1ListSynonymSetsResponse;
-export const ListProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehouseV1ListSynonymSetsResponse;
+export type ListProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1ListSynonymSetsResponse;
+export const ListProjectsLocationsSynonymSetsResponse =
+  GoogleCloudContentwarehouseV1ListSynonymSetsResponse;
 
 export type ListProjectsLocationsSynonymSetsError = DefaultErrors;
 
 /** Returns all SynonymSets (for all contexts) for the specified location. */
-export const listProjectsLocationsSynonymSets: API.PaginatedOperationMethod<ListProjectsLocationsSynonymSetsRequest, ListProjectsLocationsSynonymSetsResponse, ListProjectsLocationsSynonymSetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsSynonymSets: API.PaginatedOperationMethod<
+  ListProjectsLocationsSynonymSetsRequest,
+  ListProjectsLocationsSynonymSetsResponse,
+  ListProjectsLocationsSynonymSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsSynonymSetsRequest,
   output: ListProjectsLocationsSynonymSetsResponse,
   errors: [],
@@ -4009,4 +5846,3 @@ export const listProjectsLocationsSynonymSets: API.PaginatedOperationMethod<List
     outputToken: "nextPageToken",
   },
 }));
-

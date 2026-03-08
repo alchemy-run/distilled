@@ -23,11 +23,11 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface TfLiteModel {
   /** Output only. The size of the TFLite model */
@@ -38,11 +38,13 @@ export interface TfLiteModel {
   gcsTfliteUri?: string;
 }
 
-export const TfLiteModel: Schema.Schema<TfLiteModel> = Schema.suspend(() => Schema.Struct({
-  sizeBytes: Schema.optional(Schema.String),
-  automlModel: Schema.optional(Schema.String),
-  gcsTfliteUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "TfLiteModel" }) as any as Schema.Schema<TfLiteModel>;
+export const TfLiteModel: Schema.Schema<TfLiteModel> = Schema.suspend(() =>
+  Schema.Struct({
+    sizeBytes: Schema.optional(Schema.String),
+    automlModel: Schema.optional(Schema.String),
+    gcsTfliteUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TfLiteModel" }) as any as Schema.Schema<TfLiteModel>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -53,11 +55,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface ModelState {
   /** Indicates if this model has been published. */
@@ -66,10 +72,12 @@ export interface ModelState {
   validationError?: Status;
 }
 
-export const ModelState: Schema.Schema<ModelState> = Schema.suspend(() => Schema.Struct({
-  published: Schema.optional(Schema.Boolean),
-  validationError: Schema.optional(Status),
-})).annotate({ identifier: "ModelState" }) as any as Schema.Schema<ModelState>;
+export const ModelState: Schema.Schema<ModelState> = Schema.suspend(() =>
+  Schema.Struct({
+    published: Schema.optional(Schema.Boolean),
+    validationError: Schema.optional(Status),
+  }),
+).annotate({ identifier: "ModelState" }) as any as Schema.Schema<ModelState>;
 
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -84,13 +92,15 @@ export interface Operation {
   metadata?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  name: Schema.optional(Schema.String),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    name: Schema.optional(Schema.String),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface Model {
   /** Output only. Timestamp when this model was created in Firebase ML. */
@@ -115,18 +125,20 @@ export interface Model {
   etag?: string;
 }
 
-export const Model: Schema.Schema<Model> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  tfliteModel: Schema.optional(TfLiteModel),
-  displayName: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  state: Schema.optional(ModelState),
-  name: Schema.optional(Schema.String),
-  activeOperations: Schema.optional(Schema.Array(Operation)),
-  modelHash: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Model" }) as any as Schema.Schema<Model>;
+export const Model: Schema.Schema<Model> = Schema.suspend(() =>
+  Schema.Struct({
+    createTime: Schema.optional(Schema.String),
+    tfliteModel: Schema.optional(TfLiteModel),
+    displayName: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    state: Schema.optional(ModelState),
+    name: Schema.optional(Schema.String),
+    activeOperations: Schema.optional(Schema.Array(Operation)),
+    modelHash: Schema.optional(Schema.String),
+    tags: Schema.optional(Schema.Array(Schema.String)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Model" }) as any as Schema.Schema<Model>;
 
 export interface ListModelsResponse {
   /** The list of models */
@@ -135,21 +147,35 @@ export interface ListModelsResponse {
   nextPageToken?: string;
 }
 
-export const ListModelsResponse: Schema.Schema<ListModelsResponse> = Schema.suspend(() => Schema.Struct({
-  models: Schema.optional(Schema.Array(Model)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListModelsResponse" }) as any as Schema.Schema<ListModelsResponse>;
+export const ListModelsResponse: Schema.Schema<ListModelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      models: Schema.optional(Schema.Array(Model)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListModelsResponse",
+  }) as any as Schema.Schema<ListModelsResponse>;
 
 export interface ModelOperationMetadata {
   /** The name of the model we are creating/updating The name must have the form `projects/{project_id}/models/{model_id}` */
   name?: string;
-  basicOperationStatus?: "BASIC_OPERATION_STATUS_UNSPECIFIED" | "BASIC_OPERATION_STATUS_UPLOADING" | "BASIC_OPERATION_STATUS_VERIFYING" | (string & {});
+  basicOperationStatus?:
+    | "BASIC_OPERATION_STATUS_UNSPECIFIED"
+    | "BASIC_OPERATION_STATUS_UPLOADING"
+    | "BASIC_OPERATION_STATUS_VERIFYING"
+    | (string & {});
 }
 
-export const ModelOperationMetadata: Schema.Schema<ModelOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  basicOperationStatus: Schema.optional(Schema.String),
-})).annotate({ identifier: "ModelOperationMetadata" }) as any as Schema.Schema<ModelOperationMetadata>;
+export const ModelOperationMetadata: Schema.Schema<ModelOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      basicOperationStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ModelOperationMetadata",
+  }) as any as Schema.Schema<ModelOperationMetadata>;
 
 export interface DownloadModelResponse {
   /** Output only. The size of the file(s), if this information is available. */
@@ -162,12 +188,17 @@ export interface DownloadModelResponse {
   expireTime?: string;
 }
 
-export const DownloadModelResponse: Schema.Schema<DownloadModelResponse> = Schema.suspend(() => Schema.Struct({
-  sizeBytes: Schema.optional(Schema.String),
-  modelFormat: Schema.optional(Schema.String),
-  downloadUri: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DownloadModelResponse" }) as any as Schema.Schema<DownloadModelResponse>;
+export const DownloadModelResponse: Schema.Schema<DownloadModelResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sizeBytes: Schema.optional(Schema.String),
+      modelFormat: Schema.optional(Schema.String),
+      downloadUri: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DownloadModelResponse",
+  }) as any as Schema.Schema<DownloadModelResponse>;
 
 // ==========================================================================
 // Operations
@@ -181,7 +212,10 @@ export interface DownloadProjectsModelsRequest {
 export const DownloadProjectsModelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/models/{modelsId}:download" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/models/{modelsId}:download",
+  }),
   svc,
 ) as unknown as Schema.Schema<DownloadProjectsModelsRequest>;
 
@@ -191,7 +225,12 @@ export const DownloadProjectsModelsResponse = DownloadModelResponse;
 export type DownloadProjectsModelsError = DefaultErrors;
 
 /** Gets Download information for a model. This is meant for downloading model resources onto devices. It gives very limited information about the model. */
-export const downloadProjectsModels: API.OperationMethod<DownloadProjectsModelsRequest, DownloadProjectsModelsResponse, DownloadProjectsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const downloadProjectsModels: API.OperationMethod<
+  DownloadProjectsModelsRequest,
+  DownloadProjectsModelsResponse,
+  DownloadProjectsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DownloadProjectsModelsRequest,
   output: DownloadProjectsModelsResponse,
   errors: [],
@@ -224,7 +263,12 @@ export const ListProjectsModelsResponse = ListModelsResponse;
 export type ListProjectsModelsError = DefaultErrors;
 
 /** Lists the models */
-export const listProjectsModels: API.PaginatedOperationMethod<ListProjectsModelsRequest, ListProjectsModelsResponse, ListProjectsModelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsModels: API.PaginatedOperationMethod<
+  ListProjectsModelsRequest,
+  ListProjectsModelsResponse,
+  ListProjectsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsModelsRequest,
   output: ListProjectsModelsResponse,
   errors: [],
@@ -245,7 +289,11 @@ export const CreateProjectsModelsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Model).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/models", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/models",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsModelsRequest>;
 
@@ -255,7 +303,12 @@ export const CreateProjectsModelsResponse = Operation;
 export type CreateProjectsModelsError = DefaultErrors;
 
 /** Creates a model in Firebase ML. The longrunning operation will eventually return a Model */
-export const createProjectsModels: API.OperationMethod<CreateProjectsModelsRequest, CreateProjectsModelsResponse, CreateProjectsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsModels: API.OperationMethod<
+  CreateProjectsModelsRequest,
+  CreateProjectsModelsResponse,
+  CreateProjectsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsModelsRequest,
   output: CreateProjectsModelsResponse,
   errors: [],
@@ -269,7 +322,10 @@ export interface GetProjectsModelsRequest {
 export const GetProjectsModelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/models/{modelsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/models/{modelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsModelsRequest>;
 
@@ -279,7 +335,12 @@ export const GetProjectsModelsResponse = Model;
 export type GetProjectsModelsError = DefaultErrors;
 
 /** Gets a model resource. */
-export const getProjectsModels: API.OperationMethod<GetProjectsModelsRequest, GetProjectsModelsResponse, GetProjectsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsModels: API.OperationMethod<
+  GetProjectsModelsRequest,
+  GetProjectsModelsResponse,
+  GetProjectsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsModelsRequest,
   output: GetProjectsModelsResponse,
   errors: [],
@@ -299,7 +360,11 @@ export const PatchProjectsModelsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Model).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta2/projects/{projectsId}/models/{modelsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta2/projects/{projectsId}/models/{modelsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsModelsRequest>;
 
@@ -309,7 +374,12 @@ export const PatchProjectsModelsResponse = Operation;
 export type PatchProjectsModelsError = DefaultErrors;
 
 /** Updates a model. The longrunning operation will eventually return a Model. */
-export const patchProjectsModels: API.OperationMethod<PatchProjectsModelsRequest, PatchProjectsModelsResponse, PatchProjectsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsModels: API.OperationMethod<
+  PatchProjectsModelsRequest,
+  PatchProjectsModelsResponse,
+  PatchProjectsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsModelsRequest,
   output: PatchProjectsModelsResponse,
   errors: [],
@@ -323,7 +393,10 @@ export interface DeleteProjectsModelsRequest {
 export const DeleteProjectsModelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta2/projects/{projectsId}/models/{modelsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta2/projects/{projectsId}/models/{modelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsModelsRequest>;
 
@@ -333,7 +406,12 @@ export const DeleteProjectsModelsResponse = Empty;
 export type DeleteProjectsModelsError = DefaultErrors;
 
 /** Deletes a model */
-export const deleteProjectsModels: API.OperationMethod<DeleteProjectsModelsRequest, DeleteProjectsModelsResponse, DeleteProjectsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsModels: API.OperationMethod<
+  DeleteProjectsModelsRequest,
+  DeleteProjectsModelsResponse,
+  DeleteProjectsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsModelsRequest,
   output: DeleteProjectsModelsResponse,
   errors: [],
@@ -347,7 +425,10 @@ export interface GetProjectsOperationsRequest {
 export const GetProjectsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -357,9 +438,13 @@ export const GetProjectsOperationsResponse = Operation;
 export type GetProjectsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsOperations: API.OperationMethod<
+  GetProjectsOperationsRequest,
+  GetProjectsOperationsResponse,
+  GetProjectsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
-

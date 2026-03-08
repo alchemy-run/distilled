@@ -40,15 +40,20 @@ export interface NestedParameter {
   multiBoolValue?: Array<boolean>;
 }
 
-export const NestedParameter: Schema.Schema<NestedParameter> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-  multiValue: Schema.optional(Schema.Array(Schema.String)),
-  intValue: Schema.optional(Schema.String),
-  multiIntValue: Schema.optional(Schema.Array(Schema.String)),
-  boolValue: Schema.optional(Schema.Boolean),
-  multiBoolValue: Schema.optional(Schema.Array(Schema.Boolean)),
-})).annotate({ identifier: "NestedParameter" }) as any as Schema.Schema<NestedParameter>;
+export const NestedParameter: Schema.Schema<NestedParameter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      multiValue: Schema.optional(Schema.Array(Schema.String)),
+      intValue: Schema.optional(Schema.String),
+      multiIntValue: Schema.optional(Schema.Array(Schema.String)),
+      boolValue: Schema.optional(Schema.Boolean),
+      multiBoolValue: Schema.optional(Schema.Array(Schema.Boolean)),
+    }),
+).annotate({
+  identifier: "NestedParameter",
+}) as any as Schema.Schema<NestedParameter>;
 
 export interface ActivityEventsStatus {
   /** Status code of the event. Note: Field can be empty. */
@@ -61,12 +66,17 @@ export interface ActivityEventsStatus {
   errorMessage?: string;
 }
 
-export const ActivityEventsStatus: Schema.Schema<ActivityEventsStatus> = Schema.suspend(() => Schema.Struct({
-  httpStatusCode: Schema.optional(Schema.Number),
-  eventStatus: Schema.optional(Schema.String),
-  errorCode: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActivityEventsStatus" }) as any as Schema.Schema<ActivityEventsStatus>;
+export const ActivityEventsStatus: Schema.Schema<ActivityEventsStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      httpStatusCode: Schema.optional(Schema.Number),
+      eventStatus: Schema.optional(Schema.String),
+      errorCode: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ActivityEventsStatus",
+  }) as any as Schema.Schema<ActivityEventsStatus>;
 
 export interface ActivityNetworkInfo {
   /** IP Address of the user doing the action. */
@@ -77,20 +87,30 @@ export interface ActivityNetworkInfo {
   subdivisionCode?: string;
 }
 
-export const ActivityNetworkInfo: Schema.Schema<ActivityNetworkInfo> = Schema.suspend(() => Schema.Struct({
-  ipAsn: Schema.optional(Schema.Array(Schema.Number)),
-  regionCode: Schema.optional(Schema.String),
-  subdivisionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActivityNetworkInfo" }) as any as Schema.Schema<ActivityNetworkInfo>;
+export const ActivityNetworkInfo: Schema.Schema<ActivityNetworkInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ipAsn: Schema.optional(Schema.Array(Schema.Number)),
+      regionCode: Schema.optional(Schema.String),
+      subdivisionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ActivityNetworkInfo",
+  }) as any as Schema.Schema<ActivityNetworkInfo>;
 
 export interface FieldValueTextListValue {
   /** List of text values. */
   values?: Array<string>;
 }
 
-export const FieldValueTextListValue: Schema.Schema<FieldValueTextListValue> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "FieldValueTextListValue" }) as any as Schema.Schema<FieldValueTextListValue>;
+export const FieldValueTextListValue: Schema.Schema<FieldValueTextListValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "FieldValueTextListValue",
+  }) as any as Schema.Schema<FieldValueTextListValue>;
 
 export interface FieldValueSelectionValue {
   /** Identifier of the selection. */
@@ -101,38 +121,58 @@ export interface FieldValueSelectionValue {
   badged?: boolean;
 }
 
-export const FieldValueSelectionValue: Schema.Schema<FieldValueSelectionValue> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  badged: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "FieldValueSelectionValue" }) as any as Schema.Schema<FieldValueSelectionValue>;
+export const FieldValueSelectionValue: Schema.Schema<FieldValueSelectionValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      badged: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "FieldValueSelectionValue",
+  }) as any as Schema.Schema<FieldValueSelectionValue>;
 
 export interface FieldValueSelectionListValue {
   /** List of selections. */
   values?: Array<FieldValueSelectionValue>;
 }
 
-export const FieldValueSelectionListValue: Schema.Schema<FieldValueSelectionListValue> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(FieldValueSelectionValue)),
-})).annotate({ identifier: "FieldValueSelectionListValue" }) as any as Schema.Schema<FieldValueSelectionListValue>;
+export const FieldValueSelectionListValue: Schema.Schema<FieldValueSelectionListValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(FieldValueSelectionValue)),
+    }),
+  ).annotate({
+    identifier: "FieldValueSelectionListValue",
+  }) as any as Schema.Schema<FieldValueSelectionListValue>;
 
 export interface FieldValueUserValue {
   /** Email of the user. */
   email?: string;
 }
 
-export const FieldValueUserValue: Schema.Schema<FieldValueUserValue> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "FieldValueUserValue" }) as any as Schema.Schema<FieldValueUserValue>;
+export const FieldValueUserValue: Schema.Schema<FieldValueUserValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FieldValueUserValue",
+  }) as any as Schema.Schema<FieldValueUserValue>;
 
 export interface FieldValueUserListValue {
   /** List of users. */
   values?: Array<FieldValueUserValue>;
 }
 
-export const FieldValueUserListValue: Schema.Schema<FieldValueUserListValue> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(FieldValueUserValue)),
-})).annotate({ identifier: "FieldValueUserListValue" }) as any as Schema.Schema<FieldValueUserListValue>;
+export const FieldValueUserListValue: Schema.Schema<FieldValueUserListValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(FieldValueUserValue)),
+    }),
+  ).annotate({
+    identifier: "FieldValueUserListValue",
+  }) as any as Schema.Schema<FieldValueUserListValue>;
 
 export interface Admin_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -143,20 +183,24 @@ export interface Admin_Date {
   day?: number;
 }
 
-export const Admin_Date: Schema.Schema<Admin_Date> = Schema.suspend(() => Schema.Struct({
-  year: Schema.optional(Schema.Number),
-  month: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Admin_Date" }) as any as Schema.Schema<Admin_Date>;
+export const Admin_Date: Schema.Schema<Admin_Date> = Schema.suspend(() =>
+  Schema.Struct({
+    year: Schema.optional(Schema.Number),
+    month: Schema.optional(Schema.Number),
+    day: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Admin_Date" }) as any as Schema.Schema<Admin_Date>;
 
 export interface Reason {
   /** The type of the reason. */
   reasonType?: string;
 }
 
-export const Reason: Schema.Schema<Reason> = Schema.suspend(() => Schema.Struct({
-  reasonType: Schema.optional(Schema.String),
-})).annotate({ identifier: "Reason" }) as any as Schema.Schema<Reason>;
+export const Reason: Schema.Schema<Reason> = Schema.suspend(() =>
+  Schema.Struct({
+    reasonType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Reason" }) as any as Schema.Schema<Reason>;
 
 export interface FieldValue {
   /** Identifier of the field */
@@ -189,22 +233,24 @@ export interface FieldValue {
   reason?: Reason;
 }
 
-export const FieldValue: Schema.Schema<FieldValue> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  unsetValue: Schema.optional(Schema.Boolean),
-  longTextValue: Schema.optional(Schema.String),
-  textValue: Schema.optional(Schema.String),
-  textListValue: Schema.optional(FieldValueTextListValue),
-  selectionValue: Schema.optional(FieldValueSelectionValue),
-  selectionListValue: Schema.optional(FieldValueSelectionListValue),
-  integerValue: Schema.optional(Schema.String),
-  userValue: Schema.optional(FieldValueUserValue),
-  userListValue: Schema.optional(FieldValueUserListValue),
-  dateValue: Schema.optional(Admin_Date),
-  reason: Schema.optional(Reason),
-})).annotate({ identifier: "FieldValue" }) as any as Schema.Schema<FieldValue>;
+export const FieldValue: Schema.Schema<FieldValue> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    unsetValue: Schema.optional(Schema.Boolean),
+    longTextValue: Schema.optional(Schema.String),
+    textValue: Schema.optional(Schema.String),
+    textListValue: Schema.optional(FieldValueTextListValue),
+    selectionValue: Schema.optional(FieldValueSelectionValue),
+    selectionListValue: Schema.optional(FieldValueSelectionListValue),
+    integerValue: Schema.optional(Schema.String),
+    userValue: Schema.optional(FieldValueUserValue),
+    userListValue: Schema.optional(FieldValueUserListValue),
+    dateValue: Schema.optional(Admin_Date),
+    reason: Schema.optional(Reason),
+  }),
+).annotate({ identifier: "FieldValue" }) as any as Schema.Schema<FieldValue>;
 
 export interface AppliedLabel {
   /** Identifier of the label - Only the label id, not the full OnePlatform resource name. */
@@ -217,12 +263,16 @@ export interface AppliedLabel {
   reason?: Reason;
 }
 
-export const AppliedLabel: Schema.Schema<AppliedLabel> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  fieldValues: Schema.optional(Schema.Array(FieldValue)),
-  reason: Schema.optional(Reason),
-})).annotate({ identifier: "AppliedLabel" }) as any as Schema.Schema<AppliedLabel>;
+export const AppliedLabel: Schema.Schema<AppliedLabel> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    fieldValues: Schema.optional(Schema.Array(FieldValue)),
+    reason: Schema.optional(Reason),
+  }),
+).annotate({
+  identifier: "AppliedLabel",
+}) as any as Schema.Schema<AppliedLabel>;
 
 export interface ResourceDetails {
   /** Identifier of the resource. */
@@ -237,13 +287,18 @@ export interface ResourceDetails {
   relation?: string;
 }
 
-export const ResourceDetails: Schema.Schema<ResourceDetails> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  appliedLabels: Schema.optional(Schema.Array(AppliedLabel)),
-  relation: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResourceDetails" }) as any as Schema.Schema<ResourceDetails>;
+export const ResourceDetails: Schema.Schema<ResourceDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      appliedLabels: Schema.optional(Schema.Array(AppliedLabel)),
+      relation: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ResourceDetails",
+}) as any as Schema.Schema<ResourceDetails>;
 
 export interface Activity {
   /** The type of API resource. For an activity report, the value is `audit#activity`. */
@@ -255,28 +310,114 @@ export interface Activity {
   /** IP address of the user doing the action. This is the Internet Protocol (IP) address of the user when logging into Google Workspace, which may or may not reflect the user's physical location. For example, the IP address can be the user's proxy server's address or a virtual private network (VPN) address. The API supports IPv4 and IPv6. */
   ipAddress?: string;
   /** Activity events in the report. */
-  events?: Array<{ type?: string; name?: string; parameters?: Array<{ messageValue?: { parameter?: Array<NestedParameter> }; name?: string; value?: string; multiValue?: Array<string>; intValue?: string; multiIntValue?: Array<string>; boolValue?: boolean; multiMessageValue?: Array<{ parameter?: Array<NestedParameter> }> }>; resourceIds?: Array<string>; status?: ActivityEventsStatus }>;
+  events?: Array<{
+    type?: string;
+    name?: string;
+    parameters?: Array<{
+      messageValue?: { parameter?: Array<NestedParameter> };
+      name?: string;
+      value?: string;
+      multiValue?: Array<string>;
+      intValue?: string;
+      multiIntValue?: Array<string>;
+      boolValue?: boolean;
+      multiMessageValue?: Array<{ parameter?: Array<NestedParameter> }>;
+    }>;
+    resourceIds?: Array<string>;
+    status?: ActivityEventsStatus;
+  }>;
   /** Unique identifier for each activity record. */
-  id?: { time?: string; uniqueQualifier?: string; applicationName?: string; customerId?: string };
+  id?: {
+    time?: string;
+    uniqueQualifier?: string;
+    applicationName?: string;
+    customerId?: string;
+  };
   /** User doing the action. */
-  actor?: { profileId?: string; email?: string; callerType?: string; key?: string; applicationInfo?: { oauthClientId?: string; applicationName?: string; impersonation?: boolean } };
+  actor?: {
+    profileId?: string;
+    email?: string;
+    callerType?: string;
+    key?: string;
+    applicationInfo?: {
+      oauthClientId?: string;
+      applicationName?: string;
+      impersonation?: boolean;
+    };
+  };
   /** Network information of the user doing the action. */
   networkInfo?: ActivityNetworkInfo;
   /** Details of the resource on which the action was performed. */
   resourceDetails?: Array<ResourceDetails>;
 }
 
-export const Activity: Schema.Schema<Activity> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  ownerDomain: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  events: Schema.optional(Schema.Array(Schema.Struct({ type: Schema.optional(Schema.String), name: Schema.optional(Schema.String), parameters: Schema.optional(Schema.Array(Schema.Struct({ messageValue: Schema.optional(Schema.Struct({ parameter: Schema.optional(Schema.Array(NestedParameter)) })), name: Schema.optional(Schema.String), value: Schema.optional(Schema.String), multiValue: Schema.optional(Schema.Array(Schema.String)), intValue: Schema.optional(Schema.String), multiIntValue: Schema.optional(Schema.Array(Schema.String)), boolValue: Schema.optional(Schema.Boolean), multiMessageValue: Schema.optional(Schema.Array(Schema.Struct({ parameter: Schema.optional(Schema.Array(NestedParameter)) }))) }))), resourceIds: Schema.optional(Schema.Array(Schema.String)), status: Schema.optional(ActivityEventsStatus) }))),
-  id: Schema.optional(Schema.Struct({ time: Schema.optional(Schema.String), uniqueQualifier: Schema.optional(Schema.String), applicationName: Schema.optional(Schema.String), customerId: Schema.optional(Schema.String) })),
-  actor: Schema.optional(Schema.Struct({ profileId: Schema.optional(Schema.String), email: Schema.optional(Schema.String), callerType: Schema.optional(Schema.String), key: Schema.optional(Schema.String), applicationInfo: Schema.optional(Schema.Struct({ oauthClientId: Schema.optional(Schema.String), applicationName: Schema.optional(Schema.String), impersonation: Schema.optional(Schema.Boolean) })) })),
-  networkInfo: Schema.optional(ActivityNetworkInfo),
-  resourceDetails: Schema.optional(Schema.Array(ResourceDetails)),
-})).annotate({ identifier: "Activity" }) as any as Schema.Schema<Activity>;
+export const Activity: Schema.Schema<Activity> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    ownerDomain: Schema.optional(Schema.String),
+    ipAddress: Schema.optional(Schema.String),
+    events: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.optional(Schema.String),
+          name: Schema.optional(Schema.String),
+          parameters: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                messageValue: Schema.optional(
+                  Schema.Struct({
+                    parameter: Schema.optional(Schema.Array(NestedParameter)),
+                  }),
+                ),
+                name: Schema.optional(Schema.String),
+                value: Schema.optional(Schema.String),
+                multiValue: Schema.optional(Schema.Array(Schema.String)),
+                intValue: Schema.optional(Schema.String),
+                multiIntValue: Schema.optional(Schema.Array(Schema.String)),
+                boolValue: Schema.optional(Schema.Boolean),
+                multiMessageValue: Schema.optional(
+                  Schema.Array(
+                    Schema.Struct({
+                      parameter: Schema.optional(Schema.Array(NestedParameter)),
+                    }),
+                  ),
+                ),
+              }),
+            ),
+          ),
+          resourceIds: Schema.optional(Schema.Array(Schema.String)),
+          status: Schema.optional(ActivityEventsStatus),
+        }),
+      ),
+    ),
+    id: Schema.optional(
+      Schema.Struct({
+        time: Schema.optional(Schema.String),
+        uniqueQualifier: Schema.optional(Schema.String),
+        applicationName: Schema.optional(Schema.String),
+        customerId: Schema.optional(Schema.String),
+      }),
+    ),
+    actor: Schema.optional(
+      Schema.Struct({
+        profileId: Schema.optional(Schema.String),
+        email: Schema.optional(Schema.String),
+        callerType: Schema.optional(Schema.String),
+        key: Schema.optional(Schema.String),
+        applicationInfo: Schema.optional(
+          Schema.Struct({
+            oauthClientId: Schema.optional(Schema.String),
+            applicationName: Schema.optional(Schema.String),
+            impersonation: Schema.optional(Schema.Boolean),
+          }),
+        ),
+      }),
+    ),
+    networkInfo: Schema.optional(ActivityNetworkInfo),
+    resourceDetails: Schema.optional(Schema.Array(ResourceDetails)),
+  }),
+).annotate({ identifier: "Activity" }) as any as Schema.Schema<Activity>;
 
 export interface Activities {
   /** The type of API resource. For an activity report, the value is `reports#activities`. */
@@ -289,12 +430,14 @@ export interface Activities {
   nextPageToken?: string;
 }
 
-export const Activities: Schema.Schema<Activities> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Activity)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Activities" }) as any as Schema.Schema<Activities>;
+export const Activities: Schema.Schema<Activities> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Activity)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Activities" }) as any as Schema.Schema<Activities>;
 
 export interface Channel {
   /** A UUID or similar unique string that identifies this channel. */
@@ -319,18 +462,20 @@ export interface Channel {
   kind?: string;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  expiration: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  address: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.Boolean),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  resourceId: Schema.optional(Schema.String),
-  resourceUri: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    token: Schema.optional(Schema.String),
+    expiration: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    address: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.Boolean),
+    params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    resourceId: Schema.optional(Schema.String),
+    resourceUri: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface UsageReport {
   /** The type of API resource. For a usage report, the value is `admin#reports#usageReport`. */
@@ -338,20 +483,56 @@ export interface UsageReport {
   /** Output only. The date of the report request. */
   date?: string;
   /** Output only. Parameter value pairs for various applications. For the Entity Usage Report parameters and values, see [the Entity Usage parameters reference](https://developers.google.com/workspace/admin/reports/v1/reference/usage-ref-appendix-a/entities). */
-  parameters?: Array<{ intValue?: string; name?: string; stringValue?: string; datetimeValue?: string; boolValue?: boolean; msgValue?: Array<Record<string, unknown>> }>;
+  parameters?: Array<{
+    intValue?: string;
+    name?: string;
+    stringValue?: string;
+    datetimeValue?: string;
+    boolValue?: boolean;
+    msgValue?: Array<Record<string, unknown>>;
+  }>;
   /** ETag of the resource. */
   etag?: string;
   /** Output only. Information about the type of the item. */
-  entity?: { customerId?: string; userEmail?: string; profileId?: string; entityId?: string; type?: string };
+  entity?: {
+    customerId?: string;
+    userEmail?: string;
+    profileId?: string;
+    entityId?: string;
+    type?: string;
+  };
 }
 
-export const UsageReport: Schema.Schema<UsageReport> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  parameters: Schema.optional(Schema.Array(Schema.Struct({ intValue: Schema.optional(Schema.String), name: Schema.optional(Schema.String), stringValue: Schema.optional(Schema.String), datetimeValue: Schema.optional(Schema.String), boolValue: Schema.optional(Schema.Boolean), msgValue: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))) }))),
-  etag: Schema.optional(Schema.String),
-  entity: Schema.optional(Schema.Struct({ customerId: Schema.optional(Schema.String), userEmail: Schema.optional(Schema.String), profileId: Schema.optional(Schema.String), entityId: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "UsageReport" }) as any as Schema.Schema<UsageReport>;
+export const UsageReport: Schema.Schema<UsageReport> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    date: Schema.optional(Schema.String),
+    parameters: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          intValue: Schema.optional(Schema.String),
+          name: Schema.optional(Schema.String),
+          stringValue: Schema.optional(Schema.String),
+          datetimeValue: Schema.optional(Schema.String),
+          boolValue: Schema.optional(Schema.Boolean),
+          msgValue: Schema.optional(
+            Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+          ),
+        }),
+      ),
+    ),
+    etag: Schema.optional(Schema.String),
+    entity: Schema.optional(
+      Schema.Struct({
+        customerId: Schema.optional(Schema.String),
+        userEmail: Schema.optional(Schema.String),
+        profileId: Schema.optional(Schema.String),
+        entityId: Schema.optional(Schema.String),
+        type: Schema.optional(Schema.String),
+      }),
+    ),
+  }),
+).annotate({ identifier: "UsageReport" }) as any as Schema.Schema<UsageReport>;
 
 export interface UsageReports {
   /** The type of API resource. For a usage report, the value is `admin#reports#usageReports`. */
@@ -359,20 +540,43 @@ export interface UsageReports {
   /** ETag of the resource. */
   etag?: string;
   /** Warnings, if any. */
-  warnings?: Array<{ code?: string; message?: string; data?: Array<{ key?: string; value?: string }> }>;
+  warnings?: Array<{
+    code?: string;
+    message?: string;
+    data?: Array<{ key?: string; value?: string }>;
+  }>;
   /** Various application parameter records. */
   usageReports?: Array<UsageReport>;
   /** Token to specify next page. A report with multiple pages has a `nextPageToken` property in the response. For your follow-on requests getting all of the report's pages, enter the `nextPageToken` value in the `pageToken` query string. */
   nextPageToken?: string;
 }
 
-export const UsageReports: Schema.Schema<UsageReports> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  warnings: Schema.optional(Schema.Array(Schema.Struct({ code: Schema.optional(Schema.String), message: Schema.optional(Schema.String), data: Schema.optional(Schema.Array(Schema.Struct({ key: Schema.optional(Schema.String), value: Schema.optional(Schema.String) }))) }))),
-  usageReports: Schema.optional(Schema.Array(UsageReport)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "UsageReports" }) as any as Schema.Schema<UsageReports>;
+export const UsageReports: Schema.Schema<UsageReports> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    warnings: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          code: Schema.optional(Schema.String),
+          message: Schema.optional(Schema.String),
+          data: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                key: Schema.optional(Schema.String),
+                value: Schema.optional(Schema.String),
+              }),
+            ),
+          ),
+        }),
+      ),
+    ),
+    usageReports: Schema.optional(Schema.Array(UsageReport)),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "UsageReports",
+}) as any as Schema.Schema<UsageReports>;
 
 // ==========================================================================
 // Operations
@@ -382,7 +586,46 @@ export interface ListActivitiesRequest {
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
   /** Application name for which the events are to be retrieved. */
-  applicationName: "access_transparency" | "admin" | "calendar" | "chat" | "drive" | "gcp" | "gmail" | "gplus" | "groups" | "groups_enterprise" | "jamboard" | "login" | "meet" | "mobile" | "rules" | "saml" | "token" | "user_accounts" | "context_aware_access" | "chrome" | "data_studio" | "keep" | "vault" | "gemini_in_workspace_apps" | "classroom" | "assignments" | "cloud_search" | "tasks" | "data_migration" | "meet_hardware" | "directory_sync" | "ldap" | "profile" | "access_evaluation" | "admin_data_action" | "contacts" | "takeout" | "graduation" | (string & {});
+  applicationName:
+    | "access_transparency"
+    | "admin"
+    | "calendar"
+    | "chat"
+    | "drive"
+    | "gcp"
+    | "gmail"
+    | "gplus"
+    | "groups"
+    | "groups_enterprise"
+    | "jamboard"
+    | "login"
+    | "meet"
+    | "mobile"
+    | "rules"
+    | "saml"
+    | "token"
+    | "user_accounts"
+    | "context_aware_access"
+    | "chrome"
+    | "data_studio"
+    | "keep"
+    | "vault"
+    | "gemini_in_workspace_apps"
+    | "classroom"
+    | "assignments"
+    | "cloud_search"
+    | "tasks"
+    | "data_migration"
+    | "meet_hardware"
+    | "directory_sync"
+    | "ldap"
+    | "profile"
+    | "access_evaluation"
+    | "admin_data_action"
+    | "contacts"
+    | "takeout"
+    | "graduation"
+    | (string & {});
   /** The Internet Protocol (IP) Address of host where the event was performed. This is an additional way to filter a report's summary using the IP address of the user whose activity is being reported. This IP address may or may not reflect the user's physical location. For example, the IP address can be the user's proxy server's address or a virtual private network (VPN) address. This parameter supports both IPv4 and IPv6 address versions. */
   actorIpAddress?: string;
   /** The unique ID of the customer to retrieve data for. */
@@ -416,7 +659,9 @@ export interface ListActivitiesRequest {
 export const ListActivitiesRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   applicationName: Schema.String.pipe(T.HttpPath("applicationName")),
-  actorIpAddress: Schema.optional(Schema.String).pipe(T.HttpQuery("actorIpAddress")),
+  actorIpAddress: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("actorIpAddress"),
+  ),
   customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
   endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
   eventName: Schema.optional(Schema.String).pipe(T.HttpQuery("eventName")),
@@ -425,13 +670,26 @@ export const ListActivitiesRequest = Schema.Struct({
   orgUnitID: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitID")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-  groupIdFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("groupIdFilter")),
-  resourceDetailsFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("resourceDetailsFilter")),
-  networkInfoFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("networkInfoFilter")),
-  statusFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("statusFilter")),
-  applicationInfoFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("applicationInfoFilter")),
+  groupIdFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("groupIdFilter"),
+  ),
+  resourceDetailsFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("resourceDetailsFilter"),
+  ),
+  networkInfoFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("networkInfoFilter"),
+  ),
+  statusFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("statusFilter"),
+  ),
+  applicationInfoFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("applicationInfoFilter"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListActivitiesRequest>;
 
@@ -441,7 +699,12 @@ export const ListActivitiesResponse = Activities;
 export type ListActivitiesError = DefaultErrors;
 
 /** Retrieves a list of activities for a specific customer's account and application such as the Admin console application or the Google Drive application. For more information, see the guides for administrator and Google Drive activity reports. For more information about the activity report's parameters, see the activity parameters reference guides. */
-export const listActivities: API.PaginatedOperationMethod<ListActivitiesRequest, ListActivitiesResponse, ListActivitiesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listActivities: API.PaginatedOperationMethod<
+  ListActivitiesRequest,
+  ListActivitiesResponse,
+  ListActivitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListActivitiesRequest,
   output: ListActivitiesResponse,
   errors: [],
@@ -456,7 +719,30 @@ export interface WatchActivitiesRequest {
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
   /** Application name for which the events are to be retrieved. */
-  applicationName: "access_transparency" | "admin" | "calendar" | "chat" | "drive" | "gcp" | "gplus" | "groups" | "groups_enterprise" | "jamboard" | "login" | "meet" | "mobile" | "rules" | "saml" | "token" | "user_accounts" | "context_aware_access" | "chrome" | "data_studio" | "keep" | "classroom" | (string & {});
+  applicationName:
+    | "access_transparency"
+    | "admin"
+    | "calendar"
+    | "chat"
+    | "drive"
+    | "gcp"
+    | "gplus"
+    | "groups"
+    | "groups_enterprise"
+    | "jamboard"
+    | "login"
+    | "meet"
+    | "mobile"
+    | "rules"
+    | "saml"
+    | "token"
+    | "user_accounts"
+    | "context_aware_access"
+    | "chrome"
+    | "data_studio"
+    | "keep"
+    | "classroom"
+    | (string & {});
   /** The Internet Protocol (IP) Address of host where the event was performed. This is an additional way to filter a report's summary using the IP address of the user whose activity is being reported. This IP address may or may not reflect the user's physical location. For example, the IP address can be the user's proxy server's address or a virtual private network (VPN) address. This parameter supports both IPv4 and IPv6 address versions. */
   actorIpAddress?: string;
   /** The unique ID of the customer to retrieve data for. */
@@ -484,7 +770,9 @@ export interface WatchActivitiesRequest {
 export const WatchActivitiesRequest = Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   applicationName: Schema.String.pipe(T.HttpPath("applicationName")),
-  actorIpAddress: Schema.optional(Schema.String).pipe(T.HttpQuery("actorIpAddress")),
+  actorIpAddress: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("actorIpAddress"),
+  ),
   customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
   endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
   eventName: Schema.optional(Schema.String).pipe(T.HttpQuery("eventName")),
@@ -493,10 +781,16 @@ export const WatchActivitiesRequest = Schema.Struct({
   orgUnitID: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitID")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-  groupIdFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("groupIdFilter")),
+  groupIdFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("groupIdFilter"),
+  ),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}/watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}/watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchActivitiesRequest>;
 
@@ -506,7 +800,12 @@ export const WatchActivitiesResponse = Channel;
 export type WatchActivitiesError = DefaultErrors;
 
 /** Start receiving notifications for account activities. For more information, see Receiving Push Notifications. */
-export const watchActivities: API.OperationMethod<WatchActivitiesRequest, WatchActivitiesResponse, WatchActivitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchActivities: API.OperationMethod<
+  WatchActivitiesRequest,
+  WatchActivitiesResponse,
+  WatchActivitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchActivitiesRequest,
   output: WatchActivitiesResponse,
   errors: [],
@@ -520,17 +819,27 @@ export interface StopChannelsRequest {
 export const StopChannelsRequest = Schema.Struct({
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "admin/reports_v1/channels/stop", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "admin/reports_v1/channels/stop",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StopChannelsRequest>;
 
 export interface StopChannelsResponse {}
-export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> = Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
+export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
 
 export type StopChannelsError = DefaultErrors;
 
 /** Stop watching resources through this channel. */
-export const stopChannels: API.OperationMethod<StopChannelsRequest, StopChannelsResponse, StopChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopChannels: API.OperationMethod<
+  StopChannelsRequest,
+  StopChannelsResponse,
+  StopChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
@@ -563,7 +872,12 @@ export const GetCustomerUsageReportsResponse = UsageReports;
 export type GetCustomerUsageReportsError = DefaultErrors;
 
 /** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */
-export const getCustomerUsageReports: API.PaginatedOperationMethod<GetCustomerUsageReportsRequest, GetCustomerUsageReportsResponse, GetCustomerUsageReportsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const getCustomerUsageReports: API.PaginatedOperationMethod<
+  GetCustomerUsageReportsRequest,
+  GetCustomerUsageReportsResponse,
+  GetCustomerUsageReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: GetCustomerUsageReportsRequest,
   output: GetCustomerUsageReportsResponse,
   errors: [],
@@ -602,7 +916,10 @@ export const GetEntityUsageReportsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/reports/v1/usage/{entityType}/{entityKey}/dates/{date}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/reports/v1/usage/{entityType}/{entityKey}/dates/{date}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetEntityUsageReportsRequest>;
 
@@ -612,7 +929,12 @@ export const GetEntityUsageReportsResponse = UsageReports;
 export type GetEntityUsageReportsError = DefaultErrors;
 
 /** Retrieves a report which is a collection of properties and statistics for entities used by users within the account. For more information, see the Entities Usage Report guide. For more information about the entities report's parameters, see the Entities Usage parameters reference guides. */
-export const getEntityUsageReports: API.PaginatedOperationMethod<GetEntityUsageReportsRequest, GetEntityUsageReportsResponse, GetEntityUsageReportsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const getEntityUsageReports: API.PaginatedOperationMethod<
+  GetEntityUsageReportsRequest,
+  GetEntityUsageReportsResponse,
+  GetEntityUsageReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: GetEntityUsageReportsRequest,
   output: GetEntityUsageReportsResponse,
   errors: [],
@@ -652,9 +974,14 @@ export const GetUserUsageReportRequest = Schema.Struct({
   orgUnitID: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitID")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
-  groupIdFilter: Schema.optional(Schema.String).pipe(T.HttpQuery("groupIdFilter")),
+  groupIdFilter: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("groupIdFilter"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "admin/reports/v1/usage/users/{userKey}/dates/{date}" }),
+  T.Http({
+    method: "GET",
+    path: "admin/reports/v1/usage/users/{userKey}/dates/{date}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUserUsageReportRequest>;
 
@@ -664,7 +991,12 @@ export const GetUserUsageReportResponse = UsageReports;
 export type GetUserUsageReportError = DefaultErrors;
 
 /** Retrieves a report which is a collection of properties and statistics for a set of users with the account. For more information, see the User Usage Report guide. For more information about the user report's parameters, see the Users Usage parameters reference guides. */
-export const getUserUsageReport: API.PaginatedOperationMethod<GetUserUsageReportRequest, GetUserUsageReportResponse, GetUserUsageReportError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const getUserUsageReport: API.PaginatedOperationMethod<
+  GetUserUsageReportRequest,
+  GetUserUsageReportResponse,
+  GetUserUsageReportError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: GetUserUsageReportRequest,
   output: GetUserUsageReportResponse,
   errors: [],
@@ -673,4 +1005,3 @@ export const getUserUsageReport: API.PaginatedOperationMethod<GetUserUsageReport
     outputToken: "nextPageToken",
   },
 }));
-

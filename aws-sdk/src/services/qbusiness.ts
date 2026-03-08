@@ -10,40 +10,63 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "QBusiness", serviceShapeName: "ExpertQ" });
+const svc = T.AwsApiService({
+  sdkId: "QBusiness",
+  serviceShapeName: "ExpertQ",
+});
 const auth = T.AwsAuthSigv4({ name: "qbusiness" });
 const ver = T.ServiceVersion("2023-11-27");
 const proto = T.AwsProtocolsRestJson1();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-          if ((UseFIPS === true)) {
-            if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-              return e(`https://qbusiness-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://qbusiness-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
             }
-            return err("FIPS is enabled but this partition does not support FIPS");
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
           }
-          return e(`https://qbusiness.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+          return e(
+            `https://qbusiness.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://qbusiness-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://qbusiness-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        return e(`https://qbusiness.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://qbusiness.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -188,36 +211,114 @@ export type MaxResultsIntegerForListWebExperiencesRequest = number;
 //# Schemas
 export type QIamActions = string[];
 export const QIamActions = S.Array(S.String);
-export type PermissionConditionOperator =
-  | "StringEquals"
-  | (string & {});
+export type PermissionConditionOperator = "StringEquals" | (string & {});
 export const PermissionConditionOperator = S.String;
 export type PermissionConditionValues = string[];
 export const PermissionConditionValues = S.Array(S.String);
-export interface PermissionCondition { conditionOperator: PermissionConditionOperator; conditionKey: string; conditionValues: string[] }
-export const PermissionCondition = S.suspend(() => S.Struct({conditionOperator: PermissionConditionOperator, conditionKey: S.String, conditionValues: PermissionConditionValues})).annotate({ identifier: "PermissionCondition" }) as any as S.Schema<PermissionCondition>;
+export interface PermissionCondition {
+  conditionOperator: PermissionConditionOperator;
+  conditionKey: string;
+  conditionValues: string[];
+}
+export const PermissionCondition = S.suspend(() =>
+  S.Struct({
+    conditionOperator: PermissionConditionOperator,
+    conditionKey: S.String,
+    conditionValues: PermissionConditionValues,
+  }),
+).annotate({
+  identifier: "PermissionCondition",
+}) as any as S.Schema<PermissionCondition>;
 export type PermissionConditions = PermissionCondition[];
 export const PermissionConditions = S.Array(PermissionCondition);
-export interface AssociatePermissionRequest { applicationId: string; statementId: string; actions: string[]; conditions?: PermissionCondition[]; principal: string }
-export const AssociatePermissionRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), statementId: S.String, actions: QIamActions, conditions: S.optional(PermissionConditions), principal: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/policy" }), svc, auth, proto, ver, rules))).annotate({ identifier: "AssociatePermissionRequest" }) as any as S.Schema<AssociatePermissionRequest>;
-export interface AssociatePermissionResponse { statement?: string }
-export const AssociatePermissionResponse = S.suspend(() => S.Struct({statement: S.optional(S.String)})).annotate({ identifier: "AssociatePermissionResponse" }) as any as S.Schema<AssociatePermissionResponse>;
+export interface AssociatePermissionRequest {
+  applicationId: string;
+  statementId: string;
+  actions: string[];
+  conditions?: PermissionCondition[];
+  principal: string;
+}
+export const AssociatePermissionRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    statementId: S.String,
+    actions: QIamActions,
+    conditions: S.optional(PermissionConditions),
+    principal: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AssociatePermissionRequest",
+}) as any as S.Schema<AssociatePermissionRequest>;
+export interface AssociatePermissionResponse {
+  statement?: string;
+}
+export const AssociatePermissionResponse = S.suspend(() =>
+  S.Struct({ statement: S.optional(S.String) }),
+).annotate({
+  identifier: "AssociatePermissionResponse",
+}) as any as S.Schema<AssociatePermissionResponse>;
 export type ValidationExceptionReason =
   | "CANNOT_PARSE"
   | "FIELD_VALIDATION_FAILED"
   | "UNKNOWN_OPERATION"
   | (string & {});
 export const ValidationExceptionReason = S.String;
-export interface ValidationExceptionField { name: string; message: string }
-export const ValidationExceptionField = S.suspend(() => S.Struct({name: S.String, message: S.String})).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFields = ValidationExceptionField[];
 export const ValidationExceptionFields = S.Array(ValidationExceptionField);
-export interface DeleteDocument { documentId: string }
-export const DeleteDocument = S.suspend(() => S.Struct({documentId: S.String})).annotate({ identifier: "DeleteDocument" }) as any as S.Schema<DeleteDocument>;
+export interface DeleteDocument {
+  documentId: string;
+}
+export const DeleteDocument = S.suspend(() =>
+  S.Struct({ documentId: S.String }),
+).annotate({ identifier: "DeleteDocument" }) as any as S.Schema<DeleteDocument>;
 export type DeleteDocuments = DeleteDocument[];
 export const DeleteDocuments = S.Array(DeleteDocument);
-export interface BatchDeleteDocumentRequest { applicationId: string; indexId: string; documents: DeleteDocument[]; dataSourceSyncId?: string }
-export const BatchDeleteDocumentRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), documents: DeleteDocuments, dataSourceSyncId: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/indices/{indexId}/documents/delete" }), svc, auth, proto, ver, rules))).annotate({ identifier: "BatchDeleteDocumentRequest" }) as any as S.Schema<BatchDeleteDocumentRequest>;
+export interface BatchDeleteDocumentRequest {
+  applicationId: string;
+  indexId: string;
+  documents: DeleteDocument[];
+  dataSourceSyncId?: string;
+}
+export const BatchDeleteDocumentRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    documents: DeleteDocuments,
+    dataSourceSyncId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/indices/{indexId}/documents/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchDeleteDocumentRequest",
+}) as any as S.Schema<BatchDeleteDocumentRequest>;
 export type ErrorCode =
   | "InternalError"
   | "InvalidRequest"
@@ -225,26 +326,96 @@ export type ErrorCode =
   | "ResourceNotFound"
   | (string & {});
 export const ErrorCode = S.String;
-export interface ErrorDetail { errorMessage?: string; errorCode?: ErrorCode }
-export const ErrorDetail = S.suspend(() => S.Struct({errorMessage: S.optional(S.String), errorCode: S.optional(ErrorCode)})).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
-export interface FailedDocument { id?: string; error?: ErrorDetail; dataSourceId?: string }
-export const FailedDocument = S.suspend(() => S.Struct({id: S.optional(S.String), error: S.optional(ErrorDetail), dataSourceId: S.optional(S.String)})).annotate({ identifier: "FailedDocument" }) as any as S.Schema<FailedDocument>;
+export interface ErrorDetail {
+  errorMessage?: string;
+  errorCode?: ErrorCode;
+}
+export const ErrorDetail = S.suspend(() =>
+  S.Struct({
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
+  }),
+).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export interface FailedDocument {
+  id?: string;
+  error?: ErrorDetail;
+  dataSourceId?: string;
+}
+export const FailedDocument = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    error: S.optional(ErrorDetail),
+    dataSourceId: S.optional(S.String),
+  }),
+).annotate({ identifier: "FailedDocument" }) as any as S.Schema<FailedDocument>;
 export type FailedDocuments = FailedDocument[];
 export const FailedDocuments = S.Array(FailedDocument);
-export interface BatchDeleteDocumentResponse { failedDocuments?: FailedDocument[] }
-export const BatchDeleteDocumentResponse = S.suspend(() => S.Struct({failedDocuments: S.optional(FailedDocuments)})).annotate({ identifier: "BatchDeleteDocumentResponse" }) as any as S.Schema<BatchDeleteDocumentResponse>;
+export interface BatchDeleteDocumentResponse {
+  failedDocuments?: FailedDocument[];
+}
+export const BatchDeleteDocumentResponse = S.suspend(() =>
+  S.Struct({ failedDocuments: S.optional(FailedDocuments) }),
+).annotate({
+  identifier: "BatchDeleteDocumentResponse",
+}) as any as S.Schema<BatchDeleteDocumentResponse>;
 export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
-export type DocumentAttributeValue = { stringValue: string; stringListValue?: never; longValue?: never; dateValue?: never } | { stringValue?: never; stringListValue: string[]; longValue?: never; dateValue?: never } | { stringValue?: never; stringListValue?: never; longValue: number; dateValue?: never } | { stringValue?: never; stringListValue?: never; longValue?: never; dateValue: Date };
-export const DocumentAttributeValue = S.Union([S.Struct({ stringValue: S.String }), S.Struct({ stringListValue: DocumentAttributeStringListValue }), S.Struct({ longValue: S.Number }), S.Struct({ dateValue: S.Date.pipe(T.TimestampFormat("epoch-seconds")) })]);
-export interface DocumentAttribute { name: string; value: DocumentAttributeValue }
-export const DocumentAttribute = S.suspend(() => S.Struct({name: S.String, value: DocumentAttributeValue})).annotate({ identifier: "DocumentAttribute" }) as any as S.Schema<DocumentAttribute>;
+export type DocumentAttributeValue =
+  | {
+      stringValue: string;
+      stringListValue?: never;
+      longValue?: never;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue: string[];
+      longValue?: never;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue?: never;
+      longValue: number;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue?: never;
+      longValue?: never;
+      dateValue: Date;
+    };
+export const DocumentAttributeValue = S.Union([
+  S.Struct({ stringValue: S.String }),
+  S.Struct({ stringListValue: DocumentAttributeStringListValue }),
+  S.Struct({ longValue: S.Number }),
+  S.Struct({ dateValue: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
+]);
+export interface DocumentAttribute {
+  name: string;
+  value: DocumentAttributeValue;
+}
+export const DocumentAttribute = S.suspend(() =>
+  S.Struct({ name: S.String, value: DocumentAttributeValue }),
+).annotate({
+  identifier: "DocumentAttribute",
+}) as any as S.Schema<DocumentAttribute>;
 export type DocumentAttributes = DocumentAttribute[];
 export const DocumentAttributes = S.Array(DocumentAttribute);
-export interface S3 { bucket: string; key: string }
-export const S3 = S.suspend(() => S.Struct({bucket: S.String, key: S.String})).annotate({ identifier: "S3" }) as any as S.Schema<S3>;
-export type DocumentContent = { blob: Uint8Array; s3?: never } | { blob?: never; s3: S3 };
-export const DocumentContent = S.Union([S.Struct({ blob: T.Blob }), S.Struct({ s3: S3 })]);
+export interface S3 {
+  bucket: string;
+  key: string;
+}
+export const S3 = S.suspend(() =>
+  S.Struct({ bucket: S.String, key: S.String }),
+).annotate({ identifier: "S3" }) as any as S.Schema<S3>;
+export type DocumentContent =
+  | { blob: Uint8Array; s3?: never }
+  | { blob?: never; s3: S3 };
+export const DocumentContent = S.Union([
+  S.Struct({ blob: T.Blob }),
+  S.Struct({ s3: S3 }),
+]);
 export type ContentType =
   | "PDF"
   | "HTML"
@@ -260,35 +431,69 @@ export type ContentType =
   | "MD"
   | (string & {});
 export const ContentType = S.String;
-export type ReadAccessType =
-  | "ALLOW"
-  | "DENY"
-  | (string & {});
+export type ReadAccessType = "ALLOW" | "DENY" | (string & {});
 export const ReadAccessType = S.String;
-export type MembershipType =
-  | "INDEX"
-  | "DATASOURCE"
-  | (string & {});
+export type MembershipType = "INDEX" | "DATASOURCE" | (string & {});
 export const MembershipType = S.String;
-export interface PrincipalUser { id?: string; access: ReadAccessType; membershipType?: MembershipType }
-export const PrincipalUser = S.suspend(() => S.Struct({id: S.optional(S.String), access: ReadAccessType, membershipType: S.optional(MembershipType)})).annotate({ identifier: "PrincipalUser" }) as any as S.Schema<PrincipalUser>;
-export interface PrincipalGroup { name?: string; access: ReadAccessType; membershipType?: MembershipType }
-export const PrincipalGroup = S.suspend(() => S.Struct({name: S.optional(S.String), access: ReadAccessType, membershipType: S.optional(MembershipType)})).annotate({ identifier: "PrincipalGroup" }) as any as S.Schema<PrincipalGroup>;
-export type Principal = { user: PrincipalUser; group?: never } | { user?: never; group: PrincipalGroup };
-export const Principal = S.Union([S.Struct({ user: PrincipalUser }), S.Struct({ group: PrincipalGroup })]);
+export interface PrincipalUser {
+  id?: string;
+  access: ReadAccessType;
+  membershipType?: MembershipType;
+}
+export const PrincipalUser = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    access: ReadAccessType,
+    membershipType: S.optional(MembershipType),
+  }),
+).annotate({ identifier: "PrincipalUser" }) as any as S.Schema<PrincipalUser>;
+export interface PrincipalGroup {
+  name?: string;
+  access: ReadAccessType;
+  membershipType?: MembershipType;
+}
+export const PrincipalGroup = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    access: ReadAccessType,
+    membershipType: S.optional(MembershipType),
+  }),
+).annotate({ identifier: "PrincipalGroup" }) as any as S.Schema<PrincipalGroup>;
+export type Principal =
+  | { user: PrincipalUser; group?: never }
+  | { user?: never; group: PrincipalGroup };
+export const Principal = S.Union([
+  S.Struct({ user: PrincipalUser }),
+  S.Struct({ group: PrincipalGroup }),
+]);
 export type Principals = Principal[];
 export const Principals = S.Array(Principal);
-export type MemberRelation =
-  | "AND"
-  | "OR"
-  | (string & {});
+export type MemberRelation = "AND" | "OR" | (string & {});
 export const MemberRelation = S.String;
-export interface AccessControl { principals: Principal[]; memberRelation?: MemberRelation }
-export const AccessControl = S.suspend(() => S.Struct({principals: Principals, memberRelation: S.optional(MemberRelation)})).annotate({ identifier: "AccessControl" }) as any as S.Schema<AccessControl>;
+export interface AccessControl {
+  principals: Principal[];
+  memberRelation?: MemberRelation;
+}
+export const AccessControl = S.suspend(() =>
+  S.Struct({
+    principals: Principals,
+    memberRelation: S.optional(MemberRelation),
+  }),
+).annotate({ identifier: "AccessControl" }) as any as S.Schema<AccessControl>;
 export type AccessControls = AccessControl[];
 export const AccessControls = S.Array(AccessControl);
-export interface AccessConfiguration { accessControls: AccessControl[]; memberRelation?: MemberRelation }
-export const AccessConfiguration = S.suspend(() => S.Struct({accessControls: AccessControls, memberRelation: S.optional(MemberRelation)})).annotate({ identifier: "AccessConfiguration" }) as any as S.Schema<AccessConfiguration>;
+export interface AccessConfiguration {
+  accessControls: AccessControl[];
+  memberRelation?: MemberRelation;
+}
+export const AccessConfiguration = S.suspend(() =>
+  S.Struct({
+    accessControls: AccessControls,
+    memberRelation: S.optional(MemberRelation),
+  }),
+).annotate({
+  identifier: "AccessConfiguration",
+}) as any as S.Schema<AccessConfiguration>;
 export type DocumentEnrichmentConditionOperator =
   | "GREATER_THAN"
   | "GREATER_THAN_OR_EQUALS"
@@ -303,68 +508,243 @@ export type DocumentEnrichmentConditionOperator =
   | "BEGINS_WITH"
   | (string & {});
 export const DocumentEnrichmentConditionOperator = S.String;
-export interface DocumentAttributeCondition { key: string; operator: DocumentEnrichmentConditionOperator; value?: DocumentAttributeValue }
-export const DocumentAttributeCondition = S.suspend(() => S.Struct({key: S.String, operator: DocumentEnrichmentConditionOperator, value: S.optional(DocumentAttributeValue)})).annotate({ identifier: "DocumentAttributeCondition" }) as any as S.Schema<DocumentAttributeCondition>;
-export type AttributeValueOperator =
-  | "DELETE"
-  | (string & {});
+export interface DocumentAttributeCondition {
+  key: string;
+  operator: DocumentEnrichmentConditionOperator;
+  value?: DocumentAttributeValue;
+}
+export const DocumentAttributeCondition = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    operator: DocumentEnrichmentConditionOperator,
+    value: S.optional(DocumentAttributeValue),
+  }),
+).annotate({
+  identifier: "DocumentAttributeCondition",
+}) as any as S.Schema<DocumentAttributeCondition>;
+export type AttributeValueOperator = "DELETE" | (string & {});
 export const AttributeValueOperator = S.String;
-export interface DocumentAttributeTarget { key: string; value?: DocumentAttributeValue; attributeValueOperator?: AttributeValueOperator }
-export const DocumentAttributeTarget = S.suspend(() => S.Struct({key: S.String, value: S.optional(DocumentAttributeValue), attributeValueOperator: S.optional(AttributeValueOperator)})).annotate({ identifier: "DocumentAttributeTarget" }) as any as S.Schema<DocumentAttributeTarget>;
-export type DocumentContentOperator =
-  | "DELETE"
-  | (string & {});
+export interface DocumentAttributeTarget {
+  key: string;
+  value?: DocumentAttributeValue;
+  attributeValueOperator?: AttributeValueOperator;
+}
+export const DocumentAttributeTarget = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    value: S.optional(DocumentAttributeValue),
+    attributeValueOperator: S.optional(AttributeValueOperator),
+  }),
+).annotate({
+  identifier: "DocumentAttributeTarget",
+}) as any as S.Schema<DocumentAttributeTarget>;
+export type DocumentContentOperator = "DELETE" | (string & {});
 export const DocumentContentOperator = S.String;
-export interface InlineDocumentEnrichmentConfiguration { condition?: DocumentAttributeCondition; target?: DocumentAttributeTarget; documentContentOperator?: DocumentContentOperator }
-export const InlineDocumentEnrichmentConfiguration = S.suspend(() => S.Struct({condition: S.optional(DocumentAttributeCondition), target: S.optional(DocumentAttributeTarget), documentContentOperator: S.optional(DocumentContentOperator)})).annotate({ identifier: "InlineDocumentEnrichmentConfiguration" }) as any as S.Schema<InlineDocumentEnrichmentConfiguration>;
-export type InlineDocumentEnrichmentConfigurations = InlineDocumentEnrichmentConfiguration[];
-export const InlineDocumentEnrichmentConfigurations = S.Array(InlineDocumentEnrichmentConfiguration);
-export interface HookConfiguration { invocationCondition?: DocumentAttributeCondition; lambdaArn?: string; s3BucketName?: string; roleArn?: string }
-export const HookConfiguration = S.suspend(() => S.Struct({invocationCondition: S.optional(DocumentAttributeCondition), lambdaArn: S.optional(S.String), s3BucketName: S.optional(S.String), roleArn: S.optional(S.String)})).annotate({ identifier: "HookConfiguration" }) as any as S.Schema<HookConfiguration>;
-export interface DocumentEnrichmentConfiguration { inlineConfigurations?: InlineDocumentEnrichmentConfiguration[]; preExtractionHookConfiguration?: HookConfiguration; postExtractionHookConfiguration?: HookConfiguration }
-export const DocumentEnrichmentConfiguration = S.suspend(() => S.Struct({inlineConfigurations: S.optional(InlineDocumentEnrichmentConfigurations), preExtractionHookConfiguration: S.optional(HookConfiguration), postExtractionHookConfiguration: S.optional(HookConfiguration)})).annotate({ identifier: "DocumentEnrichmentConfiguration" }) as any as S.Schema<DocumentEnrichmentConfiguration>;
-export type ImageExtractionStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface InlineDocumentEnrichmentConfiguration {
+  condition?: DocumentAttributeCondition;
+  target?: DocumentAttributeTarget;
+  documentContentOperator?: DocumentContentOperator;
+}
+export const InlineDocumentEnrichmentConfiguration = S.suspend(() =>
+  S.Struct({
+    condition: S.optional(DocumentAttributeCondition),
+    target: S.optional(DocumentAttributeTarget),
+    documentContentOperator: S.optional(DocumentContentOperator),
+  }),
+).annotate({
+  identifier: "InlineDocumentEnrichmentConfiguration",
+}) as any as S.Schema<InlineDocumentEnrichmentConfiguration>;
+export type InlineDocumentEnrichmentConfigurations =
+  InlineDocumentEnrichmentConfiguration[];
+export const InlineDocumentEnrichmentConfigurations = S.Array(
+  InlineDocumentEnrichmentConfiguration,
+);
+export interface HookConfiguration {
+  invocationCondition?: DocumentAttributeCondition;
+  lambdaArn?: string;
+  s3BucketName?: string;
+  roleArn?: string;
+}
+export const HookConfiguration = S.suspend(() =>
+  S.Struct({
+    invocationCondition: S.optional(DocumentAttributeCondition),
+    lambdaArn: S.optional(S.String),
+    s3BucketName: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HookConfiguration",
+}) as any as S.Schema<HookConfiguration>;
+export interface DocumentEnrichmentConfiguration {
+  inlineConfigurations?: InlineDocumentEnrichmentConfiguration[];
+  preExtractionHookConfiguration?: HookConfiguration;
+  postExtractionHookConfiguration?: HookConfiguration;
+}
+export const DocumentEnrichmentConfiguration = S.suspend(() =>
+  S.Struct({
+    inlineConfigurations: S.optional(InlineDocumentEnrichmentConfigurations),
+    preExtractionHookConfiguration: S.optional(HookConfiguration),
+    postExtractionHookConfiguration: S.optional(HookConfiguration),
+  }),
+).annotate({
+  identifier: "DocumentEnrichmentConfiguration",
+}) as any as S.Schema<DocumentEnrichmentConfiguration>;
+export type ImageExtractionStatus = "ENABLED" | "DISABLED" | (string & {});
 export const ImageExtractionStatus = S.String;
-export interface ImageExtractionConfiguration { imageExtractionStatus: ImageExtractionStatus }
-export const ImageExtractionConfiguration = S.suspend(() => S.Struct({imageExtractionStatus: ImageExtractionStatus})).annotate({ identifier: "ImageExtractionConfiguration" }) as any as S.Schema<ImageExtractionConfiguration>;
-export type AudioExtractionStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface ImageExtractionConfiguration {
+  imageExtractionStatus: ImageExtractionStatus;
+}
+export const ImageExtractionConfiguration = S.suspend(() =>
+  S.Struct({ imageExtractionStatus: ImageExtractionStatus }),
+).annotate({
+  identifier: "ImageExtractionConfiguration",
+}) as any as S.Schema<ImageExtractionConfiguration>;
+export type AudioExtractionStatus = "ENABLED" | "DISABLED" | (string & {});
 export const AudioExtractionStatus = S.String;
-export interface AudioExtractionConfiguration { audioExtractionStatus: AudioExtractionStatus }
-export const AudioExtractionConfiguration = S.suspend(() => S.Struct({audioExtractionStatus: AudioExtractionStatus})).annotate({ identifier: "AudioExtractionConfiguration" }) as any as S.Schema<AudioExtractionConfiguration>;
-export type VideoExtractionStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface AudioExtractionConfiguration {
+  audioExtractionStatus: AudioExtractionStatus;
+}
+export const AudioExtractionConfiguration = S.suspend(() =>
+  S.Struct({ audioExtractionStatus: AudioExtractionStatus }),
+).annotate({
+  identifier: "AudioExtractionConfiguration",
+}) as any as S.Schema<AudioExtractionConfiguration>;
+export type VideoExtractionStatus = "ENABLED" | "DISABLED" | (string & {});
 export const VideoExtractionStatus = S.String;
-export interface VideoExtractionConfiguration { videoExtractionStatus: VideoExtractionStatus }
-export const VideoExtractionConfiguration = S.suspend(() => S.Struct({videoExtractionStatus: VideoExtractionStatus})).annotate({ identifier: "VideoExtractionConfiguration" }) as any as S.Schema<VideoExtractionConfiguration>;
-export interface MediaExtractionConfiguration { imageExtractionConfiguration?: ImageExtractionConfiguration; audioExtractionConfiguration?: AudioExtractionConfiguration; videoExtractionConfiguration?: VideoExtractionConfiguration }
-export const MediaExtractionConfiguration = S.suspend(() => S.Struct({imageExtractionConfiguration: S.optional(ImageExtractionConfiguration), audioExtractionConfiguration: S.optional(AudioExtractionConfiguration), videoExtractionConfiguration: S.optional(VideoExtractionConfiguration)})).annotate({ identifier: "MediaExtractionConfiguration" }) as any as S.Schema<MediaExtractionConfiguration>;
-export interface Document { id: string; attributes?: DocumentAttribute[]; content?: DocumentContent; contentType?: ContentType; title?: string; accessConfiguration?: AccessConfiguration; documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration; mediaExtractionConfiguration?: MediaExtractionConfiguration }
-export const Document = S.suspend(() => S.Struct({id: S.String, attributes: S.optional(DocumentAttributes), content: S.optional(DocumentContent), contentType: S.optional(ContentType), title: S.optional(S.String), accessConfiguration: S.optional(AccessConfiguration), documentEnrichmentConfiguration: S.optional(DocumentEnrichmentConfiguration), mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration)})).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
+export interface VideoExtractionConfiguration {
+  videoExtractionStatus: VideoExtractionStatus;
+}
+export const VideoExtractionConfiguration = S.suspend(() =>
+  S.Struct({ videoExtractionStatus: VideoExtractionStatus }),
+).annotate({
+  identifier: "VideoExtractionConfiguration",
+}) as any as S.Schema<VideoExtractionConfiguration>;
+export interface MediaExtractionConfiguration {
+  imageExtractionConfiguration?: ImageExtractionConfiguration;
+  audioExtractionConfiguration?: AudioExtractionConfiguration;
+  videoExtractionConfiguration?: VideoExtractionConfiguration;
+}
+export const MediaExtractionConfiguration = S.suspend(() =>
+  S.Struct({
+    imageExtractionConfiguration: S.optional(ImageExtractionConfiguration),
+    audioExtractionConfiguration: S.optional(AudioExtractionConfiguration),
+    videoExtractionConfiguration: S.optional(VideoExtractionConfiguration),
+  }),
+).annotate({
+  identifier: "MediaExtractionConfiguration",
+}) as any as S.Schema<MediaExtractionConfiguration>;
+export interface Document {
+  id: string;
+  attributes?: DocumentAttribute[];
+  content?: DocumentContent;
+  contentType?: ContentType;
+  title?: string;
+  accessConfiguration?: AccessConfiguration;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+}
+export const Document = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    attributes: S.optional(DocumentAttributes),
+    content: S.optional(DocumentContent),
+    contentType: S.optional(ContentType),
+    title: S.optional(S.String),
+    accessConfiguration: S.optional(AccessConfiguration),
+    documentEnrichmentConfiguration: S.optional(
+      DocumentEnrichmentConfiguration,
+    ),
+    mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration),
+  }),
+).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
 export type Documents = Document[];
 export const Documents = S.Array(Document);
-export interface BatchPutDocumentRequest { applicationId: string; indexId: string; documents: Document[]; roleArn?: string; dataSourceSyncId?: string }
-export const BatchPutDocumentRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), documents: Documents, roleArn: S.optional(S.String), dataSourceSyncId: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/indices/{indexId}/documents" }), svc, auth, proto, ver, rules))).annotate({ identifier: "BatchPutDocumentRequest" }) as any as S.Schema<BatchPutDocumentRequest>;
-export interface BatchPutDocumentResponse { failedDocuments?: FailedDocument[] }
-export const BatchPutDocumentResponse = S.suspend(() => S.Struct({failedDocuments: S.optional(FailedDocuments)})).annotate({ identifier: "BatchPutDocumentResponse" }) as any as S.Schema<BatchPutDocumentResponse>;
-export interface CancelSubscriptionRequest { applicationId: string; subscriptionId: string }
-export const CancelSubscriptionRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/subscriptions/{subscriptionId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CancelSubscriptionRequest" }) as any as S.Schema<CancelSubscriptionRequest>;
-export type SubscriptionType =
-  | "Q_LITE"
-  | "Q_BUSINESS"
-  | (string & {});
+export interface BatchPutDocumentRequest {
+  applicationId: string;
+  indexId: string;
+  documents: Document[];
+  roleArn?: string;
+  dataSourceSyncId?: string;
+}
+export const BatchPutDocumentRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    documents: Documents,
+    roleArn: S.optional(S.String),
+    dataSourceSyncId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/indices/{indexId}/documents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchPutDocumentRequest",
+}) as any as S.Schema<BatchPutDocumentRequest>;
+export interface BatchPutDocumentResponse {
+  failedDocuments?: FailedDocument[];
+}
+export const BatchPutDocumentResponse = S.suspend(() =>
+  S.Struct({ failedDocuments: S.optional(FailedDocuments) }),
+).annotate({
+  identifier: "BatchPutDocumentResponse",
+}) as any as S.Schema<BatchPutDocumentResponse>;
+export interface CancelSubscriptionRequest {
+  applicationId: string;
+  subscriptionId: string;
+}
+export const CancelSubscriptionRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/subscriptions/{subscriptionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelSubscriptionRequest",
+}) as any as S.Schema<CancelSubscriptionRequest>;
+export type SubscriptionType = "Q_LITE" | "Q_BUSINESS" | (string & {});
 export const SubscriptionType = S.String;
-export interface SubscriptionDetails { type?: SubscriptionType }
-export const SubscriptionDetails = S.suspend(() => S.Struct({type: S.optional(SubscriptionType)})).annotate({ identifier: "SubscriptionDetails" }) as any as S.Schema<SubscriptionDetails>;
-export interface CancelSubscriptionResponse { subscriptionArn?: string; currentSubscription?: SubscriptionDetails; nextSubscription?: SubscriptionDetails }
-export const CancelSubscriptionResponse = S.suspend(() => S.Struct({subscriptionArn: S.optional(S.String), currentSubscription: S.optional(SubscriptionDetails), nextSubscription: S.optional(SubscriptionDetails)})).annotate({ identifier: "CancelSubscriptionResponse" }) as any as S.Schema<CancelSubscriptionResponse>;
+export interface SubscriptionDetails {
+  type?: SubscriptionType;
+}
+export const SubscriptionDetails = S.suspend(() =>
+  S.Struct({ type: S.optional(SubscriptionType) }),
+).annotate({
+  identifier: "SubscriptionDetails",
+}) as any as S.Schema<SubscriptionDetails>;
+export interface CancelSubscriptionResponse {
+  subscriptionArn?: string;
+  currentSubscription?: SubscriptionDetails;
+  nextSubscription?: SubscriptionDetails;
+}
+export const CancelSubscriptionResponse = S.suspend(() =>
+  S.Struct({
+    subscriptionArn: S.optional(S.String),
+    currentSubscription: S.optional(SubscriptionDetails),
+    nextSubscription: S.optional(SubscriptionDetails),
+  }),
+).annotate({
+  identifier: "CancelSubscriptionResponse",
+}) as any as S.Schema<CancelSubscriptionResponse>;
 export type UserGroups = string[];
 export const UserGroups = S.Array(S.String);
 export type ChatMode =
@@ -373,79 +753,427 @@ export type ChatMode =
   | "PLUGIN_MODE"
   | (string & {});
 export const ChatMode = S.String;
-export interface PluginConfiguration { pluginId: string }
-export const PluginConfiguration = S.suspend(() => S.Struct({pluginId: S.String})).annotate({ identifier: "PluginConfiguration" }) as any as S.Schema<PluginConfiguration>;
-export type ChatModeConfiguration = { pluginConfiguration: PluginConfiguration };
-export const ChatModeConfiguration = S.Union([S.Struct({ pluginConfiguration: PluginConfiguration })]);
+export interface PluginConfiguration {
+  pluginId: string;
+}
+export const PluginConfiguration = S.suspend(() =>
+  S.Struct({ pluginId: S.String }),
+).annotate({
+  identifier: "PluginConfiguration",
+}) as any as S.Schema<PluginConfiguration>;
+export type ChatModeConfiguration = {
+  pluginConfiguration: PluginConfiguration;
+};
+export const ChatModeConfiguration = S.Union([
+  S.Struct({ pluginConfiguration: PluginConfiguration }),
+]);
 export type AttributeFilters = AttributeFilter[];
-export const AttributeFilters = S.Array(S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({ identifier: "AttributeFilter" })) as any as S.Schema<AttributeFilters>;
-export interface AttributeFilter { andAllFilters?: AttributeFilter[]; orAllFilters?: AttributeFilter[]; notFilter?: AttributeFilter; equalsTo?: DocumentAttribute; containsAll?: DocumentAttribute; containsAny?: DocumentAttribute; greaterThan?: DocumentAttribute; greaterThanOrEquals?: DocumentAttribute; lessThan?: DocumentAttribute; lessThanOrEquals?: DocumentAttribute }
-export const AttributeFilter = S.suspend(() => S.Struct({andAllFilters: S.optional(S.suspend(() => AttributeFilters).annotate({ identifier: "AttributeFilters" })), orAllFilters: S.optional(S.suspend(() => AttributeFilters).annotate({ identifier: "AttributeFilters" })), notFilter: S.optional(S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({ identifier: "AttributeFilter" })), equalsTo: S.optional(DocumentAttribute), containsAll: S.optional(DocumentAttribute), containsAny: S.optional(DocumentAttribute), greaterThan: S.optional(DocumentAttribute), greaterThanOrEquals: S.optional(DocumentAttribute), lessThan: S.optional(DocumentAttribute), lessThanOrEquals: S.optional(DocumentAttribute)})).annotate({ identifier: "AttributeFilter" }) as any as S.Schema<AttributeFilter>;
-export interface ConfigurationEvent { chatMode?: ChatMode; chatModeConfiguration?: ChatModeConfiguration; attributeFilter?: AttributeFilter }
-export const ConfigurationEvent = S.suspend(() => S.Struct({chatMode: S.optional(ChatMode), chatModeConfiguration: S.optional(ChatModeConfiguration), attributeFilter: S.optional(AttributeFilter)})).annotate({ identifier: "ConfigurationEvent" }) as any as S.Schema<ConfigurationEvent>;
-export interface TextInputEvent { userMessage: string }
-export const TextInputEvent = S.suspend(() => S.Struct({userMessage: S.String})).annotate({ identifier: "TextInputEvent" }) as any as S.Schema<TextInputEvent>;
-export interface ConversationSource { conversationId: string; attachmentId: string }
-export const ConversationSource = S.suspend(() => S.Struct({conversationId: S.String, attachmentId: S.String})).annotate({ identifier: "ConversationSource" }) as any as S.Schema<ConversationSource>;
+export const AttributeFilters = S.Array(
+  S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
+    identifier: "AttributeFilter",
+  }),
+) as any as S.Schema<AttributeFilters>;
+export interface AttributeFilter {
+  andAllFilters?: AttributeFilter[];
+  orAllFilters?: AttributeFilter[];
+  notFilter?: AttributeFilter;
+  equalsTo?: DocumentAttribute;
+  containsAll?: DocumentAttribute;
+  containsAny?: DocumentAttribute;
+  greaterThan?: DocumentAttribute;
+  greaterThanOrEquals?: DocumentAttribute;
+  lessThan?: DocumentAttribute;
+  lessThanOrEquals?: DocumentAttribute;
+}
+export const AttributeFilter = S.suspend(() =>
+  S.Struct({
+    andAllFilters: S.optional(
+      S.suspend(() => AttributeFilters).annotate({
+        identifier: "AttributeFilters",
+      }),
+    ),
+    orAllFilters: S.optional(
+      S.suspend(() => AttributeFilters).annotate({
+        identifier: "AttributeFilters",
+      }),
+    ),
+    notFilter: S.optional(
+      S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
+        identifier: "AttributeFilter",
+      }),
+    ),
+    equalsTo: S.optional(DocumentAttribute),
+    containsAll: S.optional(DocumentAttribute),
+    containsAny: S.optional(DocumentAttribute),
+    greaterThan: S.optional(DocumentAttribute),
+    greaterThanOrEquals: S.optional(DocumentAttribute),
+    lessThan: S.optional(DocumentAttribute),
+    lessThanOrEquals: S.optional(DocumentAttribute),
+  }),
+).annotate({
+  identifier: "AttributeFilter",
+}) as any as S.Schema<AttributeFilter>;
+export interface ConfigurationEvent {
+  chatMode?: ChatMode;
+  chatModeConfiguration?: ChatModeConfiguration;
+  attributeFilter?: AttributeFilter;
+}
+export const ConfigurationEvent = S.suspend(() =>
+  S.Struct({
+    chatMode: S.optional(ChatMode),
+    chatModeConfiguration: S.optional(ChatModeConfiguration),
+    attributeFilter: S.optional(AttributeFilter),
+  }),
+).annotate({
+  identifier: "ConfigurationEvent",
+}) as any as S.Schema<ConfigurationEvent>;
+export interface TextInputEvent {
+  userMessage: string;
+}
+export const TextInputEvent = S.suspend(() =>
+  S.Struct({ userMessage: S.String }),
+).annotate({ identifier: "TextInputEvent" }) as any as S.Schema<TextInputEvent>;
+export interface ConversationSource {
+  conversationId: string;
+  attachmentId: string;
+}
+export const ConversationSource = S.suspend(() =>
+  S.Struct({ conversationId: S.String, attachmentId: S.String }),
+).annotate({
+  identifier: "ConversationSource",
+}) as any as S.Schema<ConversationSource>;
 export type CopyFromSource = { conversation: ConversationSource };
-export const CopyFromSource = S.Union([S.Struct({ conversation: ConversationSource })]);
-export interface AttachmentInput { data?: Uint8Array; name?: string; copyFrom?: CopyFromSource }
-export const AttachmentInput = S.suspend(() => S.Struct({data: S.optional(T.Blob), name: S.optional(S.String), copyFrom: S.optional(CopyFromSource)})).annotate({ identifier: "AttachmentInput" }) as any as S.Schema<AttachmentInput>;
-export interface AttachmentInputEvent { attachment?: AttachmentInput }
-export const AttachmentInputEvent = S.suspend(() => S.Struct({attachment: S.optional(AttachmentInput)})).annotate({ identifier: "AttachmentInputEvent" }) as any as S.Schema<AttachmentInputEvent>;
-export interface ActionExecutionPayloadField { value: any }
-export const ActionExecutionPayloadField = S.suspend(() => S.Struct({value: S.Any})).annotate({ identifier: "ActionExecutionPayloadField" }) as any as S.Schema<ActionExecutionPayloadField>;
-export type ActionExecutionPayload = { [key: string]: ActionExecutionPayloadField | undefined };
-export const ActionExecutionPayload = S.Record(S.String, ActionExecutionPayloadField.pipe(S.optional));
-export interface ActionExecutionEvent { pluginId: string; payload: { [key: string]: ActionExecutionPayloadField | undefined }; payloadFieldNameSeparator: string }
-export const ActionExecutionEvent = S.suspend(() => S.Struct({pluginId: S.String, payload: ActionExecutionPayload, payloadFieldNameSeparator: S.String})).annotate({ identifier: "ActionExecutionEvent" }) as any as S.Schema<ActionExecutionEvent>;
-export interface EndOfInputEvent {  }
-export const EndOfInputEvent = S.suspend(() => S.Struct({})).annotate({ identifier: "EndOfInputEvent" }) as any as S.Schema<EndOfInputEvent>;
+export const CopyFromSource = S.Union([
+  S.Struct({ conversation: ConversationSource }),
+]);
+export interface AttachmentInput {
+  data?: Uint8Array;
+  name?: string;
+  copyFrom?: CopyFromSource;
+}
+export const AttachmentInput = S.suspend(() =>
+  S.Struct({
+    data: S.optional(T.Blob),
+    name: S.optional(S.String),
+    copyFrom: S.optional(CopyFromSource),
+  }),
+).annotate({
+  identifier: "AttachmentInput",
+}) as any as S.Schema<AttachmentInput>;
+export interface AttachmentInputEvent {
+  attachment?: AttachmentInput;
+}
+export const AttachmentInputEvent = S.suspend(() =>
+  S.Struct({ attachment: S.optional(AttachmentInput) }),
+).annotate({
+  identifier: "AttachmentInputEvent",
+}) as any as S.Schema<AttachmentInputEvent>;
+export interface ActionExecutionPayloadField {
+  value: any;
+}
+export const ActionExecutionPayloadField = S.suspend(() =>
+  S.Struct({ value: S.Any }),
+).annotate({
+  identifier: "ActionExecutionPayloadField",
+}) as any as S.Schema<ActionExecutionPayloadField>;
+export type ActionExecutionPayload = {
+  [key: string]: ActionExecutionPayloadField | undefined;
+};
+export const ActionExecutionPayload = S.Record(
+  S.String,
+  ActionExecutionPayloadField.pipe(S.optional),
+);
+export interface ActionExecutionEvent {
+  pluginId: string;
+  payload: { [key: string]: ActionExecutionPayloadField | undefined };
+  payloadFieldNameSeparator: string;
+}
+export const ActionExecutionEvent = S.suspend(() =>
+  S.Struct({
+    pluginId: S.String,
+    payload: ActionExecutionPayload,
+    payloadFieldNameSeparator: S.String,
+  }),
+).annotate({
+  identifier: "ActionExecutionEvent",
+}) as any as S.Schema<ActionExecutionEvent>;
+export interface EndOfInputEvent {}
+export const EndOfInputEvent = S.suspend(() => S.Struct({})).annotate({
+  identifier: "EndOfInputEvent",
+}) as any as S.Schema<EndOfInputEvent>;
 export type AuthorizationResponseMap = { [key: string]: string | undefined };
-export const AuthorizationResponseMap = S.Record(S.String, S.String.pipe(S.optional));
-export interface AuthChallengeResponseEvent { responseMap: { [key: string]: string | undefined } }
-export const AuthChallengeResponseEvent = S.suspend(() => S.Struct({responseMap: AuthorizationResponseMap})).annotate({ identifier: "AuthChallengeResponseEvent" }) as any as S.Schema<AuthChallengeResponseEvent>;
-export type ChatInputStream = { configurationEvent: ConfigurationEvent; textEvent?: never; attachmentEvent?: never; actionExecutionEvent?: never; endOfInputEvent?: never; authChallengeResponseEvent?: never } | { configurationEvent?: never; textEvent: TextInputEvent; attachmentEvent?: never; actionExecutionEvent?: never; endOfInputEvent?: never; authChallengeResponseEvent?: never } | { configurationEvent?: never; textEvent?: never; attachmentEvent: AttachmentInputEvent; actionExecutionEvent?: never; endOfInputEvent?: never; authChallengeResponseEvent?: never } | { configurationEvent?: never; textEvent?: never; attachmentEvent?: never; actionExecutionEvent: ActionExecutionEvent; endOfInputEvent?: never; authChallengeResponseEvent?: never } | { configurationEvent?: never; textEvent?: never; attachmentEvent?: never; actionExecutionEvent?: never; endOfInputEvent: EndOfInputEvent; authChallengeResponseEvent?: never } | { configurationEvent?: never; textEvent?: never; attachmentEvent?: never; actionExecutionEvent?: never; endOfInputEvent?: never; authChallengeResponseEvent: AuthChallengeResponseEvent };
-export const ChatInputStream = T.InputEventStream(S.Union([S.Struct({ configurationEvent: ConfigurationEvent }), S.Struct({ textEvent: TextInputEvent }), S.Struct({ attachmentEvent: AttachmentInputEvent }), S.Struct({ actionExecutionEvent: ActionExecutionEvent }), S.Struct({ endOfInputEvent: EndOfInputEvent }), S.Struct({ authChallengeResponseEvent: AuthChallengeResponseEvent })])) as any as S.Schema<stream.Stream<ChatInputStream, Error, never>>;
-export interface ChatInput { applicationId: string; userId?: string; userGroups?: string[]; conversationId?: string; parentMessageId?: string; clientToken?: string; inputStream?: stream.Stream<ChatInputStream, Error, never> }
-export const ChatInput = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId")), userGroups: S.optional(UserGroups).pipe(T.HttpQuery("userGroups")), conversationId: S.optional(S.String).pipe(T.HttpQuery("conversationId")), parentMessageId: S.optional(S.String).pipe(T.HttpQuery("parentMessageId")), clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()), inputStream: S.optional(ChatInputStream).pipe(T.HttpPayload())}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/conversations" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ChatInput" }) as any as S.Schema<ChatInput>;
+export const AuthorizationResponseMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface AuthChallengeResponseEvent {
+  responseMap: { [key: string]: string | undefined };
+}
+export const AuthChallengeResponseEvent = S.suspend(() =>
+  S.Struct({ responseMap: AuthorizationResponseMap }),
+).annotate({
+  identifier: "AuthChallengeResponseEvent",
+}) as any as S.Schema<AuthChallengeResponseEvent>;
+export type ChatInputStream =
+  | {
+      configurationEvent: ConfigurationEvent;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent: TextInputEvent;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent: AttachmentInputEvent;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent: ActionExecutionEvent;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent: EndOfInputEvent;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent: AuthChallengeResponseEvent;
+    };
+export const ChatInputStream = T.InputEventStream(
+  S.Union([
+    S.Struct({ configurationEvent: ConfigurationEvent }),
+    S.Struct({ textEvent: TextInputEvent }),
+    S.Struct({ attachmentEvent: AttachmentInputEvent }),
+    S.Struct({ actionExecutionEvent: ActionExecutionEvent }),
+    S.Struct({ endOfInputEvent: EndOfInputEvent }),
+    S.Struct({ authChallengeResponseEvent: AuthChallengeResponseEvent }),
+  ]),
+) as any as S.Schema<stream.Stream<ChatInputStream, Error, never>>;
+export interface ChatInput {
+  applicationId: string;
+  userId?: string;
+  userGroups?: string[];
+  conversationId?: string;
+  parentMessageId?: string;
+  clientToken?: string;
+  inputStream?: stream.Stream<ChatInputStream, Error, never>;
+}
+export const ChatInput = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+    userGroups: S.optional(UserGroups).pipe(T.HttpQuery("userGroups")),
+    conversationId: S.optional(S.String).pipe(T.HttpQuery("conversationId")),
+    parentMessageId: S.optional(S.String).pipe(T.HttpQuery("parentMessageId")),
+    clientToken: S.optional(S.String).pipe(
+      T.HttpQuery("clientToken"),
+      T.IdempotencyToken(),
+    ),
+    inputStream: S.optional(ChatInputStream).pipe(T.HttpPayload()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/conversations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "ChatInput" }) as any as S.Schema<ChatInput>;
 export type SystemMessageType =
   | "RESPONSE"
   | "GROUNDED_RESPONSE"
   | (string & {});
 export const SystemMessageType = S.String;
-export interface TextOutputEvent { systemMessageType?: SystemMessageType; conversationId?: string; userMessageId?: string; systemMessageId?: string; systemMessage?: string }
-export const TextOutputEvent = S.suspend(() => S.Struct({systemMessageType: S.optional(SystemMessageType), conversationId: S.optional(S.String), userMessageId: S.optional(S.String), systemMessageId: S.optional(S.String), systemMessage: S.optional(S.String)})).annotate({ identifier: "TextOutputEvent" }) as any as S.Schema<TextOutputEvent>;
-export interface SnippetExcerpt { text?: string }
-export const SnippetExcerpt = S.suspend(() => S.Struct({text: S.optional(S.String)})).annotate({ identifier: "SnippetExcerpt" }) as any as S.Schema<SnippetExcerpt>;
-export interface ImageSourceDetails { mediaId?: string; mediaMimeType?: string }
-export const ImageSourceDetails = S.suspend(() => S.Struct({mediaId: S.optional(S.String), mediaMimeType: S.optional(S.String)})).annotate({ identifier: "ImageSourceDetails" }) as any as S.Schema<ImageSourceDetails>;
-export type AudioExtractionType =
-  | "TRANSCRIPT"
-  | "SUMMARY"
-  | (string & {});
+export interface TextOutputEvent {
+  systemMessageType?: SystemMessageType;
+  conversationId?: string;
+  userMessageId?: string;
+  systemMessageId?: string;
+  systemMessage?: string;
+}
+export const TextOutputEvent = S.suspend(() =>
+  S.Struct({
+    systemMessageType: S.optional(SystemMessageType),
+    conversationId: S.optional(S.String),
+    userMessageId: S.optional(S.String),
+    systemMessageId: S.optional(S.String),
+    systemMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TextOutputEvent",
+}) as any as S.Schema<TextOutputEvent>;
+export interface SnippetExcerpt {
+  text?: string;
+}
+export const SnippetExcerpt = S.suspend(() =>
+  S.Struct({ text: S.optional(S.String) }),
+).annotate({ identifier: "SnippetExcerpt" }) as any as S.Schema<SnippetExcerpt>;
+export interface ImageSourceDetails {
+  mediaId?: string;
+  mediaMimeType?: string;
+}
+export const ImageSourceDetails = S.suspend(() =>
+  S.Struct({
+    mediaId: S.optional(S.String),
+    mediaMimeType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ImageSourceDetails",
+}) as any as S.Schema<ImageSourceDetails>;
+export type AudioExtractionType = "TRANSCRIPT" | "SUMMARY" | (string & {});
 export const AudioExtractionType = S.String;
-export interface AudioSourceDetails { mediaId?: string; mediaMimeType?: string; startTimeMilliseconds?: number; endTimeMilliseconds?: number; audioExtractionType?: AudioExtractionType }
-export const AudioSourceDetails = S.suspend(() => S.Struct({mediaId: S.optional(S.String), mediaMimeType: S.optional(S.String), startTimeMilliseconds: S.optional(S.Number), endTimeMilliseconds: S.optional(S.Number), audioExtractionType: S.optional(AudioExtractionType)})).annotate({ identifier: "AudioSourceDetails" }) as any as S.Schema<AudioSourceDetails>;
-export type VideoExtractionType =
-  | "TRANSCRIPT"
-  | "SUMMARY"
-  | (string & {});
+export interface AudioSourceDetails {
+  mediaId?: string;
+  mediaMimeType?: string;
+  startTimeMilliseconds?: number;
+  endTimeMilliseconds?: number;
+  audioExtractionType?: AudioExtractionType;
+}
+export const AudioSourceDetails = S.suspend(() =>
+  S.Struct({
+    mediaId: S.optional(S.String),
+    mediaMimeType: S.optional(S.String),
+    startTimeMilliseconds: S.optional(S.Number),
+    endTimeMilliseconds: S.optional(S.Number),
+    audioExtractionType: S.optional(AudioExtractionType),
+  }),
+).annotate({
+  identifier: "AudioSourceDetails",
+}) as any as S.Schema<AudioSourceDetails>;
+export type VideoExtractionType = "TRANSCRIPT" | "SUMMARY" | (string & {});
 export const VideoExtractionType = S.String;
-export interface VideoSourceDetails { mediaId?: string; mediaMimeType?: string; startTimeMilliseconds?: number; endTimeMilliseconds?: number; videoExtractionType?: VideoExtractionType }
-export const VideoSourceDetails = S.suspend(() => S.Struct({mediaId: S.optional(S.String), mediaMimeType: S.optional(S.String), startTimeMilliseconds: S.optional(S.Number), endTimeMilliseconds: S.optional(S.Number), videoExtractionType: S.optional(VideoExtractionType)})).annotate({ identifier: "VideoSourceDetails" }) as any as S.Schema<VideoSourceDetails>;
-export type SourceDetails = { imageSourceDetails: ImageSourceDetails; audioSourceDetails?: never; videoSourceDetails?: never } | { imageSourceDetails?: never; audioSourceDetails: AudioSourceDetails; videoSourceDetails?: never } | { imageSourceDetails?: never; audioSourceDetails?: never; videoSourceDetails: VideoSourceDetails };
-export const SourceDetails = S.Union([S.Struct({ imageSourceDetails: ImageSourceDetails }), S.Struct({ audioSourceDetails: AudioSourceDetails }), S.Struct({ videoSourceDetails: VideoSourceDetails })]);
-export interface TextSegment { beginOffset?: number; endOffset?: number; snippetExcerpt?: SnippetExcerpt; mediaId?: string; mediaMimeType?: string; sourceDetails?: SourceDetails }
-export const TextSegment = S.suspend(() => S.Struct({beginOffset: S.optional(S.Number), endOffset: S.optional(S.Number), snippetExcerpt: S.optional(SnippetExcerpt), mediaId: S.optional(S.String), mediaMimeType: S.optional(S.String), sourceDetails: S.optional(SourceDetails)})).annotate({ identifier: "TextSegment" }) as any as S.Schema<TextSegment>;
+export interface VideoSourceDetails {
+  mediaId?: string;
+  mediaMimeType?: string;
+  startTimeMilliseconds?: number;
+  endTimeMilliseconds?: number;
+  videoExtractionType?: VideoExtractionType;
+}
+export const VideoSourceDetails = S.suspend(() =>
+  S.Struct({
+    mediaId: S.optional(S.String),
+    mediaMimeType: S.optional(S.String),
+    startTimeMilliseconds: S.optional(S.Number),
+    endTimeMilliseconds: S.optional(S.Number),
+    videoExtractionType: S.optional(VideoExtractionType),
+  }),
+).annotate({
+  identifier: "VideoSourceDetails",
+}) as any as S.Schema<VideoSourceDetails>;
+export type SourceDetails =
+  | {
+      imageSourceDetails: ImageSourceDetails;
+      audioSourceDetails?: never;
+      videoSourceDetails?: never;
+    }
+  | {
+      imageSourceDetails?: never;
+      audioSourceDetails: AudioSourceDetails;
+      videoSourceDetails?: never;
+    }
+  | {
+      imageSourceDetails?: never;
+      audioSourceDetails?: never;
+      videoSourceDetails: VideoSourceDetails;
+    };
+export const SourceDetails = S.Union([
+  S.Struct({ imageSourceDetails: ImageSourceDetails }),
+  S.Struct({ audioSourceDetails: AudioSourceDetails }),
+  S.Struct({ videoSourceDetails: VideoSourceDetails }),
+]);
+export interface TextSegment {
+  beginOffset?: number;
+  endOffset?: number;
+  snippetExcerpt?: SnippetExcerpt;
+  mediaId?: string;
+  mediaMimeType?: string;
+  sourceDetails?: SourceDetails;
+}
+export const TextSegment = S.suspend(() =>
+  S.Struct({
+    beginOffset: S.optional(S.Number),
+    endOffset: S.optional(S.Number),
+    snippetExcerpt: S.optional(SnippetExcerpt),
+    mediaId: S.optional(S.String),
+    mediaMimeType: S.optional(S.String),
+    sourceDetails: S.optional(SourceDetails),
+  }),
+).annotate({ identifier: "TextSegment" }) as any as S.Schema<TextSegment>;
 export type TextSegmentList = TextSegment[];
 export const TextSegmentList = S.Array(TextSegment);
-export interface SourceAttribution { title?: string; snippet?: string; url?: string; citationNumber?: number; updatedAt?: Date; textMessageSegments?: TextSegment[]; documentId?: string; indexId?: string; datasourceId?: string }
-export const SourceAttribution = S.suspend(() => S.Struct({title: S.optional(S.String), snippet: S.optional(S.String), url: S.optional(S.String), citationNumber: S.optional(S.Number), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), textMessageSegments: S.optional(TextSegmentList), documentId: S.optional(S.String), indexId: S.optional(S.String), datasourceId: S.optional(S.String)})).annotate({ identifier: "SourceAttribution" }) as any as S.Schema<SourceAttribution>;
+export interface SourceAttribution {
+  title?: string;
+  snippet?: string;
+  url?: string;
+  citationNumber?: number;
+  updatedAt?: Date;
+  textMessageSegments?: TextSegment[];
+  documentId?: string;
+  indexId?: string;
+  datasourceId?: string;
+}
+export const SourceAttribution = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    snippet: S.optional(S.String),
+    url: S.optional(S.String),
+    citationNumber: S.optional(S.Number),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    textMessageSegments: S.optional(TextSegmentList),
+    documentId: S.optional(S.String),
+    indexId: S.optional(S.String),
+    datasourceId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SourceAttribution",
+}) as any as S.Schema<SourceAttribution>;
 export type SourceAttributions = SourceAttribution[];
 export const SourceAttributions = S.Array(SourceAttribution).pipe(T.Sparse());
-export interface MetadataEvent { conversationId?: string; userMessageId?: string; systemMessageId?: string; sourceAttributions?: SourceAttribution[]; finalTextMessage?: string }
-export const MetadataEvent = S.suspend(() => S.Struct({conversationId: S.optional(S.String), userMessageId: S.optional(S.String), systemMessageId: S.optional(S.String), sourceAttributions: S.optional(SourceAttributions), finalTextMessage: S.optional(S.String)})).annotate({ identifier: "MetadataEvent" }) as any as S.Schema<MetadataEvent>;
+export interface MetadataEvent {
+  conversationId?: string;
+  userMessageId?: string;
+  systemMessageId?: string;
+  sourceAttributions?: SourceAttribution[];
+  finalTextMessage?: string;
+}
+export const MetadataEvent = S.suspend(() =>
+  S.Struct({
+    conversationId: S.optional(S.String),
+    userMessageId: S.optional(S.String),
+    systemMessageId: S.optional(S.String),
+    sourceAttributions: S.optional(SourceAttributions),
+    finalTextMessage: S.optional(S.String),
+  }),
+).annotate({ identifier: "MetadataEvent" }) as any as S.Schema<MetadataEvent>;
 export type PluginType =
   | "SERVICE_NOW"
   | "SALESFORCE"
@@ -473,204 +1201,1064 @@ export type ActionPayloadFieldType =
   | "BOOLEAN"
   | (string & {});
 export const ActionPayloadFieldType = S.String;
-export interface ActionReviewPayloadFieldAllowedValue { value?: any; displayValue?: any }
-export const ActionReviewPayloadFieldAllowedValue = S.suspend(() => S.Struct({value: S.optional(S.Any), displayValue: S.optional(S.Any)})).annotate({ identifier: "ActionReviewPayloadFieldAllowedValue" }) as any as S.Schema<ActionReviewPayloadFieldAllowedValue>;
-export type ActionReviewPayloadFieldAllowedValues = ActionReviewPayloadFieldAllowedValue[];
-export const ActionReviewPayloadFieldAllowedValues = S.Array(ActionReviewPayloadFieldAllowedValue);
-export interface ActionReviewPayloadField { displayName?: string; displayOrder?: number; displayDescription?: string; type?: ActionPayloadFieldType; value?: any; allowedValues?: ActionReviewPayloadFieldAllowedValue[]; allowedFormat?: string; arrayItemJsonSchema?: any; required?: boolean }
-export const ActionReviewPayloadField = S.suspend(() => S.Struct({displayName: S.optional(S.String), displayOrder: S.optional(S.Number), displayDescription: S.optional(S.String), type: S.optional(ActionPayloadFieldType), value: S.optional(S.Any), allowedValues: S.optional(ActionReviewPayloadFieldAllowedValues), allowedFormat: S.optional(S.String), arrayItemJsonSchema: S.optional(S.Any), required: S.optional(S.Boolean)})).annotate({ identifier: "ActionReviewPayloadField" }) as any as S.Schema<ActionReviewPayloadField>;
-export type ActionReviewPayload = { [key: string]: ActionReviewPayloadField | undefined };
-export const ActionReviewPayload = S.Record(S.String, ActionReviewPayloadField.pipe(S.optional));
-export interface ActionReviewEvent { conversationId?: string; userMessageId?: string; systemMessageId?: string; pluginId?: string; pluginType?: PluginType; payload?: { [key: string]: ActionReviewPayloadField | undefined }; payloadFieldNameSeparator?: string }
-export const ActionReviewEvent = S.suspend(() => S.Struct({conversationId: S.optional(S.String), userMessageId: S.optional(S.String), systemMessageId: S.optional(S.String), pluginId: S.optional(S.String), pluginType: S.optional(PluginType), payload: S.optional(ActionReviewPayload), payloadFieldNameSeparator: S.optional(S.String)})).annotate({ identifier: "ActionReviewEvent" }) as any as S.Schema<ActionReviewEvent>;
-export type AttachmentStatus =
-  | "FAILED"
-  | "SUCCESS"
-  | (string & {});
+export interface ActionReviewPayloadFieldAllowedValue {
+  value?: any;
+  displayValue?: any;
+}
+export const ActionReviewPayloadFieldAllowedValue = S.suspend(() =>
+  S.Struct({ value: S.optional(S.Any), displayValue: S.optional(S.Any) }),
+).annotate({
+  identifier: "ActionReviewPayloadFieldAllowedValue",
+}) as any as S.Schema<ActionReviewPayloadFieldAllowedValue>;
+export type ActionReviewPayloadFieldAllowedValues =
+  ActionReviewPayloadFieldAllowedValue[];
+export const ActionReviewPayloadFieldAllowedValues = S.Array(
+  ActionReviewPayloadFieldAllowedValue,
+);
+export interface ActionReviewPayloadField {
+  displayName?: string;
+  displayOrder?: number;
+  displayDescription?: string;
+  type?: ActionPayloadFieldType;
+  value?: any;
+  allowedValues?: ActionReviewPayloadFieldAllowedValue[];
+  allowedFormat?: string;
+  arrayItemJsonSchema?: any;
+  required?: boolean;
+}
+export const ActionReviewPayloadField = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    displayOrder: S.optional(S.Number),
+    displayDescription: S.optional(S.String),
+    type: S.optional(ActionPayloadFieldType),
+    value: S.optional(S.Any),
+    allowedValues: S.optional(ActionReviewPayloadFieldAllowedValues),
+    allowedFormat: S.optional(S.String),
+    arrayItemJsonSchema: S.optional(S.Any),
+    required: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ActionReviewPayloadField",
+}) as any as S.Schema<ActionReviewPayloadField>;
+export type ActionReviewPayload = {
+  [key: string]: ActionReviewPayloadField | undefined;
+};
+export const ActionReviewPayload = S.Record(
+  S.String,
+  ActionReviewPayloadField.pipe(S.optional),
+);
+export interface ActionReviewEvent {
+  conversationId?: string;
+  userMessageId?: string;
+  systemMessageId?: string;
+  pluginId?: string;
+  pluginType?: PluginType;
+  payload?: { [key: string]: ActionReviewPayloadField | undefined };
+  payloadFieldNameSeparator?: string;
+}
+export const ActionReviewEvent = S.suspend(() =>
+  S.Struct({
+    conversationId: S.optional(S.String),
+    userMessageId: S.optional(S.String),
+    systemMessageId: S.optional(S.String),
+    pluginId: S.optional(S.String),
+    pluginType: S.optional(PluginType),
+    payload: S.optional(ActionReviewPayload),
+    payloadFieldNameSeparator: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ActionReviewEvent",
+}) as any as S.Schema<ActionReviewEvent>;
+export type AttachmentStatus = "FAILED" | "SUCCESS" | (string & {});
 export const AttachmentStatus = S.String;
-export interface AttachmentOutput { name?: string; status?: AttachmentStatus; error?: ErrorDetail; attachmentId?: string; conversationId?: string }
-export const AttachmentOutput = S.suspend(() => S.Struct({name: S.optional(S.String), status: S.optional(AttachmentStatus), error: S.optional(ErrorDetail), attachmentId: S.optional(S.String), conversationId: S.optional(S.String)})).annotate({ identifier: "AttachmentOutput" }) as any as S.Schema<AttachmentOutput>;
-export interface FailedAttachmentEvent { conversationId?: string; userMessageId?: string; systemMessageId?: string; attachment?: AttachmentOutput }
-export const FailedAttachmentEvent = S.suspend(() => S.Struct({conversationId: S.optional(S.String), userMessageId: S.optional(S.String), systemMessageId: S.optional(S.String), attachment: S.optional(AttachmentOutput)})).annotate({ identifier: "FailedAttachmentEvent" }) as any as S.Schema<FailedAttachmentEvent>;
-export interface AuthChallengeRequestEvent { authorizationUrl: string }
-export const AuthChallengeRequestEvent = S.suspend(() => S.Struct({authorizationUrl: S.String})).annotate({ identifier: "AuthChallengeRequestEvent" }) as any as S.Schema<AuthChallengeRequestEvent>;
-export type ChatOutputStream = { textEvent: TextOutputEvent; metadataEvent?: never; actionReviewEvent?: never; failedAttachmentEvent?: never; authChallengeRequestEvent?: never } | { textEvent?: never; metadataEvent: MetadataEvent; actionReviewEvent?: never; failedAttachmentEvent?: never; authChallengeRequestEvent?: never } | { textEvent?: never; metadataEvent?: never; actionReviewEvent: ActionReviewEvent; failedAttachmentEvent?: never; authChallengeRequestEvent?: never } | { textEvent?: never; metadataEvent?: never; actionReviewEvent?: never; failedAttachmentEvent: FailedAttachmentEvent; authChallengeRequestEvent?: never } | { textEvent?: never; metadataEvent?: never; actionReviewEvent?: never; failedAttachmentEvent?: never; authChallengeRequestEvent: AuthChallengeRequestEvent };
-export const ChatOutputStream = T.EventStream(S.Union([S.Struct({ textEvent: TextOutputEvent }), S.Struct({ metadataEvent: MetadataEvent }), S.Struct({ actionReviewEvent: ActionReviewEvent }), S.Struct({ failedAttachmentEvent: FailedAttachmentEvent }), S.Struct({ authChallengeRequestEvent: AuthChallengeRequestEvent })])) as any as S.Schema<stream.Stream<ChatOutputStream, Error, never>>;
-export interface ChatOutput { outputStream?: stream.Stream<ChatOutputStream, Error, never> }
-export const ChatOutput = S.suspend(() => S.Struct({outputStream: S.optional(ChatOutputStream).pipe(T.HttpPayload())})).annotate({ identifier: "ChatOutput" }) as any as S.Schema<ChatOutput>;
+export interface AttachmentOutput {
+  name?: string;
+  status?: AttachmentStatus;
+  error?: ErrorDetail;
+  attachmentId?: string;
+  conversationId?: string;
+}
+export const AttachmentOutput = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    status: S.optional(AttachmentStatus),
+    error: S.optional(ErrorDetail),
+    attachmentId: S.optional(S.String),
+    conversationId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AttachmentOutput",
+}) as any as S.Schema<AttachmentOutput>;
+export interface FailedAttachmentEvent {
+  conversationId?: string;
+  userMessageId?: string;
+  systemMessageId?: string;
+  attachment?: AttachmentOutput;
+}
+export const FailedAttachmentEvent = S.suspend(() =>
+  S.Struct({
+    conversationId: S.optional(S.String),
+    userMessageId: S.optional(S.String),
+    systemMessageId: S.optional(S.String),
+    attachment: S.optional(AttachmentOutput),
+  }),
+).annotate({
+  identifier: "FailedAttachmentEvent",
+}) as any as S.Schema<FailedAttachmentEvent>;
+export interface AuthChallengeRequestEvent {
+  authorizationUrl: string;
+}
+export const AuthChallengeRequestEvent = S.suspend(() =>
+  S.Struct({ authorizationUrl: S.String }),
+).annotate({
+  identifier: "AuthChallengeRequestEvent",
+}) as any as S.Schema<AuthChallengeRequestEvent>;
+export type ChatOutputStream =
+  | {
+      textEvent: TextOutputEvent;
+      metadataEvent?: never;
+      actionReviewEvent?: never;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent: MetadataEvent;
+      actionReviewEvent?: never;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent?: never;
+      actionReviewEvent: ActionReviewEvent;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent?: never;
+      actionReviewEvent?: never;
+      failedAttachmentEvent: FailedAttachmentEvent;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent?: never;
+      actionReviewEvent?: never;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent: AuthChallengeRequestEvent;
+    };
+export const ChatOutputStream = T.EventStream(
+  S.Union([
+    S.Struct({ textEvent: TextOutputEvent }),
+    S.Struct({ metadataEvent: MetadataEvent }),
+    S.Struct({ actionReviewEvent: ActionReviewEvent }),
+    S.Struct({ failedAttachmentEvent: FailedAttachmentEvent }),
+    S.Struct({ authChallengeRequestEvent: AuthChallengeRequestEvent }),
+  ]),
+) as any as S.Schema<stream.Stream<ChatOutputStream, Error, never>>;
+export interface ChatOutput {
+  outputStream?: stream.Stream<ChatOutputStream, Error, never>;
+}
+export const ChatOutput = S.suspend(() =>
+  S.Struct({
+    outputStream: S.optional(ChatOutputStream).pipe(T.HttpPayload()),
+  }),
+).annotate({ identifier: "ChatOutput" }) as any as S.Schema<ChatOutput>;
 export type AttachmentsInput = AttachmentInput[];
 export const AttachmentsInput = S.Array(AttachmentInput);
-export interface ActionExecution { pluginId: string; payload: { [key: string]: ActionExecutionPayloadField | undefined }; payloadFieldNameSeparator: string }
-export const ActionExecution = S.suspend(() => S.Struct({pluginId: S.String, payload: ActionExecutionPayload, payloadFieldNameSeparator: S.String})).annotate({ identifier: "ActionExecution" }) as any as S.Schema<ActionExecution>;
-export interface AuthChallengeResponse { responseMap: { [key: string]: string | undefined } }
-export const AuthChallengeResponse = S.suspend(() => S.Struct({responseMap: AuthorizationResponseMap})).annotate({ identifier: "AuthChallengeResponse" }) as any as S.Schema<AuthChallengeResponse>;
-export interface ChatSyncInput { applicationId: string; userId?: string; userGroups?: string[]; userMessage?: string; attachments?: AttachmentInput[]; actionExecution?: ActionExecution; authChallengeResponse?: AuthChallengeResponse; conversationId?: string; parentMessageId?: string; attributeFilter?: AttributeFilter; chatMode?: ChatMode; chatModeConfiguration?: ChatModeConfiguration; clientToken?: string }
-export const ChatSyncInput = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId")), userGroups: S.optional(UserGroups).pipe(T.HttpQuery("userGroups")), userMessage: S.optional(S.String), attachments: S.optional(AttachmentsInput), actionExecution: S.optional(ActionExecution), authChallengeResponse: S.optional(AuthChallengeResponse), conversationId: S.optional(S.String), parentMessageId: S.optional(S.String), attributeFilter: S.optional(AttributeFilter), chatMode: S.optional(ChatMode), chatModeConfiguration: S.optional(ChatModeConfiguration), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/conversations?sync" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ChatSyncInput" }) as any as S.Schema<ChatSyncInput>;
-export interface ActionReview { pluginId?: string; pluginType?: PluginType; payload?: { [key: string]: ActionReviewPayloadField | undefined }; payloadFieldNameSeparator?: string }
-export const ActionReview = S.suspend(() => S.Struct({pluginId: S.optional(S.String), pluginType: S.optional(PluginType), payload: S.optional(ActionReviewPayload), payloadFieldNameSeparator: S.optional(S.String)})).annotate({ identifier: "ActionReview" }) as any as S.Schema<ActionReview>;
-export interface AuthChallengeRequest { authorizationUrl: string }
-export const AuthChallengeRequest = S.suspend(() => S.Struct({authorizationUrl: S.String})).annotate({ identifier: "AuthChallengeRequest" }) as any as S.Schema<AuthChallengeRequest>;
+export interface ActionExecution {
+  pluginId: string;
+  payload: { [key: string]: ActionExecutionPayloadField | undefined };
+  payloadFieldNameSeparator: string;
+}
+export const ActionExecution = S.suspend(() =>
+  S.Struct({
+    pluginId: S.String,
+    payload: ActionExecutionPayload,
+    payloadFieldNameSeparator: S.String,
+  }),
+).annotate({
+  identifier: "ActionExecution",
+}) as any as S.Schema<ActionExecution>;
+export interface AuthChallengeResponse {
+  responseMap: { [key: string]: string | undefined };
+}
+export const AuthChallengeResponse = S.suspend(() =>
+  S.Struct({ responseMap: AuthorizationResponseMap }),
+).annotate({
+  identifier: "AuthChallengeResponse",
+}) as any as S.Schema<AuthChallengeResponse>;
+export interface ChatSyncInput {
+  applicationId: string;
+  userId?: string;
+  userGroups?: string[];
+  userMessage?: string;
+  attachments?: AttachmentInput[];
+  actionExecution?: ActionExecution;
+  authChallengeResponse?: AuthChallengeResponse;
+  conversationId?: string;
+  parentMessageId?: string;
+  attributeFilter?: AttributeFilter;
+  chatMode?: ChatMode;
+  chatModeConfiguration?: ChatModeConfiguration;
+  clientToken?: string;
+}
+export const ChatSyncInput = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+    userGroups: S.optional(UserGroups).pipe(T.HttpQuery("userGroups")),
+    userMessage: S.optional(S.String),
+    attachments: S.optional(AttachmentsInput),
+    actionExecution: S.optional(ActionExecution),
+    authChallengeResponse: S.optional(AuthChallengeResponse),
+    conversationId: S.optional(S.String),
+    parentMessageId: S.optional(S.String),
+    attributeFilter: S.optional(AttributeFilter),
+    chatMode: S.optional(ChatMode),
+    chatModeConfiguration: S.optional(ChatModeConfiguration),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/conversations?sync",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "ChatSyncInput" }) as any as S.Schema<ChatSyncInput>;
+export interface ActionReview {
+  pluginId?: string;
+  pluginType?: PluginType;
+  payload?: { [key: string]: ActionReviewPayloadField | undefined };
+  payloadFieldNameSeparator?: string;
+}
+export const ActionReview = S.suspend(() =>
+  S.Struct({
+    pluginId: S.optional(S.String),
+    pluginType: S.optional(PluginType),
+    payload: S.optional(ActionReviewPayload),
+    payloadFieldNameSeparator: S.optional(S.String),
+  }),
+).annotate({ identifier: "ActionReview" }) as any as S.Schema<ActionReview>;
+export interface AuthChallengeRequest {
+  authorizationUrl: string;
+}
+export const AuthChallengeRequest = S.suspend(() =>
+  S.Struct({ authorizationUrl: S.String }),
+).annotate({
+  identifier: "AuthChallengeRequest",
+}) as any as S.Schema<AuthChallengeRequest>;
 export type AttachmentsOutput = AttachmentOutput[];
 export const AttachmentsOutput = S.Array(AttachmentOutput);
-export interface ChatSyncOutput { conversationId?: string; systemMessage?: string; systemMessageId?: string; userMessageId?: string; actionReview?: ActionReview; authChallengeRequest?: AuthChallengeRequest; sourceAttributions?: SourceAttribution[]; failedAttachments?: AttachmentOutput[] }
-export const ChatSyncOutput = S.suspend(() => S.Struct({conversationId: S.optional(S.String), systemMessage: S.optional(S.String), systemMessageId: S.optional(S.String), userMessageId: S.optional(S.String), actionReview: S.optional(ActionReview), authChallengeRequest: S.optional(AuthChallengeRequest), sourceAttributions: S.optional(SourceAttributions), failedAttachments: S.optional(AttachmentsOutput)})).annotate({ identifier: "ChatSyncOutput" }) as any as S.Schema<ChatSyncOutput>;
-export interface CheckDocumentAccessRequest { applicationId: string; indexId: string; userId: string; documentId: string; dataSourceId?: string }
-export const CheckDocumentAccessRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), userId: S.String.pipe(T.HttpLabel("userId")), documentId: S.String.pipe(T.HttpLabel("documentId")), dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/index/{indexId}/users/{userId}/documents/{documentId}/check-document-access" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CheckDocumentAccessRequest" }) as any as S.Schema<CheckDocumentAccessRequest>;
-export interface AssociatedGroup { name?: string; type?: MembershipType }
-export const AssociatedGroup = S.suspend(() => S.Struct({name: S.optional(S.String), type: S.optional(MembershipType)})).annotate({ identifier: "AssociatedGroup" }) as any as S.Schema<AssociatedGroup>;
+export interface ChatSyncOutput {
+  conversationId?: string;
+  systemMessage?: string;
+  systemMessageId?: string;
+  userMessageId?: string;
+  actionReview?: ActionReview;
+  authChallengeRequest?: AuthChallengeRequest;
+  sourceAttributions?: SourceAttribution[];
+  failedAttachments?: AttachmentOutput[];
+}
+export const ChatSyncOutput = S.suspend(() =>
+  S.Struct({
+    conversationId: S.optional(S.String),
+    systemMessage: S.optional(S.String),
+    systemMessageId: S.optional(S.String),
+    userMessageId: S.optional(S.String),
+    actionReview: S.optional(ActionReview),
+    authChallengeRequest: S.optional(AuthChallengeRequest),
+    sourceAttributions: S.optional(SourceAttributions),
+    failedAttachments: S.optional(AttachmentsOutput),
+  }),
+).annotate({ identifier: "ChatSyncOutput" }) as any as S.Schema<ChatSyncOutput>;
+export interface CheckDocumentAccessRequest {
+  applicationId: string;
+  indexId: string;
+  userId: string;
+  documentId: string;
+  dataSourceId?: string;
+}
+export const CheckDocumentAccessRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
+    documentId: S.String.pipe(T.HttpLabel("documentId")),
+    dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/index/{indexId}/users/{userId}/documents/{documentId}/check-document-access",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CheckDocumentAccessRequest",
+}) as any as S.Schema<CheckDocumentAccessRequest>;
+export interface AssociatedGroup {
+  name?: string;
+  type?: MembershipType;
+}
+export const AssociatedGroup = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), type: S.optional(MembershipType) }),
+).annotate({
+  identifier: "AssociatedGroup",
+}) as any as S.Schema<AssociatedGroup>;
 export type AssociatedGroups = AssociatedGroup[];
 export const AssociatedGroups = S.Array(AssociatedGroup);
-export interface AssociatedUser { id?: string; type?: MembershipType }
-export const AssociatedUser = S.suspend(() => S.Struct({id: S.optional(S.String), type: S.optional(MembershipType)})).annotate({ identifier: "AssociatedUser" }) as any as S.Schema<AssociatedUser>;
+export interface AssociatedUser {
+  id?: string;
+  type?: MembershipType;
+}
+export const AssociatedUser = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), type: S.optional(MembershipType) }),
+).annotate({ identifier: "AssociatedUser" }) as any as S.Schema<AssociatedUser>;
 export type AssociatedUsers = AssociatedUser[];
 export const AssociatedUsers = S.Array(AssociatedUser);
-export interface DocumentAclUser { id?: string; type?: MembershipType }
-export const DocumentAclUser = S.suspend(() => S.Struct({id: S.optional(S.String), type: S.optional(MembershipType)})).annotate({ identifier: "DocumentAclUser" }) as any as S.Schema<DocumentAclUser>;
+export interface DocumentAclUser {
+  id?: string;
+  type?: MembershipType;
+}
+export const DocumentAclUser = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), type: S.optional(MembershipType) }),
+).annotate({
+  identifier: "DocumentAclUser",
+}) as any as S.Schema<DocumentAclUser>;
 export type DocumentAclUsers = DocumentAclUser[];
 export const DocumentAclUsers = S.Array(DocumentAclUser);
-export interface DocumentAclGroup { name?: string; type?: MembershipType }
-export const DocumentAclGroup = S.suspend(() => S.Struct({name: S.optional(S.String), type: S.optional(MembershipType)})).annotate({ identifier: "DocumentAclGroup" }) as any as S.Schema<DocumentAclGroup>;
+export interface DocumentAclGroup {
+  name?: string;
+  type?: MembershipType;
+}
+export const DocumentAclGroup = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), type: S.optional(MembershipType) }),
+).annotate({
+  identifier: "DocumentAclGroup",
+}) as any as S.Schema<DocumentAclGroup>;
 export type DocumentAclGroups = DocumentAclGroup[];
 export const DocumentAclGroups = S.Array(DocumentAclGroup);
-export interface DocumentAclCondition { memberRelation?: MemberRelation; users?: DocumentAclUser[]; groups?: DocumentAclGroup[] }
-export const DocumentAclCondition = S.suspend(() => S.Struct({memberRelation: S.optional(MemberRelation), users: S.optional(DocumentAclUsers), groups: S.optional(DocumentAclGroups)})).annotate({ identifier: "DocumentAclCondition" }) as any as S.Schema<DocumentAclCondition>;
+export interface DocumentAclCondition {
+  memberRelation?: MemberRelation;
+  users?: DocumentAclUser[];
+  groups?: DocumentAclGroup[];
+}
+export const DocumentAclCondition = S.suspend(() =>
+  S.Struct({
+    memberRelation: S.optional(MemberRelation),
+    users: S.optional(DocumentAclUsers),
+    groups: S.optional(DocumentAclGroups),
+  }),
+).annotate({
+  identifier: "DocumentAclCondition",
+}) as any as S.Schema<DocumentAclCondition>;
 export type DocumentAclConditions = DocumentAclCondition[];
 export const DocumentAclConditions = S.Array(DocumentAclCondition);
-export interface DocumentAclMembership { memberRelation?: MemberRelation; conditions?: DocumentAclCondition[] }
-export const DocumentAclMembership = S.suspend(() => S.Struct({memberRelation: S.optional(MemberRelation), conditions: S.optional(DocumentAclConditions)})).annotate({ identifier: "DocumentAclMembership" }) as any as S.Schema<DocumentAclMembership>;
-export interface DocumentAcl { allowlist?: DocumentAclMembership; denyList?: DocumentAclMembership }
-export const DocumentAcl = S.suspend(() => S.Struct({allowlist: S.optional(DocumentAclMembership), denyList: S.optional(DocumentAclMembership)})).annotate({ identifier: "DocumentAcl" }) as any as S.Schema<DocumentAcl>;
-export interface CheckDocumentAccessResponse { userGroups?: AssociatedGroup[]; userAliases?: AssociatedUser[]; hasAccess?: boolean; documentAcl?: DocumentAcl }
-export const CheckDocumentAccessResponse = S.suspend(() => S.Struct({userGroups: S.optional(AssociatedGroups), userAliases: S.optional(AssociatedUsers), hasAccess: S.optional(S.Boolean), documentAcl: S.optional(DocumentAcl)})).annotate({ identifier: "CheckDocumentAccessResponse" }) as any as S.Schema<CheckDocumentAccessResponse>;
-export interface CreateAnonymousWebExperienceUrlRequest { applicationId: string; webExperienceId: string; sessionDurationInMinutes?: number }
-export const CreateAnonymousWebExperienceUrlRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId")), sessionDurationInMinutes: S.optional(S.Number)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/experiences/{webExperienceId}/anonymous-url" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateAnonymousWebExperienceUrlRequest" }) as any as S.Schema<CreateAnonymousWebExperienceUrlRequest>;
-export interface CreateAnonymousWebExperienceUrlResponse { anonymousUrl?: string }
-export const CreateAnonymousWebExperienceUrlResponse = S.suspend(() => S.Struct({anonymousUrl: S.optional(S.String)})).annotate({ identifier: "CreateAnonymousWebExperienceUrlResponse" }) as any as S.Schema<CreateAnonymousWebExperienceUrlResponse>;
-export type ResponseConfigurationType =
-  | "ALL"
-  | (string & {});
+export interface DocumentAclMembership {
+  memberRelation?: MemberRelation;
+  conditions?: DocumentAclCondition[];
+}
+export const DocumentAclMembership = S.suspend(() =>
+  S.Struct({
+    memberRelation: S.optional(MemberRelation),
+    conditions: S.optional(DocumentAclConditions),
+  }),
+).annotate({
+  identifier: "DocumentAclMembership",
+}) as any as S.Schema<DocumentAclMembership>;
+export interface DocumentAcl {
+  allowlist?: DocumentAclMembership;
+  denyList?: DocumentAclMembership;
+}
+export const DocumentAcl = S.suspend(() =>
+  S.Struct({
+    allowlist: S.optional(DocumentAclMembership),
+    denyList: S.optional(DocumentAclMembership),
+  }),
+).annotate({ identifier: "DocumentAcl" }) as any as S.Schema<DocumentAcl>;
+export interface CheckDocumentAccessResponse {
+  userGroups?: AssociatedGroup[];
+  userAliases?: AssociatedUser[];
+  hasAccess?: boolean;
+  documentAcl?: DocumentAcl;
+}
+export const CheckDocumentAccessResponse = S.suspend(() =>
+  S.Struct({
+    userGroups: S.optional(AssociatedGroups),
+    userAliases: S.optional(AssociatedUsers),
+    hasAccess: S.optional(S.Boolean),
+    documentAcl: S.optional(DocumentAcl),
+  }),
+).annotate({
+  identifier: "CheckDocumentAccessResponse",
+}) as any as S.Schema<CheckDocumentAccessResponse>;
+export interface CreateAnonymousWebExperienceUrlRequest {
+  applicationId: string;
+  webExperienceId: string;
+  sessionDurationInMinutes?: number;
+}
+export const CreateAnonymousWebExperienceUrlRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId")),
+    sessionDurationInMinutes: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/experiences/{webExperienceId}/anonymous-url",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateAnonymousWebExperienceUrlRequest",
+}) as any as S.Schema<CreateAnonymousWebExperienceUrlRequest>;
+export interface CreateAnonymousWebExperienceUrlResponse {
+  anonymousUrl?: string;
+}
+export const CreateAnonymousWebExperienceUrlResponse = S.suspend(() =>
+  S.Struct({ anonymousUrl: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateAnonymousWebExperienceUrlResponse",
+}) as any as S.Schema<CreateAnonymousWebExperienceUrlResponse>;
+export type ResponseConfigurationType = "ALL" | (string & {});
 export const ResponseConfigurationType = S.String;
-export interface InstructionCollection { responseLength?: string; targetAudience?: string; perspective?: string; outputStyle?: string; identity?: string; tone?: string; customInstructions?: string; examples?: string }
-export const InstructionCollection = S.suspend(() => S.Struct({responseLength: S.optional(S.String), targetAudience: S.optional(S.String), perspective: S.optional(S.String), outputStyle: S.optional(S.String), identity: S.optional(S.String), tone: S.optional(S.String), customInstructions: S.optional(S.String), examples: S.optional(S.String)})).annotate({ identifier: "InstructionCollection" }) as any as S.Schema<InstructionCollection>;
-export interface ResponseConfiguration { instructionCollection?: InstructionCollection }
-export const ResponseConfiguration = S.suspend(() => S.Struct({instructionCollection: S.optional(InstructionCollection)})).annotate({ identifier: "ResponseConfiguration" }) as any as S.Schema<ResponseConfiguration>;
-export type ResponseConfigurations = { [key in ResponseConfigurationType]?: ResponseConfiguration };
-export const ResponseConfigurations = S.Record(ResponseConfigurationType, ResponseConfiguration.pipe(S.optional));
-export interface Tag { key: string; value: string }
-export const Tag = S.suspend(() => S.Struct({key: S.String, value: S.String})).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export interface InstructionCollection {
+  responseLength?: string;
+  targetAudience?: string;
+  perspective?: string;
+  outputStyle?: string;
+  identity?: string;
+  tone?: string;
+  customInstructions?: string;
+  examples?: string;
+}
+export const InstructionCollection = S.suspend(() =>
+  S.Struct({
+    responseLength: S.optional(S.String),
+    targetAudience: S.optional(S.String),
+    perspective: S.optional(S.String),
+    outputStyle: S.optional(S.String),
+    identity: S.optional(S.String),
+    tone: S.optional(S.String),
+    customInstructions: S.optional(S.String),
+    examples: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InstructionCollection",
+}) as any as S.Schema<InstructionCollection>;
+export interface ResponseConfiguration {
+  instructionCollection?: InstructionCollection;
+}
+export const ResponseConfiguration = S.suspend(() =>
+  S.Struct({ instructionCollection: S.optional(InstructionCollection) }),
+).annotate({
+  identifier: "ResponseConfiguration",
+}) as any as S.Schema<ResponseConfiguration>;
+export type ResponseConfigurations = {
+  [key in ResponseConfigurationType]?: ResponseConfiguration;
+};
+export const ResponseConfigurations = S.Record(
+  ResponseConfigurationType,
+  ResponseConfiguration.pipe(S.optional),
+);
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export interface CreateChatResponseConfigurationRequest { applicationId: string; displayName: string; clientToken?: string; responseConfigurations: { [key: string]: ResponseConfiguration | undefined }; tags?: Tag[] }
-export const CreateChatResponseConfigurationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), displayName: S.String, clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), responseConfigurations: ResponseConfigurations, tags: S.optional(Tags)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/chatresponseconfigurations" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateChatResponseConfigurationRequest" }) as any as S.Schema<CreateChatResponseConfigurationRequest>;
-export interface CreateChatResponseConfigurationResponse { chatResponseConfigurationId: string; chatResponseConfigurationArn: string }
-export const CreateChatResponseConfigurationResponse = S.suspend(() => S.Struct({chatResponseConfigurationId: S.String, chatResponseConfigurationArn: S.String})).annotate({ identifier: "CreateChatResponseConfigurationResponse" }) as any as S.Schema<CreateChatResponseConfigurationResponse>;
-export type SubscriptionPrincipal = { user: string; group?: never } | { user?: never; group: string };
-export const SubscriptionPrincipal = S.Union([S.Struct({ user: S.String }), S.Struct({ group: S.String })]);
-export interface CreateSubscriptionRequest { applicationId: string; principal: SubscriptionPrincipal; type: SubscriptionType; clientToken?: string }
-export const CreateSubscriptionRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), principal: SubscriptionPrincipal, type: SubscriptionType, clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/subscriptions" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateSubscriptionRequest" }) as any as S.Schema<CreateSubscriptionRequest>;
-export interface CreateSubscriptionResponse { subscriptionId?: string; subscriptionArn?: string; currentSubscription?: SubscriptionDetails; nextSubscription?: SubscriptionDetails }
-export const CreateSubscriptionResponse = S.suspend(() => S.Struct({subscriptionId: S.optional(S.String), subscriptionArn: S.optional(S.String), currentSubscription: S.optional(SubscriptionDetails), nextSubscription: S.optional(SubscriptionDetails)})).annotate({ identifier: "CreateSubscriptionResponse" }) as any as S.Schema<CreateSubscriptionResponse>;
-export interface UserAlias { indexId?: string; dataSourceId?: string; userId: string }
-export const UserAlias = S.suspend(() => S.Struct({indexId: S.optional(S.String), dataSourceId: S.optional(S.String), userId: S.String})).annotate({ identifier: "UserAlias" }) as any as S.Schema<UserAlias>;
+export interface CreateChatResponseConfigurationRequest {
+  applicationId: string;
+  displayName: string;
+  clientToken?: string;
+  responseConfigurations: { [key: string]: ResponseConfiguration | undefined };
+  tags?: Tag[];
+}
+export const CreateChatResponseConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    displayName: S.String,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    responseConfigurations: ResponseConfigurations,
+    tags: S.optional(Tags),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/chatresponseconfigurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateChatResponseConfigurationRequest",
+}) as any as S.Schema<CreateChatResponseConfigurationRequest>;
+export interface CreateChatResponseConfigurationResponse {
+  chatResponseConfigurationId: string;
+  chatResponseConfigurationArn: string;
+}
+export const CreateChatResponseConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    chatResponseConfigurationId: S.String,
+    chatResponseConfigurationArn: S.String,
+  }),
+).annotate({
+  identifier: "CreateChatResponseConfigurationResponse",
+}) as any as S.Schema<CreateChatResponseConfigurationResponse>;
+export type SubscriptionPrincipal =
+  | { user: string; group?: never }
+  | { user?: never; group: string };
+export const SubscriptionPrincipal = S.Union([
+  S.Struct({ user: S.String }),
+  S.Struct({ group: S.String }),
+]);
+export interface CreateSubscriptionRequest {
+  applicationId: string;
+  principal: SubscriptionPrincipal;
+  type: SubscriptionType;
+  clientToken?: string;
+}
+export const CreateSubscriptionRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    principal: SubscriptionPrincipal,
+    type: SubscriptionType,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/subscriptions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateSubscriptionRequest",
+}) as any as S.Schema<CreateSubscriptionRequest>;
+export interface CreateSubscriptionResponse {
+  subscriptionId?: string;
+  subscriptionArn?: string;
+  currentSubscription?: SubscriptionDetails;
+  nextSubscription?: SubscriptionDetails;
+}
+export const CreateSubscriptionResponse = S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.optional(S.String),
+    subscriptionArn: S.optional(S.String),
+    currentSubscription: S.optional(SubscriptionDetails),
+    nextSubscription: S.optional(SubscriptionDetails),
+  }),
+).annotate({
+  identifier: "CreateSubscriptionResponse",
+}) as any as S.Schema<CreateSubscriptionResponse>;
+export interface UserAlias {
+  indexId?: string;
+  dataSourceId?: string;
+  userId: string;
+}
+export const UserAlias = S.suspend(() =>
+  S.Struct({
+    indexId: S.optional(S.String),
+    dataSourceId: S.optional(S.String),
+    userId: S.String,
+  }),
+).annotate({ identifier: "UserAlias" }) as any as S.Schema<UserAlias>;
 export type UserAliases = UserAlias[];
 export const UserAliases = S.Array(UserAlias);
-export interface CreateUserRequest { applicationId: string; userId: string; userAliases?: UserAlias[]; clientToken?: string }
-export const CreateUserRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.String, userAliases: S.optional(UserAliases), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/users" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
-export interface CreateUserResponse {  }
-export const CreateUserResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "CreateUserResponse" }) as any as S.Schema<CreateUserResponse>;
-export interface DeleteAttachmentRequest { applicationId: string; conversationId: string; attachmentId: string; userId?: string }
-export const DeleteAttachmentRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), conversationId: S.String.pipe(T.HttpLabel("conversationId")), attachmentId: S.String.pipe(T.HttpLabel("attachmentId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/conversations/{conversationId}/attachments/{attachmentId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteAttachmentRequest" }) as any as S.Schema<DeleteAttachmentRequest>;
-export interface DeleteAttachmentResponse {  }
-export const DeleteAttachmentResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAttachmentResponse" }) as any as S.Schema<DeleteAttachmentResponse>;
-export interface DeleteChatControlsConfigurationRequest { applicationId: string }
-export const DeleteChatControlsConfigurationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/chatcontrols" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteChatControlsConfigurationRequest" }) as any as S.Schema<DeleteChatControlsConfigurationRequest>;
-export interface DeleteChatControlsConfigurationResponse {  }
-export const DeleteChatControlsConfigurationResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteChatControlsConfigurationResponse" }) as any as S.Schema<DeleteChatControlsConfigurationResponse>;
-export interface DeleteChatResponseConfigurationRequest { applicationId: string; chatResponseConfigurationId: string }
-export const DeleteChatResponseConfigurationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), chatResponseConfigurationId: S.String.pipe(T.HttpLabel("chatResponseConfigurationId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteChatResponseConfigurationRequest" }) as any as S.Schema<DeleteChatResponseConfigurationRequest>;
-export interface DeleteChatResponseConfigurationResponse {  }
-export const DeleteChatResponseConfigurationResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteChatResponseConfigurationResponse" }) as any as S.Schema<DeleteChatResponseConfigurationResponse>;
-export interface DeleteConversationRequest { conversationId: string; applicationId: string; userId?: string }
-export const DeleteConversationRequest = S.suspend(() => S.Struct({conversationId: S.String.pipe(T.HttpLabel("conversationId")), applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/conversations/{conversationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteConversationRequest" }) as any as S.Schema<DeleteConversationRequest>;
-export interface DeleteConversationResponse {  }
-export const DeleteConversationResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteConversationResponse" }) as any as S.Schema<DeleteConversationResponse>;
-export interface DeleteGroupRequest { applicationId: string; indexId: string; groupName: string; dataSourceId?: string }
-export const DeleteGroupRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), groupName: S.String.pipe(T.HttpLabel("groupName")), dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/indices/{indexId}/groups/{groupName}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
-export interface DeleteGroupResponse {  }
-export const DeleteGroupResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteGroupResponse" }) as any as S.Schema<DeleteGroupResponse>;
-export interface DeleteUserRequest { applicationId: string; userId: string }
-export const DeleteUserRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.String.pipe(T.HttpLabel("userId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/users/{userId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
-export interface DeleteUserResponse {  }
-export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteUserResponse" }) as any as S.Schema<DeleteUserResponse>;
-export interface DisassociatePermissionRequest { applicationId: string; statementId: string }
-export const DisassociatePermissionRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), statementId: S.String.pipe(T.HttpLabel("statementId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/policy/{statementId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DisassociatePermissionRequest" }) as any as S.Schema<DisassociatePermissionRequest>;
-export interface DisassociatePermissionResponse {  }
-export const DisassociatePermissionResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DisassociatePermissionResponse" }) as any as S.Schema<DisassociatePermissionResponse>;
-export interface GetChatControlsConfigurationRequest { applicationId: string; maxResults?: number; nextToken?: string }
-export const GetChatControlsConfigurationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/chatcontrols" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetChatControlsConfigurationRequest" }) as any as S.Schema<GetChatControlsConfigurationRequest>;
+export interface CreateUserRequest {
+  applicationId: string;
+  userId: string;
+  userAliases?: UserAlias[];
+  clientToken?: string;
+}
+export const CreateUserRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.String,
+    userAliases: S.optional(UserAliases),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/users" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateUserRequest",
+}) as any as S.Schema<CreateUserRequest>;
+export interface CreateUserResponse {}
+export const CreateUserResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "CreateUserResponse",
+}) as any as S.Schema<CreateUserResponse>;
+export interface DeleteAttachmentRequest {
+  applicationId: string;
+  conversationId: string;
+  attachmentId: string;
+  userId?: string;
+}
+export const DeleteAttachmentRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    conversationId: S.String.pipe(T.HttpLabel("conversationId")),
+    attachmentId: S.String.pipe(T.HttpLabel("attachmentId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/conversations/{conversationId}/attachments/{attachmentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAttachmentRequest",
+}) as any as S.Schema<DeleteAttachmentRequest>;
+export interface DeleteAttachmentResponse {}
+export const DeleteAttachmentResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteAttachmentResponse",
+}) as any as S.Schema<DeleteAttachmentResponse>;
+export interface DeleteChatControlsConfigurationRequest {
+  applicationId: string;
+}
+export const DeleteChatControlsConfigurationRequest = S.suspend(() =>
+  S.Struct({ applicationId: S.String.pipe(T.HttpLabel("applicationId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/chatcontrols",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteChatControlsConfigurationRequest",
+}) as any as S.Schema<DeleteChatControlsConfigurationRequest>;
+export interface DeleteChatControlsConfigurationResponse {}
+export const DeleteChatControlsConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteChatControlsConfigurationResponse",
+}) as any as S.Schema<DeleteChatControlsConfigurationResponse>;
+export interface DeleteChatResponseConfigurationRequest {
+  applicationId: string;
+  chatResponseConfigurationId: string;
+}
+export const DeleteChatResponseConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    chatResponseConfigurationId: S.String.pipe(
+      T.HttpLabel("chatResponseConfigurationId"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteChatResponseConfigurationRequest",
+}) as any as S.Schema<DeleteChatResponseConfigurationRequest>;
+export interface DeleteChatResponseConfigurationResponse {}
+export const DeleteChatResponseConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteChatResponseConfigurationResponse",
+}) as any as S.Schema<DeleteChatResponseConfigurationResponse>;
+export interface DeleteConversationRequest {
+  conversationId: string;
+  applicationId: string;
+  userId?: string;
+}
+export const DeleteConversationRequest = S.suspend(() =>
+  S.Struct({
+    conversationId: S.String.pipe(T.HttpLabel("conversationId")),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/conversations/{conversationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConversationRequest",
+}) as any as S.Schema<DeleteConversationRequest>;
+export interface DeleteConversationResponse {}
+export const DeleteConversationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteConversationResponse",
+}) as any as S.Schema<DeleteConversationResponse>;
+export interface DeleteGroupRequest {
+  applicationId: string;
+  indexId: string;
+  groupName: string;
+  dataSourceId?: string;
+}
+export const DeleteGroupRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    groupName: S.String.pipe(T.HttpLabel("groupName")),
+    dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/indices/{indexId}/groups/{groupName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteGroupRequest",
+}) as any as S.Schema<DeleteGroupRequest>;
+export interface DeleteGroupResponse {}
+export const DeleteGroupResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteGroupResponse",
+}) as any as S.Schema<DeleteGroupResponse>;
+export interface DeleteUserRequest {
+  applicationId: string;
+  userId: string;
+}
+export const DeleteUserRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/users/{userId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteUserRequest",
+}) as any as S.Schema<DeleteUserRequest>;
+export interface DeleteUserResponse {}
+export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteUserResponse",
+}) as any as S.Schema<DeleteUserResponse>;
+export interface DisassociatePermissionRequest {
+  applicationId: string;
+  statementId: string;
+}
+export const DisassociatePermissionRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    statementId: S.String.pipe(T.HttpLabel("statementId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/policy/{statementId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociatePermissionRequest",
+}) as any as S.Schema<DisassociatePermissionRequest>;
+export interface DisassociatePermissionResponse {}
+export const DisassociatePermissionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociatePermissionResponse",
+}) as any as S.Schema<DisassociatePermissionResponse>;
+export interface GetChatControlsConfigurationRequest {
+  applicationId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetChatControlsConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/chatcontrols",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetChatControlsConfigurationRequest",
+}) as any as S.Schema<GetChatControlsConfigurationRequest>;
 export type ResponseScope =
   | "ENTERPRISE_CONTENT_ONLY"
   | "EXTENDED_KNOWLEDGE_ENABLED"
   | (string & {});
 export const ResponseScope = S.String;
-export type OrchestrationControl =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type OrchestrationControl = "ENABLED" | "DISABLED" | (string & {});
 export const OrchestrationControl = S.String;
-export interface AppliedOrchestrationConfiguration { control: OrchestrationControl }
-export const AppliedOrchestrationConfiguration = S.suspend(() => S.Struct({control: OrchestrationControl})).annotate({ identifier: "AppliedOrchestrationConfiguration" }) as any as S.Schema<AppliedOrchestrationConfiguration>;
+export interface AppliedOrchestrationConfiguration {
+  control: OrchestrationControl;
+}
+export const AppliedOrchestrationConfiguration = S.suspend(() =>
+  S.Struct({ control: OrchestrationControl }),
+).annotate({
+  identifier: "AppliedOrchestrationConfiguration",
+}) as any as S.Schema<AppliedOrchestrationConfiguration>;
 export type BlockedPhrases = string[];
 export const BlockedPhrases = S.Array(S.String);
-export interface BlockedPhrasesConfiguration { blockedPhrases?: string[]; systemMessageOverride?: string }
-export const BlockedPhrasesConfiguration = S.suspend(() => S.Struct({blockedPhrases: S.optional(BlockedPhrases), systemMessageOverride: S.optional(S.String)})).annotate({ identifier: "BlockedPhrasesConfiguration" }) as any as S.Schema<BlockedPhrasesConfiguration>;
+export interface BlockedPhrasesConfiguration {
+  blockedPhrases?: string[];
+  systemMessageOverride?: string;
+}
+export const BlockedPhrasesConfiguration = S.suspend(() =>
+  S.Struct({
+    blockedPhrases: S.optional(BlockedPhrases),
+    systemMessageOverride: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BlockedPhrasesConfiguration",
+}) as any as S.Schema<BlockedPhrasesConfiguration>;
 export type ExampleChatMessages = string[];
 export const ExampleChatMessages = S.Array(S.String);
 export type UserIds = string[];
 export const UserIds = S.Array(S.String);
-export interface UsersAndGroups { userIds?: string[]; userGroups?: string[] }
-export const UsersAndGroups = S.suspend(() => S.Struct({userIds: S.optional(UserIds), userGroups: S.optional(UserGroups)})).annotate({ identifier: "UsersAndGroups" }) as any as S.Schema<UsersAndGroups>;
+export interface UsersAndGroups {
+  userIds?: string[];
+  userGroups?: string[];
+}
+export const UsersAndGroups = S.suspend(() =>
+  S.Struct({
+    userIds: S.optional(UserIds),
+    userGroups: S.optional(UserGroups),
+  }),
+).annotate({ identifier: "UsersAndGroups" }) as any as S.Schema<UsersAndGroups>;
 export type RuleType =
   | "CONTENT_BLOCKER_RULE"
   | "CONTENT_RETRIEVAL_RULE"
   | (string & {});
 export const RuleType = S.String;
-export interface ContentBlockerRule { systemMessageOverride?: string }
-export const ContentBlockerRule = S.suspend(() => S.Struct({systemMessageOverride: S.optional(S.String)})).annotate({ identifier: "ContentBlockerRule" }) as any as S.Schema<ContentBlockerRule>;
-export interface EligibleDataSource { indexId?: string; dataSourceId?: string }
-export const EligibleDataSource = S.suspend(() => S.Struct({indexId: S.optional(S.String), dataSourceId: S.optional(S.String)})).annotate({ identifier: "EligibleDataSource" }) as any as S.Schema<EligibleDataSource>;
+export interface ContentBlockerRule {
+  systemMessageOverride?: string;
+}
+export const ContentBlockerRule = S.suspend(() =>
+  S.Struct({ systemMessageOverride: S.optional(S.String) }),
+).annotate({
+  identifier: "ContentBlockerRule",
+}) as any as S.Schema<ContentBlockerRule>;
+export interface EligibleDataSource {
+  indexId?: string;
+  dataSourceId?: string;
+}
+export const EligibleDataSource = S.suspend(() =>
+  S.Struct({
+    indexId: S.optional(S.String),
+    dataSourceId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EligibleDataSource",
+}) as any as S.Schema<EligibleDataSource>;
 export type EligibleDataSources = EligibleDataSource[];
 export const EligibleDataSources = S.Array(EligibleDataSource);
-export interface ContentRetrievalRule { eligibleDataSources?: EligibleDataSource[] }
-export const ContentRetrievalRule = S.suspend(() => S.Struct({eligibleDataSources: S.optional(EligibleDataSources)})).annotate({ identifier: "ContentRetrievalRule" }) as any as S.Schema<ContentRetrievalRule>;
-export type RuleConfiguration = { contentBlockerRule: ContentBlockerRule; contentRetrievalRule?: never } | { contentBlockerRule?: never; contentRetrievalRule: ContentRetrievalRule };
-export const RuleConfiguration = S.Union([S.Struct({ contentBlockerRule: ContentBlockerRule }), S.Struct({ contentRetrievalRule: ContentRetrievalRule })]);
-export interface Rule { includedUsersAndGroups?: UsersAndGroups; excludedUsersAndGroups?: UsersAndGroups; ruleType: RuleType; ruleConfiguration?: RuleConfiguration }
-export const Rule = S.suspend(() => S.Struct({includedUsersAndGroups: S.optional(UsersAndGroups), excludedUsersAndGroups: S.optional(UsersAndGroups), ruleType: RuleType, ruleConfiguration: S.optional(RuleConfiguration)})).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export interface ContentRetrievalRule {
+  eligibleDataSources?: EligibleDataSource[];
+}
+export const ContentRetrievalRule = S.suspend(() =>
+  S.Struct({ eligibleDataSources: S.optional(EligibleDataSources) }),
+).annotate({
+  identifier: "ContentRetrievalRule",
+}) as any as S.Schema<ContentRetrievalRule>;
+export type RuleConfiguration =
+  | { contentBlockerRule: ContentBlockerRule; contentRetrievalRule?: never }
+  | { contentBlockerRule?: never; contentRetrievalRule: ContentRetrievalRule };
+export const RuleConfiguration = S.Union([
+  S.Struct({ contentBlockerRule: ContentBlockerRule }),
+  S.Struct({ contentRetrievalRule: ContentRetrievalRule }),
+]);
+export interface Rule {
+  includedUsersAndGroups?: UsersAndGroups;
+  excludedUsersAndGroups?: UsersAndGroups;
+  ruleType: RuleType;
+  ruleConfiguration?: RuleConfiguration;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    includedUsersAndGroups: S.optional(UsersAndGroups),
+    excludedUsersAndGroups: S.optional(UsersAndGroups),
+    ruleType: RuleType,
+    ruleConfiguration: S.optional(RuleConfiguration),
+  }),
+).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type Rules = Rule[];
 export const Rules = S.Array(Rule);
-export interface TopicConfiguration { name: string; description?: string; exampleChatMessages?: string[]; rules: Rule[] }
-export const TopicConfiguration = S.suspend(() => S.Struct({name: S.String, description: S.optional(S.String), exampleChatMessages: S.optional(ExampleChatMessages), rules: Rules})).annotate({ identifier: "TopicConfiguration" }) as any as S.Schema<TopicConfiguration>;
+export interface TopicConfiguration {
+  name: string;
+  description?: string;
+  exampleChatMessages?: string[];
+  rules: Rule[];
+}
+export const TopicConfiguration = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    exampleChatMessages: S.optional(ExampleChatMessages),
+    rules: Rules,
+  }),
+).annotate({
+  identifier: "TopicConfiguration",
+}) as any as S.Schema<TopicConfiguration>;
 export type TopicConfigurations = TopicConfiguration[];
 export const TopicConfigurations = S.Array(TopicConfiguration);
-export type CreatorModeControl =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type CreatorModeControl = "ENABLED" | "DISABLED" | (string & {});
 export const CreatorModeControl = S.String;
-export interface AppliedCreatorModeConfiguration { creatorModeControl: CreatorModeControl }
-export const AppliedCreatorModeConfiguration = S.suspend(() => S.Struct({creatorModeControl: CreatorModeControl})).annotate({ identifier: "AppliedCreatorModeConfiguration" }) as any as S.Schema<AppliedCreatorModeConfiguration>;
+export interface AppliedCreatorModeConfiguration {
+  creatorModeControl: CreatorModeControl;
+}
+export const AppliedCreatorModeConfiguration = S.suspend(() =>
+  S.Struct({ creatorModeControl: CreatorModeControl }),
+).annotate({
+  identifier: "AppliedCreatorModeConfiguration",
+}) as any as S.Schema<AppliedCreatorModeConfiguration>;
 export type HallucinationReductionControl =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
 export const HallucinationReductionControl = S.String;
-export interface HallucinationReductionConfiguration { hallucinationReductionControl?: HallucinationReductionControl }
-export const HallucinationReductionConfiguration = S.suspend(() => S.Struct({hallucinationReductionControl: S.optional(HallucinationReductionControl)})).annotate({ identifier: "HallucinationReductionConfiguration" }) as any as S.Schema<HallucinationReductionConfiguration>;
-export interface GetChatControlsConfigurationResponse { responseScope?: ResponseScope; orchestrationConfiguration?: AppliedOrchestrationConfiguration; blockedPhrases?: BlockedPhrasesConfiguration; topicConfigurations?: TopicConfiguration[]; creatorModeConfiguration?: AppliedCreatorModeConfiguration; nextToken?: string; hallucinationReductionConfiguration?: HallucinationReductionConfiguration }
-export const GetChatControlsConfigurationResponse = S.suspend(() => S.Struct({responseScope: S.optional(ResponseScope), orchestrationConfiguration: S.optional(AppliedOrchestrationConfiguration), blockedPhrases: S.optional(BlockedPhrasesConfiguration), topicConfigurations: S.optional(TopicConfigurations), creatorModeConfiguration: S.optional(AppliedCreatorModeConfiguration), nextToken: S.optional(S.String), hallucinationReductionConfiguration: S.optional(HallucinationReductionConfiguration)})).annotate({ identifier: "GetChatControlsConfigurationResponse" }) as any as S.Schema<GetChatControlsConfigurationResponse>;
-export interface GetChatResponseConfigurationRequest { applicationId: string; chatResponseConfigurationId: string }
-export const GetChatResponseConfigurationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), chatResponseConfigurationId: S.String.pipe(T.HttpLabel("chatResponseConfigurationId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetChatResponseConfigurationRequest" }) as any as S.Schema<GetChatResponseConfigurationRequest>;
+export interface HallucinationReductionConfiguration {
+  hallucinationReductionControl?: HallucinationReductionControl;
+}
+export const HallucinationReductionConfiguration = S.suspend(() =>
+  S.Struct({
+    hallucinationReductionControl: S.optional(HallucinationReductionControl),
+  }),
+).annotate({
+  identifier: "HallucinationReductionConfiguration",
+}) as any as S.Schema<HallucinationReductionConfiguration>;
+export interface GetChatControlsConfigurationResponse {
+  responseScope?: ResponseScope;
+  orchestrationConfiguration?: AppliedOrchestrationConfiguration;
+  blockedPhrases?: BlockedPhrasesConfiguration;
+  topicConfigurations?: TopicConfiguration[];
+  creatorModeConfiguration?: AppliedCreatorModeConfiguration;
+  nextToken?: string;
+  hallucinationReductionConfiguration?: HallucinationReductionConfiguration;
+}
+export const GetChatControlsConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    responseScope: S.optional(ResponseScope),
+    orchestrationConfiguration: S.optional(AppliedOrchestrationConfiguration),
+    blockedPhrases: S.optional(BlockedPhrasesConfiguration),
+    topicConfigurations: S.optional(TopicConfigurations),
+    creatorModeConfiguration: S.optional(AppliedCreatorModeConfiguration),
+    nextToken: S.optional(S.String),
+    hallucinationReductionConfiguration: S.optional(
+      HallucinationReductionConfiguration,
+    ),
+  }),
+).annotate({
+  identifier: "GetChatControlsConfigurationResponse",
+}) as any as S.Schema<GetChatControlsConfigurationResponse>;
+export interface GetChatResponseConfigurationRequest {
+  applicationId: string;
+  chatResponseConfigurationId: string;
+}
+export const GetChatResponseConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    chatResponseConfigurationId: S.String.pipe(
+      T.HttpLabel("chatResponseConfigurationId"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetChatResponseConfigurationRequest",
+}) as any as S.Schema<GetChatResponseConfigurationRequest>;
 export type ChatResponseConfigurationStatus =
   | "CREATING"
   | "UPDATING"
@@ -678,21 +2266,113 @@ export type ChatResponseConfigurationStatus =
   | "ACTIVE"
   | (string & {});
 export const ChatResponseConfigurationStatus = S.String;
-export interface ChatResponseConfigurationDetail { responseConfigurations?: { [key: string]: ResponseConfiguration | undefined }; responseConfigurationSummary?: string; status?: ChatResponseConfigurationStatus; error?: ErrorDetail; updatedAt?: Date }
-export const ChatResponseConfigurationDetail = S.suspend(() => S.Struct({responseConfigurations: S.optional(ResponseConfigurations), responseConfigurationSummary: S.optional(S.String), status: S.optional(ChatResponseConfigurationStatus), error: S.optional(ErrorDetail), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "ChatResponseConfigurationDetail" }) as any as S.Schema<ChatResponseConfigurationDetail>;
-export interface GetChatResponseConfigurationResponse { chatResponseConfigurationId?: string; chatResponseConfigurationArn?: string; displayName?: string; createdAt?: Date; inUseConfiguration?: ChatResponseConfigurationDetail; lastUpdateConfiguration?: ChatResponseConfigurationDetail }
-export const GetChatResponseConfigurationResponse = S.suspend(() => S.Struct({chatResponseConfigurationId: S.optional(S.String), chatResponseConfigurationArn: S.optional(S.String), displayName: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), inUseConfiguration: S.optional(ChatResponseConfigurationDetail), lastUpdateConfiguration: S.optional(ChatResponseConfigurationDetail)})).annotate({ identifier: "GetChatResponseConfigurationResponse" }) as any as S.Schema<GetChatResponseConfigurationResponse>;
-export type OutputFormat =
-  | "RAW"
-  | "EXTRACTED"
-  | (string & {});
+export interface ChatResponseConfigurationDetail {
+  responseConfigurations?: { [key: string]: ResponseConfiguration | undefined };
+  responseConfigurationSummary?: string;
+  status?: ChatResponseConfigurationStatus;
+  error?: ErrorDetail;
+  updatedAt?: Date;
+}
+export const ChatResponseConfigurationDetail = S.suspend(() =>
+  S.Struct({
+    responseConfigurations: S.optional(ResponseConfigurations),
+    responseConfigurationSummary: S.optional(S.String),
+    status: S.optional(ChatResponseConfigurationStatus),
+    error: S.optional(ErrorDetail),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ChatResponseConfigurationDetail",
+}) as any as S.Schema<ChatResponseConfigurationDetail>;
+export interface GetChatResponseConfigurationResponse {
+  chatResponseConfigurationId?: string;
+  chatResponseConfigurationArn?: string;
+  displayName?: string;
+  createdAt?: Date;
+  inUseConfiguration?: ChatResponseConfigurationDetail;
+  lastUpdateConfiguration?: ChatResponseConfigurationDetail;
+}
+export const GetChatResponseConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    chatResponseConfigurationId: S.optional(S.String),
+    chatResponseConfigurationArn: S.optional(S.String),
+    displayName: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    inUseConfiguration: S.optional(ChatResponseConfigurationDetail),
+    lastUpdateConfiguration: S.optional(ChatResponseConfigurationDetail),
+  }),
+).annotate({
+  identifier: "GetChatResponseConfigurationResponse",
+}) as any as S.Schema<GetChatResponseConfigurationResponse>;
+export type OutputFormat = "RAW" | "EXTRACTED" | (string & {});
 export const OutputFormat = S.String;
-export interface GetDocumentContentRequest { applicationId: string; indexId: string; dataSourceId?: string; documentId: string; outputFormat?: OutputFormat }
-export const GetDocumentContentRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")), documentId: S.String.pipe(T.HttpLabel("documentId")), outputFormat: S.optional(OutputFormat).pipe(T.HttpQuery("outputFormat"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/index/{indexId}/documents/{documentId}/content" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetDocumentContentRequest" }) as any as S.Schema<GetDocumentContentRequest>;
-export interface GetDocumentContentResponse { presignedUrl: string; mimeType: string }
-export const GetDocumentContentResponse = S.suspend(() => S.Struct({presignedUrl: S.String, mimeType: S.String})).annotate({ identifier: "GetDocumentContentResponse" }) as any as S.Schema<GetDocumentContentResponse>;
-export interface GetGroupRequest { applicationId: string; indexId: string; groupName: string; dataSourceId?: string }
-export const GetGroupRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), groupName: S.String.pipe(T.HttpLabel("groupName")), dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/indices/{indexId}/groups/{groupName}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetGroupRequest" }) as any as S.Schema<GetGroupRequest>;
+export interface GetDocumentContentRequest {
+  applicationId: string;
+  indexId: string;
+  dataSourceId?: string;
+  documentId: string;
+  outputFormat?: OutputFormat;
+}
+export const GetDocumentContentRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),
+    documentId: S.String.pipe(T.HttpLabel("documentId")),
+    outputFormat: S.optional(OutputFormat).pipe(T.HttpQuery("outputFormat")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/index/{indexId}/documents/{documentId}/content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDocumentContentRequest",
+}) as any as S.Schema<GetDocumentContentRequest>;
+export interface GetDocumentContentResponse {
+  presignedUrl: string;
+  mimeType: string;
+}
+export const GetDocumentContentResponse = S.suspend(() =>
+  S.Struct({ presignedUrl: S.String, mimeType: S.String }),
+).annotate({
+  identifier: "GetDocumentContentResponse",
+}) as any as S.Schema<GetDocumentContentResponse>;
+export interface GetGroupRequest {
+  applicationId: string;
+  indexId: string;
+  groupName: string;
+  dataSourceId?: string;
+}
+export const GetGroupRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    groupName: S.String.pipe(T.HttpLabel("groupName")),
+    dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/indices/{indexId}/groups/{groupName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetGroupRequest",
+}) as any as S.Schema<GetGroupRequest>;
 export type GroupStatus =
   | "FAILED"
   | "SUCCEEDED"
@@ -701,48 +2381,315 @@ export type GroupStatus =
   | "DELETED"
   | (string & {});
 export const GroupStatus = S.String;
-export interface GroupStatusDetail { status?: GroupStatus; lastUpdatedAt?: Date; errorDetail?: ErrorDetail }
-export const GroupStatusDetail = S.suspend(() => S.Struct({status: S.optional(GroupStatus), lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), errorDetail: S.optional(ErrorDetail)})).annotate({ identifier: "GroupStatusDetail" }) as any as S.Schema<GroupStatusDetail>;
+export interface GroupStatusDetail {
+  status?: GroupStatus;
+  lastUpdatedAt?: Date;
+  errorDetail?: ErrorDetail;
+}
+export const GroupStatusDetail = S.suspend(() =>
+  S.Struct({
+    status: S.optional(GroupStatus),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    errorDetail: S.optional(ErrorDetail),
+  }),
+).annotate({
+  identifier: "GroupStatusDetail",
+}) as any as S.Schema<GroupStatusDetail>;
 export type GroupStatusDetails = GroupStatusDetail[];
 export const GroupStatusDetails = S.Array(GroupStatusDetail);
-export interface GetGroupResponse { status?: GroupStatusDetail; statusHistory?: GroupStatusDetail[] }
-export const GetGroupResponse = S.suspend(() => S.Struct({status: S.optional(GroupStatusDetail), statusHistory: S.optional(GroupStatusDetails)})).annotate({ identifier: "GetGroupResponse" }) as any as S.Schema<GetGroupResponse>;
-export interface GetMediaRequest { applicationId: string; conversationId: string; messageId: string; mediaId: string }
-export const GetMediaRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), conversationId: S.String.pipe(T.HttpLabel("conversationId")), messageId: S.String.pipe(T.HttpLabel("messageId")), mediaId: S.String.pipe(T.HttpLabel("mediaId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/conversations/{conversationId}/messages/{messageId}/media/{mediaId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetMediaRequest" }) as any as S.Schema<GetMediaRequest>;
-export interface GetMediaResponse { mediaBytes?: Uint8Array; mediaMimeType?: string }
-export const GetMediaResponse = S.suspend(() => S.Struct({mediaBytes: S.optional(T.Blob), mediaMimeType: S.optional(S.String)})).annotate({ identifier: "GetMediaResponse" }) as any as S.Schema<GetMediaResponse>;
-export interface GetPolicyRequest { applicationId: string }
-export const GetPolicyRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/policy" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
-export interface GetPolicyResponse { policy?: string }
-export const GetPolicyResponse = S.suspend(() => S.Struct({policy: S.optional(S.String)})).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
-export interface GetUserRequest { applicationId: string; userId: string }
-export const GetUserRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.String.pipe(T.HttpLabel("userId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/users/{userId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetUserRequest" }) as any as S.Schema<GetUserRequest>;
-export interface GetUserResponse { userAliases?: UserAlias[] }
-export const GetUserResponse = S.suspend(() => S.Struct({userAliases: S.optional(UserAliases)})).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
-export interface ListAttachmentsRequest { applicationId: string; conversationId?: string; userId?: string; nextToken?: string; maxResults?: number }
-export const ListAttachmentsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), conversationId: S.optional(S.String).pipe(T.HttpQuery("conversationId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/attachments" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListAttachmentsRequest" }) as any as S.Schema<ListAttachmentsRequest>;
-export interface Attachment { attachmentId?: string; conversationId?: string; name?: string; copyFrom?: CopyFromSource; fileType?: string; fileSize?: number; md5chksum?: string; createdAt?: Date; status?: AttachmentStatus; error?: ErrorDetail }
-export const Attachment = S.suspend(() => S.Struct({attachmentId: S.optional(S.String), conversationId: S.optional(S.String), name: S.optional(S.String), copyFrom: S.optional(CopyFromSource), fileType: S.optional(S.String), fileSize: S.optional(S.Number), md5chksum: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), status: S.optional(AttachmentStatus), error: S.optional(ErrorDetail)})).annotate({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
+export interface GetGroupResponse {
+  status?: GroupStatusDetail;
+  statusHistory?: GroupStatusDetail[];
+}
+export const GetGroupResponse = S.suspend(() =>
+  S.Struct({
+    status: S.optional(GroupStatusDetail),
+    statusHistory: S.optional(GroupStatusDetails),
+  }),
+).annotate({
+  identifier: "GetGroupResponse",
+}) as any as S.Schema<GetGroupResponse>;
+export interface GetMediaRequest {
+  applicationId: string;
+  conversationId: string;
+  messageId: string;
+  mediaId: string;
+}
+export const GetMediaRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    conversationId: S.String.pipe(T.HttpLabel("conversationId")),
+    messageId: S.String.pipe(T.HttpLabel("messageId")),
+    mediaId: S.String.pipe(T.HttpLabel("mediaId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/conversations/{conversationId}/messages/{messageId}/media/{mediaId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetMediaRequest",
+}) as any as S.Schema<GetMediaRequest>;
+export interface GetMediaResponse {
+  mediaBytes?: Uint8Array;
+  mediaMimeType?: string;
+}
+export const GetMediaResponse = S.suspend(() =>
+  S.Struct({
+    mediaBytes: S.optional(T.Blob),
+    mediaMimeType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetMediaResponse",
+}) as any as S.Schema<GetMediaResponse>;
+export interface GetPolicyRequest {
+  applicationId: string;
+}
+export const GetPolicyRequest = S.suspend(() =>
+  S.Struct({ applicationId: S.String.pipe(T.HttpLabel("applicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPolicyRequest",
+}) as any as S.Schema<GetPolicyRequest>;
+export interface GetPolicyResponse {
+  policy?: string;
+}
+export const GetPolicyResponse = S.suspend(() =>
+  S.Struct({ policy: S.optional(S.String) }),
+).annotate({
+  identifier: "GetPolicyResponse",
+}) as any as S.Schema<GetPolicyResponse>;
+export interface GetUserRequest {
+  applicationId: string;
+  userId: string;
+}
+export const GetUserRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/users/{userId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetUserRequest" }) as any as S.Schema<GetUserRequest>;
+export interface GetUserResponse {
+  userAliases?: UserAlias[];
+}
+export const GetUserResponse = S.suspend(() =>
+  S.Struct({ userAliases: S.optional(UserAliases) }),
+).annotate({
+  identifier: "GetUserResponse",
+}) as any as S.Schema<GetUserResponse>;
+export interface ListAttachmentsRequest {
+  applicationId: string;
+  conversationId?: string;
+  userId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAttachmentsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    conversationId: S.optional(S.String).pipe(T.HttpQuery("conversationId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/attachments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAttachmentsRequest",
+}) as any as S.Schema<ListAttachmentsRequest>;
+export interface Attachment {
+  attachmentId?: string;
+  conversationId?: string;
+  name?: string;
+  copyFrom?: CopyFromSource;
+  fileType?: string;
+  fileSize?: number;
+  md5chksum?: string;
+  createdAt?: Date;
+  status?: AttachmentStatus;
+  error?: ErrorDetail;
+}
+export const Attachment = S.suspend(() =>
+  S.Struct({
+    attachmentId: S.optional(S.String),
+    conversationId: S.optional(S.String),
+    name: S.optional(S.String),
+    copyFrom: S.optional(CopyFromSource),
+    fileType: S.optional(S.String),
+    fileSize: S.optional(S.Number),
+    md5chksum: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(AttachmentStatus),
+    error: S.optional(ErrorDetail),
+  }),
+).annotate({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
 export type AttachmentList = Attachment[];
 export const AttachmentList = S.Array(Attachment);
-export interface ListAttachmentsResponse { attachments?: Attachment[]; nextToken?: string }
-export const ListAttachmentsResponse = S.suspend(() => S.Struct({attachments: S.optional(AttachmentList), nextToken: S.optional(S.String)})).annotate({ identifier: "ListAttachmentsResponse" }) as any as S.Schema<ListAttachmentsResponse>;
-export interface ListChatResponseConfigurationsRequest { applicationId: string; maxResults?: number; nextToken?: string }
-export const ListChatResponseConfigurationsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/chatresponseconfigurations" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListChatResponseConfigurationsRequest" }) as any as S.Schema<ListChatResponseConfigurationsRequest>;
-export interface ChatResponseConfiguration { chatResponseConfigurationId: string; chatResponseConfigurationArn: string; displayName: string; responseConfigurationSummary?: string; status: ChatResponseConfigurationStatus; createdAt?: Date; updatedAt?: Date }
-export const ChatResponseConfiguration = S.suspend(() => S.Struct({chatResponseConfigurationId: S.String, chatResponseConfigurationArn: S.String, displayName: S.String, responseConfigurationSummary: S.optional(S.String), status: ChatResponseConfigurationStatus, createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "ChatResponseConfiguration" }) as any as S.Schema<ChatResponseConfiguration>;
+export interface ListAttachmentsResponse {
+  attachments?: Attachment[];
+  nextToken?: string;
+}
+export const ListAttachmentsResponse = S.suspend(() =>
+  S.Struct({
+    attachments: S.optional(AttachmentList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAttachmentsResponse",
+}) as any as S.Schema<ListAttachmentsResponse>;
+export interface ListChatResponseConfigurationsRequest {
+  applicationId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListChatResponseConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/chatresponseconfigurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListChatResponseConfigurationsRequest",
+}) as any as S.Schema<ListChatResponseConfigurationsRequest>;
+export interface ChatResponseConfiguration {
+  chatResponseConfigurationId: string;
+  chatResponseConfigurationArn: string;
+  displayName: string;
+  responseConfigurationSummary?: string;
+  status: ChatResponseConfigurationStatus;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const ChatResponseConfiguration = S.suspend(() =>
+  S.Struct({
+    chatResponseConfigurationId: S.String,
+    chatResponseConfigurationArn: S.String,
+    displayName: S.String,
+    responseConfigurationSummary: S.optional(S.String),
+    status: ChatResponseConfigurationStatus,
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ChatResponseConfiguration",
+}) as any as S.Schema<ChatResponseConfiguration>;
 export type ChatResponseConfigurations = ChatResponseConfiguration[];
 export const ChatResponseConfigurations = S.Array(ChatResponseConfiguration);
-export interface ListChatResponseConfigurationsResponse { chatResponseConfigurations?: ChatResponseConfiguration[]; nextToken?: string }
-export const ListChatResponseConfigurationsResponse = S.suspend(() => S.Struct({chatResponseConfigurations: S.optional(ChatResponseConfigurations), nextToken: S.optional(S.String)})).annotate({ identifier: "ListChatResponseConfigurationsResponse" }) as any as S.Schema<ListChatResponseConfigurationsResponse>;
-export interface ListConversationsRequest { applicationId: string; userId?: string; nextToken?: string; maxResults?: number }
-export const ListConversationsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/conversations" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListConversationsRequest" }) as any as S.Schema<ListConversationsRequest>;
-export interface Conversation { conversationId?: string; title?: string; startTime?: Date }
-export const Conversation = S.suspend(() => S.Struct({conversationId: S.optional(S.String), title: S.optional(S.String), startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "Conversation" }) as any as S.Schema<Conversation>;
+export interface ListChatResponseConfigurationsResponse {
+  chatResponseConfigurations?: ChatResponseConfiguration[];
+  nextToken?: string;
+}
+export const ListChatResponseConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    chatResponseConfigurations: S.optional(ChatResponseConfigurations),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListChatResponseConfigurationsResponse",
+}) as any as S.Schema<ListChatResponseConfigurationsResponse>;
+export interface ListConversationsRequest {
+  applicationId: string;
+  userId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListConversationsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/conversations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListConversationsRequest",
+}) as any as S.Schema<ListConversationsRequest>;
+export interface Conversation {
+  conversationId?: string;
+  title?: string;
+  startTime?: Date;
+}
+export const Conversation = S.suspend(() =>
+  S.Struct({
+    conversationId: S.optional(S.String),
+    title: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "Conversation" }) as any as S.Schema<Conversation>;
 export type Conversations = Conversation[];
 export const Conversations = S.Array(Conversation);
-export interface ListConversationsResponse { nextToken?: string; conversations?: Conversation[] }
-export const ListConversationsResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), conversations: S.optional(Conversations)})).annotate({ identifier: "ListConversationsResponse" }) as any as S.Schema<ListConversationsResponse>;
+export interface ListConversationsResponse {
+  nextToken?: string;
+  conversations?: Conversation[];
+}
+export const ListConversationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    conversations: S.optional(Conversations),
+  }),
+).annotate({
+  identifier: "ListConversationsResponse",
+}) as any as S.Schema<ListConversationsResponse>;
 export type DataSourceSyncJobStatus =
   | "FAILED"
   | "SUCCEEDED"
@@ -753,20 +2700,134 @@ export type DataSourceSyncJobStatus =
   | "SYNCING_INDEXING"
   | (string & {});
 export const DataSourceSyncJobStatus = S.String;
-export interface ListDataSourceSyncJobsRequest { dataSourceId: string; applicationId: string; indexId: string; nextToken?: string; maxResults?: number; startTime?: Date; endTime?: Date; statusFilter?: DataSourceSyncJobStatus }
-export const ListDataSourceSyncJobsRequest = S.suspend(() => S.Struct({dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")), applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")), startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(T.HttpQuery("startTime")), endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(T.HttpQuery("endTime")), statusFilter: S.optional(DataSourceSyncJobStatus).pipe(T.HttpQuery("syncStatus"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}/syncjobs" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListDataSourceSyncJobsRequest" }) as any as S.Schema<ListDataSourceSyncJobsRequest>;
-export interface DataSourceSyncJobMetrics { documentsAdded?: string; documentsModified?: string; documentsDeleted?: string; documentsFailed?: string; documentsScanned?: string }
-export const DataSourceSyncJobMetrics = S.suspend(() => S.Struct({documentsAdded: S.optional(S.String), documentsModified: S.optional(S.String), documentsDeleted: S.optional(S.String), documentsFailed: S.optional(S.String), documentsScanned: S.optional(S.String)})).annotate({ identifier: "DataSourceSyncJobMetrics" }) as any as S.Schema<DataSourceSyncJobMetrics>;
-export interface DataSourceSyncJob { executionId?: string; startTime?: Date; endTime?: Date; status?: DataSourceSyncJobStatus; error?: ErrorDetail; dataSourceErrorCode?: string; metrics?: DataSourceSyncJobMetrics }
-export const DataSourceSyncJob = S.suspend(() => S.Struct({executionId: S.optional(S.String), startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), status: S.optional(DataSourceSyncJobStatus), error: S.optional(ErrorDetail), dataSourceErrorCode: S.optional(S.String), metrics: S.optional(DataSourceSyncJobMetrics)})).annotate({ identifier: "DataSourceSyncJob" }) as any as S.Schema<DataSourceSyncJob>;
+export interface ListDataSourceSyncJobsRequest {
+  dataSourceId: string;
+  applicationId: string;
+  indexId: string;
+  nextToken?: string;
+  maxResults?: number;
+  startTime?: Date;
+  endTime?: Date;
+  statusFilter?: DataSourceSyncJobStatus;
+}
+export const ListDataSourceSyncJobsRequest = S.suspend(() =>
+  S.Struct({
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("startTime"),
+    ),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("endTime"),
+    ),
+    statusFilter: S.optional(DataSourceSyncJobStatus).pipe(
+      T.HttpQuery("syncStatus"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}/syncjobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDataSourceSyncJobsRequest",
+}) as any as S.Schema<ListDataSourceSyncJobsRequest>;
+export interface DataSourceSyncJobMetrics {
+  documentsAdded?: string;
+  documentsModified?: string;
+  documentsDeleted?: string;
+  documentsFailed?: string;
+  documentsScanned?: string;
+}
+export const DataSourceSyncJobMetrics = S.suspend(() =>
+  S.Struct({
+    documentsAdded: S.optional(S.String),
+    documentsModified: S.optional(S.String),
+    documentsDeleted: S.optional(S.String),
+    documentsFailed: S.optional(S.String),
+    documentsScanned: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataSourceSyncJobMetrics",
+}) as any as S.Schema<DataSourceSyncJobMetrics>;
+export interface DataSourceSyncJob {
+  executionId?: string;
+  startTime?: Date;
+  endTime?: Date;
+  status?: DataSourceSyncJobStatus;
+  error?: ErrorDetail;
+  dataSourceErrorCode?: string;
+  metrics?: DataSourceSyncJobMetrics;
+}
+export const DataSourceSyncJob = S.suspend(() =>
+  S.Struct({
+    executionId: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(DataSourceSyncJobStatus),
+    error: S.optional(ErrorDetail),
+    dataSourceErrorCode: S.optional(S.String),
+    metrics: S.optional(DataSourceSyncJobMetrics),
+  }),
+).annotate({
+  identifier: "DataSourceSyncJob",
+}) as any as S.Schema<DataSourceSyncJob>;
 export type DataSourceSyncJobs = DataSourceSyncJob[];
 export const DataSourceSyncJobs = S.Array(DataSourceSyncJob);
-export interface ListDataSourceSyncJobsResponse { history?: DataSourceSyncJob[]; nextToken?: string }
-export const ListDataSourceSyncJobsResponse = S.suspend(() => S.Struct({history: S.optional(DataSourceSyncJobs), nextToken: S.optional(S.String)})).annotate({ identifier: "ListDataSourceSyncJobsResponse" }) as any as S.Schema<ListDataSourceSyncJobsResponse>;
+export interface ListDataSourceSyncJobsResponse {
+  history?: DataSourceSyncJob[];
+  nextToken?: string;
+}
+export const ListDataSourceSyncJobsResponse = S.suspend(() =>
+  S.Struct({
+    history: S.optional(DataSourceSyncJobs),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDataSourceSyncJobsResponse",
+}) as any as S.Schema<ListDataSourceSyncJobsResponse>;
 export type DataSourceIds = string[];
 export const DataSourceIds = S.Array(S.String);
-export interface ListDocumentsRequest { applicationId: string; indexId: string; dataSourceIds?: string[]; nextToken?: string; maxResults?: number }
-export const ListDocumentsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), dataSourceIds: S.optional(DataSourceIds).pipe(T.HttpQuery("dataSourceIds")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/index/{indexId}/documents" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListDocumentsRequest" }) as any as S.Schema<ListDocumentsRequest>;
+export interface ListDocumentsRequest {
+  applicationId: string;
+  indexId: string;
+  dataSourceIds?: string[];
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDocumentsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    dataSourceIds: S.optional(DataSourceIds).pipe(T.HttpQuery("dataSourceIds")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/index/{indexId}/documents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDocumentsRequest",
+}) as any as S.Schema<ListDocumentsRequest>;
 export type DocumentStatus =
   | "RECEIVED"
   | "PROCESSING"
@@ -778,47 +2839,263 @@ export type DocumentStatus =
   | "DOCUMENT_FAILED_TO_INDEX"
   | (string & {});
 export const DocumentStatus = S.String;
-export interface DocumentDetails { documentId?: string; status?: DocumentStatus; error?: ErrorDetail; createdAt?: Date; updatedAt?: Date }
-export const DocumentDetails = S.suspend(() => S.Struct({documentId: S.optional(S.String), status: S.optional(DocumentStatus), error: S.optional(ErrorDetail), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "DocumentDetails" }) as any as S.Schema<DocumentDetails>;
+export interface DocumentDetails {
+  documentId?: string;
+  status?: DocumentStatus;
+  error?: ErrorDetail;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const DocumentDetails = S.suspend(() =>
+  S.Struct({
+    documentId: S.optional(S.String),
+    status: S.optional(DocumentStatus),
+    error: S.optional(ErrorDetail),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "DocumentDetails",
+}) as any as S.Schema<DocumentDetails>;
 export type DocumentDetailList = DocumentDetails[];
 export const DocumentDetailList = S.Array(DocumentDetails);
-export interface ListDocumentsResponse { documentDetailList?: DocumentDetails[]; nextToken?: string }
-export const ListDocumentsResponse = S.suspend(() => S.Struct({documentDetailList: S.optional(DocumentDetailList), nextToken: S.optional(S.String)})).annotate({ identifier: "ListDocumentsResponse" }) as any as S.Schema<ListDocumentsResponse>;
-export interface ListGroupsRequest { applicationId: string; indexId: string; updatedEarlierThan: Date; dataSourceId?: string; nextToken?: string; maxResults?: number }
-export const ListGroupsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), updatedEarlierThan: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("updatedEarlierThan")), dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/indices/{indexId}/groups" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
-export interface GroupSummary { groupName?: string }
-export const GroupSummary = S.suspend(() => S.Struct({groupName: S.optional(S.String)})).annotate({ identifier: "GroupSummary" }) as any as S.Schema<GroupSummary>;
+export interface ListDocumentsResponse {
+  documentDetailList?: DocumentDetails[];
+  nextToken?: string;
+}
+export const ListDocumentsResponse = S.suspend(() =>
+  S.Struct({
+    documentDetailList: S.optional(DocumentDetailList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDocumentsResponse",
+}) as any as S.Schema<ListDocumentsResponse>;
+export interface ListGroupsRequest {
+  applicationId: string;
+  indexId: string;
+  updatedEarlierThan: Date;
+  dataSourceId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListGroupsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    updatedEarlierThan: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+      T.HttpQuery("updatedEarlierThan"),
+    ),
+    dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/indices/{indexId}/groups",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListGroupsRequest",
+}) as any as S.Schema<ListGroupsRequest>;
+export interface GroupSummary {
+  groupName?: string;
+}
+export const GroupSummary = S.suspend(() =>
+  S.Struct({ groupName: S.optional(S.String) }),
+).annotate({ identifier: "GroupSummary" }) as any as S.Schema<GroupSummary>;
 export type GroupSummaryList = GroupSummary[];
 export const GroupSummaryList = S.Array(GroupSummary);
-export interface ListGroupsResponse { nextToken?: string; items?: GroupSummary[] }
-export const ListGroupsResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), items: S.optional(GroupSummaryList)})).annotate({ identifier: "ListGroupsResponse" }) as any as S.Schema<ListGroupsResponse>;
-export interface ListMessagesRequest { conversationId: string; applicationId: string; userId?: string; nextToken?: string; maxResults?: number }
-export const ListMessagesRequest = S.suspend(() => S.Struct({conversationId: S.String.pipe(T.HttpLabel("conversationId")), applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/conversations/{conversationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListMessagesRequest" }) as any as S.Schema<ListMessagesRequest>;
-export type MessageType =
-  | "USER"
-  | "SYSTEM"
-  | (string & {});
+export interface ListGroupsResponse {
+  nextToken?: string;
+  items?: GroupSummary[];
+}
+export const ListGroupsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(GroupSummaryList),
+  }),
+).annotate({
+  identifier: "ListGroupsResponse",
+}) as any as S.Schema<ListGroupsResponse>;
+export interface ListMessagesRequest {
+  conversationId: string;
+  applicationId: string;
+  userId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListMessagesRequest = S.suspend(() =>
+  S.Struct({
+    conversationId: S.String.pipe(T.HttpLabel("conversationId")),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/conversations/{conversationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListMessagesRequest",
+}) as any as S.Schema<ListMessagesRequest>;
+export type MessageType = "USER" | "SYSTEM" | (string & {});
 export const MessageType = S.String;
-export interface Message { messageId?: string; body?: string; time?: Date; type?: MessageType; attachments?: AttachmentOutput[]; sourceAttribution?: SourceAttribution[]; actionReview?: ActionReview; actionExecution?: ActionExecution }
-export const Message = S.suspend(() => S.Struct({messageId: S.optional(S.String), body: S.optional(S.String), time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), type: S.optional(MessageType), attachments: S.optional(AttachmentsOutput), sourceAttribution: S.optional(SourceAttributions), actionReview: S.optional(ActionReview), actionExecution: S.optional(ActionExecution)})).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
+export interface Message {
+  messageId?: string;
+  body?: string;
+  time?: Date;
+  type?: MessageType;
+  attachments?: AttachmentOutput[];
+  sourceAttribution?: SourceAttribution[];
+  actionReview?: ActionReview;
+  actionExecution?: ActionExecution;
+}
+export const Message = S.suspend(() =>
+  S.Struct({
+    messageId: S.optional(S.String),
+    body: S.optional(S.String),
+    time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    type: S.optional(MessageType),
+    attachments: S.optional(AttachmentsOutput),
+    sourceAttribution: S.optional(SourceAttributions),
+    actionReview: S.optional(ActionReview),
+    actionExecution: S.optional(ActionExecution),
+  }),
+).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 export type Messages = Message[];
 export const Messages = S.Array(Message);
-export interface ListMessagesResponse { messages?: Message[]; nextToken?: string }
-export const ListMessagesResponse = S.suspend(() => S.Struct({messages: S.optional(Messages), nextToken: S.optional(S.String)})).annotate({ identifier: "ListMessagesResponse" }) as any as S.Schema<ListMessagesResponse>;
-export interface ListPluginActionsRequest { applicationId: string; pluginId: string; nextToken?: string; maxResults?: number }
-export const ListPluginActionsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), pluginId: S.String.pipe(T.HttpLabel("pluginId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/plugins/{pluginId}/actions" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListPluginActionsRequest" }) as any as S.Schema<ListPluginActionsRequest>;
-export interface ActionSummary { actionIdentifier?: string; displayName?: string; instructionExample?: string; description?: string }
-export const ActionSummary = S.suspend(() => S.Struct({actionIdentifier: S.optional(S.String), displayName: S.optional(S.String), instructionExample: S.optional(S.String), description: S.optional(S.String)})).annotate({ identifier: "ActionSummary" }) as any as S.Schema<ActionSummary>;
+export interface ListMessagesResponse {
+  messages?: Message[];
+  nextToken?: string;
+}
+export const ListMessagesResponse = S.suspend(() =>
+  S.Struct({ messages: S.optional(Messages), nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListMessagesResponse",
+}) as any as S.Schema<ListMessagesResponse>;
+export interface ListPluginActionsRequest {
+  applicationId: string;
+  pluginId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPluginActionsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    pluginId: S.String.pipe(T.HttpLabel("pluginId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/plugins/{pluginId}/actions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPluginActionsRequest",
+}) as any as S.Schema<ListPluginActionsRequest>;
+export interface ActionSummary {
+  actionIdentifier?: string;
+  displayName?: string;
+  instructionExample?: string;
+  description?: string;
+}
+export const ActionSummary = S.suspend(() =>
+  S.Struct({
+    actionIdentifier: S.optional(S.String),
+    displayName: S.optional(S.String),
+    instructionExample: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "ActionSummary" }) as any as S.Schema<ActionSummary>;
 export type Actions = ActionSummary[];
 export const Actions = S.Array(ActionSummary);
-export interface ListPluginActionsResponse { nextToken?: string; items?: ActionSummary[] }
-export const ListPluginActionsResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), items: S.optional(Actions)})).annotate({ identifier: "ListPluginActionsResponse" }) as any as S.Schema<ListPluginActionsResponse>;
-export interface ListPluginTypeActionsRequest { pluginType: PluginType; nextToken?: string; maxResults?: number }
-export const ListPluginTypeActionsRequest = S.suspend(() => S.Struct({pluginType: PluginType.pipe(T.HttpLabel("pluginType")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/pluginTypes/{pluginType}/actions" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListPluginTypeActionsRequest" }) as any as S.Schema<ListPluginTypeActionsRequest>;
-export interface ListPluginTypeActionsResponse { nextToken?: string; items?: ActionSummary[] }
-export const ListPluginTypeActionsResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), items: S.optional(Actions)})).annotate({ identifier: "ListPluginTypeActionsResponse" }) as any as S.Schema<ListPluginTypeActionsResponse>;
-export interface ListPluginTypeMetadataRequest { nextToken?: string; maxResults?: number }
-export const ListPluginTypeMetadataRequest = S.suspend(() => S.Struct({nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/pluginTypeMetadata" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListPluginTypeMetadataRequest" }) as any as S.Schema<ListPluginTypeMetadataRequest>;
+export interface ListPluginActionsResponse {
+  nextToken?: string;
+  items?: ActionSummary[];
+}
+export const ListPluginActionsResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), items: S.optional(Actions) }),
+).annotate({
+  identifier: "ListPluginActionsResponse",
+}) as any as S.Schema<ListPluginActionsResponse>;
+export interface ListPluginTypeActionsRequest {
+  pluginType: PluginType;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPluginTypeActionsRequest = S.suspend(() =>
+  S.Struct({
+    pluginType: PluginType.pipe(T.HttpLabel("pluginType")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/pluginTypes/{pluginType}/actions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPluginTypeActionsRequest",
+}) as any as S.Schema<ListPluginTypeActionsRequest>;
+export interface ListPluginTypeActionsResponse {
+  nextToken?: string;
+  items?: ActionSummary[];
+}
+export const ListPluginTypeActionsResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), items: S.optional(Actions) }),
+).annotate({
+  identifier: "ListPluginTypeActionsResponse",
+}) as any as S.Schema<ListPluginTypeActionsResponse>;
+export interface ListPluginTypeMetadataRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPluginTypeMetadataRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/pluginTypeMetadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPluginTypeMetadataRequest",
+}) as any as S.Schema<ListPluginTypeMetadataRequest>;
 export type PluginTypeCategory =
   | "Customer relationship management (CRM)"
   | "Project management"
@@ -827,28 +3104,118 @@ export type PluginTypeCategory =
   | "Ticketing and incident management"
   | (string & {});
 export const PluginTypeCategory = S.String;
-export interface PluginTypeMetadataSummary { type?: PluginType; category?: PluginTypeCategory; description?: string }
-export const PluginTypeMetadataSummary = S.suspend(() => S.Struct({type: S.optional(PluginType), category: S.optional(PluginTypeCategory), description: S.optional(S.String)})).annotate({ identifier: "PluginTypeMetadataSummary" }) as any as S.Schema<PluginTypeMetadataSummary>;
+export interface PluginTypeMetadataSummary {
+  type?: PluginType;
+  category?: PluginTypeCategory;
+  description?: string;
+}
+export const PluginTypeMetadataSummary = S.suspend(() =>
+  S.Struct({
+    type: S.optional(PluginType),
+    category: S.optional(PluginTypeCategory),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PluginTypeMetadataSummary",
+}) as any as S.Schema<PluginTypeMetadataSummary>;
 export type ListPluginTypeMetadataSummaries = PluginTypeMetadataSummary[];
-export const ListPluginTypeMetadataSummaries = S.Array(PluginTypeMetadataSummary);
-export interface ListPluginTypeMetadataResponse { nextToken?: string; items?: PluginTypeMetadataSummary[] }
-export const ListPluginTypeMetadataResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), items: S.optional(ListPluginTypeMetadataSummaries)})).annotate({ identifier: "ListPluginTypeMetadataResponse" }) as any as S.Schema<ListPluginTypeMetadataResponse>;
-export interface ListSubscriptionsRequest { applicationId: string; nextToken?: string; maxResults?: number }
-export const ListSubscriptionsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/subscriptions" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListSubscriptionsRequest" }) as any as S.Schema<ListSubscriptionsRequest>;
-export interface Subscription { subscriptionId?: string; subscriptionArn?: string; principal?: SubscriptionPrincipal; currentSubscription?: SubscriptionDetails; nextSubscription?: SubscriptionDetails }
-export const Subscription = S.suspend(() => S.Struct({subscriptionId: S.optional(S.String), subscriptionArn: S.optional(S.String), principal: S.optional(SubscriptionPrincipal), currentSubscription: S.optional(SubscriptionDetails), nextSubscription: S.optional(SubscriptionDetails)})).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
+export const ListPluginTypeMetadataSummaries = S.Array(
+  PluginTypeMetadataSummary,
+);
+export interface ListPluginTypeMetadataResponse {
+  nextToken?: string;
+  items?: PluginTypeMetadataSummary[];
+}
+export const ListPluginTypeMetadataResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(ListPluginTypeMetadataSummaries),
+  }),
+).annotate({
+  identifier: "ListPluginTypeMetadataResponse",
+}) as any as S.Schema<ListPluginTypeMetadataResponse>;
+export interface ListSubscriptionsRequest {
+  applicationId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSubscriptionsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/subscriptions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSubscriptionsRequest",
+}) as any as S.Schema<ListSubscriptionsRequest>;
+export interface Subscription {
+  subscriptionId?: string;
+  subscriptionArn?: string;
+  principal?: SubscriptionPrincipal;
+  currentSubscription?: SubscriptionDetails;
+  nextSubscription?: SubscriptionDetails;
+}
+export const Subscription = S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.optional(S.String),
+    subscriptionArn: S.optional(S.String),
+    principal: S.optional(SubscriptionPrincipal),
+    currentSubscription: S.optional(SubscriptionDetails),
+    nextSubscription: S.optional(SubscriptionDetails),
+  }),
+).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 export type Subscriptions = Subscription[];
 export const Subscriptions = S.Array(Subscription);
-export interface ListSubscriptionsResponse { nextToken?: string; subscriptions?: Subscription[] }
-export const ListSubscriptionsResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), subscriptions: S.optional(Subscriptions)})).annotate({ identifier: "ListSubscriptionsResponse" }) as any as S.Schema<ListSubscriptionsResponse>;
-export interface ListTagsForResourceRequest { resourceARN: string }
-export const ListTagsForResourceRequest = S.suspend(() => S.Struct({resourceARN: S.String.pipe(T.HttpLabel("resourceARN"))}).pipe(T.all(T.Http({ method: "GET", uri: "/v1/tags/{resourceARN}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListTagsForResourceRequest" }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ListTagsForResourceResponse { tags?: Tag[] }
-export const ListTagsForResourceResponse = S.suspend(() => S.Struct({tags: S.optional(Tags)})).annotate({ identifier: "ListTagsForResourceResponse" }) as any as S.Schema<ListTagsForResourceResponse>;
-export type MessageUsefulness =
-  | "USEFUL"
-  | "NOT_USEFUL"
-  | (string & {});
+export interface ListSubscriptionsResponse {
+  nextToken?: string;
+  subscriptions?: Subscription[];
+}
+export const ListSubscriptionsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    subscriptions: S.optional(Subscriptions),
+  }),
+).annotate({
+  identifier: "ListSubscriptionsResponse",
+}) as any as S.Schema<ListSubscriptionsResponse>;
+export interface ListTagsForResourceRequest {
+  resourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String.pipe(T.HttpLabel("resourceARN")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/tags/{resourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type MessageUsefulness = "USEFUL" | "NOT_USEFUL" | (string & {});
 export const MessageUsefulness = S.String;
 export type MessageUsefulnessReason =
   | "NOT_FACTUALLY_CORRECT"
@@ -865,32 +3232,172 @@ export type MessageUsefulnessReason =
   | "OTHER"
   | (string & {});
 export const MessageUsefulnessReason = S.String;
-export interface MessageUsefulnessFeedback { usefulness: MessageUsefulness; reason?: MessageUsefulnessReason; comment?: string; submittedAt: Date }
-export const MessageUsefulnessFeedback = S.suspend(() => S.Struct({usefulness: MessageUsefulness, reason: S.optional(MessageUsefulnessReason), comment: S.optional(S.String), submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds"))})).annotate({ identifier: "MessageUsefulnessFeedback" }) as any as S.Schema<MessageUsefulnessFeedback>;
-export interface PutFeedbackRequest { applicationId: string; userId?: string; conversationId: string; messageId: string; messageCopiedAt?: Date; messageUsefulness?: MessageUsefulnessFeedback }
-export const PutFeedbackRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.optional(S.String).pipe(T.HttpQuery("userId")), conversationId: S.String.pipe(T.HttpLabel("conversationId")), messageId: S.String.pipe(T.HttpLabel("messageId")), messageCopiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), messageUsefulness: S.optional(MessageUsefulnessFeedback)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/conversations/{conversationId}/messages/{messageId}/feedback" }), svc, auth, proto, ver, rules))).annotate({ identifier: "PutFeedbackRequest" }) as any as S.Schema<PutFeedbackRequest>;
+export interface MessageUsefulnessFeedback {
+  usefulness: MessageUsefulness;
+  reason?: MessageUsefulnessReason;
+  comment?: string;
+  submittedAt: Date;
+}
+export const MessageUsefulnessFeedback = S.suspend(() =>
+  S.Struct({
+    usefulness: MessageUsefulness,
+    reason: S.optional(MessageUsefulnessReason),
+    comment: S.optional(S.String),
+    submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "MessageUsefulnessFeedback",
+}) as any as S.Schema<MessageUsefulnessFeedback>;
+export interface PutFeedbackRequest {
+  applicationId: string;
+  userId?: string;
+  conversationId: string;
+  messageId: string;
+  messageCopiedAt?: Date;
+  messageUsefulness?: MessageUsefulnessFeedback;
+}
+export const PutFeedbackRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
+    conversationId: S.String.pipe(T.HttpLabel("conversationId")),
+    messageId: S.String.pipe(T.HttpLabel("messageId")),
+    messageCopiedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    messageUsefulness: S.optional(MessageUsefulnessFeedback),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/conversations/{conversationId}/messages/{messageId}/feedback",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutFeedbackRequest",
+}) as any as S.Schema<PutFeedbackRequest>;
 export interface PutFeedbackResponse {}
-export const PutFeedbackResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "PutFeedbackResponse" }) as any as S.Schema<PutFeedbackResponse>;
-export interface MemberGroup { groupName: string; type?: MembershipType }
-export const MemberGroup = S.suspend(() => S.Struct({groupName: S.String, type: S.optional(MembershipType)})).annotate({ identifier: "MemberGroup" }) as any as S.Schema<MemberGroup>;
+export const PutFeedbackResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutFeedbackResponse",
+}) as any as S.Schema<PutFeedbackResponse>;
+export interface MemberGroup {
+  groupName: string;
+  type?: MembershipType;
+}
+export const MemberGroup = S.suspend(() =>
+  S.Struct({ groupName: S.String, type: S.optional(MembershipType) }),
+).annotate({ identifier: "MemberGroup" }) as any as S.Schema<MemberGroup>;
 export type MemberGroups = MemberGroup[];
 export const MemberGroups = S.Array(MemberGroup);
-export interface MemberUser { userId: string; type?: MembershipType }
-export const MemberUser = S.suspend(() => S.Struct({userId: S.String, type: S.optional(MembershipType)})).annotate({ identifier: "MemberUser" }) as any as S.Schema<MemberUser>;
+export interface MemberUser {
+  userId: string;
+  type?: MembershipType;
+}
+export const MemberUser = S.suspend(() =>
+  S.Struct({ userId: S.String, type: S.optional(MembershipType) }),
+).annotate({ identifier: "MemberUser" }) as any as S.Schema<MemberUser>;
 export type MemberUsers = MemberUser[];
 export const MemberUsers = S.Array(MemberUser);
-export interface GroupMembers { memberGroups?: MemberGroup[]; memberUsers?: MemberUser[]; s3PathForGroupMembers?: S3 }
-export const GroupMembers = S.suspend(() => S.Struct({memberGroups: S.optional(MemberGroups), memberUsers: S.optional(MemberUsers), s3PathForGroupMembers: S.optional(S3)})).annotate({ identifier: "GroupMembers" }) as any as S.Schema<GroupMembers>;
-export interface PutGroupRequest { applicationId: string; indexId: string; groupName: string; dataSourceId?: string; type: MembershipType; groupMembers: GroupMembers; roleArn?: string }
-export const PutGroupRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), groupName: S.String, dataSourceId: S.optional(S.String), type: MembershipType, groupMembers: GroupMembers, roleArn: S.optional(S.String)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/indices/{indexId}/groups" }), svc, auth, proto, ver, rules))).annotate({ identifier: "PutGroupRequest" }) as any as S.Schema<PutGroupRequest>;
-export interface PutGroupResponse {  }
-export const PutGroupResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "PutGroupResponse" }) as any as S.Schema<PutGroupResponse>;
-export interface RetrieverContentSource { retrieverId: string }
-export const RetrieverContentSource = S.suspend(() => S.Struct({retrieverId: S.String})).annotate({ identifier: "RetrieverContentSource" }) as any as S.Schema<RetrieverContentSource>;
+export interface GroupMembers {
+  memberGroups?: MemberGroup[];
+  memberUsers?: MemberUser[];
+  s3PathForGroupMembers?: S3;
+}
+export const GroupMembers = S.suspend(() =>
+  S.Struct({
+    memberGroups: S.optional(MemberGroups),
+    memberUsers: S.optional(MemberUsers),
+    s3PathForGroupMembers: S.optional(S3),
+  }),
+).annotate({ identifier: "GroupMembers" }) as any as S.Schema<GroupMembers>;
+export interface PutGroupRequest {
+  applicationId: string;
+  indexId: string;
+  groupName: string;
+  dataSourceId?: string;
+  type: MembershipType;
+  groupMembers: GroupMembers;
+  roleArn?: string;
+}
+export const PutGroupRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    groupName: S.String,
+    dataSourceId: S.optional(S.String),
+    type: MembershipType,
+    groupMembers: GroupMembers,
+    roleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/indices/{indexId}/groups",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutGroupRequest",
+}) as any as S.Schema<PutGroupRequest>;
+export interface PutGroupResponse {}
+export const PutGroupResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutGroupResponse",
+}) as any as S.Schema<PutGroupResponse>;
+export interface RetrieverContentSource {
+  retrieverId: string;
+}
+export const RetrieverContentSource = S.suspend(() =>
+  S.Struct({ retrieverId: S.String }),
+).annotate({
+  identifier: "RetrieverContentSource",
+}) as any as S.Schema<RetrieverContentSource>;
 export type ContentSource = { retriever: RetrieverContentSource };
-export const ContentSource = S.Union([S.Struct({ retriever: RetrieverContentSource })]);
-export interface SearchRelevantContentRequest { applicationId: string; queryText: string; contentSource: ContentSource; attributeFilter?: AttributeFilter; maxResults?: number; nextToken?: string }
-export const SearchRelevantContentRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), queryText: S.String, contentSource: ContentSource, attributeFilter: S.optional(AttributeFilter), maxResults: S.optional(S.Number), nextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/relevant-content" }), svc, auth, proto, ver, rules))).annotate({ identifier: "SearchRelevantContentRequest" }) as any as S.Schema<SearchRelevantContentRequest>;
+export const ContentSource = S.Union([
+  S.Struct({ retriever: RetrieverContentSource }),
+]);
+export interface SearchRelevantContentRequest {
+  applicationId: string;
+  queryText: string;
+  contentSource: ContentSource;
+  attributeFilter?: AttributeFilter;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const SearchRelevantContentRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    queryText: S.String,
+    contentSource: ContentSource,
+    attributeFilter: S.optional(AttributeFilter),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/relevant-content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchRelevantContentRequest",
+}) as any as S.Schema<SearchRelevantContentRequest>;
 export type ScoreConfidence =
   | "VERY_HIGH"
   | "HIGH"
@@ -899,54 +3406,364 @@ export type ScoreConfidence =
   | "NOT_AVAILABLE"
   | (string & {});
 export const ScoreConfidence = S.String;
-export interface ScoreAttributes { scoreConfidence?: ScoreConfidence }
-export const ScoreAttributes = S.suspend(() => S.Struct({scoreConfidence: S.optional(ScoreConfidence)})).annotate({ identifier: "ScoreAttributes" }) as any as S.Schema<ScoreAttributes>;
-export interface RelevantContent { content?: string; documentId?: string; documentTitle?: string; documentUri?: string; documentAttributes?: DocumentAttribute[]; scoreAttributes?: ScoreAttributes }
-export const RelevantContent = S.suspend(() => S.Struct({content: S.optional(S.String), documentId: S.optional(S.String), documentTitle: S.optional(S.String), documentUri: S.optional(S.String), documentAttributes: S.optional(DocumentAttributes), scoreAttributes: S.optional(ScoreAttributes)})).annotate({ identifier: "RelevantContent" }) as any as S.Schema<RelevantContent>;
+export interface ScoreAttributes {
+  scoreConfidence?: ScoreConfidence;
+}
+export const ScoreAttributes = S.suspend(() =>
+  S.Struct({ scoreConfidence: S.optional(ScoreConfidence) }),
+).annotate({
+  identifier: "ScoreAttributes",
+}) as any as S.Schema<ScoreAttributes>;
+export interface RelevantContent {
+  content?: string;
+  documentId?: string;
+  documentTitle?: string;
+  documentUri?: string;
+  documentAttributes?: DocumentAttribute[];
+  scoreAttributes?: ScoreAttributes;
+}
+export const RelevantContent = S.suspend(() =>
+  S.Struct({
+    content: S.optional(S.String),
+    documentId: S.optional(S.String),
+    documentTitle: S.optional(S.String),
+    documentUri: S.optional(S.String),
+    documentAttributes: S.optional(DocumentAttributes),
+    scoreAttributes: S.optional(ScoreAttributes),
+  }),
+).annotate({
+  identifier: "RelevantContent",
+}) as any as S.Schema<RelevantContent>;
 export type RelevantContentList = RelevantContent[];
 export const RelevantContentList = S.Array(RelevantContent);
-export interface SearchRelevantContentResponse { relevantContent?: RelevantContent[]; nextToken?: string }
-export const SearchRelevantContentResponse = S.suspend(() => S.Struct({relevantContent: S.optional(RelevantContentList), nextToken: S.optional(S.String)})).annotate({ identifier: "SearchRelevantContentResponse" }) as any as S.Schema<SearchRelevantContentResponse>;
-export interface StartDataSourceSyncJobRequest { dataSourceId: string; applicationId: string; indexId: string }
-export const StartDataSourceSyncJobRequest = S.suspend(() => S.Struct({dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")), applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId"))}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}/startsync" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartDataSourceSyncJobRequest" }) as any as S.Schema<StartDataSourceSyncJobRequest>;
-export interface StartDataSourceSyncJobResponse { executionId?: string }
-export const StartDataSourceSyncJobResponse = S.suspend(() => S.Struct({executionId: S.optional(S.String)})).annotate({ identifier: "StartDataSourceSyncJobResponse" }) as any as S.Schema<StartDataSourceSyncJobResponse>;
-export interface StopDataSourceSyncJobRequest { dataSourceId: string; applicationId: string; indexId: string }
-export const StopDataSourceSyncJobRequest = S.suspend(() => S.Struct({dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")), applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId"))}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}/stopsync" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StopDataSourceSyncJobRequest" }) as any as S.Schema<StopDataSourceSyncJobRequest>;
-export interface StopDataSourceSyncJobResponse {  }
-export const StopDataSourceSyncJobResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "StopDataSourceSyncJobResponse" }) as any as S.Schema<StopDataSourceSyncJobResponse>;
-export interface TagResourceRequest { resourceARN: string; tags: Tag[] }
-export const TagResourceRequest = S.suspend(() => S.Struct({resourceARN: S.String.pipe(T.HttpLabel("resourceARN")), tags: Tags}).pipe(T.all(T.Http({ method: "POST", uri: "/v1/tags/{resourceARN}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {  }
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" }) as any as S.Schema<TagResourceResponse>;
+export interface SearchRelevantContentResponse {
+  relevantContent?: RelevantContent[];
+  nextToken?: string;
+}
+export const SearchRelevantContentResponse = S.suspend(() =>
+  S.Struct({
+    relevantContent: S.optional(RelevantContentList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SearchRelevantContentResponse",
+}) as any as S.Schema<SearchRelevantContentResponse>;
+export interface StartDataSourceSyncJobRequest {
+  dataSourceId: string;
+  applicationId: string;
+  indexId: string;
+}
+export const StartDataSourceSyncJobRequest = S.suspend(() =>
+  S.Struct({
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}/startsync",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartDataSourceSyncJobRequest",
+}) as any as S.Schema<StartDataSourceSyncJobRequest>;
+export interface StartDataSourceSyncJobResponse {
+  executionId?: string;
+}
+export const StartDataSourceSyncJobResponse = S.suspend(() =>
+  S.Struct({ executionId: S.optional(S.String) }),
+).annotate({
+  identifier: "StartDataSourceSyncJobResponse",
+}) as any as S.Schema<StartDataSourceSyncJobResponse>;
+export interface StopDataSourceSyncJobRequest {
+  dataSourceId: string;
+  applicationId: string;
+  indexId: string;
+}
+export const StopDataSourceSyncJobRequest = S.suspend(() =>
+  S.Struct({
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}/stopsync",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopDataSourceSyncJobRequest",
+}) as any as S.Schema<StopDataSourceSyncJobRequest>;
+export interface StopDataSourceSyncJobResponse {}
+export const StopDataSourceSyncJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "StopDataSourceSyncJobResponse",
+}) as any as S.Schema<StopDataSourceSyncJobResponse>;
+export interface TagResourceRequest {
+  resourceARN: string;
+  tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceARN: S.String.pipe(T.HttpLabel("resourceARN")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/tags/{resourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export interface UntagResourceRequest { resourceARN: string; tagKeys: string[] }
-export const UntagResourceRequest = S.suspend(() => S.Struct({resourceARN: S.String.pipe(T.HttpLabel("resourceARN")), tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/v1/tags/{resourceARN}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {  }
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UntagResourceResponse" }) as any as S.Schema<UntagResourceResponse>;
-export interface OrchestrationConfiguration { control: OrchestrationControl }
-export const OrchestrationConfiguration = S.suspend(() => S.Struct({control: OrchestrationControl})).annotate({ identifier: "OrchestrationConfiguration" }) as any as S.Schema<OrchestrationConfiguration>;
-export interface BlockedPhrasesConfigurationUpdate { blockedPhrasesToCreateOrUpdate?: string[]; blockedPhrasesToDelete?: string[]; systemMessageOverride?: string }
-export const BlockedPhrasesConfigurationUpdate = S.suspend(() => S.Struct({blockedPhrasesToCreateOrUpdate: S.optional(BlockedPhrases), blockedPhrasesToDelete: S.optional(BlockedPhrases), systemMessageOverride: S.optional(S.String)})).annotate({ identifier: "BlockedPhrasesConfigurationUpdate" }) as any as S.Schema<BlockedPhrasesConfigurationUpdate>;
-export interface CreatorModeConfiguration { creatorModeControl: CreatorModeControl }
-export const CreatorModeConfiguration = S.suspend(() => S.Struct({creatorModeControl: CreatorModeControl})).annotate({ identifier: "CreatorModeConfiguration" }) as any as S.Schema<CreatorModeConfiguration>;
-export interface UpdateChatControlsConfigurationRequest { applicationId: string; clientToken?: string; responseScope?: ResponseScope; orchestrationConfiguration?: OrchestrationConfiguration; blockedPhrasesConfigurationUpdate?: BlockedPhrasesConfigurationUpdate; topicConfigurationsToCreateOrUpdate?: TopicConfiguration[]; topicConfigurationsToDelete?: TopicConfiguration[]; creatorModeConfiguration?: CreatorModeConfiguration; hallucinationReductionConfiguration?: HallucinationReductionConfiguration }
-export const UpdateChatControlsConfigurationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), responseScope: S.optional(ResponseScope), orchestrationConfiguration: S.optional(OrchestrationConfiguration), blockedPhrasesConfigurationUpdate: S.optional(BlockedPhrasesConfigurationUpdate), topicConfigurationsToCreateOrUpdate: S.optional(TopicConfigurations), topicConfigurationsToDelete: S.optional(TopicConfigurations), creatorModeConfiguration: S.optional(CreatorModeConfiguration), hallucinationReductionConfiguration: S.optional(HallucinationReductionConfiguration)}).pipe(T.all(T.Http({ method: "PATCH", uri: "/applications/{applicationId}/chatcontrols" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateChatControlsConfigurationRequest" }) as any as S.Schema<UpdateChatControlsConfigurationRequest>;
-export interface UpdateChatControlsConfigurationResponse {  }
-export const UpdateChatControlsConfigurationResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateChatControlsConfigurationResponse" }) as any as S.Schema<UpdateChatControlsConfigurationResponse>;
-export interface UpdateChatResponseConfigurationRequest { applicationId: string; chatResponseConfigurationId: string; displayName?: string; responseConfigurations: { [key: string]: ResponseConfiguration | undefined }; clientToken?: string }
-export const UpdateChatResponseConfigurationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), chatResponseConfigurationId: S.String.pipe(T.HttpLabel("chatResponseConfigurationId")), displayName: S.optional(S.String), responseConfigurations: ResponseConfigurations, clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateChatResponseConfigurationRequest" }) as any as S.Schema<UpdateChatResponseConfigurationRequest>;
-export interface UpdateChatResponseConfigurationResponse {  }
-export const UpdateChatResponseConfigurationResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateChatResponseConfigurationResponse" }) as any as S.Schema<UpdateChatResponseConfigurationResponse>;
-export interface UpdateSubscriptionRequest { applicationId: string; subscriptionId: string; type: SubscriptionType }
-export const UpdateSubscriptionRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")), type: SubscriptionType}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/subscriptions/{subscriptionId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateSubscriptionRequest" }) as any as S.Schema<UpdateSubscriptionRequest>;
-export interface UpdateSubscriptionResponse { subscriptionArn?: string; currentSubscription?: SubscriptionDetails; nextSubscription?: SubscriptionDetails }
-export const UpdateSubscriptionResponse = S.suspend(() => S.Struct({subscriptionArn: S.optional(S.String), currentSubscription: S.optional(SubscriptionDetails), nextSubscription: S.optional(SubscriptionDetails)})).annotate({ identifier: "UpdateSubscriptionResponse" }) as any as S.Schema<UpdateSubscriptionResponse>;
-export interface UpdateUserRequest { applicationId: string; userId: string; userAliasesToUpdate?: UserAlias[]; userAliasesToDelete?: UserAlias[] }
-export const UpdateUserRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), userId: S.String.pipe(T.HttpLabel("userId")), userAliasesToUpdate: S.optional(UserAliases), userAliasesToDelete: S.optional(UserAliases)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/users/{userId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
-export interface UpdateUserResponse { userAliasesAdded?: UserAlias[]; userAliasesUpdated?: UserAlias[]; userAliasesDeleted?: UserAlias[] }
-export const UpdateUserResponse = S.suspend(() => S.Struct({userAliasesAdded: S.optional(UserAliases), userAliasesUpdated: S.optional(UserAliases), userAliasesDeleted: S.optional(UserAliases)})).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
+export interface UntagResourceRequest {
+  resourceARN: string;
+  tagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceARN: S.String.pipe(T.HttpLabel("resourceARN")),
+    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/tags/{resourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface OrchestrationConfiguration {
+  control: OrchestrationControl;
+}
+export const OrchestrationConfiguration = S.suspend(() =>
+  S.Struct({ control: OrchestrationControl }),
+).annotate({
+  identifier: "OrchestrationConfiguration",
+}) as any as S.Schema<OrchestrationConfiguration>;
+export interface BlockedPhrasesConfigurationUpdate {
+  blockedPhrasesToCreateOrUpdate?: string[];
+  blockedPhrasesToDelete?: string[];
+  systemMessageOverride?: string;
+}
+export const BlockedPhrasesConfigurationUpdate = S.suspend(() =>
+  S.Struct({
+    blockedPhrasesToCreateOrUpdate: S.optional(BlockedPhrases),
+    blockedPhrasesToDelete: S.optional(BlockedPhrases),
+    systemMessageOverride: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BlockedPhrasesConfigurationUpdate",
+}) as any as S.Schema<BlockedPhrasesConfigurationUpdate>;
+export interface CreatorModeConfiguration {
+  creatorModeControl: CreatorModeControl;
+}
+export const CreatorModeConfiguration = S.suspend(() =>
+  S.Struct({ creatorModeControl: CreatorModeControl }),
+).annotate({
+  identifier: "CreatorModeConfiguration",
+}) as any as S.Schema<CreatorModeConfiguration>;
+export interface UpdateChatControlsConfigurationRequest {
+  applicationId: string;
+  clientToken?: string;
+  responseScope?: ResponseScope;
+  orchestrationConfiguration?: OrchestrationConfiguration;
+  blockedPhrasesConfigurationUpdate?: BlockedPhrasesConfigurationUpdate;
+  topicConfigurationsToCreateOrUpdate?: TopicConfiguration[];
+  topicConfigurationsToDelete?: TopicConfiguration[];
+  creatorModeConfiguration?: CreatorModeConfiguration;
+  hallucinationReductionConfiguration?: HallucinationReductionConfiguration;
+}
+export const UpdateChatControlsConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    responseScope: S.optional(ResponseScope),
+    orchestrationConfiguration: S.optional(OrchestrationConfiguration),
+    blockedPhrasesConfigurationUpdate: S.optional(
+      BlockedPhrasesConfigurationUpdate,
+    ),
+    topicConfigurationsToCreateOrUpdate: S.optional(TopicConfigurations),
+    topicConfigurationsToDelete: S.optional(TopicConfigurations),
+    creatorModeConfiguration: S.optional(CreatorModeConfiguration),
+    hallucinationReductionConfiguration: S.optional(
+      HallucinationReductionConfiguration,
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/applications/{applicationId}/chatcontrols",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateChatControlsConfigurationRequest",
+}) as any as S.Schema<UpdateChatControlsConfigurationRequest>;
+export interface UpdateChatControlsConfigurationResponse {}
+export const UpdateChatControlsConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateChatControlsConfigurationResponse",
+}) as any as S.Schema<UpdateChatControlsConfigurationResponse>;
+export interface UpdateChatResponseConfigurationRequest {
+  applicationId: string;
+  chatResponseConfigurationId: string;
+  displayName?: string;
+  responseConfigurations: { [key: string]: ResponseConfiguration | undefined };
+  clientToken?: string;
+}
+export const UpdateChatResponseConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    chatResponseConfigurationId: S.String.pipe(
+      T.HttpLabel("chatResponseConfigurationId"),
+    ),
+    displayName: S.optional(S.String),
+    responseConfigurations: ResponseConfigurations,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateChatResponseConfigurationRequest",
+}) as any as S.Schema<UpdateChatResponseConfigurationRequest>;
+export interface UpdateChatResponseConfigurationResponse {}
+export const UpdateChatResponseConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateChatResponseConfigurationResponse",
+}) as any as S.Schema<UpdateChatResponseConfigurationResponse>;
+export interface UpdateSubscriptionRequest {
+  applicationId: string;
+  subscriptionId: string;
+  type: SubscriptionType;
+}
+export const UpdateSubscriptionRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
+    type: SubscriptionType,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/subscriptions/{subscriptionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateSubscriptionRequest",
+}) as any as S.Schema<UpdateSubscriptionRequest>;
+export interface UpdateSubscriptionResponse {
+  subscriptionArn?: string;
+  currentSubscription?: SubscriptionDetails;
+  nextSubscription?: SubscriptionDetails;
+}
+export const UpdateSubscriptionResponse = S.suspend(() =>
+  S.Struct({
+    subscriptionArn: S.optional(S.String),
+    currentSubscription: S.optional(SubscriptionDetails),
+    nextSubscription: S.optional(SubscriptionDetails),
+  }),
+).annotate({
+  identifier: "UpdateSubscriptionResponse",
+}) as any as S.Schema<UpdateSubscriptionResponse>;
+export interface UpdateUserRequest {
+  applicationId: string;
+  userId: string;
+  userAliasesToUpdate?: UserAlias[];
+  userAliasesToDelete?: UserAlias[];
+}
+export const UpdateUserRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
+    userAliasesToUpdate: S.optional(UserAliases),
+    userAliasesToDelete: S.optional(UserAliases),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/users/{userId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateUserRequest",
+}) as any as S.Schema<UpdateUserRequest>;
+export interface UpdateUserResponse {
+  userAliasesAdded?: UserAlias[];
+  userAliasesUpdated?: UserAlias[];
+  userAliasesDeleted?: UserAlias[];
+}
+export const UpdateUserResponse = S.suspend(() =>
+  S.Struct({
+    userAliasesAdded: S.optional(UserAliases),
+    userAliasesUpdated: S.optional(UserAliases),
+    userAliasesDeleted: S.optional(UserAliases),
+  }),
+).annotate({
+  identifier: "UpdateUserResponse",
+}) as any as S.Schema<UpdateUserResponse>;
 export type IdentityType =
   | "AWS_IAM_IDP_SAML"
   | "AWS_IAM_IDP_OIDC"
@@ -957,37 +3774,126 @@ export type IdentityType =
 export const IdentityType = S.String;
 export type ClientIdsForOIDC = string[];
 export const ClientIdsForOIDC = S.Array(S.String);
-export interface EncryptionConfiguration { kmsKeyId?: string | redacted.Redacted<string> }
-export const EncryptionConfiguration = S.suspend(() => S.Struct({kmsKeyId: S.optional(SensitiveString)})).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
-export type AttachmentsControlMode =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface EncryptionConfiguration {
+  kmsKeyId?: string | redacted.Redacted<string>;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ kmsKeyId: S.optional(SensitiveString) }),
+).annotate({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export type AttachmentsControlMode = "ENABLED" | "DISABLED" | (string & {});
 export const AttachmentsControlMode = S.String;
-export interface AttachmentsConfiguration { attachmentsControlMode: AttachmentsControlMode }
-export const AttachmentsConfiguration = S.suspend(() => S.Struct({attachmentsControlMode: AttachmentsControlMode})).annotate({ identifier: "AttachmentsConfiguration" }) as any as S.Schema<AttachmentsConfiguration>;
-export type QAppsControlMode =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface AttachmentsConfiguration {
+  attachmentsControlMode: AttachmentsControlMode;
+}
+export const AttachmentsConfiguration = S.suspend(() =>
+  S.Struct({ attachmentsControlMode: AttachmentsControlMode }),
+).annotate({
+  identifier: "AttachmentsConfiguration",
+}) as any as S.Schema<AttachmentsConfiguration>;
+export type QAppsControlMode = "ENABLED" | "DISABLED" | (string & {});
 export const QAppsControlMode = S.String;
-export interface QAppsConfiguration { qAppsControlMode: QAppsControlMode }
-export const QAppsConfiguration = S.suspend(() => S.Struct({qAppsControlMode: QAppsControlMode})).annotate({ identifier: "QAppsConfiguration" }) as any as S.Schema<QAppsConfiguration>;
-export type PersonalizationControlMode =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface QAppsConfiguration {
+  qAppsControlMode: QAppsControlMode;
+}
+export const QAppsConfiguration = S.suspend(() =>
+  S.Struct({ qAppsControlMode: QAppsControlMode }),
+).annotate({
+  identifier: "QAppsConfiguration",
+}) as any as S.Schema<QAppsConfiguration>;
+export type PersonalizationControlMode = "ENABLED" | "DISABLED" | (string & {});
 export const PersonalizationControlMode = S.String;
-export interface PersonalizationConfiguration { personalizationControlMode: PersonalizationControlMode }
-export const PersonalizationConfiguration = S.suspend(() => S.Struct({personalizationControlMode: PersonalizationControlMode})).annotate({ identifier: "PersonalizationConfiguration" }) as any as S.Schema<PersonalizationConfiguration>;
-export interface QuickSightConfiguration { clientNamespace: string }
-export const QuickSightConfiguration = S.suspend(() => S.Struct({clientNamespace: S.String})).annotate({ identifier: "QuickSightConfiguration" }) as any as S.Schema<QuickSightConfiguration>;
-export interface CreateApplicationRequest { displayName: string; roleArn?: string; identityType?: IdentityType; iamIdentityProviderArn?: string; identityCenterInstanceArn?: string; clientIdsForOIDC?: string[]; description?: string; encryptionConfiguration?: EncryptionConfiguration; tags?: Tag[]; clientToken?: string; attachmentsConfiguration?: AttachmentsConfiguration; qAppsConfiguration?: QAppsConfiguration; personalizationConfiguration?: PersonalizationConfiguration; quickSightConfiguration?: QuickSightConfiguration }
-export const CreateApplicationRequest = S.suspend(() => S.Struct({displayName: S.String, roleArn: S.optional(S.String), identityType: S.optional(IdentityType), iamIdentityProviderArn: S.optional(S.String), identityCenterInstanceArn: S.optional(S.String), clientIdsForOIDC: S.optional(ClientIdsForOIDC), description: S.optional(S.String), encryptionConfiguration: S.optional(EncryptionConfiguration), tags: S.optional(Tags), clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), attachmentsConfiguration: S.optional(AttachmentsConfiguration), qAppsConfiguration: S.optional(QAppsConfiguration), personalizationConfiguration: S.optional(PersonalizationConfiguration), quickSightConfiguration: S.optional(QuickSightConfiguration)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
-export interface CreateApplicationResponse { applicationId?: string; applicationArn?: string }
-export const CreateApplicationResponse = S.suspend(() => S.Struct({applicationId: S.optional(S.String), applicationArn: S.optional(S.String)})).annotate({ identifier: "CreateApplicationResponse" }) as any as S.Schema<CreateApplicationResponse>;
-export interface GetApplicationRequest { applicationId: string }
-export const GetApplicationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
+export interface PersonalizationConfiguration {
+  personalizationControlMode: PersonalizationControlMode;
+}
+export const PersonalizationConfiguration = S.suspend(() =>
+  S.Struct({ personalizationControlMode: PersonalizationControlMode }),
+).annotate({
+  identifier: "PersonalizationConfiguration",
+}) as any as S.Schema<PersonalizationConfiguration>;
+export interface QuickSightConfiguration {
+  clientNamespace: string;
+}
+export const QuickSightConfiguration = S.suspend(() =>
+  S.Struct({ clientNamespace: S.String }),
+).annotate({
+  identifier: "QuickSightConfiguration",
+}) as any as S.Schema<QuickSightConfiguration>;
+export interface CreateApplicationRequest {
+  displayName: string;
+  roleArn?: string;
+  identityType?: IdentityType;
+  iamIdentityProviderArn?: string;
+  identityCenterInstanceArn?: string;
+  clientIdsForOIDC?: string[];
+  description?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: Tag[];
+  clientToken?: string;
+  attachmentsConfiguration?: AttachmentsConfiguration;
+  qAppsConfiguration?: QAppsConfiguration;
+  personalizationConfiguration?: PersonalizationConfiguration;
+  quickSightConfiguration?: QuickSightConfiguration;
+}
+export const CreateApplicationRequest = S.suspend(() =>
+  S.Struct({
+    displayName: S.String,
+    roleArn: S.optional(S.String),
+    identityType: S.optional(IdentityType),
+    iamIdentityProviderArn: S.optional(S.String),
+    identityCenterInstanceArn: S.optional(S.String),
+    clientIdsForOIDC: S.optional(ClientIdsForOIDC),
+    description: S.optional(S.String),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+    tags: S.optional(Tags),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    attachmentsConfiguration: S.optional(AttachmentsConfiguration),
+    qAppsConfiguration: S.optional(QAppsConfiguration),
+    personalizationConfiguration: S.optional(PersonalizationConfiguration),
+    quickSightConfiguration: S.optional(QuickSightConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateApplicationRequest",
+}) as any as S.Schema<CreateApplicationRequest>;
+export interface CreateApplicationResponse {
+  applicationId?: string;
+  applicationArn?: string;
+}
+export const CreateApplicationResponse = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    applicationArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateApplicationResponse",
+}) as any as S.Schema<CreateApplicationResponse>;
+export interface GetApplicationRequest {
+  applicationId: string;
+}
+export const GetApplicationRequest = S.suspend(() =>
+  S.Struct({ applicationId: S.String.pipe(T.HttpLabel("applicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{applicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetApplicationRequest",
+}) as any as S.Schema<GetApplicationRequest>;
 export type ApplicationStatus =
   | "CREATING"
   | "ACTIVE"
@@ -996,37 +3902,209 @@ export type ApplicationStatus =
   | "UPDATING"
   | (string & {});
 export const ApplicationStatus = S.String;
-export interface AppliedAttachmentsConfiguration { attachmentsControlMode?: AttachmentsControlMode }
-export const AppliedAttachmentsConfiguration = S.suspend(() => S.Struct({attachmentsControlMode: S.optional(AttachmentsControlMode)})).annotate({ identifier: "AppliedAttachmentsConfiguration" }) as any as S.Schema<AppliedAttachmentsConfiguration>;
-export type AutoSubscriptionStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface AppliedAttachmentsConfiguration {
+  attachmentsControlMode?: AttachmentsControlMode;
+}
+export const AppliedAttachmentsConfiguration = S.suspend(() =>
+  S.Struct({ attachmentsControlMode: S.optional(AttachmentsControlMode) }),
+).annotate({
+  identifier: "AppliedAttachmentsConfiguration",
+}) as any as S.Schema<AppliedAttachmentsConfiguration>;
+export type AutoSubscriptionStatus = "ENABLED" | "DISABLED" | (string & {});
 export const AutoSubscriptionStatus = S.String;
-export interface AutoSubscriptionConfiguration { autoSubscribe: AutoSubscriptionStatus; defaultSubscriptionType?: SubscriptionType }
-export const AutoSubscriptionConfiguration = S.suspend(() => S.Struct({autoSubscribe: AutoSubscriptionStatus, defaultSubscriptionType: S.optional(SubscriptionType)})).annotate({ identifier: "AutoSubscriptionConfiguration" }) as any as S.Schema<AutoSubscriptionConfiguration>;
-export interface GetApplicationResponse { displayName?: string; applicationId?: string; applicationArn?: string; identityType?: IdentityType; iamIdentityProviderArn?: string; identityCenterApplicationArn?: string; roleArn?: string; status?: ApplicationStatus; description?: string; encryptionConfiguration?: EncryptionConfiguration; createdAt?: Date; updatedAt?: Date; error?: ErrorDetail; attachmentsConfiguration?: AppliedAttachmentsConfiguration; qAppsConfiguration?: QAppsConfiguration; personalizationConfiguration?: PersonalizationConfiguration; autoSubscriptionConfiguration?: AutoSubscriptionConfiguration; clientIdsForOIDC?: string[]; quickSightConfiguration?: QuickSightConfiguration }
-export const GetApplicationResponse = S.suspend(() => S.Struct({displayName: S.optional(S.String), applicationId: S.optional(S.String), applicationArn: S.optional(S.String), identityType: S.optional(IdentityType), iamIdentityProviderArn: S.optional(S.String), identityCenterApplicationArn: S.optional(S.String), roleArn: S.optional(S.String), status: S.optional(ApplicationStatus), description: S.optional(S.String), encryptionConfiguration: S.optional(EncryptionConfiguration), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), error: S.optional(ErrorDetail), attachmentsConfiguration: S.optional(AppliedAttachmentsConfiguration), qAppsConfiguration: S.optional(QAppsConfiguration), personalizationConfiguration: S.optional(PersonalizationConfiguration), autoSubscriptionConfiguration: S.optional(AutoSubscriptionConfiguration), clientIdsForOIDC: S.optional(ClientIdsForOIDC), quickSightConfiguration: S.optional(QuickSightConfiguration)})).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
-export interface UpdateApplicationRequest { applicationId: string; identityCenterInstanceArn?: string; displayName?: string; description?: string; roleArn?: string; attachmentsConfiguration?: AttachmentsConfiguration; qAppsConfiguration?: QAppsConfiguration; personalizationConfiguration?: PersonalizationConfiguration; autoSubscriptionConfiguration?: AutoSubscriptionConfiguration }
-export const UpdateApplicationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), identityCenterInstanceArn: S.optional(S.String), displayName: S.optional(S.String), description: S.optional(S.String), roleArn: S.optional(S.String), attachmentsConfiguration: S.optional(AttachmentsConfiguration), qAppsConfiguration: S.optional(QAppsConfiguration), personalizationConfiguration: S.optional(PersonalizationConfiguration), autoSubscriptionConfiguration: S.optional(AutoSubscriptionConfiguration)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
-export interface UpdateApplicationResponse {  }
-export const UpdateApplicationResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateApplicationResponse" }) as any as S.Schema<UpdateApplicationResponse>;
-export interface DeleteApplicationRequest { applicationId: string }
-export const DeleteApplicationRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
-export interface DeleteApplicationResponse {  }
-export const DeleteApplicationResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteApplicationResponse" }) as any as S.Schema<DeleteApplicationResponse>;
-export interface ListApplicationsRequest { nextToken?: string; maxResults?: number }
-export const ListApplicationsRequest = S.suspend(() => S.Struct({nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
-export interface Application { displayName?: string; applicationId?: string; createdAt?: Date; updatedAt?: Date; status?: ApplicationStatus; identityType?: IdentityType; quickSightConfiguration?: QuickSightConfiguration }
-export const Application = S.suspend(() => S.Struct({displayName: S.optional(S.String), applicationId: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), status: S.optional(ApplicationStatus), identityType: S.optional(IdentityType), quickSightConfiguration: S.optional(QuickSightConfiguration)})).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
+export interface AutoSubscriptionConfiguration {
+  autoSubscribe: AutoSubscriptionStatus;
+  defaultSubscriptionType?: SubscriptionType;
+}
+export const AutoSubscriptionConfiguration = S.suspend(() =>
+  S.Struct({
+    autoSubscribe: AutoSubscriptionStatus,
+    defaultSubscriptionType: S.optional(SubscriptionType),
+  }),
+).annotate({
+  identifier: "AutoSubscriptionConfiguration",
+}) as any as S.Schema<AutoSubscriptionConfiguration>;
+export interface GetApplicationResponse {
+  displayName?: string;
+  applicationId?: string;
+  applicationArn?: string;
+  identityType?: IdentityType;
+  iamIdentityProviderArn?: string;
+  identityCenterApplicationArn?: string;
+  roleArn?: string;
+  status?: ApplicationStatus;
+  description?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  createdAt?: Date;
+  updatedAt?: Date;
+  error?: ErrorDetail;
+  attachmentsConfiguration?: AppliedAttachmentsConfiguration;
+  qAppsConfiguration?: QAppsConfiguration;
+  personalizationConfiguration?: PersonalizationConfiguration;
+  autoSubscriptionConfiguration?: AutoSubscriptionConfiguration;
+  clientIdsForOIDC?: string[];
+  quickSightConfiguration?: QuickSightConfiguration;
+}
+export const GetApplicationResponse = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    applicationId: S.optional(S.String),
+    applicationArn: S.optional(S.String),
+    identityType: S.optional(IdentityType),
+    iamIdentityProviderArn: S.optional(S.String),
+    identityCenterApplicationArn: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    status: S.optional(ApplicationStatus),
+    description: S.optional(S.String),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    error: S.optional(ErrorDetail),
+    attachmentsConfiguration: S.optional(AppliedAttachmentsConfiguration),
+    qAppsConfiguration: S.optional(QAppsConfiguration),
+    personalizationConfiguration: S.optional(PersonalizationConfiguration),
+    autoSubscriptionConfiguration: S.optional(AutoSubscriptionConfiguration),
+    clientIdsForOIDC: S.optional(ClientIdsForOIDC),
+    quickSightConfiguration: S.optional(QuickSightConfiguration),
+  }),
+).annotate({
+  identifier: "GetApplicationResponse",
+}) as any as S.Schema<GetApplicationResponse>;
+export interface UpdateApplicationRequest {
+  applicationId: string;
+  identityCenterInstanceArn?: string;
+  displayName?: string;
+  description?: string;
+  roleArn?: string;
+  attachmentsConfiguration?: AttachmentsConfiguration;
+  qAppsConfiguration?: QAppsConfiguration;
+  personalizationConfiguration?: PersonalizationConfiguration;
+  autoSubscriptionConfiguration?: AutoSubscriptionConfiguration;
+}
+export const UpdateApplicationRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    identityCenterInstanceArn: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    attachmentsConfiguration: S.optional(AttachmentsConfiguration),
+    qAppsConfiguration: S.optional(QAppsConfiguration),
+    personalizationConfiguration: S.optional(PersonalizationConfiguration),
+    autoSubscriptionConfiguration: S.optional(AutoSubscriptionConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/applications/{applicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateApplicationRequest",
+}) as any as S.Schema<UpdateApplicationRequest>;
+export interface UpdateApplicationResponse {}
+export const UpdateApplicationResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "UpdateApplicationResponse" },
+) as any as S.Schema<UpdateApplicationResponse>;
+export interface DeleteApplicationRequest {
+  applicationId: string;
+}
+export const DeleteApplicationRequest = S.suspend(() =>
+  S.Struct({ applicationId: S.String.pipe(T.HttpLabel("applicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/applications/{applicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteApplicationRequest",
+}) as any as S.Schema<DeleteApplicationRequest>;
+export interface DeleteApplicationResponse {}
+export const DeleteApplicationResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteApplicationResponse" },
+) as any as S.Schema<DeleteApplicationResponse>;
+export interface ListApplicationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListApplicationsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListApplicationsRequest",
+}) as any as S.Schema<ListApplicationsRequest>;
+export interface Application {
+  displayName?: string;
+  applicationId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  status?: ApplicationStatus;
+  identityType?: IdentityType;
+  quickSightConfiguration?: QuickSightConfiguration;
+}
+export const Application = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    applicationId: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(ApplicationStatus),
+    identityType: S.optional(IdentityType),
+    quickSightConfiguration: S.optional(QuickSightConfiguration),
+  }),
+).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 export type Applications = Application[];
 export const Applications = S.Array(Application);
-export interface ListApplicationsResponse { nextToken?: string; applications?: Application[] }
-export const ListApplicationsResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), applications: S.optional(Applications)})).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
-export interface ActionFilterConfiguration { documentAttributeFilter: AttributeFilter }
-export const ActionFilterConfiguration = S.suspend(() => S.Struct({documentAttributeFilter: AttributeFilter})).annotate({ identifier: "ActionFilterConfiguration" }) as any as S.Schema<ActionFilterConfiguration>;
-export interface ActionConfiguration { action: string; filterConfiguration?: ActionFilterConfiguration }
-export const ActionConfiguration = S.suspend(() => S.Struct({action: S.String, filterConfiguration: S.optional(ActionFilterConfiguration)})).annotate({ identifier: "ActionConfiguration" }) as any as S.Schema<ActionConfiguration>;
+export interface ListApplicationsResponse {
+  nextToken?: string;
+  applications?: Application[];
+}
+export const ListApplicationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    applications: S.optional(Applications),
+  }),
+).annotate({
+  identifier: "ListApplicationsResponse",
+}) as any as S.Schema<ListApplicationsResponse>;
+export interface ActionFilterConfiguration {
+  documentAttributeFilter: AttributeFilter;
+}
+export const ActionFilterConfiguration = S.suspend(() =>
+  S.Struct({ documentAttributeFilter: AttributeFilter }),
+).annotate({
+  identifier: "ActionFilterConfiguration",
+}) as any as S.Schema<ActionFilterConfiguration>;
+export interface ActionConfiguration {
+  action: string;
+  filterConfiguration?: ActionFilterConfiguration;
+}
+export const ActionConfiguration = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    filterConfiguration: S.optional(ActionFilterConfiguration),
+  }),
+).annotate({
+  identifier: "ActionConfiguration",
+}) as any as S.Schema<ActionConfiguration>;
 export type ActionConfigurationList = ActionConfiguration[];
 export const ActionConfigurationList = S.Array(ActionConfiguration);
 export type DataAccessorAuthenticationType =
@@ -1034,51 +4112,343 @@ export type DataAccessorAuthenticationType =
   | "AWS_IAM_IDC_AUTH_CODE"
   | (string & {});
 export const DataAccessorAuthenticationType = S.String;
-export interface DataAccessorIdcTrustedTokenIssuerConfiguration { idcTrustedTokenIssuerArn: string }
-export const DataAccessorIdcTrustedTokenIssuerConfiguration = S.suspend(() => S.Struct({idcTrustedTokenIssuerArn: S.String})).annotate({ identifier: "DataAccessorIdcTrustedTokenIssuerConfiguration" }) as any as S.Schema<DataAccessorIdcTrustedTokenIssuerConfiguration>;
-export type DataAccessorAuthenticationConfiguration = { idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration };
-export const DataAccessorAuthenticationConfiguration = S.Union([S.Struct({ idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration })]);
+export interface DataAccessorIdcTrustedTokenIssuerConfiguration {
+  idcTrustedTokenIssuerArn: string;
+}
+export const DataAccessorIdcTrustedTokenIssuerConfiguration = S.suspend(() =>
+  S.Struct({ idcTrustedTokenIssuerArn: S.String }),
+).annotate({
+  identifier: "DataAccessorIdcTrustedTokenIssuerConfiguration",
+}) as any as S.Schema<DataAccessorIdcTrustedTokenIssuerConfiguration>;
+export type DataAccessorAuthenticationConfiguration = {
+  idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration;
+};
+export const DataAccessorAuthenticationConfiguration = S.Union([
+  S.Struct({
+    idcTrustedTokenIssuerConfiguration:
+      DataAccessorIdcTrustedTokenIssuerConfiguration,
+  }),
+]);
 export type DataAccessorExternalIds = string[];
 export const DataAccessorExternalIds = S.Array(S.String);
-export interface DataAccessorAuthenticationDetail { authenticationType: DataAccessorAuthenticationType; authenticationConfiguration?: DataAccessorAuthenticationConfiguration; externalIds?: string[] }
-export const DataAccessorAuthenticationDetail = S.suspend(() => S.Struct({authenticationType: DataAccessorAuthenticationType, authenticationConfiguration: S.optional(DataAccessorAuthenticationConfiguration), externalIds: S.optional(DataAccessorExternalIds)})).annotate({ identifier: "DataAccessorAuthenticationDetail" }) as any as S.Schema<DataAccessorAuthenticationDetail>;
-export interface CreateDataAccessorRequest { applicationId: string; principal: string; actionConfigurations: ActionConfiguration[]; clientToken?: string; displayName: string | redacted.Redacted<string>; authenticationDetail?: DataAccessorAuthenticationDetail; tags?: Tag[] }
-export const CreateDataAccessorRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), principal: S.String, actionConfigurations: ActionConfigurationList, clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), displayName: SensitiveString, authenticationDetail: S.optional(DataAccessorAuthenticationDetail), tags: S.optional(Tags)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/dataaccessors" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateDataAccessorRequest" }) as any as S.Schema<CreateDataAccessorRequest>;
-export interface CreateDataAccessorResponse { dataAccessorId: string; idcApplicationArn: string; dataAccessorArn: string }
-export const CreateDataAccessorResponse = S.suspend(() => S.Struct({dataAccessorId: S.String, idcApplicationArn: S.String, dataAccessorArn: S.String})).annotate({ identifier: "CreateDataAccessorResponse" }) as any as S.Schema<CreateDataAccessorResponse>;
-export interface GetDataAccessorRequest { applicationId: string; dataAccessorId: string }
-export const GetDataAccessorRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), dataAccessorId: S.String.pipe(T.HttpLabel("dataAccessorId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/dataaccessors/{dataAccessorId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetDataAccessorRequest" }) as any as S.Schema<GetDataAccessorRequest>;
-export interface GetDataAccessorResponse { displayName?: string | redacted.Redacted<string>; dataAccessorId?: string; dataAccessorArn?: string; applicationId?: string; idcApplicationArn?: string; principal?: string; actionConfigurations?: ActionConfiguration[]; authenticationDetail?: DataAccessorAuthenticationDetail; createdAt?: Date; updatedAt?: Date }
-export const GetDataAccessorResponse = S.suspend(() => S.Struct({displayName: S.optional(SensitiveString), dataAccessorId: S.optional(S.String), dataAccessorArn: S.optional(S.String), applicationId: S.optional(S.String), idcApplicationArn: S.optional(S.String), principal: S.optional(S.String), actionConfigurations: S.optional(ActionConfigurationList), authenticationDetail: S.optional(DataAccessorAuthenticationDetail), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "GetDataAccessorResponse" }) as any as S.Schema<GetDataAccessorResponse>;
-export interface UpdateDataAccessorRequest { applicationId: string; dataAccessorId: string; actionConfigurations: ActionConfiguration[]; authenticationDetail?: DataAccessorAuthenticationDetail; displayName?: string | redacted.Redacted<string> }
-export const UpdateDataAccessorRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), dataAccessorId: S.String.pipe(T.HttpLabel("dataAccessorId")), actionConfigurations: ActionConfigurationList, authenticationDetail: S.optional(DataAccessorAuthenticationDetail), displayName: S.optional(SensitiveString)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/dataaccessors/{dataAccessorId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateDataAccessorRequest" }) as any as S.Schema<UpdateDataAccessorRequest>;
-export interface UpdateDataAccessorResponse {  }
-export const UpdateDataAccessorResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateDataAccessorResponse" }) as any as S.Schema<UpdateDataAccessorResponse>;
-export interface DeleteDataAccessorRequest { applicationId: string; dataAccessorId: string }
-export const DeleteDataAccessorRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), dataAccessorId: S.String.pipe(T.HttpLabel("dataAccessorId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/dataaccessors/{dataAccessorId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteDataAccessorRequest" }) as any as S.Schema<DeleteDataAccessorRequest>;
-export interface DeleteDataAccessorResponse {  }
-export const DeleteDataAccessorResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDataAccessorResponse" }) as any as S.Schema<DeleteDataAccessorResponse>;
-export interface ListDataAccessorsRequest { applicationId: string; nextToken?: string; maxResults?: number }
-export const ListDataAccessorsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/dataaccessors" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListDataAccessorsRequest" }) as any as S.Schema<ListDataAccessorsRequest>;
-export interface DataAccessor { displayName?: string | redacted.Redacted<string>; dataAccessorId?: string; dataAccessorArn?: string; idcApplicationArn?: string; principal?: string; authenticationDetail?: DataAccessorAuthenticationDetail; createdAt?: Date; updatedAt?: Date }
-export const DataAccessor = S.suspend(() => S.Struct({displayName: S.optional(SensitiveString), dataAccessorId: S.optional(S.String), dataAccessorArn: S.optional(S.String), idcApplicationArn: S.optional(S.String), principal: S.optional(S.String), authenticationDetail: S.optional(DataAccessorAuthenticationDetail), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "DataAccessor" }) as any as S.Schema<DataAccessor>;
+export interface DataAccessorAuthenticationDetail {
+  authenticationType: DataAccessorAuthenticationType;
+  authenticationConfiguration?: DataAccessorAuthenticationConfiguration;
+  externalIds?: string[];
+}
+export const DataAccessorAuthenticationDetail = S.suspend(() =>
+  S.Struct({
+    authenticationType: DataAccessorAuthenticationType,
+    authenticationConfiguration: S.optional(
+      DataAccessorAuthenticationConfiguration,
+    ),
+    externalIds: S.optional(DataAccessorExternalIds),
+  }),
+).annotate({
+  identifier: "DataAccessorAuthenticationDetail",
+}) as any as S.Schema<DataAccessorAuthenticationDetail>;
+export interface CreateDataAccessorRequest {
+  applicationId: string;
+  principal: string;
+  actionConfigurations: ActionConfiguration[];
+  clientToken?: string;
+  displayName: string | redacted.Redacted<string>;
+  authenticationDetail?: DataAccessorAuthenticationDetail;
+  tags?: Tag[];
+}
+export const CreateDataAccessorRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    principal: S.String,
+    actionConfigurations: ActionConfigurationList,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    displayName: SensitiveString,
+    authenticationDetail: S.optional(DataAccessorAuthenticationDetail),
+    tags: S.optional(Tags),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/dataaccessors",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateDataAccessorRequest",
+}) as any as S.Schema<CreateDataAccessorRequest>;
+export interface CreateDataAccessorResponse {
+  dataAccessorId: string;
+  idcApplicationArn: string;
+  dataAccessorArn: string;
+}
+export const CreateDataAccessorResponse = S.suspend(() =>
+  S.Struct({
+    dataAccessorId: S.String,
+    idcApplicationArn: S.String,
+    dataAccessorArn: S.String,
+  }),
+).annotate({
+  identifier: "CreateDataAccessorResponse",
+}) as any as S.Schema<CreateDataAccessorResponse>;
+export interface GetDataAccessorRequest {
+  applicationId: string;
+  dataAccessorId: string;
+}
+export const GetDataAccessorRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    dataAccessorId: S.String.pipe(T.HttpLabel("dataAccessorId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/dataaccessors/{dataAccessorId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDataAccessorRequest",
+}) as any as S.Schema<GetDataAccessorRequest>;
+export interface GetDataAccessorResponse {
+  displayName?: string | redacted.Redacted<string>;
+  dataAccessorId?: string;
+  dataAccessorArn?: string;
+  applicationId?: string;
+  idcApplicationArn?: string;
+  principal?: string;
+  actionConfigurations?: ActionConfiguration[];
+  authenticationDetail?: DataAccessorAuthenticationDetail;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const GetDataAccessorResponse = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(SensitiveString),
+    dataAccessorId: S.optional(S.String),
+    dataAccessorArn: S.optional(S.String),
+    applicationId: S.optional(S.String),
+    idcApplicationArn: S.optional(S.String),
+    principal: S.optional(S.String),
+    actionConfigurations: S.optional(ActionConfigurationList),
+    authenticationDetail: S.optional(DataAccessorAuthenticationDetail),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "GetDataAccessorResponse",
+}) as any as S.Schema<GetDataAccessorResponse>;
+export interface UpdateDataAccessorRequest {
+  applicationId: string;
+  dataAccessorId: string;
+  actionConfigurations: ActionConfiguration[];
+  authenticationDetail?: DataAccessorAuthenticationDetail;
+  displayName?: string | redacted.Redacted<string>;
+}
+export const UpdateDataAccessorRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    dataAccessorId: S.String.pipe(T.HttpLabel("dataAccessorId")),
+    actionConfigurations: ActionConfigurationList,
+    authenticationDetail: S.optional(DataAccessorAuthenticationDetail),
+    displayName: S.optional(SensitiveString),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/dataaccessors/{dataAccessorId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateDataAccessorRequest",
+}) as any as S.Schema<UpdateDataAccessorRequest>;
+export interface UpdateDataAccessorResponse {}
+export const UpdateDataAccessorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateDataAccessorResponse",
+}) as any as S.Schema<UpdateDataAccessorResponse>;
+export interface DeleteDataAccessorRequest {
+  applicationId: string;
+  dataAccessorId: string;
+}
+export const DeleteDataAccessorRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    dataAccessorId: S.String.pipe(T.HttpLabel("dataAccessorId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/dataaccessors/{dataAccessorId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteDataAccessorRequest",
+}) as any as S.Schema<DeleteDataAccessorRequest>;
+export interface DeleteDataAccessorResponse {}
+export const DeleteDataAccessorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteDataAccessorResponse",
+}) as any as S.Schema<DeleteDataAccessorResponse>;
+export interface ListDataAccessorsRequest {
+  applicationId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataAccessorsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/dataaccessors",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDataAccessorsRequest",
+}) as any as S.Schema<ListDataAccessorsRequest>;
+export interface DataAccessor {
+  displayName?: string | redacted.Redacted<string>;
+  dataAccessorId?: string;
+  dataAccessorArn?: string;
+  idcApplicationArn?: string;
+  principal?: string;
+  authenticationDetail?: DataAccessorAuthenticationDetail;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const DataAccessor = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(SensitiveString),
+    dataAccessorId: S.optional(S.String),
+    dataAccessorArn: S.optional(S.String),
+    idcApplicationArn: S.optional(S.String),
+    principal: S.optional(S.String),
+    authenticationDetail: S.optional(DataAccessorAuthenticationDetail),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "DataAccessor" }) as any as S.Schema<DataAccessor>;
 export type DataAccessors = DataAccessor[];
 export const DataAccessors = S.Array(DataAccessor);
-export interface ListDataAccessorsResponse { dataAccessors?: DataAccessor[]; nextToken?: string }
-export const ListDataAccessorsResponse = S.suspend(() => S.Struct({dataAccessors: S.optional(DataAccessors), nextToken: S.optional(S.String)})).annotate({ identifier: "ListDataAccessorsResponse" }) as any as S.Schema<ListDataAccessorsResponse>;
-export type IndexType =
-  | "ENTERPRISE"
-  | "STARTER"
-  | (string & {});
+export interface ListDataAccessorsResponse {
+  dataAccessors?: DataAccessor[];
+  nextToken?: string;
+}
+export const ListDataAccessorsResponse = S.suspend(() =>
+  S.Struct({
+    dataAccessors: S.optional(DataAccessors),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDataAccessorsResponse",
+}) as any as S.Schema<ListDataAccessorsResponse>;
+export type IndexType = "ENTERPRISE" | "STARTER" | (string & {});
 export const IndexType = S.String;
-export interface IndexCapacityConfiguration { units?: number }
-export const IndexCapacityConfiguration = S.suspend(() => S.Struct({units: S.optional(S.Number)})).annotate({ identifier: "IndexCapacityConfiguration" }) as any as S.Schema<IndexCapacityConfiguration>;
-export interface CreateIndexRequest { applicationId: string; displayName: string; description?: string; type?: IndexType; tags?: Tag[]; capacityConfiguration?: IndexCapacityConfiguration; clientToken?: string }
-export const CreateIndexRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), displayName: S.String, description: S.optional(S.String), type: S.optional(IndexType), tags: S.optional(Tags), capacityConfiguration: S.optional(IndexCapacityConfiguration), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/indices" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateIndexRequest" }) as any as S.Schema<CreateIndexRequest>;
-export interface CreateIndexResponse { indexId?: string; indexArn?: string }
-export const CreateIndexResponse = S.suspend(() => S.Struct({indexId: S.optional(S.String), indexArn: S.optional(S.String)})).annotate({ identifier: "CreateIndexResponse" }) as any as S.Schema<CreateIndexResponse>;
-export interface GetIndexRequest { applicationId: string; indexId: string }
-export const GetIndexRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/indices/{indexId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetIndexRequest" }) as any as S.Schema<GetIndexRequest>;
+export interface IndexCapacityConfiguration {
+  units?: number;
+}
+export const IndexCapacityConfiguration = S.suspend(() =>
+  S.Struct({ units: S.optional(S.Number) }),
+).annotate({
+  identifier: "IndexCapacityConfiguration",
+}) as any as S.Schema<IndexCapacityConfiguration>;
+export interface CreateIndexRequest {
+  applicationId: string;
+  displayName: string;
+  description?: string;
+  type?: IndexType;
+  tags?: Tag[];
+  capacityConfiguration?: IndexCapacityConfiguration;
+  clientToken?: string;
+}
+export const CreateIndexRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    displayName: S.String,
+    description: S.optional(S.String),
+    type: S.optional(IndexType),
+    tags: S.optional(Tags),
+    capacityConfiguration: S.optional(IndexCapacityConfiguration),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/indices" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateIndexRequest",
+}) as any as S.Schema<CreateIndexRequest>;
+export interface CreateIndexResponse {
+  indexId?: string;
+  indexArn?: string;
+}
+export const CreateIndexResponse = S.suspend(() =>
+  S.Struct({ indexId: S.optional(S.String), indexArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateIndexResponse",
+}) as any as S.Schema<CreateIndexResponse>;
+export interface GetIndexRequest {
+  applicationId: string;
+  indexId: string;
+}
+export const GetIndexRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/indices/{indexId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetIndexRequest",
+}) as any as S.Schema<GetIndexRequest>;
 export type IndexStatus =
   | "CREATING"
   | "ACTIVE"
@@ -1094,49 +4464,295 @@ export type AttributeType =
   | "DATE"
   | (string & {});
 export const AttributeType = S.String;
-export type Status =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type Status = "ENABLED" | "DISABLED" | (string & {});
 export const Status = S.String;
-export interface DocumentAttributeConfiguration { name?: string; type?: AttributeType; search?: Status }
-export const DocumentAttributeConfiguration = S.suspend(() => S.Struct({name: S.optional(S.String), type: S.optional(AttributeType), search: S.optional(Status)})).annotate({ identifier: "DocumentAttributeConfiguration" }) as any as S.Schema<DocumentAttributeConfiguration>;
+export interface DocumentAttributeConfiguration {
+  name?: string;
+  type?: AttributeType;
+  search?: Status;
+}
+export const DocumentAttributeConfiguration = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(AttributeType),
+    search: S.optional(Status),
+  }),
+).annotate({
+  identifier: "DocumentAttributeConfiguration",
+}) as any as S.Schema<DocumentAttributeConfiguration>;
 export type DocumentAttributeConfigurations = DocumentAttributeConfiguration[];
-export const DocumentAttributeConfigurations = S.Array(DocumentAttributeConfiguration);
-export interface TextDocumentStatistics { indexedTextBytes?: number; indexedTextDocumentCount?: number }
-export const TextDocumentStatistics = S.suspend(() => S.Struct({indexedTextBytes: S.optional(S.Number), indexedTextDocumentCount: S.optional(S.Number)})).annotate({ identifier: "TextDocumentStatistics" }) as any as S.Schema<TextDocumentStatistics>;
-export interface IndexStatistics { textDocumentStatistics?: TextDocumentStatistics }
-export const IndexStatistics = S.suspend(() => S.Struct({textDocumentStatistics: S.optional(TextDocumentStatistics)})).annotate({ identifier: "IndexStatistics" }) as any as S.Schema<IndexStatistics>;
-export interface GetIndexResponse { applicationId?: string; indexId?: string; displayName?: string; indexArn?: string; status?: IndexStatus; type?: IndexType; description?: string; createdAt?: Date; updatedAt?: Date; capacityConfiguration?: IndexCapacityConfiguration; documentAttributeConfigurations?: DocumentAttributeConfiguration[]; error?: ErrorDetail; indexStatistics?: IndexStatistics }
-export const GetIndexResponse = S.suspend(() => S.Struct({applicationId: S.optional(S.String), indexId: S.optional(S.String), displayName: S.optional(S.String), indexArn: S.optional(S.String), status: S.optional(IndexStatus), type: S.optional(IndexType), description: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), capacityConfiguration: S.optional(IndexCapacityConfiguration), documentAttributeConfigurations: S.optional(DocumentAttributeConfigurations), error: S.optional(ErrorDetail), indexStatistics: S.optional(IndexStatistics)})).annotate({ identifier: "GetIndexResponse" }) as any as S.Schema<GetIndexResponse>;
-export interface UpdateIndexRequest { applicationId: string; indexId: string; displayName?: string; description?: string; capacityConfiguration?: IndexCapacityConfiguration; documentAttributeConfigurations?: DocumentAttributeConfiguration[] }
-export const UpdateIndexRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), displayName: S.optional(S.String), description: S.optional(S.String), capacityConfiguration: S.optional(IndexCapacityConfiguration), documentAttributeConfigurations: S.optional(DocumentAttributeConfigurations)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/indices/{indexId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateIndexRequest" }) as any as S.Schema<UpdateIndexRequest>;
-export interface UpdateIndexResponse {  }
-export const UpdateIndexResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateIndexResponse" }) as any as S.Schema<UpdateIndexResponse>;
-export interface DeleteIndexRequest { applicationId: string; indexId: string }
-export const DeleteIndexRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/indices/{indexId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteIndexRequest" }) as any as S.Schema<DeleteIndexRequest>;
-export interface DeleteIndexResponse {  }
-export const DeleteIndexResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteIndexResponse" }) as any as S.Schema<DeleteIndexResponse>;
-export interface ListIndicesRequest { applicationId: string; nextToken?: string; maxResults?: number }
-export const ListIndicesRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/indices" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListIndicesRequest" }) as any as S.Schema<ListIndicesRequest>;
-export interface Index { displayName?: string; indexId?: string; createdAt?: Date; updatedAt?: Date; status?: IndexStatus }
-export const Index = S.suspend(() => S.Struct({displayName: S.optional(S.String), indexId: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), status: S.optional(IndexStatus)})).annotate({ identifier: "Index" }) as any as S.Schema<Index>;
+export const DocumentAttributeConfigurations = S.Array(
+  DocumentAttributeConfiguration,
+);
+export interface TextDocumentStatistics {
+  indexedTextBytes?: number;
+  indexedTextDocumentCount?: number;
+}
+export const TextDocumentStatistics = S.suspend(() =>
+  S.Struct({
+    indexedTextBytes: S.optional(S.Number),
+    indexedTextDocumentCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "TextDocumentStatistics",
+}) as any as S.Schema<TextDocumentStatistics>;
+export interface IndexStatistics {
+  textDocumentStatistics?: TextDocumentStatistics;
+}
+export const IndexStatistics = S.suspend(() =>
+  S.Struct({ textDocumentStatistics: S.optional(TextDocumentStatistics) }),
+).annotate({
+  identifier: "IndexStatistics",
+}) as any as S.Schema<IndexStatistics>;
+export interface GetIndexResponse {
+  applicationId?: string;
+  indexId?: string;
+  displayName?: string;
+  indexArn?: string;
+  status?: IndexStatus;
+  type?: IndexType;
+  description?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  capacityConfiguration?: IndexCapacityConfiguration;
+  documentAttributeConfigurations?: DocumentAttributeConfiguration[];
+  error?: ErrorDetail;
+  indexStatistics?: IndexStatistics;
+}
+export const GetIndexResponse = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    indexId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    indexArn: S.optional(S.String),
+    status: S.optional(IndexStatus),
+    type: S.optional(IndexType),
+    description: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    capacityConfiguration: S.optional(IndexCapacityConfiguration),
+    documentAttributeConfigurations: S.optional(
+      DocumentAttributeConfigurations,
+    ),
+    error: S.optional(ErrorDetail),
+    indexStatistics: S.optional(IndexStatistics),
+  }),
+).annotate({
+  identifier: "GetIndexResponse",
+}) as any as S.Schema<GetIndexResponse>;
+export interface UpdateIndexRequest {
+  applicationId: string;
+  indexId: string;
+  displayName?: string;
+  description?: string;
+  capacityConfiguration?: IndexCapacityConfiguration;
+  documentAttributeConfigurations?: DocumentAttributeConfiguration[];
+}
+export const UpdateIndexRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    capacityConfiguration: S.optional(IndexCapacityConfiguration),
+    documentAttributeConfigurations: S.optional(
+      DocumentAttributeConfigurations,
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/indices/{indexId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateIndexRequest",
+}) as any as S.Schema<UpdateIndexRequest>;
+export interface UpdateIndexResponse {}
+export const UpdateIndexResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateIndexResponse",
+}) as any as S.Schema<UpdateIndexResponse>;
+export interface DeleteIndexRequest {
+  applicationId: string;
+  indexId: string;
+}
+export const DeleteIndexRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/indices/{indexId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIndexRequest",
+}) as any as S.Schema<DeleteIndexRequest>;
+export interface DeleteIndexResponse {}
+export const DeleteIndexResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteIndexResponse",
+}) as any as S.Schema<DeleteIndexResponse>;
+export interface ListIndicesRequest {
+  applicationId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListIndicesRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/indices" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIndicesRequest",
+}) as any as S.Schema<ListIndicesRequest>;
+export interface Index {
+  displayName?: string;
+  indexId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  status?: IndexStatus;
+}
+export const Index = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    indexId: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(IndexStatus),
+  }),
+).annotate({ identifier: "Index" }) as any as S.Schema<Index>;
 export type Indices = Index[];
 export const Indices = S.Array(Index);
-export interface ListIndicesResponse { nextToken?: string; indices?: Index[] }
-export const ListIndicesResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), indices: S.optional(Indices)})).annotate({ identifier: "ListIndicesResponse" }) as any as S.Schema<ListIndicesResponse>;
+export interface ListIndicesResponse {
+  nextToken?: string;
+  indices?: Index[];
+}
+export const ListIndicesResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), indices: S.optional(Indices) }),
+).annotate({
+  identifier: "ListIndicesResponse",
+}) as any as S.Schema<ListIndicesResponse>;
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
-export interface DataSourceVpcConfiguration { subnetIds: string[]; securityGroupIds: string[] }
-export const DataSourceVpcConfiguration = S.suspend(() => S.Struct({subnetIds: SubnetIds, securityGroupIds: SecurityGroupIds})).annotate({ identifier: "DataSourceVpcConfiguration" }) as any as S.Schema<DataSourceVpcConfiguration>;
-export interface CreateDataSourceRequest { applicationId: string; indexId: string; displayName: string; configuration: any; vpcConfiguration?: DataSourceVpcConfiguration; description?: string; tags?: Tag[]; syncSchedule?: string; roleArn?: string; clientToken?: string; documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration; mediaExtractionConfiguration?: MediaExtractionConfiguration }
-export const CreateDataSourceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), displayName: S.String, configuration: S.Any, vpcConfiguration: S.optional(DataSourceVpcConfiguration), description: S.optional(S.String), tags: S.optional(Tags), syncSchedule: S.optional(S.String), roleArn: S.optional(S.String), clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), documentEnrichmentConfiguration: S.optional(DocumentEnrichmentConfiguration), mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/indices/{indexId}/datasources" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateDataSourceRequest" }) as any as S.Schema<CreateDataSourceRequest>;
-export interface CreateDataSourceResponse { dataSourceId?: string; dataSourceArn?: string }
-export const CreateDataSourceResponse = S.suspend(() => S.Struct({dataSourceId: S.optional(S.String), dataSourceArn: S.optional(S.String)})).annotate({ identifier: "CreateDataSourceResponse" }) as any as S.Schema<CreateDataSourceResponse>;
-export interface GetDataSourceRequest { applicationId: string; indexId: string; dataSourceId: string }
-export const GetDataSourceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetDataSourceRequest" }) as any as S.Schema<GetDataSourceRequest>;
+export interface DataSourceVpcConfiguration {
+  subnetIds: string[];
+  securityGroupIds: string[];
+}
+export const DataSourceVpcConfiguration = S.suspend(() =>
+  S.Struct({ subnetIds: SubnetIds, securityGroupIds: SecurityGroupIds }),
+).annotate({
+  identifier: "DataSourceVpcConfiguration",
+}) as any as S.Schema<DataSourceVpcConfiguration>;
+export interface CreateDataSourceRequest {
+  applicationId: string;
+  indexId: string;
+  displayName: string;
+  configuration: any;
+  vpcConfiguration?: DataSourceVpcConfiguration;
+  description?: string;
+  tags?: Tag[];
+  syncSchedule?: string;
+  roleArn?: string;
+  clientToken?: string;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+}
+export const CreateDataSourceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    displayName: S.String,
+    configuration: S.Any,
+    vpcConfiguration: S.optional(DataSourceVpcConfiguration),
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    syncSchedule: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    documentEnrichmentConfiguration: S.optional(
+      DocumentEnrichmentConfiguration,
+    ),
+    mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateDataSourceRequest",
+}) as any as S.Schema<CreateDataSourceRequest>;
+export interface CreateDataSourceResponse {
+  dataSourceId?: string;
+  dataSourceArn?: string;
+}
+export const CreateDataSourceResponse = S.suspend(() =>
+  S.Struct({
+    dataSourceId: S.optional(S.String),
+    dataSourceArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateDataSourceResponse",
+}) as any as S.Schema<CreateDataSourceResponse>;
+export interface GetDataSourceRequest {
+  applicationId: string;
+  indexId: string;
+  dataSourceId: string;
+}
+export const GetDataSourceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDataSourceRequest",
+}) as any as S.Schema<GetDataSourceRequest>;
 export type DataSourceStatus =
   | "PENDING_CREATION"
   | "CREATING"
@@ -1146,44 +4762,315 @@ export type DataSourceStatus =
   | "UPDATING"
   | (string & {});
 export const DataSourceStatus = S.String;
-export interface GetDataSourceResponse { applicationId?: string; indexId?: string; dataSourceId?: string; dataSourceArn?: string; displayName?: string; type?: string; configuration?: any; vpcConfiguration?: DataSourceVpcConfiguration; createdAt?: Date; updatedAt?: Date; description?: string; status?: DataSourceStatus; syncSchedule?: string; roleArn?: string; error?: ErrorDetail; documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration; mediaExtractionConfiguration?: MediaExtractionConfiguration }
-export const GetDataSourceResponse = S.suspend(() => S.Struct({applicationId: S.optional(S.String), indexId: S.optional(S.String), dataSourceId: S.optional(S.String), dataSourceArn: S.optional(S.String), displayName: S.optional(S.String), type: S.optional(S.String), configuration: S.optional(S.Any), vpcConfiguration: S.optional(DataSourceVpcConfiguration), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), description: S.optional(S.String), status: S.optional(DataSourceStatus), syncSchedule: S.optional(S.String), roleArn: S.optional(S.String), error: S.optional(ErrorDetail), documentEnrichmentConfiguration: S.optional(DocumentEnrichmentConfiguration), mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration)})).annotate({ identifier: "GetDataSourceResponse" }) as any as S.Schema<GetDataSourceResponse>;
-export interface UpdateDataSourceRequest { applicationId: string; indexId: string; dataSourceId: string; displayName?: string; configuration?: any; vpcConfiguration?: DataSourceVpcConfiguration; description?: string; syncSchedule?: string; roleArn?: string; documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration; mediaExtractionConfiguration?: MediaExtractionConfiguration }
-export const UpdateDataSourceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")), displayName: S.optional(S.String), configuration: S.optional(S.Any), vpcConfiguration: S.optional(DataSourceVpcConfiguration), description: S.optional(S.String), syncSchedule: S.optional(S.String), roleArn: S.optional(S.String), documentEnrichmentConfiguration: S.optional(DocumentEnrichmentConfiguration), mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateDataSourceRequest" }) as any as S.Schema<UpdateDataSourceRequest>;
-export interface UpdateDataSourceResponse {  }
-export const UpdateDataSourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateDataSourceResponse" }) as any as S.Schema<UpdateDataSourceResponse>;
-export interface DeleteDataSourceRequest { applicationId: string; indexId: string; dataSourceId: string }
-export const DeleteDataSourceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteDataSourceRequest" }) as any as S.Schema<DeleteDataSourceRequest>;
-export interface DeleteDataSourceResponse {  }
-export const DeleteDataSourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDataSourceResponse" }) as any as S.Schema<DeleteDataSourceResponse>;
-export interface ListDataSourcesRequest { applicationId: string; indexId: string; nextToken?: string; maxResults?: number }
-export const ListDataSourcesRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), indexId: S.String.pipe(T.HttpLabel("indexId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/indices/{indexId}/datasources" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListDataSourcesRequest" }) as any as S.Schema<ListDataSourcesRequest>;
-export interface DataSource { displayName?: string; dataSourceId?: string; type?: string; createdAt?: Date; updatedAt?: Date; status?: DataSourceStatus }
-export const DataSource = S.suspend(() => S.Struct({displayName: S.optional(S.String), dataSourceId: S.optional(S.String), type: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), status: S.optional(DataSourceStatus)})).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export interface GetDataSourceResponse {
+  applicationId?: string;
+  indexId?: string;
+  dataSourceId?: string;
+  dataSourceArn?: string;
+  displayName?: string;
+  type?: string;
+  configuration?: any;
+  vpcConfiguration?: DataSourceVpcConfiguration;
+  createdAt?: Date;
+  updatedAt?: Date;
+  description?: string;
+  status?: DataSourceStatus;
+  syncSchedule?: string;
+  roleArn?: string;
+  error?: ErrorDetail;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+}
+export const GetDataSourceResponse = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    indexId: S.optional(S.String),
+    dataSourceId: S.optional(S.String),
+    dataSourceArn: S.optional(S.String),
+    displayName: S.optional(S.String),
+    type: S.optional(S.String),
+    configuration: S.optional(S.Any),
+    vpcConfiguration: S.optional(DataSourceVpcConfiguration),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    description: S.optional(S.String),
+    status: S.optional(DataSourceStatus),
+    syncSchedule: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    error: S.optional(ErrorDetail),
+    documentEnrichmentConfiguration: S.optional(
+      DocumentEnrichmentConfiguration,
+    ),
+    mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration),
+  }),
+).annotate({
+  identifier: "GetDataSourceResponse",
+}) as any as S.Schema<GetDataSourceResponse>;
+export interface UpdateDataSourceRequest {
+  applicationId: string;
+  indexId: string;
+  dataSourceId: string;
+  displayName?: string;
+  configuration?: any;
+  vpcConfiguration?: DataSourceVpcConfiguration;
+  description?: string;
+  syncSchedule?: string;
+  roleArn?: string;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+}
+export const UpdateDataSourceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+    displayName: S.optional(S.String),
+    configuration: S.optional(S.Any),
+    vpcConfiguration: S.optional(DataSourceVpcConfiguration),
+    description: S.optional(S.String),
+    syncSchedule: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    documentEnrichmentConfiguration: S.optional(
+      DocumentEnrichmentConfiguration,
+    ),
+    mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateDataSourceRequest",
+}) as any as S.Schema<UpdateDataSourceRequest>;
+export interface UpdateDataSourceResponse {}
+export const UpdateDataSourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateDataSourceResponse",
+}) as any as S.Schema<UpdateDataSourceResponse>;
+export interface DeleteDataSourceRequest {
+  applicationId: string;
+  indexId: string;
+  dataSourceId: string;
+}
+export const DeleteDataSourceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources/{dataSourceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteDataSourceRequest",
+}) as any as S.Schema<DeleteDataSourceRequest>;
+export interface DeleteDataSourceResponse {}
+export const DeleteDataSourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteDataSourceResponse",
+}) as any as S.Schema<DeleteDataSourceResponse>;
+export interface ListDataSourcesRequest {
+  applicationId: string;
+  indexId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataSourcesRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    indexId: S.String.pipe(T.HttpLabel("indexId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/indices/{indexId}/datasources",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDataSourcesRequest",
+}) as any as S.Schema<ListDataSourcesRequest>;
+export interface DataSource {
+  displayName?: string;
+  dataSourceId?: string;
+  type?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  status?: DataSourceStatus;
+}
+export const DataSource = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    dataSourceId: S.optional(S.String),
+    type: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(DataSourceStatus),
+  }),
+).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export type DataSources = DataSource[];
 export const DataSources = S.Array(DataSource);
-export interface ListDataSourcesResponse { dataSources?: DataSource[]; nextToken?: string }
-export const ListDataSourcesResponse = S.suspend(() => S.Struct({dataSources: S.optional(DataSources), nextToken: S.optional(S.String)})).annotate({ identifier: "ListDataSourcesResponse" }) as any as S.Schema<ListDataSourcesResponse>;
-export interface BasicAuthConfiguration { secretArn: string; roleArn: string }
-export const BasicAuthConfiguration = S.suspend(() => S.Struct({secretArn: S.String, roleArn: S.String})).annotate({ identifier: "BasicAuthConfiguration" }) as any as S.Schema<BasicAuthConfiguration>;
-export interface OAuth2ClientCredentialConfiguration { secretArn: string; roleArn: string; authorizationUrl?: string; tokenUrl?: string }
-export const OAuth2ClientCredentialConfiguration = S.suspend(() => S.Struct({secretArn: S.String, roleArn: S.String, authorizationUrl: S.optional(S.String), tokenUrl: S.optional(S.String)})).annotate({ identifier: "OAuth2ClientCredentialConfiguration" }) as any as S.Schema<OAuth2ClientCredentialConfiguration>;
-export interface NoAuthConfiguration {  }
-export const NoAuthConfiguration = S.suspend(() => S.Struct({})).annotate({ identifier: "NoAuthConfiguration" }) as any as S.Schema<NoAuthConfiguration>;
-export interface IdcAuthConfiguration { idcApplicationArn: string; roleArn: string }
-export const IdcAuthConfiguration = S.suspend(() => S.Struct({idcApplicationArn: S.String, roleArn: S.String})).annotate({ identifier: "IdcAuthConfiguration" }) as any as S.Schema<IdcAuthConfiguration>;
-export type PluginAuthConfiguration = { basicAuthConfiguration: BasicAuthConfiguration; oAuth2ClientCredentialConfiguration?: never; noAuthConfiguration?: never; idcAuthConfiguration?: never } | { basicAuthConfiguration?: never; oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration; noAuthConfiguration?: never; idcAuthConfiguration?: never } | { basicAuthConfiguration?: never; oAuth2ClientCredentialConfiguration?: never; noAuthConfiguration: NoAuthConfiguration; idcAuthConfiguration?: never } | { basicAuthConfiguration?: never; oAuth2ClientCredentialConfiguration?: never; noAuthConfiguration?: never; idcAuthConfiguration: IdcAuthConfiguration };
-export const PluginAuthConfiguration = S.Union([S.Struct({ basicAuthConfiguration: BasicAuthConfiguration }), S.Struct({ oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration }), S.Struct({ noAuthConfiguration: NoAuthConfiguration }), S.Struct({ idcAuthConfiguration: IdcAuthConfiguration })]);
-export type APISchemaType =
-  | "OPEN_API_V3"
-  | (string & {});
+export interface ListDataSourcesResponse {
+  dataSources?: DataSource[];
+  nextToken?: string;
+}
+export const ListDataSourcesResponse = S.suspend(() =>
+  S.Struct({
+    dataSources: S.optional(DataSources),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDataSourcesResponse",
+}) as any as S.Schema<ListDataSourcesResponse>;
+export interface BasicAuthConfiguration {
+  secretArn: string;
+  roleArn: string;
+}
+export const BasicAuthConfiguration = S.suspend(() =>
+  S.Struct({ secretArn: S.String, roleArn: S.String }),
+).annotate({
+  identifier: "BasicAuthConfiguration",
+}) as any as S.Schema<BasicAuthConfiguration>;
+export interface OAuth2ClientCredentialConfiguration {
+  secretArn: string;
+  roleArn: string;
+  authorizationUrl?: string;
+  tokenUrl?: string;
+}
+export const OAuth2ClientCredentialConfiguration = S.suspend(() =>
+  S.Struct({
+    secretArn: S.String,
+    roleArn: S.String,
+    authorizationUrl: S.optional(S.String),
+    tokenUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OAuth2ClientCredentialConfiguration",
+}) as any as S.Schema<OAuth2ClientCredentialConfiguration>;
+export interface NoAuthConfiguration {}
+export const NoAuthConfiguration = S.suspend(() => S.Struct({})).annotate({
+  identifier: "NoAuthConfiguration",
+}) as any as S.Schema<NoAuthConfiguration>;
+export interface IdcAuthConfiguration {
+  idcApplicationArn: string;
+  roleArn: string;
+}
+export const IdcAuthConfiguration = S.suspend(() =>
+  S.Struct({ idcApplicationArn: S.String, roleArn: S.String }),
+).annotate({
+  identifier: "IdcAuthConfiguration",
+}) as any as S.Schema<IdcAuthConfiguration>;
+export type PluginAuthConfiguration =
+  | {
+      basicAuthConfiguration: BasicAuthConfiguration;
+      oAuth2ClientCredentialConfiguration?: never;
+      noAuthConfiguration?: never;
+      idcAuthConfiguration?: never;
+    }
+  | {
+      basicAuthConfiguration?: never;
+      oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration;
+      noAuthConfiguration?: never;
+      idcAuthConfiguration?: never;
+    }
+  | {
+      basicAuthConfiguration?: never;
+      oAuth2ClientCredentialConfiguration?: never;
+      noAuthConfiguration: NoAuthConfiguration;
+      idcAuthConfiguration?: never;
+    }
+  | {
+      basicAuthConfiguration?: never;
+      oAuth2ClientCredentialConfiguration?: never;
+      noAuthConfiguration?: never;
+      idcAuthConfiguration: IdcAuthConfiguration;
+    };
+export const PluginAuthConfiguration = S.Union([
+  S.Struct({ basicAuthConfiguration: BasicAuthConfiguration }),
+  S.Struct({
+    oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration,
+  }),
+  S.Struct({ noAuthConfiguration: NoAuthConfiguration }),
+  S.Struct({ idcAuthConfiguration: IdcAuthConfiguration }),
+]);
+export type APISchemaType = "OPEN_API_V3" | (string & {});
 export const APISchemaType = S.String;
-export type APISchema = { payload: string | redacted.Redacted<string>; s3?: never } | { payload?: never; s3: S3 };
-export const APISchema = S.Union([S.Struct({ payload: SensitiveString }), S.Struct({ s3: S3 })]);
-export interface CustomPluginConfiguration { description: string; apiSchemaType: APISchemaType; apiSchema?: APISchema }
-export const CustomPluginConfiguration = S.suspend(() => S.Struct({description: S.String, apiSchemaType: APISchemaType, apiSchema: S.optional(APISchema)})).annotate({ identifier: "CustomPluginConfiguration" }) as any as S.Schema<CustomPluginConfiguration>;
-export interface CreatePluginRequest { applicationId: string; displayName: string; type: PluginType; authConfiguration: PluginAuthConfiguration; serverUrl?: string; customPluginConfiguration?: CustomPluginConfiguration; tags?: Tag[]; clientToken?: string }
-export const CreatePluginRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), displayName: S.String, type: PluginType, authConfiguration: PluginAuthConfiguration, serverUrl: S.optional(S.String), customPluginConfiguration: S.optional(CustomPluginConfiguration), tags: S.optional(Tags), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/plugins" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreatePluginRequest" }) as any as S.Schema<CreatePluginRequest>;
+export type APISchema =
+  | { payload: string | redacted.Redacted<string>; s3?: never }
+  | { payload?: never; s3: S3 };
+export const APISchema = S.Union([
+  S.Struct({ payload: SensitiveString }),
+  S.Struct({ s3: S3 }),
+]);
+export interface CustomPluginConfiguration {
+  description: string;
+  apiSchemaType: APISchemaType;
+  apiSchema?: APISchema;
+}
+export const CustomPluginConfiguration = S.suspend(() =>
+  S.Struct({
+    description: S.String,
+    apiSchemaType: APISchemaType,
+    apiSchema: S.optional(APISchema),
+  }),
+).annotate({
+  identifier: "CustomPluginConfiguration",
+}) as any as S.Schema<CustomPluginConfiguration>;
+export interface CreatePluginRequest {
+  applicationId: string;
+  displayName: string;
+  type: PluginType;
+  authConfiguration: PluginAuthConfiguration;
+  serverUrl?: string;
+  customPluginConfiguration?: CustomPluginConfiguration;
+  tags?: Tag[];
+  clientToken?: string;
+}
+export const CreatePluginRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    displayName: S.String,
+    type: PluginType,
+    authConfiguration: PluginAuthConfiguration,
+    serverUrl: S.optional(S.String),
+    customPluginConfiguration: S.optional(CustomPluginConfiguration),
+    tags: S.optional(Tags),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/plugins" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePluginRequest",
+}) as any as S.Schema<CreatePluginRequest>;
 export type PluginBuildStatus =
   | "READY"
   | "CREATE_IN_PROGRESS"
@@ -1194,37 +5081,201 @@ export type PluginBuildStatus =
   | "DELETE_FAILED"
   | (string & {});
 export const PluginBuildStatus = S.String;
-export interface CreatePluginResponse { pluginId?: string; pluginArn?: string; buildStatus?: PluginBuildStatus }
-export const CreatePluginResponse = S.suspend(() => S.Struct({pluginId: S.optional(S.String), pluginArn: S.optional(S.String), buildStatus: S.optional(PluginBuildStatus)})).annotate({ identifier: "CreatePluginResponse" }) as any as S.Schema<CreatePluginResponse>;
-export interface GetPluginRequest { applicationId: string; pluginId: string }
-export const GetPluginRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), pluginId: S.String.pipe(T.HttpLabel("pluginId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/plugins/{pluginId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetPluginRequest" }) as any as S.Schema<GetPluginRequest>;
-export type PluginState =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface CreatePluginResponse {
+  pluginId?: string;
+  pluginArn?: string;
+  buildStatus?: PluginBuildStatus;
+}
+export const CreatePluginResponse = S.suspend(() =>
+  S.Struct({
+    pluginId: S.optional(S.String),
+    pluginArn: S.optional(S.String),
+    buildStatus: S.optional(PluginBuildStatus),
+  }),
+).annotate({
+  identifier: "CreatePluginResponse",
+}) as any as S.Schema<CreatePluginResponse>;
+export interface GetPluginRequest {
+  applicationId: string;
+  pluginId: string;
+}
+export const GetPluginRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    pluginId: S.String.pipe(T.HttpLabel("pluginId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/plugins/{pluginId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPluginRequest",
+}) as any as S.Schema<GetPluginRequest>;
+export type PluginState = "ENABLED" | "DISABLED" | (string & {});
 export const PluginState = S.String;
-export interface GetPluginResponse { applicationId?: string; pluginId?: string; displayName?: string; type?: PluginType; serverUrl?: string; authConfiguration?: PluginAuthConfiguration; customPluginConfiguration?: CustomPluginConfiguration; buildStatus?: PluginBuildStatus; pluginArn?: string; state?: PluginState; createdAt?: Date; updatedAt?: Date }
-export const GetPluginResponse = S.suspend(() => S.Struct({applicationId: S.optional(S.String), pluginId: S.optional(S.String), displayName: S.optional(S.String), type: S.optional(PluginType), serverUrl: S.optional(S.String), authConfiguration: S.optional(PluginAuthConfiguration), customPluginConfiguration: S.optional(CustomPluginConfiguration), buildStatus: S.optional(PluginBuildStatus), pluginArn: S.optional(S.String), state: S.optional(PluginState), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "GetPluginResponse" }) as any as S.Schema<GetPluginResponse>;
-export interface UpdatePluginRequest { applicationId: string; pluginId: string; displayName?: string; state?: PluginState; serverUrl?: string; customPluginConfiguration?: CustomPluginConfiguration; authConfiguration?: PluginAuthConfiguration }
-export const UpdatePluginRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), pluginId: S.String.pipe(T.HttpLabel("pluginId")), displayName: S.optional(S.String), state: S.optional(PluginState), serverUrl: S.optional(S.String), customPluginConfiguration: S.optional(CustomPluginConfiguration), authConfiguration: S.optional(PluginAuthConfiguration)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/plugins/{pluginId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdatePluginRequest" }) as any as S.Schema<UpdatePluginRequest>;
-export interface UpdatePluginResponse {  }
-export const UpdatePluginResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdatePluginResponse" }) as any as S.Schema<UpdatePluginResponse>;
-export interface DeletePluginRequest { applicationId: string; pluginId: string }
-export const DeletePluginRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), pluginId: S.String.pipe(T.HttpLabel("pluginId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/plugins/{pluginId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeletePluginRequest" }) as any as S.Schema<DeletePluginRequest>;
-export interface DeletePluginResponse {  }
-export const DeletePluginResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeletePluginResponse" }) as any as S.Schema<DeletePluginResponse>;
-export interface ListPluginsRequest { applicationId: string; nextToken?: string; maxResults?: number }
-export const ListPluginsRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/plugins" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListPluginsRequest" }) as any as S.Schema<ListPluginsRequest>;
-export interface Plugin { pluginId?: string; displayName?: string; type?: PluginType; serverUrl?: string; state?: PluginState; buildStatus?: PluginBuildStatus; createdAt?: Date; updatedAt?: Date }
-export const Plugin = S.suspend(() => S.Struct({pluginId: S.optional(S.String), displayName: S.optional(S.String), type: S.optional(PluginType), serverUrl: S.optional(S.String), state: S.optional(PluginState), buildStatus: S.optional(PluginBuildStatus), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "Plugin" }) as any as S.Schema<Plugin>;
+export interface GetPluginResponse {
+  applicationId?: string;
+  pluginId?: string;
+  displayName?: string;
+  type?: PluginType;
+  serverUrl?: string;
+  authConfiguration?: PluginAuthConfiguration;
+  customPluginConfiguration?: CustomPluginConfiguration;
+  buildStatus?: PluginBuildStatus;
+  pluginArn?: string;
+  state?: PluginState;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const GetPluginResponse = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    pluginId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    type: S.optional(PluginType),
+    serverUrl: S.optional(S.String),
+    authConfiguration: S.optional(PluginAuthConfiguration),
+    customPluginConfiguration: S.optional(CustomPluginConfiguration),
+    buildStatus: S.optional(PluginBuildStatus),
+    pluginArn: S.optional(S.String),
+    state: S.optional(PluginState),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "GetPluginResponse",
+}) as any as S.Schema<GetPluginResponse>;
+export interface UpdatePluginRequest {
+  applicationId: string;
+  pluginId: string;
+  displayName?: string;
+  state?: PluginState;
+  serverUrl?: string;
+  customPluginConfiguration?: CustomPluginConfiguration;
+  authConfiguration?: PluginAuthConfiguration;
+}
+export const UpdatePluginRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    pluginId: S.String.pipe(T.HttpLabel("pluginId")),
+    displayName: S.optional(S.String),
+    state: S.optional(PluginState),
+    serverUrl: S.optional(S.String),
+    customPluginConfiguration: S.optional(CustomPluginConfiguration),
+    authConfiguration: S.optional(PluginAuthConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/plugins/{pluginId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdatePluginRequest",
+}) as any as S.Schema<UpdatePluginRequest>;
+export interface UpdatePluginResponse {}
+export const UpdatePluginResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdatePluginResponse",
+}) as any as S.Schema<UpdatePluginResponse>;
+export interface DeletePluginRequest {
+  applicationId: string;
+  pluginId: string;
+}
+export const DeletePluginRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    pluginId: S.String.pipe(T.HttpLabel("pluginId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/plugins/{pluginId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePluginRequest",
+}) as any as S.Schema<DeletePluginRequest>;
+export interface DeletePluginResponse {}
+export const DeletePluginResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeletePluginResponse",
+}) as any as S.Schema<DeletePluginResponse>;
+export interface ListPluginsRequest {
+  applicationId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPluginsRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/plugins" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPluginsRequest",
+}) as any as S.Schema<ListPluginsRequest>;
+export interface Plugin {
+  pluginId?: string;
+  displayName?: string;
+  type?: PluginType;
+  serverUrl?: string;
+  state?: PluginState;
+  buildStatus?: PluginBuildStatus;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const Plugin = S.suspend(() =>
+  S.Struct({
+    pluginId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    type: S.optional(PluginType),
+    serverUrl: S.optional(S.String),
+    state: S.optional(PluginState),
+    buildStatus: S.optional(PluginBuildStatus),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "Plugin" }) as any as S.Schema<Plugin>;
 export type Plugins = Plugin[];
 export const Plugins = S.Array(Plugin);
-export interface ListPluginsResponse { nextToken?: string; plugins?: Plugin[] }
-export const ListPluginsResponse = S.suspend(() => S.Struct({nextToken: S.optional(S.String), plugins: S.optional(Plugins)})).annotate({ identifier: "ListPluginsResponse" }) as any as S.Schema<ListPluginsResponse>;
-export type RetrieverType =
-  | "NATIVE_INDEX"
-  | "KENDRA_INDEX"
-  | (string & {});
+export interface ListPluginsResponse {
+  nextToken?: string;
+  plugins?: Plugin[];
+}
+export const ListPluginsResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), plugins: S.optional(Plugins) }),
+).annotate({
+  identifier: "ListPluginsResponse",
+}) as any as S.Schema<ListPluginsResponse>;
+export type RetrieverType = "NATIVE_INDEX" | "KENDRA_INDEX" | (string & {});
 export const RetrieverType = S.String;
 export type DocumentAttributeBoostingLevel =
   | "NONE"
@@ -1241,8 +5292,18 @@ export type NumberAttributeBoostingType =
   | "PRIORITIZE_SMALLER_VALUES"
   | (string & {});
 export const NumberAttributeBoostingType = S.String;
-export interface NumberAttributeBoostingConfiguration { boostingLevel: DocumentAttributeBoostingLevel; boostingType?: NumberAttributeBoostingType }
-export const NumberAttributeBoostingConfiguration = S.suspend(() => S.Struct({boostingLevel: DocumentAttributeBoostingLevel, boostingType: S.optional(NumberAttributeBoostingType)})).annotate({ identifier: "NumberAttributeBoostingConfiguration" }) as any as S.Schema<NumberAttributeBoostingConfiguration>;
+export interface NumberAttributeBoostingConfiguration {
+  boostingLevel: DocumentAttributeBoostingLevel;
+  boostingType?: NumberAttributeBoostingType;
+}
+export const NumberAttributeBoostingConfiguration = S.suspend(() =>
+  S.Struct({
+    boostingLevel: DocumentAttributeBoostingLevel,
+    boostingType: S.optional(NumberAttributeBoostingType),
+  }),
+).annotate({
+  identifier: "NumberAttributeBoostingConfiguration",
+}) as any as S.Schema<NumberAttributeBoostingConfiguration>;
 export type StringAttributeValueBoostingLevel =
   | "LOW"
   | "MEDIUM"
@@ -1255,54 +5316,342 @@ export type StringAttributeValueBoostingLevel =
   | "FIVE"
   | (string & {});
 export const StringAttributeValueBoostingLevel = S.String;
-export type StringAttributeValueBoosting = { [key: string]: StringAttributeValueBoostingLevel | undefined };
-export const StringAttributeValueBoosting = S.Record(S.String, StringAttributeValueBoostingLevel.pipe(S.optional));
-export interface StringAttributeBoostingConfiguration { boostingLevel: DocumentAttributeBoostingLevel; attributeValueBoosting?: { [key: string]: StringAttributeValueBoostingLevel | undefined } }
-export const StringAttributeBoostingConfiguration = S.suspend(() => S.Struct({boostingLevel: DocumentAttributeBoostingLevel, attributeValueBoosting: S.optional(StringAttributeValueBoosting)})).annotate({ identifier: "StringAttributeBoostingConfiguration" }) as any as S.Schema<StringAttributeBoostingConfiguration>;
-export interface DateAttributeBoostingConfiguration { boostingLevel: DocumentAttributeBoostingLevel; boostingDurationInSeconds?: number }
-export const DateAttributeBoostingConfiguration = S.suspend(() => S.Struct({boostingLevel: DocumentAttributeBoostingLevel, boostingDurationInSeconds: S.optional(S.Number)})).annotate({ identifier: "DateAttributeBoostingConfiguration" }) as any as S.Schema<DateAttributeBoostingConfiguration>;
-export interface StringListAttributeBoostingConfiguration { boostingLevel: DocumentAttributeBoostingLevel }
-export const StringListAttributeBoostingConfiguration = S.suspend(() => S.Struct({boostingLevel: DocumentAttributeBoostingLevel})).annotate({ identifier: "StringListAttributeBoostingConfiguration" }) as any as S.Schema<StringListAttributeBoostingConfiguration>;
-export type DocumentAttributeBoostingConfiguration = { numberConfiguration: NumberAttributeBoostingConfiguration; stringConfiguration?: never; dateConfiguration?: never; stringListConfiguration?: never } | { numberConfiguration?: never; stringConfiguration: StringAttributeBoostingConfiguration; dateConfiguration?: never; stringListConfiguration?: never } | { numberConfiguration?: never; stringConfiguration?: never; dateConfiguration: DateAttributeBoostingConfiguration; stringListConfiguration?: never } | { numberConfiguration?: never; stringConfiguration?: never; dateConfiguration?: never; stringListConfiguration: StringListAttributeBoostingConfiguration };
-export const DocumentAttributeBoostingConfiguration = S.Union([S.Struct({ numberConfiguration: NumberAttributeBoostingConfiguration }), S.Struct({ stringConfiguration: StringAttributeBoostingConfiguration }), S.Struct({ dateConfiguration: DateAttributeBoostingConfiguration }), S.Struct({ stringListConfiguration: StringListAttributeBoostingConfiguration })]);
-export type DocumentAttributeBoostingOverrideMap = { [key: string]: DocumentAttributeBoostingConfiguration | undefined };
-export const DocumentAttributeBoostingOverrideMap = S.Record(S.String, DocumentAttributeBoostingConfiguration.pipe(S.optional));
-export interface NativeIndexConfiguration { indexId: string; version?: number; boostingOverride?: { [key: string]: DocumentAttributeBoostingConfiguration | undefined } }
-export const NativeIndexConfiguration = S.suspend(() => S.Struct({indexId: S.String, version: S.optional(S.Number), boostingOverride: S.optional(DocumentAttributeBoostingOverrideMap)})).annotate({ identifier: "NativeIndexConfiguration" }) as any as S.Schema<NativeIndexConfiguration>;
-export interface KendraIndexConfiguration { indexId: string }
-export const KendraIndexConfiguration = S.suspend(() => S.Struct({indexId: S.String})).annotate({ identifier: "KendraIndexConfiguration" }) as any as S.Schema<KendraIndexConfiguration>;
-export type RetrieverConfiguration = { nativeIndexConfiguration: NativeIndexConfiguration; kendraIndexConfiguration?: never } | { nativeIndexConfiguration?: never; kendraIndexConfiguration: KendraIndexConfiguration };
-export const RetrieverConfiguration = S.Union([S.Struct({ nativeIndexConfiguration: NativeIndexConfiguration }), S.Struct({ kendraIndexConfiguration: KendraIndexConfiguration })]);
-export interface CreateRetrieverRequest { applicationId: string; type: RetrieverType; displayName: string; configuration: RetrieverConfiguration; roleArn?: string; clientToken?: string; tags?: Tag[] }
-export const CreateRetrieverRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), type: RetrieverType, displayName: S.String, configuration: RetrieverConfiguration, roleArn: S.optional(S.String), clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), tags: S.optional(Tags)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/retrievers" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateRetrieverRequest" }) as any as S.Schema<CreateRetrieverRequest>;
-export interface CreateRetrieverResponse { retrieverId?: string; retrieverArn?: string }
-export const CreateRetrieverResponse = S.suspend(() => S.Struct({retrieverId: S.optional(S.String), retrieverArn: S.optional(S.String)})).annotate({ identifier: "CreateRetrieverResponse" }) as any as S.Schema<CreateRetrieverResponse>;
-export interface GetRetrieverRequest { applicationId: string; retrieverId: string }
-export const GetRetrieverRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), retrieverId: S.String.pipe(T.HttpLabel("retrieverId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/retrievers/{retrieverId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetRetrieverRequest" }) as any as S.Schema<GetRetrieverRequest>;
-export type RetrieverStatus =
-  | "CREATING"
-  | "ACTIVE"
-  | "FAILED"
-  | (string & {});
+export type StringAttributeValueBoosting = {
+  [key: string]: StringAttributeValueBoostingLevel | undefined;
+};
+export const StringAttributeValueBoosting = S.Record(
+  S.String,
+  StringAttributeValueBoostingLevel.pipe(S.optional),
+);
+export interface StringAttributeBoostingConfiguration {
+  boostingLevel: DocumentAttributeBoostingLevel;
+  attributeValueBoosting?: {
+    [key: string]: StringAttributeValueBoostingLevel | undefined;
+  };
+}
+export const StringAttributeBoostingConfiguration = S.suspend(() =>
+  S.Struct({
+    boostingLevel: DocumentAttributeBoostingLevel,
+    attributeValueBoosting: S.optional(StringAttributeValueBoosting),
+  }),
+).annotate({
+  identifier: "StringAttributeBoostingConfiguration",
+}) as any as S.Schema<StringAttributeBoostingConfiguration>;
+export interface DateAttributeBoostingConfiguration {
+  boostingLevel: DocumentAttributeBoostingLevel;
+  boostingDurationInSeconds?: number;
+}
+export const DateAttributeBoostingConfiguration = S.suspend(() =>
+  S.Struct({
+    boostingLevel: DocumentAttributeBoostingLevel,
+    boostingDurationInSeconds: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "DateAttributeBoostingConfiguration",
+}) as any as S.Schema<DateAttributeBoostingConfiguration>;
+export interface StringListAttributeBoostingConfiguration {
+  boostingLevel: DocumentAttributeBoostingLevel;
+}
+export const StringListAttributeBoostingConfiguration = S.suspend(() =>
+  S.Struct({ boostingLevel: DocumentAttributeBoostingLevel }),
+).annotate({
+  identifier: "StringListAttributeBoostingConfiguration",
+}) as any as S.Schema<StringListAttributeBoostingConfiguration>;
+export type DocumentAttributeBoostingConfiguration =
+  | {
+      numberConfiguration: NumberAttributeBoostingConfiguration;
+      stringConfiguration?: never;
+      dateConfiguration?: never;
+      stringListConfiguration?: never;
+    }
+  | {
+      numberConfiguration?: never;
+      stringConfiguration: StringAttributeBoostingConfiguration;
+      dateConfiguration?: never;
+      stringListConfiguration?: never;
+    }
+  | {
+      numberConfiguration?: never;
+      stringConfiguration?: never;
+      dateConfiguration: DateAttributeBoostingConfiguration;
+      stringListConfiguration?: never;
+    }
+  | {
+      numberConfiguration?: never;
+      stringConfiguration?: never;
+      dateConfiguration?: never;
+      stringListConfiguration: StringListAttributeBoostingConfiguration;
+    };
+export const DocumentAttributeBoostingConfiguration = S.Union([
+  S.Struct({ numberConfiguration: NumberAttributeBoostingConfiguration }),
+  S.Struct({ stringConfiguration: StringAttributeBoostingConfiguration }),
+  S.Struct({ dateConfiguration: DateAttributeBoostingConfiguration }),
+  S.Struct({
+    stringListConfiguration: StringListAttributeBoostingConfiguration,
+  }),
+]);
+export type DocumentAttributeBoostingOverrideMap = {
+  [key: string]: DocumentAttributeBoostingConfiguration | undefined;
+};
+export const DocumentAttributeBoostingOverrideMap = S.Record(
+  S.String,
+  DocumentAttributeBoostingConfiguration.pipe(S.optional),
+);
+export interface NativeIndexConfiguration {
+  indexId: string;
+  version?: number;
+  boostingOverride?: {
+    [key: string]: DocumentAttributeBoostingConfiguration | undefined;
+  };
+}
+export const NativeIndexConfiguration = S.suspend(() =>
+  S.Struct({
+    indexId: S.String,
+    version: S.optional(S.Number),
+    boostingOverride: S.optional(DocumentAttributeBoostingOverrideMap),
+  }),
+).annotate({
+  identifier: "NativeIndexConfiguration",
+}) as any as S.Schema<NativeIndexConfiguration>;
+export interface KendraIndexConfiguration {
+  indexId: string;
+}
+export const KendraIndexConfiguration = S.suspend(() =>
+  S.Struct({ indexId: S.String }),
+).annotate({
+  identifier: "KendraIndexConfiguration",
+}) as any as S.Schema<KendraIndexConfiguration>;
+export type RetrieverConfiguration =
+  | {
+      nativeIndexConfiguration: NativeIndexConfiguration;
+      kendraIndexConfiguration?: never;
+    }
+  | {
+      nativeIndexConfiguration?: never;
+      kendraIndexConfiguration: KendraIndexConfiguration;
+    };
+export const RetrieverConfiguration = S.Union([
+  S.Struct({ nativeIndexConfiguration: NativeIndexConfiguration }),
+  S.Struct({ kendraIndexConfiguration: KendraIndexConfiguration }),
+]);
+export interface CreateRetrieverRequest {
+  applicationId: string;
+  type: RetrieverType;
+  displayName: string;
+  configuration: RetrieverConfiguration;
+  roleArn?: string;
+  clientToken?: string;
+  tags?: Tag[];
+}
+export const CreateRetrieverRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    type: RetrieverType,
+    displayName: S.String,
+    configuration: RetrieverConfiguration,
+    roleArn: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(Tags),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/retrievers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateRetrieverRequest",
+}) as any as S.Schema<CreateRetrieverRequest>;
+export interface CreateRetrieverResponse {
+  retrieverId?: string;
+  retrieverArn?: string;
+}
+export const CreateRetrieverResponse = S.suspend(() =>
+  S.Struct({
+    retrieverId: S.optional(S.String),
+    retrieverArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateRetrieverResponse",
+}) as any as S.Schema<CreateRetrieverResponse>;
+export interface GetRetrieverRequest {
+  applicationId: string;
+  retrieverId: string;
+}
+export const GetRetrieverRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    retrieverId: S.String.pipe(T.HttpLabel("retrieverId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/retrievers/{retrieverId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetRetrieverRequest",
+}) as any as S.Schema<GetRetrieverRequest>;
+export type RetrieverStatus = "CREATING" | "ACTIVE" | "FAILED" | (string & {});
 export const RetrieverStatus = S.String;
-export interface GetRetrieverResponse { applicationId?: string; retrieverId?: string; retrieverArn?: string; type?: RetrieverType; status?: RetrieverStatus; displayName?: string; configuration?: RetrieverConfiguration; roleArn?: string; createdAt?: Date; updatedAt?: Date }
-export const GetRetrieverResponse = S.suspend(() => S.Struct({applicationId: S.optional(S.String), retrieverId: S.optional(S.String), retrieverArn: S.optional(S.String), type: S.optional(RetrieverType), status: S.optional(RetrieverStatus), displayName: S.optional(S.String), configuration: S.optional(RetrieverConfiguration), roleArn: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "GetRetrieverResponse" }) as any as S.Schema<GetRetrieverResponse>;
-export interface UpdateRetrieverRequest { applicationId: string; retrieverId: string; configuration?: RetrieverConfiguration; displayName?: string; roleArn?: string }
-export const UpdateRetrieverRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), retrieverId: S.String.pipe(T.HttpLabel("retrieverId")), configuration: S.optional(RetrieverConfiguration), displayName: S.optional(S.String), roleArn: S.optional(S.String)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/retrievers/{retrieverId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateRetrieverRequest" }) as any as S.Schema<UpdateRetrieverRequest>;
-export interface UpdateRetrieverResponse {  }
-export const UpdateRetrieverResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateRetrieverResponse" }) as any as S.Schema<UpdateRetrieverResponse>;
-export interface DeleteRetrieverRequest { applicationId: string; retrieverId: string }
-export const DeleteRetrieverRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), retrieverId: S.String.pipe(T.HttpLabel("retrieverId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/retrievers/{retrieverId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteRetrieverRequest" }) as any as S.Schema<DeleteRetrieverRequest>;
-export interface DeleteRetrieverResponse {  }
-export const DeleteRetrieverResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteRetrieverResponse" }) as any as S.Schema<DeleteRetrieverResponse>;
-export interface ListRetrieversRequest { applicationId: string; nextToken?: string; maxResults?: number }
-export const ListRetrieversRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/retrievers" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListRetrieversRequest" }) as any as S.Schema<ListRetrieversRequest>;
-export interface Retriever { applicationId?: string; retrieverId?: string; type?: RetrieverType; status?: RetrieverStatus; displayName?: string }
-export const Retriever = S.suspend(() => S.Struct({applicationId: S.optional(S.String), retrieverId: S.optional(S.String), type: S.optional(RetrieverType), status: S.optional(RetrieverStatus), displayName: S.optional(S.String)})).annotate({ identifier: "Retriever" }) as any as S.Schema<Retriever>;
+export interface GetRetrieverResponse {
+  applicationId?: string;
+  retrieverId?: string;
+  retrieverArn?: string;
+  type?: RetrieverType;
+  status?: RetrieverStatus;
+  displayName?: string;
+  configuration?: RetrieverConfiguration;
+  roleArn?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const GetRetrieverResponse = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    retrieverId: S.optional(S.String),
+    retrieverArn: S.optional(S.String),
+    type: S.optional(RetrieverType),
+    status: S.optional(RetrieverStatus),
+    displayName: S.optional(S.String),
+    configuration: S.optional(RetrieverConfiguration),
+    roleArn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "GetRetrieverResponse",
+}) as any as S.Schema<GetRetrieverResponse>;
+export interface UpdateRetrieverRequest {
+  applicationId: string;
+  retrieverId: string;
+  configuration?: RetrieverConfiguration;
+  displayName?: string;
+  roleArn?: string;
+}
+export const UpdateRetrieverRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    retrieverId: S.String.pipe(T.HttpLabel("retrieverId")),
+    configuration: S.optional(RetrieverConfiguration),
+    displayName: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/retrievers/{retrieverId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateRetrieverRequest",
+}) as any as S.Schema<UpdateRetrieverRequest>;
+export interface UpdateRetrieverResponse {}
+export const UpdateRetrieverResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateRetrieverResponse",
+}) as any as S.Schema<UpdateRetrieverResponse>;
+export interface DeleteRetrieverRequest {
+  applicationId: string;
+  retrieverId: string;
+}
+export const DeleteRetrieverRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    retrieverId: S.String.pipe(T.HttpLabel("retrieverId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/retrievers/{retrieverId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteRetrieverRequest",
+}) as any as S.Schema<DeleteRetrieverRequest>;
+export interface DeleteRetrieverResponse {}
+export const DeleteRetrieverResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteRetrieverResponse",
+}) as any as S.Schema<DeleteRetrieverResponse>;
+export interface ListRetrieversRequest {
+  applicationId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListRetrieversRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/retrievers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRetrieversRequest",
+}) as any as S.Schema<ListRetrieversRequest>;
+export interface Retriever {
+  applicationId?: string;
+  retrieverId?: string;
+  type?: RetrieverType;
+  status?: RetrieverStatus;
+  displayName?: string;
+}
+export const Retriever = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    retrieverId: S.optional(S.String),
+    type: S.optional(RetrieverType),
+    status: S.optional(RetrieverStatus),
+    displayName: S.optional(S.String),
+  }),
+).annotate({ identifier: "Retriever" }) as any as S.Schema<Retriever>;
 export type Retrievers = Retriever[];
 export const Retrievers = S.Array(Retriever);
-export interface ListRetrieversResponse { retrievers?: Retriever[]; nextToken?: string }
-export const ListRetrieversResponse = S.suspend(() => S.Struct({retrievers: S.optional(Retrievers), nextToken: S.optional(S.String)})).annotate({ identifier: "ListRetrieversResponse" }) as any as S.Schema<ListRetrieversResponse>;
+export interface ListRetrieversResponse {
+  retrievers?: Retriever[];
+  nextToken?: string;
+}
+export const ListRetrieversResponse = S.suspend(() =>
+  S.Struct({
+    retrievers: S.optional(Retrievers),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRetrieversResponse",
+}) as any as S.Schema<ListRetrieversResponse>;
 export type WebExperienceSamplePromptsControlMode =
   | "ENABLED"
   | "DISABLED"
@@ -1310,24 +5659,142 @@ export type WebExperienceSamplePromptsControlMode =
 export const WebExperienceSamplePromptsControlMode = S.String;
 export type WebExperienceOrigins = string[];
 export const WebExperienceOrigins = S.Array(S.String);
-export interface SamlProviderConfiguration { authenticationUrl: string }
-export const SamlProviderConfiguration = S.suspend(() => S.Struct({authenticationUrl: S.String})).annotate({ identifier: "SamlProviderConfiguration" }) as any as S.Schema<SamlProviderConfiguration>;
-export interface OpenIDConnectProviderConfiguration { secretsArn: string; secretsRole: string }
-export const OpenIDConnectProviderConfiguration = S.suspend(() => S.Struct({secretsArn: S.String, secretsRole: S.String})).annotate({ identifier: "OpenIDConnectProviderConfiguration" }) as any as S.Schema<OpenIDConnectProviderConfiguration>;
-export type IdentityProviderConfiguration = { samlConfiguration: SamlProviderConfiguration; openIDConnectConfiguration?: never } | { samlConfiguration?: never; openIDConnectConfiguration: OpenIDConnectProviderConfiguration };
-export const IdentityProviderConfiguration = S.Union([S.Struct({ samlConfiguration: SamlProviderConfiguration }), S.Struct({ openIDConnectConfiguration: OpenIDConnectProviderConfiguration })]);
+export interface SamlProviderConfiguration {
+  authenticationUrl: string;
+}
+export const SamlProviderConfiguration = S.suspend(() =>
+  S.Struct({ authenticationUrl: S.String }),
+).annotate({
+  identifier: "SamlProviderConfiguration",
+}) as any as S.Schema<SamlProviderConfiguration>;
+export interface OpenIDConnectProviderConfiguration {
+  secretsArn: string;
+  secretsRole: string;
+}
+export const OpenIDConnectProviderConfiguration = S.suspend(() =>
+  S.Struct({ secretsArn: S.String, secretsRole: S.String }),
+).annotate({
+  identifier: "OpenIDConnectProviderConfiguration",
+}) as any as S.Schema<OpenIDConnectProviderConfiguration>;
+export type IdentityProviderConfiguration =
+  | {
+      samlConfiguration: SamlProviderConfiguration;
+      openIDConnectConfiguration?: never;
+    }
+  | {
+      samlConfiguration?: never;
+      openIDConnectConfiguration: OpenIDConnectProviderConfiguration;
+    };
+export const IdentityProviderConfiguration = S.Union([
+  S.Struct({ samlConfiguration: SamlProviderConfiguration }),
+  S.Struct({ openIDConnectConfiguration: OpenIDConnectProviderConfiguration }),
+]);
 export type BrowserExtensionList = string[];
 export const BrowserExtensionList = S.Array(S.String);
-export interface BrowserExtensionConfiguration { enabledBrowserExtensions: string[] }
-export const BrowserExtensionConfiguration = S.suspend(() => S.Struct({enabledBrowserExtensions: BrowserExtensionList})).annotate({ identifier: "BrowserExtensionConfiguration" }) as any as S.Schema<BrowserExtensionConfiguration>;
-export interface CustomizationConfiguration { customCSSUrl?: string; logoUrl?: string; fontUrl?: string; faviconUrl?: string }
-export const CustomizationConfiguration = S.suspend(() => S.Struct({customCSSUrl: S.optional(S.String), logoUrl: S.optional(S.String), fontUrl: S.optional(S.String), faviconUrl: S.optional(S.String)})).annotate({ identifier: "CustomizationConfiguration" }) as any as S.Schema<CustomizationConfiguration>;
-export interface CreateWebExperienceRequest { applicationId: string; title?: string; subtitle?: string; welcomeMessage?: string; samplePromptsControlMode?: WebExperienceSamplePromptsControlMode; origins?: string[]; roleArn?: string; tags?: Tag[]; clientToken?: string; identityProviderConfiguration?: IdentityProviderConfiguration; browserExtensionConfiguration?: BrowserExtensionConfiguration; customizationConfiguration?: CustomizationConfiguration }
-export const CreateWebExperienceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), title: S.optional(S.String), subtitle: S.optional(S.String), welcomeMessage: S.optional(S.String), samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode), origins: S.optional(WebExperienceOrigins), roleArn: S.optional(S.String), tags: S.optional(Tags), clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), identityProviderConfiguration: S.optional(IdentityProviderConfiguration), browserExtensionConfiguration: S.optional(BrowserExtensionConfiguration), customizationConfiguration: S.optional(CustomizationConfiguration)}).pipe(T.all(T.Http({ method: "POST", uri: "/applications/{applicationId}/experiences" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateWebExperienceRequest" }) as any as S.Schema<CreateWebExperienceRequest>;
-export interface CreateWebExperienceResponse { webExperienceId?: string; webExperienceArn?: string }
-export const CreateWebExperienceResponse = S.suspend(() => S.Struct({webExperienceId: S.optional(S.String), webExperienceArn: S.optional(S.String)})).annotate({ identifier: "CreateWebExperienceResponse" }) as any as S.Schema<CreateWebExperienceResponse>;
-export interface GetWebExperienceRequest { applicationId: string; webExperienceId: string }
-export const GetWebExperienceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/experiences/{webExperienceId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetWebExperienceRequest" }) as any as S.Schema<GetWebExperienceRequest>;
+export interface BrowserExtensionConfiguration {
+  enabledBrowserExtensions: string[];
+}
+export const BrowserExtensionConfiguration = S.suspend(() =>
+  S.Struct({ enabledBrowserExtensions: BrowserExtensionList }),
+).annotate({
+  identifier: "BrowserExtensionConfiguration",
+}) as any as S.Schema<BrowserExtensionConfiguration>;
+export interface CustomizationConfiguration {
+  customCSSUrl?: string;
+  logoUrl?: string;
+  fontUrl?: string;
+  faviconUrl?: string;
+}
+export const CustomizationConfiguration = S.suspend(() =>
+  S.Struct({
+    customCSSUrl: S.optional(S.String),
+    logoUrl: S.optional(S.String),
+    fontUrl: S.optional(S.String),
+    faviconUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomizationConfiguration",
+}) as any as S.Schema<CustomizationConfiguration>;
+export interface CreateWebExperienceRequest {
+  applicationId: string;
+  title?: string;
+  subtitle?: string;
+  welcomeMessage?: string;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
+  origins?: string[];
+  roleArn?: string;
+  tags?: Tag[];
+  clientToken?: string;
+  identityProviderConfiguration?: IdentityProviderConfiguration;
+  browserExtensionConfiguration?: BrowserExtensionConfiguration;
+  customizationConfiguration?: CustomizationConfiguration;
+}
+export const CreateWebExperienceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    title: S.optional(S.String),
+    subtitle: S.optional(S.String),
+    welcomeMessage: S.optional(S.String),
+    samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode),
+    origins: S.optional(WebExperienceOrigins),
+    roleArn: S.optional(S.String),
+    tags: S.optional(Tags),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    identityProviderConfiguration: S.optional(IdentityProviderConfiguration),
+    browserExtensionConfiguration: S.optional(BrowserExtensionConfiguration),
+    customizationConfiguration: S.optional(CustomizationConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/experiences",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateWebExperienceRequest",
+}) as any as S.Schema<CreateWebExperienceRequest>;
+export interface CreateWebExperienceResponse {
+  webExperienceId?: string;
+  webExperienceArn?: string;
+}
+export const CreateWebExperienceResponse = S.suspend(() =>
+  S.Struct({
+    webExperienceId: S.optional(S.String),
+    webExperienceArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateWebExperienceResponse",
+}) as any as S.Schema<CreateWebExperienceResponse>;
+export interface GetWebExperienceRequest {
+  applicationId: string;
+  webExperienceId: string;
+}
+export const GetWebExperienceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/experiences/{webExperienceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWebExperienceRequest",
+}) as any as S.Schema<GetWebExperienceRequest>;
 export type WebExperienceStatus =
   | "CREATING"
   | "ACTIVE"
@@ -1336,40 +5803,254 @@ export type WebExperienceStatus =
   | "PENDING_AUTH_CONFIG"
   | (string & {});
 export const WebExperienceStatus = S.String;
-export interface SamlConfiguration { metadataXML: string; roleArn: string; userIdAttribute: string; userGroupAttribute?: string }
-export const SamlConfiguration = S.suspend(() => S.Struct({metadataXML: S.String, roleArn: S.String, userIdAttribute: S.String, userGroupAttribute: S.optional(S.String)})).annotate({ identifier: "SamlConfiguration" }) as any as S.Schema<SamlConfiguration>;
-export type WebExperienceAuthConfiguration = { samlConfiguration: SamlConfiguration };
-export const WebExperienceAuthConfiguration = S.Union([S.Struct({ samlConfiguration: SamlConfiguration })]);
-export interface GetWebExperienceResponse { applicationId?: string; webExperienceId?: string; webExperienceArn?: string; defaultEndpoint?: string; status?: WebExperienceStatus; createdAt?: Date; updatedAt?: Date; title?: string; subtitle?: string; welcomeMessage?: string; samplePromptsControlMode?: WebExperienceSamplePromptsControlMode; origins?: string[]; roleArn?: string; identityProviderConfiguration?: IdentityProviderConfiguration; authenticationConfiguration?: WebExperienceAuthConfiguration; error?: ErrorDetail; browserExtensionConfiguration?: BrowserExtensionConfiguration; customizationConfiguration?: CustomizationConfiguration }
-export const GetWebExperienceResponse = S.suspend(() => S.Struct({applicationId: S.optional(S.String), webExperienceId: S.optional(S.String), webExperienceArn: S.optional(S.String), defaultEndpoint: S.optional(S.String), status: S.optional(WebExperienceStatus), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), title: S.optional(S.String), subtitle: S.optional(S.String), welcomeMessage: S.optional(S.String), samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode), origins: S.optional(WebExperienceOrigins), roleArn: S.optional(S.String), identityProviderConfiguration: S.optional(IdentityProviderConfiguration), authenticationConfiguration: S.optional(WebExperienceAuthConfiguration), error: S.optional(ErrorDetail), browserExtensionConfiguration: S.optional(BrowserExtensionConfiguration), customizationConfiguration: S.optional(CustomizationConfiguration)})).annotate({ identifier: "GetWebExperienceResponse" }) as any as S.Schema<GetWebExperienceResponse>;
-export interface UpdateWebExperienceRequest { applicationId: string; webExperienceId: string; roleArn?: string; authenticationConfiguration?: WebExperienceAuthConfiguration; title?: string; subtitle?: string; welcomeMessage?: string; samplePromptsControlMode?: WebExperienceSamplePromptsControlMode; identityProviderConfiguration?: IdentityProviderConfiguration; origins?: string[]; browserExtensionConfiguration?: BrowserExtensionConfiguration; customizationConfiguration?: CustomizationConfiguration }
-export const UpdateWebExperienceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId")), roleArn: S.optional(S.String), authenticationConfiguration: S.optional(WebExperienceAuthConfiguration), title: S.optional(S.String), subtitle: S.optional(S.String), welcomeMessage: S.optional(S.String), samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode), identityProviderConfiguration: S.optional(IdentityProviderConfiguration), origins: S.optional(WebExperienceOrigins), browserExtensionConfiguration: S.optional(BrowserExtensionConfiguration), customizationConfiguration: S.optional(CustomizationConfiguration)}).pipe(T.all(T.Http({ method: "PUT", uri: "/applications/{applicationId}/experiences/{webExperienceId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateWebExperienceRequest" }) as any as S.Schema<UpdateWebExperienceRequest>;
-export interface UpdateWebExperienceResponse {  }
-export const UpdateWebExperienceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateWebExperienceResponse" }) as any as S.Schema<UpdateWebExperienceResponse>;
-export interface DeleteWebExperienceRequest { applicationId: string; webExperienceId: string }
-export const DeleteWebExperienceRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/applications/{applicationId}/experiences/{webExperienceId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteWebExperienceRequest" }) as any as S.Schema<DeleteWebExperienceRequest>;
-export interface DeleteWebExperienceResponse {  }
-export const DeleteWebExperienceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteWebExperienceResponse" }) as any as S.Schema<DeleteWebExperienceResponse>;
-export interface ListWebExperiencesRequest { applicationId: string; nextToken?: string; maxResults?: number }
-export const ListWebExperiencesRequest = S.suspend(() => S.Struct({applicationId: S.String.pipe(T.HttpLabel("applicationId")), nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/applications/{applicationId}/experiences" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListWebExperiencesRequest" }) as any as S.Schema<ListWebExperiencesRequest>;
-export interface WebExperience { webExperienceId?: string; createdAt?: Date; updatedAt?: Date; defaultEndpoint?: string; status?: WebExperienceStatus }
-export const WebExperience = S.suspend(() => S.Struct({webExperienceId: S.optional(S.String), createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), defaultEndpoint: S.optional(S.String), status: S.optional(WebExperienceStatus)})).annotate({ identifier: "WebExperience" }) as any as S.Schema<WebExperience>;
+export interface SamlConfiguration {
+  metadataXML: string;
+  roleArn: string;
+  userIdAttribute: string;
+  userGroupAttribute?: string;
+}
+export const SamlConfiguration = S.suspend(() =>
+  S.Struct({
+    metadataXML: S.String,
+    roleArn: S.String,
+    userIdAttribute: S.String,
+    userGroupAttribute: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SamlConfiguration",
+}) as any as S.Schema<SamlConfiguration>;
+export type WebExperienceAuthConfiguration = {
+  samlConfiguration: SamlConfiguration;
+};
+export const WebExperienceAuthConfiguration = S.Union([
+  S.Struct({ samlConfiguration: SamlConfiguration }),
+]);
+export interface GetWebExperienceResponse {
+  applicationId?: string;
+  webExperienceId?: string;
+  webExperienceArn?: string;
+  defaultEndpoint?: string;
+  status?: WebExperienceStatus;
+  createdAt?: Date;
+  updatedAt?: Date;
+  title?: string;
+  subtitle?: string;
+  welcomeMessage?: string;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
+  origins?: string[];
+  roleArn?: string;
+  identityProviderConfiguration?: IdentityProviderConfiguration;
+  authenticationConfiguration?: WebExperienceAuthConfiguration;
+  error?: ErrorDetail;
+  browserExtensionConfiguration?: BrowserExtensionConfiguration;
+  customizationConfiguration?: CustomizationConfiguration;
+}
+export const GetWebExperienceResponse = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    webExperienceId: S.optional(S.String),
+    webExperienceArn: S.optional(S.String),
+    defaultEndpoint: S.optional(S.String),
+    status: S.optional(WebExperienceStatus),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    title: S.optional(S.String),
+    subtitle: S.optional(S.String),
+    welcomeMessage: S.optional(S.String),
+    samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode),
+    origins: S.optional(WebExperienceOrigins),
+    roleArn: S.optional(S.String),
+    identityProviderConfiguration: S.optional(IdentityProviderConfiguration),
+    authenticationConfiguration: S.optional(WebExperienceAuthConfiguration),
+    error: S.optional(ErrorDetail),
+    browserExtensionConfiguration: S.optional(BrowserExtensionConfiguration),
+    customizationConfiguration: S.optional(CustomizationConfiguration),
+  }),
+).annotate({
+  identifier: "GetWebExperienceResponse",
+}) as any as S.Schema<GetWebExperienceResponse>;
+export interface UpdateWebExperienceRequest {
+  applicationId: string;
+  webExperienceId: string;
+  roleArn?: string;
+  authenticationConfiguration?: WebExperienceAuthConfiguration;
+  title?: string;
+  subtitle?: string;
+  welcomeMessage?: string;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
+  identityProviderConfiguration?: IdentityProviderConfiguration;
+  origins?: string[];
+  browserExtensionConfiguration?: BrowserExtensionConfiguration;
+  customizationConfiguration?: CustomizationConfiguration;
+}
+export const UpdateWebExperienceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId")),
+    roleArn: S.optional(S.String),
+    authenticationConfiguration: S.optional(WebExperienceAuthConfiguration),
+    title: S.optional(S.String),
+    subtitle: S.optional(S.String),
+    welcomeMessage: S.optional(S.String),
+    samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode),
+    identityProviderConfiguration: S.optional(IdentityProviderConfiguration),
+    origins: S.optional(WebExperienceOrigins),
+    browserExtensionConfiguration: S.optional(BrowserExtensionConfiguration),
+    customizationConfiguration: S.optional(CustomizationConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{applicationId}/experiences/{webExperienceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateWebExperienceRequest",
+}) as any as S.Schema<UpdateWebExperienceRequest>;
+export interface UpdateWebExperienceResponse {}
+export const UpdateWebExperienceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateWebExperienceResponse",
+}) as any as S.Schema<UpdateWebExperienceResponse>;
+export interface DeleteWebExperienceRequest {
+  applicationId: string;
+  webExperienceId: string;
+}
+export const DeleteWebExperienceRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    webExperienceId: S.String.pipe(T.HttpLabel("webExperienceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/experiences/{webExperienceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteWebExperienceRequest",
+}) as any as S.Schema<DeleteWebExperienceRequest>;
+export interface DeleteWebExperienceResponse {}
+export const DeleteWebExperienceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteWebExperienceResponse",
+}) as any as S.Schema<DeleteWebExperienceResponse>;
+export interface ListWebExperiencesRequest {
+  applicationId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListWebExperiencesRequest = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/experiences",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWebExperiencesRequest",
+}) as any as S.Schema<ListWebExperiencesRequest>;
+export interface WebExperience {
+  webExperienceId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  defaultEndpoint?: string;
+  status?: WebExperienceStatus;
+}
+export const WebExperience = S.suspend(() =>
+  S.Struct({
+    webExperienceId: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    defaultEndpoint: S.optional(S.String),
+    status: S.optional(WebExperienceStatus),
+  }),
+).annotate({ identifier: "WebExperience" }) as any as S.Schema<WebExperience>;
 export type WebExperiences = WebExperience[];
 export const WebExperiences = S.Array(WebExperience);
-export interface ListWebExperiencesResponse { webExperiences?: WebExperience[]; nextToken?: string }
-export const ListWebExperiencesResponse = S.suspend(() => S.Struct({webExperiences: S.optional(WebExperiences), nextToken: S.optional(S.String)})).annotate({ identifier: "ListWebExperiencesResponse" }) as any as S.Schema<ListWebExperiencesResponse>;
+export interface ListWebExperiencesResponse {
+  webExperiences?: WebExperience[];
+  nextToken?: string;
+}
+export const ListWebExperiencesResponse = S.suspend(() =>
+  S.Struct({
+    webExperiences: S.optional(WebExperiences),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListWebExperiencesResponse",
+}) as any as S.Schema<ListWebExperiencesResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()("AccessDeniedException", {message: S.String}).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedErrorClass<ConflictException>()("ConflictException", {message: S.String, resourceId: S.String, resourceType: S.String}).pipe(C.withConflictError) {}
-export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()("InternalServerException", {message: S.String}).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()("ResourceNotFoundException", {message: S.String, resourceId: S.String, resourceType: S.String}).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()("ServiceQuotaExceededException", {message: S.String, resourceId: S.String, resourceType: S.String}).pipe(C.withQuotaError) {}
-export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()("ThrottlingException", {message: S.String}).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedErrorClass<ValidationException>()("ValidationException", {message: S.String, reason: ValidationExceptionReason, fields: S.optional(ValidationExceptionFields)}).pipe(C.withBadRequestError) {}
-export class ExternalResourceException extends S.TaggedErrorClass<ExternalResourceException>()("ExternalResourceException", {message: S.String}) {}
-export class LicenseNotFoundException extends S.TaggedErrorClass<LicenseNotFoundException>()("LicenseNotFoundException", {message: S.String}).pipe(C.withBadRequestError) {}
-export class MediaTooLargeException extends S.TaggedErrorClass<MediaTooLargeException>()("MediaTooLargeException", {message: S.String}).pipe(C.withBadRequestError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+).pipe(C.withAuthError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+).pipe(C.withConflictError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  { message: S.String },
+).pipe(C.withServerError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+).pipe(C.withBadRequestError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+).pipe(C.withQuotaError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String },
+).pipe(C.withThrottlingError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: ValidationExceptionReason,
+    fields: S.optional(ValidationExceptionFields),
+  },
+).pipe(C.withBadRequestError) {}
+export class ExternalResourceException extends S.TaggedErrorClass<ExternalResourceException>()(
+  "ExternalResourceException",
+  { message: S.String },
+) {}
+export class LicenseNotFoundException extends S.TaggedErrorClass<LicenseNotFoundException>()(
+  "LicenseNotFoundException",
+  { message: S.String },
+).pipe(C.withBadRequestError) {}
+export class MediaTooLargeException extends S.TaggedErrorClass<MediaTooLargeException>()(
+  "MediaTooLargeException",
+  { message: S.String },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 export type AssociatePermissionError =
@@ -1384,7 +6065,24 @@ export type AssociatePermissionError =
 /**
  * Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
  */
-export const associatePermission: API.OperationMethod<AssociatePermissionRequest, AssociatePermissionResponse, AssociatePermissionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: AssociatePermissionRequest, output: AssociatePermissionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const associatePermission: API.OperationMethod<
+  AssociatePermissionRequest,
+  AssociatePermissionResponse,
+  AssociatePermissionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePermissionRequest,
+  output: AssociatePermissionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type BatchDeleteDocumentError =
   | AccessDeniedException
   | ConflictException
@@ -1395,10 +6093,26 @@ export type BatchDeleteDocumentError =
   | CommonErrors;
 /**
  * Asynchronously deletes one or more documents added using the `BatchPutDocument` API from an Amazon Q Business index.
- * 
+ *
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
-export const batchDeleteDocument: API.OperationMethod<BatchDeleteDocumentRequest, BatchDeleteDocumentResponse, BatchDeleteDocumentError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: BatchDeleteDocumentRequest, output: BatchDeleteDocumentResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const batchDeleteDocument: API.OperationMethod<
+  BatchDeleteDocumentRequest,
+  BatchDeleteDocumentResponse,
+  BatchDeleteDocumentError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteDocumentRequest,
+  output: BatchDeleteDocumentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type BatchPutDocumentError =
   | AccessDeniedException
   | ConflictException
@@ -1410,18 +6124,35 @@ export type BatchPutDocumentError =
   | CommonErrors;
 /**
  * Adds one or more documents to an Amazon Q Business index.
- * 
+ *
  * You use this API to:
- * 
+ *
  * - ingest your structured and unstructured documents and documents stored in an Amazon S3 bucket into an Amazon Q Business index.
- * 
+ *
  * - add custom attributes to documents in an Amazon Q Business index.
- * 
+ *
  * - attach an access control list to the documents added to an Amazon Q Business index.
- * 
+ *
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
-export const batchPutDocument: API.OperationMethod<BatchPutDocumentRequest, BatchPutDocumentResponse, BatchPutDocumentError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: BatchPutDocumentRequest, output: BatchPutDocumentResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const batchPutDocument: API.OperationMethod<
+  BatchPutDocumentRequest,
+  BatchPutDocumentResponse,
+  BatchPutDocumentError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchPutDocumentRequest,
+  output: BatchPutDocumentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CancelSubscriptionError =
   | AccessDeniedException
   | InternalServerException
@@ -1432,7 +6163,22 @@ export type CancelSubscriptionError =
 /**
  * Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
  */
-export const cancelSubscription: API.OperationMethod<CancelSubscriptionRequest, CancelSubscriptionResponse, CancelSubscriptionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CancelSubscriptionRequest, output: CancelSubscriptionResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const cancelSubscription: API.OperationMethod<
+  CancelSubscriptionRequest,
+  CancelSubscriptionResponse,
+  CancelSubscriptionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelSubscriptionRequest,
+  output: CancelSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ChatError =
   | AccessDeniedException
   | ConflictException
@@ -1446,7 +6192,25 @@ export type ChatError =
 /**
  * Starts or continues a streaming Amazon Q Business conversation.
  */
-export const chat: API.OperationMethod<ChatInput, ChatOutput, ChatError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ChatInput, output: ChatOutput, errors: [AccessDeniedException, ConflictException, ExternalResourceException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const chat: API.OperationMethod<
+  ChatInput,
+  ChatOutput,
+  ChatError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChatInput,
+  output: ChatOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExternalResourceException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ChatSyncError =
   | AccessDeniedException
   | ConflictException
@@ -1460,7 +6224,25 @@ export type ChatSyncError =
 /**
  * Starts or continues a non-streaming Amazon Q Business conversation.
  */
-export const chatSync: API.OperationMethod<ChatSyncInput, ChatSyncOutput, ChatSyncError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ChatSyncInput, output: ChatSyncOutput, errors: [AccessDeniedException, ConflictException, ExternalResourceException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const chatSync: API.OperationMethod<
+  ChatSyncInput,
+  ChatSyncOutput,
+  ChatSyncError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChatSyncInput,
+  output: ChatSyncOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExternalResourceException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CheckDocumentAccessError =
   | AccessDeniedException
   | InternalServerException
@@ -1471,7 +6253,22 @@ export type CheckDocumentAccessError =
 /**
  * Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access.
  */
-export const checkDocumentAccess: API.OperationMethod<CheckDocumentAccessRequest, CheckDocumentAccessResponse, CheckDocumentAccessError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CheckDocumentAccessRequest, output: CheckDocumentAccessResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const checkDocumentAccess: API.OperationMethod<
+  CheckDocumentAccessRequest,
+  CheckDocumentAccessResponse,
+  CheckDocumentAccessError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckDocumentAccessRequest,
+  output: CheckDocumentAccessResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CreateAnonymousWebExperienceUrlError =
   | AccessDeniedException
   | InternalServerException
@@ -1483,7 +6280,23 @@ export type CreateAnonymousWebExperienceUrlError =
 /**
  * Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
  */
-export const createAnonymousWebExperienceUrl: API.OperationMethod<CreateAnonymousWebExperienceUrlRequest, CreateAnonymousWebExperienceUrlResponse, CreateAnonymousWebExperienceUrlError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateAnonymousWebExperienceUrlRequest, output: CreateAnonymousWebExperienceUrlResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createAnonymousWebExperienceUrl: API.OperationMethod<
+  CreateAnonymousWebExperienceUrlRequest,
+  CreateAnonymousWebExperienceUrlResponse,
+  CreateAnonymousWebExperienceUrlError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnonymousWebExperienceUrlRequest,
+  output: CreateAnonymousWebExperienceUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CreateChatResponseConfigurationError =
   | AccessDeniedException
   | ConflictException
@@ -1496,7 +6309,24 @@ export type CreateChatResponseConfigurationError =
 /**
  * Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
  */
-export const createChatResponseConfiguration: API.OperationMethod<CreateChatResponseConfigurationRequest, CreateChatResponseConfigurationResponse, CreateChatResponseConfigurationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateChatResponseConfigurationRequest, output: CreateChatResponseConfigurationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createChatResponseConfiguration: API.OperationMethod<
+  CreateChatResponseConfigurationRequest,
+  CreateChatResponseConfigurationResponse,
+  CreateChatResponseConfigurationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChatResponseConfigurationRequest,
+  output: CreateChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CreateSubscriptionError =
   | AccessDeniedException
   | ConflictException
@@ -1507,12 +6337,28 @@ export type CreateSubscriptionError =
   | CommonErrors;
 /**
  * Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application.
- * 
+ *
  * Amazon Q Business offers two subscription tiers: `Q_LITE` and `Q_BUSINESS`. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
- * 
+ *
  * For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide.
  */
-export const createSubscription: API.OperationMethod<CreateSubscriptionRequest, CreateSubscriptionResponse, CreateSubscriptionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateSubscriptionRequest, output: CreateSubscriptionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const createSubscription: API.OperationMethod<
+  CreateSubscriptionRequest,
+  CreateSubscriptionResponse,
+  CreateSubscriptionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSubscriptionRequest,
+  output: CreateSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CreateUserError =
   | AccessDeniedException
   | ConflictException
@@ -1525,7 +6371,24 @@ export type CreateUserError =
 /**
  * Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
  */
-export const createUser: API.OperationMethod<CreateUserRequest, CreateUserResponse, CreateUserError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateUserRequest, output: CreateUserResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
+  CreateUserResponse,
+  CreateUserError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserRequest,
+  output: CreateUserResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteAttachmentError =
   | AccessDeniedException
   | InternalServerException
@@ -1537,7 +6400,23 @@ export type DeleteAttachmentError =
 /**
  * Deletes an attachment associated with a specific Amazon Q Business conversation.
  */
-export const deleteAttachment: API.OperationMethod<DeleteAttachmentRequest, DeleteAttachmentResponse, DeleteAttachmentError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteAttachmentRequest, output: DeleteAttachmentResponse, errors: [AccessDeniedException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteAttachment: API.OperationMethod<
+  DeleteAttachmentRequest,
+  DeleteAttachmentResponse,
+  DeleteAttachmentError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAttachmentRequest,
+  output: DeleteAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteChatControlsConfigurationError =
   | AccessDeniedException
   | InternalServerException
@@ -1548,7 +6427,22 @@ export type DeleteChatControlsConfigurationError =
 /**
  * Deletes chat controls configured for an existing Amazon Q Business application.
  */
-export const deleteChatControlsConfiguration: API.OperationMethod<DeleteChatControlsConfigurationRequest, DeleteChatControlsConfigurationResponse, DeleteChatControlsConfigurationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteChatControlsConfigurationRequest, output: DeleteChatControlsConfigurationResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteChatControlsConfiguration: API.OperationMethod<
+  DeleteChatControlsConfigurationRequest,
+  DeleteChatControlsConfigurationResponse,
+  DeleteChatControlsConfigurationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChatControlsConfigurationRequest,
+  output: DeleteChatControlsConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteChatResponseConfigurationError =
   | AccessDeniedException
   | ConflictException
@@ -1560,7 +6454,23 @@ export type DeleteChatResponseConfigurationError =
 /**
  * Deletes a specified chat response configuration from an Amazon Q Business application.
  */
-export const deleteChatResponseConfiguration: API.OperationMethod<DeleteChatResponseConfigurationRequest, DeleteChatResponseConfigurationResponse, DeleteChatResponseConfigurationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteChatResponseConfigurationRequest, output: DeleteChatResponseConfigurationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteChatResponseConfiguration: API.OperationMethod<
+  DeleteChatResponseConfigurationRequest,
+  DeleteChatResponseConfigurationResponse,
+  DeleteChatResponseConfigurationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChatResponseConfigurationRequest,
+  output: DeleteChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteConversationError =
   | AccessDeniedException
   | ConflictException
@@ -1573,7 +6483,24 @@ export type DeleteConversationError =
 /**
  * Deletes an Amazon Q Business web experience conversation.
  */
-export const deleteConversation: API.OperationMethod<DeleteConversationRequest, DeleteConversationResponse, DeleteConversationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteConversationRequest, output: DeleteConversationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteConversation: API.OperationMethod<
+  DeleteConversationRequest,
+  DeleteConversationResponse,
+  DeleteConversationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConversationRequest,
+  output: DeleteConversationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteGroupError =
   | AccessDeniedException
   | ConflictException
@@ -1584,10 +6511,26 @@ export type DeleteGroupError =
   | CommonErrors;
 /**
  * Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their chat results.
- * 
+ *
  * If you want to delete, update, or replace users or sub groups of a group, you need to use the `PutGroup` operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling `PutGroup`.
  */
-export const deleteGroup: API.OperationMethod<DeleteGroupRequest, DeleteGroupResponse, DeleteGroupError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteGroupRequest, output: DeleteGroupResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
+  DeleteGroupResponse,
+  DeleteGroupError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupRequest,
+  output: DeleteGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteUserError =
   | AccessDeniedException
   | ConflictException
@@ -1599,7 +6542,23 @@ export type DeleteUserError =
 /**
  * Deletes a user by email id.
  */
-export const deleteUser: API.OperationMethod<DeleteUserRequest, DeleteUserResponse, DeleteUserError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteUserRequest, output: DeleteUserResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
+  DeleteUserResponse,
+  DeleteUserError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserRequest,
+  output: DeleteUserResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DisassociatePermissionError =
   | AccessDeniedException
   | ConflictException
@@ -1611,7 +6570,23 @@ export type DisassociatePermissionError =
 /**
  * Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
  */
-export const disassociatePermission: API.OperationMethod<DisassociatePermissionRequest, DisassociatePermissionResponse, DisassociatePermissionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DisassociatePermissionRequest, output: DisassociatePermissionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const disassociatePermission: API.OperationMethod<
+  DisassociatePermissionRequest,
+  DisassociatePermissionResponse,
+  DisassociatePermissionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociatePermissionRequest,
+  output: DisassociatePermissionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetChatControlsConfigurationError =
   | AccessDeniedException
   | InternalServerException
@@ -1622,10 +6597,43 @@ export type GetChatControlsConfigurationError =
 /**
  * Gets information about chat controls configured for an existing Amazon Q Business application.
  */
-export const getChatControlsConfiguration: API.OperationMethod<GetChatControlsConfigurationRequest, GetChatControlsConfigurationResponse, GetChatControlsConfigurationError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: GetChatControlsConfigurationRequest) => stream.Stream<GetChatControlsConfigurationResponse, GetChatControlsConfigurationError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: GetChatControlsConfigurationRequest) => stream.Stream<TopicConfiguration, GetChatControlsConfigurationError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: GetChatControlsConfigurationRequest, output: GetChatControlsConfigurationResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"topicConfigurations","pageSize":"maxResults"} as const }));
+export const getChatControlsConfiguration: API.OperationMethod<
+  GetChatControlsConfigurationRequest,
+  GetChatControlsConfigurationResponse,
+  GetChatControlsConfigurationError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: GetChatControlsConfigurationRequest,
+  ) => stream.Stream<
+    GetChatControlsConfigurationResponse,
+    GetChatControlsConfigurationError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetChatControlsConfigurationRequest,
+  ) => stream.Stream<
+    TopicConfiguration,
+    GetChatControlsConfigurationError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetChatControlsConfigurationRequest,
+  output: GetChatControlsConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "topicConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type GetChatResponseConfigurationError =
   | AccessDeniedException
   | InternalServerException
@@ -1636,7 +6644,22 @@ export type GetChatResponseConfigurationError =
 /**
  * Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
  */
-export const getChatResponseConfiguration: API.OperationMethod<GetChatResponseConfigurationRequest, GetChatResponseConfigurationResponse, GetChatResponseConfigurationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetChatResponseConfigurationRequest, output: GetChatResponseConfigurationResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getChatResponseConfiguration: API.OperationMethod<
+  GetChatResponseConfigurationRequest,
+  GetChatResponseConfigurationResponse,
+  GetChatResponseConfigurationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChatResponseConfigurationRequest,
+  output: GetChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetDocumentContentError =
   | AccessDeniedException
   | InternalServerException
@@ -1647,7 +6670,22 @@ export type GetDocumentContentError =
 /**
  * Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
  */
-export const getDocumentContent: API.OperationMethod<GetDocumentContentRequest, GetDocumentContentResponse, GetDocumentContentError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetDocumentContentRequest, output: GetDocumentContentResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getDocumentContent: API.OperationMethod<
+  GetDocumentContentRequest,
+  GetDocumentContentResponse,
+  GetDocumentContentError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentContentRequest,
+  output: GetDocumentContentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetGroupError =
   | AccessDeniedException
   | ConflictException
@@ -1659,7 +6697,23 @@ export type GetGroupError =
 /**
  * Describes a group by group name.
  */
-export const getGroup: API.OperationMethod<GetGroupRequest, GetGroupResponse, GetGroupError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetGroupRequest, output: GetGroupResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getGroup: API.OperationMethod<
+  GetGroupRequest,
+  GetGroupResponse,
+  GetGroupError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGroupRequest,
+  output: GetGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetMediaError =
   | AccessDeniedException
   | InternalServerException
@@ -1671,10 +6725,27 @@ export type GetMediaError =
   | CommonErrors;
 /**
  * Returns the image bytes corresponding to a media object. If you have implemented your own application with the Chat and ChatSync APIs, and have enabled content extraction from visual data in Amazon Q Business, you use the GetMedia API operation to download the images so you can show them in your UI with responses.
- * 
+ *
  * For more information, see Extracting semantic meaning from images and visuals.
  */
-export const getMedia: API.OperationMethod<GetMediaRequest, GetMediaResponse, GetMediaError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetMediaRequest, output: GetMediaResponse, errors: [AccessDeniedException, InternalServerException, LicenseNotFoundException, MediaTooLargeException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getMedia: API.OperationMethod<
+  GetMediaRequest,
+  GetMediaResponse,
+  GetMediaError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMediaRequest,
+  output: GetMediaResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    MediaTooLargeException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetPolicyError =
   | AccessDeniedException
   | InternalServerException
@@ -1685,7 +6756,22 @@ export type GetPolicyError =
 /**
  * Retrieves the current permission policy for a Amazon Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
  */
-export const getPolicy: API.OperationMethod<GetPolicyRequest, GetPolicyResponse, GetPolicyError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetPolicyRequest, output: GetPolicyResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
+  GetPolicyResponse,
+  GetPolicyError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPolicyRequest,
+  output: GetPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetUserError =
   | AccessDeniedException
   | ConflictException
@@ -1697,7 +6783,23 @@ export type GetUserError =
 /**
  * Describes the universally unique identifier (UUID) associated with a local user in a data source.
  */
-export const getUser: API.OperationMethod<GetUserRequest, GetUserResponse, GetUserError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetUserRequest, output: GetUserResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getUser: API.OperationMethod<
+  GetUserRequest,
+  GetUserResponse,
+  GetUserError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserRequest,
+  output: GetUserResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListAttachmentsError =
   | AccessDeniedException
   | InternalServerException
@@ -1709,10 +6811,44 @@ export type ListAttachmentsError =
 /**
  * Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
  */
-export const listAttachments: API.OperationMethod<ListAttachmentsRequest, ListAttachmentsResponse, ListAttachmentsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListAttachmentsRequest) => stream.Stream<ListAttachmentsResponse, ListAttachmentsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListAttachmentsRequest) => stream.Stream<Attachment, ListAttachmentsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListAttachmentsRequest, output: ListAttachmentsResponse, errors: [AccessDeniedException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"attachments","pageSize":"maxResults"} as const }));
+export const listAttachments: API.OperationMethod<
+  ListAttachmentsRequest,
+  ListAttachmentsResponse,
+  ListAttachmentsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListAttachmentsRequest,
+  ) => stream.Stream<
+    ListAttachmentsResponse,
+    ListAttachmentsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachmentsRequest,
+  ) => stream.Stream<
+    Attachment,
+    ListAttachmentsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachmentsRequest,
+  output: ListAttachmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attachments",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListChatResponseConfigurationsError =
   | AccessDeniedException
   | InternalServerException
@@ -1723,10 +6859,43 @@ export type ListChatResponseConfigurationsError =
 /**
  * Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
  */
-export const listChatResponseConfigurations: API.OperationMethod<ListChatResponseConfigurationsRequest, ListChatResponseConfigurationsResponse, ListChatResponseConfigurationsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListChatResponseConfigurationsRequest) => stream.Stream<ListChatResponseConfigurationsResponse, ListChatResponseConfigurationsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListChatResponseConfigurationsRequest) => stream.Stream<ChatResponseConfiguration, ListChatResponseConfigurationsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListChatResponseConfigurationsRequest, output: ListChatResponseConfigurationsResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"chatResponseConfigurations","pageSize":"maxResults"} as const }));
+export const listChatResponseConfigurations: API.OperationMethod<
+  ListChatResponseConfigurationsRequest,
+  ListChatResponseConfigurationsResponse,
+  ListChatResponseConfigurationsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListChatResponseConfigurationsRequest,
+  ) => stream.Stream<
+    ListChatResponseConfigurationsResponse,
+    ListChatResponseConfigurationsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChatResponseConfigurationsRequest,
+  ) => stream.Stream<
+    ChatResponseConfiguration,
+    ListChatResponseConfigurationsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChatResponseConfigurationsRequest,
+  output: ListChatResponseConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "chatResponseConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListConversationsError =
   | AccessDeniedException
   | InternalServerException
@@ -1738,10 +6907,44 @@ export type ListConversationsError =
 /**
  * Lists one or more Amazon Q Business conversations.
  */
-export const listConversations: API.OperationMethod<ListConversationsRequest, ListConversationsResponse, ListConversationsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListConversationsRequest) => stream.Stream<ListConversationsResponse, ListConversationsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListConversationsRequest) => stream.Stream<Conversation, ListConversationsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListConversationsRequest, output: ListConversationsResponse, errors: [AccessDeniedException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"conversations","pageSize":"maxResults"} as const }));
+export const listConversations: API.OperationMethod<
+  ListConversationsRequest,
+  ListConversationsResponse,
+  ListConversationsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListConversationsRequest,
+  ) => stream.Stream<
+    ListConversationsResponse,
+    ListConversationsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConversationsRequest,
+  ) => stream.Stream<
+    Conversation,
+    ListConversationsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConversationsRequest,
+  output: ListConversationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "conversations",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListDataSourceSyncJobsError =
   | AccessDeniedException
   | ConflictException
@@ -1753,10 +6956,44 @@ export type ListDataSourceSyncJobsError =
 /**
  * Get information about an Amazon Q Business data source connector synchronization.
  */
-export const listDataSourceSyncJobs: API.OperationMethod<ListDataSourceSyncJobsRequest, ListDataSourceSyncJobsResponse, ListDataSourceSyncJobsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListDataSourceSyncJobsRequest) => stream.Stream<ListDataSourceSyncJobsResponse, ListDataSourceSyncJobsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListDataSourceSyncJobsRequest) => stream.Stream<DataSourceSyncJob, ListDataSourceSyncJobsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListDataSourceSyncJobsRequest, output: ListDataSourceSyncJobsResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"history","pageSize":"maxResults"} as const }));
+export const listDataSourceSyncJobs: API.OperationMethod<
+  ListDataSourceSyncJobsRequest,
+  ListDataSourceSyncJobsResponse,
+  ListDataSourceSyncJobsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListDataSourceSyncJobsRequest,
+  ) => stream.Stream<
+    ListDataSourceSyncJobsResponse,
+    ListDataSourceSyncJobsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourceSyncJobsRequest,
+  ) => stream.Stream<
+    DataSourceSyncJob,
+    ListDataSourceSyncJobsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourceSyncJobsRequest,
+  output: ListDataSourceSyncJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "history",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListDocumentsError =
   | AccessDeniedException
   | InternalServerException
@@ -1767,10 +7004,43 @@ export type ListDocumentsError =
 /**
  * A list of documents attached to an index.
  */
-export const listDocuments: API.OperationMethod<ListDocumentsRequest, ListDocumentsResponse, ListDocumentsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListDocumentsRequest) => stream.Stream<ListDocumentsResponse, ListDocumentsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListDocumentsRequest) => stream.Stream<DocumentDetails, ListDocumentsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListDocumentsRequest, output: ListDocumentsResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"documentDetailList","pageSize":"maxResults"} as const }));
+export const listDocuments: API.OperationMethod<
+  ListDocumentsRequest,
+  ListDocumentsResponse,
+  ListDocumentsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListDocumentsRequest,
+  ) => stream.Stream<
+    ListDocumentsResponse,
+    ListDocumentsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDocumentsRequest,
+  ) => stream.Stream<
+    DocumentDetails,
+    ListDocumentsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDocumentsRequest,
+  output: ListDocumentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "documentDetailList",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListGroupsError =
   | AccessDeniedException
   | ConflictException
@@ -1782,10 +7052,44 @@ export type ListGroupsError =
 /**
  * Provides a list of groups that are mapped to users.
  */
-export const listGroups: API.OperationMethod<ListGroupsRequest, ListGroupsResponse, ListGroupsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListGroupsRequest) => stream.Stream<ListGroupsResponse, ListGroupsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListGroupsRequest) => stream.Stream<GroupSummary, ListGroupsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListGroupsRequest, output: ListGroupsResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"items","pageSize":"maxResults"} as const }));
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  ListGroupsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListGroupsRequest,
+  ) => stream.Stream<
+    ListGroupsResponse,
+    ListGroupsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => stream.Stream<
+    GroupSummary,
+    ListGroupsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupsRequest,
+  output: ListGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListMessagesError =
   | AccessDeniedException
   | InternalServerException
@@ -1797,10 +7101,44 @@ export type ListMessagesError =
 /**
  * Gets a list of messages associated with an Amazon Q Business web experience.
  */
-export const listMessages: API.OperationMethod<ListMessagesRequest, ListMessagesResponse, ListMessagesError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListMessagesRequest) => stream.Stream<ListMessagesResponse, ListMessagesError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListMessagesRequest) => stream.Stream<Message, ListMessagesError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListMessagesRequest, output: ListMessagesResponse, errors: [AccessDeniedException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"messages","pageSize":"maxResults"} as const }));
+export const listMessages: API.OperationMethod<
+  ListMessagesRequest,
+  ListMessagesResponse,
+  ListMessagesError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListMessagesRequest,
+  ) => stream.Stream<
+    ListMessagesResponse,
+    ListMessagesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMessagesRequest,
+  ) => stream.Stream<
+    Message,
+    ListMessagesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMessagesRequest,
+  output: ListMessagesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "messages",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListPluginActionsError =
   | AccessDeniedException
   | InternalServerException
@@ -1811,10 +7149,43 @@ export type ListPluginActionsError =
 /**
  * Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business application.
  */
-export const listPluginActions: API.OperationMethod<ListPluginActionsRequest, ListPluginActionsResponse, ListPluginActionsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListPluginActionsRequest) => stream.Stream<ListPluginActionsResponse, ListPluginActionsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListPluginActionsRequest) => stream.Stream<ActionSummary, ListPluginActionsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListPluginActionsRequest, output: ListPluginActionsResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"items","pageSize":"maxResults"} as const }));
+export const listPluginActions: API.OperationMethod<
+  ListPluginActionsRequest,
+  ListPluginActionsResponse,
+  ListPluginActionsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListPluginActionsRequest,
+  ) => stream.Stream<
+    ListPluginActionsResponse,
+    ListPluginActionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginActionsRequest,
+  ) => stream.Stream<
+    ActionSummary,
+    ListPluginActionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginActionsRequest,
+  output: ListPluginActionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListPluginTypeActionsError =
   | AccessDeniedException
   | InternalServerException
@@ -1824,10 +7195,42 @@ export type ListPluginTypeActionsError =
 /**
  * Lists configured Amazon Q Business actions for any plugin type—both built-in and custom.
  */
-export const listPluginTypeActions: API.OperationMethod<ListPluginTypeActionsRequest, ListPluginTypeActionsResponse, ListPluginTypeActionsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListPluginTypeActionsRequest) => stream.Stream<ListPluginTypeActionsResponse, ListPluginTypeActionsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListPluginTypeActionsRequest) => stream.Stream<ActionSummary, ListPluginTypeActionsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListPluginTypeActionsRequest, output: ListPluginTypeActionsResponse, errors: [AccessDeniedException, InternalServerException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"items","pageSize":"maxResults"} as const }));
+export const listPluginTypeActions: API.OperationMethod<
+  ListPluginTypeActionsRequest,
+  ListPluginTypeActionsResponse,
+  ListPluginTypeActionsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListPluginTypeActionsRequest,
+  ) => stream.Stream<
+    ListPluginTypeActionsResponse,
+    ListPluginTypeActionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginTypeActionsRequest,
+  ) => stream.Stream<
+    ActionSummary,
+    ListPluginTypeActionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginTypeActionsRequest,
+  output: ListPluginTypeActionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListPluginTypeMetadataError =
   | AccessDeniedException
   | InternalServerException
@@ -1837,10 +7240,42 @@ export type ListPluginTypeMetadataError =
 /**
  * Lists metadata for all Amazon Q Business plugin types.
  */
-export const listPluginTypeMetadata: API.OperationMethod<ListPluginTypeMetadataRequest, ListPluginTypeMetadataResponse, ListPluginTypeMetadataError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListPluginTypeMetadataRequest) => stream.Stream<ListPluginTypeMetadataResponse, ListPluginTypeMetadataError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListPluginTypeMetadataRequest) => stream.Stream<PluginTypeMetadataSummary, ListPluginTypeMetadataError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListPluginTypeMetadataRequest, output: ListPluginTypeMetadataResponse, errors: [AccessDeniedException, InternalServerException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"items","pageSize":"maxResults"} as const }));
+export const listPluginTypeMetadata: API.OperationMethod<
+  ListPluginTypeMetadataRequest,
+  ListPluginTypeMetadataResponse,
+  ListPluginTypeMetadataError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListPluginTypeMetadataRequest,
+  ) => stream.Stream<
+    ListPluginTypeMetadataResponse,
+    ListPluginTypeMetadataError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginTypeMetadataRequest,
+  ) => stream.Stream<
+    PluginTypeMetadataSummary,
+    ListPluginTypeMetadataError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginTypeMetadataRequest,
+  output: ListPluginTypeMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListSubscriptionsError =
   | AccessDeniedException
   | ConflictException
@@ -1852,10 +7287,44 @@ export type ListSubscriptionsError =
 /**
  * Lists all subscriptions created in an Amazon Q Business application.
  */
-export const listSubscriptions: API.OperationMethod<ListSubscriptionsRequest, ListSubscriptionsResponse, ListSubscriptionsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListSubscriptionsRequest) => stream.Stream<ListSubscriptionsResponse, ListSubscriptionsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListSubscriptionsRequest) => stream.Stream<Subscription, ListSubscriptionsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListSubscriptionsRequest, output: ListSubscriptionsResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"subscriptions","pageSize":"maxResults"} as const }));
+export const listSubscriptions: API.OperationMethod<
+  ListSubscriptionsRequest,
+  ListSubscriptionsResponse,
+  ListSubscriptionsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListSubscriptionsRequest,
+  ) => stream.Stream<
+    ListSubscriptionsResponse,
+    ListSubscriptionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscriptionsRequest,
+  ) => stream.Stream<
+    Subscription,
+    ListSubscriptionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscriptionsRequest,
+  output: ListSubscriptionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "subscriptions",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -1866,7 +7335,22 @@ export type ListTagsForResourceError =
 /**
  * Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
  */
-export const listTagsForResource: API.OperationMethod<ListTagsForResourceRequest, ListTagsForResourceResponse, ListTagsForResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ListTagsForResourceRequest, output: ListTagsForResourceResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type PutFeedbackError =
   | AccessDeniedException
   | InternalServerException
@@ -1877,7 +7361,22 @@ export type PutFeedbackError =
 /**
  * Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
  */
-export const putFeedback: API.OperationMethod<PutFeedbackRequest, PutFeedbackResponse, PutFeedbackError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: PutFeedbackRequest, output: PutFeedbackResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const putFeedback: API.OperationMethod<
+  PutFeedbackRequest,
+  PutFeedbackResponse,
+  PutFeedbackError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutFeedbackRequest,
+  output: PutFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type PutGroupError =
   | AccessDeniedException
   | ConflictException
@@ -1889,12 +7388,29 @@ export type PutGroupError =
   | CommonErrors;
 /**
  * Create, or updates, a mapping of users—who have access to a document—to groups.
- * 
+ *
  * You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results.
- * 
+ *
  * There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a `RoleArn` for Amazon Q Buisness to access the file.
  */
-export const putGroup: API.OperationMethod<PutGroupRequest, PutGroupResponse, PutGroupError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: PutGroupRequest, output: PutGroupResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const putGroup: API.OperationMethod<
+  PutGroupRequest,
+  PutGroupResponse,
+  PutGroupError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutGroupRequest,
+  output: PutGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type SearchRelevantContentError =
   | AccessDeniedException
   | InternalServerException
@@ -1906,10 +7422,44 @@ export type SearchRelevantContentError =
 /**
  * Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a search query text, the Amazon Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
  */
-export const searchRelevantContent: API.OperationMethod<SearchRelevantContentRequest, SearchRelevantContentResponse, SearchRelevantContentError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: SearchRelevantContentRequest) => stream.Stream<SearchRelevantContentResponse, SearchRelevantContentError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: SearchRelevantContentRequest) => stream.Stream<RelevantContent, SearchRelevantContentError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: SearchRelevantContentRequest, output: SearchRelevantContentResponse, errors: [AccessDeniedException, InternalServerException, LicenseNotFoundException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"relevantContent","pageSize":"maxResults"} as const }));
+export const searchRelevantContent: API.OperationMethod<
+  SearchRelevantContentRequest,
+  SearchRelevantContentResponse,
+  SearchRelevantContentError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: SearchRelevantContentRequest,
+  ) => stream.Stream<
+    SearchRelevantContentResponse,
+    SearchRelevantContentError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchRelevantContentRequest,
+  ) => stream.Stream<
+    RelevantContent,
+    SearchRelevantContentError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchRelevantContentRequest,
+  output: SearchRelevantContentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "relevantContent",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type StartDataSourceSyncJobError =
   | AccessDeniedException
   | ConflictException
@@ -1922,7 +7472,24 @@ export type StartDataSourceSyncJobError =
 /**
  * Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a `ConflictException`.
  */
-export const startDataSourceSyncJob: API.OperationMethod<StartDataSourceSyncJobRequest, StartDataSourceSyncJobResponse, StartDataSourceSyncJobError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartDataSourceSyncJobRequest, output: StartDataSourceSyncJobResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const startDataSourceSyncJob: API.OperationMethod<
+  StartDataSourceSyncJobRequest,
+  StartDataSourceSyncJobResponse,
+  StartDataSourceSyncJobError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataSourceSyncJobRequest,
+  output: StartDataSourceSyncJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StopDataSourceSyncJobError =
   | AccessDeniedException
   | ConflictException
@@ -1934,7 +7501,23 @@ export type StopDataSourceSyncJobError =
 /**
  * Stops an Amazon Q Business data source connector synchronization job already in progress.
  */
-export const stopDataSourceSyncJob: API.OperationMethod<StopDataSourceSyncJobRequest, StopDataSourceSyncJobResponse, StopDataSourceSyncJobError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StopDataSourceSyncJobRequest, output: StopDataSourceSyncJobResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const stopDataSourceSyncJob: API.OperationMethod<
+  StopDataSourceSyncJobRequest,
+  StopDataSourceSyncJobResponse,
+  StopDataSourceSyncJobError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDataSourceSyncJobRequest,
+  output: StopDataSourceSyncJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type TagResourceError =
   | AccessDeniedException
   | ConflictException
@@ -1946,7 +7529,23 @@ export type TagResourceError =
 /**
  * Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
  */
-export const tagResource: API.OperationMethod<TagResourceRequest, TagResourceResponse, TagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: TagResourceRequest, output: TagResourceResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UntagResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -1957,7 +7556,22 @@ export type UntagResourceError =
 /**
  * Removes a tag from an Amazon Q Business application or a data source.
  */
-export const untagResource: API.OperationMethod<UntagResourceRequest, UntagResourceResponse, UntagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UntagResourceRequest, output: UntagResourceResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateChatControlsConfigurationError =
   | AccessDeniedException
   | ConflictException
@@ -1970,7 +7584,24 @@ export type UpdateChatControlsConfigurationError =
 /**
  * Updates a set of chat controls configured for an existing Amazon Q Business application.
  */
-export const updateChatControlsConfiguration: API.OperationMethod<UpdateChatControlsConfigurationRequest, UpdateChatControlsConfigurationResponse, UpdateChatControlsConfigurationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateChatControlsConfigurationRequest, output: UpdateChatControlsConfigurationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const updateChatControlsConfiguration: API.OperationMethod<
+  UpdateChatControlsConfigurationRequest,
+  UpdateChatControlsConfigurationResponse,
+  UpdateChatControlsConfigurationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChatControlsConfigurationRequest,
+  output: UpdateChatControlsConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateChatResponseConfigurationError =
   | AccessDeniedException
   | ConflictException
@@ -1982,7 +7613,23 @@ export type UpdateChatResponseConfigurationError =
 /**
  * Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
  */
-export const updateChatResponseConfiguration: API.OperationMethod<UpdateChatResponseConfigurationRequest, UpdateChatResponseConfigurationResponse, UpdateChatResponseConfigurationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateChatResponseConfigurationRequest, output: UpdateChatResponseConfigurationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const updateChatResponseConfiguration: API.OperationMethod<
+  UpdateChatResponseConfigurationRequest,
+  UpdateChatResponseConfigurationResponse,
+  UpdateChatResponseConfigurationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChatResponseConfigurationRequest,
+  output: UpdateChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateSubscriptionError =
   | AccessDeniedException
   | ConflictException
@@ -1994,7 +7641,23 @@ export type UpdateSubscriptionError =
 /**
  * Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
  */
-export const updateSubscription: API.OperationMethod<UpdateSubscriptionRequest, UpdateSubscriptionResponse, UpdateSubscriptionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateSubscriptionRequest, output: UpdateSubscriptionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const updateSubscription: API.OperationMethod<
+  UpdateSubscriptionRequest,
+  UpdateSubscriptionResponse,
+  UpdateSubscriptionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSubscriptionRequest,
+  output: UpdateSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateUserError =
   | AccessDeniedException
   | ConflictException
@@ -2007,7 +7670,24 @@ export type UpdateUserError =
 /**
  * Updates a information associated with a user id.
  */
-export const updateUser: API.OperationMethod<UpdateUserRequest, UpdateUserResponse, UpdateUserError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateUserRequest, output: UpdateUserResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
+  UpdateUserResponse,
+  UpdateUserError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRequest,
+  output: UpdateUserResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CreateApplicationError =
   | AccessDeniedException
   | ConflictException
@@ -2019,14 +7699,31 @@ export type CreateApplicationError =
   | CommonErrors;
 /**
  * Creates an Amazon Q Business application.
- * 
+ *
  * There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see Amazon Q Business tiers. You must use the Amazon Q Business console to assign subscription tiers to users.
- * 
+ *
  * An Amazon Q Apps service linked role will be created if it's absent in the Amazon Web Services account when `QAppsConfiguration` is enabled in the request. For more information, see Using service-linked roles for Q Apps.
- * 
+ *
  * When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
-export const createApplication: API.OperationMethod<CreateApplicationRequest, CreateApplicationResponse, CreateApplicationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateApplicationRequest, output: CreateApplicationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
+  CreateApplicationResponse,
+  CreateApplicationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetApplicationError =
   | AccessDeniedException
   | InternalServerException
@@ -2037,7 +7734,22 @@ export type GetApplicationError =
 /**
  * Gets information about an existing Amazon Q Business application.
  */
-export const getApplication: API.OperationMethod<GetApplicationRequest, GetApplicationResponse, GetApplicationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetApplicationRequest, output: GetApplicationResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
+  GetApplicationResponse,
+  GetApplicationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationRequest,
+  output: GetApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateApplicationError =
   | AccessDeniedException
   | ConflictException
@@ -2048,12 +7760,28 @@ export type UpdateApplicationError =
   | CommonErrors;
 /**
  * Updates an existing Amazon Q Business application.
- * 
+ *
  * Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business.
- * 
+ *
  * An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when `QAppsConfiguration` is enabled in the request. For more information, see Using service-linked roles for Q Apps.
  */
-export const updateApplication: API.OperationMethod<UpdateApplicationRequest, UpdateApplicationResponse, UpdateApplicationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateApplicationRequest, output: UpdateApplicationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
+  UpdateApplicationResponse,
+  UpdateApplicationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteApplicationError =
   | AccessDeniedException
   | ConflictException
@@ -2065,7 +7793,23 @@ export type DeleteApplicationError =
 /**
  * Deletes an Amazon Q Business application.
  */
-export const deleteApplication: API.OperationMethod<DeleteApplicationRequest, DeleteApplicationResponse, DeleteApplicationError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteApplicationRequest, output: DeleteApplicationResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
+  DeleteApplicationResponse,
+  DeleteApplicationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListApplicationsError =
   | AccessDeniedException
   | InternalServerException
@@ -2074,13 +7818,45 @@ export type ListApplicationsError =
   | CommonErrors;
 /**
  * Lists Amazon Q Business applications.
- * 
+ *
  * Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
-export const listApplications: API.OperationMethod<ListApplicationsRequest, ListApplicationsResponse, ListApplicationsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListApplicationsRequest) => stream.Stream<ListApplicationsResponse, ListApplicationsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListApplicationsRequest) => stream.Stream<Application, ListApplicationsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListApplicationsRequest, output: ListApplicationsResponse, errors: [AccessDeniedException, InternalServerException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"applications","pageSize":"maxResults"} as const }));
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  ListApplicationsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListApplicationsRequest,
+  ) => stream.Stream<
+    ListApplicationsResponse,
+    ListApplicationsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => stream.Stream<
+    Application,
+    ListApplicationsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type CreateDataAccessorError =
   | AccessDeniedException
   | ConflictException
@@ -2093,7 +7869,24 @@ export type CreateDataAccessorError =
 /**
  * Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Amazon Q Business application.
  */
-export const createDataAccessor: API.OperationMethod<CreateDataAccessorRequest, CreateDataAccessorResponse, CreateDataAccessorError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateDataAccessorRequest, output: CreateDataAccessorResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createDataAccessor: API.OperationMethod<
+  CreateDataAccessorRequest,
+  CreateDataAccessorResponse,
+  CreateDataAccessorError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataAccessorRequest,
+  output: CreateDataAccessorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetDataAccessorError =
   | AccessDeniedException
   | InternalServerException
@@ -2104,7 +7897,22 @@ export type GetDataAccessorError =
 /**
  * Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
  */
-export const getDataAccessor: API.OperationMethod<GetDataAccessorRequest, GetDataAccessorResponse, GetDataAccessorError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetDataAccessorRequest, output: GetDataAccessorResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getDataAccessor: API.OperationMethod<
+  GetDataAccessorRequest,
+  GetDataAccessorResponse,
+  GetDataAccessorError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataAccessorRequest,
+  output: GetDataAccessorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateDataAccessorError =
   | AccessDeniedException
   | ConflictException
@@ -2116,7 +7924,23 @@ export type UpdateDataAccessorError =
 /**
  * Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
  */
-export const updateDataAccessor: API.OperationMethod<UpdateDataAccessorRequest, UpdateDataAccessorResponse, UpdateDataAccessorError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateDataAccessorRequest, output: UpdateDataAccessorResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const updateDataAccessor: API.OperationMethod<
+  UpdateDataAccessorRequest,
+  UpdateDataAccessorResponse,
+  UpdateDataAccessorError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataAccessorRequest,
+  output: UpdateDataAccessorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteDataAccessorError =
   | AccessDeniedException
   | ConflictException
@@ -2128,7 +7952,23 @@ export type DeleteDataAccessorError =
 /**
  * Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
  */
-export const deleteDataAccessor: API.OperationMethod<DeleteDataAccessorRequest, DeleteDataAccessorResponse, DeleteDataAccessorError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteDataAccessorRequest, output: DeleteDataAccessorResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteDataAccessor: API.OperationMethod<
+  DeleteDataAccessorRequest,
+  DeleteDataAccessorResponse,
+  DeleteDataAccessorError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataAccessorRequest,
+  output: DeleteDataAccessorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListDataAccessorsError =
   | AccessDeniedException
   | InternalServerException
@@ -2139,10 +7979,43 @@ export type ListDataAccessorsError =
 /**
  * Lists the data accessors for a Amazon Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor.
  */
-export const listDataAccessors: API.OperationMethod<ListDataAccessorsRequest, ListDataAccessorsResponse, ListDataAccessorsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListDataAccessorsRequest) => stream.Stream<ListDataAccessorsResponse, ListDataAccessorsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListDataAccessorsRequest) => stream.Stream<DataAccessor, ListDataAccessorsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListDataAccessorsRequest, output: ListDataAccessorsResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"dataAccessors","pageSize":"maxResults"} as const }));
+export const listDataAccessors: API.OperationMethod<
+  ListDataAccessorsRequest,
+  ListDataAccessorsResponse,
+  ListDataAccessorsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListDataAccessorsRequest,
+  ) => stream.Stream<
+    ListDataAccessorsResponse,
+    ListDataAccessorsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataAccessorsRequest,
+  ) => stream.Stream<
+    DataAccessor,
+    ListDataAccessorsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataAccessorsRequest,
+  output: ListDataAccessorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataAccessors",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type CreateIndexError =
   | AccessDeniedException
   | ConflictException
@@ -2154,12 +8027,29 @@ export type CreateIndexError =
   | CommonErrors;
 /**
  * Creates an Amazon Q Business index.
- * 
+ *
  * To determine if index creation has completed, check the `Status` field returned from a call to `DescribeIndex`. The `Status` field is set to `ACTIVE` when the index is ready to use.
- * 
+ *
  * Once the index is active, you can index your documents using the `BatchPutDocument` API or the `CreateDataSource` API.
  */
-export const createIndex: API.OperationMethod<CreateIndexRequest, CreateIndexResponse, CreateIndexError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateIndexRequest, output: CreateIndexResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
+  CreateIndexResponse,
+  CreateIndexError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIndexRequest,
+  output: CreateIndexResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetIndexError =
   | AccessDeniedException
   | InternalServerException
@@ -2170,7 +8060,22 @@ export type GetIndexError =
 /**
  * Gets information about an existing Amazon Q Business index.
  */
-export const getIndex: API.OperationMethod<GetIndexRequest, GetIndexResponse, GetIndexError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetIndexRequest, output: GetIndexResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getIndex: API.OperationMethod<
+  GetIndexRequest,
+  GetIndexResponse,
+  GetIndexError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIndexRequest,
+  output: GetIndexResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateIndexError =
   | AccessDeniedException
   | ConflictException
@@ -2183,7 +8088,24 @@ export type UpdateIndexError =
 /**
  * Updates an Amazon Q Business index.
  */
-export const updateIndex: API.OperationMethod<UpdateIndexRequest, UpdateIndexResponse, UpdateIndexError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateIndexRequest, output: UpdateIndexResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const updateIndex: API.OperationMethod<
+  UpdateIndexRequest,
+  UpdateIndexResponse,
+  UpdateIndexError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIndexRequest,
+  output: UpdateIndexResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteIndexError =
   | AccessDeniedException
   | ConflictException
@@ -2195,7 +8117,23 @@ export type DeleteIndexError =
 /**
  * Deletes an Amazon Q Business index.
  */
-export const deleteIndex: API.OperationMethod<DeleteIndexRequest, DeleteIndexResponse, DeleteIndexError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteIndexRequest, output: DeleteIndexResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexRequest,
+  DeleteIndexResponse,
+  DeleteIndexError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIndexRequest,
+  output: DeleteIndexResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListIndicesError =
   | AccessDeniedException
   | InternalServerException
@@ -2206,10 +8144,43 @@ export type ListIndicesError =
 /**
  * Lists the Amazon Q Business indices you have created.
  */
-export const listIndices: API.OperationMethod<ListIndicesRequest, ListIndicesResponse, ListIndicesError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListIndicesRequest) => stream.Stream<ListIndicesResponse, ListIndicesError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListIndicesRequest) => stream.Stream<Index, ListIndicesError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListIndicesRequest, output: ListIndicesResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"indices","pageSize":"maxResults"} as const }));
+export const listIndices: API.OperationMethod<
+  ListIndicesRequest,
+  ListIndicesResponse,
+  ListIndicesError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListIndicesRequest,
+  ) => stream.Stream<
+    ListIndicesResponse,
+    ListIndicesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIndicesRequest,
+  ) => stream.Stream<
+    Index,
+    ListIndicesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIndicesRequest,
+  output: ListIndicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "indices",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type CreateDataSourceError =
   | AccessDeniedException
   | ConflictException
@@ -2221,10 +8192,27 @@ export type CreateDataSourceError =
   | CommonErrors;
 /**
  * Creates a data source connector for an Amazon Q Business application.
- * 
+ *
  * `CreateDataSource` is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
  */
-export const createDataSource: API.OperationMethod<CreateDataSourceRequest, CreateDataSourceResponse, CreateDataSourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateDataSourceRequest, output: CreateDataSourceResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceRequest,
+  CreateDataSourceResponse,
+  CreateDataSourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSourceRequest,
+  output: CreateDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetDataSourceError =
   | AccessDeniedException
   | InternalServerException
@@ -2235,7 +8223,22 @@ export type GetDataSourceError =
 /**
  * Gets information about an existing Amazon Q Business data source connector.
  */
-export const getDataSource: API.OperationMethod<GetDataSourceRequest, GetDataSourceResponse, GetDataSourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetDataSourceRequest, output: GetDataSourceResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getDataSource: API.OperationMethod<
+  GetDataSourceRequest,
+  GetDataSourceResponse,
+  GetDataSourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSourceRequest,
+  output: GetDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateDataSourceError =
   | AccessDeniedException
   | ConflictException
@@ -2247,7 +8250,23 @@ export type UpdateDataSourceError =
 /**
  * Updates an existing Amazon Q Business data source connector.
  */
-export const updateDataSource: API.OperationMethod<UpdateDataSourceRequest, UpdateDataSourceResponse, UpdateDataSourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateDataSourceRequest, output: UpdateDataSourceResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceRequest,
+  UpdateDataSourceResponse,
+  UpdateDataSourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSourceRequest,
+  output: UpdateDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteDataSourceError =
   | AccessDeniedException
   | ConflictException
@@ -2259,7 +8278,23 @@ export type DeleteDataSourceError =
 /**
  * Deletes an Amazon Q Business data source connector. While the data source is being deleted, the `Status` field returned by a call to the `DescribeDataSource` API is set to `DELETING`.
  */
-export const deleteDataSource: API.OperationMethod<DeleteDataSourceRequest, DeleteDataSourceResponse, DeleteDataSourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteDataSourceRequest, output: DeleteDataSourceResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
+  DeleteDataSourceResponse,
+  DeleteDataSourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataSourceRequest,
+  output: DeleteDataSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListDataSourcesError =
   | AccessDeniedException
   | InternalServerException
@@ -2270,10 +8305,43 @@ export type ListDataSourcesError =
 /**
  * Lists the Amazon Q Business data source connectors that you have created.
  */
-export const listDataSources: API.OperationMethod<ListDataSourcesRequest, ListDataSourcesResponse, ListDataSourcesError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListDataSourcesRequest) => stream.Stream<ListDataSourcesResponse, ListDataSourcesError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListDataSourcesRequest) => stream.Stream<DataSource, ListDataSourcesError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListDataSourcesRequest, output: ListDataSourcesResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"dataSources","pageSize":"maxResults"} as const }));
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesRequest,
+  ListDataSourcesResponse,
+  ListDataSourcesError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListDataSourcesRequest,
+  ) => stream.Stream<
+    ListDataSourcesResponse,
+    ListDataSourcesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourcesRequest,
+  ) => stream.Stream<
+    DataSource,
+    ListDataSourcesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourcesRequest,
+  output: ListDataSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSources",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type CreatePluginError =
   | AccessDeniedException
   | ConflictException
@@ -2286,7 +8354,24 @@ export type CreatePluginError =
 /**
  * Creates an Amazon Q Business plugin.
  */
-export const createPlugin: API.OperationMethod<CreatePluginRequest, CreatePluginResponse, CreatePluginError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreatePluginRequest, output: CreatePluginResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createPlugin: API.OperationMethod<
+  CreatePluginRequest,
+  CreatePluginResponse,
+  CreatePluginError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePluginRequest,
+  output: CreatePluginResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetPluginError =
   | AccessDeniedException
   | InternalServerException
@@ -2297,7 +8382,22 @@ export type GetPluginError =
 /**
  * Gets information about an existing Amazon Q Business plugin.
  */
-export const getPlugin: API.OperationMethod<GetPluginRequest, GetPluginResponse, GetPluginError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetPluginRequest, output: GetPluginResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getPlugin: API.OperationMethod<
+  GetPluginRequest,
+  GetPluginResponse,
+  GetPluginError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPluginRequest,
+  output: GetPluginResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdatePluginError =
   | AccessDeniedException
   | ConflictException
@@ -2310,7 +8410,24 @@ export type UpdatePluginError =
 /**
  * Updates an Amazon Q Business plugin.
  */
-export const updatePlugin: API.OperationMethod<UpdatePluginRequest, UpdatePluginResponse, UpdatePluginError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdatePluginRequest, output: UpdatePluginResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const updatePlugin: API.OperationMethod<
+  UpdatePluginRequest,
+  UpdatePluginResponse,
+  UpdatePluginError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePluginRequest,
+  output: UpdatePluginResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeletePluginError =
   | AccessDeniedException
   | ConflictException
@@ -2322,7 +8439,23 @@ export type DeletePluginError =
 /**
  * Deletes an Amazon Q Business plugin.
  */
-export const deletePlugin: API.OperationMethod<DeletePluginRequest, DeletePluginResponse, DeletePluginError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeletePluginRequest, output: DeletePluginResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deletePlugin: API.OperationMethod<
+  DeletePluginRequest,
+  DeletePluginResponse,
+  DeletePluginError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePluginRequest,
+  output: DeletePluginResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListPluginsError =
   | AccessDeniedException
   | InternalServerException
@@ -2333,10 +8466,43 @@ export type ListPluginsError =
 /**
  * Lists configured Amazon Q Business plugins.
  */
-export const listPlugins: API.OperationMethod<ListPluginsRequest, ListPluginsResponse, ListPluginsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListPluginsRequest) => stream.Stream<ListPluginsResponse, ListPluginsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListPluginsRequest) => stream.Stream<Plugin, ListPluginsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListPluginsRequest, output: ListPluginsResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"plugins","pageSize":"maxResults"} as const }));
+export const listPlugins: API.OperationMethod<
+  ListPluginsRequest,
+  ListPluginsResponse,
+  ListPluginsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListPluginsRequest,
+  ) => stream.Stream<
+    ListPluginsResponse,
+    ListPluginsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginsRequest,
+  ) => stream.Stream<
+    Plugin,
+    ListPluginsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginsRequest,
+  output: ListPluginsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "plugins",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type CreateRetrieverError =
   | AccessDeniedException
   | ConflictException
@@ -2349,7 +8515,24 @@ export type CreateRetrieverError =
 /**
  * Adds a retriever to your Amazon Q Business application.
  */
-export const createRetriever: API.OperationMethod<CreateRetrieverRequest, CreateRetrieverResponse, CreateRetrieverError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateRetrieverRequest, output: CreateRetrieverResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createRetriever: API.OperationMethod<
+  CreateRetrieverRequest,
+  CreateRetrieverResponse,
+  CreateRetrieverError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRetrieverRequest,
+  output: CreateRetrieverResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetRetrieverError =
   | AccessDeniedException
   | InternalServerException
@@ -2360,7 +8543,22 @@ export type GetRetrieverError =
 /**
  * Gets information about an existing retriever used by an Amazon Q Business application.
  */
-export const getRetriever: API.OperationMethod<GetRetrieverRequest, GetRetrieverResponse, GetRetrieverError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetRetrieverRequest, output: GetRetrieverResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getRetriever: API.OperationMethod<
+  GetRetrieverRequest,
+  GetRetrieverResponse,
+  GetRetrieverError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRetrieverRequest,
+  output: GetRetrieverResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateRetrieverError =
   | AccessDeniedException
   | ConflictException
@@ -2373,7 +8571,24 @@ export type UpdateRetrieverError =
 /**
  * Updates the retriever used for your Amazon Q Business application.
  */
-export const updateRetriever: API.OperationMethod<UpdateRetrieverRequest, UpdateRetrieverResponse, UpdateRetrieverError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateRetrieverRequest, output: UpdateRetrieverResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const updateRetriever: API.OperationMethod<
+  UpdateRetrieverRequest,
+  UpdateRetrieverResponse,
+  UpdateRetrieverError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRetrieverRequest,
+  output: UpdateRetrieverResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteRetrieverError =
   | AccessDeniedException
   | ConflictException
@@ -2385,7 +8600,23 @@ export type DeleteRetrieverError =
 /**
  * Deletes the retriever used by an Amazon Q Business application.
  */
-export const deleteRetriever: API.OperationMethod<DeleteRetrieverRequest, DeleteRetrieverResponse, DeleteRetrieverError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteRetrieverRequest, output: DeleteRetrieverResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteRetriever: API.OperationMethod<
+  DeleteRetrieverRequest,
+  DeleteRetrieverResponse,
+  DeleteRetrieverError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRetrieverRequest,
+  output: DeleteRetrieverResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListRetrieversError =
   | AccessDeniedException
   | InternalServerException
@@ -2396,10 +8627,43 @@ export type ListRetrieversError =
 /**
  * Lists the retriever used by an Amazon Q Business application.
  */
-export const listRetrievers: API.OperationMethod<ListRetrieversRequest, ListRetrieversResponse, ListRetrieversError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListRetrieversRequest) => stream.Stream<ListRetrieversResponse, ListRetrieversError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListRetrieversRequest) => stream.Stream<Retriever, ListRetrieversError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListRetrieversRequest, output: ListRetrieversResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"retrievers","pageSize":"maxResults"} as const }));
+export const listRetrievers: API.OperationMethod<
+  ListRetrieversRequest,
+  ListRetrieversResponse,
+  ListRetrieversError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListRetrieversRequest,
+  ) => stream.Stream<
+    ListRetrieversResponse,
+    ListRetrieversError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRetrieversRequest,
+  ) => stream.Stream<
+    Retriever,
+    ListRetrieversError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRetrieversRequest,
+  output: ListRetrieversResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "retrievers",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type CreateWebExperienceError =
   | AccessDeniedException
   | ConflictException
@@ -2412,7 +8676,24 @@ export type CreateWebExperienceError =
 /**
  * Creates an Amazon Q Business web experience.
  */
-export const createWebExperience: API.OperationMethod<CreateWebExperienceRequest, CreateWebExperienceResponse, CreateWebExperienceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateWebExperienceRequest, output: CreateWebExperienceResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createWebExperience: API.OperationMethod<
+  CreateWebExperienceRequest,
+  CreateWebExperienceResponse,
+  CreateWebExperienceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWebExperienceRequest,
+  output: CreateWebExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetWebExperienceError =
   | AccessDeniedException
   | InternalServerException
@@ -2423,7 +8704,22 @@ export type GetWebExperienceError =
 /**
  * Gets information about an existing Amazon Q Business web experience.
  */
-export const getWebExperience: API.OperationMethod<GetWebExperienceRequest, GetWebExperienceResponse, GetWebExperienceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetWebExperienceRequest, output: GetWebExperienceResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getWebExperience: API.OperationMethod<
+  GetWebExperienceRequest,
+  GetWebExperienceResponse,
+  GetWebExperienceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWebExperienceRequest,
+  output: GetWebExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateWebExperienceError =
   | AccessDeniedException
   | ConflictException
@@ -2435,7 +8731,23 @@ export type UpdateWebExperienceError =
 /**
  * Updates an Amazon Q Business web experience.
  */
-export const updateWebExperience: API.OperationMethod<UpdateWebExperienceRequest, UpdateWebExperienceResponse, UpdateWebExperienceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateWebExperienceRequest, output: UpdateWebExperienceResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const updateWebExperience: API.OperationMethod<
+  UpdateWebExperienceRequest,
+  UpdateWebExperienceResponse,
+  UpdateWebExperienceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWebExperienceRequest,
+  output: UpdateWebExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteWebExperienceError =
   | AccessDeniedException
   | ConflictException
@@ -2447,7 +8759,23 @@ export type DeleteWebExperienceError =
 /**
  * Deletes an Amazon Q Business web experience.
  */
-export const deleteWebExperience: API.OperationMethod<DeleteWebExperienceRequest, DeleteWebExperienceResponse, DeleteWebExperienceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteWebExperienceRequest, output: DeleteWebExperienceResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteWebExperience: API.OperationMethod<
+  DeleteWebExperienceRequest,
+  DeleteWebExperienceResponse,
+  DeleteWebExperienceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWebExperienceRequest,
+  output: DeleteWebExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListWebExperiencesError =
   | AccessDeniedException
   | InternalServerException
@@ -2458,7 +8786,40 @@ export type ListWebExperiencesError =
 /**
  * Lists one or more Amazon Q Business Web Experiences.
  */
-export const listWebExperiences: API.OperationMethod<ListWebExperiencesRequest, ListWebExperiencesResponse, ListWebExperiencesError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListWebExperiencesRequest) => stream.Stream<ListWebExperiencesResponse, ListWebExperiencesError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListWebExperiencesRequest) => stream.Stream<WebExperience, ListWebExperiencesError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListWebExperiencesRequest, output: ListWebExperiencesResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"webExperiences","pageSize":"maxResults"} as const }));
+export const listWebExperiences: API.OperationMethod<
+  ListWebExperiencesRequest,
+  ListWebExperiencesResponse,
+  ListWebExperiencesError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListWebExperiencesRequest,
+  ) => stream.Stream<
+    ListWebExperiencesResponse,
+    ListWebExperiencesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWebExperiencesRequest,
+  ) => stream.Stream<
+    WebExperience,
+    ListWebExperiencesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWebExperiencesRequest,
+  output: ListWebExperiencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "webExperiences",
+    pageSize: "maxResults",
+  } as const,
+}));

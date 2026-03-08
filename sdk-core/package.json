@@ -16,7 +16,7 @@
   "scripts": {
     "typecheck": "tsgo",
     "fmt": "oxfmt --write src",
-    "lint": "oxlint src",
+    "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src"
   },
   "dependencies": {

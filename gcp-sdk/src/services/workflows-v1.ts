@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -65,11 +72,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -84,13 +95,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -101,17 +114,22 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface StateError {
   /** Provides specifics about the error. */
@@ -120,10 +138,12 @@ export interface StateError {
   type?: "TYPE_UNSPECIFIED" | "KMS_ERROR" | (string & {});
 }
 
-export const StateError: Schema.Schema<StateError> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "StateError" }) as any as Schema.Schema<StateError>;
+export const StateError: Schema.Schema<StateError> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "StateError" }) as any as Schema.Schema<StateError>;
 
 export interface Workflow {
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}. This is a workflow-wide field and is not tied to a specific revision. */
@@ -151,11 +171,20 @@ export interface Workflow {
   /** Output only. Error regarding the state of the workflow. For example, this field will have error details if the execution data is unavailable due to revoked KMS key permissions. */
   stateError?: StateError;
   /** Optional. Describes the level of platform logging to apply to calls and call responses during executions of this workflow. If both the workflow and the execution specify a logging level, the execution level takes precedence. */
-  callLogLevel?: "CALL_LOG_LEVEL_UNSPECIFIED" | "LOG_ALL_CALLS" | "LOG_ERRORS_ONLY" | "LOG_NONE" | (string & {});
+  callLogLevel?:
+    | "CALL_LOG_LEVEL_UNSPECIFIED"
+    | "LOG_ALL_CALLS"
+    | "LOG_ERRORS_ONLY"
+    | "LOG_NONE"
+    | (string & {});
   /** Optional. User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with "GOOGLE" or "WORKFLOWS". */
   userEnvVars?: Record<string, string>;
   /** Optional. Describes the execution history level to apply to this workflow. */
-  executionHistoryLevel?: "EXECUTION_HISTORY_LEVEL_UNSPECIFIED" | "EXECUTION_HISTORY_BASIC" | "EXECUTION_HISTORY_DETAILED" | (string & {});
+  executionHistoryLevel?:
+    | "EXECUTION_HISTORY_LEVEL_UNSPECIFIED"
+    | "EXECUTION_HISTORY_BASIC"
+    | "EXECUTION_HISTORY_DETAILED"
+    | (string & {});
   /** Output only. A list of all KMS crypto keys used to encrypt or decrypt the data associated with the workflow. */
   allKmsKeys?: Array<string>;
   /** Output only. A list of all KMS crypto key versions used to encrypt or decrypt the data associated with the workflow. */
@@ -166,27 +195,29 @@ export interface Workflow {
   tags?: Record<string, string>;
 }
 
-export const Workflow: Schema.Schema<Workflow> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  revisionId: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  revisionCreateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  serviceAccount: Schema.optional(Schema.String),
-  sourceContents: Schema.optional(Schema.String),
-  cryptoKeyName: Schema.optional(Schema.String),
-  stateError: Schema.optional(StateError),
-  callLogLevel: Schema.optional(Schema.String),
-  userEnvVars: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  executionHistoryLevel: Schema.optional(Schema.String),
-  allKmsKeys: Schema.optional(Schema.Array(Schema.String)),
-  allKmsKeysVersions: Schema.optional(Schema.Array(Schema.String)),
-  cryptoKeyVersion: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "Workflow" }) as any as Schema.Schema<Workflow>;
+export const Workflow: Schema.Schema<Workflow> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    revisionId: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    revisionCreateTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    serviceAccount: Schema.optional(Schema.String),
+    sourceContents: Schema.optional(Schema.String),
+    cryptoKeyName: Schema.optional(Schema.String),
+    stateError: Schema.optional(StateError),
+    callLogLevel: Schema.optional(Schema.String),
+    userEnvVars: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    executionHistoryLevel: Schema.optional(Schema.String),
+    allKmsKeys: Schema.optional(Schema.Array(Schema.String)),
+    allKmsKeysVersions: Schema.optional(Schema.Array(Schema.String)),
+    cryptoKeyVersion: Schema.optional(Schema.String),
+    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "Workflow" }) as any as Schema.Schema<Workflow>;
 
 export interface ListWorkflowsResponse {
   /** The workflows that match the request. */
@@ -197,11 +228,16 @@ export interface ListWorkflowsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListWorkflowsResponse: Schema.Schema<ListWorkflowsResponse> = Schema.suspend(() => Schema.Struct({
-  workflows: Schema.optional(Schema.Array(Workflow)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListWorkflowsResponse" }) as any as Schema.Schema<ListWorkflowsResponse>;
+export const ListWorkflowsResponse: Schema.Schema<ListWorkflowsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workflows: Schema.optional(Schema.Array(Workflow)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListWorkflowsResponse",
+  }) as any as Schema.Schema<ListWorkflowsResponse>;
 
 export interface ListWorkflowRevisionsResponse {
   /** The revisions of the workflow, ordered in reverse chronological order. */
@@ -210,10 +246,15 @@ export interface ListWorkflowRevisionsResponse {
   nextPageToken?: string;
 }
 
-export const ListWorkflowRevisionsResponse: Schema.Schema<ListWorkflowRevisionsResponse> = Schema.suspend(() => Schema.Struct({
-  workflows: Schema.optional(Schema.Array(Workflow)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListWorkflowRevisionsResponse" }) as any as Schema.Schema<ListWorkflowRevisionsResponse>;
+export const ListWorkflowRevisionsResponse: Schema.Schema<ListWorkflowRevisionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workflows: Schema.optional(Schema.Array(Workflow)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListWorkflowRevisionsResponse",
+  }) as any as Schema.Schema<ListWorkflowRevisionsResponse>;
 
 export interface OperationMetadata {
   /** The time the operation was created. */
@@ -228,13 +269,18 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -258,7 +304,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -270,7 +318,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -288,7 +341,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -298,7 +354,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -322,9 +383,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -334,7 +400,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -352,7 +423,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -362,7 +436,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -376,7 +455,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -386,7 +468,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -412,7 +499,10 @@ export const ListProjectsLocationsWorkflowsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/workflows" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/workflows",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsWorkflowsRequest>;
 
@@ -422,7 +512,12 @@ export const ListProjectsLocationsWorkflowsResponse = ListWorkflowsResponse;
 export type ListProjectsLocationsWorkflowsError = DefaultErrors;
 
 /** Lists workflows in a given project and location. The default order is not specified. */
-export const listProjectsLocationsWorkflows: API.PaginatedOperationMethod<ListProjectsLocationsWorkflowsRequest, ListProjectsLocationsWorkflowsResponse, ListProjectsLocationsWorkflowsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsWorkflows: API.PaginatedOperationMethod<
+  ListProjectsLocationsWorkflowsRequest,
+  ListProjectsLocationsWorkflowsResponse,
+  ListProjectsLocationsWorkflowsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkflowsRequest,
   output: ListProjectsLocationsWorkflowsResponse,
   errors: [],
@@ -443,7 +538,10 @@ export const GetProjectsLocationsWorkflowsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   revisionId: Schema.optional(Schema.String).pipe(T.HttpQuery("revisionId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsWorkflowsRequest>;
 
@@ -453,7 +551,12 @@ export const GetProjectsLocationsWorkflowsResponse = Workflow;
 export type GetProjectsLocationsWorkflowsError = DefaultErrors;
 
 /** Gets details of a single workflow. */
-export const getProjectsLocationsWorkflows: API.OperationMethod<GetProjectsLocationsWorkflowsRequest, GetProjectsLocationsWorkflowsResponse, GetProjectsLocationsWorkflowsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsWorkflows: API.OperationMethod<
+  GetProjectsLocationsWorkflowsRequest,
+  GetProjectsLocationsWorkflowsResponse,
+  GetProjectsLocationsWorkflowsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsWorkflowsRequest,
   output: GetProjectsLocationsWorkflowsResponse,
   errors: [],
@@ -473,7 +576,11 @@ export const CreateProjectsLocationsWorkflowsRequest = Schema.Struct({
   workflowId: Schema.optional(Schema.String).pipe(T.HttpQuery("workflowId")),
   body: Schema.optional(Workflow).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/workflows", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/workflows",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsWorkflowsRequest>;
 
@@ -483,7 +590,12 @@ export const CreateProjectsLocationsWorkflowsResponse = Operation;
 export type CreateProjectsLocationsWorkflowsError = DefaultErrors;
 
 /** Creates a new workflow. If a workflow with the specified name already exists in the specified project and location, the long running operation returns a ALREADY_EXISTS error. */
-export const createProjectsLocationsWorkflows: API.OperationMethod<CreateProjectsLocationsWorkflowsRequest, CreateProjectsLocationsWorkflowsResponse, CreateProjectsLocationsWorkflowsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsWorkflows: API.OperationMethod<
+  CreateProjectsLocationsWorkflowsRequest,
+  CreateProjectsLocationsWorkflowsResponse,
+  CreateProjectsLocationsWorkflowsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsWorkflowsRequest,
   output: CreateProjectsLocationsWorkflowsResponse,
   errors: [],
@@ -497,7 +609,10 @@ export interface DeleteProjectsLocationsWorkflowsRequest {
 export const DeleteProjectsLocationsWorkflowsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsWorkflowsRequest>;
 
@@ -507,7 +622,12 @@ export const DeleteProjectsLocationsWorkflowsResponse = Operation;
 export type DeleteProjectsLocationsWorkflowsError = DefaultErrors;
 
 /** Deletes a workflow with the specified name. This method also cancels and deletes all running executions of the workflow. */
-export const deleteProjectsLocationsWorkflows: API.OperationMethod<DeleteProjectsLocationsWorkflowsRequest, DeleteProjectsLocationsWorkflowsResponse, DeleteProjectsLocationsWorkflowsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsWorkflows: API.OperationMethod<
+  DeleteProjectsLocationsWorkflowsRequest,
+  DeleteProjectsLocationsWorkflowsResponse,
+  DeleteProjectsLocationsWorkflowsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsWorkflowsRequest,
   output: DeleteProjectsLocationsWorkflowsResponse,
   errors: [],
@@ -527,7 +647,11 @@ export const PatchProjectsLocationsWorkflowsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Workflow).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsWorkflowsRequest>;
 
@@ -537,7 +661,12 @@ export const PatchProjectsLocationsWorkflowsResponse = Operation;
 export type PatchProjectsLocationsWorkflowsError = DefaultErrors;
 
 /** Updates an existing workflow. Running this method has no impact on already running executions of the workflow. A new revision of the workflow might be created as a result of a successful update operation. In that case, the new revision is used in new workflow executions. */
-export const patchProjectsLocationsWorkflows: API.OperationMethod<PatchProjectsLocationsWorkflowsRequest, PatchProjectsLocationsWorkflowsResponse, PatchProjectsLocationsWorkflowsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsWorkflows: API.OperationMethod<
+  PatchProjectsLocationsWorkflowsRequest,
+  PatchProjectsLocationsWorkflowsResponse,
+  PatchProjectsLocationsWorkflowsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsWorkflowsRequest,
   output: PatchProjectsLocationsWorkflowsResponse,
   errors: [],
@@ -557,17 +686,27 @@ export const ListRevisionsProjectsLocationsWorkflowsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}:listRevisions" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}:listRevisions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListRevisionsProjectsLocationsWorkflowsRequest>;
 
-export type ListRevisionsProjectsLocationsWorkflowsResponse = ListWorkflowRevisionsResponse;
-export const ListRevisionsProjectsLocationsWorkflowsResponse = ListWorkflowRevisionsResponse;
+export type ListRevisionsProjectsLocationsWorkflowsResponse =
+  ListWorkflowRevisionsResponse;
+export const ListRevisionsProjectsLocationsWorkflowsResponse =
+  ListWorkflowRevisionsResponse;
 
 export type ListRevisionsProjectsLocationsWorkflowsError = DefaultErrors;
 
 /** Lists revisions for a given workflow. */
-export const listRevisionsProjectsLocationsWorkflows: API.PaginatedOperationMethod<ListRevisionsProjectsLocationsWorkflowsRequest, ListRevisionsProjectsLocationsWorkflowsResponse, ListRevisionsProjectsLocationsWorkflowsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listRevisionsProjectsLocationsWorkflows: API.PaginatedOperationMethod<
+  ListRevisionsProjectsLocationsWorkflowsRequest,
+  ListRevisionsProjectsLocationsWorkflowsResponse,
+  ListRevisionsProjectsLocationsWorkflowsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListRevisionsProjectsLocationsWorkflowsRequest,
   output: ListRevisionsProjectsLocationsWorkflowsResponse,
   errors: [],
@@ -576,4 +715,3 @@ export const listRevisionsProjectsLocationsWorkflows: API.PaginatedOperationMeth
     outputToken: "nextPageToken",
   },
 }));
-

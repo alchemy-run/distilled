@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -65,11 +72,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -84,13 +95,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -101,41 +114,57 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface CloudFunctionEndpoint {
   /** A [Cloud Function](https://cloud.google.com/functions) name. */
   uri?: string;
 }
 
-export const CloudFunctionEndpoint: Schema.Schema<CloudFunctionEndpoint> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudFunctionEndpoint" }) as any as Schema.Schema<CloudFunctionEndpoint>;
+export const CloudFunctionEndpoint: Schema.Schema<CloudFunctionEndpoint> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudFunctionEndpoint",
+  }) as any as Schema.Schema<CloudFunctionEndpoint>;
 
 export interface AppEngineVersionEndpoint {
   /** An [App Engine](https://cloud.google.com/appengine) [service version](https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions) name. */
   uri?: string;
 }
 
-export const AppEngineVersionEndpoint: Schema.Schema<AppEngineVersionEndpoint> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "AppEngineVersionEndpoint" }) as any as Schema.Schema<AppEngineVersionEndpoint>;
+export const AppEngineVersionEndpoint: Schema.Schema<AppEngineVersionEndpoint> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AppEngineVersionEndpoint",
+  }) as any as Schema.Schema<AppEngineVersionEndpoint>;
 
 export interface CloudRunRevisionEndpoint {
   /** A [Cloud Run](https://cloud.google.com/run) [revision](https://cloud.google.com/run/docs/reference/rest/v1/namespaces.revisions/get) URI. The format is: projects/{project}/locations/{location}/revisions/{revision} */
@@ -144,10 +173,15 @@ export interface CloudRunRevisionEndpoint {
   serviceUri?: string;
 }
 
-export const CloudRunRevisionEndpoint: Schema.Schema<CloudRunRevisionEndpoint> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  serviceUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudRunRevisionEndpoint" }) as any as Schema.Schema<CloudRunRevisionEndpoint>;
+export const CloudRunRevisionEndpoint: Schema.Schema<CloudRunRevisionEndpoint> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+      serviceUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudRunRevisionEndpoint",
+  }) as any as Schema.Schema<CloudRunRevisionEndpoint>;
 
 export interface Endpoint {
   /** The IP address of the endpoint, which can be an external or internal IP. */
@@ -159,11 +193,29 @@ export interface Endpoint {
   /** A forwarding rule and its corresponding IP address represent the frontend configuration of a Google Cloud load balancer. Forwarding rules are also used for protocol forwarding, Private Service Connect and other network services to provide forwarding information in the control plane. Applicable only to destination endpoint. Format: `projects/{project}/global/forwardingRules/{id}` or `projects/{project}/regions/{region}/forwardingRules/{id}` */
   forwardingRule?: string;
   /** Output only. Specifies the type of the target of the forwarding rule. */
-  forwardingRuleTarget?: "FORWARDING_RULE_TARGET_UNSPECIFIED" | "INSTANCE" | "LOAD_BALANCER" | "VPN_GATEWAY" | "PSC" | (string & {});
+  forwardingRuleTarget?:
+    | "FORWARDING_RULE_TARGET_UNSPECIFIED"
+    | "INSTANCE"
+    | "LOAD_BALANCER"
+    | "VPN_GATEWAY"
+    | "PSC"
+    | (string & {});
   /** Output only. ID of the load balancer the forwarding rule points to. Empty for forwarding rules not related to load balancers. */
   loadBalancerId?: string;
   /** Output only. Type of the load balancer the forwarding rule points to. */
-  loadBalancerType?: "LOAD_BALANCER_TYPE_UNSPECIFIED" | "HTTPS_ADVANCED_LOAD_BALANCER" | "HTTPS_LOAD_BALANCER" | "REGIONAL_HTTPS_LOAD_BALANCER" | "INTERNAL_HTTPS_LOAD_BALANCER" | "SSL_PROXY_LOAD_BALANCER" | "TCP_PROXY_LOAD_BALANCER" | "INTERNAL_TCP_PROXY_LOAD_BALANCER" | "NETWORK_LOAD_BALANCER" | "LEGACY_NETWORK_LOAD_BALANCER" | "TCP_UDP_INTERNAL_LOAD_BALANCER" | (string & {});
+  loadBalancerType?:
+    | "LOAD_BALANCER_TYPE_UNSPECIFIED"
+    | "HTTPS_ADVANCED_LOAD_BALANCER"
+    | "HTTPS_LOAD_BALANCER"
+    | "REGIONAL_HTTPS_LOAD_BALANCER"
+    | "INTERNAL_HTTPS_LOAD_BALANCER"
+    | "SSL_PROXY_LOAD_BALANCER"
+    | "TCP_PROXY_LOAD_BALANCER"
+    | "INTERNAL_TCP_PROXY_LOAD_BALANCER"
+    | "NETWORK_LOAD_BALANCER"
+    | "LEGACY_NETWORK_LOAD_BALANCER"
+    | "TCP_UDP_INTERNAL_LOAD_BALANCER"
+    | (string & {});
   /** A cluster URI for [Google Kubernetes Engine cluster control plane](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture). */
   gkeMasterCluster?: string;
   /** DNS endpoint of [Google Kubernetes Engine cluster control plane](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture). Requires gke_master_cluster to be set, can't be used simultaneoulsly with ip_address or network. Applicable only to destination endpoint. */
@@ -185,32 +237,39 @@ export interface Endpoint {
   /** A VPC network URI. For source endpoints, used according to the `network_type`. For destination endpoints, used only when the source is an external IP address endpoint, and the destination is an internal IP address endpoint. */
   network?: string;
   /** For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints. */
-  networkType?: "NETWORK_TYPE_UNSPECIFIED" | "GCP_NETWORK" | "NON_GCP_NETWORK" | "INTERNET" | (string & {});
+  networkType?:
+    | "NETWORK_TYPE_UNSPECIFIED"
+    | "GCP_NETWORK"
+    | "NON_GCP_NETWORK"
+    | "INTERNET"
+    | (string & {});
   /** For source endpoints, endpoint project ID. Used according to the `network_type`. Not relevant for destination endpoints. */
   projectId?: string;
 }
 
-export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() => Schema.Struct({
-  ipAddress: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  instance: Schema.optional(Schema.String),
-  forwardingRule: Schema.optional(Schema.String),
-  forwardingRuleTarget: Schema.optional(Schema.String),
-  loadBalancerId: Schema.optional(Schema.String),
-  loadBalancerType: Schema.optional(Schema.String),
-  gkeMasterCluster: Schema.optional(Schema.String),
-  fqdn: Schema.optional(Schema.String),
-  cloudSqlInstance: Schema.optional(Schema.String),
-  redisInstance: Schema.optional(Schema.String),
-  redisCluster: Schema.optional(Schema.String),
-  gkePod: Schema.optional(Schema.String),
-  cloudFunction: Schema.optional(CloudFunctionEndpoint),
-  appEngineVersion: Schema.optional(AppEngineVersionEndpoint),
-  cloudRunRevision: Schema.optional(CloudRunRevisionEndpoint),
-  network: Schema.optional(Schema.String),
-  networkType: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
+export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() =>
+  Schema.Struct({
+    ipAddress: Schema.optional(Schema.String),
+    port: Schema.optional(Schema.Number),
+    instance: Schema.optional(Schema.String),
+    forwardingRule: Schema.optional(Schema.String),
+    forwardingRuleTarget: Schema.optional(Schema.String),
+    loadBalancerId: Schema.optional(Schema.String),
+    loadBalancerType: Schema.optional(Schema.String),
+    gkeMasterCluster: Schema.optional(Schema.String),
+    fqdn: Schema.optional(Schema.String),
+    cloudSqlInstance: Schema.optional(Schema.String),
+    redisInstance: Schema.optional(Schema.String),
+    redisCluster: Schema.optional(Schema.String),
+    gkePod: Schema.optional(Schema.String),
+    cloudFunction: Schema.optional(CloudFunctionEndpoint),
+    appEngineVersion: Schema.optional(AppEngineVersionEndpoint),
+    cloudRunRevision: Schema.optional(CloudRunRevisionEndpoint),
+    network: Schema.optional(Schema.String),
+    networkType: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
 
 export interface EndpointInfo {
   /** Source IP address. */
@@ -231,16 +290,20 @@ export interface EndpointInfo {
   sourceAgentUri?: string;
 }
 
-export const EndpointInfo: Schema.Schema<EndpointInfo> = Schema.suspend(() => Schema.Struct({
-  sourceIp: Schema.optional(Schema.String),
-  destinationIp: Schema.optional(Schema.String),
-  protocol: Schema.optional(Schema.String),
-  sourcePort: Schema.optional(Schema.Number),
-  destinationPort: Schema.optional(Schema.Number),
-  sourceNetworkUri: Schema.optional(Schema.String),
-  destinationNetworkUri: Schema.optional(Schema.String),
-  sourceAgentUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "EndpointInfo" }) as any as Schema.Schema<EndpointInfo>;
+export const EndpointInfo: Schema.Schema<EndpointInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    sourceIp: Schema.optional(Schema.String),
+    destinationIp: Schema.optional(Schema.String),
+    protocol: Schema.optional(Schema.String),
+    sourcePort: Schema.optional(Schema.Number),
+    destinationPort: Schema.optional(Schema.Number),
+    sourceNetworkUri: Schema.optional(Schema.String),
+    destinationNetworkUri: Schema.optional(Schema.String),
+    sourceAgentUri: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EndpointInfo",
+}) as any as Schema.Schema<EndpointInfo>;
 
 export interface InstanceInfo {
   /** Name of a Compute Engine instance. */
@@ -267,19 +330,23 @@ export interface InstanceInfo {
   status?: "STATUS_UNSPECIFIED" | "RUNNING" | "NOT_RUNNING" | (string & {});
 }
 
-export const InstanceInfo: Schema.Schema<InstanceInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  interface: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  internalIp: Schema.optional(Schema.String),
-  externalIp: Schema.optional(Schema.String),
-  networkTags: Schema.optional(Schema.Array(Schema.String)),
-  serviceAccount: Schema.optional(Schema.String),
-  pscNetworkAttachmentUri: Schema.optional(Schema.String),
-  running: Schema.optional(Schema.Boolean),
-  status: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstanceInfo" }) as any as Schema.Schema<InstanceInfo>;
+export const InstanceInfo: Schema.Schema<InstanceInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    interface: Schema.optional(Schema.String),
+    networkUri: Schema.optional(Schema.String),
+    internalIp: Schema.optional(Schema.String),
+    externalIp: Schema.optional(Schema.String),
+    networkTags: Schema.optional(Schema.Array(Schema.String)),
+    serviceAccount: Schema.optional(Schema.String),
+    pscNetworkAttachmentUri: Schema.optional(Schema.String),
+    running: Schema.optional(Schema.Boolean),
+    status: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "InstanceInfo",
+}) as any as Schema.Schema<InstanceInfo>;
 
 export interface FirewallInfo {
   /** The display name of the firewall rule. This field might be empty for firewall policy rules. */
@@ -303,36 +370,86 @@ export interface FirewallInfo {
   /** The URI of the firewall policy that this rule is associated with. This field is not applicable to VPC firewall rules and implied VPC firewall rules. */
   policyUri?: string;
   /** The firewall rule's type. */
-  firewallRuleType?: "FIREWALL_RULE_TYPE_UNSPECIFIED" | "HIERARCHICAL_FIREWALL_POLICY_RULE" | "VPC_FIREWALL_RULE" | "IMPLIED_VPC_FIREWALL_RULE" | "SERVERLESS_VPC_ACCESS_MANAGED_FIREWALL_RULE" | "NETWORK_FIREWALL_POLICY_RULE" | "NETWORK_REGIONAL_FIREWALL_POLICY_RULE" | "SYSTEM_NETWORK_FIREWALL_POLICY_RULE" | "SYSTEM_REGIONAL_NETWORK_FIREWALL_POLICY_RULE" | "UNSUPPORTED_FIREWALL_POLICY_RULE" | "TRACKING_STATE" | "ANALYSIS_SKIPPED" | (string & {});
+  firewallRuleType?:
+    | "FIREWALL_RULE_TYPE_UNSPECIFIED"
+    | "HIERARCHICAL_FIREWALL_POLICY_RULE"
+    | "VPC_FIREWALL_RULE"
+    | "IMPLIED_VPC_FIREWALL_RULE"
+    | "SERVERLESS_VPC_ACCESS_MANAGED_FIREWALL_RULE"
+    | "NETWORK_FIREWALL_POLICY_RULE"
+    | "NETWORK_REGIONAL_FIREWALL_POLICY_RULE"
+    | "SYSTEM_NETWORK_FIREWALL_POLICY_RULE"
+    | "SYSTEM_REGIONAL_NETWORK_FIREWALL_POLICY_RULE"
+    | "UNSUPPORTED_FIREWALL_POLICY_RULE"
+    | "TRACKING_STATE"
+    | "ANALYSIS_SKIPPED"
+    | (string & {});
   /** The priority of the firewall policy that this rule is associated with. This field is not applicable to VPC firewall rules and implied VPC firewall rules. */
   policyPriority?: number;
   /** Target type of the firewall rule. */
-  targetType?: "TARGET_TYPE_UNSPECIFIED" | "INSTANCES" | "INTERNAL_MANAGED_LB" | (string & {});
+  targetType?:
+    | "TARGET_TYPE_UNSPECIFIED"
+    | "INSTANCES"
+    | "INTERNAL_MANAGED_LB"
+    | (string & {});
 }
 
-export const FirewallInfo: Schema.Schema<FirewallInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  direction: Schema.optional(Schema.String),
-  action: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  networkUri: Schema.optional(Schema.String),
-  targetTags: Schema.optional(Schema.Array(Schema.String)),
-  targetServiceAccounts: Schema.optional(Schema.Array(Schema.String)),
-  policy: Schema.optional(Schema.String),
-  policyUri: Schema.optional(Schema.String),
-  firewallRuleType: Schema.optional(Schema.String),
-  policyPriority: Schema.optional(Schema.Number),
-  targetType: Schema.optional(Schema.String),
-})).annotate({ identifier: "FirewallInfo" }) as any as Schema.Schema<FirewallInfo>;
+export const FirewallInfo: Schema.Schema<FirewallInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    direction: Schema.optional(Schema.String),
+    action: Schema.optional(Schema.String),
+    priority: Schema.optional(Schema.Number),
+    networkUri: Schema.optional(Schema.String),
+    targetTags: Schema.optional(Schema.Array(Schema.String)),
+    targetServiceAccounts: Schema.optional(Schema.Array(Schema.String)),
+    policy: Schema.optional(Schema.String),
+    policyUri: Schema.optional(Schema.String),
+    firewallRuleType: Schema.optional(Schema.String),
+    policyPriority: Schema.optional(Schema.Number),
+    targetType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "FirewallInfo",
+}) as any as Schema.Schema<FirewallInfo>;
 
 export interface RouteInfo {
   /** Type of route. */
-  routeType?: "ROUTE_TYPE_UNSPECIFIED" | "SUBNET" | "STATIC" | "DYNAMIC" | "PEERING_SUBNET" | "PEERING_STATIC" | "PEERING_DYNAMIC" | "POLICY_BASED" | "ADVERTISED" | (string & {});
+  routeType?:
+    | "ROUTE_TYPE_UNSPECIFIED"
+    | "SUBNET"
+    | "STATIC"
+    | "DYNAMIC"
+    | "PEERING_SUBNET"
+    | "PEERING_STATIC"
+    | "PEERING_DYNAMIC"
+    | "POLICY_BASED"
+    | "ADVERTISED"
+    | (string & {});
   /** Type of next hop. */
-  nextHopType?: "NEXT_HOP_TYPE_UNSPECIFIED" | "NEXT_HOP_IP" | "NEXT_HOP_INSTANCE" | "NEXT_HOP_NETWORK" | "NEXT_HOP_PEERING" | "NEXT_HOP_INTERCONNECT" | "NEXT_HOP_VPN_TUNNEL" | "NEXT_HOP_VPN_GATEWAY" | "NEXT_HOP_INTERNET_GATEWAY" | "NEXT_HOP_BLACKHOLE" | "NEXT_HOP_ILB" | "NEXT_HOP_ROUTER_APPLIANCE" | "NEXT_HOP_NCC_HUB" | "SECURE_WEB_PROXY_GATEWAY" | (string & {});
+  nextHopType?:
+    | "NEXT_HOP_TYPE_UNSPECIFIED"
+    | "NEXT_HOP_IP"
+    | "NEXT_HOP_INSTANCE"
+    | "NEXT_HOP_NETWORK"
+    | "NEXT_HOP_PEERING"
+    | "NEXT_HOP_INTERCONNECT"
+    | "NEXT_HOP_VPN_TUNNEL"
+    | "NEXT_HOP_VPN_GATEWAY"
+    | "NEXT_HOP_INTERNET_GATEWAY"
+    | "NEXT_HOP_BLACKHOLE"
+    | "NEXT_HOP_ILB"
+    | "NEXT_HOP_ROUTER_APPLIANCE"
+    | "NEXT_HOP_NCC_HUB"
+    | "SECURE_WEB_PROXY_GATEWAY"
+    | (string & {});
   /** Indicates where route is applicable. Deprecated, routes with NCC_HUB scope are not included in the trace in new tests. */
-  routeScope?: "ROUTE_SCOPE_UNSPECIFIED" | "NETWORK" | "NCC_HUB" | (string & {});
+  routeScope?:
+    | "ROUTE_SCOPE_UNSPECIFIED"
+    | "NETWORK"
+    | "NCC_HUB"
+    | (string & {});
   /** Name of a route. */
   displayName?: string;
   /** URI of a route. SUBNET, STATIC, PEERING_SUBNET (only for peering network) and POLICY_BASED routes only. */
@@ -377,44 +494,60 @@ export interface RouteInfo {
   nccHubRouteUri?: string;
 }
 
-export const RouteInfo: Schema.Schema<RouteInfo> = Schema.suspend(() => Schema.Struct({
-  routeType: Schema.optional(Schema.String),
-  nextHopType: Schema.optional(Schema.String),
-  routeScope: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  destIpRange: Schema.optional(Schema.String),
-  nextHop: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  instanceTags: Schema.optional(Schema.Array(Schema.String)),
-  srcIpRange: Schema.optional(Schema.String),
-  destPortRanges: Schema.optional(Schema.Array(Schema.String)),
-  srcPortRanges: Schema.optional(Schema.Array(Schema.String)),
-  protocols: Schema.optional(Schema.Array(Schema.String)),
-  nccHubUri: Schema.optional(Schema.String),
-  nccSpokeUri: Schema.optional(Schema.String),
-  advertisedRouteSourceRouterUri: Schema.optional(Schema.String),
-  advertisedRouteNextHopUri: Schema.optional(Schema.String),
-  nextHopUri: Schema.optional(Schema.String),
-  nextHopNetworkUri: Schema.optional(Schema.String),
-  originatingRouteUri: Schema.optional(Schema.String),
-  originatingRouteDisplayName: Schema.optional(Schema.String),
-  nccHubRouteUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "RouteInfo" }) as any as Schema.Schema<RouteInfo>;
+export const RouteInfo: Schema.Schema<RouteInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    routeType: Schema.optional(Schema.String),
+    nextHopType: Schema.optional(Schema.String),
+    routeScope: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    region: Schema.optional(Schema.String),
+    destIpRange: Schema.optional(Schema.String),
+    nextHop: Schema.optional(Schema.String),
+    networkUri: Schema.optional(Schema.String),
+    priority: Schema.optional(Schema.Number),
+    instanceTags: Schema.optional(Schema.Array(Schema.String)),
+    srcIpRange: Schema.optional(Schema.String),
+    destPortRanges: Schema.optional(Schema.Array(Schema.String)),
+    srcPortRanges: Schema.optional(Schema.Array(Schema.String)),
+    protocols: Schema.optional(Schema.Array(Schema.String)),
+    nccHubUri: Schema.optional(Schema.String),
+    nccSpokeUri: Schema.optional(Schema.String),
+    advertisedRouteSourceRouterUri: Schema.optional(Schema.String),
+    advertisedRouteNextHopUri: Schema.optional(Schema.String),
+    nextHopUri: Schema.optional(Schema.String),
+    nextHopNetworkUri: Schema.optional(Schema.String),
+    originatingRouteUri: Schema.optional(Schema.String),
+    originatingRouteDisplayName: Schema.optional(Schema.String),
+    nccHubRouteUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RouteInfo" }) as any as Schema.Schema<RouteInfo>;
 
 export interface GoogleServiceInfo {
   /** Source IP address. */
   sourceIp?: string;
   /** Recognized type of a Google Service. */
-  googleServiceType?: "GOOGLE_SERVICE_TYPE_UNSPECIFIED" | "IAP" | "GFE_PROXY_OR_HEALTH_CHECK_PROBER" | "CLOUD_DNS" | "GOOGLE_API" | "GOOGLE_API_PSC" | "GOOGLE_API_VPC_SC" | "SERVERLESS_VPC_ACCESS" | (string & {});
+  googleServiceType?:
+    | "GOOGLE_SERVICE_TYPE_UNSPECIFIED"
+    | "IAP"
+    | "GFE_PROXY_OR_HEALTH_CHECK_PROBER"
+    | "CLOUD_DNS"
+    | "GOOGLE_API"
+    | "GOOGLE_API_PSC"
+    | "GOOGLE_API_VPC_SC"
+    | "SERVERLESS_VPC_ACCESS"
+    | (string & {});
 }
 
-export const GoogleServiceInfo: Schema.Schema<GoogleServiceInfo> = Schema.suspend(() => Schema.Struct({
-  sourceIp: Schema.optional(Schema.String),
-  googleServiceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleServiceInfo" }) as any as Schema.Schema<GoogleServiceInfo>;
+export const GoogleServiceInfo: Schema.Schema<GoogleServiceInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceIp: Schema.optional(Schema.String),
+      googleServiceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleServiceInfo",
+  }) as any as Schema.Schema<GoogleServiceInfo>;
 
 export interface ForwardingRuleInfo {
   /** Name of the forwarding rule. */
@@ -441,19 +574,24 @@ export interface ForwardingRuleInfo {
   pscGoogleApiTarget?: string;
 }
 
-export const ForwardingRuleInfo: Schema.Schema<ForwardingRuleInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  matchedProtocol: Schema.optional(Schema.String),
-  matchedPortRange: Schema.optional(Schema.String),
-  vip: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  loadBalancerName: Schema.optional(Schema.String),
-  pscServiceAttachmentUri: Schema.optional(Schema.String),
-  pscGoogleApiTarget: Schema.optional(Schema.String),
-})).annotate({ identifier: "ForwardingRuleInfo" }) as any as Schema.Schema<ForwardingRuleInfo>;
+export const ForwardingRuleInfo: Schema.Schema<ForwardingRuleInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      matchedProtocol: Schema.optional(Schema.String),
+      matchedPortRange: Schema.optional(Schema.String),
+      vip: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      networkUri: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      loadBalancerName: Schema.optional(Schema.String),
+      pscServiceAttachmentUri: Schema.optional(Schema.String),
+      pscGoogleApiTarget: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ForwardingRuleInfo",
+  }) as any as Schema.Schema<ForwardingRuleInfo>;
 
 export interface HybridSubnetInfo {
   /** Name of a hybrid subnet. */
@@ -464,11 +602,16 @@ export interface HybridSubnetInfo {
   region?: string;
 }
 
-export const HybridSubnetInfo: Schema.Schema<HybridSubnetInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-})).annotate({ identifier: "HybridSubnetInfo" }) as any as Schema.Schema<HybridSubnetInfo>;
+export const HybridSubnetInfo: Schema.Schema<HybridSubnetInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "HybridSubnetInfo",
+}) as any as Schema.Schema<HybridSubnetInfo>;
 
 export interface VpnGatewayInfo {
   /** Name of a VPN gateway. */
@@ -485,14 +628,19 @@ export interface VpnGatewayInfo {
   region?: string;
 }
 
-export const VpnGatewayInfo: Schema.Schema<VpnGatewayInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  vpnTunnelUri: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-})).annotate({ identifier: "VpnGatewayInfo" }) as any as Schema.Schema<VpnGatewayInfo>;
+export const VpnGatewayInfo: Schema.Schema<VpnGatewayInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      networkUri: Schema.optional(Schema.String),
+      ipAddress: Schema.optional(Schema.String),
+      vpnTunnelUri: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VpnGatewayInfo",
+}) as any as Schema.Schema<VpnGatewayInfo>;
 
 export interface VpnTunnelInfo {
   /** Name of a VPN tunnel. */
@@ -512,20 +660,29 @@ export interface VpnTunnelInfo {
   /** Name of a Google Cloud region where this VPN tunnel is configured. */
   region?: string;
   /** Type of the routing policy. */
-  routingType?: "ROUTING_TYPE_UNSPECIFIED" | "ROUTE_BASED" | "POLICY_BASED" | "DYNAMIC" | (string & {});
+  routingType?:
+    | "ROUTING_TYPE_UNSPECIFIED"
+    | "ROUTE_BASED"
+    | "POLICY_BASED"
+    | "DYNAMIC"
+    | (string & {});
 }
 
-export const VpnTunnelInfo: Schema.Schema<VpnTunnelInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  sourceGateway: Schema.optional(Schema.String),
-  remoteGateway: Schema.optional(Schema.String),
-  remoteGatewayIp: Schema.optional(Schema.String),
-  sourceGatewayIp: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  routingType: Schema.optional(Schema.String),
-})).annotate({ identifier: "VpnTunnelInfo" }) as any as Schema.Schema<VpnTunnelInfo>;
+export const VpnTunnelInfo: Schema.Schema<VpnTunnelInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    sourceGateway: Schema.optional(Schema.String),
+    remoteGateway: Schema.optional(Schema.String),
+    remoteGatewayIp: Schema.optional(Schema.String),
+    sourceGatewayIp: Schema.optional(Schema.String),
+    networkUri: Schema.optional(Schema.String),
+    region: Schema.optional(Schema.String),
+    routingType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "VpnTunnelInfo",
+}) as any as Schema.Schema<VpnTunnelInfo>;
 
 export interface InterconnectAttachmentInfo {
   /** Name of an Interconnect attachment. */
@@ -539,20 +696,31 @@ export interface InterconnectAttachmentInfo {
   /** URI of the Cloud Router to be used for dynamic routing. */
   cloudRouterUri?: string;
   /** The type of interconnect attachment this is. */
-  type?: "TYPE_UNSPECIFIED" | "DEDICATED" | "PARTNER" | "PARTNER_PROVIDER" | "L2_DEDICATED" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "DEDICATED"
+    | "PARTNER"
+    | "PARTNER_PROVIDER"
+    | "L2_DEDICATED"
+    | (string & {});
   /** Appliance IP address that was matched for L2_DEDICATED attachments. */
   l2AttachmentMatchedIpAddress?: string;
 }
 
-export const InterconnectAttachmentInfo: Schema.Schema<InterconnectAttachmentInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  interconnectUri: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  cloudRouterUri: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  l2AttachmentMatchedIpAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "InterconnectAttachmentInfo" }) as any as Schema.Schema<InterconnectAttachmentInfo>;
+export const InterconnectAttachmentInfo: Schema.Schema<InterconnectAttachmentInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      interconnectUri: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      cloudRouterUri: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      l2AttachmentMatchedIpAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InterconnectAttachmentInfo",
+  }) as any as Schema.Schema<InterconnectAttachmentInfo>;
 
 export interface VpcConnectorInfo {
   /** Name of a VPC connector. */
@@ -563,11 +731,16 @@ export interface VpcConnectorInfo {
   location?: string;
 }
 
-export const VpcConnectorInfo: Schema.Schema<VpcConnectorInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "VpcConnectorInfo" }) as any as Schema.Schema<VpcConnectorInfo>;
+export const VpcConnectorInfo: Schema.Schema<VpcConnectorInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VpcConnectorInfo",
+}) as any as Schema.Schema<VpcConnectorInfo>;
 
 export interface DirectVpcEgressConnectionInfo {
   /** URI of direct access network. */
@@ -582,26 +755,56 @@ export interface DirectVpcEgressConnectionInfo {
   region?: string;
 }
 
-export const DirectVpcEgressConnectionInfo: Schema.Schema<DirectVpcEgressConnectionInfo> = Schema.suspend(() => Schema.Struct({
-  networkUri: Schema.optional(Schema.String),
-  subnetworkUri: Schema.optional(Schema.String),
-  selectedIpRange: Schema.optional(Schema.String),
-  selectedIpAddress: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-})).annotate({ identifier: "DirectVpcEgressConnectionInfo" }) as any as Schema.Schema<DirectVpcEgressConnectionInfo>;
+export const DirectVpcEgressConnectionInfo: Schema.Schema<DirectVpcEgressConnectionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      networkUri: Schema.optional(Schema.String),
+      subnetworkUri: Schema.optional(Schema.String),
+      selectedIpRange: Schema.optional(Schema.String),
+      selectedIpAddress: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectVpcEgressConnectionInfo",
+  }) as any as Schema.Schema<DirectVpcEgressConnectionInfo>;
 
 export interface ServerlessExternalConnectionInfo {
   /** Selected starting IP address, from the Google dynamic address pool. */
   selectedIpAddress?: string;
 }
 
-export const ServerlessExternalConnectionInfo: Schema.Schema<ServerlessExternalConnectionInfo> = Schema.suspend(() => Schema.Struct({
-  selectedIpAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServerlessExternalConnectionInfo" }) as any as Schema.Schema<ServerlessExternalConnectionInfo>;
+export const ServerlessExternalConnectionInfo: Schema.Schema<ServerlessExternalConnectionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      selectedIpAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ServerlessExternalConnectionInfo",
+  }) as any as Schema.Schema<ServerlessExternalConnectionInfo>;
 
 export interface DeliverInfo {
   /** Target type where the packet is delivered to. */
-  target?: "TARGET_UNSPECIFIED" | "INSTANCE" | "INTERNET" | "GOOGLE_API" | "GKE_MASTER" | "CLOUD_SQL_INSTANCE" | "PSC_PUBLISHED_SERVICE" | "PSC_GOOGLE_API" | "PSC_VPC_SC" | "SERVERLESS_NEG" | "STORAGE_BUCKET" | "PRIVATE_NETWORK" | "CLOUD_FUNCTION" | "APP_ENGINE_VERSION" | "CLOUD_RUN_REVISION" | "GOOGLE_MANAGED_SERVICE" | "REDIS_INSTANCE" | "REDIS_CLUSTER" | "GKE_POD" | (string & {});
+  target?:
+    | "TARGET_UNSPECIFIED"
+    | "INSTANCE"
+    | "INTERNET"
+    | "GOOGLE_API"
+    | "GKE_MASTER"
+    | "CLOUD_SQL_INSTANCE"
+    | "PSC_PUBLISHED_SERVICE"
+    | "PSC_GOOGLE_API"
+    | "PSC_VPC_SC"
+    | "SERVERLESS_NEG"
+    | "STORAGE_BUCKET"
+    | "PRIVATE_NETWORK"
+    | "CLOUD_FUNCTION"
+    | "APP_ENGINE_VERSION"
+    | "CLOUD_RUN_REVISION"
+    | "GOOGLE_MANAGED_SERVICE"
+    | "REDIS_INSTANCE"
+    | "REDIS_CLUSTER"
+    | "GKE_POD"
+    | (string & {});
   /** URI of the resource that the packet is delivered to. */
   resourceUri?: string;
   /** IP address of the target (if applicable). */
@@ -611,36 +814,104 @@ export interface DeliverInfo {
   /** PSC Google API target the packet is delivered to (if applicable). */
   pscGoogleApiTarget?: string;
   /** Recognized type of a Google Service the packet is delivered to (if applicable). */
-  googleServiceType?: "GOOGLE_SERVICE_TYPE_UNSPECIFIED" | "IAP" | "GFE_PROXY_OR_HEALTH_CHECK_PROBER" | "CLOUD_DNS" | "PRIVATE_GOOGLE_ACCESS" | "SERVERLESS_VPC_ACCESS" | (string & {});
+  googleServiceType?:
+    | "GOOGLE_SERVICE_TYPE_UNSPECIFIED"
+    | "IAP"
+    | "GFE_PROXY_OR_HEALTH_CHECK_PROBER"
+    | "CLOUD_DNS"
+    | "PRIVATE_GOOGLE_ACCESS"
+    | "SERVERLESS_VPC_ACCESS"
+    | (string & {});
 }
 
-export const DeliverInfo: Schema.Schema<DeliverInfo> = Schema.suspend(() => Schema.Struct({
-  target: Schema.optional(Schema.String),
-  resourceUri: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  storageBucket: Schema.optional(Schema.String),
-  pscGoogleApiTarget: Schema.optional(Schema.String),
-  googleServiceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeliverInfo" }) as any as Schema.Schema<DeliverInfo>;
+export const DeliverInfo: Schema.Schema<DeliverInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    target: Schema.optional(Schema.String),
+    resourceUri: Schema.optional(Schema.String),
+    ipAddress: Schema.optional(Schema.String),
+    storageBucket: Schema.optional(Schema.String),
+    pscGoogleApiTarget: Schema.optional(Schema.String),
+    googleServiceType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DeliverInfo" }) as any as Schema.Schema<DeliverInfo>;
 
 export interface ForwardInfo {
   /** Target type where this packet is forwarded to. */
-  target?: "TARGET_UNSPECIFIED" | "PEERING_VPC" | "VPN_GATEWAY" | "INTERCONNECT" | "GKE_MASTER" | "IMPORTED_CUSTOM_ROUTE_NEXT_HOP" | "CLOUD_SQL_INSTANCE" | "ANOTHER_PROJECT" | "NCC_HUB" | "ROUTER_APPLIANCE" | "SECURE_WEB_PROXY_GATEWAY" | (string & {});
+  target?:
+    | "TARGET_UNSPECIFIED"
+    | "PEERING_VPC"
+    | "VPN_GATEWAY"
+    | "INTERCONNECT"
+    | "GKE_MASTER"
+    | "IMPORTED_CUSTOM_ROUTE_NEXT_HOP"
+    | "CLOUD_SQL_INSTANCE"
+    | "ANOTHER_PROJECT"
+    | "NCC_HUB"
+    | "ROUTER_APPLIANCE"
+    | "SECURE_WEB_PROXY_GATEWAY"
+    | (string & {});
   /** URI of the resource that the packet is forwarded to. */
   resourceUri?: string;
   /** IP address of the target (if applicable). */
   ipAddress?: string;
 }
 
-export const ForwardInfo: Schema.Schema<ForwardInfo> = Schema.suspend(() => Schema.Struct({
-  target: Schema.optional(Schema.String),
-  resourceUri: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "ForwardInfo" }) as any as Schema.Schema<ForwardInfo>;
+export const ForwardInfo: Schema.Schema<ForwardInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    target: Schema.optional(Schema.String),
+    resourceUri: Schema.optional(Schema.String),
+    ipAddress: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ForwardInfo" }) as any as Schema.Schema<ForwardInfo>;
 
 export interface AbortInfo {
   /** Causes that the analysis is aborted. */
-  cause?: "CAUSE_UNSPECIFIED" | "UNKNOWN_NETWORK" | "UNKNOWN_PROJECT" | "NO_EXTERNAL_IP" | "UNINTENDED_DESTINATION" | "SOURCE_ENDPOINT_NOT_FOUND" | "MISMATCHED_SOURCE_NETWORK" | "DESTINATION_ENDPOINT_NOT_FOUND" | "MISMATCHED_DESTINATION_NETWORK" | "UNKNOWN_IP" | "GOOGLE_MANAGED_SERVICE_UNKNOWN_IP" | "SOURCE_IP_ADDRESS_NOT_IN_SOURCE_NETWORK" | "PERMISSION_DENIED" | "PERMISSION_DENIED_NO_CLOUD_NAT_CONFIGS" | "PERMISSION_DENIED_NO_NEG_ENDPOINT_CONFIGS" | "PERMISSION_DENIED_NO_CLOUD_ROUTER_CONFIGS" | "NO_SOURCE_LOCATION" | "NO_SOURCE_GCP_NETWORK_LOCATION" | "NO_SOURCE_NON_GCP_NETWORK_LOCATION" | "NO_SOURCE_INTERNET_LOCATION" | "INVALID_ARGUMENT" | "TRACE_TOO_LONG" | "INTERNAL_ERROR" | "UNSUPPORTED" | "MISMATCHED_IP_VERSION" | "GKE_KONNECTIVITY_PROXY_UNSUPPORTED" | "RESOURCE_CONFIG_NOT_FOUND" | "VM_INSTANCE_CONFIG_NOT_FOUND" | "NETWORK_CONFIG_NOT_FOUND" | "FIREWALL_CONFIG_NOT_FOUND" | "ROUTE_CONFIG_NOT_FOUND" | "GOOGLE_MANAGED_SERVICE_AMBIGUOUS_PSC_ENDPOINT" | "GOOGLE_MANAGED_SERVICE_AMBIGUOUS_ENDPOINT" | "SOURCE_PSC_CLOUD_SQL_UNSUPPORTED" | "SOURCE_EXTERNAL_CLOUD_SQL_UNSUPPORTED" | "SOURCE_REDIS_CLUSTER_UNSUPPORTED" | "SOURCE_REDIS_INSTANCE_UNSUPPORTED" | "SOURCE_FORWARDING_RULE_UNSUPPORTED" | "NON_ROUTABLE_IP_ADDRESS" | "UNKNOWN_ISSUE_IN_GOOGLE_MANAGED_PROJECT" | "UNSUPPORTED_GOOGLE_MANAGED_PROJECT_CONFIG" | "NO_SERVERLESS_IP_RANGES" | "IP_VERSION_PROTOCOL_MISMATCH" | "GKE_POD_UNKNOWN_ENDPOINT_LOCATION" | (string & {});
+  cause?:
+    | "CAUSE_UNSPECIFIED"
+    | "UNKNOWN_NETWORK"
+    | "UNKNOWN_PROJECT"
+    | "NO_EXTERNAL_IP"
+    | "UNINTENDED_DESTINATION"
+    | "SOURCE_ENDPOINT_NOT_FOUND"
+    | "MISMATCHED_SOURCE_NETWORK"
+    | "DESTINATION_ENDPOINT_NOT_FOUND"
+    | "MISMATCHED_DESTINATION_NETWORK"
+    | "UNKNOWN_IP"
+    | "GOOGLE_MANAGED_SERVICE_UNKNOWN_IP"
+    | "SOURCE_IP_ADDRESS_NOT_IN_SOURCE_NETWORK"
+    | "PERMISSION_DENIED"
+    | "PERMISSION_DENIED_NO_CLOUD_NAT_CONFIGS"
+    | "PERMISSION_DENIED_NO_NEG_ENDPOINT_CONFIGS"
+    | "PERMISSION_DENIED_NO_CLOUD_ROUTER_CONFIGS"
+    | "NO_SOURCE_LOCATION"
+    | "NO_SOURCE_GCP_NETWORK_LOCATION"
+    | "NO_SOURCE_NON_GCP_NETWORK_LOCATION"
+    | "NO_SOURCE_INTERNET_LOCATION"
+    | "INVALID_ARGUMENT"
+    | "TRACE_TOO_LONG"
+    | "INTERNAL_ERROR"
+    | "UNSUPPORTED"
+    | "MISMATCHED_IP_VERSION"
+    | "GKE_KONNECTIVITY_PROXY_UNSUPPORTED"
+    | "RESOURCE_CONFIG_NOT_FOUND"
+    | "VM_INSTANCE_CONFIG_NOT_FOUND"
+    | "NETWORK_CONFIG_NOT_FOUND"
+    | "FIREWALL_CONFIG_NOT_FOUND"
+    | "ROUTE_CONFIG_NOT_FOUND"
+    | "GOOGLE_MANAGED_SERVICE_AMBIGUOUS_PSC_ENDPOINT"
+    | "GOOGLE_MANAGED_SERVICE_AMBIGUOUS_ENDPOINT"
+    | "SOURCE_PSC_CLOUD_SQL_UNSUPPORTED"
+    | "SOURCE_EXTERNAL_CLOUD_SQL_UNSUPPORTED"
+    | "SOURCE_REDIS_CLUSTER_UNSUPPORTED"
+    | "SOURCE_REDIS_INSTANCE_UNSUPPORTED"
+    | "SOURCE_FORWARDING_RULE_UNSUPPORTED"
+    | "NON_ROUTABLE_IP_ADDRESS"
+    | "UNKNOWN_ISSUE_IN_GOOGLE_MANAGED_PROJECT"
+    | "UNSUPPORTED_GOOGLE_MANAGED_PROJECT_CONFIG"
+    | "NO_SERVERLESS_IP_RANGES"
+    | "IP_VERSION_PROTOCOL_MISMATCH"
+    | "GKE_POD_UNKNOWN_ENDPOINT_LOCATION"
+    | (string & {});
   /** URI of the resource that caused the abort. */
   resourceUri?: string;
   /** IP address that caused the abort. */
@@ -649,16 +920,124 @@ export interface AbortInfo {
   projectsMissingPermission?: Array<string>;
 }
 
-export const AbortInfo: Schema.Schema<AbortInfo> = Schema.suspend(() => Schema.Struct({
-  cause: Schema.optional(Schema.String),
-  resourceUri: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  projectsMissingPermission: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AbortInfo" }) as any as Schema.Schema<AbortInfo>;
+export const AbortInfo: Schema.Schema<AbortInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    cause: Schema.optional(Schema.String),
+    resourceUri: Schema.optional(Schema.String),
+    ipAddress: Schema.optional(Schema.String),
+    projectsMissingPermission: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "AbortInfo" }) as any as Schema.Schema<AbortInfo>;
 
 export interface DropInfo {
   /** Cause that the packet is dropped. */
-  cause?: "CAUSE_UNSPECIFIED" | "UNKNOWN_EXTERNAL_ADDRESS" | "FOREIGN_IP_DISALLOWED" | "FIREWALL_RULE" | "NO_ROUTE" | "ROUTE_BLACKHOLE" | "ROUTE_WRONG_NETWORK" | "ROUTE_NEXT_HOP_IP_ADDRESS_NOT_RESOLVED" | "ROUTE_NEXT_HOP_RESOURCE_NOT_FOUND" | "ROUTE_NEXT_HOP_INSTANCE_WRONG_NETWORK" | "ROUTE_NEXT_HOP_INSTANCE_NON_PRIMARY_IP" | "ROUTE_NEXT_HOP_FORWARDING_RULE_IP_MISMATCH" | "ROUTE_NEXT_HOP_VPN_TUNNEL_NOT_ESTABLISHED" | "ROUTE_NEXT_HOP_FORWARDING_RULE_TYPE_INVALID" | "NO_ROUTE_FROM_INTERNET_TO_PRIVATE_IPV6_ADDRESS" | "NO_ROUTE_FROM_INTERNET_TO_PRIVATE_IPV4_ADDRESS" | "NO_ROUTE_FROM_EXTERNAL_IPV6_SOURCE_TO_PRIVATE_IPV6_ADDRESS" | "VPN_TUNNEL_LOCAL_SELECTOR_MISMATCH" | "VPN_TUNNEL_REMOTE_SELECTOR_MISMATCH" | "PRIVATE_TRAFFIC_TO_INTERNET" | "PRIVATE_GOOGLE_ACCESS_DISALLOWED" | "PRIVATE_GOOGLE_ACCESS_VIA_VPN_TUNNEL_UNSUPPORTED" | "NO_EXTERNAL_ADDRESS" | "UNKNOWN_INTERNAL_ADDRESS" | "FORWARDING_RULE_MISMATCH" | "FORWARDING_RULE_NO_INSTANCES" | "FIREWALL_BLOCKING_LOAD_BALANCER_BACKEND_HEALTH_CHECK" | "INGRESS_FIREWALL_TAGS_UNSUPPORTED_BY_DIRECT_VPC_EGRESS" | "INSTANCE_NOT_RUNNING" | "GKE_CLUSTER_NOT_RUNNING" | "GKE_POD_NOT_RUNNING" | "CLOUD_SQL_INSTANCE_NOT_RUNNING" | "REDIS_INSTANCE_NOT_RUNNING" | "REDIS_CLUSTER_NOT_RUNNING" | "TRAFFIC_TYPE_BLOCKED" | "GKE_MASTER_UNAUTHORIZED_ACCESS" | "CLOUD_SQL_INSTANCE_UNAUTHORIZED_ACCESS" | "DROPPED_INSIDE_GKE_SERVICE" | "DROPPED_INSIDE_CLOUD_SQL_SERVICE" | "GOOGLE_MANAGED_SERVICE_NO_PEERING" | "GOOGLE_MANAGED_SERVICE_NO_PSC_ENDPOINT" | "GKE_PSC_ENDPOINT_MISSING" | "CLOUD_SQL_INSTANCE_NO_IP_ADDRESS" | "GKE_CONTROL_PLANE_REGION_MISMATCH" | "PUBLIC_GKE_CONTROL_PLANE_TO_PRIVATE_DESTINATION" | "GKE_CONTROL_PLANE_NO_ROUTE" | "CLOUD_SQL_INSTANCE_NOT_CONFIGURED_FOR_EXTERNAL_TRAFFIC" | "PUBLIC_CLOUD_SQL_INSTANCE_TO_PRIVATE_DESTINATION" | "CLOUD_SQL_INSTANCE_NO_ROUTE" | "CLOUD_SQL_CONNECTOR_REQUIRED" | "CLOUD_FUNCTION_NOT_ACTIVE" | "VPC_CONNECTOR_NOT_SET" | "VPC_CONNECTOR_NOT_RUNNING" | "VPC_CONNECTOR_SERVERLESS_TRAFFIC_BLOCKED" | "VPC_CONNECTOR_HEALTH_CHECK_TRAFFIC_BLOCKED" | "FORWARDING_RULE_REGION_MISMATCH" | "PSC_CONNECTION_NOT_ACCEPTED" | "PSC_ENDPOINT_ACCESSED_FROM_PEERED_NETWORK" | "PSC_NEG_PRODUCER_ENDPOINT_NO_GLOBAL_ACCESS" | "PSC_NEG_PRODUCER_FORWARDING_RULE_MULTIPLE_PORTS" | "CLOUD_SQL_PSC_NEG_UNSUPPORTED" | "NO_NAT_SUBNETS_FOR_PSC_SERVICE_ATTACHMENT" | "PSC_TRANSITIVITY_NOT_PROPAGATED" | "HYBRID_NEG_NON_DYNAMIC_ROUTE_MATCHED" | "HYBRID_NEG_NON_LOCAL_DYNAMIC_ROUTE_MATCHED" | "CLOUD_RUN_REVISION_NOT_READY" | "DROPPED_INSIDE_PSC_SERVICE_PRODUCER" | "LOAD_BALANCER_HAS_NO_PROXY_SUBNET" | "CLOUD_NAT_NO_ADDRESSES" | "ROUTING_LOOP" | "DROPPED_INSIDE_GOOGLE_MANAGED_SERVICE" | "LOAD_BALANCER_BACKEND_INVALID_NETWORK" | "BACKEND_SERVICE_NAMED_PORT_NOT_DEFINED" | "DESTINATION_IS_PRIVATE_NAT_IP_RANGE" | "DROPPED_INSIDE_REDIS_INSTANCE_SERVICE" | "REDIS_INSTANCE_UNSUPPORTED_PORT" | "REDIS_INSTANCE_CONNECTING_FROM_PUPI_ADDRESS" | "REDIS_INSTANCE_NO_ROUTE_TO_DESTINATION_NETWORK" | "REDIS_INSTANCE_NO_EXTERNAL_IP" | "REDIS_INSTANCE_UNSUPPORTED_PROTOCOL" | "DROPPED_INSIDE_REDIS_CLUSTER_SERVICE" | "REDIS_CLUSTER_UNSUPPORTED_PORT" | "REDIS_CLUSTER_NO_EXTERNAL_IP" | "REDIS_CLUSTER_UNSUPPORTED_PROTOCOL" | "NO_ADVERTISED_ROUTE_TO_GCP_DESTINATION" | "NO_TRAFFIC_SELECTOR_TO_GCP_DESTINATION" | "NO_KNOWN_ROUTE_FROM_PEERED_NETWORK_TO_DESTINATION" | "PRIVATE_NAT_TO_PSC_ENDPOINT_UNSUPPORTED" | "PSC_PORT_MAPPING_PORT_MISMATCH" | "PSC_PORT_MAPPING_WITHOUT_PSC_CONNECTION_UNSUPPORTED" | "UNSUPPORTED_ROUTE_MATCHED_FOR_NAT64_DESTINATION" | "TRAFFIC_FROM_HYBRID_ENDPOINT_TO_INTERNET_DISALLOWED" | "NO_MATCHING_NAT64_GATEWAY" | "NO_CONFIGURED_PRIVATE_NAT64_RULE" | "LOAD_BALANCER_BACKEND_IP_VERSION_MISMATCH" | "NO_KNOWN_ROUTE_FROM_NCC_NETWORK_TO_DESTINATION" | "CLOUD_NAT_PROTOCOL_UNSUPPORTED" | "L2_INTERCONNECT_UNSUPPORTED_PROTOCOL" | "L2_INTERCONNECT_UNSUPPORTED_PORT" | "L2_INTERCONNECT_DESTINATION_IP_MISMATCH" | "NCC_ROUTE_WITHIN_HYBRID_SUBNET_UNSUPPORTED" | "HYBRID_SUBNET_REGION_MISMATCH" | "HYBRID_SUBNET_NO_ROUTE" | "GKE_NETWORK_POLICY" | "NO_VALID_ROUTE_FROM_GOOGLE_MANAGED_NETWORK_TO_DESTINATION" | (string & {});
+  cause?:
+    | "CAUSE_UNSPECIFIED"
+    | "UNKNOWN_EXTERNAL_ADDRESS"
+    | "FOREIGN_IP_DISALLOWED"
+    | "FIREWALL_RULE"
+    | "NO_ROUTE"
+    | "ROUTE_BLACKHOLE"
+    | "ROUTE_WRONG_NETWORK"
+    | "ROUTE_NEXT_HOP_IP_ADDRESS_NOT_RESOLVED"
+    | "ROUTE_NEXT_HOP_RESOURCE_NOT_FOUND"
+    | "ROUTE_NEXT_HOP_INSTANCE_WRONG_NETWORK"
+    | "ROUTE_NEXT_HOP_INSTANCE_NON_PRIMARY_IP"
+    | "ROUTE_NEXT_HOP_FORWARDING_RULE_IP_MISMATCH"
+    | "ROUTE_NEXT_HOP_VPN_TUNNEL_NOT_ESTABLISHED"
+    | "ROUTE_NEXT_HOP_FORWARDING_RULE_TYPE_INVALID"
+    | "NO_ROUTE_FROM_INTERNET_TO_PRIVATE_IPV6_ADDRESS"
+    | "NO_ROUTE_FROM_INTERNET_TO_PRIVATE_IPV4_ADDRESS"
+    | "NO_ROUTE_FROM_EXTERNAL_IPV6_SOURCE_TO_PRIVATE_IPV6_ADDRESS"
+    | "VPN_TUNNEL_LOCAL_SELECTOR_MISMATCH"
+    | "VPN_TUNNEL_REMOTE_SELECTOR_MISMATCH"
+    | "PRIVATE_TRAFFIC_TO_INTERNET"
+    | "PRIVATE_GOOGLE_ACCESS_DISALLOWED"
+    | "PRIVATE_GOOGLE_ACCESS_VIA_VPN_TUNNEL_UNSUPPORTED"
+    | "NO_EXTERNAL_ADDRESS"
+    | "UNKNOWN_INTERNAL_ADDRESS"
+    | "FORWARDING_RULE_MISMATCH"
+    | "FORWARDING_RULE_NO_INSTANCES"
+    | "FIREWALL_BLOCKING_LOAD_BALANCER_BACKEND_HEALTH_CHECK"
+    | "INGRESS_FIREWALL_TAGS_UNSUPPORTED_BY_DIRECT_VPC_EGRESS"
+    | "INSTANCE_NOT_RUNNING"
+    | "GKE_CLUSTER_NOT_RUNNING"
+    | "GKE_POD_NOT_RUNNING"
+    | "CLOUD_SQL_INSTANCE_NOT_RUNNING"
+    | "REDIS_INSTANCE_NOT_RUNNING"
+    | "REDIS_CLUSTER_NOT_RUNNING"
+    | "TRAFFIC_TYPE_BLOCKED"
+    | "GKE_MASTER_UNAUTHORIZED_ACCESS"
+    | "CLOUD_SQL_INSTANCE_UNAUTHORIZED_ACCESS"
+    | "DROPPED_INSIDE_GKE_SERVICE"
+    | "DROPPED_INSIDE_CLOUD_SQL_SERVICE"
+    | "GOOGLE_MANAGED_SERVICE_NO_PEERING"
+    | "GOOGLE_MANAGED_SERVICE_NO_PSC_ENDPOINT"
+    | "GKE_PSC_ENDPOINT_MISSING"
+    | "CLOUD_SQL_INSTANCE_NO_IP_ADDRESS"
+    | "GKE_CONTROL_PLANE_REGION_MISMATCH"
+    | "PUBLIC_GKE_CONTROL_PLANE_TO_PRIVATE_DESTINATION"
+    | "GKE_CONTROL_PLANE_NO_ROUTE"
+    | "CLOUD_SQL_INSTANCE_NOT_CONFIGURED_FOR_EXTERNAL_TRAFFIC"
+    | "PUBLIC_CLOUD_SQL_INSTANCE_TO_PRIVATE_DESTINATION"
+    | "CLOUD_SQL_INSTANCE_NO_ROUTE"
+    | "CLOUD_SQL_CONNECTOR_REQUIRED"
+    | "CLOUD_FUNCTION_NOT_ACTIVE"
+    | "VPC_CONNECTOR_NOT_SET"
+    | "VPC_CONNECTOR_NOT_RUNNING"
+    | "VPC_CONNECTOR_SERVERLESS_TRAFFIC_BLOCKED"
+    | "VPC_CONNECTOR_HEALTH_CHECK_TRAFFIC_BLOCKED"
+    | "FORWARDING_RULE_REGION_MISMATCH"
+    | "PSC_CONNECTION_NOT_ACCEPTED"
+    | "PSC_ENDPOINT_ACCESSED_FROM_PEERED_NETWORK"
+    | "PSC_NEG_PRODUCER_ENDPOINT_NO_GLOBAL_ACCESS"
+    | "PSC_NEG_PRODUCER_FORWARDING_RULE_MULTIPLE_PORTS"
+    | "CLOUD_SQL_PSC_NEG_UNSUPPORTED"
+    | "NO_NAT_SUBNETS_FOR_PSC_SERVICE_ATTACHMENT"
+    | "PSC_TRANSITIVITY_NOT_PROPAGATED"
+    | "HYBRID_NEG_NON_DYNAMIC_ROUTE_MATCHED"
+    | "HYBRID_NEG_NON_LOCAL_DYNAMIC_ROUTE_MATCHED"
+    | "CLOUD_RUN_REVISION_NOT_READY"
+    | "DROPPED_INSIDE_PSC_SERVICE_PRODUCER"
+    | "LOAD_BALANCER_HAS_NO_PROXY_SUBNET"
+    | "CLOUD_NAT_NO_ADDRESSES"
+    | "ROUTING_LOOP"
+    | "DROPPED_INSIDE_GOOGLE_MANAGED_SERVICE"
+    | "LOAD_BALANCER_BACKEND_INVALID_NETWORK"
+    | "BACKEND_SERVICE_NAMED_PORT_NOT_DEFINED"
+    | "DESTINATION_IS_PRIVATE_NAT_IP_RANGE"
+    | "DROPPED_INSIDE_REDIS_INSTANCE_SERVICE"
+    | "REDIS_INSTANCE_UNSUPPORTED_PORT"
+    | "REDIS_INSTANCE_CONNECTING_FROM_PUPI_ADDRESS"
+    | "REDIS_INSTANCE_NO_ROUTE_TO_DESTINATION_NETWORK"
+    | "REDIS_INSTANCE_NO_EXTERNAL_IP"
+    | "REDIS_INSTANCE_UNSUPPORTED_PROTOCOL"
+    | "DROPPED_INSIDE_REDIS_CLUSTER_SERVICE"
+    | "REDIS_CLUSTER_UNSUPPORTED_PORT"
+    | "REDIS_CLUSTER_NO_EXTERNAL_IP"
+    | "REDIS_CLUSTER_UNSUPPORTED_PROTOCOL"
+    | "NO_ADVERTISED_ROUTE_TO_GCP_DESTINATION"
+    | "NO_TRAFFIC_SELECTOR_TO_GCP_DESTINATION"
+    | "NO_KNOWN_ROUTE_FROM_PEERED_NETWORK_TO_DESTINATION"
+    | "PRIVATE_NAT_TO_PSC_ENDPOINT_UNSUPPORTED"
+    | "PSC_PORT_MAPPING_PORT_MISMATCH"
+    | "PSC_PORT_MAPPING_WITHOUT_PSC_CONNECTION_UNSUPPORTED"
+    | "UNSUPPORTED_ROUTE_MATCHED_FOR_NAT64_DESTINATION"
+    | "TRAFFIC_FROM_HYBRID_ENDPOINT_TO_INTERNET_DISALLOWED"
+    | "NO_MATCHING_NAT64_GATEWAY"
+    | "NO_CONFIGURED_PRIVATE_NAT64_RULE"
+    | "LOAD_BALANCER_BACKEND_IP_VERSION_MISMATCH"
+    | "NO_KNOWN_ROUTE_FROM_NCC_NETWORK_TO_DESTINATION"
+    | "CLOUD_NAT_PROTOCOL_UNSUPPORTED"
+    | "L2_INTERCONNECT_UNSUPPORTED_PROTOCOL"
+    | "L2_INTERCONNECT_UNSUPPORTED_PORT"
+    | "L2_INTERCONNECT_DESTINATION_IP_MISMATCH"
+    | "NCC_ROUTE_WITHIN_HYBRID_SUBNET_UNSUPPORTED"
+    | "HYBRID_SUBNET_REGION_MISMATCH"
+    | "HYBRID_SUBNET_NO_ROUTE"
+    | "GKE_NETWORK_POLICY"
+    | "NO_VALID_ROUTE_FROM_GOOGLE_MANAGED_NETWORK_TO_DESTINATION"
+    | (string & {});
   /** URI of the resource that caused the drop. */
   resourceUri?: string;
   /** Source IP address of the dropped packet (if relevant). */
@@ -673,15 +1052,17 @@ export interface DropInfo {
   destinationGeolocationCode?: string;
 }
 
-export const DropInfo: Schema.Schema<DropInfo> = Schema.suspend(() => Schema.Struct({
-  cause: Schema.optional(Schema.String),
-  resourceUri: Schema.optional(Schema.String),
-  sourceIp: Schema.optional(Schema.String),
-  destinationIp: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  sourceGeolocationCode: Schema.optional(Schema.String),
-  destinationGeolocationCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "DropInfo" }) as any as Schema.Schema<DropInfo>;
+export const DropInfo: Schema.Schema<DropInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    cause: Schema.optional(Schema.String),
+    resourceUri: Schema.optional(Schema.String),
+    sourceIp: Schema.optional(Schema.String),
+    destinationIp: Schema.optional(Schema.String),
+    region: Schema.optional(Schema.String),
+    sourceGeolocationCode: Schema.optional(Schema.String),
+    destinationGeolocationCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DropInfo" }) as any as Schema.Schema<DropInfo>;
 
 export interface LoadBalancerBackend {
   /** Name of a Compute Engine instance or network endpoint. */
@@ -689,41 +1070,71 @@ export interface LoadBalancerBackend {
   /** URI of a Compute Engine instance or network endpoint. */
   uri?: string;
   /** State of the health check firewall configuration. */
-  healthCheckFirewallState?: "HEALTH_CHECK_FIREWALL_STATE_UNSPECIFIED" | "CONFIGURED" | "MISCONFIGURED" | (string & {});
+  healthCheckFirewallState?:
+    | "HEALTH_CHECK_FIREWALL_STATE_UNSPECIFIED"
+    | "CONFIGURED"
+    | "MISCONFIGURED"
+    | (string & {});
   /** A list of firewall rule URIs allowing probes from health check IP ranges. */
   healthCheckAllowingFirewallRules?: Array<string>;
   /** A list of firewall rule URIs blocking probes from health check IP ranges. */
   healthCheckBlockingFirewallRules?: Array<string>;
 }
 
-export const LoadBalancerBackend: Schema.Schema<LoadBalancerBackend> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  healthCheckFirewallState: Schema.optional(Schema.String),
-  healthCheckAllowingFirewallRules: Schema.optional(Schema.Array(Schema.String)),
-  healthCheckBlockingFirewallRules: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "LoadBalancerBackend" }) as any as Schema.Schema<LoadBalancerBackend>;
+export const LoadBalancerBackend: Schema.Schema<LoadBalancerBackend> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      healthCheckFirewallState: Schema.optional(Schema.String),
+      healthCheckAllowingFirewallRules: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      healthCheckBlockingFirewallRules: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "LoadBalancerBackend",
+  }) as any as Schema.Schema<LoadBalancerBackend>;
 
 export interface LoadBalancerInfo {
   /** Type of the load balancer. */
-  loadBalancerType?: "LOAD_BALANCER_TYPE_UNSPECIFIED" | "INTERNAL_TCP_UDP" | "NETWORK_TCP_UDP" | "HTTP_PROXY" | "TCP_PROXY" | "SSL_PROXY" | (string & {});
+  loadBalancerType?:
+    | "LOAD_BALANCER_TYPE_UNSPECIFIED"
+    | "INTERNAL_TCP_UDP"
+    | "NETWORK_TCP_UDP"
+    | "HTTP_PROXY"
+    | "TCP_PROXY"
+    | "SSL_PROXY"
+    | (string & {});
   /** URI of the health check for the load balancer. Deprecated and no longer populated as different load balancer backends might have different health checks. */
   healthCheckUri?: string;
   /** Information for the loadbalancer backends. */
   backends?: Array<LoadBalancerBackend>;
   /** Type of load balancer's backend configuration. */
-  backendType?: "BACKEND_TYPE_UNSPECIFIED" | "BACKEND_SERVICE" | "TARGET_POOL" | "TARGET_INSTANCE" | (string & {});
+  backendType?:
+    | "BACKEND_TYPE_UNSPECIFIED"
+    | "BACKEND_SERVICE"
+    | "TARGET_POOL"
+    | "TARGET_INSTANCE"
+    | (string & {});
   /** Backend configuration URI. */
   backendUri?: string;
 }
 
-export const LoadBalancerInfo: Schema.Schema<LoadBalancerInfo> = Schema.suspend(() => Schema.Struct({
-  loadBalancerType: Schema.optional(Schema.String),
-  healthCheckUri: Schema.optional(Schema.String),
-  backends: Schema.optional(Schema.Array(LoadBalancerBackend)),
-  backendType: Schema.optional(Schema.String),
-  backendUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoadBalancerInfo" }) as any as Schema.Schema<LoadBalancerInfo>;
+export const LoadBalancerInfo: Schema.Schema<LoadBalancerInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      loadBalancerType: Schema.optional(Schema.String),
+      healthCheckUri: Schema.optional(Schema.String),
+      backends: Schema.optional(Schema.Array(LoadBalancerBackend)),
+      backendType: Schema.optional(Schema.String),
+      backendUri: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LoadBalancerInfo",
+}) as any as Schema.Schema<LoadBalancerInfo>;
 
 export interface NetworkInfo {
   /** Name of a Compute Engine network. */
@@ -738,13 +1149,15 @@ export interface NetworkInfo {
   region?: string;
 }
 
-export const NetworkInfo: Schema.Schema<NetworkInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  matchedSubnetUri: Schema.optional(Schema.String),
-  matchedIpRange: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-})).annotate({ identifier: "NetworkInfo" }) as any as Schema.Schema<NetworkInfo>;
+export const NetworkInfo: Schema.Schema<NetworkInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    matchedSubnetUri: Schema.optional(Schema.String),
+    matchedIpRange: Schema.optional(Schema.String),
+    region: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "NetworkInfo" }) as any as Schema.Schema<NetworkInfo>;
 
 export interface GKEMasterInfo {
   /** URI of a GKE cluster. */
@@ -759,13 +1172,17 @@ export interface GKEMasterInfo {
   dnsEndpoint?: string;
 }
 
-export const GKEMasterInfo: Schema.Schema<GKEMasterInfo> = Schema.suspend(() => Schema.Struct({
-  clusterUri: Schema.optional(Schema.String),
-  clusterNetworkUri: Schema.optional(Schema.String),
-  internalIp: Schema.optional(Schema.String),
-  externalIp: Schema.optional(Schema.String),
-  dnsEndpoint: Schema.optional(Schema.String),
-})).annotate({ identifier: "GKEMasterInfo" }) as any as Schema.Schema<GKEMasterInfo>;
+export const GKEMasterInfo: Schema.Schema<GKEMasterInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    clusterUri: Schema.optional(Schema.String),
+    clusterNetworkUri: Schema.optional(Schema.String),
+    internalIp: Schema.optional(Schema.String),
+    externalIp: Schema.optional(Schema.String),
+    dnsEndpoint: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "GKEMasterInfo",
+}) as any as Schema.Schema<GKEMasterInfo>;
 
 export interface GkePodInfo {
   /** URI of a GKE Pod. For Pods in regional Clusters, the URI format is: `projects/{project}/locations/{location}/clusters/{cluster}/k8s/namespaces/{namespace}/pods/{pod}` For Pods in zonal Clusters, the URI format is: `projects/{project}/zones/{zone}/clusters/{cluster}/k8s/namespaces/{namespace}/pods/{pod}` */
@@ -776,23 +1193,39 @@ export interface GkePodInfo {
   networkUri?: string;
 }
 
-export const GkePodInfo: Schema.Schema<GkePodInfo> = Schema.suspend(() => Schema.Struct({
-  podUri: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GkePodInfo" }) as any as Schema.Schema<GkePodInfo>;
+export const GkePodInfo: Schema.Schema<GkePodInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    podUri: Schema.optional(Schema.String),
+    ipAddress: Schema.optional(Schema.String),
+    networkUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GkePodInfo" }) as any as Schema.Schema<GkePodInfo>;
 
 export interface IpMasqueradingSkippedInfo {
   /** Reason why IP masquerading was not applied. */
-  reason?: "REASON_UNSPECIFIED" | "DESTINATION_IP_IN_CONFIGURED_NON_MASQUERADE_RANGE" | "DESTINATION_IP_IN_DEFAULT_NON_MASQUERADE_RANGE" | "DESTINATION_ON_SAME_NODE" | "DEFAULT_SNAT_DISABLED" | "NO_MASQUERADING_FOR_IPV6" | "POD_USES_NODE_NETWORK_NAMESPACE" | "NO_MASQUERADING_FOR_RETURN_PACKET" | (string & {});
+  reason?:
+    | "REASON_UNSPECIFIED"
+    | "DESTINATION_IP_IN_CONFIGURED_NON_MASQUERADE_RANGE"
+    | "DESTINATION_IP_IN_DEFAULT_NON_MASQUERADE_RANGE"
+    | "DESTINATION_ON_SAME_NODE"
+    | "DEFAULT_SNAT_DISABLED"
+    | "NO_MASQUERADING_FOR_IPV6"
+    | "POD_USES_NODE_NETWORK_NAMESPACE"
+    | "NO_MASQUERADING_FOR_RETURN_PACKET"
+    | (string & {});
   /** The matched non-masquerade IP range. Only set if reason is DESTINATION_IP_IN_CONFIGURED_NON_MASQUERADE_RANGE or DESTINATION_IP_IN_DEFAULT_NON_MASQUERADE_RANGE. */
   nonMasqueradeRange?: string;
 }
 
-export const IpMasqueradingSkippedInfo: Schema.Schema<IpMasqueradingSkippedInfo> = Schema.suspend(() => Schema.Struct({
-  reason: Schema.optional(Schema.String),
-  nonMasqueradeRange: Schema.optional(Schema.String),
-})).annotate({ identifier: "IpMasqueradingSkippedInfo" }) as any as Schema.Schema<IpMasqueradingSkippedInfo>;
+export const IpMasqueradingSkippedInfo: Schema.Schema<IpMasqueradingSkippedInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reason: Schema.optional(Schema.String),
+      nonMasqueradeRange: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IpMasqueradingSkippedInfo",
+  }) as any as Schema.Schema<IpMasqueradingSkippedInfo>;
 
 export interface GkeNetworkPolicyInfo {
   /** The name of the Network Policy. */
@@ -805,21 +1238,38 @@ export interface GkeNetworkPolicyInfo {
   action?: string;
 }
 
-export const GkeNetworkPolicyInfo: Schema.Schema<GkeNetworkPolicyInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  direction: Schema.optional(Schema.String),
-  action: Schema.optional(Schema.String),
-})).annotate({ identifier: "GkeNetworkPolicyInfo" }) as any as Schema.Schema<GkeNetworkPolicyInfo>;
+export const GkeNetworkPolicyInfo: Schema.Schema<GkeNetworkPolicyInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      direction: Schema.optional(Schema.String),
+      action: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GkeNetworkPolicyInfo",
+  }) as any as Schema.Schema<GkeNetworkPolicyInfo>;
 
 export interface GkeNetworkPolicySkippedInfo {
   /** Reason why Network Policy evaluation was skipped. */
-  reason?: "REASON_UNSPECIFIED" | "NETWORK_POLICY_DISABLED" | "INGRESS_SOURCE_ON_SAME_NODE" | "EGRESS_FROM_NODE_NETWORK_NAMESPACE_POD" | "NETWORK_POLICY_NOT_APPLIED_TO_RESPONSE_TRAFFIC" | "NETWORK_POLICY_ANALYSIS_UNSUPPORTED" | (string & {});
+  reason?:
+    | "REASON_UNSPECIFIED"
+    | "NETWORK_POLICY_DISABLED"
+    | "INGRESS_SOURCE_ON_SAME_NODE"
+    | "EGRESS_FROM_NODE_NETWORK_NAMESPACE_POD"
+    | "NETWORK_POLICY_NOT_APPLIED_TO_RESPONSE_TRAFFIC"
+    | "NETWORK_POLICY_ANALYSIS_UNSUPPORTED"
+    | (string & {});
 }
 
-export const GkeNetworkPolicySkippedInfo: Schema.Schema<GkeNetworkPolicySkippedInfo> = Schema.suspend(() => Schema.Struct({
-  reason: Schema.optional(Schema.String),
-})).annotate({ identifier: "GkeNetworkPolicySkippedInfo" }) as any as Schema.Schema<GkeNetworkPolicySkippedInfo>;
+export const GkeNetworkPolicySkippedInfo: Schema.Schema<GkeNetworkPolicySkippedInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GkeNetworkPolicySkippedInfo",
+  }) as any as Schema.Schema<GkeNetworkPolicySkippedInfo>;
 
 export interface CloudSQLInstanceInfo {
   /** Name of a Cloud SQL instance. */
@@ -836,14 +1286,19 @@ export interface CloudSQLInstanceInfo {
   region?: string;
 }
 
-export const CloudSQLInstanceInfo: Schema.Schema<CloudSQLInstanceInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  internalIp: Schema.optional(Schema.String),
-  externalIp: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudSQLInstanceInfo" }) as any as Schema.Schema<CloudSQLInstanceInfo>;
+export const CloudSQLInstanceInfo: Schema.Schema<CloudSQLInstanceInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      networkUri: Schema.optional(Schema.String),
+      internalIp: Schema.optional(Schema.String),
+      externalIp: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudSQLInstanceInfo",
+  }) as any as Schema.Schema<CloudSQLInstanceInfo>;
 
 export interface RedisInstanceInfo {
   /** Name of a Cloud Redis Instance. */
@@ -860,14 +1315,19 @@ export interface RedisInstanceInfo {
   region?: string;
 }
 
-export const RedisInstanceInfo: Schema.Schema<RedisInstanceInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  primaryEndpointIp: Schema.optional(Schema.String),
-  readEndpointIp: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-})).annotate({ identifier: "RedisInstanceInfo" }) as any as Schema.Schema<RedisInstanceInfo>;
+export const RedisInstanceInfo: Schema.Schema<RedisInstanceInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      networkUri: Schema.optional(Schema.String),
+      primaryEndpointIp: Schema.optional(Schema.String),
+      readEndpointIp: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RedisInstanceInfo",
+  }) as any as Schema.Schema<RedisInstanceInfo>;
 
 export interface RedisClusterInfo {
   /** Name of a Redis Cluster. */
@@ -884,14 +1344,19 @@ export interface RedisClusterInfo {
   location?: string;
 }
 
-export const RedisClusterInfo: Schema.Schema<RedisClusterInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  discoveryEndpointIpAddress: Schema.optional(Schema.String),
-  secondaryEndpointIpAddress: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "RedisClusterInfo" }) as any as Schema.Schema<RedisClusterInfo>;
+export const RedisClusterInfo: Schema.Schema<RedisClusterInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      networkUri: Schema.optional(Schema.String),
+      discoveryEndpointIpAddress: Schema.optional(Schema.String),
+      secondaryEndpointIpAddress: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RedisClusterInfo",
+}) as any as Schema.Schema<RedisClusterInfo>;
 
 export interface CloudFunctionInfo {
   /** Name of a Cloud Function. */
@@ -904,12 +1369,17 @@ export interface CloudFunctionInfo {
   versionId?: string;
 }
 
-export const CloudFunctionInfo: Schema.Schema<CloudFunctionInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  versionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudFunctionInfo" }) as any as Schema.Schema<CloudFunctionInfo>;
+export const CloudFunctionInfo: Schema.Schema<CloudFunctionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      versionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudFunctionInfo",
+  }) as any as Schema.Schema<CloudFunctionInfo>;
 
 export interface AppEngineVersionInfo {
   /** Name of an App Engine version. */
@@ -922,12 +1392,17 @@ export interface AppEngineVersionInfo {
   environment?: string;
 }
 
-export const AppEngineVersionInfo: Schema.Schema<AppEngineVersionInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  runtime: Schema.optional(Schema.String),
-  environment: Schema.optional(Schema.String),
-})).annotate({ identifier: "AppEngineVersionInfo" }) as any as Schema.Schema<AppEngineVersionInfo>;
+export const AppEngineVersionInfo: Schema.Schema<AppEngineVersionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      runtime: Schema.optional(Schema.String),
+      environment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AppEngineVersionInfo",
+  }) as any as Schema.Schema<AppEngineVersionInfo>;
 
 export interface CloudRunRevisionInfo {
   /** Name of a Cloud Run revision. */
@@ -940,16 +1415,28 @@ export interface CloudRunRevisionInfo {
   serviceUri?: string;
 }
 
-export const CloudRunRevisionInfo: Schema.Schema<CloudRunRevisionInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  serviceUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudRunRevisionInfo" }) as any as Schema.Schema<CloudRunRevisionInfo>;
+export const CloudRunRevisionInfo: Schema.Schema<CloudRunRevisionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      serviceUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudRunRevisionInfo",
+  }) as any as Schema.Schema<CloudRunRevisionInfo>;
 
 export interface NatInfo {
   /** Type of NAT. */
-  type?: "TYPE_UNSPECIFIED" | "INTERNAL_TO_EXTERNAL" | "EXTERNAL_TO_INTERNAL" | "CLOUD_NAT" | "PRIVATE_SERVICE_CONNECT" | "GKE_POD_IP_MASQUERADING" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "INTERNAL_TO_EXTERNAL"
+    | "EXTERNAL_TO_INTERNAL"
+    | "CLOUD_NAT"
+    | "PRIVATE_SERVICE_CONNECT"
+    | "GKE_POD_IP_MASQUERADING"
+    | (string & {});
   /** IP protocol in string format, for example: "TCP", "UDP", "ICMP". */
   protocol?: string;
   /** URI of the network where NAT translation takes place. */
@@ -975,25 +1462,34 @@ export interface NatInfo {
   /** The name of Cloud NAT Gateway. Only valid when type is CLOUD_NAT. */
   natGatewayName?: string;
   /** Type of Cloud NAT gateway. Only valid when `type` is CLOUD_NAT. */
-  cloudNatGatewayType?: "CLOUD_NAT_GATEWAY_TYPE_UNSPECIFIED" | "PUBLIC_NAT44" | "PUBLIC_NAT64" | "PRIVATE_NAT_NCC" | "PRIVATE_NAT_HYBRID" | "PRIVATE_NAT64" | (string & {});
+  cloudNatGatewayType?:
+    | "CLOUD_NAT_GATEWAY_TYPE_UNSPECIFIED"
+    | "PUBLIC_NAT44"
+    | "PUBLIC_NAT64"
+    | "PRIVATE_NAT_NCC"
+    | "PRIVATE_NAT_HYBRID"
+    | "PRIVATE_NAT64"
+    | (string & {});
 }
 
-export const NatInfo: Schema.Schema<NatInfo> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  protocol: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-  oldSourceIp: Schema.optional(Schema.String),
-  newSourceIp: Schema.optional(Schema.String),
-  oldDestinationIp: Schema.optional(Schema.String),
-  newDestinationIp: Schema.optional(Schema.String),
-  oldSourcePort: Schema.optional(Schema.Number),
-  newSourcePort: Schema.optional(Schema.Number),
-  oldDestinationPort: Schema.optional(Schema.Number),
-  newDestinationPort: Schema.optional(Schema.Number),
-  routerUri: Schema.optional(Schema.String),
-  natGatewayName: Schema.optional(Schema.String),
-  cloudNatGatewayType: Schema.optional(Schema.String),
-})).annotate({ identifier: "NatInfo" }) as any as Schema.Schema<NatInfo>;
+export const NatInfo: Schema.Schema<NatInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    protocol: Schema.optional(Schema.String),
+    networkUri: Schema.optional(Schema.String),
+    oldSourceIp: Schema.optional(Schema.String),
+    newSourceIp: Schema.optional(Schema.String),
+    oldDestinationIp: Schema.optional(Schema.String),
+    newDestinationIp: Schema.optional(Schema.String),
+    oldSourcePort: Schema.optional(Schema.Number),
+    newSourcePort: Schema.optional(Schema.Number),
+    oldDestinationPort: Schema.optional(Schema.Number),
+    newDestinationPort: Schema.optional(Schema.Number),
+    routerUri: Schema.optional(Schema.String),
+    natGatewayName: Schema.optional(Schema.String),
+    cloudNatGatewayType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "NatInfo" }) as any as Schema.Schema<NatInfo>;
 
 export interface ProxyConnectionInfo {
   /** IP protocol in string format, for example: "TCP", "UDP", "ICMP". */
@@ -1020,19 +1516,24 @@ export interface ProxyConnectionInfo {
   networkUri?: string;
 }
 
-export const ProxyConnectionInfo: Schema.Schema<ProxyConnectionInfo> = Schema.suspend(() => Schema.Struct({
-  protocol: Schema.optional(Schema.String),
-  oldSourceIp: Schema.optional(Schema.String),
-  newSourceIp: Schema.optional(Schema.String),
-  oldDestinationIp: Schema.optional(Schema.String),
-  newDestinationIp: Schema.optional(Schema.String),
-  oldSourcePort: Schema.optional(Schema.Number),
-  newSourcePort: Schema.optional(Schema.Number),
-  oldDestinationPort: Schema.optional(Schema.Number),
-  newDestinationPort: Schema.optional(Schema.Number),
-  subnetUri: Schema.optional(Schema.String),
-  networkUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProxyConnectionInfo" }) as any as Schema.Schema<ProxyConnectionInfo>;
+export const ProxyConnectionInfo: Schema.Schema<ProxyConnectionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      protocol: Schema.optional(Schema.String),
+      oldSourceIp: Schema.optional(Schema.String),
+      newSourceIp: Schema.optional(Schema.String),
+      oldDestinationIp: Schema.optional(Schema.String),
+      newDestinationIp: Schema.optional(Schema.String),
+      oldSourcePort: Schema.optional(Schema.Number),
+      newSourcePort: Schema.optional(Schema.Number),
+      oldDestinationPort: Schema.optional(Schema.Number),
+      newDestinationPort: Schema.optional(Schema.Number),
+      subnetUri: Schema.optional(Schema.String),
+      networkUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProxyConnectionInfo",
+  }) as any as Schema.Schema<ProxyConnectionInfo>;
 
 export interface LoadBalancerBackendInfo {
   /** Display name of the backend. For example, it might be an instance name for the instance group backends, or an IP address and port for zonal network endpoint group backends. */
@@ -1054,54 +1555,127 @@ export interface LoadBalancerBackendInfo {
   /** URI of the health check attached to this backend (if applicable). */
   healthCheckUri?: string;
   /** Output only. Health check firewalls configuration state for the backend. This is a result of the static firewall analysis (verifying that health check traffic from required IP ranges to the backend is allowed or not). The backend might still be unhealthy even if these firewalls are configured. Please refer to the documentation for more information: https://cloud.google.com/load-balancing/docs/firewall-rules */
-  healthCheckFirewallsConfigState?: "HEALTH_CHECK_FIREWALLS_CONFIG_STATE_UNSPECIFIED" | "FIREWALLS_CONFIGURED" | "FIREWALLS_PARTIALLY_CONFIGURED" | "FIREWALLS_NOT_CONFIGURED" | "FIREWALLS_UNSUPPORTED" | (string & {});
+  healthCheckFirewallsConfigState?:
+    | "HEALTH_CHECK_FIREWALLS_CONFIG_STATE_UNSPECIFIED"
+    | "FIREWALLS_CONFIGURED"
+    | "FIREWALLS_PARTIALLY_CONFIGURED"
+    | "FIREWALLS_NOT_CONFIGURED"
+    | "FIREWALLS_UNSUPPORTED"
+    | (string & {});
 }
 
-export const LoadBalancerBackendInfo: Schema.Schema<LoadBalancerBackendInfo> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  instanceUri: Schema.optional(Schema.String),
-  backendServiceUri: Schema.optional(Schema.String),
-  instanceGroupUri: Schema.optional(Schema.String),
-  networkEndpointGroupUri: Schema.optional(Schema.String),
-  backendBucketUri: Schema.optional(Schema.String),
-  pscServiceAttachmentUri: Schema.optional(Schema.String),
-  pscGoogleApiTarget: Schema.optional(Schema.String),
-  healthCheckUri: Schema.optional(Schema.String),
-  healthCheckFirewallsConfigState: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoadBalancerBackendInfo" }) as any as Schema.Schema<LoadBalancerBackendInfo>;
+export const LoadBalancerBackendInfo: Schema.Schema<LoadBalancerBackendInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      instanceUri: Schema.optional(Schema.String),
+      backendServiceUri: Schema.optional(Schema.String),
+      instanceGroupUri: Schema.optional(Schema.String),
+      networkEndpointGroupUri: Schema.optional(Schema.String),
+      backendBucketUri: Schema.optional(Schema.String),
+      pscServiceAttachmentUri: Schema.optional(Schema.String),
+      pscGoogleApiTarget: Schema.optional(Schema.String),
+      healthCheckUri: Schema.optional(Schema.String),
+      healthCheckFirewallsConfigState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LoadBalancerBackendInfo",
+  }) as any as Schema.Schema<LoadBalancerBackendInfo>;
 
 export interface StorageBucketInfo {
   /** Cloud Storage Bucket name. */
   bucket?: string;
 }
 
-export const StorageBucketInfo: Schema.Schema<StorageBucketInfo> = Schema.suspend(() => Schema.Struct({
-  bucket: Schema.optional(Schema.String),
-})).annotate({ identifier: "StorageBucketInfo" }) as any as Schema.Schema<StorageBucketInfo>;
+export const StorageBucketInfo: Schema.Schema<StorageBucketInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bucket: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StorageBucketInfo",
+  }) as any as Schema.Schema<StorageBucketInfo>;
 
 export interface ServerlessNegInfo {
   /** URI of the serverless network endpoint group. */
   negUri?: string;
 }
 
-export const ServerlessNegInfo: Schema.Schema<ServerlessNegInfo> = Schema.suspend(() => Schema.Struct({
-  negUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServerlessNegInfo" }) as any as Schema.Schema<ServerlessNegInfo>;
+export const ServerlessNegInfo: Schema.Schema<ServerlessNegInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      negUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ServerlessNegInfo",
+  }) as any as Schema.Schema<ServerlessNegInfo>;
 
 export interface NgfwPacketInspectionInfo {
   /** URI of the security profile group associated with this firewall packet inspection. */
   securityProfileGroupUri?: string;
 }
 
-export const NgfwPacketInspectionInfo: Schema.Schema<NgfwPacketInspectionInfo> = Schema.suspend(() => Schema.Struct({
-  securityProfileGroupUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "NgfwPacketInspectionInfo" }) as any as Schema.Schema<NgfwPacketInspectionInfo>;
+export const NgfwPacketInspectionInfo: Schema.Schema<NgfwPacketInspectionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      securityProfileGroupUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NgfwPacketInspectionInfo",
+  }) as any as Schema.Schema<NgfwPacketInspectionInfo>;
 
 export interface Step {
   /** A description of the step. Usually this is a summary of the state. */
   description?: string;
   /** Each step is in one of the pre-defined states. */
-  state?: "STATE_UNSPECIFIED" | "START_FROM_INSTANCE" | "START_FROM_INTERNET" | "START_FROM_GOOGLE_SERVICE" | "START_FROM_PRIVATE_NETWORK" | "START_FROM_GKE_MASTER" | "START_FROM_CLOUD_SQL_INSTANCE" | "START_FROM_GKE_POD" | "START_FROM_REDIS_INSTANCE" | "START_FROM_REDIS_CLUSTER" | "START_FROM_CLOUD_FUNCTION" | "START_FROM_APP_ENGINE_VERSION" | "START_FROM_CLOUD_RUN_REVISION" | "START_FROM_STORAGE_BUCKET" | "START_FROM_PSC_PUBLISHED_SERVICE" | "START_FROM_SERVERLESS_NEG" | "APPLY_INGRESS_FIREWALL_RULE" | "APPLY_EGRESS_FIREWALL_RULE" | "APPLY_ROUTE" | "APPLY_FORWARDING_RULE" | "ANALYZE_LOAD_BALANCER_BACKEND" | "SPOOFING_APPROVED" | "ARRIVE_AT_INSTANCE" | "ARRIVE_AT_INTERNAL_LOAD_BALANCER" | "ARRIVE_AT_EXTERNAL_LOAD_BALANCER" | "ARRIVE_AT_HYBRID_SUBNET" | "ARRIVE_AT_VPN_GATEWAY" | "ARRIVE_AT_VPN_TUNNEL" | "ARRIVE_AT_INTERCONNECT_ATTACHMENT" | "ARRIVE_AT_VPC_CONNECTOR" | "ARRIVE_AT_GKE_POD" | "DIRECT_VPC_EGRESS_CONNECTION" | "SERVERLESS_EXTERNAL_CONNECTION" | "NGFW_PACKET_INSPECTION" | "NAT" | "SKIP_GKE_POD_IP_MASQUERADING" | "SKIP_GKE_INGRESS_NETWORK_POLICY" | "SKIP_GKE_EGRESS_NETWORK_POLICY" | "APPLY_INGRESS_GKE_NETWORK_POLICY" | "APPLY_EGRESS_GKE_NETWORK_POLICY" | "PROXY_CONNECTION" | "DELIVER" | "DROP" | "FORWARD" | "ABORT" | "VIEWER_PERMISSION_MISSING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "START_FROM_INSTANCE"
+    | "START_FROM_INTERNET"
+    | "START_FROM_GOOGLE_SERVICE"
+    | "START_FROM_PRIVATE_NETWORK"
+    | "START_FROM_GKE_MASTER"
+    | "START_FROM_CLOUD_SQL_INSTANCE"
+    | "START_FROM_GKE_POD"
+    | "START_FROM_REDIS_INSTANCE"
+    | "START_FROM_REDIS_CLUSTER"
+    | "START_FROM_CLOUD_FUNCTION"
+    | "START_FROM_APP_ENGINE_VERSION"
+    | "START_FROM_CLOUD_RUN_REVISION"
+    | "START_FROM_STORAGE_BUCKET"
+    | "START_FROM_PSC_PUBLISHED_SERVICE"
+    | "START_FROM_SERVERLESS_NEG"
+    | "APPLY_INGRESS_FIREWALL_RULE"
+    | "APPLY_EGRESS_FIREWALL_RULE"
+    | "APPLY_ROUTE"
+    | "APPLY_FORWARDING_RULE"
+    | "ANALYZE_LOAD_BALANCER_BACKEND"
+    | "SPOOFING_APPROVED"
+    | "ARRIVE_AT_INSTANCE"
+    | "ARRIVE_AT_INTERNAL_LOAD_BALANCER"
+    | "ARRIVE_AT_EXTERNAL_LOAD_BALANCER"
+    | "ARRIVE_AT_HYBRID_SUBNET"
+    | "ARRIVE_AT_VPN_GATEWAY"
+    | "ARRIVE_AT_VPN_TUNNEL"
+    | "ARRIVE_AT_INTERCONNECT_ATTACHMENT"
+    | "ARRIVE_AT_VPC_CONNECTOR"
+    | "ARRIVE_AT_GKE_POD"
+    | "DIRECT_VPC_EGRESS_CONNECTION"
+    | "SERVERLESS_EXTERNAL_CONNECTION"
+    | "NGFW_PACKET_INSPECTION"
+    | "NAT"
+    | "SKIP_GKE_POD_IP_MASQUERADING"
+    | "SKIP_GKE_INGRESS_NETWORK_POLICY"
+    | "SKIP_GKE_EGRESS_NETWORK_POLICY"
+    | "APPLY_INGRESS_GKE_NETWORK_POLICY"
+    | "APPLY_EGRESS_GKE_NETWORK_POLICY"
+    | "PROXY_CONNECTION"
+    | "DELIVER"
+    | "DROP"
+    | "FORWARD"
+    | "ABORT"
+    | "VIEWER_PERMISSION_MISSING"
+    | (string & {});
   /** This is a step that leads to the final state Drop. */
   causesDrop?: boolean;
   /** Project ID that contains the configuration this step is validating. */
@@ -1180,48 +1754,52 @@ export interface Step {
   ngfwPacketInspection?: NgfwPacketInspectionInfo;
 }
 
-export const Step: Schema.Schema<Step> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  causesDrop: Schema.optional(Schema.Boolean),
-  projectId: Schema.optional(Schema.String),
-  instance: Schema.optional(InstanceInfo),
-  firewall: Schema.optional(FirewallInfo),
-  route: Schema.optional(RouteInfo),
-  endpoint: Schema.optional(EndpointInfo),
-  googleService: Schema.optional(GoogleServiceInfo),
-  forwardingRule: Schema.optional(ForwardingRuleInfo),
-  hybridSubnet: Schema.optional(HybridSubnetInfo),
-  vpnGateway: Schema.optional(VpnGatewayInfo),
-  vpnTunnel: Schema.optional(VpnTunnelInfo),
-  interconnectAttachment: Schema.optional(InterconnectAttachmentInfo),
-  vpcConnector: Schema.optional(VpcConnectorInfo),
-  directVpcEgressConnection: Schema.optional(DirectVpcEgressConnectionInfo),
-  serverlessExternalConnection: Schema.optional(ServerlessExternalConnectionInfo),
-  deliver: Schema.optional(DeliverInfo),
-  forward: Schema.optional(ForwardInfo),
-  abort: Schema.optional(AbortInfo),
-  drop: Schema.optional(DropInfo),
-  loadBalancer: Schema.optional(LoadBalancerInfo),
-  network: Schema.optional(NetworkInfo),
-  gkeMaster: Schema.optional(GKEMasterInfo),
-  gkePod: Schema.optional(GkePodInfo),
-  ipMasqueradingSkipped: Schema.optional(IpMasqueradingSkippedInfo),
-  gkeNetworkPolicy: Schema.optional(GkeNetworkPolicyInfo),
-  gkeNetworkPolicySkipped: Schema.optional(GkeNetworkPolicySkippedInfo),
-  cloudSqlInstance: Schema.optional(CloudSQLInstanceInfo),
-  redisInstance: Schema.optional(RedisInstanceInfo),
-  redisCluster: Schema.optional(RedisClusterInfo),
-  cloudFunction: Schema.optional(CloudFunctionInfo),
-  appEngineVersion: Schema.optional(AppEngineVersionInfo),
-  cloudRunRevision: Schema.optional(CloudRunRevisionInfo),
-  nat: Schema.optional(NatInfo),
-  proxyConnection: Schema.optional(ProxyConnectionInfo),
-  loadBalancerBackendInfo: Schema.optional(LoadBalancerBackendInfo),
-  storageBucket: Schema.optional(StorageBucketInfo),
-  serverlessNeg: Schema.optional(ServerlessNegInfo),
-  ngfwPacketInspection: Schema.optional(NgfwPacketInspectionInfo),
-})).annotate({ identifier: "Step" }) as any as Schema.Schema<Step>;
+export const Step: Schema.Schema<Step> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    causesDrop: Schema.optional(Schema.Boolean),
+    projectId: Schema.optional(Schema.String),
+    instance: Schema.optional(InstanceInfo),
+    firewall: Schema.optional(FirewallInfo),
+    route: Schema.optional(RouteInfo),
+    endpoint: Schema.optional(EndpointInfo),
+    googleService: Schema.optional(GoogleServiceInfo),
+    forwardingRule: Schema.optional(ForwardingRuleInfo),
+    hybridSubnet: Schema.optional(HybridSubnetInfo),
+    vpnGateway: Schema.optional(VpnGatewayInfo),
+    vpnTunnel: Schema.optional(VpnTunnelInfo),
+    interconnectAttachment: Schema.optional(InterconnectAttachmentInfo),
+    vpcConnector: Schema.optional(VpcConnectorInfo),
+    directVpcEgressConnection: Schema.optional(DirectVpcEgressConnectionInfo),
+    serverlessExternalConnection: Schema.optional(
+      ServerlessExternalConnectionInfo,
+    ),
+    deliver: Schema.optional(DeliverInfo),
+    forward: Schema.optional(ForwardInfo),
+    abort: Schema.optional(AbortInfo),
+    drop: Schema.optional(DropInfo),
+    loadBalancer: Schema.optional(LoadBalancerInfo),
+    network: Schema.optional(NetworkInfo),
+    gkeMaster: Schema.optional(GKEMasterInfo),
+    gkePod: Schema.optional(GkePodInfo),
+    ipMasqueradingSkipped: Schema.optional(IpMasqueradingSkippedInfo),
+    gkeNetworkPolicy: Schema.optional(GkeNetworkPolicyInfo),
+    gkeNetworkPolicySkipped: Schema.optional(GkeNetworkPolicySkippedInfo),
+    cloudSqlInstance: Schema.optional(CloudSQLInstanceInfo),
+    redisInstance: Schema.optional(RedisInstanceInfo),
+    redisCluster: Schema.optional(RedisClusterInfo),
+    cloudFunction: Schema.optional(CloudFunctionInfo),
+    appEngineVersion: Schema.optional(AppEngineVersionInfo),
+    cloudRunRevision: Schema.optional(CloudRunRevisionInfo),
+    nat: Schema.optional(NatInfo),
+    proxyConnection: Schema.optional(ProxyConnectionInfo),
+    loadBalancerBackendInfo: Schema.optional(LoadBalancerBackendInfo),
+    storageBucket: Schema.optional(StorageBucketInfo),
+    serverlessNeg: Schema.optional(ServerlessNegInfo),
+    ngfwPacketInspection: Schema.optional(NgfwPacketInspectionInfo),
+  }),
+).annotate({ identifier: "Step" }) as any as Schema.Schema<Step>;
 
 export interface Trace {
   /** Derived from the source and destination endpoints definition specified by user request, and validated by the data plane model. If there are multiple traces starting from different source locations, then the endpoint_info may be different between traces. */
@@ -1232,15 +1810,23 @@ export interface Trace {
   forwardTraceId?: number;
 }
 
-export const Trace: Schema.Schema<Trace> = Schema.suspend(() => Schema.Struct({
-  endpointInfo: Schema.optional(EndpointInfo),
-  steps: Schema.optional(Schema.Array(Step)),
-  forwardTraceId: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Trace" }) as any as Schema.Schema<Trace>;
+export const Trace: Schema.Schema<Trace> = Schema.suspend(() =>
+  Schema.Struct({
+    endpointInfo: Schema.optional(EndpointInfo),
+    steps: Schema.optional(Schema.Array(Step)),
+    forwardTraceId: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Trace" }) as any as Schema.Schema<Trace>;
 
 export interface ReachabilityDetails {
   /** The overall result of the test's configuration analysis. */
-  result?: "RESULT_UNSPECIFIED" | "REACHABLE" | "UNREACHABLE" | "AMBIGUOUS" | "UNDETERMINED" | (string & {});
+  result?:
+    | "RESULT_UNSPECIFIED"
+    | "REACHABLE"
+    | "UNREACHABLE"
+    | "AMBIGUOUS"
+    | "UNDETERMINED"
+    | (string & {});
   /** The time of the configuration analysis. */
   verifyTime?: string;
   /** The details of a failure or a cancellation of reachability analysis. */
@@ -1249,12 +1835,17 @@ export interface ReachabilityDetails {
   traces?: Array<Trace>;
 }
 
-export const ReachabilityDetails: Schema.Schema<ReachabilityDetails> = Schema.suspend(() => Schema.Struct({
-  result: Schema.optional(Schema.String),
-  verifyTime: Schema.optional(Schema.String),
-  error: Schema.optional(Status),
-  traces: Schema.optional(Schema.Array(Trace)),
-})).annotate({ identifier: "ReachabilityDetails" }) as any as Schema.Schema<ReachabilityDetails>;
+export const ReachabilityDetails: Schema.Schema<ReachabilityDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      result: Schema.optional(Schema.String),
+      verifyTime: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      traces: Schema.optional(Schema.Array(Trace)),
+    }),
+  ).annotate({
+    identifier: "ReachabilityDetails",
+  }) as any as Schema.Schema<ReachabilityDetails>;
 
 export interface LatencyPercentile {
   /** Percentage of samples this data point applies to. */
@@ -1263,32 +1854,52 @@ export interface LatencyPercentile {
   latencyMicros?: string;
 }
 
-export const LatencyPercentile: Schema.Schema<LatencyPercentile> = Schema.suspend(() => Schema.Struct({
-  percent: Schema.optional(Schema.Number),
-  latencyMicros: Schema.optional(Schema.String),
-})).annotate({ identifier: "LatencyPercentile" }) as any as Schema.Schema<LatencyPercentile>;
+export const LatencyPercentile: Schema.Schema<LatencyPercentile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      percent: Schema.optional(Schema.Number),
+      latencyMicros: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LatencyPercentile",
+  }) as any as Schema.Schema<LatencyPercentile>;
 
 export interface LatencyDistribution {
   /** Representative latency percentiles. */
   latencyPercentiles?: Array<LatencyPercentile>;
 }
 
-export const LatencyDistribution: Schema.Schema<LatencyDistribution> = Schema.suspend(() => Schema.Struct({
-  latencyPercentiles: Schema.optional(Schema.Array(LatencyPercentile)),
-})).annotate({ identifier: "LatencyDistribution" }) as any as Schema.Schema<LatencyDistribution>;
+export const LatencyDistribution: Schema.Schema<LatencyDistribution> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      latencyPercentiles: Schema.optional(Schema.Array(LatencyPercentile)),
+    }),
+  ).annotate({
+    identifier: "LatencyDistribution",
+  }) as any as Schema.Schema<LatencyDistribution>;
 
 export interface EdgeLocation {
   /** Name of the metropolitan area. */
   metropolitanArea?: string;
 }
 
-export const EdgeLocation: Schema.Schema<EdgeLocation> = Schema.suspend(() => Schema.Struct({
-  metropolitanArea: Schema.optional(Schema.String),
-})).annotate({ identifier: "EdgeLocation" }) as any as Schema.Schema<EdgeLocation>;
+export const EdgeLocation: Schema.Schema<EdgeLocation> = Schema.suspend(() =>
+  Schema.Struct({
+    metropolitanArea: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EdgeLocation",
+}) as any as Schema.Schema<EdgeLocation>;
 
 export interface SingleEdgeResponse {
   /** The overall result of active probing for this egress device. */
-  result?: "PROBING_RESULT_UNSPECIFIED" | "REACHABLE" | "UNREACHABLE" | "REACHABILITY_INCONSISTENT" | "UNDETERMINED" | (string & {});
+  result?:
+    | "PROBING_RESULT_UNSPECIFIED"
+    | "REACHABLE"
+    | "UNREACHABLE"
+    | "REACHABILITY_INCONSISTENT"
+    | "UNDETERMINED"
+    | (string & {});
   /** Number of probes sent. */
   sentProbeCount?: number;
   /** Number of probes that reached the destination. */
@@ -1301,24 +1912,39 @@ export interface SingleEdgeResponse {
   destinationRouter?: string;
 }
 
-export const SingleEdgeResponse: Schema.Schema<SingleEdgeResponse> = Schema.suspend(() => Schema.Struct({
-  result: Schema.optional(Schema.String),
-  sentProbeCount: Schema.optional(Schema.Number),
-  successfulProbeCount: Schema.optional(Schema.Number),
-  probingLatency: Schema.optional(LatencyDistribution),
-  destinationEgressLocation: Schema.optional(EdgeLocation),
-  destinationRouter: Schema.optional(Schema.String),
-})).annotate({ identifier: "SingleEdgeResponse" }) as any as Schema.Schema<SingleEdgeResponse>;
+export const SingleEdgeResponse: Schema.Schema<SingleEdgeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      result: Schema.optional(Schema.String),
+      sentProbeCount: Schema.optional(Schema.Number),
+      successfulProbeCount: Schema.optional(Schema.Number),
+      probingLatency: Schema.optional(LatencyDistribution),
+      destinationEgressLocation: Schema.optional(EdgeLocation),
+      destinationRouter: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SingleEdgeResponse",
+  }) as any as Schema.Schema<SingleEdgeResponse>;
 
 export interface ProbingDetails {
   /** The overall result of active probing. */
-  result?: "PROBING_RESULT_UNSPECIFIED" | "REACHABLE" | "UNREACHABLE" | "REACHABILITY_INCONSISTENT" | "UNDETERMINED" | (string & {});
+  result?:
+    | "PROBING_RESULT_UNSPECIFIED"
+    | "REACHABLE"
+    | "UNREACHABLE"
+    | "REACHABILITY_INCONSISTENT"
+    | "UNDETERMINED"
+    | (string & {});
   /** The time that reachability was assessed through active probing. */
   verifyTime?: string;
   /** Details about an internal failure or the cancellation of active probing. */
   error?: Status;
   /** The reason probing was aborted. */
-  abortCause?: "PROBING_ABORT_CAUSE_UNSPECIFIED" | "PERMISSION_DENIED" | "NO_SOURCE_LOCATION" | (string & {});
+  abortCause?:
+    | "PROBING_ABORT_CAUSE_UNSPECIFIED"
+    | "PERMISSION_DENIED"
+    | "NO_SOURCE_LOCATION"
+    | (string & {});
   /** Number of probes sent. */
   sentProbeCount?: number;
   /** Number of probes that reached the destination. */
@@ -1335,19 +1961,24 @@ export interface ProbingDetails {
   probedAllDevices?: boolean;
 }
 
-export const ProbingDetails: Schema.Schema<ProbingDetails> = Schema.suspend(() => Schema.Struct({
-  result: Schema.optional(Schema.String),
-  verifyTime: Schema.optional(Schema.String),
-  error: Schema.optional(Status),
-  abortCause: Schema.optional(Schema.String),
-  sentProbeCount: Schema.optional(Schema.Number),
-  successfulProbeCount: Schema.optional(Schema.Number),
-  endpointInfo: Schema.optional(EndpointInfo),
-  probingLatency: Schema.optional(LatencyDistribution),
-  destinationEgressLocation: Schema.optional(EdgeLocation),
-  edgeResponses: Schema.optional(Schema.Array(SingleEdgeResponse)),
-  probedAllDevices: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ProbingDetails" }) as any as Schema.Schema<ProbingDetails>;
+export const ProbingDetails: Schema.Schema<ProbingDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      result: Schema.optional(Schema.String),
+      verifyTime: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      abortCause: Schema.optional(Schema.String),
+      sentProbeCount: Schema.optional(Schema.Number),
+      successfulProbeCount: Schema.optional(Schema.Number),
+      endpointInfo: Schema.optional(EndpointInfo),
+      probingLatency: Schema.optional(LatencyDistribution),
+      destinationEgressLocation: Schema.optional(EdgeLocation),
+      edgeResponses: Schema.optional(Schema.Array(SingleEdgeResponse)),
+      probedAllDevices: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "ProbingDetails",
+}) as any as Schema.Schema<ProbingDetails>;
 
 export interface ConnectivityTest {
   /** Identifier. Unique name of the resource using the form: `projects/{project_id}/locations/global/connectivityTests/{test}` */
@@ -1382,23 +2013,28 @@ export interface ConnectivityTest {
   bypassFirewallChecks?: boolean;
 }
 
-export const ConnectivityTest: Schema.Schema<ConnectivityTest> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  source: Schema.optional(Endpoint),
-  destination: Schema.optional(Endpoint),
-  protocol: Schema.optional(Schema.String),
-  relatedProjects: Schema.optional(Schema.Array(Schema.String)),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  reachabilityDetails: Schema.optional(ReachabilityDetails),
-  probingDetails: Schema.optional(ProbingDetails),
-  roundTrip: Schema.optional(Schema.Boolean),
-  returnReachabilityDetails: Schema.optional(ReachabilityDetails),
-  bypassFirewallChecks: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ConnectivityTest" }) as any as Schema.Schema<ConnectivityTest>;
+export const ConnectivityTest: Schema.Schema<ConnectivityTest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      source: Schema.optional(Endpoint),
+      destination: Schema.optional(Endpoint),
+      protocol: Schema.optional(Schema.String),
+      relatedProjects: Schema.optional(Schema.Array(Schema.String)),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      reachabilityDetails: Schema.optional(ReachabilityDetails),
+      probingDetails: Schema.optional(ProbingDetails),
+      roundTrip: Schema.optional(Schema.Boolean),
+      returnReachabilityDetails: Schema.optional(ReachabilityDetails),
+      bypassFirewallChecks: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "ConnectivityTest",
+}) as any as Schema.Schema<ConnectivityTest>;
 
 export interface ListConnectivityTestsResponse {
   /** List of Connectivity Tests. */
@@ -1409,17 +2045,23 @@ export interface ListConnectivityTestsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListConnectivityTestsResponse: Schema.Schema<ListConnectivityTestsResponse> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(ConnectivityTest)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListConnectivityTestsResponse" }) as any as Schema.Schema<ListConnectivityTestsResponse>;
+export const ListConnectivityTestsResponse: Schema.Schema<ListConnectivityTestsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(ConnectivityTest)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListConnectivityTestsResponse",
+  }) as any as Schema.Schema<ListConnectivityTestsResponse>;
 
-export interface RerunConnectivityTestRequest {
-}
+export interface RerunConnectivityTestRequest {}
 
-export const RerunConnectivityTestRequest: Schema.Schema<RerunConnectivityTestRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RerunConnectivityTestRequest" }) as any as Schema.Schema<RerunConnectivityTestRequest>;
+export const RerunConnectivityTestRequest: Schema.Schema<RerunConnectivityTestRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RerunConnectivityTestRequest",
+  }) as any as Schema.Schema<RerunConnectivityTestRequest>;
 
 export interface VpcFlowLogsConfig {
   /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
@@ -1429,19 +2071,40 @@ export interface VpcFlowLogsConfig {
   /** Optional. The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. */
   state?: "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | (string & {});
   /** Optional. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. */
-  aggregationInterval?: "AGGREGATION_INTERVAL_UNSPECIFIED" | "INTERVAL_5_SEC" | "INTERVAL_30_SEC" | "INTERVAL_1_MIN" | "INTERVAL_5_MIN" | "INTERVAL_10_MIN" | "INTERVAL_15_MIN" | (string & {});
+  aggregationInterval?:
+    | "AGGREGATION_INTERVAL_UNSPECIFIED"
+    | "INTERVAL_5_SEC"
+    | "INTERVAL_30_SEC"
+    | "INTERVAL_1_MIN"
+    | "INTERVAL_5_MIN"
+    | "INTERVAL_10_MIN"
+    | "INTERVAL_15_MIN"
+    | (string & {});
   /** Optional. The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0. */
   flowSampling?: number;
   /** Optional. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. */
-  metadata?: "METADATA_UNSPECIFIED" | "INCLUDE_ALL_METADATA" | "EXCLUDE_ALL_METADATA" | "CUSTOM_METADATA" | (string & {});
+  metadata?:
+    | "METADATA_UNSPECIFIED"
+    | "INCLUDE_ALL_METADATA"
+    | "EXCLUDE_ALL_METADATA"
+    | "CUSTOM_METADATA"
+    | (string & {});
   /** Optional. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. */
   metadataFields?: Array<string>;
   /** Optional. Export filter used to define which VPC Flow Logs should be logged. */
   filterExpr?: string;
   /** Optional. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. */
-  crossProjectMetadata?: "CROSS_PROJECT_METADATA_UNSPECIFIED" | "CROSS_PROJECT_METADATA_ENABLED" | "CROSS_PROJECT_METADATA_DISABLED" | (string & {});
+  crossProjectMetadata?:
+    | "CROSS_PROJECT_METADATA_UNSPECIFIED"
+    | "CROSS_PROJECT_METADATA_ENABLED"
+    | "CROSS_PROJECT_METADATA_DISABLED"
+    | (string & {});
   /** Output only. Describes the state of the configured target resource for diagnostic purposes. */
-  targetResourceState?: "TARGET_RESOURCE_STATE_UNSPECIFIED" | "TARGET_RESOURCE_EXISTS" | "TARGET_RESOURCE_DOES_NOT_EXIST" | (string & {});
+  targetResourceState?:
+    | "TARGET_RESOURCE_STATE_UNSPECIFIED"
+    | "TARGET_RESOURCE_EXISTS"
+    | "TARGET_RESOURCE_DOES_NOT_EXIST"
+    | (string & {});
   /** Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name} */
   network?: string;
   /** Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name} */
@@ -1458,25 +2121,30 @@ export interface VpcFlowLogsConfig {
   updateTime?: string;
 }
 
-export const VpcFlowLogsConfig: Schema.Schema<VpcFlowLogsConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  aggregationInterval: Schema.optional(Schema.String),
-  flowSampling: Schema.optional(Schema.Number),
-  metadata: Schema.optional(Schema.String),
-  metadataFields: Schema.optional(Schema.Array(Schema.String)),
-  filterExpr: Schema.optional(Schema.String),
-  crossProjectMetadata: Schema.optional(Schema.String),
-  targetResourceState: Schema.optional(Schema.String),
-  network: Schema.optional(Schema.String),
-  subnet: Schema.optional(Schema.String),
-  interconnectAttachment: Schema.optional(Schema.String),
-  vpnTunnel: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "VpcFlowLogsConfig" }) as any as Schema.Schema<VpcFlowLogsConfig>;
+export const VpcFlowLogsConfig: Schema.Schema<VpcFlowLogsConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      aggregationInterval: Schema.optional(Schema.String),
+      flowSampling: Schema.optional(Schema.Number),
+      metadata: Schema.optional(Schema.String),
+      metadataFields: Schema.optional(Schema.Array(Schema.String)),
+      filterExpr: Schema.optional(Schema.String),
+      crossProjectMetadata: Schema.optional(Schema.String),
+      targetResourceState: Schema.optional(Schema.String),
+      network: Schema.optional(Schema.String),
+      subnet: Schema.optional(Schema.String),
+      interconnectAttachment: Schema.optional(Schema.String),
+      vpnTunnel: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VpcFlowLogsConfig",
+  }) as any as Schema.Schema<VpcFlowLogsConfig>;
 
 export interface ListVpcFlowLogsConfigsResponse {
   /** List of VPC Flow Log configurations. */
@@ -1487,11 +2155,16 @@ export interface ListVpcFlowLogsConfigsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListVpcFlowLogsConfigsResponse: Schema.Schema<ListVpcFlowLogsConfigsResponse> = Schema.suspend(() => Schema.Struct({
-  vpcFlowLogsConfigs: Schema.optional(Schema.Array(VpcFlowLogsConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListVpcFlowLogsConfigsResponse" }) as any as Schema.Schema<ListVpcFlowLogsConfigsResponse>;
+export const ListVpcFlowLogsConfigsResponse: Schema.Schema<ListVpcFlowLogsConfigsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vpcFlowLogsConfigs: Schema.optional(Schema.Array(VpcFlowLogsConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListVpcFlowLogsConfigsResponse",
+  }) as any as Schema.Schema<ListVpcFlowLogsConfigsResponse>;
 
 export interface QueryOrgVpcFlowLogsConfigsResponse {
   /** List of VPC Flow Log configurations. */
@@ -1502,11 +2175,16 @@ export interface QueryOrgVpcFlowLogsConfigsResponse {
   unreachable?: Array<string>;
 }
 
-export const QueryOrgVpcFlowLogsConfigsResponse: Schema.Schema<QueryOrgVpcFlowLogsConfigsResponse> = Schema.suspend(() => Schema.Struct({
-  vpcFlowLogsConfigs: Schema.optional(Schema.Array(VpcFlowLogsConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "QueryOrgVpcFlowLogsConfigsResponse" }) as any as Schema.Schema<QueryOrgVpcFlowLogsConfigsResponse>;
+export const QueryOrgVpcFlowLogsConfigsResponse: Schema.Schema<QueryOrgVpcFlowLogsConfigsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vpcFlowLogsConfigs: Schema.optional(Schema.Array(VpcFlowLogsConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "QueryOrgVpcFlowLogsConfigsResponse",
+  }) as any as Schema.Schema<QueryOrgVpcFlowLogsConfigsResponse>;
 
 export interface EffectiveVpcFlowLogsConfig {
   /** Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For a Compute config, the name will be the path of the subnet: `projects/{project_id}/regions/{region}/subnetworks/{subnet_id}` */
@@ -1514,17 +2192,34 @@ export interface EffectiveVpcFlowLogsConfig {
   /** The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. */
   state?: "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | (string & {});
   /** The aggregation interval for the logs. Default value is INTERVAL_5_SEC. */
-  aggregationInterval?: "AGGREGATION_INTERVAL_UNSPECIFIED" | "INTERVAL_5_SEC" | "INTERVAL_30_SEC" | "INTERVAL_1_MIN" | "INTERVAL_5_MIN" | "INTERVAL_10_MIN" | "INTERVAL_15_MIN" | (string & {});
+  aggregationInterval?:
+    | "AGGREGATION_INTERVAL_UNSPECIFIED"
+    | "INTERVAL_5_SEC"
+    | "INTERVAL_30_SEC"
+    | "INTERVAL_1_MIN"
+    | "INTERVAL_5_MIN"
+    | "INTERVAL_10_MIN"
+    | "INTERVAL_15_MIN"
+    | (string & {});
   /** The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0. */
   flowSampling?: number;
   /** Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. */
-  metadata?: "METADATA_UNSPECIFIED" | "INCLUDE_ALL_METADATA" | "EXCLUDE_ALL_METADATA" | "CUSTOM_METADATA" | (string & {});
+  metadata?:
+    | "METADATA_UNSPECIFIED"
+    | "INCLUDE_ALL_METADATA"
+    | "EXCLUDE_ALL_METADATA"
+    | "CUSTOM_METADATA"
+    | (string & {});
   /** Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. */
   metadataFields?: Array<string>;
   /** Export filter used to define which VPC Flow Logs should be logged. */
   filterExpr?: string;
   /** Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. */
-  crossProjectMetadata?: "CROSS_PROJECT_METADATA_UNSPECIFIED" | "CROSS_PROJECT_METADATA_ENABLED" | "CROSS_PROJECT_METADATA_DISABLED" | (string & {});
+  crossProjectMetadata?:
+    | "CROSS_PROJECT_METADATA_UNSPECIFIED"
+    | "CROSS_PROJECT_METADATA_ENABLED"
+    | "CROSS_PROJECT_METADATA_DISABLED"
+    | (string & {});
   /** Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name} */
   network?: string;
   /** Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name} */
@@ -1534,24 +2229,37 @@ export interface EffectiveVpcFlowLogsConfig {
   /** Traffic will be logged from the VPN Tunnel. Format: projects/{project_id}/regions/{region}/vpnTunnels/{name} */
   vpnTunnel?: string;
   /** Specifies the scope of the config (e.g., SUBNET, NETWORK, ORGANIZATION..). */
-  scope?: "SCOPE_UNSPECIFIED" | "SUBNET" | "COMPUTE_API_SUBNET" | "NETWORK" | "VPN_TUNNEL" | "INTERCONNECT_ATTACHMENT" | "ORGANIZATION" | (string & {});
+  scope?:
+    | "SCOPE_UNSPECIFIED"
+    | "SUBNET"
+    | "COMPUTE_API_SUBNET"
+    | "NETWORK"
+    | "VPN_TUNNEL"
+    | "INTERCONNECT_ATTACHMENT"
+    | "ORGANIZATION"
+    | (string & {});
 }
 
-export const EffectiveVpcFlowLogsConfig: Schema.Schema<EffectiveVpcFlowLogsConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  aggregationInterval: Schema.optional(Schema.String),
-  flowSampling: Schema.optional(Schema.Number),
-  metadata: Schema.optional(Schema.String),
-  metadataFields: Schema.optional(Schema.Array(Schema.String)),
-  filterExpr: Schema.optional(Schema.String),
-  crossProjectMetadata: Schema.optional(Schema.String),
-  network: Schema.optional(Schema.String),
-  subnet: Schema.optional(Schema.String),
-  interconnectAttachment: Schema.optional(Schema.String),
-  vpnTunnel: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-})).annotate({ identifier: "EffectiveVpcFlowLogsConfig" }) as any as Schema.Schema<EffectiveVpcFlowLogsConfig>;
+export const EffectiveVpcFlowLogsConfig: Schema.Schema<EffectiveVpcFlowLogsConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      aggregationInterval: Schema.optional(Schema.String),
+      flowSampling: Schema.optional(Schema.Number),
+      metadata: Schema.optional(Schema.String),
+      metadataFields: Schema.optional(Schema.Array(Schema.String)),
+      filterExpr: Schema.optional(Schema.String),
+      crossProjectMetadata: Schema.optional(Schema.String),
+      network: Schema.optional(Schema.String),
+      subnet: Schema.optional(Schema.String),
+      interconnectAttachment: Schema.optional(Schema.String),
+      vpnTunnel: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EffectiveVpcFlowLogsConfig",
+  }) as any as Schema.Schema<EffectiveVpcFlowLogsConfig>;
 
 export interface ShowEffectiveFlowLogsConfigsResponse {
   /** List of Effective Vpc Flow Logs configurations. */
@@ -1562,11 +2270,18 @@ export interface ShowEffectiveFlowLogsConfigsResponse {
   unreachable?: Array<string>;
 }
 
-export const ShowEffectiveFlowLogsConfigsResponse: Schema.Schema<ShowEffectiveFlowLogsConfigsResponse> = Schema.suspend(() => Schema.Struct({
-  effectiveFlowLogsConfigs: Schema.optional(Schema.Array(EffectiveVpcFlowLogsConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ShowEffectiveFlowLogsConfigsResponse" }) as any as Schema.Schema<ShowEffectiveFlowLogsConfigsResponse>;
+export const ShowEffectiveFlowLogsConfigsResponse: Schema.Schema<ShowEffectiveFlowLogsConfigsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      effectiveFlowLogsConfigs: Schema.optional(
+        Schema.Array(EffectiveVpcFlowLogsConfig),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ShowEffectiveFlowLogsConfigsResponse",
+  }) as any as Schema.Schema<ShowEffectiveFlowLogsConfigsResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -1579,12 +2294,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -1595,23 +2312,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -1620,10 +2349,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1636,12 +2367,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -1650,28 +2383,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface OperationMetadata {
   /** The time the operation was created. */
@@ -1690,15 +2438,20 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusDetail: Schema.optional(Schema.String),
-  cancelRequested: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusDetail: Schema.optional(Schema.String),
+      cancelRequested: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -1722,7 +2475,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations" }),
   svc,
@@ -1734,7 +2489,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1752,7 +2512,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1762,7 +2525,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1786,19 +2554,31 @@ export const ListProjectsLocationsGlobalOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/global/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/global/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsGlobalOperationsRequest>;
 
-export type ListProjectsLocationsGlobalOperationsResponse = ListOperationsResponse;
-export const ListProjectsLocationsGlobalOperationsResponse = ListOperationsResponse;
+export type ListProjectsLocationsGlobalOperationsResponse =
+  ListOperationsResponse;
+export const ListProjectsLocationsGlobalOperationsResponse =
+  ListOperationsResponse;
 
 export type ListProjectsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsGlobalOperations: API.PaginatedOperationMethod<ListProjectsLocationsGlobalOperationsRequest, ListProjectsLocationsGlobalOperationsResponse, ListProjectsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsGlobalOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsGlobalOperationsRequest,
+  ListProjectsLocationsGlobalOperationsResponse,
+  ListProjectsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalOperationsRequest,
   output: ListProjectsLocationsGlobalOperationsResponse,
   errors: [],
@@ -1816,7 +2596,10 @@ export interface GetProjectsLocationsGlobalOperationsRequest {
 export const GetProjectsLocationsGlobalOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/global/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/global/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsGlobalOperationsRequest>;
 
@@ -1826,7 +2609,12 @@ export const GetProjectsLocationsGlobalOperationsResponse = Operation;
 export type GetProjectsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsGlobalOperations: API.OperationMethod<GetProjectsLocationsGlobalOperationsRequest, GetProjectsLocationsGlobalOperationsResponse, GetProjectsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsGlobalOperations: API.OperationMethod<
+  GetProjectsLocationsGlobalOperationsRequest,
+  GetProjectsLocationsGlobalOperationsResponse,
+  GetProjectsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsGlobalOperationsRequest,
   output: GetProjectsLocationsGlobalOperationsResponse,
   errors: [],
@@ -1840,7 +2628,10 @@ export interface DeleteProjectsLocationsGlobalOperationsRequest {
 export const DeleteProjectsLocationsGlobalOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/global/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/locations/global/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsGlobalOperationsRequest>;
 
@@ -1850,7 +2641,12 @@ export const DeleteProjectsLocationsGlobalOperationsResponse = Empty;
 export type DeleteProjectsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsGlobalOperations: API.OperationMethod<DeleteProjectsLocationsGlobalOperationsRequest, DeleteProjectsLocationsGlobalOperationsResponse, DeleteProjectsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsGlobalOperations: API.OperationMethod<
+  DeleteProjectsLocationsGlobalOperationsRequest,
+  DeleteProjectsLocationsGlobalOperationsResponse,
+  DeleteProjectsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalOperationsRequest,
   output: DeleteProjectsLocationsGlobalOperationsResponse,
   errors: [],
@@ -1867,7 +2663,11 @@ export const CancelProjectsLocationsGlobalOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/global/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/global/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsGlobalOperationsRequest>;
 
@@ -1877,7 +2677,12 @@ export const CancelProjectsLocationsGlobalOperationsResponse = Empty;
 export type CancelProjectsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsGlobalOperations: API.OperationMethod<CancelProjectsLocationsGlobalOperationsRequest, CancelProjectsLocationsGlobalOperationsResponse, CancelProjectsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsGlobalOperations: API.OperationMethod<
+  CancelProjectsLocationsGlobalOperationsRequest,
+  CancelProjectsLocationsGlobalOperationsResponse,
+  CancelProjectsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsGlobalOperationsRequest,
   output: CancelProjectsLocationsGlobalOperationsResponse,
   errors: [],
@@ -1896,24 +2701,35 @@ export interface ListProjectsLocationsGlobalConnectivityTestsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsGlobalConnectivityTestsRequest>;
+export const ListProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsGlobalConnectivityTestsRequest>;
 
-export type ListProjectsLocationsGlobalConnectivityTestsResponse = ListConnectivityTestsResponse;
-export const ListProjectsLocationsGlobalConnectivityTestsResponse = ListConnectivityTestsResponse;
+export type ListProjectsLocationsGlobalConnectivityTestsResponse =
+  ListConnectivityTestsResponse;
+export const ListProjectsLocationsGlobalConnectivityTestsResponse =
+  ListConnectivityTestsResponse;
 
 export type ListProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
 
 /** Lists all Connectivity Tests owned by a project. */
-export const listProjectsLocationsGlobalConnectivityTests: API.PaginatedOperationMethod<ListProjectsLocationsGlobalConnectivityTestsRequest, ListProjectsLocationsGlobalConnectivityTestsResponse, ListProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsGlobalConnectivityTests: API.PaginatedOperationMethod<
+  ListProjectsLocationsGlobalConnectivityTestsRequest,
+  ListProjectsLocationsGlobalConnectivityTestsResponse,
+  ListProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalConnectivityTestsRequest,
   output: ListProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -1928,20 +2744,32 @@ export interface GetProjectsLocationsGlobalConnectivityTestsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}" }),
+export const GetProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsGlobalConnectivityTestsRequest>;
 
-export type GetProjectsLocationsGlobalConnectivityTestsResponse = ConnectivityTest;
-export const GetProjectsLocationsGlobalConnectivityTestsResponse = ConnectivityTest;
+export type GetProjectsLocationsGlobalConnectivityTestsResponse =
+  ConnectivityTest;
+export const GetProjectsLocationsGlobalConnectivityTestsResponse =
+  ConnectivityTest;
 
 export type GetProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
 
 /** Gets the details of a specific Connectivity Test. */
-export const getProjectsLocationsGlobalConnectivityTests: API.OperationMethod<GetProjectsLocationsGlobalConnectivityTestsRequest, GetProjectsLocationsGlobalConnectivityTestsResponse, GetProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  GetProjectsLocationsGlobalConnectivityTestsRequest,
+  GetProjectsLocationsGlobalConnectivityTestsResponse,
+  GetProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsGlobalConnectivityTestsRequest,
   output: GetProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -1956,14 +2784,19 @@ export interface CreateProjectsLocationsGlobalConnectivityTestsRequest {
   body?: ConnectivityTest;
 }
 
-export const CreateProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  testId: Schema.optional(Schema.String).pipe(T.HttpQuery("testId")),
-  body: Schema.optional(ConnectivityTest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsGlobalConnectivityTestsRequest>;
+export const CreateProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    testId: Schema.optional(Schema.String).pipe(T.HttpQuery("testId")),
+    body: Schema.optional(ConnectivityTest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsGlobalConnectivityTestsRequest>;
 
 export type CreateProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export const CreateProjectsLocationsGlobalConnectivityTestsResponse = Operation;
@@ -1971,7 +2804,12 @@ export const CreateProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export type CreateProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
 
 /** Creates a new Connectivity Test. After you create a test, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. If the endpoint specifications in `ConnectivityTest` are invalid (for example, containing non-existent resources in the network, or you don't have read permissions to the network configurations of listed projects), then the reachability result returns a value of `UNKNOWN`. If the endpoint specifications in `ConnectivityTest` are incomplete, the reachability result returns a value of AMBIGUOUS. For more information, see the Connectivity Test documentation. */
-export const createProjectsLocationsGlobalConnectivityTests: API.OperationMethod<CreateProjectsLocationsGlobalConnectivityTestsRequest, CreateProjectsLocationsGlobalConnectivityTestsResponse, CreateProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  CreateProjectsLocationsGlobalConnectivityTestsRequest,
+  CreateProjectsLocationsGlobalConnectivityTestsResponse,
+  CreateProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsGlobalConnectivityTestsRequest,
   output: CreateProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -1986,14 +2824,19 @@ export interface PatchProjectsLocationsGlobalConnectivityTestsRequest {
   body?: ConnectivityTest;
 }
 
-export const PatchProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(ConnectivityTest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsGlobalConnectivityTestsRequest>;
+export const PatchProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(ConnectivityTest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsGlobalConnectivityTestsRequest>;
 
 export type PatchProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export const PatchProjectsLocationsGlobalConnectivityTestsResponse = Operation;
@@ -2001,7 +2844,12 @@ export const PatchProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export type PatchProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
 
 /** Updates the configuration of an existing `ConnectivityTest`. After you update a test, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. The Reachability state in the test resource is updated with the new result. If the endpoint specifications in `ConnectivityTest` are invalid (for example, they contain non-existent resources in the network, or the user does not have read permissions to the network configurations of listed projects), then the reachability result returns a value of UNKNOWN. If the endpoint specifications in `ConnectivityTest` are incomplete, the reachability result returns a value of `AMBIGUOUS`. See the documentation in `ConnectivityTest` for more details. */
-export const patchProjectsLocationsGlobalConnectivityTests: API.OperationMethod<PatchProjectsLocationsGlobalConnectivityTestsRequest, PatchProjectsLocationsGlobalConnectivityTestsResponse, PatchProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  PatchProjectsLocationsGlobalConnectivityTestsRequest,
+  PatchProjectsLocationsGlobalConnectivityTestsResponse,
+  PatchProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsGlobalConnectivityTestsRequest,
   output: PatchProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -2014,13 +2862,18 @@ export interface RerunProjectsLocationsGlobalConnectivityTestsRequest {
   body?: RerunConnectivityTestRequest;
 }
 
-export const RerunProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RerunConnectivityTestRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:rerun", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RerunProjectsLocationsGlobalConnectivityTestsRequest>;
+export const RerunProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RerunConnectivityTestRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:rerun",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RerunProjectsLocationsGlobalConnectivityTestsRequest>;
 
 export type RerunProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export const RerunProjectsLocationsGlobalConnectivityTestsResponse = Operation;
@@ -2028,7 +2881,12 @@ export const RerunProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export type RerunProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
 
 /** Rerun an existing `ConnectivityTest`. After the user triggers the rerun, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. Even though the test configuration remains the same, the reachability result may change due to underlying network configuration changes. If the endpoint specifications in `ConnectivityTest` become invalid (for example, specified resources are deleted in the network, or you lost read permissions to the network configurations of listed projects), then the reachability result returns a value of `UNKNOWN`. */
-export const rerunProjectsLocationsGlobalConnectivityTests: API.OperationMethod<RerunProjectsLocationsGlobalConnectivityTestsRequest, RerunProjectsLocationsGlobalConnectivityTestsResponse, RerunProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rerunProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  RerunProjectsLocationsGlobalConnectivityTestsRequest,
+  RerunProjectsLocationsGlobalConnectivityTestsResponse,
+  RerunProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RerunProjectsLocationsGlobalConnectivityTestsRequest,
   output: RerunProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -2039,12 +2897,16 @@ export interface DeleteProjectsLocationsGlobalConnectivityTestsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsGlobalConnectivityTestsRequest>;
+export const DeleteProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsGlobalConnectivityTestsRequest>;
 
 export type DeleteProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export const DeleteProjectsLocationsGlobalConnectivityTestsResponse = Operation;
@@ -2052,7 +2914,12 @@ export const DeleteProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 export type DeleteProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
 
 /** Deletes a specific `ConnectivityTest`. */
-export const deleteProjectsLocationsGlobalConnectivityTests: API.OperationMethod<DeleteProjectsLocationsGlobalConnectivityTestsRequest, DeleteProjectsLocationsGlobalConnectivityTestsResponse, DeleteProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  DeleteProjectsLocationsGlobalConnectivityTestsRequest,
+  DeleteProjectsLocationsGlobalConnectivityTestsResponse,
+  DeleteProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalConnectivityTestsRequest,
   output: DeleteProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -2065,21 +2932,34 @@ export interface SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest>;
+export const SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest>;
 
-export type SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse = Policy;
-export const SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse = Policy;
+export type SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse =
+  Policy;
+export const SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse =
+  Policy;
 
-export type SetIamPolicyProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsGlobalConnectivityTestsError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsGlobalConnectivityTests: API.OperationMethod<SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest, SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse, SetIamPolicyProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest,
+  SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse,
+  SetIamPolicyProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest,
   output: SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -2092,21 +2972,35 @@ export interface GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest>;
+export const GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest>;
 
-export type GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse = Policy;
-export const GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse = Policy;
+export type GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse =
+  Policy;
+export const GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse =
+  Policy;
 
-export type GetIamPolicyProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsGlobalConnectivityTestsError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsGlobalConnectivityTests: API.OperationMethod<GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest, GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse, GetIamPolicyProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest,
+  GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse,
+  GetIamPolicyProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest,
   output: GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -2119,21 +3013,34 @@ export interface TestIamPermissionsProjectsLocationsGlobalConnectivityTestsReque
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest>;
+export const TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/global/connectivityTests/{connectivityTestsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest>;
 
-export type TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsGlobalConnectivityTestsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsGlobalConnectivityTestsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsGlobalConnectivityTests: API.OperationMethod<TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest, TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse, TestIamPermissionsProjectsLocationsGlobalConnectivityTestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest,
+  TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse,
+  TestIamPermissionsProjectsLocationsGlobalConnectivityTestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest,
   output: TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -2159,17 +3066,27 @@ export const ListProjectsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsVpcFlowLogsConfigsRequest>;
 
-export type ListProjectsLocationsVpcFlowLogsConfigsResponse = ListVpcFlowLogsConfigsResponse;
-export const ListProjectsLocationsVpcFlowLogsConfigsResponse = ListVpcFlowLogsConfigsResponse;
+export type ListProjectsLocationsVpcFlowLogsConfigsResponse =
+  ListVpcFlowLogsConfigsResponse;
+export const ListProjectsLocationsVpcFlowLogsConfigsResponse =
+  ListVpcFlowLogsConfigsResponse;
 
 export type ListProjectsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Lists all `VpcFlowLogsConfigs` in a given project. */
-export const listProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<ListProjectsLocationsVpcFlowLogsConfigsRequest, ListProjectsLocationsVpcFlowLogsConfigsResponse, ListProjectsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<
+  ListProjectsLocationsVpcFlowLogsConfigsRequest,
+  ListProjectsLocationsVpcFlowLogsConfigsResponse,
+  ListProjectsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsVpcFlowLogsConfigsRequest,
   output: ListProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2187,7 +3104,10 @@ export interface GetProjectsLocationsVpcFlowLogsConfigsRequest {
 export const GetProjectsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsVpcFlowLogsConfigsRequest>;
 
@@ -2197,7 +3117,12 @@ export const GetProjectsLocationsVpcFlowLogsConfigsResponse = VpcFlowLogsConfig;
 export type GetProjectsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Gets the details of a specific `VpcFlowLogsConfig`. */
-export const getProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<GetProjectsLocationsVpcFlowLogsConfigsRequest, GetProjectsLocationsVpcFlowLogsConfigsResponse, GetProjectsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  GetProjectsLocationsVpcFlowLogsConfigsRequest,
+  GetProjectsLocationsVpcFlowLogsConfigsResponse,
+  GetProjectsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsVpcFlowLogsConfigsRequest,
   output: GetProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2214,10 +3139,16 @@ export interface CreateProjectsLocationsVpcFlowLogsConfigsRequest {
 
 export const CreateProjectsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  vpcFlowLogsConfigId: Schema.optional(Schema.String).pipe(T.HttpQuery("vpcFlowLogsConfigId")),
+  vpcFlowLogsConfigId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("vpcFlowLogsConfigId"),
+  ),
   body: Schema.optional(VpcFlowLogsConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsVpcFlowLogsConfigsRequest>;
 
@@ -2227,7 +3158,12 @@ export const CreateProjectsLocationsVpcFlowLogsConfigsResponse = Operation;
 export type CreateProjectsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Creates a new `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Creating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - creating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
-export const createProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<CreateProjectsLocationsVpcFlowLogsConfigsRequest, CreateProjectsLocationsVpcFlowLogsConfigsResponse, CreateProjectsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  CreateProjectsLocationsVpcFlowLogsConfigsRequest,
+  CreateProjectsLocationsVpcFlowLogsConfigsResponse,
+  CreateProjectsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsVpcFlowLogsConfigsRequest,
   output: CreateProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2247,7 +3183,11 @@ export const PatchProjectsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(VpcFlowLogsConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsVpcFlowLogsConfigsRequest>;
 
@@ -2257,7 +3197,12 @@ export const PatchProjectsLocationsVpcFlowLogsConfigsResponse = Operation;
 export type PatchProjectsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Updates an existing `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Updating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - updating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
-export const patchProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<PatchProjectsLocationsVpcFlowLogsConfigsRequest, PatchProjectsLocationsVpcFlowLogsConfigsResponse, PatchProjectsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  PatchProjectsLocationsVpcFlowLogsConfigsRequest,
+  PatchProjectsLocationsVpcFlowLogsConfigsResponse,
+  PatchProjectsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsVpcFlowLogsConfigsRequest,
   output: PatchProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2271,7 +3216,10 @@ export interface DeleteProjectsLocationsVpcFlowLogsConfigsRequest {
 export const DeleteProjectsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsVpcFlowLogsConfigsRequest>;
 
@@ -2281,7 +3229,12 @@ export const DeleteProjectsLocationsVpcFlowLogsConfigsResponse = Operation;
 export type DeleteProjectsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Deletes a specific `VpcFlowLogsConfig`. */
-export const deleteProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<DeleteProjectsLocationsVpcFlowLogsConfigsRequest, DeleteProjectsLocationsVpcFlowLogsConfigsResponse, DeleteProjectsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  DeleteProjectsLocationsVpcFlowLogsConfigsRequest,
+  DeleteProjectsLocationsVpcFlowLogsConfigsResponse,
+  DeleteProjectsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsVpcFlowLogsConfigsRequest,
   output: DeleteProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2298,23 +3251,35 @@ export interface QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRe
   filter?: string;
 }
 
-export const QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs:queryOrgVpcFlowLogsConfigs" }),
-  svc,
-) as unknown as Schema.Schema<QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest>;
+export const QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs:queryOrgVpcFlowLogsConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest>;
 
-export type QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse = QueryOrgVpcFlowLogsConfigsResponse;
-export const QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse = QueryOrgVpcFlowLogsConfigsResponse;
+export type QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse =
+  QueryOrgVpcFlowLogsConfigsResponse;
+export const QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse =
+  QueryOrgVpcFlowLogsConfigsResponse;
 
-export type QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError = DefaultErrors;
+export type QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError =
+  DefaultErrors;
 
 /** QueryOrgVpcFlowLogsConfigs returns a list of all organization-level VPC Flow Logs configurations applicable to the specified project. */
-export const queryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest, QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse, QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const queryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<
+  QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest,
+  QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse,
+  QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest,
   output: QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2337,26 +3302,39 @@ export interface ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs
   filter?: string;
 }
 
-export const ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  resource: Schema.optional(Schema.String).pipe(T.HttpQuery("resource")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs:showEffectiveFlowLogsConfigs" }),
-  svc,
-) as unknown as Schema.Schema<ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest>;
+export const ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    resource: Schema.optional(Schema.String).pipe(T.HttpQuery("resource")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/vpcFlowLogsConfigs:showEffectiveFlowLogsConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest>;
 
-export type ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse = ShowEffectiveFlowLogsConfigsResponse;
-export const ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse = ShowEffectiveFlowLogsConfigsResponse;
+export type ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse =
+  ShowEffectiveFlowLogsConfigsResponse;
+export const ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse =
+  ShowEffectiveFlowLogsConfigsResponse;
 
-export type ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError = DefaultErrors;
+export type ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError =
+  DefaultErrors;
 
 /** ShowEffectiveFlowLogsConfigs returns a list of all VPC Flow Logs configurations applicable to a specified resource. */
-export const showEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest, ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse, ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const showEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<
+  ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest,
+  ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse,
+  ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest,
-  output: ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse,
+  output:
+    ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -2382,9 +3360,14 @@ export const ListOrganizationsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/locations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/locations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsLocationsRequest>;
 
@@ -2394,7 +3377,12 @@ export const ListOrganizationsLocationsResponse = ListLocationsResponse;
 export type ListOrganizationsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listOrganizationsLocations: API.PaginatedOperationMethod<ListOrganizationsLocationsRequest, ListOrganizationsLocationsResponse, ListOrganizationsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocations: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsRequest,
+  ListOrganizationsLocationsResponse,
+  ListOrganizationsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsRequest,
   output: ListOrganizationsLocationsResponse,
   errors: [],
@@ -2412,7 +3400,10 @@ export interface GetOrganizationsLocationsRequest {
 export const GetOrganizationsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsRequest>;
 
@@ -2422,7 +3413,12 @@ export const GetOrganizationsLocationsResponse = Location;
 export type GetOrganizationsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getOrganizationsLocations: API.OperationMethod<GetOrganizationsLocationsRequest, GetOrganizationsLocationsResponse, GetOrganizationsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocations: API.OperationMethod<
+  GetOrganizationsLocationsRequest,
+  GetOrganizationsLocationsResponse,
+  GetOrganizationsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsRequest,
   output: GetOrganizationsLocationsResponse,
   errors: [],
@@ -2446,19 +3442,31 @@ export const ListOrganizationsLocationsGlobalOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/locations/global/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/locations/global/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsLocationsGlobalOperationsRequest>;
 
-export type ListOrganizationsLocationsGlobalOperationsResponse = ListOperationsResponse;
-export const ListOrganizationsLocationsGlobalOperationsResponse = ListOperationsResponse;
+export type ListOrganizationsLocationsGlobalOperationsResponse =
+  ListOperationsResponse;
+export const ListOrganizationsLocationsGlobalOperationsResponse =
+  ListOperationsResponse;
 
 export type ListOrganizationsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOrganizationsLocationsGlobalOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsGlobalOperationsRequest, ListOrganizationsLocationsGlobalOperationsResponse, ListOrganizationsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsGlobalOperations: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsGlobalOperationsRequest,
+  ListOrganizationsLocationsGlobalOperationsResponse,
+  ListOrganizationsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsGlobalOperationsRequest,
   output: ListOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
@@ -2476,7 +3484,10 @@ export interface GetOrganizationsLocationsGlobalOperationsRequest {
 export const GetOrganizationsLocationsGlobalOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/locations/global/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/locations/global/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsGlobalOperationsRequest>;
 
@@ -2486,7 +3497,12 @@ export const GetOrganizationsLocationsGlobalOperationsResponse = Operation;
 export type GetOrganizationsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOrganizationsLocationsGlobalOperations: API.OperationMethod<GetOrganizationsLocationsGlobalOperationsRequest, GetOrganizationsLocationsGlobalOperationsResponse, GetOrganizationsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsGlobalOperations: API.OperationMethod<
+  GetOrganizationsLocationsGlobalOperationsRequest,
+  GetOrganizationsLocationsGlobalOperationsResponse,
+  GetOrganizationsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsGlobalOperationsRequest,
   output: GetOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
@@ -2497,12 +3513,16 @@ export interface DeleteOrganizationsLocationsGlobalOperationsRequest {
   name: string;
 }
 
-export const DeleteOrganizationsLocationsGlobalOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/organizations/{organizationsId}/locations/global/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsLocationsGlobalOperationsRequest>;
+export const DeleteOrganizationsLocationsGlobalOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/organizations/{organizationsId}/locations/global/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsLocationsGlobalOperationsRequest>;
 
 export type DeleteOrganizationsLocationsGlobalOperationsResponse = Empty;
 export const DeleteOrganizationsLocationsGlobalOperationsResponse = Empty;
@@ -2510,7 +3530,12 @@ export const DeleteOrganizationsLocationsGlobalOperationsResponse = Empty;
 export type DeleteOrganizationsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOrganizationsLocationsGlobalOperations: API.OperationMethod<DeleteOrganizationsLocationsGlobalOperationsRequest, DeleteOrganizationsLocationsGlobalOperationsResponse, DeleteOrganizationsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOrganizationsLocationsGlobalOperations: API.OperationMethod<
+  DeleteOrganizationsLocationsGlobalOperationsRequest,
+  DeleteOrganizationsLocationsGlobalOperationsResponse,
+  DeleteOrganizationsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOrganizationsLocationsGlobalOperationsRequest,
   output: DeleteOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
@@ -2523,13 +3548,18 @@ export interface CancelOrganizationsLocationsGlobalOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelOrganizationsLocationsGlobalOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/locations/global/operations/{operationsId}:cancel", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CancelOrganizationsLocationsGlobalOperationsRequest>;
+export const CancelOrganizationsLocationsGlobalOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/organizations/{organizationsId}/locations/global/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelOrganizationsLocationsGlobalOperationsRequest>;
 
 export type CancelOrganizationsLocationsGlobalOperationsResponse = Empty;
 export const CancelOrganizationsLocationsGlobalOperationsResponse = Empty;
@@ -2537,7 +3567,12 @@ export const CancelOrganizationsLocationsGlobalOperationsResponse = Empty;
 export type CancelOrganizationsLocationsGlobalOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOrganizationsLocationsGlobalOperations: API.OperationMethod<CancelOrganizationsLocationsGlobalOperationsRequest, CancelOrganizationsLocationsGlobalOperationsResponse, CancelOrganizationsLocationsGlobalOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOrganizationsLocationsGlobalOperations: API.OperationMethod<
+  CancelOrganizationsLocationsGlobalOperationsRequest,
+  CancelOrganizationsLocationsGlobalOperationsResponse,
+  CancelOrganizationsLocationsGlobalOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOrganizationsLocationsGlobalOperationsRequest,
   output: CancelOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
@@ -2556,24 +3591,35 @@ export interface ListOrganizationsLocationsVpcFlowLogsConfigsRequest {
   orderBy?: string;
 }
 
-export const ListOrganizationsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs" }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsVpcFlowLogsConfigsRequest>;
+export const ListOrganizationsLocationsVpcFlowLogsConfigsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsVpcFlowLogsConfigsRequest>;
 
-export type ListOrganizationsLocationsVpcFlowLogsConfigsResponse = ListVpcFlowLogsConfigsResponse;
-export const ListOrganizationsLocationsVpcFlowLogsConfigsResponse = ListVpcFlowLogsConfigsResponse;
+export type ListOrganizationsLocationsVpcFlowLogsConfigsResponse =
+  ListVpcFlowLogsConfigsResponse;
+export const ListOrganizationsLocationsVpcFlowLogsConfigsResponse =
+  ListVpcFlowLogsConfigsResponse;
 
 export type ListOrganizationsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Lists all `VpcFlowLogsConfigs` in a given organization. */
-export const listOrganizationsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<ListOrganizationsLocationsVpcFlowLogsConfigsRequest, ListOrganizationsLocationsVpcFlowLogsConfigsResponse, ListOrganizationsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsVpcFlowLogsConfigsRequest,
+  ListOrganizationsLocationsVpcFlowLogsConfigsResponse,
+  ListOrganizationsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: ListOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2588,20 +3634,32 @@ export interface GetOrganizationsLocationsVpcFlowLogsConfigsRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}" }),
+export const GetOrganizationsLocationsVpcFlowLogsConfigsRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsVpcFlowLogsConfigsRequest>;
 
-export type GetOrganizationsLocationsVpcFlowLogsConfigsResponse = VpcFlowLogsConfig;
-export const GetOrganizationsLocationsVpcFlowLogsConfigsResponse = VpcFlowLogsConfig;
+export type GetOrganizationsLocationsVpcFlowLogsConfigsResponse =
+  VpcFlowLogsConfig;
+export const GetOrganizationsLocationsVpcFlowLogsConfigsResponse =
+  VpcFlowLogsConfig;
 
 export type GetOrganizationsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Gets the details of a specific `VpcFlowLogsConfig`. */
-export const getOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<GetOrganizationsLocationsVpcFlowLogsConfigsRequest, GetOrganizationsLocationsVpcFlowLogsConfigsResponse, GetOrganizationsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  GetOrganizationsLocationsVpcFlowLogsConfigsRequest,
+  GetOrganizationsLocationsVpcFlowLogsConfigsResponse,
+  GetOrganizationsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: GetOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2616,14 +3674,21 @@ export interface CreateOrganizationsLocationsVpcFlowLogsConfigsRequest {
   body?: VpcFlowLogsConfig;
 }
 
-export const CreateOrganizationsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  vpcFlowLogsConfigId: Schema.optional(Schema.String).pipe(T.HttpQuery("vpcFlowLogsConfigId")),
-  body: Schema.optional(VpcFlowLogsConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsLocationsVpcFlowLogsConfigsRequest>;
+export const CreateOrganizationsLocationsVpcFlowLogsConfigsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    vpcFlowLogsConfigId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("vpcFlowLogsConfigId"),
+    ),
+    body: Schema.optional(VpcFlowLogsConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsLocationsVpcFlowLogsConfigsRequest>;
 
 export type CreateOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 export const CreateOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
@@ -2631,7 +3696,12 @@ export const CreateOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 export type CreateOrganizationsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Creates a new `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Creating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - creating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
-export const createOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<CreateOrganizationsLocationsVpcFlowLogsConfigsRequest, CreateOrganizationsLocationsVpcFlowLogsConfigsResponse, CreateOrganizationsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  CreateOrganizationsLocationsVpcFlowLogsConfigsRequest,
+  CreateOrganizationsLocationsVpcFlowLogsConfigsResponse,
+  CreateOrganizationsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: CreateOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2646,14 +3716,19 @@ export interface PatchOrganizationsLocationsVpcFlowLogsConfigsRequest {
   body?: VpcFlowLogsConfig;
 }
 
-export const PatchOrganizationsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(VpcFlowLogsConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsLocationsVpcFlowLogsConfigsRequest>;
+export const PatchOrganizationsLocationsVpcFlowLogsConfigsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(VpcFlowLogsConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsLocationsVpcFlowLogsConfigsRequest>;
 
 export type PatchOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 export const PatchOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
@@ -2661,7 +3736,12 @@ export const PatchOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 export type PatchOrganizationsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Updates an existing `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Updating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - updating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
-export const patchOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<PatchOrganizationsLocationsVpcFlowLogsConfigsRequest, PatchOrganizationsLocationsVpcFlowLogsConfigsResponse, PatchOrganizationsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  PatchOrganizationsLocationsVpcFlowLogsConfigsRequest,
+  PatchOrganizationsLocationsVpcFlowLogsConfigsResponse,
+  PatchOrganizationsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: PatchOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2672,12 +3752,16 @@ export interface DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest {
   name: string;
 }
 
-export const DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest>;
+export const DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/organizations/{organizationsId}/locations/{locationsId}/vpcFlowLogsConfigs/{vpcFlowLogsConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest>;
 
 export type DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 export const DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
@@ -2685,9 +3769,13 @@ export const DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 export type DeleteOrganizationsLocationsVpcFlowLogsConfigsError = DefaultErrors;
 
 /** Deletes a specific `VpcFlowLogsConfig`. */
-export const deleteOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest, DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse, DeleteOrganizationsLocationsVpcFlowLogsConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<
+  DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest,
+  DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse,
+  DeleteOrganizationsLocationsVpcFlowLogsConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
-

@@ -18,6 +18,6 @@ class NodeMd5 implements Checksum {
   }
 }
 
-export const getMd5ChecksumAlgorithmFunction = (): new () => Checksum => {
+export const getMd5ChecksumAlgorithmFunction = (): (new () => Checksum) => {
   return NodeMd5;
 };

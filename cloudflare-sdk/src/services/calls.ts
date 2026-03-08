@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Sfu
@@ -27,9 +25,10 @@ export interface GetSfuRequest {
 
 export const GetSfuRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/calls/apps/{appId}" })) as unknown as Schema.Schema<GetSfuRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/calls/apps/{appId}" }),
+) as unknown as Schema.Schema<GetSfuRequest>;
 
 export interface GetSfuResponse {
   /** The date and time the item was created. */
@@ -46,11 +45,10 @@ export const GetSfuResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSfuResponse>;
 
-export type GetSfuError =
-  | DefaultErrors;
+export type GetSfuError = DefaultErrors;
 
 export const getSfu: API.OperationMethod<
   GetSfuRequest,
@@ -72,9 +70,10 @@ export interface CreateSfuRequest {
 
 export const CreateSfuRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/calls/apps" })) as unknown as Schema.Schema<CreateSfuRequest>;
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/calls/apps" }),
+) as unknown as Schema.Schema<CreateSfuRequest>;
 
 export interface CreateSfuResponse {
   /** The date and time the item was created. */
@@ -94,11 +93,10 @@ export const CreateSfuResponse = Schema.Struct({
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   secret: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateSfuResponse>;
 
-export type CreateSfuError =
-  | DefaultErrors;
+export type CreateSfuError = DefaultErrors;
 
 export const createSfu: API.OperationMethod<
   CreateSfuRequest,
@@ -122,9 +120,10 @@ export interface UpdateSfuRequest {
 export const UpdateSfuRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/calls/apps/{appId}" })) as unknown as Schema.Schema<UpdateSfuRequest>;
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({ method: "PUT", path: "/accounts/{account_id}/calls/apps/{appId}" }),
+) as unknown as Schema.Schema<UpdateSfuRequest>;
 
 export interface UpdateSfuResponse {
   /** The date and time the item was created. */
@@ -141,11 +140,10 @@ export const UpdateSfuResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateSfuResponse>;
 
-export type UpdateSfuError =
-  | DefaultErrors;
+export type UpdateSfuError = DefaultErrors;
 
 export const updateSfu: API.OperationMethod<
   UpdateSfuRequest,
@@ -166,9 +164,13 @@ export interface DeleteSfuRequest {
 
 export const DeleteSfuRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/calls/apps/{appId}" })) as unknown as Schema.Schema<DeleteSfuRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/calls/apps/{appId}",
+  }),
+) as unknown as Schema.Schema<DeleteSfuRequest>;
 
 export interface DeleteSfuResponse {
   /** The date and time the item was created. */
@@ -185,11 +187,10 @@ export const DeleteSfuResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteSfuResponse>;
 
-export type DeleteSfuError =
-  | DefaultErrors;
+export type DeleteSfuError = DefaultErrors;
 
 export const deleteSfu: API.OperationMethod<
   DeleteSfuRequest,
@@ -202,7 +203,6 @@ export const deleteSfu: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Sfus
 // =============================================================================
@@ -213,21 +213,28 @@ export interface ListSfusRequest {
 }
 
 export const ListSfusRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/calls/apps" })) as unknown as Schema.Schema<ListSfusRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/calls/apps" }),
+) as unknown as Schema.Schema<ListSfusRequest>;
 
-export type ListSfusResponse = { created?: string; modified?: string; name?: string; uid?: string }[];
+export type ListSfusResponse = {
+  created?: string;
+  modified?: string;
+  name?: string;
+  uid?: string;
+}[];
 
-export const ListSfusResponse = Schema.Array(Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListSfusResponse>;
+export const ListSfusResponse = Schema.Array(
+  Schema.Struct({
+    created: Schema.optional(Schema.String),
+    modified: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListSfusResponse>;
 
-export type ListSfusError =
-  | DefaultErrors;
+export type ListSfusError = DefaultErrors;
 
 export const listSfus: API.OperationMethod<
   ListSfusRequest,
@@ -239,7 +246,6 @@ export const listSfus: API.OperationMethod<
   output: ListSfusResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Turn
@@ -253,9 +259,13 @@ export interface GetTurnRequest {
 
 export const GetTurnRequest = Schema.Struct({
   keyId: Schema.String.pipe(T.HttpPath("keyId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/calls/turn_keys/{keyId}" })) as unknown as Schema.Schema<GetTurnRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/calls/turn_keys/{keyId}",
+  }),
+) as unknown as Schema.Schema<GetTurnRequest>;
 
 export interface GetTurnResponse {
   /** The date and time the item was created. */
@@ -272,11 +282,10 @@ export const GetTurnResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetTurnResponse>;
 
-export type GetTurnError =
-  | DefaultErrors;
+export type GetTurnError = DefaultErrors;
 
 export const getTurn: API.OperationMethod<
   GetTurnRequest,
@@ -295,21 +304,28 @@ export interface ListTurnsRequest {
 }
 
 export const ListTurnsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/calls/turn_keys" })) as unknown as Schema.Schema<ListTurnsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/calls/turn_keys" }),
+) as unknown as Schema.Schema<ListTurnsRequest>;
 
-export type ListTurnsResponse = { created?: string; modified?: string; name?: string; uid?: string }[];
+export type ListTurnsResponse = {
+  created?: string;
+  modified?: string;
+  name?: string;
+  uid?: string;
+}[];
 
-export const ListTurnsResponse = Schema.Array(Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListTurnsResponse>;
+export const ListTurnsResponse = Schema.Array(
+  Schema.Struct({
+    created: Schema.optional(Schema.String),
+    modified: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListTurnsResponse>;
 
-export type ListTurnsError =
-  | DefaultErrors;
+export type ListTurnsError = DefaultErrors;
 
 export const listTurns: API.OperationMethod<
   ListTurnsRequest,
@@ -331,9 +347,10 @@ export interface CreateTurnRequest {
 
 export const CreateTurnRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/calls/turn_keys" })) as unknown as Schema.Schema<CreateTurnRequest>;
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/calls/turn_keys" }),
+) as unknown as Schema.Schema<CreateTurnRequest>;
 
 export interface CreateTurnResponse {
   /** The date and time the item was created. */
@@ -353,11 +370,10 @@ export const CreateTurnResponse = Schema.Struct({
   key: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateTurnResponse>;
 
-export type CreateTurnError =
-  | DefaultErrors;
+export type CreateTurnError = DefaultErrors;
 
 export const createTurn: API.OperationMethod<
   CreateTurnRequest,
@@ -381,9 +397,13 @@ export interface UpdateTurnRequest {
 export const UpdateTurnRequest = Schema.Struct({
   keyId: Schema.String.pipe(T.HttpPath("keyId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/calls/turn_keys/{keyId}" })) as unknown as Schema.Schema<UpdateTurnRequest>;
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/calls/turn_keys/{keyId}",
+  }),
+) as unknown as Schema.Schema<UpdateTurnRequest>;
 
 export interface UpdateTurnResponse {
   /** The date and time the item was created. */
@@ -400,11 +420,10 @@ export const UpdateTurnResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateTurnResponse>;
 
-export type UpdateTurnError =
-  | DefaultErrors;
+export type UpdateTurnError = DefaultErrors;
 
 export const updateTurn: API.OperationMethod<
   UpdateTurnRequest,
@@ -425,9 +444,13 @@ export interface DeleteTurnRequest {
 
 export const DeleteTurnRequest = Schema.Struct({
   keyId: Schema.String.pipe(T.HttpPath("keyId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/calls/turn_keys/{keyId}" })) as unknown as Schema.Schema<DeleteTurnRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/calls/turn_keys/{keyId}",
+  }),
+) as unknown as Schema.Schema<DeleteTurnRequest>;
 
 export interface DeleteTurnResponse {
   /** The date and time the item was created. */
@@ -444,11 +467,10 @@ export const DeleteTurnResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteTurnResponse>;
 
-export type DeleteTurnError =
-  | DefaultErrors;
+export type DeleteTurnError = DefaultErrors;
 
 export const deleteTurn: API.OperationMethod<
   DeleteTurnRequest,

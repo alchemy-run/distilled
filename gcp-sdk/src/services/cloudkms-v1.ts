@@ -29,29 +29,48 @@ export interface AutokeyConfig {
   /** Optional. Name of the key project, e.g. `projects/{PROJECT_ID}` or `projects/{PROJECT_NUMBER}`, where Cloud KMS Autokey will provision a new CryptoKey when a KeyHandle is created. On UpdateAutokeyConfig, the caller will require `cloudkms.cryptoKeys.setIamPolicy` permission on this key project. Once configured, for Cloud KMS Autokey to function properly, this key project must have the Cloud KMS API activated and the Cloud KMS Service Agent for this key project must be granted the `cloudkms.admin` role (or pertinent permissions). A request with an empty key project field will clear the configuration. */
   keyProject?: string;
   /** Output only. The state for the AutokeyConfig. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "KEY_PROJECT_DELETED" | "UNINITIALIZED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "KEY_PROJECT_DELETED"
+    | "UNINITIALIZED"
+    | (string & {});
   /** Optional. A checksum computed by the server based on the value of other fields. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The request will be rejected with an ABORTED error on a mismatched etag. */
   etag?: string;
   /** Optional. KeyProjectResolutionMode for the AutokeyConfig. Valid values are `DEDICATED_KEY_PROJECT`, `RESOURCE_PROJECT`, or `DISABLED`. */
-  keyProjectResolutionMode?: "KEY_PROJECT_RESOLUTION_MODE_UNSPECIFIED" | "DEDICATED_KEY_PROJECT" | "RESOURCE_PROJECT" | "DISABLED" | (string & {});
+  keyProjectResolutionMode?:
+    | "KEY_PROJECT_RESOLUTION_MODE_UNSPECIFIED"
+    | "DEDICATED_KEY_PROJECT"
+    | "RESOURCE_PROJECT"
+    | "DISABLED"
+    | (string & {});
 }
 
-export const AutokeyConfig: Schema.Schema<AutokeyConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  keyProject: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  keyProjectResolutionMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AutokeyConfig" }) as any as Schema.Schema<AutokeyConfig>;
+export const AutokeyConfig: Schema.Schema<AutokeyConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    keyProject: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    keyProjectResolutionMode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AutokeyConfig",
+}) as any as Schema.Schema<AutokeyConfig>;
 
 export interface ShowEffectiveAutokeyConfigResponse {
   /** Name of the key project configured in the resource project's folder ancestry. */
   keyProject?: string;
 }
 
-export const ShowEffectiveAutokeyConfigResponse: Schema.Schema<ShowEffectiveAutokeyConfigResponse> = Schema.suspend(() => Schema.Struct({
-  keyProject: Schema.optional(Schema.String),
-})).annotate({ identifier: "ShowEffectiveAutokeyConfigResponse" }) as any as Schema.Schema<ShowEffectiveAutokeyConfigResponse>;
+export const ShowEffectiveAutokeyConfigResponse: Schema.Schema<ShowEffectiveAutokeyConfigResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      keyProject: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ShowEffectiveAutokeyConfigResponse",
+  }) as any as Schema.Schema<ShowEffectiveAutokeyConfigResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -62,11 +81,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -81,13 +104,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface KeyHandle {
   /** Identifier. Name of the KeyHandle resource, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}/keyHandles/{KEY_HANDLE_ID}`. */
@@ -98,11 +123,13 @@ export interface KeyHandle {
   resourceTypeSelector?: string;
 }
 
-export const KeyHandle: Schema.Schema<KeyHandle> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  kmsKey: Schema.optional(Schema.String),
-  resourceTypeSelector: Schema.optional(Schema.String),
-})).annotate({ identifier: "KeyHandle" }) as any as Schema.Schema<KeyHandle>;
+export const KeyHandle: Schema.Schema<KeyHandle> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    kmsKey: Schema.optional(Schema.String),
+    resourceTypeSelector: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "KeyHandle" }) as any as Schema.Schema<KeyHandle>;
 
 export interface ListKeyHandlesResponse {
   /** Resulting KeyHandles. */
@@ -111,10 +138,15 @@ export interface ListKeyHandlesResponse {
   nextPageToken?: string;
 }
 
-export const ListKeyHandlesResponse: Schema.Schema<ListKeyHandlesResponse> = Schema.suspend(() => Schema.Struct({
-  keyHandles: Schema.optional(Schema.Array(KeyHandle)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListKeyHandlesResponse" }) as any as Schema.Schema<ListKeyHandlesResponse>;
+export const ListKeyHandlesResponse: Schema.Schema<ListKeyHandlesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      keyHandles: Schema.optional(Schema.Array(KeyHandle)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListKeyHandlesResponse",
+  }) as any as Schema.Schema<ListKeyHandlesResponse>;
 
 export interface Certificate {
   /** Required. The raw certificate bytes in DER format. */
@@ -137,17 +169,19 @@ export interface Certificate {
   sha256Fingerprint?: string;
 }
 
-export const Certificate: Schema.Schema<Certificate> = Schema.suspend(() => Schema.Struct({
-  rawDer: Schema.optional(Schema.String),
-  parsed: Schema.optional(Schema.Boolean),
-  issuer: Schema.optional(Schema.String),
-  subject: Schema.optional(Schema.String),
-  subjectAlternativeDnsNames: Schema.optional(Schema.Array(Schema.String)),
-  notBeforeTime: Schema.optional(Schema.String),
-  notAfterTime: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  sha256Fingerprint: Schema.optional(Schema.String),
-})).annotate({ identifier: "Certificate" }) as any as Schema.Schema<Certificate>;
+export const Certificate: Schema.Schema<Certificate> = Schema.suspend(() =>
+  Schema.Struct({
+    rawDer: Schema.optional(Schema.String),
+    parsed: Schema.optional(Schema.Boolean),
+    issuer: Schema.optional(Schema.String),
+    subject: Schema.optional(Schema.String),
+    subjectAlternativeDnsNames: Schema.optional(Schema.Array(Schema.String)),
+    notBeforeTime: Schema.optional(Schema.String),
+    notAfterTime: Schema.optional(Schema.String),
+    serialNumber: Schema.optional(Schema.String),
+    sha256Fingerprint: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Certificate" }) as any as Schema.Schema<Certificate>;
 
 export interface ServiceResolver {
   /** Required. The resource name of the Service Directory service pointing to an EKM replica, in the format `projects/* /locations/* /namespaces/* /services/*`. */
@@ -160,12 +194,17 @@ export interface ServiceResolver {
   serverCertificates?: Array<Certificate>;
 }
 
-export const ServiceResolver: Schema.Schema<ServiceResolver> = Schema.suspend(() => Schema.Struct({
-  serviceDirectoryService: Schema.optional(Schema.String),
-  endpointFilter: Schema.optional(Schema.String),
-  hostname: Schema.optional(Schema.String),
-  serverCertificates: Schema.optional(Schema.Array(Certificate)),
-})).annotate({ identifier: "ServiceResolver" }) as any as Schema.Schema<ServiceResolver>;
+export const ServiceResolver: Schema.Schema<ServiceResolver> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      serviceDirectoryService: Schema.optional(Schema.String),
+      endpointFilter: Schema.optional(Schema.String),
+      hostname: Schema.optional(Schema.String),
+      serverCertificates: Schema.optional(Schema.Array(Certificate)),
+    }),
+).annotate({
+  identifier: "ServiceResolver",
+}) as any as Schema.Schema<ServiceResolver>;
 
 export interface EkmConnection {
   /** Output only. The resource name for the EkmConnection in the format `projects/* /locations/* /ekmConnections/*`. */
@@ -177,19 +216,27 @@ export interface EkmConnection {
   /** Optional. Etag of the currently stored EkmConnection. */
   etag?: string;
   /** Optional. Describes who can perform control plane operations on the EKM. If unset, this defaults to MANUAL. */
-  keyManagementMode?: "KEY_MANAGEMENT_MODE_UNSPECIFIED" | "MANUAL" | "CLOUD_KMS" | (string & {});
+  keyManagementMode?:
+    | "KEY_MANAGEMENT_MODE_UNSPECIFIED"
+    | "MANUAL"
+    | "CLOUD_KMS"
+    | (string & {});
   /** Optional. Identifies the EKM Crypto Space that this EkmConnection maps to. Note: This field is required if KeyManagementMode is CLOUD_KMS. */
   cryptoSpacePath?: string;
 }
 
-export const EkmConnection: Schema.Schema<EkmConnection> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  serviceResolvers: Schema.optional(Schema.Array(ServiceResolver)),
-  etag: Schema.optional(Schema.String),
-  keyManagementMode: Schema.optional(Schema.String),
-  cryptoSpacePath: Schema.optional(Schema.String),
-})).annotate({ identifier: "EkmConnection" }) as any as Schema.Schema<EkmConnection>;
+export const EkmConnection: Schema.Schema<EkmConnection> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    serviceResolvers: Schema.optional(Schema.Array(ServiceResolver)),
+    etag: Schema.optional(Schema.String),
+    keyManagementMode: Schema.optional(Schema.String),
+    cryptoSpacePath: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EkmConnection",
+}) as any as Schema.Schema<EkmConnection>;
 
 export interface ListEkmConnectionsResponse {
   /** The list of EkmConnections. */
@@ -200,11 +247,16 @@ export interface ListEkmConnectionsResponse {
   totalSize?: number;
 }
 
-export const ListEkmConnectionsResponse: Schema.Schema<ListEkmConnectionsResponse> = Schema.suspend(() => Schema.Struct({
-  ekmConnections: Schema.optional(Schema.Array(EkmConnection)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListEkmConnectionsResponse" }) as any as Schema.Schema<ListEkmConnectionsResponse>;
+export const ListEkmConnectionsResponse: Schema.Schema<ListEkmConnectionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ekmConnections: Schema.optional(Schema.Array(EkmConnection)),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListEkmConnectionsResponse",
+  }) as any as Schema.Schema<ListEkmConnectionsResponse>;
 
 export interface EkmConfig {
   /** Output only. The resource name for the EkmConfig in the format `projects/* /locations/* /ekmConfig`. */
@@ -213,16 +265,19 @@ export interface EkmConfig {
   defaultEkmConnection?: string;
 }
 
-export const EkmConfig: Schema.Schema<EkmConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  defaultEkmConnection: Schema.optional(Schema.String),
-})).annotate({ identifier: "EkmConfig" }) as any as Schema.Schema<EkmConfig>;
+export const EkmConfig: Schema.Schema<EkmConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    defaultEkmConnection: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EkmConfig" }) as any as Schema.Schema<EkmConfig>;
 
-export interface VerifyConnectivityResponse {
-}
+export interface VerifyConnectivityResponse {}
 
-export const VerifyConnectivityResponse: Schema.Schema<VerifyConnectivityResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "VerifyConnectivityResponse" }) as any as Schema.Schema<VerifyConnectivityResponse>;
+export const VerifyConnectivityResponse: Schema.Schema<VerifyConnectivityResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "VerifyConnectivityResponse",
+  }) as any as Schema.Schema<VerifyConnectivityResponse>;
 
 export interface QuorumAuth {
   /** Required. The total number of approvers. This is the N value used for M of N quorum auth. Must be greater than or equal to 3 and less than or equal to 16. */
@@ -233,11 +288,13 @@ export interface QuorumAuth {
   twoFactorPublicKeyPems?: Array<string>;
 }
 
-export const QuorumAuth: Schema.Schema<QuorumAuth> = Schema.suspend(() => Schema.Struct({
-  totalApproverCount: Schema.optional(Schema.Number),
-  requiredApproverCount: Schema.optional(Schema.Number),
-  twoFactorPublicKeyPems: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "QuorumAuth" }) as any as Schema.Schema<QuorumAuth>;
+export const QuorumAuth: Schema.Schema<QuorumAuth> = Schema.suspend(() =>
+  Schema.Struct({
+    totalApproverCount: Schema.optional(Schema.Number),
+    requiredApproverCount: Schema.optional(Schema.Number),
+    twoFactorPublicKeyPems: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "QuorumAuth" }) as any as Schema.Schema<QuorumAuth>;
 
 export interface SingleTenantHsmInstance {
   /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/* /locations/* /singleTenantHsmInstances/*`. */
@@ -245,7 +302,17 @@ export interface SingleTenantHsmInstance {
   /** Output only. The time at which the SingleTenantHsmInstance was created. */
   createTime?: string;
   /** Output only. The state of the SingleTenantHsmInstance. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "PENDING_TWO_FACTOR_AUTH_REGISTRATION" | "ACTIVE" | "DISABLING" | "DISABLED" | "DELETING" | "DELETED" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "PENDING_TWO_FACTOR_AUTH_REGISTRATION"
+    | "ACTIVE"
+    | "DISABLING"
+    | "DISABLED"
+    | "DELETING"
+    | "DELETED"
+    | "FAILED"
+    | (string & {});
   /** Required. The quorum auth configuration for the SingleTenantHsmInstance. */
   quorumAuth?: QuorumAuth;
   /** Output only. The time at which the SingleTenantHsmInstance was deleted. */
@@ -256,15 +323,20 @@ export interface SingleTenantHsmInstance {
   disableTime?: string;
 }
 
-export const SingleTenantHsmInstance: Schema.Schema<SingleTenantHsmInstance> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  quorumAuth: Schema.optional(QuorumAuth),
-  deleteTime: Schema.optional(Schema.String),
-  unrefreshedDurationUntilDisable: Schema.optional(Schema.String),
-  disableTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "SingleTenantHsmInstance" }) as any as Schema.Schema<SingleTenantHsmInstance>;
+export const SingleTenantHsmInstance: Schema.Schema<SingleTenantHsmInstance> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      quorumAuth: Schema.optional(QuorumAuth),
+      deleteTime: Schema.optional(Schema.String),
+      unrefreshedDurationUntilDisable: Schema.optional(Schema.String),
+      disableTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SingleTenantHsmInstance",
+  }) as any as Schema.Schema<SingleTenantHsmInstance>;
 
 export interface ListSingleTenantHsmInstancesResponse {
   /** The list of SingleTenantHsmInstances. */
@@ -275,11 +347,18 @@ export interface ListSingleTenantHsmInstancesResponse {
   totalSize?: number;
 }
 
-export const ListSingleTenantHsmInstancesResponse: Schema.Schema<ListSingleTenantHsmInstancesResponse> = Schema.suspend(() => Schema.Struct({
-  singleTenantHsmInstances: Schema.optional(Schema.Array(SingleTenantHsmInstance)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListSingleTenantHsmInstancesResponse" }) as any as Schema.Schema<ListSingleTenantHsmInstancesResponse>;
+export const ListSingleTenantHsmInstancesResponse: Schema.Schema<ListSingleTenantHsmInstancesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      singleTenantHsmInstances: Schema.optional(
+        Schema.Array(SingleTenantHsmInstance),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListSingleTenantHsmInstancesResponse",
+  }) as any as Schema.Schema<ListSingleTenantHsmInstancesResponse>;
 
 export interface Challenge {
   /** Output only. The challenge to be signed by the 2FA key indicated by the public key. */
@@ -288,10 +367,12 @@ export interface Challenge {
   publicKeyPem?: string;
 }
 
-export const Challenge: Schema.Schema<Challenge> = Schema.suspend(() => Schema.Struct({
-  challenge: Schema.optional(Schema.String),
-  publicKeyPem: Schema.optional(Schema.String),
-})).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
+export const Challenge: Schema.Schema<Challenge> = Schema.suspend(() =>
+  Schema.Struct({
+    challenge: Schema.optional(Schema.String),
+    publicKeyPem: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
 
 export interface QuorumParameters {
   /** Output only. The required numbers of approvers. This is the M value used for M of N quorum auth. It is less than the number of public keys. */
@@ -302,11 +383,18 @@ export interface QuorumParameters {
   approvedTwoFactorPublicKeyPems?: Array<string>;
 }
 
-export const QuorumParameters: Schema.Schema<QuorumParameters> = Schema.suspend(() => Schema.Struct({
-  requiredApproverCount: Schema.optional(Schema.Number),
-  challenges: Schema.optional(Schema.Array(Challenge)),
-  approvedTwoFactorPublicKeyPems: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "QuorumParameters" }) as any as Schema.Schema<QuorumParameters>;
+export const QuorumParameters: Schema.Schema<QuorumParameters> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requiredApproverCount: Schema.optional(Schema.Number),
+      challenges: Schema.optional(Schema.Array(Challenge)),
+      approvedTwoFactorPublicKeyPems: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+).annotate({
+  identifier: "QuorumParameters",
+}) as any as Schema.Schema<QuorumParameters>;
 
 export interface RequiredActionQuorumParameters {
   /** Output only. A list of specific challenges that must be signed. For some operations, this will contain a single challenge. */
@@ -319,12 +407,19 @@ export interface RequiredActionQuorumParameters {
   approvedTwoFactorPublicKeyPems?: Array<string>;
 }
 
-export const RequiredActionQuorumParameters: Schema.Schema<RequiredActionQuorumParameters> = Schema.suspend(() => Schema.Struct({
-  requiredChallenges: Schema.optional(Schema.Array(Challenge)),
-  requiredApproverCount: Schema.optional(Schema.Number),
-  quorumChallenges: Schema.optional(Schema.Array(Challenge)),
-  approvedTwoFactorPublicKeyPems: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RequiredActionQuorumParameters" }) as any as Schema.Schema<RequiredActionQuorumParameters>;
+export const RequiredActionQuorumParameters: Schema.Schema<RequiredActionQuorumParameters> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requiredChallenges: Schema.optional(Schema.Array(Challenge)),
+      requiredApproverCount: Schema.optional(Schema.Number),
+      quorumChallenges: Schema.optional(Schema.Array(Challenge)),
+      approvedTwoFactorPublicKeyPems: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "RequiredActionQuorumParameters",
+  }) as any as Schema.Schema<RequiredActionQuorumParameters>;
 
 export interface RegisterTwoFactorAuthKeys {
   /** Required. The required numbers of approvers to set for the SingleTenantHsmInstance. This is the M value used for M of N quorum auth. Must be greater than or equal to 2 and less than or equal to total_approver_count - 1. */
@@ -333,52 +428,71 @@ export interface RegisterTwoFactorAuthKeys {
   twoFactorPublicKeyPems?: Array<string>;
 }
 
-export const RegisterTwoFactorAuthKeys: Schema.Schema<RegisterTwoFactorAuthKeys> = Schema.suspend(() => Schema.Struct({
-  requiredApproverCount: Schema.optional(Schema.Number),
-  twoFactorPublicKeyPems: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RegisterTwoFactorAuthKeys" }) as any as Schema.Schema<RegisterTwoFactorAuthKeys>;
+export const RegisterTwoFactorAuthKeys: Schema.Schema<RegisterTwoFactorAuthKeys> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requiredApproverCount: Schema.optional(Schema.Number),
+      twoFactorPublicKeyPems: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "RegisterTwoFactorAuthKeys",
+  }) as any as Schema.Schema<RegisterTwoFactorAuthKeys>;
 
-export interface DisableSingleTenantHsmInstance {
-}
+export interface DisableSingleTenantHsmInstance {}
 
-export const DisableSingleTenantHsmInstance: Schema.Schema<DisableSingleTenantHsmInstance> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DisableSingleTenantHsmInstance" }) as any as Schema.Schema<DisableSingleTenantHsmInstance>;
+export const DisableSingleTenantHsmInstance: Schema.Schema<DisableSingleTenantHsmInstance> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DisableSingleTenantHsmInstance",
+  }) as any as Schema.Schema<DisableSingleTenantHsmInstance>;
 
-export interface EnableSingleTenantHsmInstance {
-}
+export interface EnableSingleTenantHsmInstance {}
 
-export const EnableSingleTenantHsmInstance: Schema.Schema<EnableSingleTenantHsmInstance> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "EnableSingleTenantHsmInstance" }) as any as Schema.Schema<EnableSingleTenantHsmInstance>;
+export const EnableSingleTenantHsmInstance: Schema.Schema<EnableSingleTenantHsmInstance> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "EnableSingleTenantHsmInstance",
+  }) as any as Schema.Schema<EnableSingleTenantHsmInstance>;
 
-export interface DeleteSingleTenantHsmInstance {
-}
+export interface DeleteSingleTenantHsmInstance {}
 
-export const DeleteSingleTenantHsmInstance: Schema.Schema<DeleteSingleTenantHsmInstance> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteSingleTenantHsmInstance" }) as any as Schema.Schema<DeleteSingleTenantHsmInstance>;
+export const DeleteSingleTenantHsmInstance: Schema.Schema<DeleteSingleTenantHsmInstance> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteSingleTenantHsmInstance",
+  }) as any as Schema.Schema<DeleteSingleTenantHsmInstance>;
 
 export interface AddQuorumMember {
   /** Required. The public key associated with the 2FA key for the new quorum member to add. Public keys must be associated with RSA 2048 keys. */
   twoFactorPublicKeyPem?: string;
 }
 
-export const AddQuorumMember: Schema.Schema<AddQuorumMember> = Schema.suspend(() => Schema.Struct({
-  twoFactorPublicKeyPem: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddQuorumMember" }) as any as Schema.Schema<AddQuorumMember>;
+export const AddQuorumMember: Schema.Schema<AddQuorumMember> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      twoFactorPublicKeyPem: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AddQuorumMember",
+}) as any as Schema.Schema<AddQuorumMember>;
 
 export interface RemoveQuorumMember {
   /** Required. The public key associated with the 2FA key for the quorum member to remove. Public keys must be associated with RSA 2048 keys. */
   twoFactorPublicKeyPem?: string;
 }
 
-export const RemoveQuorumMember: Schema.Schema<RemoveQuorumMember> = Schema.suspend(() => Schema.Struct({
-  twoFactorPublicKeyPem: Schema.optional(Schema.String),
-})).annotate({ identifier: "RemoveQuorumMember" }) as any as Schema.Schema<RemoveQuorumMember>;
+export const RemoveQuorumMember: Schema.Schema<RemoveQuorumMember> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      twoFactorPublicKeyPem: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemoveQuorumMember",
+  }) as any as Schema.Schema<RemoveQuorumMember>;
 
-export interface RefreshSingleTenantHsmInstance {
-}
+export interface RefreshSingleTenantHsmInstance {}
 
-export const RefreshSingleTenantHsmInstance: Schema.Schema<RefreshSingleTenantHsmInstance> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RefreshSingleTenantHsmInstance" }) as any as Schema.Schema<RefreshSingleTenantHsmInstance>;
+export const RefreshSingleTenantHsmInstance: Schema.Schema<RefreshSingleTenantHsmInstance> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RefreshSingleTenantHsmInstance",
+  }) as any as Schema.Schema<RefreshSingleTenantHsmInstance>;
 
 export interface SingleTenantHsmInstanceProposal {
   /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/* /locations/* /singleTenantHsmInstances/* /proposals/*`. */
@@ -386,7 +500,16 @@ export interface SingleTenantHsmInstanceProposal {
   /** Output only. The time at which the SingleTenantHsmInstanceProposal was created. */
   createTime?: string;
   /** Output only. The state of the SingleTenantHsmInstanceProposal. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "PENDING" | "APPROVED" | "RUNNING" | "SUCCEEDED" | "FAILED" | "DELETED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "PENDING"
+    | "APPROVED"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "DELETED"
+    | (string & {});
   /** Output only. The root cause of the most recent failure. Only present if state is FAILED. */
   failureReason?: string;
   /** Output only. The quorum approval parameters for the SingleTenantHsmInstanceProposal. */
@@ -417,25 +540,40 @@ export interface SingleTenantHsmInstanceProposal {
   refreshSingleTenantHsmInstance?: RefreshSingleTenantHsmInstance;
 }
 
-export const SingleTenantHsmInstanceProposal: Schema.Schema<SingleTenantHsmInstanceProposal> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  failureReason: Schema.optional(Schema.String),
-  quorumParameters: Schema.optional(QuorumParameters),
-  requiredActionQuorumParameters: Schema.optional(RequiredActionQuorumParameters),
-  expireTime: Schema.optional(Schema.String),
-  ttl: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  purgeTime: Schema.optional(Schema.String),
-  registerTwoFactorAuthKeys: Schema.optional(RegisterTwoFactorAuthKeys),
-  disableSingleTenantHsmInstance: Schema.optional(DisableSingleTenantHsmInstance),
-  enableSingleTenantHsmInstance: Schema.optional(EnableSingleTenantHsmInstance),
-  deleteSingleTenantHsmInstance: Schema.optional(DeleteSingleTenantHsmInstance),
-  addQuorumMember: Schema.optional(AddQuorumMember),
-  removeQuorumMember: Schema.optional(RemoveQuorumMember),
-  refreshSingleTenantHsmInstance: Schema.optional(RefreshSingleTenantHsmInstance),
-})).annotate({ identifier: "SingleTenantHsmInstanceProposal" }) as any as Schema.Schema<SingleTenantHsmInstanceProposal>;
+export const SingleTenantHsmInstanceProposal: Schema.Schema<SingleTenantHsmInstanceProposal> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      failureReason: Schema.optional(Schema.String),
+      quorumParameters: Schema.optional(QuorumParameters),
+      requiredActionQuorumParameters: Schema.optional(
+        RequiredActionQuorumParameters,
+      ),
+      expireTime: Schema.optional(Schema.String),
+      ttl: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      purgeTime: Schema.optional(Schema.String),
+      registerTwoFactorAuthKeys: Schema.optional(RegisterTwoFactorAuthKeys),
+      disableSingleTenantHsmInstance: Schema.optional(
+        DisableSingleTenantHsmInstance,
+      ),
+      enableSingleTenantHsmInstance: Schema.optional(
+        EnableSingleTenantHsmInstance,
+      ),
+      deleteSingleTenantHsmInstance: Schema.optional(
+        DeleteSingleTenantHsmInstance,
+      ),
+      addQuorumMember: Schema.optional(AddQuorumMember),
+      removeQuorumMember: Schema.optional(RemoveQuorumMember),
+      refreshSingleTenantHsmInstance: Schema.optional(
+        RefreshSingleTenantHsmInstance,
+      ),
+    }),
+  ).annotate({
+    identifier: "SingleTenantHsmInstanceProposal",
+  }) as any as Schema.Schema<SingleTenantHsmInstanceProposal>;
 
 export interface ChallengeReply {
   /** Required. The signed challenge associated with the 2FA key. The signature must be RSASSA-PKCS1 v1.5 with a SHA256 digest. */
@@ -444,19 +582,26 @@ export interface ChallengeReply {
   publicKeyPem?: string;
 }
 
-export const ChallengeReply: Schema.Schema<ChallengeReply> = Schema.suspend(() => Schema.Struct({
-  signedChallenge: Schema.optional(Schema.String),
-  publicKeyPem: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChallengeReply" }) as any as Schema.Schema<ChallengeReply>;
+export const ChallengeReply: Schema.Schema<ChallengeReply> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      signedChallenge: Schema.optional(Schema.String),
+      publicKeyPem: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ChallengeReply",
+}) as any as Schema.Schema<ChallengeReply>;
 
 export interface QuorumReply {
   /** Required. The challenge replies to approve the proposal. Challenge replies can be sent across multiple requests. The proposal will be approved when required_approver_count challenge replies are provided. */
   challengeReplies?: Array<ChallengeReply>;
 }
 
-export const QuorumReply: Schema.Schema<QuorumReply> = Schema.suspend(() => Schema.Struct({
-  challengeReplies: Schema.optional(Schema.Array(ChallengeReply)),
-})).annotate({ identifier: "QuorumReply" }) as any as Schema.Schema<QuorumReply>;
+export const QuorumReply: Schema.Schema<QuorumReply> = Schema.suspend(() =>
+  Schema.Struct({
+    challengeReplies: Schema.optional(Schema.Array(ChallengeReply)),
+  }),
+).annotate({ identifier: "QuorumReply" }) as any as Schema.Schema<QuorumReply>;
 
 export interface RequiredActionQuorumReply {
   /** Required. All required challenges must be signed for the proposal to be approved. These can be sent across multiple requests. */
@@ -465,10 +610,15 @@ export interface RequiredActionQuorumReply {
   quorumChallengeReplies?: Array<ChallengeReply>;
 }
 
-export const RequiredActionQuorumReply: Schema.Schema<RequiredActionQuorumReply> = Schema.suspend(() => Schema.Struct({
-  requiredChallengeReplies: Schema.optional(Schema.Array(ChallengeReply)),
-  quorumChallengeReplies: Schema.optional(Schema.Array(ChallengeReply)),
-})).annotate({ identifier: "RequiredActionQuorumReply" }) as any as Schema.Schema<RequiredActionQuorumReply>;
+export const RequiredActionQuorumReply: Schema.Schema<RequiredActionQuorumReply> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requiredChallengeReplies: Schema.optional(Schema.Array(ChallengeReply)),
+      quorumChallengeReplies: Schema.optional(Schema.Array(ChallengeReply)),
+    }),
+  ).annotate({
+    identifier: "RequiredActionQuorumReply",
+  }) as any as Schema.Schema<RequiredActionQuorumReply>;
 
 export interface ApproveSingleTenantHsmInstanceProposalRequest {
   /** Required. The reply to QuorumParameters for approving the proposal. */
@@ -477,22 +627,29 @@ export interface ApproveSingleTenantHsmInstanceProposalRequest {
   requiredActionQuorumReply?: RequiredActionQuorumReply;
 }
 
-export const ApproveSingleTenantHsmInstanceProposalRequest: Schema.Schema<ApproveSingleTenantHsmInstanceProposalRequest> = Schema.suspend(() => Schema.Struct({
-  quorumReply: Schema.optional(QuorumReply),
-  requiredActionQuorumReply: Schema.optional(RequiredActionQuorumReply),
-})).annotate({ identifier: "ApproveSingleTenantHsmInstanceProposalRequest" }) as any as Schema.Schema<ApproveSingleTenantHsmInstanceProposalRequest>;
+export const ApproveSingleTenantHsmInstanceProposalRequest: Schema.Schema<ApproveSingleTenantHsmInstanceProposalRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      quorumReply: Schema.optional(QuorumReply),
+      requiredActionQuorumReply: Schema.optional(RequiredActionQuorumReply),
+    }),
+  ).annotate({
+    identifier: "ApproveSingleTenantHsmInstanceProposalRequest",
+  }) as any as Schema.Schema<ApproveSingleTenantHsmInstanceProposalRequest>;
 
-export interface ApproveSingleTenantHsmInstanceProposalResponse {
-}
+export interface ApproveSingleTenantHsmInstanceProposalResponse {}
 
-export const ApproveSingleTenantHsmInstanceProposalResponse: Schema.Schema<ApproveSingleTenantHsmInstanceProposalResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ApproveSingleTenantHsmInstanceProposalResponse" }) as any as Schema.Schema<ApproveSingleTenantHsmInstanceProposalResponse>;
+export const ApproveSingleTenantHsmInstanceProposalResponse: Schema.Schema<ApproveSingleTenantHsmInstanceProposalResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ApproveSingleTenantHsmInstanceProposalResponse",
+  }) as any as Schema.Schema<ApproveSingleTenantHsmInstanceProposalResponse>;
 
-export interface ExecuteSingleTenantHsmInstanceProposalRequest {
-}
+export interface ExecuteSingleTenantHsmInstanceProposalRequest {}
 
-export const ExecuteSingleTenantHsmInstanceProposalRequest: Schema.Schema<ExecuteSingleTenantHsmInstanceProposalRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ExecuteSingleTenantHsmInstanceProposalRequest" }) as any as Schema.Schema<ExecuteSingleTenantHsmInstanceProposalRequest>;
+export const ExecuteSingleTenantHsmInstanceProposalRequest: Schema.Schema<ExecuteSingleTenantHsmInstanceProposalRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ExecuteSingleTenantHsmInstanceProposalRequest",
+  }) as any as Schema.Schema<ExecuteSingleTenantHsmInstanceProposalRequest>;
 
 export interface ListSingleTenantHsmInstanceProposalsResponse {
   /** The list of SingleTenantHsmInstanceProposals. */
@@ -503,26 +660,52 @@ export interface ListSingleTenantHsmInstanceProposalsResponse {
   totalSize?: number;
 }
 
-export const ListSingleTenantHsmInstanceProposalsResponse: Schema.Schema<ListSingleTenantHsmInstanceProposalsResponse> = Schema.suspend(() => Schema.Struct({
-  singleTenantHsmInstanceProposals: Schema.optional(Schema.Array(SingleTenantHsmInstanceProposal)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListSingleTenantHsmInstanceProposalsResponse" }) as any as Schema.Schema<ListSingleTenantHsmInstanceProposalsResponse>;
+export const ListSingleTenantHsmInstanceProposalsResponse: Schema.Schema<ListSingleTenantHsmInstanceProposalsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      singleTenantHsmInstanceProposals: Schema.optional(
+        Schema.Array(SingleTenantHsmInstanceProposal),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListSingleTenantHsmInstanceProposalsResponse",
+  }) as any as Schema.Schema<ListSingleTenantHsmInstanceProposalsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface KeyAccessJustificationsPolicy {
   /** The list of allowed reasons for access to a CryptoKey. Zero allowed access reasons means all encrypt, decrypt, and sign operations for the CryptoKey associated with this policy will fail. */
-  allowedAccessReasons?: Array<"REASON_UNSPECIFIED" | "CUSTOMER_INITIATED_SUPPORT" | "GOOGLE_INITIATED_SERVICE" | "THIRD_PARTY_DATA_REQUEST" | "GOOGLE_INITIATED_REVIEW" | "CUSTOMER_INITIATED_ACCESS" | "GOOGLE_INITIATED_SYSTEM_OPERATION" | "REASON_NOT_EXPECTED" | "MODIFIED_CUSTOMER_INITIATED_ACCESS" | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION" | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT" | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING" | (string & {})>;
+  allowedAccessReasons?: Array<
+    | "REASON_UNSPECIFIED"
+    | "CUSTOMER_INITIATED_SUPPORT"
+    | "GOOGLE_INITIATED_SERVICE"
+    | "THIRD_PARTY_DATA_REQUEST"
+    | "GOOGLE_INITIATED_REVIEW"
+    | "CUSTOMER_INITIATED_ACCESS"
+    | "GOOGLE_INITIATED_SYSTEM_OPERATION"
+    | "REASON_NOT_EXPECTED"
+    | "MODIFIED_CUSTOMER_INITIATED_ACCESS"
+    | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION"
+    | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+    | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING"
+    | (string & {})
+  >;
 }
 
-export const KeyAccessJustificationsPolicy: Schema.Schema<KeyAccessJustificationsPolicy> = Schema.suspend(() => Schema.Struct({
-  allowedAccessReasons: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "KeyAccessJustificationsPolicy" }) as any as Schema.Schema<KeyAccessJustificationsPolicy>;
+export const KeyAccessJustificationsPolicy: Schema.Schema<KeyAccessJustificationsPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowedAccessReasons: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "KeyAccessJustificationsPolicy",
+  }) as any as Schema.Schema<KeyAccessJustificationsPolicy>;
 
 export interface KeyAccessJustificationsPolicyConfig {
   /** Identifier. The resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/* /kajPolicyConfig". */
@@ -531,19 +714,31 @@ export interface KeyAccessJustificationsPolicyConfig {
   defaultKeyAccessJustificationPolicy?: KeyAccessJustificationsPolicy;
 }
 
-export const KeyAccessJustificationsPolicyConfig: Schema.Schema<KeyAccessJustificationsPolicyConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  defaultKeyAccessJustificationPolicy: Schema.optional(KeyAccessJustificationsPolicy),
-})).annotate({ identifier: "KeyAccessJustificationsPolicyConfig" }) as any as Schema.Schema<KeyAccessJustificationsPolicyConfig>;
+export const KeyAccessJustificationsPolicyConfig: Schema.Schema<KeyAccessJustificationsPolicyConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      defaultKeyAccessJustificationPolicy: Schema.optional(
+        KeyAccessJustificationsPolicy,
+      ),
+    }),
+  ).annotate({
+    identifier: "KeyAccessJustificationsPolicyConfig",
+  }) as any as Schema.Schema<KeyAccessJustificationsPolicyConfig>;
 
 export interface ShowEffectiveKeyAccessJustificationsPolicyConfigResponse {
   /** The effective KeyAccessJustificationsPolicyConfig. */
   effectiveKajPolicy?: KeyAccessJustificationsPolicyConfig;
 }
 
-export const ShowEffectiveKeyAccessJustificationsPolicyConfigResponse: Schema.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigResponse> = Schema.suspend(() => Schema.Struct({
-  effectiveKajPolicy: Schema.optional(KeyAccessJustificationsPolicyConfig),
-})).annotate({ identifier: "ShowEffectiveKeyAccessJustificationsPolicyConfigResponse" }) as any as Schema.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigResponse>;
+export const ShowEffectiveKeyAccessJustificationsPolicyConfigResponse: Schema.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      effectiveKajPolicy: Schema.optional(KeyAccessJustificationsPolicyConfig),
+    }),
+  ).annotate({
+    identifier: "ShowEffectiveKeyAccessJustificationsPolicyConfigResponse",
+  }) as any as Schema.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigResponse>;
 
 export interface KeyAccessJustificationsEnrollmentConfig {
   /** Whether the project has KAJ logging enabled. */
@@ -552,10 +747,15 @@ export interface KeyAccessJustificationsEnrollmentConfig {
   policyEnforcement?: boolean;
 }
 
-export const KeyAccessJustificationsEnrollmentConfig: Schema.Schema<KeyAccessJustificationsEnrollmentConfig> = Schema.suspend(() => Schema.Struct({
-  auditLogging: Schema.optional(Schema.Boolean),
-  policyEnforcement: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "KeyAccessJustificationsEnrollmentConfig" }) as any as Schema.Schema<KeyAccessJustificationsEnrollmentConfig>;
+export const KeyAccessJustificationsEnrollmentConfig: Schema.Schema<KeyAccessJustificationsEnrollmentConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      auditLogging: Schema.optional(Schema.Boolean),
+      policyEnforcement: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "KeyAccessJustificationsEnrollmentConfig",
+  }) as any as Schema.Schema<KeyAccessJustificationsEnrollmentConfig>;
 
 export interface ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse {
   /** The effective KeyAccessJustificationsEnrollmentConfig for hardware keys. */
@@ -566,11 +766,16 @@ export interface ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse {
   externalConfig?: KeyAccessJustificationsEnrollmentConfig;
 }
 
-export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse: Schema.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse> = Schema.suspend(() => Schema.Struct({
-  hardwareConfig: Schema.optional(KeyAccessJustificationsEnrollmentConfig),
-  softwareConfig: Schema.optional(KeyAccessJustificationsEnrollmentConfig),
-  externalConfig: Schema.optional(KeyAccessJustificationsEnrollmentConfig),
-})).annotate({ identifier: "ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse" }) as any as Schema.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse>;
+export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse: Schema.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hardwareConfig: Schema.optional(KeyAccessJustificationsEnrollmentConfig),
+      softwareConfig: Schema.optional(KeyAccessJustificationsEnrollmentConfig),
+      externalConfig: Schema.optional(KeyAccessJustificationsEnrollmentConfig),
+    }),
+  ).annotate({
+    identifier: "ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse",
+  }) as any as Schema.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse>;
 
 export interface KeyRing {
   /** Output only. The resource name for the KeyRing in the format `projects/* /locations/* /keyRings/*`. */
@@ -579,10 +784,12 @@ export interface KeyRing {
   createTime?: string;
 }
 
-export const KeyRing: Schema.Schema<KeyRing> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "KeyRing" }) as any as Schema.Schema<KeyRing>;
+export const KeyRing: Schema.Schema<KeyRing> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "KeyRing" }) as any as Schema.Schema<KeyRing>;
 
 export interface ListKeyRingsResponse {
   /** The list of KeyRings. */
@@ -593,11 +800,16 @@ export interface ListKeyRingsResponse {
   totalSize?: number;
 }
 
-export const ListKeyRingsResponse: Schema.Schema<ListKeyRingsResponse> = Schema.suspend(() => Schema.Struct({
-  keyRings: Schema.optional(Schema.Array(KeyRing)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListKeyRingsResponse" }) as any as Schema.Schema<ListKeyRingsResponse>;
+export const ListKeyRingsResponse: Schema.Schema<ListKeyRingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      keyRings: Schema.optional(Schema.Array(KeyRing)),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListKeyRingsResponse",
+  }) as any as Schema.Schema<ListKeyRingsResponse>;
 
 export interface CertificateChains {
   /** Cavium certificate chain corresponding to the attestation. */
@@ -608,26 +820,40 @@ export interface CertificateChains {
   googlePartitionCerts?: Array<string>;
 }
 
-export const CertificateChains: Schema.Schema<CertificateChains> = Schema.suspend(() => Schema.Struct({
-  caviumCerts: Schema.optional(Schema.Array(Schema.String)),
-  googleCardCerts: Schema.optional(Schema.Array(Schema.String)),
-  googlePartitionCerts: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CertificateChains" }) as any as Schema.Schema<CertificateChains>;
+export const CertificateChains: Schema.Schema<CertificateChains> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      caviumCerts: Schema.optional(Schema.Array(Schema.String)),
+      googleCardCerts: Schema.optional(Schema.Array(Schema.String)),
+      googlePartitionCerts: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CertificateChains",
+  }) as any as Schema.Schema<CertificateChains>;
 
 export interface KeyOperationAttestation {
   /** Output only. The format of the attestation data. */
-  format?: "ATTESTATION_FORMAT_UNSPECIFIED" | "CAVIUM_V1_COMPRESSED" | "CAVIUM_V2_COMPRESSED" | (string & {});
+  format?:
+    | "ATTESTATION_FORMAT_UNSPECIFIED"
+    | "CAVIUM_V1_COMPRESSED"
+    | "CAVIUM_V2_COMPRESSED"
+    | (string & {});
   /** Output only. The attestation data provided by the HSM when the key operation was performed. */
   content?: string;
   /** Output only. The certificate chains needed to validate the attestation */
   certChains?: CertificateChains;
 }
 
-export const KeyOperationAttestation: Schema.Schema<KeyOperationAttestation> = Schema.suspend(() => Schema.Struct({
-  format: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  certChains: Schema.optional(CertificateChains),
-})).annotate({ identifier: "KeyOperationAttestation" }) as any as Schema.Schema<KeyOperationAttestation>;
+export const KeyOperationAttestation: Schema.Schema<KeyOperationAttestation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      format: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      certChains: Schema.optional(CertificateChains),
+    }),
+  ).annotate({
+    identifier: "KeyOperationAttestation",
+  }) as any as Schema.Schema<KeyOperationAttestation>;
 
 export interface ExternalProtectionLevelOptions {
   /** The URI for an external resource that this CryptoKeyVersion represents. */
@@ -636,20 +862,92 @@ export interface ExternalProtectionLevelOptions {
   ekmConnectionKeyPath?: string;
 }
 
-export const ExternalProtectionLevelOptions: Schema.Schema<ExternalProtectionLevelOptions> = Schema.suspend(() => Schema.Struct({
-  externalKeyUri: Schema.optional(Schema.String),
-  ekmConnectionKeyPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExternalProtectionLevelOptions" }) as any as Schema.Schema<ExternalProtectionLevelOptions>;
+export const ExternalProtectionLevelOptions: Schema.Schema<ExternalProtectionLevelOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      externalKeyUri: Schema.optional(Schema.String),
+      ekmConnectionKeyPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExternalProtectionLevelOptions",
+  }) as any as Schema.Schema<ExternalProtectionLevelOptions>;
 
 export interface CryptoKeyVersion {
   /** Output only. The resource name for this CryptoKeyVersion in the format `projects/* /locations/* /keyRings/* /cryptoKeys/* /cryptoKeyVersions/*`. */
   name?: string;
   /** The current state of the CryptoKeyVersion. */
-  state?: "CRYPTO_KEY_VERSION_STATE_UNSPECIFIED" | "PENDING_GENERATION" | "ENABLED" | "DISABLED" | "DESTROYED" | "DESTROY_SCHEDULED" | "PENDING_IMPORT" | "IMPORT_FAILED" | "GENERATION_FAILED" | "PENDING_EXTERNAL_DESTRUCTION" | "EXTERNAL_DESTRUCTION_FAILED" | (string & {});
+  state?:
+    | "CRYPTO_KEY_VERSION_STATE_UNSPECIFIED"
+    | "PENDING_GENERATION"
+    | "ENABLED"
+    | "DISABLED"
+    | "DESTROYED"
+    | "DESTROY_SCHEDULED"
+    | "PENDING_IMPORT"
+    | "IMPORT_FAILED"
+    | "GENERATION_FAILED"
+    | "PENDING_EXTERNAL_DESTRUCTION"
+    | "EXTERNAL_DESTRUCTION_FAILED"
+    | (string & {});
   /** Output only. The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
   /** Output only. The CryptoKeyVersionAlgorithm that this CryptoKeyVersion supports. */
-  algorithm?: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED" | "GOOGLE_SYMMETRIC_ENCRYPTION" | "AES_128_GCM" | "AES_256_GCM" | "AES_128_CBC" | "AES_256_CBC" | "AES_128_CTR" | "AES_256_CTR" | "RSA_SIGN_PSS_2048_SHA256" | "RSA_SIGN_PSS_3072_SHA256" | "RSA_SIGN_PSS_4096_SHA256" | "RSA_SIGN_PSS_4096_SHA512" | "RSA_SIGN_PKCS1_2048_SHA256" | "RSA_SIGN_PKCS1_3072_SHA256" | "RSA_SIGN_PKCS1_4096_SHA256" | "RSA_SIGN_PKCS1_4096_SHA512" | "RSA_SIGN_RAW_PKCS1_2048" | "RSA_SIGN_RAW_PKCS1_3072" | "RSA_SIGN_RAW_PKCS1_4096" | "RSA_DECRYPT_OAEP_2048_SHA256" | "RSA_DECRYPT_OAEP_3072_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA512" | "RSA_DECRYPT_OAEP_2048_SHA1" | "RSA_DECRYPT_OAEP_3072_SHA1" | "RSA_DECRYPT_OAEP_4096_SHA1" | "EC_SIGN_P256_SHA256" | "EC_SIGN_P384_SHA384" | "EC_SIGN_SECP256K1_SHA256" | "EC_SIGN_ED25519" | "HMAC_SHA256" | "HMAC_SHA1" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224" | "EXTERNAL_SYMMETRIC_ENCRYPTION" | "ML_KEM_768" | "ML_KEM_1024" | "KEM_XWING" | "PQ_SIGN_ML_DSA_44" | "PQ_SIGN_ML_DSA_65" | "PQ_SIGN_ML_DSA_87" | "PQ_SIGN_SLH_DSA_SHA2_128S" | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256" | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU" | (string & {});
+  algorithm?:
+    | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+    | "GOOGLE_SYMMETRIC_ENCRYPTION"
+    | "AES_128_GCM"
+    | "AES_256_GCM"
+    | "AES_128_CBC"
+    | "AES_256_CBC"
+    | "AES_128_CTR"
+    | "AES_256_CTR"
+    | "RSA_SIGN_PSS_2048_SHA256"
+    | "RSA_SIGN_PSS_3072_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA512"
+    | "RSA_SIGN_PKCS1_2048_SHA256"
+    | "RSA_SIGN_PKCS1_3072_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA512"
+    | "RSA_SIGN_RAW_PKCS1_2048"
+    | "RSA_SIGN_RAW_PKCS1_3072"
+    | "RSA_SIGN_RAW_PKCS1_4096"
+    | "RSA_DECRYPT_OAEP_2048_SHA256"
+    | "RSA_DECRYPT_OAEP_3072_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA512"
+    | "RSA_DECRYPT_OAEP_2048_SHA1"
+    | "RSA_DECRYPT_OAEP_3072_SHA1"
+    | "RSA_DECRYPT_OAEP_4096_SHA1"
+    | "EC_SIGN_P256_SHA256"
+    | "EC_SIGN_P384_SHA384"
+    | "EC_SIGN_SECP256K1_SHA256"
+    | "EC_SIGN_ED25519"
+    | "HMAC_SHA256"
+    | "HMAC_SHA1"
+    | "HMAC_SHA384"
+    | "HMAC_SHA512"
+    | "HMAC_SHA224"
+    | "EXTERNAL_SYMMETRIC_ENCRYPTION"
+    | "ML_KEM_768"
+    | "ML_KEM_1024"
+    | "KEM_XWING"
+    | "PQ_SIGN_ML_DSA_44"
+    | "PQ_SIGN_ML_DSA_65"
+    | "PQ_SIGN_ML_DSA_87"
+    | "PQ_SIGN_SLH_DSA_SHA2_128S"
+    | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
+    | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+    | (string & {});
   /** Output only. Statement that was generated and signed by the HSM at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only provided for key versions with protection_level HSM. */
   attestation?: KeyOperationAttestation;
   /** Output only. The time at which this CryptoKeyVersion was created. */
@@ -676,36 +974,103 @@ export interface CryptoKeyVersion {
   reimportEligible?: boolean;
 }
 
-export const CryptoKeyVersion: Schema.Schema<CryptoKeyVersion> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  protectionLevel: Schema.optional(Schema.String),
-  algorithm: Schema.optional(Schema.String),
-  attestation: Schema.optional(KeyOperationAttestation),
-  createTime: Schema.optional(Schema.String),
-  generateTime: Schema.optional(Schema.String),
-  destroyTime: Schema.optional(Schema.String),
-  destroyEventTime: Schema.optional(Schema.String),
-  importJob: Schema.optional(Schema.String),
-  importTime: Schema.optional(Schema.String),
-  importFailureReason: Schema.optional(Schema.String),
-  generationFailureReason: Schema.optional(Schema.String),
-  externalDestructionFailureReason: Schema.optional(Schema.String),
-  externalProtectionLevelOptions: Schema.optional(ExternalProtectionLevelOptions),
-  reimportEligible: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CryptoKeyVersion" }) as any as Schema.Schema<CryptoKeyVersion>;
+export const CryptoKeyVersion: Schema.Schema<CryptoKeyVersion> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      protectionLevel: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+      attestation: Schema.optional(KeyOperationAttestation),
+      createTime: Schema.optional(Schema.String),
+      generateTime: Schema.optional(Schema.String),
+      destroyTime: Schema.optional(Schema.String),
+      destroyEventTime: Schema.optional(Schema.String),
+      importJob: Schema.optional(Schema.String),
+      importTime: Schema.optional(Schema.String),
+      importFailureReason: Schema.optional(Schema.String),
+      generationFailureReason: Schema.optional(Schema.String),
+      externalDestructionFailureReason: Schema.optional(Schema.String),
+      externalProtectionLevelOptions: Schema.optional(
+        ExternalProtectionLevelOptions,
+      ),
+      reimportEligible: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "CryptoKeyVersion",
+}) as any as Schema.Schema<CryptoKeyVersion>;
 
 export interface CryptoKeyVersionTemplate {
   /** ProtectionLevel to use when creating a CryptoKeyVersion based on this template. Immutable. Defaults to SOFTWARE. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
   /** Required. Algorithm to use when creating a CryptoKeyVersion based on this template. For backwards compatibility, GOOGLE_SYMMETRIC_ENCRYPTION is implied if both this field is omitted and CryptoKey.purpose is ENCRYPT_DECRYPT. */
-  algorithm?: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED" | "GOOGLE_SYMMETRIC_ENCRYPTION" | "AES_128_GCM" | "AES_256_GCM" | "AES_128_CBC" | "AES_256_CBC" | "AES_128_CTR" | "AES_256_CTR" | "RSA_SIGN_PSS_2048_SHA256" | "RSA_SIGN_PSS_3072_SHA256" | "RSA_SIGN_PSS_4096_SHA256" | "RSA_SIGN_PSS_4096_SHA512" | "RSA_SIGN_PKCS1_2048_SHA256" | "RSA_SIGN_PKCS1_3072_SHA256" | "RSA_SIGN_PKCS1_4096_SHA256" | "RSA_SIGN_PKCS1_4096_SHA512" | "RSA_SIGN_RAW_PKCS1_2048" | "RSA_SIGN_RAW_PKCS1_3072" | "RSA_SIGN_RAW_PKCS1_4096" | "RSA_DECRYPT_OAEP_2048_SHA256" | "RSA_DECRYPT_OAEP_3072_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA512" | "RSA_DECRYPT_OAEP_2048_SHA1" | "RSA_DECRYPT_OAEP_3072_SHA1" | "RSA_DECRYPT_OAEP_4096_SHA1" | "EC_SIGN_P256_SHA256" | "EC_SIGN_P384_SHA384" | "EC_SIGN_SECP256K1_SHA256" | "EC_SIGN_ED25519" | "HMAC_SHA256" | "HMAC_SHA1" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224" | "EXTERNAL_SYMMETRIC_ENCRYPTION" | "ML_KEM_768" | "ML_KEM_1024" | "KEM_XWING" | "PQ_SIGN_ML_DSA_44" | "PQ_SIGN_ML_DSA_65" | "PQ_SIGN_ML_DSA_87" | "PQ_SIGN_SLH_DSA_SHA2_128S" | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256" | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU" | (string & {});
+  algorithm?:
+    | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+    | "GOOGLE_SYMMETRIC_ENCRYPTION"
+    | "AES_128_GCM"
+    | "AES_256_GCM"
+    | "AES_128_CBC"
+    | "AES_256_CBC"
+    | "AES_128_CTR"
+    | "AES_256_CTR"
+    | "RSA_SIGN_PSS_2048_SHA256"
+    | "RSA_SIGN_PSS_3072_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA512"
+    | "RSA_SIGN_PKCS1_2048_SHA256"
+    | "RSA_SIGN_PKCS1_3072_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA512"
+    | "RSA_SIGN_RAW_PKCS1_2048"
+    | "RSA_SIGN_RAW_PKCS1_3072"
+    | "RSA_SIGN_RAW_PKCS1_4096"
+    | "RSA_DECRYPT_OAEP_2048_SHA256"
+    | "RSA_DECRYPT_OAEP_3072_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA512"
+    | "RSA_DECRYPT_OAEP_2048_SHA1"
+    | "RSA_DECRYPT_OAEP_3072_SHA1"
+    | "RSA_DECRYPT_OAEP_4096_SHA1"
+    | "EC_SIGN_P256_SHA256"
+    | "EC_SIGN_P384_SHA384"
+    | "EC_SIGN_SECP256K1_SHA256"
+    | "EC_SIGN_ED25519"
+    | "HMAC_SHA256"
+    | "HMAC_SHA1"
+    | "HMAC_SHA384"
+    | "HMAC_SHA512"
+    | "HMAC_SHA224"
+    | "EXTERNAL_SYMMETRIC_ENCRYPTION"
+    | "ML_KEM_768"
+    | "ML_KEM_1024"
+    | "KEM_XWING"
+    | "PQ_SIGN_ML_DSA_44"
+    | "PQ_SIGN_ML_DSA_65"
+    | "PQ_SIGN_ML_DSA_87"
+    | "PQ_SIGN_SLH_DSA_SHA2_128S"
+    | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
+    | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+    | (string & {});
 }
 
-export const CryptoKeyVersionTemplate: Schema.Schema<CryptoKeyVersionTemplate> = Schema.suspend(() => Schema.Struct({
-  protectionLevel: Schema.optional(Schema.String),
-  algorithm: Schema.optional(Schema.String),
-})).annotate({ identifier: "CryptoKeyVersionTemplate" }) as any as Schema.Schema<CryptoKeyVersionTemplate>;
+export const CryptoKeyVersionTemplate: Schema.Schema<CryptoKeyVersionTemplate> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      protectionLevel: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CryptoKeyVersionTemplate",
+  }) as any as Schema.Schema<CryptoKeyVersionTemplate>;
 
 export interface CryptoKey {
   /** Output only. The resource name for this CryptoKey in the format `projects/* /locations/* /keyRings/* /cryptoKeys/*`. */
@@ -713,7 +1078,15 @@ export interface CryptoKey {
   /** Output only. A copy of the "primary" CryptoKeyVersion that will be used by Encrypt when this CryptoKey is given in EncryptRequest.name. The CryptoKey's primary version can be updated via UpdateCryptoKeyPrimaryVersion. Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be omitted. */
   primary?: CryptoKeyVersion;
   /** Immutable. The immutable purpose of this CryptoKey. */
-  purpose?: "CRYPTO_KEY_PURPOSE_UNSPECIFIED" | "ENCRYPT_DECRYPT" | "ASYMMETRIC_SIGN" | "ASYMMETRIC_DECRYPT" | "RAW_ENCRYPT_DECRYPT" | "MAC" | "KEY_ENCAPSULATION" | (string & {});
+  purpose?:
+    | "CRYPTO_KEY_PURPOSE_UNSPECIFIED"
+    | "ENCRYPT_DECRYPT"
+    | "ASYMMETRIC_SIGN"
+    | "ASYMMETRIC_DECRYPT"
+    | "RAW_ENCRYPT_DECRYPT"
+    | "MAC"
+    | "KEY_ENCAPSULATION"
+    | (string & {});
   /** Output only. The time at which this CryptoKey was created. */
   createTime?: string;
   /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
@@ -734,20 +1107,24 @@ export interface CryptoKey {
   keyAccessJustificationsPolicy?: KeyAccessJustificationsPolicy;
 }
 
-export const CryptoKey: Schema.Schema<CryptoKey> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  primary: Schema.optional(CryptoKeyVersion),
-  purpose: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  nextRotationTime: Schema.optional(Schema.String),
-  rotationPeriod: Schema.optional(Schema.String),
-  versionTemplate: Schema.optional(CryptoKeyVersionTemplate),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  importOnly: Schema.optional(Schema.Boolean),
-  destroyScheduledDuration: Schema.optional(Schema.String),
-  cryptoKeyBackend: Schema.optional(Schema.String),
-  keyAccessJustificationsPolicy: Schema.optional(KeyAccessJustificationsPolicy),
-})).annotate({ identifier: "CryptoKey" }) as any as Schema.Schema<CryptoKey>;
+export const CryptoKey: Schema.Schema<CryptoKey> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    primary: Schema.optional(CryptoKeyVersion),
+    purpose: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    nextRotationTime: Schema.optional(Schema.String),
+    rotationPeriod: Schema.optional(Schema.String),
+    versionTemplate: Schema.optional(CryptoKeyVersionTemplate),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    importOnly: Schema.optional(Schema.Boolean),
+    destroyScheduledDuration: Schema.optional(Schema.String),
+    cryptoKeyBackend: Schema.optional(Schema.String),
+    keyAccessJustificationsPolicy: Schema.optional(
+      KeyAccessJustificationsPolicy,
+    ),
+  }),
+).annotate({ identifier: "CryptoKey" }) as any as Schema.Schema<CryptoKey>;
 
 export interface ListCryptoKeysResponse {
   /** The list of CryptoKeys. */
@@ -758,11 +1135,16 @@ export interface ListCryptoKeysResponse {
   totalSize?: number;
 }
 
-export const ListCryptoKeysResponse: Schema.Schema<ListCryptoKeysResponse> = Schema.suspend(() => Schema.Struct({
-  cryptoKeys: Schema.optional(Schema.Array(CryptoKey)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListCryptoKeysResponse" }) as any as Schema.Schema<ListCryptoKeysResponse>;
+export const ListCryptoKeysResponse: Schema.Schema<ListCryptoKeysResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cryptoKeys: Schema.optional(Schema.Array(CryptoKey)),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListCryptoKeysResponse",
+  }) as any as Schema.Schema<ListCryptoKeysResponse>;
 
 export interface ListCryptoKeyVersionsResponse {
   /** The list of CryptoKeyVersions. */
@@ -773,28 +1155,53 @@ export interface ListCryptoKeyVersionsResponse {
   totalSize?: number;
 }
 
-export const ListCryptoKeyVersionsResponse: Schema.Schema<ListCryptoKeyVersionsResponse> = Schema.suspend(() => Schema.Struct({
-  cryptoKeyVersions: Schema.optional(Schema.Array(CryptoKeyVersion)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListCryptoKeyVersionsResponse" }) as any as Schema.Schema<ListCryptoKeyVersionsResponse>;
+export const ListCryptoKeyVersionsResponse: Schema.Schema<ListCryptoKeyVersionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cryptoKeyVersions: Schema.optional(Schema.Array(CryptoKeyVersion)),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListCryptoKeyVersionsResponse",
+  }) as any as Schema.Schema<ListCryptoKeyVersionsResponse>;
 
 export interface WrappingPublicKey {
   /** The public key, encoded in PEM format. For more information, see the [RFC 7468](https://tools.ietf.org/html/rfc7468) sections for [General Considerations](https://tools.ietf.org/html/rfc7468#section-2) and [Textual Encoding of Subject Public Key Info] (https://tools.ietf.org/html/rfc7468#section-13). */
   pem?: string;
 }
 
-export const WrappingPublicKey: Schema.Schema<WrappingPublicKey> = Schema.suspend(() => Schema.Struct({
-  pem: Schema.optional(Schema.String),
-})).annotate({ identifier: "WrappingPublicKey" }) as any as Schema.Schema<WrappingPublicKey>;
+export const WrappingPublicKey: Schema.Schema<WrappingPublicKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pem: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WrappingPublicKey",
+  }) as any as Schema.Schema<WrappingPublicKey>;
 
 export interface ImportJob {
   /** Output only. The resource name for this ImportJob in the format `projects/* /locations/* /keyRings/* /importJobs/*`. */
   name?: string;
   /** Required. Immutable. The wrapping method to be used for incoming key material. */
-  importMethod?: "IMPORT_METHOD_UNSPECIFIED" | "RSA_OAEP_3072_SHA1_AES_256" | "RSA_OAEP_4096_SHA1_AES_256" | "RSA_OAEP_3072_SHA256_AES_256" | "RSA_OAEP_4096_SHA256_AES_256" | "RSA_OAEP_3072_SHA256" | "RSA_OAEP_4096_SHA256" | (string & {});
+  importMethod?:
+    | "IMPORT_METHOD_UNSPECIFIED"
+    | "RSA_OAEP_3072_SHA1_AES_256"
+    | "RSA_OAEP_4096_SHA1_AES_256"
+    | "RSA_OAEP_3072_SHA256_AES_256"
+    | "RSA_OAEP_4096_SHA256_AES_256"
+    | "RSA_OAEP_3072_SHA256"
+    | "RSA_OAEP_4096_SHA256"
+    | (string & {});
   /** Required. Immutable. The protection level of the ImportJob. This must match the protection_level of the version_template on the CryptoKey you attempt to import into. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
   /** Output only. The time at which this ImportJob was created. */
   createTime?: string;
   /** Output only. The time this ImportJob's key material was generated. */
@@ -804,7 +1211,12 @@ export interface ImportJob {
   /** Output only. The time this ImportJob expired. Only present if state is EXPIRED. */
   expireEventTime?: string;
   /** Output only. The current state of the ImportJob, indicating if it can be used. */
-  state?: "IMPORT_JOB_STATE_UNSPECIFIED" | "PENDING_GENERATION" | "ACTIVE" | "EXPIRED" | (string & {});
+  state?:
+    | "IMPORT_JOB_STATE_UNSPECIFIED"
+    | "PENDING_GENERATION"
+    | "ACTIVE"
+    | "EXPIRED"
+    | (string & {});
   /** Output only. The public key with which to wrap key material prior to import. Only returned if state is ACTIVE. */
   publicKey?: WrappingPublicKey;
   /** Output only. Statement that was generated and signed by the key creator (for example, an HSM) at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only present if the chosen ImportMethod is one with a protection level of HSM. */
@@ -813,19 +1225,21 @@ export interface ImportJob {
   cryptoKeyBackend?: string;
 }
 
-export const ImportJob: Schema.Schema<ImportJob> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  importMethod: Schema.optional(Schema.String),
-  protectionLevel: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  generateTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  expireEventTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  publicKey: Schema.optional(WrappingPublicKey),
-  attestation: Schema.optional(KeyOperationAttestation),
-  cryptoKeyBackend: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImportJob" }) as any as Schema.Schema<ImportJob>;
+export const ImportJob: Schema.Schema<ImportJob> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    importMethod: Schema.optional(Schema.String),
+    protectionLevel: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    generateTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    expireEventTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    publicKey: Schema.optional(WrappingPublicKey),
+    attestation: Schema.optional(KeyOperationAttestation),
+    cryptoKeyBackend: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ImportJob" }) as any as Schema.Schema<ImportJob>;
 
 export interface ListImportJobsResponse {
   /** The list of ImportJobs. */
@@ -836,11 +1250,16 @@ export interface ListImportJobsResponse {
   totalSize?: number;
 }
 
-export const ListImportJobsResponse: Schema.Schema<ListImportJobsResponse> = Schema.suspend(() => Schema.Struct({
-  importJobs: Schema.optional(Schema.Array(ImportJob)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListImportJobsResponse" }) as any as Schema.Schema<ListImportJobsResponse>;
+export const ListImportJobsResponse: Schema.Schema<ListImportJobsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      importJobs: Schema.optional(Schema.Array(ImportJob)),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListImportJobsResponse",
+  }) as any as Schema.Schema<ListImportJobsResponse>;
 
 export interface RetiredResource {
   /** Output only. Identifier. The resource name for this RetiredResource in the format `projects/* /locations/* /retiredResources/*`. */
@@ -853,12 +1272,17 @@ export interface RetiredResource {
   deleteTime?: string;
 }
 
-export const RetiredResource: Schema.Schema<RetiredResource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  originalResource: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "RetiredResource" }) as any as Schema.Schema<RetiredResource>;
+export const RetiredResource: Schema.Schema<RetiredResource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      originalResource: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RetiredResource",
+}) as any as Schema.Schema<RetiredResource>;
 
 export interface ListRetiredResourcesResponse {
   /** The list of RetiredResources. */
@@ -869,11 +1293,16 @@ export interface ListRetiredResourcesResponse {
   totalSize?: string;
 }
 
-export const ListRetiredResourcesResponse: Schema.Schema<ListRetiredResourcesResponse> = Schema.suspend(() => Schema.Struct({
-  retiredResources: Schema.optional(Schema.Array(RetiredResource)),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListRetiredResourcesResponse" }) as any as Schema.Schema<ListRetiredResourcesResponse>;
+export const ListRetiredResourcesResponse: Schema.Schema<ListRetiredResourcesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      retiredResources: Schema.optional(Schema.Array(RetiredResource)),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListRetiredResourcesResponse",
+  }) as any as Schema.Schema<ListRetiredResourcesResponse>;
 
 export interface ChecksummedData {
   /** Raw Data. */
@@ -882,43 +1311,159 @@ export interface ChecksummedData {
   crc32cChecksum?: string;
 }
 
-export const ChecksummedData: Schema.Schema<ChecksummedData> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  crc32cChecksum: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChecksummedData" }) as any as Schema.Schema<ChecksummedData>;
+export const ChecksummedData: Schema.Schema<ChecksummedData> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+      crc32cChecksum: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ChecksummedData",
+}) as any as Schema.Schema<ChecksummedData>;
 
 export interface PublicKey {
   /** The public key, encoded in PEM format. For more information, see the [RFC 7468](https://tools.ietf.org/html/rfc7468) sections for [General Considerations](https://tools.ietf.org/html/rfc7468#section-2) and [Textual Encoding of Subject Public Key Info] (https://tools.ietf.org/html/rfc7468#section-13). */
   pem?: string;
   /** The Algorithm associated with this key. */
-  algorithm?: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED" | "GOOGLE_SYMMETRIC_ENCRYPTION" | "AES_128_GCM" | "AES_256_GCM" | "AES_128_CBC" | "AES_256_CBC" | "AES_128_CTR" | "AES_256_CTR" | "RSA_SIGN_PSS_2048_SHA256" | "RSA_SIGN_PSS_3072_SHA256" | "RSA_SIGN_PSS_4096_SHA256" | "RSA_SIGN_PSS_4096_SHA512" | "RSA_SIGN_PKCS1_2048_SHA256" | "RSA_SIGN_PKCS1_3072_SHA256" | "RSA_SIGN_PKCS1_4096_SHA256" | "RSA_SIGN_PKCS1_4096_SHA512" | "RSA_SIGN_RAW_PKCS1_2048" | "RSA_SIGN_RAW_PKCS1_3072" | "RSA_SIGN_RAW_PKCS1_4096" | "RSA_DECRYPT_OAEP_2048_SHA256" | "RSA_DECRYPT_OAEP_3072_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA512" | "RSA_DECRYPT_OAEP_2048_SHA1" | "RSA_DECRYPT_OAEP_3072_SHA1" | "RSA_DECRYPT_OAEP_4096_SHA1" | "EC_SIGN_P256_SHA256" | "EC_SIGN_P384_SHA384" | "EC_SIGN_SECP256K1_SHA256" | "EC_SIGN_ED25519" | "HMAC_SHA256" | "HMAC_SHA1" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224" | "EXTERNAL_SYMMETRIC_ENCRYPTION" | "ML_KEM_768" | "ML_KEM_1024" | "KEM_XWING" | "PQ_SIGN_ML_DSA_44" | "PQ_SIGN_ML_DSA_65" | "PQ_SIGN_ML_DSA_87" | "PQ_SIGN_SLH_DSA_SHA2_128S" | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256" | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU" | (string & {});
+  algorithm?:
+    | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+    | "GOOGLE_SYMMETRIC_ENCRYPTION"
+    | "AES_128_GCM"
+    | "AES_256_GCM"
+    | "AES_128_CBC"
+    | "AES_256_CBC"
+    | "AES_128_CTR"
+    | "AES_256_CTR"
+    | "RSA_SIGN_PSS_2048_SHA256"
+    | "RSA_SIGN_PSS_3072_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA512"
+    | "RSA_SIGN_PKCS1_2048_SHA256"
+    | "RSA_SIGN_PKCS1_3072_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA512"
+    | "RSA_SIGN_RAW_PKCS1_2048"
+    | "RSA_SIGN_RAW_PKCS1_3072"
+    | "RSA_SIGN_RAW_PKCS1_4096"
+    | "RSA_DECRYPT_OAEP_2048_SHA256"
+    | "RSA_DECRYPT_OAEP_3072_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA512"
+    | "RSA_DECRYPT_OAEP_2048_SHA1"
+    | "RSA_DECRYPT_OAEP_3072_SHA1"
+    | "RSA_DECRYPT_OAEP_4096_SHA1"
+    | "EC_SIGN_P256_SHA256"
+    | "EC_SIGN_P384_SHA384"
+    | "EC_SIGN_SECP256K1_SHA256"
+    | "EC_SIGN_ED25519"
+    | "HMAC_SHA256"
+    | "HMAC_SHA1"
+    | "HMAC_SHA384"
+    | "HMAC_SHA512"
+    | "HMAC_SHA224"
+    | "EXTERNAL_SYMMETRIC_ENCRYPTION"
+    | "ML_KEM_768"
+    | "ML_KEM_1024"
+    | "KEM_XWING"
+    | "PQ_SIGN_ML_DSA_44"
+    | "PQ_SIGN_ML_DSA_65"
+    | "PQ_SIGN_ML_DSA_87"
+    | "PQ_SIGN_SLH_DSA_SHA2_128S"
+    | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
+    | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+    | (string & {});
   /** Integrity verification field. A CRC32C checksum of the returned PublicKey.pem. An integrity check of PublicKey.pem can be performed by computing the CRC32C checksum of PublicKey.pem and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed `2^32-1`, and can be safely downconverted to uint32 in languages that support this type. NOTE: This field is in Beta. */
   pemCrc32c?: string;
   /** The name of the CryptoKeyVersion public key. Provided here for verification. NOTE: This field is in Beta. */
   name?: string;
   /** The ProtectionLevel of the CryptoKeyVersion public key. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
   /** The PublicKey format specified by the customer through the public_key_format field. */
-  publicKeyFormat?: "PUBLIC_KEY_FORMAT_UNSPECIFIED" | "PEM" | "DER" | "NIST_PQC" | "XWING_RAW_BYTES" | (string & {});
+  publicKeyFormat?:
+    | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
+    | "PEM"
+    | "DER"
+    | "NIST_PQC"
+    | "XWING_RAW_BYTES"
+    | (string & {});
   /** This field contains the public key (with integrity verification), formatted according to the public_key_format field. */
   publicKey?: ChecksummedData;
 }
 
-export const PublicKey: Schema.Schema<PublicKey> = Schema.suspend(() => Schema.Struct({
-  pem: Schema.optional(Schema.String),
-  algorithm: Schema.optional(Schema.String),
-  pemCrc32c: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  protectionLevel: Schema.optional(Schema.String),
-  publicKeyFormat: Schema.optional(Schema.String),
-  publicKey: Schema.optional(ChecksummedData),
-})).annotate({ identifier: "PublicKey" }) as any as Schema.Schema<PublicKey>;
+export const PublicKey: Schema.Schema<PublicKey> = Schema.suspend(() =>
+  Schema.Struct({
+    pem: Schema.optional(Schema.String),
+    algorithm: Schema.optional(Schema.String),
+    pemCrc32c: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    protectionLevel: Schema.optional(Schema.String),
+    publicKeyFormat: Schema.optional(Schema.String),
+    publicKey: Schema.optional(ChecksummedData),
+  }),
+).annotate({ identifier: "PublicKey" }) as any as Schema.Schema<PublicKey>;
 
 export interface ImportCryptoKeyVersionRequest {
   /** Optional. The optional name of an existing CryptoKeyVersion to target for an import operation. If this field is not present, a new CryptoKeyVersion containing the supplied key material is created. If this field is present, the supplied key material is imported into the existing CryptoKeyVersion. To import into an existing CryptoKeyVersion, the CryptoKeyVersion must be a child of ImportCryptoKeyVersionRequest.parent, have been previously created via ImportCryptoKeyVersion, and be in DESTROYED or IMPORT_FAILED state. The key material and algorithm must match the previous CryptoKeyVersion exactly if the CryptoKeyVersion has ever contained key material. */
   cryptoKeyVersion?: string;
   /** Required. The algorithm of the key being imported. This does not need to match the version_template of the CryptoKey this version imports into. */
-  algorithm?: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED" | "GOOGLE_SYMMETRIC_ENCRYPTION" | "AES_128_GCM" | "AES_256_GCM" | "AES_128_CBC" | "AES_256_CBC" | "AES_128_CTR" | "AES_256_CTR" | "RSA_SIGN_PSS_2048_SHA256" | "RSA_SIGN_PSS_3072_SHA256" | "RSA_SIGN_PSS_4096_SHA256" | "RSA_SIGN_PSS_4096_SHA512" | "RSA_SIGN_PKCS1_2048_SHA256" | "RSA_SIGN_PKCS1_3072_SHA256" | "RSA_SIGN_PKCS1_4096_SHA256" | "RSA_SIGN_PKCS1_4096_SHA512" | "RSA_SIGN_RAW_PKCS1_2048" | "RSA_SIGN_RAW_PKCS1_3072" | "RSA_SIGN_RAW_PKCS1_4096" | "RSA_DECRYPT_OAEP_2048_SHA256" | "RSA_DECRYPT_OAEP_3072_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA512" | "RSA_DECRYPT_OAEP_2048_SHA1" | "RSA_DECRYPT_OAEP_3072_SHA1" | "RSA_DECRYPT_OAEP_4096_SHA1" | "EC_SIGN_P256_SHA256" | "EC_SIGN_P384_SHA384" | "EC_SIGN_SECP256K1_SHA256" | "EC_SIGN_ED25519" | "HMAC_SHA256" | "HMAC_SHA1" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224" | "EXTERNAL_SYMMETRIC_ENCRYPTION" | "ML_KEM_768" | "ML_KEM_1024" | "KEM_XWING" | "PQ_SIGN_ML_DSA_44" | "PQ_SIGN_ML_DSA_65" | "PQ_SIGN_ML_DSA_87" | "PQ_SIGN_SLH_DSA_SHA2_128S" | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256" | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU" | (string & {});
+  algorithm?:
+    | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+    | "GOOGLE_SYMMETRIC_ENCRYPTION"
+    | "AES_128_GCM"
+    | "AES_256_GCM"
+    | "AES_128_CBC"
+    | "AES_256_CBC"
+    | "AES_128_CTR"
+    | "AES_256_CTR"
+    | "RSA_SIGN_PSS_2048_SHA256"
+    | "RSA_SIGN_PSS_3072_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA512"
+    | "RSA_SIGN_PKCS1_2048_SHA256"
+    | "RSA_SIGN_PKCS1_3072_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA512"
+    | "RSA_SIGN_RAW_PKCS1_2048"
+    | "RSA_SIGN_RAW_PKCS1_3072"
+    | "RSA_SIGN_RAW_PKCS1_4096"
+    | "RSA_DECRYPT_OAEP_2048_SHA256"
+    | "RSA_DECRYPT_OAEP_3072_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA512"
+    | "RSA_DECRYPT_OAEP_2048_SHA1"
+    | "RSA_DECRYPT_OAEP_3072_SHA1"
+    | "RSA_DECRYPT_OAEP_4096_SHA1"
+    | "EC_SIGN_P256_SHA256"
+    | "EC_SIGN_P384_SHA384"
+    | "EC_SIGN_SECP256K1_SHA256"
+    | "EC_SIGN_ED25519"
+    | "HMAC_SHA256"
+    | "HMAC_SHA1"
+    | "HMAC_SHA384"
+    | "HMAC_SHA512"
+    | "HMAC_SHA224"
+    | "EXTERNAL_SYMMETRIC_ENCRYPTION"
+    | "ML_KEM_768"
+    | "ML_KEM_1024"
+    | "KEM_XWING"
+    | "PQ_SIGN_ML_DSA_44"
+    | "PQ_SIGN_ML_DSA_65"
+    | "PQ_SIGN_ML_DSA_87"
+    | "PQ_SIGN_SLH_DSA_SHA2_128S"
+    | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
+    | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+    | (string & {});
   /** Required. The name of the ImportJob that was used to wrap this key material. */
   importJob?: string;
   /** Optional. The wrapped key material to import. Before wrapping, key material must be formatted. If importing symmetric key material, the expected key material format is plain bytes. If importing asymmetric key material, the expected key material format is PKCS#8-encoded DER (the PrivateKeyInfo structure from RFC 5208). When wrapping with import methods (RSA_OAEP_3072_SHA1_AES_256 or RSA_OAEP_4096_SHA1_AES_256 or RSA_OAEP_3072_SHA256_AES_256 or RSA_OAEP_4096_SHA256_AES_256), this field must contain the concatenation of: 1. An ephemeral AES-256 wrapping key wrapped with the public_key using RSAES-OAEP with SHA-1/SHA-256, MGF1 with SHA-1/SHA-256, and an empty label. 2. The formatted key to be imported, wrapped with the ephemeral AES-256 key using AES-KWP (RFC 5649). This format is the same as the format produced by PKCS#11 mechanism CKM_RSA_AES_KEY_WRAP. When wrapping with import methods (RSA_OAEP_3072_SHA256 or RSA_OAEP_4096_SHA256), this field must contain the formatted key to be imported, wrapped with the public_key using RSAES-OAEP with SHA-256, MGF1 with SHA-256, and an empty label. */
@@ -927,34 +1472,46 @@ export interface ImportCryptoKeyVersionRequest {
   rsaAesWrappedKey?: string;
 }
 
-export const ImportCryptoKeyVersionRequest: Schema.Schema<ImportCryptoKeyVersionRequest> = Schema.suspend(() => Schema.Struct({
-  cryptoKeyVersion: Schema.optional(Schema.String),
-  algorithm: Schema.optional(Schema.String),
-  importJob: Schema.optional(Schema.String),
-  wrappedKey: Schema.optional(Schema.String),
-  rsaAesWrappedKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImportCryptoKeyVersionRequest" }) as any as Schema.Schema<ImportCryptoKeyVersionRequest>;
+export const ImportCryptoKeyVersionRequest: Schema.Schema<ImportCryptoKeyVersionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cryptoKeyVersion: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+      importJob: Schema.optional(Schema.String),
+      wrappedKey: Schema.optional(Schema.String),
+      rsaAesWrappedKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ImportCryptoKeyVersionRequest",
+  }) as any as Schema.Schema<ImportCryptoKeyVersionRequest>;
 
 export interface UpdateCryptoKeyPrimaryVersionRequest {
   /** Required. The id of the child CryptoKeyVersion to use as primary. */
   cryptoKeyVersionId?: string;
 }
 
-export const UpdateCryptoKeyPrimaryVersionRequest: Schema.Schema<UpdateCryptoKeyPrimaryVersionRequest> = Schema.suspend(() => Schema.Struct({
-  cryptoKeyVersionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateCryptoKeyPrimaryVersionRequest" }) as any as Schema.Schema<UpdateCryptoKeyPrimaryVersionRequest>;
+export const UpdateCryptoKeyPrimaryVersionRequest: Schema.Schema<UpdateCryptoKeyPrimaryVersionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cryptoKeyVersionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateCryptoKeyPrimaryVersionRequest",
+  }) as any as Schema.Schema<UpdateCryptoKeyPrimaryVersionRequest>;
 
-export interface DestroyCryptoKeyVersionRequest {
-}
+export interface DestroyCryptoKeyVersionRequest {}
 
-export const DestroyCryptoKeyVersionRequest: Schema.Schema<DestroyCryptoKeyVersionRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DestroyCryptoKeyVersionRequest" }) as any as Schema.Schema<DestroyCryptoKeyVersionRequest>;
+export const DestroyCryptoKeyVersionRequest: Schema.Schema<DestroyCryptoKeyVersionRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DestroyCryptoKeyVersionRequest",
+  }) as any as Schema.Schema<DestroyCryptoKeyVersionRequest>;
 
-export interface RestoreCryptoKeyVersionRequest {
-}
+export interface RestoreCryptoKeyVersionRequest {}
 
-export const RestoreCryptoKeyVersionRequest: Schema.Schema<RestoreCryptoKeyVersionRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RestoreCryptoKeyVersionRequest" }) as any as Schema.Schema<RestoreCryptoKeyVersionRequest>;
+export const RestoreCryptoKeyVersionRequest: Schema.Schema<RestoreCryptoKeyVersionRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RestoreCryptoKeyVersionRequest",
+  }) as any as Schema.Schema<RestoreCryptoKeyVersionRequest>;
 
 export interface EncryptRequest {
   /** Required. The data to encrypt. Must be no larger than 64KiB. The maximum size depends on the key version's protection_level. For SOFTWARE, EXTERNAL, and EXTERNAL_VPC keys, the plaintext must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
@@ -967,12 +1524,17 @@ export interface EncryptRequest {
   additionalAuthenticatedDataCrc32c?: string;
 }
 
-export const EncryptRequest: Schema.Schema<EncryptRequest> = Schema.suspend(() => Schema.Struct({
-  plaintext: Schema.optional(Schema.String),
-  additionalAuthenticatedData: Schema.optional(Schema.String),
-  plaintextCrc32c: Schema.optional(Schema.String),
-  additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "EncryptRequest" }) as any as Schema.Schema<EncryptRequest>;
+export const EncryptRequest: Schema.Schema<EncryptRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      plaintext: Schema.optional(Schema.String),
+      additionalAuthenticatedData: Schema.optional(Schema.String),
+      plaintextCrc32c: Schema.optional(Schema.String),
+      additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EncryptRequest",
+}) as any as Schema.Schema<EncryptRequest>;
 
 export interface EncryptResponse {
   /** The resource name of the CryptoKeyVersion used in encryption. Check this field to verify that the intended resource was used for encryption. */
@@ -986,17 +1548,31 @@ export interface EncryptResponse {
   /** Integrity verification field. A flag indicating whether EncryptRequest.additional_authenticated_data_crc32c was received by KeyManagementService and used for the integrity verification of the AAD. A false value of this field indicates either that EncryptRequest.additional_authenticated_data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set EncryptRequest.additional_authenticated_data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedAdditionalAuthenticatedDataCrc32c?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used in encryption. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const EncryptResponse: Schema.Schema<EncryptResponse> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  ciphertext: Schema.optional(Schema.String),
-  ciphertextCrc32c: Schema.optional(Schema.String),
-  verifiedPlaintextCrc32c: Schema.optional(Schema.Boolean),
-  verifiedAdditionalAuthenticatedDataCrc32c: Schema.optional(Schema.Boolean),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "EncryptResponse" }) as any as Schema.Schema<EncryptResponse>;
+export const EncryptResponse: Schema.Schema<EncryptResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      ciphertext: Schema.optional(Schema.String),
+      ciphertextCrc32c: Schema.optional(Schema.String),
+      verifiedPlaintextCrc32c: Schema.optional(Schema.Boolean),
+      verifiedAdditionalAuthenticatedDataCrc32c: Schema.optional(
+        Schema.Boolean,
+      ),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EncryptResponse",
+}) as any as Schema.Schema<EncryptResponse>;
 
 export interface DecryptRequest {
   /** Required. The encrypted data originally returned in EncryptResponse.ciphertext. */
@@ -1009,12 +1585,17 @@ export interface DecryptRequest {
   additionalAuthenticatedDataCrc32c?: string;
 }
 
-export const DecryptRequest: Schema.Schema<DecryptRequest> = Schema.suspend(() => Schema.Struct({
-  ciphertext: Schema.optional(Schema.String),
-  additionalAuthenticatedData: Schema.optional(Schema.String),
-  ciphertextCrc32c: Schema.optional(Schema.String),
-  additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "DecryptRequest" }) as any as Schema.Schema<DecryptRequest>;
+export const DecryptRequest: Schema.Schema<DecryptRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      ciphertext: Schema.optional(Schema.String),
+      additionalAuthenticatedData: Schema.optional(Schema.String),
+      ciphertextCrc32c: Schema.optional(Schema.String),
+      additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DecryptRequest",
+}) as any as Schema.Schema<DecryptRequest>;
 
 export interface DecryptResponse {
   /** The decrypted data originally supplied in EncryptRequest.plaintext. */
@@ -1024,15 +1605,27 @@ export interface DecryptResponse {
   /** Whether the Decryption was performed using the primary key version. */
   usedPrimary?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used in decryption. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const DecryptResponse: Schema.Schema<DecryptResponse> = Schema.suspend(() => Schema.Struct({
-  plaintext: Schema.optional(Schema.String),
-  plaintextCrc32c: Schema.optional(Schema.String),
-  usedPrimary: Schema.optional(Schema.Boolean),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "DecryptResponse" }) as any as Schema.Schema<DecryptResponse>;
+export const DecryptResponse: Schema.Schema<DecryptResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      plaintext: Schema.optional(Schema.String),
+      plaintextCrc32c: Schema.optional(Schema.String),
+      usedPrimary: Schema.optional(Schema.Boolean),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DecryptResponse",
+}) as any as Schema.Schema<DecryptResponse>;
 
 export interface RawEncryptRequest {
   /** Required. The data to encrypt. Must be no larger than 64KiB. The maximum size depends on the key version's protection_level. For SOFTWARE keys, the plaintext must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
@@ -1049,14 +1642,19 @@ export interface RawEncryptRequest {
   initializationVectorCrc32c?: string;
 }
 
-export const RawEncryptRequest: Schema.Schema<RawEncryptRequest> = Schema.suspend(() => Schema.Struct({
-  plaintext: Schema.optional(Schema.String),
-  additionalAuthenticatedData: Schema.optional(Schema.String),
-  plaintextCrc32c: Schema.optional(Schema.String),
-  additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
-  initializationVector: Schema.optional(Schema.String),
-  initializationVectorCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "RawEncryptRequest" }) as any as Schema.Schema<RawEncryptRequest>;
+export const RawEncryptRequest: Schema.Schema<RawEncryptRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      plaintext: Schema.optional(Schema.String),
+      additionalAuthenticatedData: Schema.optional(Schema.String),
+      plaintextCrc32c: Schema.optional(Schema.String),
+      additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
+      initializationVector: Schema.optional(Schema.String),
+      initializationVectorCrc32c: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RawEncryptRequest",
+  }) as any as Schema.Schema<RawEncryptRequest>;
 
 export interface RawEncryptResponse {
   /** The encrypted data. In the case of AES-GCM, the authentication tag is the tag_length bytes at the end of this field. */
@@ -1078,21 +1676,35 @@ export interface RawEncryptResponse {
   /** The resource name of the CryptoKeyVersion used in encryption. Check this field to verify that the intended resource was used for encryption. */
   name?: string;
   /** The ProtectionLevel of the CryptoKeyVersion used in encryption. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const RawEncryptResponse: Schema.Schema<RawEncryptResponse> = Schema.suspend(() => Schema.Struct({
-  ciphertext: Schema.optional(Schema.String),
-  initializationVector: Schema.optional(Schema.String),
-  tagLength: Schema.optional(Schema.Number),
-  ciphertextCrc32c: Schema.optional(Schema.String),
-  initializationVectorCrc32c: Schema.optional(Schema.String),
-  verifiedPlaintextCrc32c: Schema.optional(Schema.Boolean),
-  verifiedAdditionalAuthenticatedDataCrc32c: Schema.optional(Schema.Boolean),
-  verifiedInitializationVectorCrc32c: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "RawEncryptResponse" }) as any as Schema.Schema<RawEncryptResponse>;
+export const RawEncryptResponse: Schema.Schema<RawEncryptResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ciphertext: Schema.optional(Schema.String),
+      initializationVector: Schema.optional(Schema.String),
+      tagLength: Schema.optional(Schema.Number),
+      ciphertextCrc32c: Schema.optional(Schema.String),
+      initializationVectorCrc32c: Schema.optional(Schema.String),
+      verifiedPlaintextCrc32c: Schema.optional(Schema.Boolean),
+      verifiedAdditionalAuthenticatedDataCrc32c: Schema.optional(
+        Schema.Boolean,
+      ),
+      verifiedInitializationVectorCrc32c: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RawEncryptResponse",
+  }) as any as Schema.Schema<RawEncryptResponse>;
 
 export interface RawDecryptRequest {
   /** Required. The encrypted data originally returned in RawEncryptResponse.ciphertext. */
@@ -1111,15 +1723,20 @@ export interface RawDecryptRequest {
   initializationVectorCrc32c?: string;
 }
 
-export const RawDecryptRequest: Schema.Schema<RawDecryptRequest> = Schema.suspend(() => Schema.Struct({
-  ciphertext: Schema.optional(Schema.String),
-  additionalAuthenticatedData: Schema.optional(Schema.String),
-  initializationVector: Schema.optional(Schema.String),
-  tagLength: Schema.optional(Schema.Number),
-  ciphertextCrc32c: Schema.optional(Schema.String),
-  additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
-  initializationVectorCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "RawDecryptRequest" }) as any as Schema.Schema<RawDecryptRequest>;
+export const RawDecryptRequest: Schema.Schema<RawDecryptRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ciphertext: Schema.optional(Schema.String),
+      additionalAuthenticatedData: Schema.optional(Schema.String),
+      initializationVector: Schema.optional(Schema.String),
+      tagLength: Schema.optional(Schema.Number),
+      ciphertextCrc32c: Schema.optional(Schema.String),
+      additionalAuthenticatedDataCrc32c: Schema.optional(Schema.String),
+      initializationVectorCrc32c: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RawDecryptRequest",
+  }) as any as Schema.Schema<RawDecryptRequest>;
 
 export interface RawDecryptResponse {
   /** The decrypted data. */
@@ -1127,7 +1744,14 @@ export interface RawDecryptResponse {
   /** Integrity verification field. A CRC32C checksum of the returned RawDecryptResponse.plaintext. An integrity check of plaintext can be performed by computing the CRC32C checksum of plaintext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: receiving this response message indicates that KeyManagementService is able to successfully decrypt the ciphertext. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   plaintextCrc32c?: string;
   /** The ProtectionLevel of the CryptoKeyVersion used in decryption. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
   /** Integrity verification field. A flag indicating whether RawDecryptRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that RawDecryptRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawDecryptRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedCiphertextCrc32c?: boolean;
   /** Integrity verification field. A flag indicating whether RawDecryptRequest.additional_authenticated_data_crc32c was received by KeyManagementService and used for the integrity verification of additional_authenticated_data. A false value of this field indicates either that // RawDecryptRequest.additional_authenticated_data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawDecryptRequest.additional_authenticated_data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
@@ -1136,14 +1760,21 @@ export interface RawDecryptResponse {
   verifiedInitializationVectorCrc32c?: boolean;
 }
 
-export const RawDecryptResponse: Schema.Schema<RawDecryptResponse> = Schema.suspend(() => Schema.Struct({
-  plaintext: Schema.optional(Schema.String),
-  plaintextCrc32c: Schema.optional(Schema.String),
-  protectionLevel: Schema.optional(Schema.String),
-  verifiedCiphertextCrc32c: Schema.optional(Schema.Boolean),
-  verifiedAdditionalAuthenticatedDataCrc32c: Schema.optional(Schema.Boolean),
-  verifiedInitializationVectorCrc32c: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RawDecryptResponse" }) as any as Schema.Schema<RawDecryptResponse>;
+export const RawDecryptResponse: Schema.Schema<RawDecryptResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      plaintext: Schema.optional(Schema.String),
+      plaintextCrc32c: Schema.optional(Schema.String),
+      protectionLevel: Schema.optional(Schema.String),
+      verifiedCiphertextCrc32c: Schema.optional(Schema.Boolean),
+      verifiedAdditionalAuthenticatedDataCrc32c: Schema.optional(
+        Schema.Boolean,
+      ),
+      verifiedInitializationVectorCrc32c: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RawDecryptResponse",
+  }) as any as Schema.Schema<RawDecryptResponse>;
 
 export interface Digest {
   /** A message digest produced with the SHA-256 algorithm. */
@@ -1156,12 +1787,14 @@ export interface Digest {
   externalMu?: string;
 }
 
-export const Digest: Schema.Schema<Digest> = Schema.suspend(() => Schema.Struct({
-  sha256: Schema.optional(Schema.String),
-  sha384: Schema.optional(Schema.String),
-  sha512: Schema.optional(Schema.String),
-  externalMu: Schema.optional(Schema.String),
-})).annotate({ identifier: "Digest" }) as any as Schema.Schema<Digest>;
+export const Digest: Schema.Schema<Digest> = Schema.suspend(() =>
+  Schema.Struct({
+    sha256: Schema.optional(Schema.String),
+    sha384: Schema.optional(Schema.String),
+    sha512: Schema.optional(Schema.String),
+    externalMu: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Digest" }) as any as Schema.Schema<Digest>;
 
 export interface AsymmetricSignRequest {
   /** Optional. The digest of the data to sign. The digest must be produced with the same digest algorithm as specified by the key version's algorithm. This field may not be supplied if AsymmetricSignRequest.data is supplied. */
@@ -1174,12 +1807,17 @@ export interface AsymmetricSignRequest {
   dataCrc32c?: string;
 }
 
-export const AsymmetricSignRequest: Schema.Schema<AsymmetricSignRequest> = Schema.suspend(() => Schema.Struct({
-  digest: Schema.optional(Digest),
-  digestCrc32c: Schema.optional(Schema.String),
-  data: Schema.optional(Schema.String),
-  dataCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "AsymmetricSignRequest" }) as any as Schema.Schema<AsymmetricSignRequest>;
+export const AsymmetricSignRequest: Schema.Schema<AsymmetricSignRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      digest: Schema.optional(Digest),
+      digestCrc32c: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.String),
+      dataCrc32c: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AsymmetricSignRequest",
+  }) as any as Schema.Schema<AsymmetricSignRequest>;
 
 export interface AsymmetricSignResponse {
   /** The created signature. */
@@ -1193,17 +1831,29 @@ export interface AsymmetricSignResponse {
   /** Integrity verification field. A flag indicating whether AsymmetricSignRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that AsymmetricSignRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set AsymmetricSignRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedDataCrc32c?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used for signing. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const AsymmetricSignResponse: Schema.Schema<AsymmetricSignResponse> = Schema.suspend(() => Schema.Struct({
-  signature: Schema.optional(Schema.String),
-  signatureCrc32c: Schema.optional(Schema.String),
-  verifiedDigestCrc32c: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  verifiedDataCrc32c: Schema.optional(Schema.Boolean),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "AsymmetricSignResponse" }) as any as Schema.Schema<AsymmetricSignResponse>;
+export const AsymmetricSignResponse: Schema.Schema<AsymmetricSignResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      signature: Schema.optional(Schema.String),
+      signatureCrc32c: Schema.optional(Schema.String),
+      verifiedDigestCrc32c: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      verifiedDataCrc32c: Schema.optional(Schema.Boolean),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AsymmetricSignResponse",
+  }) as any as Schema.Schema<AsymmetricSignResponse>;
 
 export interface AsymmetricDecryptRequest {
   /** Required. The data encrypted with the named CryptoKeyVersion's public key using OAEP. */
@@ -1212,10 +1862,15 @@ export interface AsymmetricDecryptRequest {
   ciphertextCrc32c?: string;
 }
 
-export const AsymmetricDecryptRequest: Schema.Schema<AsymmetricDecryptRequest> = Schema.suspend(() => Schema.Struct({
-  ciphertext: Schema.optional(Schema.String),
-  ciphertextCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "AsymmetricDecryptRequest" }) as any as Schema.Schema<AsymmetricDecryptRequest>;
+export const AsymmetricDecryptRequest: Schema.Schema<AsymmetricDecryptRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ciphertext: Schema.optional(Schema.String),
+      ciphertextCrc32c: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AsymmetricDecryptRequest",
+  }) as any as Schema.Schema<AsymmetricDecryptRequest>;
 
 export interface AsymmetricDecryptResponse {
   /** The decrypted data originally encrypted with the matching public key. */
@@ -1225,15 +1880,27 @@ export interface AsymmetricDecryptResponse {
   /** Integrity verification field. A flag indicating whether AsymmetricDecryptRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that AsymmetricDecryptRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set AsymmetricDecryptRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedCiphertextCrc32c?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used in decryption. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const AsymmetricDecryptResponse: Schema.Schema<AsymmetricDecryptResponse> = Schema.suspend(() => Schema.Struct({
-  plaintext: Schema.optional(Schema.String),
-  plaintextCrc32c: Schema.optional(Schema.String),
-  verifiedCiphertextCrc32c: Schema.optional(Schema.Boolean),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "AsymmetricDecryptResponse" }) as any as Schema.Schema<AsymmetricDecryptResponse>;
+export const AsymmetricDecryptResponse: Schema.Schema<AsymmetricDecryptResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      plaintext: Schema.optional(Schema.String),
+      plaintextCrc32c: Schema.optional(Schema.String),
+      verifiedCiphertextCrc32c: Schema.optional(Schema.Boolean),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AsymmetricDecryptResponse",
+  }) as any as Schema.Schema<AsymmetricDecryptResponse>;
 
 export interface MacSignRequest {
   /** Required. The data to sign. The MAC tag is computed over this data field based on the specific algorithm. */
@@ -1242,10 +1909,15 @@ export interface MacSignRequest {
   dataCrc32c?: string;
 }
 
-export const MacSignRequest: Schema.Schema<MacSignRequest> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  dataCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "MacSignRequest" }) as any as Schema.Schema<MacSignRequest>;
+export const MacSignRequest: Schema.Schema<MacSignRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+      dataCrc32c: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MacSignRequest",
+}) as any as Schema.Schema<MacSignRequest>;
 
 export interface MacSignResponse {
   /** The resource name of the CryptoKeyVersion used for signing. Check this field to verify that the intended resource was used for signing. */
@@ -1257,16 +1929,28 @@ export interface MacSignResponse {
   /** Integrity verification field. A flag indicating whether MacSignRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacSignRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacSignRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedDataCrc32c?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used for signing. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const MacSignResponse: Schema.Schema<MacSignResponse> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  mac: Schema.optional(Schema.String),
-  macCrc32c: Schema.optional(Schema.String),
-  verifiedDataCrc32c: Schema.optional(Schema.Boolean),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "MacSignResponse" }) as any as Schema.Schema<MacSignResponse>;
+export const MacSignResponse: Schema.Schema<MacSignResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      mac: Schema.optional(Schema.String),
+      macCrc32c: Schema.optional(Schema.String),
+      verifiedDataCrc32c: Schema.optional(Schema.Boolean),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MacSignResponse",
+}) as any as Schema.Schema<MacSignResponse>;
 
 export interface MacVerifyRequest {
   /** Required. The data used previously as a MacSignRequest.data to generate the MAC tag. */
@@ -1279,12 +1963,17 @@ export interface MacVerifyRequest {
   macCrc32c?: string;
 }
 
-export const MacVerifyRequest: Schema.Schema<MacVerifyRequest> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  dataCrc32c: Schema.optional(Schema.String),
-  mac: Schema.optional(Schema.String),
-  macCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "MacVerifyRequest" }) as any as Schema.Schema<MacVerifyRequest>;
+export const MacVerifyRequest: Schema.Schema<MacVerifyRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+      dataCrc32c: Schema.optional(Schema.String),
+      mac: Schema.optional(Schema.String),
+      macCrc32c: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MacVerifyRequest",
+}) as any as Schema.Schema<MacVerifyRequest>;
 
 export interface MacVerifyResponse {
   /** The resource name of the CryptoKeyVersion used for verification. Check this field to verify that the intended resource was used for verification. */
@@ -1298,17 +1987,29 @@ export interface MacVerifyResponse {
   /** Integrity verification field. This value is used for the integrity verification of [MacVerifyResponse.success]. If the value of this field contradicts the value of [MacVerifyResponse.success], discard the response and perform a limited number of retries. */
   verifiedSuccessIntegrity?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used for verification. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const MacVerifyResponse: Schema.Schema<MacVerifyResponse> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  success: Schema.optional(Schema.Boolean),
-  verifiedDataCrc32c: Schema.optional(Schema.Boolean),
-  verifiedMacCrc32c: Schema.optional(Schema.Boolean),
-  verifiedSuccessIntegrity: Schema.optional(Schema.Boolean),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "MacVerifyResponse" }) as any as Schema.Schema<MacVerifyResponse>;
+export const MacVerifyResponse: Schema.Schema<MacVerifyResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      success: Schema.optional(Schema.Boolean),
+      verifiedDataCrc32c: Schema.optional(Schema.Boolean),
+      verifiedMacCrc32c: Schema.optional(Schema.Boolean),
+      verifiedSuccessIntegrity: Schema.optional(Schema.Boolean),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MacVerifyResponse",
+  }) as any as Schema.Schema<MacVerifyResponse>;
 
 export interface DecapsulateRequest {
   /** Required. The ciphertext produced from encapsulation with the named CryptoKeyVersion public key(s). */
@@ -1317,10 +2018,15 @@ export interface DecapsulateRequest {
   ciphertextCrc32c?: string;
 }
 
-export const DecapsulateRequest: Schema.Schema<DecapsulateRequest> = Schema.suspend(() => Schema.Struct({
-  ciphertext: Schema.optional(Schema.String),
-  ciphertextCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "DecapsulateRequest" }) as any as Schema.Schema<DecapsulateRequest>;
+export const DecapsulateRequest: Schema.Schema<DecapsulateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ciphertext: Schema.optional(Schema.String),
+      ciphertextCrc32c: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DecapsulateRequest",
+  }) as any as Schema.Schema<DecapsulateRequest>;
 
 export interface DecapsulateResponse {
   /** The resource name of the CryptoKeyVersion used for decapsulation. Check this field to verify that the intended resource was used for decapsulation. */
@@ -1332,28 +2038,52 @@ export interface DecapsulateResponse {
   /** Integrity verification field. A flag indicating whether DecapsulateRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that DecapsulateRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set DecapsulateRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedCiphertextCrc32c?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used in decapsulation. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const DecapsulateResponse: Schema.Schema<DecapsulateResponse> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  sharedSecret: Schema.optional(Schema.String),
-  sharedSecretCrc32c: Schema.optional(Schema.String),
-  verifiedCiphertextCrc32c: Schema.optional(Schema.Boolean),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "DecapsulateResponse" }) as any as Schema.Schema<DecapsulateResponse>;
+export const DecapsulateResponse: Schema.Schema<DecapsulateResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      sharedSecret: Schema.optional(Schema.String),
+      sharedSecretCrc32c: Schema.optional(Schema.String),
+      verifiedCiphertextCrc32c: Schema.optional(Schema.Boolean),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DecapsulateResponse",
+  }) as any as Schema.Schema<DecapsulateResponse>;
 
 export interface GenerateRandomBytesRequest {
   /** The length in bytes of the amount of randomness to retrieve. Minimum 8 bytes, maximum 1024 bytes. */
   lengthBytes?: number;
   /** The ProtectionLevel to use when generating the random data. Currently, only HSM protection level is supported. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
 }
 
-export const GenerateRandomBytesRequest: Schema.Schema<GenerateRandomBytesRequest> = Schema.suspend(() => Schema.Struct({
-  lengthBytes: Schema.optional(Schema.Number),
-  protectionLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateRandomBytesRequest" }) as any as Schema.Schema<GenerateRandomBytesRequest>;
+export const GenerateRandomBytesRequest: Schema.Schema<GenerateRandomBytesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lengthBytes: Schema.optional(Schema.Number),
+      protectionLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateRandomBytesRequest",
+  }) as any as Schema.Schema<GenerateRandomBytesRequest>;
 
 export interface GenerateRandomBytesResponse {
   /** The generated data. */
@@ -1362,10 +2092,15 @@ export interface GenerateRandomBytesResponse {
   dataCrc32c?: string;
 }
 
-export const GenerateRandomBytesResponse: Schema.Schema<GenerateRandomBytesResponse> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  dataCrc32c: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateRandomBytesResponse" }) as any as Schema.Schema<GenerateRandomBytesResponse>;
+export const GenerateRandomBytesResponse: Schema.Schema<GenerateRandomBytesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+      dataCrc32c: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateRandomBytesResponse",
+  }) as any as Schema.Schema<GenerateRandomBytesResponse>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -1380,13 +2115,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -1395,10 +2132,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -1411,12 +2153,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -1427,23 +2171,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -1452,10 +2208,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1468,12 +2226,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -1482,28 +2242,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface LocationMetadata {
   /** Indicates whether CryptoKeys with protection_level HSM can be created in this location. */
@@ -1514,11 +2289,16 @@ export interface LocationMetadata {
   hsmSingleTenantAvailable?: boolean;
 }
 
-export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(() => Schema.Struct({
-  hsmAvailable: Schema.optional(Schema.Boolean),
-  ekmAvailable: Schema.optional(Schema.Boolean),
-  hsmSingleTenantAvailable: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "LocationMetadata" }) as any as Schema.Schema<LocationMetadata>;
+export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      hsmAvailable: Schema.optional(Schema.Boolean),
+      ekmAvailable: Schema.optional(Schema.Boolean),
+      hsmSingleTenantAvailable: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "LocationMetadata",
+}) as any as Schema.Schema<LocationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -1538,7 +2318,11 @@ export const UpdateAutokeyConfigFoldersRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AutokeyConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/folders/{foldersId}/autokeyConfig", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/folders/{foldersId}/autokeyConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateAutokeyConfigFoldersRequest>;
 
@@ -1548,7 +2332,12 @@ export const UpdateAutokeyConfigFoldersResponse = AutokeyConfig;
 export type UpdateAutokeyConfigFoldersError = DefaultErrors;
 
 /** Updates the AutokeyConfig for a folder or a project. The caller must have both `cloudkms.autokeyConfigs.update` permission on the parent folder and `cloudkms.cryptoKeys.setIamPolicy` permission on the provided key project. A KeyHandle creation in the folder's descendant projects will use this configuration to determine where to create the resulting CryptoKey. */
-export const updateAutokeyConfigFolders: API.OperationMethod<UpdateAutokeyConfigFoldersRequest, UpdateAutokeyConfigFoldersResponse, UpdateAutokeyConfigFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateAutokeyConfigFolders: API.OperationMethod<
+  UpdateAutokeyConfigFoldersRequest,
+  UpdateAutokeyConfigFoldersResponse,
+  UpdateAutokeyConfigFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateAutokeyConfigFoldersRequest,
   output: UpdateAutokeyConfigFoldersResponse,
   errors: [],
@@ -1572,7 +2361,12 @@ export const GetAutokeyConfigFoldersResponse = AutokeyConfig;
 export type GetAutokeyConfigFoldersError = DefaultErrors;
 
 /** Returns the AutokeyConfig for a folder or project. */
-export const getAutokeyConfigFolders: API.OperationMethod<GetAutokeyConfigFoldersRequest, GetAutokeyConfigFoldersResponse, GetAutokeyConfigFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAutokeyConfigFolders: API.OperationMethod<
+  GetAutokeyConfigFoldersRequest,
+  GetAutokeyConfigFoldersResponse,
+  GetAutokeyConfigFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAutokeyConfigFoldersRequest,
   output: GetAutokeyConfigFoldersResponse,
   errors: [],
@@ -1590,13 +2384,20 @@ export const GetKajPolicyConfigFoldersRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<GetKajPolicyConfigFoldersRequest>;
 
-export type GetKajPolicyConfigFoldersResponse = KeyAccessJustificationsPolicyConfig;
-export const GetKajPolicyConfigFoldersResponse = KeyAccessJustificationsPolicyConfig;
+export type GetKajPolicyConfigFoldersResponse =
+  KeyAccessJustificationsPolicyConfig;
+export const GetKajPolicyConfigFoldersResponse =
+  KeyAccessJustificationsPolicyConfig;
 
 export type GetKajPolicyConfigFoldersError = DefaultErrors;
 
 /** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
-export const getKajPolicyConfigFolders: API.OperationMethod<GetKajPolicyConfigFoldersRequest, GetKajPolicyConfigFoldersResponse, GetKajPolicyConfigFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getKajPolicyConfigFolders: API.OperationMethod<
+  GetKajPolicyConfigFoldersRequest,
+  GetKajPolicyConfigFoldersResponse,
+  GetKajPolicyConfigFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetKajPolicyConfigFoldersRequest,
   output: GetKajPolicyConfigFoldersResponse,
   errors: [],
@@ -1616,17 +2417,28 @@ export const UpdateKajPolicyConfigFoldersRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(KeyAccessJustificationsPolicyConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/folders/{foldersId}/kajPolicyConfig", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/folders/{foldersId}/kajPolicyConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateKajPolicyConfigFoldersRequest>;
 
-export type UpdateKajPolicyConfigFoldersResponse = KeyAccessJustificationsPolicyConfig;
-export const UpdateKajPolicyConfigFoldersResponse = KeyAccessJustificationsPolicyConfig;
+export type UpdateKajPolicyConfigFoldersResponse =
+  KeyAccessJustificationsPolicyConfig;
+export const UpdateKajPolicyConfigFoldersResponse =
+  KeyAccessJustificationsPolicyConfig;
 
 export type UpdateKajPolicyConfigFoldersError = DefaultErrors;
 
 /** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
-export const updateKajPolicyConfigFolders: API.OperationMethod<UpdateKajPolicyConfigFoldersRequest, UpdateKajPolicyConfigFoldersResponse, UpdateKajPolicyConfigFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateKajPolicyConfigFolders: API.OperationMethod<
+  UpdateKajPolicyConfigFoldersRequest,
+  UpdateKajPolicyConfigFoldersResponse,
+  UpdateKajPolicyConfigFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateKajPolicyConfigFoldersRequest,
   output: UpdateKajPolicyConfigFoldersResponse,
   errors: [],
@@ -1646,7 +2458,11 @@ export const UpdateAutokeyConfigProjectsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AutokeyConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/autokeyConfig", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/autokeyConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateAutokeyConfigProjectsRequest>;
 
@@ -1656,7 +2472,12 @@ export const UpdateAutokeyConfigProjectsResponse = AutokeyConfig;
 export type UpdateAutokeyConfigProjectsError = DefaultErrors;
 
 /** Updates the AutokeyConfig for a folder or a project. The caller must have both `cloudkms.autokeyConfigs.update` permission on the parent folder and `cloudkms.cryptoKeys.setIamPolicy` permission on the provided key project. A KeyHandle creation in the folder's descendant projects will use this configuration to determine where to create the resulting CryptoKey. */
-export const updateAutokeyConfigProjects: API.OperationMethod<UpdateAutokeyConfigProjectsRequest, UpdateAutokeyConfigProjectsResponse, UpdateAutokeyConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateAutokeyConfigProjects: API.OperationMethod<
+  UpdateAutokeyConfigProjectsRequest,
+  UpdateAutokeyConfigProjectsResponse,
+  UpdateAutokeyConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateAutokeyConfigProjectsRequest,
   output: UpdateAutokeyConfigProjectsResponse,
   errors: [],
@@ -1680,7 +2501,12 @@ export const GetAutokeyConfigProjectsResponse = AutokeyConfig;
 export type GetAutokeyConfigProjectsError = DefaultErrors;
 
 /** Returns the AutokeyConfig for a folder or project. */
-export const getAutokeyConfigProjects: API.OperationMethod<GetAutokeyConfigProjectsRequest, GetAutokeyConfigProjectsResponse, GetAutokeyConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAutokeyConfigProjects: API.OperationMethod<
+  GetAutokeyConfigProjectsRequest,
+  GetAutokeyConfigProjectsResponse,
+  GetAutokeyConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAutokeyConfigProjectsRequest,
   output: GetAutokeyConfigProjectsResponse,
   errors: [],
@@ -1694,17 +2520,27 @@ export interface ShowEffectiveAutokeyConfigProjectsRequest {
 export const ShowEffectiveAutokeyConfigProjectsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}:showEffectiveAutokeyConfig" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}:showEffectiveAutokeyConfig",
+  }),
   svc,
 ) as unknown as Schema.Schema<ShowEffectiveAutokeyConfigProjectsRequest>;
 
-export type ShowEffectiveAutokeyConfigProjectsResponse = ShowEffectiveAutokeyConfigResponse;
-export const ShowEffectiveAutokeyConfigProjectsResponse = ShowEffectiveAutokeyConfigResponse;
+export type ShowEffectiveAutokeyConfigProjectsResponse =
+  ShowEffectiveAutokeyConfigResponse;
+export const ShowEffectiveAutokeyConfigProjectsResponse =
+  ShowEffectiveAutokeyConfigResponse;
 
 export type ShowEffectiveAutokeyConfigProjectsError = DefaultErrors;
 
 /** Returns the effective Cloud KMS Autokey configuration for a given project. */
-export const showEffectiveAutokeyConfigProjects: API.OperationMethod<ShowEffectiveAutokeyConfigProjectsRequest, ShowEffectiveAutokeyConfigProjectsResponse, ShowEffectiveAutokeyConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const showEffectiveAutokeyConfigProjects: API.OperationMethod<
+  ShowEffectiveAutokeyConfigProjectsRequest,
+  ShowEffectiveAutokeyConfigProjectsResponse,
+  ShowEffectiveAutokeyConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ShowEffectiveAutokeyConfigProjectsRequest,
   output: ShowEffectiveAutokeyConfigProjectsResponse,
   errors: [],
@@ -1722,13 +2558,20 @@ export const GetKajPolicyConfigProjectsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<GetKajPolicyConfigProjectsRequest>;
 
-export type GetKajPolicyConfigProjectsResponse = KeyAccessJustificationsPolicyConfig;
-export const GetKajPolicyConfigProjectsResponse = KeyAccessJustificationsPolicyConfig;
+export type GetKajPolicyConfigProjectsResponse =
+  KeyAccessJustificationsPolicyConfig;
+export const GetKajPolicyConfigProjectsResponse =
+  KeyAccessJustificationsPolicyConfig;
 
 export type GetKajPolicyConfigProjectsError = DefaultErrors;
 
 /** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
-export const getKajPolicyConfigProjects: API.OperationMethod<GetKajPolicyConfigProjectsRequest, GetKajPolicyConfigProjectsResponse, GetKajPolicyConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getKajPolicyConfigProjects: API.OperationMethod<
+  GetKajPolicyConfigProjectsRequest,
+  GetKajPolicyConfigProjectsResponse,
+  GetKajPolicyConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetKajPolicyConfigProjectsRequest,
   output: GetKajPolicyConfigProjectsResponse,
   errors: [],
@@ -1748,17 +2591,28 @@ export const UpdateKajPolicyConfigProjectsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(KeyAccessJustificationsPolicyConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/kajPolicyConfig", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/kajPolicyConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateKajPolicyConfigProjectsRequest>;
 
-export type UpdateKajPolicyConfigProjectsResponse = KeyAccessJustificationsPolicyConfig;
-export const UpdateKajPolicyConfigProjectsResponse = KeyAccessJustificationsPolicyConfig;
+export type UpdateKajPolicyConfigProjectsResponse =
+  KeyAccessJustificationsPolicyConfig;
+export const UpdateKajPolicyConfigProjectsResponse =
+  KeyAccessJustificationsPolicyConfig;
 
 export type UpdateKajPolicyConfigProjectsError = DefaultErrors;
 
 /** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
-export const updateKajPolicyConfigProjects: API.OperationMethod<UpdateKajPolicyConfigProjectsRequest, UpdateKajPolicyConfigProjectsResponse, UpdateKajPolicyConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateKajPolicyConfigProjects: API.OperationMethod<
+  UpdateKajPolicyConfigProjectsRequest,
+  UpdateKajPolicyConfigProjectsResponse,
+  UpdateKajPolicyConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateKajPolicyConfigProjectsRequest,
   output: UpdateKajPolicyConfigProjectsResponse,
   errors: [],
@@ -1769,20 +2623,32 @@ export interface ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest
   project: string;
 }
 
-export const ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}:showEffectiveKeyAccessJustificationsPolicyConfig" }),
-  svc,
-) as unknown as Schema.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest>;
+export const ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest =
+  Schema.Struct({
+    project: Schema.String.pipe(T.HttpPath("project")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}:showEffectiveKeyAccessJustificationsPolicyConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest>;
 
-export type ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse = ShowEffectiveKeyAccessJustificationsPolicyConfigResponse;
-export const ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse = ShowEffectiveKeyAccessJustificationsPolicyConfigResponse;
+export type ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse =
+  ShowEffectiveKeyAccessJustificationsPolicyConfigResponse;
+export const ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse =
+  ShowEffectiveKeyAccessJustificationsPolicyConfigResponse;
 
-export type ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError = DefaultErrors;
+export type ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError =
+  DefaultErrors;
 
 /** Returns the KeyAccessJustificationsPolicyConfig of the resource closest to the given project in hierarchy. */
-export const showEffectiveKeyAccessJustificationsPolicyConfigProjects: API.OperationMethod<ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest, ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse, ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const showEffectiveKeyAccessJustificationsPolicyConfigProjects: API.OperationMethod<
+  ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest,
+  ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse,
+  ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest,
   output: ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse,
   errors: [],
@@ -1793,20 +2659,32 @@ export interface ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsReq
   project: string;
 }
 
-export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}:showEffectiveKeyAccessJustificationsEnrollmentConfig" }),
-  svc,
-) as unknown as Schema.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest>;
+export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest =
+  Schema.Struct({
+    project: Schema.String.pipe(T.HttpPath("project")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}:showEffectiveKeyAccessJustificationsEnrollmentConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest>;
 
-export type ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse = ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse;
-export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse = ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse;
+export type ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse =
+  ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse;
+export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse =
+  ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse;
 
-export type ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError = DefaultErrors;
+export type ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError =
+  DefaultErrors;
 
 /** Returns the KeyAccessJustificationsEnrollmentConfig of the resource closest to the given project in hierarchy. */
-export const showEffectiveKeyAccessJustificationsEnrollmentConfigProjects: API.OperationMethod<ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest, ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse, ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const showEffectiveKeyAccessJustificationsEnrollmentConfigProjects: API.OperationMethod<
+  ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest,
+  ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse,
+  ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest,
   output: ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse,
   errors: [],
@@ -1820,7 +2698,10 @@ export interface GetEkmConfigProjectsLocationsRequest {
 export const GetEkmConfigProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetEkmConfigProjectsLocationsRequest>;
 
@@ -1830,7 +2711,12 @@ export const GetEkmConfigProjectsLocationsResponse = EkmConfig;
 export type GetEkmConfigProjectsLocationsError = DefaultErrors;
 
 /** Returns the EkmConfig singleton resource for a given project and location. */
-export const getEkmConfigProjectsLocations: API.OperationMethod<GetEkmConfigProjectsLocationsRequest, GetEkmConfigProjectsLocationsResponse, GetEkmConfigProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getEkmConfigProjectsLocations: API.OperationMethod<
+  GetEkmConfigProjectsLocationsRequest,
+  GetEkmConfigProjectsLocationsResponse,
+  GetEkmConfigProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetEkmConfigProjectsLocationsRequest,
   output: GetEkmConfigProjectsLocationsResponse,
   errors: [],
@@ -1850,7 +2736,11 @@ export const UpdateEkmConfigProjectsLocationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(EkmConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateEkmConfigProjectsLocationsRequest>;
 
@@ -1860,7 +2750,12 @@ export const UpdateEkmConfigProjectsLocationsResponse = EkmConfig;
 export type UpdateEkmConfigProjectsLocationsError = DefaultErrors;
 
 /** Updates the EkmConfig singleton resource for a given project and location. */
-export const updateEkmConfigProjectsLocations: API.OperationMethod<UpdateEkmConfigProjectsLocationsRequest, UpdateEkmConfigProjectsLocationsResponse, UpdateEkmConfigProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateEkmConfigProjectsLocations: API.OperationMethod<
+  UpdateEkmConfigProjectsLocationsRequest,
+  UpdateEkmConfigProjectsLocationsResponse,
+  UpdateEkmConfigProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateEkmConfigProjectsLocationsRequest,
   output: UpdateEkmConfigProjectsLocationsResponse,
   errors: [],
@@ -1877,17 +2772,28 @@ export const GenerateRandomBytesProjectsLocationsRequest = Schema.Struct({
   location: Schema.String.pipe(T.HttpPath("location")),
   body: Schema.optional(GenerateRandomBytesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}:generateRandomBytes", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:generateRandomBytes",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateRandomBytesProjectsLocationsRequest>;
 
-export type GenerateRandomBytesProjectsLocationsResponse = GenerateRandomBytesResponse;
-export const GenerateRandomBytesProjectsLocationsResponse = GenerateRandomBytesResponse;
+export type GenerateRandomBytesProjectsLocationsResponse =
+  GenerateRandomBytesResponse;
+export const GenerateRandomBytesProjectsLocationsResponse =
+  GenerateRandomBytesResponse;
 
 export type GenerateRandomBytesProjectsLocationsError = DefaultErrors;
 
 /** Generate random bytes using the Cloud KMS randomness source in the provided location. */
-export const generateRandomBytesProjectsLocations: API.OperationMethod<GenerateRandomBytesProjectsLocationsRequest, GenerateRandomBytesProjectsLocationsResponse, GenerateRandomBytesProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateRandomBytesProjectsLocations: API.OperationMethod<
+  GenerateRandomBytesProjectsLocationsRequest,
+  GenerateRandomBytesProjectsLocationsResponse,
+  GenerateRandomBytesProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateRandomBytesProjectsLocationsRequest,
   output: GenerateRandomBytesProjectsLocationsResponse,
   errors: [],
@@ -1911,7 +2817,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -1923,7 +2831,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1941,7 +2854,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1951,7 +2867,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1965,7 +2886,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1975,7 +2899,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1995,7 +2924,11 @@ export const CreateProjectsLocationsKeyHandlesRequest = Schema.Struct({
   keyHandleId: Schema.optional(Schema.String).pipe(T.HttpQuery("keyHandleId")),
   body: Schema.optional(KeyHandle).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyHandles", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyHandles",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsKeyHandlesRequest>;
 
@@ -2005,7 +2938,12 @@ export const CreateProjectsLocationsKeyHandlesResponse = Operation;
 export type CreateProjectsLocationsKeyHandlesError = DefaultErrors;
 
 /** Creates a new KeyHandle, triggering the provisioning of a new CryptoKey for CMEK use with the given resource type in the configured key project and the same location. GetOperation should be used to resolve the resulting long-running operation and get the resulting KeyHandle and CryptoKey. */
-export const createProjectsLocationsKeyHandles: API.OperationMethod<CreateProjectsLocationsKeyHandlesRequest, CreateProjectsLocationsKeyHandlesResponse, CreateProjectsLocationsKeyHandlesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsKeyHandles: API.OperationMethod<
+  CreateProjectsLocationsKeyHandlesRequest,
+  CreateProjectsLocationsKeyHandlesResponse,
+  CreateProjectsLocationsKeyHandlesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsKeyHandlesRequest,
   output: CreateProjectsLocationsKeyHandlesResponse,
   errors: [],
@@ -2019,7 +2957,10 @@ export interface GetProjectsLocationsKeyHandlesRequest {
 export const GetProjectsLocationsKeyHandlesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyHandles/{keyHandlesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyHandles/{keyHandlesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsKeyHandlesRequest>;
 
@@ -2029,7 +2970,12 @@ export const GetProjectsLocationsKeyHandlesResponse = KeyHandle;
 export type GetProjectsLocationsKeyHandlesError = DefaultErrors;
 
 /** Returns the KeyHandle. */
-export const getProjectsLocationsKeyHandles: API.OperationMethod<GetProjectsLocationsKeyHandlesRequest, GetProjectsLocationsKeyHandlesResponse, GetProjectsLocationsKeyHandlesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsKeyHandles: API.OperationMethod<
+  GetProjectsLocationsKeyHandlesRequest,
+  GetProjectsLocationsKeyHandlesResponse,
+  GetProjectsLocationsKeyHandlesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsKeyHandlesRequest,
   output: GetProjectsLocationsKeyHandlesResponse,
   errors: [],
@@ -2052,7 +2998,10 @@ export const ListProjectsLocationsKeyHandlesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyHandles" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyHandles",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsKeyHandlesRequest>;
 
@@ -2062,7 +3011,12 @@ export const ListProjectsLocationsKeyHandlesResponse = ListKeyHandlesResponse;
 export type ListProjectsLocationsKeyHandlesError = DefaultErrors;
 
 /** Lists KeyHandles. */
-export const listProjectsLocationsKeyHandles: API.PaginatedOperationMethod<ListProjectsLocationsKeyHandlesRequest, ListProjectsLocationsKeyHandlesResponse, ListProjectsLocationsKeyHandlesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsKeyHandles: API.PaginatedOperationMethod<
+  ListProjectsLocationsKeyHandlesRequest,
+  ListProjectsLocationsKeyHandlesResponse,
+  ListProjectsLocationsKeyHandlesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyHandlesRequest,
   output: ListProjectsLocationsKeyHandlesResponse,
   errors: [],
@@ -2092,17 +3046,27 @@ export const ListProjectsLocationsEkmConnectionsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsEkmConnectionsRequest>;
 
-export type ListProjectsLocationsEkmConnectionsResponse = ListEkmConnectionsResponse;
-export const ListProjectsLocationsEkmConnectionsResponse = ListEkmConnectionsResponse;
+export type ListProjectsLocationsEkmConnectionsResponse =
+  ListEkmConnectionsResponse;
+export const ListProjectsLocationsEkmConnectionsResponse =
+  ListEkmConnectionsResponse;
 
 export type ListProjectsLocationsEkmConnectionsError = DefaultErrors;
 
 /** Lists EkmConnections. */
-export const listProjectsLocationsEkmConnections: API.PaginatedOperationMethod<ListProjectsLocationsEkmConnectionsRequest, ListProjectsLocationsEkmConnectionsResponse, ListProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsEkmConnections: API.PaginatedOperationMethod<
+  ListProjectsLocationsEkmConnectionsRequest,
+  ListProjectsLocationsEkmConnectionsResponse,
+  ListProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsEkmConnectionsRequest,
   output: ListProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2120,7 +3084,10 @@ export interface GetProjectsLocationsEkmConnectionsRequest {
 export const GetProjectsLocationsEkmConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsEkmConnectionsRequest>;
 
@@ -2130,7 +3097,12 @@ export const GetProjectsLocationsEkmConnectionsResponse = EkmConnection;
 export type GetProjectsLocationsEkmConnectionsError = DefaultErrors;
 
 /** Returns metadata for a given EkmConnection. */
-export const getProjectsLocationsEkmConnections: API.OperationMethod<GetProjectsLocationsEkmConnectionsRequest, GetProjectsLocationsEkmConnectionsResponse, GetProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsEkmConnections: API.OperationMethod<
+  GetProjectsLocationsEkmConnectionsRequest,
+  GetProjectsLocationsEkmConnectionsResponse,
+  GetProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsEkmConnectionsRequest,
   output: GetProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2147,10 +3119,16 @@ export interface CreateProjectsLocationsEkmConnectionsRequest {
 
 export const CreateProjectsLocationsEkmConnectionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  ekmConnectionId: Schema.optional(Schema.String).pipe(T.HttpQuery("ekmConnectionId")),
+  ekmConnectionId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("ekmConnectionId"),
+  ),
   body: Schema.optional(EkmConnection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsEkmConnectionsRequest>;
 
@@ -2160,7 +3138,12 @@ export const CreateProjectsLocationsEkmConnectionsResponse = EkmConnection;
 export type CreateProjectsLocationsEkmConnectionsError = DefaultErrors;
 
 /** Creates a new EkmConnection in a given Project and Location. */
-export const createProjectsLocationsEkmConnections: API.OperationMethod<CreateProjectsLocationsEkmConnectionsRequest, CreateProjectsLocationsEkmConnectionsResponse, CreateProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsEkmConnections: API.OperationMethod<
+  CreateProjectsLocationsEkmConnectionsRequest,
+  CreateProjectsLocationsEkmConnectionsResponse,
+  CreateProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsEkmConnectionsRequest,
   output: CreateProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2180,7 +3163,11 @@ export const PatchProjectsLocationsEkmConnectionsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(EkmConnection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsEkmConnectionsRequest>;
 
@@ -2190,7 +3177,12 @@ export const PatchProjectsLocationsEkmConnectionsResponse = EkmConnection;
 export type PatchProjectsLocationsEkmConnectionsError = DefaultErrors;
 
 /** Updates an EkmConnection's metadata. */
-export const patchProjectsLocationsEkmConnections: API.OperationMethod<PatchProjectsLocationsEkmConnectionsRequest, PatchProjectsLocationsEkmConnectionsResponse, PatchProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsEkmConnections: API.OperationMethod<
+  PatchProjectsLocationsEkmConnectionsRequest,
+  PatchProjectsLocationsEkmConnectionsResponse,
+  PatchProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsEkmConnectionsRequest,
   output: PatchProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2201,20 +3193,32 @@ export interface VerifyConnectivityProjectsLocationsEkmConnectionsRequest {
   name: string;
 }
 
-export const VerifyConnectivityProjectsLocationsEkmConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:verifyConnectivity" }),
-  svc,
-) as unknown as Schema.Schema<VerifyConnectivityProjectsLocationsEkmConnectionsRequest>;
+export const VerifyConnectivityProjectsLocationsEkmConnectionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:verifyConnectivity",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<VerifyConnectivityProjectsLocationsEkmConnectionsRequest>;
 
-export type VerifyConnectivityProjectsLocationsEkmConnectionsResponse = VerifyConnectivityResponse;
-export const VerifyConnectivityProjectsLocationsEkmConnectionsResponse = VerifyConnectivityResponse;
+export type VerifyConnectivityProjectsLocationsEkmConnectionsResponse =
+  VerifyConnectivityResponse;
+export const VerifyConnectivityProjectsLocationsEkmConnectionsResponse =
+  VerifyConnectivityResponse;
 
-export type VerifyConnectivityProjectsLocationsEkmConnectionsError = DefaultErrors;
+export type VerifyConnectivityProjectsLocationsEkmConnectionsError =
+  DefaultErrors;
 
 /** Verifies that Cloud KMS can successfully connect to the external key manager specified by an EkmConnection. If there is an error connecting to the EKM, this method returns a FAILED_PRECONDITION status containing structured information as described at https://cloud.google.com/kms/docs/reference/ekm_errors. */
-export const verifyConnectivityProjectsLocationsEkmConnections: API.OperationMethod<VerifyConnectivityProjectsLocationsEkmConnectionsRequest, VerifyConnectivityProjectsLocationsEkmConnectionsResponse, VerifyConnectivityProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyConnectivityProjectsLocationsEkmConnections: API.OperationMethod<
+  VerifyConnectivityProjectsLocationsEkmConnectionsRequest,
+  VerifyConnectivityProjectsLocationsEkmConnectionsResponse,
+  VerifyConnectivityProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyConnectivityProjectsLocationsEkmConnectionsRequest,
   output: VerifyConnectivityProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2227,11 +3231,17 @@ export interface SetIamPolicyProjectsLocationsEkmConnectionsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsEkmConnectionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:setIamPolicy", hasBody: true }),
+export const SetIamPolicyProjectsLocationsEkmConnectionsRequest = Schema.Struct(
+  {
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsEkmConnectionsRequest>;
 
@@ -2241,7 +3251,12 @@ export const SetIamPolicyProjectsLocationsEkmConnectionsResponse = Policy;
 export type SetIamPolicyProjectsLocationsEkmConnectionsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<SetIamPolicyProjectsLocationsEkmConnectionsRequest, SetIamPolicyProjectsLocationsEkmConnectionsResponse, SetIamPolicyProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<
+  SetIamPolicyProjectsLocationsEkmConnectionsRequest,
+  SetIamPolicyProjectsLocationsEkmConnectionsResponse,
+  SetIamPolicyProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsEkmConnectionsRequest,
   output: SetIamPolicyProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2254,11 +3269,18 @@ export interface GetIamPolicyProjectsLocationsEkmConnectionsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsEkmConnectionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:getIamPolicy" }),
+export const GetIamPolicyProjectsLocationsEkmConnectionsRequest = Schema.Struct(
+  {
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsEkmConnectionsRequest>;
 
@@ -2268,7 +3290,12 @@ export const GetIamPolicyProjectsLocationsEkmConnectionsResponse = Policy;
 export type GetIamPolicyProjectsLocationsEkmConnectionsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<GetIamPolicyProjectsLocationsEkmConnectionsRequest, GetIamPolicyProjectsLocationsEkmConnectionsResponse, GetIamPolicyProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<
+  GetIamPolicyProjectsLocationsEkmConnectionsRequest,
+  GetIamPolicyProjectsLocationsEkmConnectionsResponse,
+  GetIamPolicyProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsEkmConnectionsRequest,
   output: GetIamPolicyProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2281,21 +3308,34 @@ export interface TestIamPermissionsProjectsLocationsEkmConnectionsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsEkmConnectionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsEkmConnectionsRequest>;
+export const TestIamPermissionsProjectsLocationsEkmConnectionsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConnections/{ekmConnectionsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsEkmConnectionsRequest>;
 
-export type TestIamPermissionsProjectsLocationsEkmConnectionsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsEkmConnectionsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsEkmConnectionsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsEkmConnectionsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsEkmConnectionsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsEkmConnectionsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsEkmConnections: API.OperationMethod<TestIamPermissionsProjectsLocationsEkmConnectionsRequest, TestIamPermissionsProjectsLocationsEkmConnectionsResponse, TestIamPermissionsProjectsLocationsEkmConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsEkmConnections: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsEkmConnectionsRequest,
+  TestIamPermissionsProjectsLocationsEkmConnectionsResponse,
+  TestIamPermissionsProjectsLocationsEkmConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEkmConnectionsRequest,
   output: TestIamPermissionsProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -2316,25 +3356,38 @@ export interface ListProjectsLocationsSingleTenantHsmInstancesRequest {
   showDeleted?: boolean;
 }
 
-export const ListProjectsLocationsSingleTenantHsmInstancesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsSingleTenantHsmInstancesRequest>;
+export const ListProjectsLocationsSingleTenantHsmInstancesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsSingleTenantHsmInstancesRequest>;
 
-export type ListProjectsLocationsSingleTenantHsmInstancesResponse = ListSingleTenantHsmInstancesResponse;
-export const ListProjectsLocationsSingleTenantHsmInstancesResponse = ListSingleTenantHsmInstancesResponse;
+export type ListProjectsLocationsSingleTenantHsmInstancesResponse =
+  ListSingleTenantHsmInstancesResponse;
+export const ListProjectsLocationsSingleTenantHsmInstancesResponse =
+  ListSingleTenantHsmInstancesResponse;
 
 export type ListProjectsLocationsSingleTenantHsmInstancesError = DefaultErrors;
 
 /** Lists SingleTenantHsmInstances. */
-export const listProjectsLocationsSingleTenantHsmInstances: API.PaginatedOperationMethod<ListProjectsLocationsSingleTenantHsmInstancesRequest, ListProjectsLocationsSingleTenantHsmInstancesResponse, ListProjectsLocationsSingleTenantHsmInstancesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsSingleTenantHsmInstances: API.PaginatedOperationMethod<
+  ListProjectsLocationsSingleTenantHsmInstancesRequest,
+  ListProjectsLocationsSingleTenantHsmInstancesResponse,
+  ListProjectsLocationsSingleTenantHsmInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsSingleTenantHsmInstancesRequest,
   output: ListProjectsLocationsSingleTenantHsmInstancesResponse,
   errors: [],
@@ -2349,20 +3402,31 @@ export interface GetProjectsLocationsSingleTenantHsmInstancesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsSingleTenantHsmInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsSingleTenantHsmInstancesRequest>;
+export const GetProjectsLocationsSingleTenantHsmInstancesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsSingleTenantHsmInstancesRequest>;
 
-export type GetProjectsLocationsSingleTenantHsmInstancesResponse = SingleTenantHsmInstance;
-export const GetProjectsLocationsSingleTenantHsmInstancesResponse = SingleTenantHsmInstance;
+export type GetProjectsLocationsSingleTenantHsmInstancesResponse =
+  SingleTenantHsmInstance;
+export const GetProjectsLocationsSingleTenantHsmInstancesResponse =
+  SingleTenantHsmInstance;
 
 export type GetProjectsLocationsSingleTenantHsmInstancesError = DefaultErrors;
 
 /** Returns metadata for a given SingleTenantHsmInstance. */
-export const getProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<GetProjectsLocationsSingleTenantHsmInstancesRequest, GetProjectsLocationsSingleTenantHsmInstancesResponse, GetProjectsLocationsSingleTenantHsmInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<
+  GetProjectsLocationsSingleTenantHsmInstancesRequest,
+  GetProjectsLocationsSingleTenantHsmInstancesResponse,
+  GetProjectsLocationsSingleTenantHsmInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsSingleTenantHsmInstancesRequest,
   output: GetProjectsLocationsSingleTenantHsmInstancesResponse,
   errors: [],
@@ -2377,22 +3441,36 @@ export interface CreateProjectsLocationsSingleTenantHsmInstancesRequest {
   body?: SingleTenantHsmInstance;
 }
 
-export const CreateProjectsLocationsSingleTenantHsmInstancesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  singleTenantHsmInstanceId: Schema.optional(Schema.String).pipe(T.HttpQuery("singleTenantHsmInstanceId")),
-  body: Schema.optional(SingleTenantHsmInstance).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsSingleTenantHsmInstancesRequest>;
+export const CreateProjectsLocationsSingleTenantHsmInstancesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    singleTenantHsmInstanceId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("singleTenantHsmInstanceId"),
+    ),
+    body: Schema.optional(SingleTenantHsmInstance).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsSingleTenantHsmInstancesRequest>;
 
 export type CreateProjectsLocationsSingleTenantHsmInstancesResponse = Operation;
-export const CreateProjectsLocationsSingleTenantHsmInstancesResponse = Operation;
+export const CreateProjectsLocationsSingleTenantHsmInstancesResponse =
+  Operation;
 
-export type CreateProjectsLocationsSingleTenantHsmInstancesError = DefaultErrors;
+export type CreateProjectsLocationsSingleTenantHsmInstancesError =
+  DefaultErrors;
 
 /** Creates a new SingleTenantHsmInstance in a given Project and Location. User must create a RegisterTwoFactorAuthKeys proposal with this single-tenant HSM instance to finish setup of the instance. */
-export const createProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<CreateProjectsLocationsSingleTenantHsmInstancesRequest, CreateProjectsLocationsSingleTenantHsmInstancesResponse, CreateProjectsLocationsSingleTenantHsmInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<
+  CreateProjectsLocationsSingleTenantHsmInstancesRequest,
+  CreateProjectsLocationsSingleTenantHsmInstancesResponse,
+  CreateProjectsLocationsSingleTenantHsmInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsSingleTenantHsmInstancesRequest,
   output: CreateProjectsLocationsSingleTenantHsmInstancesResponse,
   errors: [],
@@ -2407,22 +3485,37 @@ export interface CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest
   body?: SingleTenantHsmInstanceProposal;
 }
 
-export const CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  singleTenantHsmInstanceProposalId: Schema.optional(Schema.String).pipe(T.HttpQuery("singleTenantHsmInstanceProposalId")),
-  body: Schema.optional(SingleTenantHsmInstanceProposal).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
+export const CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    singleTenantHsmInstanceProposalId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("singleTenantHsmInstanceProposalId"),
+    ),
+    body: Schema.optional(SingleTenantHsmInstanceProposal).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
-export type CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Operation;
-export const CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Operation;
+export type CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  Operation;
+export const CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  Operation;
 
-export type CreateProjectsLocationsSingleTenantHsmInstancesProposalsError = DefaultErrors;
+export type CreateProjectsLocationsSingleTenantHsmInstancesProposalsError =
+  DefaultErrors;
 
 /** Creates a new SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. */
-export const createProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest, CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse, CreateProjectsLocationsSingleTenantHsmInstancesProposalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<
+  CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
+  CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
+  CreateProjectsLocationsSingleTenantHsmInstancesProposalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
@@ -2435,21 +3528,36 @@ export interface ApproveProjectsLocationsSingleTenantHsmInstancesProposalsReques
   body?: ApproveSingleTenantHsmInstanceProposalRequest;
 }
 
-export const ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ApproveSingleTenantHsmInstanceProposalRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}:approve", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
+export const ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ApproveSingleTenantHsmInstanceProposalRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}:approve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
-export type ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse = ApproveSingleTenantHsmInstanceProposalResponse;
-export const ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse = ApproveSingleTenantHsmInstanceProposalResponse;
+export type ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  ApproveSingleTenantHsmInstanceProposalResponse;
+export const ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  ApproveSingleTenantHsmInstanceProposalResponse;
 
-export type ApproveProjectsLocationsSingleTenantHsmInstancesProposalsError = DefaultErrors;
+export type ApproveProjectsLocationsSingleTenantHsmInstancesProposalsError =
+  DefaultErrors;
 
 /** Approves a SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. The proposal must be in the PENDING state. */
-export const approveProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest, ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse, ApproveProjectsLocationsSingleTenantHsmInstancesProposalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const approveProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<
+  ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
+  ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
+  ApproveProjectsLocationsSingleTenantHsmInstancesProposalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
@@ -2462,21 +3570,36 @@ export interface ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsReques
   body?: ExecuteSingleTenantHsmInstanceProposalRequest;
 }
 
-export const ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ExecuteSingleTenantHsmInstanceProposalRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}:execute", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
+export const ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ExecuteSingleTenantHsmInstanceProposalRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}:execute",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
-export type ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Operation;
-export const ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Operation;
+export type ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  Operation;
+export const ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  Operation;
 
-export type ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsError = DefaultErrors;
+export type ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsError =
+  DefaultErrors;
 
 /** Executes a SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. The proposal must be in the APPROVED state. */
-export const executeProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest, ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse, ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const executeProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<
+  ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
+  ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
+  ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
@@ -2487,20 +3610,32 @@ export interface GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
+export const GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
-export type GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse = SingleTenantHsmInstanceProposal;
-export const GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse = SingleTenantHsmInstanceProposal;
+export type GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  SingleTenantHsmInstanceProposal;
+export const GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  SingleTenantHsmInstanceProposal;
 
-export type GetProjectsLocationsSingleTenantHsmInstancesProposalsError = DefaultErrors;
+export type GetProjectsLocationsSingleTenantHsmInstancesProposalsError =
+  DefaultErrors;
 
 /** Returns metadata for a given SingleTenantHsmInstanceProposal. */
-export const getProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest, GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse, GetProjectsLocationsSingleTenantHsmInstancesProposalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<
+  GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
+  GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
+  GetProjectsLocationsSingleTenantHsmInstancesProposalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
@@ -2521,25 +3656,39 @@ export interface ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   showDeleted?: boolean;
 }
 
-export const ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
+export const ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
-export type ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse = ListSingleTenantHsmInstanceProposalsResponse;
-export const ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse = ListSingleTenantHsmInstanceProposalsResponse;
+export type ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  ListSingleTenantHsmInstanceProposalsResponse;
+export const ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  ListSingleTenantHsmInstanceProposalsResponse;
 
-export type ListProjectsLocationsSingleTenantHsmInstancesProposalsError = DefaultErrors;
+export type ListProjectsLocationsSingleTenantHsmInstancesProposalsError =
+  DefaultErrors;
 
 /** Lists SingleTenantHsmInstanceProposals. */
-export const listProjectsLocationsSingleTenantHsmInstancesProposals: API.PaginatedOperationMethod<ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest, ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse, ListProjectsLocationsSingleTenantHsmInstancesProposalsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsSingleTenantHsmInstancesProposals: API.PaginatedOperationMethod<
+  ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
+  ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
+  ListProjectsLocationsSingleTenantHsmInstancesProposalsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
@@ -2554,20 +3703,32 @@ export interface DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest
   name: string;
 }
 
-export const DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
+export const DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/singleTenantHsmInstances/{singleTenantHsmInstancesId}/proposals/{proposalsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
-export type DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Empty;
-export const DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Empty;
+export type DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  Empty;
+export const DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
+  Empty;
 
-export type DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError = DefaultErrors;
+export type DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError =
+  DefaultErrors;
 
 /** Deletes a SingleTenantHsmInstanceProposal. */
-export const deleteProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest, DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse, DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<
+  DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
+  DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
+  DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
@@ -2593,7 +3754,10 @@ export const ListProjectsLocationsKeyRingsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsKeyRingsRequest>;
 
@@ -2603,7 +3767,12 @@ export const ListProjectsLocationsKeyRingsResponse = ListKeyRingsResponse;
 export type ListProjectsLocationsKeyRingsError = DefaultErrors;
 
 /** Lists KeyRings. */
-export const listProjectsLocationsKeyRings: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsRequest, ListProjectsLocationsKeyRingsResponse, ListProjectsLocationsKeyRingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsKeyRings: API.PaginatedOperationMethod<
+  ListProjectsLocationsKeyRingsRequest,
+  ListProjectsLocationsKeyRingsResponse,
+  ListProjectsLocationsKeyRingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsRequest,
   output: ListProjectsLocationsKeyRingsResponse,
   errors: [],
@@ -2621,7 +3790,10 @@ export interface GetProjectsLocationsKeyRingsRequest {
 export const GetProjectsLocationsKeyRingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsKeyRingsRequest>;
 
@@ -2631,7 +3803,12 @@ export const GetProjectsLocationsKeyRingsResponse = KeyRing;
 export type GetProjectsLocationsKeyRingsError = DefaultErrors;
 
 /** Returns metadata for a given KeyRing. */
-export const getProjectsLocationsKeyRings: API.OperationMethod<GetProjectsLocationsKeyRingsRequest, GetProjectsLocationsKeyRingsResponse, GetProjectsLocationsKeyRingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsKeyRings: API.OperationMethod<
+  GetProjectsLocationsKeyRingsRequest,
+  GetProjectsLocationsKeyRingsResponse,
+  GetProjectsLocationsKeyRingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsRequest,
   output: GetProjectsLocationsKeyRingsResponse,
   errors: [],
@@ -2651,7 +3828,11 @@ export const CreateProjectsLocationsKeyRingsRequest = Schema.Struct({
   keyRingId: Schema.optional(Schema.String).pipe(T.HttpQuery("keyRingId")),
   body: Schema.optional(KeyRing).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsKeyRingsRequest>;
 
@@ -2661,7 +3842,12 @@ export const CreateProjectsLocationsKeyRingsResponse = KeyRing;
 export type CreateProjectsLocationsKeyRingsError = DefaultErrors;
 
 /** Create a new KeyRing in a given Project and Location. */
-export const createProjectsLocationsKeyRings: API.OperationMethod<CreateProjectsLocationsKeyRingsRequest, CreateProjectsLocationsKeyRingsResponse, CreateProjectsLocationsKeyRingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsKeyRings: API.OperationMethod<
+  CreateProjectsLocationsKeyRingsRequest,
+  CreateProjectsLocationsKeyRingsResponse,
+  CreateProjectsLocationsKeyRingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsRequest,
   output: CreateProjectsLocationsKeyRingsResponse,
   errors: [],
@@ -2678,7 +3864,11 @@ export const SetIamPolicyProjectsLocationsKeyRingsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsKeyRingsRequest>;
 
@@ -2688,7 +3878,12 @@ export const SetIamPolicyProjectsLocationsKeyRingsResponse = Policy;
 export type SetIamPolicyProjectsLocationsKeyRingsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsKeyRings: API.OperationMethod<SetIamPolicyProjectsLocationsKeyRingsRequest, SetIamPolicyProjectsLocationsKeyRingsResponse, SetIamPolicyProjectsLocationsKeyRingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsKeyRings: API.OperationMethod<
+  SetIamPolicyProjectsLocationsKeyRingsRequest,
+  SetIamPolicyProjectsLocationsKeyRingsResponse,
+  SetIamPolicyProjectsLocationsKeyRingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsKeyRingsRequest,
   output: SetIamPolicyProjectsLocationsKeyRingsResponse,
   errors: [],
@@ -2703,9 +3898,14 @@ export interface GetIamPolicyProjectsLocationsKeyRingsRequest {
 
 export const GetIamPolicyProjectsLocationsKeyRingsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsKeyRingsRequest>;
 
@@ -2715,7 +3915,12 @@ export const GetIamPolicyProjectsLocationsKeyRingsResponse = Policy;
 export type GetIamPolicyProjectsLocationsKeyRingsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsKeyRings: API.OperationMethod<GetIamPolicyProjectsLocationsKeyRingsRequest, GetIamPolicyProjectsLocationsKeyRingsResponse, GetIamPolicyProjectsLocationsKeyRingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsKeyRings: API.OperationMethod<
+  GetIamPolicyProjectsLocationsKeyRingsRequest,
+  GetIamPolicyProjectsLocationsKeyRingsResponse,
+  GetIamPolicyProjectsLocationsKeyRingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsKeyRingsRequest,
   output: GetIamPolicyProjectsLocationsKeyRingsResponse,
   errors: [],
@@ -2728,21 +3933,34 @@ export interface TestIamPermissionsProjectsLocationsKeyRingsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsKeyRingsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}:testIamPermissions", hasBody: true }),
+export const TestIamPermissionsProjectsLocationsKeyRingsRequest = Schema.Struct(
+  {
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsKeyRingsRequest>;
 
-export type TestIamPermissionsProjectsLocationsKeyRingsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsKeyRingsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsKeyRingsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsKeyRingsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsKeyRingsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsKeyRings: API.OperationMethod<TestIamPermissionsProjectsLocationsKeyRingsRequest, TestIamPermissionsProjectsLocationsKeyRingsResponse, TestIamPermissionsProjectsLocationsKeyRingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsKeyRings: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsKeyRingsRequest,
+  TestIamPermissionsProjectsLocationsKeyRingsResponse,
+  TestIamPermissionsProjectsLocationsKeyRingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsKeyRingsRequest,
   output: TestIamPermissionsProjectsLocationsKeyRingsResponse,
   errors: [],
@@ -2771,17 +3989,27 @@ export const ListProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsKeyRingsCryptoKeysRequest>;
 
-export type ListProjectsLocationsKeyRingsCryptoKeysResponse = ListCryptoKeysResponse;
-export const ListProjectsLocationsKeyRingsCryptoKeysResponse = ListCryptoKeysResponse;
+export type ListProjectsLocationsKeyRingsCryptoKeysResponse =
+  ListCryptoKeysResponse;
+export const ListProjectsLocationsKeyRingsCryptoKeysResponse =
+  ListCryptoKeysResponse;
 
 export type ListProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
 
 /** Lists CryptoKeys. */
-export const listProjectsLocationsKeyRingsCryptoKeys: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsCryptoKeysRequest, ListProjectsLocationsKeyRingsCryptoKeysResponse, ListProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsKeyRingsCryptoKeys: API.PaginatedOperationMethod<
+  ListProjectsLocationsKeyRingsCryptoKeysRequest,
+  ListProjectsLocationsKeyRingsCryptoKeysResponse,
+  ListProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsCryptoKeysRequest,
   output: ListProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2799,7 +4027,10 @@ export interface GetProjectsLocationsKeyRingsCryptoKeysRequest {
 export const GetProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsKeyRingsCryptoKeysRequest>;
 
@@ -2809,7 +4040,12 @@ export const GetProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
 export type GetProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
 
 /** Returns metadata for a given CryptoKey, as well as its primary CryptoKeyVersion. */
-export const getProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<GetProjectsLocationsKeyRingsCryptoKeysRequest, GetProjectsLocationsKeyRingsCryptoKeysResponse, GetProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  GetProjectsLocationsKeyRingsCryptoKeysRequest,
+  GetProjectsLocationsKeyRingsCryptoKeysResponse,
+  GetProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsCryptoKeysRequest,
   output: GetProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2829,10 +4065,16 @@ export interface CreateProjectsLocationsKeyRingsCryptoKeysRequest {
 export const CreateProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   cryptoKeyId: Schema.optional(Schema.String).pipe(T.HttpQuery("cryptoKeyId")),
-  skipInitialVersionCreation: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("skipInitialVersionCreation")),
+  skipInitialVersionCreation: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("skipInitialVersionCreation"),
+  ),
   body: Schema.optional(CryptoKey).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsKeyRingsCryptoKeysRequest>;
 
@@ -2842,7 +4084,12 @@ export const CreateProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
 export type CreateProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
 
 /** Create a new CryptoKey within a KeyRing. CryptoKey.purpose and CryptoKey.version_template.algorithm are required. */
-export const createProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<CreateProjectsLocationsKeyRingsCryptoKeysRequest, CreateProjectsLocationsKeyRingsCryptoKeysResponse, CreateProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  CreateProjectsLocationsKeyRingsCryptoKeysRequest,
+  CreateProjectsLocationsKeyRingsCryptoKeysResponse,
+  CreateProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsCryptoKeysRequest,
   output: CreateProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2856,7 +4103,10 @@ export interface DeleteProjectsLocationsKeyRingsCryptoKeysRequest {
 export const DeleteProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsKeyRingsCryptoKeysRequest>;
 
@@ -2866,7 +4116,12 @@ export const DeleteProjectsLocationsKeyRingsCryptoKeysResponse = Operation;
 export type DeleteProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
 
 /** Permanently deletes the given CryptoKey. All child CryptoKeyVersions must have been previously deleted using KeyManagementService.DeleteCryptoKeyVersion. The specified crypto key will be immediately and permanently deleted upon calling this method. This action cannot be undone. */
-export const deleteProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<DeleteProjectsLocationsKeyRingsCryptoKeysRequest, DeleteProjectsLocationsKeyRingsCryptoKeysResponse, DeleteProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  DeleteProjectsLocationsKeyRingsCryptoKeysRequest,
+  DeleteProjectsLocationsKeyRingsCryptoKeysResponse,
+  DeleteProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsKeyRingsCryptoKeysRequest,
   output: DeleteProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2886,7 +4141,11 @@ export const PatchProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(CryptoKey).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsKeyRingsCryptoKeysRequest>;
 
@@ -2896,7 +4155,12 @@ export const PatchProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
 export type PatchProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
 
 /** Update a CryptoKey. */
-export const patchProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<PatchProjectsLocationsKeyRingsCryptoKeysRequest, PatchProjectsLocationsKeyRingsCryptoKeysResponse, PatchProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  PatchProjectsLocationsKeyRingsCryptoKeysRequest,
+  PatchProjectsLocationsKeyRingsCryptoKeysResponse,
+  PatchProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsKeyRingsCryptoKeysRequest,
   output: PatchProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2909,21 +4173,36 @@ export interface UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest 
   body?: UpdateCryptoKeyPrimaryVersionRequest;
 }
 
-export const UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UpdateCryptoKeyPrimaryVersionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:updatePrimaryVersion", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest>;
+export const UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UpdateCryptoKeyPrimaryVersionRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:updatePrimaryVersion",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest>;
 
-export type UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
-export const UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
+export type UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse =
+  CryptoKey;
+export const UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse =
+  CryptoKey;
 
-export type UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
+export type UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysError =
+  DefaultErrors;
 
 /** Update the version of a CryptoKey that will be used in Encrypt. Returns an error if called on a key whose purpose is not ENCRYPT_DECRYPT. */
-export const updatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest, UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse, UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest,
+  UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse,
+  UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest,
   output: UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2940,17 +4219,28 @@ export const EncryptProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EncryptRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:encrypt", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:encrypt",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EncryptProjectsLocationsKeyRingsCryptoKeysRequest>;
 
-export type EncryptProjectsLocationsKeyRingsCryptoKeysResponse = EncryptResponse;
-export const EncryptProjectsLocationsKeyRingsCryptoKeysResponse = EncryptResponse;
+export type EncryptProjectsLocationsKeyRingsCryptoKeysResponse =
+  EncryptResponse;
+export const EncryptProjectsLocationsKeyRingsCryptoKeysResponse =
+  EncryptResponse;
 
 export type EncryptProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
 
 /** Encrypts data, so that it can only be recovered by a call to Decrypt. The CryptoKey.purpose must be ENCRYPT_DECRYPT. */
-export const encryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<EncryptProjectsLocationsKeyRingsCryptoKeysRequest, EncryptProjectsLocationsKeyRingsCryptoKeysResponse, EncryptProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const encryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  EncryptProjectsLocationsKeyRingsCryptoKeysRequest,
+  EncryptProjectsLocationsKeyRingsCryptoKeysResponse,
+  EncryptProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EncryptProjectsLocationsKeyRingsCryptoKeysRequest,
   output: EncryptProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2967,17 +4257,28 @@ export const DecryptProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(DecryptRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:decrypt", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:decrypt",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DecryptProjectsLocationsKeyRingsCryptoKeysRequest>;
 
-export type DecryptProjectsLocationsKeyRingsCryptoKeysResponse = DecryptResponse;
-export const DecryptProjectsLocationsKeyRingsCryptoKeysResponse = DecryptResponse;
+export type DecryptProjectsLocationsKeyRingsCryptoKeysResponse =
+  DecryptResponse;
+export const DecryptProjectsLocationsKeyRingsCryptoKeysResponse =
+  DecryptResponse;
 
 export type DecryptProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
 
 /** Decrypts data that was protected by Encrypt. The CryptoKey.purpose must be ENCRYPT_DECRYPT. */
-export const decryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<DecryptProjectsLocationsKeyRingsCryptoKeysRequest, DecryptProjectsLocationsKeyRingsCryptoKeysResponse, DecryptProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const decryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  DecryptProjectsLocationsKeyRingsCryptoKeysRequest,
+  DecryptProjectsLocationsKeyRingsCryptoKeysResponse,
+  DecryptProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DecryptProjectsLocationsKeyRingsCryptoKeysRequest,
   output: DecryptProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2990,21 +4291,32 @@ export interface SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest>;
+export const SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest>;
 
 export type SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse = Policy;
 export const SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsKeyRingsCryptoKeysError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest, SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse, SetIamPolicyProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest,
+  SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse,
+  SetIamPolicyProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest,
   output: SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -3017,21 +4329,33 @@ export interface GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest>;
+export const GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest>;
 
 export type GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse = Policy;
 export const GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsKeyRingsCryptoKeysError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest, GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse, GetIamPolicyProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest,
+  GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse,
+  GetIamPolicyProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest,
   output: GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -3044,21 +4368,34 @@ export interface TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest>;
+export const TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest>;
 
-export type TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest, TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse, TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest,
+  TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse,
+  TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest,
   output: TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -3079,25 +4416,37 @@ export interface ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest
   orderBy?: string;
 }
 
-export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = ListCryptoKeyVersionsResponse;
-export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = ListCryptoKeyVersionsResponse;
+export type ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  ListCryptoKeyVersionsResponse;
+export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  ListCryptoKeyVersionsResponse;
 
-export type ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Lists CryptoKeyVersions. */
-export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.PaginatedOperationMethod<
+  ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3112,20 +4461,32 @@ export interface GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest 
   name: string;
 }
 
-export const GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
-export const GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
+export type GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
+export const GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
 
-export type GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Returns metadata for a given CryptoKeyVersion. */
-export const getProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3135,26 +4496,48 @@ export interface GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersion
   /** Required. The name of the CryptoKeyVersion public key to get. */
   name: string;
   /** Optional. The PublicKey format specified by the user. This field is required for PQC algorithms. If specified, the public key will be exported through the public_key field in the requested format. Otherwise, the pem field will be populated for non-PQC algorithms, and an error will be returned for PQC algorithms. */
-  publicKeyFormat?: "PUBLIC_KEY_FORMAT_UNSPECIFIED" | "PEM" | "DER" | "NIST_PQC" | "XWING_RAW_BYTES" | (string & {});
+  publicKeyFormat?:
+    | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
+    | "PEM"
+    | "DER"
+    | "NIST_PQC"
+    | "XWING_RAW_BYTES"
+    | (string & {});
 }
 
-export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  publicKeyFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("publicKeyFormat")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}/publicKey" }),
-  svc,
-) as unknown as Schema.Schema<GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    publicKeyFormat: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("publicKeyFormat"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}/publicKey",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = PublicKey;
-export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = PublicKey;
+export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  PublicKey;
+export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  PublicKey;
 
-export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Returns the public key for the given CryptoKeyVersion. The CryptoKey.purpose must be ASYMMETRIC_SIGN or ASYMMETRIC_DECRYPT. */
-export const getPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
-  output: GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+export const getPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  output:
+    GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
@@ -3165,21 +4548,34 @@ export interface CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsReque
   body?: CryptoKeyVersion;
 }
 
-export const CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CryptoKeyVersion).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CryptoKeyVersion).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
-export const CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
+export type CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
+export const CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
 
-export type CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Create a new CryptoKeyVersion in a CryptoKey. The server will assign the next sequential id. If unset, state will be set to ENABLED. */
-export const createProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3190,20 +4586,32 @@ export interface DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsReque
   name: string;
 }
 
-export const DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = Operation;
-export const DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = Operation;
+export type DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  Operation;
+export const DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  Operation;
 
-export type DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Permanently deletes the given CryptoKeyVersion. Only possible if the version has not been previously imported and if its state is one of DESTROYED, IMPORT_FAILED, or GENERATION_FAILED. Successfully imported CryptoKeyVersions cannot be deleted at this time. The specified version will be immediately and permanently deleted upon calling this method. This action cannot be undone. */
-export const deleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3216,21 +4624,34 @@ export interface ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsReque
   body?: ImportCryptoKeyVersionRequest;
 }
 
-export const ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ImportCryptoKeyVersionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions:import", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ImportCryptoKeyVersionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
-export const ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
+export type ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
+export const ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
 
-export type ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Import wrapped key material into a CryptoKeyVersion. All requests must specify a CryptoKey. If a CryptoKeyVersion is additionally specified in the request, key material will be reimported into that version. Otherwise, a new version will be created, and will be assigned the next sequential id within the CryptoKey. */
-export const importProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3245,22 +4666,35 @@ export interface PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsReques
   body?: CryptoKeyVersion;
 }
 
-export const PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(CryptoKeyVersion).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(CryptoKeyVersion).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
-export const PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
+export type PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
+export const PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
 
-export type PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Update a CryptoKeyVersion's metadata. state may be changed between ENABLED and DISABLED using this method. See DestroyCryptoKeyVersion and RestoreCryptoKeyVersion to move between other states. */
-export const patchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3273,21 +4707,34 @@ export interface DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequ
   body?: DestroyCryptoKeyVersionRequest;
 }
 
-export const DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DestroyCryptoKeyVersionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:destroy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DestroyCryptoKeyVersionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:destroy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
-export const DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
+export type DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
+export const DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
 
-export type DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Schedule a CryptoKeyVersion for destruction. Upon calling this method, CryptoKeyVersion.state will be set to DESTROY_SCHEDULED, and destroy_time will be set to the time destroy_scheduled_duration in the future. At that time, the state will automatically change to DESTROYED, and the key material will be irrevocably destroyed. Before the destroy_time is reached, RestoreCryptoKeyVersion may be called to reverse the process. */
-export const destroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const destroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3300,21 +4747,34 @@ export interface RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequ
   body?: RestoreCryptoKeyVersionRequest;
 }
 
-export const RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RestoreCryptoKeyVersionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:restore", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RestoreCryptoKeyVersionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:restore",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
-export const RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = CryptoKeyVersion;
+export type RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
+export const RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  CryptoKeyVersion;
 
-export type RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Restore a CryptoKeyVersion in the DESTROY_SCHEDULED state. Upon restoration of the CryptoKeyVersion, state will be set to DISABLED, and destroy_time will be cleared. */
-export const restoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3327,23 +4787,37 @@ export interface RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsR
   body?: RawEncryptRequest;
 }
 
-export const RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RawEncryptRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:rawEncrypt", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RawEncryptRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:rawEncrypt",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = RawEncryptResponse;
-export const RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = RawEncryptResponse;
+export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  RawEncryptResponse;
+export const RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  RawEncryptResponse;
 
-export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Encrypts data using portable cryptographic primitives. Most users should choose Encrypt and Decrypt rather than their raw counterparts. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
-export const rawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
-  output: RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  output:
+    RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
@@ -3354,23 +4828,37 @@ export interface RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsR
   body?: RawDecryptRequest;
 }
 
-export const RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RawDecryptRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:rawDecrypt", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RawDecryptRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:rawDecrypt",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = RawDecryptResponse;
-export const RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = RawDecryptResponse;
+export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  RawDecryptResponse;
+export const RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  RawDecryptResponse;
 
-export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Decrypts data that was originally encrypted using a raw cryptographic mechanism. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
-export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
-  output: RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  output:
+    RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
@@ -3381,23 +4869,38 @@ export interface AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersi
   body?: AsymmetricSignRequest;
 }
 
-export const AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AsymmetricSignRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:asymmetricSign", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AsymmetricSignRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:asymmetricSign",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = AsymmetricSignResponse;
-export const AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = AsymmetricSignResponse;
+export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  AsymmetricSignResponse;
+export const AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  AsymmetricSignResponse;
 
-export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Signs data using a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_SIGN, producing a signature that can be verified with the public key retrieved from GetPublicKey. */
-export const asymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
-  output: AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+export const asymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  output:
+    AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
@@ -3408,23 +4911,38 @@ export interface AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVe
   body?: AsymmetricDecryptRequest;
 }
 
-export const AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AsymmetricDecryptRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:asymmetricDecrypt", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AsymmetricDecryptRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:asymmetricDecrypt",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = AsymmetricDecryptResponse;
-export const AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = AsymmetricDecryptResponse;
+export type AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  AsymmetricDecryptResponse;
+export const AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  AsymmetricDecryptResponse;
 
-export type AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Decrypts data that was encrypted with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_DECRYPT. */
-export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
-  output: AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  output:
+    AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
@@ -3435,21 +4953,34 @@ export interface MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequ
   body?: MacSignRequest;
 }
 
-export const MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MacSignRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:macSign", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MacSignRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:macSign",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = MacSignResponse;
-export const MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = MacSignResponse;
+export type MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  MacSignResponse;
+export const MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  MacSignResponse;
 
-export type MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Signs data using a CryptoKeyVersion with CryptoKey.purpose MAC, producing a tag that can be verified by another source with the same key. */
-export const macSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const macSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3462,21 +4993,34 @@ export interface MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRe
   body?: MacVerifyRequest;
 }
 
-export const MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MacVerifyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:macVerify", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MacVerifyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:macVerify",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = MacVerifyResponse;
-export const MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = MacVerifyResponse;
+export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  MacVerifyResponse;
+export const MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  MacVerifyResponse;
 
-export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Verifies MAC tag using a CryptoKeyVersion with CryptoKey.purpose MAC, and returns a response that indicates whether or not the verification was successful. */
-export const macVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const macVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -3489,23 +5033,37 @@ export interface DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions
   body?: DecapsulateRequest;
 }
 
-export const DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DecapsulateRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:decapsulate", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+export const DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DecapsulateRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/cryptoKeyVersions/{cryptoKeyVersionsId}:decapsulate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
-export type DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = DecapsulateResponse;
-export const DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = DecapsulateResponse;
+export type DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  DecapsulateResponse;
+export const DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
+  DecapsulateResponse;
 
-export type DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = DefaultErrors;
+export type DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  DefaultErrors;
 
 /** Decapsulates data that was encapsulated with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose KEY_ENCAPSULATION. */
-export const decapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const decapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
-  output: DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
+  output:
+    DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
@@ -3529,17 +5087,27 @@ export const ListProjectsLocationsKeyRingsImportJobsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsKeyRingsImportJobsRequest>;
 
-export type ListProjectsLocationsKeyRingsImportJobsResponse = ListImportJobsResponse;
-export const ListProjectsLocationsKeyRingsImportJobsResponse = ListImportJobsResponse;
+export type ListProjectsLocationsKeyRingsImportJobsResponse =
+  ListImportJobsResponse;
+export const ListProjectsLocationsKeyRingsImportJobsResponse =
+  ListImportJobsResponse;
 
 export type ListProjectsLocationsKeyRingsImportJobsError = DefaultErrors;
 
 /** Lists ImportJobs. */
-export const listProjectsLocationsKeyRingsImportJobs: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsImportJobsRequest, ListProjectsLocationsKeyRingsImportJobsResponse, ListProjectsLocationsKeyRingsImportJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsKeyRingsImportJobs: API.PaginatedOperationMethod<
+  ListProjectsLocationsKeyRingsImportJobsRequest,
+  ListProjectsLocationsKeyRingsImportJobsResponse,
+  ListProjectsLocationsKeyRingsImportJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsImportJobsRequest,
   output: ListProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
@@ -3557,7 +5125,10 @@ export interface GetProjectsLocationsKeyRingsImportJobsRequest {
 export const GetProjectsLocationsKeyRingsImportJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsKeyRingsImportJobsRequest>;
 
@@ -3567,7 +5138,12 @@ export const GetProjectsLocationsKeyRingsImportJobsResponse = ImportJob;
 export type GetProjectsLocationsKeyRingsImportJobsError = DefaultErrors;
 
 /** Returns metadata for a given ImportJob. */
-export const getProjectsLocationsKeyRingsImportJobs: API.OperationMethod<GetProjectsLocationsKeyRingsImportJobsRequest, GetProjectsLocationsKeyRingsImportJobsResponse, GetProjectsLocationsKeyRingsImportJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
+  GetProjectsLocationsKeyRingsImportJobsRequest,
+  GetProjectsLocationsKeyRingsImportJobsResponse,
+  GetProjectsLocationsKeyRingsImportJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsImportJobsRequest,
   output: GetProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
@@ -3587,7 +5163,11 @@ export const CreateProjectsLocationsKeyRingsImportJobsRequest = Schema.Struct({
   importJobId: Schema.optional(Schema.String).pipe(T.HttpQuery("importJobId")),
   body: Schema.optional(ImportJob).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsKeyRingsImportJobsRequest>;
 
@@ -3597,7 +5177,12 @@ export const CreateProjectsLocationsKeyRingsImportJobsResponse = ImportJob;
 export type CreateProjectsLocationsKeyRingsImportJobsError = DefaultErrors;
 
 /** Create a new ImportJob within a KeyRing. ImportJob.import_method is required. */
-export const createProjectsLocationsKeyRingsImportJobs: API.OperationMethod<CreateProjectsLocationsKeyRingsImportJobsRequest, CreateProjectsLocationsKeyRingsImportJobsResponse, CreateProjectsLocationsKeyRingsImportJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
+  CreateProjectsLocationsKeyRingsImportJobsRequest,
+  CreateProjectsLocationsKeyRingsImportJobsResponse,
+  CreateProjectsLocationsKeyRingsImportJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsImportJobsRequest,
   output: CreateProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
@@ -3610,21 +5195,32 @@ export interface SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest>;
+export const SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest>;
 
 export type SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse = Policy;
 export const SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsKeyRingsImportJobsError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsKeyRingsImportJobsError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMethod<SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest, SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse, SetIamPolicyProjectsLocationsKeyRingsImportJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
+  SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest,
+  SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse,
+  SetIamPolicyProjectsLocationsKeyRingsImportJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest,
   output: SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
@@ -3637,21 +5233,33 @@ export interface GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest>;
+export const GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest>;
 
 export type GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse = Policy;
 export const GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsKeyRingsImportJobsError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsKeyRingsImportJobsError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMethod<GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest, GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse, GetIamPolicyProjectsLocationsKeyRingsImportJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
+  GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest,
+  GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse,
+  GetIamPolicyProjectsLocationsKeyRingsImportJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest,
   output: GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
@@ -3664,21 +5272,34 @@ export interface TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest>;
+export const TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/importJobs/{importJobsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest>;
 
-export type TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsKeyRingsImportJobsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsKeyRingsImportJobsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsKeyRingsImportJobs: API.OperationMethod<TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest, TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse, TestIamPermissionsProjectsLocationsKeyRingsImportJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest,
+  TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse,
+  TestIamPermissionsProjectsLocationsKeyRingsImportJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest,
   output: TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
@@ -3698,17 +5319,27 @@ export const ListProjectsLocationsRetiredResourcesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/retiredResources" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/retiredResources",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsRetiredResourcesRequest>;
 
-export type ListProjectsLocationsRetiredResourcesResponse = ListRetiredResourcesResponse;
-export const ListProjectsLocationsRetiredResourcesResponse = ListRetiredResourcesResponse;
+export type ListProjectsLocationsRetiredResourcesResponse =
+  ListRetiredResourcesResponse;
+export const ListProjectsLocationsRetiredResourcesResponse =
+  ListRetiredResourcesResponse;
 
 export type ListProjectsLocationsRetiredResourcesError = DefaultErrors;
 
 /** Lists the RetiredResources which are the records of deleted CryptoKeys. RetiredResources prevent the reuse of these resource names after deletion. */
-export const listProjectsLocationsRetiredResources: API.PaginatedOperationMethod<ListProjectsLocationsRetiredResourcesRequest, ListProjectsLocationsRetiredResourcesResponse, ListProjectsLocationsRetiredResourcesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRetiredResources: API.PaginatedOperationMethod<
+  ListProjectsLocationsRetiredResourcesRequest,
+  ListProjectsLocationsRetiredResourcesResponse,
+  ListProjectsLocationsRetiredResourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRetiredResourcesRequest,
   output: ListProjectsLocationsRetiredResourcesResponse,
   errors: [],
@@ -3726,7 +5357,10 @@ export interface GetProjectsLocationsRetiredResourcesRequest {
 export const GetProjectsLocationsRetiredResourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/retiredResources/{retiredResourcesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/retiredResources/{retiredResourcesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRetiredResourcesRequest>;
 
@@ -3736,7 +5370,12 @@ export const GetProjectsLocationsRetiredResourcesResponse = RetiredResource;
 export type GetProjectsLocationsRetiredResourcesError = DefaultErrors;
 
 /** Retrieves a specific RetiredResource resource, which represents the record of a deleted CryptoKey. */
-export const getProjectsLocationsRetiredResources: API.OperationMethod<GetProjectsLocationsRetiredResourcesRequest, GetProjectsLocationsRetiredResourcesResponse, GetProjectsLocationsRetiredResourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRetiredResources: API.OperationMethod<
+  GetProjectsLocationsRetiredResourcesRequest,
+  GetProjectsLocationsRetiredResourcesResponse,
+  GetProjectsLocationsRetiredResourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRetiredResourcesRequest,
   output: GetProjectsLocationsRetiredResourcesResponse,
   errors: [],
@@ -3753,7 +5392,11 @@ export const SetIamPolicyProjectsLocationsEkmConfigRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsEkmConfigRequest>;
 
@@ -3763,7 +5406,12 @@ export const SetIamPolicyProjectsLocationsEkmConfigResponse = Policy;
 export type SetIamPolicyProjectsLocationsEkmConfigError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<SetIamPolicyProjectsLocationsEkmConfigRequest, SetIamPolicyProjectsLocationsEkmConfigResponse, SetIamPolicyProjectsLocationsEkmConfigError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<
+  SetIamPolicyProjectsLocationsEkmConfigRequest,
+  SetIamPolicyProjectsLocationsEkmConfigResponse,
+  SetIamPolicyProjectsLocationsEkmConfigError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsEkmConfigRequest,
   output: SetIamPolicyProjectsLocationsEkmConfigResponse,
   errors: [],
@@ -3778,9 +5426,14 @@ export interface GetIamPolicyProjectsLocationsEkmConfigRequest {
 
 export const GetIamPolicyProjectsLocationsEkmConfigRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsEkmConfigRequest>;
 
@@ -3790,7 +5443,12 @@ export const GetIamPolicyProjectsLocationsEkmConfigResponse = Policy;
 export type GetIamPolicyProjectsLocationsEkmConfigError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<GetIamPolicyProjectsLocationsEkmConfigRequest, GetIamPolicyProjectsLocationsEkmConfigResponse, GetIamPolicyProjectsLocationsEkmConfigError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<
+  GetIamPolicyProjectsLocationsEkmConfigRequest,
+  GetIamPolicyProjectsLocationsEkmConfigResponse,
+  GetIamPolicyProjectsLocationsEkmConfigError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsEkmConfigRequest,
   output: GetIamPolicyProjectsLocationsEkmConfigResponse,
   errors: [],
@@ -3803,21 +5461,33 @@ export interface TestIamPermissionsProjectsLocationsEkmConfigRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsEkmConfigRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsEkmConfigRequest>;
+export const TestIamPermissionsProjectsLocationsEkmConfigRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/ekmConfig:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsEkmConfigRequest>;
 
-export type TestIamPermissionsProjectsLocationsEkmConfigResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsEkmConfigResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsEkmConfigResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsEkmConfigResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsEkmConfigError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsEkmConfig: API.OperationMethod<TestIamPermissionsProjectsLocationsEkmConfigRequest, TestIamPermissionsProjectsLocationsEkmConfigResponse, TestIamPermissionsProjectsLocationsEkmConfigError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsEkmConfig: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsEkmConfigRequest,
+  TestIamPermissionsProjectsLocationsEkmConfigResponse,
+  TestIamPermissionsProjectsLocationsEkmConfigError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEkmConfigRequest,
   output: TestIamPermissionsProjectsLocationsEkmConfigResponse,
   errors: [],
@@ -3831,17 +5501,27 @@ export interface GetKajPolicyConfigOrganizationsRequest {
 export const GetKajPolicyConfigOrganizationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/kajPolicyConfig" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/kajPolicyConfig",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetKajPolicyConfigOrganizationsRequest>;
 
-export type GetKajPolicyConfigOrganizationsResponse = KeyAccessJustificationsPolicyConfig;
-export const GetKajPolicyConfigOrganizationsResponse = KeyAccessJustificationsPolicyConfig;
+export type GetKajPolicyConfigOrganizationsResponse =
+  KeyAccessJustificationsPolicyConfig;
+export const GetKajPolicyConfigOrganizationsResponse =
+  KeyAccessJustificationsPolicyConfig;
 
 export type GetKajPolicyConfigOrganizationsError = DefaultErrors;
 
 /** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
-export const getKajPolicyConfigOrganizations: API.OperationMethod<GetKajPolicyConfigOrganizationsRequest, GetKajPolicyConfigOrganizationsResponse, GetKajPolicyConfigOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getKajPolicyConfigOrganizations: API.OperationMethod<
+  GetKajPolicyConfigOrganizationsRequest,
+  GetKajPolicyConfigOrganizationsResponse,
+  GetKajPolicyConfigOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetKajPolicyConfigOrganizationsRequest,
   output: GetKajPolicyConfigOrganizationsResponse,
   errors: [],
@@ -3861,19 +5541,29 @@ export const UpdateKajPolicyConfigOrganizationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(KeyAccessJustificationsPolicyConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/organizations/{organizationsId}/kajPolicyConfig", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/organizations/{organizationsId}/kajPolicyConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateKajPolicyConfigOrganizationsRequest>;
 
-export type UpdateKajPolicyConfigOrganizationsResponse = KeyAccessJustificationsPolicyConfig;
-export const UpdateKajPolicyConfigOrganizationsResponse = KeyAccessJustificationsPolicyConfig;
+export type UpdateKajPolicyConfigOrganizationsResponse =
+  KeyAccessJustificationsPolicyConfig;
+export const UpdateKajPolicyConfigOrganizationsResponse =
+  KeyAccessJustificationsPolicyConfig;
 
 export type UpdateKajPolicyConfigOrganizationsError = DefaultErrors;
 
 /** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
-export const updateKajPolicyConfigOrganizations: API.OperationMethod<UpdateKajPolicyConfigOrganizationsRequest, UpdateKajPolicyConfigOrganizationsResponse, UpdateKajPolicyConfigOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateKajPolicyConfigOrganizations: API.OperationMethod<
+  UpdateKajPolicyConfigOrganizationsRequest,
+  UpdateKajPolicyConfigOrganizationsResponse,
+  UpdateKajPolicyConfigOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateKajPolicyConfigOrganizationsRequest,
   output: UpdateKajPolicyConfigOrganizationsResponse,
   errors: [],
 }));
-

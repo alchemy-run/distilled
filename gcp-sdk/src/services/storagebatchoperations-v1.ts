@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -65,11 +72,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -84,13 +95,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -101,41 +114,51 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface PrefixList {
   /** Optional. Include prefixes of the objects to be transformed. * Supports full object name * Supports prefix of the object name * Wildcards are not supported * Supports empty string for all objects in a bucket. */
   includedObjectPrefixes?: Array<string>;
 }
 
-export const PrefixList: Schema.Schema<PrefixList> = Schema.suspend(() => Schema.Struct({
-  includedObjectPrefixes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PrefixList" }) as any as Schema.Schema<PrefixList>;
+export const PrefixList: Schema.Schema<PrefixList> = Schema.suspend(() =>
+  Schema.Struct({
+    includedObjectPrefixes: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "PrefixList" }) as any as Schema.Schema<PrefixList>;
 
 export interface Manifest {
   /** Required. `manifest_location` must contain the manifest source file that is a CSV file in a Google Cloud Storage bucket. Each row in the file must include the object details i.e. BucketId and Name. Generation may optionally be specified. When it is not specified the live object is acted upon. `manifest_location` should either be 1) An absolute path to the object in the format of `gs://bucket_name/path/file_name.csv`. 2) An absolute path with a single wildcard character in the file name, for example `gs://bucket_name/path/file_name*.csv`. If manifest location is specified with a wildcard, objects in all manifest files matching the pattern will be acted upon. */
   manifestLocation?: string;
 }
 
-export const Manifest: Schema.Schema<Manifest> = Schema.suspend(() => Schema.Struct({
-  manifestLocation: Schema.optional(Schema.String),
-})).annotate({ identifier: "Manifest" }) as any as Schema.Schema<Manifest>;
+export const Manifest: Schema.Schema<Manifest> = Schema.suspend(() =>
+  Schema.Struct({
+    manifestLocation: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Manifest" }) as any as Schema.Schema<Manifest>;
 
 export interface Bucket {
   /** Required. Bucket name for the objects to be transformed. */
@@ -146,20 +169,24 @@ export interface Bucket {
   manifest?: Manifest;
 }
 
-export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() => Schema.Struct({
-  bucket: Schema.optional(Schema.String),
-  prefixList: Schema.optional(PrefixList),
-  manifest: Schema.optional(Manifest),
-})).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
+export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() =>
+  Schema.Struct({
+    bucket: Schema.optional(Schema.String),
+    prefixList: Schema.optional(PrefixList),
+    manifest: Schema.optional(Manifest),
+  }),
+).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
 
 export interface BucketList {
   /** Required. List of buckets and their objects to be transformed. Currently, only one bucket configuration is supported. If multiple buckets are specified, an error will be returned. */
   buckets?: Array<Bucket>;
 }
 
-export const BucketList: Schema.Schema<BucketList> = Schema.suspend(() => Schema.Struct({
-  buckets: Schema.optional(Schema.Array(Bucket)),
-})).annotate({ identifier: "BucketList" }) as any as Schema.Schema<BucketList>;
+export const BucketList: Schema.Schema<BucketList> = Schema.suspend(() =>
+  Schema.Struct({
+    buckets: Schema.optional(Schema.Array(Bucket)),
+  }),
+).annotate({ identifier: "BucketList" }) as any as Schema.Schema<BucketList>;
 
 export interface PutObjectHold {
   /** Required. Updates object temporary holds state. When object temporary hold is set, object cannot be deleted or replaced. */
@@ -168,31 +195,48 @@ export interface PutObjectHold {
   eventBasedHold?: "HOLD_STATUS_UNSPECIFIED" | "SET" | "UNSET" | (string & {});
 }
 
-export const PutObjectHold: Schema.Schema<PutObjectHold> = Schema.suspend(() => Schema.Struct({
-  temporaryHold: Schema.optional(Schema.String),
-  eventBasedHold: Schema.optional(Schema.String),
-})).annotate({ identifier: "PutObjectHold" }) as any as Schema.Schema<PutObjectHold>;
+export const PutObjectHold: Schema.Schema<PutObjectHold> = Schema.suspend(() =>
+  Schema.Struct({
+    temporaryHold: Schema.optional(Schema.String),
+    eventBasedHold: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PutObjectHold",
+}) as any as Schema.Schema<PutObjectHold>;
 
 export interface DeleteObject {
   /** Required. Controls deletion behavior when versioning is enabled for the object's bucket. If true both live and noncurrent objects will be permanently deleted. Otherwise live objects in versioned buckets will become noncurrent and objects that were already noncurrent will be skipped. This setting doesn't have any impact on the Soft Delete feature. All objects deleted by this service can be be restored for the duration of the Soft Delete retention duration if enabled. If enabled and the manifest doesn't specify an object's generation, a GetObjectMetadata call (a Class B operation) will be made to determine the live object generation. */
   permanentObjectDeletionEnabled?: boolean;
 }
 
-export const DeleteObject: Schema.Schema<DeleteObject> = Schema.suspend(() => Schema.Struct({
-  permanentObjectDeletionEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DeleteObject" }) as any as Schema.Schema<DeleteObject>;
+export const DeleteObject: Schema.Schema<DeleteObject> = Schema.suspend(() =>
+  Schema.Struct({
+    permanentObjectDeletionEnabled: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "DeleteObject",
+}) as any as Schema.Schema<DeleteObject>;
 
 export interface ObjectRetention {
   /** Required. The time when the object will be retained until. UNSET will clear the retention. Must be specified in RFC 3339 format e.g. YYYY-MM-DD'T'HH:MM:SS.SS'Z' or YYYY-MM-DD'T'HH:MM:SS'Z'. */
   retainUntilTime?: string;
   /** Required. The retention mode of the object. */
-  retentionMode?: "RETENTION_MODE_UNSPECIFIED" | "LOCKED" | "UNLOCKED" | (string & {});
+  retentionMode?:
+    | "RETENTION_MODE_UNSPECIFIED"
+    | "LOCKED"
+    | "UNLOCKED"
+    | (string & {});
 }
 
-export const ObjectRetention: Schema.Schema<ObjectRetention> = Schema.suspend(() => Schema.Struct({
-  retainUntilTime: Schema.optional(Schema.String),
-  retentionMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ObjectRetention" }) as any as Schema.Schema<ObjectRetention>;
+export const ObjectRetention: Schema.Schema<ObjectRetention> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      retainUntilTime: Schema.optional(Schema.String),
+      retentionMode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ObjectRetention",
+}) as any as Schema.Schema<ObjectRetention>;
 
 export interface PutMetadata {
   /** Optional. Updates objects Content-Disposition fixed metadata. Unset values will be ignored. Set empty values to clear the metadata. Refer https://cloud.google.com/storage/docs/metadata#content-disposition for additional documentation. */
@@ -213,34 +257,47 @@ export interface PutMetadata {
   objectRetention?: ObjectRetention;
 }
 
-export const PutMetadata: Schema.Schema<PutMetadata> = Schema.suspend(() => Schema.Struct({
-  contentDisposition: Schema.optional(Schema.String),
-  contentEncoding: Schema.optional(Schema.String),
-  contentLanguage: Schema.optional(Schema.String),
-  contentType: Schema.optional(Schema.String),
-  cacheControl: Schema.optional(Schema.String),
-  customTime: Schema.optional(Schema.String),
-  customMetadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  objectRetention: Schema.optional(ObjectRetention),
-})).annotate({ identifier: "PutMetadata" }) as any as Schema.Schema<PutMetadata>;
+export const PutMetadata: Schema.Schema<PutMetadata> = Schema.suspend(() =>
+  Schema.Struct({
+    contentDisposition: Schema.optional(Schema.String),
+    contentEncoding: Schema.optional(Schema.String),
+    contentLanguage: Schema.optional(Schema.String),
+    contentType: Schema.optional(Schema.String),
+    cacheControl: Schema.optional(Schema.String),
+    customTime: Schema.optional(Schema.String),
+    customMetadata: Schema.optional(
+      Schema.Record(Schema.String, Schema.String),
+    ),
+    objectRetention: Schema.optional(ObjectRetention),
+  }),
+).annotate({ identifier: "PutMetadata" }) as any as Schema.Schema<PutMetadata>;
 
 export interface RewriteObject {
   /** Required. Resource name of the Cloud KMS key that will be used to encrypt the object. The Cloud KMS key must be located in same location as the object. Refer to https://cloud.google.com/storage/docs/encryption/using-customer-managed-keys#add-object-key for additional documentation. Format: projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key} For example: "projects/123456/locations/us-central1/keyRings/my-keyring/cryptoKeys/my-key". The object will be rewritten and set with the specified KMS key. */
   kmsKey?: string;
 }
 
-export const RewriteObject: Schema.Schema<RewriteObject> = Schema.suspend(() => Schema.Struct({
-  kmsKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "RewriteObject" }) as any as Schema.Schema<RewriteObject>;
+export const RewriteObject: Schema.Schema<RewriteObject> = Schema.suspend(() =>
+  Schema.Struct({
+    kmsKey: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "RewriteObject",
+}) as any as Schema.Schema<RewriteObject>;
 
 export interface ObjectCustomContextPayload {
   /** The value of the object custom context. If set, `value` must NOT be an empty string since it is a required field in custom context. If unset, `value` will be ignored and no changes will be made to the `value` field of the custom context payload. */
   value?: string;
 }
 
-export const ObjectCustomContextPayload: Schema.Schema<ObjectCustomContextPayload> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "ObjectCustomContextPayload" }) as any as Schema.Schema<ObjectCustomContextPayload>;
+export const ObjectCustomContextPayload: Schema.Schema<ObjectCustomContextPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ObjectCustomContextPayload",
+  }) as any as Schema.Schema<ObjectCustomContextPayload>;
 
 export interface CustomContextUpdates {
   /** Optional. Insert or update the existing custom contexts. */
@@ -249,10 +306,17 @@ export interface CustomContextUpdates {
   keysToClear?: Array<string>;
 }
 
-export const CustomContextUpdates: Schema.Schema<CustomContextUpdates> = Schema.suspend(() => Schema.Struct({
-  updates: Schema.optional(Schema.Record(Schema.String, ObjectCustomContextPayload)),
-  keysToClear: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomContextUpdates" }) as any as Schema.Schema<CustomContextUpdates>;
+export const CustomContextUpdates: Schema.Schema<CustomContextUpdates> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updates: Schema.optional(
+        Schema.Record(Schema.String, ObjectCustomContextPayload),
+      ),
+      keysToClear: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomContextUpdates",
+  }) as any as Schema.Schema<CustomContextUpdates>;
 
 export interface UpdateObjectCustomContext {
   /** A collection of updates to apply to specific custom contexts. Use this to add, update or delete individual contexts by key. */
@@ -261,22 +325,35 @@ export interface UpdateObjectCustomContext {
   clearAll?: boolean;
 }
 
-export const UpdateObjectCustomContext: Schema.Schema<UpdateObjectCustomContext> = Schema.suspend(() => Schema.Struct({
-  customContextUpdates: Schema.optional(CustomContextUpdates),
-  clearAll: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UpdateObjectCustomContext" }) as any as Schema.Schema<UpdateObjectCustomContext>;
+export const UpdateObjectCustomContext: Schema.Schema<UpdateObjectCustomContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customContextUpdates: Schema.optional(CustomContextUpdates),
+      clearAll: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UpdateObjectCustomContext",
+  }) as any as Schema.Schema<UpdateObjectCustomContext>;
 
 export interface LoggingConfig {
   /** Required. Specifies the actions to be logged. */
-  logActions?: Array<"LOGGABLE_ACTION_UNSPECIFIED" | "TRANSFORM" | (string & {})>;
+  logActions?: Array<
+    "LOGGABLE_ACTION_UNSPECIFIED" | "TRANSFORM" | (string & {})
+  >;
   /** Required. States in which Action are logged.If empty, no logs are generated. */
-  logActionStates?: Array<"LOGGABLE_ACTION_STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | (string & {})>;
+  logActionStates?: Array<
+    "LOGGABLE_ACTION_STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | (string & {})
+  >;
 }
 
-export const LoggingConfig: Schema.Schema<LoggingConfig> = Schema.suspend(() => Schema.Struct({
-  logActions: Schema.optional(Schema.Array(Schema.String)),
-  logActionStates: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "LoggingConfig" }) as any as Schema.Schema<LoggingConfig>;
+export const LoggingConfig: Schema.Schema<LoggingConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    logActions: Schema.optional(Schema.Array(Schema.String)),
+    logActionStates: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "LoggingConfig",
+}) as any as Schema.Schema<LoggingConfig>;
 
 export interface Counters {
   /** Output only. Number of objects listed. */
@@ -289,12 +366,14 @@ export interface Counters {
   totalBytesFound?: string;
 }
 
-export const Counters: Schema.Schema<Counters> = Schema.suspend(() => Schema.Struct({
-  totalObjectCount: Schema.optional(Schema.String),
-  succeededObjectCount: Schema.optional(Schema.String),
-  failedObjectCount: Schema.optional(Schema.String),
-  totalBytesFound: Schema.optional(Schema.String),
-})).annotate({ identifier: "Counters" }) as any as Schema.Schema<Counters>;
+export const Counters: Schema.Schema<Counters> = Schema.suspend(() =>
+  Schema.Struct({
+    totalObjectCount: Schema.optional(Schema.String),
+    succeededObjectCount: Schema.optional(Schema.String),
+    failedObjectCount: Schema.optional(Schema.String),
+    totalBytesFound: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Counters" }) as any as Schema.Schema<Counters>;
 
 export interface ErrorLogEntry {
   /** Required. Output only. Object URL. e.g. gs://my_bucket/object.txt */
@@ -303,25 +382,51 @@ export interface ErrorLogEntry {
   errorDetails?: Array<string>;
 }
 
-export const ErrorLogEntry: Schema.Schema<ErrorLogEntry> = Schema.suspend(() => Schema.Struct({
-  objectUri: Schema.optional(Schema.String),
-  errorDetails: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ErrorLogEntry" }) as any as Schema.Schema<ErrorLogEntry>;
+export const ErrorLogEntry: Schema.Schema<ErrorLogEntry> = Schema.suspend(() =>
+  Schema.Struct({
+    objectUri: Schema.optional(Schema.String),
+    errorDetails: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "ErrorLogEntry",
+}) as any as Schema.Schema<ErrorLogEntry>;
 
 export interface ErrorSummary {
   /** Required. The canonical error code. */
-  errorCode?: "OK" | "CANCELLED" | "UNKNOWN" | "INVALID_ARGUMENT" | "DEADLINE_EXCEEDED" | "NOT_FOUND" | "ALREADY_EXISTS" | "PERMISSION_DENIED" | "UNAUTHENTICATED" | "RESOURCE_EXHAUSTED" | "FAILED_PRECONDITION" | "ABORTED" | "OUT_OF_RANGE" | "UNIMPLEMENTED" | "INTERNAL" | "UNAVAILABLE" | "DATA_LOSS" | (string & {});
+  errorCode?:
+    | "OK"
+    | "CANCELLED"
+    | "UNKNOWN"
+    | "INVALID_ARGUMENT"
+    | "DEADLINE_EXCEEDED"
+    | "NOT_FOUND"
+    | "ALREADY_EXISTS"
+    | "PERMISSION_DENIED"
+    | "UNAUTHENTICATED"
+    | "RESOURCE_EXHAUSTED"
+    | "FAILED_PRECONDITION"
+    | "ABORTED"
+    | "OUT_OF_RANGE"
+    | "UNIMPLEMENTED"
+    | "INTERNAL"
+    | "UNAVAILABLE"
+    | "DATA_LOSS"
+    | (string & {});
   /** Required. Number of errors encountered per `error_code`. */
   errorCount?: string;
   /** Required. Sample error logs. */
   errorLogEntries?: Array<ErrorLogEntry>;
 }
 
-export const ErrorSummary: Schema.Schema<ErrorSummary> = Schema.suspend(() => Schema.Struct({
-  errorCode: Schema.optional(Schema.String),
-  errorCount: Schema.optional(Schema.String),
-  errorLogEntries: Schema.optional(Schema.Array(ErrorLogEntry)),
-})).annotate({ identifier: "ErrorSummary" }) as any as Schema.Schema<ErrorSummary>;
+export const ErrorSummary: Schema.Schema<ErrorSummary> = Schema.suspend(() =>
+  Schema.Struct({
+    errorCode: Schema.optional(Schema.String),
+    errorCount: Schema.optional(Schema.String),
+    errorLogEntries: Schema.optional(Schema.Array(ErrorLogEntry)),
+  }),
+).annotate({
+  identifier: "ErrorSummary",
+}) as any as Schema.Schema<ErrorSummary>;
 
 export interface Job {
   /** Identifier. The resource name of the Job. job_id is unique within the project, that is either set by the customer or defined by the service. Format: projects/{project}/locations/global/jobs/{job_id} . For example: "projects/123456/locations/global/jobs/job01". */
@@ -353,32 +458,41 @@ export interface Job {
   /** Output only. Summarizes errors encountered with sample error log entries. */
   errorSummaries?: Array<ErrorSummary>;
   /** Output only. State of the job. */
-  state?: "STATE_UNSPECIFIED" | "RUNNING" | "SUCCEEDED" | "CANCELED" | "FAILED" | "QUEUED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "CANCELED"
+    | "FAILED"
+    | "QUEUED"
+    | (string & {});
   /** Optional. If true, the job will run in dry run mode, returning the total object count and, if the object configuration is a prefix list, the bytes found from source. No transformations will be performed. */
   dryRun?: boolean;
   /** Output only. If true, this Job operates on multiple buckets. Multibucket jobs are subject to different quota limits than single-bucket jobs. */
   isMultiBucketJob?: boolean;
 }
 
-export const Job: Schema.Schema<Job> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  bucketList: Schema.optional(BucketList),
-  putObjectHold: Schema.optional(PutObjectHold),
-  deleteObject: Schema.optional(DeleteObject),
-  putMetadata: Schema.optional(PutMetadata),
-  rewriteObject: Schema.optional(RewriteObject),
-  updateObjectCustomContext: Schema.optional(UpdateObjectCustomContext),
-  loggingConfig: Schema.optional(LoggingConfig),
-  createTime: Schema.optional(Schema.String),
-  scheduleTime: Schema.optional(Schema.String),
-  completeTime: Schema.optional(Schema.String),
-  counters: Schema.optional(Counters),
-  errorSummaries: Schema.optional(Schema.Array(ErrorSummary)),
-  state: Schema.optional(Schema.String),
-  dryRun: Schema.optional(Schema.Boolean),
-  isMultiBucketJob: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
+export const Job: Schema.Schema<Job> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    bucketList: Schema.optional(BucketList),
+    putObjectHold: Schema.optional(PutObjectHold),
+    deleteObject: Schema.optional(DeleteObject),
+    putMetadata: Schema.optional(PutMetadata),
+    rewriteObject: Schema.optional(RewriteObject),
+    updateObjectCustomContext: Schema.optional(UpdateObjectCustomContext),
+    loggingConfig: Schema.optional(LoggingConfig),
+    createTime: Schema.optional(Schema.String),
+    scheduleTime: Schema.optional(Schema.String),
+    completeTime: Schema.optional(Schema.String),
+    counters: Schema.optional(Counters),
+    errorSummaries: Schema.optional(Schema.Array(ErrorSummary)),
+    state: Schema.optional(Schema.String),
+    dryRun: Schema.optional(Schema.Boolean),
+    isMultiBucketJob: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
 
 export interface ListJobsResponse {
   /** A list of storage batch jobs. */
@@ -389,26 +503,37 @@ export interface ListJobsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(() => Schema.Struct({
-  jobs: Schema.optional(Schema.Array(Job)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListJobsResponse" }) as any as Schema.Schema<ListJobsResponse>;
+export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      jobs: Schema.optional(Schema.Array(Job)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "ListJobsResponse",
+}) as any as Schema.Schema<ListJobsResponse>;
 
 export interface CancelJobRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID in case you need to retry your request. Requests with same `request_id` will be ignored for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 
-export const CancelJobRequest: Schema.Schema<CancelJobRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CancelJobRequest" }) as any as Schema.Schema<CancelJobRequest>;
+export const CancelJobRequest: Schema.Schema<CancelJobRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CancelJobRequest",
+}) as any as Schema.Schema<CancelJobRequest>;
 
-export interface CancelJobResponse {
-}
+export interface CancelJobResponse {}
 
-export const CancelJobResponse: Schema.Schema<CancelJobResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelJobResponse" }) as any as Schema.Schema<CancelJobResponse>;
+export const CancelJobResponse: Schema.Schema<CancelJobResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelJobResponse",
+  }) as any as Schema.Schema<CancelJobResponse>;
 
 export interface BucketOperation {
   /** Identifier. The resource name of the BucketOperation. This is defined by the service. Format: projects/{project}/locations/global/jobs/{job_id}/bucketOperations/{bucket_operation}. */
@@ -440,26 +565,38 @@ export interface BucketOperation {
   /** Output only. Summarizes errors encountered with sample error log entries. */
   errorSummaries?: Array<ErrorSummary>;
   /** Output only. State of the BucketOperation. */
-  state?: "STATE_UNSPECIFIED" | "QUEUED" | "RUNNING" | "SUCCEEDED" | "CANCELED" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "QUEUED"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "CANCELED"
+    | "FAILED"
+    | (string & {});
 }
 
-export const BucketOperation: Schema.Schema<BucketOperation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  bucketName: Schema.optional(Schema.String),
-  prefixList: Schema.optional(PrefixList),
-  manifest: Schema.optional(Manifest),
-  putObjectHold: Schema.optional(PutObjectHold),
-  deleteObject: Schema.optional(DeleteObject),
-  putMetadata: Schema.optional(PutMetadata),
-  rewriteObject: Schema.optional(RewriteObject),
-  updateObjectCustomContext: Schema.optional(UpdateObjectCustomContext),
-  createTime: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  completeTime: Schema.optional(Schema.String),
-  counters: Schema.optional(Counters),
-  errorSummaries: Schema.optional(Schema.Array(ErrorSummary)),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "BucketOperation" }) as any as Schema.Schema<BucketOperation>;
+export const BucketOperation: Schema.Schema<BucketOperation> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      bucketName: Schema.optional(Schema.String),
+      prefixList: Schema.optional(PrefixList),
+      manifest: Schema.optional(Manifest),
+      putObjectHold: Schema.optional(PutObjectHold),
+      deleteObject: Schema.optional(DeleteObject),
+      putMetadata: Schema.optional(PutMetadata),
+      rewriteObject: Schema.optional(RewriteObject),
+      updateObjectCustomContext: Schema.optional(UpdateObjectCustomContext),
+      createTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      completeTime: Schema.optional(Schema.String),
+      counters: Schema.optional(Counters),
+      errorSummaries: Schema.optional(Schema.Array(ErrorSummary)),
+      state: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "BucketOperation",
+}) as any as Schema.Schema<BucketOperation>;
 
 export interface ListBucketOperationsResponse {
   /** A list of storage batch bucket operations. */
@@ -470,11 +607,16 @@ export interface ListBucketOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListBucketOperationsResponse: Schema.Schema<ListBucketOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  bucketOperations: Schema.optional(Schema.Array(BucketOperation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListBucketOperationsResponse" }) as any as Schema.Schema<ListBucketOperationsResponse>;
+export const ListBucketOperationsResponse: Schema.Schema<ListBucketOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bucketOperations: Schema.optional(Schema.Array(BucketOperation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListBucketOperationsResponse",
+  }) as any as Schema.Schema<ListBucketOperationsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The unique operation resource name. Format: projects/{project}/locations/global/operations/{operation}. */
@@ -491,14 +633,19 @@ export interface OperationMetadata {
   job?: Job;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  operation: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-  job: Schema.optional(Job),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operation: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+      job: Schema.optional(Job),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -522,7 +669,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -534,7 +683,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -552,7 +706,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -562,7 +719,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -586,9 +748,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -598,7 +765,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -616,7 +788,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -626,7 +801,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -640,7 +820,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -650,7 +833,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -667,7 +855,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -677,7 +869,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -703,7 +900,10 @@ export const ListProjectsLocationsJobsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsJobsRequest>;
 
@@ -713,7 +913,12 @@ export const ListProjectsLocationsJobsResponse = ListJobsResponse;
 export type ListProjectsLocationsJobsError = DefaultErrors;
 
 /** Lists Jobs in a given project. */
-export const listProjectsLocationsJobs: API.PaginatedOperationMethod<ListProjectsLocationsJobsRequest, ListProjectsLocationsJobsResponse, ListProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
+  ListProjectsLocationsJobsRequest,
+  ListProjectsLocationsJobsResponse,
+  ListProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsRequest,
   output: ListProjectsLocationsJobsResponse,
   errors: [],
@@ -731,7 +936,10 @@ export interface GetProjectsLocationsJobsRequest {
 export const GetProjectsLocationsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsJobsRequest>;
 
@@ -741,7 +949,12 @@ export const GetProjectsLocationsJobsResponse = Job;
 export type GetProjectsLocationsJobsError = DefaultErrors;
 
 /** Gets a batch job. */
-export const getProjectsLocationsJobs: API.OperationMethod<GetProjectsLocationsJobsRequest, GetProjectsLocationsJobsResponse, GetProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsJobs: API.OperationMethod<
+  GetProjectsLocationsJobsRequest,
+  GetProjectsLocationsJobsResponse,
+  GetProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsJobsRequest,
   output: GetProjectsLocationsJobsResponse,
   errors: [],
@@ -764,7 +977,11 @@ export const CreateProjectsLocationsJobsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Job).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsJobsRequest>;
 
@@ -774,7 +991,12 @@ export const CreateProjectsLocationsJobsResponse = Operation;
 export type CreateProjectsLocationsJobsError = DefaultErrors;
 
 /** Creates a batch job. */
-export const createProjectsLocationsJobs: API.OperationMethod<CreateProjectsLocationsJobsRequest, CreateProjectsLocationsJobsResponse, CreateProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsJobs: API.OperationMethod<
+  CreateProjectsLocationsJobsRequest,
+  CreateProjectsLocationsJobsResponse,
+  CreateProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsJobsRequest,
   output: CreateProjectsLocationsJobsResponse,
   errors: [],
@@ -794,7 +1016,10 @@ export const DeleteProjectsLocationsJobsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsJobsRequest>;
 
@@ -804,7 +1029,12 @@ export const DeleteProjectsLocationsJobsResponse = Empty;
 export type DeleteProjectsLocationsJobsError = DefaultErrors;
 
 /** Deletes a batch job. */
-export const deleteProjectsLocationsJobs: API.OperationMethod<DeleteProjectsLocationsJobsRequest, DeleteProjectsLocationsJobsResponse, DeleteProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsJobs: API.OperationMethod<
+  DeleteProjectsLocationsJobsRequest,
+  DeleteProjectsLocationsJobsResponse,
+  DeleteProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsJobsRequest,
   output: DeleteProjectsLocationsJobsResponse,
   errors: [],
@@ -821,7 +1051,11 @@ export const CancelProjectsLocationsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsJobsRequest>;
 
@@ -831,7 +1065,12 @@ export const CancelProjectsLocationsJobsResponse = CancelJobResponse;
 export type CancelProjectsLocationsJobsError = DefaultErrors;
 
 /** Cancels a batch job. */
-export const cancelProjectsLocationsJobs: API.OperationMethod<CancelProjectsLocationsJobsRequest, CancelProjectsLocationsJobsResponse, CancelProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsJobs: API.OperationMethod<
+  CancelProjectsLocationsJobsRequest,
+  CancelProjectsLocationsJobsResponse,
+  CancelProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsJobsRequest,
   output: CancelProjectsLocationsJobsResponse,
   errors: [],
@@ -857,17 +1096,27 @@ export const ListProjectsLocationsJobsBucketOperationsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}/bucketOperations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}/bucketOperations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsJobsBucketOperationsRequest>;
 
-export type ListProjectsLocationsJobsBucketOperationsResponse = ListBucketOperationsResponse;
-export const ListProjectsLocationsJobsBucketOperationsResponse = ListBucketOperationsResponse;
+export type ListProjectsLocationsJobsBucketOperationsResponse =
+  ListBucketOperationsResponse;
+export const ListProjectsLocationsJobsBucketOperationsResponse =
+  ListBucketOperationsResponse;
 
 export type ListProjectsLocationsJobsBucketOperationsError = DefaultErrors;
 
 /** Lists BucketOperations in a given project and job. */
-export const listProjectsLocationsJobsBucketOperations: API.PaginatedOperationMethod<ListProjectsLocationsJobsBucketOperationsRequest, ListProjectsLocationsJobsBucketOperationsResponse, ListProjectsLocationsJobsBucketOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsJobsBucketOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsJobsBucketOperationsRequest,
+  ListProjectsLocationsJobsBucketOperationsResponse,
+  ListProjectsLocationsJobsBucketOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsBucketOperationsRequest,
   output: ListProjectsLocationsJobsBucketOperationsResponse,
   errors: [],
@@ -885,7 +1134,10 @@ export interface GetProjectsLocationsJobsBucketOperationsRequest {
 export const GetProjectsLocationsJobsBucketOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}/bucketOperations/{bucketOperationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}/bucketOperations/{bucketOperationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsJobsBucketOperationsRequest>;
 
@@ -895,9 +1147,13 @@ export const GetProjectsLocationsJobsBucketOperationsResponse = BucketOperation;
 export type GetProjectsLocationsJobsBucketOperationsError = DefaultErrors;
 
 /** Gets a BucketOperation. */
-export const getProjectsLocationsJobsBucketOperations: API.OperationMethod<GetProjectsLocationsJobsBucketOperationsRequest, GetProjectsLocationsJobsBucketOperationsResponse, GetProjectsLocationsJobsBucketOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsJobsBucketOperations: API.OperationMethod<
+  GetProjectsLocationsJobsBucketOperationsRequest,
+  GetProjectsLocationsJobsBucketOperationsResponse,
+  GetProjectsLocationsJobsBucketOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsJobsBucketOperationsRequest,
   output: GetProjectsLocationsJobsBucketOperationsResponse,
   errors: [],
 }));
-

@@ -27,16 +27,25 @@ export interface UrlNotification {
   /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
   url?: string;
   /** The URL life cycle event that Google is being notified about. */
-  type?: "URL_NOTIFICATION_TYPE_UNSPECIFIED" | "URL_UPDATED" | "URL_DELETED" | (string & {});
+  type?:
+    | "URL_NOTIFICATION_TYPE_UNSPECIFIED"
+    | "URL_UPDATED"
+    | "URL_DELETED"
+    | (string & {});
   /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
   notifyTime?: string;
 }
 
-export const UrlNotification: Schema.Schema<UrlNotification> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  notifyTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "UrlNotification" }) as any as Schema.Schema<UrlNotification>;
+export const UrlNotification: Schema.Schema<UrlNotification> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      notifyTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UrlNotification",
+}) as any as Schema.Schema<UrlNotification>;
 
 export interface UrlNotificationMetadata {
   /** URL to which this metadata refers. */
@@ -47,20 +56,30 @@ export interface UrlNotificationMetadata {
   latestRemove?: UrlNotification;
 }
 
-export const UrlNotificationMetadata: Schema.Schema<UrlNotificationMetadata> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  latestUpdate: Schema.optional(UrlNotification),
-  latestRemove: Schema.optional(UrlNotification),
-})).annotate({ identifier: "UrlNotificationMetadata" }) as any as Schema.Schema<UrlNotificationMetadata>;
+export const UrlNotificationMetadata: Schema.Schema<UrlNotificationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      latestUpdate: Schema.optional(UrlNotification),
+      latestRemove: Schema.optional(UrlNotification),
+    }),
+  ).annotate({
+    identifier: "UrlNotificationMetadata",
+  }) as any as Schema.Schema<UrlNotificationMetadata>;
 
 export interface PublishUrlNotificationResponse {
   /** Description of the notification events received for this URL. */
   urlNotificationMetadata?: UrlNotificationMetadata;
 }
 
-export const PublishUrlNotificationResponse: Schema.Schema<PublishUrlNotificationResponse> = Schema.suspend(() => Schema.Struct({
-  urlNotificationMetadata: Schema.optional(UrlNotificationMetadata),
-})).annotate({ identifier: "PublishUrlNotificationResponse" }) as any as Schema.Schema<PublishUrlNotificationResponse>;
+export const PublishUrlNotificationResponse: Schema.Schema<PublishUrlNotificationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      urlNotificationMetadata: Schema.optional(UrlNotificationMetadata),
+    }),
+  ).annotate({
+    identifier: "PublishUrlNotificationResponse",
+  }) as any as Schema.Schema<PublishUrlNotificationResponse>;
 
 // ==========================================================================
 // Operations
@@ -74,7 +93,11 @@ export interface PublishUrlNotificationsRequest {
 export const PublishUrlNotificationsRequest = Schema.Struct({
   body: Schema.optional(UrlNotification).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/urlNotifications:publish", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/urlNotifications:publish",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PublishUrlNotificationsRequest>;
 
@@ -84,7 +107,12 @@ export const PublishUrlNotificationsResponse = PublishUrlNotificationResponse;
 export type PublishUrlNotificationsError = DefaultErrors;
 
 /** Notifies that a URL has been updated or deleted. */
-export const publishUrlNotifications: API.OperationMethod<PublishUrlNotificationsRequest, PublishUrlNotificationsResponse, PublishUrlNotificationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const publishUrlNotifications: API.OperationMethod<
+  PublishUrlNotificationsRequest,
+  PublishUrlNotificationsResponse,
+  PublishUrlNotificationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PublishUrlNotificationsRequest,
   output: PublishUrlNotificationsResponse,
   errors: [],
@@ -108,9 +136,13 @@ export const GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
 export type GetMetadataUrlNotificationsError = DefaultErrors;
 
 /** Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API. */
-export const getMetadataUrlNotifications: API.OperationMethod<GetMetadataUrlNotificationsRequest, GetMetadataUrlNotificationsResponse, GetMetadataUrlNotificationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getMetadataUrlNotifications: API.OperationMethod<
+  GetMetadataUrlNotificationsRequest,
+  GetMetadataUrlNotificationsResponse,
+  GetMetadataUrlNotificationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetMetadataUrlNotificationsRequest,
   output: GetMetadataUrlNotificationsResponse,
   errors: [],
 }));
-

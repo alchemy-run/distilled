@@ -27,16 +27,26 @@ export interface IpReputation {
   /** Total number of unique IPs in this reputation category. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
   ipCount?: string;
   /** The reputation category this IP reputation represents. */
-  reputation?: "REPUTATION_CATEGORY_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "BAD" | (string & {});
+  reputation?:
+    | "REPUTATION_CATEGORY_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "BAD"
+    | (string & {});
   /** A sample of IPs in this reputation category. */
   sampleIps?: Array<string>;
 }
 
-export const IpReputation: Schema.Schema<IpReputation> = Schema.suspend(() => Schema.Struct({
-  ipCount: Schema.optional(Schema.String),
-  reputation: Schema.optional(Schema.String),
-  sampleIps: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "IpReputation" }) as any as Schema.Schema<IpReputation>;
+export const IpReputation: Schema.Schema<IpReputation> = Schema.suspend(() =>
+  Schema.Struct({
+    ipCount: Schema.optional(Schema.String),
+    reputation: Schema.optional(Schema.String),
+    sampleIps: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "IpReputation",
+}) as any as Schema.Schema<IpReputation>;
 
 export interface FeedbackLoop {
   /** Feedback loop identifier that uniquely identifies individual campaigns. */
@@ -45,25 +55,49 @@ export interface FeedbackLoop {
   spamRatio?: number;
 }
 
-export const FeedbackLoop: Schema.Schema<FeedbackLoop> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  spamRatio: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FeedbackLoop" }) as any as Schema.Schema<FeedbackLoop>;
+export const FeedbackLoop: Schema.Schema<FeedbackLoop> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    spamRatio: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "FeedbackLoop",
+}) as any as Schema.Schema<FeedbackLoop>;
 
 export interface DeliveryError {
   /** The ratio of messages where the error occurred vs all authenticated traffic. */
   errorRatio?: number;
   /** The type of delivery error. */
-  errorType?: "DELIVERY_ERROR_TYPE_UNSPECIFIED" | "RATE_LIMIT_EXCEEDED" | "SUSPECTED_SPAM" | "CONTENT_SPAMMY" | "BAD_ATTACHMENT" | "BAD_DMARC_POLICY" | "LOW_IP_REPUTATION" | "LOW_DOMAIN_REPUTATION" | "IP_IN_RBL" | "DOMAIN_IN_RBL" | "BAD_PTR_RECORD" | (string & {});
+  errorType?:
+    | "DELIVERY_ERROR_TYPE_UNSPECIFIED"
+    | "RATE_LIMIT_EXCEEDED"
+    | "SUSPECTED_SPAM"
+    | "CONTENT_SPAMMY"
+    | "BAD_ATTACHMENT"
+    | "BAD_DMARC_POLICY"
+    | "LOW_IP_REPUTATION"
+    | "LOW_DOMAIN_REPUTATION"
+    | "IP_IN_RBL"
+    | "DOMAIN_IN_RBL"
+    | "BAD_PTR_RECORD"
+    | (string & {});
   /** The class of delivery error. */
-  errorClass?: "DELIVERY_ERROR_CLASS_UNSPECIFIED" | "PERMANENT_ERROR" | "TEMPORARY_ERROR" | (string & {});
+  errorClass?:
+    | "DELIVERY_ERROR_CLASS_UNSPECIFIED"
+    | "PERMANENT_ERROR"
+    | "TEMPORARY_ERROR"
+    | (string & {});
 }
 
-export const DeliveryError: Schema.Schema<DeliveryError> = Schema.suspend(() => Schema.Struct({
-  errorRatio: Schema.optional(Schema.Number),
-  errorType: Schema.optional(Schema.String),
-  errorClass: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeliveryError" }) as any as Schema.Schema<DeliveryError>;
+export const DeliveryError: Schema.Schema<DeliveryError> = Schema.suspend(() =>
+  Schema.Struct({
+    errorRatio: Schema.optional(Schema.Number),
+    errorType: Schema.optional(Schema.String),
+    errorClass: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DeliveryError",
+}) as any as Schema.Schema<DeliveryError>;
 
 export interface TrafficStats {
   /** The ratio of mail that successfully authenticated with DKIM vs. all mail that attempted to authenticate with [DKIM](http://www.dkim.org/). Spoofed mail is excluded. */
@@ -71,7 +105,13 @@ export interface TrafficStats {
   /** Reputation information pertaining to the IP addresses of the email servers for the domain. There is exactly one entry for each reputation category except REPUTATION_CATEGORY_UNSPECIFIED. */
   ipReputations?: Array<IpReputation>;
   /** Reputation of the domain. */
-  domainReputation?: "REPUTATION_CATEGORY_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "BAD" | (string & {});
+  domainReputation?:
+    | "REPUTATION_CATEGORY_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "BAD"
+    | (string & {});
   /** Spammy [Feedback loop identifiers] (https://support.google.com/mail/answer/6254652) with their individual spam rates. This metric only pertains to traffic that is authenticated by [DKIM](http://www.dkim.org/). */
   spammyFeedbackLoops?: Array<FeedbackLoop>;
   /** The ratio of mail that successfully authenticated with SPF vs. all mail that attempted to authenticate with [SPF](http://www.openspf.org/). Spoofed mail is excluded. */
@@ -94,21 +134,25 @@ export interface TrafficStats {
   userReportedSpamRatioLowerBound?: number;
 }
 
-export const TrafficStats: Schema.Schema<TrafficStats> = Schema.suspend(() => Schema.Struct({
-  dkimSuccessRatio: Schema.optional(Schema.Number),
-  ipReputations: Schema.optional(Schema.Array(IpReputation)),
-  domainReputation: Schema.optional(Schema.String),
-  spammyFeedbackLoops: Schema.optional(Schema.Array(FeedbackLoop)),
-  spfSuccessRatio: Schema.optional(Schema.Number),
-  userReportedSpamRatio: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  outboundEncryptionRatio: Schema.optional(Schema.Number),
-  dmarcSuccessRatio: Schema.optional(Schema.Number),
-  deliveryErrors: Schema.optional(Schema.Array(DeliveryError)),
-  userReportedSpamRatioUpperBound: Schema.optional(Schema.Number),
-  inboundEncryptionRatio: Schema.optional(Schema.Number),
-  userReportedSpamRatioLowerBound: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TrafficStats" }) as any as Schema.Schema<TrafficStats>;
+export const TrafficStats: Schema.Schema<TrafficStats> = Schema.suspend(() =>
+  Schema.Struct({
+    dkimSuccessRatio: Schema.optional(Schema.Number),
+    ipReputations: Schema.optional(Schema.Array(IpReputation)),
+    domainReputation: Schema.optional(Schema.String),
+    spammyFeedbackLoops: Schema.optional(Schema.Array(FeedbackLoop)),
+    spfSuccessRatio: Schema.optional(Schema.Number),
+    userReportedSpamRatio: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    outboundEncryptionRatio: Schema.optional(Schema.Number),
+    dmarcSuccessRatio: Schema.optional(Schema.Number),
+    deliveryErrors: Schema.optional(Schema.Array(DeliveryError)),
+    userReportedSpamRatioUpperBound: Schema.optional(Schema.Number),
+    inboundEncryptionRatio: Schema.optional(Schema.Number),
+    userReportedSpamRatioLowerBound: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "TrafficStats",
+}) as any as Schema.Schema<TrafficStats>;
 
 export interface ListTrafficStatsResponse {
   /** The list of TrafficStats. */
@@ -117,10 +161,15 @@ export interface ListTrafficStatsResponse {
   nextPageToken?: string;
 }
 
-export const ListTrafficStatsResponse: Schema.Schema<ListTrafficStatsResponse> = Schema.suspend(() => Schema.Struct({
-  trafficStats: Schema.optional(Schema.Array(TrafficStats)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTrafficStatsResponse" }) as any as Schema.Schema<ListTrafficStatsResponse>;
+export const ListTrafficStatsResponse: Schema.Schema<ListTrafficStatsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      trafficStats: Schema.optional(Schema.Array(TrafficStats)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTrafficStatsResponse",
+  }) as any as Schema.Schema<ListTrafficStatsResponse>;
 
 export interface Domain {
   /** The resource name of the Domain. Domain names have the form `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
@@ -128,14 +177,21 @@ export interface Domain {
   /** Timestamp when the user registered this domain. Assigned by the server. */
   createTime?: string;
   /** User’s permission for this domain. Assigned by the server. */
-  permission?: "PERMISSION_UNSPECIFIED" | "OWNER" | "READER" | "NONE" | (string & {});
+  permission?:
+    | "PERMISSION_UNSPECIFIED"
+    | "OWNER"
+    | "READER"
+    | "NONE"
+    | (string & {});
 }
 
-export const Domain: Schema.Schema<Domain> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  permission: Schema.optional(Schema.String),
-})).annotate({ identifier: "Domain" }) as any as Schema.Schema<Domain>;
+export const Domain: Schema.Schema<Domain> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    permission: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Domain" }) as any as Schema.Schema<Domain>;
 
 export interface ListDomainsResponse {
   /** The list of domains. */
@@ -144,10 +200,15 @@ export interface ListDomainsResponse {
   nextPageToken?: string;
 }
 
-export const ListDomainsResponse: Schema.Schema<ListDomainsResponse> = Schema.suspend(() => Schema.Struct({
-  domains: Schema.optional(Schema.Array(Domain)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDomainsResponse" }) as any as Schema.Schema<ListDomainsResponse>;
+export const ListDomainsResponse: Schema.Schema<ListDomainsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      domains: Schema.optional(Schema.Array(Domain)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDomainsResponse",
+  }) as any as Schema.Schema<ListDomainsResponse>;
 
 // ==========================================================================
 // Operations
@@ -174,7 +235,12 @@ export const ListDomainsResponse_Op = ListDomainsResponse;
 export type ListDomainsError = DefaultErrors;
 
 /** Lists the domains that have been registered by the client. The order of domains in the response is unspecified and non-deterministic. Newly created domains will not necessarily be added to the end of this list. */
-export const listDomains: API.PaginatedOperationMethod<ListDomainsRequest, ListDomainsResponse_Op, ListDomainsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listDomains: API.PaginatedOperationMethod<
+  ListDomainsRequest,
+  ListDomainsResponse_Op,
+  ListDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse_Op,
   errors: [],
@@ -202,7 +268,12 @@ export const GetDomainsResponse = Domain;
 export type GetDomainsError = DefaultErrors;
 
 /** Gets a specific domain registered by the client. Returns NOT_FOUND if the domain does not exist. */
-export const getDomains: API.OperationMethod<GetDomainsRequest, GetDomainsResponse, GetDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDomains: API.OperationMethod<
+  GetDomainsRequest,
+  GetDomainsResponse,
+  GetDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDomainsRequest,
   output: GetDomainsResponse,
   errors: [],
@@ -216,7 +287,10 @@ export interface GetDomainsTrafficStatsRequest {
 export const GetDomainsTrafficStatsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/domains/{domainsId}/trafficStats/{trafficStatsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/domains/{domainsId}/trafficStats/{trafficStatsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDomainsTrafficStatsRequest>;
 
@@ -226,7 +300,12 @@ export const GetDomainsTrafficStatsResponse = TrafficStats;
 export type GetDomainsTrafficStatsError = DefaultErrors;
 
 /** Get traffic statistics for a domain on a specific date. Returns PERMISSION_DENIED if user does not have permission to access TrafficStats for the domain. */
-export const getDomainsTrafficStats: API.OperationMethod<GetDomainsTrafficStatsRequest, GetDomainsTrafficStatsResponse, GetDomainsTrafficStatsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDomainsTrafficStats: API.OperationMethod<
+  GetDomainsTrafficStatsRequest,
+  GetDomainsTrafficStatsResponse,
+  GetDomainsTrafficStatsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDomainsTrafficStatsRequest,
   output: GetDomainsTrafficStatsResponse,
   errors: [],
@@ -256,13 +335,25 @@ export interface ListDomainsTrafficStatsRequest {
 export const ListDomainsTrafficStatsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.day")),
-  "endDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.day")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.month")),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.month")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.year")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.year")),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/domains/{domainsId}/trafficStats" }),
   svc,
@@ -274,7 +365,12 @@ export const ListDomainsTrafficStatsResponse = ListTrafficStatsResponse;
 export type ListDomainsTrafficStatsError = DefaultErrors;
 
 /** List traffic statistics for all available days. Returns PERMISSION_DENIED if user does not have permission to access TrafficStats for the domain. */
-export const listDomainsTrafficStats: API.PaginatedOperationMethod<ListDomainsTrafficStatsRequest, ListDomainsTrafficStatsResponse, ListDomainsTrafficStatsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listDomainsTrafficStats: API.PaginatedOperationMethod<
+  ListDomainsTrafficStatsRequest,
+  ListDomainsTrafficStatsResponse,
+  ListDomainsTrafficStatsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListDomainsTrafficStatsRequest,
   output: ListDomainsTrafficStatsResponse,
   errors: [],
@@ -283,4 +379,3 @@ export const listDomainsTrafficStats: API.PaginatedOperationMethod<ListDomainsTr
     outputToken: "nextPageToken",
   },
 }));
-

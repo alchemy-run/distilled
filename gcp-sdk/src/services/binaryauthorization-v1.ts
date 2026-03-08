@@ -28,18 +28,28 @@ export interface EvaluateGkePolicyRequest {
   resource?: Record<string, unknown>;
 }
 
-export const EvaluateGkePolicyRequest: Schema.Schema<EvaluateGkePolicyRequest> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "EvaluateGkePolicyRequest" }) as any as Schema.Schema<EvaluateGkePolicyRequest>;
+export const EvaluateGkePolicyRequest: Schema.Schema<EvaluateGkePolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "EvaluateGkePolicyRequest",
+  }) as any as Schema.Schema<EvaluateGkePolicyRequest>;
 
 export interface AllowlistResult {
   /** The allowlist pattern that the image matched. */
   matchedPattern?: string;
 }
 
-export const AllowlistResult: Schema.Schema<AllowlistResult> = Schema.suspend(() => Schema.Struct({
-  matchedPattern: Schema.optional(Schema.String),
-})).annotate({ identifier: "AllowlistResult" }) as any as Schema.Schema<AllowlistResult>;
+export const AllowlistResult: Schema.Schema<AllowlistResult> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      matchedPattern: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AllowlistResult",
+}) as any as Schema.Schema<AllowlistResult>;
 
 export interface Scope {
   /** Optional. Matches a single Kubernetes service account, e.g. `my-namespace:my-service-account`. `kubernetes_service_account` scope is always more specific than `kubernetes_namespace` scope for the same namespace. */
@@ -48,19 +58,31 @@ export interface Scope {
   kubernetesNamespace?: string;
 }
 
-export const Scope: Schema.Schema<Scope> = Schema.suspend(() => Schema.Struct({
-  kubernetesServiceAccount: Schema.optional(Schema.String),
-  kubernetesNamespace: Schema.optional(Schema.String),
-})).annotate({ identifier: "Scope" }) as any as Schema.Schema<Scope>;
+export const Scope: Schema.Schema<Scope> = Schema.suspend(() =>
+  Schema.Struct({
+    kubernetesServiceAccount: Schema.optional(Schema.String),
+    kubernetesNamespace: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Scope" }) as any as Schema.Schema<Scope>;
 
 export interface EvaluationResult {
   /** The result of evaluating this check. */
-  verdict?: "CHECK_VERDICT_UNSPECIFIED" | "CONFORMANT" | "NON_CONFORMANT" | "ERROR" | (string & {});
+  verdict?:
+    | "CHECK_VERDICT_UNSPECIFIED"
+    | "CONFORMANT"
+    | "NON_CONFORMANT"
+    | "ERROR"
+    | (string & {});
 }
 
-export const EvaluationResult: Schema.Schema<EvaluationResult> = Schema.suspend(() => Schema.Struct({
-  verdict: Schema.optional(Schema.String),
-})).annotate({ identifier: "EvaluationResult" }) as any as Schema.Schema<EvaluationResult>;
+export const EvaluationResult: Schema.Schema<EvaluationResult> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      verdict: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EvaluationResult",
+}) as any as Schema.Schema<EvaluationResult>;
 
 export interface CheckResult {
   /** The index of the check. */
@@ -77,23 +99,29 @@ export interface CheckResult {
   explanation?: string;
 }
 
-export const CheckResult: Schema.Schema<CheckResult> = Schema.suspend(() => Schema.Struct({
-  index: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  allowlistResult: Schema.optional(AllowlistResult),
-  evaluationResult: Schema.optional(EvaluationResult),
-  explanation: Schema.optional(Schema.String),
-})).annotate({ identifier: "CheckResult" }) as any as Schema.Schema<CheckResult>;
+export const CheckResult: Schema.Schema<CheckResult> = Schema.suspend(() =>
+  Schema.Struct({
+    index: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    allowlistResult: Schema.optional(AllowlistResult),
+    evaluationResult: Schema.optional(EvaluationResult),
+    explanation: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CheckResult" }) as any as Schema.Schema<CheckResult>;
 
 export interface CheckResults {
   /** Per-check details. */
   results?: Array<CheckResult>;
 }
 
-export const CheckResults: Schema.Schema<CheckResults> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(CheckResult)),
-})).annotate({ identifier: "CheckResults" }) as any as Schema.Schema<CheckResults>;
+export const CheckResults: Schema.Schema<CheckResults> = Schema.suspend(() =>
+  Schema.Struct({
+    results: Schema.optional(Schema.Array(CheckResult)),
+  }),
+).annotate({
+  identifier: "CheckResults",
+}) as any as Schema.Schema<CheckResults>;
 
 export interface CheckSetResult {
   /** The index of the check set. */
@@ -110,20 +138,30 @@ export interface CheckSetResult {
   explanation?: string;
 }
 
-export const CheckSetResult: Schema.Schema<CheckSetResult> = Schema.suspend(() => Schema.Struct({
-  index: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  scope: Schema.optional(Scope),
-  allowlistResult: Schema.optional(AllowlistResult),
-  checkResults: Schema.optional(CheckResults),
-  explanation: Schema.optional(Schema.String),
-})).annotate({ identifier: "CheckSetResult" }) as any as Schema.Schema<CheckSetResult>;
+export const CheckSetResult: Schema.Schema<CheckSetResult> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      index: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      scope: Schema.optional(Scope),
+      allowlistResult: Schema.optional(AllowlistResult),
+      checkResults: Schema.optional(CheckResults),
+      explanation: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CheckSetResult",
+}) as any as Schema.Schema<CheckSetResult>;
 
 export interface ImageResult {
   /** Image URI from the request. */
   imageUri?: string;
   /** The result of evaluating this image. */
-  verdict?: "IMAGE_VERDICT_UNSPECIFIED" | "CONFORMANT" | "NON_CONFORMANT" | "ERROR" | (string & {});
+  verdict?:
+    | "IMAGE_VERDICT_UNSPECIFIED"
+    | "CONFORMANT"
+    | "NON_CONFORMANT"
+    | "ERROR"
+    | (string & {});
   /** If the image was exempted by a top-level allow_pattern, contains the allowlist pattern that the image name matched. */
   allowlistResult?: AllowlistResult;
   /** If a check set was evaluated, contains the result of the check set. Empty if there were no check sets. */
@@ -132,13 +170,15 @@ export interface ImageResult {
   explanation?: string;
 }
 
-export const ImageResult: Schema.Schema<ImageResult> = Schema.suspend(() => Schema.Struct({
-  imageUri: Schema.optional(Schema.String),
-  verdict: Schema.optional(Schema.String),
-  allowlistResult: Schema.optional(AllowlistResult),
-  checkSetResult: Schema.optional(CheckSetResult),
-  explanation: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImageResult" }) as any as Schema.Schema<ImageResult>;
+export const ImageResult: Schema.Schema<ImageResult> = Schema.suspend(() =>
+  Schema.Struct({
+    imageUri: Schema.optional(Schema.String),
+    verdict: Schema.optional(Schema.String),
+    allowlistResult: Schema.optional(AllowlistResult),
+    checkSetResult: Schema.optional(CheckSetResult),
+    explanation: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ImageResult" }) as any as Schema.Schema<ImageResult>;
 
 export interface PodResult {
   /** The name of the Pod. */
@@ -148,63 +188,114 @@ export interface PodResult {
   /** The Kubernetes service account of the Pod. */
   kubernetesServiceAccount?: string;
   /** The result of evaluating this Pod. */
-  verdict?: "POD_VERDICT_UNSPECIFIED" | "CONFORMANT" | "NON_CONFORMANT" | "ERROR" | (string & {});
+  verdict?:
+    | "POD_VERDICT_UNSPECIFIED"
+    | "CONFORMANT"
+    | "NON_CONFORMANT"
+    | "ERROR"
+    | (string & {});
   /** Per-image details. */
   imageResults?: Array<ImageResult>;
 }
 
-export const PodResult: Schema.Schema<PodResult> = Schema.suspend(() => Schema.Struct({
-  podName: Schema.optional(Schema.String),
-  kubernetesNamespace: Schema.optional(Schema.String),
-  kubernetesServiceAccount: Schema.optional(Schema.String),
-  verdict: Schema.optional(Schema.String),
-  imageResults: Schema.optional(Schema.Array(ImageResult)),
-})).annotate({ identifier: "PodResult" }) as any as Schema.Schema<PodResult>;
+export const PodResult: Schema.Schema<PodResult> = Schema.suspend(() =>
+  Schema.Struct({
+    podName: Schema.optional(Schema.String),
+    kubernetesNamespace: Schema.optional(Schema.String),
+    kubernetesServiceAccount: Schema.optional(Schema.String),
+    verdict: Schema.optional(Schema.String),
+    imageResults: Schema.optional(Schema.Array(ImageResult)),
+  }),
+).annotate({ identifier: "PodResult" }) as any as Schema.Schema<PodResult>;
 
 export interface EvaluateGkePolicyResponse {
   /** The result of evaluating all Pods in the request. */
-  verdict?: "VERDICT_UNSPECIFIED" | "CONFORMANT" | "NON_CONFORMANT" | "ERROR" | (string & {});
+  verdict?:
+    | "VERDICT_UNSPECIFIED"
+    | "CONFORMANT"
+    | "NON_CONFORMANT"
+    | "ERROR"
+    | (string & {});
   /** Evaluation result for each Pod contained in the request. */
   results?: Array<PodResult>;
 }
 
-export const EvaluateGkePolicyResponse: Schema.Schema<EvaluateGkePolicyResponse> = Schema.suspend(() => Schema.Struct({
-  verdict: Schema.optional(Schema.String),
-  results: Schema.optional(Schema.Array(PodResult)),
-})).annotate({ identifier: "EvaluateGkePolicyResponse" }) as any as Schema.Schema<EvaluateGkePolicyResponse>;
+export const EvaluateGkePolicyResponse: Schema.Schema<EvaluateGkePolicyResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      verdict: Schema.optional(Schema.String),
+      results: Schema.optional(Schema.Array(PodResult)),
+    }),
+  ).annotate({
+    identifier: "EvaluateGkePolicyResponse",
+  }) as any as Schema.Schema<EvaluateGkePolicyResponse>;
 
 export interface ImageAllowlist {
   /** Required. A disjunction of image patterns to allow. If any of these patterns match, then the image is considered exempted by this allowlist. */
   allowPattern?: Array<string>;
 }
 
-export const ImageAllowlist: Schema.Schema<ImageAllowlist> = Schema.suspend(() => Schema.Struct({
-  allowPattern: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ImageAllowlist" }) as any as Schema.Schema<ImageAllowlist>;
+export const ImageAllowlist: Schema.Schema<ImageAllowlist> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      allowPattern: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "ImageAllowlist",
+}) as any as Schema.Schema<ImageAllowlist>;
 
 export interface PkixPublicKey {
   /** A PEM-encoded public key, as described in https://tools.ietf.org/html/rfc7468#section-13 */
   publicKeyPem?: string;
   /** The signature algorithm used to verify a message against a signature using this key. These signature algorithm must match the structure and any object identifiers encoded in `public_key_pem` (i.e. this algorithm must match that of the public key). */
-  signatureAlgorithm?: "SIGNATURE_ALGORITHM_UNSPECIFIED" | "RSA_PSS_2048_SHA256" | "RSA_SIGN_PSS_2048_SHA256" | "RSA_PSS_3072_SHA256" | "RSA_SIGN_PSS_3072_SHA256" | "RSA_PSS_4096_SHA256" | "RSA_SIGN_PSS_4096_SHA256" | "RSA_PSS_4096_SHA512" | "RSA_SIGN_PSS_4096_SHA512" | "RSA_SIGN_PKCS1_2048_SHA256" | "RSA_SIGN_PKCS1_3072_SHA256" | "RSA_SIGN_PKCS1_4096_SHA256" | "RSA_SIGN_PKCS1_4096_SHA512" | "ECDSA_P256_SHA256" | "EC_SIGN_P256_SHA256" | "ECDSA_P384_SHA384" | "EC_SIGN_P384_SHA384" | "ECDSA_P521_SHA512" | "EC_SIGN_P521_SHA512" | (string & {});
+  signatureAlgorithm?:
+    | "SIGNATURE_ALGORITHM_UNSPECIFIED"
+    | "RSA_PSS_2048_SHA256"
+    | "RSA_SIGN_PSS_2048_SHA256"
+    | "RSA_PSS_3072_SHA256"
+    | "RSA_SIGN_PSS_3072_SHA256"
+    | "RSA_PSS_4096_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA256"
+    | "RSA_PSS_4096_SHA512"
+    | "RSA_SIGN_PSS_4096_SHA512"
+    | "RSA_SIGN_PKCS1_2048_SHA256"
+    | "RSA_SIGN_PKCS1_3072_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA512"
+    | "ECDSA_P256_SHA256"
+    | "EC_SIGN_P256_SHA256"
+    | "ECDSA_P384_SHA384"
+    | "EC_SIGN_P384_SHA384"
+    | "ECDSA_P521_SHA512"
+    | "EC_SIGN_P521_SHA512"
+    | (string & {});
   /** Optional. The ID of this public key. Signatures verified by Binary Authorization must include the ID of the public key that can be used to verify them. The ID must match exactly contents of the `key_id` field exactly. The ID may be explicitly provided by the caller, but it MUST be a valid RFC3986 URI. If `key_id` is left blank and this `PkixPublicKey` is not used in the context of a wrapper (see next paragraph), a default key ID will be computed based on the digest of the DER encoding of the public key. If this `PkixPublicKey` is used in the context of a wrapper that has its own notion of key ID (e.g. `AttestorPublicKey`), then this field can either match that value exactly, or be left blank, in which case it behaves exactly as though it is equal to that wrapper value. */
   keyId?: string;
 }
 
-export const PkixPublicKey: Schema.Schema<PkixPublicKey> = Schema.suspend(() => Schema.Struct({
-  publicKeyPem: Schema.optional(Schema.String),
-  signatureAlgorithm: Schema.optional(Schema.String),
-  keyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "PkixPublicKey" }) as any as Schema.Schema<PkixPublicKey>;
+export const PkixPublicKey: Schema.Schema<PkixPublicKey> = Schema.suspend(() =>
+  Schema.Struct({
+    publicKeyPem: Schema.optional(Schema.String),
+    signatureAlgorithm: Schema.optional(Schema.String),
+    keyId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PkixPublicKey",
+}) as any as Schema.Schema<PkixPublicKey>;
 
 export interface PkixPublicKeySet {
   /** Required. `pkix_public_keys` must have at least one entry. */
   pkixPublicKeys?: Array<PkixPublicKey>;
 }
 
-export const PkixPublicKeySet: Schema.Schema<PkixPublicKeySet> = Schema.suspend(() => Schema.Struct({
-  pkixPublicKeys: Schema.optional(Schema.Array(PkixPublicKey)),
-})).annotate({ identifier: "PkixPublicKeySet" }) as any as Schema.Schema<PkixPublicKeySet>;
+export const PkixPublicKeySet: Schema.Schema<PkixPublicKeySet> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      pkixPublicKeys: Schema.optional(Schema.Array(PkixPublicKey)),
+    }),
+).annotate({
+  identifier: "PkixPublicKeySet",
+}) as any as Schema.Schema<PkixPublicKeySet>;
 
 export interface AttestationAuthenticator {
   /** Optional. A user-provided name for this `AttestationAuthenticator`. This field has no effect on the policy evaluation behavior except to improve readability of messages in evaluation results. */
@@ -213,10 +304,15 @@ export interface AttestationAuthenticator {
   pkixPublicKeySet?: PkixPublicKeySet;
 }
 
-export const AttestationAuthenticator: Schema.Schema<AttestationAuthenticator> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  pkixPublicKeySet: Schema.optional(PkixPublicKeySet),
-})).annotate({ identifier: "AttestationAuthenticator" }) as any as Schema.Schema<AttestationAuthenticator>;
+export const AttestationAuthenticator: Schema.Schema<AttestationAuthenticator> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      pkixPublicKeySet: Schema.optional(PkixPublicKeySet),
+    }),
+  ).annotate({
+    identifier: "AttestationAuthenticator",
+  }) as any as Schema.Schema<AttestationAuthenticator>;
 
 export interface SimpleSigningAttestationCheck {
   /** Required. The authenticators required by this check to verify an attestation. Typically this is one or more PKIX public keys for signature verification. Only one authenticator needs to consider an attestation verified in order for an attestation to be considered fully authenticated. In otherwords, this list of authenticators is an "OR" of the authenticator results. At least one authenticator is required. */
@@ -225,28 +321,47 @@ export interface SimpleSigningAttestationCheck {
   containerAnalysisAttestationProjects?: Array<string>;
 }
 
-export const SimpleSigningAttestationCheck: Schema.Schema<SimpleSigningAttestationCheck> = Schema.suspend(() => Schema.Struct({
-  attestationAuthenticators: Schema.optional(Schema.Array(AttestationAuthenticator)),
-  containerAnalysisAttestationProjects: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "SimpleSigningAttestationCheck" }) as any as Schema.Schema<SimpleSigningAttestationCheck>;
+export const SimpleSigningAttestationCheck: Schema.Schema<SimpleSigningAttestationCheck> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attestationAuthenticators: Schema.optional(
+        Schema.Array(AttestationAuthenticator),
+      ),
+      containerAnalysisAttestationProjects: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "SimpleSigningAttestationCheck",
+  }) as any as Schema.Schema<SimpleSigningAttestationCheck>;
 
 export interface TrustedDirectoryCheck {
   /** Required. List of trusted directory patterns. A pattern is in the form "registry/path/to/directory". The registry domain part is defined as two or more dot-separated words, e.g., `us.pkg.dev`, or `gcr.io`. Additionally, `*` can be used in three ways as wildcards: 1. leading `*` to match varying prefixes in registry subdomain (useful for location prefixes); 2. trailing `*` after registry/ to match varying endings; 3. trailing `**` after registry/ to match "/" as well. For example: -- `gcr.io/my-project/my-repo` is valid to match a single directory -- `*-docker.pkg.dev/my-project/my-repo` or `*.gcr.io/my-project` are valid to match varying prefixes -- `gcr.io/my-project/*` will match all direct directories in `my-project` -- `gcr.io/my-project/**` would match all directories in `my-project` -- `gcr.i*` is not allowed since the registry is not completely specified -- `sub*domain.gcr.io/nginx` is not valid because only leading `*` or trailing `*` are allowed. -- `*pkg.dev/my-project/my-repo` is not valid because leading `*` can only match subdomain -- `**-docker.pkg.dev` is not valid because one leading `*` is allowed, and that it cannot match `/` */
   trustedDirPatterns?: Array<string>;
 }
 
-export const TrustedDirectoryCheck: Schema.Schema<TrustedDirectoryCheck> = Schema.suspend(() => Schema.Struct({
-  trustedDirPatterns: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TrustedDirectoryCheck" }) as any as Schema.Schema<TrustedDirectoryCheck>;
+export const TrustedDirectoryCheck: Schema.Schema<TrustedDirectoryCheck> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      trustedDirPatterns: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TrustedDirectoryCheck",
+  }) as any as Schema.Schema<TrustedDirectoryCheck>;
 
 export interface ImageFreshnessCheck {
   /** Required. The max number of days that is allowed since the image was uploaded. Must be greater than zero. */
   maxUploadAgeDays?: number;
 }
 
-export const ImageFreshnessCheck: Schema.Schema<ImageFreshnessCheck> = Schema.suspend(() => Schema.Struct({
-  maxUploadAgeDays: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ImageFreshnessCheck" }) as any as Schema.Schema<ImageFreshnessCheck>;
+export const ImageFreshnessCheck: Schema.Schema<ImageFreshnessCheck> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maxUploadAgeDays: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ImageFreshnessCheck",
+  }) as any as Schema.Schema<ImageFreshnessCheck>;
 
 export interface VulnerabilityCheck {
   /** Optional. A list of specific CVEs to ignore even if the vulnerability level violates `maximumUnfixableSeverity` or `maximumFixableSeverity`. CVEs are listed in the format of Container Analysis note id. For example: - CVE-2021-20305 - CVE-2020-10543 The CVEs are applicable regardless of note provider project, e.g., an entry of `CVE-2021-20305` will allow vulnerabilities with a note name of either `projects/goog-vulnz/notes/CVE-2021-20305` or `projects/CUSTOM-PROJECT/notes/CVE-2021-20305`. */
@@ -254,29 +369,61 @@ export interface VulnerabilityCheck {
   /** Optional. A list of specific CVEs to always raise warnings about even if the vulnerability level meets `maximumUnfixableSeverity` or `maximumFixableSeverity`. CVEs are listed in the format of Container Analysis note id. For example: - CVE-2021-20305 - CVE-2020-10543 The CVEs are applicable regardless of note provider project, e.g., an entry of `CVE-2021-20305` will block vulnerabilities with a note name of either `projects/goog-vulnz/notes/CVE-2021-20305` or `projects/CUSTOM-PROJECT/notes/CVE-2021-20305`. */
   blockedCves?: Array<string>;
   /** Required. The threshold for severity for which a fix isn't currently available. This field is required and must be set. */
-  maximumUnfixableSeverity?: "MAXIMUM_ALLOWED_SEVERITY_UNSPECIFIED" | "BLOCK_ALL" | "MINIMAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | "ALLOW_ALL" | (string & {});
+  maximumUnfixableSeverity?:
+    | "MAXIMUM_ALLOWED_SEVERITY_UNSPECIFIED"
+    | "BLOCK_ALL"
+    | "MINIMAL"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | "ALLOW_ALL"
+    | (string & {});
   /** Required. The threshold for severity for which a fix is currently available. This field is required and must be set. */
-  maximumFixableSeverity?: "MAXIMUM_ALLOWED_SEVERITY_UNSPECIFIED" | "BLOCK_ALL" | "MINIMAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | "ALLOW_ALL" | (string & {});
+  maximumFixableSeverity?:
+    | "MAXIMUM_ALLOWED_SEVERITY_UNSPECIFIED"
+    | "BLOCK_ALL"
+    | "MINIMAL"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | "ALLOW_ALL"
+    | (string & {});
   /** Optional. The projects where vulnerabilities are stored as Container Analysis Occurrences. Each project is expressed in the resource format of `projects/[PROJECT_ID]`, e.g., `projects/my-gcp-project`. An attempt will be made for each project to fetch vulnerabilities, and all valid vulnerabilities will be used to check against the vulnerability policy. If no valid scan is found in all projects configured here, an error will be returned for the check. Maximum number of `container_analysis_vulnerability_projects` allowed in each `VulnerabilityCheck` is 10. */
   containerAnalysisVulnerabilityProjects?: Array<string>;
 }
 
-export const VulnerabilityCheck: Schema.Schema<VulnerabilityCheck> = Schema.suspend(() => Schema.Struct({
-  allowedCves: Schema.optional(Schema.Array(Schema.String)),
-  blockedCves: Schema.optional(Schema.Array(Schema.String)),
-  maximumUnfixableSeverity: Schema.optional(Schema.String),
-  maximumFixableSeverity: Schema.optional(Schema.String),
-  containerAnalysisVulnerabilityProjects: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "VulnerabilityCheck" }) as any as Schema.Schema<VulnerabilityCheck>;
+export const VulnerabilityCheck: Schema.Schema<VulnerabilityCheck> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowedCves: Schema.optional(Schema.Array(Schema.String)),
+      blockedCves: Schema.optional(Schema.Array(Schema.String)),
+      maximumUnfixableSeverity: Schema.optional(Schema.String),
+      maximumFixableSeverity: Schema.optional(Schema.String),
+      containerAnalysisVulnerabilityProjects: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "VulnerabilityCheck",
+  }) as any as Schema.Schema<VulnerabilityCheck>;
 
 export interface AttestationSource {
   /** The IDs of the Google Cloud projects that store the SLSA attestations as Container Analysis Occurrences, in the format `projects/[PROJECT_ID]`. Maximum number of `container_analysis_attestation_projects` allowed in each `AttestationSource` is 10. */
   containerAnalysisAttestationProjects?: Array<string>;
 }
 
-export const AttestationSource: Schema.Schema<AttestationSource> = Schema.suspend(() => Schema.Struct({
-  containerAnalysisAttestationProjects: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AttestationSource" }) as any as Schema.Schema<AttestationSource>;
+export const AttestationSource: Schema.Schema<AttestationSource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      containerAnalysisAttestationProjects: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "AttestationSource",
+  }) as any as Schema.Schema<AttestationSource>;
 
 export interface VerificationRule {
   /** Each verification rule is used for evaluation against provenances generated by a specific builder (group). For some of the builders, such as the Google Cloud Build, users don't need to explicitly specify their roots of trust in the policy since the evaluation service can automatically fetch them based on the builder (group). */
@@ -291,40 +438,57 @@ export interface VerificationRule {
   customConstraints?: string;
 }
 
-export const VerificationRule: Schema.Schema<VerificationRule> = Schema.suspend(() => Schema.Struct({
-  trustedBuilder: Schema.optional(Schema.String),
-  attestationSource: Schema.optional(AttestationSource),
-  configBasedBuildRequired: Schema.optional(Schema.Boolean),
-  trustedSourceRepoPatterns: Schema.optional(Schema.Array(Schema.String)),
-  customConstraints: Schema.optional(Schema.String),
-})).annotate({ identifier: "VerificationRule" }) as any as Schema.Schema<VerificationRule>;
+export const VerificationRule: Schema.Schema<VerificationRule> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      trustedBuilder: Schema.optional(Schema.String),
+      attestationSource: Schema.optional(AttestationSource),
+      configBasedBuildRequired: Schema.optional(Schema.Boolean),
+      trustedSourceRepoPatterns: Schema.optional(Schema.Array(Schema.String)),
+      customConstraints: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VerificationRule",
+}) as any as Schema.Schema<VerificationRule>;
 
 export interface SlsaCheck {
   /** Specifies a list of verification rules for the SLSA attestations. An image is considered compliant with the SlsaCheck if any of the rules are satisfied. */
   rules?: Array<VerificationRule>;
 }
 
-export const SlsaCheck: Schema.Schema<SlsaCheck> = Schema.suspend(() => Schema.Struct({
-  rules: Schema.optional(Schema.Array(VerificationRule)),
-})).annotate({ identifier: "SlsaCheck" }) as any as Schema.Schema<SlsaCheck>;
+export const SlsaCheck: Schema.Schema<SlsaCheck> = Schema.suspend(() =>
+  Schema.Struct({
+    rules: Schema.optional(Schema.Array(VerificationRule)),
+  }),
+).annotate({ identifier: "SlsaCheck" }) as any as Schema.Schema<SlsaCheck>;
 
 export interface SigstorePublicKey {
   /** The public key material in PEM format. */
   publicKeyPem?: string;
 }
 
-export const SigstorePublicKey: Schema.Schema<SigstorePublicKey> = Schema.suspend(() => Schema.Struct({
-  publicKeyPem: Schema.optional(Schema.String),
-})).annotate({ identifier: "SigstorePublicKey" }) as any as Schema.Schema<SigstorePublicKey>;
+export const SigstorePublicKey: Schema.Schema<SigstorePublicKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publicKeyPem: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SigstorePublicKey",
+  }) as any as Schema.Schema<SigstorePublicKey>;
 
 export interface SigstorePublicKeySet {
   /** Required. `public_keys` must have at least one entry. */
   publicKeys?: Array<SigstorePublicKey>;
 }
 
-export const SigstorePublicKeySet: Schema.Schema<SigstorePublicKeySet> = Schema.suspend(() => Schema.Struct({
-  publicKeys: Schema.optional(Schema.Array(SigstorePublicKey)),
-})).annotate({ identifier: "SigstorePublicKeySet" }) as any as Schema.Schema<SigstorePublicKeySet>;
+export const SigstorePublicKeySet: Schema.Schema<SigstorePublicKeySet> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publicKeys: Schema.optional(Schema.Array(SigstorePublicKey)),
+    }),
+  ).annotate({
+    identifier: "SigstorePublicKeySet",
+  }) as any as Schema.Schema<SigstorePublicKeySet>;
 
 export interface SigstoreAuthority {
   /** Optional. A user-provided name for this `SigstoreAuthority`. This field has no effect on the policy evaluation behavior except to improve readability of messages in evaluation results. */
@@ -333,19 +497,29 @@ export interface SigstoreAuthority {
   publicKeySet?: SigstorePublicKeySet;
 }
 
-export const SigstoreAuthority: Schema.Schema<SigstoreAuthority> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  publicKeySet: Schema.optional(SigstorePublicKeySet),
-})).annotate({ identifier: "SigstoreAuthority" }) as any as Schema.Schema<SigstoreAuthority>;
+export const SigstoreAuthority: Schema.Schema<SigstoreAuthority> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      publicKeySet: Schema.optional(SigstorePublicKeySet),
+    }),
+  ).annotate({
+    identifier: "SigstoreAuthority",
+  }) as any as Schema.Schema<SigstoreAuthority>;
 
 export interface SigstoreSignatureCheck {
   /** Required. The authorities required by this check to verify the signature. A signature only needs to be verified by one authority to pass the check. */
   sigstoreAuthorities?: Array<SigstoreAuthority>;
 }
 
-export const SigstoreSignatureCheck: Schema.Schema<SigstoreSignatureCheck> = Schema.suspend(() => Schema.Struct({
-  sigstoreAuthorities: Schema.optional(Schema.Array(SigstoreAuthority)),
-})).annotate({ identifier: "SigstoreSignatureCheck" }) as any as Schema.Schema<SigstoreSignatureCheck>;
+export const SigstoreSignatureCheck: Schema.Schema<SigstoreSignatureCheck> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sigstoreAuthorities: Schema.optional(Schema.Array(SigstoreAuthority)),
+    }),
+  ).annotate({
+    identifier: "SigstoreSignatureCheck",
+  }) as any as Schema.Schema<SigstoreSignatureCheck>;
 
 export interface Check {
   /** Optional. A user-provided name for this check. This field has no effect on the policy evaluation behavior except to improve readability of messages in evaluation results. */
@@ -368,17 +542,21 @@ export interface Check {
   sigstoreSignatureCheck?: SigstoreSignatureCheck;
 }
 
-export const Check: Schema.Schema<Check> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  imageAllowlist: Schema.optional(ImageAllowlist),
-  alwaysDeny: Schema.optional(Schema.Boolean),
-  simpleSigningAttestationCheck: Schema.optional(SimpleSigningAttestationCheck),
-  trustedDirectoryCheck: Schema.optional(TrustedDirectoryCheck),
-  imageFreshnessCheck: Schema.optional(ImageFreshnessCheck),
-  vulnerabilityCheck: Schema.optional(VulnerabilityCheck),
-  slsaCheck: Schema.optional(SlsaCheck),
-  sigstoreSignatureCheck: Schema.optional(SigstoreSignatureCheck),
-})).annotate({ identifier: "Check" }) as any as Schema.Schema<Check>;
+export const Check: Schema.Schema<Check> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    imageAllowlist: Schema.optional(ImageAllowlist),
+    alwaysDeny: Schema.optional(Schema.Boolean),
+    simpleSigningAttestationCheck: Schema.optional(
+      SimpleSigningAttestationCheck,
+    ),
+    trustedDirectoryCheck: Schema.optional(TrustedDirectoryCheck),
+    imageFreshnessCheck: Schema.optional(ImageFreshnessCheck),
+    vulnerabilityCheck: Schema.optional(VulnerabilityCheck),
+    slsaCheck: Schema.optional(SlsaCheck),
+    sigstoreSignatureCheck: Schema.optional(SigstoreSignatureCheck),
+  }),
+).annotate({ identifier: "Check" }) as any as Schema.Schema<Check>;
 
 export interface CheckSet {
   /** Optional. A user-provided name for this `CheckSet`. This field has no effect on the policy evaluation behavior except to improve readability of messages in evaluation results. */
@@ -391,12 +569,14 @@ export interface CheckSet {
   checks?: Array<Check>;
 }
 
-export const CheckSet: Schema.Schema<CheckSet> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  scope: Schema.optional(Scope),
-  imageAllowlist: Schema.optional(ImageAllowlist),
-  checks: Schema.optional(Schema.Array(Check)),
-})).annotate({ identifier: "CheckSet" }) as any as Schema.Schema<CheckSet>;
+export const CheckSet: Schema.Schema<CheckSet> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    scope: Schema.optional(Scope),
+    imageAllowlist: Schema.optional(ImageAllowlist),
+    checks: Schema.optional(Schema.Array(Check)),
+  }),
+).annotate({ identifier: "CheckSet" }) as any as Schema.Schema<CheckSet>;
 
 export interface GkePolicy {
   /** Optional. Images exempted from this policy. If any of the patterns match the image being evaluated, the rest of the policy will not be evaluated. */
@@ -405,10 +585,12 @@ export interface GkePolicy {
   checkSets?: Array<CheckSet>;
 }
 
-export const GkePolicy: Schema.Schema<GkePolicy> = Schema.suspend(() => Schema.Struct({
-  imageAllowlist: Schema.optional(ImageAllowlist),
-  checkSets: Schema.optional(Schema.Array(CheckSet)),
-})).annotate({ identifier: "GkePolicy" }) as any as Schema.Schema<GkePolicy>;
+export const GkePolicy: Schema.Schema<GkePolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    imageAllowlist: Schema.optional(ImageAllowlist),
+    checkSets: Schema.optional(Schema.Array(CheckSet)),
+  }),
+).annotate({ identifier: "GkePolicy" }) as any as Schema.Schema<GkePolicy>;
 
 export interface PlatformPolicy {
   /** Output only. The relative resource name of the Binary Authorization platform policy, in the form of `projects/* /platforms/* /policies/*`. */
@@ -423,13 +605,18 @@ export interface PlatformPolicy {
   etag?: string;
 }
 
-export const PlatformPolicy: Schema.Schema<PlatformPolicy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  gkePolicy: Schema.optional(GkePolicy),
-  updateTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlatformPolicy" }) as any as Schema.Schema<PlatformPolicy>;
+export const PlatformPolicy: Schema.Schema<PlatformPolicy> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      gkePolicy: Schema.optional(GkePolicy),
+      updateTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PlatformPolicy",
+}) as any as Schema.Schema<PlatformPolicy>;
 
 export interface ListPlatformPoliciesResponse {
   /** The list of platform policies. */
@@ -438,40 +625,63 @@ export interface ListPlatformPoliciesResponse {
   nextPageToken?: string;
 }
 
-export const ListPlatformPoliciesResponse: Schema.Schema<ListPlatformPoliciesResponse> = Schema.suspend(() => Schema.Struct({
-  platformPolicies: Schema.optional(Schema.Array(PlatformPolicy)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPlatformPoliciesResponse" }) as any as Schema.Schema<ListPlatformPoliciesResponse>;
+export const ListPlatformPoliciesResponse: Schema.Schema<ListPlatformPoliciesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      platformPolicies: Schema.optional(Schema.Array(PlatformPolicy)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPlatformPoliciesResponse",
+  }) as any as Schema.Schema<ListPlatformPoliciesResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface AdmissionWhitelistPattern {
   /** An image name pattern to allowlist, in the form `registry/path/to/image`. This supports a trailing `*` wildcard, but this is allowed only in text after the `registry/` part. This also supports a trailing `**` wildcard which matches subdirectories of a given entry. */
   namePattern?: string;
 }
 
-export const AdmissionWhitelistPattern: Schema.Schema<AdmissionWhitelistPattern> = Schema.suspend(() => Schema.Struct({
-  namePattern: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdmissionWhitelistPattern" }) as any as Schema.Schema<AdmissionWhitelistPattern>;
+export const AdmissionWhitelistPattern: Schema.Schema<AdmissionWhitelistPattern> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      namePattern: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdmissionWhitelistPattern",
+  }) as any as Schema.Schema<AdmissionWhitelistPattern>;
 
 export interface AdmissionRule {
   /** Required. How this admission rule will be evaluated. */
-  evaluationMode?: "EVALUATION_MODE_UNSPECIFIED" | "ALWAYS_ALLOW" | "REQUIRE_ATTESTATION" | "ALWAYS_DENY" | (string & {});
+  evaluationMode?:
+    | "EVALUATION_MODE_UNSPECIFIED"
+    | "ALWAYS_ALLOW"
+    | "REQUIRE_ATTESTATION"
+    | "ALWAYS_DENY"
+    | (string & {});
   /** Optional. The resource names of the attestors that must attest to a container image, in the format `projects/* /attestors/*`. Each attestor must exist before a policy can reference it. To add an attestor to a policy the principal issuing the policy change request must be able to read the attestor resource. Note: this field must be non-empty when the `evaluation_mode` field specifies `REQUIRE_ATTESTATION`, otherwise it must be empty. */
   requireAttestationsBy?: Array<string>;
   /** Required. The action when a pod creation is denied by the admission rule. */
-  enforcementMode?: "ENFORCEMENT_MODE_UNSPECIFIED" | "ENFORCED_BLOCK_AND_AUDIT_LOG" | "DRYRUN_AUDIT_LOG_ONLY" | (string & {});
+  enforcementMode?:
+    | "ENFORCEMENT_MODE_UNSPECIFIED"
+    | "ENFORCED_BLOCK_AND_AUDIT_LOG"
+    | "DRYRUN_AUDIT_LOG_ONLY"
+    | (string & {});
 }
 
-export const AdmissionRule: Schema.Schema<AdmissionRule> = Schema.suspend(() => Schema.Struct({
-  evaluationMode: Schema.optional(Schema.String),
-  requireAttestationsBy: Schema.optional(Schema.Array(Schema.String)),
-  enforcementMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdmissionRule" }) as any as Schema.Schema<AdmissionRule>;
+export const AdmissionRule: Schema.Schema<AdmissionRule> = Schema.suspend(() =>
+  Schema.Struct({
+    evaluationMode: Schema.optional(Schema.String),
+    requireAttestationsBy: Schema.optional(Schema.Array(Schema.String)),
+    enforcementMode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AdmissionRule",
+}) as any as Schema.Schema<AdmissionRule>;
 
 export interface Policy {
   /** Output only. The resource name, in the format `projects/* /policy`. There is at most one policy per project. */
@@ -479,7 +689,11 @@ export interface Policy {
   /** Optional. A descriptive comment. */
   description?: string;
   /** Optional. Controls the evaluation of a Google-maintained global admission policy for common system-level images. Images not covered by the global policy will be subject to the project admission policy. This setting has no effect when specified inside a global admission policy. */
-  globalPolicyEvaluationMode?: "GLOBAL_POLICY_EVALUATION_MODE_UNSPECIFIED" | "ENABLE" | "DISABLE" | (string & {});
+  globalPolicyEvaluationMode?:
+    | "GLOBAL_POLICY_EVALUATION_MODE_UNSPECIFIED"
+    | "ENABLE"
+    | "DISABLE"
+    | (string & {});
   /** Optional. Admission policy allowlisting. A matching admission request will always be permitted. This feature is typically used to exclude Google or third-party infrastructure images from Binary Authorization policies. */
   admissionWhitelistPatterns?: Array<AdmissionWhitelistPattern>;
   /** Optional. A valid policy has only one of the following rule maps non-empty, i.e. only one of `cluster_admission_rules`, `kubernetes_namespace_admission_rules`, `kubernetes_service_account_admission_rules`, or `istio_service_identity_admission_rules` can be non-empty. Per-cluster admission rules. Cluster spec format: `location.clusterId`. There can be at most one admission rule per cluster spec. A `location` is either a compute zone (e.g. us-central1-a) or a region (e.g. us-central1). For `clusterId` syntax restrictions see https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters. */
@@ -498,19 +712,31 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  globalPolicyEvaluationMode: Schema.optional(Schema.String),
-  admissionWhitelistPatterns: Schema.optional(Schema.Array(AdmissionWhitelistPattern)),
-  clusterAdmissionRules: Schema.optional(Schema.Record(Schema.String, AdmissionRule)),
-  kubernetesNamespaceAdmissionRules: Schema.optional(Schema.Record(Schema.String, AdmissionRule)),
-  kubernetesServiceAccountAdmissionRules: Schema.optional(Schema.Record(Schema.String, AdmissionRule)),
-  istioServiceIdentityAdmissionRules: Schema.optional(Schema.Record(Schema.String, AdmissionRule)),
-  defaultAdmissionRule: Schema.optional(AdmissionRule),
-  updateTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    globalPolicyEvaluationMode: Schema.optional(Schema.String),
+    admissionWhitelistPatterns: Schema.optional(
+      Schema.Array(AdmissionWhitelistPattern),
+    ),
+    clusterAdmissionRules: Schema.optional(
+      Schema.Record(Schema.String, AdmissionRule),
+    ),
+    kubernetesNamespaceAdmissionRules: Schema.optional(
+      Schema.Record(Schema.String, AdmissionRule),
+    ),
+    kubernetesServiceAccountAdmissionRules: Schema.optional(
+      Schema.Record(Schema.String, AdmissionRule),
+    ),
+    istioServiceIdentityAdmissionRules: Schema.optional(
+      Schema.Record(Schema.String, AdmissionRule),
+    ),
+    defaultAdmissionRule: Schema.optional(AdmissionRule),
+    updateTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface AttestorPublicKey {
   /** Optional. A descriptive comment. This field may be updated. */
@@ -523,12 +749,17 @@ export interface AttestorPublicKey {
   pkixPublicKey?: PkixPublicKey;
 }
 
-export const AttestorPublicKey: Schema.Schema<AttestorPublicKey> = Schema.suspend(() => Schema.Struct({
-  comment: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  asciiArmoredPgpPublicKey: Schema.optional(Schema.String),
-  pkixPublicKey: Schema.optional(PkixPublicKey),
-})).annotate({ identifier: "AttestorPublicKey" }) as any as Schema.Schema<AttestorPublicKey>;
+export const AttestorPublicKey: Schema.Schema<AttestorPublicKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      comment: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      asciiArmoredPgpPublicKey: Schema.optional(Schema.String),
+      pkixPublicKey: Schema.optional(PkixPublicKey),
+    }),
+  ).annotate({
+    identifier: "AttestorPublicKey",
+  }) as any as Schema.Schema<AttestorPublicKey>;
 
 export interface UserOwnedGrafeasNote {
   /** Required. The Grafeas resource name of a Attestation.Authority Note, created by the user, in the format: `projects/[PROJECT_ID]/notes/*`. This field may not be updated. A project ID must be used, not a project number. An attestation by this attestor is stored as a Grafeas Attestation.Authority Occurrence that names a container image and that links to this Note. Grafeas is an external dependency. */
@@ -539,11 +770,16 @@ export interface UserOwnedGrafeasNote {
   delegationServiceAccountEmail?: string;
 }
 
-export const UserOwnedGrafeasNote: Schema.Schema<UserOwnedGrafeasNote> = Schema.suspend(() => Schema.Struct({
-  noteReference: Schema.optional(Schema.String),
-  publicKeys: Schema.optional(Schema.Array(AttestorPublicKey)),
-  delegationServiceAccountEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserOwnedGrafeasNote" }) as any as Schema.Schema<UserOwnedGrafeasNote>;
+export const UserOwnedGrafeasNote: Schema.Schema<UserOwnedGrafeasNote> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      noteReference: Schema.optional(Schema.String),
+      publicKeys: Schema.optional(Schema.Array(AttestorPublicKey)),
+      delegationServiceAccountEmail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserOwnedGrafeasNote",
+  }) as any as Schema.Schema<UserOwnedGrafeasNote>;
 
 export interface Attestor {
   /** Required. The resource name, in the format: `projects/* /attestors/*`. This field may not be updated. */
@@ -558,13 +794,15 @@ export interface Attestor {
   etag?: string;
 }
 
-export const Attestor: Schema.Schema<Attestor> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  userOwnedGrafeasNote: Schema.optional(UserOwnedGrafeasNote),
-  updateTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Attestor" }) as any as Schema.Schema<Attestor>;
+export const Attestor: Schema.Schema<Attestor> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    userOwnedGrafeasNote: Schema.optional(UserOwnedGrafeasNote),
+    updateTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Attestor" }) as any as Schema.Schema<Attestor>;
 
 export interface ListAttestorsResponse {
   /** The list of attestors. */
@@ -573,10 +811,15 @@ export interface ListAttestorsResponse {
   nextPageToken?: string;
 }
 
-export const ListAttestorsResponse: Schema.Schema<ListAttestorsResponse> = Schema.suspend(() => Schema.Struct({
-  attestors: Schema.optional(Schema.Array(Attestor)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAttestorsResponse" }) as any as Schema.Schema<ListAttestorsResponse>;
+export const ListAttestorsResponse: Schema.Schema<ListAttestorsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attestors: Schema.optional(Schema.Array(Attestor)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAttestorsResponse",
+  }) as any as Schema.Schema<ListAttestorsResponse>;
 
 export interface Signature {
   /** The content of the signature, an opaque bytestring. The payload that this signature verifies MUST be unambiguously provided with the Signature during verification. A wrapper message might provide the payload explicitly. Alternatively, a message might have a canonical serialization that can always be unambiguously computed to derive the payload. */
@@ -585,19 +828,23 @@ export interface Signature {
   publicKeyId?: string;
 }
 
-export const Signature: Schema.Schema<Signature> = Schema.suspend(() => Schema.Struct({
-  signature: Schema.optional(Schema.String),
-  publicKeyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Signature" }) as any as Schema.Schema<Signature>;
+export const Signature: Schema.Schema<Signature> = Schema.suspend(() =>
+  Schema.Struct({
+    signature: Schema.optional(Schema.String),
+    publicKeyId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Signature" }) as any as Schema.Schema<Signature>;
 
 export interface Jwt {
   /** The compact encoding of a JWS, which is always three base64 encoded strings joined by periods. For details, see: https://tools.ietf.org/html/rfc7515.html#section-3.1 */
   compactJwt?: string;
 }
 
-export const Jwt: Schema.Schema<Jwt> = Schema.suspend(() => Schema.Struct({
-  compactJwt: Schema.optional(Schema.String),
-})).annotate({ identifier: "Jwt" }) as any as Schema.Schema<Jwt>;
+export const Jwt: Schema.Schema<Jwt> = Schema.suspend(() =>
+  Schema.Struct({
+    compactJwt: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Jwt" }) as any as Schema.Schema<Jwt>;
 
 export interface AttestationOccurrence {
   /** Required. The serialized payload that is verified by one or more `signatures`. */
@@ -608,11 +855,16 @@ export interface AttestationOccurrence {
   jwts?: Array<Jwt>;
 }
 
-export const AttestationOccurrence: Schema.Schema<AttestationOccurrence> = Schema.suspend(() => Schema.Struct({
-  serializedPayload: Schema.optional(Schema.String),
-  signatures: Schema.optional(Schema.Array(Signature)),
-  jwts: Schema.optional(Schema.Array(Jwt)),
-})).annotate({ identifier: "AttestationOccurrence" }) as any as Schema.Schema<AttestationOccurrence>;
+export const AttestationOccurrence: Schema.Schema<AttestationOccurrence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      serializedPayload: Schema.optional(Schema.String),
+      signatures: Schema.optional(Schema.Array(Signature)),
+      jwts: Schema.optional(Schema.Array(Jwt)),
+    }),
+  ).annotate({
+    identifier: "AttestationOccurrence",
+  }) as any as Schema.Schema<AttestationOccurrence>;
 
 export interface ValidateAttestationOccurrenceRequest {
   /** Required. An AttestationOccurrence to be checked that it can be verified by the `Attestor`. It does not have to be an existing entity in Container Analysis. It must otherwise be a valid `AttestationOccurrence`. */
@@ -623,23 +875,37 @@ export interface ValidateAttestationOccurrenceRequest {
   occurrenceResourceUri?: string;
 }
 
-export const ValidateAttestationOccurrenceRequest: Schema.Schema<ValidateAttestationOccurrenceRequest> = Schema.suspend(() => Schema.Struct({
-  attestation: Schema.optional(AttestationOccurrence),
-  occurrenceNote: Schema.optional(Schema.String),
-  occurrenceResourceUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "ValidateAttestationOccurrenceRequest" }) as any as Schema.Schema<ValidateAttestationOccurrenceRequest>;
+export const ValidateAttestationOccurrenceRequest: Schema.Schema<ValidateAttestationOccurrenceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attestation: Schema.optional(AttestationOccurrence),
+      occurrenceNote: Schema.optional(Schema.String),
+      occurrenceResourceUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ValidateAttestationOccurrenceRequest",
+  }) as any as Schema.Schema<ValidateAttestationOccurrenceRequest>;
 
 export interface ValidateAttestationOccurrenceResponse {
   /** The result of the Attestation validation. */
-  result?: "RESULT_UNSPECIFIED" | "VERIFIED" | "ATTESTATION_NOT_VERIFIABLE" | (string & {});
+  result?:
+    | "RESULT_UNSPECIFIED"
+    | "VERIFIED"
+    | "ATTESTATION_NOT_VERIFIABLE"
+    | (string & {});
   /** The reason for denial if the Attestation couldn't be validated. */
   denialReason?: string;
 }
 
-export const ValidateAttestationOccurrenceResponse: Schema.Schema<ValidateAttestationOccurrenceResponse> = Schema.suspend(() => Schema.Struct({
-  result: Schema.optional(Schema.String),
-  denialReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "ValidateAttestationOccurrenceResponse" }) as any as Schema.Schema<ValidateAttestationOccurrenceResponse>;
+export const ValidateAttestationOccurrenceResponse: Schema.Schema<ValidateAttestationOccurrenceResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      result: Schema.optional(Schema.String),
+      denialReason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ValidateAttestationOccurrenceResponse",
+  }) as any as Schema.Schema<ValidateAttestationOccurrenceResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -652,12 +918,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -668,11 +936,13 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface IamPolicy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -683,38 +953,55 @@ export interface IamPolicy {
   etag?: string;
 }
 
-export const IamPolicy: Schema.Schema<IamPolicy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "IamPolicy" }) as any as Schema.Schema<IamPolicy>;
+export const IamPolicy: Schema.Schema<IamPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "IamPolicy" }) as any as Schema.Schema<IamPolicy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: IamPolicy;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(IamPolicy),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(IamPolicy),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 // ==========================================================================
 // Operations
@@ -738,7 +1025,12 @@ export const GetPolicyProjectsResponse = Policy;
 export type GetPolicyProjectsError = DefaultErrors;
 
 /** A policy specifies the attestors that must attest to a container image, before the project is allowed to deploy that image. There is at most one policy per project. All image admission requests are permitted if a project has no policy. Gets the policy for this project. Returns a default policy if the project does not have one. */
-export const getPolicyProjects: API.OperationMethod<GetPolicyProjectsRequest, GetPolicyProjectsResponse, GetPolicyProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPolicyProjects: API.OperationMethod<
+  GetPolicyProjectsRequest,
+  GetPolicyProjectsResponse,
+  GetPolicyProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPolicyProjectsRequest,
   output: GetPolicyProjectsResponse,
   errors: [],
@@ -755,7 +1047,11 @@ export const UpdatePolicyProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Policy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{projectsId}/policy", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/projects/{projectsId}/policy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdatePolicyProjectsRequest>;
 
@@ -765,7 +1061,12 @@ export const UpdatePolicyProjectsResponse = Policy;
 export type UpdatePolicyProjectsError = DefaultErrors;
 
 /** Creates or updates a project's policy, and returns a copy of the new policy. A policy is always updated as a whole, to avoid race conditions with concurrent policy enforcement (or management!) requests. Returns `NOT_FOUND` if the project does not exist, `INVALID_ARGUMENT` if the request is malformed. */
-export const updatePolicyProjects: API.OperationMethod<UpdatePolicyProjectsRequest, UpdatePolicyProjectsResponse, UpdatePolicyProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePolicyProjects: API.OperationMethod<
+  UpdatePolicyProjectsRequest,
+  UpdatePolicyProjectsResponse,
+  UpdatePolicyProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePolicyProjectsRequest,
   output: UpdatePolicyProjectsResponse,
   errors: [],
@@ -782,17 +1083,28 @@ export const EvaluateProjectsPlatformsGkePoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EvaluateGkePolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/platforms/gke/policies/{policiesId}:evaluate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/platforms/gke/policies/{policiesId}:evaluate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EvaluateProjectsPlatformsGkePoliciesRequest>;
 
-export type EvaluateProjectsPlatformsGkePoliciesResponse = EvaluateGkePolicyResponse;
-export const EvaluateProjectsPlatformsGkePoliciesResponse = EvaluateGkePolicyResponse;
+export type EvaluateProjectsPlatformsGkePoliciesResponse =
+  EvaluateGkePolicyResponse;
+export const EvaluateProjectsPlatformsGkePoliciesResponse =
+  EvaluateGkePolicyResponse;
 
 export type EvaluateProjectsPlatformsGkePoliciesError = DefaultErrors;
 
 /** Evaluates a Kubernetes object versus a GKE platform policy. Returns `NOT_FOUND` if the policy doesn't exist, `INVALID_ARGUMENT` if the policy or request is malformed and `PERMISSION_DENIED` if the client does not have sufficient permissions. */
-export const evaluateProjectsPlatformsGkePolicies: API.OperationMethod<EvaluateProjectsPlatformsGkePoliciesRequest, EvaluateProjectsPlatformsGkePoliciesResponse, EvaluateProjectsPlatformsGkePoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const evaluateProjectsPlatformsGkePolicies: API.OperationMethod<
+  EvaluateProjectsPlatformsGkePoliciesRequest,
+  EvaluateProjectsPlatformsGkePoliciesResponse,
+  EvaluateProjectsPlatformsGkePoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EvaluateProjectsPlatformsGkePoliciesRequest,
   output: EvaluateProjectsPlatformsGkePoliciesResponse,
   errors: [],
@@ -812,7 +1124,11 @@ export const CreateProjectsPlatformsPoliciesRequest = Schema.Struct({
   policyId: Schema.optional(Schema.String).pipe(T.HttpQuery("policyId")),
   body: Schema.optional(PlatformPolicy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/platforms/{platformsId}/policies", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/platforms/{platformsId}/policies",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsPlatformsPoliciesRequest>;
 
@@ -822,7 +1138,12 @@ export const CreateProjectsPlatformsPoliciesResponse = PlatformPolicy;
 export type CreateProjectsPlatformsPoliciesError = DefaultErrors;
 
 /** Creates a platform policy, and returns a copy of it. Returns `NOT_FOUND` if the project or platform doesn't exist, `INVALID_ARGUMENT` if the request is malformed, `ALREADY_EXISTS` if the policy already exists, and `INVALID_ARGUMENT` if the policy contains a platform-specific policy that does not match the platform value specified in the URL. */
-export const createProjectsPlatformsPolicies: API.OperationMethod<CreateProjectsPlatformsPoliciesRequest, CreateProjectsPlatformsPoliciesResponse, CreateProjectsPlatformsPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsPlatformsPolicies: API.OperationMethod<
+  CreateProjectsPlatformsPoliciesRequest,
+  CreateProjectsPlatformsPoliciesResponse,
+  CreateProjectsPlatformsPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsPlatformsPoliciesRequest,
   output: CreateProjectsPlatformsPoliciesResponse,
   errors: [],
@@ -836,7 +1157,10 @@ export interface GetProjectsPlatformsPoliciesRequest {
 export const GetProjectsPlatformsPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/platforms/{platformsId}/policies/{policiesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/platforms/{platformsId}/policies/{policiesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsPlatformsPoliciesRequest>;
 
@@ -846,7 +1170,12 @@ export const GetProjectsPlatformsPoliciesResponse = PlatformPolicy;
 export type GetProjectsPlatformsPoliciesError = DefaultErrors;
 
 /** Gets a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
-export const getProjectsPlatformsPolicies: API.OperationMethod<GetProjectsPlatformsPoliciesRequest, GetProjectsPlatformsPoliciesResponse, GetProjectsPlatformsPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsPlatformsPolicies: API.OperationMethod<
+  GetProjectsPlatformsPoliciesRequest,
+  GetProjectsPlatformsPoliciesResponse,
+  GetProjectsPlatformsPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsPlatformsPoliciesRequest,
   output: GetProjectsPlatformsPoliciesResponse,
   errors: [],
@@ -859,21 +1188,33 @@ export interface ReplacePlatformPolicyProjectsPlatformsPoliciesRequest {
   body?: PlatformPolicy;
 }
 
-export const ReplacePlatformPolicyProjectsPlatformsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(PlatformPolicy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{projectsId}/platforms/{platformsId}/policies/{policiesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ReplacePlatformPolicyProjectsPlatformsPoliciesRequest>;
+export const ReplacePlatformPolicyProjectsPlatformsPoliciesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(PlatformPolicy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/projects/{projectsId}/platforms/{platformsId}/policies/{policiesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReplacePlatformPolicyProjectsPlatformsPoliciesRequest>;
 
-export type ReplacePlatformPolicyProjectsPlatformsPoliciesResponse = PlatformPolicy;
-export const ReplacePlatformPolicyProjectsPlatformsPoliciesResponse = PlatformPolicy;
+export type ReplacePlatformPolicyProjectsPlatformsPoliciesResponse =
+  PlatformPolicy;
+export const ReplacePlatformPolicyProjectsPlatformsPoliciesResponse =
+  PlatformPolicy;
 
 export type ReplacePlatformPolicyProjectsPlatformsPoliciesError = DefaultErrors;
 
 /** Replaces a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
-export const replacePlatformPolicyProjectsPlatformsPolicies: API.OperationMethod<ReplacePlatformPolicyProjectsPlatformsPoliciesRequest, ReplacePlatformPolicyProjectsPlatformsPoliciesResponse, ReplacePlatformPolicyProjectsPlatformsPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const replacePlatformPolicyProjectsPlatformsPolicies: API.OperationMethod<
+  ReplacePlatformPolicyProjectsPlatformsPoliciesRequest,
+  ReplacePlatformPolicyProjectsPlatformsPoliciesResponse,
+  ReplacePlatformPolicyProjectsPlatformsPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReplacePlatformPolicyProjectsPlatformsPoliciesRequest,
   output: ReplacePlatformPolicyProjectsPlatformsPoliciesResponse,
   errors: [],
@@ -893,17 +1234,27 @@ export const ListProjectsPlatformsPoliciesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/platforms/{platformsId}/policies" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/platforms/{platformsId}/policies",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsPlatformsPoliciesRequest>;
 
-export type ListProjectsPlatformsPoliciesResponse = ListPlatformPoliciesResponse;
-export const ListProjectsPlatformsPoliciesResponse = ListPlatformPoliciesResponse;
+export type ListProjectsPlatformsPoliciesResponse =
+  ListPlatformPoliciesResponse;
+export const ListProjectsPlatformsPoliciesResponse =
+  ListPlatformPoliciesResponse;
 
 export type ListProjectsPlatformsPoliciesError = DefaultErrors;
 
 /** Lists platform policies owned by a project in the specified platform. Returns `INVALID_ARGUMENT` if the project or the platform doesn't exist. */
-export const listProjectsPlatformsPolicies: API.PaginatedOperationMethod<ListProjectsPlatformsPoliciesRequest, ListProjectsPlatformsPoliciesResponse, ListProjectsPlatformsPoliciesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsPlatformsPolicies: API.PaginatedOperationMethod<
+  ListProjectsPlatformsPoliciesRequest,
+  ListProjectsPlatformsPoliciesResponse,
+  ListProjectsPlatformsPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsPlatformsPoliciesRequest,
   output: ListProjectsPlatformsPoliciesResponse,
   errors: [],
@@ -924,7 +1275,10 @@ export const DeleteProjectsPlatformsPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/platforms/{platformsId}/policies/{policiesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/platforms/{platformsId}/policies/{policiesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsPlatformsPoliciesRequest>;
 
@@ -934,7 +1288,12 @@ export const DeleteProjectsPlatformsPoliciesResponse = Empty;
 export type DeleteProjectsPlatformsPoliciesError = DefaultErrors;
 
 /** Deletes a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
-export const deleteProjectsPlatformsPolicies: API.OperationMethod<DeleteProjectsPlatformsPoliciesRequest, DeleteProjectsPlatformsPoliciesResponse, DeleteProjectsPlatformsPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsPlatformsPolicies: API.OperationMethod<
+  DeleteProjectsPlatformsPoliciesRequest,
+  DeleteProjectsPlatformsPoliciesResponse,
+  DeleteProjectsPlatformsPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsPlatformsPoliciesRequest,
   output: DeleteProjectsPlatformsPoliciesResponse,
   errors: [],
@@ -954,7 +1313,11 @@ export const CreateProjectsAttestorsRequest = Schema.Struct({
   attestorId: Schema.optional(Schema.String).pipe(T.HttpQuery("attestorId")),
   body: Schema.optional(Attestor).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/attestors", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/attestors",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsAttestorsRequest>;
 
@@ -964,7 +1327,12 @@ export const CreateProjectsAttestorsResponse = Attestor;
 export type CreateProjectsAttestorsError = DefaultErrors;
 
 /** Creates an attestor, and returns a copy of the new attestor. Returns `NOT_FOUND` if the project does not exist, `INVALID_ARGUMENT` if the request is malformed, `ALREADY_EXISTS` if the attestor already exists. */
-export const createProjectsAttestors: API.OperationMethod<CreateProjectsAttestorsRequest, CreateProjectsAttestorsResponse, CreateProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsAttestors: API.OperationMethod<
+  CreateProjectsAttestorsRequest,
+  CreateProjectsAttestorsResponse,
+  CreateProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsAttestorsRequest,
   output: CreateProjectsAttestorsResponse,
   errors: [],
@@ -978,7 +1346,10 @@ export interface GetProjectsAttestorsRequest {
 export const GetProjectsAttestorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/attestors/{attestorsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/attestors/{attestorsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsAttestorsRequest>;
 
@@ -988,7 +1359,12 @@ export const GetProjectsAttestorsResponse = Attestor;
 export type GetProjectsAttestorsError = DefaultErrors;
 
 /** Gets an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
-export const getProjectsAttestors: API.OperationMethod<GetProjectsAttestorsRequest, GetProjectsAttestorsResponse, GetProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsAttestors: API.OperationMethod<
+  GetProjectsAttestorsRequest,
+  GetProjectsAttestorsResponse,
+  GetProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsAttestorsRequest,
   output: GetProjectsAttestorsResponse,
   errors: [],
@@ -1005,7 +1381,11 @@ export const UpdateProjectsAttestorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Attestor).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{projectsId}/attestors/{attestorsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/projects/{projectsId}/attestors/{attestorsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateProjectsAttestorsRequest>;
 
@@ -1015,7 +1395,12 @@ export const UpdateProjectsAttestorsResponse = Attestor;
 export type UpdateProjectsAttestorsError = DefaultErrors;
 
 /** Updates an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
-export const updateProjectsAttestors: API.OperationMethod<UpdateProjectsAttestorsRequest, UpdateProjectsAttestorsResponse, UpdateProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateProjectsAttestors: API.OperationMethod<
+  UpdateProjectsAttestorsRequest,
+  UpdateProjectsAttestorsResponse,
+  UpdateProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateProjectsAttestorsRequest,
   output: UpdateProjectsAttestorsResponse,
   errors: [],
@@ -1045,7 +1430,12 @@ export const ListProjectsAttestorsResponse = ListAttestorsResponse;
 export type ListProjectsAttestorsError = DefaultErrors;
 
 /** Lists attestors. Returns `INVALID_ARGUMENT` if the project does not exist. */
-export const listProjectsAttestors: API.PaginatedOperationMethod<ListProjectsAttestorsRequest, ListProjectsAttestorsResponse, ListProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsAttestors: API.PaginatedOperationMethod<
+  ListProjectsAttestorsRequest,
+  ListProjectsAttestorsResponse,
+  ListProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsAttestorsRequest,
   output: ListProjectsAttestorsResponse,
   errors: [],
@@ -1063,7 +1453,10 @@ export interface DeleteProjectsAttestorsRequest {
 export const DeleteProjectsAttestorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/attestors/{attestorsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/attestors/{attestorsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsAttestorsRequest>;
 
@@ -1073,7 +1466,12 @@ export const DeleteProjectsAttestorsResponse = Empty;
 export type DeleteProjectsAttestorsError = DefaultErrors;
 
 /** Deletes an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
-export const deleteProjectsAttestors: API.OperationMethod<DeleteProjectsAttestorsRequest, DeleteProjectsAttestorsResponse, DeleteProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsAttestors: API.OperationMethod<
+  DeleteProjectsAttestorsRequest,
+  DeleteProjectsAttestorsResponse,
+  DeleteProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsAttestorsRequest,
   output: DeleteProjectsAttestorsResponse,
   errors: [],
@@ -1086,21 +1484,35 @@ export interface ValidateAttestationOccurrenceProjectsAttestorsRequest {
   body?: ValidateAttestationOccurrenceRequest;
 }
 
-export const ValidateAttestationOccurrenceProjectsAttestorsRequest = Schema.Struct({
-  attestor: Schema.String.pipe(T.HttpPath("attestor")),
-  body: Schema.optional(ValidateAttestationOccurrenceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/attestors/{attestorsId}:validateAttestationOccurrence", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ValidateAttestationOccurrenceProjectsAttestorsRequest>;
+export const ValidateAttestationOccurrenceProjectsAttestorsRequest =
+  Schema.Struct({
+    attestor: Schema.String.pipe(T.HttpPath("attestor")),
+    body: Schema.optional(ValidateAttestationOccurrenceRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/attestors/{attestorsId}:validateAttestationOccurrence",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ValidateAttestationOccurrenceProjectsAttestorsRequest>;
 
-export type ValidateAttestationOccurrenceProjectsAttestorsResponse = ValidateAttestationOccurrenceResponse;
-export const ValidateAttestationOccurrenceProjectsAttestorsResponse = ValidateAttestationOccurrenceResponse;
+export type ValidateAttestationOccurrenceProjectsAttestorsResponse =
+  ValidateAttestationOccurrenceResponse;
+export const ValidateAttestationOccurrenceProjectsAttestorsResponse =
+  ValidateAttestationOccurrenceResponse;
 
 export type ValidateAttestationOccurrenceProjectsAttestorsError = DefaultErrors;
 
 /** Returns whether the given `Attestation` for the given image URI was signed by the given `Attestor` */
-export const validateAttestationOccurrenceProjectsAttestors: API.OperationMethod<ValidateAttestationOccurrenceProjectsAttestorsRequest, ValidateAttestationOccurrenceProjectsAttestorsResponse, ValidateAttestationOccurrenceProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const validateAttestationOccurrenceProjectsAttestors: API.OperationMethod<
+  ValidateAttestationOccurrenceProjectsAttestorsRequest,
+  ValidateAttestationOccurrenceProjectsAttestorsResponse,
+  ValidateAttestationOccurrenceProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ValidateAttestationOccurrenceProjectsAttestorsRequest,
   output: ValidateAttestationOccurrenceProjectsAttestorsResponse,
   errors: [],
@@ -1117,7 +1529,11 @@ export const SetIamPolicyProjectsAttestorsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/attestors/{attestorsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/attestors/{attestorsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsAttestorsRequest>;
 
@@ -1127,7 +1543,12 @@ export const SetIamPolicyProjectsAttestorsResponse = IamPolicy;
 export type SetIamPolicyProjectsAttestorsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsAttestors: API.OperationMethod<SetIamPolicyProjectsAttestorsRequest, SetIamPolicyProjectsAttestorsResponse, SetIamPolicyProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsAttestors: API.OperationMethod<
+  SetIamPolicyProjectsAttestorsRequest,
+  SetIamPolicyProjectsAttestorsResponse,
+  SetIamPolicyProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsAttestorsRequest,
   output: SetIamPolicyProjectsAttestorsResponse,
   errors: [],
@@ -1142,9 +1563,14 @@ export interface GetIamPolicyProjectsAttestorsRequest {
 
 export const GetIamPolicyProjectsAttestorsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/attestors/{attestorsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/attestors/{attestorsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsAttestorsRequest>;
 
@@ -1154,7 +1580,12 @@ export const GetIamPolicyProjectsAttestorsResponse = IamPolicy;
 export type GetIamPolicyProjectsAttestorsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsAttestors: API.OperationMethod<GetIamPolicyProjectsAttestorsRequest, GetIamPolicyProjectsAttestorsResponse, GetIamPolicyProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsAttestors: API.OperationMethod<
+  GetIamPolicyProjectsAttestorsRequest,
+  GetIamPolicyProjectsAttestorsResponse,
+  GetIamPolicyProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsAttestorsRequest,
   output: GetIamPolicyProjectsAttestorsResponse,
   errors: [],
@@ -1171,17 +1602,28 @@ export const TestIamPermissionsProjectsAttestorsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/attestors/{attestorsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/attestors/{attestorsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsAttestorsRequest>;
 
-export type TestIamPermissionsProjectsAttestorsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsAttestorsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsAttestorsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsAttestorsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsAttestorsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsAttestors: API.OperationMethod<TestIamPermissionsProjectsAttestorsRequest, TestIamPermissionsProjectsAttestorsResponse, TestIamPermissionsProjectsAttestorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsAttestors: API.OperationMethod<
+  TestIamPermissionsProjectsAttestorsRequest,
+  TestIamPermissionsProjectsAttestorsResponse,
+  TestIamPermissionsProjectsAttestorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsAttestorsRequest,
   output: TestIamPermissionsProjectsAttestorsResponse,
   errors: [],
@@ -1198,7 +1640,11 @@ export const SetIamPolicyProjectsPolicyRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/policy:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/policy:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsPolicyRequest>;
 
@@ -1208,7 +1654,12 @@ export const SetIamPolicyProjectsPolicyResponse = IamPolicy;
 export type SetIamPolicyProjectsPolicyError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsPolicy: API.OperationMethod<SetIamPolicyProjectsPolicyRequest, SetIamPolicyProjectsPolicyResponse, SetIamPolicyProjectsPolicyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsPolicy: API.OperationMethod<
+  SetIamPolicyProjectsPolicyRequest,
+  SetIamPolicyProjectsPolicyResponse,
+  SetIamPolicyProjectsPolicyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsPolicyRequest,
   output: SetIamPolicyProjectsPolicyResponse,
   errors: [],
@@ -1223,9 +1674,14 @@ export interface GetIamPolicyProjectsPolicyRequest {
 
 export const GetIamPolicyProjectsPolicyRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/policy:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/policy:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsPolicyRequest>;
 
@@ -1235,7 +1691,12 @@ export const GetIamPolicyProjectsPolicyResponse = IamPolicy;
 export type GetIamPolicyProjectsPolicyError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsPolicy: API.OperationMethod<GetIamPolicyProjectsPolicyRequest, GetIamPolicyProjectsPolicyResponse, GetIamPolicyProjectsPolicyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsPolicy: API.OperationMethod<
+  GetIamPolicyProjectsPolicyRequest,
+  GetIamPolicyProjectsPolicyResponse,
+  GetIamPolicyProjectsPolicyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsPolicyRequest,
   output: GetIamPolicyProjectsPolicyResponse,
   errors: [],
@@ -1252,17 +1713,28 @@ export const TestIamPermissionsProjectsPolicyRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/policy:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/policy:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsPolicyRequest>;
 
-export type TestIamPermissionsProjectsPolicyResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsPolicyResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsPolicyResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsPolicyResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsPolicyError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsPolicy: API.OperationMethod<TestIamPermissionsProjectsPolicyRequest, TestIamPermissionsProjectsPolicyResponse, TestIamPermissionsProjectsPolicyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsPolicy: API.OperationMethod<
+  TestIamPermissionsProjectsPolicyRequest,
+  TestIamPermissionsProjectsPolicyResponse,
+  TestIamPermissionsProjectsPolicyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsPolicyRequest,
   output: TestIamPermissionsProjectsPolicyResponse,
   errors: [],
@@ -1286,9 +1758,13 @@ export const GetPolicySystempolicyResponse = Policy;
 export type GetPolicySystempolicyError = DefaultErrors;
 
 /** Gets the current system policy in the specified location. */
-export const getPolicySystempolicy: API.OperationMethod<GetPolicySystempolicyRequest, GetPolicySystempolicyResponse, GetPolicySystempolicyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPolicySystempolicy: API.OperationMethod<
+  GetPolicySystempolicyRequest,
+  GetPolicySystempolicyResponse,
+  GetPolicySystempolicyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPolicySystempolicyRequest,
   output: GetPolicySystempolicyResponse,
   errors: [],
 }));
-

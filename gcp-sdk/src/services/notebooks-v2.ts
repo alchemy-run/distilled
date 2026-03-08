@@ -34,12 +34,14 @@ export interface Expr {
   title?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -50,11 +52,13 @@ export interface Binding {
   members?: Array<string>;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  condition: Schema.optional(Expr),
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    condition: Schema.optional(Expr),
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
@@ -65,41 +69,74 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  bindings: Schema.optional(Schema.Array(Binding)),
-  version: Schema.optional(Schema.Number),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    bindings: Schema.optional(Schema.Array(Binding)),
+    version: Schema.optional(Schema.Number),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface AcceleratorConfig {
   /** Optional. Count of cores of this accelerator. */
   coreCount?: string;
   /** Optional. Type of this accelerator. */
-  type?: "ACCELERATOR_TYPE_UNSPECIFIED" | "NVIDIA_TESLA_P100" | "NVIDIA_TESLA_V100" | "NVIDIA_TESLA_P4" | "NVIDIA_TESLA_T4" | "NVIDIA_TESLA_A100" | "NVIDIA_A100_80GB" | "NVIDIA_L4" | "NVIDIA_H100_80GB" | "NVIDIA_H100_MEGA_80GB" | "NVIDIA_H200_141GB" | "NVIDIA_TESLA_T4_VWS" | "NVIDIA_TESLA_P100_VWS" | "NVIDIA_TESLA_P4_VWS" | "NVIDIA_B200" | (string & {});
+  type?:
+    | "ACCELERATOR_TYPE_UNSPECIFIED"
+    | "NVIDIA_TESLA_P100"
+    | "NVIDIA_TESLA_V100"
+    | "NVIDIA_TESLA_P4"
+    | "NVIDIA_TESLA_T4"
+    | "NVIDIA_TESLA_A100"
+    | "NVIDIA_A100_80GB"
+    | "NVIDIA_L4"
+    | "NVIDIA_H100_80GB"
+    | "NVIDIA_H100_MEGA_80GB"
+    | "NVIDIA_H200_141GB"
+    | "NVIDIA_TESLA_T4_VWS"
+    | "NVIDIA_TESLA_P100_VWS"
+    | "NVIDIA_TESLA_P4_VWS"
+    | "NVIDIA_B200"
+    | (string & {});
 }
 
-export const AcceleratorConfig: Schema.Schema<AcceleratorConfig> = Schema.suspend(() => Schema.Struct({
-  coreCount: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "AcceleratorConfig" }) as any as Schema.Schema<AcceleratorConfig>;
+export const AcceleratorConfig: Schema.Schema<AcceleratorConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      coreCount: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AcceleratorConfig",
+  }) as any as Schema.Schema<AcceleratorConfig>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface OperationMetadata {
   /** Name of the verb executed by the operation. */
@@ -120,22 +157,28 @@ export interface OperationMetadata {
   createTime?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  endpoint: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      endpoint: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
-export interface StopInstanceRequest {
-}
+export interface StopInstanceRequest {}
 
-export const StopInstanceRequest: Schema.Schema<StopInstanceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "StopInstanceRequest" }) as any as Schema.Schema<StopInstanceRequest>;
+export const StopInstanceRequest: Schema.Schema<StopInstanceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "StopInstanceRequest",
+  }) as any as Schema.Schema<StopInstanceRequest>;
 
 export interface ImageRelease {
   /** Output only. The name of the image of the form workbench-instances-vYYYYmmdd-- */
@@ -144,10 +187,14 @@ export interface ImageRelease {
   releaseName?: string;
 }
 
-export const ImageRelease: Schema.Schema<ImageRelease> = Schema.suspend(() => Schema.Struct({
-  imageName: Schema.optional(Schema.String),
-  releaseName: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImageRelease" }) as any as Schema.Schema<ImageRelease>;
+export const ImageRelease: Schema.Schema<ImageRelease> = Schema.suspend(() =>
+  Schema.Struct({
+    imageName: Schema.optional(Schema.String),
+    releaseName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ImageRelease",
+}) as any as Schema.Schema<ImageRelease>;
 
 export interface GenerateAccessTokenResponse {
   /** The time in seconds when the access token expires. Typically that's 3600. */
@@ -160,12 +207,17 @@ export interface GenerateAccessTokenResponse {
   access_token?: string;
 }
 
-export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> = Schema.suspend(() => Schema.Struct({
-  expires_in: Schema.optional(Schema.Number),
-  token_type: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-  access_token: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateAccessTokenResponse" }) as any as Schema.Schema<GenerateAccessTokenResponse>;
+export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      expires_in: Schema.optional(Schema.Number),
+      token_type: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+      access_token: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateAccessTokenResponse",
+  }) as any as Schema.Schema<GenerateAccessTokenResponse>;
 
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -176,26 +228,36 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface UpgradeInstanceSystemRequest {
   /** Required. The VM hardware token for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmId?: string;
 }
 
-export const UpgradeInstanceSystemRequest: Schema.Schema<UpgradeInstanceSystemRequest> = Schema.suspend(() => Schema.Struct({
-  vmId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpgradeInstanceSystemRequest" }) as any as Schema.Schema<UpgradeInstanceSystemRequest>;
+export const UpgradeInstanceSystemRequest: Schema.Schema<UpgradeInstanceSystemRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vmId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpgradeInstanceSystemRequest",
+  }) as any as Schema.Schema<UpgradeInstanceSystemRequest>;
 
-export interface StartInstanceRequest {
-}
+export interface StartInstanceRequest {}
 
-export const StartInstanceRequest: Schema.Schema<StartInstanceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "StartInstanceRequest" }) as any as Schema.Schema<StartInstanceRequest>;
+export const StartInstanceRequest: Schema.Schema<StartInstanceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "StartInstanceRequest",
+  }) as any as Schema.Schema<StartInstanceRequest>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -210,17 +272,24 @@ export interface Location {
   labels?: Record<string, string>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  locationId: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    locationId: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface UpgradeHistoryEntry {
   /** Output only. The state of this instance upgrade history entry. */
-  state?: "STATE_UNSPECIFIED" | "STARTED" | "SUCCEEDED" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STARTED"
+    | "SUCCEEDED"
+    | "FAILED"
+    | (string & {});
   /** Optional. The version of the notebook instance before this upgrade. */
   version?: string;
   /** Optional. The framework of this notebook instance. */
@@ -239,26 +308,35 @@ export interface UpgradeHistoryEntry {
   containerImage?: string;
 }
 
-export const UpgradeHistoryEntry: Schema.Schema<UpgradeHistoryEntry> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  framework: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  action: Schema.optional(Schema.String),
-  vmImage: Schema.optional(Schema.String),
-  snapshot: Schema.optional(Schema.String),
-  targetVersion: Schema.optional(Schema.String),
-  containerImage: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpgradeHistoryEntry" }) as any as Schema.Schema<UpgradeHistoryEntry>;
+export const UpgradeHistoryEntry: Schema.Schema<UpgradeHistoryEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      framework: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      action: Schema.optional(Schema.String),
+      vmImage: Schema.optional(Schema.String),
+      snapshot: Schema.optional(Schema.String),
+      targetVersion: Schema.optional(Schema.String),
+      containerImage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpgradeHistoryEntry",
+  }) as any as Schema.Schema<UpgradeHistoryEntry>;
 
 export interface AccessConfig {
   /** An external IP address associated with this instance. Specify an unused static external IP address available to the project or leave this field undefined to use an IP from a shared ephemeral IP address pool. If you specify a static external IP address, it must live in the same region as the zone of the instance. */
   externalIp?: string;
 }
 
-export const AccessConfig: Schema.Schema<AccessConfig> = Schema.suspend(() => Schema.Struct({
-  externalIp: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccessConfig" }) as any as Schema.Schema<AccessConfig>;
+export const AccessConfig: Schema.Schema<AccessConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    externalIp: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AccessConfig",
+}) as any as Schema.Schema<AccessConfig>;
 
 export interface NetworkInterface {
   /** Optional. An array of configurations for this interface. Currently, only one access config, ONE_TO_ONE_NAT, is supported. If no accessConfigs specified, the instance will have an external internet access through an ephemeral external IP address. */
@@ -271,12 +349,17 @@ export interface NetworkInterface {
   subnet?: string;
 }
 
-export const NetworkInterface: Schema.Schema<NetworkInterface> = Schema.suspend(() => Schema.Struct({
-  accessConfigs: Schema.optional(Schema.Array(AccessConfig)),
-  network: Schema.optional(Schema.String),
-  nicType: Schema.optional(Schema.String),
-  subnet: Schema.optional(Schema.String),
-})).annotate({ identifier: "NetworkInterface" }) as any as Schema.Schema<NetworkInterface>;
+export const NetworkInterface: Schema.Schema<NetworkInterface> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      accessConfigs: Schema.optional(Schema.Array(AccessConfig)),
+      network: Schema.optional(Schema.String),
+      nicType: Schema.optional(Schema.String),
+      subnet: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "NetworkInterface",
+}) as any as Schema.Schema<NetworkInterface>;
 
 export interface DataDisk {
   /** Optional. The size of the disk in GB attached to this VM instance, up to a maximum of 64000 GB (64 TB). If not specified, this defaults to 100. */
@@ -284,20 +367,33 @@ export interface DataDisk {
   /** Optional. Input only. The KMS key used to encrypt the disks, only applicable if disk_encryption is CMEK. Format: `projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}` Learn more about using your own encryption keys. */
   kmsKey?: string;
   /** Optional. Input only. Disk encryption method used on the boot and data disks, defaults to GMEK. */
-  diskEncryption?: "DISK_ENCRYPTION_UNSPECIFIED" | "GMEK" | "CMEK" | (string & {});
+  diskEncryption?:
+    | "DISK_ENCRYPTION_UNSPECIFIED"
+    | "GMEK"
+    | "CMEK"
+    | (string & {});
   /** Optional. The resource policies to apply to the data disk. */
   resourcePolicies?: Array<string>;
   /** Optional. Input only. Indicates the type of the disk. */
-  diskType?: "DISK_TYPE_UNSPECIFIED" | "PD_STANDARD" | "PD_SSD" | "PD_BALANCED" | "PD_EXTREME" | "HYPERDISK_BALANCED" | (string & {});
+  diskType?:
+    | "DISK_TYPE_UNSPECIFIED"
+    | "PD_STANDARD"
+    | "PD_SSD"
+    | "PD_BALANCED"
+    | "PD_EXTREME"
+    | "HYPERDISK_BALANCED"
+    | (string & {});
 }
 
-export const DataDisk: Schema.Schema<DataDisk> = Schema.suspend(() => Schema.Struct({
-  diskSizeGb: Schema.optional(Schema.String),
-  kmsKey: Schema.optional(Schema.String),
-  diskEncryption: Schema.optional(Schema.String),
-  resourcePolicies: Schema.optional(Schema.Array(Schema.String)),
-  diskType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataDisk" }) as any as Schema.Schema<DataDisk>;
+export const DataDisk: Schema.Schema<DataDisk> = Schema.suspend(() =>
+  Schema.Struct({
+    diskSizeGb: Schema.optional(Schema.String),
+    kmsKey: Schema.optional(Schema.String),
+    diskEncryption: Schema.optional(Schema.String),
+    resourcePolicies: Schema.optional(Schema.Array(Schema.String)),
+    diskType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DataDisk" }) as any as Schema.Schema<DataDisk>;
 
 export interface ContainerImage {
   /** Optional. The tag of the container image. If not specified, this defaults to the latest tag. */
@@ -306,10 +402,15 @@ export interface ContainerImage {
   repository?: string;
 }
 
-export const ContainerImage: Schema.Schema<ContainerImage> = Schema.suspend(() => Schema.Struct({
-  tag: Schema.optional(Schema.String),
-  repository: Schema.optional(Schema.String),
-})).annotate({ identifier: "ContainerImage" }) as any as Schema.Schema<ContainerImage>;
+export const ContainerImage: Schema.Schema<ContainerImage> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      tag: Schema.optional(Schema.String),
+      repository: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ContainerImage",
+}) as any as Schema.Schema<ContainerImage>;
 
 export interface BootDisk {
   /** Optional. Input only. The KMS key used to encrypt the disks, only applicable if disk_encryption is CMEK. Format: `projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}` Learn more about using your own encryption keys. */
@@ -317,17 +418,30 @@ export interface BootDisk {
   /** Optional. The size of the boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). If not specified, this defaults to the recommended value of 150GB. */
   diskSizeGb?: string;
   /** Optional. Indicates the type of the disk. */
-  diskType?: "DISK_TYPE_UNSPECIFIED" | "PD_STANDARD" | "PD_SSD" | "PD_BALANCED" | "PD_EXTREME" | "HYPERDISK_BALANCED" | (string & {});
+  diskType?:
+    | "DISK_TYPE_UNSPECIFIED"
+    | "PD_STANDARD"
+    | "PD_SSD"
+    | "PD_BALANCED"
+    | "PD_EXTREME"
+    | "HYPERDISK_BALANCED"
+    | (string & {});
   /** Optional. Input only. Disk encryption method used on the boot and data disks, defaults to GMEK. */
-  diskEncryption?: "DISK_ENCRYPTION_UNSPECIFIED" | "GMEK" | "CMEK" | (string & {});
+  diskEncryption?:
+    | "DISK_ENCRYPTION_UNSPECIFIED"
+    | "GMEK"
+    | "CMEK"
+    | (string & {});
 }
 
-export const BootDisk: Schema.Schema<BootDisk> = Schema.suspend(() => Schema.Struct({
-  kmsKey: Schema.optional(Schema.String),
-  diskSizeGb: Schema.optional(Schema.String),
-  diskType: Schema.optional(Schema.String),
-  diskEncryption: Schema.optional(Schema.String),
-})).annotate({ identifier: "BootDisk" }) as any as Schema.Schema<BootDisk>;
+export const BootDisk: Schema.Schema<BootDisk> = Schema.suspend(() =>
+  Schema.Struct({
+    kmsKey: Schema.optional(Schema.String),
+    diskSizeGb: Schema.optional(Schema.String),
+    diskType: Schema.optional(Schema.String),
+    diskEncryption: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "BootDisk" }) as any as Schema.Schema<BootDisk>;
 
 export interface ServiceAccount {
   /** Output only. The list of scopes to be made available for this service account. Set by the CLH to https://www.googleapis.com/auth/cloud-platform */
@@ -336,10 +450,15 @@ export interface ServiceAccount {
   email?: string;
 }
 
-export const ServiceAccount: Schema.Schema<ServiceAccount> = Schema.suspend(() => Schema.Struct({
-  scopes: Schema.optional(Schema.Array(Schema.String)),
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServiceAccount" }) as any as Schema.Schema<ServiceAccount>;
+export const ServiceAccount: Schema.Schema<ServiceAccount> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      scopes: Schema.optional(Schema.Array(Schema.String)),
+      email: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ServiceAccount",
+}) as any as Schema.Schema<ServiceAccount>;
 
 export interface ReservationAffinity {
   /** Optional. Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or "projects/different-project/reservations/some-reservation-name" to target a shared reservation in the same zone but in a different project. */
@@ -347,23 +466,41 @@ export interface ReservationAffinity {
   /** Optional. Corresponds to the label key of a reservation resource. To target a RESERVATION_SPECIFIC by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value. */
   key?: string;
   /** Required. Specifies the type of reservation from which this instance can consume resources: RESERVATION_ANY (default), RESERVATION_SPECIFIC, or RESERVATION_NONE. See Consuming reserved instances for examples. */
-  consumeReservationType?: "RESERVATION_UNSPECIFIED" | "RESERVATION_NONE" | "RESERVATION_ANY" | "RESERVATION_SPECIFIC" | (string & {});
+  consumeReservationType?:
+    | "RESERVATION_UNSPECIFIED"
+    | "RESERVATION_NONE"
+    | "RESERVATION_ANY"
+    | "RESERVATION_SPECIFIC"
+    | (string & {});
 }
 
-export const ReservationAffinity: Schema.Schema<ReservationAffinity> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.String)),
-  key: Schema.optional(Schema.String),
-  consumeReservationType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReservationAffinity" }) as any as Schema.Schema<ReservationAffinity>;
+export const ReservationAffinity: Schema.Schema<ReservationAffinity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+      key: Schema.optional(Schema.String),
+      consumeReservationType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReservationAffinity",
+  }) as any as Schema.Schema<ReservationAffinity>;
 
 export interface ConfidentialInstanceConfig {
   /** Optional. Defines the type of technology used by the confidential instance. */
-  confidentialInstanceType?: "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED" | "SEV" | (string & {});
+  confidentialInstanceType?:
+    | "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED"
+    | "SEV"
+    | (string & {});
 }
 
-export const ConfidentialInstanceConfig: Schema.Schema<ConfidentialInstanceConfig> = Schema.suspend(() => Schema.Struct({
-  confidentialInstanceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConfidentialInstanceConfig" }) as any as Schema.Schema<ConfidentialInstanceConfig>;
+export const ConfidentialInstanceConfig: Schema.Schema<ConfidentialInstanceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidentialInstanceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConfidentialInstanceConfig",
+  }) as any as Schema.Schema<ConfidentialInstanceConfig>;
 
 export interface GPUDriverConfig {
   /** Optional. Whether the end user authorizes Google Cloud to install GPU driver on this VM instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs. */
@@ -372,10 +509,15 @@ export interface GPUDriverConfig {
   customGpuDriverPath?: string;
 }
 
-export const GPUDriverConfig: Schema.Schema<GPUDriverConfig> = Schema.suspend(() => Schema.Struct({
-  enableGpuDriver: Schema.optional(Schema.Boolean),
-  customGpuDriverPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "GPUDriverConfig" }) as any as Schema.Schema<GPUDriverConfig>;
+export const GPUDriverConfig: Schema.Schema<GPUDriverConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      enableGpuDriver: Schema.optional(Schema.Boolean),
+      customGpuDriverPath: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GPUDriverConfig",
+}) as any as Schema.Schema<GPUDriverConfig>;
 
 export interface ShieldedInstanceConfig {
   /** Optional. Defines whether the VM instance has the vTPM enabled. */
@@ -386,11 +528,16 @@ export interface ShieldedInstanceConfig {
   enableSecureBoot?: boolean;
 }
 
-export const ShieldedInstanceConfig: Schema.Schema<ShieldedInstanceConfig> = Schema.suspend(() => Schema.Struct({
-  enableVtpm: Schema.optional(Schema.Boolean),
-  enableIntegrityMonitoring: Schema.optional(Schema.Boolean),
-  enableSecureBoot: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ShieldedInstanceConfig" }) as any as Schema.Schema<ShieldedInstanceConfig>;
+export const ShieldedInstanceConfig: Schema.Schema<ShieldedInstanceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableVtpm: Schema.optional(Schema.Boolean),
+      enableIntegrityMonitoring: Schema.optional(Schema.Boolean),
+      enableSecureBoot: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ShieldedInstanceConfig",
+  }) as any as Schema.Schema<ShieldedInstanceConfig>;
 
 export interface VmImage {
   /** Optional. Use this VM image family to find the image; the newest image in this family will be used. */
@@ -401,11 +548,13 @@ export interface VmImage {
   project?: string;
 }
 
-export const VmImage: Schema.Schema<VmImage> = Schema.suspend(() => Schema.Struct({
-  family: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-})).annotate({ identifier: "VmImage" }) as any as Schema.Schema<VmImage>;
+export const VmImage: Schema.Schema<VmImage> = Schema.suspend(() =>
+  Schema.Struct({
+    family: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    project: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "VmImage" }) as any as Schema.Schema<VmImage>;
 
 export interface GceSetup {
   /** Optional. The network interfaces for the VM. Supports only one interface. */
@@ -446,34 +595,54 @@ export interface GceSetup {
   vmImage?: VmImage;
 }
 
-export const GceSetup: Schema.Schema<GceSetup> = Schema.suspend(() => Schema.Struct({
-  networkInterfaces: Schema.optional(Schema.Array(NetworkInterface)),
-  disablePublicIp: Schema.optional(Schema.Boolean),
-  instanceId: Schema.optional(Schema.String),
-  dataDisks: Schema.optional(Schema.Array(DataDisk)),
-  containerImage: Schema.optional(ContainerImage),
-  bootDisk: Schema.optional(BootDisk),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  serviceAccounts: Schema.optional(Schema.Array(ServiceAccount)),
-  reservationAffinity: Schema.optional(ReservationAffinity),
-  enableIpForwarding: Schema.optional(Schema.Boolean),
-  acceleratorConfigs: Schema.optional(Schema.Array(AcceleratorConfig)),
-  confidentialInstanceConfig: Schema.optional(ConfidentialInstanceConfig),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  minCpuPlatform: Schema.optional(Schema.String),
-  machineType: Schema.optional(Schema.String),
-  gpuDriverConfig: Schema.optional(GPUDriverConfig),
-  shieldedInstanceConfig: Schema.optional(ShieldedInstanceConfig),
-  vmImage: Schema.optional(VmImage),
-})).annotate({ identifier: "GceSetup" }) as any as Schema.Schema<GceSetup>;
+export const GceSetup: Schema.Schema<GceSetup> = Schema.suspend(() =>
+  Schema.Struct({
+    networkInterfaces: Schema.optional(Schema.Array(NetworkInterface)),
+    disablePublicIp: Schema.optional(Schema.Boolean),
+    instanceId: Schema.optional(Schema.String),
+    dataDisks: Schema.optional(Schema.Array(DataDisk)),
+    containerImage: Schema.optional(ContainerImage),
+    bootDisk: Schema.optional(BootDisk),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    serviceAccounts: Schema.optional(Schema.Array(ServiceAccount)),
+    reservationAffinity: Schema.optional(ReservationAffinity),
+    enableIpForwarding: Schema.optional(Schema.Boolean),
+    acceleratorConfigs: Schema.optional(Schema.Array(AcceleratorConfig)),
+    confidentialInstanceConfig: Schema.optional(ConfidentialInstanceConfig),
+    tags: Schema.optional(Schema.Array(Schema.String)),
+    minCpuPlatform: Schema.optional(Schema.String),
+    machineType: Schema.optional(Schema.String),
+    gpuDriverConfig: Schema.optional(GPUDriverConfig),
+    shieldedInstanceConfig: Schema.optional(ShieldedInstanceConfig),
+    vmImage: Schema.optional(VmImage),
+  }),
+).annotate({ identifier: "GceSetup" }) as any as Schema.Schema<GceSetup>;
 
 export interface Instance {
   /** Output only. The state of this instance. */
-  state?: "STATE_UNSPECIFIED" | "STARTING" | "PROVISIONING" | "ACTIVE" | "STOPPING" | "STOPPED" | "DELETED" | "UPGRADING" | "INITIALIZING" | "SUSPENDING" | "SUSPENDED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STARTING"
+    | "PROVISIONING"
+    | "ACTIVE"
+    | "STOPPING"
+    | "STOPPED"
+    | "DELETED"
+    | "UPGRADING"
+    | "INITIALIZING"
+    | "SUSPENDING"
+    | "SUSPENDED"
+    | (string & {});
   /** Output only. Instance update time. */
   updateTime?: string;
   /** Output only. Instance health_state. */
-  healthState?: "HEALTH_STATE_UNSPECIFIED" | "HEALTHY" | "UNHEALTHY" | "AGENT_NOT_INSTALLED" | "AGENT_NOT_RUNNING" | (string & {});
+  healthState?:
+    | "HEALTH_STATE_UNSPECIFIED"
+    | "HEALTHY"
+    | "UNHEALTHY"
+    | "AGENT_NOT_INSTALLED"
+    | "AGENT_NOT_RUNNING"
+    | (string & {});
   /** Output only. The upgrade history of this instance. */
   upgradeHistory?: Array<UpgradeHistoryEntry>;
   /** Optional. If true, the notebook instance will not register with the proxy. */
@@ -510,28 +679,30 @@ export interface Instance {
   satisfiesPzi?: boolean;
 }
 
-export const Instance: Schema.Schema<Instance> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  healthState: Schema.optional(Schema.String),
-  upgradeHistory: Schema.optional(Schema.Array(UpgradeHistoryEntry)),
-  disableProxyAccess: Schema.optional(Schema.Boolean),
-  enableThirdPartyIdentity: Schema.optional(Schema.Boolean),
-  thirdPartyProxyUrl: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.String),
-  enableManagedEuc: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  createTime: Schema.optional(Schema.String),
-  enableDeletionProtection: Schema.optional(Schema.Boolean),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  healthInfo: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  proxyUri: Schema.optional(Schema.String),
-  gceSetup: Schema.optional(GceSetup),
-  instanceOwners: Schema.optional(Schema.Array(Schema.String)),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
+export const Instance: Schema.Schema<Instance> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    healthState: Schema.optional(Schema.String),
+    upgradeHistory: Schema.optional(Schema.Array(UpgradeHistoryEntry)),
+    disableProxyAccess: Schema.optional(Schema.Boolean),
+    enableThirdPartyIdentity: Schema.optional(Schema.Boolean),
+    thirdPartyProxyUrl: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    creator: Schema.optional(Schema.String),
+    enableManagedEuc: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    satisfiesPzs: Schema.optional(Schema.Boolean),
+    createTime: Schema.optional(Schema.String),
+    enableDeletionProtection: Schema.optional(Schema.Boolean),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    healthInfo: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    proxyUri: Schema.optional(Schema.String),
+    gceSetup: Schema.optional(GceSetup),
+    instanceOwners: Schema.optional(Schema.Array(Schema.String)),
+    satisfiesPzi: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
 
 export interface DiagnosticConfig {
   /** Required. User Cloud Storage bucket location (REQUIRED). Must be formatted with path prefix (`gs://$GCS_BUCKET`). Permissions: User Managed Notebooks: - storage.buckets.writer: Must be given to the project's service account attached to VM. Google Managed Notebooks: - storage.buckets.writer: Must be given to the project's service account or user credentials attached to VM depending on authentication mode. Cloud Storage bucket Log file will be written to `gs://$GCS_BUCKET/$RELATIVE_PATH/$VM_DATE_$TIME.tar.gz` */
@@ -546,13 +717,18 @@ export interface DiagnosticConfig {
   relativePath?: string;
 }
 
-export const DiagnosticConfig: Schema.Schema<DiagnosticConfig> = Schema.suspend(() => Schema.Struct({
-  gcsBucket: Schema.optional(Schema.String),
-  enablePacketCaptureFlag: Schema.optional(Schema.Boolean),
-  enableRepairFlag: Schema.optional(Schema.Boolean),
-  enableCopyHomeFilesFlag: Schema.optional(Schema.Boolean),
-  relativePath: Schema.optional(Schema.String),
-})).annotate({ identifier: "DiagnosticConfig" }) as any as Schema.Schema<DiagnosticConfig>;
+export const DiagnosticConfig: Schema.Schema<DiagnosticConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      gcsBucket: Schema.optional(Schema.String),
+      enablePacketCaptureFlag: Schema.optional(Schema.Boolean),
+      enableRepairFlag: Schema.optional(Schema.Boolean),
+      enableCopyHomeFilesFlag: Schema.optional(Schema.Boolean),
+      relativePath: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DiagnosticConfig",
+}) as any as Schema.Schema<DiagnosticConfig>;
 
 export interface SupportedValues {
   /** Output only. The accelerator types supported by WbI. */
@@ -561,19 +737,29 @@ export interface SupportedValues {
   machineTypes?: Array<string>;
 }
 
-export const SupportedValues: Schema.Schema<SupportedValues> = Schema.suspend(() => Schema.Struct({
-  acceleratorTypes: Schema.optional(Schema.Array(Schema.String)),
-  machineTypes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "SupportedValues" }) as any as Schema.Schema<SupportedValues>;
+export const SupportedValues: Schema.Schema<SupportedValues> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      acceleratorTypes: Schema.optional(Schema.Array(Schema.String)),
+      machineTypes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "SupportedValues",
+}) as any as Schema.Schema<SupportedValues>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface ListInstancesResponse {
   /** Unordered list. Locations that could not be reached. For example, ['projects/{project_id}/locations/us-west1-a', 'projects/{project_id}/locations/us-central1-b']. A ListInstancesResponse will only contain either instances or unreachables, */
@@ -584,35 +770,56 @@ export interface ListInstancesResponse {
   instances?: Array<Instance>;
 }
 
-export const ListInstancesResponse: Schema.Schema<ListInstancesResponse> = Schema.suspend(() => Schema.Struct({
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  nextPageToken: Schema.optional(Schema.String),
-  instances: Schema.optional(Schema.Array(Instance)),
-})).annotate({ identifier: "ListInstancesResponse" }) as any as Schema.Schema<ListInstancesResponse>;
+export const ListInstancesResponse: Schema.Schema<ListInstancesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      nextPageToken: Schema.optional(Schema.String),
+      instances: Schema.optional(Schema.Array(Instance)),
+    }),
+  ).annotate({
+    identifier: "ListInstancesResponse",
+  }) as any as Schema.Schema<ListInstancesResponse>;
 
 export interface Event {
   /** Optional. Event type. */
-  type?: "EVENT_TYPE_UNSPECIFIED" | "IDLE" | "HEARTBEAT" | "HEALTH" | "MAINTENANCE" | "METADATA_CHANGE" | (string & {});
+  type?:
+    | "EVENT_TYPE_UNSPECIFIED"
+    | "IDLE"
+    | "HEARTBEAT"
+    | "HEALTH"
+    | "MAINTENANCE"
+    | "METADATA_CHANGE"
+    | (string & {});
   /** Optional. Event details. This field is used to pass event information. */
   details?: Record<string, string>;
   /** Optional. Event report time. */
   reportTime?: string;
 }
 
-export const Event: Schema.Schema<Event> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  reportTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
+export const Event: Schema.Schema<Event> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    details: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    reportTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
 
 export interface CheckAuthorizationRequest {
   /** Optional. The details of the OAuth authorization response. This may include additional params such as dry_run, version_info, origin, propagate, etc. */
   authorizationDetails?: Record<string, string>;
 }
 
-export const CheckAuthorizationRequest: Schema.Schema<CheckAuthorizationRequest> = Schema.suspend(() => Schema.Struct({
-  authorizationDetails: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "CheckAuthorizationRequest" }) as any as Schema.Schema<CheckAuthorizationRequest>;
+export const CheckAuthorizationRequest: Schema.Schema<CheckAuthorizationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      authorizationDetails: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "CheckAuthorizationRequest",
+  }) as any as Schema.Schema<CheckAuthorizationRequest>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -621,10 +828,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Snapshot {
   /** Required. The ID of the snapshot. */
@@ -633,16 +845,19 @@ export interface Snapshot {
   projectId?: string;
 }
 
-export const Snapshot: Schema.Schema<Snapshot> = Schema.suspend(() => Schema.Struct({
-  snapshotId: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Snapshot" }) as any as Schema.Schema<Snapshot>;
+export const Snapshot: Schema.Schema<Snapshot> = Schema.suspend(() =>
+  Schema.Struct({
+    snapshotId: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Snapshot" }) as any as Schema.Schema<Snapshot>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -657,13 +872,15 @@ export interface Operation {
   error?: Status;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  done: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  error: Schema.optional(Status),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    done: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    error: Schema.optional(Status),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
@@ -674,17 +891,22 @@ export interface ListOperationsResponse {
   operations?: Array<Operation>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  operations: Schema.optional(Schema.Array(Operation)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      operations: Schema.optional(Schema.Array(Operation)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ReportInstanceInfoSystemRequest {
   /** Required. The Event to be reported. */
@@ -693,25 +915,35 @@ export interface ReportInstanceInfoSystemRequest {
   vmId?: string;
 }
 
-export const ReportInstanceInfoSystemRequest: Schema.Schema<ReportInstanceInfoSystemRequest> = Schema.suspend(() => Schema.Struct({
-  event: Schema.optional(Event),
-  vmId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReportInstanceInfoSystemRequest" }) as any as Schema.Schema<ReportInstanceInfoSystemRequest>;
+export const ReportInstanceInfoSystemRequest: Schema.Schema<ReportInstanceInfoSystemRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      event: Schema.optional(Event),
+      vmId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReportInstanceInfoSystemRequest",
+  }) as any as Schema.Schema<ReportInstanceInfoSystemRequest>;
 
-export interface ResetInstanceRequest {
-}
+export interface ResetInstanceRequest {}
 
-export const ResetInstanceRequest: Schema.Schema<ResetInstanceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ResetInstanceRequest" }) as any as Schema.Schema<ResetInstanceRequest>;
+export const ResetInstanceRequest: Schema.Schema<ResetInstanceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ResetInstanceRequest",
+  }) as any as Schema.Schema<ResetInstanceRequest>;
 
 export interface DefaultValues {
   /** Output only. The default machine type used by the backend if not provided by the user. */
   machineType?: string;
 }
 
-export const DefaultValues: Schema.Schema<DefaultValues> = Schema.suspend(() => Schema.Struct({
-  machineType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DefaultValues" }) as any as Schema.Schema<DefaultValues>;
+export const DefaultValues: Schema.Schema<DefaultValues> = Schema.suspend(() =>
+  Schema.Struct({
+    machineType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DefaultValues",
+}) as any as Schema.Schema<DefaultValues>;
 
 export interface Config {
   /** Output only. The list of available images to create a WbI. */
@@ -724,12 +956,14 @@ export interface Config {
   disableWorkbenchLegacyCreation?: boolean;
 }
 
-export const Config: Schema.Schema<Config> = Schema.suspend(() => Schema.Struct({
-  availableImages: Schema.optional(Schema.Array(ImageRelease)),
-  defaultValues: Schema.optional(DefaultValues),
-  supportedValues: Schema.optional(SupportedValues),
-  disableWorkbenchLegacyCreation: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Config" }) as any as Schema.Schema<Config>;
+export const Config: Schema.Schema<Config> = Schema.suspend(() =>
+  Schema.Struct({
+    availableImages: Schema.optional(Schema.Array(ImageRelease)),
+    defaultValues: Schema.optional(DefaultValues),
+    supportedValues: Schema.optional(SupportedValues),
+    disableWorkbenchLegacyCreation: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Config" }) as any as Schema.Schema<Config>;
 
 export interface DiagnoseInstanceRequest {
   /** Optional. Maximum amount of time in minutes before the operation times out. */
@@ -738,25 +972,36 @@ export interface DiagnoseInstanceRequest {
   diagnosticConfig?: DiagnosticConfig;
 }
 
-export const DiagnoseInstanceRequest: Schema.Schema<DiagnoseInstanceRequest> = Schema.suspend(() => Schema.Struct({
-  timeoutMinutes: Schema.optional(Schema.Number),
-  diagnosticConfig: Schema.optional(DiagnosticConfig),
-})).annotate({ identifier: "DiagnoseInstanceRequest" }) as any as Schema.Schema<DiagnoseInstanceRequest>;
+export const DiagnoseInstanceRequest: Schema.Schema<DiagnoseInstanceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeoutMinutes: Schema.optional(Schema.Number),
+      diagnosticConfig: Schema.optional(DiagnosticConfig),
+    }),
+  ).annotate({
+    identifier: "DiagnoseInstanceRequest",
+  }) as any as Schema.Schema<DiagnoseInstanceRequest>;
 
 export interface RestoreInstanceRequest {
   /** Snapshot to be used for restore. */
   snapshot?: Snapshot;
 }
 
-export const RestoreInstanceRequest: Schema.Schema<RestoreInstanceRequest> = Schema.suspend(() => Schema.Struct({
-  snapshot: Schema.optional(Snapshot),
-})).annotate({ identifier: "RestoreInstanceRequest" }) as any as Schema.Schema<RestoreInstanceRequest>;
+export const RestoreInstanceRequest: Schema.Schema<RestoreInstanceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      snapshot: Schema.optional(Snapshot),
+    }),
+  ).annotate({
+    identifier: "RestoreInstanceRequest",
+  }) as any as Schema.Schema<RestoreInstanceRequest>;
 
-export interface UpgradeInstanceRequest {
-}
+export interface UpgradeInstanceRequest {}
 
-export const UpgradeInstanceRequest: Schema.Schema<UpgradeInstanceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UpgradeInstanceRequest" }) as any as Schema.Schema<UpgradeInstanceRequest>;
+export const UpgradeInstanceRequest: Schema.Schema<UpgradeInstanceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UpgradeInstanceRequest",
+  }) as any as Schema.Schema<UpgradeInstanceRequest>;
 
 export interface ResizeDiskRequest {
   /** Required. The boot disk to be resized. Only disk_size_gb will be used. */
@@ -765,19 +1010,29 @@ export interface ResizeDiskRequest {
   dataDisk?: DataDisk;
 }
 
-export const ResizeDiskRequest: Schema.Schema<ResizeDiskRequest> = Schema.suspend(() => Schema.Struct({
-  bootDisk: Schema.optional(BootDisk),
-  dataDisk: Schema.optional(DataDisk),
-})).annotate({ identifier: "ResizeDiskRequest" }) as any as Schema.Schema<ResizeDiskRequest>;
+export const ResizeDiskRequest: Schema.Schema<ResizeDiskRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bootDisk: Schema.optional(BootDisk),
+      dataDisk: Schema.optional(DataDisk),
+    }),
+  ).annotate({
+    identifier: "ResizeDiskRequest",
+  }) as any as Schema.Schema<ResizeDiskRequest>;
 
 export interface GenerateAccessTokenRequest {
   /** Required. The VM identity token (a JWT) for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmToken?: string;
 }
 
-export const GenerateAccessTokenRequest: Schema.Schema<GenerateAccessTokenRequest> = Schema.suspend(() => Schema.Struct({
-  vmToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateAccessTokenRequest" }) as any as Schema.Schema<GenerateAccessTokenRequest>;
+export const GenerateAccessTokenRequest: Schema.Schema<GenerateAccessTokenRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vmToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateAccessTokenRequest",
+  }) as any as Schema.Schema<GenerateAccessTokenRequest>;
 
 export interface CheckAuthorizationResponse {
   /** Success indicates that the user completed OAuth consent and access tokens can be generated. */
@@ -788,11 +1043,16 @@ export interface CheckAuthorizationResponse {
   createTime?: string;
 }
 
-export const CheckAuthorizationResponse: Schema.Schema<CheckAuthorizationResponse> = Schema.suspend(() => Schema.Struct({
-  success: Schema.optional(Schema.Boolean),
-  oauth_uri: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "CheckAuthorizationResponse" }) as any as Schema.Schema<CheckAuthorizationResponse>;
+export const CheckAuthorizationResponse: Schema.Schema<CheckAuthorizationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      success: Schema.optional(Schema.Boolean),
+      oauth_uri: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CheckAuthorizationResponse",
+  }) as any as Schema.Schema<CheckAuthorizationResponse>;
 
 export interface RollbackInstanceRequest {
   /** Required. The snapshot for rollback. Example: "projects/test-project/global/snapshots/krwlzipynril". */
@@ -801,10 +1061,15 @@ export interface RollbackInstanceRequest {
   revisionId?: string;
 }
 
-export const RollbackInstanceRequest: Schema.Schema<RollbackInstanceRequest> = Schema.suspend(() => Schema.Struct({
-  targetSnapshot: Schema.optional(Schema.String),
-  revisionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RollbackInstanceRequest" }) as any as Schema.Schema<RollbackInstanceRequest>;
+export const RollbackInstanceRequest: Schema.Schema<RollbackInstanceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      targetSnapshot: Schema.optional(Schema.String),
+      revisionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RollbackInstanceRequest",
+  }) as any as Schema.Schema<RollbackInstanceRequest>;
 
 export interface CheckInstanceUpgradabilityResponse {
   /** Additional information about upgrade. */
@@ -817,12 +1082,17 @@ export interface CheckInstanceUpgradabilityResponse {
   upgradeable?: boolean;
 }
 
-export const CheckInstanceUpgradabilityResponse: Schema.Schema<CheckInstanceUpgradabilityResponse> = Schema.suspend(() => Schema.Struct({
-  upgradeInfo: Schema.optional(Schema.String),
-  upgradeVersion: Schema.optional(Schema.String),
-  upgradeImage: Schema.optional(Schema.String),
-  upgradeable: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CheckInstanceUpgradabilityResponse" }) as any as Schema.Schema<CheckInstanceUpgradabilityResponse>;
+export const CheckInstanceUpgradabilityResponse: Schema.Schema<CheckInstanceUpgradabilityResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      upgradeInfo: Schema.optional(Schema.String),
+      upgradeVersion: Schema.optional(Schema.String),
+      upgradeImage: Schema.optional(Schema.String),
+      upgradeable: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CheckInstanceUpgradabilityResponse",
+  }) as any as Schema.Schema<CheckInstanceUpgradabilityResponse>;
 
 // ==========================================================================
 // Operations
@@ -836,7 +1106,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -846,7 +1119,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -870,7 +1148,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations" }),
   svc,
@@ -882,7 +1162,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -903,7 +1188,11 @@ export const ResetProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResetInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reset", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reset",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResetProjectsLocationsInstancesRequest>;
 
@@ -913,7 +1202,12 @@ export const ResetProjectsLocationsInstancesResponse = Operation;
 export type ResetProjectsLocationsInstancesError = DefaultErrors;
 
 /** Resets a notebook instance. */
-export const resetProjectsLocationsInstances: API.OperationMethod<ResetProjectsLocationsInstancesRequest, ResetProjectsLocationsInstancesResponse, ResetProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resetProjectsLocationsInstances: API.OperationMethod<
+  ResetProjectsLocationsInstancesRequest,
+  ResetProjectsLocationsInstancesResponse,
+  ResetProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResetProjectsLocationsInstancesRequest,
   output: ResetProjectsLocationsInstancesResponse,
   errors: [],
@@ -930,7 +1224,11 @@ export const RestoreProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RestoreInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:restore", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:restore",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RestoreProjectsLocationsInstancesRequest>;
 
@@ -940,7 +1238,12 @@ export const RestoreProjectsLocationsInstancesResponse = Operation;
 export type RestoreProjectsLocationsInstancesError = DefaultErrors;
 
 /** RestoreInstance restores an Instance from a BackupSource. */
-export const restoreProjectsLocationsInstances: API.OperationMethod<RestoreProjectsLocationsInstancesRequest, RestoreProjectsLocationsInstancesResponse, RestoreProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restoreProjectsLocationsInstances: API.OperationMethod<
+  RestoreProjectsLocationsInstancesRequest,
+  RestoreProjectsLocationsInstancesResponse,
+  RestoreProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestoreProjectsLocationsInstancesRequest,
   output: RestoreProjectsLocationsInstancesResponse,
   errors: [],
@@ -957,7 +1260,11 @@ export const RollbackProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RollbackInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:rollback", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:rollback",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RollbackProjectsLocationsInstancesRequest>;
 
@@ -967,7 +1274,12 @@ export const RollbackProjectsLocationsInstancesResponse = Operation;
 export type RollbackProjectsLocationsInstancesError = DefaultErrors;
 
 /** Rollbacks a notebook instance to the previous version. */
-export const rollbackProjectsLocationsInstances: API.OperationMethod<RollbackProjectsLocationsInstancesRequest, RollbackProjectsLocationsInstancesResponse, RollbackProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rollbackProjectsLocationsInstances: API.OperationMethod<
+  RollbackProjectsLocationsInstancesRequest,
+  RollbackProjectsLocationsInstancesResponse,
+  RollbackProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RollbackProjectsLocationsInstancesRequest,
   output: RollbackProjectsLocationsInstancesResponse,
   errors: [],
@@ -984,7 +1296,11 @@ export const UpgradeSystemProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpgradeInstanceSystemRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:upgradeSystem", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:upgradeSystem",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpgradeSystemProjectsLocationsInstancesRequest>;
 
@@ -994,7 +1310,12 @@ export const UpgradeSystemProjectsLocationsInstancesResponse = Operation;
 export type UpgradeSystemProjectsLocationsInstancesError = DefaultErrors;
 
 /** Allows notebook instances to upgrade themselves. Do not use this method directly. */
-export const upgradeSystemProjectsLocationsInstances: API.OperationMethod<UpgradeSystemProjectsLocationsInstancesRequest, UpgradeSystemProjectsLocationsInstancesResponse, UpgradeSystemProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const upgradeSystemProjectsLocationsInstances: API.OperationMethod<
+  UpgradeSystemProjectsLocationsInstancesRequest,
+  UpgradeSystemProjectsLocationsInstancesResponse,
+  UpgradeSystemProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpgradeSystemProjectsLocationsInstancesRequest,
   output: UpgradeSystemProjectsLocationsInstancesResponse,
   errors: [],
@@ -1008,7 +1329,10 @@ export interface GetConfigProjectsLocationsInstancesRequest {
 export const GetConfigProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/instances:getConfig" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances:getConfig",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConfigProjectsLocationsInstancesRequest>;
 
@@ -1018,7 +1342,12 @@ export const GetConfigProjectsLocationsInstancesResponse = Config;
 export type GetConfigProjectsLocationsInstancesError = DefaultErrors;
 
 /** Returns various configuration parameters. */
-export const getConfigProjectsLocationsInstances: API.OperationMethod<GetConfigProjectsLocationsInstancesRequest, GetConfigProjectsLocationsInstancesResponse, GetConfigProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConfigProjectsLocationsInstances: API.OperationMethod<
+  GetConfigProjectsLocationsInstancesRequest,
+  GetConfigProjectsLocationsInstancesResponse,
+  GetConfigProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConfigProjectsLocationsInstancesRequest,
   output: GetConfigProjectsLocationsInstancesResponse,
   errors: [],
@@ -1031,21 +1360,33 @@ export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsInstancesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>;
+export const TestIamPermissionsProjectsLocationsInstancesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>;
 
-export type TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsInstancesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsInstancesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsInstancesError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<TestIamPermissionsProjectsLocationsInstancesRequest, TestIamPermissionsProjectsLocationsInstancesResponse, TestIamPermissionsProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsInstancesRequest,
+  TestIamPermissionsProjectsLocationsInstancesResponse,
+  TestIamPermissionsProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsInstancesRequest,
   output: TestIamPermissionsProjectsLocationsInstancesResponse,
   errors: [],
@@ -1062,7 +1403,10 @@ export const DeleteProjectsLocationsInstancesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsInstancesRequest>;
 
@@ -1072,7 +1416,12 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 export type DeleteProjectsLocationsInstancesError = DefaultErrors;
 
 /** Deletes a single Instance. */
-export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsInstances: API.OperationMethod<
+  DeleteProjectsLocationsInstancesRequest,
+  DeleteProjectsLocationsInstancesResponse,
+  DeleteProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
@@ -1089,7 +1438,11 @@ export const StartProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(StartInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:start", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:start",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartProjectsLocationsInstancesRequest>;
 
@@ -1099,7 +1452,12 @@ export const StartProjectsLocationsInstancesResponse = Operation;
 export type StartProjectsLocationsInstancesError = DefaultErrors;
 
 /** Starts a notebook instance. */
-export const startProjectsLocationsInstances: API.OperationMethod<StartProjectsLocationsInstancesRequest, StartProjectsLocationsInstancesResponse, StartProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startProjectsLocationsInstances: API.OperationMethod<
+  StartProjectsLocationsInstancesRequest,
+  StartProjectsLocationsInstancesResponse,
+  StartProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartProjectsLocationsInstancesRequest,
   output: StartProjectsLocationsInstancesResponse,
   errors: [],
@@ -1116,7 +1474,11 @@ export const DiagnoseProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(DiagnoseInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:diagnose", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:diagnose",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DiagnoseProjectsLocationsInstancesRequest>;
 
@@ -1126,7 +1488,12 @@ export const DiagnoseProjectsLocationsInstancesResponse = Operation;
 export type DiagnoseProjectsLocationsInstancesError = DefaultErrors;
 
 /** Creates a Diagnostic File and runs Diagnostic Tool given an Instance. */
-export const diagnoseProjectsLocationsInstances: API.OperationMethod<DiagnoseProjectsLocationsInstancesRequest, DiagnoseProjectsLocationsInstancesResponse, DiagnoseProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const diagnoseProjectsLocationsInstances: API.OperationMethod<
+  DiagnoseProjectsLocationsInstancesRequest,
+  DiagnoseProjectsLocationsInstancesResponse,
+  DiagnoseProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DiagnoseProjectsLocationsInstancesRequest,
   output: DiagnoseProjectsLocationsInstancesResponse,
   errors: [],
@@ -1152,7 +1519,10 @@ export const ListProjectsLocationsInstancesRequest = Schema.Struct({
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/instances" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
 
@@ -1162,7 +1532,12 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 export type ListProjectsLocationsInstancesError = DefaultErrors;
 
 /** Lists instances in a given project and location. */
-export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
+  ListProjectsLocationsInstancesRequest,
+  ListProjectsLocationsInstancesResponse,
+  ListProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -1183,7 +1558,11 @@ export const StopProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(StopInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:stop", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:stop",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StopProjectsLocationsInstancesRequest>;
 
@@ -1193,7 +1572,12 @@ export const StopProjectsLocationsInstancesResponse = Operation;
 export type StopProjectsLocationsInstancesError = DefaultErrors;
 
 /** Stops a notebook instance. */
-export const stopProjectsLocationsInstances: API.OperationMethod<StopProjectsLocationsInstancesRequest, StopProjectsLocationsInstancesResponse, StopProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopProjectsLocationsInstances: API.OperationMethod<
+  StopProjectsLocationsInstancesRequest,
+  StopProjectsLocationsInstancesResponse,
+  StopProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopProjectsLocationsInstancesRequest,
   output: StopProjectsLocationsInstancesResponse,
   errors: [],
@@ -1207,7 +1591,10 @@ export interface GetProjectsLocationsInstancesRequest {
 export const GetProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
 
@@ -1217,7 +1604,12 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 export type GetProjectsLocationsInstancesError = DefaultErrors;
 
 /** Gets details of a single Instance. */
-export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsInstances: API.OperationMethod<
+  GetProjectsLocationsInstancesRequest,
+  GetProjectsLocationsInstancesResponse,
+  GetProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
@@ -1234,7 +1626,11 @@ export const ResizeDiskProjectsLocationsInstancesRequest = Schema.Struct({
   notebookInstance: Schema.String.pipe(T.HttpPath("notebookInstance")),
   body: Schema.optional(ResizeDiskRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:resizeDisk", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:resizeDisk",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResizeDiskProjectsLocationsInstancesRequest>;
 
@@ -1244,7 +1640,12 @@ export const ResizeDiskProjectsLocationsInstancesResponse = Operation;
 export type ResizeDiskProjectsLocationsInstancesError = DefaultErrors;
 
 /** Resize a notebook instance disk to a higher capacity. */
-export const resizeDiskProjectsLocationsInstances: API.OperationMethod<ResizeDiskProjectsLocationsInstancesRequest, ResizeDiskProjectsLocationsInstancesResponse, ResizeDiskProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resizeDiskProjectsLocationsInstances: API.OperationMethod<
+  ResizeDiskProjectsLocationsInstancesRequest,
+  ResizeDiskProjectsLocationsInstancesResponse,
+  ResizeDiskProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResizeDiskProjectsLocationsInstancesRequest,
   output: ResizeDiskProjectsLocationsInstancesResponse,
   errors: [],
@@ -1261,7 +1662,11 @@ export const ReportInfoSystemProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ReportInstanceInfoSystemRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reportInfoSystem", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reportInfoSystem",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReportInfoSystemProjectsLocationsInstancesRequest>;
 
@@ -1271,7 +1676,12 @@ export const ReportInfoSystemProjectsLocationsInstancesResponse = Operation;
 export type ReportInfoSystemProjectsLocationsInstancesError = DefaultErrors;
 
 /** Allows notebook instances to report their latest instance information to the Notebooks API server. The server will merge the reported information to the instance metadata store. Do not use this method directly. */
-export const reportInfoSystemProjectsLocationsInstances: API.OperationMethod<ReportInfoSystemProjectsLocationsInstancesRequest, ReportInfoSystemProjectsLocationsInstancesResponse, ReportInfoSystemProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const reportInfoSystemProjectsLocationsInstances: API.OperationMethod<
+  ReportInfoSystemProjectsLocationsInstancesRequest,
+  ReportInfoSystemProjectsLocationsInstancesResponse,
+  ReportInfoSystemProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReportInfoSystemProjectsLocationsInstancesRequest,
   output: ReportInfoSystemProjectsLocationsInstancesResponse,
   errors: [],
@@ -1294,7 +1704,11 @@ export const PatchProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Instance).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsInstancesRequest>;
 
@@ -1304,7 +1718,12 @@ export const PatchProjectsLocationsInstancesResponse = Operation;
 export type PatchProjectsLocationsInstancesError = DefaultErrors;
 
 /** UpdateInstance updates an Instance. */
-export const patchProjectsLocationsInstances: API.OperationMethod<PatchProjectsLocationsInstancesRequest, PatchProjectsLocationsInstancesResponse, PatchProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsInstances: API.OperationMethod<
+  PatchProjectsLocationsInstancesRequest,
+  PatchProjectsLocationsInstancesResponse,
+  PatchProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsInstancesRequest,
   output: PatchProjectsLocationsInstancesResponse,
   errors: [],
@@ -1315,20 +1734,31 @@ export interface CheckUpgradabilityProjectsLocationsInstancesRequest {
   notebookInstance: string;
 }
 
-export const CheckUpgradabilityProjectsLocationsInstancesRequest = Schema.Struct({
-  notebookInstance: Schema.String.pipe(T.HttpPath("notebookInstance")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:checkUpgradability" }),
-  svc,
-) as unknown as Schema.Schema<CheckUpgradabilityProjectsLocationsInstancesRequest>;
+export const CheckUpgradabilityProjectsLocationsInstancesRequest =
+  Schema.Struct({
+    notebookInstance: Schema.String.pipe(T.HttpPath("notebookInstance")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:checkUpgradability",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckUpgradabilityProjectsLocationsInstancesRequest>;
 
-export type CheckUpgradabilityProjectsLocationsInstancesResponse = CheckInstanceUpgradabilityResponse;
-export const CheckUpgradabilityProjectsLocationsInstancesResponse = CheckInstanceUpgradabilityResponse;
+export type CheckUpgradabilityProjectsLocationsInstancesResponse =
+  CheckInstanceUpgradabilityResponse;
+export const CheckUpgradabilityProjectsLocationsInstancesResponse =
+  CheckInstanceUpgradabilityResponse;
 
 export type CheckUpgradabilityProjectsLocationsInstancesError = DefaultErrors;
 
 /** Checks whether a notebook instance is upgradable. */
-export const checkUpgradabilityProjectsLocationsInstances: API.OperationMethod<CheckUpgradabilityProjectsLocationsInstancesRequest, CheckUpgradabilityProjectsLocationsInstancesResponse, CheckUpgradabilityProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const checkUpgradabilityProjectsLocationsInstances: API.OperationMethod<
+  CheckUpgradabilityProjectsLocationsInstancesRequest,
+  CheckUpgradabilityProjectsLocationsInstancesResponse,
+  CheckUpgradabilityProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CheckUpgradabilityProjectsLocationsInstancesRequest,
   output: CheckUpgradabilityProjectsLocationsInstancesResponse,
   errors: [],
@@ -1345,7 +1775,11 @@ export const SetIamPolicyProjectsLocationsInstancesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsInstancesRequest>;
 
@@ -1355,7 +1789,12 @@ export const SetIamPolicyProjectsLocationsInstancesResponse = Policy;
 export type SetIamPolicyProjectsLocationsInstancesError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<SetIamPolicyProjectsLocationsInstancesRequest, SetIamPolicyProjectsLocationsInstancesResponse, SetIamPolicyProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<
+  SetIamPolicyProjectsLocationsInstancesRequest,
+  SetIamPolicyProjectsLocationsInstancesResponse,
+  SetIamPolicyProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsInstancesRequest,
   output: SetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
@@ -1372,7 +1811,11 @@ export const UpgradeProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpgradeInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:upgrade", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:upgrade",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpgradeProjectsLocationsInstancesRequest>;
 
@@ -1382,7 +1825,12 @@ export const UpgradeProjectsLocationsInstancesResponse = Operation;
 export type UpgradeProjectsLocationsInstancesError = DefaultErrors;
 
 /** Upgrades a notebook instance to the latest version. */
-export const upgradeProjectsLocationsInstances: API.OperationMethod<UpgradeProjectsLocationsInstancesRequest, UpgradeProjectsLocationsInstancesResponse, UpgradeProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const upgradeProjectsLocationsInstances: API.OperationMethod<
+  UpgradeProjectsLocationsInstancesRequest,
+  UpgradeProjectsLocationsInstancesResponse,
+  UpgradeProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpgradeProjectsLocationsInstancesRequest,
   output: UpgradeProjectsLocationsInstancesResponse,
   errors: [],
@@ -1395,21 +1843,33 @@ export interface CheckAuthorizationProjectsLocationsInstancesRequest {
   body?: CheckAuthorizationRequest;
 }
 
-export const CheckAuthorizationProjectsLocationsInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CheckAuthorizationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:checkAuthorization", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CheckAuthorizationProjectsLocationsInstancesRequest>;
+export const CheckAuthorizationProjectsLocationsInstancesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CheckAuthorizationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:checkAuthorization",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckAuthorizationProjectsLocationsInstancesRequest>;
 
-export type CheckAuthorizationProjectsLocationsInstancesResponse = CheckAuthorizationResponse;
-export const CheckAuthorizationProjectsLocationsInstancesResponse = CheckAuthorizationResponse;
+export type CheckAuthorizationProjectsLocationsInstancesResponse =
+  CheckAuthorizationResponse;
+export const CheckAuthorizationProjectsLocationsInstancesResponse =
+  CheckAuthorizationResponse;
 
 export type CheckAuthorizationProjectsLocationsInstancesError = DefaultErrors;
 
 /** Initiated by Cloud Console for Oauth consent flow for Workbench Instances. Do not use this method directly. Design doc: go/wbi-euc:auth-dd */
-export const checkAuthorizationProjectsLocationsInstances: API.OperationMethod<CheckAuthorizationProjectsLocationsInstancesRequest, CheckAuthorizationProjectsLocationsInstancesResponse, CheckAuthorizationProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const checkAuthorizationProjectsLocationsInstances: API.OperationMethod<
+  CheckAuthorizationProjectsLocationsInstancesRequest,
+  CheckAuthorizationProjectsLocationsInstancesResponse,
+  CheckAuthorizationProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CheckAuthorizationProjectsLocationsInstancesRequest,
   output: CheckAuthorizationProjectsLocationsInstancesResponse,
   errors: [],
@@ -1422,21 +1882,33 @@ export interface GenerateAccessTokenProjectsLocationsInstancesRequest {
   body?: GenerateAccessTokenRequest;
 }
 
-export const GenerateAccessTokenProjectsLocationsInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GenerateAccessTokenRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:generateAccessToken", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccessTokenProjectsLocationsInstancesRequest>;
+export const GenerateAccessTokenProjectsLocationsInstancesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GenerateAccessTokenRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:generateAccessToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccessTokenProjectsLocationsInstancesRequest>;
 
-export type GenerateAccessTokenProjectsLocationsInstancesResponse = GenerateAccessTokenResponse;
-export const GenerateAccessTokenProjectsLocationsInstancesResponse = GenerateAccessTokenResponse;
+export type GenerateAccessTokenProjectsLocationsInstancesResponse =
+  GenerateAccessTokenResponse;
+export const GenerateAccessTokenProjectsLocationsInstancesResponse =
+  GenerateAccessTokenResponse;
 
 export type GenerateAccessTokenProjectsLocationsInstancesError = DefaultErrors;
 
 /** Called by VM to return an EUC for the instance owner. Do not use this method directly. Design doc: go/wbi-euc:dd */
-export const generateAccessTokenProjectsLocationsInstances: API.OperationMethod<GenerateAccessTokenProjectsLocationsInstancesRequest, GenerateAccessTokenProjectsLocationsInstancesResponse, GenerateAccessTokenProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateAccessTokenProjectsLocationsInstances: API.OperationMethod<
+  GenerateAccessTokenProjectsLocationsInstancesRequest,
+  GenerateAccessTokenProjectsLocationsInstancesResponse,
+  GenerateAccessTokenProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateAccessTokenProjectsLocationsInstancesRequest,
   output: GenerateAccessTokenProjectsLocationsInstancesResponse,
   errors: [],
@@ -1459,7 +1931,11 @@ export const CreateProjectsLocationsInstancesRequest = Schema.Struct({
   instanceId: Schema.optional(Schema.String).pipe(T.HttpQuery("instanceId")),
   body: Schema.optional(Instance).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/instances", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
 
@@ -1469,7 +1945,12 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 export type CreateProjectsLocationsInstancesError = DefaultErrors;
 
 /** Creates a new Instance in a given project and location. */
-export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsInstances: API.OperationMethod<
+  CreateProjectsLocationsInstancesRequest,
+  CreateProjectsLocationsInstancesResponse,
+  CreateProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
@@ -1483,10 +1964,15 @@ export interface GetIamPolicyProjectsLocationsInstancesRequest {
 }
 
 export const GetIamPolicyProjectsLocationsInstancesRequest = Schema.Struct({
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
   resource: Schema.String.pipe(T.HttpPath("resource")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsInstancesRequest>;
 
@@ -1496,7 +1982,12 @@ export const GetIamPolicyProjectsLocationsInstancesResponse = Policy;
 export type GetIamPolicyProjectsLocationsInstancesError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<GetIamPolicyProjectsLocationsInstancesRequest, GetIamPolicyProjectsLocationsInstancesResponse, GetIamPolicyProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<
+  GetIamPolicyProjectsLocationsInstancesRequest,
+  GetIamPolicyProjectsLocationsInstancesResponse,
+  GetIamPolicyProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsInstancesRequest,
   output: GetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
@@ -1513,7 +2004,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -1523,7 +2018,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -1547,9 +2047,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   name: Schema.String.pipe(T.HttpPath("name")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1559,7 +2064,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1577,7 +2087,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v2/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1587,7 +2100,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1601,7 +2119,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1611,9 +2132,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
-

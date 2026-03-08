@@ -10,46 +10,76 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "CloudControl", serviceShapeName: "CloudApiService" });
+const svc = T.AwsApiService({
+  sdkId: "CloudControl",
+  serviceShapeName: "CloudApiService",
+});
 const auth = T.AwsAuthSigv4({ name: "cloudcontrolapi" });
 const ver = T.ServiceVersion("2021-09-30");
 const proto = T.AwsProtocolsAwsJson1_0();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
-    if ((UseDualStack === true)) {
-      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+    if (UseDualStack === true) {
+      return err(
+        "Invalid Configuration: Dualstack and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((UseFIPS === true) && (UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsFIPS")) && (true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://cloudcontrolapi-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseFIPS === true && UseDualStack === true) {
+          if (
+            true === _.getAttr(PartitionResult, "supportsFIPS") &&
+            true === _.getAttr(PartitionResult, "supportsDualStack")
+          ) {
+            return e(
+              `https://cloudcontrolapi-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("FIPS and DualStack are enabled, but this partition does not support one or both");
+          return err(
+            "FIPS and DualStack are enabled, but this partition does not support one or both",
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://cloudcontrolapi-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://cloudcontrolapi-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        if ((UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseDualStack === true) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            return e(
+              `https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("DualStack is enabled but this partition does not support DualStack");
+          return err(
+            "DualStack is enabled but this partition does not support DualStack",
+          );
         }
-        return e(`https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -79,79 +109,446 @@ export type HandlerNextToken = string;
 export type PatchDocument = string | redacted.Redacted<string>;
 
 //# Schemas
-export interface CancelResourceRequestInput { RequestToken: string }
-export const CancelResourceRequestInput = S.suspend(() => S.Struct({RequestToken: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CancelResourceRequestInput" }) as any as S.Schema<CancelResourceRequestInput>;
-export interface ProgressEvent { TypeName?: string; Identifier?: string; RequestToken?: string; HooksRequestToken?: string; Operation?: string; OperationStatus?: string; EventTime?: Date; ResourceModel?: string | redacted.Redacted<string>; StatusMessage?: string; ErrorCode?: string; RetryAfter?: Date }
-export const ProgressEvent = S.suspend(() => S.Struct({TypeName: S.optional(S.String), Identifier: S.optional(S.String), RequestToken: S.optional(S.String), HooksRequestToken: S.optional(S.String), Operation: S.optional(S.String), OperationStatus: S.optional(S.String), EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), ResourceModel: S.optional(SensitiveString), StatusMessage: S.optional(S.String), ErrorCode: S.optional(S.String), RetryAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds")))})).annotate({ identifier: "ProgressEvent" }) as any as S.Schema<ProgressEvent>;
-export interface CancelResourceRequestOutput { ProgressEvent?: ProgressEvent }
-export const CancelResourceRequestOutput = S.suspend(() => S.Struct({ProgressEvent: S.optional(ProgressEvent)})).annotate({ identifier: "CancelResourceRequestOutput" }) as any as S.Schema<CancelResourceRequestOutput>;
-export interface CreateResourceInput { TypeName: string; TypeVersionId?: string; RoleArn?: string; ClientToken?: string; DesiredState: string | redacted.Redacted<string> }
-export const CreateResourceInput = S.suspend(() => S.Struct({TypeName: S.String, TypeVersionId: S.optional(S.String), RoleArn: S.optional(S.String), ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()), DesiredState: SensitiveString}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateResourceInput" }) as any as S.Schema<CreateResourceInput>;
-export interface CreateResourceOutput { ProgressEvent?: ProgressEvent }
-export const CreateResourceOutput = S.suspend(() => S.Struct({ProgressEvent: S.optional(ProgressEvent)})).annotate({ identifier: "CreateResourceOutput" }) as any as S.Schema<CreateResourceOutput>;
-export interface DeleteResourceInput { TypeName: string; TypeVersionId?: string; RoleArn?: string; ClientToken?: string; Identifier: string }
-export const DeleteResourceInput = S.suspend(() => S.Struct({TypeName: S.String, TypeVersionId: S.optional(S.String), RoleArn: S.optional(S.String), ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()), Identifier: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteResourceInput" }) as any as S.Schema<DeleteResourceInput>;
-export interface DeleteResourceOutput { ProgressEvent?: ProgressEvent }
-export const DeleteResourceOutput = S.suspend(() => S.Struct({ProgressEvent: S.optional(ProgressEvent)})).annotate({ identifier: "DeleteResourceOutput" }) as any as S.Schema<DeleteResourceOutput>;
-export interface GetResourceInput { TypeName: string; TypeVersionId?: string; RoleArn?: string; Identifier: string }
-export const GetResourceInput = S.suspend(() => S.Struct({TypeName: S.String, TypeVersionId: S.optional(S.String), RoleArn: S.optional(S.String), Identifier: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetResourceInput" }) as any as S.Schema<GetResourceInput>;
-export interface ResourceDescription { Identifier?: string; Properties?: string | redacted.Redacted<string> }
-export const ResourceDescription = S.suspend(() => S.Struct({Identifier: S.optional(S.String), Properties: S.optional(SensitiveString)})).annotate({ identifier: "ResourceDescription" }) as any as S.Schema<ResourceDescription>;
-export interface GetResourceOutput { TypeName?: string; ResourceDescription?: ResourceDescription }
-export const GetResourceOutput = S.suspend(() => S.Struct({TypeName: S.optional(S.String), ResourceDescription: S.optional(ResourceDescription)})).annotate({ identifier: "GetResourceOutput" }) as any as S.Schema<GetResourceOutput>;
-export interface GetResourceRequestStatusInput { RequestToken: string }
-export const GetResourceRequestStatusInput = S.suspend(() => S.Struct({RequestToken: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetResourceRequestStatusInput" }) as any as S.Schema<GetResourceRequestStatusInput>;
-export interface HookProgressEvent { HookTypeName?: string; HookTypeVersionId?: string; HookTypeArn?: string; InvocationPoint?: string; HookStatus?: string; HookEventTime?: Date; HookStatusMessage?: string; FailureMode?: string }
-export const HookProgressEvent = S.suspend(() => S.Struct({HookTypeName: S.optional(S.String), HookTypeVersionId: S.optional(S.String), HookTypeArn: S.optional(S.String), InvocationPoint: S.optional(S.String), HookStatus: S.optional(S.String), HookEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), HookStatusMessage: S.optional(S.String), FailureMode: S.optional(S.String)})).annotate({ identifier: "HookProgressEvent" }) as any as S.Schema<HookProgressEvent>;
+export interface CancelResourceRequestInput {
+  RequestToken: string;
+}
+export const CancelResourceRequestInput = S.suspend(() =>
+  S.Struct({ RequestToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CancelResourceRequestInput",
+}) as any as S.Schema<CancelResourceRequestInput>;
+export interface ProgressEvent {
+  TypeName?: string;
+  Identifier?: string;
+  RequestToken?: string;
+  HooksRequestToken?: string;
+  Operation?: string;
+  OperationStatus?: string;
+  EventTime?: Date;
+  ResourceModel?: string | redacted.Redacted<string>;
+  StatusMessage?: string;
+  ErrorCode?: string;
+  RetryAfter?: Date;
+}
+export const ProgressEvent = S.suspend(() =>
+  S.Struct({
+    TypeName: S.optional(S.String),
+    Identifier: S.optional(S.String),
+    RequestToken: S.optional(S.String),
+    HooksRequestToken: S.optional(S.String),
+    Operation: S.optional(S.String),
+    OperationStatus: S.optional(S.String),
+    EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ResourceModel: S.optional(SensitiveString),
+    StatusMessage: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    RetryAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "ProgressEvent" }) as any as S.Schema<ProgressEvent>;
+export interface CancelResourceRequestOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const CancelResourceRequestOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotate({
+  identifier: "CancelResourceRequestOutput",
+}) as any as S.Schema<CancelResourceRequestOutput>;
+export interface CreateResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  ClientToken?: string;
+  DesiredState: string | redacted.Redacted<string>;
+}
+export const CreateResourceInput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.String,
+    TypeVersionId: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DesiredState: SensitiveString,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateResourceInput",
+}) as any as S.Schema<CreateResourceInput>;
+export interface CreateResourceOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const CreateResourceOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotate({
+  identifier: "CreateResourceOutput",
+}) as any as S.Schema<CreateResourceOutput>;
+export interface DeleteResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  ClientToken?: string;
+  Identifier: string;
+}
+export const DeleteResourceInput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.String,
+    TypeVersionId: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Identifier: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteResourceInput",
+}) as any as S.Schema<DeleteResourceInput>;
+export interface DeleteResourceOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const DeleteResourceOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotate({
+  identifier: "DeleteResourceOutput",
+}) as any as S.Schema<DeleteResourceOutput>;
+export interface GetResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  Identifier: string;
+}
+export const GetResourceInput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.String,
+    TypeVersionId: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    Identifier: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetResourceInput",
+}) as any as S.Schema<GetResourceInput>;
+export interface ResourceDescription {
+  Identifier?: string;
+  Properties?: string | redacted.Redacted<string>;
+}
+export const ResourceDescription = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    Properties: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "ResourceDescription",
+}) as any as S.Schema<ResourceDescription>;
+export interface GetResourceOutput {
+  TypeName?: string;
+  ResourceDescription?: ResourceDescription;
+}
+export const GetResourceOutput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.optional(S.String),
+    ResourceDescription: S.optional(ResourceDescription),
+  }),
+).annotate({
+  identifier: "GetResourceOutput",
+}) as any as S.Schema<GetResourceOutput>;
+export interface GetResourceRequestStatusInput {
+  RequestToken: string;
+}
+export const GetResourceRequestStatusInput = S.suspend(() =>
+  S.Struct({ RequestToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetResourceRequestStatusInput",
+}) as any as S.Schema<GetResourceRequestStatusInput>;
+export interface HookProgressEvent {
+  HookTypeName?: string;
+  HookTypeVersionId?: string;
+  HookTypeArn?: string;
+  InvocationPoint?: string;
+  HookStatus?: string;
+  HookEventTime?: Date;
+  HookStatusMessage?: string;
+  FailureMode?: string;
+}
+export const HookProgressEvent = S.suspend(() =>
+  S.Struct({
+    HookTypeName: S.optional(S.String),
+    HookTypeVersionId: S.optional(S.String),
+    HookTypeArn: S.optional(S.String),
+    InvocationPoint: S.optional(S.String),
+    HookStatus: S.optional(S.String),
+    HookEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HookStatusMessage: S.optional(S.String),
+    FailureMode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HookProgressEvent",
+}) as any as S.Schema<HookProgressEvent>;
 export type HooksProgressEvent = HookProgressEvent[];
 export const HooksProgressEvent = S.Array(HookProgressEvent);
-export interface GetResourceRequestStatusOutput { ProgressEvent?: ProgressEvent; HooksProgressEvent?: HookProgressEvent[] }
-export const GetResourceRequestStatusOutput = S.suspend(() => S.Struct({ProgressEvent: S.optional(ProgressEvent), HooksProgressEvent: S.optional(HooksProgressEvent)})).annotate({ identifier: "GetResourceRequestStatusOutput" }) as any as S.Schema<GetResourceRequestStatusOutput>;
+export interface GetResourceRequestStatusOutput {
+  ProgressEvent?: ProgressEvent;
+  HooksProgressEvent?: HookProgressEvent[];
+}
+export const GetResourceRequestStatusOutput = S.suspend(() =>
+  S.Struct({
+    ProgressEvent: S.optional(ProgressEvent),
+    HooksProgressEvent: S.optional(HooksProgressEvent),
+  }),
+).annotate({
+  identifier: "GetResourceRequestStatusOutput",
+}) as any as S.Schema<GetResourceRequestStatusOutput>;
 export type Operations = string[];
 export const Operations = S.Array(S.String);
 export type OperationStatuses = string[];
 export const OperationStatuses = S.Array(S.String);
-export interface ResourceRequestStatusFilter { Operations?: string[]; OperationStatuses?: string[] }
-export const ResourceRequestStatusFilter = S.suspend(() => S.Struct({Operations: S.optional(Operations), OperationStatuses: S.optional(OperationStatuses)})).annotate({ identifier: "ResourceRequestStatusFilter" }) as any as S.Schema<ResourceRequestStatusFilter>;
-export interface ListResourceRequestsInput { MaxResults?: number; NextToken?: string; ResourceRequestStatusFilter?: ResourceRequestStatusFilter }
-export const ListResourceRequestsInput = S.suspend(() => S.Struct({MaxResults: S.optional(S.Number), NextToken: S.optional(S.String), ResourceRequestStatusFilter: S.optional(ResourceRequestStatusFilter)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListResourceRequestsInput" }) as any as S.Schema<ListResourceRequestsInput>;
+export interface ResourceRequestStatusFilter {
+  Operations?: string[];
+  OperationStatuses?: string[];
+}
+export const ResourceRequestStatusFilter = S.suspend(() =>
+  S.Struct({
+    Operations: S.optional(Operations),
+    OperationStatuses: S.optional(OperationStatuses),
+  }),
+).annotate({
+  identifier: "ResourceRequestStatusFilter",
+}) as any as S.Schema<ResourceRequestStatusFilter>;
+export interface ListResourceRequestsInput {
+  MaxResults?: number;
+  NextToken?: string;
+  ResourceRequestStatusFilter?: ResourceRequestStatusFilter;
+}
+export const ListResourceRequestsInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    ResourceRequestStatusFilter: S.optional(ResourceRequestStatusFilter),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListResourceRequestsInput",
+}) as any as S.Schema<ListResourceRequestsInput>;
 export type ResourceRequestStatusSummaries = ProgressEvent[];
 export const ResourceRequestStatusSummaries = S.Array(ProgressEvent);
-export interface ListResourceRequestsOutput { ResourceRequestStatusSummaries?: ProgressEvent[]; NextToken?: string }
-export const ListResourceRequestsOutput = S.suspend(() => S.Struct({ResourceRequestStatusSummaries: S.optional(ResourceRequestStatusSummaries), NextToken: S.optional(S.String)})).annotate({ identifier: "ListResourceRequestsOutput" }) as any as S.Schema<ListResourceRequestsOutput>;
-export interface ListResourcesInput { TypeName: string; TypeVersionId?: string; RoleArn?: string; NextToken?: string; MaxResults?: number; ResourceModel?: string | redacted.Redacted<string> }
-export const ListResourcesInput = S.suspend(() => S.Struct({TypeName: S.String, TypeVersionId: S.optional(S.String), RoleArn: S.optional(S.String), NextToken: S.optional(S.String), MaxResults: S.optional(S.Number), ResourceModel: S.optional(SensitiveString)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListResourcesInput" }) as any as S.Schema<ListResourcesInput>;
+export interface ListResourceRequestsOutput {
+  ResourceRequestStatusSummaries?: ProgressEvent[];
+  NextToken?: string;
+}
+export const ListResourceRequestsOutput = S.suspend(() =>
+  S.Struct({
+    ResourceRequestStatusSummaries: S.optional(ResourceRequestStatusSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListResourceRequestsOutput",
+}) as any as S.Schema<ListResourceRequestsOutput>;
+export interface ListResourcesInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  ResourceModel?: string | redacted.Redacted<string>;
+}
+export const ListResourcesInput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.String,
+    TypeVersionId: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    ResourceModel: S.optional(SensitiveString),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListResourcesInput",
+}) as any as S.Schema<ListResourcesInput>;
 export type ResourceDescriptions = ResourceDescription[];
 export const ResourceDescriptions = S.Array(ResourceDescription);
-export interface ListResourcesOutput { TypeName?: string; ResourceDescriptions?: ResourceDescription[]; NextToken?: string }
-export const ListResourcesOutput = S.suspend(() => S.Struct({TypeName: S.optional(S.String), ResourceDescriptions: S.optional(ResourceDescriptions), NextToken: S.optional(S.String)})).annotate({ identifier: "ListResourcesOutput" }) as any as S.Schema<ListResourcesOutput>;
-export interface UpdateResourceInput { TypeName: string; TypeVersionId?: string; RoleArn?: string; ClientToken?: string; Identifier: string; PatchDocument: string | redacted.Redacted<string> }
-export const UpdateResourceInput = S.suspend(() => S.Struct({TypeName: S.String, TypeVersionId: S.optional(S.String), RoleArn: S.optional(S.String), ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()), Identifier: S.String, PatchDocument: SensitiveString}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateResourceInput" }) as any as S.Schema<UpdateResourceInput>;
-export interface UpdateResourceOutput { ProgressEvent?: ProgressEvent }
-export const UpdateResourceOutput = S.suspend(() => S.Struct({ProgressEvent: S.optional(ProgressEvent)})).annotate({ identifier: "UpdateResourceOutput" }) as any as S.Schema<UpdateResourceOutput>;
+export interface ListResourcesOutput {
+  TypeName?: string;
+  ResourceDescriptions?: ResourceDescription[];
+  NextToken?: string;
+}
+export const ListResourcesOutput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.optional(S.String),
+    ResourceDescriptions: S.optional(ResourceDescriptions),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListResourcesOutput",
+}) as any as S.Schema<ListResourcesOutput>;
+export interface UpdateResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  ClientToken?: string;
+  Identifier: string;
+  PatchDocument: string | redacted.Redacted<string>;
+}
+export const UpdateResourceInput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.String,
+    TypeVersionId: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Identifier: S.String,
+    PatchDocument: SensitiveString,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateResourceInput",
+}) as any as S.Schema<UpdateResourceInput>;
+export interface UpdateResourceOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const UpdateResourceOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotate({
+  identifier: "UpdateResourceOutput",
+}) as any as S.Schema<UpdateResourceOutput>;
 
 //# Errors
-export class ConcurrentModificationException extends S.TaggedErrorClass<ConcurrentModificationException>()("ConcurrentModificationException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ConcurrentModificationException", httpResponseCode: 500 })).pipe(C.withServerError) {}
-export class RequestTokenNotFoundException extends S.TaggedErrorClass<RequestTokenNotFoundException>()("RequestTokenNotFoundException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "RequestTokenNotFoundException", httpResponseCode: 404 })).pipe(C.withBadRequestError) {}
-export class AlreadyExistsException extends S.TaggedErrorClass<AlreadyExistsException>()("AlreadyExistsException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "AlreadyExistsException", httpResponseCode: 400 })).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
-export class ClientTokenConflictException extends S.TaggedErrorClass<ClientTokenConflictException>()("ClientTokenConflictException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ClientTokenConflictException", httpResponseCode: 409 })).pipe(C.withConflictError) {}
-export class ConcurrentOperationException extends S.TaggedErrorClass<ConcurrentOperationException>()("ConcurrentOperationException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ConcurrentOperationException", httpResponseCode: 409 })).pipe(C.withConflictError) {}
-export class GeneralServiceException extends S.TaggedErrorClass<GeneralServiceException>()("GeneralServiceException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "GeneralServiceException", httpResponseCode: 400 })).pipe(C.withBadRequestError) {}
-export class HandlerFailureException extends S.TaggedErrorClass<HandlerFailureException>()("HandlerFailureException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 })).pipe(C.withServerError) {}
-export class HandlerInternalFailureException extends S.TaggedErrorClass<HandlerInternalFailureException>()("HandlerInternalFailureException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "HandlerInternalFailureException", httpResponseCode: 502 })).pipe(C.withServerError) {}
-export class InvalidCredentialsException extends S.TaggedErrorClass<InvalidCredentialsException>()("InvalidCredentialsException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "InvalidCredentialsException", httpResponseCode: 401 })).pipe(C.withAuthError) {}
-export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()("InvalidRequestException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "InvalidRequestException", httpResponseCode: 400 })).pipe(C.withBadRequestError) {}
-export class NetworkFailureException extends S.TaggedErrorClass<NetworkFailureException>()("NetworkFailureException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 })).pipe(C.withServerError) {}
-export class NotStabilizedException extends S.TaggedErrorClass<NotStabilizedException>()("NotStabilizedException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "NotStabilizedException", httpResponseCode: 400 })).pipe(C.withBadRequestError) {}
-export class NotUpdatableException extends S.TaggedErrorClass<NotUpdatableException>()("NotUpdatableException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "NotUpdatableException", httpResponseCode: 400 })).pipe(C.withBadRequestError) {}
-export class PrivateTypeException extends S.TaggedErrorClass<PrivateTypeException>()("PrivateTypeException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "PrivateTypeException", httpResponseCode: 400 })).pipe(C.withBadRequestError) {}
-export class ResourceConflictException extends S.TaggedErrorClass<ResourceConflictException>()("ResourceConflictException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ResourceConflictException", httpResponseCode: 409 })).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()("ResourceNotFoundException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 })).pipe(C.withBadRequestError) {}
-export class ServiceInternalErrorException extends S.TaggedErrorClass<ServiceInternalErrorException>()("ServiceInternalErrorException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ServiceInternalErrorException", httpResponseCode: 502 })).pipe(C.withServerError) {}
-export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLimitExceededException>()("ServiceLimitExceededException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ServiceLimitExceededException", httpResponseCode: 400 })).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()("ThrottlingException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 })).pipe(C.withThrottlingError) {}
-export class TypeNotFoundException extends S.TaggedErrorClass<TypeNotFoundException>()("TypeNotFoundException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "TypeNotFoundException", httpResponseCode: 404 })).pipe(C.withBadRequestError) {}
-export class UnsupportedActionException extends S.TaggedErrorClass<UnsupportedActionException>()("UnsupportedActionException", {Message: S.optional(S.String)}, T.AwsQueryError({ code: "UnsupportedActionException", httpResponseCode: 405 })).pipe(C.withBadRequestError) {}
+export class ConcurrentModificationException extends S.TaggedErrorClass<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ConcurrentModificationException",
+    httpResponseCode: 500,
+  }),
+).pipe(C.withServerError) {}
+export class RequestTokenNotFoundException extends S.TaggedErrorClass<RequestTokenNotFoundException>()(
+  "RequestTokenNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "RequestTokenNotFoundException",
+    httpResponseCode: 404,
+  }),
+).pipe(C.withBadRequestError) {}
+export class AlreadyExistsException extends S.TaggedErrorClass<AlreadyExistsException>()(
+  "AlreadyExistsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "AlreadyExistsException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+export class ClientTokenConflictException extends S.TaggedErrorClass<ClientTokenConflictException>()(
+  "ClientTokenConflictException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ClientTokenConflictException",
+    httpResponseCode: 409,
+  }),
+).pipe(C.withConflictError) {}
+export class ConcurrentOperationException extends S.TaggedErrorClass<ConcurrentOperationException>()(
+  "ConcurrentOperationException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ConcurrentOperationException",
+    httpResponseCode: 409,
+  }),
+).pipe(C.withConflictError) {}
+export class GeneralServiceException extends S.TaggedErrorClass<GeneralServiceException>()(
+  "GeneralServiceException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "GeneralServiceException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class HandlerFailureException extends S.TaggedErrorClass<HandlerFailureException>()(
+  "HandlerFailureException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
+).pipe(C.withServerError) {}
+export class HandlerInternalFailureException extends S.TaggedErrorClass<HandlerInternalFailureException>()(
+  "HandlerInternalFailureException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "HandlerInternalFailureException",
+    httpResponseCode: 502,
+  }),
+).pipe(C.withServerError) {}
+export class InvalidCredentialsException extends S.TaggedErrorClass<InvalidCredentialsException>()(
+  "InvalidCredentialsException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidCredentialsException",
+    httpResponseCode: 401,
+  }),
+).pipe(C.withAuthError) {}
+export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()(
+  "InvalidRequestException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidRequestException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class NetworkFailureException extends S.TaggedErrorClass<NetworkFailureException>()(
+  "NetworkFailureException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 }),
+).pipe(C.withServerError) {}
+export class NotStabilizedException extends S.TaggedErrorClass<NotStabilizedException>()(
+  "NotStabilizedException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NotStabilizedException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class NotUpdatableException extends S.TaggedErrorClass<NotUpdatableException>()(
+  "NotUpdatableException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NotUpdatableException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class PrivateTypeException extends S.TaggedErrorClass<PrivateTypeException>()(
+  "PrivateTypeException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "PrivateTypeException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class ResourceConflictException extends S.TaggedErrorClass<ResourceConflictException>()(
+  "ResourceConflictException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceConflictException", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
+).pipe(C.withBadRequestError) {}
+export class ServiceInternalErrorException extends S.TaggedErrorClass<ServiceInternalErrorException>()(
+  "ServiceInternalErrorException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ServiceInternalErrorException",
+    httpResponseCode: 502,
+  }),
+).pipe(C.withServerError) {}
+export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLimitExceededException>()(
+  "ServiceLimitExceededException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ServiceLimitExceededException",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
+).pipe(C.withThrottlingError) {}
+export class TypeNotFoundException extends S.TaggedErrorClass<TypeNotFoundException>()(
+  "TypeNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TypeNotFoundException", httpResponseCode: 404 }),
+).pipe(C.withBadRequestError) {}
+export class UnsupportedActionException extends S.TaggedErrorClass<UnsupportedActionException>()(
+  "UnsupportedActionException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "UnsupportedActionException",
+    httpResponseCode: 405,
+  }),
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 export type CancelResourceRequestError =
@@ -161,11 +558,20 @@ export type CancelResourceRequestError =
 /**
  * Cancels the specified resource operation request. For more information, see Canceling resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
- * 
+ *
  * Only resource operations requests with a status of `PENDING` or
  * `IN_PROGRESS` can be canceled.
  */
-export const cancelResourceRequest: API.OperationMethod<CancelResourceRequestInput, CancelResourceRequestOutput, CancelResourceRequestError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CancelResourceRequestInput, output: CancelResourceRequestOutput, errors: [ConcurrentModificationException, RequestTokenNotFoundException] }));
+export const cancelResourceRequest: API.OperationMethod<
+  CancelResourceRequestInput,
+  CancelResourceRequestOutput,
+  CancelResourceRequestError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelResourceRequestInput,
+  output: CancelResourceRequestOutput,
+  errors: [ConcurrentModificationException, RequestTokenNotFoundException],
+}));
 export type CreateResourceError =
   | AlreadyExistsException
   | ClientTokenConflictException
@@ -190,12 +596,41 @@ export type CreateResourceError =
 /**
  * Creates the specified resource. For more information, see Creating a
  * resource in the *Amazon Web Services Cloud Control API User Guide*.
- * 
+ *
  * After you have initiated a resource creation request, you can monitor the progress of your
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
  * `ProgressEvent` type returned by `CreateResource`.
  */
-export const createResource: API.OperationMethod<CreateResourceInput, CreateResourceOutput, CreateResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateResourceInput, output: CreateResourceOutput, errors: [AlreadyExistsException, ClientTokenConflictException, ConcurrentOperationException, GeneralServiceException, HandlerFailureException, HandlerInternalFailureException, InvalidCredentialsException, InvalidRequestException, NetworkFailureException, NotStabilizedException, NotUpdatableException, PrivateTypeException, ResourceConflictException, ResourceNotFoundException, ServiceInternalErrorException, ServiceLimitExceededException, ThrottlingException, TypeNotFoundException, UnsupportedActionException] }));
+export const createResource: API.OperationMethod<
+  CreateResourceInput,
+  CreateResourceOutput,
+  CreateResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceInput,
+  output: CreateResourceOutput,
+  errors: [
+    AlreadyExistsException,
+    ClientTokenConflictException,
+    ConcurrentOperationException,
+    GeneralServiceException,
+    HandlerFailureException,
+    HandlerInternalFailureException,
+    InvalidCredentialsException,
+    InvalidRequestException,
+    NetworkFailureException,
+    NotStabilizedException,
+    NotUpdatableException,
+    PrivateTypeException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceInternalErrorException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    TypeNotFoundException,
+    UnsupportedActionException,
+  ],
+}));
 export type DeleteResourceError =
   | AlreadyExistsException
   | ClientTokenConflictException
@@ -220,12 +655,41 @@ export type DeleteResourceError =
 /**
  * Deletes the specified resource. For details, see Deleting a
  * resource in the *Amazon Web Services Cloud Control API User Guide*.
- * 
+ *
  * After you have initiated a resource deletion request, you can monitor the progress of your
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
  * `ProgressEvent` returned by `DeleteResource`.
  */
-export const deleteResource: API.OperationMethod<DeleteResourceInput, DeleteResourceOutput, DeleteResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteResourceInput, output: DeleteResourceOutput, errors: [AlreadyExistsException, ClientTokenConflictException, ConcurrentOperationException, GeneralServiceException, HandlerFailureException, HandlerInternalFailureException, InvalidCredentialsException, InvalidRequestException, NetworkFailureException, NotStabilizedException, NotUpdatableException, PrivateTypeException, ResourceConflictException, ResourceNotFoundException, ServiceInternalErrorException, ServiceLimitExceededException, ThrottlingException, TypeNotFoundException, UnsupportedActionException] }));
+export const deleteResource: API.OperationMethod<
+  DeleteResourceInput,
+  DeleteResourceOutput,
+  DeleteResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceInput,
+  output: DeleteResourceOutput,
+  errors: [
+    AlreadyExistsException,
+    ClientTokenConflictException,
+    ConcurrentOperationException,
+    GeneralServiceException,
+    HandlerFailureException,
+    HandlerInternalFailureException,
+    InvalidCredentialsException,
+    InvalidRequestException,
+    NetworkFailureException,
+    NotStabilizedException,
+    NotUpdatableException,
+    PrivateTypeException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceInternalErrorException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    TypeNotFoundException,
+    UnsupportedActionException,
+  ],
+}));
 export type GetResourceError =
   | AlreadyExistsException
   | GeneralServiceException
@@ -248,11 +712,38 @@ export type GetResourceError =
 /**
  * Returns information about the current state of the specified resource. For details, see
  * Reading a resource's current state.
- * 
+ *
  * You can use this action to return information about an existing resource in your account
  * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
-export const getResource: API.OperationMethod<GetResourceInput, GetResourceOutput, GetResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetResourceInput, output: GetResourceOutput, errors: [AlreadyExistsException, GeneralServiceException, HandlerFailureException, HandlerInternalFailureException, InvalidCredentialsException, InvalidRequestException, NetworkFailureException, NotStabilizedException, NotUpdatableException, PrivateTypeException, ResourceConflictException, ResourceNotFoundException, ServiceInternalErrorException, ServiceLimitExceededException, ThrottlingException, TypeNotFoundException, UnsupportedActionException] }));
+export const getResource: API.OperationMethod<
+  GetResourceInput,
+  GetResourceOutput,
+  GetResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceInput,
+  output: GetResourceOutput,
+  errors: [
+    AlreadyExistsException,
+    GeneralServiceException,
+    HandlerFailureException,
+    HandlerInternalFailureException,
+    InvalidCredentialsException,
+    InvalidRequestException,
+    NetworkFailureException,
+    NotStabilizedException,
+    NotUpdatableException,
+    PrivateTypeException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceInternalErrorException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    TypeNotFoundException,
+    UnsupportedActionException,
+  ],
+}));
 export type GetResourceRequestStatusError =
   | RequestTokenNotFoundException
   | CommonErrors;
@@ -261,20 +752,55 @@ export type GetResourceRequestStatusError =
  * Tracking the progress of resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
  */
-export const getResourceRequestStatus: API.OperationMethod<GetResourceRequestStatusInput, GetResourceRequestStatusOutput, GetResourceRequestStatusError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetResourceRequestStatusInput, output: GetResourceRequestStatusOutput, errors: [RequestTokenNotFoundException] }));
-export type ListResourceRequestsError =
-  | CommonErrors;
+export const getResourceRequestStatus: API.OperationMethod<
+  GetResourceRequestStatusInput,
+  GetResourceRequestStatusOutput,
+  GetResourceRequestStatusError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceRequestStatusInput,
+  output: GetResourceRequestStatusOutput,
+  errors: [RequestTokenNotFoundException],
+}));
+export type ListResourceRequestsError = CommonErrors;
 /**
  * Returns existing resource operation requests. This includes requests of all status types.
  * For more information, see Listing active resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
- * 
+ *
  * Resource operation requests expire after 7 days.
  */
-export const listResourceRequests: API.OperationMethod<ListResourceRequestsInput, ListResourceRequestsOutput, ListResourceRequestsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListResourceRequestsInput) => stream.Stream<ListResourceRequestsOutput, ListResourceRequestsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListResourceRequestsInput) => stream.Stream<ProgressEvent, ListResourceRequestsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListResourceRequestsInput, output: ListResourceRequestsOutput, errors: [], pagination: {"inputToken":"NextToken","outputToken":"NextToken","items":"ResourceRequestStatusSummaries","pageSize":"MaxResults"} as const }));
+export const listResourceRequests: API.OperationMethod<
+  ListResourceRequestsInput,
+  ListResourceRequestsOutput,
+  ListResourceRequestsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListResourceRequestsInput,
+  ) => stream.Stream<
+    ListResourceRequestsOutput,
+    ListResourceRequestsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceRequestsInput,
+  ) => stream.Stream<
+    ProgressEvent,
+    ListResourceRequestsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceRequestsInput,
+  output: ListResourceRequestsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceRequestStatusSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 export type ListResourcesError =
   | AlreadyExistsException
   | GeneralServiceException
@@ -296,14 +822,59 @@ export type ListResourcesError =
   | CommonErrors;
 /**
  * Returns information about the specified resources. For more information, see Discovering resources in the *Amazon Web Services Cloud Control API User Guide*.
- * 
+ *
  * You can use this action to return information about existing resources in your account and
  * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
-export const listResources: API.OperationMethod<ListResourcesInput, ListResourcesOutput, ListResourcesError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListResourcesInput) => stream.Stream<ListResourcesOutput, ListResourcesError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListResourcesInput) => stream.Stream<ResourceDescription, ListResourcesError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListResourcesInput, output: ListResourcesOutput, errors: [AlreadyExistsException, GeneralServiceException, HandlerFailureException, HandlerInternalFailureException, InvalidCredentialsException, InvalidRequestException, NetworkFailureException, NotStabilizedException, NotUpdatableException, PrivateTypeException, ResourceConflictException, ResourceNotFoundException, ServiceInternalErrorException, ServiceLimitExceededException, ThrottlingException, TypeNotFoundException, UnsupportedActionException], pagination: {"inputToken":"NextToken","outputToken":"NextToken","items":"ResourceDescriptions","pageSize":"MaxResults"} as const }));
+export const listResources: API.OperationMethod<
+  ListResourcesInput,
+  ListResourcesOutput,
+  ListResourcesError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListResourcesInput,
+  ) => stream.Stream<
+    ListResourcesOutput,
+    ListResourcesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcesInput,
+  ) => stream.Stream<
+    ResourceDescription,
+    ListResourcesError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourcesInput,
+  output: ListResourcesOutput,
+  errors: [
+    AlreadyExistsException,
+    GeneralServiceException,
+    HandlerFailureException,
+    HandlerInternalFailureException,
+    InvalidCredentialsException,
+    InvalidRequestException,
+    NetworkFailureException,
+    NotStabilizedException,
+    NotUpdatableException,
+    PrivateTypeException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceInternalErrorException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    TypeNotFoundException,
+    UnsupportedActionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceDescriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 export type UpdateResourceError =
   | AlreadyExistsException
   | ClientTokenConflictException
@@ -327,20 +898,49 @@ export type UpdateResourceError =
   | CommonErrors;
 /**
  * Updates the specified property values in the resource.
- * 
+ *
  * You specify your resource property updates as a list of patch operations contained in a
  * JSON patch document that adheres to the
  * RFC 6902 - JavaScript Object
  * Notation (JSON) Patch
  * standard.
- * 
+ *
  * For details on how Cloud Control API performs resource update operations, see Updating a resource in the *Amazon Web Services Cloud Control API User Guide*.
- * 
+ *
  * After you have initiated a resource update request, you can monitor the progress of your
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
  * `ProgressEvent` returned by `UpdateResource`.
- * 
+ *
  * For more information about the properties of a specific resource, refer to the related
  * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
  */
-export const updateResource: API.OperationMethod<UpdateResourceInput, UpdateResourceOutput, UpdateResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateResourceInput, output: UpdateResourceOutput, errors: [AlreadyExistsException, ClientTokenConflictException, ConcurrentOperationException, GeneralServiceException, HandlerFailureException, HandlerInternalFailureException, InvalidCredentialsException, InvalidRequestException, NetworkFailureException, NotStabilizedException, NotUpdatableException, PrivateTypeException, ResourceConflictException, ResourceNotFoundException, ServiceInternalErrorException, ServiceLimitExceededException, ThrottlingException, TypeNotFoundException, UnsupportedActionException] }));
+export const updateResource: API.OperationMethod<
+  UpdateResourceInput,
+  UpdateResourceOutput,
+  UpdateResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceInput,
+  output: UpdateResourceOutput,
+  errors: [
+    AlreadyExistsException,
+    ClientTokenConflictException,
+    ConcurrentOperationException,
+    GeneralServiceException,
+    HandlerFailureException,
+    HandlerInternalFailureException,
+    InvalidCredentialsException,
+    InvalidRequestException,
+    NetworkFailureException,
+    NotStabilizedException,
+    NotUpdatableException,
+    PrivateTypeException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceInternalErrorException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    TypeNotFoundException,
+    UnsupportedActionException,
+  ],
+}));

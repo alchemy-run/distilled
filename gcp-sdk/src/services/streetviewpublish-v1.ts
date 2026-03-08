@@ -32,20 +32,24 @@ export interface Place {
   languageCode?: string;
 }
 
-export const Place: Schema.Schema<Place> = Schema.suspend(() => Schema.Struct({
-  placeId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Place" }) as any as Schema.Schema<Place>;
+export const Place: Schema.Schema<Place> = Schema.suspend(() =>
+  Schema.Struct({
+    placeId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    languageCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Place" }) as any as Schema.Schema<Place>;
 
 export interface UploadRef {
   /** An upload reference should be unique for each user. It follows the form: "https://streetviewpublish.googleapis.com/media/user/{account_id}/photo/{upload_reference}" */
   uploadUrl?: string;
 }
 
-export const UploadRef: Schema.Schema<UploadRef> = Schema.suspend(() => Schema.Struct({
-  uploadUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "UploadRef" }) as any as Schema.Schema<UploadRef>;
+export const UploadRef: Schema.Schema<UploadRef> = Schema.suspend(() =>
+  Schema.Struct({
+    uploadUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UploadRef" }) as any as Schema.Schema<UploadRef>;
 
 export interface LatLng {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
@@ -54,10 +58,12 @@ export interface LatLng {
   longitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() => Schema.Struct({
-  latitude: Schema.optional(Schema.Number),
-  longitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
+  Schema.Struct({
+    latitude: Schema.optional(Schema.Number),
+    longitude: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface Level {
   /** Optional. Floor number, used for ordering. 0 indicates the ground level, 1 indicates the first level above ground level, -1 indicates the first level under ground level. Non-integer values are OK. */
@@ -66,10 +72,12 @@ export interface Level {
   name?: string;
 }
 
-export const Level: Schema.Schema<Level> = Schema.suspend(() => Schema.Struct({
-  number: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Level" }) as any as Schema.Schema<Level>;
+export const Level: Schema.Schema<Level> = Schema.suspend(() =>
+  Schema.Struct({
+    number: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Level" }) as any as Schema.Schema<Level>;
 
 export interface Pose {
   /** The following pose parameters pertain to the center of the photo. They match https://developers.google.com/streetview/spherical-metadata. Compass heading, measured at the center of the photo in degrees clockwise from North. Value must be >=0 and <360. NaN indicates an unmeasured quantity. */
@@ -90,46 +98,65 @@ export interface Pose {
   accuracyMeters?: number;
 }
 
-export const Pose: Schema.Schema<Pose> = Schema.suspend(() => Schema.Struct({
-  heading: Schema.optional(Schema.Number),
-  gpsRecordTimestampUnixEpoch: Schema.optional(Schema.String),
-  latLngPair: Schema.optional(LatLng),
-  pitch: Schema.optional(Schema.Number),
-  level: Schema.optional(Level),
-  altitude: Schema.optional(Schema.Number),
-  roll: Schema.optional(Schema.Number),
-  accuracyMeters: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Pose" }) as any as Schema.Schema<Pose>;
+export const Pose: Schema.Schema<Pose> = Schema.suspend(() =>
+  Schema.Struct({
+    heading: Schema.optional(Schema.Number),
+    gpsRecordTimestampUnixEpoch: Schema.optional(Schema.String),
+    latLngPair: Schema.optional(LatLng),
+    pitch: Schema.optional(Schema.Number),
+    level: Schema.optional(Level),
+    altitude: Schema.optional(Schema.Number),
+    roll: Schema.optional(Schema.Number),
+    accuracyMeters: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Pose" }) as any as Schema.Schema<Pose>;
 
 export interface PhotoId {
   /** A unique identifier for a photo. */
   id?: string;
 }
 
-export const PhotoId: Schema.Schema<PhotoId> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "PhotoId" }) as any as Schema.Schema<PhotoId>;
+export const PhotoId: Schema.Schema<PhotoId> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PhotoId" }) as any as Schema.Schema<PhotoId>;
 
 export interface Connection {
   /** Required. The destination of the connection from the containing photo to another photo. */
   target?: PhotoId;
 }
 
-export const Connection: Schema.Schema<Connection> = Schema.suspend(() => Schema.Struct({
-  target: Schema.optional(PhotoId),
-})).annotate({ identifier: "Connection" }) as any as Schema.Schema<Connection>;
+export const Connection: Schema.Schema<Connection> = Schema.suspend(() =>
+  Schema.Struct({
+    target: Schema.optional(PhotoId),
+  }),
+).annotate({ identifier: "Connection" }) as any as Schema.Schema<Connection>;
 
 export interface Photo {
   /** Output only. View count of the photo. */
   viewCount?: string;
   /** Output only. Status of rights transfer on this photo. */
-  transferStatus?: "TRANSFER_STATUS_UNKNOWN" | "NEVER_TRANSFERRED" | "PENDING" | "COMPLETED" | "REJECTED" | "EXPIRED" | "CANCELLED" | "RECEIVED_VIA_TRANSFER" | (string & {});
+  transferStatus?:
+    | "TRANSFER_STATUS_UNKNOWN"
+    | "NEVER_TRANSFERRED"
+    | "PENDING"
+    | "COMPLETED"
+    | "REJECTED"
+    | "EXPIRED"
+    | "CANCELLED"
+    | "RECEIVED_VIA_TRANSFER"
+    | (string & {});
   /** Output only. Time when the image was uploaded. */
   uploadTime?: string;
   /** Optional. Places where this photo belongs. */
   places?: Array<Place>;
   /** Output only. Status in Google Maps, whether this photo was published or rejected. */
-  mapsPublishStatus?: "UNSPECIFIED_MAPS_PUBLISH_STATUS" | "PUBLISHED" | "REJECTED_UNKNOWN" | (string & {});
+  mapsPublishStatus?:
+    | "UNSPECIFIED_MAPS_PUBLISH_STATUS"
+    | "PUBLISHED"
+    | "REJECTED_UNKNOWN"
+    | (string & {});
   /** Output only. The download URL for the photo bytes. This field is set only when GetPhotoRequest.view is set to PhotoView.INCLUDE_DOWNLOAD_URL. */
   downloadUrl?: string;
   /** Input only. Required when creating a photo. Input only. The resource URL where the photo bytes are uploaded to. */
@@ -148,30 +175,37 @@ export interface Photo {
   connections?: Array<Connection>;
 }
 
-export const Photo: Schema.Schema<Photo> = Schema.suspend(() => Schema.Struct({
-  viewCount: Schema.optional(Schema.String),
-  transferStatus: Schema.optional(Schema.String),
-  uploadTime: Schema.optional(Schema.String),
-  places: Schema.optional(Schema.Array(Place)),
-  mapsPublishStatus: Schema.optional(Schema.String),
-  downloadUrl: Schema.optional(Schema.String),
-  uploadReference: Schema.optional(UploadRef),
-  pose: Schema.optional(Pose),
-  captureTime: Schema.optional(Schema.String),
-  photoId: Schema.optional(PhotoId),
-  thumbnailUrl: Schema.optional(Schema.String),
-  shareLink: Schema.optional(Schema.String),
-  connections: Schema.optional(Schema.Array(Connection)),
-})).annotate({ identifier: "Photo" }) as any as Schema.Schema<Photo>;
+export const Photo: Schema.Schema<Photo> = Schema.suspend(() =>
+  Schema.Struct({
+    viewCount: Schema.optional(Schema.String),
+    transferStatus: Schema.optional(Schema.String),
+    uploadTime: Schema.optional(Schema.String),
+    places: Schema.optional(Schema.Array(Place)),
+    mapsPublishStatus: Schema.optional(Schema.String),
+    downloadUrl: Schema.optional(Schema.String),
+    uploadReference: Schema.optional(UploadRef),
+    pose: Schema.optional(Pose),
+    captureTime: Schema.optional(Schema.String),
+    photoId: Schema.optional(PhotoId),
+    thumbnailUrl: Schema.optional(Schema.String),
+    shareLink: Schema.optional(Schema.String),
+    connections: Schema.optional(Schema.Array(Connection)),
+  }),
+).annotate({ identifier: "Photo" }) as any as Schema.Schema<Photo>;
 
 export interface InsufficientGpsFailureDetails {
   /** The number of GPS points that were found in the video. */
   gpsPointsFound?: number;
 }
 
-export const InsufficientGpsFailureDetails: Schema.Schema<InsufficientGpsFailureDetails> = Schema.suspend(() => Schema.Struct({
-  gpsPointsFound: Schema.optional(Schema.Number),
-})).annotate({ identifier: "InsufficientGpsFailureDetails" }) as any as Schema.Schema<InsufficientGpsFailureDetails>;
+export const InsufficientGpsFailureDetails: Schema.Schema<InsufficientGpsFailureDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gpsPointsFound: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "InsufficientGpsFailureDetails",
+  }) as any as Schema.Schema<InsufficientGpsFailureDetails>;
 
 export interface GpsDataGapFailureDetails {
   /** The duration of the gap in GPS data that was found. */
@@ -180,10 +214,15 @@ export interface GpsDataGapFailureDetails {
   gapStartTime?: string;
 }
 
-export const GpsDataGapFailureDetails: Schema.Schema<GpsDataGapFailureDetails> = Schema.suspend(() => Schema.Struct({
-  gapDuration: Schema.optional(Schema.String),
-  gapStartTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GpsDataGapFailureDetails" }) as any as Schema.Schema<GpsDataGapFailureDetails>;
+export const GpsDataGapFailureDetails: Schema.Schema<GpsDataGapFailureDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gapDuration: Schema.optional(Schema.String),
+      gapStartTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GpsDataGapFailureDetails",
+  }) as any as Schema.Schema<GpsDataGapFailureDetails>;
 
 export interface ImuDataGapFailureDetails {
   /** The duration of the gap in IMU data that was found. */
@@ -192,19 +231,29 @@ export interface ImuDataGapFailureDetails {
   gapStartTime?: string;
 }
 
-export const ImuDataGapFailureDetails: Schema.Schema<ImuDataGapFailureDetails> = Schema.suspend(() => Schema.Struct({
-  gapDuration: Schema.optional(Schema.String),
-  gapStartTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImuDataGapFailureDetails" }) as any as Schema.Schema<ImuDataGapFailureDetails>;
+export const ImuDataGapFailureDetails: Schema.Schema<ImuDataGapFailureDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gapDuration: Schema.optional(Schema.String),
+      gapStartTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ImuDataGapFailureDetails",
+  }) as any as Schema.Schema<ImuDataGapFailureDetails>;
 
 export interface NotOutdoorsFailureDetails {
   /** Relative time (from the start of the video stream) when an indoor frame was found. */
   startTime?: string;
 }
 
-export const NotOutdoorsFailureDetails: Schema.Schema<NotOutdoorsFailureDetails> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "NotOutdoorsFailureDetails" }) as any as Schema.Schema<NotOutdoorsFailureDetails>;
+export const NotOutdoorsFailureDetails: Schema.Schema<NotOutdoorsFailureDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NotOutdoorsFailureDetails",
+  }) as any as Schema.Schema<NotOutdoorsFailureDetails>;
 
 export interface NoOverlapGpsFailureDetails {
   /** Start time of video. */
@@ -217,12 +266,17 @@ export interface NoOverlapGpsFailureDetails {
   gpsStartTime?: string;
 }
 
-export const NoOverlapGpsFailureDetails: Schema.Schema<NoOverlapGpsFailureDetails> = Schema.suspend(() => Schema.Struct({
-  videoStartTime: Schema.optional(Schema.String),
-  gpsEndTime: Schema.optional(Schema.String),
-  videoEndTime: Schema.optional(Schema.String),
-  gpsStartTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "NoOverlapGpsFailureDetails" }) as any as Schema.Schema<NoOverlapGpsFailureDetails>;
+export const NoOverlapGpsFailureDetails: Schema.Schema<NoOverlapGpsFailureDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      videoStartTime: Schema.optional(Schema.String),
+      gpsEndTime: Schema.optional(Schema.String),
+      videoEndTime: Schema.optional(Schema.String),
+      gpsStartTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NoOverlapGpsFailureDetails",
+  }) as any as Schema.Schema<NoOverlapGpsFailureDetails>;
 
 export interface ProcessingFailureDetails {
   /** See InsufficientGpsFailureDetails. */
@@ -237,19 +291,24 @@ export interface ProcessingFailureDetails {
   noOverlapGpsDetails?: NoOverlapGpsFailureDetails;
 }
 
-export const ProcessingFailureDetails: Schema.Schema<ProcessingFailureDetails> = Schema.suspend(() => Schema.Struct({
-  insufficientGpsDetails: Schema.optional(InsufficientGpsFailureDetails),
-  gpsDataGapDetails: Schema.optional(GpsDataGapFailureDetails),
-  imuDataGapDetails: Schema.optional(ImuDataGapFailureDetails),
-  notOutdoorsDetails: Schema.optional(NotOutdoorsFailureDetails),
-  noOverlapGpsDetails: Schema.optional(NoOverlapGpsFailureDetails),
-})).annotate({ identifier: "ProcessingFailureDetails" }) as any as Schema.Schema<ProcessingFailureDetails>;
+export const ProcessingFailureDetails: Schema.Schema<ProcessingFailureDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      insufficientGpsDetails: Schema.optional(InsufficientGpsFailureDetails),
+      gpsDataGapDetails: Schema.optional(GpsDataGapFailureDetails),
+      imuDataGapDetails: Schema.optional(ImuDataGapFailureDetails),
+      notOutdoorsDetails: Schema.optional(NotOutdoorsFailureDetails),
+      noOverlapGpsDetails: Schema.optional(NoOverlapGpsFailureDetails),
+    }),
+  ).annotate({
+    identifier: "ProcessingFailureDetails",
+  }) as any as Schema.Schema<ProcessingFailureDetails>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Measurement3d {
   /** The sensor measurement in the z axis. */
@@ -262,12 +321,16 @@ export interface Measurement3d {
   captureTime?: string;
 }
 
-export const Measurement3d: Schema.Schema<Measurement3d> = Schema.suspend(() => Schema.Struct({
-  z: Schema.optional(Schema.Number),
-  x: Schema.optional(Schema.Number),
-  y: Schema.optional(Schema.Number),
-  captureTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Measurement3d" }) as any as Schema.Schema<Measurement3d>;
+export const Measurement3d: Schema.Schema<Measurement3d> = Schema.suspend(() =>
+  Schema.Struct({
+    z: Schema.optional(Schema.Number),
+    x: Schema.optional(Schema.Number),
+    y: Schema.optional(Schema.Number),
+    captureTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Measurement3d",
+}) as any as Schema.Schema<Measurement3d>;
 
 export interface ListPhotosResponse {
   /** List of photos. The pageSize field in the request determines the number of items returned. */
@@ -276,10 +339,15 @@ export interface ListPhotosResponse {
   nextPageToken?: string;
 }
 
-export const ListPhotosResponse: Schema.Schema<ListPhotosResponse> = Schema.suspend(() => Schema.Struct({
-  photos: Schema.optional(Schema.Array(Photo)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPhotosResponse" }) as any as Schema.Schema<ListPhotosResponse>;
+export const ListPhotosResponse: Schema.Schema<ListPhotosResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      photos: Schema.optional(Schema.Array(Photo)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPhotosResponse",
+  }) as any as Schema.Schema<ListPhotosResponse>;
 
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -290,11 +358,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface PhotoResponse {
   /** The status for the operation to get or update a single photo in the batch request. */
@@ -303,19 +375,28 @@ export interface PhotoResponse {
   photo?: Photo;
 }
 
-export const PhotoResponse: Schema.Schema<PhotoResponse> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(Status),
-  photo: Schema.optional(Photo),
-})).annotate({ identifier: "PhotoResponse" }) as any as Schema.Schema<PhotoResponse>;
+export const PhotoResponse: Schema.Schema<PhotoResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    status: Schema.optional(Status),
+    photo: Schema.optional(Photo),
+  }),
+).annotate({
+  identifier: "PhotoResponse",
+}) as any as Schema.Schema<PhotoResponse>;
 
 export interface BatchGetPhotosResponse {
   /** List of results for each individual Photo requested, in the same order as the requests in BatchGetPhotos. */
   results?: Array<PhotoResponse>;
 }
 
-export const BatchGetPhotosResponse: Schema.Schema<BatchGetPhotosResponse> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(PhotoResponse)),
-})).annotate({ identifier: "BatchGetPhotosResponse" }) as any as Schema.Schema<BatchGetPhotosResponse>;
+export const BatchGetPhotosResponse: Schema.Schema<BatchGetPhotosResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(Schema.Array(PhotoResponse)),
+    }),
+  ).annotate({
+    identifier: "BatchGetPhotosResponse",
+  }) as any as Schema.Schema<BatchGetPhotosResponse>;
 
 export interface Imu {
   /** The accelerometer measurements in meters/sec^2 with increasing timestamps from devices. */
@@ -326,11 +407,13 @@ export interface Imu {
   gyroRps?: Array<Measurement3d>;
 }
 
-export const Imu: Schema.Schema<Imu> = Schema.suspend(() => Schema.Struct({
-  accelMpsps: Schema.optional(Schema.Array(Measurement3d)),
-  magUt: Schema.optional(Schema.Array(Measurement3d)),
-  gyroRps: Schema.optional(Schema.Array(Measurement3d)),
-})).annotate({ identifier: "Imu" }) as any as Schema.Schema<Imu>;
+export const Imu: Schema.Schema<Imu> = Schema.suspend(() =>
+  Schema.Struct({
+    accelMpsps: Schema.optional(Schema.Array(Measurement3d)),
+    magUt: Schema.optional(Schema.Array(Measurement3d)),
+    gyroRps: Schema.optional(Schema.Array(Measurement3d)),
+  }),
+).annotate({ identifier: "Imu" }) as any as Schema.Schema<Imu>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -345,13 +428,15 @@ export interface Operation {
   done?: boolean;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  error: Schema.optional(Status),
-  done: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    error: Schema.optional(Status),
+    done: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListPhotoSequencesResponse {
   /** List of photo sequences via Operation interface. The maximum number of items returned is based on the pageSize field in the request. Each item in the list can have three possible states, * `Operation.done` = false, if the processing of PhotoSequence is not finished yet. * `Operation.done` = true and `Operation.error` is populated, if there was an error in processing. * `Operation.done` = true and `Operation.response` contains a PhotoSequence message, In each sequence, only Id is populated. */
@@ -360,10 +445,15 @@ export interface ListPhotoSequencesResponse {
   nextPageToken?: string;
 }
 
-export const ListPhotoSequencesResponse: Schema.Schema<ListPhotoSequencesResponse> = Schema.suspend(() => Schema.Struct({
-  photoSequences: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPhotoSequencesResponse" }) as any as Schema.Schema<ListPhotoSequencesResponse>;
+export const ListPhotoSequencesResponse: Schema.Schema<ListPhotoSequencesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      photoSequences: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPhotoSequencesResponse",
+  }) as any as Schema.Schema<ListPhotoSequencesResponse>;
 
 export interface UpdatePhotoRequest {
   /** Required. Photo object containing the new metadata. */
@@ -372,10 +462,15 @@ export interface UpdatePhotoRequest {
   updateMask?: string;
 }
 
-export const UpdatePhotoRequest: Schema.Schema<UpdatePhotoRequest> = Schema.suspend(() => Schema.Struct({
-  photo: Schema.optional(Photo),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdatePhotoRequest" }) as any as Schema.Schema<UpdatePhotoRequest>;
+export const UpdatePhotoRequest: Schema.Schema<UpdatePhotoRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      photo: Schema.optional(Photo),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdatePhotoRequest",
+  }) as any as Schema.Schema<UpdatePhotoRequest>;
 
 export interface LatLngBounds {
   /** The southwest corner of these bounds. */
@@ -384,16 +479,26 @@ export interface LatLngBounds {
   northeast?: LatLng;
 }
 
-export const LatLngBounds: Schema.Schema<LatLngBounds> = Schema.suspend(() => Schema.Struct({
-  southwest: Schema.optional(LatLng),
-  northeast: Schema.optional(LatLng),
-})).annotate({ identifier: "LatLngBounds" }) as any as Schema.Schema<LatLngBounds>;
+export const LatLngBounds: Schema.Schema<LatLngBounds> = Schema.suspend(() =>
+  Schema.Struct({
+    southwest: Schema.optional(LatLng),
+    northeast: Schema.optional(LatLng),
+  }),
+).annotate({
+  identifier: "LatLngBounds",
+}) as any as Schema.Schema<LatLngBounds>;
 
 export interface PhotoSequence {
   /** Output only. The computed distance of the photo sequence in meters. */
   distanceMeters?: number;
   /** Output only. The processing state of this sequence. */
-  processingState?: "PROCESSING_STATE_UNSPECIFIED" | "PENDING" | "PROCESSING" | "PROCESSED" | "FAILED" | (string & {});
+  processingState?:
+    | "PROCESSING_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "PROCESSING"
+    | "PROCESSED"
+    | "FAILED"
+    | (string & {});
   /** Output only. The total number of views that all the published images in this PhotoSequence have received. */
   viewCount?: string;
   /** Output only. If this sequence has `failure_reason` set, this may contain additional details about the failure. */
@@ -419,62 +524,112 @@ export interface PhotoSequence {
   /** Input only. Three axis IMU data for the collection. If this data is too large to put in the request, then it should be put in the CAMM track for the video. This data always takes precedence over the equivalent CAMM data, if it exists. */
   imu?: Imu;
   /** Output only. If this sequence has processing_state = FAILED, this will contain the reason why it failed. If the processing_state is any other value, this field will be unset. */
-  failureReason?: "PROCESSING_FAILURE_REASON_UNSPECIFIED" | "LOW_RESOLUTION" | "DUPLICATE" | "INSUFFICIENT_GPS" | "NO_OVERLAP_GPS" | "INVALID_GPS" | "FAILED_TO_REFINE_POSITIONS" | "TAKEDOWN" | "CORRUPT_VIDEO" | "INTERNAL" | "INVALID_VIDEO_FORMAT" | "INVALID_VIDEO_DIMENSIONS" | "INVALID_CAPTURE_TIME" | "GPS_DATA_GAP" | "JUMPY_GPS" | "INVALID_IMU" | "INSUFFICIENT_IMU" | "INSUFFICIENT_OVERLAP_TIME_SERIES" | "IMU_DATA_GAP" | "UNSUPPORTED_CAMERA" | "NOT_OUTDOORS" | "INSUFFICIENT_VIDEO_FRAMES" | "INSUFFICIENT_MOVEMENT" | "MAST_DOWN" | "CAMERA_COVERED" | (string & {});
+  failureReason?:
+    | "PROCESSING_FAILURE_REASON_UNSPECIFIED"
+    | "LOW_RESOLUTION"
+    | "DUPLICATE"
+    | "INSUFFICIENT_GPS"
+    | "NO_OVERLAP_GPS"
+    | "INVALID_GPS"
+    | "FAILED_TO_REFINE_POSITIONS"
+    | "TAKEDOWN"
+    | "CORRUPT_VIDEO"
+    | "INTERNAL"
+    | "INVALID_VIDEO_FORMAT"
+    | "INVALID_VIDEO_DIMENSIONS"
+    | "INVALID_CAPTURE_TIME"
+    | "GPS_DATA_GAP"
+    | "JUMPY_GPS"
+    | "INVALID_IMU"
+    | "INSUFFICIENT_IMU"
+    | "INSUFFICIENT_OVERLAP_TIME_SERIES"
+    | "IMU_DATA_GAP"
+    | "UNSUPPORTED_CAMERA"
+    | "NOT_OUTDOORS"
+    | "INSUFFICIENT_VIDEO_FRAMES"
+    | "INSUFFICIENT_MOVEMENT"
+    | "MAST_DOWN"
+    | "CAMERA_COVERED"
+    | (string & {});
 }
 
-export const PhotoSequence: Schema.Schema<PhotoSequence> = Schema.suspend(() => Schema.Struct({
-  distanceMeters: Schema.optional(Schema.Number),
-  processingState: Schema.optional(Schema.String),
-  viewCount: Schema.optional(Schema.String),
-  failureDetails: Schema.optional(ProcessingFailureDetails),
-  photos: Schema.optional(Schema.Array(Photo)),
-  captureTimeOverride: Schema.optional(Schema.String),
-  uploadTime: Schema.optional(Schema.String),
-  gpsSource: Schema.optional(Schema.String),
-  filename: Schema.optional(Schema.String),
-  sequenceBounds: Schema.optional(LatLngBounds),
-  uploadReference: Schema.optional(UploadRef),
-  rawGpsTimeline: Schema.optional(Schema.Array(Pose)),
-  id: Schema.optional(Schema.String),
-  imu: Schema.optional(Imu),
-  failureReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "PhotoSequence" }) as any as Schema.Schema<PhotoSequence>;
+export const PhotoSequence: Schema.Schema<PhotoSequence> = Schema.suspend(() =>
+  Schema.Struct({
+    distanceMeters: Schema.optional(Schema.Number),
+    processingState: Schema.optional(Schema.String),
+    viewCount: Schema.optional(Schema.String),
+    failureDetails: Schema.optional(ProcessingFailureDetails),
+    photos: Schema.optional(Schema.Array(Photo)),
+    captureTimeOverride: Schema.optional(Schema.String),
+    uploadTime: Schema.optional(Schema.String),
+    gpsSource: Schema.optional(Schema.String),
+    filename: Schema.optional(Schema.String),
+    sequenceBounds: Schema.optional(LatLngBounds),
+    uploadReference: Schema.optional(UploadRef),
+    rawGpsTimeline: Schema.optional(Schema.Array(Pose)),
+    id: Schema.optional(Schema.String),
+    imu: Schema.optional(Imu),
+    failureReason: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PhotoSequence",
+}) as any as Schema.Schema<PhotoSequence>;
 
 export interface BatchUpdatePhotosResponse {
   /** List of results for each individual Photo updated, in the same order as the request. */
   results?: Array<PhotoResponse>;
 }
 
-export const BatchUpdatePhotosResponse: Schema.Schema<BatchUpdatePhotosResponse> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(PhotoResponse)),
-})).annotate({ identifier: "BatchUpdatePhotosResponse" }) as any as Schema.Schema<BatchUpdatePhotosResponse>;
+export const BatchUpdatePhotosResponse: Schema.Schema<BatchUpdatePhotosResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(Schema.Array(PhotoResponse)),
+    }),
+  ).annotate({
+    identifier: "BatchUpdatePhotosResponse",
+  }) as any as Schema.Schema<BatchUpdatePhotosResponse>;
 
 export interface BatchUpdatePhotosRequest {
   /** Required. List of UpdatePhotoRequests. */
   updatePhotoRequests?: Array<UpdatePhotoRequest>;
 }
 
-export const BatchUpdatePhotosRequest: Schema.Schema<BatchUpdatePhotosRequest> = Schema.suspend(() => Schema.Struct({
-  updatePhotoRequests: Schema.optional(Schema.Array(UpdatePhotoRequest)),
-})).annotate({ identifier: "BatchUpdatePhotosRequest" }) as any as Schema.Schema<BatchUpdatePhotosRequest>;
+export const BatchUpdatePhotosRequest: Schema.Schema<BatchUpdatePhotosRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updatePhotoRequests: Schema.optional(Schema.Array(UpdatePhotoRequest)),
+    }),
+  ).annotate({
+    identifier: "BatchUpdatePhotosRequest",
+  }) as any as Schema.Schema<BatchUpdatePhotosRequest>;
 
 export interface BatchDeletePhotosResponse {
   /** The status for the operation to delete a single Photo in the batch request. */
   status?: Array<Status>;
 }
 
-export const BatchDeletePhotosResponse: Schema.Schema<BatchDeletePhotosResponse> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(Schema.Array(Status)),
-})).annotate({ identifier: "BatchDeletePhotosResponse" }) as any as Schema.Schema<BatchDeletePhotosResponse>;
+export const BatchDeletePhotosResponse: Schema.Schema<BatchDeletePhotosResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(Schema.Array(Status)),
+    }),
+  ).annotate({
+    identifier: "BatchDeletePhotosResponse",
+  }) as any as Schema.Schema<BatchDeletePhotosResponse>;
 
 export interface BatchDeletePhotosRequest {
   /** Required. IDs of the Photos. HTTP GET requests require the following syntax for the URL query parameter: `photoIds=&photoIds=&...`. */
   photoIds?: Array<string>;
 }
 
-export const BatchDeletePhotosRequest: Schema.Schema<BatchDeletePhotosRequest> = Schema.suspend(() => Schema.Struct({
-  photoIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchDeletePhotosRequest" }) as any as Schema.Schema<BatchDeletePhotosRequest>;
+export const BatchDeletePhotosRequest: Schema.Schema<BatchDeletePhotosRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      photoIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchDeletePhotosRequest",
+  }) as any as Schema.Schema<BatchDeletePhotosRequest>;
 
 // ==========================================================================
 // Operations
@@ -492,7 +647,9 @@ export interface GetPhotoRequest {
 export const GetPhotoRequest = Schema.Struct({
   photoId: Schema.String.pipe(T.HttpPath("photoId")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/photo/{photoId}" }),
   svc,
@@ -504,7 +661,12 @@ export const GetPhotoResponse = Photo;
 export type GetPhotoError = DefaultErrors;
 
 /** Gets the metadata of the specified Photo. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested Photo. * google.rpc.Code.NOT_FOUND if the requested Photo does not exist. * google.rpc.Code.UNAVAILABLE if the requested Photo is still being indexed. */
-export const getPhoto: API.OperationMethod<GetPhotoRequest, GetPhotoResponse, GetPhotoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPhoto: API.OperationMethod<
+  GetPhotoRequest,
+  GetPhotoResponse,
+  GetPhotoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPhotoRequest,
   output: GetPhotoResponse,
   errors: [],
@@ -528,7 +690,12 @@ export const StartUploadPhotoResponse = UploadRef;
 export type StartUploadPhotoError = DefaultErrors;
 
 /** Creates an upload session to start uploading photo bytes. The method uses the upload URL of the returned UploadRef to upload the bytes for the Photo. In addition to the photo requirements shown in https://support.google.com/maps/answer/7012050?ref_topic=6275604, the photo must meet the following requirements: * Photo Sphere XMP metadata must be included in the photo metadata. See https://developers.google.com/streetview/spherical-metadata for the required fields. * The pixel size of the photo must meet the size requirements listed in https://support.google.com/maps/answer/7012050?ref_topic=6275604, and the photo must be a full 360 horizontally. After the upload completes, the method uses UploadRef with CreatePhoto to create the Photo object entry. */
-export const startUploadPhoto: API.OperationMethod<StartUploadPhotoRequest, StartUploadPhotoResponse, StartUploadPhotoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startUploadPhoto: API.OperationMethod<
+  StartUploadPhotoRequest,
+  StartUploadPhotoResponse,
+  StartUploadPhotoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartUploadPhotoRequest,
   output: StartUploadPhotoResponse,
   errors: [],
@@ -552,7 +719,12 @@ export const DeletePhotoResponse = Empty;
 export type DeletePhotoError = DefaultErrors;
 
 /** Deletes a Photo and its metadata. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo. * google.rpc.Code.NOT_FOUND if the photo ID does not exist. */
-export const deletePhoto: API.OperationMethod<DeletePhotoRequest, DeletePhotoResponse, DeletePhotoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deletePhoto: API.OperationMethod<
+  DeletePhotoRequest,
+  DeletePhotoResponse,
+  DeletePhotoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeletePhotoRequest,
   output: DeletePhotoResponse,
   errors: [],
@@ -582,7 +754,12 @@ export const UpdatePhotoResponse = Photo;
 export type UpdatePhotoError = DefaultErrors;
 
 /** Updates the metadata of a Photo, such as pose, place association, connections, etc. Changing the pixels of a photo is not supported. Only the fields specified in the updateMask field are used. If `updateMask` is not present, the update applies to all fields. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo. * google.rpc.Code.INVALID_ARGUMENT if the request is malformed. * google.rpc.Code.NOT_FOUND if the requested photo does not exist. * google.rpc.Code.UNAVAILABLE if the requested Photo is still being indexed. */
-export const updatePhoto: API.OperationMethod<UpdatePhotoRequest_Op, UpdatePhotoResponse, UpdatePhotoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePhoto: API.OperationMethod<
+  UpdatePhotoRequest_Op,
+  UpdatePhotoResponse,
+  UpdatePhotoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePhotoRequest_Op,
   output: UpdatePhotoResponse,
   errors: [],
@@ -606,7 +783,12 @@ export const CreatePhotoResponse = Photo;
 export type CreatePhotoError = DefaultErrors;
 
 /** After the client finishes uploading the photo with the returned UploadRef, CreatePhoto publishes the uploaded Photo to Street View on Google Maps. Currently, the only way to set heading, pitch, and roll in CreatePhoto is through the [Photo Sphere XMP metadata](https://developers.google.com/streetview/spherical-metadata) in the photo bytes. CreatePhoto ignores the `pose.heading`, `pose.pitch`, `pose.roll`, `pose.altitude`, and `pose.level` fields in Pose. This method returns the following error codes: * google.rpc.Code.INVALID_ARGUMENT if the request is malformed or if the uploaded photo is not a 360 photo. * google.rpc.Code.NOT_FOUND if the upload reference does not exist. * google.rpc.Code.RESOURCE_EXHAUSTED if the account has reached the storage limit. */
-export const createPhoto: API.OperationMethod<CreatePhotoRequest, CreatePhotoResponse, CreatePhotoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPhoto: API.OperationMethod<
+  CreatePhotoRequest,
+  CreatePhotoResponse,
+  CreatePhotoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePhotoRequest,
   output: CreatePhotoResponse,
   errors: [],
@@ -636,7 +818,12 @@ export const ListPhotoSequencesResponse_Op = ListPhotoSequencesResponse;
 export type ListPhotoSequencesError = DefaultErrors;
 
 /** Lists all the PhotoSequences that belong to the user, in descending CreatePhotoSequence timestamp order. */
-export const listPhotoSequences: API.PaginatedOperationMethod<ListPhotoSequencesRequest, ListPhotoSequencesResponse_Op, ListPhotoSequencesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPhotoSequences: API.PaginatedOperationMethod<
+  ListPhotoSequencesRequest,
+  ListPhotoSequencesResponse_Op,
+  ListPhotoSequencesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPhotoSequencesRequest,
   output: ListPhotoSequencesResponse_Op,
   errors: [],
@@ -664,7 +851,12 @@ export const BatchUpdatePhotosResponse_Op = BatchUpdatePhotosResponse;
 export type BatchUpdatePhotosError = DefaultErrors;
 
 /** Updates the metadata of Photos, such as pose, place association, connections, etc. Changing the pixels of photos is not supported. Note that if BatchUpdatePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchUpdatePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchUpdatePhotosResponse.results. See UpdatePhoto for specific failures that can occur per photo. Only the fields specified in updateMask field are used. If `updateMask` is not present, the update applies to all fields. The number of UpdatePhotoRequest messages in a BatchUpdatePhotosRequest must not exceed 20. > Note: To update Pose.altitude, Pose.latLngPair has to be filled as well. Otherwise, the request will fail. */
-export const batchUpdatePhotos: API.OperationMethod<BatchUpdatePhotosRequest_Op, BatchUpdatePhotosResponse_Op, BatchUpdatePhotosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchUpdatePhotos: API.OperationMethod<
+  BatchUpdatePhotosRequest_Op,
+  BatchUpdatePhotosResponse_Op,
+  BatchUpdatePhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchUpdatePhotosRequest_Op,
   output: BatchUpdatePhotosResponse_Op,
   errors: [],
@@ -686,7 +878,9 @@ export interface ListPhotosRequest {
 export const ListPhotosRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -700,7 +894,12 @@ export const ListPhotosResponse_Op = ListPhotosResponse;
 export type ListPhotosError = DefaultErrors;
 
 /** Lists all the Photos that belong to the user. > Note: Recently created photos that are still being indexed are not returned in the response. */
-export const listPhotos: API.PaginatedOperationMethod<ListPhotosRequest, ListPhotosResponse_Op, ListPhotosError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPhotos: API.PaginatedOperationMethod<
+  ListPhotosRequest,
+  ListPhotosResponse_Op,
+  ListPhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPhotosRequest,
   output: ListPhotosResponse_Op,
   errors: [],
@@ -720,9 +919,13 @@ export interface BatchGetPhotosRequest {
 }
 
 export const BatchGetPhotosRequest = Schema.Struct({
-  photoIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("photoIds")),
+  photoIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("photoIds"),
+  ),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/photos:batchGet" }),
   svc,
@@ -734,7 +937,12 @@ export const BatchGetPhotosResponse_Op = BatchGetPhotosResponse;
 export type BatchGetPhotosError = DefaultErrors;
 
 /** Gets the metadata of the specified Photo batch. Note that if BatchGetPhotos fails, either critical fields are missing or there is an authentication error. Even if BatchGetPhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchGetPhotosResponse.results. See GetPhoto for specific failures that can occur per photo. */
-export const batchGetPhotos: API.OperationMethod<BatchGetPhotosRequest, BatchGetPhotosResponse_Op, BatchGetPhotosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchGetPhotos: API.OperationMethod<
+  BatchGetPhotosRequest,
+  BatchGetPhotosResponse_Op,
+  BatchGetPhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchGetPhotosRequest,
   output: BatchGetPhotosResponse_Op,
   errors: [],
@@ -758,7 +966,12 @@ export const BatchDeletePhotosResponse_Op = BatchDeletePhotosResponse;
 export type BatchDeletePhotosError = DefaultErrors;
 
 /** Deletes a list of Photos and their metadata. Note that if BatchDeletePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchDeletePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchDeletePhotosResponse.results. See DeletePhoto for specific failures that can occur per photo. */
-export const batchDeletePhotos: API.OperationMethod<BatchDeletePhotosRequest_Op, BatchDeletePhotosResponse_Op, BatchDeletePhotosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchDeletePhotos: API.OperationMethod<
+  BatchDeletePhotosRequest_Op,
+  BatchDeletePhotosResponse_Op,
+  BatchDeletePhotosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchDeletePhotosRequest_Op,
   output: BatchDeletePhotosResponse_Op,
   errors: [],
@@ -785,7 +998,12 @@ export const CreatePhotoSequenceResponse = Operation;
 export type CreatePhotoSequenceError = DefaultErrors;
 
 /** After the client finishes uploading the PhotoSequence with the returned UploadRef, CreatePhotoSequence extracts a sequence of 360 photos from a video or Extensible Device Metadata (XDM, http://www.xdm.org/) to be published to Street View on Google Maps. `CreatePhotoSequence` returns an Operation, with the PhotoSequence Id set in the `Operation.name` field. This method returns the following error codes: * google.rpc.Code.INVALID_ARGUMENT if the request is malformed. * google.rpc.Code.NOT_FOUND if the upload reference does not exist. */
-export const createPhotoSequence: API.OperationMethod<CreatePhotoSequenceRequest, CreatePhotoSequenceResponse, CreatePhotoSequenceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPhotoSequence: API.OperationMethod<
+  CreatePhotoSequenceRequest,
+  CreatePhotoSequenceResponse,
+  CreatePhotoSequenceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePhotoSequenceRequest,
   output: CreatePhotoSequenceResponse,
   errors: [],
@@ -815,7 +1033,12 @@ export const GetPhotoSequenceResponse = Operation;
 export type GetPhotoSequenceError = DefaultErrors;
 
 /** Gets the metadata of the specified PhotoSequence via the Operation interface. This method returns the following three types of responses: * `Operation.done` = false, if the processing of PhotoSequence is not finished yet. * `Operation.done` = true and `Operation.error` is populated, if there was an error in processing. * `Operation.done` = true and `Operation.response` is poulated, which contains a PhotoSequence message. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested PhotoSequence. * google.rpc.Code.NOT_FOUND if the requested PhotoSequence does not exist. */
-export const getPhotoSequence: API.OperationMethod<GetPhotoSequenceRequest, GetPhotoSequenceResponse, GetPhotoSequenceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPhotoSequence: API.OperationMethod<
+  GetPhotoSequenceRequest,
+  GetPhotoSequenceResponse,
+  GetPhotoSequenceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPhotoSequenceRequest,
   output: GetPhotoSequenceResponse,
   errors: [],
@@ -829,7 +1052,11 @@ export interface StartUploadPhotoSequenceRequest {
 export const StartUploadPhotoSequenceRequest = Schema.Struct({
   body: Schema.optional(Empty).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/photoSequence:startUpload", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/photoSequence:startUpload",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartUploadPhotoSequenceRequest>;
 
@@ -839,7 +1066,12 @@ export const StartUploadPhotoSequenceResponse = UploadRef;
 export type StartUploadPhotoSequenceError = DefaultErrors;
 
 /** Creates an upload session to start uploading photo sequence data. The upload URL of the returned UploadRef is used to upload the data for the `photoSequence`. After the upload is complete, the UploadRef is used with CreatePhotoSequence to create the PhotoSequence object entry. */
-export const startUploadPhotoSequence: API.OperationMethod<StartUploadPhotoSequenceRequest, StartUploadPhotoSequenceResponse, StartUploadPhotoSequenceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startUploadPhotoSequence: API.OperationMethod<
+  StartUploadPhotoSequenceRequest,
+  StartUploadPhotoSequenceResponse,
+  StartUploadPhotoSequenceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartUploadPhotoSequenceRequest,
   output: StartUploadPhotoSequenceResponse,
   errors: [],
@@ -863,9 +1095,13 @@ export const DeletePhotoSequenceResponse = Empty;
 export type DeletePhotoSequenceError = DefaultErrors;
 
 /** Deletes a PhotoSequence and its metadata. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo sequence. * google.rpc.Code.NOT_FOUND if the photo sequence ID does not exist. * google.rpc.Code.FAILED_PRECONDITION if the photo sequence ID is not yet finished processing. */
-export const deletePhotoSequence: API.OperationMethod<DeletePhotoSequenceRequest, DeletePhotoSequenceResponse, DeletePhotoSequenceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deletePhotoSequence: API.OperationMethod<
+  DeletePhotoSequenceRequest,
+  DeletePhotoSequenceResponse,
+  DeletePhotoSequenceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeletePhotoSequenceRequest,
   output: DeletePhotoSequenceResponse,
   errors: [],
 }));
-

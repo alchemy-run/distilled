@@ -10,46 +10,76 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "Textract", serviceShapeName: "Textract" });
+const svc = T.AwsApiService({
+  sdkId: "Textract",
+  serviceShapeName: "Textract",
+});
 const auth = T.AwsAuthSigv4({ name: "textract" });
 const ver = T.ServiceVersion("2018-06-27");
 const proto = T.AwsProtocolsAwsJson1_1();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
-    if ((UseDualStack === true)) {
-      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+    if (UseDualStack === true) {
+      return err(
+        "Invalid Configuration: Dualstack and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((UseFIPS === true) && (UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsFIPS")) && (true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://textract-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseFIPS === true && UseDualStack === true) {
+          if (
+            true === _.getAttr(PartitionResult, "supportsFIPS") &&
+            true === _.getAttr(PartitionResult, "supportsDualStack")
+          ) {
+            return e(
+              `https://textract-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("FIPS and DualStack are enabled, but this partition does not support one or both");
+          return err(
+            "FIPS and DualStack are enabled, but this partition does not support one or both",
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://textract-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://textract-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        if ((UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://textract.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseDualStack === true) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            return e(
+              `https://textract.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("DualStack is enabled but this partition does not support DualStack");
+          return err(
+            "DualStack is enabled but this partition does not support DualStack",
+          );
         }
-        return e(`https://textract.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://textract.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -74,7 +104,8 @@ export type Angle = number;
 export type NonEmptyString = string;
 export type HumanLoopArn = string;
 export type HumanLoopActivationReason = string;
-export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults = string;
+export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults =
+  string;
 export type AdapterName = string;
 export type ClientRequestToken = string;
 export type AdapterDescription = string;
@@ -93,10 +124,25 @@ export type SNSTopicArn = string;
 export type RoleArn = string;
 
 //# Schemas
-export interface S3Object { Bucket?: string; Name?: string; Version?: string }
-export const S3Object = S.suspend(() => S.Struct({Bucket: S.optional(S.String), Name: S.optional(S.String), Version: S.optional(S.String)})).annotate({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
-export interface Document { Bytes?: Uint8Array; S3Object?: S3Object }
-export const Document = S.suspend(() => S.Struct({Bytes: S.optional(T.Blob), S3Object: S.optional(S3Object)})).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
+export interface S3Object {
+  Bucket?: string;
+  Name?: string;
+  Version?: string;
+}
+export const S3Object = S.suspend(() =>
+  S.Struct({
+    Bucket: S.optional(S.String),
+    Name: S.optional(S.String),
+    Version: S.optional(S.String),
+  }),
+).annotate({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
+export interface Document {
+  Bytes?: Uint8Array;
+  S3Object?: S3Object;
+}
+export const Document = S.suspend(() =>
+  S.Struct({ Bytes: S.optional(T.Blob), S3Object: S.optional(S3Object) }),
+).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
 export type FeatureType =
   | "TABLES"
   | "FORMS"
@@ -114,30 +160,100 @@ export type ContentClassifier =
 export const ContentClassifier = S.String;
 export type ContentClassifiers = ContentClassifier[];
 export const ContentClassifiers = S.Array(ContentClassifier);
-export interface HumanLoopDataAttributes { ContentClassifiers?: ContentClassifier[] }
-export const HumanLoopDataAttributes = S.suspend(() => S.Struct({ContentClassifiers: S.optional(ContentClassifiers)})).annotate({ identifier: "HumanLoopDataAttributes" }) as any as S.Schema<HumanLoopDataAttributes>;
-export interface HumanLoopConfig { HumanLoopName: string; FlowDefinitionArn: string; DataAttributes?: HumanLoopDataAttributes }
-export const HumanLoopConfig = S.suspend(() => S.Struct({HumanLoopName: S.String, FlowDefinitionArn: S.String, DataAttributes: S.optional(HumanLoopDataAttributes)})).annotate({ identifier: "HumanLoopConfig" }) as any as S.Schema<HumanLoopConfig>;
+export interface HumanLoopDataAttributes {
+  ContentClassifiers?: ContentClassifier[];
+}
+export const HumanLoopDataAttributes = S.suspend(() =>
+  S.Struct({ ContentClassifiers: S.optional(ContentClassifiers) }),
+).annotate({
+  identifier: "HumanLoopDataAttributes",
+}) as any as S.Schema<HumanLoopDataAttributes>;
+export interface HumanLoopConfig {
+  HumanLoopName: string;
+  FlowDefinitionArn: string;
+  DataAttributes?: HumanLoopDataAttributes;
+}
+export const HumanLoopConfig = S.suspend(() =>
+  S.Struct({
+    HumanLoopName: S.String,
+    FlowDefinitionArn: S.String,
+    DataAttributes: S.optional(HumanLoopDataAttributes),
+  }),
+).annotate({
+  identifier: "HumanLoopConfig",
+}) as any as S.Schema<HumanLoopConfig>;
 export type QueryPages = string[];
 export const QueryPages = S.Array(S.String);
-export interface Query { Text: string; Alias?: string; Pages?: string[] }
-export const Query = S.suspend(() => S.Struct({Text: S.String, Alias: S.optional(S.String), Pages: S.optional(QueryPages)})).annotate({ identifier: "Query" }) as any as S.Schema<Query>;
+export interface Query {
+  Text: string;
+  Alias?: string;
+  Pages?: string[];
+}
+export const Query = S.suspend(() =>
+  S.Struct({
+    Text: S.String,
+    Alias: S.optional(S.String),
+    Pages: S.optional(QueryPages),
+  }),
+).annotate({ identifier: "Query" }) as any as S.Schema<Query>;
 export type Queries = Query[];
 export const Queries = S.Array(Query);
-export interface QueriesConfig { Queries: Query[] }
-export const QueriesConfig = S.suspend(() => S.Struct({Queries: Queries})).annotate({ identifier: "QueriesConfig" }) as any as S.Schema<QueriesConfig>;
+export interface QueriesConfig {
+  Queries: Query[];
+}
+export const QueriesConfig = S.suspend(() =>
+  S.Struct({ Queries: Queries }),
+).annotate({ identifier: "QueriesConfig" }) as any as S.Schema<QueriesConfig>;
 export type AdapterPages = string[];
 export const AdapterPages = S.Array(S.String);
-export interface Adapter { AdapterId: string; Pages?: string[]; Version: string }
-export const Adapter = S.suspend(() => S.Struct({AdapterId: S.String, Pages: S.optional(AdapterPages), Version: S.String})).annotate({ identifier: "Adapter" }) as any as S.Schema<Adapter>;
+export interface Adapter {
+  AdapterId: string;
+  Pages?: string[];
+  Version: string;
+}
+export const Adapter = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.String,
+    Pages: S.optional(AdapterPages),
+    Version: S.String,
+  }),
+).annotate({ identifier: "Adapter" }) as any as S.Schema<Adapter>;
 export type Adapters = Adapter[];
 export const Adapters = S.Array(Adapter);
-export interface AdaptersConfig { Adapters: Adapter[] }
-export const AdaptersConfig = S.suspend(() => S.Struct({Adapters: Adapters})).annotate({ identifier: "AdaptersConfig" }) as any as S.Schema<AdaptersConfig>;
-export interface AnalyzeDocumentRequest { Document: Document; FeatureTypes: FeatureType[]; HumanLoopConfig?: HumanLoopConfig; QueriesConfig?: QueriesConfig; AdaptersConfig?: AdaptersConfig }
-export const AnalyzeDocumentRequest = S.suspend(() => S.Struct({Document: Document, FeatureTypes: FeatureTypes, HumanLoopConfig: S.optional(HumanLoopConfig), QueriesConfig: S.optional(QueriesConfig), AdaptersConfig: S.optional(AdaptersConfig)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "AnalyzeDocumentRequest" }) as any as S.Schema<AnalyzeDocumentRequest>;
-export interface DocumentMetadata { Pages?: number }
-export const DocumentMetadata = S.suspend(() => S.Struct({Pages: S.optional(S.Number)})).annotate({ identifier: "DocumentMetadata" }) as any as S.Schema<DocumentMetadata>;
+export interface AdaptersConfig {
+  Adapters: Adapter[];
+}
+export const AdaptersConfig = S.suspend(() =>
+  S.Struct({ Adapters: Adapters }),
+).annotate({ identifier: "AdaptersConfig" }) as any as S.Schema<AdaptersConfig>;
+export interface AnalyzeDocumentRequest {
+  Document: Document;
+  FeatureTypes: FeatureType[];
+  HumanLoopConfig?: HumanLoopConfig;
+  QueriesConfig?: QueriesConfig;
+  AdaptersConfig?: AdaptersConfig;
+}
+export const AnalyzeDocumentRequest = S.suspend(() =>
+  S.Struct({
+    Document: Document,
+    FeatureTypes: FeatureTypes,
+    HumanLoopConfig: S.optional(HumanLoopConfig),
+    QueriesConfig: S.optional(QueriesConfig),
+    AdaptersConfig: S.optional(AdaptersConfig),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AnalyzeDocumentRequest",
+}) as any as S.Schema<AnalyzeDocumentRequest>;
+export interface DocumentMetadata {
+  Pages?: number;
+}
+export const DocumentMetadata = S.suspend(() =>
+  S.Struct({ Pages: S.optional(S.Number) }),
+).annotate({
+  identifier: "DocumentMetadata",
+}) as any as S.Schema<DocumentMetadata>;
 export type BlockType =
   | "KEY_VALUE_SET"
   | "PAGE"
@@ -165,19 +281,43 @@ export type BlockType =
   | "LAYOUT_KEY_VALUE"
   | (string & {});
 export const BlockType = S.String;
-export type TextType =
-  | "HANDWRITING"
-  | "PRINTED"
-  | (string & {});
+export type TextType = "HANDWRITING" | "PRINTED" | (string & {});
 export const TextType = S.String;
-export interface BoundingBox { Width?: number; Height?: number; Left?: number; Top?: number }
-export const BoundingBox = S.suspend(() => S.Struct({Width: S.optional(S.Number), Height: S.optional(S.Number), Left: S.optional(S.Number), Top: S.optional(S.Number)})).annotate({ identifier: "BoundingBox" }) as any as S.Schema<BoundingBox>;
-export interface Point { X?: number; Y?: number }
-export const Point = S.suspend(() => S.Struct({X: S.optional(S.Number), Y: S.optional(S.Number)})).annotate({ identifier: "Point" }) as any as S.Schema<Point>;
+export interface BoundingBox {
+  Width?: number;
+  Height?: number;
+  Left?: number;
+  Top?: number;
+}
+export const BoundingBox = S.suspend(() =>
+  S.Struct({
+    Width: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    Left: S.optional(S.Number),
+    Top: S.optional(S.Number),
+  }),
+).annotate({ identifier: "BoundingBox" }) as any as S.Schema<BoundingBox>;
+export interface Point {
+  X?: number;
+  Y?: number;
+}
+export const Point = S.suspend(() =>
+  S.Struct({ X: S.optional(S.Number), Y: S.optional(S.Number) }),
+).annotate({ identifier: "Point" }) as any as S.Schema<Point>;
 export type Polygon = Point[];
 export const Polygon = S.Array(Point);
-export interface Geometry { BoundingBox?: BoundingBox; Polygon?: Point[]; RotationAngle?: number }
-export const Geometry = S.suspend(() => S.Struct({BoundingBox: S.optional(BoundingBox), Polygon: S.optional(Polygon), RotationAngle: S.optional(S.Number)})).annotate({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
+export interface Geometry {
+  BoundingBox?: BoundingBox;
+  Polygon?: Point[];
+  RotationAngle?: number;
+}
+export const Geometry = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(Polygon),
+    RotationAngle: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
 export type RelationshipType =
   | "VALUE"
   | "CHILD"
@@ -192,8 +332,13 @@ export type RelationshipType =
 export const RelationshipType = S.String;
 export type IdList = string[];
 export const IdList = S.Array(S.String);
-export interface Relationship { Type?: RelationshipType; Ids?: string[] }
-export const Relationship = S.suspend(() => S.Struct({Type: S.optional(RelationshipType), Ids: S.optional(IdList)})).annotate({ identifier: "Relationship" }) as any as S.Schema<Relationship>;
+export interface Relationship {
+  Type?: RelationshipType;
+  Ids?: string[];
+}
+export const Relationship = S.suspend(() =>
+  S.Struct({ Type: S.optional(RelationshipType), Ids: S.optional(IdList) }),
+).annotate({ identifier: "Relationship" }) as any as S.Schema<Relationship>;
 export type RelationshipList = Relationship[];
 export const RelationshipList = S.Array(Relationship);
 export type EntityType =
@@ -210,112 +355,463 @@ export type EntityType =
 export const EntityType = S.String;
 export type EntityTypes = EntityType[];
 export const EntityTypes = S.Array(EntityType);
-export type SelectionStatus =
-  | "SELECTED"
-  | "NOT_SELECTED"
-  | (string & {});
+export type SelectionStatus = "SELECTED" | "NOT_SELECTED" | (string & {});
 export const SelectionStatus = S.String;
-export interface Block { BlockType?: BlockType; Confidence?: number; Text?: string; TextType?: TextType; RowIndex?: number; ColumnIndex?: number; RowSpan?: number; ColumnSpan?: number; Geometry?: Geometry; Id?: string; Relationships?: Relationship[]; EntityTypes?: EntityType[]; SelectionStatus?: SelectionStatus; Page?: number; Query?: Query }
-export const Block = S.suspend(() => S.Struct({BlockType: S.optional(BlockType), Confidence: S.optional(S.Number), Text: S.optional(S.String), TextType: S.optional(TextType), RowIndex: S.optional(S.Number), ColumnIndex: S.optional(S.Number), RowSpan: S.optional(S.Number), ColumnSpan: S.optional(S.Number), Geometry: S.optional(Geometry), Id: S.optional(S.String), Relationships: S.optional(RelationshipList), EntityTypes: S.optional(EntityTypes), SelectionStatus: S.optional(SelectionStatus), Page: S.optional(S.Number), Query: S.optional(Query)})).annotate({ identifier: "Block" }) as any as S.Schema<Block>;
+export interface Block {
+  BlockType?: BlockType;
+  Confidence?: number;
+  Text?: string;
+  TextType?: TextType;
+  RowIndex?: number;
+  ColumnIndex?: number;
+  RowSpan?: number;
+  ColumnSpan?: number;
+  Geometry?: Geometry;
+  Id?: string;
+  Relationships?: Relationship[];
+  EntityTypes?: EntityType[];
+  SelectionStatus?: SelectionStatus;
+  Page?: number;
+  Query?: Query;
+}
+export const Block = S.suspend(() =>
+  S.Struct({
+    BlockType: S.optional(BlockType),
+    Confidence: S.optional(S.Number),
+    Text: S.optional(S.String),
+    TextType: S.optional(TextType),
+    RowIndex: S.optional(S.Number),
+    ColumnIndex: S.optional(S.Number),
+    RowSpan: S.optional(S.Number),
+    ColumnSpan: S.optional(S.Number),
+    Geometry: S.optional(Geometry),
+    Id: S.optional(S.String),
+    Relationships: S.optional(RelationshipList),
+    EntityTypes: S.optional(EntityTypes),
+    SelectionStatus: S.optional(SelectionStatus),
+    Page: S.optional(S.Number),
+    Query: S.optional(Query),
+  }),
+).annotate({ identifier: "Block" }) as any as S.Schema<Block>;
 export type BlockList = Block[];
 export const BlockList = S.Array(Block);
 export type HumanLoopActivationReasons = string[];
 export const HumanLoopActivationReasons = S.Array(S.String);
-export interface HumanLoopActivationOutput { HumanLoopArn?: string; HumanLoopActivationReasons?: string[]; HumanLoopActivationConditionsEvaluationResults?: string }
-export const HumanLoopActivationOutput = S.suspend(() => S.Struct({HumanLoopArn: S.optional(S.String), HumanLoopActivationReasons: S.optional(HumanLoopActivationReasons), HumanLoopActivationConditionsEvaluationResults: S.optional(S.String)})).annotate({ identifier: "HumanLoopActivationOutput" }) as any as S.Schema<HumanLoopActivationOutput>;
-export interface AnalyzeDocumentResponse { DocumentMetadata?: DocumentMetadata; Blocks?: Block[]; HumanLoopActivationOutput?: HumanLoopActivationOutput; AnalyzeDocumentModelVersion?: string }
-export const AnalyzeDocumentResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), Blocks: S.optional(BlockList), HumanLoopActivationOutput: S.optional(HumanLoopActivationOutput), AnalyzeDocumentModelVersion: S.optional(S.String)})).annotate({ identifier: "AnalyzeDocumentResponse" }) as any as S.Schema<AnalyzeDocumentResponse>;
-export interface AnalyzeExpenseRequest { Document: Document }
-export const AnalyzeExpenseRequest = S.suspend(() => S.Struct({Document: Document}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "AnalyzeExpenseRequest" }) as any as S.Schema<AnalyzeExpenseRequest>;
-export interface ExpenseType { Text?: string; Confidence?: number }
-export const ExpenseType = S.suspend(() => S.Struct({Text: S.optional(S.String), Confidence: S.optional(S.Number)})).annotate({ identifier: "ExpenseType" }) as any as S.Schema<ExpenseType>;
-export interface ExpenseDetection { Text?: string; Geometry?: Geometry; Confidence?: number }
-export const ExpenseDetection = S.suspend(() => S.Struct({Text: S.optional(S.String), Geometry: S.optional(Geometry), Confidence: S.optional(S.Number)})).annotate({ identifier: "ExpenseDetection" }) as any as S.Schema<ExpenseDetection>;
-export interface ExpenseCurrency { Code?: string; Confidence?: number }
-export const ExpenseCurrency = S.suspend(() => S.Struct({Code: S.optional(S.String), Confidence: S.optional(S.Number)})).annotate({ identifier: "ExpenseCurrency" }) as any as S.Schema<ExpenseCurrency>;
+export interface HumanLoopActivationOutput {
+  HumanLoopArn?: string;
+  HumanLoopActivationReasons?: string[];
+  HumanLoopActivationConditionsEvaluationResults?: string;
+}
+export const HumanLoopActivationOutput = S.suspend(() =>
+  S.Struct({
+    HumanLoopArn: S.optional(S.String),
+    HumanLoopActivationReasons: S.optional(HumanLoopActivationReasons),
+    HumanLoopActivationConditionsEvaluationResults: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HumanLoopActivationOutput",
+}) as any as S.Schema<HumanLoopActivationOutput>;
+export interface AnalyzeDocumentResponse {
+  DocumentMetadata?: DocumentMetadata;
+  Blocks?: Block[];
+  HumanLoopActivationOutput?: HumanLoopActivationOutput;
+  AnalyzeDocumentModelVersion?: string;
+}
+export const AnalyzeDocumentResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    Blocks: S.optional(BlockList),
+    HumanLoopActivationOutput: S.optional(HumanLoopActivationOutput),
+    AnalyzeDocumentModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AnalyzeDocumentResponse",
+}) as any as S.Schema<AnalyzeDocumentResponse>;
+export interface AnalyzeExpenseRequest {
+  Document: Document;
+}
+export const AnalyzeExpenseRequest = S.suspend(() =>
+  S.Struct({ Document: Document }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AnalyzeExpenseRequest",
+}) as any as S.Schema<AnalyzeExpenseRequest>;
+export interface ExpenseType {
+  Text?: string;
+  Confidence?: number;
+}
+export const ExpenseType = S.suspend(() =>
+  S.Struct({ Text: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotate({ identifier: "ExpenseType" }) as any as S.Schema<ExpenseType>;
+export interface ExpenseDetection {
+  Text?: string;
+  Geometry?: Geometry;
+  Confidence?: number;
+}
+export const ExpenseDetection = S.suspend(() =>
+  S.Struct({
+    Text: S.optional(S.String),
+    Geometry: S.optional(Geometry),
+    Confidence: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ExpenseDetection",
+}) as any as S.Schema<ExpenseDetection>;
+export interface ExpenseCurrency {
+  Code?: string;
+  Confidence?: number;
+}
+export const ExpenseCurrency = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotate({
+  identifier: "ExpenseCurrency",
+}) as any as S.Schema<ExpenseCurrency>;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
-export interface ExpenseGroupProperty { Types?: string[]; Id?: string }
-export const ExpenseGroupProperty = S.suspend(() => S.Struct({Types: S.optional(StringList), Id: S.optional(S.String)})).annotate({ identifier: "ExpenseGroupProperty" }) as any as S.Schema<ExpenseGroupProperty>;
+export interface ExpenseGroupProperty {
+  Types?: string[];
+  Id?: string;
+}
+export const ExpenseGroupProperty = S.suspend(() =>
+  S.Struct({ Types: S.optional(StringList), Id: S.optional(S.String) }),
+).annotate({
+  identifier: "ExpenseGroupProperty",
+}) as any as S.Schema<ExpenseGroupProperty>;
 export type ExpenseGroupPropertyList = ExpenseGroupProperty[];
 export const ExpenseGroupPropertyList = S.Array(ExpenseGroupProperty);
-export interface ExpenseField { Type?: ExpenseType; LabelDetection?: ExpenseDetection; ValueDetection?: ExpenseDetection; PageNumber?: number; Currency?: ExpenseCurrency; GroupProperties?: ExpenseGroupProperty[] }
-export const ExpenseField = S.suspend(() => S.Struct({Type: S.optional(ExpenseType), LabelDetection: S.optional(ExpenseDetection), ValueDetection: S.optional(ExpenseDetection), PageNumber: S.optional(S.Number), Currency: S.optional(ExpenseCurrency), GroupProperties: S.optional(ExpenseGroupPropertyList)})).annotate({ identifier: "ExpenseField" }) as any as S.Schema<ExpenseField>;
+export interface ExpenseField {
+  Type?: ExpenseType;
+  LabelDetection?: ExpenseDetection;
+  ValueDetection?: ExpenseDetection;
+  PageNumber?: number;
+  Currency?: ExpenseCurrency;
+  GroupProperties?: ExpenseGroupProperty[];
+}
+export const ExpenseField = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(ExpenseType),
+    LabelDetection: S.optional(ExpenseDetection),
+    ValueDetection: S.optional(ExpenseDetection),
+    PageNumber: S.optional(S.Number),
+    Currency: S.optional(ExpenseCurrency),
+    GroupProperties: S.optional(ExpenseGroupPropertyList),
+  }),
+).annotate({ identifier: "ExpenseField" }) as any as S.Schema<ExpenseField>;
 export type ExpenseFieldList = ExpenseField[];
 export const ExpenseFieldList = S.Array(ExpenseField);
-export interface LineItemFields { LineItemExpenseFields?: ExpenseField[] }
-export const LineItemFields = S.suspend(() => S.Struct({LineItemExpenseFields: S.optional(ExpenseFieldList)})).annotate({ identifier: "LineItemFields" }) as any as S.Schema<LineItemFields>;
+export interface LineItemFields {
+  LineItemExpenseFields?: ExpenseField[];
+}
+export const LineItemFields = S.suspend(() =>
+  S.Struct({ LineItemExpenseFields: S.optional(ExpenseFieldList) }),
+).annotate({ identifier: "LineItemFields" }) as any as S.Schema<LineItemFields>;
 export type LineItemList = LineItemFields[];
 export const LineItemList = S.Array(LineItemFields);
-export interface LineItemGroup { LineItemGroupIndex?: number; LineItems?: LineItemFields[] }
-export const LineItemGroup = S.suspend(() => S.Struct({LineItemGroupIndex: S.optional(S.Number), LineItems: S.optional(LineItemList)})).annotate({ identifier: "LineItemGroup" }) as any as S.Schema<LineItemGroup>;
+export interface LineItemGroup {
+  LineItemGroupIndex?: number;
+  LineItems?: LineItemFields[];
+}
+export const LineItemGroup = S.suspend(() =>
+  S.Struct({
+    LineItemGroupIndex: S.optional(S.Number),
+    LineItems: S.optional(LineItemList),
+  }),
+).annotate({ identifier: "LineItemGroup" }) as any as S.Schema<LineItemGroup>;
 export type LineItemGroupList = LineItemGroup[];
 export const LineItemGroupList = S.Array(LineItemGroup);
-export interface ExpenseDocument { ExpenseIndex?: number; SummaryFields?: ExpenseField[]; LineItemGroups?: LineItemGroup[]; Blocks?: Block[] }
-export const ExpenseDocument = S.suspend(() => S.Struct({ExpenseIndex: S.optional(S.Number), SummaryFields: S.optional(ExpenseFieldList), LineItemGroups: S.optional(LineItemGroupList), Blocks: S.optional(BlockList)})).annotate({ identifier: "ExpenseDocument" }) as any as S.Schema<ExpenseDocument>;
+export interface ExpenseDocument {
+  ExpenseIndex?: number;
+  SummaryFields?: ExpenseField[];
+  LineItemGroups?: LineItemGroup[];
+  Blocks?: Block[];
+}
+export const ExpenseDocument = S.suspend(() =>
+  S.Struct({
+    ExpenseIndex: S.optional(S.Number),
+    SummaryFields: S.optional(ExpenseFieldList),
+    LineItemGroups: S.optional(LineItemGroupList),
+    Blocks: S.optional(BlockList),
+  }),
+).annotate({
+  identifier: "ExpenseDocument",
+}) as any as S.Schema<ExpenseDocument>;
 export type ExpenseDocumentList = ExpenseDocument[];
 export const ExpenseDocumentList = S.Array(ExpenseDocument);
-export interface AnalyzeExpenseResponse { DocumentMetadata?: DocumentMetadata; ExpenseDocuments?: ExpenseDocument[] }
-export const AnalyzeExpenseResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), ExpenseDocuments: S.optional(ExpenseDocumentList)})).annotate({ identifier: "AnalyzeExpenseResponse" }) as any as S.Schema<AnalyzeExpenseResponse>;
+export interface AnalyzeExpenseResponse {
+  DocumentMetadata?: DocumentMetadata;
+  ExpenseDocuments?: ExpenseDocument[];
+}
+export const AnalyzeExpenseResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    ExpenseDocuments: S.optional(ExpenseDocumentList),
+  }),
+).annotate({
+  identifier: "AnalyzeExpenseResponse",
+}) as any as S.Schema<AnalyzeExpenseResponse>;
 export type DocumentPages = Document[];
 export const DocumentPages = S.Array(Document);
-export interface AnalyzeIDRequest { DocumentPages: Document[] }
-export const AnalyzeIDRequest = S.suspend(() => S.Struct({DocumentPages: DocumentPages}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "AnalyzeIDRequest" }) as any as S.Schema<AnalyzeIDRequest>;
-export type ValueType =
-  | "DATE"
-  | (string & {});
+export interface AnalyzeIDRequest {
+  DocumentPages: Document[];
+}
+export const AnalyzeIDRequest = S.suspend(() =>
+  S.Struct({ DocumentPages: DocumentPages }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AnalyzeIDRequest",
+}) as any as S.Schema<AnalyzeIDRequest>;
+export type ValueType = "DATE" | (string & {});
 export const ValueType = S.String;
-export interface NormalizedValue { Value?: string; ValueType?: ValueType }
-export const NormalizedValue = S.suspend(() => S.Struct({Value: S.optional(S.String), ValueType: S.optional(ValueType)})).annotate({ identifier: "NormalizedValue" }) as any as S.Schema<NormalizedValue>;
-export interface AnalyzeIDDetections { Text: string; NormalizedValue?: NormalizedValue; Confidence?: number }
-export const AnalyzeIDDetections = S.suspend(() => S.Struct({Text: S.String, NormalizedValue: S.optional(NormalizedValue), Confidence: S.optional(S.Number)})).annotate({ identifier: "AnalyzeIDDetections" }) as any as S.Schema<AnalyzeIDDetections>;
-export interface IdentityDocumentField { Type?: AnalyzeIDDetections; ValueDetection?: AnalyzeIDDetections }
-export const IdentityDocumentField = S.suspend(() => S.Struct({Type: S.optional(AnalyzeIDDetections), ValueDetection: S.optional(AnalyzeIDDetections)})).annotate({ identifier: "IdentityDocumentField" }) as any as S.Schema<IdentityDocumentField>;
+export interface NormalizedValue {
+  Value?: string;
+  ValueType?: ValueType;
+}
+export const NormalizedValue = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String), ValueType: S.optional(ValueType) }),
+).annotate({
+  identifier: "NormalizedValue",
+}) as any as S.Schema<NormalizedValue>;
+export interface AnalyzeIDDetections {
+  Text: string;
+  NormalizedValue?: NormalizedValue;
+  Confidence?: number;
+}
+export const AnalyzeIDDetections = S.suspend(() =>
+  S.Struct({
+    Text: S.String,
+    NormalizedValue: S.optional(NormalizedValue),
+    Confidence: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "AnalyzeIDDetections",
+}) as any as S.Schema<AnalyzeIDDetections>;
+export interface IdentityDocumentField {
+  Type?: AnalyzeIDDetections;
+  ValueDetection?: AnalyzeIDDetections;
+}
+export const IdentityDocumentField = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(AnalyzeIDDetections),
+    ValueDetection: S.optional(AnalyzeIDDetections),
+  }),
+).annotate({
+  identifier: "IdentityDocumentField",
+}) as any as S.Schema<IdentityDocumentField>;
 export type IdentityDocumentFieldList = IdentityDocumentField[];
 export const IdentityDocumentFieldList = S.Array(IdentityDocumentField);
-export interface IdentityDocument { DocumentIndex?: number; IdentityDocumentFields?: IdentityDocumentField[]; Blocks?: Block[] }
-export const IdentityDocument = S.suspend(() => S.Struct({DocumentIndex: S.optional(S.Number), IdentityDocumentFields: S.optional(IdentityDocumentFieldList), Blocks: S.optional(BlockList)})).annotate({ identifier: "IdentityDocument" }) as any as S.Schema<IdentityDocument>;
+export interface IdentityDocument {
+  DocumentIndex?: number;
+  IdentityDocumentFields?: IdentityDocumentField[];
+  Blocks?: Block[];
+}
+export const IdentityDocument = S.suspend(() =>
+  S.Struct({
+    DocumentIndex: S.optional(S.Number),
+    IdentityDocumentFields: S.optional(IdentityDocumentFieldList),
+    Blocks: S.optional(BlockList),
+  }),
+).annotate({
+  identifier: "IdentityDocument",
+}) as any as S.Schema<IdentityDocument>;
 export type IdentityDocumentList = IdentityDocument[];
 export const IdentityDocumentList = S.Array(IdentityDocument);
-export interface AnalyzeIDResponse { IdentityDocuments?: IdentityDocument[]; DocumentMetadata?: DocumentMetadata; AnalyzeIDModelVersion?: string }
-export const AnalyzeIDResponse = S.suspend(() => S.Struct({IdentityDocuments: S.optional(IdentityDocumentList), DocumentMetadata: S.optional(DocumentMetadata), AnalyzeIDModelVersion: S.optional(S.String)})).annotate({ identifier: "AnalyzeIDResponse" }) as any as S.Schema<AnalyzeIDResponse>;
-export type AutoUpdate =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export interface AnalyzeIDResponse {
+  IdentityDocuments?: IdentityDocument[];
+  DocumentMetadata?: DocumentMetadata;
+  AnalyzeIDModelVersion?: string;
+}
+export const AnalyzeIDResponse = S.suspend(() =>
+  S.Struct({
+    IdentityDocuments: S.optional(IdentityDocumentList),
+    DocumentMetadata: S.optional(DocumentMetadata),
+    AnalyzeIDModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AnalyzeIDResponse",
+}) as any as S.Schema<AnalyzeIDResponse>;
+export type AutoUpdate = "ENABLED" | "DISABLED" | (string & {});
 export const AutoUpdate = S.String;
 export type TagMap = { [key: string]: string | undefined };
 export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
-export interface CreateAdapterRequest { AdapterName: string; ClientRequestToken?: string; Description?: string; FeatureTypes: FeatureType[]; AutoUpdate?: AutoUpdate; Tags?: { [key: string]: string | undefined } }
-export const CreateAdapterRequest = S.suspend(() => S.Struct({AdapterName: S.String, ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()), Description: S.optional(S.String), FeatureTypes: FeatureTypes, AutoUpdate: S.optional(AutoUpdate), Tags: S.optional(TagMap)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateAdapterRequest" }) as any as S.Schema<CreateAdapterRequest>;
-export interface CreateAdapterResponse { AdapterId?: string }
-export const CreateAdapterResponse = S.suspend(() => S.Struct({AdapterId: S.optional(S.String)})).annotate({ identifier: "CreateAdapterResponse" }) as any as S.Schema<CreateAdapterResponse>;
-export interface AdapterVersionDatasetConfig { ManifestS3Object?: S3Object }
-export const AdapterVersionDatasetConfig = S.suspend(() => S.Struct({ManifestS3Object: S.optional(S3Object)})).annotate({ identifier: "AdapterVersionDatasetConfig" }) as any as S.Schema<AdapterVersionDatasetConfig>;
-export interface OutputConfig { S3Bucket: string; S3Prefix?: string }
-export const OutputConfig = S.suspend(() => S.Struct({S3Bucket: S.String, S3Prefix: S.optional(S.String)})).annotate({ identifier: "OutputConfig" }) as any as S.Schema<OutputConfig>;
-export interface CreateAdapterVersionRequest { AdapterId: string; ClientRequestToken?: string; DatasetConfig: AdapterVersionDatasetConfig; KMSKeyId?: string; OutputConfig: OutputConfig; Tags?: { [key: string]: string | undefined } }
-export const CreateAdapterVersionRequest = S.suspend(() => S.Struct({AdapterId: S.String, ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()), DatasetConfig: AdapterVersionDatasetConfig, KMSKeyId: S.optional(S.String), OutputConfig: OutputConfig, Tags: S.optional(TagMap)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateAdapterVersionRequest" }) as any as S.Schema<CreateAdapterVersionRequest>;
-export interface CreateAdapterVersionResponse { AdapterId?: string; AdapterVersion?: string }
-export const CreateAdapterVersionResponse = S.suspend(() => S.Struct({AdapterId: S.optional(S.String), AdapterVersion: S.optional(S.String)})).annotate({ identifier: "CreateAdapterVersionResponse" }) as any as S.Schema<CreateAdapterVersionResponse>;
-export interface DeleteAdapterRequest { AdapterId: string }
-export const DeleteAdapterRequest = S.suspend(() => S.Struct({AdapterId: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteAdapterRequest" }) as any as S.Schema<DeleteAdapterRequest>;
-export interface DeleteAdapterResponse {  }
-export const DeleteAdapterResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAdapterResponse" }) as any as S.Schema<DeleteAdapterResponse>;
-export interface DeleteAdapterVersionRequest { AdapterId: string; AdapterVersion: string }
-export const DeleteAdapterVersionRequest = S.suspend(() => S.Struct({AdapterId: S.String, AdapterVersion: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteAdapterVersionRequest" }) as any as S.Schema<DeleteAdapterVersionRequest>;
-export interface DeleteAdapterVersionResponse {  }
-export const DeleteAdapterVersionResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAdapterVersionResponse" }) as any as S.Schema<DeleteAdapterVersionResponse>;
-export interface DetectDocumentTextRequest { Document: Document }
-export const DetectDocumentTextRequest = S.suspend(() => S.Struct({Document: Document}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DetectDocumentTextRequest" }) as any as S.Schema<DetectDocumentTextRequest>;
-export interface DetectDocumentTextResponse { DocumentMetadata?: DocumentMetadata; Blocks?: Block[]; DetectDocumentTextModelVersion?: string }
-export const DetectDocumentTextResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), Blocks: S.optional(BlockList), DetectDocumentTextModelVersion: S.optional(S.String)})).annotate({ identifier: "DetectDocumentTextResponse" }) as any as S.Schema<DetectDocumentTextResponse>;
-export interface GetAdapterRequest { AdapterId: string }
-export const GetAdapterRequest = S.suspend(() => S.Struct({AdapterId: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetAdapterRequest" }) as any as S.Schema<GetAdapterRequest>;
-export interface GetAdapterResponse { AdapterId?: string; AdapterName?: string; CreationTime?: Date; Description?: string; FeatureTypes?: FeatureType[]; AutoUpdate?: AutoUpdate; Tags?: { [key: string]: string | undefined } }
-export const GetAdapterResponse = S.suspend(() => S.Struct({AdapterId: S.optional(S.String), AdapterName: S.optional(S.String), CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), Description: S.optional(S.String), FeatureTypes: S.optional(FeatureTypes), AutoUpdate: S.optional(AutoUpdate), Tags: S.optional(TagMap)})).annotate({ identifier: "GetAdapterResponse" }) as any as S.Schema<GetAdapterResponse>;
-export interface GetAdapterVersionRequest { AdapterId: string; AdapterVersion: string }
-export const GetAdapterVersionRequest = S.suspend(() => S.Struct({AdapterId: S.String, AdapterVersion: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetAdapterVersionRequest" }) as any as S.Schema<GetAdapterVersionRequest>;
+export interface CreateAdapterRequest {
+  AdapterName: string;
+  ClientRequestToken?: string;
+  Description?: string;
+  FeatureTypes: FeatureType[];
+  AutoUpdate?: AutoUpdate;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreateAdapterRequest = S.suspend(() =>
+  S.Struct({
+    AdapterName: S.String,
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Description: S.optional(S.String),
+    FeatureTypes: FeatureTypes,
+    AutoUpdate: S.optional(AutoUpdate),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateAdapterRequest",
+}) as any as S.Schema<CreateAdapterRequest>;
+export interface CreateAdapterResponse {
+  AdapterId?: string;
+}
+export const CreateAdapterResponse = S.suspend(() =>
+  S.Struct({ AdapterId: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateAdapterResponse",
+}) as any as S.Schema<CreateAdapterResponse>;
+export interface AdapterVersionDatasetConfig {
+  ManifestS3Object?: S3Object;
+}
+export const AdapterVersionDatasetConfig = S.suspend(() =>
+  S.Struct({ ManifestS3Object: S.optional(S3Object) }),
+).annotate({
+  identifier: "AdapterVersionDatasetConfig",
+}) as any as S.Schema<AdapterVersionDatasetConfig>;
+export interface OutputConfig {
+  S3Bucket: string;
+  S3Prefix?: string;
+}
+export const OutputConfig = S.suspend(() =>
+  S.Struct({ S3Bucket: S.String, S3Prefix: S.optional(S.String) }),
+).annotate({ identifier: "OutputConfig" }) as any as S.Schema<OutputConfig>;
+export interface CreateAdapterVersionRequest {
+  AdapterId: string;
+  ClientRequestToken?: string;
+  DatasetConfig: AdapterVersionDatasetConfig;
+  KMSKeyId?: string;
+  OutputConfig: OutputConfig;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreateAdapterVersionRequest = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.String,
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DatasetConfig: AdapterVersionDatasetConfig,
+    KMSKeyId: S.optional(S.String),
+    OutputConfig: OutputConfig,
+    Tags: S.optional(TagMap),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateAdapterVersionRequest",
+}) as any as S.Schema<CreateAdapterVersionRequest>;
+export interface CreateAdapterVersionResponse {
+  AdapterId?: string;
+  AdapterVersion?: string;
+}
+export const CreateAdapterVersionResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateAdapterVersionResponse",
+}) as any as S.Schema<CreateAdapterVersionResponse>;
+export interface DeleteAdapterRequest {
+  AdapterId: string;
+}
+export const DeleteAdapterRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteAdapterRequest",
+}) as any as S.Schema<DeleteAdapterRequest>;
+export interface DeleteAdapterResponse {}
+export const DeleteAdapterResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteAdapterResponse",
+}) as any as S.Schema<DeleteAdapterResponse>;
+export interface DeleteAdapterVersionRequest {
+  AdapterId: string;
+  AdapterVersion: string;
+}
+export const DeleteAdapterVersionRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String, AdapterVersion: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteAdapterVersionRequest",
+}) as any as S.Schema<DeleteAdapterVersionRequest>;
+export interface DeleteAdapterVersionResponse {}
+export const DeleteAdapterVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteAdapterVersionResponse",
+}) as any as S.Schema<DeleteAdapterVersionResponse>;
+export interface DetectDocumentTextRequest {
+  Document: Document;
+}
+export const DetectDocumentTextRequest = S.suspend(() =>
+  S.Struct({ Document: Document }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DetectDocumentTextRequest",
+}) as any as S.Schema<DetectDocumentTextRequest>;
+export interface DetectDocumentTextResponse {
+  DocumentMetadata?: DocumentMetadata;
+  Blocks?: Block[];
+  DetectDocumentTextModelVersion?: string;
+}
+export const DetectDocumentTextResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    Blocks: S.optional(BlockList),
+    DetectDocumentTextModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DetectDocumentTextResponse",
+}) as any as S.Schema<DetectDocumentTextResponse>;
+export interface GetAdapterRequest {
+  AdapterId: string;
+}
+export const GetAdapterRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetAdapterRequest",
+}) as any as S.Schema<GetAdapterRequest>;
+export interface GetAdapterResponse {
+  AdapterId?: string;
+  AdapterName?: string;
+  CreationTime?: Date;
+  Description?: string;
+  FeatureTypes?: FeatureType[];
+  AutoUpdate?: AutoUpdate;
+  Tags?: { [key: string]: string | undefined };
+}
+export const GetAdapterResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    FeatureTypes: S.optional(FeatureTypes),
+    AutoUpdate: S.optional(AutoUpdate),
+    Tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "GetAdapterResponse",
+}) as any as S.Schema<GetAdapterResponse>;
+export interface GetAdapterVersionRequest {
+  AdapterId: string;
+  AdapterVersion: string;
+}
+export const GetAdapterVersionRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String, AdapterVersion: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetAdapterVersionRequest",
+}) as any as S.Schema<GetAdapterVersionRequest>;
 export type AdapterVersionStatus =
   | "ACTIVE"
   | "AT_RISK"
@@ -324,16 +820,84 @@ export type AdapterVersionStatus =
   | "CREATION_IN_PROGRESS"
   | (string & {});
 export const AdapterVersionStatus = S.String;
-export interface EvaluationMetric { F1Score?: number; Precision?: number; Recall?: number }
-export const EvaluationMetric = S.suspend(() => S.Struct({F1Score: S.optional(S.Number), Precision: S.optional(S.Number), Recall: S.optional(S.Number)})).annotate({ identifier: "EvaluationMetric" }) as any as S.Schema<EvaluationMetric>;
-export interface AdapterVersionEvaluationMetric { Baseline?: EvaluationMetric; AdapterVersion?: EvaluationMetric; FeatureType?: FeatureType }
-export const AdapterVersionEvaluationMetric = S.suspend(() => S.Struct({Baseline: S.optional(EvaluationMetric), AdapterVersion: S.optional(EvaluationMetric), FeatureType: S.optional(FeatureType)})).annotate({ identifier: "AdapterVersionEvaluationMetric" }) as any as S.Schema<AdapterVersionEvaluationMetric>;
+export interface EvaluationMetric {
+  F1Score?: number;
+  Precision?: number;
+  Recall?: number;
+}
+export const EvaluationMetric = S.suspend(() =>
+  S.Struct({
+    F1Score: S.optional(S.Number),
+    Precision: S.optional(S.Number),
+    Recall: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "EvaluationMetric",
+}) as any as S.Schema<EvaluationMetric>;
+export interface AdapterVersionEvaluationMetric {
+  Baseline?: EvaluationMetric;
+  AdapterVersion?: EvaluationMetric;
+  FeatureType?: FeatureType;
+}
+export const AdapterVersionEvaluationMetric = S.suspend(() =>
+  S.Struct({
+    Baseline: S.optional(EvaluationMetric),
+    AdapterVersion: S.optional(EvaluationMetric),
+    FeatureType: S.optional(FeatureType),
+  }),
+).annotate({
+  identifier: "AdapterVersionEvaluationMetric",
+}) as any as S.Schema<AdapterVersionEvaluationMetric>;
 export type AdapterVersionEvaluationMetrics = AdapterVersionEvaluationMetric[];
-export const AdapterVersionEvaluationMetrics = S.Array(AdapterVersionEvaluationMetric);
-export interface GetAdapterVersionResponse { AdapterId?: string; AdapterVersion?: string; CreationTime?: Date; FeatureTypes?: FeatureType[]; Status?: AdapterVersionStatus; StatusMessage?: string; DatasetConfig?: AdapterVersionDatasetConfig; KMSKeyId?: string; OutputConfig?: OutputConfig; EvaluationMetrics?: AdapterVersionEvaluationMetric[]; Tags?: { [key: string]: string | undefined } }
-export const GetAdapterVersionResponse = S.suspend(() => S.Struct({AdapterId: S.optional(S.String), AdapterVersion: S.optional(S.String), CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), FeatureTypes: S.optional(FeatureTypes), Status: S.optional(AdapterVersionStatus), StatusMessage: S.optional(S.String), DatasetConfig: S.optional(AdapterVersionDatasetConfig), KMSKeyId: S.optional(S.String), OutputConfig: S.optional(OutputConfig), EvaluationMetrics: S.optional(AdapterVersionEvaluationMetrics), Tags: S.optional(TagMap)})).annotate({ identifier: "GetAdapterVersionResponse" }) as any as S.Schema<GetAdapterVersionResponse>;
-export interface GetDocumentAnalysisRequest { JobId: string; MaxResults?: number; NextToken?: string }
-export const GetDocumentAnalysisRequest = S.suspend(() => S.Struct({JobId: S.String, MaxResults: S.optional(S.Number), NextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetDocumentAnalysisRequest" }) as any as S.Schema<GetDocumentAnalysisRequest>;
+export const AdapterVersionEvaluationMetrics = S.Array(
+  AdapterVersionEvaluationMetric,
+);
+export interface GetAdapterVersionResponse {
+  AdapterId?: string;
+  AdapterVersion?: string;
+  CreationTime?: Date;
+  FeatureTypes?: FeatureType[];
+  Status?: AdapterVersionStatus;
+  StatusMessage?: string;
+  DatasetConfig?: AdapterVersionDatasetConfig;
+  KMSKeyId?: string;
+  OutputConfig?: OutputConfig;
+  EvaluationMetrics?: AdapterVersionEvaluationMetric[];
+  Tags?: { [key: string]: string | undefined };
+}
+export const GetAdapterVersionResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterVersion: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FeatureTypes: S.optional(FeatureTypes),
+    Status: S.optional(AdapterVersionStatus),
+    StatusMessage: S.optional(S.String),
+    DatasetConfig: S.optional(AdapterVersionDatasetConfig),
+    KMSKeyId: S.optional(S.String),
+    OutputConfig: S.optional(OutputConfig),
+    EvaluationMetrics: S.optional(AdapterVersionEvaluationMetrics),
+    Tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "GetAdapterVersionResponse",
+}) as any as S.Schema<GetAdapterVersionResponse>;
+export interface GetDocumentAnalysisRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetDocumentAnalysisRequest = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetDocumentAnalysisRequest",
+}) as any as S.Schema<GetDocumentAnalysisRequest>;
 export type JobStatus =
   | "IN_PROGRESS"
   | "SUCCEEDED"
@@ -343,152 +907,765 @@ export type JobStatus =
 export const JobStatus = S.String;
 export type Pages = number[];
 export const Pages = S.Array(S.Number);
-export interface Warning { ErrorCode?: string; Pages?: number[] }
-export const Warning = S.suspend(() => S.Struct({ErrorCode: S.optional(S.String), Pages: S.optional(Pages)})).annotate({ identifier: "Warning" }) as any as S.Schema<Warning>;
+export interface Warning {
+  ErrorCode?: string;
+  Pages?: number[];
+}
+export const Warning = S.suspend(() =>
+  S.Struct({ ErrorCode: S.optional(S.String), Pages: S.optional(Pages) }),
+).annotate({ identifier: "Warning" }) as any as S.Schema<Warning>;
 export type Warnings = Warning[];
 export const Warnings = S.Array(Warning);
-export interface GetDocumentAnalysisResponse { DocumentMetadata?: DocumentMetadata; JobStatus?: JobStatus; NextToken?: string; Blocks?: Block[]; Warnings?: Warning[]; StatusMessage?: string; AnalyzeDocumentModelVersion?: string }
-export const GetDocumentAnalysisResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), JobStatus: S.optional(JobStatus), NextToken: S.optional(S.String), Blocks: S.optional(BlockList), Warnings: S.optional(Warnings), StatusMessage: S.optional(S.String), AnalyzeDocumentModelVersion: S.optional(S.String)})).annotate({ identifier: "GetDocumentAnalysisResponse" }) as any as S.Schema<GetDocumentAnalysisResponse>;
-export interface GetDocumentTextDetectionRequest { JobId: string; MaxResults?: number; NextToken?: string }
-export const GetDocumentTextDetectionRequest = S.suspend(() => S.Struct({JobId: S.String, MaxResults: S.optional(S.Number), NextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetDocumentTextDetectionRequest" }) as any as S.Schema<GetDocumentTextDetectionRequest>;
-export interface GetDocumentTextDetectionResponse { DocumentMetadata?: DocumentMetadata; JobStatus?: JobStatus; NextToken?: string; Blocks?: Block[]; Warnings?: Warning[]; StatusMessage?: string; DetectDocumentTextModelVersion?: string }
-export const GetDocumentTextDetectionResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), JobStatus: S.optional(JobStatus), NextToken: S.optional(S.String), Blocks: S.optional(BlockList), Warnings: S.optional(Warnings), StatusMessage: S.optional(S.String), DetectDocumentTextModelVersion: S.optional(S.String)})).annotate({ identifier: "GetDocumentTextDetectionResponse" }) as any as S.Schema<GetDocumentTextDetectionResponse>;
-export interface GetExpenseAnalysisRequest { JobId: string; MaxResults?: number; NextToken?: string }
-export const GetExpenseAnalysisRequest = S.suspend(() => S.Struct({JobId: S.String, MaxResults: S.optional(S.Number), NextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetExpenseAnalysisRequest" }) as any as S.Schema<GetExpenseAnalysisRequest>;
-export interface GetExpenseAnalysisResponse { DocumentMetadata?: DocumentMetadata; JobStatus?: JobStatus; NextToken?: string; ExpenseDocuments?: ExpenseDocument[]; Warnings?: Warning[]; StatusMessage?: string; AnalyzeExpenseModelVersion?: string }
-export const GetExpenseAnalysisResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), JobStatus: S.optional(JobStatus), NextToken: S.optional(S.String), ExpenseDocuments: S.optional(ExpenseDocumentList), Warnings: S.optional(Warnings), StatusMessage: S.optional(S.String), AnalyzeExpenseModelVersion: S.optional(S.String)})).annotate({ identifier: "GetExpenseAnalysisResponse" }) as any as S.Schema<GetExpenseAnalysisResponse>;
-export interface GetLendingAnalysisRequest { JobId: string; MaxResults?: number; NextToken?: string }
-export const GetLendingAnalysisRequest = S.suspend(() => S.Struct({JobId: S.String, MaxResults: S.optional(S.Number), NextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetLendingAnalysisRequest" }) as any as S.Schema<GetLendingAnalysisRequest>;
-export interface Prediction { Value?: string; Confidence?: number }
-export const Prediction = S.suspend(() => S.Struct({Value: S.optional(S.String), Confidence: S.optional(S.Number)})).annotate({ identifier: "Prediction" }) as any as S.Schema<Prediction>;
+export interface GetDocumentAnalysisResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: JobStatus;
+  NextToken?: string;
+  Blocks?: Block[];
+  Warnings?: Warning[];
+  StatusMessage?: string;
+  AnalyzeDocumentModelVersion?: string;
+}
+export const GetDocumentAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(JobStatus),
+    NextToken: S.optional(S.String),
+    Blocks: S.optional(BlockList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeDocumentModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetDocumentAnalysisResponse",
+}) as any as S.Schema<GetDocumentAnalysisResponse>;
+export interface GetDocumentTextDetectionRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetDocumentTextDetectionRequest = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetDocumentTextDetectionRequest",
+}) as any as S.Schema<GetDocumentTextDetectionRequest>;
+export interface GetDocumentTextDetectionResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: JobStatus;
+  NextToken?: string;
+  Blocks?: Block[];
+  Warnings?: Warning[];
+  StatusMessage?: string;
+  DetectDocumentTextModelVersion?: string;
+}
+export const GetDocumentTextDetectionResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(JobStatus),
+    NextToken: S.optional(S.String),
+    Blocks: S.optional(BlockList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    DetectDocumentTextModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetDocumentTextDetectionResponse",
+}) as any as S.Schema<GetDocumentTextDetectionResponse>;
+export interface GetExpenseAnalysisRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetExpenseAnalysisRequest = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetExpenseAnalysisRequest",
+}) as any as S.Schema<GetExpenseAnalysisRequest>;
+export interface GetExpenseAnalysisResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: JobStatus;
+  NextToken?: string;
+  ExpenseDocuments?: ExpenseDocument[];
+  Warnings?: Warning[];
+  StatusMessage?: string;
+  AnalyzeExpenseModelVersion?: string;
+}
+export const GetExpenseAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(JobStatus),
+    NextToken: S.optional(S.String),
+    ExpenseDocuments: S.optional(ExpenseDocumentList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeExpenseModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetExpenseAnalysisResponse",
+}) as any as S.Schema<GetExpenseAnalysisResponse>;
+export interface GetLendingAnalysisRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetLendingAnalysisRequest = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetLendingAnalysisRequest",
+}) as any as S.Schema<GetLendingAnalysisRequest>;
+export interface Prediction {
+  Value?: string;
+  Confidence?: number;
+}
+export const Prediction = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotate({ identifier: "Prediction" }) as any as S.Schema<Prediction>;
 export type PredictionList = Prediction[];
 export const PredictionList = S.Array(Prediction);
-export interface PageClassification { PageType: Prediction[]; PageNumber: Prediction[] }
-export const PageClassification = S.suspend(() => S.Struct({PageType: PredictionList, PageNumber: PredictionList})).annotate({ identifier: "PageClassification" }) as any as S.Schema<PageClassification>;
-export interface LendingDetection { Text?: string; SelectionStatus?: SelectionStatus; Geometry?: Geometry; Confidence?: number }
-export const LendingDetection = S.suspend(() => S.Struct({Text: S.optional(S.String), SelectionStatus: S.optional(SelectionStatus), Geometry: S.optional(Geometry), Confidence: S.optional(S.Number)})).annotate({ identifier: "LendingDetection" }) as any as S.Schema<LendingDetection>;
+export interface PageClassification {
+  PageType: Prediction[];
+  PageNumber: Prediction[];
+}
+export const PageClassification = S.suspend(() =>
+  S.Struct({ PageType: PredictionList, PageNumber: PredictionList }),
+).annotate({
+  identifier: "PageClassification",
+}) as any as S.Schema<PageClassification>;
+export interface LendingDetection {
+  Text?: string;
+  SelectionStatus?: SelectionStatus;
+  Geometry?: Geometry;
+  Confidence?: number;
+}
+export const LendingDetection = S.suspend(() =>
+  S.Struct({
+    Text: S.optional(S.String),
+    SelectionStatus: S.optional(SelectionStatus),
+    Geometry: S.optional(Geometry),
+    Confidence: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "LendingDetection",
+}) as any as S.Schema<LendingDetection>;
 export type LendingDetectionList = LendingDetection[];
 export const LendingDetectionList = S.Array(LendingDetection);
-export interface LendingField { Type?: string; KeyDetection?: LendingDetection; ValueDetections?: LendingDetection[] }
-export const LendingField = S.suspend(() => S.Struct({Type: S.optional(S.String), KeyDetection: S.optional(LendingDetection), ValueDetections: S.optional(LendingDetectionList)})).annotate({ identifier: "LendingField" }) as any as S.Schema<LendingField>;
+export interface LendingField {
+  Type?: string;
+  KeyDetection?: LendingDetection;
+  ValueDetections?: LendingDetection[];
+}
+export const LendingField = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    KeyDetection: S.optional(LendingDetection),
+    ValueDetections: S.optional(LendingDetectionList),
+  }),
+).annotate({ identifier: "LendingField" }) as any as S.Schema<LendingField>;
 export type LendingFieldList = LendingField[];
 export const LendingFieldList = S.Array(LendingField);
-export interface SignatureDetection { Confidence?: number; Geometry?: Geometry }
-export const SignatureDetection = S.suspend(() => S.Struct({Confidence: S.optional(S.Number), Geometry: S.optional(Geometry)})).annotate({ identifier: "SignatureDetection" }) as any as S.Schema<SignatureDetection>;
+export interface SignatureDetection {
+  Confidence?: number;
+  Geometry?: Geometry;
+}
+export const SignatureDetection = S.suspend(() =>
+  S.Struct({
+    Confidence: S.optional(S.Number),
+    Geometry: S.optional(Geometry),
+  }),
+).annotate({
+  identifier: "SignatureDetection",
+}) as any as S.Schema<SignatureDetection>;
 export type SignatureDetectionList = SignatureDetection[];
 export const SignatureDetectionList = S.Array(SignatureDetection);
-export interface LendingDocument { LendingFields?: LendingField[]; SignatureDetections?: SignatureDetection[] }
-export const LendingDocument = S.suspend(() => S.Struct({LendingFields: S.optional(LendingFieldList), SignatureDetections: S.optional(SignatureDetectionList)})).annotate({ identifier: "LendingDocument" }) as any as S.Schema<LendingDocument>;
-export interface Extraction { LendingDocument?: LendingDocument; ExpenseDocument?: ExpenseDocument; IdentityDocument?: IdentityDocument }
-export const Extraction = S.suspend(() => S.Struct({LendingDocument: S.optional(LendingDocument), ExpenseDocument: S.optional(ExpenseDocument), IdentityDocument: S.optional(IdentityDocument)})).annotate({ identifier: "Extraction" }) as any as S.Schema<Extraction>;
+export interface LendingDocument {
+  LendingFields?: LendingField[];
+  SignatureDetections?: SignatureDetection[];
+}
+export const LendingDocument = S.suspend(() =>
+  S.Struct({
+    LendingFields: S.optional(LendingFieldList),
+    SignatureDetections: S.optional(SignatureDetectionList),
+  }),
+).annotate({
+  identifier: "LendingDocument",
+}) as any as S.Schema<LendingDocument>;
+export interface Extraction {
+  LendingDocument?: LendingDocument;
+  ExpenseDocument?: ExpenseDocument;
+  IdentityDocument?: IdentityDocument;
+}
+export const Extraction = S.suspend(() =>
+  S.Struct({
+    LendingDocument: S.optional(LendingDocument),
+    ExpenseDocument: S.optional(ExpenseDocument),
+    IdentityDocument: S.optional(IdentityDocument),
+  }),
+).annotate({ identifier: "Extraction" }) as any as S.Schema<Extraction>;
 export type ExtractionList = Extraction[];
 export const ExtractionList = S.Array(Extraction);
-export interface LendingResult { Page?: number; PageClassification?: PageClassification; Extractions?: Extraction[] }
-export const LendingResult = S.suspend(() => S.Struct({Page: S.optional(S.Number), PageClassification: S.optional(PageClassification), Extractions: S.optional(ExtractionList)})).annotate({ identifier: "LendingResult" }) as any as S.Schema<LendingResult>;
+export interface LendingResult {
+  Page?: number;
+  PageClassification?: PageClassification;
+  Extractions?: Extraction[];
+}
+export const LendingResult = S.suspend(() =>
+  S.Struct({
+    Page: S.optional(S.Number),
+    PageClassification: S.optional(PageClassification),
+    Extractions: S.optional(ExtractionList),
+  }),
+).annotate({ identifier: "LendingResult" }) as any as S.Schema<LendingResult>;
 export type LendingResultList = LendingResult[];
 export const LendingResultList = S.Array(LendingResult);
-export interface GetLendingAnalysisResponse { DocumentMetadata?: DocumentMetadata; JobStatus?: JobStatus; NextToken?: string; Results?: LendingResult[]; Warnings?: Warning[]; StatusMessage?: string; AnalyzeLendingModelVersion?: string }
-export const GetLendingAnalysisResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), JobStatus: S.optional(JobStatus), NextToken: S.optional(S.String), Results: S.optional(LendingResultList), Warnings: S.optional(Warnings), StatusMessage: S.optional(S.String), AnalyzeLendingModelVersion: S.optional(S.String)})).annotate({ identifier: "GetLendingAnalysisResponse" }) as any as S.Schema<GetLendingAnalysisResponse>;
-export interface GetLendingAnalysisSummaryRequest { JobId: string }
-export const GetLendingAnalysisSummaryRequest = S.suspend(() => S.Struct({JobId: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetLendingAnalysisSummaryRequest" }) as any as S.Schema<GetLendingAnalysisSummaryRequest>;
+export interface GetLendingAnalysisResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: JobStatus;
+  NextToken?: string;
+  Results?: LendingResult[];
+  Warnings?: Warning[];
+  StatusMessage?: string;
+  AnalyzeLendingModelVersion?: string;
+}
+export const GetLendingAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(JobStatus),
+    NextToken: S.optional(S.String),
+    Results: S.optional(LendingResultList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeLendingModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetLendingAnalysisResponse",
+}) as any as S.Schema<GetLendingAnalysisResponse>;
+export interface GetLendingAnalysisSummaryRequest {
+  JobId: string;
+}
+export const GetLendingAnalysisSummaryRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetLendingAnalysisSummaryRequest",
+}) as any as S.Schema<GetLendingAnalysisSummaryRequest>;
 export type PageList = number[];
 export const PageList = S.Array(S.Number);
-export interface SplitDocument { Index?: number; Pages?: number[] }
-export const SplitDocument = S.suspend(() => S.Struct({Index: S.optional(S.Number), Pages: S.optional(PageList)})).annotate({ identifier: "SplitDocument" }) as any as S.Schema<SplitDocument>;
+export interface SplitDocument {
+  Index?: number;
+  Pages?: number[];
+}
+export const SplitDocument = S.suspend(() =>
+  S.Struct({ Index: S.optional(S.Number), Pages: S.optional(PageList) }),
+).annotate({ identifier: "SplitDocument" }) as any as S.Schema<SplitDocument>;
 export type SplitDocumentList = SplitDocument[];
 export const SplitDocumentList = S.Array(SplitDocument);
-export interface DetectedSignature { Page?: number }
-export const DetectedSignature = S.suspend(() => S.Struct({Page: S.optional(S.Number)})).annotate({ identifier: "DetectedSignature" }) as any as S.Schema<DetectedSignature>;
+export interface DetectedSignature {
+  Page?: number;
+}
+export const DetectedSignature = S.suspend(() =>
+  S.Struct({ Page: S.optional(S.Number) }),
+).annotate({
+  identifier: "DetectedSignature",
+}) as any as S.Schema<DetectedSignature>;
 export type DetectedSignatureList = DetectedSignature[];
 export const DetectedSignatureList = S.Array(DetectedSignature);
-export interface UndetectedSignature { Page?: number }
-export const UndetectedSignature = S.suspend(() => S.Struct({Page: S.optional(S.Number)})).annotate({ identifier: "UndetectedSignature" }) as any as S.Schema<UndetectedSignature>;
+export interface UndetectedSignature {
+  Page?: number;
+}
+export const UndetectedSignature = S.suspend(() =>
+  S.Struct({ Page: S.optional(S.Number) }),
+).annotate({
+  identifier: "UndetectedSignature",
+}) as any as S.Schema<UndetectedSignature>;
 export type UndetectedSignatureList = UndetectedSignature[];
 export const UndetectedSignatureList = S.Array(UndetectedSignature);
-export interface DocumentGroup { Type?: string; SplitDocuments?: SplitDocument[]; DetectedSignatures?: DetectedSignature[]; UndetectedSignatures?: UndetectedSignature[] }
-export const DocumentGroup = S.suspend(() => S.Struct({Type: S.optional(S.String), SplitDocuments: S.optional(SplitDocumentList), DetectedSignatures: S.optional(DetectedSignatureList), UndetectedSignatures: S.optional(UndetectedSignatureList)})).annotate({ identifier: "DocumentGroup" }) as any as S.Schema<DocumentGroup>;
+export interface DocumentGroup {
+  Type?: string;
+  SplitDocuments?: SplitDocument[];
+  DetectedSignatures?: DetectedSignature[];
+  UndetectedSignatures?: UndetectedSignature[];
+}
+export const DocumentGroup = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    SplitDocuments: S.optional(SplitDocumentList),
+    DetectedSignatures: S.optional(DetectedSignatureList),
+    UndetectedSignatures: S.optional(UndetectedSignatureList),
+  }),
+).annotate({ identifier: "DocumentGroup" }) as any as S.Schema<DocumentGroup>;
 export type DocumentGroupList = DocumentGroup[];
 export const DocumentGroupList = S.Array(DocumentGroup);
 export type UndetectedDocumentTypeList = string[];
 export const UndetectedDocumentTypeList = S.Array(S.String);
-export interface LendingSummary { DocumentGroups?: DocumentGroup[]; UndetectedDocumentTypes?: string[] }
-export const LendingSummary = S.suspend(() => S.Struct({DocumentGroups: S.optional(DocumentGroupList), UndetectedDocumentTypes: S.optional(UndetectedDocumentTypeList)})).annotate({ identifier: "LendingSummary" }) as any as S.Schema<LendingSummary>;
-export interface GetLendingAnalysisSummaryResponse { DocumentMetadata?: DocumentMetadata; JobStatus?: JobStatus; Summary?: LendingSummary; Warnings?: Warning[]; StatusMessage?: string; AnalyzeLendingModelVersion?: string }
-export const GetLendingAnalysisSummaryResponse = S.suspend(() => S.Struct({DocumentMetadata: S.optional(DocumentMetadata), JobStatus: S.optional(JobStatus), Summary: S.optional(LendingSummary), Warnings: S.optional(Warnings), StatusMessage: S.optional(S.String), AnalyzeLendingModelVersion: S.optional(S.String)})).annotate({ identifier: "GetLendingAnalysisSummaryResponse" }) as any as S.Schema<GetLendingAnalysisSummaryResponse>;
-export interface ListAdaptersRequest { AfterCreationTime?: Date; BeforeCreationTime?: Date; MaxResults?: number; NextToken?: string }
-export const ListAdaptersRequest = S.suspend(() => S.Struct({AfterCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), BeforeCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), MaxResults: S.optional(S.Number), NextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListAdaptersRequest" }) as any as S.Schema<ListAdaptersRequest>;
-export interface AdapterOverview { AdapterId?: string; AdapterName?: string; CreationTime?: Date; FeatureTypes?: FeatureType[] }
-export const AdapterOverview = S.suspend(() => S.Struct({AdapterId: S.optional(S.String), AdapterName: S.optional(S.String), CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), FeatureTypes: S.optional(FeatureTypes)})).annotate({ identifier: "AdapterOverview" }) as any as S.Schema<AdapterOverview>;
+export interface LendingSummary {
+  DocumentGroups?: DocumentGroup[];
+  UndetectedDocumentTypes?: string[];
+}
+export const LendingSummary = S.suspend(() =>
+  S.Struct({
+    DocumentGroups: S.optional(DocumentGroupList),
+    UndetectedDocumentTypes: S.optional(UndetectedDocumentTypeList),
+  }),
+).annotate({ identifier: "LendingSummary" }) as any as S.Schema<LendingSummary>;
+export interface GetLendingAnalysisSummaryResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: JobStatus;
+  Summary?: LendingSummary;
+  Warnings?: Warning[];
+  StatusMessage?: string;
+  AnalyzeLendingModelVersion?: string;
+}
+export const GetLendingAnalysisSummaryResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(JobStatus),
+    Summary: S.optional(LendingSummary),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeLendingModelVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetLendingAnalysisSummaryResponse",
+}) as any as S.Schema<GetLendingAnalysisSummaryResponse>;
+export interface ListAdaptersRequest {
+  AfterCreationTime?: Date;
+  BeforeCreationTime?: Date;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAdaptersRequest = S.suspend(() =>
+  S.Struct({
+    AfterCreationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    BeforeCreationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListAdaptersRequest",
+}) as any as S.Schema<ListAdaptersRequest>;
+export interface AdapterOverview {
+  AdapterId?: string;
+  AdapterName?: string;
+  CreationTime?: Date;
+  FeatureTypes?: FeatureType[];
+}
+export const AdapterOverview = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FeatureTypes: S.optional(FeatureTypes),
+  }),
+).annotate({
+  identifier: "AdapterOverview",
+}) as any as S.Schema<AdapterOverview>;
 export type AdapterList = AdapterOverview[];
 export const AdapterList = S.Array(AdapterOverview);
-export interface ListAdaptersResponse { Adapters?: AdapterOverview[]; NextToken?: string }
-export const ListAdaptersResponse = S.suspend(() => S.Struct({Adapters: S.optional(AdapterList), NextToken: S.optional(S.String)})).annotate({ identifier: "ListAdaptersResponse" }) as any as S.Schema<ListAdaptersResponse>;
-export interface ListAdapterVersionsRequest { AdapterId?: string; AfterCreationTime?: Date; BeforeCreationTime?: Date; MaxResults?: number; NextToken?: string }
-export const ListAdapterVersionsRequest = S.suspend(() => S.Struct({AdapterId: S.optional(S.String), AfterCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), BeforeCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), MaxResults: S.optional(S.Number), NextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListAdapterVersionsRequest" }) as any as S.Schema<ListAdapterVersionsRequest>;
-export interface AdapterVersionOverview { AdapterId?: string; AdapterVersion?: string; CreationTime?: Date; FeatureTypes?: FeatureType[]; Status?: AdapterVersionStatus; StatusMessage?: string }
-export const AdapterVersionOverview = S.suspend(() => S.Struct({AdapterId: S.optional(S.String), AdapterVersion: S.optional(S.String), CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), FeatureTypes: S.optional(FeatureTypes), Status: S.optional(AdapterVersionStatus), StatusMessage: S.optional(S.String)})).annotate({ identifier: "AdapterVersionOverview" }) as any as S.Schema<AdapterVersionOverview>;
+export interface ListAdaptersResponse {
+  Adapters?: AdapterOverview[];
+  NextToken?: string;
+}
+export const ListAdaptersResponse = S.suspend(() =>
+  S.Struct({
+    Adapters: S.optional(AdapterList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAdaptersResponse",
+}) as any as S.Schema<ListAdaptersResponse>;
+export interface ListAdapterVersionsRequest {
+  AdapterId?: string;
+  AfterCreationTime?: Date;
+  BeforeCreationTime?: Date;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAdapterVersionsRequest = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AfterCreationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    BeforeCreationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListAdapterVersionsRequest",
+}) as any as S.Schema<ListAdapterVersionsRequest>;
+export interface AdapterVersionOverview {
+  AdapterId?: string;
+  AdapterVersion?: string;
+  CreationTime?: Date;
+  FeatureTypes?: FeatureType[];
+  Status?: AdapterVersionStatus;
+  StatusMessage?: string;
+}
+export const AdapterVersionOverview = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterVersion: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FeatureTypes: S.optional(FeatureTypes),
+    Status: S.optional(AdapterVersionStatus),
+    StatusMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AdapterVersionOverview",
+}) as any as S.Schema<AdapterVersionOverview>;
 export type AdapterVersionList = AdapterVersionOverview[];
 export const AdapterVersionList = S.Array(AdapterVersionOverview);
-export interface ListAdapterVersionsResponse { AdapterVersions?: AdapterVersionOverview[]; NextToken?: string }
-export const ListAdapterVersionsResponse = S.suspend(() => S.Struct({AdapterVersions: S.optional(AdapterVersionList), NextToken: S.optional(S.String)})).annotate({ identifier: "ListAdapterVersionsResponse" }) as any as S.Schema<ListAdapterVersionsResponse>;
-export interface ListTagsForResourceRequest { ResourceARN: string }
-export const ListTagsForResourceRequest = S.suspend(() => S.Struct({ResourceARN: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListTagsForResourceRequest" }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ListTagsForResourceResponse { Tags?: { [key: string]: string | undefined } }
-export const ListTagsForResourceResponse = S.suspend(() => S.Struct({Tags: S.optional(TagMap)})).annotate({ identifier: "ListTagsForResourceResponse" }) as any as S.Schema<ListTagsForResourceResponse>;
-export interface DocumentLocation { S3Object?: S3Object }
-export const DocumentLocation = S.suspend(() => S.Struct({S3Object: S.optional(S3Object)})).annotate({ identifier: "DocumentLocation" }) as any as S.Schema<DocumentLocation>;
-export interface NotificationChannel { SNSTopicArn: string; RoleArn: string }
-export const NotificationChannel = S.suspend(() => S.Struct({SNSTopicArn: S.String, RoleArn: S.String})).annotate({ identifier: "NotificationChannel" }) as any as S.Schema<NotificationChannel>;
-export interface StartDocumentAnalysisRequest { DocumentLocation: DocumentLocation; FeatureTypes: FeatureType[]; ClientRequestToken?: string; JobTag?: string; NotificationChannel?: NotificationChannel; OutputConfig?: OutputConfig; KMSKeyId?: string; QueriesConfig?: QueriesConfig; AdaptersConfig?: AdaptersConfig }
-export const StartDocumentAnalysisRequest = S.suspend(() => S.Struct({DocumentLocation: DocumentLocation, FeatureTypes: FeatureTypes, ClientRequestToken: S.optional(S.String), JobTag: S.optional(S.String), NotificationChannel: S.optional(NotificationChannel), OutputConfig: S.optional(OutputConfig), KMSKeyId: S.optional(S.String), QueriesConfig: S.optional(QueriesConfig), AdaptersConfig: S.optional(AdaptersConfig)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartDocumentAnalysisRequest" }) as any as S.Schema<StartDocumentAnalysisRequest>;
-export interface StartDocumentAnalysisResponse { JobId?: string }
-export const StartDocumentAnalysisResponse = S.suspend(() => S.Struct({JobId: S.optional(S.String)})).annotate({ identifier: "StartDocumentAnalysisResponse" }) as any as S.Schema<StartDocumentAnalysisResponse>;
-export interface StartDocumentTextDetectionRequest { DocumentLocation: DocumentLocation; ClientRequestToken?: string; JobTag?: string; NotificationChannel?: NotificationChannel; OutputConfig?: OutputConfig; KMSKeyId?: string }
-export const StartDocumentTextDetectionRequest = S.suspend(() => S.Struct({DocumentLocation: DocumentLocation, ClientRequestToken: S.optional(S.String), JobTag: S.optional(S.String), NotificationChannel: S.optional(NotificationChannel), OutputConfig: S.optional(OutputConfig), KMSKeyId: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartDocumentTextDetectionRequest" }) as any as S.Schema<StartDocumentTextDetectionRequest>;
-export interface StartDocumentTextDetectionResponse { JobId?: string }
-export const StartDocumentTextDetectionResponse = S.suspend(() => S.Struct({JobId: S.optional(S.String)})).annotate({ identifier: "StartDocumentTextDetectionResponse" }) as any as S.Schema<StartDocumentTextDetectionResponse>;
-export interface StartExpenseAnalysisRequest { DocumentLocation: DocumentLocation; ClientRequestToken?: string; JobTag?: string; NotificationChannel?: NotificationChannel; OutputConfig?: OutputConfig; KMSKeyId?: string }
-export const StartExpenseAnalysisRequest = S.suspend(() => S.Struct({DocumentLocation: DocumentLocation, ClientRequestToken: S.optional(S.String), JobTag: S.optional(S.String), NotificationChannel: S.optional(NotificationChannel), OutputConfig: S.optional(OutputConfig), KMSKeyId: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartExpenseAnalysisRequest" }) as any as S.Schema<StartExpenseAnalysisRequest>;
-export interface StartExpenseAnalysisResponse { JobId?: string }
-export const StartExpenseAnalysisResponse = S.suspend(() => S.Struct({JobId: S.optional(S.String)})).annotate({ identifier: "StartExpenseAnalysisResponse" }) as any as S.Schema<StartExpenseAnalysisResponse>;
-export interface StartLendingAnalysisRequest { DocumentLocation: DocumentLocation; ClientRequestToken?: string; JobTag?: string; NotificationChannel?: NotificationChannel; OutputConfig?: OutputConfig; KMSKeyId?: string }
-export const StartLendingAnalysisRequest = S.suspend(() => S.Struct({DocumentLocation: DocumentLocation, ClientRequestToken: S.optional(S.String), JobTag: S.optional(S.String), NotificationChannel: S.optional(NotificationChannel), OutputConfig: S.optional(OutputConfig), KMSKeyId: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartLendingAnalysisRequest" }) as any as S.Schema<StartLendingAnalysisRequest>;
-export interface StartLendingAnalysisResponse { JobId?: string }
-export const StartLendingAnalysisResponse = S.suspend(() => S.Struct({JobId: S.optional(S.String)})).annotate({ identifier: "StartLendingAnalysisResponse" }) as any as S.Schema<StartLendingAnalysisResponse>;
-export interface TagResourceRequest { ResourceARN: string; Tags: { [key: string]: string | undefined } }
-export const TagResourceRequest = S.suspend(() => S.Struct({ResourceARN: S.String, Tags: TagMap}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {  }
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" }) as any as S.Schema<TagResourceResponse>;
+export interface ListAdapterVersionsResponse {
+  AdapterVersions?: AdapterVersionOverview[];
+  NextToken?: string;
+}
+export const ListAdapterVersionsResponse = S.suspend(() =>
+  S.Struct({
+    AdapterVersions: S.optional(AdapterVersionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAdapterVersionsResponse",
+}) as any as S.Schema<ListAdapterVersionsResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface DocumentLocation {
+  S3Object?: S3Object;
+}
+export const DocumentLocation = S.suspend(() =>
+  S.Struct({ S3Object: S.optional(S3Object) }),
+).annotate({
+  identifier: "DocumentLocation",
+}) as any as S.Schema<DocumentLocation>;
+export interface NotificationChannel {
+  SNSTopicArn: string;
+  RoleArn: string;
+}
+export const NotificationChannel = S.suspend(() =>
+  S.Struct({ SNSTopicArn: S.String, RoleArn: S.String }),
+).annotate({
+  identifier: "NotificationChannel",
+}) as any as S.Schema<NotificationChannel>;
+export interface StartDocumentAnalysisRequest {
+  DocumentLocation: DocumentLocation;
+  FeatureTypes: FeatureType[];
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+  QueriesConfig?: QueriesConfig;
+  AdaptersConfig?: AdaptersConfig;
+}
+export const StartDocumentAnalysisRequest = S.suspend(() =>
+  S.Struct({
+    DocumentLocation: DocumentLocation,
+    FeatureTypes: FeatureTypes,
+    ClientRequestToken: S.optional(S.String),
+    JobTag: S.optional(S.String),
+    NotificationChannel: S.optional(NotificationChannel),
+    OutputConfig: S.optional(OutputConfig),
+    KMSKeyId: S.optional(S.String),
+    QueriesConfig: S.optional(QueriesConfig),
+    AdaptersConfig: S.optional(AdaptersConfig),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "StartDocumentAnalysisRequest",
+}) as any as S.Schema<StartDocumentAnalysisRequest>;
+export interface StartDocumentAnalysisResponse {
+  JobId?: string;
+}
+export const StartDocumentAnalysisResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotate({
+  identifier: "StartDocumentAnalysisResponse",
+}) as any as S.Schema<StartDocumentAnalysisResponse>;
+export interface StartDocumentTextDetectionRequest {
+  DocumentLocation: DocumentLocation;
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+}
+export const StartDocumentTextDetectionRequest = S.suspend(() =>
+  S.Struct({
+    DocumentLocation: DocumentLocation,
+    ClientRequestToken: S.optional(S.String),
+    JobTag: S.optional(S.String),
+    NotificationChannel: S.optional(NotificationChannel),
+    OutputConfig: S.optional(OutputConfig),
+    KMSKeyId: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "StartDocumentTextDetectionRequest",
+}) as any as S.Schema<StartDocumentTextDetectionRequest>;
+export interface StartDocumentTextDetectionResponse {
+  JobId?: string;
+}
+export const StartDocumentTextDetectionResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotate({
+  identifier: "StartDocumentTextDetectionResponse",
+}) as any as S.Schema<StartDocumentTextDetectionResponse>;
+export interface StartExpenseAnalysisRequest {
+  DocumentLocation: DocumentLocation;
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+}
+export const StartExpenseAnalysisRequest = S.suspend(() =>
+  S.Struct({
+    DocumentLocation: DocumentLocation,
+    ClientRequestToken: S.optional(S.String),
+    JobTag: S.optional(S.String),
+    NotificationChannel: S.optional(NotificationChannel),
+    OutputConfig: S.optional(OutputConfig),
+    KMSKeyId: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "StartExpenseAnalysisRequest",
+}) as any as S.Schema<StartExpenseAnalysisRequest>;
+export interface StartExpenseAnalysisResponse {
+  JobId?: string;
+}
+export const StartExpenseAnalysisResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotate({
+  identifier: "StartExpenseAnalysisResponse",
+}) as any as S.Schema<StartExpenseAnalysisResponse>;
+export interface StartLendingAnalysisRequest {
+  DocumentLocation: DocumentLocation;
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+}
+export const StartLendingAnalysisRequest = S.suspend(() =>
+  S.Struct({
+    DocumentLocation: DocumentLocation,
+    ClientRequestToken: S.optional(S.String),
+    JobTag: S.optional(S.String),
+    NotificationChannel: S.optional(NotificationChannel),
+    OutputConfig: S.optional(OutputConfig),
+    KMSKeyId: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "StartLendingAnalysisRequest",
+}) as any as S.Schema<StartLendingAnalysisRequest>;
+export interface StartLendingAnalysisResponse {
+  JobId?: string;
+}
+export const StartLendingAnalysisResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotate({
+  identifier: "StartLendingAnalysisResponse",
+}) as any as S.Schema<StartLendingAnalysisResponse>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export interface UntagResourceRequest { ResourceARN: string; TagKeys: string[] }
-export const UntagResourceRequest = S.suspend(() => S.Struct({ResourceARN: S.String, TagKeys: TagKeyList}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {  }
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UntagResourceResponse" }) as any as S.Schema<UntagResourceResponse>;
-export interface UpdateAdapterRequest { AdapterId: string; Description?: string; AdapterName?: string; AutoUpdate?: AutoUpdate }
-export const UpdateAdapterRequest = S.suspend(() => S.Struct({AdapterId: S.String, Description: S.optional(S.String), AdapterName: S.optional(S.String), AutoUpdate: S.optional(AutoUpdate)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateAdapterRequest" }) as any as S.Schema<UpdateAdapterRequest>;
-export interface UpdateAdapterResponse { AdapterId?: string; AdapterName?: string; CreationTime?: Date; Description?: string; FeatureTypes?: FeatureType[]; AutoUpdate?: AutoUpdate }
-export const UpdateAdapterResponse = S.suspend(() => S.Struct({AdapterId: S.optional(S.String), AdapterName: S.optional(S.String), CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), Description: S.optional(S.String), FeatureTypes: S.optional(FeatureTypes), AutoUpdate: S.optional(AutoUpdate)})).annotate({ identifier: "UpdateAdapterResponse" }) as any as S.Schema<UpdateAdapterResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAdapterRequest {
+  AdapterId: string;
+  Description?: string;
+  AdapterName?: string;
+  AutoUpdate?: AutoUpdate;
+}
+export const UpdateAdapterRequest = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.String,
+    Description: S.optional(S.String),
+    AdapterName: S.optional(S.String),
+    AutoUpdate: S.optional(AutoUpdate),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateAdapterRequest",
+}) as any as S.Schema<UpdateAdapterRequest>;
+export interface UpdateAdapterResponse {
+  AdapterId?: string;
+  AdapterName?: string;
+  CreationTime?: Date;
+  Description?: string;
+  FeatureTypes?: FeatureType[];
+  AutoUpdate?: AutoUpdate;
+}
+export const UpdateAdapterResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    FeatureTypes: S.optional(FeatureTypes),
+    AutoUpdate: S.optional(AutoUpdate),
+  }),
+).annotate({
+  identifier: "UpdateAdapterResponse",
+}) as any as S.Schema<UpdateAdapterResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()("AccessDeniedException", {Message: S.optional(S.String), Code: S.optional(S.String)}).pipe(C.withAuthError) {}
-export class BadDocumentException extends S.TaggedErrorClass<BadDocumentException>()("BadDocumentException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class DocumentTooLargeException extends S.TaggedErrorClass<DocumentTooLargeException>()("DocumentTooLargeException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class HumanLoopQuotaExceededException extends S.TaggedErrorClass<HumanLoopQuotaExceededException>()("HumanLoopQuotaExceededException", {ResourceType: S.optional(S.String), QuotaCode: S.optional(S.String), ServiceCode: S.optional(S.String), Message: S.optional(S.String), Code: S.optional(S.String)}).pipe(C.withQuotaError) {}
-export class InternalServerError extends S.TaggedErrorClass<InternalServerError>()("InternalServerError", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()("InvalidParameterException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class InvalidS3ObjectException extends S.TaggedErrorClass<InvalidS3ObjectException>()("InvalidS3ObjectException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class ProvisionedThroughputExceededException extends S.TaggedErrorClass<ProvisionedThroughputExceededException>()("ProvisionedThroughputExceededException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()("ThrottlingException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class UnsupportedDocumentException extends S.TaggedErrorClass<UnsupportedDocumentException>()("UnsupportedDocumentException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class ConflictException extends S.TaggedErrorClass<ConflictException>()("ConflictException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class IdempotentParameterMismatchException extends S.TaggedErrorClass<IdempotentParameterMismatchException>()("IdempotentParameterMismatchException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()("LimitExceededException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()("ServiceQuotaExceededException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class ValidationException extends S.TaggedErrorClass<ValidationException>()("ValidationException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class InvalidKMSKeyException extends S.TaggedErrorClass<InvalidKMSKeyException>()("InvalidKMSKeyException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()("ResourceNotFoundException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
-export class InvalidJobIdException extends S.TaggedErrorClass<InvalidJobIdException>()("InvalidJobIdException", {Message: S.optional(S.String), Code: S.optional(S.String)}) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class BadDocumentException extends S.TaggedErrorClass<BadDocumentException>()(
+  "BadDocumentException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class DocumentTooLargeException extends S.TaggedErrorClass<DocumentTooLargeException>()(
+  "DocumentTooLargeException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class HumanLoopQuotaExceededException extends S.TaggedErrorClass<HumanLoopQuotaExceededException>()(
+  "HumanLoopQuotaExceededException",
+  {
+    ResourceType: S.optional(S.String),
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+    Message: S.optional(S.String),
+    Code: S.optional(S.String),
+  },
+).pipe(C.withQuotaError) {}
+export class InternalServerError extends S.TaggedErrorClass<InternalServerError>()(
+  "InternalServerError",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class InvalidS3ObjectException extends S.TaggedErrorClass<InvalidS3ObjectException>()(
+  "InvalidS3ObjectException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ProvisionedThroughputExceededException extends S.TaggedErrorClass<ProvisionedThroughputExceededException>()(
+  "ProvisionedThroughputExceededException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class UnsupportedDocumentException extends S.TaggedErrorClass<UnsupportedDocumentException>()(
+  "UnsupportedDocumentException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class IdempotentParameterMismatchException extends S.TaggedErrorClass<IdempotentParameterMismatchException>()(
+  "IdempotentParameterMismatchException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
+  "LimitExceededException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class InvalidKMSKeyException extends S.TaggedErrorClass<InvalidKMSKeyException>()(
+  "InvalidKMSKeyException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
+export class InvalidJobIdException extends S.TaggedErrorClass<InvalidJobIdException>()(
+  "InvalidJobIdException",
+  { Message: S.optional(S.String), Code: S.optional(S.String) },
+) {}
 
 //# Operations
 export type AnalyzeDocumentError =
@@ -505,51 +1682,71 @@ export type AnalyzeDocumentError =
   | CommonErrors;
 /**
  * Analyzes an input document for relationships between detected items.
- * 
+ *
  * The types of information returned are as follows:
- * 
+ *
  * - Form data (key-value pairs). The related information is returned in two Block objects, each of type `KEY_VALUE_SET`: a KEY
  * `Block` object and a VALUE `Block` object. For example,
  * *Name: Ana Silva Carolina* contains a key and value.
  * *Name:* is the key. *Ana Silva Carolina* is
  * the value.
- * 
+ *
  * - Table and table cell data. A TABLE `Block` object contains information
  * about a detected table. A CELL `Block` object is returned for each cell in
  * a table.
- * 
+ *
  * - Lines and words of text. A LINE `Block` object contains one or more
  * WORD `Block` objects. All lines and words that are detected in the
  * document are returned (including text that doesn't have a relationship with the value
  * of `FeatureTypes`).
- * 
+ *
  * - Signatures. A SIGNATURE `Block` object contains the location information
  * of a signature in a document. If used in conjunction with forms or tables, a signature
  * can be given a Key-Value pairing or be detected in the cell of a table.
- * 
+ *
  * - Query. A QUERY Block object contains the query text, alias and link to the
  * associated Query results block object.
- * 
+ *
  * - Query Result. A QUERY_RESULT Block object contains the answer to the query and an
  * ID that connects it to the query asked. This Block also contains a confidence
  * score.
- * 
+ *
  * Selection elements such as check boxes and option buttons (radio buttons) can be
  * detected in form data and in tables. A SELECTION_ELEMENT `Block` object contains
  * information about a selection element, including the selection status.
- * 
+ *
  * You can choose which type of analysis to perform by specifying the
  * `FeatureTypes` list.
- * 
+ *
  * The output is returned in a list of `Block` objects.
- * 
+ *
  * `AnalyzeDocument` is a synchronous operation. To analyze documents
  * asynchronously, use StartDocumentAnalysis.
- * 
+ *
  * For more information, see Document Text
  * Analysis.
  */
-export const analyzeDocument: API.OperationMethod<AnalyzeDocumentRequest, AnalyzeDocumentResponse, AnalyzeDocumentError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: AnalyzeDocumentRequest, output: AnalyzeDocumentResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, HumanLoopQuotaExceededException, InternalServerError, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const analyzeDocument: API.OperationMethod<
+  AnalyzeDocumentRequest,
+  AnalyzeDocumentResponse,
+  AnalyzeDocumentError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AnalyzeDocumentRequest,
+  output: AnalyzeDocumentResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    HumanLoopQuotaExceededException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type AnalyzeExpenseError =
   | AccessDeniedException
   | BadDocumentException
@@ -564,18 +1761,37 @@ export type AnalyzeExpenseError =
 /**
  * `AnalyzeExpense` synchronously analyzes an input document for financially
  * related relationships between text.
- * 
+ *
  * Information is returned as `ExpenseDocuments` and seperated as
  * follows:
- * 
+ *
  * - `LineItemGroups`- A data set containing `LineItems` which
  * store information about the lines of text, such as an item purchased and its price on
  * a receipt.
- * 
+ *
  * - `SummaryFields`- Contains all other information a receipt, such as
  * header information or the vendors name.
  */
-export const analyzeExpense: API.OperationMethod<AnalyzeExpenseRequest, AnalyzeExpenseResponse, AnalyzeExpenseError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: AnalyzeExpenseRequest, output: AnalyzeExpenseResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, InternalServerError, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const analyzeExpense: API.OperationMethod<
+  AnalyzeExpenseRequest,
+  AnalyzeExpenseResponse,
+  AnalyzeExpenseError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AnalyzeExpenseRequest,
+  output: AnalyzeExpenseResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type AnalyzeIDError =
   | AccessDeniedException
   | BadDocumentException
@@ -593,7 +1809,26 @@ export type AnalyzeIDError =
  * and value of the extracted text. Unlike other Amazon Textract operations,
  * `AnalyzeID` doesn't return any Geometry data.
  */
-export const analyzeID: API.OperationMethod<AnalyzeIDRequest, AnalyzeIDResponse, AnalyzeIDError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: AnalyzeIDRequest, output: AnalyzeIDResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, InternalServerError, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const analyzeID: API.OperationMethod<
+  AnalyzeIDRequest,
+  AnalyzeIDResponse,
+  AnalyzeIDError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AnalyzeIDRequest,
+  output: AnalyzeIDResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type CreateAdapterError =
   | AccessDeniedException
   | ConflictException
@@ -613,7 +1848,27 @@ export type CreateAdapterError =
  * ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with
  * the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
  */
-export const createAdapter: API.OperationMethod<CreateAdapterRequest, CreateAdapterResponse, CreateAdapterError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateAdapterRequest, output: CreateAdapterResponse, errors: [AccessDeniedException, ConflictException, IdempotentParameterMismatchException, InternalServerError, InvalidParameterException, LimitExceededException, ProvisionedThroughputExceededException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createAdapter: API.OperationMethod<
+  CreateAdapterRequest,
+  CreateAdapterResponse,
+  CreateAdapterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAdapterRequest,
+  output: CreateAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type CreateAdapterVersionError =
   | AccessDeniedException
   | ConflictException
@@ -635,7 +1890,30 @@ export type CreateAdapterVersionError =
  * specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId,
  * an optional ClientRequestToken, and optional tags.
  */
-export const createAdapterVersion: API.OperationMethod<CreateAdapterVersionRequest, CreateAdapterVersionResponse, CreateAdapterVersionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateAdapterVersionRequest, output: CreateAdapterVersionResponse, errors: [AccessDeniedException, ConflictException, IdempotentParameterMismatchException, InternalServerError, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, LimitExceededException, ProvisionedThroughputExceededException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createAdapterVersion: API.OperationMethod<
+  CreateAdapterVersionRequest,
+  CreateAdapterVersionResponse,
+  CreateAdapterVersionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAdapterVersionRequest,
+  output: CreateAdapterVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteAdapterError =
   | AccessDeniedException
   | ConflictException
@@ -649,7 +1927,25 @@ export type DeleteAdapterError =
 /**
  * Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
  */
-export const deleteAdapter: API.OperationMethod<DeleteAdapterRequest, DeleteAdapterResponse, DeleteAdapterError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteAdapterRequest, output: DeleteAdapterResponse, errors: [AccessDeniedException, ConflictException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteAdapter: API.OperationMethod<
+  DeleteAdapterRequest,
+  DeleteAdapterResponse,
+  DeleteAdapterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAdapterRequest,
+  output: DeleteAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteAdapterVersionError =
   | AccessDeniedException
   | ConflictException
@@ -664,7 +1960,25 @@ export type DeleteAdapterVersionError =
  * Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a
  * AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
  */
-export const deleteAdapterVersion: API.OperationMethod<DeleteAdapterVersionRequest, DeleteAdapterVersionResponse, DeleteAdapterVersionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteAdapterVersionRequest, output: DeleteAdapterVersionResponse, errors: [AccessDeniedException, ConflictException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteAdapterVersion: API.OperationMethod<
+  DeleteAdapterVersionRequest,
+  DeleteAdapterVersionResponse,
+  DeleteAdapterVersionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAdapterVersionRequest,
+  output: DeleteAdapterVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DetectDocumentTextError =
   | AccessDeniedException
   | BadDocumentException
@@ -681,17 +1995,36 @@ export type DetectDocumentTextError =
  * words that make up a line of text. The input document must be in one of the following image
  * formats: JPEG, PNG, PDF, or TIFF. `DetectDocumentText` returns the detected
  * text in an array of Block objects.
- * 
+ *
  * Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object
  * is the parent of LINE `Block` objects that represent the lines of detected text on a page. A LINE `Block` object is
  * a parent for each word that makes up the line. Words are represented by `Block` objects of type WORD.
- * 
+ *
  * `DetectDocumentText` is a synchronous operation. To analyze documents
  * asynchronously, use StartDocumentTextDetection.
- * 
+ *
  * For more information, see Document Text Detection.
  */
-export const detectDocumentText: API.OperationMethod<DetectDocumentTextRequest, DetectDocumentTextResponse, DetectDocumentTextError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DetectDocumentTextRequest, output: DetectDocumentTextResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, InternalServerError, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const detectDocumentText: API.OperationMethod<
+  DetectDocumentTextRequest,
+  DetectDocumentTextResponse,
+  DetectDocumentTextError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectDocumentTextRequest,
+  output: DetectDocumentTextResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type GetAdapterError =
   | AccessDeniedException
   | InternalServerError
@@ -705,7 +2038,24 @@ export type GetAdapterError =
  * Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description,
  * CreationTime, AutoUpdate status, and FeatureTypes.
  */
-export const getAdapter: API.OperationMethod<GetAdapterRequest, GetAdapterResponse, GetAdapterError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetAdapterRequest, output: GetAdapterResponse, errors: [AccessDeniedException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getAdapter: API.OperationMethod<
+  GetAdapterRequest,
+  GetAdapterResponse,
+  GetAdapterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdapterRequest,
+  output: GetAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetAdapterVersionError =
   | AccessDeniedException
   | InternalServerError
@@ -720,7 +2070,24 @@ export type GetAdapterVersionError =
  * AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig,
  * KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
  */
-export const getAdapterVersion: API.OperationMethod<GetAdapterVersionRequest, GetAdapterVersionResponse, GetAdapterVersionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetAdapterVersionRequest, output: GetAdapterVersionResponse, errors: [AccessDeniedException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getAdapterVersion: API.OperationMethod<
+  GetAdapterVersionRequest,
+  GetAdapterVersionResponse,
+  GetAdapterVersionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdapterVersionRequest,
+  output: GetAdapterVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetDocumentAnalysisError =
   | AccessDeniedException
   | InternalServerError
@@ -734,7 +2101,7 @@ export type GetDocumentAnalysisError =
 /**
  * Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
  * document.
- * 
+ *
  * You start asynchronous text analysis by calling StartDocumentAnalysis,
  * which returns a job identifier (`JobId`). When the text analysis operation
  * finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic
@@ -743,42 +2110,42 @@ export type GetDocumentAnalysisError =
  * Amazon SNS topic is `SUCCEEDED`. If so, call `GetDocumentAnalysis`, and
  * pass the job identifier (`JobId`) from the initial call to
  * `StartDocumentAnalysis`.
- * 
+ *
  * `GetDocumentAnalysis` returns an array of Block objects.
  * The following types of information are returned:
- * 
+ *
  * - Form data (key-value pairs). The related information is returned in two Block objects, each of type `KEY_VALUE_SET`: a KEY
  * `Block` object and a VALUE `Block` object. For example,
  * *Name: Ana Silva Carolina* contains a key and value.
  * *Name:* is the key. *Ana Silva Carolina* is
  * the value.
- * 
+ *
  * - Table and table cell data. A TABLE `Block` object contains information
  * about a detected table. A CELL `Block` object is returned for each cell in
  * a table.
- * 
+ *
  * - Lines and words of text. A LINE `Block` object contains one or more
  * WORD `Block` objects. All lines and words that are detected in the
  * document are returned (including text that doesn't have a relationship with the value
  * of the `StartDocumentAnalysis`
  * `FeatureTypes` input parameter).
- * 
+ *
  * - Query. A QUERY Block object contains the query text, alias and link to the
  * associated Query results block object.
- * 
+ *
  * - Query Results. A QUERY_RESULT Block object contains the answer to the query and an
  * ID that connects it to the query asked. This Block also contains a confidence
  * score.
- * 
+ *
  * While processing a document with queries, look out for
  * `INVALID_REQUEST_PARAMETERS` output. This indicates that either the per
  * page query limit has been exceeded or that the operation is trying to query a page in
  * the document which doesn’t exist.
- * 
+ *
  * Selection elements such as check boxes and option buttons (radio buttons) can be
  * detected in form data and in tables. A SELECTION_ELEMENT `Block` object contains
  * information about a selection element, including the selection status.
- * 
+ *
  * Use the `MaxResults` parameter to limit the number of blocks that are
  * returned. If there are more results than specified in `MaxResults`, the value of
  * `NextToken` in the operation response contains a pagination token for getting
@@ -786,11 +2153,29 @@ export type GetDocumentAnalysisError =
  * `GetDocumentAnalysis`, and populate the `NextToken` request
  * parameter with the token value that's returned from the previous call to
  * `GetDocumentAnalysis`.
- * 
+ *
  * For more information, see Document Text
  * Analysis.
  */
-export const getDocumentAnalysis: API.OperationMethod<GetDocumentAnalysisRequest, GetDocumentAnalysisResponse, GetDocumentAnalysisError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetDocumentAnalysisRequest, output: GetDocumentAnalysisResponse, errors: [AccessDeniedException, InternalServerError, InvalidJobIdException, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException] }));
+export const getDocumentAnalysis: API.OperationMethod<
+  GetDocumentAnalysisRequest,
+  GetDocumentAnalysisResponse,
+  GetDocumentAnalysisError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentAnalysisRequest,
+  output: GetDocumentAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 export type GetDocumentTextDetectionError =
   | AccessDeniedException
   | InternalServerError
@@ -804,7 +2189,7 @@ export type GetDocumentTextDetectionError =
 /**
  * Gets the results for an Amazon Textract asynchronous operation that detects text in a document.
  * Amazon Textract can detect lines of text and the words that make up a line of text.
- * 
+ *
  * You start asynchronous text detection by calling StartDocumentTextDetection, which returns a job identifier
  * (`JobId`). When the text detection operation finishes, Amazon Textract publishes a
  * completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to
@@ -813,14 +2198,14 @@ export type GetDocumentTextDetectionError =
  * `SUCCEEDED`. If so, call `GetDocumentTextDetection`, and pass the
  * job identifier (`JobId`) from the initial call to
  * `StartDocumentTextDetection`.
- * 
+ *
  * `GetDocumentTextDetection` returns an array of Block
  * objects.
- * 
+ *
  * Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object
  * is the parent of LINE `Block` objects that represent the lines of detected text on a page. A LINE `Block` object is
  * a parent for each word that makes up the line. Words are represented by `Block` objects of type WORD.
- * 
+ *
  * Use the MaxResults parameter to limit the number of blocks that are returned. If there
  * are more results than specified in `MaxResults`, the value of
  * `NextToken` in the operation response contains a pagination token for getting
@@ -828,10 +2213,28 @@ export type GetDocumentTextDetectionError =
  * `GetDocumentTextDetection`, and populate the `NextToken` request
  * parameter with the token value that's returned from the previous call to
  * `GetDocumentTextDetection`.
- * 
+ *
  * For more information, see Document Text Detection.
  */
-export const getDocumentTextDetection: API.OperationMethod<GetDocumentTextDetectionRequest, GetDocumentTextDetectionResponse, GetDocumentTextDetectionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetDocumentTextDetectionRequest, output: GetDocumentTextDetectionResponse, errors: [AccessDeniedException, InternalServerError, InvalidJobIdException, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException] }));
+export const getDocumentTextDetection: API.OperationMethod<
+  GetDocumentTextDetectionRequest,
+  GetDocumentTextDetectionResponse,
+  GetDocumentTextDetectionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentTextDetectionRequest,
+  output: GetDocumentTextDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 export type GetExpenseAnalysisError =
   | AccessDeniedException
   | InternalServerError
@@ -846,7 +2249,7 @@ export type GetExpenseAnalysisError =
  * Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and
  * receipts. Amazon Textract finds contact information, items purchased, and vendor name, from input
  * invoices and receipts.
- * 
+ *
  * You start asynchronous invoice/receipt analysis by calling StartExpenseAnalysis, which returns a job identifier (`JobId`). Upon
  * completion of the invoice/receipt analysis, Amazon Textract publishes the completion status to the
  * Amazon Simple Notification Service (Amazon SNS) topic. This topic must be registered in the initial call to
@@ -854,17 +2257,35 @@ export type GetExpenseAnalysisError =
  * first ensure that the status value published to the Amazon SNS topic is `SUCCEEDED`. If so,
  * call `GetExpenseAnalysis`, and pass the job identifier (`JobId`) from the
  * initial call to `StartExpenseAnalysis`.
- * 
+ *
  * Use the MaxResults parameter to limit the number of blocks that are returned. If there are
  * more results than specified in `MaxResults`, the value of `NextToken` in
  * the operation response contains a pagination token for getting the next set of results. To get
  * the next page of results, call `GetExpenseAnalysis`, and populate the
  * `NextToken` request parameter with the token value that's returned from the previous
  * call to `GetExpenseAnalysis`.
- * 
+ *
  * For more information, see Analyzing Invoices and Receipts.
  */
-export const getExpenseAnalysis: API.OperationMethod<GetExpenseAnalysisRequest, GetExpenseAnalysisResponse, GetExpenseAnalysisError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetExpenseAnalysisRequest, output: GetExpenseAnalysisResponse, errors: [AccessDeniedException, InternalServerError, InvalidJobIdException, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException] }));
+export const getExpenseAnalysis: API.OperationMethod<
+  GetExpenseAnalysisRequest,
+  GetExpenseAnalysisResponse,
+  GetExpenseAnalysisError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExpenseAnalysisRequest,
+  output: GetExpenseAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 export type GetLendingAnalysisError =
   | AccessDeniedException
   | InternalServerError
@@ -878,19 +2299,37 @@ export type GetLendingAnalysisError =
 /**
  * Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
  * lending document.
- * 
+ *
  * You start asynchronous text analysis by calling `StartLendingAnalysis`,
  * which returns a job identifier (`JobId`). When the text analysis operation
  * finishes, Amazon Textract publishes a completion status to the Amazon Simple
  * Notification Service (Amazon SNS) topic that's registered in the initial call to
  * `StartLendingAnalysis`.
- * 
+ *
  * To get the results of the text analysis operation, first check that the status value
  * published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass
  * the job identifier (`JobId`) from the initial call to
  * `StartLendingAnalysis`.
  */
-export const getLendingAnalysis: API.OperationMethod<GetLendingAnalysisRequest, GetLendingAnalysisResponse, GetLendingAnalysisError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetLendingAnalysisRequest, output: GetLendingAnalysisResponse, errors: [AccessDeniedException, InternalServerError, InvalidJobIdException, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException] }));
+export const getLendingAnalysis: API.OperationMethod<
+  GetLendingAnalysisRequest,
+  GetLendingAnalysisResponse,
+  GetLendingAnalysisError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLendingAnalysisRequest,
+  output: GetLendingAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 export type GetLendingAnalysisSummaryError =
   | AccessDeniedException
   | InternalServerError
@@ -906,18 +2345,36 @@ export type GetLendingAnalysisSummaryError =
  * text in a lending document. The returned summary consists of information about documents grouped
  * together by a common document type. Information like detected signatures, page numbers, and split
  * documents is returned with respect to the type of grouped document.
- * 
+ *
  * You start asynchronous text analysis by calling `StartLendingAnalysis`, which
  * returns a job identifier (`JobId`). When the text analysis operation finishes, Amazon
  * Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS)
  * topic that's registered in the initial call to `StartLendingAnalysis`.
- * 
+ *
  * To get the results of the text analysis operation, first check that the status value
  * published to the Amazon SNS topic is SUCCEEDED. If so, call
  * `GetLendingAnalysisSummary`, and pass the job identifier (`JobId`) from
  * the initial call to `StartLendingAnalysis`.
  */
-export const getLendingAnalysisSummary: API.OperationMethod<GetLendingAnalysisSummaryRequest, GetLendingAnalysisSummaryResponse, GetLendingAnalysisSummaryError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetLendingAnalysisSummaryRequest, output: GetLendingAnalysisSummaryResponse, errors: [AccessDeniedException, InternalServerError, InvalidJobIdException, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, ProvisionedThroughputExceededException, ThrottlingException] }));
+export const getLendingAnalysisSummary: API.OperationMethod<
+  GetLendingAnalysisSummaryRequest,
+  GetLendingAnalysisSummaryResponse,
+  GetLendingAnalysisSummaryError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLendingAnalysisSummaryRequest,
+  output: GetLendingAnalysisSummaryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 export type ListAdaptersError =
   | AccessDeniedException
   | InternalServerError
@@ -929,10 +2386,44 @@ export type ListAdaptersError =
 /**
  * Lists all adapters that match the specified filtration criteria.
  */
-export const listAdapters: API.OperationMethod<ListAdaptersRequest, ListAdaptersResponse, ListAdaptersError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListAdaptersRequest) => stream.Stream<ListAdaptersResponse, ListAdaptersError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListAdaptersRequest) => stream.Stream<AdapterOverview, ListAdaptersError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListAdaptersRequest, output: ListAdaptersResponse, errors: [AccessDeniedException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ThrottlingException, ValidationException], pagination: {"inputToken":"NextToken","outputToken":"NextToken","items":"Adapters","pageSize":"MaxResults"} as const }));
+export const listAdapters: API.OperationMethod<
+  ListAdaptersRequest,
+  ListAdaptersResponse,
+  ListAdaptersError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListAdaptersRequest,
+  ) => stream.Stream<
+    ListAdaptersResponse,
+    ListAdaptersError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAdaptersRequest,
+  ) => stream.Stream<
+    AdapterOverview,
+    ListAdaptersError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAdaptersRequest,
+  output: ListAdaptersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Adapters",
+    pageSize: "MaxResults",
+  } as const,
+}));
 export type ListAdapterVersionsError =
   | AccessDeniedException
   | InternalServerError
@@ -945,10 +2436,45 @@ export type ListAdapterVersionsError =
 /**
  * List all version of an adapter that meet the specified filtration criteria.
  */
-export const listAdapterVersions: API.OperationMethod<ListAdapterVersionsRequest, ListAdapterVersionsResponse, ListAdapterVersionsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListAdapterVersionsRequest) => stream.Stream<ListAdapterVersionsResponse, ListAdapterVersionsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListAdapterVersionsRequest) => stream.Stream<AdapterVersionOverview, ListAdapterVersionsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListAdapterVersionsRequest, output: ListAdapterVersionsResponse, errors: [AccessDeniedException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException], pagination: {"inputToken":"NextToken","outputToken":"NextToken","items":"AdapterVersions","pageSize":"MaxResults"} as const }));
+export const listAdapterVersions: API.OperationMethod<
+  ListAdapterVersionsRequest,
+  ListAdapterVersionsResponse,
+  ListAdapterVersionsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListAdapterVersionsRequest,
+  ) => stream.Stream<
+    ListAdapterVersionsResponse,
+    ListAdapterVersionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAdapterVersionsRequest,
+  ) => stream.Stream<
+    AdapterVersionOverview,
+    ListAdapterVersionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAdapterVersionsRequest,
+  output: ListAdapterVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AdapterVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerError
@@ -961,7 +2487,24 @@ export type ListTagsForResourceError =
 /**
  * Lists all tags for an Amazon Textract resource.
  */
-export const listTagsForResource: API.OperationMethod<ListTagsForResourceRequest, ListTagsForResourceResponse, ListTagsForResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ListTagsForResourceRequest, output: ListTagsForResourceResponse, errors: [AccessDeniedException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StartDocumentAnalysisError =
   | AccessDeniedException
   | BadDocumentException
@@ -979,11 +2522,11 @@ export type StartDocumentAnalysisError =
 /**
  * Starts the asynchronous analysis of an input document for relationships between detected
  * items such as key-value pairs, tables, and selection elements.
- * 
+ *
  * `StartDocumentAnalysis` can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The
  * documents are stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name
  * of the document.
- * 
+ *
  * `StartDocumentAnalysis` returns a job identifier
  * (`JobId`) that you use to get the results of the operation. When text
  * analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS)
@@ -992,10 +2535,32 @@ export type StartDocumentAnalysisError =
  * `SUCCEEDED`. If so, call GetDocumentAnalysis, and pass
  * the job identifier (`JobId`) from the initial call to
  * `StartDocumentAnalysis`.
- * 
+ *
  * For more information, see Document Text Analysis.
  */
-export const startDocumentAnalysis: API.OperationMethod<StartDocumentAnalysisRequest, StartDocumentAnalysisResponse, StartDocumentAnalysisError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartDocumentAnalysisRequest, output: StartDocumentAnalysisResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, IdempotentParameterMismatchException, InternalServerError, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, LimitExceededException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const startDocumentAnalysis: API.OperationMethod<
+  StartDocumentAnalysisRequest,
+  StartDocumentAnalysisResponse,
+  StartDocumentAnalysisError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDocumentAnalysisRequest,
+  output: StartDocumentAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type StartDocumentTextDetectionError =
   | AccessDeniedException
   | BadDocumentException
@@ -1013,11 +2578,11 @@ export type StartDocumentTextDetectionError =
 /**
  * Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of
  * text and the words that make up a line of text.
- * 
+ *
  * `StartDocumentTextDetection` can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The
  * documents are stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name
  * of the document.
- * 
+ *
  * `StartDocumentTextDetection` returns a job identifier
  * (`JobId`) that you use to get the results of the operation. When text
  * detection is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS)
@@ -1026,10 +2591,32 @@ export type StartDocumentTextDetectionError =
  * `SUCCEEDED`. If so, call GetDocumentTextDetection, and
  * pass the job identifier (`JobId`) from the initial call to
  * `StartDocumentTextDetection`.
- * 
+ *
  * For more information, see Document Text Detection.
  */
-export const startDocumentTextDetection: API.OperationMethod<StartDocumentTextDetectionRequest, StartDocumentTextDetectionResponse, StartDocumentTextDetectionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartDocumentTextDetectionRequest, output: StartDocumentTextDetectionResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, IdempotentParameterMismatchException, InternalServerError, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, LimitExceededException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const startDocumentTextDetection: API.OperationMethod<
+  StartDocumentTextDetectionRequest,
+  StartDocumentTextDetectionResponse,
+  StartDocumentTextDetectionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDocumentTextDetectionRequest,
+  output: StartDocumentTextDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type StartExpenseAnalysisError =
   | AccessDeniedException
   | BadDocumentException
@@ -1047,11 +2634,11 @@ export type StartExpenseAnalysisError =
 /**
  * Starts the asynchronous analysis of invoices or receipts for data like contact information,
  * items purchased, and vendor names.
- * 
+ *
  * `StartExpenseAnalysis` can analyze text in documents that are in JPEG, PNG, and
  * PDF format. The documents must be stored in an Amazon S3 bucket. Use the DocumentLocation parameter to specify the name of your S3 bucket and the name of the
  * document in that bucket.
- * 
+ *
  * `StartExpenseAnalysis` returns a job identifier (`JobId`) that you
  * will provide to `GetExpenseAnalysis` to retrieve the results of the operation. When
  * the analysis of the input invoices/receipts is finished, Amazon Textract publishes a completion
@@ -1059,10 +2646,32 @@ export type StartExpenseAnalysisError =
  * To obtain the results of the invoice and receipt analysis operation, ensure that the status value
  * published to the Amazon SNS topic is `SUCCEEDED`. If so, call GetExpenseAnalysis, and pass the job identifier (`JobId`) that was
  * returned by your call to `StartExpenseAnalysis`.
- * 
+ *
  * For more information, see Analyzing Invoices and Receipts.
  */
-export const startExpenseAnalysis: API.OperationMethod<StartExpenseAnalysisRequest, StartExpenseAnalysisResponse, StartExpenseAnalysisError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartExpenseAnalysisRequest, output: StartExpenseAnalysisResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, IdempotentParameterMismatchException, InternalServerError, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, LimitExceededException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const startExpenseAnalysis: API.OperationMethod<
+  StartExpenseAnalysisRequest,
+  StartExpenseAnalysisResponse,
+  StartExpenseAnalysisError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartExpenseAnalysisRequest,
+  output: StartExpenseAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type StartLendingAnalysisError =
   | AccessDeniedException
   | BadDocumentException
@@ -1082,11 +2691,11 @@ export type StartLendingAnalysisError =
  * `StartLendingAnalysis` initiates the classification and analysis of a packet of
  * lending documents. `StartLendingAnalysis` operates on a document file located in an
  * Amazon S3 bucket.
- * 
+ *
  * `StartLendingAnalysis` can analyze text in documents that are in one of the
  * following formats: JPEG, PNG, TIFF, PDF. Use `DocumentLocation` to specify the bucket
  * name and the file name of the document.
- * 
+ *
  * `StartLendingAnalysis` returns a job identifier (`JobId`) that you use
  * to get the results of the operation. When the text analysis is finished, Amazon Textract
  * publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that
@@ -1095,18 +2704,40 @@ export type StartLendingAnalysisError =
  * the status is SUCCEEDED you can call either `GetLendingAnalysis` or
  * `GetLendingAnalysisSummary` and provide the `JobId` to obtain the results
  * of the analysis.
- * 
+ *
  * If using `OutputConfig` to specify an Amazon S3 bucket, the output will be contained
  * within the specified prefix in a directory labeled with the job-id. In the directory there are 3
  * sub-directories:
- * 
+ *
  * - detailedResponse (contains the GetLendingAnalysis response)
- * 
+ *
  * - summaryResponse (for the GetLendingAnalysisSummary response)
- * 
+ *
  * - splitDocuments (documents split across logical boundaries)
  */
-export const startLendingAnalysis: API.OperationMethod<StartLendingAnalysisRequest, StartLendingAnalysisResponse, StartLendingAnalysisError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartLendingAnalysisRequest, output: StartLendingAnalysisResponse, errors: [AccessDeniedException, BadDocumentException, DocumentTooLargeException, IdempotentParameterMismatchException, InternalServerError, InvalidKMSKeyException, InvalidParameterException, InvalidS3ObjectException, LimitExceededException, ProvisionedThroughputExceededException, ThrottlingException, UnsupportedDocumentException] }));
+export const startLendingAnalysis: API.OperationMethod<
+  StartLendingAnalysisRequest,
+  StartLendingAnalysisResponse,
+  StartLendingAnalysisError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartLendingAnalysisRequest,
+  output: StartLendingAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 export type TagResourceError =
   | AccessDeniedException
   | InternalServerError
@@ -1120,7 +2751,25 @@ export type TagResourceError =
 /**
  * Adds one or more tags to the specified resource.
  */
-export const tagResource: API.OperationMethod<TagResourceRequest, TagResourceResponse, TagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: TagResourceRequest, output: TagResourceResponse, errors: [AccessDeniedException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UntagResourceError =
   | AccessDeniedException
   | InternalServerError
@@ -1133,7 +2782,24 @@ export type UntagResourceError =
 /**
  * Removes any tags with the specified keys from the specified resource.
  */
-export const untagResource: API.OperationMethod<UntagResourceRequest, UntagResourceResponse, UntagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UntagResourceRequest, output: UntagResourceResponse, errors: [AccessDeniedException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateAdapterError =
   | AccessDeniedException
   | ConflictException
@@ -1148,4 +2814,22 @@ export type UpdateAdapterError =
  * Update the configuration for an adapter. FeatureTypes configurations cannot be updated.
  * At least one new parameter must be specified as an argument.
  */
-export const updateAdapter: API.OperationMethod<UpdateAdapterRequest, UpdateAdapterResponse, UpdateAdapterError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateAdapterRequest, output: UpdateAdapterResponse, errors: [AccessDeniedException, ConflictException, InternalServerError, InvalidParameterException, ProvisionedThroughputExceededException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const updateAdapter: API.OperationMethod<
+  UpdateAdapterRequest,
+  UpdateAdapterResponse,
+  UpdateAdapterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAdapterRequest,
+  output: UpdateAdapterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

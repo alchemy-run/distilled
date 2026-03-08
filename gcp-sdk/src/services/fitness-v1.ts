@@ -28,9 +28,11 @@ export interface MapValue {
   fpVal?: number;
 }
 
-export const MapValue: Schema.Schema<MapValue> = Schema.suspend(() => Schema.Struct({
-  fpVal: Schema.optional(Schema.Number),
-})).annotate({ identifier: "MapValue" }) as any as Schema.Schema<MapValue>;
+export const MapValue: Schema.Schema<MapValue> = Schema.suspend(() =>
+  Schema.Struct({
+    fpVal: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "MapValue" }) as any as Schema.Schema<MapValue>;
 
 export interface BucketByActivity {
   /** Specifies that only activity segments of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
@@ -39,10 +41,15 @@ export interface BucketByActivity {
   activityDataSourceId?: string;
 }
 
-export const BucketByActivity: Schema.Schema<BucketByActivity> = Schema.suspend(() => Schema.Struct({
-  minDurationMillis: Schema.optional(Schema.String),
-  activityDataSourceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "BucketByActivity" }) as any as Schema.Schema<BucketByActivity>;
+export const BucketByActivity: Schema.Schema<BucketByActivity> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      minDurationMillis: Schema.optional(Schema.String),
+      activityDataSourceId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "BucketByActivity",
+}) as any as Schema.Schema<BucketByActivity>;
 
 export interface Application {
   /** An optional URI that can be used to link back to the application. */
@@ -55,12 +62,14 @@ export interface Application {
   packageName?: string;
 }
 
-export const Application: Schema.Schema<Application> = Schema.suspend(() => Schema.Struct({
-  detailsUrl: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  packageName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
+export const Application: Schema.Schema<Application> = Schema.suspend(() =>
+  Schema.Struct({
+    detailsUrl: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    packageName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
 
 export interface Session {
   /** An end time, in milliseconds since epoch, inclusive. */
@@ -83,17 +92,19 @@ export interface Session {
   activeTimeMillis?: string;
 }
 
-export const Session: Schema.Schema<Session> = Schema.suspend(() => Schema.Struct({
-  endTimeMillis: Schema.optional(Schema.String),
-  modifiedTimeMillis: Schema.optional(Schema.String),
-  application: Schema.optional(Application),
-  name: Schema.optional(Schema.String),
-  startTimeMillis: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  activityType: Schema.optional(Schema.Number),
-  activeTimeMillis: Schema.optional(Schema.String),
-})).annotate({ identifier: "Session" }) as any as Schema.Schema<Session>;
+export const Session: Schema.Schema<Session> = Schema.suspend(() =>
+  Schema.Struct({
+    endTimeMillis: Schema.optional(Schema.String),
+    modifiedTimeMillis: Schema.optional(Schema.String),
+    application: Schema.optional(Application),
+    name: Schema.optional(Schema.String),
+    startTimeMillis: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    activityType: Schema.optional(Schema.Number),
+    activeTimeMillis: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Session" }) as any as Schema.Schema<Session>;
 
 export interface ListSessionsResponse {
   /** If includeDeleted is set to true in the request, and startTime and endTime are omitted, this will include sessions which were deleted since the last sync. */
@@ -106,22 +117,32 @@ export interface ListSessionsResponse {
   nextPageToken?: string;
 }
 
-export const ListSessionsResponse: Schema.Schema<ListSessionsResponse> = Schema.suspend(() => Schema.Struct({
-  deletedSession: Schema.optional(Schema.Array(Session)),
-  hasMoreData: Schema.optional(Schema.Boolean),
-  session: Schema.optional(Schema.Array(Session)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSessionsResponse" }) as any as Schema.Schema<ListSessionsResponse>;
+export const ListSessionsResponse: Schema.Schema<ListSessionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deletedSession: Schema.optional(Schema.Array(Session)),
+      hasMoreData: Schema.optional(Schema.Boolean),
+      session: Schema.optional(Schema.Array(Session)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSessionsResponse",
+  }) as any as Schema.Schema<ListSessionsResponse>;
 
 export interface ValueMapValEntry {
   key?: string;
   value?: MapValue;
 }
 
-export const ValueMapValEntry: Schema.Schema<ValueMapValEntry> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-  value: Schema.optional(MapValue),
-})).annotate({ identifier: "ValueMapValEntry" }) as any as Schema.Schema<ValueMapValEntry>;
+export const ValueMapValEntry: Schema.Schema<ValueMapValEntry> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      value: Schema.optional(MapValue),
+    }),
+).annotate({
+  identifier: "ValueMapValEntry",
+}) as any as Schema.Schema<ValueMapValEntry>;
 
 export interface Value {
   /** String value. When this is set, other values must not be set. Strings should be kept small whenever possible. Data streams with large string values and high data frequency may be down sampled. */
@@ -134,12 +155,14 @@ export interface Value {
   mapVal?: Array<ValueMapValEntry>;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() => Schema.Struct({
-  stringVal: Schema.optional(Schema.String),
-  intVal: Schema.optional(Schema.Number),
-  fpVal: Schema.optional(Schema.Number),
-  mapVal: Schema.optional(Schema.Array(ValueMapValEntry)),
-})).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> = Schema.suspend(() =>
+  Schema.Struct({
+    stringVal: Schema.optional(Schema.String),
+    intVal: Schema.optional(Schema.Number),
+    fpVal: Schema.optional(Schema.Number),
+    mapVal: Schema.optional(Schema.Array(ValueMapValEntry)),
+  }),
+).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface DataPoint {
   /** The end time of the interval represented by this data point, in nanoseconds since epoch. */
@@ -160,16 +183,18 @@ export interface DataPoint {
   computationTimeMillis?: string;
 }
 
-export const DataPoint: Schema.Schema<DataPoint> = Schema.suspend(() => Schema.Struct({
-  endTimeNanos: Schema.optional(Schema.String),
-  dataTypeName: Schema.optional(Schema.String),
-  rawTimestampNanos: Schema.optional(Schema.String),
-  startTimeNanos: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Array(Value)),
-  modifiedTimeMillis: Schema.optional(Schema.String),
-  originDataSourceId: Schema.optional(Schema.String),
-  computationTimeMillis: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataPoint" }) as any as Schema.Schema<DataPoint>;
+export const DataPoint: Schema.Schema<DataPoint> = Schema.suspend(() =>
+  Schema.Struct({
+    endTimeNanos: Schema.optional(Schema.String),
+    dataTypeName: Schema.optional(Schema.String),
+    rawTimestampNanos: Schema.optional(Schema.String),
+    startTimeNanos: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.Array(Value)),
+    modifiedTimeMillis: Schema.optional(Schema.String),
+    originDataSourceId: Schema.optional(Schema.String),
+    computationTimeMillis: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DataPoint" }) as any as Schema.Schema<DataPoint>;
 
 export interface Dataset {
   /** This token will be set when a dataset is received in response to a GET request and the dataset is too large to be included in a single response. Provide this value in a subsequent GET request to return the next page of data points within this dataset. */
@@ -184,13 +209,15 @@ export interface Dataset {
   dataSourceId?: string;
 }
 
-export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  maxEndTimeNs: Schema.optional(Schema.String),
-  minStartTimeNs: Schema.optional(Schema.String),
-  point: Schema.optional(Schema.Array(DataPoint)),
-  dataSourceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
+export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() =>
+  Schema.Struct({
+    nextPageToken: Schema.optional(Schema.String),
+    maxEndTimeNs: Schema.optional(Schema.String),
+    minStartTimeNs: Schema.optional(Schema.String),
+    point: Schema.optional(Schema.Array(DataPoint)),
+    dataSourceId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
 
 export interface AggregateBucket {
   /** The end time for the aggregated data, in milliseconds since epoch, inclusive. */
@@ -198,7 +225,13 @@ export interface AggregateBucket {
   /** There will be one dataset per AggregateBy in the request. */
   dataset?: Array<Dataset>;
   /** The type of a bucket signifies how the data aggregation is performed in the bucket. */
-  type?: "unknown" | "time" | "session" | "activityType" | "activitySegment" | (string & {});
+  type?:
+    | "unknown"
+    | "time"
+    | "session"
+    | "activityType"
+    | "activitySegment"
+    | (string & {});
   /** Available for Bucket.Type.ACTIVITY_TYPE, Bucket.Type.ACTIVITY_SEGMENT */
   activity?: number;
   /** The start time for the aggregated data, in milliseconds since epoch, inclusive. */
@@ -207,14 +240,19 @@ export interface AggregateBucket {
   session?: Session;
 }
 
-export const AggregateBucket: Schema.Schema<AggregateBucket> = Schema.suspend(() => Schema.Struct({
-  endTimeMillis: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.Array(Dataset)),
-  type: Schema.optional(Schema.String),
-  activity: Schema.optional(Schema.Number),
-  startTimeMillis: Schema.optional(Schema.String),
-  session: Schema.optional(Session),
-})).annotate({ identifier: "AggregateBucket" }) as any as Schema.Schema<AggregateBucket>;
+export const AggregateBucket: Schema.Schema<AggregateBucket> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      endTimeMillis: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.Array(Dataset)),
+      type: Schema.optional(Schema.String),
+      activity: Schema.optional(Schema.Number),
+      startTimeMillis: Schema.optional(Schema.String),
+      session: Schema.optional(Session),
+    }),
+).annotate({
+  identifier: "AggregateBucket",
+}) as any as Schema.Schema<AggregateBucket>;
 
 export interface AggregateBy {
   /** The data type to aggregate. All data sources providing this data type will contribute data to the aggregation. The response will contain a single dataset for this data type name. The dataset will have a data source ID of derived::com.google.android.gms:aggregated. If the user has no data for this data type, an empty data set will be returned. Note: Data can be aggregated by either the dataTypeName or the dataSourceId, not both. */
@@ -223,19 +261,26 @@ export interface AggregateBy {
   dataSourceId?: string;
 }
 
-export const AggregateBy: Schema.Schema<AggregateBy> = Schema.suspend(() => Schema.Struct({
-  dataTypeName: Schema.optional(Schema.String),
-  dataSourceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AggregateBy" }) as any as Schema.Schema<AggregateBy>;
+export const AggregateBy: Schema.Schema<AggregateBy> = Schema.suspend(() =>
+  Schema.Struct({
+    dataTypeName: Schema.optional(Schema.String),
+    dataSourceId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AggregateBy" }) as any as Schema.Schema<AggregateBy>;
 
 export interface BucketBySession {
   /** Specifies that only sessions of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
   minDurationMillis?: string;
 }
 
-export const BucketBySession: Schema.Schema<BucketBySession> = Schema.suspend(() => Schema.Struct({
-  minDurationMillis: Schema.optional(Schema.String),
-})).annotate({ identifier: "BucketBySession" }) as any as Schema.Schema<BucketBySession>;
+export const BucketBySession: Schema.Schema<BucketBySession> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      minDurationMillis: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "BucketBySession",
+}) as any as Schema.Schema<BucketBySession>;
 
 export interface BucketByTimePeriod {
   value?: number;
@@ -244,11 +289,16 @@ export interface BucketByTimePeriod {
   timeZoneId?: string;
 }
 
-export const BucketByTimePeriod: Schema.Schema<BucketByTimePeriod> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.String),
-  timeZoneId: Schema.optional(Schema.String),
-})).annotate({ identifier: "BucketByTimePeriod" }) as any as Schema.Schema<BucketByTimePeriod>;
+export const BucketByTimePeriod: Schema.Schema<BucketByTimePeriod> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.Number),
+      type: Schema.optional(Schema.String),
+      timeZoneId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BucketByTimePeriod",
+  }) as any as Schema.Schema<BucketByTimePeriod>;
 
 export interface BucketByTime {
   /** Specifies that result buckets aggregate data by exactly durationMillis time frames. Time frames that contain no data will be included in the response with an empty dataset. */
@@ -256,10 +306,14 @@ export interface BucketByTime {
   period?: BucketByTimePeriod;
 }
 
-export const BucketByTime: Schema.Schema<BucketByTime> = Schema.suspend(() => Schema.Struct({
-  durationMillis: Schema.optional(Schema.String),
-  period: Schema.optional(BucketByTimePeriod),
-})).annotate({ identifier: "BucketByTime" }) as any as Schema.Schema<BucketByTime>;
+export const BucketByTime: Schema.Schema<BucketByTime> = Schema.suspend(() =>
+  Schema.Struct({
+    durationMillis: Schema.optional(Schema.String),
+    period: Schema.optional(BucketByTimePeriod),
+  }),
+).annotate({
+  identifier: "BucketByTime",
+}) as any as Schema.Schema<BucketByTime>;
 
 export interface AggregateRequest {
   /** The end of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. The maximum allowed difference between start_time_millis // and end_time_millis is 7776000000 (roughly 90 days). */
@@ -277,19 +331,36 @@ export interface AggregateRequest {
   /** The start of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. */
   startTimeMillis?: string;
   /** DO NOT POPULATE THIS FIELD. It is ignored. */
-  filteredDataQualityStandard?: Array<"dataQualityUnknown" | "dataQualityBloodPressureEsh2002" | "dataQualityBloodPressureEsh2010" | "dataQualityBloodPressureAami" | "dataQualityBloodPressureBhsAA" | "dataQualityBloodPressureBhsAB" | "dataQualityBloodPressureBhsBA" | "dataQualityBloodPressureBhsBB" | "dataQualityBloodGlucoseIso151972003" | "dataQualityBloodGlucoseIso151972013" | (string & {})>;
+  filteredDataQualityStandard?: Array<
+    | "dataQualityUnknown"
+    | "dataQualityBloodPressureEsh2002"
+    | "dataQualityBloodPressureEsh2010"
+    | "dataQualityBloodPressureAami"
+    | "dataQualityBloodPressureBhsAA"
+    | "dataQualityBloodPressureBhsAB"
+    | "dataQualityBloodPressureBhsBA"
+    | "dataQualityBloodPressureBhsBB"
+    | "dataQualityBloodGlucoseIso151972003"
+    | "dataQualityBloodGlucoseIso151972013"
+    | (string & {})
+  >;
 }
 
-export const AggregateRequest: Schema.Schema<AggregateRequest> = Schema.suspend(() => Schema.Struct({
-  endTimeMillis: Schema.optional(Schema.String),
-  aggregateBy: Schema.optional(Schema.Array(AggregateBy)),
-  bucketBySession: Schema.optional(BucketBySession),
-  bucketByActivityType: Schema.optional(BucketByActivity),
-  bucketByTime: Schema.optional(BucketByTime),
-  bucketByActivitySegment: Schema.optional(BucketByActivity),
-  startTimeMillis: Schema.optional(Schema.String),
-  filteredDataQualityStandard: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AggregateRequest" }) as any as Schema.Schema<AggregateRequest>;
+export const AggregateRequest: Schema.Schema<AggregateRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      endTimeMillis: Schema.optional(Schema.String),
+      aggregateBy: Schema.optional(Schema.Array(AggregateBy)),
+      bucketBySession: Schema.optional(BucketBySession),
+      bucketByActivityType: Schema.optional(BucketByActivity),
+      bucketByTime: Schema.optional(BucketByTime),
+      bucketByActivitySegment: Schema.optional(BucketByActivity),
+      startTimeMillis: Schema.optional(Schema.String),
+      filteredDataQualityStandard: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AggregateRequest",
+}) as any as Schema.Schema<AggregateRequest>;
 
 export interface ListDataPointChangesResponse {
   /** Deleted data points for the user. Note, for modifications this should be parsed before handling insertions. */
@@ -302,26 +373,43 @@ export interface ListDataPointChangesResponse {
   nextPageToken?: string;
 }
 
-export const ListDataPointChangesResponse: Schema.Schema<ListDataPointChangesResponse> = Schema.suspend(() => Schema.Struct({
-  deletedDataPoint: Schema.optional(Schema.Array(DataPoint)),
-  dataSourceId: Schema.optional(Schema.String),
-  insertedDataPoint: Schema.optional(Schema.Array(DataPoint)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDataPointChangesResponse" }) as any as Schema.Schema<ListDataPointChangesResponse>;
+export const ListDataPointChangesResponse: Schema.Schema<ListDataPointChangesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deletedDataPoint: Schema.optional(Schema.Array(DataPoint)),
+      dataSourceId: Schema.optional(Schema.String),
+      insertedDataPoint: Schema.optional(Schema.Array(DataPoint)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDataPointChangesResponse",
+  }) as any as Schema.Schema<ListDataPointChangesResponse>;
 
 export interface DataTypeField {
   /** Defines the name and format of data. Unlike data type names, field names are not namespaced, and only need to be unique within the data type. */
   name?: string;
   /** The different supported formats for each field in a data type. */
-  format?: "integer" | "floatPoint" | "string" | "map" | "integerList" | "floatList" | "blob" | (string & {});
+  format?:
+    | "integer"
+    | "floatPoint"
+    | "string"
+    | "map"
+    | "integerList"
+    | "floatList"
+    | "blob"
+    | (string & {});
   optional?: boolean;
 }
 
-export const DataTypeField: Schema.Schema<DataTypeField> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  format: Schema.optional(Schema.String),
-  optional: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DataTypeField" }) as any as Schema.Schema<DataTypeField>;
+export const DataTypeField: Schema.Schema<DataTypeField> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    format: Schema.optional(Schema.String),
+    optional: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "DataTypeField",
+}) as any as Schema.Schema<DataTypeField>;
 
 export interface DataType {
   /** Each data type has a unique, namespaced, name. All data types in the com.google namespace are shared as part of the platform. */
@@ -330,10 +418,12 @@ export interface DataType {
   field?: Array<DataTypeField>;
 }
 
-export const DataType: Schema.Schema<DataType> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  field: Schema.optional(Schema.Array(DataTypeField)),
-})).annotate({ identifier: "DataType" }) as any as Schema.Schema<DataType>;
+export const DataType: Schema.Schema<DataType> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    field: Schema.optional(Schema.Array(DataTypeField)),
+  }),
+).annotate({ identifier: "DataType" }) as any as Schema.Schema<DataType>;
 
 export interface Device {
   /** Manufacturer of the product/hardware. */
@@ -345,16 +435,27 @@ export interface Device {
   /** End-user visible model name for the device. */
   model?: string;
   /** A constant representing the type of the device. */
-  type?: "unknown" | "phone" | "tablet" | "watch" | "chestStrap" | "scale" | "headMounted" | "smartDisplay" | (string & {});
+  type?:
+    | "unknown"
+    | "phone"
+    | "tablet"
+    | "watch"
+    | "chestStrap"
+    | "scale"
+    | "headMounted"
+    | "smartDisplay"
+    | (string & {});
 }
 
-export const Device: Schema.Schema<Device> = Schema.suspend(() => Schema.Struct({
-  manufacturer: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  model: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
+export const Device: Schema.Schema<Device> = Schema.suspend(() =>
+  Schema.Struct({
+    manufacturer: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    model: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
 
 export interface DataSource {
   /** The data type defines the schema for a stream of data being collected by, inserted into, or queried from the Fitness API. */
@@ -368,41 +469,65 @@ export interface DataSource {
   /** Information about an application which feeds sensor data into the platform. */
   application?: Application;
   /** DO NOT POPULATE THIS FIELD. It is never populated in responses from the platform, and is ignored in queries. It will be removed in a future version entirely. */
-  dataQualityStandard?: Array<"dataQualityUnknown" | "dataQualityBloodPressureEsh2002" | "dataQualityBloodPressureEsh2010" | "dataQualityBloodPressureAami" | "dataQualityBloodPressureBhsAA" | "dataQualityBloodPressureBhsAB" | "dataQualityBloodPressureBhsBA" | "dataQualityBloodPressureBhsBB" | "dataQualityBloodGlucoseIso151972003" | "dataQualityBloodGlucoseIso151972013" | (string & {})>;
+  dataQualityStandard?: Array<
+    | "dataQualityUnknown"
+    | "dataQualityBloodPressureEsh2002"
+    | "dataQualityBloodPressureEsh2010"
+    | "dataQualityBloodPressureAami"
+    | "dataQualityBloodPressureBhsAA"
+    | "dataQualityBloodPressureBhsAB"
+    | "dataQualityBloodPressureBhsBA"
+    | "dataQualityBloodPressureBhsBB"
+    | "dataQualityBloodGlucoseIso151972003"
+    | "dataQualityBloodGlucoseIso151972013"
+    | (string & {})
+  >;
   /** An end-user visible name for this data source. */
   name?: string;
   /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. */
   device?: Device;
 }
 
-export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() => Schema.Struct({
-  dataType: Schema.optional(DataType),
-  dataStreamId: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  dataStreamName: Schema.optional(Schema.String),
-  application: Schema.optional(Application),
-  dataQualityStandard: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  device: Schema.optional(Device),
-})).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
+export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() =>
+  Schema.Struct({
+    dataType: Schema.optional(DataType),
+    dataStreamId: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    dataStreamName: Schema.optional(Schema.String),
+    application: Schema.optional(Application),
+    dataQualityStandard: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+    device: Schema.optional(Device),
+  }),
+).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
 
 export interface AggregateResponse {
   /** A list of buckets containing the aggregated data. */
   bucket?: Array<AggregateBucket>;
 }
 
-export const AggregateResponse: Schema.Schema<AggregateResponse> = Schema.suspend(() => Schema.Struct({
-  bucket: Schema.optional(Schema.Array(AggregateBucket)),
-})).annotate({ identifier: "AggregateResponse" }) as any as Schema.Schema<AggregateResponse>;
+export const AggregateResponse: Schema.Schema<AggregateResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bucket: Schema.optional(Schema.Array(AggregateBucket)),
+    }),
+  ).annotate({
+    identifier: "AggregateResponse",
+  }) as any as Schema.Schema<AggregateResponse>;
 
 export interface ListDataSourcesResponse {
   /** A previously created data source. */
   dataSource?: Array<DataSource>;
 }
 
-export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> = Schema.suspend(() => Schema.Struct({
-  dataSource: Schema.optional(Schema.Array(DataSource)),
-})).annotate({ identifier: "ListDataSourcesResponse" }) as any as Schema.Schema<ListDataSourcesResponse>;
+export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataSource: Schema.optional(Schema.Array(DataSource)),
+    }),
+  ).annotate({
+    identifier: "ListDataSourcesResponse",
+  }) as any as Schema.Schema<ListDataSourcesResponse>;
 
 // ==========================================================================
 // Operations
@@ -429,7 +554,12 @@ export const GetUsersDataSourcesResponse = DataSource;
 export type GetUsersDataSourcesError = DefaultErrors;
 
 /** Returns the specified data source. */
-export const getUsersDataSources: API.OperationMethod<GetUsersDataSourcesRequest, GetUsersDataSourcesResponse, GetUsersDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersDataSources: API.OperationMethod<
+  GetUsersDataSourcesRequest,
+  GetUsersDataSourcesResponse,
+  GetUsersDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersDataSourcesRequest,
   output: GetUsersDataSourcesResponse,
   errors: [],
@@ -444,7 +574,9 @@ export interface ListUsersDataSourcesRequest {
 
 export const ListUsersDataSourcesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  dataTypeName: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("dataTypeName")),
+  dataTypeName: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dataTypeName"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "{userId}/dataSources" }),
   svc,
@@ -456,7 +588,12 @@ export const ListUsersDataSourcesResponse = ListDataSourcesResponse;
 export type ListUsersDataSourcesError = DefaultErrors;
 
 /** Lists all data sources that are visible to the developer, using the OAuth scopes provided. The list is not exhaustive; the user may have private data sources that are only visible to other developers, or calls using other scopes. */
-export const listUsersDataSources: API.OperationMethod<ListUsersDataSourcesRequest, ListUsersDataSourcesResponse, ListUsersDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersDataSources: API.OperationMethod<
+  ListUsersDataSourcesRequest,
+  ListUsersDataSourcesResponse,
+  ListUsersDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersDataSourcesRequest,
   output: ListUsersDataSourcesResponse,
   errors: [],
@@ -483,7 +620,12 @@ export const CreateUsersDataSourcesResponse = DataSource;
 export type CreateUsersDataSourcesError = DefaultErrors;
 
 /** Creates a new data source that is unique across all data sources belonging to this user. A data source is a unique source of sensor data. Data sources can expose raw data coming from hardware sensors on local or companion devices. They can also expose derived data, created by transforming or merging other data sources. Multiple data sources can exist for the same data type. Every data point in every dataset inserted into or read from the Fitness API has an associated data source. Each data source produces a unique stream of dataset updates, with a unique data source identifier. Not all changes to data source affect the data stream ID, so that data collected by updated versions of the same application/device can still be considered to belong to the same data source. Data sources are identified using a string generated by the server, based on the contents of the source being created. The dataStreamId field should not be set when invoking this method. It will be automatically generated by the server with the correct format. If a dataStreamId is set, it must match the format that the server would generate. This format is a combination of some fields from the data source, and has a specific order. If it doesn't match, the request will fail with an error. Specifying a DataType which is not a known type (beginning with "com.google.") will create a DataSource with a *custom data type*. Custom data types are only readable by the application that created them. Custom data types are *deprecated*; use standard data types instead. In addition to the data source fields included in the data source ID, the developer project number that is authenticated when creating the data source is included. This developer project number is obfuscated when read by any other developer reading public data types. */
-export const createUsersDataSources: API.OperationMethod<CreateUsersDataSourcesRequest, CreateUsersDataSourcesResponse, CreateUsersDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersDataSources: API.OperationMethod<
+  CreateUsersDataSourcesRequest,
+  CreateUsersDataSourcesResponse,
+  CreateUsersDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersDataSourcesRequest,
   output: CreateUsersDataSourcesResponse,
   errors: [],
@@ -503,7 +645,11 @@ export const UpdateUsersDataSourcesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(DataSource).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "{userId}/dataSources/{dataSourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "{userId}/dataSources/{dataSourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersDataSourcesRequest>;
 
@@ -513,7 +659,12 @@ export const UpdateUsersDataSourcesResponse = DataSource;
 export type UpdateUsersDataSourcesError = DefaultErrors;
 
 /** Updates the specified data source. The dataStreamId, dataType, type, dataStreamName, and device properties with the exception of version, cannot be modified. Data sources are identified by their dataStreamId. */
-export const updateUsersDataSources: API.OperationMethod<UpdateUsersDataSourcesRequest, UpdateUsersDataSourcesResponse, UpdateUsersDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsersDataSources: API.OperationMethod<
+  UpdateUsersDataSourcesRequest,
+  UpdateUsersDataSourcesResponse,
+  UpdateUsersDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersDataSourcesRequest,
   output: UpdateUsersDataSourcesResponse,
   errors: [],
@@ -540,7 +691,12 @@ export const DeleteUsersDataSourcesResponse = DataSource;
 export type DeleteUsersDataSourcesError = DefaultErrors;
 
 /** Deletes the specified data source. The request will fail if the data source contains any data points. */
-export const deleteUsersDataSources: API.OperationMethod<DeleteUsersDataSourcesRequest, DeleteUsersDataSourcesResponse, DeleteUsersDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersDataSources: API.OperationMethod<
+  DeleteUsersDataSourcesRequest,
+  DeleteUsersDataSourcesResponse,
+  DeleteUsersDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersDataSourcesRequest,
   output: DeleteUsersDataSourcesResponse,
   errors: [],
@@ -563,17 +719,27 @@ export const ListUsersDataSourcesDataPointChangesRequest = Schema.Struct({
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "{userId}/dataSources/{dataSourceId}/dataPointChanges" }),
+  T.Http({
+    method: "GET",
+    path: "{userId}/dataSources/{dataSourceId}/dataPointChanges",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListUsersDataSourcesDataPointChangesRequest>;
 
-export type ListUsersDataSourcesDataPointChangesResponse = ListDataPointChangesResponse;
-export const ListUsersDataSourcesDataPointChangesResponse = ListDataPointChangesResponse;
+export type ListUsersDataSourcesDataPointChangesResponse =
+  ListDataPointChangesResponse;
+export const ListUsersDataSourcesDataPointChangesResponse =
+  ListDataPointChangesResponse;
 
 export type ListUsersDataSourcesDataPointChangesError = DefaultErrors;
 
 /** Queries for user's data point changes for a particular data source. */
-export const listUsersDataSourcesDataPointChanges: API.PaginatedOperationMethod<ListUsersDataSourcesDataPointChangesRequest, ListUsersDataSourcesDataPointChangesResponse, ListUsersDataSourcesDataPointChangesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersDataSourcesDataPointChanges: API.PaginatedOperationMethod<
+  ListUsersDataSourcesDataPointChangesRequest,
+  ListUsersDataSourcesDataPointChangesResponse,
+  ListUsersDataSourcesDataPointChangesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersDataSourcesDataPointChangesRequest,
   output: ListUsersDataSourcesDataPointChangesResponse,
   errors: [],
@@ -597,17 +763,28 @@ export const DeleteUsersDataSourcesDatasetsRequest = Schema.Struct({
   dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
   datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersDataSourcesDatasetsRequest>;
 
 export interface DeleteUsersDataSourcesDatasetsResponse {}
-export const DeleteUsersDataSourcesDatasetsResponse: Schema.Schema<DeleteUsersDataSourcesDatasetsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersDataSourcesDatasetsResponse>;
+export const DeleteUsersDataSourcesDatasetsResponse: Schema.Schema<DeleteUsersDataSourcesDatasetsResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteUsersDataSourcesDatasetsResponse>;
 
 export type DeleteUsersDataSourcesDatasetsError = DefaultErrors;
 
 /** Performs an inclusive delete of all data points whose start and end times have any overlap with the time range specified by the dataset ID. For most data types, the entire data point will be deleted. For data types where the time span represents a consistent value (such as com.google.activity.segment), and a data point straddles either end point of the dataset, only the overlapping portion of the data point will be deleted. */
-export const deleteUsersDataSourcesDatasets: API.OperationMethod<DeleteUsersDataSourcesDatasetsRequest, DeleteUsersDataSourcesDatasetsResponse, DeleteUsersDataSourcesDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersDataSourcesDatasets: API.OperationMethod<
+  DeleteUsersDataSourcesDatasetsRequest,
+  DeleteUsersDataSourcesDatasetsResponse,
+  DeleteUsersDataSourcesDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersDataSourcesDatasetsRequest,
   output: DeleteUsersDataSourcesDatasetsResponse,
   errors: [],
@@ -630,7 +807,11 @@ export const PatchUsersDataSourcesDatasetsRequest = Schema.Struct({
   datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
   body: Schema.optional(Dataset).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersDataSourcesDatasetsRequest>;
 
@@ -640,7 +821,12 @@ export const PatchUsersDataSourcesDatasetsResponse = Dataset;
 export type PatchUsersDataSourcesDatasetsError = DefaultErrors;
 
 /** Adds data points to a dataset. The dataset need not be previously created. All points within the given dataset will be returned with subsquent calls to retrieve this dataset. Data points can belong to more than one dataset. This method does not use patch semantics: the data points provided are merely inserted, with no existing data replaced. */
-export const patchUsersDataSourcesDatasets: API.OperationMethod<PatchUsersDataSourcesDatasetsRequest, PatchUsersDataSourcesDatasetsResponse, PatchUsersDataSourcesDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchUsersDataSourcesDatasets: API.OperationMethod<
+  PatchUsersDataSourcesDatasetsRequest,
+  PatchUsersDataSourcesDatasetsResponse,
+  PatchUsersDataSourcesDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchUsersDataSourcesDatasetsRequest,
   output: PatchUsersDataSourcesDatasetsResponse,
   errors: [],
@@ -666,7 +852,10 @@ export const GetUsersDataSourcesDatasetsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
 }).pipe(
-  T.Http({ method: "GET", path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}" }),
+  T.Http({
+    method: "GET",
+    path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersDataSourcesDatasetsRequest>;
 
@@ -676,7 +865,12 @@ export const GetUsersDataSourcesDatasetsResponse = Dataset;
 export type GetUsersDataSourcesDatasetsError = DefaultErrors;
 
 /** Returns a dataset containing all data points whose start and end times overlap with the specified range of the dataset minimum start time and maximum end time. Specifically, any data point whose start time is less than or equal to the dataset end time and whose end time is greater than or equal to the dataset start time. */
-export const getUsersDataSourcesDatasets: API.PaginatedOperationMethod<GetUsersDataSourcesDatasetsRequest, GetUsersDataSourcesDatasetsResponse, GetUsersDataSourcesDatasetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const getUsersDataSourcesDatasets: API.PaginatedOperationMethod<
+  GetUsersDataSourcesDatasetsRequest,
+  GetUsersDataSourcesDatasetsResponse,
+  GetUsersDataSourcesDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: GetUsersDataSourcesDatasetsRequest,
   output: GetUsersDataSourcesDatasetsResponse,
   errors: [],
@@ -707,7 +901,12 @@ export const AggregateUsersDatasetResponse = AggregateResponse;
 export type AggregateUsersDatasetError = DefaultErrors;
 
 /** Aggregates data of a certain type or stream into buckets divided by a given type of boundary. Multiple data sets of multiple types and from multiple sources can be aggregated into exactly one bucket type per request. */
-export const aggregateUsersDataset: API.OperationMethod<AggregateUsersDatasetRequest, AggregateUsersDatasetResponse, AggregateUsersDatasetError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const aggregateUsersDataset: API.OperationMethod<
+  AggregateUsersDatasetRequest,
+  AggregateUsersDatasetResponse,
+  AggregateUsersDatasetError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AggregateUsersDatasetRequest,
   output: AggregateUsersDatasetResponse,
   errors: [],
@@ -727,7 +926,11 @@ export const UpdateUsersSessionsRequest = Schema.Struct({
   sessionId: Schema.String.pipe(T.HttpPath("sessionId")),
   body: Schema.optional(Session).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "{userId}/sessions/{sessionId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "{userId}/sessions/{sessionId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersSessionsRequest>;
 
@@ -737,7 +940,12 @@ export const UpdateUsersSessionsResponse = Session;
 export type UpdateUsersSessionsError = DefaultErrors;
 
 /** Updates or insert a given session. */
-export const updateUsersSessions: API.OperationMethod<UpdateUsersSessionsRequest, UpdateUsersSessionsResponse, UpdateUsersSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsersSessions: API.OperationMethod<
+  UpdateUsersSessionsRequest,
+  UpdateUsersSessionsResponse,
+  UpdateUsersSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersSessionsRequest,
   output: UpdateUsersSessionsResponse,
   errors: [],
@@ -763,8 +971,12 @@ export const ListUsersSessionsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
   endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
-  includeDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeDeleted")),
-  activityType: Schema.optional(Schema.Array(Schema.Number)).pipe(T.HttpQuery("activityType")),
+  includeDeleted: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeDeleted"),
+  ),
+  activityType: Schema.optional(Schema.Array(Schema.Number)).pipe(
+    T.HttpQuery("activityType"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "{userId}/sessions" }),
   svc,
@@ -776,7 +988,12 @@ export const ListUsersSessionsResponse = ListSessionsResponse;
 export type ListUsersSessionsError = DefaultErrors;
 
 /** Lists sessions previously created. */
-export const listUsersSessions: API.PaginatedOperationMethod<ListUsersSessionsRequest, ListUsersSessionsResponse, ListUsersSessionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersSessions: API.PaginatedOperationMethod<
+  ListUsersSessionsRequest,
+  ListUsersSessionsResponse,
+  ListUsersSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersSessionsRequest,
   output: ListUsersSessionsResponse,
   errors: [],
@@ -802,14 +1019,19 @@ export const DeleteUsersSessionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteUsersSessionsRequest>;
 
 export interface DeleteUsersSessionsResponse {}
-export const DeleteUsersSessionsResponse: Schema.Schema<DeleteUsersSessionsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersSessionsResponse>;
+export const DeleteUsersSessionsResponse: Schema.Schema<DeleteUsersSessionsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersSessionsResponse>;
 
 export type DeleteUsersSessionsError = DefaultErrors;
 
 /** Deletes a session specified by the given session ID. */
-export const deleteUsersSessions: API.OperationMethod<DeleteUsersSessionsRequest, DeleteUsersSessionsResponse, DeleteUsersSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersSessions: API.OperationMethod<
+  DeleteUsersSessionsRequest,
+  DeleteUsersSessionsResponse,
+  DeleteUsersSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersSessionsRequest,
   output: DeleteUsersSessionsResponse,
   errors: [],
 }));
-

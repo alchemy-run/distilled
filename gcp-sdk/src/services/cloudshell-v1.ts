@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,32 +74,43 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface GenerateAccessTokenResponse {
   /** The access token. */
   accessToken?: string;
 }
 
-export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> = Schema.suspend(() => Schema.Struct({
-  accessToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateAccessTokenResponse" }) as any as Schema.Schema<GenerateAccessTokenResponse>;
+export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateAccessTokenResponse",
+  }) as any as Schema.Schema<GenerateAccessTokenResponse>;
 
 export interface Environment {
   /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
@@ -103,7 +120,13 @@ export interface Environment {
   /** Required. Immutable. Full path to the Docker image used to run this environment, e.g. "gcr.io/dev-con/cloud-devshell:latest". */
   dockerImage?: string;
   /** Output only. Current execution state of this environment. */
-  state?: "STATE_UNSPECIFIED" | "SUSPENDED" | "PENDING" | "RUNNING" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "SUSPENDED"
+    | "PENDING"
+    | "RUNNING"
+    | "DELETING"
+    | (string & {});
   /** Output only. Host to which clients can connect to initiate HTTPS or WSS connections with the environment. */
   webHost?: string;
   /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
@@ -116,17 +139,19 @@ export interface Environment {
   publicKeys?: Array<string>;
 }
 
-export const Environment: Schema.Schema<Environment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  dockerImage: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  webHost: Schema.optional(Schema.String),
-  sshUsername: Schema.optional(Schema.String),
-  sshHost: Schema.optional(Schema.String),
-  sshPort: Schema.optional(Schema.Number),
-  publicKeys: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
+export const Environment: Schema.Schema<Environment> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    dockerImage: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    webHost: Schema.optional(Schema.String),
+    sshUsername: Schema.optional(Schema.String),
+    sshHost: Schema.optional(Schema.String),
+    sshPort: Schema.optional(Schema.Number),
+    publicKeys: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
 
 export interface StartEnvironmentRequest {
   /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
@@ -135,10 +160,15 @@ export interface StartEnvironmentRequest {
   publicKeys?: Array<string>;
 }
 
-export const StartEnvironmentRequest: Schema.Schema<StartEnvironmentRequest> = Schema.suspend(() => Schema.Struct({
-  accessToken: Schema.optional(Schema.String),
-  publicKeys: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "StartEnvironmentRequest" }) as any as Schema.Schema<StartEnvironmentRequest>;
+export const StartEnvironmentRequest: Schema.Schema<StartEnvironmentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessToken: Schema.optional(Schema.String),
+      publicKeys: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "StartEnvironmentRequest",
+  }) as any as Schema.Schema<StartEnvironmentRequest>;
 
 export interface AuthorizeEnvironmentRequest {
   /** The OAuth access token that should be sent to the environment. */
@@ -149,98 +179,141 @@ export interface AuthorizeEnvironmentRequest {
   expireTime?: string;
 }
 
-export const AuthorizeEnvironmentRequest: Schema.Schema<AuthorizeEnvironmentRequest> = Schema.suspend(() => Schema.Struct({
-  accessToken: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "AuthorizeEnvironmentRequest" }) as any as Schema.Schema<AuthorizeEnvironmentRequest>;
+export const AuthorizeEnvironmentRequest: Schema.Schema<AuthorizeEnvironmentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessToken: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AuthorizeEnvironmentRequest",
+  }) as any as Schema.Schema<AuthorizeEnvironmentRequest>;
 
 export interface AddPublicKeyRequest {
   /** Key that should be added to the environment. Supported formats are `ssh-dss` (see RFC4253), `ssh-rsa` (see RFC4253), `ecdsa-sha2-nistp256` (see RFC5656), `ecdsa-sha2-nistp384` (see RFC5656) and `ecdsa-sha2-nistp521` (see RFC5656). It should be structured as <format> <content>, where <content> part is encoded with Base64. */
   key?: string;
 }
 
-export const AddPublicKeyRequest: Schema.Schema<AddPublicKeyRequest> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddPublicKeyRequest" }) as any as Schema.Schema<AddPublicKeyRequest>;
+export const AddPublicKeyRequest: Schema.Schema<AddPublicKeyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddPublicKeyRequest",
+  }) as any as Schema.Schema<AddPublicKeyRequest>;
 
 export interface RemovePublicKeyRequest {
   /** Key that should be removed from the environment. */
   key?: string;
 }
 
-export const RemovePublicKeyRequest: Schema.Schema<RemovePublicKeyRequest> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-})).annotate({ identifier: "RemovePublicKeyRequest" }) as any as Schema.Schema<RemovePublicKeyRequest>;
+export const RemovePublicKeyRequest: Schema.Schema<RemovePublicKeyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemovePublicKeyRequest",
+  }) as any as Schema.Schema<RemovePublicKeyRequest>;
 
-export interface AddPublicKeyMetadata {
-}
+export interface AddPublicKeyMetadata {}
 
-export const AddPublicKeyMetadata: Schema.Schema<AddPublicKeyMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AddPublicKeyMetadata" }) as any as Schema.Schema<AddPublicKeyMetadata>;
+export const AddPublicKeyMetadata: Schema.Schema<AddPublicKeyMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AddPublicKeyMetadata",
+  }) as any as Schema.Schema<AddPublicKeyMetadata>;
 
 export interface AddPublicKeyResponse {
   /** Key that was added to the environment. */
   key?: string;
 }
 
-export const AddPublicKeyResponse: Schema.Schema<AddPublicKeyResponse> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddPublicKeyResponse" }) as any as Schema.Schema<AddPublicKeyResponse>;
+export const AddPublicKeyResponse: Schema.Schema<AddPublicKeyResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddPublicKeyResponse",
+  }) as any as Schema.Schema<AddPublicKeyResponse>;
 
-export interface AuthorizeEnvironmentMetadata {
-}
+export interface AuthorizeEnvironmentMetadata {}
 
-export const AuthorizeEnvironmentMetadata: Schema.Schema<AuthorizeEnvironmentMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AuthorizeEnvironmentMetadata" }) as any as Schema.Schema<AuthorizeEnvironmentMetadata>;
+export const AuthorizeEnvironmentMetadata: Schema.Schema<AuthorizeEnvironmentMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AuthorizeEnvironmentMetadata",
+  }) as any as Schema.Schema<AuthorizeEnvironmentMetadata>;
 
-export interface AuthorizeEnvironmentResponse {
-}
+export interface AuthorizeEnvironmentResponse {}
 
-export const AuthorizeEnvironmentResponse: Schema.Schema<AuthorizeEnvironmentResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AuthorizeEnvironmentResponse" }) as any as Schema.Schema<AuthorizeEnvironmentResponse>;
+export const AuthorizeEnvironmentResponse: Schema.Schema<AuthorizeEnvironmentResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AuthorizeEnvironmentResponse",
+  }) as any as Schema.Schema<AuthorizeEnvironmentResponse>;
 
-export interface CreateEnvironmentMetadata {
-}
+export interface CreateEnvironmentMetadata {}
 
-export const CreateEnvironmentMetadata: Schema.Schema<CreateEnvironmentMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CreateEnvironmentMetadata" }) as any as Schema.Schema<CreateEnvironmentMetadata>;
+export const CreateEnvironmentMetadata: Schema.Schema<CreateEnvironmentMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CreateEnvironmentMetadata",
+  }) as any as Schema.Schema<CreateEnvironmentMetadata>;
 
-export interface DeleteEnvironmentMetadata {
-}
+export interface DeleteEnvironmentMetadata {}
 
-export const DeleteEnvironmentMetadata: Schema.Schema<DeleteEnvironmentMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteEnvironmentMetadata" }) as any as Schema.Schema<DeleteEnvironmentMetadata>;
+export const DeleteEnvironmentMetadata: Schema.Schema<DeleteEnvironmentMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteEnvironmentMetadata",
+  }) as any as Schema.Schema<DeleteEnvironmentMetadata>;
 
-export interface RemovePublicKeyMetadata {
-}
+export interface RemovePublicKeyMetadata {}
 
-export const RemovePublicKeyMetadata: Schema.Schema<RemovePublicKeyMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RemovePublicKeyMetadata" }) as any as Schema.Schema<RemovePublicKeyMetadata>;
+export const RemovePublicKeyMetadata: Schema.Schema<RemovePublicKeyMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RemovePublicKeyMetadata",
+  }) as any as Schema.Schema<RemovePublicKeyMetadata>;
 
-export interface RemovePublicKeyResponse {
-}
+export interface RemovePublicKeyResponse {}
 
-export const RemovePublicKeyResponse: Schema.Schema<RemovePublicKeyResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RemovePublicKeyResponse" }) as any as Schema.Schema<RemovePublicKeyResponse>;
+export const RemovePublicKeyResponse: Schema.Schema<RemovePublicKeyResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RemovePublicKeyResponse",
+  }) as any as Schema.Schema<RemovePublicKeyResponse>;
 
 export interface StartEnvironmentMetadata {
   /** Current state of the environment being started. */
-  state?: "STATE_UNSPECIFIED" | "STARTING" | "UNARCHIVING_DISK" | "AWAITING_COMPUTE_RESOURCES" | "FINISHED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STARTING"
+    | "UNARCHIVING_DISK"
+    | "AWAITING_COMPUTE_RESOURCES"
+    | "FINISHED"
+    | (string & {});
 }
 
-export const StartEnvironmentMetadata: Schema.Schema<StartEnvironmentMetadata> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "StartEnvironmentMetadata" }) as any as Schema.Schema<StartEnvironmentMetadata>;
+export const StartEnvironmentMetadata: Schema.Schema<StartEnvironmentMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StartEnvironmentMetadata",
+  }) as any as Schema.Schema<StartEnvironmentMetadata>;
 
 export interface StartEnvironmentResponse {
   /** Environment that was started. */
   environment?: Environment;
 }
 
-export const StartEnvironmentResponse: Schema.Schema<StartEnvironmentResponse> = Schema.suspend(() => Schema.Struct({
-  environment: Schema.optional(Environment),
-})).annotate({ identifier: "StartEnvironmentResponse" }) as any as Schema.Schema<StartEnvironmentResponse>;
+export const StartEnvironmentResponse: Schema.Schema<StartEnvironmentResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      environment: Schema.optional(Environment),
+    }),
+  ).annotate({
+    identifier: "StartEnvironmentResponse",
+  }) as any as Schema.Schema<StartEnvironmentResponse>;
 
 // ==========================================================================
 // Operations
@@ -264,7 +337,9 @@ export const ListOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations" }),
   svc,
@@ -276,7 +351,12 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse_Op,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -304,7 +384,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -328,7 +413,12 @@ export const DeleteOperationsResponse = Empty;
 export type DeleteOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOperations: API.OperationMethod<
+  DeleteOperationsRequest,
+  DeleteOperationsResponse,
+  DeleteOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -345,7 +435,11 @@ export const CancelOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -355,7 +449,12 @@ export const CancelOperationsResponse = Empty;
 export type CancelOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOperations: API.OperationMethod<
+  CancelOperationsRequest,
+  CancelOperationsResponse,
+  CancelOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -375,17 +474,27 @@ export const GenerateAccessTokenUsersEnvironmentsRequest = Schema.Struct({
   expireTime: Schema.optional(Schema.String).pipe(T.HttpQuery("expireTime")),
   ttl: Schema.optional(Schema.String).pipe(T.HttpQuery("ttl")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/users/{usersId}/environments/{environmentsId}:generateAccessToken" }),
+  T.Http({
+    method: "GET",
+    path: "v1/users/{usersId}/environments/{environmentsId}:generateAccessToken",
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateAccessTokenUsersEnvironmentsRequest>;
 
-export type GenerateAccessTokenUsersEnvironmentsResponse = GenerateAccessTokenResponse;
-export const GenerateAccessTokenUsersEnvironmentsResponse = GenerateAccessTokenResponse;
+export type GenerateAccessTokenUsersEnvironmentsResponse =
+  GenerateAccessTokenResponse;
+export const GenerateAccessTokenUsersEnvironmentsResponse =
+  GenerateAccessTokenResponse;
 
 export type GenerateAccessTokenUsersEnvironmentsError = DefaultErrors;
 
 /** Generates an access token for the user's environment. */
-export const generateAccessTokenUsersEnvironments: API.OperationMethod<GenerateAccessTokenUsersEnvironmentsRequest, GenerateAccessTokenUsersEnvironmentsResponse, GenerateAccessTokenUsersEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateAccessTokenUsersEnvironments: API.OperationMethod<
+  GenerateAccessTokenUsersEnvironmentsRequest,
+  GenerateAccessTokenUsersEnvironmentsResponse,
+  GenerateAccessTokenUsersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateAccessTokenUsersEnvironmentsRequest,
   output: GenerateAccessTokenUsersEnvironmentsResponse,
   errors: [],
@@ -399,7 +508,10 @@ export interface GetUsersEnvironmentsRequest {
 export const GetUsersEnvironmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/users/{usersId}/environments/{environmentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/users/{usersId}/environments/{environmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersEnvironmentsRequest>;
 
@@ -409,7 +521,12 @@ export const GetUsersEnvironmentsResponse = Environment;
 export type GetUsersEnvironmentsError = DefaultErrors;
 
 /** Gets an environment. Returns NOT_FOUND if the environment does not exist. */
-export const getUsersEnvironments: API.OperationMethod<GetUsersEnvironmentsRequest, GetUsersEnvironmentsResponse, GetUsersEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersEnvironments: API.OperationMethod<
+  GetUsersEnvironmentsRequest,
+  GetUsersEnvironmentsResponse,
+  GetUsersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersEnvironmentsRequest,
   output: GetUsersEnvironmentsResponse,
   errors: [],
@@ -426,7 +543,11 @@ export const StartUsersEnvironmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(StartEnvironmentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/users/{usersId}/environments/{environmentsId}:start", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/users/{usersId}/environments/{environmentsId}:start",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartUsersEnvironmentsRequest>;
 
@@ -436,7 +557,12 @@ export const StartUsersEnvironmentsResponse = Operation;
 export type StartUsersEnvironmentsError = DefaultErrors;
 
 /** Starts an existing environment, allowing clients to connect to it. The returned operation will contain an instance of StartEnvironmentMetadata in its metadata field. Users can wait for the environment to start by polling this operation via GetOperation. Once the environment has finished starting and is ready to accept connections, the operation will contain a StartEnvironmentResponse in its response field. */
-export const startUsersEnvironments: API.OperationMethod<StartUsersEnvironmentsRequest, StartUsersEnvironmentsResponse, StartUsersEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startUsersEnvironments: API.OperationMethod<
+  StartUsersEnvironmentsRequest,
+  StartUsersEnvironmentsResponse,
+  StartUsersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartUsersEnvironmentsRequest,
   output: StartUsersEnvironmentsResponse,
   errors: [],
@@ -453,7 +579,11 @@ export const AuthorizeUsersEnvironmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(AuthorizeEnvironmentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/users/{usersId}/environments/{environmentsId}:authorize", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/users/{usersId}/environments/{environmentsId}:authorize",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AuthorizeUsersEnvironmentsRequest>;
 
@@ -463,7 +593,12 @@ export const AuthorizeUsersEnvironmentsResponse = Operation;
 export type AuthorizeUsersEnvironmentsError = DefaultErrors;
 
 /** Sends OAuth credentials to a running environment on behalf of a user. When this completes, the environment will be authorized to run various Google Cloud command line tools without requiring the user to manually authenticate. */
-export const authorizeUsersEnvironments: API.OperationMethod<AuthorizeUsersEnvironmentsRequest, AuthorizeUsersEnvironmentsResponse, AuthorizeUsersEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const authorizeUsersEnvironments: API.OperationMethod<
+  AuthorizeUsersEnvironmentsRequest,
+  AuthorizeUsersEnvironmentsResponse,
+  AuthorizeUsersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AuthorizeUsersEnvironmentsRequest,
   output: AuthorizeUsersEnvironmentsResponse,
   errors: [],
@@ -480,7 +615,11 @@ export const AddPublicKeyUsersEnvironmentsRequest = Schema.Struct({
   environment: Schema.String.pipe(T.HttpPath("environment")),
   body: Schema.optional(AddPublicKeyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/users/{usersId}/environments/{environmentsId}:addPublicKey", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/users/{usersId}/environments/{environmentsId}:addPublicKey",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddPublicKeyUsersEnvironmentsRequest>;
 
@@ -490,7 +629,12 @@ export const AddPublicKeyUsersEnvironmentsResponse = Operation;
 export type AddPublicKeyUsersEnvironmentsError = DefaultErrors;
 
 /** Adds a public SSH key to an environment, allowing clients with the corresponding private key to connect to that environment via SSH. If a key with the same content already exists, this will error with ALREADY_EXISTS. */
-export const addPublicKeyUsersEnvironments: API.OperationMethod<AddPublicKeyUsersEnvironmentsRequest, AddPublicKeyUsersEnvironmentsResponse, AddPublicKeyUsersEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addPublicKeyUsersEnvironments: API.OperationMethod<
+  AddPublicKeyUsersEnvironmentsRequest,
+  AddPublicKeyUsersEnvironmentsResponse,
+  AddPublicKeyUsersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddPublicKeyUsersEnvironmentsRequest,
   output: AddPublicKeyUsersEnvironmentsResponse,
   errors: [],
@@ -507,7 +651,11 @@ export const RemovePublicKeyUsersEnvironmentsRequest = Schema.Struct({
   environment: Schema.String.pipe(T.HttpPath("environment")),
   body: Schema.optional(RemovePublicKeyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/users/{usersId}/environments/{environmentsId}:removePublicKey", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/users/{usersId}/environments/{environmentsId}:removePublicKey",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemovePublicKeyUsersEnvironmentsRequest>;
 
@@ -517,9 +665,13 @@ export const RemovePublicKeyUsersEnvironmentsResponse = Operation;
 export type RemovePublicKeyUsersEnvironmentsError = DefaultErrors;
 
 /** Removes a public SSH key from an environment. Clients will no longer be able to connect to the environment using the corresponding private key. If a key with the same content is not present, this will error with NOT_FOUND. */
-export const removePublicKeyUsersEnvironments: API.OperationMethod<RemovePublicKeyUsersEnvironmentsRequest, RemovePublicKeyUsersEnvironmentsResponse, RemovePublicKeyUsersEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removePublicKeyUsersEnvironments: API.OperationMethod<
+  RemovePublicKeyUsersEnvironmentsRequest,
+  RemovePublicKeyUsersEnvironmentsResponse,
+  RemovePublicKeyUsersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemovePublicKeyUsersEnvironmentsRequest,
   output: RemovePublicKeyUsersEnvironmentsResponse,
   errors: [],
 }));
-

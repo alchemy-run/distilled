@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // SecurityTXT
@@ -25,9 +23,13 @@ export interface GetSecurityTXTRequest {
 }
 
 export const GetSecurityTXTRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/security-center/securitytxt" })) as unknown as Schema.Schema<GetSecurityTXTRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/security-center/securitytxt",
+  }),
+) as unknown as Schema.Schema<GetSecurityTXTRequest>;
 
 export interface GetSecurityTXTResponse {
   acknowledgments?: string[];
@@ -50,11 +52,10 @@ export const GetSecurityTXTResponse = Schema.Struct({
   expires: Schema.optional(Schema.String),
   hiring: Schema.optional(Schema.Array(Schema.String)),
   policy: Schema.optional(Schema.Array(Schema.String)),
-  preferredLanguages: Schema.optional(Schema.String)
+  preferredLanguages: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSecurityTXTResponse>;
 
-export type GetSecurityTXTError =
-  | DefaultErrors;
+export type GetSecurityTXTError = DefaultErrors;
 
 export const getSecurityTXT: API.OperationMethod<
   GetSecurityTXTRequest,
@@ -100,39 +101,74 @@ export const PutSecurityTXTRequest = Schema.Struct({
   expires: Schema.optional(Schema.String),
   hiring: Schema.optional(Schema.Array(Schema.String)),
   policy: Schema.optional(Schema.Array(Schema.String)),
-  preferredLanguages: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/security-center/securitytxt" })) as unknown as Schema.Schema<PutSecurityTXTRequest>;
+  preferredLanguages: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/security-center/securitytxt",
+  }),
+) as unknown as Schema.Schema<PutSecurityTXTRequest>;
 
 export interface PutSecurityTXTResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const PutSecurityTXTResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<PutSecurityTXTResponse>;
 
-export type PutSecurityTXTError =
-  | DefaultErrors;
+export type PutSecurityTXTError = DefaultErrors;
 
 export const putSecurityTXT: API.OperationMethod<
   PutSecurityTXTRequest,
@@ -151,39 +187,74 @@ export interface DeleteSecurityTXTRequest {
 }
 
 export const DeleteSecurityTXTRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/security-center/securitytxt" })) as unknown as Schema.Schema<DeleteSecurityTXTRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/security-center/securitytxt",
+  }),
+) as unknown as Schema.Schema<DeleteSecurityTXTRequest>;
 
 export interface DeleteSecurityTXTResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeleteSecurityTXTResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteSecurityTXTResponse>;
 
-export type DeleteSecurityTXTError =
-  | DefaultErrors;
+export type DeleteSecurityTXTError = DefaultErrors;
 
 export const deleteSecurityTXT: API.OperationMethod<
   DeleteSecurityTXTRequest,

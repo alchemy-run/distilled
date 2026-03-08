@@ -23,22 +23,32 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface ModelOperationMetadata {
   /** The name of the model we are creating/updating The name must have the form `projects/{project_id}/models/{model_id}` */
   name?: string;
-  basicOperationStatus?: "BASIC_OPERATION_STATUS_UNSPECIFIED" | "BASIC_OPERATION_STATUS_UPLOADING" | "BASIC_OPERATION_STATUS_VERIFYING" | (string & {});
+  basicOperationStatus?:
+    | "BASIC_OPERATION_STATUS_UNSPECIFIED"
+    | "BASIC_OPERATION_STATUS_UPLOADING"
+    | "BASIC_OPERATION_STATUS_VERIFYING"
+    | (string & {});
 }
 
-export const ModelOperationMetadata: Schema.Schema<ModelOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  basicOperationStatus: Schema.optional(Schema.String),
-})).annotate({ identifier: "ModelOperationMetadata" }) as any as Schema.Schema<ModelOperationMetadata>;
+export const ModelOperationMetadata: Schema.Schema<ModelOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      basicOperationStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ModelOperationMetadata",
+  }) as any as Schema.Schema<ModelOperationMetadata>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -49,11 +59,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -68,13 +82,15 @@ export interface Operation {
   done?: boolean;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
@@ -85,17 +101,22 @@ export interface ListOperationsResponse {
   nextPageToken?: string;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -117,7 +138,9 @@ export interface ListOperationsRequest {
 export const ListOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
@@ -131,7 +154,12 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse_Op,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -152,7 +180,11 @@ export const CancelOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -162,7 +194,12 @@ export const CancelOperationsResponse = Empty;
 export type CancelOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOperations: API.OperationMethod<
+  CancelOperationsRequest,
+  CancelOperationsResponse,
+  CancelOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -186,9 +223,13 @@ export const DeleteOperationsResponse = Empty;
 export type DeleteOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOperations: API.OperationMethod<
+  DeleteOperationsRequest,
+  DeleteOperationsResponse,
+  DeleteOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
-

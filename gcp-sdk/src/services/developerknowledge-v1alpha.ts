@@ -34,12 +34,14 @@ export interface Document {
   name?: string;
 }
 
-export const Document: Schema.Schema<Document> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
+export const Document: Schema.Schema<Document> = Schema.suspend(() =>
+  Schema.Struct({
+    uri: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
 
 export interface DocumentChunk {
   /** Output only. The resource name of the document this chunk is from. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` */
@@ -50,11 +52,15 @@ export interface DocumentChunk {
   id?: string;
 }
 
-export const DocumentChunk: Schema.Schema<DocumentChunk> = Schema.suspend(() => Schema.Struct({
-  parent: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "DocumentChunk" }) as any as Schema.Schema<DocumentChunk>;
+export const DocumentChunk: Schema.Schema<DocumentChunk> = Schema.suspend(() =>
+  Schema.Struct({
+    parent: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DocumentChunk",
+}) as any as Schema.Schema<DocumentChunk>;
 
 export interface SearchDocumentChunksResponse {
   /** The search results for the given query. Each DocumentChunk in this list contains a snippet of content relevant to the search query. Use the DocumentChunk.parent field of each result with DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments to retrieve the full document content. */
@@ -63,19 +69,29 @@ export interface SearchDocumentChunksResponse {
   nextPageToken?: string;
 }
 
-export const SearchDocumentChunksResponse: Schema.Schema<SearchDocumentChunksResponse> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(DocumentChunk)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchDocumentChunksResponse" }) as any as Schema.Schema<SearchDocumentChunksResponse>;
+export const SearchDocumentChunksResponse: Schema.Schema<SearchDocumentChunksResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(Schema.Array(DocumentChunk)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchDocumentChunksResponse",
+  }) as any as Schema.Schema<SearchDocumentChunksResponse>;
 
 export interface BatchGetDocumentsResponse {
   /** Documents requested. */
   documents?: Array<Document>;
 }
 
-export const BatchGetDocumentsResponse: Schema.Schema<BatchGetDocumentsResponse> = Schema.suspend(() => Schema.Struct({
-  documents: Schema.optional(Schema.Array(Document)),
-})).annotate({ identifier: "BatchGetDocumentsResponse" }) as any as Schema.Schema<BatchGetDocumentsResponse>;
+export const BatchGetDocumentsResponse: Schema.Schema<BatchGetDocumentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documents: Schema.optional(Schema.Array(Document)),
+    }),
+  ).annotate({
+    identifier: "BatchGetDocumentsResponse",
+  }) as any as Schema.Schema<BatchGetDocumentsResponse>;
 
 // ==========================================================================
 // Operations
@@ -87,7 +103,9 @@ export interface BatchGetDocumentsRequest {
 }
 
 export const BatchGetDocumentsRequest = Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("names")),
+  names: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("names"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/documents:batchGet" }),
   svc,
@@ -99,7 +117,12 @@ export const BatchGetDocumentsResponse_Op = BatchGetDocumentsResponse;
 export type BatchGetDocumentsError = DefaultErrors;
 
 /** Retrieves multiple documents, each with its full Markdown content. */
-export const batchGetDocuments: API.OperationMethod<BatchGetDocumentsRequest, BatchGetDocumentsResponse_Op, BatchGetDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchGetDocuments: API.OperationMethod<
+  BatchGetDocumentsRequest,
+  BatchGetDocumentsResponse_Op,
+  BatchGetDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchGetDocumentsRequest,
   output: BatchGetDocumentsResponse_Op,
   errors: [],
@@ -123,7 +146,12 @@ export const GetDocumentsResponse = Document;
 export type GetDocumentsError = DefaultErrors;
 
 /** Retrieves a single document with its full Markdown content. */
-export const getDocuments: API.OperationMethod<GetDocumentsRequest, GetDocumentsResponse, GetDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDocuments: API.OperationMethod<
+  GetDocumentsRequest,
+  GetDocumentsResponse,
+  GetDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDocumentsRequest,
   output: GetDocumentsResponse,
   errors: [],
@@ -147,13 +175,20 @@ export const SearchDocumentChunksDocumentsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<SearchDocumentChunksDocumentsRequest>;
 
-export type SearchDocumentChunksDocumentsResponse = SearchDocumentChunksResponse;
-export const SearchDocumentChunksDocumentsResponse = SearchDocumentChunksResponse;
+export type SearchDocumentChunksDocumentsResponse =
+  SearchDocumentChunksResponse;
+export const SearchDocumentChunksDocumentsResponse =
+  SearchDocumentChunksResponse;
 
 export type SearchDocumentChunksDocumentsError = DefaultErrors;
 
 /** Searches for developer knowledge across Google's developer documentation. This method returns document chunks based on the user's query. There can be many chunks of the same Document. To retrieve full documents, use DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments with the DocumentChunk.parent returned in the SearchDocumentChunksResponse.results. */
-export const searchDocumentChunksDocuments: API.PaginatedOperationMethod<SearchDocumentChunksDocumentsRequest, SearchDocumentChunksDocumentsResponse, SearchDocumentChunksDocumentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchDocumentChunksDocuments: API.PaginatedOperationMethod<
+  SearchDocumentChunksDocumentsRequest,
+  SearchDocumentChunksDocumentsResponse,
+  SearchDocumentChunksDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchDocumentChunksDocumentsRequest,
   output: SearchDocumentChunksDocumentsResponse,
   errors: [],
@@ -162,4 +197,3 @@ export const searchDocumentChunksDocuments: API.PaginatedOperationMethod<SearchD
     outputToken: "nextPageToken",
   },
 }));
-

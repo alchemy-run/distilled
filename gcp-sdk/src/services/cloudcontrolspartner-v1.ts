@@ -25,30 +25,50 @@ const svc = T.Service({
 
 export interface WorkloadOnboardingStep {
   /** The onboarding step. */
-  step?: "STEP_UNSPECIFIED" | "EKM_PROVISIONED" | "SIGNED_ACCESS_APPROVAL_CONFIGURED" | (string & {});
+  step?:
+    | "STEP_UNSPECIFIED"
+    | "EKM_PROVISIONED"
+    | "SIGNED_ACCESS_APPROVAL_CONFIGURED"
+    | (string & {});
   /** The starting time of the onboarding step. */
   startTime?: string;
   /** The completion time of the onboarding step. */
   completionTime?: string;
   /** Output only. The completion state of the onboarding step. */
-  completionState?: "COMPLETION_STATE_UNSPECIFIED" | "PENDING" | "SUCCEEDED" | "FAILED" | "NOT_APPLICABLE" | (string & {});
+  completionState?:
+    | "COMPLETION_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "NOT_APPLICABLE"
+    | (string & {});
 }
 
-export const WorkloadOnboardingStep: Schema.Schema<WorkloadOnboardingStep> = Schema.suspend(() => Schema.Struct({
-  step: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  completionTime: Schema.optional(Schema.String),
-  completionState: Schema.optional(Schema.String),
-})).annotate({ identifier: "WorkloadOnboardingStep" }) as any as Schema.Schema<WorkloadOnboardingStep>;
+export const WorkloadOnboardingStep: Schema.Schema<WorkloadOnboardingStep> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      step: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      completionTime: Schema.optional(Schema.String),
+      completionState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WorkloadOnboardingStep",
+  }) as any as Schema.Schema<WorkloadOnboardingStep>;
 
 export interface WorkloadOnboardingState {
   /** List of workload onboarding steps. */
   onboardingSteps?: Array<WorkloadOnboardingStep>;
 }
 
-export const WorkloadOnboardingState: Schema.Schema<WorkloadOnboardingState> = Schema.suspend(() => Schema.Struct({
-  onboardingSteps: Schema.optional(Schema.Array(WorkloadOnboardingStep)),
-})).annotate({ identifier: "WorkloadOnboardingState" }) as any as Schema.Schema<WorkloadOnboardingState>;
+export const WorkloadOnboardingState: Schema.Schema<WorkloadOnboardingState> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      onboardingSteps: Schema.optional(Schema.Array(WorkloadOnboardingStep)),
+    }),
+  ).annotate({
+    identifier: "WorkloadOnboardingState",
+  }) as any as Schema.Schema<WorkloadOnboardingState>;
 
 export interface Workload {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
@@ -68,20 +88,31 @@ export interface Workload {
   /** The Google Cloud location of the workload */
   location?: string;
   /** Partner associated with this workload. */
-  partner?: "PARTNER_UNSPECIFIED" | "PARTNER_LOCAL_CONTROLS_BY_S3NS" | "PARTNER_SOVEREIGN_CONTROLS_BY_T_SYSTEMS" | "PARTNER_SOVEREIGN_CONTROLS_BY_SIA_MINSAIT" | "PARTNER_SOVEREIGN_CONTROLS_BY_PSN" | "PARTNER_SOVEREIGN_CONTROLS_BY_CNTXT" | "PARTNER_SOVEREIGN_CONTROLS_BY_CNTXT_NO_EKM" | "PARTNER_SPAIN_DATA_BOUNDARY_BY_TELEFONICA" | (string & {});
+  partner?:
+    | "PARTNER_UNSPECIFIED"
+    | "PARTNER_LOCAL_CONTROLS_BY_S3NS"
+    | "PARTNER_SOVEREIGN_CONTROLS_BY_T_SYSTEMS"
+    | "PARTNER_SOVEREIGN_CONTROLS_BY_SIA_MINSAIT"
+    | "PARTNER_SOVEREIGN_CONTROLS_BY_PSN"
+    | "PARTNER_SOVEREIGN_CONTROLS_BY_CNTXT"
+    | "PARTNER_SOVEREIGN_CONTROLS_BY_CNTXT_NO_EKM"
+    | "PARTNER_SPAIN_DATA_BOUNDARY_BY_TELEFONICA"
+    | (string & {});
 }
 
-export const Workload: Schema.Schema<Workload> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  folderId: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  folder: Schema.optional(Schema.String),
-  workloadOnboardingState: Schema.optional(WorkloadOnboardingState),
-  isOnboarded: Schema.optional(Schema.Boolean),
-  keyManagementProjectId: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  partner: Schema.optional(Schema.String),
-})).annotate({ identifier: "Workload" }) as any as Schema.Schema<Workload>;
+export const Workload: Schema.Schema<Workload> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    folderId: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    folder: Schema.optional(Schema.String),
+    workloadOnboardingState: Schema.optional(WorkloadOnboardingState),
+    isOnboarded: Schema.optional(Schema.Boolean),
+    keyManagementProjectId: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    partner: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Workload" }) as any as Schema.Schema<Workload>;
 
 export interface ListWorkloadsResponse {
   /** List of customer workloads */
@@ -92,38 +123,63 @@ export interface ListWorkloadsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListWorkloadsResponse: Schema.Schema<ListWorkloadsResponse> = Schema.suspend(() => Schema.Struct({
-  workloads: Schema.optional(Schema.Array(Workload)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListWorkloadsResponse" }) as any as Schema.Schema<ListWorkloadsResponse>;
+export const ListWorkloadsResponse: Schema.Schema<ListWorkloadsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workloads: Schema.optional(Schema.Array(Workload)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListWorkloadsResponse",
+  }) as any as Schema.Schema<ListWorkloadsResponse>;
 
 export interface CustomerOnboardingStep {
   /** The onboarding step */
-  step?: "STEP_UNSPECIFIED" | "KAJ_ENROLLMENT" | "CUSTOMER_ENVIRONMENT" | (string & {});
+  step?:
+    | "STEP_UNSPECIFIED"
+    | "KAJ_ENROLLMENT"
+    | "CUSTOMER_ENVIRONMENT"
+    | (string & {});
   /** The starting time of the onboarding step */
   startTime?: string;
   /** The completion time of the onboarding step */
   completionTime?: string;
   /** Output only. Current state of the step */
-  completionState?: "COMPLETION_STATE_UNSPECIFIED" | "PENDING" | "SUCCEEDED" | "FAILED" | "NOT_APPLICABLE" | (string & {});
+  completionState?:
+    | "COMPLETION_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "NOT_APPLICABLE"
+    | (string & {});
 }
 
-export const CustomerOnboardingStep: Schema.Schema<CustomerOnboardingStep> = Schema.suspend(() => Schema.Struct({
-  step: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  completionTime: Schema.optional(Schema.String),
-  completionState: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomerOnboardingStep" }) as any as Schema.Schema<CustomerOnboardingStep>;
+export const CustomerOnboardingStep: Schema.Schema<CustomerOnboardingStep> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      step: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      completionTime: Schema.optional(Schema.String),
+      completionState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomerOnboardingStep",
+  }) as any as Schema.Schema<CustomerOnboardingStep>;
 
 export interface CustomerOnboardingState {
   /** List of customer onboarding steps */
   onboardingSteps?: Array<CustomerOnboardingStep>;
 }
 
-export const CustomerOnboardingState: Schema.Schema<CustomerOnboardingState> = Schema.suspend(() => Schema.Struct({
-  onboardingSteps: Schema.optional(Schema.Array(CustomerOnboardingStep)),
-})).annotate({ identifier: "CustomerOnboardingState" }) as any as Schema.Schema<CustomerOnboardingState>;
+export const CustomerOnboardingState: Schema.Schema<CustomerOnboardingState> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      onboardingSteps: Schema.optional(Schema.Array(CustomerOnboardingStep)),
+    }),
+  ).annotate({
+    identifier: "CustomerOnboardingState",
+  }) as any as Schema.Schema<CustomerOnboardingState>;
 
 export interface Customer {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
@@ -138,13 +194,15 @@ export interface Customer {
   organizationDomain?: string;
 }
 
-export const Customer: Schema.Schema<Customer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  customerOnboardingState: Schema.optional(CustomerOnboardingState),
-  isOnboarded: Schema.optional(Schema.Boolean),
-  organizationDomain: Schema.optional(Schema.String),
-})).annotate({ identifier: "Customer" }) as any as Schema.Schema<Customer>;
+export const Customer: Schema.Schema<Customer> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    customerOnboardingState: Schema.optional(CustomerOnboardingState),
+    isOnboarded: Schema.optional(Schema.Boolean),
+    organizationDomain: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Customer" }) as any as Schema.Schema<Customer>;
 
 export interface ListCustomersResponse {
   /** List of customers */
@@ -155,11 +213,16 @@ export interface ListCustomersResponse {
   unreachable?: Array<string>;
 }
 
-export const ListCustomersResponse: Schema.Schema<ListCustomersResponse> = Schema.suspend(() => Schema.Struct({
-  customers: Schema.optional(Schema.Array(Customer)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListCustomersResponse" }) as any as Schema.Schema<ListCustomersResponse>;
+export const ListCustomersResponse: Schema.Schema<ListCustomersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customers: Schema.optional(Schema.Array(Customer)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListCustomersResponse",
+  }) as any as Schema.Schema<ListCustomersResponse>;
 
 export interface ConnectionError {
   /** The error domain for the error */
@@ -168,25 +231,40 @@ export interface ConnectionError {
   errorMessage?: string;
 }
 
-export const ConnectionError: Schema.Schema<ConnectionError> = Schema.suspend(() => Schema.Struct({
-  errorDomain: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectionError" }) as any as Schema.Schema<ConnectionError>;
+export const ConnectionError: Schema.Schema<ConnectionError> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      errorDomain: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ConnectionError",
+}) as any as Schema.Schema<ConnectionError>;
 
 export interface EkmConnection {
   /** Resource name of the EKM connection in the format: projects/{project}/locations/{location}/ekmConnections/{ekm_connection} */
   connectionName?: string;
   /** Output only. The connection state */
-  connectionState?: "CONNECTION_STATE_UNSPECIFIED" | "AVAILABLE" | "NOT_AVAILABLE" | "ERROR" | "PERMISSION_DENIED" | (string & {});
+  connectionState?:
+    | "CONNECTION_STATE_UNSPECIFIED"
+    | "AVAILABLE"
+    | "NOT_AVAILABLE"
+    | "ERROR"
+    | "PERMISSION_DENIED"
+    | (string & {});
   /** The connection error that occurred if any */
   connectionError?: ConnectionError;
 }
 
-export const EkmConnection: Schema.Schema<EkmConnection> = Schema.suspend(() => Schema.Struct({
-  connectionName: Schema.optional(Schema.String),
-  connectionState: Schema.optional(Schema.String),
-  connectionError: Schema.optional(ConnectionError),
-})).annotate({ identifier: "EkmConnection" }) as any as Schema.Schema<EkmConnection>;
+export const EkmConnection: Schema.Schema<EkmConnection> = Schema.suspend(() =>
+  Schema.Struct({
+    connectionName: Schema.optional(Schema.String),
+    connectionState: Schema.optional(Schema.String),
+    connectionError: Schema.optional(ConnectionError),
+  }),
+).annotate({
+  identifier: "EkmConnection",
+}) as any as Schema.Schema<EkmConnection>;
 
 export interface EkmConnections {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections` */
@@ -195,34 +273,64 @@ export interface EkmConnections {
   ekmConnections?: Array<EkmConnection>;
 }
 
-export const EkmConnections: Schema.Schema<EkmConnections> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  ekmConnections: Schema.optional(Schema.Array(EkmConnection)),
-})).annotate({ identifier: "EkmConnections" }) as any as Schema.Schema<EkmConnections>;
+export const EkmConnections: Schema.Schema<EkmConnections> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      ekmConnections: Schema.optional(Schema.Array(EkmConnection)),
+    }),
+).annotate({
+  identifier: "EkmConnections",
+}) as any as Schema.Schema<EkmConnections>;
 
 export interface PartnerPermissions {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions` */
   name?: string;
   /** The partner permissions granted for the workload */
-  partnerPermissions?: Array<"PERMISSION_UNSPECIFIED" | "ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS" | "ASSURED_WORKLOADS_MONITORING" | "ACCESS_APPROVAL_REQUESTS" | "ASSURED_WORKLOADS_EKM_CONNECTION_STATUS" | "ACCESS_TRANSPARENCY_LOGS_SUPPORT_CASE_VIEWER" | (string & {})>;
+  partnerPermissions?: Array<
+    | "PERMISSION_UNSPECIFIED"
+    | "ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS"
+    | "ASSURED_WORKLOADS_MONITORING"
+    | "ACCESS_APPROVAL_REQUESTS"
+    | "ASSURED_WORKLOADS_EKM_CONNECTION_STATUS"
+    | "ACCESS_TRANSPARENCY_LOGS_SUPPORT_CASE_VIEWER"
+    | (string & {})
+  >;
 }
 
-export const PartnerPermissions: Schema.Schema<PartnerPermissions> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  partnerPermissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PartnerPermissions" }) as any as Schema.Schema<PartnerPermissions>;
+export const PartnerPermissions: Schema.Schema<PartnerPermissions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      partnerPermissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PartnerPermissions",
+  }) as any as Schema.Schema<PartnerPermissions>;
 
 export interface AccessReason {
   /** Type of access justification. */
-  type?: "TYPE_UNSPECIFIED" | "CUSTOMER_INITIATED_SUPPORT" | "GOOGLE_INITIATED_SERVICE" | "GOOGLE_INITIATED_REVIEW" | "THIRD_PARTY_DATA_REQUEST" | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT" | "CLOUD_INITIATED_ACCESS" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "CUSTOMER_INITIATED_SUPPORT"
+    | "GOOGLE_INITIATED_SERVICE"
+    | "GOOGLE_INITIATED_REVIEW"
+    | "THIRD_PARTY_DATA_REQUEST"
+    | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+    | "CLOUD_INITIATED_ACCESS"
+    | (string & {});
   /** More detail about certain reason types. See comments for each type above. */
   detail?: string;
 }
 
-export const AccessReason: Schema.Schema<AccessReason> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  detail: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccessReason" }) as any as Schema.Schema<AccessReason>;
+export const AccessReason: Schema.Schema<AccessReason> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    detail: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AccessReason",
+}) as any as Schema.Schema<AccessReason>;
 
 export interface AccessApprovalRequest {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/accessApprovalRequests/{access_approval_request}` */
@@ -235,12 +343,17 @@ export interface AccessApprovalRequest {
   requestedExpirationTime?: string;
 }
 
-export const AccessApprovalRequest: Schema.Schema<AccessApprovalRequest> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  requestTime: Schema.optional(Schema.String),
-  requestedReason: Schema.optional(AccessReason),
-  requestedExpirationTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccessApprovalRequest" }) as any as Schema.Schema<AccessApprovalRequest>;
+export const AccessApprovalRequest: Schema.Schema<AccessApprovalRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      requestTime: Schema.optional(Schema.String),
+      requestedReason: Schema.optional(AccessReason),
+      requestedExpirationTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccessApprovalRequest",
+  }) as any as Schema.Schema<AccessApprovalRequest>;
 
 export interface ListAccessApprovalRequestsResponse {
   /** List of access approval requests */
@@ -251,11 +364,18 @@ export interface ListAccessApprovalRequestsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListAccessApprovalRequestsResponse: Schema.Schema<ListAccessApprovalRequestsResponse> = Schema.suspend(() => Schema.Struct({
-  accessApprovalRequests: Schema.optional(Schema.Array(AccessApprovalRequest)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListAccessApprovalRequestsResponse" }) as any as Schema.Schema<ListAccessApprovalRequestsResponse>;
+export const ListAccessApprovalRequestsResponse: Schema.Schema<ListAccessApprovalRequestsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessApprovalRequests: Schema.optional(
+        Schema.Array(AccessApprovalRequest),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListAccessApprovalRequestsResponse",
+  }) as any as Schema.Schema<ListAccessApprovalRequestsResponse>;
 
 export interface Sku {
   /** Argentum product SKU, that is associated with the partner offerings to customers used by Syntro for billing purposes. SKUs can represent resold Google products or support services. */
@@ -264,22 +384,32 @@ export interface Sku {
   displayName?: string;
 }
 
-export const Sku: Schema.Schema<Sku> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Sku" }) as any as Schema.Schema<Sku>;
+export const Sku: Schema.Schema<Sku> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Sku" }) as any as Schema.Schema<Sku>;
 
 export interface EkmMetadata {
   /** The Cloud EKM partner. */
-  ekmSolution?: "EKM_SOLUTION_UNSPECIFIED" | "FORTANIX" | "FUTUREX" | "THALES" | "VIRTRU" | (string & {});
+  ekmSolution?:
+    | "EKM_SOLUTION_UNSPECIFIED"
+    | "FORTANIX"
+    | "FUTUREX"
+    | "THALES"
+    | "VIRTRU"
+    | (string & {});
   /** Endpoint for sending requests to the EKM for key provisioning during Assured Workload creation. */
   ekmEndpointUri?: string;
 }
 
-export const EkmMetadata: Schema.Schema<EkmMetadata> = Schema.suspend(() => Schema.Struct({
-  ekmSolution: Schema.optional(Schema.String),
-  ekmEndpointUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "EkmMetadata" }) as any as Schema.Schema<EkmMetadata>;
+export const EkmMetadata: Schema.Schema<EkmMetadata> = Schema.suspend(() =>
+  Schema.Struct({
+    ekmSolution: Schema.optional(Schema.String),
+    ekmEndpointUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EkmMetadata" }) as any as Schema.Schema<EkmMetadata>;
 
 export interface Partner {
   /** Identifier. The resource name of the partner. Format: `organizations/{organization}/locations/{location}/partner` Example: "organizations/123456/locations/us-central1/partner" */
@@ -298,21 +428,23 @@ export interface Partner {
   updateTime?: string;
 }
 
-export const Partner: Schema.Schema<Partner> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  skus: Schema.optional(Schema.Array(Sku)),
-  ekmSolutions: Schema.optional(Schema.Array(EkmMetadata)),
-  operatedCloudRegions: Schema.optional(Schema.Array(Schema.String)),
-  partnerProjectId: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Partner" }) as any as Schema.Schema<Partner>;
+export const Partner: Schema.Schema<Partner> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    skus: Schema.optional(Schema.Array(Sku)),
+    ekmSolutions: Schema.optional(Schema.Array(EkmMetadata)),
+    operatedCloudRegions: Schema.optional(Schema.Array(Schema.String)),
+    partnerProjectId: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Partner" }) as any as Schema.Schema<Partner>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Gcloud {
   /** Gcloud command to resolve violation */
@@ -323,11 +455,13 @@ export interface Gcloud {
   additionalLinks?: Array<string>;
 }
 
-export const Gcloud: Schema.Schema<Gcloud> = Schema.suspend(() => Schema.Struct({
-  gcloudCommands: Schema.optional(Schema.Array(Schema.String)),
-  steps: Schema.optional(Schema.Array(Schema.String)),
-  additionalLinks: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Gcloud" }) as any as Schema.Schema<Gcloud>;
+export const Gcloud: Schema.Schema<Gcloud> = Schema.suspend(() =>
+  Schema.Struct({
+    gcloudCommands: Schema.optional(Schema.Array(Schema.String)),
+    steps: Schema.optional(Schema.Array(Schema.String)),
+    additionalLinks: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Gcloud" }) as any as Schema.Schema<Gcloud>;
 
 export interface Console {
   /** Link to console page where violations can be resolved */
@@ -338,11 +472,13 @@ export interface Console {
   additionalLinks?: Array<string>;
 }
 
-export const Console: Schema.Schema<Console> = Schema.suspend(() => Schema.Struct({
-  consoleUris: Schema.optional(Schema.Array(Schema.String)),
-  steps: Schema.optional(Schema.Array(Schema.String)),
-  additionalLinks: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Console" }) as any as Schema.Schema<Console>;
+export const Console: Schema.Schema<Console> = Schema.suspend(() =>
+  Schema.Struct({
+    consoleUris: Schema.optional(Schema.Array(Schema.String)),
+    steps: Schema.optional(Schema.Array(Schema.String)),
+    additionalLinks: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Console" }) as any as Schema.Schema<Console>;
 
 export interface Instructions {
   /** Remediation instructions to resolve violation via gcloud cli */
@@ -351,10 +487,14 @@ export interface Instructions {
   consoleInstructions?: Console;
 }
 
-export const Instructions: Schema.Schema<Instructions> = Schema.suspend(() => Schema.Struct({
-  gcloudInstructions: Schema.optional(Gcloud),
-  consoleInstructions: Schema.optional(Console),
-})).annotate({ identifier: "Instructions" }) as any as Schema.Schema<Instructions>;
+export const Instructions: Schema.Schema<Instructions> = Schema.suspend(() =>
+  Schema.Struct({
+    gcloudInstructions: Schema.optional(Gcloud),
+    consoleInstructions: Schema.optional(Console),
+  }),
+).annotate({
+  identifier: "Instructions",
+}) as any as Schema.Schema<Instructions>;
 
 export interface Remediation {
   /** Required. Remediation instructions to resolve violations */
@@ -362,14 +502,23 @@ export interface Remediation {
   /** Values that can resolve the violation For example: for list org policy violations, this will either be the list of allowed or denied values */
   compliantValues?: Array<string>;
   /** Output only. Remediation type based on the type of org policy values violated */
-  remediationType?: "REMEDIATION_TYPE_UNSPECIFIED" | "REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION" | "REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION" | "REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION" | "REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION" | "REMEDIATION_RESOURCE_VIOLATION" | (string & {});
+  remediationType?:
+    | "REMEDIATION_TYPE_UNSPECIFIED"
+    | "REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION"
+    | "REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION"
+    | "REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION"
+    | "REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION"
+    | "REMEDIATION_RESOURCE_VIOLATION"
+    | (string & {});
 }
 
-export const Remediation: Schema.Schema<Remediation> = Schema.suspend(() => Schema.Struct({
-  instructions: Schema.optional(Instructions),
-  compliantValues: Schema.optional(Schema.Array(Schema.String)),
-  remediationType: Schema.optional(Schema.String),
-})).annotate({ identifier: "Remediation" }) as any as Schema.Schema<Remediation>;
+export const Remediation: Schema.Schema<Remediation> = Schema.suspend(() =>
+  Schema.Struct({
+    instructions: Schema.optional(Instructions),
+    compliantValues: Schema.optional(Schema.Array(Schema.String)),
+    remediationType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Remediation" }) as any as Schema.Schema<Remediation>;
 
 export interface Violation {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}` */
@@ -385,7 +534,12 @@ export interface Violation {
   /** Output only. Category under which this violation is mapped. e.g. Location, Service Usage, Access, Encryption, etc. */
   category?: string;
   /** Output only. State of the violation */
-  state?: "STATE_UNSPECIFIED" | "RESOLVED" | "UNRESOLVED" | "EXCEPTION" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "RESOLVED"
+    | "UNRESOLVED"
+    | "EXCEPTION"
+    | (string & {});
   /** Output only. Immutable. Name of the OrgPolicy which was modified with non-compliant change and resulted this violation. Format: `projects/{project_number}/policies/{constraint_name}` `folders/{folder_id}/policies/{constraint_name}` `organizations/{organization_id}/policies/{constraint_name}` */
   nonCompliantOrgPolicy?: string;
   /** The folder_id of the violation */
@@ -394,18 +548,20 @@ export interface Violation {
   remediation?: Remediation;
 }
 
-export const Violation: Schema.Schema<Violation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  beginTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  resolveTime: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  nonCompliantOrgPolicy: Schema.optional(Schema.String),
-  folderId: Schema.optional(Schema.String),
-  remediation: Schema.optional(Remediation),
-})).annotate({ identifier: "Violation" }) as any as Schema.Schema<Violation>;
+export const Violation: Schema.Schema<Violation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    beginTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    resolveTime: Schema.optional(Schema.String),
+    category: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    nonCompliantOrgPolicy: Schema.optional(Schema.String),
+    folderId: Schema.optional(Schema.String),
+    remediation: Schema.optional(Remediation),
+  }),
+).annotate({ identifier: "Violation" }) as any as Schema.Schema<Violation>;
 
 export interface ListViolationsResponse {
   /** List of violation */
@@ -416,11 +572,16 @@ export interface ListViolationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListViolationsResponse: Schema.Schema<ListViolationsResponse> = Schema.suspend(() => Schema.Struct({
-  violations: Schema.optional(Schema.Array(Violation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListViolationsResponse" }) as any as Schema.Schema<ListViolationsResponse>;
+export const ListViolationsResponse: Schema.Schema<ListViolationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      violations: Schema.optional(Schema.Array(Violation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListViolationsResponse",
+  }) as any as Schema.Schema<ListViolationsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -439,15 +600,20 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -461,7 +627,10 @@ export interface GetPartnerOrganizationsLocationsRequest {
 export const GetPartnerOrganizationsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/partner" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/partner",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPartnerOrganizationsLocationsRequest>;
 
@@ -471,7 +640,12 @@ export const GetPartnerOrganizationsLocationsResponse = Partner;
 export type GetPartnerOrganizationsLocationsError = DefaultErrors;
 
 /** Get details of a Partner. */
-export const getPartnerOrganizationsLocations: API.OperationMethod<GetPartnerOrganizationsLocationsRequest, GetPartnerOrganizationsLocationsResponse, GetPartnerOrganizationsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPartnerOrganizationsLocations: API.OperationMethod<
+  GetPartnerOrganizationsLocationsRequest,
+  GetPartnerOrganizationsLocationsResponse,
+  GetPartnerOrganizationsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPartnerOrganizationsLocationsRequest,
   output: GetPartnerOrganizationsLocationsResponse,
   errors: [],
@@ -485,7 +659,10 @@ export interface GetOrganizationsLocationsCustomersRequest {
 export const GetOrganizationsLocationsCustomersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsCustomersRequest>;
 
@@ -495,7 +672,12 @@ export const GetOrganizationsLocationsCustomersResponse = Customer;
 export type GetOrganizationsLocationsCustomersError = DefaultErrors;
 
 /** Gets details of a single customer */
-export const getOrganizationsLocationsCustomers: API.OperationMethod<GetOrganizationsLocationsCustomersRequest, GetOrganizationsLocationsCustomersResponse, GetOrganizationsLocationsCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsCustomers: API.OperationMethod<
+  GetOrganizationsLocationsCustomersRequest,
+  GetOrganizationsLocationsCustomersResponse,
+  GetOrganizationsLocationsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsCustomersRequest,
   output: GetOrganizationsLocationsCustomersResponse,
   errors: [],
@@ -521,17 +703,26 @@ export const ListOrganizationsLocationsCustomersRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsLocationsCustomersRequest>;
 
 export type ListOrganizationsLocationsCustomersResponse = ListCustomersResponse;
-export const ListOrganizationsLocationsCustomersResponse = ListCustomersResponse;
+export const ListOrganizationsLocationsCustomersResponse =
+  ListCustomersResponse;
 
 export type ListOrganizationsLocationsCustomersError = DefaultErrors;
 
 /** Lists customers of a partner identified by its Google Cloud organization ID */
-export const listOrganizationsLocationsCustomers: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersRequest, ListOrganizationsLocationsCustomersResponse, ListOrganizationsLocationsCustomersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsCustomers: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsCustomersRequest,
+  ListOrganizationsLocationsCustomersResponse,
+  ListOrganizationsLocationsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsCustomersRequest,
   output: ListOrganizationsLocationsCustomersResponse,
   errors: [],
@@ -555,7 +746,11 @@ export const CreateOrganizationsLocationsCustomersRequest = Schema.Struct({
   customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
   body: Schema.optional(Customer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOrganizationsLocationsCustomersRequest>;
 
@@ -565,7 +760,12 @@ export const CreateOrganizationsLocationsCustomersResponse = Customer;
 export type CreateOrganizationsLocationsCustomersError = DefaultErrors;
 
 /** Creates a new customer. */
-export const createOrganizationsLocationsCustomers: API.OperationMethod<CreateOrganizationsLocationsCustomersRequest, CreateOrganizationsLocationsCustomersResponse, CreateOrganizationsLocationsCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsLocationsCustomers: API.OperationMethod<
+  CreateOrganizationsLocationsCustomersRequest,
+  CreateOrganizationsLocationsCustomersResponse,
+  CreateOrganizationsLocationsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsLocationsCustomersRequest,
   output: CreateOrganizationsLocationsCustomersResponse,
   errors: [],
@@ -585,7 +785,11 @@ export const PatchOrganizationsLocationsCustomersRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Customer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchOrganizationsLocationsCustomersRequest>;
 
@@ -595,7 +799,12 @@ export const PatchOrganizationsLocationsCustomersResponse = Customer;
 export type PatchOrganizationsLocationsCustomersError = DefaultErrors;
 
 /** Update details of a single customer */
-export const patchOrganizationsLocationsCustomers: API.OperationMethod<PatchOrganizationsLocationsCustomersRequest, PatchOrganizationsLocationsCustomersResponse, PatchOrganizationsLocationsCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOrganizationsLocationsCustomers: API.OperationMethod<
+  PatchOrganizationsLocationsCustomersRequest,
+  PatchOrganizationsLocationsCustomersResponse,
+  PatchOrganizationsLocationsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOrganizationsLocationsCustomersRequest,
   output: PatchOrganizationsLocationsCustomersResponse,
   errors: [],
@@ -609,7 +818,10 @@ export interface DeleteOrganizationsLocationsCustomersRequest {
 export const DeleteOrganizationsLocationsCustomersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteOrganizationsLocationsCustomersRequest>;
 
@@ -619,7 +831,12 @@ export const DeleteOrganizationsLocationsCustomersResponse = Empty;
 export type DeleteOrganizationsLocationsCustomersError = DefaultErrors;
 
 /** Delete details of a single customer */
-export const deleteOrganizationsLocationsCustomers: API.OperationMethod<DeleteOrganizationsLocationsCustomersRequest, DeleteOrganizationsLocationsCustomersResponse, DeleteOrganizationsLocationsCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOrganizationsLocationsCustomers: API.OperationMethod<
+  DeleteOrganizationsLocationsCustomersRequest,
+  DeleteOrganizationsLocationsCustomersResponse,
+  DeleteOrganizationsLocationsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOrganizationsLocationsCustomersRequest,
   output: DeleteOrganizationsLocationsCustomersResponse,
   errors: [],
@@ -630,10 +847,15 @@ export interface GetOrganizationsLocationsCustomersWorkloadsRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsCustomersWorkloadsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}" }),
+export const GetOrganizationsLocationsCustomersWorkloadsRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsCustomersWorkloadsRequest>;
 
@@ -643,7 +865,12 @@ export const GetOrganizationsLocationsCustomersWorkloadsResponse = Workload;
 export type GetOrganizationsLocationsCustomersWorkloadsError = DefaultErrors;
 
 /** Gets details of a single workload */
-export const getOrganizationsLocationsCustomersWorkloads: API.OperationMethod<GetOrganizationsLocationsCustomersWorkloadsRequest, GetOrganizationsLocationsCustomersWorkloadsResponse, GetOrganizationsLocationsCustomersWorkloadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsCustomersWorkloads: API.OperationMethod<
+  GetOrganizationsLocationsCustomersWorkloadsRequest,
+  GetOrganizationsLocationsCustomersWorkloadsResponse,
+  GetOrganizationsLocationsCustomersWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsCustomersWorkloadsRequest,
   output: GetOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
@@ -662,24 +889,35 @@ export interface ListOrganizationsLocationsCustomersWorkloadsRequest {
   orderBy?: string;
 }
 
-export const ListOrganizationsLocationsCustomersWorkloadsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads" }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsCustomersWorkloadsRequest>;
+export const ListOrganizationsLocationsCustomersWorkloadsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsCustomersWorkloadsRequest>;
 
-export type ListOrganizationsLocationsCustomersWorkloadsResponse = ListWorkloadsResponse;
-export const ListOrganizationsLocationsCustomersWorkloadsResponse = ListWorkloadsResponse;
+export type ListOrganizationsLocationsCustomersWorkloadsResponse =
+  ListWorkloadsResponse;
+export const ListOrganizationsLocationsCustomersWorkloadsResponse =
+  ListWorkloadsResponse;
 
 export type ListOrganizationsLocationsCustomersWorkloadsError = DefaultErrors;
 
 /** Lists customer workloads for a given customer org id */
-export const listOrganizationsLocationsCustomersWorkloads: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersWorkloadsRequest, ListOrganizationsLocationsCustomersWorkloadsResponse, ListOrganizationsLocationsCustomersWorkloadsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsCustomersWorkloads: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsCustomersWorkloadsRequest,
+  ListOrganizationsLocationsCustomersWorkloadsResponse,
+  ListOrganizationsLocationsCustomersWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsCustomersWorkloadsRequest,
   output: ListOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
@@ -694,20 +932,32 @@ export interface GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsReques
   name: string;
 }
 
-export const GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/ekmConnections" }),
-  svc,
-) as unknown as Schema.Schema<GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest>;
+export const GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/ekmConnections",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest>;
 
-export type GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse = EkmConnections;
-export const GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse = EkmConnections;
+export type GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse =
+  EkmConnections;
+export const GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse =
+  EkmConnections;
 
-export type GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsError = DefaultErrors;
+export type GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsError =
+  DefaultErrors;
 
 /** Gets the EKM connections associated with a workload */
-export const getEkmConnectionsOrganizationsLocationsCustomersWorkloads: API.OperationMethod<GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest, GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse, GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getEkmConnectionsOrganizationsLocationsCustomersWorkloads: API.OperationMethod<
+  GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest,
+  GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse,
+  GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest,
   output: GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
@@ -718,20 +968,32 @@ export interface GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRe
   name: string;
 }
 
-export const GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/partnerPermissions" }),
-  svc,
-) as unknown as Schema.Schema<GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest>;
+export const GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/partnerPermissions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest>;
 
-export type GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse = PartnerPermissions;
-export const GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse = PartnerPermissions;
+export type GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse =
+  PartnerPermissions;
+export const GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse =
+  PartnerPermissions;
 
-export type GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsError = DefaultErrors;
+export type GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsError =
+  DefaultErrors;
 
 /** Gets the partner permissions granted for a workload */
-export const getPartnerPermissionsOrganizationsLocationsCustomersWorkloads: API.OperationMethod<GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest, GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse, GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPartnerPermissionsOrganizationsLocationsCustomersWorkloads: API.OperationMethod<
+  GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest,
+  GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse,
+  GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest,
   output: GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
@@ -750,26 +1012,40 @@ export interface ListOrganizationsLocationsCustomersWorkloadsAccessApprovalReque
   orderBy?: string;
 }
 
-export const ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/accessApprovalRequests" }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest>;
+export const ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/accessApprovalRequests",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest>;
 
-export type ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse = ListAccessApprovalRequestsResponse;
-export const ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse = ListAccessApprovalRequestsResponse;
+export type ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse =
+  ListAccessApprovalRequestsResponse;
+export const ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse =
+  ListAccessApprovalRequestsResponse;
 
-export type ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsError = DefaultErrors;
+export type ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsError =
+  DefaultErrors;
 
 /** Deprecated: Only returns access approval requests directly associated with an assured workload folder. */
-export const listOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest, ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse, ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
-  input: ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest,
-  output: ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse,
+export const listOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest,
+  ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse,
+  ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input:
+    ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest,
+  output:
+    ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -794,26 +1070,42 @@ export interface ListOrganizationsLocationsCustomersWorkloadsViolationsRequest {
   "interval.endTime"?: string;
 }
 
-export const ListOrganizationsLocationsCustomersWorkloadsViolationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  "interval.startTime": Schema.optional(Schema.String).pipe(T.HttpQuery("interval.startTime")),
-  "interval.endTime": Schema.optional(Schema.String).pipe(T.HttpQuery("interval.endTime")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/violations" }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsCustomersWorkloadsViolationsRequest>;
+export const ListOrganizationsLocationsCustomersWorkloadsViolationsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    "interval.startTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("interval.startTime"),
+    ),
+    "interval.endTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("interval.endTime"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/violations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsCustomersWorkloadsViolationsRequest>;
 
-export type ListOrganizationsLocationsCustomersWorkloadsViolationsResponse = ListViolationsResponse;
-export const ListOrganizationsLocationsCustomersWorkloadsViolationsResponse = ListViolationsResponse;
+export type ListOrganizationsLocationsCustomersWorkloadsViolationsResponse =
+  ListViolationsResponse;
+export const ListOrganizationsLocationsCustomersWorkloadsViolationsResponse =
+  ListViolationsResponse;
 
-export type ListOrganizationsLocationsCustomersWorkloadsViolationsError = DefaultErrors;
+export type ListOrganizationsLocationsCustomersWorkloadsViolationsError =
+  DefaultErrors;
 
 /** Lists Violations for a workload Callers may also choose to read across multiple Customers or for a single customer as per [AIP-159](https://google.aip.dev/159) by using '-' (the hyphen or dash character) as a wildcard character instead of {customer} & {workload}. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
-export const listOrganizationsLocationsCustomersWorkloadsViolations: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersWorkloadsViolationsRequest, ListOrganizationsLocationsCustomersWorkloadsViolationsResponse, ListOrganizationsLocationsCustomersWorkloadsViolationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsCustomersWorkloadsViolations: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsCustomersWorkloadsViolationsRequest,
+  ListOrganizationsLocationsCustomersWorkloadsViolationsResponse,
+  ListOrganizationsLocationsCustomersWorkloadsViolationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsCustomersWorkloadsViolationsRequest,
   output: ListOrganizationsLocationsCustomersWorkloadsViolationsResponse,
   errors: [],
@@ -828,22 +1120,33 @@ export interface GetOrganizationsLocationsCustomersWorkloadsViolationsRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsCustomersWorkloadsViolationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/violations/{violationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsCustomersWorkloadsViolationsRequest>;
+export const GetOrganizationsLocationsCustomersWorkloadsViolationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/customers/{customersId}/workloads/{workloadsId}/violations/{violationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsCustomersWorkloadsViolationsRequest>;
 
-export type GetOrganizationsLocationsCustomersWorkloadsViolationsResponse = Violation;
-export const GetOrganizationsLocationsCustomersWorkloadsViolationsResponse = Violation;
+export type GetOrganizationsLocationsCustomersWorkloadsViolationsResponse =
+  Violation;
+export const GetOrganizationsLocationsCustomersWorkloadsViolationsResponse =
+  Violation;
 
-export type GetOrganizationsLocationsCustomersWorkloadsViolationsError = DefaultErrors;
+export type GetOrganizationsLocationsCustomersWorkloadsViolationsError =
+  DefaultErrors;
 
 /** Gets details of a single Violation. */
-export const getOrganizationsLocationsCustomersWorkloadsViolations: API.OperationMethod<GetOrganizationsLocationsCustomersWorkloadsViolationsRequest, GetOrganizationsLocationsCustomersWorkloadsViolationsResponse, GetOrganizationsLocationsCustomersWorkloadsViolationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsCustomersWorkloadsViolations: API.OperationMethod<
+  GetOrganizationsLocationsCustomersWorkloadsViolationsRequest,
+  GetOrganizationsLocationsCustomersWorkloadsViolationsResponse,
+  GetOrganizationsLocationsCustomersWorkloadsViolationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsCustomersWorkloadsViolationsRequest,
   output: GetOrganizationsLocationsCustomersWorkloadsViolationsResponse,
   errors: [],
 }));
-

@@ -32,11 +32,15 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
@@ -51,13 +55,15 @@ export interface Operation {
   error?: Status;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  name: Schema.optional(Schema.String),
-  error: Schema.optional(Status),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    name: Schema.optional(Schema.String),
+    error: Schema.optional(Status),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface PayloadOptions {
   /** Optional. Whether the event payload includes data about the resource that changed. For example, for an event where a Google Chat message was created, whether the payload contains data about the [`Message`](https://developers.google.com/chat/api/reference/rest/v1/spaces.messages) resource. If false, the event payload only includes the name of the changed resource. */
@@ -66,31 +72,48 @@ export interface PayloadOptions {
   fieldMask?: string;
 }
 
-export const PayloadOptions: Schema.Schema<PayloadOptions> = Schema.suspend(() => Schema.Struct({
-  includeResource: Schema.optional(Schema.Boolean),
-  fieldMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "PayloadOptions" }) as any as Schema.Schema<PayloadOptions>;
+export const PayloadOptions: Schema.Schema<PayloadOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      includeResource: Schema.optional(Schema.Boolean),
+      fieldMask: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PayloadOptions",
+}) as any as Schema.Schema<PayloadOptions>;
 
 export interface DataPart {
   data?: Record<string, unknown>;
 }
 
-export const DataPart: Schema.Schema<DataPart> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "DataPart" }) as any as Schema.Schema<DataPart>;
+export const DataPart: Schema.Schema<DataPart> = Schema.suspend(() =>
+  Schema.Struct({
+    data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "DataPart" }) as any as Schema.Schema<DataPart>;
 
 export interface NotificationEndpoint {
   /** Immutable. The Pub/Sub topic that receives events for the subscription. Format: `projects/{project}/topics/{topic}` You must create the topic in the same Google Cloud project where you create this subscription. Note: The Google Workspace Events API uses [ordering keys](https://cloud.google.com/pubsub/docs/ordering) for the benefit of sequential events. If the Cloud Pub/Sub topic has a [message storage policy](https://cloud.google.com/pubsub/docs/resource-location-restriction#exceptions) configured to exclude the nearest Google Cloud region, publishing events with ordering keys will fail. When the topic receives events, the events are encoded as Pub/Sub messages. For details, see the [Google Cloud Pub/Sub Protocol Binding for CloudEvents](https://github.com/googleapis/google-cloudevents/blob/main/docs/spec/pubsub.md). */
   pubsubTopic?: string;
 }
 
-export const NotificationEndpoint: Schema.Schema<NotificationEndpoint> = Schema.suspend(() => Schema.Struct({
-  pubsubTopic: Schema.optional(Schema.String),
-})).annotate({ identifier: "NotificationEndpoint" }) as any as Schema.Schema<NotificationEndpoint>;
+export const NotificationEndpoint: Schema.Schema<NotificationEndpoint> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pubsubTopic: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NotificationEndpoint",
+  }) as any as Schema.Schema<NotificationEndpoint>;
 
 export interface Subscription {
   /** Output only. The state of the subscription. Determines whether the subscription can receive events and deliver them to the notification endpoint. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED" | "DELETED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "SUSPENDED"
+    | "DELETED"
+    | (string & {});
   /** Input only. The time-to-live (TTL) or duration for the subscription. If unspecified or set to `0`, uses the maximum possible duration. */
   ttl?: string;
   /** Output only. If `true`, the subscription is in the process of being updated. */
@@ -116,28 +139,41 @@ export interface Subscription {
   /** Required. Unordered list. Input for creating a subscription. Otherwise, output only. One or more types of events to receive about the target resource. Formatted according to the CloudEvents specification. The supported event types depend on the target resource of your subscription. For details, see [Supported Google Workspace events](https://developers.google.com/workspace/events/guides#supported-events). By default, you also receive events about the [lifecycle of your subscription](https://developers.google.com/workspace/events/guides/events-lifecycle). You don't need to specify lifecycle events for this field. If you specify an event type that doesn't exist for the target resource, the request returns an HTTP `400 Bad Request` status code. */
   eventTypes?: Array<string>;
   /** Output only. The error that suspended the subscription. To reactivate the subscription, resolve the error and call the `ReactivateSubscription` method. */
-  suspensionReason?: "ERROR_TYPE_UNSPECIFIED" | "USER_SCOPE_REVOKED" | "RESOURCE_DELETED" | "USER_AUTHORIZATION_FAILURE" | "ENDPOINT_PERMISSION_DENIED" | "ENDPOINT_NOT_FOUND" | "ENDPOINT_RESOURCE_EXHAUSTED" | "OTHER" | (string & {});
+  suspensionReason?:
+    | "ERROR_TYPE_UNSPECIFIED"
+    | "USER_SCOPE_REVOKED"
+    | "RESOURCE_DELETED"
+    | "USER_AUTHORIZATION_FAILURE"
+    | "ENDPOINT_PERMISSION_DENIED"
+    | "ENDPOINT_NOT_FOUND"
+    | "ENDPOINT_RESOURCE_EXHAUSTED"
+    | "OTHER"
+    | (string & {});
   /** Non-empty default. The timestamp in UTC when the subscription expires. Always displayed on output, regardless of what was used on input. */
   expireTime?: string;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  ttl: Schema.optional(Schema.String),
-  reconciling: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  targetResource: Schema.optional(Schema.String),
-  authority: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  notificationEndpoint: Schema.optional(NotificationEndpoint),
-  payloadOptions: Schema.optional(PayloadOptions),
-  eventTypes: Schema.optional(Schema.Array(Schema.String)),
-  suspensionReason: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Subscription" }) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    ttl: Schema.optional(Schema.String),
+    reconciling: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    targetResource: Schema.optional(Schema.String),
+    authority: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    notificationEndpoint: Schema.optional(NotificationEndpoint),
+    payloadOptions: Schema.optional(PayloadOptions),
+    eventTypes: Schema.optional(Schema.Array(Schema.String)),
+    suspensionReason: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Subscription",
+}) as any as Schema.Schema<Subscription>;
 
 export interface ListSubscriptionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -146,10 +182,15 @@ export interface ListSubscriptionsResponse {
   subscriptions?: Array<Subscription>;
 }
 
-export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  subscriptions: Schema.optional(Schema.Array(Subscription)),
-})).annotate({ identifier: "ListSubscriptionsResponse" }) as any as Schema.Schema<ListSubscriptionsResponse>;
+export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      subscriptions: Schema.optional(Schema.Array(Subscription)),
+    }),
+  ).annotate({
+    identifier: "ListSubscriptionsResponse",
+  }) as any as Schema.Schema<ListSubscriptionsResponse>;
 
 export interface FilePart {
   fileWithUri?: string;
@@ -158,12 +199,14 @@ export interface FilePart {
   name?: string;
 }
 
-export const FilePart: Schema.Schema<FilePart> = Schema.suspend(() => Schema.Struct({
-  fileWithUri: Schema.optional(Schema.String),
-  mimeType: Schema.optional(Schema.String),
-  fileWithBytes: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "FilePart" }) as any as Schema.Schema<FilePart>;
+export const FilePart: Schema.Schema<FilePart> = Schema.suspend(() =>
+  Schema.Struct({
+    fileWithUri: Schema.optional(Schema.String),
+    mimeType: Schema.optional(Schema.String),
+    fileWithBytes: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "FilePart" }) as any as Schema.Schema<FilePart>;
 
 export interface Part {
   text?: string;
@@ -173,12 +216,14 @@ export interface Part {
   metadata?: Record<string, unknown>;
 }
 
-export const Part: Schema.Schema<Part> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  data: Schema.optional(DataPart),
-  file: Schema.optional(FilePart),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Part" }) as any as Schema.Schema<Part>;
+export const Part: Schema.Schema<Part> = Schema.suspend(() =>
+  Schema.Struct({
+    text: Schema.optional(Schema.String),
+    data: Schema.optional(DataPart),
+    file: Schema.optional(FilePart),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Part" }) as any as Schema.Schema<Part>;
 
 export interface Artifact {
   /** Optional metadata included with the artifact. */
@@ -195,14 +240,16 @@ export interface Artifact {
   description?: string;
 }
 
-export const Artifact: Schema.Schema<Artifact> = Schema.suspend(() => Schema.Struct({
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  extensions: Schema.optional(Schema.Array(Schema.String)),
-  artifactId: Schema.optional(Schema.String),
-  parts: Schema.optional(Schema.Array(Part)),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "Artifact" }) as any as Schema.Schema<Artifact>;
+export const Artifact: Schema.Schema<Artifact> = Schema.suspend(() =>
+  Schema.Struct({
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    extensions: Schema.optional(Schema.Array(Schema.String)),
+    artifactId: Schema.optional(Schema.String),
+    parts: Schema.optional(Schema.Array(Part)),
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Artifact" }) as any as Schema.Schema<Artifact>;
 
 export interface TaskArtifactUpdateEvent {
   /** The artifact itself */
@@ -219,14 +266,19 @@ export interface TaskArtifactUpdateEvent {
   append?: boolean;
 }
 
-export const TaskArtifactUpdateEvent: Schema.Schema<TaskArtifactUpdateEvent> = Schema.suspend(() => Schema.Struct({
-  artifact: Schema.optional(Artifact),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  contextId: Schema.optional(Schema.String),
-  lastChunk: Schema.optional(Schema.Boolean),
-  taskId: Schema.optional(Schema.String),
-  append: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "TaskArtifactUpdateEvent" }) as any as Schema.Schema<TaskArtifactUpdateEvent>;
+export const TaskArtifactUpdateEvent: Schema.Schema<TaskArtifactUpdateEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      artifact: Schema.optional(Artifact),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      contextId: Schema.optional(Schema.String),
+      lastChunk: Schema.optional(Schema.Boolean),
+      taskId: Schema.optional(Schema.String),
+      append: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "TaskArtifactUpdateEvent",
+  }) as any as Schema.Schema<TaskArtifactUpdateEvent>;
 
 export interface Message {
   /** The task id of the message. This is optional and if set, the message will be associated with the given task. */
@@ -245,15 +297,17 @@ export interface Message {
   contextId?: string;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() => Schema.Struct({
-  taskId: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.Array(Part)),
-  role: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  extensions: Schema.optional(Schema.Array(Schema.String)),
-  messageId: Schema.optional(Schema.String),
-  contextId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> = Schema.suspend(() =>
+  Schema.Struct({
+    taskId: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.Array(Part)),
+    role: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    extensions: Schema.optional(Schema.Array(Schema.String)),
+    messageId: Schema.optional(Schema.String),
+    contextId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface AuthenticationInfo {
   /** Optional credentials */
@@ -262,10 +316,15 @@ export interface AuthenticationInfo {
   schemes?: Array<string>;
 }
 
-export const AuthenticationInfo: Schema.Schema<AuthenticationInfo> = Schema.suspend(() => Schema.Struct({
-  credentials: Schema.optional(Schema.String),
-  schemes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuthenticationInfo" }) as any as Schema.Schema<AuthenticationInfo>;
+export const AuthenticationInfo: Schema.Schema<AuthenticationInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      credentials: Schema.optional(Schema.String),
+      schemes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AuthenticationInfo",
+  }) as any as Schema.Schema<AuthenticationInfo>;
 
 export interface PushNotificationConfig {
   /** A unique identifier (e.g. UUID) for this push notification. */
@@ -278,12 +337,17 @@ export interface PushNotificationConfig {
   authentication?: AuthenticationInfo;
 }
 
-export const PushNotificationConfig: Schema.Schema<PushNotificationConfig> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  authentication: Schema.optional(AuthenticationInfo),
-})).annotate({ identifier: "PushNotificationConfig" }) as any as Schema.Schema<PushNotificationConfig>;
+export const PushNotificationConfig: Schema.Schema<PushNotificationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      authentication: Schema.optional(AuthenticationInfo),
+    }),
+  ).annotate({
+    identifier: "PushNotificationConfig",
+  }) as any as Schema.Schema<PushNotificationConfig>;
 
 export interface SendMessageConfiguration {
   /** The output modes that the agent is expected to respond with. */
@@ -296,12 +360,17 @@ export interface SendMessageConfiguration {
   blocking?: boolean;
 }
 
-export const SendMessageConfiguration: Schema.Schema<SendMessageConfiguration> = Schema.suspend(() => Schema.Struct({
-  acceptedOutputModes: Schema.optional(Schema.Array(Schema.String)),
-  historyLength: Schema.optional(Schema.Number),
-  pushNotification: Schema.optional(PushNotificationConfig),
-  blocking: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SendMessageConfiguration" }) as any as Schema.Schema<SendMessageConfiguration>;
+export const SendMessageConfiguration: Schema.Schema<SendMessageConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      acceptedOutputModes: Schema.optional(Schema.Array(Schema.String)),
+      historyLength: Schema.optional(Schema.Number),
+      pushNotification: Schema.optional(PushNotificationConfig),
+      blocking: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "SendMessageConfiguration",
+  }) as any as Schema.Schema<SendMessageConfiguration>;
 
 export interface SendMessageRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
@@ -314,27 +383,44 @@ export interface SendMessageRequest {
   configuration?: SendMessageConfiguration;
 }
 
-export const SendMessageRequest: Schema.Schema<SendMessageRequest> = Schema.suspend(() => Schema.Struct({
-  tenant: Schema.optional(Schema.String),
-  message: Schema.optional(Message),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  configuration: Schema.optional(SendMessageConfiguration),
-})).annotate({ identifier: "SendMessageRequest" }) as any as Schema.Schema<SendMessageRequest>;
+export const SendMessageRequest: Schema.Schema<SendMessageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tenant: Schema.optional(Schema.String),
+      message: Schema.optional(Message),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      configuration: Schema.optional(SendMessageConfiguration),
+    }),
+  ).annotate({
+    identifier: "SendMessageRequest",
+  }) as any as Schema.Schema<SendMessageRequest>;
 
 export interface TaskStatus {
   /** The current state of this task */
-  state?: "TASK_STATE_UNSPECIFIED" | "TASK_STATE_SUBMITTED" | "TASK_STATE_WORKING" | "TASK_STATE_COMPLETED" | "TASK_STATE_FAILED" | "TASK_STATE_CANCELLED" | "TASK_STATE_INPUT_REQUIRED" | "TASK_STATE_REJECTED" | "TASK_STATE_AUTH_REQUIRED" | (string & {});
+  state?:
+    | "TASK_STATE_UNSPECIFIED"
+    | "TASK_STATE_SUBMITTED"
+    | "TASK_STATE_WORKING"
+    | "TASK_STATE_COMPLETED"
+    | "TASK_STATE_FAILED"
+    | "TASK_STATE_CANCELLED"
+    | "TASK_STATE_INPUT_REQUIRED"
+    | "TASK_STATE_REJECTED"
+    | "TASK_STATE_AUTH_REQUIRED"
+    | (string & {});
   /** A message associated with the status. */
   message?: Message;
   /** Timestamp when the status was recorded. Example: "2023-10-27T10:00:00Z" */
   timestamp?: string;
 }
 
-export const TaskStatus: Schema.Schema<TaskStatus> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  message: Schema.optional(Message),
-  timestamp: Schema.optional(Schema.String),
-})).annotate({ identifier: "TaskStatus" }) as any as Schema.Schema<TaskStatus>;
+export const TaskStatus: Schema.Schema<TaskStatus> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    message: Schema.optional(Message),
+    timestamp: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TaskStatus" }) as any as Schema.Schema<TaskStatus>;
 
 export interface Task {
   /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED A key/value object to store custom metadata about a task. */
@@ -351,29 +437,36 @@ export interface Task {
   artifacts?: Array<Artifact>;
 }
 
-export const Task: Schema.Schema<Task> = Schema.suspend(() => Schema.Struct({
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  status: Schema.optional(TaskStatus),
-  contextId: Schema.optional(Schema.String),
-  history: Schema.optional(Schema.Array(Message)),
-  id: Schema.optional(Schema.String),
-  artifacts: Schema.optional(Schema.Array(Artifact)),
-})).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
+export const Task: Schema.Schema<Task> = Schema.suspend(() =>
+  Schema.Struct({
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    status: Schema.optional(TaskStatus),
+    contextId: Schema.optional(Schema.String),
+    history: Schema.optional(Schema.Array(Message)),
+    id: Schema.optional(Schema.String),
+    artifacts: Schema.optional(Schema.Array(Artifact)),
+  }),
+).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface CancelTaskRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant?: string;
 }
 
-export const CancelTaskRequest: Schema.Schema<CancelTaskRequest> = Schema.suspend(() => Schema.Struct({
-  tenant: Schema.optional(Schema.String),
-})).annotate({ identifier: "CancelTaskRequest" }) as any as Schema.Schema<CancelTaskRequest>;
+export const CancelTaskRequest: Schema.Schema<CancelTaskRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tenant: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CancelTaskRequest",
+  }) as any as Schema.Schema<CancelTaskRequest>;
 
 export interface TaskPushNotificationConfig {
   /** The resource name of the config. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
@@ -382,10 +475,15 @@ export interface TaskPushNotificationConfig {
   pushNotificationConfig?: PushNotificationConfig;
 }
 
-export const TaskPushNotificationConfig: Schema.Schema<TaskPushNotificationConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  pushNotificationConfig: Schema.optional(PushNotificationConfig),
-})).annotate({ identifier: "TaskPushNotificationConfig" }) as any as Schema.Schema<TaskPushNotificationConfig>;
+export const TaskPushNotificationConfig: Schema.Schema<TaskPushNotificationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      pushNotificationConfig: Schema.optional(PushNotificationConfig),
+    }),
+  ).annotate({
+    identifier: "TaskPushNotificationConfig",
+  }) as any as Schema.Schema<TaskPushNotificationConfig>;
 
 export interface ListTaskPushNotificationConfigResponse {
   /** The list of push notification configurations. */
@@ -394,16 +492,22 @@ export interface ListTaskPushNotificationConfigResponse {
   nextPageToken?: string;
 }
 
-export const ListTaskPushNotificationConfigResponse: Schema.Schema<ListTaskPushNotificationConfigResponse> = Schema.suspend(() => Schema.Struct({
-  configs: Schema.optional(Schema.Array(TaskPushNotificationConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTaskPushNotificationConfigResponse" }) as any as Schema.Schema<ListTaskPushNotificationConfigResponse>;
+export const ListTaskPushNotificationConfigResponse: Schema.Schema<ListTaskPushNotificationConfigResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      configs: Schema.optional(Schema.Array(TaskPushNotificationConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTaskPushNotificationConfigResponse",
+  }) as any as Schema.Schema<ListTaskPushNotificationConfigResponse>;
 
-export interface ReactivateSubscriptionRequest {
-}
+export interface ReactivateSubscriptionRequest {}
 
-export const ReactivateSubscriptionRequest: Schema.Schema<ReactivateSubscriptionRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ReactivateSubscriptionRequest" }) as any as Schema.Schema<ReactivateSubscriptionRequest>;
+export const ReactivateSubscriptionRequest: Schema.Schema<ReactivateSubscriptionRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ReactivateSubscriptionRequest",
+  }) as any as Schema.Schema<ReactivateSubscriptionRequest>;
 
 export interface TaskStatusUpdateEvent {
   /** The id of the task that is changed */
@@ -418,13 +522,18 @@ export interface TaskStatusUpdateEvent {
   metadata?: Record<string, unknown>;
 }
 
-export const TaskStatusUpdateEvent: Schema.Schema<TaskStatusUpdateEvent> = Schema.suspend(() => Schema.Struct({
-  taskId: Schema.optional(Schema.String),
-  contextId: Schema.optional(Schema.String),
-  status: Schema.optional(TaskStatus),
-  final: Schema.optional(Schema.Boolean),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "TaskStatusUpdateEvent" }) as any as Schema.Schema<TaskStatusUpdateEvent>;
+export const TaskStatusUpdateEvent: Schema.Schema<TaskStatusUpdateEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      taskId: Schema.optional(Schema.String),
+      contextId: Schema.optional(Schema.String),
+      status: Schema.optional(TaskStatus),
+      final: Schema.optional(Schema.Boolean),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "TaskStatusUpdateEvent",
+  }) as any as Schema.Schema<TaskStatusUpdateEvent>;
 
 export interface StreamResponse {
   task?: Task;
@@ -433,12 +542,17 @@ export interface StreamResponse {
   statusUpdate?: TaskStatusUpdateEvent;
 }
 
-export const StreamResponse: Schema.Schema<StreamResponse> = Schema.suspend(() => Schema.Struct({
-  task: Schema.optional(Task),
-  artifactUpdate: Schema.optional(TaskArtifactUpdateEvent),
-  message: Schema.optional(Message),
-  statusUpdate: Schema.optional(TaskStatusUpdateEvent),
-})).annotate({ identifier: "StreamResponse" }) as any as Schema.Schema<StreamResponse>;
+export const StreamResponse: Schema.Schema<StreamResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      task: Schema.optional(Task),
+      artifactUpdate: Schema.optional(TaskArtifactUpdateEvent),
+      message: Schema.optional(Message),
+      statusUpdate: Schema.optional(TaskStatusUpdateEvent),
+    }),
+).annotate({
+  identifier: "StreamResponse",
+}) as any as Schema.Schema<StreamResponse>;
 
 // ==========================================================================
 // Operations
@@ -462,7 +576,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -486,7 +605,12 @@ export const StreamMessageResponse = StreamResponse;
 export type StreamMessageError = DefaultErrors;
 
 /** SendStreamingMessage is a streaming call that will return a stream of task update events until the Task is in an interrupted or terminal state. */
-export const streamMessage: API.OperationMethod<StreamMessageRequest, StreamMessageResponse, StreamMessageError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const streamMessage: API.OperationMethod<
+  StreamMessageRequest,
+  StreamMessageResponse,
+  StreamMessageError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StreamMessageRequest,
   output: StreamMessageResponse,
   errors: [],
@@ -503,7 +627,11 @@ export const ReactivateSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ReactivateSubscriptionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/subscriptions/{subscriptionsId}:reactivate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/subscriptions/{subscriptionsId}:reactivate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReactivateSubscriptionsRequest>;
 
@@ -513,7 +641,12 @@ export const ReactivateSubscriptionsResponse = Operation;
 export type ReactivateSubscriptionsError = DefaultErrors;
 
 /** Reactivates a suspended Google Workspace subscription. This method resets your subscription's `State` field to `ACTIVE`. Before you use this method, you must fix the error that suspended the subscription. This method will ignore or reject any subscription that isn't currently in a suspended state. To learn how to use this method, see [Reactivate a Google Workspace subscription](https://developers.google.com/workspace/events/guides/reactivate-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can reactivate a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` andgetting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
-export const reactivateSubscriptions: API.OperationMethod<ReactivateSubscriptionsRequest, ReactivateSubscriptionsResponse, ReactivateSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const reactivateSubscriptions: API.OperationMethod<
+  ReactivateSubscriptionsRequest,
+  ReactivateSubscriptionsResponse,
+  ReactivateSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReactivateSubscriptionsRequest,
   output: ReactivateSubscriptionsResponse,
   errors: [],
@@ -537,7 +670,12 @@ export const GetSubscriptionsResponse = Subscription;
 export type GetSubscriptionsError = DefaultErrors;
 
 /** Gets details about a Google Workspace subscription. To learn how to use this method, see [Get details about a Google Workspace subscription](https://developers.google.com/workspace/events/guides/get-subscription). */
-export const getSubscriptions: API.OperationMethod<GetSubscriptionsRequest, GetSubscriptionsResponse, GetSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSubscriptions: API.OperationMethod<
+  GetSubscriptionsRequest,
+  GetSubscriptionsResponse,
+  GetSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSubscriptionsRequest,
   output: GetSubscriptionsResponse,
   errors: [],
@@ -557,10 +695,16 @@ export interface PatchSubscriptionsRequest {
 export const PatchSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(Subscription).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/subscriptions/{subscriptionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/subscriptions/{subscriptionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchSubscriptionsRequest>;
 
@@ -570,7 +714,12 @@ export const PatchSubscriptionsResponse = Operation;
 export type PatchSubscriptionsError = DefaultErrors;
 
 /** Updates or renews a Google Workspace subscription. To learn how to use this method, see [Update or renew a Google Workspace subscription](https://developers.google.com/workspace/events/guides/update-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can update a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` andgetting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
-export const patchSubscriptions: API.OperationMethod<PatchSubscriptionsRequest, PatchSubscriptionsResponse, PatchSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSubscriptions: API.OperationMethod<
+  PatchSubscriptionsRequest,
+  PatchSubscriptionsResponse,
+  PatchSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSubscriptionsRequest,
   output: PatchSubscriptionsResponse,
   errors: [],
@@ -584,7 +733,9 @@ export interface CreateSubscriptionsRequest {
 }
 
 export const CreateSubscriptionsRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(Subscription).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1/subscriptions", hasBody: true }),
@@ -597,7 +748,12 @@ export const CreateSubscriptionsResponse = Operation;
 export type CreateSubscriptionsError = DefaultErrors;
 
 /** Creates a Google Workspace subscription. To learn how to use this method, see [Create a Google Workspace subscription](https://developers.google.com/workspace/events/guides/create-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can create a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` and getting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
-export const createSubscriptions: API.OperationMethod<CreateSubscriptionsRequest, CreateSubscriptionsResponse, CreateSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSubscriptions: API.OperationMethod<
+  CreateSubscriptionsRequest,
+  CreateSubscriptionsResponse,
+  CreateSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSubscriptionsRequest,
   output: CreateSubscriptionsResponse,
   errors: [],
@@ -615,10 +771,14 @@ export interface DeleteSubscriptionsRequest {
 }
 
 export const DeleteSubscriptionsRequest = Schema.Struct({
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
   name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1/subscriptions/{subscriptionsId}" }),
   svc,
@@ -630,7 +790,12 @@ export const DeleteSubscriptionsResponse = Operation;
 export type DeleteSubscriptionsError = DefaultErrors;
 
 /** Deletes a Google Workspace subscription. To learn how to use this method, see [Delete a Google Workspace subscription](https://developers.google.com/workspace/events/guides/delete-subscription). */
-export const deleteSubscriptions: API.OperationMethod<DeleteSubscriptionsRequest, DeleteSubscriptionsResponse, DeleteSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSubscriptions: API.OperationMethod<
+  DeleteSubscriptionsRequest,
+  DeleteSubscriptionsResponse,
+  DeleteSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSubscriptionsRequest,
   output: DeleteSubscriptionsResponse,
   errors: [],
@@ -660,7 +825,12 @@ export const ListSubscriptionsResponse_Op = ListSubscriptionsResponse;
 export type ListSubscriptionsError = DefaultErrors;
 
 /** Lists Google Workspace subscriptions. To learn how to use this method, see [List Google Workspace subscriptions](https://developers.google.com/workspace/events/guides/list-subscriptions). */
-export const listSubscriptions: API.PaginatedOperationMethod<ListSubscriptionsRequest, ListSubscriptionsResponse_Op, ListSubscriptionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSubscriptions: API.PaginatedOperationMethod<
+  ListSubscriptionsRequest,
+  ListSubscriptionsResponse_Op,
+  ListSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSubscriptionsRequest,
   output: ListSubscriptionsResponse_Op,
   errors: [],
@@ -691,7 +861,12 @@ export const CancelTasksResponse = Task;
 export type CancelTasksError = DefaultErrors;
 
 /** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
-export const cancelTasks: API.OperationMethod<CancelTasksRequest, CancelTasksResponse, CancelTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelTasks: API.OperationMethod<
+  CancelTasksRequest,
+  CancelTasksResponse,
+  CancelTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelTasksRequest,
   output: CancelTasksResponse,
   errors: [],
@@ -709,7 +884,9 @@ export interface GetTasksRequest {
 export const GetTasksRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
-  historyLength: Schema.optional(Schema.Number).pipe(T.HttpQuery("historyLength")),
+  historyLength: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("historyLength"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/tasks/{tasksId}" }),
   svc,
@@ -721,7 +898,12 @@ export const GetTasksResponse = Task;
 export type GetTasksError = DefaultErrors;
 
 /** Get the current state of a task from the agent. */
-export const getTasks: API.OperationMethod<GetTasksRequest, GetTasksResponse, GetTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTasks: API.OperationMethod<
+  GetTasksRequest,
+  GetTasksResponse,
+  GetTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTasksRequest,
   output: GetTasksResponse,
   errors: [],
@@ -748,7 +930,12 @@ export const SubscribeTasksResponse = StreamResponse;
 export type SubscribeTasksError = DefaultErrors;
 
 /** TaskSubscription is a streaming call that will return a stream of task update events. This attaches the stream to an existing in process task. If the task is complete the stream will return the completed task (like GetTask) and close the stream. */
-export const subscribeTasks: API.OperationMethod<SubscribeTasksRequest, SubscribeTasksResponse, SubscribeTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const subscribeTasks: API.OperationMethod<
+  SubscribeTasksRequest,
+  SubscribeTasksResponse,
+  SubscribeTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SubscribeTasksRequest,
   output: SubscribeTasksResponse,
   errors: [],
@@ -765,17 +952,27 @@ export const GetTasksPushNotificationConfigsRequest = Schema.Struct({
   tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetTasksPushNotificationConfigsRequest>;
 
-export type GetTasksPushNotificationConfigsResponse = TaskPushNotificationConfig;
-export const GetTasksPushNotificationConfigsResponse = TaskPushNotificationConfig;
+export type GetTasksPushNotificationConfigsResponse =
+  TaskPushNotificationConfig;
+export const GetTasksPushNotificationConfigsResponse =
+  TaskPushNotificationConfig;
 
 export type GetTasksPushNotificationConfigsError = DefaultErrors;
 
 /** Get a push notification config for a task. */
-export const getTasksPushNotificationConfigs: API.OperationMethod<GetTasksPushNotificationConfigsRequest, GetTasksPushNotificationConfigsResponse, GetTasksPushNotificationConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTasksPushNotificationConfigs: API.OperationMethod<
+  GetTasksPushNotificationConfigsRequest,
+  GetTasksPushNotificationConfigsResponse,
+  GetTasksPushNotificationConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTasksPushNotificationConfigsRequest,
   output: GetTasksPushNotificationConfigsResponse,
   errors: [],
@@ -802,13 +999,20 @@ export const ListTasksPushNotificationConfigsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<ListTasksPushNotificationConfigsRequest>;
 
-export type ListTasksPushNotificationConfigsResponse = ListTaskPushNotificationConfigResponse;
-export const ListTasksPushNotificationConfigsResponse = ListTaskPushNotificationConfigResponse;
+export type ListTasksPushNotificationConfigsResponse =
+  ListTaskPushNotificationConfigResponse;
+export const ListTasksPushNotificationConfigsResponse =
+  ListTaskPushNotificationConfigResponse;
 
 export type ListTasksPushNotificationConfigsError = DefaultErrors;
 
 /** Get a list of push notifications configured for a task. */
-export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<ListTasksPushNotificationConfigsRequest, ListTasksPushNotificationConfigsResponse, ListTasksPushNotificationConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<
+  ListTasksPushNotificationConfigsRequest,
+  ListTasksPushNotificationConfigsResponse,
+  ListTasksPushNotificationConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTasksPushNotificationConfigsRequest,
   output: ListTasksPushNotificationConfigsResponse,
   errors: [],
@@ -835,17 +1039,28 @@ export const CreateTasksPushNotificationConfigsRequest = Schema.Struct({
   configId: Schema.optional(Schema.String).pipe(T.HttpQuery("configId")),
   body: Schema.optional(TaskPushNotificationConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/tasks/{tasksId}/pushNotificationConfigs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/tasks/{tasksId}/pushNotificationConfigs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateTasksPushNotificationConfigsRequest>;
 
-export type CreateTasksPushNotificationConfigsResponse = TaskPushNotificationConfig;
-export const CreateTasksPushNotificationConfigsResponse = TaskPushNotificationConfig;
+export type CreateTasksPushNotificationConfigsResponse =
+  TaskPushNotificationConfig;
+export const CreateTasksPushNotificationConfigsResponse =
+  TaskPushNotificationConfig;
 
 export type CreateTasksPushNotificationConfigsError = DefaultErrors;
 
 /** Set a push notification config for a task. */
-export const createTasksPushNotificationConfigs: API.OperationMethod<CreateTasksPushNotificationConfigsRequest, CreateTasksPushNotificationConfigsResponse, CreateTasksPushNotificationConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createTasksPushNotificationConfigs: API.OperationMethod<
+  CreateTasksPushNotificationConfigsRequest,
+  CreateTasksPushNotificationConfigsResponse,
+  CreateTasksPushNotificationConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateTasksPushNotificationConfigsRequest,
   output: CreateTasksPushNotificationConfigsResponse,
   errors: [],
@@ -862,7 +1077,10 @@ export const DeleteTasksPushNotificationConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteTasksPushNotificationConfigsRequest>;
 
@@ -872,9 +1090,13 @@ export const DeleteTasksPushNotificationConfigsResponse = Empty;
 export type DeleteTasksPushNotificationConfigsError = DefaultErrors;
 
 /** Delete a push notification config for a task. */
-export const deleteTasksPushNotificationConfigs: API.OperationMethod<DeleteTasksPushNotificationConfigsRequest, DeleteTasksPushNotificationConfigsResponse, DeleteTasksPushNotificationConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTasksPushNotificationConfigs: API.OperationMethod<
+  DeleteTasksPushNotificationConfigsRequest,
+  DeleteTasksPushNotificationConfigsResponse,
+  DeleteTasksPushNotificationConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTasksPushNotificationConfigsRequest,
   output: DeleteTasksPushNotificationConfigsResponse,
   errors: [],
 }));
-

@@ -2,7 +2,9 @@
  * UTF-8 and buffer conversion utilities.
  */
 
-export function toUint8Array(data: string | ArrayBuffer | ArrayBufferView): Uint8Array {
+export function toUint8Array(
+  data: string | ArrayBuffer | ArrayBufferView,
+): Uint8Array {
   if (typeof data === "string") {
     return fromUtf8(data);
   }

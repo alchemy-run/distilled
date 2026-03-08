@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface ResolveServiceRequest {
   /** Optional. The maximum number of endpoints to return. Defaults to 25. Maximum is 100. If a value less than one is specified, the Default is used. If a value greater than the Maximum is specified, the Maximum is used. */
@@ -63,10 +70,15 @@ export interface ResolveServiceRequest {
   endpointFilter?: string;
 }
 
-export const ResolveServiceRequest: Schema.Schema<ResolveServiceRequest> = Schema.suspend(() => Schema.Struct({
-  maxEndpoints: Schema.optional(Schema.Number),
-  endpointFilter: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResolveServiceRequest" }) as any as Schema.Schema<ResolveServiceRequest>;
+export const ResolveServiceRequest: Schema.Schema<ResolveServiceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maxEndpoints: Schema.optional(Schema.Number),
+      endpointFilter: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResolveServiceRequest",
+  }) as any as Schema.Schema<ResolveServiceRequest>;
 
 export interface Endpoint {
   /** Immutable. The resource name for the endpoint in the format `projects/* /locations/* /namespaces/* /services/* /endpoints/*`. */
@@ -87,16 +99,18 @@ export interface Endpoint {
   uid?: string;
 }
 
-export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  address: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  network: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-})).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
+export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    address: Schema.optional(Schema.String),
+    port: Schema.optional(Schema.Number),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    network: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
 
 export interface Service {
   /** Immutable. The resource name for the service in the format `projects/* /locations/* /namespaces/* /services/*`. */
@@ -113,22 +127,29 @@ export interface Service {
   uid?: string;
 }
 
-export const Service: Schema.Schema<Service> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  endpoints: Schema.optional(Schema.Array(Endpoint)),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-})).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
+export const Service: Schema.Schema<Service> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    endpoints: Schema.optional(Schema.Array(Endpoint)),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
 
 export interface ResolveServiceResponse {
   service?: Service;
 }
 
-export const ResolveServiceResponse: Schema.Schema<ResolveServiceResponse> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Service),
-})).annotate({ identifier: "ResolveServiceResponse" }) as any as Schema.Schema<ResolveServiceResponse>;
+export const ResolveServiceResponse: Schema.Schema<ResolveServiceResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Service),
+    }),
+  ).annotate({
+    identifier: "ResolveServiceResponse",
+  }) as any as Schema.Schema<ResolveServiceResponse>;
 
 export interface Namespace {
   /** Immutable. The resource name for the namespace in the format `projects/* /locations/* /namespaces/*`. */
@@ -143,13 +164,15 @@ export interface Namespace {
   uid?: string;
 }
 
-export const Namespace: Schema.Schema<Namespace> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-})).annotate({ identifier: "Namespace" }) as any as Schema.Schema<Namespace>;
+export const Namespace: Schema.Schema<Namespace> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Namespace" }) as any as Schema.Schema<Namespace>;
 
 export interface ListNamespacesResponse {
   /** The list of namespaces. */
@@ -158,16 +181,21 @@ export interface ListNamespacesResponse {
   nextPageToken?: string;
 }
 
-export const ListNamespacesResponse: Schema.Schema<ListNamespacesResponse> = Schema.suspend(() => Schema.Struct({
-  namespaces: Schema.optional(Schema.Array(Namespace)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListNamespacesResponse" }) as any as Schema.Schema<ListNamespacesResponse>;
+export const ListNamespacesResponse: Schema.Schema<ListNamespacesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      namespaces: Schema.optional(Schema.Array(Namespace)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListNamespacesResponse",
+  }) as any as Schema.Schema<ListNamespacesResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ListServicesResponse {
   /** The list of services. */
@@ -176,10 +204,15 @@ export interface ListServicesResponse {
   nextPageToken?: string;
 }
 
-export const ListServicesResponse: Schema.Schema<ListServicesResponse> = Schema.suspend(() => Schema.Struct({
-  services: Schema.optional(Schema.Array(Service)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListServicesResponse" }) as any as Schema.Schema<ListServicesResponse>;
+export const ListServicesResponse: Schema.Schema<ListServicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      services: Schema.optional(Schema.Array(Service)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListServicesResponse",
+  }) as any as Schema.Schema<ListServicesResponse>;
 
 export interface ListEndpointsResponse {
   /** The list of endpoints. */
@@ -188,28 +221,43 @@ export interface ListEndpointsResponse {
   nextPageToken?: string;
 }
 
-export const ListEndpointsResponse: Schema.Schema<ListEndpointsResponse> = Schema.suspend(() => Schema.Struct({
-  endpoints: Schema.optional(Schema.Array(Endpoint)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListEndpointsResponse" }) as any as Schema.Schema<ListEndpointsResponse>;
+export const ListEndpointsResponse: Schema.Schema<ListEndpointsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endpoints: Schema.optional(Schema.Array(Endpoint)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListEndpointsResponse",
+  }) as any as Schema.Schema<ListEndpointsResponse>;
 
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(() => Schema.Struct({
-  requestedPolicyVersion: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GetPolicyOptions" }) as any as Schema.Schema<GetPolicyOptions>;
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GetPolicyOptions",
+}) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions;
 }
 
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(GetPolicyOptions),
-})).annotate({ identifier: "GetIamPolicyRequest" }) as any as Schema.Schema<GetIamPolicyRequest>;
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -222,12 +270,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -238,11 +288,13 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -253,38 +305,55 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 // ==========================================================================
 // Operations
@@ -308,7 +377,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations" }),
   svc,
@@ -320,7 +391,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -338,7 +414,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -348,7 +427,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -368,7 +452,11 @@ export const CreateProjectsLocationsNamespacesRequest = Schema.Struct({
   namespaceId: Schema.optional(Schema.String).pipe(T.HttpQuery("namespaceId")),
   body: Schema.optional(Namespace).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsNamespacesRequest>;
 
@@ -378,7 +466,12 @@ export const CreateProjectsLocationsNamespacesResponse = Namespace;
 export type CreateProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Creates a namespace, and returns the new namespace. */
-export const createProjectsLocationsNamespaces: API.OperationMethod<CreateProjectsLocationsNamespacesRequest, CreateProjectsLocationsNamespacesResponse, CreateProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsNamespaces: API.OperationMethod<
+  CreateProjectsLocationsNamespacesRequest,
+  CreateProjectsLocationsNamespacesResponse,
+  CreateProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsNamespacesRequest,
   output: CreateProjectsLocationsNamespacesResponse,
   errors: [],
@@ -404,7 +497,10 @@ export const ListProjectsLocationsNamespacesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsNamespacesRequest>;
 
@@ -414,7 +510,12 @@ export const ListProjectsLocationsNamespacesResponse = ListNamespacesResponse;
 export type ListProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Lists all namespaces. */
-export const listProjectsLocationsNamespaces: API.PaginatedOperationMethod<ListProjectsLocationsNamespacesRequest, ListProjectsLocationsNamespacesResponse, ListProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNamespaces: API.PaginatedOperationMethod<
+  ListProjectsLocationsNamespacesRequest,
+  ListProjectsLocationsNamespacesResponse,
+  ListProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNamespacesRequest,
   output: ListProjectsLocationsNamespacesResponse,
   errors: [],
@@ -432,7 +533,10 @@ export interface GetProjectsLocationsNamespacesRequest {
 export const GetProjectsLocationsNamespacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsNamespacesRequest>;
 
@@ -442,7 +546,12 @@ export const GetProjectsLocationsNamespacesResponse = Namespace;
 export type GetProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Gets a namespace. */
-export const getProjectsLocationsNamespaces: API.OperationMethod<GetProjectsLocationsNamespacesRequest, GetProjectsLocationsNamespacesResponse, GetProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsNamespaces: API.OperationMethod<
+  GetProjectsLocationsNamespacesRequest,
+  GetProjectsLocationsNamespacesResponse,
+  GetProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsNamespacesRequest,
   output: GetProjectsLocationsNamespacesResponse,
   errors: [],
@@ -462,7 +571,11 @@ export const PatchProjectsLocationsNamespacesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Namespace).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsNamespacesRequest>;
 
@@ -472,7 +585,12 @@ export const PatchProjectsLocationsNamespacesResponse = Namespace;
 export type PatchProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Updates a namespace. */
-export const patchProjectsLocationsNamespaces: API.OperationMethod<PatchProjectsLocationsNamespacesRequest, PatchProjectsLocationsNamespacesResponse, PatchProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsNamespaces: API.OperationMethod<
+  PatchProjectsLocationsNamespacesRequest,
+  PatchProjectsLocationsNamespacesResponse,
+  PatchProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsNamespacesRequest,
   output: PatchProjectsLocationsNamespacesResponse,
   errors: [],
@@ -486,7 +604,10 @@ export interface DeleteProjectsLocationsNamespacesRequest {
 export const DeleteProjectsLocationsNamespacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsNamespacesRequest>;
 
@@ -496,7 +617,12 @@ export const DeleteProjectsLocationsNamespacesResponse = Empty;
 export type DeleteProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Deletes a namespace. This also deletes all services and endpoints in the namespace. */
-export const deleteProjectsLocationsNamespaces: API.OperationMethod<DeleteProjectsLocationsNamespacesRequest, DeleteProjectsLocationsNamespacesResponse, DeleteProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsNamespaces: API.OperationMethod<
+  DeleteProjectsLocationsNamespacesRequest,
+  DeleteProjectsLocationsNamespacesResponse,
+  DeleteProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsNamespacesRequest,
   output: DeleteProjectsLocationsNamespacesResponse,
   errors: [],
@@ -513,7 +639,11 @@ export const GetIamPolicyProjectsLocationsNamespacesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsNamespacesRequest>;
 
@@ -523,7 +653,12 @@ export const GetIamPolicyProjectsLocationsNamespacesResponse = Policy;
 export type GetIamPolicyProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Gets the IAM Policy for a resource */
-export const getIamPolicyProjectsLocationsNamespaces: API.OperationMethod<GetIamPolicyProjectsLocationsNamespacesRequest, GetIamPolicyProjectsLocationsNamespacesResponse, GetIamPolicyProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsNamespaces: API.OperationMethod<
+  GetIamPolicyProjectsLocationsNamespacesRequest,
+  GetIamPolicyProjectsLocationsNamespacesResponse,
+  GetIamPolicyProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsNamespacesRequest,
   output: GetIamPolicyProjectsLocationsNamespacesResponse,
   errors: [],
@@ -540,7 +675,11 @@ export const SetIamPolicyProjectsLocationsNamespacesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsNamespacesRequest>;
 
@@ -550,7 +689,12 @@ export const SetIamPolicyProjectsLocationsNamespacesResponse = Policy;
 export type SetIamPolicyProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Sets the IAM Policy for a resource */
-export const setIamPolicyProjectsLocationsNamespaces: API.OperationMethod<SetIamPolicyProjectsLocationsNamespacesRequest, SetIamPolicyProjectsLocationsNamespacesResponse, SetIamPolicyProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsNamespaces: API.OperationMethod<
+  SetIamPolicyProjectsLocationsNamespacesRequest,
+  SetIamPolicyProjectsLocationsNamespacesResponse,
+  SetIamPolicyProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsNamespacesRequest,
   output: SetIamPolicyProjectsLocationsNamespacesResponse,
   errors: [],
@@ -563,21 +707,33 @@ export interface TestIamPermissionsProjectsLocationsNamespacesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsNamespacesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsNamespacesRequest>;
+export const TestIamPermissionsProjectsLocationsNamespacesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsNamespacesRequest>;
 
-export type TestIamPermissionsProjectsLocationsNamespacesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsNamespacesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsNamespacesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsNamespacesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsNamespacesError = DefaultErrors;
 
 /** Tests IAM permissions for a resource (namespace, service or service workload only). */
-export const testIamPermissionsProjectsLocationsNamespaces: API.OperationMethod<TestIamPermissionsProjectsLocationsNamespacesRequest, TestIamPermissionsProjectsLocationsNamespacesResponse, TestIamPermissionsProjectsLocationsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsNamespaces: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsNamespacesRequest,
+  TestIamPermissionsProjectsLocationsNamespacesResponse,
+  TestIamPermissionsProjectsLocationsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsNamespacesRequest,
   output: TestIamPermissionsProjectsLocationsNamespacesResponse,
   errors: [],
@@ -594,17 +750,28 @@ export const ResolveProjectsLocationsNamespacesServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResolveServiceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:resolve", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:resolve",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResolveProjectsLocationsNamespacesServicesRequest>;
 
-export type ResolveProjectsLocationsNamespacesServicesResponse = ResolveServiceResponse;
-export const ResolveProjectsLocationsNamespacesServicesResponse = ResolveServiceResponse;
+export type ResolveProjectsLocationsNamespacesServicesResponse =
+  ResolveServiceResponse;
+export const ResolveProjectsLocationsNamespacesServicesResponse =
+  ResolveServiceResponse;
 
 export type ResolveProjectsLocationsNamespacesServicesError = DefaultErrors;
 
 /** Returns a service and its associated endpoints. Resolving a service is not considered an active developer method. */
-export const resolveProjectsLocationsNamespacesServices: API.OperationMethod<ResolveProjectsLocationsNamespacesServicesRequest, ResolveProjectsLocationsNamespacesServicesResponse, ResolveProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resolveProjectsLocationsNamespacesServices: API.OperationMethod<
+  ResolveProjectsLocationsNamespacesServicesRequest,
+  ResolveProjectsLocationsNamespacesServicesResponse,
+  ResolveProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResolveProjectsLocationsNamespacesServicesRequest,
   output: ResolveProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -624,7 +791,11 @@ export const CreateProjectsLocationsNamespacesServicesRequest = Schema.Struct({
   serviceId: Schema.optional(Schema.String).pipe(T.HttpQuery("serviceId")),
   body: Schema.optional(Service).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsNamespacesServicesRequest>;
 
@@ -634,7 +805,12 @@ export const CreateProjectsLocationsNamespacesServicesResponse = Service;
 export type CreateProjectsLocationsNamespacesServicesError = DefaultErrors;
 
 /** Creates a service, and returns the new service. */
-export const createProjectsLocationsNamespacesServices: API.OperationMethod<CreateProjectsLocationsNamespacesServicesRequest, CreateProjectsLocationsNamespacesServicesResponse, CreateProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsNamespacesServices: API.OperationMethod<
+  CreateProjectsLocationsNamespacesServicesRequest,
+  CreateProjectsLocationsNamespacesServicesResponse,
+  CreateProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsNamespacesServicesRequest,
   output: CreateProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -660,17 +836,27 @@ export const ListProjectsLocationsNamespacesServicesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsNamespacesServicesRequest>;
 
-export type ListProjectsLocationsNamespacesServicesResponse = ListServicesResponse;
-export const ListProjectsLocationsNamespacesServicesResponse = ListServicesResponse;
+export type ListProjectsLocationsNamespacesServicesResponse =
+  ListServicesResponse;
+export const ListProjectsLocationsNamespacesServicesResponse =
+  ListServicesResponse;
 
 export type ListProjectsLocationsNamespacesServicesError = DefaultErrors;
 
 /** Lists all services belonging to a namespace. */
-export const listProjectsLocationsNamespacesServices: API.PaginatedOperationMethod<ListProjectsLocationsNamespacesServicesRequest, ListProjectsLocationsNamespacesServicesResponse, ListProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNamespacesServices: API.PaginatedOperationMethod<
+  ListProjectsLocationsNamespacesServicesRequest,
+  ListProjectsLocationsNamespacesServicesResponse,
+  ListProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNamespacesServicesRequest,
   output: ListProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -688,7 +874,10 @@ export interface GetProjectsLocationsNamespacesServicesRequest {
 export const GetProjectsLocationsNamespacesServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsNamespacesServicesRequest>;
 
@@ -698,7 +887,12 @@ export const GetProjectsLocationsNamespacesServicesResponse = Service;
 export type GetProjectsLocationsNamespacesServicesError = DefaultErrors;
 
 /** Gets a service. */
-export const getProjectsLocationsNamespacesServices: API.OperationMethod<GetProjectsLocationsNamespacesServicesRequest, GetProjectsLocationsNamespacesServicesResponse, GetProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsNamespacesServices: API.OperationMethod<
+  GetProjectsLocationsNamespacesServicesRequest,
+  GetProjectsLocationsNamespacesServicesResponse,
+  GetProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsNamespacesServicesRequest,
   output: GetProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -718,7 +912,11 @@ export const PatchProjectsLocationsNamespacesServicesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Service).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsNamespacesServicesRequest>;
 
@@ -728,7 +926,12 @@ export const PatchProjectsLocationsNamespacesServicesResponse = Service;
 export type PatchProjectsLocationsNamespacesServicesError = DefaultErrors;
 
 /** Updates a service. */
-export const patchProjectsLocationsNamespacesServices: API.OperationMethod<PatchProjectsLocationsNamespacesServicesRequest, PatchProjectsLocationsNamespacesServicesResponse, PatchProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsNamespacesServices: API.OperationMethod<
+  PatchProjectsLocationsNamespacesServicesRequest,
+  PatchProjectsLocationsNamespacesServicesResponse,
+  PatchProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsNamespacesServicesRequest,
   output: PatchProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -742,7 +945,10 @@ export interface DeleteProjectsLocationsNamespacesServicesRequest {
 export const DeleteProjectsLocationsNamespacesServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsNamespacesServicesRequest>;
 
@@ -752,7 +958,12 @@ export const DeleteProjectsLocationsNamespacesServicesResponse = Empty;
 export type DeleteProjectsLocationsNamespacesServicesError = DefaultErrors;
 
 /** Deletes a service. This also deletes all endpoints associated with the service. */
-export const deleteProjectsLocationsNamespacesServices: API.OperationMethod<DeleteProjectsLocationsNamespacesServicesRequest, DeleteProjectsLocationsNamespacesServicesResponse, DeleteProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsNamespacesServices: API.OperationMethod<
+  DeleteProjectsLocationsNamespacesServicesRequest,
+  DeleteProjectsLocationsNamespacesServicesResponse,
+  DeleteProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsNamespacesServicesRequest,
   output: DeleteProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -765,21 +976,32 @@ export interface GetIamPolicyProjectsLocationsNamespacesServicesRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsLocationsNamespacesServicesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:getIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsNamespacesServicesRequest>;
+export const GetIamPolicyProjectsLocationsNamespacesServicesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsNamespacesServicesRequest>;
 
 export type GetIamPolicyProjectsLocationsNamespacesServicesResponse = Policy;
 export const GetIamPolicyProjectsLocationsNamespacesServicesResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsNamespacesServicesError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsNamespacesServicesError =
+  DefaultErrors;
 
 /** Gets the IAM Policy for a resource */
-export const getIamPolicyProjectsLocationsNamespacesServices: API.OperationMethod<GetIamPolicyProjectsLocationsNamespacesServicesRequest, GetIamPolicyProjectsLocationsNamespacesServicesResponse, GetIamPolicyProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsNamespacesServices: API.OperationMethod<
+  GetIamPolicyProjectsLocationsNamespacesServicesRequest,
+  GetIamPolicyProjectsLocationsNamespacesServicesResponse,
+  GetIamPolicyProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsNamespacesServicesRequest,
   output: GetIamPolicyProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -792,21 +1014,32 @@ export interface SetIamPolicyProjectsLocationsNamespacesServicesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsNamespacesServicesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsNamespacesServicesRequest>;
+export const SetIamPolicyProjectsLocationsNamespacesServicesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsNamespacesServicesRequest>;
 
 export type SetIamPolicyProjectsLocationsNamespacesServicesResponse = Policy;
 export const SetIamPolicyProjectsLocationsNamespacesServicesResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsNamespacesServicesError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsNamespacesServicesError =
+  DefaultErrors;
 
 /** Sets the IAM Policy for a resource */
-export const setIamPolicyProjectsLocationsNamespacesServices: API.OperationMethod<SetIamPolicyProjectsLocationsNamespacesServicesRequest, SetIamPolicyProjectsLocationsNamespacesServicesResponse, SetIamPolicyProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsNamespacesServices: API.OperationMethod<
+  SetIamPolicyProjectsLocationsNamespacesServicesRequest,
+  SetIamPolicyProjectsLocationsNamespacesServicesResponse,
+  SetIamPolicyProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsNamespacesServicesRequest,
   output: SetIamPolicyProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -819,21 +1052,34 @@ export interface TestIamPermissionsProjectsLocationsNamespacesServicesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsNamespacesServicesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsNamespacesServicesRequest>;
+export const TestIamPermissionsProjectsLocationsNamespacesServicesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsNamespacesServicesRequest>;
 
-export type TestIamPermissionsProjectsLocationsNamespacesServicesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsNamespacesServicesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsNamespacesServicesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsNamespacesServicesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsNamespacesServicesError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsNamespacesServicesError =
+  DefaultErrors;
 
 /** Tests IAM permissions for a resource (namespace, service or service workload only). */
-export const testIamPermissionsProjectsLocationsNamespacesServices: API.OperationMethod<TestIamPermissionsProjectsLocationsNamespacesServicesRequest, TestIamPermissionsProjectsLocationsNamespacesServicesResponse, TestIamPermissionsProjectsLocationsNamespacesServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsNamespacesServices: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsNamespacesServicesRequest,
+  TestIamPermissionsProjectsLocationsNamespacesServicesResponse,
+  TestIamPermissionsProjectsLocationsNamespacesServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsNamespacesServicesRequest,
   output: TestIamPermissionsProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -848,22 +1094,35 @@ export interface CreateProjectsLocationsNamespacesServicesEndpointsRequest {
   body?: Endpoint;
 }
 
-export const CreateProjectsLocationsNamespacesServicesEndpointsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  endpointId: Schema.optional(Schema.String).pipe(T.HttpQuery("endpointId")),
-  body: Schema.optional(Endpoint).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsNamespacesServicesEndpointsRequest>;
+export const CreateProjectsLocationsNamespacesServicesEndpointsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    endpointId: Schema.optional(Schema.String).pipe(T.HttpQuery("endpointId")),
+    body: Schema.optional(Endpoint).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsNamespacesServicesEndpointsRequest>;
 
-export type CreateProjectsLocationsNamespacesServicesEndpointsResponse = Endpoint;
-export const CreateProjectsLocationsNamespacesServicesEndpointsResponse = Endpoint;
+export type CreateProjectsLocationsNamespacesServicesEndpointsResponse =
+  Endpoint;
+export const CreateProjectsLocationsNamespacesServicesEndpointsResponse =
+  Endpoint;
 
-export type CreateProjectsLocationsNamespacesServicesEndpointsError = DefaultErrors;
+export type CreateProjectsLocationsNamespacesServicesEndpointsError =
+  DefaultErrors;
 
 /** Creates an endpoint, and returns the new endpoint. */
-export const createProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<CreateProjectsLocationsNamespacesServicesEndpointsRequest, CreateProjectsLocationsNamespacesServicesEndpointsResponse, CreateProjectsLocationsNamespacesServicesEndpointsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<
+  CreateProjectsLocationsNamespacesServicesEndpointsRequest,
+  CreateProjectsLocationsNamespacesServicesEndpointsResponse,
+  CreateProjectsLocationsNamespacesServicesEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsNamespacesServicesEndpointsRequest,
   output: CreateProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
@@ -882,24 +1141,36 @@ export interface ListProjectsLocationsNamespacesServicesEndpointsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsNamespacesServicesEndpointsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsNamespacesServicesEndpointsRequest>;
+export const ListProjectsLocationsNamespacesServicesEndpointsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsNamespacesServicesEndpointsRequest>;
 
-export type ListProjectsLocationsNamespacesServicesEndpointsResponse = ListEndpointsResponse;
-export const ListProjectsLocationsNamespacesServicesEndpointsResponse = ListEndpointsResponse;
+export type ListProjectsLocationsNamespacesServicesEndpointsResponse =
+  ListEndpointsResponse;
+export const ListProjectsLocationsNamespacesServicesEndpointsResponse =
+  ListEndpointsResponse;
 
-export type ListProjectsLocationsNamespacesServicesEndpointsError = DefaultErrors;
+export type ListProjectsLocationsNamespacesServicesEndpointsError =
+  DefaultErrors;
 
 /** Lists all endpoints. */
-export const listProjectsLocationsNamespacesServicesEndpoints: API.PaginatedOperationMethod<ListProjectsLocationsNamespacesServicesEndpointsRequest, ListProjectsLocationsNamespacesServicesEndpointsResponse, ListProjectsLocationsNamespacesServicesEndpointsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNamespacesServicesEndpoints: API.PaginatedOperationMethod<
+  ListProjectsLocationsNamespacesServicesEndpointsRequest,
+  ListProjectsLocationsNamespacesServicesEndpointsResponse,
+  ListProjectsLocationsNamespacesServicesEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNamespacesServicesEndpointsRequest,
   output: ListProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
@@ -914,20 +1185,30 @@ export interface GetProjectsLocationsNamespacesServicesEndpointsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsNamespacesServicesEndpointsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints/{endpointsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsNamespacesServicesEndpointsRequest>;
+export const GetProjectsLocationsNamespacesServicesEndpointsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints/{endpointsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsNamespacesServicesEndpointsRequest>;
 
 export type GetProjectsLocationsNamespacesServicesEndpointsResponse = Endpoint;
 export const GetProjectsLocationsNamespacesServicesEndpointsResponse = Endpoint;
 
-export type GetProjectsLocationsNamespacesServicesEndpointsError = DefaultErrors;
+export type GetProjectsLocationsNamespacesServicesEndpointsError =
+  DefaultErrors;
 
 /** Gets an endpoint. */
-export const getProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<GetProjectsLocationsNamespacesServicesEndpointsRequest, GetProjectsLocationsNamespacesServicesEndpointsResponse, GetProjectsLocationsNamespacesServicesEndpointsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<
+  GetProjectsLocationsNamespacesServicesEndpointsRequest,
+  GetProjectsLocationsNamespacesServicesEndpointsResponse,
+  GetProjectsLocationsNamespacesServicesEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsNamespacesServicesEndpointsRequest,
   output: GetProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
@@ -942,22 +1223,35 @@ export interface PatchProjectsLocationsNamespacesServicesEndpointsRequest {
   body?: Endpoint;
 }
 
-export const PatchProjectsLocationsNamespacesServicesEndpointsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Endpoint).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints/{endpointsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsNamespacesServicesEndpointsRequest>;
+export const PatchProjectsLocationsNamespacesServicesEndpointsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Endpoint).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints/{endpointsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsNamespacesServicesEndpointsRequest>;
 
-export type PatchProjectsLocationsNamespacesServicesEndpointsResponse = Endpoint;
-export const PatchProjectsLocationsNamespacesServicesEndpointsResponse = Endpoint;
+export type PatchProjectsLocationsNamespacesServicesEndpointsResponse =
+  Endpoint;
+export const PatchProjectsLocationsNamespacesServicesEndpointsResponse =
+  Endpoint;
 
-export type PatchProjectsLocationsNamespacesServicesEndpointsError = DefaultErrors;
+export type PatchProjectsLocationsNamespacesServicesEndpointsError =
+  DefaultErrors;
 
 /** Updates an endpoint. */
-export const patchProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<PatchProjectsLocationsNamespacesServicesEndpointsRequest, PatchProjectsLocationsNamespacesServicesEndpointsResponse, PatchProjectsLocationsNamespacesServicesEndpointsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<
+  PatchProjectsLocationsNamespacesServicesEndpointsRequest,
+  PatchProjectsLocationsNamespacesServicesEndpointsResponse,
+  PatchProjectsLocationsNamespacesServicesEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsNamespacesServicesEndpointsRequest,
   output: PatchProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
@@ -968,20 +1262,30 @@ export interface DeleteProjectsLocationsNamespacesServicesEndpointsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsNamespacesServicesEndpointsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints/{endpointsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsNamespacesServicesEndpointsRequest>;
+export const DeleteProjectsLocationsNamespacesServicesEndpointsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/services/{servicesId}/endpoints/{endpointsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsNamespacesServicesEndpointsRequest>;
 
 export type DeleteProjectsLocationsNamespacesServicesEndpointsResponse = Empty;
 export const DeleteProjectsLocationsNamespacesServicesEndpointsResponse = Empty;
 
-export type DeleteProjectsLocationsNamespacesServicesEndpointsError = DefaultErrors;
+export type DeleteProjectsLocationsNamespacesServicesEndpointsError =
+  DefaultErrors;
 
 /** Deletes an endpoint. */
-export const deleteProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<DeleteProjectsLocationsNamespacesServicesEndpointsRequest, DeleteProjectsLocationsNamespacesServicesEndpointsResponse, DeleteProjectsLocationsNamespacesServicesEndpointsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<
+  DeleteProjectsLocationsNamespacesServicesEndpointsRequest,
+  DeleteProjectsLocationsNamespacesServicesEndpointsResponse,
+  DeleteProjectsLocationsNamespacesServicesEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsNamespacesServicesEndpointsRequest,
   output: DeleteProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
@@ -994,21 +1298,32 @@ export interface GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/workloads/{workloadsId}:getIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest>;
+export const GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/workloads/{workloadsId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest>;
 
 export type GetIamPolicyProjectsLocationsNamespacesWorkloadsResponse = Policy;
 export const GetIamPolicyProjectsLocationsNamespacesWorkloadsResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsNamespacesWorkloadsError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsNamespacesWorkloadsError =
+  DefaultErrors;
 
 /** Gets the IAM Policy for a resource */
-export const getIamPolicyProjectsLocationsNamespacesWorkloads: API.OperationMethod<GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest, GetIamPolicyProjectsLocationsNamespacesWorkloadsResponse, GetIamPolicyProjectsLocationsNamespacesWorkloadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsNamespacesWorkloads: API.OperationMethod<
+  GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest,
+  GetIamPolicyProjectsLocationsNamespacesWorkloadsResponse,
+  GetIamPolicyProjectsLocationsNamespacesWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest,
   output: GetIamPolicyProjectsLocationsNamespacesWorkloadsResponse,
   errors: [],
@@ -1021,21 +1336,32 @@ export interface SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/workloads/{workloadsId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest>;
+export const SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/workloads/{workloadsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest>;
 
 export type SetIamPolicyProjectsLocationsNamespacesWorkloadsResponse = Policy;
 export const SetIamPolicyProjectsLocationsNamespacesWorkloadsResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsNamespacesWorkloadsError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsNamespacesWorkloadsError =
+  DefaultErrors;
 
 /** Sets the IAM Policy for a resource */
-export const setIamPolicyProjectsLocationsNamespacesWorkloads: API.OperationMethod<SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest, SetIamPolicyProjectsLocationsNamespacesWorkloadsResponse, SetIamPolicyProjectsLocationsNamespacesWorkloadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsNamespacesWorkloads: API.OperationMethod<
+  SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest,
+  SetIamPolicyProjectsLocationsNamespacesWorkloadsResponse,
+  SetIamPolicyProjectsLocationsNamespacesWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest,
   output: SetIamPolicyProjectsLocationsNamespacesWorkloadsResponse,
   errors: [],
@@ -1048,23 +1374,35 @@ export interface TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/workloads/{workloadsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest>;
+export const TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/namespaces/{namespacesId}/workloads/{workloadsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest>;
 
-export type TestIamPermissionsProjectsLocationsNamespacesWorkloadsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsNamespacesWorkloadsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsNamespacesWorkloadsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsNamespacesWorkloadsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsNamespacesWorkloadsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsNamespacesWorkloadsError =
+  DefaultErrors;
 
 /** Tests IAM permissions for a resource (namespace, service or service workload only). */
-export const testIamPermissionsProjectsLocationsNamespacesWorkloads: API.OperationMethod<TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest, TestIamPermissionsProjectsLocationsNamespacesWorkloadsResponse, TestIamPermissionsProjectsLocationsNamespacesWorkloadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsNamespacesWorkloads: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest,
+  TestIamPermissionsProjectsLocationsNamespacesWorkloadsResponse,
+  TestIamPermissionsProjectsLocationsNamespacesWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest,
   output: TestIamPermissionsProjectsLocationsNamespacesWorkloadsResponse,
   errors: [],
 }));
-

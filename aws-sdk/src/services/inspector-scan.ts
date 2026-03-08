@@ -10,46 +10,76 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "Inspector Scan", serviceShapeName: "InspectorScan" });
+const svc = T.AwsApiService({
+  sdkId: "Inspector Scan",
+  serviceShapeName: "InspectorScan",
+});
 const auth = T.AwsAuthSigv4({ name: "inspector-scan" });
 const ver = T.ServiceVersion("2023-08-08");
 const proto = T.AwsProtocolsRestJson1();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
-    if ((UseDualStack === true)) {
-      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+    if (UseDualStack === true) {
+      return err(
+        "Invalid Configuration: Dualstack and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((UseFIPS === true) && (UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsFIPS")) && (true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://inspector-scan-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseFIPS === true && UseDualStack === true) {
+          if (
+            true === _.getAttr(PartitionResult, "supportsFIPS") &&
+            true === _.getAttr(PartitionResult, "supportsDualStack")
+          ) {
+            return e(
+              `https://inspector-scan-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("FIPS and DualStack are enabled, but this partition does not support one or both");
+          return err(
+            "FIPS and DualStack are enabled, but this partition does not support one or both",
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://inspector-scan-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://inspector-scan-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        if ((UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://inspector-scan.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseDualStack === true) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            return e(
+              `https://inspector-scan.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("DualStack is enabled but this partition does not support DualStack");
+          return err(
+            "DualStack is enabled but this partition does not support DualStack",
+          );
         }
-        return e(`https://inspector-scan.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://inspector-scan.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -66,10 +96,32 @@ export type OutputFormat =
   | "INSPECTOR_ALT"
   | (string & {});
 export const OutputFormat = S.String;
-export interface ScanSbomRequest { sbom: any; outputFormat?: OutputFormat }
-export const ScanSbomRequest = S.suspend(() => S.Struct({sbom: S.Any, outputFormat: S.optional(OutputFormat)}).pipe(T.all(T.Http({ method: "POST", uri: "/scan/sbom" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ScanSbomRequest" }) as any as S.Schema<ScanSbomRequest>;
-export interface ScanSbomResponse { sbom?: any }
-export const ScanSbomResponse = S.suspend(() => S.Struct({sbom: S.optional(S.Any)})).annotate({ identifier: "ScanSbomResponse" }) as any as S.Schema<ScanSbomResponse>;
+export interface ScanSbomRequest {
+  sbom: any;
+  outputFormat?: OutputFormat;
+}
+export const ScanSbomRequest = S.suspend(() =>
+  S.Struct({ sbom: S.Any, outputFormat: S.optional(OutputFormat) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/scan/sbom" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ScanSbomRequest",
+}) as any as S.Schema<ScanSbomRequest>;
+export interface ScanSbomResponse {
+  sbom?: any;
+}
+export const ScanSbomResponse = S.suspend(() =>
+  S.Struct({ sbom: S.optional(S.Any) }),
+).annotate({
+  identifier: "ScanSbomResponse",
+}) as any as S.Schema<ScanSbomResponse>;
 export type InternalServerExceptionReason =
   | "FAILED_TO_GENERATE_SBOM"
   | "OTHER"
@@ -83,16 +135,48 @@ export type ValidationExceptionReason =
   | "OTHER"
   | (string & {});
 export const ValidationExceptionReason = S.String;
-export interface ValidationExceptionField { name: string; message: string }
-export const ValidationExceptionField = S.suspend(() => S.Struct({name: S.String, message: S.String})).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFields = ValidationExceptionField[];
 export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 
 //# Errors
-export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()("AccessDeniedException", {message: S.String}).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()("InternalServerException", {message: S.String, reason: InternalServerExceptionReason, retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After"))}, T.Retryable()).pipe(C.withServerError, C.withRetryableError) {}
-export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()("ThrottlingException", {message: S.String, retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After"))}, T.Retryable({ throttling: true })).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ValidationException extends S.TaggedErrorClass<ValidationException>()("ValidationException", {message: S.String, reason: ValidationExceptionReason, fields: S.optional(ValidationExceptionFields)}).pipe(C.withBadRequestError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+).pipe(C.withAuthError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  {
+    message: S.String,
+    reason: InternalServerExceptionReason,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+  T.Retryable(),
+).pipe(C.withServerError, C.withRetryableError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+  T.Retryable({ throttling: true }),
+).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: ValidationExceptionReason,
+    fields: S.optional(ValidationExceptionFields),
+  },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 export type ScanSbomError =
@@ -103,7 +187,21 @@ export type ScanSbomError =
   | CommonErrors;
 /**
  * Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your resources using the Amazon Inspector SBOM generator.
- * 
+ *
  * The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choosing.
  */
-export const scanSbom: API.OperationMethod<ScanSbomRequest, ScanSbomResponse, ScanSbomError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ScanSbomRequest, output: ScanSbomResponse, errors: [AccessDeniedException, InternalServerException, ThrottlingException, ValidationException] }));
+export const scanSbom: API.OperationMethod<
+  ScanSbomRequest,
+  ScanSbomResponse,
+  ScanSbomError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ScanSbomRequest,
+  output: ScanSbomResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

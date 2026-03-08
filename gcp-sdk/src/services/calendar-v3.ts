@@ -37,12 +37,14 @@ export interface Setting {
   id?: string;
 }
 
-export const Setting: Schema.Schema<Setting> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "Setting" }) as any as Schema.Schema<Setting>;
+export const Setting: Schema.Schema<Setting> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Setting" }) as any as Schema.Schema<Setting>;
 
 export interface Settings {
   /** List of user settings. */
@@ -57,13 +59,15 @@ export interface Settings {
   nextSyncToken?: string;
 }
 
-export const Settings: Schema.Schema<Settings> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(Setting)),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  nextSyncToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
+export const Settings: Schema.Schema<Settings> = Schema.suspend(() =>
+  Schema.Struct({
+    items: Schema.optional(Schema.Array(Setting)),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    nextPageToken: Schema.optional(Schema.String),
+    nextSyncToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
 
 export interface EventAttachment {
   /** URL link to the attachment's icon. This field can only be modified for custom third-party attachments. */
@@ -78,13 +82,18 @@ export interface EventAttachment {
   fileUrl?: string;
 }
 
-export const EventAttachment: Schema.Schema<EventAttachment> = Schema.suspend(() => Schema.Struct({
-  iconLink: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  fileId: Schema.optional(Schema.String),
-  mimeType: Schema.optional(Schema.String),
-  fileUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventAttachment" }) as any as Schema.Schema<EventAttachment>;
+export const EventAttachment: Schema.Schema<EventAttachment> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      iconLink: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      fileId: Schema.optional(Schema.String),
+      mimeType: Schema.optional(Schema.String),
+      fileUrl: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EventAttachment",
+}) as any as Schema.Schema<EventAttachment>;
 
 export interface EventReminder {
   /** The method used by this reminder. Possible values are: - "email" - Reminders are sent via email. - "popup" - Reminders are sent via a UI popup. Required when adding a reminder. */
@@ -93,28 +102,42 @@ export interface EventReminder {
   minutes?: number;
 }
 
-export const EventReminder: Schema.Schema<EventReminder> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  minutes: Schema.optional(Schema.Number),
-})).annotate({ identifier: "EventReminder" }) as any as Schema.Schema<EventReminder>;
+export const EventReminder: Schema.Schema<EventReminder> = Schema.suspend(() =>
+  Schema.Struct({
+    method: Schema.optional(Schema.String),
+    minutes: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "EventReminder",
+}) as any as Schema.Schema<EventReminder>;
 
 export interface ConferenceRequestStatus {
   /** The current status of the conference create request. Read-only. The possible values are: - "pending": the conference create request is still being processed. - "success": the conference create request succeeded, the entry points are populated. - "failure": the conference create request failed, there are no entry points. */
   statusCode?: string;
 }
 
-export const ConferenceRequestStatus: Schema.Schema<ConferenceRequestStatus> = Schema.suspend(() => Schema.Struct({
-  statusCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConferenceRequestStatus" }) as any as Schema.Schema<ConferenceRequestStatus>;
+export const ConferenceRequestStatus: Schema.Schema<ConferenceRequestStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      statusCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConferenceRequestStatus",
+  }) as any as Schema.Schema<ConferenceRequestStatus>;
 
 export interface ConferenceSolutionKey {
   /** The conference solution type. If a client encounters an unfamiliar or empty type, it should still be able to display the entry points. However, it should disallow modifications. The possible values are: - "eventHangout" for Hangouts for consumers (deprecated; existing events may show this conference solution type but new conferences cannot be created) - "eventNamedHangout" for classic Hangouts for Google Workspace users (deprecated; existing events may show this conference solution type but new conferences cannot be created) - "hangoutsMeet" for Google Meet (http://meet.google.com) - "addOn" for 3P conference providers */
   type?: string;
 }
 
-export const ConferenceSolutionKey: Schema.Schema<ConferenceSolutionKey> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConferenceSolutionKey" }) as any as Schema.Schema<ConferenceSolutionKey>;
+export const ConferenceSolutionKey: Schema.Schema<ConferenceSolutionKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConferenceSolutionKey",
+  }) as any as Schema.Schema<ConferenceSolutionKey>;
 
 export interface CreateConferenceRequest {
   /** The status of the conference create request. */
@@ -125,11 +148,16 @@ export interface CreateConferenceRequest {
   conferenceSolutionKey?: ConferenceSolutionKey;
 }
 
-export const CreateConferenceRequest: Schema.Schema<CreateConferenceRequest> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(ConferenceRequestStatus),
-  requestId: Schema.optional(Schema.String),
-  conferenceSolutionKey: Schema.optional(ConferenceSolutionKey),
-})).annotate({ identifier: "CreateConferenceRequest" }) as any as Schema.Schema<CreateConferenceRequest>;
+export const CreateConferenceRequest: Schema.Schema<CreateConferenceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(ConferenceRequestStatus),
+      requestId: Schema.optional(Schema.String),
+      conferenceSolutionKey: Schema.optional(ConferenceSolutionKey),
+    }),
+  ).annotate({
+    identifier: "CreateConferenceRequest",
+  }) as any as Schema.Schema<CreateConferenceRequest>;
 
 export interface ConferenceSolution {
   /** The user-visible name of this solution. Not localized. */
@@ -140,28 +168,43 @@ export interface ConferenceSolution {
   key?: ConferenceSolutionKey;
 }
 
-export const ConferenceSolution: Schema.Schema<ConferenceSolution> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  iconUri: Schema.optional(Schema.String),
-  key: Schema.optional(ConferenceSolutionKey),
-})).annotate({ identifier: "ConferenceSolution" }) as any as Schema.Schema<ConferenceSolution>;
+export const ConferenceSolution: Schema.Schema<ConferenceSolution> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      iconUri: Schema.optional(Schema.String),
+      key: Schema.optional(ConferenceSolutionKey),
+    }),
+  ).annotate({
+    identifier: "ConferenceSolution",
+  }) as any as Schema.Schema<ConferenceSolution>;
 
 export interface ConferenceParametersAddOnParameters {
   parameters?: Record<string, string>;
 }
 
-export const ConferenceParametersAddOnParameters: Schema.Schema<ConferenceParametersAddOnParameters> = Schema.suspend(() => Schema.Struct({
-  parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "ConferenceParametersAddOnParameters" }) as any as Schema.Schema<ConferenceParametersAddOnParameters>;
+export const ConferenceParametersAddOnParameters: Schema.Schema<ConferenceParametersAddOnParameters> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ConferenceParametersAddOnParameters",
+  }) as any as Schema.Schema<ConferenceParametersAddOnParameters>;
 
 export interface ConferenceParameters {
   /** Additional add-on specific data. */
   addOnParameters?: ConferenceParametersAddOnParameters;
 }
 
-export const ConferenceParameters: Schema.Schema<ConferenceParameters> = Schema.suspend(() => Schema.Struct({
-  addOnParameters: Schema.optional(ConferenceParametersAddOnParameters),
-})).annotate({ identifier: "ConferenceParameters" }) as any as Schema.Schema<ConferenceParameters>;
+export const ConferenceParameters: Schema.Schema<ConferenceParameters> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      addOnParameters: Schema.optional(ConferenceParametersAddOnParameters),
+    }),
+  ).annotate({
+    identifier: "ConferenceParameters",
+  }) as any as Schema.Schema<ConferenceParameters>;
 
 export interface EntryPoint {
   /** The meeting code to access the conference. The maximum length is 128 characters. When creating new conference data, populate only the subset of {meetingCode, accessCode, passcode, password, pin} fields that match the terminology that the conference provider uses. Only the populated fields should be displayed. Optional. */
@@ -186,18 +229,20 @@ export interface EntryPoint {
   accessCode?: string;
 }
 
-export const EntryPoint: Schema.Schema<EntryPoint> = Schema.suspend(() => Schema.Struct({
-  meetingCode: Schema.optional(Schema.String),
-  entryPointFeatures: Schema.optional(Schema.Array(Schema.String)),
-  entryPointType: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  passcode: Schema.optional(Schema.String),
-  pin: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  accessCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntryPoint" }) as any as Schema.Schema<EntryPoint>;
+export const EntryPoint: Schema.Schema<EntryPoint> = Schema.suspend(() =>
+  Schema.Struct({
+    meetingCode: Schema.optional(Schema.String),
+    entryPointFeatures: Schema.optional(Schema.Array(Schema.String)),
+    entryPointType: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    label: Schema.optional(Schema.String),
+    password: Schema.optional(Schema.String),
+    passcode: Schema.optional(Schema.String),
+    pin: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    accessCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EntryPoint" }) as any as Schema.Schema<EntryPoint>;
 
 export interface ConferenceData {
   /** A request to generate a new conference and attach it to the event. The data is generated asynchronously. To see whether the data is present check the status field. Either conferenceSolution and at least one entryPoint, or createRequest is required. */
@@ -216,15 +261,20 @@ export interface ConferenceData {
   entryPoints?: Array<EntryPoint>;
 }
 
-export const ConferenceData: Schema.Schema<ConferenceData> = Schema.suspend(() => Schema.Struct({
-  createRequest: Schema.optional(CreateConferenceRequest),
-  conferenceSolution: Schema.optional(ConferenceSolution),
-  notes: Schema.optional(Schema.String),
-  parameters: Schema.optional(ConferenceParameters),
-  signature: Schema.optional(Schema.String),
-  conferenceId: Schema.optional(Schema.String),
-  entryPoints: Schema.optional(Schema.Array(EntryPoint)),
-})).annotate({ identifier: "ConferenceData" }) as any as Schema.Schema<ConferenceData>;
+export const ConferenceData: Schema.Schema<ConferenceData> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      createRequest: Schema.optional(CreateConferenceRequest),
+      conferenceSolution: Schema.optional(ConferenceSolution),
+      notes: Schema.optional(Schema.String),
+      parameters: Schema.optional(ConferenceParameters),
+      signature: Schema.optional(Schema.String),
+      conferenceId: Schema.optional(Schema.String),
+      entryPoints: Schema.optional(Schema.Array(EntryPoint)),
+    }),
+).annotate({
+  identifier: "ConferenceData",
+}) as any as Schema.Schema<ConferenceData>;
 
 export interface EventDateTime {
   /** The time, as a combined date-time value (formatted according to RFC3339). A time zone offset is required unless a time zone is explicitly specified in timeZone. */
@@ -235,11 +285,15 @@ export interface EventDateTime {
   timeZone?: string;
 }
 
-export const EventDateTime: Schema.Schema<EventDateTime> = Schema.suspend(() => Schema.Struct({
-  dateTime: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventDateTime" }) as any as Schema.Schema<EventDateTime>;
+export const EventDateTime: Schema.Schema<EventDateTime> = Schema.suspend(() =>
+  Schema.Struct({
+    dateTime: Schema.optional(Schema.String),
+    date: Schema.optional(Schema.String),
+    timeZone: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EventDateTime",
+}) as any as Schema.Schema<EventDateTime>;
 
 export interface EventFocusTimeProperties {
   /** Whether to decline meeting invitations which overlap Focus Time events. Valid values are declineNone, meaning that no meeting invitations are declined; declineAllConflictingInvitations, meaning that all conflicting meeting invitations that conflict with the event are declined; and declineOnlyNewConflictingInvitations, meaning that only new conflicting meeting invitations which arrive while the Focus Time event is present are to be declined. */
@@ -250,11 +304,16 @@ export interface EventFocusTimeProperties {
   declineMessage?: string;
 }
 
-export const EventFocusTimeProperties: Schema.Schema<EventFocusTimeProperties> = Schema.suspend(() => Schema.Struct({
-  autoDeclineMode: Schema.optional(Schema.String),
-  chatStatus: Schema.optional(Schema.String),
-  declineMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventFocusTimeProperties" }) as any as Schema.Schema<EventFocusTimeProperties>;
+export const EventFocusTimeProperties: Schema.Schema<EventFocusTimeProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoDeclineMode: Schema.optional(Schema.String),
+      chatStatus: Schema.optional(Schema.String),
+      declineMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventFocusTimeProperties",
+  }) as any as Schema.Schema<EventFocusTimeProperties>;
 
 export interface EventOutOfOfficeProperties {
   /** Whether to decline meeting invitations which overlap Out of office events. Valid values are declineNone, meaning that no meeting invitations are declined; declineAllConflictingInvitations, meaning that all conflicting meeting invitations that conflict with the event are declined; and declineOnlyNewConflictingInvitations, meaning that only new conflicting meeting invitations which arrive while the Out of office event is present are to be declined. */
@@ -263,10 +322,15 @@ export interface EventOutOfOfficeProperties {
   declineMessage?: string;
 }
 
-export const EventOutOfOfficeProperties: Schema.Schema<EventOutOfOfficeProperties> = Schema.suspend(() => Schema.Struct({
-  autoDeclineMode: Schema.optional(Schema.String),
-  declineMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventOutOfOfficeProperties" }) as any as Schema.Schema<EventOutOfOfficeProperties>;
+export const EventOutOfOfficeProperties: Schema.Schema<EventOutOfOfficeProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoDeclineMode: Schema.optional(Schema.String),
+      declineMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventOutOfOfficeProperties",
+  }) as any as Schema.Schema<EventOutOfOfficeProperties>;
 
 export interface EventWorkingLocationProperties {
   /** If present, specifies that the user is working at home. */
@@ -276,15 +340,36 @@ export interface EventWorkingLocationProperties {
   /** If present, specifies that the user is working from a custom location. */
   customLocation?: { label?: string };
   /** If present, specifies that the user is working from an office. */
-  officeLocation?: { buildingId?: string; deskId?: string; floorSectionId?: string; label?: string; floorId?: string };
+  officeLocation?: {
+    buildingId?: string;
+    deskId?: string;
+    floorSectionId?: string;
+    label?: string;
+    floorId?: string;
+  };
 }
 
-export const EventWorkingLocationProperties: Schema.Schema<EventWorkingLocationProperties> = Schema.suspend(() => Schema.Struct({
-  homeOffice: Schema.optional(Schema.Unknown),
-  type: Schema.optional(Schema.String),
-  customLocation: Schema.optional(Schema.Struct({ label: Schema.optional(Schema.String) })),
-  officeLocation: Schema.optional(Schema.Struct({ buildingId: Schema.optional(Schema.String), deskId: Schema.optional(Schema.String), floorSectionId: Schema.optional(Schema.String), label: Schema.optional(Schema.String), floorId: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "EventWorkingLocationProperties" }) as any as Schema.Schema<EventWorkingLocationProperties>;
+export const EventWorkingLocationProperties: Schema.Schema<EventWorkingLocationProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      homeOffice: Schema.optional(Schema.Unknown),
+      type: Schema.optional(Schema.String),
+      customLocation: Schema.optional(
+        Schema.Struct({ label: Schema.optional(Schema.String) }),
+      ),
+      officeLocation: Schema.optional(
+        Schema.Struct({
+          buildingId: Schema.optional(Schema.String),
+          deskId: Schema.optional(Schema.String),
+          floorSectionId: Schema.optional(Schema.String),
+          label: Schema.optional(Schema.String),
+          floorId: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ).annotate({
+    identifier: "EventWorkingLocationProperties",
+  }) as any as Schema.Schema<EventWorkingLocationProperties>;
 
 export interface EventAttendee {
   /** Number of additional guests. Optional. The default is 0. */
@@ -309,18 +394,22 @@ export interface EventAttendee {
   responseStatus?: string;
 }
 
-export const EventAttendee: Schema.Schema<EventAttendee> = Schema.suspend(() => Schema.Struct({
-  additionalGuests: Schema.optional(Schema.Number),
-  comment: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  self: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  organizer: Schema.optional(Schema.Boolean),
-  optional: Schema.optional(Schema.Boolean),
-  resource: Schema.optional(Schema.Boolean),
-  responseStatus: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventAttendee" }) as any as Schema.Schema<EventAttendee>;
+export const EventAttendee: Schema.Schema<EventAttendee> = Schema.suspend(() =>
+  Schema.Struct({
+    additionalGuests: Schema.optional(Schema.Number),
+    comment: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    self: Schema.optional(Schema.Boolean),
+    displayName: Schema.optional(Schema.String),
+    organizer: Schema.optional(Schema.Boolean),
+    optional: Schema.optional(Schema.Boolean),
+    resource: Schema.optional(Schema.Boolean),
+    responseStatus: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EventAttendee",
+}) as any as Schema.Schema<EventAttendee>;
 
 export interface EventBirthdayProperties {
   /** Custom type label specified for this event. This is populated if birthdayProperties.type is set to "custom". Read-only. */
@@ -331,11 +420,16 @@ export interface EventBirthdayProperties {
   type?: string;
 }
 
-export const EventBirthdayProperties: Schema.Schema<EventBirthdayProperties> = Schema.suspend(() => Schema.Struct({
-  customTypeName: Schema.optional(Schema.String),
-  contact: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventBirthdayProperties" }) as any as Schema.Schema<EventBirthdayProperties>;
+export const EventBirthdayProperties: Schema.Schema<EventBirthdayProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customTypeName: Schema.optional(Schema.String),
+      contact: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventBirthdayProperties",
+  }) as any as Schema.Schema<EventBirthdayProperties>;
 
 export interface Event {
   /** The conference-related information, such as details of a Google Meet conference. To create new conference details use the createRequest field. To persist your changes, remember to set the conferenceDataVersion request parameter to 1 for all event modification requests. Warning: Reusing Google Meet conference data across different events can cause access issues and expose meeting details to unintended users. To help ensure meeting privacy, always generate a unique conference for each event by using the createRequest field. */
@@ -359,13 +453,35 @@ export interface Event {
   /** Description of the event. Can contain HTML. Optional. */
   description?: string;
   /** Extended properties of the event. */
-  extendedProperties?: { private?: Record<string, string>; shared?: Record<string, string> };
+  extendedProperties?: {
+    private?: Record<string, string>;
+    shared?: Record<string, string>;
+  };
   /** The creator of the event. Read-only. */
-  creator?: { displayName?: string; email?: string; id?: string; self?: boolean };
+  creator?: {
+    displayName?: string;
+    email?: string;
+    id?: string;
+    self?: boolean;
+  };
   /** A gadget that extends this event. Gadgets are deprecated; this structure is instead only used for returning birthday calendar metadata. */
-  gadget?: { display?: string; iconLink?: string; link?: string; title?: string; type?: string; height?: number; preferences?: Record<string, string>; width?: number };
+  gadget?: {
+    display?: string;
+    iconLink?: string;
+    link?: string;
+    title?: string;
+    type?: string;
+    height?: number;
+    preferences?: Record<string, string>;
+    width?: number;
+  };
   /** The organizer of the event. If the organizer is also an attendee, this is indicated with a separate entry in attendees with the organizer field set to True. To change the organizer, use the move operation. Read-only, except when importing an event. */
-  organizer?: { id?: string; displayName?: string; email?: string; self?: boolean };
+  organizer?: {
+    id?: string;
+    displayName?: string;
+    email?: string;
+    self?: boolean;
+  };
   /** Out of office event data. Used if eventType is outOfOffice. */
   outOfOfficeProperties?: EventOutOfOfficeProperties;
   /** For an instance of a recurring event, this is the id of the recurring event to which this instance belongs. Immutable. */
@@ -426,51 +542,95 @@ export interface Event {
   birthdayProperties?: EventBirthdayProperties;
 }
 
-export const Event: Schema.Schema<Event> = Schema.suspend(() => Schema.Struct({
-  conferenceData: Schema.optional(ConferenceData),
-  start: Schema.optional(EventDateTime),
-  summary: Schema.optional(Schema.String),
-  visibility: Schema.optional(Schema.String),
-  guestsCanModify: Schema.optional(Schema.Boolean),
-  etag: Schema.optional(Schema.String),
-  originalStartTime: Schema.optional(EventDateTime),
-  colorId: Schema.optional(Schema.String),
-  focusTimeProperties: Schema.optional(EventFocusTimeProperties),
-  description: Schema.optional(Schema.String),
-  extendedProperties: Schema.optional(Schema.Struct({ private: Schema.optional(Schema.Record(Schema.String, Schema.String)), shared: Schema.optional(Schema.Record(Schema.String, Schema.String)) })),
-  creator: Schema.optional(Schema.Struct({ displayName: Schema.optional(Schema.String), email: Schema.optional(Schema.String), id: Schema.optional(Schema.String), self: Schema.optional(Schema.Boolean) })),
-  gadget: Schema.optional(Schema.Struct({ display: Schema.optional(Schema.String), iconLink: Schema.optional(Schema.String), link: Schema.optional(Schema.String), title: Schema.optional(Schema.String), type: Schema.optional(Schema.String), height: Schema.optional(Schema.Number), preferences: Schema.optional(Schema.Record(Schema.String, Schema.String)), width: Schema.optional(Schema.Number) })),
-  organizer: Schema.optional(Schema.Struct({ id: Schema.optional(Schema.String), displayName: Schema.optional(Schema.String), email: Schema.optional(Schema.String), self: Schema.optional(Schema.Boolean) })),
-  outOfOfficeProperties: Schema.optional(EventOutOfOfficeProperties),
-  recurringEventId: Schema.optional(Schema.String),
-  eventType: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({ title: Schema.optional(Schema.String), url: Schema.optional(Schema.String) })),
-  guestsCanSeeOtherGuests: Schema.optional(Schema.Boolean),
-  htmlLink: Schema.optional(Schema.String),
-  workingLocationProperties: Schema.optional(EventWorkingLocationProperties),
-  endTimeUnspecified: Schema.optional(Schema.Boolean),
-  id: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  recurrence: Schema.optional(Schema.Array(Schema.String)),
-  created: Schema.optional(Schema.String),
-  end: Schema.optional(EventDateTime),
-  reminders: Schema.optional(Schema.Struct({ useDefault: Schema.optional(Schema.Boolean), overrides: Schema.optional(Schema.Array(EventReminder)) })),
-  privateCopy: Schema.optional(Schema.Boolean),
-  iCalUID: Schema.optional(Schema.String),
-  anyoneCanAddSelf: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  hangoutLink: Schema.optional(Schema.String),
-  attendeesOmitted: Schema.optional(Schema.Boolean),
-  sequence: Schema.optional(Schema.Number),
-  attachments: Schema.optional(Schema.Array(EventAttachment)),
-  status: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  guestsCanInviteOthers: Schema.optional(Schema.Boolean),
-  locked: Schema.optional(Schema.Boolean),
-  attendees: Schema.optional(Schema.Array(EventAttendee)),
-  transparency: Schema.optional(Schema.String),
-  birthdayProperties: Schema.optional(EventBirthdayProperties),
-})).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
+export const Event: Schema.Schema<Event> = Schema.suspend(() =>
+  Schema.Struct({
+    conferenceData: Schema.optional(ConferenceData),
+    start: Schema.optional(EventDateTime),
+    summary: Schema.optional(Schema.String),
+    visibility: Schema.optional(Schema.String),
+    guestsCanModify: Schema.optional(Schema.Boolean),
+    etag: Schema.optional(Schema.String),
+    originalStartTime: Schema.optional(EventDateTime),
+    colorId: Schema.optional(Schema.String),
+    focusTimeProperties: Schema.optional(EventFocusTimeProperties),
+    description: Schema.optional(Schema.String),
+    extendedProperties: Schema.optional(
+      Schema.Struct({
+        private: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+        shared: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      }),
+    ),
+    creator: Schema.optional(
+      Schema.Struct({
+        displayName: Schema.optional(Schema.String),
+        email: Schema.optional(Schema.String),
+        id: Schema.optional(Schema.String),
+        self: Schema.optional(Schema.Boolean),
+      }),
+    ),
+    gadget: Schema.optional(
+      Schema.Struct({
+        display: Schema.optional(Schema.String),
+        iconLink: Schema.optional(Schema.String),
+        link: Schema.optional(Schema.String),
+        title: Schema.optional(Schema.String),
+        type: Schema.optional(Schema.String),
+        height: Schema.optional(Schema.Number),
+        preferences: Schema.optional(
+          Schema.Record(Schema.String, Schema.String),
+        ),
+        width: Schema.optional(Schema.Number),
+      }),
+    ),
+    organizer: Schema.optional(
+      Schema.Struct({
+        id: Schema.optional(Schema.String),
+        displayName: Schema.optional(Schema.String),
+        email: Schema.optional(Schema.String),
+        self: Schema.optional(Schema.Boolean),
+      }),
+    ),
+    outOfOfficeProperties: Schema.optional(EventOutOfOfficeProperties),
+    recurringEventId: Schema.optional(Schema.String),
+    eventType: Schema.optional(Schema.String),
+    source: Schema.optional(
+      Schema.Struct({
+        title: Schema.optional(Schema.String),
+        url: Schema.optional(Schema.String),
+      }),
+    ),
+    guestsCanSeeOtherGuests: Schema.optional(Schema.Boolean),
+    htmlLink: Schema.optional(Schema.String),
+    workingLocationProperties: Schema.optional(EventWorkingLocationProperties),
+    endTimeUnspecified: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    recurrence: Schema.optional(Schema.Array(Schema.String)),
+    created: Schema.optional(Schema.String),
+    end: Schema.optional(EventDateTime),
+    reminders: Schema.optional(
+      Schema.Struct({
+        useDefault: Schema.optional(Schema.Boolean),
+        overrides: Schema.optional(Schema.Array(EventReminder)),
+      }),
+    ),
+    privateCopy: Schema.optional(Schema.Boolean),
+    iCalUID: Schema.optional(Schema.String),
+    anyoneCanAddSelf: Schema.optional(Schema.Boolean),
+    kind: Schema.optional(Schema.String),
+    hangoutLink: Schema.optional(Schema.String),
+    attendeesOmitted: Schema.optional(Schema.Boolean),
+    sequence: Schema.optional(Schema.Number),
+    attachments: Schema.optional(Schema.Array(EventAttachment)),
+    status: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    guestsCanInviteOthers: Schema.optional(Schema.Boolean),
+    locked: Schema.optional(Schema.Boolean),
+    attendees: Schema.optional(Schema.Array(EventAttendee)),
+    transparency: Schema.optional(Schema.String),
+    birthdayProperties: Schema.optional(EventBirthdayProperties),
+  }),
+).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
 
 export interface Events {
   /** Token used to access the next page of this result. Omitted if no further results are available, in which case nextSyncToken is provided. */
@@ -497,28 +657,35 @@ export interface Events {
   timeZone?: string;
 }
 
-export const Events: Schema.Schema<Events> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  summary: Schema.optional(Schema.String),
-  accessRole: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  defaultReminders: Schema.optional(Schema.Array(EventReminder)),
-  nextSyncToken: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Event)),
-  description: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-})).annotate({ identifier: "Events" }) as any as Schema.Schema<Events>;
+export const Events: Schema.Schema<Events> = Schema.suspend(() =>
+  Schema.Struct({
+    nextPageToken: Schema.optional(Schema.String),
+    summary: Schema.optional(Schema.String),
+    accessRole: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    defaultReminders: Schema.optional(Schema.Array(EventReminder)),
+    nextSyncToken: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Event)),
+    description: Schema.optional(Schema.String),
+    timeZone: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Events" }) as any as Schema.Schema<Events>;
 
 export interface FreeBusyRequestItem {
   /** The identifier of a calendar or a group. */
   id?: string;
 }
 
-export const FreeBusyRequestItem: Schema.Schema<FreeBusyRequestItem> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "FreeBusyRequestItem" }) as any as Schema.Schema<FreeBusyRequestItem>;
+export const FreeBusyRequestItem: Schema.Schema<FreeBusyRequestItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FreeBusyRequestItem",
+  }) as any as Schema.Schema<FreeBusyRequestItem>;
 
 export interface Calendar_Error {
   /** Domain, or broad category, of the error. */
@@ -527,10 +694,15 @@ export interface Calendar_Error {
   reason?: string;
 }
 
-export const Calendar_Error: Schema.Schema<Calendar_Error> = Schema.suspend(() => Schema.Struct({
-  domain: Schema.optional(Schema.String),
-  reason: Schema.optional(Schema.String),
-})).annotate({ identifier: "Calendar_Error" }) as any as Schema.Schema<Calendar_Error>;
+export const Calendar_Error: Schema.Schema<Calendar_Error> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      domain: Schema.optional(Schema.String),
+      reason: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "Calendar_Error",
+}) as any as Schema.Schema<Calendar_Error>;
 
 export interface FreeBusyGroup {
   /** List of calendars' identifiers within a group. */
@@ -539,10 +711,14 @@ export interface FreeBusyGroup {
   errors?: Array<Calendar_Error>;
 }
 
-export const FreeBusyGroup: Schema.Schema<FreeBusyGroup> = Schema.suspend(() => Schema.Struct({
-  calendars: Schema.optional(Schema.Array(Schema.String)),
-  errors: Schema.optional(Schema.Array(Calendar_Error)),
-})).annotate({ identifier: "FreeBusyGroup" }) as any as Schema.Schema<FreeBusyGroup>;
+export const FreeBusyGroup: Schema.Schema<FreeBusyGroup> = Schema.suspend(() =>
+  Schema.Struct({
+    calendars: Schema.optional(Schema.Array(Schema.String)),
+    errors: Schema.optional(Schema.Array(Calendar_Error)),
+  }),
+).annotate({
+  identifier: "FreeBusyGroup",
+}) as any as Schema.Schema<FreeBusyGroup>;
 
 export interface AclRule {
   /** Type of the resource ("calendar#aclRule"). */
@@ -557,13 +733,20 @@ export interface AclRule {
   etag?: string;
 }
 
-export const AclRule: Schema.Schema<AclRule> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.Struct({ value: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-  role: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "AclRule" }) as any as Schema.Schema<AclRule>;
+export const AclRule: Schema.Schema<AclRule> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    scope: Schema.optional(
+      Schema.Struct({
+        value: Schema.optional(Schema.String),
+        type: Schema.optional(Schema.String),
+      }),
+    ),
+    role: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AclRule" }) as any as Schema.Schema<AclRule>;
 
 export type EventLabel = unknown;
 export const EventLabel = Schema.Unknown;
@@ -591,18 +774,20 @@ export interface Channel {
   resourceId?: string;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() => Schema.Struct({
-  address: Schema.optional(Schema.String),
-  resourceUri: Schema.optional(Schema.String),
-  expiration: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  token: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.Boolean),
-  resourceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
+  Schema.Struct({
+    address: Schema.optional(Schema.String),
+    resourceUri: Schema.optional(Schema.String),
+    expiration: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    token: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.Boolean),
+    resourceId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface TimePeriod {
   /** The (exclusive) end of the time period. */
@@ -611,10 +796,12 @@ export interface TimePeriod {
   start?: string;
 }
 
-export const TimePeriod: Schema.Schema<TimePeriod> = Schema.suspend(() => Schema.Struct({
-  end: Schema.optional(Schema.String),
-  start: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimePeriod" }) as any as Schema.Schema<TimePeriod>;
+export const TimePeriod: Schema.Schema<TimePeriod> = Schema.suspend(() =>
+  Schema.Struct({
+    end: Schema.optional(Schema.String),
+    start: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimePeriod" }) as any as Schema.Schema<TimePeriod>;
 
 export interface FreeBusyRequest {
   /** The end of the interval for the query formatted as per RFC3339. */
@@ -631,23 +818,35 @@ export interface FreeBusyRequest {
   groupExpansionMax?: number;
 }
 
-export const FreeBusyRequest: Schema.Schema<FreeBusyRequest> = Schema.suspend(() => Schema.Struct({
-  timeMax: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(FreeBusyRequestItem)),
-  timeMin: Schema.optional(Schema.String),
-  calendarExpansionMax: Schema.optional(Schema.Number),
-  groupExpansionMax: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FreeBusyRequest" }) as any as Schema.Schema<FreeBusyRequest>;
+export const FreeBusyRequest: Schema.Schema<FreeBusyRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      timeMax: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(FreeBusyRequestItem)),
+      timeMin: Schema.optional(Schema.String),
+      calendarExpansionMax: Schema.optional(Schema.Number),
+      groupExpansionMax: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "FreeBusyRequest",
+}) as any as Schema.Schema<FreeBusyRequest>;
 
 export interface ConferenceProperties {
   /** The types of conference solutions that are supported for this calendar. The possible values are: - "eventHangout" - "eventNamedHangout" - "hangoutsMeet" Optional. */
   allowedConferenceSolutionTypes?: Array<string>;
 }
 
-export const ConferenceProperties: Schema.Schema<ConferenceProperties> = Schema.suspend(() => Schema.Struct({
-  allowedConferenceSolutionTypes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ConferenceProperties" }) as any as Schema.Schema<ConferenceProperties>;
+export const ConferenceProperties: Schema.Schema<ConferenceProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowedConferenceSolutionTypes: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "ConferenceProperties",
+  }) as any as Schema.Schema<ConferenceProperties>;
 
 export interface CalendarNotification {
   /** The type of notification. Possible values are: - "eventCreation" - Notification sent when a new event is put on the calendar. - "eventChange" - Notification sent when an event is changed. - "eventCancellation" - Notification sent when an event is cancelled. - "eventResponse" - Notification sent when an attendee responds to the event invitation. - "agenda" - An agenda with the events of the day (sent out in the morning). Required when adding a notification. */
@@ -656,10 +855,15 @@ export interface CalendarNotification {
   method?: string;
 }
 
-export const CalendarNotification: Schema.Schema<CalendarNotification> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  method: Schema.optional(Schema.String),
-})).annotate({ identifier: "CalendarNotification" }) as any as Schema.Schema<CalendarNotification>;
+export const CalendarNotification: Schema.Schema<CalendarNotification> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      method: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CalendarNotification",
+  }) as any as Schema.Schema<CalendarNotification>;
 
 export interface CalendarListEntry {
   /** Whether the calendar content shows up in the calendar UI. Optional. The default is False. */
@@ -706,29 +910,38 @@ export interface CalendarListEntry {
   timeZone?: string;
 }
 
-export const CalendarListEntry: Schema.Schema<CalendarListEntry> = Schema.suspend(() => Schema.Struct({
-  selected: Schema.optional(Schema.Boolean),
-  accessRole: Schema.optional(Schema.String),
-  conferenceProperties: Schema.optional(ConferenceProperties),
-  dataOwner: Schema.optional(Schema.String),
-  notificationSettings: Schema.optional(Schema.Struct({ notifications: Schema.optional(Schema.Array(CalendarNotification)) })),
-  summaryOverride: Schema.optional(Schema.String),
-  defaultReminders: Schema.optional(Schema.Array(EventReminder)),
-  foregroundColor: Schema.optional(Schema.String),
-  autoAcceptInvitations: Schema.optional(Schema.Boolean),
-  hidden: Schema.optional(Schema.Boolean),
-  primary: Schema.optional(Schema.Boolean),
-  id: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  summary: Schema.optional(Schema.String),
-  deleted: Schema.optional(Schema.Boolean),
-  backgroundColor: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  colorId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-})).annotate({ identifier: "CalendarListEntry" }) as any as Schema.Schema<CalendarListEntry>;
+export const CalendarListEntry: Schema.Schema<CalendarListEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      selected: Schema.optional(Schema.Boolean),
+      accessRole: Schema.optional(Schema.String),
+      conferenceProperties: Schema.optional(ConferenceProperties),
+      dataOwner: Schema.optional(Schema.String),
+      notificationSettings: Schema.optional(
+        Schema.Struct({
+          notifications: Schema.optional(Schema.Array(CalendarNotification)),
+        }),
+      ),
+      summaryOverride: Schema.optional(Schema.String),
+      defaultReminders: Schema.optional(Schema.Array(EventReminder)),
+      foregroundColor: Schema.optional(Schema.String),
+      autoAcceptInvitations: Schema.optional(Schema.Boolean),
+      hidden: Schema.optional(Schema.Boolean),
+      primary: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      summary: Schema.optional(Schema.String),
+      deleted: Schema.optional(Schema.Boolean),
+      backgroundColor: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      colorId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CalendarListEntry",
+  }) as any as Schema.Schema<CalendarListEntry>;
 
 export interface CalendarList {
   /** Token used at a later point in time to retrieve only the entries that have changed since this result was returned. Omitted if further results are available, in which case nextPageToken is provided. */
@@ -743,13 +956,17 @@ export interface CalendarList {
   items?: Array<CalendarListEntry>;
 }
 
-export const CalendarList: Schema.Schema<CalendarList> = Schema.suspend(() => Schema.Struct({
-  nextSyncToken: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(CalendarListEntry)),
-})).annotate({ identifier: "CalendarList" }) as any as Schema.Schema<CalendarList>;
+export const CalendarList: Schema.Schema<CalendarList> = Schema.suspend(() =>
+  Schema.Struct({
+    nextSyncToken: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    nextPageToken: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(CalendarListEntry)),
+  }),
+).annotate({
+  identifier: "CalendarList",
+}) as any as Schema.Schema<CalendarList>;
 
 export interface FreeBusyCalendar {
   /** List of time ranges during which this calendar should be regarded as busy. */
@@ -758,10 +975,15 @@ export interface FreeBusyCalendar {
   errors?: Array<Calendar_Error>;
 }
 
-export const FreeBusyCalendar: Schema.Schema<FreeBusyCalendar> = Schema.suspend(() => Schema.Struct({
-  busy: Schema.optional(Schema.Array(TimePeriod)),
-  errors: Schema.optional(Schema.Array(Calendar_Error)),
-})).annotate({ identifier: "FreeBusyCalendar" }) as any as Schema.Schema<FreeBusyCalendar>;
+export const FreeBusyCalendar: Schema.Schema<FreeBusyCalendar> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      busy: Schema.optional(Schema.Array(TimePeriod)),
+      errors: Schema.optional(Schema.Array(Calendar_Error)),
+    }),
+).annotate({
+  identifier: "FreeBusyCalendar",
+}) as any as Schema.Schema<FreeBusyCalendar>;
 
 export interface Calendar {
   /** The email of the owner of the calendar. Set only for secondary calendars. Read-only. */
@@ -786,18 +1008,20 @@ export interface Calendar {
   etag?: string;
 }
 
-export const Calendar: Schema.Schema<Calendar> = Schema.suspend(() => Schema.Struct({
-  dataOwner: Schema.optional(Schema.String),
-  conferenceProperties: Schema.optional(ConferenceProperties),
-  summary: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-  autoAcceptInvitations: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Calendar" }) as any as Schema.Schema<Calendar>;
+export const Calendar: Schema.Schema<Calendar> = Schema.suspend(() =>
+  Schema.Struct({
+    dataOwner: Schema.optional(Schema.String),
+    conferenceProperties: Schema.optional(ConferenceProperties),
+    summary: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    timeZone: Schema.optional(Schema.String),
+    autoAcceptInvitations: Schema.optional(Schema.Boolean),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Calendar" }) as any as Schema.Schema<Calendar>;
 
 export interface ColorDefinition {
   /** The foreground color that can be used to write on top of a background with 'background' color. */
@@ -806,10 +1030,15 @@ export interface ColorDefinition {
   background?: string;
 }
 
-export const ColorDefinition: Schema.Schema<ColorDefinition> = Schema.suspend(() => Schema.Struct({
-  foreground: Schema.optional(Schema.String),
-  background: Schema.optional(Schema.String),
-})).annotate({ identifier: "ColorDefinition" }) as any as Schema.Schema<ColorDefinition>;
+export const ColorDefinition: Schema.Schema<ColorDefinition> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      foreground: Schema.optional(Schema.String),
+      background: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ColorDefinition",
+}) as any as Schema.Schema<ColorDefinition>;
 
 export interface Colors {
   /** A global palette of event colors, mapping from the color ID to its definition. An event resource may refer to one of these color IDs in its colorId field. Read-only. */
@@ -822,12 +1051,14 @@ export interface Colors {
   updated?: string;
 }
 
-export const Colors: Schema.Schema<Colors> = Schema.suspend(() => Schema.Struct({
-  event: Schema.optional(Schema.Record(Schema.String, ColorDefinition)),
-  calendar: Schema.optional(Schema.Record(Schema.String, ColorDefinition)),
-  kind: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-})).annotate({ identifier: "Colors" }) as any as Schema.Schema<Colors>;
+export const Colors: Schema.Schema<Colors> = Schema.suspend(() =>
+  Schema.Struct({
+    event: Schema.optional(Schema.Record(Schema.String, ColorDefinition)),
+    calendar: Schema.optional(Schema.Record(Schema.String, ColorDefinition)),
+    kind: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Colors" }) as any as Schema.Schema<Colors>;
 
 export interface FreeBusyResponse {
   /** The end of the interval. */
@@ -842,13 +1073,20 @@ export interface FreeBusyResponse {
   groups?: Record<string, FreeBusyGroup>;
 }
 
-export const FreeBusyResponse: Schema.Schema<FreeBusyResponse> = Schema.suspend(() => Schema.Struct({
-  timeMax: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  timeMin: Schema.optional(Schema.String),
-  calendars: Schema.optional(Schema.Record(Schema.String, FreeBusyCalendar)),
-  groups: Schema.optional(Schema.Record(Schema.String, FreeBusyGroup)),
-})).annotate({ identifier: "FreeBusyResponse" }) as any as Schema.Schema<FreeBusyResponse>;
+export const FreeBusyResponse: Schema.Schema<FreeBusyResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      timeMax: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      timeMin: Schema.optional(Schema.String),
+      calendars: Schema.optional(
+        Schema.Record(Schema.String, FreeBusyCalendar),
+      ),
+      groups: Schema.optional(Schema.Record(Schema.String, FreeBusyGroup)),
+    }),
+).annotate({
+  identifier: "FreeBusyResponse",
+}) as any as Schema.Schema<FreeBusyResponse>;
 
 export interface Acl {
   /** List of rules on the access control list. */
@@ -863,23 +1101,23 @@ export interface Acl {
   nextSyncToken?: string;
 }
 
-export const Acl: Schema.Schema<Acl> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(AclRule)),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  nextSyncToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Acl" }) as any as Schema.Schema<Acl>;
+export const Acl: Schema.Schema<Acl> = Schema.suspend(() =>
+  Schema.Struct({
+    items: Schema.optional(Schema.Array(AclRule)),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    nextPageToken: Schema.optional(Schema.String),
+    nextSyncToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Acl" }) as any as Schema.Schema<Acl>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
 
-export interface GetColorsRequest {
-}
+export interface GetColorsRequest {}
 
-export const GetColorsRequest = Schema.Struct({
-}).pipe(
+export const GetColorsRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "colors" }),
   svc,
 ) as unknown as Schema.Schema<GetColorsRequest>;
@@ -890,7 +1128,12 @@ export const GetColorsResponse = Colors;
 export type GetColorsError = DefaultErrors;
 
 /** Returns the color definitions for calendars and events. */
-export const getColors: API.OperationMethod<GetColorsRequest, GetColorsResponse, GetColorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getColors: API.OperationMethod<
+  GetColorsRequest,
+  GetColorsResponse,
+  GetColorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetColorsRequest,
   output: GetColorsResponse,
   errors: [],
@@ -913,8 +1156,12 @@ export const GetEventsRequest = Schema.Struct({
   timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  maxAttendees: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAttendees")),
-  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("alwaysIncludeEmail")),
+  maxAttendees: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("maxAttendees"),
+  ),
+  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("alwaysIncludeEmail"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "calendars/{calendarId}/events/{eventId}" }),
   svc,
@@ -926,7 +1173,12 @@ export const GetEventsResponse = Event;
 export type GetEventsError = DefaultErrors;
 
 /** Returns an event based on its Google Calendar ID. To retrieve an event using its iCalendar ID, call the events.list method using the iCalUID parameter. */
-export const getEvents: API.OperationMethod<GetEventsRequest, GetEventsResponse, GetEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getEvents: API.OperationMethod<
+  GetEventsRequest,
+  GetEventsResponse,
+  GetEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetEventsRequest,
   output: GetEventsResponse,
   errors: [],
@@ -946,10 +1198,16 @@ export interface QuickAddEventsRequest {
 export const QuickAddEventsRequest = Schema.Struct({
   text: Schema.String.pipe(T.HttpQuery("text")),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
   sendUpdates: Schema.optional(Schema.String).pipe(T.HttpQuery("sendUpdates")),
 }).pipe(
-  T.Http({ method: "POST", path: "calendars/{calendarId}/events/quickAdd", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "calendars/{calendarId}/events/quickAdd",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<QuickAddEventsRequest>;
 
@@ -959,7 +1217,12 @@ export const QuickAddEventsResponse = Event;
 export type QuickAddEventsError = DefaultErrors;
 
 /** Creates an event based on a simple text string. */
-export const quickAddEvents: API.OperationMethod<QuickAddEventsRequest, QuickAddEventsResponse, QuickAddEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const quickAddEvents: API.OperationMethod<
+  QuickAddEventsRequest,
+  QuickAddEventsResponse,
+  QuickAddEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: QuickAddEventsRequest,
   output: QuickAddEventsResponse,
   errors: [],
@@ -991,19 +1254,28 @@ export interface InstancesEventsRequest {
 }
 
 export const InstancesEventsRequest = Schema.Struct({
-  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("alwaysIncludeEmail")),
+  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("alwaysIncludeEmail"),
+  ),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   timeMax: Schema.optional(Schema.String).pipe(T.HttpQuery("timeMax")),
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
-  maxAttendees: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAttendees")),
+  maxAttendees: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("maxAttendees"),
+  ),
   timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
-  originalStart: Schema.optional(Schema.String).pipe(T.HttpQuery("originalStart")),
+  originalStart: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("originalStart"),
+  ),
   timeMin: Schema.optional(Schema.String).pipe(T.HttpQuery("timeMin")),
 }).pipe(
-  T.Http({ method: "GET", path: "calendars/{calendarId}/events/{eventId}/instances" }),
+  T.Http({
+    method: "GET",
+    path: "calendars/{calendarId}/events/{eventId}/instances",
+  }),
   svc,
 ) as unknown as Schema.Schema<InstancesEventsRequest>;
 
@@ -1013,7 +1285,12 @@ export const InstancesEventsResponse = Events;
 export type InstancesEventsError = DefaultErrors;
 
 /** Returns instances of the specified recurring event. */
-export const instancesEvents: API.PaginatedOperationMethod<InstancesEventsRequest, InstancesEventsResponse, InstancesEventsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const instancesEvents: API.PaginatedOperationMethod<
+  InstancesEventsRequest,
+  InstancesEventsResponse,
+  InstancesEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: InstancesEventsRequest,
   output: InstancesEventsResponse,
   errors: [],
@@ -1046,17 +1323,31 @@ export interface UpdateEventsRequest {
 }
 
 export const UpdateEventsRequest = Schema.Struct({
-  conferenceDataVersion: Schema.optional(Schema.Number).pipe(T.HttpQuery("conferenceDataVersion")),
+  conferenceDataVersion: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("conferenceDataVersion"),
+  ),
   sendUpdates: Schema.optional(Schema.String).pipe(T.HttpQuery("sendUpdates")),
-  supportsAttachments: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("supportsAttachments")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
-  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("alwaysIncludeEmail")),
+  supportsAttachments: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("supportsAttachments"),
+  ),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
+  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("alwaysIncludeEmail"),
+  ),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  maxAttendees: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAttendees")),
+  maxAttendees: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("maxAttendees"),
+  ),
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
   body: Schema.optional(Event).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "calendars/{calendarId}/events/{eventId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "calendars/{calendarId}/events/{eventId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateEventsRequest>;
 
@@ -1066,7 +1357,12 @@ export const UpdateEventsResponse = Event;
 export type UpdateEventsError = DefaultErrors;
 
 /** Updates an event. */
-export const updateEvents: API.OperationMethod<UpdateEventsRequest, UpdateEventsResponse, UpdateEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateEvents: API.OperationMethod<
+  UpdateEventsRequest,
+  UpdateEventsResponse,
+  UpdateEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateEventsRequest,
   output: UpdateEventsResponse,
   errors: [],
@@ -1085,7 +1381,9 @@ export interface DeleteEventsRequest {
 
 export const DeleteEventsRequest = Schema.Struct({
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
   sendUpdates: Schema.optional(Schema.String).pipe(T.HttpQuery("sendUpdates")),
 }).pipe(
@@ -1094,12 +1392,18 @@ export const DeleteEventsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteEventsRequest>;
 
 export interface DeleteEventsResponse {}
-export const DeleteEventsResponse: Schema.Schema<DeleteEventsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteEventsResponse>;
+export const DeleteEventsResponse: Schema.Schema<DeleteEventsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteEventsResponse>;
 
 export type DeleteEventsError = DefaultErrors;
 
 /** Deletes an event. */
-export const deleteEvents: API.OperationMethod<DeleteEventsRequest, DeleteEventsResponse, DeleteEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteEvents: API.OperationMethod<
+  DeleteEventsRequest,
+  DeleteEventsResponse,
+  DeleteEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteEventsRequest,
   output: DeleteEventsResponse,
   errors: [],
@@ -1120,12 +1424,18 @@ export interface MoveEventsRequest {
 
 export const MoveEventsRequest = Schema.Struct({
   destination: Schema.String.pipe(T.HttpQuery("destination")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
   sendUpdates: Schema.optional(Schema.String).pipe(T.HttpQuery("sendUpdates")),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
 }).pipe(
-  T.Http({ method: "POST", path: "calendars/{calendarId}/events/{eventId}/move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "calendars/{calendarId}/events/{eventId}/move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveEventsRequest>;
 
@@ -1135,7 +1445,12 @@ export const MoveEventsResponse = Event;
 export type MoveEventsError = DefaultErrors;
 
 /** Moves an event to another calendar, i.e. changes an event's organizer. Note that only default events can be moved; birthday, focusTime, fromGmail, outOfOffice and workingLocation events cannot be moved. */
-export const moveEvents: API.OperationMethod<MoveEventsRequest, MoveEventsResponse, MoveEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveEvents: API.OperationMethod<
+  MoveEventsRequest,
+  MoveEventsResponse,
+  MoveEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveEventsRequest,
   output: MoveEventsResponse,
   errors: [],
@@ -1157,7 +1472,14 @@ export interface ListEventsRequest {
   /** Token specifying which result page to return. Optional. */
   pageToken?: string;
   /** Event types to return. Optional. This parameter can be repeated multiple times to return events of different types. If unset, returns all event types. */
-  eventTypes?: "birthday" | "default" | "focusTime" | "fromGmail" | "outOfOffice" | "workingLocation" | (string & {})[];
+  eventTypes?:
+    | "birthday"
+    | "default"
+    | "focusTime"
+    | "fromGmail"
+    | "outOfOffice"
+    | "workingLocation"
+    | (string & {})[];
   /** Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMin is set, timeMax must be greater than timeMin. */
   timeMax?: string;
   /** Whether to include hidden invitations in the result. Optional. The default is False. */
@@ -1185,19 +1507,33 @@ export interface ListEventsRequest {
 export const ListEventsRequest = Schema.Struct({
   iCalUID: Schema.optional(Schema.String).pipe(T.HttpQuery("iCalUID")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  sharedExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("sharedExtendedProperty")),
+  sharedExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("sharedExtendedProperty"),
+  ),
   timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
   timeMin: Schema.optional(Schema.String).pipe(T.HttpQuery("timeMin")),
   updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  eventTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("eventTypes")),
+  eventTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("eventTypes"),
+  ),
   timeMax: Schema.optional(Schema.String).pipe(T.HttpQuery("timeMax")),
-  showHiddenInvitations: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showHiddenInvitations")),
-  singleEvents: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("singleEvents")),
-  maxAttendees: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAttendees")),
-  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("alwaysIncludeEmail")),
+  showHiddenInvitations: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("showHiddenInvitations"),
+  ),
+  singleEvents: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("singleEvents"),
+  ),
+  maxAttendees: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("maxAttendees"),
+  ),
+  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("alwaysIncludeEmail"),
+  ),
   syncToken: Schema.optional(Schema.String).pipe(T.HttpQuery("syncToken")),
-  privateExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("privateExtendedProperty")),
+  privateExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("privateExtendedProperty"),
+  ),
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
@@ -1213,7 +1549,12 @@ export const ListEventsResponse = Events;
 export type ListEventsError = DefaultErrors;
 
 /** Returns events on the specified calendar. */
-export const listEvents: API.PaginatedOperationMethod<ListEventsRequest, ListEventsResponse, ListEventsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listEvents: API.PaginatedOperationMethod<
+  ListEventsRequest,
+  ListEventsResponse,
+  ListEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListEventsRequest,
   output: ListEventsResponse,
   errors: [],
@@ -1236,12 +1577,20 @@ export interface ImportEventsRequest {
 }
 
 export const ImportEventsRequest = Schema.Struct({
-  conferenceDataVersion: Schema.optional(Schema.Number).pipe(T.HttpQuery("conferenceDataVersion")),
-  supportsAttachments: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("supportsAttachments")),
+  conferenceDataVersion: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("conferenceDataVersion"),
+  ),
+  supportsAttachments: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("supportsAttachments"),
+  ),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
   body: Schema.optional(Event).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "calendars/{calendarId}/events/import", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "calendars/{calendarId}/events/import",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ImportEventsRequest>;
 
@@ -1251,7 +1600,12 @@ export const ImportEventsResponse = Event;
 export type ImportEventsError = DefaultErrors;
 
 /** Imports an event. This operation is used to add a private copy of an existing event to a calendar. Only events with an eventType of default may be imported. Deprecated behavior: If a non-default event is imported, its type will be changed to default and any event-type-specific properties it may have will be dropped. */
-export const importEvents: API.OperationMethod<ImportEventsRequest, ImportEventsResponse, ImportEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importEvents: API.OperationMethod<
+  ImportEventsRequest,
+  ImportEventsResponse,
+  ImportEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportEventsRequest,
   output: ImportEventsResponse,
   errors: [],
@@ -1275,15 +1629,27 @@ export interface InsertEventsRequest {
 }
 
 export const InsertEventsRequest = Schema.Struct({
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
-  conferenceDataVersion: Schema.optional(Schema.Number).pipe(T.HttpQuery("conferenceDataVersion")),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
+  conferenceDataVersion: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("conferenceDataVersion"),
+  ),
   sendUpdates: Schema.optional(Schema.String).pipe(T.HttpQuery("sendUpdates")),
-  supportsAttachments: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("supportsAttachments")),
+  supportsAttachments: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("supportsAttachments"),
+  ),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  maxAttendees: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAttendees")),
+  maxAttendees: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("maxAttendees"),
+  ),
   body: Schema.optional(Event).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "calendars/{calendarId}/events", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "calendars/{calendarId}/events",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertEventsRequest>;
 
@@ -1293,7 +1659,12 @@ export const InsertEventsResponse = Event;
 export type InsertEventsError = DefaultErrors;
 
 /** Creates an event. */
-export const insertEvents: API.OperationMethod<InsertEventsRequest, InsertEventsResponse, InsertEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertEvents: API.OperationMethod<
+  InsertEventsRequest,
+  InsertEventsResponse,
+  InsertEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertEventsRequest,
   output: InsertEventsResponse,
   errors: [],
@@ -1323,15 +1694,29 @@ export interface PatchEventsRequest {
 export const PatchEventsRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  maxAttendees: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAttendees")),
-  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("alwaysIncludeEmail")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
-  conferenceDataVersion: Schema.optional(Schema.Number).pipe(T.HttpQuery("conferenceDataVersion")),
+  maxAttendees: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("maxAttendees"),
+  ),
+  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("alwaysIncludeEmail"),
+  ),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
+  conferenceDataVersion: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("conferenceDataVersion"),
+  ),
   sendUpdates: Schema.optional(Schema.String).pipe(T.HttpQuery("sendUpdates")),
-  supportsAttachments: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("supportsAttachments")),
+  supportsAttachments: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("supportsAttachments"),
+  ),
   body: Schema.optional(Event).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "calendars/{calendarId}/events/{eventId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "calendars/{calendarId}/events/{eventId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchEventsRequest>;
 
@@ -1341,7 +1726,12 @@ export const PatchEventsResponse = Event;
 export type PatchEventsError = DefaultErrors;
 
 /** Updates an event. This method supports patch semantics. */
-export const patchEvents: API.OperationMethod<PatchEventsRequest, PatchEventsResponse, PatchEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchEvents: API.OperationMethod<
+  PatchEventsRequest,
+  PatchEventsResponse,
+  PatchEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchEventsRequest,
   output: PatchEventsResponse,
   errors: [],
@@ -1383,7 +1773,14 @@ export interface WatchEventsRequest {
   /** Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMin is set, timeMax must be greater than timeMin. */
   timeMax?: string;
   /** Event types to return. Optional. This parameter can be repeated multiple times to return events of different types. If unset, returns all event types. */
-  eventTypes?: "birthday" | "default" | "focusTime" | "fromGmail" | "outOfOffice" | "workingLocation" | (string & {})[];
+  eventTypes?:
+    | "birthday"
+    | "default"
+    | "focusTime"
+    | "fromGmail"
+    | "outOfOffice"
+    | "workingLocation"
+    | (string & {})[];
   /** Whether to include hidden invitations in the result. Optional. The default is False. */
   showHiddenInvitations?: boolean;
   /** Request body */
@@ -1391,28 +1788,46 @@ export interface WatchEventsRequest {
 }
 
 export const WatchEventsRequest = Schema.Struct({
-  singleEvents: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("singleEvents")),
-  maxAttendees: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxAttendees")),
-  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("alwaysIncludeEmail")),
+  singleEvents: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("singleEvents"),
+  ),
+  maxAttendees: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("maxAttendees"),
+  ),
+  alwaysIncludeEmail: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("alwaysIncludeEmail"),
+  ),
   syncToken: Schema.optional(Schema.String).pipe(T.HttpQuery("syncToken")),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-  privateExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("privateExtendedProperty")),
+  privateExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("privateExtendedProperty"),
+  ),
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   iCalUID: Schema.optional(Schema.String).pipe(T.HttpQuery("iCalUID")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
-  sharedExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("sharedExtendedProperty")),
+  sharedExtendedProperty: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("sharedExtendedProperty"),
+  ),
   timeMin: Schema.optional(Schema.String).pipe(T.HttpQuery("timeMin")),
   updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   timeMax: Schema.optional(Schema.String).pipe(T.HttpQuery("timeMax")),
-  eventTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("eventTypes")),
-  showHiddenInvitations: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showHiddenInvitations")),
+  eventTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("eventTypes"),
+  ),
+  showHiddenInvitations: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("showHiddenInvitations"),
+  ),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "calendars/{calendarId}/events/watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "calendars/{calendarId}/events/watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchEventsRequest>;
 
@@ -1422,7 +1837,12 @@ export const WatchEventsResponse = Channel;
 export type WatchEventsError = DefaultErrors;
 
 /** Watch for changes to Events resources. */
-export const watchEvents: API.OperationMethod<WatchEventsRequest, WatchEventsResponse, WatchEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchEvents: API.OperationMethod<
+  WatchEventsRequest,
+  WatchEventsResponse,
+  WatchEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchEventsRequest,
   output: WatchEventsResponse,
   errors: [],
@@ -1444,12 +1864,18 @@ export const DeleteAclRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteAclRequest>;
 
 export interface DeleteAclResponse {}
-export const DeleteAclResponse: Schema.Schema<DeleteAclResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteAclResponse>;
+export const DeleteAclResponse: Schema.Schema<DeleteAclResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteAclResponse>;
 
 export type DeleteAclError = DefaultErrors;
 
 /** Deletes an access control rule. */
-export const deleteAcl: API.OperationMethod<DeleteAclRequest, DeleteAclResponse, DeleteAclError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAcl: API.OperationMethod<
+  DeleteAclRequest,
+  DeleteAclResponse,
+  DeleteAclError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAclRequest,
   output: DeleteAclResponse,
   errors: [],
@@ -1466,7 +1892,9 @@ export interface InsertAclRequest {
 
 export const InsertAclRequest = Schema.Struct({
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
   body: Schema.optional(AclRule).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "calendars/{calendarId}/acl", hasBody: true }),
@@ -1479,7 +1907,12 @@ export const InsertAclResponse = AclRule;
 export type InsertAclError = DefaultErrors;
 
 /** Creates an access control rule. */
-export const insertAcl: API.OperationMethod<InsertAclRequest, InsertAclResponse, InsertAclError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertAcl: API.OperationMethod<
+  InsertAclRequest,
+  InsertAclResponse,
+  InsertAclError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertAclRequest,
   output: InsertAclResponse,
   errors: [],
@@ -1498,11 +1931,17 @@ export interface PatchAclRequest {
 
 export const PatchAclRequest = Schema.Struct({
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   body: Schema.optional(AclRule).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "calendars/{calendarId}/acl/{ruleId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "calendars/{calendarId}/acl/{ruleId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAclRequest>;
 
@@ -1512,7 +1951,12 @@ export const PatchAclResponse = AclRule;
 export type PatchAclError = DefaultErrors;
 
 /** Updates an access control rule. This method supports patch semantics. */
-export const patchAcl: API.OperationMethod<PatchAclRequest, PatchAclResponse, PatchAclError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAcl: API.OperationMethod<
+  PatchAclRequest,
+  PatchAclResponse,
+  PatchAclError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAclRequest,
   output: PatchAclResponse,
   errors: [],
@@ -1541,7 +1985,11 @@ export const WatchAclRequest = Schema.Struct({
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "calendars/{calendarId}/acl/watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "calendars/{calendarId}/acl/watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchAclRequest>;
 
@@ -1551,7 +1999,12 @@ export const WatchAclResponse = Channel;
 export type WatchAclError = DefaultErrors;
 
 /** Watch for changes to ACL resources. */
-export const watchAcl: API.OperationMethod<WatchAclRequest, WatchAclResponse, WatchAclError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchAcl: API.OperationMethod<
+  WatchAclRequest,
+  WatchAclResponse,
+  WatchAclError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchAclRequest,
   output: WatchAclResponse,
   errors: [],
@@ -1578,7 +2031,12 @@ export const GetAclResponse = AclRule;
 export type GetAclError = DefaultErrors;
 
 /** Returns an access control rule. */
-export const getAcl: API.OperationMethod<GetAclRequest, GetAclResponse, GetAclError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAcl: API.OperationMethod<
+  GetAclRequest,
+  GetAclResponse,
+  GetAclError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAclRequest,
   output: GetAclResponse,
   errors: [],
@@ -1598,10 +2056,16 @@ export interface UpdateAclRequest {
 export const UpdateAclRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
-  sendNotifications: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("sendNotifications")),
+  sendNotifications: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("sendNotifications"),
+  ),
   body: Schema.optional(AclRule).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "calendars/{calendarId}/acl/{ruleId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "calendars/{calendarId}/acl/{ruleId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateAclRequest>;
 
@@ -1611,7 +2075,12 @@ export const UpdateAclResponse = AclRule;
 export type UpdateAclError = DefaultErrors;
 
 /** Updates an access control rule. */
-export const updateAcl: API.OperationMethod<UpdateAclRequest, UpdateAclResponse, UpdateAclError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateAcl: API.OperationMethod<
+  UpdateAclRequest,
+  UpdateAclResponse,
+  UpdateAclError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateAclRequest,
   output: UpdateAclResponse,
   errors: [],
@@ -1647,7 +2116,12 @@ export const ListAclResponse = Acl;
 export type ListAclError = DefaultErrors;
 
 /** Returns the rules in the access control list for the calendar. */
-export const listAcl: API.PaginatedOperationMethod<ListAclRequest, ListAclResponse, ListAclError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAcl: API.PaginatedOperationMethod<
+  ListAclRequest,
+  ListAclResponse,
+  ListAclError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAclRequest,
   output: ListAclResponse,
   errors: [],
@@ -1671,12 +2145,18 @@ export const DeleteCalendarsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteCalendarsRequest>;
 
 export interface DeleteCalendarsResponse {}
-export const DeleteCalendarsResponse: Schema.Schema<DeleteCalendarsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteCalendarsResponse>;
+export const DeleteCalendarsResponse: Schema.Schema<DeleteCalendarsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteCalendarsResponse>;
 
 export type DeleteCalendarsError = DefaultErrors;
 
 /** Deletes a secondary calendar. Use calendars.clear for clearing all events on primary calendars. */
-export const deleteCalendars: API.OperationMethod<DeleteCalendarsRequest, DeleteCalendarsResponse, DeleteCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCalendars: API.OperationMethod<
+  DeleteCalendarsRequest,
+  DeleteCalendarsResponse,
+  DeleteCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCalendarsRequest,
   output: DeleteCalendarsResponse,
   errors: [],
@@ -1700,7 +2180,12 @@ export const InsertCalendarsResponse = Calendar;
 export type InsertCalendarsError = DefaultErrors;
 
 /** Creates a secondary calendar. The authenticated user for the request is made the data owner of the new calendar. Note: We recommend to authenticate as the intended data owner of the calendar. You can use domain-wide delegation of authority to allow applications to act on behalf of a specific user. Don't use a service account for authentication. If you use a service account for authentication, the service account is the data owner, which can lead to unexpected behavior. For example, if a service account is the data owner, data ownership cannot be transferred. */
-export const insertCalendars: API.OperationMethod<InsertCalendarsRequest, InsertCalendarsResponse, InsertCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertCalendars: API.OperationMethod<
+  InsertCalendarsRequest,
+  InsertCalendarsResponse,
+  InsertCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertCalendarsRequest,
   output: InsertCalendarsResponse,
   errors: [],
@@ -1727,7 +2212,12 @@ export const PatchCalendarsResponse = Calendar;
 export type PatchCalendarsError = DefaultErrors;
 
 /** Updates metadata for a calendar. This method supports patch semantics. */
-export const patchCalendars: API.OperationMethod<PatchCalendarsRequest, PatchCalendarsResponse, PatchCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCalendars: API.OperationMethod<
+  PatchCalendarsRequest,
+  PatchCalendarsResponse,
+  PatchCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCalendarsRequest,
   output: PatchCalendarsResponse,
   errors: [],
@@ -1751,7 +2241,12 @@ export const GetCalendarsResponse = Calendar;
 export type GetCalendarsError = DefaultErrors;
 
 /** Returns metadata for a calendar. */
-export const getCalendars: API.OperationMethod<GetCalendarsRequest, GetCalendarsResponse, GetCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCalendars: API.OperationMethod<
+  GetCalendarsRequest,
+  GetCalendarsResponse,
+  GetCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCalendarsRequest,
   output: GetCalendarsResponse,
   errors: [],
@@ -1778,7 +2273,12 @@ export const UpdateCalendarsResponse = Calendar;
 export type UpdateCalendarsError = DefaultErrors;
 
 /** Updates metadata for a calendar. */
-export const updateCalendars: API.OperationMethod<UpdateCalendarsRequest, UpdateCalendarsResponse, UpdateCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateCalendars: API.OperationMethod<
+  UpdateCalendarsRequest,
+  UpdateCalendarsResponse,
+  UpdateCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateCalendarsRequest,
   output: UpdateCalendarsResponse,
   errors: [],
@@ -1792,17 +2292,27 @@ export interface ClearCalendarsRequest {
 export const ClearCalendarsRequest = Schema.Struct({
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
 }).pipe(
-  T.Http({ method: "POST", path: "calendars/{calendarId}/clear", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "calendars/{calendarId}/clear",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ClearCalendarsRequest>;
 
 export interface ClearCalendarsResponse {}
-export const ClearCalendarsResponse: Schema.Schema<ClearCalendarsResponse> = Schema.Struct({}) as any as Schema.Schema<ClearCalendarsResponse>;
+export const ClearCalendarsResponse: Schema.Schema<ClearCalendarsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<ClearCalendarsResponse>;
 
 export type ClearCalendarsError = DefaultErrors;
 
 /** Clears a primary calendar. This operation deletes all events associated with the primary calendar of an account. */
-export const clearCalendars: API.OperationMethod<ClearCalendarsRequest, ClearCalendarsResponse, ClearCalendarsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const clearCalendars: API.OperationMethod<
+  ClearCalendarsRequest,
+  ClearCalendarsResponse,
+  ClearCalendarsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ClearCalendarsRequest,
   output: ClearCalendarsResponse,
   errors: [],
@@ -1826,7 +2336,12 @@ export const QueryFreebusyResponse = FreeBusyResponse;
 export type QueryFreebusyError = DefaultErrors;
 
 /** Returns free/busy information for a set of calendars. */
-export const queryFreebusy: API.OperationMethod<QueryFreebusyRequest, QueryFreebusyResponse, QueryFreebusyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const queryFreebusy: API.OperationMethod<
+  QueryFreebusyRequest,
+  QueryFreebusyResponse,
+  QueryFreebusyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: QueryFreebusyRequest,
   output: QueryFreebusyResponse,
   errors: [],
@@ -1850,7 +2365,12 @@ export const GetSettingsResponse = Setting;
 export type GetSettingsError = DefaultErrors;
 
 /** Returns a single user setting. */
-export const getSettings: API.OperationMethod<GetSettingsRequest, GetSettingsResponse, GetSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSettings: API.OperationMethod<
+  GetSettingsRequest,
+  GetSettingsResponse,
+  GetSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSettingsRequest,
   output: GetSettingsResponse,
   errors: [],
@@ -1880,7 +2400,12 @@ export const ListSettingsResponse = Settings;
 export type ListSettingsError = DefaultErrors;
 
 /** Returns all user settings for the authenticated user. */
-export const listSettings: API.PaginatedOperationMethod<ListSettingsRequest, ListSettingsResponse, ListSettingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSettings: API.PaginatedOperationMethod<
+  ListSettingsRequest,
+  ListSettingsResponse,
+  ListSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSettingsRequest,
   output: ListSettingsResponse,
   errors: [],
@@ -1918,7 +2443,12 @@ export const WatchSettingsResponse = Channel;
 export type WatchSettingsError = DefaultErrors;
 
 /** Watch for changes to Settings resources. */
-export const watchSettings: API.OperationMethod<WatchSettingsRequest, WatchSettingsResponse, WatchSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchSettings: API.OperationMethod<
+  WatchSettingsRequest,
+  WatchSettingsResponse,
+  WatchSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchSettingsRequest,
   output: WatchSettingsResponse,
   errors: [],
@@ -1937,12 +2467,18 @@ export const DeleteCalendarListRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteCalendarListRequest>;
 
 export interface DeleteCalendarListResponse {}
-export const DeleteCalendarListResponse: Schema.Schema<DeleteCalendarListResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteCalendarListResponse>;
+export const DeleteCalendarListResponse: Schema.Schema<DeleteCalendarListResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteCalendarListResponse>;
 
 export type DeleteCalendarListError = DefaultErrors;
 
 /** Removes a calendar from the user's calendar list. */
-export const deleteCalendarList: API.OperationMethod<DeleteCalendarListRequest, DeleteCalendarListResponse, DeleteCalendarListError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCalendarList: API.OperationMethod<
+  DeleteCalendarListRequest,
+  DeleteCalendarListResponse,
+  DeleteCalendarListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCalendarListRequest,
   output: DeleteCalendarListResponse,
   errors: [],
@@ -1956,7 +2492,9 @@ export interface InsertCalendarListRequest {
 }
 
 export const InsertCalendarListRequest = Schema.Struct({
-  colorRgbFormat: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("colorRgbFormat")),
+  colorRgbFormat: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("colorRgbFormat"),
+  ),
   body: Schema.optional(CalendarListEntry).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "users/me/calendarList", hasBody: true }),
@@ -1969,7 +2507,12 @@ export const InsertCalendarListResponse = CalendarListEntry;
 export type InsertCalendarListError = DefaultErrors;
 
 /** Inserts an existing calendar into the user's calendar list. */
-export const insertCalendarList: API.OperationMethod<InsertCalendarListRequest, InsertCalendarListResponse, InsertCalendarListError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertCalendarList: API.OperationMethod<
+  InsertCalendarListRequest,
+  InsertCalendarListResponse,
+  InsertCalendarListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertCalendarListRequest,
   output: InsertCalendarListResponse,
   errors: [],
@@ -1985,11 +2528,17 @@ export interface PatchCalendarListRequest {
 }
 
 export const PatchCalendarListRequest = Schema.Struct({
-  colorRgbFormat: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("colorRgbFormat")),
+  colorRgbFormat: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("colorRgbFormat"),
+  ),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
   body: Schema.optional(CalendarListEntry).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "users/me/calendarList/{calendarId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "users/me/calendarList/{calendarId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCalendarListRequest>;
 
@@ -1999,7 +2548,12 @@ export const PatchCalendarListResponse = CalendarListEntry;
 export type PatchCalendarListError = DefaultErrors;
 
 /** Updates an existing calendar on the user's calendar list. This method supports patch semantics. */
-export const patchCalendarList: API.OperationMethod<PatchCalendarListRequest, PatchCalendarListResponse, PatchCalendarListError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCalendarList: API.OperationMethod<
+  PatchCalendarListRequest,
+  PatchCalendarListResponse,
+  PatchCalendarListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCalendarListRequest,
   output: PatchCalendarListResponse,
   errors: [],
@@ -2015,7 +2569,12 @@ export interface WatchCalendarListRequest {
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number;
   /** The minimum access role for the user in the returned entries. Optional. The default is no restriction. */
-  minAccessRole?: "freeBusyReader" | "owner" | "reader" | "writer" | (string & {});
+  minAccessRole?:
+    | "freeBusyReader"
+    | "owner"
+    | "reader"
+    | "writer"
+    | (string & {});
   /** Whether to show hidden entries. Optional. The default is False. */
   showHidden?: boolean;
   /** Request body */
@@ -2027,11 +2586,17 @@ export const WatchCalendarListRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  minAccessRole: Schema.optional(Schema.String).pipe(T.HttpQuery("minAccessRole")),
+  minAccessRole: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("minAccessRole"),
+  ),
   showHidden: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showHidden")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "users/me/calendarList/watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "users/me/calendarList/watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchCalendarListRequest>;
 
@@ -2041,7 +2606,12 @@ export const WatchCalendarListResponse = Channel;
 export type WatchCalendarListError = DefaultErrors;
 
 /** Watch for changes to CalendarList resources. */
-export const watchCalendarList: API.OperationMethod<WatchCalendarListRequest, WatchCalendarListResponse, WatchCalendarListError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchCalendarList: API.OperationMethod<
+  WatchCalendarListRequest,
+  WatchCalendarListResponse,
+  WatchCalendarListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchCalendarListRequest,
   output: WatchCalendarListResponse,
   errors: [],
@@ -2065,7 +2635,12 @@ export const GetCalendarListResponse = CalendarListEntry;
 export type GetCalendarListError = DefaultErrors;
 
 /** Returns a calendar from the user's calendar list. */
-export const getCalendarList: API.OperationMethod<GetCalendarListRequest, GetCalendarListResponse, GetCalendarListError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCalendarList: API.OperationMethod<
+  GetCalendarListRequest,
+  GetCalendarListResponse,
+  GetCalendarListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCalendarListRequest,
   output: GetCalendarListResponse,
   errors: [],
@@ -2081,11 +2656,17 @@ export interface UpdateCalendarListRequest {
 }
 
 export const UpdateCalendarListRequest = Schema.Struct({
-  colorRgbFormat: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("colorRgbFormat")),
+  colorRgbFormat: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("colorRgbFormat"),
+  ),
   calendarId: Schema.String.pipe(T.HttpPath("calendarId")),
   body: Schema.optional(CalendarListEntry).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "users/me/calendarList/{calendarId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "users/me/calendarList/{calendarId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateCalendarListRequest>;
 
@@ -2095,7 +2676,12 @@ export const UpdateCalendarListResponse = CalendarListEntry;
 export type UpdateCalendarListError = DefaultErrors;
 
 /** Updates an existing calendar on the user's calendar list. */
-export const updateCalendarList: API.OperationMethod<UpdateCalendarListRequest, UpdateCalendarListResponse, UpdateCalendarListError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateCalendarList: API.OperationMethod<
+  UpdateCalendarListRequest,
+  UpdateCalendarListResponse,
+  UpdateCalendarListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateCalendarListRequest,
   output: UpdateCalendarListResponse,
   errors: [],
@@ -2111,7 +2697,12 @@ export interface ListCalendarListRequest {
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number;
   /** The minimum access role for the user in the returned entries. Optional. The default is no restriction. */
-  minAccessRole?: "freeBusyReader" | "owner" | "reader" | "writer" | (string & {});
+  minAccessRole?:
+    | "freeBusyReader"
+    | "owner"
+    | "reader"
+    | "writer"
+    | (string & {});
   /** Whether to show hidden entries. Optional. The default is False. */
   showHidden?: boolean;
 }
@@ -2121,7 +2712,9 @@ export const ListCalendarListRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  minAccessRole: Schema.optional(Schema.String).pipe(T.HttpQuery("minAccessRole")),
+  minAccessRole: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("minAccessRole"),
+  ),
   showHidden: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showHidden")),
 }).pipe(
   T.Http({ method: "GET", path: "users/me/calendarList" }),
@@ -2134,7 +2727,12 @@ export const ListCalendarListResponse = CalendarList;
 export type ListCalendarListError = DefaultErrors;
 
 /** Returns the calendars on the user's calendar list. */
-export const listCalendarList: API.PaginatedOperationMethod<ListCalendarListRequest, ListCalendarListResponse, ListCalendarListError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCalendarList: API.PaginatedOperationMethod<
+  ListCalendarListRequest,
+  ListCalendarListResponse,
+  ListCalendarListError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCalendarListRequest,
   output: ListCalendarListResponse,
   errors: [],
@@ -2158,14 +2756,19 @@ export const StopChannelsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<StopChannelsRequest>;
 
 export interface StopChannelsResponse {}
-export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> = Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
+export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
 
 export type StopChannelsError = DefaultErrors;
 
 /** Stop watching resources through this channel */
-export const stopChannels: API.OperationMethod<StopChannelsRequest, StopChannelsResponse, StopChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopChannels: API.OperationMethod<
+  StopChannelsRequest,
+  StopChannelsResponse,
+  StopChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
 }));
-

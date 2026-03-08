@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Errors
@@ -23,115 +21,142 @@ export class AddressMapNotFound extends Schema.TaggedErrorClass<AddressMapNotFou
   "AddressMapNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(AddressMapNotFound, [{"code":1000},{"code":1000,"message":{"includes":"not_found"}}]);
+T.applyErrorMatchers(AddressMapNotFound, [
+  { code: 1000 },
+  { code: 1000, message: { includes: "not_found" } },
+]);
 
 export class BgpPrefixNotFound extends Schema.TaggedErrorClass<BgpPrefixNotFound>()(
   "BgpPrefixNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(BgpPrefixNotFound, [{"code":1002}]);
+T.applyErrorMatchers(BgpPrefixNotFound, [{ code: 1002 }]);
 
 export class BindingNotFound extends Schema.TaggedErrorClass<BindingNotFound>()(
   "BindingNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(BindingNotFound, [{"code":1002}]);
+T.applyErrorMatchers(BindingNotFound, [{ code: 1002 }]);
 
 export class DelegationNotFound extends Schema.TaggedErrorClass<DelegationNotFound>()(
   "DelegationNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(DelegationNotFound, [{"code":1000}]);
+T.applyErrorMatchers(DelegationNotFound, [{ code: 1000 }]);
 
 export class FeatureNotEnabled extends Schema.TaggedErrorClass<FeatureNotEnabled>()(
   "FeatureNotEnabled",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(FeatureNotEnabled, [{"code":1002,"message":{"includes":"address_maps_not_enabled"}}]);
+T.applyErrorMatchers(FeatureNotEnabled, [
+  { code: 1002, message: { includes: "address_maps_not_enabled" } },
+]);
 
 export class InvalidAccountId extends Schema.TaggedErrorClass<InvalidAccountId>()(
   "InvalidAccountId",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidAccountId, [{"code":7003,"message":{"includes":"Could not route"}}]);
+T.applyErrorMatchers(InvalidAccountId, [
+  { code: 7003, message: { includes: "Could not route" } },
+]);
 
 export class InvalidHostname extends Schema.TaggedErrorClass<InvalidHostname>()(
   "InvalidHostname",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidHostname, [{"code":1002,"message":{"includes":"forbidden"}}]);
+T.applyErrorMatchers(InvalidHostname, [
+  { code: 1002, message: { includes: "forbidden" } },
+]);
 
 export class InvalidLoaForm extends Schema.TaggedErrorClass<InvalidLoaForm>()(
   "InvalidLoaForm",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidLoaForm, [{"code":1001,"message":{"includes":"invalid_loa_form"}}]);
+T.applyErrorMatchers(InvalidLoaForm, [
+  { code: 1001, message: { includes: "invalid_loa_form" } },
+]);
 
 export class InvalidNetworkCidr extends Schema.TaggedErrorClass<InvalidNetworkCidr>()(
   "InvalidNetworkCidr",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidNetworkCidr, [{"code":1001,"message":{"includes":"invalid_network_cidr"}}]);
+T.applyErrorMatchers(InvalidNetworkCidr, [
+  { code: 1001, message: { includes: "invalid_network_cidr" } },
+]);
 
 export class InvalidZoneId extends Schema.TaggedErrorClass<InvalidZoneId>()(
   "InvalidZoneId",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidZoneId, [{"code":7003,"message":{"includes":"Could not route"}}]);
+T.applyErrorMatchers(InvalidZoneId, [
+  { code: 7003, message: { includes: "Could not route" } },
+]);
 
 export class IrrEntryNotFound extends Schema.TaggedErrorClass<IrrEntryNotFound>()(
   "IrrEntryNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(IrrEntryNotFound, [{"code":1003,"message":{"includes":"irr_entry_not_found"}}]);
+T.applyErrorMatchers(IrrEntryNotFound, [
+  { code: 1003, message: { includes: "irr_entry_not_found" } },
+]);
 
 export class LoaDocumentNotFound extends Schema.TaggedErrorClass<LoaDocumentNotFound>()(
   "LoaDocumentNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(LoaDocumentNotFound, [{"code":1000}]);
+T.applyErrorMatchers(LoaDocumentNotFound, [{ code: 1000 }]);
 
 export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
   "MethodNotAllowed",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(MethodNotAllowed, [{"code":10405,"message":{"includes":"not allowed"}},{"code":10000,"message":{"includes":"not allowed"}}]);
+T.applyErrorMatchers(MethodNotAllowed, [
+  { code: 10405, message: { includes: "not allowed" } },
+  { code: 10000, message: { includes: "not allowed" } },
+]);
 
 export class MissingAccountId extends Schema.TaggedErrorClass<MissingAccountId>()(
   "MissingAccountId",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(MissingAccountId, [{"code":1001}]);
+T.applyErrorMatchers(MissingAccountId, [{ code: 1001 }]);
 
 export class NonexistentAccountPrefix extends Schema.TaggedErrorClass<NonexistentAccountPrefix>()(
   "NonexistentAccountPrefix",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(NonexistentAccountPrefix, [{"code":1003}]);
+T.applyErrorMatchers(NonexistentAccountPrefix, [{ code: 1003 }]);
 
 export class PrefixNotFound extends Schema.TaggedErrorClass<PrefixNotFound>()(
   "PrefixNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(PrefixNotFound, [{"code":1000},{"code":1000,"message":{"includes":"not_found"}}]);
+T.applyErrorMatchers(PrefixNotFound, [
+  { code: 1000 },
+  { code: 1000, message: { includes: "not_found" } },
+]);
 
 export class RegionalHostnameEmpty extends Schema.TaggedErrorClass<RegionalHostnameEmpty>()(
   "RegionalHostnameEmpty",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(RegionalHostnameEmpty, [{"code":1000,"message":{"includes":"not_found"}}]);
+T.applyErrorMatchers(RegionalHostnameEmpty, [
+  { code: 1000, message: { includes: "not_found" } },
+]);
 
 export class RegionalHostnameNotFound extends Schema.TaggedErrorClass<RegionalHostnameNotFound>()(
   "RegionalHostnameNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(RegionalHostnameNotFound, [{"code":1002,"message":{"includes":"forbidden"}}]);
+T.applyErrorMatchers(RegionalHostnameNotFound, [
+  { code: 1002, message: { includes: "forbidden" } },
+]);
 
 export class UnsupportedBindingConfiguration extends Schema.TaggedErrorClass<UnsupportedBindingConfiguration>()(
   "UnsupportedBindingConfiguration",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(UnsupportedBindingConfiguration, [{"code":1003}]);
+T.applyErrorMatchers(UnsupportedBindingConfiguration, [{ code: 1003 }]);
 
 // =============================================================================
 // AddressMap
@@ -145,9 +170,13 @@ export interface GetAddressMapRequest {
 
 export const GetAddressMapRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}" })) as unknown as Schema.Schema<GetAddressMapRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
+  }),
+) as unknown as Schema.Schema<GetAddressMapRequest>;
 
 export interface GetAddressMapResponse {
   /** Identifier of an Address Map. */
@@ -166,7 +195,12 @@ export interface GetAddressMapResponse {
   /** The set of IPs on the Address Map. */
   ips?: unknown;
   /** Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
-  memberships?: ({ canDelete?: boolean; createdAt?: string; identifier?: string; kind?: "zone" | "account" })[];
+  memberships?: {
+    canDelete?: boolean;
+    createdAt?: string;
+    identifier?: string;
+    kind?: "zone" | "account";
+  }[];
   modifiedAt?: string;
 }
 
@@ -179,14 +213,38 @@ export const GetAddressMapResponse = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ips: Schema.optional(Schema.Unknown),
-  memberships: Schema.optional(Schema.Array(Schema.Struct({
-  canDelete: Schema.optional(Schema.Boolean),
-  createdAt: Schema.optional(Schema.String),
-  identifier: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literals(["zone", "account"]))
-}).pipe(Schema.encodeKeys({ canDelete: "can_delete", createdAt: "created_at", identifier: "identifier", kind: "kind" })))),
-  modifiedAt: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", canDelete: "can_delete", canModifyIps: "can_modify_ips", createdAt: "created_at", defaultSni: "default_sni", description: "description", enabled: "enabled", ips: "ips", memberships: "memberships", modifiedAt: "modified_at" })) as unknown as Schema.Schema<GetAddressMapResponse>;
+  memberships: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        canDelete: Schema.optional(Schema.Boolean),
+        createdAt: Schema.optional(Schema.String),
+        identifier: Schema.optional(Schema.String),
+        kind: Schema.optional(Schema.Literals(["zone", "account"])),
+      }).pipe(
+        Schema.encodeKeys({
+          canDelete: "can_delete",
+          createdAt: "created_at",
+          identifier: "identifier",
+          kind: "kind",
+        }),
+      ),
+    ),
+  ),
+  modifiedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    canDelete: "can_delete",
+    canModifyIps: "can_modify_ips",
+    createdAt: "created_at",
+    defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+    ips: "ips",
+    memberships: "memberships",
+    modifiedAt: "modified_at",
+  }),
+) as unknown as Schema.Schema<GetAddressMapResponse>;
 
 export type GetAddressMapError =
   | DefaultErrors
@@ -210,25 +268,50 @@ export interface ListAddressMapsRequest {
 }
 
 export const ListAddressMapsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/address_maps" })) as unknown as Schema.Schema<ListAddressMapsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/address_maps",
+  }),
+) as unknown as Schema.Schema<ListAddressMapsRequest>;
 
-export type ListAddressMapsResponse = ({ id?: string; canDelete?: boolean; canModifyIps?: boolean; createdAt?: string; defaultSni?: string | null; description?: string | null; enabled?: boolean | null; modifiedAt?: string })[];
+export type ListAddressMapsResponse = {
+  id?: string;
+  canDelete?: boolean;
+  canModifyIps?: boolean;
+  createdAt?: string;
+  defaultSni?: string | null;
+  description?: string | null;
+  enabled?: boolean | null;
+  modifiedAt?: string;
+}[];
 
-export const ListAddressMapsResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  canDelete: Schema.optional(Schema.Boolean),
-  canModifyIps: Schema.optional(Schema.Boolean),
-  createdAt: Schema.optional(Schema.String),
-  defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  modifiedAt: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", canDelete: "can_delete", canModifyIps: "can_modify_ips", createdAt: "created_at", defaultSni: "default_sni", description: "description", enabled: "enabled", modifiedAt: "modified_at" }))) as unknown as Schema.Schema<ListAddressMapsResponse>;
+export const ListAddressMapsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    canDelete: Schema.optional(Schema.Boolean),
+    canModifyIps: Schema.optional(Schema.Boolean),
+    createdAt: Schema.optional(Schema.String),
+    defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      canDelete: "can_delete",
+      canModifyIps: "can_modify_ips",
+      createdAt: "created_at",
+      defaultSni: "default_sni",
+      description: "description",
+      enabled: "enabled",
+      modifiedAt: "modified_at",
+    }),
+  ),
+) as unknown as Schema.Schema<ListAddressMapsResponse>;
 
-export type ListAddressMapsError =
-  | DefaultErrors;
+export type ListAddressMapsError = DefaultErrors;
 
 export const listAddressMaps: API.OperationMethod<
   ListAddressMapsRequest,
@@ -251,7 +334,7 @@ export interface CreateAddressMapRequest {
   /** Body param: */
   ips?: string[];
   /** Body param: Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
-  memberships?: ({ identifier?: string; kind?: "zone" | "account" })[];
+  memberships?: { identifier?: string; kind?: "zone" | "account" }[];
 }
 
 export const CreateAddressMapRequest = Schema.Struct({
@@ -259,12 +342,20 @@ export const CreateAddressMapRequest = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ips: Schema.optional(Schema.Array(Schema.String)),
-  memberships: Schema.optional(Schema.Array(Schema.Struct({
-  identifier: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literals(["zone", "account"]))
-})))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/address_maps" })) as unknown as Schema.Schema<CreateAddressMapRequest>;
+  memberships: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        identifier: Schema.optional(Schema.String),
+        kind: Schema.optional(Schema.Literals(["zone", "account"])),
+      }),
+    ),
+  ),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/address_maps",
+  }),
+) as unknown as Schema.Schema<CreateAddressMapRequest>;
 
 export interface CreateAddressMapResponse {
   /** Identifier of an Address Map. */
@@ -283,7 +374,12 @@ export interface CreateAddressMapResponse {
   /** The set of IPs on the Address Map. */
   ips?: unknown;
   /** Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
-  memberships?: ({ canDelete?: boolean; createdAt?: string; identifier?: string; kind?: "zone" | "account" })[];
+  memberships?: {
+    canDelete?: boolean;
+    createdAt?: string;
+    identifier?: string;
+    kind?: "zone" | "account";
+  }[];
   modifiedAt?: string;
 }
 
@@ -296,14 +392,38 @@ export const CreateAddressMapResponse = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ips: Schema.optional(Schema.Unknown),
-  memberships: Schema.optional(Schema.Array(Schema.Struct({
-  canDelete: Schema.optional(Schema.Boolean),
-  createdAt: Schema.optional(Schema.String),
-  identifier: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literals(["zone", "account"]))
-}).pipe(Schema.encodeKeys({ canDelete: "can_delete", createdAt: "created_at", identifier: "identifier", kind: "kind" })))),
-  modifiedAt: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", canDelete: "can_delete", canModifyIps: "can_modify_ips", createdAt: "created_at", defaultSni: "default_sni", description: "description", enabled: "enabled", ips: "ips", memberships: "memberships", modifiedAt: "modified_at" })) as unknown as Schema.Schema<CreateAddressMapResponse>;
+  memberships: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        canDelete: Schema.optional(Schema.Boolean),
+        createdAt: Schema.optional(Schema.String),
+        identifier: Schema.optional(Schema.String),
+        kind: Schema.optional(Schema.Literals(["zone", "account"])),
+      }).pipe(
+        Schema.encodeKeys({
+          canDelete: "can_delete",
+          createdAt: "created_at",
+          identifier: "identifier",
+          kind: "kind",
+        }),
+      ),
+    ),
+  ),
+  modifiedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    canDelete: "can_delete",
+    canModifyIps: "can_modify_ips",
+    createdAt: "created_at",
+    defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+    ips: "ips",
+    memberships: "memberships",
+    modifiedAt: "modified_at",
+  }),
+) as unknown as Schema.Schema<CreateAddressMapResponse>;
 
 export type CreateAddressMapError =
   | DefaultErrors
@@ -338,9 +458,18 @@ export const PatchAddressMapRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null]))
-})
-  .pipe(Schema.encodeKeys({ defaultSni: "default_sni", description: "description", enabled: "enabled" }), T.Http({ method: "PATCH", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}" })) as unknown as Schema.Schema<PatchAddressMapRequest>;
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+  }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
+  }),
+) as unknown as Schema.Schema<PatchAddressMapRequest>;
 
 export interface PatchAddressMapResponse {
   /** Identifier of an Address Map. */
@@ -367,8 +496,19 @@ export const PatchAddressMapResponse = Schema.Struct({
   defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  modifiedAt: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", canDelete: "can_delete", canModifyIps: "can_modify_ips", createdAt: "created_at", defaultSni: "default_sni", description: "description", enabled: "enabled", modifiedAt: "modified_at" })) as unknown as Schema.Schema<PatchAddressMapResponse>;
+  modifiedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    canDelete: "can_delete",
+    canModifyIps: "can_modify_ips",
+    createdAt: "created_at",
+    defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+    modifiedAt: "modified_at",
+  }),
+) as unknown as Schema.Schema<PatchAddressMapResponse>;
 
 export type PatchAddressMapError =
   | DefaultErrors
@@ -395,43 +535,100 @@ export interface DeleteAddressMapRequest {
 
 export const DeleteAddressMapRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}" })) as unknown as Schema.Schema<DeleteAddressMapRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapRequest>;
 
 export interface DeleteAddressMapResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
   success: Schema.Literal(true),
-  resultInfo: Schema.optional(Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  page: Schema.optional(Schema.Number),
-  perPage: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", resultInfo: "result_info" })) as unknown as Schema.Schema<DeleteAddressMapResponse>;
+  resultInfo: Schema.optional(
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      page: Schema.optional(Schema.Number),
+      perPage: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapResponse>;
 
 export type DeleteAddressMapError =
   | DefaultErrors
@@ -448,9 +645,13 @@ export const deleteAddressMap: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteAddressMapRequest,
   output: DeleteAddressMapResponse,
-  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId, AddressMapNotFound],
+  errors: [
+    MethodNotAllowed,
+    FeatureNotEnabled,
+    InvalidAccountId,
+    AddressMapNotFound,
+  ],
 }));
-
 
 // =============================================================================
 // AddressMapAccount
@@ -467,43 +668,100 @@ export interface PutAddressMapAccountRequest {
 export const PutAddressMapAccountRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/accounts/{account_id}" })) as unknown as Schema.Schema<PutAddressMapAccountRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/accounts/{account_id}",
+  }),
+) as unknown as Schema.Schema<PutAddressMapAccountRequest>;
 
 export interface PutAddressMapAccountResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const PutAddressMapAccountResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
   success: Schema.Literal(true),
-  resultInfo: Schema.optional(Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  page: Schema.optional(Schema.Number),
-  perPage: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", resultInfo: "result_info" })) as unknown as Schema.Schema<PutAddressMapAccountResponse>;
+  resultInfo: Schema.optional(
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      page: Schema.optional(Schema.Number),
+      perPage: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
+) as unknown as Schema.Schema<PutAddressMapAccountResponse>;
 
 export type PutAddressMapAccountError =
   | DefaultErrors
@@ -530,43 +788,100 @@ export interface DeleteAddressMapAccountRequest {
 
 export const DeleteAddressMapAccountRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/accounts/{account_id}" })) as unknown as Schema.Schema<DeleteAddressMapAccountRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/accounts/{account_id}",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapAccountRequest>;
 
 export interface DeleteAddressMapAccountResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapAccountResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
   success: Schema.Literal(true),
-  resultInfo: Schema.optional(Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  page: Schema.optional(Schema.Number),
-  perPage: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", resultInfo: "result_info" })) as unknown as Schema.Schema<DeleteAddressMapAccountResponse>;
+  resultInfo: Schema.optional(
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      page: Schema.optional(Schema.Number),
+      perPage: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapAccountResponse>;
 
 export type DeleteAddressMapAccountError =
   | DefaultErrors
@@ -585,7 +900,6 @@ export const deleteAddressMapAccount: API.OperationMethod<
   errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId],
 }));
 
-
 // =============================================================================
 // AddressMapIp
 // =============================================================================
@@ -603,43 +917,100 @@ export const PutAddressMapIpRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   ipAddress: Schema.String.pipe(T.HttpPath("ipAddress")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/ips/{ipAddress}" })) as unknown as Schema.Schema<PutAddressMapIpRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/ips/{ipAddress}",
+  }),
+) as unknown as Schema.Schema<PutAddressMapIpRequest>;
 
 export interface PutAddressMapIpResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const PutAddressMapIpResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
   success: Schema.Literal(true),
-  resultInfo: Schema.optional(Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  page: Schema.optional(Schema.Number),
-  perPage: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", resultInfo: "result_info" })) as unknown as Schema.Schema<PutAddressMapIpResponse>;
+  resultInfo: Schema.optional(
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      page: Schema.optional(Schema.Number),
+      perPage: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
+) as unknown as Schema.Schema<PutAddressMapIpResponse>;
 
 export type PutAddressMapIpError =
   | DefaultErrors
@@ -656,7 +1027,12 @@ export const putAddressMapIp: API.OperationMethod<
 > = API.make(() => ({
   input: PutAddressMapIpRequest,
   output: PutAddressMapIpResponse,
-  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId, AddressMapNotFound],
+  errors: [
+    MethodNotAllowed,
+    FeatureNotEnabled,
+    InvalidAccountId,
+    AddressMapNotFound,
+  ],
 }));
 
 export interface DeleteAddressMapIpRequest {
@@ -669,43 +1045,100 @@ export interface DeleteAddressMapIpRequest {
 export const DeleteAddressMapIpRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   ipAddress: Schema.String.pipe(T.HttpPath("ipAddress")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/ips/{ipAddress}" })) as unknown as Schema.Schema<DeleteAddressMapIpRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/ips/{ipAddress}",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapIpRequest>;
 
 export interface DeleteAddressMapIpResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapIpResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
   success: Schema.Literal(true),
-  resultInfo: Schema.optional(Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  page: Schema.optional(Schema.Number),
-  perPage: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", resultInfo: "result_info" })) as unknown as Schema.Schema<DeleteAddressMapIpResponse>;
+  resultInfo: Schema.optional(
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      page: Schema.optional(Schema.Number),
+      perPage: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapIpResponse>;
 
 export type DeleteAddressMapIpError =
   | DefaultErrors
@@ -722,9 +1155,13 @@ export const deleteAddressMapIp: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteAddressMapIpRequest,
   output: DeleteAddressMapIpResponse,
-  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId, AddressMapNotFound],
+  errors: [
+    MethodNotAllowed,
+    FeatureNotEnabled,
+    InvalidAccountId,
+    AddressMapNotFound,
+  ],
 }));
-
 
 // =============================================================================
 // AddressMapZone
@@ -744,43 +1181,100 @@ export const PutAddressMapZoneRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/zones/{zone_id}" })) as unknown as Schema.Schema<PutAddressMapZoneRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/zones/{zone_id}",
+  }),
+) as unknown as Schema.Schema<PutAddressMapZoneRequest>;
 
 export interface PutAddressMapZoneResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const PutAddressMapZoneResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
   success: Schema.Literal(true),
-  resultInfo: Schema.optional(Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  page: Schema.optional(Schema.Number),
-  perPage: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", resultInfo: "result_info" })) as unknown as Schema.Schema<PutAddressMapZoneResponse>;
+  resultInfo: Schema.optional(
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      page: Schema.optional(Schema.Number),
+      perPage: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
+) as unknown as Schema.Schema<PutAddressMapZoneResponse>;
 
 export type PutAddressMapZoneError =
   | DefaultErrors
@@ -810,43 +1304,100 @@ export interface DeleteAddressMapZoneRequest {
 export const DeleteAddressMapZoneRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/zones/{zone_id}" })) as unknown as Schema.Schema<DeleteAddressMapZoneRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/zones/{zone_id}",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapZoneRequest>;
 
 export interface DeleteAddressMapZoneResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapZoneResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
   success: Schema.Literal(true),
-  resultInfo: Schema.optional(Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  page: Schema.optional(Schema.Number),
-  perPage: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", resultInfo: "result_info" })) as unknown as Schema.Schema<DeleteAddressMapZoneResponse>;
+  resultInfo: Schema.optional(
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      page: Schema.optional(Schema.Number),
+      perPage: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
+) as unknown as Schema.Schema<DeleteAddressMapZoneResponse>;
 
 export type DeleteAddressMapZoneError =
   | DefaultErrors
@@ -865,7 +1416,6 @@ export const deleteAddressMapZone: API.OperationMethod<
   errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId],
 }));
 
-
 // =============================================================================
 // LoaDocument
 // =============================================================================
@@ -877,14 +1427,21 @@ export interface GetLoaDocumentRequest {
 }
 
 export const GetLoaDocumentRequest = Schema.Struct({
-  loaDocumentId: Schema.Union([Schema.String, Schema.Null]).pipe(T.HttpPath("loaDocumentId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/loa_documents/{loaDocumentId}/download" })) as unknown as Schema.Schema<GetLoaDocumentRequest>;
+  loaDocumentId: Schema.Union([Schema.String, Schema.Null]).pipe(
+    T.HttpPath("loaDocumentId"),
+  ),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/loa_documents/{loaDocumentId}/download",
+  }),
+) as unknown as Schema.Schema<GetLoaDocumentRequest>;
 
 export type GetLoaDocumentResponse = unknown;
 
-export const GetLoaDocumentResponse = Schema.Unknown as unknown as Schema.Schema<GetLoaDocumentResponse>;
+export const GetLoaDocumentResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetLoaDocumentResponse>;
 
 export type GetLoaDocumentError =
   | DefaultErrors
@@ -911,9 +1468,15 @@ export interface CreateLoaDocumentRequest {
 
 export const CreateLoaDocumentRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  loaDocument: Schema.String
-})
-  .pipe(Schema.encodeKeys({ loaDocument: "loa_document" }), T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/loa_documents", contentType: "multipart" })) as unknown as Schema.Schema<CreateLoaDocumentRequest>;
+  loaDocument: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ loaDocument: "loa_document" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/loa_documents",
+    contentType: "multipart",
+  }),
+) as unknown as Schema.Schema<CreateLoaDocumentRequest>;
 
 export interface CreateLoaDocumentResponse {
   /** Identifier for the uploaded LOA document. */
@@ -941,8 +1504,19 @@ export const CreateLoaDocumentResponse = Schema.Struct({
   filename: Schema.optional(Schema.String),
   sizeBytes: Schema.optional(Schema.Number),
   verified: Schema.optional(Schema.Boolean),
-  verifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", autoGenerated: "auto_generated", created: "created", filename: "filename", sizeBytes: "size_bytes", verified: "verified", verifiedAt: "verified_at" })) as unknown as Schema.Schema<CreateLoaDocumentResponse>;
+  verifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    autoGenerated: "auto_generated",
+    created: "created",
+    filename: "filename",
+    sizeBytes: "size_bytes",
+    verified: "verified",
+    verifiedAt: "verified_at",
+  }),
+) as unknown as Schema.Schema<CreateLoaDocumentResponse>;
 
 export type CreateLoaDocumentError =
   | DefaultErrors
@@ -960,7 +1534,6 @@ export const createLoaDocument: API.OperationMethod<
   errors: [InvalidAccountId, InvalidLoaForm],
 }));
 
-
 // =============================================================================
 // Prefix
 // =============================================================================
@@ -973,9 +1546,13 @@ export interface GetPrefixRequest {
 
 export const GetPrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}" })) as unknown as Schema.Schema<GetPrefixRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
+) as unknown as Schema.Schema<GetPrefixRequest>;
 
 export interface GetPrefixResponse {
   /** Identifier of an IP Prefix. */
@@ -1018,7 +1595,9 @@ export const GetPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String),
   advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Number),
   cidr: Schema.optional(Schema.String),
@@ -1032,13 +1611,31 @@ export const GetPrefixResponse = Schema.Struct({
   onDemandLocked: Schema.optional(Schema.Boolean),
   ownershipValidationState: Schema.optional(Schema.String),
   ownershipValidationToken: Schema.optional(Schema.String),
-  rpkiValidationState: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", approved: "approved", asn: "asn", cidr: "cidr", createdAt: "created_at", delegateLoaCreation: "delegate_loa_creation", description: "description", irrValidationState: "irr_validation_state", loaDocumentId: "loa_document_id", modifiedAt: "modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked", ownershipValidationState: "ownership_validation_state", ownershipValidationToken: "ownership_validation_token", rpkiValidationState: "rpki_validation_state" })) as unknown as Schema.Schema<GetPrefixResponse>;
+  rpkiValidationState: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
+    createdAt: "created_at",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    irrValidationState: "irr_validation_state",
+    loaDocumentId: "loa_document_id",
+    modifiedAt: "modified_at",
+    onDemandEnabled: "on_demand_enabled",
+    onDemandLocked: "on_demand_locked",
+    ownershipValidationState: "ownership_validation_state",
+    ownershipValidationToken: "ownership_validation_token",
+    rpkiValidationState: "rpki_validation_state",
+  }),
+) as unknown as Schema.Schema<GetPrefixResponse>;
 
-export type GetPrefixError =
-  | DefaultErrors
-  | PrefixNotFound
-  | InvalidAccountId;
+export type GetPrefixError = DefaultErrors | PrefixNotFound | InvalidAccountId;
 
 export const getPrefix: API.OperationMethod<
   GetPrefixRequest,
@@ -1057,35 +1654,79 @@ export interface ListPrefixesRequest {
 }
 
 export const ListPrefixesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes" })) as unknown as Schema.Schema<ListPrefixesRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes" }),
+) as unknown as Schema.Schema<ListPrefixesRequest>;
 
-export type ListPrefixesResponse = ({ id?: string; accountId?: string; advertised?: boolean | null; advertisedModifiedAt?: string | null; approved?: string; asn?: number; cidr?: string; createdAt?: string; delegateLoaCreation?: boolean; description?: string; irrValidationState?: string; loaDocumentId?: string | null; modifiedAt?: string; onDemandEnabled?: boolean; onDemandLocked?: boolean; ownershipValidationState?: string; ownershipValidationToken?: string; rpkiValidationState?: string })[];
+export type ListPrefixesResponse = {
+  id?: string;
+  accountId?: string;
+  advertised?: boolean | null;
+  advertisedModifiedAt?: string | null;
+  approved?: string;
+  asn?: number;
+  cidr?: string;
+  createdAt?: string;
+  delegateLoaCreation?: boolean;
+  description?: string;
+  irrValidationState?: string;
+  loaDocumentId?: string | null;
+  modifiedAt?: string;
+  onDemandEnabled?: boolean;
+  onDemandLocked?: boolean;
+  ownershipValidationState?: string;
+  ownershipValidationToken?: string;
+  rpkiValidationState?: string;
+}[];
 
-export const ListPrefixesResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  approved: Schema.optional(Schema.String),
-  asn: Schema.optional(Schema.Number),
-  cidr: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  delegateLoaCreation: Schema.optional(Schema.Boolean),
-  description: Schema.optional(Schema.String),
-  irrValidationState: Schema.optional(Schema.String),
-  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedAt: Schema.optional(Schema.String),
-  onDemandEnabled: Schema.optional(Schema.Boolean),
-  onDemandLocked: Schema.optional(Schema.Boolean),
-  ownershipValidationState: Schema.optional(Schema.String),
-  ownershipValidationToken: Schema.optional(Schema.String),
-  rpkiValidationState: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", approved: "approved", asn: "asn", cidr: "cidr", createdAt: "created_at", delegateLoaCreation: "delegate_loa_creation", description: "description", irrValidationState: "irr_validation_state", loaDocumentId: "loa_document_id", modifiedAt: "modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked", ownershipValidationState: "ownership_validation_state", ownershipValidationToken: "ownership_validation_token", rpkiValidationState: "rpki_validation_state" }))) as unknown as Schema.Schema<ListPrefixesResponse>;
+export const ListPrefixesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    advertisedModifiedAt: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    approved: Schema.optional(Schema.String),
+    asn: Schema.optional(Schema.Number),
+    cidr: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    delegateLoaCreation: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.String),
+    irrValidationState: Schema.optional(Schema.String),
+    loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.String),
+    onDemandEnabled: Schema.optional(Schema.Boolean),
+    onDemandLocked: Schema.optional(Schema.Boolean),
+    ownershipValidationState: Schema.optional(Schema.String),
+    ownershipValidationToken: Schema.optional(Schema.String),
+    rpkiValidationState: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      advertised: "advertised",
+      advertisedModifiedAt: "advertised_modified_at",
+      approved: "approved",
+      asn: "asn",
+      cidr: "cidr",
+      createdAt: "created_at",
+      delegateLoaCreation: "delegate_loa_creation",
+      description: "description",
+      irrValidationState: "irr_validation_state",
+      loaDocumentId: "loa_document_id",
+      modifiedAt: "modified_at",
+      onDemandEnabled: "on_demand_enabled",
+      onDemandLocked: "on_demand_locked",
+      ownershipValidationState: "ownership_validation_state",
+      ownershipValidationToken: "ownership_validation_token",
+      rpkiValidationState: "rpki_validation_state",
+    }),
+  ),
+) as unknown as Schema.Schema<ListPrefixesResponse>;
 
-export type ListPrefixesError =
-  | DefaultErrors;
+export type ListPrefixesError = DefaultErrors;
 
 export const listPrefixes: API.OperationMethod<
   ListPrefixesRequest,
@@ -1119,9 +1760,20 @@ export const CreatePrefixRequest = Schema.Struct({
   cidr: Schema.String,
   delegateLoaCreation: Schema.optional(Schema.Boolean),
   description: Schema.optional(Schema.String),
-  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-})
-  .pipe(Schema.encodeKeys({ asn: "asn", cidr: "cidr", delegateLoaCreation: "delegate_loa_creation", description: "description", loaDocumentId: "loa_document_id" }), T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/prefixes" })) as unknown as Schema.Schema<CreatePrefixRequest>;
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    asn: "asn",
+    cidr: "cidr",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    loaDocumentId: "loa_document_id",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/prefixes",
+  }),
+) as unknown as Schema.Schema<CreatePrefixRequest>;
 
 export interface CreatePrefixResponse {
   /** Identifier of an IP Prefix. */
@@ -1164,7 +1816,9 @@ export const CreatePrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String),
   advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Number),
   cidr: Schema.optional(Schema.String),
@@ -1178,8 +1832,29 @@ export const CreatePrefixResponse = Schema.Struct({
   onDemandLocked: Schema.optional(Schema.Boolean),
   ownershipValidationState: Schema.optional(Schema.String),
   ownershipValidationToken: Schema.optional(Schema.String),
-  rpkiValidationState: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", approved: "approved", asn: "asn", cidr: "cidr", createdAt: "created_at", delegateLoaCreation: "delegate_loa_creation", description: "description", irrValidationState: "irr_validation_state", loaDocumentId: "loa_document_id", modifiedAt: "modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked", ownershipValidationState: "ownership_validation_state", ownershipValidationToken: "ownership_validation_token", rpkiValidationState: "rpki_validation_state" })) as unknown as Schema.Schema<CreatePrefixResponse>;
+  rpkiValidationState: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
+    createdAt: "created_at",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    irrValidationState: "irr_validation_state",
+    loaDocumentId: "loa_document_id",
+    modifiedAt: "modified_at",
+    onDemandEnabled: "on_demand_enabled",
+    onDemandLocked: "on_demand_locked",
+    ownershipValidationState: "ownership_validation_state",
+    ownershipValidationToken: "ownership_validation_token",
+    rpkiValidationState: "rpki_validation_state",
+  }),
+) as unknown as Schema.Schema<CreatePrefixResponse>;
 
 export type CreatePrefixError =
   | DefaultErrors
@@ -1209,9 +1884,13 @@ export interface PatchPrefixRequest {
 export const PatchPrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  description: Schema.String
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}" })) as unknown as Schema.Schema<PatchPrefixRequest>;
+  description: Schema.String,
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
+) as unknown as Schema.Schema<PatchPrefixRequest>;
 
 export interface PatchPrefixResponse {
   /** Identifier of an IP Prefix. */
@@ -1254,7 +1933,9 @@ export const PatchPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String),
   advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Number),
   cidr: Schema.optional(Schema.String),
@@ -1268,8 +1949,29 @@ export const PatchPrefixResponse = Schema.Struct({
   onDemandLocked: Schema.optional(Schema.Boolean),
   ownershipValidationState: Schema.optional(Schema.String),
   ownershipValidationToken: Schema.optional(Schema.String),
-  rpkiValidationState: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", approved: "approved", asn: "asn", cidr: "cidr", createdAt: "created_at", delegateLoaCreation: "delegate_loa_creation", description: "description", irrValidationState: "irr_validation_state", loaDocumentId: "loa_document_id", modifiedAt: "modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked", ownershipValidationState: "ownership_validation_state", ownershipValidationToken: "ownership_validation_token", rpkiValidationState: "rpki_validation_state" })) as unknown as Schema.Schema<PatchPrefixResponse>;
+  rpkiValidationState: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
+    createdAt: "created_at",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    irrValidationState: "irr_validation_state",
+    loaDocumentId: "loa_document_id",
+    modifiedAt: "modified_at",
+    onDemandEnabled: "on_demand_enabled",
+    onDemandLocked: "on_demand_locked",
+    ownershipValidationState: "ownership_validation_state",
+    ownershipValidationToken: "ownership_validation_token",
+    rpkiValidationState: "rpki_validation_state",
+  }),
+) as unknown as Schema.Schema<PatchPrefixResponse>;
 
 export type PatchPrefixError =
   | DefaultErrors
@@ -1296,35 +1998,71 @@ export interface DeletePrefixRequest {
 
 export const DeletePrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}" })) as unknown as Schema.Schema<DeletePrefixRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
+) as unknown as Schema.Schema<DeletePrefixRequest>;
 
 export interface DeletePrefixResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeletePrefixResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeletePrefixResponse>;
 
 export type DeletePrefixError =
@@ -1344,7 +2082,6 @@ export const deletePrefix: API.OperationMethod<
   errors: [MethodNotAllowed, PrefixNotFound, InvalidAccountId],
 }));
 
-
 // =============================================================================
 // PrefixAdvertisementStatus
 // =============================================================================
@@ -1357,9 +2094,13 @@ export interface GetPrefixAdvertisementStatusRequest {
 
 export const GetPrefixAdvertisementStatusRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/status" })) as unknown as Schema.Schema<GetPrefixAdvertisementStatusRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/status",
+  }),
+) as unknown as Schema.Schema<GetPrefixAdvertisementStatusRequest>;
 
 export interface GetPrefixAdvertisementStatusResponse {
   /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
@@ -1370,8 +2111,15 @@ export interface GetPrefixAdvertisementStatusResponse {
 
 export const GetPrefixAdvertisementStatusResponse = Schema.Struct({
   advertised: Schema.optional(Schema.Boolean),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ advertised: "advertised", advertisedModifiedAt: "advertised_modified_at" })) as unknown as Schema.Schema<GetPrefixAdvertisementStatusResponse>;
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+  }),
+) as unknown as Schema.Schema<GetPrefixAdvertisementStatusResponse>;
 
 export type GetPrefixAdvertisementStatusError =
   | DefaultErrors
@@ -1400,9 +2148,13 @@ export interface PatchPrefixAdvertisementStatusRequest {
 export const PatchPrefixAdvertisementStatusRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  advertised: Schema.Boolean
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/status" })) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusRequest>;
+  advertised: Schema.Boolean,
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/status",
+  }),
+) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusRequest>;
 
 export interface PatchPrefixAdvertisementStatusResponse {
   /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
@@ -1413,8 +2165,15 @@ export interface PatchPrefixAdvertisementStatusResponse {
 
 export const PatchPrefixAdvertisementStatusResponse = Schema.Struct({
   advertised: Schema.optional(Schema.Boolean),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ advertised: "advertised", advertisedModifiedAt: "advertised_modified_at" })) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusResponse>;
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+  }),
+) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusResponse>;
 
 export type PatchPrefixAdvertisementStatusError =
   | DefaultErrors
@@ -1432,7 +2191,6 @@ export const patchPrefixAdvertisementStatus: API.OperationMethod<
   errors: [PrefixNotFound, InvalidAccountId],
 }));
 
-
 // =============================================================================
 // PrefixBgpPrefix
 // =============================================================================
@@ -1447,9 +2205,13 @@ export interface GetPrefixBgpPrefixRequest {
 export const GetPrefixBgpPrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   bgpPrefixId: Schema.String.pipe(T.HttpPath("bgpPrefixId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes/{bgpPrefixId}" })) as unknown as Schema.Schema<GetPrefixBgpPrefixRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes/{bgpPrefixId}",
+  }),
+) as unknown as Schema.Schema<GetPrefixBgpPrefixRequest>;
 
 export interface GetPrefixBgpPrefixResponse {
   /** Identifier of BGP Prefix. */
@@ -1465,7 +2227,12 @@ export interface GetPrefixBgpPrefixResponse {
   cidr?: string;
   createdAt?: string;
   modifiedAt?: string;
-  onDemand?: { advertised?: boolean | null; advertisedModifiedAt?: string | null; onDemandEnabled?: boolean; onDemandLocked?: boolean };
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean;
+    onDemandLocked?: boolean;
+  };
 }
 
 export const GetPrefixBgpPrefixResponse = Schema.Struct({
@@ -1473,20 +2240,47 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
   asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   asnPrependCount: Schema.optional(Schema.Number),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean),
-  bgpSignalOpts: Schema.optional(Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }))),
+  bgpSignalOpts: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+    ),
+  ),
   cidr: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
   modifiedAt: Schema.optional(Schema.String),
-  onDemand: Schema.optional(Schema.Struct({
-  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  onDemandEnabled: Schema.optional(Schema.Boolean),
-  onDemandLocked: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked" })))
-}).pipe(Schema.encodeKeys({ id: "id", asn: "asn", asnPrependCount: "asn_prepend_count", autoAdvertiseWithdraw: "auto_advertise_withdraw", bgpSignalOpts: "bgp_signal_opts", cidr: "cidr", createdAt: "created_at", modifiedAt: "modified_at", onDemand: "on_demand" })) as unknown as Schema.Schema<GetPrefixBgpPrefixResponse>;
+  onDemand: Schema.optional(
+    Schema.Struct({
+      advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      advertisedModifiedAt: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      onDemandEnabled: Schema.optional(Schema.Boolean),
+      onDemandLocked: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        advertised: "advertised",
+        advertisedModifiedAt: "advertised_modified_at",
+        onDemandEnabled: "on_demand_enabled",
+        onDemandLocked: "on_demand_locked",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    asn: "asn",
+    asnPrependCount: "asn_prepend_count",
+    autoAdvertiseWithdraw: "auto_advertise_withdraw",
+    bgpSignalOpts: "bgp_signal_opts",
+    cidr: "cidr",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    onDemand: "on_demand",
+  }),
+) as unknown as Schema.Schema<GetPrefixBgpPrefixResponse>;
 
 export type GetPrefixBgpPrefixError =
   | DefaultErrors
@@ -1513,34 +2307,83 @@ export interface ListPrefixBgpPrefixesRequest {
 
 export const ListPrefixBgpPrefixesRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes" })) as unknown as Schema.Schema<ListPrefixBgpPrefixesRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes",
+  }),
+) as unknown as Schema.Schema<ListPrefixBgpPrefixesRequest>;
 
-export type ListPrefixBgpPrefixesResponse = ({ id?: string; asn?: number | null; asnPrependCount?: number; autoAdvertiseWithdraw?: boolean; bgpSignalOpts?: { enabled?: boolean; modifiedAt?: string | null }; cidr?: string; createdAt?: string; modifiedAt?: string; onDemand?: { advertised?: boolean | null; advertisedModifiedAt?: string | null; onDemandEnabled?: boolean; onDemandLocked?: boolean } })[];
+export type ListPrefixBgpPrefixesResponse = {
+  id?: string;
+  asn?: number | null;
+  asnPrependCount?: number;
+  autoAdvertiseWithdraw?: boolean;
+  bgpSignalOpts?: { enabled?: boolean; modifiedAt?: string | null };
+  cidr?: string;
+  createdAt?: string;
+  modifiedAt?: string;
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean;
+    onDemandLocked?: boolean;
+  };
+}[];
 
-export const ListPrefixBgpPrefixesResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  asnPrependCount: Schema.optional(Schema.Number),
-  autoAdvertiseWithdraw: Schema.optional(Schema.Boolean),
-  bgpSignalOpts: Schema.optional(Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-  }).pipe(Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }))),
-  cidr: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  modifiedAt: Schema.optional(Schema.String),
-  onDemand: Schema.optional(Schema.Struct({
-    advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    onDemandEnabled: Schema.optional(Schema.Boolean),
-    onDemandLocked: Schema.optional(Schema.Boolean)
-  }).pipe(Schema.encodeKeys({ advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked" })))
-}).pipe(Schema.encodeKeys({ id: "id", asn: "asn", asnPrependCount: "asn_prepend_count", autoAdvertiseWithdraw: "auto_advertise_withdraw", bgpSignalOpts: "bgp_signal_opts", cidr: "cidr", createdAt: "created_at", modifiedAt: "modified_at", onDemand: "on_demand" }))) as unknown as Schema.Schema<ListPrefixBgpPrefixesResponse>;
+export const ListPrefixBgpPrefixesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    asnPrependCount: Schema.optional(Schema.Number),
+    autoAdvertiseWithdraw: Schema.optional(Schema.Boolean),
+    bgpSignalOpts: Schema.optional(
+      Schema.Struct({
+        enabled: Schema.optional(Schema.Boolean),
+        modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+      ),
+    ),
+    cidr: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    modifiedAt: Schema.optional(Schema.String),
+    onDemand: Schema.optional(
+      Schema.Struct({
+        advertised: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        advertisedModifiedAt: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        onDemandEnabled: Schema.optional(Schema.Boolean),
+        onDemandLocked: Schema.optional(Schema.Boolean),
+      }).pipe(
+        Schema.encodeKeys({
+          advertised: "advertised",
+          advertisedModifiedAt: "advertised_modified_at",
+          onDemandEnabled: "on_demand_enabled",
+          onDemandLocked: "on_demand_locked",
+        }),
+      ),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      asn: "asn",
+      asnPrependCount: "asn_prepend_count",
+      autoAdvertiseWithdraw: "auto_advertise_withdraw",
+      bgpSignalOpts: "bgp_signal_opts",
+      cidr: "cidr",
+      createdAt: "created_at",
+      modifiedAt: "modified_at",
+      onDemand: "on_demand",
+    }),
+  ),
+) as unknown as Schema.Schema<ListPrefixBgpPrefixesResponse>;
 
-export type ListPrefixBgpPrefixesError =
-  | DefaultErrors;
+export type ListPrefixBgpPrefixesError = DefaultErrors;
 
 export const listPrefixBgpPrefixes: API.OperationMethod<
   ListPrefixBgpPrefixesRequest,
@@ -1564,9 +2407,13 @@ export interface CreatePrefixBgpPrefixRequest {
 export const CreatePrefixBgpPrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  cidr: Schema.String
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes" })) as unknown as Schema.Schema<CreatePrefixBgpPrefixRequest>;
+  cidr: Schema.String,
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes",
+  }),
+) as unknown as Schema.Schema<CreatePrefixBgpPrefixRequest>;
 
 export interface CreatePrefixBgpPrefixResponse {
   /** Identifier of BGP Prefix. */
@@ -1582,7 +2429,12 @@ export interface CreatePrefixBgpPrefixResponse {
   cidr?: string;
   createdAt?: string;
   modifiedAt?: string;
-  onDemand?: { advertised?: boolean | null; advertisedModifiedAt?: string | null; onDemandEnabled?: boolean; onDemandLocked?: boolean };
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean;
+    onDemandLocked?: boolean;
+  };
 }
 
 export const CreatePrefixBgpPrefixResponse = Schema.Struct({
@@ -1590,20 +2442,47 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
   asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   asnPrependCount: Schema.optional(Schema.Number),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean),
-  bgpSignalOpts: Schema.optional(Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }))),
+  bgpSignalOpts: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+    ),
+  ),
   cidr: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
   modifiedAt: Schema.optional(Schema.String),
-  onDemand: Schema.optional(Schema.Struct({
-  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  onDemandEnabled: Schema.optional(Schema.Boolean),
-  onDemandLocked: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked" })))
-}).pipe(Schema.encodeKeys({ id: "id", asn: "asn", asnPrependCount: "asn_prepend_count", autoAdvertiseWithdraw: "auto_advertise_withdraw", bgpSignalOpts: "bgp_signal_opts", cidr: "cidr", createdAt: "created_at", modifiedAt: "modified_at", onDemand: "on_demand" })) as unknown as Schema.Schema<CreatePrefixBgpPrefixResponse>;
+  onDemand: Schema.optional(
+    Schema.Struct({
+      advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      advertisedModifiedAt: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      onDemandEnabled: Schema.optional(Schema.Boolean),
+      onDemandLocked: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        advertised: "advertised",
+        advertisedModifiedAt: "advertised_modified_at",
+        onDemandEnabled: "on_demand_enabled",
+        onDemandLocked: "on_demand_locked",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    asn: "asn",
+    asnPrependCount: "asn_prepend_count",
+    autoAdvertiseWithdraw: "auto_advertise_withdraw",
+    bgpSignalOpts: "bgp_signal_opts",
+    cidr: "cidr",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    onDemand: "on_demand",
+  }),
+) as unknown as Schema.Schema<CreatePrefixBgpPrefixResponse>;
 
 export type CreatePrefixBgpPrefixError =
   | DefaultErrors
@@ -1641,11 +2520,22 @@ export const PatchPrefixBgpPrefixRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   asnPrependCount: Schema.optional(Schema.Number),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean),
-  onDemand: Schema.optional(Schema.Struct({
-  advertised: Schema.optional(Schema.Boolean)
-}))
-})
-  .pipe(Schema.encodeKeys({ asnPrependCount: "asn_prepend_count", autoAdvertiseWithdraw: "auto_advertise_withdraw", onDemand: "on_demand" }), T.Http({ method: "PATCH", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes/{bgpPrefixId}" })) as unknown as Schema.Schema<PatchPrefixBgpPrefixRequest>;
+  onDemand: Schema.optional(
+    Schema.Struct({
+      advertised: Schema.optional(Schema.Boolean),
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    asnPrependCount: "asn_prepend_count",
+    autoAdvertiseWithdraw: "auto_advertise_withdraw",
+    onDemand: "on_demand",
+  }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes/{bgpPrefixId}",
+  }),
+) as unknown as Schema.Schema<PatchPrefixBgpPrefixRequest>;
 
 export interface PatchPrefixBgpPrefixResponse {
   /** Identifier of BGP Prefix. */
@@ -1661,7 +2551,12 @@ export interface PatchPrefixBgpPrefixResponse {
   cidr?: string;
   createdAt?: string;
   modifiedAt?: string;
-  onDemand?: { advertised?: boolean | null; advertisedModifiedAt?: string | null; onDemandEnabled?: boolean; onDemandLocked?: boolean };
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean;
+    onDemandLocked?: boolean;
+  };
 }
 
 export const PatchPrefixBgpPrefixResponse = Schema.Struct({
@@ -1669,20 +2564,47 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
   asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   asnPrependCount: Schema.optional(Schema.Number),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean),
-  bgpSignalOpts: Schema.optional(Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }))),
+  bgpSignalOpts: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+    ),
+  ),
   cidr: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
   modifiedAt: Schema.optional(Schema.String),
-  onDemand: Schema.optional(Schema.Struct({
-  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  advertisedModifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  onDemandEnabled: Schema.optional(Schema.Boolean),
-  onDemandLocked: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ advertised: "advertised", advertisedModifiedAt: "advertised_modified_at", onDemandEnabled: "on_demand_enabled", onDemandLocked: "on_demand_locked" })))
-}).pipe(Schema.encodeKeys({ id: "id", asn: "asn", asnPrependCount: "asn_prepend_count", autoAdvertiseWithdraw: "auto_advertise_withdraw", bgpSignalOpts: "bgp_signal_opts", cidr: "cidr", createdAt: "created_at", modifiedAt: "modified_at", onDemand: "on_demand" })) as unknown as Schema.Schema<PatchPrefixBgpPrefixResponse>;
+  onDemand: Schema.optional(
+    Schema.Struct({
+      advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      advertisedModifiedAt: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      onDemandEnabled: Schema.optional(Schema.Boolean),
+      onDemandLocked: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        advertised: "advertised",
+        advertisedModifiedAt: "advertised_modified_at",
+        onDemandEnabled: "on_demand_enabled",
+        onDemandLocked: "on_demand_locked",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    asn: "asn",
+    asnPrependCount: "asn_prepend_count",
+    autoAdvertiseWithdraw: "auto_advertise_withdraw",
+    bgpSignalOpts: "bgp_signal_opts",
+    cidr: "cidr",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    onDemand: "on_demand",
+  }),
+) as unknown as Schema.Schema<PatchPrefixBgpPrefixResponse>;
 
 export type PatchPrefixBgpPrefixError =
   | DefaultErrors
@@ -1700,7 +2622,6 @@ export const patchPrefixBgpPrefix: API.OperationMethod<
   errors: [BgpPrefixNotFound, InvalidAccountId],
 }));
 
-
 // =============================================================================
 // PrefixDelegation
 // =============================================================================
@@ -1713,23 +2634,44 @@ export interface ListPrefixDelegationsRequest {
 
 export const ListPrefixDelegationsRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations" })) as unknown as Schema.Schema<ListPrefixDelegationsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations",
+  }),
+) as unknown as Schema.Schema<ListPrefixDelegationsRequest>;
 
-export type ListPrefixDelegationsResponse = { id?: string; cidr?: string; createdAt?: string; delegatedAccountId?: string; modifiedAt?: string; parentPrefixId?: string }[];
+export type ListPrefixDelegationsResponse = {
+  id?: string;
+  cidr?: string;
+  createdAt?: string;
+  delegatedAccountId?: string;
+  modifiedAt?: string;
+  parentPrefixId?: string;
+}[];
 
-export const ListPrefixDelegationsResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  cidr: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  delegatedAccountId: Schema.optional(Schema.String),
-  modifiedAt: Schema.optional(Schema.String),
-  parentPrefixId: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", cidr: "cidr", createdAt: "created_at", delegatedAccountId: "delegated_account_id", modifiedAt: "modified_at", parentPrefixId: "parent_prefix_id" }))) as unknown as Schema.Schema<ListPrefixDelegationsResponse>;
+export const ListPrefixDelegationsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    cidr: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    delegatedAccountId: Schema.optional(Schema.String),
+    modifiedAt: Schema.optional(Schema.String),
+    parentPrefixId: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      cidr: "cidr",
+      createdAt: "created_at",
+      delegatedAccountId: "delegated_account_id",
+      modifiedAt: "modified_at",
+      parentPrefixId: "parent_prefix_id",
+    }),
+  ),
+) as unknown as Schema.Schema<ListPrefixDelegationsResponse>;
 
-export type ListPrefixDelegationsError =
-  | DefaultErrors;
+export type ListPrefixDelegationsError = DefaultErrors;
 
 export const listPrefixDelegations: API.OperationMethod<
   ListPrefixDelegationsRequest,
@@ -1756,9 +2698,17 @@ export const CreatePrefixDelegationRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cidr: Schema.String,
-  delegatedAccountId: Schema.String
-})
-  .pipe(Schema.encodeKeys({ cidr: "cidr", delegatedAccountId: "delegated_account_id" }), T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations" })) as unknown as Schema.Schema<CreatePrefixDelegationRequest>;
+  delegatedAccountId: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    cidr: "cidr",
+    delegatedAccountId: "delegated_account_id",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations",
+  }),
+) as unknown as Schema.Schema<CreatePrefixDelegationRequest>;
 
 export interface CreatePrefixDelegationResponse {
   /** Identifier of a Delegation. */
@@ -1779,8 +2729,17 @@ export const CreatePrefixDelegationResponse = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   delegatedAccountId: Schema.optional(Schema.String),
   modifiedAt: Schema.optional(Schema.String),
-  parentPrefixId: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", cidr: "cidr", createdAt: "created_at", delegatedAccountId: "delegated_account_id", modifiedAt: "modified_at", parentPrefixId: "parent_prefix_id" })) as unknown as Schema.Schema<CreatePrefixDelegationResponse>;
+  parentPrefixId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    cidr: "cidr",
+    createdAt: "created_at",
+    delegatedAccountId: "delegated_account_id",
+    modifiedAt: "modified_at",
+    parentPrefixId: "parent_prefix_id",
+  }),
+) as unknown as Schema.Schema<CreatePrefixDelegationResponse>;
 
 export type CreatePrefixDelegationError =
   | DefaultErrors
@@ -1809,9 +2768,13 @@ export interface DeletePrefixDelegationRequest {
 export const DeletePrefixDelegationRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   delegationId: Schema.String.pipe(T.HttpPath("delegationId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations/{delegationId}" })) as unknown as Schema.Schema<DeletePrefixDelegationRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations/{delegationId}",
+  }),
+) as unknown as Schema.Schema<DeletePrefixDelegationRequest>;
 
 export interface DeletePrefixDelegationResponse {
   /** Identifier of a Delegation. */
@@ -1819,7 +2782,7 @@ export interface DeletePrefixDelegationResponse {
 }
 
 export const DeletePrefixDelegationResponse = Schema.Struct({
-  id: Schema.optional(Schema.String)
+  id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeletePrefixDelegationResponse>;
 
 export type DeletePrefixDelegationError =
@@ -1838,7 +2801,6 @@ export const deletePrefixDelegation: API.OperationMethod<
   errors: [DelegationNotFound, InvalidAccountId],
 }));
 
-
 // =============================================================================
 // PrefixServiceBinding
 // =============================================================================
@@ -1853,9 +2815,13 @@ export interface GetPrefixServiceBindingRequest {
 export const GetPrefixServiceBindingRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   bindingId: Schema.String.pipe(T.HttpPath("bindingId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings/{bindingId}" })) as unknown as Schema.Schema<GetPrefixServiceBindingRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings/{bindingId}",
+  }),
+) as unknown as Schema.Schema<GetPrefixServiceBindingRequest>;
 
 export interface GetPrefixServiceBindingResponse {
   /** Identifier of a Service Binding. */
@@ -1873,12 +2839,22 @@ export interface GetPrefixServiceBindingResponse {
 export const GetPrefixServiceBindingResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   cidr: Schema.optional(Schema.String),
-  provisioning: Schema.optional(Schema.Struct({
-  state: Schema.optional(Schema.Literals(["provisioning", "active"]))
-})),
+  provisioning: Schema.optional(
+    Schema.Struct({
+      state: Schema.optional(Schema.Literals(["provisioning", "active"])),
+    }),
+  ),
   serviceId: Schema.optional(Schema.String),
-  serviceName: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", cidr: "cidr", provisioning: "provisioning", serviceId: "service_id", serviceName: "service_name" })) as unknown as Schema.Schema<GetPrefixServiceBindingResponse>;
+  serviceName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    cidr: "cidr",
+    provisioning: "provisioning",
+    serviceId: "service_id",
+    serviceName: "service_name",
+  }),
+) as unknown as Schema.Schema<GetPrefixServiceBindingResponse>;
 
 export type GetPrefixServiceBindingError =
   | DefaultErrors
@@ -1905,24 +2881,45 @@ export interface ListPrefixServiceBindingsRequest {
 
 export const ListPrefixServiceBindingsRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings" })) as unknown as Schema.Schema<ListPrefixServiceBindingsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings",
+  }),
+) as unknown as Schema.Schema<ListPrefixServiceBindingsRequest>;
 
-export type ListPrefixServiceBindingsResponse = ({ id?: string; cidr?: string; provisioning?: { state?: "provisioning" | "active" }; serviceId?: string; serviceName?: string })[];
+export type ListPrefixServiceBindingsResponse = {
+  id?: string;
+  cidr?: string;
+  provisioning?: { state?: "provisioning" | "active" };
+  serviceId?: string;
+  serviceName?: string;
+}[];
 
-export const ListPrefixServiceBindingsResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  cidr: Schema.optional(Schema.String),
-  provisioning: Schema.optional(Schema.Struct({
-    state: Schema.optional(Schema.Literals(["provisioning", "active"]))
-  })),
-  serviceId: Schema.optional(Schema.String),
-  serviceName: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", cidr: "cidr", provisioning: "provisioning", serviceId: "service_id", serviceName: "service_name" }))) as unknown as Schema.Schema<ListPrefixServiceBindingsResponse>;
+export const ListPrefixServiceBindingsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    cidr: Schema.optional(Schema.String),
+    provisioning: Schema.optional(
+      Schema.Struct({
+        state: Schema.optional(Schema.Literals(["provisioning", "active"])),
+      }),
+    ),
+    serviceId: Schema.optional(Schema.String),
+    serviceName: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      cidr: "cidr",
+      provisioning: "provisioning",
+      serviceId: "service_id",
+      serviceName: "service_name",
+    }),
+  ),
+) as unknown as Schema.Schema<ListPrefixServiceBindingsResponse>;
 
-export type ListPrefixServiceBindingsError =
-  | DefaultErrors;
+export type ListPrefixServiceBindingsError = DefaultErrors;
 
 export const listPrefixServiceBindings: API.OperationMethod<
   ListPrefixServiceBindingsRequest,
@@ -1949,9 +2946,14 @@ export const CreatePrefixServiceBindingRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cidr: Schema.String,
-  serviceId: Schema.String
-})
-  .pipe(Schema.encodeKeys({ cidr: "cidr", serviceId: "service_id" }), T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings" })) as unknown as Schema.Schema<CreatePrefixServiceBindingRequest>;
+  serviceId: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ cidr: "cidr", serviceId: "service_id" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings",
+  }),
+) as unknown as Schema.Schema<CreatePrefixServiceBindingRequest>;
 
 export interface CreatePrefixServiceBindingResponse {
   /** Identifier of a Service Binding. */
@@ -1969,12 +2971,22 @@ export interface CreatePrefixServiceBindingResponse {
 export const CreatePrefixServiceBindingResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   cidr: Schema.optional(Schema.String),
-  provisioning: Schema.optional(Schema.Struct({
-  state: Schema.optional(Schema.Literals(["provisioning", "active"]))
-})),
+  provisioning: Schema.optional(
+    Schema.Struct({
+      state: Schema.optional(Schema.Literals(["provisioning", "active"])),
+    }),
+  ),
   serviceId: Schema.optional(Schema.String),
-  serviceName: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", cidr: "cidr", provisioning: "provisioning", serviceId: "service_id", serviceName: "service_name" })) as unknown as Schema.Schema<CreatePrefixServiceBindingResponse>;
+  serviceName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    cidr: "cidr",
+    provisioning: "provisioning",
+    serviceId: "service_id",
+    serviceName: "service_name",
+  }),
+) as unknown as Schema.Schema<CreatePrefixServiceBindingResponse>;
 
 export type CreatePrefixServiceBindingError =
   | DefaultErrors
@@ -2002,35 +3014,71 @@ export interface DeletePrefixServiceBindingRequest {
 export const DeletePrefixServiceBindingRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   bindingId: Schema.String.pipe(T.HttpPath("bindingId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings/{bindingId}" })) as unknown as Schema.Schema<DeletePrefixServiceBindingRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings/{bindingId}",
+  }),
+) as unknown as Schema.Schema<DeletePrefixServiceBindingRequest>;
 
 export interface DeletePrefixServiceBindingResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeletePrefixServiceBindingResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeletePrefixServiceBindingResponse>;
 
 export type DeletePrefixServiceBindingError =
@@ -2050,7 +3098,6 @@ export const deletePrefixServiceBinding: API.OperationMethod<
   errors: [BindingNotFound, InvalidAccountId, PrefixNotFound],
 }));
 
-
 // =============================================================================
 // RegionalHostname
 // =============================================================================
@@ -2063,9 +3110,13 @@ export interface GetRegionalHostnameRequest {
 
 export const GetRegionalHostnameRequest = Schema.Struct({
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}" })) as unknown as Schema.Schema<GetRegionalHostnameRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+  }),
+) as unknown as Schema.Schema<GetRegionalHostnameRequest>;
 
 export interface GetRegionalHostnameResponse {
   /** When the regional hostname was created */
@@ -2082,8 +3133,15 @@ export const GetRegionalHostnameResponse = Schema.Struct({
   createdOn: Schema.String,
   hostname: Schema.String,
   regionKey: Schema.String,
-  routing: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ createdOn: "created_on", hostname: "hostname", regionKey: "region_key", routing: "routing" })) as unknown as Schema.Schema<GetRegionalHostnameResponse>;
+  routing: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
+) as unknown as Schema.Schema<GetRegionalHostnameResponse>;
 
 export type GetRegionalHostnameError =
   | DefaultErrors
@@ -2108,21 +3166,38 @@ export interface ListRegionalHostnamesRequest {
 }
 
 export const ListRegionalHostnamesRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/addressing/regional_hostnames" })) as unknown as Schema.Schema<ListRegionalHostnamesRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/addressing/regional_hostnames",
+  }),
+) as unknown as Schema.Schema<ListRegionalHostnamesRequest>;
 
-export type ListRegionalHostnamesResponse = { createdOn: string; hostname: string; regionKey: string; routing?: string }[];
+export type ListRegionalHostnamesResponse = {
+  createdOn: string;
+  hostname: string;
+  regionKey: string;
+  routing?: string;
+}[];
 
-export const ListRegionalHostnamesResponse = Schema.Array(Schema.Struct({
-  createdOn: Schema.String,
-  hostname: Schema.String,
-  regionKey: Schema.String,
-  routing: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ createdOn: "created_on", hostname: "hostname", regionKey: "region_key", routing: "routing" }))) as unknown as Schema.Schema<ListRegionalHostnamesResponse>;
+export const ListRegionalHostnamesResponse = Schema.Array(
+  Schema.Struct({
+    createdOn: Schema.String,
+    hostname: Schema.String,
+    regionKey: Schema.String,
+    routing: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      hostname: "hostname",
+      regionKey: "region_key",
+      routing: "routing",
+    }),
+  ),
+) as unknown as Schema.Schema<ListRegionalHostnamesResponse>;
 
-export type ListRegionalHostnamesError =
-  | DefaultErrors;
+export type ListRegionalHostnamesError = DefaultErrors;
 
 export const listRegionalHostnames: API.OperationMethod<
   ListRegionalHostnamesRequest,
@@ -2150,9 +3225,18 @@ export const CreateRegionalHostnameRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   hostname: Schema.String,
   regionKey: Schema.String,
-  routing: Schema.optional(Schema.String)
-})
-  .pipe(Schema.encodeKeys({ hostname: "hostname", regionKey: "region_key", routing: "routing" }), T.Http({ method: "POST", path: "/zones/{zone_id}/addressing/regional_hostnames" })) as unknown as Schema.Schema<CreateRegionalHostnameRequest>;
+  routing: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/addressing/regional_hostnames",
+  }),
+) as unknown as Schema.Schema<CreateRegionalHostnameRequest>;
 
 export interface CreateRegionalHostnameResponse {
   /** When the regional hostname was created */
@@ -2169,8 +3253,15 @@ export const CreateRegionalHostnameResponse = Schema.Struct({
   createdOn: Schema.String,
   hostname: Schema.String,
   regionKey: Schema.String,
-  routing: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ createdOn: "created_on", hostname: "hostname", regionKey: "region_key", routing: "routing" })) as unknown as Schema.Schema<CreateRegionalHostnameResponse>;
+  routing: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
+) as unknown as Schema.Schema<CreateRegionalHostnameResponse>;
 
 export type CreateRegionalHostnameError =
   | DefaultErrors
@@ -2200,9 +3291,14 @@ export interface PatchRegionalHostnameRequest {
 export const PatchRegionalHostnameRequest = Schema.Struct({
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  regionKey: Schema.String
-})
-  .pipe(Schema.encodeKeys({ regionKey: "region_key" }), T.Http({ method: "PATCH", path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}" })) as unknown as Schema.Schema<PatchRegionalHostnameRequest>;
+  regionKey: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ regionKey: "region_key" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+  }),
+) as unknown as Schema.Schema<PatchRegionalHostnameRequest>;
 
 export interface PatchRegionalHostnameResponse {
   /** When the regional hostname was created */
@@ -2219,8 +3315,15 @@ export const PatchRegionalHostnameResponse = Schema.Struct({
   createdOn: Schema.String,
   hostname: Schema.String,
   regionKey: Schema.String,
-  routing: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ createdOn: "created_on", hostname: "hostname", regionKey: "region_key", routing: "routing" })) as unknown as Schema.Schema<PatchRegionalHostnameResponse>;
+  routing: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
+) as unknown as Schema.Schema<PatchRegionalHostnameResponse>;
 
 export type PatchRegionalHostnameError =
   | DefaultErrors
@@ -2247,35 +3350,71 @@ export interface DeleteRegionalHostnameRequest {
 
 export const DeleteRegionalHostnameRequest = Schema.Struct({
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}" })) as unknown as Schema.Schema<DeleteRegionalHostnameRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+  }),
+) as unknown as Schema.Schema<DeleteRegionalHostnameRequest>;
 
 export interface DeleteRegionalHostnameResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeleteRegionalHostnameResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRegionalHostnameResponse>;
 
 export type DeleteRegionalHostnameError =
@@ -2293,9 +3432,13 @@ export const deleteRegionalHostname: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteRegionalHostnameRequest,
   output: DeleteRegionalHostnameResponse,
-  errors: [MethodNotAllowed, InvalidZoneId, RegionalHostnameNotFound, RegionalHostnameEmpty],
+  errors: [
+    MethodNotAllowed,
+    InvalidZoneId,
+    RegionalHostnameNotFound,
+    RegionalHostnameEmpty,
+  ],
 }));
-
 
 // =============================================================================
 // RegionalHostnameRegion
@@ -2307,19 +3450,27 @@ export interface ListRegionalHostnameRegionsRequest {
 }
 
 export const ListRegionalHostnameRegionsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/regional_hostnames/regions" })) as unknown as Schema.Schema<ListRegionalHostnameRegionsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/regional_hostnames/regions",
+  }),
+) as unknown as Schema.Schema<ListRegionalHostnameRegionsRequest>;
 
-export type ListRegionalHostnameRegionsResponse = { key?: string; label?: string }[];
+export type ListRegionalHostnameRegionsResponse = {
+  key?: string;
+  label?: string;
+}[];
 
-export const ListRegionalHostnameRegionsResponse = Schema.Array(Schema.Struct({
-  key: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListRegionalHostnameRegionsResponse>;
+export const ListRegionalHostnameRegionsResponse = Schema.Array(
+  Schema.Struct({
+    key: Schema.optional(Schema.String),
+    label: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListRegionalHostnameRegionsResponse>;
 
-export type ListRegionalHostnameRegionsError =
-  | DefaultErrors;
+export type ListRegionalHostnameRegionsError = DefaultErrors;
 
 export const listRegionalHostnameRegions: API.OperationMethod<
   ListRegionalHostnameRegionsRequest,
@@ -2332,7 +3483,6 @@ export const listRegionalHostnameRegions: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Service
 // =============================================================================
@@ -2343,19 +3493,21 @@ export interface ListServicesRequest {
 }
 
 export const ListServicesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/services" })) as unknown as Schema.Schema<ListServicesRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/services" }),
+) as unknown as Schema.Schema<ListServicesRequest>;
 
 export type ListServicesResponse = { id?: string; name?: string }[];
 
-export const ListServicesResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListServicesResponse>;
+export const ListServicesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListServicesResponse>;
 
-export type ListServicesError =
-  | DefaultErrors;
+export type ListServicesError = DefaultErrors;
 
 export const listServices: API.OperationMethod<
   ListServicesRequest,

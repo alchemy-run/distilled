@@ -34,12 +34,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -50,11 +52,13 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -65,47 +69,66 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface Topic {
   /** The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name?: string;
 }
 
-export const Topic: Schema.Schema<Topic> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
+export const Topic: Schema.Schema<Topic> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
 
 export interface PubsubMessage {
   /** The message payload. For JSON requests, the value of this field must be [base64-encoded](https://tools.ietf.org/html/rfc4648). */
@@ -118,30 +141,44 @@ export interface PubsubMessage {
   publishTime?: string;
 }
 
-export const PubsubMessage: Schema.Schema<PubsubMessage> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  messageId: Schema.optional(Schema.String),
-  publishTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "PubsubMessage" }) as any as Schema.Schema<PubsubMessage>;
+export const PubsubMessage: Schema.Schema<PubsubMessage> = Schema.suspend(() =>
+  Schema.Struct({
+    data: Schema.optional(Schema.String),
+    attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    messageId: Schema.optional(Schema.String),
+    publishTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PubsubMessage",
+}) as any as Schema.Schema<PubsubMessage>;
 
 export interface PublishRequest {
   /** The messages to publish. */
   messages?: Array<PubsubMessage>;
 }
 
-export const PublishRequest: Schema.Schema<PublishRequest> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(PubsubMessage)),
-})).annotate({ identifier: "PublishRequest" }) as any as Schema.Schema<PublishRequest>;
+export const PublishRequest: Schema.Schema<PublishRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(PubsubMessage)),
+    }),
+).annotate({
+  identifier: "PublishRequest",
+}) as any as Schema.Schema<PublishRequest>;
 
 export interface PublishResponse {
   /** The server-assigned ID of each published message, in the same order as the messages in the request. IDs are guaranteed to be unique within the topic. */
   messageIds?: Array<string>;
 }
 
-export const PublishResponse: Schema.Schema<PublishResponse> = Schema.suspend(() => Schema.Struct({
-  messageIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PublishResponse" }) as any as Schema.Schema<PublishResponse>;
+export const PublishResponse: Schema.Schema<PublishResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      messageIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "PublishResponse",
+}) as any as Schema.Schema<PublishResponse>;
 
 export interface ListTopicsResponse {
   /** The resulting topics. */
@@ -150,10 +187,15 @@ export interface ListTopicsResponse {
   nextPageToken?: string;
 }
 
-export const ListTopicsResponse: Schema.Schema<ListTopicsResponse> = Schema.suspend(() => Schema.Struct({
-  topics: Schema.optional(Schema.Array(Topic)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTopicsResponse" }) as any as Schema.Schema<ListTopicsResponse>;
+export const ListTopicsResponse: Schema.Schema<ListTopicsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      topics: Schema.optional(Schema.Array(Topic)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTopicsResponse",
+  }) as any as Schema.Schema<ListTopicsResponse>;
 
 export interface ListTopicSubscriptionsResponse {
   /** The names of the subscriptions that match the request. */
@@ -162,16 +204,21 @@ export interface ListTopicSubscriptionsResponse {
   nextPageToken?: string;
 }
 
-export const ListTopicSubscriptionsResponse: Schema.Schema<ListTopicSubscriptionsResponse> = Schema.suspend(() => Schema.Struct({
-  subscriptions: Schema.optional(Schema.Array(Schema.String)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTopicSubscriptionsResponse" }) as any as Schema.Schema<ListTopicSubscriptionsResponse>;
+export const ListTopicSubscriptionsResponse: Schema.Schema<ListTopicSubscriptionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscriptions: Schema.optional(Schema.Array(Schema.String)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTopicSubscriptionsResponse",
+  }) as any as Schema.Schema<ListTopicSubscriptionsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface OidcToken {
   /** [Service account email](https://cloud.google.com/iam/docs/service-accounts) to be used for generating the OIDC token. The caller (for CreateSubscription, UpdateSubscription, and ModifyPushConfig RPCs) must have the iam.serviceAccounts.actAs permission for the service account. */
@@ -180,10 +227,12 @@ export interface OidcToken {
   audience?: string;
 }
 
-export const OidcToken: Schema.Schema<OidcToken> = Schema.suspend(() => Schema.Struct({
-  serviceAccountEmail: Schema.optional(Schema.String),
-  audience: Schema.optional(Schema.String),
-})).annotate({ identifier: "OidcToken" }) as any as Schema.Schema<OidcToken>;
+export const OidcToken: Schema.Schema<OidcToken> = Schema.suspend(() =>
+  Schema.Struct({
+    serviceAccountEmail: Schema.optional(Schema.String),
+    audience: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OidcToken" }) as any as Schema.Schema<OidcToken>;
 
 export interface PushConfig {
   /** A URL locating the endpoint to which messages should be pushed. For example, a Webhook endpoint might use "https://example.com/push". */
@@ -194,11 +243,13 @@ export interface PushConfig {
   oidcToken?: OidcToken;
 }
 
-export const PushConfig: Schema.Schema<PushConfig> = Schema.suspend(() => Schema.Struct({
-  pushEndpoint: Schema.optional(Schema.String),
-  attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  oidcToken: Schema.optional(OidcToken),
-})).annotate({ identifier: "PushConfig" }) as any as Schema.Schema<PushConfig>;
+export const PushConfig: Schema.Schema<PushConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    pushEndpoint: Schema.optional(Schema.String),
+    attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    oidcToken: Schema.optional(OidcToken),
+  }),
+).annotate({ identifier: "PushConfig" }) as any as Schema.Schema<PushConfig>;
 
 export interface Subscription {
   /** The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
@@ -211,12 +262,16 @@ export interface Subscription {
   ackDeadlineSeconds?: number;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  topic: Schema.optional(Schema.String),
-  pushConfig: Schema.optional(PushConfig),
-  ackDeadlineSeconds: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Subscription" }) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    topic: Schema.optional(Schema.String),
+    pushConfig: Schema.optional(PushConfig),
+    ackDeadlineSeconds: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "Subscription",
+}) as any as Schema.Schema<Subscription>;
 
 export interface ListSubscriptionsResponse {
   /** The subscriptions that match the request. */
@@ -225,10 +280,15 @@ export interface ListSubscriptionsResponse {
   nextPageToken?: string;
 }
 
-export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> = Schema.suspend(() => Schema.Struct({
-  subscriptions: Schema.optional(Schema.Array(Subscription)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSubscriptionsResponse" }) as any as Schema.Schema<ListSubscriptionsResponse>;
+export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscriptions: Schema.optional(Schema.Array(Subscription)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSubscriptionsResponse",
+  }) as any as Schema.Schema<ListSubscriptionsResponse>;
 
 export interface ModifyAckDeadlineRequest {
   /** The acknowledgment ID. Either this or ack_ids must be populated, but not both. */
@@ -239,20 +299,30 @@ export interface ModifyAckDeadlineRequest {
   ackDeadlineSeconds?: number;
 }
 
-export const ModifyAckDeadlineRequest: Schema.Schema<ModifyAckDeadlineRequest> = Schema.suspend(() => Schema.Struct({
-  ackId: Schema.optional(Schema.String),
-  ackIds: Schema.optional(Schema.Array(Schema.String)),
-  ackDeadlineSeconds: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ModifyAckDeadlineRequest" }) as any as Schema.Schema<ModifyAckDeadlineRequest>;
+export const ModifyAckDeadlineRequest: Schema.Schema<ModifyAckDeadlineRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ackId: Schema.optional(Schema.String),
+      ackIds: Schema.optional(Schema.Array(Schema.String)),
+      ackDeadlineSeconds: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ModifyAckDeadlineRequest",
+  }) as any as Schema.Schema<ModifyAckDeadlineRequest>;
 
 export interface AcknowledgeRequest {
   /** The acknowledgment ID for the messages being acknowledged that was returned by the Pub/Sub system in the `Pull` response. Must not be empty. */
   ackIds?: Array<string>;
 }
 
-export const AcknowledgeRequest: Schema.Schema<AcknowledgeRequest> = Schema.suspend(() => Schema.Struct({
-  ackIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AcknowledgeRequest" }) as any as Schema.Schema<AcknowledgeRequest>;
+export const AcknowledgeRequest: Schema.Schema<AcknowledgeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ackIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AcknowledgeRequest",
+  }) as any as Schema.Schema<AcknowledgeRequest>;
 
 export interface PullRequest {
   /** Optional. If this is specified as true the system will respond immediately even if it is not able to return a message in the `Pull` response. Otherwise the system is allowed to wait until at least one message is available rather than returning no messages. The client may cancel the request if it does not wish to wait any longer for the response. Warning: setting this field to `true` is discouraged because it adversely impacts the performance of `Pull` operations. We recommend that users do not set this field. */
@@ -261,10 +331,12 @@ export interface PullRequest {
   maxMessages?: number;
 }
 
-export const PullRequest: Schema.Schema<PullRequest> = Schema.suspend(() => Schema.Struct({
-  returnImmediately: Schema.optional(Schema.Boolean),
-  maxMessages: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PullRequest" }) as any as Schema.Schema<PullRequest>;
+export const PullRequest: Schema.Schema<PullRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    returnImmediately: Schema.optional(Schema.Boolean),
+    maxMessages: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "PullRequest" }) as any as Schema.Schema<PullRequest>;
 
 export interface ReceivedMessage {
   /** This ID can be used to acknowledge the received message. */
@@ -273,28 +345,42 @@ export interface ReceivedMessage {
   message?: PubsubMessage;
 }
 
-export const ReceivedMessage: Schema.Schema<ReceivedMessage> = Schema.suspend(() => Schema.Struct({
-  ackId: Schema.optional(Schema.String),
-  message: Schema.optional(PubsubMessage),
-})).annotate({ identifier: "ReceivedMessage" }) as any as Schema.Schema<ReceivedMessage>;
+export const ReceivedMessage: Schema.Schema<ReceivedMessage> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      ackId: Schema.optional(Schema.String),
+      message: Schema.optional(PubsubMessage),
+    }),
+).annotate({
+  identifier: "ReceivedMessage",
+}) as any as Schema.Schema<ReceivedMessage>;
 
 export interface PullResponse {
   /** Received Pub/Sub messages. The Pub/Sub system will return zero messages if there are no more available in the backlog. The Pub/Sub system may return fewer than the `maxMessages` requested even if there are more messages available in the backlog. */
   receivedMessages?: Array<ReceivedMessage>;
 }
 
-export const PullResponse: Schema.Schema<PullResponse> = Schema.suspend(() => Schema.Struct({
-  receivedMessages: Schema.optional(Schema.Array(ReceivedMessage)),
-})).annotate({ identifier: "PullResponse" }) as any as Schema.Schema<PullResponse>;
+export const PullResponse: Schema.Schema<PullResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    receivedMessages: Schema.optional(Schema.Array(ReceivedMessage)),
+  }),
+).annotate({
+  identifier: "PullResponse",
+}) as any as Schema.Schema<PullResponse>;
 
 export interface ModifyPushConfigRequest {
   /** The push configuration for future deliveries. An empty `pushConfig` indicates that the Pub/Sub system should stop pushing messages from the given subscription and allow messages to be pulled and acknowledged - effectively pausing the subscription if `Pull` is not called. */
   pushConfig?: PushConfig;
 }
 
-export const ModifyPushConfigRequest: Schema.Schema<ModifyPushConfigRequest> = Schema.suspend(() => Schema.Struct({
-  pushConfig: Schema.optional(PushConfig),
-})).annotate({ identifier: "ModifyPushConfigRequest" }) as any as Schema.Schema<ModifyPushConfigRequest>;
+export const ModifyPushConfigRequest: Schema.Schema<ModifyPushConfigRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pushConfig: Schema.optional(PushConfig),
+    }),
+  ).annotate({
+    identifier: "ModifyPushConfigRequest",
+  }) as any as Schema.Schema<ModifyPushConfigRequest>;
 
 // ==========================================================================
 // Operations
@@ -311,7 +397,11 @@ export const SetIamPolicyProjectsSubscriptionsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsSubscriptionsRequest>;
 
@@ -321,7 +411,12 @@ export const SetIamPolicyProjectsSubscriptionsResponse = Policy;
 export type SetIamPolicyProjectsSubscriptionsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsSubscriptions: API.OperationMethod<SetIamPolicyProjectsSubscriptionsRequest, SetIamPolicyProjectsSubscriptionsResponse, SetIamPolicyProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsSubscriptions: API.OperationMethod<
+  SetIamPolicyProjectsSubscriptionsRequest,
+  SetIamPolicyProjectsSubscriptionsResponse,
+  SetIamPolicyProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsSubscriptionsRequest,
   output: SetIamPolicyProjectsSubscriptionsResponse,
   errors: [],
@@ -336,9 +431,14 @@ export interface GetIamPolicyProjectsSubscriptionsRequest {
 
 export const GetIamPolicyProjectsSubscriptionsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsSubscriptionsRequest>;
 
@@ -348,7 +448,12 @@ export const GetIamPolicyProjectsSubscriptionsResponse = Policy;
 export type GetIamPolicyProjectsSubscriptionsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsSubscriptions: API.OperationMethod<GetIamPolicyProjectsSubscriptionsRequest, GetIamPolicyProjectsSubscriptionsResponse, GetIamPolicyProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsSubscriptions: API.OperationMethod<
+  GetIamPolicyProjectsSubscriptionsRequest,
+  GetIamPolicyProjectsSubscriptionsResponse,
+  GetIamPolicyProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsSubscriptionsRequest,
   output: GetIamPolicyProjectsSubscriptionsResponse,
   errors: [],
@@ -365,17 +470,28 @@ export const TestIamPermissionsProjectsSubscriptionsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsSubscriptionsRequest>;
 
-export type TestIamPermissionsProjectsSubscriptionsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsSubscriptionsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsSubscriptionsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsSubscriptionsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsSubscriptionsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsSubscriptions: API.OperationMethod<TestIamPermissionsProjectsSubscriptionsRequest, TestIamPermissionsProjectsSubscriptionsResponse, TestIamPermissionsProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsSubscriptions: API.OperationMethod<
+  TestIamPermissionsProjectsSubscriptionsRequest,
+  TestIamPermissionsProjectsSubscriptionsResponse,
+  TestIamPermissionsProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsSubscriptionsRequest,
   output: TestIamPermissionsProjectsSubscriptionsResponse,
   errors: [],
@@ -392,7 +508,11 @@ export const CreateProjectsSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Subscription).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSubscriptionsRequest>;
 
@@ -402,7 +522,12 @@ export const CreateProjectsSubscriptionsResponse = Subscription;
 export type CreateProjectsSubscriptionsError = DefaultErrors;
 
 /** Creates a subscription to a given topic. If the subscription already exists, returns `ALREADY_EXISTS`. If the corresponding topic doesn't exist, returns `NOT_FOUND`. If the name is not provided in the request, the server will assign a random name for this subscription on the same project as the topic. Note that for REST API requests, you must specify a name. */
-export const createProjectsSubscriptions: API.OperationMethod<CreateProjectsSubscriptionsRequest, CreateProjectsSubscriptionsResponse, CreateProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSubscriptions: API.OperationMethod<
+  CreateProjectsSubscriptionsRequest,
+  CreateProjectsSubscriptionsResponse,
+  CreateProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSubscriptionsRequest,
   output: CreateProjectsSubscriptionsResponse,
   errors: [],
@@ -416,7 +541,10 @@ export interface GetProjectsSubscriptionsRequest {
 export const GetProjectsSubscriptionsRequest = Schema.Struct({
   subscription: Schema.String.pipe(T.HttpPath("subscription")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSubscriptionsRequest>;
 
@@ -426,7 +554,12 @@ export const GetProjectsSubscriptionsResponse = Subscription;
 export type GetProjectsSubscriptionsError = DefaultErrors;
 
 /** Gets the configuration details of a subscription. */
-export const getProjectsSubscriptions: API.OperationMethod<GetProjectsSubscriptionsRequest, GetProjectsSubscriptionsResponse, GetProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSubscriptions: API.OperationMethod<
+  GetProjectsSubscriptionsRequest,
+  GetProjectsSubscriptionsResponse,
+  GetProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSubscriptionsRequest,
   output: GetProjectsSubscriptionsResponse,
   errors: [],
@@ -446,7 +579,10 @@ export const ListProjectsSubscriptionsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/subscriptions" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/subscriptions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSubscriptionsRequest>;
 
@@ -456,7 +592,12 @@ export const ListProjectsSubscriptionsResponse = ListSubscriptionsResponse;
 export type ListProjectsSubscriptionsError = DefaultErrors;
 
 /** Lists matching subscriptions. */
-export const listProjectsSubscriptions: API.PaginatedOperationMethod<ListProjectsSubscriptionsRequest, ListProjectsSubscriptionsResponse, ListProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSubscriptions: API.PaginatedOperationMethod<
+  ListProjectsSubscriptionsRequest,
+  ListProjectsSubscriptionsResponse,
+  ListProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSubscriptionsRequest,
   output: ListProjectsSubscriptionsResponse,
   errors: [],
@@ -474,7 +615,10 @@ export interface DeleteProjectsSubscriptionsRequest {
 export const DeleteProjectsSubscriptionsRequest = Schema.Struct({
   subscription: Schema.String.pipe(T.HttpPath("subscription")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsSubscriptionsRequest>;
 
@@ -484,7 +628,12 @@ export const DeleteProjectsSubscriptionsResponse = Empty;
 export type DeleteProjectsSubscriptionsError = DefaultErrors;
 
 /** Deletes an existing subscription. All pending messages in the subscription are immediately dropped. Calls to `Pull` after deletion will return `NOT_FOUND`. After a subscription is deleted, a new one may be created with the same name, but the new one has no association with the old subscription, or its topic unless the same topic is specified. */
-export const deleteProjectsSubscriptions: API.OperationMethod<DeleteProjectsSubscriptionsRequest, DeleteProjectsSubscriptionsResponse, DeleteProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsSubscriptions: API.OperationMethod<
+  DeleteProjectsSubscriptionsRequest,
+  DeleteProjectsSubscriptionsResponse,
+  DeleteProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsSubscriptionsRequest,
   output: DeleteProjectsSubscriptionsResponse,
   errors: [],
@@ -501,7 +650,11 @@ export const ModifyAckDeadlineProjectsSubscriptionsRequest = Schema.Struct({
   subscription: Schema.String.pipe(T.HttpPath("subscription")),
   body: Schema.optional(ModifyAckDeadlineRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:modifyAckDeadline", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:modifyAckDeadline",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifyAckDeadlineProjectsSubscriptionsRequest>;
 
@@ -511,7 +664,12 @@ export const ModifyAckDeadlineProjectsSubscriptionsResponse = Empty;
 export type ModifyAckDeadlineProjectsSubscriptionsError = DefaultErrors;
 
 /** Modifies the ack deadline for a specific message. This method is useful to indicate that more time is needed to process a message by the subscriber, or to make the message available for redelivery if the processing was interrupted. Note that this does not modify the subscription-level `ackDeadlineSeconds` used for subsequent messages. */
-export const modifyAckDeadlineProjectsSubscriptions: API.OperationMethod<ModifyAckDeadlineProjectsSubscriptionsRequest, ModifyAckDeadlineProjectsSubscriptionsResponse, ModifyAckDeadlineProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifyAckDeadlineProjectsSubscriptions: API.OperationMethod<
+  ModifyAckDeadlineProjectsSubscriptionsRequest,
+  ModifyAckDeadlineProjectsSubscriptionsResponse,
+  ModifyAckDeadlineProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifyAckDeadlineProjectsSubscriptionsRequest,
   output: ModifyAckDeadlineProjectsSubscriptionsResponse,
   errors: [],
@@ -528,7 +686,11 @@ export const AcknowledgeProjectsSubscriptionsRequest = Schema.Struct({
   subscription: Schema.String.pipe(T.HttpPath("subscription")),
   body: Schema.optional(AcknowledgeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:acknowledge", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:acknowledge",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AcknowledgeProjectsSubscriptionsRequest>;
 
@@ -538,7 +700,12 @@ export const AcknowledgeProjectsSubscriptionsResponse = Empty;
 export type AcknowledgeProjectsSubscriptionsError = DefaultErrors;
 
 /** Acknowledges the messages associated with the `ack_ids` in the `AcknowledgeRequest`. The Pub/Sub system can remove the relevant messages from the subscription. Acknowledging a message whose ack deadline has expired may succeed, but such a message may be redelivered later. Acknowledging a message more than once will not result in an error. */
-export const acknowledgeProjectsSubscriptions: API.OperationMethod<AcknowledgeProjectsSubscriptionsRequest, AcknowledgeProjectsSubscriptionsResponse, AcknowledgeProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const acknowledgeProjectsSubscriptions: API.OperationMethod<
+  AcknowledgeProjectsSubscriptionsRequest,
+  AcknowledgeProjectsSubscriptionsResponse,
+  AcknowledgeProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AcknowledgeProjectsSubscriptionsRequest,
   output: AcknowledgeProjectsSubscriptionsResponse,
   errors: [],
@@ -555,7 +722,11 @@ export const PullProjectsSubscriptionsRequest = Schema.Struct({
   subscription: Schema.String.pipe(T.HttpPath("subscription")),
   body: Schema.optional(PullRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:pull", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:pull",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PullProjectsSubscriptionsRequest>;
 
@@ -565,7 +736,12 @@ export const PullProjectsSubscriptionsResponse = PullResponse;
 export type PullProjectsSubscriptionsError = DefaultErrors;
 
 /** Pulls messages from the server. Returns an empty list if there are no messages available in the backlog. The server may return `UNAVAILABLE` if there are too many concurrent pull requests pending for the given subscription. */
-export const pullProjectsSubscriptions: API.OperationMethod<PullProjectsSubscriptionsRequest, PullProjectsSubscriptionsResponse, PullProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pullProjectsSubscriptions: API.OperationMethod<
+  PullProjectsSubscriptionsRequest,
+  PullProjectsSubscriptionsResponse,
+  PullProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PullProjectsSubscriptionsRequest,
   output: PullProjectsSubscriptionsResponse,
   errors: [],
@@ -582,7 +758,11 @@ export const ModifyPushConfigProjectsSubscriptionsRequest = Schema.Struct({
   subscription: Schema.String.pipe(T.HttpPath("subscription")),
   body: Schema.optional(ModifyPushConfigRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:modifyPushConfig", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/subscriptions/{subscriptionsId}:modifyPushConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifyPushConfigProjectsSubscriptionsRequest>;
 
@@ -592,7 +772,12 @@ export const ModifyPushConfigProjectsSubscriptionsResponse = Empty;
 export type ModifyPushConfigProjectsSubscriptionsError = DefaultErrors;
 
 /** Modifies the `PushConfig` for a specified subscription. This may be used to change a push subscription to a pull one (signified by an empty `PushConfig`) or vice versa, or change the endpoint URL and other attributes of a push subscription. Messages will accumulate for delivery continuously through the call regardless of changes to the `PushConfig`. */
-export const modifyPushConfigProjectsSubscriptions: API.OperationMethod<ModifyPushConfigProjectsSubscriptionsRequest, ModifyPushConfigProjectsSubscriptionsResponse, ModifyPushConfigProjectsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifyPushConfigProjectsSubscriptions: API.OperationMethod<
+  ModifyPushConfigProjectsSubscriptionsRequest,
+  ModifyPushConfigProjectsSubscriptionsResponse,
+  ModifyPushConfigProjectsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifyPushConfigProjectsSubscriptionsRequest,
   output: ModifyPushConfigProjectsSubscriptionsResponse,
   errors: [],
@@ -609,7 +794,11 @@ export const SetIamPolicyProjectsTopicsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/topics/{topicsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsTopicsRequest>;
 
@@ -619,7 +808,12 @@ export const SetIamPolicyProjectsTopicsResponse = Policy;
 export type SetIamPolicyProjectsTopicsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsTopics: API.OperationMethod<SetIamPolicyProjectsTopicsRequest, SetIamPolicyProjectsTopicsResponse, SetIamPolicyProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsTopics: API.OperationMethod<
+  SetIamPolicyProjectsTopicsRequest,
+  SetIamPolicyProjectsTopicsResponse,
+  SetIamPolicyProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsTopicsRequest,
   output: SetIamPolicyProjectsTopicsResponse,
   errors: [],
@@ -634,9 +828,14 @@ export interface GetIamPolicyProjectsTopicsRequest {
 
 export const GetIamPolicyProjectsTopicsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/topics/{topicsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsTopicsRequest>;
 
@@ -646,7 +845,12 @@ export const GetIamPolicyProjectsTopicsResponse = Policy;
 export type GetIamPolicyProjectsTopicsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsTopics: API.OperationMethod<GetIamPolicyProjectsTopicsRequest, GetIamPolicyProjectsTopicsResponse, GetIamPolicyProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsTopics: API.OperationMethod<
+  GetIamPolicyProjectsTopicsRequest,
+  GetIamPolicyProjectsTopicsResponse,
+  GetIamPolicyProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsTopicsRequest,
   output: GetIamPolicyProjectsTopicsResponse,
   errors: [],
@@ -663,17 +867,28 @@ export const TestIamPermissionsProjectsTopicsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/topics/{topicsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsTopicsRequest>;
 
-export type TestIamPermissionsProjectsTopicsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsTopicsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsTopicsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsTopicsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsTopicsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsTopics: API.OperationMethod<TestIamPermissionsProjectsTopicsRequest, TestIamPermissionsProjectsTopicsResponse, TestIamPermissionsProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsTopics: API.OperationMethod<
+  TestIamPermissionsProjectsTopicsRequest,
+  TestIamPermissionsProjectsTopicsResponse,
+  TestIamPermissionsProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsTopicsRequest,
   output: TestIamPermissionsProjectsTopicsResponse,
   errors: [],
@@ -690,7 +905,11 @@ export const CreateProjectsTopicsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Topic).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1beta2/projects/{projectsId}/topics/{topicsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsTopicsRequest>;
 
@@ -700,7 +919,12 @@ export const CreateProjectsTopicsResponse = Topic;
 export type CreateProjectsTopicsError = DefaultErrors;
 
 /** Creates the given topic with the given name. */
-export const createProjectsTopics: API.OperationMethod<CreateProjectsTopicsRequest, CreateProjectsTopicsResponse, CreateProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsTopics: API.OperationMethod<
+  CreateProjectsTopicsRequest,
+  CreateProjectsTopicsResponse,
+  CreateProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsTopicsRequest,
   output: CreateProjectsTopicsResponse,
   errors: [],
@@ -717,7 +941,11 @@ export const PublishProjectsTopicsRequest = Schema.Struct({
   topic: Schema.String.pipe(T.HttpPath("topic")),
   body: Schema.optional(PublishRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta2/projects/{projectsId}/topics/{topicsId}:publish", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}:publish",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PublishProjectsTopicsRequest>;
 
@@ -727,7 +955,12 @@ export const PublishProjectsTopicsResponse = PublishResponse;
 export type PublishProjectsTopicsError = DefaultErrors;
 
 /** Adds one or more messages to the topic. Returns `NOT_FOUND` if the topic does not exist. The message payload must not be empty; it must contain either a non-empty data field, or at least one attribute. */
-export const publishProjectsTopics: API.OperationMethod<PublishProjectsTopicsRequest, PublishProjectsTopicsResponse, PublishProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const publishProjectsTopics: API.OperationMethod<
+  PublishProjectsTopicsRequest,
+  PublishProjectsTopicsResponse,
+  PublishProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PublishProjectsTopicsRequest,
   output: PublishProjectsTopicsResponse,
   errors: [],
@@ -741,7 +974,10 @@ export interface GetProjectsTopicsRequest {
 export const GetProjectsTopicsRequest = Schema.Struct({
   topic: Schema.String.pipe(T.HttpPath("topic")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/topics/{topicsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsTopicsRequest>;
 
@@ -751,7 +987,12 @@ export const GetProjectsTopicsResponse = Topic;
 export type GetProjectsTopicsError = DefaultErrors;
 
 /** Gets the configuration of a topic. */
-export const getProjectsTopics: API.OperationMethod<GetProjectsTopicsRequest, GetProjectsTopicsResponse, GetProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsTopics: API.OperationMethod<
+  GetProjectsTopicsRequest,
+  GetProjectsTopicsResponse,
+  GetProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsTopicsRequest,
   output: GetProjectsTopicsResponse,
   errors: [],
@@ -781,7 +1022,12 @@ export const ListProjectsTopicsResponse = ListTopicsResponse;
 export type ListProjectsTopicsError = DefaultErrors;
 
 /** Lists matching topics. */
-export const listProjectsTopics: API.PaginatedOperationMethod<ListProjectsTopicsRequest, ListProjectsTopicsResponse, ListProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsTopics: API.PaginatedOperationMethod<
+  ListProjectsTopicsRequest,
+  ListProjectsTopicsResponse,
+  ListProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsTopicsRequest,
   output: ListProjectsTopicsResponse,
   errors: [],
@@ -799,7 +1045,10 @@ export interface DeleteProjectsTopicsRequest {
 export const DeleteProjectsTopicsRequest = Schema.Struct({
   topic: Schema.String.pipe(T.HttpPath("topic")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta2/projects/{projectsId}/topics/{topicsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsTopicsRequest>;
 
@@ -809,7 +1058,12 @@ export const DeleteProjectsTopicsResponse = Empty;
 export type DeleteProjectsTopicsError = DefaultErrors;
 
 /** Deletes the topic with the given name. Returns `NOT_FOUND` if the topic does not exist. After a topic is deleted, a new topic may be created with the same name; this is an entirely new topic with none of the old configuration or subscriptions. Existing subscriptions to this topic are not deleted, but their `topic` field is set to `_deleted-topic_`. */
-export const deleteProjectsTopics: API.OperationMethod<DeleteProjectsTopicsRequest, DeleteProjectsTopicsResponse, DeleteProjectsTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsTopics: API.OperationMethod<
+  DeleteProjectsTopicsRequest,
+  DeleteProjectsTopicsResponse,
+  DeleteProjectsTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsTopicsRequest,
   output: DeleteProjectsTopicsResponse,
   errors: [],
@@ -829,17 +1083,27 @@ export const ListProjectsTopicsSubscriptionsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta2/projects/{projectsId}/topics/{topicsId}/subscriptions" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta2/projects/{projectsId}/topics/{topicsId}/subscriptions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsTopicsSubscriptionsRequest>;
 
-export type ListProjectsTopicsSubscriptionsResponse = ListTopicSubscriptionsResponse;
-export const ListProjectsTopicsSubscriptionsResponse = ListTopicSubscriptionsResponse;
+export type ListProjectsTopicsSubscriptionsResponse =
+  ListTopicSubscriptionsResponse;
+export const ListProjectsTopicsSubscriptionsResponse =
+  ListTopicSubscriptionsResponse;
 
 export type ListProjectsTopicsSubscriptionsError = DefaultErrors;
 
 /** Lists the name of the subscriptions for this topic. */
-export const listProjectsTopicsSubscriptions: API.PaginatedOperationMethod<ListProjectsTopicsSubscriptionsRequest, ListProjectsTopicsSubscriptionsResponse, ListProjectsTopicsSubscriptionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsTopicsSubscriptions: API.PaginatedOperationMethod<
+  ListProjectsTopicsSubscriptionsRequest,
+  ListProjectsTopicsSubscriptionsResponse,
+  ListProjectsTopicsSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsTopicsSubscriptionsRequest,
   output: ListProjectsTopicsSubscriptionsResponse,
   errors: [],
@@ -848,4 +1112,3 @@ export const listProjectsTopicsSubscriptions: API.PaginatedOperationMethod<ListP
     outputToken: "nextPageToken",
   },
 }));
-

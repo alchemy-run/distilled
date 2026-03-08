@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // SecretWidget
@@ -30,9 +28,14 @@ export interface RotateSecretWidgetRequest {
 export const RotateSecretWidgetRequest = Schema.Struct({
   sitekey: Schema.String.pipe(T.HttpPath("sitekey")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  invalidateImmediately: Schema.optional(Schema.Boolean)
-})
-  .pipe(Schema.encodeKeys({ invalidateImmediately: "invalidate_immediately" }), T.Http({ method: "POST", path: "/accounts/{account_id}/challenges/widgets/{sitekey}/rotate_secret" })) as unknown as Schema.Schema<RotateSecretWidgetRequest>;
+  invalidateImmediately: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({ invalidateImmediately: "invalidate_immediately" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/challenges/widgets/{sitekey}/rotate_secret",
+  }),
+) as unknown as Schema.Schema<RotateSecretWidgetRequest>;
 
 export interface RotateSecretWidgetResponse {
   /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
@@ -62,7 +65,12 @@ export interface RotateSecretWidgetResponse {
 
 export const RotateSecretWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean,
-  clearanceLevel: Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
+  clearanceLevel: Schema.Literals([
+    "no_clearance",
+    "jschallenge",
+    "managed",
+    "interactive",
+  ]),
   createdOn: Schema.String,
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean,
@@ -72,11 +80,25 @@ export const RotateSecretWidgetResponse = Schema.Struct({
   offlabel: Schema.Boolean,
   region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
-  sitekey: Schema.String
-}).pipe(Schema.encodeKeys({ botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", createdOn: "created_on", domains: "domains", ephemeralId: "ephemeral_id", mode: "mode", modifiedOn: "modified_on", name: "name", offlabel: "offlabel", region: "region", secret: "secret", sitekey: "sitekey" })) as unknown as Schema.Schema<RotateSecretWidgetResponse>;
+  sitekey: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    botFightMode: "bot_fight_mode",
+    clearanceLevel: "clearance_level",
+    createdOn: "created_on",
+    domains: "domains",
+    ephemeralId: "ephemeral_id",
+    mode: "mode",
+    modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
+  }),
+) as unknown as Schema.Schema<RotateSecretWidgetResponse>;
 
-export type RotateSecretWidgetError =
-  | DefaultErrors;
+export type RotateSecretWidgetError = DefaultErrors;
 
 export const rotateSecretWidget: API.OperationMethod<
   RotateSecretWidgetRequest,
@@ -88,7 +110,6 @@ export const rotateSecretWidget: API.OperationMethod<
   output: RotateSecretWidgetResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Widget
@@ -102,9 +123,13 @@ export interface GetWidgetRequest {
 
 export const GetWidgetRequest = Schema.Struct({
   sitekey: Schema.String.pipe(T.HttpPath("sitekey")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/challenges/widgets/{sitekey}" })) as unknown as Schema.Schema<GetWidgetRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/challenges/widgets/{sitekey}",
+  }),
+) as unknown as Schema.Schema<GetWidgetRequest>;
 
 export interface GetWidgetResponse {
   /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
@@ -134,7 +159,12 @@ export interface GetWidgetResponse {
 
 export const GetWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean,
-  clearanceLevel: Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
+  clearanceLevel: Schema.Literals([
+    "no_clearance",
+    "jschallenge",
+    "managed",
+    "interactive",
+  ]),
   createdOn: Schema.String,
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean,
@@ -144,11 +174,25 @@ export const GetWidgetResponse = Schema.Struct({
   offlabel: Schema.Boolean,
   region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
-  sitekey: Schema.String
-}).pipe(Schema.encodeKeys({ botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", createdOn: "created_on", domains: "domains", ephemeralId: "ephemeral_id", mode: "mode", modifiedOn: "modified_on", name: "name", offlabel: "offlabel", region: "region", secret: "secret", sitekey: "sitekey" })) as unknown as Schema.Schema<GetWidgetResponse>;
+  sitekey: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    botFightMode: "bot_fight_mode",
+    clearanceLevel: "clearance_level",
+    createdOn: "created_on",
+    domains: "domains",
+    ephemeralId: "ephemeral_id",
+    mode: "mode",
+    modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
+  }),
+) as unknown as Schema.Schema<GetWidgetResponse>;
 
-export type GetWidgetError =
-  | DefaultErrors;
+export type GetWidgetError = DefaultErrors;
 
 export const getWidget: API.OperationMethod<
   GetWidgetRequest,
@@ -172,29 +216,66 @@ export interface ListWidgetsRequest {
 
 export const ListWidgetsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("direction")),
-  order: Schema.optional(Schema.Literals(["id", "sitekey", "name", "created_on", "modified_on"])).pipe(T.HttpQuery("order"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/challenges/widgets" })) as unknown as Schema.Schema<ListWidgetsRequest>;
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  order: Schema.optional(
+    Schema.Literals(["id", "sitekey", "name", "created_on", "modified_on"]),
+  ).pipe(T.HttpQuery("order")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/challenges/widgets" }),
+) as unknown as Schema.Schema<ListWidgetsRequest>;
 
-export type ListWidgetsResponse = ({ botFightMode: boolean; clearanceLevel: "no_clearance" | "jschallenge" | "managed" | "interactive"; createdOn: string; domains: string[]; ephemeralId: boolean; mode: "non-interactive" | "invisible" | "managed"; modifiedOn: string; name: string; offlabel: boolean; region: "world" | "china"; sitekey: string })[];
+export type ListWidgetsResponse = {
+  botFightMode: boolean;
+  clearanceLevel: "no_clearance" | "jschallenge" | "managed" | "interactive";
+  createdOn: string;
+  domains: string[];
+  ephemeralId: boolean;
+  mode: "non-interactive" | "invisible" | "managed";
+  modifiedOn: string;
+  name: string;
+  offlabel: boolean;
+  region: "world" | "china";
+  sitekey: string;
+}[];
 
-export const ListWidgetsResponse = Schema.Array(Schema.Struct({
-  botFightMode: Schema.Boolean,
-  clearanceLevel: Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
-  createdOn: Schema.String,
-  domains: Schema.Array(Schema.String),
-  ephemeralId: Schema.Boolean,
-  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
-  modifiedOn: Schema.String,
-  name: Schema.String,
-  offlabel: Schema.Boolean,
-  region: Schema.Literals(["world", "china"]),
-  sitekey: Schema.String
-}).pipe(Schema.encodeKeys({ botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", createdOn: "created_on", domains: "domains", ephemeralId: "ephemeral_id", mode: "mode", modifiedOn: "modified_on", name: "name", offlabel: "offlabel", region: "region", sitekey: "sitekey" }))) as unknown as Schema.Schema<ListWidgetsResponse>;
+export const ListWidgetsResponse = Schema.Array(
+  Schema.Struct({
+    botFightMode: Schema.Boolean,
+    clearanceLevel: Schema.Literals([
+      "no_clearance",
+      "jschallenge",
+      "managed",
+      "interactive",
+    ]),
+    createdOn: Schema.String,
+    domains: Schema.Array(Schema.String),
+    ephemeralId: Schema.Boolean,
+    mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
+    modifiedOn: Schema.String,
+    name: Schema.String,
+    offlabel: Schema.Boolean,
+    region: Schema.Literals(["world", "china"]),
+    sitekey: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      botFightMode: "bot_fight_mode",
+      clearanceLevel: "clearance_level",
+      createdOn: "created_on",
+      domains: "domains",
+      ephemeralId: "ephemeral_id",
+      mode: "mode",
+      modifiedOn: "modified_on",
+      name: "name",
+      offlabel: "offlabel",
+      region: "region",
+      sitekey: "sitekey",
+    }),
+  ),
+) as unknown as Schema.Schema<ListWidgetsResponse>;
 
-export type ListWidgetsError =
-  | DefaultErrors;
+export type ListWidgetsError = DefaultErrors;
 
 export const listWidgets: API.OperationMethod<
   ListWidgetsRequest,
@@ -238,20 +319,37 @@ export interface CreateWidgetRequest {
 
 export const CreateWidgetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("direction")),
-  order: Schema.optional(Schema.Literals(["id", "sitekey", "name", "created_on", "modified_on"])).pipe(T.HttpQuery("order")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  order: Schema.optional(
+    Schema.Literals(["id", "sitekey", "name", "created_on", "modified_on"]),
+  ).pipe(T.HttpQuery("order")),
   page: Schema.optional(Schema.Number).pipe(T.HttpQuery("page")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
   domains: Schema.Array(Schema.String),
   mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   name: Schema.String,
   botFightMode: Schema.optional(Schema.Boolean),
-  clearanceLevel: Schema.optional(Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"])),
+  clearanceLevel: Schema.optional(
+    Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
+  ),
   ephemeralId: Schema.optional(Schema.Boolean),
   offlabel: Schema.optional(Schema.Boolean),
-  region: Schema.optional(Schema.Literals(["world", "china"]))
-})
-  .pipe(Schema.encodeKeys({ domains: "domains", mode: "mode", name: "name", botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", ephemeralId: "ephemeral_id", offlabel: "offlabel", region: "region" }), T.Http({ method: "POST", path: "/accounts/{account_id}/challenges/widgets" })) as unknown as Schema.Schema<CreateWidgetRequest>;
+  region: Schema.optional(Schema.Literals(["world", "china"])),
+}).pipe(
+  Schema.encodeKeys({
+    domains: "domains",
+    mode: "mode",
+    name: "name",
+    botFightMode: "bot_fight_mode",
+    clearanceLevel: "clearance_level",
+    ephemeralId: "ephemeral_id",
+    offlabel: "offlabel",
+    region: "region",
+  }),
+  T.Http({ method: "POST", path: "/accounts/{account_id}/challenges/widgets" }),
+) as unknown as Schema.Schema<CreateWidgetRequest>;
 
 export interface CreateWidgetResponse {
   /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
@@ -281,7 +379,12 @@ export interface CreateWidgetResponse {
 
 export const CreateWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean,
-  clearanceLevel: Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
+  clearanceLevel: Schema.Literals([
+    "no_clearance",
+    "jschallenge",
+    "managed",
+    "interactive",
+  ]),
   createdOn: Schema.String,
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean,
@@ -291,11 +394,25 @@ export const CreateWidgetResponse = Schema.Struct({
   offlabel: Schema.Boolean,
   region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
-  sitekey: Schema.String
-}).pipe(Schema.encodeKeys({ botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", createdOn: "created_on", domains: "domains", ephemeralId: "ephemeral_id", mode: "mode", modifiedOn: "modified_on", name: "name", offlabel: "offlabel", region: "region", secret: "secret", sitekey: "sitekey" })) as unknown as Schema.Schema<CreateWidgetResponse>;
+  sitekey: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    botFightMode: "bot_fight_mode",
+    clearanceLevel: "clearance_level",
+    createdOn: "created_on",
+    domains: "domains",
+    ephemeralId: "ephemeral_id",
+    mode: "mode",
+    modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
+  }),
+) as unknown as Schema.Schema<CreateWidgetResponse>;
 
-export type CreateWidgetError =
-  | DefaultErrors;
+export type CreateWidgetError = DefaultErrors;
 
 export const createWidget: API.OperationMethod<
   CreateWidgetRequest,
@@ -337,12 +454,28 @@ export const UpdateWidgetRequest = Schema.Struct({
   mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   name: Schema.String,
   botFightMode: Schema.optional(Schema.Boolean),
-  clearanceLevel: Schema.optional(Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"])),
+  clearanceLevel: Schema.optional(
+    Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
+  ),
   ephemeralId: Schema.optional(Schema.Boolean),
   offlabel: Schema.optional(Schema.Boolean),
-  region: Schema.optional(Schema.Literals(["world", "china"]))
-})
-  .pipe(Schema.encodeKeys({ domains: "domains", mode: "mode", name: "name", botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", ephemeralId: "ephemeral_id", offlabel: "offlabel", region: "region" }), T.Http({ method: "PUT", path: "/accounts/{account_id}/challenges/widgets/{sitekey}" })) as unknown as Schema.Schema<UpdateWidgetRequest>;
+  region: Schema.optional(Schema.Literals(["world", "china"])),
+}).pipe(
+  Schema.encodeKeys({
+    domains: "domains",
+    mode: "mode",
+    name: "name",
+    botFightMode: "bot_fight_mode",
+    clearanceLevel: "clearance_level",
+    ephemeralId: "ephemeral_id",
+    offlabel: "offlabel",
+    region: "region",
+  }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/challenges/widgets/{sitekey}",
+  }),
+) as unknown as Schema.Schema<UpdateWidgetRequest>;
 
 export interface UpdateWidgetResponse {
   /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
@@ -372,7 +505,12 @@ export interface UpdateWidgetResponse {
 
 export const UpdateWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean,
-  clearanceLevel: Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
+  clearanceLevel: Schema.Literals([
+    "no_clearance",
+    "jschallenge",
+    "managed",
+    "interactive",
+  ]),
   createdOn: Schema.String,
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean,
@@ -382,11 +520,25 @@ export const UpdateWidgetResponse = Schema.Struct({
   offlabel: Schema.Boolean,
   region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
-  sitekey: Schema.String
-}).pipe(Schema.encodeKeys({ botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", createdOn: "created_on", domains: "domains", ephemeralId: "ephemeral_id", mode: "mode", modifiedOn: "modified_on", name: "name", offlabel: "offlabel", region: "region", secret: "secret", sitekey: "sitekey" })) as unknown as Schema.Schema<UpdateWidgetResponse>;
+  sitekey: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    botFightMode: "bot_fight_mode",
+    clearanceLevel: "clearance_level",
+    createdOn: "created_on",
+    domains: "domains",
+    ephemeralId: "ephemeral_id",
+    mode: "mode",
+    modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
+  }),
+) as unknown as Schema.Schema<UpdateWidgetResponse>;
 
-export type UpdateWidgetError =
-  | DefaultErrors;
+export type UpdateWidgetError = DefaultErrors;
 
 export const updateWidget: API.OperationMethod<
   UpdateWidgetRequest,
@@ -407,9 +559,13 @@ export interface DeleteWidgetRequest {
 
 export const DeleteWidgetRequest = Schema.Struct({
   sitekey: Schema.String.pipe(T.HttpPath("sitekey")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/challenges/widgets/{sitekey}" })) as unknown as Schema.Schema<DeleteWidgetRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/challenges/widgets/{sitekey}",
+  }),
+) as unknown as Schema.Schema<DeleteWidgetRequest>;
 
 export interface DeleteWidgetResponse {
   /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
@@ -439,7 +595,12 @@ export interface DeleteWidgetResponse {
 
 export const DeleteWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean,
-  clearanceLevel: Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
+  clearanceLevel: Schema.Literals([
+    "no_clearance",
+    "jschallenge",
+    "managed",
+    "interactive",
+  ]),
   createdOn: Schema.String,
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean,
@@ -449,11 +610,25 @@ export const DeleteWidgetResponse = Schema.Struct({
   offlabel: Schema.Boolean,
   region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
-  sitekey: Schema.String
-}).pipe(Schema.encodeKeys({ botFightMode: "bot_fight_mode", clearanceLevel: "clearance_level", createdOn: "created_on", domains: "domains", ephemeralId: "ephemeral_id", mode: "mode", modifiedOn: "modified_on", name: "name", offlabel: "offlabel", region: "region", secret: "secret", sitekey: "sitekey" })) as unknown as Schema.Schema<DeleteWidgetResponse>;
+  sitekey: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    botFightMode: "bot_fight_mode",
+    clearanceLevel: "clearance_level",
+    createdOn: "created_on",
+    domains: "domains",
+    ephemeralId: "ephemeral_id",
+    mode: "mode",
+    modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
+  }),
+) as unknown as Schema.Schema<DeleteWidgetResponse>;
 
-export type DeleteWidgetError =
-  | DefaultErrors;
+export type DeleteWidgetError = DefaultErrors;
 
 export const deleteWidget: API.OperationMethod<
   DeleteWidgetRequest,

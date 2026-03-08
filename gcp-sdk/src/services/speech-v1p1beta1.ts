@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,11 +74,16 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
 export interface Phrase {
   /** The phrase itself. */
@@ -81,10 +92,12 @@ export interface Phrase {
   boost?: number;
 }
 
-export const Phrase: Schema.Schema<Phrase> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  boost: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Phrase" }) as any as Schema.Schema<Phrase>;
+export const Phrase: Schema.Schema<Phrase> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+    boost: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Phrase" }) as any as Schema.Schema<Phrase>;
 
 export interface PhraseSet {
   /** The resource name of the phrase set. */
@@ -115,21 +128,23 @@ export interface PhraseSet {
   reconciling?: boolean;
 }
 
-export const PhraseSet: Schema.Schema<PhraseSet> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  phrases: Schema.optional(Schema.Array(Phrase)),
-  boost: Schema.optional(Schema.Number),
-  kmsKeyName: Schema.optional(Schema.String),
-  kmsKeyVersionName: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  etag: Schema.optional(Schema.String),
-  reconciling: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PhraseSet" }) as any as Schema.Schema<PhraseSet>;
+export const PhraseSet: Schema.Schema<PhraseSet> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    phrases: Schema.optional(Schema.Array(Phrase)),
+    boost: Schema.optional(Schema.Number),
+    kmsKeyName: Schema.optional(Schema.String),
+    kmsKeyVersionName: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    etag: Schema.optional(Schema.String),
+    reconciling: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "PhraseSet" }) as any as Schema.Schema<PhraseSet>;
 
 export interface CreatePhraseSetRequest {
   /** Required. The ID to use for the phrase set, which will become the final component of the phrase set's resource name. This value should restrict to letters, numbers, and hyphens, with the first character a letter, the last a letter or a number, and be 4-63 characters. */
@@ -138,10 +153,15 @@ export interface CreatePhraseSetRequest {
   phraseSet?: PhraseSet;
 }
 
-export const CreatePhraseSetRequest: Schema.Schema<CreatePhraseSetRequest> = Schema.suspend(() => Schema.Struct({
-  phraseSetId: Schema.optional(Schema.String),
-  phraseSet: Schema.optional(PhraseSet),
-})).annotate({ identifier: "CreatePhraseSetRequest" }) as any as Schema.Schema<CreatePhraseSetRequest>;
+export const CreatePhraseSetRequest: Schema.Schema<CreatePhraseSetRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      phraseSetId: Schema.optional(Schema.String),
+      phraseSet: Schema.optional(PhraseSet),
+    }),
+  ).annotate({
+    identifier: "CreatePhraseSetRequest",
+  }) as any as Schema.Schema<CreatePhraseSetRequest>;
 
 export interface ListPhraseSetResponse {
   /** The phrase set. */
@@ -150,25 +170,32 @@ export interface ListPhraseSetResponse {
   nextPageToken?: string;
 }
 
-export const ListPhraseSetResponse: Schema.Schema<ListPhraseSetResponse> = Schema.suspend(() => Schema.Struct({
-  phraseSets: Schema.optional(Schema.Array(PhraseSet)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPhraseSetResponse" }) as any as Schema.Schema<ListPhraseSetResponse>;
+export const ListPhraseSetResponse: Schema.Schema<ListPhraseSetResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      phraseSets: Schema.optional(Schema.Array(PhraseSet)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPhraseSetResponse",
+  }) as any as Schema.Schema<ListPhraseSetResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ClassItem {
   /** The class item's value. */
   value?: string;
 }
 
-export const ClassItem: Schema.Schema<ClassItem> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "ClassItem" }) as any as Schema.Schema<ClassItem>;
+export const ClassItem: Schema.Schema<ClassItem> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ClassItem" }) as any as Schema.Schema<ClassItem>;
 
 export interface CustomClass {
   /** The resource name of the custom class. */
@@ -199,21 +226,23 @@ export interface CustomClass {
   reconciling?: boolean;
 }
 
-export const CustomClass: Schema.Schema<CustomClass> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  customClassId: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(ClassItem)),
-  kmsKeyName: Schema.optional(Schema.String),
-  kmsKeyVersionName: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  etag: Schema.optional(Schema.String),
-  reconciling: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CustomClass" }) as any as Schema.Schema<CustomClass>;
+export const CustomClass: Schema.Schema<CustomClass> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    customClassId: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(ClassItem)),
+    kmsKeyName: Schema.optional(Schema.String),
+    kmsKeyVersionName: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    etag: Schema.optional(Schema.String),
+    reconciling: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "CustomClass" }) as any as Schema.Schema<CustomClass>;
 
 export interface CreateCustomClassRequest {
   /** Required. The ID to use for the custom class, which will become the final component of the custom class' resource name. This value should restrict to letters, numbers, and hyphens, with the first character a letter, the last a letter or a number, and be 4-63 characters. */
@@ -222,10 +251,15 @@ export interface CreateCustomClassRequest {
   customClass?: CustomClass;
 }
 
-export const CreateCustomClassRequest: Schema.Schema<CreateCustomClassRequest> = Schema.suspend(() => Schema.Struct({
-  customClassId: Schema.optional(Schema.String),
-  customClass: Schema.optional(CustomClass),
-})).annotate({ identifier: "CreateCustomClassRequest" }) as any as Schema.Schema<CreateCustomClassRequest>;
+export const CreateCustomClassRequest: Schema.Schema<CreateCustomClassRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customClassId: Schema.optional(Schema.String),
+      customClass: Schema.optional(CustomClass),
+    }),
+  ).annotate({
+    identifier: "CreateCustomClassRequest",
+  }) as any as Schema.Schema<CreateCustomClassRequest>;
 
 export interface ListCustomClassesResponse {
   /** The custom classes. */
@@ -234,19 +268,26 @@ export interface ListCustomClassesResponse {
   nextPageToken?: string;
 }
 
-export const ListCustomClassesResponse: Schema.Schema<ListCustomClassesResponse> = Schema.suspend(() => Schema.Struct({
-  customClasses: Schema.optional(Schema.Array(CustomClass)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCustomClassesResponse" }) as any as Schema.Schema<ListCustomClassesResponse>;
+export const ListCustomClassesResponse: Schema.Schema<ListCustomClassesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customClasses: Schema.optional(Schema.Array(CustomClass)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomClassesResponse",
+  }) as any as Schema.Schema<ListCustomClassesResponse>;
 
 export interface ABNFGrammar {
   /** All declarations and rules of an ABNF grammar broken up into multiple strings that will end up concatenated. */
   abnfStrings?: Array<string>;
 }
 
-export const ABNFGrammar: Schema.Schema<ABNFGrammar> = Schema.suspend(() => Schema.Struct({
-  abnfStrings: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ABNFGrammar" }) as any as Schema.Schema<ABNFGrammar>;
+export const ABNFGrammar: Schema.Schema<ABNFGrammar> = Schema.suspend(() =>
+  Schema.Struct({
+    abnfStrings: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "ABNFGrammar" }) as any as Schema.Schema<ABNFGrammar>;
 
 export interface SpeechAdaptation {
   /** A collection of phrase sets. To specify the hints inline, leave the phrase set's `name` blank and fill in the rest of its fields. Any phrase set can use any custom class. */
@@ -259,12 +300,17 @@ export interface SpeechAdaptation {
   abnfGrammar?: ABNFGrammar;
 }
 
-export const SpeechAdaptation: Schema.Schema<SpeechAdaptation> = Schema.suspend(() => Schema.Struct({
-  phraseSets: Schema.optional(Schema.Array(PhraseSet)),
-  phraseSetReferences: Schema.optional(Schema.Array(Schema.String)),
-  customClasses: Schema.optional(Schema.Array(CustomClass)),
-  abnfGrammar: Schema.optional(ABNFGrammar),
-})).annotate({ identifier: "SpeechAdaptation" }) as any as Schema.Schema<SpeechAdaptation>;
+export const SpeechAdaptation: Schema.Schema<SpeechAdaptation> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      phraseSets: Schema.optional(Schema.Array(PhraseSet)),
+      phraseSetReferences: Schema.optional(Schema.Array(Schema.String)),
+      customClasses: Schema.optional(Schema.Array(CustomClass)),
+      abnfGrammar: Schema.optional(ABNFGrammar),
+    }),
+).annotate({
+  identifier: "SpeechAdaptation",
+}) as any as Schema.Schema<SpeechAdaptation>;
 
 export interface Entry {
   /** What to replace. Max length is 100 characters. */
@@ -275,20 +321,27 @@ export interface Entry {
   caseSensitive?: boolean;
 }
 
-export const Entry: Schema.Schema<Entry> = Schema.suspend(() => Schema.Struct({
-  search: Schema.optional(Schema.String),
-  replace: Schema.optional(Schema.String),
-  caseSensitive: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Entry" }) as any as Schema.Schema<Entry>;
+export const Entry: Schema.Schema<Entry> = Schema.suspend(() =>
+  Schema.Struct({
+    search: Schema.optional(Schema.String),
+    replace: Schema.optional(Schema.String),
+    caseSensitive: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Entry" }) as any as Schema.Schema<Entry>;
 
 export interface TranscriptNormalization {
   /** A list of replacement entries. We will perform replacement with one entry at a time. For example, the second entry in ["cat" => "dog", "mountain cat" => "mountain dog"] will never be applied because we will always process the first entry before it. At most 100 entries. */
   entries?: Array<Entry>;
 }
 
-export const TranscriptNormalization: Schema.Schema<TranscriptNormalization> = Schema.suspend(() => Schema.Struct({
-  entries: Schema.optional(Schema.Array(Entry)),
-})).annotate({ identifier: "TranscriptNormalization" }) as any as Schema.Schema<TranscriptNormalization>;
+export const TranscriptNormalization: Schema.Schema<TranscriptNormalization> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entries: Schema.optional(Schema.Array(Entry)),
+    }),
+  ).annotate({
+    identifier: "TranscriptNormalization",
+  }) as any as Schema.Schema<TranscriptNormalization>;
 
 export interface SpeechContext {
   /** A list of strings containing words and phrases "hints" so that the speech recognition is more likely to recognize them. This can be used to improve the accuracy for specific words and phrases, for example, if specific commands are typically spoken by the user. This can also be used to add additional words to the vocabulary of the recognizer. See [usage limits](https://cloud.google.com/speech-to-text/quotas#content). List items can also be set to classes for groups of words that represent common concepts that occur in natural language. For example, rather than providing phrase hints for every month of the year, using the $MONTH class improves the likelihood of correctly transcribing audio that includes months. */
@@ -297,10 +350,14 @@ export interface SpeechContext {
   boost?: number;
 }
 
-export const SpeechContext: Schema.Schema<SpeechContext> = Schema.suspend(() => Schema.Struct({
-  phrases: Schema.optional(Schema.Array(Schema.String)),
-  boost: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SpeechContext" }) as any as Schema.Schema<SpeechContext>;
+export const SpeechContext: Schema.Schema<SpeechContext> = Schema.suspend(() =>
+  Schema.Struct({
+    phrases: Schema.optional(Schema.Array(Schema.String)),
+    boost: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "SpeechContext",
+}) as any as Schema.Schema<SpeechContext>;
 
 export interface SpeakerDiarizationConfig {
   /** If 'true', enables speaker detection for each recognized word in the top alternative of the recognition result using a speaker_label provided in the WordInfo. */
@@ -313,24 +370,56 @@ export interface SpeakerDiarizationConfig {
   speakerTag?: number;
 }
 
-export const SpeakerDiarizationConfig: Schema.Schema<SpeakerDiarizationConfig> = Schema.suspend(() => Schema.Struct({
-  enableSpeakerDiarization: Schema.optional(Schema.Boolean),
-  minSpeakerCount: Schema.optional(Schema.Number),
-  maxSpeakerCount: Schema.optional(Schema.Number),
-  speakerTag: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SpeakerDiarizationConfig" }) as any as Schema.Schema<SpeakerDiarizationConfig>;
+export const SpeakerDiarizationConfig: Schema.Schema<SpeakerDiarizationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableSpeakerDiarization: Schema.optional(Schema.Boolean),
+      minSpeakerCount: Schema.optional(Schema.Number),
+      maxSpeakerCount: Schema.optional(Schema.Number),
+      speakerTag: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SpeakerDiarizationConfig",
+  }) as any as Schema.Schema<SpeakerDiarizationConfig>;
 
 export interface RecognitionMetadata {
   /** The use case most closely describing the audio content to be recognized. */
-  interactionType?: "INTERACTION_TYPE_UNSPECIFIED" | "DISCUSSION" | "PRESENTATION" | "PHONE_CALL" | "VOICEMAIL" | "PROFESSIONALLY_PRODUCED" | "VOICE_SEARCH" | "VOICE_COMMAND" | "DICTATION" | (string & {});
+  interactionType?:
+    | "INTERACTION_TYPE_UNSPECIFIED"
+    | "DISCUSSION"
+    | "PRESENTATION"
+    | "PHONE_CALL"
+    | "VOICEMAIL"
+    | "PROFESSIONALLY_PRODUCED"
+    | "VOICE_SEARCH"
+    | "VOICE_COMMAND"
+    | "DICTATION"
+    | (string & {});
   /** The industry vertical to which this speech recognition request most closely applies. This is most indicative of the topics contained in the audio. Use the 6-digit NAICS code to identify the industry vertical - see https://www.naics.com/search/. */
   industryNaicsCodeOfAudio?: number;
   /** The audio type that most closely describes the audio being recognized. */
-  microphoneDistance?: "MICROPHONE_DISTANCE_UNSPECIFIED" | "NEARFIELD" | "MIDFIELD" | "FARFIELD" | (string & {});
+  microphoneDistance?:
+    | "MICROPHONE_DISTANCE_UNSPECIFIED"
+    | "NEARFIELD"
+    | "MIDFIELD"
+    | "FARFIELD"
+    | (string & {});
   /** The original media the speech was recorded on. */
-  originalMediaType?: "ORIGINAL_MEDIA_TYPE_UNSPECIFIED" | "AUDIO" | "VIDEO" | (string & {});
+  originalMediaType?:
+    | "ORIGINAL_MEDIA_TYPE_UNSPECIFIED"
+    | "AUDIO"
+    | "VIDEO"
+    | (string & {});
   /** The type of device the speech was recorded with. */
-  recordingDeviceType?: "RECORDING_DEVICE_TYPE_UNSPECIFIED" | "SMARTPHONE" | "PC" | "PHONE_LINE" | "VEHICLE" | "OTHER_OUTDOOR_DEVICE" | "OTHER_INDOOR_DEVICE" | (string & {});
+  recordingDeviceType?:
+    | "RECORDING_DEVICE_TYPE_UNSPECIFIED"
+    | "SMARTPHONE"
+    | "PC"
+    | "PHONE_LINE"
+    | "VEHICLE"
+    | "OTHER_OUTDOOR_DEVICE"
+    | "OTHER_INDOOR_DEVICE"
+    | (string & {});
   /** The device used to make the recording. Examples 'Nexus 5X' or 'Polycom SoundStation IP 6000' or 'POTS' or 'VoIP' or 'Cardioid Microphone'. */
   recordingDeviceName?: string;
   /** Mime type of the original audio file. For example `audio/m4a`, `audio/x-alaw-basic`, `audio/mp3`, `audio/3gpp`. A list of possible audio mime types is maintained at http://www.iana.org/assignments/media-types/media-types.xhtml#audio */
@@ -341,21 +430,38 @@ export interface RecognitionMetadata {
   audioTopic?: string;
 }
 
-export const RecognitionMetadata: Schema.Schema<RecognitionMetadata> = Schema.suspend(() => Schema.Struct({
-  interactionType: Schema.optional(Schema.String),
-  industryNaicsCodeOfAudio: Schema.optional(Schema.Number),
-  microphoneDistance: Schema.optional(Schema.String),
-  originalMediaType: Schema.optional(Schema.String),
-  recordingDeviceType: Schema.optional(Schema.String),
-  recordingDeviceName: Schema.optional(Schema.String),
-  originalMimeType: Schema.optional(Schema.String),
-  obfuscatedId: Schema.optional(Schema.String),
-  audioTopic: Schema.optional(Schema.String),
-})).annotate({ identifier: "RecognitionMetadata" }) as any as Schema.Schema<RecognitionMetadata>;
+export const RecognitionMetadata: Schema.Schema<RecognitionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      interactionType: Schema.optional(Schema.String),
+      industryNaicsCodeOfAudio: Schema.optional(Schema.Number),
+      microphoneDistance: Schema.optional(Schema.String),
+      originalMediaType: Schema.optional(Schema.String),
+      recordingDeviceType: Schema.optional(Schema.String),
+      recordingDeviceName: Schema.optional(Schema.String),
+      originalMimeType: Schema.optional(Schema.String),
+      obfuscatedId: Schema.optional(Schema.String),
+      audioTopic: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RecognitionMetadata",
+  }) as any as Schema.Schema<RecognitionMetadata>;
 
 export interface RecognitionConfig {
   /** Encoding of audio data sent in all `RecognitionAudio` messages. This field is optional for `FLAC` and `WAV` audio files and required for all other audio formats. For details, see AudioEncoding. */
-  encoding?: "ENCODING_UNSPECIFIED" | "LINEAR16" | "FLAC" | "MULAW" | "AMR" | "AMR_WB" | "OGG_OPUS" | "SPEEX_WITH_HEADER_BYTE" | "MP3" | "WEBM_OPUS" | "ALAW" | (string & {});
+  encoding?:
+    | "ENCODING_UNSPECIFIED"
+    | "LINEAR16"
+    | "FLAC"
+    | "MULAW"
+    | "AMR"
+    | "AMR_WB"
+    | "OGG_OPUS"
+    | "SPEEX_WITH_HEADER_BYTE"
+    | "MP3"
+    | "WEBM_OPUS"
+    | "ALAW"
+    | (string & {});
   /** Sample rate in Hertz of the audio data sent in all `RecognitionAudio` messages. Valid values are: 8000-48000. 16000 is optimal. For best results, set the sampling rate of the audio source to 16000 Hz. If that's not possible, use the native sample rate of the audio source (instead of re-sampling). This field is optional for FLAC and WAV audio files, but is required for all other audio formats. For details, see AudioEncoding. */
   sampleRateHertz?: number;
   /** The number of channels in the input audio data. ONLY set this for MULTI-CHANNEL recognition. Valid values for LINEAR16, OGG_OPUS and FLAC are `1`-`8`. Valid value for MULAW, AMR, AMR_WB and SPEEX_WITH_HEADER_BYTE is only `1`. If `0` or omitted, defaults to one channel (mono). Note: We only recognize the first channel by default. To perform independent recognition on each channel set `enable_separate_recognition_per_channel` to 'true'. */
@@ -400,30 +506,35 @@ export interface RecognitionConfig {
   useEnhanced?: boolean;
 }
 
-export const RecognitionConfig: Schema.Schema<RecognitionConfig> = Schema.suspend(() => Schema.Struct({
-  encoding: Schema.optional(Schema.String),
-  sampleRateHertz: Schema.optional(Schema.Number),
-  audioChannelCount: Schema.optional(Schema.Number),
-  enableSeparateRecognitionPerChannel: Schema.optional(Schema.Boolean),
-  languageCode: Schema.optional(Schema.String),
-  alternativeLanguageCodes: Schema.optional(Schema.Array(Schema.String)),
-  maxAlternatives: Schema.optional(Schema.Number),
-  profanityFilter: Schema.optional(Schema.Boolean),
-  adaptation: Schema.optional(SpeechAdaptation),
-  transcriptNormalization: Schema.optional(TranscriptNormalization),
-  speechContexts: Schema.optional(Schema.Array(SpeechContext)),
-  enableWordTimeOffsets: Schema.optional(Schema.Boolean),
-  enableWordConfidence: Schema.optional(Schema.Boolean),
-  enableAutomaticPunctuation: Schema.optional(Schema.Boolean),
-  enableSpokenPunctuation: Schema.optional(Schema.Boolean),
-  enableSpokenEmojis: Schema.optional(Schema.Boolean),
-  enableSpeakerDiarization: Schema.optional(Schema.Boolean),
-  diarizationSpeakerCount: Schema.optional(Schema.Number),
-  diarizationConfig: Schema.optional(SpeakerDiarizationConfig),
-  metadata: Schema.optional(RecognitionMetadata),
-  model: Schema.optional(Schema.String),
-  useEnhanced: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RecognitionConfig" }) as any as Schema.Schema<RecognitionConfig>;
+export const RecognitionConfig: Schema.Schema<RecognitionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      encoding: Schema.optional(Schema.String),
+      sampleRateHertz: Schema.optional(Schema.Number),
+      audioChannelCount: Schema.optional(Schema.Number),
+      enableSeparateRecognitionPerChannel: Schema.optional(Schema.Boolean),
+      languageCode: Schema.optional(Schema.String),
+      alternativeLanguageCodes: Schema.optional(Schema.Array(Schema.String)),
+      maxAlternatives: Schema.optional(Schema.Number),
+      profanityFilter: Schema.optional(Schema.Boolean),
+      adaptation: Schema.optional(SpeechAdaptation),
+      transcriptNormalization: Schema.optional(TranscriptNormalization),
+      speechContexts: Schema.optional(Schema.Array(SpeechContext)),
+      enableWordTimeOffsets: Schema.optional(Schema.Boolean),
+      enableWordConfidence: Schema.optional(Schema.Boolean),
+      enableAutomaticPunctuation: Schema.optional(Schema.Boolean),
+      enableSpokenPunctuation: Schema.optional(Schema.Boolean),
+      enableSpokenEmojis: Schema.optional(Schema.Boolean),
+      enableSpeakerDiarization: Schema.optional(Schema.Boolean),
+      diarizationSpeakerCount: Schema.optional(Schema.Number),
+      diarizationConfig: Schema.optional(SpeakerDiarizationConfig),
+      metadata: Schema.optional(RecognitionMetadata),
+      model: Schema.optional(Schema.String),
+      useEnhanced: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RecognitionConfig",
+  }) as any as Schema.Schema<RecognitionConfig>;
 
 export interface RecognitionAudio {
   /** The audio data bytes encoded as specified in `RecognitionConfig`. Note: as with all bytes fields, proto buffers use a pure binary representation, whereas JSON representations use base64. */
@@ -432,10 +543,15 @@ export interface RecognitionAudio {
   uri?: string;
 }
 
-export const RecognitionAudio: Schema.Schema<RecognitionAudio> = Schema.suspend(() => Schema.Struct({
-  content: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "RecognitionAudio" }) as any as Schema.Schema<RecognitionAudio>;
+export const RecognitionAudio: Schema.Schema<RecognitionAudio> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      content: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RecognitionAudio",
+}) as any as Schema.Schema<RecognitionAudio>;
 
 export interface RecognizeRequest {
   /** Required. Provides information to the recognizer that specifies how to process the request. */
@@ -444,10 +560,15 @@ export interface RecognizeRequest {
   audio?: RecognitionAudio;
 }
 
-export const RecognizeRequest: Schema.Schema<RecognizeRequest> = Schema.suspend(() => Schema.Struct({
-  config: Schema.optional(RecognitionConfig),
-  audio: Schema.optional(RecognitionAudio),
-})).annotate({ identifier: "RecognizeRequest" }) as any as Schema.Schema<RecognizeRequest>;
+export const RecognizeRequest: Schema.Schema<RecognizeRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      config: Schema.optional(RecognitionConfig),
+      audio: Schema.optional(RecognitionAudio),
+    }),
+).annotate({
+  identifier: "RecognizeRequest",
+}) as any as Schema.Schema<RecognizeRequest>;
 
 export interface WordInfo {
   /** Time offset relative to the beginning of the audio, and corresponding to the start of the spoken word. This field is only set if `enable_word_time_offsets=true` and only in the top hypothesis. This is an experimental feature and the accuracy of the time offset can vary. */
@@ -464,14 +585,16 @@ export interface WordInfo {
   speakerLabel?: string;
 }
 
-export const WordInfo: Schema.Schema<WordInfo> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  word: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  speakerTag: Schema.optional(Schema.Number),
-  speakerLabel: Schema.optional(Schema.String),
-})).annotate({ identifier: "WordInfo" }) as any as Schema.Schema<WordInfo>;
+export const WordInfo: Schema.Schema<WordInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    word: Schema.optional(Schema.String),
+    confidence: Schema.optional(Schema.Number),
+    speakerTag: Schema.optional(Schema.Number),
+    speakerLabel: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "WordInfo" }) as any as Schema.Schema<WordInfo>;
 
 export interface SpeechRecognitionAlternative {
   /** Transcript text representing the words that the user spoke. In languages that use spaces to separate words, the transcript might have a leading space if it isn't the first result. You can concatenate each result to obtain the full transcript without using a separator. */
@@ -482,11 +605,16 @@ export interface SpeechRecognitionAlternative {
   words?: Array<WordInfo>;
 }
 
-export const SpeechRecognitionAlternative: Schema.Schema<SpeechRecognitionAlternative> = Schema.suspend(() => Schema.Struct({
-  transcript: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  words: Schema.optional(Schema.Array(WordInfo)),
-})).annotate({ identifier: "SpeechRecognitionAlternative" }) as any as Schema.Schema<SpeechRecognitionAlternative>;
+export const SpeechRecognitionAlternative: Schema.Schema<SpeechRecognitionAlternative> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transcript: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      words: Schema.optional(Schema.Array(WordInfo)),
+    }),
+  ).annotate({
+    identifier: "SpeechRecognitionAlternative",
+  }) as any as Schema.Schema<SpeechRecognitionAlternative>;
 
 export interface SpeechRecognitionResult {
   /** May contain one or more recognition hypotheses (up to the maximum specified in `max_alternatives`). These alternatives are ordered in terms of accuracy, with the top (first) alternative being the most probable, as ranked by the recognizer. */
@@ -499,12 +627,17 @@ export interface SpeechRecognitionResult {
   languageCode?: string;
 }
 
-export const SpeechRecognitionResult: Schema.Schema<SpeechRecognitionResult> = Schema.suspend(() => Schema.Struct({
-  alternatives: Schema.optional(Schema.Array(SpeechRecognitionAlternative)),
-  channelTag: Schema.optional(Schema.Number),
-  resultEndTime: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpeechRecognitionResult" }) as any as Schema.Schema<SpeechRecognitionResult>;
+export const SpeechRecognitionResult: Schema.Schema<SpeechRecognitionResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alternatives: Schema.optional(Schema.Array(SpeechRecognitionAlternative)),
+      channelTag: Schema.optional(Schema.Number),
+      resultEndTime: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SpeechRecognitionResult",
+  }) as any as Schema.Schema<SpeechRecognitionResult>;
 
 export interface SpeechAdaptationInfo {
   /** Whether there was a timeout when applying speech adaptation. If true, adaptation had no effect in the response transcript. */
@@ -513,10 +646,15 @@ export interface SpeechAdaptationInfo {
   timeoutMessage?: string;
 }
 
-export const SpeechAdaptationInfo: Schema.Schema<SpeechAdaptationInfo> = Schema.suspend(() => Schema.Struct({
-  adaptationTimeout: Schema.optional(Schema.Boolean),
-  timeoutMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpeechAdaptationInfo" }) as any as Schema.Schema<SpeechAdaptationInfo>;
+export const SpeechAdaptationInfo: Schema.Schema<SpeechAdaptationInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adaptationTimeout: Schema.optional(Schema.Boolean),
+      timeoutMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SpeechAdaptationInfo",
+  }) as any as Schema.Schema<SpeechAdaptationInfo>;
 
 export interface RecognizeResponse {
   /** Sequential list of transcription results corresponding to sequential portions of audio. */
@@ -531,22 +669,32 @@ export interface RecognizeResponse {
   usingLegacyModels?: boolean;
 }
 
-export const RecognizeResponse: Schema.Schema<RecognizeResponse> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(SpeechRecognitionResult)),
-  totalBilledTime: Schema.optional(Schema.String),
-  speechAdaptationInfo: Schema.optional(SpeechAdaptationInfo),
-  requestId: Schema.optional(Schema.String),
-  usingLegacyModels: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RecognizeResponse" }) as any as Schema.Schema<RecognizeResponse>;
+export const RecognizeResponse: Schema.Schema<RecognizeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(Schema.Array(SpeechRecognitionResult)),
+      totalBilledTime: Schema.optional(Schema.String),
+      speechAdaptationInfo: Schema.optional(SpeechAdaptationInfo),
+      requestId: Schema.optional(Schema.String),
+      usingLegacyModels: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RecognizeResponse",
+  }) as any as Schema.Schema<RecognizeResponse>;
 
 export interface TranscriptOutputConfig {
   /** Specifies a Cloud Storage URI for the recognition results. Must be specified in the format: `gs://bucket_name/object_name`, and the bucket must already exist. */
   gcsUri?: string;
 }
 
-export const TranscriptOutputConfig: Schema.Schema<TranscriptOutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "TranscriptOutputConfig" }) as any as Schema.Schema<TranscriptOutputConfig>;
+export const TranscriptOutputConfig: Schema.Schema<TranscriptOutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TranscriptOutputConfig",
+  }) as any as Schema.Schema<TranscriptOutputConfig>;
 
 export interface LongRunningRecognizeRequest {
   /** Required. Provides information to the recognizer that specifies how to process the request. */
@@ -557,11 +705,16 @@ export interface LongRunningRecognizeRequest {
   outputConfig?: TranscriptOutputConfig;
 }
 
-export const LongRunningRecognizeRequest: Schema.Schema<LongRunningRecognizeRequest> = Schema.suspend(() => Schema.Struct({
-  config: Schema.optional(RecognitionConfig),
-  audio: Schema.optional(RecognitionAudio),
-  outputConfig: Schema.optional(TranscriptOutputConfig),
-})).annotate({ identifier: "LongRunningRecognizeRequest" }) as any as Schema.Schema<LongRunningRecognizeRequest>;
+export const LongRunningRecognizeRequest: Schema.Schema<LongRunningRecognizeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      config: Schema.optional(RecognitionConfig),
+      audio: Schema.optional(RecognitionAudio),
+      outputConfig: Schema.optional(TranscriptOutputConfig),
+    }),
+  ).annotate({
+    identifier: "LongRunningRecognizeRequest",
+  }) as any as Schema.Schema<LongRunningRecognizeRequest>;
 
 export interface LongRunningRecognizeMetadata {
   /** Approximate percentage of audio processed thus far. Guaranteed to be 100 when the audio is fully processed and the results are available. */
@@ -576,13 +729,18 @@ export interface LongRunningRecognizeMetadata {
   outputConfig?: TranscriptOutputConfig;
 }
 
-export const LongRunningRecognizeMetadata: Schema.Schema<LongRunningRecognizeMetadata> = Schema.suspend(() => Schema.Struct({
-  progressPercent: Schema.optional(Schema.Number),
-  startTime: Schema.optional(Schema.String),
-  lastUpdateTime: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  outputConfig: Schema.optional(TranscriptOutputConfig),
-})).annotate({ identifier: "LongRunningRecognizeMetadata" }) as any as Schema.Schema<LongRunningRecognizeMetadata>;
+export const LongRunningRecognizeMetadata: Schema.Schema<LongRunningRecognizeMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      progressPercent: Schema.optional(Schema.Number),
+      startTime: Schema.optional(Schema.String),
+      lastUpdateTime: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      outputConfig: Schema.optional(TranscriptOutputConfig),
+    }),
+  ).annotate({
+    identifier: "LongRunningRecognizeMetadata",
+  }) as any as Schema.Schema<LongRunningRecognizeMetadata>;
 
 export interface LongRunningRecognizeResponse {
   /** Sequential list of transcription results corresponding to sequential portions of audio. */
@@ -599,14 +757,19 @@ export interface LongRunningRecognizeResponse {
   requestId?: string;
 }
 
-export const LongRunningRecognizeResponse: Schema.Schema<LongRunningRecognizeResponse> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(SpeechRecognitionResult)),
-  totalBilledTime: Schema.optional(Schema.String),
-  outputConfig: Schema.optional(TranscriptOutputConfig),
-  outputError: Schema.optional(Status),
-  speechAdaptationInfo: Schema.optional(SpeechAdaptationInfo),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "LongRunningRecognizeResponse" }) as any as Schema.Schema<LongRunningRecognizeResponse>;
+export const LongRunningRecognizeResponse: Schema.Schema<LongRunningRecognizeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(Schema.Array(SpeechRecognitionResult)),
+      totalBilledTime: Schema.optional(Schema.String),
+      outputConfig: Schema.optional(TranscriptOutputConfig),
+      outputError: Schema.optional(Status),
+      speechAdaptationInfo: Schema.optional(SpeechAdaptationInfo),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LongRunningRecognizeResponse",
+  }) as any as Schema.Schema<LongRunningRecognizeResponse>;
 
 // ==========================================================================
 // Operations
@@ -630,7 +793,9 @@ export const ListOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1p1beta1/operations" }),
   svc,
@@ -642,7 +807,12 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse_Op,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -670,7 +840,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -687,7 +862,11 @@ export const CreateProjectsLocationsPhraseSetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreatePhraseSetRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsPhraseSetsRequest>;
 
@@ -697,7 +876,12 @@ export const CreateProjectsLocationsPhraseSetsResponse = PhraseSet;
 export type CreateProjectsLocationsPhraseSetsError = DefaultErrors;
 
 /** Create a set of phrase hints. Each item in the set can be a single word or a multi-word phrase. The items in the PhraseSet are favored by the recognition model when you send a call that includes the PhraseSet. */
-export const createProjectsLocationsPhraseSets: API.OperationMethod<CreateProjectsLocationsPhraseSetsRequest, CreateProjectsLocationsPhraseSetsResponse, CreateProjectsLocationsPhraseSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPhraseSets: API.OperationMethod<
+  CreateProjectsLocationsPhraseSetsRequest,
+  CreateProjectsLocationsPhraseSetsResponse,
+  CreateProjectsLocationsPhraseSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPhraseSetsRequest,
   output: CreateProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -711,7 +895,10 @@ export interface GetProjectsLocationsPhraseSetsRequest {
 export const GetProjectsLocationsPhraseSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsPhraseSetsRequest>;
 
@@ -721,7 +908,12 @@ export const GetProjectsLocationsPhraseSetsResponse = PhraseSet;
 export type GetProjectsLocationsPhraseSetsError = DefaultErrors;
 
 /** Get a phrase set. */
-export const getProjectsLocationsPhraseSets: API.OperationMethod<GetProjectsLocationsPhraseSetsRequest, GetProjectsLocationsPhraseSetsResponse, GetProjectsLocationsPhraseSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPhraseSets: API.OperationMethod<
+  GetProjectsLocationsPhraseSetsRequest,
+  GetProjectsLocationsPhraseSetsResponse,
+  GetProjectsLocationsPhraseSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPhraseSetsRequest,
   output: GetProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -741,7 +933,10 @@ export const ListProjectsLocationsPhraseSetsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets" }),
+  T.Http({
+    method: "GET",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsPhraseSetsRequest>;
 
@@ -751,7 +946,12 @@ export const ListProjectsLocationsPhraseSetsResponse = ListPhraseSetResponse;
 export type ListProjectsLocationsPhraseSetsError = DefaultErrors;
 
 /** List phrase sets. */
-export const listProjectsLocationsPhraseSets: API.PaginatedOperationMethod<ListProjectsLocationsPhraseSetsRequest, ListProjectsLocationsPhraseSetsResponse, ListProjectsLocationsPhraseSetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPhraseSets: API.PaginatedOperationMethod<
+  ListProjectsLocationsPhraseSetsRequest,
+  ListProjectsLocationsPhraseSetsResponse,
+  ListProjectsLocationsPhraseSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPhraseSetsRequest,
   output: ListProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -775,7 +975,11 @@ export const PatchProjectsLocationsPhraseSetsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(PhraseSet).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsPhraseSetsRequest>;
 
@@ -785,7 +989,12 @@ export const PatchProjectsLocationsPhraseSetsResponse = PhraseSet;
 export type PatchProjectsLocationsPhraseSetsError = DefaultErrors;
 
 /** Update a phrase set. */
-export const patchProjectsLocationsPhraseSets: API.OperationMethod<PatchProjectsLocationsPhraseSetsRequest, PatchProjectsLocationsPhraseSetsResponse, PatchProjectsLocationsPhraseSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPhraseSets: API.OperationMethod<
+  PatchProjectsLocationsPhraseSetsRequest,
+  PatchProjectsLocationsPhraseSetsResponse,
+  PatchProjectsLocationsPhraseSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPhraseSetsRequest,
   output: PatchProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -799,7 +1008,10 @@ export interface DeleteProjectsLocationsPhraseSetsRequest {
 export const DeleteProjectsLocationsPhraseSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsPhraseSetsRequest>;
 
@@ -809,7 +1021,12 @@ export const DeleteProjectsLocationsPhraseSetsResponse = Empty;
 export type DeleteProjectsLocationsPhraseSetsError = DefaultErrors;
 
 /** Delete a phrase set. */
-export const deleteProjectsLocationsPhraseSets: API.OperationMethod<DeleteProjectsLocationsPhraseSetsRequest, DeleteProjectsLocationsPhraseSetsResponse, DeleteProjectsLocationsPhraseSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPhraseSets: API.OperationMethod<
+  DeleteProjectsLocationsPhraseSetsRequest,
+  DeleteProjectsLocationsPhraseSetsResponse,
+  DeleteProjectsLocationsPhraseSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPhraseSetsRequest,
   output: DeleteProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -826,7 +1043,11 @@ export const CreateProjectsLocationsCustomClassesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateCustomClassRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsCustomClassesRequest>;
 
@@ -836,7 +1057,12 @@ export const CreateProjectsLocationsCustomClassesResponse = CustomClass;
 export type CreateProjectsLocationsCustomClassesError = DefaultErrors;
 
 /** Create a custom class. */
-export const createProjectsLocationsCustomClasses: API.OperationMethod<CreateProjectsLocationsCustomClassesRequest, CreateProjectsLocationsCustomClassesResponse, CreateProjectsLocationsCustomClassesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsCustomClasses: API.OperationMethod<
+  CreateProjectsLocationsCustomClassesRequest,
+  CreateProjectsLocationsCustomClassesResponse,
+  CreateProjectsLocationsCustomClassesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsCustomClassesRequest,
   output: CreateProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -850,7 +1076,10 @@ export interface GetProjectsLocationsCustomClassesRequest {
 export const GetProjectsLocationsCustomClassesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsCustomClassesRequest>;
 
@@ -860,7 +1089,12 @@ export const GetProjectsLocationsCustomClassesResponse = CustomClass;
 export type GetProjectsLocationsCustomClassesError = DefaultErrors;
 
 /** Get a custom class. */
-export const getProjectsLocationsCustomClasses: API.OperationMethod<GetProjectsLocationsCustomClassesRequest, GetProjectsLocationsCustomClassesResponse, GetProjectsLocationsCustomClassesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsCustomClasses: API.OperationMethod<
+  GetProjectsLocationsCustomClassesRequest,
+  GetProjectsLocationsCustomClassesResponse,
+  GetProjectsLocationsCustomClassesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsCustomClassesRequest,
   output: GetProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -880,17 +1114,27 @@ export const ListProjectsLocationsCustomClassesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses" }),
+  T.Http({
+    method: "GET",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsCustomClassesRequest>;
 
-export type ListProjectsLocationsCustomClassesResponse = ListCustomClassesResponse;
-export const ListProjectsLocationsCustomClassesResponse = ListCustomClassesResponse;
+export type ListProjectsLocationsCustomClassesResponse =
+  ListCustomClassesResponse;
+export const ListProjectsLocationsCustomClassesResponse =
+  ListCustomClassesResponse;
 
 export type ListProjectsLocationsCustomClassesError = DefaultErrors;
 
 /** List custom classes. */
-export const listProjectsLocationsCustomClasses: API.PaginatedOperationMethod<ListProjectsLocationsCustomClassesRequest, ListProjectsLocationsCustomClassesResponse, ListProjectsLocationsCustomClassesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsCustomClasses: API.PaginatedOperationMethod<
+  ListProjectsLocationsCustomClassesRequest,
+  ListProjectsLocationsCustomClassesResponse,
+  ListProjectsLocationsCustomClassesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsCustomClassesRequest,
   output: ListProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -914,7 +1158,11 @@ export const PatchProjectsLocationsCustomClassesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(CustomClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsCustomClassesRequest>;
 
@@ -924,7 +1172,12 @@ export const PatchProjectsLocationsCustomClassesResponse = CustomClass;
 export type PatchProjectsLocationsCustomClassesError = DefaultErrors;
 
 /** Update a custom class. */
-export const patchProjectsLocationsCustomClasses: API.OperationMethod<PatchProjectsLocationsCustomClassesRequest, PatchProjectsLocationsCustomClassesResponse, PatchProjectsLocationsCustomClassesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsCustomClasses: API.OperationMethod<
+  PatchProjectsLocationsCustomClassesRequest,
+  PatchProjectsLocationsCustomClassesResponse,
+  PatchProjectsLocationsCustomClassesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsCustomClassesRequest,
   output: PatchProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -938,7 +1191,10 @@ export interface DeleteProjectsLocationsCustomClassesRequest {
 export const DeleteProjectsLocationsCustomClassesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsCustomClassesRequest>;
 
@@ -948,7 +1204,12 @@ export const DeleteProjectsLocationsCustomClassesResponse = Empty;
 export type DeleteProjectsLocationsCustomClassesError = DefaultErrors;
 
 /** Delete a custom class. */
-export const deleteProjectsLocationsCustomClasses: API.OperationMethod<DeleteProjectsLocationsCustomClassesRequest, DeleteProjectsLocationsCustomClassesResponse, DeleteProjectsLocationsCustomClassesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsCustomClasses: API.OperationMethod<
+  DeleteProjectsLocationsCustomClassesRequest,
+  DeleteProjectsLocationsCustomClassesResponse,
+  DeleteProjectsLocationsCustomClassesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsCustomClassesRequest,
   output: DeleteProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -972,7 +1233,12 @@ export const RecognizeSpeechResponse = RecognizeResponse;
 export type RecognizeSpeechError = DefaultErrors;
 
 /** Performs synchronous speech recognition: receive results after all audio has been sent and processed. */
-export const recognizeSpeech: API.OperationMethod<RecognizeSpeechRequest, RecognizeSpeechResponse, RecognizeSpeechError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const recognizeSpeech: API.OperationMethod<
+  RecognizeSpeechRequest,
+  RecognizeSpeechResponse,
+  RecognizeSpeechError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RecognizeSpeechRequest,
   output: RecognizeSpeechResponse,
   errors: [],
@@ -986,7 +1252,11 @@ export interface LongrunningrecognizeSpeechRequest {
 export const LongrunningrecognizeSpeechRequest = Schema.Struct({
   body: Schema.optional(LongRunningRecognizeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1p1beta1/speech:longrunningrecognize", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1p1beta1/speech:longrunningrecognize",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LongrunningrecognizeSpeechRequest>;
 
@@ -996,9 +1266,13 @@ export const LongrunningrecognizeSpeechResponse = Operation;
 export type LongrunningrecognizeSpeechError = DefaultErrors;
 
 /** Performs asynchronous speech recognition: receive results via the google.longrunning.Operations interface. Returns either an `Operation.error` or an `Operation.response` which contains a `LongRunningRecognizeResponse` message. For more information on asynchronous speech recognition, see the [how-to](https://cloud.google.com/speech-to-text/docs/async-recognize). */
-export const longrunningrecognizeSpeech: API.OperationMethod<LongrunningrecognizeSpeechRequest, LongrunningrecognizeSpeechResponse, LongrunningrecognizeSpeechError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const longrunningrecognizeSpeech: API.OperationMethod<
+  LongrunningrecognizeSpeechRequest,
+  LongrunningrecognizeSpeechResponse,
+  LongrunningrecognizeSpeechError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LongrunningrecognizeSpeechRequest,
   output: LongrunningrecognizeSpeechResponse,
   errors: [],
 }));
-

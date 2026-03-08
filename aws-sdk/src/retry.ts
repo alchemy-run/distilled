@@ -39,9 +39,7 @@ export type Policy = Options | Factory;
 /**
  * Context tag for configuring retry behavior of AWS API calls.
  */
-export class Retry extends ServiceMap.Service<Retry, Policy>()(
-  "AWS::Retry",
-) {}
+export class Retry extends ServiceMap.Service<Retry, Policy>()("AWS::Retry") {}
 
 /**
  * Provides a custom retry policy to all AWS API calls in the effect.

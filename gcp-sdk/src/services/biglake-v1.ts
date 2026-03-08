@@ -34,12 +34,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -50,23 +52,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -75,10 +89,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -91,12 +107,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -105,28 +123,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface Catalog {
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
@@ -141,13 +174,15 @@ export interface Catalog {
   expireTime?: string;
 }
 
-export const Catalog: Schema.Schema<Catalog> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Catalog" }) as any as Schema.Schema<Catalog>;
+export const Catalog: Schema.Schema<Catalog> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Catalog" }) as any as Schema.Schema<Catalog>;
 
 export interface ListCatalogsResponse {
   /** The catalogs from the specified project. */
@@ -156,10 +191,15 @@ export interface ListCatalogsResponse {
   nextPageToken?: string;
 }
 
-export const ListCatalogsResponse: Schema.Schema<ListCatalogsResponse> = Schema.suspend(() => Schema.Struct({
-  catalogs: Schema.optional(Schema.Array(Catalog)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCatalogsResponse" }) as any as Schema.Schema<ListCatalogsResponse>;
+export const ListCatalogsResponse: Schema.Schema<ListCatalogsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      catalogs: Schema.optional(Schema.Array(Catalog)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCatalogsResponse",
+  }) as any as Schema.Schema<ListCatalogsResponse>;
 
 export interface HiveDatabaseOptions {
   /** Cloud Storage folder URI where the database data is stored, starting with "gs://". */
@@ -168,10 +208,15 @@ export interface HiveDatabaseOptions {
   parameters?: Record<string, string>;
 }
 
-export const HiveDatabaseOptions: Schema.Schema<HiveDatabaseOptions> = Schema.suspend(() => Schema.Struct({
-  locationUri: Schema.optional(Schema.String),
-  parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "HiveDatabaseOptions" }) as any as Schema.Schema<HiveDatabaseOptions>;
+export const HiveDatabaseOptions: Schema.Schema<HiveDatabaseOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locationUri: Schema.optional(Schema.String),
+      parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "HiveDatabaseOptions",
+  }) as any as Schema.Schema<HiveDatabaseOptions>;
 
 export interface Database {
   /** Options of a Hive database. */
@@ -190,15 +235,17 @@ export interface Database {
   type?: "TYPE_UNSPECIFIED" | "HIVE" | (string & {});
 }
 
-export const Database: Schema.Schema<Database> = Schema.suspend(() => Schema.Struct({
-  hiveOptions: Schema.optional(HiveDatabaseOptions),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
+export const Database: Schema.Schema<Database> = Schema.suspend(() =>
+  Schema.Struct({
+    hiveOptions: Schema.optional(HiveDatabaseOptions),
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
 
 export interface ListDatabasesResponse {
   /** The databases from the specified catalog. */
@@ -207,19 +254,26 @@ export interface ListDatabasesResponse {
   nextPageToken?: string;
 }
 
-export const ListDatabasesResponse: Schema.Schema<ListDatabasesResponse> = Schema.suspend(() => Schema.Struct({
-  databases: Schema.optional(Schema.Array(Database)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDatabasesResponse" }) as any as Schema.Schema<ListDatabasesResponse>;
+export const ListDatabasesResponse: Schema.Schema<ListDatabasesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      databases: Schema.optional(Schema.Array(Database)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDatabasesResponse",
+  }) as any as Schema.Schema<ListDatabasesResponse>;
 
 export interface SerDeInfo {
   /** The fully qualified Java class name of the serialization library. */
   serializationLib?: string;
 }
 
-export const SerDeInfo: Schema.Schema<SerDeInfo> = Schema.suspend(() => Schema.Struct({
-  serializationLib: Schema.optional(Schema.String),
-})).annotate({ identifier: "SerDeInfo" }) as any as Schema.Schema<SerDeInfo>;
+export const SerDeInfo: Schema.Schema<SerDeInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    serializationLib: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SerDeInfo" }) as any as Schema.Schema<SerDeInfo>;
 
 export interface StorageDescriptor {
   /** Cloud Storage folder URI where the table data is stored, starting with "gs://". */
@@ -232,12 +286,17 @@ export interface StorageDescriptor {
   serdeInfo?: SerDeInfo;
 }
 
-export const StorageDescriptor: Schema.Schema<StorageDescriptor> = Schema.suspend(() => Schema.Struct({
-  locationUri: Schema.optional(Schema.String),
-  inputFormat: Schema.optional(Schema.String),
-  outputFormat: Schema.optional(Schema.String),
-  serdeInfo: Schema.optional(SerDeInfo),
-})).annotate({ identifier: "StorageDescriptor" }) as any as Schema.Schema<StorageDescriptor>;
+export const StorageDescriptor: Schema.Schema<StorageDescriptor> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locationUri: Schema.optional(Schema.String),
+      inputFormat: Schema.optional(Schema.String),
+      outputFormat: Schema.optional(Schema.String),
+      serdeInfo: Schema.optional(SerDeInfo),
+    }),
+  ).annotate({
+    identifier: "StorageDescriptor",
+  }) as any as Schema.Schema<StorageDescriptor>;
 
 export interface HiveTableOptions {
   /** Stores user supplied Hive table parameters. */
@@ -248,11 +307,16 @@ export interface HiveTableOptions {
   storageDescriptor?: StorageDescriptor;
 }
 
-export const HiveTableOptions: Schema.Schema<HiveTableOptions> = Schema.suspend(() => Schema.Struct({
-  parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  tableType: Schema.optional(Schema.String),
-  storageDescriptor: Schema.optional(StorageDescriptor),
-})).annotate({ identifier: "HiveTableOptions" }) as any as Schema.Schema<HiveTableOptions>;
+export const HiveTableOptions: Schema.Schema<HiveTableOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      tableType: Schema.optional(Schema.String),
+      storageDescriptor: Schema.optional(StorageDescriptor),
+    }),
+).annotate({
+  identifier: "HiveTableOptions",
+}) as any as Schema.Schema<HiveTableOptions>;
 
 export interface Table {
   /** Options of a Hive table. */
@@ -273,25 +337,32 @@ export interface Table {
   etag?: string;
 }
 
-export const Table: Schema.Schema<Table> = Schema.suspend(() => Schema.Struct({
-  hiveOptions: Schema.optional(HiveTableOptions),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
+export const Table: Schema.Schema<Table> = Schema.suspend(() =>
+  Schema.Struct({
+    hiveOptions: Schema.optional(HiveTableOptions),
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
 
 export interface RenameTableRequest {
   /** Required. The new `name` for the specified table, must be in the same database. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   newName?: string;
 }
 
-export const RenameTableRequest: Schema.Schema<RenameTableRequest> = Schema.suspend(() => Schema.Struct({
-  newName: Schema.optional(Schema.String),
-})).annotate({ identifier: "RenameTableRequest" }) as any as Schema.Schema<RenameTableRequest>;
+export const RenameTableRequest: Schema.Schema<RenameTableRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      newName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RenameTableRequest",
+  }) as any as Schema.Schema<RenameTableRequest>;
 
 export interface ListTablesResponse {
   /** The tables from the specified database. */
@@ -300,10 +371,15 @@ export interface ListTablesResponse {
   nextPageToken?: string;
 }
 
-export const ListTablesResponse: Schema.Schema<ListTablesResponse> = Schema.suspend(() => Schema.Struct({
-  tables: Schema.optional(Schema.Array(Table)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTablesResponse" }) as any as Schema.Schema<ListTablesResponse>;
+export const ListTablesResponse: Schema.Schema<ListTablesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tables: Schema.optional(Schema.Array(Table)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTablesResponse",
+  }) as any as Schema.Schema<ListTablesResponse>;
 
 // ==========================================================================
 // Operations
@@ -318,9 +394,14 @@ export interface GetIamPolicyProjectsCatalogsRequest {
 
 export const GetIamPolicyProjectsCatalogsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/catalogs/{catalogsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/catalogs/{catalogsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsCatalogsRequest>;
 
@@ -330,7 +411,12 @@ export const GetIamPolicyProjectsCatalogsResponse = Policy;
 export type GetIamPolicyProjectsCatalogsError = DefaultErrors;
 
 /** Gets the IAM policy for the specified Catalog. */
-export const getIamPolicyProjectsCatalogs: API.OperationMethod<GetIamPolicyProjectsCatalogsRequest, GetIamPolicyProjectsCatalogsResponse, GetIamPolicyProjectsCatalogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsCatalogs: API.OperationMethod<
+  GetIamPolicyProjectsCatalogsRequest,
+  GetIamPolicyProjectsCatalogsResponse,
+  GetIamPolicyProjectsCatalogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsCatalogsRequest,
   output: GetIamPolicyProjectsCatalogsResponse,
   errors: [],
@@ -347,7 +433,11 @@ export const SetIamPolicyProjectsCatalogsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/catalogs/{catalogsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/catalogs/{catalogsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsCatalogsRequest>;
 
@@ -357,7 +447,12 @@ export const SetIamPolicyProjectsCatalogsResponse = Policy;
 export type SetIamPolicyProjectsCatalogsError = DefaultErrors;
 
 /** Sets the IAM policy for the specified catalog. */
-export const setIamPolicyProjectsCatalogs: API.OperationMethod<SetIamPolicyProjectsCatalogsRequest, SetIamPolicyProjectsCatalogsResponse, SetIamPolicyProjectsCatalogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsCatalogs: API.OperationMethod<
+  SetIamPolicyProjectsCatalogsRequest,
+  SetIamPolicyProjectsCatalogsResponse,
+  SetIamPolicyProjectsCatalogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsCatalogsRequest,
   output: SetIamPolicyProjectsCatalogsResponse,
   errors: [],
@@ -374,17 +469,28 @@ export const TestIamPermissionsProjectsCatalogsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/catalogs/{catalogsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/catalogs/{catalogsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsCatalogsRequest>;
 
-export type TestIamPermissionsProjectsCatalogsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsCatalogsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsCatalogsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsCatalogsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsCatalogsError = DefaultErrors;
 
 /** Tests the IAM permissions for the specified catalog. */
-export const testIamPermissionsProjectsCatalogs: API.OperationMethod<TestIamPermissionsProjectsCatalogsRequest, TestIamPermissionsProjectsCatalogsResponse, TestIamPermissionsProjectsCatalogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsCatalogs: API.OperationMethod<
+  TestIamPermissionsProjectsCatalogsRequest,
+  TestIamPermissionsProjectsCatalogsResponse,
+  TestIamPermissionsProjectsCatalogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsCatalogsRequest,
   output: TestIamPermissionsProjectsCatalogsResponse,
   errors: [],
@@ -399,9 +505,14 @@ export interface GetIamPolicyProjectsCatalogsNamespacesRequest {
 
 export const GetIamPolicyProjectsCatalogsNamespacesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsCatalogsNamespacesRequest>;
 
@@ -411,7 +522,12 @@ export const GetIamPolicyProjectsCatalogsNamespacesResponse = Policy;
 export type GetIamPolicyProjectsCatalogsNamespacesError = DefaultErrors;
 
 /** Gets the IAM policy for the specified Catalog. */
-export const getIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<GetIamPolicyProjectsCatalogsNamespacesRequest, GetIamPolicyProjectsCatalogsNamespacesResponse, GetIamPolicyProjectsCatalogsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<
+  GetIamPolicyProjectsCatalogsNamespacesRequest,
+  GetIamPolicyProjectsCatalogsNamespacesResponse,
+  GetIamPolicyProjectsCatalogsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsCatalogsNamespacesRequest,
   output: GetIamPolicyProjectsCatalogsNamespacesResponse,
   errors: [],
@@ -428,7 +544,11 @@ export const SetIamPolicyProjectsCatalogsNamespacesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsCatalogsNamespacesRequest>;
 
@@ -438,7 +558,12 @@ export const SetIamPolicyProjectsCatalogsNamespacesResponse = Policy;
 export type SetIamPolicyProjectsCatalogsNamespacesError = DefaultErrors;
 
 /** Sets the IAM policy for the specified catalog. */
-export const setIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<SetIamPolicyProjectsCatalogsNamespacesRequest, SetIamPolicyProjectsCatalogsNamespacesResponse, SetIamPolicyProjectsCatalogsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<
+  SetIamPolicyProjectsCatalogsNamespacesRequest,
+  SetIamPolicyProjectsCatalogsNamespacesResponse,
+  SetIamPolicyProjectsCatalogsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsCatalogsNamespacesRequest,
   output: SetIamPolicyProjectsCatalogsNamespacesResponse,
   errors: [],
@@ -451,21 +576,33 @@ export interface TestIamPermissionsProjectsCatalogsNamespacesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsCatalogsNamespacesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsCatalogsNamespacesRequest>;
+export const TestIamPermissionsProjectsCatalogsNamespacesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsCatalogsNamespacesRequest>;
 
-export type TestIamPermissionsProjectsCatalogsNamespacesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsCatalogsNamespacesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsCatalogsNamespacesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsCatalogsNamespacesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsCatalogsNamespacesError = DefaultErrors;
 
 /** Tests the IAM permissions for the specified namespace. */
-export const testIamPermissionsProjectsCatalogsNamespaces: API.OperationMethod<TestIamPermissionsProjectsCatalogsNamespacesRequest, TestIamPermissionsProjectsCatalogsNamespacesResponse, TestIamPermissionsProjectsCatalogsNamespacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsCatalogsNamespaces: API.OperationMethod<
+  TestIamPermissionsProjectsCatalogsNamespacesRequest,
+  TestIamPermissionsProjectsCatalogsNamespacesResponse,
+  TestIamPermissionsProjectsCatalogsNamespacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsCatalogsNamespacesRequest,
   output: TestIamPermissionsProjectsCatalogsNamespacesResponse,
   errors: [],
@@ -478,13 +615,19 @@ export interface GetIamPolicyProjectsCatalogsNamespacesTablesRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsCatalogsNamespacesTablesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}/tables/{tablesId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsCatalogsNamespacesTablesRequest>;
+export const GetIamPolicyProjectsCatalogsNamespacesTablesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}/tables/{tablesId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsCatalogsNamespacesTablesRequest>;
 
 export type GetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
 export const GetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
@@ -492,7 +635,12 @@ export const GetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
 export type GetIamPolicyProjectsCatalogsNamespacesTablesError = DefaultErrors;
 
 /** Gets the IAM policy for the specified Catalog. */
-export const getIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<GetIamPolicyProjectsCatalogsNamespacesTablesRequest, GetIamPolicyProjectsCatalogsNamespacesTablesResponse, GetIamPolicyProjectsCatalogsNamespacesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<
+  GetIamPolicyProjectsCatalogsNamespacesTablesRequest,
+  GetIamPolicyProjectsCatalogsNamespacesTablesResponse,
+  GetIamPolicyProjectsCatalogsNamespacesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsCatalogsNamespacesTablesRequest,
   output: GetIamPolicyProjectsCatalogsNamespacesTablesResponse,
   errors: [],
@@ -505,13 +653,18 @@ export interface SetIamPolicyProjectsCatalogsNamespacesTablesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsCatalogsNamespacesTablesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}/tables/{tablesId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsCatalogsNamespacesTablesRequest>;
+export const SetIamPolicyProjectsCatalogsNamespacesTablesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}/tables/{tablesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsCatalogsNamespacesTablesRequest>;
 
 export type SetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
 export const SetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
@@ -519,7 +672,12 @@ export const SetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
 export type SetIamPolicyProjectsCatalogsNamespacesTablesError = DefaultErrors;
 
 /** Sets the IAM policy for the specified catalog. */
-export const setIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<SetIamPolicyProjectsCatalogsNamespacesTablesRequest, SetIamPolicyProjectsCatalogsNamespacesTablesResponse, SetIamPolicyProjectsCatalogsNamespacesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<
+  SetIamPolicyProjectsCatalogsNamespacesTablesRequest,
+  SetIamPolicyProjectsCatalogsNamespacesTablesResponse,
+  SetIamPolicyProjectsCatalogsNamespacesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsCatalogsNamespacesTablesRequest,
   output: SetIamPolicyProjectsCatalogsNamespacesTablesResponse,
   errors: [],
@@ -532,21 +690,34 @@ export interface TestIamPermissionsProjectsCatalogsNamespacesTablesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsCatalogsNamespacesTablesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}/tables/{tablesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsCatalogsNamespacesTablesRequest>;
+export const TestIamPermissionsProjectsCatalogsNamespacesTablesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/catalogs/{catalogsId}/namespaces/{namespacesId}/tables/{tablesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsCatalogsNamespacesTablesRequest>;
 
-export type TestIamPermissionsProjectsCatalogsNamespacesTablesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsCatalogsNamespacesTablesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsCatalogsNamespacesTablesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsCatalogsNamespacesTablesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsCatalogsNamespacesTablesError = DefaultErrors;
+export type TestIamPermissionsProjectsCatalogsNamespacesTablesError =
+  DefaultErrors;
 
 /** Tests the IAM permissions for the specified table. */
-export const testIamPermissionsProjectsCatalogsNamespacesTables: API.OperationMethod<TestIamPermissionsProjectsCatalogsNamespacesTablesRequest, TestIamPermissionsProjectsCatalogsNamespacesTablesResponse, TestIamPermissionsProjectsCatalogsNamespacesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsCatalogsNamespacesTables: API.OperationMethod<
+  TestIamPermissionsProjectsCatalogsNamespacesTablesRequest,
+  TestIamPermissionsProjectsCatalogsNamespacesTablesResponse,
+  TestIamPermissionsProjectsCatalogsNamespacesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsCatalogsNamespacesTablesRequest,
   output: TestIamPermissionsProjectsCatalogsNamespacesTablesResponse,
   errors: [],
@@ -566,7 +737,11 @@ export const CreateProjectsLocationsCatalogsRequest = Schema.Struct({
   catalogId: Schema.optional(Schema.String).pipe(T.HttpQuery("catalogId")),
   body: Schema.optional(Catalog).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsRequest>;
 
@@ -576,7 +751,12 @@ export const CreateProjectsLocationsCatalogsResponse = Catalog;
 export type CreateProjectsLocationsCatalogsError = DefaultErrors;
 
 /** Creates a new catalog. */
-export const createProjectsLocationsCatalogs: API.OperationMethod<CreateProjectsLocationsCatalogsRequest, CreateProjectsLocationsCatalogsResponse, CreateProjectsLocationsCatalogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsCatalogs: API.OperationMethod<
+  CreateProjectsLocationsCatalogsRequest,
+  CreateProjectsLocationsCatalogsResponse,
+  CreateProjectsLocationsCatalogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsRequest,
   output: CreateProjectsLocationsCatalogsResponse,
   errors: [],
@@ -590,7 +770,10 @@ export interface DeleteProjectsLocationsCatalogsRequest {
 export const DeleteProjectsLocationsCatalogsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsRequest>;
 
@@ -600,7 +783,12 @@ export const DeleteProjectsLocationsCatalogsResponse = Catalog;
 export type DeleteProjectsLocationsCatalogsError = DefaultErrors;
 
 /** Deletes an existing catalog specified by the catalog ID. */
-export const deleteProjectsLocationsCatalogs: API.OperationMethod<DeleteProjectsLocationsCatalogsRequest, DeleteProjectsLocationsCatalogsResponse, DeleteProjectsLocationsCatalogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsCatalogs: API.OperationMethod<
+  DeleteProjectsLocationsCatalogsRequest,
+  DeleteProjectsLocationsCatalogsResponse,
+  DeleteProjectsLocationsCatalogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsRequest,
   output: DeleteProjectsLocationsCatalogsResponse,
   errors: [],
@@ -614,7 +802,10 @@ export interface GetProjectsLocationsCatalogsRequest {
 export const GetProjectsLocationsCatalogsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsRequest>;
 
@@ -624,7 +815,12 @@ export const GetProjectsLocationsCatalogsResponse = Catalog;
 export type GetProjectsLocationsCatalogsError = DefaultErrors;
 
 /** Gets the catalog specified by the resource name. */
-export const getProjectsLocationsCatalogs: API.OperationMethod<GetProjectsLocationsCatalogsRequest, GetProjectsLocationsCatalogsResponse, GetProjectsLocationsCatalogsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsCatalogs: API.OperationMethod<
+  GetProjectsLocationsCatalogsRequest,
+  GetProjectsLocationsCatalogsResponse,
+  GetProjectsLocationsCatalogsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsCatalogsRequest,
   output: GetProjectsLocationsCatalogsResponse,
   errors: [],
@@ -644,7 +840,10 @@ export const ListProjectsLocationsCatalogsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsRequest>;
 
@@ -654,7 +853,12 @@ export const ListProjectsLocationsCatalogsResponse = ListCatalogsResponse;
 export type ListProjectsLocationsCatalogsError = DefaultErrors;
 
 /** List all catalogs in a specified project. */
-export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsRequest, ListProjectsLocationsCatalogsResponse, ListProjectsLocationsCatalogsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
+  ListProjectsLocationsCatalogsRequest,
+  ListProjectsLocationsCatalogsResponse,
+  ListProjectsLocationsCatalogsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsRequest,
   output: ListProjectsLocationsCatalogsResponse,
   errors: [],
@@ -678,7 +882,11 @@ export const CreateProjectsLocationsCatalogsDatabasesRequest = Schema.Struct({
   databaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("databaseId")),
   body: Schema.optional(Database).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsDatabasesRequest>;
 
@@ -688,7 +896,12 @@ export const CreateProjectsLocationsCatalogsDatabasesResponse = Database;
 export type CreateProjectsLocationsCatalogsDatabasesError = DefaultErrors;
 
 /** Creates a new database. */
-export const createProjectsLocationsCatalogsDatabases: API.OperationMethod<CreateProjectsLocationsCatalogsDatabasesRequest, CreateProjectsLocationsCatalogsDatabasesResponse, CreateProjectsLocationsCatalogsDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsCatalogsDatabases: API.OperationMethod<
+  CreateProjectsLocationsCatalogsDatabasesRequest,
+  CreateProjectsLocationsCatalogsDatabasesResponse,
+  CreateProjectsLocationsCatalogsDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsDatabasesRequest,
   output: CreateProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
@@ -702,7 +915,10 @@ export interface DeleteProjectsLocationsCatalogsDatabasesRequest {
 export const DeleteProjectsLocationsCatalogsDatabasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsDatabasesRequest>;
 
@@ -712,7 +928,12 @@ export const DeleteProjectsLocationsCatalogsDatabasesResponse = Database;
 export type DeleteProjectsLocationsCatalogsDatabasesError = DefaultErrors;
 
 /** Deletes an existing database specified by the database ID. */
-export const deleteProjectsLocationsCatalogsDatabases: API.OperationMethod<DeleteProjectsLocationsCatalogsDatabasesRequest, DeleteProjectsLocationsCatalogsDatabasesResponse, DeleteProjectsLocationsCatalogsDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsCatalogsDatabases: API.OperationMethod<
+  DeleteProjectsLocationsCatalogsDatabasesRequest,
+  DeleteProjectsLocationsCatalogsDatabasesResponse,
+  DeleteProjectsLocationsCatalogsDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsDatabasesRequest,
   output: DeleteProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
@@ -732,7 +953,11 @@ export const PatchProjectsLocationsCatalogsDatabasesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Database).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsDatabasesRequest>;
 
@@ -742,7 +967,12 @@ export const PatchProjectsLocationsCatalogsDatabasesResponse = Database;
 export type PatchProjectsLocationsCatalogsDatabasesError = DefaultErrors;
 
 /** Updates an existing database specified by the database ID. */
-export const patchProjectsLocationsCatalogsDatabases: API.OperationMethod<PatchProjectsLocationsCatalogsDatabasesRequest, PatchProjectsLocationsCatalogsDatabasesResponse, PatchProjectsLocationsCatalogsDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsCatalogsDatabases: API.OperationMethod<
+  PatchProjectsLocationsCatalogsDatabasesRequest,
+  PatchProjectsLocationsCatalogsDatabasesResponse,
+  PatchProjectsLocationsCatalogsDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsDatabasesRequest,
   output: PatchProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
@@ -756,7 +986,10 @@ export interface GetProjectsLocationsCatalogsDatabasesRequest {
 export const GetProjectsLocationsCatalogsDatabasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsDatabasesRequest>;
 
@@ -766,7 +999,12 @@ export const GetProjectsLocationsCatalogsDatabasesResponse = Database;
 export type GetProjectsLocationsCatalogsDatabasesError = DefaultErrors;
 
 /** Gets the database specified by the resource name. */
-export const getProjectsLocationsCatalogsDatabases: API.OperationMethod<GetProjectsLocationsCatalogsDatabasesRequest, GetProjectsLocationsCatalogsDatabasesResponse, GetProjectsLocationsCatalogsDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsCatalogsDatabases: API.OperationMethod<
+  GetProjectsLocationsCatalogsDatabasesRequest,
+  GetProjectsLocationsCatalogsDatabasesResponse,
+  GetProjectsLocationsCatalogsDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsCatalogsDatabasesRequest,
   output: GetProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
@@ -786,17 +1024,27 @@ export const ListProjectsLocationsCatalogsDatabasesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsDatabasesRequest>;
 
-export type ListProjectsLocationsCatalogsDatabasesResponse = ListDatabasesResponse;
-export const ListProjectsLocationsCatalogsDatabasesResponse = ListDatabasesResponse;
+export type ListProjectsLocationsCatalogsDatabasesResponse =
+  ListDatabasesResponse;
+export const ListProjectsLocationsCatalogsDatabasesResponse =
+  ListDatabasesResponse;
 
 export type ListProjectsLocationsCatalogsDatabasesError = DefaultErrors;
 
 /** List all databases in a specified catalog. */
-export const listProjectsLocationsCatalogsDatabases: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsDatabasesRequest, ListProjectsLocationsCatalogsDatabasesResponse, ListProjectsLocationsCatalogsDatabasesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsCatalogsDatabases: API.PaginatedOperationMethod<
+  ListProjectsLocationsCatalogsDatabasesRequest,
+  ListProjectsLocationsCatalogsDatabasesResponse,
+  ListProjectsLocationsCatalogsDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsDatabasesRequest,
   output: ListProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
@@ -815,14 +1063,19 @@ export interface CreateProjectsLocationsCatalogsDatabasesTablesRequest {
   body?: Table;
 }
 
-export const CreateProjectsLocationsCatalogsDatabasesTablesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  tableId: Schema.optional(Schema.String).pipe(T.HttpQuery("tableId")),
-  body: Schema.optional(Table).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsDatabasesTablesRequest>;
+export const CreateProjectsLocationsCatalogsDatabasesTablesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    tableId: Schema.optional(Schema.String).pipe(T.HttpQuery("tableId")),
+    body: Schema.optional(Table).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsDatabasesTablesRequest>;
 
 export type CreateProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export const CreateProjectsLocationsCatalogsDatabasesTablesResponse = Table;
@@ -830,7 +1083,12 @@ export const CreateProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export type CreateProjectsLocationsCatalogsDatabasesTablesError = DefaultErrors;
 
 /** Creates a new table. */
-export const createProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<CreateProjectsLocationsCatalogsDatabasesTablesRequest, CreateProjectsLocationsCatalogsDatabasesTablesResponse, CreateProjectsLocationsCatalogsDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
+  CreateProjectsLocationsCatalogsDatabasesTablesRequest,
+  CreateProjectsLocationsCatalogsDatabasesTablesResponse,
+  CreateProjectsLocationsCatalogsDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsDatabasesTablesRequest,
   output: CreateProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
@@ -841,12 +1099,16 @@ export interface DeleteProjectsLocationsCatalogsDatabasesTablesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCatalogsDatabasesTablesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsDatabasesTablesRequest>;
+export const DeleteProjectsLocationsCatalogsDatabasesTablesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsDatabasesTablesRequest>;
 
 export type DeleteProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export const DeleteProjectsLocationsCatalogsDatabasesTablesResponse = Table;
@@ -854,7 +1116,12 @@ export const DeleteProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export type DeleteProjectsLocationsCatalogsDatabasesTablesError = DefaultErrors;
 
 /** Deletes an existing table specified by the table ID. */
-export const deleteProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<DeleteProjectsLocationsCatalogsDatabasesTablesRequest, DeleteProjectsLocationsCatalogsDatabasesTablesResponse, DeleteProjectsLocationsCatalogsDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
+  DeleteProjectsLocationsCatalogsDatabasesTablesRequest,
+  DeleteProjectsLocationsCatalogsDatabasesTablesResponse,
+  DeleteProjectsLocationsCatalogsDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsDatabasesTablesRequest,
   output: DeleteProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
@@ -869,14 +1136,19 @@ export interface PatchProjectsLocationsCatalogsDatabasesTablesRequest {
   body?: Table;
 }
 
-export const PatchProjectsLocationsCatalogsDatabasesTablesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Table).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsDatabasesTablesRequest>;
+export const PatchProjectsLocationsCatalogsDatabasesTablesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Table).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsDatabasesTablesRequest>;
 
 export type PatchProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export const PatchProjectsLocationsCatalogsDatabasesTablesResponse = Table;
@@ -884,7 +1156,12 @@ export const PatchProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export type PatchProjectsLocationsCatalogsDatabasesTablesError = DefaultErrors;
 
 /** Updates an existing table specified by the table ID. */
-export const patchProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<PatchProjectsLocationsCatalogsDatabasesTablesRequest, PatchProjectsLocationsCatalogsDatabasesTablesResponse, PatchProjectsLocationsCatalogsDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
+  PatchProjectsLocationsCatalogsDatabasesTablesRequest,
+  PatchProjectsLocationsCatalogsDatabasesTablesResponse,
+  PatchProjectsLocationsCatalogsDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsDatabasesTablesRequest,
   output: PatchProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
@@ -897,13 +1174,18 @@ export interface RenameProjectsLocationsCatalogsDatabasesTablesRequest {
   body?: RenameTableRequest;
 }
 
-export const RenameProjectsLocationsCatalogsDatabasesTablesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RenameTableRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}:rename", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RenameProjectsLocationsCatalogsDatabasesTablesRequest>;
+export const RenameProjectsLocationsCatalogsDatabasesTablesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RenameTableRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}:rename",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RenameProjectsLocationsCatalogsDatabasesTablesRequest>;
 
 export type RenameProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export const RenameProjectsLocationsCatalogsDatabasesTablesResponse = Table;
@@ -911,7 +1193,12 @@ export const RenameProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export type RenameProjectsLocationsCatalogsDatabasesTablesError = DefaultErrors;
 
 /** Renames an existing table specified by the table ID. */
-export const renameProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<RenameProjectsLocationsCatalogsDatabasesTablesRequest, RenameProjectsLocationsCatalogsDatabasesTablesResponse, RenameProjectsLocationsCatalogsDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const renameProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
+  RenameProjectsLocationsCatalogsDatabasesTablesRequest,
+  RenameProjectsLocationsCatalogsDatabasesTablesResponse,
+  RenameProjectsLocationsCatalogsDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RenameProjectsLocationsCatalogsDatabasesTablesRequest,
   output: RenameProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
@@ -922,10 +1209,15 @@ export interface GetProjectsLocationsCatalogsDatabasesTablesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCatalogsDatabasesTablesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}" }),
+export const GetProjectsLocationsCatalogsDatabasesTablesRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables/{tablesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsDatabasesTablesRequest>;
 
@@ -935,7 +1227,12 @@ export const GetProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 export type GetProjectsLocationsCatalogsDatabasesTablesError = DefaultErrors;
 
 /** Gets the table specified by the resource name. */
-export const getProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<GetProjectsLocationsCatalogsDatabasesTablesRequest, GetProjectsLocationsCatalogsDatabasesTablesResponse, GetProjectsLocationsCatalogsDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
+  GetProjectsLocationsCatalogsDatabasesTablesRequest,
+  GetProjectsLocationsCatalogsDatabasesTablesResponse,
+  GetProjectsLocationsCatalogsDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsCatalogsDatabasesTablesRequest,
   output: GetProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
@@ -952,23 +1249,34 @@ export interface ListProjectsLocationsCatalogsDatabasesTablesRequest {
   view?: "TABLE_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
 }
 
-export const ListProjectsLocationsCatalogsDatabasesTablesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsDatabasesTablesRequest>;
+export const ListProjectsLocationsCatalogsDatabasesTablesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/databases/{databasesId}/tables",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsDatabasesTablesRequest>;
 
-export type ListProjectsLocationsCatalogsDatabasesTablesResponse = ListTablesResponse;
-export const ListProjectsLocationsCatalogsDatabasesTablesResponse = ListTablesResponse;
+export type ListProjectsLocationsCatalogsDatabasesTablesResponse =
+  ListTablesResponse;
+export const ListProjectsLocationsCatalogsDatabasesTablesResponse =
+  ListTablesResponse;
 
 export type ListProjectsLocationsCatalogsDatabasesTablesError = DefaultErrors;
 
 /** List all tables in a specified database. */
-export const listProjectsLocationsCatalogsDatabasesTables: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsDatabasesTablesRequest, ListProjectsLocationsCatalogsDatabasesTablesResponse, ListProjectsLocationsCatalogsDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsCatalogsDatabasesTables: API.PaginatedOperationMethod<
+  ListProjectsLocationsCatalogsDatabasesTablesRequest,
+  ListProjectsLocationsCatalogsDatabasesTablesResponse,
+  ListProjectsLocationsCatalogsDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsDatabasesTablesRequest,
   output: ListProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
@@ -977,4 +1285,3 @@ export const listProjectsLocationsCatalogsDatabasesTables: API.PaginatedOperatio
     outputToken: "nextPageToken",
   },
 }));
-

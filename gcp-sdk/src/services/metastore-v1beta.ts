@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,35 +74,51 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface BackendMetastore {
   /** The relative resource name of the metastore that is being federated. The formats of the relative resource names for the currently supported metastores are listed below: BigQuery projects/{project_id} Dataproc Metastore projects/{project_id}/locations/{location}/services/{service_id} */
   name?: string;
   /** The type of the backend metastore. */
-  metastoreType?: "METASTORE_TYPE_UNSPECIFIED" | "DATAPLEX" | "BIGQUERY" | "DATAPROC_METASTORE" | (string & {});
+  metastoreType?:
+    | "METASTORE_TYPE_UNSPECIFIED"
+    | "DATAPLEX"
+    | "BIGQUERY"
+    | "DATAPROC_METASTORE"
+    | (string & {});
 }
 
-export const BackendMetastore: Schema.Schema<BackendMetastore> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metastoreType: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackendMetastore" }) as any as Schema.Schema<BackendMetastore>;
+export const BackendMetastore: Schema.Schema<BackendMetastore> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metastoreType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "BackendMetastore",
+}) as any as Schema.Schema<BackendMetastore>;
 
 export interface Federation {
   /** Immutable. The relative resource name of the federation, of the form: projects/{project_number}/locations/{location_id}/federations/{federation_id}`. */
@@ -114,7 +136,14 @@ export interface Federation {
   /** Output only. The federation endpoint. */
   endpointUri?: string;
   /** Output only. The current state of the federation. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "ERROR" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "UPDATING"
+    | "DELETING"
+    | "ERROR"
+    | (string & {});
   /** Output only. Additional information about the current state of the metastore federation, if available. */
   stateMessage?: string;
   /** Output only. The globally unique resource identifier of the metastore federation. */
@@ -123,19 +152,23 @@ export interface Federation {
   tags?: Record<string, string>;
 }
 
-export const Federation: Schema.Schema<Federation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  version: Schema.optional(Schema.String),
-  backendMetastores: Schema.optional(Schema.Record(Schema.String, BackendMetastore)),
-  endpointUri: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  stateMessage: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "Federation" }) as any as Schema.Schema<Federation>;
+export const Federation: Schema.Schema<Federation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    version: Schema.optional(Schema.String),
+    backendMetastores: Schema.optional(
+      Schema.Record(Schema.String, BackendMetastore),
+    ),
+    endpointUri: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    stateMessage: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "Federation" }) as any as Schema.Schema<Federation>;
 
 export interface ListFederationsResponse {
   /** The services in the specified location. */
@@ -146,20 +179,27 @@ export interface ListFederationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListFederationsResponse: Schema.Schema<ListFederationsResponse> = Schema.suspend(() => Schema.Struct({
-  federations: Schema.optional(Schema.Array(Federation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListFederationsResponse" }) as any as Schema.Schema<ListFederationsResponse>;
+export const ListFederationsResponse: Schema.Schema<ListFederationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      federations: Schema.optional(Schema.Array(Federation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListFederationsResponse",
+  }) as any as Schema.Schema<ListFederationsResponse>;
 
 export interface Secret {
   /** Optional. The relative resource name of a Secret Manager secret version, in the following form:projects/{project_number}/secrets/{secret_id}/versions/{version_id}. */
   cloudSecret?: string;
 }
 
-export const Secret: Schema.Schema<Secret> = Schema.suspend(() => Schema.Struct({
-  cloudSecret: Schema.optional(Schema.String),
-})).annotate({ identifier: "Secret" }) as any as Schema.Schema<Secret>;
+export const Secret: Schema.Schema<Secret> = Schema.suspend(() =>
+  Schema.Struct({
+    cloudSecret: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Secret" }) as any as Schema.Schema<Secret>;
 
 export interface KerberosConfig {
   /** Optional. A Kerberos keytab file that can be used to authenticate a service principal with a Kerberos Key Distribution Center (KDC). */
@@ -170,11 +210,16 @@ export interface KerberosConfig {
   krb5ConfigGcsUri?: string;
 }
 
-export const KerberosConfig: Schema.Schema<KerberosConfig> = Schema.suspend(() => Schema.Struct({
-  keytab: Schema.optional(Secret),
-  principal: Schema.optional(Schema.String),
-  krb5ConfigGcsUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "KerberosConfig" }) as any as Schema.Schema<KerberosConfig>;
+export const KerberosConfig: Schema.Schema<KerberosConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      keytab: Schema.optional(Secret),
+      principal: Schema.optional(Schema.String),
+      krb5ConfigGcsUri: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "KerberosConfig",
+}) as any as Schema.Schema<KerberosConfig>;
 
 export interface Consumer {
   /** Immutable. The subnetwork of the customer project from which an IP address is reserved and used as the Dataproc Metastore service's endpoint. It is accessible to hosts in the subnet and to all hosts in a subnet in the same region and same network. There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:projects/{project_number}/regions/{region_id}/subnetworks/{subnetwork_id} */
@@ -185,11 +230,13 @@ export interface Consumer {
   endpointLocation?: string;
 }
 
-export const Consumer: Schema.Schema<Consumer> = Schema.suspend(() => Schema.Struct({
-  subnetwork: Schema.optional(Schema.String),
-  endpointUri: Schema.optional(Schema.String),
-  endpointLocation: Schema.optional(Schema.String),
-})).annotate({ identifier: "Consumer" }) as any as Schema.Schema<Consumer>;
+export const Consumer: Schema.Schema<Consumer> = Schema.suspend(() =>
+  Schema.Struct({
+    subnetwork: Schema.optional(Schema.String),
+    endpointUri: Schema.optional(Schema.String),
+    endpointLocation: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Consumer" }) as any as Schema.Schema<Consumer>;
 
 export interface NetworkConfig {
   /** Immutable. The consumer-side network configuration for the Dataproc Metastore instance. */
@@ -198,10 +245,14 @@ export interface NetworkConfig {
   customRoutesEnabled?: boolean;
 }
 
-export const NetworkConfig: Schema.Schema<NetworkConfig> = Schema.suspend(() => Schema.Struct({
-  consumers: Schema.optional(Schema.Array(Consumer)),
-  customRoutesEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "NetworkConfig" }) as any as Schema.Schema<NetworkConfig>;
+export const NetworkConfig: Schema.Schema<NetworkConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    consumers: Schema.optional(Schema.Array(Consumer)),
+    customRoutesEnabled: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "NetworkConfig",
+}) as any as Schema.Schema<NetworkConfig>;
 
 export interface AuxiliaryVersionConfig {
   /** Optional. The Hive metastore version of the auxiliary service. It must be less than the primary Hive metastore service's version. */
@@ -212,11 +263,18 @@ export interface AuxiliaryVersionConfig {
   networkConfig?: NetworkConfig;
 }
 
-export const AuxiliaryVersionConfig: Schema.Schema<AuxiliaryVersionConfig> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  configOverrides: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  networkConfig: Schema.optional(NetworkConfig),
-})).annotate({ identifier: "AuxiliaryVersionConfig" }) as any as Schema.Schema<AuxiliaryVersionConfig>;
+export const AuxiliaryVersionConfig: Schema.Schema<AuxiliaryVersionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      configOverrides: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      networkConfig: Schema.optional(NetworkConfig),
+    }),
+  ).annotate({
+    identifier: "AuxiliaryVersionConfig",
+  }) as any as Schema.Schema<AuxiliaryVersionConfig>;
 
 export interface HiveMetastoreConfig {
   /** Immutable. The Hive metastore schema version. */
@@ -226,45 +284,70 @@ export interface HiveMetastoreConfig {
   /** Optional. Information used to configure the Hive metastore service as a service principal in a Kerberos realm. To disable Kerberos, use the UpdateService method and specify this field's path (hive_metastore_config.kerberos_config) in the request's update_mask while omitting this field from the request's service. */
   kerberosConfig?: KerberosConfig;
   /** Optional. The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT. */
-  endpointProtocol?: "ENDPOINT_PROTOCOL_UNSPECIFIED" | "THRIFT" | "GRPC" | (string & {});
+  endpointProtocol?:
+    | "ENDPOINT_PROTOCOL_UNSPECIFIED"
+    | "THRIFT"
+    | "GRPC"
+    | (string & {});
   /** Optional. A mapping of Hive metastore version to the auxiliary version configuration. When specified, a secondary Hive metastore service is created along with the primary service. All auxiliary versions must be less than the service's primary version. The key is the auxiliary service name and it must match the regular expression a-z?. This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen. */
   auxiliaryVersions?: Record<string, AuxiliaryVersionConfig>;
 }
 
-export const HiveMetastoreConfig: Schema.Schema<HiveMetastoreConfig> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  configOverrides: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  kerberosConfig: Schema.optional(KerberosConfig),
-  endpointProtocol: Schema.optional(Schema.String),
-  auxiliaryVersions: Schema.optional(Schema.Record(Schema.String, AuxiliaryVersionConfig)),
-})).annotate({ identifier: "HiveMetastoreConfig" }) as any as Schema.Schema<HiveMetastoreConfig>;
+export const HiveMetastoreConfig: Schema.Schema<HiveMetastoreConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      configOverrides: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      kerberosConfig: Schema.optional(KerberosConfig),
+      endpointProtocol: Schema.optional(Schema.String),
+      auxiliaryVersions: Schema.optional(
+        Schema.Record(Schema.String, AuxiliaryVersionConfig),
+      ),
+    }),
+  ).annotate({
+    identifier: "HiveMetastoreConfig",
+  }) as any as Schema.Schema<HiveMetastoreConfig>;
 
 export interface DataCatalogConfig {
   /** Optional. Defines whether the metastore metadata should be synced to Data Catalog. The default value is to disable syncing metastore metadata to Data Catalog. */
   enabled?: boolean;
 }
 
-export const DataCatalogConfig: Schema.Schema<DataCatalogConfig> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DataCatalogConfig" }) as any as Schema.Schema<DataCatalogConfig>;
+export const DataCatalogConfig: Schema.Schema<DataCatalogConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DataCatalogConfig",
+  }) as any as Schema.Schema<DataCatalogConfig>;
 
 export interface Lake {
   /** The Lake resource name. Example: projects/{project_number}/locations/{location_id}/lakes/{lake_id} */
   name?: string;
 }
 
-export const Lake: Schema.Schema<Lake> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Lake" }) as any as Schema.Schema<Lake>;
+export const Lake: Schema.Schema<Lake> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Lake" }) as any as Schema.Schema<Lake>;
 
 export interface DataplexConfig {
   /** Optional. A reference to the Lake resources that this metastore service is attached to. The key is the lake resource name. Example: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
   lakeResources?: Record<string, Lake>;
 }
 
-export const DataplexConfig: Schema.Schema<DataplexConfig> = Schema.suspend(() => Schema.Struct({
-  lakeResources: Schema.optional(Schema.Record(Schema.String, Lake)),
-})).annotate({ identifier: "DataplexConfig" }) as any as Schema.Schema<DataplexConfig>;
+export const DataplexConfig: Schema.Schema<DataplexConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      lakeResources: Schema.optional(Schema.Record(Schema.String, Lake)),
+    }),
+).annotate({
+  identifier: "DataplexConfig",
+}) as any as Schema.Schema<DataplexConfig>;
 
 export interface MetadataIntegration {
   /** Optional. The integration config for the Data Catalog service. */
@@ -273,22 +356,41 @@ export interface MetadataIntegration {
   dataplexConfig?: DataplexConfig;
 }
 
-export const MetadataIntegration: Schema.Schema<MetadataIntegration> = Schema.suspend(() => Schema.Struct({
-  dataCatalogConfig: Schema.optional(DataCatalogConfig),
-  dataplexConfig: Schema.optional(DataplexConfig),
-})).annotate({ identifier: "MetadataIntegration" }) as any as Schema.Schema<MetadataIntegration>;
+export const MetadataIntegration: Schema.Schema<MetadataIntegration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataCatalogConfig: Schema.optional(DataCatalogConfig),
+      dataplexConfig: Schema.optional(DataplexConfig),
+    }),
+  ).annotate({
+    identifier: "MetadataIntegration",
+  }) as any as Schema.Schema<MetadataIntegration>;
 
 export interface MaintenanceWindow {
   /** Optional. The hour of day (0-23) when the window starts. */
   hourOfDay?: number;
   /** Optional. The day of week, when the window starts. */
-  dayOfWeek?: "DAY_OF_WEEK_UNSPECIFIED" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | (string & {});
+  dayOfWeek?:
+    | "DAY_OF_WEEK_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {});
 }
 
-export const MaintenanceWindow: Schema.Schema<MaintenanceWindow> = Schema.suspend(() => Schema.Struct({
-  hourOfDay: Schema.optional(Schema.Number),
-  dayOfWeek: Schema.optional(Schema.String),
-})).annotate({ identifier: "MaintenanceWindow" }) as any as Schema.Schema<MaintenanceWindow>;
+export const MaintenanceWindow: Schema.Schema<MaintenanceWindow> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hourOfDay: Schema.optional(Schema.Number),
+      dayOfWeek: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MaintenanceWindow",
+  }) as any as Schema.Schema<MaintenanceWindow>;
 
 export interface MetadataExport {
   /** Output only. A Cloud Storage URI of a folder that metadata are exported to, in the form of gs:////, where is automatically generated. */
@@ -298,18 +400,29 @@ export interface MetadataExport {
   /** Output only. The time when the export ended. */
   endTime?: string;
   /** Output only. The current state of the export. */
-  state?: "STATE_UNSPECIFIED" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
   /** Output only. The type of the database dump. */
   databaseDumpType?: "TYPE_UNSPECIFIED" | "MYSQL" | "AVRO" | (string & {});
 }
 
-export const MetadataExport: Schema.Schema<MetadataExport> = Schema.suspend(() => Schema.Struct({
-  destinationGcsUri: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  databaseDumpType: Schema.optional(Schema.String),
-})).annotate({ identifier: "MetadataExport" }) as any as Schema.Schema<MetadataExport>;
+export const MetadataExport: Schema.Schema<MetadataExport> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      destinationGcsUri: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      databaseDumpType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MetadataExport",
+}) as any as Schema.Schema<MetadataExport>;
 
 export interface Restore {
   /** Output only. The time when the restore started. */
@@ -317,7 +430,13 @@ export interface Restore {
   /** Output only. The time when the restore ended. */
   endTime?: string;
   /** Output only. The current state of the restore. */
-  state?: "STATE_UNSPECIFIED" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
   /** Output only. The relative resource name of the metastore service backup to restore from, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}. */
   backup?: string;
   /** Output only. The type of restore. */
@@ -328,15 +447,17 @@ export interface Restore {
   backupLocation?: string;
 }
 
-export const Restore: Schema.Schema<Restore> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  backup: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.String),
-  backupLocation: Schema.optional(Schema.String),
-})).annotate({ identifier: "Restore" }) as any as Schema.Schema<Restore>;
+export const Restore: Schema.Schema<Restore> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    backup: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    details: Schema.optional(Schema.String),
+    backupLocation: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Restore" }) as any as Schema.Schema<Restore>;
 
 export interface MetadataManagementActivity {
   /** Output only. The latest metadata exports of the metastore service. */
@@ -345,10 +466,15 @@ export interface MetadataManagementActivity {
   restores?: Array<Restore>;
 }
 
-export const MetadataManagementActivity: Schema.Schema<MetadataManagementActivity> = Schema.suspend(() => Schema.Struct({
-  metadataExports: Schema.optional(Schema.Array(MetadataExport)),
-  restores: Schema.optional(Schema.Array(Restore)),
-})).annotate({ identifier: "MetadataManagementActivity" }) as any as Schema.Schema<MetadataManagementActivity>;
+export const MetadataManagementActivity: Schema.Schema<MetadataManagementActivity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      metadataExports: Schema.optional(Schema.Array(MetadataExport)),
+      restores: Schema.optional(Schema.Array(Restore)),
+    }),
+  ).annotate({
+    identifier: "MetadataManagementActivity",
+  }) as any as Schema.Schema<MetadataManagementActivity>;
 
 export interface EncryptionConfig {
   /** Optional. The fully qualified customer provided Cloud KMS key name to use for customer data encryption, in the following format:projects/{project_number}/locations/{location_id}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}. */
@@ -357,19 +483,29 @@ export interface EncryptionConfig {
   kmsKeys?: Array<string>;
 }
 
-export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  kmsKey: Schema.optional(Schema.String),
-  kmsKeys: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "EncryptionConfig" }) as any as Schema.Schema<EncryptionConfig>;
+export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kmsKey: Schema.optional(Schema.String),
+      kmsKeys: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "EncryptionConfig",
+}) as any as Schema.Schema<EncryptionConfig>;
 
 export interface TelemetryConfig {
   /** Optional. The output format of the Dataproc Metastore service's logs. */
   logFormat?: "LOG_FORMAT_UNSPECIFIED" | "LEGACY" | "JSON" | (string & {});
 }
 
-export const TelemetryConfig: Schema.Schema<TelemetryConfig> = Schema.suspend(() => Schema.Struct({
-  logFormat: Schema.optional(Schema.String),
-})).annotate({ identifier: "TelemetryConfig" }) as any as Schema.Schema<TelemetryConfig>;
+export const TelemetryConfig: Schema.Schema<TelemetryConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logFormat: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TelemetryConfig",
+}) as any as Schema.Schema<TelemetryConfig>;
 
 export interface LimitConfig {
   /** Optional. The highest scaling factor that the service should be autoscaled to. */
@@ -378,10 +514,12 @@ export interface LimitConfig {
   minScalingFactor?: number;
 }
 
-export const LimitConfig: Schema.Schema<LimitConfig> = Schema.suspend(() => Schema.Struct({
-  maxScalingFactor: Schema.optional(Schema.Number),
-  minScalingFactor: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LimitConfig" }) as any as Schema.Schema<LimitConfig>;
+export const LimitConfig: Schema.Schema<LimitConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    maxScalingFactor: Schema.optional(Schema.Number),
+    minScalingFactor: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "LimitConfig" }) as any as Schema.Schema<LimitConfig>;
 
 export interface AutoscalingConfig {
   /** Output only. The scaling factor of a service with autoscaling enabled. */
@@ -392,26 +530,42 @@ export interface AutoscalingConfig {
   limitConfig?: LimitConfig;
 }
 
-export const AutoscalingConfig: Schema.Schema<AutoscalingConfig> = Schema.suspend(() => Schema.Struct({
-  autoscalingFactor: Schema.optional(Schema.Number),
-  autoscalingEnabled: Schema.optional(Schema.Boolean),
-  limitConfig: Schema.optional(LimitConfig),
-})).annotate({ identifier: "AutoscalingConfig" }) as any as Schema.Schema<AutoscalingConfig>;
+export const AutoscalingConfig: Schema.Schema<AutoscalingConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoscalingFactor: Schema.optional(Schema.Number),
+      autoscalingEnabled: Schema.optional(Schema.Boolean),
+      limitConfig: Schema.optional(LimitConfig),
+    }),
+  ).annotate({
+    identifier: "AutoscalingConfig",
+  }) as any as Schema.Schema<AutoscalingConfig>;
 
 export interface ScalingConfig {
   /** An enum of readable instance sizes, with each instance size mapping to a float value (e.g. InstanceSize.EXTRA_SMALL = scaling_factor(0.1)) */
-  instanceSize?: "INSTANCE_SIZE_UNSPECIFIED" | "EXTRA_SMALL" | "SMALL" | "MEDIUM" | "LARGE" | "EXTRA_LARGE" | (string & {});
+  instanceSize?:
+    | "INSTANCE_SIZE_UNSPECIFIED"
+    | "EXTRA_SMALL"
+    | "SMALL"
+    | "MEDIUM"
+    | "LARGE"
+    | "EXTRA_LARGE"
+    | (string & {});
   /** Scaling factor, increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0. */
   scalingFactor?: number;
   /** Optional. The autoscaling configuration. */
   autoscalingConfig?: AutoscalingConfig;
 }
 
-export const ScalingConfig: Schema.Schema<ScalingConfig> = Schema.suspend(() => Schema.Struct({
-  instanceSize: Schema.optional(Schema.String),
-  scalingFactor: Schema.optional(Schema.Number),
-  autoscalingConfig: Schema.optional(AutoscalingConfig),
-})).annotate({ identifier: "ScalingConfig" }) as any as Schema.Schema<ScalingConfig>;
+export const ScalingConfig: Schema.Schema<ScalingConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    instanceSize: Schema.optional(Schema.String),
+    scalingFactor: Schema.optional(Schema.Number),
+    autoscalingConfig: Schema.optional(AutoscalingConfig),
+  }),
+).annotate({
+  identifier: "ScalingConfig",
+}) as any as Schema.Schema<ScalingConfig>;
 
 export interface RootCACertificate {
   /** Deprecated: Use a single region service instead. The root CA certificate in PEM format. The maximum length is 65536 bytes. */
@@ -420,10 +574,15 @@ export interface RootCACertificate {
   expirationTime?: string;
 }
 
-export const RootCACertificate: Schema.Schema<RootCACertificate> = Schema.suspend(() => Schema.Struct({
-  certificate: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "RootCACertificate" }) as any as Schema.Schema<RootCACertificate>;
+export const RootCACertificate: Schema.Schema<RootCACertificate> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certificate: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RootCACertificate",
+  }) as any as Schema.Schema<RootCACertificate>;
 
 export interface CustomRegionConfig {
   /** Required. The list of read-write regions where the metastore service runs in. These regions should be part (or subset) of the multi-region. */
@@ -432,10 +591,15 @@ export interface CustomRegionConfig {
   readOnlyRegions?: Array<string>;
 }
 
-export const CustomRegionConfig: Schema.Schema<CustomRegionConfig> = Schema.suspend(() => Schema.Struct({
-  readWriteRegions: Schema.optional(Schema.Array(Schema.String)),
-  readOnlyRegions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomRegionConfig" }) as any as Schema.Schema<CustomRegionConfig>;
+export const CustomRegionConfig: Schema.Schema<CustomRegionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      readWriteRegions: Schema.optional(Schema.Array(Schema.String)),
+      readOnlyRegions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomRegionConfig",
+  }) as any as Schema.Schema<CustomRegionConfig>;
 
 export interface MultiRegionConfig {
   /** Output only. Deprecated: Use a single region service instead. The list of root CA certificates that a gRPC client uses to connect to a multi-regional Dataproc Metastore service. */
@@ -444,10 +608,15 @@ export interface MultiRegionConfig {
   customRegionConfig?: CustomRegionConfig;
 }
 
-export const MultiRegionConfig: Schema.Schema<MultiRegionConfig> = Schema.suspend(() => Schema.Struct({
-  certificates: Schema.optional(Schema.Array(RootCACertificate)),
-  customRegionConfig: Schema.optional(CustomRegionConfig),
-})).annotate({ identifier: "MultiRegionConfig" }) as any as Schema.Schema<MultiRegionConfig>;
+export const MultiRegionConfig: Schema.Schema<MultiRegionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certificates: Schema.optional(Schema.Array(RootCACertificate)),
+      customRegionConfig: Schema.optional(CustomRegionConfig),
+    }),
+  ).annotate({
+    identifier: "MultiRegionConfig",
+  }) as any as Schema.Schema<MultiRegionConfig>;
 
 export interface LatestBackup {
   /** Output only. The ID of an in-progress scheduled backup. Empty if no backup is in progress. */
@@ -455,17 +624,26 @@ export interface LatestBackup {
   /** Output only. The time when the backup was started. */
   startTime?: string;
   /** Output only. The current state of the backup. */
-  state?: "STATE_UNSPECIFIED" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "IN_PROGRESS"
+    | "SUCCEEDED"
+    | "FAILED"
+    | (string & {});
   /** Output only. The duration of the backup completion. */
   duration?: string;
 }
 
-export const LatestBackup: Schema.Schema<LatestBackup> = Schema.suspend(() => Schema.Struct({
-  backupId: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "LatestBackup" }) as any as Schema.Schema<LatestBackup>;
+export const LatestBackup: Schema.Schema<LatestBackup> = Schema.suspend(() =>
+  Schema.Struct({
+    backupId: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    duration: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "LatestBackup",
+}) as any as Schema.Schema<LatestBackup>;
 
 export interface ScheduledBackup {
   /** Optional. Defines whether the scheduled backup is enabled. The default value is false. */
@@ -482,14 +660,19 @@ export interface ScheduledBackup {
   latestBackup?: LatestBackup;
 }
 
-export const ScheduledBackup: Schema.Schema<ScheduledBackup> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  cronSchedule: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-  nextScheduledTime: Schema.optional(Schema.String),
-  backupLocation: Schema.optional(Schema.String),
-  latestBackup: Schema.optional(LatestBackup),
-})).annotate({ identifier: "ScheduledBackup" }) as any as Schema.Schema<ScheduledBackup>;
+export const ScheduledBackup: Schema.Schema<ScheduledBackup> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      cronSchedule: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+      nextScheduledTime: Schema.optional(Schema.String),
+      backupLocation: Schema.optional(Schema.String),
+      latestBackup: Schema.optional(LatestBackup),
+    }),
+).annotate({
+  identifier: "ScheduledBackup",
+}) as any as Schema.Schema<ScheduledBackup>;
 
 export interface Service {
   /** Configuration information specific to running Hive metastore software as the metastore service. */
@@ -509,7 +692,18 @@ export interface Service {
   /** Optional. The TCP port at which the metastore service is reached. Default: 9083. */
   port?: number;
   /** Output only. The current state of the metastore service. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "SUSPENDING" | "SUSPENDED" | "UPDATING" | "DELETING" | "ERROR" | "AUTOSCALING" | "MIGRATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "SUSPENDING"
+    | "SUSPENDED"
+    | "UPDATING"
+    | "DELETING"
+    | "ERROR"
+    | "AUTOSCALING"
+    | "MIGRATING"
+    | (string & {});
   /** Output only. Additional information about the current state of the metastore service, if available. */
   stateMessage?: string;
   /** Output only. A Cloud Storage URI (starting with gs://) that specifies where artifacts related to the metastore service are stored. */
@@ -525,13 +719,21 @@ export interface Service {
   /** Output only. The metadata management activities of the metastore service. */
   metadataManagementActivity?: MetadataManagementActivity;
   /** Immutable. The release channel of the service. If unspecified, defaults to STABLE. */
-  releaseChannel?: "RELEASE_CHANNEL_UNSPECIFIED" | "CANARY" | "STABLE" | (string & {});
+  releaseChannel?:
+    | "RELEASE_CHANNEL_UNSPECIFIED"
+    | "CANARY"
+    | "STABLE"
+    | (string & {});
   /** Immutable. Information used to configure the Dataproc Metastore service to encrypt customer data at rest. Cannot be updated. */
   encryptionConfig?: EncryptionConfig;
   /** Optional. The configuration specifying the network settings for the Dataproc Metastore service. */
   networkConfig?: NetworkConfig;
   /** Immutable. The database type that the Metastore service stores its data. */
-  databaseType?: "DATABASE_TYPE_UNSPECIFIED" | "MYSQL" | "SPANNER" | (string & {});
+  databaseType?:
+    | "DATABASE_TYPE_UNSPECIFIED"
+    | "MYSQL"
+    | "SPANNER"
+    | (string & {});
   /** Optional. The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON. */
   telemetryConfig?: TelemetryConfig;
   /** Optional. Scaling configuration of the metastore service. */
@@ -546,34 +748,36 @@ export interface Service {
   tags?: Record<string, string>;
 }
 
-export const Service: Schema.Schema<Service> = Schema.suspend(() => Schema.Struct({
-  hiveMetastoreConfig: Schema.optional(HiveMetastoreConfig),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  network: Schema.optional(Schema.String),
-  endpointUri: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  state: Schema.optional(Schema.String),
-  stateMessage: Schema.optional(Schema.String),
-  artifactGcsUri: Schema.optional(Schema.String),
-  tier: Schema.optional(Schema.String),
-  metadataIntegration: Schema.optional(MetadataIntegration),
-  maintenanceWindow: Schema.optional(MaintenanceWindow),
-  uid: Schema.optional(Schema.String),
-  metadataManagementActivity: Schema.optional(MetadataManagementActivity),
-  releaseChannel: Schema.optional(Schema.String),
-  encryptionConfig: Schema.optional(EncryptionConfig),
-  networkConfig: Schema.optional(NetworkConfig),
-  databaseType: Schema.optional(Schema.String),
-  telemetryConfig: Schema.optional(TelemetryConfig),
-  scalingConfig: Schema.optional(ScalingConfig),
-  multiRegionConfig: Schema.optional(MultiRegionConfig),
-  scheduledBackup: Schema.optional(ScheduledBackup),
-  deletionProtection: Schema.optional(Schema.Boolean),
-  tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
+export const Service: Schema.Schema<Service> = Schema.suspend(() =>
+  Schema.Struct({
+    hiveMetastoreConfig: Schema.optional(HiveMetastoreConfig),
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    network: Schema.optional(Schema.String),
+    endpointUri: Schema.optional(Schema.String),
+    port: Schema.optional(Schema.Number),
+    state: Schema.optional(Schema.String),
+    stateMessage: Schema.optional(Schema.String),
+    artifactGcsUri: Schema.optional(Schema.String),
+    tier: Schema.optional(Schema.String),
+    metadataIntegration: Schema.optional(MetadataIntegration),
+    maintenanceWindow: Schema.optional(MaintenanceWindow),
+    uid: Schema.optional(Schema.String),
+    metadataManagementActivity: Schema.optional(MetadataManagementActivity),
+    releaseChannel: Schema.optional(Schema.String),
+    encryptionConfig: Schema.optional(EncryptionConfig),
+    networkConfig: Schema.optional(NetworkConfig),
+    databaseType: Schema.optional(Schema.String),
+    telemetryConfig: Schema.optional(TelemetryConfig),
+    scalingConfig: Schema.optional(ScalingConfig),
+    multiRegionConfig: Schema.optional(MultiRegionConfig),
+    scheduledBackup: Schema.optional(ScheduledBackup),
+    deletionProtection: Schema.optional(Schema.Boolean),
+    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
 
 export interface ListServicesResponse {
   /** The services in the specified location. */
@@ -584,11 +788,16 @@ export interface ListServicesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListServicesResponse: Schema.Schema<ListServicesResponse> = Schema.suspend(() => Schema.Struct({
-  services: Schema.optional(Schema.Array(Service)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListServicesResponse" }) as any as Schema.Schema<ListServicesResponse>;
+export const ListServicesResponse: Schema.Schema<ListServicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      services: Schema.optional(Schema.Array(Service)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListServicesResponse",
+  }) as any as Schema.Schema<ListServicesResponse>;
 
 export interface DatabaseDump {
   /** The type of the database. */
@@ -601,12 +810,16 @@ export interface DatabaseDump {
   type?: "TYPE_UNSPECIFIED" | "MYSQL" | "AVRO" | (string & {});
 }
 
-export const DatabaseDump: Schema.Schema<DatabaseDump> = Schema.suspend(() => Schema.Struct({
-  databaseType: Schema.optional(Schema.String),
-  gcsUri: Schema.optional(Schema.String),
-  sourceDatabase: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "DatabaseDump" }) as any as Schema.Schema<DatabaseDump>;
+export const DatabaseDump: Schema.Schema<DatabaseDump> = Schema.suspend(() =>
+  Schema.Struct({
+    databaseType: Schema.optional(Schema.String),
+    gcsUri: Schema.optional(Schema.String),
+    sourceDatabase: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DatabaseDump",
+}) as any as Schema.Schema<DatabaseDump>;
 
 export interface MetadataImport {
   /** Immutable. A database dump from a pre-existing metastore's database. */
@@ -622,18 +835,29 @@ export interface MetadataImport {
   /** Output only. The time when the metadata import finished. */
   endTime?: string;
   /** Output only. The current state of the metadata import. */
-  state?: "STATE_UNSPECIFIED" | "RUNNING" | "SUCCEEDED" | "UPDATING" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "UPDATING"
+    | "FAILED"
+    | (string & {});
 }
 
-export const MetadataImport: Schema.Schema<MetadataImport> = Schema.suspend(() => Schema.Struct({
-  databaseDump: Schema.optional(DatabaseDump),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "MetadataImport" }) as any as Schema.Schema<MetadataImport>;
+export const MetadataImport: Schema.Schema<MetadataImport> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      databaseDump: Schema.optional(DatabaseDump),
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MetadataImport",
+}) as any as Schema.Schema<MetadataImport>;
 
 export interface ListMetadataImportsResponse {
   /** The imports in the specified service. */
@@ -644,11 +868,16 @@ export interface ListMetadataImportsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListMetadataImportsResponse: Schema.Schema<ListMetadataImportsResponse> = Schema.suspend(() => Schema.Struct({
-  metadataImports: Schema.optional(Schema.Array(MetadataImport)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListMetadataImportsResponse" }) as any as Schema.Schema<ListMetadataImportsResponse>;
+export const ListMetadataImportsResponse: Schema.Schema<ListMetadataImportsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      metadataImports: Schema.optional(Schema.Array(MetadataImport)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListMetadataImportsResponse",
+  }) as any as Schema.Schema<ListMetadataImportsResponse>;
 
 export interface ExportMetadataRequest {
   /** A Cloud Storage URI of a folder, in the format gs:///. A sub-folder containing exported files will be created below it. */
@@ -659,11 +888,16 @@ export interface ExportMetadataRequest {
   databaseDumpType?: "TYPE_UNSPECIFIED" | "MYSQL" | "AVRO" | (string & {});
 }
 
-export const ExportMetadataRequest: Schema.Schema<ExportMetadataRequest> = Schema.suspend(() => Schema.Struct({
-  destinationGcsFolder: Schema.optional(Schema.String),
-  requestId: Schema.optional(Schema.String),
-  databaseDumpType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExportMetadataRequest" }) as any as Schema.Schema<ExportMetadataRequest>;
+export const ExportMetadataRequest: Schema.Schema<ExportMetadataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationGcsFolder: Schema.optional(Schema.String),
+      requestId: Schema.optional(Schema.String),
+      databaseDumpType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExportMetadataRequest",
+  }) as any as Schema.Schema<ExportMetadataRequest>;
 
 export interface RestoreServiceRequest {
   /** Optional. The relative resource name of the metastore service backup to restore from, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}. Mutually exclusive with backup_location, and exactly one of the two must be set. */
@@ -671,17 +905,26 @@ export interface RestoreServiceRequest {
   /** Optional. A Cloud Storage URI specifying the location of the backup artifacts, namely - backup avro files under "avro/", backup_metastore.json and service.json, in the following form:gs://. Mutually exclusive with backup, and exactly one of the two must be set. */
   backupLocation?: string;
   /** Optional. The type of restore. If unspecified, defaults to METADATA_ONLY. */
-  restoreType?: "RESTORE_TYPE_UNSPECIFIED" | "FULL" | "METADATA_ONLY" | (string & {});
+  restoreType?:
+    | "RESTORE_TYPE_UNSPECIFIED"
+    | "FULL"
+    | "METADATA_ONLY"
+    | (string & {});
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format). A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string;
 }
 
-export const RestoreServiceRequest: Schema.Schema<RestoreServiceRequest> = Schema.suspend(() => Schema.Struct({
-  backup: Schema.optional(Schema.String),
-  backupLocation: Schema.optional(Schema.String),
-  restoreType: Schema.optional(Schema.String),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RestoreServiceRequest" }) as any as Schema.Schema<RestoreServiceRequest>;
+export const RestoreServiceRequest: Schema.Schema<RestoreServiceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backup: Schema.optional(Schema.String),
+      backupLocation: Schema.optional(Schema.String),
+      restoreType: Schema.optional(Schema.String),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RestoreServiceRequest",
+  }) as any as Schema.Schema<RestoreServiceRequest>;
 
 export interface Backup {
   /** Immutable. Identifier. The relative resource name of the backup, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/backups/{backup_id} */
@@ -691,7 +934,14 @@ export interface Backup {
   /** Output only. The time when the backup finished creating. */
   endTime?: string;
   /** Output only. The current state of the backup. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "DELETING" | "ACTIVE" | "FAILED" | "RESTORING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "DELETING"
+    | "ACTIVE"
+    | "FAILED"
+    | "RESTORING"
+    | (string & {});
   /** Output only. The revision of the service at the time of backup. */
   serviceRevision?: Service;
   /** Optional. The description of the backup. */
@@ -700,15 +950,17 @@ export interface Backup {
   restoringServices?: Array<string>;
 }
 
-export const Backup: Schema.Schema<Backup> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  serviceRevision: Schema.optional(Service),
-  description: Schema.optional(Schema.String),
-  restoringServices: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Backup" }) as any as Schema.Schema<Backup>;
+export const Backup: Schema.Schema<Backup> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    serviceRevision: Schema.optional(Service),
+    description: Schema.optional(Schema.String),
+    restoringServices: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Backup" }) as any as Schema.Schema<Backup>;
 
 export interface ListBackupsResponse {
   /** The backups of the specified service. */
@@ -719,38 +971,58 @@ export interface ListBackupsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListBackupsResponse: Schema.Schema<ListBackupsResponse> = Schema.suspend(() => Schema.Struct({
-  backups: Schema.optional(Schema.Array(Backup)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListBackupsResponse" }) as any as Schema.Schema<ListBackupsResponse>;
+export const ListBackupsResponse: Schema.Schema<ListBackupsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backups: Schema.optional(Schema.Array(Backup)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListBackupsResponse",
+  }) as any as Schema.Schema<ListBackupsResponse>;
 
 export interface RemoveIamPolicyRequest {
   /** Optional. Removes IAM policy attached to database or table asynchronously when it is set. The default is false. */
   asynchronous?: boolean;
 }
 
-export const RemoveIamPolicyRequest: Schema.Schema<RemoveIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  asynchronous: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RemoveIamPolicyRequest" }) as any as Schema.Schema<RemoveIamPolicyRequest>;
+export const RemoveIamPolicyRequest: Schema.Schema<RemoveIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      asynchronous: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RemoveIamPolicyRequest",
+  }) as any as Schema.Schema<RemoveIamPolicyRequest>;
 
 export interface RemoveIamPolicyResponse {
   /** True if the policy is successfully removed. */
   success?: boolean;
 }
 
-export const RemoveIamPolicyResponse: Schema.Schema<RemoveIamPolicyResponse> = Schema.suspend(() => Schema.Struct({
-  success: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RemoveIamPolicyResponse" }) as any as Schema.Schema<RemoveIamPolicyResponse>;
+export const RemoveIamPolicyResponse: Schema.Schema<RemoveIamPolicyResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      success: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RemoveIamPolicyResponse",
+  }) as any as Schema.Schema<RemoveIamPolicyResponse>;
 
 export interface QueryMetadataRequest {
   /** Required. A read-only SQL query to execute against the metadata database. The query cannot change or mutate the data. */
   query?: string;
 }
 
-export const QueryMetadataRequest: Schema.Schema<QueryMetadataRequest> = Schema.suspend(() => Schema.Struct({
-  query: Schema.optional(Schema.String),
-})).annotate({ identifier: "QueryMetadataRequest" }) as any as Schema.Schema<QueryMetadataRequest>;
+export const QueryMetadataRequest: Schema.Schema<QueryMetadataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      query: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryMetadataRequest",
+  }) as any as Schema.Schema<QueryMetadataRequest>;
 
 export interface MoveTableToDatabaseRequest {
   /** Required. The name of the table to be moved. */
@@ -761,11 +1033,16 @@ export interface MoveTableToDatabaseRequest {
   destinationDbName?: string;
 }
 
-export const MoveTableToDatabaseRequest: Schema.Schema<MoveTableToDatabaseRequest> = Schema.suspend(() => Schema.Struct({
-  tableName: Schema.optional(Schema.String),
-  dbName: Schema.optional(Schema.String),
-  destinationDbName: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveTableToDatabaseRequest" }) as any as Schema.Schema<MoveTableToDatabaseRequest>;
+export const MoveTableToDatabaseRequest: Schema.Schema<MoveTableToDatabaseRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableName: Schema.optional(Schema.String),
+      dbName: Schema.optional(Schema.String),
+      destinationDbName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveTableToDatabaseRequest",
+  }) as any as Schema.Schema<MoveTableToDatabaseRequest>;
 
 export interface AlterMetadataResourceLocationRequest {
   /** Required. The relative metadata resource name in the following format.databases/{database_id} or databases/{database_id}/tables/{table_id} or databases/{database_id}/tables/{table_id}/partitions/{partition_id} */
@@ -774,10 +1051,15 @@ export interface AlterMetadataResourceLocationRequest {
   locationUri?: string;
 }
 
-export const AlterMetadataResourceLocationRequest: Schema.Schema<AlterMetadataResourceLocationRequest> = Schema.suspend(() => Schema.Struct({
-  resourceName: Schema.optional(Schema.String),
-  locationUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "AlterMetadataResourceLocationRequest" }) as any as Schema.Schema<AlterMetadataResourceLocationRequest>;
+export const AlterMetadataResourceLocationRequest: Schema.Schema<AlterMetadataResourceLocationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceName: Schema.optional(Schema.String),
+      locationUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AlterMetadataResourceLocationRequest",
+  }) as any as Schema.Schema<AlterMetadataResourceLocationRequest>;
 
 export interface AlterTablePropertiesRequest {
   /** Required. The name of the table containing the properties you're altering in the following format.databases/{database_id}/tables/{table_id} */
@@ -788,11 +1070,16 @@ export interface AlterTablePropertiesRequest {
   properties?: Record<string, string>;
 }
 
-export const AlterTablePropertiesRequest: Schema.Schema<AlterTablePropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  tableName: Schema.optional(Schema.String),
-  updateMask: Schema.optional(Schema.String),
-  properties: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "AlterTablePropertiesRequest" }) as any as Schema.Schema<AlterTablePropertiesRequest>;
+export const AlterTablePropertiesRequest: Schema.Schema<AlterTablePropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableName: Schema.optional(Schema.String),
+      updateMask: Schema.optional(Schema.String),
+      properties: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AlterTablePropertiesRequest",
+  }) as any as Schema.Schema<AlterTablePropertiesRequest>;
 
 export interface CdcConfig {
   /** Required. Fully qualified name of the Cloud SQL instance's VPC network or the shared VPC network that Datastream will peer to, in the following format: projects/{project_id}/locations/global/networks/{network_id}. More context in https://cloud.google.com/datastream/docs/network-connectivity-options#privateconnectivity */
@@ -811,15 +1098,17 @@ export interface CdcConfig {
   rootPath?: string;
 }
 
-export const CdcConfig: Schema.Schema<CdcConfig> = Schema.suspend(() => Schema.Struct({
-  vpcNetwork: Schema.optional(Schema.String),
-  subnetIpRange: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  reverseProxySubnet: Schema.optional(Schema.String),
-  bucket: Schema.optional(Schema.String),
-  rootPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "CdcConfig" }) as any as Schema.Schema<CdcConfig>;
+export const CdcConfig: Schema.Schema<CdcConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    vpcNetwork: Schema.optional(Schema.String),
+    subnetIpRange: Schema.optional(Schema.String),
+    username: Schema.optional(Schema.String),
+    password: Schema.optional(Schema.String),
+    reverseProxySubnet: Schema.optional(Schema.String),
+    bucket: Schema.optional(Schema.String),
+    rootPath: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CdcConfig" }) as any as Schema.Schema<CdcConfig>;
 
 export interface CloudSQLConnectionConfig {
   /** Required. Cloud SQL database connection name (project_id:region:instance_name) */
@@ -840,16 +1129,21 @@ export interface CloudSQLConnectionConfig {
   natSubnet?: string;
 }
 
-export const CloudSQLConnectionConfig: Schema.Schema<CloudSQLConnectionConfig> = Schema.suspend(() => Schema.Struct({
-  instanceConnectionName: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  hiveDatabaseName: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  proxySubnet: Schema.optional(Schema.String),
-  natSubnet: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudSQLConnectionConfig" }) as any as Schema.Schema<CloudSQLConnectionConfig>;
+export const CloudSQLConnectionConfig: Schema.Schema<CloudSQLConnectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instanceConnectionName: Schema.optional(Schema.String),
+      ipAddress: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+      hiveDatabaseName: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      proxySubnet: Schema.optional(Schema.String),
+      natSubnet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudSQLConnectionConfig",
+  }) as any as Schema.Schema<CloudSQLConnectionConfig>;
 
 export interface CloudSQLMigrationConfig {
   /** Required. Configuration information to start the Change Data Capture (CDC) streams from customer database to backend database of Dataproc Metastore. Dataproc Metastore switches to using its backend database after the cutover phase of migration. */
@@ -858,10 +1152,15 @@ export interface CloudSQLMigrationConfig {
   cloudSqlConnectionConfig?: CloudSQLConnectionConfig;
 }
 
-export const CloudSQLMigrationConfig: Schema.Schema<CloudSQLMigrationConfig> = Schema.suspend(() => Schema.Struct({
-  cdcConfig: Schema.optional(CdcConfig),
-  cloudSqlConnectionConfig: Schema.optional(CloudSQLConnectionConfig),
-})).annotate({ identifier: "CloudSQLMigrationConfig" }) as any as Schema.Schema<CloudSQLMigrationConfig>;
+export const CloudSQLMigrationConfig: Schema.Schema<CloudSQLMigrationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cdcConfig: Schema.optional(CdcConfig),
+      cloudSqlConnectionConfig: Schema.optional(CloudSQLConnectionConfig),
+    }),
+  ).annotate({
+    identifier: "CloudSQLMigrationConfig",
+  }) as any as Schema.Schema<CloudSQLMigrationConfig>;
 
 export interface MigrationExecution {
   /** Configuration information specific to migrating from self-managed hive metastore on Google Cloud using Cloud SQL as the backend database to Dataproc Metastore. */
@@ -873,22 +1172,37 @@ export interface MigrationExecution {
   /** Output only. The time when the migration execution finished. */
   endTime?: string;
   /** Output only. The current state of the migration execution. */
-  state?: "STATE_UNSPECIFIED" | "STARTING" | "RUNNING" | "CANCELLING" | "AWAITING_USER_ACTION" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STARTING"
+    | "RUNNING"
+    | "CANCELLING"
+    | "AWAITING_USER_ACTION"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | "DELETING"
+    | (string & {});
   /** Output only. The current phase of the migration execution. */
   phase?: "PHASE_UNSPECIFIED" | "REPLICATION" | "CUTOVER" | (string & {});
   /** Output only. Additional information about the current state of the migration execution. */
   stateMessage?: string;
 }
 
-export const MigrationExecution: Schema.Schema<MigrationExecution> = Schema.suspend(() => Schema.Struct({
-  cloudSqlMigrationConfig: Schema.optional(CloudSQLMigrationConfig),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  phase: Schema.optional(Schema.String),
-  stateMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "MigrationExecution" }) as any as Schema.Schema<MigrationExecution>;
+export const MigrationExecution: Schema.Schema<MigrationExecution> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudSqlMigrationConfig: Schema.optional(CloudSQLMigrationConfig),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      phase: Schema.optional(Schema.String),
+      stateMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MigrationExecution",
+  }) as any as Schema.Schema<MigrationExecution>;
 
 export interface StartMigrationRequest {
   /** Required. The configuration details for the migration. */
@@ -897,22 +1211,29 @@ export interface StartMigrationRequest {
   requestId?: string;
 }
 
-export const StartMigrationRequest: Schema.Schema<StartMigrationRequest> = Schema.suspend(() => Schema.Struct({
-  migrationExecution: Schema.optional(MigrationExecution),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "StartMigrationRequest" }) as any as Schema.Schema<StartMigrationRequest>;
+export const StartMigrationRequest: Schema.Schema<StartMigrationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationExecution: Schema.optional(MigrationExecution),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StartMigrationRequest",
+  }) as any as Schema.Schema<StartMigrationRequest>;
 
-export interface CompleteMigrationRequest {
-}
+export interface CompleteMigrationRequest {}
 
-export const CompleteMigrationRequest: Schema.Schema<CompleteMigrationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CompleteMigrationRequest" }) as any as Schema.Schema<CompleteMigrationRequest>;
+export const CompleteMigrationRequest: Schema.Schema<CompleteMigrationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CompleteMigrationRequest",
+  }) as any as Schema.Schema<CompleteMigrationRequest>;
 
-export interface CancelMigrationRequest {
-}
+export interface CancelMigrationRequest {}
 
-export const CancelMigrationRequest: Schema.Schema<CancelMigrationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelMigrationRequest" }) as any as Schema.Schema<CancelMigrationRequest>;
+export const CancelMigrationRequest: Schema.Schema<CancelMigrationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelMigrationRequest",
+  }) as any as Schema.Schema<CancelMigrationRequest>;
 
 export interface ListMigrationExecutionsResponse {
   /** The migration executions on the specified service. */
@@ -923,11 +1244,16 @@ export interface ListMigrationExecutionsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListMigrationExecutionsResponse: Schema.Schema<ListMigrationExecutionsResponse> = Schema.suspend(() => Schema.Struct({
-  migrationExecutions: Schema.optional(Schema.Array(MigrationExecution)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListMigrationExecutionsResponse" }) as any as Schema.Schema<ListMigrationExecutionsResponse>;
+export const ListMigrationExecutionsResponse: Schema.Schema<ListMigrationExecutionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationExecutions: Schema.optional(Schema.Array(MigrationExecution)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListMigrationExecutionsResponse",
+  }) as any as Schema.Schema<ListMigrationExecutionsResponse>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: "projects/example-project/locations/us-east1" */
@@ -942,13 +1268,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -957,10 +1285,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -973,12 +1306,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of members, or principals. For example, roles/viewer, roles/editor, or roles/owner.For an overview of the IAM roles and permissions, see the IAM documentation (https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see here (https://cloud.google.com/iam/docs/understanding-roles). */
@@ -989,23 +1324,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, storage.googleapis.com, cloudsql.googleapis.com. allServices is a special value that covers all services. */
@@ -1014,10 +1361,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy.Valid values are 0, 1, and 3. Requests that specify an invalid value are rejected.Any operation that affects conditional role bindings must specify version 3. This requirement applies to the following operations: Getting a policy that includes a conditional role binding Adding a conditional role binding to a policy Changing a conditional role binding in a policy Removing any role binding, with or without a condition, from a policy that includes conditionsImportant: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost.If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1030,12 +1379,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -1044,28 +1395,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of TestPermissionsRequest.permissions that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface HiveMetastoreVersion {
   /** The semantic version of the Hive Metastore software. */
@@ -1074,10 +1440,15 @@ export interface HiveMetastoreVersion {
   isDefault?: boolean;
 }
 
-export const HiveMetastoreVersion: Schema.Schema<HiveMetastoreVersion> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  isDefault: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "HiveMetastoreVersion" }) as any as Schema.Schema<HiveMetastoreVersion>;
+export const HiveMetastoreVersion: Schema.Schema<HiveMetastoreVersion> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      isDefault: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "HiveMetastoreVersion",
+  }) as any as Schema.Schema<HiveMetastoreVersion>;
 
 export interface MultiRegionMetadata {
   /** The regions constituting the multi-region. */
@@ -1088,11 +1459,16 @@ export interface MultiRegionMetadata {
   continent?: string;
 }
 
-export const MultiRegionMetadata: Schema.Schema<MultiRegionMetadata> = Schema.suspend(() => Schema.Struct({
-  constituentRegions: Schema.optional(Schema.Array(Schema.String)),
-  witnessRegion: Schema.optional(Schema.String),
-  continent: Schema.optional(Schema.String),
-})).annotate({ identifier: "MultiRegionMetadata" }) as any as Schema.Schema<MultiRegionMetadata>;
+export const MultiRegionMetadata: Schema.Schema<MultiRegionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      constituentRegions: Schema.optional(Schema.Array(Schema.String)),
+      witnessRegion: Schema.optional(Schema.String),
+      continent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MultiRegionMetadata",
+  }) as any as Schema.Schema<MultiRegionMetadata>;
 
 export interface CustomRegionMetadata {
   /** The read-write regions for this custom region. */
@@ -1103,11 +1479,16 @@ export interface CustomRegionMetadata {
   witnessRegion?: string;
 }
 
-export const CustomRegionMetadata: Schema.Schema<CustomRegionMetadata> = Schema.suspend(() => Schema.Struct({
-  requiredReadWriteRegions: Schema.optional(Schema.Array(Schema.String)),
-  optionalReadOnlyRegions: Schema.optional(Schema.Array(Schema.String)),
-  witnessRegion: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomRegionMetadata" }) as any as Schema.Schema<CustomRegionMetadata>;
+export const CustomRegionMetadata: Schema.Schema<CustomRegionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requiredReadWriteRegions: Schema.optional(Schema.Array(Schema.String)),
+      optionalReadOnlyRegions: Schema.optional(Schema.Array(Schema.String)),
+      witnessRegion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomRegionMetadata",
+  }) as any as Schema.Schema<CustomRegionMetadata>;
 
 export interface LocationMetadata {
   /** The versions of Hive Metastore that can be used when creating a new metastore service in this location. The server guarantees that exactly one HiveMetastoreVersion in the list will set is_default. */
@@ -1118,11 +1499,18 @@ export interface LocationMetadata {
   customRegionMetadata?: Array<CustomRegionMetadata>;
 }
 
-export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(() => Schema.Struct({
-  supportedHiveMetastoreVersions: Schema.optional(Schema.Array(HiveMetastoreVersion)),
-  multiRegionMetadata: Schema.optional(MultiRegionMetadata),
-  customRegionMetadata: Schema.optional(Schema.Array(CustomRegionMetadata)),
-})).annotate({ identifier: "LocationMetadata" }) as any as Schema.Schema<LocationMetadata>;
+export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      supportedHiveMetastoreVersions: Schema.optional(
+        Schema.Array(HiveMetastoreVersion),
+      ),
+      multiRegionMetadata: Schema.optional(MultiRegionMetadata),
+      customRegionMetadata: Schema.optional(Schema.Array(CustomRegionMetadata)),
+    }),
+).annotate({
+  identifier: "LocationMetadata",
+}) as any as Schema.Schema<LocationMetadata>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -1141,69 +1529,95 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 export interface QueryMetadataResponse {
   /** The manifest URI is link to a JSON instance in Cloud Storage. This instance manifests immediately along with QueryMetadataResponse. The content of the URI is not retriable until the long-running operation query against the metadata finishes. */
   resultManifestUri?: string;
 }
 
-export const QueryMetadataResponse: Schema.Schema<QueryMetadataResponse> = Schema.suspend(() => Schema.Struct({
-  resultManifestUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "QueryMetadataResponse" }) as any as Schema.Schema<QueryMetadataResponse>;
+export const QueryMetadataResponse: Schema.Schema<QueryMetadataResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resultManifestUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryMetadataResponse",
+  }) as any as Schema.Schema<QueryMetadataResponse>;
 
-export interface MoveTableToDatabaseResponse {
-}
+export interface MoveTableToDatabaseResponse {}
 
-export const MoveTableToDatabaseResponse: Schema.Schema<MoveTableToDatabaseResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MoveTableToDatabaseResponse" }) as any as Schema.Schema<MoveTableToDatabaseResponse>;
+export const MoveTableToDatabaseResponse: Schema.Schema<MoveTableToDatabaseResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MoveTableToDatabaseResponse",
+  }) as any as Schema.Schema<MoveTableToDatabaseResponse>;
 
-export interface AlterMetadataResourceLocationResponse {
-}
+export interface AlterMetadataResourceLocationResponse {}
 
-export const AlterMetadataResourceLocationResponse: Schema.Schema<AlterMetadataResourceLocationResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AlterMetadataResourceLocationResponse" }) as any as Schema.Schema<AlterMetadataResourceLocationResponse>;
+export const AlterMetadataResourceLocationResponse: Schema.Schema<AlterMetadataResourceLocationResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AlterMetadataResourceLocationResponse",
+  }) as any as Schema.Schema<AlterMetadataResourceLocationResponse>;
 
 export interface ErrorDetails {
   /** Additional structured details about this error.Keys define the failure items. Value describes the exception or details of the item. */
   details?: Record<string, string>;
 }
 
-export const ErrorDetails: Schema.Schema<ErrorDetails> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "ErrorDetails" }) as any as Schema.Schema<ErrorDetails>;
+export const ErrorDetails: Schema.Schema<ErrorDetails> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({
+  identifier: "ErrorDetails",
+}) as any as Schema.Schema<ErrorDetails>;
 
 export interface CompleteMigrationResponse {
   /** The relative resource name of the migration execution, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/migrationExecutions/{migration_execution_id}. */
   migrationExecution?: string;
 }
 
-export const CompleteMigrationResponse: Schema.Schema<CompleteMigrationResponse> = Schema.suspend(() => Schema.Struct({
-  migrationExecution: Schema.optional(Schema.String),
-})).annotate({ identifier: "CompleteMigrationResponse" }) as any as Schema.Schema<CompleteMigrationResponse>;
+export const CompleteMigrationResponse: Schema.Schema<CompleteMigrationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationExecution: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CompleteMigrationResponse",
+  }) as any as Schema.Schema<CompleteMigrationResponse>;
 
 export interface CancelMigrationResponse {
   /** The relative resource name of the migration execution, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/migrationExecutions/{migration_execution_id}. */
   migrationExecution?: string;
 }
 
-export const CancelMigrationResponse: Schema.Schema<CancelMigrationResponse> = Schema.suspend(() => Schema.Struct({
-  migrationExecution: Schema.optional(Schema.String),
-})).annotate({ identifier: "CancelMigrationResponse" }) as any as Schema.Schema<CancelMigrationResponse>;
+export const CancelMigrationResponse: Schema.Schema<CancelMigrationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationExecution: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CancelMigrationResponse",
+  }) as any as Schema.Schema<CancelMigrationResponse>;
 
-export interface MessageSet {
-}
+export interface MessageSet {}
 
-export const MessageSet: Schema.Schema<MessageSet> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MessageSet" }) as any as Schema.Schema<MessageSet>;
+export const MessageSet: Schema.Schema<MessageSet> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "MessageSet" }) as any as Schema.Schema<MessageSet>;
 
 export interface StatusProto {
   /** Numeric code drawn from the space specified below. Often, this is the canonical error space, and code is drawn from google3/util/task/codes.proto copybara:strip_begin(b/383363683) copybara:strip_end_and_replace optional int32 code = 1; */
@@ -1218,13 +1632,15 @@ export interface StatusProto {
   messageSet?: MessageSet;
 }
 
-export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  space: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  canonicalCode: Schema.optional(Schema.Number),
-  messageSet: Schema.optional(MessageSet),
-})).annotate({ identifier: "StatusProto" }) as any as Schema.Schema<StatusProto>;
+export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    space: Schema.optional(Schema.String),
+    message: Schema.optional(Schema.String),
+    canonicalCode: Schema.optional(Schema.Number),
+    messageSet: Schema.optional(MessageSet),
+  }),
+).annotate({ identifier: "StatusProto" }) as any as Schema.Schema<StatusProto>;
 
 // ==========================================================================
 // Operations
@@ -1248,7 +1664,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations" }),
   svc,
@@ -1260,7 +1678,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1278,7 +1701,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1288,7 +1714,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1312,9 +1743,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1324,7 +1760,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1342,7 +1783,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1352,7 +1796,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1366,7 +1815,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1376,7 +1828,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1393,7 +1850,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -1403,7 +1864,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -1429,7 +1895,10 @@ export const ListProjectsLocationsFederationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsFederationsRequest>;
 
@@ -1439,7 +1908,12 @@ export const ListProjectsLocationsFederationsResponse = ListFederationsResponse;
 export type ListProjectsLocationsFederationsError = DefaultErrors;
 
 /** Lists federations in a project and location. */
-export const listProjectsLocationsFederations: API.PaginatedOperationMethod<ListProjectsLocationsFederationsRequest, ListProjectsLocationsFederationsResponse, ListProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsFederations: API.PaginatedOperationMethod<
+  ListProjectsLocationsFederationsRequest,
+  ListProjectsLocationsFederationsResponse,
+  ListProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsFederationsRequest,
   output: ListProjectsLocationsFederationsResponse,
   errors: [],
@@ -1457,7 +1931,10 @@ export interface GetProjectsLocationsFederationsRequest {
 export const GetProjectsLocationsFederationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsFederationsRequest>;
 
@@ -1467,7 +1944,12 @@ export const GetProjectsLocationsFederationsResponse = Federation;
 export type GetProjectsLocationsFederationsError = DefaultErrors;
 
 /** Gets the details of a single federation. */
-export const getProjectsLocationsFederations: API.OperationMethod<GetProjectsLocationsFederationsRequest, GetProjectsLocationsFederationsResponse, GetProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsFederations: API.OperationMethod<
+  GetProjectsLocationsFederationsRequest,
+  GetProjectsLocationsFederationsResponse,
+  GetProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsFederationsRequest,
   output: GetProjectsLocationsFederationsResponse,
   errors: [],
@@ -1486,11 +1968,17 @@ export interface CreateProjectsLocationsFederationsRequest {
 
 export const CreateProjectsLocationsFederationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  federationId: Schema.optional(Schema.String).pipe(T.HttpQuery("federationId")),
+  federationId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("federationId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Federation).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsFederationsRequest>;
 
@@ -1500,7 +1988,12 @@ export const CreateProjectsLocationsFederationsResponse = Operation;
 export type CreateProjectsLocationsFederationsError = DefaultErrors;
 
 /** Creates a metastore federation in a project and location. */
-export const createProjectsLocationsFederations: API.OperationMethod<CreateProjectsLocationsFederationsRequest, CreateProjectsLocationsFederationsResponse, CreateProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsFederations: API.OperationMethod<
+  CreateProjectsLocationsFederationsRequest,
+  CreateProjectsLocationsFederationsResponse,
+  CreateProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsFederationsRequest,
   output: CreateProjectsLocationsFederationsResponse,
   errors: [],
@@ -1523,7 +2016,11 @@ export const PatchProjectsLocationsFederationsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Federation).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsFederationsRequest>;
 
@@ -1533,7 +2030,12 @@ export const PatchProjectsLocationsFederationsResponse = Operation;
 export type PatchProjectsLocationsFederationsError = DefaultErrors;
 
 /** Updates the fields of a federation. */
-export const patchProjectsLocationsFederations: API.OperationMethod<PatchProjectsLocationsFederationsRequest, PatchProjectsLocationsFederationsResponse, PatchProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsFederations: API.OperationMethod<
+  PatchProjectsLocationsFederationsRequest,
+  PatchProjectsLocationsFederationsResponse,
+  PatchProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsFederationsRequest,
   output: PatchProjectsLocationsFederationsResponse,
   errors: [],
@@ -1550,7 +2052,10 @@ export const DeleteProjectsLocationsFederationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsFederationsRequest>;
 
@@ -1560,7 +2065,12 @@ export const DeleteProjectsLocationsFederationsResponse = Operation;
 export type DeleteProjectsLocationsFederationsError = DefaultErrors;
 
 /** Deletes a single federation. */
-export const deleteProjectsLocationsFederations: API.OperationMethod<DeleteProjectsLocationsFederationsRequest, DeleteProjectsLocationsFederationsResponse, DeleteProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsFederations: API.OperationMethod<
+  DeleteProjectsLocationsFederationsRequest,
+  DeleteProjectsLocationsFederationsResponse,
+  DeleteProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsFederationsRequest,
   output: DeleteProjectsLocationsFederationsResponse,
   errors: [],
@@ -1577,7 +2087,11 @@ export const SetIamPolicyProjectsLocationsFederationsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsFederationsRequest>;
 
@@ -1587,7 +2101,12 @@ export const SetIamPolicyProjectsLocationsFederationsResponse = Policy;
 export type SetIamPolicyProjectsLocationsFederationsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
-export const setIamPolicyProjectsLocationsFederations: API.OperationMethod<SetIamPolicyProjectsLocationsFederationsRequest, SetIamPolicyProjectsLocationsFederationsResponse, SetIamPolicyProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsFederations: API.OperationMethod<
+  SetIamPolicyProjectsLocationsFederationsRequest,
+  SetIamPolicyProjectsLocationsFederationsResponse,
+  SetIamPolicyProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsFederationsRequest,
   output: SetIamPolicyProjectsLocationsFederationsResponse,
   errors: [],
@@ -1602,9 +2121,14 @@ export interface GetIamPolicyProjectsLocationsFederationsRequest {
 
 export const GetIamPolicyProjectsLocationsFederationsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsFederationsRequest>;
 
@@ -1614,7 +2138,12 @@ export const GetIamPolicyProjectsLocationsFederationsResponse = Policy;
 export type GetIamPolicyProjectsLocationsFederationsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsFederations: API.OperationMethod<GetIamPolicyProjectsLocationsFederationsRequest, GetIamPolicyProjectsLocationsFederationsResponse, GetIamPolicyProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsFederations: API.OperationMethod<
+  GetIamPolicyProjectsLocationsFederationsRequest,
+  GetIamPolicyProjectsLocationsFederationsResponse,
+  GetIamPolicyProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsFederationsRequest,
   output: GetIamPolicyProjectsLocationsFederationsResponse,
   errors: [],
@@ -1627,21 +2156,33 @@ export interface TestIamPermissionsProjectsLocationsFederationsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsFederationsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsFederationsRequest>;
+export const TestIamPermissionsProjectsLocationsFederationsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsFederationsRequest>;
 
-export type TestIamPermissionsProjectsLocationsFederationsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsFederationsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsFederationsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsFederationsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsFederationsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsFederations: API.OperationMethod<TestIamPermissionsProjectsLocationsFederationsRequest, TestIamPermissionsProjectsLocationsFederationsResponse, TestIamPermissionsProjectsLocationsFederationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsFederations: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsFederationsRequest,
+  TestIamPermissionsProjectsLocationsFederationsResponse,
+  TestIamPermissionsProjectsLocationsFederationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsFederationsRequest,
   output: TestIamPermissionsProjectsLocationsFederationsResponse,
   errors: [],
@@ -1667,7 +2208,10 @@ export const ListProjectsLocationsServicesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsServicesRequest>;
 
@@ -1677,7 +2221,12 @@ export const ListProjectsLocationsServicesResponse = ListServicesResponse;
 export type ListProjectsLocationsServicesError = DefaultErrors;
 
 /** Lists services in a project and location. */
-export const listProjectsLocationsServices: API.PaginatedOperationMethod<ListProjectsLocationsServicesRequest, ListProjectsLocationsServicesResponse, ListProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsServices: API.PaginatedOperationMethod<
+  ListProjectsLocationsServicesRequest,
+  ListProjectsLocationsServicesResponse,
+  ListProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesRequest,
   output: ListProjectsLocationsServicesResponse,
   errors: [],
@@ -1695,7 +2244,10 @@ export interface GetProjectsLocationsServicesRequest {
 export const GetProjectsLocationsServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsServicesRequest>;
 
@@ -1705,7 +2257,12 @@ export const GetProjectsLocationsServicesResponse = Service;
 export type GetProjectsLocationsServicesError = DefaultErrors;
 
 /** Gets the details of a single service. */
-export const getProjectsLocationsServices: API.OperationMethod<GetProjectsLocationsServicesRequest, GetProjectsLocationsServicesResponse, GetProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsServices: API.OperationMethod<
+  GetProjectsLocationsServicesRequest,
+  GetProjectsLocationsServicesResponse,
+  GetProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsServicesRequest,
   output: GetProjectsLocationsServicesResponse,
   errors: [],
@@ -1728,7 +2285,11 @@ export const CreateProjectsLocationsServicesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Service).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsServicesRequest>;
 
@@ -1738,7 +2299,12 @@ export const CreateProjectsLocationsServicesResponse = Operation;
 export type CreateProjectsLocationsServicesError = DefaultErrors;
 
 /** Creates a metastore service in a project and location. */
-export const createProjectsLocationsServices: API.OperationMethod<CreateProjectsLocationsServicesRequest, CreateProjectsLocationsServicesResponse, CreateProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsServices: API.OperationMethod<
+  CreateProjectsLocationsServicesRequest,
+  CreateProjectsLocationsServicesResponse,
+  CreateProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsServicesRequest,
   output: CreateProjectsLocationsServicesResponse,
   errors: [],
@@ -1761,7 +2327,11 @@ export const PatchProjectsLocationsServicesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Service).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsServicesRequest>;
 
@@ -1771,7 +2341,12 @@ export const PatchProjectsLocationsServicesResponse = Operation;
 export type PatchProjectsLocationsServicesError = DefaultErrors;
 
 /** Updates the parameters of a single service. */
-export const patchProjectsLocationsServices: API.OperationMethod<PatchProjectsLocationsServicesRequest, PatchProjectsLocationsServicesResponse, PatchProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsServices: API.OperationMethod<
+  PatchProjectsLocationsServicesRequest,
+  PatchProjectsLocationsServicesResponse,
+  PatchProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsServicesRequest,
   output: PatchProjectsLocationsServicesResponse,
   errors: [],
@@ -1788,7 +2363,10 @@ export const DeleteProjectsLocationsServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsServicesRequest>;
 
@@ -1798,7 +2376,12 @@ export const DeleteProjectsLocationsServicesResponse = Operation;
 export type DeleteProjectsLocationsServicesError = DefaultErrors;
 
 /** Deletes a single service. */
-export const deleteProjectsLocationsServices: API.OperationMethod<DeleteProjectsLocationsServicesRequest, DeleteProjectsLocationsServicesResponse, DeleteProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsServices: API.OperationMethod<
+  DeleteProjectsLocationsServicesRequest,
+  DeleteProjectsLocationsServicesResponse,
+  DeleteProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsServicesRequest,
   output: DeleteProjectsLocationsServicesResponse,
   errors: [],
@@ -1815,7 +2398,11 @@ export const ExportMetadataProjectsLocationsServicesRequest = Schema.Struct({
   service: Schema.String.pipe(T.HttpPath("service")),
   body: Schema.optional(ExportMetadataRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:exportMetadata", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:exportMetadata",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExportMetadataProjectsLocationsServicesRequest>;
 
@@ -1825,7 +2412,12 @@ export const ExportMetadataProjectsLocationsServicesResponse = Operation;
 export type ExportMetadataProjectsLocationsServicesError = DefaultErrors;
 
 /** Exports metadata from a service. */
-export const exportMetadataProjectsLocationsServices: API.OperationMethod<ExportMetadataProjectsLocationsServicesRequest, ExportMetadataProjectsLocationsServicesResponse, ExportMetadataProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const exportMetadataProjectsLocationsServices: API.OperationMethod<
+  ExportMetadataProjectsLocationsServicesRequest,
+  ExportMetadataProjectsLocationsServicesResponse,
+  ExportMetadataProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExportMetadataProjectsLocationsServicesRequest,
   output: ExportMetadataProjectsLocationsServicesResponse,
   errors: [],
@@ -1842,7 +2434,11 @@ export const RestoreProjectsLocationsServicesRequest = Schema.Struct({
   service: Schema.String.pipe(T.HttpPath("service")),
   body: Schema.optional(RestoreServiceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:restore", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:restore",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RestoreProjectsLocationsServicesRequest>;
 
@@ -1852,7 +2448,12 @@ export const RestoreProjectsLocationsServicesResponse = Operation;
 export type RestoreProjectsLocationsServicesError = DefaultErrors;
 
 /** Restores a service from a backup. */
-export const restoreProjectsLocationsServices: API.OperationMethod<RestoreProjectsLocationsServicesRequest, RestoreProjectsLocationsServicesResponse, RestoreProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restoreProjectsLocationsServices: API.OperationMethod<
+  RestoreProjectsLocationsServicesRequest,
+  RestoreProjectsLocationsServicesResponse,
+  RestoreProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestoreProjectsLocationsServicesRequest,
   output: RestoreProjectsLocationsServicesResponse,
   errors: [],
@@ -1869,17 +2470,28 @@ export const RemoveIamPolicyProjectsLocationsServicesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(RemoveIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/{servicesId1}:removeIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/{servicesId1}:removeIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveIamPolicyProjectsLocationsServicesRequest>;
 
-export type RemoveIamPolicyProjectsLocationsServicesResponse = RemoveIamPolicyResponse;
-export const RemoveIamPolicyProjectsLocationsServicesResponse = RemoveIamPolicyResponse;
+export type RemoveIamPolicyProjectsLocationsServicesResponse =
+  RemoveIamPolicyResponse;
+export const RemoveIamPolicyProjectsLocationsServicesResponse =
+  RemoveIamPolicyResponse;
 
 export type RemoveIamPolicyProjectsLocationsServicesError = DefaultErrors;
 
 /** Removes the attached IAM policies for a resource */
-export const removeIamPolicyProjectsLocationsServices: API.OperationMethod<RemoveIamPolicyProjectsLocationsServicesRequest, RemoveIamPolicyProjectsLocationsServicesResponse, RemoveIamPolicyProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeIamPolicyProjectsLocationsServices: API.OperationMethod<
+  RemoveIamPolicyProjectsLocationsServicesRequest,
+  RemoveIamPolicyProjectsLocationsServicesResponse,
+  RemoveIamPolicyProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveIamPolicyProjectsLocationsServicesRequest,
   output: RemoveIamPolicyProjectsLocationsServicesResponse,
   errors: [],
@@ -1896,7 +2508,11 @@ export const QueryMetadataProjectsLocationsServicesRequest = Schema.Struct({
   service: Schema.String.pipe(T.HttpPath("service")),
   body: Schema.optional(QueryMetadataRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:queryMetadata", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:queryMetadata",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<QueryMetadataProjectsLocationsServicesRequest>;
 
@@ -1906,7 +2522,12 @@ export const QueryMetadataProjectsLocationsServicesResponse = Operation;
 export type QueryMetadataProjectsLocationsServicesError = DefaultErrors;
 
 /** Query Dataproc Metastore metadata. */
-export const queryMetadataProjectsLocationsServices: API.OperationMethod<QueryMetadataProjectsLocationsServicesRequest, QueryMetadataProjectsLocationsServicesResponse, QueryMetadataProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const queryMetadataProjectsLocationsServices: API.OperationMethod<
+  QueryMetadataProjectsLocationsServicesRequest,
+  QueryMetadataProjectsLocationsServicesResponse,
+  QueryMetadataProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: QueryMetadataProjectsLocationsServicesRequest,
   output: QueryMetadataProjectsLocationsServicesResponse,
   errors: [],
@@ -1919,13 +2540,18 @@ export interface MoveTableToDatabaseProjectsLocationsServicesRequest {
   body?: MoveTableToDatabaseRequest;
 }
 
-export const MoveTableToDatabaseProjectsLocationsServicesRequest = Schema.Struct({
-  service: Schema.String.pipe(T.HttpPath("service")),
-  body: Schema.optional(MoveTableToDatabaseRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:moveTableToDatabase", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<MoveTableToDatabaseProjectsLocationsServicesRequest>;
+export const MoveTableToDatabaseProjectsLocationsServicesRequest =
+  Schema.Struct({
+    service: Schema.String.pipe(T.HttpPath("service")),
+    body: Schema.optional(MoveTableToDatabaseRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:moveTableToDatabase",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveTableToDatabaseProjectsLocationsServicesRequest>;
 
 export type MoveTableToDatabaseProjectsLocationsServicesResponse = Operation;
 export const MoveTableToDatabaseProjectsLocationsServicesResponse = Operation;
@@ -1933,7 +2559,12 @@ export const MoveTableToDatabaseProjectsLocationsServicesResponse = Operation;
 export type MoveTableToDatabaseProjectsLocationsServicesError = DefaultErrors;
 
 /** Move a table to another database. */
-export const moveTableToDatabaseProjectsLocationsServices: API.OperationMethod<MoveTableToDatabaseProjectsLocationsServicesRequest, MoveTableToDatabaseProjectsLocationsServicesResponse, MoveTableToDatabaseProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveTableToDatabaseProjectsLocationsServices: API.OperationMethod<
+  MoveTableToDatabaseProjectsLocationsServicesRequest,
+  MoveTableToDatabaseProjectsLocationsServicesResponse,
+  MoveTableToDatabaseProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveTableToDatabaseProjectsLocationsServicesRequest,
   output: MoveTableToDatabaseProjectsLocationsServicesResponse,
   errors: [],
@@ -1948,9 +2579,15 @@ export interface AlterLocationProjectsLocationsServicesRequest {
 
 export const AlterLocationProjectsLocationsServicesRequest = Schema.Struct({
   service: Schema.String.pipe(T.HttpPath("service")),
-  body: Schema.optional(AlterMetadataResourceLocationRequest).pipe(T.HttpBody()),
+  body: Schema.optional(AlterMetadataResourceLocationRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:alterLocation", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:alterLocation",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AlterLocationProjectsLocationsServicesRequest>;
 
@@ -1960,7 +2597,12 @@ export const AlterLocationProjectsLocationsServicesResponse = Operation;
 export type AlterLocationProjectsLocationsServicesError = DefaultErrors;
 
 /** Alter metadata resource location. The metadata resource can be a database, table, or partition. This functionality only updates the parent directory for the respective metadata resource and does not transfer any existing data to the new location. */
-export const alterLocationProjectsLocationsServices: API.OperationMethod<AlterLocationProjectsLocationsServicesRequest, AlterLocationProjectsLocationsServicesResponse, AlterLocationProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const alterLocationProjectsLocationsServices: API.OperationMethod<
+  AlterLocationProjectsLocationsServicesRequest,
+  AlterLocationProjectsLocationsServicesResponse,
+  AlterLocationProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AlterLocationProjectsLocationsServicesRequest,
   output: AlterLocationProjectsLocationsServicesResponse,
   errors: [],
@@ -1973,13 +2615,18 @@ export interface AlterTablePropertiesProjectsLocationsServicesRequest {
   body?: AlterTablePropertiesRequest;
 }
 
-export const AlterTablePropertiesProjectsLocationsServicesRequest = Schema.Struct({
-  service: Schema.String.pipe(T.HttpPath("service")),
-  body: Schema.optional(AlterTablePropertiesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:alterTableProperties", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AlterTablePropertiesProjectsLocationsServicesRequest>;
+export const AlterTablePropertiesProjectsLocationsServicesRequest =
+  Schema.Struct({
+    service: Schema.String.pipe(T.HttpPath("service")),
+    body: Schema.optional(AlterTablePropertiesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:alterTableProperties",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AlterTablePropertiesProjectsLocationsServicesRequest>;
 
 export type AlterTablePropertiesProjectsLocationsServicesResponse = Operation;
 export const AlterTablePropertiesProjectsLocationsServicesResponse = Operation;
@@ -1987,7 +2634,12 @@ export const AlterTablePropertiesProjectsLocationsServicesResponse = Operation;
 export type AlterTablePropertiesProjectsLocationsServicesError = DefaultErrors;
 
 /** Alter metadata table properties. */
-export const alterTablePropertiesProjectsLocationsServices: API.OperationMethod<AlterTablePropertiesProjectsLocationsServicesRequest, AlterTablePropertiesProjectsLocationsServicesResponse, AlterTablePropertiesProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const alterTablePropertiesProjectsLocationsServices: API.OperationMethod<
+  AlterTablePropertiesProjectsLocationsServicesRequest,
+  AlterTablePropertiesProjectsLocationsServicesResponse,
+  AlterTablePropertiesProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AlterTablePropertiesProjectsLocationsServicesRequest,
   output: AlterTablePropertiesProjectsLocationsServicesResponse,
   errors: [],
@@ -2004,7 +2656,11 @@ export const StartMigrationProjectsLocationsServicesRequest = Schema.Struct({
   service: Schema.String.pipe(T.HttpPath("service")),
   body: Schema.optional(StartMigrationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:startMigration", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:startMigration",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartMigrationProjectsLocationsServicesRequest>;
 
@@ -2014,7 +2670,12 @@ export const StartMigrationProjectsLocationsServicesResponse = Operation;
 export type StartMigrationProjectsLocationsServicesError = DefaultErrors;
 
 /** Starts the Managed Migration process. */
-export const startMigrationProjectsLocationsServices: API.OperationMethod<StartMigrationProjectsLocationsServicesRequest, StartMigrationProjectsLocationsServicesResponse, StartMigrationProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startMigrationProjectsLocationsServices: API.OperationMethod<
+  StartMigrationProjectsLocationsServicesRequest,
+  StartMigrationProjectsLocationsServicesResponse,
+  StartMigrationProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartMigrationProjectsLocationsServicesRequest,
   output: StartMigrationProjectsLocationsServicesResponse,
   errors: [],
@@ -2031,7 +2692,11 @@ export const CompleteMigrationProjectsLocationsServicesRequest = Schema.Struct({
   service: Schema.String.pipe(T.HttpPath("service")),
   body: Schema.optional(CompleteMigrationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:completeMigration", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:completeMigration",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CompleteMigrationProjectsLocationsServicesRequest>;
 
@@ -2041,7 +2706,12 @@ export const CompleteMigrationProjectsLocationsServicesResponse = Operation;
 export type CompleteMigrationProjectsLocationsServicesError = DefaultErrors;
 
 /** Completes the managed migration process. The Dataproc Metastore service will switch to using its own backend database after successful migration. */
-export const completeMigrationProjectsLocationsServices: API.OperationMethod<CompleteMigrationProjectsLocationsServicesRequest, CompleteMigrationProjectsLocationsServicesResponse, CompleteMigrationProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const completeMigrationProjectsLocationsServices: API.OperationMethod<
+  CompleteMigrationProjectsLocationsServicesRequest,
+  CompleteMigrationProjectsLocationsServicesResponse,
+  CompleteMigrationProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CompleteMigrationProjectsLocationsServicesRequest,
   output: CompleteMigrationProjectsLocationsServicesResponse,
   errors: [],
@@ -2058,7 +2728,11 @@ export const CancelMigrationProjectsLocationsServicesRequest = Schema.Struct({
   service: Schema.String.pipe(T.HttpPath("service")),
   body: Schema.optional(CancelMigrationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:cancelMigration", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:cancelMigration",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelMigrationProjectsLocationsServicesRequest>;
 
@@ -2068,7 +2742,12 @@ export const CancelMigrationProjectsLocationsServicesResponse = Operation;
 export type CancelMigrationProjectsLocationsServicesError = DefaultErrors;
 
 /** Cancels the ongoing Managed Migration process. */
-export const cancelMigrationProjectsLocationsServices: API.OperationMethod<CancelMigrationProjectsLocationsServicesRequest, CancelMigrationProjectsLocationsServicesResponse, CancelMigrationProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelMigrationProjectsLocationsServices: API.OperationMethod<
+  CancelMigrationProjectsLocationsServicesRequest,
+  CancelMigrationProjectsLocationsServicesResponse,
+  CancelMigrationProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelMigrationProjectsLocationsServicesRequest,
   output: CancelMigrationProjectsLocationsServicesResponse,
   errors: [],
@@ -2085,7 +2764,11 @@ export const SetIamPolicyProjectsLocationsServicesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsServicesRequest>;
 
@@ -2095,7 +2778,12 @@ export const SetIamPolicyProjectsLocationsServicesResponse = Policy;
 export type SetIamPolicyProjectsLocationsServicesError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
-export const setIamPolicyProjectsLocationsServices: API.OperationMethod<SetIamPolicyProjectsLocationsServicesRequest, SetIamPolicyProjectsLocationsServicesResponse, SetIamPolicyProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsServices: API.OperationMethod<
+  SetIamPolicyProjectsLocationsServicesRequest,
+  SetIamPolicyProjectsLocationsServicesResponse,
+  SetIamPolicyProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsServicesRequest,
   output: SetIamPolicyProjectsLocationsServicesResponse,
   errors: [],
@@ -2110,9 +2798,14 @@ export interface GetIamPolicyProjectsLocationsServicesRequest {
 
 export const GetIamPolicyProjectsLocationsServicesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsServicesRequest>;
 
@@ -2122,7 +2815,12 @@ export const GetIamPolicyProjectsLocationsServicesResponse = Policy;
 export type GetIamPolicyProjectsLocationsServicesError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsServices: API.OperationMethod<GetIamPolicyProjectsLocationsServicesRequest, GetIamPolicyProjectsLocationsServicesResponse, GetIamPolicyProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsServices: API.OperationMethod<
+  GetIamPolicyProjectsLocationsServicesRequest,
+  GetIamPolicyProjectsLocationsServicesResponse,
+  GetIamPolicyProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsServicesRequest,
   output: GetIamPolicyProjectsLocationsServicesResponse,
   errors: [],
@@ -2135,21 +2833,34 @@ export interface TestIamPermissionsProjectsLocationsServicesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsServicesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:testIamPermissions", hasBody: true }),
+export const TestIamPermissionsProjectsLocationsServicesRequest = Schema.Struct(
+  {
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsServicesRequest>;
 
-export type TestIamPermissionsProjectsLocationsServicesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsServicesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsServicesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsServicesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsServicesError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsServices: API.OperationMethod<TestIamPermissionsProjectsLocationsServicesRequest, TestIamPermissionsProjectsLocationsServicesResponse, TestIamPermissionsProjectsLocationsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsServices: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsServicesRequest,
+  TestIamPermissionsProjectsLocationsServicesResponse,
+  TestIamPermissionsProjectsLocationsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsServicesRequest,
   output: TestIamPermissionsProjectsLocationsServicesResponse,
   errors: [],
@@ -2168,24 +2879,35 @@ export interface ListProjectsLocationsServicesMetadataImportsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsServicesMetadataImportsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsServicesMetadataImportsRequest>;
+export const ListProjectsLocationsServicesMetadataImportsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsServicesMetadataImportsRequest>;
 
-export type ListProjectsLocationsServicesMetadataImportsResponse = ListMetadataImportsResponse;
-export const ListProjectsLocationsServicesMetadataImportsResponse = ListMetadataImportsResponse;
+export type ListProjectsLocationsServicesMetadataImportsResponse =
+  ListMetadataImportsResponse;
+export const ListProjectsLocationsServicesMetadataImportsResponse =
+  ListMetadataImportsResponse;
 
 export type ListProjectsLocationsServicesMetadataImportsError = DefaultErrors;
 
 /** Lists imports in a service. */
-export const listProjectsLocationsServicesMetadataImports: API.PaginatedOperationMethod<ListProjectsLocationsServicesMetadataImportsRequest, ListProjectsLocationsServicesMetadataImportsResponse, ListProjectsLocationsServicesMetadataImportsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsServicesMetadataImports: API.PaginatedOperationMethod<
+  ListProjectsLocationsServicesMetadataImportsRequest,
+  ListProjectsLocationsServicesMetadataImportsResponse,
+  ListProjectsLocationsServicesMetadataImportsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesMetadataImportsRequest,
   output: ListProjectsLocationsServicesMetadataImportsResponse,
   errors: [],
@@ -2200,20 +2922,32 @@ export interface GetProjectsLocationsServicesMetadataImportsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsServicesMetadataImportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports/{metadataImportsId}" }),
+export const GetProjectsLocationsServicesMetadataImportsRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports/{metadataImportsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsServicesMetadataImportsRequest>;
 
-export type GetProjectsLocationsServicesMetadataImportsResponse = MetadataImport;
-export const GetProjectsLocationsServicesMetadataImportsResponse = MetadataImport;
+export type GetProjectsLocationsServicesMetadataImportsResponse =
+  MetadataImport;
+export const GetProjectsLocationsServicesMetadataImportsResponse =
+  MetadataImport;
 
 export type GetProjectsLocationsServicesMetadataImportsError = DefaultErrors;
 
 /** Gets details of a single import. */
-export const getProjectsLocationsServicesMetadataImports: API.OperationMethod<GetProjectsLocationsServicesMetadataImportsRequest, GetProjectsLocationsServicesMetadataImportsResponse, GetProjectsLocationsServicesMetadataImportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsServicesMetadataImports: API.OperationMethod<
+  GetProjectsLocationsServicesMetadataImportsRequest,
+  GetProjectsLocationsServicesMetadataImportsResponse,
+  GetProjectsLocationsServicesMetadataImportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsServicesMetadataImportsRequest,
   output: GetProjectsLocationsServicesMetadataImportsResponse,
   errors: [],
@@ -2230,15 +2964,22 @@ export interface CreateProjectsLocationsServicesMetadataImportsRequest {
   body?: MetadataImport;
 }
 
-export const CreateProjectsLocationsServicesMetadataImportsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  metadataImportId: Schema.optional(Schema.String).pipe(T.HttpQuery("metadataImportId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(MetadataImport).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsServicesMetadataImportsRequest>;
+export const CreateProjectsLocationsServicesMetadataImportsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    metadataImportId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("metadataImportId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(MetadataImport).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsServicesMetadataImportsRequest>;
 
 export type CreateProjectsLocationsServicesMetadataImportsResponse = Operation;
 export const CreateProjectsLocationsServicesMetadataImportsResponse = Operation;
@@ -2246,7 +2987,12 @@ export const CreateProjectsLocationsServicesMetadataImportsResponse = Operation;
 export type CreateProjectsLocationsServicesMetadataImportsError = DefaultErrors;
 
 /** Creates a new MetadataImport in a given project and location. */
-export const createProjectsLocationsServicesMetadataImports: API.OperationMethod<CreateProjectsLocationsServicesMetadataImportsRequest, CreateProjectsLocationsServicesMetadataImportsResponse, CreateProjectsLocationsServicesMetadataImportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsServicesMetadataImports: API.OperationMethod<
+  CreateProjectsLocationsServicesMetadataImportsRequest,
+  CreateProjectsLocationsServicesMetadataImportsResponse,
+  CreateProjectsLocationsServicesMetadataImportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsServicesMetadataImportsRequest,
   output: CreateProjectsLocationsServicesMetadataImportsResponse,
   errors: [],
@@ -2263,15 +3009,20 @@ export interface PatchProjectsLocationsServicesMetadataImportsRequest {
   body?: MetadataImport;
 }
 
-export const PatchProjectsLocationsServicesMetadataImportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(MetadataImport).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports/{metadataImportsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsServicesMetadataImportsRequest>;
+export const PatchProjectsLocationsServicesMetadataImportsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(MetadataImport).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports/{metadataImportsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsServicesMetadataImportsRequest>;
 
 export type PatchProjectsLocationsServicesMetadataImportsResponse = Operation;
 export const PatchProjectsLocationsServicesMetadataImportsResponse = Operation;
@@ -2279,7 +3030,12 @@ export const PatchProjectsLocationsServicesMetadataImportsResponse = Operation;
 export type PatchProjectsLocationsServicesMetadataImportsError = DefaultErrors;
 
 /** Updates a single import. Only the description field of MetadataImport is supported to be updated. */
-export const patchProjectsLocationsServicesMetadataImports: API.OperationMethod<PatchProjectsLocationsServicesMetadataImportsRequest, PatchProjectsLocationsServicesMetadataImportsResponse, PatchProjectsLocationsServicesMetadataImportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsServicesMetadataImports: API.OperationMethod<
+  PatchProjectsLocationsServicesMetadataImportsRequest,
+  PatchProjectsLocationsServicesMetadataImportsResponse,
+  PatchProjectsLocationsServicesMetadataImportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsServicesMetadataImportsRequest,
   output: PatchProjectsLocationsServicesMetadataImportsResponse,
   errors: [],
@@ -2305,7 +3061,10 @@ export const ListProjectsLocationsServicesBackupsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsServicesBackupsRequest>;
 
@@ -2315,7 +3074,12 @@ export const ListProjectsLocationsServicesBackupsResponse = ListBackupsResponse;
 export type ListProjectsLocationsServicesBackupsError = DefaultErrors;
 
 /** Lists backups in a service. */
-export const listProjectsLocationsServicesBackups: API.PaginatedOperationMethod<ListProjectsLocationsServicesBackupsRequest, ListProjectsLocationsServicesBackupsResponse, ListProjectsLocationsServicesBackupsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsServicesBackups: API.PaginatedOperationMethod<
+  ListProjectsLocationsServicesBackupsRequest,
+  ListProjectsLocationsServicesBackupsResponse,
+  ListProjectsLocationsServicesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesBackupsRequest,
   output: ListProjectsLocationsServicesBackupsResponse,
   errors: [],
@@ -2333,7 +3097,10 @@ export interface GetProjectsLocationsServicesBackupsRequest {
 export const GetProjectsLocationsServicesBackupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsServicesBackupsRequest>;
 
@@ -2343,7 +3110,12 @@ export const GetProjectsLocationsServicesBackupsResponse = Backup;
 export type GetProjectsLocationsServicesBackupsError = DefaultErrors;
 
 /** Gets details of a single backup. */
-export const getProjectsLocationsServicesBackups: API.OperationMethod<GetProjectsLocationsServicesBackupsRequest, GetProjectsLocationsServicesBackupsResponse, GetProjectsLocationsServicesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsServicesBackups: API.OperationMethod<
+  GetProjectsLocationsServicesBackupsRequest,
+  GetProjectsLocationsServicesBackupsResponse,
+  GetProjectsLocationsServicesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsServicesBackupsRequest,
   output: GetProjectsLocationsServicesBackupsResponse,
   errors: [],
@@ -2366,7 +3138,11 @@ export const CreateProjectsLocationsServicesBackupsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Backup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsServicesBackupsRequest>;
 
@@ -2376,7 +3152,12 @@ export const CreateProjectsLocationsServicesBackupsResponse = Operation;
 export type CreateProjectsLocationsServicesBackupsError = DefaultErrors;
 
 /** Creates a new backup in a given project and location. */
-export const createProjectsLocationsServicesBackups: API.OperationMethod<CreateProjectsLocationsServicesBackupsRequest, CreateProjectsLocationsServicesBackupsResponse, CreateProjectsLocationsServicesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsServicesBackups: API.OperationMethod<
+  CreateProjectsLocationsServicesBackupsRequest,
+  CreateProjectsLocationsServicesBackupsResponse,
+  CreateProjectsLocationsServicesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsServicesBackupsRequest,
   output: CreateProjectsLocationsServicesBackupsResponse,
   errors: [],
@@ -2393,7 +3174,10 @@ export const DeleteProjectsLocationsServicesBackupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsServicesBackupsRequest>;
 
@@ -2403,7 +3187,12 @@ export const DeleteProjectsLocationsServicesBackupsResponse = Operation;
 export type DeleteProjectsLocationsServicesBackupsError = DefaultErrors;
 
 /** Deletes a single backup. */
-export const deleteProjectsLocationsServicesBackups: API.OperationMethod<DeleteProjectsLocationsServicesBackupsRequest, DeleteProjectsLocationsServicesBackupsResponse, DeleteProjectsLocationsServicesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsServicesBackups: API.OperationMethod<
+  DeleteProjectsLocationsServicesBackupsRequest,
+  DeleteProjectsLocationsServicesBackupsResponse,
+  DeleteProjectsLocationsServicesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsServicesBackupsRequest,
   output: DeleteProjectsLocationsServicesBackupsResponse,
   errors: [],
@@ -2416,13 +3205,18 @@ export interface SetIamPolicyProjectsLocationsServicesBackupsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsServicesBackupsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsServicesBackupsRequest>;
+export const SetIamPolicyProjectsLocationsServicesBackupsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsServicesBackupsRequest>;
 
 export type SetIamPolicyProjectsLocationsServicesBackupsResponse = Policy;
 export const SetIamPolicyProjectsLocationsServicesBackupsResponse = Policy;
@@ -2430,7 +3224,12 @@ export const SetIamPolicyProjectsLocationsServicesBackupsResponse = Policy;
 export type SetIamPolicyProjectsLocationsServicesBackupsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
-export const setIamPolicyProjectsLocationsServicesBackups: API.OperationMethod<SetIamPolicyProjectsLocationsServicesBackupsRequest, SetIamPolicyProjectsLocationsServicesBackupsResponse, SetIamPolicyProjectsLocationsServicesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsServicesBackups: API.OperationMethod<
+  SetIamPolicyProjectsLocationsServicesBackupsRequest,
+  SetIamPolicyProjectsLocationsServicesBackupsResponse,
+  SetIamPolicyProjectsLocationsServicesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsServicesBackupsRequest,
   output: SetIamPolicyProjectsLocationsServicesBackupsResponse,
   errors: [],
@@ -2443,13 +3242,19 @@ export interface GetIamPolicyProjectsLocationsServicesBackupsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsServicesBackupsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsServicesBackupsRequest>;
+export const GetIamPolicyProjectsLocationsServicesBackupsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsServicesBackupsRequest>;
 
 export type GetIamPolicyProjectsLocationsServicesBackupsResponse = Policy;
 export const GetIamPolicyProjectsLocationsServicesBackupsResponse = Policy;
@@ -2457,7 +3262,12 @@ export const GetIamPolicyProjectsLocationsServicesBackupsResponse = Policy;
 export type GetIamPolicyProjectsLocationsServicesBackupsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsServicesBackups: API.OperationMethod<GetIamPolicyProjectsLocationsServicesBackupsRequest, GetIamPolicyProjectsLocationsServicesBackupsResponse, GetIamPolicyProjectsLocationsServicesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsServicesBackups: API.OperationMethod<
+  GetIamPolicyProjectsLocationsServicesBackupsRequest,
+  GetIamPolicyProjectsLocationsServicesBackupsResponse,
+  GetIamPolicyProjectsLocationsServicesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsServicesBackupsRequest,
   output: GetIamPolicyProjectsLocationsServicesBackupsResponse,
   errors: [],
@@ -2470,21 +3280,34 @@ export interface TestIamPermissionsProjectsLocationsServicesBackupsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsServicesBackupsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsServicesBackupsRequest>;
+export const TestIamPermissionsProjectsLocationsServicesBackupsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsServicesBackupsRequest>;
 
-export type TestIamPermissionsProjectsLocationsServicesBackupsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsServicesBackupsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsServicesBackupsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsServicesBackupsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsServicesBackupsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsServicesBackupsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsServicesBackups: API.OperationMethod<TestIamPermissionsProjectsLocationsServicesBackupsRequest, TestIamPermissionsProjectsLocationsServicesBackupsResponse, TestIamPermissionsProjectsLocationsServicesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsServicesBackups: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsServicesBackupsRequest,
+  TestIamPermissionsProjectsLocationsServicesBackupsResponse,
+  TestIamPermissionsProjectsLocationsServicesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsServicesBackupsRequest,
   output: TestIamPermissionsProjectsLocationsServicesBackupsResponse,
   errors: [],
@@ -2495,20 +3318,32 @@ export interface GetProjectsLocationsServicesMigrationExecutionsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsServicesMigrationExecutionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions/{migrationExecutionsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsServicesMigrationExecutionsRequest>;
+export const GetProjectsLocationsServicesMigrationExecutionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions/{migrationExecutionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsServicesMigrationExecutionsRequest>;
 
-export type GetProjectsLocationsServicesMigrationExecutionsResponse = MigrationExecution;
-export const GetProjectsLocationsServicesMigrationExecutionsResponse = MigrationExecution;
+export type GetProjectsLocationsServicesMigrationExecutionsResponse =
+  MigrationExecution;
+export const GetProjectsLocationsServicesMigrationExecutionsResponse =
+  MigrationExecution;
 
-export type GetProjectsLocationsServicesMigrationExecutionsError = DefaultErrors;
+export type GetProjectsLocationsServicesMigrationExecutionsError =
+  DefaultErrors;
 
 /** Gets details of a single migration execution. */
-export const getProjectsLocationsServicesMigrationExecutions: API.OperationMethod<GetProjectsLocationsServicesMigrationExecutionsRequest, GetProjectsLocationsServicesMigrationExecutionsResponse, GetProjectsLocationsServicesMigrationExecutionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsServicesMigrationExecutions: API.OperationMethod<
+  GetProjectsLocationsServicesMigrationExecutionsRequest,
+  GetProjectsLocationsServicesMigrationExecutionsResponse,
+  GetProjectsLocationsServicesMigrationExecutionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsServicesMigrationExecutionsRequest,
   output: GetProjectsLocationsServicesMigrationExecutionsResponse,
   errors: [],
@@ -2527,24 +3362,36 @@ export interface ListProjectsLocationsServicesMigrationExecutionsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsServicesMigrationExecutionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsServicesMigrationExecutionsRequest>;
+export const ListProjectsLocationsServicesMigrationExecutionsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsServicesMigrationExecutionsRequest>;
 
-export type ListProjectsLocationsServicesMigrationExecutionsResponse = ListMigrationExecutionsResponse;
-export const ListProjectsLocationsServicesMigrationExecutionsResponse = ListMigrationExecutionsResponse;
+export type ListProjectsLocationsServicesMigrationExecutionsResponse =
+  ListMigrationExecutionsResponse;
+export const ListProjectsLocationsServicesMigrationExecutionsResponse =
+  ListMigrationExecutionsResponse;
 
-export type ListProjectsLocationsServicesMigrationExecutionsError = DefaultErrors;
+export type ListProjectsLocationsServicesMigrationExecutionsError =
+  DefaultErrors;
 
 /** Lists migration executions on a service. */
-export const listProjectsLocationsServicesMigrationExecutions: API.PaginatedOperationMethod<ListProjectsLocationsServicesMigrationExecutionsRequest, ListProjectsLocationsServicesMigrationExecutionsResponse, ListProjectsLocationsServicesMigrationExecutionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsServicesMigrationExecutions: API.PaginatedOperationMethod<
+  ListProjectsLocationsServicesMigrationExecutionsRequest,
+  ListProjectsLocationsServicesMigrationExecutionsResponse,
+  ListProjectsLocationsServicesMigrationExecutionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesMigrationExecutionsRequest,
   output: ListProjectsLocationsServicesMigrationExecutionsResponse,
   errors: [],
@@ -2561,21 +3408,33 @@ export interface DeleteProjectsLocationsServicesMigrationExecutionsRequest {
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsServicesMigrationExecutionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions/{migrationExecutionsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsServicesMigrationExecutionsRequest>;
+export const DeleteProjectsLocationsServicesMigrationExecutionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions/{migrationExecutionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsServicesMigrationExecutionsRequest>;
 
-export type DeleteProjectsLocationsServicesMigrationExecutionsResponse = Operation;
-export const DeleteProjectsLocationsServicesMigrationExecutionsResponse = Operation;
+export type DeleteProjectsLocationsServicesMigrationExecutionsResponse =
+  Operation;
+export const DeleteProjectsLocationsServicesMigrationExecutionsResponse =
+  Operation;
 
-export type DeleteProjectsLocationsServicesMigrationExecutionsError = DefaultErrors;
+export type DeleteProjectsLocationsServicesMigrationExecutionsError =
+  DefaultErrors;
 
 /** Deletes a single migration execution. */
-export const deleteProjectsLocationsServicesMigrationExecutions: API.OperationMethod<DeleteProjectsLocationsServicesMigrationExecutionsRequest, DeleteProjectsLocationsServicesMigrationExecutionsResponse, DeleteProjectsLocationsServicesMigrationExecutionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsServicesMigrationExecutions: API.OperationMethod<
+  DeleteProjectsLocationsServicesMigrationExecutionsRequest,
+  DeleteProjectsLocationsServicesMigrationExecutionsResponse,
+  DeleteProjectsLocationsServicesMigrationExecutionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsServicesMigrationExecutionsRequest,
   output: DeleteProjectsLocationsServicesMigrationExecutionsResponse,
   errors: [],
@@ -2588,13 +3447,18 @@ export interface SetIamPolicyProjectsLocationsServicesDatabasesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsServicesDatabasesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsServicesDatabasesRequest>;
+export const SetIamPolicyProjectsLocationsServicesDatabasesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsServicesDatabasesRequest>;
 
 export type SetIamPolicyProjectsLocationsServicesDatabasesResponse = Policy;
 export const SetIamPolicyProjectsLocationsServicesDatabasesResponse = Policy;
@@ -2602,7 +3466,12 @@ export const SetIamPolicyProjectsLocationsServicesDatabasesResponse = Policy;
 export type SetIamPolicyProjectsLocationsServicesDatabasesError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
-export const setIamPolicyProjectsLocationsServicesDatabases: API.OperationMethod<SetIamPolicyProjectsLocationsServicesDatabasesRequest, SetIamPolicyProjectsLocationsServicesDatabasesResponse, SetIamPolicyProjectsLocationsServicesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsServicesDatabases: API.OperationMethod<
+  SetIamPolicyProjectsLocationsServicesDatabasesRequest,
+  SetIamPolicyProjectsLocationsServicesDatabasesResponse,
+  SetIamPolicyProjectsLocationsServicesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsServicesDatabasesRequest,
   output: SetIamPolicyProjectsLocationsServicesDatabasesResponse,
   errors: [],
@@ -2615,13 +3484,19 @@ export interface GetIamPolicyProjectsLocationsServicesDatabasesRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsServicesDatabasesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsServicesDatabasesRequest>;
+export const GetIamPolicyProjectsLocationsServicesDatabasesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsServicesDatabasesRequest>;
 
 export type GetIamPolicyProjectsLocationsServicesDatabasesResponse = Policy;
 export const GetIamPolicyProjectsLocationsServicesDatabasesResponse = Policy;
@@ -2629,7 +3504,12 @@ export const GetIamPolicyProjectsLocationsServicesDatabasesResponse = Policy;
 export type GetIamPolicyProjectsLocationsServicesDatabasesError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsServicesDatabases: API.OperationMethod<GetIamPolicyProjectsLocationsServicesDatabasesRequest, GetIamPolicyProjectsLocationsServicesDatabasesResponse, GetIamPolicyProjectsLocationsServicesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsServicesDatabases: API.OperationMethod<
+  GetIamPolicyProjectsLocationsServicesDatabasesRequest,
+  GetIamPolicyProjectsLocationsServicesDatabasesResponse,
+  GetIamPolicyProjectsLocationsServicesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsServicesDatabasesRequest,
   output: GetIamPolicyProjectsLocationsServicesDatabasesResponse,
   errors: [],
@@ -2642,21 +3522,34 @@ export interface TestIamPermissionsProjectsLocationsServicesDatabasesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsServicesDatabasesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsServicesDatabasesRequest>;
+export const TestIamPermissionsProjectsLocationsServicesDatabasesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsServicesDatabasesRequest>;
 
-export type TestIamPermissionsProjectsLocationsServicesDatabasesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsServicesDatabasesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsServicesDatabasesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsServicesDatabasesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsServicesDatabasesError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsServicesDatabasesError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsServicesDatabases: API.OperationMethod<TestIamPermissionsProjectsLocationsServicesDatabasesRequest, TestIamPermissionsProjectsLocationsServicesDatabasesResponse, TestIamPermissionsProjectsLocationsServicesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsServicesDatabases: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsServicesDatabasesRequest,
+  TestIamPermissionsProjectsLocationsServicesDatabasesResponse,
+  TestIamPermissionsProjectsLocationsServicesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsServicesDatabasesRequest,
   output: TestIamPermissionsProjectsLocationsServicesDatabasesResponse,
   errors: [],
@@ -2669,21 +3562,34 @@ export interface SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest>;
+export const SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest>;
 
-export type SetIamPolicyProjectsLocationsServicesDatabasesTablesResponse = Policy;
-export const SetIamPolicyProjectsLocationsServicesDatabasesTablesResponse = Policy;
+export type SetIamPolicyProjectsLocationsServicesDatabasesTablesResponse =
+  Policy;
+export const SetIamPolicyProjectsLocationsServicesDatabasesTablesResponse =
+  Policy;
 
-export type SetIamPolicyProjectsLocationsServicesDatabasesTablesError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsServicesDatabasesTablesError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
-export const setIamPolicyProjectsLocationsServicesDatabasesTables: API.OperationMethod<SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest, SetIamPolicyProjectsLocationsServicesDatabasesTablesResponse, SetIamPolicyProjectsLocationsServicesDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsServicesDatabasesTables: API.OperationMethod<
+  SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest,
+  SetIamPolicyProjectsLocationsServicesDatabasesTablesResponse,
+  SetIamPolicyProjectsLocationsServicesDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest,
   output: SetIamPolicyProjectsLocationsServicesDatabasesTablesResponse,
   errors: [],
@@ -2696,21 +3602,35 @@ export interface GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest>;
+export const GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest>;
 
-export type GetIamPolicyProjectsLocationsServicesDatabasesTablesResponse = Policy;
-export const GetIamPolicyProjectsLocationsServicesDatabasesTablesResponse = Policy;
+export type GetIamPolicyProjectsLocationsServicesDatabasesTablesResponse =
+  Policy;
+export const GetIamPolicyProjectsLocationsServicesDatabasesTablesResponse =
+  Policy;
 
-export type GetIamPolicyProjectsLocationsServicesDatabasesTablesError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsServicesDatabasesTablesError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsServicesDatabasesTables: API.OperationMethod<GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest, GetIamPolicyProjectsLocationsServicesDatabasesTablesResponse, GetIamPolicyProjectsLocationsServicesDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsServicesDatabasesTables: API.OperationMethod<
+  GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest,
+  GetIamPolicyProjectsLocationsServicesDatabasesTablesResponse,
+  GetIamPolicyProjectsLocationsServicesDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest,
   output: GetIamPolicyProjectsLocationsServicesDatabasesTablesResponse,
   errors: [],
@@ -2723,23 +3643,35 @@ export interface TestIamPermissionsProjectsLocationsServicesDatabasesTablesReque
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest>;
+export const TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest>;
 
-export type TestIamPermissionsProjectsLocationsServicesDatabasesTablesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsServicesDatabasesTablesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsServicesDatabasesTablesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsServicesDatabasesTablesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsServicesDatabasesTablesError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsServicesDatabasesTablesError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsServicesDatabasesTables: API.OperationMethod<TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest, TestIamPermissionsProjectsLocationsServicesDatabasesTablesResponse, TestIamPermissionsProjectsLocationsServicesDatabasesTablesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsServicesDatabasesTables: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest,
+  TestIamPermissionsProjectsLocationsServicesDatabasesTablesResponse,
+  TestIamPermissionsProjectsLocationsServicesDatabasesTablesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest,
   output: TestIamPermissionsProjectsLocationsServicesDatabasesTablesResponse,
   errors: [],
 }));
-

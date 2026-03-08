@@ -25,18 +25,24 @@ const svc = T.Service({
 
 export interface ReadOptions {
   /** The non-transactional read consistency to use. */
-  readConsistency?: "READ_CONSISTENCY_UNSPECIFIED" | "STRONG" | "EVENTUAL" | (string & {});
+  readConsistency?:
+    | "READ_CONSISTENCY_UNSPECIFIED"
+    | "STRONG"
+    | "EVENTUAL"
+    | (string & {});
   /** The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
   transaction?: string;
   /** Reads entities as they were at the given time. This value is only supported for Cloud Firestore in Datastore mode. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
   readTime?: string;
 }
 
-export const ReadOptions: Schema.Schema<ReadOptions> = Schema.suspend(() => Schema.Struct({
-  readConsistency: Schema.optional(Schema.String),
-  transaction: Schema.optional(Schema.String),
-  readTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReadOptions" }) as any as Schema.Schema<ReadOptions>;
+export const ReadOptions: Schema.Schema<ReadOptions> = Schema.suspend(() =>
+  Schema.Struct({
+    readConsistency: Schema.optional(Schema.String),
+    transaction: Schema.optional(Schema.String),
+    readTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ReadOptions" }) as any as Schema.Schema<ReadOptions>;
 
 export interface PartitionId {
   /** The ID of the project to which the entities belong. */
@@ -45,10 +51,12 @@ export interface PartitionId {
   namespaceId?: string;
 }
 
-export const PartitionId: Schema.Schema<PartitionId> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-  namespaceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "PartitionId" }) as any as Schema.Schema<PartitionId>;
+export const PartitionId: Schema.Schema<PartitionId> = Schema.suspend(() =>
+  Schema.Struct({
+    projectId: Schema.optional(Schema.String),
+    namespaceId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PartitionId" }) as any as Schema.Schema<PartitionId>;
 
 export interface PathElement {
   /** The kind of the entity. A kind matching regex `__.*__` is reserved/read-only. A kind must not contain more than 1500 bytes when UTF-8 encoded. Cannot be `""`. Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are encoded as `__bytes__` where `` is the base-64 encoding of the bytes. */
@@ -59,11 +67,13 @@ export interface PathElement {
   name?: string;
 }
 
-export const PathElement: Schema.Schema<PathElement> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "PathElement" }) as any as Schema.Schema<PathElement>;
+export const PathElement: Schema.Schema<PathElement> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PathElement" }) as any as Schema.Schema<PathElement>;
 
 export interface Key {
   /** Entities are partitioned into subsets, currently identified by a project ID and namespace ID. Queries are scoped to a single partition. */
@@ -72,19 +82,25 @@ export interface Key {
   path?: Array<PathElement>;
 }
 
-export const Key: Schema.Schema<Key> = Schema.suspend(() => Schema.Struct({
-  partitionId: Schema.optional(PartitionId),
-  path: Schema.optional(Schema.Array(PathElement)),
-})).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
+export const Key: Schema.Schema<Key> = Schema.suspend(() =>
+  Schema.Struct({
+    partitionId: Schema.optional(PartitionId),
+    path: Schema.optional(Schema.Array(PathElement)),
+  }),
+).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
 
 export interface PropertyMask {
   /** The paths to the properties covered by this mask. A path is a list of property names separated by dots (`.`), for example `foo.bar` means the property `bar` inside the entity property `foo` inside the entity associated with this path. If a property name contains a dot `.` or a backslash `\`, then that name must be escaped. A path must not be empty, and may not reference a value inside an array value. */
   paths?: Array<string>;
 }
 
-export const PropertyMask: Schema.Schema<PropertyMask> = Schema.suspend(() => Schema.Struct({
-  paths: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PropertyMask" }) as any as Schema.Schema<PropertyMask>;
+export const PropertyMask: Schema.Schema<PropertyMask> = Schema.suspend(() =>
+  Schema.Struct({
+    paths: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "PropertyMask",
+}) as any as Schema.Schema<PropertyMask>;
 
 export interface LookupRequest {
   /** The options for this lookup request. */
@@ -95,11 +111,15 @@ export interface LookupRequest {
   propertyMask?: PropertyMask;
 }
 
-export const LookupRequest: Schema.Schema<LookupRequest> = Schema.suspend(() => Schema.Struct({
-  readOptions: Schema.optional(ReadOptions),
-  keys: Schema.optional(Schema.Array(Key)),
-  propertyMask: Schema.optional(PropertyMask),
-})).annotate({ identifier: "LookupRequest" }) as any as Schema.Schema<LookupRequest>;
+export const LookupRequest: Schema.Schema<LookupRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    readOptions: Schema.optional(ReadOptions),
+    keys: Schema.optional(Schema.Array(Key)),
+    propertyMask: Schema.optional(PropertyMask),
+  }),
+).annotate({
+  identifier: "LookupRequest",
+}) as any as Schema.Schema<LookupRequest>;
 
 export interface LatLng {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
@@ -108,19 +128,23 @@ export interface LatLng {
   longitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() => Schema.Struct({
-  latitude: Schema.optional(Schema.Number),
-  longitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
+  Schema.Struct({
+    latitude: Schema.optional(Schema.Number),
+    longitude: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface ArrayValue {
   /** Values in the array. The order of values in an array is preserved as long as all values have identical settings for 'exclude_from_indexes'. */
   values?: Array<Value>;
 }
 
-export const ArrayValue: Schema.Schema<ArrayValue> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Value)),
-})).annotate({ identifier: "ArrayValue" }) as any as Schema.Schema<ArrayValue>;
+export const ArrayValue: Schema.Schema<ArrayValue> = Schema.suspend(() =>
+  Schema.Struct({
+    values: Schema.optional(Schema.Array(Value)),
+  }),
+).annotate({ identifier: "ArrayValue" }) as any as Schema.Schema<ArrayValue>;
 
 export interface Value {
   /** A null value. */
@@ -151,21 +175,23 @@ export interface Value {
   excludeFromIndexes?: boolean;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() => Schema.Struct({
-  nullValue: Schema.optional(Schema.String),
-  booleanValue: Schema.optional(Schema.Boolean),
-  integerValue: Schema.optional(Schema.String),
-  doubleValue: Schema.optional(Schema.Number),
-  timestampValue: Schema.optional(Schema.String),
-  keyValue: Schema.optional(Key),
-  stringValue: Schema.optional(Schema.String),
-  blobValue: Schema.optional(Schema.String),
-  geoPointValue: Schema.optional(LatLng),
-  entityValue: Schema.optional(Entity),
-  arrayValue: Schema.optional(ArrayValue),
-  meaning: Schema.optional(Schema.Number),
-  excludeFromIndexes: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> = Schema.suspend(() =>
+  Schema.Struct({
+    nullValue: Schema.optional(Schema.String),
+    booleanValue: Schema.optional(Schema.Boolean),
+    integerValue: Schema.optional(Schema.String),
+    doubleValue: Schema.optional(Schema.Number),
+    timestampValue: Schema.optional(Schema.String),
+    keyValue: Schema.optional(Key),
+    stringValue: Schema.optional(Schema.String),
+    blobValue: Schema.optional(Schema.String),
+    geoPointValue: Schema.optional(LatLng),
+    entityValue: Schema.optional(Entity),
+    arrayValue: Schema.optional(ArrayValue),
+    meaning: Schema.optional(Schema.Number),
+    excludeFromIndexes: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface Entity {
   /** The entity's key. An entity must have a key, unless otherwise documented (for example, an entity in `Value.entity_value` may have no key). An entity's kind is its key path's last element's kind, or null if it has no key. */
@@ -174,10 +200,12 @@ export interface Entity {
   properties?: Record<string, Value>;
 }
 
-export const Entity: Schema.Schema<Entity> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Key),
-  properties: Schema.optional(Schema.Record(Schema.String, Value)),
-})).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
+export const Entity: Schema.Schema<Entity> = Schema.suspend(() =>
+  Schema.Struct({
+    key: Schema.optional(Key),
+    properties: Schema.optional(Schema.Record(Schema.String, Value)),
+  }),
+).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
 
 export interface EntityResult {
   /** The resulting entity. */
@@ -192,13 +220,17 @@ export interface EntityResult {
   cursor?: string;
 }
 
-export const EntityResult: Schema.Schema<EntityResult> = Schema.suspend(() => Schema.Struct({
-  entity: Schema.optional(Entity),
-  version: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  cursor: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntityResult" }) as any as Schema.Schema<EntityResult>;
+export const EntityResult: Schema.Schema<EntityResult> = Schema.suspend(() =>
+  Schema.Struct({
+    entity: Schema.optional(Entity),
+    version: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    cursor: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EntityResult",
+}) as any as Schema.Schema<EntityResult>;
 
 export interface LookupResponse {
   /** Entities found as `ResultType.FULL` entities. The order of results in this field is undefined and has no relation to the order of the keys in the input. */
@@ -211,39 +243,56 @@ export interface LookupResponse {
   readTime?: string;
 }
 
-export const LookupResponse: Schema.Schema<LookupResponse> = Schema.suspend(() => Schema.Struct({
-  found: Schema.optional(Schema.Array(EntityResult)),
-  missing: Schema.optional(Schema.Array(EntityResult)),
-  deferred: Schema.optional(Schema.Array(Key)),
-  readTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "LookupResponse" }) as any as Schema.Schema<LookupResponse>;
+export const LookupResponse: Schema.Schema<LookupResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      found: Schema.optional(Schema.Array(EntityResult)),
+      missing: Schema.optional(Schema.Array(EntityResult)),
+      deferred: Schema.optional(Schema.Array(Key)),
+      readTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LookupResponse",
+}) as any as Schema.Schema<LookupResponse>;
 
 export interface PropertyReference {
   /** A reference to a property. Requires: * MUST be a dot-delimited (`.`) string of segments, where each segment conforms to entity property name limitations. */
   name?: string;
 }
 
-export const PropertyReference: Schema.Schema<PropertyReference> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "PropertyReference" }) as any as Schema.Schema<PropertyReference>;
+export const PropertyReference: Schema.Schema<PropertyReference> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PropertyReference",
+  }) as any as Schema.Schema<PropertyReference>;
 
 export interface Projection {
   /** The property to project. */
   property?: PropertyReference;
 }
 
-export const Projection: Schema.Schema<Projection> = Schema.suspend(() => Schema.Struct({
-  property: Schema.optional(PropertyReference),
-})).annotate({ identifier: "Projection" }) as any as Schema.Schema<Projection>;
+export const Projection: Schema.Schema<Projection> = Schema.suspend(() =>
+  Schema.Struct({
+    property: Schema.optional(PropertyReference),
+  }),
+).annotate({ identifier: "Projection" }) as any as Schema.Schema<Projection>;
 
 export interface KindExpression {
   /** The name of the kind. */
   name?: string;
 }
 
-export const KindExpression: Schema.Schema<KindExpression> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "KindExpression" }) as any as Schema.Schema<KindExpression>;
+export const KindExpression: Schema.Schema<KindExpression> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "KindExpression",
+}) as any as Schema.Schema<KindExpression>;
 
 export interface CompositeFilter {
   /** The operator for combining multiple filters. */
@@ -252,25 +301,46 @@ export interface CompositeFilter {
   filters?: Array<Filter>;
 }
 
-export const CompositeFilter: Schema.Schema<CompositeFilter> = Schema.suspend(() => Schema.Struct({
-  op: Schema.optional(Schema.String),
-  filters: Schema.optional(Schema.Array(Filter)),
-})).annotate({ identifier: "CompositeFilter" }) as any as Schema.Schema<CompositeFilter>;
+export const CompositeFilter: Schema.Schema<CompositeFilter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      op: Schema.optional(Schema.String),
+      filters: Schema.optional(Schema.Array(Filter)),
+    }),
+).annotate({
+  identifier: "CompositeFilter",
+}) as any as Schema.Schema<CompositeFilter>;
 
 export interface PropertyFilter {
   /** The property to filter by. */
   property?: PropertyReference;
   /** The operator to filter by. */
-  op?: "OPERATOR_UNSPECIFIED" | "LESS_THAN" | "LESS_THAN_OR_EQUAL" | "GREATER_THAN" | "GREATER_THAN_OR_EQUAL" | "EQUAL" | "IN" | "NOT_EQUAL" | "HAS_ANCESTOR" | "NOT_IN" | (string & {});
+  op?:
+    | "OPERATOR_UNSPECIFIED"
+    | "LESS_THAN"
+    | "LESS_THAN_OR_EQUAL"
+    | "GREATER_THAN"
+    | "GREATER_THAN_OR_EQUAL"
+    | "EQUAL"
+    | "IN"
+    | "NOT_EQUAL"
+    | "HAS_ANCESTOR"
+    | "NOT_IN"
+    | (string & {});
   /** The value to compare the property to. */
   value?: Value;
 }
 
-export const PropertyFilter: Schema.Schema<PropertyFilter> = Schema.suspend(() => Schema.Struct({
-  property: Schema.optional(PropertyReference),
-  op: Schema.optional(Schema.String),
-  value: Schema.optional(Value),
-})).annotate({ identifier: "PropertyFilter" }) as any as Schema.Schema<PropertyFilter>;
+export const PropertyFilter: Schema.Schema<PropertyFilter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      property: Schema.optional(PropertyReference),
+      op: Schema.optional(Schema.String),
+      value: Schema.optional(Value),
+    }),
+).annotate({
+  identifier: "PropertyFilter",
+}) as any as Schema.Schema<PropertyFilter>;
 
 export interface Filter {
   /** A composite filter. */
@@ -279,22 +349,32 @@ export interface Filter {
   propertyFilter?: PropertyFilter;
 }
 
-export const Filter: Schema.Schema<Filter> = Schema.suspend(() => Schema.Struct({
-  compositeFilter: Schema.optional(CompositeFilter),
-  propertyFilter: Schema.optional(PropertyFilter),
-})).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
+export const Filter: Schema.Schema<Filter> = Schema.suspend(() =>
+  Schema.Struct({
+    compositeFilter: Schema.optional(CompositeFilter),
+    propertyFilter: Schema.optional(PropertyFilter),
+  }),
+).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
 
 export interface PropertyOrder {
   /** The property to order by. */
   property?: PropertyReference;
   /** The direction to order by. Defaults to `ASCENDING`. */
-  direction?: "DIRECTION_UNSPECIFIED" | "ASCENDING" | "DESCENDING" | (string & {});
+  direction?:
+    | "DIRECTION_UNSPECIFIED"
+    | "ASCENDING"
+    | "DESCENDING"
+    | (string & {});
 }
 
-export const PropertyOrder: Schema.Schema<PropertyOrder> = Schema.suspend(() => Schema.Struct({
-  property: Schema.optional(PropertyReference),
-  direction: Schema.optional(Schema.String),
-})).annotate({ identifier: "PropertyOrder" }) as any as Schema.Schema<PropertyOrder>;
+export const PropertyOrder: Schema.Schema<PropertyOrder> = Schema.suspend(() =>
+  Schema.Struct({
+    property: Schema.optional(PropertyReference),
+    direction: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PropertyOrder",
+}) as any as Schema.Schema<PropertyOrder>;
 
 export interface FindNearest {
   /** Required. An indexed vector property to search upon. Only documents which contain vectors whose dimensionality match the query_vector can be returned. */
@@ -302,7 +382,12 @@ export interface FindNearest {
   /** Required. The query vector that we are searching on. Must be a vector of no more than 2048 dimensions. */
   queryVector?: Value;
   /** Required. The Distance Measure to use, required. */
-  distanceMeasure?: "DISTANCE_MEASURE_UNSPECIFIED" | "EUCLIDEAN" | "COSINE" | "DOT_PRODUCT" | (string & {});
+  distanceMeasure?:
+    | "DISTANCE_MEASURE_UNSPECIFIED"
+    | "EUCLIDEAN"
+    | "COSINE"
+    | "DOT_PRODUCT"
+    | (string & {});
   /** Required. The number of nearest neighbors to return. Must be a positive integer of no more than 100. */
   limit?: number;
   /** Optional. Optional name of the field to output the result of the vector distance calculation. Must conform to entity property limitations. */
@@ -311,14 +396,16 @@ export interface FindNearest {
   distanceThreshold?: number;
 }
 
-export const FindNearest: Schema.Schema<FindNearest> = Schema.suspend(() => Schema.Struct({
-  vectorProperty: Schema.optional(PropertyReference),
-  queryVector: Schema.optional(Value),
-  distanceMeasure: Schema.optional(Schema.String),
-  limit: Schema.optional(Schema.Number),
-  distanceResultProperty: Schema.optional(Schema.String),
-  distanceThreshold: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FindNearest" }) as any as Schema.Schema<FindNearest>;
+export const FindNearest: Schema.Schema<FindNearest> = Schema.suspend(() =>
+  Schema.Struct({
+    vectorProperty: Schema.optional(PropertyReference),
+    queryVector: Schema.optional(Value),
+    distanceMeasure: Schema.optional(Schema.String),
+    limit: Schema.optional(Schema.Number),
+    distanceResultProperty: Schema.optional(Schema.String),
+    distanceThreshold: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "FindNearest" }) as any as Schema.Schema<FindNearest>;
 
 export interface Query {
   /** The projection to return. Defaults to returning all properties. */
@@ -343,18 +430,20 @@ export interface Query {
   findNearest?: FindNearest;
 }
 
-export const Query: Schema.Schema<Query> = Schema.suspend(() => Schema.Struct({
-  projection: Schema.optional(Schema.Array(Projection)),
-  kind: Schema.optional(Schema.Array(KindExpression)),
-  filter: Schema.optional(Filter),
-  order: Schema.optional(Schema.Array(PropertyOrder)),
-  distinctOn: Schema.optional(Schema.Array(PropertyReference)),
-  startCursor: Schema.optional(Schema.String),
-  endCursor: Schema.optional(Schema.String),
-  offset: Schema.optional(Schema.Number),
-  limit: Schema.optional(Schema.Number),
-  findNearest: Schema.optional(FindNearest),
-})).annotate({ identifier: "Query" }) as any as Schema.Schema<Query>;
+export const Query: Schema.Schema<Query> = Schema.suspend(() =>
+  Schema.Struct({
+    projection: Schema.optional(Schema.Array(Projection)),
+    kind: Schema.optional(Schema.Array(KindExpression)),
+    filter: Schema.optional(Filter),
+    order: Schema.optional(Schema.Array(PropertyOrder)),
+    distinctOn: Schema.optional(Schema.Array(PropertyReference)),
+    startCursor: Schema.optional(Schema.String),
+    endCursor: Schema.optional(Schema.String),
+    offset: Schema.optional(Schema.Number),
+    limit: Schema.optional(Schema.Number),
+    findNearest: Schema.optional(FindNearest),
+  }),
+).annotate({ identifier: "Query" }) as any as Schema.Schema<Query>;
 
 export interface GqlQueryParameter {
   /** A value parameter. */
@@ -363,10 +452,15 @@ export interface GqlQueryParameter {
   cursor?: string;
 }
 
-export const GqlQueryParameter: Schema.Schema<GqlQueryParameter> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Value),
-  cursor: Schema.optional(Schema.String),
-})).annotate({ identifier: "GqlQueryParameter" }) as any as Schema.Schema<GqlQueryParameter>;
+export const GqlQueryParameter: Schema.Schema<GqlQueryParameter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Value),
+      cursor: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GqlQueryParameter",
+  }) as any as Schema.Schema<GqlQueryParameter>;
 
 export interface GqlQuery {
   /** A string of the format described [here](https://cloud.google.com/datastore/docs/apis/gql/gql_reference). */
@@ -379,21 +473,30 @@ export interface GqlQuery {
   positionalBindings?: Array<GqlQueryParameter>;
 }
 
-export const GqlQuery: Schema.Schema<GqlQuery> = Schema.suspend(() => Schema.Struct({
-  queryString: Schema.optional(Schema.String),
-  allowLiterals: Schema.optional(Schema.Boolean),
-  namedBindings: Schema.optional(Schema.Record(Schema.String, GqlQueryParameter)),
-  positionalBindings: Schema.optional(Schema.Array(GqlQueryParameter)),
-})).annotate({ identifier: "GqlQuery" }) as any as Schema.Schema<GqlQuery>;
+export const GqlQuery: Schema.Schema<GqlQuery> = Schema.suspend(() =>
+  Schema.Struct({
+    queryString: Schema.optional(Schema.String),
+    allowLiterals: Schema.optional(Schema.Boolean),
+    namedBindings: Schema.optional(
+      Schema.Record(Schema.String, GqlQueryParameter),
+    ),
+    positionalBindings: Schema.optional(Schema.Array(GqlQueryParameter)),
+  }),
+).annotate({ identifier: "GqlQuery" }) as any as Schema.Schema<GqlQuery>;
 
 export interface ExplainOptions {
   /** Optional. Whether to execute this query. When false (the default), the query will be planned, returning only metrics from the planning stages. When true, the query will be planned and executed, returning the full query results along with both planning and execution stage metrics. */
   analyze?: boolean;
 }
 
-export const ExplainOptions: Schema.Schema<ExplainOptions> = Schema.suspend(() => Schema.Struct({
-  analyze: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ExplainOptions" }) as any as Schema.Schema<ExplainOptions>;
+export const ExplainOptions: Schema.Schema<ExplainOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      analyze: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "ExplainOptions",
+}) as any as Schema.Schema<ExplainOptions>;
 
 export interface RunQueryRequest {
   /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
@@ -410,14 +513,19 @@ export interface RunQueryRequest {
   explainOptions?: ExplainOptions;
 }
 
-export const RunQueryRequest: Schema.Schema<RunQueryRequest> = Schema.suspend(() => Schema.Struct({
-  partitionId: Schema.optional(PartitionId),
-  readOptions: Schema.optional(ReadOptions),
-  query: Schema.optional(Query),
-  gqlQuery: Schema.optional(GqlQuery),
-  propertyMask: Schema.optional(PropertyMask),
-  explainOptions: Schema.optional(ExplainOptions),
-})).annotate({ identifier: "RunQueryRequest" }) as any as Schema.Schema<RunQueryRequest>;
+export const RunQueryRequest: Schema.Schema<RunQueryRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      partitionId: Schema.optional(PartitionId),
+      readOptions: Schema.optional(ReadOptions),
+      query: Schema.optional(Query),
+      gqlQuery: Schema.optional(GqlQuery),
+      propertyMask: Schema.optional(PropertyMask),
+      explainOptions: Schema.optional(ExplainOptions),
+    }),
+).annotate({
+  identifier: "RunQueryRequest",
+}) as any as Schema.Schema<RunQueryRequest>;
 
 export interface QueryResultBatch {
   /** The number of results skipped, typically because of an offset. */
@@ -425,38 +533,58 @@ export interface QueryResultBatch {
   /** A cursor that points to the position after the last skipped result. Will be set when `skipped_results` != 0. */
   skippedCursor?: string;
   /** The result type for every entity in `entity_results`. */
-  entityResultType?: "RESULT_TYPE_UNSPECIFIED" | "FULL" | "PROJECTION" | "KEY_ONLY" | (string & {});
+  entityResultType?:
+    | "RESULT_TYPE_UNSPECIFIED"
+    | "FULL"
+    | "PROJECTION"
+    | "KEY_ONLY"
+    | (string & {});
   /** The results for this batch. */
   entityResults?: Array<EntityResult>;
   /** A cursor that points to the position after the last result in the batch. */
   endCursor?: string;
   /** The state of the query after the current batch. */
-  moreResults?: "MORE_RESULTS_TYPE_UNSPECIFIED" | "NOT_FINISHED" | "MORE_RESULTS_AFTER_LIMIT" | "MORE_RESULTS_AFTER_CURSOR" | "NO_MORE_RESULTS" | (string & {});
+  moreResults?:
+    | "MORE_RESULTS_TYPE_UNSPECIFIED"
+    | "NOT_FINISHED"
+    | "MORE_RESULTS_AFTER_LIMIT"
+    | "MORE_RESULTS_AFTER_CURSOR"
+    | "NO_MORE_RESULTS"
+    | (string & {});
   /** The version number of the snapshot this batch was returned from. This applies to the range of results from the query's `start_cursor` (or the beginning of the query if no cursor was given) to this batch's `end_cursor` (not the query's `end_cursor`). In a single transaction, subsequent query result batches for the same query can have a greater snapshot version number. Each batch's snapshot version is valid for all preceding batches. The value will be zero for eventually consistent queries. */
   snapshotVersion?: string;
   /** Read timestamp this batch was returned from. This applies to the range of results from the query's `start_cursor` (or the beginning of the query if no cursor was given) to this batch's `end_cursor` (not the query's `end_cursor`). In a single transaction, subsequent query result batches for the same query can have a greater timestamp. Each batch's read timestamp is valid for all preceding batches. This value will not be set for eventually consistent queries in Cloud Datastore. */
   readTime?: string;
 }
 
-export const QueryResultBatch: Schema.Schema<QueryResultBatch> = Schema.suspend(() => Schema.Struct({
-  skippedResults: Schema.optional(Schema.Number),
-  skippedCursor: Schema.optional(Schema.String),
-  entityResultType: Schema.optional(Schema.String),
-  entityResults: Schema.optional(Schema.Array(EntityResult)),
-  endCursor: Schema.optional(Schema.String),
-  moreResults: Schema.optional(Schema.String),
-  snapshotVersion: Schema.optional(Schema.String),
-  readTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "QueryResultBatch" }) as any as Schema.Schema<QueryResultBatch>;
+export const QueryResultBatch: Schema.Schema<QueryResultBatch> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      skippedResults: Schema.optional(Schema.Number),
+      skippedCursor: Schema.optional(Schema.String),
+      entityResultType: Schema.optional(Schema.String),
+      entityResults: Schema.optional(Schema.Array(EntityResult)),
+      endCursor: Schema.optional(Schema.String),
+      moreResults: Schema.optional(Schema.String),
+      snapshotVersion: Schema.optional(Schema.String),
+      readTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "QueryResultBatch",
+}) as any as Schema.Schema<QueryResultBatch>;
 
 export interface PlanSummary {
   /** The indexes selected for the query. For example: [ {"query_scope": "Collection", "properties": "(foo ASC, __name__ ASC)"}, {"query_scope": "Collection", "properties": "(bar ASC, __name__ ASC)"} ] */
   indexesUsed?: Array<Record<string, unknown>>;
 }
 
-export const PlanSummary: Schema.Schema<PlanSummary> = Schema.suspend(() => Schema.Struct({
-  indexesUsed: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "PlanSummary" }) as any as Schema.Schema<PlanSummary>;
+export const PlanSummary: Schema.Schema<PlanSummary> = Schema.suspend(() =>
+  Schema.Struct({
+    indexesUsed: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "PlanSummary" }) as any as Schema.Schema<PlanSummary>;
 
 export interface ExecutionStats {
   /** Total number of results returned, including documents, projections, aggregation results, keys. */
@@ -469,12 +597,17 @@ export interface ExecutionStats {
   debugStats?: Record<string, unknown>;
 }
 
-export const ExecutionStats: Schema.Schema<ExecutionStats> = Schema.suspend(() => Schema.Struct({
-  resultsReturned: Schema.optional(Schema.String),
-  executionDuration: Schema.optional(Schema.String),
-  readOperations: Schema.optional(Schema.String),
-  debugStats: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "ExecutionStats" }) as any as Schema.Schema<ExecutionStats>;
+export const ExecutionStats: Schema.Schema<ExecutionStats> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      resultsReturned: Schema.optional(Schema.String),
+      executionDuration: Schema.optional(Schema.String),
+      readOperations: Schema.optional(Schema.String),
+      debugStats: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+).annotate({
+  identifier: "ExecutionStats",
+}) as any as Schema.Schema<ExecutionStats>;
 
 export interface ExplainMetrics {
   /** Planning phase information for the query. */
@@ -483,10 +616,15 @@ export interface ExplainMetrics {
   executionStats?: ExecutionStats;
 }
 
-export const ExplainMetrics: Schema.Schema<ExplainMetrics> = Schema.suspend(() => Schema.Struct({
-  planSummary: Schema.optional(PlanSummary),
-  executionStats: Schema.optional(ExecutionStats),
-})).annotate({ identifier: "ExplainMetrics" }) as any as Schema.Schema<ExplainMetrics>;
+export const ExplainMetrics: Schema.Schema<ExplainMetrics> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      planSummary: Schema.optional(PlanSummary),
+      executionStats: Schema.optional(ExecutionStats),
+    }),
+).annotate({
+  identifier: "ExplainMetrics",
+}) as any as Schema.Schema<ExplainMetrics>;
 
 export interface RunQueryResponse {
   /** A batch of query results. This is always present unless running a query under explain-only mode: RunQueryRequest.explain_options was provided and ExplainOptions.analyze was set to false. */
@@ -497,38 +635,49 @@ export interface RunQueryResponse {
   explainMetrics?: ExplainMetrics;
 }
 
-export const RunQueryResponse: Schema.Schema<RunQueryResponse> = Schema.suspend(() => Schema.Struct({
-  batch: Schema.optional(QueryResultBatch),
-  query: Schema.optional(Query),
-  explainMetrics: Schema.optional(ExplainMetrics),
-})).annotate({ identifier: "RunQueryResponse" }) as any as Schema.Schema<RunQueryResponse>;
+export const RunQueryResponse: Schema.Schema<RunQueryResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      batch: Schema.optional(QueryResultBatch),
+      query: Schema.optional(Query),
+      explainMetrics: Schema.optional(ExplainMetrics),
+    }),
+).annotate({
+  identifier: "RunQueryResponse",
+}) as any as Schema.Schema<RunQueryResponse>;
 
 export interface Count {
   /** Optional. Optional constraint on the maximum number of entities to count. This provides a way to set an upper bound on the number of entities to scan, limiting latency, and cost. Unspecified is interpreted as no bound. If a zero value is provided, a count result of zero should always be expected. High-Level Example: ``` AGGREGATE COUNT_UP_TO(1000) OVER ( SELECT * FROM k ); ``` Requires: * Must be non-negative when present. */
   upTo?: string;
 }
 
-export const Count: Schema.Schema<Count> = Schema.suspend(() => Schema.Struct({
-  upTo: Schema.optional(Schema.String),
-})).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
+export const Count: Schema.Schema<Count> = Schema.suspend(() =>
+  Schema.Struct({
+    upTo: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
 
 export interface Sum {
   /** The property to aggregate on. */
   property?: PropertyReference;
 }
 
-export const Sum: Schema.Schema<Sum> = Schema.suspend(() => Schema.Struct({
-  property: Schema.optional(PropertyReference),
-})).annotate({ identifier: "Sum" }) as any as Schema.Schema<Sum>;
+export const Sum: Schema.Schema<Sum> = Schema.suspend(() =>
+  Schema.Struct({
+    property: Schema.optional(PropertyReference),
+  }),
+).annotate({ identifier: "Sum" }) as any as Schema.Schema<Sum>;
 
 export interface Avg {
   /** The property to aggregate on. */
   property?: PropertyReference;
 }
 
-export const Avg: Schema.Schema<Avg> = Schema.suspend(() => Schema.Struct({
-  property: Schema.optional(PropertyReference),
-})).annotate({ identifier: "Avg" }) as any as Schema.Schema<Avg>;
+export const Avg: Schema.Schema<Avg> = Schema.suspend(() =>
+  Schema.Struct({
+    property: Schema.optional(PropertyReference),
+  }),
+).annotate({ identifier: "Avg" }) as any as Schema.Schema<Avg>;
 
 export interface Aggregation {
   /** Count aggregator. */
@@ -541,12 +690,14 @@ export interface Aggregation {
   alias?: string;
 }
 
-export const Aggregation: Schema.Schema<Aggregation> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Count),
-  sum: Schema.optional(Sum),
-  avg: Schema.optional(Avg),
-  alias: Schema.optional(Schema.String),
-})).annotate({ identifier: "Aggregation" }) as any as Schema.Schema<Aggregation>;
+export const Aggregation: Schema.Schema<Aggregation> = Schema.suspend(() =>
+  Schema.Struct({
+    count: Schema.optional(Count),
+    sum: Schema.optional(Sum),
+    avg: Schema.optional(Avg),
+    alias: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Aggregation" }) as any as Schema.Schema<Aggregation>;
 
 export interface AggregationQuery {
   /** Nested query for aggregation */
@@ -555,10 +706,15 @@ export interface AggregationQuery {
   aggregations?: Array<Aggregation>;
 }
 
-export const AggregationQuery: Schema.Schema<AggregationQuery> = Schema.suspend(() => Schema.Struct({
-  nestedQuery: Schema.optional(Query),
-  aggregations: Schema.optional(Schema.Array(Aggregation)),
-})).annotate({ identifier: "AggregationQuery" }) as any as Schema.Schema<AggregationQuery>;
+export const AggregationQuery: Schema.Schema<AggregationQuery> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      nestedQuery: Schema.optional(Query),
+      aggregations: Schema.optional(Schema.Array(Aggregation)),
+    }),
+).annotate({
+  identifier: "AggregationQuery",
+}) as any as Schema.Schema<AggregationQuery>;
 
 export interface RunAggregationQueryRequest {
   /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
@@ -573,37 +729,58 @@ export interface RunAggregationQueryRequest {
   explainOptions?: ExplainOptions;
 }
 
-export const RunAggregationQueryRequest: Schema.Schema<RunAggregationQueryRequest> = Schema.suspend(() => Schema.Struct({
-  partitionId: Schema.optional(PartitionId),
-  readOptions: Schema.optional(ReadOptions),
-  aggregationQuery: Schema.optional(AggregationQuery),
-  gqlQuery: Schema.optional(GqlQuery),
-  explainOptions: Schema.optional(ExplainOptions),
-})).annotate({ identifier: "RunAggregationQueryRequest" }) as any as Schema.Schema<RunAggregationQueryRequest>;
+export const RunAggregationQueryRequest: Schema.Schema<RunAggregationQueryRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partitionId: Schema.optional(PartitionId),
+      readOptions: Schema.optional(ReadOptions),
+      aggregationQuery: Schema.optional(AggregationQuery),
+      gqlQuery: Schema.optional(GqlQuery),
+      explainOptions: Schema.optional(ExplainOptions),
+    }),
+  ).annotate({
+    identifier: "RunAggregationQueryRequest",
+  }) as any as Schema.Schema<RunAggregationQueryRequest>;
 
 export interface AggregationResult {
   /** The result of the aggregation functions, ex: `COUNT(*) AS total_entities`. The key is the alias assigned to the aggregation function on input and the size of this map equals the number of aggregation functions in the query. */
   aggregateProperties?: Record<string, Value>;
 }
 
-export const AggregationResult: Schema.Schema<AggregationResult> = Schema.suspend(() => Schema.Struct({
-  aggregateProperties: Schema.optional(Schema.Record(Schema.String, Value)),
-})).annotate({ identifier: "AggregationResult" }) as any as Schema.Schema<AggregationResult>;
+export const AggregationResult: Schema.Schema<AggregationResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      aggregateProperties: Schema.optional(Schema.Record(Schema.String, Value)),
+    }),
+  ).annotate({
+    identifier: "AggregationResult",
+  }) as any as Schema.Schema<AggregationResult>;
 
 export interface AggregationResultBatch {
   /** The aggregation results for this batch. */
   aggregationResults?: Array<AggregationResult>;
   /** The state of the query after the current batch. Only COUNT(*) aggregations are supported in the initial launch. Therefore, expected result type is limited to `NO_MORE_RESULTS`. */
-  moreResults?: "MORE_RESULTS_TYPE_UNSPECIFIED" | "NOT_FINISHED" | "MORE_RESULTS_AFTER_LIMIT" | "MORE_RESULTS_AFTER_CURSOR" | "NO_MORE_RESULTS" | (string & {});
+  moreResults?:
+    | "MORE_RESULTS_TYPE_UNSPECIFIED"
+    | "NOT_FINISHED"
+    | "MORE_RESULTS_AFTER_LIMIT"
+    | "MORE_RESULTS_AFTER_CURSOR"
+    | "NO_MORE_RESULTS"
+    | (string & {});
   /** Read timestamp this batch was returned from. In a single transaction, subsequent query result batches for the same query can have a greater timestamp. Each batch's read timestamp is valid for all preceding batches. */
   readTime?: string;
 }
 
-export const AggregationResultBatch: Schema.Schema<AggregationResultBatch> = Schema.suspend(() => Schema.Struct({
-  aggregationResults: Schema.optional(Schema.Array(AggregationResult)),
-  moreResults: Schema.optional(Schema.String),
-  readTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "AggregationResultBatch" }) as any as Schema.Schema<AggregationResultBatch>;
+export const AggregationResultBatch: Schema.Schema<AggregationResultBatch> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      aggregationResults: Schema.optional(Schema.Array(AggregationResult)),
+      moreResults: Schema.optional(Schema.String),
+      readTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AggregationResultBatch",
+  }) as any as Schema.Schema<AggregationResultBatch>;
 
 export interface RunAggregationQueryResponse {
   /** A batch of aggregation results. Always present. */
@@ -614,29 +791,38 @@ export interface RunAggregationQueryResponse {
   explainMetrics?: ExplainMetrics;
 }
 
-export const RunAggregationQueryResponse: Schema.Schema<RunAggregationQueryResponse> = Schema.suspend(() => Schema.Struct({
-  batch: Schema.optional(AggregationResultBatch),
-  query: Schema.optional(AggregationQuery),
-  explainMetrics: Schema.optional(ExplainMetrics),
-})).annotate({ identifier: "RunAggregationQueryResponse" }) as any as Schema.Schema<RunAggregationQueryResponse>;
+export const RunAggregationQueryResponse: Schema.Schema<RunAggregationQueryResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      batch: Schema.optional(AggregationResultBatch),
+      query: Schema.optional(AggregationQuery),
+      explainMetrics: Schema.optional(ExplainMetrics),
+    }),
+  ).annotate({
+    identifier: "RunAggregationQueryResponse",
+  }) as any as Schema.Schema<RunAggregationQueryResponse>;
 
 export interface ReadWrite {
   /** The transaction identifier of the transaction being retried. */
   previousTransaction?: string;
 }
 
-export const ReadWrite: Schema.Schema<ReadWrite> = Schema.suspend(() => Schema.Struct({
-  previousTransaction: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
+export const ReadWrite: Schema.Schema<ReadWrite> = Schema.suspend(() =>
+  Schema.Struct({
+    previousTransaction: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
 
 export interface ReadOnly {
   /** Reads entities at the given time. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
   readTime?: string;
 }
 
-export const ReadOnly: Schema.Schema<ReadOnly> = Schema.suspend(() => Schema.Struct({
-  readTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
+export const ReadOnly: Schema.Schema<ReadOnly> = Schema.suspend(() =>
+  Schema.Struct({
+    readTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
 
 export interface TransactionOptions {
   /** The transaction should allow both reads and writes. */
@@ -645,34 +831,52 @@ export interface TransactionOptions {
   readOnly?: ReadOnly;
 }
 
-export const TransactionOptions: Schema.Schema<TransactionOptions> = Schema.suspend(() => Schema.Struct({
-  readWrite: Schema.optional(ReadWrite),
-  readOnly: Schema.optional(ReadOnly),
-})).annotate({ identifier: "TransactionOptions" }) as any as Schema.Schema<TransactionOptions>;
+export const TransactionOptions: Schema.Schema<TransactionOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      readWrite: Schema.optional(ReadWrite),
+      readOnly: Schema.optional(ReadOnly),
+    }),
+  ).annotate({
+    identifier: "TransactionOptions",
+  }) as any as Schema.Schema<TransactionOptions>;
 
 export interface BeginTransactionRequest {
   /** Options for a new transaction. */
   transactionOptions?: TransactionOptions;
 }
 
-export const BeginTransactionRequest: Schema.Schema<BeginTransactionRequest> = Schema.suspend(() => Schema.Struct({
-  transactionOptions: Schema.optional(TransactionOptions),
-})).annotate({ identifier: "BeginTransactionRequest" }) as any as Schema.Schema<BeginTransactionRequest>;
+export const BeginTransactionRequest: Schema.Schema<BeginTransactionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transactionOptions: Schema.optional(TransactionOptions),
+    }),
+  ).annotate({
+    identifier: "BeginTransactionRequest",
+  }) as any as Schema.Schema<BeginTransactionRequest>;
 
 export interface BeginTransactionResponse {
   /** The transaction identifier (always present). */
   transaction?: string;
 }
 
-export const BeginTransactionResponse: Schema.Schema<BeginTransactionResponse> = Schema.suspend(() => Schema.Struct({
-  transaction: Schema.optional(Schema.String),
-})).annotate({ identifier: "BeginTransactionResponse" }) as any as Schema.Schema<BeginTransactionResponse>;
+export const BeginTransactionResponse: Schema.Schema<BeginTransactionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transaction: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BeginTransactionResponse",
+  }) as any as Schema.Schema<BeginTransactionResponse>;
 
 export interface PropertyTransform {
   /** Optional. The name of the property. Property paths (a list of property names separated by dots (`.`)) may be used to refer to properties inside entity values. For example `foo.bar` means the property `bar` inside the entity property `foo`. If a property name contains a dot `.` or a backlslash `\`, then that name must be escaped. */
   property?: string;
   /** Sets the property to the given server value. */
-  setToServerValue?: "SERVER_VALUE_UNSPECIFIED" | "REQUEST_TIME" | (string & {});
+  setToServerValue?:
+    | "SERVER_VALUE_UNSPECIFIED"
+    | "REQUEST_TIME"
+    | (string & {});
   /** Adds the given value to the property's current value. This must be an integer or a double value. If the property is not an integer or double, or if the property does not yet exist, the transformation will set the property to the given value. If either of the given value or the current property value are doubles, both values will be interpreted as doubles. Double arithmetic and representation of double values follows IEEE 754 semantics. If there is positive/negative integer overflow, the property is resolved to the largest magnitude positive/negative integer. */
   increment?: Value;
   /** Sets the property to the maximum of its current value and the given value. This must be an integer or a double value. If the property is not an integer or double, or if the property does not yet exist, the transformation will set the property to the given value. If a maximum operation is applied where the property and the input value are of mixed types (that is - one is an integer and one is a double) the property takes on the type of the larger operand. If the operands are equivalent (e.g. 3 and 3.0), the property does not change. 0, 0.0, and -0.0 are all zero. The maximum of a zero stored value and zero input value is always the stored value. The maximum of any numeric value x and NaN is NaN. */
@@ -685,15 +889,20 @@ export interface PropertyTransform {
   removeAllFromArray?: ArrayValue;
 }
 
-export const PropertyTransform: Schema.Schema<PropertyTransform> = Schema.suspend(() => Schema.Struct({
-  property: Schema.optional(Schema.String),
-  setToServerValue: Schema.optional(Schema.String),
-  increment: Schema.optional(Value),
-  maximum: Schema.optional(Value),
-  minimum: Schema.optional(Value),
-  appendMissingElements: Schema.optional(ArrayValue),
-  removeAllFromArray: Schema.optional(ArrayValue),
-})).annotate({ identifier: "PropertyTransform" }) as any as Schema.Schema<PropertyTransform>;
+export const PropertyTransform: Schema.Schema<PropertyTransform> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      property: Schema.optional(Schema.String),
+      setToServerValue: Schema.optional(Schema.String),
+      increment: Schema.optional(Value),
+      maximum: Schema.optional(Value),
+      minimum: Schema.optional(Value),
+      appendMissingElements: Schema.optional(ArrayValue),
+      removeAllFromArray: Schema.optional(ArrayValue),
+    }),
+  ).annotate({
+    identifier: "PropertyTransform",
+  }) as any as Schema.Schema<PropertyTransform>;
 
 export interface Mutation {
   /** The entity to insert. The entity must not already exist. The entity key's final path element may be incomplete. */
@@ -709,39 +918,53 @@ export interface Mutation {
   /** The update time of the entity that this mutation is being applied to. If this does not match the current update time on the server, the mutation conflicts. */
   updateTime?: string;
   /** The strategy to use when a conflict is detected. Defaults to `SERVER_VALUE`. If this is set, then `conflict_detection_strategy` must also be set. */
-  conflictResolutionStrategy?: "STRATEGY_UNSPECIFIED" | "SERVER_VALUE" | "FAIL" | (string & {});
+  conflictResolutionStrategy?:
+    | "STRATEGY_UNSPECIFIED"
+    | "SERVER_VALUE"
+    | "FAIL"
+    | (string & {});
   /** The properties to write in this mutation. None of the properties in the mask may have a reserved name, except for `__key__`. This field is ignored for `delete`. If the entity already exists, only properties referenced in the mask are updated, others are left untouched. Properties referenced in the mask but not in the entity are deleted. */
   propertyMask?: PropertyMask;
   /** Optional. The transforms to perform on the entity. This field can be set only when the operation is `insert`, `update`, or `upsert`. If present, the transforms are be applied to the entity regardless of the property mask, in order, after the operation. */
   propertyTransforms?: Array<PropertyTransform>;
 }
 
-export const Mutation: Schema.Schema<Mutation> = Schema.suspend(() => Schema.Struct({
-  insert: Schema.optional(Entity),
-  update: Schema.optional(Entity),
-  upsert: Schema.optional(Entity),
-  delete: Schema.optional(Key),
-  baseVersion: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  conflictResolutionStrategy: Schema.optional(Schema.String),
-  propertyMask: Schema.optional(PropertyMask),
-  propertyTransforms: Schema.optional(Schema.Array(PropertyTransform)),
-})).annotate({ identifier: "Mutation" }) as any as Schema.Schema<Mutation>;
+export const Mutation: Schema.Schema<Mutation> = Schema.suspend(() =>
+  Schema.Struct({
+    insert: Schema.optional(Entity),
+    update: Schema.optional(Entity),
+    upsert: Schema.optional(Entity),
+    delete: Schema.optional(Key),
+    baseVersion: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    conflictResolutionStrategy: Schema.optional(Schema.String),
+    propertyMask: Schema.optional(PropertyMask),
+    propertyTransforms: Schema.optional(Schema.Array(PropertyTransform)),
+  }),
+).annotate({ identifier: "Mutation" }) as any as Schema.Schema<Mutation>;
 
 export interface CommitRequest {
   /** The type of commit to perform. Defaults to `TRANSACTIONAL`. */
-  mode?: "MODE_UNSPECIFIED" | "TRANSACTIONAL" | "NON_TRANSACTIONAL" | (string & {});
+  mode?:
+    | "MODE_UNSPECIFIED"
+    | "TRANSACTIONAL"
+    | "NON_TRANSACTIONAL"
+    | (string & {});
   /** The identifier of the transaction associated with the commit. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
   transaction?: string;
   /** The mutations to perform. When mode is `TRANSACTIONAL`, mutations affecting a single entity are applied in order. The following sequences of mutations affecting a single entity are not permitted in a single `Commit` request: - `insert` followed by `insert` - `update` followed by `insert` - `upsert` followed by `insert` - `delete` followed by `update` When mode is `NON_TRANSACTIONAL`, no two mutations may affect a single entity. */
   mutations?: Array<Mutation>;
 }
 
-export const CommitRequest: Schema.Schema<CommitRequest> = Schema.suspend(() => Schema.Struct({
-  mode: Schema.optional(Schema.String),
-  transaction: Schema.optional(Schema.String),
-  mutations: Schema.optional(Schema.Array(Mutation)),
-})).annotate({ identifier: "CommitRequest" }) as any as Schema.Schema<CommitRequest>;
+export const CommitRequest: Schema.Schema<CommitRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    mode: Schema.optional(Schema.String),
+    transaction: Schema.optional(Schema.String),
+    mutations: Schema.optional(Schema.Array(Mutation)),
+  }),
+).annotate({
+  identifier: "CommitRequest",
+}) as any as Schema.Schema<CommitRequest>;
 
 export interface MutationResult {
   /** The automatically allocated key. Set only when the mutation allocated a key. */
@@ -758,14 +981,19 @@ export interface MutationResult {
   transformResults?: Array<Value>;
 }
 
-export const MutationResult: Schema.Schema<MutationResult> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Key),
-  version: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  conflictDetected: Schema.optional(Schema.Boolean),
-  transformResults: Schema.optional(Schema.Array(Value)),
-})).annotate({ identifier: "MutationResult" }) as any as Schema.Schema<MutationResult>;
+export const MutationResult: Schema.Schema<MutationResult> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      key: Schema.optional(Key),
+      version: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      conflictDetected: Schema.optional(Schema.Boolean),
+      transformResults: Schema.optional(Schema.Array(Value)),
+    }),
+).annotate({
+  identifier: "MutationResult",
+}) as any as Schema.Schema<MutationResult>;
 
 export interface CommitResponse {
   /** The result of performing the mutations. The i-th mutation result corresponds to the i-th mutation in the request. */
@@ -776,44 +1004,66 @@ export interface CommitResponse {
   commitTime?: string;
 }
 
-export const CommitResponse: Schema.Schema<CommitResponse> = Schema.suspend(() => Schema.Struct({
-  mutationResults: Schema.optional(Schema.Array(MutationResult)),
-  indexUpdates: Schema.optional(Schema.Number),
-  commitTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommitResponse" }) as any as Schema.Schema<CommitResponse>;
+export const CommitResponse: Schema.Schema<CommitResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      mutationResults: Schema.optional(Schema.Array(MutationResult)),
+      indexUpdates: Schema.optional(Schema.Number),
+      commitTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CommitResponse",
+}) as any as Schema.Schema<CommitResponse>;
 
 export interface RollbackRequest {
   /** Required. The transaction identifier, returned by a call to Datastore.BeginTransaction. */
   transaction?: string;
 }
 
-export const RollbackRequest: Schema.Schema<RollbackRequest> = Schema.suspend(() => Schema.Struct({
-  transaction: Schema.optional(Schema.String),
-})).annotate({ identifier: "RollbackRequest" }) as any as Schema.Schema<RollbackRequest>;
+export const RollbackRequest: Schema.Schema<RollbackRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      transaction: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RollbackRequest",
+}) as any as Schema.Schema<RollbackRequest>;
 
-export interface RollbackResponse {
-}
+export interface RollbackResponse {}
 
-export const RollbackResponse: Schema.Schema<RollbackResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RollbackResponse" }) as any as Schema.Schema<RollbackResponse>;
+export const RollbackResponse: Schema.Schema<RollbackResponse> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "RollbackResponse",
+}) as any as Schema.Schema<RollbackResponse>;
 
 export interface AllocateIdsRequest {
   /** Required. A list of keys with incomplete key paths for which to allocate IDs. No key may be reserved/read-only. */
   keys?: Array<Key>;
 }
 
-export const AllocateIdsRequest: Schema.Schema<AllocateIdsRequest> = Schema.suspend(() => Schema.Struct({
-  keys: Schema.optional(Schema.Array(Key)),
-})).annotate({ identifier: "AllocateIdsRequest" }) as any as Schema.Schema<AllocateIdsRequest>;
+export const AllocateIdsRequest: Schema.Schema<AllocateIdsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      keys: Schema.optional(Schema.Array(Key)),
+    }),
+  ).annotate({
+    identifier: "AllocateIdsRequest",
+  }) as any as Schema.Schema<AllocateIdsRequest>;
 
 export interface AllocateIdsResponse {
   /** The keys specified in the request (in the same order), each with its key path completed with a newly allocated ID. */
   keys?: Array<Key>;
 }
 
-export const AllocateIdsResponse: Schema.Schema<AllocateIdsResponse> = Schema.suspend(() => Schema.Struct({
-  keys: Schema.optional(Schema.Array(Key)),
-})).annotate({ identifier: "AllocateIdsResponse" }) as any as Schema.Schema<AllocateIdsResponse>;
+export const AllocateIdsResponse: Schema.Schema<AllocateIdsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      keys: Schema.optional(Schema.Array(Key)),
+    }),
+  ).annotate({
+    identifier: "AllocateIdsResponse",
+  }) as any as Schema.Schema<AllocateIdsResponse>;
 
 export interface ReserveIdsRequest {
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
@@ -822,16 +1072,22 @@ export interface ReserveIdsRequest {
   keys?: Array<Key>;
 }
 
-export const ReserveIdsRequest: Schema.Schema<ReserveIdsRequest> = Schema.suspend(() => Schema.Struct({
-  databaseId: Schema.optional(Schema.String),
-  keys: Schema.optional(Schema.Array(Key)),
-})).annotate({ identifier: "ReserveIdsRequest" }) as any as Schema.Schema<ReserveIdsRequest>;
+export const ReserveIdsRequest: Schema.Schema<ReserveIdsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      databaseId: Schema.optional(Schema.String),
+      keys: Schema.optional(Schema.Array(Key)),
+    }),
+  ).annotate({
+    identifier: "ReserveIdsRequest",
+  }) as any as Schema.Schema<ReserveIdsRequest>;
 
-export interface ReserveIdsResponse {
-}
+export interface ReserveIdsResponse {}
 
-export const ReserveIdsResponse: Schema.Schema<ReserveIdsResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ReserveIdsResponse" }) as any as Schema.Schema<ReserveIdsResponse>;
+export const ReserveIdsResponse: Schema.Schema<ReserveIdsResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ReserveIdsResponse",
+  }) as any as Schema.Schema<ReserveIdsResponse>;
 
 export interface GoogleDatastoreAdminV1beta1CommonMetadata {
   /** The time that work began on the operation. */
@@ -839,20 +1095,38 @@ export interface GoogleDatastoreAdminV1beta1CommonMetadata {
   /** The time the operation ended, either successfully or otherwise. */
   endTime?: string;
   /** The type of the operation. Can be used as a filter in ListOperationsRequest. */
-  operationType?: "OPERATION_TYPE_UNSPECIFIED" | "EXPORT_ENTITIES" | "IMPORT_ENTITIES" | (string & {});
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "EXPORT_ENTITIES"
+    | "IMPORT_ENTITIES"
+    | (string & {});
   /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
   labels?: Record<string, string>;
   /** The current state of the Operation. */
-  state?: "STATE_UNSPECIFIED" | "INITIALIZING" | "PROCESSING" | "CANCELLING" | "FINALIZING" | "SUCCESSFUL" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "INITIALIZING"
+    | "PROCESSING"
+    | "CANCELLING"
+    | "FINALIZING"
+    | "SUCCESSFUL"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1beta1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1CommonMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata>;
+export const GoogleDatastoreAdminV1beta1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1CommonMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata>;
 
 export interface GoogleDatastoreAdminV1beta1Progress {
   /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
@@ -861,10 +1135,15 @@ export interface GoogleDatastoreAdminV1beta1Progress {
   workEstimated?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1Progress: Schema.Schema<GoogleDatastoreAdminV1beta1Progress> = Schema.suspend(() => Schema.Struct({
-  workCompleted: Schema.optional(Schema.String),
-  workEstimated: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1Progress" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1Progress>;
+export const GoogleDatastoreAdminV1beta1Progress: Schema.Schema<GoogleDatastoreAdminV1beta1Progress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workCompleted: Schema.optional(Schema.String),
+      workEstimated: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1Progress",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1Progress>;
 
 export interface GoogleDatastoreAdminV1beta1EntityFilter {
   /** If empty, then this represents all kinds. */
@@ -873,10 +1152,15 @@ export interface GoogleDatastoreAdminV1beta1EntityFilter {
   namespaceIds?: Array<string>;
 }
 
-export const GoogleDatastoreAdminV1beta1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter> = Schema.suspend(() => Schema.Struct({
-  kinds: Schema.optional(Schema.Array(Schema.String)),
-  namespaceIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1EntityFilter" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter>;
+export const GoogleDatastoreAdminV1beta1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kinds: Schema.optional(Schema.Array(Schema.String)),
+      namespaceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1EntityFilter",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter>;
 
 export interface GoogleDatastoreAdminV1beta1ExportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -891,22 +1175,32 @@ export interface GoogleDatastoreAdminV1beta1ExportEntitiesMetadata {
   outputUrlPrefix?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-  outputUrlPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1beta1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+      outputUrlPrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1beta1ExportEntitiesResponse {
   /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1beta1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
   outputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse> = Schema.suspend(() => Schema.Struct({
-  outputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesResponse" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse>;
+export const GoogleDatastoreAdminV1beta1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesResponse",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse>;
 
 export interface GoogleDatastoreAdminV1beta1ImportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -921,13 +1215,18 @@ export interface GoogleDatastoreAdminV1beta1ImportEntitiesMetadata {
   inputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-  inputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1beta1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+      inputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1CommonMetadata {
   /** The time that work began on the operation. */
@@ -935,20 +1234,40 @@ export interface GoogleDatastoreAdminV1CommonMetadata {
   /** The time the operation ended, either successfully or otherwise. */
   endTime?: string;
   /** The type of the operation. Can be used as a filter in ListOperationsRequest. */
-  operationType?: "OPERATION_TYPE_UNSPECIFIED" | "EXPORT_ENTITIES" | "IMPORT_ENTITIES" | "CREATE_INDEX" | "DELETE_INDEX" | (string & {});
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "EXPORT_ENTITIES"
+    | "IMPORT_ENTITIES"
+    | "CREATE_INDEX"
+    | "DELETE_INDEX"
+    | (string & {});
   /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
   labels?: Record<string, string>;
   /** The current state of the Operation. */
-  state?: "STATE_UNSPECIFIED" | "INITIALIZING" | "PROCESSING" | "CANCELLING" | "FINALIZING" | "SUCCESSFUL" | "FAILED" | "CANCELLED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "INITIALIZING"
+    | "PROCESSING"
+    | "CANCELLING"
+    | "FINALIZING"
+    | "SUCCESSFUL"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1CommonMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1CommonMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1CommonMetadata>;
+export const GoogleDatastoreAdminV1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1CommonMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1CommonMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1CommonMetadata>;
 
 export interface GoogleDatastoreAdminV1Progress {
   /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
@@ -957,10 +1276,15 @@ export interface GoogleDatastoreAdminV1Progress {
   workEstimated?: string;
 }
 
-export const GoogleDatastoreAdminV1Progress: Schema.Schema<GoogleDatastoreAdminV1Progress> = Schema.suspend(() => Schema.Struct({
-  workCompleted: Schema.optional(Schema.String),
-  workEstimated: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1Progress" }) as any as Schema.Schema<GoogleDatastoreAdminV1Progress>;
+export const GoogleDatastoreAdminV1Progress: Schema.Schema<GoogleDatastoreAdminV1Progress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workCompleted: Schema.optional(Schema.String),
+      workEstimated: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1Progress",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1Progress>;
 
 export interface GoogleDatastoreAdminV1EntityFilter {
   /** If empty, then this represents all kinds. */
@@ -969,10 +1293,15 @@ export interface GoogleDatastoreAdminV1EntityFilter {
   namespaceIds?: Array<string>;
 }
 
-export const GoogleDatastoreAdminV1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1EntityFilter> = Schema.suspend(() => Schema.Struct({
-  kinds: Schema.optional(Schema.Array(Schema.String)),
-  namespaceIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleDatastoreAdminV1EntityFilter" }) as any as Schema.Schema<GoogleDatastoreAdminV1EntityFilter>;
+export const GoogleDatastoreAdminV1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1EntityFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kinds: Schema.optional(Schema.Array(Schema.String)),
+      namespaceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1EntityFilter",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1EntityFilter>;
 
 export interface GoogleDatastoreAdminV1ExportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -987,22 +1316,32 @@ export interface GoogleDatastoreAdminV1ExportEntitiesMetadata {
   outputUrlPrefix?: string;
 }
 
-export const GoogleDatastoreAdminV1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
-  outputUrlPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1ExportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
+      outputUrlPrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1ExportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1ExportEntitiesResponse {
   /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
   outputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse> = Schema.suspend(() => Schema.Struct({
-  outputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1ExportEntitiesResponse" }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse>;
+export const GoogleDatastoreAdminV1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1ExportEntitiesResponse",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse>;
 
 export interface GoogleDatastoreAdminV1ImportEntitiesMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -1017,13 +1356,18 @@ export interface GoogleDatastoreAdminV1ImportEntitiesMetadata {
   inputUrl?: string;
 }
 
-export const GoogleDatastoreAdminV1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-  progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
-  entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
-  inputUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1ImportEntitiesMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata>;
+export const GoogleDatastoreAdminV1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
+      inputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1ImportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata>;
 
 export interface GoogleDatastoreAdminV1IndexOperationMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -1034,65 +1378,137 @@ export interface GoogleDatastoreAdminV1IndexOperationMetadata {
   indexId?: string;
 }
 
-export const GoogleDatastoreAdminV1IndexOperationMetadata: Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
-  progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-  indexId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1IndexOperationMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata>;
+export const GoogleDatastoreAdminV1IndexOperationMetadata: Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
+      indexId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1IndexOperationMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata>;
 
 export interface GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata {
   /** The current state of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
-  migrationState?: "MIGRATION_STATE_UNSPECIFIED" | "RUNNING" | "PAUSED" | "COMPLETE" | (string & {});
+  migrationState?:
+    | "MIGRATION_STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "PAUSED"
+    | "COMPLETE"
+    | (string & {});
   /** The current step of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
-  migrationStep?: "MIGRATION_STEP_UNSPECIFIED" | "PREPARE" | "START" | "APPLY_WRITES_SYNCHRONOUSLY" | "COPY_AND_VERIFY" | "REDIRECT_EVENTUALLY_CONSISTENT_READS" | "REDIRECT_STRONGLY_CONSISTENT_READS" | "REDIRECT_WRITES" | (string & {});
+  migrationStep?:
+    | "MIGRATION_STEP_UNSPECIFIED"
+    | "PREPARE"
+    | "START"
+    | "APPLY_WRITES_SYNCHRONOUSLY"
+    | "COPY_AND_VERIFY"
+    | "REDIRECT_EVENTUALLY_CONSISTENT_READS"
+    | "REDIRECT_STRONGLY_CONSISTENT_READS"
+    | "REDIRECT_WRITES"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata: Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata> = Schema.suspend(() => Schema.Struct({
-  migrationState: Schema.optional(Schema.String),
-  migrationStep: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata" }) as any as Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata>;
+export const GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata: Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationState: Schema.optional(Schema.String),
+      migrationStep: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata>;
 
 export interface GoogleDatastoreAdminV1PrepareStepDetails {
   /** The concurrency mode this database will use when it reaches the `REDIRECT_WRITES` step. */
-  concurrencyMode?: "CONCURRENCY_MODE_UNSPECIFIED" | "PESSIMISTIC" | "OPTIMISTIC" | "OPTIMISTIC_WITH_ENTITY_GROUPS" | (string & {});
+  concurrencyMode?:
+    | "CONCURRENCY_MODE_UNSPECIFIED"
+    | "PESSIMISTIC"
+    | "OPTIMISTIC"
+    | "OPTIMISTIC_WITH_ENTITY_GROUPS"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1PrepareStepDetails: Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails> = Schema.suspend(() => Schema.Struct({
-  concurrencyMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1PrepareStepDetails" }) as any as Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails>;
+export const GoogleDatastoreAdminV1PrepareStepDetails: Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      concurrencyMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1PrepareStepDetails",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails>;
 
 export interface GoogleDatastoreAdminV1RedirectWritesStepDetails {
   /** The concurrency mode for this database. */
-  concurrencyMode?: "CONCURRENCY_MODE_UNSPECIFIED" | "PESSIMISTIC" | "OPTIMISTIC" | "OPTIMISTIC_WITH_ENTITY_GROUPS" | (string & {});
+  concurrencyMode?:
+    | "CONCURRENCY_MODE_UNSPECIFIED"
+    | "PESSIMISTIC"
+    | "OPTIMISTIC"
+    | "OPTIMISTIC_WITH_ENTITY_GROUPS"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1RedirectWritesStepDetails: Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails> = Schema.suspend(() => Schema.Struct({
-  concurrencyMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1RedirectWritesStepDetails" }) as any as Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails>;
+export const GoogleDatastoreAdminV1RedirectWritesStepDetails: Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      concurrencyMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1RedirectWritesStepDetails",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails>;
 
 export interface GoogleDatastoreAdminV1MigrationProgressEvent {
   /** The step that is starting. An event with step set to `START` indicates that the migration has been reverted back to the initial pre-migration state. */
-  step?: "MIGRATION_STEP_UNSPECIFIED" | "PREPARE" | "START" | "APPLY_WRITES_SYNCHRONOUSLY" | "COPY_AND_VERIFY" | "REDIRECT_EVENTUALLY_CONSISTENT_READS" | "REDIRECT_STRONGLY_CONSISTENT_READS" | "REDIRECT_WRITES" | (string & {});
+  step?:
+    | "MIGRATION_STEP_UNSPECIFIED"
+    | "PREPARE"
+    | "START"
+    | "APPLY_WRITES_SYNCHRONOUSLY"
+    | "COPY_AND_VERIFY"
+    | "REDIRECT_EVENTUALLY_CONSISTENT_READS"
+    | "REDIRECT_STRONGLY_CONSISTENT_READS"
+    | "REDIRECT_WRITES"
+    | (string & {});
   /** Details for the `PREPARE` step. */
   prepareStepDetails?: GoogleDatastoreAdminV1PrepareStepDetails;
   /** Details for the `REDIRECT_WRITES` step. */
   redirectWritesStepDetails?: GoogleDatastoreAdminV1RedirectWritesStepDetails;
 }
 
-export const GoogleDatastoreAdminV1MigrationProgressEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent> = Schema.suspend(() => Schema.Struct({
-  step: Schema.optional(Schema.String),
-  prepareStepDetails: Schema.optional(GoogleDatastoreAdminV1PrepareStepDetails),
-  redirectWritesStepDetails: Schema.optional(GoogleDatastoreAdminV1RedirectWritesStepDetails),
-})).annotate({ identifier: "GoogleDatastoreAdminV1MigrationProgressEvent" }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent>;
+export const GoogleDatastoreAdminV1MigrationProgressEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      step: Schema.optional(Schema.String),
+      prepareStepDetails: Schema.optional(
+        GoogleDatastoreAdminV1PrepareStepDetails,
+      ),
+      redirectWritesStepDetails: Schema.optional(
+        GoogleDatastoreAdminV1RedirectWritesStepDetails,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1MigrationProgressEvent",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent>;
 
 export interface GoogleDatastoreAdminV1MigrationStateEvent {
   /** The new state of the migration. */
-  state?: "MIGRATION_STATE_UNSPECIFIED" | "RUNNING" | "PAUSED" | "COMPLETE" | (string & {});
+  state?:
+    | "MIGRATION_STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "PAUSED"
+    | "COMPLETE"
+    | (string & {});
 }
 
-export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleDatastoreAdminV1MigrationStateEvent" }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent>;
+export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1MigrationStateEvent",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent>;
 
 // ==========================================================================
 // Operations
@@ -1109,7 +1525,11 @@ export const LookupProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(LookupRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:lookup", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:lookup",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LookupProjectsRequest>;
 
@@ -1119,7 +1539,12 @@ export const LookupProjectsResponse = LookupResponse;
 export type LookupProjectsError = DefaultErrors;
 
 /** Looks up entities by key. */
-export const lookupProjects: API.OperationMethod<LookupProjectsRequest, LookupProjectsResponse, LookupProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const lookupProjects: API.OperationMethod<
+  LookupProjectsRequest,
+  LookupProjectsResponse,
+  LookupProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LookupProjectsRequest,
   output: LookupProjectsResponse,
   errors: [],
@@ -1136,7 +1561,11 @@ export const RunQueryProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(RunQueryRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:runQuery", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:runQuery",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RunQueryProjectsRequest>;
 
@@ -1146,7 +1575,12 @@ export const RunQueryProjectsResponse = RunQueryResponse;
 export type RunQueryProjectsError = DefaultErrors;
 
 /** Queries for entities. */
-export const runQueryProjects: API.OperationMethod<RunQueryProjectsRequest, RunQueryProjectsResponse, RunQueryProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const runQueryProjects: API.OperationMethod<
+  RunQueryProjectsRequest,
+  RunQueryProjectsResponse,
+  RunQueryProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RunQueryProjectsRequest,
   output: RunQueryProjectsResponse,
   errors: [],
@@ -1163,7 +1597,11 @@ export const RunAggregationQueryProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(RunAggregationQueryRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:runAggregationQuery", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:runAggregationQuery",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RunAggregationQueryProjectsRequest>;
 
@@ -1173,7 +1611,12 @@ export const RunAggregationQueryProjectsResponse = RunAggregationQueryResponse;
 export type RunAggregationQueryProjectsError = DefaultErrors;
 
 /** Runs an aggregation query. */
-export const runAggregationQueryProjects: API.OperationMethod<RunAggregationQueryProjectsRequest, RunAggregationQueryProjectsResponse, RunAggregationQueryProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const runAggregationQueryProjects: API.OperationMethod<
+  RunAggregationQueryProjectsRequest,
+  RunAggregationQueryProjectsResponse,
+  RunAggregationQueryProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RunAggregationQueryProjectsRequest,
   output: RunAggregationQueryProjectsResponse,
   errors: [],
@@ -1190,7 +1633,11 @@ export const BeginTransactionProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(BeginTransactionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:beginTransaction", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:beginTransaction",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BeginTransactionProjectsRequest>;
 
@@ -1200,7 +1647,12 @@ export const BeginTransactionProjectsResponse = BeginTransactionResponse;
 export type BeginTransactionProjectsError = DefaultErrors;
 
 /** Begins a new transaction. */
-export const beginTransactionProjects: API.OperationMethod<BeginTransactionProjectsRequest, BeginTransactionProjectsResponse, BeginTransactionProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const beginTransactionProjects: API.OperationMethod<
+  BeginTransactionProjectsRequest,
+  BeginTransactionProjectsResponse,
+  BeginTransactionProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BeginTransactionProjectsRequest,
   output: BeginTransactionProjectsResponse,
   errors: [],
@@ -1217,7 +1669,11 @@ export const CommitProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(CommitRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:commit", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:commit",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CommitProjectsRequest>;
 
@@ -1227,7 +1683,12 @@ export const CommitProjectsResponse = CommitResponse;
 export type CommitProjectsError = DefaultErrors;
 
 /** Commits a transaction, optionally creating, deleting or modifying some entities. */
-export const commitProjects: API.OperationMethod<CommitProjectsRequest, CommitProjectsResponse, CommitProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const commitProjects: API.OperationMethod<
+  CommitProjectsRequest,
+  CommitProjectsResponse,
+  CommitProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CommitProjectsRequest,
   output: CommitProjectsResponse,
   errors: [],
@@ -1244,7 +1705,11 @@ export const RollbackProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(RollbackRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:rollback", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:rollback",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RollbackProjectsRequest>;
 
@@ -1254,7 +1719,12 @@ export const RollbackProjectsResponse = RollbackResponse;
 export type RollbackProjectsError = DefaultErrors;
 
 /** Rolls back a transaction. */
-export const rollbackProjects: API.OperationMethod<RollbackProjectsRequest, RollbackProjectsResponse, RollbackProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rollbackProjects: API.OperationMethod<
+  RollbackProjectsRequest,
+  RollbackProjectsResponse,
+  RollbackProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RollbackProjectsRequest,
   output: RollbackProjectsResponse,
   errors: [],
@@ -1271,7 +1741,11 @@ export const AllocateIdsProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(AllocateIdsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:allocateIds", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:allocateIds",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AllocateIdsProjectsRequest>;
 
@@ -1281,7 +1755,12 @@ export const AllocateIdsProjectsResponse = AllocateIdsResponse;
 export type AllocateIdsProjectsError = DefaultErrors;
 
 /** Allocates IDs for the given keys, which is useful for referencing an entity before it is inserted. */
-export const allocateIdsProjects: API.OperationMethod<AllocateIdsProjectsRequest, AllocateIdsProjectsResponse, AllocateIdsProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const allocateIdsProjects: API.OperationMethod<
+  AllocateIdsProjectsRequest,
+  AllocateIdsProjectsResponse,
+  AllocateIdsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AllocateIdsProjectsRequest,
   output: AllocateIdsProjectsResponse,
   errors: [],
@@ -1298,7 +1777,11 @@ export const ReserveIdsProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(ReserveIdsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta3/projects/{projectId}:reserveIds", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta3/projects/{projectId}:reserveIds",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReserveIdsProjectsRequest>;
 
@@ -1308,9 +1791,13 @@ export const ReserveIdsProjectsResponse = ReserveIdsResponse;
 export type ReserveIdsProjectsError = DefaultErrors;
 
 /** Prevents the supplied keys' IDs from being auto-allocated by Cloud Datastore. */
-export const reserveIdsProjects: API.OperationMethod<ReserveIdsProjectsRequest, ReserveIdsProjectsResponse, ReserveIdsProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const reserveIdsProjects: API.OperationMethod<
+  ReserveIdsProjectsRequest,
+  ReserveIdsProjectsResponse,
+  ReserveIdsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReserveIdsProjectsRequest,
   output: ReserveIdsProjectsResponse,
   errors: [],
 }));
-

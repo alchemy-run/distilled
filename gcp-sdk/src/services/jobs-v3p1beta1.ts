@@ -48,19 +48,23 @@ export interface PostalAddress {
   recipients?: Array<string>;
 }
 
-export const PostalAddress: Schema.Schema<PostalAddress> = Schema.suspend(() => Schema.Struct({
-  administrativeArea: Schema.optional(Schema.String),
-  addressLines: Schema.optional(Schema.Array(Schema.String)),
-  languageCode: Schema.optional(Schema.String),
-  sublocality: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  postalCode: Schema.optional(Schema.String),
-  organization: Schema.optional(Schema.String),
-  locality: Schema.optional(Schema.String),
-  sortingCode: Schema.optional(Schema.String),
-  revision: Schema.optional(Schema.Number),
-  recipients: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PostalAddress" }) as any as Schema.Schema<PostalAddress>;
+export const PostalAddress: Schema.Schema<PostalAddress> = Schema.suspend(() =>
+  Schema.Struct({
+    administrativeArea: Schema.optional(Schema.String),
+    addressLines: Schema.optional(Schema.Array(Schema.String)),
+    languageCode: Schema.optional(Schema.String),
+    sublocality: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    postalCode: Schema.optional(Schema.String),
+    organization: Schema.optional(Schema.String),
+    locality: Schema.optional(Schema.String),
+    sortingCode: Schema.optional(Schema.String),
+    revision: Schema.optional(Schema.Number),
+    recipients: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "PostalAddress",
+}) as any as Schema.Schema<PostalAddress>;
 
 export interface LatLng {
   /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
@@ -69,43 +73,73 @@ export interface LatLng {
   latitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() => Schema.Struct({
-  longitude: Schema.optional(Schema.Number),
-  latitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
+  Schema.Struct({
+    longitude: Schema.optional(Schema.Number),
+    latitude: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface Location {
   /** Radius in miles of the job location. This value is derived from the location bounding box in which a circle with the specified radius centered from LatLng covers the area associated with the job location. For example, currently, "Mountain View, CA, USA" has a radius of 6.17 miles. */
   radiusInMiles?: number;
   /** The type of a location, which corresponds to the address lines field of PostalAddress. For example, "Downtown, Atlanta, GA, USA" has a type of LocationType#NEIGHBORHOOD, and "Kansas City, KS, USA" has a type of LocationType#LOCALITY. */
-  locationType?: "LOCATION_TYPE_UNSPECIFIED" | "COUNTRY" | "ADMINISTRATIVE_AREA" | "SUB_ADMINISTRATIVE_AREA" | "LOCALITY" | "POSTAL_CODE" | "SUB_LOCALITY" | "SUB_LOCALITY_1" | "SUB_LOCALITY_2" | "NEIGHBORHOOD" | "STREET_ADDRESS" | (string & {});
+  locationType?:
+    | "LOCATION_TYPE_UNSPECIFIED"
+    | "COUNTRY"
+    | "ADMINISTRATIVE_AREA"
+    | "SUB_ADMINISTRATIVE_AREA"
+    | "LOCALITY"
+    | "POSTAL_CODE"
+    | "SUB_LOCALITY"
+    | "SUB_LOCALITY_1"
+    | "SUB_LOCALITY_2"
+    | "NEIGHBORHOOD"
+    | "STREET_ADDRESS"
+    | (string & {});
   /** Postal address of the location that includes human readable information, such as postal delivery and payments addresses. Given a postal address, a postal service can deliver items to a premises, P.O. Box, or other delivery location. */
   postalAddress?: PostalAddress;
   /** An object representing a latitude/longitude pair. */
   latLng?: LatLng;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  radiusInMiles: Schema.optional(Schema.Number),
-  locationType: Schema.optional(Schema.String),
-  postalAddress: Schema.optional(PostalAddress),
-  latLng: Schema.optional(LatLng),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    radiusInMiles: Schema.optional(Schema.Number),
+    locationType: Schema.optional(Schema.String),
+    postalAddress: Schema.optional(PostalAddress),
+    latLng: Schema.optional(LatLng),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface CompanyDerivedInfo {
   /** A structured headquarters location of the company, resolved from Company.hq_location if provided. */
   headquartersLocation?: Location;
 }
 
-export const CompanyDerivedInfo: Schema.Schema<CompanyDerivedInfo> = Schema.suspend(() => Schema.Struct({
-  headquartersLocation: Schema.optional(Location),
-})).annotate({ identifier: "CompanyDerivedInfo" }) as any as Schema.Schema<CompanyDerivedInfo>;
+export const CompanyDerivedInfo: Schema.Schema<CompanyDerivedInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      headquartersLocation: Schema.optional(Location),
+    }),
+  ).annotate({
+    identifier: "CompanyDerivedInfo",
+  }) as any as Schema.Schema<CompanyDerivedInfo>;
 
 export interface Company {
   /** Optional. The URI to employer's career site or careers page on the employer's web site, for example, "https://careers.google.com". */
   careerSiteUri?: string;
   /** Optional. The employer's company size. */
-  size?: "COMPANY_SIZE_UNSPECIFIED" | "MINI" | "SMALL" | "SMEDIUM" | "MEDIUM" | "BIG" | "BIGGER" | "GIANT" | (string & {});
+  size?:
+    | "COMPANY_SIZE_UNSPECIFIED"
+    | "MINI"
+    | "SMALL"
+    | "SMEDIUM"
+    | "MEDIUM"
+    | "BIG"
+    | "BIGGER"
+    | "GIANT"
+    | (string & {});
   /** Optional. The URI representing the company's primary web site or home page, for example, "https://www.google.com". The maximum number of allowed characters is 255. */
   websiteUri?: string;
   /** Optional. Equal Employment Opportunity legal disclaimer text to be associated with all jobs, and typically to be displayed in all roles. The maximum number of allowed characters is 500. */
@@ -130,21 +164,25 @@ export interface Company {
   name?: string;
 }
 
-export const Company: Schema.Schema<Company> = Schema.suspend(() => Schema.Struct({
-  careerSiteUri: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.String),
-  websiteUri: Schema.optional(Schema.String),
-  eeoText: Schema.optional(Schema.String),
-  derivedInfo: Schema.optional(CompanyDerivedInfo),
-  headquartersAddress: Schema.optional(Schema.String),
-  hiringAgency: Schema.optional(Schema.Boolean),
-  suspended: Schema.optional(Schema.Boolean),
-  externalId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  keywordSearchableJobCustomAttributes: Schema.optional(Schema.Array(Schema.String)),
-  imageUri: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
+export const Company: Schema.Schema<Company> = Schema.suspend(() =>
+  Schema.Struct({
+    careerSiteUri: Schema.optional(Schema.String),
+    size: Schema.optional(Schema.String),
+    websiteUri: Schema.optional(Schema.String),
+    eeoText: Schema.optional(Schema.String),
+    derivedInfo: Schema.optional(CompanyDerivedInfo),
+    headquartersAddress: Schema.optional(Schema.String),
+    hiringAgency: Schema.optional(Schema.Boolean),
+    suspended: Schema.optional(Schema.Boolean),
+    externalId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    keywordSearchableJobCustomAttributes: Schema.optional(
+      Schema.Array(Schema.String),
+    ),
+    imageUri: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
 
 export interface BucketRange {
   /** Ending value of the bucket range. */
@@ -153,10 +191,12 @@ export interface BucketRange {
   from?: number;
 }
 
-export const BucketRange: Schema.Schema<BucketRange> = Schema.suspend(() => Schema.Struct({
-  to: Schema.optional(Schema.Number),
-  from: Schema.optional(Schema.Number),
-})).annotate({ identifier: "BucketRange" }) as any as Schema.Schema<BucketRange>;
+export const BucketRange: Schema.Schema<BucketRange> = Schema.suspend(() =>
+  Schema.Struct({
+    to: Schema.optional(Schema.Number),
+    from: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "BucketRange" }) as any as Schema.Schema<BucketRange>;
 
 export interface BucketizedCount {
   /** Number of jobs whose numeric field value fall into `range`. */
@@ -165,10 +205,15 @@ export interface BucketizedCount {
   range?: BucketRange;
 }
 
-export const BucketizedCount: Schema.Schema<BucketizedCount> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  range: Schema.optional(BucketRange),
-})).annotate({ identifier: "BucketizedCount" }) as any as Schema.Schema<BucketizedCount>;
+export const BucketizedCount: Schema.Schema<BucketizedCount> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      range: Schema.optional(BucketRange),
+    }),
+).annotate({
+  identifier: "BucketizedCount",
+}) as any as Schema.Schema<BucketizedCount>;
 
 export interface NumericBucketingResult {
   /** Stores the minimum value of the numeric field. Will be populated only if [NumericBucketingOption.requires_min_max] is set to true. */
@@ -179,11 +224,16 @@ export interface NumericBucketingResult {
   maxValue?: number;
 }
 
-export const NumericBucketingResult: Schema.Schema<NumericBucketingResult> = Schema.suspend(() => Schema.Struct({
-  minValue: Schema.optional(Schema.Number),
-  counts: Schema.optional(Schema.Array(BucketizedCount)),
-  maxValue: Schema.optional(Schema.Number),
-})).annotate({ identifier: "NumericBucketingResult" }) as any as Schema.Schema<NumericBucketingResult>;
+export const NumericBucketingResult: Schema.Schema<NumericBucketingResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      minValue: Schema.optional(Schema.Number),
+      counts: Schema.optional(Schema.Array(BucketizedCount)),
+      maxValue: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "NumericBucketingResult",
+  }) as any as Schema.Schema<NumericBucketingResult>;
 
 export interface CustomAttributeHistogramResult {
   /** Stores a map from the values of string custom field associated with `key` to the number of jobs with that value in this histogram result. */
@@ -194,11 +244,18 @@ export interface CustomAttributeHistogramResult {
   longValueHistogramResult?: NumericBucketingResult;
 }
 
-export const CustomAttributeHistogramResult: Schema.Schema<CustomAttributeHistogramResult> = Schema.suspend(() => Schema.Struct({
-  stringValueHistogramResult: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
-  key: Schema.optional(Schema.String),
-  longValueHistogramResult: Schema.optional(NumericBucketingResult),
-})).annotate({ identifier: "CustomAttributeHistogramResult" }) as any as Schema.Schema<CustomAttributeHistogramResult>;
+export const CustomAttributeHistogramResult: Schema.Schema<CustomAttributeHistogramResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      stringValueHistogramResult: Schema.optional(
+        Schema.Record(Schema.String, Schema.Number),
+      ),
+      key: Schema.optional(Schema.String),
+      longValueHistogramResult: Schema.optional(NumericBucketingResult),
+    }),
+  ).annotate({
+    identifier: "CustomAttributeHistogramResult",
+  }) as any as Schema.Schema<CustomAttributeHistogramResult>;
 
 export interface UpdateCompanyRequest {
   /** Required. The company resource to replace the current resource in the system. */
@@ -207,22 +264,37 @@ export interface UpdateCompanyRequest {
   updateMask?: string;
 }
 
-export const UpdateCompanyRequest: Schema.Schema<UpdateCompanyRequest> = Schema.suspend(() => Schema.Struct({
-  company: Schema.optional(Company),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateCompanyRequest" }) as any as Schema.Schema<UpdateCompanyRequest>;
+export const UpdateCompanyRequest: Schema.Schema<UpdateCompanyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      company: Schema.optional(Company),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateCompanyRequest",
+  }) as any as Schema.Schema<UpdateCompanyRequest>;
 
 export interface DeviceInfo {
   /** Optional. Type of the device. */
-  deviceType?: "DEVICE_TYPE_UNSPECIFIED" | "WEB" | "MOBILE_WEB" | "ANDROID" | "IOS" | "BOT" | "OTHER" | (string & {});
+  deviceType?:
+    | "DEVICE_TYPE_UNSPECIFIED"
+    | "WEB"
+    | "MOBILE_WEB"
+    | "ANDROID"
+    | "IOS"
+    | "BOT"
+    | "OTHER"
+    | (string & {});
   /** Optional. A device-specific ID. The ID must be a unique identifier that distinguishes the device from other devices. */
   id?: string;
 }
 
-export const DeviceInfo: Schema.Schema<DeviceInfo> = Schema.suspend(() => Schema.Struct({
-  deviceType: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
+export const DeviceInfo: Schema.Schema<DeviceInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    deviceType: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
 
 export interface RequestMetadata {
   /** Required. A unique user identification string, as determined by the client. To have the strongest positive impact on search quality make sure the client-level is unique. Obfuscate this field for privacy concerns before providing it to the service. If this field is not available for some reason, send "UNKNOWN". Note that any improvements to the model for a particular tenant site, rely on this field being set correctly to a unique user_id. The maximum number of allowed characters is 255. */
@@ -235,36 +307,56 @@ export interface RequestMetadata {
   deviceInfo?: DeviceInfo;
 }
 
-export const RequestMetadata: Schema.Schema<RequestMetadata> = Schema.suspend(() => Schema.Struct({
-  userId: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-  sessionId: Schema.optional(Schema.String),
-  deviceInfo: Schema.optional(DeviceInfo),
-})).annotate({ identifier: "RequestMetadata" }) as any as Schema.Schema<RequestMetadata>;
+export const RequestMetadata: Schema.Schema<RequestMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      userId: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+      sessionId: Schema.optional(Schema.String),
+      deviceInfo: Schema.optional(DeviceInfo),
+    }),
+).annotate({
+  identifier: "RequestMetadata",
+}) as any as Schema.Schema<RequestMetadata>;
 
 export interface ResponseMetadata {
   /** A unique id associated with this call. This id is logged for tracking purposes. */
   requestId?: string;
 }
 
-export const ResponseMetadata: Schema.Schema<ResponseMetadata> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResponseMetadata" }) as any as Schema.Schema<ResponseMetadata>;
+export const ResponseMetadata: Schema.Schema<ResponseMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ResponseMetadata",
+}) as any as Schema.Schema<ResponseMetadata>;
 
 export interface CompletionResult {
   /** The URI of the company image for CompletionType.COMPANY_NAME. */
   imageUri?: string;
   /** The completion topic. */
-  type?: "COMPLETION_TYPE_UNSPECIFIED" | "JOB_TITLE" | "COMPANY_NAME" | "COMBINED" | (string & {});
+  type?:
+    | "COMPLETION_TYPE_UNSPECIFIED"
+    | "JOB_TITLE"
+    | "COMPANY_NAME"
+    | "COMBINED"
+    | (string & {});
   /** The suggestion for the query. */
   suggestion?: string;
 }
 
-export const CompletionResult: Schema.Schema<CompletionResult> = Schema.suspend(() => Schema.Struct({
-  imageUri: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  suggestion: Schema.optional(Schema.String),
-})).annotate({ identifier: "CompletionResult" }) as any as Schema.Schema<CompletionResult>;
+export const CompletionResult: Schema.Schema<CompletionResult> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      imageUri: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      suggestion: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CompletionResult",
+}) as any as Schema.Schema<CompletionResult>;
 
 export interface CompleteQueryResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
@@ -273,10 +365,15 @@ export interface CompleteQueryResponse {
   completionResults?: Array<CompletionResult>;
 }
 
-export const CompleteQueryResponse: Schema.Schema<CompleteQueryResponse> = Schema.suspend(() => Schema.Struct({
-  metadata: Schema.optional(ResponseMetadata),
-  completionResults: Schema.optional(Schema.Array(CompletionResult)),
-})).annotate({ identifier: "CompleteQueryResponse" }) as any as Schema.Schema<CompleteQueryResponse>;
+export const CompleteQueryResponse: Schema.Schema<CompleteQueryResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(ResponseMetadata),
+      completionResults: Schema.optional(Schema.Array(CompletionResult)),
+    }),
+  ).annotate({
+    identifier: "CompleteQueryResponse",
+  }) as any as Schema.Schema<CompleteQueryResponse>;
 
 export interface LocationFilter {
   /** Optional. CLDR region code of the country/region. This field may be used in two ways: 1) If telecommute preference is not set, this field is used address ambiguity of the user-input address. For example, "Liverpool" may refer to "Liverpool, NY, US" or "Liverpool, UK". This region code biases the address resolution toward a specific country or territory. If this field is not set, address resolution is biased toward the United States by default. 2) If telecommute preference is set to TELECOMMUTE_ALLOWED, the telecommute location filter will be limited to the region specified in this field. If this field is not set, the telecommute job locations will not be limited. See https://unicode-org.github.io/cldr-staging/charts/latest/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
@@ -284,29 +381,44 @@ export interface LocationFilter {
   /** Optional. The distance_in_miles is applied when the location being searched for is identified as a city or smaller. When the location being searched for is a state or larger, this field is ignored. */
   distanceInMiles?: number;
   /** Optional. Allows the client to return jobs without a set location, specifically, telecommuting jobs (telecommuting is considered by the service as a special location). Job.posting_region indicates if a job permits telecommuting. If this field is set to TelecommutePreference.TELECOMMUTE_ALLOWED, telecommuting jobs are searched, and address and lat_lng are ignored. If not set or set to TelecommutePreference.TELECOMMUTE_EXCLUDED, the telecommute status of the jobs is ignored. Jobs that have PostingRegion.TELECOMMUTE and have additional Job.addresses may still be matched based on other location filters using address or latlng. This filter can be used by itself to search exclusively for telecommuting jobs, or it can be combined with another location filter to search for a combination of job locations, such as "Mountain View" or "telecommuting" jobs. However, when used in combination with other location filters, telecommuting jobs can be treated as less relevant than other jobs in the search response. */
-  telecommutePreference?: "TELECOMMUTE_PREFERENCE_UNSPECIFIED" | "TELECOMMUTE_EXCLUDED" | "TELECOMMUTE_ALLOWED" | "TELECOMMUTE_JOBS_EXCLUDED" | (string & {});
+  telecommutePreference?:
+    | "TELECOMMUTE_PREFERENCE_UNSPECIFIED"
+    | "TELECOMMUTE_EXCLUDED"
+    | "TELECOMMUTE_ALLOWED"
+    | "TELECOMMUTE_JOBS_EXCLUDED"
+    | (string & {});
   /** Optional. The latitude and longitude of the geographic center from which to search. This field's ignored if `address` is provided. */
   latLng?: LatLng;
   /** Optional. The address name, such as "Mountain View" or "Bay Area". */
   address?: string;
 }
 
-export const LocationFilter: Schema.Schema<LocationFilter> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  distanceInMiles: Schema.optional(Schema.Number),
-  telecommutePreference: Schema.optional(Schema.String),
-  latLng: Schema.optional(LatLng),
-  address: Schema.optional(Schema.String),
-})).annotate({ identifier: "LocationFilter" }) as any as Schema.Schema<LocationFilter>;
+export const LocationFilter: Schema.Schema<LocationFilter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      regionCode: Schema.optional(Schema.String),
+      distanceInMiles: Schema.optional(Schema.Number),
+      telecommutePreference: Schema.optional(Schema.String),
+      latLng: Schema.optional(LatLng),
+      address: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LocationFilter",
+}) as any as Schema.Schema<LocationFilter>;
 
 export interface HistogramQuery {
   /** An expression specifies a histogram request against matching resources (for example, jobs) for searches. Expression syntax is a aggregation function call with histogram facets and other options. Available aggregation function calls are: * `count(string_histogram_facet)`: Count the number of matching entity, for each distinct attribute value. * `count(numeric_histogram_facet, list of buckets)`: Count the number of matching entity within each bucket. A maximum of 200 histogram buckets are supported. Data types: * Histogram facet: facet names with format a-zA-Z+. * String: string like "any string with backslash escape for quote(\")." * Number: whole number and floating point number like 10, -1 and -0.01. * List: list of elements with comma(,) separator surrounded by square brackets. For example, [1, 2, 3] and ["one", "two", "three"]. Built-in constants: * MIN (minimum number similar to java Double.MIN_VALUE) * MAX (maximum number similar to java Double.MAX_VALUE) Built-in functions: * bucket(start, end[, label]): bucket built-in function creates a bucket with range of start, end). Note that the end is exclusive. For example, bucket(1, MAX, "positive number") or bucket(1, 10). Job histogram facets: * company_id: histogram by [Job.distributor_company_id. * company_display_name: histogram by Job.company_display_name. * employment_type: histogram by Job.employment_types. For example, "FULL_TIME", "PART_TIME". * company_size (DEPRECATED): histogram by CompanySize, for example, "SMALL", "MEDIUM", "BIG". * publish_time_in_day: histogram by the Job.publish_time in days. Must specify list of numeric buckets in spec. * publish_time_in_month: histogram by the Job.publish_time in months. Must specify list of numeric buckets in spec. * publish_time_in_year: histogram by the Job.publish_time in years. Must specify list of numeric buckets in spec. * degree_type: histogram by the Job.degree_type. For example, "Bachelors", "Masters". * job_level: histogram by the Job.job_level. For example, "Entry Level". * country: histogram by the country code of jobs. For example, "US", "FR". * admin1: histogram by the admin1 code of jobs, which is a global placeholder referring to the state, province, or the particular term a country uses to define the geographic structure below the country level. For example, "CA", "IL". * city: histogram by a combination of the "city name, admin1 code". For example, "Mountain View, CA", "New York, NY". * admin1_country: histogram by a combination of the "admin1 code, country". For example, "CA, US", "IL, US". * city_coordinate: histogram by the city center's GPS coordinates (latitude and longitude). For example, 37.4038522,-122.0987765. Since the coordinates of a city center can change, customers may need to refresh them periodically. * locale: histogram by the Job.language_code. For example, "en-US", "fr-FR". * language: histogram by the language subtag of the Job.language_code. For example, "en", "fr". * category: histogram by the JobCategory. For example, "COMPUTER_AND_IT", "HEALTHCARE". * base_compensation_unit: histogram by the CompensationUnit of base salary. For example, "WEEKLY", "MONTHLY". * base_compensation: histogram by the base salary. Must specify list of numeric buckets to group results by. * annualized_base_compensation: histogram by the base annualized salary. Must specify list of numeric buckets to group results by. * annualized_total_compensation: histogram by the total annualized salary. Must specify list of numeric buckets to group results by. * string_custom_attribute: histogram by string Job.custom_attributes. Values can be accessed via square bracket notations like string_custom_attribute["key1"]. * numeric_custom_attribute: histogram by numeric Job.custom_attributes. Values can be accessed via square bracket notations like numeric_custom_attribute["key1"]. Must specify list of numeric buckets to group results by. Example expressions: * count(admin1) * count(base_compensation, [bucket(1000, 10000), bucket(10000, 100000), bucket(100000, MAX)]) * count(string_custom_attribute["some-string-custom-attribute"]) * count(numeric_custom_attribute["some-numeric-custom-attribute"], [bucket(MIN, 0, "negative"), bucket(0, MAX, "non-negative")]) */
   histogramQuery?: string;
 }
 
-export const HistogramQuery: Schema.Schema<HistogramQuery> = Schema.suspend(() => Schema.Struct({
-  histogramQuery: Schema.optional(Schema.String),
-})).annotate({ identifier: "HistogramQuery" }) as any as Schema.Schema<HistogramQuery>;
+export const HistogramQuery: Schema.Schema<HistogramQuery> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      histogramQuery: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "HistogramQuery",
+}) as any as Schema.Schema<HistogramQuery>;
 
 export interface NumericBucketingOption {
   /** Optional. If set to true, the histogram result includes minimum/maximum value of the numeric field. */
@@ -315,10 +427,15 @@ export interface NumericBucketingOption {
   bucketBounds?: Array<number>;
 }
 
-export const NumericBucketingOption: Schema.Schema<NumericBucketingOption> = Schema.suspend(() => Schema.Struct({
-  requiresMinMax: Schema.optional(Schema.Boolean),
-  bucketBounds: Schema.optional(Schema.Array(Schema.Number)),
-})).annotate({ identifier: "NumericBucketingOption" }) as any as Schema.Schema<NumericBucketingOption>;
+export const NumericBucketingOption: Schema.Schema<NumericBucketingOption> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requiresMinMax: Schema.optional(Schema.Boolean),
+      bucketBounds: Schema.optional(Schema.Array(Schema.Number)),
+    }),
+  ).annotate({
+    identifier: "NumericBucketingOption",
+  }) as any as Schema.Schema<NumericBucketingOption>;
 
 export interface CustomAttributeHistogramRequest {
   /** Optional. If set to true, the response includes the histogram value for each key as a string. */
@@ -329,20 +446,32 @@ export interface CustomAttributeHistogramRequest {
   longValueHistogramBucketingOption?: NumericBucketingOption;
 }
 
-export const CustomAttributeHistogramRequest: Schema.Schema<CustomAttributeHistogramRequest> = Schema.suspend(() => Schema.Struct({
-  stringValueHistogram: Schema.optional(Schema.Boolean),
-  key: Schema.optional(Schema.String),
-  longValueHistogramBucketingOption: Schema.optional(NumericBucketingOption),
-})).annotate({ identifier: "CustomAttributeHistogramRequest" }) as any as Schema.Schema<CustomAttributeHistogramRequest>;
+export const CustomAttributeHistogramRequest: Schema.Schema<CustomAttributeHistogramRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      stringValueHistogram: Schema.optional(Schema.Boolean),
+      key: Schema.optional(Schema.String),
+      longValueHistogramBucketingOption: Schema.optional(
+        NumericBucketingOption,
+      ),
+    }),
+  ).annotate({
+    identifier: "CustomAttributeHistogramRequest",
+  }) as any as Schema.Schema<CustomAttributeHistogramRequest>;
 
 export interface BatchDeleteJobsRequest {
   /** Required. The filter string specifies the jobs to be deleted. Supported operator: =, AND The fields eligible for filtering are: * `companyName` (Required) * `requisitionId` (Required) Sample Query: companyName = "projects/api-test-project/companies/123" AND requisitionId = "req-1" */
   filter?: string;
 }
 
-export const BatchDeleteJobsRequest: Schema.Schema<BatchDeleteJobsRequest> = Schema.suspend(() => Schema.Struct({
-  filter: Schema.optional(Schema.String),
-})).annotate({ identifier: "BatchDeleteJobsRequest" }) as any as Schema.Schema<BatchDeleteJobsRequest>;
+export const BatchDeleteJobsRequest: Schema.Schema<BatchDeleteJobsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filter: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BatchDeleteJobsRequest",
+  }) as any as Schema.Schema<BatchDeleteJobsRequest>;
 
 export interface TimeOfDay {
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
@@ -355,36 +484,52 @@ export interface TimeOfDay {
   hours?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() => Schema.Struct({
-  nanos: Schema.optional(Schema.Number),
-  minutes: Schema.optional(Schema.Number),
-  seconds: Schema.optional(Schema.Number),
-  hours: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
+  Schema.Struct({
+    nanos: Schema.optional(Schema.Number),
+    minutes: Schema.optional(Schema.Number),
+    seconds: Schema.optional(Schema.Number),
+    hours: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface CommuteFilter {
   /** Optional. The departure time used to calculate traffic impact, represented as google.type.TimeOfDay in local time zone. Currently traffic model is restricted to hour level resolution. */
   departureTime?: TimeOfDay;
   /** Required. The method of transportation for which to calculate the commute time. */
-  commuteMethod?: "COMMUTE_METHOD_UNSPECIFIED" | "DRIVING" | "TRANSIT" | "WALKING" | "CYCLING" | (string & {});
+  commuteMethod?:
+    | "COMMUTE_METHOD_UNSPECIFIED"
+    | "DRIVING"
+    | "TRANSIT"
+    | "WALKING"
+    | "CYCLING"
+    | (string & {});
   /** Optional. If true, jobs without "precise" addresses (street level addresses or GPS coordinates) might also be returned. For city and coarser level addresses, text matching is used. If this field is set to false or is not specified, only jobs that include precise addresses are returned by Commute Search. Note: If `allow_imprecise_addresses` is set to true, Commute Search is not able to calculate accurate commute times to jobs with city level and coarser address information. Jobs with imprecise addresses will return a `travel_duration` time of 0 regardless of distance from the job seeker. */
   allowImpreciseAddresses?: boolean;
   /** Required. The latitude and longitude of the location from which to calculate the commute time. */
   startCoordinates?: LatLng;
   /** Optional. Specifies the traffic density to use when calculating commute time. */
-  roadTraffic?: "ROAD_TRAFFIC_UNSPECIFIED" | "TRAFFIC_FREE" | "BUSY_HOUR" | (string & {});
+  roadTraffic?:
+    | "ROAD_TRAFFIC_UNSPECIFIED"
+    | "TRAFFIC_FREE"
+    | "BUSY_HOUR"
+    | (string & {});
   /** Required. The maximum travel time in seconds. The maximum allowed value is `3600s` (one hour). Format is `123s`. */
   travelDuration?: string;
 }
 
-export const CommuteFilter: Schema.Schema<CommuteFilter> = Schema.suspend(() => Schema.Struct({
-  departureTime: Schema.optional(TimeOfDay),
-  commuteMethod: Schema.optional(Schema.String),
-  allowImpreciseAddresses: Schema.optional(Schema.Boolean),
-  startCoordinates: Schema.optional(LatLng),
-  roadTraffic: Schema.optional(Schema.String),
-  travelDuration: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommuteFilter" }) as any as Schema.Schema<CommuteFilter>;
+export const CommuteFilter: Schema.Schema<CommuteFilter> = Schema.suspend(() =>
+  Schema.Struct({
+    departureTime: Schema.optional(TimeOfDay),
+    commuteMethod: Schema.optional(Schema.String),
+    allowImpreciseAddresses: Schema.optional(Schema.Boolean),
+    startCoordinates: Schema.optional(LatLng),
+    roadTraffic: Schema.optional(Schema.String),
+    travelDuration: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CommuteFilter",
+}) as any as Schema.Schema<CommuteFilter>;
 
 export interface Money {
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
@@ -395,11 +540,13 @@ export interface Money {
   currencyCode?: string;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() => Schema.Struct({
-  nanos: Schema.optional(Schema.Number),
-  units: Schema.optional(Schema.String),
-  currencyCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> = Schema.suspend(() =>
+  Schema.Struct({
+    nanos: Schema.optional(Schema.Number),
+    units: Schema.optional(Schema.String),
+    currencyCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface CompensationRange {
   /** Optional. The minimum amount of compensation. If left empty, the value is set to zero and the currency code is set to match the currency code of max_compensation. */
@@ -408,28 +555,56 @@ export interface CompensationRange {
   maxCompensation?: Money;
 }
 
-export const CompensationRange: Schema.Schema<CompensationRange> = Schema.suspend(() => Schema.Struct({
-  minCompensation: Schema.optional(Money),
-  maxCompensation: Schema.optional(Money),
-})).annotate({ identifier: "CompensationRange" }) as any as Schema.Schema<CompensationRange>;
+export const CompensationRange: Schema.Schema<CompensationRange> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      minCompensation: Schema.optional(Money),
+      maxCompensation: Schema.optional(Money),
+    }),
+  ).annotate({
+    identifier: "CompensationRange",
+  }) as any as Schema.Schema<CompensationRange>;
 
 export interface CompensationFilter {
   /** Optional. Compensation range. */
   range?: CompensationRange;
   /** Required. Type of filter. */
-  type?: "FILTER_TYPE_UNSPECIFIED" | "UNIT_ONLY" | "UNIT_AND_AMOUNT" | "ANNUALIZED_BASE_AMOUNT" | "ANNUALIZED_TOTAL_AMOUNT" | (string & {});
+  type?:
+    | "FILTER_TYPE_UNSPECIFIED"
+    | "UNIT_ONLY"
+    | "UNIT_AND_AMOUNT"
+    | "ANNUALIZED_BASE_AMOUNT"
+    | "ANNUALIZED_TOTAL_AMOUNT"
+    | (string & {});
   /** Optional. If set to true, jobs with unspecified compensation range fields are included. */
   includeJobsWithUnspecifiedCompensationRange?: boolean;
   /** Required. Specify desired `base compensation entry's` CompensationInfo.CompensationUnit. */
-  units?: Array<"COMPENSATION_UNIT_UNSPECIFIED" | "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY" | "ONE_TIME" | "OTHER_COMPENSATION_UNIT" | (string & {})>;
+  units?: Array<
+    | "COMPENSATION_UNIT_UNSPECIFIED"
+    | "HOURLY"
+    | "DAILY"
+    | "WEEKLY"
+    | "MONTHLY"
+    | "YEARLY"
+    | "ONE_TIME"
+    | "OTHER_COMPENSATION_UNIT"
+    | (string & {})
+  >;
 }
 
-export const CompensationFilter: Schema.Schema<CompensationFilter> = Schema.suspend(() => Schema.Struct({
-  range: Schema.optional(CompensationRange),
-  type: Schema.optional(Schema.String),
-  includeJobsWithUnspecifiedCompensationRange: Schema.optional(Schema.Boolean),
-  units: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CompensationFilter" }) as any as Schema.Schema<CompensationFilter>;
+export const CompensationFilter: Schema.Schema<CompensationFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      range: Schema.optional(CompensationRange),
+      type: Schema.optional(Schema.String),
+      includeJobsWithUnspecifiedCompensationRange: Schema.optional(
+        Schema.Boolean,
+      ),
+      units: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CompensationFilter",
+  }) as any as Schema.Schema<CompensationFilter>;
 
 export interface TimestampRange {
   /** Begin of the period. */
@@ -438,10 +613,15 @@ export interface TimestampRange {
   endTime?: string;
 }
 
-export const TimestampRange: Schema.Schema<TimestampRange> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimestampRange" }) as any as Schema.Schema<TimestampRange>;
+export const TimestampRange: Schema.Schema<TimestampRange> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TimestampRange",
+}) as any as Schema.Schema<TimestampRange>;
 
 export interface JobQuery {
   /** Optional. This filter specifies a structured syntax to match against the Job.custom_attributes marked as `filterable`. The syntax for this expression is a subset of SQL syntax. Supported operators are: `=`, `!=`, `<`, `<=`, `>`, and `>=` where the left of the operator is a custom field key and the right of the operator is a number or a quoted string. You must escape backslash (\\) and quote (\") characters. Supported functions are `LOWER([field_name])` to perform a case insensitive match and `EMPTY([field_name])` to filter on the existence of a key. Boolean expressions (AND/OR/NOT) are supported up to 3 levels of nesting (for example, "((A AND B AND C) OR NOT D) AND E"), a maximum of 100 comparisons or functions are allowed in the expression. The expression must be < 10000 bytes in length. Sample Query: `(LOWER(driving_license)="class \"a\"" OR EMPTY(driving_license)) AND driving_years > 10` */
@@ -455,7 +635,40 @@ export interface JobQuery {
   /** Optional. The location filter specifies geo-regions containing the jobs to search against. See LocationFilter for more information. If a location value isn't specified, jobs fitting the other search criteria are retrieved regardless of where they're located. If multiple values are specified, jobs are retrieved from any of the specified locations. If different values are specified for the LocationFilter.distance_in_miles parameter, the maximum provided distance is used for all locations. At most 5 location filters are allowed. */
   locationFilters?: Array<LocationFilter>;
   /** Optional. The category filter specifies the categories of jobs to search against. See Category for more information. If a value is not specified, jobs from any category are searched against. If multiple values are specified, jobs from any of the specified categories are searched against. */
-  jobCategories?: Array<"JOB_CATEGORY_UNSPECIFIED" | "ACCOUNTING_AND_FINANCE" | "ADMINISTRATIVE_AND_OFFICE" | "ADVERTISING_AND_MARKETING" | "ANIMAL_CARE" | "ART_FASHION_AND_DESIGN" | "BUSINESS_OPERATIONS" | "CLEANING_AND_FACILITIES" | "COMPUTER_AND_IT" | "CONSTRUCTION" | "CUSTOMER_SERVICE" | "EDUCATION" | "ENTERTAINMENT_AND_TRAVEL" | "FARMING_AND_OUTDOORS" | "HEALTHCARE" | "HUMAN_RESOURCES" | "INSTALLATION_MAINTENANCE_AND_REPAIR" | "LEGAL" | "MANAGEMENT" | "MANUFACTURING_AND_WAREHOUSE" | "MEDIA_COMMUNICATIONS_AND_WRITING" | "OIL_GAS_AND_MINING" | "PERSONAL_CARE_AND_SERVICES" | "PROTECTIVE_SERVICES" | "REAL_ESTATE" | "RESTAURANT_AND_HOSPITALITY" | "SALES_AND_RETAIL" | "SCIENCE_AND_ENGINEERING" | "SOCIAL_SERVICES_AND_NON_PROFIT" | "SPORTS_FITNESS_AND_RECREATION" | "TRANSPORTATION_AND_LOGISTICS" | (string & {})>;
+  jobCategories?: Array<
+    | "JOB_CATEGORY_UNSPECIFIED"
+    | "ACCOUNTING_AND_FINANCE"
+    | "ADMINISTRATIVE_AND_OFFICE"
+    | "ADVERTISING_AND_MARKETING"
+    | "ANIMAL_CARE"
+    | "ART_FASHION_AND_DESIGN"
+    | "BUSINESS_OPERATIONS"
+    | "CLEANING_AND_FACILITIES"
+    | "COMPUTER_AND_IT"
+    | "CONSTRUCTION"
+    | "CUSTOMER_SERVICE"
+    | "EDUCATION"
+    | "ENTERTAINMENT_AND_TRAVEL"
+    | "FARMING_AND_OUTDOORS"
+    | "HEALTHCARE"
+    | "HUMAN_RESOURCES"
+    | "INSTALLATION_MAINTENANCE_AND_REPAIR"
+    | "LEGAL"
+    | "MANAGEMENT"
+    | "MANUFACTURING_AND_WAREHOUSE"
+    | "MEDIA_COMMUNICATIONS_AND_WRITING"
+    | "OIL_GAS_AND_MINING"
+    | "PERSONAL_CARE_AND_SERVICES"
+    | "PROTECTIVE_SERVICES"
+    | "REAL_ESTATE"
+    | "RESTAURANT_AND_HOSPITALITY"
+    | "SALES_AND_RETAIL"
+    | "SCIENCE_AND_ENGINEERING"
+    | "SOCIAL_SERVICES_AND_NON_PROFIT"
+    | "SPORTS_FITNESS_AND_RECREATION"
+    | "TRANSPORTATION_AND_LOGISTICS"
+    | (string & {})
+  >;
   /** Optional. This filter specifies the locale of jobs to search against, for example, "en-US". If a value isn't specified, the search results can contain jobs in any locale. Language codes should be in BCP-47 format, such as "en-US" or "sr-Latn". For more information, see [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47). At most 10 language code filters are allowed. */
   languageCodes?: Array<string>;
   /** Optional. This search filter is applied only to Job.compensation_info. For example, if the filter is specified as "Hourly job with per-hour compensation > $15", only jobs meeting these criteria are searched. If a filter isn't defined, all open jobs are searched. */
@@ -467,41 +680,66 @@ export interface JobQuery {
   /** Optional. The query string that matches against the job title, description, and location fields. The maximum number of allowed characters is 255. */
   query?: string;
   /** Optional. The employment type filter specifies the employment type of jobs to search against, such as EmploymentType.FULL_TIME. If a value is not specified, jobs in the search results includes any employment type. If multiple values are specified, jobs in the search results include any of the specified employment types. */
-  employmentTypes?: Array<"EMPLOYMENT_TYPE_UNSPECIFIED" | "FULL_TIME" | "PART_TIME" | "CONTRACTOR" | "CONTRACT_TO_HIRE" | "TEMPORARY" | "INTERN" | "VOLUNTEER" | "PER_DIEM" | "FLY_IN_FLY_OUT" | "OTHER_EMPLOYMENT_TYPE" | (string & {})>;
+  employmentTypes?: Array<
+    | "EMPLOYMENT_TYPE_UNSPECIFIED"
+    | "FULL_TIME"
+    | "PART_TIME"
+    | "CONTRACTOR"
+    | "CONTRACT_TO_HIRE"
+    | "TEMPORARY"
+    | "INTERN"
+    | "VOLUNTEER"
+    | "PER_DIEM"
+    | "FLY_IN_FLY_OUT"
+    | "OTHER_EMPLOYMENT_TYPE"
+    | (string & {})
+  >;
   /** Optional. This flag controls the spell-check feature. If false, the service attempts to correct a misspelled query, for example, "enginee" is corrected to "engineer". Defaults to false: a spell check is performed. */
   disableSpellCheck?: boolean;
   /** Optional. This filter specifies the company Company.display_name of the jobs to search against. The company name must match the value exactly. Alternatively, the value being searched for can be wrapped in different match operators. `SUBSTRING_MATCH([value])` The company name must contain a case insensitive substring match of the value. Using this function may increase latency. Sample Value: `SUBSTRING_MATCH(google)` `MULTI_WORD_TOKEN_MATCH([value])` The value will be treated as a multi word token and the company name must contain a case insensitive match of the value. Using this function may increase latency. Sample Value: `MULTI_WORD_TOKEN_MATCH(google)` If a value isn't specified, jobs within the search results are associated with any company. If multiple values are specified, jobs within the search results may be associated with any of the specified companies. At most 20 company display name filters are allowed. */
   companyDisplayNames?: Array<string>;
 }
 
-export const JobQuery: Schema.Schema<JobQuery> = Schema.suspend(() => Schema.Struct({
-  customAttributeFilter: Schema.optional(Schema.String),
-  commuteFilter: Schema.optional(CommuteFilter),
-  queryLanguageCode: Schema.optional(Schema.String),
-  companyNames: Schema.optional(Schema.Array(Schema.String)),
-  locationFilters: Schema.optional(Schema.Array(LocationFilter)),
-  jobCategories: Schema.optional(Schema.Array(Schema.String)),
-  languageCodes: Schema.optional(Schema.Array(Schema.String)),
-  compensationFilter: Schema.optional(CompensationFilter),
-  publishTimeRange: Schema.optional(TimestampRange),
-  excludedJobs: Schema.optional(Schema.Array(Schema.String)),
-  query: Schema.optional(Schema.String),
-  employmentTypes: Schema.optional(Schema.Array(Schema.String)),
-  disableSpellCheck: Schema.optional(Schema.Boolean),
-  companyDisplayNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "JobQuery" }) as any as Schema.Schema<JobQuery>;
+export const JobQuery: Schema.Schema<JobQuery> = Schema.suspend(() =>
+  Schema.Struct({
+    customAttributeFilter: Schema.optional(Schema.String),
+    commuteFilter: Schema.optional(CommuteFilter),
+    queryLanguageCode: Schema.optional(Schema.String),
+    companyNames: Schema.optional(Schema.Array(Schema.String)),
+    locationFilters: Schema.optional(Schema.Array(LocationFilter)),
+    jobCategories: Schema.optional(Schema.Array(Schema.String)),
+    languageCodes: Schema.optional(Schema.Array(Schema.String)),
+    compensationFilter: Schema.optional(CompensationFilter),
+    publishTimeRange: Schema.optional(TimestampRange),
+    excludedJobs: Schema.optional(Schema.Array(Schema.String)),
+    query: Schema.optional(Schema.String),
+    employmentTypes: Schema.optional(Schema.Array(Schema.String)),
+    disableSpellCheck: Schema.optional(Schema.Boolean),
+    companyDisplayNames: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "JobQuery" }) as any as Schema.Schema<JobQuery>;
 
 export interface CompensationHistogramRequest {
   /** Required. Numeric histogram options, like buckets, whether include min or max value. */
   bucketingOption?: NumericBucketingOption;
   /** Required. Type of the request, representing which field the histogramming should be performed over. A single request can only specify one histogram of each `CompensationHistogramRequestType`. */
-  type?: "COMPENSATION_HISTOGRAM_REQUEST_TYPE_UNSPECIFIED" | "BASE" | "ANNUALIZED_BASE" | "ANNUALIZED_TOTAL" | (string & {});
+  type?:
+    | "COMPENSATION_HISTOGRAM_REQUEST_TYPE_UNSPECIFIED"
+    | "BASE"
+    | "ANNUALIZED_BASE"
+    | "ANNUALIZED_TOTAL"
+    | (string & {});
 }
 
-export const CompensationHistogramRequest: Schema.Schema<CompensationHistogramRequest> = Schema.suspend(() => Schema.Struct({
-  bucketingOption: Schema.optional(NumericBucketingOption),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "CompensationHistogramRequest" }) as any as Schema.Schema<CompensationHistogramRequest>;
+export const CompensationHistogramRequest: Schema.Schema<CompensationHistogramRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bucketingOption: Schema.optional(NumericBucketingOption),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CompensationHistogramRequest",
+  }) as any as Schema.Schema<CompensationHistogramRequest>;
 
 export interface HistogramFacets {
   /** Optional. Specifies the custom attributes histogram requests. Duplicate values of CustomAttributeHistogramRequest.key are not allowed. */
@@ -509,26 +747,67 @@ export interface HistogramFacets {
   /** Optional. Specifies compensation field-based histogram requests. Duplicate values of CompensationHistogramRequest.type are not allowed. */
   compensationHistogramFacets?: Array<CompensationHistogramRequest>;
   /** Optional. Specifies the simple type of histogram facets, for example, `COMPANY_SIZE`, `EMPLOYMENT_TYPE` etc. */
-  simpleHistogramFacets?: Array<"SEARCH_TYPE_UNSPECIFIED" | "COMPANY_ID" | "EMPLOYMENT_TYPE" | "COMPANY_SIZE" | "DATE_PUBLISHED" | "EDUCATION_LEVEL" | "EXPERIENCE_LEVEL" | "ADMIN_1" | "COUNTRY" | "CITY" | "LOCALE" | "LANGUAGE" | "CATEGORY" | "CITY_COORDINATE" | "ADMIN_1_COUNTRY" | "COMPANY_DISPLAY_NAME" | "BASE_COMPENSATION_UNIT" | (string & {})>;
+  simpleHistogramFacets?: Array<
+    | "SEARCH_TYPE_UNSPECIFIED"
+    | "COMPANY_ID"
+    | "EMPLOYMENT_TYPE"
+    | "COMPANY_SIZE"
+    | "DATE_PUBLISHED"
+    | "EDUCATION_LEVEL"
+    | "EXPERIENCE_LEVEL"
+    | "ADMIN_1"
+    | "COUNTRY"
+    | "CITY"
+    | "LOCALE"
+    | "LANGUAGE"
+    | "CATEGORY"
+    | "CITY_COORDINATE"
+    | "ADMIN_1_COUNTRY"
+    | "COMPANY_DISPLAY_NAME"
+    | "BASE_COMPENSATION_UNIT"
+    | (string & {})
+  >;
 }
 
-export const HistogramFacets: Schema.Schema<HistogramFacets> = Schema.suspend(() => Schema.Struct({
-  customAttributeHistogramFacets: Schema.optional(Schema.Array(CustomAttributeHistogramRequest)),
-  compensationHistogramFacets: Schema.optional(Schema.Array(CompensationHistogramRequest)),
-  simpleHistogramFacets: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "HistogramFacets" }) as any as Schema.Schema<HistogramFacets>;
+export const HistogramFacets: Schema.Schema<HistogramFacets> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      customAttributeHistogramFacets: Schema.optional(
+        Schema.Array(CustomAttributeHistogramRequest),
+      ),
+      compensationHistogramFacets: Schema.optional(
+        Schema.Array(CompensationHistogramRequest),
+      ),
+      simpleHistogramFacets: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "HistogramFacets",
+}) as any as Schema.Schema<HistogramFacets>;
 
 export interface CustomRankingInfo {
   /** Required. Controls over how job documents get ranked on top of existing relevance score (determined by API algorithm). A combination of the ranking expression and relevance score is used to determine job's final ranking position. The syntax for this expression is a subset of Google SQL syntax. Supported operators are: +, -, *, /, where the left and right side of the operator is either a numeric Job.custom_attributes key, integer/double value or an expression that can be evaluated to a number. Parenthesis are supported to adjust calculation precedence. The expression must be < 200 characters in length. The expression is considered invalid for a job if the expression references custom attributes that are not populated on the job or if the expression results in a divide by zero. If an expression is invalid for a job, that job is demoted to the end of the results. Sample ranking expression (year + 25) * 0.25 - (freshness / 0.5) */
   rankingExpression?: string;
   /** Required. Controls over how important the score of CustomRankingInfo.ranking_expression gets applied to job's final ranking position. An error is thrown if not specified. */
-  importanceLevel?: "IMPORTANCE_LEVEL_UNSPECIFIED" | "NONE" | "LOW" | "MILD" | "MEDIUM" | "HIGH" | "EXTREME" | (string & {});
+  importanceLevel?:
+    | "IMPORTANCE_LEVEL_UNSPECIFIED"
+    | "NONE"
+    | "LOW"
+    | "MILD"
+    | "MEDIUM"
+    | "HIGH"
+    | "EXTREME"
+    | (string & {});
 }
 
-export const CustomRankingInfo: Schema.Schema<CustomRankingInfo> = Schema.suspend(() => Schema.Struct({
-  rankingExpression: Schema.optional(Schema.String),
-  importanceLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomRankingInfo" }) as any as Schema.Schema<CustomRankingInfo>;
+export const CustomRankingInfo: Schema.Schema<CustomRankingInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rankingExpression: Schema.optional(Schema.String),
+      importanceLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomRankingInfo",
+  }) as any as Schema.Schema<CustomRankingInfo>;
 
 export interface SearchJobsRequest {
   /** Optional. A limit on the number of jobs returned in the search results. Increasing this value above the default value of 10 can increase search response time. The value can be between 1 and 100. */
@@ -538,7 +817,13 @@ export interface SearchJobsRequest {
   /** Optional. Query used to search against jobs, such as keyword, location filters, etc. */
   jobQuery?: JobQuery;
   /** Optional. The desired job attributes returned for jobs in the search response. Defaults to JobView.SMALL if no value is specified. */
-  jobView?: "JOB_VIEW_UNSPECIFIED" | "JOB_VIEW_ID_ONLY" | "JOB_VIEW_MINIMAL" | "JOB_VIEW_SMALL" | "JOB_VIEW_FULL" | (string & {});
+  jobView?:
+    | "JOB_VIEW_UNSPECIFIED"
+    | "JOB_VIEW_ID_ONLY"
+    | "JOB_VIEW_MINIMAL"
+    | "JOB_VIEW_SMALL"
+    | "JOB_VIEW_FULL"
+    | (string & {});
   /** Required. The meta information collected about the job searcher, used to improve the search quality of the service. The identifiers (such as `user_id`) are provided by users, and must be unique and consistent. */
   requestMetadata?: RequestMetadata;
   /** Optional. An integer that specifies the current offset (that is, starting result location, amongst the jobs deemed by the API as relevant) in search results. This field is only considered if page_token is unset. The maximum allowed value is 5000. Otherwise an error is thrown. For example, 0 means to return results starting from the first matching job, and 10 means to return from the 11th job. This can be used for pagination, (for example, pageSize = 10 and offset = 10 means to return from the second page). */
@@ -548,7 +833,11 @@ export interface SearchJobsRequest {
   /** Optional. Histogram requests for jobs matching JobQuery. */
   histogramFacets?: HistogramFacets;
   /** Optional. Mode of a search. Defaults to SearchMode.JOB_SEARCH. */
-  searchMode?: "SEARCH_MODE_UNSPECIFIED" | "JOB_SEARCH" | "FEATURED_JOB_SEARCH" | (string & {});
+  searchMode?:
+    | "SEARCH_MODE_UNSPECIFIED"
+    | "JOB_SEARCH"
+    | "FEATURED_JOB_SEARCH"
+    | (string & {});
   /** Optional. Expression based histogram requests for jobs matching JobQuery. */
   histogramQueries?: Array<HistogramQuery>;
   /** Optional. Controls whether to disable exact keyword match on Job.job_title, Job.description, Job.company_display_name, Job.locations, Job.qualifications. When disable keyword match is turned off, a keyword match returns jobs that do not match given category filters when there are matching keywords. For example, the query "program manager," a result is returned even if the job posting has the title "software developer," which does not fall into "program manager" ontology, but does have "program manager" appearing in its description. For queries like "cloud" that does not contain title or location specific ontology, jobs with "cloud" keyword matches are returned regardless of this flag's value. Please use Company.keyword_searchable_custom_fields or Company.keyword_searchable_custom_attributes if company specific globally matched custom field/attribute string values is needed. Enabling keyword match improves recall of subsequent search requests. Defaults to false. */
@@ -560,26 +849,35 @@ export interface SearchJobsRequest {
   /** Optional. The criteria determining how search results are sorted. Default is "relevance desc". Supported options are: * `"relevance desc"`: By relevance descending, as determined by the API algorithms. Relevance thresholding of query results is only available with this ordering. * `"posting_publish_time desc"`: By Job.posting_publish_time descending. * `"posting_update_time desc"`: By Job.posting_update_time descending. * `"title"`: By Job.title ascending. * `"title desc"`: By Job.title descending. * `"annualized_base_compensation"`: By job's CompensationInfo.annualized_base_compensation_range ascending. Jobs whose annualized base compensation is unspecified are put at the end of search results. * `"annualized_base_compensation desc"`: By job's CompensationInfo.annualized_base_compensation_range descending. Jobs whose annualized base compensation is unspecified are put at the end of search results. * `"annualized_total_compensation"`: By job's CompensationInfo.annualized_total_compensation_range ascending. Jobs whose annualized base compensation is unspecified are put at the end of search results. * `"annualized_total_compensation desc"`: By job's CompensationInfo.annualized_total_compensation_range descending. Jobs whose annualized base compensation is unspecified are put at the end of search results. * `"custom_ranking desc"`: By the relevance score adjusted to the SearchJobsRequest.custom_ranking_info.ranking_expression with weight factor assigned by SearchJobsRequest.custom_ranking_info.importance_level in descending order. * Location sorting: Use the special syntax to order jobs by distance: "`distance_from('Hawaii')`": Order by distance from Hawaii. "`distance_from(19.89, 155.5)`": Order by distance from a coordinate. "`distance_from('Hawaii'), distance_from('Puerto Rico')`": Order by multiple locations. See details below. "`distance_from('Hawaii'), distance_from(19.89, 155.5)`": Order by multiple locations. See details below. The string can have a maximum of 256 characters. When multiple distance centers are provided, a job that is close to any of the distance centers would have a high rank. When a job has multiple locations, the job location closest to one of the distance centers will be used. Jobs that don't have locations will be ranked at the bottom. Distance is calculated with a precision of 11.3 meters (37.4 feet). Diversification strategy is still applied unless explicitly disabled in diversification_level. */
   orderBy?: string;
   /** Optional. Controls whether highly similar jobs are returned next to each other in the search results. Jobs are identified as highly similar based on their titles, job categories, and locations. Highly similar results are clustered so that only one representative job of the cluster is displayed to the job seeker higher up in the results, with the other jobs being displayed lower down in the results. Defaults to DiversificationLevel.SIMPLE if no value is specified. */
-  diversificationLevel?: "DIVERSIFICATION_LEVEL_UNSPECIFIED" | "DISABLED" | "SIMPLE" | (string & {});
+  diversificationLevel?:
+    | "DIVERSIFICATION_LEVEL_UNSPECIFIED"
+    | "DISABLED"
+    | "SIMPLE"
+    | (string & {});
 }
 
-export const SearchJobsRequest: Schema.Schema<SearchJobsRequest> = Schema.suspend(() => Schema.Struct({
-  pageSize: Schema.optional(Schema.Number),
-  enableBroadening: Schema.optional(Schema.Boolean),
-  jobQuery: Schema.optional(JobQuery),
-  jobView: Schema.optional(Schema.String),
-  requestMetadata: Schema.optional(RequestMetadata),
-  offset: Schema.optional(Schema.Number),
-  requirePreciseResultSize: Schema.optional(Schema.Boolean),
-  histogramFacets: Schema.optional(HistogramFacets),
-  searchMode: Schema.optional(Schema.String),
-  histogramQueries: Schema.optional(Schema.Array(HistogramQuery)),
-  disableKeywordMatch: Schema.optional(Schema.Boolean),
-  customRankingInfo: Schema.optional(CustomRankingInfo),
-  pageToken: Schema.optional(Schema.String),
-  orderBy: Schema.optional(Schema.String),
-  diversificationLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchJobsRequest" }) as any as Schema.Schema<SearchJobsRequest>;
+export const SearchJobsRequest: Schema.Schema<SearchJobsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageSize: Schema.optional(Schema.Number),
+      enableBroadening: Schema.optional(Schema.Boolean),
+      jobQuery: Schema.optional(JobQuery),
+      jobView: Schema.optional(Schema.String),
+      requestMetadata: Schema.optional(RequestMetadata),
+      offset: Schema.optional(Schema.Number),
+      requirePreciseResultSize: Schema.optional(Schema.Boolean),
+      histogramFacets: Schema.optional(HistogramFacets),
+      searchMode: Schema.optional(Schema.String),
+      histogramQueries: Schema.optional(Schema.Array(HistogramQuery)),
+      disableKeywordMatch: Schema.optional(Schema.Boolean),
+      customRankingInfo: Schema.optional(CustomRankingInfo),
+      pageToken: Schema.optional(Schema.String),
+      orderBy: Schema.optional(Schema.String),
+      diversificationLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchJobsRequest",
+  }) as any as Schema.Schema<SearchJobsRequest>;
 
 export interface CommuteInfo {
   /** The number of seconds required to travel to the job location from the query location. A duration of 0 seconds indicates that the job is not reachable within the requested duration, but was returned as part of an expanded query. */
@@ -588,22 +886,33 @@ export interface CommuteInfo {
   jobLocation?: Location;
 }
 
-export const CommuteInfo: Schema.Schema<CommuteInfo> = Schema.suspend(() => Schema.Struct({
-  travelDuration: Schema.optional(Schema.String),
-  jobLocation: Schema.optional(Location),
-})).annotate({ identifier: "CommuteInfo" }) as any as Schema.Schema<CommuteInfo>;
+export const CommuteInfo: Schema.Schema<CommuteInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    travelDuration: Schema.optional(Schema.String),
+    jobLocation: Schema.optional(Location),
+  }),
+).annotate({ identifier: "CommuteInfo" }) as any as Schema.Schema<CommuteInfo>;
 
 export interface ProcessingOptions {
   /** Optional. If set to `true`, the service does not attempt to resolve a more precise address for the job. */
   disableStreetAddressResolution?: boolean;
   /** Optional. Option for job HTML content sanitization. Applied fields are: * description * applicationInfo.instruction * incentives * qualifications * responsibilities HTML tags in these fields may be stripped if sanitiazation is not disabled. Defaults to HtmlSanitization.SIMPLE_FORMATTING_ONLY. */
-  htmlSanitization?: "HTML_SANITIZATION_UNSPECIFIED" | "HTML_SANITIZATION_DISABLED" | "SIMPLE_FORMATTING_ONLY" | (string & {});
+  htmlSanitization?:
+    | "HTML_SANITIZATION_UNSPECIFIED"
+    | "HTML_SANITIZATION_DISABLED"
+    | "SIMPLE_FORMATTING_ONLY"
+    | (string & {});
 }
 
-export const ProcessingOptions: Schema.Schema<ProcessingOptions> = Schema.suspend(() => Schema.Struct({
-  disableStreetAddressResolution: Schema.optional(Schema.Boolean),
-  htmlSanitization: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProcessingOptions" }) as any as Schema.Schema<ProcessingOptions>;
+export const ProcessingOptions: Schema.Schema<ProcessingOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      disableStreetAddressResolution: Schema.optional(Schema.Boolean),
+      htmlSanitization: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProcessingOptions",
+  }) as any as Schema.Schema<ProcessingOptions>;
 
 export interface ApplicationInfo {
   /** Optional but at least one of uris, emails or instruction must be specified. Use this field to specify email address(es) to which resumes or applications can be sent. The maximum number of allowed characters for each entry is 255. */
@@ -614,19 +923,43 @@ export interface ApplicationInfo {
   instruction?: string;
 }
 
-export const ApplicationInfo: Schema.Schema<ApplicationInfo> = Schema.suspend(() => Schema.Struct({
-  emails: Schema.optional(Schema.Array(Schema.String)),
-  uris: Schema.optional(Schema.Array(Schema.String)),
-  instruction: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApplicationInfo" }) as any as Schema.Schema<ApplicationInfo>;
+export const ApplicationInfo: Schema.Schema<ApplicationInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      emails: Schema.optional(Schema.Array(Schema.String)),
+      uris: Schema.optional(Schema.Array(Schema.String)),
+      instruction: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ApplicationInfo",
+}) as any as Schema.Schema<ApplicationInfo>;
 
 export interface CompensationEntry {
   /** Optional. Compensation range. */
   range?: CompensationRange;
   /** Optional. Frequency of the specified amount. Default is CompensationUnit.COMPENSATION_UNIT_UNSPECIFIED. */
-  unit?: "COMPENSATION_UNIT_UNSPECIFIED" | "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY" | "ONE_TIME" | "OTHER_COMPENSATION_UNIT" | (string & {});
+  unit?:
+    | "COMPENSATION_UNIT_UNSPECIFIED"
+    | "HOURLY"
+    | "DAILY"
+    | "WEEKLY"
+    | "MONTHLY"
+    | "YEARLY"
+    | "ONE_TIME"
+    | "OTHER_COMPENSATION_UNIT"
+    | (string & {});
   /** Optional. Compensation type. Default is CompensationUnit.COMPENSATION_TYPE_UNSPECIFIED. */
-  type?: "COMPENSATION_TYPE_UNSPECIFIED" | "BASE" | "BONUS" | "SIGNING_BONUS" | "EQUITY" | "PROFIT_SHARING" | "COMMISSIONS" | "TIPS" | "OTHER_COMPENSATION_TYPE" | (string & {});
+  type?:
+    | "COMPENSATION_TYPE_UNSPECIFIED"
+    | "BASE"
+    | "BONUS"
+    | "SIGNING_BONUS"
+    | "EQUITY"
+    | "PROFIT_SHARING"
+    | "COMMISSIONS"
+    | "TIPS"
+    | "OTHER_COMPENSATION_TYPE"
+    | (string & {});
   /** Optional. Expected number of units paid each year. If not specified, when Job.employment_types is FULLTIME, a default value is inferred based on unit. Default values: - HOURLY: 2080 - DAILY: 260 - WEEKLY: 52 - MONTHLY: 12 - ANNUAL: 1 */
   expectedUnitsPerYear?: number;
   /** Optional. Compensation description. For example, could indicate equity terms or provide additional context to an estimated bonus. */
@@ -635,14 +968,19 @@ export interface CompensationEntry {
   amount?: Money;
 }
 
-export const CompensationEntry: Schema.Schema<CompensationEntry> = Schema.suspend(() => Schema.Struct({
-  range: Schema.optional(CompensationRange),
-  unit: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  expectedUnitsPerYear: Schema.optional(Schema.Number),
-  description: Schema.optional(Schema.String),
-  amount: Schema.optional(Money),
-})).annotate({ identifier: "CompensationEntry" }) as any as Schema.Schema<CompensationEntry>;
+export const CompensationEntry: Schema.Schema<CompensationEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      range: Schema.optional(CompensationRange),
+      unit: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      expectedUnitsPerYear: Schema.optional(Schema.Number),
+      description: Schema.optional(Schema.String),
+      amount: Schema.optional(Money),
+    }),
+  ).annotate({
+    identifier: "CompensationEntry",
+  }) as any as Schema.Schema<CompensationEntry>;
 
 export interface CompensationInfo {
   /** Output only. Annualized total compensation range. Computed as all compensation entries' CompensationEntry.compensation times CompensationEntry.expected_units_per_year. See CompensationEntry for explanation on compensation annualization. */
@@ -653,23 +991,66 @@ export interface CompensationInfo {
   annualizedBaseCompensationRange?: CompensationRange;
 }
 
-export const CompensationInfo: Schema.Schema<CompensationInfo> = Schema.suspend(() => Schema.Struct({
-  annualizedTotalCompensationRange: Schema.optional(CompensationRange),
-  entries: Schema.optional(Schema.Array(CompensationEntry)),
-  annualizedBaseCompensationRange: Schema.optional(CompensationRange),
-})).annotate({ identifier: "CompensationInfo" }) as any as Schema.Schema<CompensationInfo>;
+export const CompensationInfo: Schema.Schema<CompensationInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      annualizedTotalCompensationRange: Schema.optional(CompensationRange),
+      entries: Schema.optional(Schema.Array(CompensationEntry)),
+      annualizedBaseCompensationRange: Schema.optional(CompensationRange),
+    }),
+).annotate({
+  identifier: "CompensationInfo",
+}) as any as Schema.Schema<CompensationInfo>;
 
 export interface JobDerivedInfo {
   /** Structured locations of the job, resolved from Job.addresses. locations are exactly matched to Job.addresses in the same order. */
   locations?: Array<Location>;
   /** Job categories derived from Job.title and Job.description. */
-  jobCategories?: Array<"JOB_CATEGORY_UNSPECIFIED" | "ACCOUNTING_AND_FINANCE" | "ADMINISTRATIVE_AND_OFFICE" | "ADVERTISING_AND_MARKETING" | "ANIMAL_CARE" | "ART_FASHION_AND_DESIGN" | "BUSINESS_OPERATIONS" | "CLEANING_AND_FACILITIES" | "COMPUTER_AND_IT" | "CONSTRUCTION" | "CUSTOMER_SERVICE" | "EDUCATION" | "ENTERTAINMENT_AND_TRAVEL" | "FARMING_AND_OUTDOORS" | "HEALTHCARE" | "HUMAN_RESOURCES" | "INSTALLATION_MAINTENANCE_AND_REPAIR" | "LEGAL" | "MANAGEMENT" | "MANUFACTURING_AND_WAREHOUSE" | "MEDIA_COMMUNICATIONS_AND_WRITING" | "OIL_GAS_AND_MINING" | "PERSONAL_CARE_AND_SERVICES" | "PROTECTIVE_SERVICES" | "REAL_ESTATE" | "RESTAURANT_AND_HOSPITALITY" | "SALES_AND_RETAIL" | "SCIENCE_AND_ENGINEERING" | "SOCIAL_SERVICES_AND_NON_PROFIT" | "SPORTS_FITNESS_AND_RECREATION" | "TRANSPORTATION_AND_LOGISTICS" | (string & {})>;
+  jobCategories?: Array<
+    | "JOB_CATEGORY_UNSPECIFIED"
+    | "ACCOUNTING_AND_FINANCE"
+    | "ADMINISTRATIVE_AND_OFFICE"
+    | "ADVERTISING_AND_MARKETING"
+    | "ANIMAL_CARE"
+    | "ART_FASHION_AND_DESIGN"
+    | "BUSINESS_OPERATIONS"
+    | "CLEANING_AND_FACILITIES"
+    | "COMPUTER_AND_IT"
+    | "CONSTRUCTION"
+    | "CUSTOMER_SERVICE"
+    | "EDUCATION"
+    | "ENTERTAINMENT_AND_TRAVEL"
+    | "FARMING_AND_OUTDOORS"
+    | "HEALTHCARE"
+    | "HUMAN_RESOURCES"
+    | "INSTALLATION_MAINTENANCE_AND_REPAIR"
+    | "LEGAL"
+    | "MANAGEMENT"
+    | "MANUFACTURING_AND_WAREHOUSE"
+    | "MEDIA_COMMUNICATIONS_AND_WRITING"
+    | "OIL_GAS_AND_MINING"
+    | "PERSONAL_CARE_AND_SERVICES"
+    | "PROTECTIVE_SERVICES"
+    | "REAL_ESTATE"
+    | "RESTAURANT_AND_HOSPITALITY"
+    | "SALES_AND_RETAIL"
+    | "SCIENCE_AND_ENGINEERING"
+    | "SOCIAL_SERVICES_AND_NON_PROFIT"
+    | "SPORTS_FITNESS_AND_RECREATION"
+    | "TRANSPORTATION_AND_LOGISTICS"
+    | (string & {})
+  >;
 }
 
-export const JobDerivedInfo: Schema.Schema<JobDerivedInfo> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  jobCategories: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "JobDerivedInfo" }) as any as Schema.Schema<JobDerivedInfo>;
+export const JobDerivedInfo: Schema.Schema<JobDerivedInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      jobCategories: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "JobDerivedInfo",
+}) as any as Schema.Schema<JobDerivedInfo>;
 
 export interface CustomAttribute {
   /** Optional. If the `filterable` flag is true, the custom field values may be used for custom attribute filters JobQuery.custom_attribute_filter. If false, these values may not be used for custom attribute filters. Default is false. */
@@ -680,23 +1061,58 @@ export interface CustomAttribute {
   longValues?: Array<string>;
 }
 
-export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(() => Schema.Struct({
-  filterable: Schema.optional(Schema.Boolean),
-  stringValues: Schema.optional(Schema.Array(Schema.String)),
-  longValues: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomAttribute" }) as any as Schema.Schema<CustomAttribute>;
+export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      filterable: Schema.optional(Schema.Boolean),
+      stringValues: Schema.optional(Schema.Array(Schema.String)),
+      longValues: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "CustomAttribute",
+}) as any as Schema.Schema<CustomAttribute>;
 
 export interface Job {
   /** Required. The description of the job, which typically includes a multi-paragraph description of the company and related information. Separate fields are provided on the job object for responsibilities, qualifications, and other job characteristics. Use of these separate job fields is recommended. This field accepts and sanitizes HTML input, and also accepts bold, italic, ordered list, and unordered list markup tags. The maximum number of allowed characters is 100,000. */
   description?: string;
   /** Optional. The desired education degrees for the job, such as Bachelors, Masters. */
-  degreeTypes?: Array<"DEGREE_TYPE_UNSPECIFIED" | "PRIMARY_EDUCATION" | "LOWER_SECONDARY_EDUCATION" | "UPPER_SECONDARY_EDUCATION" | "ADULT_REMEDIAL_EDUCATION" | "ASSOCIATES_OR_EQUIVALENT" | "BACHELORS_OR_EQUIVALENT" | "MASTERS_OR_EQUIVALENT" | "DOCTORAL_OR_EQUIVALENT" | (string & {})>;
+  degreeTypes?: Array<
+    | "DEGREE_TYPE_UNSPECIFIED"
+    | "PRIMARY_EDUCATION"
+    | "LOWER_SECONDARY_EDUCATION"
+    | "UPPER_SECONDARY_EDUCATION"
+    | "ADULT_REMEDIAL_EDUCATION"
+    | "ASSOCIATES_OR_EQUIVALENT"
+    | "BACHELORS_OR_EQUIVALENT"
+    | "MASTERS_OR_EQUIVALENT"
+    | "DOCTORAL_OR_EQUIVALENT"
+    | (string & {})
+  >;
   /** Optional. The language of the posting. This field is distinct from any requirements for fluency that are associated with the job. Language codes must be in BCP-47 format, such as "en-US" or "sr-Latn". For more information, see [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47){: class="external" target="_blank" }. If this field is unspecified and Job.description is present, detected language code based on Job.description is assigned, otherwise defaults to 'en_US'. */
   languageCode?: string;
   /** Optional. The benefits included with the job. */
-  jobBenefits?: Array<"JOB_BENEFIT_UNSPECIFIED" | "CHILD_CARE" | "DENTAL" | "DOMESTIC_PARTNER" | "FLEXIBLE_HOURS" | "MEDICAL" | "LIFE_INSURANCE" | "PARENTAL_LEAVE" | "RETIREMENT_PLAN" | "SICK_DAYS" | "VACATION" | "VISION" | (string & {})>;
+  jobBenefits?: Array<
+    | "JOB_BENEFIT_UNSPECIFIED"
+    | "CHILD_CARE"
+    | "DENTAL"
+    | "DOMESTIC_PARTNER"
+    | "FLEXIBLE_HOURS"
+    | "MEDICAL"
+    | "LIFE_INSURANCE"
+    | "PARENTAL_LEAVE"
+    | "RETIREMENT_PLAN"
+    | "SICK_DAYS"
+    | "VACATION"
+    | "VISION"
+    | (string & {})
+  >;
   /** Deprecated. The job is only visible to the owner. The visibility of the job. Defaults to Visibility.ACCOUNT_ONLY if not specified. */
-  visibility?: "VISIBILITY_UNSPECIFIED" | "ACCOUNT_ONLY" | "SHARED_WITH_GOOGLE" | "SHARED_WITH_PUBLIC" | (string & {});
+  visibility?:
+    | "VISIBILITY_UNSPECIFIED"
+    | "ACCOUNT_ONLY"
+    | "SHARED_WITH_GOOGLE"
+    | "SHARED_WITH_PUBLIC"
+    | (string & {});
   /** Optional. Options for job processing. */
   processingOptions?: ProcessingOptions;
   /** Optional. A description of bonus, commission, and other compensation incentives associated with the job not including salary or pay. The maximum number of allowed characters is 10,000. */
@@ -706,11 +1122,29 @@ export interface Job {
   /** Optional. A description of job responsibilities. The use of this field is recommended as an alternative to using the more general description field. This field accepts and sanitizes HTML input, and also accepts bold, italic, ordered list, and unordered list markup tags. The maximum number of allowed characters is 10,000. */
   responsibilities?: string;
   /** Optional. The job PostingRegion (for example, state, country) throughout which the job is available. If this field is set, a LocationFilter in a search query within the job region finds this job posting if an exact location match isn't specified. If this field is set to PostingRegion.NATION or PostingRegion.ADMINISTRATIVE_AREA, setting job Job.addresses to the same location level as this field is strongly recommended. */
-  postingRegion?: "POSTING_REGION_UNSPECIFIED" | "ADMINISTRATIVE_AREA" | "NATION" | "TELECOMMUTE" | (string & {});
+  postingRegion?:
+    | "POSTING_REGION_UNSPECIFIED"
+    | "ADMINISTRATIVE_AREA"
+    | "NATION"
+    | "TELECOMMUTE"
+    | (string & {});
   /** Required. At least one field within ApplicationInfo must be specified. Job application information. */
   applicationInfo?: ApplicationInfo;
   /** Optional. The employment type(s) of a job, for example, full time or part time. */
-  employmentTypes?: Array<"EMPLOYMENT_TYPE_UNSPECIFIED" | "FULL_TIME" | "PART_TIME" | "CONTRACTOR" | "CONTRACT_TO_HIRE" | "TEMPORARY" | "INTERN" | "VOLUNTEER" | "PER_DIEM" | "FLY_IN_FLY_OUT" | "OTHER_EMPLOYMENT_TYPE" | (string & {})>;
+  employmentTypes?: Array<
+    | "EMPLOYMENT_TYPE_UNSPECIFIED"
+    | "FULL_TIME"
+    | "PART_TIME"
+    | "CONTRACTOR"
+    | "CONTRACT_TO_HIRE"
+    | "TEMPORARY"
+    | "INTERN"
+    | "VOLUNTEER"
+    | "PER_DIEM"
+    | "FLY_IN_FLY_OUT"
+    | "OTHER_EMPLOYMENT_TYPE"
+    | (string & {})
+  >;
   /** Optional. A promotion value of the job, as determined by the client. The value determines the sort order of the jobs returned when searching for jobs using the featured jobs search call, with higher promotional values being returned first and ties being resolved by relevance sort. Only the jobs with a promotionValue >0 are returned in a FEATURED_JOB_SEARCH. Default value is 0, and negative values are treated as 0. */
   promotionValue?: number;
   /** Optional. The start timestamp of the job in UTC time zone. Typically this field is used for contracting engagements. Invalid timestamps are ignored. */
@@ -732,7 +1166,14 @@ export interface Job {
   /** Output only. Display name of the company listing the job. */
   companyDisplayName?: string;
   /** Optional. The experience level associated with the job, such as "Entry Level". */
-  jobLevel?: "JOB_LEVEL_UNSPECIFIED" | "ENTRY_LEVEL" | "EXPERIENCED" | "MANAGER" | "DIRECTOR" | "EXECUTIVE" | (string & {});
+  jobLevel?:
+    | "JOB_LEVEL_UNSPECIFIED"
+    | "ENTRY_LEVEL"
+    | "EXPERIENCED"
+    | "MANAGER"
+    | "DIRECTOR"
+    | "EXECUTIVE"
+    | (string & {});
   /** Required. The resource name of the company listing the job, such as "projects/api-test-project/companies/foo". */
   companyName?: string;
   /** Output only. Derived details about the job posting. */
@@ -749,38 +1190,42 @@ export interface Job {
   customAttributes?: Record<string, CustomAttribute>;
 }
 
-export const Job: Schema.Schema<Job> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  degreeTypes: Schema.optional(Schema.Array(Schema.String)),
-  languageCode: Schema.optional(Schema.String),
-  jobBenefits: Schema.optional(Schema.Array(Schema.String)),
-  visibility: Schema.optional(Schema.String),
-  processingOptions: Schema.optional(ProcessingOptions),
-  incentives: Schema.optional(Schema.String),
-  jobEndTime: Schema.optional(Schema.String),
-  responsibilities: Schema.optional(Schema.String),
-  postingRegion: Schema.optional(Schema.String),
-  applicationInfo: Schema.optional(ApplicationInfo),
-  employmentTypes: Schema.optional(Schema.Array(Schema.String)),
-  promotionValue: Schema.optional(Schema.Number),
-  jobStartTime: Schema.optional(Schema.String),
-  qualifications: Schema.optional(Schema.String),
-  postingPublishTime: Schema.optional(Schema.String),
-  postingExpireTime: Schema.optional(Schema.String),
-  compensationInfo: Schema.optional(CompensationInfo),
-  department: Schema.optional(Schema.String),
-  requisitionId: Schema.optional(Schema.String),
-  postingCreateTime: Schema.optional(Schema.String),
-  companyDisplayName: Schema.optional(Schema.String),
-  jobLevel: Schema.optional(Schema.String),
-  companyName: Schema.optional(Schema.String),
-  derivedInfo: Schema.optional(JobDerivedInfo),
-  title: Schema.optional(Schema.String),
-  addresses: Schema.optional(Schema.Array(Schema.String)),
-  postingUpdateTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  customAttributes: Schema.optional(Schema.Record(Schema.String, CustomAttribute)),
-})).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
+export const Job: Schema.Schema<Job> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    degreeTypes: Schema.optional(Schema.Array(Schema.String)),
+    languageCode: Schema.optional(Schema.String),
+    jobBenefits: Schema.optional(Schema.Array(Schema.String)),
+    visibility: Schema.optional(Schema.String),
+    processingOptions: Schema.optional(ProcessingOptions),
+    incentives: Schema.optional(Schema.String),
+    jobEndTime: Schema.optional(Schema.String),
+    responsibilities: Schema.optional(Schema.String),
+    postingRegion: Schema.optional(Schema.String),
+    applicationInfo: Schema.optional(ApplicationInfo),
+    employmentTypes: Schema.optional(Schema.Array(Schema.String)),
+    promotionValue: Schema.optional(Schema.Number),
+    jobStartTime: Schema.optional(Schema.String),
+    qualifications: Schema.optional(Schema.String),
+    postingPublishTime: Schema.optional(Schema.String),
+    postingExpireTime: Schema.optional(Schema.String),
+    compensationInfo: Schema.optional(CompensationInfo),
+    department: Schema.optional(Schema.String),
+    requisitionId: Schema.optional(Schema.String),
+    postingCreateTime: Schema.optional(Schema.String),
+    companyDisplayName: Schema.optional(Schema.String),
+    jobLevel: Schema.optional(Schema.String),
+    companyName: Schema.optional(Schema.String),
+    derivedInfo: Schema.optional(JobDerivedInfo),
+    title: Schema.optional(Schema.String),
+    addresses: Schema.optional(Schema.Array(Schema.String)),
+    postingUpdateTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    customAttributes: Schema.optional(
+      Schema.Record(Schema.String, CustomAttribute),
+    ),
+  }),
+).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
 
 export interface MatchingJob {
   /** Contains snippets of text from the Job.description and similar fields that most closely match a search query's keywords, if available. All HTML tags in the original fields are stripped when returned in this field, and matching query keywords are enclosed in HTML bold tags. */
@@ -795,13 +1240,15 @@ export interface MatchingJob {
   job?: Job;
 }
 
-export const MatchingJob: Schema.Schema<MatchingJob> = Schema.suspend(() => Schema.Struct({
-  searchTextSnippet: Schema.optional(Schema.String),
-  jobTitleSnippet: Schema.optional(Schema.String),
-  jobSummary: Schema.optional(Schema.String),
-  commuteInfo: Schema.optional(CommuteInfo),
-  job: Schema.optional(Job),
-})).annotate({ identifier: "MatchingJob" }) as any as Schema.Schema<MatchingJob>;
+export const MatchingJob: Schema.Schema<MatchingJob> = Schema.suspend(() =>
+  Schema.Struct({
+    searchTextSnippet: Schema.optional(Schema.String),
+    jobTitleSnippet: Schema.optional(Schema.String),
+    jobSummary: Schema.optional(Schema.String),
+    commuteInfo: Schema.optional(CommuteInfo),
+    job: Schema.optional(Job),
+  }),
+).annotate({ identifier: "MatchingJob" }) as any as Schema.Schema<MatchingJob>;
 
 export interface UpdateJobRequest {
   /** Required. The Job to be updated. */
@@ -810,22 +1257,50 @@ export interface UpdateJobRequest {
   updateMask?: string;
 }
 
-export const UpdateJobRequest: Schema.Schema<UpdateJobRequest> = Schema.suspend(() => Schema.Struct({
-  job: Schema.optional(Job),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateJobRequest" }) as any as Schema.Schema<UpdateJobRequest>;
+export const UpdateJobRequest: Schema.Schema<UpdateJobRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      job: Schema.optional(Job),
+      updateMask: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UpdateJobRequest",
+}) as any as Schema.Schema<UpdateJobRequest>;
 
 export interface HistogramResult {
   /** A map from the values of field to the number of jobs with that value in this search result. Key: search type (filter names, such as the companyName). Values: the count of jobs that match the filter for this search. */
   values?: Record<string, number>;
   /** The Histogram search filters. */
-  searchType?: "SEARCH_TYPE_UNSPECIFIED" | "COMPANY_ID" | "EMPLOYMENT_TYPE" | "COMPANY_SIZE" | "DATE_PUBLISHED" | "EDUCATION_LEVEL" | "EXPERIENCE_LEVEL" | "ADMIN_1" | "COUNTRY" | "CITY" | "LOCALE" | "LANGUAGE" | "CATEGORY" | "CITY_COORDINATE" | "ADMIN_1_COUNTRY" | "COMPANY_DISPLAY_NAME" | "BASE_COMPENSATION_UNIT" | (string & {});
+  searchType?:
+    | "SEARCH_TYPE_UNSPECIFIED"
+    | "COMPANY_ID"
+    | "EMPLOYMENT_TYPE"
+    | "COMPANY_SIZE"
+    | "DATE_PUBLISHED"
+    | "EDUCATION_LEVEL"
+    | "EXPERIENCE_LEVEL"
+    | "ADMIN_1"
+    | "COUNTRY"
+    | "CITY"
+    | "LOCALE"
+    | "LANGUAGE"
+    | "CATEGORY"
+    | "CITY_COORDINATE"
+    | "ADMIN_1_COUNTRY"
+    | "COMPANY_DISPLAY_NAME"
+    | "BASE_COMPENSATION_UNIT"
+    | (string & {});
 }
 
-export const HistogramResult: Schema.Schema<HistogramResult> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
-  searchType: Schema.optional(Schema.String),
-})).annotate({ identifier: "HistogramResult" }) as any as Schema.Schema<HistogramResult>;
+export const HistogramResult: Schema.Schema<HistogramResult> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
+      searchType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "HistogramResult",
+}) as any as Schema.Schema<HistogramResult>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -836,11 +1311,15 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
@@ -855,25 +1334,37 @@ export interface Operation {
   metadata?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface CompensationHistogramResult {
   /** Histogram result. */
   result?: NumericBucketingResult;
   /** Type of the request, corresponding to CompensationHistogramRequest.type. */
-  type?: "COMPENSATION_HISTOGRAM_REQUEST_TYPE_UNSPECIFIED" | "BASE" | "ANNUALIZED_BASE" | "ANNUALIZED_TOTAL" | (string & {});
+  type?:
+    | "COMPENSATION_HISTOGRAM_REQUEST_TYPE_UNSPECIFIED"
+    | "BASE"
+    | "ANNUALIZED_BASE"
+    | "ANNUALIZED_TOTAL"
+    | (string & {});
 }
 
-export const CompensationHistogramResult: Schema.Schema<CompensationHistogramResult> = Schema.suspend(() => Schema.Struct({
-  result: Schema.optional(NumericBucketingResult),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "CompensationHistogramResult" }) as any as Schema.Schema<CompensationHistogramResult>;
+export const CompensationHistogramResult: Schema.Schema<CompensationHistogramResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      result: Schema.optional(NumericBucketingResult),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CompensationHistogramResult",
+  }) as any as Schema.Schema<CompensationHistogramResult>;
 
 export interface HistogramResults {
   /** Specifies compensation field-based histogram results that match HistogramFacets.compensation_histogram_requests. */
@@ -884,11 +1375,20 @@ export interface HistogramResults {
   simpleHistogramResults?: Array<HistogramResult>;
 }
 
-export const HistogramResults: Schema.Schema<HistogramResults> = Schema.suspend(() => Schema.Struct({
-  compensationHistogramResults: Schema.optional(Schema.Array(CompensationHistogramResult)),
-  customAttributeHistogramResults: Schema.optional(Schema.Array(CustomAttributeHistogramResult)),
-  simpleHistogramResults: Schema.optional(Schema.Array(HistogramResult)),
-})).annotate({ identifier: "HistogramResults" }) as any as Schema.Schema<HistogramResults>;
+export const HistogramResults: Schema.Schema<HistogramResults> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      compensationHistogramResults: Schema.optional(
+        Schema.Array(CompensationHistogramResult),
+      ),
+      customAttributeHistogramResults: Schema.optional(
+        Schema.Array(CustomAttributeHistogramResult),
+      ),
+      simpleHistogramResults: Schema.optional(Schema.Array(HistogramResult)),
+    }),
+).annotate({
+  identifier: "HistogramResults",
+}) as any as Schema.Schema<HistogramResults>;
 
 export interface SpellingCorrection {
   /** Indicates if the query was corrected by the spell checker. */
@@ -897,10 +1397,15 @@ export interface SpellingCorrection {
   correctedText?: string;
 }
 
-export const SpellingCorrection: Schema.Schema<SpellingCorrection> = Schema.suspend(() => Schema.Struct({
-  corrected: Schema.optional(Schema.Boolean),
-  correctedText: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpellingCorrection" }) as any as Schema.Schema<SpellingCorrection>;
+export const SpellingCorrection: Schema.Schema<SpellingCorrection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      corrected: Schema.optional(Schema.Boolean),
+      correctedText: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SpellingCorrection",
+  }) as any as Schema.Schema<SpellingCorrection>;
 
 export interface HistogramQueryResult {
   /** Requested histogram expression. */
@@ -909,10 +1414,15 @@ export interface HistogramQueryResult {
   histogram?: Record<string, string>;
 }
 
-export const HistogramQueryResult: Schema.Schema<HistogramQueryResult> = Schema.suspend(() => Schema.Struct({
-  histogramQuery: Schema.optional(Schema.String),
-  histogram: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "HistogramQueryResult" }) as any as Schema.Schema<HistogramQueryResult>;
+export const HistogramQueryResult: Schema.Schema<HistogramQueryResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      histogramQuery: Schema.optional(Schema.String),
+      histogram: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "HistogramQueryResult",
+  }) as any as Schema.Schema<HistogramQueryResult>;
 
 export interface SearchJobsResponse {
   /** The token that specifies the starting position of the next page of results. This field is empty if there are no more results. */
@@ -937,30 +1447,57 @@ export interface SearchJobsResponse {
   histogramQueryResults?: Array<HistogramQueryResult>;
 }
 
-export const SearchJobsResponse: Schema.Schema<SearchJobsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  metadata: Schema.optional(ResponseMetadata),
-  totalSize: Schema.optional(Schema.Number),
-  locationFilters: Schema.optional(Schema.Array(Location)),
-  histogramResults: Schema.optional(HistogramResults),
-  estimatedTotalSize: Schema.optional(Schema.Number),
-  spellCorrection: Schema.optional(SpellingCorrection),
-  matchingJobs: Schema.optional(Schema.Array(MatchingJob)),
-  broadenedQueryJobsCount: Schema.optional(Schema.Number),
-  histogramQueryResults: Schema.optional(Schema.Array(HistogramQueryResult)),
-})).annotate({ identifier: "SearchJobsResponse" }) as any as Schema.Schema<SearchJobsResponse>;
+export const SearchJobsResponse: Schema.Schema<SearchJobsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      metadata: Schema.optional(ResponseMetadata),
+      totalSize: Schema.optional(Schema.Number),
+      locationFilters: Schema.optional(Schema.Array(Location)),
+      histogramResults: Schema.optional(HistogramResults),
+      estimatedTotalSize: Schema.optional(Schema.Number),
+      spellCorrection: Schema.optional(SpellingCorrection),
+      matchingJobs: Schema.optional(Schema.Array(MatchingJob)),
+      broadenedQueryJobsCount: Schema.optional(Schema.Number),
+      histogramQueryResults: Schema.optional(
+        Schema.Array(HistogramQueryResult),
+      ),
+    }),
+  ).annotate({
+    identifier: "SearchJobsResponse",
+  }) as any as Schema.Schema<SearchJobsResponse>;
 
 export interface JobEvent {
   /** Required. The job name(s) associated with this event. For example, if this is an impression event, this field contains the identifiers of all jobs shown to the job seeker. If this was a view event, this field contains the identifier of the viewed job. */
   jobs?: Array<string>;
   /** Required. The type of the event (see JobEventType). */
-  type?: "JOB_EVENT_TYPE_UNSPECIFIED" | "IMPRESSION" | "VIEW" | "VIEW_REDIRECT" | "APPLICATION_START" | "APPLICATION_FINISH" | "APPLICATION_QUICK_SUBMISSION" | "APPLICATION_REDIRECT" | "APPLICATION_START_FROM_SEARCH" | "APPLICATION_REDIRECT_FROM_SEARCH" | "APPLICATION_COMPANY_SUBMIT" | "BOOKMARK" | "NOTIFICATION" | "HIRED" | "SENT_CV" | "INTERVIEW_GRANTED" | "NOT_INTERESTED" | (string & {});
+  type?:
+    | "JOB_EVENT_TYPE_UNSPECIFIED"
+    | "IMPRESSION"
+    | "VIEW"
+    | "VIEW_REDIRECT"
+    | "APPLICATION_START"
+    | "APPLICATION_FINISH"
+    | "APPLICATION_QUICK_SUBMISSION"
+    | "APPLICATION_REDIRECT"
+    | "APPLICATION_START_FROM_SEARCH"
+    | "APPLICATION_REDIRECT_FROM_SEARCH"
+    | "APPLICATION_COMPANY_SUBMIT"
+    | "BOOKMARK"
+    | "NOTIFICATION"
+    | "HIRED"
+    | "SENT_CV"
+    | "INTERVIEW_GRANTED"
+    | "NOT_INTERESTED"
+    | (string & {});
 }
 
-export const JobEvent: Schema.Schema<JobEvent> = Schema.suspend(() => Schema.Struct({
-  jobs: Schema.optional(Schema.Array(Schema.String)),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "JobEvent" }) as any as Schema.Schema<JobEvent>;
+export const JobEvent: Schema.Schema<JobEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    jobs: Schema.optional(Schema.Array(Schema.String)),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "JobEvent" }) as any as Schema.Schema<JobEvent>;
 
 export interface ClientEvent {
   /** A event issued when a job seeker interacts with the application that implements Cloud Talent Solution. */
@@ -977,29 +1514,36 @@ export interface ClientEvent {
   requestId?: string;
 }
 
-export const ClientEvent: Schema.Schema<ClientEvent> = Schema.suspend(() => Schema.Struct({
-  jobEvent: Schema.optional(JobEvent),
-  extraInfo: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  parentEventId: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  eventId: Schema.optional(Schema.String),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ClientEvent" }) as any as Schema.Schema<ClientEvent>;
+export const ClientEvent: Schema.Schema<ClientEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    jobEvent: Schema.optional(JobEvent),
+    extraInfo: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    parentEventId: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    eventId: Schema.optional(Schema.String),
+    requestId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ClientEvent" }) as any as Schema.Schema<ClientEvent>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface CreateJobRequest {
   /** Required. The Job to be created. */
   job?: Job;
 }
 
-export const CreateJobRequest: Schema.Schema<CreateJobRequest> = Schema.suspend(() => Schema.Struct({
-  job: Schema.optional(Job),
-})).annotate({ identifier: "CreateJobRequest" }) as any as Schema.Schema<CreateJobRequest>;
+export const CreateJobRequest: Schema.Schema<CreateJobRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      job: Schema.optional(Job),
+    }),
+).annotate({
+  identifier: "CreateJobRequest",
+}) as any as Schema.Schema<CreateJobRequest>;
 
 export interface ListJobsResponse {
   /** The Jobs for a given company. The maximum number of items returned is based on the limit field provided in the request. */
@@ -1010,11 +1554,16 @@ export interface ListJobsResponse {
   nextPageToken?: string;
 }
 
-export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(() => Schema.Struct({
-  jobs: Schema.optional(Schema.Array(Job)),
-  metadata: Schema.optional(ResponseMetadata),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListJobsResponse" }) as any as Schema.Schema<ListJobsResponse>;
+export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      jobs: Schema.optional(Schema.Array(Job)),
+      metadata: Schema.optional(ResponseMetadata),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ListJobsResponse",
+}) as any as Schema.Schema<ListJobsResponse>;
 
 export interface ListCompaniesResponse {
   /** A token to retrieve the next page of results. */
@@ -1025,29 +1574,44 @@ export interface ListCompaniesResponse {
   companies?: Array<Company>;
 }
 
-export const ListCompaniesResponse: Schema.Schema<ListCompaniesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  metadata: Schema.optional(ResponseMetadata),
-  companies: Schema.optional(Schema.Array(Company)),
-})).annotate({ identifier: "ListCompaniesResponse" }) as any as Schema.Schema<ListCompaniesResponse>;
+export const ListCompaniesResponse: Schema.Schema<ListCompaniesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      metadata: Schema.optional(ResponseMetadata),
+      companies: Schema.optional(Schema.Array(Company)),
+    }),
+  ).annotate({
+    identifier: "ListCompaniesResponse",
+  }) as any as Schema.Schema<ListCompaniesResponse>;
 
 export interface CreateCompanyRequest {
   /** Required. The company to be created. */
   company?: Company;
 }
 
-export const CreateCompanyRequest: Schema.Schema<CreateCompanyRequest> = Schema.suspend(() => Schema.Struct({
-  company: Schema.optional(Company),
-})).annotate({ identifier: "CreateCompanyRequest" }) as any as Schema.Schema<CreateCompanyRequest>;
+export const CreateCompanyRequest: Schema.Schema<CreateCompanyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      company: Schema.optional(Company),
+    }),
+  ).annotate({
+    identifier: "CreateCompanyRequest",
+  }) as any as Schema.Schema<CreateCompanyRequest>;
 
 export interface CreateClientEventRequest {
   /** Required. Events issued when end user interacts with customer's application that uses Cloud Talent Solution. */
   clientEvent?: ClientEvent;
 }
 
-export const CreateClientEventRequest: Schema.Schema<CreateClientEventRequest> = Schema.suspend(() => Schema.Struct({
-  clientEvent: Schema.optional(ClientEvent),
-})).annotate({ identifier: "CreateClientEventRequest" }) as any as Schema.Schema<CreateClientEventRequest>;
+export const CreateClientEventRequest: Schema.Schema<CreateClientEventRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      clientEvent: Schema.optional(ClientEvent),
+    }),
+  ).annotate({
+    identifier: "CreateClientEventRequest",
+  }) as any as Schema.Schema<CreateClientEventRequest>;
 
 // ==========================================================================
 // Operations
@@ -1069,17 +1633,26 @@ export interface CompleteProjectsRequest {
   /** Optional. The list of languages of the query. This is the BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47). For CompletionType.JOB_TITLE type, only open jobs with the same language_codes are returned. For CompletionType.COMPANY_NAME type, only companies having open jobs with the same language_codes are returned. For CompletionType.COMBINED type, only open jobs with the same language_codes or companies having open jobs with the same language_codes are returned. The maximum number of allowed characters is 255. */
   languageCodes?: string[];
   /** Optional. The completion topic. The default is CompletionType.COMBINED. */
-  type?: "COMPLETION_TYPE_UNSPECIFIED" | "JOB_TITLE" | "COMPANY_NAME" | "COMBINED" | (string & {});
+  type?:
+    | "COMPLETION_TYPE_UNSPECIFIED"
+    | "JOB_TITLE"
+    | "COMPANY_NAME"
+    | "COMBINED"
+    | (string & {});
 }
 
 export const CompleteProjectsRequest = Schema.Struct({
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   name: Schema.String.pipe(T.HttpPath("name")),
   companyName: Schema.optional(Schema.String).pipe(T.HttpQuery("companyName")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
-  languageCodes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("languageCodes")),
+  languageCodes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("languageCodes"),
+  ),
   type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
 }).pipe(
   T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}:complete" }),
@@ -1092,7 +1665,12 @@ export const CompleteProjectsResponse = CompleteQueryResponse;
 export type CompleteProjectsError = DefaultErrors;
 
 /** Completes the specified prefix with keyword suggestions. Intended for use by a job search auto-complete search box. */
-export const completeProjects: API.OperationMethod<CompleteProjectsRequest, CompleteProjectsResponse, CompleteProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const completeProjects: API.OperationMethod<
+  CompleteProjectsRequest,
+  CompleteProjectsResponse,
+  CompleteProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CompleteProjectsRequest,
   output: CompleteProjectsResponse,
   errors: [],
@@ -1106,7 +1684,10 @@ export interface GetProjectsOperationsRequest {
 export const GetProjectsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3p1beta1/projects/{projectsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -1116,7 +1697,12 @@ export const GetProjectsOperationsResponse = Operation;
 export type GetProjectsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsOperations: API.OperationMethod<
+  GetProjectsOperationsRequest,
+  GetProjectsOperationsResponse,
+  GetProjectsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -1134,7 +1720,9 @@ export interface ListProjectsCompaniesRequest {
 }
 
 export const ListProjectsCompaniesRequest = Schema.Struct({
-  requireOpenJobs: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("requireOpenJobs")),
+  requireOpenJobs: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("requireOpenJobs"),
+  ),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1149,7 +1737,12 @@ export const ListProjectsCompaniesResponse = ListCompaniesResponse;
 export type ListProjectsCompaniesError = DefaultErrors;
 
 /** Lists all companies associated with the service account. */
-export const listProjectsCompanies: API.PaginatedOperationMethod<ListProjectsCompaniesRequest, ListProjectsCompaniesResponse, ListProjectsCompaniesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsCompanies: API.PaginatedOperationMethod<
+  ListProjectsCompaniesRequest,
+  ListProjectsCompaniesResponse,
+  ListProjectsCompaniesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsCompaniesRequest,
   output: ListProjectsCompaniesResponse,
   errors: [],
@@ -1170,7 +1763,11 @@ export const CreateProjectsCompaniesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateCompanyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3p1beta1/projects/{projectsId}/companies", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3p1beta1/projects/{projectsId}/companies",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsCompaniesRequest>;
 
@@ -1180,7 +1777,12 @@ export const CreateProjectsCompaniesResponse = Company;
 export type CreateProjectsCompaniesError = DefaultErrors;
 
 /** Creates a new company entity. */
-export const createProjectsCompanies: API.OperationMethod<CreateProjectsCompaniesRequest, CreateProjectsCompaniesResponse, CreateProjectsCompaniesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsCompanies: API.OperationMethod<
+  CreateProjectsCompaniesRequest,
+  CreateProjectsCompaniesResponse,
+  CreateProjectsCompaniesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsCompaniesRequest,
   output: CreateProjectsCompaniesResponse,
   errors: [],
@@ -1194,7 +1796,10 @@ export interface DeleteProjectsCompaniesRequest {
 export const DeleteProjectsCompaniesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsCompaniesRequest>;
 
@@ -1204,7 +1809,12 @@ export const DeleteProjectsCompaniesResponse = Empty;
 export type DeleteProjectsCompaniesError = DefaultErrors;
 
 /** Deletes specified company. Prerequisite: The company has no jobs associated with it. */
-export const deleteProjectsCompanies: API.OperationMethod<DeleteProjectsCompaniesRequest, DeleteProjectsCompaniesResponse, DeleteProjectsCompaniesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsCompanies: API.OperationMethod<
+  DeleteProjectsCompaniesRequest,
+  DeleteProjectsCompaniesResponse,
+  DeleteProjectsCompaniesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsCompaniesRequest,
   output: DeleteProjectsCompaniesResponse,
   errors: [],
@@ -1218,7 +1828,10 @@ export interface GetProjectsCompaniesRequest {
 export const GetProjectsCompaniesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsCompaniesRequest>;
 
@@ -1228,7 +1841,12 @@ export const GetProjectsCompaniesResponse = Company;
 export type GetProjectsCompaniesError = DefaultErrors;
 
 /** Retrieves specified company. */
-export const getProjectsCompanies: API.OperationMethod<GetProjectsCompaniesRequest, GetProjectsCompaniesResponse, GetProjectsCompaniesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsCompanies: API.OperationMethod<
+  GetProjectsCompaniesRequest,
+  GetProjectsCompaniesResponse,
+  GetProjectsCompaniesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsCompaniesRequest,
   output: GetProjectsCompaniesResponse,
   errors: [],
@@ -1245,7 +1863,11 @@ export const PatchProjectsCompaniesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpdateCompanyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsCompaniesRequest>;
 
@@ -1255,7 +1877,12 @@ export const PatchProjectsCompaniesResponse = Company;
 export type PatchProjectsCompaniesError = DefaultErrors;
 
 /** Updates specified company. Company names can't be updated. To update a company name, delete the company and all jobs associated with it, and only then re-create them. */
-export const patchProjectsCompanies: API.OperationMethod<PatchProjectsCompaniesRequest, PatchProjectsCompaniesResponse, PatchProjectsCompaniesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsCompanies: API.OperationMethod<
+  PatchProjectsCompaniesRequest,
+  PatchProjectsCompaniesResponse,
+  PatchProjectsCompaniesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsCompaniesRequest,
   output: PatchProjectsCompaniesResponse,
   errors: [],
@@ -1272,7 +1899,11 @@ export const CreateProjectsClientEventsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateClientEventRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3p1beta1/projects/{projectsId}/clientEvents", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3p1beta1/projects/{projectsId}/clientEvents",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsClientEventsRequest>;
 
@@ -1282,7 +1913,12 @@ export const CreateProjectsClientEventsResponse = ClientEvent;
 export type CreateProjectsClientEventsError = DefaultErrors;
 
 /** Report events issued when end user interacts with customer's application that uses Cloud Talent Solution. You may inspect the created events in [self service tools](https://console.cloud.google.com/talent-solution/overview). [Learn more](https://cloud.google.com/talent-solution/docs/management-tools) about self service tools. */
-export const createProjectsClientEvents: API.OperationMethod<CreateProjectsClientEventsRequest, CreateProjectsClientEventsResponse, CreateProjectsClientEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsClientEvents: API.OperationMethod<
+  CreateProjectsClientEventsRequest,
+  CreateProjectsClientEventsResponse,
+  CreateProjectsClientEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsClientEventsRequest,
   output: CreateProjectsClientEventsResponse,
   errors: [],
@@ -1296,7 +1932,10 @@ export interface DeleteProjectsJobsRequest {
 export const DeleteProjectsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsJobsRequest>;
 
@@ -1306,7 +1945,12 @@ export const DeleteProjectsJobsResponse = Empty;
 export type DeleteProjectsJobsError = DefaultErrors;
 
 /** Deletes the specified job. Typically, the job becomes unsearchable within 10 seconds, but it may take up to 5 minutes. */
-export const deleteProjectsJobs: API.OperationMethod<DeleteProjectsJobsRequest, DeleteProjectsJobsResponse, DeleteProjectsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsJobs: API.OperationMethod<
+  DeleteProjectsJobsRequest,
+  DeleteProjectsJobsResponse,
+  DeleteProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsJobsRequest,
   output: DeleteProjectsJobsResponse,
   errors: [],
@@ -1322,7 +1966,13 @@ export interface ListProjectsJobsRequest {
   /** Required. The resource name of the project under which the job is created. The format is "projects/{project_id}", for example, "projects/api-test-project". */
   parent: string;
   /** Optional. The desired job attributes returned for jobs in the search response. Defaults to JobView.JOB_VIEW_FULL if no value is specified. */
-  jobView?: "JOB_VIEW_UNSPECIFIED" | "JOB_VIEW_ID_ONLY" | "JOB_VIEW_MINIMAL" | "JOB_VIEW_SMALL" | "JOB_VIEW_FULL" | (string & {});
+  jobView?:
+    | "JOB_VIEW_UNSPECIFIED"
+    | "JOB_VIEW_ID_ONLY"
+    | "JOB_VIEW_MINIMAL"
+    | "JOB_VIEW_SMALL"
+    | "JOB_VIEW_FULL"
+    | (string & {});
 }
 
 export const ListProjectsJobsRequest = Schema.Struct({
@@ -1342,7 +1992,12 @@ export const ListProjectsJobsResponse = ListJobsResponse;
 export type ListProjectsJobsError = DefaultErrors;
 
 /** Lists jobs by filter. */
-export const listProjectsJobs: API.PaginatedOperationMethod<ListProjectsJobsRequest, ListProjectsJobsResponse, ListProjectsJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsJobs: API.PaginatedOperationMethod<
+  ListProjectsJobsRequest,
+  ListProjectsJobsResponse,
+  ListProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsJobsRequest,
   output: ListProjectsJobsResponse,
   errors: [],
@@ -1363,7 +2018,11 @@ export const PatchProjectsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpdateJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsJobsRequest>;
 
@@ -1373,7 +2032,12 @@ export const PatchProjectsJobsResponse = Job;
 export type PatchProjectsJobsError = DefaultErrors;
 
 /** Updates specified job. Typically, updated contents become visible in search results within 10 seconds, but it may take up to 5 minutes. */
-export const patchProjectsJobs: API.OperationMethod<PatchProjectsJobsRequest, PatchProjectsJobsResponse, PatchProjectsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsJobs: API.OperationMethod<
+  PatchProjectsJobsRequest,
+  PatchProjectsJobsResponse,
+  PatchProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsJobsRequest,
   output: PatchProjectsJobsResponse,
   errors: [],
@@ -1390,7 +2054,11 @@ export const SearchForAlertProjectsJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SearchJobsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3p1beta1/projects/{projectsId}/jobs:searchForAlert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3p1beta1/projects/{projectsId}/jobs:searchForAlert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchForAlertProjectsJobsRequest>;
 
@@ -1400,7 +2068,12 @@ export const SearchForAlertProjectsJobsResponse = SearchJobsResponse;
 export type SearchForAlertProjectsJobsError = DefaultErrors;
 
 /** Searches for jobs using the provided SearchJobsRequest. This API call is intended for the use case of targeting passive job seekers (for example, job seekers who have signed up to receive email alerts about potential job opportunities), and has different algorithmic adjustments that are targeted to passive job seekers. This call constrains the visibility of jobs present in the database, and only returns jobs the caller has permission to search against. */
-export const searchForAlertProjectsJobs: API.OperationMethod<SearchForAlertProjectsJobsRequest, SearchForAlertProjectsJobsResponse, SearchForAlertProjectsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const searchForAlertProjectsJobs: API.OperationMethod<
+  SearchForAlertProjectsJobsRequest,
+  SearchForAlertProjectsJobsResponse,
+  SearchForAlertProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SearchForAlertProjectsJobsRequest,
   output: SearchForAlertProjectsJobsResponse,
   errors: [],
@@ -1417,7 +2090,11 @@ export const BatchDeleteProjectsJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchDeleteJobsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3p1beta1/projects/{projectsId}/jobs:batchDelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3p1beta1/projects/{projectsId}/jobs:batchDelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchDeleteProjectsJobsRequest>;
 
@@ -1427,7 +2104,12 @@ export const BatchDeleteProjectsJobsResponse = Empty;
 export type BatchDeleteProjectsJobsError = DefaultErrors;
 
 /** Deletes a list of Jobs by filter. */
-export const batchDeleteProjectsJobs: API.OperationMethod<BatchDeleteProjectsJobsRequest, BatchDeleteProjectsJobsResponse, BatchDeleteProjectsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchDeleteProjectsJobs: API.OperationMethod<
+  BatchDeleteProjectsJobsRequest,
+  BatchDeleteProjectsJobsResponse,
+  BatchDeleteProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchDeleteProjectsJobsRequest,
   output: BatchDeleteProjectsJobsResponse,
   errors: [],
@@ -1444,7 +2126,11 @@ export const SearchProjectsJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SearchJobsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3p1beta1/projects/{projectsId}/jobs:search", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3p1beta1/projects/{projectsId}/jobs:search",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchProjectsJobsRequest>;
 
@@ -1454,7 +2140,12 @@ export const SearchProjectsJobsResponse = SearchJobsResponse;
 export type SearchProjectsJobsError = DefaultErrors;
 
 /** Searches for jobs using the provided SearchJobsRequest. This call constrains the visibility of jobs present in the database, and only returns jobs that the caller has permission to search against. */
-export const searchProjectsJobs: API.OperationMethod<SearchProjectsJobsRequest, SearchProjectsJobsResponse, SearchProjectsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const searchProjectsJobs: API.OperationMethod<
+  SearchProjectsJobsRequest,
+  SearchProjectsJobsResponse,
+  SearchProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SearchProjectsJobsRequest,
   output: SearchProjectsJobsResponse,
   errors: [],
@@ -1471,7 +2162,11 @@ export const CreateProjectsJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3p1beta1/projects/{projectsId}/jobs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3p1beta1/projects/{projectsId}/jobs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsJobsRequest>;
 
@@ -1481,7 +2176,12 @@ export const CreateProjectsJobsResponse = Job;
 export type CreateProjectsJobsError = DefaultErrors;
 
 /** Creates a new job. Typically, the job becomes searchable within 10 seconds, but it may take up to 5 minutes. */
-export const createProjectsJobs: API.OperationMethod<CreateProjectsJobsRequest, CreateProjectsJobsResponse, CreateProjectsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsJobs: API.OperationMethod<
+  CreateProjectsJobsRequest,
+  CreateProjectsJobsResponse,
+  CreateProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsJobsRequest,
   output: CreateProjectsJobsResponse,
   errors: [],
@@ -1495,7 +2195,10 @@ export interface GetProjectsJobsRequest {
 export const GetProjectsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsJobsRequest>;
 
@@ -1505,9 +2208,13 @@ export const GetProjectsJobsResponse = Job;
 export type GetProjectsJobsError = DefaultErrors;
 
 /** Retrieves the specified job, whose status is OPEN or recently EXPIRED within the last 90 days. */
-export const getProjectsJobs: API.OperationMethod<GetProjectsJobsRequest, GetProjectsJobsResponse, GetProjectsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsJobs: API.OperationMethod<
+  GetProjectsJobsRequest,
+  GetProjectsJobsResponse,
+  GetProjectsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsJobsRequest,
   output: GetProjectsJobsResponse,
   errors: [],
 }));
-

@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 import { UploadableSchema } from "../schemas";
 
 // =============================================================================
@@ -25,9 +23,13 @@ export interface SubmitBrandProtectionRequest {
 }
 
 export const SubmitBrandProtectionRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/brand-protection/submit" })) as unknown as Schema.Schema<SubmitBrandProtectionRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/brand-protection/submit",
+  }),
+) as unknown as Schema.Schema<SubmitBrandProtectionRequest>;
 
 export interface SubmitBrandProtectionResponse {
   skippedUrls?: Record<string, unknown>[];
@@ -36,11 +38,15 @@ export interface SubmitBrandProtectionResponse {
 
 export const SubmitBrandProtectionResponse = Schema.Struct({
   skippedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
-  submittedUrls: Schema.optional(Schema.Array(Schema.Struct({})))
-}).pipe(Schema.encodeKeys({ skippedUrls: "skipped_urls", submittedUrls: "submitted_urls" })) as unknown as Schema.Schema<SubmitBrandProtectionResponse>;
+  submittedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
+}).pipe(
+  Schema.encodeKeys({
+    skippedUrls: "skipped_urls",
+    submittedUrls: "submitted_urls",
+  }),
+) as unknown as Schema.Schema<SubmitBrandProtectionResponse>;
 
-export type SubmitBrandProtectionError =
-  | DefaultErrors;
+export type SubmitBrandProtectionError = DefaultErrors;
 
 export const submitBrandProtection: API.OperationMethod<
   SubmitBrandProtectionRequest,
@@ -53,7 +59,6 @@ export const submitBrandProtection: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // InfoBrandProtection
 // =============================================================================
@@ -63,16 +68,21 @@ export interface UrlInfoBrandProtectionRequest {
 }
 
 export const UrlInfoBrandProtectionRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/brand-protection/url-info" })) as unknown as Schema.Schema<UrlInfoBrandProtectionRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/brand-protection/url-info",
+  }),
+) as unknown as Schema.Schema<UrlInfoBrandProtectionRequest>;
 
 export type UrlInfoBrandProtectionResponse = Record<string, unknown>[];
 
-export const UrlInfoBrandProtectionResponse = Schema.Array(Schema.Struct({})) as unknown as Schema.Schema<UrlInfoBrandProtectionResponse>;
+export const UrlInfoBrandProtectionResponse = Schema.Array(
+  Schema.Struct({}),
+) as unknown as Schema.Schema<UrlInfoBrandProtectionResponse>;
 
-export type UrlInfoBrandProtectionError =
-  | DefaultErrors;
+export type UrlInfoBrandProtectionError = DefaultErrors;
 
 export const urlInfoBrandProtection: API.OperationMethod<
   UrlInfoBrandProtectionRequest,
@@ -84,7 +94,6 @@ export const urlInfoBrandProtection: API.OperationMethod<
   output: UrlInfoBrandProtectionResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Logo
@@ -108,9 +117,14 @@ export const CreateLogoRequest = Schema.Struct({
   matchType: Schema.optional(Schema.String).pipe(T.HttpQuery("match_type")),
   tag: Schema.optional(Schema.String).pipe(T.HttpQuery("tag")),
   threshold: Schema.optional(Schema.Number).pipe(T.HttpQuery("threshold")),
-  image: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile()))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/brand-protection/logos", contentType: "multipart" })) as unknown as Schema.Schema<CreateLogoRequest>;
+  image: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/brand-protection/logos",
+    contentType: "multipart",
+  }),
+) as unknown as Schema.Schema<CreateLogoRequest>;
 
 export interface CreateLogoResponse {
   id?: number;
@@ -121,11 +135,12 @@ export interface CreateLogoResponse {
 export const CreateLogoResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
   tag: Schema.optional(Schema.String),
-  uploadPath: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", tag: "tag", uploadPath: "upload_path" })) as unknown as Schema.Schema<CreateLogoResponse>;
+  uploadPath: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ id: "id", tag: "tag", uploadPath: "upload_path" }),
+) as unknown as Schema.Schema<CreateLogoResponse>;
 
-export type CreateLogoError =
-  | DefaultErrors;
+export type CreateLogoError = DefaultErrors;
 
 export const createLogo: API.OperationMethod<
   CreateLogoRequest,
@@ -145,16 +160,20 @@ export interface DeleteLogoRequest {
 
 export const DeleteLogoRequest = Schema.Struct({
   logoId: Schema.String.pipe(T.HttpPath("logoId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/brand-protection/logos/{logoId}" })) as unknown as Schema.Schema<DeleteLogoRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/brand-protection/logos/{logoId}",
+  }),
+) as unknown as Schema.Schema<DeleteLogoRequest>;
 
 export type DeleteLogoResponse = unknown;
 
-export const DeleteLogoResponse = Schema.Unknown as unknown as Schema.Schema<DeleteLogoResponse>;
+export const DeleteLogoResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteLogoResponse>;
 
-export type DeleteLogoError =
-  | DefaultErrors;
+export type DeleteLogoError = DefaultErrors;
 
 export const deleteLogo: API.OperationMethod<
   DeleteLogoRequest,
@@ -166,7 +185,6 @@ export const deleteLogo: API.OperationMethod<
   output: DeleteLogoResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // LogoMatch
@@ -186,10 +204,16 @@ export interface GetLogoMatchRequest {
 export const GetLogoMatchRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   limit: Schema.optional(Schema.String).pipe(T.HttpQuery("limit")),
-  logoId: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("logo_id")),
-  offset: Schema.optional(Schema.String).pipe(T.HttpQuery("offset"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/brand-protection/logo-matches" })) as unknown as Schema.Schema<GetLogoMatchRequest>;
+  logoId: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("logo_id"),
+  ),
+  offset: Schema.optional(Schema.String).pipe(T.HttpQuery("offset")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/brand-protection/logo-matches",
+  }),
+) as unknown as Schema.Schema<GetLogoMatchRequest>;
 
 export interface GetLogoMatchResponse {
   matches?: Record<string, unknown>[];
@@ -198,11 +222,10 @@ export interface GetLogoMatchResponse {
 
 export const GetLogoMatchResponse = Schema.Struct({
   matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number)
+  total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetLogoMatchResponse>;
 
-export type GetLogoMatchError =
-  | DefaultErrors;
+export type GetLogoMatchError = DefaultErrors;
 
 export const getLogoMatch: API.OperationMethod<
   GetLogoMatchRequest,
@@ -229,10 +252,16 @@ export interface DownloadLogoMatchRequest {
 export const DownloadLogoMatchRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   limit: Schema.optional(Schema.String).pipe(T.HttpQuery("limit")),
-  logoId: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("logo_id")),
-  offset: Schema.optional(Schema.String).pipe(T.HttpQuery("offset"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/brand-protection/logo-matches/download" })) as unknown as Schema.Schema<DownloadLogoMatchRequest>;
+  logoId: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("logo_id"),
+  ),
+  offset: Schema.optional(Schema.String).pipe(T.HttpQuery("offset")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/brand-protection/logo-matches/download",
+  }),
+) as unknown as Schema.Schema<DownloadLogoMatchRequest>;
 
 export interface DownloadLogoMatchResponse {
   matches?: Record<string, unknown>[];
@@ -241,11 +270,10 @@ export interface DownloadLogoMatchResponse {
 
 export const DownloadLogoMatchResponse = Schema.Struct({
   matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number)
+  total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DownloadLogoMatchResponse>;
 
-export type DownloadLogoMatchError =
-  | DefaultErrors;
+export type DownloadLogoMatchError = DefaultErrors;
 
 export const downloadLogoMatch: API.OperationMethod<
   DownloadLogoMatchRequest,
@@ -257,7 +285,6 @@ export const downloadLogoMatch: API.OperationMethod<
   output: DownloadLogoMatchResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Match
@@ -279,11 +306,17 @@ export interface GetMatchRequest {
 export const GetMatchRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
-  includeDomainId: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_domain_id")),
+  includeDomainId: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_domain_id"),
+  ),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/brand-protection/matches" })) as unknown as Schema.Schema<GetMatchRequest>;
+  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/brand-protection/matches",
+  }),
+) as unknown as Schema.Schema<GetMatchRequest>;
 
 export interface GetMatchResponse {
   matches?: Record<string, unknown>[];
@@ -292,11 +325,10 @@ export interface GetMatchResponse {
 
 export const GetMatchResponse = Schema.Struct({
   matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number)
+  total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetMatchResponse>;
 
-export type GetMatchError =
-  | DefaultErrors;
+export type GetMatchError = DefaultErrors;
 
 export const getMatch: API.OperationMethod<
   GetMatchRequest,
@@ -325,11 +357,17 @@ export interface DownloadMatchRequest {
 export const DownloadMatchRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
-  includeDomainId: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_domain_id")),
+  includeDomainId: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_domain_id"),
+  ),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/brand-protection/matches/download" })) as unknown as Schema.Schema<DownloadMatchRequest>;
+  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/brand-protection/matches/download",
+  }),
+) as unknown as Schema.Schema<DownloadMatchRequest>;
 
 export interface DownloadMatchResponse {
   matches?: Record<string, unknown>[];
@@ -338,11 +376,10 @@ export interface DownloadMatchResponse {
 
 export const DownloadMatchResponse = Schema.Struct({
   matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number)
+  total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DownloadMatchResponse>;
 
-export type DownloadMatchError =
-  | DefaultErrors;
+export type DownloadMatchError = DefaultErrors;
 
 export const downloadMatch: API.OperationMethod<
   DownloadMatchRequest,
@@ -354,7 +391,6 @@ export const downloadMatch: API.OperationMethod<
   output: DownloadMatchResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Query
@@ -390,16 +426,27 @@ export const CreateQueryRequest = Schema.Struct({
   minTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   bodyScan: Schema.optional(Schema.Boolean),
   stringMatches: Schema.optional(Schema.Unknown),
-  bodyTag: Schema.optional(Schema.String)
-})
-  .pipe(Schema.encodeKeys({ maxTime: "max_time", minTime: "min_time", bodyScan: "body_scan", stringMatches: "string_matches", bodyTag: "body_tag" }), T.Http({ method: "POST", path: "/accounts/{account_id}/brand-protection/queries" })) as unknown as Schema.Schema<CreateQueryRequest>;
+  bodyTag: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    maxTime: "max_time",
+    minTime: "min_time",
+    bodyScan: "body_scan",
+    stringMatches: "string_matches",
+    bodyTag: "body_tag",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/brand-protection/queries",
+  }),
+) as unknown as Schema.Schema<CreateQueryRequest>;
 
 export type CreateQueryResponse = unknown;
 
-export const CreateQueryResponse = Schema.Unknown as unknown as Schema.Schema<CreateQueryResponse>;
+export const CreateQueryResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateQueryResponse>;
 
-export type CreateQueryError =
-  | DefaultErrors;
+export type CreateQueryError = DefaultErrors;
 
 export const createQuery: API.OperationMethod<
   CreateQueryRequest,
@@ -427,16 +474,20 @@ export const DeleteQueryRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
   scan: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("scan")),
-  tag: Schema.optional(Schema.String).pipe(T.HttpQuery("tag"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/brand-protection/queries" })) as unknown as Schema.Schema<DeleteQueryRequest>;
+  tag: Schema.optional(Schema.String).pipe(T.HttpQuery("tag")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/brand-protection/queries",
+  }),
+) as unknown as Schema.Schema<DeleteQueryRequest>;
 
 export type DeleteQueryResponse = unknown;
 
-export const DeleteQueryResponse = Schema.Unknown as unknown as Schema.Schema<DeleteQueryResponse>;
+export const DeleteQueryResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteQueryResponse>;
 
-export type DeleteQueryError =
-  | DefaultErrors;
+export type DeleteQueryError = DefaultErrors;
 
 export const deleteQuery: API.OperationMethod<
   DeleteQueryRequest,
@@ -458,16 +509,20 @@ export interface BulkQueryRequest {
 
 export const BulkQueryRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  queries: Schema.optional(Schema.Array(Schema.Struct({})))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/brand-protection/queries/bulk" })) as unknown as Schema.Schema<BulkQueryRequest>;
+  queries: Schema.optional(Schema.Array(Schema.Struct({}))),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/brand-protection/queries/bulk",
+  }),
+) as unknown as Schema.Schema<BulkQueryRequest>;
 
 export type BulkQueryResponse = unknown;
 
-export const BulkQueryResponse = Schema.Unknown as unknown as Schema.Schema<BulkQueryResponse>;
+export const BulkQueryResponse =
+  Schema.Unknown as unknown as Schema.Schema<BulkQueryResponse>;
 
-export type BulkQueryError =
-  | DefaultErrors;
+export type BulkQueryError = DefaultErrors;
 
 export const bulkQuery: API.OperationMethod<
   BulkQueryRequest,

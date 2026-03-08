@@ -11,29 +11,94 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // DatasetField
 // =============================================================================
 
 export interface GetDatasetFieldRequest {
-  datasetId: "access_requests" | "audit_logs" | "audit_logs_v2" | "biso_user_actions" | "casb_findings" | "device_posture_results" | "dex_application_tests" | "dex_device_state_events" | "dlp_forensic_copies" | "dns_firewall_logs" | "dns_logs" | "email_security_alerts" | "firewall_events" | "gateway_dns" | "gateway_http" | "gateway_network" | "http_requests" | "ipsec_logs" | "magic_ids_detections" | "nel_reports" | "network_analytics_logs" | "page_shield_events" | "sinkhole_http_logs" | "spectrum_events" | "ssh_logs" | "warp_config_changes" | "warp_toggle_changes" | "workers_trace_events" | "zaraz_events" | "zero_trust_network_sessions" | null;
+  datasetId:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
 }
 
 export const GetDatasetFieldRequest = Schema.Struct({
-  datasetId: Schema.Union([Schema.Literal("access_requests"), Schema.Literal("audit_logs"), Schema.Literal("audit_logs_v2"), Schema.Literal("biso_user_actions"), Schema.Literal("casb_findings"), Schema.Literal("device_posture_results"), Schema.Literal("dex_application_tests"), Schema.Literal("dex_device_state_events"), Schema.Literal("dlp_forensic_copies"), Schema.Literal("dns_firewall_logs"), Schema.Literal("dns_logs"), Schema.Literal("email_security_alerts"), Schema.Literal("firewall_events"), Schema.Literal("gateway_dns"), Schema.Literal("gateway_http"), Schema.Literal("gateway_network"), Schema.Literal("http_requests"), Schema.Literal("ipsec_logs"), Schema.Literal("magic_ids_detections"), Schema.Literal("nel_reports"), Schema.Literal("network_analytics_logs"), Schema.Literal("page_shield_events"), Schema.Literal("sinkhole_http_logs"), Schema.Literal("spectrum_events"), Schema.Literal("ssh_logs"), Schema.Literal("warp_config_changes"), Schema.Literal("warp_toggle_changes"), Schema.Literal("workers_trace_events"), Schema.Literal("zaraz_events"), Schema.Literal("zero_trust_network_sessions"), Schema.Null]).pipe(T.HttpPath("datasetId"))
-})
-  .pipe(T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/logpush/datasets/{datasetId}/fields" })) as unknown as Schema.Schema<GetDatasetFieldRequest>;
+  datasetId: Schema.Union([
+    Schema.Literal("access_requests"),
+    Schema.Literal("audit_logs"),
+    Schema.Literal("audit_logs_v2"),
+    Schema.Literal("biso_user_actions"),
+    Schema.Literal("casb_findings"),
+    Schema.Literal("device_posture_results"),
+    Schema.Literal("dex_application_tests"),
+    Schema.Literal("dex_device_state_events"),
+    Schema.Literal("dlp_forensic_copies"),
+    Schema.Literal("dns_firewall_logs"),
+    Schema.Literal("dns_logs"),
+    Schema.Literal("email_security_alerts"),
+    Schema.Literal("firewall_events"),
+    Schema.Literal("gateway_dns"),
+    Schema.Literal("gateway_http"),
+    Schema.Literal("gateway_network"),
+    Schema.Literal("http_requests"),
+    Schema.Literal("ipsec_logs"),
+    Schema.Literal("magic_ids_detections"),
+    Schema.Literal("nel_reports"),
+    Schema.Literal("network_analytics_logs"),
+    Schema.Literal("page_shield_events"),
+    Schema.Literal("sinkhole_http_logs"),
+    Schema.Literal("spectrum_events"),
+    Schema.Literal("ssh_logs"),
+    Schema.Literal("warp_config_changes"),
+    Schema.Literal("warp_toggle_changes"),
+    Schema.Literal("workers_trace_events"),
+    Schema.Literal("zaraz_events"),
+    Schema.Literal("zero_trust_network_sessions"),
+    Schema.Null,
+  ]).pipe(T.HttpPath("datasetId")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/datasets/{datasetId}/fields",
+  }),
+) as unknown as Schema.Schema<GetDatasetFieldRequest>;
 
 export type GetDatasetFieldResponse = unknown;
 
-export const GetDatasetFieldResponse = Schema.Unknown as unknown as Schema.Schema<GetDatasetFieldResponse>;
+export const GetDatasetFieldResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetDatasetFieldResponse>;
 
-export type GetDatasetFieldError =
-  | DefaultErrors;
+export type GetDatasetFieldError = DefaultErrors;
 
 export const getDatasetField: API.OperationMethod<
   GetDatasetFieldRequest,
@@ -46,26 +111,92 @@ export const getDatasetField: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // DatasetJob
 // =============================================================================
 
 export interface GetDatasetJobRequest {
-  datasetId: "access_requests" | "audit_logs" | "audit_logs_v2" | "biso_user_actions" | "casb_findings" | "device_posture_results" | "dex_application_tests" | "dex_device_state_events" | "dlp_forensic_copies" | "dns_firewall_logs" | "dns_logs" | "email_security_alerts" | "firewall_events" | "gateway_dns" | "gateway_http" | "gateway_network" | "http_requests" | "ipsec_logs" | "magic_ids_detections" | "nel_reports" | "network_analytics_logs" | "page_shield_events" | "sinkhole_http_logs" | "spectrum_events" | "ssh_logs" | "warp_config_changes" | "warp_toggle_changes" | "workers_trace_events" | "zaraz_events" | "zero_trust_network_sessions" | null;
+  datasetId:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
 }
 
 export const GetDatasetJobRequest = Schema.Struct({
-  datasetId: Schema.Union([Schema.Literal("access_requests"), Schema.Literal("audit_logs"), Schema.Literal("audit_logs_v2"), Schema.Literal("biso_user_actions"), Schema.Literal("casb_findings"), Schema.Literal("device_posture_results"), Schema.Literal("dex_application_tests"), Schema.Literal("dex_device_state_events"), Schema.Literal("dlp_forensic_copies"), Schema.Literal("dns_firewall_logs"), Schema.Literal("dns_logs"), Schema.Literal("email_security_alerts"), Schema.Literal("firewall_events"), Schema.Literal("gateway_dns"), Schema.Literal("gateway_http"), Schema.Literal("gateway_network"), Schema.Literal("http_requests"), Schema.Literal("ipsec_logs"), Schema.Literal("magic_ids_detections"), Schema.Literal("nel_reports"), Schema.Literal("network_analytics_logs"), Schema.Literal("page_shield_events"), Schema.Literal("sinkhole_http_logs"), Schema.Literal("spectrum_events"), Schema.Literal("ssh_logs"), Schema.Literal("warp_config_changes"), Schema.Literal("warp_toggle_changes"), Schema.Literal("workers_trace_events"), Schema.Literal("zaraz_events"), Schema.Literal("zero_trust_network_sessions"), Schema.Null]).pipe(T.HttpPath("datasetId"))
-})
-  .pipe(T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/logpush/datasets/{datasetId}/jobs" })) as unknown as Schema.Schema<GetDatasetJobRequest>;
+  datasetId: Schema.Union([
+    Schema.Literal("access_requests"),
+    Schema.Literal("audit_logs"),
+    Schema.Literal("audit_logs_v2"),
+    Schema.Literal("biso_user_actions"),
+    Schema.Literal("casb_findings"),
+    Schema.Literal("device_posture_results"),
+    Schema.Literal("dex_application_tests"),
+    Schema.Literal("dex_device_state_events"),
+    Schema.Literal("dlp_forensic_copies"),
+    Schema.Literal("dns_firewall_logs"),
+    Schema.Literal("dns_logs"),
+    Schema.Literal("email_security_alerts"),
+    Schema.Literal("firewall_events"),
+    Schema.Literal("gateway_dns"),
+    Schema.Literal("gateway_http"),
+    Schema.Literal("gateway_network"),
+    Schema.Literal("http_requests"),
+    Schema.Literal("ipsec_logs"),
+    Schema.Literal("magic_ids_detections"),
+    Schema.Literal("nel_reports"),
+    Schema.Literal("network_analytics_logs"),
+    Schema.Literal("page_shield_events"),
+    Schema.Literal("sinkhole_http_logs"),
+    Schema.Literal("spectrum_events"),
+    Schema.Literal("ssh_logs"),
+    Schema.Literal("warp_config_changes"),
+    Schema.Literal("warp_toggle_changes"),
+    Schema.Literal("workers_trace_events"),
+    Schema.Literal("zaraz_events"),
+    Schema.Literal("zero_trust_network_sessions"),
+    Schema.Null,
+  ]).pipe(T.HttpPath("datasetId")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/datasets/{datasetId}/jobs",
+  }),
+) as unknown as Schema.Schema<GetDatasetJobRequest>;
 
 export type GetDatasetJobResponse = unknown;
 
-export const GetDatasetJobResponse = Schema.Unknown as unknown as Schema.Schema<GetDatasetJobResponse>;
+export const GetDatasetJobResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetDatasetJobResponse>;
 
-export type GetDatasetJobError =
-  | DefaultErrors;
+export type GetDatasetJobError = DefaultErrors;
 
 export const getDatasetJob: API.OperationMethod<
   GetDatasetJobRequest,
@@ -78,7 +209,6 @@ export const getDatasetJob: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Edge
 // =============================================================================
@@ -89,16 +219,17 @@ export interface GetEdgeRequest {
 }
 
 export const GetEdgeRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/logpush/edge/jobs" })) as unknown as Schema.Schema<GetEdgeRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/logpush/edge/jobs" }),
+) as unknown as Schema.Schema<GetEdgeRequest>;
 
 export type GetEdgeResponse = unknown;
 
-export const GetEdgeResponse = Schema.Unknown as unknown as Schema.Schema<GetEdgeResponse>;
+export const GetEdgeResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetEdgeResponse>;
 
-export type GetEdgeError =
-  | DefaultErrors;
+export type GetEdgeError = DefaultErrors;
 
 export const getEdge: API.OperationMethod<
   GetEdgeRequest,
@@ -126,9 +257,10 @@ export const CreateEdgeRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   fields: Schema.optional(Schema.String),
   filter: Schema.optional(Schema.String),
-  sample: Schema.optional(Schema.Number)
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/logpush/edge/jobs" })) as unknown as Schema.Schema<CreateEdgeRequest>;
+  sample: Schema.optional(Schema.Number),
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/logpush/edge/jobs" }),
+) as unknown as Schema.Schema<CreateEdgeRequest>;
 
 export interface CreateEdgeResponse {
   /** Unique WebSocket address that will receive messages from Cloudflare’s edge. */
@@ -148,11 +280,18 @@ export const CreateEdgeResponse = Schema.Struct({
   fields: Schema.optional(Schema.String),
   filter: Schema.optional(Schema.String),
   sample: Schema.optional(Schema.Number),
-  sessionId: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ destinationConf: "destination_conf", fields: "fields", filter: "filter", sample: "sample", sessionId: "session_id" })) as unknown as Schema.Schema<CreateEdgeResponse>;
+  sessionId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    destinationConf: "destination_conf",
+    fields: "fields",
+    filter: "filter",
+    sample: "sample",
+    sessionId: "session_id",
+  }),
+) as unknown as Schema.Schema<CreateEdgeResponse>;
 
-export type CreateEdgeError =
-  | DefaultErrors;
+export type CreateEdgeError = DefaultErrors;
 
 export const createEdge: API.OperationMethod<
   CreateEdgeRequest,
@@ -164,7 +303,6 @@ export const createEdge: API.OperationMethod<
   output: CreateEdgeResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ExistsValidate
@@ -182,20 +320,24 @@ export interface DestinationExistsValidateRequest {
 export const DestinationExistsValidateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String
-})
-  .pipe(Schema.encodeKeys({ destinationConf: "destination_conf" }), T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination/exists" })) as unknown as Schema.Schema<DestinationExistsValidateRequest>;
+  destinationConf: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ destinationConf: "destination_conf" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination/exists",
+  }),
+) as unknown as Schema.Schema<DestinationExistsValidateRequest>;
 
 export interface DestinationExistsValidateResponse {
   exists?: boolean;
 }
 
 export const DestinationExistsValidateResponse = Schema.Struct({
-  exists: Schema.optional(Schema.Boolean)
+  exists: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
-export type DestinationExistsValidateError =
-  | DefaultErrors;
+export type DestinationExistsValidateError = DefaultErrors;
 
 export const destinationExistsValidate: API.OperationMethod<
   DestinationExistsValidateRequest,
@@ -208,7 +350,6 @@ export const destinationExistsValidate: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Job
 // =============================================================================
@@ -218,15 +359,50 @@ export interface GetJobRequest {
 }
 
 export const GetJobRequest = Schema.Struct({
-  jobId: Schema.Number.pipe(T.HttpPath("jobId"))
-})
-  .pipe(T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}" })) as unknown as Schema.Schema<GetJobRequest>;
+  jobId: Schema.Number.pipe(T.HttpPath("jobId")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}",
+  }),
+) as unknown as Schema.Schema<GetJobRequest>;
 
 export interface GetJobResponse {
   /** Unique id of the job. */
   id?: number;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: "access_requests" | "audit_logs" | "audit_logs_v2" | "biso_user_actions" | "casb_findings" | "device_posture_results" | "dex_application_tests" | "dex_device_state_events" | "dlp_forensic_copies" | "dns_firewall_logs" | "dns_logs" | "email_security_alerts" | "firewall_events" | "gateway_dns" | "gateway_http" | "gateway_network" | "http_requests" | "ipsec_logs" | "magic_ids_detections" | "nel_reports" | "network_analytics_logs" | "page_shield_events" | "sinkhole_http_logs" | "spectrum_events" | "ssh_logs" | "warp_config_changes" | "warp_toggle_changes" | "workers_trace_events" | "zaraz_events" | "zero_trust_network_sessions" | null;
+  dataset?:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string;
   /** Flag that indicates if the job is enabled. */
@@ -252,42 +428,152 @@ export interface GetJobResponse {
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
   name?: string | null;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: { batchPrefix?: string | null; batchSuffix?: string | null; 'CVE-2021-44228'?: boolean | null; fieldDelimiter?: string | null; fieldNames?: string[]; outputType?: "ndjson" | "csv"; recordDelimiter?: string | null; recordPrefix?: string | null; recordSuffix?: string | null; recordTemplate?: string | null; sampleRate?: number | null; timestampFormat?: "unixnano" | "unix" | "rfc3339" } | null;
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
 }
 
 export const GetJobResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
-  dataset: Schema.optional(Schema.Union([Schema.Literal("access_requests"), Schema.Literal("audit_logs"), Schema.Literal("audit_logs_v2"), Schema.Literal("biso_user_actions"), Schema.Literal("casb_findings"), Schema.Literal("device_posture_results"), Schema.Literal("dex_application_tests"), Schema.Literal("dex_device_state_events"), Schema.Literal("dlp_forensic_copies"), Schema.Literal("dns_firewall_logs"), Schema.Literal("dns_logs"), Schema.Literal("email_security_alerts"), Schema.Literal("firewall_events"), Schema.Literal("gateway_dns"), Schema.Literal("gateway_http"), Schema.Literal("gateway_network"), Schema.Literal("http_requests"), Schema.Literal("ipsec_logs"), Schema.Literal("magic_ids_detections"), Schema.Literal("nel_reports"), Schema.Literal("network_analytics_logs"), Schema.Literal("page_shield_events"), Schema.Literal("sinkhole_http_logs"), Schema.Literal("spectrum_events"), Schema.Literal("ssh_logs"), Schema.Literal("warp_config_changes"), Schema.Literal("warp_toggle_changes"), Schema.Literal("workers_trace_events"), Schema.Literal("zaraz_events"), Schema.Literal("zero_trust_network_sessions"), Schema.Null])),
+  dataset: Schema.optional(
+    Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]),
+  ),
   destinationConf: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  frequency: Schema.optional(Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null])),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxUploadBytes: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadIntervalSeconds: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadRecords: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  outputOptions: Schema.optional(Schema.Union([Schema.Struct({
-  batchPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  batchSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  'CVE-2021-44228': Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  fieldDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fieldNames: Schema.optional(Schema.Array(Schema.String)),
-  outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
-  recordDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordTemplate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  timestampFormat: Schema.optional(Schema.Literals(["unixnano", "unix", "rfc3339"]))
-}).pipe(Schema.encodeKeys({ batchPrefix: "batch_prefix", batchSuffix: "batch_suffix", 'CVE-2021-44228': "'CVE-2021-44228'", fieldDelimiter: "field_delimiter", fieldNames: "field_names", outputType: "output_type", recordDelimiter: "record_delimiter", recordPrefix: "record_prefix", recordSuffix: "record_suffix", recordTemplate: "record_template", sampleRate: "sample_rate", timestampFormat: "timestamp_format" })), Schema.Null]))
-}).pipe(Schema.encodeKeys({ id: "id", dataset: "dataset", destinationConf: "destination_conf", enabled: "enabled", errorMessage: "error_message", frequency: "frequency", kind: "kind", lastComplete: "last_complete", lastError: "last_error", logpullOptions: "logpull_options", maxUploadBytes: "max_upload_bytes", maxUploadIntervalSeconds: "max_upload_interval_seconds", maxUploadRecords: "max_upload_records", name: "name", outputOptions: "output_options" })) as unknown as Schema.Schema<GetJobResponse>;
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          batchPrefix: "batch_prefix",
+          batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
+          fieldDelimiter: "field_delimiter",
+          fieldNames: "field_names",
+          outputType: "output_type",
+          recordDelimiter: "record_delimiter",
+          recordPrefix: "record_prefix",
+          recordSuffix: "record_suffix",
+          recordTemplate: "record_template",
+          sampleRate: "sample_rate",
+          timestampFormat: "timestamp_format",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    dataset: "dataset",
+    destinationConf: "destination_conf",
+    enabled: "enabled",
+    errorMessage: "error_message",
+    frequency: "frequency",
+    kind: "kind",
+    lastComplete: "last_complete",
+    lastError: "last_error",
+    logpullOptions: "logpull_options",
+    maxUploadBytes: "max_upload_bytes",
+    maxUploadIntervalSeconds: "max_upload_interval_seconds",
+    maxUploadRecords: "max_upload_records",
+    name: "name",
+    outputOptions: "output_options",
+  }),
+) as unknown as Schema.Schema<GetJobResponse>;
 
-export type GetJobError =
-  | DefaultErrors;
+export type GetJobError = DefaultErrors;
 
 export const getJob: API.OperationMethod<
   GetJobRequest,
@@ -300,19 +586,21 @@ export const getJob: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListJobsRequest {
-}
+export interface ListJobsRequest {}
 
-export const ListJobsRequest = Schema.Struct({
-})
-  .pipe(T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs" })) as unknown as Schema.Schema<ListJobsRequest>;
+export const ListJobsRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs",
+  }),
+) as unknown as Schema.Schema<ListJobsRequest>;
 
 export type ListJobsResponse = unknown;
 
-export const ListJobsResponse = Schema.Unknown as unknown as Schema.Schema<ListJobsResponse>;
+export const ListJobsResponse =
+  Schema.Unknown as unknown as Schema.Schema<ListJobsResponse>;
 
-export type ListJobsError =
-  | DefaultErrors;
+export type ListJobsError = DefaultErrors;
 
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
@@ -333,7 +621,38 @@ export interface CreateJobRequest {
   /** Body param: Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf: string;
   /** Body param: Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: "access_requests" | "audit_logs" | "audit_logs_v2" | "biso_user_actions" | "casb_findings" | "device_posture_results" | "dex_application_tests" | "dex_device_state_events" | "dlp_forensic_copies" | "dns_firewall_logs" | "dns_logs" | "email_security_alerts" | "firewall_events" | "gateway_dns" | "gateway_http" | "gateway_network" | "http_requests" | "ipsec_logs" | "magic_ids_detections" | "nel_reports" | "network_analytics_logs" | "page_shield_events" | "sinkhole_http_logs" | "spectrum_events" | "ssh_logs" | "warp_config_changes" | "warp_toggle_changes" | "workers_trace_events" | "zaraz_events" | "zero_trust_network_sessions" | null;
+  dataset?:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
   /** Body param: Flag that indicates if the job is enabled. */
   enabled?: boolean;
   /** Body param: The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/). */
@@ -353,7 +672,20 @@ export interface CreateJobRequest {
   /** Body param: Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
   name?: string | null;
   /** Body param: The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: { batchPrefix?: string | null; batchSuffix?: string | null; 'CVE-2021-44228'?: boolean | null; fieldDelimiter?: string | null; fieldNames?: string[]; outputType?: "ndjson" | "csv"; recordDelimiter?: string | null; recordPrefix?: string | null; recordSuffix?: string | null; recordTemplate?: string | null; sampleRate?: number | null; timestampFormat?: "unixnano" | "unix" | "rfc3339" } | null;
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
   /** Body param: Ownership challenge token to prove destination ownership. */
   ownershipChallenge?: string;
 }
@@ -362,39 +694,169 @@ export const CreateJobRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   destinationConf: Schema.String,
-  dataset: Schema.optional(Schema.Union([Schema.Literal("access_requests"), Schema.Literal("audit_logs"), Schema.Literal("audit_logs_v2"), Schema.Literal("biso_user_actions"), Schema.Literal("casb_findings"), Schema.Literal("device_posture_results"), Schema.Literal("dex_application_tests"), Schema.Literal("dex_device_state_events"), Schema.Literal("dlp_forensic_copies"), Schema.Literal("dns_firewall_logs"), Schema.Literal("dns_logs"), Schema.Literal("email_security_alerts"), Schema.Literal("firewall_events"), Schema.Literal("gateway_dns"), Schema.Literal("gateway_http"), Schema.Literal("gateway_network"), Schema.Literal("http_requests"), Schema.Literal("ipsec_logs"), Schema.Literal("magic_ids_detections"), Schema.Literal("nel_reports"), Schema.Literal("network_analytics_logs"), Schema.Literal("page_shield_events"), Schema.Literal("sinkhole_http_logs"), Schema.Literal("spectrum_events"), Schema.Literal("ssh_logs"), Schema.Literal("warp_config_changes"), Schema.Literal("warp_toggle_changes"), Schema.Literal("workers_trace_events"), Schema.Literal("zaraz_events"), Schema.Literal("zero_trust_network_sessions"), Schema.Null])),
+  dataset: Schema.optional(
+    Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]),
+  ),
   enabled: Schema.optional(Schema.Boolean),
   filter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  frequency: Schema.optional(Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null])),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxUploadBytes: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadIntervalSeconds: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadRecords: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  outputOptions: Schema.optional(Schema.Union([Schema.Struct({
-  batchPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  batchSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  'CVE-2021-44228': Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  fieldDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fieldNames: Schema.optional(Schema.Array(Schema.String)),
-  outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
-  recordDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordTemplate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  timestampFormat: Schema.optional(Schema.Literals(["unixnano", "unix", "rfc3339"]))
-}).pipe(Schema.encodeKeys({ batchPrefix: "batch_prefix", batchSuffix: "batch_suffix", 'CVE-2021-44228': "'CVE-2021-44228'", fieldDelimiter: "field_delimiter", fieldNames: "field_names", outputType: "output_type", recordDelimiter: "record_delimiter", recordPrefix: "record_prefix", recordSuffix: "record_suffix", recordTemplate: "record_template", sampleRate: "sample_rate", timestampFormat: "timestamp_format" })), Schema.Null])),
-  ownershipChallenge: Schema.optional(Schema.String)
-})
-  .pipe(Schema.encodeKeys({ destinationConf: "destination_conf", dataset: "dataset", enabled: "enabled", filter: "filter", frequency: "frequency", kind: "kind", logpullOptions: "logpull_options", maxUploadBytes: "max_upload_bytes", maxUploadIntervalSeconds: "max_upload_interval_seconds", maxUploadRecords: "max_upload_records", name: "name", outputOptions: "output_options", ownershipChallenge: "ownership_challenge" }), T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs" })) as unknown as Schema.Schema<CreateJobRequest>;
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          batchPrefix: "batch_prefix",
+          batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
+          fieldDelimiter: "field_delimiter",
+          fieldNames: "field_names",
+          outputType: "output_type",
+          recordDelimiter: "record_delimiter",
+          recordPrefix: "record_prefix",
+          recordSuffix: "record_suffix",
+          recordTemplate: "record_template",
+          sampleRate: "sample_rate",
+          timestampFormat: "timestamp_format",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  ownershipChallenge: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    destinationConf: "destination_conf",
+    dataset: "dataset",
+    enabled: "enabled",
+    filter: "filter",
+    frequency: "frequency",
+    kind: "kind",
+    logpullOptions: "logpull_options",
+    maxUploadBytes: "max_upload_bytes",
+    maxUploadIntervalSeconds: "max_upload_interval_seconds",
+    maxUploadRecords: "max_upload_records",
+    name: "name",
+    outputOptions: "output_options",
+    ownershipChallenge: "ownership_challenge",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs",
+  }),
+) as unknown as Schema.Schema<CreateJobRequest>;
 
 export interface CreateJobResponse {
   /** Unique id of the job. */
   id?: number;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: "access_requests" | "audit_logs" | "audit_logs_v2" | "biso_user_actions" | "casb_findings" | "device_posture_results" | "dex_application_tests" | "dex_device_state_events" | "dlp_forensic_copies" | "dns_firewall_logs" | "dns_logs" | "email_security_alerts" | "firewall_events" | "gateway_dns" | "gateway_http" | "gateway_network" | "http_requests" | "ipsec_logs" | "magic_ids_detections" | "nel_reports" | "network_analytics_logs" | "page_shield_events" | "sinkhole_http_logs" | "spectrum_events" | "ssh_logs" | "warp_config_changes" | "warp_toggle_changes" | "workers_trace_events" | "zaraz_events" | "zero_trust_network_sessions" | null;
+  dataset?:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string;
   /** Flag that indicates if the job is enabled. */
@@ -420,42 +882,152 @@ export interface CreateJobResponse {
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
   name?: string | null;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: { batchPrefix?: string | null; batchSuffix?: string | null; 'CVE-2021-44228'?: boolean | null; fieldDelimiter?: string | null; fieldNames?: string[]; outputType?: "ndjson" | "csv"; recordDelimiter?: string | null; recordPrefix?: string | null; recordSuffix?: string | null; recordTemplate?: string | null; sampleRate?: number | null; timestampFormat?: "unixnano" | "unix" | "rfc3339" } | null;
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
 }
 
 export const CreateJobResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
-  dataset: Schema.optional(Schema.Union([Schema.Literal("access_requests"), Schema.Literal("audit_logs"), Schema.Literal("audit_logs_v2"), Schema.Literal("biso_user_actions"), Schema.Literal("casb_findings"), Schema.Literal("device_posture_results"), Schema.Literal("dex_application_tests"), Schema.Literal("dex_device_state_events"), Schema.Literal("dlp_forensic_copies"), Schema.Literal("dns_firewall_logs"), Schema.Literal("dns_logs"), Schema.Literal("email_security_alerts"), Schema.Literal("firewall_events"), Schema.Literal("gateway_dns"), Schema.Literal("gateway_http"), Schema.Literal("gateway_network"), Schema.Literal("http_requests"), Schema.Literal("ipsec_logs"), Schema.Literal("magic_ids_detections"), Schema.Literal("nel_reports"), Schema.Literal("network_analytics_logs"), Schema.Literal("page_shield_events"), Schema.Literal("sinkhole_http_logs"), Schema.Literal("spectrum_events"), Schema.Literal("ssh_logs"), Schema.Literal("warp_config_changes"), Schema.Literal("warp_toggle_changes"), Schema.Literal("workers_trace_events"), Schema.Literal("zaraz_events"), Schema.Literal("zero_trust_network_sessions"), Schema.Null])),
+  dataset: Schema.optional(
+    Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]),
+  ),
   destinationConf: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  frequency: Schema.optional(Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null])),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxUploadBytes: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadIntervalSeconds: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadRecords: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  outputOptions: Schema.optional(Schema.Union([Schema.Struct({
-  batchPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  batchSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  'CVE-2021-44228': Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  fieldDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fieldNames: Schema.optional(Schema.Array(Schema.String)),
-  outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
-  recordDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordTemplate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  timestampFormat: Schema.optional(Schema.Literals(["unixnano", "unix", "rfc3339"]))
-}).pipe(Schema.encodeKeys({ batchPrefix: "batch_prefix", batchSuffix: "batch_suffix", 'CVE-2021-44228': "'CVE-2021-44228'", fieldDelimiter: "field_delimiter", fieldNames: "field_names", outputType: "output_type", recordDelimiter: "record_delimiter", recordPrefix: "record_prefix", recordSuffix: "record_suffix", recordTemplate: "record_template", sampleRate: "sample_rate", timestampFormat: "timestamp_format" })), Schema.Null]))
-}).pipe(Schema.encodeKeys({ id: "id", dataset: "dataset", destinationConf: "destination_conf", enabled: "enabled", errorMessage: "error_message", frequency: "frequency", kind: "kind", lastComplete: "last_complete", lastError: "last_error", logpullOptions: "logpull_options", maxUploadBytes: "max_upload_bytes", maxUploadIntervalSeconds: "max_upload_interval_seconds", maxUploadRecords: "max_upload_records", name: "name", outputOptions: "output_options" })) as unknown as Schema.Schema<CreateJobResponse>;
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          batchPrefix: "batch_prefix",
+          batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
+          fieldDelimiter: "field_delimiter",
+          fieldNames: "field_names",
+          outputType: "output_type",
+          recordDelimiter: "record_delimiter",
+          recordPrefix: "record_prefix",
+          recordSuffix: "record_suffix",
+          recordTemplate: "record_template",
+          sampleRate: "sample_rate",
+          timestampFormat: "timestamp_format",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    dataset: "dataset",
+    destinationConf: "destination_conf",
+    enabled: "enabled",
+    errorMessage: "error_message",
+    frequency: "frequency",
+    kind: "kind",
+    lastComplete: "last_complete",
+    lastError: "last_error",
+    logpullOptions: "logpull_options",
+    maxUploadBytes: "max_upload_bytes",
+    maxUploadIntervalSeconds: "max_upload_interval_seconds",
+    maxUploadRecords: "max_upload_records",
+    name: "name",
+    outputOptions: "output_options",
+  }),
+) as unknown as Schema.Schema<CreateJobResponse>;
 
-export type CreateJobError =
-  | DefaultErrors;
+export type CreateJobError = DefaultErrors;
 
 export const createJob: API.OperationMethod<
   CreateJobRequest,
@@ -495,7 +1067,20 @@ export interface UpdateJobRequest {
   /** Body param: Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
   name?: string | null;
   /** Body param: The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: { batchPrefix?: string | null; batchSuffix?: string | null; 'CVE-2021-44228'?: boolean | null; fieldDelimiter?: string | null; fieldNames?: string[]; outputType?: "ndjson" | "csv"; recordDelimiter?: string | null; recordPrefix?: string | null; recordSuffix?: string | null; recordTemplate?: string | null; sampleRate?: number | null; timestampFormat?: "unixnano" | "unix" | "rfc3339" } | null;
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
   /** Body param: Ownership challenge token to prove destination ownership. */
   ownershipChallenge?: string;
 }
@@ -507,36 +1092,131 @@ export const UpdateJobRequest = Schema.Struct({
   destinationConf: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   filter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  frequency: Schema.optional(Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null])),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxUploadBytes: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadIntervalSeconds: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadRecords: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  outputOptions: Schema.optional(Schema.Union([Schema.Struct({
-  batchPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  batchSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  'CVE-2021-44228': Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  fieldDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fieldNames: Schema.optional(Schema.Array(Schema.String)),
-  outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
-  recordDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordTemplate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  timestampFormat: Schema.optional(Schema.Literals(["unixnano", "unix", "rfc3339"]))
-}).pipe(Schema.encodeKeys({ batchPrefix: "batch_prefix", batchSuffix: "batch_suffix", 'CVE-2021-44228': "'CVE-2021-44228'", fieldDelimiter: "field_delimiter", fieldNames: "field_names", outputType: "output_type", recordDelimiter: "record_delimiter", recordPrefix: "record_prefix", recordSuffix: "record_suffix", recordTemplate: "record_template", sampleRate: "sample_rate", timestampFormat: "timestamp_format" })), Schema.Null])),
-  ownershipChallenge: Schema.optional(Schema.String)
-})
-  .pipe(Schema.encodeKeys({ destinationConf: "destination_conf", enabled: "enabled", filter: "filter", frequency: "frequency", kind: "kind", logpullOptions: "logpull_options", maxUploadBytes: "max_upload_bytes", maxUploadIntervalSeconds: "max_upload_interval_seconds", maxUploadRecords: "max_upload_records", name: "name", outputOptions: "output_options", ownershipChallenge: "ownership_challenge" }), T.Http({ method: "PUT", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}" })) as unknown as Schema.Schema<UpdateJobRequest>;
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          batchPrefix: "batch_prefix",
+          batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
+          fieldDelimiter: "field_delimiter",
+          fieldNames: "field_names",
+          outputType: "output_type",
+          recordDelimiter: "record_delimiter",
+          recordPrefix: "record_prefix",
+          recordSuffix: "record_suffix",
+          recordTemplate: "record_template",
+          sampleRate: "sample_rate",
+          timestampFormat: "timestamp_format",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  ownershipChallenge: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    destinationConf: "destination_conf",
+    enabled: "enabled",
+    filter: "filter",
+    frequency: "frequency",
+    kind: "kind",
+    logpullOptions: "logpull_options",
+    maxUploadBytes: "max_upload_bytes",
+    maxUploadIntervalSeconds: "max_upload_interval_seconds",
+    maxUploadRecords: "max_upload_records",
+    name: "name",
+    outputOptions: "output_options",
+    ownershipChallenge: "ownership_challenge",
+  }),
+  T.Http({
+    method: "PUT",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}",
+  }),
+) as unknown as Schema.Schema<UpdateJobRequest>;
 
 export interface UpdateJobResponse {
   /** Unique id of the job. */
   id?: number;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: "access_requests" | "audit_logs" | "audit_logs_v2" | "biso_user_actions" | "casb_findings" | "device_posture_results" | "dex_application_tests" | "dex_device_state_events" | "dlp_forensic_copies" | "dns_firewall_logs" | "dns_logs" | "email_security_alerts" | "firewall_events" | "gateway_dns" | "gateway_http" | "gateway_network" | "http_requests" | "ipsec_logs" | "magic_ids_detections" | "nel_reports" | "network_analytics_logs" | "page_shield_events" | "sinkhole_http_logs" | "spectrum_events" | "ssh_logs" | "warp_config_changes" | "warp_toggle_changes" | "workers_trace_events" | "zaraz_events" | "zero_trust_network_sessions" | null;
+  dataset?:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string;
   /** Flag that indicates if the job is enabled. */
@@ -562,42 +1242,152 @@ export interface UpdateJobResponse {
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
   name?: string | null;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: { batchPrefix?: string | null; batchSuffix?: string | null; 'CVE-2021-44228'?: boolean | null; fieldDelimiter?: string | null; fieldNames?: string[]; outputType?: "ndjson" | "csv"; recordDelimiter?: string | null; recordPrefix?: string | null; recordSuffix?: string | null; recordTemplate?: string | null; sampleRate?: number | null; timestampFormat?: "unixnano" | "unix" | "rfc3339" } | null;
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
 }
 
 export const UpdateJobResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
-  dataset: Schema.optional(Schema.Union([Schema.Literal("access_requests"), Schema.Literal("audit_logs"), Schema.Literal("audit_logs_v2"), Schema.Literal("biso_user_actions"), Schema.Literal("casb_findings"), Schema.Literal("device_posture_results"), Schema.Literal("dex_application_tests"), Schema.Literal("dex_device_state_events"), Schema.Literal("dlp_forensic_copies"), Schema.Literal("dns_firewall_logs"), Schema.Literal("dns_logs"), Schema.Literal("email_security_alerts"), Schema.Literal("firewall_events"), Schema.Literal("gateway_dns"), Schema.Literal("gateway_http"), Schema.Literal("gateway_network"), Schema.Literal("http_requests"), Schema.Literal("ipsec_logs"), Schema.Literal("magic_ids_detections"), Schema.Literal("nel_reports"), Schema.Literal("network_analytics_logs"), Schema.Literal("page_shield_events"), Schema.Literal("sinkhole_http_logs"), Schema.Literal("spectrum_events"), Schema.Literal("ssh_logs"), Schema.Literal("warp_config_changes"), Schema.Literal("warp_toggle_changes"), Schema.Literal("workers_trace_events"), Schema.Literal("zaraz_events"), Schema.Literal("zero_trust_network_sessions"), Schema.Null])),
+  dataset: Schema.optional(
+    Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]),
+  ),
   destinationConf: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  frequency: Schema.optional(Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null])),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxUploadBytes: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadIntervalSeconds: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
-  maxUploadRecords: Schema.optional(Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null])),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  outputOptions: Schema.optional(Schema.Union([Schema.Struct({
-  batchPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  batchSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  'CVE-2021-44228': Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  fieldDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fieldNames: Schema.optional(Schema.Array(Schema.String)),
-  outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
-  recordDelimiter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  recordTemplate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  timestampFormat: Schema.optional(Schema.Literals(["unixnano", "unix", "rfc3339"]))
-}).pipe(Schema.encodeKeys({ batchPrefix: "batch_prefix", batchSuffix: "batch_suffix", 'CVE-2021-44228': "'CVE-2021-44228'", fieldDelimiter: "field_delimiter", fieldNames: "field_names", outputType: "output_type", recordDelimiter: "record_delimiter", recordPrefix: "record_prefix", recordSuffix: "record_suffix", recordTemplate: "record_template", sampleRate: "sample_rate", timestampFormat: "timestamp_format" })), Schema.Null]))
-}).pipe(Schema.encodeKeys({ id: "id", dataset: "dataset", destinationConf: "destination_conf", enabled: "enabled", errorMessage: "error_message", frequency: "frequency", kind: "kind", lastComplete: "last_complete", lastError: "last_error", logpullOptions: "logpull_options", maxUploadBytes: "max_upload_bytes", maxUploadIntervalSeconds: "max_upload_interval_seconds", maxUploadRecords: "max_upload_records", name: "name", outputOptions: "output_options" })) as unknown as Schema.Schema<UpdateJobResponse>;
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          batchPrefix: "batch_prefix",
+          batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
+          fieldDelimiter: "field_delimiter",
+          fieldNames: "field_names",
+          outputType: "output_type",
+          recordDelimiter: "record_delimiter",
+          recordPrefix: "record_prefix",
+          recordSuffix: "record_suffix",
+          recordTemplate: "record_template",
+          sampleRate: "sample_rate",
+          timestampFormat: "timestamp_format",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    dataset: "dataset",
+    destinationConf: "destination_conf",
+    enabled: "enabled",
+    errorMessage: "error_message",
+    frequency: "frequency",
+    kind: "kind",
+    lastComplete: "last_complete",
+    lastError: "last_error",
+    logpullOptions: "logpull_options",
+    maxUploadBytes: "max_upload_bytes",
+    maxUploadIntervalSeconds: "max_upload_interval_seconds",
+    maxUploadRecords: "max_upload_records",
+    name: "name",
+    outputOptions: "output_options",
+  }),
+) as unknown as Schema.Schema<UpdateJobResponse>;
 
-export type UpdateJobError =
-  | DefaultErrors;
+export type UpdateJobError = DefaultErrors;
 
 export const updateJob: API.OperationMethod<
   UpdateJobRequest,
@@ -615,9 +1405,13 @@ export interface DeleteJobRequest {
 }
 
 export const DeleteJobRequest = Schema.Struct({
-  jobId: Schema.Number.pipe(T.HttpPath("jobId"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}" })) as unknown as Schema.Schema<DeleteJobRequest>;
+  jobId: Schema.Number.pipe(T.HttpPath("jobId")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}",
+  }),
+) as unknown as Schema.Schema<DeleteJobRequest>;
 
 export interface DeleteJobResponse {
   /** Unique id of the job. */
@@ -625,11 +1419,10 @@ export interface DeleteJobResponse {
 }
 
 export const DeleteJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number)
+  id: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteJobResponse>;
 
-export type DeleteJobError =
-  | DefaultErrors;
+export type DeleteJobError = DefaultErrors;
 
 export const deleteJob: API.OperationMethod<
   DeleteJobRequest,
@@ -641,7 +1434,6 @@ export const deleteJob: API.OperationMethod<
   output: DeleteJobResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Ownership
@@ -659,9 +1451,14 @@ export interface CreateOwnershipRequest {
 export const CreateOwnershipRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String
-})
-  .pipe(Schema.encodeKeys({ destinationConf: "destination_conf" }), T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership" })) as unknown as Schema.Schema<CreateOwnershipRequest>;
+  destinationConf: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ destinationConf: "destination_conf" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership",
+  }),
+) as unknown as Schema.Schema<CreateOwnershipRequest>;
 
 export interface CreateOwnershipResponse {
   filename?: string;
@@ -672,11 +1469,10 @@ export interface CreateOwnershipResponse {
 export const CreateOwnershipResponse = Schema.Struct({
   filename: Schema.optional(Schema.String),
   message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean)
+  valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
-export type CreateOwnershipError =
-  | DefaultErrors;
+export type CreateOwnershipError = DefaultErrors;
 
 export const createOwnership: API.OperationMethod<
   CreateOwnershipRequest,
@@ -704,20 +1500,27 @@ export const ValidateOwnershipRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   destinationConf: Schema.String,
-  ownershipChallenge: Schema.String
-})
-  .pipe(Schema.encodeKeys({ destinationConf: "destination_conf", ownershipChallenge: "ownership_challenge" }), T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate" })) as unknown as Schema.Schema<ValidateOwnershipRequest>;
+  ownershipChallenge: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    destinationConf: "destination_conf",
+    ownershipChallenge: "ownership_challenge",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate",
+  }),
+) as unknown as Schema.Schema<ValidateOwnershipRequest>;
 
 export interface ValidateOwnershipResponse {
   valid?: boolean;
 }
 
 export const ValidateOwnershipResponse = Schema.Struct({
-  valid: Schema.optional(Schema.Boolean)
+  valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
-export type ValidateOwnershipError =
-  | DefaultErrors;
+export type ValidateOwnershipError = DefaultErrors;
 
 export const validateOwnership: API.OperationMethod<
   ValidateOwnershipRequest,
@@ -729,7 +1532,6 @@ export const validateOwnership: API.OperationMethod<
   output: ValidateOwnershipResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Validate
@@ -747,9 +1549,14 @@ export interface DestinationValidateRequest {
 export const DestinationValidateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String
-})
-  .pipe(Schema.encodeKeys({ destinationConf: "destination_conf" }), T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination" })) as unknown as Schema.Schema<DestinationValidateRequest>;
+  destinationConf: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ destinationConf: "destination_conf" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination",
+  }),
+) as unknown as Schema.Schema<DestinationValidateRequest>;
 
 export interface DestinationValidateResponse {
   message?: string;
@@ -758,11 +1565,10 @@ export interface DestinationValidateResponse {
 
 export const DestinationValidateResponse = Schema.Struct({
   message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean)
+  valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DestinationValidateResponse>;
 
-export type DestinationValidateError =
-  | DefaultErrors;
+export type DestinationValidateError = DefaultErrors;
 
 export const destinationValidate: API.OperationMethod<
   DestinationValidateRequest,
@@ -787,9 +1593,14 @@ export interface OriginValidateRequest {
 export const OriginValidateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  logpullOptions: Schema.Union([Schema.String, Schema.Null])
-})
-  .pipe(Schema.encodeKeys({ logpullOptions: "logpull_options" }), T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/origin" })) as unknown as Schema.Schema<OriginValidateRequest>;
+  logpullOptions: Schema.Union([Schema.String, Schema.Null]),
+}).pipe(
+  Schema.encodeKeys({ logpullOptions: "logpull_options" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/origin",
+  }),
+) as unknown as Schema.Schema<OriginValidateRequest>;
 
 export interface OriginValidateResponse {
   message?: string;
@@ -798,11 +1609,10 @@ export interface OriginValidateResponse {
 
 export const OriginValidateResponse = Schema.Struct({
   message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean)
+  valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<OriginValidateResponse>;
 
-export type OriginValidateError =
-  | DefaultErrors;
+export type OriginValidateError = DefaultErrors;
 
 export const originValidate: API.OperationMethod<
   OriginValidateRequest,

@@ -10,46 +10,76 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "Cost and Usage Report Service", serviceShapeName: "AWSOrigamiServiceGatewayService" });
+const svc = T.AwsApiService({
+  sdkId: "Cost and Usage Report Service",
+  serviceShapeName: "AWSOrigamiServiceGatewayService",
+});
 const auth = T.AwsAuthSigv4({ name: "cur" });
 const ver = T.ServiceVersion("2017-01-06");
 const proto = T.AwsProtocolsAwsJson1_1();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
-    if ((UseDualStack === true)) {
-      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+    if (UseDualStack === true) {
+      return err(
+        "Invalid Configuration: Dualstack and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((UseFIPS === true) && (UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsFIPS")) && (true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://cur-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseFIPS === true && UseDualStack === true) {
+          if (
+            true === _.getAttr(PartitionResult, "supportsFIPS") &&
+            true === _.getAttr(PartitionResult, "supportsDualStack")
+          ) {
+            return e(
+              `https://cur-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("FIPS and DualStack are enabled, but this partition does not support one or both");
+          return err(
+            "FIPS and DualStack are enabled, but this partition does not support one or both",
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://cur-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://cur-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        if ((UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://cur.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseDualStack === true) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            return e(
+              `https://cur.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("DualStack is enabled but this partition does not support DualStack");
+          return err(
+            "DualStack is enabled but this partition does not support DualStack",
+          );
         }
-        return e(`https://cur.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://cur.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -70,28 +100,43 @@ export type TagKey = string;
 export type TagValue = string;
 
 //# Schemas
-export interface DeleteReportDefinitionRequest { ReportName: string }
-export const DeleteReportDefinitionRequest = S.suspend(() => S.Struct({ReportName: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteReportDefinitionRequest" }) as any as S.Schema<DeleteReportDefinitionRequest>;
-export interface DeleteReportDefinitionResponse { ResponseMessage?: string }
-export const DeleteReportDefinitionResponse = S.suspend(() => S.Struct({ResponseMessage: S.optional(S.String)})).annotate({ identifier: "DeleteReportDefinitionResponse" }) as any as S.Schema<DeleteReportDefinitionResponse>;
-export interface DescribeReportDefinitionsRequest { MaxResults?: number; NextToken?: string }
-export const DescribeReportDefinitionsRequest = S.suspend(() => S.Struct({MaxResults: S.optional(S.Number), NextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DescribeReportDefinitionsRequest" }) as any as S.Schema<DescribeReportDefinitionsRequest>;
-export type TimeUnit =
-  | "HOURLY"
-  | "DAILY"
-  | "MONTHLY"
-  | (string & {});
+export interface DeleteReportDefinitionRequest {
+  ReportName: string;
+}
+export const DeleteReportDefinitionRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteReportDefinitionRequest",
+}) as any as S.Schema<DeleteReportDefinitionRequest>;
+export interface DeleteReportDefinitionResponse {
+  ResponseMessage?: string;
+}
+export const DeleteReportDefinitionResponse = S.suspend(() =>
+  S.Struct({ ResponseMessage: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteReportDefinitionResponse",
+}) as any as S.Schema<DeleteReportDefinitionResponse>;
+export interface DescribeReportDefinitionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeReportDefinitionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeReportDefinitionsRequest",
+}) as any as S.Schema<DescribeReportDefinitionsRequest>;
+export type TimeUnit = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
 export const TimeUnit = S.String;
-export type ReportFormat =
-  | "textORcsv"
-  | "Parquet"
-  | (string & {});
+export type ReportFormat = "textORcsv" | "Parquet" | (string & {});
 export const ReportFormat = S.String;
-export type CompressionFormat =
-  | "ZIP"
-  | "GZIP"
-  | "Parquet"
-  | (string & {});
+export type CompressionFormat = "ZIP" | "GZIP" | "Parquet" | (string & {});
 export const CompressionFormat = S.String;
 export type SchemaElement =
   | "RESOURCES"
@@ -151,47 +196,182 @@ export type LastStatus =
   | "ERROR_NO_BUCKET"
   | (string & {});
 export const LastStatus = S.String;
-export interface ReportStatus { lastDelivery?: string; lastStatus?: LastStatus }
-export const ReportStatus = S.suspend(() => S.Struct({lastDelivery: S.optional(S.String), lastStatus: S.optional(LastStatus)})).annotate({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
-export interface ReportDefinition { ReportName: string; TimeUnit: TimeUnit; Format: ReportFormat; Compression: CompressionFormat; AdditionalSchemaElements: SchemaElement[]; S3Bucket: string; S3Prefix: string; S3Region: AWSRegion; AdditionalArtifacts?: AdditionalArtifact[]; RefreshClosedReports?: boolean; ReportVersioning?: ReportVersioning; BillingViewArn?: string; ReportStatus?: ReportStatus }
-export const ReportDefinition = S.suspend(() => S.Struct({ReportName: S.String, TimeUnit: TimeUnit, Format: ReportFormat, Compression: CompressionFormat, AdditionalSchemaElements: SchemaElementList, S3Bucket: S.String, S3Prefix: S.String, S3Region: AWSRegion, AdditionalArtifacts: S.optional(AdditionalArtifactList), RefreshClosedReports: S.optional(S.Boolean), ReportVersioning: S.optional(ReportVersioning), BillingViewArn: S.optional(S.String), ReportStatus: S.optional(ReportStatus)})).annotate({ identifier: "ReportDefinition" }) as any as S.Schema<ReportDefinition>;
+export interface ReportStatus {
+  lastDelivery?: string;
+  lastStatus?: LastStatus;
+}
+export const ReportStatus = S.suspend(() =>
+  S.Struct({
+    lastDelivery: S.optional(S.String),
+    lastStatus: S.optional(LastStatus),
+  }),
+).annotate({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
+export interface ReportDefinition {
+  ReportName: string;
+  TimeUnit: TimeUnit;
+  Format: ReportFormat;
+  Compression: CompressionFormat;
+  AdditionalSchemaElements: SchemaElement[];
+  S3Bucket: string;
+  S3Prefix: string;
+  S3Region: AWSRegion;
+  AdditionalArtifacts?: AdditionalArtifact[];
+  RefreshClosedReports?: boolean;
+  ReportVersioning?: ReportVersioning;
+  BillingViewArn?: string;
+  ReportStatus?: ReportStatus;
+}
+export const ReportDefinition = S.suspend(() =>
+  S.Struct({
+    ReportName: S.String,
+    TimeUnit: TimeUnit,
+    Format: ReportFormat,
+    Compression: CompressionFormat,
+    AdditionalSchemaElements: SchemaElementList,
+    S3Bucket: S.String,
+    S3Prefix: S.String,
+    S3Region: AWSRegion,
+    AdditionalArtifacts: S.optional(AdditionalArtifactList),
+    RefreshClosedReports: S.optional(S.Boolean),
+    ReportVersioning: S.optional(ReportVersioning),
+    BillingViewArn: S.optional(S.String),
+    ReportStatus: S.optional(ReportStatus),
+  }),
+).annotate({
+  identifier: "ReportDefinition",
+}) as any as S.Schema<ReportDefinition>;
 export type ReportDefinitionList = ReportDefinition[];
 export const ReportDefinitionList = S.Array(ReportDefinition);
-export interface DescribeReportDefinitionsResponse { ReportDefinitions?: ReportDefinition[]; NextToken?: string }
-export const DescribeReportDefinitionsResponse = S.suspend(() => S.Struct({ReportDefinitions: S.optional(ReportDefinitionList), NextToken: S.optional(S.String)})).annotate({ identifier: "DescribeReportDefinitionsResponse" }) as any as S.Schema<DescribeReportDefinitionsResponse>;
-export interface ListTagsForResourceRequest { ReportName: string }
-export const ListTagsForResourceRequest = S.suspend(() => S.Struct({ReportName: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListTagsForResourceRequest" }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface Tag { Key: string; Value: string }
-export const Tag = S.suspend(() => S.Struct({Key: S.String, Value: S.String})).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export interface DescribeReportDefinitionsResponse {
+  ReportDefinitions?: ReportDefinition[];
+  NextToken?: string;
+}
+export const DescribeReportDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    ReportDefinitions: S.optional(ReportDefinitionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeReportDefinitionsResponse",
+}) as any as S.Schema<DescribeReportDefinitionsResponse>;
+export interface ListTagsForResourceRequest {
+  ReportName: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export interface ListTagsForResourceResponse { Tags?: Tag[] }
-export const ListTagsForResourceResponse = S.suspend(() => S.Struct({Tags: S.optional(TagList)})).annotate({ identifier: "ListTagsForResourceResponse" }) as any as S.Schema<ListTagsForResourceResponse>;
-export interface ModifyReportDefinitionRequest { ReportName: string; ReportDefinition: ReportDefinition }
-export const ModifyReportDefinitionRequest = S.suspend(() => S.Struct({ReportName: S.String, ReportDefinition: ReportDefinition}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ModifyReportDefinitionRequest" }) as any as S.Schema<ModifyReportDefinitionRequest>;
-export interface ModifyReportDefinitionResponse {  }
-export const ModifyReportDefinitionResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "ModifyReportDefinitionResponse" }) as any as S.Schema<ModifyReportDefinitionResponse>;
-export interface PutReportDefinitionRequest { ReportDefinition: ReportDefinition; Tags?: Tag[] }
-export const PutReportDefinitionRequest = S.suspend(() => S.Struct({ReportDefinition: ReportDefinition, Tags: S.optional(TagList)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "PutReportDefinitionRequest" }) as any as S.Schema<PutReportDefinitionRequest>;
-export interface PutReportDefinitionResponse {  }
-export const PutReportDefinitionResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "PutReportDefinitionResponse" }) as any as S.Schema<PutReportDefinitionResponse>;
-export interface TagResourceRequest { ReportName: string; Tags: Tag[] }
-export const TagResourceRequest = S.suspend(() => S.Struct({ReportName: S.String, Tags: TagList}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {  }
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" }) as any as S.Schema<TagResourceResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ModifyReportDefinitionRequest {
+  ReportName: string;
+  ReportDefinition: ReportDefinition;
+}
+export const ModifyReportDefinitionRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, ReportDefinition: ReportDefinition }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ModifyReportDefinitionRequest",
+}) as any as S.Schema<ModifyReportDefinitionRequest>;
+export interface ModifyReportDefinitionResponse {}
+export const ModifyReportDefinitionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ModifyReportDefinitionResponse",
+}) as any as S.Schema<ModifyReportDefinitionResponse>;
+export interface PutReportDefinitionRequest {
+  ReportDefinition: ReportDefinition;
+  Tags?: Tag[];
+}
+export const PutReportDefinitionRequest = S.suspend(() =>
+  S.Struct({
+    ReportDefinition: ReportDefinition,
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "PutReportDefinitionRequest",
+}) as any as S.Schema<PutReportDefinitionRequest>;
+export interface PutReportDefinitionResponse {}
+export const PutReportDefinitionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutReportDefinitionResponse",
+}) as any as S.Schema<PutReportDefinitionResponse>;
+export interface TagResourceRequest {
+  ReportName: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export interface UntagResourceRequest { ReportName: string; TagKeys: string[] }
-export const UntagResourceRequest = S.suspend(() => S.Struct({ReportName: S.String, TagKeys: TagKeyList}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {  }
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UntagResourceResponse" }) as any as S.Schema<UntagResourceResponse>;
+export interface UntagResourceRequest {
+  ReportName: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 
 //# Errors
-export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()("InternalErrorException", {Message: S.optional(S.String)}).pipe(C.withServerError) {}
-export class ValidationException extends S.TaggedErrorClass<ValidationException>()("ValidationException", {Message: S.optional(S.String)}) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()("ResourceNotFoundException", {Message: S.optional(S.String)}) {}
-export class DuplicateReportNameException extends S.TaggedErrorClass<DuplicateReportNameException>()("DuplicateReportNameException", {Message: S.optional(S.String)}) {}
-export class ReportLimitReachedException extends S.TaggedErrorClass<ReportLimitReachedException>()("ReportLimitReachedException", {Message: S.optional(S.String)}) {}
+export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()(
+  "InternalErrorException",
+  { Message: S.optional(S.String) },
+).pipe(C.withServerError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class DuplicateReportNameException extends S.TaggedErrorClass<DuplicateReportNameException>()(
+  "DuplicateReportNameException",
+  { Message: S.optional(S.String) },
+) {}
+export class ReportLimitReachedException extends S.TaggedErrorClass<ReportLimitReachedException>()(
+  "ReportLimitReachedException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
 export type DeleteReportDefinitionError =
@@ -202,17 +382,52 @@ export type DeleteReportDefinitionError =
  * Deletes the specified report. Any tags associated with the report are also
  * deleted.
  */
-export const deleteReportDefinition: API.OperationMethod<DeleteReportDefinitionRequest, DeleteReportDefinitionResponse, DeleteReportDefinitionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteReportDefinitionRequest, output: DeleteReportDefinitionResponse, errors: [InternalErrorException, ValidationException] }));
+export const deleteReportDefinition: API.OperationMethod<
+  DeleteReportDefinitionRequest,
+  DeleteReportDefinitionResponse,
+  DeleteReportDefinitionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReportDefinitionRequest,
+  output: DeleteReportDefinitionResponse,
+  errors: [InternalErrorException, ValidationException],
+}));
 export type DescribeReportDefinitionsError =
   | InternalErrorException
   | CommonErrors;
 /**
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
-export const describeReportDefinitions: API.OperationMethod<DescribeReportDefinitionsRequest, DescribeReportDefinitionsResponse, DescribeReportDefinitionsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: DescribeReportDefinitionsRequest) => stream.Stream<DescribeReportDefinitionsResponse, DescribeReportDefinitionsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: DescribeReportDefinitionsRequest) => stream.Stream<unknown, DescribeReportDefinitionsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: DescribeReportDefinitionsRequest, output: DescribeReportDefinitionsResponse, errors: [InternalErrorException], pagination: {"inputToken":"NextToken","outputToken":"NextToken","pageSize":"MaxResults"} as const }));
+export const describeReportDefinitions: API.OperationMethod<
+  DescribeReportDefinitionsRequest,
+  DescribeReportDefinitionsResponse,
+  DescribeReportDefinitionsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: DescribeReportDefinitionsRequest,
+  ) => stream.Stream<
+    DescribeReportDefinitionsResponse,
+    DescribeReportDefinitionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReportDefinitionsRequest,
+  ) => stream.Stream<
+    unknown,
+    DescribeReportDefinitionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReportDefinitionsRequest,
+  output: DescribeReportDefinitionsResponse,
+  errors: [InternalErrorException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 export type ListTagsForResourceError =
   | InternalErrorException
   | ResourceNotFoundException
@@ -221,7 +436,20 @@ export type ListTagsForResourceError =
 /**
  * Lists the tags associated with the specified report definition.
  */
-export const listTagsForResource: API.OperationMethod<ListTagsForResourceRequest, ListTagsForResourceResponse, ListTagsForResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ListTagsForResourceRequest, output: ListTagsForResourceResponse, errors: [InternalErrorException, ResourceNotFoundException, ValidationException] }));
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalErrorException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 export type ModifyReportDefinitionError =
   | InternalErrorException
   | ValidationException
@@ -229,7 +457,16 @@ export type ModifyReportDefinitionError =
 /**
  * Allows you to programmatically update your report preferences.
  */
-export const modifyReportDefinition: API.OperationMethod<ModifyReportDefinitionRequest, ModifyReportDefinitionResponse, ModifyReportDefinitionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ModifyReportDefinitionRequest, output: ModifyReportDefinitionResponse, errors: [InternalErrorException, ValidationException] }));
+export const modifyReportDefinition: API.OperationMethod<
+  ModifyReportDefinitionRequest,
+  ModifyReportDefinitionResponse,
+  ModifyReportDefinitionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyReportDefinitionRequest,
+  output: ModifyReportDefinitionResponse,
+  errors: [InternalErrorException, ValidationException],
+}));
 export type PutReportDefinitionError =
   | DuplicateReportNameException
   | InternalErrorException
@@ -240,7 +477,22 @@ export type PutReportDefinitionError =
 /**
  * Creates a new report using the description that you provide.
  */
-export const putReportDefinition: API.OperationMethod<PutReportDefinitionRequest, PutReportDefinitionResponse, PutReportDefinitionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: PutReportDefinitionRequest, output: PutReportDefinitionResponse, errors: [DuplicateReportNameException, InternalErrorException, ReportLimitReachedException, ResourceNotFoundException, ValidationException] }));
+export const putReportDefinition: API.OperationMethod<
+  PutReportDefinitionRequest,
+  PutReportDefinitionResponse,
+  PutReportDefinitionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutReportDefinitionRequest,
+  output: PutReportDefinitionResponse,
+  errors: [
+    DuplicateReportNameException,
+    InternalErrorException,
+    ReportLimitReachedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 export type TagResourceError =
   | InternalErrorException
   | ResourceNotFoundException
@@ -249,7 +501,20 @@ export type TagResourceError =
 /**
  * Associates a set of tags with a report definition.
  */
-export const tagResource: API.OperationMethod<TagResourceRequest, TagResourceResponse, TagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: TagResourceRequest, output: TagResourceResponse, errors: [InternalErrorException, ResourceNotFoundException, ValidationException] }));
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalErrorException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 export type UntagResourceError =
   | InternalErrorException
   | ResourceNotFoundException
@@ -258,4 +523,17 @@ export type UntagResourceError =
 /**
  * Disassociates a set of tags from a report definition.
  */
-export const untagResource: API.OperationMethod<UntagResourceRequest, UntagResourceResponse, UntagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UntagResourceRequest, output: UntagResourceResponse, errors: [InternalErrorException, ResourceNotFoundException, ValidationException] }));
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalErrorException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));

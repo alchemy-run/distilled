@@ -25,34 +25,59 @@ const svc = T.Service({
 
 export interface ExternalAction {
   /** The type of external action. */
-  type?: "EXTERNAL_ACTION_TYPE_UNSPECIFIED" | "REVIEW_PRODUCT_ISSUE_IN_MERCHANT_CENTER" | "REVIEW_ACCOUNT_ISSUE_IN_MERCHANT_CENTER" | "LEGAL_APPEAL_IN_HELP_CENTER" | "VERIFY_IDENTITY_IN_MERCHANT_CENTER" | "VERIFY_BUSINESS_VIDEO_IN_MERCHANT_CENTER" | (string & {});
+  type?:
+    | "EXTERNAL_ACTION_TYPE_UNSPECIFIED"
+    | "REVIEW_PRODUCT_ISSUE_IN_MERCHANT_CENTER"
+    | "REVIEW_ACCOUNT_ISSUE_IN_MERCHANT_CENTER"
+    | "LEGAL_APPEAL_IN_HELP_CENTER"
+    | "VERIFY_IDENTITY_IN_MERCHANT_CENTER"
+    | "VERIFY_BUSINESS_VIDEO_IN_MERCHANT_CENTER"
+    | (string & {});
   /** URL to external system, for example Merchant Center, where the business can perform the action. */
   uri?: string;
 }
 
-export const ExternalAction: Schema.Schema<ExternalAction> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExternalAction" }) as any as Schema.Schema<ExternalAction>;
+export const ExternalAction: Schema.Schema<ExternalAction> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ExternalAction",
+}) as any as Schema.Schema<ExternalAction>;
 
 export interface TextWithTooltip {
   /** Value of the tooltip as a simple text. */
   simpleTooltipValue?: string;
   /** The suggested type of an icon for tooltip, if a tooltip is present. */
-  tooltipIconStyle?: "TOOLTIP_ICON_STYLE_UNSPECIFIED" | "INFO" | "QUESTION" | (string & {});
+  tooltipIconStyle?:
+    | "TOOLTIP_ICON_STYLE_UNSPECIFIED"
+    | "INFO"
+    | "QUESTION"
+    | (string & {});
   /** Value of the message as a simple text. */
   simpleValue?: string;
 }
 
-export const TextWithTooltip: Schema.Schema<TextWithTooltip> = Schema.suspend(() => Schema.Struct({
-  simpleTooltipValue: Schema.optional(Schema.String),
-  tooltipIconStyle: Schema.optional(Schema.String),
-  simpleValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "TextWithTooltip" }) as any as Schema.Schema<TextWithTooltip>;
+export const TextWithTooltip: Schema.Schema<TextWithTooltip> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      simpleTooltipValue: Schema.optional(Schema.String),
+      tooltipIconStyle: Schema.optional(Schema.String),
+      simpleValue: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TextWithTooltip",
+}) as any as Schema.Schema<TextWithTooltip>;
 
 export interface TextInput {
   /** Type of the text input */
-  type?: "TEXT_INPUT_TYPE_UNSPECIFIED" | "GENERIC_SHORT_TEXT" | "GENERIC_LONG_TEXT" | (string & {});
+  type?:
+    | "TEXT_INPUT_TYPE_UNSPECIFIED"
+    | "GENERIC_SHORT_TEXT"
+    | "GENERIC_LONG_TEXT"
+    | (string & {});
   /** Additional info regarding the field to be displayed to the business. For example, warning to not include personal identifiable information. There may be more information to be shown in a tooltip. */
   additionalInfo?: TextWithTooltip;
   /** Information about the required format. If present, it should be shown close to the input field to help the business to provide a correct value. For example: "VAT numbers should be in a format similar to SK9999999999" */
@@ -61,12 +86,14 @@ export interface TextInput {
   ariaLabel?: string;
 }
 
-export const TextInput: Schema.Schema<TextInput> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  additionalInfo: Schema.optional(TextWithTooltip),
-  formatInfo: Schema.optional(Schema.String),
-  ariaLabel: Schema.optional(Schema.String),
-})).annotate({ identifier: "TextInput" }) as any as Schema.Schema<TextInput>;
+export const TextInput: Schema.Schema<TextInput> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    additionalInfo: Schema.optional(TextWithTooltip),
+    formatInfo: Schema.optional(Schema.String),
+    ariaLabel: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TextInput" }) as any as Schema.Schema<TextInput>;
 
 export interface ChoiceInputOption {
   /** Input that should be displayed when this option is selected. The additional input will not contain a `ChoiceInput`. */
@@ -77,26 +104,35 @@ export interface ChoiceInputOption {
   id?: string;
 }
 
-export const ChoiceInputOption: Schema.Schema<ChoiceInputOption> = Schema.suspend(() => Schema.Struct({
-  additionalInput: Schema.optional(InputField),
-  label: Schema.optional(TextWithTooltip),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChoiceInputOption" }) as any as Schema.Schema<ChoiceInputOption>;
+export const ChoiceInputOption: Schema.Schema<ChoiceInputOption> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      additionalInput: Schema.optional(InputField),
+      label: Schema.optional(TextWithTooltip),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ChoiceInputOption",
+  }) as any as Schema.Schema<ChoiceInputOption>;
 
 export interface ChoiceInput {
   /** A list of choices. Only one option can be selected. */
   options?: Array<ChoiceInputOption>;
 }
 
-export const ChoiceInput: Schema.Schema<ChoiceInput> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(Schema.Array(ChoiceInputOption)),
-})).annotate({ identifier: "ChoiceInput" }) as any as Schema.Schema<ChoiceInput>;
+export const ChoiceInput: Schema.Schema<ChoiceInput> = Schema.suspend(() =>
+  Schema.Struct({
+    options: Schema.optional(Schema.Array(ChoiceInputOption)),
+  }),
+).annotate({ identifier: "ChoiceInput" }) as any as Schema.Schema<ChoiceInput>;
 
-export interface CheckboxInput {
-}
+export interface CheckboxInput {}
 
-export const CheckboxInput: Schema.Schema<CheckboxInput> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CheckboxInput" }) as any as Schema.Schema<CheckboxInput>;
+export const CheckboxInput: Schema.Schema<CheckboxInput> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({
+  identifier: "CheckboxInput",
+}) as any as Schema.Schema<CheckboxInput>;
 
 export interface InputField {
   /** Input field label. There may be more information to be shown in a tooltip. */
@@ -113,26 +149,35 @@ export interface InputField {
   id?: string;
 }
 
-export const InputField: Schema.Schema<InputField> = Schema.suspend(() => Schema.Struct({
-  label: Schema.optional(TextWithTooltip),
-  required: Schema.optional(Schema.Boolean),
-  textInput: Schema.optional(TextInput),
-  choiceInput: Schema.optional(ChoiceInput),
-  checkboxInput: Schema.optional(CheckboxInput),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "InputField" }) as any as Schema.Schema<InputField>;
+export const InputField: Schema.Schema<InputField> = Schema.suspend(() =>
+  Schema.Struct({
+    label: Schema.optional(TextWithTooltip),
+    required: Schema.optional(Schema.Boolean),
+    textInput: Schema.optional(TextInput),
+    choiceInput: Schema.optional(ChoiceInput),
+    checkboxInput: Schema.optional(CheckboxInput),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "InputField" }) as any as Schema.Schema<InputField>;
 
 export interface Callout {
   /** A full message that needs to be shown to the business. */
   fullMessage?: TextWithTooltip;
   /** Can be used to render messages with different severity in different styles. Snippets off all types contain important information that should be displayed to the business. */
-  styleHint?: "CALLOUT_STYLE_HINT_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO" | (string & {});
+  styleHint?:
+    | "CALLOUT_STYLE_HINT_UNSPECIFIED"
+    | "ERROR"
+    | "WARNING"
+    | "INFO"
+    | (string & {});
 }
 
-export const Callout: Schema.Schema<Callout> = Schema.suspend(() => Schema.Struct({
-  fullMessage: Schema.optional(TextWithTooltip),
-  styleHint: Schema.optional(Schema.String),
-})).annotate({ identifier: "Callout" }) as any as Schema.Schema<Callout>;
+export const Callout: Schema.Schema<Callout> = Schema.suspend(() =>
+  Schema.Struct({
+    fullMessage: Schema.optional(TextWithTooltip),
+    styleHint: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Callout" }) as any as Schema.Schema<Callout>;
 
 export interface ActionFlow {
   /** Message displayed in the request dialog. For example: "Make sure you've fixed all your country-specific issues. If not, you may have to wait 7 days to request another review". There may be an more information to be shown in a tooltip. */
@@ -151,15 +196,17 @@ export interface ActionFlow {
   dialogCallout?: Callout;
 }
 
-export const ActionFlow: Schema.Schema<ActionFlow> = Schema.suspend(() => Schema.Struct({
-  dialogMessage: Schema.optional(TextWithTooltip),
-  id: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.String),
-  dialogButtonLabel: Schema.optional(Schema.String),
-  inputs: Schema.optional(Schema.Array(InputField)),
-  dialogTitle: Schema.optional(Schema.String),
-  dialogCallout: Schema.optional(Callout),
-})).annotate({ identifier: "ActionFlow" }) as any as Schema.Schema<ActionFlow>;
+export const ActionFlow: Schema.Schema<ActionFlow> = Schema.suspend(() =>
+  Schema.Struct({
+    dialogMessage: Schema.optional(TextWithTooltip),
+    id: Schema.optional(Schema.String),
+    label: Schema.optional(Schema.String),
+    dialogButtonLabel: Schema.optional(Schema.String),
+    inputs: Schema.optional(Schema.Array(InputField)),
+    dialogTitle: Schema.optional(Schema.String),
+    dialogCallout: Schema.optional(Callout),
+  }),
+).annotate({ identifier: "ActionFlow" }) as any as Schema.Schema<ActionFlow>;
 
 export interface BuiltInUserInputAction {
   /** Contains the action's context that must be included as part of the TriggerActionPayload.action_context in TriggerActionRequest.payload to call the `triggeraction` method. The content should be treated as opaque and must not be modified. */
@@ -168,10 +215,15 @@ export interface BuiltInUserInputAction {
   flows?: Array<ActionFlow>;
 }
 
-export const BuiltInUserInputAction: Schema.Schema<BuiltInUserInputAction> = Schema.suspend(() => Schema.Struct({
-  actionContext: Schema.optional(Schema.String),
-  flows: Schema.optional(Schema.Array(ActionFlow)),
-})).annotate({ identifier: "BuiltInUserInputAction" }) as any as Schema.Schema<BuiltInUserInputAction>;
+export const BuiltInUserInputAction: Schema.Schema<BuiltInUserInputAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionContext: Schema.optional(Schema.String),
+      flows: Schema.optional(Schema.Array(ActionFlow)),
+    }),
+  ).annotate({
+    identifier: "BuiltInUserInputAction",
+  }) as any as Schema.Schema<BuiltInUserInputAction>;
 
 export interface Reason {
   /** Detailed explanation of the reason. Should be displayed as a hint if present. */
@@ -182,11 +234,13 @@ export interface Reason {
   action?: Action;
 }
 
-export const Reason: Schema.Schema<Reason> = Schema.suspend(() => Schema.Struct({
-  detail: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  action: Schema.optional(Action),
-})).annotate({ identifier: "Reason" }) as any as Schema.Schema<Reason>;
+export const Reason: Schema.Schema<Reason> = Schema.suspend(() =>
+  Schema.Struct({
+    detail: Schema.optional(Schema.String),
+    message: Schema.optional(Schema.String),
+    action: Schema.optional(Action),
+  }),
+).annotate({ identifier: "Reason" }) as any as Schema.Schema<Reason>;
 
 export interface AdditionalContent {
   /** Long text organized into paragraphs. */
@@ -195,25 +249,46 @@ export interface AdditionalContent {
   title?: string;
 }
 
-export const AdditionalContent: Schema.Schema<AdditionalContent> = Schema.suspend(() => Schema.Struct({
-  paragraphs: Schema.optional(Schema.Array(Schema.String)),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdditionalContent" }) as any as Schema.Schema<AdditionalContent>;
+export const AdditionalContent: Schema.Schema<AdditionalContent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      paragraphs: Schema.optional(Schema.Array(Schema.String)),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdditionalContent",
+  }) as any as Schema.Schema<AdditionalContent>;
 
 export interface BuiltInSimpleAction {
   /** The type of action that represents a functionality that is expected to be available in third-party application. */
-  type?: "BUILT_IN_SIMPLE_ACTION_TYPE_UNSPECIFIED" | "VERIFY_PHONE" | "CLAIM_WEBSITE" | "ADD_PRODUCTS" | "ADD_CONTACT_INFO" | "LINK_ADS_ACCOUNT" | "ADD_BUSINESS_REGISTRATION_NUMBER" | "EDIT_ITEM_ATTRIBUTE" | "FIX_ACCOUNT_ISSUE" | "SHOW_ADDITIONAL_CONTENT" | (string & {});
+  type?:
+    | "BUILT_IN_SIMPLE_ACTION_TYPE_UNSPECIFIED"
+    | "VERIFY_PHONE"
+    | "CLAIM_WEBSITE"
+    | "ADD_PRODUCTS"
+    | "ADD_CONTACT_INFO"
+    | "LINK_ADS_ACCOUNT"
+    | "ADD_BUSINESS_REGISTRATION_NUMBER"
+    | "EDIT_ITEM_ATTRIBUTE"
+    | "FIX_ACCOUNT_ISSUE"
+    | "SHOW_ADDITIONAL_CONTENT"
+    | (string & {});
   /** The attribute that needs to be updated. Present when the type is `EDIT_ITEM_ATTRIBUTE`. This field contains a code for attribute, represented in snake_case. You can find a list of product's attributes, with their codes [here](https://support.google.com/merchants/answer/7052112). */
   attributeCode?: string;
   /** Long text from an external source that should be available to the business. Present when the type is `SHOW_ADDITIONAL_CONTENT`. */
   additionalContent?: AdditionalContent;
 }
 
-export const BuiltInSimpleAction: Schema.Schema<BuiltInSimpleAction> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  attributeCode: Schema.optional(Schema.String),
-  additionalContent: Schema.optional(AdditionalContent),
-})).annotate({ identifier: "BuiltInSimpleAction" }) as any as Schema.Schema<BuiltInSimpleAction>;
+export const BuiltInSimpleAction: Schema.Schema<BuiltInSimpleAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      attributeCode: Schema.optional(Schema.String),
+      additionalContent: Schema.optional(AdditionalContent),
+    }),
+  ).annotate({
+    identifier: "BuiltInSimpleAction",
+  }) as any as Schema.Schema<BuiltInSimpleAction>;
 
 export interface Action {
   /** Action that is implemented and performed outside of (your) third-party application. The application needs to redirect the business to the external location where they can perform the action. */
@@ -230,14 +305,16 @@ export interface Action {
   builtinSimpleAction?: BuiltInSimpleAction;
 }
 
-export const Action: Schema.Schema<Action> = Schema.suspend(() => Schema.Struct({
-  externalAction: Schema.optional(ExternalAction),
-  builtinUserInputAction: Schema.optional(BuiltInUserInputAction),
-  isAvailable: Schema.optional(Schema.Boolean),
-  reasons: Schema.optional(Schema.Array(Reason)),
-  buttonLabel: Schema.optional(Schema.String),
-  builtinSimpleAction: Schema.optional(BuiltInSimpleAction),
-})).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
+export const Action: Schema.Schema<Action> = Schema.suspend(() =>
+  Schema.Struct({
+    externalAction: Schema.optional(ExternalAction),
+    builtinUserInputAction: Schema.optional(BuiltInUserInputAction),
+    isAvailable: Schema.optional(Schema.Boolean),
+    reasons: Schema.optional(Schema.Array(Reason)),
+    buttonLabel: Schema.optional(Schema.String),
+    builtinSimpleAction: Schema.optional(BuiltInSimpleAction),
+  }),
+).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
 
 export interface Region {
   /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) */
@@ -246,10 +323,12 @@ export interface Region {
   name?: string;
 }
 
-export const Region: Schema.Schema<Region> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
+export const Region: Schema.Schema<Region> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
 
 export interface Breakdown {
   /** Human readable, localized description of issue's effect on different targets. Should be rendered as a list. For example: * "Products not showing in ads" * "Products not showing organically" */
@@ -258,25 +337,34 @@ export interface Breakdown {
   regions?: Array<Region>;
 }
 
-export const Breakdown: Schema.Schema<Breakdown> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.String)),
-  regions: Schema.optional(Schema.Array(Region)),
-})).annotate({ identifier: "Breakdown" }) as any as Schema.Schema<Breakdown>;
+export const Breakdown: Schema.Schema<Breakdown> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(Schema.Array(Schema.String)),
+    regions: Schema.optional(Schema.Array(Region)),
+  }),
+).annotate({ identifier: "Breakdown" }) as any as Schema.Schema<Breakdown>;
 
 export interface Impact {
   /** The severity of the issue. */
-  severity?: "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "ERROR"
+    | "WARNING"
+    | "INFO"
+    | (string & {});
   /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the business. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
   breakdowns?: Array<Breakdown>;
   /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the business. For example: "Disapproves 90k offers in 25 countries" */
   message?: string;
 }
 
-export const Impact: Schema.Schema<Impact> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  breakdowns: Schema.optional(Schema.Array(Breakdown)),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "Impact" }) as any as Schema.Schema<Impact>;
+export const Impact: Schema.Schema<Impact> = Schema.suspend(() =>
+  Schema.Struct({
+    severity: Schema.optional(Schema.String),
+    breakdowns: Schema.optional(Schema.Array(Breakdown)),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Impact" }) as any as Schema.Schema<Impact>;
 
 export interface RenderedIssue {
   /** Details of the issue as a pre-rendered HTML. HTML elements contain CSS classes that can be used to customize the style of the content. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `issue-detail` - top level container for the detail of the issue * `callout-banners` - section of the `issue-detail` with callout banners * `callout-banner` - single callout banner, inside `callout-banners` * `callout-banner-info` - callout with important information (default) * `callout-banner-warning` - callout with a warning * `callout-banner-error` - callout informing about an error (most severe) * `issue-content` - section of the `issue-detail`, contains multiple `content-element` * `content-element` - content element such as a list, link or paragraph, inside `issue-content` * `root-causes` - unordered list with items describing root causes of the issue, inside `issue-content` * `root-causes-intro` - intro text before the `root-causes` list, inside `issue-content` * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. * `content-moderation` - marks the paragraph that explains how the issue was identified. * `new-element` - Present for new elements added to the pre-rendered content in the future. To make sure that a new content element does not break your style, you can hide everything with this class. */
@@ -291,49 +379,73 @@ export interface RenderedIssue {
   prerenderedOutOfCourtDisputeSettlement?: string;
 }
 
-export const RenderedIssue: Schema.Schema<RenderedIssue> = Schema.suspend(() => Schema.Struct({
-  prerenderedContent: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Action)),
-  impact: Schema.optional(Impact),
-  prerenderedOutOfCourtDisputeSettlement: Schema.optional(Schema.String),
-})).annotate({ identifier: "RenderedIssue" }) as any as Schema.Schema<RenderedIssue>;
+export const RenderedIssue: Schema.Schema<RenderedIssue> = Schema.suspend(() =>
+  Schema.Struct({
+    prerenderedContent: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    actions: Schema.optional(Schema.Array(Action)),
+    impact: Schema.optional(Impact),
+    prerenderedOutOfCourtDisputeSettlement: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "RenderedIssue",
+}) as any as Schema.Schema<RenderedIssue>;
 
 export interface RenderAccountIssuesResponse {
   /** List of account issues for a given account. This list can be shown with compressed, expandable items. In the compressed form, the title and impact should be shown for each issue. Once the issue is expanded, the detailed content and available actions should be rendered. */
   renderedIssues?: Array<RenderedIssue>;
 }
 
-export const RenderAccountIssuesResponse: Schema.Schema<RenderAccountIssuesResponse> = Schema.suspend(() => Schema.Struct({
-  renderedIssues: Schema.optional(Schema.Array(RenderedIssue)),
-})).annotate({ identifier: "RenderAccountIssuesResponse" }) as any as Schema.Schema<RenderAccountIssuesResponse>;
+export const RenderAccountIssuesResponse: Schema.Schema<RenderAccountIssuesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      renderedIssues: Schema.optional(Schema.Array(RenderedIssue)),
+    }),
+  ).annotate({
+    identifier: "RenderAccountIssuesResponse",
+  }) as any as Schema.Schema<RenderAccountIssuesResponse>;
 
 export interface ChoiceInputValue {
   /** Required. Id of the option that was selected by the business. */
   choiceInputOptionId?: string;
 }
 
-export const ChoiceInputValue: Schema.Schema<ChoiceInputValue> = Schema.suspend(() => Schema.Struct({
-  choiceInputOptionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChoiceInputValue" }) as any as Schema.Schema<ChoiceInputValue>;
+export const ChoiceInputValue: Schema.Schema<ChoiceInputValue> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      choiceInputOptionId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ChoiceInputValue",
+}) as any as Schema.Schema<ChoiceInputValue>;
 
 export interface CheckboxInputValue {
   /** Required. True if the business checked the box field. False otherwise. */
   value?: boolean;
 }
 
-export const CheckboxInputValue: Schema.Schema<CheckboxInputValue> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CheckboxInputValue" }) as any as Schema.Schema<CheckboxInputValue>;
+export const CheckboxInputValue: Schema.Schema<CheckboxInputValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CheckboxInputValue",
+  }) as any as Schema.Schema<CheckboxInputValue>;
 
 export interface TextInputValue {
   /** Required. Text provided by the business. */
   value?: string;
 }
 
-export const TextInputValue: Schema.Schema<TextInputValue> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "TextInputValue" }) as any as Schema.Schema<TextInputValue>;
+export const TextInputValue: Schema.Schema<TextInputValue> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TextInputValue",
+}) as any as Schema.Schema<TextInputValue>;
 
 export interface InputValue {
   /** Value for choice input field. */
@@ -346,12 +458,14 @@ export interface InputValue {
   textInputValue?: TextInputValue;
 }
 
-export const InputValue: Schema.Schema<InputValue> = Schema.suspend(() => Schema.Struct({
-  choiceInputValue: Schema.optional(ChoiceInputValue),
-  checkboxInputValue: Schema.optional(CheckboxInputValue),
-  inputFieldId: Schema.optional(Schema.String),
-  textInputValue: Schema.optional(TextInputValue),
-})).annotate({ identifier: "InputValue" }) as any as Schema.Schema<InputValue>;
+export const InputValue: Schema.Schema<InputValue> = Schema.suspend(() =>
+  Schema.Struct({
+    choiceInputValue: Schema.optional(ChoiceInputValue),
+    checkboxInputValue: Schema.optional(CheckboxInputValue),
+    inputFieldId: Schema.optional(Schema.String),
+    textInputValue: Schema.optional(TextInputValue),
+  }),
+).annotate({ identifier: "InputValue" }) as any as Schema.Schema<InputValue>;
 
 export interface ActionInput {
   /** Required. Id of the selected action flow. */
@@ -360,10 +474,12 @@ export interface ActionInput {
   inputValues?: Array<InputValue>;
 }
 
-export const ActionInput: Schema.Schema<ActionInput> = Schema.suspend(() => Schema.Struct({
-  actionFlowId: Schema.optional(Schema.String),
-  inputValues: Schema.optional(Schema.Array(InputValue)),
-})).annotate({ identifier: "ActionInput" }) as any as Schema.Schema<ActionInput>;
+export const ActionInput: Schema.Schema<ActionInput> = Schema.suspend(() =>
+  Schema.Struct({
+    actionFlowId: Schema.optional(Schema.String),
+    inputValues: Schema.optional(Schema.Array(InputValue)),
+  }),
+).annotate({ identifier: "ActionInput" }) as any as Schema.Schema<ActionInput>;
 
 export interface TriggerActionPayload {
   /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
@@ -372,10 +488,15 @@ export interface TriggerActionPayload {
   actionInput?: ActionInput;
 }
 
-export const TriggerActionPayload: Schema.Schema<TriggerActionPayload> = Schema.suspend(() => Schema.Struct({
-  actionContext: Schema.optional(Schema.String),
-  actionInput: Schema.optional(ActionInput),
-})).annotate({ identifier: "TriggerActionPayload" }) as any as Schema.Schema<TriggerActionPayload>;
+export const TriggerActionPayload: Schema.Schema<TriggerActionPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionContext: Schema.optional(Schema.String),
+      actionInput: Schema.optional(ActionInput),
+    }),
+  ).annotate({
+    identifier: "TriggerActionPayload",
+  }) as any as Schema.Schema<TriggerActionPayload>;
 
 export interface ItemLevelIssue {
   /** The error code of the issue. */
@@ -383,29 +504,43 @@ export interface ItemLevelIssue {
   /** The attribute's name, if the issue is caused by a single attribute. */
   attribute?: string;
   /** How this issue affects serving of the offer. */
-  severity?: "SEVERITY_UNSPECIFIED" | "NOT_IMPACTED" | "DEMOTED" | "DISAPPROVED" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "NOT_IMPACTED"
+    | "DEMOTED"
+    | "DISAPPROVED"
+    | (string & {});
   /** A short issue description in English. */
   description?: string;
   /** The number of products affected by this issue. */
   productCount?: string;
   /** Whether the issue can be resolved by the merchant. */
-  resolution?: "RESOLUTION_UNSPECIFIED" | "MERCHANT_ACTION" | "PENDING_PROCESSING" | (string & {});
+  resolution?:
+    | "RESOLUTION_UNSPECIFIED"
+    | "MERCHANT_ACTION"
+    | "PENDING_PROCESSING"
+    | (string & {});
   /** A detailed issue description in English. */
   detail?: string;
   /** The URL of a web page to help with resolving this issue. */
   documentationUri?: string;
 }
 
-export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  productCount: Schema.optional(Schema.String),
-  resolution: Schema.optional(Schema.String),
-  detail: Schema.optional(Schema.String),
-  documentationUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "ItemLevelIssue" }) as any as Schema.Schema<ItemLevelIssue>;
+export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      productCount: Schema.optional(Schema.String),
+      resolution: Schema.optional(Schema.String),
+      detail: Schema.optional(Schema.String),
+      documentationUri: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ItemLevelIssue",
+}) as any as Schema.Schema<ItemLevelIssue>;
 
 export interface Stats {
   /** The number of products that are active. */
@@ -418,18 +553,41 @@ export interface Stats {
   disapprovedCount?: string;
 }
 
-export const Stats: Schema.Schema<Stats> = Schema.suspend(() => Schema.Struct({
-  activeCount: Schema.optional(Schema.String),
-  expiringCount: Schema.optional(Schema.String),
-  pendingCount: Schema.optional(Schema.String),
-  disapprovedCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "Stats" }) as any as Schema.Schema<Stats>;
+export const Stats: Schema.Schema<Stats> = Schema.suspend(() =>
+  Schema.Struct({
+    activeCount: Schema.optional(Schema.String),
+    expiringCount: Schema.optional(Schema.String),
+    pendingCount: Schema.optional(Schema.String),
+    disapprovedCount: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Stats" }) as any as Schema.Schema<Stats>;
 
 export interface AggregateProductStatus {
   /** The product issues that affect the given reporting context and country. */
   itemLevelIssues?: Array<ItemLevelIssue>;
   /** The reporting context of the aggregate product statuses. */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
   /** Identifier. The name of the `AggregateProductStatuses` resource. Format: `accounts/{account}/aggregateProductStatuses/{aggregateProductStatuses}` */
   name?: string;
   /** The country of the aggregate product statuses. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
@@ -438,13 +596,18 @@ export interface AggregateProductStatus {
   stats?: Stats;
 }
 
-export const AggregateProductStatus: Schema.Schema<AggregateProductStatus> = Schema.suspend(() => Schema.Struct({
-  itemLevelIssues: Schema.optional(Schema.Array(ItemLevelIssue)),
-  reportingContext: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  country: Schema.optional(Schema.String),
-  stats: Schema.optional(Stats),
-})).annotate({ identifier: "AggregateProductStatus" }) as any as Schema.Schema<AggregateProductStatus>;
+export const AggregateProductStatus: Schema.Schema<AggregateProductStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      itemLevelIssues: Schema.optional(Schema.Array(ItemLevelIssue)),
+      reportingContext: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      country: Schema.optional(Schema.String),
+      stats: Schema.optional(Stats),
+    }),
+  ).annotate({
+    identifier: "AggregateProductStatus",
+  }) as any as Schema.Schema<AggregateProductStatus>;
 
 export interface ListAggregateProductStatusesResponse {
   /** The `AggregateProductStatuses` resources for the given account. */
@@ -453,28 +616,60 @@ export interface ListAggregateProductStatusesResponse {
   nextPageToken?: string;
 }
 
-export const ListAggregateProductStatusesResponse: Schema.Schema<ListAggregateProductStatusesResponse> = Schema.suspend(() => Schema.Struct({
-  aggregateProductStatuses: Schema.optional(Schema.Array(AggregateProductStatus)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAggregateProductStatusesResponse" }) as any as Schema.Schema<ListAggregateProductStatusesResponse>;
+export const ListAggregateProductStatusesResponse: Schema.Schema<ListAggregateProductStatusesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      aggregateProductStatuses: Schema.optional(
+        Schema.Array(AggregateProductStatus),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAggregateProductStatusesResponse",
+  }) as any as Schema.Schema<ListAggregateProductStatusesResponse>;
 
 export interface ProductChange {
   /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
   newValue?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
   /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
   oldValue?: string;
   /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
   regionCode?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() => Schema.Struct({
-  newValue: Schema.optional(Schema.String),
-  reportingContext: Schema.optional(Schema.String),
-  oldValue: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductChange" }) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
+  Schema.Struct({
+    newValue: Schema.optional(Schema.String),
+    reportingContext: Schema.optional(Schema.String),
+    oldValue: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductChange",
+}) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
@@ -497,47 +692,74 @@ export interface ProductStatusChangeMessage {
   resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
 }
 
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> = Schema.suspend(() => Schema.Struct({
-  expirationTime: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  account: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  changes: Schema.optional(Schema.Array(ProductChange)),
-  eventTime: Schema.optional(Schema.String),
-  managingAccount: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductStatusChangeMessage" }) as any as Schema.Schema<ProductStatusChangeMessage>;
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      expirationTime: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+      eventTime: Schema.optional(Schema.String),
+      managingAccount: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 export interface RenderProductIssuesResponse {
   /** List of issues for a given product. This list can be shown with compressed, expandable items. In the compressed form, the title and impact should be shown for each issue. Once the issue is expanded, the detailed content and available actions should be rendered. */
   renderedIssues?: Array<RenderedIssue>;
 }
 
-export const RenderProductIssuesResponse: Schema.Schema<RenderProductIssuesResponse> = Schema.suspend(() => Schema.Struct({
-  renderedIssues: Schema.optional(Schema.Array(RenderedIssue)),
-})).annotate({ identifier: "RenderProductIssuesResponse" }) as any as Schema.Schema<RenderProductIssuesResponse>;
+export const RenderProductIssuesResponse: Schema.Schema<RenderProductIssuesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      renderedIssues: Schema.optional(Schema.Array(RenderedIssue)),
+    }),
+  ).annotate({
+    identifier: "RenderProductIssuesResponse",
+  }) as any as Schema.Schema<RenderProductIssuesResponse>;
 
 export interface RenderIssuesRequestPayload {
   /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
-  contentOption?: "CONTENT_OPTION_UNSPECIFIED" | "PRE_RENDERED_HTML" | (string & {});
+  contentOption?:
+    | "CONTENT_OPTION_UNSPECIFIED"
+    | "PRE_RENDERED_HTML"
+    | (string & {});
   /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points the business to Merchant Center where they can request the action. */
-  userInputActionOption?: "USER_INPUT_ACTION_RENDERING_OPTION_UNSPECIFIED" | "REDIRECT_TO_MERCHANT_CENTER" | "BUILT_IN_USER_INPUT_ACTIONS" | (string & {});
+  userInputActionOption?:
+    | "USER_INPUT_ACTION_RENDERING_OPTION_UNSPECIFIED"
+    | "REDIRECT_TO_MERCHANT_CENTER"
+    | "BUILT_IN_USER_INPUT_ACTIONS"
+    | (string & {});
 }
 
-export const RenderIssuesRequestPayload: Schema.Schema<RenderIssuesRequestPayload> = Schema.suspend(() => Schema.Struct({
-  contentOption: Schema.optional(Schema.String),
-  userInputActionOption: Schema.optional(Schema.String),
-})).annotate({ identifier: "RenderIssuesRequestPayload" }) as any as Schema.Schema<RenderIssuesRequestPayload>;
+export const RenderIssuesRequestPayload: Schema.Schema<RenderIssuesRequestPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      contentOption: Schema.optional(Schema.String),
+      userInputActionOption: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RenderIssuesRequestPayload",
+  }) as any as Schema.Schema<RenderIssuesRequestPayload>;
 
 export interface TriggerActionResponse {
   /** The message for the business. */
   message?: string;
 }
 
-export const TriggerActionResponse: Schema.Schema<TriggerActionResponse> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "TriggerActionResponse" }) as any as Schema.Schema<TriggerActionResponse>;
+export const TriggerActionResponse: Schema.Schema<TriggerActionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TriggerActionResponse",
+  }) as any as Schema.Schema<TriggerActionResponse>;
 
 // ==========================================================================
 // Operations
@@ -560,17 +782,27 @@ export const ListAccountsAggregateProductStatusesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "issueresolution/v1/accounts/{accountsId}/aggregateProductStatuses" }),
+  T.Http({
+    method: "GET",
+    path: "issueresolution/v1/accounts/{accountsId}/aggregateProductStatuses",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsAggregateProductStatusesRequest>;
 
-export type ListAccountsAggregateProductStatusesResponse = ListAggregateProductStatusesResponse;
-export const ListAccountsAggregateProductStatusesResponse = ListAggregateProductStatusesResponse;
+export type ListAccountsAggregateProductStatusesResponse =
+  ListAggregateProductStatusesResponse;
+export const ListAccountsAggregateProductStatusesResponse =
+  ListAggregateProductStatusesResponse;
 
 export type ListAccountsAggregateProductStatusesError = DefaultErrors;
 
 /** Lists the `AggregateProductStatuses` resources for your merchant account. The response might contain fewer items than specified by `pageSize`. If `pageToken` was returned in previous request, it can be used to obtain additional results. */
-export const listAccountsAggregateProductStatuses: API.PaginatedOperationMethod<ListAccountsAggregateProductStatusesRequest, ListAccountsAggregateProductStatusesResponse, ListAccountsAggregateProductStatusesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsAggregateProductStatuses: API.PaginatedOperationMethod<
+  ListAccountsAggregateProductStatusesRequest,
+  ListAccountsAggregateProductStatusesResponse,
+  ListAccountsAggregateProductStatusesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsAggregateProductStatusesRequest,
   output: ListAccountsAggregateProductStatusesResponse,
   errors: [],
@@ -594,20 +826,33 @@ export interface RenderproductissuesIssueresolutionRequest {
 export const RenderproductissuesIssueresolutionRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   body: Schema.optional(RenderIssuesRequestPayload).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "issueresolution/v1/accounts/{accountsId}/products/{productsId}:renderproductissues", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "issueresolution/v1/accounts/{accountsId}/products/{productsId}:renderproductissues",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RenderproductissuesIssueresolutionRequest>;
 
-export type RenderproductissuesIssueresolutionResponse = RenderProductIssuesResponse;
-export const RenderproductissuesIssueresolutionResponse = RenderProductIssuesResponse;
+export type RenderproductissuesIssueresolutionResponse =
+  RenderProductIssuesResponse;
+export const RenderproductissuesIssueresolutionResponse =
+  RenderProductIssuesResponse;
 
 export type RenderproductissuesIssueresolutionError = DefaultErrors;
 
 /** Provide a list of issues for business's product with an issue resolution content and available actions. This content and actions are meant to be rendered and shown in third-party applications. */
-export const renderproductissuesIssueresolution: API.OperationMethod<RenderproductissuesIssueresolutionRequest, RenderproductissuesIssueresolutionResponse, RenderproductissuesIssueresolutionError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const renderproductissuesIssueresolution: API.OperationMethod<
+  RenderproductissuesIssueresolutionRequest,
+  RenderproductissuesIssueresolutionResponse,
+  RenderproductissuesIssueresolutionError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RenderproductissuesIssueresolutionRequest,
   output: RenderproductissuesIssueresolutionResponse,
   errors: [],
@@ -625,22 +870,35 @@ export interface RenderaccountissuesIssueresolutionRequest {
 }
 
 export const RenderaccountissuesIssueresolutionRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   name: Schema.String.pipe(T.HttpPath("name")),
   timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
   body: Schema.optional(RenderIssuesRequestPayload).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "issueresolution/v1/accounts/{accountsId}:renderaccountissues", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "issueresolution/v1/accounts/{accountsId}:renderaccountissues",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RenderaccountissuesIssueresolutionRequest>;
 
-export type RenderaccountissuesIssueresolutionResponse = RenderAccountIssuesResponse;
-export const RenderaccountissuesIssueresolutionResponse = RenderAccountIssuesResponse;
+export type RenderaccountissuesIssueresolutionResponse =
+  RenderAccountIssuesResponse;
+export const RenderaccountissuesIssueresolutionResponse =
+  RenderAccountIssuesResponse;
 
 export type RenderaccountissuesIssueresolutionError = DefaultErrors;
 
 /** Provide a list of business's account issues with an issue resolution content and available actions. This content and actions are meant to be rendered and shown in third-party applications. */
-export const renderaccountissuesIssueresolution: API.OperationMethod<RenderaccountissuesIssueresolutionRequest, RenderaccountissuesIssueresolutionResponse, RenderaccountissuesIssueresolutionError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const renderaccountissuesIssueresolution: API.OperationMethod<
+  RenderaccountissuesIssueresolutionRequest,
+  RenderaccountissuesIssueresolutionResponse,
+  RenderaccountissuesIssueresolutionError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RenderaccountissuesIssueresolutionRequest,
   output: RenderaccountissuesIssueresolutionResponse,
   errors: [],
@@ -657,10 +915,16 @@ export interface TriggeractionIssueresolutionRequest {
 
 export const TriggeractionIssueresolutionRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   body: Schema.optional(TriggerActionPayload).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "issueresolution/v1/accounts/{accountsId}:triggeraction", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "issueresolution/v1/accounts/{accountsId}:triggeraction",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TriggeractionIssueresolutionRequest>;
 
@@ -670,9 +934,13 @@ export const TriggeractionIssueresolutionResponse = TriggerActionResponse;
 export type TriggeractionIssueresolutionError = DefaultErrors;
 
 /** Start an action. The action can be requested by a business in third-party application. Before the business can request the action, the third-party application needs to show them action specific content and display a user input form. Access to the `triggeraction` method is restricted to an allowlist. You can request access using [Trigger action allowlist form](https://docs.google.com/forms/d/e/1FAIpQLSfeV_sBW9MBQv9BMTV6JZ1g11PGHLdHsrefca-9h0LmpU7CUg/viewform?usp=sharing). The action can be successfully started only once all `required` inputs are provided. If any `required` input is missing, or invalid value was provided, the service will return 400 error. Validation errors will contain Ids for all problematic field together with translated, human readable error messages that can be shown to the user. */
-export const triggeractionIssueresolution: API.OperationMethod<TriggeractionIssueresolutionRequest, TriggeractionIssueresolutionResponse, TriggeractionIssueresolutionError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const triggeractionIssueresolution: API.OperationMethod<
+  TriggeractionIssueresolutionRequest,
+  TriggeractionIssueresolutionResponse,
+  TriggeractionIssueresolutionError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TriggeractionIssueresolutionRequest,
   output: TriggeractionIssueresolutionResponse,
   errors: [],
 }));
-

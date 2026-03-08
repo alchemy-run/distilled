@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Filter
@@ -27,9 +25,10 @@ export interface GetFilterRequest {
 
 export const GetFilterRequest = Schema.Struct({
   filterId: Schema.String.pipe(T.HttpPath("filterId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/filters/{filterId}" })) as unknown as Schema.Schema<GetFilterRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/filters/{filterId}" }),
+) as unknown as Schema.Schema<GetFilterRequest>;
 
 export interface GetFilterResponse {
   /** The unique identifier of the filter. */
@@ -49,11 +48,10 @@ export const GetFilterResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
   expression: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
+  ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetFilterResponse>;
 
-export type GetFilterError =
-  | DefaultErrors;
+export type GetFilterError = DefaultErrors;
 
 export const getFilter: API.OperationMethod<
   GetFilterRequest,
@@ -87,22 +85,30 @@ export const ListFiltersRequest = Schema.Struct({
   description: Schema.optional(Schema.String).pipe(T.HttpQuery("description")),
   expression: Schema.optional(Schema.String).pipe(T.HttpQuery("expression")),
   paused: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("paused")),
-  ref: Schema.optional(Schema.String).pipe(T.HttpQuery("ref"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/filters" })) as unknown as Schema.Schema<ListFiltersRequest>;
+  ref: Schema.optional(Schema.String).pipe(T.HttpQuery("ref")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/filters" }),
+) as unknown as Schema.Schema<ListFiltersRequest>;
 
-export type ListFiltersResponse = { id?: string; description?: string; expression?: string; paused?: boolean; ref?: string }[];
+export type ListFiltersResponse = {
+  id?: string;
+  description?: string;
+  expression?: string;
+  paused?: boolean;
+  ref?: string;
+}[];
 
-export const ListFiltersResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListFiltersResponse>;
+export const ListFiltersResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    expression: Schema.optional(Schema.String),
+    paused: Schema.optional(Schema.Boolean),
+    ref: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListFiltersResponse>;
 
-export type ListFiltersError =
-  | DefaultErrors;
+export type ListFiltersError = DefaultErrors;
 
 export const listFilters: API.OperationMethod<
   ListFiltersRequest,
@@ -119,32 +125,47 @@ export interface CreateFilterRequest {
   /** Path param: Defines an identifier. */
   zoneId: string;
   /** Body param: */
-  body: { description?: string; expression?: string; paused?: boolean; ref?: string }[];
+  body: {
+    description?: string;
+    expression?: string;
+    paused?: boolean;
+    ref?: string;
+  }[];
 }
 
 export const CreateFilterRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Array(Schema.Struct({
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
-})).pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/filters" })) as unknown as Schema.Schema<CreateFilterRequest>;
+  body: Schema.Array(
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
+      paused: Schema.optional(Schema.Boolean),
+      ref: Schema.optional(Schema.String),
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/filters" }),
+) as unknown as Schema.Schema<CreateFilterRequest>;
 
-export type CreateFilterResponse = { id?: string; description?: string; expression?: string; paused?: boolean; ref?: string }[];
+export type CreateFilterResponse = {
+  id?: string;
+  description?: string;
+  expression?: string;
+  paused?: boolean;
+  ref?: string;
+}[];
 
-export const CreateFilterResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<CreateFilterResponse>;
+export const CreateFilterResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    expression: Schema.optional(Schema.String),
+    paused: Schema.optional(Schema.Boolean),
+    ref: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<CreateFilterResponse>;
 
-export type CreateFilterError =
-  | DefaultErrors;
+export type CreateFilterError = DefaultErrors;
 
 export const createFilter: API.OperationMethod<
   CreateFilterRequest,
@@ -177,9 +198,10 @@ export const UpdateFilterRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   expression: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/filters/{filterId}" })) as unknown as Schema.Schema<UpdateFilterRequest>;
+  ref: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({ method: "PUT", path: "/zones/{zone_id}/filters/{filterId}" }),
+) as unknown as Schema.Schema<UpdateFilterRequest>;
 
 export interface UpdateFilterResponse {
   /** The unique identifier of the filter. */
@@ -199,11 +221,10 @@ export const UpdateFilterResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
   expression: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
+  ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateFilterResponse>;
 
-export type UpdateFilterError =
-  | DefaultErrors;
+export type UpdateFilterError = DefaultErrors;
 
 export const updateFilter: API.OperationMethod<
   UpdateFilterRequest,
@@ -224,9 +245,10 @@ export interface DeleteFilterRequest {
 
 export const DeleteFilterRequest = Schema.Struct({
   filterId: Schema.String.pipe(T.HttpPath("filterId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/filters/{filterId}" })) as unknown as Schema.Schema<DeleteFilterRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "DELETE", path: "/zones/{zone_id}/filters/{filterId}" }),
+) as unknown as Schema.Schema<DeleteFilterRequest>;
 
 export interface DeleteFilterResponse {
   /** The unique identifier of the filter. */
@@ -234,11 +256,10 @@ export interface DeleteFilterResponse {
 }
 
 export const DeleteFilterResponse = Schema.Struct({
-  id: Schema.String
+  id: Schema.String,
 }) as unknown as Schema.Schema<DeleteFilterResponse>;
 
-export type DeleteFilterError =
-  | DefaultErrors;
+export type DeleteFilterError = DefaultErrors;
 
 export const deleteFilter: API.OperationMethod<
   DeleteFilterRequest,
@@ -260,18 +281,20 @@ export interface BulkDeleteFiltersRequest {
 
 export const BulkDeleteFiltersRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  id: Schema.Array(Schema.String).pipe(T.HttpQuery("id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/filters" })) as unknown as Schema.Schema<BulkDeleteFiltersRequest>;
+  id: Schema.Array(Schema.String).pipe(T.HttpQuery("id")),
+}).pipe(
+  T.Http({ method: "DELETE", path: "/zones/{zone_id}/filters" }),
+) as unknown as Schema.Schema<BulkDeleteFiltersRequest>;
 
 export type BulkDeleteFiltersResponse = { id?: string }[];
 
-export const BulkDeleteFiltersResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<BulkDeleteFiltersResponse>;
+export const BulkDeleteFiltersResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<BulkDeleteFiltersResponse>;
 
-export type BulkDeleteFiltersError =
-  | DefaultErrors;
+export type BulkDeleteFiltersError = DefaultErrors;
 
 export const bulkDeleteFilters: API.OperationMethod<
   BulkDeleteFiltersRequest,
@@ -284,7 +307,6 @@ export const bulkDeleteFilters: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // PutFilter
 // =============================================================================
@@ -293,32 +315,47 @@ export interface BulkPutFiltersRequest {
   /** Path param: Defines an identifier. */
   zoneId: string;
   /** Body param: */
-  body: { description?: string; expression?: string; paused?: boolean; ref?: string }[];
+  body: {
+    description?: string;
+    expression?: string;
+    paused?: boolean;
+    ref?: string;
+  }[];
 }
 
 export const BulkPutFiltersRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Array(Schema.Struct({
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
-})).pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/filters" })) as unknown as Schema.Schema<BulkPutFiltersRequest>;
+  body: Schema.Array(
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
+      paused: Schema.optional(Schema.Boolean),
+      ref: Schema.optional(Schema.String),
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "PUT", path: "/zones/{zone_id}/filters" }),
+) as unknown as Schema.Schema<BulkPutFiltersRequest>;
 
-export type BulkPutFiltersResponse = { id?: string; description?: string; expression?: string; paused?: boolean; ref?: string }[];
+export type BulkPutFiltersResponse = {
+  id?: string;
+  description?: string;
+  expression?: string;
+  paused?: boolean;
+  ref?: string;
+}[];
 
-export const BulkPutFiltersResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<BulkPutFiltersResponse>;
+export const BulkPutFiltersResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    expression: Schema.optional(Schema.String),
+    paused: Schema.optional(Schema.Boolean),
+    ref: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<BulkPutFiltersResponse>;
 
-export type BulkPutFiltersError =
-  | DefaultErrors;
+export type BulkPutFiltersError = DefaultErrors;
 
 export const bulkPutFilters: API.OperationMethod<
   BulkPutFiltersRequest,

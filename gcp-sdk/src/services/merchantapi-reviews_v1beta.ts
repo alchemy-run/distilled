@@ -30,10 +30,12 @@ export interface ReviewLink {
   link?: string;
 }
 
-export const ReviewLink: Schema.Schema<ReviewLink> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  link: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReviewLink" }) as any as Schema.Schema<ReviewLink>;
+export const ReviewLink: Schema.Schema<ReviewLink> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    link: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ReviewLink" }) as any as Schema.Schema<ReviewLink>;
 
 export interface ProductReviewAttributes {
   /** Optional. Set to true if the reviewer should remain anonymous. */
@@ -79,7 +81,11 @@ export interface ProductReviewAttributes {
   /** Optional. The author of the product review. A permanent, unique identifier for the author of the review in the publisher's system. */
   reviewerId?: string;
   /** Optional. The method used to collect the review. */
-  collectionMethod?: "COLLECTION_METHOD_UNSPECIFIED" | "UNSOLICITED" | "POST_FULFILLMENT" | (string & {});
+  collectionMethod?:
+    | "COLLECTION_METHOD_UNSPECIFIED"
+    | "UNSOLICITED"
+    | "POST_FULFILLMENT"
+    | (string & {});
   /** Optional. Contains brand names associated with a product. */
   brands?: Array<string>;
   /** Optional. The name of the publisher of the product reviews. The information about the publisher, which may be a retailer, manufacturer, reviews service company, or any entity that publishes product reviews. */
@@ -100,48 +106,79 @@ export interface ProductReviewAttributes {
   productNames?: Array<string>;
 }
 
-export const ProductReviewAttributes: Schema.Schema<ProductReviewAttributes> = Schema.suspend(() => Schema.Struct({
-  reviewerIsAnonymous: Schema.optional(Schema.Boolean),
-  isVerifiedPurchase: Schema.optional(Schema.Boolean),
-  asins: Schema.optional(Schema.Array(Schema.String)),
-  rating: Schema.optional(Schema.Number),
-  reviewerUsername: Schema.optional(Schema.String),
-  isIncentivizedReview: Schema.optional(Schema.Boolean),
-  mpns: Schema.optional(Schema.Array(Schema.String)),
-  productLinks: Schema.optional(Schema.Array(Schema.String)),
-  title: Schema.optional(Schema.String),
-  minRating: Schema.optional(Schema.String),
-  isSpam: Schema.optional(Schema.Boolean),
-  aggregatorName: Schema.optional(Schema.String),
-  transactionId: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  reviewCountry: Schema.optional(Schema.String),
-  reviewLanguage: Schema.optional(Schema.String),
-  maxRating: Schema.optional(Schema.String),
-  pros: Schema.optional(Schema.Array(Schema.String)),
-  skus: Schema.optional(Schema.Array(Schema.String)),
-  gtins: Schema.optional(Schema.Array(Schema.String)),
-  reviewerId: Schema.optional(Schema.String),
-  collectionMethod: Schema.optional(Schema.String),
-  brands: Schema.optional(Schema.Array(Schema.String)),
-  publisherName: Schema.optional(Schema.String),
-  reviewTime: Schema.optional(Schema.String),
-  reviewerImageLinks: Schema.optional(Schema.Array(Schema.String)),
-  publisherFavicon: Schema.optional(Schema.String),
-  subclientName: Schema.optional(Schema.String),
-  cons: Schema.optional(Schema.Array(Schema.String)),
-  reviewLink: Schema.optional(ReviewLink),
-  productNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ProductReviewAttributes" }) as any as Schema.Schema<ProductReviewAttributes>;
+export const ProductReviewAttributes: Schema.Schema<ProductReviewAttributes> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reviewerIsAnonymous: Schema.optional(Schema.Boolean),
+      isVerifiedPurchase: Schema.optional(Schema.Boolean),
+      asins: Schema.optional(Schema.Array(Schema.String)),
+      rating: Schema.optional(Schema.Number),
+      reviewerUsername: Schema.optional(Schema.String),
+      isIncentivizedReview: Schema.optional(Schema.Boolean),
+      mpns: Schema.optional(Schema.Array(Schema.String)),
+      productLinks: Schema.optional(Schema.Array(Schema.String)),
+      title: Schema.optional(Schema.String),
+      minRating: Schema.optional(Schema.String),
+      isSpam: Schema.optional(Schema.Boolean),
+      aggregatorName: Schema.optional(Schema.String),
+      transactionId: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      reviewCountry: Schema.optional(Schema.String),
+      reviewLanguage: Schema.optional(Schema.String),
+      maxRating: Schema.optional(Schema.String),
+      pros: Schema.optional(Schema.Array(Schema.String)),
+      skus: Schema.optional(Schema.Array(Schema.String)),
+      gtins: Schema.optional(Schema.Array(Schema.String)),
+      reviewerId: Schema.optional(Schema.String),
+      collectionMethod: Schema.optional(Schema.String),
+      brands: Schema.optional(Schema.Array(Schema.String)),
+      publisherName: Schema.optional(Schema.String),
+      reviewTime: Schema.optional(Schema.String),
+      reviewerImageLinks: Schema.optional(Schema.Array(Schema.String)),
+      publisherFavicon: Schema.optional(Schema.String),
+      subclientName: Schema.optional(Schema.String),
+      cons: Schema.optional(Schema.Array(Schema.String)),
+      reviewLink: Schema.optional(ReviewLink),
+      productNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ProductReviewAttributes",
+  }) as any as Schema.Schema<ProductReviewAttributes>;
 
 export interface MerchantReviewDestinationStatus {
   /** Output only. The name of the reporting context. */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
 }
 
-export const MerchantReviewDestinationStatus: Schema.Schema<MerchantReviewDestinationStatus> = Schema.suspend(() => Schema.Struct({
-  reportingContext: Schema.optional(Schema.String),
-})).annotate({ identifier: "MerchantReviewDestinationStatus" }) as any as Schema.Schema<MerchantReviewDestinationStatus>;
+export const MerchantReviewDestinationStatus: Schema.Schema<MerchantReviewDestinationStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MerchantReviewDestinationStatus",
+  }) as any as Schema.Schema<MerchantReviewDestinationStatus>;
 
 export interface MerchantReviewItemLevelIssue {
   /** Output only. The URL of a web page to help with resolving this issue. */
@@ -151,7 +188,28 @@ export interface MerchantReviewItemLevelIssue {
   /** Output only. The attribute's name, if the issue is caused by a single attribute. */
   attribute?: string;
   /** Output only. The reporting context the issue applies to. */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
   /** Output only. A short issue description in English. */
   description?: string;
   /** Output only. A detailed issue description in English. */
@@ -159,19 +217,28 @@ export interface MerchantReviewItemLevelIssue {
   /** Output only. Whether the issue can be resolved by the merchant. */
   resolution?: string;
   /** Output only. How this issue affects serving of the merchant review. */
-  severity?: "SEVERITY_UNSPECIFIED" | "NOT_IMPACTED" | "DISAPPROVED" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "NOT_IMPACTED"
+    | "DISAPPROVED"
+    | (string & {});
 }
 
-export const MerchantReviewItemLevelIssue: Schema.Schema<MerchantReviewItemLevelIssue> = Schema.suspend(() => Schema.Struct({
-  documentation: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  reportingContext: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  detail: Schema.optional(Schema.String),
-  resolution: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-})).annotate({ identifier: "MerchantReviewItemLevelIssue" }) as any as Schema.Schema<MerchantReviewItemLevelIssue>;
+export const MerchantReviewItemLevelIssue: Schema.Schema<MerchantReviewItemLevelIssue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentation: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      detail: Schema.optional(Schema.String),
+      resolution: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MerchantReviewItemLevelIssue",
+  }) as any as Schema.Schema<MerchantReviewItemLevelIssue>;
 
 export interface MerchantReviewStatus {
   /** Output only. The intended destinations for the merchant review. */
@@ -184,12 +251,21 @@ export interface MerchantReviewStatus {
   createTime?: string;
 }
 
-export const MerchantReviewStatus: Schema.Schema<MerchantReviewStatus> = Schema.suspend(() => Schema.Struct({
-  destinationStatuses: Schema.optional(Schema.Array(MerchantReviewDestinationStatus)),
-  lastUpdateTime: Schema.optional(Schema.String),
-  itemLevelIssues: Schema.optional(Schema.Array(MerchantReviewItemLevelIssue)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "MerchantReviewStatus" }) as any as Schema.Schema<MerchantReviewStatus>;
+export const MerchantReviewStatus: Schema.Schema<MerchantReviewStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationStatuses: Schema.optional(
+        Schema.Array(MerchantReviewDestinationStatus),
+      ),
+      lastUpdateTime: Schema.optional(Schema.String),
+      itemLevelIssues: Schema.optional(
+        Schema.Array(MerchantReviewItemLevelIssue),
+      ),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MerchantReviewStatus",
+  }) as any as Schema.Schema<MerchantReviewStatus>;
 
 export interface MerchantReviewAttributes {
   /** Optional. URL to the landing page that hosts the reviews for this merchant. Do not use a redirect URL. */
@@ -201,7 +277,12 @@ export interface MerchantReviewAttributes {
   /** Optional. A permanent, unique identifier for the author of the review in the publisher's system. */
   reviewerId?: string;
   /** Optional. The method used to collect the review. */
-  collectionMethod?: "COLLECTION_METHOD_UNSPECIFIED" | "MERCHANT_UNSOLICITED" | "POINT_OF_SALE" | "AFTER_FULFILLMENT" | (string & {});
+  collectionMethod?:
+    | "COLLECTION_METHOD_UNSPECIFIED"
+    | "MERCHANT_UNSOLICITED"
+    | "POINT_OF_SALE"
+    | "AFTER_FULFILLMENT"
+    | (string & {});
   /** Optional. The title of the review. */
   title?: string;
   /** Optional. Display name of the review author. */
@@ -226,24 +307,29 @@ export interface MerchantReviewAttributes {
   reviewCountry?: string;
 }
 
-export const MerchantReviewAttributes: Schema.Schema<MerchantReviewAttributes> = Schema.suspend(() => Schema.Struct({
-  merchantRatingLink: Schema.optional(Schema.String),
-  minRating: Schema.optional(Schema.String),
-  reviewTime: Schema.optional(Schema.String),
-  reviewerId: Schema.optional(Schema.String),
-  collectionMethod: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  reviewerUsername: Schema.optional(Schema.String),
-  merchantDisplayName: Schema.optional(Schema.String),
-  rating: Schema.optional(Schema.Number),
-  maxRating: Schema.optional(Schema.String),
-  merchantId: Schema.optional(Schema.String),
-  merchantLink: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  isAnonymous: Schema.optional(Schema.Boolean),
-  reviewLanguage: Schema.optional(Schema.String),
-  reviewCountry: Schema.optional(Schema.String),
-})).annotate({ identifier: "MerchantReviewAttributes" }) as any as Schema.Schema<MerchantReviewAttributes>;
+export const MerchantReviewAttributes: Schema.Schema<MerchantReviewAttributes> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      merchantRatingLink: Schema.optional(Schema.String),
+      minRating: Schema.optional(Schema.String),
+      reviewTime: Schema.optional(Schema.String),
+      reviewerId: Schema.optional(Schema.String),
+      collectionMethod: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      reviewerUsername: Schema.optional(Schema.String),
+      merchantDisplayName: Schema.optional(Schema.String),
+      rating: Schema.optional(Schema.Number),
+      maxRating: Schema.optional(Schema.String),
+      merchantId: Schema.optional(Schema.String),
+      merchantLink: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      isAnonymous: Schema.optional(Schema.Boolean),
+      reviewLanguage: Schema.optional(Schema.String),
+      reviewCountry: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MerchantReviewAttributes",
+  }) as any as Schema.Schema<MerchantReviewAttributes>;
 
 export interface CustomAttribute {
   /** The name of the attribute. */
@@ -254,11 +340,16 @@ export interface CustomAttribute {
   value?: string;
 }
 
-export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  groupValues: Schema.optional(Schema.Array(CustomAttribute)),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomAttribute" }) as any as Schema.Schema<CustomAttribute>;
+export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      groupValues: Schema.optional(Schema.Array(CustomAttribute)),
+      value: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CustomAttribute",
+}) as any as Schema.Schema<CustomAttribute>;
 
 export interface MerchantReview {
   /** Required. The user provided merchant review ID to uniquely identify the merchant review. */
@@ -275,14 +366,19 @@ export interface MerchantReview {
   dataSource?: string;
 }
 
-export const MerchantReview: Schema.Schema<MerchantReview> = Schema.suspend(() => Schema.Struct({
-  merchantReviewId: Schema.optional(Schema.String),
-  merchantReviewStatus: Schema.optional(MerchantReviewStatus),
-  name: Schema.optional(Schema.String),
-  merchantReviewAttributes: Schema.optional(MerchantReviewAttributes),
-  customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-  dataSource: Schema.optional(Schema.String),
-})).annotate({ identifier: "MerchantReview" }) as any as Schema.Schema<MerchantReview>;
+export const MerchantReview: Schema.Schema<MerchantReview> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      merchantReviewId: Schema.optional(Schema.String),
+      merchantReviewStatus: Schema.optional(MerchantReviewStatus),
+      name: Schema.optional(Schema.String),
+      merchantReviewAttributes: Schema.optional(MerchantReviewAttributes),
+      customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+      dataSource: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MerchantReview",
+}) as any as Schema.Schema<MerchantReview>;
 
 export interface ListMerchantReviewsResponse {
   /** The merchant review. */
@@ -291,23 +387,58 @@ export interface ListMerchantReviewsResponse {
   nextPageToken?: string;
 }
 
-export const ListMerchantReviewsResponse: Schema.Schema<ListMerchantReviewsResponse> = Schema.suspend(() => Schema.Struct({
-  merchantReviews: Schema.optional(Schema.Array(MerchantReview)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListMerchantReviewsResponse" }) as any as Schema.Schema<ListMerchantReviewsResponse>;
+export const ListMerchantReviewsResponse: Schema.Schema<ListMerchantReviewsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      merchantReviews: Schema.optional(Schema.Array(MerchantReview)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListMerchantReviewsResponse",
+  }) as any as Schema.Schema<ListMerchantReviewsResponse>;
 
 export interface ProductReviewDestinationStatus {
   /** Output only. The name of the reporting context. */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
 }
 
-export const ProductReviewDestinationStatus: Schema.Schema<ProductReviewDestinationStatus> = Schema.suspend(() => Schema.Struct({
-  reportingContext: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductReviewDestinationStatus" }) as any as Schema.Schema<ProductReviewDestinationStatus>;
+export const ProductReviewDestinationStatus: Schema.Schema<ProductReviewDestinationStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductReviewDestinationStatus",
+  }) as any as Schema.Schema<ProductReviewDestinationStatus>;
 
 export interface ProductReviewItemLevelIssue {
   /** Output only. How this issue affects serving of the product review. */
-  severity?: "SEVERITY_UNSPECIFIED" | "NOT_IMPACTED" | "DISAPPROVED" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "NOT_IMPACTED"
+    | "DISAPPROVED"
+    | (string & {});
   /** Output only. Whether the issue can be resolved by the merchant. */
   resolution?: string;
   /** Output only. The error code of the issue. */
@@ -315,7 +446,28 @@ export interface ProductReviewItemLevelIssue {
   /** Output only. The attribute's name, if the issue is caused by a single attribute. */
   attribute?: string;
   /** Output only. The reporting context the issue applies to. */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
   /** Output only. A short issue description in English. */
   description?: string;
   /** Output only. A detailed issue description in English. */
@@ -324,16 +476,21 @@ export interface ProductReviewItemLevelIssue {
   documentation?: string;
 }
 
-export const ProductReviewItemLevelIssue: Schema.Schema<ProductReviewItemLevelIssue> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  resolution: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  reportingContext: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  detail: Schema.optional(Schema.String),
-  documentation: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductReviewItemLevelIssue" }) as any as Schema.Schema<ProductReviewItemLevelIssue>;
+export const ProductReviewItemLevelIssue: Schema.Schema<ProductReviewItemLevelIssue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      severity: Schema.optional(Schema.String),
+      resolution: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      detail: Schema.optional(Schema.String),
+      documentation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductReviewItemLevelIssue",
+  }) as any as Schema.Schema<ProductReviewItemLevelIssue>;
 
 export interface ProductReviewStatus {
   /** Output only. Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
@@ -346,12 +503,21 @@ export interface ProductReviewStatus {
   itemLevelIssues?: Array<ProductReviewItemLevelIssue>;
 }
 
-export const ProductReviewStatus: Schema.Schema<ProductReviewStatus> = Schema.suspend(() => Schema.Struct({
-  lastUpdateTime: Schema.optional(Schema.String),
-  destinationStatuses: Schema.optional(Schema.Array(ProductReviewDestinationStatus)),
-  createTime: Schema.optional(Schema.String),
-  itemLevelIssues: Schema.optional(Schema.Array(ProductReviewItemLevelIssue)),
-})).annotate({ identifier: "ProductReviewStatus" }) as any as Schema.Schema<ProductReviewStatus>;
+export const ProductReviewStatus: Schema.Schema<ProductReviewStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lastUpdateTime: Schema.optional(Schema.String),
+      destinationStatuses: Schema.optional(
+        Schema.Array(ProductReviewDestinationStatus),
+      ),
+      createTime: Schema.optional(Schema.String),
+      itemLevelIssues: Schema.optional(
+        Schema.Array(ProductReviewItemLevelIssue),
+      ),
+    }),
+  ).annotate({
+    identifier: "ProductReviewStatus",
+  }) as any as Schema.Schema<ProductReviewStatus>;
 
 export interface ProductReview {
   /** Identifier. The name of the product review. Format: `"{productreview.name=accounts/{account}/productReviews/{productReview}}"` */
@@ -368,14 +534,18 @@ export interface ProductReview {
   productReviewId?: string;
 }
 
-export const ProductReview: Schema.Schema<ProductReview> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-  dataSource: Schema.optional(Schema.String),
-  productReviewAttributes: Schema.optional(ProductReviewAttributes),
-  productReviewStatus: Schema.optional(ProductReviewStatus),
-  productReviewId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductReview" }) as any as Schema.Schema<ProductReview>;
+export const ProductReview: Schema.Schema<ProductReview> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+    dataSource: Schema.optional(Schema.String),
+    productReviewAttributes: Schema.optional(ProductReviewAttributes),
+    productReviewStatus: Schema.optional(ProductReviewStatus),
+    productReviewId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductReview",
+}) as any as Schema.Schema<ProductReview>;
 
 export interface ListProductReviewsResponse {
   /** The product review. */
@@ -384,20 +554,46 @@ export interface ListProductReviewsResponse {
   nextPageToken?: string;
 }
 
-export const ListProductReviewsResponse: Schema.Schema<ListProductReviewsResponse> = Schema.suspend(() => Schema.Struct({
-  productReviews: Schema.optional(Schema.Array(ProductReview)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListProductReviewsResponse" }) as any as Schema.Schema<ListProductReviewsResponse>;
+export const ListProductReviewsResponse: Schema.Schema<ListProductReviewsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      productReviews: Schema.optional(Schema.Array(ProductReview)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListProductReviewsResponse",
+  }) as any as Schema.Schema<ListProductReviewsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ProductChange {
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
   /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
   oldValue?: string;
   /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
@@ -406,12 +602,16 @@ export interface ProductChange {
   regionCode?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() => Schema.Struct({
-  reportingContext: Schema.optional(Schema.String),
-  oldValue: Schema.optional(Schema.String),
-  newValue: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductChange" }) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
+  Schema.Struct({
+    reportingContext: Schema.optional(Schema.String),
+    oldValue: Schema.optional(Schema.String),
+    newValue: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductChange",
+}) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** The resource that changed, in this case it will always be `Product`. */
@@ -434,17 +634,22 @@ export interface ProductStatusChangeMessage {
   eventTime?: string;
 }
 
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> = Schema.suspend(() => Schema.Struct({
-  resourceType: Schema.optional(Schema.String),
-  changes: Schema.optional(Schema.Array(ProductChange)),
-  resourceId: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  account: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-  managingAccount: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductStatusChangeMessage" }) as any as Schema.Schema<ProductStatusChangeMessage>;
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceType: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+      resourceId: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+      managingAccount: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 // ==========================================================================
 // Operations
@@ -458,7 +663,10 @@ export interface GetAccountsMerchantReviewsRequest {
 export const GetAccountsMerchantReviewsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "reviews/v1beta/accounts/{accountsId}/merchantReviews/{merchantReviewsId}" }),
+  T.Http({
+    method: "GET",
+    path: "reviews/v1beta/accounts/{accountsId}/merchantReviews/{merchantReviewsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsMerchantReviewsRequest>;
 
@@ -468,7 +676,12 @@ export const GetAccountsMerchantReviewsResponse = MerchantReview;
 export type GetAccountsMerchantReviewsError = DefaultErrors;
 
 /** Gets a merchant review. */
-export const getAccountsMerchantReviews: API.OperationMethod<GetAccountsMerchantReviewsRequest, GetAccountsMerchantReviewsResponse, GetAccountsMerchantReviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsMerchantReviews: API.OperationMethod<
+  GetAccountsMerchantReviewsRequest,
+  GetAccountsMerchantReviewsResponse,
+  GetAccountsMerchantReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsMerchantReviewsRequest,
   output: GetAccountsMerchantReviewsResponse,
   errors: [],
@@ -488,7 +701,10 @@ export const ListAccountsMerchantReviewsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "reviews/v1beta/accounts/{accountsId}/merchantReviews" }),
+  T.Http({
+    method: "GET",
+    path: "reviews/v1beta/accounts/{accountsId}/merchantReviews",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsMerchantReviewsRequest>;
 
@@ -498,7 +714,12 @@ export const ListAccountsMerchantReviewsResponse = ListMerchantReviewsResponse;
 export type ListAccountsMerchantReviewsError = DefaultErrors;
 
 /** Lists merchant reviews. */
-export const listAccountsMerchantReviews: API.PaginatedOperationMethod<ListAccountsMerchantReviewsRequest, ListAccountsMerchantReviewsResponse, ListAccountsMerchantReviewsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsMerchantReviews: API.PaginatedOperationMethod<
+  ListAccountsMerchantReviewsRequest,
+  ListAccountsMerchantReviewsResponse,
+  ListAccountsMerchantReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsMerchantReviewsRequest,
   output: ListAccountsMerchantReviewsResponse,
   errors: [],
@@ -516,7 +737,10 @@ export interface DeleteAccountsMerchantReviewsRequest {
 export const DeleteAccountsMerchantReviewsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "reviews/v1beta/accounts/{accountsId}/merchantReviews/{merchantReviewsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "reviews/v1beta/accounts/{accountsId}/merchantReviews/{merchantReviewsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsMerchantReviewsRequest>;
 
@@ -526,7 +750,12 @@ export const DeleteAccountsMerchantReviewsResponse = Empty;
 export type DeleteAccountsMerchantReviewsError = DefaultErrors;
 
 /** Deletes merchant review. */
-export const deleteAccountsMerchantReviews: API.OperationMethod<DeleteAccountsMerchantReviewsRequest, DeleteAccountsMerchantReviewsResponse, DeleteAccountsMerchantReviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsMerchantReviews: API.OperationMethod<
+  DeleteAccountsMerchantReviewsRequest,
+  DeleteAccountsMerchantReviewsResponse,
+  DeleteAccountsMerchantReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsMerchantReviewsRequest,
   output: DeleteAccountsMerchantReviewsResponse,
   errors: [],
@@ -546,7 +775,11 @@ export const InsertAccountsMerchantReviewsRequest = Schema.Struct({
   dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
   body: Schema.optional(MerchantReview).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "reviews/v1beta/accounts/{accountsId}/merchantReviews:insert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "reviews/v1beta/accounts/{accountsId}/merchantReviews:insert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertAccountsMerchantReviewsRequest>;
 
@@ -556,7 +789,12 @@ export const InsertAccountsMerchantReviewsResponse = MerchantReview;
 export type InsertAccountsMerchantReviewsError = DefaultErrors;
 
 /** Inserts a review for your Merchant Center account. If the review already exists, then the review is replaced with the new instance. */
-export const insertAccountsMerchantReviews: API.OperationMethod<InsertAccountsMerchantReviewsRequest, InsertAccountsMerchantReviewsResponse, InsertAccountsMerchantReviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertAccountsMerchantReviews: API.OperationMethod<
+  InsertAccountsMerchantReviewsRequest,
+  InsertAccountsMerchantReviewsResponse,
+  InsertAccountsMerchantReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertAccountsMerchantReviewsRequest,
   output: InsertAccountsMerchantReviewsResponse,
   errors: [],
@@ -570,7 +808,10 @@ export interface GetAccountsProductReviewsRequest {
 export const GetAccountsProductReviewsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "reviews/v1beta/accounts/{accountsId}/productReviews/{productReviewsId}" }),
+  T.Http({
+    method: "GET",
+    path: "reviews/v1beta/accounts/{accountsId}/productReviews/{productReviewsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsProductReviewsRequest>;
 
@@ -580,7 +821,12 @@ export const GetAccountsProductReviewsResponse = ProductReview;
 export type GetAccountsProductReviewsError = DefaultErrors;
 
 /** Gets a product review. */
-export const getAccountsProductReviews: API.OperationMethod<GetAccountsProductReviewsRequest, GetAccountsProductReviewsResponse, GetAccountsProductReviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsProductReviews: API.OperationMethod<
+  GetAccountsProductReviewsRequest,
+  GetAccountsProductReviewsResponse,
+  GetAccountsProductReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsProductReviewsRequest,
   output: GetAccountsProductReviewsResponse,
   errors: [],
@@ -600,7 +846,11 @@ export const InsertAccountsProductReviewsRequest = Schema.Struct({
   dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
   body: Schema.optional(ProductReview).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "reviews/v1beta/accounts/{accountsId}/productReviews:insert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "reviews/v1beta/accounts/{accountsId}/productReviews:insert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertAccountsProductReviewsRequest>;
 
@@ -610,7 +860,12 @@ export const InsertAccountsProductReviewsResponse = ProductReview;
 export type InsertAccountsProductReviewsError = DefaultErrors;
 
 /** Inserts a product review. */
-export const insertAccountsProductReviews: API.OperationMethod<InsertAccountsProductReviewsRequest, InsertAccountsProductReviewsResponse, InsertAccountsProductReviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertAccountsProductReviews: API.OperationMethod<
+  InsertAccountsProductReviewsRequest,
+  InsertAccountsProductReviewsResponse,
+  InsertAccountsProductReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertAccountsProductReviewsRequest,
   output: InsertAccountsProductReviewsResponse,
   errors: [],
@@ -630,7 +885,10 @@ export const ListAccountsProductReviewsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "reviews/v1beta/accounts/{accountsId}/productReviews" }),
+  T.Http({
+    method: "GET",
+    path: "reviews/v1beta/accounts/{accountsId}/productReviews",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsProductReviewsRequest>;
 
@@ -640,7 +898,12 @@ export const ListAccountsProductReviewsResponse = ListProductReviewsResponse;
 export type ListAccountsProductReviewsError = DefaultErrors;
 
 /** Lists product reviews. */
-export const listAccountsProductReviews: API.PaginatedOperationMethod<ListAccountsProductReviewsRequest, ListAccountsProductReviewsResponse, ListAccountsProductReviewsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsProductReviews: API.PaginatedOperationMethod<
+  ListAccountsProductReviewsRequest,
+  ListAccountsProductReviewsResponse,
+  ListAccountsProductReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsProductReviewsRequest,
   output: ListAccountsProductReviewsResponse,
   errors: [],
@@ -658,7 +921,10 @@ export interface DeleteAccountsProductReviewsRequest {
 export const DeleteAccountsProductReviewsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "reviews/v1beta/accounts/{accountsId}/productReviews/{productReviewsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "reviews/v1beta/accounts/{accountsId}/productReviews/{productReviewsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsProductReviewsRequest>;
 
@@ -668,9 +934,13 @@ export const DeleteAccountsProductReviewsResponse = Empty;
 export type DeleteAccountsProductReviewsError = DefaultErrors;
 
 /** Deletes a product review. */
-export const deleteAccountsProductReviews: API.OperationMethod<DeleteAccountsProductReviewsRequest, DeleteAccountsProductReviewsResponse, DeleteAccountsProductReviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsProductReviews: API.OperationMethod<
+  DeleteAccountsProductReviewsRequest,
+  DeleteAccountsProductReviewsResponse,
+  DeleteAccountsProductReviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsProductReviewsRequest,
   output: DeleteAccountsProductReviewsResponse,
   errors: [],
 }));
-

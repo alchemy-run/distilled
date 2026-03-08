@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,23 +74,29 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface Source {
   /** The relative resource name of this source. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/sources/{source_id}" */
@@ -95,11 +107,13 @@ export interface Source {
   description?: string;
 }
 
-export const Source: Schema.Schema<Source> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "Source" }) as any as Schema.Schema<Source>;
+export const Source: Schema.Schema<Source> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Source" }) as any as Schema.Schema<Source>;
 
 export interface GoogleCloudSecuritycenterV1beta1SecurityMarks {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
@@ -108,10 +122,15 @@ export interface GoogleCloudSecuritycenterV1beta1SecurityMarks {
   marks?: Record<string, string>;
 }
 
-export const GoogleCloudSecuritycenterV1beta1SecurityMarks: Schema.Schema<GoogleCloudSecuritycenterV1beta1SecurityMarks> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1beta1SecurityMarks" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1beta1SecurityMarks>;
+export const GoogleCloudSecuritycenterV1beta1SecurityMarks: Schema.Schema<GoogleCloudSecuritycenterV1beta1SecurityMarks> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1beta1SecurityMarks",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1beta1SecurityMarks>;
 
 export interface GoogleCloudSecuritycenterV1beta1Finding {
   /** The relative resource name of this finding. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}" */
@@ -136,36 +155,55 @@ export interface GoogleCloudSecuritycenterV1beta1Finding {
   createTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV1beta1Finding: Schema.Schema<GoogleCloudSecuritycenterV1beta1Finding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  resourceName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  externalUri: Schema.optional(Schema.String),
-  sourceProperties: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  securityMarks: Schema.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks),
-  eventTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1beta1Finding" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1beta1Finding>;
+export const GoogleCloudSecuritycenterV1beta1Finding: Schema.Schema<GoogleCloudSecuritycenterV1beta1Finding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      resourceName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      category: Schema.optional(Schema.String),
+      externalUri: Schema.optional(Schema.String),
+      sourceProperties: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      securityMarks: Schema.optional(
+        GoogleCloudSecuritycenterV1beta1SecurityMarks,
+      ),
+      eventTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1beta1Finding",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1beta1Finding>;
 
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(() => Schema.Struct({
-  requestedPolicyVersion: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GetPolicyOptions" }) as any as Schema.Schema<GetPolicyOptions>;
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GetPolicyOptions",
+}) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions;
 }
 
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(GetPolicyOptions),
-})).annotate({ identifier: "GetIamPolicyRequest" }) as any as Schema.Schema<GetIamPolicyRequest>;
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -178,12 +216,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -194,23 +234,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -219,10 +271,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -235,24 +289,35 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface AssetDiscoveryConfig {
   /** The project ids to use for filtering asset discovery. */
   projectIds?: Array<string>;
   /** The mode to use for filtering asset discovery. */
-  inclusionMode?: "INCLUSION_MODE_UNSPECIFIED" | "INCLUDE_ONLY" | "EXCLUDE" | (string & {});
+  inclusionMode?:
+    | "INCLUSION_MODE_UNSPECIFIED"
+    | "INCLUDE_ONLY"
+    | "EXCLUDE"
+    | (string & {});
 }
 
-export const AssetDiscoveryConfig: Schema.Schema<AssetDiscoveryConfig> = Schema.suspend(() => Schema.Struct({
-  projectIds: Schema.optional(Schema.Array(Schema.String)),
-  inclusionMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AssetDiscoveryConfig" }) as any as Schema.Schema<AssetDiscoveryConfig>;
+export const AssetDiscoveryConfig: Schema.Schema<AssetDiscoveryConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projectIds: Schema.optional(Schema.Array(Schema.String)),
+      inclusionMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AssetDiscoveryConfig",
+  }) as any as Schema.Schema<AssetDiscoveryConfig>;
 
 export interface OrganizationSettings {
   /** The relative resource name of the settings. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/organizationSettings". */
@@ -263,11 +328,16 @@ export interface OrganizationSettings {
   assetDiscoveryConfig?: AssetDiscoveryConfig;
 }
 
-export const OrganizationSettings: Schema.Schema<OrganizationSettings> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  enableAssetDiscovery: Schema.optional(Schema.Boolean),
-  assetDiscoveryConfig: Schema.optional(AssetDiscoveryConfig),
-})).annotate({ identifier: "OrganizationSettings" }) as any as Schema.Schema<OrganizationSettings>;
+export const OrganizationSettings: Schema.Schema<OrganizationSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      enableAssetDiscovery: Schema.optional(Schema.Boolean),
+      assetDiscoveryConfig: Schema.optional(AssetDiscoveryConfig),
+    }),
+  ).annotate({
+    identifier: "OrganizationSettings",
+  }) as any as Schema.Schema<OrganizationSettings>;
 
 export interface GroupAssetsRequest {
   /** Expression that defines the filter to apply across assets. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. Parentheses are not supported, and `OR` has higher precedence than `AND`. Restrictions have the form ` ` and may have a `-` character in front of them to indicate negation. The fields map to those defined in the Asset resource. Examples include: * name * security_center_properties.resource_name * resource_properties.a_property * security_marks.marks.marka The supported operators are: * `=` for all value types. * `>`, `<`, `>=`, `<=` for integer values. * `:`, meaning substring matching, for strings. The supported value types are: * string literals in quotes. * integer literals without quotes. * boolean literals `true` and `false` without quotes. For example, `resource_properties.size = 100` is a valid filter string. */
@@ -284,14 +354,19 @@ export interface GroupAssetsRequest {
   pageSize?: number;
 }
 
-export const GroupAssetsRequest: Schema.Schema<GroupAssetsRequest> = Schema.suspend(() => Schema.Struct({
-  filter: Schema.optional(Schema.String),
-  groupBy: Schema.optional(Schema.String),
-  compareDuration: Schema.optional(Schema.String),
-  readTime: Schema.optional(Schema.String),
-  pageToken: Schema.optional(Schema.String),
-  pageSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GroupAssetsRequest" }) as any as Schema.Schema<GroupAssetsRequest>;
+export const GroupAssetsRequest: Schema.Schema<GroupAssetsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filter: Schema.optional(Schema.String),
+      groupBy: Schema.optional(Schema.String),
+      compareDuration: Schema.optional(Schema.String),
+      readTime: Schema.optional(Schema.String),
+      pageToken: Schema.optional(Schema.String),
+      pageSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GroupAssetsRequest",
+  }) as any as Schema.Schema<GroupAssetsRequest>;
 
 export interface GroupResult {
   /** Properties matching the groupBy fields in the request. */
@@ -300,10 +375,12 @@ export interface GroupResult {
   count?: string;
 }
 
-export const GroupResult: Schema.Schema<GroupResult> = Schema.suspend(() => Schema.Struct({
-  properties: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  count: Schema.optional(Schema.String),
-})).annotate({ identifier: "GroupResult" }) as any as Schema.Schema<GroupResult>;
+export const GroupResult: Schema.Schema<GroupResult> = Schema.suspend(() =>
+  Schema.Struct({
+    properties: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    count: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GroupResult" }) as any as Schema.Schema<GroupResult>;
 
 export interface GroupAssetsResponse {
   /** Group results. There exists an element for each existing unique combination of property/values. The element contains a count for the number of times those specific property/values appear. */
@@ -314,11 +391,16 @@ export interface GroupAssetsResponse {
   nextPageToken?: string;
 }
 
-export const GroupAssetsResponse: Schema.Schema<GroupAssetsResponse> = Schema.suspend(() => Schema.Struct({
-  groupByResults: Schema.optional(Schema.Array(GroupResult)),
-  readTime: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GroupAssetsResponse" }) as any as Schema.Schema<GroupAssetsResponse>;
+export const GroupAssetsResponse: Schema.Schema<GroupAssetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      groupByResults: Schema.optional(Schema.Array(GroupResult)),
+      readTime: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GroupAssetsResponse",
+  }) as any as Schema.Schema<GroupAssetsResponse>;
 
 export interface GroupFindingsRequest {
   /** Expression that defines the filter to apply across findings. The expression is a list of one or more restrictions combined via logical operators `AND` and `OR`. Parentheses are not supported, and `OR` has higher precedence than `AND`. Restrictions have the form ` ` and may have a `-` character in front of them to indicate negation. Examples include: * name * source_properties.a_property * security_marks.marks.marka The supported operators are: * `=` for all value types. * `>`, `<`, `>=`, `<=` for integer values. * `:`, meaning substring matching, for strings. The supported value types are: * string literals in quotes. * integer literals without quotes. * boolean literals `true` and `false` without quotes. For example, `source_properties.size = 100` is a valid filter string. */
@@ -333,13 +415,18 @@ export interface GroupFindingsRequest {
   pageSize?: number;
 }
 
-export const GroupFindingsRequest: Schema.Schema<GroupFindingsRequest> = Schema.suspend(() => Schema.Struct({
-  filter: Schema.optional(Schema.String),
-  groupBy: Schema.optional(Schema.String),
-  readTime: Schema.optional(Schema.String),
-  pageToken: Schema.optional(Schema.String),
-  pageSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GroupFindingsRequest" }) as any as Schema.Schema<GroupFindingsRequest>;
+export const GroupFindingsRequest: Schema.Schema<GroupFindingsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filter: Schema.optional(Schema.String),
+      groupBy: Schema.optional(Schema.String),
+      readTime: Schema.optional(Schema.String),
+      pageToken: Schema.optional(Schema.String),
+      pageSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GroupFindingsRequest",
+  }) as any as Schema.Schema<GroupFindingsRequest>;
 
 export interface GroupFindingsResponse {
   /** Group results. There exists an element for each existing unique combination of property/values. The element contains a count for the number of times those specific property/values appear. */
@@ -350,11 +437,16 @@ export interface GroupFindingsResponse {
   nextPageToken?: string;
 }
 
-export const GroupFindingsResponse: Schema.Schema<GroupFindingsResponse> = Schema.suspend(() => Schema.Struct({
-  groupByResults: Schema.optional(Schema.Array(GroupResult)),
-  readTime: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GroupFindingsResponse" }) as any as Schema.Schema<GroupFindingsResponse>;
+export const GroupFindingsResponse: Schema.Schema<GroupFindingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      groupByResults: Schema.optional(Schema.Array(GroupResult)),
+      readTime: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GroupFindingsResponse",
+  }) as any as Schema.Schema<GroupFindingsResponse>;
 
 export interface SecurityCenterProperties {
   /** Immutable. The full resource name of the Google Cloud resource this asset represents. This field is immutable after create time. See: https://cloud.google.com/apis/design/resource_names#full_resource_name */
@@ -369,13 +461,18 @@ export interface SecurityCenterProperties {
   resourceOwners?: Array<string>;
 }
 
-export const SecurityCenterProperties: Schema.Schema<SecurityCenterProperties> = Schema.suspend(() => Schema.Struct({
-  resourceName: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-  resourceParent: Schema.optional(Schema.String),
-  resourceProject: Schema.optional(Schema.String),
-  resourceOwners: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "SecurityCenterProperties" }) as any as Schema.Schema<SecurityCenterProperties>;
+export const SecurityCenterProperties: Schema.Schema<SecurityCenterProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceName: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      resourceParent: Schema.optional(Schema.String),
+      resourceProject: Schema.optional(Schema.String),
+      resourceOwners: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "SecurityCenterProperties",
+  }) as any as Schema.Schema<SecurityCenterProperties>;
 
 export interface Asset {
   /** The relative resource name of this asset. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/assets/{asset_id}". */
@@ -392,26 +489,43 @@ export interface Asset {
   updateTime?: string;
 }
 
-export const Asset: Schema.Schema<Asset> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  securityCenterProperties: Schema.optional(SecurityCenterProperties),
-  resourceProperties: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  securityMarks: Schema.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
+export const Asset: Schema.Schema<Asset> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    securityCenterProperties: Schema.optional(SecurityCenterProperties),
+    resourceProperties: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+    securityMarks: Schema.optional(
+      GoogleCloudSecuritycenterV1beta1SecurityMarks,
+    ),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
 
 export interface ListAssetsResult {
   /** Asset matching the search request. */
   asset?: Asset;
   /** State of the asset. */
-  state?: "STATE_UNSPECIFIED" | "UNUSED" | "ADDED" | "REMOVED" | "ACTIVE" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "UNUSED"
+    | "ADDED"
+    | "REMOVED"
+    | "ACTIVE"
+    | (string & {});
 }
 
-export const ListAssetsResult: Schema.Schema<ListAssetsResult> = Schema.suspend(() => Schema.Struct({
-  asset: Schema.optional(Asset),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAssetsResult" }) as any as Schema.Schema<ListAssetsResult>;
+export const ListAssetsResult: Schema.Schema<ListAssetsResult> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      asset: Schema.optional(Asset),
+      state: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ListAssetsResult",
+}) as any as Schema.Schema<ListAssetsResult>;
 
 export interface ListAssetsResponse {
   /** Assets matching the list request. */
@@ -424,12 +538,17 @@ export interface ListAssetsResponse {
   totalSize?: number;
 }
 
-export const ListAssetsResponse: Schema.Schema<ListAssetsResponse> = Schema.suspend(() => Schema.Struct({
-  listAssetsResults: Schema.optional(Schema.Array(ListAssetsResult)),
-  readTime: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListAssetsResponse" }) as any as Schema.Schema<ListAssetsResponse>;
+export const ListAssetsResponse: Schema.Schema<ListAssetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      listAssetsResults: Schema.optional(Schema.Array(ListAssetsResult)),
+      readTime: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListAssetsResponse",
+  }) as any as Schema.Schema<ListAssetsResponse>;
 
 export interface ListFindingsResponse {
   /** Findings matching the list request. */
@@ -442,12 +561,19 @@ export interface ListFindingsResponse {
   totalSize?: number;
 }
 
-export const ListFindingsResponse: Schema.Schema<ListFindingsResponse> = Schema.suspend(() => Schema.Struct({
-  findings: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1beta1Finding)),
-  readTime: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListFindingsResponse" }) as any as Schema.Schema<ListFindingsResponse>;
+export const ListFindingsResponse: Schema.Schema<ListFindingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      findings: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV1beta1Finding),
+      ),
+      readTime: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListFindingsResponse",
+  }) as any as Schema.Schema<ListFindingsResponse>;
 
 export interface ListSourcesResponse {
   /** Sources belonging to the requested parent. */
@@ -456,16 +582,22 @@ export interface ListSourcesResponse {
   nextPageToken?: string;
 }
 
-export const ListSourcesResponse: Schema.Schema<ListSourcesResponse> = Schema.suspend(() => Schema.Struct({
-  sources: Schema.optional(Schema.Array(Source)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSourcesResponse" }) as any as Schema.Schema<ListSourcesResponse>;
+export const ListSourcesResponse: Schema.Schema<ListSourcesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sources: Schema.optional(Schema.Array(Source)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSourcesResponse",
+  }) as any as Schema.Schema<ListSourcesResponse>;
 
-export interface RunAssetDiscoveryRequest {
-}
+export interface RunAssetDiscoveryRequest {}
 
-export const RunAssetDiscoveryRequest: Schema.Schema<RunAssetDiscoveryRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RunAssetDiscoveryRequest" }) as any as Schema.Schema<RunAssetDiscoveryRequest>;
+export const RunAssetDiscoveryRequest: Schema.Schema<RunAssetDiscoveryRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RunAssetDiscoveryRequest",
+  }) as any as Schema.Schema<RunAssetDiscoveryRequest>;
 
 export interface SetFindingStateRequest {
   /** Required. The desired State of the finding. */
@@ -474,10 +606,15 @@ export interface SetFindingStateRequest {
   startTime?: string;
 }
 
-export const SetFindingStateRequest: Schema.Schema<SetFindingStateRequest> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetFindingStateRequest" }) as any as Schema.Schema<SetFindingStateRequest>;
+export const SetFindingStateRequest: Schema.Schema<SetFindingStateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetFindingStateRequest",
+  }) as any as Schema.Schema<SetFindingStateRequest>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -486,46 +623,72 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse {
   /** The state of an asset discovery run. */
-  state?: "STATE_UNSPECIFIED" | "COMPLETED" | "SUPERSEDED" | "TERMINATED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "COMPLETED"
+    | "SUPERSEDED"
+    | "TERMINATED"
+    | (string & {});
   /** The duration between asset discovery run start and end */
   duration?: string;
 }
 
-export const GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse: Schema.Schema<GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse>;
+export const GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse: Schema.Schema<GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      duration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1beta1RunAssetDiscoveryResponse>;
 
-export interface GoogleCloudSecuritycenterV1BulkMuteFindingsResponse {
-}
+export interface GoogleCloudSecuritycenterV1BulkMuteFindingsResponse {}
 
-export const GoogleCloudSecuritycenterV1BulkMuteFindingsResponse: Schema.Schema<GoogleCloudSecuritycenterV1BulkMuteFindingsResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1BulkMuteFindingsResponse" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1BulkMuteFindingsResponse>;
+export const GoogleCloudSecuritycenterV1BulkMuteFindingsResponse: Schema.Schema<GoogleCloudSecuritycenterV1BulkMuteFindingsResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudSecuritycenterV1BulkMuteFindingsResponse",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1BulkMuteFindingsResponse>;
 
 export interface TicketInfo {
   /** The identifier of the ticket in the ticket system. */
@@ -542,14 +705,16 @@ export interface TicketInfo {
   updateTime?: string;
 }
 
-export const TicketInfo: Schema.Schema<TicketInfo> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  assignee: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TicketInfo" }) as any as Schema.Schema<TicketInfo>;
+export const TicketInfo: Schema.Schema<TicketInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    assignee: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TicketInfo" }) as any as Schema.Schema<TicketInfo>;
 
 export interface GoogleCloudSecuritycenterV1ExternalSystem {
   /** Full resource name of the external system, for example: "organizations/1234/sources/5678/findings/123456/externalSystems/jira", "folders/1234/sources/5678/findings/123456/externalSystems/jira", "projects/1234/sources/5678/findings/123456/externalSystems/jira" */
@@ -576,19 +741,24 @@ export interface GoogleCloudSecuritycenterV1ExternalSystem {
   ticketInfo?: TicketInfo;
 }
 
-export const GoogleCloudSecuritycenterV1ExternalSystem: Schema.Schema<GoogleCloudSecuritycenterV1ExternalSystem> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  assignees: Schema.optional(Schema.Array(Schema.String)),
-  externalUid: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  externalSystemUpdateTime: Schema.optional(Schema.String),
-  caseUri: Schema.optional(Schema.String),
-  casePriority: Schema.optional(Schema.String),
-  caseSla: Schema.optional(Schema.String),
-  caseCreateTime: Schema.optional(Schema.String),
-  caseCloseTime: Schema.optional(Schema.String),
-  ticketInfo: Schema.optional(TicketInfo),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ExternalSystem" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ExternalSystem>;
+export const GoogleCloudSecuritycenterV1ExternalSystem: Schema.Schema<GoogleCloudSecuritycenterV1ExternalSystem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      assignees: Schema.optional(Schema.Array(Schema.String)),
+      externalUid: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      externalSystemUpdateTime: Schema.optional(Schema.String),
+      caseUri: Schema.optional(Schema.String),
+      casePriority: Schema.optional(Schema.String),
+      caseSla: Schema.optional(Schema.String),
+      caseCreateTime: Schema.optional(Schema.String),
+      caseCloseTime: Schema.optional(Schema.String),
+      ticketInfo: Schema.optional(TicketInfo),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1ExternalSystem",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ExternalSystem>;
 
 export interface GoogleCloudSecuritycenterV1MuteConfig {
   /** This field will be ignored if provided on config creation. Format `organizations/{organization}/muteConfigs/{mute_config}` `folders/{folder}/muteConfigs/{mute_config}` `projects/{project}/muteConfigs/{mute_config}` `organizations/{organization}/locations/global/muteConfigs/{mute_config}` `folders/{folder}/locations/global/muteConfigs/{mute_config}` `projects/{project}/locations/global/muteConfigs/{mute_config}` */
@@ -611,17 +781,22 @@ export interface GoogleCloudSecuritycenterV1MuteConfig {
   expiryTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV1MuteConfig: Schema.Schema<GoogleCloudSecuritycenterV1MuteConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  mostRecentEditor: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  expiryTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1MuteConfig" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1MuteConfig>;
+export const GoogleCloudSecuritycenterV1MuteConfig: Schema.Schema<GoogleCloudSecuritycenterV1MuteConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      filter: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      mostRecentEditor: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      expiryTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1MuteConfig",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1MuteConfig>;
 
 export interface GoogleCloudSecuritycenterV1BigQueryExport {
   /** The relative resource name of this export. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name. Example format: "organizations/{organization_id}/bigQueryExports/{export_id}" Example format: "folders/{folder_id}/bigQueryExports/{export_id}" Example format: "projects/{project_id}/bigQueryExports/{export_id}" This field is provided in responses, and is ignored when provided in create requests. */
@@ -642,16 +817,21 @@ export interface GoogleCloudSecuritycenterV1BigQueryExport {
   principal?: string;
 }
 
-export const GoogleCloudSecuritycenterV1BigQueryExport: Schema.Schema<GoogleCloudSecuritycenterV1BigQueryExport> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  mostRecentEditor: Schema.optional(Schema.String),
-  principal: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1BigQueryExport" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1BigQueryExport>;
+export const GoogleCloudSecuritycenterV1BigQueryExport: Schema.Schema<GoogleCloudSecuritycenterV1BigQueryExport> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      filter: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      mostRecentEditor: Schema.optional(Schema.String),
+      principal: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1BigQueryExport",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1BigQueryExport>;
 
 export interface SecurityMarks {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
@@ -662,11 +842,15 @@ export interface SecurityMarks {
   canonicalName?: string;
 }
 
-export const SecurityMarks: Schema.Schema<SecurityMarks> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  canonicalName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecurityMarks" }) as any as Schema.Schema<SecurityMarks>;
+export const SecurityMarks: Schema.Schema<SecurityMarks> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    canonicalName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SecurityMarks",
+}) as any as Schema.Schema<SecurityMarks>;
 
 export interface Detection {
   /** The name of the binary associated with the memory hash signature detection. */
@@ -675,10 +859,12 @@ export interface Detection {
   percentPagesMatched?: number;
 }
 
-export const Detection: Schema.Schema<Detection> = Schema.suspend(() => Schema.Struct({
-  binary: Schema.optional(Schema.String),
-  percentPagesMatched: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Detection" }) as any as Schema.Schema<Detection>;
+export const Detection: Schema.Schema<Detection> = Schema.suspend(() =>
+  Schema.Struct({
+    binary: Schema.optional(Schema.String),
+    percentPagesMatched: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Detection" }) as any as Schema.Schema<Detection>;
 
 export interface MemoryHashSignature {
   /** The binary family. */
@@ -687,19 +873,29 @@ export interface MemoryHashSignature {
   detections?: Array<Detection>;
 }
 
-export const MemoryHashSignature: Schema.Schema<MemoryHashSignature> = Schema.suspend(() => Schema.Struct({
-  binaryFamily: Schema.optional(Schema.String),
-  detections: Schema.optional(Schema.Array(Detection)),
-})).annotate({ identifier: "MemoryHashSignature" }) as any as Schema.Schema<MemoryHashSignature>;
+export const MemoryHashSignature: Schema.Schema<MemoryHashSignature> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      binaryFamily: Schema.optional(Schema.String),
+      detections: Schema.optional(Schema.Array(Detection)),
+    }),
+  ).annotate({
+    identifier: "MemoryHashSignature",
+  }) as any as Schema.Schema<MemoryHashSignature>;
 
 export interface YaraRuleSignature {
   /** The name of the YARA rule. */
   yaraRule?: string;
 }
 
-export const YaraRuleSignature: Schema.Schema<YaraRuleSignature> = Schema.suspend(() => Schema.Struct({
-  yaraRule: Schema.optional(Schema.String),
-})).annotate({ identifier: "YaraRuleSignature" }) as any as Schema.Schema<YaraRuleSignature>;
+export const YaraRuleSignature: Schema.Schema<YaraRuleSignature> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      yaraRule: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "YaraRuleSignature",
+  }) as any as Schema.Schema<YaraRuleSignature>;
 
 export interface ProcessSignature {
   /** Signature indicating that a binary family was matched. */
@@ -707,14 +903,23 @@ export interface ProcessSignature {
   /** Signature indicating that a YARA rule was matched. */
   yaraRuleSignature?: YaraRuleSignature;
   /** Describes the type of resource associated with the signature. */
-  signatureType?: "SIGNATURE_TYPE_UNSPECIFIED" | "SIGNATURE_TYPE_PROCESS" | "SIGNATURE_TYPE_FILE" | (string & {});
+  signatureType?:
+    | "SIGNATURE_TYPE_UNSPECIFIED"
+    | "SIGNATURE_TYPE_PROCESS"
+    | "SIGNATURE_TYPE_FILE"
+    | (string & {});
 }
 
-export const ProcessSignature: Schema.Schema<ProcessSignature> = Schema.suspend(() => Schema.Struct({
-  memoryHashSignature: Schema.optional(MemoryHashSignature),
-  yaraRuleSignature: Schema.optional(YaraRuleSignature),
-  signatureType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProcessSignature" }) as any as Schema.Schema<ProcessSignature>;
+export const ProcessSignature: Schema.Schema<ProcessSignature> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      memoryHashSignature: Schema.optional(MemoryHashSignature),
+      yaraRuleSignature: Schema.optional(YaraRuleSignature),
+      signatureType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ProcessSignature",
+}) as any as Schema.Schema<ProcessSignature>;
 
 export interface Indicator {
   /** The list of IP addresses that are associated with the finding. */
@@ -727,12 +932,14 @@ export interface Indicator {
   uris?: Array<string>;
 }
 
-export const Indicator: Schema.Schema<Indicator> = Schema.suspend(() => Schema.Struct({
-  ipAddresses: Schema.optional(Schema.Array(Schema.String)),
-  domains: Schema.optional(Schema.Array(Schema.String)),
-  signatures: Schema.optional(Schema.Array(ProcessSignature)),
-  uris: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Indicator" }) as any as Schema.Schema<Indicator>;
+export const Indicator: Schema.Schema<Indicator> = Schema.suspend(() =>
+  Schema.Struct({
+    ipAddresses: Schema.optional(Schema.Array(Schema.String)),
+    domains: Schema.optional(Schema.Array(Schema.String)),
+    signatures: Schema.optional(Schema.Array(ProcessSignature)),
+    uris: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Indicator" }) as any as Schema.Schema<Indicator>;
 
 export interface Reference {
   /** Source of the reference e.g. NVD */
@@ -741,43 +948,85 @@ export interface Reference {
   uri?: string;
 }
 
-export const Reference: Schema.Schema<Reference> = Schema.suspend(() => Schema.Struct({
-  source: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "Reference" }) as any as Schema.Schema<Reference>;
+export const Reference: Schema.Schema<Reference> = Schema.suspend(() =>
+  Schema.Struct({
+    source: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Reference" }) as any as Schema.Schema<Reference>;
 
 export interface Cvssv3 {
   /** The base score is a function of the base metric scores. */
   baseScore?: number;
   /** Base Metrics Represents the intrinsic characteristics of a vulnerability that are constant over time and across user environments. This metric reflects the context by which vulnerability exploitation is possible. */
-  attackVector?: "ATTACK_VECTOR_UNSPECIFIED" | "ATTACK_VECTOR_NETWORK" | "ATTACK_VECTOR_ADJACENT" | "ATTACK_VECTOR_LOCAL" | "ATTACK_VECTOR_PHYSICAL" | (string & {});
+  attackVector?:
+    | "ATTACK_VECTOR_UNSPECIFIED"
+    | "ATTACK_VECTOR_NETWORK"
+    | "ATTACK_VECTOR_ADJACENT"
+    | "ATTACK_VECTOR_LOCAL"
+    | "ATTACK_VECTOR_PHYSICAL"
+    | (string & {});
   /** This metric describes the conditions beyond the attacker's control that must exist in order to exploit the vulnerability. */
-  attackComplexity?: "ATTACK_COMPLEXITY_UNSPECIFIED" | "ATTACK_COMPLEXITY_LOW" | "ATTACK_COMPLEXITY_HIGH" | (string & {});
+  attackComplexity?:
+    | "ATTACK_COMPLEXITY_UNSPECIFIED"
+    | "ATTACK_COMPLEXITY_LOW"
+    | "ATTACK_COMPLEXITY_HIGH"
+    | (string & {});
   /** This metric describes the level of privileges an attacker must possess before successfully exploiting the vulnerability. */
-  privilegesRequired?: "PRIVILEGES_REQUIRED_UNSPECIFIED" | "PRIVILEGES_REQUIRED_NONE" | "PRIVILEGES_REQUIRED_LOW" | "PRIVILEGES_REQUIRED_HIGH" | (string & {});
+  privilegesRequired?:
+    | "PRIVILEGES_REQUIRED_UNSPECIFIED"
+    | "PRIVILEGES_REQUIRED_NONE"
+    | "PRIVILEGES_REQUIRED_LOW"
+    | "PRIVILEGES_REQUIRED_HIGH"
+    | (string & {});
   /** This metric captures the requirement for a human user, other than the attacker, to participate in the successful compromise of the vulnerable component. */
-  userInteraction?: "USER_INTERACTION_UNSPECIFIED" | "USER_INTERACTION_NONE" | "USER_INTERACTION_REQUIRED" | (string & {});
+  userInteraction?:
+    | "USER_INTERACTION_UNSPECIFIED"
+    | "USER_INTERACTION_NONE"
+    | "USER_INTERACTION_REQUIRED"
+    | (string & {});
   /** The Scope metric captures whether a vulnerability in one vulnerable component impacts resources in components beyond its security scope. */
-  scope?: "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED" | (string & {});
+  scope?:
+    | "SCOPE_UNSPECIFIED"
+    | "SCOPE_UNCHANGED"
+    | "SCOPE_CHANGED"
+    | (string & {});
   /** This metric measures the impact to the confidentiality of the information resources managed by a software component due to a successfully exploited vulnerability. */
-  confidentialityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  confidentialityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
   /** This metric measures the impact to integrity of a successfully exploited vulnerability. */
-  integrityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  integrityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
   /** This metric measures the impact to the availability of the impacted component resulting from a successfully exploited vulnerability. */
-  availabilityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  availabilityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
 }
 
-export const Cvssv3: Schema.Schema<Cvssv3> = Schema.suspend(() => Schema.Struct({
-  baseScore: Schema.optional(Schema.Number),
-  attackVector: Schema.optional(Schema.String),
-  attackComplexity: Schema.optional(Schema.String),
-  privilegesRequired: Schema.optional(Schema.String),
-  userInteraction: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-  confidentialityImpact: Schema.optional(Schema.String),
-  integrityImpact: Schema.optional(Schema.String),
-  availabilityImpact: Schema.optional(Schema.String),
-})).annotate({ identifier: "Cvssv3" }) as any as Schema.Schema<Cvssv3>;
+export const Cvssv3: Schema.Schema<Cvssv3> = Schema.suspend(() =>
+  Schema.Struct({
+    baseScore: Schema.optional(Schema.Number),
+    attackVector: Schema.optional(Schema.String),
+    attackComplexity: Schema.optional(Schema.String),
+    privilegesRequired: Schema.optional(Schema.String),
+    userInteraction: Schema.optional(Schema.String),
+    scope: Schema.optional(Schema.String),
+    confidentialityImpact: Schema.optional(Schema.String),
+    integrityImpact: Schema.optional(Schema.String),
+    availabilityImpact: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Cvssv3" }) as any as Schema.Schema<Cvssv3>;
 
 export interface Cve {
   /** The unique identifier for the vulnerability. e.g. CVE-2021-34527 */
@@ -789,9 +1038,22 @@ export interface Cve {
   /** Whether upstream fix is available for the CVE. */
   upstreamFixAvailable?: boolean;
   /** The potential impact of the vulnerability if it was to be exploited. */
-  impact?: "RISK_RATING_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
+  impact?:
+    | "RISK_RATING_UNSPECIFIED"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | (string & {});
   /** The exploitation activity of the vulnerability in the wild. */
-  exploitationActivity?: "EXPLOITATION_ACTIVITY_UNSPECIFIED" | "WIDE" | "CONFIRMED" | "AVAILABLE" | "ANTICIPATED" | "NO_KNOWN" | (string & {});
+  exploitationActivity?:
+    | "EXPLOITATION_ACTIVITY_UNSPECIFIED"
+    | "WIDE"
+    | "CONFIRMED"
+    | "AVAILABLE"
+    | "ANTICIPATED"
+    | "NO_KNOWN"
+    | (string & {});
   /** Whether or not the vulnerability has been observed in the wild. */
   observedInTheWild?: boolean;
   /** Whether or not the vulnerability was zero day when the finding was published. */
@@ -802,18 +1064,20 @@ export interface Cve {
   firstExploitationDate?: string;
 }
 
-export const Cve: Schema.Schema<Cve> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  references: Schema.optional(Schema.Array(Reference)),
-  cvssv3: Schema.optional(Cvssv3),
-  upstreamFixAvailable: Schema.optional(Schema.Boolean),
-  impact: Schema.optional(Schema.String),
-  exploitationActivity: Schema.optional(Schema.String),
-  observedInTheWild: Schema.optional(Schema.Boolean),
-  zeroDay: Schema.optional(Schema.Boolean),
-  exploitReleaseDate: Schema.optional(Schema.String),
-  firstExploitationDate: Schema.optional(Schema.String),
-})).annotate({ identifier: "Cve" }) as any as Schema.Schema<Cve>;
+export const Cve: Schema.Schema<Cve> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    references: Schema.optional(Schema.Array(Reference)),
+    cvssv3: Schema.optional(Cvssv3),
+    upstreamFixAvailable: Schema.optional(Schema.Boolean),
+    impact: Schema.optional(Schema.String),
+    exploitationActivity: Schema.optional(Schema.String),
+    observedInTheWild: Schema.optional(Schema.Boolean),
+    zeroDay: Schema.optional(Schema.Boolean),
+    exploitReleaseDate: Schema.optional(Schema.String),
+    firstExploitationDate: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Cve" }) as any as Schema.Schema<Cve>;
 
 export interface Package {
   /** The name of the package where the vulnerability was detected. */
@@ -826,12 +1090,14 @@ export interface Package {
   packageVersion?: string;
 }
 
-export const Package: Schema.Schema<Package> = Schema.suspend(() => Schema.Struct({
-  packageName: Schema.optional(Schema.String),
-  cpeUri: Schema.optional(Schema.String),
-  packageType: Schema.optional(Schema.String),
-  packageVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "Package" }) as any as Schema.Schema<Package>;
+export const Package: Schema.Schema<Package> = Schema.suspend(() =>
+  Schema.Struct({
+    packageName: Schema.optional(Schema.String),
+    cpeUri: Schema.optional(Schema.String),
+    packageType: Schema.optional(Schema.String),
+    packageVersion: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Package" }) as any as Schema.Schema<Package>;
 
 export interface SecurityBulletin {
   /** ID of the bulletin corresponding to the vulnerability. */
@@ -842,11 +1108,16 @@ export interface SecurityBulletin {
   suggestedUpgradeVersion?: string;
 }
 
-export const SecurityBulletin: Schema.Schema<SecurityBulletin> = Schema.suspend(() => Schema.Struct({
-  bulletinId: Schema.optional(Schema.String),
-  submissionTime: Schema.optional(Schema.String),
-  suggestedUpgradeVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecurityBulletin" }) as any as Schema.Schema<SecurityBulletin>;
+export const SecurityBulletin: Schema.Schema<SecurityBulletin> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      bulletinId: Schema.optional(Schema.String),
+      submissionTime: Schema.optional(Schema.String),
+      suggestedUpgradeVersion: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SecurityBulletin",
+}) as any as Schema.Schema<SecurityBulletin>;
 
 export interface Cwe {
   /** The CWE identifier, e.g. CWE-94 */
@@ -855,10 +1126,12 @@ export interface Cwe {
   references?: Array<Reference>;
 }
 
-export const Cwe: Schema.Schema<Cwe> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  references: Schema.optional(Schema.Array(Reference)),
-})).annotate({ identifier: "Cwe" }) as any as Schema.Schema<Cwe>;
+export const Cwe: Schema.Schema<Cwe> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    references: Schema.optional(Schema.Array(Reference)),
+  }),
+).annotate({ identifier: "Cwe" }) as any as Schema.Schema<Cwe>;
 
 export interface Vulnerability {
   /** CVE stands for Common Vulnerabilities and Exposures (https://cve.mitre.org/about/) */
@@ -877,45 +1150,368 @@ export interface Vulnerability {
   cwes?: Array<Cwe>;
 }
 
-export const Vulnerability: Schema.Schema<Vulnerability> = Schema.suspend(() => Schema.Struct({
-  cve: Schema.optional(Cve),
-  offendingPackage: Schema.optional(Package),
-  fixedPackage: Schema.optional(Package),
-  securityBulletin: Schema.optional(SecurityBulletin),
-  providerRiskScore: Schema.optional(Schema.String),
-  reachable: Schema.optional(Schema.Boolean),
-  cwes: Schema.optional(Schema.Array(Cwe)),
-})).annotate({ identifier: "Vulnerability" }) as any as Schema.Schema<Vulnerability>;
+export const Vulnerability: Schema.Schema<Vulnerability> = Schema.suspend(() =>
+  Schema.Struct({
+    cve: Schema.optional(Cve),
+    offendingPackage: Schema.optional(Package),
+    fixedPackage: Schema.optional(Package),
+    securityBulletin: Schema.optional(SecurityBulletin),
+    providerRiskScore: Schema.optional(Schema.String),
+    reachable: Schema.optional(Schema.Boolean),
+    cwes: Schema.optional(Schema.Array(Cwe)),
+  }),
+).annotate({
+  identifier: "Vulnerability",
+}) as any as Schema.Schema<Vulnerability>;
 
 export interface MitreAttack {
   /** The MITRE ATT&CK tactic most closely represented by this finding, if any. */
-  primaryTactic?: "TACTIC_UNSPECIFIED" | "RECONNAISSANCE" | "RESOURCE_DEVELOPMENT" | "INITIAL_ACCESS" | "EXECUTION" | "PERSISTENCE" | "PRIVILEGE_ESCALATION" | "DEFENSE_EVASION" | "CREDENTIAL_ACCESS" | "DISCOVERY" | "LATERAL_MOVEMENT" | "COLLECTION" | "COMMAND_AND_CONTROL" | "EXFILTRATION" | "IMPACT" | (string & {});
+  primaryTactic?:
+    | "TACTIC_UNSPECIFIED"
+    | "RECONNAISSANCE"
+    | "RESOURCE_DEVELOPMENT"
+    | "INITIAL_ACCESS"
+    | "EXECUTION"
+    | "PERSISTENCE"
+    | "PRIVILEGE_ESCALATION"
+    | "DEFENSE_EVASION"
+    | "CREDENTIAL_ACCESS"
+    | "DISCOVERY"
+    | "LATERAL_MOVEMENT"
+    | "COLLECTION"
+    | "COMMAND_AND_CONTROL"
+    | "EXFILTRATION"
+    | "IMPACT"
+    | (string & {});
   /** The MITRE ATT&CK technique most closely represented by this finding, if any. primary_techniques is a repeated field because there are multiple levels of MITRE ATT&CK techniques. If the technique most closely represented by this finding is a sub-technique (e.g. `SCANNING_IP_BLOCKS`), both the sub-technique and its parent technique(s) will be listed (e.g. `SCANNING_IP_BLOCKS`, `ACTIVE_SCANNING`). */
-  primaryTechniques?: Array<"TECHNIQUE_UNSPECIFIED" | "DATA_OBFUSCATION" | "DATA_OBFUSCATION_STEGANOGRAPHY" | "OS_CREDENTIAL_DUMPING" | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM" | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW" | "DATA_FROM_LOCAL_SYSTEM" | "AUTOMATED_EXFILTRATION" | "OBFUSCATED_FILES_OR_INFO" | "STEGANOGRAPHY" | "COMPILE_AFTER_DELIVERY" | "COMMAND_OBFUSCATION" | "SCHEDULED_TRANSFER" | "SYSTEM_OWNER_USER_DISCOVERY" | "MASQUERADING" | "MATCH_LEGITIMATE_NAME_OR_LOCATION" | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS" | "STARTUP_ITEMS" | "NETWORK_SERVICE_DISCOVERY" | "SCHEDULED_TASK_JOB" | "SCHEDULED_TASK_JOB_CRON" | "CONTAINER_ORCHESTRATION_JOB" | "PROCESS_INJECTION" | "INPUT_CAPTURE" | "INPUT_CAPTURE_KEYLOGGING" | "PROCESS_DISCOVERY" | "COMMAND_AND_SCRIPTING_INTERPRETER" | "UNIX_SHELL" | "PYTHON" | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION" | "PERMISSION_GROUPS_DISCOVERY" | "CLOUD_GROUPS" | "INDICATOR_REMOVAL" | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS" | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY" | "INDICATOR_REMOVAL_FILE_DELETION" | "INDICATOR_REMOVAL_TIMESTOMP" | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA" | "APPLICATION_LAYER_PROTOCOL" | "DNS" | "SOFTWARE_DEPLOYMENT_TOOLS" | "VALID_ACCOUNTS" | "DEFAULT_ACCOUNTS" | "LOCAL_ACCOUNTS" | "CLOUD_ACCOUNTS" | "FILE_AND_DIRECTORY_DISCOVERY" | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT" | "PROXY" | "EXTERNAL_PROXY" | "MULTI_HOP_PROXY" | "ACCOUNT_MANIPULATION" | "ADDITIONAL_CLOUD_CREDENTIALS" | "ADDITIONAL_CLOUD_ROLES" | "SSH_AUTHORIZED_KEYS" | "ADDITIONAL_CONTAINER_CLUSTER_ROLES" | "MULTI_STAGE_CHANNELS" | "INGRESS_TOOL_TRANSFER" | "NATIVE_API" | "BRUTE_FORCE" | "AUTOMATED_COLLECTION" | "SHARED_MODULES" | "DATA_ENCODING" | "STANDARD_ENCODING" | "ACCESS_TOKEN_MANIPULATION" | "TOKEN_IMPERSONATION_OR_THEFT" | "CREATE_ACCOUNT" | "LOCAL_ACCOUNT" | "DEOBFUSCATE_DECODE_FILES_OR_INFO" | "EXPLOIT_PUBLIC_FACING_APPLICATION" | "SUPPLY_CHAIN_COMPROMISE" | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS" | "EXPLOITATION_FOR_CLIENT_EXECUTION" | "USER_EXECUTION" | "EXPLOITATION_FOR_CREDENTIAL_ACCESS" | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION" | "DOMAIN_POLICY_MODIFICATION" | "DATA_DESTRUCTION" | "DATA_ENCRYPTED_FOR_IMPACT" | "SERVICE_STOP" | "INHIBIT_SYSTEM_RECOVERY" | "FIRMWARE_CORRUPTION" | "RESOURCE_HIJACKING" | "NETWORK_DENIAL_OF_SERVICE" | "CLOUD_SERVICE_DISCOVERY" | "STEAL_APPLICATION_ACCESS_TOKEN" | "ACCOUNT_ACCESS_REMOVAL" | "TRANSFER_DATA_TO_CLOUD_ACCOUNT" | "STEAL_WEB_SESSION_COOKIE" | "CREATE_OR_MODIFY_SYSTEM_PROCESS" | "EVENT_TRIGGERED_EXECUTION" | "BOOT_OR_LOGON_AUTOSTART_EXECUTION" | "KERNEL_MODULES_AND_EXTENSIONS" | "SHORTCUT_MODIFICATION" | "ABUSE_ELEVATION_CONTROL_MECHANISM" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING" | "UNSECURED_CREDENTIALS" | "CREDENTIALS_IN_FILES" | "BASH_HISTORY" | "PRIVATE_KEYS" | "SUBVERT_TRUST_CONTROL" | "INSTALL_ROOT_CERTIFICATE" | "COMPROMISE_HOST_SOFTWARE_BINARY" | "CREDENTIALS_FROM_PASSWORD_STORES" | "MODIFY_AUTHENTICATION_PROCESS" | "PLUGGABLE_AUTHENTICATION_MODULES" | "MULTI_FACTOR_AUTHENTICATION" | "IMPAIR_DEFENSES" | "DISABLE_OR_MODIFY_TOOLS" | "INDICATOR_BLOCKING" | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM" | "HIDE_ARTIFACTS" | "HIDDEN_FILES_AND_DIRECTORIES" | "HIDDEN_USERS" | "EXFILTRATION_OVER_WEB_SERVICE" | "EXFILTRATION_TO_CLOUD_STORAGE" | "DYNAMIC_RESOLUTION" | "LATERAL_TOOL_TRANSFER" | "HIJACK_EXECUTION_FLOW" | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING" | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE" | "CREATE_SNAPSHOT" | "CLOUD_INFRASTRUCTURE_DISCOVERY" | "DEVELOP_CAPABILITIES" | "DEVELOP_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES" | "OBTAIN_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES_VULNERABILITIES" | "ACTIVE_SCANNING" | "SCANNING_IP_BLOCKS" | "STAGE_CAPABILITIES" | "UPLOAD_MALWARE" | "CONTAINER_ADMINISTRATION_COMMAND" | "DEPLOY_CONTAINER" | "ESCAPE_TO_HOST" | "CONTAINER_AND_RESOURCE_DISCOVERY" | "REFLECTIVE_CODE_LOADING" | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES" | "FINANCIAL_THEFT" | (string & {})>;
+  primaryTechniques?: Array<
+    | "TECHNIQUE_UNSPECIFIED"
+    | "DATA_OBFUSCATION"
+    | "DATA_OBFUSCATION_STEGANOGRAPHY"
+    | "OS_CREDENTIAL_DUMPING"
+    | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM"
+    | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW"
+    | "DATA_FROM_LOCAL_SYSTEM"
+    | "AUTOMATED_EXFILTRATION"
+    | "OBFUSCATED_FILES_OR_INFO"
+    | "STEGANOGRAPHY"
+    | "COMPILE_AFTER_DELIVERY"
+    | "COMMAND_OBFUSCATION"
+    | "SCHEDULED_TRANSFER"
+    | "SYSTEM_OWNER_USER_DISCOVERY"
+    | "MASQUERADING"
+    | "MATCH_LEGITIMATE_NAME_OR_LOCATION"
+    | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS"
+    | "STARTUP_ITEMS"
+    | "NETWORK_SERVICE_DISCOVERY"
+    | "SCHEDULED_TASK_JOB"
+    | "SCHEDULED_TASK_JOB_CRON"
+    | "CONTAINER_ORCHESTRATION_JOB"
+    | "PROCESS_INJECTION"
+    | "INPUT_CAPTURE"
+    | "INPUT_CAPTURE_KEYLOGGING"
+    | "PROCESS_DISCOVERY"
+    | "COMMAND_AND_SCRIPTING_INTERPRETER"
+    | "UNIX_SHELL"
+    | "PYTHON"
+    | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION"
+    | "PERMISSION_GROUPS_DISCOVERY"
+    | "CLOUD_GROUPS"
+    | "INDICATOR_REMOVAL"
+    | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS"
+    | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY"
+    | "INDICATOR_REMOVAL_FILE_DELETION"
+    | "INDICATOR_REMOVAL_TIMESTOMP"
+    | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA"
+    | "APPLICATION_LAYER_PROTOCOL"
+    | "DNS"
+    | "SOFTWARE_DEPLOYMENT_TOOLS"
+    | "VALID_ACCOUNTS"
+    | "DEFAULT_ACCOUNTS"
+    | "LOCAL_ACCOUNTS"
+    | "CLOUD_ACCOUNTS"
+    | "FILE_AND_DIRECTORY_DISCOVERY"
+    | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT"
+    | "PROXY"
+    | "EXTERNAL_PROXY"
+    | "MULTI_HOP_PROXY"
+    | "ACCOUNT_MANIPULATION"
+    | "ADDITIONAL_CLOUD_CREDENTIALS"
+    | "ADDITIONAL_CLOUD_ROLES"
+    | "SSH_AUTHORIZED_KEYS"
+    | "ADDITIONAL_CONTAINER_CLUSTER_ROLES"
+    | "MULTI_STAGE_CHANNELS"
+    | "INGRESS_TOOL_TRANSFER"
+    | "NATIVE_API"
+    | "BRUTE_FORCE"
+    | "AUTOMATED_COLLECTION"
+    | "SHARED_MODULES"
+    | "DATA_ENCODING"
+    | "STANDARD_ENCODING"
+    | "ACCESS_TOKEN_MANIPULATION"
+    | "TOKEN_IMPERSONATION_OR_THEFT"
+    | "CREATE_ACCOUNT"
+    | "LOCAL_ACCOUNT"
+    | "DEOBFUSCATE_DECODE_FILES_OR_INFO"
+    | "EXPLOIT_PUBLIC_FACING_APPLICATION"
+    | "SUPPLY_CHAIN_COMPROMISE"
+    | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS"
+    | "EXPLOITATION_FOR_CLIENT_EXECUTION"
+    | "USER_EXECUTION"
+    | "EXPLOITATION_FOR_CREDENTIAL_ACCESS"
+    | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION"
+    | "DOMAIN_POLICY_MODIFICATION"
+    | "DATA_DESTRUCTION"
+    | "DATA_ENCRYPTED_FOR_IMPACT"
+    | "SERVICE_STOP"
+    | "INHIBIT_SYSTEM_RECOVERY"
+    | "FIRMWARE_CORRUPTION"
+    | "RESOURCE_HIJACKING"
+    | "NETWORK_DENIAL_OF_SERVICE"
+    | "CLOUD_SERVICE_DISCOVERY"
+    | "STEAL_APPLICATION_ACCESS_TOKEN"
+    | "ACCOUNT_ACCESS_REMOVAL"
+    | "TRANSFER_DATA_TO_CLOUD_ACCOUNT"
+    | "STEAL_WEB_SESSION_COOKIE"
+    | "CREATE_OR_MODIFY_SYSTEM_PROCESS"
+    | "EVENT_TRIGGERED_EXECUTION"
+    | "BOOT_OR_LOGON_AUTOSTART_EXECUTION"
+    | "KERNEL_MODULES_AND_EXTENSIONS"
+    | "SHORTCUT_MODIFICATION"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING"
+    | "UNSECURED_CREDENTIALS"
+    | "CREDENTIALS_IN_FILES"
+    | "BASH_HISTORY"
+    | "PRIVATE_KEYS"
+    | "SUBVERT_TRUST_CONTROL"
+    | "INSTALL_ROOT_CERTIFICATE"
+    | "COMPROMISE_HOST_SOFTWARE_BINARY"
+    | "CREDENTIALS_FROM_PASSWORD_STORES"
+    | "MODIFY_AUTHENTICATION_PROCESS"
+    | "PLUGGABLE_AUTHENTICATION_MODULES"
+    | "MULTI_FACTOR_AUTHENTICATION"
+    | "IMPAIR_DEFENSES"
+    | "DISABLE_OR_MODIFY_TOOLS"
+    | "INDICATOR_BLOCKING"
+    | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM"
+    | "HIDE_ARTIFACTS"
+    | "HIDDEN_FILES_AND_DIRECTORIES"
+    | "HIDDEN_USERS"
+    | "EXFILTRATION_OVER_WEB_SERVICE"
+    | "EXFILTRATION_TO_CLOUD_STORAGE"
+    | "DYNAMIC_RESOLUTION"
+    | "LATERAL_TOOL_TRANSFER"
+    | "HIJACK_EXECUTION_FLOW"
+    | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING"
+    | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE"
+    | "CREATE_SNAPSHOT"
+    | "CLOUD_INFRASTRUCTURE_DISCOVERY"
+    | "DEVELOP_CAPABILITIES"
+    | "DEVELOP_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES"
+    | "OBTAIN_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES_VULNERABILITIES"
+    | "ACTIVE_SCANNING"
+    | "SCANNING_IP_BLOCKS"
+    | "STAGE_CAPABILITIES"
+    | "UPLOAD_MALWARE"
+    | "CONTAINER_ADMINISTRATION_COMMAND"
+    | "DEPLOY_CONTAINER"
+    | "ESCAPE_TO_HOST"
+    | "CONTAINER_AND_RESOURCE_DISCOVERY"
+    | "REFLECTIVE_CODE_LOADING"
+    | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES"
+    | "FINANCIAL_THEFT"
+    | (string & {})
+  >;
   /** Additional MITRE ATT&CK tactics related to this finding, if any. */
-  additionalTactics?: Array<"TACTIC_UNSPECIFIED" | "RECONNAISSANCE" | "RESOURCE_DEVELOPMENT" | "INITIAL_ACCESS" | "EXECUTION" | "PERSISTENCE" | "PRIVILEGE_ESCALATION" | "DEFENSE_EVASION" | "CREDENTIAL_ACCESS" | "DISCOVERY" | "LATERAL_MOVEMENT" | "COLLECTION" | "COMMAND_AND_CONTROL" | "EXFILTRATION" | "IMPACT" | (string & {})>;
+  additionalTactics?: Array<
+    | "TACTIC_UNSPECIFIED"
+    | "RECONNAISSANCE"
+    | "RESOURCE_DEVELOPMENT"
+    | "INITIAL_ACCESS"
+    | "EXECUTION"
+    | "PERSISTENCE"
+    | "PRIVILEGE_ESCALATION"
+    | "DEFENSE_EVASION"
+    | "CREDENTIAL_ACCESS"
+    | "DISCOVERY"
+    | "LATERAL_MOVEMENT"
+    | "COLLECTION"
+    | "COMMAND_AND_CONTROL"
+    | "EXFILTRATION"
+    | "IMPACT"
+    | (string & {})
+  >;
   /** Additional MITRE ATT&CK techniques related to this finding, if any, along with any of their respective parent techniques. */
-  additionalTechniques?: Array<"TECHNIQUE_UNSPECIFIED" | "DATA_OBFUSCATION" | "DATA_OBFUSCATION_STEGANOGRAPHY" | "OS_CREDENTIAL_DUMPING" | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM" | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW" | "DATA_FROM_LOCAL_SYSTEM" | "AUTOMATED_EXFILTRATION" | "OBFUSCATED_FILES_OR_INFO" | "STEGANOGRAPHY" | "COMPILE_AFTER_DELIVERY" | "COMMAND_OBFUSCATION" | "SCHEDULED_TRANSFER" | "SYSTEM_OWNER_USER_DISCOVERY" | "MASQUERADING" | "MATCH_LEGITIMATE_NAME_OR_LOCATION" | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS" | "STARTUP_ITEMS" | "NETWORK_SERVICE_DISCOVERY" | "SCHEDULED_TASK_JOB" | "SCHEDULED_TASK_JOB_CRON" | "CONTAINER_ORCHESTRATION_JOB" | "PROCESS_INJECTION" | "INPUT_CAPTURE" | "INPUT_CAPTURE_KEYLOGGING" | "PROCESS_DISCOVERY" | "COMMAND_AND_SCRIPTING_INTERPRETER" | "UNIX_SHELL" | "PYTHON" | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION" | "PERMISSION_GROUPS_DISCOVERY" | "CLOUD_GROUPS" | "INDICATOR_REMOVAL" | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS" | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY" | "INDICATOR_REMOVAL_FILE_DELETION" | "INDICATOR_REMOVAL_TIMESTOMP" | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA" | "APPLICATION_LAYER_PROTOCOL" | "DNS" | "SOFTWARE_DEPLOYMENT_TOOLS" | "VALID_ACCOUNTS" | "DEFAULT_ACCOUNTS" | "LOCAL_ACCOUNTS" | "CLOUD_ACCOUNTS" | "FILE_AND_DIRECTORY_DISCOVERY" | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT" | "PROXY" | "EXTERNAL_PROXY" | "MULTI_HOP_PROXY" | "ACCOUNT_MANIPULATION" | "ADDITIONAL_CLOUD_CREDENTIALS" | "ADDITIONAL_CLOUD_ROLES" | "SSH_AUTHORIZED_KEYS" | "ADDITIONAL_CONTAINER_CLUSTER_ROLES" | "MULTI_STAGE_CHANNELS" | "INGRESS_TOOL_TRANSFER" | "NATIVE_API" | "BRUTE_FORCE" | "AUTOMATED_COLLECTION" | "SHARED_MODULES" | "DATA_ENCODING" | "STANDARD_ENCODING" | "ACCESS_TOKEN_MANIPULATION" | "TOKEN_IMPERSONATION_OR_THEFT" | "CREATE_ACCOUNT" | "LOCAL_ACCOUNT" | "DEOBFUSCATE_DECODE_FILES_OR_INFO" | "EXPLOIT_PUBLIC_FACING_APPLICATION" | "SUPPLY_CHAIN_COMPROMISE" | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS" | "EXPLOITATION_FOR_CLIENT_EXECUTION" | "USER_EXECUTION" | "EXPLOITATION_FOR_CREDENTIAL_ACCESS" | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION" | "DOMAIN_POLICY_MODIFICATION" | "DATA_DESTRUCTION" | "DATA_ENCRYPTED_FOR_IMPACT" | "SERVICE_STOP" | "INHIBIT_SYSTEM_RECOVERY" | "FIRMWARE_CORRUPTION" | "RESOURCE_HIJACKING" | "NETWORK_DENIAL_OF_SERVICE" | "CLOUD_SERVICE_DISCOVERY" | "STEAL_APPLICATION_ACCESS_TOKEN" | "ACCOUNT_ACCESS_REMOVAL" | "TRANSFER_DATA_TO_CLOUD_ACCOUNT" | "STEAL_WEB_SESSION_COOKIE" | "CREATE_OR_MODIFY_SYSTEM_PROCESS" | "EVENT_TRIGGERED_EXECUTION" | "BOOT_OR_LOGON_AUTOSTART_EXECUTION" | "KERNEL_MODULES_AND_EXTENSIONS" | "SHORTCUT_MODIFICATION" | "ABUSE_ELEVATION_CONTROL_MECHANISM" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING" | "UNSECURED_CREDENTIALS" | "CREDENTIALS_IN_FILES" | "BASH_HISTORY" | "PRIVATE_KEYS" | "SUBVERT_TRUST_CONTROL" | "INSTALL_ROOT_CERTIFICATE" | "COMPROMISE_HOST_SOFTWARE_BINARY" | "CREDENTIALS_FROM_PASSWORD_STORES" | "MODIFY_AUTHENTICATION_PROCESS" | "PLUGGABLE_AUTHENTICATION_MODULES" | "MULTI_FACTOR_AUTHENTICATION" | "IMPAIR_DEFENSES" | "DISABLE_OR_MODIFY_TOOLS" | "INDICATOR_BLOCKING" | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM" | "HIDE_ARTIFACTS" | "HIDDEN_FILES_AND_DIRECTORIES" | "HIDDEN_USERS" | "EXFILTRATION_OVER_WEB_SERVICE" | "EXFILTRATION_TO_CLOUD_STORAGE" | "DYNAMIC_RESOLUTION" | "LATERAL_TOOL_TRANSFER" | "HIJACK_EXECUTION_FLOW" | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING" | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE" | "CREATE_SNAPSHOT" | "CLOUD_INFRASTRUCTURE_DISCOVERY" | "DEVELOP_CAPABILITIES" | "DEVELOP_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES" | "OBTAIN_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES_VULNERABILITIES" | "ACTIVE_SCANNING" | "SCANNING_IP_BLOCKS" | "STAGE_CAPABILITIES" | "UPLOAD_MALWARE" | "CONTAINER_ADMINISTRATION_COMMAND" | "DEPLOY_CONTAINER" | "ESCAPE_TO_HOST" | "CONTAINER_AND_RESOURCE_DISCOVERY" | "REFLECTIVE_CODE_LOADING" | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES" | "FINANCIAL_THEFT" | (string & {})>;
+  additionalTechniques?: Array<
+    | "TECHNIQUE_UNSPECIFIED"
+    | "DATA_OBFUSCATION"
+    | "DATA_OBFUSCATION_STEGANOGRAPHY"
+    | "OS_CREDENTIAL_DUMPING"
+    | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM"
+    | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW"
+    | "DATA_FROM_LOCAL_SYSTEM"
+    | "AUTOMATED_EXFILTRATION"
+    | "OBFUSCATED_FILES_OR_INFO"
+    | "STEGANOGRAPHY"
+    | "COMPILE_AFTER_DELIVERY"
+    | "COMMAND_OBFUSCATION"
+    | "SCHEDULED_TRANSFER"
+    | "SYSTEM_OWNER_USER_DISCOVERY"
+    | "MASQUERADING"
+    | "MATCH_LEGITIMATE_NAME_OR_LOCATION"
+    | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS"
+    | "STARTUP_ITEMS"
+    | "NETWORK_SERVICE_DISCOVERY"
+    | "SCHEDULED_TASK_JOB"
+    | "SCHEDULED_TASK_JOB_CRON"
+    | "CONTAINER_ORCHESTRATION_JOB"
+    | "PROCESS_INJECTION"
+    | "INPUT_CAPTURE"
+    | "INPUT_CAPTURE_KEYLOGGING"
+    | "PROCESS_DISCOVERY"
+    | "COMMAND_AND_SCRIPTING_INTERPRETER"
+    | "UNIX_SHELL"
+    | "PYTHON"
+    | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION"
+    | "PERMISSION_GROUPS_DISCOVERY"
+    | "CLOUD_GROUPS"
+    | "INDICATOR_REMOVAL"
+    | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS"
+    | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY"
+    | "INDICATOR_REMOVAL_FILE_DELETION"
+    | "INDICATOR_REMOVAL_TIMESTOMP"
+    | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA"
+    | "APPLICATION_LAYER_PROTOCOL"
+    | "DNS"
+    | "SOFTWARE_DEPLOYMENT_TOOLS"
+    | "VALID_ACCOUNTS"
+    | "DEFAULT_ACCOUNTS"
+    | "LOCAL_ACCOUNTS"
+    | "CLOUD_ACCOUNTS"
+    | "FILE_AND_DIRECTORY_DISCOVERY"
+    | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT"
+    | "PROXY"
+    | "EXTERNAL_PROXY"
+    | "MULTI_HOP_PROXY"
+    | "ACCOUNT_MANIPULATION"
+    | "ADDITIONAL_CLOUD_CREDENTIALS"
+    | "ADDITIONAL_CLOUD_ROLES"
+    | "SSH_AUTHORIZED_KEYS"
+    | "ADDITIONAL_CONTAINER_CLUSTER_ROLES"
+    | "MULTI_STAGE_CHANNELS"
+    | "INGRESS_TOOL_TRANSFER"
+    | "NATIVE_API"
+    | "BRUTE_FORCE"
+    | "AUTOMATED_COLLECTION"
+    | "SHARED_MODULES"
+    | "DATA_ENCODING"
+    | "STANDARD_ENCODING"
+    | "ACCESS_TOKEN_MANIPULATION"
+    | "TOKEN_IMPERSONATION_OR_THEFT"
+    | "CREATE_ACCOUNT"
+    | "LOCAL_ACCOUNT"
+    | "DEOBFUSCATE_DECODE_FILES_OR_INFO"
+    | "EXPLOIT_PUBLIC_FACING_APPLICATION"
+    | "SUPPLY_CHAIN_COMPROMISE"
+    | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS"
+    | "EXPLOITATION_FOR_CLIENT_EXECUTION"
+    | "USER_EXECUTION"
+    | "EXPLOITATION_FOR_CREDENTIAL_ACCESS"
+    | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION"
+    | "DOMAIN_POLICY_MODIFICATION"
+    | "DATA_DESTRUCTION"
+    | "DATA_ENCRYPTED_FOR_IMPACT"
+    | "SERVICE_STOP"
+    | "INHIBIT_SYSTEM_RECOVERY"
+    | "FIRMWARE_CORRUPTION"
+    | "RESOURCE_HIJACKING"
+    | "NETWORK_DENIAL_OF_SERVICE"
+    | "CLOUD_SERVICE_DISCOVERY"
+    | "STEAL_APPLICATION_ACCESS_TOKEN"
+    | "ACCOUNT_ACCESS_REMOVAL"
+    | "TRANSFER_DATA_TO_CLOUD_ACCOUNT"
+    | "STEAL_WEB_SESSION_COOKIE"
+    | "CREATE_OR_MODIFY_SYSTEM_PROCESS"
+    | "EVENT_TRIGGERED_EXECUTION"
+    | "BOOT_OR_LOGON_AUTOSTART_EXECUTION"
+    | "KERNEL_MODULES_AND_EXTENSIONS"
+    | "SHORTCUT_MODIFICATION"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING"
+    | "UNSECURED_CREDENTIALS"
+    | "CREDENTIALS_IN_FILES"
+    | "BASH_HISTORY"
+    | "PRIVATE_KEYS"
+    | "SUBVERT_TRUST_CONTROL"
+    | "INSTALL_ROOT_CERTIFICATE"
+    | "COMPROMISE_HOST_SOFTWARE_BINARY"
+    | "CREDENTIALS_FROM_PASSWORD_STORES"
+    | "MODIFY_AUTHENTICATION_PROCESS"
+    | "PLUGGABLE_AUTHENTICATION_MODULES"
+    | "MULTI_FACTOR_AUTHENTICATION"
+    | "IMPAIR_DEFENSES"
+    | "DISABLE_OR_MODIFY_TOOLS"
+    | "INDICATOR_BLOCKING"
+    | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM"
+    | "HIDE_ARTIFACTS"
+    | "HIDDEN_FILES_AND_DIRECTORIES"
+    | "HIDDEN_USERS"
+    | "EXFILTRATION_OVER_WEB_SERVICE"
+    | "EXFILTRATION_TO_CLOUD_STORAGE"
+    | "DYNAMIC_RESOLUTION"
+    | "LATERAL_TOOL_TRANSFER"
+    | "HIJACK_EXECUTION_FLOW"
+    | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING"
+    | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE"
+    | "CREATE_SNAPSHOT"
+    | "CLOUD_INFRASTRUCTURE_DISCOVERY"
+    | "DEVELOP_CAPABILITIES"
+    | "DEVELOP_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES"
+    | "OBTAIN_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES_VULNERABILITIES"
+    | "ACTIVE_SCANNING"
+    | "SCANNING_IP_BLOCKS"
+    | "STAGE_CAPABILITIES"
+    | "UPLOAD_MALWARE"
+    | "CONTAINER_ADMINISTRATION_COMMAND"
+    | "DEPLOY_CONTAINER"
+    | "ESCAPE_TO_HOST"
+    | "CONTAINER_AND_RESOURCE_DISCOVERY"
+    | "REFLECTIVE_CODE_LOADING"
+    | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES"
+    | "FINANCIAL_THEFT"
+    | (string & {})
+  >;
   /** The MITRE ATT&CK version referenced by the above fields. E.g. "8". */
   version?: string;
 }
 
-export const MitreAttack: Schema.Schema<MitreAttack> = Schema.suspend(() => Schema.Struct({
-  primaryTactic: Schema.optional(Schema.String),
-  primaryTechniques: Schema.optional(Schema.Array(Schema.String)),
-  additionalTactics: Schema.optional(Schema.Array(Schema.String)),
-  additionalTechniques: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "MitreAttack" }) as any as Schema.Schema<MitreAttack>;
+export const MitreAttack: Schema.Schema<MitreAttack> = Schema.suspend(() =>
+  Schema.Struct({
+    primaryTactic: Schema.optional(Schema.String),
+    primaryTechniques: Schema.optional(Schema.Array(Schema.String)),
+    additionalTactics: Schema.optional(Schema.Array(Schema.String)),
+    additionalTechniques: Schema.optional(Schema.Array(Schema.String)),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "MitreAttack" }) as any as Schema.Schema<MitreAttack>;
 
 export interface Geolocation {
   /** A CLDR. */
   regionCode?: string;
 }
 
-export const Geolocation: Schema.Schema<Geolocation> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Geolocation" }) as any as Schema.Schema<Geolocation>;
+export const Geolocation: Schema.Schema<Geolocation> = Schema.suspend(() =>
+  Schema.Struct({
+    regionCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Geolocation" }) as any as Schema.Schema<Geolocation>;
 
 export interface ServiceAccountDelegationInfo {
   /** The email address of a Google account. */
@@ -924,10 +1520,15 @@ export interface ServiceAccountDelegationInfo {
   principalSubject?: string;
 }
 
-export const ServiceAccountDelegationInfo: Schema.Schema<ServiceAccountDelegationInfo> = Schema.suspend(() => Schema.Struct({
-  principalEmail: Schema.optional(Schema.String),
-  principalSubject: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServiceAccountDelegationInfo" }) as any as Schema.Schema<ServiceAccountDelegationInfo>;
+export const ServiceAccountDelegationInfo: Schema.Schema<ServiceAccountDelegationInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      principalEmail: Schema.optional(Schema.String),
+      principalSubject: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ServiceAccountDelegationInfo",
+  }) as any as Schema.Schema<ServiceAccountDelegationInfo>;
 
 export interface Access {
   /** Associated email, such as "foo@google.com". The email address of the authenticated user or a service account acting on behalf of a third party principal making the request. For third party identity callers, the `principal_subject` field is populated instead of this field. For privacy reasons, the principal email address is sometimes redacted. For more information, see [Caller identities in audit logs](https://cloud.google.com/logging/docs/audit#user-id). */
@@ -954,19 +1555,23 @@ export interface Access {
   userName?: string;
 }
 
-export const Access: Schema.Schema<Access> = Schema.suspend(() => Schema.Struct({
-  principalEmail: Schema.optional(Schema.String),
-  callerIp: Schema.optional(Schema.String),
-  callerIpGeo: Schema.optional(Geolocation),
-  userAgentFamily: Schema.optional(Schema.String),
-  userAgent: Schema.optional(Schema.String),
-  serviceName: Schema.optional(Schema.String),
-  methodName: Schema.optional(Schema.String),
-  principalSubject: Schema.optional(Schema.String),
-  serviceAccountKeyName: Schema.optional(Schema.String),
-  serviceAccountDelegationInfo: Schema.optional(Schema.Array(ServiceAccountDelegationInfo)),
-  userName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Access" }) as any as Schema.Schema<Access>;
+export const Access: Schema.Schema<Access> = Schema.suspend(() =>
+  Schema.Struct({
+    principalEmail: Schema.optional(Schema.String),
+    callerIp: Schema.optional(Schema.String),
+    callerIpGeo: Schema.optional(Geolocation),
+    userAgentFamily: Schema.optional(Schema.String),
+    userAgent: Schema.optional(Schema.String),
+    serviceName: Schema.optional(Schema.String),
+    methodName: Schema.optional(Schema.String),
+    principalSubject: Schema.optional(Schema.String),
+    serviceAccountKeyName: Schema.optional(Schema.String),
+    serviceAccountDelegationInfo: Schema.optional(
+      Schema.Array(ServiceAccountDelegationInfo),
+    ),
+    userName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Access" }) as any as Schema.Schema<Access>;
 
 export interface Connection {
   /** Destination IP address. Not present for sockets that are listening and not connected. */
@@ -978,28 +1583,44 @@ export interface Connection {
   /** Source port. */
   sourcePort?: number;
   /** IANA Internet Protocol Number such as TCP(6) and UDP(17). */
-  protocol?: "PROTOCOL_UNSPECIFIED" | "ICMP" | "TCP" | "UDP" | "GRE" | "ESP" | (string & {});
+  protocol?:
+    | "PROTOCOL_UNSPECIFIED"
+    | "ICMP"
+    | "TCP"
+    | "UDP"
+    | "GRE"
+    | "ESP"
+    | (string & {});
 }
 
-export const Connection: Schema.Schema<Connection> = Schema.suspend(() => Schema.Struct({
-  destinationIp: Schema.optional(Schema.String),
-  destinationPort: Schema.optional(Schema.Number),
-  sourceIp: Schema.optional(Schema.String),
-  sourcePort: Schema.optional(Schema.Number),
-  protocol: Schema.optional(Schema.String),
-})).annotate({ identifier: "Connection" }) as any as Schema.Schema<Connection>;
+export const Connection: Schema.Schema<Connection> = Schema.suspend(() =>
+  Schema.Struct({
+    destinationIp: Schema.optional(Schema.String),
+    destinationPort: Schema.optional(Schema.Number),
+    sourceIp: Schema.optional(Schema.String),
+    sourcePort: Schema.optional(Schema.Number),
+    protocol: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Connection" }) as any as Schema.Schema<Connection>;
 
 export interface StaticMute {
   /** The static mute state. If the value is `MUTED` or `UNMUTED`, then the finding's overall mute state will have the same value. */
-  state?: "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED" | (string & {});
+  state?:
+    | "MUTE_UNSPECIFIED"
+    | "MUTED"
+    | "UNMUTED"
+    | "UNDEFINED"
+    | (string & {});
   /** When the static mute was applied. */
   applyTime?: string;
 }
 
-export const StaticMute: Schema.Schema<StaticMute> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  applyTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "StaticMute" }) as any as Schema.Schema<StaticMute>;
+export const StaticMute: Schema.Schema<StaticMute> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    applyTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "StaticMute" }) as any as Schema.Schema<StaticMute>;
 
 export interface DynamicMuteRecord {
   /** The relative resource name of the mute rule, represented by a mute config, that created this record, for example `organizations/123/muteConfigs/mymuteconfig` or `organizations/123/locations/global/muteConfigs/mymuteconfig`. */
@@ -1008,10 +1629,15 @@ export interface DynamicMuteRecord {
   matchTime?: string;
 }
 
-export const DynamicMuteRecord: Schema.Schema<DynamicMuteRecord> = Schema.suspend(() => Schema.Struct({
-  muteConfig: Schema.optional(Schema.String),
-  matchTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DynamicMuteRecord" }) as any as Schema.Schema<DynamicMuteRecord>;
+export const DynamicMuteRecord: Schema.Schema<DynamicMuteRecord> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      muteConfig: Schema.optional(Schema.String),
+      matchTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DynamicMuteRecord",
+  }) as any as Schema.Schema<DynamicMuteRecord>;
 
 export interface MuteInfo {
   /** If set, the static mute applied to this finding. Static mutes override dynamic mutes. If unset, there is no static mute. */
@@ -1020,10 +1646,12 @@ export interface MuteInfo {
   dynamicMuteRecords?: Array<DynamicMuteRecord>;
 }
 
-export const MuteInfo: Schema.Schema<MuteInfo> = Schema.suspend(() => Schema.Struct({
-  staticMute: Schema.optional(StaticMute),
-  dynamicMuteRecords: Schema.optional(Schema.Array(DynamicMuteRecord)),
-})).annotate({ identifier: "MuteInfo" }) as any as Schema.Schema<MuteInfo>;
+export const MuteInfo: Schema.Schema<MuteInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    staticMute: Schema.optional(StaticMute),
+    dynamicMuteRecords: Schema.optional(Schema.Array(DynamicMuteRecord)),
+  }),
+).annotate({ identifier: "MuteInfo" }) as any as Schema.Schema<MuteInfo>;
 
 export interface DiskPath {
   /** UUID of the partition (format https://wiki.archlinux.org/title/persistent_block_device_naming#by-uuid) */
@@ -1032,19 +1660,32 @@ export interface DiskPath {
   relativePath?: string;
 }
 
-export const DiskPath: Schema.Schema<DiskPath> = Schema.suspend(() => Schema.Struct({
-  partitionUuid: Schema.optional(Schema.String),
-  relativePath: Schema.optional(Schema.String),
-})).annotate({ identifier: "DiskPath" }) as any as Schema.Schema<DiskPath>;
+export const DiskPath: Schema.Schema<DiskPath> = Schema.suspend(() =>
+  Schema.Struct({
+    partitionUuid: Schema.optional(Schema.String),
+    relativePath: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DiskPath" }) as any as Schema.Schema<DiskPath>;
 
 export interface FileOperation {
   /** The type of the operation */
-  type?: "OPERATION_TYPE_UNSPECIFIED" | "OPEN" | "READ" | "RENAME" | "WRITE" | "EXECUTE" | (string & {});
+  type?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "OPEN"
+    | "READ"
+    | "RENAME"
+    | "WRITE"
+    | "EXECUTE"
+    | (string & {});
 }
 
-export const FileOperation: Schema.Schema<FileOperation> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "FileOperation" }) as any as Schema.Schema<FileOperation>;
+export const FileOperation: Schema.Schema<FileOperation> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "FileOperation",
+}) as any as Schema.Schema<FileOperation>;
 
 export interface File {
   /** Absolute path of the file as a JSON encoded string. */
@@ -1064,20 +1705,26 @@ export interface File {
   /** Operation(s) performed on a file. */
   operations?: Array<FileOperation>;
   /** The load state of the file. */
-  fileLoadState?: "FILE_LOAD_STATE_UNSPECIFIED" | "LOADED_BY_PROCESS" | "NOT_LOADED_BY_PROCESS" | (string & {});
+  fileLoadState?:
+    | "FILE_LOAD_STATE_UNSPECIFIED"
+    | "LOADED_BY_PROCESS"
+    | "NOT_LOADED_BY_PROCESS"
+    | (string & {});
 }
 
-export const File: Schema.Schema<File> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.String),
-  sha256: Schema.optional(Schema.String),
-  hashedSize: Schema.optional(Schema.String),
-  partiallyHashed: Schema.optional(Schema.Boolean),
-  contents: Schema.optional(Schema.String),
-  diskPath: Schema.optional(DiskPath),
-  operations: Schema.optional(Schema.Array(FileOperation)),
-  fileLoadState: Schema.optional(Schema.String),
-})).annotate({ identifier: "File" }) as any as Schema.Schema<File>;
+export const File: Schema.Schema<File> = Schema.suspend(() =>
+  Schema.Struct({
+    path: Schema.optional(Schema.String),
+    size: Schema.optional(Schema.String),
+    sha256: Schema.optional(Schema.String),
+    hashedSize: Schema.optional(Schema.String),
+    partiallyHashed: Schema.optional(Schema.Boolean),
+    contents: Schema.optional(Schema.String),
+    diskPath: Schema.optional(DiskPath),
+    operations: Schema.optional(Schema.Array(FileOperation)),
+    fileLoadState: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "File" }) as any as Schema.Schema<File>;
 
 export interface EnvironmentVariable {
   /** Environment variable name as a JSON encoded string. */
@@ -1086,10 +1733,15 @@ export interface EnvironmentVariable {
   val?: string;
 }
 
-export const EnvironmentVariable: Schema.Schema<EnvironmentVariable> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  val: Schema.optional(Schema.String),
-})).annotate({ identifier: "EnvironmentVariable" }) as any as Schema.Schema<EnvironmentVariable>;
+export const EnvironmentVariable: Schema.Schema<EnvironmentVariable> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      val: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EnvironmentVariable",
+  }) as any as Schema.Schema<EnvironmentVariable>;
 
 export interface Process {
   /** The process name, as displayed in utilities like `top` and `ps`. This name can be accessed through `/proc/[pid]/comm` and changed with `prctl(PR_SET_NAME)`. */
@@ -1116,37 +1768,46 @@ export interface Process {
   userId?: string;
 }
 
-export const Process: Schema.Schema<Process> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  binary: Schema.optional(File),
-  libraries: Schema.optional(Schema.Array(File)),
-  script: Schema.optional(File),
-  args: Schema.optional(Schema.Array(Schema.String)),
-  argumentsTruncated: Schema.optional(Schema.Boolean),
-  envVariables: Schema.optional(Schema.Array(EnvironmentVariable)),
-  envVariablesTruncated: Schema.optional(Schema.Boolean),
-  pid: Schema.optional(Schema.String),
-  parentPid: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Process" }) as any as Schema.Schema<Process>;
+export const Process: Schema.Schema<Process> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    binary: Schema.optional(File),
+    libraries: Schema.optional(Schema.Array(File)),
+    script: Schema.optional(File),
+    args: Schema.optional(Schema.Array(Schema.String)),
+    argumentsTruncated: Schema.optional(Schema.Boolean),
+    envVariables: Schema.optional(Schema.Array(EnvironmentVariable)),
+    envVariablesTruncated: Schema.optional(Schema.Boolean),
+    pid: Schema.optional(Schema.String),
+    parentPid: Schema.optional(Schema.String),
+    userId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Process" }) as any as Schema.Schema<Process>;
 
 export interface Contact {
   /** An email address. For example, "`person123@company.com`". */
   email?: string;
 }
 
-export const Contact: Schema.Schema<Contact> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "Contact" }) as any as Schema.Schema<Contact>;
+export const Contact: Schema.Schema<Contact> = Schema.suspend(() =>
+  Schema.Struct({
+    email: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Contact" }) as any as Schema.Schema<Contact>;
 
 export interface ContactDetails {
   /** A list of contacts */
   contacts?: Array<Contact>;
 }
 
-export const ContactDetails: Schema.Schema<ContactDetails> = Schema.suspend(() => Schema.Struct({
-  contacts: Schema.optional(Schema.Array(Contact)),
-})).annotate({ identifier: "ContactDetails" }) as any as Schema.Schema<ContactDetails>;
+export const ContactDetails: Schema.Schema<ContactDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      contacts: Schema.optional(Schema.Array(Contact)),
+    }),
+).annotate({
+  identifier: "ContactDetails",
+}) as any as Schema.Schema<ContactDetails>;
 
 export interface Compliance {
   /** Industry-wide compliance standards or benchmarks, such as CIS, PCI, and OWASP. */
@@ -1157,11 +1818,13 @@ export interface Compliance {
   ids?: Array<string>;
 }
 
-export const Compliance: Schema.Schema<Compliance> = Schema.suspend(() => Schema.Struct({
-  standard: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  ids: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Compliance" }) as any as Schema.Schema<Compliance>;
+export const Compliance: Schema.Schema<Compliance> = Schema.suspend(() =>
+  Schema.Struct({
+    standard: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    ids: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Compliance" }) as any as Schema.Schema<Compliance>;
 
 export interface ExfilResource {
   /** The resource's [full resource name](https://cloud.google.com/apis/design/resource_names#full_resource_name). */
@@ -1170,10 +1833,14 @@ export interface ExfilResource {
   components?: Array<string>;
 }
 
-export const ExfilResource: Schema.Schema<ExfilResource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  components: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ExfilResource" }) as any as Schema.Schema<ExfilResource>;
+export const ExfilResource: Schema.Schema<ExfilResource> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    components: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "ExfilResource",
+}) as any as Schema.Schema<ExfilResource>;
 
 export interface Exfiltration {
   /** If there are multiple sources, then the data is considered "joined" between them. For instance, BigQuery can join multiple tables, and each table would be considered a source. */
@@ -1184,11 +1851,15 @@ export interface Exfiltration {
   totalExfiltratedBytes?: string;
 }
 
-export const Exfiltration: Schema.Schema<Exfiltration> = Schema.suspend(() => Schema.Struct({
-  sources: Schema.optional(Schema.Array(ExfilResource)),
-  targets: Schema.optional(Schema.Array(ExfilResource)),
-  totalExfiltratedBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "Exfiltration" }) as any as Schema.Schema<Exfiltration>;
+export const Exfiltration: Schema.Schema<Exfiltration> = Schema.suspend(() =>
+  Schema.Struct({
+    sources: Schema.optional(Schema.Array(ExfilResource)),
+    targets: Schema.optional(Schema.Array(ExfilResource)),
+    totalExfiltratedBytes: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Exfiltration",
+}) as any as Schema.Schema<Exfiltration>;
 
 export interface IamBinding {
   /** The action that was performed on a Binding. */
@@ -1199,11 +1870,13 @@ export interface IamBinding {
   member?: string;
 }
 
-export const IamBinding: Schema.Schema<IamBinding> = Schema.suspend(() => Schema.Struct({
-  action: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  member: Schema.optional(Schema.String),
-})).annotate({ identifier: "IamBinding" }) as any as Schema.Schema<IamBinding>;
+export const IamBinding: Schema.Schema<IamBinding> = Schema.suspend(() =>
+  Schema.Struct({
+    action: Schema.optional(Schema.String),
+    role: Schema.optional(Schema.String),
+    member: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "IamBinding" }) as any as Schema.Schema<IamBinding>;
 
 export interface Label {
   /** Name of the label. */
@@ -1212,10 +1885,12 @@ export interface Label {
   value?: string;
 }
 
-export const Label: Schema.Schema<Label> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
+export const Label: Schema.Schema<Label> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
 
 export interface Container {
   /** Name of the container. */
@@ -1230,13 +1905,15 @@ export interface Container {
   createTime?: string;
 }
 
-export const Container: Schema.Schema<Container> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  imageId: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Array(Label)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Container" }) as any as Schema.Schema<Container>;
+export const Container: Schema.Schema<Container> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    imageId: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Array(Label)),
+    createTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Container" }) as any as Schema.Schema<Container>;
 
 export interface Pod {
   /** Kubernetes Pod namespace. */
@@ -1249,21 +1926,25 @@ export interface Pod {
   containers?: Array<Container>;
 }
 
-export const Pod: Schema.Schema<Pod> = Schema.suspend(() => Schema.Struct({
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Array(Label)),
-  containers: Schema.optional(Schema.Array(Container)),
-})).annotate({ identifier: "Pod" }) as any as Schema.Schema<Pod>;
+export const Pod: Schema.Schema<Pod> = Schema.suspend(() =>
+  Schema.Struct({
+    ns: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Array(Label)),
+    containers: Schema.optional(Schema.Array(Container)),
+  }),
+).annotate({ identifier: "Pod" }) as any as Schema.Schema<Pod>;
 
 export interface Node {
   /** [Full resource name](https://google.aip.dev/122#full-resource-names) of the Compute Engine VM running the cluster node. */
   name?: string;
 }
 
-export const Node: Schema.Schema<Node> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Node" }) as any as Schema.Schema<Node>;
+export const Node: Schema.Schema<Node> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Node" }) as any as Schema.Schema<Node>;
 
 export interface NodePool {
   /** Kubernetes node pool name. */
@@ -1272,10 +1953,12 @@ export interface NodePool {
   nodes?: Array<Node>;
 }
 
-export const NodePool: Schema.Schema<NodePool> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  nodes: Schema.optional(Schema.Array(Node)),
-})).annotate({ identifier: "NodePool" }) as any as Schema.Schema<NodePool>;
+export const NodePool: Schema.Schema<NodePool> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    nodes: Schema.optional(Schema.Array(Node)),
+  }),
+).annotate({ identifier: "NodePool" }) as any as Schema.Schema<NodePool>;
 
 export interface Role {
   /** Role type. */
@@ -1286,26 +1969,35 @@ export interface Role {
   name?: string;
 }
 
-export const Role: Schema.Schema<Role> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Role" }) as any as Schema.Schema<Role>;
+export const Role: Schema.Schema<Role> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    ns: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Role" }) as any as Schema.Schema<Role>;
 
 export interface Subject {
   /** Authentication type for the subject. */
-  kind?: "AUTH_TYPE_UNSPECIFIED" | "USER" | "SERVICEACCOUNT" | "GROUP" | (string & {});
+  kind?:
+    | "AUTH_TYPE_UNSPECIFIED"
+    | "USER"
+    | "SERVICEACCOUNT"
+    | "GROUP"
+    | (string & {});
   /** Namespace for the subject. */
   ns?: string;
   /** Name for the subject. */
   name?: string;
 }
 
-export const Subject: Schema.Schema<Subject> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Subject" }) as any as Schema.Schema<Subject>;
+export const Subject: Schema.Schema<Subject> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    ns: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Subject" }) as any as Schema.Schema<Subject>;
 
 export interface GoogleCloudSecuritycenterV1Binding {
   /** Namespace for the binding. */
@@ -1318,12 +2010,17 @@ export interface GoogleCloudSecuritycenterV1Binding {
   subjects?: Array<Subject>;
 }
 
-export const GoogleCloudSecuritycenterV1Binding: Schema.Schema<GoogleCloudSecuritycenterV1Binding> = Schema.suspend(() => Schema.Struct({
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  role: Schema.optional(Role),
-  subjects: Schema.optional(Schema.Array(Subject)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1Binding" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1Binding>;
+export const GoogleCloudSecuritycenterV1Binding: Schema.Schema<GoogleCloudSecuritycenterV1Binding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      role: Schema.optional(Role),
+      subjects: Schema.optional(Schema.Array(Subject)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1Binding",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1Binding>;
 
 export interface AccessReview {
   /** The API group of the resource. "*" means all. */
@@ -1342,15 +2039,19 @@ export interface AccessReview {
   version?: string;
 }
 
-export const AccessReview: Schema.Schema<AccessReview> = Schema.suspend(() => Schema.Struct({
-  group: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  subresource: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccessReview" }) as any as Schema.Schema<AccessReview>;
+export const AccessReview: Schema.Schema<AccessReview> = Schema.suspend(() =>
+  Schema.Struct({
+    group: Schema.optional(Schema.String),
+    ns: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    resource: Schema.optional(Schema.String),
+    subresource: Schema.optional(Schema.String),
+    verb: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AccessReview",
+}) as any as Schema.Schema<AccessReview>;
 
 export interface Securitycenter_Object {
   /** Kubernetes object group, such as "policy.k8s.io/v1". */
@@ -1365,13 +2066,18 @@ export interface Securitycenter_Object {
   containers?: Array<Container>;
 }
 
-export const Securitycenter_Object: Schema.Schema<Securitycenter_Object> = Schema.suspend(() => Schema.Struct({
-  group: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  containers: Schema.optional(Schema.Array(Container)),
-})).annotate({ identifier: "Securitycenter_Object" }) as any as Schema.Schema<Securitycenter_Object>;
+export const Securitycenter_Object: Schema.Schema<Securitycenter_Object> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      group: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      containers: Schema.optional(Schema.Array(Container)),
+    }),
+  ).annotate({
+    identifier: "Securitycenter_Object",
+  }) as any as Schema.Schema<Securitycenter_Object>;
 
 export interface Kubernetes {
   /** Kubernetes [Pods](https://cloud.google.com/kubernetes-engine/docs/concepts/pod) associated with the finding. This field contains Pod records for each container that is owned by a Pod. */
@@ -1390,15 +2096,17 @@ export interface Kubernetes {
   objects?: Array<Securitycenter_Object>;
 }
 
-export const Kubernetes: Schema.Schema<Kubernetes> = Schema.suspend(() => Schema.Struct({
-  pods: Schema.optional(Schema.Array(Pod)),
-  nodes: Schema.optional(Schema.Array(Node)),
-  nodePools: Schema.optional(Schema.Array(NodePool)),
-  roles: Schema.optional(Schema.Array(Role)),
-  bindings: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1Binding)),
-  accessReviews: Schema.optional(Schema.Array(AccessReview)),
-  objects: Schema.optional(Schema.Array(Securitycenter_Object)),
-})).annotate({ identifier: "Kubernetes" }) as any as Schema.Schema<Kubernetes>;
+export const Kubernetes: Schema.Schema<Kubernetes> = Schema.suspend(() =>
+  Schema.Struct({
+    pods: Schema.optional(Schema.Array(Pod)),
+    nodes: Schema.optional(Schema.Array(Node)),
+    nodePools: Schema.optional(Schema.Array(NodePool)),
+    roles: Schema.optional(Schema.Array(Role)),
+    bindings: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1Binding)),
+    accessReviews: Schema.optional(Schema.Array(AccessReview)),
+    objects: Schema.optional(Schema.Array(Securitycenter_Object)),
+  }),
+).annotate({ identifier: "Kubernetes" }) as any as Schema.Schema<Kubernetes>;
 
 export interface Database {
   /** Some database resources may not have the [full resource name](https://google.aip.dev/122#full-resource-names) populated because these resource types are not yet supported by Cloud Asset Inventory (e.g. Cloud SQL databases). In these cases only the display name will be provided. The [full resource name](https://google.aip.dev/122#full-resource-names) of the database that the user connected to, if it is supported by Cloud Asset Inventory. */
@@ -1415,14 +2123,16 @@ export interface Database {
   version?: string;
 }
 
-export const Database: Schema.Schema<Database> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  userName: Schema.optional(Schema.String),
-  query: Schema.optional(Schema.String),
-  grantees: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
+export const Database: Schema.Schema<Database> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    userName: Schema.optional(Schema.String),
+    query: Schema.optional(Schema.String),
+    grantees: Schema.optional(Schema.Array(Schema.String)),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
 
 export interface AttackExposure {
   /** A number between 0 (inclusive) and infinity that represents how important this finding is to remediate. The higher the score, the more important it is to remediate. */
@@ -1441,15 +2151,20 @@ export interface AttackExposure {
   exposedLowValueResourcesCount?: number;
 }
 
-export const AttackExposure: Schema.Schema<AttackExposure> = Schema.suspend(() => Schema.Struct({
-  score: Schema.optional(Schema.Number),
-  latestCalculationTime: Schema.optional(Schema.String),
-  attackExposureResult: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  exposedHighValueResourcesCount: Schema.optional(Schema.Number),
-  exposedMediumValueResourcesCount: Schema.optional(Schema.Number),
-  exposedLowValueResourcesCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AttackExposure" }) as any as Schema.Schema<AttackExposure>;
+export const AttackExposure: Schema.Schema<AttackExposure> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      score: Schema.optional(Schema.Number),
+      latestCalculationTime: Schema.optional(Schema.String),
+      attackExposureResult: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      exposedHighValueResourcesCount: Schema.optional(Schema.Number),
+      exposedMediumValueResourcesCount: Schema.optional(Schema.Number),
+      exposedLowValueResourcesCount: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "AttackExposure",
+}) as any as Schema.Schema<AttackExposure>;
 
 export interface CloudDlpInspection {
   /** Name of the inspection job, for example, `projects/123/locations/europe/dlpJobs/i-8383929`. */
@@ -1462,21 +2177,37 @@ export interface CloudDlpInspection {
   fullScan?: boolean;
 }
 
-export const CloudDlpInspection: Schema.Schema<CloudDlpInspection> = Schema.suspend(() => Schema.Struct({
-  inspectJob: Schema.optional(Schema.String),
-  infoType: Schema.optional(Schema.String),
-  infoTypeCount: Schema.optional(Schema.String),
-  fullScan: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CloudDlpInspection" }) as any as Schema.Schema<CloudDlpInspection>;
+export const CloudDlpInspection: Schema.Schema<CloudDlpInspection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inspectJob: Schema.optional(Schema.String),
+      infoType: Schema.optional(Schema.String),
+      infoTypeCount: Schema.optional(Schema.String),
+      fullScan: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CloudDlpInspection",
+  }) as any as Schema.Schema<CloudDlpInspection>;
 
 export interface SensitivityScore {
   /** The sensitivity score applied to the resource. */
-  score?: "SENSITIVITY_SCORE_LEVEL_UNSPECIFIED" | "SENSITIVITY_LOW" | "SENSITIVITY_UNKNOWN" | "SENSITIVITY_MODERATE" | "SENSITIVITY_HIGH" | (string & {});
+  score?:
+    | "SENSITIVITY_SCORE_LEVEL_UNSPECIFIED"
+    | "SENSITIVITY_LOW"
+    | "SENSITIVITY_UNKNOWN"
+    | "SENSITIVITY_MODERATE"
+    | "SENSITIVITY_HIGH"
+    | (string & {});
 }
 
-export const SensitivityScore: Schema.Schema<SensitivityScore> = Schema.suspend(() => Schema.Struct({
-  score: Schema.optional(Schema.String),
-})).annotate({ identifier: "SensitivityScore" }) as any as Schema.Schema<SensitivityScore>;
+export const SensitivityScore: Schema.Schema<SensitivityScore> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      score: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SensitivityScore",
+}) as any as Schema.Schema<SensitivityScore>;
 
 export interface InfoType {
   /** Name of the information type. Either a name of your choosing when creating a CustomInfoType, or one of the names listed at https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference when specifying a built-in type. When sending Cloud DLP results to Data Catalog, infoType names should conform to the pattern `[A-Za-z0-9$_-]{1,64}`. */
@@ -1487,26 +2218,37 @@ export interface InfoType {
   sensitivityScore?: SensitivityScore;
 }
 
-export const InfoType: Schema.Schema<InfoType> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  sensitivityScore: Schema.optional(SensitivityScore),
-})).annotate({ identifier: "InfoType" }) as any as Schema.Schema<InfoType>;
+export const InfoType: Schema.Schema<InfoType> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    sensitivityScore: Schema.optional(SensitivityScore),
+  }),
+).annotate({ identifier: "InfoType" }) as any as Schema.Schema<InfoType>;
 
 export interface CloudDlpDataProfile {
   /** Name of the data profile, for example, `projects/123/locations/europe/tableProfiles/8383929`. */
   dataProfile?: string;
   /** The resource hierarchy level at which the data profile was generated. */
-  parentType?: "PARENT_TYPE_UNSPECIFIED" | "ORGANIZATION" | "PROJECT" | (string & {});
+  parentType?:
+    | "PARENT_TYPE_UNSPECIFIED"
+    | "ORGANIZATION"
+    | "PROJECT"
+    | (string & {});
   /** Type of information detected by SDP. Info type includes name, version and sensitivity of the detected information type. */
   infoTypes?: Array<InfoType>;
 }
 
-export const CloudDlpDataProfile: Schema.Schema<CloudDlpDataProfile> = Schema.suspend(() => Schema.Struct({
-  dataProfile: Schema.optional(Schema.String),
-  parentType: Schema.optional(Schema.String),
-  infoTypes: Schema.optional(Schema.Array(InfoType)),
-})).annotate({ identifier: "CloudDlpDataProfile" }) as any as Schema.Schema<CloudDlpDataProfile>;
+export const CloudDlpDataProfile: Schema.Schema<CloudDlpDataProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataProfile: Schema.optional(Schema.String),
+      parentType: Schema.optional(Schema.String),
+      infoTypes: Schema.optional(Schema.Array(InfoType)),
+    }),
+  ).annotate({
+    identifier: "CloudDlpDataProfile",
+  }) as any as Schema.Schema<CloudDlpDataProfile>;
 
 export interface KernelRootkit {
   /** Rootkit name, when available. */
@@ -1529,44 +2271,58 @@ export interface KernelRootkit {
   unexpectedProcessesInRunqueue?: boolean;
 }
 
-export const KernelRootkit: Schema.Schema<KernelRootkit> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  unexpectedCodeModification: Schema.optional(Schema.Boolean),
-  unexpectedReadOnlyDataModification: Schema.optional(Schema.Boolean),
-  unexpectedFtraceHandler: Schema.optional(Schema.Boolean),
-  unexpectedKprobeHandler: Schema.optional(Schema.Boolean),
-  unexpectedKernelCodePages: Schema.optional(Schema.Boolean),
-  unexpectedSystemCallHandler: Schema.optional(Schema.Boolean),
-  unexpectedInterruptHandler: Schema.optional(Schema.Boolean),
-  unexpectedProcessesInRunqueue: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "KernelRootkit" }) as any as Schema.Schema<KernelRootkit>;
+export const KernelRootkit: Schema.Schema<KernelRootkit> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    unexpectedCodeModification: Schema.optional(Schema.Boolean),
+    unexpectedReadOnlyDataModification: Schema.optional(Schema.Boolean),
+    unexpectedFtraceHandler: Schema.optional(Schema.Boolean),
+    unexpectedKprobeHandler: Schema.optional(Schema.Boolean),
+    unexpectedKernelCodePages: Schema.optional(Schema.Boolean),
+    unexpectedSystemCallHandler: Schema.optional(Schema.Boolean),
+    unexpectedInterruptHandler: Schema.optional(Schema.Boolean),
+    unexpectedProcessesInRunqueue: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "KernelRootkit",
+}) as any as Schema.Schema<KernelRootkit>;
 
 export interface OrgPolicy {
   /** The resource name of the org policy. Example: "organizations/{organization_id}/policies/{constraint_name}" */
   name?: string;
 }
 
-export const OrgPolicy: Schema.Schema<OrgPolicy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "OrgPolicy" }) as any as Schema.Schema<OrgPolicy>;
+export const OrgPolicy: Schema.Schema<OrgPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OrgPolicy" }) as any as Schema.Schema<OrgPolicy>;
 
 export interface Job {
   /** The fully-qualified name for a job. e.g. `projects//jobs/` */
   name?: string;
   /** Output only. State of the job, such as `RUNNING` or `PENDING`. */
-  state?: "JOB_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
+  state?:
+    | "JOB_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | (string & {});
   /** Optional. If the job did not complete successfully, this field describes why. */
   errorCode?: number;
   /** Optional. Gives the location where the job ran, such as `US` or `europe-west1` */
   location?: string;
 }
 
-export const Job: Schema.Schema<Job> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  errorCode: Schema.optional(Schema.Number),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
+export const Job: Schema.Schema<Job> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    errorCode: Schema.optional(Schema.Number),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
 
 export interface Application {
   /** The base URI that identifies the network location of the application in which the vulnerability was detected. For example, `http://example.com`. */
@@ -1575,10 +2331,12 @@ export interface Application {
   fullUri?: string;
 }
 
-export const Application: Schema.Schema<Application> = Schema.suspend(() => Schema.Struct({
-  baseUri: Schema.optional(Schema.String),
-  fullUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
+export const Application: Schema.Schema<Application> = Schema.suspend(() =>
+  Schema.Struct({
+    baseUri: Schema.optional(Schema.String),
+    fullUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
 
 export interface PortRange {
   /** Minimum port value. */
@@ -1587,10 +2345,12 @@ export interface PortRange {
   max?: string;
 }
 
-export const PortRange: Schema.Schema<PortRange> = Schema.suspend(() => Schema.Struct({
-  min: Schema.optional(Schema.String),
-  max: Schema.optional(Schema.String),
-})).annotate({ identifier: "PortRange" }) as any as Schema.Schema<PortRange>;
+export const PortRange: Schema.Schema<PortRange> = Schema.suspend(() =>
+  Schema.Struct({
+    min: Schema.optional(Schema.String),
+    max: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PortRange" }) as any as Schema.Schema<PortRange>;
 
 export interface IpRule {
   /** The IP protocol this rule applies to. This value can either be one of the following well known protocol strings (TCP, UDP, ICMP, ESP, AH, IPIP, SCTP) or a string representation of the integer value. */
@@ -1599,28 +2359,34 @@ export interface IpRule {
   portRanges?: Array<PortRange>;
 }
 
-export const IpRule: Schema.Schema<IpRule> = Schema.suspend(() => Schema.Struct({
-  protocol: Schema.optional(Schema.String),
-  portRanges: Schema.optional(Schema.Array(PortRange)),
-})).annotate({ identifier: "IpRule" }) as any as Schema.Schema<IpRule>;
+export const IpRule: Schema.Schema<IpRule> = Schema.suspend(() =>
+  Schema.Struct({
+    protocol: Schema.optional(Schema.String),
+    portRanges: Schema.optional(Schema.Array(PortRange)),
+  }),
+).annotate({ identifier: "IpRule" }) as any as Schema.Schema<IpRule>;
 
 export interface Allowed {
   /** Optional. Optional list of allowed IP rules. */
   ipRules?: Array<IpRule>;
 }
 
-export const Allowed: Schema.Schema<Allowed> = Schema.suspend(() => Schema.Struct({
-  ipRules: Schema.optional(Schema.Array(IpRule)),
-})).annotate({ identifier: "Allowed" }) as any as Schema.Schema<Allowed>;
+export const Allowed: Schema.Schema<Allowed> = Schema.suspend(() =>
+  Schema.Struct({
+    ipRules: Schema.optional(Schema.Array(IpRule)),
+  }),
+).annotate({ identifier: "Allowed" }) as any as Schema.Schema<Allowed>;
 
 export interface Denied {
   /** Optional. Optional list of denied IP rules. */
   ipRules?: Array<IpRule>;
 }
 
-export const Denied: Schema.Schema<Denied> = Schema.suspend(() => Schema.Struct({
-  ipRules: Schema.optional(Schema.Array(IpRule)),
-})).annotate({ identifier: "Denied" }) as any as Schema.Schema<Denied>;
+export const Denied: Schema.Schema<Denied> = Schema.suspend(() =>
+  Schema.Struct({
+    ipRules: Schema.optional(Schema.Array(IpRule)),
+  }),
+).annotate({ identifier: "Denied" }) as any as Schema.Schema<Denied>;
 
 export interface IpRules {
   /** The direction that the rule is applicable to, one of ingress or egress. */
@@ -1637,14 +2403,16 @@ export interface IpRules {
   exposedServices?: Array<string>;
 }
 
-export const IpRules: Schema.Schema<IpRules> = Schema.suspend(() => Schema.Struct({
-  direction: Schema.optional(Schema.String),
-  allowed: Schema.optional(Allowed),
-  denied: Schema.optional(Denied),
-  sourceIpRanges: Schema.optional(Schema.Array(Schema.String)),
-  destinationIpRanges: Schema.optional(Schema.Array(Schema.String)),
-  exposedServices: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "IpRules" }) as any as Schema.Schema<IpRules>;
+export const IpRules: Schema.Schema<IpRules> = Schema.suspend(() =>
+  Schema.Struct({
+    direction: Schema.optional(Schema.String),
+    allowed: Schema.optional(Allowed),
+    denied: Schema.optional(Denied),
+    sourceIpRanges: Schema.optional(Schema.Array(Schema.String)),
+    destinationIpRanges: Schema.optional(Schema.Array(Schema.String)),
+    exposedServices: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "IpRules" }) as any as Schema.Schema<IpRules>;
 
 export interface BackupDisasterRecovery {
   /** The name of a Backup and DR template which comprises one or more backup policies. See the [Backup and DR documentation](https://cloud.google.com/backup-disaster-recovery/docs/concepts/backup-plan#temp) for more information. For example, `snap-ov`. */
@@ -1669,18 +2437,23 @@ export interface BackupDisasterRecovery {
   backupCreateTime?: string;
 }
 
-export const BackupDisasterRecovery: Schema.Schema<BackupDisasterRecovery> = Schema.suspend(() => Schema.Struct({
-  backupTemplate: Schema.optional(Schema.String),
-  policies: Schema.optional(Schema.Array(Schema.String)),
-  host: Schema.optional(Schema.String),
-  applications: Schema.optional(Schema.Array(Schema.String)),
-  storagePool: Schema.optional(Schema.String),
-  policyOptions: Schema.optional(Schema.Array(Schema.String)),
-  profile: Schema.optional(Schema.String),
-  appliance: Schema.optional(Schema.String),
-  backupType: Schema.optional(Schema.String),
-  backupCreateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupDisasterRecovery" }) as any as Schema.Schema<BackupDisasterRecovery>;
+export const BackupDisasterRecovery: Schema.Schema<BackupDisasterRecovery> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backupTemplate: Schema.optional(Schema.String),
+      policies: Schema.optional(Schema.Array(Schema.String)),
+      host: Schema.optional(Schema.String),
+      applications: Schema.optional(Schema.Array(Schema.String)),
+      storagePool: Schema.optional(Schema.String),
+      policyOptions: Schema.optional(Schema.Array(Schema.String)),
+      profile: Schema.optional(Schema.String),
+      appliance: Schema.optional(Schema.String),
+      backupType: Schema.optional(Schema.String),
+      backupCreateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BackupDisasterRecovery",
+  }) as any as Schema.Schema<BackupDisasterRecovery>;
 
 export interface PolicyDriftDetails {
   /** The name of the updated field, for example constraint.implementation.policy_rules[0].enforce */
@@ -1691,11 +2464,16 @@ export interface PolicyDriftDetails {
   detectedValue?: string;
 }
 
-export const PolicyDriftDetails: Schema.Schema<PolicyDriftDetails> = Schema.suspend(() => Schema.Struct({
-  field: Schema.optional(Schema.String),
-  expectedValue: Schema.optional(Schema.String),
-  detectedValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "PolicyDriftDetails" }) as any as Schema.Schema<PolicyDriftDetails>;
+export const PolicyDriftDetails: Schema.Schema<PolicyDriftDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      field: Schema.optional(Schema.String),
+      expectedValue: Schema.optional(Schema.String),
+      detectedValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PolicyDriftDetails",
+  }) as any as Schema.Schema<PolicyDriftDetails>;
 
 export interface SecurityPosture {
   /** Name of the posture, for example, `CIS-Posture`. */
@@ -1716,16 +2494,21 @@ export interface SecurityPosture {
   policyDriftDetails?: Array<PolicyDriftDetails>;
 }
 
-export const SecurityPosture: Schema.Schema<SecurityPosture> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  revisionId: Schema.optional(Schema.String),
-  postureDeploymentResource: Schema.optional(Schema.String),
-  postureDeployment: Schema.optional(Schema.String),
-  changedPolicy: Schema.optional(Schema.String),
-  policySet: Schema.optional(Schema.String),
-  policy: Schema.optional(Schema.String),
-  policyDriftDetails: Schema.optional(Schema.Array(PolicyDriftDetails)),
-})).annotate({ identifier: "SecurityPosture" }) as any as Schema.Schema<SecurityPosture>;
+export const SecurityPosture: Schema.Schema<SecurityPosture> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      revisionId: Schema.optional(Schema.String),
+      postureDeploymentResource: Schema.optional(Schema.String),
+      postureDeployment: Schema.optional(Schema.String),
+      changedPolicy: Schema.optional(Schema.String),
+      policySet: Schema.optional(Schema.String),
+      policy: Schema.optional(Schema.String),
+      policyDriftDetails: Schema.optional(Schema.Array(PolicyDriftDetails)),
+    }),
+).annotate({
+  identifier: "SecurityPosture",
+}) as any as Schema.Schema<SecurityPosture>;
 
 export interface CloudLoggingEntry {
   /** A unique identifier for the log entry. */
@@ -1738,30 +2521,41 @@ export interface CloudLoggingEntry {
   timestamp?: string;
 }
 
-export const CloudLoggingEntry: Schema.Schema<CloudLoggingEntry> = Schema.suspend(() => Schema.Struct({
-  insertId: Schema.optional(Schema.String),
-  logId: Schema.optional(Schema.String),
-  resourceContainer: Schema.optional(Schema.String),
-  timestamp: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudLoggingEntry" }) as any as Schema.Schema<CloudLoggingEntry>;
+export const CloudLoggingEntry: Schema.Schema<CloudLoggingEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      insertId: Schema.optional(Schema.String),
+      logId: Schema.optional(Schema.String),
+      resourceContainer: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudLoggingEntry",
+  }) as any as Schema.Schema<CloudLoggingEntry>;
 
 export interface LogEntry {
   /** An individual entry in a log stored in Cloud Logging. */
   cloudLoggingEntry?: CloudLoggingEntry;
 }
 
-export const LogEntry: Schema.Schema<LogEntry> = Schema.suspend(() => Schema.Struct({
-  cloudLoggingEntry: Schema.optional(CloudLoggingEntry),
-})).annotate({ identifier: "LogEntry" }) as any as Schema.Schema<LogEntry>;
+export const LogEntry: Schema.Schema<LogEntry> = Schema.suspend(() =>
+  Schema.Struct({
+    cloudLoggingEntry: Schema.optional(CloudLoggingEntry),
+  }),
+).annotate({ identifier: "LogEntry" }) as any as Schema.Schema<LogEntry>;
 
 export interface LoadBalancer {
   /** The name of the load balancer associated with the finding. */
   name?: string;
 }
 
-export const LoadBalancer: Schema.Schema<LoadBalancer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoadBalancer" }) as any as Schema.Schema<LoadBalancer>;
+export const LoadBalancer: Schema.Schema<LoadBalancer> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "LoadBalancer",
+}) as any as Schema.Schema<LoadBalancer>;
 
 export interface SecurityPolicy {
   /** The name of the Google Cloud Armor security policy, for example, "my-security-policy". */
@@ -1772,11 +2566,16 @@ export interface SecurityPolicy {
   preview?: boolean;
 }
 
-export const SecurityPolicy: Schema.Schema<SecurityPolicy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  preview: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SecurityPolicy" }) as any as Schema.Schema<SecurityPolicy>;
+export const SecurityPolicy: Schema.Schema<SecurityPolicy> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      preview: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "SecurityPolicy",
+}) as any as Schema.Schema<SecurityPolicy>;
 
 export interface Requests {
   /** For 'Increasing deny ratio', the ratio is the denied traffic divided by the allowed traffic. For 'Allowed traffic spike', the ratio is the allowed traffic in the short term divided by allowed traffic in the long term. */
@@ -1789,21 +2588,28 @@ export interface Requests {
   longTermDenied?: number;
 }
 
-export const Requests: Schema.Schema<Requests> = Schema.suspend(() => Schema.Struct({
-  ratio: Schema.optional(Schema.Number),
-  shortTermAllowed: Schema.optional(Schema.Number),
-  longTermAllowed: Schema.optional(Schema.Number),
-  longTermDenied: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Requests" }) as any as Schema.Schema<Requests>;
+export const Requests: Schema.Schema<Requests> = Schema.suspend(() =>
+  Schema.Struct({
+    ratio: Schema.optional(Schema.Number),
+    shortTermAllowed: Schema.optional(Schema.Number),
+    longTermAllowed: Schema.optional(Schema.Number),
+    longTermDenied: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Requests" }) as any as Schema.Schema<Requests>;
 
 export interface AdaptiveProtection {
   /** A score of 0 means that there is low confidence that the detected event is an actual attack. A score of 1 means that there is high confidence that the detected event is an attack. See the [Adaptive Protection documentation](https://cloud.google.com/armor/docs/adaptive-protection-overview#configure-alert-tuning) for further explanation. */
   confidence?: number;
 }
 
-export const AdaptiveProtection: Schema.Schema<AdaptiveProtection> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AdaptiveProtection" }) as any as Schema.Schema<AdaptiveProtection>;
+export const AdaptiveProtection: Schema.Schema<AdaptiveProtection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AdaptiveProtection",
+  }) as any as Schema.Schema<AdaptiveProtection>;
 
 export interface Attack {
   /** Total PPS (packets per second) volume of attack. */
@@ -1818,13 +2624,15 @@ export interface Attack {
   volumeBps?: number;
 }
 
-export const Attack: Schema.Schema<Attack> = Schema.suspend(() => Schema.Struct({
-  volumePpsLong: Schema.optional(Schema.String),
-  volumeBpsLong: Schema.optional(Schema.String),
-  classification: Schema.optional(Schema.String),
-  volumePps: Schema.optional(Schema.Number),
-  volumeBps: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Attack" }) as any as Schema.Schema<Attack>;
+export const Attack: Schema.Schema<Attack> = Schema.suspend(() =>
+  Schema.Struct({
+    volumePpsLong: Schema.optional(Schema.String),
+    volumeBpsLong: Schema.optional(Schema.String),
+    classification: Schema.optional(Schema.String),
+    volumePps: Schema.optional(Schema.Number),
+    volumeBps: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Attack" }) as any as Schema.Schema<Attack>;
 
 export interface CloudArmor {
   /** Information about the [Google Cloud Armor security policy](https://cloud.google.com/armor/docs/security-policy-overview) relevant to the finding. */
@@ -1841,14 +2649,16 @@ export interface CloudArmor {
   duration?: string;
 }
 
-export const CloudArmor: Schema.Schema<CloudArmor> = Schema.suspend(() => Schema.Struct({
-  securityPolicy: Schema.optional(SecurityPolicy),
-  requests: Schema.optional(Requests),
-  adaptiveProtection: Schema.optional(AdaptiveProtection),
-  attack: Schema.optional(Attack),
-  threatVector: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudArmor" }) as any as Schema.Schema<CloudArmor>;
+export const CloudArmor: Schema.Schema<CloudArmor> = Schema.suspend(() =>
+  Schema.Struct({
+    securityPolicy: Schema.optional(SecurityPolicy),
+    requests: Schema.optional(Requests),
+    adaptiveProtection: Schema.optional(AdaptiveProtection),
+    attack: Schema.optional(Attack),
+    threatVector: Schema.optional(Schema.String),
+    duration: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CloudArmor" }) as any as Schema.Schema<CloudArmor>;
 
 export interface Notebook {
   /** The name of the notebook. */
@@ -1861,12 +2671,14 @@ export interface Notebook {
   notebookUpdateTime?: string;
 }
 
-export const Notebook: Schema.Schema<Notebook> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  service: Schema.optional(Schema.String),
-  lastAuthor: Schema.optional(Schema.String),
-  notebookUpdateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Notebook" }) as any as Schema.Schema<Notebook>;
+export const Notebook: Schema.Schema<Notebook> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    service: Schema.optional(Schema.String),
+    lastAuthor: Schema.optional(Schema.String),
+    notebookUpdateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Notebook" }) as any as Schema.Schema<Notebook>;
 
 export interface ToxicCombination {
   /** The [Attack exposure score](https://cloud.google.com/security-command-center/docs/attack-exposure-learn#attack_exposure_scores) of this toxic combination. The score is a measure of how much this toxic combination exposes one or more high-value resources to potential attack. */
@@ -1875,31 +2687,47 @@ export interface ToxicCombination {
   relatedFindings?: Array<string>;
 }
 
-export const ToxicCombination: Schema.Schema<ToxicCombination> = Schema.suspend(() => Schema.Struct({
-  attackExposureScore: Schema.optional(Schema.Number),
-  relatedFindings: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ToxicCombination" }) as any as Schema.Schema<ToxicCombination>;
+export const ToxicCombination: Schema.Schema<ToxicCombination> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      attackExposureScore: Schema.optional(Schema.Number),
+      relatedFindings: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "ToxicCombination",
+}) as any as Schema.Schema<ToxicCombination>;
 
 export interface GroupMembership {
   /** Type of group. */
-  groupType?: "GROUP_TYPE_UNSPECIFIED" | "GROUP_TYPE_TOXIC_COMBINATION" | "GROUP_TYPE_CHOKEPOINT" | (string & {});
+  groupType?:
+    | "GROUP_TYPE_UNSPECIFIED"
+    | "GROUP_TYPE_TOXIC_COMBINATION"
+    | "GROUP_TYPE_CHOKEPOINT"
+    | (string & {});
   /** ID of the group. */
   groupId?: string;
 }
 
-export const GroupMembership: Schema.Schema<GroupMembership> = Schema.suspend(() => Schema.Struct({
-  groupType: Schema.optional(Schema.String),
-  groupId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GroupMembership" }) as any as Schema.Schema<GroupMembership>;
+export const GroupMembership: Schema.Schema<GroupMembership> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      groupType: Schema.optional(Schema.String),
+      groupId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GroupMembership",
+}) as any as Schema.Schema<GroupMembership>;
 
 export interface Disk {
   /** The name of the disk, for example, "https://www.googleapis.com/compute/v1/projects/{project-id}/zones/{zone-id}/disks/{disk-id}". */
   name?: string;
 }
 
-export const Disk: Schema.Schema<Disk> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Disk" }) as any as Schema.Schema<Disk>;
+export const Disk: Schema.Schema<Disk> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Disk" }) as any as Schema.Schema<Disk>;
 
 export interface DataAccessEvent {
   /** Unique identifier for data access event. */
@@ -1907,17 +2735,27 @@ export interface DataAccessEvent {
   /** The email address of the principal that accessed the data. The principal could be a user account, service account, Google group, or other. */
   principalEmail?: string;
   /** The operation performed by the principal to access the data. */
-  operation?: "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY" | (string & {});
+  operation?:
+    | "OPERATION_UNSPECIFIED"
+    | "READ"
+    | "MOVE"
+    | "COPY"
+    | (string & {});
   /** Timestamp of data access event. */
   eventTime?: string;
 }
 
-export const DataAccessEvent: Schema.Schema<DataAccessEvent> = Schema.suspend(() => Schema.Struct({
-  eventId: Schema.optional(Schema.String),
-  principalEmail: Schema.optional(Schema.String),
-  operation: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataAccessEvent" }) as any as Schema.Schema<DataAccessEvent>;
+export const DataAccessEvent: Schema.Schema<DataAccessEvent> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      eventId: Schema.optional(Schema.String),
+      principalEmail: Schema.optional(Schema.String),
+      operation: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DataAccessEvent",
+}) as any as Schema.Schema<DataAccessEvent>;
 
 export interface DataFlowEvent {
   /** Unique identifier for data flow event. */
@@ -1925,29 +2763,40 @@ export interface DataFlowEvent {
   /** The email address of the principal that initiated the data flow event. The principal could be a user account, service account, Google group, or other. */
   principalEmail?: string;
   /** The operation performed by the principal for the data flow event. */
-  operation?: "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY" | (string & {});
+  operation?:
+    | "OPERATION_UNSPECIFIED"
+    | "READ"
+    | "MOVE"
+    | "COPY"
+    | (string & {});
   /** Non-compliant location of the principal or the data destination. */
   violatedLocation?: string;
   /** Timestamp of data flow event. */
   eventTime?: string;
 }
 
-export const DataFlowEvent: Schema.Schema<DataFlowEvent> = Schema.suspend(() => Schema.Struct({
-  eventId: Schema.optional(Schema.String),
-  principalEmail: Schema.optional(Schema.String),
-  operation: Schema.optional(Schema.String),
-  violatedLocation: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataFlowEvent" }) as any as Schema.Schema<DataFlowEvent>;
+export const DataFlowEvent: Schema.Schema<DataFlowEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    eventId: Schema.optional(Schema.String),
+    principalEmail: Schema.optional(Schema.String),
+    operation: Schema.optional(Schema.String),
+    violatedLocation: Schema.optional(Schema.String),
+    eventTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DataFlowEvent",
+}) as any as Schema.Schema<DataFlowEvent>;
 
 export interface Network {
   /** The name of the VPC network resource, for example, `//compute.googleapis.com/projects/my-project/global/networks/my-network`. */
   name?: string;
 }
 
-export const Network: Schema.Schema<Network> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Network" }) as any as Schema.Schema<Network>;
+export const Network: Schema.Schema<Network> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Network" }) as any as Schema.Schema<Network>;
 
 export interface DataRetentionDeletionEvent {
   /** Timestamp indicating when the event was detected. */
@@ -1959,25 +2808,41 @@ export interface DataRetentionDeletionEvent {
   /** Min duration of retention allowed from the DSPM retention control. This field is only populated when event type is set to EVENT_TYPE_MIN_TTL_FROM_CREATION. */
   minRetentionAllowed?: string;
   /** Type of the DRD event. */
-  eventType?: "EVENT_TYPE_UNSPECIFIED" | "EVENT_TYPE_MAX_TTL_EXCEEDED" | "EVENT_TYPE_MAX_TTL_FROM_CREATION" | "EVENT_TYPE_MAX_TTL_FROM_LAST_MODIFICATION" | "EVENT_TYPE_MIN_TTL_FROM_CREATION" | (string & {});
+  eventType?:
+    | "EVENT_TYPE_UNSPECIFIED"
+    | "EVENT_TYPE_MAX_TTL_EXCEEDED"
+    | "EVENT_TYPE_MAX_TTL_FROM_CREATION"
+    | "EVENT_TYPE_MAX_TTL_FROM_LAST_MODIFICATION"
+    | "EVENT_TYPE_MIN_TTL_FROM_CREATION"
+    | (string & {});
 }
 
-export const DataRetentionDeletionEvent: Schema.Schema<DataRetentionDeletionEvent> = Schema.suspend(() => Schema.Struct({
-  eventDetectionTime: Schema.optional(Schema.String),
-  dataObjectCount: Schema.optional(Schema.String),
-  maxRetentionAllowed: Schema.optional(Schema.String),
-  minRetentionAllowed: Schema.optional(Schema.String),
-  eventType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataRetentionDeletionEvent" }) as any as Schema.Schema<DataRetentionDeletionEvent>;
+export const DataRetentionDeletionEvent: Schema.Schema<DataRetentionDeletionEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      eventDetectionTime: Schema.optional(Schema.String),
+      dataObjectCount: Schema.optional(Schema.String),
+      maxRetentionAllowed: Schema.optional(Schema.String),
+      minRetentionAllowed: Schema.optional(Schema.String),
+      eventType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DataRetentionDeletionEvent",
+  }) as any as Schema.Schema<DataRetentionDeletionEvent>;
 
 export interface AffectedResources {
   /** The count of resources affected by the finding. */
   count?: string;
 }
 
-export const AffectedResources: Schema.Schema<AffectedResources> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Schema.String),
-})).annotate({ identifier: "AffectedResources" }) as any as Schema.Schema<AffectedResources>;
+export const AffectedResources: Schema.Schema<AffectedResources> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      count: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AffectedResources",
+  }) as any as Schema.Schema<AffectedResources>;
 
 export interface AiModel {
   /** The name of the AI model, for example, "gemini:1.0.0". */
@@ -1991,32 +2856,42 @@ export interface AiModel {
   /** The publisher of the model, for example, “google” or “nvidia”. */
   publisher?: string;
   /** The platform on which the model is deployed. */
-  deploymentPlatform?: "DEPLOYMENT_PLATFORM_UNSPECIFIED" | "VERTEX_AI" | "GKE" | "GCE" | "FINE_TUNED_MODEL" | (string & {});
+  deploymentPlatform?:
+    | "DEPLOYMENT_PLATFORM_UNSPECIFIED"
+    | "VERTEX_AI"
+    | "GKE"
+    | "GCE"
+    | "FINE_TUNED_MODEL"
+    | (string & {});
   /** The user defined display name of model. Ex. baseline-classification-model */
   displayName?: string;
   /** The purpose of the model, for example, "Inteference" or "Training". */
   usageCategory?: string;
 }
 
-export const AiModel: Schema.Schema<AiModel> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-  library: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  publisher: Schema.optional(Schema.String),
-  deploymentPlatform: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  usageCategory: Schema.optional(Schema.String),
-})).annotate({ identifier: "AiModel" }) as any as Schema.Schema<AiModel>;
+export const AiModel: Schema.Schema<AiModel> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    domain: Schema.optional(Schema.String),
+    library: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    publisher: Schema.optional(Schema.String),
+    deploymentPlatform: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    usageCategory: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AiModel" }) as any as Schema.Schema<AiModel>;
 
 export interface Chokepoint {
   /** List of resource names of findings associated with this chokepoint. For example, organizations/123/sources/456/findings/789. This list will have at most 100 findings. */
   relatedFindings?: Array<string>;
 }
 
-export const Chokepoint: Schema.Schema<Chokepoint> = Schema.suspend(() => Schema.Struct({
-  relatedFindings: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Chokepoint" }) as any as Schema.Schema<Chokepoint>;
+export const Chokepoint: Schema.Schema<Chokepoint> = Schema.suspend(() =>
+  Schema.Struct({
+    relatedFindings: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Chokepoint" }) as any as Schema.Schema<Chokepoint>;
 
 export interface Control {
   /** Name of the Control */
@@ -2025,10 +2900,12 @@ export interface Control {
   displayName?: string;
 }
 
-export const Control: Schema.Schema<Control> = Schema.suspend(() => Schema.Struct({
-  controlName: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Control" }) as any as Schema.Schema<Control>;
+export const Control: Schema.Schema<Control> = Schema.suspend(() =>
+  Schema.Struct({
+    controlName: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Control" }) as any as Schema.Schema<Control>;
 
 export interface Framework {
   /** Name of the framework associated with the finding */
@@ -2036,38 +2913,60 @@ export interface Framework {
   /** Display name of the framework. For a standard framework, this will look like e.g. PCI DSS 3.2.1, whereas for a custom framework it can be a user defined string like MyFramework */
   displayName?: string;
   /** Category of the framework associated with the finding. E.g. Security Benchmark, or Assured Workloads */
-  category?: Array<"FRAMEWORK_CATEGORY_UNSPECIFIED" | "SECURITY_BENCHMARKS" | "ASSURED_WORKLOADS" | "DATA_SECURITY" | "GOOGLE_BEST_PRACTICES" | "CUSTOM_FRAMEWORK" | (string & {})>;
+  category?: Array<
+    | "FRAMEWORK_CATEGORY_UNSPECIFIED"
+    | "SECURITY_BENCHMARKS"
+    | "ASSURED_WORKLOADS"
+    | "DATA_SECURITY"
+    | "GOOGLE_BEST_PRACTICES"
+    | "CUSTOM_FRAMEWORK"
+    | (string & {})
+  >;
   /** Type of the framework associated with the finding, to specify whether the framework is built-in (pre-defined and immutable) or a custom framework defined by the customer (equivalent to security posture) */
-  type?: "FRAMEWORK_TYPE_UNSPECIFIED" | "FRAMEWORK_TYPE_BUILT_IN" | "FRAMEWORK_TYPE_CUSTOM" | (string & {});
+  type?:
+    | "FRAMEWORK_TYPE_UNSPECIFIED"
+    | "FRAMEWORK_TYPE_BUILT_IN"
+    | "FRAMEWORK_TYPE_CUSTOM"
+    | (string & {});
   /** The controls associated with the framework. */
   controls?: Array<Control>;
 }
 
-export const Framework: Schema.Schema<Framework> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.Array(Schema.String)),
-  type: Schema.optional(Schema.String),
-  controls: Schema.optional(Schema.Array(Control)),
-})).annotate({ identifier: "Framework" }) as any as Schema.Schema<Framework>;
+export const Framework: Schema.Schema<Framework> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    category: Schema.optional(Schema.Array(Schema.String)),
+    type: Schema.optional(Schema.String),
+    controls: Schema.optional(Schema.Array(Control)),
+  }),
+).annotate({ identifier: "Framework" }) as any as Schema.Schema<Framework>;
 
 export interface CloudControl {
   /** Name of the CloudControl associated with the finding. */
   cloudControlName?: string;
   /** Type of cloud control. */
-  type?: "CLOUD_CONTROL_TYPE_UNSPECIFIED" | "BUILT_IN" | "CUSTOM" | (string & {});
+  type?:
+    | "CLOUD_CONTROL_TYPE_UNSPECIFIED"
+    | "BUILT_IN"
+    | "CUSTOM"
+    | (string & {});
   /** Policy type of the CloudControl */
   policyType?: string;
   /** Version of the Cloud Control */
   version?: number;
 }
 
-export const CloudControl: Schema.Schema<CloudControl> = Schema.suspend(() => Schema.Struct({
-  cloudControlName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  policyType: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.Number),
-})).annotate({ identifier: "CloudControl" }) as any as Schema.Schema<CloudControl>;
+export const CloudControl: Schema.Schema<CloudControl> = Schema.suspend(() =>
+  Schema.Struct({
+    cloudControlName: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    policyType: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "CloudControl",
+}) as any as Schema.Schema<CloudControl>;
 
 export interface ComplianceDetails {
   /** Details of Frameworks associated with the finding */
@@ -2078,11 +2977,16 @@ export interface ComplianceDetails {
   cloudControlDeploymentNames?: Array<string>;
 }
 
-export const ComplianceDetails: Schema.Schema<ComplianceDetails> = Schema.suspend(() => Schema.Struct({
-  frameworks: Schema.optional(Schema.Array(Framework)),
-  cloudControl: Schema.optional(CloudControl),
-  cloudControlDeploymentNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ComplianceDetails" }) as any as Schema.Schema<ComplianceDetails>;
+export const ComplianceDetails: Schema.Schema<ComplianceDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frameworks: Schema.optional(Schema.Array(Framework)),
+      cloudControl: Schema.optional(CloudControl),
+      cloudControlDeploymentNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ComplianceDetails",
+  }) as any as Schema.Schema<ComplianceDetails>;
 
 export interface Dataset {
   /** Resource name of the dataset, e.g. projects/{project}/locations/{location}/datasets/2094040236064505856 */
@@ -2093,11 +2997,13 @@ export interface Dataset {
   source?: string;
 }
 
-export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-})).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
+export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    source: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
 
 export interface Pipeline {
   /** Resource name of the pipeline, e.g. projects/{project}/locations/{location}/trainingPipelines/5253428229225578496 */
@@ -2106,10 +3012,12 @@ export interface Pipeline {
   displayName?: string;
 }
 
-export const Pipeline: Schema.Schema<Pipeline> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Pipeline" }) as any as Schema.Schema<Pipeline>;
+export const Pipeline: Schema.Schema<Pipeline> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Pipeline" }) as any as Schema.Schema<Pipeline>;
 
 export interface VertexAi {
   /** Datasets associated with the finding. */
@@ -2118,25 +3026,35 @@ export interface VertexAi {
   pipelines?: Array<Pipeline>;
 }
 
-export const VertexAi: Schema.Schema<VertexAi> = Schema.suspend(() => Schema.Struct({
-  datasets: Schema.optional(Schema.Array(Dataset)),
-  pipelines: Schema.optional(Schema.Array(Pipeline)),
-})).annotate({ identifier: "VertexAi" }) as any as Schema.Schema<VertexAi>;
+export const VertexAi: Schema.Schema<VertexAi> = Schema.suspend(() =>
+  Schema.Struct({
+    datasets: Schema.optional(Schema.Array(Dataset)),
+    pipelines: Schema.optional(Schema.Array(Pipeline)),
+  }),
+).annotate({ identifier: "VertexAi" }) as any as Schema.Schema<VertexAi>;
 
 export interface ArtifactGuardPolicy {
   /** The type of the policy evaluation. */
-  type?: "ARTIFACT_GUARD_POLICY_TYPE_UNSPECIFIED" | "VULNERABILITY" | (string & {});
+  type?:
+    | "ARTIFACT_GUARD_POLICY_TYPE_UNSPECIFIED"
+    | "VULNERABILITY"
+    | (string & {});
   /** The ID of the failing policy, for example, "organizations/3392779/locations/global/policies/prod-policy". */
   policyId?: string;
   /** The reason for the policy failure, for example, "severity=HIGH AND max_vuln_count=2". */
   failureReason?: string;
 }
 
-export const ArtifactGuardPolicy: Schema.Schema<ArtifactGuardPolicy> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  policyId: Schema.optional(Schema.String),
-  failureReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "ArtifactGuardPolicy" }) as any as Schema.Schema<ArtifactGuardPolicy>;
+export const ArtifactGuardPolicy: Schema.Schema<ArtifactGuardPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      policyId: Schema.optional(Schema.String),
+      failureReason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ArtifactGuardPolicy",
+  }) as any as Schema.Schema<ArtifactGuardPolicy>;
 
 export interface ArtifactGuardPolicies {
   /** The ID of the resource that has policies configured for it. */
@@ -2145,40 +3063,65 @@ export interface ArtifactGuardPolicies {
   failingPolicies?: Array<ArtifactGuardPolicy>;
 }
 
-export const ArtifactGuardPolicies: Schema.Schema<ArtifactGuardPolicies> = Schema.suspend(() => Schema.Struct({
-  resourceId: Schema.optional(Schema.String),
-  failingPolicies: Schema.optional(Schema.Array(ArtifactGuardPolicy)),
-})).annotate({ identifier: "ArtifactGuardPolicies" }) as any as Schema.Schema<ArtifactGuardPolicies>;
+export const ArtifactGuardPolicies: Schema.Schema<ArtifactGuardPolicies> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceId: Schema.optional(Schema.String),
+      failingPolicies: Schema.optional(Schema.Array(ArtifactGuardPolicy)),
+    }),
+  ).annotate({
+    identifier: "ArtifactGuardPolicies",
+  }) as any as Schema.Schema<ArtifactGuardPolicies>;
 
 export interface SecretStatus {
   /** Time that the secret was found. */
   lastUpdatedTime?: string;
   /** The validity of the secret. */
-  validity?: "SECRET_VALIDITY_UNSPECIFIED" | "SECRET_VALIDITY_UNSUPPORTED" | "SECRET_VALIDITY_FAILED" | "SECRET_VALIDITY_INVALID" | "SECRET_VALIDITY_VALID" | (string & {});
+  validity?:
+    | "SECRET_VALIDITY_UNSPECIFIED"
+    | "SECRET_VALIDITY_UNSUPPORTED"
+    | "SECRET_VALIDITY_FAILED"
+    | "SECRET_VALIDITY_INVALID"
+    | "SECRET_VALIDITY_VALID"
+    | (string & {});
 }
 
-export const SecretStatus: Schema.Schema<SecretStatus> = Schema.suspend(() => Schema.Struct({
-  lastUpdatedTime: Schema.optional(Schema.String),
-  validity: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecretStatus" }) as any as Schema.Schema<SecretStatus>;
+export const SecretStatus: Schema.Schema<SecretStatus> = Schema.suspend(() =>
+  Schema.Struct({
+    lastUpdatedTime: Schema.optional(Schema.String),
+    validity: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SecretStatus",
+}) as any as Schema.Schema<SecretStatus>;
 
 export interface SecretEnvironmentVariable {
   /** Environment variable name as a JSON encoded string. Note that value is not included since the value contains the secret data, which is sensitive core content. */
   key?: string;
 }
 
-export const SecretEnvironmentVariable: Schema.Schema<SecretEnvironmentVariable> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecretEnvironmentVariable" }) as any as Schema.Schema<SecretEnvironmentVariable>;
+export const SecretEnvironmentVariable: Schema.Schema<SecretEnvironmentVariable> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SecretEnvironmentVariable",
+  }) as any as Schema.Schema<SecretEnvironmentVariable>;
 
 export interface SecretFilePath {
   /** Path to the file. */
   path?: string;
 }
 
-export const SecretFilePath: Schema.Schema<SecretFilePath> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecretFilePath" }) as any as Schema.Schema<SecretFilePath>;
+export const SecretFilePath: Schema.Schema<SecretFilePath> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SecretFilePath",
+}) as any as Schema.Schema<SecretFilePath>;
 
 export interface Secret {
   /** The type of secret, for example, GCP_API_KEY. */
@@ -2191,12 +3134,14 @@ export interface Secret {
   filePath?: SecretFilePath;
 }
 
-export const Secret: Schema.Schema<Secret> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  status: Schema.optional(SecretStatus),
-  environmentVariable: Schema.optional(SecretEnvironmentVariable),
-  filePath: Schema.optional(SecretFilePath),
-})).annotate({ identifier: "Secret" }) as any as Schema.Schema<Secret>;
+export const Secret: Schema.Schema<Secret> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    status: Schema.optional(SecretStatus),
+    environmentVariable: Schema.optional(SecretEnvironmentVariable),
+    filePath: Schema.optional(SecretFilePath),
+  }),
+).annotate({ identifier: "Secret" }) as any as Schema.Schema<Secret>;
 
 export interface ExternalExposure {
   /** Private IP address of the exposed endpoint. */
@@ -2225,20 +3170,25 @@ export interface ExternalExposure {
   networkEndpointGroup?: string;
 }
 
-export const ExternalExposure: Schema.Schema<ExternalExposure> = Schema.suspend(() => Schema.Struct({
-  privateIpAddress: Schema.optional(Schema.String),
-  privatePort: Schema.optional(Schema.String),
-  exposedService: Schema.optional(Schema.String),
-  publicIpAddress: Schema.optional(Schema.String),
-  publicPort: Schema.optional(Schema.String),
-  exposedEndpoint: Schema.optional(Schema.String),
-  loadBalancerFirewallPolicy: Schema.optional(Schema.String),
-  serviceFirewallPolicy: Schema.optional(Schema.String),
-  forwardingRule: Schema.optional(Schema.String),
-  backendService: Schema.optional(Schema.String),
-  instanceGroup: Schema.optional(Schema.String),
-  networkEndpointGroup: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExternalExposure" }) as any as Schema.Schema<ExternalExposure>;
+export const ExternalExposure: Schema.Schema<ExternalExposure> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      privateIpAddress: Schema.optional(Schema.String),
+      privatePort: Schema.optional(Schema.String),
+      exposedService: Schema.optional(Schema.String),
+      publicIpAddress: Schema.optional(Schema.String),
+      publicPort: Schema.optional(Schema.String),
+      exposedEndpoint: Schema.optional(Schema.String),
+      loadBalancerFirewallPolicy: Schema.optional(Schema.String),
+      serviceFirewallPolicy: Schema.optional(Schema.String),
+      forwardingRule: Schema.optional(Schema.String),
+      backendService: Schema.optional(Schema.String),
+      instanceGroup: Schema.optional(Schema.String),
+      networkEndpointGroup: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ExternalExposure",
+}) as any as Schema.Schema<ExternalExposure>;
 
 export interface Finding {
   /** The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}", "folders/{folder_id}/sources/{source_id}/findings/{finding_id}", "projects/{project_id}/sources/{source_id}/findings/{finding_id}". */
@@ -2262,13 +3212,31 @@ export interface Finding {
   /** The time at which the finding was created in Security Command Center. */
   createTime?: string;
   /** The severity of the finding. This field is managed by the source that writes the finding. */
-  severity?: "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
   /** The canonical name of the finding. It's either "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}", "folders/{folder_id}/sources/{source_id}/findings/{finding_id}" or "projects/{project_number}/sources/{source_id}/findings/{finding_id}", depending on the closest CRM ancestor of the resource associated with the finding. */
   canonicalName?: string;
   /** Indicates the mute state of a finding (either muted, unmuted or undefined). Unlike other attributes of a finding, a finding provider shouldn't set the value of mute. */
   mute?: "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED" | (string & {});
   /** The class of the finding. */
-  findingClass?: "FINDING_CLASS_UNSPECIFIED" | "THREAT" | "VULNERABILITY" | "MISCONFIGURATION" | "OBSERVATION" | "SCC_ERROR" | "POSTURE_VIOLATION" | "TOXIC_COMBINATION" | "SENSITIVE_DATA_RISK" | "CHOKEPOINT" | "EXTERNAL_EXPOSURE" | (string & {});
+  findingClass?:
+    | "FINDING_CLASS_UNSPECIFIED"
+    | "THREAT"
+    | "VULNERABILITY"
+    | "MISCONFIGURATION"
+    | "OBSERVATION"
+    | "SCC_ERROR"
+    | "POSTURE_VIOLATION"
+    | "TOXIC_COMBINATION"
+    | "SENSITIVE_DATA_RISK"
+    | "CHOKEPOINT"
+    | "EXTERNAL_EXPOSURE"
+    | (string & {});
   /** Represents what's commonly known as an *indicator of compromise* (IoC) in computer forensics. This is an artifact observed on a network or in an operating system that, with high confidence, indicates a computer intrusion. For more information, see [Indicator of compromise](https://en.wikipedia.org/wiki/Indicator_of_compromise). */
   indicator?: Indicator;
   /** Represents vulnerability-specific fields like CVE and CVSS scores. CVE stands for Common Vulnerabilities and Exposures (https://cve.mitre.org/about/) */
@@ -2373,73 +3341,81 @@ export interface Finding {
   externalExposure?: ExternalExposure;
 }
 
-export const Finding: Schema.Schema<Finding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  resourceName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  externalUri: Schema.optional(Schema.String),
-  sourceProperties: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  securityMarks: Schema.optional(SecurityMarks),
-  eventTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  canonicalName: Schema.optional(Schema.String),
-  mute: Schema.optional(Schema.String),
-  findingClass: Schema.optional(Schema.String),
-  indicator: Schema.optional(Indicator),
-  vulnerability: Schema.optional(Vulnerability),
-  muteUpdateTime: Schema.optional(Schema.String),
-  externalSystems: Schema.optional(Schema.Record(Schema.String, GoogleCloudSecuritycenterV1ExternalSystem)),
-  mitreAttack: Schema.optional(MitreAttack),
-  access: Schema.optional(Access),
-  connections: Schema.optional(Schema.Array(Connection)),
-  muteInitiator: Schema.optional(Schema.String),
-  muteInfo: Schema.optional(MuteInfo),
-  processes: Schema.optional(Schema.Array(Process)),
-  contacts: Schema.optional(Schema.Record(Schema.String, ContactDetails)),
-  compliances: Schema.optional(Schema.Array(Compliance)),
-  parentDisplayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  exfiltration: Schema.optional(Exfiltration),
-  iamBindings: Schema.optional(Schema.Array(IamBinding)),
-  nextSteps: Schema.optional(Schema.String),
-  moduleName: Schema.optional(Schema.String),
-  containers: Schema.optional(Schema.Array(Container)),
-  kubernetes: Schema.optional(Kubernetes),
-  database: Schema.optional(Database),
-  attackExposure: Schema.optional(AttackExposure),
-  files: Schema.optional(Schema.Array(File)),
-  cloudDlpInspection: Schema.optional(CloudDlpInspection),
-  cloudDlpDataProfile: Schema.optional(CloudDlpDataProfile),
-  kernelRootkit: Schema.optional(KernelRootkit),
-  orgPolicies: Schema.optional(Schema.Array(OrgPolicy)),
-  job: Schema.optional(Job),
-  application: Schema.optional(Application),
-  ipRules: Schema.optional(IpRules),
-  backupDisasterRecovery: Schema.optional(BackupDisasterRecovery),
-  securityPosture: Schema.optional(SecurityPosture),
-  logEntries: Schema.optional(Schema.Array(LogEntry)),
-  loadBalancers: Schema.optional(Schema.Array(LoadBalancer)),
-  cloudArmor: Schema.optional(CloudArmor),
-  notebook: Schema.optional(Notebook),
-  toxicCombination: Schema.optional(ToxicCombination),
-  groupMemberships: Schema.optional(Schema.Array(GroupMembership)),
-  disk: Schema.optional(Disk),
-  dataAccessEvents: Schema.optional(Schema.Array(DataAccessEvent)),
-  dataFlowEvents: Schema.optional(Schema.Array(DataFlowEvent)),
-  networks: Schema.optional(Schema.Array(Network)),
-  dataRetentionDeletionEvents: Schema.optional(Schema.Array(DataRetentionDeletionEvent)),
-  affectedResources: Schema.optional(AffectedResources),
-  aiModel: Schema.optional(AiModel),
-  chokepoint: Schema.optional(Chokepoint),
-  complianceDetails: Schema.optional(ComplianceDetails),
-  vertexAi: Schema.optional(VertexAi),
-  artifactGuardPolicies: Schema.optional(ArtifactGuardPolicies),
-  secret: Schema.optional(Secret),
-  externalExposure: Schema.optional(ExternalExposure),
-})).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
+export const Finding: Schema.Schema<Finding> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    resourceName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    category: Schema.optional(Schema.String),
+    externalUri: Schema.optional(Schema.String),
+    sourceProperties: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+    securityMarks: Schema.optional(SecurityMarks),
+    eventTime: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+    canonicalName: Schema.optional(Schema.String),
+    mute: Schema.optional(Schema.String),
+    findingClass: Schema.optional(Schema.String),
+    indicator: Schema.optional(Indicator),
+    vulnerability: Schema.optional(Vulnerability),
+    muteUpdateTime: Schema.optional(Schema.String),
+    externalSystems: Schema.optional(
+      Schema.Record(Schema.String, GoogleCloudSecuritycenterV1ExternalSystem),
+    ),
+    mitreAttack: Schema.optional(MitreAttack),
+    access: Schema.optional(Access),
+    connections: Schema.optional(Schema.Array(Connection)),
+    muteInitiator: Schema.optional(Schema.String),
+    muteInfo: Schema.optional(MuteInfo),
+    processes: Schema.optional(Schema.Array(Process)),
+    contacts: Schema.optional(Schema.Record(Schema.String, ContactDetails)),
+    compliances: Schema.optional(Schema.Array(Compliance)),
+    parentDisplayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    exfiltration: Schema.optional(Exfiltration),
+    iamBindings: Schema.optional(Schema.Array(IamBinding)),
+    nextSteps: Schema.optional(Schema.String),
+    moduleName: Schema.optional(Schema.String),
+    containers: Schema.optional(Schema.Array(Container)),
+    kubernetes: Schema.optional(Kubernetes),
+    database: Schema.optional(Database),
+    attackExposure: Schema.optional(AttackExposure),
+    files: Schema.optional(Schema.Array(File)),
+    cloudDlpInspection: Schema.optional(CloudDlpInspection),
+    cloudDlpDataProfile: Schema.optional(CloudDlpDataProfile),
+    kernelRootkit: Schema.optional(KernelRootkit),
+    orgPolicies: Schema.optional(Schema.Array(OrgPolicy)),
+    job: Schema.optional(Job),
+    application: Schema.optional(Application),
+    ipRules: Schema.optional(IpRules),
+    backupDisasterRecovery: Schema.optional(BackupDisasterRecovery),
+    securityPosture: Schema.optional(SecurityPosture),
+    logEntries: Schema.optional(Schema.Array(LogEntry)),
+    loadBalancers: Schema.optional(Schema.Array(LoadBalancer)),
+    cloudArmor: Schema.optional(CloudArmor),
+    notebook: Schema.optional(Notebook),
+    toxicCombination: Schema.optional(ToxicCombination),
+    groupMemberships: Schema.optional(Schema.Array(GroupMembership)),
+    disk: Schema.optional(Disk),
+    dataAccessEvents: Schema.optional(Schema.Array(DataAccessEvent)),
+    dataFlowEvents: Schema.optional(Schema.Array(DataFlowEvent)),
+    networks: Schema.optional(Schema.Array(Network)),
+    dataRetentionDeletionEvents: Schema.optional(
+      Schema.Array(DataRetentionDeletionEvent),
+    ),
+    affectedResources: Schema.optional(AffectedResources),
+    aiModel: Schema.optional(AiModel),
+    chokepoint: Schema.optional(Chokepoint),
+    complianceDetails: Schema.optional(ComplianceDetails),
+    vertexAi: Schema.optional(VertexAi),
+    artifactGuardPolicies: Schema.optional(ArtifactGuardPolicies),
+    secret: Schema.optional(Secret),
+    externalExposure: Schema.optional(ExternalExposure),
+  }),
+).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
 
 export interface Folder {
   /** Full resource name of this folder. See: https://cloud.google.com/apis/design/resource_names#full_resource_name */
@@ -2448,19 +3424,26 @@ export interface Folder {
   resourceFolderDisplayName?: string;
 }
 
-export const Folder: Schema.Schema<Folder> = Schema.suspend(() => Schema.Struct({
-  resourceFolder: Schema.optional(Schema.String),
-  resourceFolderDisplayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
+export const Folder: Schema.Schema<Folder> = Schema.suspend(() =>
+  Schema.Struct({
+    resourceFolder: Schema.optional(Schema.String),
+    resourceFolderDisplayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
 
 export interface AwsOrganization {
   /** The unique identifier (ID) for the organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lowercase letters or digits. */
   id?: string;
 }
 
-export const AwsOrganization: Schema.Schema<AwsOrganization> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "AwsOrganization" }) as any as Schema.Schema<AwsOrganization>;
+export const AwsOrganization: Schema.Schema<AwsOrganization> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AwsOrganization",
+}) as any as Schema.Schema<AwsOrganization>;
 
 export interface AwsOrganizationalUnit {
   /** The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. For example, "ou-ab12-cd34ef56". */
@@ -2469,10 +3452,15 @@ export interface AwsOrganizationalUnit {
   name?: string;
 }
 
-export const AwsOrganizationalUnit: Schema.Schema<AwsOrganizationalUnit> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AwsOrganizationalUnit" }) as any as Schema.Schema<AwsOrganizationalUnit>;
+export const AwsOrganizationalUnit: Schema.Schema<AwsOrganizationalUnit> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AwsOrganizationalUnit",
+  }) as any as Schema.Schema<AwsOrganizationalUnit>;
 
 export interface AwsAccount {
   /** The unique identifier (ID) of the account, containing exactly 12 digits. */
@@ -2481,10 +3469,12 @@ export interface AwsAccount {
   name?: string;
 }
 
-export const AwsAccount: Schema.Schema<AwsAccount> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AwsAccount" }) as any as Schema.Schema<AwsAccount>;
+export const AwsAccount: Schema.Schema<AwsAccount> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AwsAccount" }) as any as Schema.Schema<AwsAccount>;
 
 export interface AwsMetadata {
   /** The AWS organization associated with the resource. */
@@ -2495,11 +3485,13 @@ export interface AwsMetadata {
   account?: AwsAccount;
 }
 
-export const AwsMetadata: Schema.Schema<AwsMetadata> = Schema.suspend(() => Schema.Struct({
-  organization: Schema.optional(AwsOrganization),
-  organizationalUnits: Schema.optional(Schema.Array(AwsOrganizationalUnit)),
-  account: Schema.optional(AwsAccount),
-})).annotate({ identifier: "AwsMetadata" }) as any as Schema.Schema<AwsMetadata>;
+export const AwsMetadata: Schema.Schema<AwsMetadata> = Schema.suspend(() =>
+  Schema.Struct({
+    organization: Schema.optional(AwsOrganization),
+    organizationalUnits: Schema.optional(Schema.Array(AwsOrganizationalUnit)),
+    account: Schema.optional(AwsAccount),
+  }),
+).annotate({ identifier: "AwsMetadata" }) as any as Schema.Schema<AwsMetadata>;
 
 export interface AzureManagementGroup {
   /** The UUID of the Azure management group, for example, `20000000-0001-0000-0000-000000000000`. */
@@ -2508,10 +3500,15 @@ export interface AzureManagementGroup {
   displayName?: string;
 }
 
-export const AzureManagementGroup: Schema.Schema<AzureManagementGroup> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AzureManagementGroup" }) as any as Schema.Schema<AzureManagementGroup>;
+export const AzureManagementGroup: Schema.Schema<AzureManagementGroup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AzureManagementGroup",
+  }) as any as Schema.Schema<AzureManagementGroup>;
 
 export interface AzureSubscription {
   /** The UUID of the Azure subscription, for example, `291bba3f-e0a5-47bc-a099-3bdcb2a50a05`. */
@@ -2520,10 +3517,15 @@ export interface AzureSubscription {
   displayName?: string;
 }
 
-export const AzureSubscription: Schema.Schema<AzureSubscription> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AzureSubscription" }) as any as Schema.Schema<AzureSubscription>;
+export const AzureSubscription: Schema.Schema<AzureSubscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AzureSubscription",
+  }) as any as Schema.Schema<AzureSubscription>;
 
 export interface AzureResourceGroup {
   /** The ID of the Azure resource group. */
@@ -2532,10 +3534,15 @@ export interface AzureResourceGroup {
   name?: string;
 }
 
-export const AzureResourceGroup: Schema.Schema<AzureResourceGroup> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AzureResourceGroup" }) as any as Schema.Schema<AzureResourceGroup>;
+export const AzureResourceGroup: Schema.Schema<AzureResourceGroup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AzureResourceGroup",
+  }) as any as Schema.Schema<AzureResourceGroup>;
 
 export interface AzureTenant {
   /** The ID of the Microsoft Entra tenant, for example, "a11aaa11-aa11-1aa1-11aa-1aaa11a". */
@@ -2544,10 +3551,12 @@ export interface AzureTenant {
   displayName?: string;
 }
 
-export const AzureTenant: Schema.Schema<AzureTenant> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AzureTenant" }) as any as Schema.Schema<AzureTenant>;
+export const AzureTenant: Schema.Schema<AzureTenant> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AzureTenant" }) as any as Schema.Schema<AzureTenant>;
 
 export interface AzureMetadata {
   /** A list of Azure management groups associated with the resource, ordered from lowest level (closest to the subscription) to highest level. */
@@ -2560,63 +3569,117 @@ export interface AzureMetadata {
   tenant?: AzureTenant;
 }
 
-export const AzureMetadata: Schema.Schema<AzureMetadata> = Schema.suspend(() => Schema.Struct({
-  managementGroups: Schema.optional(Schema.Array(AzureManagementGroup)),
-  subscription: Schema.optional(AzureSubscription),
-  resourceGroup: Schema.optional(AzureResourceGroup),
-  tenant: Schema.optional(AzureTenant),
-})).annotate({ identifier: "AzureMetadata" }) as any as Schema.Schema<AzureMetadata>;
+export const AzureMetadata: Schema.Schema<AzureMetadata> = Schema.suspend(() =>
+  Schema.Struct({
+    managementGroups: Schema.optional(Schema.Array(AzureManagementGroup)),
+    subscription: Schema.optional(AzureSubscription),
+    resourceGroup: Schema.optional(AzureResourceGroup),
+    tenant: Schema.optional(AzureTenant),
+  }),
+).annotate({
+  identifier: "AzureMetadata",
+}) as any as Schema.Schema<AzureMetadata>;
 
 export interface ResourcePathNode {
   /** The type of resource this node represents. */
-  nodeType?: "RESOURCE_PATH_NODE_TYPE_UNSPECIFIED" | "GCP_ORGANIZATION" | "GCP_FOLDER" | "GCP_PROJECT" | "AWS_ORGANIZATION" | "AWS_ORGANIZATIONAL_UNIT" | "AWS_ACCOUNT" | "AZURE_MANAGEMENT_GROUP" | "AZURE_SUBSCRIPTION" | "AZURE_RESOURCE_GROUP" | (string & {});
+  nodeType?:
+    | "RESOURCE_PATH_NODE_TYPE_UNSPECIFIED"
+    | "GCP_ORGANIZATION"
+    | "GCP_FOLDER"
+    | "GCP_PROJECT"
+    | "AWS_ORGANIZATION"
+    | "AWS_ORGANIZATIONAL_UNIT"
+    | "AWS_ACCOUNT"
+    | "AZURE_MANAGEMENT_GROUP"
+    | "AZURE_SUBSCRIPTION"
+    | "AZURE_RESOURCE_GROUP"
+    | (string & {});
   /** The ID of the resource this node represents. */
   id?: string;
   /** The display name of the resource this node represents. */
   displayName?: string;
 }
 
-export const ResourcePathNode: Schema.Schema<ResourcePathNode> = Schema.suspend(() => Schema.Struct({
-  nodeType: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResourcePathNode" }) as any as Schema.Schema<ResourcePathNode>;
+export const ResourcePathNode: Schema.Schema<ResourcePathNode> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      nodeType: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ResourcePathNode",
+}) as any as Schema.Schema<ResourcePathNode>;
 
 export interface ResourcePath {
   /** The list of nodes that make the up resource path, ordered from lowest level to highest level. */
   nodes?: Array<ResourcePathNode>;
 }
 
-export const ResourcePath: Schema.Schema<ResourcePath> = Schema.suspend(() => Schema.Struct({
-  nodes: Schema.optional(Schema.Array(ResourcePathNode)),
-})).annotate({ identifier: "ResourcePath" }) as any as Schema.Schema<ResourcePath>;
+export const ResourcePath: Schema.Schema<ResourcePath> = Schema.suspend(() =>
+  Schema.Struct({
+    nodes: Schema.optional(Schema.Array(ResourcePathNode)),
+  }),
+).annotate({
+  identifier: "ResourcePath",
+}) as any as Schema.Schema<ResourcePath>;
 
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality {
   /** Criticality Type. */
-  type?: "CRITICALITY_TYPE_UNSPECIFIED" | "MISSION_CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  type?:
+    | "CRITICALITY_TYPE_UNSPECIFIED"
+    | "MISSION_CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality>;
+export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality>;
 
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment {
   /** Environment Type. */
-  type?: "ENVIRONMENT_TYPE_UNSPECIFIED" | "PRODUCTION" | "STAGING" | "TEST" | "DEVELOPMENT" | (string & {});
+  type?:
+    | "ENVIRONMENT_TYPE_UNSPECIFIED"
+    | "PRODUCTION"
+    | "STAGING"
+    | "TEST"
+    | "DEVELOPMENT"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment>;
+export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment>;
 
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo {
   /** Email address of the contacts. */
   email?: string;
 }
 
-export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo>;
+export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo>;
 
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributes {
   /** User-defined criticality information. */
@@ -2631,13 +3694,34 @@ export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributes {
   businessOwners?: Array<GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo>;
 }
 
-export const GoogleCloudSecuritycenterV1ResourceApplicationAttributes: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributes> = Schema.suspend(() => Schema.Struct({
-  criticality: Schema.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality),
-  environment: Schema.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment),
-  developerOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo)),
-  operatorOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo)),
-  businessOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributes" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributes>;
+export const GoogleCloudSecuritycenterV1ResourceApplicationAttributes: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributes> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      criticality: Schema.optional(
+        GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality,
+      ),
+      environment: Schema.optional(
+        GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment,
+      ),
+      developerOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo,
+        ),
+      ),
+      operatorOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo,
+        ),
+      ),
+      businessOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributes",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributes>;
 
 export interface GoogleCloudSecuritycenterV1ResourceApplication {
   /** The resource name of an Application. Format: `projects/{host-project-id}/locations/{location}/applications/{application-id}` */
@@ -2646,10 +3730,17 @@ export interface GoogleCloudSecuritycenterV1ResourceApplication {
   attributes?: GoogleCloudSecuritycenterV1ResourceApplicationAttributes;
 }
 
-export const GoogleCloudSecuritycenterV1ResourceApplication: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplication> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  attributes: Schema.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributes),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceApplication" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplication>;
+export const GoogleCloudSecuritycenterV1ResourceApplication: Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplication> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(
+        GoogleCloudSecuritycenterV1ResourceApplicationAttributes,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1ResourceApplication",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceApplication>;
 
 export interface AdcApplication {
   /** The resource name of an ADC Application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} */
@@ -2658,28 +3749,45 @@ export interface AdcApplication {
   attributes?: GoogleCloudSecuritycenterV1ResourceApplicationAttributes;
 }
 
-export const AdcApplication: Schema.Schema<AdcApplication> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  attributes: Schema.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributes),
-})).annotate({ identifier: "AdcApplication" }) as any as Schema.Schema<AdcApplication>;
+export const AdcApplication: Schema.Schema<AdcApplication> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(
+        GoogleCloudSecuritycenterV1ResourceApplicationAttributes,
+      ),
+    }),
+).annotate({
+  identifier: "AdcApplication",
+}) as any as Schema.Schema<AdcApplication>;
 
 export interface AdcApplicationTemplateRevision {
   /** The resource name of an ADC Application Template Revision. Format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/revisions/{revision} */
   name?: string;
 }
 
-export const AdcApplicationTemplateRevision: Schema.Schema<AdcApplicationTemplateRevision> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdcApplicationTemplateRevision" }) as any as Schema.Schema<AdcApplicationTemplateRevision>;
+export const AdcApplicationTemplateRevision: Schema.Schema<AdcApplicationTemplateRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdcApplicationTemplateRevision",
+  }) as any as Schema.Schema<AdcApplicationTemplateRevision>;
 
 export interface AdcSharedTemplateRevision {
   /** The resource name of an ADC Shared Template Revision. Format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/revisions/{revision} */
   name?: string;
 }
 
-export const AdcSharedTemplateRevision: Schema.Schema<AdcSharedTemplateRevision> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdcSharedTemplateRevision" }) as any as Schema.Schema<AdcSharedTemplateRevision>;
+export const AdcSharedTemplateRevision: Schema.Schema<AdcSharedTemplateRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdcSharedTemplateRevision",
+  }) as any as Schema.Schema<AdcSharedTemplateRevision>;
 
 export interface GoogleCloudSecuritycenterV1Resource {
   /** The full resource name of the resource. See: https://cloud.google.com/apis/design/resource_names#full_resource_name */
@@ -2699,7 +3807,12 @@ export interface GoogleCloudSecuritycenterV1Resource {
   /** Output only. Contains a Folder message for each folder in the assets ancestry. The first folder is the deepest nested folder, and the last folder is the folder directly under the Organization. */
   folders?: Array<Folder>;
   /** Indicates which cloud provider the resource resides in. */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD_PLATFORM" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD_PLATFORM"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
   /** Indicates which organization or tenant in the cloud provider the finding applies to. */
   organization?: string;
   /** The parent service or product from which the resource is provided, for example, GKE or SNS. */
@@ -2724,28 +3837,35 @@ export interface GoogleCloudSecuritycenterV1Resource {
   adcSharedTemplate?: AdcSharedTemplateRevision;
 }
 
-export const GoogleCloudSecuritycenterV1Resource: Schema.Schema<GoogleCloudSecuritycenterV1Resource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  projectDisplayName: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  parentDisplayName: Schema.optional(Schema.String),
-  folders: Schema.optional(Schema.Array(Folder)),
-  cloudProvider: Schema.optional(Schema.String),
-  organization: Schema.optional(Schema.String),
-  service: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  awsMetadata: Schema.optional(AwsMetadata),
-  azureMetadata: Schema.optional(AzureMetadata),
-  resourcePath: Schema.optional(ResourcePath),
-  resourcePathString: Schema.optional(Schema.String),
-  application: Schema.optional(GoogleCloudSecuritycenterV1ResourceApplication),
-  adcApplication: Schema.optional(AdcApplication),
-  adcApplicationTemplate: Schema.optional(AdcApplicationTemplateRevision),
-  adcSharedTemplate: Schema.optional(AdcSharedTemplateRevision),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1Resource" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1Resource>;
+export const GoogleCloudSecuritycenterV1Resource: Schema.Schema<GoogleCloudSecuritycenterV1Resource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      project: Schema.optional(Schema.String),
+      projectDisplayName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      parentDisplayName: Schema.optional(Schema.String),
+      folders: Schema.optional(Schema.Array(Folder)),
+      cloudProvider: Schema.optional(Schema.String),
+      organization: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      awsMetadata: Schema.optional(AwsMetadata),
+      azureMetadata: Schema.optional(AzureMetadata),
+      resourcePath: Schema.optional(ResourcePath),
+      resourcePathString: Schema.optional(Schema.String),
+      application: Schema.optional(
+        GoogleCloudSecuritycenterV1ResourceApplication,
+      ),
+      adcApplication: Schema.optional(AdcApplication),
+      adcApplicationTemplate: Schema.optional(AdcApplicationTemplateRevision),
+      adcSharedTemplate: Schema.optional(AdcSharedTemplateRevision),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1Resource",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1Resource>;
 
 export interface GoogleCloudSecuritycenterV1NotificationMessage {
   /** Name of the notification config that generated current notification. */
@@ -2756,11 +3876,16 @@ export interface GoogleCloudSecuritycenterV1NotificationMessage {
   resource?: GoogleCloudSecuritycenterV1Resource;
 }
 
-export const GoogleCloudSecuritycenterV1NotificationMessage: Schema.Schema<GoogleCloudSecuritycenterV1NotificationMessage> = Schema.suspend(() => Schema.Struct({
-  notificationConfigName: Schema.optional(Schema.String),
-  finding: Schema.optional(Finding),
-  resource: Schema.optional(GoogleCloudSecuritycenterV1Resource),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1NotificationMessage" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1NotificationMessage>;
+export const GoogleCloudSecuritycenterV1NotificationMessage: Schema.Schema<GoogleCloudSecuritycenterV1NotificationMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      notificationConfigName: Schema.optional(Schema.String),
+      finding: Schema.optional(Finding),
+      resource: Schema.optional(GoogleCloudSecuritycenterV1Resource),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1NotificationMessage",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1NotificationMessage>;
 
 export interface GoogleCloudSecuritycenterV1Property {
   /** Name of the property for the custom output. */
@@ -2769,28 +3894,45 @@ export interface GoogleCloudSecuritycenterV1Property {
   valueExpression?: Expr;
 }
 
-export const GoogleCloudSecuritycenterV1Property: Schema.Schema<GoogleCloudSecuritycenterV1Property> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  valueExpression: Schema.optional(Expr),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1Property" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1Property>;
+export const GoogleCloudSecuritycenterV1Property: Schema.Schema<GoogleCloudSecuritycenterV1Property> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      valueExpression: Schema.optional(Expr),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1Property",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1Property>;
 
 export interface GoogleCloudSecuritycenterV1CustomOutputSpec {
   /** A list of custom output properties to add to the finding. */
   properties?: Array<GoogleCloudSecuritycenterV1Property>;
 }
 
-export const GoogleCloudSecuritycenterV1CustomOutputSpec: Schema.Schema<GoogleCloudSecuritycenterV1CustomOutputSpec> = Schema.suspend(() => Schema.Struct({
-  properties: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1Property)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1CustomOutputSpec" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1CustomOutputSpec>;
+export const GoogleCloudSecuritycenterV1CustomOutputSpec: Schema.Schema<GoogleCloudSecuritycenterV1CustomOutputSpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      properties: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV1Property),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1CustomOutputSpec",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1CustomOutputSpec>;
 
 export interface GoogleCloudSecuritycenterV1ResourceSelector {
   /** The resource types to run the detector on. */
   resourceTypes?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV1ResourceSelector: Schema.Schema<GoogleCloudSecuritycenterV1ResourceSelector> = Schema.suspend(() => Schema.Struct({
-  resourceTypes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceSelector" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceSelector>;
+export const GoogleCloudSecuritycenterV1ResourceSelector: Schema.Schema<GoogleCloudSecuritycenterV1ResourceSelector> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceTypes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1ResourceSelector",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceSelector>;
 
 export interface GoogleCloudSecuritycenterV1CustomConfig {
   /** The CEL expression to evaluate to produce findings. When the expression evaluates to true against a resource, a finding is generated. */
@@ -2800,21 +3942,36 @@ export interface GoogleCloudSecuritycenterV1CustomConfig {
   /** The resource types that the custom module operates on. Each custom module can specify up to 5 resource types. */
   resourceSelector?: GoogleCloudSecuritycenterV1ResourceSelector;
   /** The severity to assign to findings generated by the module. */
-  severity?: "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
   /** Text that describes the vulnerability or misconfiguration that the custom module detects. This explanation is returned with each finding instance to help investigators understand the detected issue. The text must be enclosed in quotation marks. */
   description?: string;
   /** An explanation of the recommended steps that security teams can take to resolve the detected issue. This explanation is returned with each finding generated by this module in the `nextSteps` property of the finding JSON. */
   recommendation?: string;
 }
 
-export const GoogleCloudSecuritycenterV1CustomConfig: Schema.Schema<GoogleCloudSecuritycenterV1CustomConfig> = Schema.suspend(() => Schema.Struct({
-  predicate: Schema.optional(Expr),
-  customOutput: Schema.optional(GoogleCloudSecuritycenterV1CustomOutputSpec),
-  resourceSelector: Schema.optional(GoogleCloudSecuritycenterV1ResourceSelector),
-  severity: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  recommendation: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1CustomConfig" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1CustomConfig>;
+export const GoogleCloudSecuritycenterV1CustomConfig: Schema.Schema<GoogleCloudSecuritycenterV1CustomConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      predicate: Schema.optional(Expr),
+      customOutput: Schema.optional(
+        GoogleCloudSecuritycenterV1CustomOutputSpec,
+      ),
+      resourceSelector: Schema.optional(
+        GoogleCloudSecuritycenterV1ResourceSelector,
+      ),
+      severity: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      recommendation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1CustomConfig",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1CustomConfig>;
 
 export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
   /** Immutable. The resource name of the custom module. Its format is "organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}", or "folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}", or "projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}" The id {customModule} is server-generated and is not user settable. It will be a numeric id containing 1-20 digits. */
@@ -2822,7 +3979,12 @@ export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule 
   /** The display name of the Security Health Analytics custom module. This display name becomes the finding category for all findings that are returned by this custom module. The display name must be between 1 and 128 characters, start with a lowercase letter, and contain alphanumeric characters or underscores only. */
   displayName?: string;
   /** The enablement state of the custom module. */
-  enablementState?: "ENABLEMENT_STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "INHERITED" | (string & {});
+  enablementState?:
+    | "ENABLEMENT_STATE_UNSPECIFIED"
+    | "ENABLED"
+    | "DISABLED"
+    | "INHERITED"
+    | (string & {});
   /** Output only. The time at which the custom module was last updated. */
   updateTime?: string;
   /** Output only. The editor that last updated the custom module. */
@@ -2832,19 +3994,30 @@ export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule 
   /** The user specified custom configuration for the module. */
   customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
   /** The cloud provider of the custom module. */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD_PLATFORM" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD_PLATFORM"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule: Schema.Schema<GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  enablementState: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  lastEditor: Schema.optional(Schema.String),
-  ancestorModule: Schema.optional(Schema.String),
-  customConfig: Schema.optional(GoogleCloudSecuritycenterV1CustomConfig),
-  cloudProvider: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule>;
+export const GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule: Schema.Schema<GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      enablementState: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      lastEditor: Schema.optional(Schema.String),
+      ancestorModule: Schema.optional(Schema.String),
+      customConfig: Schema.optional(GoogleCloudSecuritycenterV1CustomConfig),
+      cloudProvider: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule>;
 
 export interface GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule {
   /** Output only. The resource name of the custom module. Its format is "organizations/{organization}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}", or "folders/{folder}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}", or "projects/{project}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}" */
@@ -2852,50 +4025,98 @@ export interface GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCust
   /** Output only. The user-specified configuration for the module. */
   customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
   /** Output only. The effective state of enablement for the module at the given level of the hierarchy. */
-  enablementState?: "ENABLEMENT_STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | (string & {});
+  enablementState?:
+    | "ENABLEMENT_STATE_UNSPECIFIED"
+    | "ENABLED"
+    | "DISABLED"
+    | (string & {});
   /** Output only. The display name for the custom module. The name must be between 1 and 128 characters, start with a lowercase letter, and contain alphanumeric characters or underscores only. */
   displayName?: string;
   /** The cloud provider of the custom module. */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD_PLATFORM" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD_PLATFORM"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule: Schema.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  customConfig: Schema.optional(GoogleCloudSecuritycenterV1CustomConfig),
-  enablementState: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  cloudProvider: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule>;
+export const GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule: Schema.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      customConfig: Schema.optional(GoogleCloudSecuritycenterV1CustomConfig),
+      enablementState: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      cloudProvider: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule>;
 
 export interface GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse {
   /** The state of an asset discovery run. */
-  state?: "STATE_UNSPECIFIED" | "COMPLETED" | "SUPERSEDED" | "TERMINATED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "COMPLETED"
+    | "SUPERSEDED"
+    | "TERMINATED"
+    | (string & {});
   /** The duration between asset discovery run start and end */
   duration?: string;
 }
 
-export const GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse: Schema.Schema<GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse>;
+export const GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse: Schema.Schema<GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      duration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1RunAssetDiscoveryResponse>;
 
 export interface GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping {
   /** Resource value mapping for high-sensitivity Sensitive Data Protection findings */
-  highSensitivityMapping?: "RESOURCE_VALUE_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
+  highSensitivityMapping?:
+    | "RESOURCE_VALUE_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "NONE"
+    | (string & {});
   /** Resource value mapping for medium-sensitivity Sensitive Data Protection findings */
-  mediumSensitivityMapping?: "RESOURCE_VALUE_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
+  mediumSensitivityMapping?:
+    | "RESOURCE_VALUE_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "NONE"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping: Schema.Schema<GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping> = Schema.suspend(() => Schema.Struct({
-  highSensitivityMapping: Schema.optional(Schema.String),
-  mediumSensitivityMapping: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping>;
+export const GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping: Schema.Schema<GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      highSensitivityMapping: Schema.optional(Schema.String),
+      mediumSensitivityMapping: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping>;
 
 export interface GoogleCloudSecuritycenterV1ResourceValueConfig {
   /** Name for the resource value configuration */
   name?: string;
   /** Required. Resource value level this expression represents */
-  resourceValue?: "RESOURCE_VALUE_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
+  resourceValue?:
+    | "RESOURCE_VALUE_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "NONE"
+    | (string & {});
   /** Required. Tag values combined with `AND` to check against. For Google Cloud resources, they are tag value IDs in the form of "tagValues/123". Example: `[ "tagValues/123", "tagValues/456", "tagValues/789" ]` https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing */
   tagValues?: Array<string>;
   /** Apply resource_value only to resources that match resource_type. resource_type will be checked with `AND` of other resources. For example, "storage.googleapis.com/Bucket" with resource_value "HIGH" will apply "HIGH" value only to "storage.googleapis.com/Bucket" resources. */
@@ -2911,30 +4132,45 @@ export interface GoogleCloudSecuritycenterV1ResourceValueConfig {
   /** Output only. Timestamp this resource value configuration was last updated. */
   updateTime?: string;
   /** Cloud provider this configuration applies to */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD_PLATFORM" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD_PLATFORM"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
   /** A mapping of the sensitivity on Sensitive Data Protection finding to resource values. This mapping can only be used in combination with a resource_type that is related to BigQuery, e.g. "bigquery.googleapis.com/Dataset". */
   sensitiveDataProtectionMapping?: GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping;
 }
 
-export const GoogleCloudSecuritycenterV1ResourceValueConfig: Schema.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  resourceValue: Schema.optional(Schema.String),
-  tagValues: Schema.optional(Schema.Array(Schema.String)),
-  resourceType: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-  resourceLabelsSelector: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  cloudProvider: Schema.optional(Schema.String),
-  sensitiveDataProtectionMapping: Schema.optional(GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceValueConfig" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig>;
+export const GoogleCloudSecuritycenterV1ResourceValueConfig: Schema.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      resourceValue: Schema.optional(Schema.String),
+      tagValues: Schema.optional(Schema.Array(Schema.String)),
+      resourceType: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+      resourceLabelsSelector: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      cloudProvider: Schema.optional(Schema.String),
+      sensitiveDataProtectionMapping: Schema.optional(
+        GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1ResourceValueConfig",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig>;
 
-export interface GoogleCloudSecuritycenterV2BulkMuteFindingsResponse {
-}
+export interface GoogleCloudSecuritycenterV2BulkMuteFindingsResponse {}
 
-export const GoogleCloudSecuritycenterV2BulkMuteFindingsResponse: Schema.Schema<GoogleCloudSecuritycenterV2BulkMuteFindingsResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2BulkMuteFindingsResponse" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2BulkMuteFindingsResponse>;
+export const GoogleCloudSecuritycenterV2BulkMuteFindingsResponse: Schema.Schema<GoogleCloudSecuritycenterV2BulkMuteFindingsResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudSecuritycenterV2BulkMuteFindingsResponse",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2BulkMuteFindingsResponse>;
 
 export interface GoogleCloudSecuritycenterV2TicketInfo {
   /** The identifier of the ticket in the ticket system. */
@@ -2951,14 +4187,19 @@ export interface GoogleCloudSecuritycenterV2TicketInfo {
   updateTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2TicketInfo: Schema.Schema<GoogleCloudSecuritycenterV2TicketInfo> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  assignee: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2TicketInfo" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2TicketInfo>;
+export const GoogleCloudSecuritycenterV2TicketInfo: Schema.Schema<GoogleCloudSecuritycenterV2TicketInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      assignee: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2TicketInfo",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2TicketInfo>;
 
 export interface GoogleCloudSecuritycenterV2ExternalSystem {
   /** Full resource name of the external system. The following list shows some examples: + `organizations/1234/sources/5678/findings/123456/externalSystems/jira` + `organizations/1234/sources/5678/locations/us/findings/123456/externalSystems/jira` + `folders/1234/sources/5678/findings/123456/externalSystems/jira` + `folders/1234/sources/5678/locations/us/findings/123456/externalSystems/jira` + `projects/1234/sources/5678/findings/123456/externalSystems/jira` + `projects/1234/sources/5678/locations/us/findings/123456/externalSystems/jira` */
@@ -2985,19 +4226,24 @@ export interface GoogleCloudSecuritycenterV2ExternalSystem {
   ticketInfo?: GoogleCloudSecuritycenterV2TicketInfo;
 }
 
-export const GoogleCloudSecuritycenterV2ExternalSystem: Schema.Schema<GoogleCloudSecuritycenterV2ExternalSystem> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  assignees: Schema.optional(Schema.Array(Schema.String)),
-  externalUid: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  externalSystemUpdateTime: Schema.optional(Schema.String),
-  caseUri: Schema.optional(Schema.String),
-  casePriority: Schema.optional(Schema.String),
-  caseSla: Schema.optional(Schema.String),
-  caseCreateTime: Schema.optional(Schema.String),
-  caseCloseTime: Schema.optional(Schema.String),
-  ticketInfo: Schema.optional(GoogleCloudSecuritycenterV2TicketInfo),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ExternalSystem" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ExternalSystem>;
+export const GoogleCloudSecuritycenterV2ExternalSystem: Schema.Schema<GoogleCloudSecuritycenterV2ExternalSystem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      assignees: Schema.optional(Schema.Array(Schema.String)),
+      externalUid: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      externalSystemUpdateTime: Schema.optional(Schema.String),
+      caseUri: Schema.optional(Schema.String),
+      casePriority: Schema.optional(Schema.String),
+      caseSla: Schema.optional(Schema.String),
+      caseCreateTime: Schema.optional(Schema.String),
+      caseCloseTime: Schema.optional(Schema.String),
+      ticketInfo: Schema.optional(GoogleCloudSecuritycenterV2TicketInfo),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ExternalSystem",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ExternalSystem>;
 
 export interface GoogleCloudSecuritycenterV2MuteConfig {
   /** Identifier. This field will be ignored if provided on config creation. The following list shows some examples of the format: + `organizations/{organization}/muteConfigs/{mute_config}` + `organizations/{organization}locations/{location}//muteConfigs/{mute_config}` + `folders/{folder}/muteConfigs/{mute_config}` + `folders/{folder}/locations/{location}/muteConfigs/{mute_config}` + `projects/{project}/muteConfigs/{mute_config}` + `projects/{project}/locations/{location}/muteConfigs/{mute_config}` */
@@ -3020,17 +4266,22 @@ export interface GoogleCloudSecuritycenterV2MuteConfig {
   cryptoKeyName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2MuteConfig: Schema.Schema<GoogleCloudSecuritycenterV2MuteConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  mostRecentEditor: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  expiryTime: Schema.optional(Schema.String),
-  cryptoKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2MuteConfig" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MuteConfig>;
+export const GoogleCloudSecuritycenterV2MuteConfig: Schema.Schema<GoogleCloudSecuritycenterV2MuteConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      filter: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      mostRecentEditor: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      expiryTime: Schema.optional(Schema.String),
+      cryptoKeyName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2MuteConfig",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MuteConfig>;
 
 export interface GoogleCloudSecuritycenterV2BigQueryExport {
   /** Identifier. The relative resource name of this export. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name. The following list shows some examples: + `organizations/{organization_id}/locations/{location_id}/bigQueryExports/{export_id}` + `folders/{folder_id}/locations/{location_id}/bigQueryExports/{export_id}` + `projects/{project_id}/locations/{location_id}/bigQueryExports/{export_id}` This field is provided in responses, and is ignored when provided in create requests. */
@@ -3053,17 +4304,22 @@ export interface GoogleCloudSecuritycenterV2BigQueryExport {
   cryptoKeyName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2BigQueryExport: Schema.Schema<GoogleCloudSecuritycenterV2BigQueryExport> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  mostRecentEditor: Schema.optional(Schema.String),
-  principal: Schema.optional(Schema.String),
-  cryptoKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2BigQueryExport" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2BigQueryExport>;
+export const GoogleCloudSecuritycenterV2BigQueryExport: Schema.Schema<GoogleCloudSecuritycenterV2BigQueryExport> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      filter: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      mostRecentEditor: Schema.optional(Schema.String),
+      principal: Schema.optional(Schema.String),
+      cryptoKeyName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2BigQueryExport",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2BigQueryExport>;
 
 export interface GoogleCloudSecuritycenterV2SecurityMarks {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name The following list shows some examples: + `organizations/{organization_id}/assets/{asset_id}/securityMarks` + `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks` + `organizations/{organization_id}/sources/{source_id}/locations/{location}/findings/{finding_id}/securityMarks` */
@@ -3074,23 +4330,38 @@ export interface GoogleCloudSecuritycenterV2SecurityMarks {
   canonicalName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2SecurityMarks: Schema.Schema<GoogleCloudSecuritycenterV2SecurityMarks> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  canonicalName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SecurityMarks" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityMarks>;
+export const GoogleCloudSecuritycenterV2SecurityMarks: Schema.Schema<GoogleCloudSecuritycenterV2SecurityMarks> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      canonicalName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SecurityMarks",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityMarks>;
 
 export interface GoogleCloudSecuritycenterV2StaticMute {
   /** The static mute state. If the value is `MUTED` or `UNMUTED`, then the finding's overall mute state will have the same value. */
-  state?: "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED" | (string & {});
+  state?:
+    | "MUTE_UNSPECIFIED"
+    | "MUTED"
+    | "UNMUTED"
+    | "UNDEFINED"
+    | (string & {});
   /** When the static mute was applied. */
   applyTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2StaticMute: Schema.Schema<GoogleCloudSecuritycenterV2StaticMute> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  applyTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2StaticMute" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2StaticMute>;
+export const GoogleCloudSecuritycenterV2StaticMute: Schema.Schema<GoogleCloudSecuritycenterV2StaticMute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      applyTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2StaticMute",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2StaticMute>;
 
 export interface GoogleCloudSecuritycenterV2DynamicMuteRecord {
   /** The relative resource name of the mute rule, represented by a mute config, that created this record, for example `organizations/123/muteConfigs/mymuteconfig` or `organizations/123/locations/global/muteConfigs/mymuteconfig`. */
@@ -3099,10 +4370,15 @@ export interface GoogleCloudSecuritycenterV2DynamicMuteRecord {
   matchTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2DynamicMuteRecord: Schema.Schema<GoogleCloudSecuritycenterV2DynamicMuteRecord> = Schema.suspend(() => Schema.Struct({
-  muteConfig: Schema.optional(Schema.String),
-  matchTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2DynamicMuteRecord" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DynamicMuteRecord>;
+export const GoogleCloudSecuritycenterV2DynamicMuteRecord: Schema.Schema<GoogleCloudSecuritycenterV2DynamicMuteRecord> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      muteConfig: Schema.optional(Schema.String),
+      matchTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2DynamicMuteRecord",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DynamicMuteRecord>;
 
 export interface GoogleCloudSecuritycenterV2MuteInfo {
   /** If set, the static mute applied to this finding. Static mutes override dynamic mutes. If unset, there is no static mute. */
@@ -3111,10 +4387,17 @@ export interface GoogleCloudSecuritycenterV2MuteInfo {
   dynamicMuteRecords?: Array<GoogleCloudSecuritycenterV2DynamicMuteRecord>;
 }
 
-export const GoogleCloudSecuritycenterV2MuteInfo: Schema.Schema<GoogleCloudSecuritycenterV2MuteInfo> = Schema.suspend(() => Schema.Struct({
-  staticMute: Schema.optional(GoogleCloudSecuritycenterV2StaticMute),
-  dynamicMuteRecords: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2DynamicMuteRecord)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2MuteInfo" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MuteInfo>;
+export const GoogleCloudSecuritycenterV2MuteInfo: Schema.Schema<GoogleCloudSecuritycenterV2MuteInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      staticMute: Schema.optional(GoogleCloudSecuritycenterV2StaticMute),
+      dynamicMuteRecords: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2DynamicMuteRecord),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2MuteInfo",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MuteInfo>;
 
 export interface GoogleCloudSecuritycenterV2Detection {
   /** The name of the binary associated with the memory hash signature detection. */
@@ -3123,10 +4406,15 @@ export interface GoogleCloudSecuritycenterV2Detection {
   percentPagesMatched?: number;
 }
 
-export const GoogleCloudSecuritycenterV2Detection: Schema.Schema<GoogleCloudSecuritycenterV2Detection> = Schema.suspend(() => Schema.Struct({
-  binary: Schema.optional(Schema.String),
-  percentPagesMatched: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Detection" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Detection>;
+export const GoogleCloudSecuritycenterV2Detection: Schema.Schema<GoogleCloudSecuritycenterV2Detection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      binary: Schema.optional(Schema.String),
+      percentPagesMatched: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Detection",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Detection>;
 
 export interface GoogleCloudSecuritycenterV2MemoryHashSignature {
   /** The binary family. */
@@ -3135,19 +4423,31 @@ export interface GoogleCloudSecuritycenterV2MemoryHashSignature {
   detections?: Array<GoogleCloudSecuritycenterV2Detection>;
 }
 
-export const GoogleCloudSecuritycenterV2MemoryHashSignature: Schema.Schema<GoogleCloudSecuritycenterV2MemoryHashSignature> = Schema.suspend(() => Schema.Struct({
-  binaryFamily: Schema.optional(Schema.String),
-  detections: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Detection)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2MemoryHashSignature" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MemoryHashSignature>;
+export const GoogleCloudSecuritycenterV2MemoryHashSignature: Schema.Schema<GoogleCloudSecuritycenterV2MemoryHashSignature> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      binaryFamily: Schema.optional(Schema.String),
+      detections: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Detection),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2MemoryHashSignature",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MemoryHashSignature>;
 
 export interface GoogleCloudSecuritycenterV2YaraRuleSignature {
   /** The name of the YARA rule. */
   yaraRule?: string;
 }
 
-export const GoogleCloudSecuritycenterV2YaraRuleSignature: Schema.Schema<GoogleCloudSecuritycenterV2YaraRuleSignature> = Schema.suspend(() => Schema.Struct({
-  yaraRule: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2YaraRuleSignature" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2YaraRuleSignature>;
+export const GoogleCloudSecuritycenterV2YaraRuleSignature: Schema.Schema<GoogleCloudSecuritycenterV2YaraRuleSignature> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      yaraRule: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2YaraRuleSignature",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2YaraRuleSignature>;
 
 export interface GoogleCloudSecuritycenterV2ProcessSignature {
   /** Signature indicating that a binary family was matched. */
@@ -3155,14 +4455,27 @@ export interface GoogleCloudSecuritycenterV2ProcessSignature {
   /** Signature indicating that a YARA rule was matched. */
   yaraRuleSignature?: GoogleCloudSecuritycenterV2YaraRuleSignature;
   /** Describes the type of resource associated with the signature. */
-  signatureType?: "SIGNATURE_TYPE_UNSPECIFIED" | "SIGNATURE_TYPE_PROCESS" | "SIGNATURE_TYPE_FILE" | (string & {});
+  signatureType?:
+    | "SIGNATURE_TYPE_UNSPECIFIED"
+    | "SIGNATURE_TYPE_PROCESS"
+    | "SIGNATURE_TYPE_FILE"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2ProcessSignature: Schema.Schema<GoogleCloudSecuritycenterV2ProcessSignature> = Schema.suspend(() => Schema.Struct({
-  memoryHashSignature: Schema.optional(GoogleCloudSecuritycenterV2MemoryHashSignature),
-  yaraRuleSignature: Schema.optional(GoogleCloudSecuritycenterV2YaraRuleSignature),
-  signatureType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ProcessSignature" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ProcessSignature>;
+export const GoogleCloudSecuritycenterV2ProcessSignature: Schema.Schema<GoogleCloudSecuritycenterV2ProcessSignature> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      memoryHashSignature: Schema.optional(
+        GoogleCloudSecuritycenterV2MemoryHashSignature,
+      ),
+      yaraRuleSignature: Schema.optional(
+        GoogleCloudSecuritycenterV2YaraRuleSignature,
+      ),
+      signatureType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ProcessSignature",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ProcessSignature>;
 
 export interface GoogleCloudSecuritycenterV2Indicator {
   /** The list of IP addresses that are associated with the finding. */
@@ -3175,12 +4488,19 @@ export interface GoogleCloudSecuritycenterV2Indicator {
   uris?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2Indicator: Schema.Schema<GoogleCloudSecuritycenterV2Indicator> = Schema.suspend(() => Schema.Struct({
-  ipAddresses: Schema.optional(Schema.Array(Schema.String)),
-  domains: Schema.optional(Schema.Array(Schema.String)),
-  signatures: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ProcessSignature)),
-  uris: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Indicator" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Indicator>;
+export const GoogleCloudSecuritycenterV2Indicator: Schema.Schema<GoogleCloudSecuritycenterV2Indicator> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ipAddresses: Schema.optional(Schema.Array(Schema.String)),
+      domains: Schema.optional(Schema.Array(Schema.String)),
+      signatures: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2ProcessSignature),
+      ),
+      uris: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Indicator",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Indicator>;
 
 export interface GoogleCloudSecuritycenterV2Reference {
   /** Source of the reference e.g. NVD */
@@ -3189,43 +4509,91 @@ export interface GoogleCloudSecuritycenterV2Reference {
   uri?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Reference: Schema.Schema<GoogleCloudSecuritycenterV2Reference> = Schema.suspend(() => Schema.Struct({
-  source: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Reference" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Reference>;
+export const GoogleCloudSecuritycenterV2Reference: Schema.Schema<GoogleCloudSecuritycenterV2Reference> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      source: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Reference",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Reference>;
 
 export interface GoogleCloudSecuritycenterV2Cvssv3 {
   /** The base score is a function of the base metric scores. */
   baseScore?: number;
   /** Base Metrics Represents the intrinsic characteristics of a vulnerability that are constant over time and across user environments. This metric reflects the context by which vulnerability exploitation is possible. */
-  attackVector?: "ATTACK_VECTOR_UNSPECIFIED" | "ATTACK_VECTOR_NETWORK" | "ATTACK_VECTOR_ADJACENT" | "ATTACK_VECTOR_LOCAL" | "ATTACK_VECTOR_PHYSICAL" | (string & {});
+  attackVector?:
+    | "ATTACK_VECTOR_UNSPECIFIED"
+    | "ATTACK_VECTOR_NETWORK"
+    | "ATTACK_VECTOR_ADJACENT"
+    | "ATTACK_VECTOR_LOCAL"
+    | "ATTACK_VECTOR_PHYSICAL"
+    | (string & {});
   /** This metric describes the conditions beyond the attacker's control that must exist in order to exploit the vulnerability. */
-  attackComplexity?: "ATTACK_COMPLEXITY_UNSPECIFIED" | "ATTACK_COMPLEXITY_LOW" | "ATTACK_COMPLEXITY_HIGH" | (string & {});
+  attackComplexity?:
+    | "ATTACK_COMPLEXITY_UNSPECIFIED"
+    | "ATTACK_COMPLEXITY_LOW"
+    | "ATTACK_COMPLEXITY_HIGH"
+    | (string & {});
   /** This metric describes the level of privileges an attacker must possess before successfully exploiting the vulnerability. */
-  privilegesRequired?: "PRIVILEGES_REQUIRED_UNSPECIFIED" | "PRIVILEGES_REQUIRED_NONE" | "PRIVILEGES_REQUIRED_LOW" | "PRIVILEGES_REQUIRED_HIGH" | (string & {});
+  privilegesRequired?:
+    | "PRIVILEGES_REQUIRED_UNSPECIFIED"
+    | "PRIVILEGES_REQUIRED_NONE"
+    | "PRIVILEGES_REQUIRED_LOW"
+    | "PRIVILEGES_REQUIRED_HIGH"
+    | (string & {});
   /** This metric captures the requirement for a human user, other than the attacker, to participate in the successful compromise of the vulnerable component. */
-  userInteraction?: "USER_INTERACTION_UNSPECIFIED" | "USER_INTERACTION_NONE" | "USER_INTERACTION_REQUIRED" | (string & {});
+  userInteraction?:
+    | "USER_INTERACTION_UNSPECIFIED"
+    | "USER_INTERACTION_NONE"
+    | "USER_INTERACTION_REQUIRED"
+    | (string & {});
   /** The Scope metric captures whether a vulnerability in one vulnerable component impacts resources in components beyond its security scope. */
-  scope?: "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED" | (string & {});
+  scope?:
+    | "SCOPE_UNSPECIFIED"
+    | "SCOPE_UNCHANGED"
+    | "SCOPE_CHANGED"
+    | (string & {});
   /** This metric measures the impact to the confidentiality of the information resources managed by a software component due to a successfully exploited vulnerability. */
-  confidentialityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  confidentialityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
   /** This metric measures the impact to integrity of a successfully exploited vulnerability. */
-  integrityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  integrityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
   /** This metric measures the impact to the availability of the impacted component resulting from a successfully exploited vulnerability. */
-  availabilityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  availabilityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2Cvssv3: Schema.Schema<GoogleCloudSecuritycenterV2Cvssv3> = Schema.suspend(() => Schema.Struct({
-  baseScore: Schema.optional(Schema.Number),
-  attackVector: Schema.optional(Schema.String),
-  attackComplexity: Schema.optional(Schema.String),
-  privilegesRequired: Schema.optional(Schema.String),
-  userInteraction: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-  confidentialityImpact: Schema.optional(Schema.String),
-  integrityImpact: Schema.optional(Schema.String),
-  availabilityImpact: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Cvssv3" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Cvssv3>;
+export const GoogleCloudSecuritycenterV2Cvssv3: Schema.Schema<GoogleCloudSecuritycenterV2Cvssv3> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      baseScore: Schema.optional(Schema.Number),
+      attackVector: Schema.optional(Schema.String),
+      attackComplexity: Schema.optional(Schema.String),
+      privilegesRequired: Schema.optional(Schema.String),
+      userInteraction: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+      confidentialityImpact: Schema.optional(Schema.String),
+      integrityImpact: Schema.optional(Schema.String),
+      availabilityImpact: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Cvssv3",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Cvssv3>;
 
 export interface GoogleCloudSecuritycenterV2Cve {
   /** The unique identifier for the vulnerability. e.g. CVE-2021-34527 */
@@ -3237,9 +4605,22 @@ export interface GoogleCloudSecuritycenterV2Cve {
   /** Whether upstream fix is available for the CVE. */
   upstreamFixAvailable?: boolean;
   /** The potential impact of the vulnerability if it was to be exploited. */
-  impact?: "RISK_RATING_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
+  impact?:
+    | "RISK_RATING_UNSPECIFIED"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | (string & {});
   /** The exploitation activity of the vulnerability in the wild. */
-  exploitationActivity?: "EXPLOITATION_ACTIVITY_UNSPECIFIED" | "WIDE" | "CONFIRMED" | "AVAILABLE" | "ANTICIPATED" | "NO_KNOWN" | (string & {});
+  exploitationActivity?:
+    | "EXPLOITATION_ACTIVITY_UNSPECIFIED"
+    | "WIDE"
+    | "CONFIRMED"
+    | "AVAILABLE"
+    | "ANTICIPATED"
+    | "NO_KNOWN"
+    | (string & {});
   /** Whether or not the vulnerability has been observed in the wild. */
   observedInTheWild?: boolean;
   /** Whether or not the vulnerability was zero day when the finding was published. */
@@ -3250,18 +4631,25 @@ export interface GoogleCloudSecuritycenterV2Cve {
   firstExploitationDate?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Cve: Schema.Schema<GoogleCloudSecuritycenterV2Cve> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  references: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Reference)),
-  cvssv3: Schema.optional(GoogleCloudSecuritycenterV2Cvssv3),
-  upstreamFixAvailable: Schema.optional(Schema.Boolean),
-  impact: Schema.optional(Schema.String),
-  exploitationActivity: Schema.optional(Schema.String),
-  observedInTheWild: Schema.optional(Schema.Boolean),
-  zeroDay: Schema.optional(Schema.Boolean),
-  exploitReleaseDate: Schema.optional(Schema.String),
-  firstExploitationDate: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Cve" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Cve>;
+export const GoogleCloudSecuritycenterV2Cve: Schema.Schema<GoogleCloudSecuritycenterV2Cve> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      references: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Reference),
+      ),
+      cvssv3: Schema.optional(GoogleCloudSecuritycenterV2Cvssv3),
+      upstreamFixAvailable: Schema.optional(Schema.Boolean),
+      impact: Schema.optional(Schema.String),
+      exploitationActivity: Schema.optional(Schema.String),
+      observedInTheWild: Schema.optional(Schema.Boolean),
+      zeroDay: Schema.optional(Schema.Boolean),
+      exploitReleaseDate: Schema.optional(Schema.String),
+      firstExploitationDate: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Cve",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Cve>;
 
 export interface GoogleCloudSecuritycenterV2Package {
   /** The name of the package where the vulnerability was detected. */
@@ -3274,12 +4662,17 @@ export interface GoogleCloudSecuritycenterV2Package {
   packageVersion?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Package: Schema.Schema<GoogleCloudSecuritycenterV2Package> = Schema.suspend(() => Schema.Struct({
-  packageName: Schema.optional(Schema.String),
-  cpeUri: Schema.optional(Schema.String),
-  packageType: Schema.optional(Schema.String),
-  packageVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Package" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Package>;
+export const GoogleCloudSecuritycenterV2Package: Schema.Schema<GoogleCloudSecuritycenterV2Package> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      packageName: Schema.optional(Schema.String),
+      cpeUri: Schema.optional(Schema.String),
+      packageType: Schema.optional(Schema.String),
+      packageVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Package",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Package>;
 
 export interface GoogleCloudSecuritycenterV2SecurityBulletin {
   /** ID of the bulletin corresponding to the vulnerability. */
@@ -3290,11 +4683,16 @@ export interface GoogleCloudSecuritycenterV2SecurityBulletin {
   suggestedUpgradeVersion?: string;
 }
 
-export const GoogleCloudSecuritycenterV2SecurityBulletin: Schema.Schema<GoogleCloudSecuritycenterV2SecurityBulletin> = Schema.suspend(() => Schema.Struct({
-  bulletinId: Schema.optional(Schema.String),
-  submissionTime: Schema.optional(Schema.String),
-  suggestedUpgradeVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SecurityBulletin" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityBulletin>;
+export const GoogleCloudSecuritycenterV2SecurityBulletin: Schema.Schema<GoogleCloudSecuritycenterV2SecurityBulletin> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bulletinId: Schema.optional(Schema.String),
+      submissionTime: Schema.optional(Schema.String),
+      suggestedUpgradeVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SecurityBulletin",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityBulletin>;
 
 export interface GoogleCloudSecuritycenterV2Cwe {
   /** The CWE identifier, e.g. CWE-94 */
@@ -3303,10 +4701,17 @@ export interface GoogleCloudSecuritycenterV2Cwe {
   references?: Array<GoogleCloudSecuritycenterV2Reference>;
 }
 
-export const GoogleCloudSecuritycenterV2Cwe: Schema.Schema<GoogleCloudSecuritycenterV2Cwe> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  references: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Reference)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Cwe" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Cwe>;
+export const GoogleCloudSecuritycenterV2Cwe: Schema.Schema<GoogleCloudSecuritycenterV2Cwe> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      references: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Reference),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Cwe",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Cwe>;
 
 export interface GoogleCloudSecuritycenterV2Vulnerability {
   /** CVE stands for Common Vulnerabilities and Exposures (https://cve.mitre.org/about/) */
@@ -3325,45 +4730,377 @@ export interface GoogleCloudSecuritycenterV2Vulnerability {
   cwes?: Array<GoogleCloudSecuritycenterV2Cwe>;
 }
 
-export const GoogleCloudSecuritycenterV2Vulnerability: Schema.Schema<GoogleCloudSecuritycenterV2Vulnerability> = Schema.suspend(() => Schema.Struct({
-  cve: Schema.optional(GoogleCloudSecuritycenterV2Cve),
-  offendingPackage: Schema.optional(GoogleCloudSecuritycenterV2Package),
-  fixedPackage: Schema.optional(GoogleCloudSecuritycenterV2Package),
-  securityBulletin: Schema.optional(GoogleCloudSecuritycenterV2SecurityBulletin),
-  providerRiskScore: Schema.optional(Schema.String),
-  reachable: Schema.optional(Schema.Boolean),
-  cwes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Cwe)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Vulnerability" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Vulnerability>;
+export const GoogleCloudSecuritycenterV2Vulnerability: Schema.Schema<GoogleCloudSecuritycenterV2Vulnerability> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cve: Schema.optional(GoogleCloudSecuritycenterV2Cve),
+      offendingPackage: Schema.optional(GoogleCloudSecuritycenterV2Package),
+      fixedPackage: Schema.optional(GoogleCloudSecuritycenterV2Package),
+      securityBulletin: Schema.optional(
+        GoogleCloudSecuritycenterV2SecurityBulletin,
+      ),
+      providerRiskScore: Schema.optional(Schema.String),
+      reachable: Schema.optional(Schema.Boolean),
+      cwes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Cwe)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Vulnerability",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Vulnerability>;
 
 export interface GoogleCloudSecuritycenterV2MitreAttack {
   /** The MITRE ATT&CK tactic most closely represented by this finding, if any. */
-  primaryTactic?: "TACTIC_UNSPECIFIED" | "RECONNAISSANCE" | "RESOURCE_DEVELOPMENT" | "INITIAL_ACCESS" | "EXECUTION" | "PERSISTENCE" | "PRIVILEGE_ESCALATION" | "DEFENSE_EVASION" | "CREDENTIAL_ACCESS" | "DISCOVERY" | "LATERAL_MOVEMENT" | "COLLECTION" | "COMMAND_AND_CONTROL" | "EXFILTRATION" | "IMPACT" | (string & {});
+  primaryTactic?:
+    | "TACTIC_UNSPECIFIED"
+    | "RECONNAISSANCE"
+    | "RESOURCE_DEVELOPMENT"
+    | "INITIAL_ACCESS"
+    | "EXECUTION"
+    | "PERSISTENCE"
+    | "PRIVILEGE_ESCALATION"
+    | "DEFENSE_EVASION"
+    | "CREDENTIAL_ACCESS"
+    | "DISCOVERY"
+    | "LATERAL_MOVEMENT"
+    | "COLLECTION"
+    | "COMMAND_AND_CONTROL"
+    | "EXFILTRATION"
+    | "IMPACT"
+    | (string & {});
   /** The MITRE ATT&CK technique most closely represented by this finding, if any. primary_techniques is a repeated field because there are multiple levels of MITRE ATT&CK techniques. If the technique most closely represented by this finding is a sub-technique (e.g. `SCANNING_IP_BLOCKS`), both the sub-technique and its parent technique(s) will be listed (e.g. `SCANNING_IP_BLOCKS`, `ACTIVE_SCANNING`). */
-  primaryTechniques?: Array<"TECHNIQUE_UNSPECIFIED" | "DATA_OBFUSCATION" | "DATA_OBFUSCATION_STEGANOGRAPHY" | "OS_CREDENTIAL_DUMPING" | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM" | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW" | "DATA_FROM_LOCAL_SYSTEM" | "AUTOMATED_EXFILTRATION" | "OBFUSCATED_FILES_OR_INFO" | "STEGANOGRAPHY" | "COMPILE_AFTER_DELIVERY" | "COMMAND_OBFUSCATION" | "SCHEDULED_TRANSFER" | "SYSTEM_OWNER_USER_DISCOVERY" | "MASQUERADING" | "MATCH_LEGITIMATE_NAME_OR_LOCATION" | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS" | "STARTUP_ITEMS" | "NETWORK_SERVICE_DISCOVERY" | "SCHEDULED_TASK_JOB" | "SCHEDULED_TASK_JOB_CRON" | "CONTAINER_ORCHESTRATION_JOB" | "PROCESS_INJECTION" | "INPUT_CAPTURE" | "INPUT_CAPTURE_KEYLOGGING" | "PROCESS_DISCOVERY" | "COMMAND_AND_SCRIPTING_INTERPRETER" | "UNIX_SHELL" | "PYTHON" | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION" | "PERMISSION_GROUPS_DISCOVERY" | "CLOUD_GROUPS" | "INDICATOR_REMOVAL" | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS" | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY" | "INDICATOR_REMOVAL_FILE_DELETION" | "INDICATOR_REMOVAL_TIMESTOMP" | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA" | "APPLICATION_LAYER_PROTOCOL" | "DNS" | "SOFTWARE_DEPLOYMENT_TOOLS" | "VALID_ACCOUNTS" | "DEFAULT_ACCOUNTS" | "LOCAL_ACCOUNTS" | "CLOUD_ACCOUNTS" | "FILE_AND_DIRECTORY_DISCOVERY" | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT" | "PROXY" | "EXTERNAL_PROXY" | "MULTI_HOP_PROXY" | "ACCOUNT_MANIPULATION" | "ADDITIONAL_CLOUD_CREDENTIALS" | "ADDITIONAL_CLOUD_ROLES" | "SSH_AUTHORIZED_KEYS" | "ADDITIONAL_CONTAINER_CLUSTER_ROLES" | "MULTI_STAGE_CHANNELS" | "INGRESS_TOOL_TRANSFER" | "NATIVE_API" | "BRUTE_FORCE" | "AUTOMATED_COLLECTION" | "SHARED_MODULES" | "DATA_ENCODING" | "STANDARD_ENCODING" | "ACCESS_TOKEN_MANIPULATION" | "TOKEN_IMPERSONATION_OR_THEFT" | "CREATE_ACCOUNT" | "LOCAL_ACCOUNT" | "DEOBFUSCATE_DECODE_FILES_OR_INFO" | "EXPLOIT_PUBLIC_FACING_APPLICATION" | "SUPPLY_CHAIN_COMPROMISE" | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS" | "EXPLOITATION_FOR_CLIENT_EXECUTION" | "USER_EXECUTION" | "EXPLOITATION_FOR_CREDENTIAL_ACCESS" | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION" | "DOMAIN_POLICY_MODIFICATION" | "DATA_DESTRUCTION" | "DATA_ENCRYPTED_FOR_IMPACT" | "SERVICE_STOP" | "INHIBIT_SYSTEM_RECOVERY" | "FIRMWARE_CORRUPTION" | "RESOURCE_HIJACKING" | "NETWORK_DENIAL_OF_SERVICE" | "CLOUD_SERVICE_DISCOVERY" | "STEAL_APPLICATION_ACCESS_TOKEN" | "ACCOUNT_ACCESS_REMOVAL" | "TRANSFER_DATA_TO_CLOUD_ACCOUNT" | "STEAL_WEB_SESSION_COOKIE" | "CREATE_OR_MODIFY_SYSTEM_PROCESS" | "EVENT_TRIGGERED_EXECUTION" | "BOOT_OR_LOGON_AUTOSTART_EXECUTION" | "KERNEL_MODULES_AND_EXTENSIONS" | "SHORTCUT_MODIFICATION" | "ABUSE_ELEVATION_CONTROL_MECHANISM" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING" | "UNSECURED_CREDENTIALS" | "CREDENTIALS_IN_FILES" | "BASH_HISTORY" | "PRIVATE_KEYS" | "SUBVERT_TRUST_CONTROL" | "INSTALL_ROOT_CERTIFICATE" | "COMPROMISE_HOST_SOFTWARE_BINARY" | "CREDENTIALS_FROM_PASSWORD_STORES" | "MODIFY_AUTHENTICATION_PROCESS" | "PLUGGABLE_AUTHENTICATION_MODULES" | "MULTI_FACTOR_AUTHENTICATION" | "IMPAIR_DEFENSES" | "DISABLE_OR_MODIFY_TOOLS" | "INDICATOR_BLOCKING" | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM" | "HIDE_ARTIFACTS" | "HIDDEN_FILES_AND_DIRECTORIES" | "HIDDEN_USERS" | "EXFILTRATION_OVER_WEB_SERVICE" | "EXFILTRATION_TO_CLOUD_STORAGE" | "DYNAMIC_RESOLUTION" | "LATERAL_TOOL_TRANSFER" | "HIJACK_EXECUTION_FLOW" | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING" | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE" | "CREATE_SNAPSHOT" | "CLOUD_INFRASTRUCTURE_DISCOVERY" | "DEVELOP_CAPABILITIES" | "DEVELOP_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES" | "OBTAIN_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES_VULNERABILITIES" | "ACTIVE_SCANNING" | "SCANNING_IP_BLOCKS" | "STAGE_CAPABILITIES" | "UPLOAD_MALWARE" | "CONTAINER_ADMINISTRATION_COMMAND" | "DEPLOY_CONTAINER" | "ESCAPE_TO_HOST" | "CONTAINER_AND_RESOURCE_DISCOVERY" | "REFLECTIVE_CODE_LOADING" | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES" | "FINANCIAL_THEFT" | (string & {})>;
+  primaryTechniques?: Array<
+    | "TECHNIQUE_UNSPECIFIED"
+    | "DATA_OBFUSCATION"
+    | "DATA_OBFUSCATION_STEGANOGRAPHY"
+    | "OS_CREDENTIAL_DUMPING"
+    | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM"
+    | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW"
+    | "DATA_FROM_LOCAL_SYSTEM"
+    | "AUTOMATED_EXFILTRATION"
+    | "OBFUSCATED_FILES_OR_INFO"
+    | "STEGANOGRAPHY"
+    | "COMPILE_AFTER_DELIVERY"
+    | "COMMAND_OBFUSCATION"
+    | "SCHEDULED_TRANSFER"
+    | "SYSTEM_OWNER_USER_DISCOVERY"
+    | "MASQUERADING"
+    | "MATCH_LEGITIMATE_NAME_OR_LOCATION"
+    | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS"
+    | "STARTUP_ITEMS"
+    | "NETWORK_SERVICE_DISCOVERY"
+    | "SCHEDULED_TASK_JOB"
+    | "SCHEDULED_TASK_JOB_CRON"
+    | "CONTAINER_ORCHESTRATION_JOB"
+    | "PROCESS_INJECTION"
+    | "INPUT_CAPTURE"
+    | "INPUT_CAPTURE_KEYLOGGING"
+    | "PROCESS_DISCOVERY"
+    | "COMMAND_AND_SCRIPTING_INTERPRETER"
+    | "UNIX_SHELL"
+    | "PYTHON"
+    | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION"
+    | "PERMISSION_GROUPS_DISCOVERY"
+    | "CLOUD_GROUPS"
+    | "INDICATOR_REMOVAL"
+    | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS"
+    | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY"
+    | "INDICATOR_REMOVAL_FILE_DELETION"
+    | "INDICATOR_REMOVAL_TIMESTOMP"
+    | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA"
+    | "APPLICATION_LAYER_PROTOCOL"
+    | "DNS"
+    | "SOFTWARE_DEPLOYMENT_TOOLS"
+    | "VALID_ACCOUNTS"
+    | "DEFAULT_ACCOUNTS"
+    | "LOCAL_ACCOUNTS"
+    | "CLOUD_ACCOUNTS"
+    | "FILE_AND_DIRECTORY_DISCOVERY"
+    | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT"
+    | "PROXY"
+    | "EXTERNAL_PROXY"
+    | "MULTI_HOP_PROXY"
+    | "ACCOUNT_MANIPULATION"
+    | "ADDITIONAL_CLOUD_CREDENTIALS"
+    | "ADDITIONAL_CLOUD_ROLES"
+    | "SSH_AUTHORIZED_KEYS"
+    | "ADDITIONAL_CONTAINER_CLUSTER_ROLES"
+    | "MULTI_STAGE_CHANNELS"
+    | "INGRESS_TOOL_TRANSFER"
+    | "NATIVE_API"
+    | "BRUTE_FORCE"
+    | "AUTOMATED_COLLECTION"
+    | "SHARED_MODULES"
+    | "DATA_ENCODING"
+    | "STANDARD_ENCODING"
+    | "ACCESS_TOKEN_MANIPULATION"
+    | "TOKEN_IMPERSONATION_OR_THEFT"
+    | "CREATE_ACCOUNT"
+    | "LOCAL_ACCOUNT"
+    | "DEOBFUSCATE_DECODE_FILES_OR_INFO"
+    | "EXPLOIT_PUBLIC_FACING_APPLICATION"
+    | "SUPPLY_CHAIN_COMPROMISE"
+    | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS"
+    | "EXPLOITATION_FOR_CLIENT_EXECUTION"
+    | "USER_EXECUTION"
+    | "EXPLOITATION_FOR_CREDENTIAL_ACCESS"
+    | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION"
+    | "DOMAIN_POLICY_MODIFICATION"
+    | "DATA_DESTRUCTION"
+    | "DATA_ENCRYPTED_FOR_IMPACT"
+    | "SERVICE_STOP"
+    | "INHIBIT_SYSTEM_RECOVERY"
+    | "FIRMWARE_CORRUPTION"
+    | "RESOURCE_HIJACKING"
+    | "NETWORK_DENIAL_OF_SERVICE"
+    | "CLOUD_SERVICE_DISCOVERY"
+    | "STEAL_APPLICATION_ACCESS_TOKEN"
+    | "ACCOUNT_ACCESS_REMOVAL"
+    | "TRANSFER_DATA_TO_CLOUD_ACCOUNT"
+    | "STEAL_WEB_SESSION_COOKIE"
+    | "CREATE_OR_MODIFY_SYSTEM_PROCESS"
+    | "EVENT_TRIGGERED_EXECUTION"
+    | "BOOT_OR_LOGON_AUTOSTART_EXECUTION"
+    | "KERNEL_MODULES_AND_EXTENSIONS"
+    | "SHORTCUT_MODIFICATION"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING"
+    | "UNSECURED_CREDENTIALS"
+    | "CREDENTIALS_IN_FILES"
+    | "BASH_HISTORY"
+    | "PRIVATE_KEYS"
+    | "SUBVERT_TRUST_CONTROL"
+    | "INSTALL_ROOT_CERTIFICATE"
+    | "COMPROMISE_HOST_SOFTWARE_BINARY"
+    | "CREDENTIALS_FROM_PASSWORD_STORES"
+    | "MODIFY_AUTHENTICATION_PROCESS"
+    | "PLUGGABLE_AUTHENTICATION_MODULES"
+    | "MULTI_FACTOR_AUTHENTICATION"
+    | "IMPAIR_DEFENSES"
+    | "DISABLE_OR_MODIFY_TOOLS"
+    | "INDICATOR_BLOCKING"
+    | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM"
+    | "HIDE_ARTIFACTS"
+    | "HIDDEN_FILES_AND_DIRECTORIES"
+    | "HIDDEN_USERS"
+    | "EXFILTRATION_OVER_WEB_SERVICE"
+    | "EXFILTRATION_TO_CLOUD_STORAGE"
+    | "DYNAMIC_RESOLUTION"
+    | "LATERAL_TOOL_TRANSFER"
+    | "HIJACK_EXECUTION_FLOW"
+    | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING"
+    | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE"
+    | "CREATE_SNAPSHOT"
+    | "CLOUD_INFRASTRUCTURE_DISCOVERY"
+    | "DEVELOP_CAPABILITIES"
+    | "DEVELOP_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES"
+    | "OBTAIN_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES_VULNERABILITIES"
+    | "ACTIVE_SCANNING"
+    | "SCANNING_IP_BLOCKS"
+    | "STAGE_CAPABILITIES"
+    | "UPLOAD_MALWARE"
+    | "CONTAINER_ADMINISTRATION_COMMAND"
+    | "DEPLOY_CONTAINER"
+    | "ESCAPE_TO_HOST"
+    | "CONTAINER_AND_RESOURCE_DISCOVERY"
+    | "REFLECTIVE_CODE_LOADING"
+    | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES"
+    | "FINANCIAL_THEFT"
+    | (string & {})
+  >;
   /** Additional MITRE ATT&CK tactics related to this finding, if any. */
-  additionalTactics?: Array<"TACTIC_UNSPECIFIED" | "RECONNAISSANCE" | "RESOURCE_DEVELOPMENT" | "INITIAL_ACCESS" | "EXECUTION" | "PERSISTENCE" | "PRIVILEGE_ESCALATION" | "DEFENSE_EVASION" | "CREDENTIAL_ACCESS" | "DISCOVERY" | "LATERAL_MOVEMENT" | "COLLECTION" | "COMMAND_AND_CONTROL" | "EXFILTRATION" | "IMPACT" | (string & {})>;
+  additionalTactics?: Array<
+    | "TACTIC_UNSPECIFIED"
+    | "RECONNAISSANCE"
+    | "RESOURCE_DEVELOPMENT"
+    | "INITIAL_ACCESS"
+    | "EXECUTION"
+    | "PERSISTENCE"
+    | "PRIVILEGE_ESCALATION"
+    | "DEFENSE_EVASION"
+    | "CREDENTIAL_ACCESS"
+    | "DISCOVERY"
+    | "LATERAL_MOVEMENT"
+    | "COLLECTION"
+    | "COMMAND_AND_CONTROL"
+    | "EXFILTRATION"
+    | "IMPACT"
+    | (string & {})
+  >;
   /** Additional MITRE ATT&CK techniques related to this finding, if any, along with any of their respective parent techniques. */
-  additionalTechniques?: Array<"TECHNIQUE_UNSPECIFIED" | "DATA_OBFUSCATION" | "DATA_OBFUSCATION_STEGANOGRAPHY" | "OS_CREDENTIAL_DUMPING" | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM" | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW" | "DATA_FROM_LOCAL_SYSTEM" | "AUTOMATED_EXFILTRATION" | "OBFUSCATED_FILES_OR_INFO" | "STEGANOGRAPHY" | "COMPILE_AFTER_DELIVERY" | "COMMAND_OBFUSCATION" | "SCHEDULED_TRANSFER" | "SYSTEM_OWNER_USER_DISCOVERY" | "MASQUERADING" | "MATCH_LEGITIMATE_NAME_OR_LOCATION" | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS" | "STARTUP_ITEMS" | "NETWORK_SERVICE_DISCOVERY" | "SCHEDULED_TASK_JOB" | "SCHEDULED_TASK_JOB_CRON" | "CONTAINER_ORCHESTRATION_JOB" | "PROCESS_INJECTION" | "INPUT_CAPTURE" | "INPUT_CAPTURE_KEYLOGGING" | "PROCESS_DISCOVERY" | "COMMAND_AND_SCRIPTING_INTERPRETER" | "UNIX_SHELL" | "PYTHON" | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION" | "PERMISSION_GROUPS_DISCOVERY" | "CLOUD_GROUPS" | "INDICATOR_REMOVAL" | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS" | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY" | "INDICATOR_REMOVAL_FILE_DELETION" | "INDICATOR_REMOVAL_TIMESTOMP" | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA" | "APPLICATION_LAYER_PROTOCOL" | "DNS" | "SOFTWARE_DEPLOYMENT_TOOLS" | "VALID_ACCOUNTS" | "DEFAULT_ACCOUNTS" | "LOCAL_ACCOUNTS" | "CLOUD_ACCOUNTS" | "FILE_AND_DIRECTORY_DISCOVERY" | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT" | "PROXY" | "EXTERNAL_PROXY" | "MULTI_HOP_PROXY" | "ACCOUNT_MANIPULATION" | "ADDITIONAL_CLOUD_CREDENTIALS" | "ADDITIONAL_CLOUD_ROLES" | "SSH_AUTHORIZED_KEYS" | "ADDITIONAL_CONTAINER_CLUSTER_ROLES" | "MULTI_STAGE_CHANNELS" | "INGRESS_TOOL_TRANSFER" | "NATIVE_API" | "BRUTE_FORCE" | "AUTOMATED_COLLECTION" | "SHARED_MODULES" | "DATA_ENCODING" | "STANDARD_ENCODING" | "ACCESS_TOKEN_MANIPULATION" | "TOKEN_IMPERSONATION_OR_THEFT" | "CREATE_ACCOUNT" | "LOCAL_ACCOUNT" | "DEOBFUSCATE_DECODE_FILES_OR_INFO" | "EXPLOIT_PUBLIC_FACING_APPLICATION" | "SUPPLY_CHAIN_COMPROMISE" | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS" | "EXPLOITATION_FOR_CLIENT_EXECUTION" | "USER_EXECUTION" | "EXPLOITATION_FOR_CREDENTIAL_ACCESS" | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION" | "DOMAIN_POLICY_MODIFICATION" | "DATA_DESTRUCTION" | "DATA_ENCRYPTED_FOR_IMPACT" | "SERVICE_STOP" | "INHIBIT_SYSTEM_RECOVERY" | "FIRMWARE_CORRUPTION" | "RESOURCE_HIJACKING" | "NETWORK_DENIAL_OF_SERVICE" | "CLOUD_SERVICE_DISCOVERY" | "STEAL_APPLICATION_ACCESS_TOKEN" | "ACCOUNT_ACCESS_REMOVAL" | "TRANSFER_DATA_TO_CLOUD_ACCOUNT" | "STEAL_WEB_SESSION_COOKIE" | "CREATE_OR_MODIFY_SYSTEM_PROCESS" | "EVENT_TRIGGERED_EXECUTION" | "BOOT_OR_LOGON_AUTOSTART_EXECUTION" | "KERNEL_MODULES_AND_EXTENSIONS" | "SHORTCUT_MODIFICATION" | "ABUSE_ELEVATION_CONTROL_MECHANISM" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID" | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING" | "UNSECURED_CREDENTIALS" | "CREDENTIALS_IN_FILES" | "BASH_HISTORY" | "PRIVATE_KEYS" | "SUBVERT_TRUST_CONTROL" | "INSTALL_ROOT_CERTIFICATE" | "COMPROMISE_HOST_SOFTWARE_BINARY" | "CREDENTIALS_FROM_PASSWORD_STORES" | "MODIFY_AUTHENTICATION_PROCESS" | "PLUGGABLE_AUTHENTICATION_MODULES" | "MULTI_FACTOR_AUTHENTICATION" | "IMPAIR_DEFENSES" | "DISABLE_OR_MODIFY_TOOLS" | "INDICATOR_BLOCKING" | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM" | "HIDE_ARTIFACTS" | "HIDDEN_FILES_AND_DIRECTORIES" | "HIDDEN_USERS" | "EXFILTRATION_OVER_WEB_SERVICE" | "EXFILTRATION_TO_CLOUD_STORAGE" | "DYNAMIC_RESOLUTION" | "LATERAL_TOOL_TRANSFER" | "HIJACK_EXECUTION_FLOW" | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING" | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE" | "CREATE_SNAPSHOT" | "CLOUD_INFRASTRUCTURE_DISCOVERY" | "DEVELOP_CAPABILITIES" | "DEVELOP_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES" | "OBTAIN_CAPABILITIES_MALWARE" | "OBTAIN_CAPABILITIES_VULNERABILITIES" | "ACTIVE_SCANNING" | "SCANNING_IP_BLOCKS" | "STAGE_CAPABILITIES" | "UPLOAD_MALWARE" | "CONTAINER_ADMINISTRATION_COMMAND" | "DEPLOY_CONTAINER" | "ESCAPE_TO_HOST" | "CONTAINER_AND_RESOURCE_DISCOVERY" | "REFLECTIVE_CODE_LOADING" | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES" | "FINANCIAL_THEFT" | (string & {})>;
+  additionalTechniques?: Array<
+    | "TECHNIQUE_UNSPECIFIED"
+    | "DATA_OBFUSCATION"
+    | "DATA_OBFUSCATION_STEGANOGRAPHY"
+    | "OS_CREDENTIAL_DUMPING"
+    | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM"
+    | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW"
+    | "DATA_FROM_LOCAL_SYSTEM"
+    | "AUTOMATED_EXFILTRATION"
+    | "OBFUSCATED_FILES_OR_INFO"
+    | "STEGANOGRAPHY"
+    | "COMPILE_AFTER_DELIVERY"
+    | "COMMAND_OBFUSCATION"
+    | "SCHEDULED_TRANSFER"
+    | "SYSTEM_OWNER_USER_DISCOVERY"
+    | "MASQUERADING"
+    | "MATCH_LEGITIMATE_NAME_OR_LOCATION"
+    | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS"
+    | "STARTUP_ITEMS"
+    | "NETWORK_SERVICE_DISCOVERY"
+    | "SCHEDULED_TASK_JOB"
+    | "SCHEDULED_TASK_JOB_CRON"
+    | "CONTAINER_ORCHESTRATION_JOB"
+    | "PROCESS_INJECTION"
+    | "INPUT_CAPTURE"
+    | "INPUT_CAPTURE_KEYLOGGING"
+    | "PROCESS_DISCOVERY"
+    | "COMMAND_AND_SCRIPTING_INTERPRETER"
+    | "UNIX_SHELL"
+    | "PYTHON"
+    | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION"
+    | "PERMISSION_GROUPS_DISCOVERY"
+    | "CLOUD_GROUPS"
+    | "INDICATOR_REMOVAL"
+    | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS"
+    | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY"
+    | "INDICATOR_REMOVAL_FILE_DELETION"
+    | "INDICATOR_REMOVAL_TIMESTOMP"
+    | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA"
+    | "APPLICATION_LAYER_PROTOCOL"
+    | "DNS"
+    | "SOFTWARE_DEPLOYMENT_TOOLS"
+    | "VALID_ACCOUNTS"
+    | "DEFAULT_ACCOUNTS"
+    | "LOCAL_ACCOUNTS"
+    | "CLOUD_ACCOUNTS"
+    | "FILE_AND_DIRECTORY_DISCOVERY"
+    | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT"
+    | "PROXY"
+    | "EXTERNAL_PROXY"
+    | "MULTI_HOP_PROXY"
+    | "ACCOUNT_MANIPULATION"
+    | "ADDITIONAL_CLOUD_CREDENTIALS"
+    | "ADDITIONAL_CLOUD_ROLES"
+    | "SSH_AUTHORIZED_KEYS"
+    | "ADDITIONAL_CONTAINER_CLUSTER_ROLES"
+    | "MULTI_STAGE_CHANNELS"
+    | "INGRESS_TOOL_TRANSFER"
+    | "NATIVE_API"
+    | "BRUTE_FORCE"
+    | "AUTOMATED_COLLECTION"
+    | "SHARED_MODULES"
+    | "DATA_ENCODING"
+    | "STANDARD_ENCODING"
+    | "ACCESS_TOKEN_MANIPULATION"
+    | "TOKEN_IMPERSONATION_OR_THEFT"
+    | "CREATE_ACCOUNT"
+    | "LOCAL_ACCOUNT"
+    | "DEOBFUSCATE_DECODE_FILES_OR_INFO"
+    | "EXPLOIT_PUBLIC_FACING_APPLICATION"
+    | "SUPPLY_CHAIN_COMPROMISE"
+    | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS"
+    | "EXPLOITATION_FOR_CLIENT_EXECUTION"
+    | "USER_EXECUTION"
+    | "EXPLOITATION_FOR_CREDENTIAL_ACCESS"
+    | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION"
+    | "DOMAIN_POLICY_MODIFICATION"
+    | "DATA_DESTRUCTION"
+    | "DATA_ENCRYPTED_FOR_IMPACT"
+    | "SERVICE_STOP"
+    | "INHIBIT_SYSTEM_RECOVERY"
+    | "FIRMWARE_CORRUPTION"
+    | "RESOURCE_HIJACKING"
+    | "NETWORK_DENIAL_OF_SERVICE"
+    | "CLOUD_SERVICE_DISCOVERY"
+    | "STEAL_APPLICATION_ACCESS_TOKEN"
+    | "ACCOUNT_ACCESS_REMOVAL"
+    | "TRANSFER_DATA_TO_CLOUD_ACCOUNT"
+    | "STEAL_WEB_SESSION_COOKIE"
+    | "CREATE_OR_MODIFY_SYSTEM_PROCESS"
+    | "EVENT_TRIGGERED_EXECUTION"
+    | "BOOT_OR_LOGON_AUTOSTART_EXECUTION"
+    | "KERNEL_MODULES_AND_EXTENSIONS"
+    | "SHORTCUT_MODIFICATION"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID"
+    | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING"
+    | "UNSECURED_CREDENTIALS"
+    | "CREDENTIALS_IN_FILES"
+    | "BASH_HISTORY"
+    | "PRIVATE_KEYS"
+    | "SUBVERT_TRUST_CONTROL"
+    | "INSTALL_ROOT_CERTIFICATE"
+    | "COMPROMISE_HOST_SOFTWARE_BINARY"
+    | "CREDENTIALS_FROM_PASSWORD_STORES"
+    | "MODIFY_AUTHENTICATION_PROCESS"
+    | "PLUGGABLE_AUTHENTICATION_MODULES"
+    | "MULTI_FACTOR_AUTHENTICATION"
+    | "IMPAIR_DEFENSES"
+    | "DISABLE_OR_MODIFY_TOOLS"
+    | "INDICATOR_BLOCKING"
+    | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM"
+    | "HIDE_ARTIFACTS"
+    | "HIDDEN_FILES_AND_DIRECTORIES"
+    | "HIDDEN_USERS"
+    | "EXFILTRATION_OVER_WEB_SERVICE"
+    | "EXFILTRATION_TO_CLOUD_STORAGE"
+    | "DYNAMIC_RESOLUTION"
+    | "LATERAL_TOOL_TRANSFER"
+    | "HIJACK_EXECUTION_FLOW"
+    | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING"
+    | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE"
+    | "CREATE_SNAPSHOT"
+    | "CLOUD_INFRASTRUCTURE_DISCOVERY"
+    | "DEVELOP_CAPABILITIES"
+    | "DEVELOP_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES"
+    | "OBTAIN_CAPABILITIES_MALWARE"
+    | "OBTAIN_CAPABILITIES_VULNERABILITIES"
+    | "ACTIVE_SCANNING"
+    | "SCANNING_IP_BLOCKS"
+    | "STAGE_CAPABILITIES"
+    | "UPLOAD_MALWARE"
+    | "CONTAINER_ADMINISTRATION_COMMAND"
+    | "DEPLOY_CONTAINER"
+    | "ESCAPE_TO_HOST"
+    | "CONTAINER_AND_RESOURCE_DISCOVERY"
+    | "REFLECTIVE_CODE_LOADING"
+    | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES"
+    | "FINANCIAL_THEFT"
+    | (string & {})
+  >;
   /** The MITRE ATT&CK version referenced by the above fields. E.g. "8". */
   version?: string;
 }
 
-export const GoogleCloudSecuritycenterV2MitreAttack: Schema.Schema<GoogleCloudSecuritycenterV2MitreAttack> = Schema.suspend(() => Schema.Struct({
-  primaryTactic: Schema.optional(Schema.String),
-  primaryTechniques: Schema.optional(Schema.Array(Schema.String)),
-  additionalTactics: Schema.optional(Schema.Array(Schema.String)),
-  additionalTechniques: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2MitreAttack" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MitreAttack>;
+export const GoogleCloudSecuritycenterV2MitreAttack: Schema.Schema<GoogleCloudSecuritycenterV2MitreAttack> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      primaryTactic: Schema.optional(Schema.String),
+      primaryTechniques: Schema.optional(Schema.Array(Schema.String)),
+      additionalTactics: Schema.optional(Schema.Array(Schema.String)),
+      additionalTechniques: Schema.optional(Schema.Array(Schema.String)),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2MitreAttack",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2MitreAttack>;
 
 export interface GoogleCloudSecuritycenterV2Geolocation {
   /** A CLDR. */
   regionCode?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Geolocation: Schema.Schema<GoogleCloudSecuritycenterV2Geolocation> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Geolocation" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Geolocation>;
+export const GoogleCloudSecuritycenterV2Geolocation: Schema.Schema<GoogleCloudSecuritycenterV2Geolocation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      regionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Geolocation",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Geolocation>;
 
 export interface GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo {
   /** The email address of a Google account. */
@@ -3372,10 +5109,15 @@ export interface GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo {
   principalSubject?: string;
 }
 
-export const GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo: Schema.Schema<GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo> = Schema.suspend(() => Schema.Struct({
-  principalEmail: Schema.optional(Schema.String),
-  principalSubject: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo>;
+export const GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo: Schema.Schema<GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      principalEmail: Schema.optional(Schema.String),
+      principalSubject: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo>;
 
 export interface GoogleCloudSecuritycenterV2Access {
   /** Associated email, such as "foo@google.com". The email address of the authenticated user or a service account acting on behalf of a third party principal making the request. For third party identity callers, the `principal_subject` field is populated instead of this field. For privacy reasons, the principal email address is sometimes redacted. For more information, see [Caller identities in audit logs](https://cloud.google.com/logging/docs/audit#user-id). */
@@ -3402,19 +5144,26 @@ export interface GoogleCloudSecuritycenterV2Access {
   userName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Access: Schema.Schema<GoogleCloudSecuritycenterV2Access> = Schema.suspend(() => Schema.Struct({
-  principalEmail: Schema.optional(Schema.String),
-  callerIp: Schema.optional(Schema.String),
-  callerIpGeo: Schema.optional(GoogleCloudSecuritycenterV2Geolocation),
-  userAgentFamily: Schema.optional(Schema.String),
-  userAgent: Schema.optional(Schema.String),
-  serviceName: Schema.optional(Schema.String),
-  methodName: Schema.optional(Schema.String),
-  principalSubject: Schema.optional(Schema.String),
-  serviceAccountKeyName: Schema.optional(Schema.String),
-  serviceAccountDelegationInfo: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo)),
-  userName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Access" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Access>;
+export const GoogleCloudSecuritycenterV2Access: Schema.Schema<GoogleCloudSecuritycenterV2Access> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      principalEmail: Schema.optional(Schema.String),
+      callerIp: Schema.optional(Schema.String),
+      callerIpGeo: Schema.optional(GoogleCloudSecuritycenterV2Geolocation),
+      userAgentFamily: Schema.optional(Schema.String),
+      userAgent: Schema.optional(Schema.String),
+      serviceName: Schema.optional(Schema.String),
+      methodName: Schema.optional(Schema.String),
+      principalSubject: Schema.optional(Schema.String),
+      serviceAccountKeyName: Schema.optional(Schema.String),
+      serviceAccountDelegationInfo: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2ServiceAccountDelegationInfo),
+      ),
+      userName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Access",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Access>;
 
 export interface GoogleCloudSecuritycenterV2Connection {
   /** Destination IP address. Not present for sockets that are listening and not connected. */
@@ -3426,16 +5175,28 @@ export interface GoogleCloudSecuritycenterV2Connection {
   /** Source port. */
   sourcePort?: number;
   /** IANA Internet Protocol Number such as TCP(6) and UDP(17). */
-  protocol?: "PROTOCOL_UNSPECIFIED" | "ICMP" | "TCP" | "UDP" | "GRE" | "ESP" | (string & {});
+  protocol?:
+    | "PROTOCOL_UNSPECIFIED"
+    | "ICMP"
+    | "TCP"
+    | "UDP"
+    | "GRE"
+    | "ESP"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2Connection: Schema.Schema<GoogleCloudSecuritycenterV2Connection> = Schema.suspend(() => Schema.Struct({
-  destinationIp: Schema.optional(Schema.String),
-  destinationPort: Schema.optional(Schema.Number),
-  sourceIp: Schema.optional(Schema.String),
-  sourcePort: Schema.optional(Schema.Number),
-  protocol: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Connection" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Connection>;
+export const GoogleCloudSecuritycenterV2Connection: Schema.Schema<GoogleCloudSecuritycenterV2Connection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationIp: Schema.optional(Schema.String),
+      destinationPort: Schema.optional(Schema.Number),
+      sourceIp: Schema.optional(Schema.String),
+      sourcePort: Schema.optional(Schema.Number),
+      protocol: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Connection",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Connection>;
 
 export interface GoogleCloudSecuritycenterV2DiskPath {
   /** UUID of the partition (format https://wiki.archlinux.org/title/persistent_block_device_naming#by-uuid) */
@@ -3444,19 +5205,36 @@ export interface GoogleCloudSecuritycenterV2DiskPath {
   relativePath?: string;
 }
 
-export const GoogleCloudSecuritycenterV2DiskPath: Schema.Schema<GoogleCloudSecuritycenterV2DiskPath> = Schema.suspend(() => Schema.Struct({
-  partitionUuid: Schema.optional(Schema.String),
-  relativePath: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2DiskPath" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DiskPath>;
+export const GoogleCloudSecuritycenterV2DiskPath: Schema.Schema<GoogleCloudSecuritycenterV2DiskPath> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partitionUuid: Schema.optional(Schema.String),
+      relativePath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2DiskPath",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DiskPath>;
 
 export interface GoogleCloudSecuritycenterV2FileOperation {
   /** The type of the operation */
-  type?: "OPERATION_TYPE_UNSPECIFIED" | "OPEN" | "READ" | "RENAME" | "WRITE" | "EXECUTE" | (string & {});
+  type?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "OPEN"
+    | "READ"
+    | "RENAME"
+    | "WRITE"
+    | "EXECUTE"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2FileOperation: Schema.Schema<GoogleCloudSecuritycenterV2FileOperation> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2FileOperation" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2FileOperation>;
+export const GoogleCloudSecuritycenterV2FileOperation: Schema.Schema<GoogleCloudSecuritycenterV2FileOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2FileOperation",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2FileOperation>;
 
 export interface GoogleCloudSecuritycenterV2File {
   /** Absolute path of the file as a JSON encoded string. */
@@ -3476,20 +5254,31 @@ export interface GoogleCloudSecuritycenterV2File {
   /** Operation(s) performed on a file. */
   operations?: Array<GoogleCloudSecuritycenterV2FileOperation>;
   /** The load state of the file. */
-  fileLoadState?: "FILE_LOAD_STATE_UNSPECIFIED" | "LOADED_BY_PROCESS" | "NOT_LOADED_BY_PROCESS" | (string & {});
+  fileLoadState?:
+    | "FILE_LOAD_STATE_UNSPECIFIED"
+    | "LOADED_BY_PROCESS"
+    | "NOT_LOADED_BY_PROCESS"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2File: Schema.Schema<GoogleCloudSecuritycenterV2File> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.String),
-  sha256: Schema.optional(Schema.String),
-  hashedSize: Schema.optional(Schema.String),
-  partiallyHashed: Schema.optional(Schema.Boolean),
-  contents: Schema.optional(Schema.String),
-  diskPath: Schema.optional(GoogleCloudSecuritycenterV2DiskPath),
-  operations: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2FileOperation)),
-  fileLoadState: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2File" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2File>;
+export const GoogleCloudSecuritycenterV2File: Schema.Schema<GoogleCloudSecuritycenterV2File> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.String),
+      sha256: Schema.optional(Schema.String),
+      hashedSize: Schema.optional(Schema.String),
+      partiallyHashed: Schema.optional(Schema.Boolean),
+      contents: Schema.optional(Schema.String),
+      diskPath: Schema.optional(GoogleCloudSecuritycenterV2DiskPath),
+      operations: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2FileOperation),
+      ),
+      fileLoadState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2File",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2File>;
 
 export interface GoogleCloudSecuritycenterV2EnvironmentVariable {
   /** Environment variable name as a JSON encoded string. */
@@ -3498,10 +5287,15 @@ export interface GoogleCloudSecuritycenterV2EnvironmentVariable {
   val?: string;
 }
 
-export const GoogleCloudSecuritycenterV2EnvironmentVariable: Schema.Schema<GoogleCloudSecuritycenterV2EnvironmentVariable> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  val: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2EnvironmentVariable" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2EnvironmentVariable>;
+export const GoogleCloudSecuritycenterV2EnvironmentVariable: Schema.Schema<GoogleCloudSecuritycenterV2EnvironmentVariable> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      val: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2EnvironmentVariable",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2EnvironmentVariable>;
 
 export interface GoogleCloudSecuritycenterV2Process {
   /** The process name, as displayed in utilities like `top` and `ps`. This name can be accessed through `/proc/[pid]/comm` and changed with `prctl(PR_SET_NAME)`. */
@@ -3528,37 +5322,56 @@ export interface GoogleCloudSecuritycenterV2Process {
   userId?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Process: Schema.Schema<GoogleCloudSecuritycenterV2Process> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  binary: Schema.optional(GoogleCloudSecuritycenterV2File),
-  libraries: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2File)),
-  script: Schema.optional(GoogleCloudSecuritycenterV2File),
-  args: Schema.optional(Schema.Array(Schema.String)),
-  argumentsTruncated: Schema.optional(Schema.Boolean),
-  envVariables: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2EnvironmentVariable)),
-  envVariablesTruncated: Schema.optional(Schema.Boolean),
-  pid: Schema.optional(Schema.String),
-  parentPid: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Process" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Process>;
+export const GoogleCloudSecuritycenterV2Process: Schema.Schema<GoogleCloudSecuritycenterV2Process> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      binary: Schema.optional(GoogleCloudSecuritycenterV2File),
+      libraries: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2File)),
+      script: Schema.optional(GoogleCloudSecuritycenterV2File),
+      args: Schema.optional(Schema.Array(Schema.String)),
+      argumentsTruncated: Schema.optional(Schema.Boolean),
+      envVariables: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2EnvironmentVariable),
+      ),
+      envVariablesTruncated: Schema.optional(Schema.Boolean),
+      pid: Schema.optional(Schema.String),
+      parentPid: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Process",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Process>;
 
 export interface GoogleCloudSecuritycenterV2Contact {
   /** An email address. For example, "`person123@company.com`". */
   email?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Contact: Schema.Schema<GoogleCloudSecuritycenterV2Contact> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Contact" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Contact>;
+export const GoogleCloudSecuritycenterV2Contact: Schema.Schema<GoogleCloudSecuritycenterV2Contact> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Contact",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Contact>;
 
 export interface GoogleCloudSecuritycenterV2ContactDetails {
   /** A list of contacts */
   contacts?: Array<GoogleCloudSecuritycenterV2Contact>;
 }
 
-export const GoogleCloudSecuritycenterV2ContactDetails: Schema.Schema<GoogleCloudSecuritycenterV2ContactDetails> = Schema.suspend(() => Schema.Struct({
-  contacts: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Contact)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ContactDetails" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ContactDetails>;
+export const GoogleCloudSecuritycenterV2ContactDetails: Schema.Schema<GoogleCloudSecuritycenterV2ContactDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      contacts: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Contact),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ContactDetails",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ContactDetails>;
 
 export interface GoogleCloudSecuritycenterV2Compliance {
   /** Industry-wide compliance standards or benchmarks, such as CIS, PCI, and OWASP. */
@@ -3569,11 +5382,16 @@ export interface GoogleCloudSecuritycenterV2Compliance {
   ids?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2Compliance: Schema.Schema<GoogleCloudSecuritycenterV2Compliance> = Schema.suspend(() => Schema.Struct({
-  standard: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  ids: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Compliance" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Compliance>;
+export const GoogleCloudSecuritycenterV2Compliance: Schema.Schema<GoogleCloudSecuritycenterV2Compliance> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      standard: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      ids: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Compliance",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Compliance>;
 
 export interface GoogleCloudSecuritycenterV2ExfilResource {
   /** The resource's [full resource name](https://cloud.google.com/apis/design/resource_names#full_resource_name). */
@@ -3582,10 +5400,15 @@ export interface GoogleCloudSecuritycenterV2ExfilResource {
   components?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2ExfilResource: Schema.Schema<GoogleCloudSecuritycenterV2ExfilResource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  components: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ExfilResource" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ExfilResource>;
+export const GoogleCloudSecuritycenterV2ExfilResource: Schema.Schema<GoogleCloudSecuritycenterV2ExfilResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      components: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ExfilResource",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ExfilResource>;
 
 export interface GoogleCloudSecuritycenterV2Exfiltration {
   /** If there are multiple sources, then the data is considered "joined" between them. For instance, BigQuery can join multiple tables, and each table would be considered a source. */
@@ -3596,11 +5419,20 @@ export interface GoogleCloudSecuritycenterV2Exfiltration {
   totalExfiltratedBytes?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Exfiltration: Schema.Schema<GoogleCloudSecuritycenterV2Exfiltration> = Schema.suspend(() => Schema.Struct({
-  sources: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ExfilResource)),
-  targets: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ExfilResource)),
-  totalExfiltratedBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Exfiltration" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Exfiltration>;
+export const GoogleCloudSecuritycenterV2Exfiltration: Schema.Schema<GoogleCloudSecuritycenterV2Exfiltration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sources: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2ExfilResource),
+      ),
+      targets: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2ExfilResource),
+      ),
+      totalExfiltratedBytes: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Exfiltration",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Exfiltration>;
 
 export interface GoogleCloudSecuritycenterV2IamBinding {
   /** The action that was performed on a Binding. */
@@ -3611,11 +5443,16 @@ export interface GoogleCloudSecuritycenterV2IamBinding {
   member?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IamBinding: Schema.Schema<GoogleCloudSecuritycenterV2IamBinding> = Schema.suspend(() => Schema.Struct({
-  action: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  member: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IamBinding" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IamBinding>;
+export const GoogleCloudSecuritycenterV2IamBinding: Schema.Schema<GoogleCloudSecuritycenterV2IamBinding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      action: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      member: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IamBinding",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IamBinding>;
 
 export interface GoogleCloudSecuritycenterV2Label {
   /** Name of the label. */
@@ -3624,10 +5461,15 @@ export interface GoogleCloudSecuritycenterV2Label {
   value?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Label: Schema.Schema<GoogleCloudSecuritycenterV2Label> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Label" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Label>;
+export const GoogleCloudSecuritycenterV2Label: Schema.Schema<GoogleCloudSecuritycenterV2Label> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Label",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Label>;
 
 export interface GoogleCloudSecuritycenterV2Container {
   /** Name of the container. */
@@ -3642,13 +5484,18 @@ export interface GoogleCloudSecuritycenterV2Container {
   createTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Container: Schema.Schema<GoogleCloudSecuritycenterV2Container> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  imageId: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Label)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Container" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Container>;
+export const GoogleCloudSecuritycenterV2Container: Schema.Schema<GoogleCloudSecuritycenterV2Container> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      imageId: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Label)),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Container",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Container>;
 
 export interface GoogleCloudSecuritycenterV2Pod {
   /** Kubernetes Pod namespace. */
@@ -3661,21 +5508,33 @@ export interface GoogleCloudSecuritycenterV2Pod {
   containers?: Array<GoogleCloudSecuritycenterV2Container>;
 }
 
-export const GoogleCloudSecuritycenterV2Pod: Schema.Schema<GoogleCloudSecuritycenterV2Pod> = Schema.suspend(() => Schema.Struct({
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Label)),
-  containers: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Container)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Pod" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Pod>;
+export const GoogleCloudSecuritycenterV2Pod: Schema.Schema<GoogleCloudSecuritycenterV2Pod> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Label)),
+      containers: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Container),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Pod",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Pod>;
 
 export interface GoogleCloudSecuritycenterV2Node {
   /** [Full resource name](https://google.aip.dev/122#full-resource-names) of the Compute Engine VM running the cluster node. */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Node: Schema.Schema<GoogleCloudSecuritycenterV2Node> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Node" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Node>;
+export const GoogleCloudSecuritycenterV2Node: Schema.Schema<GoogleCloudSecuritycenterV2Node> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Node",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Node>;
 
 export interface GoogleCloudSecuritycenterV2NodePool {
   /** Kubernetes node pool name. */
@@ -3684,10 +5543,15 @@ export interface GoogleCloudSecuritycenterV2NodePool {
   nodes?: Array<GoogleCloudSecuritycenterV2Node>;
 }
 
-export const GoogleCloudSecuritycenterV2NodePool: Schema.Schema<GoogleCloudSecuritycenterV2NodePool> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  nodes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Node)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2NodePool" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2NodePool>;
+export const GoogleCloudSecuritycenterV2NodePool: Schema.Schema<GoogleCloudSecuritycenterV2NodePool> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      nodes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Node)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2NodePool",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2NodePool>;
 
 export interface GoogleCloudSecuritycenterV2Role {
   /** Role type. */
@@ -3698,26 +5562,41 @@ export interface GoogleCloudSecuritycenterV2Role {
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Role: Schema.Schema<GoogleCloudSecuritycenterV2Role> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Role" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Role>;
+export const GoogleCloudSecuritycenterV2Role: Schema.Schema<GoogleCloudSecuritycenterV2Role> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Role",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Role>;
 
 export interface GoogleCloudSecuritycenterV2Subject {
   /** Authentication type for the subject. */
-  kind?: "AUTH_TYPE_UNSPECIFIED" | "USER" | "SERVICEACCOUNT" | "GROUP" | (string & {});
+  kind?:
+    | "AUTH_TYPE_UNSPECIFIED"
+    | "USER"
+    | "SERVICEACCOUNT"
+    | "GROUP"
+    | (string & {});
   /** Namespace for the subject. */
   ns?: string;
   /** Name for the subject. */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Subject: Schema.Schema<GoogleCloudSecuritycenterV2Subject> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Subject" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Subject>;
+export const GoogleCloudSecuritycenterV2Subject: Schema.Schema<GoogleCloudSecuritycenterV2Subject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Subject",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Subject>;
 
 export interface GoogleCloudSecuritycenterV2Binding {
   /** Namespace for the binding. */
@@ -3730,12 +5609,19 @@ export interface GoogleCloudSecuritycenterV2Binding {
   subjects?: Array<GoogleCloudSecuritycenterV2Subject>;
 }
 
-export const GoogleCloudSecuritycenterV2Binding: Schema.Schema<GoogleCloudSecuritycenterV2Binding> = Schema.suspend(() => Schema.Struct({
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  role: Schema.optional(GoogleCloudSecuritycenterV2Role),
-  subjects: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Subject)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Binding" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Binding>;
+export const GoogleCloudSecuritycenterV2Binding: Schema.Schema<GoogleCloudSecuritycenterV2Binding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      role: Schema.optional(GoogleCloudSecuritycenterV2Role),
+      subjects: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Subject),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Binding",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Binding>;
 
 export interface GoogleCloudSecuritycenterV2AccessReview {
   /** The API group of the resource. "*" means all. */
@@ -3754,15 +5640,20 @@ export interface GoogleCloudSecuritycenterV2AccessReview {
   version?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AccessReview: Schema.Schema<GoogleCloudSecuritycenterV2AccessReview> = Schema.suspend(() => Schema.Struct({
-  group: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  subresource: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AccessReview" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AccessReview>;
+export const GoogleCloudSecuritycenterV2AccessReview: Schema.Schema<GoogleCloudSecuritycenterV2AccessReview> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      group: Schema.optional(Schema.String),
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      subresource: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AccessReview",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AccessReview>;
 
 export interface GoogleCloudSecuritycenterV2Object {
   /** Kubernetes object group, such as "policy.k8s.io/v1". */
@@ -3777,13 +5668,20 @@ export interface GoogleCloudSecuritycenterV2Object {
   containers?: Array<GoogleCloudSecuritycenterV2Container>;
 }
 
-export const GoogleCloudSecuritycenterV2Object: Schema.Schema<GoogleCloudSecuritycenterV2Object> = Schema.suspend(() => Schema.Struct({
-  group: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  ns: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  containers: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Container)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Object" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Object>;
+export const GoogleCloudSecuritycenterV2Object: Schema.Schema<GoogleCloudSecuritycenterV2Object> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      group: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      ns: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      containers: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Container),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Object",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Object>;
 
 export interface GoogleCloudSecuritycenterV2Kubernetes {
   /** Kubernetes [Pods](https://cloud.google.com/kubernetes-engine/docs/concepts/pod) associated with the finding. This field contains Pod records for each container that is owned by a Pod. */
@@ -3802,15 +5700,26 @@ export interface GoogleCloudSecuritycenterV2Kubernetes {
   objects?: Array<GoogleCloudSecuritycenterV2Object>;
 }
 
-export const GoogleCloudSecuritycenterV2Kubernetes: Schema.Schema<GoogleCloudSecuritycenterV2Kubernetes> = Schema.suspend(() => Schema.Struct({
-  pods: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Pod)),
-  nodes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Node)),
-  nodePools: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2NodePool)),
-  roles: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Role)),
-  bindings: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Binding)),
-  accessReviews: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2AccessReview)),
-  objects: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Object)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Kubernetes" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Kubernetes>;
+export const GoogleCloudSecuritycenterV2Kubernetes: Schema.Schema<GoogleCloudSecuritycenterV2Kubernetes> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pods: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Pod)),
+      nodes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Node)),
+      nodePools: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2NodePool),
+      ),
+      roles: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Role)),
+      bindings: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Binding),
+      ),
+      accessReviews: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2AccessReview),
+      ),
+      objects: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Object)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Kubernetes",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Kubernetes>;
 
 export interface GoogleCloudSecuritycenterV2Database {
   /** Some database resources may not have the [full resource name](https://google.aip.dev/122#full-resource-names) populated because these resource types are not yet supported by Cloud Asset Inventory (e.g. Cloud SQL databases). In these cases only the display name will be provided. The [full resource name](https://google.aip.dev/122#full-resource-names) of the database that the user connected to, if it is supported by Cloud Asset Inventory. */
@@ -3827,14 +5736,19 @@ export interface GoogleCloudSecuritycenterV2Database {
   version?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Database: Schema.Schema<GoogleCloudSecuritycenterV2Database> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  userName: Schema.optional(Schema.String),
-  query: Schema.optional(Schema.String),
-  grantees: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Database" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Database>;
+export const GoogleCloudSecuritycenterV2Database: Schema.Schema<GoogleCloudSecuritycenterV2Database> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      userName: Schema.optional(Schema.String),
+      query: Schema.optional(Schema.String),
+      grantees: Schema.optional(Schema.Array(Schema.String)),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Database",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Database>;
 
 export interface GoogleCloudSecuritycenterV2AttackExposure {
   /** A number between 0 (inclusive) and infinity that represents how important this finding is to remediate. The higher the score, the more important it is to remediate. */
@@ -3853,15 +5767,20 @@ export interface GoogleCloudSecuritycenterV2AttackExposure {
   exposedLowValueResourcesCount?: number;
 }
 
-export const GoogleCloudSecuritycenterV2AttackExposure: Schema.Schema<GoogleCloudSecuritycenterV2AttackExposure> = Schema.suspend(() => Schema.Struct({
-  score: Schema.optional(Schema.Number),
-  latestCalculationTime: Schema.optional(Schema.String),
-  attackExposureResult: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  exposedHighValueResourcesCount: Schema.optional(Schema.Number),
-  exposedMediumValueResourcesCount: Schema.optional(Schema.Number),
-  exposedLowValueResourcesCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AttackExposure" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AttackExposure>;
+export const GoogleCloudSecuritycenterV2AttackExposure: Schema.Schema<GoogleCloudSecuritycenterV2AttackExposure> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      score: Schema.optional(Schema.Number),
+      latestCalculationTime: Schema.optional(Schema.String),
+      attackExposureResult: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      exposedHighValueResourcesCount: Schema.optional(Schema.Number),
+      exposedMediumValueResourcesCount: Schema.optional(Schema.Number),
+      exposedLowValueResourcesCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AttackExposure",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AttackExposure>;
 
 export interface GoogleCloudSecuritycenterV2CloudDlpInspection {
   /** Name of the inspection job, for example, `projects/123/locations/europe/dlpJobs/i-8383929`. */
@@ -3874,21 +5793,37 @@ export interface GoogleCloudSecuritycenterV2CloudDlpInspection {
   fullScan?: boolean;
 }
 
-export const GoogleCloudSecuritycenterV2CloudDlpInspection: Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpInspection> = Schema.suspend(() => Schema.Struct({
-  inspectJob: Schema.optional(Schema.String),
-  infoType: Schema.optional(Schema.String),
-  infoTypeCount: Schema.optional(Schema.String),
-  fullScan: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2CloudDlpInspection" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpInspection>;
+export const GoogleCloudSecuritycenterV2CloudDlpInspection: Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpInspection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inspectJob: Schema.optional(Schema.String),
+      infoType: Schema.optional(Schema.String),
+      infoTypeCount: Schema.optional(Schema.String),
+      fullScan: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2CloudDlpInspection",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpInspection>;
 
 export interface GoogleCloudSecuritycenterV2SensitivityScore {
   /** The sensitivity score applied to the resource. */
-  score?: "SENSITIVITY_SCORE_LEVEL_UNSPECIFIED" | "SENSITIVITY_LOW" | "SENSITIVITY_UNKNOWN" | "SENSITIVITY_MODERATE" | "SENSITIVITY_HIGH" | (string & {});
+  score?:
+    | "SENSITIVITY_SCORE_LEVEL_UNSPECIFIED"
+    | "SENSITIVITY_LOW"
+    | "SENSITIVITY_UNKNOWN"
+    | "SENSITIVITY_MODERATE"
+    | "SENSITIVITY_HIGH"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2SensitivityScore: Schema.Schema<GoogleCloudSecuritycenterV2SensitivityScore> = Schema.suspend(() => Schema.Struct({
-  score: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SensitivityScore" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SensitivityScore>;
+export const GoogleCloudSecuritycenterV2SensitivityScore: Schema.Schema<GoogleCloudSecuritycenterV2SensitivityScore> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      score: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SensitivityScore",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SensitivityScore>;
 
 export interface GoogleCloudSecuritycenterV2InfoType {
   /** Name of the information type. Either a name of your choosing when creating a CustomInfoType, or one of the names listed at https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference when specifying a built-in type. When sending Cloud DLP results to Data Catalog, infoType names should conform to the pattern `[A-Za-z0-9$_-]{1,64}`. */
@@ -3899,26 +5834,44 @@ export interface GoogleCloudSecuritycenterV2InfoType {
   sensitivityScore?: GoogleCloudSecuritycenterV2SensitivityScore;
 }
 
-export const GoogleCloudSecuritycenterV2InfoType: Schema.Schema<GoogleCloudSecuritycenterV2InfoType> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  sensitivityScore: Schema.optional(GoogleCloudSecuritycenterV2SensitivityScore),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2InfoType" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2InfoType>;
+export const GoogleCloudSecuritycenterV2InfoType: Schema.Schema<GoogleCloudSecuritycenterV2InfoType> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      sensitivityScore: Schema.optional(
+        GoogleCloudSecuritycenterV2SensitivityScore,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2InfoType",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2InfoType>;
 
 export interface GoogleCloudSecuritycenterV2CloudDlpDataProfile {
   /** Name of the data profile, for example, `projects/123/locations/europe/tableProfiles/8383929`. */
   dataProfile?: string;
   /** The resource hierarchy level at which the data profile was generated. */
-  parentType?: "PARENT_TYPE_UNSPECIFIED" | "ORGANIZATION" | "PROJECT" | (string & {});
+  parentType?:
+    | "PARENT_TYPE_UNSPECIFIED"
+    | "ORGANIZATION"
+    | "PROJECT"
+    | (string & {});
   /** Type of information detected by SDP. Info type includes name, version and sensitivity of the detected information type. */
   infoTypes?: Array<GoogleCloudSecuritycenterV2InfoType>;
 }
 
-export const GoogleCloudSecuritycenterV2CloudDlpDataProfile: Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpDataProfile> = Schema.suspend(() => Schema.Struct({
-  dataProfile: Schema.optional(Schema.String),
-  parentType: Schema.optional(Schema.String),
-  infoTypes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2InfoType)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2CloudDlpDataProfile" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpDataProfile>;
+export const GoogleCloudSecuritycenterV2CloudDlpDataProfile: Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpDataProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataProfile: Schema.optional(Schema.String),
+      parentType: Schema.optional(Schema.String),
+      infoTypes: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2InfoType),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2CloudDlpDataProfile",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudDlpDataProfile>;
 
 export interface GoogleCloudSecuritycenterV2KernelRootkit {
   /** Rootkit name, when available. */
@@ -3941,44 +5894,65 @@ export interface GoogleCloudSecuritycenterV2KernelRootkit {
   unexpectedProcessesInRunqueue?: boolean;
 }
 
-export const GoogleCloudSecuritycenterV2KernelRootkit: Schema.Schema<GoogleCloudSecuritycenterV2KernelRootkit> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  unexpectedCodeModification: Schema.optional(Schema.Boolean),
-  unexpectedReadOnlyDataModification: Schema.optional(Schema.Boolean),
-  unexpectedFtraceHandler: Schema.optional(Schema.Boolean),
-  unexpectedKprobeHandler: Schema.optional(Schema.Boolean),
-  unexpectedKernelCodePages: Schema.optional(Schema.Boolean),
-  unexpectedSystemCallHandler: Schema.optional(Schema.Boolean),
-  unexpectedInterruptHandler: Schema.optional(Schema.Boolean),
-  unexpectedProcessesInRunqueue: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2KernelRootkit" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2KernelRootkit>;
+export const GoogleCloudSecuritycenterV2KernelRootkit: Schema.Schema<GoogleCloudSecuritycenterV2KernelRootkit> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      unexpectedCodeModification: Schema.optional(Schema.Boolean),
+      unexpectedReadOnlyDataModification: Schema.optional(Schema.Boolean),
+      unexpectedFtraceHandler: Schema.optional(Schema.Boolean),
+      unexpectedKprobeHandler: Schema.optional(Schema.Boolean),
+      unexpectedKernelCodePages: Schema.optional(Schema.Boolean),
+      unexpectedSystemCallHandler: Schema.optional(Schema.Boolean),
+      unexpectedInterruptHandler: Schema.optional(Schema.Boolean),
+      unexpectedProcessesInRunqueue: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2KernelRootkit",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2KernelRootkit>;
 
 export interface GoogleCloudSecuritycenterV2OrgPolicy {
   /** Identifier. The resource name of the org policy. Example: "organizations/{organization_id}/policies/{constraint_name}" */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2OrgPolicy: Schema.Schema<GoogleCloudSecuritycenterV2OrgPolicy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2OrgPolicy" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2OrgPolicy>;
+export const GoogleCloudSecuritycenterV2OrgPolicy: Schema.Schema<GoogleCloudSecuritycenterV2OrgPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2OrgPolicy",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2OrgPolicy>;
 
 export interface GoogleCloudSecuritycenterV2Job {
   /** The fully-qualified name for a job. e.g. `projects//jobs/` */
   name?: string;
   /** Output only. State of the job, such as `RUNNING` or `PENDING`. */
-  state?: "JOB_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
+  state?:
+    | "JOB_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | (string & {});
   /** Optional. If the job did not complete successfully, this field describes why. */
   errorCode?: number;
   /** Optional. Gives the location where the job ran, such as `US` or `europe-west1` */
   location?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Job: Schema.Schema<GoogleCloudSecuritycenterV2Job> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  errorCode: Schema.optional(Schema.Number),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Job" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Job>;
+export const GoogleCloudSecuritycenterV2Job: Schema.Schema<GoogleCloudSecuritycenterV2Job> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      errorCode: Schema.optional(Schema.Number),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Job",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Job>;
 
 export interface GoogleCloudSecuritycenterV2Application {
   /** The base URI that identifies the network location of the application in which the vulnerability was detected. For example, `http://example.com`. */
@@ -3987,10 +5961,15 @@ export interface GoogleCloudSecuritycenterV2Application {
   fullUri?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Application: Schema.Schema<GoogleCloudSecuritycenterV2Application> = Schema.suspend(() => Schema.Struct({
-  baseUri: Schema.optional(Schema.String),
-  fullUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Application" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Application>;
+export const GoogleCloudSecuritycenterV2Application: Schema.Schema<GoogleCloudSecuritycenterV2Application> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      baseUri: Schema.optional(Schema.String),
+      fullUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Application",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Application>;
 
 export interface GoogleCloudSecuritycenterV2PortRange {
   /** Minimum port value. */
@@ -3999,10 +5978,15 @@ export interface GoogleCloudSecuritycenterV2PortRange {
   max?: string;
 }
 
-export const GoogleCloudSecuritycenterV2PortRange: Schema.Schema<GoogleCloudSecuritycenterV2PortRange> = Schema.suspend(() => Schema.Struct({
-  min: Schema.optional(Schema.String),
-  max: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2PortRange" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2PortRange>;
+export const GoogleCloudSecuritycenterV2PortRange: Schema.Schema<GoogleCloudSecuritycenterV2PortRange> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      min: Schema.optional(Schema.String),
+      max: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2PortRange",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2PortRange>;
 
 export interface GoogleCloudSecuritycenterV2IpRule {
   /** The IP protocol this rule applies to. This value can either be one of the following well known protocol strings (TCP, UDP, ICMP, ESP, AH, IPIP, SCTP) or a string representation of the integer value. */
@@ -4011,28 +5995,45 @@ export interface GoogleCloudSecuritycenterV2IpRule {
   portRanges?: Array<GoogleCloudSecuritycenterV2PortRange>;
 }
 
-export const GoogleCloudSecuritycenterV2IpRule: Schema.Schema<GoogleCloudSecuritycenterV2IpRule> = Schema.suspend(() => Schema.Struct({
-  protocol: Schema.optional(Schema.String),
-  portRanges: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2PortRange)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IpRule" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IpRule>;
+export const GoogleCloudSecuritycenterV2IpRule: Schema.Schema<GoogleCloudSecuritycenterV2IpRule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      protocol: Schema.optional(Schema.String),
+      portRanges: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2PortRange),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IpRule",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IpRule>;
 
 export interface GoogleCloudSecuritycenterV2Allowed {
   /** Optional. Optional list of allowed IP rules. */
   ipRules?: Array<GoogleCloudSecuritycenterV2IpRule>;
 }
 
-export const GoogleCloudSecuritycenterV2Allowed: Schema.Schema<GoogleCloudSecuritycenterV2Allowed> = Schema.suspend(() => Schema.Struct({
-  ipRules: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IpRule)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Allowed" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Allowed>;
+export const GoogleCloudSecuritycenterV2Allowed: Schema.Schema<GoogleCloudSecuritycenterV2Allowed> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ipRules: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IpRule)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Allowed",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Allowed>;
 
 export interface GoogleCloudSecuritycenterV2Denied {
   /** Optional. Optional list of denied IP rules. */
   ipRules?: Array<GoogleCloudSecuritycenterV2IpRule>;
 }
 
-export const GoogleCloudSecuritycenterV2Denied: Schema.Schema<GoogleCloudSecuritycenterV2Denied> = Schema.suspend(() => Schema.Struct({
-  ipRules: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IpRule)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Denied" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Denied>;
+export const GoogleCloudSecuritycenterV2Denied: Schema.Schema<GoogleCloudSecuritycenterV2Denied> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ipRules: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IpRule)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Denied",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Denied>;
 
 export interface GoogleCloudSecuritycenterV2IpRules {
   /** The direction that the rule is applicable to, one of ingress or egress. */
@@ -4049,14 +6050,19 @@ export interface GoogleCloudSecuritycenterV2IpRules {
   exposedServices?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2IpRules: Schema.Schema<GoogleCloudSecuritycenterV2IpRules> = Schema.suspend(() => Schema.Struct({
-  direction: Schema.optional(Schema.String),
-  allowed: Schema.optional(GoogleCloudSecuritycenterV2Allowed),
-  denied: Schema.optional(GoogleCloudSecuritycenterV2Denied),
-  sourceIpRanges: Schema.optional(Schema.Array(Schema.String)),
-  destinationIpRanges: Schema.optional(Schema.Array(Schema.String)),
-  exposedServices: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IpRules" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IpRules>;
+export const GoogleCloudSecuritycenterV2IpRules: Schema.Schema<GoogleCloudSecuritycenterV2IpRules> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      direction: Schema.optional(Schema.String),
+      allowed: Schema.optional(GoogleCloudSecuritycenterV2Allowed),
+      denied: Schema.optional(GoogleCloudSecuritycenterV2Denied),
+      sourceIpRanges: Schema.optional(Schema.Array(Schema.String)),
+      destinationIpRanges: Schema.optional(Schema.Array(Schema.String)),
+      exposedServices: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IpRules",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IpRules>;
 
 export interface GoogleCloudSecuritycenterV2BackupDisasterRecovery {
   /** The name of a Backup and DR template which comprises one or more backup policies. See the [Backup and DR documentation](https://cloud.google.com/backup-disaster-recovery/docs/concepts/backup-plan#temp) for more information. For example, `snap-ov`. */
@@ -4081,18 +6087,23 @@ export interface GoogleCloudSecuritycenterV2BackupDisasterRecovery {
   backupCreateTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2BackupDisasterRecovery: Schema.Schema<GoogleCloudSecuritycenterV2BackupDisasterRecovery> = Schema.suspend(() => Schema.Struct({
-  backupTemplate: Schema.optional(Schema.String),
-  policies: Schema.optional(Schema.Array(Schema.String)),
-  host: Schema.optional(Schema.String),
-  applications: Schema.optional(Schema.Array(Schema.String)),
-  storagePool: Schema.optional(Schema.String),
-  policyOptions: Schema.optional(Schema.Array(Schema.String)),
-  profile: Schema.optional(Schema.String),
-  appliance: Schema.optional(Schema.String),
-  backupType: Schema.optional(Schema.String),
-  backupCreateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2BackupDisasterRecovery" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2BackupDisasterRecovery>;
+export const GoogleCloudSecuritycenterV2BackupDisasterRecovery: Schema.Schema<GoogleCloudSecuritycenterV2BackupDisasterRecovery> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backupTemplate: Schema.optional(Schema.String),
+      policies: Schema.optional(Schema.Array(Schema.String)),
+      host: Schema.optional(Schema.String),
+      applications: Schema.optional(Schema.Array(Schema.String)),
+      storagePool: Schema.optional(Schema.String),
+      policyOptions: Schema.optional(Schema.Array(Schema.String)),
+      profile: Schema.optional(Schema.String),
+      appliance: Schema.optional(Schema.String),
+      backupType: Schema.optional(Schema.String),
+      backupCreateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2BackupDisasterRecovery",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2BackupDisasterRecovery>;
 
 export interface GoogleCloudSecuritycenterV2PolicyDriftDetails {
   /** The name of the updated field, for example constraint.implementation.policy_rules[0].enforce */
@@ -4103,11 +6114,16 @@ export interface GoogleCloudSecuritycenterV2PolicyDriftDetails {
   detectedValue?: string;
 }
 
-export const GoogleCloudSecuritycenterV2PolicyDriftDetails: Schema.Schema<GoogleCloudSecuritycenterV2PolicyDriftDetails> = Schema.suspend(() => Schema.Struct({
-  field: Schema.optional(Schema.String),
-  expectedValue: Schema.optional(Schema.String),
-  detectedValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2PolicyDriftDetails" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2PolicyDriftDetails>;
+export const GoogleCloudSecuritycenterV2PolicyDriftDetails: Schema.Schema<GoogleCloudSecuritycenterV2PolicyDriftDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      field: Schema.optional(Schema.String),
+      expectedValue: Schema.optional(Schema.String),
+      detectedValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2PolicyDriftDetails",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2PolicyDriftDetails>;
 
 export interface GoogleCloudSecuritycenterV2SecurityPosture {
   /** Name of the posture, for example, `CIS-Posture`. */
@@ -4128,16 +6144,23 @@ export interface GoogleCloudSecuritycenterV2SecurityPosture {
   policyDriftDetails?: Array<GoogleCloudSecuritycenterV2PolicyDriftDetails>;
 }
 
-export const GoogleCloudSecuritycenterV2SecurityPosture: Schema.Schema<GoogleCloudSecuritycenterV2SecurityPosture> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  revisionId: Schema.optional(Schema.String),
-  postureDeploymentResource: Schema.optional(Schema.String),
-  postureDeployment: Schema.optional(Schema.String),
-  changedPolicy: Schema.optional(Schema.String),
-  policySet: Schema.optional(Schema.String),
-  policy: Schema.optional(Schema.String),
-  policyDriftDetails: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2PolicyDriftDetails)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SecurityPosture" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityPosture>;
+export const GoogleCloudSecuritycenterV2SecurityPosture: Schema.Schema<GoogleCloudSecuritycenterV2SecurityPosture> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      revisionId: Schema.optional(Schema.String),
+      postureDeploymentResource: Schema.optional(Schema.String),
+      postureDeployment: Schema.optional(Schema.String),
+      changedPolicy: Schema.optional(Schema.String),
+      policySet: Schema.optional(Schema.String),
+      policy: Schema.optional(Schema.String),
+      policyDriftDetails: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2PolicyDriftDetails),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SecurityPosture",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityPosture>;
 
 export interface GoogleCloudSecuritycenterV2CloudLoggingEntry {
   /** A unique identifier for the log entry. */
@@ -4150,30 +6173,47 @@ export interface GoogleCloudSecuritycenterV2CloudLoggingEntry {
   timestamp?: string;
 }
 
-export const GoogleCloudSecuritycenterV2CloudLoggingEntry: Schema.Schema<GoogleCloudSecuritycenterV2CloudLoggingEntry> = Schema.suspend(() => Schema.Struct({
-  insertId: Schema.optional(Schema.String),
-  logId: Schema.optional(Schema.String),
-  resourceContainer: Schema.optional(Schema.String),
-  timestamp: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2CloudLoggingEntry" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudLoggingEntry>;
+export const GoogleCloudSecuritycenterV2CloudLoggingEntry: Schema.Schema<GoogleCloudSecuritycenterV2CloudLoggingEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      insertId: Schema.optional(Schema.String),
+      logId: Schema.optional(Schema.String),
+      resourceContainer: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2CloudLoggingEntry",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudLoggingEntry>;
 
 export interface GoogleCloudSecuritycenterV2LogEntry {
   /** An individual entry in a log stored in Cloud Logging. */
   cloudLoggingEntry?: GoogleCloudSecuritycenterV2CloudLoggingEntry;
 }
 
-export const GoogleCloudSecuritycenterV2LogEntry: Schema.Schema<GoogleCloudSecuritycenterV2LogEntry> = Schema.suspend(() => Schema.Struct({
-  cloudLoggingEntry: Schema.optional(GoogleCloudSecuritycenterV2CloudLoggingEntry),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2LogEntry" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2LogEntry>;
+export const GoogleCloudSecuritycenterV2LogEntry: Schema.Schema<GoogleCloudSecuritycenterV2LogEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudLoggingEntry: Schema.optional(
+        GoogleCloudSecuritycenterV2CloudLoggingEntry,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2LogEntry",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2LogEntry>;
 
 export interface GoogleCloudSecuritycenterV2LoadBalancer {
   /** The name of the load balancer associated with the finding. */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2LoadBalancer: Schema.Schema<GoogleCloudSecuritycenterV2LoadBalancer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2LoadBalancer" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2LoadBalancer>;
+export const GoogleCloudSecuritycenterV2LoadBalancer: Schema.Schema<GoogleCloudSecuritycenterV2LoadBalancer> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2LoadBalancer",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2LoadBalancer>;
 
 export interface GoogleCloudSecuritycenterV2SecurityPolicy {
   /** The name of the Google Cloud Armor security policy, for example, "my-security-policy". */
@@ -4184,11 +6224,16 @@ export interface GoogleCloudSecuritycenterV2SecurityPolicy {
   preview?: boolean;
 }
 
-export const GoogleCloudSecuritycenterV2SecurityPolicy: Schema.Schema<GoogleCloudSecuritycenterV2SecurityPolicy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  preview: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SecurityPolicy" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityPolicy>;
+export const GoogleCloudSecuritycenterV2SecurityPolicy: Schema.Schema<GoogleCloudSecuritycenterV2SecurityPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      preview: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SecurityPolicy",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecurityPolicy>;
 
 export interface GoogleCloudSecuritycenterV2Requests {
   /** For 'Increasing deny ratio', the ratio is the denied traffic divided by the allowed traffic. For 'Allowed traffic spike', the ratio is the allowed traffic in the short term divided by allowed traffic in the long term. */
@@ -4201,21 +6246,31 @@ export interface GoogleCloudSecuritycenterV2Requests {
   longTermDenied?: number;
 }
 
-export const GoogleCloudSecuritycenterV2Requests: Schema.Schema<GoogleCloudSecuritycenterV2Requests> = Schema.suspend(() => Schema.Struct({
-  ratio: Schema.optional(Schema.Number),
-  shortTermAllowed: Schema.optional(Schema.Number),
-  longTermAllowed: Schema.optional(Schema.Number),
-  longTermDenied: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Requests" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Requests>;
+export const GoogleCloudSecuritycenterV2Requests: Schema.Schema<GoogleCloudSecuritycenterV2Requests> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ratio: Schema.optional(Schema.Number),
+      shortTermAllowed: Schema.optional(Schema.Number),
+      longTermAllowed: Schema.optional(Schema.Number),
+      longTermDenied: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Requests",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Requests>;
 
 export interface GoogleCloudSecuritycenterV2AdaptiveProtection {
   /** A score of 0 means that there is low confidence that the detected event is an actual attack. A score of 1 means that there is high confidence that the detected event is an attack. See the [Adaptive Protection documentation](https://cloud.google.com/armor/docs/adaptive-protection-overview#configure-alert-tuning) for further explanation. */
   confidence?: number;
 }
 
-export const GoogleCloudSecuritycenterV2AdaptiveProtection: Schema.Schema<GoogleCloudSecuritycenterV2AdaptiveProtection> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AdaptiveProtection" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdaptiveProtection>;
+export const GoogleCloudSecuritycenterV2AdaptiveProtection: Schema.Schema<GoogleCloudSecuritycenterV2AdaptiveProtection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AdaptiveProtection",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdaptiveProtection>;
 
 export interface GoogleCloudSecuritycenterV2Attack {
   /** Total PPS (packets per second) volume of attack. */
@@ -4230,13 +6285,18 @@ export interface GoogleCloudSecuritycenterV2Attack {
   volumeBps?: number;
 }
 
-export const GoogleCloudSecuritycenterV2Attack: Schema.Schema<GoogleCloudSecuritycenterV2Attack> = Schema.suspend(() => Schema.Struct({
-  volumePpsLong: Schema.optional(Schema.String),
-  volumeBpsLong: Schema.optional(Schema.String),
-  classification: Schema.optional(Schema.String),
-  volumePps: Schema.optional(Schema.Number),
-  volumeBps: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Attack" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Attack>;
+export const GoogleCloudSecuritycenterV2Attack: Schema.Schema<GoogleCloudSecuritycenterV2Attack> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      volumePpsLong: Schema.optional(Schema.String),
+      volumeBpsLong: Schema.optional(Schema.String),
+      classification: Schema.optional(Schema.String),
+      volumePps: Schema.optional(Schema.Number),
+      volumeBps: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Attack",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Attack>;
 
 export interface GoogleCloudSecuritycenterV2CloudArmor {
   /** Information about the [Google Cloud Armor security policy](https://cloud.google.com/armor/docs/security-policy-overview) relevant to the finding. */
@@ -4253,14 +6313,23 @@ export interface GoogleCloudSecuritycenterV2CloudArmor {
   duration?: string;
 }
 
-export const GoogleCloudSecuritycenterV2CloudArmor: Schema.Schema<GoogleCloudSecuritycenterV2CloudArmor> = Schema.suspend(() => Schema.Struct({
-  securityPolicy: Schema.optional(GoogleCloudSecuritycenterV2SecurityPolicy),
-  requests: Schema.optional(GoogleCloudSecuritycenterV2Requests),
-  adaptiveProtection: Schema.optional(GoogleCloudSecuritycenterV2AdaptiveProtection),
-  attack: Schema.optional(GoogleCloudSecuritycenterV2Attack),
-  threatVector: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2CloudArmor" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudArmor>;
+export const GoogleCloudSecuritycenterV2CloudArmor: Schema.Schema<GoogleCloudSecuritycenterV2CloudArmor> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      securityPolicy: Schema.optional(
+        GoogleCloudSecuritycenterV2SecurityPolicy,
+      ),
+      requests: Schema.optional(GoogleCloudSecuritycenterV2Requests),
+      adaptiveProtection: Schema.optional(
+        GoogleCloudSecuritycenterV2AdaptiveProtection,
+      ),
+      attack: Schema.optional(GoogleCloudSecuritycenterV2Attack),
+      threatVector: Schema.optional(Schema.String),
+      duration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2CloudArmor",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudArmor>;
 
 export interface GoogleCloudSecuritycenterV2Notebook {
   /** The name of the notebook. */
@@ -4273,12 +6342,17 @@ export interface GoogleCloudSecuritycenterV2Notebook {
   notebookUpdateTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Notebook: Schema.Schema<GoogleCloudSecuritycenterV2Notebook> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  service: Schema.optional(Schema.String),
-  lastAuthor: Schema.optional(Schema.String),
-  notebookUpdateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Notebook" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Notebook>;
+export const GoogleCloudSecuritycenterV2Notebook: Schema.Schema<GoogleCloudSecuritycenterV2Notebook> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+      lastAuthor: Schema.optional(Schema.String),
+      notebookUpdateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Notebook",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Notebook>;
 
 export interface GoogleCloudSecuritycenterV2ToxicCombination {
   /** The [Attack exposure score](https://cloud.google.com/security-command-center/docs/attack-exposure-learn#attack_exposure_scores) of this toxic combination. The score is a measure of how much this toxic combination exposes one or more high-value resources to potential attack. */
@@ -4287,31 +6361,50 @@ export interface GoogleCloudSecuritycenterV2ToxicCombination {
   relatedFindings?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2ToxicCombination: Schema.Schema<GoogleCloudSecuritycenterV2ToxicCombination> = Schema.suspend(() => Schema.Struct({
-  attackExposureScore: Schema.optional(Schema.Number),
-  relatedFindings: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ToxicCombination" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ToxicCombination>;
+export const GoogleCloudSecuritycenterV2ToxicCombination: Schema.Schema<GoogleCloudSecuritycenterV2ToxicCombination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attackExposureScore: Schema.optional(Schema.Number),
+      relatedFindings: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ToxicCombination",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ToxicCombination>;
 
 export interface GoogleCloudSecuritycenterV2GroupMembership {
   /** Type of group. */
-  groupType?: "GROUP_TYPE_UNSPECIFIED" | "GROUP_TYPE_TOXIC_COMBINATION" | "GROUP_TYPE_CHOKEPOINT" | (string & {});
+  groupType?:
+    | "GROUP_TYPE_UNSPECIFIED"
+    | "GROUP_TYPE_TOXIC_COMBINATION"
+    | "GROUP_TYPE_CHOKEPOINT"
+    | (string & {});
   /** ID of the group. */
   groupId?: string;
 }
 
-export const GoogleCloudSecuritycenterV2GroupMembership: Schema.Schema<GoogleCloudSecuritycenterV2GroupMembership> = Schema.suspend(() => Schema.Struct({
-  groupType: Schema.optional(Schema.String),
-  groupId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2GroupMembership" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2GroupMembership>;
+export const GoogleCloudSecuritycenterV2GroupMembership: Schema.Schema<GoogleCloudSecuritycenterV2GroupMembership> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      groupType: Schema.optional(Schema.String),
+      groupId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2GroupMembership",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2GroupMembership>;
 
 export interface GoogleCloudSecuritycenterV2Disk {
   /** The name of the disk, for example, "https://www.googleapis.com/compute/v1/projects/{project-id}/zones/{zone-id}/disks/{disk-id}". */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Disk: Schema.Schema<GoogleCloudSecuritycenterV2Disk> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Disk" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Disk>;
+export const GoogleCloudSecuritycenterV2Disk: Schema.Schema<GoogleCloudSecuritycenterV2Disk> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Disk",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Disk>;
 
 export interface GoogleCloudSecuritycenterV2DataAccessEvent {
   /** Unique identifier for data access event. */
@@ -4319,17 +6412,27 @@ export interface GoogleCloudSecuritycenterV2DataAccessEvent {
   /** The email address of the principal that accessed the data. The principal could be a user account, service account, Google group, or other. */
   principalEmail?: string;
   /** The operation performed by the principal to access the data. */
-  operation?: "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY" | (string & {});
+  operation?:
+    | "OPERATION_UNSPECIFIED"
+    | "READ"
+    | "MOVE"
+    | "COPY"
+    | (string & {});
   /** Timestamp of data access event. */
   eventTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2DataAccessEvent: Schema.Schema<GoogleCloudSecuritycenterV2DataAccessEvent> = Schema.suspend(() => Schema.Struct({
-  eventId: Schema.optional(Schema.String),
-  principalEmail: Schema.optional(Schema.String),
-  operation: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2DataAccessEvent" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DataAccessEvent>;
+export const GoogleCloudSecuritycenterV2DataAccessEvent: Schema.Schema<GoogleCloudSecuritycenterV2DataAccessEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      eventId: Schema.optional(Schema.String),
+      principalEmail: Schema.optional(Schema.String),
+      operation: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2DataAccessEvent",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DataAccessEvent>;
 
 export interface GoogleCloudSecuritycenterV2DataFlowEvent {
   /** Unique identifier for data flow event. */
@@ -4337,29 +6440,44 @@ export interface GoogleCloudSecuritycenterV2DataFlowEvent {
   /** The email address of the principal that initiated the data flow event. The principal could be a user account, service account, Google group, or other. */
   principalEmail?: string;
   /** The operation performed by the principal for the data flow event. */
-  operation?: "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY" | (string & {});
+  operation?:
+    | "OPERATION_UNSPECIFIED"
+    | "READ"
+    | "MOVE"
+    | "COPY"
+    | (string & {});
   /** Non-compliant location of the principal or the data destination. */
   violatedLocation?: string;
   /** Timestamp of data flow event. */
   eventTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2DataFlowEvent: Schema.Schema<GoogleCloudSecuritycenterV2DataFlowEvent> = Schema.suspend(() => Schema.Struct({
-  eventId: Schema.optional(Schema.String),
-  principalEmail: Schema.optional(Schema.String),
-  operation: Schema.optional(Schema.String),
-  violatedLocation: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2DataFlowEvent" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DataFlowEvent>;
+export const GoogleCloudSecuritycenterV2DataFlowEvent: Schema.Schema<GoogleCloudSecuritycenterV2DataFlowEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      eventId: Schema.optional(Schema.String),
+      principalEmail: Schema.optional(Schema.String),
+      operation: Schema.optional(Schema.String),
+      violatedLocation: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2DataFlowEvent",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DataFlowEvent>;
 
 export interface GoogleCloudSecuritycenterV2Network {
   /** The name of the VPC network resource, for example, `//compute.googleapis.com/projects/my-project/global/networks/my-network`. */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Network: Schema.Schema<GoogleCloudSecuritycenterV2Network> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Network" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Network>;
+export const GoogleCloudSecuritycenterV2Network: Schema.Schema<GoogleCloudSecuritycenterV2Network> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Network",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Network>;
 
 export interface GoogleCloudSecuritycenterV2DataRetentionDeletionEvent {
   /** Timestamp indicating when the event was detected. */
@@ -4371,25 +6489,41 @@ export interface GoogleCloudSecuritycenterV2DataRetentionDeletionEvent {
   /** Min duration of retention allowed from the DSPM retention control. This field is only populated when event type is set to EVENT_TYPE_MIN_TTL_FROM_CREATION. */
   minRetentionAllowed?: string;
   /** Type of the DRD event. */
-  eventType?: "EVENT_TYPE_UNSPECIFIED" | "EVENT_TYPE_MAX_TTL_EXCEEDED" | "EVENT_TYPE_MAX_TTL_FROM_CREATION" | "EVENT_TYPE_MAX_TTL_FROM_LAST_MODIFICATION" | "EVENT_TYPE_MIN_TTL_FROM_CREATION" | (string & {});
+  eventType?:
+    | "EVENT_TYPE_UNSPECIFIED"
+    | "EVENT_TYPE_MAX_TTL_EXCEEDED"
+    | "EVENT_TYPE_MAX_TTL_FROM_CREATION"
+    | "EVENT_TYPE_MAX_TTL_FROM_LAST_MODIFICATION"
+    | "EVENT_TYPE_MIN_TTL_FROM_CREATION"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2DataRetentionDeletionEvent: Schema.Schema<GoogleCloudSecuritycenterV2DataRetentionDeletionEvent> = Schema.suspend(() => Schema.Struct({
-  eventDetectionTime: Schema.optional(Schema.String),
-  dataObjectCount: Schema.optional(Schema.String),
-  maxRetentionAllowed: Schema.optional(Schema.String),
-  minRetentionAllowed: Schema.optional(Schema.String),
-  eventType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2DataRetentionDeletionEvent" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DataRetentionDeletionEvent>;
+export const GoogleCloudSecuritycenterV2DataRetentionDeletionEvent: Schema.Schema<GoogleCloudSecuritycenterV2DataRetentionDeletionEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      eventDetectionTime: Schema.optional(Schema.String),
+      dataObjectCount: Schema.optional(Schema.String),
+      maxRetentionAllowed: Schema.optional(Schema.String),
+      minRetentionAllowed: Schema.optional(Schema.String),
+      eventType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2DataRetentionDeletionEvent",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2DataRetentionDeletionEvent>;
 
 export interface GoogleCloudSecuritycenterV2AffectedResources {
   /** The count of resources affected by the finding. */
   count?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AffectedResources: Schema.Schema<GoogleCloudSecuritycenterV2AffectedResources> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AffectedResources" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AffectedResources>;
+export const GoogleCloudSecuritycenterV2AffectedResources: Schema.Schema<GoogleCloudSecuritycenterV2AffectedResources> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      count: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AffectedResources",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AffectedResources>;
 
 export interface GoogleCloudSecuritycenterV2AiModel {
   /** The name of the AI model, for example, "gemini:1.0.0". */
@@ -4403,32 +6537,48 @@ export interface GoogleCloudSecuritycenterV2AiModel {
   /** The publisher of the model, for example, “google” or “nvidia”. */
   publisher?: string;
   /** The platform on which the model is deployed. */
-  deploymentPlatform?: "DEPLOYMENT_PLATFORM_UNSPECIFIED" | "VERTEX_AI" | "GKE" | "GCE" | "FINE_TUNED_MODEL" | (string & {});
+  deploymentPlatform?:
+    | "DEPLOYMENT_PLATFORM_UNSPECIFIED"
+    | "VERTEX_AI"
+    | "GKE"
+    | "GCE"
+    | "FINE_TUNED_MODEL"
+    | (string & {});
   /** The user defined display name of model. Ex. baseline-classification-model */
   displayName?: string;
   /** The purpose of the model, for example, "Inteference" or "Training". */
   usageCategory?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AiModel: Schema.Schema<GoogleCloudSecuritycenterV2AiModel> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-  library: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  publisher: Schema.optional(Schema.String),
-  deploymentPlatform: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  usageCategory: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AiModel" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AiModel>;
+export const GoogleCloudSecuritycenterV2AiModel: Schema.Schema<GoogleCloudSecuritycenterV2AiModel> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+      library: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      publisher: Schema.optional(Schema.String),
+      deploymentPlatform: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      usageCategory: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AiModel",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AiModel>;
 
 export interface GoogleCloudSecuritycenterV2Chokepoint {
   /** List of resource names of findings associated with this chokepoint. For example, organizations/123/sources/456/findings/789. This list will have at most 100 findings. */
   relatedFindings?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2Chokepoint: Schema.Schema<GoogleCloudSecuritycenterV2Chokepoint> = Schema.suspend(() => Schema.Struct({
-  relatedFindings: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Chokepoint" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Chokepoint>;
+export const GoogleCloudSecuritycenterV2Chokepoint: Schema.Schema<GoogleCloudSecuritycenterV2Chokepoint> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      relatedFindings: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Chokepoint",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Chokepoint>;
 
 export interface GoogleCloudSecuritycenterV2Control {
   /** Name of the Control */
@@ -4437,10 +6587,15 @@ export interface GoogleCloudSecuritycenterV2Control {
   displayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Control: Schema.Schema<GoogleCloudSecuritycenterV2Control> = Schema.suspend(() => Schema.Struct({
-  controlName: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Control" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Control>;
+export const GoogleCloudSecuritycenterV2Control: Schema.Schema<GoogleCloudSecuritycenterV2Control> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      controlName: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Control",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Control>;
 
 export interface GoogleCloudSecuritycenterV2Framework {
   /** Name of the framework associated with the finding */
@@ -4448,38 +6603,66 @@ export interface GoogleCloudSecuritycenterV2Framework {
   /** Display name of the framework. For a standard framework, this will look like e.g. PCI DSS 3.2.1, whereas for a custom framework it can be a user defined string like MyFramework */
   displayName?: string;
   /** Category of the framework associated with the finding. E.g. Security Benchmark, or Assured Workloads */
-  category?: Array<"FRAMEWORK_CATEGORY_UNSPECIFIED" | "SECURITY_BENCHMARKS" | "ASSURED_WORKLOADS" | "DATA_SECURITY" | "GOOGLE_BEST_PRACTICES" | "CUSTOM_FRAMEWORK" | (string & {})>;
+  category?: Array<
+    | "FRAMEWORK_CATEGORY_UNSPECIFIED"
+    | "SECURITY_BENCHMARKS"
+    | "ASSURED_WORKLOADS"
+    | "DATA_SECURITY"
+    | "GOOGLE_BEST_PRACTICES"
+    | "CUSTOM_FRAMEWORK"
+    | (string & {})
+  >;
   /** Type of the framework associated with the finding, to specify whether the framework is built-in (pre-defined and immutable) or a custom framework defined by the customer (equivalent to security posture) */
-  type?: "FRAMEWORK_TYPE_UNSPECIFIED" | "FRAMEWORK_TYPE_BUILT_IN" | "FRAMEWORK_TYPE_CUSTOM" | (string & {});
+  type?:
+    | "FRAMEWORK_TYPE_UNSPECIFIED"
+    | "FRAMEWORK_TYPE_BUILT_IN"
+    | "FRAMEWORK_TYPE_CUSTOM"
+    | (string & {});
   /** The controls associated with the framework. */
   controls?: Array<GoogleCloudSecuritycenterV2Control>;
 }
 
-export const GoogleCloudSecuritycenterV2Framework: Schema.Schema<GoogleCloudSecuritycenterV2Framework> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.Array(Schema.String)),
-  type: Schema.optional(Schema.String),
-  controls: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Control)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Framework" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Framework>;
+export const GoogleCloudSecuritycenterV2Framework: Schema.Schema<GoogleCloudSecuritycenterV2Framework> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      category: Schema.optional(Schema.Array(Schema.String)),
+      type: Schema.optional(Schema.String),
+      controls: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Control),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Framework",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Framework>;
 
 export interface GoogleCloudSecuritycenterV2CloudControl {
   /** Name of the CloudControl associated with the finding. */
   cloudControlName?: string;
   /** Type of cloud control. */
-  type?: "CLOUD_CONTROL_TYPE_UNSPECIFIED" | "BUILT_IN" | "CUSTOM" | (string & {});
+  type?:
+    | "CLOUD_CONTROL_TYPE_UNSPECIFIED"
+    | "BUILT_IN"
+    | "CUSTOM"
+    | (string & {});
   /** Policy type of the CloudControl */
   policyType?: string;
   /** Version of the Cloud Control */
   version?: number;
 }
 
-export const GoogleCloudSecuritycenterV2CloudControl: Schema.Schema<GoogleCloudSecuritycenterV2CloudControl> = Schema.suspend(() => Schema.Struct({
-  cloudControlName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  policyType: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2CloudControl" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudControl>;
+export const GoogleCloudSecuritycenterV2CloudControl: Schema.Schema<GoogleCloudSecuritycenterV2CloudControl> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudControlName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      policyType: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2CloudControl",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2CloudControl>;
 
 export interface GoogleCloudSecuritycenterV2ComplianceDetails {
   /** Details of Frameworks associated with the finding */
@@ -4490,11 +6673,18 @@ export interface GoogleCloudSecuritycenterV2ComplianceDetails {
   cloudControlDeploymentNames?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2ComplianceDetails: Schema.Schema<GoogleCloudSecuritycenterV2ComplianceDetails> = Schema.suspend(() => Schema.Struct({
-  frameworks: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Framework)),
-  cloudControl: Schema.optional(GoogleCloudSecuritycenterV2CloudControl),
-  cloudControlDeploymentNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ComplianceDetails" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ComplianceDetails>;
+export const GoogleCloudSecuritycenterV2ComplianceDetails: Schema.Schema<GoogleCloudSecuritycenterV2ComplianceDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frameworks: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Framework),
+      ),
+      cloudControl: Schema.optional(GoogleCloudSecuritycenterV2CloudControl),
+      cloudControlDeploymentNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ComplianceDetails",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ComplianceDetails>;
 
 export interface GoogleCloudSecuritycenterV2Dataset {
   /** Resource name of the dataset, e.g. projects/{project}/locations/{location}/datasets/2094040236064505856 */
@@ -4505,11 +6695,16 @@ export interface GoogleCloudSecuritycenterV2Dataset {
   source?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Dataset: Schema.Schema<GoogleCloudSecuritycenterV2Dataset> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Dataset" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Dataset>;
+export const GoogleCloudSecuritycenterV2Dataset: Schema.Schema<GoogleCloudSecuritycenterV2Dataset> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      source: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Dataset",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Dataset>;
 
 export interface GoogleCloudSecuritycenterV2Pipeline {
   /** Resource name of the pipeline, e.g. projects/{project}/locations/{location}/trainingPipelines/5253428229225578496 */
@@ -4518,10 +6713,15 @@ export interface GoogleCloudSecuritycenterV2Pipeline {
   displayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Pipeline: Schema.Schema<GoogleCloudSecuritycenterV2Pipeline> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Pipeline" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Pipeline>;
+export const GoogleCloudSecuritycenterV2Pipeline: Schema.Schema<GoogleCloudSecuritycenterV2Pipeline> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Pipeline",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Pipeline>;
 
 export interface GoogleCloudSecuritycenterV2VertexAi {
   /** Datasets associated with the finding. */
@@ -4530,25 +6730,42 @@ export interface GoogleCloudSecuritycenterV2VertexAi {
   pipelines?: Array<GoogleCloudSecuritycenterV2Pipeline>;
 }
 
-export const GoogleCloudSecuritycenterV2VertexAi: Schema.Schema<GoogleCloudSecuritycenterV2VertexAi> = Schema.suspend(() => Schema.Struct({
-  datasets: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Dataset)),
-  pipelines: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Pipeline)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2VertexAi" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2VertexAi>;
+export const GoogleCloudSecuritycenterV2VertexAi: Schema.Schema<GoogleCloudSecuritycenterV2VertexAi> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datasets: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Dataset),
+      ),
+      pipelines: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Pipeline),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2VertexAi",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2VertexAi>;
 
 export interface GoogleCloudSecuritycenterV2ArtifactGuardPolicy {
   /** The type of the policy evaluation. */
-  type?: "ARTIFACT_GUARD_POLICY_TYPE_UNSPECIFIED" | "VULNERABILITY" | (string & {});
+  type?:
+    | "ARTIFACT_GUARD_POLICY_TYPE_UNSPECIFIED"
+    | "VULNERABILITY"
+    | (string & {});
   /** The ID of the failing policy, for example, "organizations/3392779/locations/global/policies/prod-policy". */
   policyId?: string;
   /** The reason for the policy failure, for example, "severity=HIGH AND max_vuln_count=2". */
   failureReason?: string;
 }
 
-export const GoogleCloudSecuritycenterV2ArtifactGuardPolicy: Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicy> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  policyId: Schema.optional(Schema.String),
-  failureReason: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ArtifactGuardPolicy" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicy>;
+export const GoogleCloudSecuritycenterV2ArtifactGuardPolicy: Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      policyId: Schema.optional(Schema.String),
+      failureReason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ArtifactGuardPolicy",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicy>;
 
 export interface GoogleCloudSecuritycenterV2ArtifactGuardPolicies {
   /** The ID of the resource that has policies configured for it. */
@@ -4557,40 +6774,68 @@ export interface GoogleCloudSecuritycenterV2ArtifactGuardPolicies {
   failingPolicies?: Array<GoogleCloudSecuritycenterV2ArtifactGuardPolicy>;
 }
 
-export const GoogleCloudSecuritycenterV2ArtifactGuardPolicies: Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicies> = Schema.suspend(() => Schema.Struct({
-  resourceId: Schema.optional(Schema.String),
-  failingPolicies: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ArtifactGuardPolicy)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ArtifactGuardPolicies" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicies>;
+export const GoogleCloudSecuritycenterV2ArtifactGuardPolicies: Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicies> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceId: Schema.optional(Schema.String),
+      failingPolicies: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2ArtifactGuardPolicy),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ArtifactGuardPolicies",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ArtifactGuardPolicies>;
 
 export interface GoogleCloudSecuritycenterV2SecretStatus {
   /** Time that the secret was found. */
   lastUpdatedTime?: string;
   /** The validity of the secret. */
-  validity?: "SECRET_VALIDITY_UNSPECIFIED" | "SECRET_VALIDITY_UNSUPPORTED" | "SECRET_VALIDITY_FAILED" | "SECRET_VALIDITY_INVALID" | "SECRET_VALIDITY_VALID" | (string & {});
+  validity?:
+    | "SECRET_VALIDITY_UNSPECIFIED"
+    | "SECRET_VALIDITY_UNSUPPORTED"
+    | "SECRET_VALIDITY_FAILED"
+    | "SECRET_VALIDITY_INVALID"
+    | "SECRET_VALIDITY_VALID"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2SecretStatus: Schema.Schema<GoogleCloudSecuritycenterV2SecretStatus> = Schema.suspend(() => Schema.Struct({
-  lastUpdatedTime: Schema.optional(Schema.String),
-  validity: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SecretStatus" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecretStatus>;
+export const GoogleCloudSecuritycenterV2SecretStatus: Schema.Schema<GoogleCloudSecuritycenterV2SecretStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lastUpdatedTime: Schema.optional(Schema.String),
+      validity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SecretStatus",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecretStatus>;
 
 export interface GoogleCloudSecuritycenterV2SecretEnvironmentVariable {
   /** Environment variable name as a JSON encoded string. Note that value is not included since the value contains the secret data, which is sensitive core content. */
   key?: string;
 }
 
-export const GoogleCloudSecuritycenterV2SecretEnvironmentVariable: Schema.Schema<GoogleCloudSecuritycenterV2SecretEnvironmentVariable> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SecretEnvironmentVariable" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecretEnvironmentVariable>;
+export const GoogleCloudSecuritycenterV2SecretEnvironmentVariable: Schema.Schema<GoogleCloudSecuritycenterV2SecretEnvironmentVariable> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SecretEnvironmentVariable",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecretEnvironmentVariable>;
 
 export interface GoogleCloudSecuritycenterV2SecretFilePath {
   /** Path to the file. */
   path?: string;
 }
 
-export const GoogleCloudSecuritycenterV2SecretFilePath: Schema.Schema<GoogleCloudSecuritycenterV2SecretFilePath> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SecretFilePath" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecretFilePath>;
+export const GoogleCloudSecuritycenterV2SecretFilePath: Schema.Schema<GoogleCloudSecuritycenterV2SecretFilePath> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SecretFilePath",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SecretFilePath>;
 
 export interface GoogleCloudSecuritycenterV2Secret {
   /** The type of secret, for example, GCP_API_KEY. */
@@ -4603,12 +6848,19 @@ export interface GoogleCloudSecuritycenterV2Secret {
   filePath?: GoogleCloudSecuritycenterV2SecretFilePath;
 }
 
-export const GoogleCloudSecuritycenterV2Secret: Schema.Schema<GoogleCloudSecuritycenterV2Secret> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  status: Schema.optional(GoogleCloudSecuritycenterV2SecretStatus),
-  environmentVariable: Schema.optional(GoogleCloudSecuritycenterV2SecretEnvironmentVariable),
-  filePath: Schema.optional(GoogleCloudSecuritycenterV2SecretFilePath),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Secret" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Secret>;
+export const GoogleCloudSecuritycenterV2Secret: Schema.Schema<GoogleCloudSecuritycenterV2Secret> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      status: Schema.optional(GoogleCloudSecuritycenterV2SecretStatus),
+      environmentVariable: Schema.optional(
+        GoogleCloudSecuritycenterV2SecretEnvironmentVariable,
+      ),
+      filePath: Schema.optional(GoogleCloudSecuritycenterV2SecretFilePath),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Secret",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Secret>;
 
 export interface GoogleCloudSecuritycenterV2ExternalExposure {
   /** Private IP address of the exposed endpoint. */
@@ -4637,20 +6889,25 @@ export interface GoogleCloudSecuritycenterV2ExternalExposure {
   networkEndpointGroup?: string;
 }
 
-export const GoogleCloudSecuritycenterV2ExternalExposure: Schema.Schema<GoogleCloudSecuritycenterV2ExternalExposure> = Schema.suspend(() => Schema.Struct({
-  privateIpAddress: Schema.optional(Schema.String),
-  privatePort: Schema.optional(Schema.String),
-  exposedService: Schema.optional(Schema.String),
-  publicIpAddress: Schema.optional(Schema.String),
-  publicPort: Schema.optional(Schema.String),
-  exposedEndpoint: Schema.optional(Schema.String),
-  loadBalancerFirewallPolicy: Schema.optional(Schema.String),
-  serviceFirewallPolicy: Schema.optional(Schema.String),
-  forwardingRule: Schema.optional(Schema.String),
-  backendService: Schema.optional(Schema.String),
-  instanceGroup: Schema.optional(Schema.String),
-  networkEndpointGroup: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ExternalExposure" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ExternalExposure>;
+export const GoogleCloudSecuritycenterV2ExternalExposure: Schema.Schema<GoogleCloudSecuritycenterV2ExternalExposure> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      privateIpAddress: Schema.optional(Schema.String),
+      privatePort: Schema.optional(Schema.String),
+      exposedService: Schema.optional(Schema.String),
+      publicIpAddress: Schema.optional(Schema.String),
+      publicPort: Schema.optional(Schema.String),
+      exposedEndpoint: Schema.optional(Schema.String),
+      loadBalancerFirewallPolicy: Schema.optional(Schema.String),
+      serviceFirewallPolicy: Schema.optional(Schema.String),
+      forwardingRule: Schema.optional(Schema.String),
+      backendService: Schema.optional(Schema.String),
+      instanceGroup: Schema.optional(Schema.String),
+      networkEndpointGroup: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ExternalExposure",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ExternalExposure>;
 
 export interface GoogleCloudSecuritycenterV2Finding {
   /** Identifier. The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. The following list shows some examples: + `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}` + `organizations/{organization_id}/sources/{source_id}/locations/{location_id}/findings/{finding_id}` + `folders/{folder_id}/sources/{source_id}/findings/{finding_id}` + `folders/{folder_id}/sources/{source_id}/locations/{location_id}/findings/{finding_id}` + `projects/{project_id}/sources/{source_id}/findings/{finding_id}` + `projects/{project_id}/sources/{source_id}/locations/{location_id}/findings/{finding_id}` */
@@ -4676,13 +6933,31 @@ export interface GoogleCloudSecuritycenterV2Finding {
   /** Output only. The time at which the finding was created in Security Command Center. */
   createTime?: string;
   /** The severity of the finding. This field is managed by the source that writes the finding. */
-  severity?: "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
   /** Indicates the mute state of a finding (either muted, unmuted or undefined). Unlike other attributes of a finding, a finding provider shouldn't set the value of mute. */
   mute?: "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED" | (string & {});
   /** Output only. The mute information regarding this finding. */
   muteInfo?: GoogleCloudSecuritycenterV2MuteInfo;
   /** The class of the finding. */
-  findingClass?: "FINDING_CLASS_UNSPECIFIED" | "THREAT" | "VULNERABILITY" | "MISCONFIGURATION" | "OBSERVATION" | "SCC_ERROR" | "POSTURE_VIOLATION" | "TOXIC_COMBINATION" | "SENSITIVE_DATA_RISK" | "CHOKEPOINT" | "EXTERNAL_EXPOSURE" | (string & {});
+  findingClass?:
+    | "FINDING_CLASS_UNSPECIFIED"
+    | "THREAT"
+    | "VULNERABILITY"
+    | "MISCONFIGURATION"
+    | "OBSERVATION"
+    | "SCC_ERROR"
+    | "POSTURE_VIOLATION"
+    | "TOXIC_COMBINATION"
+    | "SENSITIVE_DATA_RISK"
+    | "CHOKEPOINT"
+    | "EXTERNAL_EXPOSURE"
+    | (string & {});
   /** Represents what's commonly known as an *indicator of compromise* (IoC) in computer forensics. This is an artifact observed on a network or in an operating system that, with high confidence, indicates a computer intrusion. For more information, see [Indicator of compromise](https://en.wikipedia.org/wiki/Indicator_of_compromise). */
   indicator?: GoogleCloudSecuritycenterV2Indicator;
   /** Represents vulnerability-specific fields like CVE and CVSS scores. CVE stands for Common Vulnerabilities and Exposures (https://cve.mitre.org/about/) */
@@ -4787,74 +7062,131 @@ export interface GoogleCloudSecuritycenterV2Finding {
   externalExposure?: GoogleCloudSecuritycenterV2ExternalExposure;
 }
 
-export const GoogleCloudSecuritycenterV2Finding: Schema.Schema<GoogleCloudSecuritycenterV2Finding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  canonicalName: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  resourceName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  externalUri: Schema.optional(Schema.String),
-  sourceProperties: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  securityMarks: Schema.optional(GoogleCloudSecuritycenterV2SecurityMarks),
-  eventTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  mute: Schema.optional(Schema.String),
-  muteInfo: Schema.optional(GoogleCloudSecuritycenterV2MuteInfo),
-  findingClass: Schema.optional(Schema.String),
-  indicator: Schema.optional(GoogleCloudSecuritycenterV2Indicator),
-  vulnerability: Schema.optional(GoogleCloudSecuritycenterV2Vulnerability),
-  muteUpdateTime: Schema.optional(Schema.String),
-  externalSystems: Schema.optional(Schema.Record(Schema.String, GoogleCloudSecuritycenterV2ExternalSystem)),
-  mitreAttack: Schema.optional(GoogleCloudSecuritycenterV2MitreAttack),
-  access: Schema.optional(GoogleCloudSecuritycenterV2Access),
-  connections: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Connection)),
-  muteInitiator: Schema.optional(Schema.String),
-  processes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Process)),
-  contacts: Schema.optional(Schema.Record(Schema.String, GoogleCloudSecuritycenterV2ContactDetails)),
-  compliances: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Compliance)),
-  parentDisplayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  exfiltration: Schema.optional(GoogleCloudSecuritycenterV2Exfiltration),
-  iamBindings: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IamBinding)),
-  nextSteps: Schema.optional(Schema.String),
-  moduleName: Schema.optional(Schema.String),
-  containers: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Container)),
-  kubernetes: Schema.optional(GoogleCloudSecuritycenterV2Kubernetes),
-  database: Schema.optional(GoogleCloudSecuritycenterV2Database),
-  attackExposure: Schema.optional(GoogleCloudSecuritycenterV2AttackExposure),
-  files: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2File)),
-  cloudDlpInspection: Schema.optional(GoogleCloudSecuritycenterV2CloudDlpInspection),
-  cloudDlpDataProfile: Schema.optional(GoogleCloudSecuritycenterV2CloudDlpDataProfile),
-  kernelRootkit: Schema.optional(GoogleCloudSecuritycenterV2KernelRootkit),
-  orgPolicies: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2OrgPolicy)),
-  job: Schema.optional(GoogleCloudSecuritycenterV2Job),
-  application: Schema.optional(GoogleCloudSecuritycenterV2Application),
-  ipRules: Schema.optional(GoogleCloudSecuritycenterV2IpRules),
-  backupDisasterRecovery: Schema.optional(GoogleCloudSecuritycenterV2BackupDisasterRecovery),
-  securityPosture: Schema.optional(GoogleCloudSecuritycenterV2SecurityPosture),
-  logEntries: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2LogEntry)),
-  loadBalancers: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2LoadBalancer)),
-  cloudArmor: Schema.optional(GoogleCloudSecuritycenterV2CloudArmor),
-  notebook: Schema.optional(GoogleCloudSecuritycenterV2Notebook),
-  toxicCombination: Schema.optional(GoogleCloudSecuritycenterV2ToxicCombination),
-  groupMemberships: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2GroupMembership)),
-  disk: Schema.optional(GoogleCloudSecuritycenterV2Disk),
-  dataAccessEvents: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2DataAccessEvent)),
-  dataFlowEvents: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2DataFlowEvent)),
-  networks: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Network)),
-  dataRetentionDeletionEvents: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2DataRetentionDeletionEvent)),
-  affectedResources: Schema.optional(GoogleCloudSecuritycenterV2AffectedResources),
-  aiModel: Schema.optional(GoogleCloudSecuritycenterV2AiModel),
-  chokepoint: Schema.optional(GoogleCloudSecuritycenterV2Chokepoint),
-  complianceDetails: Schema.optional(GoogleCloudSecuritycenterV2ComplianceDetails),
-  vertexAi: Schema.optional(GoogleCloudSecuritycenterV2VertexAi),
-  cryptoKeyName: Schema.optional(Schema.String),
-  artifactGuardPolicies: Schema.optional(GoogleCloudSecuritycenterV2ArtifactGuardPolicies),
-  secret: Schema.optional(GoogleCloudSecuritycenterV2Secret),
-  externalExposure: Schema.optional(GoogleCloudSecuritycenterV2ExternalExposure),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Finding" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Finding>;
+export const GoogleCloudSecuritycenterV2Finding: Schema.Schema<GoogleCloudSecuritycenterV2Finding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      canonicalName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      resourceName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      category: Schema.optional(Schema.String),
+      externalUri: Schema.optional(Schema.String),
+      sourceProperties: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      securityMarks: Schema.optional(GoogleCloudSecuritycenterV2SecurityMarks),
+      eventTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      mute: Schema.optional(Schema.String),
+      muteInfo: Schema.optional(GoogleCloudSecuritycenterV2MuteInfo),
+      findingClass: Schema.optional(Schema.String),
+      indicator: Schema.optional(GoogleCloudSecuritycenterV2Indicator),
+      vulnerability: Schema.optional(GoogleCloudSecuritycenterV2Vulnerability),
+      muteUpdateTime: Schema.optional(Schema.String),
+      externalSystems: Schema.optional(
+        Schema.Record(Schema.String, GoogleCloudSecuritycenterV2ExternalSystem),
+      ),
+      mitreAttack: Schema.optional(GoogleCloudSecuritycenterV2MitreAttack),
+      access: Schema.optional(GoogleCloudSecuritycenterV2Access),
+      connections: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Connection),
+      ),
+      muteInitiator: Schema.optional(Schema.String),
+      processes: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Process),
+      ),
+      contacts: Schema.optional(
+        Schema.Record(Schema.String, GoogleCloudSecuritycenterV2ContactDetails),
+      ),
+      compliances: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Compliance),
+      ),
+      parentDisplayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      exfiltration: Schema.optional(GoogleCloudSecuritycenterV2Exfiltration),
+      iamBindings: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2IamBinding),
+      ),
+      nextSteps: Schema.optional(Schema.String),
+      moduleName: Schema.optional(Schema.String),
+      containers: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Container),
+      ),
+      kubernetes: Schema.optional(GoogleCloudSecuritycenterV2Kubernetes),
+      database: Schema.optional(GoogleCloudSecuritycenterV2Database),
+      attackExposure: Schema.optional(
+        GoogleCloudSecuritycenterV2AttackExposure,
+      ),
+      files: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2File)),
+      cloudDlpInspection: Schema.optional(
+        GoogleCloudSecuritycenterV2CloudDlpInspection,
+      ),
+      cloudDlpDataProfile: Schema.optional(
+        GoogleCloudSecuritycenterV2CloudDlpDataProfile,
+      ),
+      kernelRootkit: Schema.optional(GoogleCloudSecuritycenterV2KernelRootkit),
+      orgPolicies: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2OrgPolicy),
+      ),
+      job: Schema.optional(GoogleCloudSecuritycenterV2Job),
+      application: Schema.optional(GoogleCloudSecuritycenterV2Application),
+      ipRules: Schema.optional(GoogleCloudSecuritycenterV2IpRules),
+      backupDisasterRecovery: Schema.optional(
+        GoogleCloudSecuritycenterV2BackupDisasterRecovery,
+      ),
+      securityPosture: Schema.optional(
+        GoogleCloudSecuritycenterV2SecurityPosture,
+      ),
+      logEntries: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2LogEntry),
+      ),
+      loadBalancers: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2LoadBalancer),
+      ),
+      cloudArmor: Schema.optional(GoogleCloudSecuritycenterV2CloudArmor),
+      notebook: Schema.optional(GoogleCloudSecuritycenterV2Notebook),
+      toxicCombination: Schema.optional(
+        GoogleCloudSecuritycenterV2ToxicCombination,
+      ),
+      groupMemberships: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2GroupMembership),
+      ),
+      disk: Schema.optional(GoogleCloudSecuritycenterV2Disk),
+      dataAccessEvents: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2DataAccessEvent),
+      ),
+      dataFlowEvents: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2DataFlowEvent),
+      ),
+      networks: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2Network),
+      ),
+      dataRetentionDeletionEvents: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2DataRetentionDeletionEvent),
+      ),
+      affectedResources: Schema.optional(
+        GoogleCloudSecuritycenterV2AffectedResources,
+      ),
+      aiModel: Schema.optional(GoogleCloudSecuritycenterV2AiModel),
+      chokepoint: Schema.optional(GoogleCloudSecuritycenterV2Chokepoint),
+      complianceDetails: Schema.optional(
+        GoogleCloudSecuritycenterV2ComplianceDetails,
+      ),
+      vertexAi: Schema.optional(GoogleCloudSecuritycenterV2VertexAi),
+      cryptoKeyName: Schema.optional(Schema.String),
+      artifactGuardPolicies: Schema.optional(
+        GoogleCloudSecuritycenterV2ArtifactGuardPolicies,
+      ),
+      secret: Schema.optional(GoogleCloudSecuritycenterV2Secret),
+      externalExposure: Schema.optional(
+        GoogleCloudSecuritycenterV2ExternalExposure,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Finding",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Finding>;
 
 export interface GoogleCloudSecuritycenterV2Folder {
   /** Full resource name of this folder. See: https://cloud.google.com/apis/design/resource_names#full_resource_name */
@@ -4863,10 +7195,15 @@ export interface GoogleCloudSecuritycenterV2Folder {
   resourceFolderDisplayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2Folder: Schema.Schema<GoogleCloudSecuritycenterV2Folder> = Schema.suspend(() => Schema.Struct({
-  resourceFolder: Schema.optional(Schema.String),
-  resourceFolderDisplayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Folder" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Folder>;
+export const GoogleCloudSecuritycenterV2Folder: Schema.Schema<GoogleCloudSecuritycenterV2Folder> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceFolder: Schema.optional(Schema.String),
+      resourceFolderDisplayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Folder",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Folder>;
 
 export interface GcpMetadata {
   /** The full resource name of project that the resource belongs to. */
@@ -4883,23 +7220,30 @@ export interface GcpMetadata {
   organization?: string;
 }
 
-export const GcpMetadata: Schema.Schema<GcpMetadata> = Schema.suspend(() => Schema.Struct({
-  project: Schema.optional(Schema.String),
-  projectDisplayName: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  parentDisplayName: Schema.optional(Schema.String),
-  folders: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Folder)),
-  organization: Schema.optional(Schema.String),
-})).annotate({ identifier: "GcpMetadata" }) as any as Schema.Schema<GcpMetadata>;
+export const GcpMetadata: Schema.Schema<GcpMetadata> = Schema.suspend(() =>
+  Schema.Struct({
+    project: Schema.optional(Schema.String),
+    projectDisplayName: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    parentDisplayName: Schema.optional(Schema.String),
+    folders: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2Folder)),
+    organization: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GcpMetadata" }) as any as Schema.Schema<GcpMetadata>;
 
 export interface GoogleCloudSecuritycenterV2AwsOrganization {
   /** The unique identifier (ID) for the organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lowercase letters or digits. */
   id?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AwsOrganization: Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganization> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AwsOrganization" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganization>;
+export const GoogleCloudSecuritycenterV2AwsOrganization: Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganization> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AwsOrganization",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganization>;
 
 export interface GoogleCloudSecuritycenterV2AwsOrganizationalUnit {
   /** The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. For example, "ou-ab12-cd34ef56". */
@@ -4908,10 +7252,15 @@ export interface GoogleCloudSecuritycenterV2AwsOrganizationalUnit {
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AwsOrganizationalUnit: Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganizationalUnit> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AwsOrganizationalUnit" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganizationalUnit>;
+export const GoogleCloudSecuritycenterV2AwsOrganizationalUnit: Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganizationalUnit> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AwsOrganizationalUnit",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsOrganizationalUnit>;
 
 export interface GoogleCloudSecuritycenterV2AwsAccount {
   /** The unique identifier (ID) of the account, containing exactly 12 digits. */
@@ -4920,10 +7269,15 @@ export interface GoogleCloudSecuritycenterV2AwsAccount {
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AwsAccount: Schema.Schema<GoogleCloudSecuritycenterV2AwsAccount> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AwsAccount" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsAccount>;
+export const GoogleCloudSecuritycenterV2AwsAccount: Schema.Schema<GoogleCloudSecuritycenterV2AwsAccount> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AwsAccount",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsAccount>;
 
 export interface GoogleCloudSecuritycenterV2AwsMetadata {
   /** The AWS organization associated with the resource. */
@@ -4934,11 +7288,18 @@ export interface GoogleCloudSecuritycenterV2AwsMetadata {
   account?: GoogleCloudSecuritycenterV2AwsAccount;
 }
 
-export const GoogleCloudSecuritycenterV2AwsMetadata: Schema.Schema<GoogleCloudSecuritycenterV2AwsMetadata> = Schema.suspend(() => Schema.Struct({
-  organization: Schema.optional(GoogleCloudSecuritycenterV2AwsOrganization),
-  organizationalUnits: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2AwsOrganizationalUnit)),
-  account: Schema.optional(GoogleCloudSecuritycenterV2AwsAccount),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AwsMetadata" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsMetadata>;
+export const GoogleCloudSecuritycenterV2AwsMetadata: Schema.Schema<GoogleCloudSecuritycenterV2AwsMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      organization: Schema.optional(GoogleCloudSecuritycenterV2AwsOrganization),
+      organizationalUnits: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2AwsOrganizationalUnit),
+      ),
+      account: Schema.optional(GoogleCloudSecuritycenterV2AwsAccount),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AwsMetadata",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AwsMetadata>;
 
 export interface GoogleCloudSecuritycenterV2AzureManagementGroup {
   /** The UUID of the Azure management group, for example, `20000000-0001-0000-0000-000000000000`. */
@@ -4947,10 +7308,15 @@ export interface GoogleCloudSecuritycenterV2AzureManagementGroup {
   displayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AzureManagementGroup: Schema.Schema<GoogleCloudSecuritycenterV2AzureManagementGroup> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AzureManagementGroup" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureManagementGroup>;
+export const GoogleCloudSecuritycenterV2AzureManagementGroup: Schema.Schema<GoogleCloudSecuritycenterV2AzureManagementGroup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AzureManagementGroup",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureManagementGroup>;
 
 export interface GoogleCloudSecuritycenterV2AzureSubscription {
   /** The UUID of the Azure subscription, for example, `291bba3f-e0a5-47bc-a099-3bdcb2a50a05`. */
@@ -4959,10 +7325,15 @@ export interface GoogleCloudSecuritycenterV2AzureSubscription {
   displayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AzureSubscription: Schema.Schema<GoogleCloudSecuritycenterV2AzureSubscription> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AzureSubscription" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureSubscription>;
+export const GoogleCloudSecuritycenterV2AzureSubscription: Schema.Schema<GoogleCloudSecuritycenterV2AzureSubscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AzureSubscription",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureSubscription>;
 
 export interface GoogleCloudSecuritycenterV2AzureResourceGroup {
   /** The ID of the Azure resource group. */
@@ -4971,10 +7342,15 @@ export interface GoogleCloudSecuritycenterV2AzureResourceGroup {
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AzureResourceGroup: Schema.Schema<GoogleCloudSecuritycenterV2AzureResourceGroup> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AzureResourceGroup" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureResourceGroup>;
+export const GoogleCloudSecuritycenterV2AzureResourceGroup: Schema.Schema<GoogleCloudSecuritycenterV2AzureResourceGroup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AzureResourceGroup",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureResourceGroup>;
 
 export interface GoogleCloudSecuritycenterV2AzureTenant {
   /** The ID of the Microsoft Entra tenant, for example, "a11aaa11-aa11-1aa1-11aa-1aaa11a". */
@@ -4983,10 +7359,15 @@ export interface GoogleCloudSecuritycenterV2AzureTenant {
   displayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AzureTenant: Schema.Schema<GoogleCloudSecuritycenterV2AzureTenant> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AzureTenant" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureTenant>;
+export const GoogleCloudSecuritycenterV2AzureTenant: Schema.Schema<GoogleCloudSecuritycenterV2AzureTenant> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AzureTenant",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureTenant>;
 
 export interface GoogleCloudSecuritycenterV2AzureMetadata {
   /** A list of Azure management groups associated with the resource, ordered from lowest level (closest to the subscription) to highest level. */
@@ -4999,63 +7380,127 @@ export interface GoogleCloudSecuritycenterV2AzureMetadata {
   tenant?: GoogleCloudSecuritycenterV2AzureTenant;
 }
 
-export const GoogleCloudSecuritycenterV2AzureMetadata: Schema.Schema<GoogleCloudSecuritycenterV2AzureMetadata> = Schema.suspend(() => Schema.Struct({
-  managementGroups: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2AzureManagementGroup)),
-  subscription: Schema.optional(GoogleCloudSecuritycenterV2AzureSubscription),
-  resourceGroup: Schema.optional(GoogleCloudSecuritycenterV2AzureResourceGroup),
-  tenant: Schema.optional(GoogleCloudSecuritycenterV2AzureTenant),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AzureMetadata" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureMetadata>;
+export const GoogleCloudSecuritycenterV2AzureMetadata: Schema.Schema<GoogleCloudSecuritycenterV2AzureMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      managementGroups: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2AzureManagementGroup),
+      ),
+      subscription: Schema.optional(
+        GoogleCloudSecuritycenterV2AzureSubscription,
+      ),
+      resourceGroup: Schema.optional(
+        GoogleCloudSecuritycenterV2AzureResourceGroup,
+      ),
+      tenant: Schema.optional(GoogleCloudSecuritycenterV2AzureTenant),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AzureMetadata",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AzureMetadata>;
 
 export interface GoogleCloudSecuritycenterV2ResourcePathNode {
   /** The type of resource this node represents. */
-  nodeType?: "RESOURCE_PATH_NODE_TYPE_UNSPECIFIED" | "GCP_ORGANIZATION" | "GCP_FOLDER" | "GCP_PROJECT" | "AWS_ORGANIZATION" | "AWS_ORGANIZATIONAL_UNIT" | "AWS_ACCOUNT" | "AZURE_MANAGEMENT_GROUP" | "AZURE_SUBSCRIPTION" | "AZURE_RESOURCE_GROUP" | (string & {});
+  nodeType?:
+    | "RESOURCE_PATH_NODE_TYPE_UNSPECIFIED"
+    | "GCP_ORGANIZATION"
+    | "GCP_FOLDER"
+    | "GCP_PROJECT"
+    | "AWS_ORGANIZATION"
+    | "AWS_ORGANIZATIONAL_UNIT"
+    | "AWS_ACCOUNT"
+    | "AZURE_MANAGEMENT_GROUP"
+    | "AZURE_SUBSCRIPTION"
+    | "AZURE_RESOURCE_GROUP"
+    | (string & {});
   /** The ID of the resource this node represents. */
   id?: string;
   /** The display name of the resource this node represents. */
   displayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2ResourcePathNode: Schema.Schema<GoogleCloudSecuritycenterV2ResourcePathNode> = Schema.suspend(() => Schema.Struct({
-  nodeType: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourcePathNode" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourcePathNode>;
+export const GoogleCloudSecuritycenterV2ResourcePathNode: Schema.Schema<GoogleCloudSecuritycenterV2ResourcePathNode> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nodeType: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ResourcePathNode",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourcePathNode>;
 
 export interface GoogleCloudSecuritycenterV2ResourcePath {
   /** The list of nodes that make the up resource path, ordered from lowest level to highest level. */
   nodes?: Array<GoogleCloudSecuritycenterV2ResourcePathNode>;
 }
 
-export const GoogleCloudSecuritycenterV2ResourcePath: Schema.Schema<GoogleCloudSecuritycenterV2ResourcePath> = Schema.suspend(() => Schema.Struct({
-  nodes: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ResourcePathNode)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourcePath" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourcePath>;
+export const GoogleCloudSecuritycenterV2ResourcePath: Schema.Schema<GoogleCloudSecuritycenterV2ResourcePath> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nodes: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2ResourcePathNode),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ResourcePath",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourcePath>;
 
 export interface GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality {
   /** Criticality Type. */
-  type?: "CRITICALITY_TYPE_UNSPECIFIED" | "MISSION_CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  type?:
+    | "CRITICALITY_TYPE_UNSPECIFIED"
+    | "MISSION_CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality>;
+export const GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality>;
 
 export interface GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment {
   /** Environment Type. */
-  type?: "ENVIRONMENT_TYPE_UNSPECIFIED" | "PRODUCTION" | "STAGING" | "TEST" | "DEVELOPMENT" | (string & {});
+  type?:
+    | "ENVIRONMENT_TYPE_UNSPECIFIED"
+    | "PRODUCTION"
+    | "STAGING"
+    | "TEST"
+    | "DEVELOPMENT"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment>;
+export const GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment>;
 
 export interface GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo {
   /** Email address of the contacts. */
   email?: string;
 }
 
-export const GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo>;
+export const GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo>;
 
 export interface GoogleCloudSecuritycenterV2ResourceApplicationAttributes {
   /** User-defined criticality information. */
@@ -5070,13 +7515,34 @@ export interface GoogleCloudSecuritycenterV2ResourceApplicationAttributes {
   businessOwners?: Array<GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo>;
 }
 
-export const GoogleCloudSecuritycenterV2ResourceApplicationAttributes: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributes> = Schema.suspend(() => Schema.Struct({
-  criticality: Schema.optional(GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality),
-  environment: Schema.optional(GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment),
-  developerOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo)),
-  operatorOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo)),
-  businessOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourceApplicationAttributes" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributes>;
+export const GoogleCloudSecuritycenterV2ResourceApplicationAttributes: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributes> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      criticality: Schema.optional(
+        GoogleCloudSecuritycenterV2ResourceApplicationAttributesCriticality,
+      ),
+      environment: Schema.optional(
+        GoogleCloudSecuritycenterV2ResourceApplicationAttributesEnvironment,
+      ),
+      developerOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo,
+        ),
+      ),
+      operatorOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo,
+        ),
+      ),
+      businessOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV2ResourceApplicationAttributesContactInfo,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ResourceApplicationAttributes",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplicationAttributes>;
 
 export interface GoogleCloudSecuritycenterV2ResourceApplication {
   /** The resource name of an Application. Format: `projects/{host-project-id}/locations/{location}/applications/{application-id}` */
@@ -5085,10 +7551,17 @@ export interface GoogleCloudSecuritycenterV2ResourceApplication {
   attributes?: GoogleCloudSecuritycenterV2ResourceApplicationAttributes;
 }
 
-export const GoogleCloudSecuritycenterV2ResourceApplication: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplication> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  attributes: Schema.optional(GoogleCloudSecuritycenterV2ResourceApplicationAttributes),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourceApplication" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplication>;
+export const GoogleCloudSecuritycenterV2ResourceApplication: Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplication> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(
+        GoogleCloudSecuritycenterV2ResourceApplicationAttributes,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ResourceApplication",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceApplication>;
 
 export interface GoogleCloudSecuritycenterV2AdcApplication {
   /** The resource name of an ADC Application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} */
@@ -5097,28 +7570,45 @@ export interface GoogleCloudSecuritycenterV2AdcApplication {
   attributes?: GoogleCloudSecuritycenterV2ResourceApplicationAttributes;
 }
 
-export const GoogleCloudSecuritycenterV2AdcApplication: Schema.Schema<GoogleCloudSecuritycenterV2AdcApplication> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  attributes: Schema.optional(GoogleCloudSecuritycenterV2ResourceApplicationAttributes),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AdcApplication" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdcApplication>;
+export const GoogleCloudSecuritycenterV2AdcApplication: Schema.Schema<GoogleCloudSecuritycenterV2AdcApplication> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(
+        GoogleCloudSecuritycenterV2ResourceApplicationAttributes,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AdcApplication",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdcApplication>;
 
 export interface GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision {
   /** The resource name of an ADC Application Template Revision. Format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/revisions/{revision} */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision>;
+export const GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision>;
 
 export interface GoogleCloudSecuritycenterV2AdcSharedTemplateRevision {
   /** The resource name of an ADC Shared Template Revision. Format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/revisions/{revision} */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2AdcSharedTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2AdcSharedTemplateRevision> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2AdcSharedTemplateRevision" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdcSharedTemplateRevision>;
+export const GoogleCloudSecuritycenterV2AdcSharedTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2AdcSharedTemplateRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2AdcSharedTemplateRevision",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2AdcSharedTemplateRevision>;
 
 export interface GoogleCloudSecuritycenterV2Resource {
   /** The full resource name of the resource. See: https://cloud.google.com/apis/design/resource_names#full_resource_name */
@@ -5128,7 +7618,12 @@ export interface GoogleCloudSecuritycenterV2Resource {
   /** The full resource type of the resource. */
   type?: string;
   /** Indicates which cloud provider the finding is from. */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD_PLATFORM" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD_PLATFORM"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
   /** The service or resource provider associated with the resource. */
   service?: string;
   /** The region or location of the service (if applicable). */
@@ -5153,23 +7648,36 @@ export interface GoogleCloudSecuritycenterV2Resource {
   adcSharedTemplate?: GoogleCloudSecuritycenterV2AdcSharedTemplateRevision;
 }
 
-export const GoogleCloudSecuritycenterV2Resource: Schema.Schema<GoogleCloudSecuritycenterV2Resource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  cloudProvider: Schema.optional(Schema.String),
-  service: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  gcpMetadata: Schema.optional(GcpMetadata),
-  awsMetadata: Schema.optional(GoogleCloudSecuritycenterV2AwsMetadata),
-  azureMetadata: Schema.optional(GoogleCloudSecuritycenterV2AzureMetadata),
-  resourcePath: Schema.optional(GoogleCloudSecuritycenterV2ResourcePath),
-  resourcePathString: Schema.optional(Schema.String),
-  application: Schema.optional(GoogleCloudSecuritycenterV2ResourceApplication),
-  adcApplication: Schema.optional(GoogleCloudSecuritycenterV2AdcApplication),
-  adcApplicationTemplate: Schema.optional(GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision),
-  adcSharedTemplate: Schema.optional(GoogleCloudSecuritycenterV2AdcSharedTemplateRevision),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Resource" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Resource>;
+export const GoogleCloudSecuritycenterV2Resource: Schema.Schema<GoogleCloudSecuritycenterV2Resource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      cloudProvider: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      gcpMetadata: Schema.optional(GcpMetadata),
+      awsMetadata: Schema.optional(GoogleCloudSecuritycenterV2AwsMetadata),
+      azureMetadata: Schema.optional(GoogleCloudSecuritycenterV2AzureMetadata),
+      resourcePath: Schema.optional(GoogleCloudSecuritycenterV2ResourcePath),
+      resourcePathString: Schema.optional(Schema.String),
+      application: Schema.optional(
+        GoogleCloudSecuritycenterV2ResourceApplication,
+      ),
+      adcApplication: Schema.optional(
+        GoogleCloudSecuritycenterV2AdcApplication,
+      ),
+      adcApplicationTemplate: Schema.optional(
+        GoogleCloudSecuritycenterV2AdcApplicationTemplateRevision,
+      ),
+      adcSharedTemplate: Schema.optional(
+        GoogleCloudSecuritycenterV2AdcSharedTemplateRevision,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Resource",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Resource>;
 
 export interface GoogleCloudSecuritycenterV2NotificationMessage {
   /** Name of the notification config that generated current notification. */
@@ -5180,29 +7688,57 @@ export interface GoogleCloudSecuritycenterV2NotificationMessage {
   resource?: GoogleCloudSecuritycenterV2Resource;
 }
 
-export const GoogleCloudSecuritycenterV2NotificationMessage: Schema.Schema<GoogleCloudSecuritycenterV2NotificationMessage> = Schema.suspend(() => Schema.Struct({
-  notificationConfigName: Schema.optional(Schema.String),
-  finding: Schema.optional(GoogleCloudSecuritycenterV2Finding),
-  resource: Schema.optional(GoogleCloudSecuritycenterV2Resource),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2NotificationMessage" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2NotificationMessage>;
+export const GoogleCloudSecuritycenterV2NotificationMessage: Schema.Schema<GoogleCloudSecuritycenterV2NotificationMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      notificationConfigName: Schema.optional(Schema.String),
+      finding: Schema.optional(GoogleCloudSecuritycenterV2Finding),
+      resource: Schema.optional(GoogleCloudSecuritycenterV2Resource),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2NotificationMessage",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2NotificationMessage>;
 
 export interface GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping {
   /** Resource value mapping for high-sensitivity Sensitive Data Protection findings */
-  highSensitivityMapping?: "RESOURCE_VALUE_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
+  highSensitivityMapping?:
+    | "RESOURCE_VALUE_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "NONE"
+    | (string & {});
   /** Resource value mapping for medium-sensitivity Sensitive Data Protection findings */
-  mediumSensitivityMapping?: "RESOURCE_VALUE_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
+  mediumSensitivityMapping?:
+    | "RESOURCE_VALUE_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "NONE"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping: Schema.Schema<GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping> = Schema.suspend(() => Schema.Struct({
-  highSensitivityMapping: Schema.optional(Schema.String),
-  mediumSensitivityMapping: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping>;
+export const GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping: Schema.Schema<GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      highSensitivityMapping: Schema.optional(Schema.String),
+      mediumSensitivityMapping: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping>;
 
 export interface GoogleCloudSecuritycenterV2ResourceValueConfig {
   /** Identifier. Name for the resource value configuration */
   name?: string;
   /** Resource value level this expression represents Only required when there is no Sensitive Data Protection mapping in the request */
-  resourceValue?: "RESOURCE_VALUE_UNSPECIFIED" | "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
+  resourceValue?:
+    | "RESOURCE_VALUE_UNSPECIFIED"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | "NONE"
+    | (string & {});
   /** Tag values combined with `AND` to check against. For Google Cloud resources, they are tag value IDs in the form of "tagValues/123". Example: `[ "tagValues/123", "tagValues/456", "tagValues/789" ]` https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing */
   tagValues?: Array<string>;
   /** Apply resource_value only to resources that match resource_type. resource_type will be checked with `AND` of other resources. For example, "storage.googleapis.com/Bucket" with resource_value "HIGH" will apply "HIGH" value only to "storage.googleapis.com/Bucket" resources. */
@@ -5218,60 +7754,96 @@ export interface GoogleCloudSecuritycenterV2ResourceValueConfig {
   /** Output only. Timestamp this resource value configuration was last updated. */
   updateTime?: string;
   /** Cloud provider this configuration applies to */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD_PLATFORM" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD_PLATFORM"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
   /** A mapping of the sensitivity on Sensitive Data Protection finding to resource values. This mapping can only be used in combination with a resource_type that is related to BigQuery, e.g. "bigquery.googleapis.com/Dataset". */
   sensitiveDataProtectionMapping?: GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping;
 }
 
-export const GoogleCloudSecuritycenterV2ResourceValueConfig: Schema.Schema<GoogleCloudSecuritycenterV2ResourceValueConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  resourceValue: Schema.optional(Schema.String),
-  tagValues: Schema.optional(Schema.Array(Schema.String)),
-  resourceType: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-  resourceLabelsSelector: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  cloudProvider: Schema.optional(Schema.String),
-  sensitiveDataProtectionMapping: Schema.optional(GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2ResourceValueConfig" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceValueConfig>;
+export const GoogleCloudSecuritycenterV2ResourceValueConfig: Schema.Schema<GoogleCloudSecuritycenterV2ResourceValueConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      resourceValue: Schema.optional(Schema.String),
+      tagValues: Schema.optional(Schema.Array(Schema.String)),
+      resourceType: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+      resourceLabelsSelector: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      cloudProvider: Schema.optional(Schema.String),
+      sensitiveDataProtectionMapping: Schema.optional(
+        GoogleCloudSecuritycenterV2SensitiveDataProtectionMapping,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2ResourceValueConfig",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2ResourceValueConfig>;
 
 export interface VulnerabilityCountBySeverity {
   /** Key is the Severity enum. */
   severityToFindingCount?: Record<string, string>;
 }
 
-export const VulnerabilityCountBySeverity: Schema.Schema<VulnerabilityCountBySeverity> = Schema.suspend(() => Schema.Struct({
-  severityToFindingCount: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "VulnerabilityCountBySeverity" }) as any as Schema.Schema<VulnerabilityCountBySeverity>;
+export const VulnerabilityCountBySeverity: Schema.Schema<VulnerabilityCountBySeverity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      severityToFindingCount: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "VulnerabilityCountBySeverity",
+  }) as any as Schema.Schema<VulnerabilityCountBySeverity>;
 
 export interface VulnerabilitySnapshot {
   /** Identifier. The vulnerability snapshot name. Format: //locations//vulnerabilitySnapshots/ */
   name?: string;
   /** The cloud provider for the vulnerability snapshot. */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD_PLATFORM" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD_PLATFORM"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
   /** The time that the snapshot was taken. */
   snapshotTime?: string;
   /** The vulnerability count by severity. */
   findingCount?: VulnerabilityCountBySeverity;
 }
 
-export const VulnerabilitySnapshot: Schema.Schema<VulnerabilitySnapshot> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  cloudProvider: Schema.optional(Schema.String),
-  snapshotTime: Schema.optional(Schema.String),
-  findingCount: Schema.optional(VulnerabilityCountBySeverity),
-})).annotate({ identifier: "VulnerabilitySnapshot" }) as any as Schema.Schema<VulnerabilitySnapshot>;
+export const VulnerabilitySnapshot: Schema.Schema<VulnerabilitySnapshot> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      cloudProvider: Schema.optional(Schema.String),
+      snapshotTime: Schema.optional(Schema.String),
+      findingCount: Schema.optional(VulnerabilityCountBySeverity),
+    }),
+  ).annotate({
+    identifier: "VulnerabilitySnapshot",
+  }) as any as Schema.Schema<VulnerabilitySnapshot>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata {
   /** The project ID that the resource associated with the issue belongs to. */
   projectId?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata>;
+export const GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount {
   /** The AWS account ID of the resource associated with the issue. */
@@ -5280,19 +7852,31 @@ export interface GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount {
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount>;
+export const GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceAwsMetadata {
   /** The AWS account of the resource associated with the issue. */
   account?: GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceAwsMetadata: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadata> = Schema.suspend(() => Schema.Struct({
-  account: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceAwsMetadata" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadata>;
+export const GoogleCloudSecuritycenterV2IssueResourceAwsMetadata: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      account: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceAwsMetadataAwsAccount,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResourceAwsMetadata",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAwsMetadata>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription {
   /** The Azure subscription ID of the resource associated with the issue. */
@@ -5301,46 +7885,89 @@ export interface GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubsc
   displayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription>;
+export const GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceAzureMetadata {
   /** The Azure subscription of the resource associated with the issue. */
   subscription?: GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceAzureMetadata: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadata> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceAzureMetadata" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadata>;
+export const GoogleCloudSecuritycenterV2IssueResourceAzureMetadata: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceAzureMetadataAzureSubscription,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResourceAzureMetadata",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAzureMetadata>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality {
   /** Criticality Type. */
-  type?: "CRITICALITY_TYPE_UNSPECIFIED" | "MISSION_CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  type?:
+    | "CRITICALITY_TYPE_UNSPECIFIED"
+    | "MISSION_CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality>;
+export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment {
   /** Environment Type. */
-  type?: "ENVIRONMENT_TYPE_UNSPECIFIED" | "PRODUCTION" | "STAGING" | "TEST" | "DEVELOPMENT" | (string & {});
+  type?:
+    | "ENVIRONMENT_TYPE_UNSPECIFIED"
+    | "PRODUCTION"
+    | "STAGING"
+    | "TEST"
+    | "DEVELOPMENT"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment>;
+export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo {
   /** Email address of the contacts. */
   email?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo>;
+export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes {
   /** User-defined criticality information. */
@@ -5355,13 +7982,34 @@ export interface GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes {
   businessOwners?: Array<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo>;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes> = Schema.suspend(() => Schema.Struct({
-  criticality: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality),
-  environment: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment),
-  developerOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo)),
-  operatorOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo)),
-  businessOwners: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes>;
+export const GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      criticality: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesCriticality,
+      ),
+      environment: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesEnvironment,
+      ),
+      developerOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo,
+        ),
+      ),
+      operatorOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo,
+        ),
+      ),
+      businessOwners: Schema.optional(
+        Schema.Array(
+          GoogleCloudSecuritycenterV2IssueResourceApplicationAttributesContactInfo,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceApplication {
   /** The resource name of an Application. Format: `projects/{host-project-id}/locations/{location}/applications/{application-id}` */
@@ -5370,10 +8018,17 @@ export interface GoogleCloudSecuritycenterV2IssueResourceApplication {
   attributes?: GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceApplication: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplication> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  attributes: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceApplication" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplication>;
+export const GoogleCloudSecuritycenterV2IssueResourceApplication: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplication> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResourceApplication",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceApplication>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceAdcApplication {
   /** The resource name of an ADC Application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} */
@@ -5382,28 +8037,47 @@ export interface GoogleCloudSecuritycenterV2IssueResourceAdcApplication {
   attributes?: GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceAdcApplication: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplication> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  attributes: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceAdcApplication" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplication>;
+export const GoogleCloudSecuritycenterV2IssueResourceAdcApplication: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplication> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceApplicationAttributes,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResourceAdcApplication",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplication>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision {
   /** The resource name of an ADC Application Template Revision. Format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/revisions/{revision} */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision>;
+export const GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision>;
 
 export interface GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision {
   /** The resource name of an ADC Shared Template Revision. Format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/revisions/{revision} */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision>;
+export const GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision: Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision>;
 
 export interface GoogleCloudSecuritycenterV2IssueResource {
   /** The full resource name of the resource associated with the issue. */
@@ -5413,7 +8087,12 @@ export interface GoogleCloudSecuritycenterV2IssueResource {
   /** The type of the resource associated with the issue. */
   type?: string;
   /** The cloud provider of the resource associated with the issue. */
-  cloudProvider?: "CLOUD_PROVIDER_UNSPECIFIED" | "GOOGLE_CLOUD" | "AMAZON_WEB_SERVICES" | "MICROSOFT_AZURE" | (string & {});
+  cloudProvider?:
+    | "CLOUD_PROVIDER_UNSPECIFIED"
+    | "GOOGLE_CLOUD"
+    | "AMAZON_WEB_SERVICES"
+    | "MICROSOFT_AZURE"
+    | (string & {});
   /** The Google Cloud metadata of the resource associated with the issue. Only populated for Google Cloud resources. */
   googleCloudMetadata?: GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata;
   /** The AWS metadata of the resource associated with the issue. Only populated for AWS resources. */
@@ -5430,19 +8109,38 @@ export interface GoogleCloudSecuritycenterV2IssueResource {
   adcSharedTemplate?: GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision;
 }
 
-export const GoogleCloudSecuritycenterV2IssueResource: Schema.Schema<GoogleCloudSecuritycenterV2IssueResource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  cloudProvider: Schema.optional(Schema.String),
-  googleCloudMetadata: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata),
-  awsMetadata: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceAwsMetadata),
-  azureMetadata: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceAzureMetadata),
-  application: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceApplication),
-  adcApplication: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceAdcApplication),
-  adcApplicationTemplate: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision),
-  adcSharedTemplate: Schema.optional(GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueResource" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResource>;
+export const GoogleCloudSecuritycenterV2IssueResource: Schema.Schema<GoogleCloudSecuritycenterV2IssueResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      cloudProvider: Schema.optional(Schema.String),
+      googleCloudMetadata: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceGoogleCloudMetadata,
+      ),
+      awsMetadata: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceAwsMetadata,
+      ),
+      azureMetadata: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceAzureMetadata,
+      ),
+      application: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceApplication,
+      ),
+      adcApplication: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceAdcApplication,
+      ),
+      adcApplicationTemplate: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceAdcApplicationTemplateRevision,
+      ),
+      adcSharedTemplate: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResourceAdcSharedTemplateRevision,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueResource",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueResource>;
 
 export interface GoogleCloudSecuritycenterV2IssueMute {
   /** Output only. The mute state of the issue. */
@@ -5455,21 +8153,40 @@ export interface GoogleCloudSecuritycenterV2IssueMute {
   muteUpdateTime?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueMute: Schema.Schema<GoogleCloudSecuritycenterV2IssueMute> = Schema.suspend(() => Schema.Struct({
-  muteState: Schema.optional(Schema.String),
-  muteInitiator: Schema.optional(Schema.String),
-  muteReason: Schema.optional(Schema.String),
-  muteUpdateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueMute" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueMute>;
+export const GoogleCloudSecuritycenterV2IssueMute: Schema.Schema<GoogleCloudSecuritycenterV2IssueMute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      muteState: Schema.optional(Schema.String),
+      muteInitiator: Schema.optional(Schema.String),
+      muteReason: Schema.optional(Schema.String),
+      muteUpdateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueMute",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueMute>;
 
 export interface GoogleCloudSecuritycenterV2IssueDomain {
   /** The domain category of the issue. */
-  domainCategory?: "DOMAIN_CATEGORY_UNSPECIFIED" | "AI" | "CODE" | "CONTAINER" | "DATA" | "IDENTITY_AND_ACCESS" | "VULNERABILITY" | "THREAT" | (string & {});
+  domainCategory?:
+    | "DOMAIN_CATEGORY_UNSPECIFIED"
+    | "AI"
+    | "CODE"
+    | "CONTAINER"
+    | "DATA"
+    | "IDENTITY_AND_ACCESS"
+    | "VULNERABILITY"
+    | "THREAT"
+    | (string & {});
 }
 
-export const GoogleCloudSecuritycenterV2IssueDomain: Schema.Schema<GoogleCloudSecuritycenterV2IssueDomain> = Schema.suspend(() => Schema.Struct({
-  domainCategory: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueDomain" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueDomain>;
+export const GoogleCloudSecuritycenterV2IssueDomain: Schema.Schema<GoogleCloudSecuritycenterV2IssueDomain> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      domainCategory: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueDomain",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueDomain>;
 
 export interface GoogleCloudSecuritycenterV2IssueSecurityContextContext {
   /** Context type. */
@@ -5478,10 +8195,15 @@ export interface GoogleCloudSecuritycenterV2IssueSecurityContextContext {
   values?: Array<string>;
 }
 
-export const GoogleCloudSecuritycenterV2IssueSecurityContextContext: Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextContext> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  values: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueSecurityContextContext" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextContext>;
+export const GoogleCloudSecuritycenterV2IssueSecurityContextContext: Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      values: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueSecurityContextContext",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextContext>;
 
 export interface GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount {
   /** Aggregation key. */
@@ -5490,10 +8212,16 @@ export interface GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount 
   value?: number;
 }
 
-export const GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount: Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount>;
+export const GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount: Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount>;
 
 export interface GoogleCloudSecuritycenterV2IssueSecurityContext {
   /** The context of the security context. */
@@ -5502,28 +8230,47 @@ export interface GoogleCloudSecuritycenterV2IssueSecurityContext {
   aggregatedCount?: GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount;
 }
 
-export const GoogleCloudSecuritycenterV2IssueSecurityContext: Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContext> = Schema.suspend(() => Schema.Struct({
-  context: Schema.optional(GoogleCloudSecuritycenterV2IssueSecurityContextContext),
-  aggregatedCount: Schema.optional(GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueSecurityContext" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContext>;
+export const GoogleCloudSecuritycenterV2IssueSecurityContext: Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      context: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueSecurityContextContext,
+      ),
+      aggregatedCount: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueSecurityContextAggregatedCount,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueSecurityContext",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueSecurityContext>;
 
 export interface GoogleCloudSecuritycenterV2IssueFindingCve {
   /** The CVE name. */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueFindingCve: Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingCve> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueFindingCve" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingCve>;
+export const GoogleCloudSecuritycenterV2IssueFindingCve: Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingCve> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueFindingCve",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingCve>;
 
 export interface GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin {
   /** The security bulletin name. */
   name?: string;
 }
 
-export const GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin: Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin>;
+export const GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin: Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin>;
 
 export interface GoogleCloudSecuritycenterV2IssueFinding {
   /** The name of the finding. */
@@ -5534,11 +8281,18 @@ export interface GoogleCloudSecuritycenterV2IssueFinding {
   securityBulletin?: GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin;
 }
 
-export const GoogleCloudSecuritycenterV2IssueFinding: Schema.Schema<GoogleCloudSecuritycenterV2IssueFinding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  cve: Schema.optional(GoogleCloudSecuritycenterV2IssueFindingCve),
-  securityBulletin: Schema.optional(GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2IssueFinding" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueFinding>;
+export const GoogleCloudSecuritycenterV2IssueFinding: Schema.Schema<GoogleCloudSecuritycenterV2IssueFinding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      cve: Schema.optional(GoogleCloudSecuritycenterV2IssueFindingCve),
+      securityBulletin: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueFindingSecurityBulletin,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2IssueFinding",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2IssueFinding>;
 
 export interface GoogleCloudSecuritycenterV2Issue {
   /** Identifier. The name of the issue. Format: organizations/{organization}/locations/{location}/issues/{issue} */
@@ -5550,7 +8304,13 @@ export interface GoogleCloudSecuritycenterV2Issue {
   /** Approaches to remediate the issue in Markdown format. */
   remediations?: Array<string>;
   /** The severity of the issue. */
-  severity?: "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
   /** Output only. The state of the issue. */
   state?: "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | (string & {});
   /** Output only. The time the issue was created. */
@@ -5564,7 +8324,12 @@ export interface GoogleCloudSecuritycenterV2Issue {
   /** Additional resources associated with the issue. */
   secondaryResources?: Array<GoogleCloudSecuritycenterV2IssueResource>;
   /** The type of the issue. */
-  issueType?: "ISSUE_TYPE_UNSPECIFIED" | "CHOKEPOINT" | "TOXIC_COMBINATION" | "INSIGHT" | (string & {});
+  issueType?:
+    | "ISSUE_TYPE_UNSPECIFIED"
+    | "CHOKEPOINT"
+    | "TOXIC_COMBINATION"
+    | "INSIGHT"
+    | (string & {});
   /** The mute information of the issue. */
   mute?: GoogleCloudSecuritycenterV2IssueMute;
   /** The exposure score of the issue. */
@@ -5577,25 +8342,40 @@ export interface GoogleCloudSecuritycenterV2Issue {
   relatedFindings?: Array<GoogleCloudSecuritycenterV2IssueFinding>;
 }
 
-export const GoogleCloudSecuritycenterV2Issue: Schema.Schema<GoogleCloudSecuritycenterV2Issue> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  detection: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  remediations: Schema.optional(Schema.Array(Schema.String)),
-  severity: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  lastObservationTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  primaryResource: Schema.optional(GoogleCloudSecuritycenterV2IssueResource),
-  secondaryResources: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IssueResource)),
-  issueType: Schema.optional(Schema.String),
-  mute: Schema.optional(GoogleCloudSecuritycenterV2IssueMute),
-  exposureScore: Schema.optional(Schema.Number),
-  domains: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IssueDomain)),
-  securityContexts: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IssueSecurityContext)),
-  relatedFindings: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV2IssueFinding)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV2Issue" }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Issue>;
+export const GoogleCloudSecuritycenterV2Issue: Schema.Schema<GoogleCloudSecuritycenterV2Issue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      detection: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      remediations: Schema.optional(Schema.Array(Schema.String)),
+      severity: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      lastObservationTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      primaryResource: Schema.optional(
+        GoogleCloudSecuritycenterV2IssueResource,
+      ),
+      secondaryResources: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2IssueResource),
+      ),
+      issueType: Schema.optional(Schema.String),
+      mute: Schema.optional(GoogleCloudSecuritycenterV2IssueMute),
+      exposureScore: Schema.optional(Schema.Number),
+      domains: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2IssueDomain),
+      ),
+      securityContexts: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2IssueSecurityContext),
+      ),
+      relatedFindings: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV2IssueFinding),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV2Issue",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV2Issue>;
 
 export interface GoogleCloudSecuritycenterV1p1beta1SecurityMarks {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
@@ -5606,11 +8386,16 @@ export interface GoogleCloudSecuritycenterV1p1beta1SecurityMarks {
   canonicalName?: string;
 }
 
-export const GoogleCloudSecuritycenterV1p1beta1SecurityMarks: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1SecurityMarks> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  canonicalName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1p1beta1SecurityMarks" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1SecurityMarks>;
+export const GoogleCloudSecuritycenterV1p1beta1SecurityMarks: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1SecurityMarks> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      marks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      canonicalName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1p1beta1SecurityMarks",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1SecurityMarks>;
 
 export interface GoogleCloudSecuritycenterV1p1beta1Finding {
   /** The relative resource name of this finding. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}" */
@@ -5634,25 +8419,40 @@ export interface GoogleCloudSecuritycenterV1p1beta1Finding {
   /** The time at which the finding was created in Security Command Center. */
   createTime?: string;
   /** The severity of the finding. This field is managed by the source that writes the finding. */
-  severity?: "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "CRITICAL"
+    | "HIGH"
+    | "MEDIUM"
+    | "LOW"
+    | (string & {});
   /** The canonical name of the finding. It's either "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}", "folders/{folder_id}/sources/{source_id}/findings/{finding_id}" or "projects/{project_number}/sources/{source_id}/findings/{finding_id}", depending on the closest CRM ancestor of the resource associated with the finding. */
   canonicalName?: string;
 }
 
-export const GoogleCloudSecuritycenterV1p1beta1Finding: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Finding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  resourceName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  externalUri: Schema.optional(Schema.String),
-  sourceProperties: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  securityMarks: Schema.optional(GoogleCloudSecuritycenterV1p1beta1SecurityMarks),
-  eventTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  canonicalName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1p1beta1Finding" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Finding>;
+export const GoogleCloudSecuritycenterV1p1beta1Finding: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Finding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      resourceName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      category: Schema.optional(Schema.String),
+      externalUri: Schema.optional(Schema.String),
+      sourceProperties: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      securityMarks: Schema.optional(
+        GoogleCloudSecuritycenterV1p1beta1SecurityMarks,
+      ),
+      eventTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      canonicalName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1p1beta1Finding",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Finding>;
 
 export interface GoogleCloudSecuritycenterV1p1beta1Folder {
   /** Full resource name of this folder. See: https://cloud.google.com/apis/design/resource_names#full_resource_name */
@@ -5661,10 +8461,15 @@ export interface GoogleCloudSecuritycenterV1p1beta1Folder {
   resourceFolderDisplayName?: string;
 }
 
-export const GoogleCloudSecuritycenterV1p1beta1Folder: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Folder> = Schema.suspend(() => Schema.Struct({
-  resourceFolder: Schema.optional(Schema.String),
-  resourceFolderDisplayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1p1beta1Folder" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Folder>;
+export const GoogleCloudSecuritycenterV1p1beta1Folder: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Folder> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceFolder: Schema.optional(Schema.String),
+      resourceFolderDisplayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1p1beta1Folder",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Folder>;
 
 export interface GoogleCloudSecuritycenterV1p1beta1Resource {
   /** The full resource name of the resource. See: https://cloud.google.com/apis/design/resource_names#full_resource_name */
@@ -5681,14 +8486,21 @@ export interface GoogleCloudSecuritycenterV1p1beta1Resource {
   folders?: Array<GoogleCloudSecuritycenterV1p1beta1Folder>;
 }
 
-export const GoogleCloudSecuritycenterV1p1beta1Resource: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Resource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  projectDisplayName: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  parentDisplayName: Schema.optional(Schema.String),
-  folders: Schema.optional(Schema.Array(GoogleCloudSecuritycenterV1p1beta1Folder)),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1p1beta1Resource" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Resource>;
+export const GoogleCloudSecuritycenterV1p1beta1Resource: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Resource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      project: Schema.optional(Schema.String),
+      projectDisplayName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      parentDisplayName: Schema.optional(Schema.String),
+      folders: Schema.optional(
+        Schema.Array(GoogleCloudSecuritycenterV1p1beta1Folder),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1p1beta1Resource",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1Resource>;
 
 export interface GoogleCloudSecuritycenterV1p1beta1NotificationMessage {
   /** Name of the notification config that generated current notification. */
@@ -5699,38 +8511,59 @@ export interface GoogleCloudSecuritycenterV1p1beta1NotificationMessage {
   resource?: GoogleCloudSecuritycenterV1p1beta1Resource;
 }
 
-export const GoogleCloudSecuritycenterV1p1beta1NotificationMessage: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1NotificationMessage> = Schema.suspend(() => Schema.Struct({
-  notificationConfigName: Schema.optional(Schema.String),
-  finding: Schema.optional(GoogleCloudSecuritycenterV1p1beta1Finding),
-  resource: Schema.optional(GoogleCloudSecuritycenterV1p1beta1Resource),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1p1beta1NotificationMessage" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1NotificationMessage>;
+export const GoogleCloudSecuritycenterV1p1beta1NotificationMessage: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1NotificationMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      notificationConfigName: Schema.optional(Schema.String),
+      finding: Schema.optional(GoogleCloudSecuritycenterV1p1beta1Finding),
+      resource: Schema.optional(GoogleCloudSecuritycenterV1p1beta1Resource),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1p1beta1NotificationMessage",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1NotificationMessage>;
 
 export interface GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse {
   /** The state of an asset discovery run. */
-  state?: "STATE_UNSPECIFIED" | "COMPLETED" | "SUPERSEDED" | "TERMINATED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "COMPLETED"
+    | "SUPERSEDED"
+    | "TERMINATED"
+    | (string & {});
   /** The duration between asset discovery run start and end */
   duration?: string;
 }
 
-export const GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse" }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse>;
+export const GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse: Schema.Schema<GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      duration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse",
+  }) as any as Schema.Schema<GoogleCloudSecuritycenterV1p1beta1RunAssetDiscoveryResponse>;
 
-export interface ExportFindingsResponse {
-}
+export interface ExportFindingsResponse {}
 
-export const ExportFindingsResponse: Schema.Schema<ExportFindingsResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ExportFindingsResponse" }) as any as Schema.Schema<ExportFindingsResponse>;
+export const ExportFindingsResponse: Schema.Schema<ExportFindingsResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ExportFindingsResponse",
+  }) as any as Schema.Schema<ExportFindingsResponse>;
 
 export interface BigQueryDestination {
   /** Required. The relative resource name of the destination dataset, in the form projects/{projectId}/datasets/{datasetId}. */
   dataset?: string;
 }
 
-export const BigQueryDestination: Schema.Schema<BigQueryDestination> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-})).annotate({ identifier: "BigQueryDestination" }) as any as Schema.Schema<BigQueryDestination>;
+export const BigQueryDestination: Schema.Schema<BigQueryDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BigQueryDestination",
+  }) as any as Schema.Schema<BigQueryDestination>;
 
 export interface ExportFindingsMetadata {
   /** Optional. Timestamp at which export was started */
@@ -5739,10 +8572,15 @@ export interface ExportFindingsMetadata {
   bigQueryDestination?: BigQueryDestination;
 }
 
-export const ExportFindingsMetadata: Schema.Schema<ExportFindingsMetadata> = Schema.suspend(() => Schema.Struct({
-  exportStartTime: Schema.optional(Schema.String),
-  bigQueryDestination: Schema.optional(BigQueryDestination),
-})).annotate({ identifier: "ExportFindingsMetadata" }) as any as Schema.Schema<ExportFindingsMetadata>;
+export const ExportFindingsMetadata: Schema.Schema<ExportFindingsMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exportStartTime: Schema.optional(Schema.String),
+      bigQueryDestination: Schema.optional(BigQueryDestination),
+    }),
+  ).annotate({
+    identifier: "ExportFindingsMetadata",
+  }) as any as Schema.Schema<ExportFindingsMetadata>;
 
 // ==========================================================================
 // Operations
@@ -5756,17 +8594,26 @@ export interface GetOrganizationSettingsOrganizationsRequest {
 export const GetOrganizationSettingsOrganizationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/organizationSettings" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/organizationSettings",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationSettingsOrganizationsRequest>;
 
 export type GetOrganizationSettingsOrganizationsResponse = OrganizationSettings;
-export const GetOrganizationSettingsOrganizationsResponse = OrganizationSettings;
+export const GetOrganizationSettingsOrganizationsResponse =
+  OrganizationSettings;
 
 export type GetOrganizationSettingsOrganizationsError = DefaultErrors;
 
 /** Gets the settings for an organization. */
-export const getOrganizationSettingsOrganizations: API.OperationMethod<GetOrganizationSettingsOrganizationsRequest, GetOrganizationSettingsOrganizationsResponse, GetOrganizationSettingsOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationSettingsOrganizations: API.OperationMethod<
+  GetOrganizationSettingsOrganizationsRequest,
+  GetOrganizationSettingsOrganizationsResponse,
+  GetOrganizationSettingsOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationSettingsOrganizationsRequest,
   output: GetOrganizationSettingsOrganizationsResponse,
   errors: [],
@@ -5786,17 +8633,28 @@ export const UpdateOrganizationSettingsOrganizationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(OrganizationSettings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/organizations/{organizationsId}/organizationSettings", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/organizations/{organizationsId}/organizationSettings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateOrganizationSettingsOrganizationsRequest>;
 
-export type UpdateOrganizationSettingsOrganizationsResponse = OrganizationSettings;
-export const UpdateOrganizationSettingsOrganizationsResponse = OrganizationSettings;
+export type UpdateOrganizationSettingsOrganizationsResponse =
+  OrganizationSettings;
+export const UpdateOrganizationSettingsOrganizationsResponse =
+  OrganizationSettings;
 
 export type UpdateOrganizationSettingsOrganizationsError = DefaultErrors;
 
 /** Updates an organization's settings. */
-export const updateOrganizationSettingsOrganizations: API.OperationMethod<UpdateOrganizationSettingsOrganizationsRequest, UpdateOrganizationSettingsOrganizationsResponse, UpdateOrganizationSettingsOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateOrganizationSettingsOrganizations: API.OperationMethod<
+  UpdateOrganizationSettingsOrganizationsRequest,
+  UpdateOrganizationSettingsOrganizationsResponse,
+  UpdateOrganizationSettingsOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateOrganizationSettingsOrganizationsRequest,
   output: UpdateOrganizationSettingsOrganizationsResponse,
   errors: [],
@@ -5820,9 +8678,14 @@ export const ListOrganizationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsOperationsRequest>;
 
@@ -5832,7 +8695,12 @@ export const ListOrganizationsOperationsResponse = ListOperationsResponse;
 export type ListOrganizationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOrganizationsOperations: API.PaginatedOperationMethod<ListOrganizationsOperationsRequest, ListOrganizationsOperationsResponse, ListOrganizationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsOperations: API.PaginatedOperationMethod<
+  ListOrganizationsOperationsRequest,
+  ListOrganizationsOperationsResponse,
+  ListOrganizationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsOperationsRequest,
   output: ListOrganizationsOperationsResponse,
   errors: [],
@@ -5850,7 +8718,10 @@ export interface GetOrganizationsOperationsRequest {
 export const GetOrganizationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsOperationsRequest>;
 
@@ -5860,7 +8731,12 @@ export const GetOrganizationsOperationsResponse = Operation;
 export type GetOrganizationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOrganizationsOperations: API.OperationMethod<GetOrganizationsOperationsRequest, GetOrganizationsOperationsResponse, GetOrganizationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsOperations: API.OperationMethod<
+  GetOrganizationsOperationsRequest,
+  GetOrganizationsOperationsResponse,
+  GetOrganizationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsOperationsRequest,
   output: GetOrganizationsOperationsResponse,
   errors: [],
@@ -5874,7 +8750,10 @@ export interface DeleteOrganizationsOperationsRequest {
 export const DeleteOrganizationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteOrganizationsOperationsRequest>;
 
@@ -5884,7 +8763,12 @@ export const DeleteOrganizationsOperationsResponse = Empty;
 export type DeleteOrganizationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOrganizationsOperations: API.OperationMethod<DeleteOrganizationsOperationsRequest, DeleteOrganizationsOperationsResponse, DeleteOrganizationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOrganizationsOperations: API.OperationMethod<
+  DeleteOrganizationsOperationsRequest,
+  DeleteOrganizationsOperationsResponse,
+  DeleteOrganizationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOrganizationsOperationsRequest,
   output: DeleteOrganizationsOperationsResponse,
   errors: [],
@@ -5901,7 +8785,11 @@ export const CancelOrganizationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOrganizationsOperationsRequest>;
 
@@ -5911,7 +8799,12 @@ export const CancelOrganizationsOperationsResponse = Empty;
 export type CancelOrganizationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOrganizationsOperations: API.OperationMethod<CancelOrganizationsOperationsRequest, CancelOrganizationsOperationsResponse, CancelOrganizationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOrganizationsOperations: API.OperationMethod<
+  CancelOrganizationsOperationsRequest,
+  CancelOrganizationsOperationsResponse,
+  CancelOrganizationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOrganizationsOperationsRequest,
   output: CancelOrganizationsOperationsResponse,
   errors: [],
@@ -5928,7 +8821,11 @@ export const CreateOrganizationsSourcesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Source).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/sources", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/sources",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOrganizationsSourcesRequest>;
 
@@ -5938,7 +8835,12 @@ export const CreateOrganizationsSourcesResponse = Source;
 export type CreateOrganizationsSourcesError = DefaultErrors;
 
 /** Creates a source. */
-export const createOrganizationsSources: API.OperationMethod<CreateOrganizationsSourcesRequest, CreateOrganizationsSourcesResponse, CreateOrganizationsSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsSources: API.OperationMethod<
+  CreateOrganizationsSourcesRequest,
+  CreateOrganizationsSourcesResponse,
+  CreateOrganizationsSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsSourcesRequest,
   output: CreateOrganizationsSourcesResponse,
   errors: [],
@@ -5955,7 +8857,11 @@ export const GetIamPolicyOrganizationsSourcesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyOrganizationsSourcesRequest>;
 
@@ -5965,7 +8871,12 @@ export const GetIamPolicyOrganizationsSourcesResponse = Policy;
 export type GetIamPolicyOrganizationsSourcesError = DefaultErrors;
 
 /** Gets the access control policy on the specified Source. */
-export const getIamPolicyOrganizationsSources: API.OperationMethod<GetIamPolicyOrganizationsSourcesRequest, GetIamPolicyOrganizationsSourcesResponse, GetIamPolicyOrganizationsSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyOrganizationsSources: API.OperationMethod<
+  GetIamPolicyOrganizationsSourcesRequest,
+  GetIamPolicyOrganizationsSourcesResponse,
+  GetIamPolicyOrganizationsSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyOrganizationsSourcesRequest,
   output: GetIamPolicyOrganizationsSourcesResponse,
   errors: [],
@@ -5979,7 +8890,10 @@ export interface GetOrganizationsSourcesRequest {
 export const GetOrganizationsSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsSourcesRequest>;
 
@@ -5989,7 +8903,12 @@ export const GetOrganizationsSourcesResponse = Source;
 export type GetOrganizationsSourcesError = DefaultErrors;
 
 /** Gets a source. */
-export const getOrganizationsSources: API.OperationMethod<GetOrganizationsSourcesRequest, GetOrganizationsSourcesResponse, GetOrganizationsSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsSources: API.OperationMethod<
+  GetOrganizationsSourcesRequest,
+  GetOrganizationsSourcesResponse,
+  GetOrganizationsSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsSourcesRequest,
   output: GetOrganizationsSourcesResponse,
   errors: [],
@@ -6009,7 +8928,10 @@ export const ListOrganizationsSourcesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/sources" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/sources",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsSourcesRequest>;
 
@@ -6019,7 +8941,12 @@ export const ListOrganizationsSourcesResponse = ListSourcesResponse;
 export type ListOrganizationsSourcesError = DefaultErrors;
 
 /** Lists all sources belonging to an organization. */
-export const listOrganizationsSources: API.PaginatedOperationMethod<ListOrganizationsSourcesRequest, ListOrganizationsSourcesResponse, ListOrganizationsSourcesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsSources: API.PaginatedOperationMethod<
+  ListOrganizationsSourcesRequest,
+  ListOrganizationsSourcesResponse,
+  ListOrganizationsSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsSourcesRequest,
   output: ListOrganizationsSourcesResponse,
   errors: [],
@@ -6040,7 +8967,11 @@ export const SetIamPolicyOrganizationsSourcesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyOrganizationsSourcesRequest>;
 
@@ -6050,7 +8981,12 @@ export const SetIamPolicyOrganizationsSourcesResponse = Policy;
 export type SetIamPolicyOrganizationsSourcesError = DefaultErrors;
 
 /** Sets the access control policy on the specified Source. */
-export const setIamPolicyOrganizationsSources: API.OperationMethod<SetIamPolicyOrganizationsSourcesRequest, SetIamPolicyOrganizationsSourcesResponse, SetIamPolicyOrganizationsSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyOrganizationsSources: API.OperationMethod<
+  SetIamPolicyOrganizationsSourcesRequest,
+  SetIamPolicyOrganizationsSourcesResponse,
+  SetIamPolicyOrganizationsSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyOrganizationsSourcesRequest,
   output: SetIamPolicyOrganizationsSourcesResponse,
   errors: [],
@@ -6067,17 +9003,28 @@ export const TestIamPermissionsOrganizationsSourcesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsOrganizationsSourcesRequest>;
 
-export type TestIamPermissionsOrganizationsSourcesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsOrganizationsSourcesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsOrganizationsSourcesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsOrganizationsSourcesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsOrganizationsSourcesError = DefaultErrors;
 
 /** Returns the permissions that a caller has on the specified source. */
-export const testIamPermissionsOrganizationsSources: API.OperationMethod<TestIamPermissionsOrganizationsSourcesRequest, TestIamPermissionsOrganizationsSourcesResponse, TestIamPermissionsOrganizationsSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsOrganizationsSources: API.OperationMethod<
+  TestIamPermissionsOrganizationsSourcesRequest,
+  TestIamPermissionsOrganizationsSourcesResponse,
+  TestIamPermissionsOrganizationsSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsOrganizationsSourcesRequest,
   output: TestIamPermissionsOrganizationsSourcesResponse,
   errors: [],
@@ -6097,7 +9044,11 @@ export const PatchOrganizationsSourcesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Source).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchOrganizationsSourcesRequest>;
 
@@ -6107,7 +9058,12 @@ export const PatchOrganizationsSourcesResponse = Source;
 export type PatchOrganizationsSourcesError = DefaultErrors;
 
 /** Updates a source. */
-export const patchOrganizationsSources: API.OperationMethod<PatchOrganizationsSourcesRequest, PatchOrganizationsSourcesResponse, PatchOrganizationsSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOrganizationsSources: API.OperationMethod<
+  PatchOrganizationsSourcesRequest,
+  PatchOrganizationsSourcesResponse,
+  PatchOrganizationsSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOrganizationsSourcesRequest,
   output: PatchOrganizationsSourcesResponse,
   errors: [],
@@ -6125,19 +9081,32 @@ export interface CreateOrganizationsSourcesFindingsRequest {
 export const CreateOrganizationsSourcesFindingsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   findingId: Schema.optional(Schema.String).pipe(T.HttpQuery("findingId")),
-  body: Schema.optional(GoogleCloudSecuritycenterV1beta1Finding).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudSecuritycenterV1beta1Finding).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOrganizationsSourcesFindingsRequest>;
 
-export type CreateOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1Finding;
-export const CreateOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1Finding;
+export type CreateOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1Finding;
+export const CreateOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1Finding;
 
 export type CreateOrganizationsSourcesFindingsError = DefaultErrors;
 
 /** Creates a finding. The corresponding source must exist for finding creation to succeed. */
-export const createOrganizationsSourcesFindings: API.OperationMethod<CreateOrganizationsSourcesFindingsRequest, CreateOrganizationsSourcesFindingsResponse, CreateOrganizationsSourcesFindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsSourcesFindings: API.OperationMethod<
+  CreateOrganizationsSourcesFindingsRequest,
+  CreateOrganizationsSourcesFindingsResponse,
+  CreateOrganizationsSourcesFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsSourcesFindingsRequest,
   output: CreateOrganizationsSourcesFindingsResponse,
   errors: [],
@@ -6154,7 +9123,11 @@ export const GroupOrganizationsSourcesFindingsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GroupFindingsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings:group", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings:group",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GroupOrganizationsSourcesFindingsRequest>;
 
@@ -6164,7 +9137,12 @@ export const GroupOrganizationsSourcesFindingsResponse = GroupFindingsResponse;
 export type GroupOrganizationsSourcesFindingsError = DefaultErrors;
 
 /** Filters an organization or source's findings and groups them by their specified properties. To group across all sources provide a `-` as the source id. Example: /v1beta1/organizations/{organization_id}/sources/-/findings */
-export const groupOrganizationsSourcesFindings: API.OperationMethod<GroupOrganizationsSourcesFindingsRequest, GroupOrganizationsSourcesFindingsResponse, GroupOrganizationsSourcesFindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const groupOrganizationsSourcesFindings: API.OperationMethod<
+  GroupOrganizationsSourcesFindingsRequest,
+  GroupOrganizationsSourcesFindingsResponse,
+  GroupOrganizationsSourcesFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GroupOrganizationsSourcesFindingsRequest,
   output: GroupOrganizationsSourcesFindingsResponse,
   errors: [],
@@ -6196,7 +9174,10 @@ export const ListOrganizationsSourcesFindingsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsSourcesFindingsRequest>;
 
@@ -6206,7 +9187,12 @@ export const ListOrganizationsSourcesFindingsResponse = ListFindingsResponse;
 export type ListOrganizationsSourcesFindingsError = DefaultErrors;
 
 /** Lists an organization or source's findings. To list across all sources provide a `-` as the source id. Example: /v1beta1/organizations/{organization_id}/sources/-/findings */
-export const listOrganizationsSourcesFindings: API.PaginatedOperationMethod<ListOrganizationsSourcesFindingsRequest, ListOrganizationsSourcesFindingsResponse, ListOrganizationsSourcesFindingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsSourcesFindings: API.PaginatedOperationMethod<
+  ListOrganizationsSourcesFindingsRequest,
+  ListOrganizationsSourcesFindingsResponse,
+  ListOrganizationsSourcesFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsSourcesFindingsRequest,
   output: ListOrganizationsSourcesFindingsResponse,
   errors: [],
@@ -6227,17 +9213,28 @@ export const SetStateOrganizationsSourcesFindingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SetFindingStateRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings/{findingsId}:setState", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings/{findingsId}:setState",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetStateOrganizationsSourcesFindingsRequest>;
 
-export type SetStateOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1Finding;
-export const SetStateOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1Finding;
+export type SetStateOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1Finding;
+export const SetStateOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1Finding;
 
 export type SetStateOrganizationsSourcesFindingsError = DefaultErrors;
 
 /** Updates the state of a finding. */
-export const setStateOrganizationsSourcesFindings: API.OperationMethod<SetStateOrganizationsSourcesFindingsRequest, SetStateOrganizationsSourcesFindingsResponse, SetStateOrganizationsSourcesFindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setStateOrganizationsSourcesFindings: API.OperationMethod<
+  SetStateOrganizationsSourcesFindingsRequest,
+  SetStateOrganizationsSourcesFindingsResponse,
+  SetStateOrganizationsSourcesFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetStateOrganizationsSourcesFindingsRequest,
   output: SetStateOrganizationsSourcesFindingsResponse,
   errors: [],
@@ -6255,19 +9252,32 @@ export interface PatchOrganizationsSourcesFindingsRequest {
 export const PatchOrganizationsSourcesFindingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudSecuritycenterV1beta1Finding).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudSecuritycenterV1beta1Finding).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings/{findingsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings/{findingsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchOrganizationsSourcesFindingsRequest>;
 
-export type PatchOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1Finding;
-export const PatchOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1Finding;
+export type PatchOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1Finding;
+export const PatchOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1Finding;
 
 export type PatchOrganizationsSourcesFindingsError = DefaultErrors;
 
 /** Creates or updates a finding. The corresponding source must exist for a finding creation to succeed. */
-export const patchOrganizationsSourcesFindings: API.OperationMethod<PatchOrganizationsSourcesFindingsRequest, PatchOrganizationsSourcesFindingsResponse, PatchOrganizationsSourcesFindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOrganizationsSourcesFindings: API.OperationMethod<
+  PatchOrganizationsSourcesFindingsRequest,
+  PatchOrganizationsSourcesFindingsResponse,
+  PatchOrganizationsSourcesFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOrganizationsSourcesFindingsRequest,
   output: PatchOrganizationsSourcesFindingsResponse,
   errors: [],
@@ -6284,23 +9294,38 @@ export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
   body?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
 }
 
-export const UpdateSecurityMarksOrganizationsSourcesFindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-  body: Schema.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings/{findingsId}/securityMarks", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateSecurityMarksOrganizationsSourcesFindingsRequest>;
+export const UpdateSecurityMarksOrganizationsSourcesFindingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
+    body: Schema.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/organizations/{organizationsId}/sources/{sourcesId}/findings/{findingsId}/securityMarks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSecurityMarksOrganizationsSourcesFindingsRequest>;
 
-export type UpdateSecurityMarksOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1SecurityMarks;
-export const UpdateSecurityMarksOrganizationsSourcesFindingsResponse = GoogleCloudSecuritycenterV1beta1SecurityMarks;
+export type UpdateSecurityMarksOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1SecurityMarks;
+export const UpdateSecurityMarksOrganizationsSourcesFindingsResponse =
+  GoogleCloudSecuritycenterV1beta1SecurityMarks;
 
-export type UpdateSecurityMarksOrganizationsSourcesFindingsError = DefaultErrors;
+export type UpdateSecurityMarksOrganizationsSourcesFindingsError =
+  DefaultErrors;
 
 /** Updates security marks. */
-export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMethod<UpdateSecurityMarksOrganizationsSourcesFindingsRequest, UpdateSecurityMarksOrganizationsSourcesFindingsResponse, UpdateSecurityMarksOrganizationsSourcesFindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMethod<
+  UpdateSecurityMarksOrganizationsSourcesFindingsRequest,
+  UpdateSecurityMarksOrganizationsSourcesFindingsResponse,
+  UpdateSecurityMarksOrganizationsSourcesFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSecurityMarksOrganizationsSourcesFindingsRequest,
   output: UpdateSecurityMarksOrganizationsSourcesFindingsResponse,
   errors: [],
@@ -6317,7 +9342,11 @@ export const GroupOrganizationsAssetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GroupAssetsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/assets:group", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/assets:group",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GroupOrganizationsAssetsRequest>;
 
@@ -6327,7 +9356,12 @@ export const GroupOrganizationsAssetsResponse = GroupAssetsResponse;
 export type GroupOrganizationsAssetsError = DefaultErrors;
 
 /** Filters an organization's assets and groups them by their specified properties. */
-export const groupOrganizationsAssets: API.OperationMethod<GroupOrganizationsAssetsRequest, GroupOrganizationsAssetsResponse, GroupOrganizationsAssetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const groupOrganizationsAssets: API.OperationMethod<
+  GroupOrganizationsAssetsRequest,
+  GroupOrganizationsAssetsResponse,
+  GroupOrganizationsAssetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GroupOrganizationsAssetsRequest,
   output: GroupOrganizationsAssetsResponse,
   errors: [],
@@ -6357,12 +9391,17 @@ export const ListOrganizationsAssetsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
-  compareDuration: Schema.optional(Schema.String).pipe(T.HttpQuery("compareDuration")),
+  compareDuration: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("compareDuration"),
+  ),
   fieldMask: Schema.optional(Schema.String).pipe(T.HttpQuery("fieldMask")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/organizations/{organizationsId}/assets" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/organizations/{organizationsId}/assets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsAssetsRequest>;
 
@@ -6372,7 +9411,12 @@ export const ListOrganizationsAssetsResponse = ListAssetsResponse;
 export type ListOrganizationsAssetsError = DefaultErrors;
 
 /** Lists an organization's assets. */
-export const listOrganizationsAssets: API.PaginatedOperationMethod<ListOrganizationsAssetsRequest, ListOrganizationsAssetsResponse, ListOrganizationsAssetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsAssets: API.PaginatedOperationMethod<
+  ListOrganizationsAssetsRequest,
+  ListOrganizationsAssetsResponse,
+  ListOrganizationsAssetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsAssetsRequest,
   output: ListOrganizationsAssetsResponse,
   errors: [],
@@ -6393,7 +9437,11 @@ export const RunDiscoveryOrganizationsAssetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(RunAssetDiscoveryRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/organizations/{organizationsId}/assets:runDiscovery", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/organizations/{organizationsId}/assets:runDiscovery",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RunDiscoveryOrganizationsAssetsRequest>;
 
@@ -6403,7 +9451,12 @@ export const RunDiscoveryOrganizationsAssetsResponse = Operation;
 export type RunDiscoveryOrganizationsAssetsError = DefaultErrors;
 
 /** Runs asset discovery. The discovery is tracked with a long-running operation. This API can only be called with limited frequency for an organization. If it is called too frequently the caller will receive a TOO_MANY_REQUESTS error. */
-export const runDiscoveryOrganizationsAssets: API.OperationMethod<RunDiscoveryOrganizationsAssetsRequest, RunDiscoveryOrganizationsAssetsResponse, RunDiscoveryOrganizationsAssetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const runDiscoveryOrganizationsAssets: API.OperationMethod<
+  RunDiscoveryOrganizationsAssetsRequest,
+  RunDiscoveryOrganizationsAssetsResponse,
+  RunDiscoveryOrganizationsAssetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RunDiscoveryOrganizationsAssetsRequest,
   output: RunDiscoveryOrganizationsAssetsResponse,
   errors: [],
@@ -6424,21 +9477,33 @@ export const UpdateSecurityMarksOrganizationsAssetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-  body: Schema.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/organizations/{organizationsId}/assets/{assetsId}/securityMarks", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/organizations/{organizationsId}/assets/{assetsId}/securityMarks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSecurityMarksOrganizationsAssetsRequest>;
 
-export type UpdateSecurityMarksOrganizationsAssetsResponse = GoogleCloudSecuritycenterV1beta1SecurityMarks;
-export const UpdateSecurityMarksOrganizationsAssetsResponse = GoogleCloudSecuritycenterV1beta1SecurityMarks;
+export type UpdateSecurityMarksOrganizationsAssetsResponse =
+  GoogleCloudSecuritycenterV1beta1SecurityMarks;
+export const UpdateSecurityMarksOrganizationsAssetsResponse =
+  GoogleCloudSecuritycenterV1beta1SecurityMarks;
 
 export type UpdateSecurityMarksOrganizationsAssetsError = DefaultErrors;
 
 /** Updates security marks. */
-export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<UpdateSecurityMarksOrganizationsAssetsRequest, UpdateSecurityMarksOrganizationsAssetsResponse, UpdateSecurityMarksOrganizationsAssetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<
+  UpdateSecurityMarksOrganizationsAssetsRequest,
+  UpdateSecurityMarksOrganizationsAssetsResponse,
+  UpdateSecurityMarksOrganizationsAssetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSecurityMarksOrganizationsAssetsRequest,
   output: UpdateSecurityMarksOrganizationsAssetsResponse,
   errors: [],
 }));
-

@@ -32,23 +32,34 @@ export interface Image {
   height?: number;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number),
-  height: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+    width: Schema.optional(Schema.Number),
+    height: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface StringTargetingDimension {
   /** How the items in this list should be targeted. */
-  targetingMode?: "TARGETING_MODE_UNSPECIFIED" | "INCLUSIVE" | "EXCLUSIVE" | (string & {});
+  targetingMode?:
+    | "TARGETING_MODE_UNSPECIFIED"
+    | "INCLUSIVE"
+    | "EXCLUSIVE"
+    | (string & {});
   /** The values specified. */
   values?: Array<string>;
 }
 
-export const StringTargetingDimension: Schema.Schema<StringTargetingDimension> = Schema.suspend(() => Schema.Struct({
-  targetingMode: Schema.optional(Schema.String),
-  values: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "StringTargetingDimension" }) as any as Schema.Schema<StringTargetingDimension>;
+export const StringTargetingDimension: Schema.Schema<StringTargetingDimension> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      targetingMode: Schema.optional(Schema.String),
+      values: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "StringTargetingDimension",
+  }) as any as Schema.Schema<StringTargetingDimension>;
 
 export interface NumericTargetingDimension {
   /** The IDs included in a configuration. */
@@ -57,10 +68,15 @@ export interface NumericTargetingDimension {
   excludedIds?: Array<string>;
 }
 
-export const NumericTargetingDimension: Schema.Schema<NumericTargetingDimension> = Schema.suspend(() => Schema.Struct({
-  includedIds: Schema.optional(Schema.Array(Schema.String)),
-  excludedIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "NumericTargetingDimension" }) as any as Schema.Schema<NumericTargetingDimension>;
+export const NumericTargetingDimension: Schema.Schema<NumericTargetingDimension> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      includedIds: Schema.optional(Schema.Array(Schema.String)),
+      excludedIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "NumericTargetingDimension",
+  }) as any as Schema.Schema<NumericTargetingDimension>;
 
 export interface AppTargeting {
   /** Targeted app IDs. App IDs can refer to those found in an app store or ones that are not published in an app store. A maximum of 30,000 app IDs can be targeted. */
@@ -69,10 +85,14 @@ export interface AppTargeting {
   mobileAppCategoryTargeting?: NumericTargetingDimension;
 }
 
-export const AppTargeting: Schema.Schema<AppTargeting> = Schema.suspend(() => Schema.Struct({
-  mobileAppTargeting: Schema.optional(StringTargetingDimension),
-  mobileAppCategoryTargeting: Schema.optional(NumericTargetingDimension),
-})).annotate({ identifier: "AppTargeting" }) as any as Schema.Schema<AppTargeting>;
+export const AppTargeting: Schema.Schema<AppTargeting> = Schema.suspend(() =>
+  Schema.Struct({
+    mobileAppTargeting: Schema.optional(StringTargetingDimension),
+    mobileAppCategoryTargeting: Schema.optional(NumericTargetingDimension),
+  }),
+).annotate({
+  identifier: "AppTargeting",
+}) as any as Schema.Schema<AppTargeting>;
 
 export interface CreativeDimensions {
   /** The width of the creative in pixels. */
@@ -81,14 +101,21 @@ export interface CreativeDimensions {
   height?: string;
 }
 
-export const CreativeDimensions: Schema.Schema<CreativeDimensions> = Schema.suspend(() => Schema.Struct({
-  width: Schema.optional(Schema.String),
-  height: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreativeDimensions" }) as any as Schema.Schema<CreativeDimensions>;
+export const CreativeDimensions: Schema.Schema<CreativeDimensions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      width: Schema.optional(Schema.String),
+      height: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreativeDimensions",
+  }) as any as Schema.Schema<CreativeDimensions>;
 
 export interface PretargetingConfig {
   /** Creative formats included by this configuration. Only bid requests eligible for at least one of the specified creative formats will be sent. An unset value will allow all bid requests to be sent, regardless of format. */
-  includedFormats?: Array<"CREATIVE_FORMAT_UNSPECIFIED" | "HTML" | "VAST" | "NATIVE" | (string & {})>;
+  includedFormats?: Array<
+    "CREATIVE_FORMAT_UNSPECIFIED" | "HTML" | "VAST" | "NATIVE" | (string & {})
+  >;
   /** Output only. Existing included or excluded geos that are invalid. Previously targeted geos may become invalid due to privacy restrictions. */
   invalidGeoIds?: Array<string>;
   /** The sensitive content category label IDs excluded in this configuration. Bid requests for inventory with any of the specified content label IDs will not be sent. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
@@ -106,7 +133,11 @@ export interface PretargetingConfig {
   /** The geos included or excluded in this configuration defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv */
   geoTargeting?: NumericTargetingDimension;
   /** The interstitial targeting specified for this configuration. The unset value will allow bid requests to be sent regardless of whether they are for interstitials or not. */
-  interstitialTargeting?: "INTERSTITIAL_TARGETING_UNSPECIFIED" | "ONLY_INTERSTITIAL_REQUESTS" | "ONLY_NON_INTERSTITIAL_REQUESTS" | (string & {});
+  interstitialTargeting?:
+    | "INTERSTITIAL_TARGETING_UNSPECIFIED"
+    | "ONLY_INTERSTITIAL_REQUESTS"
+    | "ONLY_NON_INTERSTITIAL_REQUESTS"
+    | (string & {});
   /** The maximum QPS threshold for this configuration. The bidder should receive no more than this number of bid requests matching this configuration per second across all their bidding endpoints among all trading locations. Further information available at https://developers.google.com/authorized-buyers/rtb/peer-guide */
   maximumQps?: string;
   /** The languages included in this configuration, represented by their language code. See https://developers.google.com/adwords/api/docs/appendix/languagecodes. */
@@ -124,63 +155,120 @@ export interface PretargetingConfig {
   /** Output only. Name of the pretargeting configuration that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
   name?: string;
   /** The platforms included by this configration. Bid requests for devices with the specified platform types will be sent. An unset value allows all bid requests to be sent, regardless of platform. */
-  includedPlatforms?: Array<"PLATFORM_UNSPECIFIED" | "PERSONAL_COMPUTER" | "PHONE" | "TABLET" | "CONNECTED_TV" | (string & {})>;
+  includedPlatforms?: Array<
+    | "PLATFORM_UNSPECIFIED"
+    | "PERSONAL_COMPUTER"
+    | "PHONE"
+    | "TABLET"
+    | "CONNECTED_TV"
+    | (string & {})
+  >;
   /** Targeting modes included by this configuration. A bid request must allow all the specified targeting modes. An unset value allows all bid requests to be sent, regardless of which targeting modes they allow. */
-  allowedUserTargetingModes?: Array<"USER_TARGETING_MODE_UNSPECIFIED" | "REMARKETING_ADS" | "INTEREST_BASED_TARGETING" | (string & {})>;
+  allowedUserTargetingModes?: Array<
+    | "USER_TARGETING_MODE_UNSPECIFIED"
+    | "REMARKETING_ADS"
+    | "INTEREST_BASED_TARGETING"
+    | (string & {})
+  >;
   /** User identifier types included in this configuration. At least one of the user identifier types specified in this list must be available for the bid request to be sent. */
-  includedUserIdTypes?: Array<"USER_ID_TYPE_UNSPECIFIED" | "HOSTED_MATCH_DATA" | "GOOGLE_COOKIE" | "DEVICE_ID" | "PUBLISHER_PROVIDED_ID" | "PUBLISHER_FIRST_PARTY_ID" | (string & {})>;
+  includedUserIdTypes?: Array<
+    | "USER_ID_TYPE_UNSPECIFIED"
+    | "HOSTED_MATCH_DATA"
+    | "GOOGLE_COOKIE"
+    | "DEVICE_ID"
+    | "PUBLISHER_PROVIDED_ID"
+    | "PUBLISHER_FIRST_PARTY_ID"
+    | (string & {})
+  >;
   /** The mobile operating systems included in this configuration as defined in https://storage.googleapis.com/adx-rtb-dictionaries/mobile-os.csv */
   includedMobileOperatingSystemIds?: Array<string>;
   /** Environments that are being included. Bid requests will not be sent for a given environment if it is not included. Further restrictions can be applied to included environments to target only a subset of its inventory. An unset value includes all environments. */
-  includedEnvironments?: Array<"ENVIRONMENT_UNSPECIFIED" | "APP" | "WEB" | (string & {})>;
+  includedEnvironments?: Array<
+    "ENVIRONMENT_UNSPECIFIED" | "APP" | "WEB" | (string & {})
+  >;
 }
 
-export const PretargetingConfig: Schema.Schema<PretargetingConfig> = Schema.suspend(() => Schema.Struct({
-  includedFormats: Schema.optional(Schema.Array(Schema.String)),
-  invalidGeoIds: Schema.optional(Schema.Array(Schema.String)),
-  excludedContentLabelIds: Schema.optional(Schema.Array(Schema.String)),
-  billingId: Schema.optional(Schema.String),
-  webTargeting: Schema.optional(StringTargetingDimension),
-  appTargeting: Schema.optional(AppTargeting),
-  state: Schema.optional(Schema.String),
-  minimumViewabilityDecile: Schema.optional(Schema.Number),
-  geoTargeting: Schema.optional(NumericTargetingDimension),
-  interstitialTargeting: Schema.optional(Schema.String),
-  maximumQps: Schema.optional(Schema.String),
-  includedLanguages: Schema.optional(Schema.Array(Schema.String)),
-  includedCreativeDimensions: Schema.optional(Schema.Array(CreativeDimensions)),
-  userListTargeting: Schema.optional(NumericTargetingDimension),
-  displayName: Schema.optional(Schema.String),
-  verticalTargeting: Schema.optional(NumericTargetingDimension),
-  publisherTargeting: Schema.optional(StringTargetingDimension),
-  name: Schema.optional(Schema.String),
-  includedPlatforms: Schema.optional(Schema.Array(Schema.String)),
-  allowedUserTargetingModes: Schema.optional(Schema.Array(Schema.String)),
-  includedUserIdTypes: Schema.optional(Schema.Array(Schema.String)),
-  includedMobileOperatingSystemIds: Schema.optional(Schema.Array(Schema.String)),
-  includedEnvironments: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PretargetingConfig" }) as any as Schema.Schema<PretargetingConfig>;
+export const PretargetingConfig: Schema.Schema<PretargetingConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      includedFormats: Schema.optional(Schema.Array(Schema.String)),
+      invalidGeoIds: Schema.optional(Schema.Array(Schema.String)),
+      excludedContentLabelIds: Schema.optional(Schema.Array(Schema.String)),
+      billingId: Schema.optional(Schema.String),
+      webTargeting: Schema.optional(StringTargetingDimension),
+      appTargeting: Schema.optional(AppTargeting),
+      state: Schema.optional(Schema.String),
+      minimumViewabilityDecile: Schema.optional(Schema.Number),
+      geoTargeting: Schema.optional(NumericTargetingDimension),
+      interstitialTargeting: Schema.optional(Schema.String),
+      maximumQps: Schema.optional(Schema.String),
+      includedLanguages: Schema.optional(Schema.Array(Schema.String)),
+      includedCreativeDimensions: Schema.optional(
+        Schema.Array(CreativeDimensions),
+      ),
+      userListTargeting: Schema.optional(NumericTargetingDimension),
+      displayName: Schema.optional(Schema.String),
+      verticalTargeting: Schema.optional(NumericTargetingDimension),
+      publisherTargeting: Schema.optional(StringTargetingDimension),
+      name: Schema.optional(Schema.String),
+      includedPlatforms: Schema.optional(Schema.Array(Schema.String)),
+      allowedUserTargetingModes: Schema.optional(Schema.Array(Schema.String)),
+      includedUserIdTypes: Schema.optional(Schema.Array(Schema.String)),
+      includedMobileOperatingSystemIds: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      includedEnvironments: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PretargetingConfig",
+  }) as any as Schema.Schema<PretargetingConfig>;
 
 export interface RemoveTargetedPublishersRequest {
   /** A list of publisher IDs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
   publisherIds?: Array<string>;
 }
 
-export const RemoveTargetedPublishersRequest: Schema.Schema<RemoveTargetedPublishersRequest> = Schema.suspend(() => Schema.Struct({
-  publisherIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RemoveTargetedPublishersRequest" }) as any as Schema.Schema<RemoveTargetedPublishersRequest>;
+export const RemoveTargetedPublishersRequest: Schema.Schema<RemoveTargetedPublishersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publisherIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "RemoveTargetedPublishersRequest",
+  }) as any as Schema.Schema<RemoveTargetedPublishersRequest>;
 
 export interface MediaFile {
   /** The MIME type of this media file. Can be used to filter the response of the creatives.list method. */
-  mimeType?: "VIDEO_MIME_TYPE_UNSPECIFIED" | "MIME_VIDEO_XFLV" | "MIME_VIDEO_WEBM" | "MIME_VIDEO_MP4" | "MIME_VIDEO_OGG" | "MIME_VIDEO_YT_HOSTED" | "MIME_VIDEO_X_MS_WMV" | "MIME_VIDEO_3GPP" | "MIME_VIDEO_MOV" | "MIME_APPLICATION_SWF" | "MIME_APPLICATION_SURVEY" | "MIME_APPLICATION_JAVASCRIPT" | "MIME_APPLICATION_SILVERLIGHT" | "MIME_APPLICATION_MPEGURL" | "MIME_APPLICATION_MPEGDASH" | "MIME_AUDIO_MP4A" | "MIME_AUDIO_MP3" | "MIME_AUDIO_OGG" | (string & {});
+  mimeType?:
+    | "VIDEO_MIME_TYPE_UNSPECIFIED"
+    | "MIME_VIDEO_XFLV"
+    | "MIME_VIDEO_WEBM"
+    | "MIME_VIDEO_MP4"
+    | "MIME_VIDEO_OGG"
+    | "MIME_VIDEO_YT_HOSTED"
+    | "MIME_VIDEO_X_MS_WMV"
+    | "MIME_VIDEO_3GPP"
+    | "MIME_VIDEO_MOV"
+    | "MIME_APPLICATION_SWF"
+    | "MIME_APPLICATION_SURVEY"
+    | "MIME_APPLICATION_JAVASCRIPT"
+    | "MIME_APPLICATION_SILVERLIGHT"
+    | "MIME_APPLICATION_MPEGURL"
+    | "MIME_APPLICATION_MPEGDASH"
+    | "MIME_AUDIO_MP4A"
+    | "MIME_AUDIO_MP3"
+    | "MIME_AUDIO_OGG"
+    | (string & {});
   /** Bitrate of the video file, in Kbps. Can be used to filter the response of the creatives.list method. */
   bitrate?: string;
 }
 
-export const MediaFile: Schema.Schema<MediaFile> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  bitrate: Schema.optional(Schema.String),
-})).annotate({ identifier: "MediaFile" }) as any as Schema.Schema<MediaFile>;
+export const MediaFile: Schema.Schema<MediaFile> = Schema.suspend(() =>
+  Schema.Struct({
+    mimeType: Schema.optional(Schema.String),
+    bitrate: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "MediaFile" }) as any as Schema.Schema<MediaFile>;
 
 export interface VideoMetadata {
   /** The minimum duration that the user has to watch before being able to skip this ad. If the field is not set, the ad is not skippable. If the field is set, the ad is skippable. Can be used to filter the response of the creatives.list method. */
@@ -188,7 +276,13 @@ export interface VideoMetadata {
   /** The duration of the ad. Can be used to filter the response of the creatives.list method. */
   duration?: string;
   /** The maximum VAST version across all wrapped VAST documents. Can be used to filter the response of the creatives.list method. */
-  vastVersion?: "VAST_VERSION_UNSPECIFIED" | "VAST_VERSION_1_0" | "VAST_VERSION_2_0" | "VAST_VERSION_3_0" | "VAST_VERSION_4_0" | (string & {});
+  vastVersion?:
+    | "VAST_VERSION_UNSPECIFIED"
+    | "VAST_VERSION_1_0"
+    | "VAST_VERSION_2_0"
+    | "VAST_VERSION_3_0"
+    | "VAST_VERSION_4_0"
+    | (string & {});
   /** The list of all media files declared in the VAST. If there are multiple VASTs in a wrapper chain, this includes the media files from the deepest one in the chain. */
   mediaFiles?: Array<MediaFile>;
   /** Is this a valid VAST ad? Can be used to filter the response of the creatives.list method. */
@@ -197,14 +291,18 @@ export interface VideoMetadata {
   isVpaid?: boolean;
 }
 
-export const VideoMetadata: Schema.Schema<VideoMetadata> = Schema.suspend(() => Schema.Struct({
-  skipOffset: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-  vastVersion: Schema.optional(Schema.String),
-  mediaFiles: Schema.optional(Schema.Array(MediaFile)),
-  isValidVast: Schema.optional(Schema.Boolean),
-  isVpaid: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "VideoMetadata" }) as any as Schema.Schema<VideoMetadata>;
+export const VideoMetadata: Schema.Schema<VideoMetadata> = Schema.suspend(() =>
+  Schema.Struct({
+    skipOffset: Schema.optional(Schema.String),
+    duration: Schema.optional(Schema.String),
+    vastVersion: Schema.optional(Schema.String),
+    mediaFiles: Schema.optional(Schema.Array(MediaFile)),
+    isValidVast: Schema.optional(Schema.Boolean),
+    isVpaid: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "VideoMetadata",
+}) as any as Schema.Schema<VideoMetadata>;
 
 export interface VideoContent {
   /** The URL to fetch a video ad. The URL should return an XML response that conforms to the VAST 2.0, 3.0 or 4.x standard. */
@@ -215,11 +313,15 @@ export interface VideoContent {
   videoMetadata?: VideoMetadata;
 }
 
-export const VideoContent: Schema.Schema<VideoContent> = Schema.suspend(() => Schema.Struct({
-  videoUrl: Schema.optional(Schema.String),
-  videoVastXml: Schema.optional(Schema.String),
-  videoMetadata: Schema.optional(VideoMetadata),
-})).annotate({ identifier: "VideoContent" }) as any as Schema.Schema<VideoContent>;
+export const VideoContent: Schema.Schema<VideoContent> = Schema.suspend(() =>
+  Schema.Struct({
+    videoUrl: Schema.optional(Schema.String),
+    videoVastXml: Schema.optional(Schema.String),
+    videoMetadata: Schema.optional(VideoMetadata),
+  }),
+).annotate({
+  identifier: "VideoContent",
+}) as any as Schema.Schema<VideoContent>;
 
 export interface ListPretargetingConfigsResponse {
   /** List of pretargeting configurations. */
@@ -228,10 +330,15 @@ export interface ListPretargetingConfigsResponse {
   nextPageToken?: string;
 }
 
-export const ListPretargetingConfigsResponse: Schema.Schema<ListPretargetingConfigsResponse> = Schema.suspend(() => Schema.Struct({
-  pretargetingConfigs: Schema.optional(Schema.Array(PretargetingConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPretargetingConfigsResponse" }) as any as Schema.Schema<ListPretargetingConfigsResponse>;
+export const ListPretargetingConfigsResponse: Schema.Schema<ListPretargetingConfigsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pretargetingConfigs: Schema.optional(Schema.Array(PretargetingConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPretargetingConfigsResponse",
+  }) as any as Schema.Schema<ListPretargetingConfigsResponse>;
 
 export interface Buyer {
   /** Output only. The name of the bidder resource that is responsible for receiving bidding traffic for this account. The bidder name must follow the pattern `bidders/{bidderAccountId}`, where `{bidderAccountId}` is the account ID of the bidder receiving traffic for this buyer. */
@@ -248,14 +355,16 @@ export interface Buyer {
   maximumActiveCreativeCount?: string;
 }
 
-export const Buyer: Schema.Schema<Buyer> = Schema.suspend(() => Schema.Struct({
-  bidder: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  billingIds: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  activeCreativeCount: Schema.optional(Schema.String),
-  maximumActiveCreativeCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "Buyer" }) as any as Schema.Schema<Buyer>;
+export const Buyer: Schema.Schema<Buyer> = Schema.suspend(() =>
+  Schema.Struct({
+    bidder: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    billingIds: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+    activeCreativeCount: Schema.optional(Schema.String),
+    maximumActiveCreativeCount: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Buyer" }) as any as Schema.Schema<Buyer>;
 
 export interface ListBuyersResponse {
   /** A token which can be passed to a subsequent call to the `ListBuyers` method to retrieve the next page of results in ListBuyersRequest.pageToken. */
@@ -264,40 +373,64 @@ export interface ListBuyersResponse {
   buyers?: Array<Buyer>;
 }
 
-export const ListBuyersResponse: Schema.Schema<ListBuyersResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  buyers: Schema.optional(Schema.Array(Buyer)),
-})).annotate({ identifier: "ListBuyersResponse" }) as any as Schema.Schema<ListBuyersResponse>;
+export const ListBuyersResponse: Schema.Schema<ListBuyersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      buyers: Schema.optional(Schema.Array(Buyer)),
+    }),
+  ).annotate({
+    identifier: "ListBuyersResponse",
+  }) as any as Schema.Schema<ListBuyersResponse>;
 
 export interface PublisherConnection {
   /** Whether the publisher has been approved by the bidder. */
-  biddingState?: "STATE_UNSPECIFIED" | "PENDING" | "REJECTED" | "APPROVED" | (string & {});
+  biddingState?:
+    | "STATE_UNSPECIFIED"
+    | "PENDING"
+    | "REJECTED"
+    | "APPROVED"
+    | (string & {});
   /** Output only. Name of the publisher connection. This follows the pattern `bidders/{bidder}/publisherConnections/{publisher}`, where `{bidder}` represents the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   name?: string;
   /** Output only. The time at which the publisher initiated a connection with the bidder (irrespective of if or when the bidder approves it). This is subsequently updated if the publisher revokes and re-initiates the connection. */
   createTime?: string;
   /** Output only. Whether the publisher is an Ad Manager or AdMob publisher. */
-  publisherPlatform?: "PUBLISHER_PLATFORM_UNSPECIFIED" | "GOOGLE_AD_MANAGER" | "ADMOB" | (string & {});
+  publisherPlatform?:
+    | "PUBLISHER_PLATFORM_UNSPECIFIED"
+    | "GOOGLE_AD_MANAGER"
+    | "ADMOB"
+    | (string & {});
   /** Output only. Publisher display name. */
   displayName?: string;
 }
 
-export const PublisherConnection: Schema.Schema<PublisherConnection> = Schema.suspend(() => Schema.Struct({
-  biddingState: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  publisherPlatform: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "PublisherConnection" }) as any as Schema.Schema<PublisherConnection>;
+export const PublisherConnection: Schema.Schema<PublisherConnection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      biddingState: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      publisherPlatform: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PublisherConnection",
+  }) as any as Schema.Schema<PublisherConnection>;
 
 export interface BatchApprovePublisherConnectionsResponse {
   /** The publisher connections that have been approved. */
   publisherConnections?: Array<PublisherConnection>;
 }
 
-export const BatchApprovePublisherConnectionsResponse: Schema.Schema<BatchApprovePublisherConnectionsResponse> = Schema.suspend(() => Schema.Struct({
-  publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
-})).annotate({ identifier: "BatchApprovePublisherConnectionsResponse" }) as any as Schema.Schema<BatchApprovePublisherConnectionsResponse>;
+export const BatchApprovePublisherConnectionsResponse: Schema.Schema<BatchApprovePublisherConnectionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
+    }),
+  ).annotate({
+    identifier: "BatchApprovePublisherConnectionsResponse",
+  }) as any as Schema.Schema<BatchApprovePublisherConnectionsResponse>;
 
 export interface AdTechnologyProviders {
   /** Domains of detected unidentified ad technology providers (if any). You must ensure that the creatives used in bids placed for inventory that will serve to EEA or UK users does not contain unidentified ad technology providers. Google reserves the right to filter non-compliant bids. */
@@ -308,11 +441,16 @@ export interface AdTechnologyProviders {
   detectedGvlIds?: Array<string>;
 }
 
-export const AdTechnologyProviders: Schema.Schema<AdTechnologyProviders> = Schema.suspend(() => Schema.Struct({
-  unidentifiedProviderDomains: Schema.optional(Schema.Array(Schema.String)),
-  detectedProviderIds: Schema.optional(Schema.Array(Schema.String)),
-  detectedGvlIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AdTechnologyProviders" }) as any as Schema.Schema<AdTechnologyProviders>;
+export const AdTechnologyProviders: Schema.Schema<AdTechnologyProviders> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unidentifiedProviderDomains: Schema.optional(Schema.Array(Schema.String)),
+      detectedProviderIds: Schema.optional(Schema.Array(Schema.String)),
+      detectedGvlIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AdTechnologyProviders",
+  }) as any as Schema.Schema<AdTechnologyProviders>;
 
 export interface AdvertiserAndBrand {
   /** Advertiser name. Can be used to filter the response of the creatives.list method. */
@@ -325,21 +463,31 @@ export interface AdvertiserAndBrand {
   brandId?: string;
 }
 
-export const AdvertiserAndBrand: Schema.Schema<AdvertiserAndBrand> = Schema.suspend(() => Schema.Struct({
-  advertiserName: Schema.optional(Schema.String),
-  brandName: Schema.optional(Schema.String),
-  advertiserId: Schema.optional(Schema.String),
-  brandId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdvertiserAndBrand" }) as any as Schema.Schema<AdvertiserAndBrand>;
+export const AdvertiserAndBrand: Schema.Schema<AdvertiserAndBrand> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      advertiserName: Schema.optional(Schema.String),
+      brandName: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      brandId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdvertiserAndBrand",
+  }) as any as Schema.Schema<AdvertiserAndBrand>;
 
 export interface HttpCallEvidence {
   /** URLs of HTTP calls made by the creative. */
   urls?: Array<string>;
 }
 
-export const HttpCallEvidence: Schema.Schema<HttpCallEvidence> = Schema.suspend(() => Schema.Struct({
-  urls: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "HttpCallEvidence" }) as any as Schema.Schema<HttpCallEvidence>;
+export const HttpCallEvidence: Schema.Schema<HttpCallEvidence> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      urls: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "HttpCallEvidence",
+}) as any as Schema.Schema<HttpCallEvidence>;
 
 export interface DomainCalls {
   /** The domain name. */
@@ -348,10 +496,12 @@ export interface DomainCalls {
   httpCallCount?: number;
 }
 
-export const DomainCalls: Schema.Schema<DomainCalls> = Schema.suspend(() => Schema.Struct({
-  domain: Schema.optional(Schema.String),
-  httpCallCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "DomainCalls" }) as any as Schema.Schema<DomainCalls>;
+export const DomainCalls: Schema.Schema<DomainCalls> = Schema.suspend(() =>
+  Schema.Struct({
+    domain: Schema.optional(Schema.String),
+    httpCallCount: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "DomainCalls" }) as any as Schema.Schema<DomainCalls>;
 
 export interface DomainCallEvidence {
   /** The total number of HTTP calls made by the creative, including but not limited to the number of calls in the top_http_call_domains. */
@@ -360,10 +510,15 @@ export interface DomainCallEvidence {
   topHttpCallDomains?: Array<DomainCalls>;
 }
 
-export const DomainCallEvidence: Schema.Schema<DomainCallEvidence> = Schema.suspend(() => Schema.Struct({
-  totalHttpCallCount: Schema.optional(Schema.Number),
-  topHttpCallDomains: Schema.optional(Schema.Array(DomainCalls)),
-})).annotate({ identifier: "DomainCallEvidence" }) as any as Schema.Schema<DomainCallEvidence>;
+export const DomainCallEvidence: Schema.Schema<DomainCallEvidence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      totalHttpCallCount: Schema.optional(Schema.Number),
+      topHttpCallDomains: Schema.optional(Schema.Array(DomainCalls)),
+    }),
+  ).annotate({
+    identifier: "DomainCallEvidence",
+  }) as any as Schema.Schema<DomainCallEvidence>;
 
 export interface UrlDownloadSize {
   /** The normalized URL with query parameters and fragment removed. */
@@ -372,10 +527,15 @@ export interface UrlDownloadSize {
   downloadSizeKb?: number;
 }
 
-export const UrlDownloadSize: Schema.Schema<UrlDownloadSize> = Schema.suspend(() => Schema.Struct({
-  normalizedUrl: Schema.optional(Schema.String),
-  downloadSizeKb: Schema.optional(Schema.Number),
-})).annotate({ identifier: "UrlDownloadSize" }) as any as Schema.Schema<UrlDownloadSize>;
+export const UrlDownloadSize: Schema.Schema<UrlDownloadSize> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      normalizedUrl: Schema.optional(Schema.String),
+      downloadSizeKb: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "UrlDownloadSize",
+}) as any as Schema.Schema<UrlDownloadSize>;
 
 export interface DownloadSizeEvidence {
   /** Total download size (in kilobytes) for all the resources in the creative. */
@@ -384,64 +544,115 @@ export interface DownloadSizeEvidence {
   topUrlDownloadSizeBreakdowns?: Array<UrlDownloadSize>;
 }
 
-export const DownloadSizeEvidence: Schema.Schema<DownloadSizeEvidence> = Schema.suspend(() => Schema.Struct({
-  totalDownloadSizeKb: Schema.optional(Schema.Number),
-  topUrlDownloadSizeBreakdowns: Schema.optional(Schema.Array(UrlDownloadSize)),
-})).annotate({ identifier: "DownloadSizeEvidence" }) as any as Schema.Schema<DownloadSizeEvidence>;
+export const DownloadSizeEvidence: Schema.Schema<DownloadSizeEvidence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      totalDownloadSizeKb: Schema.optional(Schema.Number),
+      topUrlDownloadSizeBreakdowns: Schema.optional(
+        Schema.Array(UrlDownloadSize),
+      ),
+    }),
+  ).annotate({
+    identifier: "DownloadSizeEvidence",
+  }) as any as Schema.Schema<DownloadSizeEvidence>;
 
 export interface DestinationNotWorkingEvidence {
   /** HTTP redirect chain error. */
-  redirectionError?: "REDIRECTION_ERROR_UNSPECIFIED" | "TOO_MANY_REDIRECTS" | "INVALID_REDIRECT" | "EMPTY_REDIRECT" | "REDIRECT_ERROR_UNKNOWN" | (string & {});
+  redirectionError?:
+    | "REDIRECTION_ERROR_UNSPECIFIED"
+    | "TOO_MANY_REDIRECTS"
+    | "INVALID_REDIRECT"
+    | "EMPTY_REDIRECT"
+    | "REDIRECT_ERROR_UNKNOWN"
+    | (string & {});
   /** Page was crawled successfully, but was detected as either a page with no content or an error page. */
-  invalidPage?: "INVALID_PAGE_UNSPECIFIED" | "EMPTY_OR_ERROR_PAGE" | (string & {});
+  invalidPage?:
+    | "INVALID_PAGE_UNSPECIFIED"
+    | "EMPTY_OR_ERROR_PAGE"
+    | (string & {});
   /** Platform of the non-working URL. */
-  platform?: "PLATFORM_UNSPECIFIED" | "PERSONAL_COMPUTER" | "ANDROID" | "IOS" | (string & {});
+  platform?:
+    | "PLATFORM_UNSPECIFIED"
+    | "PERSONAL_COMPUTER"
+    | "ANDROID"
+    | "IOS"
+    | (string & {});
   /** Approximate time when the ad destination was last checked. */
   lastCheckTime?: string;
   /** DNS lookup errors. */
-  dnsError?: "DNS_ERROR_UNSPECIFIED" | "ERROR_DNS" | "GOOGLE_CRAWLER_DNS_ISSUE" | (string & {});
+  dnsError?:
+    | "DNS_ERROR_UNSPECIFIED"
+    | "ERROR_DNS"
+    | "GOOGLE_CRAWLER_DNS_ISSUE"
+    | (string & {});
   /** The full non-working URL. */
   expandedUrl?: string;
   /** HTTP error code (for example, 404 or 5xx) */
   httpError?: number;
   /** Rejected because of malformed URLs or invalid requests. */
-  urlRejected?: "URL_REJECTED_UNSPECIFIED" | "BAD_REQUEST" | "MALFORMED_URL" | "URL_REJECTED_UNKNOWN" | (string & {});
+  urlRejected?:
+    | "URL_REJECTED_UNSPECIFIED"
+    | "BAD_REQUEST"
+    | "MALFORMED_URL"
+    | "URL_REJECTED_UNKNOWN"
+    | (string & {});
 }
 
-export const DestinationNotWorkingEvidence: Schema.Schema<DestinationNotWorkingEvidence> = Schema.suspend(() => Schema.Struct({
-  redirectionError: Schema.optional(Schema.String),
-  invalidPage: Schema.optional(Schema.String),
-  platform: Schema.optional(Schema.String),
-  lastCheckTime: Schema.optional(Schema.String),
-  dnsError: Schema.optional(Schema.String),
-  expandedUrl: Schema.optional(Schema.String),
-  httpError: Schema.optional(Schema.Number),
-  urlRejected: Schema.optional(Schema.String),
-})).annotate({ identifier: "DestinationNotWorkingEvidence" }) as any as Schema.Schema<DestinationNotWorkingEvidence>;
+export const DestinationNotWorkingEvidence: Schema.Schema<DestinationNotWorkingEvidence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      redirectionError: Schema.optional(Schema.String),
+      invalidPage: Schema.optional(Schema.String),
+      platform: Schema.optional(Schema.String),
+      lastCheckTime: Schema.optional(Schema.String),
+      dnsError: Schema.optional(Schema.String),
+      expandedUrl: Schema.optional(Schema.String),
+      httpError: Schema.optional(Schema.Number),
+      urlRejected: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DestinationNotWorkingEvidence",
+  }) as any as Schema.Schema<DestinationNotWorkingEvidence>;
 
 export interface DestinationUrlEvidence {
   /** The full landing page URL of the destination. */
   destinationUrl?: string;
 }
 
-export const DestinationUrlEvidence: Schema.Schema<DestinationUrlEvidence> = Schema.suspend(() => Schema.Struct({
-  destinationUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "DestinationUrlEvidence" }) as any as Schema.Schema<DestinationUrlEvidence>;
+export const DestinationUrlEvidence: Schema.Schema<DestinationUrlEvidence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DestinationUrlEvidence",
+  }) as any as Schema.Schema<DestinationUrlEvidence>;
 
 export interface DestinationNotCrawlableEvidence {
   /** Destination URL that was attempted to be crawled. */
   crawledUrl?: string;
   /** Reason of destination not crawlable. */
-  reason?: "REASON_UNSPECIFIED" | "UNREACHABLE_ROBOTS" | "TIMEOUT_ROBOTS" | "ROBOTED_DENIED" | "UNKNOWN" | (string & {});
+  reason?:
+    | "REASON_UNSPECIFIED"
+    | "UNREACHABLE_ROBOTS"
+    | "TIMEOUT_ROBOTS"
+    | "ROBOTED_DENIED"
+    | "UNKNOWN"
+    | (string & {});
   /** Approximate time of the crawl. */
   crawlTime?: string;
 }
 
-export const DestinationNotCrawlableEvidence: Schema.Schema<DestinationNotCrawlableEvidence> = Schema.suspend(() => Schema.Struct({
-  crawledUrl: Schema.optional(Schema.String),
-  reason: Schema.optional(Schema.String),
-  crawlTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DestinationNotCrawlableEvidence" }) as any as Schema.Schema<DestinationNotCrawlableEvidence>;
+export const DestinationNotCrawlableEvidence: Schema.Schema<DestinationNotCrawlableEvidence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      crawledUrl: Schema.optional(Schema.String),
+      reason: Schema.optional(Schema.String),
+      crawlTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DestinationNotCrawlableEvidence",
+  }) as any as Schema.Schema<DestinationNotCrawlableEvidence>;
 
 export interface HttpCookieEvidence {
   /** Names of cookies that violate Google policies. For TOO_MANY_COOKIES policy, this will be the cookie names of top domains with the largest number of cookies. For other policies, this will be all the cookie names that violate the policy. */
@@ -450,10 +661,15 @@ export interface HttpCookieEvidence {
   maxCookieCount?: number;
 }
 
-export const HttpCookieEvidence: Schema.Schema<HttpCookieEvidence> = Schema.suspend(() => Schema.Struct({
-  cookieNames: Schema.optional(Schema.Array(Schema.String)),
-  maxCookieCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "HttpCookieEvidence" }) as any as Schema.Schema<HttpCookieEvidence>;
+export const HttpCookieEvidence: Schema.Schema<HttpCookieEvidence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cookieNames: Schema.optional(Schema.Array(Schema.String)),
+      maxCookieCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "HttpCookieEvidence",
+  }) as any as Schema.Schema<HttpCookieEvidence>;
 
 export interface PolicyTopicEvidence {
   /** HTTP calls made by the creative that resulted in policy violations. */
@@ -472,15 +688,20 @@ export interface PolicyTopicEvidence {
   httpCookie?: HttpCookieEvidence;
 }
 
-export const PolicyTopicEvidence: Schema.Schema<PolicyTopicEvidence> = Schema.suspend(() => Schema.Struct({
-  httpCall: Schema.optional(HttpCallEvidence),
-  domainCall: Schema.optional(DomainCallEvidence),
-  downloadSize: Schema.optional(DownloadSizeEvidence),
-  destinationNotWorking: Schema.optional(DestinationNotWorkingEvidence),
-  destinationUrl: Schema.optional(DestinationUrlEvidence),
-  destinationNotCrawlable: Schema.optional(DestinationNotCrawlableEvidence),
-  httpCookie: Schema.optional(HttpCookieEvidence),
-})).annotate({ identifier: "PolicyTopicEvidence" }) as any as Schema.Schema<PolicyTopicEvidence>;
+export const PolicyTopicEvidence: Schema.Schema<PolicyTopicEvidence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      httpCall: Schema.optional(HttpCallEvidence),
+      domainCall: Schema.optional(DomainCallEvidence),
+      downloadSize: Schema.optional(DownloadSizeEvidence),
+      destinationNotWorking: Schema.optional(DestinationNotWorkingEvidence),
+      destinationUrl: Schema.optional(DestinationUrlEvidence),
+      destinationNotCrawlable: Schema.optional(DestinationNotCrawlableEvidence),
+      httpCookie: Schema.optional(HttpCookieEvidence),
+    }),
+  ).annotate({
+    identifier: "PolicyTopicEvidence",
+  }) as any as Schema.Schema<PolicyTopicEvidence>;
 
 export interface PolicyTopicEntry {
   /** Policy topic this entry refers to. For example, "ALCOHOL", "TRADEMARKS_IN_AD_TEXT", or "DESTINATION_NOT_WORKING". The set of possible policy topics is not fixed for a particular API version and may change at any time. Can be used to filter the response of the creatives.list method */
@@ -493,28 +714,85 @@ export interface PolicyTopicEntry {
   helpCenterUrl?: string;
 }
 
-export const PolicyTopicEntry: Schema.Schema<PolicyTopicEntry> = Schema.suspend(() => Schema.Struct({
-  policyTopic: Schema.optional(Schema.String),
-  evidences: Schema.optional(Schema.Array(PolicyTopicEvidence)),
-  missingCertificate: Schema.optional(Schema.Boolean),
-  helpCenterUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "PolicyTopicEntry" }) as any as Schema.Schema<PolicyTopicEntry>;
+export const PolicyTopicEntry: Schema.Schema<PolicyTopicEntry> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      policyTopic: Schema.optional(Schema.String),
+      evidences: Schema.optional(Schema.Array(PolicyTopicEvidence)),
+      missingCertificate: Schema.optional(Schema.Boolean),
+      helpCenterUrl: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PolicyTopicEntry",
+}) as any as Schema.Schema<PolicyTopicEntry>;
 
 export interface PolicyCompliance {
   /** Topics related to the policy compliance for this transaction type (for example, open auction, deals) or region (for example, China, Russia). Topics may be present only if status is DISAPPROVED. */
   topics?: Array<PolicyTopicEntry>;
   /** Serving status for the given transaction type (for example, open auction, deals) or region (for example, China, Russia). Can be used to filter the response of the creatives.list method. */
-  status?: "STATUS_UNSPECIFIED" | "PENDING_REVIEW" | "DISAPPROVED" | "APPROVED" | "CERTIFICATE_REQUIRED" | (string & {});
+  status?:
+    | "STATUS_UNSPECIFIED"
+    | "PENDING_REVIEW"
+    | "DISAPPROVED"
+    | "APPROVED"
+    | "CERTIFICATE_REQUIRED"
+    | (string & {});
 }
 
-export const PolicyCompliance: Schema.Schema<PolicyCompliance> = Schema.suspend(() => Schema.Struct({
-  topics: Schema.optional(Schema.Array(PolicyTopicEntry)),
-  status: Schema.optional(Schema.String),
-})).annotate({ identifier: "PolicyCompliance" }) as any as Schema.Schema<PolicyCompliance>;
+export const PolicyCompliance: Schema.Schema<PolicyCompliance> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      topics: Schema.optional(Schema.Array(PolicyTopicEntry)),
+      status: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PolicyCompliance",
+}) as any as Schema.Schema<PolicyCompliance>;
 
 export interface CreativeServingDecision {
   /** Publisher-excludable attributes that were detected for this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
-  detectedAttributes?: Array<"ATTRIBUTE_UNSPECIFIED" | "IMAGE_RICH_MEDIA" | "ADOBE_FLASH_FLV" | "IS_TAGGED" | "IS_COOKIE_TARGETED" | "IS_USER_INTEREST_TARGETED" | "EXPANDING_DIRECTION_NONE" | "EXPANDING_DIRECTION_UP" | "EXPANDING_DIRECTION_DOWN" | "EXPANDING_DIRECTION_LEFT" | "EXPANDING_DIRECTION_RIGHT" | "EXPANDING_DIRECTION_UP_LEFT" | "EXPANDING_DIRECTION_UP_RIGHT" | "EXPANDING_DIRECTION_DOWN_LEFT" | "EXPANDING_DIRECTION_DOWN_RIGHT" | "CREATIVE_TYPE_HTML" | "CREATIVE_TYPE_VAST_VIDEO" | "EXPANDING_DIRECTION_UP_OR_DOWN" | "EXPANDING_DIRECTION_LEFT_OR_RIGHT" | "EXPANDING_DIRECTION_ANY_DIAGONAL" | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND" | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH" | "RICH_MEDIA_CAPABILITY_TYPE_MRAID" | "RICH_MEDIA_CAPABILITY_TYPE_FLASH" | "RICH_MEDIA_CAPABILITY_TYPE_HTML5" | "SKIPPABLE_INSTREAM_VIDEO" | "RICH_MEDIA_CAPABILITY_TYPE_SSL" | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL" | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL" | "NON_SKIPPABLE_INSTREAM_VIDEO" | "NATIVE_ELIGIBILITY_ELIGIBLE" | "NON_VPAID" | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE" | "ANY_INTERSTITIAL" | "NON_INTERSTITIAL" | "IN_BANNER_VIDEO" | "RENDERING_SIZELESS_ADX" | "OMSDK_1_0" | "RENDERING_PLAYABLE" | (string & {})>;
+  detectedAttributes?: Array<
+    | "ATTRIBUTE_UNSPECIFIED"
+    | "IMAGE_RICH_MEDIA"
+    | "ADOBE_FLASH_FLV"
+    | "IS_TAGGED"
+    | "IS_COOKIE_TARGETED"
+    | "IS_USER_INTEREST_TARGETED"
+    | "EXPANDING_DIRECTION_NONE"
+    | "EXPANDING_DIRECTION_UP"
+    | "EXPANDING_DIRECTION_DOWN"
+    | "EXPANDING_DIRECTION_LEFT"
+    | "EXPANDING_DIRECTION_RIGHT"
+    | "EXPANDING_DIRECTION_UP_LEFT"
+    | "EXPANDING_DIRECTION_UP_RIGHT"
+    | "EXPANDING_DIRECTION_DOWN_LEFT"
+    | "EXPANDING_DIRECTION_DOWN_RIGHT"
+    | "CREATIVE_TYPE_HTML"
+    | "CREATIVE_TYPE_VAST_VIDEO"
+    | "EXPANDING_DIRECTION_UP_OR_DOWN"
+    | "EXPANDING_DIRECTION_LEFT_OR_RIGHT"
+    | "EXPANDING_DIRECTION_ANY_DIAGONAL"
+    | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND"
+    | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH"
+    | "RICH_MEDIA_CAPABILITY_TYPE_MRAID"
+    | "RICH_MEDIA_CAPABILITY_TYPE_FLASH"
+    | "RICH_MEDIA_CAPABILITY_TYPE_HTML5"
+    | "SKIPPABLE_INSTREAM_VIDEO"
+    | "RICH_MEDIA_CAPABILITY_TYPE_SSL"
+    | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL"
+    | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL"
+    | "NON_SKIPPABLE_INSTREAM_VIDEO"
+    | "NATIVE_ELIGIBILITY_ELIGIBLE"
+    | "NON_VPAID"
+    | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE"
+    | "ANY_INTERSTITIAL"
+    | "NON_INTERSTITIAL"
+    | "IN_BANNER_VIDEO"
+    | "RENDERING_SIZELESS_ADX"
+    | "OMSDK_1_0"
+    | "RENDERING_PLAYABLE"
+    | (string & {})
+  >;
   /** Output only. IDs of the detected categories. The taxonomy in which the categories are expressed is specified by the detected_categories_taxonomy field. Use this in conjunction with BidRequest.bcat to avoid bidding on impressions where a given ad category is blocked, or to troubleshoot filtered bids. Can be used to filter the response of the creatives.list method. */
   detectedCategories?: Array<string>;
   /** The set of detected destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
@@ -526,7 +804,11 @@ export interface CreativeServingDecision {
   /** The detected ad technology providers. */
   adTechnologyProviders?: AdTechnologyProviders;
   /** Output only. The taxonomy in which the detected_categories field is expressed. */
-  detectedCategoriesTaxonomy?: "AD_CATEGORY_TAXONOMY_UNSPECIFIED" | "GOOGLE_AD_CATEGORY_TAXONOMY" | "IAB_CONTENT_1_0" | (string & {});
+  detectedCategoriesTaxonomy?:
+    | "AD_CATEGORY_TAXONOMY_UNSPECIFIED"
+    | "GOOGLE_AD_CATEGORY_TAXONOMY"
+    | "IAB_CONTENT_1_0"
+    | (string & {});
   /** Detected advertisers and brands. */
   detectedAdvertisers?: Array<AdvertiserAndBrand>;
   /** Detected sensitive categories, if any. Can be used to filter the response of the creatives.list method. See the ad-sensitive-categories.txt file in the technical documentation for a list of IDs. You should use these IDs along with the excluded-sensitive-category field in the bid request to filter your bids. */
@@ -549,25 +831,30 @@ export interface CreativeServingDecision {
   detectedDomains?: Array<string>;
 }
 
-export const CreativeServingDecision: Schema.Schema<CreativeServingDecision> = Schema.suspend(() => Schema.Struct({
-  detectedAttributes: Schema.optional(Schema.Array(Schema.String)),
-  detectedCategories: Schema.optional(Schema.Array(Schema.String)),
-  detectedClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
-  detectedProductCategories: Schema.optional(Schema.Array(Schema.Number)),
-  lastStatusUpdate: Schema.optional(Schema.String),
-  adTechnologyProviders: Schema.optional(AdTechnologyProviders),
-  detectedCategoriesTaxonomy: Schema.optional(Schema.String),
-  detectedAdvertisers: Schema.optional(Schema.Array(AdvertiserAndBrand)),
-  detectedSensitiveCategories: Schema.optional(Schema.Array(Schema.Number)),
-  detectedLanguages: Schema.optional(Schema.Array(Schema.String)),
-  chinaPolicyCompliance: Schema.optional(PolicyCompliance),
-  dealsPolicyCompliance: Schema.optional(PolicyCompliance),
-  platformPolicyCompliance: Schema.optional(PolicyCompliance),
-  russiaPolicyCompliance: Schema.optional(PolicyCompliance),
-  detectedVendorIds: Schema.optional(Schema.Array(Schema.Number)),
-  networkPolicyCompliance: Schema.optional(PolicyCompliance),
-  detectedDomains: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CreativeServingDecision" }) as any as Schema.Schema<CreativeServingDecision>;
+export const CreativeServingDecision: Schema.Schema<CreativeServingDecision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      detectedAttributes: Schema.optional(Schema.Array(Schema.String)),
+      detectedCategories: Schema.optional(Schema.Array(Schema.String)),
+      detectedClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
+      detectedProductCategories: Schema.optional(Schema.Array(Schema.Number)),
+      lastStatusUpdate: Schema.optional(Schema.String),
+      adTechnologyProviders: Schema.optional(AdTechnologyProviders),
+      detectedCategoriesTaxonomy: Schema.optional(Schema.String),
+      detectedAdvertisers: Schema.optional(Schema.Array(AdvertiserAndBrand)),
+      detectedSensitiveCategories: Schema.optional(Schema.Array(Schema.Number)),
+      detectedLanguages: Schema.optional(Schema.Array(Schema.String)),
+      chinaPolicyCompliance: Schema.optional(PolicyCompliance),
+      dealsPolicyCompliance: Schema.optional(PolicyCompliance),
+      platformPolicyCompliance: Schema.optional(PolicyCompliance),
+      russiaPolicyCompliance: Schema.optional(PolicyCompliance),
+      detectedVendorIds: Schema.optional(Schema.Array(Schema.Number)),
+      networkPolicyCompliance: Schema.optional(PolicyCompliance),
+      detectedDomains: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CreativeServingDecision",
+  }) as any as Schema.Schema<CreativeServingDecision>;
 
 export interface ListPublisherConnectionsResponse {
   /** The list of publisher connections. */
@@ -576,10 +863,15 @@ export interface ListPublisherConnectionsResponse {
   nextPageToken?: string;
 }
 
-export const ListPublisherConnectionsResponse: Schema.Schema<ListPublisherConnectionsResponse> = Schema.suspend(() => Schema.Struct({
-  publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPublisherConnectionsResponse" }) as any as Schema.Schema<ListPublisherConnectionsResponse>;
+export const ListPublisherConnectionsResponse: Schema.Schema<ListPublisherConnectionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPublisherConnectionsResponse",
+  }) as any as Schema.Schema<ListPublisherConnectionsResponse>;
 
 export interface HtmlContent {
   /** The width of the HTML snippet in pixels. Can be used to filter the response of the creatives.list method. */
@@ -590,11 +882,13 @@ export interface HtmlContent {
   snippet?: string;
 }
 
-export const HtmlContent: Schema.Schema<HtmlContent> = Schema.suspend(() => Schema.Struct({
-  width: Schema.optional(Schema.Number),
-  height: Schema.optional(Schema.Number),
-  snippet: Schema.optional(Schema.String),
-})).annotate({ identifier: "HtmlContent" }) as any as Schema.Schema<HtmlContent>;
+export const HtmlContent: Schema.Schema<HtmlContent> = Schema.suspend(() =>
+  Schema.Struct({
+    width: Schema.optional(Schema.Number),
+    height: Schema.optional(Schema.Number),
+    snippet: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "HtmlContent" }) as any as Schema.Schema<HtmlContent>;
 
 export interface NativeContent {
   /** The name of the advertiser or sponsor, to be displayed in the ad creative. */
@@ -625,25 +919,31 @@ export interface NativeContent {
   callToAction?: string;
 }
 
-export const NativeContent: Schema.Schema<NativeContent> = Schema.suspend(() => Schema.Struct({
-  advertiserName: Schema.optional(Schema.String),
-  priceDisplayText: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  starRating: Schema.optional(Schema.Number),
-  image: Schema.optional(Image),
-  videoVastXml: Schema.optional(Schema.String),
-  appIcon: Schema.optional(Image),
-  clickLinkUrl: Schema.optional(Schema.String),
-  headline: Schema.optional(Schema.String),
-  logo: Schema.optional(Image),
-  videoUrl: Schema.optional(Schema.String),
-  clickTrackingUrl: Schema.optional(Schema.String),
-  callToAction: Schema.optional(Schema.String),
-})).annotate({ identifier: "NativeContent" }) as any as Schema.Schema<NativeContent>;
+export const NativeContent: Schema.Schema<NativeContent> = Schema.suspend(() =>
+  Schema.Struct({
+    advertiserName: Schema.optional(Schema.String),
+    priceDisplayText: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.String),
+    starRating: Schema.optional(Schema.Number),
+    image: Schema.optional(Image),
+    videoVastXml: Schema.optional(Schema.String),
+    appIcon: Schema.optional(Image),
+    clickLinkUrl: Schema.optional(Schema.String),
+    headline: Schema.optional(Schema.String),
+    logo: Schema.optional(Image),
+    videoUrl: Schema.optional(Schema.String),
+    clickTrackingUrl: Schema.optional(Schema.String),
+    callToAction: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "NativeContent",
+}) as any as Schema.Schema<NativeContent>;
 
 export interface Creative {
   /** All restricted categories for the ads that may be shown from this creative. */
-  restrictedCategories?: Array<"RESTRICTED_CATEGORY_UNSPECIFIED" | "ALCOHOL" | (string & {})>;
+  restrictedCategories?: Array<
+    "RESTRICTED_CATEGORY_UNSPECIFIED" | "ALCOHOL" | (string & {})
+  >;
   /** The set of declared destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
   declaredClickThroughUrls?: Array<string>;
   /** Output only. IDs of all of the deals with which this creative has been used in bidding. Can be used to filter the response of the creatives.list method. */
@@ -659,11 +959,57 @@ export interface Creative {
   /** The agency ID for this creative. */
   agencyId?: string;
   /** Output only. The format of this creative. Can be used to filter the response of the creatives.list method. */
-  creativeFormat?: "CREATIVE_FORMAT_UNSPECIFIED" | "HTML" | "VIDEO" | "NATIVE" | (string & {});
+  creativeFormat?:
+    | "CREATIVE_FORMAT_UNSPECIFIED"
+    | "HTML"
+    | "VIDEO"
+    | "NATIVE"
+    | (string & {});
   /** IDs for the declared ad technology vendors that may be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. */
   declaredVendorIds?: Array<number>;
   /** All declared attributes for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto") contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
-  declaredAttributes?: Array<"ATTRIBUTE_UNSPECIFIED" | "IMAGE_RICH_MEDIA" | "ADOBE_FLASH_FLV" | "IS_TAGGED" | "IS_COOKIE_TARGETED" | "IS_USER_INTEREST_TARGETED" | "EXPANDING_DIRECTION_NONE" | "EXPANDING_DIRECTION_UP" | "EXPANDING_DIRECTION_DOWN" | "EXPANDING_DIRECTION_LEFT" | "EXPANDING_DIRECTION_RIGHT" | "EXPANDING_DIRECTION_UP_LEFT" | "EXPANDING_DIRECTION_UP_RIGHT" | "EXPANDING_DIRECTION_DOWN_LEFT" | "EXPANDING_DIRECTION_DOWN_RIGHT" | "CREATIVE_TYPE_HTML" | "CREATIVE_TYPE_VAST_VIDEO" | "EXPANDING_DIRECTION_UP_OR_DOWN" | "EXPANDING_DIRECTION_LEFT_OR_RIGHT" | "EXPANDING_DIRECTION_ANY_DIAGONAL" | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND" | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH" | "RICH_MEDIA_CAPABILITY_TYPE_MRAID" | "RICH_MEDIA_CAPABILITY_TYPE_FLASH" | "RICH_MEDIA_CAPABILITY_TYPE_HTML5" | "SKIPPABLE_INSTREAM_VIDEO" | "RICH_MEDIA_CAPABILITY_TYPE_SSL" | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL" | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL" | "NON_SKIPPABLE_INSTREAM_VIDEO" | "NATIVE_ELIGIBILITY_ELIGIBLE" | "NON_VPAID" | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE" | "ANY_INTERSTITIAL" | "NON_INTERSTITIAL" | "IN_BANNER_VIDEO" | "RENDERING_SIZELESS_ADX" | "OMSDK_1_0" | "RENDERING_PLAYABLE" | (string & {})>;
+  declaredAttributes?: Array<
+    | "ATTRIBUTE_UNSPECIFIED"
+    | "IMAGE_RICH_MEDIA"
+    | "ADOBE_FLASH_FLV"
+    | "IS_TAGGED"
+    | "IS_COOKIE_TARGETED"
+    | "IS_USER_INTEREST_TARGETED"
+    | "EXPANDING_DIRECTION_NONE"
+    | "EXPANDING_DIRECTION_UP"
+    | "EXPANDING_DIRECTION_DOWN"
+    | "EXPANDING_DIRECTION_LEFT"
+    | "EXPANDING_DIRECTION_RIGHT"
+    | "EXPANDING_DIRECTION_UP_LEFT"
+    | "EXPANDING_DIRECTION_UP_RIGHT"
+    | "EXPANDING_DIRECTION_DOWN_LEFT"
+    | "EXPANDING_DIRECTION_DOWN_RIGHT"
+    | "CREATIVE_TYPE_HTML"
+    | "CREATIVE_TYPE_VAST_VIDEO"
+    | "EXPANDING_DIRECTION_UP_OR_DOWN"
+    | "EXPANDING_DIRECTION_LEFT_OR_RIGHT"
+    | "EXPANDING_DIRECTION_ANY_DIAGONAL"
+    | "EXPANDING_ACTION_ROLLOVER_TO_EXPAND"
+    | "INSTREAM_VAST_VIDEO_TYPE_VPAID_FLASH"
+    | "RICH_MEDIA_CAPABILITY_TYPE_MRAID"
+    | "RICH_MEDIA_CAPABILITY_TYPE_FLASH"
+    | "RICH_MEDIA_CAPABILITY_TYPE_HTML5"
+    | "SKIPPABLE_INSTREAM_VIDEO"
+    | "RICH_MEDIA_CAPABILITY_TYPE_SSL"
+    | "RICH_MEDIA_CAPABILITY_TYPE_NON_SSL"
+    | "RICH_MEDIA_CAPABILITY_TYPE_INTERSTITIAL"
+    | "NON_SKIPPABLE_INSTREAM_VIDEO"
+    | "NATIVE_ELIGIBILITY_ELIGIBLE"
+    | "NON_VPAID"
+    | "NATIVE_ELIGIBILITY_NOT_ELIGIBLE"
+    | "ANY_INTERSTITIAL"
+    | "NON_INTERSTITIAL"
+    | "IN_BANNER_VIDEO"
+    | "RENDERING_SIZELESS_ADX"
+    | "OMSDK_1_0"
+    | "RENDERING_PLAYABLE"
+    | (string & {})
+  >;
   /** A native creative. */
   native?: NativeContent;
   /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
@@ -673,7 +1019,9 @@ export interface Creative {
   /** Buyer-specific creative ID that references this creative in bid responses. This field is Ignored in update operations. Can be used to filter the response of the creatives.list method. The maximum length of the creative ID is 128 bytes. */
   creativeId?: string;
   /** All declared restricted categories for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. */
-  declaredRestrictedCategories?: Array<"RESTRICTED_CATEGORY_UNSPECIFIED" | "ALCOHOL" | (string & {})>;
+  declaredRestrictedCategories?: Array<
+    "RESTRICTED_CATEGORY_UNSPECIFIED" | "ALCOHOL" | (string & {})
+  >;
   /** The name of the company being advertised in the creative. Can be used to filter the response of the creatives.list method. */
   advertiserName?: string;
   /** The link to AdChoices destination page. This is only supported for native ads. */
@@ -686,29 +1034,31 @@ export interface Creative {
   renderUrl?: string;
 }
 
-export const Creative: Schema.Schema<Creative> = Schema.suspend(() => Schema.Struct({
-  restrictedCategories: Schema.optional(Schema.Array(Schema.String)),
-  declaredClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
-  dealIds: Schema.optional(Schema.Array(Schema.String)),
-  html: Schema.optional(HtmlContent),
-  apiUpdateTime: Schema.optional(Schema.String),
-  impressionTrackingUrls: Schema.optional(Schema.Array(Schema.String)),
-  video: Schema.optional(VideoContent),
-  agencyId: Schema.optional(Schema.String),
-  creativeFormat: Schema.optional(Schema.String),
-  declaredVendorIds: Schema.optional(Schema.Array(Schema.Number)),
-  declaredAttributes: Schema.optional(Schema.Array(Schema.String)),
-  native: Schema.optional(NativeContent),
-  name: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.Number),
-  creativeId: Schema.optional(Schema.String),
-  declaredRestrictedCategories: Schema.optional(Schema.Array(Schema.String)),
-  advertiserName: Schema.optional(Schema.String),
-  adChoicesDestinationUrl: Schema.optional(Schema.String),
-  creativeServingDecision: Schema.optional(CreativeServingDecision),
-  accountId: Schema.optional(Schema.String),
-  renderUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
+export const Creative: Schema.Schema<Creative> = Schema.suspend(() =>
+  Schema.Struct({
+    restrictedCategories: Schema.optional(Schema.Array(Schema.String)),
+    declaredClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
+    dealIds: Schema.optional(Schema.Array(Schema.String)),
+    html: Schema.optional(HtmlContent),
+    apiUpdateTime: Schema.optional(Schema.String),
+    impressionTrackingUrls: Schema.optional(Schema.Array(Schema.String)),
+    video: Schema.optional(VideoContent),
+    agencyId: Schema.optional(Schema.String),
+    creativeFormat: Schema.optional(Schema.String),
+    declaredVendorIds: Schema.optional(Schema.Array(Schema.Number)),
+    declaredAttributes: Schema.optional(Schema.Array(Schema.String)),
+    native: Schema.optional(NativeContent),
+    name: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.Number),
+    creativeId: Schema.optional(Schema.String),
+    declaredRestrictedCategories: Schema.optional(Schema.Array(Schema.String)),
+    advertiserName: Schema.optional(Schema.String),
+    adChoicesDestinationUrl: Schema.optional(Schema.String),
+    creativeServingDecision: Schema.optional(CreativeServingDecision),
+    accountId: Schema.optional(Schema.String),
+    renderUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
 
 export interface WatchCreativesResponse {
   /** The Pub/Sub topic that will be used to publish creative serving status notifications. This would be of the format `projects/{project_id}/topics/{topic_id}`. */
@@ -717,25 +1067,35 @@ export interface WatchCreativesResponse {
   subscription?: string;
 }
 
-export const WatchCreativesResponse: Schema.Schema<WatchCreativesResponse> = Schema.suspend(() => Schema.Struct({
-  topic: Schema.optional(Schema.String),
-  subscription: Schema.optional(Schema.String),
-})).annotate({ identifier: "WatchCreativesResponse" }) as any as Schema.Schema<WatchCreativesResponse>;
+export const WatchCreativesResponse: Schema.Schema<WatchCreativesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      topic: Schema.optional(Schema.String),
+      subscription: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WatchCreativesResponse",
+  }) as any as Schema.Schema<WatchCreativesResponse>;
 
 export interface BatchRejectPublisherConnectionsResponse {
   /** The publisher connections that have been rejected. */
   publisherConnections?: Array<PublisherConnection>;
 }
 
-export const BatchRejectPublisherConnectionsResponse: Schema.Schema<BatchRejectPublisherConnectionsResponse> = Schema.suspend(() => Schema.Struct({
-  publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
-})).annotate({ identifier: "BatchRejectPublisherConnectionsResponse" }) as any as Schema.Schema<BatchRejectPublisherConnectionsResponse>;
+export const BatchRejectPublisherConnectionsResponse: Schema.Schema<BatchRejectPublisherConnectionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
+    }),
+  ).annotate({
+    identifier: "BatchRejectPublisherConnectionsResponse",
+  }) as any as Schema.Schema<BatchRejectPublisherConnectionsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Endpoint {
   /** Output only. The URL that bid requests should be sent to. */
@@ -743,20 +1103,33 @@ export interface Endpoint {
   /** The maximum number of queries per second allowed to be sent to this server. */
   maximumQps?: string;
   /** The trading location that bid requests should be sent from. See https://developers.google.com/authorized-buyers/rtb/peer-guide#trading-locations for further information. */
-  tradingLocation?: "TRADING_LOCATION_UNSPECIFIED" | "US_WEST" | "US_EAST" | "EUROPE" | "ASIA" | (string & {});
+  tradingLocation?:
+    | "TRADING_LOCATION_UNSPECIFIED"
+    | "US_WEST"
+    | "US_EAST"
+    | "EUROPE"
+    | "ASIA"
+    | (string & {});
   /** The protocol that the bidder endpoint is using. */
-  bidProtocol?: "BID_PROTOCOL_UNSPECIFIED" | "GOOGLE_RTB" | "OPENRTB_JSON" | "OPENRTB_PROTOBUF" | (string & {});
+  bidProtocol?:
+    | "BID_PROTOCOL_UNSPECIFIED"
+    | "GOOGLE_RTB"
+    | "OPENRTB_JSON"
+    | "OPENRTB_PROTOBUF"
+    | (string & {});
   /** Output only. Name of the endpoint resource that must follow the pattern `bidders/{bidderAccountId}/endpoints/{endpointId}`, where {bidderAccountId} is the account ID of the bidder who operates this endpoint, and {endpointId} is a unique ID assigned by the server. */
   name?: string;
 }
 
-export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  maximumQps: Schema.optional(Schema.String),
-  tradingLocation: Schema.optional(Schema.String),
-  bidProtocol: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
+export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+    maximumQps: Schema.optional(Schema.String),
+    tradingLocation: Schema.optional(Schema.String),
+    bidProtocol: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
 
 export interface ListEndpointsResponse {
   /** A token which can be passed to a subsequent call to the `ListEndpoints` method to retrieve the next page of results in ListEndpointsRequest.pageToken. */
@@ -765,25 +1138,36 @@ export interface ListEndpointsResponse {
   endpoints?: Array<Endpoint>;
 }
 
-export const ListEndpointsResponse: Schema.Schema<ListEndpointsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  endpoints: Schema.optional(Schema.Array(Endpoint)),
-})).annotate({ identifier: "ListEndpointsResponse" }) as any as Schema.Schema<ListEndpointsResponse>;
+export const ListEndpointsResponse: Schema.Schema<ListEndpointsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      endpoints: Schema.optional(Schema.Array(Endpoint)),
+    }),
+  ).annotate({
+    identifier: "ListEndpointsResponse",
+  }) as any as Schema.Schema<ListEndpointsResponse>;
 
 export interface GetRemarketingTagResponse {
   /** An HTML tag that can be placed on the advertiser's page to add users to a user list. For more information and code samples on using snippets on your website, refer to [Tag your site for remarketing](https://support.google.com/google-ads/answer/2476688). */
   snippet?: string;
 }
 
-export const GetRemarketingTagResponse: Schema.Schema<GetRemarketingTagResponse> = Schema.suspend(() => Schema.Struct({
-  snippet: Schema.optional(Schema.String),
-})).annotate({ identifier: "GetRemarketingTagResponse" }) as any as Schema.Schema<GetRemarketingTagResponse>;
+export const GetRemarketingTagResponse: Schema.Schema<GetRemarketingTagResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      snippet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GetRemarketingTagResponse",
+  }) as any as Schema.Schema<GetRemarketingTagResponse>;
 
-export interface CloseUserListRequest {
-}
+export interface CloseUserListRequest {}
 
-export const CloseUserListRequest: Schema.Schema<CloseUserListRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CloseUserListRequest" }) as any as Schema.Schema<CloseUserListRequest>;
+export const CloseUserListRequest: Schema.Schema<CloseUserListRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CloseUserListRequest",
+  }) as any as Schema.Schema<CloseUserListRequest>;
 
 export interface ListCreativesResponse {
   /** The list of creatives. */
@@ -792,22 +1176,36 @@ export interface ListCreativesResponse {
   nextPageToken?: string;
 }
 
-export const ListCreativesResponse: Schema.Schema<ListCreativesResponse> = Schema.suspend(() => Schema.Struct({
-  creatives: Schema.optional(Schema.Array(Creative)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCreativesResponse" }) as any as Schema.Schema<ListCreativesResponse>;
+export const ListCreativesResponse: Schema.Schema<ListCreativesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      creatives: Schema.optional(Schema.Array(Creative)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCreativesResponse",
+  }) as any as Schema.Schema<ListCreativesResponse>;
 
 export interface AddTargetedPublishersRequest {
   /** A list of publisher IDs to target in the pretargeting configuration. These values will be added to the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
   publisherIds?: Array<string>;
   /** Required. The targeting mode that should be applied to the list of publisher IDs. If are existing publisher IDs, must be equal to the existing PretargetingConfig.publisherTargeting.targetingMode or a 400 bad request error will be returned. */
-  targetingMode?: "TARGETING_MODE_UNSPECIFIED" | "INCLUSIVE" | "EXCLUSIVE" | (string & {});
+  targetingMode?:
+    | "TARGETING_MODE_UNSPECIFIED"
+    | "INCLUSIVE"
+    | "EXCLUSIVE"
+    | (string & {});
 }
 
-export const AddTargetedPublishersRequest: Schema.Schema<AddTargetedPublishersRequest> = Schema.suspend(() => Schema.Struct({
-  publisherIds: Schema.optional(Schema.Array(Schema.String)),
-  targetingMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddTargetedPublishersRequest" }) as any as Schema.Schema<AddTargetedPublishersRequest>;
+export const AddTargetedPublishersRequest: Schema.Schema<AddTargetedPublishersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publisherIds: Schema.optional(Schema.Array(Schema.String)),
+      targetingMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddTargetedPublishersRequest",
+  }) as any as Schema.Schema<AddTargetedPublishersRequest>;
 
 export interface Bidder {
   /** Output only. Name of the bidder resource that must follow the pattern `bidders/{bidderAccountId}`, where `{bidderAccountId}` is the account ID of the bidder whose information is to be received. One can get their account ID on the Authorized Buyers or Open Bidding UI, or by contacting their Google account manager. */
@@ -822,25 +1220,36 @@ export interface Bidder {
   bypassNonguaranteedDealsPretargeting?: boolean;
 }
 
-export const Bidder: Schema.Schema<Bidder> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  cookieMatchingUrl: Schema.optional(Schema.String),
-  cookieMatchingNetworkId: Schema.optional(Schema.String),
-  dealsBillingId: Schema.optional(Schema.String),
-  bypassNonguaranteedDealsPretargeting: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Bidder" }) as any as Schema.Schema<Bidder>;
+export const Bidder: Schema.Schema<Bidder> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    cookieMatchingUrl: Schema.optional(Schema.String),
+    cookieMatchingNetworkId: Schema.optional(Schema.String),
+    dealsBillingId: Schema.optional(Schema.String),
+    bypassNonguaranteedDealsPretargeting: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Bidder" }) as any as Schema.Schema<Bidder>;
 
 export interface AddTargetedSitesRequest {
   /** A list of site URLs to target in the pretargeting configuration. These values will be added to the list of targeted URLs in PretargetingConfig.webTargeting.values. */
   sites?: Array<string>;
   /** Required. The targeting mode that should be applied to the list of site URLs. If there are existing targeted sites, must be equal to the existing PretargetingConfig.webTargeting.targetingMode or a 400 bad request error will be returned. */
-  targetingMode?: "TARGETING_MODE_UNSPECIFIED" | "INCLUSIVE" | "EXCLUSIVE" | (string & {});
+  targetingMode?:
+    | "TARGETING_MODE_UNSPECIFIED"
+    | "INCLUSIVE"
+    | "EXCLUSIVE"
+    | (string & {});
 }
 
-export const AddTargetedSitesRequest: Schema.Schema<AddTargetedSitesRequest> = Schema.suspend(() => Schema.Struct({
-  sites: Schema.optional(Schema.Array(Schema.String)),
-  targetingMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddTargetedSitesRequest" }) as any as Schema.Schema<AddTargetedSitesRequest>;
+export const AddTargetedSitesRequest: Schema.Schema<AddTargetedSitesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sites: Schema.optional(Schema.Array(Schema.String)),
+      targetingMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddTargetedSitesRequest",
+  }) as any as Schema.Schema<AddTargetedSitesRequest>;
 
 export interface Realtimebidding_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
@@ -851,11 +1260,16 @@ export interface Realtimebidding_Date {
   year?: number;
 }
 
-export const Realtimebidding_Date: Schema.Schema<Realtimebidding_Date> = Schema.suspend(() => Schema.Struct({
-  month: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-  year: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Realtimebidding_Date" }) as any as Schema.Schema<Realtimebidding_Date>;
+export const Realtimebidding_Date: Schema.Schema<Realtimebidding_Date> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      month: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "Realtimebidding_Date",
+  }) as any as Schema.Schema<Realtimebidding_Date>;
 
 export interface UrlRestriction {
   /** Required. The URL to use for applying the restriction on the user list. */
@@ -863,38 +1277,60 @@ export interface UrlRestriction {
   /** End date (if specified) of the URL restriction. End date should be later than the start date for the date range to be valid. */
   endDate?: Realtimebidding_Date;
   /** The restriction type for the specified URL. */
-  restrictionType?: "RESTRICTION_TYPE_UNSPECIFIED" | "CONTAINS" | "EQUALS" | "STARTS_WITH" | "ENDS_WITH" | "DOES_NOT_EQUAL" | "DOES_NOT_CONTAIN" | "DOES_NOT_START_WITH" | "DOES_NOT_END_WITH" | (string & {});
+  restrictionType?:
+    | "RESTRICTION_TYPE_UNSPECIFIED"
+    | "CONTAINS"
+    | "EQUALS"
+    | "STARTS_WITH"
+    | "ENDS_WITH"
+    | "DOES_NOT_EQUAL"
+    | "DOES_NOT_CONTAIN"
+    | "DOES_NOT_START_WITH"
+    | "DOES_NOT_END_WITH"
+    | (string & {});
   /** Start date (if specified) of the URL restriction. */
   startDate?: Realtimebidding_Date;
 }
 
-export const UrlRestriction: Schema.Schema<UrlRestriction> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  endDate: Schema.optional(Realtimebidding_Date),
-  restrictionType: Schema.optional(Schema.String),
-  startDate: Schema.optional(Realtimebidding_Date),
-})).annotate({ identifier: "UrlRestriction" }) as any as Schema.Schema<UrlRestriction>;
+export const UrlRestriction: Schema.Schema<UrlRestriction> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      endDate: Schema.optional(Realtimebidding_Date),
+      restrictionType: Schema.optional(Schema.String),
+      startDate: Schema.optional(Realtimebidding_Date),
+    }),
+).annotate({
+  identifier: "UrlRestriction",
+}) as any as Schema.Schema<UrlRestriction>;
 
-export interface ActivatePretargetingConfigRequest {
-}
+export interface ActivatePretargetingConfigRequest {}
 
-export const ActivatePretargetingConfigRequest: Schema.Schema<ActivatePretargetingConfigRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ActivatePretargetingConfigRequest" }) as any as Schema.Schema<ActivatePretargetingConfigRequest>;
+export const ActivatePretargetingConfigRequest: Schema.Schema<ActivatePretargetingConfigRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ActivatePretargetingConfigRequest",
+  }) as any as Schema.Schema<ActivatePretargetingConfigRequest>;
 
-export interface OpenUserListRequest {
-}
+export interface OpenUserListRequest {}
 
-export const OpenUserListRequest: Schema.Schema<OpenUserListRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "OpenUserListRequest" }) as any as Schema.Schema<OpenUserListRequest>;
+export const OpenUserListRequest: Schema.Schema<OpenUserListRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "OpenUserListRequest",
+  }) as any as Schema.Schema<OpenUserListRequest>;
 
 export interface BatchApprovePublisherConnectionsRequest {
   /** Required. The names of the publishers with which connections will be approved. In the pattern `bidders/{bidder}/publisherConnections/{publisher}` where `{bidder}` is the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   names?: Array<string>;
 }
 
-export const BatchApprovePublisherConnectionsRequest: Schema.Schema<BatchApprovePublisherConnectionsRequest> = Schema.suspend(() => Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchApprovePublisherConnectionsRequest" }) as any as Schema.Schema<BatchApprovePublisherConnectionsRequest>;
+export const BatchApprovePublisherConnectionsRequest: Schema.Schema<BatchApprovePublisherConnectionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      names: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchApprovePublisherConnectionsRequest",
+  }) as any as Schema.Schema<BatchApprovePublisherConnectionsRequest>;
 
 export interface UserList {
   /** Output only. The status of the user list. A new user list starts out as open. */
@@ -911,14 +1347,16 @@ export interface UserList {
   urlRestriction?: UrlRestriction;
 }
 
-export const UserList: Schema.Schema<UserList> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  membershipDurationDays: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  urlRestriction: Schema.optional(UrlRestriction),
-})).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
+export const UserList: Schema.Schema<UserList> = Schema.suspend(() =>
+  Schema.Struct({
+    status: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    membershipDurationDays: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    urlRestriction: Schema.optional(UrlRestriction),
+  }),
+).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
 
 export interface ListUserListsResponse {
   /** List of user lists from the search. */
@@ -927,61 +1365,92 @@ export interface ListUserListsResponse {
   nextPageToken?: string;
 }
 
-export const ListUserListsResponse: Schema.Schema<ListUserListsResponse> = Schema.suspend(() => Schema.Struct({
-  userLists: Schema.optional(Schema.Array(UserList)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListUserListsResponse" }) as any as Schema.Schema<ListUserListsResponse>;
+export const ListUserListsResponse: Schema.Schema<ListUserListsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userLists: Schema.optional(Schema.Array(UserList)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListUserListsResponse",
+  }) as any as Schema.Schema<ListUserListsResponse>;
 
 export interface AddTargetedAppsRequest {
   /** Required. The targeting mode that should be applied to the list of app IDs. If there are existing targeted app IDs, must be equal to the existing PretargetingConfig.appTargeting.mobileAppTargeting.targetingMode or a 400 bad request error will be returned. */
-  targetingMode?: "TARGETING_MODE_UNSPECIFIED" | "INCLUSIVE" | "EXCLUSIVE" | (string & {});
+  targetingMode?:
+    | "TARGETING_MODE_UNSPECIFIED"
+    | "INCLUSIVE"
+    | "EXCLUSIVE"
+    | (string & {});
   /** A list of app IDs to target in the pretargeting configuration. These values will be added to the list of targeted app IDs in PretargetingConfig.appTargeting.mobileAppTargeting.values. */
   appIds?: Array<string>;
 }
 
-export const AddTargetedAppsRequest: Schema.Schema<AddTargetedAppsRequest> = Schema.suspend(() => Schema.Struct({
-  targetingMode: Schema.optional(Schema.String),
-  appIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AddTargetedAppsRequest" }) as any as Schema.Schema<AddTargetedAppsRequest>;
+export const AddTargetedAppsRequest: Schema.Schema<AddTargetedAppsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      targetingMode: Schema.optional(Schema.String),
+      appIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AddTargetedAppsRequest",
+  }) as any as Schema.Schema<AddTargetedAppsRequest>;
 
 export interface BatchRejectPublisherConnectionsRequest {
   /** Required. The names of the publishers with whom connection will be rejected. In the pattern `bidders/{bidder}/publisherConnections/{publisher}` where `{bidder}` is the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   names?: Array<string>;
 }
 
-export const BatchRejectPublisherConnectionsRequest: Schema.Schema<BatchRejectPublisherConnectionsRequest> = Schema.suspend(() => Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchRejectPublisherConnectionsRequest" }) as any as Schema.Schema<BatchRejectPublisherConnectionsRequest>;
+export const BatchRejectPublisherConnectionsRequest: Schema.Schema<BatchRejectPublisherConnectionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      names: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchRejectPublisherConnectionsRequest",
+  }) as any as Schema.Schema<BatchRejectPublisherConnectionsRequest>;
 
-export interface SuspendPretargetingConfigRequest {
-}
+export interface SuspendPretargetingConfigRequest {}
 
-export const SuspendPretargetingConfigRequest: Schema.Schema<SuspendPretargetingConfigRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SuspendPretargetingConfigRequest" }) as any as Schema.Schema<SuspendPretargetingConfigRequest>;
+export const SuspendPretargetingConfigRequest: Schema.Schema<SuspendPretargetingConfigRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SuspendPretargetingConfigRequest",
+  }) as any as Schema.Schema<SuspendPretargetingConfigRequest>;
 
 export interface RemoveTargetedAppsRequest {
   /** A list of app IDs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted app IDs in PretargetingConfig.appTargeting.mobileAppTargeting.values. */
   appIds?: Array<string>;
 }
 
-export const RemoveTargetedAppsRequest: Schema.Schema<RemoveTargetedAppsRequest> = Schema.suspend(() => Schema.Struct({
-  appIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RemoveTargetedAppsRequest" }) as any as Schema.Schema<RemoveTargetedAppsRequest>;
+export const RemoveTargetedAppsRequest: Schema.Schema<RemoveTargetedAppsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      appIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "RemoveTargetedAppsRequest",
+  }) as any as Schema.Schema<RemoveTargetedAppsRequest>;
 
-export interface WatchCreativesRequest {
-}
+export interface WatchCreativesRequest {}
 
-export const WatchCreativesRequest: Schema.Schema<WatchCreativesRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "WatchCreativesRequest" }) as any as Schema.Schema<WatchCreativesRequest>;
+export const WatchCreativesRequest: Schema.Schema<WatchCreativesRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "WatchCreativesRequest",
+  }) as any as Schema.Schema<WatchCreativesRequest>;
 
 export interface RemoveTargetedSitesRequest {
   /** A list of site URLs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted URLs in PretargetingConfig.webTargeting.values. */
   sites?: Array<string>;
 }
 
-export const RemoveTargetedSitesRequest: Schema.Schema<RemoveTargetedSitesRequest> = Schema.suspend(() => Schema.Struct({
-  sites: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RemoveTargetedSitesRequest" }) as any as Schema.Schema<RemoveTargetedSitesRequest>;
+export const RemoveTargetedSitesRequest: Schema.Schema<RemoveTargetedSitesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sites: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "RemoveTargetedSitesRequest",
+  }) as any as Schema.Schema<RemoveTargetedSitesRequest>;
 
 export interface ListBiddersResponse {
   /** List of bidders. */
@@ -990,10 +1459,15 @@ export interface ListBiddersResponse {
   nextPageToken?: string;
 }
 
-export const ListBiddersResponse: Schema.Schema<ListBiddersResponse> = Schema.suspend(() => Schema.Struct({
-  bidders: Schema.optional(Schema.Array(Bidder)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListBiddersResponse" }) as any as Schema.Schema<ListBiddersResponse>;
+export const ListBiddersResponse: Schema.Schema<ListBiddersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bidders: Schema.optional(Schema.Array(Bidder)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListBiddersResponse",
+  }) as any as Schema.Schema<ListBiddersResponse>;
 
 // ==========================================================================
 // Operations
@@ -1017,7 +1491,12 @@ export const GetRemarketingTagBuyersResponse = GetRemarketingTagResponse;
 export type GetRemarketingTagBuyersError = DefaultErrors;
 
 /** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
-export const getRemarketingTagBuyers: API.OperationMethod<GetRemarketingTagBuyersRequest, GetRemarketingTagBuyersResponse, GetRemarketingTagBuyersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getRemarketingTagBuyers: API.OperationMethod<
+  GetRemarketingTagBuyersRequest,
+  GetRemarketingTagBuyersResponse,
+  GetRemarketingTagBuyersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetRemarketingTagBuyersRequest,
   output: GetRemarketingTagBuyersResponse,
   errors: [],
@@ -1041,7 +1520,12 @@ export const GetBuyersResponse = Buyer;
 export type GetBuyersError = DefaultErrors;
 
 /** Gets a buyer account by its name. */
-export const getBuyers: API.OperationMethod<GetBuyersRequest, GetBuyersResponse, GetBuyersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBuyers: API.OperationMethod<
+  GetBuyersRequest,
+  GetBuyersResponse,
+  GetBuyersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBuyersRequest,
   output: GetBuyersResponse,
   errors: [],
@@ -1068,7 +1552,12 @@ export const ListBuyersResponse_Op = ListBuyersResponse;
 export type ListBuyersError = DefaultErrors;
 
 /** Lists all buyer account information the calling buyer user or service account is permissioned to manage. */
-export const listBuyers: API.PaginatedOperationMethod<ListBuyersRequest, ListBuyersResponse_Op, ListBuyersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBuyers: API.PaginatedOperationMethod<
+  ListBuyersRequest,
+  ListBuyersResponse_Op,
+  ListBuyersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBuyersRequest,
   output: ListBuyersResponse_Op,
   errors: [],
@@ -1082,7 +1571,11 @@ export interface ListBuyersCreativesRequest {
   /** A token identifying a page of results the server should return. Typically, this is the value of ListCreativesResponse.nextPageToken returned from the previous call to the 'ListCreatives' method. Page tokens for continued pages are valid for up to five hours, counting from the call to 'ListCreatives' for the first page. */
   pageToken?: string;
   /** Controls the amount of information included in the response. By default only creativeServingDecision is included. To retrieve the entire creative resource (including the declared fields and the creative content) specify the view as "FULL". */
-  view?: "CREATIVE_VIEW_UNSPECIFIED" | "SERVING_DECISION_ONLY" | "FULL" | (string & {});
+  view?:
+    | "CREATIVE_VIEW_UNSPECIFIED"
+    | "SERVING_DECISION_ONLY"
+    | "FULL"
+    | (string & {});
   /** Requested page size. The server may return fewer creatives than requested (due to timeout constraint) even if more are available through another call. If unspecified, server will pick an appropriate default. Acceptable values are 1 to 1000, inclusive. */
   pageSize?: number;
   /** Required. Name of the parent buyer that owns the creatives. The pattern for this resource is either `buyers/{buyerAccountId}` or `bidders/{bidderAccountId}`. For `buyers/{buyerAccountId}`, the `buyerAccountId` can be one of the following: 1. The ID of the buyer that is accessing their own creatives. 2. The ID of the child seat buyer under a bidder account. So for listing creatives pertaining to the child seat buyer (`456`) under bidder account (`123`), you would use the pattern: `buyers/456`. 3. The ID of the bidder itself. So for listing creatives pertaining to bidder (`123`), you would use `buyers/123`. If you want to access all creatives pertaining to both the bidder and all of its child seat accounts, you would use `bidders/{bidderAccountId}`, for example, for all creatives pertaining to bidder (`123`), use `bidders/123`. */
@@ -1108,7 +1601,12 @@ export const ListBuyersCreativesResponse = ListCreativesResponse;
 export type ListBuyersCreativesError = DefaultErrors;
 
 /** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
-export const listBuyersCreatives: API.PaginatedOperationMethod<ListBuyersCreativesRequest, ListBuyersCreativesResponse, ListBuyersCreativesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBuyersCreatives: API.PaginatedOperationMethod<
+  ListBuyersCreativesRequest,
+  ListBuyersCreativesResponse,
+  ListBuyersCreativesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBuyersCreativesRequest,
   output: ListBuyersCreativesResponse,
   errors: [],
@@ -1122,14 +1620,21 @@ export interface GetBuyersCreativesRequest {
   /** Required. Name of the creative to retrieve. See creative.name. */
   name: string;
   /** Controls the amount of information included in the response. By default only creativeServingDecision is included. To retrieve the entire creative resource (including the declared fields and the creative content) specify the view as "FULL". */
-  view?: "CREATIVE_VIEW_UNSPECIFIED" | "SERVING_DECISION_ONLY" | "FULL" | (string & {});
+  view?:
+    | "CREATIVE_VIEW_UNSPECIFIED"
+    | "SERVING_DECISION_ONLY"
+    | "FULL"
+    | (string & {});
 }
 
 export const GetBuyersCreativesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/creatives/{creativesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/buyers/{buyersId}/creatives/{creativesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBuyersCreativesRequest>;
 
@@ -1139,7 +1644,12 @@ export const GetBuyersCreativesResponse = Creative;
 export type GetBuyersCreativesError = DefaultErrors;
 
 /** Gets a creative. */
-export const getBuyersCreatives: API.OperationMethod<GetBuyersCreativesRequest, GetBuyersCreativesResponse, GetBuyersCreativesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBuyersCreatives: API.OperationMethod<
+  GetBuyersCreativesRequest,
+  GetBuyersCreativesResponse,
+  GetBuyersCreativesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBuyersCreativesRequest,
   output: GetBuyersCreativesResponse,
   errors: [],
@@ -1156,7 +1666,11 @@ export const CreateBuyersCreativesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Creative).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/buyers/{buyersId}/creatives", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/buyers/{buyersId}/creatives",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateBuyersCreativesRequest>;
 
@@ -1166,7 +1680,12 @@ export const CreateBuyersCreativesResponse = Creative;
 export type CreateBuyersCreativesError = DefaultErrors;
 
 /** Creates a creative. */
-export const createBuyersCreatives: API.OperationMethod<CreateBuyersCreativesRequest, CreateBuyersCreativesResponse, CreateBuyersCreativesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createBuyersCreatives: API.OperationMethod<
+  CreateBuyersCreativesRequest,
+  CreateBuyersCreativesResponse,
+  CreateBuyersCreativesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateBuyersCreativesRequest,
   output: CreateBuyersCreativesResponse,
   errors: [],
@@ -1186,7 +1705,11 @@ export const PatchBuyersCreativesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Creative).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/buyers/{buyersId}/creatives/{creativesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/buyers/{buyersId}/creatives/{creativesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchBuyersCreativesRequest>;
 
@@ -1196,7 +1719,12 @@ export const PatchBuyersCreativesResponse = Creative;
 export type PatchBuyersCreativesError = DefaultErrors;
 
 /** Updates a creative. */
-export const patchBuyersCreatives: API.OperationMethod<PatchBuyersCreativesRequest, PatchBuyersCreativesResponse, PatchBuyersCreativesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchBuyersCreatives: API.OperationMethod<
+  PatchBuyersCreativesRequest,
+  PatchBuyersCreativesResponse,
+  PatchBuyersCreativesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchBuyersCreativesRequest,
   output: PatchBuyersCreativesResponse,
   errors: [],
@@ -1213,7 +1741,11 @@ export const CreateBuyersUserListsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(UserList).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/buyers/{buyersId}/userLists", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/buyers/{buyersId}/userLists",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateBuyersUserListsRequest>;
 
@@ -1223,7 +1755,12 @@ export const CreateBuyersUserListsResponse = UserList;
 export type CreateBuyersUserListsError = DefaultErrors;
 
 /** Creates a new user list. */
-export const createBuyersUserLists: API.OperationMethod<CreateBuyersUserListsRequest, CreateBuyersUserListsResponse, CreateBuyersUserListsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createBuyersUserLists: API.OperationMethod<
+  CreateBuyersUserListsRequest,
+  CreateBuyersUserListsResponse,
+  CreateBuyersUserListsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateBuyersUserListsRequest,
   output: CreateBuyersUserListsResponse,
   errors: [],
@@ -1240,7 +1777,11 @@ export const OpenBuyersUserListsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(OpenUserListRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/buyers/{buyersId}/userLists/{userListsId}:open", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/buyers/{buyersId}/userLists/{userListsId}:open",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<OpenBuyersUserListsRequest>;
 
@@ -1250,7 +1791,12 @@ export const OpenBuyersUserListsResponse = UserList;
 export type OpenBuyersUserListsError = DefaultErrors;
 
 /** Changes the status of a user list to OPEN. This allows new users to be added to the user list. */
-export const openBuyersUserLists: API.OperationMethod<OpenBuyersUserListsRequest, OpenBuyersUserListsResponse, OpenBuyersUserListsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const openBuyersUserLists: API.OperationMethod<
+  OpenBuyersUserListsRequest,
+  OpenBuyersUserListsResponse,
+  OpenBuyersUserListsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: OpenBuyersUserListsRequest,
   output: OpenBuyersUserListsResponse,
   errors: [],
@@ -1264,7 +1810,10 @@ export interface GetBuyersUserListsRequest {
 export const GetBuyersUserListsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/userLists/{userListsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/buyers/{buyersId}/userLists/{userListsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBuyersUserListsRequest>;
 
@@ -1274,7 +1823,12 @@ export const GetBuyersUserListsResponse = UserList;
 export type GetBuyersUserListsError = DefaultErrors;
 
 /** Gets a user list by its name. */
-export const getBuyersUserLists: API.OperationMethod<GetBuyersUserListsRequest, GetBuyersUserListsResponse, GetBuyersUserListsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBuyersUserLists: API.OperationMethod<
+  GetBuyersUserListsRequest,
+  GetBuyersUserListsResponse,
+  GetBuyersUserListsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBuyersUserListsRequest,
   output: GetBuyersUserListsResponse,
   errors: [],
@@ -1304,7 +1858,12 @@ export const ListBuyersUserListsResponse = ListUserListsResponse;
 export type ListBuyersUserListsError = DefaultErrors;
 
 /** Lists the user lists visible to the current user. */
-export const listBuyersUserLists: API.PaginatedOperationMethod<ListBuyersUserListsRequest, ListBuyersUserListsResponse, ListBuyersUserListsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBuyersUserLists: API.PaginatedOperationMethod<
+  ListBuyersUserListsRequest,
+  ListBuyersUserListsResponse,
+  ListBuyersUserListsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBuyersUserListsRequest,
   output: ListBuyersUserListsResponse,
   errors: [],
@@ -1325,7 +1884,11 @@ export const UpdateBuyersUserListsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UserList).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/buyers/{buyersId}/userLists/{userListsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/buyers/{buyersId}/userLists/{userListsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateBuyersUserListsRequest>;
 
@@ -1335,7 +1898,12 @@ export const UpdateBuyersUserListsResponse = UserList;
 export type UpdateBuyersUserListsError = DefaultErrors;
 
 /** Updates the given user list. Only user lists with URLRestrictions can be updated. */
-export const updateBuyersUserLists: API.OperationMethod<UpdateBuyersUserListsRequest, UpdateBuyersUserListsResponse, UpdateBuyersUserListsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateBuyersUserLists: API.OperationMethod<
+  UpdateBuyersUserListsRequest,
+  UpdateBuyersUserListsResponse,
+  UpdateBuyersUserListsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateBuyersUserListsRequest,
   output: UpdateBuyersUserListsResponse,
   errors: [],
@@ -1352,7 +1920,11 @@ export const CloseBuyersUserListsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CloseUserListRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/buyers/{buyersId}/userLists/{userListsId}:close", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/buyers/{buyersId}/userLists/{userListsId}:close",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CloseBuyersUserListsRequest>;
 
@@ -1362,7 +1934,12 @@ export const CloseBuyersUserListsResponse = UserList;
 export type CloseBuyersUserListsError = DefaultErrors;
 
 /** Changes the status of a user list to CLOSED. This prevents new users from being added to the user list. */
-export const closeBuyersUserLists: API.OperationMethod<CloseBuyersUserListsRequest, CloseBuyersUserListsResponse, CloseBuyersUserListsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const closeBuyersUserLists: API.OperationMethod<
+  CloseBuyersUserListsRequest,
+  CloseBuyersUserListsResponse,
+  CloseBuyersUserListsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CloseBuyersUserListsRequest,
   output: CloseBuyersUserListsResponse,
   errors: [],
@@ -1376,17 +1953,27 @@ export interface GetRemarketingTagBuyersUserListsRequest {
 export const GetRemarketingTagBuyersUserListsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/userLists/{userListsId}:getRemarketingTag" }),
+  T.Http({
+    method: "GET",
+    path: "v1/buyers/{buyersId}/userLists/{userListsId}:getRemarketingTag",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetRemarketingTagBuyersUserListsRequest>;
 
-export type GetRemarketingTagBuyersUserListsResponse = GetRemarketingTagResponse;
-export const GetRemarketingTagBuyersUserListsResponse = GetRemarketingTagResponse;
+export type GetRemarketingTagBuyersUserListsResponse =
+  GetRemarketingTagResponse;
+export const GetRemarketingTagBuyersUserListsResponse =
+  GetRemarketingTagResponse;
 
 export type GetRemarketingTagBuyersUserListsError = DefaultErrors;
 
 /** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
-export const getRemarketingTagBuyersUserLists: API.OperationMethod<GetRemarketingTagBuyersUserListsRequest, GetRemarketingTagBuyersUserListsResponse, GetRemarketingTagBuyersUserListsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getRemarketingTagBuyersUserLists: API.OperationMethod<
+  GetRemarketingTagBuyersUserListsRequest,
+  GetRemarketingTagBuyersUserListsResponse,
+  GetRemarketingTagBuyersUserListsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetRemarketingTagBuyersUserListsRequest,
   output: GetRemarketingTagBuyersUserListsResponse,
   errors: [],
@@ -1410,7 +1997,12 @@ export const GetBiddersResponse = Bidder;
 export type GetBiddersError = DefaultErrors;
 
 /** Gets a bidder account by its name. */
-export const getBidders: API.OperationMethod<GetBiddersRequest, GetBiddersResponse, GetBiddersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBidders: API.OperationMethod<
+  GetBiddersRequest,
+  GetBiddersResponse,
+  GetBiddersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBiddersRequest,
   output: GetBiddersResponse,
   errors: [],
@@ -1437,7 +2029,12 @@ export const ListBiddersResponse_Op = ListBiddersResponse;
 export type ListBiddersError = DefaultErrors;
 
 /** Lists all the bidder accounts that belong to the caller. */
-export const listBidders: API.PaginatedOperationMethod<ListBiddersRequest, ListBiddersResponse_Op, ListBiddersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBidders: API.PaginatedOperationMethod<
+  ListBiddersRequest,
+  ListBiddersResponse_Op,
+  ListBiddersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBiddersRequest,
   output: ListBiddersResponse_Op,
   errors: [],
@@ -1455,7 +2052,11 @@ export interface ListBiddersCreativesRequest {
   /** Requested page size. The server may return fewer creatives than requested (due to timeout constraint) even if more are available through another call. If unspecified, server will pick an appropriate default. Acceptable values are 1 to 1000, inclusive. */
   pageSize?: number;
   /** Controls the amount of information included in the response. By default only creativeServingDecision is included. To retrieve the entire creative resource (including the declared fields and the creative content) specify the view as "FULL". */
-  view?: "CREATIVE_VIEW_UNSPECIFIED" | "SERVING_DECISION_ONLY" | "FULL" | (string & {});
+  view?:
+    | "CREATIVE_VIEW_UNSPECIFIED"
+    | "SERVING_DECISION_ONLY"
+    | "FULL"
+    | (string & {});
   /** A token identifying a page of results the server should return. Typically, this is the value of ListCreativesResponse.nextPageToken returned from the previous call to the 'ListCreatives' method. Page tokens for continued pages are valid for up to five hours, counting from the call to 'ListCreatives' for the first page. */
   pageToken?: string;
 }
@@ -1477,7 +2078,12 @@ export const ListBiddersCreativesResponse = ListCreativesResponse;
 export type ListBiddersCreativesError = DefaultErrors;
 
 /** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
-export const listBiddersCreatives: API.PaginatedOperationMethod<ListBiddersCreativesRequest, ListBiddersCreativesResponse, ListBiddersCreativesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBiddersCreatives: API.PaginatedOperationMethod<
+  ListBiddersCreativesRequest,
+  ListBiddersCreativesResponse,
+  ListBiddersCreativesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBiddersCreativesRequest,
   output: ListBiddersCreativesResponse,
   errors: [],
@@ -1498,7 +2104,11 @@ export const WatchBiddersCreativesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(WatchCreativesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/creatives:watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/creatives:watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchBiddersCreativesRequest>;
 
@@ -1508,7 +2118,12 @@ export const WatchBiddersCreativesResponse = WatchCreativesResponse;
 export type WatchBiddersCreativesError = DefaultErrors;
 
 /** Watches all creatives pertaining to a bidder. It is sufficient to invoke this endpoint once per bidder. A Pub/Sub topic will be created and notifications will be pushed to the topic when any of the bidder's creatives change status. All of the bidder's service accounts will have access to read from the topic. Subsequent invocations of this method will return the existing Pub/Sub configuration. */
-export const watchBiddersCreatives: API.OperationMethod<WatchBiddersCreativesRequest, WatchBiddersCreativesResponse, WatchBiddersCreativesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchBiddersCreatives: API.OperationMethod<
+  WatchBiddersCreativesRequest,
+  WatchBiddersCreativesResponse,
+  WatchBiddersCreativesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchBiddersCreativesRequest,
   output: WatchBiddersCreativesResponse,
   errors: [],
@@ -1528,7 +2143,11 @@ export const PatchBiddersEndpointsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Endpoint).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/bidders/{biddersId}/endpoints/{endpointsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/bidders/{biddersId}/endpoints/{endpointsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchBiddersEndpointsRequest>;
 
@@ -1538,7 +2157,12 @@ export const PatchBiddersEndpointsResponse = Endpoint;
 export type PatchBiddersEndpointsError = DefaultErrors;
 
 /** Updates a bidder's endpoint. */
-export const patchBiddersEndpoints: API.OperationMethod<PatchBiddersEndpointsRequest, PatchBiddersEndpointsResponse, PatchBiddersEndpointsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchBiddersEndpoints: API.OperationMethod<
+  PatchBiddersEndpointsRequest,
+  PatchBiddersEndpointsResponse,
+  PatchBiddersEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchBiddersEndpointsRequest,
   output: PatchBiddersEndpointsResponse,
   errors: [],
@@ -1552,7 +2176,10 @@ export interface GetBiddersEndpointsRequest {
 export const GetBiddersEndpointsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/endpoints/{endpointsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/bidders/{biddersId}/endpoints/{endpointsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBiddersEndpointsRequest>;
 
@@ -1562,7 +2189,12 @@ export const GetBiddersEndpointsResponse = Endpoint;
 export type GetBiddersEndpointsError = DefaultErrors;
 
 /** Gets a bidder endpoint by its name. */
-export const getBiddersEndpoints: API.OperationMethod<GetBiddersEndpointsRequest, GetBiddersEndpointsResponse, GetBiddersEndpointsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBiddersEndpoints: API.OperationMethod<
+  GetBiddersEndpointsRequest,
+  GetBiddersEndpointsResponse,
+  GetBiddersEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBiddersEndpointsRequest,
   output: GetBiddersEndpointsResponse,
   errors: [],
@@ -1592,7 +2224,12 @@ export const ListBiddersEndpointsResponse = ListEndpointsResponse;
 export type ListBiddersEndpointsError = DefaultErrors;
 
 /** Lists all the bidder's endpoints. */
-export const listBiddersEndpoints: API.PaginatedOperationMethod<ListBiddersEndpointsRequest, ListBiddersEndpointsResponse, ListBiddersEndpointsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBiddersEndpoints: API.PaginatedOperationMethod<
+  ListBiddersEndpointsRequest,
+  ListBiddersEndpointsResponse,
+  ListBiddersEndpointsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBiddersEndpointsRequest,
   output: ListBiddersEndpointsResponse,
   errors: [],
@@ -1611,19 +2248,32 @@ export interface BatchApproveBiddersPublisherConnectionsRequest {
 
 export const BatchApproveBiddersPublisherConnectionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchApprovePublisherConnectionsRequest).pipe(T.HttpBody()),
+  body: Schema.optional(BatchApprovePublisherConnectionsRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/publisherConnections:batchApprove", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/publisherConnections:batchApprove",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchApproveBiddersPublisherConnectionsRequest>;
 
-export type BatchApproveBiddersPublisherConnectionsResponse = BatchApprovePublisherConnectionsResponse;
-export const BatchApproveBiddersPublisherConnectionsResponse = BatchApprovePublisherConnectionsResponse;
+export type BatchApproveBiddersPublisherConnectionsResponse =
+  BatchApprovePublisherConnectionsResponse;
+export const BatchApproveBiddersPublisherConnectionsResponse =
+  BatchApprovePublisherConnectionsResponse;
 
 export type BatchApproveBiddersPublisherConnectionsError = DefaultErrors;
 
 /** Batch approves multiple publisher connections. */
-export const batchApproveBiddersPublisherConnections: API.OperationMethod<BatchApproveBiddersPublisherConnectionsRequest, BatchApproveBiddersPublisherConnectionsResponse, BatchApproveBiddersPublisherConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchApproveBiddersPublisherConnections: API.OperationMethod<
+  BatchApproveBiddersPublisherConnectionsRequest,
+  BatchApproveBiddersPublisherConnectionsResponse,
+  BatchApproveBiddersPublisherConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchApproveBiddersPublisherConnectionsRequest,
   output: BatchApproveBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1638,19 +2288,32 @@ export interface BatchRejectBiddersPublisherConnectionsRequest {
 
 export const BatchRejectBiddersPublisherConnectionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchRejectPublisherConnectionsRequest).pipe(T.HttpBody()),
+  body: Schema.optional(BatchRejectPublisherConnectionsRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/publisherConnections:batchReject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/publisherConnections:batchReject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchRejectBiddersPublisherConnectionsRequest>;
 
-export type BatchRejectBiddersPublisherConnectionsResponse = BatchRejectPublisherConnectionsResponse;
-export const BatchRejectBiddersPublisherConnectionsResponse = BatchRejectPublisherConnectionsResponse;
+export type BatchRejectBiddersPublisherConnectionsResponse =
+  BatchRejectPublisherConnectionsResponse;
+export const BatchRejectBiddersPublisherConnectionsResponse =
+  BatchRejectPublisherConnectionsResponse;
 
 export type BatchRejectBiddersPublisherConnectionsError = DefaultErrors;
 
 /** Batch rejects multiple publisher connections. */
-export const batchRejectBiddersPublisherConnections: API.OperationMethod<BatchRejectBiddersPublisherConnectionsRequest, BatchRejectBiddersPublisherConnectionsResponse, BatchRejectBiddersPublisherConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchRejectBiddersPublisherConnections: API.OperationMethod<
+  BatchRejectBiddersPublisherConnectionsRequest,
+  BatchRejectBiddersPublisherConnectionsResponse,
+  BatchRejectBiddersPublisherConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchRejectBiddersPublisherConnectionsRequest,
   output: BatchRejectBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1676,17 +2339,27 @@ export const ListBiddersPublisherConnectionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/publisherConnections" }),
+  T.Http({
+    method: "GET",
+    path: "v1/bidders/{biddersId}/publisherConnections",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListBiddersPublisherConnectionsRequest>;
 
-export type ListBiddersPublisherConnectionsResponse = ListPublisherConnectionsResponse;
-export const ListBiddersPublisherConnectionsResponse = ListPublisherConnectionsResponse;
+export type ListBiddersPublisherConnectionsResponse =
+  ListPublisherConnectionsResponse;
+export const ListBiddersPublisherConnectionsResponse =
+  ListPublisherConnectionsResponse;
 
 export type ListBiddersPublisherConnectionsError = DefaultErrors;
 
 /** Lists publisher connections for a given bidder. */
-export const listBiddersPublisherConnections: API.PaginatedOperationMethod<ListBiddersPublisherConnectionsRequest, ListBiddersPublisherConnectionsResponse, ListBiddersPublisherConnectionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBiddersPublisherConnections: API.PaginatedOperationMethod<
+  ListBiddersPublisherConnectionsRequest,
+  ListBiddersPublisherConnectionsResponse,
+  ListBiddersPublisherConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBiddersPublisherConnectionsRequest,
   output: ListBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1704,7 +2377,10 @@ export interface GetBiddersPublisherConnectionsRequest {
 export const GetBiddersPublisherConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/publisherConnections/{publisherConnectionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/bidders/{biddersId}/publisherConnections/{publisherConnectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBiddersPublisherConnectionsRequest>;
 
@@ -1714,7 +2390,12 @@ export const GetBiddersPublisherConnectionsResponse = PublisherConnection;
 export type GetBiddersPublisherConnectionsError = DefaultErrors;
 
 /** Gets a publisher connection. */
-export const getBiddersPublisherConnections: API.OperationMethod<GetBiddersPublisherConnectionsRequest, GetBiddersPublisherConnectionsResponse, GetBiddersPublisherConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBiddersPublisherConnections: API.OperationMethod<
+  GetBiddersPublisherConnectionsRequest,
+  GetBiddersPublisherConnectionsResponse,
+  GetBiddersPublisherConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBiddersPublisherConnectionsRequest,
   output: GetBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1734,7 +2415,11 @@ export const PatchBiddersPretargetingConfigsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(PretargetingConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchBiddersPretargetingConfigsRequest>;
 
@@ -1744,7 +2429,12 @@ export const PatchBiddersPretargetingConfigsResponse = PretargetingConfig;
 export type PatchBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Updates a pretargeting configuration. */
-export const patchBiddersPretargetingConfigs: API.OperationMethod<PatchBiddersPretargetingConfigsRequest, PatchBiddersPretargetingConfigsResponse, PatchBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchBiddersPretargetingConfigs: API.OperationMethod<
+  PatchBiddersPretargetingConfigsRequest,
+  PatchBiddersPretargetingConfigsResponse,
+  PatchBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchBiddersPretargetingConfigsRequest,
   output: PatchBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1761,17 +2451,28 @@ export const AddTargetedSitesBiddersPretargetingConfigsRequest = Schema.Struct({
   pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
   body: Schema.optional(AddTargetedSitesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedSites", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedSites",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddTargetedSitesBiddersPretargetingConfigsRequest>;
 
-export type AddTargetedSitesBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const AddTargetedSitesBiddersPretargetingConfigsResponse = PretargetingConfig;
+export type AddTargetedSitesBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
+export const AddTargetedSitesBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
 
 export type AddTargetedSitesBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Adds targeted sites to the pretargeting configuration. */
-export const addTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<AddTargetedSitesBiddersPretargetingConfigsRequest, AddTargetedSitesBiddersPretargetingConfigsResponse, AddTargetedSitesBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
+  AddTargetedSitesBiddersPretargetingConfigsRequest,
+  AddTargetedSitesBiddersPretargetingConfigsResponse,
+  AddTargetedSitesBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddTargetedSitesBiddersPretargetingConfigsRequest,
   output: AddTargetedSitesBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1784,21 +2485,33 @@ export interface RemoveTargetedAppsBiddersPretargetingConfigsRequest {
   body?: RemoveTargetedAppsRequest;
 }
 
-export const RemoveTargetedAppsBiddersPretargetingConfigsRequest = Schema.Struct({
-  pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
-  body: Schema.optional(RemoveTargetedAppsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:removeTargetedApps", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RemoveTargetedAppsBiddersPretargetingConfigsRequest>;
+export const RemoveTargetedAppsBiddersPretargetingConfigsRequest =
+  Schema.Struct({
+    pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
+    body: Schema.optional(RemoveTargetedAppsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:removeTargetedApps",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveTargetedAppsBiddersPretargetingConfigsRequest>;
 
-export type RemoveTargetedAppsBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const RemoveTargetedAppsBiddersPretargetingConfigsResponse = PretargetingConfig;
+export type RemoveTargetedAppsBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
+export const RemoveTargetedAppsBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
 
 export type RemoveTargetedAppsBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Removes targeted apps from the pretargeting configuration. */
-export const removeTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<RemoveTargetedAppsBiddersPretargetingConfigsRequest, RemoveTargetedAppsBiddersPretargetingConfigsResponse, RemoveTargetedAppsBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
+  RemoveTargetedAppsBiddersPretargetingConfigsRequest,
+  RemoveTargetedAppsBiddersPretargetingConfigsResponse,
+  RemoveTargetedAppsBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveTargetedAppsBiddersPretargetingConfigsRequest,
   output: RemoveTargetedAppsBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1812,7 +2525,10 @@ export interface DeleteBiddersPretargetingConfigsRequest {
 export const DeleteBiddersPretargetingConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteBiddersPretargetingConfigsRequest>;
 
@@ -1822,7 +2538,12 @@ export const DeleteBiddersPretargetingConfigsResponse = Empty;
 export type DeleteBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Deletes a pretargeting configuration. */
-export const deleteBiddersPretargetingConfigs: API.OperationMethod<DeleteBiddersPretargetingConfigsRequest, DeleteBiddersPretargetingConfigsResponse, DeleteBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteBiddersPretargetingConfigs: API.OperationMethod<
+  DeleteBiddersPretargetingConfigsRequest,
+  DeleteBiddersPretargetingConfigsResponse,
+  DeleteBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteBiddersPretargetingConfigsRequest,
   output: DeleteBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1839,17 +2560,28 @@ export const AddTargetedAppsBiddersPretargetingConfigsRequest = Schema.Struct({
   pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
   body: Schema.optional(AddTargetedAppsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedApps", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedApps",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddTargetedAppsBiddersPretargetingConfigsRequest>;
 
-export type AddTargetedAppsBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const AddTargetedAppsBiddersPretargetingConfigsResponse = PretargetingConfig;
+export type AddTargetedAppsBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
+export const AddTargetedAppsBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
 
 export type AddTargetedAppsBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Adds targeted apps to the pretargeting configuration. */
-export const addTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<AddTargetedAppsBiddersPretargetingConfigsRequest, AddTargetedAppsBiddersPretargetingConfigsResponse, AddTargetedAppsBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
+  AddTargetedAppsBiddersPretargetingConfigsRequest,
+  AddTargetedAppsBiddersPretargetingConfigsResponse,
+  AddTargetedAppsBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddTargetedAppsBiddersPretargetingConfigsRequest,
   output: AddTargetedAppsBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1866,7 +2598,11 @@ export const ActivateBiddersPretargetingConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ActivatePretargetingConfigRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:activate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:activate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ActivateBiddersPretargetingConfigsRequest>;
 
@@ -1876,7 +2612,12 @@ export const ActivateBiddersPretargetingConfigsResponse = PretargetingConfig;
 export type ActivateBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Activates a pretargeting configuration. */
-export const activateBiddersPretargetingConfigs: API.OperationMethod<ActivateBiddersPretargetingConfigsRequest, ActivateBiddersPretargetingConfigsResponse, ActivateBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const activateBiddersPretargetingConfigs: API.OperationMethod<
+  ActivateBiddersPretargetingConfigsRequest,
+  ActivateBiddersPretargetingConfigsResponse,
+  ActivateBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ActivateBiddersPretargetingConfigsRequest,
   output: ActivateBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1889,21 +2630,33 @@ export interface RemoveTargetedSitesBiddersPretargetingConfigsRequest {
   body?: RemoveTargetedSitesRequest;
 }
 
-export const RemoveTargetedSitesBiddersPretargetingConfigsRequest = Schema.Struct({
-  pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
-  body: Schema.optional(RemoveTargetedSitesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:removeTargetedSites", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RemoveTargetedSitesBiddersPretargetingConfigsRequest>;
+export const RemoveTargetedSitesBiddersPretargetingConfigsRequest =
+  Schema.Struct({
+    pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
+    body: Schema.optional(RemoveTargetedSitesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:removeTargetedSites",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveTargetedSitesBiddersPretargetingConfigsRequest>;
 
-export type RemoveTargetedSitesBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const RemoveTargetedSitesBiddersPretargetingConfigsResponse = PretargetingConfig;
+export type RemoveTargetedSitesBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
+export const RemoveTargetedSitesBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
 
 export type RemoveTargetedSitesBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Removes targeted sites from the pretargeting configuration. */
-export const removeTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<RemoveTargetedSitesBiddersPretargetingConfigsRequest, RemoveTargetedSitesBiddersPretargetingConfigsResponse, RemoveTargetedSitesBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
+  RemoveTargetedSitesBiddersPretargetingConfigsRequest,
+  RemoveTargetedSitesBiddersPretargetingConfigsResponse,
+  RemoveTargetedSitesBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveTargetedSitesBiddersPretargetingConfigsRequest,
   output: RemoveTargetedSitesBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1927,13 +2680,20 @@ export const ListBiddersPretargetingConfigsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<ListBiddersPretargetingConfigsRequest>;
 
-export type ListBiddersPretargetingConfigsResponse = ListPretargetingConfigsResponse;
-export const ListBiddersPretargetingConfigsResponse = ListPretargetingConfigsResponse;
+export type ListBiddersPretargetingConfigsResponse =
+  ListPretargetingConfigsResponse;
+export const ListBiddersPretargetingConfigsResponse =
+  ListPretargetingConfigsResponse;
 
 export type ListBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Lists all pretargeting configurations for a single bidder. */
-export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<ListBiddersPretargetingConfigsRequest, ListBiddersPretargetingConfigsResponse, ListBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<
+  ListBiddersPretargetingConfigsRequest,
+  ListBiddersPretargetingConfigsResponse,
+  ListBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBiddersPretargetingConfigsRequest,
   output: ListBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1951,7 +2711,10 @@ export interface GetBiddersPretargetingConfigsRequest {
 export const GetBiddersPretargetingConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBiddersPretargetingConfigsRequest>;
 
@@ -1961,7 +2724,12 @@ export const GetBiddersPretargetingConfigsResponse = PretargetingConfig;
 export type GetBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Gets a pretargeting configuration. */
-export const getBiddersPretargetingConfigs: API.OperationMethod<GetBiddersPretargetingConfigsRequest, GetBiddersPretargetingConfigsResponse, GetBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBiddersPretargetingConfigs: API.OperationMethod<
+  GetBiddersPretargetingConfigsRequest,
+  GetBiddersPretargetingConfigsResponse,
+  GetBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBiddersPretargetingConfigsRequest,
   output: GetBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1974,21 +2742,34 @@ export interface AddTargetedPublishersBiddersPretargetingConfigsRequest {
   body?: AddTargetedPublishersRequest;
 }
 
-export const AddTargetedPublishersBiddersPretargetingConfigsRequest = Schema.Struct({
-  pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
-  body: Schema.optional(AddTargetedPublishersRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedPublishers", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AddTargetedPublishersBiddersPretargetingConfigsRequest>;
+export const AddTargetedPublishersBiddersPretargetingConfigsRequest =
+  Schema.Struct({
+    pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
+    body: Schema.optional(AddTargetedPublishersRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedPublishers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddTargetedPublishersBiddersPretargetingConfigsRequest>;
 
-export type AddTargetedPublishersBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const AddTargetedPublishersBiddersPretargetingConfigsResponse = PretargetingConfig;
+export type AddTargetedPublishersBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
+export const AddTargetedPublishersBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
 
-export type AddTargetedPublishersBiddersPretargetingConfigsError = DefaultErrors;
+export type AddTargetedPublishersBiddersPretargetingConfigsError =
+  DefaultErrors;
 
 /** Adds targeted publishers to the pretargeting config. */
-export const addTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<AddTargetedPublishersBiddersPretargetingConfigsRequest, AddTargetedPublishersBiddersPretargetingConfigsResponse, AddTargetedPublishersBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<
+  AddTargetedPublishersBiddersPretargetingConfigsRequest,
+  AddTargetedPublishersBiddersPretargetingConfigsResponse,
+  AddTargetedPublishersBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddTargetedPublishersBiddersPretargetingConfigsRequest,
   output: AddTargetedPublishersBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2001,21 +2782,34 @@ export interface RemoveTargetedPublishersBiddersPretargetingConfigsRequest {
   body?: RemoveTargetedPublishersRequest;
 }
 
-export const RemoveTargetedPublishersBiddersPretargetingConfigsRequest = Schema.Struct({
-  pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
-  body: Schema.optional(RemoveTargetedPublishersRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:removeTargetedPublishers", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RemoveTargetedPublishersBiddersPretargetingConfigsRequest>;
+export const RemoveTargetedPublishersBiddersPretargetingConfigsRequest =
+  Schema.Struct({
+    pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
+    body: Schema.optional(RemoveTargetedPublishersRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:removeTargetedPublishers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveTargetedPublishersBiddersPretargetingConfigsRequest>;
 
-export type RemoveTargetedPublishersBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const RemoveTargetedPublishersBiddersPretargetingConfigsResponse = PretargetingConfig;
+export type RemoveTargetedPublishersBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
+export const RemoveTargetedPublishersBiddersPretargetingConfigsResponse =
+  PretargetingConfig;
 
-export type RemoveTargetedPublishersBiddersPretargetingConfigsError = DefaultErrors;
+export type RemoveTargetedPublishersBiddersPretargetingConfigsError =
+  DefaultErrors;
 
 /** Removes targeted publishers from the pretargeting config. */
-export const removeTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<RemoveTargetedPublishersBiddersPretargetingConfigsRequest, RemoveTargetedPublishersBiddersPretargetingConfigsResponse, RemoveTargetedPublishersBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<
+  RemoveTargetedPublishersBiddersPretargetingConfigsRequest,
+  RemoveTargetedPublishersBiddersPretargetingConfigsResponse,
+  RemoveTargetedPublishersBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveTargetedPublishersBiddersPretargetingConfigsRequest,
   output: RemoveTargetedPublishersBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2032,7 +2826,11 @@ export const SuspendBiddersPretargetingConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SuspendPretargetingConfigRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:suspend", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:suspend",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SuspendBiddersPretargetingConfigsRequest>;
 
@@ -2042,7 +2840,12 @@ export const SuspendBiddersPretargetingConfigsResponse = PretargetingConfig;
 export type SuspendBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Suspends a pretargeting configuration. */
-export const suspendBiddersPretargetingConfigs: API.OperationMethod<SuspendBiddersPretargetingConfigsRequest, SuspendBiddersPretargetingConfigsResponse, SuspendBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const suspendBiddersPretargetingConfigs: API.OperationMethod<
+  SuspendBiddersPretargetingConfigsRequest,
+  SuspendBiddersPretargetingConfigsResponse,
+  SuspendBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SuspendBiddersPretargetingConfigsRequest,
   output: SuspendBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2059,7 +2862,11 @@ export const CreateBiddersPretargetingConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(PretargetingConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/bidders/{biddersId}/pretargetingConfigs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/bidders/{biddersId}/pretargetingConfigs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateBiddersPretargetingConfigsRequest>;
 
@@ -2069,9 +2876,13 @@ export const CreateBiddersPretargetingConfigsResponse = PretargetingConfig;
 export type CreateBiddersPretargetingConfigsError = DefaultErrors;
 
 /** Creates a pretargeting configuration. A pretargeting configuration's state (PretargetingConfig.state) is active upon creation, and it will start to affect traffic shortly after. A bidder may create a maximum of 10 pretargeting configurations. Attempts to exceed this maximum results in a 400 bad request error. */
-export const createBiddersPretargetingConfigs: API.OperationMethod<CreateBiddersPretargetingConfigsRequest, CreateBiddersPretargetingConfigsResponse, CreateBiddersPretargetingConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createBiddersPretargetingConfigs: API.OperationMethod<
+  CreateBiddersPretargetingConfigsRequest,
+  CreateBiddersPretargetingConfigsResponse,
+  CreateBiddersPretargetingConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateBiddersPretargetingConfigsRequest,
   output: CreateBiddersPretargetingConfigsResponse,
   errors: [],
 }));
-

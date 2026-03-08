@@ -32,11 +32,18 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "GoogleRpcStatus" }) as any as Schema.Schema<GoogleRpcStatus>;
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+).annotate({
+  identifier: "GoogleRpcStatus",
+}) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +58,18 @@ export interface GoogleLongrunningOperation {
   response?: Record<string, unknown>;
 }
 
-export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(GoogleRpcStatus),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "GoogleLongrunningOperation" }) as any as Schema.Schema<GoogleLongrunningOperation>;
+export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(GoogleRpcStatus),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningOperation",
+  }) as any as Schema.Schema<GoogleLongrunningOperation>;
 
 export interface GoogleTypeExpr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -70,12 +82,17 @@ export interface GoogleTypeExpr {
   location?: string;
 }
 
-export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeExpr" }) as any as Schema.Schema<GoogleTypeExpr>;
+export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GoogleTypeExpr",
+}) as any as Schema.Schema<GoogleTypeExpr>;
 
 export interface GoogleIamV2DenyRule {
   /** The identities that are prevented from using one or more permissions on Google Cloud resources. This field can contain the following values: * `principal://goog/subject/{email_id}`: A specific Google Account. Includes Gmail, Cloud Identity, and Google Workspace user accounts. For example, `principal://goog/subject/alice@example.com`. * `principal://iam.googleapis.com/projects/-/serviceAccounts/{service_account_id}`: A Google Cloud service account. For example, `principal://iam.googleapis.com/projects/-/serviceAccounts/my-service-account@iam.gserviceaccount.com`. * `principalSet://goog/group/{group_id}`: A Google group. For example, `principalSet://goog/group/admins@example.com`. * `principalSet://goog/public:all`: A special identifier that represents any principal that is on the internet, even if they do not have a Google Account or are not logged in. * `principalSet://goog/cloudIdentityCustomerId/{customer_id}`: All of the principals associated with the specified Google Workspace or Cloud Identity customer ID. For example, `principalSet://goog/cloudIdentityCustomerId/C01Abc35`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `principalSet://cloudresourcemanager.googleapis.com/[projects|folders|organizations]/{project_number|folder_number|org_number}/type/ServiceAccount`: All service accounts grouped under a resource (project, folder, or organization). * `principalSet://cloudresourcemanager.googleapis.com/[projects|folders|organizations]/{project_number|folder_number|org_number}/type/ServiceAgent`: All service agents grouped under a resource (project, folder, or organization). * `deleted:principal://goog/subject/{email_id}?uid={uid}`: A specific Google Account that was deleted recently. For example, `deleted:principal://goog/subject/alice@example.com?uid=1234567890`. If the Google Account is recovered, this identifier reverts to the standard identifier for a Google Account. * `deleted:principalSet://goog/group/{group_id}?uid={uid}`: A Google group that was deleted recently. For example, `deleted:principalSet://goog/group/admins@example.com?uid=1234567890`. If the Google group is restored, this identifier reverts to the standard identifier for a Google group. * `deleted:principal://iam.googleapis.com/projects/-/serviceAccounts/{service_account_id}?uid={uid}`: A Google Cloud service account that was deleted recently. For example, `deleted:principal://iam.googleapis.com/projects/-/serviceAccounts/my-service-account@iam.gserviceaccount.com?uid=1234567890`. If the service account is undeleted, this identifier reverts to the standard identifier for a service account. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
@@ -90,13 +107,18 @@ export interface GoogleIamV2DenyRule {
   denialCondition?: GoogleTypeExpr;
 }
 
-export const GoogleIamV2DenyRule: Schema.Schema<GoogleIamV2DenyRule> = Schema.suspend(() => Schema.Struct({
-  deniedPrincipals: Schema.optional(Schema.Array(Schema.String)),
-  exceptionPrincipals: Schema.optional(Schema.Array(Schema.String)),
-  deniedPermissions: Schema.optional(Schema.Array(Schema.String)),
-  exceptionPermissions: Schema.optional(Schema.Array(Schema.String)),
-  denialCondition: Schema.optional(GoogleTypeExpr),
-})).annotate({ identifier: "GoogleIamV2DenyRule" }) as any as Schema.Schema<GoogleIamV2DenyRule>;
+export const GoogleIamV2DenyRule: Schema.Schema<GoogleIamV2DenyRule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deniedPrincipals: Schema.optional(Schema.Array(Schema.String)),
+      exceptionPrincipals: Schema.optional(Schema.Array(Schema.String)),
+      deniedPermissions: Schema.optional(Schema.Array(Schema.String)),
+      exceptionPermissions: Schema.optional(Schema.Array(Schema.String)),
+      denialCondition: Schema.optional(GoogleTypeExpr),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV2DenyRule",
+  }) as any as Schema.Schema<GoogleIamV2DenyRule>;
 
 export interface GoogleIamV2PolicyRule {
   /** A rule for a deny policy. */
@@ -105,10 +127,15 @@ export interface GoogleIamV2PolicyRule {
   description?: string;
 }
 
-export const GoogleIamV2PolicyRule: Schema.Schema<GoogleIamV2PolicyRule> = Schema.suspend(() => Schema.Struct({
-  denyRule: Schema.optional(GoogleIamV2DenyRule),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV2PolicyRule" }) as any as Schema.Schema<GoogleIamV2PolicyRule>;
+export const GoogleIamV2PolicyRule: Schema.Schema<GoogleIamV2PolicyRule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      denyRule: Schema.optional(GoogleIamV2DenyRule),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV2PolicyRule",
+  }) as any as Schema.Schema<GoogleIamV2PolicyRule>;
 
 export interface GoogleIamV2Policy {
   /** Immutable. The resource name of the `Policy`, which must be unique. Format: `policies/{attachment_point}/denypolicies/{policy_id}` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-deny-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, requests can use the alphanumeric or the numeric ID. Responses always contain the numeric ID. */
@@ -133,18 +160,23 @@ export interface GoogleIamV2Policy {
   rules?: Array<GoogleIamV2PolicyRule>;
 }
 
-export const GoogleIamV2Policy: Schema.Schema<GoogleIamV2Policy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  etag: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  rules: Schema.optional(Schema.Array(GoogleIamV2PolicyRule)),
-})).annotate({ identifier: "GoogleIamV2Policy" }) as any as Schema.Schema<GoogleIamV2Policy>;
+export const GoogleIamV2Policy: Schema.Schema<GoogleIamV2Policy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      etag: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      rules: Schema.optional(Schema.Array(GoogleIamV2PolicyRule)),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV2Policy",
+  }) as any as Schema.Schema<GoogleIamV2Policy>;
 
 export interface GoogleIamV2ListPoliciesResponse {
   /** Metadata for the policies that are attached to the resource. */
@@ -153,10 +185,15 @@ export interface GoogleIamV2ListPoliciesResponse {
   nextPageToken?: string;
 }
 
-export const GoogleIamV2ListPoliciesResponse: Schema.Schema<GoogleIamV2ListPoliciesResponse> = Schema.suspend(() => Schema.Struct({
-  policies: Schema.optional(Schema.Array(GoogleIamV2Policy)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV2ListPoliciesResponse" }) as any as Schema.Schema<GoogleIamV2ListPoliciesResponse>;
+export const GoogleIamV2ListPoliciesResponse: Schema.Schema<GoogleIamV2ListPoliciesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policies: Schema.optional(Schema.Array(GoogleIamV2Policy)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV2ListPoliciesResponse",
+  }) as any as Schema.Schema<GoogleIamV2ListPoliciesResponse>;
 
 export interface GoogleIamAdminV1AuditDataPermissionDelta {
   /** Added permissions. */
@@ -165,19 +202,31 @@ export interface GoogleIamAdminV1AuditDataPermissionDelta {
   removedPermissions?: Array<string>;
 }
 
-export const GoogleIamAdminV1AuditDataPermissionDelta: Schema.Schema<GoogleIamAdminV1AuditDataPermissionDelta> = Schema.suspend(() => Schema.Struct({
-  addedPermissions: Schema.optional(Schema.Array(Schema.String)),
-  removedPermissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleIamAdminV1AuditDataPermissionDelta" }) as any as Schema.Schema<GoogleIamAdminV1AuditDataPermissionDelta>;
+export const GoogleIamAdminV1AuditDataPermissionDelta: Schema.Schema<GoogleIamAdminV1AuditDataPermissionDelta> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      addedPermissions: Schema.optional(Schema.Array(Schema.String)),
+      removedPermissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleIamAdminV1AuditDataPermissionDelta",
+  }) as any as Schema.Schema<GoogleIamAdminV1AuditDataPermissionDelta>;
 
 export interface GoogleIamAdminV1AuditData {
   /** The permission_delta when when creating or updating a Role. */
   permissionDelta?: GoogleIamAdminV1AuditDataPermissionDelta;
 }
 
-export const GoogleIamAdminV1AuditData: Schema.Schema<GoogleIamAdminV1AuditData> = Schema.suspend(() => Schema.Struct({
-  permissionDelta: Schema.optional(GoogleIamAdminV1AuditDataPermissionDelta),
-})).annotate({ identifier: "GoogleIamAdminV1AuditData" }) as any as Schema.Schema<GoogleIamAdminV1AuditData>;
+export const GoogleIamAdminV1AuditData: Schema.Schema<GoogleIamAdminV1AuditData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissionDelta: Schema.optional(
+        GoogleIamAdminV1AuditDataPermissionDelta,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleIamAdminV1AuditData",
+  }) as any as Schema.Schema<GoogleIamAdminV1AuditData>;
 
 export interface GoogleIamV1BindingDelta {
   /** The action that was performed on a Binding. Required */
@@ -190,45 +239,66 @@ export interface GoogleIamV1BindingDelta {
   condition?: GoogleTypeExpr;
 }
 
-export const GoogleIamV1BindingDelta: Schema.Schema<GoogleIamV1BindingDelta> = Schema.suspend(() => Schema.Struct({
-  action: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  member: Schema.optional(Schema.String),
-  condition: Schema.optional(GoogleTypeExpr),
-})).annotate({ identifier: "GoogleIamV1BindingDelta" }) as any as Schema.Schema<GoogleIamV1BindingDelta>;
+export const GoogleIamV1BindingDelta: Schema.Schema<GoogleIamV1BindingDelta> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      action: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      member: Schema.optional(Schema.String),
+      condition: Schema.optional(GoogleTypeExpr),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1BindingDelta",
+  }) as any as Schema.Schema<GoogleIamV1BindingDelta>;
 
 export interface GoogleIamV1PolicyDelta {
   /** The delta for Bindings between two policies. */
   bindingDeltas?: Array<GoogleIamV1BindingDelta>;
 }
 
-export const GoogleIamV1PolicyDelta: Schema.Schema<GoogleIamV1PolicyDelta> = Schema.suspend(() => Schema.Struct({
-  bindingDeltas: Schema.optional(Schema.Array(GoogleIamV1BindingDelta)),
-})).annotate({ identifier: "GoogleIamV1PolicyDelta" }) as any as Schema.Schema<GoogleIamV1PolicyDelta>;
+export const GoogleIamV1PolicyDelta: Schema.Schema<GoogleIamV1PolicyDelta> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bindingDeltas: Schema.optional(Schema.Array(GoogleIamV1BindingDelta)),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1PolicyDelta",
+  }) as any as Schema.Schema<GoogleIamV1PolicyDelta>;
 
 export interface GoogleIamV1LoggingAuditData {
   /** Policy delta between the original policy and the newly set policy. */
   policyDelta?: GoogleIamV1PolicyDelta;
 }
 
-export const GoogleIamV1LoggingAuditData: Schema.Schema<GoogleIamV1LoggingAuditData> = Schema.suspend(() => Schema.Struct({
-  policyDelta: Schema.optional(GoogleIamV1PolicyDelta),
-})).annotate({ identifier: "GoogleIamV1LoggingAuditData" }) as any as Schema.Schema<GoogleIamV1LoggingAuditData>;
+export const GoogleIamV1LoggingAuditData: Schema.Schema<GoogleIamV1LoggingAuditData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policyDelta: Schema.optional(GoogleIamV1PolicyDelta),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1LoggingAuditData",
+  }) as any as Schema.Schema<GoogleIamV1LoggingAuditData>;
 
 export interface GoogleIamV2PolicyOperationMetadata {
   /** Timestamp when the `google.longrunning.Operation` was created. */
   createTime?: string;
 }
 
-export const GoogleIamV2PolicyOperationMetadata: Schema.Schema<GoogleIamV2PolicyOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV2PolicyOperationMetadata" }) as any as Schema.Schema<GoogleIamV2PolicyOperationMetadata>;
+export const GoogleIamV2PolicyOperationMetadata: Schema.Schema<GoogleIamV2PolicyOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV2PolicyOperationMetadata",
+  }) as any as Schema.Schema<GoogleIamV2PolicyOperationMetadata>;
 
-export interface GoogleIamV1betaWorkloadIdentityPoolOperationMetadata {
-}
+export interface GoogleIamV1betaWorkloadIdentityPoolOperationMetadata {}
 
-export const GoogleIamV1betaWorkloadIdentityPoolOperationMetadata: Schema.Schema<GoogleIamV1betaWorkloadIdentityPoolOperationMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleIamV1betaWorkloadIdentityPoolOperationMetadata" }) as any as Schema.Schema<GoogleIamV1betaWorkloadIdentityPoolOperationMetadata>;
+export const GoogleIamV1betaWorkloadIdentityPoolOperationMetadata: Schema.Schema<GoogleIamV1betaWorkloadIdentityPoolOperationMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleIamV1betaWorkloadIdentityPoolOperationMetadata",
+  }) as any as Schema.Schema<GoogleIamV1betaWorkloadIdentityPoolOperationMetadata>;
 
 export interface GoogleCloudCommonOperationMetadata {
   /** Output only. The time the operation was created. */
@@ -247,15 +317,20 @@ export interface GoogleCloudCommonOperationMetadata {
   apiVersion?: string;
 }
 
-export const GoogleCloudCommonOperationMetadata: Schema.Schema<GoogleCloudCommonOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusDetail: Schema.optional(Schema.String),
-  cancelRequested: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudCommonOperationMetadata" }) as any as Schema.Schema<GoogleCloudCommonOperationMetadata>;
+export const GoogleCloudCommonOperationMetadata: Schema.Schema<GoogleCloudCommonOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusDetail: Schema.optional(Schema.String),
+      cancelRequested: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudCommonOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudCommonOperationMetadata>;
 
 export interface GoogleIamV3mainOperationMetadata {
   /** Output only. The time the operation was created. */
@@ -274,15 +349,20 @@ export interface GoogleIamV3mainOperationMetadata {
   apiVersion?: string;
 }
 
-export const GoogleIamV3mainOperationMetadata: Schema.Schema<GoogleIamV3mainOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV3mainOperationMetadata" }) as any as Schema.Schema<GoogleIamV3mainOperationMetadata>;
+export const GoogleIamV3mainOperationMetadata: Schema.Schema<GoogleIamV3mainOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV3mainOperationMetadata",
+  }) as any as Schema.Schema<GoogleIamV3mainOperationMetadata>;
 
 export interface GoogleIamV3alphaOperationMetadata {
   /** Output only. The time the operation was created. */
@@ -301,15 +381,20 @@ export interface GoogleIamV3alphaOperationMetadata {
   apiVersion?: string;
 }
 
-export const GoogleIamV3alphaOperationMetadata: Schema.Schema<GoogleIamV3alphaOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV3alphaOperationMetadata" }) as any as Schema.Schema<GoogleIamV3alphaOperationMetadata>;
+export const GoogleIamV3alphaOperationMetadata: Schema.Schema<GoogleIamV3alphaOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV3alphaOperationMetadata",
+  }) as any as Schema.Schema<GoogleIamV3alphaOperationMetadata>;
 
 export interface GoogleIamV3betaOperationMetadata {
   /** Output only. The time the operation was created. */
@@ -328,15 +413,20 @@ export interface GoogleIamV3betaOperationMetadata {
   apiVersion?: string;
 }
 
-export const GoogleIamV3betaOperationMetadata: Schema.Schema<GoogleIamV3betaOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV3betaOperationMetadata" }) as any as Schema.Schema<GoogleIamV3betaOperationMetadata>;
+export const GoogleIamV3betaOperationMetadata: Schema.Schema<GoogleIamV3betaOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV3betaOperationMetadata",
+  }) as any as Schema.Schema<GoogleIamV3betaOperationMetadata>;
 
 export interface GoogleIamV3OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -355,27 +445,41 @@ export interface GoogleIamV3OperationMetadata {
   apiVersion?: string;
 }
 
-export const GoogleIamV3OperationMetadata: Schema.Schema<GoogleIamV3OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV3OperationMetadata" }) as any as Schema.Schema<GoogleIamV3OperationMetadata>;
+export const GoogleIamV3OperationMetadata: Schema.Schema<GoogleIamV3OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV3OperationMetadata",
+  }) as any as Schema.Schema<GoogleIamV3OperationMetadata>;
 
 export interface CloudControl2SharedOperationsReconciliationOperationMetadata {
   /** DEPRECATED. Use exclusive_action instead. */
   deleteResource?: boolean;
   /** Excluisive action returned by the CLH. */
-  exclusiveAction?: "UNKNOWN_REPAIR_ACTION" | "DELETE" | "RETRY" | (string & {});
+  exclusiveAction?:
+    | "UNKNOWN_REPAIR_ACTION"
+    | "DELETE"
+    | "RETRY"
+    | (string & {});
 }
 
-export const CloudControl2SharedOperationsReconciliationOperationMetadata: Schema.Schema<CloudControl2SharedOperationsReconciliationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  deleteResource: Schema.optional(Schema.Boolean),
-  exclusiveAction: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudControl2SharedOperationsReconciliationOperationMetadata" }) as any as Schema.Schema<CloudControl2SharedOperationsReconciliationOperationMetadata>;
+export const CloudControl2SharedOperationsReconciliationOperationMetadata: Schema.Schema<CloudControl2SharedOperationsReconciliationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deleteResource: Schema.optional(Schema.Boolean),
+      exclusiveAction: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudControl2SharedOperationsReconciliationOperationMetadata",
+  }) as any as Schema.Schema<CloudControl2SharedOperationsReconciliationOperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -405,7 +509,12 @@ export const ListPoliciesPoliciesResponse = GoogleIamV2ListPoliciesResponse;
 export type ListPoliciesPoliciesError = DefaultErrors;
 
 /** Retrieves the policies of the specified kind that are attached to a resource. The response lists only policy metadata. In particular, policy rules are omitted. */
-export const listPoliciesPolicies: API.PaginatedOperationMethod<ListPoliciesPoliciesRequest, ListPoliciesPoliciesResponse, ListPoliciesPoliciesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPoliciesPolicies: API.PaginatedOperationMethod<
+  ListPoliciesPoliciesRequest,
+  ListPoliciesPoliciesResponse,
+  ListPoliciesPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPoliciesPoliciesRequest,
   output: ListPoliciesPoliciesResponse,
   errors: [],
@@ -423,7 +532,10 @@ export interface GetPoliciesRequest {
 export const GetPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPoliciesRequest>;
 
@@ -433,7 +545,12 @@ export const GetPoliciesResponse = GoogleIamV2Policy;
 export type GetPoliciesError = DefaultErrors;
 
 /** Gets a policy. */
-export const getPolicies: API.OperationMethod<GetPoliciesRequest, GetPoliciesResponse, GetPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPolicies: API.OperationMethod<
+  GetPoliciesRequest,
+  GetPoliciesResponse,
+  GetPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPoliciesRequest,
   output: GetPoliciesResponse,
   errors: [],
@@ -453,7 +570,11 @@ export const CreatePolicyPoliciesRequest = Schema.Struct({
   policyId: Schema.optional(Schema.String).pipe(T.HttpQuery("policyId")),
   body: Schema.optional(GoogleIamV2Policy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/policies/{policiesId}/{policiesId1}", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/policies/{policiesId}/{policiesId1}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreatePolicyPoliciesRequest>;
 
@@ -463,7 +584,12 @@ export const CreatePolicyPoliciesResponse = GoogleLongrunningOperation;
 export type CreatePolicyPoliciesError = DefaultErrors;
 
 /** Creates a policy. */
-export const createPolicyPolicies: API.OperationMethod<CreatePolicyPoliciesRequest, CreatePolicyPoliciesResponse, CreatePolicyPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPolicyPolicies: API.OperationMethod<
+  CreatePolicyPoliciesRequest,
+  CreatePolicyPoliciesResponse,
+  CreatePolicyPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePolicyPoliciesRequest,
   output: CreatePolicyPoliciesResponse,
   errors: [],
@@ -480,7 +606,11 @@ export const UpdatePoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(GoogleIamV2Policy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdatePoliciesRequest>;
 
@@ -490,7 +620,12 @@ export const UpdatePoliciesResponse = GoogleLongrunningOperation;
 export type UpdatePoliciesError = DefaultErrors;
 
 /** Updates the specified policy. You can update only the rules and the display name for the policy. To update a policy, you should use a read-modify-write loop: 1. Use GetPolicy to read the current version of the policy. 2. Modify the policy as needed. 3. Use `UpdatePolicy` to write the updated policy. This pattern helps prevent conflicts between concurrent updates. */
-export const updatePolicies: API.OperationMethod<UpdatePoliciesRequest, UpdatePoliciesResponse, UpdatePoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePolicies: API.OperationMethod<
+  UpdatePoliciesRequest,
+  UpdatePoliciesResponse,
+  UpdatePoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePoliciesRequest,
   output: UpdatePoliciesResponse,
   errors: [],
@@ -507,7 +642,10 @@ export const DeletePoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeletePoliciesRequest>;
 
@@ -517,7 +655,12 @@ export const DeletePoliciesResponse = GoogleLongrunningOperation;
 export type DeletePoliciesError = DefaultErrors;
 
 /** Deletes a policy. This action is permanent. */
-export const deletePolicies: API.OperationMethod<DeletePoliciesRequest, DeletePoliciesResponse, DeletePoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deletePolicies: API.OperationMethod<
+  DeletePoliciesRequest,
+  DeletePoliciesResponse,
+  DeletePoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeletePoliciesRequest,
   output: DeletePoliciesResponse,
   errors: [],
@@ -531,7 +674,10 @@ export interface GetPoliciesOperationsRequest {
 export const GetPoliciesOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/policies/{policiesId}/{policiesId1}/{policiesId2}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPoliciesOperationsRequest>;
 
@@ -541,9 +687,13 @@ export const GetPoliciesOperationsResponse = GoogleLongrunningOperation;
 export type GetPoliciesOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getPoliciesOperations: API.OperationMethod<GetPoliciesOperationsRequest, GetPoliciesOperationsResponse, GetPoliciesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPoliciesOperations: API.OperationMethod<
+  GetPoliciesOperationsRequest,
+  GetPoliciesOperationsResponse,
+  GetPoliciesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPoliciesOperationsRequest,
   output: GetPoliciesOperationsResponse,
   errors: [],
 }));
-

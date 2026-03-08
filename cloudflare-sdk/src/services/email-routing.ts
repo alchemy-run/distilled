@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Address
@@ -26,10 +24,16 @@ export interface GetAddressRequest {
 }
 
 export const GetAddressRequest = Schema.Struct({
-  destinationAddressIdentifier: Schema.String.pipe(T.HttpPath("destinationAddressIdentifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/email/routing/addresses/{destinationAddressIdentifier}" })) as unknown as Schema.Schema<GetAddressRequest>;
+  destinationAddressIdentifier: Schema.String.pipe(
+    T.HttpPath("destinationAddressIdentifier"),
+  ),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/email/routing/addresses/{destinationAddressIdentifier}",
+  }),
+) as unknown as Schema.Schema<GetAddressRequest>;
 
 export interface GetAddressResponse {
   /** Destination address identifier. */
@@ -52,11 +56,10 @@ export const GetAddressResponse = Schema.Struct({
   email: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   tag: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.String)
+  verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetAddressResponse>;
 
-export type GetAddressError =
-  | DefaultErrors;
+export type GetAddressError = DefaultErrors;
 
 export const getAddress: API.OperationMethod<
   GetAddressRequest,
@@ -80,24 +83,40 @@ export interface ListAddressesRequest {
 
 export const ListAddressesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("direction")),
-  verified: Schema.optional(Schema.Literals([true, false])).pipe(T.HttpQuery("verified"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/email/routing/addresses" })) as unknown as Schema.Schema<ListAddressesRequest>;
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  verified: Schema.optional(Schema.Literals([true, false])).pipe(
+    T.HttpQuery("verified"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/email/routing/addresses",
+  }),
+) as unknown as Schema.Schema<ListAddressesRequest>;
 
-export type ListAddressesResponse = { id?: string; created?: string; email?: string; modified?: string; tag?: string; verified?: string }[];
+export type ListAddressesResponse = {
+  id?: string;
+  created?: string;
+  email?: string;
+  modified?: string;
+  tag?: string;
+  verified?: string;
+}[];
 
-export const ListAddressesResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListAddressesResponse>;
+export const ListAddressesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    modified: Schema.optional(Schema.String),
+    tag: Schema.optional(Schema.String),
+    verified: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListAddressesResponse>;
 
-export type ListAddressesError =
-  | DefaultErrors;
+export type ListAddressesError = DefaultErrors;
 
 export const listAddresses: API.OperationMethod<
   ListAddressesRequest,
@@ -119,9 +138,13 @@ export interface CreateAddressRequest {
 
 export const CreateAddressRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  email: Schema.String
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/email/routing/addresses" })) as unknown as Schema.Schema<CreateAddressRequest>;
+  email: Schema.String,
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/email/routing/addresses",
+  }),
+) as unknown as Schema.Schema<CreateAddressRequest>;
 
 export interface CreateAddressResponse {
   /** Destination address identifier. */
@@ -144,11 +167,10 @@ export const CreateAddressResponse = Schema.Struct({
   email: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   tag: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.String)
+  verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAddressResponse>;
 
-export type CreateAddressError =
-  | DefaultErrors;
+export type CreateAddressError = DefaultErrors;
 
 export const createAddress: API.OperationMethod<
   CreateAddressRequest,
@@ -168,10 +190,16 @@ export interface DeleteAddressRequest {
 }
 
 export const DeleteAddressRequest = Schema.Struct({
-  destinationAddressIdentifier: Schema.String.pipe(T.HttpPath("destinationAddressIdentifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/email/routing/addresses/{destinationAddressIdentifier}" })) as unknown as Schema.Schema<DeleteAddressRequest>;
+  destinationAddressIdentifier: Schema.String.pipe(
+    T.HttpPath("destinationAddressIdentifier"),
+  ),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/email/routing/addresses/{destinationAddressIdentifier}",
+  }),
+) as unknown as Schema.Schema<DeleteAddressRequest>;
 
 export interface DeleteAddressResponse {
   /** Destination address identifier. */
@@ -194,11 +222,10 @@ export const DeleteAddressResponse = Schema.Struct({
   email: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   tag: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.String)
+  verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAddressResponse>;
 
-export type DeleteAddressError =
-  | DefaultErrors;
+export type DeleteAddressError = DefaultErrors;
 
 export const deleteAddress: API.OperationMethod<
   DeleteAddressRequest,
@@ -210,7 +237,6 @@ export const deleteAddress: API.OperationMethod<
   output: DeleteAddressResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Dns
@@ -225,72 +251,206 @@ export interface GetDnsRequest {
 
 export const GetDnsRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  subdomain: Schema.optional(Schema.String).pipe(T.HttpQuery("subdomain"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/dns" })) as unknown as Schema.Schema<GetDnsRequest>;
+  subdomain: Schema.optional(Schema.String).pipe(T.HttpQuery("subdomain")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/dns" }),
+) as unknown as Schema.Schema<GetDnsRequest>;
 
-export type GetDnsResponse = { errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[]; messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[]; success: true; result?: { errors?: { code?: string; missing?: unknown }[]; record?: unknown[] }; resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number } } | { errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[]; messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[]; success: true; result?: unknown[]; resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number } };
+export type GetDnsResponse =
+  | {
+      errors: {
+        code: number;
+        message: string;
+        documentationUrl?: string;
+        source?: { pointer?: string };
+      }[];
+      messages: {
+        code: number;
+        message: string;
+        documentationUrl?: string;
+        source?: { pointer?: string };
+      }[];
+      success: true;
+      result?: {
+        errors?: { code?: string; missing?: unknown }[];
+        record?: unknown[];
+      };
+      resultInfo?: {
+        count?: number;
+        page?: number;
+        perPage?: number;
+        totalCount?: number;
+      };
+    }
+  | {
+      errors: {
+        code: number;
+        message: string;
+        documentationUrl?: string;
+        source?: { pointer?: string };
+      }[];
+      messages: {
+        code: number;
+        message: string;
+        documentationUrl?: string;
+        source?: { pointer?: string };
+      }[];
+      success: true;
+      result?: unknown[];
+      resultInfo?: {
+        count?: number;
+        page?: number;
+        perPage?: number;
+        totalCount?: number;
+      };
+    };
 
-export const GetDnsResponse = Schema.Union([Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-    code: Schema.Number,
-    message: Schema.String,
-    documentationUrl: Schema.optional(Schema.String),
-    source: Schema.optional(Schema.Struct({
-      pointer: Schema.optional(Schema.String)
-    }))
-  }).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-    code: Schema.Number,
-    message: Schema.String,
-    documentationUrl: Schema.optional(Schema.String),
-    source: Schema.optional(Schema.Struct({
-      pointer: Schema.optional(Schema.String)
-    }))
-  }).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true),
-  result: Schema.optional(Schema.Struct({
-    errors: Schema.optional(Schema.Array(Schema.Struct({
-      code: Schema.optional(Schema.String),
-      missing: Schema.optional(Schema.Unknown)
-    }))),
-    record: Schema.optional(Schema.Array(Schema.Unknown))
-  })),
-  resultInfo: Schema.optional(Schema.Struct({
-    count: Schema.optional(Schema.Number),
-    page: Schema.optional(Schema.Number),
-    perPage: Schema.optional(Schema.Number),
-    totalCount: Schema.optional(Schema.Number)
-  }).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", result: "result", resultInfo: "result_info" })), Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-    code: Schema.Number,
-    message: Schema.String,
-    documentationUrl: Schema.optional(Schema.String),
-    source: Schema.optional(Schema.Struct({
-      pointer: Schema.optional(Schema.String)
-    }))
-  }).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-    code: Schema.Number,
-    message: Schema.String,
-    documentationUrl: Schema.optional(Schema.String),
-    source: Schema.optional(Schema.Struct({
-      pointer: Schema.optional(Schema.String)
-    }))
-  }).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true),
-  result: Schema.optional(Schema.Array(Schema.Unknown)),
-  resultInfo: Schema.optional(Schema.Struct({
-    count: Schema.optional(Schema.Number),
-    page: Schema.optional(Schema.Number),
-    perPage: Schema.optional(Schema.Number),
-    totalCount: Schema.optional(Schema.Number)
-  }).pipe(Schema.encodeKeys({ count: "count", page: "page", perPage: "per_page", totalCount: "total_count" })))
-}).pipe(Schema.encodeKeys({ errors: "errors", messages: "messages", success: "success", result: "result", resultInfo: "result_info" }))]) as unknown as Schema.Schema<GetDnsResponse>;
+export const GetDnsResponse = Schema.Union([
+  Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(Schema.String),
+        source: Schema.optional(
+          Schema.Struct({
+            pointer: Schema.optional(Schema.String),
+          }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(Schema.String),
+        source: Schema.optional(
+          Schema.Struct({
+            pointer: Schema.optional(Schema.String),
+          }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    result: Schema.optional(
+      Schema.Struct({
+        errors: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              code: Schema.optional(Schema.String),
+              missing: Schema.optional(Schema.Unknown),
+            }),
+          ),
+        ),
+        record: Schema.optional(Schema.Array(Schema.Unknown)),
+      }),
+    ),
+    resultInfo: Schema.optional(
+      Schema.Struct({
+        count: Schema.optional(Schema.Number),
+        page: Schema.optional(Schema.Number),
+        perPage: Schema.optional(Schema.Number),
+        totalCount: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
+      ),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      result: "result",
+      resultInfo: "result_info",
+    }),
+  ),
+  Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(Schema.String),
+        source: Schema.optional(
+          Schema.Struct({
+            pointer: Schema.optional(Schema.String),
+          }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(Schema.String),
+        source: Schema.optional(
+          Schema.Struct({
+            pointer: Schema.optional(Schema.String),
+          }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    result: Schema.optional(Schema.Array(Schema.Unknown)),
+    resultInfo: Schema.optional(
+      Schema.Struct({
+        count: Schema.optional(Schema.Number),
+        page: Schema.optional(Schema.Number),
+        perPage: Schema.optional(Schema.Number),
+        totalCount: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
+      ),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      result: "result",
+      resultInfo: "result_info",
+    }),
+  ),
+]) as unknown as Schema.Schema<GetDnsResponse>;
 
-export type GetDnsError =
-  | DefaultErrors;
+export type GetDnsError = DefaultErrors;
 
 export const getDns: API.OperationMethod<
   GetDnsRequest,
@@ -312,16 +472,17 @@ export interface CreateDnsRequest {
 
 export const CreateDnsRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  name: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/dns" })) as unknown as Schema.Schema<CreateDnsRequest>;
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/dns" }),
+) as unknown as Schema.Schema<CreateDnsRequest>;
 
 export type CreateDnsResponse = unknown;
 
-export const CreateDnsResponse = Schema.Unknown as unknown as Schema.Schema<CreateDnsResponse>;
+export const CreateDnsResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateDnsResponse>;
 
-export type CreateDnsError =
-  | DefaultErrors;
+export type CreateDnsError = DefaultErrors;
 
 export const createDns: API.OperationMethod<
   CreateDnsRequest,
@@ -343,16 +504,17 @@ export interface PatchDnsRequest {
 
 export const PatchDnsRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  name: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/zones/{zone_id}/email/routing/dns" })) as unknown as Schema.Schema<PatchDnsRequest>;
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({ method: "PATCH", path: "/zones/{zone_id}/email/routing/dns" }),
+) as unknown as Schema.Schema<PatchDnsRequest>;
 
 export type PatchDnsResponse = unknown;
 
-export const PatchDnsResponse = Schema.Unknown as unknown as Schema.Schema<PatchDnsResponse>;
+export const PatchDnsResponse =
+  Schema.Unknown as unknown as Schema.Schema<PatchDnsResponse>;
 
-export type PatchDnsError =
-  | DefaultErrors;
+export type PatchDnsError = DefaultErrors;
 
 export const patchDns: API.OperationMethod<
   PatchDnsRequest,
@@ -371,22 +533,69 @@ export interface DeleteDnsRequest {
 }
 
 export const DeleteDnsRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/email/routing/dns" })) as unknown as Schema.Schema<DeleteDnsRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "DELETE", path: "/zones/{zone_id}/email/routing/dns" }),
+) as unknown as Schema.Schema<DeleteDnsRequest>;
 
-export type DeleteDnsResponse = ({ content?: string; name?: string; priority?: number; ttl?: number | "1"; type?: "A" | "AAAA" | "CNAME" | "HTTPS" | "TXT" | "SRV" | "LOC" | "MX" | "NS" | "CERT" | "DNSKEY" | "DS" | "NAPTR" | "SMIMEA" | "SSHFP" | "SVCB" | "TLSA" | "URI" })[];
+export type DeleteDnsResponse = {
+  content?: string;
+  name?: string;
+  priority?: number;
+  ttl?: number | "1";
+  type?:
+    | "A"
+    | "AAAA"
+    | "CNAME"
+    | "HTTPS"
+    | "TXT"
+    | "SRV"
+    | "LOC"
+    | "MX"
+    | "NS"
+    | "CERT"
+    | "DNSKEY"
+    | "DS"
+    | "NAPTR"
+    | "SMIMEA"
+    | "SSHFP"
+    | "SVCB"
+    | "TLSA"
+    | "URI";
+}[];
 
-export const DeleteDnsResponse = Schema.Array(Schema.Struct({
-  content: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Literal("1")])),
-  type: Schema.optional(Schema.Literals(["A", "AAAA", "CNAME", "HTTPS", "TXT", "SRV", "LOC", "MX", "NS", "CERT", "DNSKEY", "DS", "NAPTR", "SMIMEA", "SSHFP", "SVCB", "TLSA", "URI"]))
-})) as unknown as Schema.Schema<DeleteDnsResponse>;
+export const DeleteDnsResponse = Schema.Array(
+  Schema.Struct({
+    content: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    priority: Schema.optional(Schema.Number),
+    ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Literal("1")])),
+    type: Schema.optional(
+      Schema.Literals([
+        "A",
+        "AAAA",
+        "CNAME",
+        "HTTPS",
+        "TXT",
+        "SRV",
+        "LOC",
+        "MX",
+        "NS",
+        "CERT",
+        "DNSKEY",
+        "DS",
+        "NAPTR",
+        "SMIMEA",
+        "SSHFP",
+        "SVCB",
+        "TLSA",
+        "URI",
+      ]),
+    ),
+  }),
+) as unknown as Schema.Schema<DeleteDnsResponse>;
 
-export type DeleteDnsError =
-  | DefaultErrors;
+export type DeleteDnsError = DefaultErrors;
 
 export const deleteDns: API.OperationMethod<
   DeleteDnsRequest,
@@ -399,7 +608,6 @@ export const deleteDns: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // EmailRouting
 // =============================================================================
@@ -410,9 +618,10 @@ export interface GetEmailRoutingRequest {
 }
 
 export const GetEmailRoutingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing" })) as unknown as Schema.Schema<GetEmailRoutingRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing" }),
+) as unknown as Schema.Schema<GetEmailRoutingRequest>;
 
 export interface GetEmailRoutingResponse {
   /** Email Routing settings identifier. */
@@ -428,7 +637,12 @@ export interface GetEmailRoutingResponse {
   /** Flag to check if the user skipped the configuration wizard. */
   skipWizard?: true | false;
   /** Show the state of your account, and the type or configuration error. */
-  status?: "ready" | "unconfigured" | "misconfigured" | "misconfigured/locked" | "unlocked";
+  status?:
+    | "ready"
+    | "unconfigured"
+    | "misconfigured"
+    | "misconfigured/locked"
+    | "unlocked";
   /** @deprecated Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
   tag?: string;
 }
@@ -440,12 +654,30 @@ export const GetEmailRoutingResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   skipWizard: Schema.optional(Schema.Literals([true, false])),
-  status: Schema.optional(Schema.Literals(["ready", "unconfigured", "misconfigured", "misconfigured/locked", "unlocked"])),
-  tag: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", enabled: "enabled", name: "name", created: "created", modified: "modified", skipWizard: "skip_wizard", status: "status", tag: "tag" })) as unknown as Schema.Schema<GetEmailRoutingResponse>;
+  status: Schema.optional(
+    Schema.Literals([
+      "ready",
+      "unconfigured",
+      "misconfigured",
+      "misconfigured/locked",
+      "unlocked",
+    ]),
+  ),
+  tag: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    enabled: "enabled",
+    name: "name",
+    created: "created",
+    modified: "modified",
+    skipWizard: "skip_wizard",
+    status: "status",
+    tag: "tag",
+  }),
+) as unknown as Schema.Schema<GetEmailRoutingResponse>;
 
-export type GetEmailRoutingError =
-  | DefaultErrors;
+export type GetEmailRoutingError = DefaultErrors;
 
 export const getEmailRouting: API.OperationMethod<
   GetEmailRoutingRequest,
@@ -467,9 +699,10 @@ export interface EnableEmailRoutingRequest {
 
 export const EnableEmailRoutingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/enable" })) as unknown as Schema.Schema<EnableEmailRoutingRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/enable" }),
+) as unknown as Schema.Schema<EnableEmailRoutingRequest>;
 
 export interface EnableEmailRoutingResponse {
   /** Email Routing settings identifier. */
@@ -485,7 +718,12 @@ export interface EnableEmailRoutingResponse {
   /** Flag to check if the user skipped the configuration wizard. */
   skipWizard?: true | false;
   /** Show the state of your account, and the type or configuration error. */
-  status?: "ready" | "unconfigured" | "misconfigured" | "misconfigured/locked" | "unlocked";
+  status?:
+    | "ready"
+    | "unconfigured"
+    | "misconfigured"
+    | "misconfigured/locked"
+    | "unlocked";
   /** @deprecated Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
   tag?: string;
 }
@@ -497,12 +735,30 @@ export const EnableEmailRoutingResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   skipWizard: Schema.optional(Schema.Literals([true, false])),
-  status: Schema.optional(Schema.Literals(["ready", "unconfigured", "misconfigured", "misconfigured/locked", "unlocked"])),
-  tag: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", enabled: "enabled", name: "name", created: "created", modified: "modified", skipWizard: "skip_wizard", status: "status", tag: "tag" })) as unknown as Schema.Schema<EnableEmailRoutingResponse>;
+  status: Schema.optional(
+    Schema.Literals([
+      "ready",
+      "unconfigured",
+      "misconfigured",
+      "misconfigured/locked",
+      "unlocked",
+    ]),
+  ),
+  tag: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    enabled: "enabled",
+    name: "name",
+    created: "created",
+    modified: "modified",
+    skipWizard: "skip_wizard",
+    status: "status",
+    tag: "tag",
+  }),
+) as unknown as Schema.Schema<EnableEmailRoutingResponse>;
 
-export type EnableEmailRoutingError =
-  | DefaultErrors;
+export type EnableEmailRoutingError = DefaultErrors;
 
 export const enableEmailRouting: API.OperationMethod<
   EnableEmailRoutingRequest,
@@ -524,9 +780,10 @@ export interface DisableEmailRoutingRequest {
 
 export const DisableEmailRoutingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/disable" })) as unknown as Schema.Schema<DisableEmailRoutingRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/disable" }),
+) as unknown as Schema.Schema<DisableEmailRoutingRequest>;
 
 export interface DisableEmailRoutingResponse {
   /** Email Routing settings identifier. */
@@ -542,7 +799,12 @@ export interface DisableEmailRoutingResponse {
   /** Flag to check if the user skipped the configuration wizard. */
   skipWizard?: true | false;
   /** Show the state of your account, and the type or configuration error. */
-  status?: "ready" | "unconfigured" | "misconfigured" | "misconfigured/locked" | "unlocked";
+  status?:
+    | "ready"
+    | "unconfigured"
+    | "misconfigured"
+    | "misconfigured/locked"
+    | "unlocked";
   /** @deprecated Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
   tag?: string;
 }
@@ -554,12 +816,30 @@ export const DisableEmailRoutingResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
   skipWizard: Schema.optional(Schema.Literals([true, false])),
-  status: Schema.optional(Schema.Literals(["ready", "unconfigured", "misconfigured", "misconfigured/locked", "unlocked"])),
-  tag: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", enabled: "enabled", name: "name", created: "created", modified: "modified", skipWizard: "skip_wizard", status: "status", tag: "tag" })) as unknown as Schema.Schema<DisableEmailRoutingResponse>;
+  status: Schema.optional(
+    Schema.Literals([
+      "ready",
+      "unconfigured",
+      "misconfigured",
+      "misconfigured/locked",
+      "unlocked",
+    ]),
+  ),
+  tag: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    enabled: "enabled",
+    name: "name",
+    created: "created",
+    modified: "modified",
+    skipWizard: "skip_wizard",
+    status: "status",
+    tag: "tag",
+  }),
+) as unknown as Schema.Schema<DisableEmailRoutingResponse>;
 
-export type DisableEmailRoutingError =
-  | DefaultErrors;
+export type DisableEmailRoutingError = DefaultErrors;
 
 export const disableEmailRouting: API.OperationMethod<
   DisableEmailRoutingRequest,
@@ -571,7 +851,6 @@ export const disableEmailRouting: API.OperationMethod<
   output: DisableEmailRoutingResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Rule
@@ -585,19 +864,23 @@ export interface GetRuleRequest {
 
 export const GetRuleRequest = Schema.Struct({
   ruleIdentifier: Schema.String.pipe(T.HttpPath("ruleIdentifier")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}" })) as unknown as Schema.Schema<GetRuleRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}",
+  }),
+) as unknown as Schema.Schema<GetRuleRequest>;
 
 export interface GetRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: ({ type: "all" | "literal"; field?: "to"; value?: string })[];
+  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -608,23 +891,30 @@ export interface GetRuleResponse {
 
 export const GetRuleResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-}))),
+  actions: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["drop", "forward", "worker"]),
+        value: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
-  matchers: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["all", "literal"]),
-  field: Schema.optional(Schema.Literal("to")),
-  value: Schema.optional(Schema.String)
-}))),
+  matchers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["all", "literal"]),
+        field: Schema.optional(Schema.Literal("to")),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String)
+  tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleResponse>;
 
-export type GetRuleError =
-  | DefaultErrors;
+export type GetRuleError = DefaultErrors;
 
 export const getRule: API.OperationMethod<
   GetRuleRequest,
@@ -646,31 +936,51 @@ export interface ListRulesRequest {
 
 export const ListRulesRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  enabled: Schema.optional(Schema.Literals([true, false])).pipe(T.HttpQuery("enabled"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/rules" })) as unknown as Schema.Schema<ListRulesRequest>;
+  enabled: Schema.optional(Schema.Literals([true, false])).pipe(
+    T.HttpQuery("enabled"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/rules" }),
+) as unknown as Schema.Schema<ListRulesRequest>;
 
-export type ListRulesResponse = ({ id?: string; actions?: ({ type: "drop" | "forward" | "worker"; value?: string[] })[]; enabled?: true | false; matchers?: ({ type: "all" | "literal"; field?: "to"; value?: string })[]; name?: string; priority?: number; tag?: string })[];
+export type ListRulesResponse = {
+  id?: string;
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  enabled?: true | false;
+  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
+  name?: string;
+  priority?: number;
+  tag?: string;
+}[];
 
-export const ListRulesResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Schema.Struct({
-    type: Schema.Literals(["drop", "forward", "worker"]),
-    value: Schema.optional(Schema.Array(Schema.String))
-  }))),
-  enabled: Schema.optional(Schema.Literals([true, false])),
-  matchers: Schema.optional(Schema.Array(Schema.Struct({
-    type: Schema.Literals(["all", "literal"]),
-    field: Schema.optional(Schema.Literal("to")),
-    value: Schema.optional(Schema.String)
-  }))),
-  name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListRulesResponse>;
+export const ListRulesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    actions: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+    ),
+    enabled: Schema.optional(Schema.Literals([true, false])),
+    matchers: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["all", "literal"]),
+          field: Schema.optional(Schema.Literal("to")),
+          value: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    name: Schema.optional(Schema.String),
+    priority: Schema.optional(Schema.Number),
+    tag: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListRulesResponse>;
 
-export type ListRulesError =
-  | DefaultErrors;
+export type ListRulesError = DefaultErrors;
 
 export const listRules: API.OperationMethod<
   ListRulesRequest,
@@ -687,9 +997,9 @@ export interface CreateRuleRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: List actions patterns. */
-  actions: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Body param: Matching patterns to forward to your actions. */
-  matchers: ({ type: "all" | "literal"; field?: "to"; value?: string })[];
+  matchers: { type: "all" | "literal"; field?: "to"; value?: string }[];
   /** Body param: Routing rule status. */
   enabled?: true | false;
   /** Body param: Routing rule name. */
@@ -700,30 +1010,35 @@ export interface CreateRuleRequest {
 
 export const CreateRuleRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  actions: Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-})),
-  matchers: Schema.Array(Schema.Struct({
-  type: Schema.Literals(["all", "literal"]),
-  field: Schema.optional(Schema.Literal("to")),
-  value: Schema.optional(Schema.String)
-})),
+  actions: Schema.Array(
+    Schema.Struct({
+      type: Schema.Literals(["drop", "forward", "worker"]),
+      value: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ),
+  matchers: Schema.Array(
+    Schema.Struct({
+      type: Schema.Literals(["all", "literal"]),
+      field: Schema.optional(Schema.Literal("to")),
+      value: Schema.optional(Schema.String),
+    }),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
   name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number)
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/rules" })) as unknown as Schema.Schema<CreateRuleRequest>;
+  priority: Schema.optional(Schema.Number),
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/rules" }),
+) as unknown as Schema.Schema<CreateRuleRequest>;
 
 export interface CreateRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: ({ type: "all" | "literal"; field?: "to"; value?: string })[];
+  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -734,23 +1049,30 @@ export interface CreateRuleResponse {
 
 export const CreateRuleResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-}))),
+  actions: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["drop", "forward", "worker"]),
+        value: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
-  matchers: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["all", "literal"]),
-  field: Schema.optional(Schema.Literal("to")),
-  value: Schema.optional(Schema.String)
-}))),
+  matchers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["all", "literal"]),
+        field: Schema.optional(Schema.Literal("to")),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String)
+  tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export type CreateRuleError =
-  | DefaultErrors;
+export type CreateRuleError = DefaultErrors;
 
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
@@ -768,9 +1090,9 @@ export interface UpdateRuleRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: List actions patterns. */
-  actions: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Body param: Matching patterns to forward to your actions. */
-  matchers: ({ type: "all" | "literal"; field?: "to"; value?: string })[];
+  matchers: { type: "all" | "literal"; field?: "to"; value?: string }[];
   /** Body param: Routing rule status. */
   enabled?: true | false;
   /** Body param: Routing rule name. */
@@ -782,30 +1104,38 @@ export interface UpdateRuleRequest {
 export const UpdateRuleRequest = Schema.Struct({
   ruleIdentifier: Schema.String.pipe(T.HttpPath("ruleIdentifier")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  actions: Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-})),
-  matchers: Schema.Array(Schema.Struct({
-  type: Schema.Literals(["all", "literal"]),
-  field: Schema.optional(Schema.Literal("to")),
-  value: Schema.optional(Schema.String)
-})),
+  actions: Schema.Array(
+    Schema.Struct({
+      type: Schema.Literals(["drop", "forward", "worker"]),
+      value: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ),
+  matchers: Schema.Array(
+    Schema.Struct({
+      type: Schema.Literals(["all", "literal"]),
+      field: Schema.optional(Schema.Literal("to")),
+      value: Schema.optional(Schema.String),
+    }),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
   name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number)
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}" })) as unknown as Schema.Schema<UpdateRuleRequest>;
+  priority: Schema.optional(Schema.Number),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}",
+  }),
+) as unknown as Schema.Schema<UpdateRuleRequest>;
 
 export interface UpdateRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: ({ type: "all" | "literal"; field?: "to"; value?: string })[];
+  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -816,23 +1146,30 @@ export interface UpdateRuleResponse {
 
 export const UpdateRuleResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-}))),
+  actions: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["drop", "forward", "worker"]),
+        value: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
-  matchers: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["all", "literal"]),
-  field: Schema.optional(Schema.Literal("to")),
-  value: Schema.optional(Schema.String)
-}))),
+  matchers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["all", "literal"]),
+        field: Schema.optional(Schema.Literal("to")),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String)
+  tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateRuleResponse>;
 
-export type UpdateRuleError =
-  | DefaultErrors;
+export type UpdateRuleError = DefaultErrors;
 
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
@@ -853,19 +1190,23 @@ export interface DeleteRuleRequest {
 
 export const DeleteRuleRequest = Schema.Struct({
   ruleIdentifier: Schema.String.pipe(T.HttpPath("ruleIdentifier")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}" })) as unknown as Schema.Schema<DeleteRuleRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}",
+  }),
+) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: ({ type: "all" | "literal"; field?: "to"; value?: string })[];
+  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -876,23 +1217,30 @@ export interface DeleteRuleResponse {
 
 export const DeleteRuleResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-}))),
+  actions: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["drop", "forward", "worker"]),
+        value: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
-  matchers: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["all", "literal"]),
-  field: Schema.optional(Schema.Literal("to")),
-  value: Schema.optional(Schema.String)
-}))),
+  matchers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["all", "literal"]),
+        field: Schema.optional(Schema.Literal("to")),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String)
+  tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export type DeleteRuleError =
-  | DefaultErrors;
+export type DeleteRuleError = DefaultErrors;
 
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
@@ -905,7 +1253,6 @@ export const deleteRule: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // RuleCatchAll
 // =============================================================================
@@ -916,15 +1263,19 @@ export interface GetRuleCatchAllRequest {
 }
 
 export const GetRuleCatchAllRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/rules/catch_all" })) as unknown as Schema.Schema<GetRuleCatchAllRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/email/routing/rules/catch_all",
+  }),
+) as unknown as Schema.Schema<GetRuleCatchAllRequest>;
 
 export interface GetRuleCatchAllResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions for the catch-all routing rule. */
-  actions?: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** List of matchers for the catch-all routing rule. */
@@ -937,20 +1288,27 @@ export interface GetRuleCatchAllResponse {
 
 export const GetRuleCatchAllResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-}))),
+  actions: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["drop", "forward", "worker"]),
+        value: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
-  matchers: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literal("all")
-}))),
+  matchers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literal("all"),
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String)
+  tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleCatchAllResponse>;
 
-export type GetRuleCatchAllError =
-  | DefaultErrors;
+export type GetRuleCatchAllError = DefaultErrors;
 
 export const getRuleCatchAll: API.OperationMethod<
   GetRuleCatchAllRequest,
@@ -967,7 +1325,7 @@ export interface PutRuleCatchAllRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: List actions for the catch-all routing rule. */
-  actions: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Body param: List of matchers for the catch-all routing rule. */
   matchers: { type: "all" }[];
   /** Body param: Routing rule status. */
@@ -978,23 +1336,31 @@ export interface PutRuleCatchAllRequest {
 
 export const PutRuleCatchAllRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  actions: Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-})),
-  matchers: Schema.Array(Schema.Struct({
-  type: Schema.Literal("all")
-})),
+  actions: Schema.Array(
+    Schema.Struct({
+      type: Schema.Literals(["drop", "forward", "worker"]),
+      value: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ),
+  matchers: Schema.Array(
+    Schema.Struct({
+      type: Schema.Literal("all"),
+    }),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
-  name: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/email/routing/rules/catch_all" })) as unknown as Schema.Schema<PutRuleCatchAllRequest>;
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/email/routing/rules/catch_all",
+  }),
+) as unknown as Schema.Schema<PutRuleCatchAllRequest>;
 
 export interface PutRuleCatchAllResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions for the catch-all routing rule. */
-  actions?: ({ type: "drop" | "forward" | "worker"; value?: string[] })[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** List of matchers for the catch-all routing rule. */
@@ -1007,20 +1373,27 @@ export interface PutRuleCatchAllResponse {
 
 export const PutRuleCatchAllResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  actions: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literals(["drop", "forward", "worker"]),
-  value: Schema.optional(Schema.Array(Schema.String))
-}))),
+  actions: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literals(["drop", "forward", "worker"]),
+        value: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+  ),
   enabled: Schema.optional(Schema.Literals([true, false])),
-  matchers: Schema.optional(Schema.Array(Schema.Struct({
-  type: Schema.Literal("all")
-}))),
+  matchers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        type: Schema.Literal("all"),
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String)
+  tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutRuleCatchAllResponse>;
 
-export type PutRuleCatchAllError =
-  | DefaultErrors;
+export type PutRuleCatchAllError = DefaultErrors;
 
 export const putRuleCatchAll: API.OperationMethod<
   PutRuleCatchAllRequest,

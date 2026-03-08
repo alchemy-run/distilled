@@ -38,14 +38,19 @@ export interface BillingAccount {
   currencyCode?: string;
 }
 
-export const BillingAccount: Schema.Schema<BillingAccount> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  open: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  masterBillingAccount: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  currencyCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "BillingAccount" }) as any as Schema.Schema<BillingAccount>;
+export const BillingAccount: Schema.Schema<BillingAccount> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      open: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      masterBillingAccount: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "BillingAccount",
+}) as any as Schema.Schema<BillingAccount>;
 
 export interface ListBillingAccountsResponse {
   /** A list of billing accounts. */
@@ -54,10 +59,15 @@ export interface ListBillingAccountsResponse {
   nextPageToken?: string;
 }
 
-export const ListBillingAccountsResponse: Schema.Schema<ListBillingAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  billingAccounts: Schema.optional(Schema.Array(BillingAccount)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListBillingAccountsResponse" }) as any as Schema.Schema<ListBillingAccountsResponse>;
+export const ListBillingAccountsResponse: Schema.Schema<ListBillingAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      billingAccounts: Schema.optional(Schema.Array(BillingAccount)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListBillingAccountsResponse",
+  }) as any as Schema.Schema<ListBillingAccountsResponse>;
 
 export interface ProjectBillingInfo {
   /** Output only. The resource name for the `ProjectBillingInfo`; has the form `projects/{project_id}/billingInfo`. For example, the resource name for the billing information for project `tokyo-rain-123` would be `projects/tokyo-rain-123/billingInfo`. */
@@ -70,12 +80,17 @@ export interface ProjectBillingInfo {
   billingEnabled?: boolean;
 }
 
-export const ProjectBillingInfo: Schema.Schema<ProjectBillingInfo> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  billingAccountName: Schema.optional(Schema.String),
-  billingEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ProjectBillingInfo" }) as any as Schema.Schema<ProjectBillingInfo>;
+export const ProjectBillingInfo: Schema.Schema<ProjectBillingInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      billingAccountName: Schema.optional(Schema.String),
+      billingEnabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ProjectBillingInfo",
+  }) as any as Schema.Schema<ProjectBillingInfo>;
 
 export interface ListProjectBillingInfoResponse {
   /** A list of `ProjectBillingInfo` resources representing the projects associated with the billing account. */
@@ -84,10 +99,15 @@ export interface ListProjectBillingInfoResponse {
   nextPageToken?: string;
 }
 
-export const ListProjectBillingInfoResponse: Schema.Schema<ListProjectBillingInfoResponse> = Schema.suspend(() => Schema.Struct({
-  projectBillingInfo: Schema.optional(Schema.Array(ProjectBillingInfo)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListProjectBillingInfoResponse" }) as any as Schema.Schema<ListProjectBillingInfoResponse>;
+export const ListProjectBillingInfoResponse: Schema.Schema<ListProjectBillingInfoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projectBillingInfo: Schema.optional(Schema.Array(ProjectBillingInfo)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListProjectBillingInfoResponse",
+  }) as any as Schema.Schema<ListProjectBillingInfoResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -100,12 +120,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -116,23 +138,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -141,10 +175,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -157,12 +193,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -171,37 +209,57 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface MoveBillingAccountRequest {
   /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
   destinationParent?: string;
 }
 
-export const MoveBillingAccountRequest: Schema.Schema<MoveBillingAccountRequest> = Schema.suspend(() => Schema.Struct({
-  destinationParent: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveBillingAccountRequest" }) as any as Schema.Schema<MoveBillingAccountRequest>;
+export const MoveBillingAccountRequest: Schema.Schema<MoveBillingAccountRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationParent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveBillingAccountRequest",
+  }) as any as Schema.Schema<MoveBillingAccountRequest>;
 
 export interface Service {
   /** The resource name for the service. Example: "services/6F81-5844-456A" */
@@ -214,12 +272,14 @@ export interface Service {
   businessEntityName?: string;
 }
 
-export const Service: Schema.Schema<Service> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  serviceId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  businessEntityName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
+export const Service: Schema.Schema<Service> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    serviceId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    businessEntityName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
 
 export interface ListServicesResponse {
   /** A list of services. */
@@ -228,10 +288,15 @@ export interface ListServicesResponse {
   nextPageToken?: string;
 }
 
-export const ListServicesResponse: Schema.Schema<ListServicesResponse> = Schema.suspend(() => Schema.Struct({
-  services: Schema.optional(Schema.Array(Service)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListServicesResponse" }) as any as Schema.Schema<ListServicesResponse>;
+export const ListServicesResponse: Schema.Schema<ListServicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      services: Schema.optional(Schema.Array(Service)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListServicesResponse",
+  }) as any as Schema.Schema<ListServicesResponse>;
 
 export interface Category {
   /** The display name of the service this SKU belongs to. */
@@ -244,12 +309,14 @@ export interface Category {
   usageType?: string;
 }
 
-export const Category: Schema.Schema<Category> = Schema.suspend(() => Schema.Struct({
-  serviceDisplayName: Schema.optional(Schema.String),
-  resourceFamily: Schema.optional(Schema.String),
-  resourceGroup: Schema.optional(Schema.String),
-  usageType: Schema.optional(Schema.String),
-})).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
+export const Category: Schema.Schema<Category> = Schema.suspend(() =>
+  Schema.Struct({
+    serviceDisplayName: Schema.optional(Schema.String),
+    resourceFamily: Schema.optional(Schema.String),
+    resourceGroup: Schema.optional(Schema.String),
+    usageType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
 
 export interface Money {
   /** The three-letter currency code defined in ISO 4217. */
@@ -260,11 +327,13 @@ export interface Money {
   nanos?: number;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() => Schema.Struct({
-  currencyCode: Schema.optional(Schema.String),
-  units: Schema.optional(Schema.String),
-  nanos: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> = Schema.suspend(() =>
+  Schema.Struct({
+    currencyCode: Schema.optional(Schema.String),
+    units: Schema.optional(Schema.String),
+    nanos: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface TierRate {
   /** Usage is priced at this rate only after this amount. Example: start_usage_amount of 10 indicates that the usage will be priced at the unit_price after the first 10 usage_units. */
@@ -273,10 +342,12 @@ export interface TierRate {
   unitPrice?: Money;
 }
 
-export const TierRate: Schema.Schema<TierRate> = Schema.suspend(() => Schema.Struct({
-  startUsageAmount: Schema.optional(Schema.Number),
-  unitPrice: Schema.optional(Money),
-})).annotate({ identifier: "TierRate" }) as any as Schema.Schema<TierRate>;
+export const TierRate: Schema.Schema<TierRate> = Schema.suspend(() =>
+  Schema.Struct({
+    startUsageAmount: Schema.optional(Schema.Number),
+    unitPrice: Schema.optional(Money),
+  }),
+).annotate({ identifier: "TierRate" }) as any as Schema.Schema<TierRate>;
 
 export interface PricingExpression {
   /** The short hand for unit of usage this pricing is specified in. Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte". */
@@ -295,28 +366,46 @@ export interface PricingExpression {
   baseUnitConversionFactor?: number;
 }
 
-export const PricingExpression: Schema.Schema<PricingExpression> = Schema.suspend(() => Schema.Struct({
-  usageUnit: Schema.optional(Schema.String),
-  displayQuantity: Schema.optional(Schema.Number),
-  tieredRates: Schema.optional(Schema.Array(TierRate)),
-  usageUnitDescription: Schema.optional(Schema.String),
-  baseUnit: Schema.optional(Schema.String),
-  baseUnitDescription: Schema.optional(Schema.String),
-  baseUnitConversionFactor: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PricingExpression" }) as any as Schema.Schema<PricingExpression>;
+export const PricingExpression: Schema.Schema<PricingExpression> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      usageUnit: Schema.optional(Schema.String),
+      displayQuantity: Schema.optional(Schema.Number),
+      tieredRates: Schema.optional(Schema.Array(TierRate)),
+      usageUnitDescription: Schema.optional(Schema.String),
+      baseUnit: Schema.optional(Schema.String),
+      baseUnitDescription: Schema.optional(Schema.String),
+      baseUnitConversionFactor: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "PricingExpression",
+  }) as any as Schema.Schema<PricingExpression>;
 
 export interface AggregationInfo {
-  aggregationLevel?: "AGGREGATION_LEVEL_UNSPECIFIED" | "ACCOUNT" | "PROJECT" | (string & {});
-  aggregationInterval?: "AGGREGATION_INTERVAL_UNSPECIFIED" | "DAILY" | "MONTHLY" | (string & {});
+  aggregationLevel?:
+    | "AGGREGATION_LEVEL_UNSPECIFIED"
+    | "ACCOUNT"
+    | "PROJECT"
+    | (string & {});
+  aggregationInterval?:
+    | "AGGREGATION_INTERVAL_UNSPECIFIED"
+    | "DAILY"
+    | "MONTHLY"
+    | (string & {});
   /** The number of intervals to aggregate over. Example: If aggregation_level is "DAILY" and aggregation_count is 14, aggregation will be over 14 days. */
   aggregationCount?: number;
 }
 
-export const AggregationInfo: Schema.Schema<AggregationInfo> = Schema.suspend(() => Schema.Struct({
-  aggregationLevel: Schema.optional(Schema.String),
-  aggregationInterval: Schema.optional(Schema.String),
-  aggregationCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AggregationInfo" }) as any as Schema.Schema<AggregationInfo>;
+export const AggregationInfo: Schema.Schema<AggregationInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      aggregationLevel: Schema.optional(Schema.String),
+      aggregationInterval: Schema.optional(Schema.String),
+      aggregationCount: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "AggregationInfo",
+}) as any as Schema.Schema<AggregationInfo>;
 
 export interface PricingInfo {
   /** The timestamp from which this pricing was effective within the requested time range. This is guaranteed to be greater than or equal to the start_time field in the request and less than the end_time field in the request. If a time range was not specified in the request this field will be equivalent to a time within the last 12 hours, indicating the latest pricing info. */
@@ -331,25 +420,34 @@ export interface PricingInfo {
   currencyConversionRate?: number;
 }
 
-export const PricingInfo: Schema.Schema<PricingInfo> = Schema.suspend(() => Schema.Struct({
-  effectiveTime: Schema.optional(Schema.String),
-  summary: Schema.optional(Schema.String),
-  pricingExpression: Schema.optional(PricingExpression),
-  aggregationInfo: Schema.optional(AggregationInfo),
-  currencyConversionRate: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PricingInfo" }) as any as Schema.Schema<PricingInfo>;
+export const PricingInfo: Schema.Schema<PricingInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    effectiveTime: Schema.optional(Schema.String),
+    summary: Schema.optional(Schema.String),
+    pricingExpression: Schema.optional(PricingExpression),
+    aggregationInfo: Schema.optional(AggregationInfo),
+    currencyConversionRate: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "PricingInfo" }) as any as Schema.Schema<PricingInfo>;
 
 export interface GeoTaxonomy {
   /** The type of Geo Taxonomy: GLOBAL, REGIONAL, or MULTI_REGIONAL. */
-  type?: "TYPE_UNSPECIFIED" | "GLOBAL" | "REGIONAL" | "MULTI_REGIONAL" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "GLOBAL"
+    | "REGIONAL"
+    | "MULTI_REGIONAL"
+    | (string & {});
   /** The list of regions associated with a sku. Empty for Global skus, which are associated with all Google Cloud regions. */
   regions?: Array<string>;
 }
 
-export const GeoTaxonomy: Schema.Schema<GeoTaxonomy> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  regions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GeoTaxonomy" }) as any as Schema.Schema<GeoTaxonomy>;
+export const GeoTaxonomy: Schema.Schema<GeoTaxonomy> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    regions: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "GeoTaxonomy" }) as any as Schema.Schema<GeoTaxonomy>;
 
 export interface Sku {
   /** The resource name for the SKU. Example: "services/6F81-5844-456A/skus/D041-B8A1-6E0B" */
@@ -370,16 +468,18 @@ export interface Sku {
   geoTaxonomy?: GeoTaxonomy;
 }
 
-export const Sku: Schema.Schema<Sku> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  skuId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  category: Schema.optional(Category),
-  serviceRegions: Schema.optional(Schema.Array(Schema.String)),
-  pricingInfo: Schema.optional(Schema.Array(PricingInfo)),
-  serviceProviderName: Schema.optional(Schema.String),
-  geoTaxonomy: Schema.optional(GeoTaxonomy),
-})).annotate({ identifier: "Sku" }) as any as Schema.Schema<Sku>;
+export const Sku: Schema.Schema<Sku> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    skuId: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    category: Schema.optional(Category),
+    serviceRegions: Schema.optional(Schema.Array(Schema.String)),
+    pricingInfo: Schema.optional(Schema.Array(PricingInfo)),
+    serviceProviderName: Schema.optional(Schema.String),
+    geoTaxonomy: Schema.optional(GeoTaxonomy),
+  }),
+).annotate({ identifier: "Sku" }) as any as Schema.Schema<Sku>;
 
 export interface ListSkusResponse {
   /** The list of public SKUs of the given service. */
@@ -388,10 +488,15 @@ export interface ListSkusResponse {
   nextPageToken?: string;
 }
 
-export const ListSkusResponse: Schema.Schema<ListSkusResponse> = Schema.suspend(() => Schema.Struct({
-  skus: Schema.optional(Schema.Array(Sku)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSkusResponse" }) as any as Schema.Schema<ListSkusResponse>;
+export const ListSkusResponse: Schema.Schema<ListSkusResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      skus: Schema.optional(Schema.Array(Sku)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ListSkusResponse",
+}) as any as Schema.Schema<ListSkusResponse>;
 
 // ==========================================================================
 // Operations
@@ -415,7 +520,12 @@ export const GetBillingAccountsResponse = BillingAccount;
 export type GetBillingAccountsError = DefaultErrors;
 
 /** Gets information about a billing account. The current authenticated user must be a [viewer of the billing account](https://cloud.google.com/billing/docs/how-to/billing-access). */
-export const getBillingAccounts: API.OperationMethod<GetBillingAccountsRequest, GetBillingAccountsResponse, GetBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBillingAccounts: API.OperationMethod<
+  GetBillingAccountsRequest,
+  GetBillingAccountsResponse,
+  GetBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBillingAccountsRequest,
   output: GetBillingAccountsResponse,
   errors: [],
@@ -448,7 +558,12 @@ export const ListBillingAccountsResponse_Op = ListBillingAccountsResponse;
 export type ListBillingAccountsError = DefaultErrors;
 
 /** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
-export const listBillingAccounts: API.PaginatedOperationMethod<ListBillingAccountsRequest, ListBillingAccountsResponse_Op, ListBillingAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBillingAccounts: API.PaginatedOperationMethod<
+  ListBillingAccountsRequest,
+  ListBillingAccountsResponse_Op,
+  ListBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBillingAccountsRequest,
   output: ListBillingAccountsResponse_Op,
   errors: [],
@@ -472,7 +587,11 @@ export const PatchBillingAccountsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/billingAccounts/{billingAccountsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/billingAccounts/{billingAccountsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchBillingAccountsRequest>;
 
@@ -482,7 +601,12 @@ export const PatchBillingAccountsResponse = BillingAccount;
 export type PatchBillingAccountsError = DefaultErrors;
 
 /** Updates a billing account's fields. Currently the only field that can be edited is `display_name`. The current authenticated user must have the `billing.accounts.update` IAM permission, which is typically given to the [administrator](https://cloud.google.com/billing/docs/how-to/billing-access) of the billing account. */
-export const patchBillingAccounts: API.OperationMethod<PatchBillingAccountsRequest, PatchBillingAccountsResponse, PatchBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchBillingAccounts: API.OperationMethod<
+  PatchBillingAccountsRequest,
+  PatchBillingAccountsResponse,
+  PatchBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchBillingAccountsRequest,
   output: PatchBillingAccountsResponse,
   errors: [],
@@ -509,7 +633,12 @@ export const CreateBillingAccountsResponse = BillingAccount;
 export type CreateBillingAccountsError = DefaultErrors;
 
 /** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
-export const createBillingAccounts: API.OperationMethod<CreateBillingAccountsRequest, CreateBillingAccountsResponse, CreateBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createBillingAccounts: API.OperationMethod<
+  CreateBillingAccountsRequest,
+  CreateBillingAccountsResponse,
+  CreateBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateBillingAccountsRequest,
   output: CreateBillingAccountsResponse,
   errors: [],
@@ -524,9 +653,14 @@ export interface GetIamPolicyBillingAccountsRequest {
 
 export const GetIamPolicyBillingAccountsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/billingAccounts/{billingAccountsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/billingAccounts/{billingAccountsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyBillingAccountsRequest>;
 
@@ -536,7 +670,12 @@ export const GetIamPolicyBillingAccountsResponse = Policy;
 export type GetIamPolicyBillingAccountsError = DefaultErrors;
 
 /** Gets the access control policy for a billing account. The caller must have the `billing.accounts.getIamPolicy` permission on the account, which is often given to billing account [viewers](https://cloud.google.com/billing/docs/how-to/billing-access). */
-export const getIamPolicyBillingAccounts: API.OperationMethod<GetIamPolicyBillingAccountsRequest, GetIamPolicyBillingAccountsResponse, GetIamPolicyBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyBillingAccounts: API.OperationMethod<
+  GetIamPolicyBillingAccountsRequest,
+  GetIamPolicyBillingAccountsResponse,
+  GetIamPolicyBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyBillingAccountsRequest,
   output: GetIamPolicyBillingAccountsResponse,
   errors: [],
@@ -553,7 +692,11 @@ export const SetIamPolicyBillingAccountsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/billingAccounts/{billingAccountsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/billingAccounts/{billingAccountsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyBillingAccountsRequest>;
 
@@ -563,7 +706,12 @@ export const SetIamPolicyBillingAccountsResponse = Policy;
 export type SetIamPolicyBillingAccountsError = DefaultErrors;
 
 /** Sets the access control policy for a billing account. Replaces any existing policy. The caller must have the `billing.accounts.setIamPolicy` permission on the account, which is often given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). */
-export const setIamPolicyBillingAccounts: API.OperationMethod<SetIamPolicyBillingAccountsRequest, SetIamPolicyBillingAccountsResponse, SetIamPolicyBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyBillingAccounts: API.OperationMethod<
+  SetIamPolicyBillingAccountsRequest,
+  SetIamPolicyBillingAccountsResponse,
+  SetIamPolicyBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyBillingAccountsRequest,
   output: SetIamPolicyBillingAccountsResponse,
   errors: [],
@@ -580,17 +728,28 @@ export const TestIamPermissionsBillingAccountsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/billingAccounts/{billingAccountsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/billingAccounts/{billingAccountsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsBillingAccountsRequest>;
 
-export type TestIamPermissionsBillingAccountsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsBillingAccountsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsBillingAccountsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsBillingAccountsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsBillingAccountsError = DefaultErrors;
 
 /** Tests the access control policy for a billing account. This method takes the resource and a set of permissions as input and returns the subset of the input permissions that the caller is allowed for that resource. */
-export const testIamPermissionsBillingAccounts: API.OperationMethod<TestIamPermissionsBillingAccountsRequest, TestIamPermissionsBillingAccountsResponse, TestIamPermissionsBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsBillingAccounts: API.OperationMethod<
+  TestIamPermissionsBillingAccountsRequest,
+  TestIamPermissionsBillingAccountsResponse,
+  TestIamPermissionsBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsBillingAccountsRequest,
   output: TestIamPermissionsBillingAccountsResponse,
   errors: [],
@@ -607,7 +766,11 @@ export const MoveBillingAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MoveBillingAccountRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/billingAccounts/{billingAccountsId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/billingAccounts/{billingAccountsId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveBillingAccountsRequest>;
 
@@ -617,7 +780,12 @@ export const MoveBillingAccountsResponse = BillingAccount;
 export type MoveBillingAccountsError = DefaultErrors;
 
 /** Changes which parent organization a billing account belongs to. */
-export const moveBillingAccounts: API.OperationMethod<MoveBillingAccountsRequest, MoveBillingAccountsResponse, MoveBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveBillingAccounts: API.OperationMethod<
+  MoveBillingAccountsRequest,
+  MoveBillingAccountsResponse,
+  MoveBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveBillingAccountsRequest,
   output: MoveBillingAccountsResponse,
   errors: [],
@@ -640,17 +808,27 @@ export const ListBillingAccountsSubAccountsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/billingAccounts/{billingAccountsId}/subAccounts" }),
+  T.Http({
+    method: "GET",
+    path: "v1/billingAccounts/{billingAccountsId}/subAccounts",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListBillingAccountsSubAccountsRequest>;
 
-export type ListBillingAccountsSubAccountsResponse = ListBillingAccountsResponse;
-export const ListBillingAccountsSubAccountsResponse = ListBillingAccountsResponse;
+export type ListBillingAccountsSubAccountsResponse =
+  ListBillingAccountsResponse;
+export const ListBillingAccountsSubAccountsResponse =
+  ListBillingAccountsResponse;
 
 export type ListBillingAccountsSubAccountsError = DefaultErrors;
 
 /** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
-export const listBillingAccountsSubAccounts: API.PaginatedOperationMethod<ListBillingAccountsSubAccountsRequest, ListBillingAccountsSubAccountsResponse, ListBillingAccountsSubAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBillingAccountsSubAccounts: API.PaginatedOperationMethod<
+  ListBillingAccountsSubAccountsRequest,
+  ListBillingAccountsSubAccountsResponse,
+  ListBillingAccountsSubAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBillingAccountsSubAccountsRequest,
   output: ListBillingAccountsSubAccountsResponse,
   errors: [],
@@ -671,7 +849,11 @@ export const CreateBillingAccountsSubAccountsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/billingAccounts/{billingAccountsId}/subAccounts", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/billingAccounts/{billingAccountsId}/subAccounts",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateBillingAccountsSubAccountsRequest>;
 
@@ -681,7 +863,12 @@ export const CreateBillingAccountsSubAccountsResponse = BillingAccount;
 export type CreateBillingAccountsSubAccountsError = DefaultErrors;
 
 /** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
-export const createBillingAccountsSubAccounts: API.OperationMethod<CreateBillingAccountsSubAccountsRequest, CreateBillingAccountsSubAccountsResponse, CreateBillingAccountsSubAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createBillingAccountsSubAccounts: API.OperationMethod<
+  CreateBillingAccountsSubAccountsRequest,
+  CreateBillingAccountsSubAccountsResponse,
+  CreateBillingAccountsSubAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateBillingAccountsSubAccountsRequest,
   output: CreateBillingAccountsSubAccountsResponse,
   errors: [],
@@ -701,17 +888,27 @@ export const ListBillingAccountsProjectsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/billingAccounts/{billingAccountsId}/projects" }),
+  T.Http({
+    method: "GET",
+    path: "v1/billingAccounts/{billingAccountsId}/projects",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListBillingAccountsProjectsRequest>;
 
-export type ListBillingAccountsProjectsResponse = ListProjectBillingInfoResponse;
-export const ListBillingAccountsProjectsResponse = ListProjectBillingInfoResponse;
+export type ListBillingAccountsProjectsResponse =
+  ListProjectBillingInfoResponse;
+export const ListBillingAccountsProjectsResponse =
+  ListProjectBillingInfoResponse;
 
 export type ListBillingAccountsProjectsError = DefaultErrors;
 
 /** Lists the projects associated with a billing account. The current authenticated user must have the `billing.resourceAssociations.list` IAM permission, which is often given to billing account [viewers](https://cloud.google.com/billing/docs/how-to/billing-access). */
-export const listBillingAccountsProjects: API.PaginatedOperationMethod<ListBillingAccountsProjectsRequest, ListBillingAccountsProjectsResponse, ListBillingAccountsProjectsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBillingAccountsProjects: API.PaginatedOperationMethod<
+  ListBillingAccountsProjectsRequest,
+  ListBillingAccountsProjectsResponse,
+  ListBillingAccountsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBillingAccountsProjectsRequest,
   output: ListBillingAccountsProjectsResponse,
   errors: [],
@@ -738,17 +935,27 @@ export const ListOrganizationsBillingAccountsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/billingAccounts" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/billingAccounts",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsBillingAccountsRequest>;
 
-export type ListOrganizationsBillingAccountsResponse = ListBillingAccountsResponse;
-export const ListOrganizationsBillingAccountsResponse = ListBillingAccountsResponse;
+export type ListOrganizationsBillingAccountsResponse =
+  ListBillingAccountsResponse;
+export const ListOrganizationsBillingAccountsResponse =
+  ListBillingAccountsResponse;
 
 export type ListOrganizationsBillingAccountsError = DefaultErrors;
 
 /** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
-export const listOrganizationsBillingAccounts: API.PaginatedOperationMethod<ListOrganizationsBillingAccountsRequest, ListOrganizationsBillingAccountsResponse, ListOrganizationsBillingAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsBillingAccounts: API.PaginatedOperationMethod<
+  ListOrganizationsBillingAccountsRequest,
+  ListOrganizationsBillingAccountsResponse,
+  ListOrganizationsBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsBillingAccountsRequest,
   output: ListOrganizationsBillingAccountsResponse,
   errors: [],
@@ -769,7 +976,11 @@ export const CreateOrganizationsBillingAccountsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/organizations/{organizationsId}/billingAccounts", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/organizations/{organizationsId}/billingAccounts",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOrganizationsBillingAccountsRequest>;
 
@@ -779,7 +990,12 @@ export const CreateOrganizationsBillingAccountsResponse = BillingAccount;
 export type CreateOrganizationsBillingAccountsError = DefaultErrors;
 
 /** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
-export const createOrganizationsBillingAccounts: API.OperationMethod<CreateOrganizationsBillingAccountsRequest, CreateOrganizationsBillingAccountsResponse, CreateOrganizationsBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsBillingAccounts: API.OperationMethod<
+  CreateOrganizationsBillingAccountsRequest,
+  CreateOrganizationsBillingAccountsResponse,
+  CreateOrganizationsBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsBillingAccountsRequest,
   output: CreateOrganizationsBillingAccountsResponse,
   errors: [],
@@ -796,7 +1012,10 @@ export const MoveOrganizationsBillingAccountsRequest = Schema.Struct({
   destinationParent: Schema.String.pipe(T.HttpPath("destinationParent")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/billingAccounts/{billingAccountsId}:move" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/billingAccounts/{billingAccountsId}:move",
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveOrganizationsBillingAccountsRequest>;
 
@@ -806,7 +1025,12 @@ export const MoveOrganizationsBillingAccountsResponse = BillingAccount;
 export type MoveOrganizationsBillingAccountsError = DefaultErrors;
 
 /** Changes which parent organization a billing account belongs to. */
-export const moveOrganizationsBillingAccounts: API.OperationMethod<MoveOrganizationsBillingAccountsRequest, MoveOrganizationsBillingAccountsResponse, MoveOrganizationsBillingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveOrganizationsBillingAccounts: API.OperationMethod<
+  MoveOrganizationsBillingAccountsRequest,
+  MoveOrganizationsBillingAccountsResponse,
+  MoveOrganizationsBillingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveOrganizationsBillingAccountsRequest,
   output: MoveOrganizationsBillingAccountsResponse,
   errors: [],
@@ -830,7 +1054,12 @@ export const GetBillingInfoProjectsResponse = ProjectBillingInfo;
 export type GetBillingInfoProjectsError = DefaultErrors;
 
 /** Gets the billing information for a project. The current authenticated user must have the `resourcemanager.projects.get` permission for the project, which can be granted by assigning the [Project Viewer](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) role. */
-export const getBillingInfoProjects: API.OperationMethod<GetBillingInfoProjectsRequest, GetBillingInfoProjectsResponse, GetBillingInfoProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBillingInfoProjects: API.OperationMethod<
+  GetBillingInfoProjectsRequest,
+  GetBillingInfoProjectsResponse,
+  GetBillingInfoProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBillingInfoProjectsRequest,
   output: GetBillingInfoProjectsResponse,
   errors: [],
@@ -847,7 +1076,11 @@ export const UpdateBillingInfoProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ProjectBillingInfo).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{projectsId}/billingInfo", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/projects/{projectsId}/billingInfo",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateBillingInfoProjectsRequest>;
 
@@ -857,7 +1090,12 @@ export const UpdateBillingInfoProjectsResponse = ProjectBillingInfo;
 export type UpdateBillingInfoProjectsError = DefaultErrors;
 
 /** Sets or updates the billing account associated with a project. You specify the new billing account by setting the `billing_account_name` in the `ProjectBillingInfo` resource to the resource name of a billing account. Associating a project with an open billing account enables billing on the project and allows charges for resource usage. If the project already had a billing account, this method changes the billing account used for resource usage charges. *Note:* Incurred charges that have not yet been reported in the transaction history of the Google Cloud Console might be billed to the new billing account, even if the charge occurred before the new billing account was assigned to the project. The current authenticated user must have ownership privileges for both the [project](https://cloud.google.com/docs/permissions-overview#h.bgs0oxofvnoo ) and the [billing account](https://cloud.google.com/billing/docs/how-to/billing-access). You can disable billing on the project by setting the `billing_account_name` field to empty. This action disassociates the current billing account from the project. Any billable activity of your in-use services will stop, and your application could stop functioning as expected. Any unbilled charges to date will be billed to the previously associated account. The current authenticated user must be either an owner of the project or an owner of the billing account for the project. Note that associating a project with a *closed* billing account will have much the same effect as disabling billing on the project: any paid resources used by the project will be shut down. Thus, unless you wish to disable billing, you should always call this method with the name of an *open* billing account. */
-export const updateBillingInfoProjects: API.OperationMethod<UpdateBillingInfoProjectsRequest, UpdateBillingInfoProjectsResponse, UpdateBillingInfoProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateBillingInfoProjects: API.OperationMethod<
+  UpdateBillingInfoProjectsRequest,
+  UpdateBillingInfoProjectsResponse,
+  UpdateBillingInfoProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateBillingInfoProjectsRequest,
   output: UpdateBillingInfoProjectsResponse,
   errors: [],
@@ -884,7 +1122,12 @@ export const ListServicesResponse_Op = ListServicesResponse;
 export type ListServicesError = DefaultErrors;
 
 /** Lists all public cloud services. */
-export const listServices: API.PaginatedOperationMethod<ListServicesRequest, ListServicesResponse_Op, ListServicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listServices: API.PaginatedOperationMethod<
+  ListServicesRequest,
+  ListServicesResponse_Op,
+  ListServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse_Op,
   errors: [],
@@ -913,7 +1156,9 @@ export const ListServicesSkusRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
   endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
-  currencyCode: Schema.optional(Schema.String).pipe(T.HttpQuery("currencyCode")),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -927,7 +1172,12 @@ export const ListServicesSkusResponse = ListSkusResponse;
 export type ListServicesSkusError = DefaultErrors;
 
 /** Lists all publicly available SKUs for a given cloud service. */
-export const listServicesSkus: API.PaginatedOperationMethod<ListServicesSkusRequest, ListServicesSkusResponse, ListServicesSkusError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listServicesSkus: API.PaginatedOperationMethod<
+  ListServicesSkusRequest,
+  ListServicesSkusResponse,
+  ListServicesSkusError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListServicesSkusRequest,
   output: ListServicesSkusResponse,
   errors: [],
@@ -936,4 +1186,3 @@ export const listServicesSkus: API.PaginatedOperationMethod<ListServicesSkusRequ
     outputToken: "nextPageToken",
   },
 }));
-

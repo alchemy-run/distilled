@@ -44,17 +44,19 @@ export interface Segment {
   id?: string;
 }
 
-export const Segment: Schema.Schema<Segment> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  definition: Schema.optional(Schema.String),
-  segmentId: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "Segment" }) as any as Schema.Schema<Segment>;
+export const Segment: Schema.Schema<Segment> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    definition: Schema.optional(Schema.String),
+    segmentId: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Segment" }) as any as Schema.Schema<Segment>;
 
 export interface Segments {
   /** A list of segments. */
@@ -75,16 +77,18 @@ export interface Segments {
   username?: string;
 }
 
-export const Segments: Schema.Schema<Segments> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(Segment)),
-  totalResults: Schema.optional(Schema.Number),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-})).annotate({ identifier: "Segments" }) as any as Schema.Schema<Segments>;
+export const Segments: Schema.Schema<Segments> = Schema.suspend(() =>
+  Schema.Struct({
+    items: Schema.optional(Schema.Array(Segment)),
+    totalResults: Schema.optional(Schema.Number),
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    username: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Segments" }) as any as Schema.Schema<Segments>;
 
 export interface Upload {
   /** Upload status. Possible values: PENDING, COMPLETED, FAILED, DELETING, DELETED. */
@@ -103,15 +107,17 @@ export interface Upload {
   errors?: Array<string>;
 }
 
-export const Upload: Schema.Schema<Upload> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  uploadTime: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  customDataSourceId: Schema.optional(Schema.String),
-  errors: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Upload" }) as any as Schema.Schema<Upload>;
+export const Upload: Schema.Schema<Upload> = Schema.suspend(() =>
+  Schema.Struct({
+    status: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    uploadTime: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    customDataSourceId: Schema.optional(Schema.String),
+    errors: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Upload" }) as any as Schema.Schema<Upload>;
 
 export interface Uploads {
   /** Collection type. */
@@ -130,15 +136,17 @@ export interface Uploads {
   previousLink?: string;
 }
 
-export const Uploads: Schema.Schema<Uploads> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  items: Schema.optional(Schema.Array(Upload)),
-  totalResults: Schema.optional(Schema.Number),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-})).annotate({ identifier: "Uploads" }) as any as Schema.Schema<Uploads>;
+export const Uploads: Schema.Schema<Uploads> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    items: Schema.optional(Schema.Array(Upload)),
+    totalResults: Schema.optional(Schema.Number),
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Uploads" }) as any as Schema.Schema<Uploads>;
 
 export interface Webproperty {
   /** Internal ID for this web property. */
@@ -181,27 +189,43 @@ export interface Webproperty {
   dataRetentionResetOnNewActivity?: boolean;
 }
 
-export const Webproperty: Schema.Schema<Webproperty> = Schema.suspend(() => Schema.Struct({
-  internalWebPropertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  permissions: Schema.optional(Schema.Struct({ effective: Schema.optional(Schema.Array(Schema.String)) })),
-  websiteUrl: Schema.optional(Schema.String),
-  parentLink: Schema.optional(Schema.Struct({ href: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  defaultProfileId: Schema.optional(Schema.String),
-  industryVertical: Schema.optional(Schema.String),
-  childLink: Schema.optional(Schema.Struct({ href: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-  dataRetentionTtl: Schema.optional(Schema.String),
-  profileCount: Schema.optional(Schema.Number),
-  starred: Schema.optional(Schema.Boolean),
-  selfLink: Schema.optional(Schema.String),
-  level: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  dataRetentionResetOnNewActivity: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Webproperty" }) as any as Schema.Schema<Webproperty>;
+export const Webproperty: Schema.Schema<Webproperty> = Schema.suspend(() =>
+  Schema.Struct({
+    internalWebPropertyId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    permissions: Schema.optional(
+      Schema.Struct({
+        effective: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+    websiteUrl: Schema.optional(Schema.String),
+    parentLink: Schema.optional(
+      Schema.Struct({
+        href: Schema.optional(Schema.String),
+        type: Schema.optional(Schema.String),
+      }),
+    ),
+    created: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    defaultProfileId: Schema.optional(Schema.String),
+    industryVertical: Schema.optional(Schema.String),
+    childLink: Schema.optional(
+      Schema.Struct({
+        href: Schema.optional(Schema.String),
+        type: Schema.optional(Schema.String),
+      }),
+    ),
+    dataRetentionTtl: Schema.optional(Schema.String),
+    profileCount: Schema.optional(Schema.Number),
+    starred: Schema.optional(Schema.Boolean),
+    selfLink: Schema.optional(Schema.String),
+    level: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    dataRetentionResetOnNewActivity: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Webproperty" }) as any as Schema.Schema<Webproperty>;
 
 export interface Account {
   /** Time the account was created. */
@@ -224,17 +248,28 @@ export interface Account {
   kind?: string;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() => Schema.Struct({
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  childLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  selfLink: Schema.optional(Schema.String),
-  permissions: Schema.optional(Schema.Struct({ effective: Schema.optional(Schema.Array(Schema.String)) })),
-  updated: Schema.optional(Schema.String),
-  starred: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> = Schema.suspend(() =>
+  Schema.Struct({
+    created: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    childLink: Schema.optional(
+      Schema.Struct({
+        type: Schema.optional(Schema.String),
+        href: Schema.optional(Schema.String),
+      }),
+    ),
+    selfLink: Schema.optional(Schema.String),
+    permissions: Schema.optional(
+      Schema.Struct({
+        effective: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+    updated: Schema.optional(Schema.String),
+    starred: Schema.optional(Schema.Boolean),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface Profile {
   /** Account ID to which this view (profile) belongs. */
@@ -291,34 +326,50 @@ export interface Profile {
   internalWebPropertyId?: string;
 }
 
-export const Profile: Schema.Schema<Profile> = Schema.suspend(() => Schema.Struct({
-  accountId: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  eCommerceTracking: Schema.optional(Schema.Boolean),
-  siteSearchQueryParameters: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  siteSearchCategoryParameters: Schema.optional(Schema.String),
-  starred: Schema.optional(Schema.Boolean),
-  excludeQueryParameters: Schema.optional(Schema.String),
-  childLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  defaultPage: Schema.optional(Schema.String),
-  timezone: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  currency: Schema.optional(Schema.String),
-  permissions: Schema.optional(Schema.Struct({ effective: Schema.optional(Schema.Array(Schema.String)) })),
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  enhancedECommerceTracking: Schema.optional(Schema.Boolean),
-  botFilteringEnabled: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-  stripSiteSearchCategoryParameters: Schema.optional(Schema.Boolean),
-  stripSiteSearchQueryParameters: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-  parentLink: Schema.optional(Schema.Struct({ href: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-  websiteUrl: Schema.optional(Schema.String),
-  internalWebPropertyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
+export const Profile: Schema.Schema<Profile> = Schema.suspend(() =>
+  Schema.Struct({
+    accountId: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    eCommerceTracking: Schema.optional(Schema.Boolean),
+    siteSearchQueryParameters: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    siteSearchCategoryParameters: Schema.optional(Schema.String),
+    starred: Schema.optional(Schema.Boolean),
+    excludeQueryParameters: Schema.optional(Schema.String),
+    childLink: Schema.optional(
+      Schema.Struct({
+        type: Schema.optional(Schema.String),
+        href: Schema.optional(Schema.String),
+      }),
+    ),
+    defaultPage: Schema.optional(Schema.String),
+    timezone: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+    currency: Schema.optional(Schema.String),
+    permissions: Schema.optional(
+      Schema.Struct({
+        effective: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+    kind: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    enhancedECommerceTracking: Schema.optional(Schema.Boolean),
+    botFilteringEnabled: Schema.optional(Schema.Boolean),
+    type: Schema.optional(Schema.String),
+    stripSiteSearchCategoryParameters: Schema.optional(Schema.Boolean),
+    stripSiteSearchQueryParameters: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    webPropertyId: Schema.optional(Schema.String),
+    parentLink: Schema.optional(
+      Schema.Struct({
+        href: Schema.optional(Schema.String),
+        type: Schema.optional(Schema.String),
+      }),
+    ),
+    websiteUrl: Schema.optional(Schema.String),
+    internalWebPropertyId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
 
 export interface AccountTicket {
   /** Redirect URI where the user will be sent after accepting Terms of Service. Must be configured in APIs console as a callback URL. */
@@ -335,14 +386,18 @@ export interface AccountTicket {
   profile?: Profile;
 }
 
-export const AccountTicket: Schema.Schema<AccountTicket> = Schema.suspend(() => Schema.Struct({
-  redirectUri: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  webproperty: Schema.optional(Webproperty),
-  account: Schema.optional(Account),
-  id: Schema.optional(Schema.String),
-  profile: Schema.optional(Profile),
-})).annotate({ identifier: "AccountTicket" }) as any as Schema.Schema<AccountTicket>;
+export const AccountTicket: Schema.Schema<AccountTicket> = Schema.suspend(() =>
+  Schema.Struct({
+    redirectUri: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    webproperty: Schema.optional(Webproperty),
+    account: Schema.optional(Account),
+    id: Schema.optional(Schema.String),
+    profile: Schema.optional(Profile),
+  }),
+).annotate({
+  identifier: "AccountTicket",
+}) as any as Schema.Schema<AccountTicket>;
 
 export interface CustomMetric {
   /** Link for the custom metric */
@@ -377,23 +432,32 @@ export interface CustomMetric {
   webPropertyId?: string;
 }
 
-export const CustomMetric: Schema.Schema<CustomMetric> = Schema.suspend(() => Schema.Struct({
-  selfLink: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  active: Schema.optional(Schema.Boolean),
-  scope: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  min_value: Schema.optional(Schema.String),
-  parentLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  index: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  max_value: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomMetric" }) as any as Schema.Schema<CustomMetric>;
+export const CustomMetric: Schema.Schema<CustomMetric> = Schema.suspend(() =>
+  Schema.Struct({
+    selfLink: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    active: Schema.optional(Schema.Boolean),
+    scope: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    min_value: Schema.optional(Schema.String),
+    parentLink: Schema.optional(
+      Schema.Struct({
+        type: Schema.optional(Schema.String),
+        href: Schema.optional(Schema.String),
+      }),
+    ),
+    index: Schema.optional(Schema.Number),
+    kind: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    max_value: Schema.optional(Schema.String),
+    webPropertyId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CustomMetric",
+}) as any as Schema.Schema<CustomMetric>;
 
 export interface CustomMetrics {
   /** Link to next page for this custom metric collection. */
@@ -414,16 +478,20 @@ export interface CustomMetrics {
   kind?: string;
 }
 
-export const CustomMetrics: Schema.Schema<CustomMetrics> = Schema.suspend(() => Schema.Struct({
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(CustomMetric)),
-  totalResults: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomMetrics" }) as any as Schema.Schema<CustomMetrics>;
+export const CustomMetrics: Schema.Schema<CustomMetrics> = Schema.suspend(() =>
+  Schema.Struct({
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(CustomMetric)),
+    totalResults: Schema.optional(Schema.Number),
+    username: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CustomMetrics",
+}) as any as Schema.Schema<CustomMetrics>;
 
 export interface FilterExpression {
   /** The Index of the custom dimension. Set only if the field is a is CUSTOM_DIMENSION. */
@@ -440,14 +508,19 @@ export interface FilterExpression {
   matchType?: string;
 }
 
-export const FilterExpression: Schema.Schema<FilterExpression> = Schema.suspend(() => Schema.Struct({
-  fieldIndex: Schema.optional(Schema.Number),
-  expressionValue: Schema.optional(Schema.String),
-  caseSensitive: Schema.optional(Schema.Boolean),
-  field: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  matchType: Schema.optional(Schema.String),
-})).annotate({ identifier: "FilterExpression" }) as any as Schema.Schema<FilterExpression>;
+export const FilterExpression: Schema.Schema<FilterExpression> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      fieldIndex: Schema.optional(Schema.Number),
+      expressionValue: Schema.optional(Schema.String),
+      caseSensitive: Schema.optional(Schema.Boolean),
+      field: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      matchType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FilterExpression",
+}) as any as Schema.Schema<FilterExpression>;
 
 export interface Filter {
   /** Details for the filter of the type EXCLUDE. */
@@ -457,11 +530,31 @@ export interface Filter {
   /** Filter ID. */
   id?: string;
   /** Details for the filter of the type SEARCH_AND_REPLACE. */
-  searchAndReplaceDetails?: { fieldIndex?: number; replaceString?: string; caseSensitive?: boolean; field?: string; searchString?: string };
+  searchAndReplaceDetails?: {
+    fieldIndex?: number;
+    replaceString?: string;
+    caseSensitive?: boolean;
+    field?: string;
+    searchString?: string;
+  };
   /** Type of this filter. Possible values are INCLUDE, EXCLUDE, LOWERCASE, UPPERCASE, SEARCH_AND_REPLACE and ADVANCED. */
   type?: string;
   /** Details for the filter of the type ADVANCED. */
-  advancedDetails?: { caseSensitive?: boolean; outputToField?: string; overrideOutputField?: boolean; extractB?: string; fieldBIndex?: number; fieldB?: string; outputToFieldIndex?: number; fieldA?: string; fieldARequired?: boolean; extractA?: string; fieldAIndex?: number; fieldBRequired?: boolean; outputConstructor?: string };
+  advancedDetails?: {
+    caseSensitive?: boolean;
+    outputToField?: string;
+    overrideOutputField?: boolean;
+    extractB?: string;
+    fieldBIndex?: number;
+    fieldB?: string;
+    outputToFieldIndex?: number;
+    fieldA?: string;
+    fieldARequired?: boolean;
+    extractA?: string;
+    fieldAIndex?: number;
+    fieldBRequired?: boolean;
+    outputConstructor?: string;
+  };
   /** Link for this filter. */
   selfLink?: string;
   /** Time this filter was last modified. */
@@ -482,23 +575,64 @@ export interface Filter {
   uppercaseDetails?: { field?: string; fieldIndex?: number };
 }
 
-export const Filter: Schema.Schema<Filter> = Schema.suspend(() => Schema.Struct({
-  excludeDetails: Schema.optional(FilterExpression),
-  accountId: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  searchAndReplaceDetails: Schema.optional(Schema.Struct({ fieldIndex: Schema.optional(Schema.Number), replaceString: Schema.optional(Schema.String), caseSensitive: Schema.optional(Schema.Boolean), field: Schema.optional(Schema.String), searchString: Schema.optional(Schema.String) })),
-  type: Schema.optional(Schema.String),
-  advancedDetails: Schema.optional(Schema.Struct({ caseSensitive: Schema.optional(Schema.Boolean), outputToField: Schema.optional(Schema.String), overrideOutputField: Schema.optional(Schema.Boolean), extractB: Schema.optional(Schema.String), fieldBIndex: Schema.optional(Schema.Number), fieldB: Schema.optional(Schema.String), outputToFieldIndex: Schema.optional(Schema.Number), fieldA: Schema.optional(Schema.String), fieldARequired: Schema.optional(Schema.Boolean), extractA: Schema.optional(Schema.String), fieldAIndex: Schema.optional(Schema.Number), fieldBRequired: Schema.optional(Schema.Boolean), outputConstructor: Schema.optional(Schema.String) })),
-  selfLink: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  includeDetails: Schema.optional(FilterExpression),
-  lowercaseDetails: Schema.optional(Schema.Struct({ field: Schema.optional(Schema.String), fieldIndex: Schema.optional(Schema.Number) })),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  parentLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  uppercaseDetails: Schema.optional(Schema.Struct({ field: Schema.optional(Schema.String), fieldIndex: Schema.optional(Schema.Number) })),
-})).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
+export const Filter: Schema.Schema<Filter> = Schema.suspend(() =>
+  Schema.Struct({
+    excludeDetails: Schema.optional(FilterExpression),
+    accountId: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    searchAndReplaceDetails: Schema.optional(
+      Schema.Struct({
+        fieldIndex: Schema.optional(Schema.Number),
+        replaceString: Schema.optional(Schema.String),
+        caseSensitive: Schema.optional(Schema.Boolean),
+        field: Schema.optional(Schema.String),
+        searchString: Schema.optional(Schema.String),
+      }),
+    ),
+    type: Schema.optional(Schema.String),
+    advancedDetails: Schema.optional(
+      Schema.Struct({
+        caseSensitive: Schema.optional(Schema.Boolean),
+        outputToField: Schema.optional(Schema.String),
+        overrideOutputField: Schema.optional(Schema.Boolean),
+        extractB: Schema.optional(Schema.String),
+        fieldBIndex: Schema.optional(Schema.Number),
+        fieldB: Schema.optional(Schema.String),
+        outputToFieldIndex: Schema.optional(Schema.Number),
+        fieldA: Schema.optional(Schema.String),
+        fieldARequired: Schema.optional(Schema.Boolean),
+        extractA: Schema.optional(Schema.String),
+        fieldAIndex: Schema.optional(Schema.Number),
+        fieldBRequired: Schema.optional(Schema.Boolean),
+        outputConstructor: Schema.optional(Schema.String),
+      }),
+    ),
+    selfLink: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    includeDetails: Schema.optional(FilterExpression),
+    lowercaseDetails: Schema.optional(
+      Schema.Struct({
+        field: Schema.optional(Schema.String),
+        fieldIndex: Schema.optional(Schema.Number),
+      }),
+    ),
+    created: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    parentLink: Schema.optional(
+      Schema.Struct({
+        type: Schema.optional(Schema.String),
+        href: Schema.optional(Schema.String),
+      }),
+    ),
+    uppercaseDetails: Schema.optional(
+      Schema.Struct({
+        field: Schema.optional(Schema.String),
+        fieldIndex: Schema.optional(Schema.Number),
+      }),
+    ),
+  }),
+).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
 
 export interface Filters {
   /** Link to next page for this filter collection. */
@@ -519,16 +653,18 @@ export interface Filters {
   kind?: string;
 }
 
-export const Filters: Schema.Schema<Filters> = Schema.suspend(() => Schema.Struct({
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Filter)),
-  totalResults: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Filters" }) as any as Schema.Schema<Filters>;
+export const Filters: Schema.Schema<Filters> = Schema.suspend(() =>
+  Schema.Struct({
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Filter)),
+    totalResults: Schema.optional(Schema.Number),
+    username: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Filters" }) as any as Schema.Schema<Filters>;
 
 export interface ProfileRef {
   /** Web property ID of the form UA-XXXXX-YY to which this view (profile) belongs. */
@@ -547,15 +683,17 @@ export interface ProfileRef {
   href?: string;
 }
 
-export const ProfileRef: Schema.Schema<ProfileRef> = Schema.suspend(() => Schema.Struct({
-  webPropertyId: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  internalWebPropertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  href: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProfileRef" }) as any as Schema.Schema<ProfileRef>;
+export const ProfileRef: Schema.Schema<ProfileRef> = Schema.suspend(() =>
+  Schema.Struct({
+    webPropertyId: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    internalWebPropertyId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    href: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ProfileRef" }) as any as Schema.Schema<ProfileRef>;
 
 export interface FilterRef {
   /** Filter ID. */
@@ -570,13 +708,15 @@ export interface FilterRef {
   kind?: string;
 }
 
-export const FilterRef: Schema.Schema<FilterRef> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  href: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "FilterRef" }) as any as Schema.Schema<FilterRef>;
+export const FilterRef: Schema.Schema<FilterRef> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    href: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "FilterRef" }) as any as Schema.Schema<FilterRef>;
 
 export interface ProfileFilterLink {
   /** Link for this profile filter link. */
@@ -593,14 +733,19 @@ export interface ProfileFilterLink {
   rank?: number;
 }
 
-export const ProfileFilterLink: Schema.Schema<ProfileFilterLink> = Schema.suspend(() => Schema.Struct({
-  selfLink: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  profileRef: Schema.optional(ProfileRef),
-  filterRef: Schema.optional(FilterRef),
-  kind: Schema.optional(Schema.String),
-  rank: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ProfileFilterLink" }) as any as Schema.Schema<ProfileFilterLink>;
+export const ProfileFilterLink: Schema.Schema<ProfileFilterLink> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      selfLink: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      profileRef: Schema.optional(ProfileRef),
+      filterRef: Schema.optional(FilterRef),
+      kind: Schema.optional(Schema.String),
+      rank: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ProfileFilterLink",
+  }) as any as Schema.Schema<ProfileFilterLink>;
 
 export interface HashClientIdResponse {
   webPropertyId?: string;
@@ -609,12 +754,17 @@ export interface HashClientIdResponse {
   kind?: string;
 }
 
-export const HashClientIdResponse: Schema.Schema<HashClientIdResponse> = Schema.suspend(() => Schema.Struct({
-  webPropertyId: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String),
-  hashedClientId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "HashClientIdResponse" }) as any as Schema.Schema<HashClientIdResponse>;
+export const HashClientIdResponse: Schema.Schema<HashClientIdResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      webPropertyId: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+      hashedClientId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HashClientIdResponse",
+  }) as any as Schema.Schema<HashClientIdResponse>;
 
 export interface AccountTreeResponse {
   /** The account created. */
@@ -627,12 +777,17 @@ export interface AccountTreeResponse {
   webproperty?: Webproperty;
 }
 
-export const AccountTreeResponse: Schema.Schema<AccountTreeResponse> = Schema.suspend(() => Schema.Struct({
-  account: Schema.optional(Account),
-  profile: Schema.optional(Profile),
-  kind: Schema.optional(Schema.String),
-  webproperty: Schema.optional(Webproperty),
-})).annotate({ identifier: "AccountTreeResponse" }) as any as Schema.Schema<AccountTreeResponse>;
+export const AccountTreeResponse: Schema.Schema<AccountTreeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      account: Schema.optional(Account),
+      profile: Schema.optional(Profile),
+      kind: Schema.optional(Schema.String),
+      webproperty: Schema.optional(Webproperty),
+    }),
+  ).annotate({
+    identifier: "AccountTreeResponse",
+  }) as any as Schema.Schema<AccountTreeResponse>;
 
 export interface Column {
   /** Resource type for Analytics column. */
@@ -643,11 +798,13 @@ export interface Column {
   id?: string;
 }
 
-export const Column: Schema.Schema<Column> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "Column" }) as any as Schema.Schema<Column>;
+export const Column: Schema.Schema<Column> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Column" }) as any as Schema.Schema<Column>;
 
 export interface UnsampledReport {
   /** Resource type for an Analytics unsampled report. */
@@ -690,27 +847,39 @@ export interface UnsampledReport {
   filters?: string;
 }
 
-export const UnsampledReport: Schema.Schema<UnsampledReport> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  dimensions: Schema.optional(Schema.String),
-  profileId: Schema.optional(Schema.String),
-  metrics: Schema.optional(Schema.String),
-  segment: Schema.optional(Schema.String),
-  driveDownloadDetails: Schema.optional(Schema.Struct({ documentId: Schema.optional(Schema.String) })),
-  webPropertyId: Schema.optional(Schema.String),
-  downloadType: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  "start-date": Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  cloudStorageDownloadDetails: Schema.optional(Schema.Struct({ bucketId: Schema.optional(Schema.String), objectId: Schema.optional(Schema.String) })),
-  "end-date": Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  filters: Schema.optional(Schema.String),
-})).annotate({ identifier: "UnsampledReport" }) as any as Schema.Schema<UnsampledReport>;
+export const UnsampledReport: Schema.Schema<UnsampledReport> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      dimensions: Schema.optional(Schema.String),
+      profileId: Schema.optional(Schema.String),
+      metrics: Schema.optional(Schema.String),
+      segment: Schema.optional(Schema.String),
+      driveDownloadDetails: Schema.optional(
+        Schema.Struct({ documentId: Schema.optional(Schema.String) }),
+      ),
+      webPropertyId: Schema.optional(Schema.String),
+      downloadType: Schema.optional(Schema.String),
+      created: Schema.optional(Schema.String),
+      "start-date": Schema.optional(Schema.String),
+      updated: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      cloudStorageDownloadDetails: Schema.optional(
+        Schema.Struct({
+          bucketId: Schema.optional(Schema.String),
+          objectId: Schema.optional(Schema.String),
+        }),
+      ),
+      "end-date": Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      filters: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UnsampledReport",
+}) as any as Schema.Schema<UnsampledReport>;
 
 export interface UnsampledReports {
   /** Collection type. */
@@ -731,16 +900,21 @@ export interface UnsampledReports {
   previousLink?: string;
 }
 
-export const UnsampledReports: Schema.Schema<UnsampledReports> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  items: Schema.optional(Schema.Array(UnsampledReport)),
-  totalResults: Schema.optional(Schema.Number),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-})).annotate({ identifier: "UnsampledReports" }) as any as Schema.Schema<UnsampledReports>;
+export const UnsampledReports: Schema.Schema<UnsampledReports> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+      items: Schema.optional(Schema.Array(UnsampledReport)),
+      totalResults: Schema.optional(Schema.Number),
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "UnsampledReports",
+}) as any as Schema.Schema<UnsampledReports>;
 
 export interface LinkedForeignAccount {
   /** The foreign account ID. For example the an Google Ads `linkedAccountId` has the following format XXX-XXX-XXXX. */
@@ -765,18 +939,23 @@ export interface LinkedForeignAccount {
   id?: string;
 }
 
-export const LinkedForeignAccount: Schema.Schema<LinkedForeignAccount> = Schema.suspend(() => Schema.Struct({
-  linkedAccountId: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  internalWebPropertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  remarketingAudienceId: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  eligibleForSearch: Schema.optional(Schema.Boolean),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "LinkedForeignAccount" }) as any as Schema.Schema<LinkedForeignAccount>;
+export const LinkedForeignAccount: Schema.Schema<LinkedForeignAccount> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      linkedAccountId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      internalWebPropertyId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      remarketingAudienceId: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      webPropertyId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      eligibleForSearch: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LinkedForeignAccount",
+  }) as any as Schema.Schema<LinkedForeignAccount>;
 
 export interface IncludeConditions {
   /** Number of days (in the range 1 to 540) a user remains in the audience. */
@@ -791,13 +970,18 @@ export interface IncludeConditions {
   kind?: string;
 }
 
-export const IncludeConditions: Schema.Schema<IncludeConditions> = Schema.suspend(() => Schema.Struct({
-  membershipDurationDays: Schema.optional(Schema.Number),
-  isSmartList: Schema.optional(Schema.Boolean),
-  segment: Schema.optional(Schema.String),
-  daysToLookBack: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "IncludeConditions" }) as any as Schema.Schema<IncludeConditions>;
+export const IncludeConditions: Schema.Schema<IncludeConditions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      membershipDurationDays: Schema.optional(Schema.Number),
+      isSmartList: Schema.optional(Schema.Boolean),
+      segment: Schema.optional(Schema.String),
+      daysToLookBack: Schema.optional(Schema.Number),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IncludeConditions",
+  }) as any as Schema.Schema<IncludeConditions>;
 
 export interface RemarketingAudience {
   /** Internal ID for the web property to which this remarketing audience belongs. */
@@ -821,7 +1005,10 @@ export interface RemarketingAudience {
   /** Time this remarketing audience was last modified. */
   updated?: string;
   /** A state based audience definition that will cause a user to be added or removed from an audience. */
-  stateBasedAudienceDefinition?: { excludeConditions?: { exclusionDuration?: string; segment?: string }; includeConditions?: IncludeConditions };
+  stateBasedAudienceDefinition?: {
+    excludeConditions?: { exclusionDuration?: string; segment?: string };
+    includeConditions?: IncludeConditions;
+  };
   /** The description of this remarketing audience. */
   description?: string;
   /** Remarketing Audience ID. */
@@ -830,22 +1017,41 @@ export interface RemarketingAudience {
   accountId?: string;
 }
 
-export const RemarketingAudience: Schema.Schema<RemarketingAudience> = Schema.suspend(() => Schema.Struct({
-  internalWebPropertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  audienceType: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  linkedAdAccounts: Schema.optional(Schema.Array(LinkedForeignAccount)),
-  webPropertyId: Schema.optional(Schema.String),
-  linkedViews: Schema.optional(Schema.Array(Schema.String)),
-  audienceDefinition: Schema.optional(Schema.Struct({ includeConditions: Schema.optional(IncludeConditions) })),
-  updated: Schema.optional(Schema.String),
-  stateBasedAudienceDefinition: Schema.optional(Schema.Struct({ excludeConditions: Schema.optional(Schema.Struct({ exclusionDuration: Schema.optional(Schema.String), segment: Schema.optional(Schema.String) })), includeConditions: Schema.optional(IncludeConditions) })),
-  description: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RemarketingAudience" }) as any as Schema.Schema<RemarketingAudience>;
+export const RemarketingAudience: Schema.Schema<RemarketingAudience> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      internalWebPropertyId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      audienceType: Schema.optional(Schema.String),
+      created: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      linkedAdAccounts: Schema.optional(Schema.Array(LinkedForeignAccount)),
+      webPropertyId: Schema.optional(Schema.String),
+      linkedViews: Schema.optional(Schema.Array(Schema.String)),
+      audienceDefinition: Schema.optional(
+        Schema.Struct({
+          includeConditions: Schema.optional(IncludeConditions),
+        }),
+      ),
+      updated: Schema.optional(Schema.String),
+      stateBasedAudienceDefinition: Schema.optional(
+        Schema.Struct({
+          excludeConditions: Schema.optional(
+            Schema.Struct({
+              exclusionDuration: Schema.optional(Schema.String),
+              segment: Schema.optional(Schema.String),
+            }),
+          ),
+          includeConditions: Schema.optional(IncludeConditions),
+        }),
+      ),
+      description: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemarketingAudience",
+  }) as any as Schema.Schema<RemarketingAudience>;
 
 export interface AdWordsAccount {
   /** Customer ID. This field is required when creating a Google Ads link. */
@@ -856,11 +1062,16 @@ export interface AdWordsAccount {
   autoTaggingEnabled?: boolean;
 }
 
-export const AdWordsAccount: Schema.Schema<AdWordsAccount> = Schema.suspend(() => Schema.Struct({
-  customerId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  autoTaggingEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AdWordsAccount" }) as any as Schema.Schema<AdWordsAccount>;
+export const AdWordsAccount: Schema.Schema<AdWordsAccount> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      customerId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      autoTaggingEnabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "AdWordsAccount",
+}) as any as Schema.Schema<AdWordsAccount>;
 
 export interface CustomDataSource {
   /** Upload type of the custom data source. */
@@ -895,24 +1106,39 @@ export interface CustomDataSource {
   parentLink?: { href?: string; type?: string };
 }
 
-export const CustomDataSource: Schema.Schema<CustomDataSource> = Schema.suspend(() => Schema.Struct({
-  uploadType: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  profilesLinked: Schema.optional(Schema.Array(Schema.String)),
-  updated: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  childLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  importBehavior: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  schema: Schema.optional(Schema.Array(Schema.String)),
-  parentLink: Schema.optional(Schema.Struct({ href: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "CustomDataSource" }) as any as Schema.Schema<CustomDataSource>;
+export const CustomDataSource: Schema.Schema<CustomDataSource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      uploadType: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      profilesLinked: Schema.optional(Schema.Array(Schema.String)),
+      updated: Schema.optional(Schema.String),
+      webPropertyId: Schema.optional(Schema.String),
+      created: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      childLink: Schema.optional(
+        Schema.Struct({
+          type: Schema.optional(Schema.String),
+          href: Schema.optional(Schema.String),
+        }),
+      ),
+      importBehavior: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      schema: Schema.optional(Schema.Array(Schema.String)),
+      parentLink: Schema.optional(
+        Schema.Struct({
+          href: Schema.optional(Schema.String),
+          type: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+).annotate({
+  identifier: "CustomDataSource",
+}) as any as Schema.Schema<CustomDataSource>;
 
 export interface CustomDataSources {
   /** The maximum number of resources the response can contain, regardless of the actual number of resources returned. Its value ranges from 1 to 1000 with a value of 1000 by default, or otherwise specified by the max-results query parameter. */
@@ -933,16 +1159,21 @@ export interface CustomDataSources {
   totalResults?: number;
 }
 
-export const CustomDataSources: Schema.Schema<CustomDataSources> = Schema.suspend(() => Schema.Struct({
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(CustomDataSource)),
-  totalResults: Schema.optional(Schema.Number),
-})).annotate({ identifier: "CustomDataSources" }) as any as Schema.Schema<CustomDataSources>;
+export const CustomDataSources: Schema.Schema<CustomDataSources> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(CustomDataSource)),
+      totalResults: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "CustomDataSources",
+  }) as any as Schema.Schema<CustomDataSources>;
 
 export interface Experiment {
   /** The framework used to serve the experiment variations and evaluate the results. One of: - REDIRECT: Google Analytics redirects traffic to different variation pages, reports the chosen variation and evaluates the results. - API: Google Analytics chooses and reports the variation to serve and evaluates the results; the caller is responsible for serving the selected variation. - EXTERNAL: The variations will be served externally and the chosen variation reported to Google Analytics. The caller is responsible for serving the selected variation and evaluating the results. */
@@ -954,7 +1185,13 @@ export interface Experiment {
   /** Time the experiment was last modified. This field is read-only. */
   updated?: string;
   /** Array of variations. The first variation in the array is the original. The number of variations may not change once an experiment is in the RUNNING state. At least two variations are required before status can be set to RUNNING. */
-  variations?: Array<{ name?: string; url?: string; weight?: number; status?: string; won?: boolean }>;
+  variations?: Array<{
+    name?: string;
+    url?: string;
+    weight?: number;
+    status?: string;
+    won?: boolean;
+  }>;
   /** A floating-point number in (0, 1). Specifies the necessary confidence level to choose a winner. This field may not be changed for an experiments whose status is ENDED. */
   winnerConfidenceLevel?: number;
   /** If true, the end user will be able to edit the experiment via the Google Analytics user interface. */
@@ -1003,36 +1240,53 @@ export interface Experiment {
   rewriteVariationUrlsAsOriginal?: boolean;
 }
 
-export const Experiment: Schema.Schema<Experiment> = Schema.suspend(() => Schema.Struct({
-  servingFramework: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  objectiveMetric: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  variations: Schema.optional(Schema.Array(Schema.Struct({ name: Schema.optional(Schema.String), url: Schema.optional(Schema.String), weight: Schema.optional(Schema.Number), status: Schema.optional(Schema.String), won: Schema.optional(Schema.Boolean) }))),
-  winnerConfidenceLevel: Schema.optional(Schema.Number),
-  editableInGaUi: Schema.optional(Schema.Boolean),
-  winnerFound: Schema.optional(Schema.Boolean),
-  accountId: Schema.optional(Schema.String),
-  minimumExperimentLengthInDays: Schema.optional(Schema.Number),
-  profileId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  trafficCoverage: Schema.optional(Schema.Number),
-  endTime: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  optimizationType: Schema.optional(Schema.String),
-  reasonExperimentEnded: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  internalWebPropertyId: Schema.optional(Schema.String),
-  parentLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  snippet: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-  equalWeighting: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  rewriteVariationUrlsAsOriginal: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Experiment" }) as any as Schema.Schema<Experiment>;
+export const Experiment: Schema.Schema<Experiment> = Schema.suspend(() =>
+  Schema.Struct({
+    servingFramework: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    objectiveMetric: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    variations: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.optional(Schema.String),
+          url: Schema.optional(Schema.String),
+          weight: Schema.optional(Schema.Number),
+          status: Schema.optional(Schema.String),
+          won: Schema.optional(Schema.Boolean),
+        }),
+      ),
+    ),
+    winnerConfidenceLevel: Schema.optional(Schema.Number),
+    editableInGaUi: Schema.optional(Schema.Boolean),
+    winnerFound: Schema.optional(Schema.Boolean),
+    accountId: Schema.optional(Schema.String),
+    minimumExperimentLengthInDays: Schema.optional(Schema.Number),
+    profileId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    trafficCoverage: Schema.optional(Schema.Number),
+    endTime: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    optimizationType: Schema.optional(Schema.String),
+    reasonExperimentEnded: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    internalWebPropertyId: Schema.optional(Schema.String),
+    parentLink: Schema.optional(
+      Schema.Struct({
+        type: Schema.optional(Schema.String),
+        href: Schema.optional(Schema.String),
+      }),
+    ),
+    snippet: Schema.optional(Schema.String),
+    webPropertyId: Schema.optional(Schema.String),
+    equalWeighting: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    rewriteVariationUrlsAsOriginal: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Experiment" }) as any as Schema.Schema<Experiment>;
 
 export interface Experiments {
   /** Collection type. */
@@ -1053,16 +1307,18 @@ export interface Experiments {
   previousLink?: string;
 }
 
-export const Experiments: Schema.Schema<Experiments> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  items: Schema.optional(Schema.Array(Experiment)),
-  totalResults: Schema.optional(Schema.Number),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-})).annotate({ identifier: "Experiments" }) as any as Schema.Schema<Experiments>;
+export const Experiments: Schema.Schema<Experiments> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    username: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    items: Schema.optional(Schema.Array(Experiment)),
+    totalResults: Schema.optional(Schema.Number),
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Experiments" }) as any as Schema.Schema<Experiments>;
 
 export interface WebPropertyRef {
   /** Account ID to which this web property belongs. */
@@ -1079,14 +1335,19 @@ export interface WebPropertyRef {
   name?: string;
 }
 
-export const WebPropertyRef: Schema.Schema<WebPropertyRef> = Schema.suspend(() => Schema.Struct({
-  accountId: Schema.optional(Schema.String),
-  internalWebPropertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  href: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "WebPropertyRef" }) as any as Schema.Schema<WebPropertyRef>;
+export const WebPropertyRef: Schema.Schema<WebPropertyRef> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+      internalWebPropertyId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      href: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "WebPropertyRef",
+}) as any as Schema.Schema<WebPropertyRef>;
 
 export interface EntityAdWordsLink {
   /** A list of Google Ads client accounts. These cannot be MCC accounts. This field is required when creating a Google Ads link. It cannot be empty. */
@@ -1105,19 +1366,33 @@ export interface EntityAdWordsLink {
   kind?: string;
 }
 
-export const EntityAdWordsLink: Schema.Schema<EntityAdWordsLink> = Schema.suspend(() => Schema.Struct({
-  adWordsAccounts: Schema.optional(Schema.Array(AdWordsAccount)),
-  name: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  entity: Schema.optional(Schema.Struct({ webPropertyRef: Schema.optional(WebPropertyRef) })),
-  profileIds: Schema.optional(Schema.Array(Schema.String)),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntityAdWordsLink" }) as any as Schema.Schema<EntityAdWordsLink>;
+export const EntityAdWordsLink: Schema.Schema<EntityAdWordsLink> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adWordsAccounts: Schema.optional(Schema.Array(AdWordsAccount)),
+      name: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      entity: Schema.optional(
+        Schema.Struct({ webPropertyRef: Schema.optional(WebPropertyRef) }),
+      ),
+      profileIds: Schema.optional(Schema.Array(Schema.String)),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EntityAdWordsLink",
+  }) as any as Schema.Schema<EntityAdWordsLink>;
 
 export interface RealtimeData {
   /** Information for the view (profile), for which the real time data was requested. */
-  profileInfo?: { accountId?: string; internalWebPropertyId?: string; profileId?: string; webPropertyId?: string; profileName?: string; tableId?: string };
+  profileInfo?: {
+    accountId?: string;
+    internalWebPropertyId?: string;
+    profileId?: string;
+    webPropertyId?: string;
+    profileName?: string;
+    tableId?: string;
+  };
   /** The total number of rows for the query, regardless of the number of rows in the response. */
   totalResults?: number;
   /** Real time data rows, where each row contains a list of dimension values followed by the metric values. The order of dimensions and metrics is same as specified in the request. */
@@ -1129,24 +1404,67 @@ export interface RealtimeData {
   /** Total values for the requested metrics over all the results, not just the results returned in this response. The order of the metric totals is same as the metric order specified in the request. */
   totalsForAllResults?: Record<string, string>;
   /** Column headers that list dimension names followed by the metric names. The order of dimensions and metrics is same as specified in the request. */
-  columnHeaders?: Array<{ dataType?: string; name?: string; columnType?: string }>;
+  columnHeaders?: Array<{
+    dataType?: string;
+    name?: string;
+    columnType?: string;
+  }>;
   /** Unique ID for this data response. */
   id?: string;
   /** Real time data request query parameters. */
-  query?: { dimensions?: string; "max-results"?: number; ids?: string; metrics?: Array<string>; filters?: string; sort?: Array<string> };
+  query?: {
+    dimensions?: string;
+    "max-results"?: number;
+    ids?: string;
+    metrics?: Array<string>;
+    filters?: string;
+    sort?: Array<string>;
+  };
 }
 
-export const RealtimeData: Schema.Schema<RealtimeData> = Schema.suspend(() => Schema.Struct({
-  profileInfo: Schema.optional(Schema.Struct({ accountId: Schema.optional(Schema.String), internalWebPropertyId: Schema.optional(Schema.String), profileId: Schema.optional(Schema.String), webPropertyId: Schema.optional(Schema.String), profileName: Schema.optional(Schema.String), tableId: Schema.optional(Schema.String) })),
-  totalResults: Schema.optional(Schema.Number),
-  rows: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
-  selfLink: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  totalsForAllResults: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  columnHeaders: Schema.optional(Schema.Array(Schema.Struct({ dataType: Schema.optional(Schema.String), name: Schema.optional(Schema.String), columnType: Schema.optional(Schema.String) }))),
-  id: Schema.optional(Schema.String),
-  query: Schema.optional(Schema.Struct({ dimensions: Schema.optional(Schema.String), "max-results": Schema.optional(Schema.Number), ids: Schema.optional(Schema.String), metrics: Schema.optional(Schema.Array(Schema.String)), filters: Schema.optional(Schema.String), sort: Schema.optional(Schema.Array(Schema.String)) })),
-})).annotate({ identifier: "RealtimeData" }) as any as Schema.Schema<RealtimeData>;
+export const RealtimeData: Schema.Schema<RealtimeData> = Schema.suspend(() =>
+  Schema.Struct({
+    profileInfo: Schema.optional(
+      Schema.Struct({
+        accountId: Schema.optional(Schema.String),
+        internalWebPropertyId: Schema.optional(Schema.String),
+        profileId: Schema.optional(Schema.String),
+        webPropertyId: Schema.optional(Schema.String),
+        profileName: Schema.optional(Schema.String),
+        tableId: Schema.optional(Schema.String),
+      }),
+    ),
+    totalResults: Schema.optional(Schema.Number),
+    rows: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+    selfLink: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    totalsForAllResults: Schema.optional(
+      Schema.Record(Schema.String, Schema.String),
+    ),
+    columnHeaders: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          dataType: Schema.optional(Schema.String),
+          name: Schema.optional(Schema.String),
+          columnType: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    id: Schema.optional(Schema.String),
+    query: Schema.optional(
+      Schema.Struct({
+        dimensions: Schema.optional(Schema.String),
+        "max-results": Schema.optional(Schema.Number),
+        ids: Schema.optional(Schema.String),
+        metrics: Schema.optional(Schema.Array(Schema.String)),
+        filters: Schema.optional(Schema.String),
+        sort: Schema.optional(Schema.Array(Schema.String)),
+      }),
+    ),
+  }),
+).annotate({
+  identifier: "RealtimeData",
+}) as any as Schema.Schema<RealtimeData>;
 
 export interface EntityAdWordsLinks {
   /** A list of entity Google Ads links. */
@@ -1165,15 +1483,20 @@ export interface EntityAdWordsLinks {
   startIndex?: number;
 }
 
-export const EntityAdWordsLinks: Schema.Schema<EntityAdWordsLinks> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(EntityAdWordsLink)),
-  totalResults: Schema.optional(Schema.Number),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "EntityAdWordsLinks" }) as any as Schema.Schema<EntityAdWordsLinks>;
+export const EntityAdWordsLinks: Schema.Schema<EntityAdWordsLinks> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(EntityAdWordsLink)),
+      totalResults: Schema.optional(Schema.Number),
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "EntityAdWordsLinks",
+  }) as any as Schema.Schema<EntityAdWordsLinks>;
 
 export interface Webproperties {
   /** Link to next page for this web property collection. */
@@ -1194,22 +1517,29 @@ export interface Webproperties {
   kind?: string;
 }
 
-export const Webproperties: Schema.Schema<Webproperties> = Schema.suspend(() => Schema.Struct({
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Webproperty)),
-  totalResults: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Webproperties" }) as any as Schema.Schema<Webproperties>;
+export const Webproperties: Schema.Schema<Webproperties> = Schema.suspend(() =>
+  Schema.Struct({
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Webproperty)),
+    totalResults: Schema.optional(Schema.Number),
+    username: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Webproperties",
+}) as any as Schema.Schema<Webproperties>;
 
 export interface Goal {
   /** Goal value. */
   value?: number;
   /** Details for the goal of the type VISIT_TIME_ON_SITE. */
-  visitTimeOnSiteDetails?: { comparisonType?: string; comparisonValue?: string };
+  visitTimeOnSiteDetails?: {
+    comparisonType?: string;
+    comparisonValue?: string;
+  };
   /** View (Profile) ID to which this goal belongs. */
   profileId?: string;
   /** Internal ID for the web property to which this goal belongs. */
@@ -1233,9 +1563,24 @@ export interface Goal {
   /** Time this goal was last modified. */
   updated?: string;
   /** Details for the goal of the type EVENT. */
-  eventDetails?: { eventConditions?: Array<{ comparisonValue?: string; matchType?: string; comparisonType?: string; expression?: string; type?: string }>; useEventValue?: boolean };
+  eventDetails?: {
+    eventConditions?: Array<{
+      comparisonValue?: string;
+      matchType?: string;
+      comparisonType?: string;
+      expression?: string;
+      type?: string;
+    }>;
+    useEventValue?: boolean;
+  };
   /** Details for the goal of the type URL_DESTINATION. */
-  urlDestinationDetails?: { caseSensitive?: boolean; url?: string; matchType?: string; firstStepRequired?: boolean; steps?: Array<{ name?: string; number?: number; url?: string }> };
+  urlDestinationDetails?: {
+    caseSensitive?: boolean;
+    url?: string;
+    matchType?: string;
+    firstStepRequired?: boolean;
+    steps?: Array<{ name?: string; number?: number; url?: string }>;
+  };
   /** Account ID to which this goal belongs. */
   accountId?: string;
   /** Goal ID. */
@@ -1244,26 +1589,74 @@ export interface Goal {
   active?: boolean;
 }
 
-export const Goal: Schema.Schema<Goal> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.Number),
-  visitTimeOnSiteDetails: Schema.optional(Schema.Struct({ comparisonType: Schema.optional(Schema.String), comparisonValue: Schema.optional(Schema.String) })),
-  profileId: Schema.optional(Schema.String),
-  internalWebPropertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  parentLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  webPropertyId: Schema.optional(Schema.String),
-  visitNumPagesDetails: Schema.optional(Schema.Struct({ comparisonType: Schema.optional(Schema.String), comparisonValue: Schema.optional(Schema.String) })),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  eventDetails: Schema.optional(Schema.Struct({ eventConditions: Schema.optional(Schema.Array(Schema.Struct({ comparisonValue: Schema.optional(Schema.String), matchType: Schema.optional(Schema.String), comparisonType: Schema.optional(Schema.String), expression: Schema.optional(Schema.String), type: Schema.optional(Schema.String) }))), useEventValue: Schema.optional(Schema.Boolean) })),
-  urlDestinationDetails: Schema.optional(Schema.Struct({ caseSensitive: Schema.optional(Schema.Boolean), url: Schema.optional(Schema.String), matchType: Schema.optional(Schema.String), firstStepRequired: Schema.optional(Schema.Boolean), steps: Schema.optional(Schema.Array(Schema.Struct({ name: Schema.optional(Schema.String), number: Schema.optional(Schema.Number), url: Schema.optional(Schema.String) }))) })),
-  accountId: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  active: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Goal" }) as any as Schema.Schema<Goal>;
+export const Goal: Schema.Schema<Goal> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.Number),
+    visitTimeOnSiteDetails: Schema.optional(
+      Schema.Struct({
+        comparisonType: Schema.optional(Schema.String),
+        comparisonValue: Schema.optional(Schema.String),
+      }),
+    ),
+    profileId: Schema.optional(Schema.String),
+    internalWebPropertyId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    parentLink: Schema.optional(
+      Schema.Struct({
+        type: Schema.optional(Schema.String),
+        href: Schema.optional(Schema.String),
+      }),
+    ),
+    webPropertyId: Schema.optional(Schema.String),
+    visitNumPagesDetails: Schema.optional(
+      Schema.Struct({
+        comparisonType: Schema.optional(Schema.String),
+        comparisonValue: Schema.optional(Schema.String),
+      }),
+    ),
+    created: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    eventDetails: Schema.optional(
+      Schema.Struct({
+        eventConditions: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              comparisonValue: Schema.optional(Schema.String),
+              matchType: Schema.optional(Schema.String),
+              comparisonType: Schema.optional(Schema.String),
+              expression: Schema.optional(Schema.String),
+              type: Schema.optional(Schema.String),
+            }),
+          ),
+        ),
+        useEventValue: Schema.optional(Schema.Boolean),
+      }),
+    ),
+    urlDestinationDetails: Schema.optional(
+      Schema.Struct({
+        caseSensitive: Schema.optional(Schema.Boolean),
+        url: Schema.optional(Schema.String),
+        matchType: Schema.optional(Schema.String),
+        firstStepRequired: Schema.optional(Schema.Boolean),
+        steps: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.optional(Schema.String),
+              number: Schema.optional(Schema.Number),
+              url: Schema.optional(Schema.String),
+            }),
+          ),
+        ),
+      }),
+    ),
+    accountId: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    active: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Goal" }) as any as Schema.Schema<Goal>;
 
 export interface Goals {
   /** Link to next page for this goal collection. */
@@ -1284,16 +1677,18 @@ export interface Goals {
   kind?: string;
 }
 
-export const Goals: Schema.Schema<Goals> = Schema.suspend(() => Schema.Struct({
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Goal)),
-  totalResults: Schema.optional(Schema.Number),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Goals" }) as any as Schema.Schema<Goals>;
+export const Goals: Schema.Schema<Goals> = Schema.suspend(() =>
+  Schema.Struct({
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Goal)),
+    totalResults: Schema.optional(Schema.Number),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    username: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Goals" }) as any as Schema.Schema<Goals>;
 
 export interface UserRef {
   /** User ID. */
@@ -1303,11 +1698,13 @@ export interface UserRef {
   kind?: string;
 }
 
-export const UserRef: Schema.Schema<UserRef> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserRef" }) as any as Schema.Schema<UserRef>;
+export const UserRef: Schema.Schema<UserRef> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserRef" }) as any as Schema.Schema<UserRef>;
 
 export interface AccountRef {
   /** Account name. */
@@ -1320,12 +1717,14 @@ export interface AccountRef {
   kind?: string;
 }
 
-export const AccountRef: Schema.Schema<AccountRef> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  href: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountRef" }) as any as Schema.Schema<AccountRef>;
+export const AccountRef: Schema.Schema<AccountRef> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    href: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AccountRef" }) as any as Schema.Schema<AccountRef>;
 
 export interface EntityUserLink {
   /** User reference. */
@@ -1339,17 +1738,37 @@ export interface EntityUserLink {
   /** Self link for this resource. */
   selfLink?: string;
   /** Entity for this link. It can be an account, a web property, or a view (profile). */
-  entity?: { webPropertyRef?: WebPropertyRef; accountRef?: AccountRef; profileRef?: ProfileRef };
+  entity?: {
+    webPropertyRef?: WebPropertyRef;
+    accountRef?: AccountRef;
+    profileRef?: ProfileRef;
+  };
 }
 
-export const EntityUserLink: Schema.Schema<EntityUserLink> = Schema.suspend(() => Schema.Struct({
-  userRef: Schema.optional(UserRef),
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  permissions: Schema.optional(Schema.Struct({ effective: Schema.optional(Schema.Array(Schema.String)), local: Schema.optional(Schema.Array(Schema.String)) })),
-  selfLink: Schema.optional(Schema.String),
-  entity: Schema.optional(Schema.Struct({ webPropertyRef: Schema.optional(WebPropertyRef), accountRef: Schema.optional(AccountRef), profileRef: Schema.optional(ProfileRef) })),
-})).annotate({ identifier: "EntityUserLink" }) as any as Schema.Schema<EntityUserLink>;
+export const EntityUserLink: Schema.Schema<EntityUserLink> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      userRef: Schema.optional(UserRef),
+      kind: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      permissions: Schema.optional(
+        Schema.Struct({
+          effective: Schema.optional(Schema.Array(Schema.String)),
+          local: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+      selfLink: Schema.optional(Schema.String),
+      entity: Schema.optional(
+        Schema.Struct({
+          webPropertyRef: Schema.optional(WebPropertyRef),
+          accountRef: Schema.optional(AccountRef),
+          profileRef: Schema.optional(ProfileRef),
+        }),
+      ),
+    }),
+).annotate({
+  identifier: "EntityUserLink",
+}) as any as Schema.Schema<EntityUserLink>;
 
 export interface AccountTreeRequest {
   profileName?: string;
@@ -1361,14 +1780,19 @@ export interface AccountTreeRequest {
   kind?: string;
 }
 
-export const AccountTreeRequest: Schema.Schema<AccountTreeRequest> = Schema.suspend(() => Schema.Struct({
-  profileName: Schema.optional(Schema.String),
-  webpropertyName: Schema.optional(Schema.String),
-  timezone: Schema.optional(Schema.String),
-  websiteUrl: Schema.optional(Schema.String),
-  accountName: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountTreeRequest" }) as any as Schema.Schema<AccountTreeRequest>;
+export const AccountTreeRequest: Schema.Schema<AccountTreeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      profileName: Schema.optional(Schema.String),
+      webpropertyName: Schema.optional(Schema.String),
+      timezone: Schema.optional(Schema.String),
+      websiteUrl: Schema.optional(Schema.String),
+      accountName: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountTreeRequest",
+  }) as any as Schema.Schema<AccountTreeRequest>;
 
 export interface UserDeletionRequest {
   /** Firebase Project Id */
@@ -1385,14 +1809,24 @@ export interface UserDeletionRequest {
   webPropertyId?: string;
 }
 
-export const UserDeletionRequest: Schema.Schema<UserDeletionRequest> = Schema.suspend(() => Schema.Struct({
-  firebaseProjectId: Schema.optional(Schema.String),
-  deletionRequestTime: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), userId: Schema.optional(Schema.String) })),
-  propertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserDeletionRequest" }) as any as Schema.Schema<UserDeletionRequest>;
+export const UserDeletionRequest: Schema.Schema<UserDeletionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      firebaseProjectId: Schema.optional(Schema.String),
+      deletionRequestTime: Schema.optional(Schema.String),
+      id: Schema.optional(
+        Schema.Struct({
+          type: Schema.optional(Schema.String),
+          userId: Schema.optional(Schema.String),
+        }),
+      ),
+      propertyId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      webPropertyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserDeletionRequest",
+  }) as any as Schema.Schema<UserDeletionRequest>;
 
 export interface ProfileSummary {
   /** Resource type for Analytics ProfileSummary. */
@@ -1407,13 +1841,18 @@ export interface ProfileSummary {
   name?: string;
 }
 
-export const ProfileSummary: Schema.Schema<ProfileSummary> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  starred: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProfileSummary" }) as any as Schema.Schema<ProfileSummary>;
+export const ProfileSummary: Schema.Schema<ProfileSummary> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      starred: Schema.optional(Schema.Boolean),
+      type: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ProfileSummary",
+}) as any as Schema.Schema<ProfileSummary>;
 
 export interface WebPropertySummary {
   /** List of profiles under this web property. */
@@ -1434,16 +1873,21 @@ export interface WebPropertySummary {
   kind?: string;
 }
 
-export const WebPropertySummary: Schema.Schema<WebPropertySummary> = Schema.suspend(() => Schema.Struct({
-  profiles: Schema.optional(Schema.Array(ProfileSummary)),
-  level: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  websiteUrl: Schema.optional(Schema.String),
-  starred: Schema.optional(Schema.Boolean),
-  internalWebPropertyId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "WebPropertySummary" }) as any as Schema.Schema<WebPropertySummary>;
+export const WebPropertySummary: Schema.Schema<WebPropertySummary> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      profiles: Schema.optional(Schema.Array(ProfileSummary)),
+      level: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      websiteUrl: Schema.optional(Schema.String),
+      starred: Schema.optional(Schema.Boolean),
+      internalWebPropertyId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WebPropertySummary",
+  }) as any as Schema.Schema<WebPropertySummary>;
 
 export interface AccountSummary {
   /** Resource type for Analytics AccountSummary. */
@@ -1458,13 +1902,18 @@ export interface AccountSummary {
   name?: string;
 }
 
-export const AccountSummary: Schema.Schema<AccountSummary> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  webProperties: Schema.optional(Schema.Array(WebPropertySummary)),
-  starred: Schema.optional(Schema.Boolean),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountSummary" }) as any as Schema.Schema<AccountSummary>;
+export const AccountSummary: Schema.Schema<AccountSummary> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      webProperties: Schema.optional(Schema.Array(WebPropertySummary)),
+      starred: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AccountSummary",
+}) as any as Schema.Schema<AccountSummary>;
 
 export interface AccountSummaries {
   /** The maximum number of resources the response can contain, regardless of the actual number of resources returned. Its value ranges from 1 to 1000 with a value of 1000 by default, or otherwise specified by the max-results query parameter. */
@@ -1485,16 +1934,21 @@ export interface AccountSummaries {
   totalResults?: number;
 }
 
-export const AccountSummaries: Schema.Schema<AccountSummaries> = Schema.suspend(() => Schema.Struct({
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(AccountSummary)),
-  totalResults: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AccountSummaries" }) as any as Schema.Schema<AccountSummaries>;
+export const AccountSummaries: Schema.Schema<AccountSummaries> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(AccountSummary)),
+      totalResults: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "AccountSummaries",
+}) as any as Schema.Schema<AccountSummaries>;
 
 export interface Accounts {
   /** Collection type. */
@@ -1515,20 +1969,29 @@ export interface Accounts {
   previousLink?: string;
 }
 
-export const Accounts: Schema.Schema<Accounts> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  items: Schema.optional(Schema.Array(Account)),
-  totalResults: Schema.optional(Schema.Number),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-})).annotate({ identifier: "Accounts" }) as any as Schema.Schema<Accounts>;
+export const Accounts: Schema.Schema<Accounts> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    username: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    items: Schema.optional(Schema.Array(Account)),
+    totalResults: Schema.optional(Schema.Number),
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Accounts" }) as any as Schema.Schema<Accounts>;
 
 export interface McfData {
   /** Information for the view (profile), for which the Analytics data was requested. */
-  profileInfo?: { profileName?: string; tableId?: string; accountId?: string; internalWebPropertyId?: string; profileId?: string; webPropertyId?: string };
+  profileInfo?: {
+    profileName?: string;
+    tableId?: string;
+    accountId?: string;
+    internalWebPropertyId?: string;
+    profileId?: string;
+    webPropertyId?: string;
+  };
   /** The total number of rows for the query, regardless of the number of rows in the response. */
   totalResults?: number;
   /** Link to this page. */
@@ -1538,7 +2001,11 @@ export interface McfData {
   /** Determines if the Analytics data contains sampled data. */
   containsSampledData?: boolean;
   /** Column headers that list dimension names followed by the metric names. The order of dimensions and metrics is same as specified in the request. */
-  columnHeaders?: Array<{ dataType?: string; name?: string; columnType?: string }>;
+  columnHeaders?: Array<{
+    dataType?: string;
+    name?: string;
+    columnType?: string;
+  }>;
   /** Unique ID for this data response. */
   id?: string;
   /** The number of samples used to calculate the result. */
@@ -1548,7 +2015,15 @@ export interface McfData {
   /** The maximum number of rows the response can contain, regardless of the actual number of rows returned. Its value ranges from 1 to 10,000 with a value of 1000 by default, or otherwise specified by the max-results query parameter. */
   itemsPerPage?: number;
   /** Analytics data rows, where each row contains a list of dimension values followed by the metric values. The order of dimensions and metrics is same as specified in the request. */
-  rows?: Array<Array<{ conversionPathValue?: Array<{ nodeValue?: string; interactionType?: string }>; primitiveValue?: string }>>;
+  rows?: Array<
+    Array<{
+      conversionPathValue?: Array<{
+        nodeValue?: string;
+        interactionType?: string;
+      }>;
+      primitiveValue?: string;
+    }>
+  >;
   /** Resource type. */
   kind?: string;
   /** Link to next page for this Analytics data query. */
@@ -1556,26 +2031,89 @@ export interface McfData {
   /** Link to previous page for this Analytics data query. */
   previousLink?: string;
   /** Analytics data request query parameters. */
-  query?: { "max-results"?: number; "start-index"?: number; ids?: string; "end-date"?: string; sort?: Array<string>; filters?: string; dimensions?: string; "start-date"?: string; metrics?: Array<string>; segment?: string; samplingLevel?: string };
+  query?: {
+    "max-results"?: number;
+    "start-index"?: number;
+    ids?: string;
+    "end-date"?: string;
+    sort?: Array<string>;
+    filters?: string;
+    dimensions?: string;
+    "start-date"?: string;
+    metrics?: Array<string>;
+    segment?: string;
+    samplingLevel?: string;
+  };
 }
 
-export const McfData: Schema.Schema<McfData> = Schema.suspend(() => Schema.Struct({
-  profileInfo: Schema.optional(Schema.Struct({ profileName: Schema.optional(Schema.String), tableId: Schema.optional(Schema.String), accountId: Schema.optional(Schema.String), internalWebPropertyId: Schema.optional(Schema.String), profileId: Schema.optional(Schema.String), webPropertyId: Schema.optional(Schema.String) })),
-  totalResults: Schema.optional(Schema.Number),
-  selfLink: Schema.optional(Schema.String),
-  totalsForAllResults: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  containsSampledData: Schema.optional(Schema.Boolean),
-  columnHeaders: Schema.optional(Schema.Array(Schema.Struct({ dataType: Schema.optional(Schema.String), name: Schema.optional(Schema.String), columnType: Schema.optional(Schema.String) }))),
-  id: Schema.optional(Schema.String),
-  sampleSize: Schema.optional(Schema.String),
-  sampleSpace: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  rows: Schema.optional(Schema.Array(Schema.Array(Schema.Struct({ conversionPathValue: Schema.optional(Schema.Array(Schema.Struct({ nodeValue: Schema.optional(Schema.String), interactionType: Schema.optional(Schema.String) }))), primitiveValue: Schema.optional(Schema.String) })))),
-  kind: Schema.optional(Schema.String),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  query: Schema.optional(Schema.Struct({ "max-results": Schema.optional(Schema.Number), "start-index": Schema.optional(Schema.Number), ids: Schema.optional(Schema.String), "end-date": Schema.optional(Schema.String), sort: Schema.optional(Schema.Array(Schema.String)), filters: Schema.optional(Schema.String), dimensions: Schema.optional(Schema.String), "start-date": Schema.optional(Schema.String), metrics: Schema.optional(Schema.Array(Schema.String)), segment: Schema.optional(Schema.String), samplingLevel: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "McfData" }) as any as Schema.Schema<McfData>;
+export const McfData: Schema.Schema<McfData> = Schema.suspend(() =>
+  Schema.Struct({
+    profileInfo: Schema.optional(
+      Schema.Struct({
+        profileName: Schema.optional(Schema.String),
+        tableId: Schema.optional(Schema.String),
+        accountId: Schema.optional(Schema.String),
+        internalWebPropertyId: Schema.optional(Schema.String),
+        profileId: Schema.optional(Schema.String),
+        webPropertyId: Schema.optional(Schema.String),
+      }),
+    ),
+    totalResults: Schema.optional(Schema.Number),
+    selfLink: Schema.optional(Schema.String),
+    totalsForAllResults: Schema.optional(
+      Schema.Record(Schema.String, Schema.String),
+    ),
+    containsSampledData: Schema.optional(Schema.Boolean),
+    columnHeaders: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          dataType: Schema.optional(Schema.String),
+          name: Schema.optional(Schema.String),
+          columnType: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    id: Schema.optional(Schema.String),
+    sampleSize: Schema.optional(Schema.String),
+    sampleSpace: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    rows: Schema.optional(
+      Schema.Array(
+        Schema.Array(
+          Schema.Struct({
+            conversionPathValue: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  nodeValue: Schema.optional(Schema.String),
+                  interactionType: Schema.optional(Schema.String),
+                }),
+              ),
+            ),
+            primitiveValue: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+    ),
+    kind: Schema.optional(Schema.String),
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    query: Schema.optional(
+      Schema.Struct({
+        "max-results": Schema.optional(Schema.Number),
+        "start-index": Schema.optional(Schema.Number),
+        ids: Schema.optional(Schema.String),
+        "end-date": Schema.optional(Schema.String),
+        sort: Schema.optional(Schema.Array(Schema.String)),
+        filters: Schema.optional(Schema.String),
+        dimensions: Schema.optional(Schema.String),
+        "start-date": Schema.optional(Schema.String),
+        metrics: Schema.optional(Schema.Array(Schema.String)),
+        segment: Schema.optional(Schema.String),
+        samplingLevel: Schema.optional(Schema.String),
+      }),
+    ),
+  }),
+).annotate({ identifier: "McfData" }) as any as Schema.Schema<McfData>;
 
 export interface EntityUserLinks {
   /** The maximum number of entries the response can contain, regardless of the actual number of entries returned. Its value ranges from 1 to 1000 with a value of 1000 by default, or otherwise specified by the max-results query parameter. */
@@ -1594,21 +2132,30 @@ export interface EntityUserLinks {
   totalResults?: number;
 }
 
-export const EntityUserLinks: Schema.Schema<EntityUserLinks> = Schema.suspend(() => Schema.Struct({
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.String),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(EntityUserLink)),
-  totalResults: Schema.optional(Schema.Number),
-})).annotate({ identifier: "EntityUserLinks" }) as any as Schema.Schema<EntityUserLinks>;
+export const EntityUserLinks: Schema.Schema<EntityUserLinks> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+      kind: Schema.optional(Schema.String),
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(EntityUserLink)),
+      totalResults: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "EntityUserLinks",
+}) as any as Schema.Schema<EntityUserLinks>;
 
 export interface GaData {
   /** Determines if Analytics data contains samples. */
   containsSampledData?: boolean;
   /** Column headers that list dimension names followed by the metric names. The order of dimensions and metrics is same as specified in the request. */
-  columnHeaders?: Array<{ dataType?: string; name?: string; columnType?: string }>;
+  columnHeaders?: Array<{
+    dataType?: string;
+    name?: string;
+    columnType?: string;
+  }>;
   /** Unique ID for this data response. */
   id?: string;
   /** The maximum number of rows the response can contain, regardless of the actual number of rows returned. Its value ranges from 1 to 10,000 with a value of 1000 by default, or otherwise specified by the max-results query parameter. */
@@ -1620,18 +2167,40 @@ export interface GaData {
   /** Link to this page. */
   selfLink?: string;
   /** Information for the view (profile), for which the Analytics data was requested. */
-  profileInfo?: { webPropertyId?: string; profileId?: string; accountId?: string; internalWebPropertyId?: string; tableId?: string; profileName?: string };
+  profileInfo?: {
+    webPropertyId?: string;
+    profileId?: string;
+    accountId?: string;
+    internalWebPropertyId?: string;
+    tableId?: string;
+    profileName?: string;
+  };
   /** The total number of rows for the query, regardless of the number of rows in the response. */
   totalResults?: number;
   /** Total values for the requested metrics over all the results, not just the results returned in this response. The order of the metric totals is same as the metric order specified in the request. */
   totalsForAllResults?: Record<string, string>;
-  dataTable?: { cols?: Array<{ id?: string; label?: string; type?: string }>; rows?: Array<{ c?: Array<{ v?: string }> }> };
+  dataTable?: {
+    cols?: Array<{ id?: string; label?: string; type?: string }>;
+    rows?: Array<{ c?: Array<{ v?: string }> }>;
+  };
   /** Link to next page for this Analytics data query. */
   nextLink?: string;
   /** Link to previous page for this Analytics data query. */
   previousLink?: string;
   /** Analytics data request query parameters. */
-  query?: { filters?: string; sort?: Array<string>; "end-date"?: string; ids?: string; "max-results"?: number; "start-index"?: number; samplingLevel?: string; metrics?: Array<string>; segment?: string; dimensions?: string; "start-date"?: string };
+  query?: {
+    filters?: string;
+    sort?: Array<string>;
+    "end-date"?: string;
+    ids?: string;
+    "max-results"?: number;
+    "start-index"?: number;
+    samplingLevel?: string;
+    metrics?: Array<string>;
+    segment?: string;
+    dimensions?: string;
+    "start-date"?: string;
+  };
   /** Analytics data rows, where each row contains a list of dimension values followed by the metric values. The order of dimensions and metrics is same as specified in the request. */
   rows?: Array<Array<string>>;
   /** The last refreshed time in seconds for Analytics data. */
@@ -1640,25 +2209,83 @@ export interface GaData {
   kind?: string;
 }
 
-export const GaData: Schema.Schema<GaData> = Schema.suspend(() => Schema.Struct({
-  containsSampledData: Schema.optional(Schema.Boolean),
-  columnHeaders: Schema.optional(Schema.Array(Schema.Struct({ dataType: Schema.optional(Schema.String), name: Schema.optional(Schema.String), columnType: Schema.optional(Schema.String) }))),
-  id: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  sampleSize: Schema.optional(Schema.String),
-  sampleSpace: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  profileInfo: Schema.optional(Schema.Struct({ webPropertyId: Schema.optional(Schema.String), profileId: Schema.optional(Schema.String), accountId: Schema.optional(Schema.String), internalWebPropertyId: Schema.optional(Schema.String), tableId: Schema.optional(Schema.String), profileName: Schema.optional(Schema.String) })),
-  totalResults: Schema.optional(Schema.Number),
-  totalsForAllResults: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  dataTable: Schema.optional(Schema.Struct({ cols: Schema.optional(Schema.Array(Schema.Struct({ id: Schema.optional(Schema.String), label: Schema.optional(Schema.String), type: Schema.optional(Schema.String) }))), rows: Schema.optional(Schema.Array(Schema.Struct({ c: Schema.optional(Schema.Array(Schema.Struct({ v: Schema.optional(Schema.String) }))) }))) })),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  query: Schema.optional(Schema.Struct({ filters: Schema.optional(Schema.String), sort: Schema.optional(Schema.Array(Schema.String)), "end-date": Schema.optional(Schema.String), ids: Schema.optional(Schema.String), "max-results": Schema.optional(Schema.Number), "start-index": Schema.optional(Schema.Number), samplingLevel: Schema.optional(Schema.String), metrics: Schema.optional(Schema.Array(Schema.String)), segment: Schema.optional(Schema.String), dimensions: Schema.optional(Schema.String), "start-date": Schema.optional(Schema.String) })),
-  rows: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
-  dataLastRefreshed: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "GaData" }) as any as Schema.Schema<GaData>;
+export const GaData: Schema.Schema<GaData> = Schema.suspend(() =>
+  Schema.Struct({
+    containsSampledData: Schema.optional(Schema.Boolean),
+    columnHeaders: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          dataType: Schema.optional(Schema.String),
+          name: Schema.optional(Schema.String),
+          columnType: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    id: Schema.optional(Schema.String),
+    itemsPerPage: Schema.optional(Schema.Number),
+    sampleSize: Schema.optional(Schema.String),
+    sampleSpace: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    profileInfo: Schema.optional(
+      Schema.Struct({
+        webPropertyId: Schema.optional(Schema.String),
+        profileId: Schema.optional(Schema.String),
+        accountId: Schema.optional(Schema.String),
+        internalWebPropertyId: Schema.optional(Schema.String),
+        tableId: Schema.optional(Schema.String),
+        profileName: Schema.optional(Schema.String),
+      }),
+    ),
+    totalResults: Schema.optional(Schema.Number),
+    totalsForAllResults: Schema.optional(
+      Schema.Record(Schema.String, Schema.String),
+    ),
+    dataTable: Schema.optional(
+      Schema.Struct({
+        cols: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              id: Schema.optional(Schema.String),
+              label: Schema.optional(Schema.String),
+              type: Schema.optional(Schema.String),
+            }),
+          ),
+        ),
+        rows: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              c: Schema.optional(
+                Schema.Array(
+                  Schema.Struct({ v: Schema.optional(Schema.String) }),
+                ),
+              ),
+            }),
+          ),
+        ),
+      }),
+    ),
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    query: Schema.optional(
+      Schema.Struct({
+        filters: Schema.optional(Schema.String),
+        sort: Schema.optional(Schema.Array(Schema.String)),
+        "end-date": Schema.optional(Schema.String),
+        ids: Schema.optional(Schema.String),
+        "max-results": Schema.optional(Schema.Number),
+        "start-index": Schema.optional(Schema.Number),
+        samplingLevel: Schema.optional(Schema.String),
+        metrics: Schema.optional(Schema.Array(Schema.String)),
+        segment: Schema.optional(Schema.String),
+        dimensions: Schema.optional(Schema.String),
+        "start-date": Schema.optional(Schema.String),
+      }),
+    ),
+    rows: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+    dataLastRefreshed: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GaData" }) as any as Schema.Schema<GaData>;
 
 export interface ProfileFilterLinks {
   /** The maximum number of resources the response can contain, regardless of the actual number of resources returned. Its value ranges from 1 to 1,000 with a value of 1000 by default, or otherwise specified by the max-results query parameter. */
@@ -1679,16 +2306,21 @@ export interface ProfileFilterLinks {
   totalResults?: number;
 }
 
-export const ProfileFilterLinks: Schema.Schema<ProfileFilterLinks> = Schema.suspend(() => Schema.Struct({
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(ProfileFilterLink)),
-  totalResults: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ProfileFilterLinks" }) as any as Schema.Schema<ProfileFilterLinks>;
+export const ProfileFilterLinks: Schema.Schema<ProfileFilterLinks> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(ProfileFilterLink)),
+      totalResults: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ProfileFilterLinks",
+  }) as any as Schema.Schema<ProfileFilterLinks>;
 
 export interface Columns {
   /** List of columns for a report type. */
@@ -1703,13 +2335,15 @@ export interface Columns {
   kind?: string;
 }
 
-export const Columns: Schema.Schema<Columns> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(Column)),
-  totalResults: Schema.optional(Schema.Number),
-  attributeNames: Schema.optional(Schema.Array(Schema.String)),
-  etag: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Columns" }) as any as Schema.Schema<Columns>;
+export const Columns: Schema.Schema<Columns> = Schema.suspend(() =>
+  Schema.Struct({
+    items: Schema.optional(Schema.Array(Column)),
+    totalResults: Schema.optional(Schema.Number),
+    attributeNames: Schema.optional(Schema.Array(Schema.String)),
+    etag: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Columns" }) as any as Schema.Schema<Columns>;
 
 export interface Profiles {
   /** Link to next page for this view (profile) collection. */
@@ -1730,25 +2364,32 @@ export interface Profiles {
   kind?: string;
 }
 
-export const Profiles: Schema.Schema<Profiles> = Schema.suspend(() => Schema.Struct({
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Profile)),
-  totalResults: Schema.optional(Schema.Number),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Profiles" }) as any as Schema.Schema<Profiles>;
+export const Profiles: Schema.Schema<Profiles> = Schema.suspend(() =>
+  Schema.Struct({
+    nextLink: Schema.optional(Schema.String),
+    previousLink: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Profile)),
+    totalResults: Schema.optional(Schema.Number),
+    itemsPerPage: Schema.optional(Schema.Number),
+    startIndex: Schema.optional(Schema.Number),
+    username: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Profiles" }) as any as Schema.Schema<Profiles>;
 
 export interface AnalyticsDataimportDeleteUploadDataRequest {
   /** A list of upload UIDs. */
   customDataImportUids?: Array<string>;
 }
 
-export const AnalyticsDataimportDeleteUploadDataRequest: Schema.Schema<AnalyticsDataimportDeleteUploadDataRequest> = Schema.suspend(() => Schema.Struct({
-  customDataImportUids: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AnalyticsDataimportDeleteUploadDataRequest" }) as any as Schema.Schema<AnalyticsDataimportDeleteUploadDataRequest>;
+export const AnalyticsDataimportDeleteUploadDataRequest: Schema.Schema<AnalyticsDataimportDeleteUploadDataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customDataImportUids: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AnalyticsDataimportDeleteUploadDataRequest",
+  }) as any as Schema.Schema<AnalyticsDataimportDeleteUploadDataRequest>;
 
 export interface CustomDimension {
   /** Kind value for a custom dimension. Set to "analytics#customDimension". It is a read-only field. */
@@ -1777,20 +2418,30 @@ export interface CustomDimension {
   name?: string;
 }
 
-export const CustomDimension: Schema.Schema<CustomDimension> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  index: Schema.optional(Schema.Number),
-  updated: Schema.optional(Schema.String),
-  parentLink: Schema.optional(Schema.Struct({ type: Schema.optional(Schema.String), href: Schema.optional(Schema.String) })),
-  selfLink: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-  active: Schema.optional(Schema.Boolean),
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomDimension" }) as any as Schema.Schema<CustomDimension>;
+export const CustomDimension: Schema.Schema<CustomDimension> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      index: Schema.optional(Schema.Number),
+      updated: Schema.optional(Schema.String),
+      parentLink: Schema.optional(
+        Schema.Struct({
+          type: Schema.optional(Schema.String),
+          href: Schema.optional(Schema.String),
+        }),
+      ),
+      selfLink: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+      webPropertyId: Schema.optional(Schema.String),
+      active: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+      created: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CustomDimension",
+}) as any as Schema.Schema<CustomDimension>;
 
 export interface CustomDimensions {
   /** Collection type. */
@@ -1811,16 +2462,21 @@ export interface CustomDimensions {
   previousLink?: string;
 }
 
-export const CustomDimensions: Schema.Schema<CustomDimensions> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  items: Schema.optional(Schema.Array(CustomDimension)),
-  totalResults: Schema.optional(Schema.Number),
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomDimensions" }) as any as Schema.Schema<CustomDimensions>;
+export const CustomDimensions: Schema.Schema<CustomDimensions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+      items: Schema.optional(Schema.Array(CustomDimension)),
+      totalResults: Schema.optional(Schema.Number),
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CustomDimensions",
+}) as any as Schema.Schema<CustomDimensions>;
 
 export interface HashClientIdRequest {
   kind?: string;
@@ -1828,11 +2484,16 @@ export interface HashClientIdRequest {
   clientId?: string;
 }
 
-export const HashClientIdRequest: Schema.Schema<HashClientIdRequest> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  webPropertyId: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String),
-})).annotate({ identifier: "HashClientIdRequest" }) as any as Schema.Schema<HashClientIdRequest>;
+export const HashClientIdRequest: Schema.Schema<HashClientIdRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      webPropertyId: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HashClientIdRequest",
+  }) as any as Schema.Schema<HashClientIdRequest>;
 
 export interface RemarketingAudiences {
   /** Link to next page for this remarketing audience collection. */
@@ -1853,16 +2514,21 @@ export interface RemarketingAudiences {
   kind?: string;
 }
 
-export const RemarketingAudiences: Schema.Schema<RemarketingAudiences> = Schema.suspend(() => Schema.Struct({
-  nextLink: Schema.optional(Schema.String),
-  previousLink: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(RemarketingAudience)),
-  totalResults: Schema.optional(Schema.Number),
-  itemsPerPage: Schema.optional(Schema.Number),
-  startIndex: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "RemarketingAudiences" }) as any as Schema.Schema<RemarketingAudiences>;
+export const RemarketingAudiences: Schema.Schema<RemarketingAudiences> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextLink: Schema.optional(Schema.String),
+      previousLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(RemarketingAudience)),
+      totalResults: Schema.optional(Schema.Number),
+      itemsPerPage: Schema.optional(Schema.Number),
+      startIndex: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemarketingAudiences",
+  }) as any as Schema.Schema<RemarketingAudiences>;
 
 // ==========================================================================
 // Operations
@@ -1895,10 +2561,16 @@ export const GetDataMcfRequest = Schema.Struct({
   "end-date": Schema.String.pipe(T.HttpQuery("end-date")),
   filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
   sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   ids: Schema.String.pipe(T.HttpQuery("ids")),
-  samplingLevel: Schema.optional(Schema.String).pipe(T.HttpQuery("samplingLevel")),
+  samplingLevel: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("samplingLevel"),
+  ),
   dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
   "start-date": Schema.String.pipe(T.HttpQuery("start-date")),
   metrics: Schema.String.pipe(T.HttpQuery("metrics")),
@@ -1913,7 +2585,12 @@ export const GetDataMcfResponse = McfData;
 export type GetDataMcfError = DefaultErrors;
 
 /** Returns Analytics Multi-Channel Funnels data for a view (profile). */
-export const getDataMcf: API.OperationMethod<GetDataMcfRequest, GetDataMcfResponse, GetDataMcfError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDataMcf: API.OperationMethod<
+  GetDataMcfRequest,
+  GetDataMcfResponse,
+  GetDataMcfError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDataMcfRequest,
   output: GetDataMcfResponse,
   errors: [],
@@ -1952,13 +2629,21 @@ export const GetDataGaRequest = Schema.Struct({
   metrics: Schema.String.pipe(T.HttpQuery("metrics")),
   segment: Schema.optional(Schema.String).pipe(T.HttpQuery("segment")),
   dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
-  samplingLevel: Schema.optional(Schema.String).pipe(T.HttpQuery("samplingLevel")),
+  samplingLevel: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("samplingLevel"),
+  ),
   output: Schema.optional(Schema.String).pipe(T.HttpQuery("output")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   "start-date": Schema.String.pipe(T.HttpQuery("start-date")),
-  "include-empty-rows": Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include-empty-rows")),
+  "include-empty-rows": Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include-empty-rows"),
+  ),
   ids: Schema.String.pipe(T.HttpQuery("ids")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
   filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
   sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
   "end-date": Schema.String.pipe(T.HttpQuery("end-date")),
@@ -1973,7 +2658,12 @@ export const GetDataGaResponse = GaData;
 export type GetDataGaError = DefaultErrors;
 
 /** Returns Analytics data for a view (profile). */
-export const getDataGa: API.OperationMethod<GetDataGaRequest, GetDataGaResponse, GetDataGaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDataGa: API.OperationMethod<
+  GetDataGaRequest,
+  GetDataGaResponse,
+  GetDataGaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDataGaRequest,
   output: GetDataGaResponse,
   errors: [],
@@ -2000,7 +2690,9 @@ export const GetDataRealtimeRequest = Schema.Struct({
   ids: Schema.String.pipe(T.HttpQuery("ids")),
   metrics: Schema.String.pipe(T.HttpQuery("metrics")),
   dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "data/realtime" }),
   svc,
@@ -2012,7 +2704,12 @@ export const GetDataRealtimeResponse = RealtimeData;
 export type GetDataRealtimeError = DefaultErrors;
 
 /** Returns real time data for a view (profile). */
-export const getDataRealtime: API.OperationMethod<GetDataRealtimeRequest, GetDataRealtimeResponse, GetDataRealtimeError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDataRealtime: API.OperationMethod<
+  GetDataRealtimeRequest,
+  GetDataRealtimeResponse,
+  GetDataRealtimeError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDataRealtimeRequest,
   output: GetDataRealtimeResponse,
   errors: [],
@@ -2035,7 +2732,10 @@ export const GetManagementGoalsRequest = Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals/{goalId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals/{goalId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementGoalsRequest>;
 
@@ -2045,7 +2745,12 @@ export const GetManagementGoalsResponse = Goal;
 export type GetManagementGoalsError = DefaultErrors;
 
 /** Gets a goal to which the user has access. */
-export const getManagementGoals: API.OperationMethod<GetManagementGoalsRequest, GetManagementGoalsResponse, GetManagementGoalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementGoals: API.OperationMethod<
+  GetManagementGoalsRequest,
+  GetManagementGoalsResponse,
+  GetManagementGoalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementGoalsRequest,
   output: GetManagementGoalsResponse,
   errors: [],
@@ -2066,12 +2771,19 @@ export interface ListManagementGoalsRequest {
 
 export const ListManagementGoalsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementGoalsRequest>;
 
@@ -2081,7 +2793,12 @@ export const ListManagementGoalsResponse = Goals;
 export type ListManagementGoalsError = DefaultErrors;
 
 /** Lists goals to which the user has access. */
-export const listManagementGoals: API.OperationMethod<ListManagementGoalsRequest, ListManagementGoalsResponse, ListManagementGoalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementGoals: API.OperationMethod<
+  ListManagementGoalsRequest,
+  ListManagementGoalsResponse,
+  ListManagementGoalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementGoalsRequest,
   output: ListManagementGoalsResponse,
   errors: [],
@@ -2104,7 +2821,11 @@ export const InsertManagementGoalsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(Goal).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementGoalsRequest>;
 
@@ -2114,7 +2835,12 @@ export const InsertManagementGoalsResponse = Goal;
 export type InsertManagementGoalsError = DefaultErrors;
 
 /** Create a new goal. */
-export const insertManagementGoals: API.OperationMethod<InsertManagementGoalsRequest, InsertManagementGoalsResponse, InsertManagementGoalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementGoals: API.OperationMethod<
+  InsertManagementGoalsRequest,
+  InsertManagementGoalsResponse,
+  InsertManagementGoalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementGoalsRequest,
   output: InsertManagementGoalsResponse,
   errors: [],
@@ -2140,7 +2866,11 @@ export const PatchManagementGoalsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(Goal).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals/{goalId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals/{goalId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementGoalsRequest>;
 
@@ -2150,7 +2880,12 @@ export const PatchManagementGoalsResponse = Goal;
 export type PatchManagementGoalsError = DefaultErrors;
 
 /** Updates an existing goal. This method supports patch semantics. */
-export const patchManagementGoals: API.OperationMethod<PatchManagementGoalsRequest, PatchManagementGoalsResponse, PatchManagementGoalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementGoals: API.OperationMethod<
+  PatchManagementGoalsRequest,
+  PatchManagementGoalsResponse,
+  PatchManagementGoalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementGoalsRequest,
   output: PatchManagementGoalsResponse,
   errors: [],
@@ -2176,7 +2911,11 @@ export const UpdateManagementGoalsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(Goal).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals/{goalId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals/{goalId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementGoalsRequest>;
 
@@ -2186,7 +2925,12 @@ export const UpdateManagementGoalsResponse = Goal;
 export type UpdateManagementGoalsError = DefaultErrors;
 
 /** Updates an existing goal. */
-export const updateManagementGoals: API.OperationMethod<UpdateManagementGoalsRequest, UpdateManagementGoalsResponse, UpdateManagementGoalsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementGoals: API.OperationMethod<
+  UpdateManagementGoalsRequest,
+  UpdateManagementGoalsResponse,
+  UpdateManagementGoalsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementGoalsRequest,
   output: UpdateManagementGoalsResponse,
   errors: [],
@@ -2206,10 +2950,17 @@ export interface ListManagementWebPropertyAdWordsLinksRequest {
 export const ListManagementWebPropertyAdWordsLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementWebPropertyAdWordsLinksRequest>;
 
@@ -2219,7 +2970,12 @@ export const ListManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLinks;
 export type ListManagementWebPropertyAdWordsLinksError = DefaultErrors;
 
 /** Lists webProperty-Google Ads links for a given web property. */
-export const listManagementWebPropertyAdWordsLinks: API.OperationMethod<ListManagementWebPropertyAdWordsLinksRequest, ListManagementWebPropertyAdWordsLinksResponse, ListManagementWebPropertyAdWordsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementWebPropertyAdWordsLinks: API.OperationMethod<
+  ListManagementWebPropertyAdWordsLinksRequest,
+  ListManagementWebPropertyAdWordsLinksResponse,
+  ListManagementWebPropertyAdWordsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementWebPropertyAdWordsLinksRequest,
   output: ListManagementWebPropertyAdWordsLinksResponse,
   errors: [],
@@ -2238,21 +2994,33 @@ export interface UpdateManagementWebPropertyAdWordsLinksRequest {
 
 export const UpdateManagementWebPropertyAdWordsLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  webPropertyAdWordsLinkId: Schema.String.pipe(T.HttpPath("webPropertyAdWordsLinkId")),
+  webPropertyAdWordsLinkId: Schema.String.pipe(
+    T.HttpPath("webPropertyAdWordsLinkId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(EntityAdWordsLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementWebPropertyAdWordsLinksRequest>;
 
 export type UpdateManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
-export const UpdateManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
+export const UpdateManagementWebPropertyAdWordsLinksResponse =
+  EntityAdWordsLink;
 
 export type UpdateManagementWebPropertyAdWordsLinksError = DefaultErrors;
 
 /** Updates an existing webProperty-Google Ads link. */
-export const updateManagementWebPropertyAdWordsLinks: API.OperationMethod<UpdateManagementWebPropertyAdWordsLinksRequest, UpdateManagementWebPropertyAdWordsLinksResponse, UpdateManagementWebPropertyAdWordsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementWebPropertyAdWordsLinks: API.OperationMethod<
+  UpdateManagementWebPropertyAdWordsLinksRequest,
+  UpdateManagementWebPropertyAdWordsLinksResponse,
+  UpdateManagementWebPropertyAdWordsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementWebPropertyAdWordsLinksRequest,
   output: UpdateManagementWebPropertyAdWordsLinksResponse,
   errors: [],
@@ -2272,17 +3040,27 @@ export const InsertManagementWebPropertyAdWordsLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(EntityAdWordsLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementWebPropertyAdWordsLinksRequest>;
 
 export type InsertManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
-export const InsertManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
+export const InsertManagementWebPropertyAdWordsLinksResponse =
+  EntityAdWordsLink;
 
 export type InsertManagementWebPropertyAdWordsLinksError = DefaultErrors;
 
 /** Creates a webProperty-Google Ads link. */
-export const insertManagementWebPropertyAdWordsLinks: API.OperationMethod<InsertManagementWebPropertyAdWordsLinksRequest, InsertManagementWebPropertyAdWordsLinksResponse, InsertManagementWebPropertyAdWordsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementWebPropertyAdWordsLinks: API.OperationMethod<
+  InsertManagementWebPropertyAdWordsLinksRequest,
+  InsertManagementWebPropertyAdWordsLinksResponse,
+  InsertManagementWebPropertyAdWordsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementWebPropertyAdWordsLinksRequest,
   output: InsertManagementWebPropertyAdWordsLinksResponse,
   errors: [],
@@ -2301,11 +3079,17 @@ export interface PatchManagementWebPropertyAdWordsLinksRequest {
 
 export const PatchManagementWebPropertyAdWordsLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  webPropertyAdWordsLinkId: Schema.String.pipe(T.HttpPath("webPropertyAdWordsLinkId")),
+  webPropertyAdWordsLinkId: Schema.String.pipe(
+    T.HttpPath("webPropertyAdWordsLinkId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(EntityAdWordsLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementWebPropertyAdWordsLinksRequest>;
 
@@ -2315,7 +3099,12 @@ export const PatchManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
 export type PatchManagementWebPropertyAdWordsLinksError = DefaultErrors;
 
 /** Updates an existing webProperty-Google Ads link. This method supports patch semantics. */
-export const patchManagementWebPropertyAdWordsLinks: API.OperationMethod<PatchManagementWebPropertyAdWordsLinksRequest, PatchManagementWebPropertyAdWordsLinksResponse, PatchManagementWebPropertyAdWordsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementWebPropertyAdWordsLinks: API.OperationMethod<
+  PatchManagementWebPropertyAdWordsLinksRequest,
+  PatchManagementWebPropertyAdWordsLinksResponse,
+  PatchManagementWebPropertyAdWordsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementWebPropertyAdWordsLinksRequest,
   output: PatchManagementWebPropertyAdWordsLinksResponse,
   errors: [],
@@ -2332,10 +3121,15 @@ export interface GetManagementWebPropertyAdWordsLinksRequest {
 
 export const GetManagementWebPropertyAdWordsLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  webPropertyAdWordsLinkId: Schema.String.pipe(T.HttpPath("webPropertyAdWordsLinkId")),
+  webPropertyAdWordsLinkId: Schema.String.pipe(
+    T.HttpPath("webPropertyAdWordsLinkId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementWebPropertyAdWordsLinksRequest>;
 
@@ -2345,7 +3139,12 @@ export const GetManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
 export type GetManagementWebPropertyAdWordsLinksError = DefaultErrors;
 
 /** Returns a web property-Google Ads link to which the user has access. */
-export const getManagementWebPropertyAdWordsLinks: API.OperationMethod<GetManagementWebPropertyAdWordsLinksRequest, GetManagementWebPropertyAdWordsLinksResponse, GetManagementWebPropertyAdWordsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementWebPropertyAdWordsLinks: API.OperationMethod<
+  GetManagementWebPropertyAdWordsLinksRequest,
+  GetManagementWebPropertyAdWordsLinksResponse,
+  GetManagementWebPropertyAdWordsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementWebPropertyAdWordsLinksRequest,
   output: GetManagementWebPropertyAdWordsLinksResponse,
   errors: [],
@@ -2361,21 +3160,34 @@ export interface DeleteManagementWebPropertyAdWordsLinksRequest {
 }
 
 export const DeleteManagementWebPropertyAdWordsLinksRequest = Schema.Struct({
-  webPropertyAdWordsLinkId: Schema.String.pipe(T.HttpPath("webPropertyAdWordsLinkId")),
+  webPropertyAdWordsLinkId: Schema.String.pipe(
+    T.HttpPath("webPropertyAdWordsLinkId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementWebPropertyAdWordsLinksRequest>;
 
 export interface DeleteManagementWebPropertyAdWordsLinksResponse {}
-export const DeleteManagementWebPropertyAdWordsLinksResponse: Schema.Schema<DeleteManagementWebPropertyAdWordsLinksResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementWebPropertyAdWordsLinksResponse>;
+export const DeleteManagementWebPropertyAdWordsLinksResponse: Schema.Schema<DeleteManagementWebPropertyAdWordsLinksResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementWebPropertyAdWordsLinksResponse>;
 
 export type DeleteManagementWebPropertyAdWordsLinksError = DefaultErrors;
 
 /** Deletes a web property-Google Ads link. */
-export const deleteManagementWebPropertyAdWordsLinks: API.OperationMethod<DeleteManagementWebPropertyAdWordsLinksRequest, DeleteManagementWebPropertyAdWordsLinksResponse, DeleteManagementWebPropertyAdWordsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementWebPropertyAdWordsLinks: API.OperationMethod<
+  DeleteManagementWebPropertyAdWordsLinksRequest,
+  DeleteManagementWebPropertyAdWordsLinksResponse,
+  DeleteManagementWebPropertyAdWordsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementWebPropertyAdWordsLinksRequest,
   output: DeleteManagementWebPropertyAdWordsLinksResponse,
   errors: [],
@@ -2393,12 +3205,19 @@ export interface ListManagementCustomMetricsRequest {
 }
 
 export const ListManagementCustomMetricsRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementCustomMetricsRequest>;
 
@@ -2408,7 +3227,12 @@ export const ListManagementCustomMetricsResponse = CustomMetrics;
 export type ListManagementCustomMetricsError = DefaultErrors;
 
 /** Lists custom metrics to which the user has access. */
-export const listManagementCustomMetrics: API.OperationMethod<ListManagementCustomMetricsRequest, ListManagementCustomMetricsResponse, ListManagementCustomMetricsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementCustomMetrics: API.OperationMethod<
+  ListManagementCustomMetricsRequest,
+  ListManagementCustomMetricsResponse,
+  ListManagementCustomMetricsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementCustomMetricsRequest,
   output: ListManagementCustomMetricsResponse,
   errors: [],
@@ -2430,11 +3254,17 @@ export interface UpdateManagementCustomMetricsRequest {
 export const UpdateManagementCustomMetricsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("ignoreCustomDataSourceLinks")),
+  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("ignoreCustomDataSourceLinks"),
+  ),
   customMetricId: Schema.String.pipe(T.HttpPath("customMetricId")),
   body: Schema.optional(CustomMetric).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics/{customMetricId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics/{customMetricId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementCustomMetricsRequest>;
 
@@ -2444,7 +3274,12 @@ export const UpdateManagementCustomMetricsResponse = CustomMetric;
 export type UpdateManagementCustomMetricsError = DefaultErrors;
 
 /** Updates an existing custom metric. */
-export const updateManagementCustomMetrics: API.OperationMethod<UpdateManagementCustomMetricsRequest, UpdateManagementCustomMetricsResponse, UpdateManagementCustomMetricsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementCustomMetrics: API.OperationMethod<
+  UpdateManagementCustomMetricsRequest,
+  UpdateManagementCustomMetricsResponse,
+  UpdateManagementCustomMetricsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementCustomMetricsRequest,
   output: UpdateManagementCustomMetricsResponse,
   errors: [],
@@ -2464,7 +3299,11 @@ export const InsertManagementCustomMetricsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(CustomMetric).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementCustomMetricsRequest>;
 
@@ -2474,7 +3313,12 @@ export const InsertManagementCustomMetricsResponse = CustomMetric;
 export type InsertManagementCustomMetricsError = DefaultErrors;
 
 /** Create a new custom metric. */
-export const insertManagementCustomMetrics: API.OperationMethod<InsertManagementCustomMetricsRequest, InsertManagementCustomMetricsResponse, InsertManagementCustomMetricsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementCustomMetrics: API.OperationMethod<
+  InsertManagementCustomMetricsRequest,
+  InsertManagementCustomMetricsResponse,
+  InsertManagementCustomMetricsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementCustomMetricsRequest,
   output: InsertManagementCustomMetricsResponse,
   errors: [],
@@ -2496,11 +3340,17 @@ export interface PatchManagementCustomMetricsRequest {
 export const PatchManagementCustomMetricsRequest = Schema.Struct({
   customMetricId: Schema.String.pipe(T.HttpPath("customMetricId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("ignoreCustomDataSourceLinks")),
+  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("ignoreCustomDataSourceLinks"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(CustomMetric).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics/{customMetricId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics/{customMetricId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementCustomMetricsRequest>;
 
@@ -2510,7 +3360,12 @@ export const PatchManagementCustomMetricsResponse = CustomMetric;
 export type PatchManagementCustomMetricsError = DefaultErrors;
 
 /** Updates an existing custom metric. This method supports patch semantics. */
-export const patchManagementCustomMetrics: API.OperationMethod<PatchManagementCustomMetricsRequest, PatchManagementCustomMetricsResponse, PatchManagementCustomMetricsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementCustomMetrics: API.OperationMethod<
+  PatchManagementCustomMetricsRequest,
+  PatchManagementCustomMetricsResponse,
+  PatchManagementCustomMetricsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementCustomMetricsRequest,
   output: PatchManagementCustomMetricsResponse,
   errors: [],
@@ -2530,7 +3385,10 @@ export const GetManagementCustomMetricsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics/{customMetricId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customMetrics/{customMetricId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementCustomMetricsRequest>;
 
@@ -2540,7 +3398,12 @@ export const GetManagementCustomMetricsResponse = CustomMetric;
 export type GetManagementCustomMetricsError = DefaultErrors;
 
 /** Get a custom metric to which the user has access. */
-export const getManagementCustomMetrics: API.OperationMethod<GetManagementCustomMetricsRequest, GetManagementCustomMetricsResponse, GetManagementCustomMetricsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementCustomMetrics: API.OperationMethod<
+  GetManagementCustomMetricsRequest,
+  GetManagementCustomMetricsResponse,
+  GetManagementCustomMetricsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementCustomMetricsRequest,
   output: GetManagementCustomMetricsResponse,
   errors: [],
@@ -2563,17 +3426,28 @@ export const DeleteManagementProfileFilterLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementProfileFilterLinksRequest>;
 
 export interface DeleteManagementProfileFilterLinksResponse {}
-export const DeleteManagementProfileFilterLinksResponse: Schema.Schema<DeleteManagementProfileFilterLinksResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementProfileFilterLinksResponse>;
+export const DeleteManagementProfileFilterLinksResponse: Schema.Schema<DeleteManagementProfileFilterLinksResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementProfileFilterLinksResponse>;
 
 export type DeleteManagementProfileFilterLinksError = DefaultErrors;
 
 /** Delete a profile filter link. */
-export const deleteManagementProfileFilterLinks: API.OperationMethod<DeleteManagementProfileFilterLinksRequest, DeleteManagementProfileFilterLinksResponse, DeleteManagementProfileFilterLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementProfileFilterLinks: API.OperationMethod<
+  DeleteManagementProfileFilterLinksRequest,
+  DeleteManagementProfileFilterLinksResponse,
+  DeleteManagementProfileFilterLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementProfileFilterLinksRequest,
   output: DeleteManagementProfileFilterLinksResponse,
   errors: [],
@@ -2596,7 +3470,10 @@ export const GetManagementProfileFilterLinksRequest = Schema.Struct({
   linkId: Schema.String.pipe(T.HttpPath("linkId")),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementProfileFilterLinksRequest>;
 
@@ -2606,7 +3483,12 @@ export const GetManagementProfileFilterLinksResponse = ProfileFilterLink;
 export type GetManagementProfileFilterLinksError = DefaultErrors;
 
 /** Returns a single profile filter link. */
-export const getManagementProfileFilterLinks: API.OperationMethod<GetManagementProfileFilterLinksRequest, GetManagementProfileFilterLinksResponse, GetManagementProfileFilterLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementProfileFilterLinks: API.OperationMethod<
+  GetManagementProfileFilterLinksRequest,
+  GetManagementProfileFilterLinksResponse,
+  GetManagementProfileFilterLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementProfileFilterLinksRequest,
   output: GetManagementProfileFilterLinksResponse,
   errors: [],
@@ -2632,7 +3514,11 @@ export const UpdateManagementProfileFilterLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(ProfileFilterLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementProfileFilterLinksRequest>;
 
@@ -2642,7 +3528,12 @@ export const UpdateManagementProfileFilterLinksResponse = ProfileFilterLink;
 export type UpdateManagementProfileFilterLinksError = DefaultErrors;
 
 /** Update an existing profile filter link. */
-export const updateManagementProfileFilterLinks: API.OperationMethod<UpdateManagementProfileFilterLinksRequest, UpdateManagementProfileFilterLinksResponse, UpdateManagementProfileFilterLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementProfileFilterLinks: API.OperationMethod<
+  UpdateManagementProfileFilterLinksRequest,
+  UpdateManagementProfileFilterLinksResponse,
+  UpdateManagementProfileFilterLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementProfileFilterLinksRequest,
   output: UpdateManagementProfileFilterLinksResponse,
   errors: [],
@@ -2665,7 +3556,11 @@ export const InsertManagementProfileFilterLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(ProfileFilterLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementProfileFilterLinksRequest>;
 
@@ -2675,7 +3570,12 @@ export const InsertManagementProfileFilterLinksResponse = ProfileFilterLink;
 export type InsertManagementProfileFilterLinksError = DefaultErrors;
 
 /** Create a new profile filter link. */
-export const insertManagementProfileFilterLinks: API.OperationMethod<InsertManagementProfileFilterLinksRequest, InsertManagementProfileFilterLinksResponse, InsertManagementProfileFilterLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementProfileFilterLinks: API.OperationMethod<
+  InsertManagementProfileFilterLinksRequest,
+  InsertManagementProfileFilterLinksResponse,
+  InsertManagementProfileFilterLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementProfileFilterLinksRequest,
   output: InsertManagementProfileFilterLinksResponse,
   errors: [],
@@ -2701,7 +3601,11 @@ export const PatchManagementProfileFilterLinksRequest = Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   body: Schema.optional(ProfileFilterLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementProfileFilterLinksRequest>;
 
@@ -2711,7 +3615,12 @@ export const PatchManagementProfileFilterLinksResponse = ProfileFilterLink;
 export type PatchManagementProfileFilterLinksError = DefaultErrors;
 
 /** Update an existing profile filter link. This method supports patch semantics. */
-export const patchManagementProfileFilterLinks: API.OperationMethod<PatchManagementProfileFilterLinksRequest, PatchManagementProfileFilterLinksResponse, PatchManagementProfileFilterLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementProfileFilterLinks: API.OperationMethod<
+  PatchManagementProfileFilterLinksRequest,
+  PatchManagementProfileFilterLinksResponse,
+  PatchManagementProfileFilterLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementProfileFilterLinksRequest,
   output: PatchManagementProfileFilterLinksResponse,
   errors: [],
@@ -2732,12 +3641,19 @@ export interface ListManagementProfileFilterLinksRequest {
 
 export const ListManagementProfileFilterLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementProfileFilterLinksRequest>;
 
@@ -2747,7 +3663,12 @@ export const ListManagementProfileFilterLinksResponse = ProfileFilterLinks;
 export type ListManagementProfileFilterLinksError = DefaultErrors;
 
 /** Lists all profile filter links for a profile. */
-export const listManagementProfileFilterLinks: API.OperationMethod<ListManagementProfileFilterLinksRequest, ListManagementProfileFilterLinksResponse, ListManagementProfileFilterLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementProfileFilterLinks: API.OperationMethod<
+  ListManagementProfileFilterLinksRequest,
+  ListManagementProfileFilterLinksResponse,
+  ListManagementProfileFilterLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementProfileFilterLinksRequest,
   output: ListManagementProfileFilterLinksResponse,
   errors: [],
@@ -2765,12 +3686,19 @@ export interface ListManagementCustomDataSourcesRequest {
 }
 
 export const ListManagementCustomDataSourcesRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementCustomDataSourcesRequest>;
 
@@ -2780,7 +3708,12 @@ export const ListManagementCustomDataSourcesResponse = CustomDataSources;
 export type ListManagementCustomDataSourcesError = DefaultErrors;
 
 /** List custom data sources to which the user has access. */
-export const listManagementCustomDataSources: API.OperationMethod<ListManagementCustomDataSourcesRequest, ListManagementCustomDataSourcesResponse, ListManagementCustomDataSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementCustomDataSources: API.OperationMethod<
+  ListManagementCustomDataSourcesRequest,
+  ListManagementCustomDataSourcesResponse,
+  ListManagementCustomDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementCustomDataSourcesRequest,
   output: ListManagementCustomDataSourcesResponse,
   errors: [],
@@ -2800,12 +3733,19 @@ export interface ListManagementRemarketingAudienceRequest {
 
 export const ListManagementRemarketingAudienceRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementRemarketingAudienceRequest>;
 
@@ -2815,7 +3755,12 @@ export const ListManagementRemarketingAudienceResponse = RemarketingAudiences;
 export type ListManagementRemarketingAudienceError = DefaultErrors;
 
 /** Lists remarketing audiences to which the user has access. */
-export const listManagementRemarketingAudience: API.OperationMethod<ListManagementRemarketingAudienceRequest, ListManagementRemarketingAudienceResponse, ListManagementRemarketingAudienceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementRemarketingAudience: API.OperationMethod<
+  ListManagementRemarketingAudienceRequest,
+  ListManagementRemarketingAudienceResponse,
+  ListManagementRemarketingAudienceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementRemarketingAudienceRequest,
   output: ListManagementRemarketingAudienceResponse,
   errors: [],
@@ -2833,12 +3778,18 @@ export interface UpdateManagementRemarketingAudienceRequest {
 }
 
 export const UpdateManagementRemarketingAudienceRequest = Schema.Struct({
-  remarketingAudienceId: Schema.String.pipe(T.HttpPath("remarketingAudienceId")),
+  remarketingAudienceId: Schema.String.pipe(
+    T.HttpPath("remarketingAudienceId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(RemarketingAudience).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementRemarketingAudienceRequest>;
 
@@ -2848,7 +3799,12 @@ export const UpdateManagementRemarketingAudienceResponse = RemarketingAudience;
 export type UpdateManagementRemarketingAudienceError = DefaultErrors;
 
 /** Updates an existing remarketing audience. */
-export const updateManagementRemarketingAudience: API.OperationMethod<UpdateManagementRemarketingAudienceRequest, UpdateManagementRemarketingAudienceResponse, UpdateManagementRemarketingAudienceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementRemarketingAudience: API.OperationMethod<
+  UpdateManagementRemarketingAudienceRequest,
+  UpdateManagementRemarketingAudienceResponse,
+  UpdateManagementRemarketingAudienceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementRemarketingAudienceRequest,
   output: UpdateManagementRemarketingAudienceResponse,
   errors: [],
@@ -2868,7 +3824,11 @@ export const InsertManagementRemarketingAudienceRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(RemarketingAudience).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementRemarketingAudienceRequest>;
 
@@ -2878,7 +3838,12 @@ export const InsertManagementRemarketingAudienceResponse = RemarketingAudience;
 export type InsertManagementRemarketingAudienceError = DefaultErrors;
 
 /** Creates a new remarketing audience. */
-export const insertManagementRemarketingAudience: API.OperationMethod<InsertManagementRemarketingAudienceRequest, InsertManagementRemarketingAudienceResponse, InsertManagementRemarketingAudienceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementRemarketingAudience: API.OperationMethod<
+  InsertManagementRemarketingAudienceRequest,
+  InsertManagementRemarketingAudienceResponse,
+  InsertManagementRemarketingAudienceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementRemarketingAudienceRequest,
   output: InsertManagementRemarketingAudienceResponse,
   errors: [],
@@ -2896,12 +3861,18 @@ export interface PatchManagementRemarketingAudienceRequest {
 }
 
 export const PatchManagementRemarketingAudienceRequest = Schema.Struct({
-  remarketingAudienceId: Schema.String.pipe(T.HttpPath("remarketingAudienceId")),
+  remarketingAudienceId: Schema.String.pipe(
+    T.HttpPath("remarketingAudienceId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(RemarketingAudience).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementRemarketingAudienceRequest>;
 
@@ -2911,7 +3882,12 @@ export const PatchManagementRemarketingAudienceResponse = RemarketingAudience;
 export type PatchManagementRemarketingAudienceError = DefaultErrors;
 
 /** Updates an existing remarketing audience. This method supports patch semantics. */
-export const patchManagementRemarketingAudience: API.OperationMethod<PatchManagementRemarketingAudienceRequest, PatchManagementRemarketingAudienceResponse, PatchManagementRemarketingAudienceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementRemarketingAudience: API.OperationMethod<
+  PatchManagementRemarketingAudienceRequest,
+  PatchManagementRemarketingAudienceResponse,
+  PatchManagementRemarketingAudienceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementRemarketingAudienceRequest,
   output: PatchManagementRemarketingAudienceResponse,
   errors: [],
@@ -2928,10 +3904,15 @@ export interface GetManagementRemarketingAudienceRequest {
 
 export const GetManagementRemarketingAudienceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  remarketingAudienceId: Schema.String.pipe(T.HttpPath("remarketingAudienceId")),
+  remarketingAudienceId: Schema.String.pipe(
+    T.HttpPath("remarketingAudienceId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementRemarketingAudienceRequest>;
 
@@ -2941,7 +3922,12 @@ export const GetManagementRemarketingAudienceResponse = RemarketingAudience;
 export type GetManagementRemarketingAudienceError = DefaultErrors;
 
 /** Gets a remarketing audience to which the user has access. */
-export const getManagementRemarketingAudience: API.OperationMethod<GetManagementRemarketingAudienceRequest, GetManagementRemarketingAudienceResponse, GetManagementRemarketingAudienceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementRemarketingAudience: API.OperationMethod<
+  GetManagementRemarketingAudienceRequest,
+  GetManagementRemarketingAudienceResponse,
+  GetManagementRemarketingAudienceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementRemarketingAudienceRequest,
   output: GetManagementRemarketingAudienceResponse,
   errors: [],
@@ -2957,21 +3943,34 @@ export interface DeleteManagementRemarketingAudienceRequest {
 }
 
 export const DeleteManagementRemarketingAudienceRequest = Schema.Struct({
-  remarketingAudienceId: Schema.String.pipe(T.HttpPath("remarketingAudienceId")),
+  remarketingAudienceId: Schema.String.pipe(
+    T.HttpPath("remarketingAudienceId"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/remarketingAudiences/{remarketingAudienceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementRemarketingAudienceRequest>;
 
 export interface DeleteManagementRemarketingAudienceResponse {}
-export const DeleteManagementRemarketingAudienceResponse: Schema.Schema<DeleteManagementRemarketingAudienceResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementRemarketingAudienceResponse>;
+export const DeleteManagementRemarketingAudienceResponse: Schema.Schema<DeleteManagementRemarketingAudienceResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementRemarketingAudienceResponse>;
 
 export type DeleteManagementRemarketingAudienceError = DefaultErrors;
 
 /** Delete a remarketing audience. */
-export const deleteManagementRemarketingAudience: API.OperationMethod<DeleteManagementRemarketingAudienceRequest, DeleteManagementRemarketingAudienceResponse, DeleteManagementRemarketingAudienceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementRemarketingAudience: API.OperationMethod<
+  DeleteManagementRemarketingAudienceRequest,
+  DeleteManagementRemarketingAudienceResponse,
+  DeleteManagementRemarketingAudienceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementRemarketingAudienceRequest,
   output: DeleteManagementRemarketingAudienceResponse,
   errors: [],
@@ -2994,7 +3993,10 @@ export const GetManagementUnsampledReportsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports/{unsampledReportId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports/{unsampledReportId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementUnsampledReportsRequest>;
 
@@ -3004,7 +4006,12 @@ export const GetManagementUnsampledReportsResponse = UnsampledReport;
 export type GetManagementUnsampledReportsError = DefaultErrors;
 
 /** Returns a single unsampled report. */
-export const getManagementUnsampledReports: API.OperationMethod<GetManagementUnsampledReportsRequest, GetManagementUnsampledReportsResponse, GetManagementUnsampledReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementUnsampledReports: API.OperationMethod<
+  GetManagementUnsampledReportsRequest,
+  GetManagementUnsampledReportsResponse,
+  GetManagementUnsampledReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementUnsampledReportsRequest,
   output: GetManagementUnsampledReportsResponse,
   errors: [],
@@ -3025,12 +4032,19 @@ export interface ListManagementUnsampledReportsRequest {
 
 export const ListManagementUnsampledReportsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementUnsampledReportsRequest>;
 
@@ -3040,7 +4054,12 @@ export const ListManagementUnsampledReportsResponse = UnsampledReports;
 export type ListManagementUnsampledReportsError = DefaultErrors;
 
 /** Lists unsampled reports to which the user has access. */
-export const listManagementUnsampledReports: API.OperationMethod<ListManagementUnsampledReportsRequest, ListManagementUnsampledReportsResponse, ListManagementUnsampledReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementUnsampledReports: API.OperationMethod<
+  ListManagementUnsampledReportsRequest,
+  ListManagementUnsampledReportsResponse,
+  ListManagementUnsampledReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementUnsampledReportsRequest,
   output: ListManagementUnsampledReportsResponse,
   errors: [],
@@ -3063,17 +4082,28 @@ export const DeleteManagementUnsampledReportsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports/{unsampledReportId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports/{unsampledReportId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementUnsampledReportsRequest>;
 
 export interface DeleteManagementUnsampledReportsResponse {}
-export const DeleteManagementUnsampledReportsResponse: Schema.Schema<DeleteManagementUnsampledReportsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementUnsampledReportsResponse>;
+export const DeleteManagementUnsampledReportsResponse: Schema.Schema<DeleteManagementUnsampledReportsResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementUnsampledReportsResponse>;
 
 export type DeleteManagementUnsampledReportsError = DefaultErrors;
 
 /** Deletes an unsampled report. */
-export const deleteManagementUnsampledReports: API.OperationMethod<DeleteManagementUnsampledReportsRequest, DeleteManagementUnsampledReportsResponse, DeleteManagementUnsampledReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementUnsampledReports: API.OperationMethod<
+  DeleteManagementUnsampledReportsRequest,
+  DeleteManagementUnsampledReportsResponse,
+  DeleteManagementUnsampledReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementUnsampledReportsRequest,
   output: DeleteManagementUnsampledReportsResponse,
   errors: [],
@@ -3096,7 +4126,11 @@ export const InsertManagementUnsampledReportsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(UnsampledReport).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementUnsampledReportsRequest>;
 
@@ -3106,7 +4140,12 @@ export const InsertManagementUnsampledReportsResponse = UnsampledReport;
 export type InsertManagementUnsampledReportsError = DefaultErrors;
 
 /** Create a new unsampled report. */
-export const insertManagementUnsampledReports: API.OperationMethod<InsertManagementUnsampledReportsRequest, InsertManagementUnsampledReportsResponse, InsertManagementUnsampledReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementUnsampledReports: API.OperationMethod<
+  InsertManagementUnsampledReportsRequest,
+  InsertManagementUnsampledReportsResponse,
+  InsertManagementUnsampledReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementUnsampledReportsRequest,
   output: InsertManagementUnsampledReportsResponse,
   errors: [],
@@ -3122,8 +4161,12 @@ export interface ListManagementFiltersRequest {
 }
 
 export const ListManagementFiltersRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
   T.Http({ method: "GET", path: "management/accounts/{accountId}/filters" }),
@@ -3136,7 +4179,12 @@ export const ListManagementFiltersResponse = Filters;
 export type ListManagementFiltersError = DefaultErrors;
 
 /** Lists all filters for an account */
-export const listManagementFilters: API.OperationMethod<ListManagementFiltersRequest, ListManagementFiltersResponse, ListManagementFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementFilters: API.OperationMethod<
+  ListManagementFiltersRequest,
+  ListManagementFiltersResponse,
+  ListManagementFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementFiltersRequest,
   output: ListManagementFiltersResponse,
   errors: [],
@@ -3156,7 +4204,11 @@ export const UpdateManagementFiltersRequest = Schema.Struct({
   filterId: Schema.String.pipe(T.HttpPath("filterId")),
   body: Schema.optional(Filter).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/filters/{filterId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/filters/{filterId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementFiltersRequest>;
 
@@ -3166,7 +4218,12 @@ export const UpdateManagementFiltersResponse = Filter;
 export type UpdateManagementFiltersError = DefaultErrors;
 
 /** Updates an existing filter. */
-export const updateManagementFilters: API.OperationMethod<UpdateManagementFiltersRequest, UpdateManagementFiltersResponse, UpdateManagementFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementFilters: API.OperationMethod<
+  UpdateManagementFiltersRequest,
+  UpdateManagementFiltersResponse,
+  UpdateManagementFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementFiltersRequest,
   output: UpdateManagementFiltersResponse,
   errors: [],
@@ -3183,7 +4240,11 @@ export const InsertManagementFiltersRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(Filter).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/filters", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/filters",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementFiltersRequest>;
 
@@ -3193,7 +4254,12 @@ export const InsertManagementFiltersResponse = Filter;
 export type InsertManagementFiltersError = DefaultErrors;
 
 /** Create a new filter. */
-export const insertManagementFilters: API.OperationMethod<InsertManagementFiltersRequest, InsertManagementFiltersResponse, InsertManagementFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementFilters: API.OperationMethod<
+  InsertManagementFiltersRequest,
+  InsertManagementFiltersResponse,
+  InsertManagementFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementFiltersRequest,
   output: InsertManagementFiltersResponse,
   errors: [],
@@ -3213,7 +4279,11 @@ export const PatchManagementFiltersRequest = Schema.Struct({
   filterId: Schema.String.pipe(T.HttpPath("filterId")),
   body: Schema.optional(Filter).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/filters/{filterId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/filters/{filterId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementFiltersRequest>;
 
@@ -3223,7 +4293,12 @@ export const PatchManagementFiltersResponse = Filter;
 export type PatchManagementFiltersError = DefaultErrors;
 
 /** Updates an existing filter. This method supports patch semantics. */
-export const patchManagementFilters: API.OperationMethod<PatchManagementFiltersRequest, PatchManagementFiltersResponse, PatchManagementFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementFilters: API.OperationMethod<
+  PatchManagementFiltersRequest,
+  PatchManagementFiltersResponse,
+  PatchManagementFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementFiltersRequest,
   output: PatchManagementFiltersResponse,
   errors: [],
@@ -3240,7 +4315,10 @@ export const GetManagementFiltersRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   filterId: Schema.String.pipe(T.HttpPath("filterId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/filters/{filterId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/filters/{filterId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementFiltersRequest>;
 
@@ -3250,7 +4328,12 @@ export const GetManagementFiltersResponse = Filter;
 export type GetManagementFiltersError = DefaultErrors;
 
 /** Returns filters to which the user has access. */
-export const getManagementFilters: API.OperationMethod<GetManagementFiltersRequest, GetManagementFiltersResponse, GetManagementFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementFilters: API.OperationMethod<
+  GetManagementFiltersRequest,
+  GetManagementFiltersResponse,
+  GetManagementFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementFiltersRequest,
   output: GetManagementFiltersResponse,
   errors: [],
@@ -3267,7 +4350,10 @@ export const DeleteManagementFiltersRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   filterId: Schema.String.pipe(T.HttpPath("filterId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/filters/{filterId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/filters/{filterId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementFiltersRequest>;
 
@@ -3277,7 +4363,12 @@ export const DeleteManagementFiltersResponse = Filter;
 export type DeleteManagementFiltersError = DefaultErrors;
 
 /** Delete a filter. */
-export const deleteManagementFilters: API.OperationMethod<DeleteManagementFiltersRequest, DeleteManagementFiltersResponse, DeleteManagementFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementFilters: API.OperationMethod<
+  DeleteManagementFiltersRequest,
+  DeleteManagementFiltersResponse,
+  DeleteManagementFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementFiltersRequest,
   output: DeleteManagementFiltersResponse,
   errors: [],
@@ -3291,7 +4382,11 @@ export interface HashClientIdManagementClientIdRequest {
 export const HashClientIdManagementClientIdRequest = Schema.Struct({
   body: Schema.optional(HashClientIdRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/clientId:hashClientId", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/clientId:hashClientId",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<HashClientIdManagementClientIdRequest>;
 
@@ -3301,7 +4396,12 @@ export const HashClientIdManagementClientIdResponse = HashClientIdResponse;
 export type HashClientIdManagementClientIdError = DefaultErrors;
 
 /** Hashes the given Client ID. */
-export const hashClientIdManagementClientId: API.OperationMethod<HashClientIdManagementClientIdRequest, HashClientIdManagementClientIdResponse, HashClientIdManagementClientIdError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const hashClientIdManagementClientId: API.OperationMethod<
+  HashClientIdManagementClientIdRequest,
+  HashClientIdManagementClientIdResponse,
+  HashClientIdManagementClientIdError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: HashClientIdManagementClientIdRequest,
   output: HashClientIdManagementClientIdResponse,
   errors: [],
@@ -3321,7 +4421,11 @@ export const InsertManagementProfilesRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(Profile).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementProfilesRequest>;
 
@@ -3331,7 +4435,12 @@ export const InsertManagementProfilesResponse = Profile;
 export type InsertManagementProfilesError = DefaultErrors;
 
 /** Create a new view (profile). */
-export const insertManagementProfiles: API.OperationMethod<InsertManagementProfilesRequest, InsertManagementProfilesResponse, InsertManagementProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementProfiles: API.OperationMethod<
+  InsertManagementProfilesRequest,
+  InsertManagementProfilesResponse,
+  InsertManagementProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementProfilesRequest,
   output: InsertManagementProfilesResponse,
   errors: [],
@@ -3354,7 +4463,11 @@ export const PatchManagementProfilesRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(Profile).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementProfilesRequest>;
 
@@ -3364,7 +4477,12 @@ export const PatchManagementProfilesResponse = Profile;
 export type PatchManagementProfilesError = DefaultErrors;
 
 /** Updates an existing view (profile). This method supports patch semantics. */
-export const patchManagementProfiles: API.OperationMethod<PatchManagementProfilesRequest, PatchManagementProfilesResponse, PatchManagementProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementProfiles: API.OperationMethod<
+  PatchManagementProfilesRequest,
+  PatchManagementProfilesResponse,
+  PatchManagementProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementProfilesRequest,
   output: PatchManagementProfilesResponse,
   errors: [],
@@ -3387,7 +4505,11 @@ export const UpdateManagementProfilesRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(Profile).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementProfilesRequest>;
 
@@ -3397,7 +4519,12 @@ export const UpdateManagementProfilesResponse = Profile;
 export type UpdateManagementProfilesError = DefaultErrors;
 
 /** Updates an existing view (profile). */
-export const updateManagementProfiles: API.OperationMethod<UpdateManagementProfilesRequest, UpdateManagementProfilesResponse, UpdateManagementProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementProfiles: API.OperationMethod<
+  UpdateManagementProfilesRequest,
+  UpdateManagementProfilesResponse,
+  UpdateManagementProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementProfilesRequest,
   output: UpdateManagementProfilesResponse,
   errors: [],
@@ -3415,12 +4542,19 @@ export interface ListManagementProfilesRequest {
 }
 
 export const ListManagementProfilesRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementProfilesRequest>;
 
@@ -3430,7 +4564,12 @@ export const ListManagementProfilesResponse = Profiles;
 export type ListManagementProfilesError = DefaultErrors;
 
 /** Lists views (profiles) to which the user has access. */
-export const listManagementProfiles: API.OperationMethod<ListManagementProfilesRequest, ListManagementProfilesResponse, ListManagementProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementProfiles: API.OperationMethod<
+  ListManagementProfilesRequest,
+  ListManagementProfilesResponse,
+  ListManagementProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementProfilesRequest,
   output: ListManagementProfilesResponse,
   errors: [],
@@ -3450,17 +4589,26 @@ export const DeleteManagementProfilesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementProfilesRequest>;
 
 export interface DeleteManagementProfilesResponse {}
-export const DeleteManagementProfilesResponse: Schema.Schema<DeleteManagementProfilesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementProfilesResponse>;
+export const DeleteManagementProfilesResponse: Schema.Schema<DeleteManagementProfilesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteManagementProfilesResponse>;
 
 export type DeleteManagementProfilesError = DefaultErrors;
 
 /** Deletes a view (profile). */
-export const deleteManagementProfiles: API.OperationMethod<DeleteManagementProfilesRequest, DeleteManagementProfilesResponse, DeleteManagementProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementProfiles: API.OperationMethod<
+  DeleteManagementProfilesRequest,
+  DeleteManagementProfilesResponse,
+  DeleteManagementProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementProfilesRequest,
   output: DeleteManagementProfilesResponse,
   errors: [],
@@ -3480,7 +4628,10 @@ export const GetManagementProfilesRequest = Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementProfilesRequest>;
 
@@ -3490,7 +4641,12 @@ export const GetManagementProfilesResponse = Profile;
 export type GetManagementProfilesError = DefaultErrors;
 
 /** Gets a view (profile) to which the user has access. */
-export const getManagementProfiles: API.OperationMethod<GetManagementProfilesRequest, GetManagementProfilesResponse, GetManagementProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementProfiles: API.OperationMethod<
+  GetManagementProfilesRequest,
+  GetManagementProfilesResponse,
+  GetManagementProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementProfilesRequest,
   output: GetManagementProfilesResponse,
   errors: [],
@@ -3513,17 +4669,28 @@ export const DeleteManagementExperimentsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   experimentId: Schema.String.pipe(T.HttpPath("experimentId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementExperimentsRequest>;
 
 export interface DeleteManagementExperimentsResponse {}
-export const DeleteManagementExperimentsResponse: Schema.Schema<DeleteManagementExperimentsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementExperimentsResponse>;
+export const DeleteManagementExperimentsResponse: Schema.Schema<DeleteManagementExperimentsResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementExperimentsResponse>;
 
 export type DeleteManagementExperimentsError = DefaultErrors;
 
 /** Delete an experiment. */
-export const deleteManagementExperiments: API.OperationMethod<DeleteManagementExperimentsRequest, DeleteManagementExperimentsResponse, DeleteManagementExperimentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementExperiments: API.OperationMethod<
+  DeleteManagementExperimentsRequest,
+  DeleteManagementExperimentsResponse,
+  DeleteManagementExperimentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementExperimentsRequest,
   output: DeleteManagementExperimentsResponse,
   errors: [],
@@ -3546,7 +4713,10 @@ export const GetManagementExperimentsRequest = Schema.Struct({
   experimentId: Schema.String.pipe(T.HttpPath("experimentId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementExperimentsRequest>;
 
@@ -3556,7 +4726,12 @@ export const GetManagementExperimentsResponse = Experiment;
 export type GetManagementExperimentsError = DefaultErrors;
 
 /** Returns an experiment to which the user has access. */
-export const getManagementExperiments: API.OperationMethod<GetManagementExperimentsRequest, GetManagementExperimentsResponse, GetManagementExperimentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementExperiments: API.OperationMethod<
+  GetManagementExperimentsRequest,
+  GetManagementExperimentsResponse,
+  GetManagementExperimentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementExperimentsRequest,
   output: GetManagementExperimentsResponse,
   errors: [],
@@ -3582,7 +4757,11 @@ export const UpdateManagementExperimentsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(Experiment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementExperimentsRequest>;
 
@@ -3592,7 +4771,12 @@ export const UpdateManagementExperimentsResponse = Experiment;
 export type UpdateManagementExperimentsError = DefaultErrors;
 
 /** Update an existing experiment. */
-export const updateManagementExperiments: API.OperationMethod<UpdateManagementExperimentsRequest, UpdateManagementExperimentsResponse, UpdateManagementExperimentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementExperiments: API.OperationMethod<
+  UpdateManagementExperimentsRequest,
+  UpdateManagementExperimentsResponse,
+  UpdateManagementExperimentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementExperimentsRequest,
   output: UpdateManagementExperimentsResponse,
   errors: [],
@@ -3615,7 +4799,11 @@ export const InsertManagementExperimentsRequest = Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   body: Schema.optional(Experiment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementExperimentsRequest>;
 
@@ -3625,7 +4813,12 @@ export const InsertManagementExperimentsResponse = Experiment;
 export type InsertManagementExperimentsError = DefaultErrors;
 
 /** Create a new experiment. */
-export const insertManagementExperiments: API.OperationMethod<InsertManagementExperimentsRequest, InsertManagementExperimentsResponse, InsertManagementExperimentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementExperiments: API.OperationMethod<
+  InsertManagementExperimentsRequest,
+  InsertManagementExperimentsResponse,
+  InsertManagementExperimentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementExperimentsRequest,
   output: InsertManagementExperimentsResponse,
   errors: [],
@@ -3651,7 +4844,11 @@ export const PatchManagementExperimentsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(Experiment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementExperimentsRequest>;
 
@@ -3661,7 +4858,12 @@ export const PatchManagementExperimentsResponse = Experiment;
 export type PatchManagementExperimentsError = DefaultErrors;
 
 /** Update an existing experiment. This method supports patch semantics. */
-export const patchManagementExperiments: API.OperationMethod<PatchManagementExperimentsRequest, PatchManagementExperimentsResponse, PatchManagementExperimentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementExperiments: API.OperationMethod<
+  PatchManagementExperimentsRequest,
+  PatchManagementExperimentsResponse,
+  PatchManagementExperimentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementExperimentsRequest,
   output: PatchManagementExperimentsResponse,
   errors: [],
@@ -3682,12 +4884,19 @@ export interface ListManagementExperimentsRequest {
 
 export const ListManagementExperimentsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementExperimentsRequest>;
 
@@ -3697,7 +4906,12 @@ export const ListManagementExperimentsResponse = Experiments;
 export type ListManagementExperimentsError = DefaultErrors;
 
 /** Lists experiments to which the user has access. */
-export const listManagementExperiments: API.OperationMethod<ListManagementExperimentsRequest, ListManagementExperimentsResponse, ListManagementExperimentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementExperiments: API.OperationMethod<
+  ListManagementExperimentsRequest,
+  ListManagementExperimentsResponse,
+  ListManagementExperimentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementExperimentsRequest,
   output: ListManagementExperimentsResponse,
   errors: [],
@@ -3717,7 +4931,10 @@ export const GetManagementCustomDimensionsRequest = Schema.Struct({
   customDimensionId: Schema.String.pipe(T.HttpPath("customDimensionId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions/{customDimensionId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions/{customDimensionId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementCustomDimensionsRequest>;
 
@@ -3727,7 +4944,12 @@ export const GetManagementCustomDimensionsResponse = CustomDimension;
 export type GetManagementCustomDimensionsError = DefaultErrors;
 
 /** Get a custom dimension to which the user has access. */
-export const getManagementCustomDimensions: API.OperationMethod<GetManagementCustomDimensionsRequest, GetManagementCustomDimensionsResponse, GetManagementCustomDimensionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementCustomDimensions: API.OperationMethod<
+  GetManagementCustomDimensionsRequest,
+  GetManagementCustomDimensionsResponse,
+  GetManagementCustomDimensionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementCustomDimensionsRequest,
   output: GetManagementCustomDimensionsResponse,
   errors: [],
@@ -3747,10 +4969,17 @@ export interface ListManagementCustomDimensionsRequest {
 export const ListManagementCustomDimensionsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementCustomDimensionsRequest>;
 
@@ -3760,7 +4989,12 @@ export const ListManagementCustomDimensionsResponse = CustomDimensions;
 export type ListManagementCustomDimensionsError = DefaultErrors;
 
 /** Lists custom dimensions to which the user has access. */
-export const listManagementCustomDimensions: API.OperationMethod<ListManagementCustomDimensionsRequest, ListManagementCustomDimensionsResponse, ListManagementCustomDimensionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementCustomDimensions: API.OperationMethod<
+  ListManagementCustomDimensionsRequest,
+  ListManagementCustomDimensionsResponse,
+  ListManagementCustomDimensionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementCustomDimensionsRequest,
   output: ListManagementCustomDimensionsResponse,
   errors: [],
@@ -3780,7 +5014,11 @@ export const InsertManagementCustomDimensionsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(CustomDimension).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementCustomDimensionsRequest>;
 
@@ -3790,7 +5028,12 @@ export const InsertManagementCustomDimensionsResponse = CustomDimension;
 export type InsertManagementCustomDimensionsError = DefaultErrors;
 
 /** Create a new custom dimension. */
-export const insertManagementCustomDimensions: API.OperationMethod<InsertManagementCustomDimensionsRequest, InsertManagementCustomDimensionsResponse, InsertManagementCustomDimensionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementCustomDimensions: API.OperationMethod<
+  InsertManagementCustomDimensionsRequest,
+  InsertManagementCustomDimensionsResponse,
+  InsertManagementCustomDimensionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementCustomDimensionsRequest,
   output: InsertManagementCustomDimensionsResponse,
   errors: [],
@@ -3811,12 +5054,18 @@ export interface PatchManagementCustomDimensionsRequest {
 
 export const PatchManagementCustomDimensionsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("ignoreCustomDataSourceLinks")),
+  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("ignoreCustomDataSourceLinks"),
+  ),
   customDimensionId: Schema.String.pipe(T.HttpPath("customDimensionId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(CustomDimension).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions/{customDimensionId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions/{customDimensionId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementCustomDimensionsRequest>;
 
@@ -3826,7 +5075,12 @@ export const PatchManagementCustomDimensionsResponse = CustomDimension;
 export type PatchManagementCustomDimensionsError = DefaultErrors;
 
 /** Updates an existing custom dimension. This method supports patch semantics. */
-export const patchManagementCustomDimensions: API.OperationMethod<PatchManagementCustomDimensionsRequest, PatchManagementCustomDimensionsResponse, PatchManagementCustomDimensionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementCustomDimensions: API.OperationMethod<
+  PatchManagementCustomDimensionsRequest,
+  PatchManagementCustomDimensionsResponse,
+  PatchManagementCustomDimensionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementCustomDimensionsRequest,
   output: PatchManagementCustomDimensionsResponse,
   errors: [],
@@ -3847,12 +5101,18 @@ export interface UpdateManagementCustomDimensionsRequest {
 
 export const UpdateManagementCustomDimensionsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("ignoreCustomDataSourceLinks")),
+  ignoreCustomDataSourceLinks: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("ignoreCustomDataSourceLinks"),
+  ),
   customDimensionId: Schema.String.pipe(T.HttpPath("customDimensionId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(CustomDimension).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions/{customDimensionId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDimensions/{customDimensionId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementCustomDimensionsRequest>;
 
@@ -3862,7 +5122,12 @@ export const UpdateManagementCustomDimensionsResponse = CustomDimension;
 export type UpdateManagementCustomDimensionsError = DefaultErrors;
 
 /** Updates an existing custom dimension. */
-export const updateManagementCustomDimensions: API.OperationMethod<UpdateManagementCustomDimensionsRequest, UpdateManagementCustomDimensionsResponse, UpdateManagementCustomDimensionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementCustomDimensions: API.OperationMethod<
+  UpdateManagementCustomDimensionsRequest,
+  UpdateManagementCustomDimensionsResponse,
+  UpdateManagementCustomDimensionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementCustomDimensionsRequest,
   output: UpdateManagementCustomDimensionsResponse,
   errors: [],
@@ -3883,12 +5148,19 @@ export interface ListManagementProfileUserLinksRequest {
 
 export const ListManagementProfileUserLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementProfileUserLinksRequest>;
 
@@ -3898,7 +5170,12 @@ export const ListManagementProfileUserLinksResponse = EntityUserLinks;
 export type ListManagementProfileUserLinksError = DefaultErrors;
 
 /** Lists profile-user links for a given view (profile). */
-export const listManagementProfileUserLinks: API.OperationMethod<ListManagementProfileUserLinksRequest, ListManagementProfileUserLinksResponse, ListManagementProfileUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementProfileUserLinks: API.OperationMethod<
+  ListManagementProfileUserLinksRequest,
+  ListManagementProfileUserLinksResponse,
+  ListManagementProfileUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementProfileUserLinksRequest,
   output: ListManagementProfileUserLinksResponse,
   errors: [],
@@ -3921,7 +5198,11 @@ export const InsertManagementProfileUserLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(EntityUserLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementProfileUserLinksRequest>;
 
@@ -3931,7 +5212,12 @@ export const InsertManagementProfileUserLinksResponse = EntityUserLink;
 export type InsertManagementProfileUserLinksError = DefaultErrors;
 
 /** Adds a new user to the given view (profile). */
-export const insertManagementProfileUserLinks: API.OperationMethod<InsertManagementProfileUserLinksRequest, InsertManagementProfileUserLinksResponse, InsertManagementProfileUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementProfileUserLinks: API.OperationMethod<
+  InsertManagementProfileUserLinksRequest,
+  InsertManagementProfileUserLinksResponse,
+  InsertManagementProfileUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementProfileUserLinksRequest,
   output: InsertManagementProfileUserLinksResponse,
   errors: [],
@@ -3954,17 +5240,28 @@ export const DeleteManagementProfileUserLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks/{linkId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks/{linkId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementProfileUserLinksRequest>;
 
 export interface DeleteManagementProfileUserLinksResponse {}
-export const DeleteManagementProfileUserLinksResponse: Schema.Schema<DeleteManagementProfileUserLinksResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementProfileUserLinksResponse>;
+export const DeleteManagementProfileUserLinksResponse: Schema.Schema<DeleteManagementProfileUserLinksResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementProfileUserLinksResponse>;
 
 export type DeleteManagementProfileUserLinksError = DefaultErrors;
 
 /** Removes a user from the given view (profile). */
-export const deleteManagementProfileUserLinks: API.OperationMethod<DeleteManagementProfileUserLinksRequest, DeleteManagementProfileUserLinksResponse, DeleteManagementProfileUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementProfileUserLinks: API.OperationMethod<
+  DeleteManagementProfileUserLinksRequest,
+  DeleteManagementProfileUserLinksResponse,
+  DeleteManagementProfileUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementProfileUserLinksRequest,
   output: DeleteManagementProfileUserLinksResponse,
   errors: [],
@@ -3990,7 +5287,11 @@ export const UpdateManagementProfileUserLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(EntityUserLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks/{linkId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/entityUserLinks/{linkId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementProfileUserLinksRequest>;
 
@@ -4000,7 +5301,12 @@ export const UpdateManagementProfileUserLinksResponse = EntityUserLink;
 export type UpdateManagementProfileUserLinksError = DefaultErrors;
 
 /** Updates permissions for an existing user on the given view (profile). */
-export const updateManagementProfileUserLinks: API.OperationMethod<UpdateManagementProfileUserLinksRequest, UpdateManagementProfileUserLinksResponse, UpdateManagementProfileUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementProfileUserLinks: API.OperationMethod<
+  UpdateManagementProfileUserLinksRequest,
+  UpdateManagementProfileUserLinksResponse,
+  UpdateManagementProfileUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementProfileUserLinksRequest,
   output: UpdateManagementProfileUserLinksResponse,
   errors: [],
@@ -4019,11 +5325,18 @@ export interface ListManagementWebpropertyUserLinksRequest {
 
 export const ListManagementWebpropertyUserLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementWebpropertyUserLinksRequest>;
 
@@ -4033,7 +5346,12 @@ export const ListManagementWebpropertyUserLinksResponse = EntityUserLinks;
 export type ListManagementWebpropertyUserLinksError = DefaultErrors;
 
 /** Lists webProperty-user links for a given web property. */
-export const listManagementWebpropertyUserLinks: API.OperationMethod<ListManagementWebpropertyUserLinksRequest, ListManagementWebpropertyUserLinksResponse, ListManagementWebpropertyUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementWebpropertyUserLinks: API.OperationMethod<
+  ListManagementWebpropertyUserLinksRequest,
+  ListManagementWebpropertyUserLinksResponse,
+  ListManagementWebpropertyUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementWebpropertyUserLinksRequest,
   output: ListManagementWebpropertyUserLinksResponse,
   errors: [],
@@ -4053,17 +5371,28 @@ export const DeleteManagementWebpropertyUserLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks/{linkId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks/{linkId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementWebpropertyUserLinksRequest>;
 
 export interface DeleteManagementWebpropertyUserLinksResponse {}
-export const DeleteManagementWebpropertyUserLinksResponse: Schema.Schema<DeleteManagementWebpropertyUserLinksResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementWebpropertyUserLinksResponse>;
+export const DeleteManagementWebpropertyUserLinksResponse: Schema.Schema<DeleteManagementWebpropertyUserLinksResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementWebpropertyUserLinksResponse>;
 
 export type DeleteManagementWebpropertyUserLinksError = DefaultErrors;
 
 /** Removes a user from the given web property. */
-export const deleteManagementWebpropertyUserLinks: API.OperationMethod<DeleteManagementWebpropertyUserLinksRequest, DeleteManagementWebpropertyUserLinksResponse, DeleteManagementWebpropertyUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementWebpropertyUserLinks: API.OperationMethod<
+  DeleteManagementWebpropertyUserLinksRequest,
+  DeleteManagementWebpropertyUserLinksResponse,
+  DeleteManagementWebpropertyUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementWebpropertyUserLinksRequest,
   output: DeleteManagementWebpropertyUserLinksResponse,
   errors: [],
@@ -4086,7 +5415,11 @@ export const UpdateManagementWebpropertyUserLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(EntityUserLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks/{linkId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks/{linkId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementWebpropertyUserLinksRequest>;
 
@@ -4096,7 +5429,12 @@ export const UpdateManagementWebpropertyUserLinksResponse = EntityUserLink;
 export type UpdateManagementWebpropertyUserLinksError = DefaultErrors;
 
 /** Updates permissions for an existing user on the given web property. */
-export const updateManagementWebpropertyUserLinks: API.OperationMethod<UpdateManagementWebpropertyUserLinksRequest, UpdateManagementWebpropertyUserLinksResponse, UpdateManagementWebpropertyUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementWebpropertyUserLinks: API.OperationMethod<
+  UpdateManagementWebpropertyUserLinksRequest,
+  UpdateManagementWebpropertyUserLinksResponse,
+  UpdateManagementWebpropertyUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementWebpropertyUserLinksRequest,
   output: UpdateManagementWebpropertyUserLinksResponse,
   errors: [],
@@ -4116,7 +5454,11 @@ export const InsertManagementWebpropertyUserLinksRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   body: Schema.optional(EntityUserLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/entityUserLinks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementWebpropertyUserLinksRequest>;
 
@@ -4126,7 +5468,12 @@ export const InsertManagementWebpropertyUserLinksResponse = EntityUserLink;
 export type InsertManagementWebpropertyUserLinksError = DefaultErrors;
 
 /** Adds a new user to the given web property. */
-export const insertManagementWebpropertyUserLinks: API.OperationMethod<InsertManagementWebpropertyUserLinksRequest, InsertManagementWebpropertyUserLinksResponse, InsertManagementWebpropertyUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementWebpropertyUserLinks: API.OperationMethod<
+  InsertManagementWebpropertyUserLinksRequest,
+  InsertManagementWebpropertyUserLinksResponse,
+  InsertManagementWebpropertyUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementWebpropertyUserLinksRequest,
   output: InsertManagementWebpropertyUserLinksResponse,
   errors: [],
@@ -4143,17 +5490,28 @@ export const DeleteManagementAccountUserLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   linkId: Schema.String.pipe(T.HttpPath("linkId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "management/accounts/{accountId}/entityUserLinks/{linkId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "management/accounts/{accountId}/entityUserLinks/{linkId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteManagementAccountUserLinksRequest>;
 
 export interface DeleteManagementAccountUserLinksResponse {}
-export const DeleteManagementAccountUserLinksResponse: Schema.Schema<DeleteManagementAccountUserLinksResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteManagementAccountUserLinksResponse>;
+export const DeleteManagementAccountUserLinksResponse: Schema.Schema<DeleteManagementAccountUserLinksResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteManagementAccountUserLinksResponse>;
 
 export type DeleteManagementAccountUserLinksError = DefaultErrors;
 
 /** Removes a user from the given account. */
-export const deleteManagementAccountUserLinks: API.OperationMethod<DeleteManagementAccountUserLinksRequest, DeleteManagementAccountUserLinksResponse, DeleteManagementAccountUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteManagementAccountUserLinks: API.OperationMethod<
+  DeleteManagementAccountUserLinksRequest,
+  DeleteManagementAccountUserLinksResponse,
+  DeleteManagementAccountUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteManagementAccountUserLinksRequest,
   output: DeleteManagementAccountUserLinksResponse,
   errors: [],
@@ -4173,7 +5531,11 @@ export const UpdateManagementAccountUserLinksRequest = Schema.Struct({
   linkId: Schema.String.pipe(T.HttpPath("linkId")),
   body: Schema.optional(EntityUserLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/entityUserLinks/{linkId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/entityUserLinks/{linkId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementAccountUserLinksRequest>;
 
@@ -4183,7 +5545,12 @@ export const UpdateManagementAccountUserLinksResponse = EntityUserLink;
 export type UpdateManagementAccountUserLinksError = DefaultErrors;
 
 /** Updates permissions for an existing user on the given account. */
-export const updateManagementAccountUserLinks: API.OperationMethod<UpdateManagementAccountUserLinksRequest, UpdateManagementAccountUserLinksResponse, UpdateManagementAccountUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementAccountUserLinks: API.OperationMethod<
+  UpdateManagementAccountUserLinksRequest,
+  UpdateManagementAccountUserLinksResponse,
+  UpdateManagementAccountUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementAccountUserLinksRequest,
   output: UpdateManagementAccountUserLinksResponse,
   errors: [],
@@ -4200,7 +5567,11 @@ export const InsertManagementAccountUserLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(EntityUserLink).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/entityUserLinks", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/entityUserLinks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementAccountUserLinksRequest>;
 
@@ -4210,7 +5581,12 @@ export const InsertManagementAccountUserLinksResponse = EntityUserLink;
 export type InsertManagementAccountUserLinksError = DefaultErrors;
 
 /** Adds a new user to the given account. */
-export const insertManagementAccountUserLinks: API.OperationMethod<InsertManagementAccountUserLinksRequest, InsertManagementAccountUserLinksResponse, InsertManagementAccountUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementAccountUserLinks: API.OperationMethod<
+  InsertManagementAccountUserLinksRequest,
+  InsertManagementAccountUserLinksResponse,
+  InsertManagementAccountUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementAccountUserLinksRequest,
   output: InsertManagementAccountUserLinksResponse,
   errors: [],
@@ -4227,10 +5603,17 @@ export interface ListManagementAccountUserLinksRequest {
 
 export const ListManagementAccountUserLinksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/entityUserLinks" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/entityUserLinks",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementAccountUserLinksRequest>;
 
@@ -4240,7 +5623,12 @@ export const ListManagementAccountUserLinksResponse = EntityUserLinks;
 export type ListManagementAccountUserLinksError = DefaultErrors;
 
 /** Lists account-user links for a given account. */
-export const listManagementAccountUserLinks: API.OperationMethod<ListManagementAccountUserLinksRequest, ListManagementAccountUserLinksResponse, ListManagementAccountUserLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementAccountUserLinks: API.OperationMethod<
+  ListManagementAccountUserLinksRequest,
+  ListManagementAccountUserLinksResponse,
+  ListManagementAccountUserLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementAccountUserLinksRequest,
   output: ListManagementAccountUserLinksResponse,
   errors: [],
@@ -4257,7 +5645,10 @@ export const GetManagementWebpropertiesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementWebpropertiesRequest>;
 
@@ -4267,7 +5658,12 @@ export const GetManagementWebpropertiesResponse = Webproperty;
 export type GetManagementWebpropertiesError = DefaultErrors;
 
 /** Gets a web property to which the user has access. */
-export const getManagementWebproperties: API.OperationMethod<GetManagementWebpropertiesRequest, GetManagementWebpropertiesResponse, GetManagementWebpropertiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementWebproperties: API.OperationMethod<
+  GetManagementWebpropertiesRequest,
+  GetManagementWebpropertiesResponse,
+  GetManagementWebpropertiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementWebpropertiesRequest,
   output: GetManagementWebpropertiesResponse,
   errors: [],
@@ -4283,11 +5679,18 @@ export interface ListManagementWebpropertiesRequest {
 }
 
 export const ListManagementWebpropertiesRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementWebpropertiesRequest>;
 
@@ -4297,7 +5700,12 @@ export const ListManagementWebpropertiesResponse = Webproperties;
 export type ListManagementWebpropertiesError = DefaultErrors;
 
 /** Lists web properties to which the user has access. */
-export const listManagementWebproperties: API.OperationMethod<ListManagementWebpropertiesRequest, ListManagementWebpropertiesResponse, ListManagementWebpropertiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementWebproperties: API.OperationMethod<
+  ListManagementWebpropertiesRequest,
+  ListManagementWebpropertiesResponse,
+  ListManagementWebpropertiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementWebpropertiesRequest,
   output: ListManagementWebpropertiesResponse,
   errors: [],
@@ -4317,7 +5725,11 @@ export const UpdateManagementWebpropertiesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(Webproperty).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "management/accounts/{accountId}/webproperties/{webPropertyId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateManagementWebpropertiesRequest>;
 
@@ -4327,7 +5739,12 @@ export const UpdateManagementWebpropertiesResponse = Webproperty;
 export type UpdateManagementWebpropertiesError = DefaultErrors;
 
 /** Updates an existing web property. */
-export const updateManagementWebproperties: API.OperationMethod<UpdateManagementWebpropertiesRequest, UpdateManagementWebpropertiesResponse, UpdateManagementWebpropertiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateManagementWebproperties: API.OperationMethod<
+  UpdateManagementWebpropertiesRequest,
+  UpdateManagementWebpropertiesResponse,
+  UpdateManagementWebpropertiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateManagementWebpropertiesRequest,
   output: UpdateManagementWebpropertiesResponse,
   errors: [],
@@ -4344,7 +5761,11 @@ export const InsertManagementWebpropertiesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(Webproperty).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertManagementWebpropertiesRequest>;
 
@@ -4354,7 +5775,12 @@ export const InsertManagementWebpropertiesResponse = Webproperty;
 export type InsertManagementWebpropertiesError = DefaultErrors;
 
 /** Create a new property if the account has fewer than 20 properties. Web properties are visible in the Google Analytics interface only if they have at least one profile. */
-export const insertManagementWebproperties: API.OperationMethod<InsertManagementWebpropertiesRequest, InsertManagementWebpropertiesResponse, InsertManagementWebpropertiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertManagementWebproperties: API.OperationMethod<
+  InsertManagementWebpropertiesRequest,
+  InsertManagementWebpropertiesResponse,
+  InsertManagementWebpropertiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertManagementWebpropertiesRequest,
   output: InsertManagementWebpropertiesResponse,
   errors: [],
@@ -4374,7 +5800,11 @@ export const PatchManagementWebpropertiesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(Webproperty).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "management/accounts/{accountId}/webproperties/{webPropertyId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchManagementWebpropertiesRequest>;
 
@@ -4384,7 +5814,12 @@ export const PatchManagementWebpropertiesResponse = Webproperty;
 export type PatchManagementWebpropertiesError = DefaultErrors;
 
 /** Updates an existing web property. This method supports patch semantics. */
-export const patchManagementWebproperties: API.OperationMethod<PatchManagementWebpropertiesRequest, PatchManagementWebpropertiesResponse, PatchManagementWebpropertiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchManagementWebproperties: API.OperationMethod<
+  PatchManagementWebpropertiesRequest,
+  PatchManagementWebpropertiesResponse,
+  PatchManagementWebpropertiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchManagementWebpropertiesRequest,
   output: PatchManagementWebpropertiesResponse,
   errors: [],
@@ -4398,8 +5833,12 @@ export interface ListManagementAccountSummariesRequest {
 }
 
 export const ListManagementAccountSummariesRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "management/accountSummaries" }),
   svc,
@@ -4411,7 +5850,12 @@ export const ListManagementAccountSummariesResponse = AccountSummaries;
 export type ListManagementAccountSummariesError = DefaultErrors;
 
 /** Lists account summaries (lightweight tree comprised of accounts/properties/profiles) to which the user has access. */
-export const listManagementAccountSummaries: API.OperationMethod<ListManagementAccountSummariesRequest, ListManagementAccountSummariesResponse, ListManagementAccountSummariesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementAccountSummaries: API.OperationMethod<
+  ListManagementAccountSummariesRequest,
+  ListManagementAccountSummariesResponse,
+  ListManagementAccountSummariesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementAccountSummariesRequest,
   output: ListManagementAccountSummariesResponse,
   errors: [],
@@ -4425,8 +5869,12 @@ export interface ListManagementAccountsRequest {
 }
 
 export const ListManagementAccountsRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "management/accounts" }),
   svc,
@@ -4438,7 +5886,12 @@ export const ListManagementAccountsResponse = Accounts;
 export type ListManagementAccountsError = DefaultErrors;
 
 /** Lists all accounts to which the user has access. */
-export const listManagementAccounts: API.OperationMethod<ListManagementAccountsRequest, ListManagementAccountsResponse, ListManagementAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementAccounts: API.OperationMethod<
+  ListManagementAccountsRequest,
+  ListManagementAccountsResponse,
+  ListManagementAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementAccountsRequest,
   output: ListManagementAccountsResponse,
   errors: [],
@@ -4452,8 +5905,12 @@ export interface ListManagementSegmentsRequest {
 }
 
 export const ListManagementSegmentsRequest = Schema.Struct({
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "management/segments" }),
   svc,
@@ -4465,7 +5922,12 @@ export const ListManagementSegmentsResponse = Segments;
 export type ListManagementSegmentsError = DefaultErrors;
 
 /** Lists segments to which the user has access. */
-export const listManagementSegments: API.OperationMethod<ListManagementSegmentsRequest, ListManagementSegmentsResponse, ListManagementSegmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementSegments: API.OperationMethod<
+  ListManagementSegmentsRequest,
+  ListManagementSegmentsResponse,
+  ListManagementSegmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementSegmentsRequest,
   output: ListManagementSegmentsResponse,
   errors: [],
@@ -4486,19 +5948,33 @@ export const DeleteUploadDataManagementUploadsRequest = Schema.Struct({
   customDataSourceId: Schema.String.pipe(T.HttpPath("customDataSourceId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(AnalyticsDataimportDeleteUploadDataRequest).pipe(T.HttpBody()),
+  body: Schema.optional(AnalyticsDataimportDeleteUploadDataRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/deleteUploadData", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/deleteUploadData",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUploadDataManagementUploadsRequest>;
 
 export interface DeleteUploadDataManagementUploadsResponse {}
-export const DeleteUploadDataManagementUploadsResponse: Schema.Schema<DeleteUploadDataManagementUploadsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUploadDataManagementUploadsResponse>;
+export const DeleteUploadDataManagementUploadsResponse: Schema.Schema<DeleteUploadDataManagementUploadsResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteUploadDataManagementUploadsResponse>;
 
 export type DeleteUploadDataManagementUploadsError = DefaultErrors;
 
 /** Delete data associated with a previous upload. */
-export const deleteUploadDataManagementUploads: API.OperationMethod<DeleteUploadDataManagementUploadsRequest, DeleteUploadDataManagementUploadsResponse, DeleteUploadDataManagementUploadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUploadDataManagementUploads: API.OperationMethod<
+  DeleteUploadDataManagementUploadsRequest,
+  DeleteUploadDataManagementUploadsResponse,
+  DeleteUploadDataManagementUploadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUploadDataManagementUploadsRequest,
   output: DeleteUploadDataManagementUploadsResponse,
   errors: [],
@@ -4521,7 +5997,10 @@ export const GetManagementUploadsRequest = Schema.Struct({
   uploadId: Schema.String.pipe(T.HttpPath("uploadId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/uploads/{uploadId}" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/uploads/{uploadId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetManagementUploadsRequest>;
 
@@ -4531,7 +6010,12 @@ export const GetManagementUploadsResponse = Upload;
 export type GetManagementUploadsError = DefaultErrors;
 
 /** List uploads to which the user has access. */
-export const getManagementUploads: API.OperationMethod<GetManagementUploadsRequest, GetManagementUploadsResponse, GetManagementUploadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getManagementUploads: API.OperationMethod<
+  GetManagementUploadsRequest,
+  GetManagementUploadsResponse,
+  GetManagementUploadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetManagementUploadsRequest,
   output: GetManagementUploadsResponse,
   errors: [],
@@ -4552,12 +6036,19 @@ export interface ListManagementUploadsRequest {
 
 export const ListManagementUploadsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  "max-results": Schema.optional(Schema.Number).pipe(T.HttpQuery("max-results")),
-  "start-index": Schema.optional(Schema.Number).pipe(T.HttpQuery("start-index")),
+  "max-results": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("max-results"),
+  ),
+  "start-index": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("start-index"),
+  ),
   customDataSourceId: Schema.String.pipe(T.HttpPath("customDataSourceId")),
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
 }).pipe(
-  T.Http({ method: "GET", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/uploads" }),
+  T.Http({
+    method: "GET",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/uploads",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListManagementUploadsRequest>;
 
@@ -4567,7 +6058,12 @@ export const ListManagementUploadsResponse = Uploads;
 export type ListManagementUploadsError = DefaultErrors;
 
 /** List uploads to which the user has access. */
-export const listManagementUploads: API.OperationMethod<ListManagementUploadsRequest, ListManagementUploadsResponse, ListManagementUploadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listManagementUploads: API.OperationMethod<
+  ListManagementUploadsRequest,
+  ListManagementUploadsResponse,
+  ListManagementUploadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListManagementUploadsRequest,
   output: ListManagementUploadsResponse,
   errors: [],
@@ -4587,7 +6083,11 @@ export const UploadDataManagementUploadsRequest = Schema.Struct({
   webPropertyId: Schema.String.pipe(T.HttpPath("webPropertyId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
-  T.Http({ method: "POST", path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/uploads", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/uploads",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UploadDataManagementUploadsRequest>;
 
@@ -4597,7 +6097,12 @@ export const UploadDataManagementUploadsResponse = Upload;
 export type UploadDataManagementUploadsError = DefaultErrors;
 
 /** Upload data for a custom data source. */
-export const uploadDataManagementUploads: API.OperationMethod<UploadDataManagementUploadsRequest, UploadDataManagementUploadsResponse, UploadDataManagementUploadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const uploadDataManagementUploads: API.OperationMethod<
+  UploadDataManagementUploadsRequest,
+  UploadDataManagementUploadsResponse,
+  UploadDataManagementUploadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UploadDataManagementUploadsRequest,
   output: UploadDataManagementUploadsResponse,
   errors: [],
@@ -4611,7 +6116,11 @@ export interface CreateAccountTreeProvisioningRequest {
 export const CreateAccountTreeProvisioningRequest = Schema.Struct({
   body: Schema.optional(AccountTreeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "provisioning/createAccountTree", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "provisioning/createAccountTree",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountTreeProvisioningRequest>;
 
@@ -4621,7 +6130,12 @@ export const CreateAccountTreeProvisioningResponse = AccountTreeResponse;
 export type CreateAccountTreeProvisioningError = DefaultErrors;
 
 /** Provision account. */
-export const createAccountTreeProvisioning: API.OperationMethod<CreateAccountTreeProvisioningRequest, CreateAccountTreeProvisioningResponse, CreateAccountTreeProvisioningError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountTreeProvisioning: API.OperationMethod<
+  CreateAccountTreeProvisioningRequest,
+  CreateAccountTreeProvisioningResponse,
+  CreateAccountTreeProvisioningError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountTreeProvisioningRequest,
   output: CreateAccountTreeProvisioningResponse,
   errors: [],
@@ -4635,7 +6149,11 @@ export interface CreateAccountTicketProvisioningRequest {
 export const CreateAccountTicketProvisioningRequest = Schema.Struct({
   body: Schema.optional(AccountTicket).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "provisioning/createAccountTicket", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "provisioning/createAccountTicket",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountTicketProvisioningRequest>;
 
@@ -4645,7 +6163,12 @@ export const CreateAccountTicketProvisioningResponse = AccountTicket;
 export type CreateAccountTicketProvisioningError = DefaultErrors;
 
 /** Creates an account ticket. */
-export const createAccountTicketProvisioning: API.OperationMethod<CreateAccountTicketProvisioningRequest, CreateAccountTicketProvisioningResponse, CreateAccountTicketProvisioningError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountTicketProvisioning: API.OperationMethod<
+  CreateAccountTicketProvisioningRequest,
+  CreateAccountTicketProvisioningResponse,
+  CreateAccountTicketProvisioningError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountTicketProvisioningRequest,
   output: CreateAccountTicketProvisioningResponse,
   errors: [],
@@ -4669,7 +6192,12 @@ export const ListMetadataColumnsResponse = Columns;
 export type ListMetadataColumnsError = DefaultErrors;
 
 /** Lists all columns for a report type */
-export const listMetadataColumns: API.OperationMethod<ListMetadataColumnsRequest, ListMetadataColumnsResponse, ListMetadataColumnsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listMetadataColumns: API.OperationMethod<
+  ListMetadataColumnsRequest,
+  ListMetadataColumnsResponse,
+  ListMetadataColumnsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListMetadataColumnsRequest,
   output: ListMetadataColumnsResponse,
   errors: [],
@@ -4683,19 +6211,28 @@ export interface UpsertUserDeletionUserDeletionRequestRequest {
 export const UpsertUserDeletionUserDeletionRequestRequest = Schema.Struct({
   body: Schema.optional(UserDeletionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "userDeletion/userDeletionRequests:upsert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "userDeletion/userDeletionRequests:upsert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpsertUserDeletionUserDeletionRequestRequest>;
 
 export type UpsertUserDeletionUserDeletionRequestResponse = UserDeletionRequest;
-export const UpsertUserDeletionUserDeletionRequestResponse = UserDeletionRequest;
+export const UpsertUserDeletionUserDeletionRequestResponse =
+  UserDeletionRequest;
 
 export type UpsertUserDeletionUserDeletionRequestError = DefaultErrors;
 
 /** Insert or update a user deletion requests. */
-export const upsertUserDeletionUserDeletionRequest: API.OperationMethod<UpsertUserDeletionUserDeletionRequestRequest, UpsertUserDeletionUserDeletionRequestResponse, UpsertUserDeletionUserDeletionRequestError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const upsertUserDeletionUserDeletionRequest: API.OperationMethod<
+  UpsertUserDeletionUserDeletionRequestRequest,
+  UpsertUserDeletionUserDeletionRequestResponse,
+  UpsertUserDeletionUserDeletionRequestError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpsertUserDeletionUserDeletionRequestRequest,
   output: UpsertUserDeletionUserDeletionRequestResponse,
   errors: [],
 }));
-

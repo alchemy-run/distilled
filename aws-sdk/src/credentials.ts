@@ -161,9 +161,7 @@ export class SsoStartUrl extends ServiceMap.Service<SsoStartUrl, string>()(
   "AWS::SsoStartUrl",
 ) {}
 
-export class ProfileNotFound extends Data.TaggedError(
-  "AWS::ProfileNotFound",
-)<{
+export class ProfileNotFound extends Data.TaggedError("AWS::ProfileNotFound")<{
   message: string;
   profile: string;
 }> {}
@@ -192,16 +190,12 @@ export class InvalidSSOProfile extends Data.TaggedError(
   missingFields: string[];
 }> {}
 
-export class InvalidSSOToken extends Data.TaggedError(
-  "AWS::InvalidSSOToken",
-)<{
+export class InvalidSSOToken extends Data.TaggedError("AWS::InvalidSSOToken")<{
   message: string;
   sso_session: string;
 }> {}
 
-export class ExpiredSSOToken extends Data.TaggedError(
-  "AWS::ExpiredSSOToken",
-)<{
+export class ExpiredSSOToken extends Data.TaggedError("AWS::ExpiredSSOToken")<{
   message: string;
   profile: string;
 }> {}

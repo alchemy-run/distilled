@@ -28,9 +28,11 @@ export interface DateTime {
   date?: string;
 }
 
-export const DateTime: Schema.Schema<DateTime> = Schema.suspend(() => Schema.Struct({
-  date: Schema.optional(Schema.String),
-})).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
+export const DateTime: Schema.Schema<DateTime> = Schema.suspend(() =>
+  Schema.Struct({
+    date: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
 
 export interface TimeInterval {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#timeInterval"`. */
@@ -41,11 +43,15 @@ export interface TimeInterval {
   start?: DateTime;
 }
 
-export const TimeInterval: Schema.Schema<TimeInterval> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  end: Schema.optional(DateTime),
-  start: Schema.optional(DateTime),
-})).annotate({ identifier: "TimeInterval" }) as any as Schema.Schema<TimeInterval>;
+export const TimeInterval: Schema.Schema<TimeInterval> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    end: Schema.optional(DateTime),
+    start: Schema.optional(DateTime),
+  }),
+).annotate({
+  identifier: "TimeInterval",
+}) as any as Schema.Schema<TimeInterval>;
 
 export interface TranslatedString {
   /** The UTF-8 encoded translated string. */
@@ -56,11 +62,16 @@ export interface TranslatedString {
   language?: string;
 }
 
-export const TranslatedString: Schema.Schema<TranslatedString> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  language: Schema.optional(Schema.String),
-})).annotate({ identifier: "TranslatedString" }) as any as Schema.Schema<TranslatedString>;
+export const TranslatedString: Schema.Schema<TranslatedString> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      language: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TranslatedString",
+}) as any as Schema.Schema<TranslatedString>;
 
 export interface LocalizedString {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#localizedString"`. */
@@ -71,11 +82,16 @@ export interface LocalizedString {
   translatedValues?: Array<TranslatedString>;
 }
 
-export const LocalizedString: Schema.Schema<LocalizedString> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  defaultValue: Schema.optional(TranslatedString),
-  translatedValues: Schema.optional(Schema.Array(TranslatedString)),
-})).annotate({ identifier: "LocalizedString" }) as any as Schema.Schema<LocalizedString>;
+export const LocalizedString: Schema.Schema<LocalizedString> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      defaultValue: Schema.optional(TranslatedString),
+      translatedValues: Schema.optional(Schema.Array(TranslatedString)),
+    }),
+).annotate({
+  identifier: "LocalizedString",
+}) as any as Schema.Schema<LocalizedString>;
 
 export interface ImageUri {
   /** Translated strings for the description, which are unused and retained only for backward compatibility. */
@@ -86,11 +102,13 @@ export interface ImageUri {
   uri?: string;
 }
 
-export const ImageUri: Schema.Schema<ImageUri> = Schema.suspend(() => Schema.Struct({
-  localizedDescription: Schema.optional(LocalizedString),
-  description: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImageUri" }) as any as Schema.Schema<ImageUri>;
+export const ImageUri: Schema.Schema<ImageUri> = Schema.suspend(() =>
+  Schema.Struct({
+    localizedDescription: Schema.optional(LocalizedString),
+    description: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ImageUri" }) as any as Schema.Schema<ImageUri>;
 
 export interface Image {
   /** An ID for an already uploaded private image. Either this or source_uri should be set. Requests setting both or neither will be rejected. Please contact support to use private images. */
@@ -103,12 +121,14 @@ export interface Image {
   kind?: string;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() => Schema.Struct({
-  privateImageId: Schema.optional(Schema.String),
-  sourceUri: Schema.optional(ImageUri),
-  contentDescription: Schema.optional(LocalizedString),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> = Schema.suspend(() =>
+  Schema.Struct({
+    privateImageId: Schema.optional(Schema.String),
+    sourceUri: Schema.optional(ImageUri),
+    contentDescription: Schema.optional(LocalizedString),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface RotatingBarcodeTotpDetailsTotpParameters {
   /** The secret key used for the TOTP value generation, encoded as a Base16 string. */
@@ -117,10 +137,15 @@ export interface RotatingBarcodeTotpDetailsTotpParameters {
   valueLength?: number;
 }
 
-export const RotatingBarcodeTotpDetailsTotpParameters: Schema.Schema<RotatingBarcodeTotpDetailsTotpParameters> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-  valueLength: Schema.optional(Schema.Number),
-})).annotate({ identifier: "RotatingBarcodeTotpDetailsTotpParameters" }) as any as Schema.Schema<RotatingBarcodeTotpDetailsTotpParameters>;
+export const RotatingBarcodeTotpDetailsTotpParameters: Schema.Schema<RotatingBarcodeTotpDetailsTotpParameters> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      valueLength: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "RotatingBarcodeTotpDetailsTotpParameters",
+  }) as any as Schema.Schema<RotatingBarcodeTotpDetailsTotpParameters>;
 
 export interface RotatingBarcodeTotpDetails {
   /** The TOTP algorithm used to generate the OTP. */
@@ -131,11 +156,18 @@ export interface RotatingBarcodeTotpDetails {
   parameters?: Array<RotatingBarcodeTotpDetailsTotpParameters>;
 }
 
-export const RotatingBarcodeTotpDetails: Schema.Schema<RotatingBarcodeTotpDetails> = Schema.suspend(() => Schema.Struct({
-  algorithm: Schema.optional(Schema.String),
-  periodMillis: Schema.optional(Schema.String),
-  parameters: Schema.optional(Schema.Array(RotatingBarcodeTotpDetailsTotpParameters)),
-})).annotate({ identifier: "RotatingBarcodeTotpDetails" }) as any as Schema.Schema<RotatingBarcodeTotpDetails>;
+export const RotatingBarcodeTotpDetails: Schema.Schema<RotatingBarcodeTotpDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      algorithm: Schema.optional(Schema.String),
+      periodMillis: Schema.optional(Schema.String),
+      parameters: Schema.optional(
+        Schema.Array(RotatingBarcodeTotpDetailsTotpParameters),
+      ),
+    }),
+  ).annotate({
+    identifier: "RotatingBarcodeTotpDetails",
+  }) as any as Schema.Schema<RotatingBarcodeTotpDetails>;
 
 export interface RotatingBarcodeValues {
   /** Required. The values to encode in the barcode. At least one value is required. */
@@ -146,11 +178,16 @@ export interface RotatingBarcodeValues {
   periodMillis?: string;
 }
 
-export const RotatingBarcodeValues: Schema.Schema<RotatingBarcodeValues> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.String)),
-  startDateTime: Schema.optional(Schema.String),
-  periodMillis: Schema.optional(Schema.String),
-})).annotate({ identifier: "RotatingBarcodeValues" }) as any as Schema.Schema<RotatingBarcodeValues>;
+export const RotatingBarcodeValues: Schema.Schema<RotatingBarcodeValues> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+      startDateTime: Schema.optional(Schema.String),
+      periodMillis: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RotatingBarcodeValues",
+  }) as any as Schema.Schema<RotatingBarcodeValues>;
 
 export interface RotatingBarcode {
   /** An optional text that will override the default text that shows under the barcode. This field is intended for a human readable equivalent of the barcode value, used when the barcode cannot be scanned. */
@@ -158,7 +195,36 @@ export interface RotatingBarcode {
   /** Optional text that will be shown when the barcode is hidden behind a click action. This happens in cases where a pass has Smart Tap enabled. If not specified, a default is chosen by Google. */
   showCodeText?: LocalizedString;
   /** The type of this barcode. */
-  type?: "BARCODE_TYPE_UNSPECIFIED" | "AZTEC" | "aztec" | "CODE_39" | "code39" | "CODE_128" | "code128" | "CODABAR" | "codabar" | "DATA_MATRIX" | "dataMatrix" | "EAN_8" | "ean8" | "EAN_13" | "ean13" | "EAN13" | "ITF_14" | "itf14" | "PDF_417" | "pdf417" | "PDF417" | "QR_CODE" | "qrCode" | "qrcode" | "UPC_A" | "upcA" | "TEXT_ONLY" | "textOnly" | (string & {});
+  type?:
+    | "BARCODE_TYPE_UNSPECIFIED"
+    | "AZTEC"
+    | "aztec"
+    | "CODE_39"
+    | "code39"
+    | "CODE_128"
+    | "code128"
+    | "CODABAR"
+    | "codabar"
+    | "DATA_MATRIX"
+    | "dataMatrix"
+    | "EAN_8"
+    | "ean8"
+    | "EAN_13"
+    | "ean13"
+    | "EAN13"
+    | "ITF_14"
+    | "itf14"
+    | "PDF_417"
+    | "pdf417"
+    | "PDF417"
+    | "QR_CODE"
+    | "qrCode"
+    | "qrcode"
+    | "UPC_A"
+    | "upcA"
+    | "TEXT_ONLY"
+    | "textOnly"
+    | (string & {});
   /** The render encoding for the barcode. When specified, barcode is rendered in the given encoding. Otherwise best known encoding is chosen by Google. */
   renderEncoding?: "RENDER_ENCODING_UNSPECIFIED" | "UTF_8" | (string & {});
   /** Details used to evaluate the {totp_value_n} substitutions. */
@@ -169,15 +235,20 @@ export interface RotatingBarcode {
   initialRotatingBarcodeValues?: RotatingBarcodeValues;
 }
 
-export const RotatingBarcode: Schema.Schema<RotatingBarcode> = Schema.suspend(() => Schema.Struct({
-  alternateText: Schema.optional(Schema.String),
-  showCodeText: Schema.optional(LocalizedString),
-  type: Schema.optional(Schema.String),
-  renderEncoding: Schema.optional(Schema.String),
-  totpDetails: Schema.optional(RotatingBarcodeTotpDetails),
-  valuePattern: Schema.optional(Schema.String),
-  initialRotatingBarcodeValues: Schema.optional(RotatingBarcodeValues),
-})).annotate({ identifier: "RotatingBarcode" }) as any as Schema.Schema<RotatingBarcode>;
+export const RotatingBarcode: Schema.Schema<RotatingBarcode> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      alternateText: Schema.optional(Schema.String),
+      showCodeText: Schema.optional(LocalizedString),
+      type: Schema.optional(Schema.String),
+      renderEncoding: Schema.optional(Schema.String),
+      totpDetails: Schema.optional(RotatingBarcodeTotpDetails),
+      valuePattern: Schema.optional(Schema.String),
+      initialRotatingBarcodeValues: Schema.optional(RotatingBarcodeValues),
+    }),
+).annotate({
+  identifier: "RotatingBarcode",
+}) as any as Schema.Schema<RotatingBarcode>;
 
 export interface Barcode {
   /** Optional text that will be shown when the barcode is hidden behind a click action. This happens in cases where a pass has Smart Tap enabled. If not specified, a default is chosen by Google. */
@@ -187,48 +258,94 @@ export interface Barcode {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#barcode"`. */
   kind?: string;
   /** The type of barcode. */
-  type?: "BARCODE_TYPE_UNSPECIFIED" | "AZTEC" | "aztec" | "CODE_39" | "code39" | "CODE_128" | "code128" | "CODABAR" | "codabar" | "DATA_MATRIX" | "dataMatrix" | "EAN_8" | "ean8" | "EAN_13" | "ean13" | "EAN13" | "ITF_14" | "itf14" | "PDF_417" | "pdf417" | "PDF417" | "QR_CODE" | "qrCode" | "qrcode" | "UPC_A" | "upcA" | "TEXT_ONLY" | "textOnly" | (string & {});
+  type?:
+    | "BARCODE_TYPE_UNSPECIFIED"
+    | "AZTEC"
+    | "aztec"
+    | "CODE_39"
+    | "code39"
+    | "CODE_128"
+    | "code128"
+    | "CODABAR"
+    | "codabar"
+    | "DATA_MATRIX"
+    | "dataMatrix"
+    | "EAN_8"
+    | "ean8"
+    | "EAN_13"
+    | "ean13"
+    | "EAN13"
+    | "ITF_14"
+    | "itf14"
+    | "PDF_417"
+    | "pdf417"
+    | "PDF417"
+    | "QR_CODE"
+    | "qrCode"
+    | "qrcode"
+    | "UPC_A"
+    | "upcA"
+    | "TEXT_ONLY"
+    | "textOnly"
+    | (string & {});
   /** The render encoding for the barcode. When specified, barcode is rendered in the given encoding. Otherwise best known encoding is chosen by Google. */
   renderEncoding?: "RENDER_ENCODING_UNSPECIFIED" | "UTF_8" | (string & {});
   /** The value encoded in the barcode. */
   value?: string;
 }
 
-export const Barcode: Schema.Schema<Barcode> = Schema.suspend(() => Schema.Struct({
-  showCodeText: Schema.optional(LocalizedString),
-  alternateText: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  renderEncoding: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "Barcode" }) as any as Schema.Schema<Barcode>;
+export const Barcode: Schema.Schema<Barcode> = Schema.suspend(() =>
+  Schema.Struct({
+    showCodeText: Schema.optional(LocalizedString),
+    alternateText: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    renderEncoding: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Barcode" }) as any as Schema.Schema<Barcode>;
 
 export interface SaveRestrictions {
   /** Restrict the save of the referencing object to the given email address only. This is the hex output of SHA256 sum of the email address, all lowercase and without any notations like "." or "+", except "@". For example, for example@example.com, this value will be 31c5543c1734d25c7206f5fd591525d0295bec6fe84ff82f946a34fe970a1e66 and for Example@example.com, this value will be bc34f262c93ad7122763684ccea6f07fb7f5d8a2d11e60ce15a6f43fe70ce632 If email address of the logged-in user who tries to save this pass does not match with the defined value here, users won't be allowed to save this pass. They will instead be prompted with an error to contact the issuer. This information should be gathered from the user with an explicit consent via Sign in with Google integration https://developers.google.com/identity/authentication. Please contact with support before using Save Restrictions. */
   restrictToEmailSha256?: string;
 }
 
-export const SaveRestrictions: Schema.Schema<SaveRestrictions> = Schema.suspend(() => Schema.Struct({
-  restrictToEmailSha256: Schema.optional(Schema.String),
-})).annotate({ identifier: "SaveRestrictions" }) as any as Schema.Schema<SaveRestrictions>;
+export const SaveRestrictions: Schema.Schema<SaveRestrictions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      restrictToEmailSha256: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SaveRestrictions",
+}) as any as Schema.Schema<SaveRestrictions>;
 
 export interface ExpiryNotification {
   /** Indicates if the object needs to have expiry notification enabled. */
   enableNotification?: boolean;
 }
 
-export const ExpiryNotification: Schema.Schema<ExpiryNotification> = Schema.suspend(() => Schema.Struct({
-  enableNotification: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ExpiryNotification" }) as any as Schema.Schema<ExpiryNotification>;
+export const ExpiryNotification: Schema.Schema<ExpiryNotification> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableNotification: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ExpiryNotification",
+  }) as any as Schema.Schema<ExpiryNotification>;
 
 export interface UpcomingNotification {
   /** Indicates if the object needs to have upcoming notification enabled. */
   enableNotification?: boolean;
 }
 
-export const UpcomingNotification: Schema.Schema<UpcomingNotification> = Schema.suspend(() => Schema.Struct({
-  enableNotification: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UpcomingNotification" }) as any as Schema.Schema<UpcomingNotification>;
+export const UpcomingNotification: Schema.Schema<UpcomingNotification> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableNotification: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UpcomingNotification",
+  }) as any as Schema.Schema<UpcomingNotification>;
 
 export interface Notifications {
   /** A notification would be triggered at a specific time before the card expires. */
@@ -237,10 +354,14 @@ export interface Notifications {
   upcomingNotification?: UpcomingNotification;
 }
 
-export const Notifications: Schema.Schema<Notifications> = Schema.suspend(() => Schema.Struct({
-  expiryNotification: Schema.optional(ExpiryNotification),
-  upcomingNotification: Schema.optional(UpcomingNotification),
-})).annotate({ identifier: "Notifications" }) as any as Schema.Schema<Notifications>;
+export const Notifications: Schema.Schema<Notifications> = Schema.suspend(() =>
+  Schema.Struct({
+    expiryNotification: Schema.optional(ExpiryNotification),
+    upcomingNotification: Schema.optional(UpcomingNotification),
+  }),
+).annotate({
+  identifier: "Notifications",
+}) as any as Schema.Schema<Notifications>;
 
 export interface TextModuleData {
   /** The header of the Text Module. Recommended maximum length is 35 characters to ensure full string is displayed on smaller screens. */
@@ -255,13 +376,18 @@ export interface TextModuleData {
   localizedHeader?: LocalizedString;
 }
 
-export const TextModuleData: Schema.Schema<TextModuleData> = Schema.suspend(() => Schema.Struct({
-  header: Schema.optional(Schema.String),
-  localizedBody: Schema.optional(LocalizedString),
-  id: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  localizedHeader: Schema.optional(LocalizedString),
-})).annotate({ identifier: "TextModuleData" }) as any as Schema.Schema<TextModuleData>;
+export const TextModuleData: Schema.Schema<TextModuleData> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      header: Schema.optional(Schema.String),
+      localizedBody: Schema.optional(LocalizedString),
+      id: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      localizedHeader: Schema.optional(LocalizedString),
+    }),
+).annotate({
+  identifier: "TextModuleData",
+}) as any as Schema.Schema<TextModuleData>;
 
 export interface MerchantLocation {
   /** The longitude specified in the range -180.0 through +180.0, both inclusive. Values outside these bounds will be rejected. */
@@ -270,10 +396,15 @@ export interface MerchantLocation {
   latitude?: number;
 }
 
-export const MerchantLocation: Schema.Schema<MerchantLocation> = Schema.suspend(() => Schema.Struct({
-  longitude: Schema.optional(Schema.Number),
-  latitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "MerchantLocation" }) as any as Schema.Schema<MerchantLocation>;
+export const MerchantLocation: Schema.Schema<MerchantLocation> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      longitude: Schema.optional(Schema.Number),
+      latitude: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "MerchantLocation",
+}) as any as Schema.Schema<MerchantLocation>;
 
 export interface ImageModuleData {
   /** A 100% width image. */
@@ -282,10 +413,15 @@ export interface ImageModuleData {
   id?: string;
 }
 
-export const ImageModuleData: Schema.Schema<ImageModuleData> = Schema.suspend(() => Schema.Struct({
-  mainImage: Schema.optional(Image),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImageModuleData" }) as any as Schema.Schema<ImageModuleData>;
+export const ImageModuleData: Schema.Schema<ImageModuleData> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      mainImage: Schema.optional(Image),
+      id: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ImageModuleData",
+}) as any as Schema.Schema<ImageModuleData>;
 
 export interface Uri {
   /** The URI's title appearing in the app as text. Recommended maximum is 20 characters to ensure full string is displayed on smaller screens. Note that in some contexts this text is not used, such as when `description` is part of an image. */
@@ -300,13 +436,15 @@ export interface Uri {
   kind?: string;
 }
 
-export const Uri: Schema.Schema<Uri> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  localizedDescription: Schema.optional(LocalizedString),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Uri" }) as any as Schema.Schema<Uri>;
+export const Uri: Schema.Schema<Uri> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    localizedDescription: Schema.optional(LocalizedString),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Uri" }) as any as Schema.Schema<Uri>;
 
 export interface AppLinkDataAppLinkInfoAppTarget {
   /** URI for AppTarget. The description on the URI must be set. Prefer setting package field instead, if this target is defined for your application. */
@@ -315,10 +453,15 @@ export interface AppLinkDataAppLinkInfoAppTarget {
   packageName?: string;
 }
 
-export const AppLinkDataAppLinkInfoAppTarget: Schema.Schema<AppLinkDataAppLinkInfoAppTarget> = Schema.suspend(() => Schema.Struct({
-  targetUri: Schema.optional(Uri),
-  packageName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AppLinkDataAppLinkInfoAppTarget" }) as any as Schema.Schema<AppLinkDataAppLinkInfoAppTarget>;
+export const AppLinkDataAppLinkInfoAppTarget: Schema.Schema<AppLinkDataAppLinkInfoAppTarget> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      targetUri: Schema.optional(Uri),
+      packageName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AppLinkDataAppLinkInfoAppTarget",
+  }) as any as Schema.Schema<AppLinkDataAppLinkInfoAppTarget>;
 
 export interface AppLinkDataAppLinkInfo {
   /** Deprecated. Title isn't supported in the app link module. */
@@ -331,12 +474,17 @@ export interface AppLinkDataAppLinkInfo {
   appLogoImage?: Image;
 }
 
-export const AppLinkDataAppLinkInfo: Schema.Schema<AppLinkDataAppLinkInfo> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(LocalizedString),
-  description: Schema.optional(LocalizedString),
-  appTarget: Schema.optional(AppLinkDataAppLinkInfoAppTarget),
-  appLogoImage: Schema.optional(Image),
-})).annotate({ identifier: "AppLinkDataAppLinkInfo" }) as any as Schema.Schema<AppLinkDataAppLinkInfo>;
+export const AppLinkDataAppLinkInfo: Schema.Schema<AppLinkDataAppLinkInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(LocalizedString),
+      description: Schema.optional(LocalizedString),
+      appTarget: Schema.optional(AppLinkDataAppLinkInfoAppTarget),
+      appLogoImage: Schema.optional(Image),
+    }),
+  ).annotate({
+    identifier: "AppLinkDataAppLinkInfo",
+  }) as any as Schema.Schema<AppLinkDataAppLinkInfo>;
 
 export interface AppLinkData {
   /** Deprecated. Links to open iOS apps are not supported. */
@@ -349,12 +497,14 @@ export interface AppLinkData {
   androidAppLinkInfo?: AppLinkDataAppLinkInfo;
 }
 
-export const AppLinkData: Schema.Schema<AppLinkData> = Schema.suspend(() => Schema.Struct({
-  iosAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
-  displayText: Schema.optional(LocalizedString),
-  webAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
-  androidAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
-})).annotate({ identifier: "AppLinkData" }) as any as Schema.Schema<AppLinkData>;
+export const AppLinkData: Schema.Schema<AppLinkData> = Schema.suspend(() =>
+  Schema.Struct({
+    iosAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
+    displayText: Schema.optional(LocalizedString),
+    webAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
+    androidAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
+  }),
+).annotate({ identifier: "AppLinkData" }) as any as Schema.Schema<AppLinkData>;
 
 export interface Message {
   /** The message header. */
@@ -364,7 +514,14 @@ export interface Message {
   /** Translated strings for the message body. */
   localizedBody?: LocalizedString;
   /** The message type. */
-  messageType?: "MESSAGE_TYPE_UNSPECIFIED" | "TEXT" | "text" | "EXPIRATION_NOTIFICATION" | "expirationNotification" | "TEXT_AND_NOTIFY" | (string & {});
+  messageType?:
+    | "MESSAGE_TYPE_UNSPECIFIED"
+    | "TEXT"
+    | "text"
+    | "EXPIRATION_NOTIFICATION"
+    | "expirationNotification"
+    | "TEXT_AND_NOTIFY"
+    | (string & {});
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#walletObjectMessage"`. */
   kind?: string;
   /** The message body. */
@@ -375,25 +532,32 @@ export interface Message {
   localizedHeader?: LocalizedString;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() => Schema.Struct({
-  header: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  localizedBody: Schema.optional(LocalizedString),
-  messageType: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  displayInterval: Schema.optional(TimeInterval),
-  localizedHeader: Schema.optional(LocalizedString),
-})).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> = Schema.suspend(() =>
+  Schema.Struct({
+    header: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    localizedBody: Schema.optional(LocalizedString),
+    messageType: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.String),
+    displayInterval: Schema.optional(TimeInterval),
+    localizedHeader: Schema.optional(LocalizedString),
+  }),
+).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface LinksModuleData {
   /** The list of URIs. */
   uris?: Array<Uri>;
 }
 
-export const LinksModuleData: Schema.Schema<LinksModuleData> = Schema.suspend(() => Schema.Struct({
-  uris: Schema.optional(Schema.Array(Uri)),
-})).annotate({ identifier: "LinksModuleData" }) as any as Schema.Schema<LinksModuleData>;
+export const LinksModuleData: Schema.Schema<LinksModuleData> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      uris: Schema.optional(Schema.Array(Uri)),
+    }),
+).annotate({
+  identifier: "LinksModuleData",
+}) as any as Schema.Schema<LinksModuleData>;
 
 export interface GroupingInfo {
   /** Optional index for sorting the passes when they are grouped with other passes. Passes with lower sort index are shown before passes with higher sort index. If unspecified, the value is assumed to be INT_MAX. For two passes with the same sort index, the sorting behavior is undefined. */
@@ -402,19 +566,28 @@ export interface GroupingInfo {
   groupingId?: string;
 }
 
-export const GroupingInfo: Schema.Schema<GroupingInfo> = Schema.suspend(() => Schema.Struct({
-  sortIndex: Schema.optional(Schema.Number),
-  groupingId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GroupingInfo" }) as any as Schema.Schema<GroupingInfo>;
+export const GroupingInfo: Schema.Schema<GroupingInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    sortIndex: Schema.optional(Schema.Number),
+    groupingId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "GroupingInfo",
+}) as any as Schema.Schema<GroupingInfo>;
 
 export interface ModuleViewConstraints {
   /** The period of time that the module will be displayed to users. Can define both a `startTime` and `endTime`. The module is displayed immediately after insertion unless a `startTime` is set. The module is displayed indefinitely if `endTime` is not set. */
   displayInterval?: TimeInterval;
 }
 
-export const ModuleViewConstraints: Schema.Schema<ModuleViewConstraints> = Schema.suspend(() => Schema.Struct({
-  displayInterval: Schema.optional(TimeInterval),
-})).annotate({ identifier: "ModuleViewConstraints" }) as any as Schema.Schema<ModuleViewConstraints>;
+export const ModuleViewConstraints: Schema.Schema<ModuleViewConstraints> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayInterval: Schema.optional(TimeInterval),
+    }),
+  ).annotate({
+    identifier: "ModuleViewConstraints",
+  }) as any as Schema.Schema<ModuleViewConstraints>;
 
 export interface ValueAddedModuleData {
   /** Header to be displayed on the module. Character limit is 60 and longer strings will be truncated. */
@@ -431,26 +604,45 @@ export interface ValueAddedModuleData {
   sortIndex?: number;
 }
 
-export const ValueAddedModuleData: Schema.Schema<ValueAddedModuleData> = Schema.suspend(() => Schema.Struct({
-  header: Schema.optional(LocalizedString),
-  uri: Schema.optional(Schema.String),
-  viewConstraints: Schema.optional(ModuleViewConstraints),
-  body: Schema.optional(LocalizedString),
-  image: Schema.optional(Image),
-  sortIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ValueAddedModuleData" }) as any as Schema.Schema<ValueAddedModuleData>;
+export const ValueAddedModuleData: Schema.Schema<ValueAddedModuleData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      header: Schema.optional(LocalizedString),
+      uri: Schema.optional(Schema.String),
+      viewConstraints: Schema.optional(ModuleViewConstraints),
+      body: Schema.optional(LocalizedString),
+      image: Schema.optional(Image),
+      sortIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ValueAddedModuleData",
+  }) as any as Schema.Schema<ValueAddedModuleData>;
 
 export interface PassConstraints {
   /** The screenshot eligibility for the pass. */
-  screenshotEligibility?: "SCREENSHOT_ELIGIBILITY_UNSPECIFIED" | "ELIGIBLE" | "INELIGIBLE" | (string & {});
+  screenshotEligibility?:
+    | "SCREENSHOT_ELIGIBILITY_UNSPECIFIED"
+    | "ELIGIBLE"
+    | "INELIGIBLE"
+    | (string & {});
   /** The NFC constraints for the pass. */
-  nfcConstraint?: Array<"NFC_CONSTRAINT_UNSPECIFIED" | "BLOCK_PAYMENT" | "BLOCK_CLOSED_LOOP_TRANSIT" | (string & {})>;
+  nfcConstraint?: Array<
+    | "NFC_CONSTRAINT_UNSPECIFIED"
+    | "BLOCK_PAYMENT"
+    | "BLOCK_CLOSED_LOOP_TRANSIT"
+    | (string & {})
+  >;
 }
 
-export const PassConstraints: Schema.Schema<PassConstraints> = Schema.suspend(() => Schema.Struct({
-  screenshotEligibility: Schema.optional(Schema.String),
-  nfcConstraint: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PassConstraints" }) as any as Schema.Schema<PassConstraints>;
+export const PassConstraints: Schema.Schema<PassConstraints> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      screenshotEligibility: Schema.optional(Schema.String),
+      nfcConstraint: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "PassConstraints",
+}) as any as Schema.Schema<PassConstraints>;
 
 export interface GenericObject {
   /** The background color for the card. If not set, the dominant color of the hero image is used, and if no hero image is set, the dominant color of the logo is used and if logo is not set, a color would be chosen by Google. */
@@ -474,7 +666,17 @@ export interface GenericObject {
   /** The logo image of the pass. This image is displayed in the card detail view in upper left, and also on the list/thumbnail view. If the logo is not present, the first letter of `cardTitle` would be shown as logo. */
   logo?: Image;
   /** The state of the object. This field is used to determine how an object is displayed in the app. For example, an `inactive` object is moved to the "Expired passes" section. If this is not provided, the object would be considered `ACTIVE`. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "active" | "COMPLETED" | "completed" | "EXPIRED" | "expired" | "INACTIVE" | "inactive" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "active"
+    | "COMPLETED"
+    | "completed"
+    | "EXPIRED"
+    | "expired"
+    | "INACTIVE"
+    | "inactive"
+    | (string & {});
   /** Merchant locations. There is a maximum of ten on the object. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** Required. The header of the pass. This is usually the Business name such as "XXX Gym", "AAA Insurance". This field is required and appears in the header row at the very top of the pass. */
@@ -508,39 +710,58 @@ export interface GenericObject {
   /** Required. The unique identifier for an object. This ID must be unique across all objects from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   id?: string;
   /** Specify which `GenericType` the card belongs to. */
-  genericType?: "GENERIC_TYPE_UNSPECIFIED" | "GENERIC_SEASON_PASS" | "GENERIC_UTILITY_BILLS" | "GENERIC_PARKING_PASS" | "GENERIC_VOUCHER" | "GENERIC_GYM_MEMBERSHIP" | "GENERIC_LIBRARY_MEMBERSHIP" | "GENERIC_RESERVATIONS" | "GENERIC_AUTO_INSURANCE" | "GENERIC_HOME_INSURANCE" | "GENERIC_ENTRY_TICKET" | "GENERIC_RECEIPT" | "GENERIC_LOYALTY_CARD" | "GENERIC_OTHER" | (string & {});
+  genericType?:
+    | "GENERIC_TYPE_UNSPECIFIED"
+    | "GENERIC_SEASON_PASS"
+    | "GENERIC_UTILITY_BILLS"
+    | "GENERIC_PARKING_PASS"
+    | "GENERIC_VOUCHER"
+    | "GENERIC_GYM_MEMBERSHIP"
+    | "GENERIC_LIBRARY_MEMBERSHIP"
+    | "GENERIC_RESERVATIONS"
+    | "GENERIC_AUTO_INSURANCE"
+    | "GENERIC_HOME_INSURANCE"
+    | "GENERIC_ENTRY_TICKET"
+    | "GENERIC_RECEIPT"
+    | "GENERIC_LOYALTY_CARD"
+    | "GENERIC_OTHER"
+    | (string & {});
 }
 
-export const GenericObject: Schema.Schema<GenericObject> = Schema.suspend(() => Schema.Struct({
-  hexBackgroundColor: Schema.optional(Schema.String),
-  hasUsers: Schema.optional(Schema.Boolean),
-  heroImage: Schema.optional(Image),
-  rotatingBarcode: Schema.optional(RotatingBarcode),
-  barcode: Schema.optional(Barcode),
-  classId: Schema.optional(Schema.String),
-  saveRestrictions: Schema.optional(SaveRestrictions),
-  notifications: Schema.optional(Notifications),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  logo: Schema.optional(Image),
-  state: Schema.optional(Schema.String),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  cardTitle: Schema.optional(LocalizedString),
-  header: Schema.optional(LocalizedString),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  wideLogo: Schema.optional(Image),
-  validTimeInterval: Schema.optional(TimeInterval),
-  messages: Schema.optional(Schema.Array(Message)),
-  linksModuleData: Schema.optional(LinksModuleData),
-  smartTapRedemptionValue: Schema.optional(Schema.String),
-  groupingInfo: Schema.optional(GroupingInfo),
-  linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  passConstraints: Schema.optional(PassConstraints),
-  subheader: Schema.optional(LocalizedString),
-  id: Schema.optional(Schema.String),
-  genericType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenericObject" }) as any as Schema.Schema<GenericObject>;
+export const GenericObject: Schema.Schema<GenericObject> = Schema.suspend(() =>
+  Schema.Struct({
+    hexBackgroundColor: Schema.optional(Schema.String),
+    hasUsers: Schema.optional(Schema.Boolean),
+    heroImage: Schema.optional(Image),
+    rotatingBarcode: Schema.optional(RotatingBarcode),
+    barcode: Schema.optional(Barcode),
+    classId: Schema.optional(Schema.String),
+    saveRestrictions: Schema.optional(SaveRestrictions),
+    notifications: Schema.optional(Notifications),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    logo: Schema.optional(Image),
+    state: Schema.optional(Schema.String),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    cardTitle: Schema.optional(LocalizedString),
+    header: Schema.optional(LocalizedString),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    wideLogo: Schema.optional(Image),
+    validTimeInterval: Schema.optional(TimeInterval),
+    messages: Schema.optional(Schema.Array(Message)),
+    linksModuleData: Schema.optional(LinksModuleData),
+    smartTapRedemptionValue: Schema.optional(Schema.String),
+    groupingInfo: Schema.optional(GroupingInfo),
+    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    passConstraints: Schema.optional(PassConstraints),
+    subheader: Schema.optional(LocalizedString),
+    id: Schema.optional(Schema.String),
+    genericType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "GenericObject",
+}) as any as Schema.Schema<GenericObject>;
 
 export interface Pagination {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#pagination"`. */
@@ -551,11 +772,13 @@ export interface Pagination {
   nextPageToken?: string;
 }
 
-export const Pagination: Schema.Schema<Pagination> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  resultsPerPage: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Pagination" }) as any as Schema.Schema<Pagination>;
+export const Pagination: Schema.Schema<Pagination> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    resultsPerPage: Schema.optional(Schema.Number),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Pagination" }) as any as Schema.Schema<Pagination>;
 
 export interface FrequentFlyerInfo {
   /** Frequent flyer program name. eg: "Lufthansa Miles & More" */
@@ -566,11 +789,16 @@ export interface FrequentFlyerInfo {
   kind?: string;
 }
 
-export const FrequentFlyerInfo: Schema.Schema<FrequentFlyerInfo> = Schema.suspend(() => Schema.Struct({
-  frequentFlyerProgramName: Schema.optional(LocalizedString),
-  frequentFlyerNumber: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "FrequentFlyerInfo" }) as any as Schema.Schema<FrequentFlyerInfo>;
+export const FrequentFlyerInfo: Schema.Schema<FrequentFlyerInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frequentFlyerProgramName: Schema.optional(LocalizedString),
+      frequentFlyerNumber: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FrequentFlyerInfo",
+  }) as any as Schema.Schema<FrequentFlyerInfo>;
 
 export interface ReservationInfo {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#reservationInfo"`. */
@@ -583,12 +811,17 @@ export interface ReservationInfo {
   frequentFlyerInfo?: FrequentFlyerInfo;
 }
 
-export const ReservationInfo: Schema.Schema<ReservationInfo> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  confirmationCode: Schema.optional(Schema.String),
-  eticketNumber: Schema.optional(Schema.String),
-  frequentFlyerInfo: Schema.optional(FrequentFlyerInfo),
-})).annotate({ identifier: "ReservationInfo" }) as any as Schema.Schema<ReservationInfo>;
+export const ReservationInfo: Schema.Schema<ReservationInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      confirmationCode: Schema.optional(Schema.String),
+      eticketNumber: Schema.optional(Schema.String),
+      frequentFlyerInfo: Schema.optional(FrequentFlyerInfo),
+    }),
+).annotate({
+  identifier: "ReservationInfo",
+}) as any as Schema.Schema<ReservationInfo>;
 
 export interface BoardingAndSeatingInfo {
   /** The sequence number on the boarding pass. This usually matches the sequence in which the passengers checked in. Airline might use the number for manual boarding and bag tags. eg: "49" */
@@ -604,24 +837,35 @@ export interface BoardingAndSeatingInfo {
   /** The value of the seat class. eg: "Economy" or "Economy Plus" */
   seatClass?: string;
   /** Set this field only if this flight boards through more than one door or bridge and you want to explicitly print the door location on the boarding pass. Most airlines route their passengers to the right door or bridge by refering to doors/bridges by the `seatClass`. In those cases `boardingDoor` should not be set. */
-  boardingDoor?: "BOARDING_DOOR_UNSPECIFIED" | "FRONT" | "front" | "BACK" | "back" | (string & {});
+  boardingDoor?:
+    | "BOARDING_DOOR_UNSPECIFIED"
+    | "FRONT"
+    | "front"
+    | "BACK"
+    | "back"
+    | (string & {});
   /** The value of boarding position. eg: "76" */
   boardingPosition?: string;
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#boardingAndSeatingInfo"`. */
   kind?: string;
 }
 
-export const BoardingAndSeatingInfo: Schema.Schema<BoardingAndSeatingInfo> = Schema.suspend(() => Schema.Struct({
-  sequenceNumber: Schema.optional(Schema.String),
-  boardingGroup: Schema.optional(Schema.String),
-  boardingPrivilegeImage: Schema.optional(Image),
-  seatNumber: Schema.optional(Schema.String),
-  seatAssignment: Schema.optional(LocalizedString),
-  seatClass: Schema.optional(Schema.String),
-  boardingDoor: Schema.optional(Schema.String),
-  boardingPosition: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "BoardingAndSeatingInfo" }) as any as Schema.Schema<BoardingAndSeatingInfo>;
+export const BoardingAndSeatingInfo: Schema.Schema<BoardingAndSeatingInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sequenceNumber: Schema.optional(Schema.String),
+      boardingGroup: Schema.optional(Schema.String),
+      boardingPrivilegeImage: Schema.optional(Image),
+      seatNumber: Schema.optional(Schema.String),
+      seatAssignment: Schema.optional(LocalizedString),
+      seatClass: Schema.optional(Schema.String),
+      boardingDoor: Schema.optional(Schema.String),
+      boardingPosition: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BoardingAndSeatingInfo",
+  }) as any as Schema.Schema<BoardingAndSeatingInfo>;
 
 export interface LabelValue {
   /** The label for a specific row and column. Recommended maximum is 15 characters for a two-column layout and 30 characters for a one-column layout. */
@@ -634,21 +878,27 @@ export interface LabelValue {
   localizedValue?: LocalizedString;
 }
 
-export const LabelValue: Schema.Schema<LabelValue> = Schema.suspend(() => Schema.Struct({
-  label: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-  localizedLabel: Schema.optional(LocalizedString),
-  localizedValue: Schema.optional(LocalizedString),
-})).annotate({ identifier: "LabelValue" }) as any as Schema.Schema<LabelValue>;
+export const LabelValue: Schema.Schema<LabelValue> = Schema.suspend(() =>
+  Schema.Struct({
+    label: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+    localizedLabel: Schema.optional(LocalizedString),
+    localizedValue: Schema.optional(LocalizedString),
+  }),
+).annotate({ identifier: "LabelValue" }) as any as Schema.Schema<LabelValue>;
 
 export interface LabelValueRow {
   /** A list of labels and values. These will be displayed in a singular column, one after the other, not in multiple columns, despite the field name. */
   columns?: Array<LabelValue>;
 }
 
-export const LabelValueRow: Schema.Schema<LabelValueRow> = Schema.suspend(() => Schema.Struct({
-  columns: Schema.optional(Schema.Array(LabelValue)),
-})).annotate({ identifier: "LabelValueRow" }) as any as Schema.Schema<LabelValueRow>;
+export const LabelValueRow: Schema.Schema<LabelValueRow> = Schema.suspend(() =>
+  Schema.Struct({
+    columns: Schema.optional(Schema.Array(LabelValue)),
+  }),
+).annotate({
+  identifier: "LabelValueRow",
+}) as any as Schema.Schema<LabelValueRow>;
 
 export interface InfoModuleData {
   /** A list of collections of labels and values. These will be displayed one after the other in a singular column. */
@@ -656,10 +906,15 @@ export interface InfoModuleData {
   showLastUpdateTime?: boolean;
 }
 
-export const InfoModuleData: Schema.Schema<InfoModuleData> = Schema.suspend(() => Schema.Struct({
-  labelValueRows: Schema.optional(Schema.Array(LabelValueRow)),
-  showLastUpdateTime: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "InfoModuleData" }) as any as Schema.Schema<InfoModuleData>;
+export const InfoModuleData: Schema.Schema<InfoModuleData> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      labelValueRows: Schema.optional(Schema.Array(LabelValueRow)),
+      showLastUpdateTime: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "InfoModuleData",
+}) as any as Schema.Schema<InfoModuleData>;
 
 export interface LatLongPoint {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#latLongPoint"`. */
@@ -670,11 +925,15 @@ export interface LatLongPoint {
   longitude?: number;
 }
 
-export const LatLongPoint: Schema.Schema<LatLongPoint> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  latitude: Schema.optional(Schema.Number),
-  longitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LatLongPoint" }) as any as Schema.Schema<LatLongPoint>;
+export const LatLongPoint: Schema.Schema<LatLongPoint> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    latitude: Schema.optional(Schema.Number),
+    longitude: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "LatLongPoint",
+}) as any as Schema.Schema<LatLongPoint>;
 
 export interface AirportInfo {
   /** Three character IATA airport code. This is a required field for `origin` and `destination`. Eg: "SFO" */
@@ -689,75 +948,139 @@ export interface AirportInfo {
   gate?: string;
 }
 
-export const AirportInfo: Schema.Schema<AirportInfo> = Schema.suspend(() => Schema.Struct({
-  airportIataCode: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  terminal: Schema.optional(Schema.String),
-  airportNameOverride: Schema.optional(LocalizedString),
-  gate: Schema.optional(Schema.String),
-})).annotate({ identifier: "AirportInfo" }) as any as Schema.Schema<AirportInfo>;
+export const AirportInfo: Schema.Schema<AirportInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    airportIataCode: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    terminal: Schema.optional(Schema.String),
+    airportNameOverride: Schema.optional(LocalizedString),
+    gate: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AirportInfo" }) as any as Schema.Schema<AirportInfo>;
 
 export interface BoardingAndSeatingPolicy {
   /** Seating policy which dictates how we display the seat class. If unset, Google will default to `cabinBased`. */
-  seatClassPolicy?: "SEAT_CLASS_POLICY_UNSPECIFIED" | "CABIN_BASED" | "cabinBased" | "CLASS_BASED" | "classBased" | "TIER_BASED" | "tierBased" | "SEAT_CLASS_POLICY_OTHER" | "seatClassPolicyOther" | (string & {});
+  seatClassPolicy?:
+    | "SEAT_CLASS_POLICY_UNSPECIFIED"
+    | "CABIN_BASED"
+    | "cabinBased"
+    | "CLASS_BASED"
+    | "classBased"
+    | "TIER_BASED"
+    | "tierBased"
+    | "SEAT_CLASS_POLICY_OTHER"
+    | "seatClassPolicyOther"
+    | (string & {});
   /** Indicates the policy the airline uses for boarding. If unset, Google will default to `zoneBased`. */
-  boardingPolicy?: "BOARDING_POLICY_UNSPECIFIED" | "ZONE_BASED" | "zoneBased" | "GROUP_BASED" | "groupBased" | "BOARDING_POLICY_OTHER" | "boardingPolicyOther" | (string & {});
+  boardingPolicy?:
+    | "BOARDING_POLICY_UNSPECIFIED"
+    | "ZONE_BASED"
+    | "zoneBased"
+    | "GROUP_BASED"
+    | "groupBased"
+    | "BOARDING_POLICY_OTHER"
+    | "boardingPolicyOther"
+    | (string & {});
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#boardingAndSeatingPolicy"`. */
   kind?: string;
 }
 
-export const BoardingAndSeatingPolicy: Schema.Schema<BoardingAndSeatingPolicy> = Schema.suspend(() => Schema.Struct({
-  seatClassPolicy: Schema.optional(Schema.String),
-  boardingPolicy: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "BoardingAndSeatingPolicy" }) as any as Schema.Schema<BoardingAndSeatingPolicy>;
+export const BoardingAndSeatingPolicy: Schema.Schema<BoardingAndSeatingPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      seatClassPolicy: Schema.optional(Schema.String),
+      boardingPolicy: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BoardingAndSeatingPolicy",
+  }) as any as Schema.Schema<BoardingAndSeatingPolicy>;
 
 export interface SecurityAnimation {
   /** Type of animation. */
-  animationType?: "ANIMATION_UNSPECIFIED" | "FOIL_SHIMMER" | "foilShimmer" | (string & {});
+  animationType?:
+    | "ANIMATION_UNSPECIFIED"
+    | "FOIL_SHIMMER"
+    | "foilShimmer"
+    | (string & {});
 }
 
-export const SecurityAnimation: Schema.Schema<SecurityAnimation> = Schema.suspend(() => Schema.Struct({
-  animationType: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecurityAnimation" }) as any as Schema.Schema<SecurityAnimation>;
+export const SecurityAnimation: Schema.Schema<SecurityAnimation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      animationType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SecurityAnimation",
+  }) as any as Schema.Schema<SecurityAnimation>;
 
 export interface Review {
   comments?: string;
 }
 
-export const Review: Schema.Schema<Review> = Schema.suspend(() => Schema.Struct({
-  comments: Schema.optional(Schema.String),
-})).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
+export const Review: Schema.Schema<Review> = Schema.suspend(() =>
+  Schema.Struct({
+    comments: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
 
 export interface FieldReference {
   /** Only valid if the `fieldPath` references a date field. Chooses how the date field will be formatted and displayed in the UI. */
-  dateFormat?: "DATE_FORMAT_UNSPECIFIED" | "DATE_TIME" | "dateTime" | "DATE_ONLY" | "dateOnly" | "TIME_ONLY" | "timeOnly" | "DATE_TIME_YEAR" | "dateTimeYear" | "DATE_YEAR" | "dateYear" | "YEAR_MONTH" | "YEAR_MONTH_DAY" | (string & {});
+  dateFormat?:
+    | "DATE_FORMAT_UNSPECIFIED"
+    | "DATE_TIME"
+    | "dateTime"
+    | "DATE_ONLY"
+    | "dateOnly"
+    | "TIME_ONLY"
+    | "timeOnly"
+    | "DATE_TIME_YEAR"
+    | "dateTimeYear"
+    | "DATE_YEAR"
+    | "dateYear"
+    | "YEAR_MONTH"
+    | "YEAR_MONTH_DAY"
+    | (string & {});
   /** Path to the field being referenced, prefixed with "object" or "class" and separated with dots. For example, it may be the string "object.purchaseDetails.purchasePrice". */
   fieldPath?: string;
 }
 
-export const FieldReference: Schema.Schema<FieldReference> = Schema.suspend(() => Schema.Struct({
-  dateFormat: Schema.optional(Schema.String),
-  fieldPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "FieldReference" }) as any as Schema.Schema<FieldReference>;
+export const FieldReference: Schema.Schema<FieldReference> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      dateFormat: Schema.optional(Schema.String),
+      fieldPath: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FieldReference",
+}) as any as Schema.Schema<FieldReference>;
 
 export interface FieldSelector {
   /** If more than one reference is supplied, then the first one that references a non-empty field will be displayed. */
   fields?: Array<FieldReference>;
 }
 
-export const FieldSelector: Schema.Schema<FieldSelector> = Schema.suspend(() => Schema.Struct({
-  fields: Schema.optional(Schema.Array(FieldReference)),
-})).annotate({ identifier: "FieldSelector" }) as any as Schema.Schema<FieldSelector>;
+export const FieldSelector: Schema.Schema<FieldSelector> = Schema.suspend(() =>
+  Schema.Struct({
+    fields: Schema.optional(Schema.Array(FieldReference)),
+  }),
+).annotate({
+  identifier: "FieldSelector",
+}) as any as Schema.Schema<FieldSelector>;
 
 export interface BarcodeSectionDetail {
   /** A reference to an existing text-based or image field to display. */
   fieldSelector?: FieldSelector;
 }
 
-export const BarcodeSectionDetail: Schema.Schema<BarcodeSectionDetail> = Schema.suspend(() => Schema.Struct({
-  fieldSelector: Schema.optional(FieldSelector),
-})).annotate({ identifier: "BarcodeSectionDetail" }) as any as Schema.Schema<BarcodeSectionDetail>;
+export const BarcodeSectionDetail: Schema.Schema<BarcodeSectionDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fieldSelector: Schema.optional(FieldSelector),
+    }),
+  ).annotate({
+    identifier: "BarcodeSectionDetail",
+  }) as any as Schema.Schema<BarcodeSectionDetail>;
 
 export interface CardBarcodeSectionDetails {
   /** Optional information to display below the barcode. */
@@ -768,11 +1091,16 @@ export interface CardBarcodeSectionDetails {
   firstTopDetail?: BarcodeSectionDetail;
 }
 
-export const CardBarcodeSectionDetails: Schema.Schema<CardBarcodeSectionDetails> = Schema.suspend(() => Schema.Struct({
-  firstBottomDetail: Schema.optional(BarcodeSectionDetail),
-  secondTopDetail: Schema.optional(BarcodeSectionDetail),
-  firstTopDetail: Schema.optional(BarcodeSectionDetail),
-})).annotate({ identifier: "CardBarcodeSectionDetails" }) as any as Schema.Schema<CardBarcodeSectionDetails>;
+export const CardBarcodeSectionDetails: Schema.Schema<CardBarcodeSectionDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      firstBottomDetail: Schema.optional(BarcodeSectionDetail),
+      secondTopDetail: Schema.optional(BarcodeSectionDetail),
+      firstTopDetail: Schema.optional(BarcodeSectionDetail),
+    }),
+  ).annotate({
+    identifier: "CardBarcodeSectionDetails",
+  }) as any as Schema.Schema<CardBarcodeSectionDetails>;
 
 export interface TemplateItem {
   /** A reference to a field to display. This may only be populated if the `firstValue` field is populated. */
@@ -780,43 +1108,76 @@ export interface TemplateItem {
   /** A reference to a field to display. If both `firstValue` and `secondValue` are populated, they will both appear as one item with a slash between them. For example, values A and B would be shown as "A / B". */
   firstValue?: FieldSelector;
   /** A predefined item to display. Only one of `firstValue` or `predefinedItem` may be set. */
-  predefinedItem?: "PREDEFINED_ITEM_UNSPECIFIED" | "FREQUENT_FLYER_PROGRAM_NAME_AND_NUMBER" | "frequentFlyerProgramNameAndNumber" | "FLIGHT_NUMBER_AND_OPERATING_FLIGHT_NUMBER" | "flightNumberAndOperatingFlightNumber" | (string & {});
+  predefinedItem?:
+    | "PREDEFINED_ITEM_UNSPECIFIED"
+    | "FREQUENT_FLYER_PROGRAM_NAME_AND_NUMBER"
+    | "frequentFlyerProgramNameAndNumber"
+    | "FLIGHT_NUMBER_AND_OPERATING_FLIGHT_NUMBER"
+    | "flightNumberAndOperatingFlightNumber"
+    | (string & {});
 }
 
-export const TemplateItem: Schema.Schema<TemplateItem> = Schema.suspend(() => Schema.Struct({
-  secondValue: Schema.optional(FieldSelector),
-  firstValue: Schema.optional(FieldSelector),
-  predefinedItem: Schema.optional(Schema.String),
-})).annotate({ identifier: "TemplateItem" }) as any as Schema.Schema<TemplateItem>;
+export const TemplateItem: Schema.Schema<TemplateItem> = Schema.suspend(() =>
+  Schema.Struct({
+    secondValue: Schema.optional(FieldSelector),
+    firstValue: Schema.optional(FieldSelector),
+    predefinedItem: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "TemplateItem",
+}) as any as Schema.Schema<TemplateItem>;
 
 export interface DetailsItemInfo {
   /** The item to be displayed in the details list. */
   item?: TemplateItem;
 }
 
-export const DetailsItemInfo: Schema.Schema<DetailsItemInfo> = Schema.suspend(() => Schema.Struct({
-  item: Schema.optional(TemplateItem),
-})).annotate({ identifier: "DetailsItemInfo" }) as any as Schema.Schema<DetailsItemInfo>;
+export const DetailsItemInfo: Schema.Schema<DetailsItemInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      item: Schema.optional(TemplateItem),
+    }),
+).annotate({
+  identifier: "DetailsItemInfo",
+}) as any as Schema.Schema<DetailsItemInfo>;
 
 export interface DetailsTemplateOverride {
   /** Information for the "nth" item displayed in the details list. */
   detailsItemInfos?: Array<DetailsItemInfo>;
 }
 
-export const DetailsTemplateOverride: Schema.Schema<DetailsTemplateOverride> = Schema.suspend(() => Schema.Struct({
-  detailsItemInfos: Schema.optional(Schema.Array(DetailsItemInfo)),
-})).annotate({ identifier: "DetailsTemplateOverride" }) as any as Schema.Schema<DetailsTemplateOverride>;
+export const DetailsTemplateOverride: Schema.Schema<DetailsTemplateOverride> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      detailsItemInfos: Schema.optional(Schema.Array(DetailsItemInfo)),
+    }),
+  ).annotate({
+    identifier: "DetailsTemplateOverride",
+  }) as any as Schema.Schema<DetailsTemplateOverride>;
 
 export interface FirstRowOption {
-  transitOption?: "TRANSIT_OPTION_UNSPECIFIED" | "ORIGIN_AND_DESTINATION_NAMES" | "originAndDestinationNames" | "ORIGIN_AND_DESTINATION_CODES" | "originAndDestinationCodes" | "ORIGIN_NAME" | "originName" | (string & {});
+  transitOption?:
+    | "TRANSIT_OPTION_UNSPECIFIED"
+    | "ORIGIN_AND_DESTINATION_NAMES"
+    | "originAndDestinationNames"
+    | "ORIGIN_AND_DESTINATION_CODES"
+    | "originAndDestinationCodes"
+    | "ORIGIN_NAME"
+    | "originName"
+    | (string & {});
   /** A reference to the field to be displayed in the first row. */
   fieldOption?: FieldSelector;
 }
 
-export const FirstRowOption: Schema.Schema<FirstRowOption> = Schema.suspend(() => Schema.Struct({
-  transitOption: Schema.optional(Schema.String),
-  fieldOption: Schema.optional(FieldSelector),
-})).annotate({ identifier: "FirstRowOption" }) as any as Schema.Schema<FirstRowOption>;
+export const FirstRowOption: Schema.Schema<FirstRowOption> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      transitOption: Schema.optional(Schema.String),
+      fieldOption: Schema.optional(FieldSelector),
+    }),
+).annotate({
+  identifier: "FirstRowOption",
+}) as any as Schema.Schema<FirstRowOption>;
 
 export interface ListTemplateOverride {
   /** An unused/deprecated field. Setting it will have no effect on what the user sees. */
@@ -827,11 +1188,16 @@ export interface ListTemplateOverride {
   secondRowOption?: FieldSelector;
 }
 
-export const ListTemplateOverride: Schema.Schema<ListTemplateOverride> = Schema.suspend(() => Schema.Struct({
-  thirdRowOption: Schema.optional(FieldSelector),
-  firstRowOption: Schema.optional(FirstRowOption),
-  secondRowOption: Schema.optional(FieldSelector),
-})).annotate({ identifier: "ListTemplateOverride" }) as any as Schema.Schema<ListTemplateOverride>;
+export const ListTemplateOverride: Schema.Schema<ListTemplateOverride> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thirdRowOption: Schema.optional(FieldSelector),
+      firstRowOption: Schema.optional(FirstRowOption),
+      secondRowOption: Schema.optional(FieldSelector),
+    }),
+  ).annotate({
+    identifier: "ListTemplateOverride",
+  }) as any as Schema.Schema<ListTemplateOverride>;
 
 export interface CardRowTwoItems {
   /** The item to be displayed at the start of the row. This item will be aligned to the left. */
@@ -840,10 +1206,15 @@ export interface CardRowTwoItems {
   endItem?: TemplateItem;
 }
 
-export const CardRowTwoItems: Schema.Schema<CardRowTwoItems> = Schema.suspend(() => Schema.Struct({
-  startItem: Schema.optional(TemplateItem),
-  endItem: Schema.optional(TemplateItem),
-})).annotate({ identifier: "CardRowTwoItems" }) as any as Schema.Schema<CardRowTwoItems>;
+export const CardRowTwoItems: Schema.Schema<CardRowTwoItems> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      startItem: Schema.optional(TemplateItem),
+      endItem: Schema.optional(TemplateItem),
+    }),
+).annotate({
+  identifier: "CardRowTwoItems",
+}) as any as Schema.Schema<CardRowTwoItems>;
 
 export interface CardRowThreeItems {
   /** The item to be displayed in the middle of the row. This item will be centered between the start and end items. */
@@ -854,20 +1225,30 @@ export interface CardRowThreeItems {
   endItem?: TemplateItem;
 }
 
-export const CardRowThreeItems: Schema.Schema<CardRowThreeItems> = Schema.suspend(() => Schema.Struct({
-  middleItem: Schema.optional(TemplateItem),
-  startItem: Schema.optional(TemplateItem),
-  endItem: Schema.optional(TemplateItem),
-})).annotate({ identifier: "CardRowThreeItems" }) as any as Schema.Schema<CardRowThreeItems>;
+export const CardRowThreeItems: Schema.Schema<CardRowThreeItems> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      middleItem: Schema.optional(TemplateItem),
+      startItem: Schema.optional(TemplateItem),
+      endItem: Schema.optional(TemplateItem),
+    }),
+  ).annotate({
+    identifier: "CardRowThreeItems",
+  }) as any as Schema.Schema<CardRowThreeItems>;
 
 export interface CardRowOneItem {
   /** The item to be displayed in the row. This item will be automatically centered. */
   item?: TemplateItem;
 }
 
-export const CardRowOneItem: Schema.Schema<CardRowOneItem> = Schema.suspend(() => Schema.Struct({
-  item: Schema.optional(TemplateItem),
-})).annotate({ identifier: "CardRowOneItem" }) as any as Schema.Schema<CardRowOneItem>;
+export const CardRowOneItem: Schema.Schema<CardRowOneItem> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      item: Schema.optional(TemplateItem),
+    }),
+).annotate({
+  identifier: "CardRowOneItem",
+}) as any as Schema.Schema<CardRowOneItem>;
 
 export interface CardRowTemplateInfo {
   /** Template for a row containing two items. Exactly one of "one_item", "two_items", "three_items" must be set. */
@@ -878,20 +1259,30 @@ export interface CardRowTemplateInfo {
   oneItem?: CardRowOneItem;
 }
 
-export const CardRowTemplateInfo: Schema.Schema<CardRowTemplateInfo> = Schema.suspend(() => Schema.Struct({
-  twoItems: Schema.optional(CardRowTwoItems),
-  threeItems: Schema.optional(CardRowThreeItems),
-  oneItem: Schema.optional(CardRowOneItem),
-})).annotate({ identifier: "CardRowTemplateInfo" }) as any as Schema.Schema<CardRowTemplateInfo>;
+export const CardRowTemplateInfo: Schema.Schema<CardRowTemplateInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      twoItems: Schema.optional(CardRowTwoItems),
+      threeItems: Schema.optional(CardRowThreeItems),
+      oneItem: Schema.optional(CardRowOneItem),
+    }),
+  ).annotate({
+    identifier: "CardRowTemplateInfo",
+  }) as any as Schema.Schema<CardRowTemplateInfo>;
 
 export interface CardTemplateOverride {
   /** Template information for rows in the card view. At most three rows are allowed to be specified. */
   cardRowTemplateInfos?: Array<CardRowTemplateInfo>;
 }
 
-export const CardTemplateOverride: Schema.Schema<CardTemplateOverride> = Schema.suspend(() => Schema.Struct({
-  cardRowTemplateInfos: Schema.optional(Schema.Array(CardRowTemplateInfo)),
-})).annotate({ identifier: "CardTemplateOverride" }) as any as Schema.Schema<CardTemplateOverride>;
+export const CardTemplateOverride: Schema.Schema<CardTemplateOverride> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cardRowTemplateInfos: Schema.optional(Schema.Array(CardRowTemplateInfo)),
+    }),
+  ).annotate({
+    identifier: "CardTemplateOverride",
+  }) as any as Schema.Schema<CardTemplateOverride>;
 
 export interface ClassTemplateInfo {
   /** Specifies extra information to be displayed above and below the barcode. */
@@ -904,12 +1295,17 @@ export interface ClassTemplateInfo {
   cardTemplateOverride?: CardTemplateOverride;
 }
 
-export const ClassTemplateInfo: Schema.Schema<ClassTemplateInfo> = Schema.suspend(() => Schema.Struct({
-  cardBarcodeSectionDetails: Schema.optional(CardBarcodeSectionDetails),
-  detailsTemplateOverride: Schema.optional(DetailsTemplateOverride),
-  listTemplateOverride: Schema.optional(ListTemplateOverride),
-  cardTemplateOverride: Schema.optional(CardTemplateOverride),
-})).annotate({ identifier: "ClassTemplateInfo" }) as any as Schema.Schema<ClassTemplateInfo>;
+export const ClassTemplateInfo: Schema.Schema<ClassTemplateInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cardBarcodeSectionDetails: Schema.optional(CardBarcodeSectionDetails),
+      detailsTemplateOverride: Schema.optional(DetailsTemplateOverride),
+      listTemplateOverride: Schema.optional(ListTemplateOverride),
+      cardTemplateOverride: Schema.optional(CardTemplateOverride),
+    }),
+  ).annotate({
+    identifier: "ClassTemplateInfo",
+  }) as any as Schema.Schema<ClassTemplateInfo>;
 
 export interface CallbackOptions {
   /** The HTTPS url configured by the merchant. The URL should be hosted on HTTPS and robots.txt should allow the URL path to be accessible by UserAgent:Googlebot. */
@@ -918,10 +1314,15 @@ export interface CallbackOptions {
   updateRequestUrl?: string;
 }
 
-export const CallbackOptions: Schema.Schema<CallbackOptions> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  updateRequestUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "CallbackOptions" }) as any as Schema.Schema<CallbackOptions>;
+export const CallbackOptions: Schema.Schema<CallbackOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      updateRequestUrl: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CallbackOptions",
+}) as any as Schema.Schema<CallbackOptions>;
 
 export interface FlightCarrier {
   /** A logo for the airline described by carrierIataCode and localizedAirlineName. This logo will be rendered at the top of the detailed card view. */
@@ -940,15 +1341,19 @@ export interface FlightCarrier {
   kind?: string;
 }
 
-export const FlightCarrier: Schema.Schema<FlightCarrier> = Schema.suspend(() => Schema.Struct({
-  airlineLogo: Schema.optional(Image),
-  carrierIataCode: Schema.optional(Schema.String),
-  wideAirlineLogo: Schema.optional(Image),
-  carrierIcaoCode: Schema.optional(Schema.String),
-  airlineName: Schema.optional(LocalizedString),
-  airlineAllianceLogo: Schema.optional(Image),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "FlightCarrier" }) as any as Schema.Schema<FlightCarrier>;
+export const FlightCarrier: Schema.Schema<FlightCarrier> = Schema.suspend(() =>
+  Schema.Struct({
+    airlineLogo: Schema.optional(Image),
+    carrierIataCode: Schema.optional(Schema.String),
+    wideAirlineLogo: Schema.optional(Image),
+    carrierIcaoCode: Schema.optional(Schema.String),
+    airlineName: Schema.optional(LocalizedString),
+    airlineAllianceLogo: Schema.optional(Image),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "FlightCarrier",
+}) as any as Schema.Schema<FlightCarrier>;
 
 export interface FlightHeader {
   /** Override value to use for flight number. The default value used for display purposes is carrier + flight_number. If a different value needs to be shown to passengers, use this field to override the default behavior. eg: "XX1234 / YY576" */
@@ -965,14 +1370,18 @@ export interface FlightHeader {
   operatingFlightNumber?: string;
 }
 
-export const FlightHeader: Schema.Schema<FlightHeader> = Schema.suspend(() => Schema.Struct({
-  flightNumberDisplayOverride: Schema.optional(Schema.String),
-  carrier: Schema.optional(FlightCarrier),
-  kind: Schema.optional(Schema.String),
-  flightNumber: Schema.optional(Schema.String),
-  operatingCarrier: Schema.optional(FlightCarrier),
-  operatingFlightNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "FlightHeader" }) as any as Schema.Schema<FlightHeader>;
+export const FlightHeader: Schema.Schema<FlightHeader> = Schema.suspend(() =>
+  Schema.Struct({
+    flightNumberDisplayOverride: Schema.optional(Schema.String),
+    carrier: Schema.optional(FlightCarrier),
+    kind: Schema.optional(Schema.String),
+    flightNumber: Schema.optional(Schema.String),
+    operatingCarrier: Schema.optional(FlightCarrier),
+    operatingFlightNumber: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "FlightHeader",
+}) as any as Schema.Schema<FlightHeader>;
 
 export interface FlightClass {
   /** Required. Origin airport. */
@@ -1012,7 +1421,17 @@ export interface FlightClass {
   /** The scheduled time the aircraft plans to reach the destination gate (not the runway). Note: This field should not change too close to the flight time. For updates to departure times (delays, etc), please set `localEstimatedOrActualArrivalDateTime`. This is an ISO 8601 extended format date/time without an offset. Time may be specified up to millisecond precision. eg: `2027-03-05T06:30:00` This should be the local date/time at the airport (not a UTC time). Google will reject the request if UTC offset is provided. Time zones will be calculated by Google based on arrival airport. */
   localScheduledArrivalDateTime?: string;
   /** Required. The status of the class. This field can be set to `draft` or `underReview` using the insert, patch, or update API calls. Once the review state is changed from `draft` it may not be changed back to `draft`. You should keep this field to `draft` when the class is under development. A `draft` class cannot be used to create any object. You should set this field to `underReview` when you believe the class is ready for use. The platform will automatically set this field to `approved` and it can be immediately used to create or migrate objects. When updating an already `approved` class you should keep setting this field to `underReview`. */
-  reviewStatus?: "REVIEW_STATUS_UNSPECIFIED" | "UNDER_REVIEW" | "underReview" | "APPROVED" | "approved" | "REJECTED" | "rejected" | "DRAFT" | "draft" | (string & {});
+  reviewStatus?:
+    | "REVIEW_STATUS_UNSPECIFIED"
+    | "UNDER_REVIEW"
+    | "underReview"
+    | "APPROVED"
+    | "approved"
+    | "REJECTED"
+    | "rejected"
+    | "DRAFT"
+    | "draft"
+    | (string & {});
   /** Template information about how the class should be displayed. If unset, Google will fallback to a default set of fields to display. */
   classTemplateInfo?: ClassTemplateInfo;
   /** Deprecated. Use textModulesData instead. */
@@ -1028,23 +1447,52 @@ export interface FlightClass {
   /** Optional app or website link that will be displayed as a button on the front of the pass. If AppLinkData is provided for the corresponding object that will be used instead. */
   appLinkData?: AppLinkData;
   /** Whether or not field updates to this class should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If not specified, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** The estimated time the aircraft plans to pull from the gate or the actual time the aircraft already pulled from the gate. Note: This is not the runway time. This field should be set if at least one of the below is true: - It differs from the scheduled time. Google will use it to calculate the delay. - The aircraft already pulled from the gate. Google will use it to inform the user when the flight actually departed. This is an ISO 8601 extended format date/time without an offset. Time may be specified up to millisecond precision. eg: `2027-03-05T06:30:00` This should be the local date/time at the airport (not a UTC time). Google will reject the request if UTC offset is provided. Time zones will be calculated by Google based on departure airport. */
   localEstimatedOrActualDepartureDateTime?: string;
   /** Deprecated. */
   wordMark?: Image;
   /** Status of this flight. If unset, Google will compute status based on data from other sources, such as FlightStats, etc. Note: Google-computed status will not be returned in API responses. */
-  flightStatus?: "FLIGHT_STATUS_UNSPECIFIED" | "SCHEDULED" | "scheduled" | "ACTIVE" | "active" | "LANDED" | "landed" | "CANCELLED" | "cancelled" | "REDIRECTED" | "redirected" | "DIVERTED" | "diverted" | (string & {});
+  flightStatus?:
+    | "FLIGHT_STATUS_UNSPECIFIED"
+    | "SCHEDULED"
+    | "scheduled"
+    | "ACTIVE"
+    | "active"
+    | "LANDED"
+    | "landed"
+    | "CANCELLED"
+    | "cancelled"
+    | "REDIRECTED"
+    | "redirected"
+    | "DIVERTED"
+    | "diverted"
+    | (string & {});
   /** Required. The issuer name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   issuerName?: string;
   /** View Unlock Requirement options for the boarding pass. */
-  viewUnlockRequirement?: "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED" | "UNLOCK_NOT_REQUIRED" | "UNLOCK_REQUIRED_TO_VIEW" | (string & {});
+  viewUnlockRequirement?:
+    | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
+    | "UNLOCK_NOT_REQUIRED"
+    | "UNLOCK_REQUIRED_TO_VIEW"
+    | (string & {});
   /** Required. The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   id?: string;
   /** Translated strings for the issuer_name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   localizedIssuerName?: LocalizedString;
   /** Identifies whether multiple users and devices will save the same object referencing this class. */
-  multipleDevicesAndHoldersAllowedStatus?: "STATUS_UNSPECIFIED" | "MULTIPLE_HOLDERS" | "ONE_USER_ALL_DEVICES" | "ONE_USER_ONE_DEVICE" | "multipleHolders" | "oneUserAllDevices" | "oneUserOneDevice" | (string & {});
+  multipleDevicesAndHoldersAllowedStatus?:
+    | "STATUS_UNSPECIFIED"
+    | "MULTIPLE_HOLDERS"
+    | "ONE_USER_ALL_DEVICES"
+    | "ONE_USER_ONE_DEVICE"
+    | "multipleHolders"
+    | "oneUserAllDevices"
+    | "oneUserOneDevice"
+    | (string & {});
   /** Callback options to be used to call the issuer back for every save/delete of an object for this class by the end-user. All objects of this class are eligible for the callback. */
   callbackOptions?: CallbackOptions;
   /** Required. The scheduled date and time when the aircraft is expected to depart the gate (not the runway) Note: This field should not change too close to the departure time. For updates to departure times (delays, etc), please set `localEstimatedOrActualDepartureDateTime`. This is an ISO 8601 extended format date/time without an offset. Time may be specified up to millisecond precision. eg: `2027-03-05T06:30:00` This should be the local date/time at the airport (not a UTC time). Google will reject the request if UTC offset is provided. Time zones will be calculated by Google based on departure airport. */
@@ -1061,50 +1509,52 @@ export interface FlightClass {
   localEstimatedOrActualArrivalDateTime?: string;
 }
 
-export const FlightClass: Schema.Schema<FlightClass> = Schema.suspend(() => Schema.Struct({
-  origin: Schema.optional(AirportInfo),
-  enableSmartTap: Schema.optional(Schema.Boolean),
-  homepageUri: Schema.optional(Uri),
-  redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-  boardingAndSeatingPolicy: Schema.optional(BoardingAndSeatingPolicy),
-  countryCode: Schema.optional(Schema.String),
-  heroImage: Schema.optional(Image),
-  securityAnimation: Schema.optional(SecurityAnimation),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  languageOverride: Schema.optional(Schema.String),
-  localGateClosingDateTime: Schema.optional(Schema.String),
-  review: Schema.optional(Review),
-  allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  localBoardingDateTime: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  localScheduledArrivalDateTime: Schema.optional(Schema.String),
-  reviewStatus: Schema.optional(Schema.String),
-  classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  infoModuleData: Schema.optional(InfoModuleData),
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  kind: Schema.optional(Schema.String),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  notifyPreference: Schema.optional(Schema.String),
-  localEstimatedOrActualDepartureDateTime: Schema.optional(Schema.String),
-  wordMark: Schema.optional(Image),
-  flightStatus: Schema.optional(Schema.String),
-  issuerName: Schema.optional(Schema.String),
-  viewUnlockRequirement: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  localizedIssuerName: Schema.optional(LocalizedString),
-  multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-  callbackOptions: Schema.optional(CallbackOptions),
-  localScheduledDepartureDateTime: Schema.optional(Schema.String),
-  flightHeader: Schema.optional(FlightHeader),
-  destination: Schema.optional(AirportInfo),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  localEstimatedOrActualArrivalDateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "FlightClass" }) as any as Schema.Schema<FlightClass>;
+export const FlightClass: Schema.Schema<FlightClass> = Schema.suspend(() =>
+  Schema.Struct({
+    origin: Schema.optional(AirportInfo),
+    enableSmartTap: Schema.optional(Schema.Boolean),
+    homepageUri: Schema.optional(Uri),
+    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+    boardingAndSeatingPolicy: Schema.optional(BoardingAndSeatingPolicy),
+    countryCode: Schema.optional(Schema.String),
+    heroImage: Schema.optional(Image),
+    securityAnimation: Schema.optional(SecurityAnimation),
+    hexBackgroundColor: Schema.optional(Schema.String),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    languageOverride: Schema.optional(Schema.String),
+    localGateClosingDateTime: Schema.optional(Schema.String),
+    review: Schema.optional(Review),
+    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    localBoardingDateTime: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    localScheduledArrivalDateTime: Schema.optional(Schema.String),
+    reviewStatus: Schema.optional(Schema.String),
+    classTemplateInfo: Schema.optional(ClassTemplateInfo),
+    infoModuleData: Schema.optional(InfoModuleData),
+    linksModuleData: Schema.optional(LinksModuleData),
+    messages: Schema.optional(Schema.Array(Message)),
+    kind: Schema.optional(Schema.String),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    notifyPreference: Schema.optional(Schema.String),
+    localEstimatedOrActualDepartureDateTime: Schema.optional(Schema.String),
+    wordMark: Schema.optional(Image),
+    flightStatus: Schema.optional(Schema.String),
+    issuerName: Schema.optional(Schema.String),
+    viewUnlockRequirement: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    localizedIssuerName: Schema.optional(LocalizedString),
+    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+    callbackOptions: Schema.optional(CallbackOptions),
+    localScheduledDepartureDateTime: Schema.optional(Schema.String),
+    flightHeader: Schema.optional(FlightHeader),
+    destination: Schema.optional(AirportInfo),
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    localEstimatedOrActualArrivalDateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "FlightClass" }) as any as Schema.Schema<FlightClass>;
 
 export interface FlightObject {
   /** Indicates if the object has users. This field is set by the platform. */
@@ -1134,9 +1584,22 @@ export interface FlightObject {
   /** Merchant locations. There is a maximum of ten on the object. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** Required. The state of the object. This field is used to determine how an object is displayed in the app. For example, an `inactive` object is moved to the "Expired passes" section. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "active" | "COMPLETED" | "completed" | "EXPIRED" | "expired" | "INACTIVE" | "inactive" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "active"
+    | "COMPLETED"
+    | "completed"
+    | "EXPIRED"
+    | "expired"
+    | "INACTIVE"
+    | "inactive"
+    | (string & {});
   /** Whether or not field updates to this object should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If set to DO_NOT_NOTIFY or NOTIFICATION_SETTINGS_UNSPECIFIED, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#flightObject"`. */
   kind?: string;
   /** Image module data. The maximum number of these fields displayed is 1 from object level and 1 for class object level. */
@@ -1175,41 +1638,45 @@ export interface FlightObject {
   passengerName?: string;
 }
 
-export const FlightObject: Schema.Schema<FlightObject> = Schema.suspend(() => Schema.Struct({
-  hasUsers: Schema.optional(Schema.Boolean),
-  hasLinkedDevice: Schema.optional(Schema.Boolean),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  securityProgramLogo: Schema.optional(Image),
-  barcode: Schema.optional(Barcode),
-  rotatingBarcode: Schema.optional(RotatingBarcode),
-  heroImage: Schema.optional(Image),
-  saveRestrictions: Schema.optional(SaveRestrictions),
-  classId: Schema.optional(Schema.String),
-  reservationInfo: Schema.optional(ReservationInfo),
-  version: Schema.optional(Schema.String),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  state: Schema.optional(Schema.String),
-  notifyPreference: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  validTimeInterval: Schema.optional(TimeInterval),
-  groupingInfo: Schema.optional(GroupingInfo),
-  boardingAndSeatingInfo: Schema.optional(BoardingAndSeatingInfo),
-  smartTapRedemptionValue: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  id: Schema.optional(Schema.String),
-  classReference: Schema.optional(FlightClass),
-  disableExpirationNotification: Schema.optional(Schema.Boolean),
-  passConstraints: Schema.optional(PassConstraints),
-  passengerName: Schema.optional(Schema.String),
-})).annotate({ identifier: "FlightObject" }) as any as Schema.Schema<FlightObject>;
+export const FlightObject: Schema.Schema<FlightObject> = Schema.suspend(() =>
+  Schema.Struct({
+    hasUsers: Schema.optional(Schema.Boolean),
+    hasLinkedDevice: Schema.optional(Schema.Boolean),
+    hexBackgroundColor: Schema.optional(Schema.String),
+    securityProgramLogo: Schema.optional(Image),
+    barcode: Schema.optional(Barcode),
+    rotatingBarcode: Schema.optional(RotatingBarcode),
+    heroImage: Schema.optional(Image),
+    saveRestrictions: Schema.optional(SaveRestrictions),
+    classId: Schema.optional(Schema.String),
+    reservationInfo: Schema.optional(ReservationInfo),
+    version: Schema.optional(Schema.String),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    state: Schema.optional(Schema.String),
+    notifyPreference: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    linksModuleData: Schema.optional(LinksModuleData),
+    messages: Schema.optional(Schema.Array(Message)),
+    validTimeInterval: Schema.optional(TimeInterval),
+    groupingInfo: Schema.optional(GroupingInfo),
+    boardingAndSeatingInfo: Schema.optional(BoardingAndSeatingInfo),
+    smartTapRedemptionValue: Schema.optional(Schema.String),
+    infoModuleData: Schema.optional(InfoModuleData),
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    id: Schema.optional(Schema.String),
+    classReference: Schema.optional(FlightClass),
+    disableExpirationNotification: Schema.optional(Schema.Boolean),
+    passConstraints: Schema.optional(PassConstraints),
+    passengerName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "FlightObject",
+}) as any as Schema.Schema<FlightObject>;
 
 export interface FlightObjectListResponse {
   /** Pagination of the response. */
@@ -1218,18 +1685,34 @@ export interface FlightObjectListResponse {
   resources?: Array<FlightObject>;
 }
 
-export const FlightObjectListResponse: Schema.Schema<FlightObjectListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(FlightObject)),
-})).annotate({ identifier: "FlightObjectListResponse" }) as any as Schema.Schema<FlightObjectListResponse>;
+export const FlightObjectListResponse: Schema.Schema<FlightObjectListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(FlightObject)),
+    }),
+  ).annotate({
+    identifier: "FlightObjectListResponse",
+  }) as any as Schema.Schema<FlightObjectListResponse>;
 
 export interface ActivationStatus {
-  state?: "UNKNOWN_STATE" | "NOT_ACTIVATED" | "not_activated" | "ACTIVATED" | "activated" | (string & {});
+  state?:
+    | "UNKNOWN_STATE"
+    | "NOT_ACTIVATED"
+    | "not_activated"
+    | "ACTIVATED"
+    | "activated"
+    | (string & {});
 }
 
-export const ActivationStatus: Schema.Schema<ActivationStatus> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActivationStatus" }) as any as Schema.Schema<ActivationStatus>;
+export const ActivationStatus: Schema.Schema<ActivationStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ActivationStatus",
+}) as any as Schema.Schema<ActivationStatus>;
 
 export interface EventDateTime {
   /** A custom label to use for the doors open value (`doorsOpen`) on the card detail view. This should only be used if the default "Doors Open" label or one of the `doorsOpenLabel` options is not sufficient. Both `doorsOpenLabel` and `customDoorsOpenLabel` may not be set. If neither is set, the label will default to "Doors Open", localized. If the doors open field is unset, this label will not be used. */
@@ -1237,7 +1720,13 @@ export interface EventDateTime {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#eventDateTime"`. */
   kind?: string;
   /** The label to use for the doors open value (`doorsOpen`) on the card detail view. Each available option maps to a set of localized strings, so that translations are shown to the user based on their locale. Both `doorsOpenLabel` and `customDoorsOpenLabel` may not be set. If neither is set, the label will default to "Doors Open", localized. If the doors open field is unset, this label will not be used. */
-  doorsOpenLabel?: "DOORS_OPEN_LABEL_UNSPECIFIED" | "DOORS_OPEN" | "doorsOpen" | "GATES_OPEN" | "gatesOpen" | (string & {});
+  doorsOpenLabel?:
+    | "DOORS_OPEN_LABEL_UNSPECIFIED"
+    | "DOORS_OPEN"
+    | "doorsOpen"
+    | "GATES_OPEN"
+    | "gatesOpen"
+    | (string & {});
   /** The date/time when the doors open at the venue. This is an ISO 8601 extended format date/time, with or without an offset. Time may be specified up to nanosecond precision. Offsets may be specified with seconds precision (even though offset seconds is not part of ISO 8601). For example: `1985-04-12T23:20:50.52Z` would be 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC. `1985-04-12T19:20:50.52-04:00` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985, 4 hours before UTC (same instant in time as the above example). If the event were in New York, this would be the equivalent of Eastern Daylight Time (EDT). Remember that offset varies in regions that observe Daylight Saving Time (or Summer Time), depending on the time of the year. `1985-04-12T19:20:50.52` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985 with no offset information. The portion of the date/time without the offset is considered the "local date/time". This should be the local date/time at the venue. For example, if the event occurs at the 20th hour of June 5th, 2018 at the venue, the local date/time portion should be `2018-06-05T20:00:00`. If the local date/time at the venue is 4 hours before UTC, an offset of `-04:00` may be appended. Without offset information, some rich features may not be available. */
   doorsOpen?: string;
   /** The date/time when the event starts. If the event spans multiple days, it should be the start date/time on the first day. This is an ISO 8601 extended format date/time, with or without an offset. Time may be specified up to nanosecond precision. Offsets may be specified with seconds precision (even though offset seconds is not part of ISO 8601). For example: `1985-04-12T23:20:50.52Z` would be 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC. `1985-04-12T19:20:50.52-04:00` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985, 4 hours before UTC (same instant in time as the above example). If the event were in New York, this would be the equivalent of Eastern Daylight Time (EDT). Remember that offset varies in regions that observe Daylight Saving Time (or Summer Time), depending on the time of the year. `1985-04-12T19:20:50.52` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985 with no offset information. The portion of the date/time without the offset is considered the "local date/time". This should be the local date/time at the venue. For example, if the event occurs at the 20th hour of June 5th, 2018 at the venue, the local date/time portion should be `2018-06-05T20:00:00`. If the local date/time at the venue is 4 hours before UTC, an offset of `-04:00` may be appended. Without offset information, some rich features may not be available. */
@@ -1246,14 +1735,18 @@ export interface EventDateTime {
   end?: string;
 }
 
-export const EventDateTime: Schema.Schema<EventDateTime> = Schema.suspend(() => Schema.Struct({
-  customDoorsOpenLabel: Schema.optional(LocalizedString),
-  kind: Schema.optional(Schema.String),
-  doorsOpenLabel: Schema.optional(Schema.String),
-  doorsOpen: Schema.optional(Schema.String),
-  start: Schema.optional(Schema.String),
-  end: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventDateTime" }) as any as Schema.Schema<EventDateTime>;
+export const EventDateTime: Schema.Schema<EventDateTime> = Schema.suspend(() =>
+  Schema.Struct({
+    customDoorsOpenLabel: Schema.optional(LocalizedString),
+    kind: Schema.optional(Schema.String),
+    doorsOpenLabel: Schema.optional(Schema.String),
+    doorsOpen: Schema.optional(Schema.String),
+    start: Schema.optional(Schema.String),
+    end: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EventDateTime",
+}) as any as Schema.Schema<EventDateTime>;
 
 export interface EventVenue {
   /** The address of the venue, such as "24 Willie Mays Plaza\nSan Francisco, CA 94107". Address lines are separated by line feed (`\n`) characters. This is required. */
@@ -1264,11 +1757,13 @@ export interface EventVenue {
   name?: LocalizedString;
 }
 
-export const EventVenue: Schema.Schema<EventVenue> = Schema.suspend(() => Schema.Struct({
-  address: Schema.optional(LocalizedString),
-  kind: Schema.optional(Schema.String),
-  name: Schema.optional(LocalizedString),
-})).annotate({ identifier: "EventVenue" }) as any as Schema.Schema<EventVenue>;
+export const EventVenue: Schema.Schema<EventVenue> = Schema.suspend(() =>
+  Schema.Struct({
+    address: Schema.optional(LocalizedString),
+    kind: Schema.optional(Schema.String),
+    name: Schema.optional(LocalizedString),
+  }),
+).annotate({ identifier: "EventVenue" }) as any as Schema.Schema<EventVenue>;
 
 export interface EventTicketClass {
   /** Note: This field is currently not supported to trigger geo notifications. */
@@ -1280,7 +1775,11 @@ export interface EventTicketClass {
   /** A custom label to use for the seat value (`eventTicketObject.seatInfo.seat`) on the card detail view. This should only be used if the default "Seat" label or one of the `seatLabel` options is not sufficient. Both `seatLabel` and `customSeatLabel` may not be set. If neither is set, the label will default to "Seat", localized. If the seat field is unset, this label will not be used. */
   customSeatLabel?: LocalizedString;
   /** View Unlock Requirement options for the event ticket. */
-  viewUnlockRequirement?: "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED" | "UNLOCK_NOT_REQUIRED" | "UNLOCK_REQUIRED_TO_VIEW" | (string & {});
+  viewUnlockRequirement?:
+    | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
+    | "UNLOCK_NOT_REQUIRED"
+    | "UNLOCK_REQUIRED_TO_VIEW"
+    | (string & {});
   /** The label to use for the row value (`eventTicketObject.seatInfo.row`) on the card detail view. Each available option maps to a set of localized strings, so that translations are shown to the user based on their locale. Both `rowLabel` and `customRowLabel` may not be set. If neither is set, the label will default to "Row", localized. If the row field is unset, this label will not be used. */
   rowLabel?: "ROW_LABEL_UNSPECIFIED" | "ROW" | "row" | (string & {});
   /** Required. The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
@@ -1288,7 +1787,15 @@ export interface EventTicketClass {
   /** Translated strings for the issuer_name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   localizedIssuerName?: LocalizedString;
   /** Identifies whether multiple users and devices will save the same object referencing this class. */
-  multipleDevicesAndHoldersAllowedStatus?: "STATUS_UNSPECIFIED" | "MULTIPLE_HOLDERS" | "ONE_USER_ALL_DEVICES" | "ONE_USER_ONE_DEVICE" | "multipleHolders" | "oneUserAllDevices" | "oneUserOneDevice" | (string & {});
+  multipleDevicesAndHoldersAllowedStatus?:
+    | "STATUS_UNSPECIFIED"
+    | "MULTIPLE_HOLDERS"
+    | "ONE_USER_ALL_DEVICES"
+    | "ONE_USER_ONE_DEVICE"
+    | "multipleHolders"
+    | "oneUserAllDevices"
+    | "oneUserOneDevice"
+    | (string & {});
   /** Callback options to be used to call the issuer back for every save/delete of an object for this class by the end-user. All objects of this class are eligible for the callback. */
   callbackOptions?: CallbackOptions;
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#eventTicketClass"`. */
@@ -1306,13 +1813,32 @@ export interface EventTicketClass {
   /** The fine print, terms, or conditions of the ticket. */
   finePrint?: LocalizedString;
   /** Whether or not field updates to this class should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If not specified, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Deprecated. */
   wordMark?: Image;
   /** The label to use for the section value (`eventTicketObject.seatInfo.section`) on the card detail view. Each available option maps to a set of localized strings, so that translations are shown to the user based on their locale. Both `sectionLabel` and `customSectionLabel` may not be set. If neither is set, the label will default to "Section", localized. If the section field is unset, this label will not be used. */
-  sectionLabel?: "SECTION_LABEL_UNSPECIFIED" | "SECTION" | "section" | "THEATER" | "theater" | (string & {});
+  sectionLabel?:
+    | "SECTION_LABEL_UNSPECIFIED"
+    | "SECTION"
+    | "section"
+    | "THEATER"
+    | "theater"
+    | (string & {});
   /** Required. The status of the class. This field can be set to `draft` or `underReview` using the insert, patch, or update API calls. Once the review state is changed from `draft` it may not be changed back to `draft`. You should keep this field to `draft` when the class is under development. A `draft` class cannot be used to create any object. You should set this field to `underReview` when you believe the class is ready for use. The platform will automatically set this field to `approved` and it can be immediately used to create or migrate objects. When updating an already `approved` class you should keep setting this field to `underReview`. */
-  reviewStatus?: "REVIEW_STATUS_UNSPECIFIED" | "UNDER_REVIEW" | "underReview" | "APPROVED" | "approved" | "REJECTED" | "rejected" | "DRAFT" | "draft" | (string & {});
+  reviewStatus?:
+    | "REVIEW_STATUS_UNSPECIFIED"
+    | "UNDER_REVIEW"
+    | "underReview"
+    | "APPROVED"
+    | "approved"
+    | "REJECTED"
+    | "rejected"
+    | "DRAFT"
+    | "draft"
+    | (string & {});
   /** Deprecated. Use textModulesData instead. */
   infoModuleData?: InfoModuleData;
   /** The ID of the event. This ID should be unique for every event in an account. It is used to group tickets together if the user has saved multiple tickets for the same event. It can be at most 64 characters. If provided, the grouping will be stable. Be wary of unintentional collision to avoid grouping tickets that should not be grouped. If you use only one class per event, you can simply set this to the `classId` (with or without the issuer ID portion). If not provided, the platform will attempt to use other data to group tickets (potentially unstable). */
@@ -1336,7 +1862,15 @@ export interface EventTicketClass {
   /** A custom label to use for the row value (`eventTicketObject.seatInfo.row`) on the card detail view. This should only be used if the default "Row" label or one of the `rowLabel` options is not sufficient. Both `rowLabel` and `customRowLabel` may not be set. If neither is set, the label will default to "Row", localized. If the row field is unset, this label will not be used. */
   customRowLabel?: LocalizedString;
   /** The label to use for the gate value (`eventTicketObject.seatInfo.gate`) on the card detail view. Each available option maps to a set of localized strings, so that translations are shown to the user based on their locale. Both `gateLabel` and `customGateLabel` may not be set. If neither is set, the label will default to "Gate", localized. If the gate field is unset, this label will not be used. */
-  gateLabel?: "GATE_LABEL_UNSPECIFIED" | "GATE" | "gate" | "DOOR" | "door" | "ENTRANCE" | "entrance" | (string & {});
+  gateLabel?:
+    | "GATE_LABEL_UNSPECIFIED"
+    | "GATE"
+    | "gate"
+    | "DOOR"
+    | "door"
+    | "ENTRANCE"
+    | "entrance"
+    | (string & {});
   /** Deprecated. Use `multipleDevicesAndHoldersAllowedStatus` instead. */
   allowMultipleUsersPerObject?: boolean;
   /** The review comments set by the platform when a class is marked `approved` or `rejected`. */
@@ -1356,7 +1890,17 @@ export interface EventTicketClass {
   /** Identifies whether this class supports Smart Tap. The `redemptionIssuers` and object level `smartTapRedemptionLevel` fields must also be set up correctly in order for a pass to support Smart Tap. */
   enableSmartTap?: boolean;
   /** The label to use for the confirmation code value (`eventTicketObject.reservationInfo.confirmationCode`) on the card detail view. Each available option maps to a set of localized strings, so that translations are shown to the user based on their locale. Both `confirmationCodeLabel` and `customConfirmationCodeLabel` may not be set. If neither is set, the label will default to "Confirmation Code", localized. If the confirmation code field is unset, this label will not be used. */
-  confirmationCodeLabel?: "CONFIRMATION_CODE_LABEL_UNSPECIFIED" | "CONFIRMATION_CODE" | "confirmationCode" | "CONFIRMATION_NUMBER" | "confirmationNumber" | "ORDER_NUMBER" | "orderNumber" | "RESERVATION_NUMBER" | "reservationNumber" | (string & {});
+  confirmationCodeLabel?:
+    | "CONFIRMATION_CODE_LABEL_UNSPECIFIED"
+    | "CONFIRMATION_CODE"
+    | "confirmationCode"
+    | "CONFIRMATION_NUMBER"
+    | "confirmationNumber"
+    | "ORDER_NUMBER"
+    | "orderNumber"
+    | "RESERVATION_NUMBER"
+    | "reservationNumber"
+    | (string & {});
   /** The URI of your application's home page. Populating the URI in this field results in the exact same behavior as populating an URI in linksModuleData (when an object is rendered, a link to the homepage is shown in what would usually be thought of as the linksModuleData section of the object). */
   homepageUri?: Uri;
   /** Identifies which redemption issuers can redeem the pass over Smart Tap. Redemption issuers are identified by their issuer ID. Redemption issuers must have at least one Smart Tap key configured. The `enableSmartTap` and object level `smartTapRedemptionLevel` fields must also be set up correctly in order for a pass to support Smart Tap. */
@@ -1367,100 +1911,149 @@ export interface EventTicketClass {
   countryCode?: string;
 }
 
-export const EventTicketClass: Schema.Schema<EventTicketClass> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  issuerName: Schema.optional(Schema.String),
-  customSeatLabel: Schema.optional(LocalizedString),
-  viewUnlockRequirement: Schema.optional(Schema.String),
-  rowLabel: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  localizedIssuerName: Schema.optional(LocalizedString),
-  multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-  callbackOptions: Schema.optional(CallbackOptions),
-  kind: Schema.optional(Schema.String),
-  wideLogo: Schema.optional(Image),
-  customGateLabel: Schema.optional(LocalizedString),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  dateTime: Schema.optional(EventDateTime),
-  finePrint: Schema.optional(LocalizedString),
-  notifyPreference: Schema.optional(Schema.String),
-  wordMark: Schema.optional(Image),
-  sectionLabel: Schema.optional(Schema.String),
-  reviewStatus: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  eventId: Schema.optional(Schema.String),
-  classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  seatLabel: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  logo: Schema.optional(Image),
-  customRowLabel: Schema.optional(LocalizedString),
-  gateLabel: Schema.optional(Schema.String),
-  allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-  review: Schema.optional(Review),
-  venue: Schema.optional(EventVenue),
-  heroImage: Schema.optional(Image),
-  customConfirmationCodeLabel: Schema.optional(LocalizedString),
-  securityAnimation: Schema.optional(SecurityAnimation),
-  eventName: Schema.optional(LocalizedString),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  enableSmartTap: Schema.optional(Schema.Boolean),
-  confirmationCodeLabel: Schema.optional(Schema.String),
-  homepageUri: Schema.optional(Uri),
-  redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-  customSectionLabel: Schema.optional(LocalizedString),
-  countryCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventTicketClass" }) as any as Schema.Schema<EventTicketClass>;
+export const EventTicketClass: Schema.Schema<EventTicketClass> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      issuerName: Schema.optional(Schema.String),
+      customSeatLabel: Schema.optional(LocalizedString),
+      viewUnlockRequirement: Schema.optional(Schema.String),
+      rowLabel: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      localizedIssuerName: Schema.optional(LocalizedString),
+      multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+      callbackOptions: Schema.optional(CallbackOptions),
+      kind: Schema.optional(Schema.String),
+      wideLogo: Schema.optional(Image),
+      customGateLabel: Schema.optional(LocalizedString),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      appLinkData: Schema.optional(AppLinkData),
+      dateTime: Schema.optional(EventDateTime),
+      finePrint: Schema.optional(LocalizedString),
+      notifyPreference: Schema.optional(Schema.String),
+      wordMark: Schema.optional(Image),
+      sectionLabel: Schema.optional(Schema.String),
+      reviewStatus: Schema.optional(Schema.String),
+      infoModuleData: Schema.optional(InfoModuleData),
+      eventId: Schema.optional(Schema.String),
+      classTemplateInfo: Schema.optional(ClassTemplateInfo),
+      linksModuleData: Schema.optional(LinksModuleData),
+      messages: Schema.optional(Schema.Array(Message)),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      seatLabel: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      logo: Schema.optional(Image),
+      customRowLabel: Schema.optional(LocalizedString),
+      gateLabel: Schema.optional(Schema.String),
+      allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+      review: Schema.optional(Review),
+      venue: Schema.optional(EventVenue),
+      heroImage: Schema.optional(Image),
+      customConfirmationCodeLabel: Schema.optional(LocalizedString),
+      securityAnimation: Schema.optional(SecurityAnimation),
+      eventName: Schema.optional(LocalizedString),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      enableSmartTap: Schema.optional(Schema.Boolean),
+      confirmationCodeLabel: Schema.optional(Schema.String),
+      homepageUri: Schema.optional(Uri),
+      redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+      customSectionLabel: Schema.optional(LocalizedString),
+      countryCode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EventTicketClass",
+}) as any as Schema.Schema<EventTicketClass>;
 
 export interface JwtResource {
   /** Required. A string representing a JWT of the format described at https://developers.google.com/wallet/reference/rest/v1/Jwt */
   jwt?: string;
 }
 
-export const JwtResource: Schema.Schema<JwtResource> = Schema.suspend(() => Schema.Struct({
-  jwt: Schema.optional(Schema.String),
-})).annotate({ identifier: "JwtResource" }) as any as Schema.Schema<JwtResource>;
+export const JwtResource: Schema.Schema<JwtResource> = Schema.suspend(() =>
+  Schema.Struct({
+    jwt: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "JwtResource" }) as any as Schema.Schema<JwtResource>;
 
 export interface DiscoverableProgramMerchantSignupInfo {
   /** The URL to direct the user to for the merchant's signup site. */
   signupWebsite?: Uri;
   /** User data that is sent in a POST request to the signup website URL. This information is encoded and then shared so that the merchant's website can prefill fields used to enroll the user for the discoverable program. */
-  signupSharedDatas?: Array<"SHARED_DATA_TYPE_UNSPECIFIED" | "FIRST_NAME" | "LAST_NAME" | "STREET_ADDRESS" | "ADDRESS_LINE_1" | "ADDRESS_LINE_2" | "ADDRESS_LINE_3" | "CITY" | "STATE" | "ZIPCODE" | "COUNTRY" | "EMAIL" | "PHONE" | (string & {})>;
+  signupSharedDatas?: Array<
+    | "SHARED_DATA_TYPE_UNSPECIFIED"
+    | "FIRST_NAME"
+    | "LAST_NAME"
+    | "STREET_ADDRESS"
+    | "ADDRESS_LINE_1"
+    | "ADDRESS_LINE_2"
+    | "ADDRESS_LINE_3"
+    | "CITY"
+    | "STATE"
+    | "ZIPCODE"
+    | "COUNTRY"
+    | "EMAIL"
+    | "PHONE"
+    | (string & {})
+  >;
 }
 
-export const DiscoverableProgramMerchantSignupInfo: Schema.Schema<DiscoverableProgramMerchantSignupInfo> = Schema.suspend(() => Schema.Struct({
-  signupWebsite: Schema.optional(Uri),
-  signupSharedDatas: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "DiscoverableProgramMerchantSignupInfo" }) as any as Schema.Schema<DiscoverableProgramMerchantSignupInfo>;
+export const DiscoverableProgramMerchantSignupInfo: Schema.Schema<DiscoverableProgramMerchantSignupInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      signupWebsite: Schema.optional(Uri),
+      signupSharedDatas: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DiscoverableProgramMerchantSignupInfo",
+  }) as any as Schema.Schema<DiscoverableProgramMerchantSignupInfo>;
 
 export interface DiscoverableProgramMerchantSigninInfo {
   /** The URL to direct the user to for the merchant's signin site. */
   signinWebsite?: Uri;
 }
 
-export const DiscoverableProgramMerchantSigninInfo: Schema.Schema<DiscoverableProgramMerchantSigninInfo> = Schema.suspend(() => Schema.Struct({
-  signinWebsite: Schema.optional(Uri),
-})).annotate({ identifier: "DiscoverableProgramMerchantSigninInfo" }) as any as Schema.Schema<DiscoverableProgramMerchantSigninInfo>;
+export const DiscoverableProgramMerchantSigninInfo: Schema.Schema<DiscoverableProgramMerchantSigninInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      signinWebsite: Schema.optional(Uri),
+    }),
+  ).annotate({
+    identifier: "DiscoverableProgramMerchantSigninInfo",
+  }) as any as Schema.Schema<DiscoverableProgramMerchantSigninInfo>;
 
 export interface DiscoverableProgram {
   /** Visibility state of the discoverable program. */
-  state?: "STATE_UNSPECIFIED" | "TRUSTED_TESTERS" | "trustedTesters" | "LIVE" | "live" | "DISABLED" | "disabled" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "TRUSTED_TESTERS"
+    | "trustedTesters"
+    | "LIVE"
+    | "live"
+    | "DISABLED"
+    | "disabled"
+    | (string & {});
   /** Information about the ability to signup and add a valuable for this program through a merchant site. Used when MERCHANT_HOSTED_SIGNUP is enabled. */
   merchantSignupInfo?: DiscoverableProgramMerchantSignupInfo;
   /** Information about the ability to signin and add a valuable for this program through a merchant site. Used when MERCHANT_HOSTED_SIGNIN is enabled. */
   merchantSigninInfo?: DiscoverableProgramMerchantSigninInfo;
 }
 
-export const DiscoverableProgram: Schema.Schema<DiscoverableProgram> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  merchantSignupInfo: Schema.optional(DiscoverableProgramMerchantSignupInfo),
-  merchantSigninInfo: Schema.optional(DiscoverableProgramMerchantSigninInfo),
-})).annotate({ identifier: "DiscoverableProgram" }) as any as Schema.Schema<DiscoverableProgram>;
+export const DiscoverableProgram: Schema.Schema<DiscoverableProgram> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      merchantSignupInfo: Schema.optional(
+        DiscoverableProgramMerchantSignupInfo,
+      ),
+      merchantSigninInfo: Schema.optional(
+        DiscoverableProgramMerchantSigninInfo,
+      ),
+    }),
+  ).annotate({
+    identifier: "DiscoverableProgram",
+  }) as any as Schema.Schema<DiscoverableProgram>;
 
 export interface LoyaltyClass {
   /** The rewards tier, such as "Gold" or "Platinum." Recommended maximum length is 7 characters to ensure full string is displayed on smaller screens. */
@@ -1514,7 +2107,17 @@ export interface LoyaltyClass {
   /** Deprecated. Use textModulesData instead. */
   infoModuleData?: InfoModuleData;
   /** Required. The status of the class. This field can be set to `draft` or `underReview` using the insert, patch, or update API calls. Once the review state is changed from `draft` it may not be changed back to `draft`. You should keep this field to `draft` when the class is under development. A `draft` class cannot be used to create any object. You should set this field to `underReview` when you believe the class is ready for use. The platform will automatically set this field to `approved` and it can be immediately used to create or migrate objects. When updating an already `approved` class you should keep setting this field to `underReview`. */
-  reviewStatus?: "REVIEW_STATUS_UNSPECIFIED" | "UNDER_REVIEW" | "underReview" | "APPROVED" | "approved" | "REJECTED" | "rejected" | "DRAFT" | "draft" | (string & {});
+  reviewStatus?:
+    | "REVIEW_STATUS_UNSPECIFIED"
+    | "UNDER_REVIEW"
+    | "underReview"
+    | "APPROVED"
+    | "approved"
+    | "REJECTED"
+    | "rejected"
+    | "DRAFT"
+    | "draft"
+    | (string & {});
   /** An array of messages displayed in the app. All users of this object will receive its associated messages. The maximum number of these fields is 10. */
   messages?: Array<Message>;
   /** Links module data. If links module data is also defined on the object, both will be displayed. */
@@ -1530,11 +2133,18 @@ export interface LoyaltyClass {
   /** Deprecated. */
   wordMark?: Image;
   /** Whether or not field updates to this class should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If not specified, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Translated strings for the program_name. The app may display an ellipsis after the first 20 characters to ensure full string is displayed on smaller screens. */
   localizedProgramName?: LocalizedString;
   /** View Unlock Requirement options for the loyalty card. */
-  viewUnlockRequirement?: "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED" | "UNLOCK_NOT_REQUIRED" | "UNLOCK_REQUIRED_TO_VIEW" | (string & {});
+  viewUnlockRequirement?:
+    | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
+    | "UNLOCK_NOT_REQUIRED"
+    | "UNLOCK_REQUIRED_TO_VIEW"
+    | (string & {});
   /** Required. The program name, such as "Adam's Apparel". The app may display an ellipsis after the first 20 characters to ensure full string is displayed on smaller screens. */
   programName?: string;
   /** Translated strings for the rewards_tier. Recommended maximum length is 7 characters to ensure full string is displayed on smaller screens. */
@@ -1546,7 +2156,15 @@ export interface LoyaltyClass {
   /** Translated strings for the issuer_name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   localizedIssuerName?: LocalizedString;
   /** Identifies whether multiple users and devices will save the same object referencing this class. */
-  multipleDevicesAndHoldersAllowedStatus?: "STATUS_UNSPECIFIED" | "MULTIPLE_HOLDERS" | "ONE_USER_ALL_DEVICES" | "ONE_USER_ONE_DEVICE" | "multipleHolders" | "oneUserAllDevices" | "oneUserOneDevice" | (string & {});
+  multipleDevicesAndHoldersAllowedStatus?:
+    | "STATUS_UNSPECIFIED"
+    | "MULTIPLE_HOLDERS"
+    | "ONE_USER_ALL_DEVICES"
+    | "ONE_USER_ONE_DEVICE"
+    | "multipleHolders"
+    | "oneUserAllDevices"
+    | "oneUserOneDevice"
+    | (string & {});
   /** Callback options to be used to call the issuer back for every save/delete of an object for this class by the end-user. All objects of this class are eligible for the callback. */
   callbackOptions?: CallbackOptions;
   /** The account ID label, such as "Member ID." Recommended maximum length is 15 characters to ensure full string is displayed on smaller screens. */
@@ -1559,64 +2177,73 @@ export interface LoyaltyClass {
   valueAddedModuleData?: Array<ValueAddedModuleData>;
 }
 
-export const LoyaltyClass: Schema.Schema<LoyaltyClass> = Schema.suspend(() => Schema.Struct({
-  rewardsTier: Schema.optional(Schema.String),
-  localizedSecondaryRewardsTier: Schema.optional(LocalizedString),
-  localizedRewardsTierLabel: Schema.optional(LocalizedString),
-  enableSmartTap: Schema.optional(Schema.Boolean),
-  countryCode: Schema.optional(Schema.String),
-  homepageUri: Schema.optional(Uri),
-  redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-  localizedAccountNameLabel: Schema.optional(LocalizedString),
-  discoverableProgram: Schema.optional(DiscoverableProgram),
-  heroImage: Schema.optional(Image),
-  accountNameLabel: Schema.optional(Schema.String),
-  secondaryRewardsTier: Schema.optional(Schema.String),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  localizedAccountIdLabel: Schema.optional(LocalizedString),
-  securityAnimation: Schema.optional(SecurityAnimation),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  review: Schema.optional(Review),
-  allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  rewardsTierLabel: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  wideProgramLogo: Schema.optional(Image),
-  secondaryRewardsTierLabel: Schema.optional(Schema.String),
-  classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  infoModuleData: Schema.optional(InfoModuleData),
-  reviewStatus: Schema.optional(Schema.String),
-  messages: Schema.optional(Schema.Array(Message)),
-  linksModuleData: Schema.optional(LinksModuleData),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  kind: Schema.optional(Schema.String),
-  programLogo: Schema.optional(Image),
-  wordMark: Schema.optional(Image),
-  notifyPreference: Schema.optional(Schema.String),
-  localizedProgramName: Schema.optional(LocalizedString),
-  viewUnlockRequirement: Schema.optional(Schema.String),
-  programName: Schema.optional(Schema.String),
-  localizedRewardsTier: Schema.optional(LocalizedString),
-  issuerName: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  localizedIssuerName: Schema.optional(LocalizedString),
-  multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-  callbackOptions: Schema.optional(CallbackOptions),
-  accountIdLabel: Schema.optional(Schema.String),
-  localizedSecondaryRewardsTierLabel: Schema.optional(LocalizedString),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-})).annotate({ identifier: "LoyaltyClass" }) as any as Schema.Schema<LoyaltyClass>;
+export const LoyaltyClass: Schema.Schema<LoyaltyClass> = Schema.suspend(() =>
+  Schema.Struct({
+    rewardsTier: Schema.optional(Schema.String),
+    localizedSecondaryRewardsTier: Schema.optional(LocalizedString),
+    localizedRewardsTierLabel: Schema.optional(LocalizedString),
+    enableSmartTap: Schema.optional(Schema.Boolean),
+    countryCode: Schema.optional(Schema.String),
+    homepageUri: Schema.optional(Uri),
+    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+    localizedAccountNameLabel: Schema.optional(LocalizedString),
+    discoverableProgram: Schema.optional(DiscoverableProgram),
+    heroImage: Schema.optional(Image),
+    accountNameLabel: Schema.optional(Schema.String),
+    secondaryRewardsTier: Schema.optional(Schema.String),
+    hexBackgroundColor: Schema.optional(Schema.String),
+    localizedAccountIdLabel: Schema.optional(LocalizedString),
+    securityAnimation: Schema.optional(SecurityAnimation),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    review: Schema.optional(Review),
+    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    rewardsTierLabel: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    wideProgramLogo: Schema.optional(Image),
+    secondaryRewardsTierLabel: Schema.optional(Schema.String),
+    classTemplateInfo: Schema.optional(ClassTemplateInfo),
+    infoModuleData: Schema.optional(InfoModuleData),
+    reviewStatus: Schema.optional(Schema.String),
+    messages: Schema.optional(Schema.Array(Message)),
+    linksModuleData: Schema.optional(LinksModuleData),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    kind: Schema.optional(Schema.String),
+    programLogo: Schema.optional(Image),
+    wordMark: Schema.optional(Image),
+    notifyPreference: Schema.optional(Schema.String),
+    localizedProgramName: Schema.optional(LocalizedString),
+    viewUnlockRequirement: Schema.optional(Schema.String),
+    programName: Schema.optional(Schema.String),
+    localizedRewardsTier: Schema.optional(LocalizedString),
+    issuerName: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    localizedIssuerName: Schema.optional(LocalizedString),
+    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+    callbackOptions: Schema.optional(CallbackOptions),
+    accountIdLabel: Schema.optional(Schema.String),
+    localizedSecondaryRewardsTierLabel: Schema.optional(LocalizedString),
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+  }),
+).annotate({
+  identifier: "LoyaltyClass",
+}) as any as Schema.Schema<LoyaltyClass>;
 
 export interface LoyaltyClassAddMessageResponse {
   /** The updated LoyaltyClass resource. */
   resource?: LoyaltyClass;
 }
 
-export const LoyaltyClassAddMessageResponse: Schema.Schema<LoyaltyClassAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(LoyaltyClass),
-})).annotate({ identifier: "LoyaltyClassAddMessageResponse" }) as any as Schema.Schema<LoyaltyClassAddMessageResponse>;
+export const LoyaltyClassAddMessageResponse: Schema.Schema<LoyaltyClassAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(LoyaltyClass),
+    }),
+  ).annotate({
+    identifier: "LoyaltyClassAddMessageResponse",
+  }) as any as Schema.Schema<LoyaltyClassAddMessageResponse>;
 
 export interface ObjectId {
   /** Generation of the object. Generations are monotonically increasing across writes, allowing them to be be compared to determine which generation is newer. If this is omitted in a request, then you are requesting the live object. See http://go/bigstore-versions */
@@ -1627,11 +2254,13 @@ export interface ObjectId {
   objectName?: string;
 }
 
-export const ObjectId: Schema.Schema<ObjectId> = Schema.suspend(() => Schema.Struct({
-  generation: Schema.optional(Schema.String),
-  bucketName: Schema.optional(Schema.String),
-  objectName: Schema.optional(Schema.String),
-})).annotate({ identifier: "ObjectId" }) as any as Schema.Schema<ObjectId>;
+export const ObjectId: Schema.Schema<ObjectId> = Schema.suspend(() =>
+  Schema.Struct({
+    generation: Schema.optional(Schema.String),
+    bucketName: Schema.optional(Schema.String),
+    objectName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ObjectId" }) as any as Schema.Schema<ObjectId>;
 
 export interface Blobstore2Info {
   /** The blob generation id. */
@@ -1650,15 +2279,20 @@ export interface Blobstore2Info {
   uploadFragmentListCreationInfo?: string;
 }
 
-export const Blobstore2Info: Schema.Schema<Blobstore2Info> = Schema.suspend(() => Schema.Struct({
-  blobGeneration: Schema.optional(Schema.String),
-  uploadMetadataContainer: Schema.optional(Schema.String),
-  blobId: Schema.optional(Schema.String),
-  readToken: Schema.optional(Schema.String),
-  downloadExternalReadToken: Schema.optional(Schema.String),
-  downloadReadHandle: Schema.optional(Schema.String),
-  uploadFragmentListCreationInfo: Schema.optional(Schema.String),
-})).annotate({ identifier: "Blobstore2Info" }) as any as Schema.Schema<Blobstore2Info>;
+export const Blobstore2Info: Schema.Schema<Blobstore2Info> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      blobGeneration: Schema.optional(Schema.String),
+      uploadMetadataContainer: Schema.optional(Schema.String),
+      blobId: Schema.optional(Schema.String),
+      readToken: Schema.optional(Schema.String),
+      downloadExternalReadToken: Schema.optional(Schema.String),
+      downloadReadHandle: Schema.optional(Schema.String),
+      uploadFragmentListCreationInfo: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "Blobstore2Info",
+}) as any as Schema.Schema<Blobstore2Info>;
 
 export interface CompositeMedia {
   /** Reference to a TI Blob, set if reference_type is BIGSTORE_REF. */
@@ -1678,35 +2312,51 @@ export interface CompositeMedia {
   /** crc32.c hash for the payload. */
   crc32cHash?: number;
   /** Describes what the field reference contains. */
-  referenceType?: "PATH" | "BLOB_REF" | "INLINE" | "BIGSTORE_REF" | "COSMO_BINARY_REFERENCE" | (string & {});
+  referenceType?:
+    | "PATH"
+    | "BLOB_REF"
+    | "INLINE"
+    | "BIGSTORE_REF"
+    | "COSMO_BINARY_REFERENCE"
+    | (string & {});
   /** Size of the data, in bytes */
   length?: string;
   /** Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob. */
   blobstore2Info?: Blobstore2Info;
 }
 
-export const CompositeMedia: Schema.Schema<CompositeMedia> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(ObjectId),
-  sha1Hash: Schema.optional(Schema.String),
-  blobRef: Schema.optional(Schema.String),
-  cosmoBinaryReference: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  md5Hash: Schema.optional(Schema.String),
-  inline: Schema.optional(Schema.String),
-  crc32cHash: Schema.optional(Schema.Number),
-  referenceType: Schema.optional(Schema.String),
-  length: Schema.optional(Schema.String),
-  blobstore2Info: Schema.optional(Blobstore2Info),
-})).annotate({ identifier: "CompositeMedia" }) as any as Schema.Schema<CompositeMedia>;
+export const CompositeMedia: Schema.Schema<CompositeMedia> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      objectId: Schema.optional(ObjectId),
+      sha1Hash: Schema.optional(Schema.String),
+      blobRef: Schema.optional(Schema.String),
+      cosmoBinaryReference: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      md5Hash: Schema.optional(Schema.String),
+      inline: Schema.optional(Schema.String),
+      crc32cHash: Schema.optional(Schema.Number),
+      referenceType: Schema.optional(Schema.String),
+      length: Schema.optional(Schema.String),
+      blobstore2Info: Schema.optional(Blobstore2Info),
+    }),
+).annotate({
+  identifier: "CompositeMedia",
+}) as any as Schema.Schema<CompositeMedia>;
 
 export interface EventTicketClassAddMessageResponse {
   /** The updated EventTicketClass resource. */
   resource?: EventTicketClass;
 }
 
-export const EventTicketClassAddMessageResponse: Schema.Schema<EventTicketClassAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(EventTicketClass),
-})).annotate({ identifier: "EventTicketClassAddMessageResponse" }) as any as Schema.Schema<EventTicketClassAddMessageResponse>;
+export const EventTicketClassAddMessageResponse: Schema.Schema<EventTicketClassAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(EventTicketClass),
+    }),
+  ).annotate({
+    identifier: "EventTicketClassAddMessageResponse",
+  }) as any as Schema.Schema<EventTicketClassAddMessageResponse>;
 
 export interface LoyaltyClassListResponse {
   /** Resources corresponding to the list request. */
@@ -1715,10 +2365,15 @@ export interface LoyaltyClassListResponse {
   pagination?: Pagination;
 }
 
-export const LoyaltyClassListResponse: Schema.Schema<LoyaltyClassListResponse> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(LoyaltyClass)),
-  pagination: Schema.optional(Pagination),
-})).annotate({ identifier: "LoyaltyClassListResponse" }) as any as Schema.Schema<LoyaltyClassListResponse>;
+export const LoyaltyClassListResponse: Schema.Schema<LoyaltyClassListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(LoyaltyClass)),
+      pagination: Schema.optional(Pagination),
+    }),
+  ).annotate({
+    identifier: "LoyaltyClassListResponse",
+  }) as any as Schema.Schema<LoyaltyClassListResponse>;
 
 export interface GiftCardClass {
   /** Merchant locations. There is a maximum of ten on the class. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
@@ -1758,7 +2413,11 @@ export interface GiftCardClass {
   /** Required. The issuer name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   issuerName?: string;
   /** View Unlock Requirement options for the gift card. */
-  viewUnlockRequirement?: "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED" | "UNLOCK_NOT_REQUIRED" | "UNLOCK_REQUIRED_TO_VIEW" | (string & {});
+  viewUnlockRequirement?:
+    | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
+    | "UNLOCK_NOT_REQUIRED"
+    | "UNLOCK_REQUIRED_TO_VIEW"
+    | (string & {});
   /** The label to display for the card number, such as "Card Number". */
   cardNumberLabel?: string;
   /** Required. The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
@@ -1766,7 +2425,15 @@ export interface GiftCardClass {
   /** Translated strings for the issuer_name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   localizedIssuerName?: LocalizedString;
   /** Identifies whether multiple users and devices will save the same object referencing this class. */
-  multipleDevicesAndHoldersAllowedStatus?: "STATUS_UNSPECIFIED" | "MULTIPLE_HOLDERS" | "ONE_USER_ALL_DEVICES" | "ONE_USER_ONE_DEVICE" | "multipleHolders" | "oneUserAllDevices" | "oneUserOneDevice" | (string & {});
+  multipleDevicesAndHoldersAllowedStatus?:
+    | "STATUS_UNSPECIFIED"
+    | "MULTIPLE_HOLDERS"
+    | "ONE_USER_ALL_DEVICES"
+    | "ONE_USER_ONE_DEVICE"
+    | "multipleHolders"
+    | "oneUserAllDevices"
+    | "oneUserOneDevice"
+    | (string & {});
   /** Callback options to be used to call the issuer back for every save/delete of an object for this class by the end-user. All objects of this class are eligible for the callback. */
   callbackOptions?: CallbackOptions;
   /** Translated strings for the card_number_label. */
@@ -1778,7 +2445,17 @@ export interface GiftCardClass {
   /** Determines whether the merchant supports gift card redemption using barcode. If true, app displays a barcode for the gift card on the Gift card details screen. If false, a barcode is not displayed. */
   allowBarcodeRedemption?: boolean;
   /** Required. The status of the class. This field can be set to `draft` or `underReview` using the insert, patch, or update API calls. Once the review state is changed from `draft` it may not be changed back to `draft`. You should keep this field to `draft` when the class is under development. A `draft` class cannot be used to create any object. You should set this field to `underReview` when you believe the class is ready for use. The platform will automatically set this field to `approved` and it can be immediately used to create or migrate objects. When updating an already `approved` class you should keep setting this field to `underReview`. */
-  reviewStatus?: "REVIEW_STATUS_UNSPECIFIED" | "UNDER_REVIEW" | "underReview" | "APPROVED" | "approved" | "REJECTED" | "rejected" | "DRAFT" | "draft" | (string & {});
+  reviewStatus?:
+    | "REVIEW_STATUS_UNSPECIFIED"
+    | "UNDER_REVIEW"
+    | "underReview"
+    | "APPROVED"
+    | "approved"
+    | "REJECTED"
+    | "rejected"
+    | "DRAFT"
+    | "draft"
+    | (string & {});
   /** Deprecated. Use textModulesData instead. */
   infoModuleData?: InfoModuleData;
   /** Template information about how the class should be displayed. If unset, Google will fallback to a default set of fields to display. */
@@ -1800,63 +2477,75 @@ export interface GiftCardClass {
   /** Merchant name, such as "Adam's Apparel". The app may display an ellipsis after the first 20 characters to ensure full string is displayed on smaller screens. */
   merchantName?: string;
   /** Whether or not field updates to this class should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If not specified, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Deprecated. */
   wordMark?: Image;
 }
 
-export const GiftCardClass: Schema.Schema<GiftCardClass> = Schema.suspend(() => Schema.Struct({
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  eventNumberLabel: Schema.optional(Schema.String),
-  allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-  review: Schema.optional(Review),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  version: Schema.optional(Schema.String),
-  wideProgramLogo: Schema.optional(Image),
-  enableSmartTap: Schema.optional(Schema.Boolean),
-  localizedPinLabel: Schema.optional(LocalizedString),
-  homepageUri: Schema.optional(Uri),
-  redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-  countryCode: Schema.optional(Schema.String),
-  localizedMerchantName: Schema.optional(LocalizedString),
-  heroImage: Schema.optional(Image),
-  securityAnimation: Schema.optional(SecurityAnimation),
-  localizedEventNumberLabel: Schema.optional(LocalizedString),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  issuerName: Schema.optional(Schema.String),
-  viewUnlockRequirement: Schema.optional(Schema.String),
-  cardNumberLabel: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  localizedIssuerName: Schema.optional(LocalizedString),
-  multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-  callbackOptions: Schema.optional(CallbackOptions),
-  localizedCardNumberLabel: Schema.optional(LocalizedString),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  allowBarcodeRedemption: Schema.optional(Schema.Boolean),
-  reviewStatus: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  linksModuleData: Schema.optional(LinksModuleData),
-  pinLabel: Schema.optional(Schema.String),
-  messages: Schema.optional(Schema.Array(Message)),
-  kind: Schema.optional(Schema.String),
-  programLogo: Schema.optional(Image),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  merchantName: Schema.optional(Schema.String),
-  notifyPreference: Schema.optional(Schema.String),
-  wordMark: Schema.optional(Image),
-})).annotate({ identifier: "GiftCardClass" }) as any as Schema.Schema<GiftCardClass>;
+export const GiftCardClass: Schema.Schema<GiftCardClass> = Schema.suspend(() =>
+  Schema.Struct({
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    eventNumberLabel: Schema.optional(Schema.String),
+    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+    review: Schema.optional(Review),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    version: Schema.optional(Schema.String),
+    wideProgramLogo: Schema.optional(Image),
+    enableSmartTap: Schema.optional(Schema.Boolean),
+    localizedPinLabel: Schema.optional(LocalizedString),
+    homepageUri: Schema.optional(Uri),
+    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+    countryCode: Schema.optional(Schema.String),
+    localizedMerchantName: Schema.optional(LocalizedString),
+    heroImage: Schema.optional(Image),
+    securityAnimation: Schema.optional(SecurityAnimation),
+    localizedEventNumberLabel: Schema.optional(LocalizedString),
+    hexBackgroundColor: Schema.optional(Schema.String),
+    issuerName: Schema.optional(Schema.String),
+    viewUnlockRequirement: Schema.optional(Schema.String),
+    cardNumberLabel: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    localizedIssuerName: Schema.optional(LocalizedString),
+    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+    callbackOptions: Schema.optional(CallbackOptions),
+    localizedCardNumberLabel: Schema.optional(LocalizedString),
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    allowBarcodeRedemption: Schema.optional(Schema.Boolean),
+    reviewStatus: Schema.optional(Schema.String),
+    infoModuleData: Schema.optional(InfoModuleData),
+    classTemplateInfo: Schema.optional(ClassTemplateInfo),
+    linksModuleData: Schema.optional(LinksModuleData),
+    pinLabel: Schema.optional(Schema.String),
+    messages: Schema.optional(Schema.Array(Message)),
+    kind: Schema.optional(Schema.String),
+    programLogo: Schema.optional(Image),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    merchantName: Schema.optional(Schema.String),
+    notifyPreference: Schema.optional(Schema.String),
+    wordMark: Schema.optional(Image),
+  }),
+).annotate({
+  identifier: "GiftCardClass",
+}) as any as Schema.Schema<GiftCardClass>;
 
 export interface GiftCardClassAddMessageResponse {
   /** The updated GiftCardClass resource. */
   resource?: GiftCardClass;
 }
 
-export const GiftCardClassAddMessageResponse: Schema.Schema<GiftCardClassAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(GiftCardClass),
-})).annotate({ identifier: "GiftCardClassAddMessageResponse" }) as any as Schema.Schema<GiftCardClassAddMessageResponse>;
+export const GiftCardClassAddMessageResponse: Schema.Schema<GiftCardClassAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(GiftCardClass),
+    }),
+  ).annotate({
+    identifier: "GiftCardClassAddMessageResponse",
+  }) as any as Schema.Schema<GiftCardClassAddMessageResponse>;
 
 export interface DiffChecksumsResponse {
   /** If set, calculate the checksums based on the contents and return them to the caller. */
@@ -1871,19 +2560,25 @@ export interface DiffChecksumsResponse {
   checksumsLocation?: CompositeMedia;
 }
 
-export const DiffChecksumsResponse: Schema.Schema<DiffChecksumsResponse> = Schema.suspend(() => Schema.Struct({
-  objectLocation: Schema.optional(CompositeMedia),
-  objectVersion: Schema.optional(Schema.String),
-  objectSizeBytes: Schema.optional(Schema.String),
-  chunkSizeBytes: Schema.optional(Schema.String),
-  checksumsLocation: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffChecksumsResponse" }) as any as Schema.Schema<DiffChecksumsResponse>;
+export const DiffChecksumsResponse: Schema.Schema<DiffChecksumsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectLocation: Schema.optional(CompositeMedia),
+      objectVersion: Schema.optional(Schema.String),
+      objectSizeBytes: Schema.optional(Schema.String),
+      chunkSizeBytes: Schema.optional(Schema.String),
+      checksumsLocation: Schema.optional(CompositeMedia),
+    }),
+  ).annotate({
+    identifier: "DiffChecksumsResponse",
+  }) as any as Schema.Schema<DiffChecksumsResponse>;
 
-export interface TransitObjectUploadRotatingBarcodeValuesResponse {
-}
+export interface TransitObjectUploadRotatingBarcodeValuesResponse {}
 
-export const TransitObjectUploadRotatingBarcodeValuesResponse: Schema.Schema<TransitObjectUploadRotatingBarcodeValuesResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "TransitObjectUploadRotatingBarcodeValuesResponse" }) as any as Schema.Schema<TransitObjectUploadRotatingBarcodeValuesResponse>;
+export const TransitObjectUploadRotatingBarcodeValuesResponse: Schema.Schema<TransitObjectUploadRotatingBarcodeValuesResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "TransitObjectUploadRotatingBarcodeValuesResponse",
+  }) as any as Schema.Schema<TransitObjectUploadRotatingBarcodeValuesResponse>;
 
 export interface EventSeat {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#eventSeat"`. */
@@ -1898,13 +2593,15 @@ export interface EventSeat {
   section?: LocalizedString;
 }
 
-export const EventSeat: Schema.Schema<EventSeat> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  row: Schema.optional(LocalizedString),
-  gate: Schema.optional(LocalizedString),
-  seat: Schema.optional(LocalizedString),
-  section: Schema.optional(LocalizedString),
-})).annotate({ identifier: "EventSeat" }) as any as Schema.Schema<EventSeat>;
+export const EventSeat: Schema.Schema<EventSeat> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    row: Schema.optional(LocalizedString),
+    gate: Schema.optional(LocalizedString),
+    seat: Schema.optional(LocalizedString),
+    section: Schema.optional(LocalizedString),
+  }),
+).annotate({ identifier: "EventSeat" }) as any as Schema.Schema<EventSeat>;
 
 export interface EventReservationInfo {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#eventReservationInfo"`. */
@@ -1913,10 +2610,15 @@ export interface EventReservationInfo {
   confirmationCode?: string;
 }
 
-export const EventReservationInfo: Schema.Schema<EventReservationInfo> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  confirmationCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventReservationInfo" }) as any as Schema.Schema<EventReservationInfo>;
+export const EventReservationInfo: Schema.Schema<EventReservationInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      confirmationCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventReservationInfo",
+  }) as any as Schema.Schema<EventReservationInfo>;
 
 export interface Money {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#money"`. */
@@ -1927,11 +2629,13 @@ export interface Money {
   currencyCode?: string;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  micros: Schema.optional(Schema.String),
-  currencyCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    micros: Schema.optional(Schema.String),
+    currencyCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface EventTicketObject {
   /** Links module data. If links module data is also defined on the class, both will be displayed. */
@@ -1947,7 +2651,10 @@ export interface EventTicketObject {
   /** Deprecated. Use textModulesData instead. */
   infoModuleData?: InfoModuleData;
   /** Whether or not field updates to this object should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If set to DO_NOT_NOTIFY or NOTIFICATION_SETTINGS_UNSPECIFIED, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#eventTicketObject"`. */
   kind?: string;
   /** Image module data. The maximum number of these fields displayed is 1 from object level and 1 for class object level. */
@@ -1999,7 +2706,17 @@ export interface EventTicketObject {
   /** Merchant locations. There is a maximum of ten on the object. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** Required. The state of the object. This field is used to determine how an object is displayed in the app. For example, an `inactive` object is moved to the "Expired passes" section. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "active" | "COMPLETED" | "completed" | "EXPIRED" | "expired" | "INACTIVE" | "inactive" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "active"
+    | "COMPLETED"
+    | "completed"
+    | "EXPIRED"
+    | "expired"
+    | "INACTIVE"
+    | "inactive"
+    | (string & {});
   /** A list of offer objects linked to this event ticket. The offer objects must already exist. Offer object IDs should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. */
   linkedOfferIds?: Array<string>;
   /** Deprecated */
@@ -2008,44 +2725,49 @@ export interface EventTicketObject {
   textModulesData?: Array<TextModuleData>;
 }
 
-export const EventTicketObject: Schema.Schema<EventTicketObject> = Schema.suspend(() => Schema.Struct({
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  validTimeInterval: Schema.optional(TimeInterval),
-  groupingInfo: Schema.optional(GroupingInfo),
-  smartTapRedemptionValue: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  notifyPreference: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  id: Schema.optional(Schema.String),
-  classReference: Schema.optional(EventTicketClass),
-  disableExpirationNotification: Schema.optional(Schema.Boolean),
-  passConstraints: Schema.optional(PassConstraints),
-  seatInfo: Schema.optional(EventSeat),
-  ticketHolderName: Schema.optional(Schema.String),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  ticketType: Schema.optional(LocalizedString),
-  saveRestrictions: Schema.optional(SaveRestrictions),
-  classId: Schema.optional(Schema.String),
-  reservationInfo: Schema.optional(EventReservationInfo),
-  hasUsers: Schema.optional(Schema.Boolean),
-  hasLinkedDevice: Schema.optional(Schema.Boolean),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  faceValue: Schema.optional(Money),
-  barcode: Schema.optional(Barcode),
-  ticketNumber: Schema.optional(Schema.String),
-  rotatingBarcode: Schema.optional(RotatingBarcode),
-  heroImage: Schema.optional(Image),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  state: Schema.optional(Schema.String),
-  linkedOfferIds: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-})).annotate({ identifier: "EventTicketObject" }) as any as Schema.Schema<EventTicketObject>;
+export const EventTicketObject: Schema.Schema<EventTicketObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      linksModuleData: Schema.optional(LinksModuleData),
+      messages: Schema.optional(Schema.Array(Message)),
+      validTimeInterval: Schema.optional(TimeInterval),
+      groupingInfo: Schema.optional(GroupingInfo),
+      smartTapRedemptionValue: Schema.optional(Schema.String),
+      infoModuleData: Schema.optional(InfoModuleData),
+      notifyPreference: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      appLinkData: Schema.optional(AppLinkData),
+      id: Schema.optional(Schema.String),
+      classReference: Schema.optional(EventTicketClass),
+      disableExpirationNotification: Schema.optional(Schema.Boolean),
+      passConstraints: Schema.optional(PassConstraints),
+      seatInfo: Schema.optional(EventSeat),
+      ticketHolderName: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      ticketType: Schema.optional(LocalizedString),
+      saveRestrictions: Schema.optional(SaveRestrictions),
+      classId: Schema.optional(Schema.String),
+      reservationInfo: Schema.optional(EventReservationInfo),
+      hasUsers: Schema.optional(Schema.Boolean),
+      hasLinkedDevice: Schema.optional(Schema.Boolean),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      faceValue: Schema.optional(Money),
+      barcode: Schema.optional(Barcode),
+      ticketNumber: Schema.optional(Schema.String),
+      rotatingBarcode: Schema.optional(RotatingBarcode),
+      heroImage: Schema.optional(Image),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      state: Schema.optional(Schema.String),
+      linkedOfferIds: Schema.optional(Schema.Array(Schema.String)),
+      version: Schema.optional(Schema.String),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    }),
+  ).annotate({
+    identifier: "EventTicketObject",
+  }) as any as Schema.Schema<EventTicketObject>;
 
 export interface AuthenticationKey {
   /** Available only to Smart Tap enabled partners. Contact support for additional guidance. */
@@ -2054,10 +2776,15 @@ export interface AuthenticationKey {
   publicKeyPem?: string;
 }
 
-export const AuthenticationKey: Schema.Schema<AuthenticationKey> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.Number),
-  publicKeyPem: Schema.optional(Schema.String),
-})).annotate({ identifier: "AuthenticationKey" }) as any as Schema.Schema<AuthenticationKey>;
+export const AuthenticationKey: Schema.Schema<AuthenticationKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.Number),
+      publicKeyPem: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AuthenticationKey",
+  }) as any as Schema.Schema<AuthenticationKey>;
 
 export interface LoyaltyPointsBalance {
   /** The integer form of a balance. Only one of these subtypes (string, int, double, money) should be populated. */
@@ -2070,12 +2797,17 @@ export interface LoyaltyPointsBalance {
   string?: string;
 }
 
-export const LoyaltyPointsBalance: Schema.Schema<LoyaltyPointsBalance> = Schema.suspend(() => Schema.Struct({
-  int: Schema.optional(Schema.Number),
-  double: Schema.optional(Schema.Number),
-  money: Schema.optional(Money),
-  string: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoyaltyPointsBalance" }) as any as Schema.Schema<LoyaltyPointsBalance>;
+export const LoyaltyPointsBalance: Schema.Schema<LoyaltyPointsBalance> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      int: Schema.optional(Schema.Number),
+      double: Schema.optional(Schema.Number),
+      money: Schema.optional(Money),
+      string: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LoyaltyPointsBalance",
+  }) as any as Schema.Schema<LoyaltyPointsBalance>;
 
 export interface LoyaltyPoints {
   /** Translated strings for the label. Recommended maximum length is 9 characters. */
@@ -2086,11 +2818,15 @@ export interface LoyaltyPoints {
   balance?: LoyaltyPointsBalance;
 }
 
-export const LoyaltyPoints: Schema.Schema<LoyaltyPoints> = Schema.suspend(() => Schema.Struct({
-  localizedLabel: Schema.optional(LocalizedString),
-  label: Schema.optional(Schema.String),
-  balance: Schema.optional(LoyaltyPointsBalance),
-})).annotate({ identifier: "LoyaltyPoints" }) as any as Schema.Schema<LoyaltyPoints>;
+export const LoyaltyPoints: Schema.Schema<LoyaltyPoints> = Schema.suspend(() =>
+  Schema.Struct({
+    localizedLabel: Schema.optional(LocalizedString),
+    label: Schema.optional(Schema.String),
+    balance: Schema.optional(LoyaltyPointsBalance),
+  }),
+).annotate({
+  identifier: "LoyaltyPoints",
+}) as any as Schema.Schema<LoyaltyPoints>;
 
 export interface LoyaltyObject {
   /** Note: This field is currently not supported to trigger geo notifications. */
@@ -2116,7 +2852,10 @@ export interface LoyaltyObject {
   /** The loyalty account holder name, such as "John Smith." Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   accountName?: string;
   /** Whether or not field updates to this object should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If set to DO_NOT_NOTIFY or NOTIFICATION_SETTINGS_UNSPECIFIED, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#loyaltyObject"`. */
   kind?: string;
   /** Image module data. The maximum number of these fields displayed is 1 from object level and 1 for class object level. */
@@ -2144,7 +2883,17 @@ export interface LoyaltyObject {
   /** Merchant locations. There is a maximum of ten on the object. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** Required. The state of the object. This field is used to determine how an object is displayed in the app. For example, an `inactive` object is moved to the "Expired passes" section. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "active" | "COMPLETED" | "completed" | "EXPIRED" | "expired" | "INACTIVE" | "inactive" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "active"
+    | "COMPLETED"
+    | "completed"
+    | "EXPIRED"
+    | "expired"
+    | "INACTIVE"
+    | "inactive"
+    | (string & {});
   /** Indicates if the object has users. This field is set by the platform. */
   hasUsers?: boolean;
   /** Whether this object is currently linked to a single device. This field is set by the platform when a user saves the object, linking it to their device. Intended for use by select partners. Contact support for additional information. */
@@ -2161,50 +2910,59 @@ export interface LoyaltyObject {
   classId?: string;
 }
 
-export const LoyaltyObject: Schema.Schema<LoyaltyObject> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  loyaltyPoints: Schema.optional(LoyaltyPoints),
-  linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  secondaryLoyaltyPoints: Schema.optional(LoyaltyPoints),
-  accountId: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  classReference: Schema.optional(LoyaltyClass),
-  disableExpirationNotification: Schema.optional(Schema.Boolean),
-  passConstraints: Schema.optional(PassConstraints),
-  accountName: Schema.optional(Schema.String),
-  notifyPreference: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  validTimeInterval: Schema.optional(TimeInterval),
-  groupingInfo: Schema.optional(GroupingInfo),
-  smartTapRedemptionValue: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  linkedOfferIds: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  state: Schema.optional(Schema.String),
-  hasUsers: Schema.optional(Schema.Boolean),
-  hasLinkedDevice: Schema.optional(Schema.Boolean),
-  barcode: Schema.optional(Barcode),
-  rotatingBarcode: Schema.optional(RotatingBarcode),
-  heroImage: Schema.optional(Image),
-  saveRestrictions: Schema.optional(SaveRestrictions),
-  classId: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoyaltyObject" }) as any as Schema.Schema<LoyaltyObject>;
+export const LoyaltyObject: Schema.Schema<LoyaltyObject> = Schema.suspend(() =>
+  Schema.Struct({
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    loyaltyPoints: Schema.optional(LoyaltyPoints),
+    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    secondaryLoyaltyPoints: Schema.optional(LoyaltyPoints),
+    accountId: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    classReference: Schema.optional(LoyaltyClass),
+    disableExpirationNotification: Schema.optional(Schema.Boolean),
+    passConstraints: Schema.optional(PassConstraints),
+    accountName: Schema.optional(Schema.String),
+    notifyPreference: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    linksModuleData: Schema.optional(LinksModuleData),
+    messages: Schema.optional(Schema.Array(Message)),
+    validTimeInterval: Schema.optional(TimeInterval),
+    groupingInfo: Schema.optional(GroupingInfo),
+    smartTapRedemptionValue: Schema.optional(Schema.String),
+    infoModuleData: Schema.optional(InfoModuleData),
+    linkedOfferIds: Schema.optional(Schema.Array(Schema.String)),
+    version: Schema.optional(Schema.String),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    state: Schema.optional(Schema.String),
+    hasUsers: Schema.optional(Schema.Boolean),
+    hasLinkedDevice: Schema.optional(Schema.Boolean),
+    barcode: Schema.optional(Barcode),
+    rotatingBarcode: Schema.optional(RotatingBarcode),
+    heroImage: Schema.optional(Image),
+    saveRestrictions: Schema.optional(SaveRestrictions),
+    classId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "LoyaltyObject",
+}) as any as Schema.Schema<LoyaltyObject>;
 
 export interface LoyaltyObjectAddMessageResponse {
   /** The updated LoyaltyObject resource. */
   resource?: LoyaltyObject;
 }
 
-export const LoyaltyObjectAddMessageResponse: Schema.Schema<LoyaltyObjectAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(LoyaltyObject),
-})).annotate({ identifier: "LoyaltyObjectAddMessageResponse" }) as any as Schema.Schema<LoyaltyObjectAddMessageResponse>;
+export const LoyaltyObjectAddMessageResponse: Schema.Schema<LoyaltyObjectAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(LoyaltyObject),
+    }),
+  ).annotate({
+    identifier: "LoyaltyObjectAddMessageResponse",
+  }) as any as Schema.Schema<LoyaltyObjectAddMessageResponse>;
 
 export interface GiftCardClassListResponse {
   /** Resources corresponding to the list request. */
@@ -2213,10 +2971,15 @@ export interface GiftCardClassListResponse {
   pagination?: Pagination;
 }
 
-export const GiftCardClassListResponse: Schema.Schema<GiftCardClassListResponse> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(GiftCardClass)),
-  pagination: Schema.optional(Pagination),
-})).annotate({ identifier: "GiftCardClassListResponse" }) as any as Schema.Schema<GiftCardClassListResponse>;
+export const GiftCardClassListResponse: Schema.Schema<GiftCardClassListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(GiftCardClass)),
+      pagination: Schema.optional(Pagination),
+    }),
+  ).annotate({
+    identifier: "GiftCardClassListResponse",
+  }) as any as Schema.Schema<GiftCardClassListResponse>;
 
 export interface IssuerContactInfo {
   /** The primary contact email address. */
@@ -2229,12 +2992,17 @@ export interface IssuerContactInfo {
   phone?: string;
 }
 
-export const IssuerContactInfo: Schema.Schema<IssuerContactInfo> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  alertsEmails: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  phone: Schema.optional(Schema.String),
-})).annotate({ identifier: "IssuerContactInfo" }) as any as Schema.Schema<IssuerContactInfo>;
+export const IssuerContactInfo: Schema.Schema<IssuerContactInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      alertsEmails: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      phone: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IssuerContactInfo",
+  }) as any as Schema.Schema<IssuerContactInfo>;
 
 export interface DiffUploadResponse {
   /** The object version of the object at the server. Must be included in the end notification response. The version in the end notification response must correspond to the new version of the object that is now stored at the server, after the upload. */
@@ -2243,16 +3011,31 @@ export interface DiffUploadResponse {
   originalObject?: CompositeMedia;
 }
 
-export const DiffUploadResponse: Schema.Schema<DiffUploadResponse> = Schema.suspend(() => Schema.Struct({
-  objectVersion: Schema.optional(Schema.String),
-  originalObject: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffUploadResponse" }) as any as Schema.Schema<DiffUploadResponse>;
+export const DiffUploadResponse: Schema.Schema<DiffUploadResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectVersion: Schema.optional(Schema.String),
+      originalObject: Schema.optional(CompositeMedia),
+    }),
+  ).annotate({
+    identifier: "DiffUploadResponse",
+  }) as any as Schema.Schema<DiffUploadResponse>;
 
 export interface GiftCardObject {
   /** The card's event number, an optional field used by some gift cards. */
   eventNumber?: string;
   /** Required. The state of the object. This field is used to determine how an object is displayed in the app. For example, an `inactive` object is moved to the "Expired passes" section. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "active" | "COMPLETED" | "completed" | "EXPIRED" | "expired" | "INACTIVE" | "inactive" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "active"
+    | "COMPLETED"
+    | "completed"
+    | "EXPIRED"
+    | "expired"
+    | "INACTIVE"
+    | "inactive"
+    | (string & {});
   /** Merchant locations. There is a maximum of ten on the object. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** Text module data. If text module data is also defined on the class, both will be displayed. The maximum number of these fields displayed is 10 from the object and 10 from the class. */
@@ -2314,53 +3097,66 @@ export interface GiftCardObject {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#giftCardObject"`. */
   kind?: string;
   /** Whether or not field updates to this object should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If set to DO_NOT_NOTIFY or NOTIFICATION_SETTINGS_UNSPECIFIED, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
 }
 
-export const GiftCardObject: Schema.Schema<GiftCardObject> = Schema.suspend(() => Schema.Struct({
-  eventNumber: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  version: Schema.optional(Schema.String),
-  balanceUpdateTime: Schema.optional(DateTime),
-  classId: Schema.optional(Schema.String),
-  saveRestrictions: Schema.optional(SaveRestrictions),
-  cardNumber: Schema.optional(Schema.String),
-  rotatingBarcode: Schema.optional(RotatingBarcode),
-  balance: Schema.optional(Money),
-  heroImage: Schema.optional(Image),
-  barcode: Schema.optional(Barcode),
-  hasUsers: Schema.optional(Schema.Boolean),
-  hasLinkedDevice: Schema.optional(Schema.Boolean),
-  pin: Schema.optional(Schema.String),
-  disableExpirationNotification: Schema.optional(Schema.Boolean),
-  passConstraints: Schema.optional(PassConstraints),
-  id: Schema.optional(Schema.String),
-  classReference: Schema.optional(GiftCardClass),
-  linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  groupingInfo: Schema.optional(GroupingInfo),
-  smartTapRedemptionValue: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  validTimeInterval: Schema.optional(TimeInterval),
-  linksModuleData: Schema.optional(LinksModuleData),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  kind: Schema.optional(Schema.String),
-  notifyPreference: Schema.optional(Schema.String),
-})).annotate({ identifier: "GiftCardObject" }) as any as Schema.Schema<GiftCardObject>;
+export const GiftCardObject: Schema.Schema<GiftCardObject> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      eventNumber: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      version: Schema.optional(Schema.String),
+      balanceUpdateTime: Schema.optional(DateTime),
+      classId: Schema.optional(Schema.String),
+      saveRestrictions: Schema.optional(SaveRestrictions),
+      cardNumber: Schema.optional(Schema.String),
+      rotatingBarcode: Schema.optional(RotatingBarcode),
+      balance: Schema.optional(Money),
+      heroImage: Schema.optional(Image),
+      barcode: Schema.optional(Barcode),
+      hasUsers: Schema.optional(Schema.Boolean),
+      hasLinkedDevice: Schema.optional(Schema.Boolean),
+      pin: Schema.optional(Schema.String),
+      disableExpirationNotification: Schema.optional(Schema.Boolean),
+      passConstraints: Schema.optional(PassConstraints),
+      id: Schema.optional(Schema.String),
+      classReference: Schema.optional(GiftCardClass),
+      linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      groupingInfo: Schema.optional(GroupingInfo),
+      smartTapRedemptionValue: Schema.optional(Schema.String),
+      infoModuleData: Schema.optional(InfoModuleData),
+      messages: Schema.optional(Schema.Array(Message)),
+      validTimeInterval: Schema.optional(TimeInterval),
+      linksModuleData: Schema.optional(LinksModuleData),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      appLinkData: Schema.optional(AppLinkData),
+      kind: Schema.optional(Schema.String),
+      notifyPreference: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GiftCardObject",
+}) as any as Schema.Schema<GiftCardObject>;
 
 export interface GiftCardObjectAddMessageResponse {
   /** The updated GiftCardObject resource. */
   resource?: GiftCardObject;
 }
 
-export const GiftCardObjectAddMessageResponse: Schema.Schema<GiftCardObjectAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(GiftCardObject),
-})).annotate({ identifier: "GiftCardObjectAddMessageResponse" }) as any as Schema.Schema<GiftCardObjectAddMessageResponse>;
+export const GiftCardObjectAddMessageResponse: Schema.Schema<GiftCardObjectAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(GiftCardObject),
+    }),
+  ).annotate({
+    identifier: "GiftCardObjectAddMessageResponse",
+  }) as any as Schema.Schema<GiftCardObjectAddMessageResponse>;
 
 export interface ActivationOptions {
   /** Flag to allow users to make activation call from different device. This allows client to render the activation button enabled even if the activationStatus is ACTIVATED but the requested device is different than the current device. */
@@ -2369,10 +3165,15 @@ export interface ActivationOptions {
   activationUrl?: string;
 }
 
-export const ActivationOptions: Schema.Schema<ActivationOptions> = Schema.suspend(() => Schema.Struct({
-  allowReactivation: Schema.optional(Schema.Boolean),
-  activationUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActivationOptions" }) as any as Schema.Schema<ActivationOptions>;
+export const ActivationOptions: Schema.Schema<ActivationOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowReactivation: Schema.optional(Schema.Boolean),
+      activationUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ActivationOptions",
+  }) as any as Schema.Schema<ActivationOptions>;
 
 export interface TransitClass {
   /** A custom label to use for the carriage value (`transitObject.ticketLeg.carriage`). */
@@ -2402,7 +3203,17 @@ export interface TransitClass {
   /** A custom label to use for the transit terminus name value (`transitObject.ticketLeg.transitTerminusName`). */
   customTransitTerminusNameLabel?: LocalizedString;
   /** Required. The status of the class. This field can be set to `draft` or `underReview` using the insert, patch, or update API calls. Once the review state is changed from `draft` it may not be changed back to `draft`. You should keep this field to `draft` when the class is under development. A `draft` class cannot be used to create any object. You should set this field to `underReview` when you believe the class is ready for use. The platform will automatically set this field to `approved` and it can be immediately used to create or migrate objects. When updating an already `approved` class you should keep setting this field to `underReview`. */
-  reviewStatus?: "REVIEW_STATUS_UNSPECIFIED" | "UNDER_REVIEW" | "underReview" | "APPROVED" | "approved" | "REJECTED" | "rejected" | "DRAFT" | "draft" | (string & {});
+  reviewStatus?:
+    | "REVIEW_STATUS_UNSPECIFIED"
+    | "UNDER_REVIEW"
+    | "underReview"
+    | "APPROVED"
+    | "approved"
+    | "REJECTED"
+    | "rejected"
+    | "DRAFT"
+    | "draft"
+    | (string & {});
   /** Deprecated. Use textModulesData instead. */
   infoModuleData?: InfoModuleData;
   /** A custom label to use for the other restrictions value (`transitObject.ticketRestrictions.otherRestrictions`). */
@@ -2466,13 +3277,24 @@ export interface TransitClass {
   /** Template information about how the class should be displayed. If unset, Google will fallback to a default set of fields to display. */
   classTemplateInfo?: ClassTemplateInfo;
   /** Whether or not field updates to this class should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If set to DO_NOT_NOTIFY or NOTIFICATION_SETTINGS_UNSPECIFIED, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Optional app or website link that will be displayed as a button on the front of the pass. If AppLinkData is provided for the corresponding object that will be used instead. */
   appLinkData?: AppLinkData;
   /** Required. The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   id?: string;
   /** Identifies whether multiple users and devices will save the same object referencing this class. */
-  multipleDevicesAndHoldersAllowedStatus?: "STATUS_UNSPECIFIED" | "MULTIPLE_HOLDERS" | "ONE_USER_ALL_DEVICES" | "ONE_USER_ONE_DEVICE" | "multipleHolders" | "oneUserAllDevices" | "oneUserOneDevice" | (string & {});
+  multipleDevicesAndHoldersAllowedStatus?:
+    | "STATUS_UNSPECIFIED"
+    | "MULTIPLE_HOLDERS"
+    | "ONE_USER_ALL_DEVICES"
+    | "ONE_USER_ONE_DEVICE"
+    | "multipleHolders"
+    | "oneUserAllDevices"
+    | "oneUserOneDevice"
+    | (string & {});
   /** Callback options to be used to call the issuer back for every save/delete of an object for this class by the end-user. All objects of this class are eligible for the callback. */
   callbackOptions?: CallbackOptions;
   /** A custom label to use for the transit concession category value (`transitObject.concessionCategory`). */
@@ -2480,85 +3302,115 @@ export interface TransitClass {
   /** Required. The issuer name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   issuerName?: string;
   /** Required. The type of transit this class represents, such as "bus". */
-  transitType?: "TRANSIT_TYPE_UNSPECIFIED" | "BUS" | "bus" | "RAIL" | "rail" | "TRAM" | "tram" | "FERRY" | "ferry" | "OTHER" | "other" | (string & {});
+  transitType?:
+    | "TRANSIT_TYPE_UNSPECIFIED"
+    | "BUS"
+    | "bus"
+    | "RAIL"
+    | "rail"
+    | "TRAM"
+    | "tram"
+    | "FERRY"
+    | "ferry"
+    | "OTHER"
+    | "other"
+    | (string & {});
   /** View Unlock Requirement options for the transit ticket. */
-  viewUnlockRequirement?: "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED" | "UNLOCK_NOT_REQUIRED" | "UNLOCK_REQUIRED_TO_VIEW" | (string & {});
+  viewUnlockRequirement?:
+    | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
+    | "UNLOCK_NOT_REQUIRED"
+    | "UNLOCK_REQUIRED_TO_VIEW"
+    | (string & {});
   /** Activation options for an activatable ticket. */
   activationOptions?: ActivationOptions;
   /** A custom label to use for the ticket number value (`transitObject.ticketNumber`). */
   customTicketNumberLabel?: LocalizedString;
 }
 
-export const TransitClass: Schema.Schema<TransitClass> = Schema.suspend(() => Schema.Struct({
-  customCarriageLabel: Schema.optional(LocalizedString),
-  homepageUri: Schema.optional(Uri),
-  redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-  enableSmartTap: Schema.optional(Schema.Boolean),
-  customTimeRestrictionsLabel: Schema.optional(LocalizedString),
-  watermark: Schema.optional(Image),
-  customConfirmationCodeLabel: Schema.optional(LocalizedString),
-  customRouteRestrictionsDetailsLabel: Schema.optional(LocalizedString),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  transitOperatorName: Schema.optional(LocalizedString),
-  logo: Schema.optional(Image),
-  customCoachLabel: Schema.optional(LocalizedString),
-  customTransitTerminusNameLabel: Schema.optional(LocalizedString),
-  reviewStatus: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  customOtherRestrictionsLabel: Schema.optional(LocalizedString),
-  wordMark: Schema.optional(Image),
-  wideLogo: Schema.optional(Image),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  localizedIssuerName: Schema.optional(LocalizedString),
-  enableSingleLegItinerary: Schema.optional(Schema.Boolean),
-  customSeatLabel: Schema.optional(LocalizedString),
-  customPurchasePriceLabel: Schema.optional(LocalizedString),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  customZoneLabel: Schema.optional(LocalizedString),
-  countryCode: Schema.optional(Schema.String),
-  securityAnimation: Schema.optional(SecurityAnimation),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  heroImage: Schema.optional(Image),
-  customPurchaseFaceValueLabel: Schema.optional(LocalizedString),
-  languageOverride: Schema.optional(Schema.String),
-  customFareClassLabel: Schema.optional(LocalizedString),
-  allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-  review: Schema.optional(Review),
-  customRouteRestrictionsLabel: Schema.optional(LocalizedString),
-  version: Schema.optional(Schema.String),
-  customPurchaseReceiptNumberLabel: Schema.optional(LocalizedString),
-  customPlatformLabel: Schema.optional(LocalizedString),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  customDiscountMessageLabel: Schema.optional(LocalizedString),
-  customFareNameLabel: Schema.optional(LocalizedString),
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  notifyPreference: Schema.optional(Schema.String),
-  appLinkData: Schema.optional(AppLinkData),
-  id: Schema.optional(Schema.String),
-  multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-  callbackOptions: Schema.optional(CallbackOptions),
-  customConcessionCategoryLabel: Schema.optional(LocalizedString),
-  issuerName: Schema.optional(Schema.String),
-  transitType: Schema.optional(Schema.String),
-  viewUnlockRequirement: Schema.optional(Schema.String),
-  activationOptions: Schema.optional(ActivationOptions),
-  customTicketNumberLabel: Schema.optional(LocalizedString),
-})).annotate({ identifier: "TransitClass" }) as any as Schema.Schema<TransitClass>;
+export const TransitClass: Schema.Schema<TransitClass> = Schema.suspend(() =>
+  Schema.Struct({
+    customCarriageLabel: Schema.optional(LocalizedString),
+    homepageUri: Schema.optional(Uri),
+    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+    enableSmartTap: Schema.optional(Schema.Boolean),
+    customTimeRestrictionsLabel: Schema.optional(LocalizedString),
+    watermark: Schema.optional(Image),
+    customConfirmationCodeLabel: Schema.optional(LocalizedString),
+    customRouteRestrictionsDetailsLabel: Schema.optional(LocalizedString),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    transitOperatorName: Schema.optional(LocalizedString),
+    logo: Schema.optional(Image),
+    customCoachLabel: Schema.optional(LocalizedString),
+    customTransitTerminusNameLabel: Schema.optional(LocalizedString),
+    reviewStatus: Schema.optional(Schema.String),
+    infoModuleData: Schema.optional(InfoModuleData),
+    customOtherRestrictionsLabel: Schema.optional(LocalizedString),
+    wordMark: Schema.optional(Image),
+    wideLogo: Schema.optional(Image),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    localizedIssuerName: Schema.optional(LocalizedString),
+    enableSingleLegItinerary: Schema.optional(Schema.Boolean),
+    customSeatLabel: Schema.optional(LocalizedString),
+    customPurchasePriceLabel: Schema.optional(LocalizedString),
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    customZoneLabel: Schema.optional(LocalizedString),
+    countryCode: Schema.optional(Schema.String),
+    securityAnimation: Schema.optional(SecurityAnimation),
+    hexBackgroundColor: Schema.optional(Schema.String),
+    heroImage: Schema.optional(Image),
+    customPurchaseFaceValueLabel: Schema.optional(LocalizedString),
+    languageOverride: Schema.optional(Schema.String),
+    customFareClassLabel: Schema.optional(LocalizedString),
+    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+    review: Schema.optional(Review),
+    customRouteRestrictionsLabel: Schema.optional(LocalizedString),
+    version: Schema.optional(Schema.String),
+    customPurchaseReceiptNumberLabel: Schema.optional(LocalizedString),
+    customPlatformLabel: Schema.optional(LocalizedString),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    customDiscountMessageLabel: Schema.optional(LocalizedString),
+    customFareNameLabel: Schema.optional(LocalizedString),
+    linksModuleData: Schema.optional(LinksModuleData),
+    messages: Schema.optional(Schema.Array(Message)),
+    classTemplateInfo: Schema.optional(ClassTemplateInfo),
+    notifyPreference: Schema.optional(Schema.String),
+    appLinkData: Schema.optional(AppLinkData),
+    id: Schema.optional(Schema.String),
+    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+    callbackOptions: Schema.optional(CallbackOptions),
+    customConcessionCategoryLabel: Schema.optional(LocalizedString),
+    issuerName: Schema.optional(Schema.String),
+    transitType: Schema.optional(Schema.String),
+    viewUnlockRequirement: Schema.optional(Schema.String),
+    activationOptions: Schema.optional(ActivationOptions),
+    customTicketNumberLabel: Schema.optional(LocalizedString),
+  }),
+).annotate({
+  identifier: "TransitClass",
+}) as any as Schema.Schema<TransitClass>;
 
 export interface Permission {
   /** The role granted by this permission. */
-  role?: "ROLE_UNSPECIFIED" | "OWNER" | "owner" | "READER" | "reader" | "WRITER" | "writer" | (string & {});
+  role?:
+    | "ROLE_UNSPECIFIED"
+    | "OWNER"
+    | "owner"
+    | "READER"
+    | "reader"
+    | "WRITER"
+    | "writer"
+    | (string & {});
   /** The email address of the user, group, or service account to which this permission refers to. */
   emailAddress?: string;
 }
 
-export const Permission: Schema.Schema<Permission> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  emailAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
+export const Permission: Schema.Schema<Permission> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    emailAddress: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
 
 export interface Permissions {
   /** ID of the issuer the list of permissions refer to. */
@@ -2567,10 +3419,12 @@ export interface Permissions {
   permissions?: Array<Permission>;
 }
 
-export const Permissions: Schema.Schema<Permissions> = Schema.suspend(() => Schema.Struct({
-  issuerId: Schema.optional(Schema.String),
-  permissions: Schema.optional(Schema.Array(Permission)),
-})).annotate({ identifier: "Permissions" }) as any as Schema.Schema<Permissions>;
+export const Permissions: Schema.Schema<Permissions> = Schema.suspend(() =>
+  Schema.Struct({
+    issuerId: Schema.optional(Schema.String),
+    permissions: Schema.optional(Schema.Array(Permission)),
+  }),
+).annotate({ identifier: "Permissions" }) as any as Schema.Schema<Permissions>;
 
 export interface DiffUploadRequest {
   /** The location of the checksums for the new object. Agents must clone the object located here, as the upload server will delete the contents once a response is received. For details on the format of the checksums, see http://go/scotty-diff-protocol. */
@@ -2581,11 +3435,16 @@ export interface DiffUploadRequest {
   objectInfo?: CompositeMedia;
 }
 
-export const DiffUploadRequest: Schema.Schema<DiffUploadRequest> = Schema.suspend(() => Schema.Struct({
-  checksumsInfo: Schema.optional(CompositeMedia),
-  objectVersion: Schema.optional(Schema.String),
-  objectInfo: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffUploadRequest" }) as any as Schema.Schema<DiffUploadRequest>;
+export const DiffUploadRequest: Schema.Schema<DiffUploadRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      checksumsInfo: Schema.optional(CompositeMedia),
+      objectVersion: Schema.optional(Schema.String),
+      objectInfo: Schema.optional(CompositeMedia),
+    }),
+  ).annotate({
+    identifier: "DiffUploadRequest",
+  }) as any as Schema.Schema<DiffUploadRequest>;
 
 export interface DownloadParameters {
   /** A boolean to be returned in the response to Scotty. Allows/disallows gzip encoding of the payload content when the server thinks it's advantageous (hence, does not guarantee compression) which allows Scotty to GZip the response to the client. */
@@ -2594,19 +3453,29 @@ export interface DownloadParameters {
   ignoreRange?: boolean;
 }
 
-export const DownloadParameters: Schema.Schema<DownloadParameters> = Schema.suspend(() => Schema.Struct({
-  allowGzipCompression: Schema.optional(Schema.Boolean),
-  ignoreRange: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DownloadParameters" }) as any as Schema.Schema<DownloadParameters>;
+export const DownloadParameters: Schema.Schema<DownloadParameters> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowGzipCompression: Schema.optional(Schema.Boolean),
+      ignoreRange: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DownloadParameters",
+  }) as any as Schema.Schema<DownloadParameters>;
 
 export interface DiffDownloadResponse {
   /** The original object location. */
   objectLocation?: CompositeMedia;
 }
 
-export const DiffDownloadResponse: Schema.Schema<DiffDownloadResponse> = Schema.suspend(() => Schema.Struct({
-  objectLocation: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffDownloadResponse" }) as any as Schema.Schema<DiffDownloadResponse>;
+export const DiffDownloadResponse: Schema.Schema<DiffDownloadResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectLocation: Schema.optional(CompositeMedia),
+    }),
+  ).annotate({
+    identifier: "DiffDownloadResponse",
+  }) as any as Schema.Schema<DiffDownloadResponse>;
 
 export interface DiffVersionResponse {
   /** The version of the object stored at the server. */
@@ -2615,10 +3484,15 @@ export interface DiffVersionResponse {
   objectSizeBytes?: string;
 }
 
-export const DiffVersionResponse: Schema.Schema<DiffVersionResponse> = Schema.suspend(() => Schema.Struct({
-  objectVersion: Schema.optional(Schema.String),
-  objectSizeBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "DiffVersionResponse" }) as any as Schema.Schema<DiffVersionResponse>;
+export const DiffVersionResponse: Schema.Schema<DiffVersionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectVersion: Schema.optional(Schema.String),
+      objectSizeBytes: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DiffVersionResponse",
+  }) as any as Schema.Schema<DiffVersionResponse>;
 
 export interface ContentTypeInfo {
   /** The content type of the file as specified in the request headers, multipart headers, or RUPIO start request. */
@@ -2633,13 +3507,18 @@ export interface ContentTypeInfo {
   fromBytes?: string;
 }
 
-export const ContentTypeInfo: Schema.Schema<ContentTypeInfo> = Schema.suspend(() => Schema.Struct({
-  fromHeader: Schema.optional(Schema.String),
-  bestGuess: Schema.optional(Schema.String),
-  fromFileName: Schema.optional(Schema.String),
-  fromUrlPath: Schema.optional(Schema.String),
-  fromBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "ContentTypeInfo" }) as any as Schema.Schema<ContentTypeInfo>;
+export const ContentTypeInfo: Schema.Schema<ContentTypeInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      fromHeader: Schema.optional(Schema.String),
+      bestGuess: Schema.optional(Schema.String),
+      fromFileName: Schema.optional(Schema.String),
+      fromUrlPath: Schema.optional(Schema.String),
+      fromBytes: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ContentTypeInfo",
+}) as any as Schema.Schema<ContentTypeInfo>;
 
 export interface Media {
   /** MIME type of the data */
@@ -2685,7 +3564,21 @@ export interface Media {
   /** Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob. */
   blobstore2Info?: Blobstore2Info;
   /** Describes what the field reference contains. */
-  referenceType?: "PATH" | "BLOB_REF" | "INLINE" | "GET_MEDIA" | "COMPOSITE_MEDIA" | "BIGSTORE_REF" | "DIFF_VERSION_RESPONSE" | "DIFF_CHECKSUMS_RESPONSE" | "DIFF_DOWNLOAD_RESPONSE" | "DIFF_UPLOAD_REQUEST" | "DIFF_UPLOAD_RESPONSE" | "COSMO_BINARY_REFERENCE" | "ARBITRARY_BYTES" | (string & {});
+  referenceType?:
+    | "PATH"
+    | "BLOB_REF"
+    | "INLINE"
+    | "GET_MEDIA"
+    | "COMPOSITE_MEDIA"
+    | "BIGSTORE_REF"
+    | "DIFF_VERSION_RESPONSE"
+    | "DIFF_CHECKSUMS_RESPONSE"
+    | "DIFF_DOWNLOAD_RESPONSE"
+    | "DIFF_UPLOAD_REQUEST"
+    | "DIFF_UPLOAD_RESPONSE"
+    | "COSMO_BINARY_REFERENCE"
+    | "ARBITRARY_BYTES"
+    | (string & {});
   /** Time at which the media data was last updated, in milliseconds since UNIX epoch */
   timestamp?: string;
   /** Blobstore v1 reference, set if reference_type is BLOBSTORE_REF This should be the byte representation of a blobstore.BlobRef. Since Blobstore is deprecating v1, use blobstore2_info instead. For now, any v2 blob will also be represented in this field as v1 BlobRef. */
@@ -2704,47 +3597,54 @@ export interface Media {
   isPotentialRetry?: boolean;
 }
 
-export const Media: Schema.Schema<Media> = Schema.suspend(() => Schema.Struct({
-  contentType: Schema.optional(Schema.String),
-  diffUploadRequest: Schema.optional(DiffUploadRequest),
-  crc32cHash: Schema.optional(Schema.Number),
-  bigstoreObjectRef: Schema.optional(Schema.String),
-  sha1Hash: Schema.optional(Schema.String),
-  downloadParameters: Schema.optional(DownloadParameters),
-  hashVerified: Schema.optional(Schema.Boolean),
-  diffDownloadResponse: Schema.optional(DiffDownloadResponse),
-  filename: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  md5Hash: Schema.optional(Schema.String),
-  diffVersionResponse: Schema.optional(DiffVersionResponse),
-  contentTypeInfo: Schema.optional(ContentTypeInfo),
-  mediaId: Schema.optional(Schema.String),
-  diffChecksumsResponse: Schema.optional(DiffChecksumsResponse),
-  inline: Schema.optional(Schema.String),
-  diffUploadResponse: Schema.optional(DiffUploadResponse),
-  algorithm: Schema.optional(Schema.String),
-  compositeMedia: Schema.optional(Schema.Array(CompositeMedia)),
-  length: Schema.optional(Schema.String),
-  blobstore2Info: Schema.optional(Blobstore2Info),
-  referenceType: Schema.optional(Schema.String),
-  timestamp: Schema.optional(Schema.String),
-  blobRef: Schema.optional(Schema.String),
-  cosmoBinaryReference: Schema.optional(Schema.String),
-  hash: Schema.optional(Schema.String),
-  objectId: Schema.optional(ObjectId),
-  sha256Hash: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  isPotentialRetry: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
+export const Media: Schema.Schema<Media> = Schema.suspend(() =>
+  Schema.Struct({
+    contentType: Schema.optional(Schema.String),
+    diffUploadRequest: Schema.optional(DiffUploadRequest),
+    crc32cHash: Schema.optional(Schema.Number),
+    bigstoreObjectRef: Schema.optional(Schema.String),
+    sha1Hash: Schema.optional(Schema.String),
+    downloadParameters: Schema.optional(DownloadParameters),
+    hashVerified: Schema.optional(Schema.Boolean),
+    diffDownloadResponse: Schema.optional(DiffDownloadResponse),
+    filename: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+    md5Hash: Schema.optional(Schema.String),
+    diffVersionResponse: Schema.optional(DiffVersionResponse),
+    contentTypeInfo: Schema.optional(ContentTypeInfo),
+    mediaId: Schema.optional(Schema.String),
+    diffChecksumsResponse: Schema.optional(DiffChecksumsResponse),
+    inline: Schema.optional(Schema.String),
+    diffUploadResponse: Schema.optional(DiffUploadResponse),
+    algorithm: Schema.optional(Schema.String),
+    compositeMedia: Schema.optional(Schema.Array(CompositeMedia)),
+    length: Schema.optional(Schema.String),
+    blobstore2Info: Schema.optional(Blobstore2Info),
+    referenceType: Schema.optional(Schema.String),
+    timestamp: Schema.optional(Schema.String),
+    blobRef: Schema.optional(Schema.String),
+    cosmoBinaryReference: Schema.optional(Schema.String),
+    hash: Schema.optional(Schema.String),
+    objectId: Schema.optional(ObjectId),
+    sha256Hash: Schema.optional(Schema.String),
+    token: Schema.optional(Schema.String),
+    isPotentialRetry: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
 
 export interface EventTicketObjectAddMessageResponse {
   /** The updated EventTicketObject resource. */
   resource?: EventTicketObject;
 }
 
-export const EventTicketObjectAddMessageResponse: Schema.Schema<EventTicketObjectAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(EventTicketObject),
-})).annotate({ identifier: "EventTicketObjectAddMessageResponse" }) as any as Schema.Schema<EventTicketObjectAddMessageResponse>;
+export const EventTicketObjectAddMessageResponse: Schema.Schema<EventTicketObjectAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(EventTicketObject),
+    }),
+  ).annotate({
+    identifier: "EventTicketObjectAddMessageResponse",
+  }) as any as Schema.Schema<EventTicketObjectAddMessageResponse>;
 
 export interface GenericClass {
   /** Identifies which redemption issuers can redeem the pass over Smart Tap. Redemption issuers are identified by their issuer ID. Redemption issuers must have at least one Smart Tap key configured. The `enableSmartTap` and object level `smartTapRedemptionLevel` fields must also be set up correctly in order for a pass to support Smart Tap. */
@@ -2766,36 +3666,52 @@ export interface GenericClass {
   /** Required. The unique identifier for the class. This ID must be unique across all from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   id?: string;
   /** Identifies whether multiple users and devices will save the same object referencing this class. */
-  multipleDevicesAndHoldersAllowedStatus?: "STATUS_UNSPECIFIED" | "MULTIPLE_HOLDERS" | "ONE_USER_ALL_DEVICES" | "ONE_USER_ONE_DEVICE" | "multipleHolders" | "oneUserAllDevices" | "oneUserOneDevice" | (string & {});
+  multipleDevicesAndHoldersAllowedStatus?:
+    | "STATUS_UNSPECIFIED"
+    | "MULTIPLE_HOLDERS"
+    | "ONE_USER_ALL_DEVICES"
+    | "ONE_USER_ONE_DEVICE"
+    | "multipleHolders"
+    | "oneUserAllDevices"
+    | "oneUserOneDevice"
+    | (string & {});
   /** Callback options to be used to call the issuer back for every save/delete of an object for this class by the end-user. All objects of this class are eligible for the callback. */
   callbackOptions?: CallbackOptions;
   /** Merchant locations. There is a maximum of ten on the class. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** View Unlock Requirement options for the generic pass. */
-  viewUnlockRequirement?: "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED" | "UNLOCK_NOT_REQUIRED" | "UNLOCK_REQUIRED_TO_VIEW" | (string & {});
+  viewUnlockRequirement?:
+    | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
+    | "UNLOCK_NOT_REQUIRED"
+    | "UNLOCK_REQUIRED_TO_VIEW"
+    | (string & {});
   /** Optional value added module data. Maximum of fifteen on the class. For a pass only fifteen will be displayed, prioritizing those from the object. */
   valueAddedModuleData?: Array<ValueAddedModuleData>;
   /** Text module data. If `textModulesData` is also defined on the object, both will be displayed. The maximum number of these fields displayed is 10 from class and 10 from object. */
   textModulesData?: Array<TextModuleData>;
 }
 
-export const GenericClass: Schema.Schema<GenericClass> = Schema.suspend(() => Schema.Struct({
-  redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  enableSmartTap: Schema.optional(Schema.Boolean),
-  classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  securityAnimation: Schema.optional(SecurityAnimation),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  id: Schema.optional(Schema.String),
-  multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-  callbackOptions: Schema.optional(CallbackOptions),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  viewUnlockRequirement: Schema.optional(Schema.String),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-})).annotate({ identifier: "GenericClass" }) as any as Schema.Schema<GenericClass>;
+export const GenericClass: Schema.Schema<GenericClass> = Schema.suspend(() =>
+  Schema.Struct({
+    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+    linksModuleData: Schema.optional(LinksModuleData),
+    messages: Schema.optional(Schema.Array(Message)),
+    enableSmartTap: Schema.optional(Schema.Boolean),
+    classTemplateInfo: Schema.optional(ClassTemplateInfo),
+    securityAnimation: Schema.optional(SecurityAnimation),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    id: Schema.optional(Schema.String),
+    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+    callbackOptions: Schema.optional(CallbackOptions),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    viewUnlockRequirement: Schema.optional(Schema.String),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+  }),
+).annotate({
+  identifier: "GenericClass",
+}) as any as Schema.Schema<GenericClass>;
 
 export interface GenericClassListResponse {
   /** Pagination of the response. */
@@ -2804,10 +3720,15 @@ export interface GenericClassListResponse {
   resources?: Array<GenericClass>;
 }
 
-export const GenericClassListResponse: Schema.Schema<GenericClassListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(GenericClass)),
-})).annotate({ identifier: "GenericClassListResponse" }) as any as Schema.Schema<GenericClassListResponse>;
+export const GenericClassListResponse: Schema.Schema<GenericClassListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(GenericClass)),
+    }),
+  ).annotate({
+    identifier: "GenericClassListResponse",
+  }) as any as Schema.Schema<GenericClassListResponse>;
 
 export interface ModifyLinkedOfferObjects {
   /** The linked offer object ids to add to the object. */
@@ -2816,19 +3737,29 @@ export interface ModifyLinkedOfferObjects {
   removeLinkedOfferObjectIds?: Array<string>;
 }
 
-export const ModifyLinkedOfferObjects: Schema.Schema<ModifyLinkedOfferObjects> = Schema.suspend(() => Schema.Struct({
-  addLinkedOfferObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  removeLinkedOfferObjectIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ModifyLinkedOfferObjects" }) as any as Schema.Schema<ModifyLinkedOfferObjects>;
+export const ModifyLinkedOfferObjects: Schema.Schema<ModifyLinkedOfferObjects> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      addLinkedOfferObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      removeLinkedOfferObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ModifyLinkedOfferObjects",
+  }) as any as Schema.Schema<ModifyLinkedOfferObjects>;
 
 export interface ModifyLinkedOfferObjectsRequest {
   /** The linked offer object ids to add or remove from the object. */
   linkedOfferObjectIds?: ModifyLinkedOfferObjects;
 }
 
-export const ModifyLinkedOfferObjectsRequest: Schema.Schema<ModifyLinkedOfferObjectsRequest> = Schema.suspend(() => Schema.Struct({
-  linkedOfferObjectIds: Schema.optional(ModifyLinkedOfferObjects),
-})).annotate({ identifier: "ModifyLinkedOfferObjectsRequest" }) as any as Schema.Schema<ModifyLinkedOfferObjectsRequest>;
+export const ModifyLinkedOfferObjectsRequest: Schema.Schema<ModifyLinkedOfferObjectsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      linkedOfferObjectIds: Schema.optional(ModifyLinkedOfferObjects),
+    }),
+  ).annotate({
+    identifier: "ModifyLinkedOfferObjectsRequest",
+  }) as any as Schema.Schema<ModifyLinkedOfferObjectsRequest>;
 
 export interface TicketRestrictions {
   /** Extra restrictions that don't fall under the "route" or "time" categories. */
@@ -2841,21 +3772,28 @@ export interface TicketRestrictions {
   timeRestrictions?: LocalizedString;
 }
 
-export const TicketRestrictions: Schema.Schema<TicketRestrictions> = Schema.suspend(() => Schema.Struct({
-  otherRestrictions: Schema.optional(LocalizedString),
-  routeRestrictionsDetails: Schema.optional(LocalizedString),
-  routeRestrictions: Schema.optional(LocalizedString),
-  timeRestrictions: Schema.optional(LocalizedString),
-})).annotate({ identifier: "TicketRestrictions" }) as any as Schema.Schema<TicketRestrictions>;
+export const TicketRestrictions: Schema.Schema<TicketRestrictions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      otherRestrictions: Schema.optional(LocalizedString),
+      routeRestrictionsDetails: Schema.optional(LocalizedString),
+      routeRestrictions: Schema.optional(LocalizedString),
+      timeRestrictions: Schema.optional(LocalizedString),
+    }),
+  ).annotate({
+    identifier: "TicketRestrictions",
+  }) as any as Schema.Schema<TicketRestrictions>;
 
 export interface SignUpInfo {
   /** ID of the class the user can sign up for. */
   classId?: string;
 }
 
-export const SignUpInfo: Schema.Schema<SignUpInfo> = Schema.suspend(() => Schema.Struct({
-  classId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignUpInfo" }) as any as Schema.Schema<SignUpInfo>;
+export const SignUpInfo: Schema.Schema<SignUpInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    classId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SignUpInfo" }) as any as Schema.Schema<SignUpInfo>;
 
 export interface SmartTapMerchantData {
   /** Available only to Smart Tap enabled partners. Contact support for additional guidance. */
@@ -2864,10 +3802,15 @@ export interface SmartTapMerchantData {
   authenticationKeys?: Array<AuthenticationKey>;
 }
 
-export const SmartTapMerchantData: Schema.Schema<SmartTapMerchantData> = Schema.suspend(() => Schema.Struct({
-  smartTapMerchantId: Schema.optional(Schema.String),
-  authenticationKeys: Schema.optional(Schema.Array(AuthenticationKey)),
-})).annotate({ identifier: "SmartTapMerchantData" }) as any as Schema.Schema<SmartTapMerchantData>;
+export const SmartTapMerchantData: Schema.Schema<SmartTapMerchantData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      smartTapMerchantId: Schema.optional(Schema.String),
+      authenticationKeys: Schema.optional(Schema.Array(AuthenticationKey)),
+    }),
+  ).annotate({
+    identifier: "SmartTapMerchantData",
+  }) as any as Schema.Schema<SmartTapMerchantData>;
 
 export interface Issuer {
   /** Allows the issuer to provide their callback settings. */
@@ -2884,14 +3827,16 @@ export interface Issuer {
   smartTapMerchantData?: SmartTapMerchantData;
 }
 
-export const Issuer: Schema.Schema<Issuer> = Schema.suspend(() => Schema.Struct({
-  callbackOptions: Schema.optional(CallbackOptions),
-  issuerId: Schema.optional(Schema.String),
-  homepageUrl: Schema.optional(Schema.String),
-  contactInfo: Schema.optional(IssuerContactInfo),
-  name: Schema.optional(Schema.String),
-  smartTapMerchantData: Schema.optional(SmartTapMerchantData),
-})).annotate({ identifier: "Issuer" }) as any as Schema.Schema<Issuer>;
+export const Issuer: Schema.Schema<Issuer> = Schema.suspend(() =>
+  Schema.Struct({
+    callbackOptions: Schema.optional(CallbackOptions),
+    issuerId: Schema.optional(Schema.String),
+    homepageUrl: Schema.optional(Schema.String),
+    contactInfo: Schema.optional(IssuerContactInfo),
+    name: Schema.optional(Schema.String),
+    smartTapMerchantData: Schema.optional(SmartTapMerchantData),
+  }),
+).annotate({ identifier: "Issuer" }) as any as Schema.Schema<Issuer>;
 
 export interface GenericObjectListResponse {
   /** Pagination of the response. */
@@ -2900,10 +3845,15 @@ export interface GenericObjectListResponse {
   resources?: Array<GenericObject>;
 }
 
-export const GenericObjectListResponse: Schema.Schema<GenericObjectListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(GenericObject)),
-})).annotate({ identifier: "GenericObjectListResponse" }) as any as Schema.Schema<GenericObjectListResponse>;
+export const GenericObjectListResponse: Schema.Schema<GenericObjectListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(GenericObject)),
+    }),
+  ).annotate({
+    identifier: "GenericObjectListResponse",
+  }) as any as Schema.Schema<GenericObjectListResponse>;
 
 export interface OfferClass {
   /** Deprecated. Use `multipleDevicesAndHoldersAllowedStatus` instead. */
@@ -2941,13 +3891,31 @@ export interface OfferClass {
   /** Translated strings for the fine_print. */
   localizedFinePrint?: LocalizedString;
   /** Required. The redemption channels applicable to this offer. */
-  redemptionChannel?: "REDEMPTION_CHANNEL_UNSPECIFIED" | "INSTORE" | "instore" | "ONLINE" | "online" | "BOTH" | "both" | "TEMPORARY_PRICE_REDUCTION" | "temporaryPriceReduction" | (string & {});
+  redemptionChannel?:
+    | "REDEMPTION_CHANNEL_UNSPECIFIED"
+    | "INSTORE"
+    | "instore"
+    | "ONLINE"
+    | "online"
+    | "BOTH"
+    | "both"
+    | "TEMPORARY_PRICE_REDUCTION"
+    | "temporaryPriceReduction"
+    | (string & {});
   /** Required. The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   id?: string;
   /** Translated strings for the issuer_name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
   localizedIssuerName?: LocalizedString;
   /** Identifies whether multiple users and devices will save the same object referencing this class. */
-  multipleDevicesAndHoldersAllowedStatus?: "STATUS_UNSPECIFIED" | "MULTIPLE_HOLDERS" | "ONE_USER_ALL_DEVICES" | "ONE_USER_ONE_DEVICE" | "multipleHolders" | "oneUserAllDevices" | "oneUserOneDevice" | (string & {});
+  multipleDevicesAndHoldersAllowedStatus?:
+    | "STATUS_UNSPECIFIED"
+    | "MULTIPLE_HOLDERS"
+    | "ONE_USER_ALL_DEVICES"
+    | "ONE_USER_ONE_DEVICE"
+    | "multipleHolders"
+    | "oneUserAllDevices"
+    | "oneUserOneDevice"
+    | (string & {});
   /** Callback options to be used to call the issuer back for every save/delete of an object for this class by the end-user. All objects of this class are eligible for the callback. */
   callbackOptions?: CallbackOptions;
   /** The help link for the offer, such as `http://myownpersonaldomain.com/help` */
@@ -2955,7 +3923,11 @@ export interface OfferClass {
   /** A shortened version of the title of the offer, such as "20% off," shown to users as a quick reference to the offer contents. Recommended maximum length is 20 characters. */
   shortTitle?: string;
   /** View Unlock Requirement options for the offer. */
-  viewUnlockRequirement?: "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED" | "UNLOCK_NOT_REQUIRED" | "UNLOCK_REQUIRED_TO_VIEW" | (string & {});
+  viewUnlockRequirement?:
+    | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
+    | "UNLOCK_NOT_REQUIRED"
+    | "UNLOCK_REQUIRED_TO_VIEW"
+    | (string & {});
   /** The details of the offer. */
   details?: string;
   /** Required. The issuer name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
@@ -2975,11 +3947,24 @@ export interface OfferClass {
   /** Template information about how the class should be displayed. If unset, Google will fallback to a default set of fields to display. */
   classTemplateInfo?: ClassTemplateInfo;
   /** Required. The status of the class. This field can be set to `draft` or The status of the class. This field can be set to `draft` or `underReview` using the insert, patch, or update API calls. Once the review state is changed from `draft` it may not be changed back to `draft`. You should keep this field to `draft` when the class is under development. A `draft` class cannot be used to create any object. You should set this field to `underReview` when you believe the class is ready for use. The platform will automatically set this field to `approved` and it can be immediately used to create or migrate objects. When updating an already `approved` class you should keep setting this field to `underReview`. */
-  reviewStatus?: "REVIEW_STATUS_UNSPECIFIED" | "UNDER_REVIEW" | "underReview" | "APPROVED" | "approved" | "REJECTED" | "rejected" | "DRAFT" | "draft" | (string & {});
+  reviewStatus?:
+    | "REVIEW_STATUS_UNSPECIFIED"
+    | "UNDER_REVIEW"
+    | "underReview"
+    | "APPROVED"
+    | "approved"
+    | "REJECTED"
+    | "rejected"
+    | "DRAFT"
+    | "draft"
+    | (string & {});
   /** Deprecated. */
   wordMark?: Image;
   /** Whether or not field updates to this class should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If not specified, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Required. The title of the offer, such as "20% off any t-shirt." Recommended maximum length is 60 characters to ensure full string is displayed on smaller screens. */
   title?: string;
   /** Translated strings for the provider. Recommended maximum length is 12 characters to ensure full string is displayed on smaller screens. */
@@ -2996,52 +3981,54 @@ export interface OfferClass {
   kind?: string;
 }
 
-export const OfferClass: Schema.Schema<OfferClass> = Schema.suspend(() => Schema.Struct({
-  allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-  review: Schema.optional(Review),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  localizedShortTitle: Schema.optional(LocalizedString),
-  version: Schema.optional(Schema.String),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  wideTitleImage: Schema.optional(Image),
-  countryCode: Schema.optional(Schema.String),
-  homepageUri: Schema.optional(Uri),
-  redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-  enableSmartTap: Schema.optional(Schema.Boolean),
-  provider: Schema.optional(Schema.String),
-  titleImage: Schema.optional(Image),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  securityAnimation: Schema.optional(SecurityAnimation),
-  heroImage: Schema.optional(Image),
-  localizedFinePrint: Schema.optional(LocalizedString),
-  redemptionChannel: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  localizedIssuerName: Schema.optional(LocalizedString),
-  multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-  callbackOptions: Schema.optional(CallbackOptions),
-  helpUri: Schema.optional(Uri),
-  shortTitle: Schema.optional(Schema.String),
-  viewUnlockRequirement: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.String),
-  issuerName: Schema.optional(Schema.String),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  messages: Schema.optional(Schema.Array(Message)),
-  linksModuleData: Schema.optional(LinksModuleData),
-  localizedDetails: Schema.optional(LocalizedString),
-  infoModuleData: Schema.optional(InfoModuleData),
-  classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  reviewStatus: Schema.optional(Schema.String),
-  wordMark: Schema.optional(Image),
-  notifyPreference: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  localizedProvider: Schema.optional(LocalizedString),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  finePrint: Schema.optional(Schema.String),
-  localizedTitle: Schema.optional(LocalizedString),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "OfferClass" }) as any as Schema.Schema<OfferClass>;
+export const OfferClass: Schema.Schema<OfferClass> = Schema.suspend(() =>
+  Schema.Struct({
+    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+    review: Schema.optional(Review),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    localizedShortTitle: Schema.optional(LocalizedString),
+    version: Schema.optional(Schema.String),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    wideTitleImage: Schema.optional(Image),
+    countryCode: Schema.optional(Schema.String),
+    homepageUri: Schema.optional(Uri),
+    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+    enableSmartTap: Schema.optional(Schema.Boolean),
+    provider: Schema.optional(Schema.String),
+    titleImage: Schema.optional(Image),
+    hexBackgroundColor: Schema.optional(Schema.String),
+    securityAnimation: Schema.optional(SecurityAnimation),
+    heroImage: Schema.optional(Image),
+    localizedFinePrint: Schema.optional(LocalizedString),
+    redemptionChannel: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    localizedIssuerName: Schema.optional(LocalizedString),
+    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+    callbackOptions: Schema.optional(CallbackOptions),
+    helpUri: Schema.optional(Uri),
+    shortTitle: Schema.optional(Schema.String),
+    viewUnlockRequirement: Schema.optional(Schema.String),
+    details: Schema.optional(Schema.String),
+    issuerName: Schema.optional(Schema.String),
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    messages: Schema.optional(Schema.Array(Message)),
+    linksModuleData: Schema.optional(LinksModuleData),
+    localizedDetails: Schema.optional(LocalizedString),
+    infoModuleData: Schema.optional(InfoModuleData),
+    classTemplateInfo: Schema.optional(ClassTemplateInfo),
+    reviewStatus: Schema.optional(Schema.String),
+    wordMark: Schema.optional(Image),
+    notifyPreference: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    localizedProvider: Schema.optional(LocalizedString),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    finePrint: Schema.optional(Schema.String),
+    localizedTitle: Schema.optional(LocalizedString),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OfferClass" }) as any as Schema.Schema<OfferClass>;
 
 export interface OfferObject {
   /** Note: This field is currently not supported to trigger geo notifications. */
@@ -3059,7 +4046,10 @@ export interface OfferObject {
   /** Pass constraints for the object. Includes limiting NFC and screenshot behaviors. */
   passConstraints?: PassConstraints;
   /** Whether or not field updates to this object should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If set to DO_NOT_NOTIFY or NOTIFICATION_SETTINGS_UNSPECIFIED, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#offerObject"`. */
   kind?: string;
   /** Image module data. The maximum number of these fields displayed is 1 from object level and 1 for class object level. */
@@ -3085,7 +4075,17 @@ export interface OfferObject {
   /** Merchant locations. There is a maximum of ten on the object. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** Required. The state of the object. This field is used to determine how an object is displayed in the app. For example, an `inactive` object is moved to the "Expired passes" section. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "active" | "COMPLETED" | "completed" | "EXPIRED" | "expired" | "INACTIVE" | "inactive" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "active"
+    | "COMPLETED"
+    | "completed"
+    | "EXPIRED"
+    | "expired"
+    | "INACTIVE"
+    | "inactive"
+    | (string & {});
   /** Indicates if the object has users. This field is set by the platform. */
   hasUsers?: boolean;
   /** Whether this object is currently linked to a single device. This field is set by the platform when a user saves the object, linking it to their device. Intended for use by select partners. Contact support for additional information. */
@@ -3102,45 +4102,51 @@ export interface OfferObject {
   classId?: string;
 }
 
-export const OfferObject: Schema.Schema<OfferObject> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  id: Schema.optional(Schema.String),
-  classReference: Schema.optional(OfferClass),
-  disableExpirationNotification: Schema.optional(Schema.Boolean),
-  passConstraints: Schema.optional(PassConstraints),
-  notifyPreference: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  validTimeInterval: Schema.optional(TimeInterval),
-  groupingInfo: Schema.optional(GroupingInfo),
-  smartTapRedemptionValue: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  version: Schema.optional(Schema.String),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  state: Schema.optional(Schema.String),
-  hasUsers: Schema.optional(Schema.Boolean),
-  hasLinkedDevice: Schema.optional(Schema.Boolean),
-  barcode: Schema.optional(Barcode),
-  rotatingBarcode: Schema.optional(RotatingBarcode),
-  heroImage: Schema.optional(Image),
-  saveRestrictions: Schema.optional(SaveRestrictions),
-  classId: Schema.optional(Schema.String),
-})).annotate({ identifier: "OfferObject" }) as any as Schema.Schema<OfferObject>;
+export const OfferObject: Schema.Schema<OfferObject> = Schema.suspend(() =>
+  Schema.Struct({
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    id: Schema.optional(Schema.String),
+    classReference: Schema.optional(OfferClass),
+    disableExpirationNotification: Schema.optional(Schema.Boolean),
+    passConstraints: Schema.optional(PassConstraints),
+    notifyPreference: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    linksModuleData: Schema.optional(LinksModuleData),
+    messages: Schema.optional(Schema.Array(Message)),
+    validTimeInterval: Schema.optional(TimeInterval),
+    groupingInfo: Schema.optional(GroupingInfo),
+    smartTapRedemptionValue: Schema.optional(Schema.String),
+    infoModuleData: Schema.optional(InfoModuleData),
+    version: Schema.optional(Schema.String),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    state: Schema.optional(Schema.String),
+    hasUsers: Schema.optional(Schema.Boolean),
+    hasLinkedDevice: Schema.optional(Schema.Boolean),
+    barcode: Schema.optional(Barcode),
+    rotatingBarcode: Schema.optional(RotatingBarcode),
+    heroImage: Schema.optional(Image),
+    saveRestrictions: Schema.optional(SaveRestrictions),
+    classId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OfferObject" }) as any as Schema.Schema<OfferObject>;
 
 export interface DeviceContext {
   /** If set, redemption information will only be returned to the given device upon activation of the object. This should not be used as a stable identifier to trace a user's device. It can change across different passes for the same device or even across different activations for the same device. When setting this, callers must also set has_linked_device on the object being activated. */
   deviceToken?: string;
 }
 
-export const DeviceContext: Schema.Schema<DeviceContext> = Schema.suspend(() => Schema.Struct({
-  deviceToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeviceContext" }) as any as Schema.Schema<DeviceContext>;
+export const DeviceContext: Schema.Schema<DeviceContext> = Schema.suspend(() =>
+  Schema.Struct({
+    deviceToken: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DeviceContext",
+}) as any as Schema.Schema<DeviceContext>;
 
 export interface TicketCost {
   /** The actual purchase price of the ticket, after tax and/or discounts. */
@@ -3151,11 +4157,13 @@ export interface TicketCost {
   discountMessage?: LocalizedString;
 }
 
-export const TicketCost: Schema.Schema<TicketCost> = Schema.suspend(() => Schema.Struct({
-  purchasePrice: Schema.optional(Money),
-  faceValue: Schema.optional(Money),
-  discountMessage: Schema.optional(LocalizedString),
-})).annotate({ identifier: "TicketCost" }) as any as Schema.Schema<TicketCost>;
+export const TicketCost: Schema.Schema<TicketCost> = Schema.suspend(() =>
+  Schema.Struct({
+    purchasePrice: Schema.optional(Money),
+    faceValue: Schema.optional(Money),
+    discountMessage: Schema.optional(LocalizedString),
+  }),
+).annotate({ identifier: "TicketCost" }) as any as Schema.Schema<TicketCost>;
 
 export interface PurchaseDetails {
   /** The purchase date/time of the ticket. This is an ISO 8601 extended format date/time, with or without an offset. Time may be specified up to nanosecond precision. Offsets may be specified with seconds precision (even though offset seconds is not part of ISO 8601). For example: `1985-04-12T23:20:50.52Z` would be 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC. `1985-04-12T19:20:50.52-04:00` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985, 4 hours before UTC (same instant in time as the above example). If the event were in New York, this would be the equivalent of Eastern Daylight Time (EDT). Remember that offset varies in regions that observe Daylight Saving Time (or Summer Time), depending on the time of the year. `1985-04-12T19:20:50.52` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985 with no offset information. Without offset information, some rich features may not be available. */
@@ -3170,17 +4178,30 @@ export interface PurchaseDetails {
   purchaseReceiptNumber?: string;
 }
 
-export const PurchaseDetails: Schema.Schema<PurchaseDetails> = Schema.suspend(() => Schema.Struct({
-  purchaseDateTime: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  confirmationCode: Schema.optional(Schema.String),
-  ticketCost: Schema.optional(TicketCost),
-  purchaseReceiptNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "PurchaseDetails" }) as any as Schema.Schema<PurchaseDetails>;
+export const PurchaseDetails: Schema.Schema<PurchaseDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      purchaseDateTime: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      confirmationCode: Schema.optional(Schema.String),
+      ticketCost: Schema.optional(TicketCost),
+      purchaseReceiptNumber: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PurchaseDetails",
+}) as any as Schema.Schema<PurchaseDetails>;
 
 export interface TicketSeat {
   /** The fare class of the ticketed seat. */
-  fareClass?: "FARE_CLASS_UNSPECIFIED" | "ECONOMY" | "economy" | "FIRST" | "first" | "BUSINESS" | "business" | (string & {});
+  fareClass?:
+    | "FARE_CLASS_UNSPECIFIED"
+    | "ECONOMY"
+    | "economy"
+    | "FIRST"
+    | "first"
+    | "BUSINESS"
+    | "business"
+    | (string & {});
   /** The identifier of where the ticketed seat is located. Eg. "42". If there is no specific identifier, use `seatAssigment` instead. */
   seat?: string;
   /** The identifier of the train car or coach in which the ticketed seat is located. Eg. "10" */
@@ -3191,13 +4212,15 @@ export interface TicketSeat {
   seatAssignment?: LocalizedString;
 }
 
-export const TicketSeat: Schema.Schema<TicketSeat> = Schema.suspend(() => Schema.Struct({
-  fareClass: Schema.optional(Schema.String),
-  seat: Schema.optional(Schema.String),
-  coach: Schema.optional(Schema.String),
-  customFareClass: Schema.optional(LocalizedString),
-  seatAssignment: Schema.optional(LocalizedString),
-})).annotate({ identifier: "TicketSeat" }) as any as Schema.Schema<TicketSeat>;
+export const TicketSeat: Schema.Schema<TicketSeat> = Schema.suspend(() =>
+  Schema.Struct({
+    fareClass: Schema.optional(Schema.String),
+    seat: Schema.optional(Schema.String),
+    coach: Schema.optional(Schema.String),
+    customFareClass: Schema.optional(LocalizedString),
+    seatAssignment: Schema.optional(LocalizedString),
+  }),
+).annotate({ identifier: "TicketSeat" }) as any as Schema.Schema<TicketSeat>;
 
 export interface TicketLeg {
   /** The zone of boarding within the platform. */
@@ -3230,22 +4253,24 @@ export interface TicketLeg {
   carriage?: string;
 }
 
-export const TicketLeg: Schema.Schema<TicketLeg> = Schema.suspend(() => Schema.Struct({
-  zone: Schema.optional(Schema.String),
-  platform: Schema.optional(Schema.String),
-  destinationName: Schema.optional(LocalizedString),
-  fareName: Schema.optional(LocalizedString),
-  arrivalDateTime: Schema.optional(Schema.String),
-  originStationCode: Schema.optional(Schema.String),
-  transitTerminusName: Schema.optional(LocalizedString),
-  departureDateTime: Schema.optional(Schema.String),
-  originName: Schema.optional(LocalizedString),
-  transitOperatorName: Schema.optional(LocalizedString),
-  destinationStationCode: Schema.optional(Schema.String),
-  ticketSeat: Schema.optional(TicketSeat),
-  ticketSeats: Schema.optional(Schema.Array(TicketSeat)),
-  carriage: Schema.optional(Schema.String),
-})).annotate({ identifier: "TicketLeg" }) as any as Schema.Schema<TicketLeg>;
+export const TicketLeg: Schema.Schema<TicketLeg> = Schema.suspend(() =>
+  Schema.Struct({
+    zone: Schema.optional(Schema.String),
+    platform: Schema.optional(Schema.String),
+    destinationName: Schema.optional(LocalizedString),
+    fareName: Schema.optional(LocalizedString),
+    arrivalDateTime: Schema.optional(Schema.String),
+    originStationCode: Schema.optional(Schema.String),
+    transitTerminusName: Schema.optional(LocalizedString),
+    departureDateTime: Schema.optional(Schema.String),
+    originName: Schema.optional(LocalizedString),
+    transitOperatorName: Schema.optional(LocalizedString),
+    destinationStationCode: Schema.optional(Schema.String),
+    ticketSeat: Schema.optional(TicketSeat),
+    ticketSeats: Schema.optional(Schema.Array(TicketSeat)),
+    carriage: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TicketLeg" }) as any as Schema.Schema<TicketLeg>;
 
 export interface TransitObject {
   /** Links module data. If links module data is also defined on the class, both will be displayed. */
@@ -3263,11 +4288,22 @@ export interface TransitObject {
   /** The activation status for the object. Required if the class has `activationOptions` set. */
   activationStatus?: ActivationStatus;
   /** The status of the ticket. For states which affect display, use the `state` field instead. */
-  ticketStatus?: "TICKET_STATUS_UNSPECIFIED" | "USED" | "used" | "REFUNDED" | "refunded" | "EXCHANGED" | "exchanged" | (string & {});
+  ticketStatus?:
+    | "TICKET_STATUS_UNSPECIFIED"
+    | "USED"
+    | "used"
+    | "REFUNDED"
+    | "refunded"
+    | "EXCHANGED"
+    | "exchanged"
+    | (string & {});
   /** Information that controls how passes are grouped together. */
   groupingInfo?: GroupingInfo;
   /** Whether or not field updates to this object should trigger notifications. When set to NOTIFY, we will attempt to trigger a field update notification to users. These notifications will only be sent to users if the field is part of an allowlist. If set to DO_NOT_NOTIFY or NOTIFICATION_SETTINGS_UNSPECIFIED, no notification will be triggered. This setting is ephemeral and needs to be set with each PATCH or UPDATE request, otherwise a notification will not be triggered. */
-  notifyPreference?: "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED" | "NOTIFY_ON_UPDATE" | (string & {});
+  notifyPreference?:
+    | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
+    | "NOTIFY_ON_UPDATE"
+    | (string & {});
   /** Purchase details for this ticket. */
   purchaseDetails?: PurchaseDetails;
   /** Image module data. The maximum number of these fields displayed is 1 from object level and 1 for class object level. */
@@ -3285,9 +4321,23 @@ export interface TransitObject {
   /** The name(s) of the passengers the ticket is assigned to. The above `passengerType` field is meant to give Google context on this field. */
   passengerNames?: string;
   /** The concession category for the ticket. */
-  concessionCategory?: "CONCESSION_CATEGORY_UNSPECIFIED" | "ADULT" | "adult" | "CHILD" | "child" | "SENIOR" | "senior" | (string & {});
+  concessionCategory?:
+    | "CONCESSION_CATEGORY_UNSPECIFIED"
+    | "ADULT"
+    | "adult"
+    | "CHILD"
+    | "child"
+    | "SENIOR"
+    | "senior"
+    | (string & {});
   /** Required. The type of trip this transit object represents. Used to determine the pass title and/or which symbol to use between the origin and destination. */
-  tripType?: "TRIP_TYPE_UNSPECIFIED" | "ROUND_TRIP" | "roundTrip" | "ONE_WAY" | "oneWay" | (string & {});
+  tripType?:
+    | "TRIP_TYPE_UNSPECIFIED"
+    | "ROUND_TRIP"
+    | "roundTrip"
+    | "ONE_WAY"
+    | "oneWay"
+    | (string & {});
   /** A custom status to use for the ticket status value when `ticketStatus` does not provide the right option. Both `ticketStatus` and `customTicketStatus` may not be set. */
   customTicketStatus?: LocalizedString;
   /** Note: This field is currently not supported to trigger geo notifications. */
@@ -3325,9 +4375,25 @@ export interface TransitObject {
   /** Merchant locations. There is a maximum of ten on the object. Any additional MerchantLocations added beyond the 10 will be rejected. These locations will trigger a notification when a user enters within a Google-set radius of the point. This field replaces the deprecated LatLongPoints. */
   merchantLocations?: Array<MerchantLocation>;
   /** Required. The state of the object. This field is used to determine how an object is displayed in the app. For example, an `inactive` object is moved to the "Expired passes" section. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "active" | "COMPLETED" | "completed" | "EXPIRED" | "expired" | "INACTIVE" | "inactive" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "active"
+    | "COMPLETED"
+    | "completed"
+    | "EXPIRED"
+    | "expired"
+    | "INACTIVE"
+    | "inactive"
+    | (string & {});
   /** The number of passengers. */
-  passengerType?: "PASSENGER_TYPE_UNSPECIFIED" | "SINGLE_PASSENGER" | "singlePassenger" | "MULTIPLE_PASSENGERS" | "multiplePassengers" | (string & {});
+  passengerType?:
+    | "PASSENGER_TYPE_UNSPECIFIED"
+    | "SINGLE_PASSENGER"
+    | "singlePassenger"
+    | "MULTIPLE_PASSENGERS"
+    | "multiplePassengers"
+    | (string & {});
   /** This id is used to group tickets together if the user has saved multiple tickets for the same trip. */
   tripId?: string;
   /** Deprecated */
@@ -3336,51 +4402,55 @@ export interface TransitObject {
   textModulesData?: Array<TextModuleData>;
 }
 
-export const TransitObject: Schema.Schema<TransitObject> = Schema.suspend(() => Schema.Struct({
-  linksModuleData: Schema.optional(LinksModuleData),
-  messages: Schema.optional(Schema.Array(Message)),
-  validTimeInterval: Schema.optional(TimeInterval),
-  deviceContext: Schema.optional(DeviceContext),
-  smartTapRedemptionValue: Schema.optional(Schema.String),
-  infoModuleData: Schema.optional(InfoModuleData),
-  activationStatus: Schema.optional(ActivationStatus),
-  ticketStatus: Schema.optional(Schema.String),
-  groupingInfo: Schema.optional(GroupingInfo),
-  notifyPreference: Schema.optional(Schema.String),
-  purchaseDetails: Schema.optional(PurchaseDetails),
-  imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-  appLinkData: Schema.optional(AppLinkData),
-  classReference: Schema.optional(TransitClass),
-  id: Schema.optional(Schema.String),
-  disableExpirationNotification: Schema.optional(Schema.Boolean),
-  passConstraints: Schema.optional(PassConstraints),
-  passengerNames: Schema.optional(Schema.String),
-  concessionCategory: Schema.optional(Schema.String),
-  tripType: Schema.optional(Schema.String),
-  customTicketStatus: Schema.optional(LocalizedString),
-  locations: Schema.optional(Schema.Array(LatLongPoint)),
-  valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-  ticketRestrictions: Schema.optional(TicketRestrictions),
-  linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  saveRestrictions: Schema.optional(SaveRestrictions),
-  customConcessionCategory: Schema.optional(LocalizedString),
-  classId: Schema.optional(Schema.String),
-  hasUsers: Schema.optional(Schema.Boolean),
-  hasLinkedDevice: Schema.optional(Schema.Boolean),
-  hexBackgroundColor: Schema.optional(Schema.String),
-  barcode: Schema.optional(Barcode),
-  ticketLegs: Schema.optional(Schema.Array(TicketLeg)),
-  heroImage: Schema.optional(Image),
-  ticketNumber: Schema.optional(Schema.String),
-  ticketLeg: Schema.optional(TicketLeg),
-  rotatingBarcode: Schema.optional(RotatingBarcode),
-  merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-  state: Schema.optional(Schema.String),
-  passengerType: Schema.optional(Schema.String),
-  tripId: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-})).annotate({ identifier: "TransitObject" }) as any as Schema.Schema<TransitObject>;
+export const TransitObject: Schema.Schema<TransitObject> = Schema.suspend(() =>
+  Schema.Struct({
+    linksModuleData: Schema.optional(LinksModuleData),
+    messages: Schema.optional(Schema.Array(Message)),
+    validTimeInterval: Schema.optional(TimeInterval),
+    deviceContext: Schema.optional(DeviceContext),
+    smartTapRedemptionValue: Schema.optional(Schema.String),
+    infoModuleData: Schema.optional(InfoModuleData),
+    activationStatus: Schema.optional(ActivationStatus),
+    ticketStatus: Schema.optional(Schema.String),
+    groupingInfo: Schema.optional(GroupingInfo),
+    notifyPreference: Schema.optional(Schema.String),
+    purchaseDetails: Schema.optional(PurchaseDetails),
+    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+    appLinkData: Schema.optional(AppLinkData),
+    classReference: Schema.optional(TransitClass),
+    id: Schema.optional(Schema.String),
+    disableExpirationNotification: Schema.optional(Schema.Boolean),
+    passConstraints: Schema.optional(PassConstraints),
+    passengerNames: Schema.optional(Schema.String),
+    concessionCategory: Schema.optional(Schema.String),
+    tripType: Schema.optional(Schema.String),
+    customTicketStatus: Schema.optional(LocalizedString),
+    locations: Schema.optional(Schema.Array(LatLongPoint)),
+    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+    ticketRestrictions: Schema.optional(TicketRestrictions),
+    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    saveRestrictions: Schema.optional(SaveRestrictions),
+    customConcessionCategory: Schema.optional(LocalizedString),
+    classId: Schema.optional(Schema.String),
+    hasUsers: Schema.optional(Schema.Boolean),
+    hasLinkedDevice: Schema.optional(Schema.Boolean),
+    hexBackgroundColor: Schema.optional(Schema.String),
+    barcode: Schema.optional(Barcode),
+    ticketLegs: Schema.optional(Schema.Array(TicketLeg)),
+    heroImage: Schema.optional(Image),
+    ticketNumber: Schema.optional(Schema.String),
+    ticketLeg: Schema.optional(TicketLeg),
+    rotatingBarcode: Schema.optional(RotatingBarcode),
+    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+    state: Schema.optional(Schema.String),
+    passengerType: Schema.optional(Schema.String),
+    tripId: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+  }),
+).annotate({
+  identifier: "TransitObject",
+}) as any as Schema.Schema<TransitObject>;
 
 export interface Resources {
   /** A list of gift card classes. */
@@ -3413,22 +4483,24 @@ export interface Resources {
   eventTicketClasses?: Array<EventTicketClass>;
 }
 
-export const Resources: Schema.Schema<Resources> = Schema.suspend(() => Schema.Struct({
-  giftCardClasses: Schema.optional(Schema.Array(GiftCardClass)),
-  offerObjects: Schema.optional(Schema.Array(OfferObject)),
-  offerClasses: Schema.optional(Schema.Array(OfferClass)),
-  loyaltyObjects: Schema.optional(Schema.Array(LoyaltyObject)),
-  transitObjects: Schema.optional(Schema.Array(TransitObject)),
-  giftCardObjects: Schema.optional(Schema.Array(GiftCardObject)),
-  genericObjects: Schema.optional(Schema.Array(GenericObject)),
-  genericClasses: Schema.optional(Schema.Array(GenericClass)),
-  transitClasses: Schema.optional(Schema.Array(TransitClass)),
-  eventTicketObjects: Schema.optional(Schema.Array(EventTicketObject)),
-  loyaltyClasses: Schema.optional(Schema.Array(LoyaltyClass)),
-  flightObjects: Schema.optional(Schema.Array(FlightObject)),
-  flightClasses: Schema.optional(Schema.Array(FlightClass)),
-  eventTicketClasses: Schema.optional(Schema.Array(EventTicketClass)),
-})).annotate({ identifier: "Resources" }) as any as Schema.Schema<Resources>;
+export const Resources: Schema.Schema<Resources> = Schema.suspend(() =>
+  Schema.Struct({
+    giftCardClasses: Schema.optional(Schema.Array(GiftCardClass)),
+    offerObjects: Schema.optional(Schema.Array(OfferObject)),
+    offerClasses: Schema.optional(Schema.Array(OfferClass)),
+    loyaltyObjects: Schema.optional(Schema.Array(LoyaltyObject)),
+    transitObjects: Schema.optional(Schema.Array(TransitObject)),
+    giftCardObjects: Schema.optional(Schema.Array(GiftCardObject)),
+    genericObjects: Schema.optional(Schema.Array(GenericObject)),
+    genericClasses: Schema.optional(Schema.Array(GenericClass)),
+    transitClasses: Schema.optional(Schema.Array(TransitClass)),
+    eventTicketObjects: Schema.optional(Schema.Array(EventTicketObject)),
+    loyaltyClasses: Schema.optional(Schema.Array(LoyaltyClass)),
+    flightObjects: Schema.optional(Schema.Array(FlightObject)),
+    flightClasses: Schema.optional(Schema.Array(FlightClass)),
+    eventTicketClasses: Schema.optional(Schema.Array(EventTicketClass)),
+  }),
+).annotate({ identifier: "Resources" }) as any as Schema.Schema<Resources>;
 
 export interface JwtInsertResponse {
   /** A URI that, when opened, will allow the end user to save the object(s) identified in the JWT to their Google account. */
@@ -3437,10 +4509,15 @@ export interface JwtInsertResponse {
   resources?: Resources;
 }
 
-export const JwtInsertResponse: Schema.Schema<JwtInsertResponse> = Schema.suspend(() => Schema.Struct({
-  saveUri: Schema.optional(Schema.String),
-  resources: Schema.optional(Resources),
-})).annotate({ identifier: "JwtInsertResponse" }) as any as Schema.Schema<JwtInsertResponse>;
+export const JwtInsertResponse: Schema.Schema<JwtInsertResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      saveUri: Schema.optional(Schema.String),
+      resources: Schema.optional(Resources),
+    }),
+  ).annotate({
+    identifier: "JwtInsertResponse",
+  }) as any as Schema.Schema<JwtInsertResponse>;
 
 export interface EventTicketClassListResponse {
   /** Resources corresponding to the list request. */
@@ -3449,27 +4526,42 @@ export interface EventTicketClassListResponse {
   pagination?: Pagination;
 }
 
-export const EventTicketClassListResponse: Schema.Schema<EventTicketClassListResponse> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(EventTicketClass)),
-  pagination: Schema.optional(Pagination),
-})).annotate({ identifier: "EventTicketClassListResponse" }) as any as Schema.Schema<EventTicketClassListResponse>;
+export const EventTicketClassListResponse: Schema.Schema<EventTicketClassListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(EventTicketClass)),
+      pagination: Schema.optional(Pagination),
+    }),
+  ).annotate({
+    identifier: "EventTicketClassListResponse",
+  }) as any as Schema.Schema<EventTicketClassListResponse>;
 
 export interface GenericObjectAddMessageResponse {
   /** The updated GenericObject resource. */
   resource?: GenericObject;
 }
 
-export const GenericObjectAddMessageResponse: Schema.Schema<GenericObjectAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(GenericObject),
-})).annotate({ identifier: "GenericObjectAddMessageResponse" }) as any as Schema.Schema<GenericObjectAddMessageResponse>;
+export const GenericObjectAddMessageResponse: Schema.Schema<GenericObjectAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(GenericObject),
+    }),
+  ).annotate({
+    identifier: "GenericObjectAddMessageResponse",
+  }) as any as Schema.Schema<GenericObjectAddMessageResponse>;
 
 export interface AddMessageRequest {
   message?: Message;
 }
 
-export const AddMessageRequest: Schema.Schema<AddMessageRequest> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Message),
-})).annotate({ identifier: "AddMessageRequest" }) as any as Schema.Schema<AddMessageRequest>;
+export const AddMessageRequest: Schema.Schema<AddMessageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "AddMessageRequest",
+  }) as any as Schema.Schema<AddMessageRequest>;
 
 export interface EventTicketObjectListResponse {
   /** Pagination of the response. */
@@ -3478,16 +4570,22 @@ export interface EventTicketObjectListResponse {
   resources?: Array<EventTicketObject>;
 }
 
-export const EventTicketObjectListResponse: Schema.Schema<EventTicketObjectListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(EventTicketObject)),
-})).annotate({ identifier: "EventTicketObjectListResponse" }) as any as Schema.Schema<EventTicketObjectListResponse>;
+export const EventTicketObjectListResponse: Schema.Schema<EventTicketObjectListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(EventTicketObject)),
+    }),
+  ).annotate({
+    identifier: "EventTicketObjectListResponse",
+  }) as any as Schema.Schema<EventTicketObjectListResponse>;
 
-export interface UploadPrivateImageRequest {
-}
+export interface UploadPrivateImageRequest {}
 
-export const UploadPrivateImageRequest: Schema.Schema<UploadPrivateImageRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UploadPrivateImageRequest" }) as any as Schema.Schema<UploadPrivateImageRequest>;
+export const UploadPrivateImageRequest: Schema.Schema<UploadPrivateImageRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UploadPrivateImageRequest",
+  }) as any as Schema.Schema<UploadPrivateImageRequest>;
 
 export interface FlightClassListResponse {
   /** Pagination of the response. */
@@ -3496,10 +4594,15 @@ export interface FlightClassListResponse {
   resources?: Array<FlightClass>;
 }
 
-export const FlightClassListResponse: Schema.Schema<FlightClassListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(FlightClass)),
-})).annotate({ identifier: "FlightClassListResponse" }) as any as Schema.Schema<FlightClassListResponse>;
+export const FlightClassListResponse: Schema.Schema<FlightClassListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(FlightClass)),
+    }),
+  ).annotate({
+    identifier: "FlightClassListResponse",
+  }) as any as Schema.Schema<FlightClassListResponse>;
 
 export interface MediaRequestInfo {
   /** The Scotty request ID. */
@@ -3519,32 +4622,48 @@ export interface MediaRequestInfo {
   /** Data to be copied to backend requests. Custom data is returned to Scotty in the agent_state field, which Scotty will then provide in subsequent upload notifications. */
   customData?: string;
   /** The type of notification received from Scotty. */
-  notificationType?: "START" | "PROGRESS" | "END" | "RESPONSE_SENT" | "ERROR" | (string & {});
+  notificationType?:
+    | "START"
+    | "PROGRESS"
+    | "END"
+    | "RESPONSE_SENT"
+    | "ERROR"
+    | (string & {});
   /** Set if the http request info is diff encoded. The value of this field is the version number of the base revision. This is corresponding to Apiary's mediaDiffObjectVersion (//depot/google3/java/com/google/api/server/media/variable/DiffObjectVersionVariable.java). See go/esf-scotty-diff-upload for more information. */
   diffObjectVersion?: string;
 }
 
-export const MediaRequestInfo: Schema.Schema<MediaRequestInfo> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  totalBytes: Schema.optional(Schema.String),
-  totalBytesIsEstimated: Schema.optional(Schema.Boolean),
-  currentBytes: Schema.optional(Schema.String),
-  finalStatus: Schema.optional(Schema.Number),
-  requestReceivedParamsServingInfo: Schema.optional(Schema.String),
-  physicalHeaders: Schema.optional(Schema.String),
-  customData: Schema.optional(Schema.String),
-  notificationType: Schema.optional(Schema.String),
-  diffObjectVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "MediaRequestInfo" }) as any as Schema.Schema<MediaRequestInfo>;
+export const MediaRequestInfo: Schema.Schema<MediaRequestInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      totalBytes: Schema.optional(Schema.String),
+      totalBytesIsEstimated: Schema.optional(Schema.Boolean),
+      currentBytes: Schema.optional(Schema.String),
+      finalStatus: Schema.optional(Schema.Number),
+      requestReceivedParamsServingInfo: Schema.optional(Schema.String),
+      physicalHeaders: Schema.optional(Schema.String),
+      customData: Schema.optional(Schema.String),
+      notificationType: Schema.optional(Schema.String),
+      diffObjectVersion: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MediaRequestInfo",
+}) as any as Schema.Schema<MediaRequestInfo>;
 
 export interface TransitClassAddMessageResponse {
   /** The updated TransitClass resource. */
   resource?: TransitClass;
 }
 
-export const TransitClassAddMessageResponse: Schema.Schema<TransitClassAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(TransitClass),
-})).annotate({ identifier: "TransitClassAddMessageResponse" }) as any as Schema.Schema<TransitClassAddMessageResponse>;
+export const TransitClassAddMessageResponse: Schema.Schema<TransitClassAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(TransitClass),
+    }),
+  ).annotate({
+    identifier: "TransitClassAddMessageResponse",
+  }) as any as Schema.Schema<TransitClassAddMessageResponse>;
 
 export interface OfferClassListResponse {
   /** Resources corresponding to the list request. */
@@ -3553,19 +4672,29 @@ export interface OfferClassListResponse {
   pagination?: Pagination;
 }
 
-export const OfferClassListResponse: Schema.Schema<OfferClassListResponse> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(OfferClass)),
-  pagination: Schema.optional(Pagination),
-})).annotate({ identifier: "OfferClassListResponse" }) as any as Schema.Schema<OfferClassListResponse>;
+export const OfferClassListResponse: Schema.Schema<OfferClassListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(OfferClass)),
+      pagination: Schema.optional(Pagination),
+    }),
+  ).annotate({
+    identifier: "OfferClassListResponse",
+  }) as any as Schema.Schema<OfferClassListResponse>;
 
 export interface IssuerListResponse {
   /** Resources corresponding to the list request. */
   resources?: Array<Issuer>;
 }
 
-export const IssuerListResponse: Schema.Schema<IssuerListResponse> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(Issuer)),
-})).annotate({ identifier: "IssuerListResponse" }) as any as Schema.Schema<IssuerListResponse>;
+export const IssuerListResponse: Schema.Schema<IssuerListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(Issuer)),
+    }),
+  ).annotate({
+    identifier: "IssuerListResponse",
+  }) as any as Schema.Schema<IssuerListResponse>;
 
 export interface SetPassUpdateNoticeRequest {
   /** Required. The JWT signature of the updated pass that the issuer wants to notify Google about. Only devices that report a different JWT signature than this JWT signature will receive the update notification. */
@@ -3576,11 +4705,16 @@ export interface SetPassUpdateNoticeRequest {
   externalPassId?: string;
 }
 
-export const SetPassUpdateNoticeRequest: Schema.Schema<SetPassUpdateNoticeRequest> = Schema.suspend(() => Schema.Struct({
-  updatedPassJwtSignature: Schema.optional(Schema.String),
-  updateUri: Schema.optional(Schema.String),
-  externalPassId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetPassUpdateNoticeRequest" }) as any as Schema.Schema<SetPassUpdateNoticeRequest>;
+export const SetPassUpdateNoticeRequest: Schema.Schema<SetPassUpdateNoticeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updatedPassJwtSignature: Schema.optional(Schema.String),
+      updateUri: Schema.optional(Schema.String),
+      externalPassId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetPassUpdateNoticeRequest",
+  }) as any as Schema.Schema<SetPassUpdateNoticeRequest>;
 
 export interface TransitObjectUploadRotatingBarcodeValuesRequest {
   /** A reference to the rotating barcode values payload that was uploaded. */
@@ -3589,28 +4723,43 @@ export interface TransitObjectUploadRotatingBarcodeValuesRequest {
   mediaRequestInfo?: MediaRequestInfo;
 }
 
-export const TransitObjectUploadRotatingBarcodeValuesRequest: Schema.Schema<TransitObjectUploadRotatingBarcodeValuesRequest> = Schema.suspend(() => Schema.Struct({
-  blob: Schema.optional(Media),
-  mediaRequestInfo: Schema.optional(MediaRequestInfo),
-})).annotate({ identifier: "TransitObjectUploadRotatingBarcodeValuesRequest" }) as any as Schema.Schema<TransitObjectUploadRotatingBarcodeValuesRequest>;
+export const TransitObjectUploadRotatingBarcodeValuesRequest: Schema.Schema<TransitObjectUploadRotatingBarcodeValuesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      blob: Schema.optional(Media),
+      mediaRequestInfo: Schema.optional(MediaRequestInfo),
+    }),
+  ).annotate({
+    identifier: "TransitObjectUploadRotatingBarcodeValuesRequest",
+  }) as any as Schema.Schema<TransitObjectUploadRotatingBarcodeValuesRequest>;
 
 export interface UploadPrivateImageResponse {
   /** Unique ID of the uploaded image to be referenced later in Image.private_image_id. */
   privateImageId?: string;
 }
 
-export const UploadPrivateImageResponse: Schema.Schema<UploadPrivateImageResponse> = Schema.suspend(() => Schema.Struct({
-  privateImageId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UploadPrivateImageResponse" }) as any as Schema.Schema<UploadPrivateImageResponse>;
+export const UploadPrivateImageResponse: Schema.Schema<UploadPrivateImageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      privateImageId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UploadPrivateImageResponse",
+  }) as any as Schema.Schema<UploadPrivateImageResponse>;
 
 export interface FlightClassAddMessageResponse {
   /** The updated FlightClass resource. */
   resource?: FlightClass;
 }
 
-export const FlightClassAddMessageResponse: Schema.Schema<FlightClassAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(FlightClass),
-})).annotate({ identifier: "FlightClassAddMessageResponse" }) as any as Schema.Schema<FlightClassAddMessageResponse>;
+export const FlightClassAddMessageResponse: Schema.Schema<FlightClassAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(FlightClass),
+    }),
+  ).annotate({
+    identifier: "FlightClassAddMessageResponse",
+  }) as any as Schema.Schema<FlightClassAddMessageResponse>;
 
 export interface GiftCardObjectListResponse {
   /** Pagination of the response. */
@@ -3619,10 +4768,15 @@ export interface GiftCardObjectListResponse {
   resources?: Array<GiftCardObject>;
 }
 
-export const GiftCardObjectListResponse: Schema.Schema<GiftCardObjectListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(GiftCardObject)),
-})).annotate({ identifier: "GiftCardObjectListResponse" }) as any as Schema.Schema<GiftCardObjectListResponse>;
+export const GiftCardObjectListResponse: Schema.Schema<GiftCardObjectListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(GiftCardObject)),
+    }),
+  ).annotate({
+    identifier: "GiftCardObjectListResponse",
+  }) as any as Schema.Schema<GiftCardObjectListResponse>;
 
 export interface OfferObjectListResponse {
   /** Pagination of the response. */
@@ -3631,10 +4785,15 @@ export interface OfferObjectListResponse {
   resources?: Array<OfferObject>;
 }
 
-export const OfferObjectListResponse: Schema.Schema<OfferObjectListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(OfferObject)),
-})).annotate({ identifier: "OfferObjectListResponse" }) as any as Schema.Schema<OfferObjectListResponse>;
+export const OfferObjectListResponse: Schema.Schema<OfferObjectListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(OfferObject)),
+    }),
+  ).annotate({
+    identifier: "OfferObjectListResponse",
+  }) as any as Schema.Schema<OfferObjectListResponse>;
 
 export interface IssuerToUserInfo {
   /** JSON web token for action S2AP. */
@@ -3642,15 +4801,26 @@ export interface IssuerToUserInfo {
   /** Currently not used, consider deprecating. */
   url?: string;
   signUpInfo?: SignUpInfo;
-  action?: "ACTION_UNSPECIFIED" | "S2AP" | "s2ap" | "SIGN_UP" | "signUp" | (string & {});
+  action?:
+    | "ACTION_UNSPECIFIED"
+    | "S2AP"
+    | "s2ap"
+    | "SIGN_UP"
+    | "signUp"
+    | (string & {});
 }
 
-export const IssuerToUserInfo: Schema.Schema<IssuerToUserInfo> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  signUpInfo: Schema.optional(SignUpInfo),
-  action: Schema.optional(Schema.String),
-})).annotate({ identifier: "IssuerToUserInfo" }) as any as Schema.Schema<IssuerToUserInfo>;
+export const IssuerToUserInfo: Schema.Schema<IssuerToUserInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      signUpInfo: Schema.optional(SignUpInfo),
+      action: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "IssuerToUserInfo",
+}) as any as Schema.Schema<IssuerToUserInfo>;
 
 export interface TransitClassListResponse {
   /** Pagination of the response. */
@@ -3659,28 +4829,43 @@ export interface TransitClassListResponse {
   resources?: Array<TransitClass>;
 }
 
-export const TransitClassListResponse: Schema.Schema<TransitClassListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(TransitClass)),
-})).annotate({ identifier: "TransitClassListResponse" }) as any as Schema.Schema<TransitClassListResponse>;
+export const TransitClassListResponse: Schema.Schema<TransitClassListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(TransitClass)),
+    }),
+  ).annotate({
+    identifier: "TransitClassListResponse",
+  }) as any as Schema.Schema<TransitClassListResponse>;
 
 export interface OfferClassAddMessageResponse {
   /** The updated OfferClass resource. */
   resource?: OfferClass;
 }
 
-export const OfferClassAddMessageResponse: Schema.Schema<OfferClassAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(OfferClass),
-})).annotate({ identifier: "OfferClassAddMessageResponse" }) as any as Schema.Schema<OfferClassAddMessageResponse>;
+export const OfferClassAddMessageResponse: Schema.Schema<OfferClassAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(OfferClass),
+    }),
+  ).annotate({
+    identifier: "OfferClassAddMessageResponse",
+  }) as any as Schema.Schema<OfferClassAddMessageResponse>;
 
 export interface GenericClassAddMessageResponse {
   /** The updated EventTicketClass resource. */
   resource?: GenericClass;
 }
 
-export const GenericClassAddMessageResponse: Schema.Schema<GenericClassAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(GenericClass),
-})).annotate({ identifier: "GenericClassAddMessageResponse" }) as any as Schema.Schema<GenericClassAddMessageResponse>;
+export const GenericClassAddMessageResponse: Schema.Schema<GenericClassAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(GenericClass),
+    }),
+  ).annotate({
+    identifier: "GenericClassAddMessageResponse",
+  }) as any as Schema.Schema<GenericClassAddMessageResponse>;
 
 export interface LoyaltyObjectListResponse {
   /** Pagination of the response. */
@@ -3689,25 +4874,36 @@ export interface LoyaltyObjectListResponse {
   resources?: Array<LoyaltyObject>;
 }
 
-export const LoyaltyObjectListResponse: Schema.Schema<LoyaltyObjectListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(LoyaltyObject)),
-})).annotate({ identifier: "LoyaltyObjectListResponse" }) as any as Schema.Schema<LoyaltyObjectListResponse>;
+export const LoyaltyObjectListResponse: Schema.Schema<LoyaltyObjectListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(LoyaltyObject)),
+    }),
+  ).annotate({
+    identifier: "LoyaltyObjectListResponse",
+  }) as any as Schema.Schema<LoyaltyObjectListResponse>;
 
-export interface SetPassUpdateNoticeResponse {
-}
+export interface SetPassUpdateNoticeResponse {}
 
-export const SetPassUpdateNoticeResponse: Schema.Schema<SetPassUpdateNoticeResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SetPassUpdateNoticeResponse" }) as any as Schema.Schema<SetPassUpdateNoticeResponse>;
+export const SetPassUpdateNoticeResponse: Schema.Schema<SetPassUpdateNoticeResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SetPassUpdateNoticeResponse",
+  }) as any as Schema.Schema<SetPassUpdateNoticeResponse>;
 
 export interface OfferObjectAddMessageResponse {
   /** The updated OfferObject resource. */
   resource?: OfferObject;
 }
 
-export const OfferObjectAddMessageResponse: Schema.Schema<OfferObjectAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(OfferObject),
-})).annotate({ identifier: "OfferObjectAddMessageResponse" }) as any as Schema.Schema<OfferObjectAddMessageResponse>;
+export const OfferObjectAddMessageResponse: Schema.Schema<OfferObjectAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(OfferObject),
+    }),
+  ).annotate({
+    identifier: "OfferObjectAddMessageResponse",
+  }) as any as Schema.Schema<OfferObjectAddMessageResponse>;
 
 export interface SmartTap {
   /** Smart Tap merchant ID of who engaged in the Smart Tap interaction. */
@@ -3720,30 +4916,42 @@ export interface SmartTap {
   infos?: Array<IssuerToUserInfo>;
 }
 
-export const SmartTap: Schema.Schema<SmartTap> = Schema.suspend(() => Schema.Struct({
-  merchantId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  infos: Schema.optional(Schema.Array(IssuerToUserInfo)),
-})).annotate({ identifier: "SmartTap" }) as any as Schema.Schema<SmartTap>;
+export const SmartTap: Schema.Schema<SmartTap> = Schema.suspend(() =>
+  Schema.Struct({
+    merchantId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    infos: Schema.optional(Schema.Array(IssuerToUserInfo)),
+  }),
+).annotate({ identifier: "SmartTap" }) as any as Schema.Schema<SmartTap>;
 
 export interface FlightObjectAddMessageResponse {
   /** The updated FlightObject resource. */
   resource?: FlightObject;
 }
 
-export const FlightObjectAddMessageResponse: Schema.Schema<FlightObjectAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(FlightObject),
-})).annotate({ identifier: "FlightObjectAddMessageResponse" }) as any as Schema.Schema<FlightObjectAddMessageResponse>;
+export const FlightObjectAddMessageResponse: Schema.Schema<FlightObjectAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(FlightObject),
+    }),
+  ).annotate({
+    identifier: "FlightObjectAddMessageResponse",
+  }) as any as Schema.Schema<FlightObjectAddMessageResponse>;
 
 export interface TransitObjectAddMessageResponse {
   /** The updated TransitObject resource. */
   resource?: TransitObject;
 }
 
-export const TransitObjectAddMessageResponse: Schema.Schema<TransitObjectAddMessageResponse> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(TransitObject),
-})).annotate({ identifier: "TransitObjectAddMessageResponse" }) as any as Schema.Schema<TransitObjectAddMessageResponse>;
+export const TransitObjectAddMessageResponse: Schema.Schema<TransitObjectAddMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(TransitObject),
+    }),
+  ).annotate({
+    identifier: "TransitObjectAddMessageResponse",
+  }) as any as Schema.Schema<TransitObjectAddMessageResponse>;
 
 export interface TransitObjectListResponse {
   /** Pagination of the response. */
@@ -3752,10 +4960,15 @@ export interface TransitObjectListResponse {
   resources?: Array<TransitObject>;
 }
 
-export const TransitObjectListResponse: Schema.Schema<TransitObjectListResponse> = Schema.suspend(() => Schema.Struct({
-  pagination: Schema.optional(Pagination),
-  resources: Schema.optional(Schema.Array(TransitObject)),
-})).annotate({ identifier: "TransitObjectListResponse" }) as any as Schema.Schema<TransitObjectListResponse>;
+export const TransitObjectListResponse: Schema.Schema<TransitObjectListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pagination: Schema.optional(Pagination),
+      resources: Schema.optional(Schema.Array(TransitObject)),
+    }),
+  ).annotate({
+    identifier: "TransitObjectListResponse",
+  }) as any as Schema.Schema<TransitObjectListResponse>;
 
 // ==========================================================================
 // Operations
@@ -3779,7 +4992,12 @@ export const InsertSmarttapResponse = SmartTap;
 export type InsertSmarttapError = DefaultErrors;
 
 /** Inserts the smart tap. */
-export const insertSmarttap: API.OperationMethod<InsertSmarttapRequest, InsertSmarttapResponse, InsertSmarttapError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertSmarttap: API.OperationMethod<
+  InsertSmarttapRequest,
+  InsertSmarttapResponse,
+  InsertSmarttapError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertSmarttapRequest,
   output: InsertSmarttapResponse,
   errors: [],
@@ -3803,7 +5021,12 @@ export const GetLoyaltyclassResponse = LoyaltyClass;
 export type GetLoyaltyclassError = DefaultErrors;
 
 /** Returns the loyalty class with the given class ID. */
-export const getLoyaltyclass: API.OperationMethod<GetLoyaltyclassRequest, GetLoyaltyclassResponse, GetLoyaltyclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLoyaltyclass: API.OperationMethod<
+  GetLoyaltyclassRequest,
+  GetLoyaltyclassResponse,
+  GetLoyaltyclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLoyaltyclassRequest,
   output: GetLoyaltyclassResponse,
   errors: [],
@@ -3820,7 +5043,11 @@ export const PatchLoyaltyclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/loyaltyClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/loyaltyClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchLoyaltyclassRequest>;
 
@@ -3830,7 +5057,12 @@ export const PatchLoyaltyclassResponse = LoyaltyClass;
 export type PatchLoyaltyclassError = DefaultErrors;
 
 /** Updates the loyalty class referenced by the given class ID. This method supports patch semantics. */
-export const patchLoyaltyclass: API.OperationMethod<PatchLoyaltyclassRequest, PatchLoyaltyclassResponse, PatchLoyaltyclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchLoyaltyclass: API.OperationMethod<
+  PatchLoyaltyclassRequest,
+  PatchLoyaltyclassResponse,
+  PatchLoyaltyclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchLoyaltyclassRequest,
   output: PatchLoyaltyclassResponse,
   errors: [],
@@ -3847,7 +5079,11 @@ export const AddmessageLoyaltyclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/loyaltyClass/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/loyaltyClass/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageLoyaltyclassRequest>;
 
@@ -3857,7 +5093,12 @@ export const AddmessageLoyaltyclassResponse = LoyaltyClassAddMessageResponse;
 export type AddmessageLoyaltyclassError = DefaultErrors;
 
 /** Adds a message to the loyalty class referenced by the given class ID. */
-export const addmessageLoyaltyclass: API.OperationMethod<AddmessageLoyaltyclassRequest, AddmessageLoyaltyclassResponse, AddmessageLoyaltyclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageLoyaltyclass: API.OperationMethod<
+  AddmessageLoyaltyclassRequest,
+  AddmessageLoyaltyclassResponse,
+  AddmessageLoyaltyclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageLoyaltyclassRequest,
   output: AddmessageLoyaltyclassResponse,
   errors: [],
@@ -3871,7 +5112,11 @@ export interface InsertLoyaltyclassRequest {
 export const InsertLoyaltyclassRequest = Schema.Struct({
   body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/loyaltyClass", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/loyaltyClass",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertLoyaltyclassRequest>;
 
@@ -3881,7 +5126,12 @@ export const InsertLoyaltyclassResponse = LoyaltyClass;
 export type InsertLoyaltyclassError = DefaultErrors;
 
 /** Inserts an loyalty class with the given ID and properties. */
-export const insertLoyaltyclass: API.OperationMethod<InsertLoyaltyclassRequest, InsertLoyaltyclassResponse, InsertLoyaltyclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertLoyaltyclass: API.OperationMethod<
+  InsertLoyaltyclassRequest,
+  InsertLoyaltyclassResponse,
+  InsertLoyaltyclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertLoyaltyclassRequest,
   output: InsertLoyaltyclassResponse,
   errors: [],
@@ -3898,7 +5148,11 @@ export const UpdateLoyaltyclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/loyaltyClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/loyaltyClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateLoyaltyclassRequest>;
 
@@ -3908,7 +5162,12 @@ export const UpdateLoyaltyclassResponse = LoyaltyClass;
 export type UpdateLoyaltyclassError = DefaultErrors;
 
 /** Updates the loyalty class referenced by the given class ID. */
-export const updateLoyaltyclass: API.OperationMethod<UpdateLoyaltyclassRequest, UpdateLoyaltyclassResponse, UpdateLoyaltyclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateLoyaltyclass: API.OperationMethod<
+  UpdateLoyaltyclassRequest,
+  UpdateLoyaltyclassResponse,
+  UpdateLoyaltyclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateLoyaltyclassRequest,
   output: UpdateLoyaltyclassResponse,
   errors: [],
@@ -3938,7 +5197,12 @@ export const ListLoyaltyclassResponse = LoyaltyClassListResponse;
 export type ListLoyaltyclassError = DefaultErrors;
 
 /** Returns a list of all loyalty classes for a given issuer ID. */
-export const listLoyaltyclass: API.OperationMethod<ListLoyaltyclassRequest, ListLoyaltyclassResponse, ListLoyaltyclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listLoyaltyclass: API.OperationMethod<
+  ListLoyaltyclassRequest,
+  ListLoyaltyclassResponse,
+  ListLoyaltyclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListLoyaltyclassRequest,
   output: ListLoyaltyclassResponse,
   errors: [],
@@ -3952,7 +5216,11 @@ export interface InsertGiftcardobjectRequest {
 export const InsertGiftcardobjectRequest = Schema.Struct({
   body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/giftCardObject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/giftCardObject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertGiftcardobjectRequest>;
 
@@ -3962,7 +5230,12 @@ export const InsertGiftcardobjectResponse = GiftCardObject;
 export type InsertGiftcardobjectError = DefaultErrors;
 
 /** Inserts an gift card object with the given ID and properties. */
-export const insertGiftcardobject: API.OperationMethod<InsertGiftcardobjectRequest, InsertGiftcardobjectResponse, InsertGiftcardobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertGiftcardobject: API.OperationMethod<
+  InsertGiftcardobjectRequest,
+  InsertGiftcardobjectResponse,
+  InsertGiftcardobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertGiftcardobjectRequest,
   output: InsertGiftcardobjectResponse,
   errors: [],
@@ -3979,7 +5252,11 @@ export const UpdateGiftcardobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/giftCardObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/giftCardObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateGiftcardobjectRequest>;
 
@@ -3989,7 +5266,12 @@ export const UpdateGiftcardobjectResponse = GiftCardObject;
 export type UpdateGiftcardobjectError = DefaultErrors;
 
 /** Updates the gift card object referenced by the given object ID. */
-export const updateGiftcardobject: API.OperationMethod<UpdateGiftcardobjectRequest, UpdateGiftcardobjectResponse, UpdateGiftcardobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateGiftcardobject: API.OperationMethod<
+  UpdateGiftcardobjectRequest,
+  UpdateGiftcardobjectResponse,
+  UpdateGiftcardobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateGiftcardobjectRequest,
   output: UpdateGiftcardobjectResponse,
   errors: [],
@@ -4019,7 +5301,12 @@ export const ListGiftcardobjectResponse = GiftCardObjectListResponse;
 export type ListGiftcardobjectError = DefaultErrors;
 
 /** Returns a list of all gift card objects for a given issuer ID. */
-export const listGiftcardobject: API.OperationMethod<ListGiftcardobjectRequest, ListGiftcardobjectResponse, ListGiftcardobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listGiftcardobject: API.OperationMethod<
+  ListGiftcardobjectRequest,
+  ListGiftcardobjectResponse,
+  ListGiftcardobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListGiftcardobjectRequest,
   output: ListGiftcardobjectResponse,
   errors: [],
@@ -4036,17 +5323,27 @@ export const AddmessageGiftcardobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/giftCardObject/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/giftCardObject/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageGiftcardobjectRequest>;
 
 export type AddmessageGiftcardobjectResponse = GiftCardObjectAddMessageResponse;
-export const AddmessageGiftcardobjectResponse = GiftCardObjectAddMessageResponse;
+export const AddmessageGiftcardobjectResponse =
+  GiftCardObjectAddMessageResponse;
 
 export type AddmessageGiftcardobjectError = DefaultErrors;
 
 /** Adds a message to the gift card object referenced by the given object ID. */
-export const addmessageGiftcardobject: API.OperationMethod<AddmessageGiftcardobjectRequest, AddmessageGiftcardobjectResponse, AddmessageGiftcardobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageGiftcardobject: API.OperationMethod<
+  AddmessageGiftcardobjectRequest,
+  AddmessageGiftcardobjectResponse,
+  AddmessageGiftcardobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageGiftcardobjectRequest,
   output: AddmessageGiftcardobjectResponse,
   errors: [],
@@ -4060,7 +5357,10 @@ export interface GetGiftcardobjectRequest {
 export const GetGiftcardobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/giftCardObject/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/giftCardObject/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetGiftcardobjectRequest>;
 
@@ -4070,7 +5370,12 @@ export const GetGiftcardobjectResponse = GiftCardObject;
 export type GetGiftcardobjectError = DefaultErrors;
 
 /** Returns the gift card object with the given object ID. */
-export const getGiftcardobject: API.OperationMethod<GetGiftcardobjectRequest, GetGiftcardobjectResponse, GetGiftcardobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getGiftcardobject: API.OperationMethod<
+  GetGiftcardobjectRequest,
+  GetGiftcardobjectResponse,
+  GetGiftcardobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetGiftcardobjectRequest,
   output: GetGiftcardobjectResponse,
   errors: [],
@@ -4087,7 +5392,11 @@ export const PatchGiftcardobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/giftCardObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/giftCardObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchGiftcardobjectRequest>;
 
@@ -4097,7 +5406,12 @@ export const PatchGiftcardobjectResponse = GiftCardObject;
 export type PatchGiftcardobjectError = DefaultErrors;
 
 /** Updates the gift card object referenced by the given object ID. This method supports patch semantics. */
-export const patchGiftcardobject: API.OperationMethod<PatchGiftcardobjectRequest, PatchGiftcardobjectResponse, PatchGiftcardobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchGiftcardobject: API.OperationMethod<
+  PatchGiftcardobjectRequest,
+  PatchGiftcardobjectResponse,
+  PatchGiftcardobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchGiftcardobjectRequest,
   output: PatchGiftcardobjectResponse,
   errors: [],
@@ -4121,7 +5435,12 @@ export const InsertJwtResponse = JwtInsertResponse;
 export type InsertJwtError = DefaultErrors;
 
 /** Inserts the resources in the JWT. */
-export const insertJwt: API.OperationMethod<InsertJwtRequest, InsertJwtResponse, InsertJwtError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertJwt: API.OperationMethod<
+  InsertJwtRequest,
+  InsertJwtResponse,
+  InsertJwtError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertJwtRequest,
   output: InsertJwtResponse,
   errors: [],
@@ -4135,7 +5454,11 @@ export interface InsertFlightobjectRequest {
 export const InsertFlightobjectRequest = Schema.Struct({
   body: Schema.optional(FlightObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/flightObject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/flightObject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertFlightobjectRequest>;
 
@@ -4145,7 +5468,12 @@ export const InsertFlightobjectResponse = FlightObject;
 export type InsertFlightobjectError = DefaultErrors;
 
 /** Inserts an flight object with the given ID and properties. */
-export const insertFlightobject: API.OperationMethod<InsertFlightobjectRequest, InsertFlightobjectResponse, InsertFlightobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertFlightobject: API.OperationMethod<
+  InsertFlightobjectRequest,
+  InsertFlightobjectResponse,
+  InsertFlightobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertFlightobjectRequest,
   output: InsertFlightobjectResponse,
   errors: [],
@@ -4162,7 +5490,11 @@ export const UpdateFlightobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(FlightObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/flightObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/flightObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateFlightobjectRequest>;
 
@@ -4172,7 +5504,12 @@ export const UpdateFlightobjectResponse = FlightObject;
 export type UpdateFlightobjectError = DefaultErrors;
 
 /** Updates the flight object referenced by the given object ID. */
-export const updateFlightobject: API.OperationMethod<UpdateFlightobjectRequest, UpdateFlightobjectResponse, UpdateFlightobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateFlightobject: API.OperationMethod<
+  UpdateFlightobjectRequest,
+  UpdateFlightobjectResponse,
+  UpdateFlightobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateFlightobjectRequest,
   output: UpdateFlightobjectResponse,
   errors: [],
@@ -4202,7 +5539,12 @@ export const ListFlightobjectResponse = FlightObjectListResponse;
 export type ListFlightobjectError = DefaultErrors;
 
 /** Returns a list of all flight objects for a given issuer ID. */
-export const listFlightobject: API.OperationMethod<ListFlightobjectRequest, ListFlightobjectResponse, ListFlightobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listFlightobject: API.OperationMethod<
+  ListFlightobjectRequest,
+  ListFlightobjectResponse,
+  ListFlightobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListFlightobjectRequest,
   output: ListFlightobjectResponse,
   errors: [],
@@ -4219,7 +5561,11 @@ export const AddmessageFlightobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/flightObject/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/flightObject/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageFlightobjectRequest>;
 
@@ -4229,7 +5575,12 @@ export const AddmessageFlightobjectResponse = FlightObjectAddMessageResponse;
 export type AddmessageFlightobjectError = DefaultErrors;
 
 /** Adds a message to the flight object referenced by the given object ID. */
-export const addmessageFlightobject: API.OperationMethod<AddmessageFlightobjectRequest, AddmessageFlightobjectResponse, AddmessageFlightobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageFlightobject: API.OperationMethod<
+  AddmessageFlightobjectRequest,
+  AddmessageFlightobjectResponse,
+  AddmessageFlightobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageFlightobjectRequest,
   output: AddmessageFlightobjectResponse,
   errors: [],
@@ -4253,7 +5604,12 @@ export const GetFlightobjectResponse = FlightObject;
 export type GetFlightobjectError = DefaultErrors;
 
 /** Returns the flight object with the given object ID. */
-export const getFlightobject: API.OperationMethod<GetFlightobjectRequest, GetFlightobjectResponse, GetFlightobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFlightobject: API.OperationMethod<
+  GetFlightobjectRequest,
+  GetFlightobjectResponse,
+  GetFlightobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFlightobjectRequest,
   output: GetFlightobjectResponse,
   errors: [],
@@ -4270,7 +5626,11 @@ export const PatchFlightobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(FlightObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/flightObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/flightObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchFlightobjectRequest>;
 
@@ -4280,7 +5640,12 @@ export const PatchFlightobjectResponse = FlightObject;
 export type PatchFlightobjectError = DefaultErrors;
 
 /** Updates the flight object referenced by the given object ID. This method supports patch semantics. */
-export const patchFlightobject: API.OperationMethod<PatchFlightobjectRequest, PatchFlightobjectResponse, PatchFlightobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchFlightobject: API.OperationMethod<
+  PatchFlightobjectRequest,
+  PatchFlightobjectResponse,
+  PatchFlightobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchFlightobjectRequest,
   output: PatchFlightobjectResponse,
   errors: [],
@@ -4304,7 +5669,12 @@ export const InsertIssuerResponse = Issuer;
 export type InsertIssuerError = DefaultErrors;
 
 /** Inserts an issuer with the given ID and properties. */
-export const insertIssuer: API.OperationMethod<InsertIssuerRequest, InsertIssuerResponse, InsertIssuerError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertIssuer: API.OperationMethod<
+  InsertIssuerRequest,
+  InsertIssuerResponse,
+  InsertIssuerError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertIssuerRequest,
   output: InsertIssuerResponse,
   errors: [],
@@ -4321,7 +5691,11 @@ export const UpdateIssuerRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(Issuer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/issuer/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/issuer/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateIssuerRequest>;
 
@@ -4331,17 +5705,20 @@ export const UpdateIssuerResponse = Issuer;
 export type UpdateIssuerError = DefaultErrors;
 
 /** Updates the issuer referenced by the given issuer ID. */
-export const updateIssuer: API.OperationMethod<UpdateIssuerRequest, UpdateIssuerResponse, UpdateIssuerError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateIssuer: API.OperationMethod<
+  UpdateIssuerRequest,
+  UpdateIssuerResponse,
+  UpdateIssuerError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateIssuerRequest,
   output: UpdateIssuerResponse,
   errors: [],
 }));
 
-export interface ListIssuerRequest {
-}
+export interface ListIssuerRequest {}
 
-export const ListIssuerRequest = Schema.Struct({
-}).pipe(
+export const ListIssuerRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/issuer" }),
   svc,
 ) as unknown as Schema.Schema<ListIssuerRequest>;
@@ -4352,7 +5729,12 @@ export const ListIssuerResponse = IssuerListResponse;
 export type ListIssuerError = DefaultErrors;
 
 /** Returns a list of all issuers shared to the caller. */
-export const listIssuer: API.OperationMethod<ListIssuerRequest, ListIssuerResponse, ListIssuerError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listIssuer: API.OperationMethod<
+  ListIssuerRequest,
+  ListIssuerResponse,
+  ListIssuerError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListIssuerRequest,
   output: ListIssuerResponse,
   errors: [],
@@ -4376,7 +5758,12 @@ export const GetIssuerResponse = Issuer;
 export type GetIssuerError = DefaultErrors;
 
 /** Returns the issuer with the given issuer ID. */
-export const getIssuer: API.OperationMethod<GetIssuerRequest, GetIssuerResponse, GetIssuerError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIssuer: API.OperationMethod<
+  GetIssuerRequest,
+  GetIssuerResponse,
+  GetIssuerError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIssuerRequest,
   output: GetIssuerResponse,
   errors: [],
@@ -4393,7 +5780,11 @@ export const PatchIssuerRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(Issuer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/issuer/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/issuer/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchIssuerRequest>;
 
@@ -4403,7 +5794,12 @@ export const PatchIssuerResponse = Issuer;
 export type PatchIssuerError = DefaultErrors;
 
 /** Updates the issuer referenced by the given issuer ID. This method supports patch semantics. */
-export const patchIssuer: API.OperationMethod<PatchIssuerRequest, PatchIssuerResponse, PatchIssuerError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchIssuer: API.OperationMethod<
+  PatchIssuerRequest,
+  PatchIssuerResponse,
+  PatchIssuerError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchIssuerRequest,
   output: PatchIssuerResponse,
   errors: [],
@@ -4417,7 +5813,10 @@ export interface DownloadMediaRequest {
 export const DownloadMediaRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/transitObject/{resourceId}/downloadRotatingBarcodeValues" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/transitObject/{resourceId}/downloadRotatingBarcodeValues",
+  }),
   svc,
 ) as unknown as Schema.Schema<DownloadMediaRequest>;
 
@@ -4427,7 +5826,12 @@ export const DownloadMediaResponse = Media;
 export type DownloadMediaError = DefaultErrors;
 
 /** Downloads rotating barcode values for the transit object referenced by the given object ID. */
-export const downloadMedia: API.OperationMethod<DownloadMediaRequest, DownloadMediaResponse, DownloadMediaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const downloadMedia: API.OperationMethod<
+  DownloadMediaRequest,
+  DownloadMediaResponse,
+  DownloadMediaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
@@ -4442,19 +5846,32 @@ export interface UploadMediaRequest {
 
 export const UploadMediaRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(TransitObjectUploadRotatingBarcodeValuesRequest).pipe(T.HttpBody()),
+  body: Schema.optional(TransitObjectUploadRotatingBarcodeValuesRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/transitObject/{resourceId}/uploadRotatingBarcodeValues", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/transitObject/{resourceId}/uploadRotatingBarcodeValues",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
-export type UploadMediaResponse = TransitObjectUploadRotatingBarcodeValuesResponse;
-export const UploadMediaResponse = TransitObjectUploadRotatingBarcodeValuesResponse;
+export type UploadMediaResponse =
+  TransitObjectUploadRotatingBarcodeValuesResponse;
+export const UploadMediaResponse =
+  TransitObjectUploadRotatingBarcodeValuesResponse;
 
 export type UploadMediaError = DefaultErrors;
 
 /** Uploads rotating barcode values for the transit object referenced by the given object ID. Note the max upload size is specified in google3/production/config/cdd/apps-upload/customers/payments-consumer-passes/config.gcl and enforced by Scotty. */
-export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const uploadMedia: API.OperationMethod<
+  UploadMediaRequest,
+  UploadMediaResponse,
+  UploadMediaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
@@ -4471,7 +5888,11 @@ export const AddmessageOfferclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/offerClass/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/offerClass/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageOfferclassRequest>;
 
@@ -4481,7 +5902,12 @@ export const AddmessageOfferclassResponse = OfferClassAddMessageResponse;
 export type AddmessageOfferclassError = DefaultErrors;
 
 /** Adds a message to the offer class referenced by the given class ID. */
-export const addmessageOfferclass: API.OperationMethod<AddmessageOfferclassRequest, AddmessageOfferclassResponse, AddmessageOfferclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageOfferclass: API.OperationMethod<
+  AddmessageOfferclassRequest,
+  AddmessageOfferclassResponse,
+  AddmessageOfferclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageOfferclassRequest,
   output: AddmessageOfferclassResponse,
   errors: [],
@@ -4505,7 +5931,12 @@ export const GetOfferclassResponse = OfferClass;
 export type GetOfferclassError = DefaultErrors;
 
 /** Returns the offer class with the given class ID. */
-export const getOfferclass: API.OperationMethod<GetOfferclassRequest, GetOfferclassResponse, GetOfferclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOfferclass: API.OperationMethod<
+  GetOfferclassRequest,
+  GetOfferclassResponse,
+  GetOfferclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOfferclassRequest,
   output: GetOfferclassResponse,
   errors: [],
@@ -4522,7 +5953,11 @@ export const PatchOfferclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(OfferClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/offerClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/offerClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchOfferclassRequest>;
 
@@ -4532,7 +5967,12 @@ export const PatchOfferclassResponse = OfferClass;
 export type PatchOfferclassError = DefaultErrors;
 
 /** Updates the offer class referenced by the given class ID. This method supports patch semantics. */
-export const patchOfferclass: API.OperationMethod<PatchOfferclassRequest, PatchOfferclassResponse, PatchOfferclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOfferclass: API.OperationMethod<
+  PatchOfferclassRequest,
+  PatchOfferclassResponse,
+  PatchOfferclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOfferclassRequest,
   output: PatchOfferclassResponse,
   errors: [],
@@ -4546,7 +5986,11 @@ export interface InsertOfferclassRequest {
 export const InsertOfferclassRequest = Schema.Struct({
   body: Schema.optional(OfferClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/offerClass", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/offerClass",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertOfferclassRequest>;
 
@@ -4556,7 +6000,12 @@ export const InsertOfferclassResponse = OfferClass;
 export type InsertOfferclassError = DefaultErrors;
 
 /** Inserts an offer class with the given ID and properties. */
-export const insertOfferclass: API.OperationMethod<InsertOfferclassRequest, InsertOfferclassResponse, InsertOfferclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertOfferclass: API.OperationMethod<
+  InsertOfferclassRequest,
+  InsertOfferclassResponse,
+  InsertOfferclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertOfferclassRequest,
   output: InsertOfferclassResponse,
   errors: [],
@@ -4573,7 +6022,11 @@ export const UpdateOfferclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(OfferClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/offerClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/offerClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateOfferclassRequest>;
 
@@ -4583,7 +6036,12 @@ export const UpdateOfferclassResponse = OfferClass;
 export type UpdateOfferclassError = DefaultErrors;
 
 /** Updates the offer class referenced by the given class ID. */
-export const updateOfferclass: API.OperationMethod<UpdateOfferclassRequest, UpdateOfferclassResponse, UpdateOfferclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateOfferclass: API.OperationMethod<
+  UpdateOfferclassRequest,
+  UpdateOfferclassResponse,
+  UpdateOfferclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateOfferclassRequest,
   output: UpdateOfferclassResponse,
   errors: [],
@@ -4613,7 +6071,12 @@ export const ListOfferclassResponse = OfferClassListResponse;
 export type ListOfferclassError = DefaultErrors;
 
 /** Returns a list of all offer classes for a given issuer ID. */
-export const listOfferclass: API.OperationMethod<ListOfferclassRequest, ListOfferclassResponse, ListOfferclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listOfferclass: API.OperationMethod<
+  ListOfferclassRequest,
+  ListOfferclassResponse,
+  ListOfferclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListOfferclassRequest,
   output: ListOfferclassResponse,
   errors: [],
@@ -4643,7 +6106,12 @@ export const ListGiftcardclassResponse = GiftCardClassListResponse;
 export type ListGiftcardclassError = DefaultErrors;
 
 /** Returns a list of all gift card classes for a given issuer ID. */
-export const listGiftcardclass: API.OperationMethod<ListGiftcardclassRequest, ListGiftcardclassResponse, ListGiftcardclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listGiftcardclass: API.OperationMethod<
+  ListGiftcardclassRequest,
+  ListGiftcardclassResponse,
+  ListGiftcardclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListGiftcardclassRequest,
   output: ListGiftcardclassResponse,
   errors: [],
@@ -4657,7 +6125,11 @@ export interface InsertGiftcardclassRequest {
 export const InsertGiftcardclassRequest = Schema.Struct({
   body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/giftCardClass", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/giftCardClass",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertGiftcardclassRequest>;
 
@@ -4667,7 +6139,12 @@ export const InsertGiftcardclassResponse = GiftCardClass;
 export type InsertGiftcardclassError = DefaultErrors;
 
 /** Inserts an gift card class with the given ID and properties. */
-export const insertGiftcardclass: API.OperationMethod<InsertGiftcardclassRequest, InsertGiftcardclassResponse, InsertGiftcardclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertGiftcardclass: API.OperationMethod<
+  InsertGiftcardclassRequest,
+  InsertGiftcardclassResponse,
+  InsertGiftcardclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertGiftcardclassRequest,
   output: InsertGiftcardclassResponse,
   errors: [],
@@ -4684,7 +6161,11 @@ export const UpdateGiftcardclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/giftCardClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/giftCardClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateGiftcardclassRequest>;
 
@@ -4694,7 +6175,12 @@ export const UpdateGiftcardclassResponse = GiftCardClass;
 export type UpdateGiftcardclassError = DefaultErrors;
 
 /** Updates the gift card class referenced by the given class ID. */
-export const updateGiftcardclass: API.OperationMethod<UpdateGiftcardclassRequest, UpdateGiftcardclassResponse, UpdateGiftcardclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateGiftcardclass: API.OperationMethod<
+  UpdateGiftcardclassRequest,
+  UpdateGiftcardclassResponse,
+  UpdateGiftcardclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateGiftcardclassRequest,
   output: UpdateGiftcardclassResponse,
   errors: [],
@@ -4708,7 +6194,10 @@ export interface GetGiftcardclassRequest {
 export const GetGiftcardclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/giftCardClass/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/giftCardClass/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetGiftcardclassRequest>;
 
@@ -4718,7 +6207,12 @@ export const GetGiftcardclassResponse = GiftCardClass;
 export type GetGiftcardclassError = DefaultErrors;
 
 /** Returns the gift card class with the given class ID. */
-export const getGiftcardclass: API.OperationMethod<GetGiftcardclassRequest, GetGiftcardclassResponse, GetGiftcardclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getGiftcardclass: API.OperationMethod<
+  GetGiftcardclassRequest,
+  GetGiftcardclassResponse,
+  GetGiftcardclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetGiftcardclassRequest,
   output: GetGiftcardclassResponse,
   errors: [],
@@ -4735,7 +6229,11 @@ export const PatchGiftcardclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/giftCardClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/giftCardClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchGiftcardclassRequest>;
 
@@ -4745,7 +6243,12 @@ export const PatchGiftcardclassResponse = GiftCardClass;
 export type PatchGiftcardclassError = DefaultErrors;
 
 /** Updates the gift card class referenced by the given class ID. This method supports patch semantics. */
-export const patchGiftcardclass: API.OperationMethod<PatchGiftcardclassRequest, PatchGiftcardclassResponse, PatchGiftcardclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchGiftcardclass: API.OperationMethod<
+  PatchGiftcardclassRequest,
+  PatchGiftcardclassResponse,
+  PatchGiftcardclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchGiftcardclassRequest,
   output: PatchGiftcardclassResponse,
   errors: [],
@@ -4762,7 +6265,11 @@ export const AddmessageGiftcardclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/giftCardClass/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/giftCardClass/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageGiftcardclassRequest>;
 
@@ -4772,7 +6279,12 @@ export const AddmessageGiftcardclassResponse = GiftCardClassAddMessageResponse;
 export type AddmessageGiftcardclassError = DefaultErrors;
 
 /** Adds a message to the gift card class referenced by the given class ID. */
-export const addmessageGiftcardclass: API.OperationMethod<AddmessageGiftcardclassRequest, AddmessageGiftcardclassResponse, AddmessageGiftcardclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageGiftcardclass: API.OperationMethod<
+  AddmessageGiftcardclassRequest,
+  AddmessageGiftcardclassResponse,
+  AddmessageGiftcardclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageGiftcardclassRequest,
   output: AddmessageGiftcardclassResponse,
   errors: [],
@@ -4786,7 +6298,11 @@ export interface InsertOfferobjectRequest {
 export const InsertOfferobjectRequest = Schema.Struct({
   body: Schema.optional(OfferObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/offerObject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/offerObject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertOfferobjectRequest>;
 
@@ -4796,7 +6312,12 @@ export const InsertOfferobjectResponse = OfferObject;
 export type InsertOfferobjectError = DefaultErrors;
 
 /** Inserts an offer object with the given ID and properties. */
-export const insertOfferobject: API.OperationMethod<InsertOfferobjectRequest, InsertOfferobjectResponse, InsertOfferobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertOfferobject: API.OperationMethod<
+  InsertOfferobjectRequest,
+  InsertOfferobjectResponse,
+  InsertOfferobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertOfferobjectRequest,
   output: InsertOfferobjectResponse,
   errors: [],
@@ -4813,7 +6334,11 @@ export const UpdateOfferobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(OfferObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/offerObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/offerObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateOfferobjectRequest>;
 
@@ -4823,7 +6348,12 @@ export const UpdateOfferobjectResponse = OfferObject;
 export type UpdateOfferobjectError = DefaultErrors;
 
 /** Updates the offer object referenced by the given object ID. */
-export const updateOfferobject: API.OperationMethod<UpdateOfferobjectRequest, UpdateOfferobjectResponse, UpdateOfferobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateOfferobject: API.OperationMethod<
+  UpdateOfferobjectRequest,
+  UpdateOfferobjectResponse,
+  UpdateOfferobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateOfferobjectRequest,
   output: UpdateOfferobjectResponse,
   errors: [],
@@ -4853,7 +6383,12 @@ export const ListOfferobjectResponse = OfferObjectListResponse;
 export type ListOfferobjectError = DefaultErrors;
 
 /** Returns a list of all offer objects for a given issuer ID. */
-export const listOfferobject: API.OperationMethod<ListOfferobjectRequest, ListOfferobjectResponse, ListOfferobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listOfferobject: API.OperationMethod<
+  ListOfferobjectRequest,
+  ListOfferobjectResponse,
+  ListOfferobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListOfferobjectRequest,
   output: ListOfferobjectResponse,
   errors: [],
@@ -4877,7 +6412,12 @@ export const GetOfferobjectResponse = OfferObject;
 export type GetOfferobjectError = DefaultErrors;
 
 /** Returns the offer object with the given object ID. */
-export const getOfferobject: API.OperationMethod<GetOfferobjectRequest, GetOfferobjectResponse, GetOfferobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOfferobject: API.OperationMethod<
+  GetOfferobjectRequest,
+  GetOfferobjectResponse,
+  GetOfferobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOfferobjectRequest,
   output: GetOfferobjectResponse,
   errors: [],
@@ -4894,7 +6434,11 @@ export const PatchOfferobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(OfferObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/offerObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/offerObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchOfferobjectRequest>;
 
@@ -4904,7 +6448,12 @@ export const PatchOfferobjectResponse = OfferObject;
 export type PatchOfferobjectError = DefaultErrors;
 
 /** Updates the offer object referenced by the given object ID. This method supports patch semantics. */
-export const patchOfferobject: API.OperationMethod<PatchOfferobjectRequest, PatchOfferobjectResponse, PatchOfferobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOfferobject: API.OperationMethod<
+  PatchOfferobjectRequest,
+  PatchOfferobjectResponse,
+  PatchOfferobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOfferobjectRequest,
   output: PatchOfferobjectResponse,
   errors: [],
@@ -4921,7 +6470,11 @@ export const AddmessageOfferobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/offerObject/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/offerObject/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageOfferobjectRequest>;
 
@@ -4931,7 +6484,12 @@ export const AddmessageOfferobjectResponse = OfferObjectAddMessageResponse;
 export type AddmessageOfferobjectError = DefaultErrors;
 
 /** Adds a message to the offer object referenced by the given object ID. */
-export const addmessageOfferobject: API.OperationMethod<AddmessageOfferobjectRequest, AddmessageOfferobjectResponse, AddmessageOfferobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageOfferobject: API.OperationMethod<
+  AddmessageOfferobjectRequest,
+  AddmessageOfferobjectResponse,
+  AddmessageOfferobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageOfferobjectRequest,
   output: AddmessageOfferobjectResponse,
   errors: [],
@@ -4942,20 +6500,33 @@ export interface SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest {
   body?: SetPassUpdateNoticeRequest;
 }
 
-export const SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest = Schema.Struct({
-  body: Schema.optional(SetPassUpdateNoticeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/privateContent/setPassUpdateNotice", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest>;
+export const SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest =
+  Schema.Struct({
+    body: Schema.optional(SetPassUpdateNoticeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/privateContent/setPassUpdateNotice",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest>;
 
-export type SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse = SetPassUpdateNoticeResponse;
-export const SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse = SetPassUpdateNoticeResponse;
+export type SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse =
+  SetPassUpdateNoticeResponse;
+export const SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse =
+  SetPassUpdateNoticeResponse;
 
-export type SetPassUpdateNoticeWalletobjectsV1PrivateContentError = DefaultErrors;
+export type SetPassUpdateNoticeWalletobjectsV1PrivateContentError =
+  DefaultErrors;
 
 /** Provide Google with information about awaiting private pass update. This will allow Google to provide the update notification to the device that currently holds this pass. */
-export const setPassUpdateNoticeWalletobjectsV1PrivateContent: API.OperationMethod<SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest, SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse, SetPassUpdateNoticeWalletobjectsV1PrivateContentError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setPassUpdateNoticeWalletobjectsV1PrivateContent: API.OperationMethod<
+  SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest,
+  SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse,
+  SetPassUpdateNoticeWalletobjectsV1PrivateContentError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest,
   output: SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse,
   errors: [],
@@ -4969,7 +6540,11 @@ export interface InsertGenericobjectRequest {
 export const InsertGenericobjectRequest = Schema.Struct({
   body: Schema.optional(GenericObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/genericObject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/genericObject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertGenericobjectRequest>;
 
@@ -4979,7 +6554,12 @@ export const InsertGenericobjectResponse = GenericObject;
 export type InsertGenericobjectError = DefaultErrors;
 
 /** Inserts a generic object with the given ID and properties. */
-export const insertGenericobject: API.OperationMethod<InsertGenericobjectRequest, InsertGenericobjectResponse, InsertGenericobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertGenericobject: API.OperationMethod<
+  InsertGenericobjectRequest,
+  InsertGenericobjectResponse,
+  InsertGenericobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertGenericobjectRequest,
   output: InsertGenericobjectResponse,
   errors: [],
@@ -4996,7 +6576,11 @@ export const UpdateGenericobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GenericObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/genericObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/genericObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateGenericobjectRequest>;
 
@@ -5006,7 +6590,12 @@ export const UpdateGenericobjectResponse = GenericObject;
 export type UpdateGenericobjectError = DefaultErrors;
 
 /** Updates the generic object referenced by the given object ID. */
-export const updateGenericobject: API.OperationMethod<UpdateGenericobjectRequest, UpdateGenericobjectResponse, UpdateGenericobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateGenericobject: API.OperationMethod<
+  UpdateGenericobjectRequest,
+  UpdateGenericobjectResponse,
+  UpdateGenericobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateGenericobjectRequest,
   output: UpdateGenericobjectResponse,
   errors: [],
@@ -5036,7 +6625,12 @@ export const ListGenericobjectResponse = GenericObjectListResponse;
 export type ListGenericobjectError = DefaultErrors;
 
 /** Returns a list of all generic objects for a given issuer ID. */
-export const listGenericobject: API.OperationMethod<ListGenericobjectRequest, ListGenericobjectResponse, ListGenericobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listGenericobject: API.OperationMethod<
+  ListGenericobjectRequest,
+  ListGenericobjectResponse,
+  ListGenericobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListGenericobjectRequest,
   output: ListGenericobjectResponse,
   errors: [],
@@ -5050,7 +6644,10 @@ export interface GetGenericobjectRequest {
 export const GetGenericobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/genericObject/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/genericObject/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetGenericobjectRequest>;
 
@@ -5060,7 +6657,12 @@ export const GetGenericobjectResponse = GenericObject;
 export type GetGenericobjectError = DefaultErrors;
 
 /** Returns the generic object with the given object ID. */
-export const getGenericobject: API.OperationMethod<GetGenericobjectRequest, GetGenericobjectResponse, GetGenericobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getGenericobject: API.OperationMethod<
+  GetGenericobjectRequest,
+  GetGenericobjectResponse,
+  GetGenericobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetGenericobjectRequest,
   output: GetGenericobjectResponse,
   errors: [],
@@ -5077,7 +6679,11 @@ export const PatchGenericobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GenericObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/genericObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/genericObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchGenericobjectRequest>;
 
@@ -5087,7 +6693,12 @@ export const PatchGenericobjectResponse = GenericObject;
 export type PatchGenericobjectError = DefaultErrors;
 
 /** Updates the generic object referenced by the given object ID. This method supports patch semantics. */
-export const patchGenericobject: API.OperationMethod<PatchGenericobjectRequest, PatchGenericobjectResponse, PatchGenericobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchGenericobject: API.OperationMethod<
+  PatchGenericobjectRequest,
+  PatchGenericobjectResponse,
+  PatchGenericobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchGenericobjectRequest,
   output: PatchGenericobjectResponse,
   errors: [],
@@ -5104,7 +6715,11 @@ export const AddmessageGenericobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/genericObject/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/genericObject/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageGenericobjectRequest>;
 
@@ -5114,7 +6729,12 @@ export const AddmessageGenericobjectResponse = GenericObjectAddMessageResponse;
 export type AddmessageGenericobjectError = DefaultErrors;
 
 /** Adds a message to the generic object referenced by the given object ID. */
-export const addmessageGenericobject: API.OperationMethod<AddmessageGenericobjectRequest, AddmessageGenericobjectResponse, AddmessageGenericobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageGenericobject: API.OperationMethod<
+  AddmessageGenericobjectRequest,
+  AddmessageGenericobjectResponse,
+  AddmessageGenericobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageGenericobjectRequest,
   output: AddmessageGenericobjectResponse,
   errors: [],
@@ -5131,7 +6751,11 @@ export const AddmessageLoyaltyobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/loyaltyObject/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/loyaltyObject/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageLoyaltyobjectRequest>;
 
@@ -5141,7 +6765,12 @@ export const AddmessageLoyaltyobjectResponse = LoyaltyObjectAddMessageResponse;
 export type AddmessageLoyaltyobjectError = DefaultErrors;
 
 /** Adds a message to the loyalty object referenced by the given object ID. */
-export const addmessageLoyaltyobject: API.OperationMethod<AddmessageLoyaltyobjectRequest, AddmessageLoyaltyobjectResponse, AddmessageLoyaltyobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageLoyaltyobject: API.OperationMethod<
+  AddmessageLoyaltyobjectRequest,
+  AddmessageLoyaltyobjectResponse,
+  AddmessageLoyaltyobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageLoyaltyobjectRequest,
   output: AddmessageLoyaltyobjectResponse,
   errors: [],
@@ -5155,7 +6784,10 @@ export interface GetLoyaltyobjectRequest {
 export const GetLoyaltyobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/loyaltyObject/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/loyaltyObject/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetLoyaltyobjectRequest>;
 
@@ -5165,7 +6797,12 @@ export const GetLoyaltyobjectResponse = LoyaltyObject;
 export type GetLoyaltyobjectError = DefaultErrors;
 
 /** Returns the loyalty object with the given object ID. */
-export const getLoyaltyobject: API.OperationMethod<GetLoyaltyobjectRequest, GetLoyaltyobjectResponse, GetLoyaltyobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLoyaltyobject: API.OperationMethod<
+  GetLoyaltyobjectRequest,
+  GetLoyaltyobjectResponse,
+  GetLoyaltyobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLoyaltyobjectRequest,
   output: GetLoyaltyobjectResponse,
   errors: [],
@@ -5182,7 +6819,11 @@ export const PatchLoyaltyobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/loyaltyObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/loyaltyObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchLoyaltyobjectRequest>;
 
@@ -5192,7 +6833,12 @@ export const PatchLoyaltyobjectResponse = LoyaltyObject;
 export type PatchLoyaltyobjectError = DefaultErrors;
 
 /** Updates the loyalty object referenced by the given object ID. This method supports patch semantics. */
-export const patchLoyaltyobject: API.OperationMethod<PatchLoyaltyobjectRequest, PatchLoyaltyobjectResponse, PatchLoyaltyobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchLoyaltyobject: API.OperationMethod<
+  PatchLoyaltyobjectRequest,
+  PatchLoyaltyobjectResponse,
+  PatchLoyaltyobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchLoyaltyobjectRequest,
   output: PatchLoyaltyobjectResponse,
   errors: [],
@@ -5209,7 +6855,11 @@ export const ModifylinkedofferobjectsLoyaltyobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(ModifyLinkedOfferObjectsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/loyaltyObject/{resourceId}/modifyLinkedOfferObjects", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/loyaltyObject/{resourceId}/modifyLinkedOfferObjects",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifylinkedofferobjectsLoyaltyobjectRequest>;
 
@@ -5219,7 +6869,12 @@ export const ModifylinkedofferobjectsLoyaltyobjectResponse = LoyaltyObject;
 export type ModifylinkedofferobjectsLoyaltyobjectError = DefaultErrors;
 
 /** Deprecated: Use Auto Linked Passes instead. Modifies linked offer objects for the loyalty object with the given ID. */
-export const modifylinkedofferobjectsLoyaltyobject: API.OperationMethod<ModifylinkedofferobjectsLoyaltyobjectRequest, ModifylinkedofferobjectsLoyaltyobjectResponse, ModifylinkedofferobjectsLoyaltyobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifylinkedofferobjectsLoyaltyobject: API.OperationMethod<
+  ModifylinkedofferobjectsLoyaltyobjectRequest,
+  ModifylinkedofferobjectsLoyaltyobjectResponse,
+  ModifylinkedofferobjectsLoyaltyobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifylinkedofferobjectsLoyaltyobjectRequest,
   output: ModifylinkedofferobjectsLoyaltyobjectResponse,
   errors: [],
@@ -5233,7 +6888,11 @@ export interface InsertLoyaltyobjectRequest {
 export const InsertLoyaltyobjectRequest = Schema.Struct({
   body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/loyaltyObject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/loyaltyObject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertLoyaltyobjectRequest>;
 
@@ -5243,7 +6902,12 @@ export const InsertLoyaltyobjectResponse = LoyaltyObject;
 export type InsertLoyaltyobjectError = DefaultErrors;
 
 /** Inserts an loyalty object with the given ID and properties. */
-export const insertLoyaltyobject: API.OperationMethod<InsertLoyaltyobjectRequest, InsertLoyaltyobjectResponse, InsertLoyaltyobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertLoyaltyobject: API.OperationMethod<
+  InsertLoyaltyobjectRequest,
+  InsertLoyaltyobjectResponse,
+  InsertLoyaltyobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertLoyaltyobjectRequest,
   output: InsertLoyaltyobjectResponse,
   errors: [],
@@ -5260,7 +6924,11 @@ export const UpdateLoyaltyobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/loyaltyObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/loyaltyObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateLoyaltyobjectRequest>;
 
@@ -5270,7 +6938,12 @@ export const UpdateLoyaltyobjectResponse = LoyaltyObject;
 export type UpdateLoyaltyobjectError = DefaultErrors;
 
 /** Updates the loyalty object referenced by the given object ID. */
-export const updateLoyaltyobject: API.OperationMethod<UpdateLoyaltyobjectRequest, UpdateLoyaltyobjectResponse, UpdateLoyaltyobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateLoyaltyobject: API.OperationMethod<
+  UpdateLoyaltyobjectRequest,
+  UpdateLoyaltyobjectResponse,
+  UpdateLoyaltyobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateLoyaltyobjectRequest,
   output: UpdateLoyaltyobjectResponse,
   errors: [],
@@ -5300,7 +6973,12 @@ export const ListLoyaltyobjectResponse = LoyaltyObjectListResponse;
 export type ListLoyaltyobjectError = DefaultErrors;
 
 /** Returns a list of all loyalty objects for a given issuer ID. */
-export const listLoyaltyobject: API.OperationMethod<ListLoyaltyobjectRequest, ListLoyaltyobjectResponse, ListLoyaltyobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listLoyaltyobject: API.OperationMethod<
+  ListLoyaltyobjectRequest,
+  ListLoyaltyobjectResponse,
+  ListLoyaltyobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListLoyaltyobjectRequest,
   output: ListLoyaltyobjectResponse,
   errors: [],
@@ -5314,7 +6992,11 @@ export interface InsertGenericclassRequest {
 export const InsertGenericclassRequest = Schema.Struct({
   body: Schema.optional(GenericClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/genericClass", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/genericClass",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertGenericclassRequest>;
 
@@ -5324,7 +7006,12 @@ export const InsertGenericclassResponse = GenericClass;
 export type InsertGenericclassError = DefaultErrors;
 
 /** Inserts a generic class with the given ID and properties. */
-export const insertGenericclass: API.OperationMethod<InsertGenericclassRequest, InsertGenericclassResponse, InsertGenericclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertGenericclass: API.OperationMethod<
+  InsertGenericclassRequest,
+  InsertGenericclassResponse,
+  InsertGenericclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertGenericclassRequest,
   output: InsertGenericclassResponse,
   errors: [],
@@ -5341,7 +7028,11 @@ export const UpdateGenericclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GenericClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/genericClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/genericClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateGenericclassRequest>;
 
@@ -5351,7 +7042,12 @@ export const UpdateGenericclassResponse = GenericClass;
 export type UpdateGenericclassError = DefaultErrors;
 
 /** Updates the Generic class referenced by the given class ID. */
-export const updateGenericclass: API.OperationMethod<UpdateGenericclassRequest, UpdateGenericclassResponse, UpdateGenericclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateGenericclass: API.OperationMethod<
+  UpdateGenericclassRequest,
+  UpdateGenericclassResponse,
+  UpdateGenericclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateGenericclassRequest,
   output: UpdateGenericclassResponse,
   errors: [],
@@ -5381,7 +7077,12 @@ export const ListGenericclassResponse = GenericClassListResponse;
 export type ListGenericclassError = DefaultErrors;
 
 /** Returns a list of all generic classes for a given issuer ID. */
-export const listGenericclass: API.OperationMethod<ListGenericclassRequest, ListGenericclassResponse, ListGenericclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listGenericclass: API.OperationMethod<
+  ListGenericclassRequest,
+  ListGenericclassResponse,
+  ListGenericclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListGenericclassRequest,
   output: ListGenericclassResponse,
   errors: [],
@@ -5398,7 +7099,11 @@ export const AddmessageGenericclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/genericClass/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/genericClass/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageGenericclassRequest>;
 
@@ -5408,7 +7113,12 @@ export const AddmessageGenericclassResponse = GenericClassAddMessageResponse;
 export type AddmessageGenericclassError = DefaultErrors;
 
 /** Adds a message to the generic class referenced by the given class ID. */
-export const addmessageGenericclass: API.OperationMethod<AddmessageGenericclassRequest, AddmessageGenericclassResponse, AddmessageGenericclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageGenericclass: API.OperationMethod<
+  AddmessageGenericclassRequest,
+  AddmessageGenericclassResponse,
+  AddmessageGenericclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageGenericclassRequest,
   output: AddmessageGenericclassResponse,
   errors: [],
@@ -5432,7 +7142,12 @@ export const GetGenericclassResponse = GenericClass;
 export type GetGenericclassError = DefaultErrors;
 
 /** Returns the generic class with the given class ID. */
-export const getGenericclass: API.OperationMethod<GetGenericclassRequest, GetGenericclassResponse, GetGenericclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getGenericclass: API.OperationMethod<
+  GetGenericclassRequest,
+  GetGenericclassResponse,
+  GetGenericclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetGenericclassRequest,
   output: GetGenericclassResponse,
   errors: [],
@@ -5449,7 +7164,11 @@ export const PatchGenericclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(GenericClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/genericClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/genericClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchGenericclassRequest>;
 
@@ -5459,7 +7178,12 @@ export const PatchGenericclassResponse = GenericClass;
 export type PatchGenericclassError = DefaultErrors;
 
 /** Updates the generic class referenced by the given class ID. This method supports patch semantics. */
-export const patchGenericclass: API.OperationMethod<PatchGenericclassRequest, PatchGenericclassResponse, PatchGenericclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchGenericclass: API.OperationMethod<
+  PatchGenericclassRequest,
+  PatchGenericclassResponse,
+  PatchGenericclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchGenericclassRequest,
   output: PatchGenericclassResponse,
   errors: [],
@@ -5489,7 +7213,12 @@ export const ListTransitclassResponse = TransitClassListResponse;
 export type ListTransitclassError = DefaultErrors;
 
 /** Returns a list of all transit classes for a given issuer ID. */
-export const listTransitclass: API.OperationMethod<ListTransitclassRequest, ListTransitclassResponse, ListTransitclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listTransitclass: API.OperationMethod<
+  ListTransitclassRequest,
+  ListTransitclassResponse,
+  ListTransitclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListTransitclassRequest,
   output: ListTransitclassResponse,
   errors: [],
@@ -5503,7 +7232,11 @@ export interface InsertTransitclassRequest {
 export const InsertTransitclassRequest = Schema.Struct({
   body: Schema.optional(TransitClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/transitClass", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/transitClass",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertTransitclassRequest>;
 
@@ -5513,7 +7246,12 @@ export const InsertTransitclassResponse = TransitClass;
 export type InsertTransitclassError = DefaultErrors;
 
 /** Inserts a transit class with the given ID and properties. */
-export const insertTransitclass: API.OperationMethod<InsertTransitclassRequest, InsertTransitclassResponse, InsertTransitclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertTransitclass: API.OperationMethod<
+  InsertTransitclassRequest,
+  InsertTransitclassResponse,
+  InsertTransitclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertTransitclassRequest,
   output: InsertTransitclassResponse,
   errors: [],
@@ -5530,7 +7268,11 @@ export const UpdateTransitclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(TransitClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/transitClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/transitClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateTransitclassRequest>;
 
@@ -5540,7 +7282,12 @@ export const UpdateTransitclassResponse = TransitClass;
 export type UpdateTransitclassError = DefaultErrors;
 
 /** Updates the transit class referenced by the given class ID. */
-export const updateTransitclass: API.OperationMethod<UpdateTransitclassRequest, UpdateTransitclassResponse, UpdateTransitclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateTransitclass: API.OperationMethod<
+  UpdateTransitclassRequest,
+  UpdateTransitclassResponse,
+  UpdateTransitclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateTransitclassRequest,
   output: UpdateTransitclassResponse,
   errors: [],
@@ -5557,7 +7304,11 @@ export const AddmessageTransitclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/transitClass/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/transitClass/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageTransitclassRequest>;
 
@@ -5567,7 +7318,12 @@ export const AddmessageTransitclassResponse = TransitClassAddMessageResponse;
 export type AddmessageTransitclassError = DefaultErrors;
 
 /** Adds a message to the transit class referenced by the given class ID. */
-export const addmessageTransitclass: API.OperationMethod<AddmessageTransitclassRequest, AddmessageTransitclassResponse, AddmessageTransitclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageTransitclass: API.OperationMethod<
+  AddmessageTransitclassRequest,
+  AddmessageTransitclassResponse,
+  AddmessageTransitclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageTransitclassRequest,
   output: AddmessageTransitclassResponse,
   errors: [],
@@ -5591,7 +7347,12 @@ export const GetTransitclassResponse = TransitClass;
 export type GetTransitclassError = DefaultErrors;
 
 /** Returns the transit class with the given class ID. */
-export const getTransitclass: API.OperationMethod<GetTransitclassRequest, GetTransitclassResponse, GetTransitclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTransitclass: API.OperationMethod<
+  GetTransitclassRequest,
+  GetTransitclassResponse,
+  GetTransitclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTransitclassRequest,
   output: GetTransitclassResponse,
   errors: [],
@@ -5608,7 +7369,11 @@ export const PatchTransitclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(TransitClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/transitClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/transitClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchTransitclassRequest>;
 
@@ -5618,7 +7383,12 @@ export const PatchTransitclassResponse = TransitClass;
 export type PatchTransitclassError = DefaultErrors;
 
 /** Updates the transit class referenced by the given class ID. This method supports patch semantics. */
-export const patchTransitclass: API.OperationMethod<PatchTransitclassRequest, PatchTransitclassResponse, PatchTransitclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTransitclass: API.OperationMethod<
+  PatchTransitclassRequest,
+  PatchTransitclassResponse,
+  PatchTransitclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTransitclassRequest,
   output: PatchTransitclassResponse,
   errors: [],
@@ -5648,7 +7418,12 @@ export const ListEventticketclassResponse = EventTicketClassListResponse;
 export type ListEventticketclassError = DefaultErrors;
 
 /** Returns a list of all event ticket classes for a given issuer ID. */
-export const listEventticketclass: API.OperationMethod<ListEventticketclassRequest, ListEventticketclassResponse, ListEventticketclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listEventticketclass: API.OperationMethod<
+  ListEventticketclassRequest,
+  ListEventticketclassResponse,
+  ListEventticketclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListEventticketclassRequest,
   output: ListEventticketclassResponse,
   errors: [],
@@ -5662,7 +7437,11 @@ export interface InsertEventticketclassRequest {
 export const InsertEventticketclassRequest = Schema.Struct({
   body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/eventTicketClass", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/eventTicketClass",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertEventticketclassRequest>;
 
@@ -5672,7 +7451,12 @@ export const InsertEventticketclassResponse = EventTicketClass;
 export type InsertEventticketclassError = DefaultErrors;
 
 /** Inserts an event ticket class with the given ID and properties. */
-export const insertEventticketclass: API.OperationMethod<InsertEventticketclassRequest, InsertEventticketclassResponse, InsertEventticketclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertEventticketclass: API.OperationMethod<
+  InsertEventticketclassRequest,
+  InsertEventticketclassResponse,
+  InsertEventticketclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertEventticketclassRequest,
   output: InsertEventticketclassResponse,
   errors: [],
@@ -5689,7 +7473,11 @@ export const UpdateEventticketclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/eventTicketClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/eventTicketClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateEventticketclassRequest>;
 
@@ -5699,7 +7487,12 @@ export const UpdateEventticketclassResponse = EventTicketClass;
 export type UpdateEventticketclassError = DefaultErrors;
 
 /** Updates the event ticket class referenced by the given class ID. */
-export const updateEventticketclass: API.OperationMethod<UpdateEventticketclassRequest, UpdateEventticketclassResponse, UpdateEventticketclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateEventticketclass: API.OperationMethod<
+  UpdateEventticketclassRequest,
+  UpdateEventticketclassResponse,
+  UpdateEventticketclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateEventticketclassRequest,
   output: UpdateEventticketclassResponse,
   errors: [],
@@ -5713,7 +7506,10 @@ export interface GetEventticketclassRequest {
 export const GetEventticketclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/eventTicketClass/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/eventTicketClass/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetEventticketclassRequest>;
 
@@ -5723,7 +7519,12 @@ export const GetEventticketclassResponse = EventTicketClass;
 export type GetEventticketclassError = DefaultErrors;
 
 /** Returns the event ticket class with the given class ID. */
-export const getEventticketclass: API.OperationMethod<GetEventticketclassRequest, GetEventticketclassResponse, GetEventticketclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getEventticketclass: API.OperationMethod<
+  GetEventticketclassRequest,
+  GetEventticketclassResponse,
+  GetEventticketclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetEventticketclassRequest,
   output: GetEventticketclassResponse,
   errors: [],
@@ -5740,7 +7541,11 @@ export const PatchEventticketclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/eventTicketClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/eventTicketClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchEventticketclassRequest>;
 
@@ -5750,7 +7555,12 @@ export const PatchEventticketclassResponse = EventTicketClass;
 export type PatchEventticketclassError = DefaultErrors;
 
 /** Updates the event ticket class referenced by the given class ID. This method supports patch semantics. */
-export const patchEventticketclass: API.OperationMethod<PatchEventticketclassRequest, PatchEventticketclassResponse, PatchEventticketclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchEventticketclass: API.OperationMethod<
+  PatchEventticketclassRequest,
+  PatchEventticketclassResponse,
+  PatchEventticketclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchEventticketclassRequest,
   output: PatchEventticketclassResponse,
   errors: [],
@@ -5767,17 +7577,28 @@ export const AddmessageEventticketclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/eventTicketClass/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/eventTicketClass/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageEventticketclassRequest>;
 
-export type AddmessageEventticketclassResponse = EventTicketClassAddMessageResponse;
-export const AddmessageEventticketclassResponse = EventTicketClassAddMessageResponse;
+export type AddmessageEventticketclassResponse =
+  EventTicketClassAddMessageResponse;
+export const AddmessageEventticketclassResponse =
+  EventTicketClassAddMessageResponse;
 
 export type AddmessageEventticketclassError = DefaultErrors;
 
 /** Adds a message to the event ticket class referenced by the given class ID. */
-export const addmessageEventticketclass: API.OperationMethod<AddmessageEventticketclassRequest, AddmessageEventticketclassResponse, AddmessageEventticketclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageEventticketclass: API.OperationMethod<
+  AddmessageEventticketclassRequest,
+  AddmessageEventticketclassResponse,
+  AddmessageEventticketclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageEventticketclassRequest,
   output: AddmessageEventticketclassResponse,
   errors: [],
@@ -5794,7 +7615,11 @@ export const AddmessageTransitobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/transitObject/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/transitObject/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageTransitobjectRequest>;
 
@@ -5804,7 +7629,12 @@ export const AddmessageTransitobjectResponse = TransitObjectAddMessageResponse;
 export type AddmessageTransitobjectError = DefaultErrors;
 
 /** Adds a message to the transit object referenced by the given object ID. */
-export const addmessageTransitobject: API.OperationMethod<AddmessageTransitobjectRequest, AddmessageTransitobjectResponse, AddmessageTransitobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageTransitobject: API.OperationMethod<
+  AddmessageTransitobjectRequest,
+  AddmessageTransitobjectResponse,
+  AddmessageTransitobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageTransitobjectRequest,
   output: AddmessageTransitobjectResponse,
   errors: [],
@@ -5818,7 +7648,10 @@ export interface GetTransitobjectRequest {
 export const GetTransitobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/transitObject/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/transitObject/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetTransitobjectRequest>;
 
@@ -5828,7 +7661,12 @@ export const GetTransitobjectResponse = TransitObject;
 export type GetTransitobjectError = DefaultErrors;
 
 /** Returns the transit object with the given object ID. */
-export const getTransitobject: API.OperationMethod<GetTransitobjectRequest, GetTransitobjectResponse, GetTransitobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTransitobject: API.OperationMethod<
+  GetTransitobjectRequest,
+  GetTransitobjectResponse,
+  GetTransitobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTransitobjectRequest,
   output: GetTransitobjectResponse,
   errors: [],
@@ -5845,7 +7683,11 @@ export const PatchTransitobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(TransitObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/transitObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/transitObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchTransitobjectRequest>;
 
@@ -5855,7 +7697,12 @@ export const PatchTransitobjectResponse = TransitObject;
 export type PatchTransitobjectError = DefaultErrors;
 
 /** Updates the transit object referenced by the given object ID. This method supports patch semantics. */
-export const patchTransitobject: API.OperationMethod<PatchTransitobjectRequest, PatchTransitobjectResponse, PatchTransitobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTransitobject: API.OperationMethod<
+  PatchTransitobjectRequest,
+  PatchTransitobjectResponse,
+  PatchTransitobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTransitobjectRequest,
   output: PatchTransitobjectResponse,
   errors: [],
@@ -5885,7 +7732,12 @@ export const ListTransitobjectResponse = TransitObjectListResponse;
 export type ListTransitobjectError = DefaultErrors;
 
 /** Returns a list of all transit objects for a given issuer ID. */
-export const listTransitobject: API.OperationMethod<ListTransitobjectRequest, ListTransitobjectResponse, ListTransitobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listTransitobject: API.OperationMethod<
+  ListTransitobjectRequest,
+  ListTransitobjectResponse,
+  ListTransitobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListTransitobjectRequest,
   output: ListTransitobjectResponse,
   errors: [],
@@ -5899,7 +7751,11 @@ export interface InsertTransitobjectRequest {
 export const InsertTransitobjectRequest = Schema.Struct({
   body: Schema.optional(TransitObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/transitObject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/transitObject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertTransitobjectRequest>;
 
@@ -5909,7 +7765,12 @@ export const InsertTransitobjectResponse = TransitObject;
 export type InsertTransitobjectError = DefaultErrors;
 
 /** Inserts an transit object with the given ID and properties. */
-export const insertTransitobject: API.OperationMethod<InsertTransitobjectRequest, InsertTransitobjectResponse, InsertTransitobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertTransitobject: API.OperationMethod<
+  InsertTransitobjectRequest,
+  InsertTransitobjectResponse,
+  InsertTransitobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertTransitobjectRequest,
   output: InsertTransitobjectResponse,
   errors: [],
@@ -5926,7 +7787,11 @@ export const UpdateTransitobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(TransitObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/transitObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/transitObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateTransitobjectRequest>;
 
@@ -5936,7 +7801,12 @@ export const UpdateTransitobjectResponse = TransitObject;
 export type UpdateTransitobjectError = DefaultErrors;
 
 /** Updates the transit object referenced by the given object ID. */
-export const updateTransitobject: API.OperationMethod<UpdateTransitobjectRequest, UpdateTransitobjectResponse, UpdateTransitobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateTransitobject: API.OperationMethod<
+  UpdateTransitobjectRequest,
+  UpdateTransitobjectResponse,
+  UpdateTransitobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateTransitobjectRequest,
   output: UpdateTransitobjectResponse,
   errors: [],
@@ -5950,7 +7820,11 @@ export interface InsertFlightclassRequest {
 export const InsertFlightclassRequest = Schema.Struct({
   body: Schema.optional(FlightClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/flightClass", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/flightClass",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertFlightclassRequest>;
 
@@ -5960,7 +7834,12 @@ export const InsertFlightclassResponse = FlightClass;
 export type InsertFlightclassError = DefaultErrors;
 
 /** Inserts an flight class with the given ID and properties. */
-export const insertFlightclass: API.OperationMethod<InsertFlightclassRequest, InsertFlightclassResponse, InsertFlightclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertFlightclass: API.OperationMethod<
+  InsertFlightclassRequest,
+  InsertFlightclassResponse,
+  InsertFlightclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertFlightclassRequest,
   output: InsertFlightclassResponse,
   errors: [],
@@ -5977,7 +7856,11 @@ export const UpdateFlightclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(FlightClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/flightClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/flightClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateFlightclassRequest>;
 
@@ -5987,7 +7870,12 @@ export const UpdateFlightclassResponse = FlightClass;
 export type UpdateFlightclassError = DefaultErrors;
 
 /** Updates the flight class referenced by the given class ID. */
-export const updateFlightclass: API.OperationMethod<UpdateFlightclassRequest, UpdateFlightclassResponse, UpdateFlightclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateFlightclass: API.OperationMethod<
+  UpdateFlightclassRequest,
+  UpdateFlightclassResponse,
+  UpdateFlightclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateFlightclassRequest,
   output: UpdateFlightclassResponse,
   errors: [],
@@ -6017,7 +7905,12 @@ export const ListFlightclassResponse = FlightClassListResponse;
 export type ListFlightclassError = DefaultErrors;
 
 /** Returns a list of all flight classes for a given issuer ID. */
-export const listFlightclass: API.OperationMethod<ListFlightclassRequest, ListFlightclassResponse, ListFlightclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listFlightclass: API.OperationMethod<
+  ListFlightclassRequest,
+  ListFlightclassResponse,
+  ListFlightclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListFlightclassRequest,
   output: ListFlightclassResponse,
   errors: [],
@@ -6041,7 +7934,12 @@ export const GetFlightclassResponse = FlightClass;
 export type GetFlightclassError = DefaultErrors;
 
 /** Returns the flight class with the given class ID. */
-export const getFlightclass: API.OperationMethod<GetFlightclassRequest, GetFlightclassResponse, GetFlightclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFlightclass: API.OperationMethod<
+  GetFlightclassRequest,
+  GetFlightclassResponse,
+  GetFlightclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFlightclassRequest,
   output: GetFlightclassResponse,
   errors: [],
@@ -6058,7 +7956,11 @@ export const PatchFlightclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(FlightClass).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/flightClass/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/flightClass/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchFlightclassRequest>;
 
@@ -6068,7 +7970,12 @@ export const PatchFlightclassResponse = FlightClass;
 export type PatchFlightclassError = DefaultErrors;
 
 /** Updates the flight class referenced by the given class ID. This method supports patch semantics. */
-export const patchFlightclass: API.OperationMethod<PatchFlightclassRequest, PatchFlightclassResponse, PatchFlightclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchFlightclass: API.OperationMethod<
+  PatchFlightclassRequest,
+  PatchFlightclassResponse,
+  PatchFlightclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchFlightclassRequest,
   output: PatchFlightclassResponse,
   errors: [],
@@ -6085,7 +7992,11 @@ export const AddmessageFlightclassRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/flightClass/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/flightClass/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageFlightclassRequest>;
 
@@ -6095,7 +8006,12 @@ export const AddmessageFlightclassResponse = FlightClassAddMessageResponse;
 export type AddmessageFlightclassError = DefaultErrors;
 
 /** Adds a message to the flight class referenced by the given class ID. */
-export const addmessageFlightclass: API.OperationMethod<AddmessageFlightclassRequest, AddmessageFlightclassResponse, AddmessageFlightclassError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageFlightclass: API.OperationMethod<
+  AddmessageFlightclassRequest,
+  AddmessageFlightclassResponse,
+  AddmessageFlightclassError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageFlightclassRequest,
   output: AddmessageFlightclassResponse,
   errors: [],
@@ -6125,7 +8041,12 @@ export const ListEventticketobjectResponse = EventTicketObjectListResponse;
 export type ListEventticketobjectError = DefaultErrors;
 
 /** Returns a list of all event ticket objects for a given issuer ID. */
-export const listEventticketobject: API.OperationMethod<ListEventticketobjectRequest, ListEventticketobjectResponse, ListEventticketobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listEventticketobject: API.OperationMethod<
+  ListEventticketobjectRequest,
+  ListEventticketobjectResponse,
+  ListEventticketobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListEventticketobjectRequest,
   output: ListEventticketobjectResponse,
   errors: [],
@@ -6139,7 +8060,11 @@ export interface InsertEventticketobjectRequest {
 export const InsertEventticketobjectRequest = Schema.Struct({
   body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/eventTicketObject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/eventTicketObject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertEventticketobjectRequest>;
 
@@ -6149,7 +8074,12 @@ export const InsertEventticketobjectResponse = EventTicketObject;
 export type InsertEventticketobjectError = DefaultErrors;
 
 /** Inserts an event ticket object with the given ID and properties. */
-export const insertEventticketobject: API.OperationMethod<InsertEventticketobjectRequest, InsertEventticketobjectResponse, InsertEventticketobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertEventticketobject: API.OperationMethod<
+  InsertEventticketobjectRequest,
+  InsertEventticketobjectResponse,
+  InsertEventticketobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertEventticketobjectRequest,
   output: InsertEventticketobjectResponse,
   errors: [],
@@ -6166,7 +8096,11 @@ export const UpdateEventticketobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/eventTicketObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/eventTicketObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateEventticketobjectRequest>;
 
@@ -6176,7 +8110,12 @@ export const UpdateEventticketobjectResponse = EventTicketObject;
 export type UpdateEventticketobjectError = DefaultErrors;
 
 /** Updates the event ticket object referenced by the given object ID. */
-export const updateEventticketobject: API.OperationMethod<UpdateEventticketobjectRequest, UpdateEventticketobjectResponse, UpdateEventticketobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateEventticketobject: API.OperationMethod<
+  UpdateEventticketobjectRequest,
+  UpdateEventticketobjectResponse,
+  UpdateEventticketobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateEventticketobjectRequest,
   output: UpdateEventticketobjectResponse,
   errors: [],
@@ -6193,17 +8132,28 @@ export const ModifylinkedofferobjectsEventticketobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(ModifyLinkedOfferObjectsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/eventTicketObject/{resourceId}/modifyLinkedOfferObjects", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/eventTicketObject/{resourceId}/modifyLinkedOfferObjects",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifylinkedofferobjectsEventticketobjectRequest>;
 
-export type ModifylinkedofferobjectsEventticketobjectResponse = EventTicketObject;
-export const ModifylinkedofferobjectsEventticketobjectResponse = EventTicketObject;
+export type ModifylinkedofferobjectsEventticketobjectResponse =
+  EventTicketObject;
+export const ModifylinkedofferobjectsEventticketobjectResponse =
+  EventTicketObject;
 
 export type ModifylinkedofferobjectsEventticketobjectError = DefaultErrors;
 
 /** Deprecated: Use Auto Linked Passes instead. Modifies linked offer objects for the event ticket object with the given ID. */
-export const modifylinkedofferobjectsEventticketobject: API.OperationMethod<ModifylinkedofferobjectsEventticketobjectRequest, ModifylinkedofferobjectsEventticketobjectResponse, ModifylinkedofferobjectsEventticketobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifylinkedofferobjectsEventticketobject: API.OperationMethod<
+  ModifylinkedofferobjectsEventticketobjectRequest,
+  ModifylinkedofferobjectsEventticketobjectResponse,
+  ModifylinkedofferobjectsEventticketobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifylinkedofferobjectsEventticketobjectRequest,
   output: ModifylinkedofferobjectsEventticketobjectResponse,
   errors: [],
@@ -6217,7 +8167,10 @@ export interface GetEventticketobjectRequest {
 export const GetEventticketobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/eventTicketObject/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "walletobjects/v1/eventTicketObject/{resourceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetEventticketobjectRequest>;
 
@@ -6227,7 +8180,12 @@ export const GetEventticketobjectResponse = EventTicketObject;
 export type GetEventticketobjectError = DefaultErrors;
 
 /** Returns the event ticket object with the given object ID. */
-export const getEventticketobject: API.OperationMethod<GetEventticketobjectRequest, GetEventticketobjectResponse, GetEventticketobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getEventticketobject: API.OperationMethod<
+  GetEventticketobjectRequest,
+  GetEventticketobjectResponse,
+  GetEventticketobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetEventticketobjectRequest,
   output: GetEventticketobjectResponse,
   errors: [],
@@ -6244,7 +8202,11 @@ export const PatchEventticketobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "walletobjects/v1/eventTicketObject/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "walletobjects/v1/eventTicketObject/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchEventticketobjectRequest>;
 
@@ -6254,7 +8216,12 @@ export const PatchEventticketobjectResponse = EventTicketObject;
 export type PatchEventticketobjectError = DefaultErrors;
 
 /** Updates the event ticket object referenced by the given object ID. This method supports patch semantics. */
-export const patchEventticketobject: API.OperationMethod<PatchEventticketobjectRequest, PatchEventticketobjectResponse, PatchEventticketobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchEventticketobject: API.OperationMethod<
+  PatchEventticketobjectRequest,
+  PatchEventticketobjectResponse,
+  PatchEventticketobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchEventticketobjectRequest,
   output: PatchEventticketobjectResponse,
   errors: [],
@@ -6271,17 +8238,28 @@ export const AddmessageEventticketobjectRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "walletobjects/v1/eventTicketObject/{resourceId}/addMessage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "walletobjects/v1/eventTicketObject/{resourceId}/addMessage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddmessageEventticketobjectRequest>;
 
-export type AddmessageEventticketobjectResponse = EventTicketObjectAddMessageResponse;
-export const AddmessageEventticketobjectResponse = EventTicketObjectAddMessageResponse;
+export type AddmessageEventticketobjectResponse =
+  EventTicketObjectAddMessageResponse;
+export const AddmessageEventticketobjectResponse =
+  EventTicketObjectAddMessageResponse;
 
 export type AddmessageEventticketobjectError = DefaultErrors;
 
 /** Adds a message to the event ticket object referenced by the given object ID. */
-export const addmessageEventticketobject: API.OperationMethod<AddmessageEventticketobjectRequest, AddmessageEventticketobjectResponse, AddmessageEventticketobjectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addmessageEventticketobject: API.OperationMethod<
+  AddmessageEventticketobjectRequest,
+  AddmessageEventticketobjectResponse,
+  AddmessageEventticketobjectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddmessageEventticketobjectRequest,
   output: AddmessageEventticketobjectResponse,
   errors: [],
@@ -6305,7 +8283,12 @@ export const GetPermissionsResponse = Permissions;
 export type GetPermissionsError = DefaultErrors;
 
 /** Returns the permissions for the given issuer id. */
-export const getPermissions: API.OperationMethod<GetPermissionsRequest, GetPermissionsResponse, GetPermissionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPermissions: API.OperationMethod<
+  GetPermissionsRequest,
+  GetPermissionsResponse,
+  GetPermissionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPermissionsRequest,
   output: GetPermissionsResponse,
   errors: [],
@@ -6322,7 +8305,11 @@ export const UpdatePermissionsRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(Permissions).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "walletobjects/v1/permissions/{resourceId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "walletobjects/v1/permissions/{resourceId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdatePermissionsRequest>;
 
@@ -6332,9 +8319,13 @@ export const UpdatePermissionsResponse = Permissions;
 export type UpdatePermissionsError = DefaultErrors;
 
 /** Updates the permissions for the given issuer. */
-export const updatePermissions: API.OperationMethod<UpdatePermissionsRequest, UpdatePermissionsResponse, UpdatePermissionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePermissions: API.OperationMethod<
+  UpdatePermissionsRequest,
+  UpdatePermissionsResponse,
+  UpdatePermissionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePermissionsRequest,
   output: UpdatePermissionsResponse,
   errors: [],
 }));
-

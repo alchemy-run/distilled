@@ -25,24 +25,42 @@ const svc = T.Service({
 
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep {
   /** Configuration step type. */
-  type?: "TYPE_UNSPECIFIED" | "VALIDATION" | "DESIRED_STATE_CHECK" | "DESIRED_STATE_ENFORCEMENT" | "DESIRED_STATE_CHECK_POST_ENFORCEMENT" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "VALIDATION"
+    | "DESIRED_STATE_CHECK"
+    | "DESIRED_STATE_ENFORCEMENT"
+    | "DESIRED_STATE_CHECK_POST_ENFORCEMENT"
+    | (string & {});
   /** An error message recorded during the execution of this step. Only populated if errors were encountered during this step execution. */
   errorMessage?: string;
 }
 
-export const OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep: Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep" }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep>;
+export const OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep: Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep",
+  }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep>;
 
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput {
   /** Output from enforcement phase output file (if run). Output size is limited to 100K bytes. */
   enforcementOutput?: string;
 }
 
-export const OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput: Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput> = Schema.suspend(() => Schema.Struct({
-  enforcementOutput: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput" }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput>;
+export const OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput: Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enforcementOutput: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput",
+  }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput>;
 
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance {
   /** The compliance state of the resource. */
@@ -57,13 +75,25 @@ export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompl
   execResourceOutput?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput;
 }
 
-export const OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance: Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance> = Schema.suspend(() => Schema.Struct({
-  complianceState: Schema.optional(Schema.String),
-  osPolicyResourceId: Schema.optional(Schema.String),
-  configSteps: Schema.optional(Schema.Array(OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep)),
-  complianceStateReason: Schema.optional(Schema.String),
-  execResourceOutput: Schema.optional(OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput),
-})).annotate({ identifier: "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance" }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance>;
+export const OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance: Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      complianceState: Schema.optional(Schema.String),
+      osPolicyResourceId: Schema.optional(Schema.String),
+      configSteps: Schema.optional(
+        Schema.Array(
+          OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep,
+        ),
+      ),
+      complianceStateReason: Schema.optional(Schema.String),
+      execResourceOutput: Schema.optional(
+        OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance",
+  }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance>;
 
 export interface OSPolicyAssignmentReportOSPolicyCompliance {
   /** The OS policy id */
@@ -76,12 +106,21 @@ export interface OSPolicyAssignmentReportOSPolicyCompliance {
   osPolicyResourceCompliances?: Array<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance>;
 }
 
-export const OSPolicyAssignmentReportOSPolicyCompliance: Schema.Schema<OSPolicyAssignmentReportOSPolicyCompliance> = Schema.suspend(() => Schema.Struct({
-  osPolicyId: Schema.optional(Schema.String),
-  complianceState: Schema.optional(Schema.String),
-  complianceStateReason: Schema.optional(Schema.String),
-  osPolicyResourceCompliances: Schema.optional(Schema.Array(OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance)),
-})).annotate({ identifier: "OSPolicyAssignmentReportOSPolicyCompliance" }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyCompliance>;
+export const OSPolicyAssignmentReportOSPolicyCompliance: Schema.Schema<OSPolicyAssignmentReportOSPolicyCompliance> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      osPolicyId: Schema.optional(Schema.String),
+      complianceState: Schema.optional(Schema.String),
+      complianceStateReason: Schema.optional(Schema.String),
+      osPolicyResourceCompliances: Schema.optional(
+        Schema.Array(
+          OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignmentReportOSPolicyCompliance",
+  }) as any as Schema.Schema<OSPolicyAssignmentReportOSPolicyCompliance>;
 
 export interface OSPolicyAssignmentReport {
   /** Unique identifier of the last attempted run to apply the OS policies associated with this assignment on the VM. This ID is logged by the OS Config agent while applying the OS policies associated with this assignment on the VM. NOTE: If the service is unable to successfully connect to the agent for this run, then this id will not be available in the agent logs. */
@@ -98,14 +137,21 @@ export interface OSPolicyAssignmentReport {
   osPolicyCompliances?: Array<OSPolicyAssignmentReportOSPolicyCompliance>;
 }
 
-export const OSPolicyAssignmentReport: Schema.Schema<OSPolicyAssignmentReport> = Schema.suspend(() => Schema.Struct({
-  lastRunId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  osPolicyAssignment: Schema.optional(Schema.String),
-  osPolicyCompliances: Schema.optional(Schema.Array(OSPolicyAssignmentReportOSPolicyCompliance)),
-})).annotate({ identifier: "OSPolicyAssignmentReport" }) as any as Schema.Schema<OSPolicyAssignmentReport>;
+export const OSPolicyAssignmentReport: Schema.Schema<OSPolicyAssignmentReport> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lastRunId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      instance: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      osPolicyAssignment: Schema.optional(Schema.String),
+      osPolicyCompliances: Schema.optional(
+        Schema.Array(OSPolicyAssignmentReportOSPolicyCompliance),
+      ),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignmentReport",
+  }) as any as Schema.Schema<OSPolicyAssignmentReport>;
 
 export interface ListOSPolicyAssignmentReportsResponse {
   /** The pagination token to retrieve the next page of OS policy assignment report objects. */
@@ -114,19 +160,31 @@ export interface ListOSPolicyAssignmentReportsResponse {
   osPolicyAssignmentReports?: Array<OSPolicyAssignmentReport>;
 }
 
-export const ListOSPolicyAssignmentReportsResponse: Schema.Schema<ListOSPolicyAssignmentReportsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  osPolicyAssignmentReports: Schema.optional(Schema.Array(OSPolicyAssignmentReport)),
-})).annotate({ identifier: "ListOSPolicyAssignmentReportsResponse" }) as any as Schema.Schema<ListOSPolicyAssignmentReportsResponse>;
+export const ListOSPolicyAssignmentReportsResponse: Schema.Schema<ListOSPolicyAssignmentReportsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      osPolicyAssignmentReports: Schema.optional(
+        Schema.Array(OSPolicyAssignmentReport),
+      ),
+    }),
+  ).annotate({
+    identifier: "ListOSPolicyAssignmentReportsResponse",
+  }) as any as Schema.Schema<ListOSPolicyAssignmentReportsResponse>;
 
 export interface OSPolicyAssignmentLabelSet {
   /** Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected. */
   labels?: Record<string, string>;
 }
 
-export const OSPolicyAssignmentLabelSet: Schema.Schema<OSPolicyAssignmentLabelSet> = Schema.suspend(() => Schema.Struct({
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "OSPolicyAssignmentLabelSet" }) as any as Schema.Schema<OSPolicyAssignmentLabelSet>;
+export const OSPolicyAssignmentLabelSet: Schema.Schema<OSPolicyAssignmentLabelSet> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignmentLabelSet",
+  }) as any as Schema.Schema<OSPolicyAssignmentLabelSet>;
 
 export interface OSPolicyAssignmentInstanceFilterInventory {
   /** Required. The OS short name */
@@ -135,10 +193,15 @@ export interface OSPolicyAssignmentInstanceFilterInventory {
   osVersion?: string;
 }
 
-export const OSPolicyAssignmentInstanceFilterInventory: Schema.Schema<OSPolicyAssignmentInstanceFilterInventory> = Schema.suspend(() => Schema.Struct({
-  osShortName: Schema.optional(Schema.String),
-  osVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyAssignmentInstanceFilterInventory" }) as any as Schema.Schema<OSPolicyAssignmentInstanceFilterInventory>;
+export const OSPolicyAssignmentInstanceFilterInventory: Schema.Schema<OSPolicyAssignmentInstanceFilterInventory> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      osShortName: Schema.optional(Schema.String),
+      osVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignmentInstanceFilterInventory",
+  }) as any as Schema.Schema<OSPolicyAssignmentInstanceFilterInventory>;
 
 export interface OSPolicyAssignmentInstanceFilter {
   /** List of label sets used for VM exclusion. If the list has more than one label set, the VM is excluded if any of the label sets are applicable for the VM. */
@@ -151,12 +214,23 @@ export interface OSPolicyAssignmentInstanceFilter {
   inventories?: Array<OSPolicyAssignmentInstanceFilterInventory>;
 }
 
-export const OSPolicyAssignmentInstanceFilter: Schema.Schema<OSPolicyAssignmentInstanceFilter> = Schema.suspend(() => Schema.Struct({
-  exclusionLabels: Schema.optional(Schema.Array(OSPolicyAssignmentLabelSet)),
-  all: Schema.optional(Schema.Boolean),
-  inclusionLabels: Schema.optional(Schema.Array(OSPolicyAssignmentLabelSet)),
-  inventories: Schema.optional(Schema.Array(OSPolicyAssignmentInstanceFilterInventory)),
-})).annotate({ identifier: "OSPolicyAssignmentInstanceFilter" }) as any as Schema.Schema<OSPolicyAssignmentInstanceFilter>;
+export const OSPolicyAssignmentInstanceFilter: Schema.Schema<OSPolicyAssignmentInstanceFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exclusionLabels: Schema.optional(
+        Schema.Array(OSPolicyAssignmentLabelSet),
+      ),
+      all: Schema.optional(Schema.Boolean),
+      inclusionLabels: Schema.optional(
+        Schema.Array(OSPolicyAssignmentLabelSet),
+      ),
+      inventories: Schema.optional(
+        Schema.Array(OSPolicyAssignmentInstanceFilterInventory),
+      ),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignmentInstanceFilter",
+  }) as any as Schema.Schema<OSPolicyAssignmentInstanceFilter>;
 
 export interface OSPolicyResourceFileRemote {
   /** Required. URI from which to fetch the object. It should contain both the protocol and path following the format `{protocol}://{location}`. */
@@ -165,10 +239,15 @@ export interface OSPolicyResourceFileRemote {
   sha256Checksum?: string;
 }
 
-export const OSPolicyResourceFileRemote: Schema.Schema<OSPolicyResourceFileRemote> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  sha256Checksum: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceFileRemote" }) as any as Schema.Schema<OSPolicyResourceFileRemote>;
+export const OSPolicyResourceFileRemote: Schema.Schema<OSPolicyResourceFileRemote> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+      sha256Checksum: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceFileRemote",
+  }) as any as Schema.Schema<OSPolicyResourceFileRemote>;
 
 export interface OSPolicyResourceFileGcs {
   /** Generation number of the Cloud Storage object. */
@@ -179,11 +258,16 @@ export interface OSPolicyResourceFileGcs {
   bucket?: string;
 }
 
-export const OSPolicyResourceFileGcs: Schema.Schema<OSPolicyResourceFileGcs> = Schema.suspend(() => Schema.Struct({
-  generation: Schema.optional(Schema.String),
-  object: Schema.optional(Schema.String),
-  bucket: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceFileGcs" }) as any as Schema.Schema<OSPolicyResourceFileGcs>;
+export const OSPolicyResourceFileGcs: Schema.Schema<OSPolicyResourceFileGcs> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      generation: Schema.optional(Schema.String),
+      object: Schema.optional(Schema.String),
+      bucket: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceFileGcs",
+  }) as any as Schema.Schema<OSPolicyResourceFileGcs>;
 
 export interface OSPolicyResourceFile {
   /** A generic remote file. */
@@ -196,12 +280,17 @@ export interface OSPolicyResourceFile {
   localPath?: string;
 }
 
-export const OSPolicyResourceFile: Schema.Schema<OSPolicyResourceFile> = Schema.suspend(() => Schema.Struct({
-  remote: Schema.optional(OSPolicyResourceFileRemote),
-  gcs: Schema.optional(OSPolicyResourceFileGcs),
-  allowInsecure: Schema.optional(Schema.Boolean),
-  localPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceFile" }) as any as Schema.Schema<OSPolicyResourceFile>;
+export const OSPolicyResourceFile: Schema.Schema<OSPolicyResourceFile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      remote: Schema.optional(OSPolicyResourceFileRemote),
+      gcs: Schema.optional(OSPolicyResourceFileGcs),
+      allowInsecure: Schema.optional(Schema.Boolean),
+      localPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceFile",
+  }) as any as Schema.Schema<OSPolicyResourceFile>;
 
 export interface OSPolicyResourceExecResourceExec {
   /** A remote or local file. */
@@ -209,20 +298,30 @@ export interface OSPolicyResourceExecResourceExec {
   /** An inline script. The size of the script is limited to 32KiB. */
   script?: string;
   /** Required. The script interpreter to use. */
-  interpreter?: "INTERPRETER_UNSPECIFIED" | "NONE" | "SHELL" | "POWERSHELL" | (string & {});
+  interpreter?:
+    | "INTERPRETER_UNSPECIFIED"
+    | "NONE"
+    | "SHELL"
+    | "POWERSHELL"
+    | (string & {});
   /** Optional arguments to pass to the source during execution. */
   args?: Array<string>;
   /** Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 500K bytes. */
   outputFilePath?: string;
 }
 
-export const OSPolicyResourceExecResourceExec: Schema.Schema<OSPolicyResourceExecResourceExec> = Schema.suspend(() => Schema.Struct({
-  file: Schema.optional(OSPolicyResourceFile),
-  script: Schema.optional(Schema.String),
-  interpreter: Schema.optional(Schema.String),
-  args: Schema.optional(Schema.Array(Schema.String)),
-  outputFilePath: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceExecResourceExec" }) as any as Schema.Schema<OSPolicyResourceExecResourceExec>;
+export const OSPolicyResourceExecResourceExec: Schema.Schema<OSPolicyResourceExecResourceExec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      file: Schema.optional(OSPolicyResourceFile),
+      script: Schema.optional(Schema.String),
+      interpreter: Schema.optional(Schema.String),
+      args: Schema.optional(Schema.Array(Schema.String)),
+      outputFilePath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceExecResourceExec",
+  }) as any as Schema.Schema<OSPolicyResourceExecResourceExec>;
 
 export interface InventoryOsInfo {
   /** The VM hostname. */
@@ -243,16 +342,21 @@ export interface InventoryOsInfo {
   architecture?: string;
 }
 
-export const InventoryOsInfo: Schema.Schema<InventoryOsInfo> = Schema.suspend(() => Schema.Struct({
-  hostname: Schema.optional(Schema.String),
-  longName: Schema.optional(Schema.String),
-  osconfigAgentVersion: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  kernelVersion: Schema.optional(Schema.String),
-  kernelRelease: Schema.optional(Schema.String),
-  shortName: Schema.optional(Schema.String),
-  architecture: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryOsInfo" }) as any as Schema.Schema<InventoryOsInfo>;
+export const InventoryOsInfo: Schema.Schema<InventoryOsInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      hostname: Schema.optional(Schema.String),
+      longName: Schema.optional(Schema.String),
+      osconfigAgentVersion: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      kernelVersion: Schema.optional(Schema.String),
+      kernelRelease: Schema.optional(Schema.String),
+      shortName: Schema.optional(Schema.String),
+      architecture: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "InventoryOsInfo",
+}) as any as Schema.Schema<InventoryOsInfo>;
 
 export interface OSPolicyResourceExecResource {
   /** Required. What to run to validate this resource is in the desired state. An exit code of 100 indicates "in desired state", and exit code of 101 indicates "not in desired state". Any other exit code indicates a failure running validate. */
@@ -261,10 +365,15 @@ export interface OSPolicyResourceExecResource {
   enforce?: OSPolicyResourceExecResourceExec;
 }
 
-export const OSPolicyResourceExecResource: Schema.Schema<OSPolicyResourceExecResource> = Schema.suspend(() => Schema.Struct({
-  validate: Schema.optional(OSPolicyResourceExecResourceExec),
-  enforce: Schema.optional(OSPolicyResourceExecResourceExec),
-})).annotate({ identifier: "OSPolicyResourceExecResource" }) as any as Schema.Schema<OSPolicyResourceExecResource>;
+export const OSPolicyResourceExecResource: Schema.Schema<OSPolicyResourceExecResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      validate: Schema.optional(OSPolicyResourceExecResourceExec),
+      enforce: Schema.optional(OSPolicyResourceExecResourceExec),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceExecResource",
+  }) as any as Schema.Schema<OSPolicyResourceExecResource>;
 
 export interface OSPolicyResourceFileResource {
   /** Required. The absolute path of the file within the VM. */
@@ -276,52 +385,82 @@ export interface OSPolicyResourceFileResource {
   /** A remote or local source. */
   file?: OSPolicyResourceFile;
   /** Required. Desired state of the file. */
-  state?: "DESIRED_STATE_UNSPECIFIED" | "PRESENT" | "ABSENT" | "CONTENTS_MATCH" | (string & {});
+  state?:
+    | "DESIRED_STATE_UNSPECIFIED"
+    | "PRESENT"
+    | "ABSENT"
+    | "CONTENTS_MATCH"
+    | (string & {});
 }
 
-export const OSPolicyResourceFileResource: Schema.Schema<OSPolicyResourceFileResource> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  permissions: Schema.optional(Schema.String),
-  file: Schema.optional(OSPolicyResourceFile),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceFileResource" }) as any as Schema.Schema<OSPolicyResourceFileResource>;
+export const OSPolicyResourceFileResource: Schema.Schema<OSPolicyResourceFileResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      permissions: Schema.optional(Schema.String),
+      file: Schema.optional(OSPolicyResourceFile),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceFileResource",
+  }) as any as Schema.Schema<OSPolicyResourceFileResource>;
 
 export interface OSPolicyResourcePackageResourceGooGet {
   /** Required. Package name. */
   name?: string;
 }
 
-export const OSPolicyResourcePackageResourceGooGet: Schema.Schema<OSPolicyResourcePackageResourceGooGet> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourcePackageResourceGooGet" }) as any as Schema.Schema<OSPolicyResourcePackageResourceGooGet>;
+export const OSPolicyResourcePackageResourceGooGet: Schema.Schema<OSPolicyResourcePackageResourceGooGet> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResourceGooGet",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResourceGooGet>;
 
 export interface OSPolicyResourcePackageResourceYUM {
   /** Required. Package name. */
   name?: string;
 }
 
-export const OSPolicyResourcePackageResourceYUM: Schema.Schema<OSPolicyResourcePackageResourceYUM> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourcePackageResourceYUM" }) as any as Schema.Schema<OSPolicyResourcePackageResourceYUM>;
+export const OSPolicyResourcePackageResourceYUM: Schema.Schema<OSPolicyResourcePackageResourceYUM> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResourceYUM",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResourceYUM>;
 
 export interface OSPolicyResourcePackageResourceZypper {
   /** Required. Package name. */
   name?: string;
 }
 
-export const OSPolicyResourcePackageResourceZypper: Schema.Schema<OSPolicyResourcePackageResourceZypper> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourcePackageResourceZypper" }) as any as Schema.Schema<OSPolicyResourcePackageResourceZypper>;
+export const OSPolicyResourcePackageResourceZypper: Schema.Schema<OSPolicyResourcePackageResourceZypper> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResourceZypper",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResourceZypper>;
 
 export interface OSPolicyResourcePackageResourceAPT {
   /** Required. Package name. */
   name?: string;
 }
 
-export const OSPolicyResourcePackageResourceAPT: Schema.Schema<OSPolicyResourcePackageResourceAPT> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourcePackageResourceAPT" }) as any as Schema.Schema<OSPolicyResourcePackageResourceAPT>;
+export const OSPolicyResourcePackageResourceAPT: Schema.Schema<OSPolicyResourcePackageResourceAPT> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResourceAPT",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResourceAPT>;
 
 export interface OSPolicyResourcePackageResourceDeb {
   /** Required. A deb package. */
@@ -330,10 +469,15 @@ export interface OSPolicyResourcePackageResourceDeb {
   pullDeps?: boolean;
 }
 
-export const OSPolicyResourcePackageResourceDeb: Schema.Schema<OSPolicyResourcePackageResourceDeb> = Schema.suspend(() => Schema.Struct({
-  source: Schema.optional(OSPolicyResourceFile),
-  pullDeps: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "OSPolicyResourcePackageResourceDeb" }) as any as Schema.Schema<OSPolicyResourcePackageResourceDeb>;
+export const OSPolicyResourcePackageResourceDeb: Schema.Schema<OSPolicyResourcePackageResourceDeb> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      source: Schema.optional(OSPolicyResourceFile),
+      pullDeps: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResourceDeb",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResourceDeb>;
 
 export interface OSPolicyResourcePackageResourceMSI {
   /** Additional properties to use during installation. This should be in the format of Property=Setting. Appended to the defaults of `ACTION=INSTALL REBOOT=ReallySuppress`. */
@@ -342,10 +486,15 @@ export interface OSPolicyResourcePackageResourceMSI {
   source?: OSPolicyResourceFile;
 }
 
-export const OSPolicyResourcePackageResourceMSI: Schema.Schema<OSPolicyResourcePackageResourceMSI> = Schema.suspend(() => Schema.Struct({
-  properties: Schema.optional(Schema.Array(Schema.String)),
-  source: Schema.optional(OSPolicyResourceFile),
-})).annotate({ identifier: "OSPolicyResourcePackageResourceMSI" }) as any as Schema.Schema<OSPolicyResourcePackageResourceMSI>;
+export const OSPolicyResourcePackageResourceMSI: Schema.Schema<OSPolicyResourcePackageResourceMSI> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      properties: Schema.optional(Schema.Array(Schema.String)),
+      source: Schema.optional(OSPolicyResourceFile),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResourceMSI",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResourceMSI>;
 
 export interface OSPolicyResourcePackageResourceRPM {
   /** Required. An rpm package. */
@@ -354,10 +503,15 @@ export interface OSPolicyResourcePackageResourceRPM {
   pullDeps?: boolean;
 }
 
-export const OSPolicyResourcePackageResourceRPM: Schema.Schema<OSPolicyResourcePackageResourceRPM> = Schema.suspend(() => Schema.Struct({
-  source: Schema.optional(OSPolicyResourceFile),
-  pullDeps: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "OSPolicyResourcePackageResourceRPM" }) as any as Schema.Schema<OSPolicyResourcePackageResourceRPM>;
+export const OSPolicyResourcePackageResourceRPM: Schema.Schema<OSPolicyResourcePackageResourceRPM> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      source: Schema.optional(OSPolicyResourceFile),
+      pullDeps: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResourceRPM",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResourceRPM>;
 
 export interface OSPolicyResourcePackageResource {
   /** A package managed by GooGet. */
@@ -373,21 +527,30 @@ export interface OSPolicyResourcePackageResource {
   /** An MSI package. */
   msi?: OSPolicyResourcePackageResourceMSI;
   /** Required. The desired state the agent should maintain for this package. */
-  desiredState?: "DESIRED_STATE_UNSPECIFIED" | "INSTALLED" | "REMOVED" | (string & {});
+  desiredState?:
+    | "DESIRED_STATE_UNSPECIFIED"
+    | "INSTALLED"
+    | "REMOVED"
+    | (string & {});
   /** An rpm package file. */
   rpm?: OSPolicyResourcePackageResourceRPM;
 }
 
-export const OSPolicyResourcePackageResource: Schema.Schema<OSPolicyResourcePackageResource> = Schema.suspend(() => Schema.Struct({
-  googet: Schema.optional(OSPolicyResourcePackageResourceGooGet),
-  yum: Schema.optional(OSPolicyResourcePackageResourceYUM),
-  zypper: Schema.optional(OSPolicyResourcePackageResourceZypper),
-  apt: Schema.optional(OSPolicyResourcePackageResourceAPT),
-  deb: Schema.optional(OSPolicyResourcePackageResourceDeb),
-  msi: Schema.optional(OSPolicyResourcePackageResourceMSI),
-  desiredState: Schema.optional(Schema.String),
-  rpm: Schema.optional(OSPolicyResourcePackageResourceRPM),
-})).annotate({ identifier: "OSPolicyResourcePackageResource" }) as any as Schema.Schema<OSPolicyResourcePackageResource>;
+export const OSPolicyResourcePackageResource: Schema.Schema<OSPolicyResourcePackageResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      googet: Schema.optional(OSPolicyResourcePackageResourceGooGet),
+      yum: Schema.optional(OSPolicyResourcePackageResourceYUM),
+      zypper: Schema.optional(OSPolicyResourcePackageResourceZypper),
+      apt: Schema.optional(OSPolicyResourcePackageResourceAPT),
+      deb: Schema.optional(OSPolicyResourcePackageResourceDeb),
+      msi: Schema.optional(OSPolicyResourcePackageResourceMSI),
+      desiredState: Schema.optional(Schema.String),
+      rpm: Schema.optional(OSPolicyResourcePackageResourceRPM),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourcePackageResource",
+  }) as any as Schema.Schema<OSPolicyResourcePackageResource>;
 
 export interface OSPolicyResourceRepositoryResourceAptRepository {
   /** Required. Distribution of this repository. */
@@ -402,13 +565,18 @@ export interface OSPolicyResourceRepositoryResourceAptRepository {
   gpgKey?: string;
 }
 
-export const OSPolicyResourceRepositoryResourceAptRepository: Schema.Schema<OSPolicyResourceRepositoryResourceAptRepository> = Schema.suspend(() => Schema.Struct({
-  distribution: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  archiveType: Schema.optional(Schema.String),
-  components: Schema.optional(Schema.Array(Schema.String)),
-  gpgKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceRepositoryResourceAptRepository" }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceAptRepository>;
+export const OSPolicyResourceRepositoryResourceAptRepository: Schema.Schema<OSPolicyResourceRepositoryResourceAptRepository> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      distribution: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      archiveType: Schema.optional(Schema.String),
+      components: Schema.optional(Schema.Array(Schema.String)),
+      gpgKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceRepositoryResourceAptRepository",
+  }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceAptRepository>;
 
 export interface OSPolicyResourceRepositoryResourceGooRepository {
   /** Required. The name of the repository. */
@@ -417,10 +585,15 @@ export interface OSPolicyResourceRepositoryResourceGooRepository {
   url?: string;
 }
 
-export const OSPolicyResourceRepositoryResourceGooRepository: Schema.Schema<OSPolicyResourceRepositoryResourceGooRepository> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceRepositoryResourceGooRepository" }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceGooRepository>;
+export const OSPolicyResourceRepositoryResourceGooRepository: Schema.Schema<OSPolicyResourceRepositoryResourceGooRepository> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceRepositoryResourceGooRepository",
+  }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceGooRepository>;
 
 export interface OSPolicyResourceRepositoryResourceYumRepository {
   /** Required. The location of the repository directory. */
@@ -433,12 +606,17 @@ export interface OSPolicyResourceRepositoryResourceYumRepository {
   id?: string;
 }
 
-export const OSPolicyResourceRepositoryResourceYumRepository: Schema.Schema<OSPolicyResourceRepositoryResourceYumRepository> = Schema.suspend(() => Schema.Struct({
-  baseUrl: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  gpgKeys: Schema.optional(Schema.Array(Schema.String)),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceRepositoryResourceYumRepository" }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceYumRepository>;
+export const OSPolicyResourceRepositoryResourceYumRepository: Schema.Schema<OSPolicyResourceRepositoryResourceYumRepository> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      baseUrl: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      gpgKeys: Schema.optional(Schema.Array(Schema.String)),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceRepositoryResourceYumRepository",
+  }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceYumRepository>;
 
 export interface OSPolicyResourceRepositoryResourceZypperRepository {
   /** Required. The location of the repository directory. */
@@ -451,12 +629,17 @@ export interface OSPolicyResourceRepositoryResourceZypperRepository {
   id?: string;
 }
 
-export const OSPolicyResourceRepositoryResourceZypperRepository: Schema.Schema<OSPolicyResourceRepositoryResourceZypperRepository> = Schema.suspend(() => Schema.Struct({
-  baseUrl: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  gpgKeys: Schema.optional(Schema.Array(Schema.String)),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyResourceRepositoryResourceZypperRepository" }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceZypperRepository>;
+export const OSPolicyResourceRepositoryResourceZypperRepository: Schema.Schema<OSPolicyResourceRepositoryResourceZypperRepository> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      baseUrl: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      gpgKeys: Schema.optional(Schema.Array(Schema.String)),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceRepositoryResourceZypperRepository",
+  }) as any as Schema.Schema<OSPolicyResourceRepositoryResourceZypperRepository>;
 
 export interface OSPolicyResourceRepositoryResource {
   /** An Apt Repository. */
@@ -469,12 +652,19 @@ export interface OSPolicyResourceRepositoryResource {
   zypper?: OSPolicyResourceRepositoryResourceZypperRepository;
 }
 
-export const OSPolicyResourceRepositoryResource: Schema.Schema<OSPolicyResourceRepositoryResource> = Schema.suspend(() => Schema.Struct({
-  apt: Schema.optional(OSPolicyResourceRepositoryResourceAptRepository),
-  goo: Schema.optional(OSPolicyResourceRepositoryResourceGooRepository),
-  yum: Schema.optional(OSPolicyResourceRepositoryResourceYumRepository),
-  zypper: Schema.optional(OSPolicyResourceRepositoryResourceZypperRepository),
-})).annotate({ identifier: "OSPolicyResourceRepositoryResource" }) as any as Schema.Schema<OSPolicyResourceRepositoryResource>;
+export const OSPolicyResourceRepositoryResource: Schema.Schema<OSPolicyResourceRepositoryResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      apt: Schema.optional(OSPolicyResourceRepositoryResourceAptRepository),
+      goo: Schema.optional(OSPolicyResourceRepositoryResourceGooRepository),
+      yum: Schema.optional(OSPolicyResourceRepositoryResourceYumRepository),
+      zypper: Schema.optional(
+        OSPolicyResourceRepositoryResourceZypperRepository,
+      ),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceRepositoryResource",
+  }) as any as Schema.Schema<OSPolicyResourceRepositoryResource>;
 
 export interface OSPolicyResource {
   /** Exec resource */
@@ -489,13 +679,18 @@ export interface OSPolicyResource {
   repository?: OSPolicyResourceRepositoryResource;
 }
 
-export const OSPolicyResource: Schema.Schema<OSPolicyResource> = Schema.suspend(() => Schema.Struct({
-  exec: Schema.optional(OSPolicyResourceExecResource),
-  file: Schema.optional(OSPolicyResourceFileResource),
-  pkg: Schema.optional(OSPolicyResourcePackageResource),
-  id: Schema.optional(Schema.String),
-  repository: Schema.optional(OSPolicyResourceRepositoryResource),
-})).annotate({ identifier: "OSPolicyResource" }) as any as Schema.Schema<OSPolicyResource>;
+export const OSPolicyResource: Schema.Schema<OSPolicyResource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      exec: Schema.optional(OSPolicyResourceExecResource),
+      file: Schema.optional(OSPolicyResourceFileResource),
+      pkg: Schema.optional(OSPolicyResourcePackageResource),
+      id: Schema.optional(Schema.String),
+      repository: Schema.optional(OSPolicyResourceRepositoryResource),
+    }),
+).annotate({
+  identifier: "OSPolicyResource",
+}) as any as Schema.Schema<OSPolicyResource>;
 
 export interface FixedOrPercent {
   /** Specifies a fixed value. */
@@ -504,10 +699,15 @@ export interface FixedOrPercent {
   percent?: number;
 }
 
-export const FixedOrPercent: Schema.Schema<FixedOrPercent> = Schema.suspend(() => Schema.Struct({
-  fixed: Schema.optional(Schema.Number),
-  percent: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FixedOrPercent" }) as any as Schema.Schema<FixedOrPercent>;
+export const FixedOrPercent: Schema.Schema<FixedOrPercent> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      fixed: Schema.optional(Schema.Number),
+      percent: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "FixedOrPercent",
+}) as any as Schema.Schema<FixedOrPercent>;
 
 export interface OSPolicyAssignmentRollout {
   /** Required. This determines the minimum duration of time to wait after the configuration changes are applied through the current rollout. A VM continues to count towards the `disruption_budget` at least until this duration of time has passed after configuration changes are applied. */
@@ -516,10 +716,15 @@ export interface OSPolicyAssignmentRollout {
   disruptionBudget?: FixedOrPercent;
 }
 
-export const OSPolicyAssignmentRollout: Schema.Schema<OSPolicyAssignmentRollout> = Schema.suspend(() => Schema.Struct({
-  minWaitDuration: Schema.optional(Schema.String),
-  disruptionBudget: Schema.optional(FixedOrPercent),
-})).annotate({ identifier: "OSPolicyAssignmentRollout" }) as any as Schema.Schema<OSPolicyAssignmentRollout>;
+export const OSPolicyAssignmentRollout: Schema.Schema<OSPolicyAssignmentRollout> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      minWaitDuration: Schema.optional(Schema.String),
+      disruptionBudget: Schema.optional(FixedOrPercent),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignmentRollout",
+  }) as any as Schema.Schema<OSPolicyAssignmentRollout>;
 
 export interface OSPolicyInventoryFilter {
   /** Required. The OS short name */
@@ -528,10 +733,15 @@ export interface OSPolicyInventoryFilter {
   osVersion?: string;
 }
 
-export const OSPolicyInventoryFilter: Schema.Schema<OSPolicyInventoryFilter> = Schema.suspend(() => Schema.Struct({
-  osShortName: Schema.optional(Schema.String),
-  osVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyInventoryFilter" }) as any as Schema.Schema<OSPolicyInventoryFilter>;
+export const OSPolicyInventoryFilter: Schema.Schema<OSPolicyInventoryFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      osShortName: Schema.optional(Schema.String),
+      osVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyInventoryFilter",
+  }) as any as Schema.Schema<OSPolicyInventoryFilter>;
 
 export interface OSPolicyResourceGroup {
   /** List of inventory filters for the resource group. The resources in this resource group are applied to the target VM if it satisfies at least one of the following inventory filters. For example, to apply this resource group to VMs running either `RHEL` or `CentOS` operating systems, specify 2 items for the list with following values: inventory_filters[0].os_short_name='rhel' and inventory_filters[1].os_short_name='centos' If the list is empty, this resource group will be applied to the target VM unconditionally. */
@@ -540,10 +750,15 @@ export interface OSPolicyResourceGroup {
   resources?: Array<OSPolicyResource>;
 }
 
-export const OSPolicyResourceGroup: Schema.Schema<OSPolicyResourceGroup> = Schema.suspend(() => Schema.Struct({
-  inventoryFilters: Schema.optional(Schema.Array(OSPolicyInventoryFilter)),
-  resources: Schema.optional(Schema.Array(OSPolicyResource)),
-})).annotate({ identifier: "OSPolicyResourceGroup" }) as any as Schema.Schema<OSPolicyResourceGroup>;
+export const OSPolicyResourceGroup: Schema.Schema<OSPolicyResourceGroup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inventoryFilters: Schema.optional(Schema.Array(OSPolicyInventoryFilter)),
+      resources: Schema.optional(Schema.Array(OSPolicyResource)),
+    }),
+  ).annotate({
+    identifier: "OSPolicyResourceGroup",
+  }) as any as Schema.Schema<OSPolicyResourceGroup>;
 
 export interface OSPolicy {
   /** This flag determines the OS policy compliance status when none of the resource groups within the policy are applicable for a VM. Set this value to `true` if the policy needs to be reported as compliant even if the policy has nothing to validate or enforce. */
@@ -558,13 +773,15 @@ export interface OSPolicy {
   resourceGroups?: Array<OSPolicyResourceGroup>;
 }
 
-export const OSPolicy: Schema.Schema<OSPolicy> = Schema.suspend(() => Schema.Struct({
-  allowNoResourceGroupMatch: Schema.optional(Schema.Boolean),
-  id: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  resourceGroups: Schema.optional(Schema.Array(OSPolicyResourceGroup)),
-})).annotate({ identifier: "OSPolicy" }) as any as Schema.Schema<OSPolicy>;
+export const OSPolicy: Schema.Schema<OSPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    allowNoResourceGroupMatch: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.String),
+    mode: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    resourceGroups: Schema.optional(Schema.Array(OSPolicyResourceGroup)),
+  }),
+).annotate({ identifier: "OSPolicy" }) as any as Schema.Schema<OSPolicy>;
 
 export interface OSPolicyAssignment {
   /** Required. Filter to select VMs. */
@@ -584,7 +801,13 @@ export interface OSPolicyAssignment {
   /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
   baseline?: boolean;
   /** Output only. OS policy assignment rollout state */
-  rolloutState?: "ROLLOUT_STATE_UNSPECIFIED" | "IN_PROGRESS" | "CANCELLING" | "CANCELLED" | "SUCCEEDED" | (string & {});
+  rolloutState?:
+    | "ROLLOUT_STATE_UNSPECIFIED"
+    | "IN_PROGRESS"
+    | "CANCELLING"
+    | "CANCELLED"
+    | "SUCCEEDED"
+    | (string & {});
   /** Required. List of OS policies to be applied to the VMs. */
   osPolicies?: Array<OSPolicy>;
   /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
@@ -595,21 +818,26 @@ export interface OSPolicyAssignment {
   revisionCreateTime?: string;
 }
 
-export const OSPolicyAssignment: Schema.Schema<OSPolicyAssignment> = Schema.suspend(() => Schema.Struct({
-  instanceFilter: Schema.optional(OSPolicyAssignmentInstanceFilter),
-  revisionId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  deleted: Schema.optional(Schema.Boolean),
-  rollout: Schema.optional(OSPolicyAssignmentRollout),
-  etag: Schema.optional(Schema.String),
-  baseline: Schema.optional(Schema.Boolean),
-  rolloutState: Schema.optional(Schema.String),
-  osPolicies: Schema.optional(Schema.Array(OSPolicy)),
-  reconciling: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  revisionCreateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyAssignment" }) as any as Schema.Schema<OSPolicyAssignment>;
+export const OSPolicyAssignment: Schema.Schema<OSPolicyAssignment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instanceFilter: Schema.optional(OSPolicyAssignmentInstanceFilter),
+      revisionId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      deleted: Schema.optional(Schema.Boolean),
+      rollout: Schema.optional(OSPolicyAssignmentRollout),
+      etag: Schema.optional(Schema.String),
+      baseline: Schema.optional(Schema.Boolean),
+      rolloutState: Schema.optional(Schema.String),
+      osPolicies: Schema.optional(Schema.Array(OSPolicy)),
+      reconciling: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      revisionCreateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignment",
+  }) as any as Schema.Schema<OSPolicyAssignment>;
 
 export interface YumSettings {
   /** Will cause patch to run `yum update-minimal` instead. */
@@ -622,12 +850,14 @@ export interface YumSettings {
   exclusivePackages?: Array<string>;
 }
 
-export const YumSettings: Schema.Schema<YumSettings> = Schema.suspend(() => Schema.Struct({
-  minimal: Schema.optional(Schema.Boolean),
-  excludes: Schema.optional(Schema.Array(Schema.String)),
-  security: Schema.optional(Schema.Boolean),
-  exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "YumSettings" }) as any as Schema.Schema<YumSettings>;
+export const YumSettings: Schema.Schema<YumSettings> = Schema.suspend(() =>
+  Schema.Struct({
+    minimal: Schema.optional(Schema.Boolean),
+    excludes: Schema.optional(Schema.Array(Schema.String)),
+    security: Schema.optional(Schema.Boolean),
+    exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "YumSettings" }) as any as Schema.Schema<YumSettings>;
 
 export interface VulnerabilityReportVulnerabilityDetailsReference {
   /** The url of the reference. */
@@ -636,49 +866,94 @@ export interface VulnerabilityReportVulnerabilityDetailsReference {
   source?: string;
 }
 
-export const VulnerabilityReportVulnerabilityDetailsReference: Schema.Schema<VulnerabilityReportVulnerabilityDetailsReference> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-})).annotate({ identifier: "VulnerabilityReportVulnerabilityDetailsReference" }) as any as Schema.Schema<VulnerabilityReportVulnerabilityDetailsReference>;
+export const VulnerabilityReportVulnerabilityDetailsReference: Schema.Schema<VulnerabilityReportVulnerabilityDetailsReference> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      source: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VulnerabilityReportVulnerabilityDetailsReference",
+  }) as any as Schema.Schema<VulnerabilityReportVulnerabilityDetailsReference>;
 
 export interface CVSSv3 {
   /** The Scope metric captures whether a vulnerability in one vulnerable component impacts resources in components beyond its security scope. */
-  scope?: "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED" | (string & {});
+  scope?:
+    | "SCOPE_UNSPECIFIED"
+    | "SCOPE_UNCHANGED"
+    | "SCOPE_CHANGED"
+    | (string & {});
   /** The base score is a function of the base metric scores. https://www.first.org/cvss/specification-document#Base-Metrics */
   baseScore?: number;
   /** This metric measures the impact to the availability of the impacted component resulting from a successfully exploited vulnerability. */
-  availabilityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  availabilityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
   /** This metric measures the impact to the confidentiality of the information resources managed by a software component due to a successfully exploited vulnerability. */
-  confidentialityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  confidentialityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
   /** This metric measures the impact to integrity of a successfully exploited vulnerability. */
-  integrityImpact?: "IMPACT_UNSPECIFIED" | "IMPACT_HIGH" | "IMPACT_LOW" | "IMPACT_NONE" | (string & {});
+  integrityImpact?:
+    | "IMPACT_UNSPECIFIED"
+    | "IMPACT_HIGH"
+    | "IMPACT_LOW"
+    | "IMPACT_NONE"
+    | (string & {});
   /** The Impact sub-score equation is derived from the Base Impact metrics. */
   impactScore?: number;
   /** This metric describes the level of privileges an attacker must possess before successfully exploiting the vulnerability. */
-  privilegesRequired?: "PRIVILEGES_REQUIRED_UNSPECIFIED" | "PRIVILEGES_REQUIRED_NONE" | "PRIVILEGES_REQUIRED_LOW" | "PRIVILEGES_REQUIRED_HIGH" | (string & {});
+  privilegesRequired?:
+    | "PRIVILEGES_REQUIRED_UNSPECIFIED"
+    | "PRIVILEGES_REQUIRED_NONE"
+    | "PRIVILEGES_REQUIRED_LOW"
+    | "PRIVILEGES_REQUIRED_HIGH"
+    | (string & {});
   /** This metric captures the requirement for a human user, other than the attacker, to participate in the successful compromise of the vulnerable component. */
-  userInteraction?: "USER_INTERACTION_UNSPECIFIED" | "USER_INTERACTION_NONE" | "USER_INTERACTION_REQUIRED" | (string & {});
+  userInteraction?:
+    | "USER_INTERACTION_UNSPECIFIED"
+    | "USER_INTERACTION_NONE"
+    | "USER_INTERACTION_REQUIRED"
+    | (string & {});
   /** This metric reflects the context by which vulnerability exploitation is possible. */
-  attackVector?: "ATTACK_VECTOR_UNSPECIFIED" | "ATTACK_VECTOR_NETWORK" | "ATTACK_VECTOR_ADJACENT" | "ATTACK_VECTOR_LOCAL" | "ATTACK_VECTOR_PHYSICAL" | (string & {});
+  attackVector?:
+    | "ATTACK_VECTOR_UNSPECIFIED"
+    | "ATTACK_VECTOR_NETWORK"
+    | "ATTACK_VECTOR_ADJACENT"
+    | "ATTACK_VECTOR_LOCAL"
+    | "ATTACK_VECTOR_PHYSICAL"
+    | (string & {});
   /** This metric describes the conditions beyond the attacker's control that must exist in order to exploit the vulnerability. */
-  attackComplexity?: "ATTACK_COMPLEXITY_UNSPECIFIED" | "ATTACK_COMPLEXITY_LOW" | "ATTACK_COMPLEXITY_HIGH" | (string & {});
+  attackComplexity?:
+    | "ATTACK_COMPLEXITY_UNSPECIFIED"
+    | "ATTACK_COMPLEXITY_LOW"
+    | "ATTACK_COMPLEXITY_HIGH"
+    | (string & {});
   /** The Exploitability sub-score equation is derived from the Base Exploitability metrics. https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics */
   exploitabilityScore?: number;
 }
 
-export const CVSSv3: Schema.Schema<CVSSv3> = Schema.suspend(() => Schema.Struct({
-  scope: Schema.optional(Schema.String),
-  baseScore: Schema.optional(Schema.Number),
-  availabilityImpact: Schema.optional(Schema.String),
-  confidentialityImpact: Schema.optional(Schema.String),
-  integrityImpact: Schema.optional(Schema.String),
-  impactScore: Schema.optional(Schema.Number),
-  privilegesRequired: Schema.optional(Schema.String),
-  userInteraction: Schema.optional(Schema.String),
-  attackVector: Schema.optional(Schema.String),
-  attackComplexity: Schema.optional(Schema.String),
-  exploitabilityScore: Schema.optional(Schema.Number),
-})).annotate({ identifier: "CVSSv3" }) as any as Schema.Schema<CVSSv3>;
+export const CVSSv3: Schema.Schema<CVSSv3> = Schema.suspend(() =>
+  Schema.Struct({
+    scope: Schema.optional(Schema.String),
+    baseScore: Schema.optional(Schema.Number),
+    availabilityImpact: Schema.optional(Schema.String),
+    confidentialityImpact: Schema.optional(Schema.String),
+    integrityImpact: Schema.optional(Schema.String),
+    impactScore: Schema.optional(Schema.Number),
+    privilegesRequired: Schema.optional(Schema.String),
+    userInteraction: Schema.optional(Schema.String),
+    attackVector: Schema.optional(Schema.String),
+    attackComplexity: Schema.optional(Schema.String),
+    exploitabilityScore: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "CVSSv3" }) as any as Schema.Schema<CVSSv3>;
 
 export interface VulnerabilityReportVulnerabilityDetails {
   /** The note or description describing the vulnerability from the distro. */
@@ -695,14 +970,21 @@ export interface VulnerabilityReportVulnerabilityDetails {
   cve?: string;
 }
 
-export const VulnerabilityReportVulnerabilityDetails: Schema.Schema<VulnerabilityReportVulnerabilityDetails> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  references: Schema.optional(Schema.Array(VulnerabilityReportVulnerabilityDetailsReference)),
-  cvssV3: Schema.optional(CVSSv3),
-  cvssV2Score: Schema.optional(Schema.Number),
-  cve: Schema.optional(Schema.String),
-})).annotate({ identifier: "VulnerabilityReportVulnerabilityDetails" }) as any as Schema.Schema<VulnerabilityReportVulnerabilityDetails>;
+export const VulnerabilityReportVulnerabilityDetails: Schema.Schema<VulnerabilityReportVulnerabilityDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      references: Schema.optional(
+        Schema.Array(VulnerabilityReportVulnerabilityDetailsReference),
+      ),
+      cvssV3: Schema.optional(CVSSv3),
+      cvssV2Score: Schema.optional(Schema.Number),
+      cve: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VulnerabilityReportVulnerabilityDetails",
+  }) as any as Schema.Schema<VulnerabilityReportVulnerabilityDetails>;
 
 export interface VulnerabilityReportVulnerabilityItem {
   /** Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. If there is no available fix, the field is empty. The `inventory_item` value specifies the latest `SoftwarePackage` available to the VM that fixes the vulnerability. */
@@ -715,12 +997,17 @@ export interface VulnerabilityReportVulnerabilityItem {
   upstreamFix?: string;
 }
 
-export const VulnerabilityReportVulnerabilityItem: Schema.Schema<VulnerabilityReportVulnerabilityItem> = Schema.suspend(() => Schema.Struct({
-  availableInventoryItemId: Schema.optional(Schema.String),
-  installedInventoryItemId: Schema.optional(Schema.String),
-  fixedCpeUri: Schema.optional(Schema.String),
-  upstreamFix: Schema.optional(Schema.String),
-})).annotate({ identifier: "VulnerabilityReportVulnerabilityItem" }) as any as Schema.Schema<VulnerabilityReportVulnerabilityItem>;
+export const VulnerabilityReportVulnerabilityItem: Schema.Schema<VulnerabilityReportVulnerabilityItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      availableInventoryItemId: Schema.optional(Schema.String),
+      installedInventoryItemId: Schema.optional(Schema.String),
+      fixedCpeUri: Schema.optional(Schema.String),
+      upstreamFix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VulnerabilityReportVulnerabilityItem",
+  }) as any as Schema.Schema<VulnerabilityReportVulnerabilityItem>;
 
 export interface VulnerabilityReportVulnerability {
   /** Contains metadata as per the upstream feed of the operating system and NVD. */
@@ -737,14 +1024,21 @@ export interface VulnerabilityReportVulnerability {
   items?: Array<VulnerabilityReportVulnerabilityItem>;
 }
 
-export const VulnerabilityReportVulnerability: Schema.Schema<VulnerabilityReportVulnerability> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(VulnerabilityReportVulnerabilityDetails),
-  createTime: Schema.optional(Schema.String),
-  availableInventoryItemIds: Schema.optional(Schema.Array(Schema.String)),
-  updateTime: Schema.optional(Schema.String),
-  installedInventoryItemIds: Schema.optional(Schema.Array(Schema.String)),
-  items: Schema.optional(Schema.Array(VulnerabilityReportVulnerabilityItem)),
-})).annotate({ identifier: "VulnerabilityReportVulnerability" }) as any as Schema.Schema<VulnerabilityReportVulnerability>;
+export const VulnerabilityReportVulnerability: Schema.Schema<VulnerabilityReportVulnerability> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(VulnerabilityReportVulnerabilityDetails),
+      createTime: Schema.optional(Schema.String),
+      availableInventoryItemIds: Schema.optional(Schema.Array(Schema.String)),
+      updateTime: Schema.optional(Schema.String),
+      installedInventoryItemIds: Schema.optional(Schema.Array(Schema.String)),
+      items: Schema.optional(
+        Schema.Array(VulnerabilityReportVulnerabilityItem),
+      ),
+    }),
+  ).annotate({
+    identifier: "VulnerabilityReportVulnerability",
+  }) as any as Schema.Schema<VulnerabilityReportVulnerability>;
 
 export interface VulnerabilityReport {
   /** Output only. The `vulnerabilityReport` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/vulnerabilityReport` */
@@ -754,15 +1048,30 @@ export interface VulnerabilityReport {
   /** Output only. List of vulnerabilities affecting the VM. */
   vulnerabilities?: Array<VulnerabilityReportVulnerability>;
   /** Output only. Highest level of severity among all the upgradable vulnerabilities with CVEs attached. */
-  highestUpgradableCveSeverity?: "VULNERABILITY_SEVERITY_LEVEL_UNSPECIFIED" | "NONE" | "MINIMAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
+  highestUpgradableCveSeverity?:
+    | "VULNERABILITY_SEVERITY_LEVEL_UNSPECIFIED"
+    | "NONE"
+    | "MINIMAL"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | (string & {});
 }
 
-export const VulnerabilityReport: Schema.Schema<VulnerabilityReport> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  vulnerabilities: Schema.optional(Schema.Array(VulnerabilityReportVulnerability)),
-  highestUpgradableCveSeverity: Schema.optional(Schema.String),
-})).annotate({ identifier: "VulnerabilityReport" }) as any as Schema.Schema<VulnerabilityReport>;
+export const VulnerabilityReport: Schema.Schema<VulnerabilityReport> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      vulnerabilities: Schema.optional(
+        Schema.Array(VulnerabilityReportVulnerability),
+      ),
+      highestUpgradableCveSeverity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VulnerabilityReport",
+  }) as any as Schema.Schema<VulnerabilityReport>;
 
 export interface GcsObject {
   /** Required. Name of the Cloud Storage object. */
@@ -773,11 +1082,13 @@ export interface GcsObject {
   generationNumber?: string;
 }
 
-export const GcsObject: Schema.Schema<GcsObject> = Schema.suspend(() => Schema.Struct({
-  object: Schema.optional(Schema.String),
-  bucket: Schema.optional(Schema.String),
-  generationNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "GcsObject" }) as any as Schema.Schema<GcsObject>;
+export const GcsObject: Schema.Schema<GcsObject> = Schema.suspend(() =>
+  Schema.Struct({
+    object: Schema.optional(Schema.String),
+    bucket: Schema.optional(Schema.String),
+    generationNumber: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GcsObject" }) as any as Schema.Schema<GcsObject>;
 
 export interface TimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
@@ -786,10 +1097,12 @@ export interface TimeZone {
   version?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface InventoryZypperPatch {
   /** The category of the patch. */
@@ -802,12 +1115,17 @@ export interface InventoryZypperPatch {
   severity?: string;
 }
 
-export const InventoryZypperPatch: Schema.Schema<InventoryZypperPatch> = Schema.suspend(() => Schema.Struct({
-  category: Schema.optional(Schema.String),
-  summary: Schema.optional(Schema.String),
-  patchName: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryZypperPatch" }) as any as Schema.Schema<InventoryZypperPatch>;
+export const InventoryZypperPatch: Schema.Schema<InventoryZypperPatch> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      category: Schema.optional(Schema.String),
+      summary: Schema.optional(Schema.String),
+      patchName: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InventoryZypperPatch",
+  }) as any as Schema.Schema<InventoryZypperPatch>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -818,11 +1136,15 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
@@ -837,13 +1159,15 @@ export interface Operation {
   error?: Status;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
@@ -854,11 +1178,16 @@ export interface ListOperationsResponse {
   nextPageToken?: string;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
 export interface TimeOfDay {
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
@@ -871,12 +1200,14 @@ export interface TimeOfDay {
   nanos?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() => Schema.Struct({
-  hours: Schema.optional(Schema.Number),
-  seconds: Schema.optional(Schema.Number),
-  minutes: Schema.optional(Schema.Number),
-  nanos: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
+  Schema.Struct({
+    hours: Schema.optional(Schema.Number),
+    seconds: Schema.optional(Schema.Number),
+    minutes: Schema.optional(Schema.Number),
+    nanos: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface ExecStepConfig {
   /** An absolute path to the executable on the VM. */
@@ -884,17 +1215,27 @@ export interface ExecStepConfig {
   /** Defaults to [0]. A list of possible return values that the execution can return to indicate a success. */
   allowedSuccessCodes?: Array<number>;
   /** The script interpreter to use to run the script. If no interpreter is specified the script will be executed directly, which will likely only succeed for scripts with [shebang lines] (https://en.wikipedia.org/wiki/Shebang_\(Unix\)). */
-  interpreter?: "INTERPRETER_UNSPECIFIED" | "NONE" | "SHELL" | "POWERSHELL" | (string & {});
+  interpreter?:
+    | "INTERPRETER_UNSPECIFIED"
+    | "NONE"
+    | "SHELL"
+    | "POWERSHELL"
+    | (string & {});
   /** A Cloud Storage object containing the executable. */
   gcsObject?: GcsObject;
 }
 
-export const ExecStepConfig: Schema.Schema<ExecStepConfig> = Schema.suspend(() => Schema.Struct({
-  localPath: Schema.optional(Schema.String),
-  allowedSuccessCodes: Schema.optional(Schema.Array(Schema.Number)),
-  interpreter: Schema.optional(Schema.String),
-  gcsObject: Schema.optional(GcsObject),
-})).annotate({ identifier: "ExecStepConfig" }) as any as Schema.Schema<ExecStepConfig>;
+export const ExecStepConfig: Schema.Schema<ExecStepConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      localPath: Schema.optional(Schema.String),
+      allowedSuccessCodes: Schema.optional(Schema.Array(Schema.Number)),
+      interpreter: Schema.optional(Schema.String),
+      gcsObject: Schema.optional(GcsObject),
+    }),
+).annotate({
+  identifier: "ExecStepConfig",
+}) as any as Schema.Schema<ExecStepConfig>;
 
 export interface AptSettings {
   /** An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. This field cannot be specified with any other patch configuration fields. */
@@ -905,17 +1246,19 @@ export interface AptSettings {
   excludes?: Array<string>;
 }
 
-export const AptSettings: Schema.Schema<AptSettings> = Schema.suspend(() => Schema.Struct({
-  exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
-  type: Schema.optional(Schema.String),
-  excludes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AptSettings" }) as any as Schema.Schema<AptSettings>;
+export const AptSettings: Schema.Schema<AptSettings> = Schema.suspend(() =>
+  Schema.Struct({
+    exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
+    type: Schema.optional(Schema.String),
+    excludes: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "AptSettings" }) as any as Schema.Schema<AptSettings>;
 
-export interface MessageSet {
-}
+export interface MessageSet {}
 
-export const MessageSet: Schema.Schema<MessageSet> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MessageSet" }) as any as Schema.Schema<MessageSet>;
+export const MessageSet: Schema.Schema<MessageSet> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "MessageSet" }) as any as Schema.Schema<MessageSet>;
 
 export interface StatusProto {
   /** copybara:strip_begin(b/383363683) copybara:strip_end_and_replace optional int32 canonical_code = 6; */
@@ -930,37 +1273,61 @@ export interface StatusProto {
   message?: string;
 }
 
-export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() => Schema.Struct({
-  canonicalCode: Schema.optional(Schema.Number),
-  space: Schema.optional(Schema.String),
-  messageSet: Schema.optional(MessageSet),
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "StatusProto" }) as any as Schema.Schema<StatusProto>;
+export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() =>
+  Schema.Struct({
+    canonicalCode: Schema.optional(Schema.Number),
+    space: Schema.optional(Schema.String),
+    messageSet: Schema.optional(MessageSet),
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "StatusProto" }) as any as Schema.Schema<StatusProto>;
 
 export interface WindowsUpdateSettings {
   /** Only apply updates of these windows update classifications. If empty, all updates are applied. */
-  classifications?: Array<"CLASSIFICATION_UNSPECIFIED" | "CRITICAL" | "SECURITY" | "DEFINITION" | "DRIVER" | "FEATURE_PACK" | "SERVICE_PACK" | "TOOL" | "UPDATE_ROLLUP" | "UPDATE" | (string & {})>;
+  classifications?: Array<
+    | "CLASSIFICATION_UNSPECIFIED"
+    | "CRITICAL"
+    | "SECURITY"
+    | "DEFINITION"
+    | "DRIVER"
+    | "FEATURE_PACK"
+    | "SERVICE_PACK"
+    | "TOOL"
+    | "UPDATE_ROLLUP"
+    | "UPDATE"
+    | (string & {})
+  >;
   /** List of KBs to exclude from update. */
   excludes?: Array<string>;
   /** An exclusive list of kbs to be updated. These are the only patches that will be updated. This field must not be used with other patch configurations. */
   exclusivePatches?: Array<string>;
 }
 
-export const WindowsUpdateSettings: Schema.Schema<WindowsUpdateSettings> = Schema.suspend(() => Schema.Struct({
-  classifications: Schema.optional(Schema.Array(Schema.String)),
-  excludes: Schema.optional(Schema.Array(Schema.String)),
-  exclusivePatches: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "WindowsUpdateSettings" }) as any as Schema.Schema<WindowsUpdateSettings>;
+export const WindowsUpdateSettings: Schema.Schema<WindowsUpdateSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      classifications: Schema.optional(Schema.Array(Schema.String)),
+      excludes: Schema.optional(Schema.Array(Schema.String)),
+      exclusivePatches: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "WindowsUpdateSettings",
+  }) as any as Schema.Schema<WindowsUpdateSettings>;
 
 export interface OneTimeSchedule {
   /** Required. The desired patch job execution time. */
   executeTime?: string;
 }
 
-export const OneTimeSchedule: Schema.Schema<OneTimeSchedule> = Schema.suspend(() => Schema.Struct({
-  executeTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "OneTimeSchedule" }) as any as Schema.Schema<OneTimeSchedule>;
+export const OneTimeSchedule: Schema.Schema<OneTimeSchedule> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      executeTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "OneTimeSchedule",
+}) as any as Schema.Schema<OneTimeSchedule>;
 
 export interface Osconfig_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -971,11 +1338,15 @@ export interface Osconfig_Date {
   month?: number;
 }
 
-export const Osconfig_Date: Schema.Schema<Osconfig_Date> = Schema.suspend(() => Schema.Struct({
-  year: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-  month: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Osconfig_Date" }) as any as Schema.Schema<Osconfig_Date>;
+export const Osconfig_Date: Schema.Schema<Osconfig_Date> = Schema.suspend(() =>
+  Schema.Struct({
+    year: Schema.optional(Schema.Number),
+    day: Schema.optional(Schema.Number),
+    month: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "Osconfig_Date",
+}) as any as Schema.Schema<Osconfig_Date>;
 
 export interface GoogleCloudOsconfigCommonV1__OperationMetadata {
   /** Output only. The time the operation finished running. */
@@ -994,24 +1365,43 @@ export interface GoogleCloudOsconfigCommonV1__OperationMetadata {
   target?: string;
 }
 
-export const GoogleCloudOsconfigCommonV1__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1__OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  endTime: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  createTime: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOsconfigCommonV1__OperationMetadata" }) as any as Schema.Schema<GoogleCloudOsconfigCommonV1__OperationMetadata>;
+export const GoogleCloudOsconfigCommonV1__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1__OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      createTime: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOsconfigCommonV1__OperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudOsconfigCommonV1__OperationMetadata>;
 
 export interface WeeklySchedule {
   /** Required. Day of the week. */
-  dayOfWeek?: "DAY_OF_WEEK_UNSPECIFIED" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | (string & {});
+  dayOfWeek?:
+    | "DAY_OF_WEEK_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {});
 }
 
-export const WeeklySchedule: Schema.Schema<WeeklySchedule> = Schema.suspend(() => Schema.Struct({
-  dayOfWeek: Schema.optional(Schema.String),
-})).annotate({ identifier: "WeeklySchedule" }) as any as Schema.Schema<WeeklySchedule>;
+export const WeeklySchedule: Schema.Schema<WeeklySchedule> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      dayOfWeek: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "WeeklySchedule",
+}) as any as Schema.Schema<WeeklySchedule>;
 
 export interface InventoryVersionedPackage {
   /** The name of the package. */
@@ -1022,11 +1412,16 @@ export interface InventoryVersionedPackage {
   version?: string;
 }
 
-export const InventoryVersionedPackage: Schema.Schema<InventoryVersionedPackage> = Schema.suspend(() => Schema.Struct({
-  packageName: Schema.optional(Schema.String),
-  architecture: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryVersionedPackage" }) as any as Schema.Schema<InventoryVersionedPackage>;
+export const InventoryVersionedPackage: Schema.Schema<InventoryVersionedPackage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      packageName: Schema.optional(Schema.String),
+      architecture: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InventoryVersionedPackage",
+  }) as any as Schema.Schema<InventoryVersionedPackage>;
 
 export interface InventoryWindowsUpdatePackageWindowsUpdateCategory {
   /** The identifier of the windows update category. */
@@ -1035,10 +1430,15 @@ export interface InventoryWindowsUpdatePackageWindowsUpdateCategory {
   name?: string;
 }
 
-export const InventoryWindowsUpdatePackageWindowsUpdateCategory: Schema.Schema<InventoryWindowsUpdatePackageWindowsUpdateCategory> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryWindowsUpdatePackageWindowsUpdateCategory" }) as any as Schema.Schema<InventoryWindowsUpdatePackageWindowsUpdateCategory>;
+export const InventoryWindowsUpdatePackageWindowsUpdateCategory: Schema.Schema<InventoryWindowsUpdatePackageWindowsUpdateCategory> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InventoryWindowsUpdatePackageWindowsUpdateCategory",
+  }) as any as Schema.Schema<InventoryWindowsUpdatePackageWindowsUpdateCategory>;
 
 export interface InventoryWindowsUpdatePackage {
   /** Gets the identifier of an update package. Stays the same across revisions. */
@@ -1061,17 +1461,24 @@ export interface InventoryWindowsUpdatePackage {
   title?: string;
 }
 
-export const InventoryWindowsUpdatePackage: Schema.Schema<InventoryWindowsUpdatePackage> = Schema.suspend(() => Schema.Struct({
-  updateId: Schema.optional(Schema.String),
-  revisionNumber: Schema.optional(Schema.Number),
-  lastDeploymentChangeTime: Schema.optional(Schema.String),
-  moreInfoUrls: Schema.optional(Schema.Array(Schema.String)),
-  description: Schema.optional(Schema.String),
-  supportUrl: Schema.optional(Schema.String),
-  categories: Schema.optional(Schema.Array(InventoryWindowsUpdatePackageWindowsUpdateCategory)),
-  kbArticleIds: Schema.optional(Schema.Array(Schema.String)),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryWindowsUpdatePackage" }) as any as Schema.Schema<InventoryWindowsUpdatePackage>;
+export const InventoryWindowsUpdatePackage: Schema.Schema<InventoryWindowsUpdatePackage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateId: Schema.optional(Schema.String),
+      revisionNumber: Schema.optional(Schema.Number),
+      lastDeploymentChangeTime: Schema.optional(Schema.String),
+      moreInfoUrls: Schema.optional(Schema.Array(Schema.String)),
+      description: Schema.optional(Schema.String),
+      supportUrl: Schema.optional(Schema.String),
+      categories: Schema.optional(
+        Schema.Array(InventoryWindowsUpdatePackageWindowsUpdateCategory),
+      ),
+      kbArticleIds: Schema.optional(Schema.Array(Schema.String)),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InventoryWindowsUpdatePackage",
+  }) as any as Schema.Schema<InventoryWindowsUpdatePackage>;
 
 export interface InventoryWindowsApplication {
   /** The version of the product or application in string format. */
@@ -1086,13 +1493,18 @@ export interface InventoryWindowsApplication {
   installDate?: Osconfig_Date;
 }
 
-export const InventoryWindowsApplication: Schema.Schema<InventoryWindowsApplication> = Schema.suspend(() => Schema.Struct({
-  displayVersion: Schema.optional(Schema.String),
-  helpLink: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  publisher: Schema.optional(Schema.String),
-  installDate: Schema.optional(Osconfig_Date),
-})).annotate({ identifier: "InventoryWindowsApplication" }) as any as Schema.Schema<InventoryWindowsApplication>;
+export const InventoryWindowsApplication: Schema.Schema<InventoryWindowsApplication> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayVersion: Schema.optional(Schema.String),
+      helpLink: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      publisher: Schema.optional(Schema.String),
+      installDate: Schema.optional(Osconfig_Date),
+    }),
+  ).annotate({
+    identifier: "InventoryWindowsApplication",
+  }) as any as Schema.Schema<InventoryWindowsApplication>;
 
 export interface InventoryWindowsQuickFixEngineeringPackage {
   /** A textual description of the QFE update. */
@@ -1105,12 +1517,17 @@ export interface InventoryWindowsQuickFixEngineeringPackage {
   installTime?: string;
 }
 
-export const InventoryWindowsQuickFixEngineeringPackage: Schema.Schema<InventoryWindowsQuickFixEngineeringPackage> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  hotFixId: Schema.optional(Schema.String),
-  caption: Schema.optional(Schema.String),
-  installTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryWindowsQuickFixEngineeringPackage" }) as any as Schema.Schema<InventoryWindowsQuickFixEngineeringPackage>;
+export const InventoryWindowsQuickFixEngineeringPackage: Schema.Schema<InventoryWindowsQuickFixEngineeringPackage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      hotFixId: Schema.optional(Schema.String),
+      caption: Schema.optional(Schema.String),
+      installTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InventoryWindowsQuickFixEngineeringPackage",
+  }) as any as Schema.Schema<InventoryWindowsQuickFixEngineeringPackage>;
 
 export interface InventorySoftwarePackage {
   /** Details of a Googet package. For details about the googet package manager, see https://github.com/google/googet. */
@@ -1133,32 +1550,42 @@ export interface InventorySoftwarePackage {
   cosPackage?: InventoryVersionedPackage;
 }
 
-export const InventorySoftwarePackage: Schema.Schema<InventorySoftwarePackage> = Schema.suspend(() => Schema.Struct({
-  googetPackage: Schema.optional(InventoryVersionedPackage),
-  wuaPackage: Schema.optional(InventoryWindowsUpdatePackage),
-  zypperPackage: Schema.optional(InventoryVersionedPackage),
-  windowsApplication: Schema.optional(InventoryWindowsApplication),
-  aptPackage: Schema.optional(InventoryVersionedPackage),
-  zypperPatch: Schema.optional(InventoryZypperPatch),
-  yumPackage: Schema.optional(InventoryVersionedPackage),
-  qfePackage: Schema.optional(InventoryWindowsQuickFixEngineeringPackage),
-  cosPackage: Schema.optional(InventoryVersionedPackage),
-})).annotate({ identifier: "InventorySoftwarePackage" }) as any as Schema.Schema<InventorySoftwarePackage>;
+export const InventorySoftwarePackage: Schema.Schema<InventorySoftwarePackage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      googetPackage: Schema.optional(InventoryVersionedPackage),
+      wuaPackage: Schema.optional(InventoryWindowsUpdatePackage),
+      zypperPackage: Schema.optional(InventoryVersionedPackage),
+      windowsApplication: Schema.optional(InventoryWindowsApplication),
+      aptPackage: Schema.optional(InventoryVersionedPackage),
+      zypperPatch: Schema.optional(InventoryZypperPatch),
+      yumPackage: Schema.optional(InventoryVersionedPackage),
+      qfePackage: Schema.optional(InventoryWindowsQuickFixEngineeringPackage),
+      cosPackage: Schema.optional(InventoryVersionedPackage),
+    }),
+  ).annotate({
+    identifier: "InventorySoftwarePackage",
+  }) as any as Schema.Schema<InventorySoftwarePackage>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface PatchInstanceFilterGroupLabel {
   /** Compute Engine instance labels that must be present for a VM instance to be targeted by this filter. */
   labels?: Record<string, string>;
 }
 
-export const PatchInstanceFilterGroupLabel: Schema.Schema<PatchInstanceFilterGroupLabel> = Schema.suspend(() => Schema.Struct({
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "PatchInstanceFilterGroupLabel" }) as any as Schema.Schema<PatchInstanceFilterGroupLabel>;
+export const PatchInstanceFilterGroupLabel: Schema.Schema<PatchInstanceFilterGroupLabel> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PatchInstanceFilterGroupLabel",
+  }) as any as Schema.Schema<PatchInstanceFilterGroupLabel>;
 
 export interface PatchInstanceFilter {
   /** Target all VM instances in the project. If true, no other criteria is permitted. */
@@ -1173,19 +1600,25 @@ export interface PatchInstanceFilter {
   instanceNamePrefixes?: Array<string>;
 }
 
-export const PatchInstanceFilter: Schema.Schema<PatchInstanceFilter> = Schema.suspend(() => Schema.Struct({
-  all: Schema.optional(Schema.Boolean),
-  instances: Schema.optional(Schema.Array(Schema.String)),
-  groupLabels: Schema.optional(Schema.Array(PatchInstanceFilterGroupLabel)),
-  zones: Schema.optional(Schema.Array(Schema.String)),
-  instanceNamePrefixes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PatchInstanceFilter" }) as any as Schema.Schema<PatchInstanceFilter>;
+export const PatchInstanceFilter: Schema.Schema<PatchInstanceFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      all: Schema.optional(Schema.Boolean),
+      instances: Schema.optional(Schema.Array(Schema.String)),
+      groupLabels: Schema.optional(Schema.Array(PatchInstanceFilterGroupLabel)),
+      zones: Schema.optional(Schema.Array(Schema.String)),
+      instanceNamePrefixes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PatchInstanceFilter",
+  }) as any as Schema.Schema<PatchInstanceFilter>;
 
-export interface ResumePatchDeploymentRequest {
-}
+export interface ResumePatchDeploymentRequest {}
 
-export const ResumePatchDeploymentRequest: Schema.Schema<ResumePatchDeploymentRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ResumePatchDeploymentRequest" }) as any as Schema.Schema<ResumePatchDeploymentRequest>;
+export const ResumePatchDeploymentRequest: Schema.Schema<ResumePatchDeploymentRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ResumePatchDeploymentRequest",
+  }) as any as Schema.Schema<ResumePatchDeploymentRequest>;
 
 export interface ZypperSettings {
   /** List of patches to exclude from update. */
@@ -1202,14 +1635,19 @@ export interface ZypperSettings {
   withOptional?: boolean;
 }
 
-export const ZypperSettings: Schema.Schema<ZypperSettings> = Schema.suspend(() => Schema.Struct({
-  excludes: Schema.optional(Schema.Array(Schema.String)),
-  withUpdate: Schema.optional(Schema.Boolean),
-  categories: Schema.optional(Schema.Array(Schema.String)),
-  severities: Schema.optional(Schema.Array(Schema.String)),
-  exclusivePatches: Schema.optional(Schema.Array(Schema.String)),
-  withOptional: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ZypperSettings" }) as any as Schema.Schema<ZypperSettings>;
+export const ZypperSettings: Schema.Schema<ZypperSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      excludes: Schema.optional(Schema.Array(Schema.String)),
+      withUpdate: Schema.optional(Schema.Boolean),
+      categories: Schema.optional(Schema.Array(Schema.String)),
+      severities: Schema.optional(Schema.Array(Schema.String)),
+      exclusivePatches: Schema.optional(Schema.Array(Schema.String)),
+      withOptional: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "ZypperSettings",
+}) as any as Schema.Schema<ZypperSettings>;
 
 export interface ExecStep {
   /** The ExecStepConfig for all Linux VMs targeted by the PatchJob. */
@@ -1218,16 +1656,18 @@ export interface ExecStep {
   windowsExecStepConfig?: ExecStepConfig;
 }
 
-export const ExecStep: Schema.Schema<ExecStep> = Schema.suspend(() => Schema.Struct({
-  linuxExecStepConfig: Schema.optional(ExecStepConfig),
-  windowsExecStepConfig: Schema.optional(ExecStepConfig),
-})).annotate({ identifier: "ExecStep" }) as any as Schema.Schema<ExecStep>;
+export const ExecStep: Schema.Schema<ExecStep> = Schema.suspend(() =>
+  Schema.Struct({
+    linuxExecStepConfig: Schema.optional(ExecStepConfig),
+    windowsExecStepConfig: Schema.optional(ExecStepConfig),
+  }),
+).annotate({ identifier: "ExecStep" }) as any as Schema.Schema<ExecStep>;
 
-export interface GooSettings {
-}
+export interface GooSettings {}
 
-export const GooSettings: Schema.Schema<GooSettings> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GooSettings" }) as any as Schema.Schema<GooSettings>;
+export const GooSettings: Schema.Schema<GooSettings> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "GooSettings" }) as any as Schema.Schema<GooSettings>;
 
 export interface PatchConfig {
   /** Yum update settings. Use this setting to override the default `yum` patch rules. */
@@ -1247,35 +1687,50 @@ export interface PatchConfig {
   /** The `ExecStep` to run after the patch update. */
   postStep?: ExecStep;
   /** Post-patch reboot settings. */
-  rebootConfig?: "REBOOT_CONFIG_UNSPECIFIED" | "DEFAULT" | "ALWAYS" | "NEVER" | (string & {});
+  rebootConfig?:
+    | "REBOOT_CONFIG_UNSPECIFIED"
+    | "DEFAULT"
+    | "ALWAYS"
+    | "NEVER"
+    | (string & {});
   /** Allows the patch job to run on Managed instance groups (MIGs). */
   migInstancesAllowed?: boolean;
 }
 
-export const PatchConfig: Schema.Schema<PatchConfig> = Schema.suspend(() => Schema.Struct({
-  yum: Schema.optional(YumSettings),
-  zypper: Schema.optional(ZypperSettings),
-  windowsUpdate: Schema.optional(WindowsUpdateSettings),
-  preStep: Schema.optional(ExecStep),
-  skipUnpatchableVms: Schema.optional(Schema.Boolean),
-  apt: Schema.optional(AptSettings),
-  goo: Schema.optional(GooSettings),
-  postStep: Schema.optional(ExecStep),
-  rebootConfig: Schema.optional(Schema.String),
-  migInstancesAllowed: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PatchConfig" }) as any as Schema.Schema<PatchConfig>;
+export const PatchConfig: Schema.Schema<PatchConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    yum: Schema.optional(YumSettings),
+    zypper: Schema.optional(ZypperSettings),
+    windowsUpdate: Schema.optional(WindowsUpdateSettings),
+    preStep: Schema.optional(ExecStep),
+    skipUnpatchableVms: Schema.optional(Schema.Boolean),
+    apt: Schema.optional(AptSettings),
+    goo: Schema.optional(GooSettings),
+    postStep: Schema.optional(ExecStep),
+    rebootConfig: Schema.optional(Schema.String),
+    migInstancesAllowed: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "PatchConfig" }) as any as Schema.Schema<PatchConfig>;
 
 export interface PatchRollout {
   /** Mode of the patch rollout. */
-  mode?: "MODE_UNSPECIFIED" | "ZONE_BY_ZONE" | "CONCURRENT_ZONES" | (string & {});
+  mode?:
+    | "MODE_UNSPECIFIED"
+    | "ZONE_BY_ZONE"
+    | "CONCURRENT_ZONES"
+    | (string & {});
   /** The maximum number (or percentage) of VMs per zone to disrupt at any given moment. The number of VMs calculated from multiplying the percentage by the total number of VMs in a zone is rounded up. During patching, a VM is considered disrupted from the time the agent is notified to begin until patching has completed. This disruption time includes the time to complete reboot and any post-patch steps. A VM contributes to the disruption budget if its patching operation fails either when applying the patches, running pre or post patch steps, or if it fails to respond with a success notification before timing out. VMs that are not running or do not have an active agent do not count toward this disruption budget. For zone-by-zone rollouts, if the disruption budget in a zone is exceeded, the patch job stops, because continuing to the next zone requires completion of the patch process in the previous zone. For example, if the disruption budget has a fixed value of `10`, and 8 VMs fail to patch in the current zone, the patch job continues to patch 2 VMs at a time until the zone is completed. When that zone is completed successfully, patching begins with 10 VMs at a time in the next zone. If 10 VMs in the next zone fail to patch, the patch job stops. */
   disruptionBudget?: FixedOrPercent;
 }
 
-export const PatchRollout: Schema.Schema<PatchRollout> = Schema.suspend(() => Schema.Struct({
-  mode: Schema.optional(Schema.String),
-  disruptionBudget: Schema.optional(FixedOrPercent),
-})).annotate({ identifier: "PatchRollout" }) as any as Schema.Schema<PatchRollout>;
+export const PatchRollout: Schema.Schema<PatchRollout> = Schema.suspend(() =>
+  Schema.Struct({
+    mode: Schema.optional(Schema.String),
+    disruptionBudget: Schema.optional(FixedOrPercent),
+  }),
+).annotate({
+  identifier: "PatchRollout",
+}) as any as Schema.Schema<PatchRollout>;
 
 export interface ExecutePatchJobRequest {
   /** Display name for this patch job. This does not have to be unique. */
@@ -1294,15 +1749,20 @@ export interface ExecutePatchJobRequest {
   description?: string;
 }
 
-export const ExecutePatchJobRequest: Schema.Schema<ExecutePatchJobRequest> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  instanceFilter: Schema.optional(PatchInstanceFilter),
-  patchConfig: Schema.optional(PatchConfig),
-  duration: Schema.optional(Schema.String),
-  rollout: Schema.optional(PatchRollout),
-  dryRun: Schema.optional(Schema.Boolean),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExecutePatchJobRequest" }) as any as Schema.Schema<ExecutePatchJobRequest>;
+export const ExecutePatchJobRequest: Schema.Schema<ExecutePatchJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      instanceFilter: Schema.optional(PatchInstanceFilter),
+      patchConfig: Schema.optional(PatchConfig),
+      duration: Schema.optional(Schema.String),
+      rollout: Schema.optional(PatchRollout),
+      dryRun: Schema.optional(Schema.Boolean),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExecutePatchJobRequest",
+  }) as any as Schema.Schema<ExecutePatchJobRequest>;
 
 export interface InventoryItem {
   /** When this inventory item was first detected. */
@@ -1314,22 +1774,30 @@ export interface InventoryItem {
   /** When this inventory item was last modified. */
   updateTime?: string;
   /** The specific type of inventory, correlating to its specific details. */
-  type?: "TYPE_UNSPECIFIED" | "INSTALLED_PACKAGE" | "AVAILABLE_PACKAGE" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "INSTALLED_PACKAGE"
+    | "AVAILABLE_PACKAGE"
+    | (string & {});
   /** Software package available to be installed on the VM instance. */
   availablePackage?: InventorySoftwarePackage;
   /** The origin of this inventory item. */
   originType?: "ORIGIN_TYPE_UNSPECIFIED" | "INVENTORY_REPORT" | (string & {});
 }
 
-export const InventoryItem: Schema.Schema<InventoryItem> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  installedPackage: Schema.optional(InventorySoftwarePackage),
-  id: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  availablePackage: Schema.optional(InventorySoftwarePackage),
-  originType: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryItem" }) as any as Schema.Schema<InventoryItem>;
+export const InventoryItem: Schema.Schema<InventoryItem> = Schema.suspend(() =>
+  Schema.Struct({
+    createTime: Schema.optional(Schema.String),
+    installedPackage: Schema.optional(InventorySoftwarePackage),
+    id: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    availablePackage: Schema.optional(InventorySoftwarePackage),
+    originType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "InventoryItem",
+}) as any as Schema.Schema<InventoryItem>;
 
 export interface Inventory {
   /** Output only. The `Inventory` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory` */
@@ -1342,12 +1810,14 @@ export interface Inventory {
   items?: Record<string, InventoryItem>;
 }
 
-export const Inventory: Schema.Schema<Inventory> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  osInfo: Schema.optional(InventoryOsInfo),
-  updateTime: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Record(Schema.String, InventoryItem)),
-})).annotate({ identifier: "Inventory" }) as any as Schema.Schema<Inventory>;
+export const Inventory: Schema.Schema<Inventory> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    osInfo: Schema.optional(InventoryOsInfo),
+    updateTime: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Record(Schema.String, InventoryItem)),
+  }),
+).annotate({ identifier: "Inventory" }) as any as Schema.Schema<Inventory>;
 
 export interface GoogleCloudOsconfigCommonV1main__OperationMetadata {
   /** Output only. Human-readable status of the operation, if any. */
@@ -1366,27 +1836,34 @@ export interface GoogleCloudOsconfigCommonV1main__OperationMetadata {
   verb?: string;
 }
 
-export const GoogleCloudOsconfigCommonV1main__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1main__OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  statusMessage: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  endTime: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOsconfigCommonV1main__OperationMetadata" }) as any as Schema.Schema<GoogleCloudOsconfigCommonV1main__OperationMetadata>;
+export const GoogleCloudOsconfigCommonV1main__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1main__OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      statusMessage: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      endTime: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOsconfigCommonV1main__OperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudOsconfigCommonV1main__OperationMetadata>;
 
-export interface PausePatchDeploymentRequest {
-}
+export interface PausePatchDeploymentRequest {}
 
-export const PausePatchDeploymentRequest: Schema.Schema<PausePatchDeploymentRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "PausePatchDeploymentRequest" }) as any as Schema.Schema<PausePatchDeploymentRequest>;
+export const PausePatchDeploymentRequest: Schema.Schema<PausePatchDeploymentRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "PausePatchDeploymentRequest",
+  }) as any as Schema.Schema<PausePatchDeploymentRequest>;
 
-export interface CancelPatchJobRequest {
-}
+export interface CancelPatchJobRequest {}
 
-export const CancelPatchJobRequest: Schema.Schema<CancelPatchJobRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelPatchJobRequest" }) as any as Schema.Schema<CancelPatchJobRequest>;
+export const CancelPatchJobRequest: Schema.Schema<CancelPatchJobRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelPatchJobRequest",
+  }) as any as Schema.Schema<CancelPatchJobRequest>;
 
 export interface PatchJobInstanceDetails {
   /** If the patch fails, this field provides the reason. */
@@ -1394,20 +1871,43 @@ export interface PatchJobInstanceDetails {
   /** The unique identifier for the instance. This identifier is defined by the server. */
   instanceSystemId?: string;
   /** Current state of instance patch. */
-  state?: "PATCH_STATE_UNSPECIFIED" | "PENDING" | "INACTIVE" | "NOTIFIED" | "STARTED" | "DOWNLOADING_PATCHES" | "APPLYING_PATCHES" | "REBOOTING" | "SUCCEEDED" | "SUCCEEDED_REBOOT_REQUIRED" | "FAILED" | "ACKED" | "TIMED_OUT" | "RUNNING_PRE_PATCH_STEP" | "RUNNING_POST_PATCH_STEP" | "NO_AGENT_DETECTED" | "SKIPPED" | (string & {});
+  state?:
+    | "PATCH_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "INACTIVE"
+    | "NOTIFIED"
+    | "STARTED"
+    | "DOWNLOADING_PATCHES"
+    | "APPLYING_PATCHES"
+    | "REBOOTING"
+    | "SUCCEEDED"
+    | "SUCCEEDED_REBOOT_REQUIRED"
+    | "FAILED"
+    | "ACKED"
+    | "TIMED_OUT"
+    | "RUNNING_PRE_PATCH_STEP"
+    | "RUNNING_POST_PATCH_STEP"
+    | "NO_AGENT_DETECTED"
+    | "SKIPPED"
+    | (string & {});
   /** The instance name in the form `projects/* /zones/* /instances/*` */
   name?: string;
   /** The number of times the agent that the agent attempts to apply the patch. */
   attemptCount?: string;
 }
 
-export const PatchJobInstanceDetails: Schema.Schema<PatchJobInstanceDetails> = Schema.suspend(() => Schema.Struct({
-  failureReason: Schema.optional(Schema.String),
-  instanceSystemId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  attemptCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "PatchJobInstanceDetails" }) as any as Schema.Schema<PatchJobInstanceDetails>;
+export const PatchJobInstanceDetails: Schema.Schema<PatchJobInstanceDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      failureReason: Schema.optional(Schema.String),
+      instanceSystemId: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      attemptCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PatchJobInstanceDetails",
+  }) as any as Schema.Schema<PatchJobInstanceDetails>;
 
 export interface ListPatchJobInstanceDetailsResponse {
   /** A list of instance status. */
@@ -1416,10 +1916,17 @@ export interface ListPatchJobInstanceDetailsResponse {
   nextPageToken?: string;
 }
 
-export const ListPatchJobInstanceDetailsResponse: Schema.Schema<ListPatchJobInstanceDetailsResponse> = Schema.suspend(() => Schema.Struct({
-  patchJobInstanceDetails: Schema.optional(Schema.Array(PatchJobInstanceDetails)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPatchJobInstanceDetailsResponse" }) as any as Schema.Schema<ListPatchJobInstanceDetailsResponse>;
+export const ListPatchJobInstanceDetailsResponse: Schema.Schema<ListPatchJobInstanceDetailsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      patchJobInstanceDetails: Schema.optional(
+        Schema.Array(PatchJobInstanceDetails),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPatchJobInstanceDetailsResponse",
+  }) as any as Schema.Schema<ListPatchJobInstanceDetailsResponse>;
 
 export interface WeekDayOfMonth {
   /** Required. Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month. */
@@ -1427,14 +1934,28 @@ export interface WeekDayOfMonth {
   /** Optional. Represents the number of days before or after the given week day of month that the patch deployment is scheduled for. For example if `week_ordinal` and `day_of_week` values point to the second Tuesday of the month and the `day_offset` value is set to `3`, patch deployment takes place three days after the second Tuesday of the month. If this value is negative, for example -5, patches are deployed five days before the second Tuesday of the month. Allowed values are in range [-30, 30]. */
   dayOffset?: number;
   /** Required. A day of the week. */
-  dayOfWeek?: "DAY_OF_WEEK_UNSPECIFIED" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | (string & {});
+  dayOfWeek?:
+    | "DAY_OF_WEEK_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {});
 }
 
-export const WeekDayOfMonth: Schema.Schema<WeekDayOfMonth> = Schema.suspend(() => Schema.Struct({
-  weekOrdinal: Schema.optional(Schema.Number),
-  dayOffset: Schema.optional(Schema.Number),
-  dayOfWeek: Schema.optional(Schema.String),
-})).annotate({ identifier: "WeekDayOfMonth" }) as any as Schema.Schema<WeekDayOfMonth>;
+export const WeekDayOfMonth: Schema.Schema<WeekDayOfMonth> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      weekOrdinal: Schema.optional(Schema.Number),
+      dayOffset: Schema.optional(Schema.Number),
+      dayOfWeek: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "WeekDayOfMonth",
+}) as any as Schema.Schema<WeekDayOfMonth>;
 
 export interface MonthlySchedule {
   /** Required. One day of the month. 1-31 indicates the 1st to the 31st day. -1 indicates the last day of the month. Months without the target day will be skipped. For example, a schedule to run "every month on the 31st" will not run in February, April, June, etc. */
@@ -1443,14 +1964,24 @@ export interface MonthlySchedule {
   weekDayOfMonth?: WeekDayOfMonth;
 }
 
-export const MonthlySchedule: Schema.Schema<MonthlySchedule> = Schema.suspend(() => Schema.Struct({
-  monthDay: Schema.optional(Schema.Number),
-  weekDayOfMonth: Schema.optional(WeekDayOfMonth),
-})).annotate({ identifier: "MonthlySchedule" }) as any as Schema.Schema<MonthlySchedule>;
+export const MonthlySchedule: Schema.Schema<MonthlySchedule> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      monthDay: Schema.optional(Schema.Number),
+      weekDayOfMonth: Schema.optional(WeekDayOfMonth),
+    }),
+).annotate({
+  identifier: "MonthlySchedule",
+}) as any as Schema.Schema<MonthlySchedule>;
 
 export interface RecurringSchedule {
   /** Required. The frequency unit of this recurring schedule. */
-  frequency?: "FREQUENCY_UNSPECIFIED" | "WEEKLY" | "MONTHLY" | "DAILY" | (string & {});
+  frequency?:
+    | "FREQUENCY_UNSPECIFIED"
+    | "WEEKLY"
+    | "MONTHLY"
+    | "DAILY"
+    | (string & {});
   /** Required. Schedule with monthly executions. */
   monthly?: MonthlySchedule;
   /** Required. Schedule with weekly executions. */
@@ -1469,17 +2000,22 @@ export interface RecurringSchedule {
   timeOfDay?: TimeOfDay;
 }
 
-export const RecurringSchedule: Schema.Schema<RecurringSchedule> = Schema.suspend(() => Schema.Struct({
-  frequency: Schema.optional(Schema.String),
-  monthly: Schema.optional(MonthlySchedule),
-  weekly: Schema.optional(WeeklySchedule),
-  startTime: Schema.optional(Schema.String),
-  lastExecuteTime: Schema.optional(Schema.String),
-  nextExecuteTime: Schema.optional(Schema.String),
-  timeZone: Schema.optional(TimeZone),
-  endTime: Schema.optional(Schema.String),
-  timeOfDay: Schema.optional(TimeOfDay),
-})).annotate({ identifier: "RecurringSchedule" }) as any as Schema.Schema<RecurringSchedule>;
+export const RecurringSchedule: Schema.Schema<RecurringSchedule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frequency: Schema.optional(Schema.String),
+      monthly: Schema.optional(MonthlySchedule),
+      weekly: Schema.optional(WeeklySchedule),
+      startTime: Schema.optional(Schema.String),
+      lastExecuteTime: Schema.optional(Schema.String),
+      nextExecuteTime: Schema.optional(Schema.String),
+      timeZone: Schema.optional(TimeZone),
+      endTime: Schema.optional(Schema.String),
+      timeOfDay: Schema.optional(TimeOfDay),
+    }),
+  ).annotate({
+    identifier: "RecurringSchedule",
+  }) as any as Schema.Schema<RecurringSchedule>;
 
 export interface PatchDeployment {
   /** Required. Schedule recurring executions. */
@@ -1508,20 +2044,25 @@ export interface PatchDeployment {
   description?: string;
 }
 
-export const PatchDeployment: Schema.Schema<PatchDeployment> = Schema.suspend(() => Schema.Struct({
-  recurringSchedule: Schema.optional(RecurringSchedule),
-  lastExecuteTime: Schema.optional(Schema.String),
-  rollout: Schema.optional(PatchRollout),
-  name: Schema.optional(Schema.String),
-  oneTimeSchedule: Schema.optional(OneTimeSchedule),
-  createTime: Schema.optional(Schema.String),
-  instanceFilter: Schema.optional(PatchInstanceFilter),
-  patchConfig: Schema.optional(PatchConfig),
-  duration: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "PatchDeployment" }) as any as Schema.Schema<PatchDeployment>;
+export const PatchDeployment: Schema.Schema<PatchDeployment> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      recurringSchedule: Schema.optional(RecurringSchedule),
+      lastExecuteTime: Schema.optional(Schema.String),
+      rollout: Schema.optional(PatchRollout),
+      name: Schema.optional(Schema.String),
+      oneTimeSchedule: Schema.optional(OneTimeSchedule),
+      createTime: Schema.optional(Schema.String),
+      instanceFilter: Schema.optional(PatchInstanceFilter),
+      patchConfig: Schema.optional(PatchConfig),
+      duration: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PatchDeployment",
+}) as any as Schema.Schema<PatchDeployment>;
 
 export interface ListPatchDeploymentsResponse {
   /** The list of patch deployments. */
@@ -1530,14 +2071,25 @@ export interface ListPatchDeploymentsResponse {
   nextPageToken?: string;
 }
 
-export const ListPatchDeploymentsResponse: Schema.Schema<ListPatchDeploymentsResponse> = Schema.suspend(() => Schema.Struct({
-  patchDeployments: Schema.optional(Schema.Array(PatchDeployment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPatchDeploymentsResponse" }) as any as Schema.Schema<ListPatchDeploymentsResponse>;
+export const ListPatchDeploymentsResponse: Schema.Schema<ListPatchDeploymentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      patchDeployments: Schema.optional(Schema.Array(PatchDeployment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPatchDeploymentsResponse",
+  }) as any as Schema.Schema<ListPatchDeploymentsResponse>;
 
 export interface GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata {
   /** State of the rollout */
-  rolloutState?: "ROLLOUT_STATE_UNSPECIFIED" | "IN_PROGRESS" | "CANCELLING" | "CANCELLED" | "SUCCEEDED" | (string & {});
+  rolloutState?:
+    | "ROLLOUT_STATE_UNSPECIFIED"
+    | "IN_PROGRESS"
+    | "CANCELLING"
+    | "CANCELLED"
+    | "SUCCEEDED"
+    | (string & {});
   /** Rollout start time */
   rolloutStartTime?: string;
   /** Rollout update time */
@@ -1545,16 +2097,26 @@ export interface GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata {
   /** Reference to the `OSPolicyAssignment` API resource. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}` */
   osPolicyAssignment?: string;
   /** The OS policy assignment API method. */
-  apiMethod?: "API_METHOD_UNSPECIFIED" | "CREATE" | "UPDATE" | "DELETE" | (string & {});
+  apiMethod?:
+    | "API_METHOD_UNSPECIFIED"
+    | "CREATE"
+    | "UPDATE"
+    | "DELETE"
+    | (string & {});
 }
 
-export const GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata: Schema.Schema<GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  rolloutState: Schema.optional(Schema.String),
-  rolloutStartTime: Schema.optional(Schema.String),
-  rolloutUpdateTime: Schema.optional(Schema.String),
-  osPolicyAssignment: Schema.optional(Schema.String),
-  apiMethod: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata" }) as any as Schema.Schema<GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata>;
+export const GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata: Schema.Schema<GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rolloutState: Schema.optional(Schema.String),
+      rolloutStartTime: Schema.optional(Schema.String),
+      rolloutUpdateTime: Schema.optional(Schema.String),
+      osPolicyAssignment: Schema.optional(Schema.String),
+      apiMethod: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata>;
 
 export interface GoogleCloudOsconfigV2__OperationMetadata {
   /** Output only. The time the operation finished running. */
@@ -1573,21 +2135,27 @@ export interface GoogleCloudOsconfigV2__OperationMetadata {
   target?: string;
 }
 
-export const GoogleCloudOsconfigV2__OperationMetadata: Schema.Schema<GoogleCloudOsconfigV2__OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  endTime: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  createTime: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOsconfigV2__OperationMetadata" }) as any as Schema.Schema<GoogleCloudOsconfigV2__OperationMetadata>;
+export const GoogleCloudOsconfigV2__OperationMetadata: Schema.Schema<GoogleCloudOsconfigV2__OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      createTime: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOsconfigV2__OperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudOsconfigV2__OperationMetadata>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface GoogleCloudOsconfigCommonV1alpha__OperationMetadata {
   /** Output only. Server-defined resource path for the target of the operation. */
@@ -1606,27 +2174,41 @@ export interface GoogleCloudOsconfigCommonV1alpha__OperationMetadata {
   verb?: string;
 }
 
-export const GoogleCloudOsconfigCommonV1alpha__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1alpha__OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  target: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  endTime: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOsconfigCommonV1alpha__OperationMetadata" }) as any as Schema.Schema<GoogleCloudOsconfigCommonV1alpha__OperationMetadata>;
+export const GoogleCloudOsconfigCommonV1alpha__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1alpha__OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      target: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      endTime: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOsconfigCommonV1alpha__OperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudOsconfigCommonV1alpha__OperationMetadata>;
 
 export interface ProjectFeatureSettings {
   /** Set PatchAndConfigFeatureSet for the project. */
-  patchAndConfigFeatureSet?: "PATCH_AND_CONFIG_FEATURE_SET_UNSPECIFIED" | "OSCONFIG_B" | "OSCONFIG_C" | (string & {});
+  patchAndConfigFeatureSet?:
+    | "PATCH_AND_CONFIG_FEATURE_SET_UNSPECIFIED"
+    | "OSCONFIG_B"
+    | "OSCONFIG_C"
+    | (string & {});
   /** Required. Immutable. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
   name?: string;
 }
 
-export const ProjectFeatureSettings: Schema.Schema<ProjectFeatureSettings> = Schema.suspend(() => Schema.Struct({
-  patchAndConfigFeatureSet: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProjectFeatureSettings" }) as any as Schema.Schema<ProjectFeatureSettings>;
+export const ProjectFeatureSettings: Schema.Schema<ProjectFeatureSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      patchAndConfigFeatureSet: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProjectFeatureSettings",
+  }) as any as Schema.Schema<ProjectFeatureSettings>;
 
 export interface ListOSPolicyAssignmentRevisionsResponse {
   /** The OS policy assignment revisions */
@@ -1635,10 +2217,15 @@ export interface ListOSPolicyAssignmentRevisionsResponse {
   nextPageToken?: string;
 }
 
-export const ListOSPolicyAssignmentRevisionsResponse: Schema.Schema<ListOSPolicyAssignmentRevisionsResponse> = Schema.suspend(() => Schema.Struct({
-  osPolicyAssignments: Schema.optional(Schema.Array(OSPolicyAssignment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOSPolicyAssignmentRevisionsResponse" }) as any as Schema.Schema<ListOSPolicyAssignmentRevisionsResponse>;
+export const ListOSPolicyAssignmentRevisionsResponse: Schema.Schema<ListOSPolicyAssignmentRevisionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      osPolicyAssignments: Schema.optional(Schema.Array(OSPolicyAssignment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOSPolicyAssignmentRevisionsResponse",
+  }) as any as Schema.Schema<ListOSPolicyAssignmentRevisionsResponse>;
 
 export interface PatchJobInstanceDetailsSummary {
   /** Number of instances that are inactive. */
@@ -1675,24 +2262,29 @@ export interface PatchJobInstanceDetailsSummary {
   timedOutInstanceCount?: string;
 }
 
-export const PatchJobInstanceDetailsSummary: Schema.Schema<PatchJobInstanceDetailsSummary> = Schema.suspend(() => Schema.Struct({
-  inactiveInstanceCount: Schema.optional(Schema.String),
-  rebootingInstanceCount: Schema.optional(Schema.String),
-  prePatchStepInstanceCount: Schema.optional(Schema.String),
-  ackedInstanceCount: Schema.optional(Schema.String),
-  downloadingPatchesInstanceCount: Schema.optional(Schema.String),
-  succeededInstanceCount: Schema.optional(Schema.String),
-  postPatchStepInstanceCount: Schema.optional(Schema.String),
-  pendingInstanceCount: Schema.optional(Schema.String),
-  startedInstanceCount: Schema.optional(Schema.String),
-  notifiedInstanceCount: Schema.optional(Schema.String),
-  applyingPatchesInstanceCount: Schema.optional(Schema.String),
-  noAgentDetectedInstanceCount: Schema.optional(Schema.String),
-  skippedInstanceCount: Schema.optional(Schema.String),
-  succeededRebootRequiredInstanceCount: Schema.optional(Schema.String),
-  failedInstanceCount: Schema.optional(Schema.String),
-  timedOutInstanceCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "PatchJobInstanceDetailsSummary" }) as any as Schema.Schema<PatchJobInstanceDetailsSummary>;
+export const PatchJobInstanceDetailsSummary: Schema.Schema<PatchJobInstanceDetailsSummary> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inactiveInstanceCount: Schema.optional(Schema.String),
+      rebootingInstanceCount: Schema.optional(Schema.String),
+      prePatchStepInstanceCount: Schema.optional(Schema.String),
+      ackedInstanceCount: Schema.optional(Schema.String),
+      downloadingPatchesInstanceCount: Schema.optional(Schema.String),
+      succeededInstanceCount: Schema.optional(Schema.String),
+      postPatchStepInstanceCount: Schema.optional(Schema.String),
+      pendingInstanceCount: Schema.optional(Schema.String),
+      startedInstanceCount: Schema.optional(Schema.String),
+      notifiedInstanceCount: Schema.optional(Schema.String),
+      applyingPatchesInstanceCount: Schema.optional(Schema.String),
+      noAgentDetectedInstanceCount: Schema.optional(Schema.String),
+      skippedInstanceCount: Schema.optional(Schema.String),
+      succeededRebootRequiredInstanceCount: Schema.optional(Schema.String),
+      failedInstanceCount: Schema.optional(Schema.String),
+      timedOutInstanceCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PatchJobInstanceDetailsSummary",
+  }) as any as Schema.Schema<PatchJobInstanceDetailsSummary>;
 
 export interface PatchJob {
   /** Summary of instance details. */
@@ -1710,7 +2302,17 @@ export interface PatchJob {
   /** Output only. Name of the patch deployment that created this patch job. */
   patchDeployment?: string;
   /** The current state of the PatchJob. */
-  state?: "STATE_UNSPECIFIED" | "STARTED" | "INSTANCE_LOOKUP" | "PATCHING" | "SUCCEEDED" | "COMPLETED_WITH_INACTIVE_VMS" | "COMPLETED_WITH_ERRORS" | "CANCELED" | "TIMED_OUT" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STARTED"
+    | "INSTANCE_LOOKUP"
+    | "PATCHING"
+    | "SUCCEEDED"
+    | "COMPLETED_WITH_INACTIVE_VMS"
+    | "COMPLETED_WITH_ERRORS"
+    | "CANCELED"
+    | "TIMED_OUT"
+    | (string & {});
   /** Description of the patch job. Length of the description is limited to 1024 characters. */
   description?: string;
   /** Time this patch job was created. */
@@ -1727,23 +2329,25 @@ export interface PatchJob {
   rollout?: PatchRollout;
 }
 
-export const PatchJob: Schema.Schema<PatchJob> = Schema.suspend(() => Schema.Struct({
-  instanceDetailsSummary: Schema.optional(PatchJobInstanceDetailsSummary),
-  displayName: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  patchConfig: Schema.optional(PatchConfig),
-  duration: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  patchDeployment: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  instanceFilter: Schema.optional(PatchInstanceFilter),
-  dryRun: Schema.optional(Schema.Boolean),
-  errorMessage: Schema.optional(Schema.String),
-  percentComplete: Schema.optional(Schema.Number),
-  rollout: Schema.optional(PatchRollout),
-})).annotate({ identifier: "PatchJob" }) as any as Schema.Schema<PatchJob>;
+export const PatchJob: Schema.Schema<PatchJob> = Schema.suspend(() =>
+  Schema.Struct({
+    instanceDetailsSummary: Schema.optional(PatchJobInstanceDetailsSummary),
+    displayName: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    patchConfig: Schema.optional(PatchConfig),
+    duration: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    patchDeployment: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    instanceFilter: Schema.optional(PatchInstanceFilter),
+    dryRun: Schema.optional(Schema.Boolean),
+    errorMessage: Schema.optional(Schema.String),
+    percentComplete: Schema.optional(Schema.Number),
+    rollout: Schema.optional(PatchRollout),
+  }),
+).annotate({ identifier: "PatchJob" }) as any as Schema.Schema<PatchJob>;
 
 export interface ListPatchJobsResponse {
   /** A pagination token that can be used to get the next page of results. */
@@ -1752,10 +2356,15 @@ export interface ListPatchJobsResponse {
   patchJobs?: Array<PatchJob>;
 }
 
-export const ListPatchJobsResponse: Schema.Schema<ListPatchJobsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  patchJobs: Schema.optional(Schema.Array(PatchJob)),
-})).annotate({ identifier: "ListPatchJobsResponse" }) as any as Schema.Schema<ListPatchJobsResponse>;
+export const ListPatchJobsResponse: Schema.Schema<ListPatchJobsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      patchJobs: Schema.optional(Schema.Array(PatchJob)),
+    }),
+  ).annotate({
+    identifier: "ListPatchJobsResponse",
+  }) as any as Schema.Schema<ListPatchJobsResponse>;
 
 export interface ListInventoriesResponse {
   /** The pagination token to retrieve the next page of inventory objects. */
@@ -1764,10 +2373,15 @@ export interface ListInventoriesResponse {
   inventories?: Array<Inventory>;
 }
 
-export const ListInventoriesResponse: Schema.Schema<ListInventoriesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  inventories: Schema.optional(Schema.Array(Inventory)),
-})).annotate({ identifier: "ListInventoriesResponse" }) as any as Schema.Schema<ListInventoriesResponse>;
+export const ListInventoriesResponse: Schema.Schema<ListInventoriesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      inventories: Schema.optional(Schema.Array(Inventory)),
+    }),
+  ).annotate({
+    identifier: "ListInventoriesResponse",
+  }) as any as Schema.Schema<ListInventoriesResponse>;
 
 export interface ListVulnerabilityReportsResponse {
   /** List of vulnerabilityReport objects. */
@@ -1776,10 +2390,15 @@ export interface ListVulnerabilityReportsResponse {
   nextPageToken?: string;
 }
 
-export const ListVulnerabilityReportsResponse: Schema.Schema<ListVulnerabilityReportsResponse> = Schema.suspend(() => Schema.Struct({
-  vulnerabilityReports: Schema.optional(Schema.Array(VulnerabilityReport)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListVulnerabilityReportsResponse" }) as any as Schema.Schema<ListVulnerabilityReportsResponse>;
+export const ListVulnerabilityReportsResponse: Schema.Schema<ListVulnerabilityReportsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vulnerabilityReports: Schema.optional(Schema.Array(VulnerabilityReport)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListVulnerabilityReportsResponse",
+  }) as any as Schema.Schema<ListVulnerabilityReportsResponse>;
 
 export interface ListOSPolicyAssignmentsResponse {
   /** The list of assignments */
@@ -1788,31 +2407,52 @@ export interface ListOSPolicyAssignmentsResponse {
   nextPageToken?: string;
 }
 
-export const ListOSPolicyAssignmentsResponse: Schema.Schema<ListOSPolicyAssignmentsResponse> = Schema.suspend(() => Schema.Struct({
-  osPolicyAssignments: Schema.optional(Schema.Array(OSPolicyAssignment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOSPolicyAssignmentsResponse" }) as any as Schema.Schema<ListOSPolicyAssignmentsResponse>;
+export const ListOSPolicyAssignmentsResponse: Schema.Schema<ListOSPolicyAssignmentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      osPolicyAssignments: Schema.optional(Schema.Array(OSPolicyAssignment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOSPolicyAssignmentsResponse",
+  }) as any as Schema.Schema<ListOSPolicyAssignmentsResponse>;
 
 export interface OSPolicyAssignmentOperationMetadata {
   /** Rollout update time */
   rolloutUpdateTime?: string;
   /** State of the rollout */
-  rolloutState?: "ROLLOUT_STATE_UNSPECIFIED" | "IN_PROGRESS" | "CANCELLING" | "CANCELLED" | "SUCCEEDED" | (string & {});
+  rolloutState?:
+    | "ROLLOUT_STATE_UNSPECIFIED"
+    | "IN_PROGRESS"
+    | "CANCELLING"
+    | "CANCELLED"
+    | "SUCCEEDED"
+    | (string & {});
   /** Rollout start time */
   rolloutStartTime?: string;
   /** Reference to the `OSPolicyAssignment` API resource. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}` */
   osPolicyAssignment?: string;
   /** The OS policy assignment API method. */
-  apiMethod?: "API_METHOD_UNSPECIFIED" | "CREATE" | "UPDATE" | "DELETE" | (string & {});
+  apiMethod?:
+    | "API_METHOD_UNSPECIFIED"
+    | "CREATE"
+    | "UPDATE"
+    | "DELETE"
+    | (string & {});
 }
 
-export const OSPolicyAssignmentOperationMetadata: Schema.Schema<OSPolicyAssignmentOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  rolloutUpdateTime: Schema.optional(Schema.String),
-  rolloutState: Schema.optional(Schema.String),
-  rolloutStartTime: Schema.optional(Schema.String),
-  osPolicyAssignment: Schema.optional(Schema.String),
-  apiMethod: Schema.optional(Schema.String),
-})).annotate({ identifier: "OSPolicyAssignmentOperationMetadata" }) as any as Schema.Schema<OSPolicyAssignmentOperationMetadata>;
+export const OSPolicyAssignmentOperationMetadata: Schema.Schema<OSPolicyAssignmentOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rolloutUpdateTime: Schema.optional(Schema.String),
+      rolloutState: Schema.optional(Schema.String),
+      rolloutStartTime: Schema.optional(Schema.String),
+      osPolicyAssignment: Schema.optional(Schema.String),
+      apiMethod: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OSPolicyAssignmentOperationMetadata",
+  }) as any as Schema.Schema<OSPolicyAssignmentOperationMetadata>;
 
 export interface GoogleCloudOsconfigV2beta__OperationMetadata {
   /** Output only. The time the operation finished running. */
@@ -1831,15 +2471,20 @@ export interface GoogleCloudOsconfigV2beta__OperationMetadata {
   apiVersion?: string;
 }
 
-export const GoogleCloudOsconfigV2beta__OperationMetadata: Schema.Schema<GoogleCloudOsconfigV2beta__OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  endTime: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  createTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOsconfigV2beta__OperationMetadata" }) as any as Schema.Schema<GoogleCloudOsconfigV2beta__OperationMetadata>;
+export const GoogleCloudOsconfigV2beta__OperationMetadata: Schema.Schema<GoogleCloudOsconfigV2beta__OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      createTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOsconfigV2beta__OperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudOsconfigV2beta__OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -1853,7 +2498,10 @@ export interface GetProjectsPatchDeploymentsRequest {
 export const GetProjectsPatchDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsPatchDeploymentsRequest>;
 
@@ -1863,7 +2511,12 @@ export const GetProjectsPatchDeploymentsResponse = PatchDeployment;
 export type GetProjectsPatchDeploymentsError = DefaultErrors;
 
 /** Get an OS Config patch deployment. */
-export const getProjectsPatchDeployments: API.OperationMethod<GetProjectsPatchDeploymentsRequest, GetProjectsPatchDeploymentsResponse, GetProjectsPatchDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsPatchDeployments: API.OperationMethod<
+  GetProjectsPatchDeploymentsRequest,
+  GetProjectsPatchDeploymentsResponse,
+  GetProjectsPatchDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsPatchDeploymentsRequest,
   output: GetProjectsPatchDeploymentsResponse,
   errors: [],
@@ -1883,7 +2536,11 @@ export const PatchProjectsPatchDeploymentsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(PatchDeployment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsPatchDeploymentsRequest>;
 
@@ -1893,7 +2550,12 @@ export const PatchProjectsPatchDeploymentsResponse = PatchDeployment;
 export type PatchProjectsPatchDeploymentsError = DefaultErrors;
 
 /** Update an OS Config patch deployment. */
-export const patchProjectsPatchDeployments: API.OperationMethod<PatchProjectsPatchDeploymentsRequest, PatchProjectsPatchDeploymentsResponse, PatchProjectsPatchDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsPatchDeployments: API.OperationMethod<
+  PatchProjectsPatchDeploymentsRequest,
+  PatchProjectsPatchDeploymentsResponse,
+  PatchProjectsPatchDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsPatchDeploymentsRequest,
   output: PatchProjectsPatchDeploymentsResponse,
   errors: [],
@@ -1910,7 +2572,11 @@ export const ResumeProjectsPatchDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResumePatchDeploymentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:resume", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:resume",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResumeProjectsPatchDeploymentsRequest>;
 
@@ -1920,7 +2586,12 @@ export const ResumeProjectsPatchDeploymentsResponse = PatchDeployment;
 export type ResumeProjectsPatchDeploymentsError = DefaultErrors;
 
 /** Change state of patch deployment back to "ACTIVE". Patch deployment in active state continues to generate patch jobs. */
-export const resumeProjectsPatchDeployments: API.OperationMethod<ResumeProjectsPatchDeploymentsRequest, ResumeProjectsPatchDeploymentsResponse, ResumeProjectsPatchDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resumeProjectsPatchDeployments: API.OperationMethod<
+  ResumeProjectsPatchDeploymentsRequest,
+  ResumeProjectsPatchDeploymentsResponse,
+  ResumeProjectsPatchDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResumeProjectsPatchDeploymentsRequest,
   output: ResumeProjectsPatchDeploymentsResponse,
   errors: [],
@@ -1936,11 +2607,17 @@ export interface CreateProjectsPatchDeploymentsRequest {
 }
 
 export const CreateProjectsPatchDeploymentsRequest = Schema.Struct({
-  patchDeploymentId: Schema.optional(Schema.String).pipe(T.HttpQuery("patchDeploymentId")),
+  patchDeploymentId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("patchDeploymentId"),
+  ),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(PatchDeployment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/patchDeployments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/patchDeployments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsPatchDeploymentsRequest>;
 
@@ -1950,7 +2627,12 @@ export const CreateProjectsPatchDeploymentsResponse = PatchDeployment;
 export type CreateProjectsPatchDeploymentsError = DefaultErrors;
 
 /** Create an OS Config patch deployment. */
-export const createProjectsPatchDeployments: API.OperationMethod<CreateProjectsPatchDeploymentsRequest, CreateProjectsPatchDeploymentsResponse, CreateProjectsPatchDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsPatchDeployments: API.OperationMethod<
+  CreateProjectsPatchDeploymentsRequest,
+  CreateProjectsPatchDeploymentsResponse,
+  CreateProjectsPatchDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsPatchDeploymentsRequest,
   output: CreateProjectsPatchDeploymentsResponse,
   errors: [],
@@ -1964,7 +2646,10 @@ export interface DeleteProjectsPatchDeploymentsRequest {
 export const DeleteProjectsPatchDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsPatchDeploymentsRequest>;
 
@@ -1974,7 +2659,12 @@ export const DeleteProjectsPatchDeploymentsResponse = Empty;
 export type DeleteProjectsPatchDeploymentsError = DefaultErrors;
 
 /** Delete an OS Config patch deployment. */
-export const deleteProjectsPatchDeployments: API.OperationMethod<DeleteProjectsPatchDeploymentsRequest, DeleteProjectsPatchDeploymentsResponse, DeleteProjectsPatchDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsPatchDeployments: API.OperationMethod<
+  DeleteProjectsPatchDeploymentsRequest,
+  DeleteProjectsPatchDeploymentsResponse,
+  DeleteProjectsPatchDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsPatchDeploymentsRequest,
   output: DeleteProjectsPatchDeploymentsResponse,
   errors: [],
@@ -1991,7 +2681,11 @@ export const PauseProjectsPatchDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(PausePatchDeploymentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:pause", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:pause",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PauseProjectsPatchDeploymentsRequest>;
 
@@ -2001,7 +2695,12 @@ export const PauseProjectsPatchDeploymentsResponse = PatchDeployment;
 export type PauseProjectsPatchDeploymentsError = DefaultErrors;
 
 /** Change state of patch deployment to "PAUSED". Patch deployment in paused state doesn't generate patch jobs. */
-export const pauseProjectsPatchDeployments: API.OperationMethod<PauseProjectsPatchDeploymentsRequest, PauseProjectsPatchDeploymentsResponse, PauseProjectsPatchDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pauseProjectsPatchDeployments: API.OperationMethod<
+  PauseProjectsPatchDeploymentsRequest,
+  PauseProjectsPatchDeploymentsResponse,
+  PauseProjectsPatchDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PauseProjectsPatchDeploymentsRequest,
   output: PauseProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2026,12 +2725,18 @@ export const ListProjectsPatchDeploymentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListProjectsPatchDeploymentsRequest>;
 
 export type ListProjectsPatchDeploymentsResponse = ListPatchDeploymentsResponse;
-export const ListProjectsPatchDeploymentsResponse = ListPatchDeploymentsResponse;
+export const ListProjectsPatchDeploymentsResponse =
+  ListPatchDeploymentsResponse;
 
 export type ListProjectsPatchDeploymentsError = DefaultErrors;
 
 /** Get a page of OS Config patch deployments. */
-export const listProjectsPatchDeployments: API.PaginatedOperationMethod<ListProjectsPatchDeploymentsRequest, ListProjectsPatchDeploymentsResponse, ListProjectsPatchDeploymentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsPatchDeployments: API.PaginatedOperationMethod<
+  ListProjectsPatchDeploymentsRequest,
+  ListProjectsPatchDeploymentsResponse,
+  ListProjectsPatchDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsPatchDeploymentsRequest,
   output: ListProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2055,10 +2760,16 @@ export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
 export const CreateProjectsLocationsOsPolicyAssignmentsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  osPolicyAssignmentId: Schema.optional(Schema.String).pipe(T.HttpQuery("osPolicyAssignmentId")),
+  osPolicyAssignmentId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("osPolicyAssignmentId"),
+  ),
   body: Schema.optional(OSPolicyAssignment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsOsPolicyAssignmentsRequest>;
 
@@ -2068,7 +2779,12 @@ export const CreateProjectsLocationsOsPolicyAssignmentsResponse = Operation;
 export type CreateProjectsLocationsOsPolicyAssignmentsError = DefaultErrors;
 
 /** Create an OS policy assignment. This method also creates the first revision of the OS policy assignment. This method returns a long running operation (LRO) that contains the rollout details. The rollout can be cancelled by cancelling the LRO. For more information, see [Method: projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel). */
-export const createProjectsLocationsOsPolicyAssignments: API.OperationMethod<CreateProjectsLocationsOsPolicyAssignmentsRequest, CreateProjectsLocationsOsPolicyAssignmentsResponse, CreateProjectsLocationsOsPolicyAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsOsPolicyAssignments: API.OperationMethod<
+  CreateProjectsLocationsOsPolicyAssignmentsRequest,
+  CreateProjectsLocationsOsPolicyAssignmentsResponse,
+  CreateProjectsLocationsOsPolicyAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsOsPolicyAssignmentsRequest,
   output: CreateProjectsLocationsOsPolicyAssignmentsResponse,
   errors: [],
@@ -2085,7 +2801,10 @@ export const DeleteProjectsLocationsOsPolicyAssignmentsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOsPolicyAssignmentsRequest>;
 
@@ -2095,7 +2814,12 @@ export const DeleteProjectsLocationsOsPolicyAssignmentsResponse = Operation;
 export type DeleteProjectsLocationsOsPolicyAssignmentsError = DefaultErrors;
 
 /** Delete the OS policy assignment. This method creates a new revision of the OS policy assignment. This method returns a long running operation (LRO) that contains the rollout details. The rollout can be cancelled by cancelling the LRO. If the LRO completes and is not cancelled, all revisions associated with the OS policy assignment are deleted. For more information, see [Method: projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel). */
-export const deleteProjectsLocationsOsPolicyAssignments: API.OperationMethod<DeleteProjectsLocationsOsPolicyAssignmentsRequest, DeleteProjectsLocationsOsPolicyAssignmentsResponse, DeleteProjectsLocationsOsPolicyAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOsPolicyAssignments: API.OperationMethod<
+  DeleteProjectsLocationsOsPolicyAssignmentsRequest,
+  DeleteProjectsLocationsOsPolicyAssignmentsResponse,
+  DeleteProjectsLocationsOsPolicyAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOsPolicyAssignmentsRequest,
   output: DeleteProjectsLocationsOsPolicyAssignmentsResponse,
   errors: [],
@@ -2115,17 +2839,27 @@ export const ListProjectsLocationsOsPolicyAssignmentsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOsPolicyAssignmentsRequest>;
 
-export type ListProjectsLocationsOsPolicyAssignmentsResponse = ListOSPolicyAssignmentsResponse;
-export const ListProjectsLocationsOsPolicyAssignmentsResponse = ListOSPolicyAssignmentsResponse;
+export type ListProjectsLocationsOsPolicyAssignmentsResponse =
+  ListOSPolicyAssignmentsResponse;
+export const ListProjectsLocationsOsPolicyAssignmentsResponse =
+  ListOSPolicyAssignmentsResponse;
 
 export type ListProjectsLocationsOsPolicyAssignmentsError = DefaultErrors;
 
 /** List the OS policy assignments under the parent resource. For each OS policy assignment, the latest revision is returned. */
-export const listProjectsLocationsOsPolicyAssignments: API.PaginatedOperationMethod<ListProjectsLocationsOsPolicyAssignmentsRequest, ListProjectsLocationsOsPolicyAssignmentsResponse, ListProjectsLocationsOsPolicyAssignmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOsPolicyAssignments: API.PaginatedOperationMethod<
+  ListProjectsLocationsOsPolicyAssignmentsRequest,
+  ListProjectsLocationsOsPolicyAssignmentsResponse,
+  ListProjectsLocationsOsPolicyAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOsPolicyAssignmentsRequest,
   output: ListProjectsLocationsOsPolicyAssignmentsResponse,
   errors: [],
@@ -2144,22 +2878,34 @@ export interface ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest {
   name: string;
 }
 
-export const ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}:listRevisions" }),
-  svc,
-) as unknown as Schema.Schema<ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest>;
+export const ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest =
+  Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}:listRevisions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest>;
 
-export type ListRevisionsProjectsLocationsOsPolicyAssignmentsResponse = ListOSPolicyAssignmentRevisionsResponse;
-export const ListRevisionsProjectsLocationsOsPolicyAssignmentsResponse = ListOSPolicyAssignmentRevisionsResponse;
+export type ListRevisionsProjectsLocationsOsPolicyAssignmentsResponse =
+  ListOSPolicyAssignmentRevisionsResponse;
+export const ListRevisionsProjectsLocationsOsPolicyAssignmentsResponse =
+  ListOSPolicyAssignmentRevisionsResponse;
 
-export type ListRevisionsProjectsLocationsOsPolicyAssignmentsError = DefaultErrors;
+export type ListRevisionsProjectsLocationsOsPolicyAssignmentsError =
+  DefaultErrors;
 
 /** List the OS policy assignment revisions for a given OS policy assignment. */
-export const listRevisionsProjectsLocationsOsPolicyAssignments: API.PaginatedOperationMethod<ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest, ListRevisionsProjectsLocationsOsPolicyAssignmentsResponse, ListRevisionsProjectsLocationsOsPolicyAssignmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listRevisionsProjectsLocationsOsPolicyAssignments: API.PaginatedOperationMethod<
+  ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest,
+  ListRevisionsProjectsLocationsOsPolicyAssignmentsResponse,
+  ListRevisionsProjectsLocationsOsPolicyAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest,
   output: ListRevisionsProjectsLocationsOsPolicyAssignmentsResponse,
   errors: [],
@@ -2177,17 +2923,27 @@ export interface GetProjectsLocationsOsPolicyAssignmentsRequest {
 export const GetProjectsLocationsOsPolicyAssignmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOsPolicyAssignmentsRequest>;
 
-export type GetProjectsLocationsOsPolicyAssignmentsResponse = OSPolicyAssignment;
-export const GetProjectsLocationsOsPolicyAssignmentsResponse = OSPolicyAssignment;
+export type GetProjectsLocationsOsPolicyAssignmentsResponse =
+  OSPolicyAssignment;
+export const GetProjectsLocationsOsPolicyAssignmentsResponse =
+  OSPolicyAssignment;
 
 export type GetProjectsLocationsOsPolicyAssignmentsError = DefaultErrors;
 
 /** Retrieve an existing OS policy assignment. This method always returns the latest revision. In order to retrieve a previous revision of the assignment, also provide the revision ID in the `name` parameter. */
-export const getProjectsLocationsOsPolicyAssignments: API.OperationMethod<GetProjectsLocationsOsPolicyAssignmentsRequest, GetProjectsLocationsOsPolicyAssignmentsResponse, GetProjectsLocationsOsPolicyAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOsPolicyAssignments: API.OperationMethod<
+  GetProjectsLocationsOsPolicyAssignmentsRequest,
+  GetProjectsLocationsOsPolicyAssignmentsResponse,
+  GetProjectsLocationsOsPolicyAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOsPolicyAssignmentsRequest,
   output: GetProjectsLocationsOsPolicyAssignmentsResponse,
   errors: [],
@@ -2209,11 +2965,17 @@ export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
 export const PatchProjectsLocationsOsPolicyAssignmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(OSPolicyAssignment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsOsPolicyAssignmentsRequest>;
 
@@ -2223,7 +2985,12 @@ export const PatchProjectsLocationsOsPolicyAssignmentsResponse = Operation;
 export type PatchProjectsLocationsOsPolicyAssignmentsError = DefaultErrors;
 
 /** Update an existing OS policy assignment. This method creates a new revision of the OS policy assignment. This method returns a long running operation (LRO) that contains the rollout details. The rollout can be cancelled by cancelling the LRO. For more information, see [Method: projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel). */
-export const patchProjectsLocationsOsPolicyAssignments: API.OperationMethod<PatchProjectsLocationsOsPolicyAssignmentsRequest, PatchProjectsLocationsOsPolicyAssignmentsResponse, PatchProjectsLocationsOsPolicyAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsOsPolicyAssignments: API.OperationMethod<
+  PatchProjectsLocationsOsPolicyAssignmentsRequest,
+  PatchProjectsLocationsOsPolicyAssignmentsResponse,
+  PatchProjectsLocationsOsPolicyAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsOsPolicyAssignmentsRequest,
   output: PatchProjectsLocationsOsPolicyAssignmentsResponse,
   errors: [],
@@ -2234,20 +3001,32 @@ export interface GetProjectsLocationsOsPolicyAssignmentsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOsPolicyAssignmentsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOsPolicyAssignmentsOperationsRequest>;
+export const GetProjectsLocationsOsPolicyAssignmentsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOsPolicyAssignmentsOperationsRequest>;
 
-export type GetProjectsLocationsOsPolicyAssignmentsOperationsResponse = Operation;
-export const GetProjectsLocationsOsPolicyAssignmentsOperationsResponse = Operation;
+export type GetProjectsLocationsOsPolicyAssignmentsOperationsResponse =
+  Operation;
+export const GetProjectsLocationsOsPolicyAssignmentsOperationsResponse =
+  Operation;
 
-export type GetProjectsLocationsOsPolicyAssignmentsOperationsError = DefaultErrors;
+export type GetProjectsLocationsOsPolicyAssignmentsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOsPolicyAssignmentsOperations: API.OperationMethod<GetProjectsLocationsOsPolicyAssignmentsOperationsRequest, GetProjectsLocationsOsPolicyAssignmentsOperationsResponse, GetProjectsLocationsOsPolicyAssignmentsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOsPolicyAssignmentsOperations: API.OperationMethod<
+  GetProjectsLocationsOsPolicyAssignmentsOperationsRequest,
+  GetProjectsLocationsOsPolicyAssignmentsOperationsResponse,
+  GetProjectsLocationsOsPolicyAssignmentsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOsPolicyAssignmentsOperationsRequest,
   output: GetProjectsLocationsOsPolicyAssignmentsOperationsResponse,
   errors: [],
@@ -2260,21 +3039,34 @@ export interface CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}/operations/{operationsId}:cancel", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest>;
+export const CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/osPolicyAssignments/{osPolicyAssignmentsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest>;
 
-export type CancelProjectsLocationsOsPolicyAssignmentsOperationsResponse = Empty;
-export const CancelProjectsLocationsOsPolicyAssignmentsOperationsResponse = Empty;
+export type CancelProjectsLocationsOsPolicyAssignmentsOperationsResponse =
+  Empty;
+export const CancelProjectsLocationsOsPolicyAssignmentsOperationsResponse =
+  Empty;
 
-export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError = DefaultErrors;
+export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
+  DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOsPolicyAssignmentsOperations: API.OperationMethod<CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest, CancelProjectsLocationsOsPolicyAssignmentsOperationsResponse, CancelProjectsLocationsOsPolicyAssignmentsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOsPolicyAssignmentsOperations: API.OperationMethod<
+  CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest,
+  CancelProjectsLocationsOsPolicyAssignmentsOperationsResponse,
+  CancelProjectsLocationsOsPolicyAssignmentsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest,
   output: CancelProjectsLocationsOsPolicyAssignmentsOperationsResponse,
   errors: [],
@@ -2288,7 +3080,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -2298,7 +3093,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -2312,7 +3112,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -2322,7 +3125,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -2339,7 +3147,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -2349,7 +3161,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -2369,13 +3186,18 @@ export interface ListProjectsLocationsOperationsRequest {
 }
 
 export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   name: Schema.String.pipe(T.HttpPath("name")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -2385,7 +3207,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -2400,20 +3227,32 @@ export interface GetProjectFeatureSettingsProjectsLocationsGlobalRequest {
   name: string;
 }
 
-export const GetProjectFeatureSettingsProjectsLocationsGlobalRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/global/projectFeatureSettings" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectFeatureSettingsProjectsLocationsGlobalRequest>;
+export const GetProjectFeatureSettingsProjectsLocationsGlobalRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/global/projectFeatureSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectFeatureSettingsProjectsLocationsGlobalRequest>;
 
-export type GetProjectFeatureSettingsProjectsLocationsGlobalResponse = ProjectFeatureSettings;
-export const GetProjectFeatureSettingsProjectsLocationsGlobalResponse = ProjectFeatureSettings;
+export type GetProjectFeatureSettingsProjectsLocationsGlobalResponse =
+  ProjectFeatureSettings;
+export const GetProjectFeatureSettingsProjectsLocationsGlobalResponse =
+  ProjectFeatureSettings;
 
-export type GetProjectFeatureSettingsProjectsLocationsGlobalError = DefaultErrors;
+export type GetProjectFeatureSettingsProjectsLocationsGlobalError =
+  DefaultErrors;
 
 /** GetProjectFeatureSettings returns the VM Manager feature settings for a project. */
-export const getProjectFeatureSettingsProjectsLocationsGlobal: API.OperationMethod<GetProjectFeatureSettingsProjectsLocationsGlobalRequest, GetProjectFeatureSettingsProjectsLocationsGlobalResponse, GetProjectFeatureSettingsProjectsLocationsGlobalError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectFeatureSettingsProjectsLocationsGlobal: API.OperationMethod<
+  GetProjectFeatureSettingsProjectsLocationsGlobalRequest,
+  GetProjectFeatureSettingsProjectsLocationsGlobalResponse,
+  GetProjectFeatureSettingsProjectsLocationsGlobalError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectFeatureSettingsProjectsLocationsGlobalRequest,
   output: GetProjectFeatureSettingsProjectsLocationsGlobalResponse,
   errors: [],
@@ -2428,22 +3267,35 @@ export interface UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest {
   body?: ProjectFeatureSettings;
 }
 
-export const UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ProjectFeatureSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/global/projectFeatureSettings", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest>;
+export const UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest =
+  Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ProjectFeatureSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/global/projectFeatureSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest>;
 
-export type UpdateProjectFeatureSettingsProjectsLocationsGlobalResponse = ProjectFeatureSettings;
-export const UpdateProjectFeatureSettingsProjectsLocationsGlobalResponse = ProjectFeatureSettings;
+export type UpdateProjectFeatureSettingsProjectsLocationsGlobalResponse =
+  ProjectFeatureSettings;
+export const UpdateProjectFeatureSettingsProjectsLocationsGlobalResponse =
+  ProjectFeatureSettings;
 
-export type UpdateProjectFeatureSettingsProjectsLocationsGlobalError = DefaultErrors;
+export type UpdateProjectFeatureSettingsProjectsLocationsGlobalError =
+  DefaultErrors;
 
 /** UpdateProjectFeatureSettings sets the VM Manager features for a project. */
-export const updateProjectFeatureSettingsProjectsLocationsGlobal: API.OperationMethod<UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest, UpdateProjectFeatureSettingsProjectsLocationsGlobalResponse, UpdateProjectFeatureSettingsProjectsLocationsGlobalError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateProjectFeatureSettingsProjectsLocationsGlobal: API.OperationMethod<
+  UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest,
+  UpdateProjectFeatureSettingsProjectsLocationsGlobalResponse,
+  UpdateProjectFeatureSettingsProjectsLocationsGlobalError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest,
   output: UpdateProjectFeatureSettingsProjectsLocationsGlobalResponse,
   errors: [],
@@ -2460,7 +3312,10 @@ export const GetProjectsLocationsInstancesInventoriesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/inventory" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/inventory",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsInstancesInventoriesRequest>;
 
@@ -2470,7 +3325,12 @@ export const GetProjectsLocationsInstancesInventoriesResponse = Inventory;
 export type GetProjectsLocationsInstancesInventoriesError = DefaultErrors;
 
 /** Get inventory data for the specified VM instance. If the VM has no associated inventory, the message `NOT_FOUND` is returned. */
-export const getProjectsLocationsInstancesInventories: API.OperationMethod<GetProjectsLocationsInstancesInventoriesRequest, GetProjectsLocationsInstancesInventoriesResponse, GetProjectsLocationsInstancesInventoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsInstancesInventories: API.OperationMethod<
+  GetProjectsLocationsInstancesInventoriesRequest,
+  GetProjectsLocationsInstancesInventoriesResponse,
+  GetProjectsLocationsInstancesInventoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsInstancesInventoriesRequest,
   output: GetProjectsLocationsInstancesInventoriesResponse,
   errors: [],
@@ -2496,17 +3356,27 @@ export const ListProjectsLocationsInstancesInventoriesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/inventories" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/inventories",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsInstancesInventoriesRequest>;
 
-export type ListProjectsLocationsInstancesInventoriesResponse = ListInventoriesResponse;
-export const ListProjectsLocationsInstancesInventoriesResponse = ListInventoriesResponse;
+export type ListProjectsLocationsInstancesInventoriesResponse =
+  ListInventoriesResponse;
+export const ListProjectsLocationsInstancesInventoriesResponse =
+  ListInventoriesResponse;
 
 export type ListProjectsLocationsInstancesInventoriesError = DefaultErrors;
 
 /** List inventory data for all VM instances in the specified zone. */
-export const listProjectsLocationsInstancesInventories: API.PaginatedOperationMethod<ListProjectsLocationsInstancesInventoriesRequest, ListProjectsLocationsInstancesInventoriesResponse, ListProjectsLocationsInstancesInventoriesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsInstancesInventories: API.PaginatedOperationMethod<
+  ListProjectsLocationsInstancesInventoriesRequest,
+  ListProjectsLocationsInstancesInventoriesResponse,
+  ListProjectsLocationsInstancesInventoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesInventoriesRequest,
   output: ListProjectsLocationsInstancesInventoriesResponse,
   errors: [],
@@ -2521,20 +3391,32 @@ export interface GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest 
   name: string;
 }
 
-export const GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/osPolicyAssignments/{osPolicyAssignmentsId}/report" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest>;
+export const GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/osPolicyAssignments/{osPolicyAssignmentsId}/report",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest>;
 
-export type GetProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse = OSPolicyAssignmentReport;
-export const GetProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse = OSPolicyAssignmentReport;
+export type GetProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse =
+  OSPolicyAssignmentReport;
+export const GetProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse =
+  OSPolicyAssignmentReport;
 
-export type GetProjectsLocationsInstancesOsPolicyAssignmentsReportsError = DefaultErrors;
+export type GetProjectsLocationsInstancesOsPolicyAssignmentsReportsError =
+  DefaultErrors;
 
 /** Get the OS policy assignment report for the specified Compute Engine VM instance. */
-export const getProjectsLocationsInstancesOsPolicyAssignmentsReports: API.OperationMethod<GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest, GetProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse, GetProjectsLocationsInstancesOsPolicyAssignmentsReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsInstancesOsPolicyAssignmentsReports: API.OperationMethod<
+  GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest,
+  GetProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse,
+  GetProjectsLocationsInstancesOsPolicyAssignmentsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest,
   output: GetProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse,
   errors: [],
@@ -2551,23 +3433,35 @@ export interface ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest
   pageToken?: string;
 }
 
-export const ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/osPolicyAssignments/{osPolicyAssignmentsId}/reports" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest>;
+export const ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/osPolicyAssignments/{osPolicyAssignmentsId}/reports",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest>;
 
-export type ListProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse = ListOSPolicyAssignmentReportsResponse;
-export const ListProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse = ListOSPolicyAssignmentReportsResponse;
+export type ListProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse =
+  ListOSPolicyAssignmentReportsResponse;
+export const ListProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse =
+  ListOSPolicyAssignmentReportsResponse;
 
-export type ListProjectsLocationsInstancesOsPolicyAssignmentsReportsError = DefaultErrors;
+export type ListProjectsLocationsInstancesOsPolicyAssignmentsReportsError =
+  DefaultErrors;
 
 /** List OS policy assignment reports for all Compute Engine VM instances in the specified zone. */
-export const listProjectsLocationsInstancesOsPolicyAssignmentsReports: API.PaginatedOperationMethod<ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest, ListProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse, ListProjectsLocationsInstancesOsPolicyAssignmentsReportsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsInstancesOsPolicyAssignmentsReports: API.PaginatedOperationMethod<
+  ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest,
+  ListProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse,
+  ListProjectsLocationsInstancesOsPolicyAssignmentsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest,
   output: ListProjectsLocationsInstancesOsPolicyAssignmentsReportsResponse,
   errors: [],
@@ -2582,20 +3476,32 @@ export interface GetProjectsLocationsInstancesVulnerabilityReportsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsInstancesVulnerabilityReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/vulnerabilityReport" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsInstancesVulnerabilityReportsRequest>;
+export const GetProjectsLocationsInstancesVulnerabilityReportsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/vulnerabilityReport",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsInstancesVulnerabilityReportsRequest>;
 
-export type GetProjectsLocationsInstancesVulnerabilityReportsResponse = VulnerabilityReport;
-export const GetProjectsLocationsInstancesVulnerabilityReportsResponse = VulnerabilityReport;
+export type GetProjectsLocationsInstancesVulnerabilityReportsResponse =
+  VulnerabilityReport;
+export const GetProjectsLocationsInstancesVulnerabilityReportsResponse =
+  VulnerabilityReport;
 
-export type GetProjectsLocationsInstancesVulnerabilityReportsError = DefaultErrors;
+export type GetProjectsLocationsInstancesVulnerabilityReportsError =
+  DefaultErrors;
 
 /** Gets the vulnerability report for the specified VM instance. Only VMs with inventory data have vulnerability reports associated with them. */
-export const getProjectsLocationsInstancesVulnerabilityReports: API.OperationMethod<GetProjectsLocationsInstancesVulnerabilityReportsRequest, GetProjectsLocationsInstancesVulnerabilityReportsResponse, GetProjectsLocationsInstancesVulnerabilityReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsInstancesVulnerabilityReports: API.OperationMethod<
+  GetProjectsLocationsInstancesVulnerabilityReportsRequest,
+  GetProjectsLocationsInstancesVulnerabilityReportsResponse,
+  GetProjectsLocationsInstancesVulnerabilityReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsInstancesVulnerabilityReportsRequest,
   output: GetProjectsLocationsInstancesVulnerabilityReportsResponse,
   errors: [],
@@ -2612,23 +3518,35 @@ export interface ListProjectsLocationsInstancesVulnerabilityReportsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsInstancesVulnerabilityReportsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/vulnerabilityReports" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsInstancesVulnerabilityReportsRequest>;
+export const ListProjectsLocationsInstancesVulnerabilityReportsRequest =
+  Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}/vulnerabilityReports",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsInstancesVulnerabilityReportsRequest>;
 
-export type ListProjectsLocationsInstancesVulnerabilityReportsResponse = ListVulnerabilityReportsResponse;
-export const ListProjectsLocationsInstancesVulnerabilityReportsResponse = ListVulnerabilityReportsResponse;
+export type ListProjectsLocationsInstancesVulnerabilityReportsResponse =
+  ListVulnerabilityReportsResponse;
+export const ListProjectsLocationsInstancesVulnerabilityReportsResponse =
+  ListVulnerabilityReportsResponse;
 
-export type ListProjectsLocationsInstancesVulnerabilityReportsError = DefaultErrors;
+export type ListProjectsLocationsInstancesVulnerabilityReportsError =
+  DefaultErrors;
 
 /** List vulnerability reports for all VM instances in the specified zone. */
-export const listProjectsLocationsInstancesVulnerabilityReports: API.PaginatedOperationMethod<ListProjectsLocationsInstancesVulnerabilityReportsRequest, ListProjectsLocationsInstancesVulnerabilityReportsResponse, ListProjectsLocationsInstancesVulnerabilityReportsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsInstancesVulnerabilityReports: API.PaginatedOperationMethod<
+  ListProjectsLocationsInstancesVulnerabilityReportsRequest,
+  ListProjectsLocationsInstancesVulnerabilityReportsResponse,
+  ListProjectsLocationsInstancesVulnerabilityReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesVulnerabilityReportsRequest,
   output: ListProjectsLocationsInstancesVulnerabilityReportsResponse,
   errors: [],
@@ -2649,7 +3567,11 @@ export const CancelProjectsPatchJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelPatchJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/patchJobs/{patchJobsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/patchJobs/{patchJobsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsPatchJobsRequest>;
 
@@ -2659,7 +3581,12 @@ export const CancelProjectsPatchJobsResponse = PatchJob;
 export type CancelProjectsPatchJobsError = DefaultErrors;
 
 /** Cancel a patch job. The patch job must be active. Canceled patch jobs cannot be restarted. */
-export const cancelProjectsPatchJobs: API.OperationMethod<CancelProjectsPatchJobsRequest, CancelProjectsPatchJobsResponse, CancelProjectsPatchJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsPatchJobs: API.OperationMethod<
+  CancelProjectsPatchJobsRequest,
+  CancelProjectsPatchJobsResponse,
+  CancelProjectsPatchJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsPatchJobsRequest,
   output: CancelProjectsPatchJobsResponse,
   errors: [],
@@ -2692,7 +3619,12 @@ export const ListProjectsPatchJobsResponse = ListPatchJobsResponse;
 export type ListProjectsPatchJobsError = DefaultErrors;
 
 /** Get a list of patch jobs. */
-export const listProjectsPatchJobs: API.PaginatedOperationMethod<ListProjectsPatchJobsRequest, ListProjectsPatchJobsResponse, ListProjectsPatchJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsPatchJobs: API.PaginatedOperationMethod<
+  ListProjectsPatchJobsRequest,
+  ListProjectsPatchJobsResponse,
+  ListProjectsPatchJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsPatchJobsRequest,
   output: ListProjectsPatchJobsResponse,
   errors: [],
@@ -2713,7 +3645,11 @@ export const ExecuteProjectsPatchJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ExecutePatchJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/patchJobs:execute", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/patchJobs:execute",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExecuteProjectsPatchJobsRequest>;
 
@@ -2723,7 +3659,12 @@ export const ExecuteProjectsPatchJobsResponse = PatchJob;
 export type ExecuteProjectsPatchJobsError = DefaultErrors;
 
 /** Patch VM instances by creating and running a patch job. */
-export const executeProjectsPatchJobs: API.OperationMethod<ExecuteProjectsPatchJobsRequest, ExecuteProjectsPatchJobsResponse, ExecuteProjectsPatchJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const executeProjectsPatchJobs: API.OperationMethod<
+  ExecuteProjectsPatchJobsRequest,
+  ExecuteProjectsPatchJobsResponse,
+  ExecuteProjectsPatchJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExecuteProjectsPatchJobsRequest,
   output: ExecuteProjectsPatchJobsResponse,
   errors: [],
@@ -2737,7 +3678,10 @@ export interface GetProjectsPatchJobsRequest {
 export const GetProjectsPatchJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/patchJobs/{patchJobsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/patchJobs/{patchJobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsPatchJobsRequest>;
 
@@ -2747,7 +3691,12 @@ export const GetProjectsPatchJobsResponse = PatchJob;
 export type GetProjectsPatchJobsError = DefaultErrors;
 
 /** Get the patch job. This can be used to track the progress of an ongoing patch job or review the details of completed jobs. */
-export const getProjectsPatchJobs: API.OperationMethod<GetProjectsPatchJobsRequest, GetProjectsPatchJobsResponse, GetProjectsPatchJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsPatchJobs: API.OperationMethod<
+  GetProjectsPatchJobsRequest,
+  GetProjectsPatchJobsResponse,
+  GetProjectsPatchJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsPatchJobsRequest,
   output: GetProjectsPatchJobsResponse,
   errors: [],
@@ -2770,17 +3719,27 @@ export const ListProjectsPatchJobsInstanceDetailsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/patchJobs/{patchJobsId}/instanceDetails" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/patchJobs/{patchJobsId}/instanceDetails",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsPatchJobsInstanceDetailsRequest>;
 
-export type ListProjectsPatchJobsInstanceDetailsResponse = ListPatchJobInstanceDetailsResponse;
-export const ListProjectsPatchJobsInstanceDetailsResponse = ListPatchJobInstanceDetailsResponse;
+export type ListProjectsPatchJobsInstanceDetailsResponse =
+  ListPatchJobInstanceDetailsResponse;
+export const ListProjectsPatchJobsInstanceDetailsResponse =
+  ListPatchJobInstanceDetailsResponse;
 
 export type ListProjectsPatchJobsInstanceDetailsError = DefaultErrors;
 
 /** Get a list of instance details for a given patch job. */
-export const listProjectsPatchJobsInstanceDetails: API.PaginatedOperationMethod<ListProjectsPatchJobsInstanceDetailsRequest, ListProjectsPatchJobsInstanceDetailsResponse, ListProjectsPatchJobsInstanceDetailsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsPatchJobsInstanceDetails: API.PaginatedOperationMethod<
+  ListProjectsPatchJobsInstanceDetailsRequest,
+  ListProjectsPatchJobsInstanceDetailsResponse,
+  ListProjectsPatchJobsInstanceDetailsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsPatchJobsInstanceDetailsRequest,
   output: ListProjectsPatchJobsInstanceDetailsResponse,
   errors: [],
@@ -2789,4 +3748,3 @@ export const listProjectsPatchJobsInstanceDetails: API.PaginatedOperationMethod<
     outputToken: "nextPageToken",
   },
 }));
-

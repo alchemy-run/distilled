@@ -30,10 +30,20 @@ export interface SiteVerificationWebResourceGettokenRequest {
   verificationMethod?: string;
 }
 
-export const SiteVerificationWebResourceGettokenRequest: Schema.Schema<SiteVerificationWebResourceGettokenRequest> = Schema.suspend(() => Schema.Struct({
-  site: Schema.optional(Schema.Struct({ identifier: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-  verificationMethod: Schema.optional(Schema.String),
-})).annotate({ identifier: "SiteVerificationWebResourceGettokenRequest" }) as any as Schema.Schema<SiteVerificationWebResourceGettokenRequest>;
+export const SiteVerificationWebResourceGettokenRequest: Schema.Schema<SiteVerificationWebResourceGettokenRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      site: Schema.optional(
+        Schema.Struct({
+          identifier: Schema.optional(Schema.String),
+          type: Schema.optional(Schema.String),
+        }),
+      ),
+      verificationMethod: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SiteVerificationWebResourceGettokenRequest",
+  }) as any as Schema.Schema<SiteVerificationWebResourceGettokenRequest>;
 
 export interface SiteVerificationWebResourceGettokenResponse {
   /** The verification method to use in conjunction with this token. For FILE, the token should be placed in the top-level directory of the site, stored inside a file of the same name. For META, the token should be placed in the HEAD tag of the default page that is loaded for the site. For DNS, the token should be placed in a TXT record of the domain. */
@@ -42,10 +52,15 @@ export interface SiteVerificationWebResourceGettokenResponse {
   token?: string;
 }
 
-export const SiteVerificationWebResourceGettokenResponse: Schema.Schema<SiteVerificationWebResourceGettokenResponse> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-})).annotate({ identifier: "SiteVerificationWebResourceGettokenResponse" }) as any as Schema.Schema<SiteVerificationWebResourceGettokenResponse>;
+export const SiteVerificationWebResourceGettokenResponse: Schema.Schema<SiteVerificationWebResourceGettokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SiteVerificationWebResourceGettokenResponse",
+  }) as any as Schema.Schema<SiteVerificationWebResourceGettokenResponse>;
 
 export interface SiteVerificationWebResourceResource {
   /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
@@ -56,20 +71,35 @@ export interface SiteVerificationWebResourceResource {
   site?: { identifier?: string; type?: string };
 }
 
-export const SiteVerificationWebResourceResource: Schema.Schema<SiteVerificationWebResourceResource> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  owners: Schema.optional(Schema.Array(Schema.String)),
-  site: Schema.optional(Schema.Struct({ identifier: Schema.optional(Schema.String), type: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "SiteVerificationWebResourceResource" }) as any as Schema.Schema<SiteVerificationWebResourceResource>;
+export const SiteVerificationWebResourceResource: Schema.Schema<SiteVerificationWebResourceResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      owners: Schema.optional(Schema.Array(Schema.String)),
+      site: Schema.optional(
+        Schema.Struct({
+          identifier: Schema.optional(Schema.String),
+          type: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ).annotate({
+    identifier: "SiteVerificationWebResourceResource",
+  }) as any as Schema.Schema<SiteVerificationWebResourceResource>;
 
 export interface SiteVerificationWebResourceListResponse {
   /** The list of sites that are owned by the authenticated user. */
   items?: Array<SiteVerificationWebResourceResource>;
 }
 
-export const SiteVerificationWebResourceListResponse: Schema.Schema<SiteVerificationWebResourceListResponse> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(SiteVerificationWebResourceResource)),
-})).annotate({ identifier: "SiteVerificationWebResourceListResponse" }) as any as Schema.Schema<SiteVerificationWebResourceListResponse>;
+export const SiteVerificationWebResourceListResponse: Schema.Schema<SiteVerificationWebResourceListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(SiteVerificationWebResourceResource)),
+    }),
+  ).annotate({
+    identifier: "SiteVerificationWebResourceListResponse",
+  }) as any as Schema.Schema<SiteVerificationWebResourceListResponse>;
 
 // ==========================================================================
 // Operations
@@ -88,12 +118,18 @@ export const DeleteWebResourceRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteWebResourceRequest>;
 
 export interface DeleteWebResourceResponse {}
-export const DeleteWebResourceResponse: Schema.Schema<DeleteWebResourceResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteWebResourceResponse>;
+export const DeleteWebResourceResponse: Schema.Schema<DeleteWebResourceResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteWebResourceResponse>;
 
 export type DeleteWebResourceError = DefaultErrors;
 
 /** Relinquish ownership of a website or domain. */
-export const deleteWebResource: API.OperationMethod<DeleteWebResourceRequest, DeleteWebResourceResponse, DeleteWebResourceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteWebResource: API.OperationMethod<
+  DeleteWebResourceRequest,
+  DeleteWebResourceResponse,
+  DeleteWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteWebResourceRequest,
   output: DeleteWebResourceResponse,
   errors: [],
@@ -117,7 +153,12 @@ export const GetWebResourceResponse = SiteVerificationWebResourceResource;
 export type GetWebResourceError = DefaultErrors;
 
 /** Get the most current data for a website or domain. */
-export const getWebResource: API.OperationMethod<GetWebResourceRequest, GetWebResourceResponse, GetWebResourceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getWebResource: API.OperationMethod<
+  GetWebResourceRequest,
+  GetWebResourceResponse,
+  GetWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetWebResourceRequest,
   output: GetWebResourceResponse,
   errors: [],
@@ -129,19 +170,28 @@ export interface GetTokenWebResourceRequest {
 }
 
 export const GetTokenWebResourceRequest = Schema.Struct({
-  body: Schema.optional(SiteVerificationWebResourceGettokenRequest).pipe(T.HttpBody()),
+  body: Schema.optional(SiteVerificationWebResourceGettokenRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "token", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<GetTokenWebResourceRequest>;
 
-export type GetTokenWebResourceResponse = SiteVerificationWebResourceGettokenResponse;
-export const GetTokenWebResourceResponse = SiteVerificationWebResourceGettokenResponse;
+export type GetTokenWebResourceResponse =
+  SiteVerificationWebResourceGettokenResponse;
+export const GetTokenWebResourceResponse =
+  SiteVerificationWebResourceGettokenResponse;
 
 export type GetTokenWebResourceError = DefaultErrors;
 
 /** Get a verification token for placing on a website or domain. */
-export const getTokenWebResource: API.OperationMethod<GetTokenWebResourceRequest, GetTokenWebResourceResponse, GetTokenWebResourceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTokenWebResource: API.OperationMethod<
+  GetTokenWebResourceRequest,
+  GetTokenWebResourceResponse,
+  GetTokenWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTokenWebResourceRequest,
   output: GetTokenWebResourceResponse,
   errors: [],
@@ -168,17 +218,20 @@ export const InsertWebResourceResponse = SiteVerificationWebResourceResource;
 export type InsertWebResourceError = DefaultErrors;
 
 /** Attempt verification of a website or domain. */
-export const insertWebResource: API.OperationMethod<InsertWebResourceRequest, InsertWebResourceResponse, InsertWebResourceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertWebResource: API.OperationMethod<
+  InsertWebResourceRequest,
+  InsertWebResourceResponse,
+  InsertWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertWebResourceRequest,
   output: InsertWebResourceResponse,
   errors: [],
 }));
 
-export interface ListWebResourceRequest {
-}
+export interface ListWebResourceRequest {}
 
-export const ListWebResourceRequest = Schema.Struct({
-}).pipe(
+export const ListWebResourceRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "webResource" }),
   svc,
 ) as unknown as Schema.Schema<ListWebResourceRequest>;
@@ -189,7 +242,12 @@ export const ListWebResourceResponse = SiteVerificationWebResourceListResponse;
 export type ListWebResourceError = DefaultErrors;
 
 /** Get the list of your verified websites and domains. */
-export const listWebResource: API.OperationMethod<ListWebResourceRequest, ListWebResourceResponse, ListWebResourceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listWebResource: API.OperationMethod<
+  ListWebResourceRequest,
+  ListWebResourceResponse,
+  ListWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListWebResourceRequest,
   output: ListWebResourceResponse,
   errors: [],
@@ -216,7 +274,12 @@ export const PatchWebResourceResponse = SiteVerificationWebResourceResource;
 export type PatchWebResourceError = DefaultErrors;
 
 /** Modify the list of owners for your website or domain. This method supports patch semantics. */
-export const patchWebResource: API.OperationMethod<PatchWebResourceRequest, PatchWebResourceResponse, PatchWebResourceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchWebResource: API.OperationMethod<
+  PatchWebResourceRequest,
+  PatchWebResourceResponse,
+  PatchWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchWebResourceRequest,
   output: PatchWebResourceResponse,
   errors: [],
@@ -243,9 +306,13 @@ export const UpdateWebResourceResponse = SiteVerificationWebResourceResource;
 export type UpdateWebResourceError = DefaultErrors;
 
 /** Modify the list of owners for your website or domain. */
-export const updateWebResource: API.OperationMethod<UpdateWebResourceRequest, UpdateWebResourceResponse, UpdateWebResourceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateWebResource: API.OperationMethod<
+  UpdateWebResourceRequest,
+  UpdateWebResourceResponse,
+  UpdateWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateWebResourceRequest,
   output: UpdateWebResourceResponse,
   errors: [],
 }));
-

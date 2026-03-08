@@ -25,15 +25,28 @@ const svc = T.Service({
 
 export interface Channel {
   /** Type of channel. */
-  channelType?: "CHANNEL_TYPE_UNSPECIFIED" | "STABLE" | "BETA" | "DEV" | "CANARY" | "CANARY_ASAN" | "ALL" | "EXTENDED" | "LTS" | "LTC" | (string & {});
+  channelType?:
+    | "CHANNEL_TYPE_UNSPECIFIED"
+    | "STABLE"
+    | "BETA"
+    | "DEV"
+    | "CANARY"
+    | "CANARY_ASAN"
+    | "ALL"
+    | "EXTENDED"
+    | "LTS"
+    | "LTC"
+    | (string & {});
   /** Channel name. Format is "{product}/platforms/{platform}/channels/{channel}" */
   name?: string;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() => Schema.Struct({
-  channelType: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
+  Schema.Struct({
+    channelType: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface ListChannelsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -42,10 +55,15 @@ export interface ListChannelsResponse {
   channels?: Array<Channel>;
 }
 
-export const ListChannelsResponse: Schema.Schema<ListChannelsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  channels: Schema.optional(Schema.Array(Channel)),
-})).annotate({ identifier: "ListChannelsResponse" }) as any as Schema.Schema<ListChannelsResponse>;
+export const ListChannelsResponse: Schema.Schema<ListChannelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      channels: Schema.optional(Schema.Array(Channel)),
+    }),
+  ).annotate({
+    identifier: "ListChannelsResponse",
+  }) as any as Schema.Schema<ListChannelsResponse>;
 
 export interface Version {
   /** Version name. Format is "{product}/platforms/{platform}/channels/{channel}/versions/{version}" e.g. "chrome/platforms/win/channels/beta/versions/84.0.4147.38" */
@@ -54,10 +72,12 @@ export interface Version {
   version?: string;
 }
 
-export const Version: Schema.Schema<Version> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "Version" }) as any as Schema.Schema<Version>;
+export const Version: Schema.Schema<Version> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Version" }) as any as Schema.Schema<Version>;
 
 export interface ListVersionsResponse {
   /** The list of versions. */
@@ -66,10 +86,15 @@ export interface ListVersionsResponse {
   nextPageToken?: string;
 }
 
-export const ListVersionsResponse: Schema.Schema<ListVersionsResponse> = Schema.suspend(() => Schema.Struct({
-  versions: Schema.optional(Schema.Array(Version)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListVersionsResponse" }) as any as Schema.Schema<ListVersionsResponse>;
+export const ListVersionsResponse: Schema.Schema<ListVersionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      versions: Schema.optional(Schema.Array(Version)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListVersionsResponse",
+  }) as any as Schema.Schema<ListVersionsResponse>;
 
 export interface RolloutData {
   /** Tags associated with a release's role in a rollout. Most rollouts will have at least one release with a "rollout" tag and another release with a "control" tag. Some rollouts may have additional named arms. */
@@ -78,22 +103,43 @@ export interface RolloutData {
   rolloutName?: string;
 }
 
-export const RolloutData: Schema.Schema<RolloutData> = Schema.suspend(() => Schema.Struct({
-  tag: Schema.optional(Schema.Array(Schema.String)),
-  rolloutName: Schema.optional(Schema.String),
-})).annotate({ identifier: "RolloutData" }) as any as Schema.Schema<RolloutData>;
+export const RolloutData: Schema.Schema<RolloutData> = Schema.suspend(() =>
+  Schema.Struct({
+    tag: Schema.optional(Schema.Array(Schema.String)),
+    rolloutName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RolloutData" }) as any as Schema.Schema<RolloutData>;
 
 export interface Platform {
   /** Platform name. Format is "{product}/platforms/{platform}" */
   name?: string;
   /** Type of platform. */
-  platformType?: "PLATFORM_TYPE_UNSPECIFIED" | "WIN" | "WIN64" | "MAC" | "LINUX" | "ANDROID" | "WEBVIEW" | "IOS" | "ALL" | "MAC_ARM64" | "LACROS" | "LACROS_ARM32" | "CHROMEOS" | "LACROS_ARM64" | "FUCHSIA" | "WIN_ARM64" | (string & {});
+  platformType?:
+    | "PLATFORM_TYPE_UNSPECIFIED"
+    | "WIN"
+    | "WIN64"
+    | "MAC"
+    | "LINUX"
+    | "ANDROID"
+    | "WEBVIEW"
+    | "IOS"
+    | "ALL"
+    | "MAC_ARM64"
+    | "LACROS"
+    | "LACROS_ARM32"
+    | "CHROMEOS"
+    | "LACROS_ARM64"
+    | "FUCHSIA"
+    | "WIN_ARM64"
+    | (string & {});
 }
 
-export const Platform: Schema.Schema<Platform> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  platformType: Schema.optional(Schema.String),
-})).annotate({ identifier: "Platform" }) as any as Schema.Schema<Platform>;
+export const Platform: Schema.Schema<Platform> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    platformType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Platform" }) as any as Schema.Schema<Platform>;
 
 export interface ListPlatformsResponse {
   /** The list of platforms. */
@@ -102,10 +148,15 @@ export interface ListPlatformsResponse {
   nextPageToken?: string;
 }
 
-export const ListPlatformsResponse: Schema.Schema<ListPlatformsResponse> = Schema.suspend(() => Schema.Struct({
-  platforms: Schema.optional(Schema.Array(Platform)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPlatformsResponse" }) as any as Schema.Schema<ListPlatformsResponse>;
+export const ListPlatformsResponse: Schema.Schema<ListPlatformsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      platforms: Schema.optional(Schema.Array(Platform)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPlatformsResponse",
+  }) as any as Schema.Schema<ListPlatformsResponse>;
 
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -114,10 +165,12 @@ export interface Interval {
   endTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface Release {
   /** Rollout fraction. This fraction indicates the fraction of people that should receive this version in this release. If the fraction is not specified in ReleaseManager, the API will assume fraction is 1. */
@@ -136,15 +189,17 @@ export interface Release {
   fractionGroup?: string;
 }
 
-export const Release: Schema.Schema<Release> = Schema.suspend(() => Schema.Struct({
-  fraction: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  serving: Schema.optional(Interval),
-  pinnable: Schema.optional(Schema.Boolean),
-  rolloutData: Schema.optional(Schema.Array(RolloutData)),
-  version: Schema.optional(Schema.String),
-  fractionGroup: Schema.optional(Schema.String),
-})).annotate({ identifier: "Release" }) as any as Schema.Schema<Release>;
+export const Release: Schema.Schema<Release> = Schema.suspend(() =>
+  Schema.Struct({
+    fraction: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    serving: Schema.optional(Interval),
+    pinnable: Schema.optional(Schema.Boolean),
+    rolloutData: Schema.optional(Schema.Array(RolloutData)),
+    version: Schema.optional(Schema.String),
+    fractionGroup: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Release" }) as any as Schema.Schema<Release>;
 
 export interface ListReleasesResponse {
   /** The list of releases. */
@@ -153,10 +208,15 @@ export interface ListReleasesResponse {
   nextPageToken?: string;
 }
 
-export const ListReleasesResponse: Schema.Schema<ListReleasesResponse> = Schema.suspend(() => Schema.Struct({
-  releases: Schema.optional(Schema.Array(Release)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListReleasesResponse" }) as any as Schema.Schema<ListReleasesResponse>;
+export const ListReleasesResponse: Schema.Schema<ListReleasesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      releases: Schema.optional(Schema.Array(Release)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListReleasesResponse",
+  }) as any as Schema.Schema<ListReleasesResponse>;
 
 // ==========================================================================
 // Operations
@@ -186,7 +246,12 @@ export const ListPlatformsResponse_Op = ListPlatformsResponse;
 export type ListPlatformsError = DefaultErrors;
 
 /** Returns list of platforms that are available for a given product. The resource "product" has no resource name in its name. */
-export const listPlatforms: API.PaginatedOperationMethod<ListPlatformsRequest, ListPlatformsResponse_Op, ListPlatformsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPlatforms: API.PaginatedOperationMethod<
+  ListPlatformsRequest,
+  ListPlatformsResponse_Op,
+  ListPlatformsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPlatformsRequest,
   output: ListPlatformsResponse_Op,
   errors: [],
@@ -220,7 +285,12 @@ export const ListPlatformsChannelsResponse = ListChannelsResponse;
 export type ListPlatformsChannelsError = DefaultErrors;
 
 /** Returns list of channels that are available for a given platform. */
-export const listPlatformsChannels: API.PaginatedOperationMethod<ListPlatformsChannelsRequest, ListPlatformsChannelsResponse, ListPlatformsChannelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPlatformsChannels: API.PaginatedOperationMethod<
+  ListPlatformsChannelsRequest,
+  ListPlatformsChannelsResponse,
+  ListPlatformsChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPlatformsChannelsRequest,
   output: ListPlatformsChannelsResponse,
   errors: [],
@@ -250,7 +320,10 @@ export const ListPlatformsChannelsVersionsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/platforms/{platformsId}/channels/{channelsId}/versions" }),
+  T.Http({
+    method: "GET",
+    path: "v1/{v1Id}/platforms/{platformsId}/channels/{channelsId}/versions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListPlatformsChannelsVersionsRequest>;
 
@@ -260,7 +333,12 @@ export const ListPlatformsChannelsVersionsResponse = ListVersionsResponse;
 export type ListPlatformsChannelsVersionsError = DefaultErrors;
 
 /** Returns list of version for the given platform/channel. */
-export const listPlatformsChannelsVersions: API.PaginatedOperationMethod<ListPlatformsChannelsVersionsRequest, ListPlatformsChannelsVersionsResponse, ListPlatformsChannelsVersionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPlatformsChannelsVersions: API.PaginatedOperationMethod<
+  ListPlatformsChannelsVersionsRequest,
+  ListPlatformsChannelsVersionsResponse,
+  ListPlatformsChannelsVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPlatformsChannelsVersionsRequest,
   output: ListPlatformsChannelsVersionsResponse,
   errors: [],
@@ -290,17 +368,27 @@ export const ListPlatformsChannelsVersionsReleasesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/platforms/{platformsId}/channels/{channelsId}/versions/{versionsId}/releases" }),
+  T.Http({
+    method: "GET",
+    path: "v1/{v1Id}/platforms/{platformsId}/channels/{channelsId}/versions/{versionsId}/releases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListPlatformsChannelsVersionsReleasesRequest>;
 
-export type ListPlatformsChannelsVersionsReleasesResponse = ListReleasesResponse;
-export const ListPlatformsChannelsVersionsReleasesResponse = ListReleasesResponse;
+export type ListPlatformsChannelsVersionsReleasesResponse =
+  ListReleasesResponse;
+export const ListPlatformsChannelsVersionsReleasesResponse =
+  ListReleasesResponse;
 
 export type ListPlatformsChannelsVersionsReleasesError = DefaultErrors;
 
 /** Returns list of releases of the given version. */
-export const listPlatformsChannelsVersionsReleases: API.PaginatedOperationMethod<ListPlatformsChannelsVersionsReleasesRequest, ListPlatformsChannelsVersionsReleasesResponse, ListPlatformsChannelsVersionsReleasesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPlatformsChannelsVersionsReleases: API.PaginatedOperationMethod<
+  ListPlatformsChannelsVersionsReleasesRequest,
+  ListPlatformsChannelsVersionsReleasesResponse,
+  ListPlatformsChannelsVersionsReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPlatformsChannelsVersionsReleasesRequest,
   output: ListPlatformsChannelsVersionsReleasesResponse,
   errors: [],
@@ -309,4 +397,3 @@ export const listPlatformsChannelsVersionsReleases: API.PaginatedOperationMethod
     outputToken: "nextPageToken",
   },
 }));
-

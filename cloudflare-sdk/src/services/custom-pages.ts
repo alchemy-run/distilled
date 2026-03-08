@@ -11,22 +11,45 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // CustomPage
 // =============================================================================
 
 export interface GetCustomPageRequest {
-  identifier: "1000_errors" | "500_errors" | "basic_challenge" | "country_challenge" | "ip_block" | "managed_challenge" | "ratelimit_block" | "under_attack" | "waf_block" | "waf_challenge";
+  identifier:
+    | "1000_errors"
+    | "500_errors"
+    | "basic_challenge"
+    | "country_challenge"
+    | "ip_block"
+    | "managed_challenge"
+    | "ratelimit_block"
+    | "under_attack"
+    | "waf_block"
+    | "waf_challenge";
 }
 
 export const GetCustomPageRequest = Schema.Struct({
-  identifier: Schema.Literals(["1000_errors", "500_errors", "basic_challenge", "country_challenge", "ip_block", "managed_challenge", "ratelimit_block", "under_attack", "waf_block", "waf_challenge"]).pipe(T.HttpPath("identifier"))
-})
-  .pipe(T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}" })) as unknown as Schema.Schema<GetCustomPageRequest>;
+  identifier: Schema.Literals([
+    "1000_errors",
+    "500_errors",
+    "basic_challenge",
+    "country_challenge",
+    "ip_block",
+    "managed_challenge",
+    "ratelimit_block",
+    "under_attack",
+    "waf_block",
+    "waf_challenge",
+  ]).pipe(T.HttpPath("identifier")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}",
+  }),
+) as unknown as Schema.Schema<GetCustomPageRequest>;
 
 export interface GetCustomPageResponse {
   id?: string;
@@ -49,11 +72,21 @@ export const GetCustomPageResponse = Schema.Struct({
   previewTarget: Schema.optional(Schema.String),
   requiredTokens: Schema.optional(Schema.Array(Schema.String)),
   state: Schema.optional(Schema.Literals(["default", "customized"])),
-  url: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", description: "description", modifiedOn: "modified_on", previewTarget: "preview_target", requiredTokens: "required_tokens", state: "state", url: "url" })) as unknown as Schema.Schema<GetCustomPageResponse>;
+  url: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    previewTarget: "preview_target",
+    requiredTokens: "required_tokens",
+    state: "state",
+    url: "url",
+  }),
+) as unknown as Schema.Schema<GetCustomPageResponse>;
 
-export type GetCustomPageError =
-  | DefaultErrors;
+export type GetCustomPageError = DefaultErrors;
 
 export const getCustomPage: API.OperationMethod<
   GetCustomPageRequest,
@@ -66,28 +99,51 @@ export const getCustomPage: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListCustomPagesRequest {
-}
+export interface ListCustomPagesRequest {}
 
-export const ListCustomPagesRequest = Schema.Struct({
-})
-  .pipe(T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/custom_pages" })) as unknown as Schema.Schema<ListCustomPagesRequest>;
+export const ListCustomPagesRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/custom_pages",
+  }),
+) as unknown as Schema.Schema<ListCustomPagesRequest>;
 
-export type ListCustomPagesResponse = ({ id?: string; createdOn?: string; description?: string; modifiedOn?: string; previewTarget?: string; requiredTokens?: string[]; state?: "default" | "customized"; url?: string })[];
+export type ListCustomPagesResponse = {
+  id?: string;
+  createdOn?: string;
+  description?: string;
+  modifiedOn?: string;
+  previewTarget?: string;
+  requiredTokens?: string[];
+  state?: "default" | "customized";
+  url?: string;
+}[];
 
-export const ListCustomPagesResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  previewTarget: Schema.optional(Schema.String),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
-  state: Schema.optional(Schema.Literals(["default", "customized"])),
-  url: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", description: "description", modifiedOn: "modified_on", previewTarget: "preview_target", requiredTokens: "required_tokens", state: "state", url: "url" }))) as unknown as Schema.Schema<ListCustomPagesResponse>;
+export const ListCustomPagesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    createdOn: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String),
+    previewTarget: Schema.optional(Schema.String),
+    requiredTokens: Schema.optional(Schema.Array(Schema.String)),
+    state: Schema.optional(Schema.Literals(["default", "customized"])),
+    url: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      previewTarget: "preview_target",
+      requiredTokens: "required_tokens",
+      state: "state",
+      url: "url",
+    }),
+  ),
+) as unknown as Schema.Schema<ListCustomPagesResponse>;
 
-export type ListCustomPagesError =
-  | DefaultErrors;
+export type ListCustomPagesError = DefaultErrors;
 
 export const listCustomPages: API.OperationMethod<
   ListCustomPagesRequest,
@@ -101,7 +157,17 @@ export const listCustomPages: API.OperationMethod<
 }));
 
 export interface PutCustomPageRequest {
-  identifier: "1000_errors" | "500_errors" | "basic_challenge" | "country_challenge" | "ip_block" | "managed_challenge" | "ratelimit_block" | "under_attack" | "waf_block" | "waf_challenge";
+  identifier:
+    | "1000_errors"
+    | "500_errors"
+    | "basic_challenge"
+    | "country_challenge"
+    | "ip_block"
+    | "managed_challenge"
+    | "ratelimit_block"
+    | "under_attack"
+    | "waf_block"
+    | "waf_challenge";
   /** Path param: The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId?: string;
   /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -113,13 +179,28 @@ export interface PutCustomPageRequest {
 }
 
 export const PutCustomPageRequest = Schema.Struct({
-  identifier: Schema.Literals(["1000_errors", "500_errors", "basic_challenge", "country_challenge", "ip_block", "managed_challenge", "ratelimit_block", "under_attack", "waf_block", "waf_challenge"]).pipe(T.HttpPath("identifier")),
+  identifier: Schema.Literals([
+    "1000_errors",
+    "500_errors",
+    "basic_challenge",
+    "country_challenge",
+    "ip_block",
+    "managed_challenge",
+    "ratelimit_block",
+    "under_attack",
+    "waf_block",
+    "waf_challenge",
+  ]).pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   state: Schema.Literals(["default", "customized"]),
-  url: Schema.String
-})
-  .pipe(T.Http({ method: "PUT", path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}" })) as unknown as Schema.Schema<PutCustomPageRequest>;
+  url: Schema.String,
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}",
+  }),
+) as unknown as Schema.Schema<PutCustomPageRequest>;
 
 export interface PutCustomPageResponse {
   id?: string;
@@ -142,11 +223,21 @@ export const PutCustomPageResponse = Schema.Struct({
   previewTarget: Schema.optional(Schema.String),
   requiredTokens: Schema.optional(Schema.Array(Schema.String)),
   state: Schema.optional(Schema.Literals(["default", "customized"])),
-  url: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", description: "description", modifiedOn: "modified_on", previewTarget: "preview_target", requiredTokens: "required_tokens", state: "state", url: "url" })) as unknown as Schema.Schema<PutCustomPageResponse>;
+  url: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    previewTarget: "preview_target",
+    requiredTokens: "required_tokens",
+    state: "state",
+    url: "url",
+  }),
+) as unknown as Schema.Schema<PutCustomPageResponse>;
 
-export type PutCustomPageError =
-  | DefaultErrors;
+export type PutCustomPageError = DefaultErrors;
 
 export const putCustomPage: API.OperationMethod<
   PutCustomPageRequest,

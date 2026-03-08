@@ -32,11 +32,15 @@ export interface Adsense_Date {
   month?: number;
 }
 
-export const Adsense_Date: Schema.Schema<Adsense_Date> = Schema.suspend(() => Schema.Struct({
-  day: Schema.optional(Schema.Number),
-  year: Schema.optional(Schema.Number),
-  month: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Adsense_Date" }) as any as Schema.Schema<Adsense_Date>;
+export const Adsense_Date: Schema.Schema<Adsense_Date> = Schema.suspend(() =>
+  Schema.Struct({
+    day: Schema.optional(Schema.Number),
+    year: Schema.optional(Schema.Number),
+    month: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "Adsense_Date",
+}) as any as Schema.Schema<Adsense_Date>;
 
 export interface PolicyTopic {
   /** Required. The policy topic. For example, "sexual-content" or "ads-obscuring-content"." */
@@ -44,14 +48,21 @@ export interface PolicyTopic {
   /** Required. Deprecated. Always set to false. */
   mustFix?: boolean;
   /** Optional. The type of policy topic. For example, "POLICY" represents all the policy topics that are related to the Google Publisher Policy (GPP). See https://support.google.com/adsense/answer/15689616. */
-  type?: "POLICY_TOPIC_TYPE_UNSPECIFIED" | "POLICY" | "ADVERTISER_PREFERENCE" | "REGULATORY" | (string & {});
+  type?:
+    | "POLICY_TOPIC_TYPE_UNSPECIFIED"
+    | "POLICY"
+    | "ADVERTISER_PREFERENCE"
+    | "REGULATORY"
+    | (string & {});
 }
 
-export const PolicyTopic: Schema.Schema<PolicyTopic> = Schema.suspend(() => Schema.Struct({
-  topic: Schema.optional(Schema.String),
-  mustFix: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "PolicyTopic" }) as any as Schema.Schema<PolicyTopic>;
+export const PolicyTopic: Schema.Schema<PolicyTopic> = Schema.suspend(() =>
+  Schema.Struct({
+    topic: Schema.optional(Schema.String),
+    mustFix: Schema.optional(Schema.Boolean),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PolicyTopic" }) as any as Schema.Schema<PolicyTopic>;
 
 export interface PolicyIssue {
   /** Optional. URI of the page having policy violations (for example "foo.com/bar" or "www.foo.com/bar"). This will be present if the `entity_type` is `PAGE` and will be absent for other entity types. */
@@ -61,7 +72,12 @@ export interface PolicyIssue {
   /** Required. Hostname/domain of the entity (for example "foo.com" or "www.foo.com"). This _should_ be a bare domain/host name without any protocol. This will be present for all policy issues. */
   site?: string;
   /** Required. Type of the entity indicating if the entity is a site, site-section, or page. */
-  entityType?: "ENTITY_TYPE_UNSPECIFIED" | "SITE" | "SITE_SECTION" | "PAGE" | (string & {});
+  entityType?:
+    | "ENTITY_TYPE_UNSPECIFIED"
+    | "SITE"
+    | "SITE_SECTION"
+    | "PAGE"
+    | (string & {});
   /** Required. The date (in the America/Los_Angeles timezone) when policy violations were first detected on the entity. */
   firstDetectedDate?: Adsense_Date;
   /** Required. Total number of ad requests affected by the policy violations over the past seven days. */
@@ -73,27 +89,36 @@ export interface PolicyIssue {
   /** Optional. Prefix of the site-section having policy issues (For example "foo.com/bar-section"). This will be present if the `entity_type` is `SITE_SECTION` and will be absent for other entity types. */
   siteSection?: string;
   /** Required. The most severe action taken on the entity over the past seven days. */
-  action?: "ENFORCEMENT_ACTION_UNSPECIFIED" | "WARNED" | "AD_SERVING_RESTRICTED" | "AD_SERVING_DISABLED" | "AD_SERVED_WITH_CLICK_CONFIRMATION" | "AD_PERSONALIZATION_RESTRICTED" | (string & {});
+  action?:
+    | "ENFORCEMENT_ACTION_UNSPECIFIED"
+    | "WARNED"
+    | "AD_SERVING_RESTRICTED"
+    | "AD_SERVING_DISABLED"
+    | "AD_SERVED_WITH_CLICK_CONFIRMATION"
+    | "AD_PERSONALIZATION_RESTRICTED"
+    | (string & {});
   /** Optional. The date (in the America/Los_Angeles timezone) when the entity will have ad serving demand restricted or ad serving disabled. This is present only for issues with a `WARNED` enforcement action. See https://support.google.com/adsense/answer/11066888. */
   warningEscalationDate?: Adsense_Date;
   /** Optional. List of ad clients associated with the policy issue (either as the primary ad client or an associated host/secondary ad client). In the latter case, this will be an ad client that is not owned by the current account. */
   adClients?: Array<string>;
 }
 
-export const PolicyIssue: Schema.Schema<PolicyIssue> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  lastDetectedDate: Schema.optional(Adsense_Date),
-  site: Schema.optional(Schema.String),
-  entityType: Schema.optional(Schema.String),
-  firstDetectedDate: Schema.optional(Adsense_Date),
-  adRequestCount: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  policyTopics: Schema.optional(Schema.Array(PolicyTopic)),
-  siteSection: Schema.optional(Schema.String),
-  action: Schema.optional(Schema.String),
-  warningEscalationDate: Schema.optional(Adsense_Date),
-  adClients: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PolicyIssue" }) as any as Schema.Schema<PolicyIssue>;
+export const PolicyIssue: Schema.Schema<PolicyIssue> = Schema.suspend(() =>
+  Schema.Struct({
+    uri: Schema.optional(Schema.String),
+    lastDetectedDate: Schema.optional(Adsense_Date),
+    site: Schema.optional(Schema.String),
+    entityType: Schema.optional(Schema.String),
+    firstDetectedDate: Schema.optional(Adsense_Date),
+    adRequestCount: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    policyTopics: Schema.optional(Schema.Array(PolicyTopic)),
+    siteSection: Schema.optional(Schema.String),
+    action: Schema.optional(Schema.String),
+    warningEscalationDate: Schema.optional(Adsense_Date),
+    adClients: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "PolicyIssue" }) as any as Schema.Schema<PolicyIssue>;
 
 export interface ListPolicyIssuesResponse {
   /** The policy issues returned in the list response. */
@@ -102,10 +127,15 @@ export interface ListPolicyIssuesResponse {
   nextPageToken?: string;
 }
 
-export const ListPolicyIssuesResponse: Schema.Schema<ListPolicyIssuesResponse> = Schema.suspend(() => Schema.Struct({
-  policyIssues: Schema.optional(Schema.Array(PolicyIssue)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPolicyIssuesResponse" }) as any as Schema.Schema<ListPolicyIssuesResponse>;
+export const ListPolicyIssuesResponse: Schema.Schema<ListPolicyIssuesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policyIssues: Schema.optional(Schema.Array(PolicyIssue)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPolicyIssuesResponse",
+  }) as any as Schema.Schema<ListPolicyIssuesResponse>;
 
 export interface AdBlockingRecoveryTag {
   /** The ad blocking recovery tag. Note that the message generated by the tag can be blocked by an ad blocking extension. If this is not your desired outcome, then you'll need to use it in conjunction with the error protection code. */
@@ -114,10 +144,15 @@ export interface AdBlockingRecoveryTag {
   errorProtectionCode?: string;
 }
 
-export const AdBlockingRecoveryTag: Schema.Schema<AdBlockingRecoveryTag> = Schema.suspend(() => Schema.Struct({
-  tag: Schema.optional(Schema.String),
-  errorProtectionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdBlockingRecoveryTag" }) as any as Schema.Schema<AdBlockingRecoveryTag>;
+export const AdBlockingRecoveryTag: Schema.Schema<AdBlockingRecoveryTag> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tag: Schema.optional(Schema.String),
+      errorProtectionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdBlockingRecoveryTag",
+  }) as any as Schema.Schema<AdBlockingRecoveryTag>;
 
 export interface SavedReport {
   /** Report title as specified by publisher. */
@@ -126,10 +161,12 @@ export interface SavedReport {
   name?: string;
 }
 
-export const SavedReport: Schema.Schema<SavedReport> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "SavedReport" }) as any as Schema.Schema<SavedReport>;
+export const SavedReport: Schema.Schema<SavedReport> = Schema.suspend(() =>
+  Schema.Struct({
+    title: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SavedReport" }) as any as Schema.Schema<SavedReport>;
 
 export interface ListSavedReportsResponse {
   /** The reports returned in this list response. */
@@ -138,19 +175,28 @@ export interface ListSavedReportsResponse {
   nextPageToken?: string;
 }
 
-export const ListSavedReportsResponse: Schema.Schema<ListSavedReportsResponse> = Schema.suspend(() => Schema.Struct({
-  savedReports: Schema.optional(Schema.Array(SavedReport)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSavedReportsResponse" }) as any as Schema.Schema<ListSavedReportsResponse>;
+export const ListSavedReportsResponse: Schema.Schema<ListSavedReportsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      savedReports: Schema.optional(Schema.Array(SavedReport)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSavedReportsResponse",
+  }) as any as Schema.Schema<ListSavedReportsResponse>;
 
 export interface AdUnitAdCode {
   /** Output only. The code snippet to add to the body of an HTML page. */
   adCode?: string;
 }
 
-export const AdUnitAdCode: Schema.Schema<AdUnitAdCode> = Schema.suspend(() => Schema.Struct({
-  adCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdUnitAdCode" }) as any as Schema.Schema<AdUnitAdCode>;
+export const AdUnitAdCode: Schema.Schema<AdUnitAdCode> = Schema.suspend(() =>
+  Schema.Struct({
+    adCode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AdUnitAdCode",
+}) as any as Schema.Schema<AdUnitAdCode>;
 
 export interface TimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
@@ -159,10 +205,12 @@ export interface TimeZone {
   version?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface AdClientAdCode {
   /** Output only. The AdSense code snippet to add to the head of an AMP page. */
@@ -173,23 +221,40 @@ export interface AdClientAdCode {
   ampBody?: string;
 }
 
-export const AdClientAdCode: Schema.Schema<AdClientAdCode> = Schema.suspend(() => Schema.Struct({
-  ampHead: Schema.optional(Schema.String),
-  adCode: Schema.optional(Schema.String),
-  ampBody: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdClientAdCode" }) as any as Schema.Schema<AdClientAdCode>;
+export const AdClientAdCode: Schema.Schema<AdClientAdCode> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      ampHead: Schema.optional(Schema.String),
+      adCode: Schema.optional(Schema.String),
+      ampBody: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AdClientAdCode",
+}) as any as Schema.Schema<AdClientAdCode>;
 
 export interface ContentAdsSettings {
   /** Required. Size of the ad unit. e.g. "728x90", "1x3" (for responsive ad units). */
   size?: string;
   /** Required. Type of the ad unit. */
-  type?: "TYPE_UNSPECIFIED" | "DISPLAY" | "FEED" | "ARTICLE" | "MATCHED_CONTENT" | "LINK" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "DISPLAY"
+    | "FEED"
+    | "ARTICLE"
+    | "MATCHED_CONTENT"
+    | "LINK"
+    | (string & {});
 }
 
-export const ContentAdsSettings: Schema.Schema<ContentAdsSettings> = Schema.suspend(() => Schema.Struct({
-  size: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "ContentAdsSettings" }) as any as Schema.Schema<ContentAdsSettings>;
+export const ContentAdsSettings: Schema.Schema<ContentAdsSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      size: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ContentAdsSettings",
+  }) as any as Schema.Schema<ContentAdsSettings>;
 
 export interface AdUnit {
   /** Required. Settings specific to content ads (AFC). */
@@ -204,13 +269,15 @@ export interface AdUnit {
   reportingDimensionId?: string;
 }
 
-export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() => Schema.Struct({
-  contentAdsSettings: Schema.optional(ContentAdsSettings),
-  state: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  reportingDimensionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
+export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
+  Schema.Struct({
+    contentAdsSettings: Schema.optional(ContentAdsSettings),
+    state: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    reportingDimensionId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
 
 export interface ListLinkedAdUnitsResponse {
   /** The ad units returned in the list response. */
@@ -219,10 +286,15 @@ export interface ListLinkedAdUnitsResponse {
   nextPageToken?: string;
 }
 
-export const ListLinkedAdUnitsResponse: Schema.Schema<ListLinkedAdUnitsResponse> = Schema.suspend(() => Schema.Struct({
-  adUnits: Schema.optional(Schema.Array(AdUnit)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLinkedAdUnitsResponse" }) as any as Schema.Schema<ListLinkedAdUnitsResponse>;
+export const ListLinkedAdUnitsResponse: Schema.Schema<ListLinkedAdUnitsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adUnits: Schema.optional(Schema.Array(AdUnit)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLinkedAdUnitsResponse",
+  }) as any as Schema.Schema<ListLinkedAdUnitsResponse>;
 
 export interface Alert {
   /** Output only. The localized alert message. This may contain HTML markup, such as phrase elements or links. */
@@ -230,35 +302,49 @@ export interface Alert {
   /** Output only. Resource name of the alert. Format: accounts/{account}/alerts/{alert} */
   name?: string;
   /** Output only. Severity of this alert. */
-  severity?: "SEVERITY_UNSPECIFIED" | "INFO" | "WARNING" | "SEVERE" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "SEVERE"
+    | (string & {});
   /** Output only. Type of alert. This identifies the broad type of this alert, and provides a stable machine-readable identifier that will not be translated. For example, "payment-hold". */
   type?: string;
 }
 
-export const Alert: Schema.Schema<Alert> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
+export const Alert: Schema.Schema<Alert> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
 
 export interface AdClient {
   /** Output only. Unique ID of the ad client as used in the `AD_CLIENT_ID` reporting dimension. Present only if the ad client supports reporting. */
   reportingDimensionId?: string;
   /** Output only. State of the ad client. */
-  state?: "STATE_UNSPECIFIED" | "READY" | "GETTING_READY" | "REQUIRES_REVIEW" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "READY"
+    | "GETTING_READY"
+    | "REQUIRES_REVIEW"
+    | (string & {});
   /** Output only. Resource name of the ad client. Format: accounts/{account}/adclients/{adclient} */
   name?: string;
   /** Output only. Reporting product code of the ad client. For example, "AFC" for AdSense for Content. Corresponds to the `PRODUCT_CODE` dimension, and present only if the ad client supports reporting. */
   productCode?: string;
 }
 
-export const AdClient: Schema.Schema<AdClient> = Schema.suspend(() => Schema.Struct({
-  reportingDimensionId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  productCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdClient" }) as any as Schema.Schema<AdClient>;
+export const AdClient: Schema.Schema<AdClient> = Schema.suspend(() =>
+  Schema.Struct({
+    reportingDimensionId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    productCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AdClient" }) as any as Schema.Schema<AdClient>;
 
 export interface ListAdClientsResponse {
   /** The ad clients returned in this list response. */
@@ -267,10 +353,15 @@ export interface ListAdClientsResponse {
   nextPageToken?: string;
 }
 
-export const ListAdClientsResponse: Schema.Schema<ListAdClientsResponse> = Schema.suspend(() => Schema.Struct({
-  adClients: Schema.optional(Schema.Array(AdClient)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAdClientsResponse" }) as any as Schema.Schema<ListAdClientsResponse>;
+export const ListAdClientsResponse: Schema.Schema<ListAdClientsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adClients: Schema.optional(Schema.Array(AdClient)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAdClientsResponse",
+  }) as any as Schema.Schema<ListAdClientsResponse>;
 
 export interface CustomChannel {
   /** Output only. Unique ID of the custom channel as used in the `CUSTOM_CHANNEL_ID` reporting dimension. */
@@ -283,30 +374,38 @@ export interface CustomChannel {
   displayName?: string;
 }
 
-export const CustomChannel: Schema.Schema<CustomChannel> = Schema.suspend(() => Schema.Struct({
-  reportingDimensionId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  active: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomChannel" }) as any as Schema.Schema<CustomChannel>;
+export const CustomChannel: Schema.Schema<CustomChannel> = Schema.suspend(() =>
+  Schema.Struct({
+    reportingDimensionId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    active: Schema.optional(Schema.Boolean),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CustomChannel",
+}) as any as Schema.Schema<CustomChannel>;
 
 export interface Cell {
   /** Value in the cell. The dimension cells contain strings, and the metric cells contain numbers. */
   value?: string;
 }
 
-export const Cell: Schema.Schema<Cell> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "Cell" }) as any as Schema.Schema<Cell>;
+export const Cell: Schema.Schema<Cell> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Cell" }) as any as Schema.Schema<Cell>;
 
 export interface Row {
   /** Cells in the row. */
   cells?: Array<Cell>;
 }
 
-export const Row: Schema.Schema<Row> = Schema.suspend(() => Schema.Struct({
-  cells: Schema.optional(Schema.Array(Cell)),
-})).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
+export const Row: Schema.Schema<Row> = Schema.suspend(() =>
+  Schema.Struct({
+    cells: Schema.optional(Schema.Array(Cell)),
+  }),
+).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
 
 export interface Header {
   /** Required. Name of the header. */
@@ -314,14 +413,24 @@ export interface Header {
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) of this column. Only present if the header type is METRIC_CURRENCY. */
   currencyCode?: string;
   /** Required. Type of the header. */
-  type?: "HEADER_TYPE_UNSPECIFIED" | "DIMENSION" | "METRIC_TALLY" | "METRIC_RATIO" | "METRIC_CURRENCY" | "METRIC_MILLISECONDS" | "METRIC_DECIMAL" | (string & {});
+  type?:
+    | "HEADER_TYPE_UNSPECIFIED"
+    | "DIMENSION"
+    | "METRIC_TALLY"
+    | "METRIC_RATIO"
+    | "METRIC_CURRENCY"
+    | "METRIC_MILLISECONDS"
+    | "METRIC_DECIMAL"
+    | (string & {});
 }
 
-export const Header: Schema.Schema<Header> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  currencyCode: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
+export const Header: Schema.Schema<Header> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    currencyCode: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
 
 export interface ReportResult {
   /** The totals of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
@@ -342,16 +451,20 @@ export interface ReportResult {
   rows?: Array<Row>;
 }
 
-export const ReportResult: Schema.Schema<ReportResult> = Schema.suspend(() => Schema.Struct({
-  totals: Schema.optional(Row),
-  averages: Schema.optional(Row),
-  startDate: Schema.optional(Adsense_Date),
-  totalMatchedRows: Schema.optional(Schema.String),
-  headers: Schema.optional(Schema.Array(Header)),
-  endDate: Schema.optional(Adsense_Date),
-  warnings: Schema.optional(Schema.Array(Schema.String)),
-  rows: Schema.optional(Schema.Array(Row)),
-})).annotate({ identifier: "ReportResult" }) as any as Schema.Schema<ReportResult>;
+export const ReportResult: Schema.Schema<ReportResult> = Schema.suspend(() =>
+  Schema.Struct({
+    totals: Schema.optional(Row),
+    averages: Schema.optional(Row),
+    startDate: Schema.optional(Adsense_Date),
+    totalMatchedRows: Schema.optional(Schema.String),
+    headers: Schema.optional(Schema.Array(Header)),
+    endDate: Schema.optional(Adsense_Date),
+    warnings: Schema.optional(Schema.Array(Schema.String)),
+    rows: Schema.optional(Schema.Array(Row)),
+  }),
+).annotate({
+  identifier: "ReportResult",
+}) as any as Schema.Schema<ReportResult>;
 
 export interface ListLinkedCustomChannelsResponse {
   /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
@@ -360,16 +473,27 @@ export interface ListLinkedCustomChannelsResponse {
   customChannels?: Array<CustomChannel>;
 }
 
-export const ListLinkedCustomChannelsResponse: Schema.Schema<ListLinkedCustomChannelsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  customChannels: Schema.optional(Schema.Array(CustomChannel)),
-})).annotate({ identifier: "ListLinkedCustomChannelsResponse" }) as any as Schema.Schema<ListLinkedCustomChannelsResponse>;
+export const ListLinkedCustomChannelsResponse: Schema.Schema<ListLinkedCustomChannelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      customChannels: Schema.optional(Schema.Array(CustomChannel)),
+    }),
+  ).annotate({
+    identifier: "ListLinkedCustomChannelsResponse",
+  }) as any as Schema.Schema<ListLinkedCustomChannelsResponse>;
 
 export interface Site {
   /** Domain (or subdomain) of the site, e.g. "example.com" or "www.example.com". This is used in the `OWNED_SITE_DOMAIN_NAME` reporting dimension. */
   domain?: string;
   /** Output only. State of a site. */
-  state?: "STATE_UNSPECIFIED" | "REQUIRES_REVIEW" | "GETTING_READY" | "READY" | "NEEDS_ATTENTION" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "REQUIRES_REVIEW"
+    | "GETTING_READY"
+    | "READY"
+    | "NEEDS_ATTENTION"
+    | (string & {});
   /** Output only. Resource name of a site. Format: accounts/{account}/sites/{site} */
   name?: string;
   /** Output only. Unique ID of the site as used in the `OWNED_SITE_ID` reporting dimension. */
@@ -378,13 +502,15 @@ export interface Site {
   autoAdsEnabled?: boolean;
 }
 
-export const Site: Schema.Schema<Site> = Schema.suspend(() => Schema.Struct({
-  domain: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  reportingDimensionId: Schema.optional(Schema.String),
-  autoAdsEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
+export const Site: Schema.Schema<Site> = Schema.suspend(() =>
+  Schema.Struct({
+    domain: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    reportingDimensionId: Schema.optional(Schema.String),
+    autoAdsEnabled: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
 
 export interface ListSitesResponse {
   /** The sites returned in this list response. */
@@ -393,10 +519,15 @@ export interface ListSitesResponse {
   nextPageToken?: string;
 }
 
-export const ListSitesResponse: Schema.Schema<ListSitesResponse> = Schema.suspend(() => Schema.Struct({
-  sites: Schema.optional(Schema.Array(Site)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSitesResponse" }) as any as Schema.Schema<ListSitesResponse>;
+export const ListSitesResponse: Schema.Schema<ListSitesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sites: Schema.optional(Schema.Array(Site)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSitesResponse",
+  }) as any as Schema.Schema<ListSitesResponse>;
 
 export interface UrlChannel {
   /** Output only. Unique ID of the custom channel as used in the `URL_CHANNEL_ID` reporting dimension. */
@@ -407,11 +538,13 @@ export interface UrlChannel {
   uriPattern?: string;
 }
 
-export const UrlChannel: Schema.Schema<UrlChannel> = Schema.suspend(() => Schema.Struct({
-  reportingDimensionId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uriPattern: Schema.optional(Schema.String),
-})).annotate({ identifier: "UrlChannel" }) as any as Schema.Schema<UrlChannel>;
+export const UrlChannel: Schema.Schema<UrlChannel> = Schema.suspend(() =>
+  Schema.Struct({
+    reportingDimensionId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    uriPattern: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UrlChannel" }) as any as Schema.Schema<UrlChannel>;
 
 export interface ListUrlChannelsResponse {
   /** Continuation token used to page through url channels. To retrieve the next page of the results, set the next request's "page_token" value to this. */
@@ -420,10 +553,15 @@ export interface ListUrlChannelsResponse {
   urlChannels?: Array<UrlChannel>;
 }
 
-export const ListUrlChannelsResponse: Schema.Schema<ListUrlChannelsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  urlChannels: Schema.optional(Schema.Array(UrlChannel)),
-})).annotate({ identifier: "ListUrlChannelsResponse" }) as any as Schema.Schema<ListUrlChannelsResponse>;
+export const ListUrlChannelsResponse: Schema.Schema<ListUrlChannelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      urlChannels: Schema.optional(Schema.Array(UrlChannel)),
+    }),
+  ).annotate({
+    identifier: "ListUrlChannelsResponse",
+  }) as any as Schema.Schema<ListUrlChannelsResponse>;
 
 export interface Account {
   /** The account time zone, as used by reporting. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
@@ -439,18 +577,25 @@ export interface Account {
   /** Output only. Creation time of the account. */
   createTime?: string;
   /** Output only. State of the account. */
-  state?: "STATE_UNSPECIFIED" | "READY" | "NEEDS_ATTENTION" | "CLOSED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "READY"
+    | "NEEDS_ATTENTION"
+    | "CLOSED"
+    | (string & {});
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() => Schema.Struct({
-  timeZone: Schema.optional(TimeZone),
-  displayName: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  pendingTasks: Schema.optional(Schema.Array(Schema.String)),
-  premium: Schema.optional(Schema.Boolean),
-  createTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> = Schema.suspend(() =>
+  Schema.Struct({
+    timeZone: Schema.optional(TimeZone),
+    displayName: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    pendingTasks: Schema.optional(Schema.Array(Schema.String)),
+    premium: Schema.optional(Schema.Boolean),
+    createTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface ListChildAccountsResponse {
   /** The accounts returned in this list response. */
@@ -459,10 +604,15 @@ export interface ListChildAccountsResponse {
   nextPageToken?: string;
 }
 
-export const ListChildAccountsResponse: Schema.Schema<ListChildAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  accounts: Schema.optional(Schema.Array(Account)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListChildAccountsResponse" }) as any as Schema.Schema<ListChildAccountsResponse>;
+export const ListChildAccountsResponse: Schema.Schema<ListChildAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accounts: Schema.optional(Schema.Array(Account)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListChildAccountsResponse",
+  }) as any as Schema.Schema<ListChildAccountsResponse>;
 
 export interface Payment {
   /** Output only. Resource name of the payment. Format: - accounts/{account}/payments/unpaid for unpaid (current) AdSense earnings. - accounts/{account}/payments/youtube-unpaid for unpaid (current) YouTube earnings. - accounts/{account}/payments/yyyy-MM-dd for paid AdSense earnings. - accounts/{account}/payments/youtube-yyyy-MM-dd for paid YouTube earnings. */
@@ -473,29 +623,41 @@ export interface Payment {
   date?: Adsense_Date;
 }
 
-export const Payment: Schema.Schema<Payment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  amount: Schema.optional(Schema.String),
-  date: Schema.optional(Adsense_Date),
-})).annotate({ identifier: "Payment" }) as any as Schema.Schema<Payment>;
+export const Payment: Schema.Schema<Payment> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    amount: Schema.optional(Schema.String),
+    date: Schema.optional(Adsense_Date),
+  }),
+).annotate({ identifier: "Payment" }) as any as Schema.Schema<Payment>;
 
 export interface ListPaymentsResponse {
   /** The payments returned in this list response. */
   payments?: Array<Payment>;
 }
 
-export const ListPaymentsResponse: Schema.Schema<ListPaymentsResponse> = Schema.suspend(() => Schema.Struct({
-  payments: Schema.optional(Schema.Array(Payment)),
-})).annotate({ identifier: "ListPaymentsResponse" }) as any as Schema.Schema<ListPaymentsResponse>;
+export const ListPaymentsResponse: Schema.Schema<ListPaymentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      payments: Schema.optional(Schema.Array(Payment)),
+    }),
+  ).annotate({
+    identifier: "ListPaymentsResponse",
+  }) as any as Schema.Schema<ListPaymentsResponse>;
 
 export interface ListAlertsResponse {
   /** The alerts returned in this list response. */
   alerts?: Array<Alert>;
 }
 
-export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> = Schema.suspend(() => Schema.Struct({
-  alerts: Schema.optional(Schema.Array(Alert)),
-})).annotate({ identifier: "ListAlertsResponse" }) as any as Schema.Schema<ListAlertsResponse>;
+export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alerts: Schema.optional(Schema.Array(Alert)),
+    }),
+  ).annotate({
+    identifier: "ListAlertsResponse",
+  }) as any as Schema.Schema<ListAlertsResponse>;
 
 export interface ListCustomChannelsResponse {
   /** The custom channels returned in this list response. */
@@ -504,16 +666,21 @@ export interface ListCustomChannelsResponse {
   nextPageToken?: string;
 }
 
-export const ListCustomChannelsResponse: Schema.Schema<ListCustomChannelsResponse> = Schema.suspend(() => Schema.Struct({
-  customChannels: Schema.optional(Schema.Array(CustomChannel)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCustomChannelsResponse" }) as any as Schema.Schema<ListCustomChannelsResponse>;
+export const ListCustomChannelsResponse: Schema.Schema<ListCustomChannelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customChannels: Schema.optional(Schema.Array(CustomChannel)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomChannelsResponse",
+  }) as any as Schema.Schema<ListCustomChannelsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
@@ -524,11 +691,15 @@ export interface HttpBody {
   extensions?: Array<Record<string, unknown>>;
 }
 
-export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() => Schema.Struct({
-  contentType: Schema.optional(Schema.String),
-  data: Schema.optional(Schema.String),
-  extensions: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
+export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() =>
+  Schema.Struct({
+    contentType: Schema.optional(Schema.String),
+    data: Schema.optional(Schema.String),
+    extensions: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
 
 export interface ListAdUnitsResponse {
   /** The ad units returned in the list response. */
@@ -537,10 +708,15 @@ export interface ListAdUnitsResponse {
   nextPageToken?: string;
 }
 
-export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> = Schema.suspend(() => Schema.Struct({
-  adUnits: Schema.optional(Schema.Array(AdUnit)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAdUnitsResponse" }) as any as Schema.Schema<ListAdUnitsResponse>;
+export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adUnits: Schema.optional(Schema.Array(AdUnit)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAdUnitsResponse",
+  }) as any as Schema.Schema<ListAdUnitsResponse>;
 
 export interface ListAccountsResponse {
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
@@ -549,10 +725,15 @@ export interface ListAccountsResponse {
   accounts?: Array<Account>;
 }
 
-export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  accounts: Schema.optional(Schema.Array(Account)),
-})).annotate({ identifier: "ListAccountsResponse" }) as any as Schema.Schema<ListAccountsResponse>;
+export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      accounts: Schema.optional(Schema.Array(Account)),
+    }),
+  ).annotate({
+    identifier: "ListAccountsResponse",
+  }) as any as Schema.Schema<ListAccountsResponse>;
 
 // ==========================================================================
 // Operations
@@ -566,7 +747,10 @@ export interface GetAdBlockingRecoveryTagAccountsRequest {
 export const GetAdBlockingRecoveryTagAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adBlockingRecoveryTag" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adBlockingRecoveryTag",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAdBlockingRecoveryTagAccountsRequest>;
 
@@ -576,7 +760,12 @@ export const GetAdBlockingRecoveryTagAccountsResponse = AdBlockingRecoveryTag;
 export type GetAdBlockingRecoveryTagAccountsError = DefaultErrors;
 
 /** Gets the ad blocking recovery tag of an account. */
-export const getAdBlockingRecoveryTagAccounts: API.OperationMethod<GetAdBlockingRecoveryTagAccountsRequest, GetAdBlockingRecoveryTagAccountsResponse, GetAdBlockingRecoveryTagAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAdBlockingRecoveryTagAccounts: API.OperationMethod<
+  GetAdBlockingRecoveryTagAccountsRequest,
+  GetAdBlockingRecoveryTagAccountsResponse,
+  GetAdBlockingRecoveryTagAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAdBlockingRecoveryTagAccountsRequest,
   output: GetAdBlockingRecoveryTagAccountsResponse,
   errors: [],
@@ -600,7 +789,12 @@ export const GetAccountsResponse = Account;
 export type GetAccountsError = DefaultErrors;
 
 /** Gets information about the selected AdSense account. */
-export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccounts: API.OperationMethod<
+  GetAccountsRequest,
+  GetAccountsResponse,
+  GetAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -630,7 +824,12 @@ export const ListChildAccountsAccountsResponse = ListChildAccountsResponse;
 export type ListChildAccountsAccountsError = DefaultErrors;
 
 /** Lists all accounts directly managed by the given AdSense account. */
-export const listChildAccountsAccounts: API.PaginatedOperationMethod<ListChildAccountsAccountsRequest, ListChildAccountsAccountsResponse, ListChildAccountsAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listChildAccountsAccounts: API.PaginatedOperationMethod<
+  ListChildAccountsAccountsRequest,
+  ListChildAccountsAccountsResponse,
+  ListChildAccountsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListChildAccountsAccountsRequest,
   output: ListChildAccountsAccountsResponse,
   errors: [],
@@ -661,7 +860,12 @@ export const ListAccountsResponse_Op = ListAccountsResponse;
 export type ListAccountsError = DefaultErrors;
 
 /** Lists all accounts available to this user. */
-export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse_Op, ListAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccounts: API.PaginatedOperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse_Op,
+  ListAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -689,7 +893,12 @@ export const GetAccountsSitesResponse = Site;
 export type GetAccountsSitesError = DefaultErrors;
 
 /** Gets information about the selected site. */
-export const getAccountsSites: API.OperationMethod<GetAccountsSitesRequest, GetAccountsSitesResponse, GetAccountsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsSites: API.OperationMethod<
+  GetAccountsSitesRequest,
+  GetAccountsSitesResponse,
+  GetAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsSitesRequest,
   output: GetAccountsSitesResponse,
   errors: [],
@@ -719,7 +928,12 @@ export const ListAccountsSitesResponse = ListSitesResponse;
 export type ListAccountsSitesError = DefaultErrors;
 
 /** Lists all the sites available in an account. */
-export const listAccountsSites: API.PaginatedOperationMethod<ListAccountsSitesRequest, ListAccountsSitesResponse, ListAccountsSitesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsSites: API.PaginatedOperationMethod<
+  ListAccountsSitesRequest,
+  ListAccountsSitesResponse,
+  ListAccountsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsSitesRequest,
   output: ListAccountsSitesResponse,
   errors: [],
@@ -747,7 +961,12 @@ export const ListAccountsPaymentsResponse = ListPaymentsResponse;
 export type ListAccountsPaymentsError = DefaultErrors;
 
 /** Lists all the payments available for an account. */
-export const listAccountsPayments: API.OperationMethod<ListAccountsPaymentsRequest, ListAccountsPaymentsResponse, ListAccountsPaymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listAccountsPayments: API.OperationMethod<
+  ListAccountsPaymentsRequest,
+  ListAccountsPaymentsResponse,
+  ListAccountsPaymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListAccountsPaymentsRequest,
   output: ListAccountsPaymentsResponse,
   errors: [],
@@ -761,7 +980,10 @@ export interface GetAdcodeAccountsAdclientsRequest {
 export const GetAdcodeAccountsAdclientsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adcode" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adcode",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsRequest>;
 
@@ -771,7 +993,12 @@ export const GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
 export type GetAdcodeAccountsAdclientsError = DefaultErrors;
 
 /** Gets the AdSense code for a given ad client. This returns what was previously known as the 'auto ad code'. This is only supported for ad clients with a product_code of AFC. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634). */
-export const getAdcodeAccountsAdclients: API.OperationMethod<GetAdcodeAccountsAdclientsRequest, GetAdcodeAccountsAdclientsResponse, GetAdcodeAccountsAdclientsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAdcodeAccountsAdclients: API.OperationMethod<
+  GetAdcodeAccountsAdclientsRequest,
+  GetAdcodeAccountsAdclientsResponse,
+  GetAdcodeAccountsAdclientsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAdcodeAccountsAdclientsRequest,
   output: GetAdcodeAccountsAdclientsResponse,
   errors: [],
@@ -785,7 +1012,10 @@ export interface GetAccountsAdclientsRequest {
 export const GetAccountsAdclientsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsAdclientsRequest>;
 
@@ -795,7 +1025,12 @@ export const GetAccountsAdclientsResponse = AdClient;
 export type GetAccountsAdclientsError = DefaultErrors;
 
 /** Gets the ad client from the given resource name. */
-export const getAccountsAdclients: API.OperationMethod<GetAccountsAdclientsRequest, GetAccountsAdclientsResponse, GetAccountsAdclientsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsAdclients: API.OperationMethod<
+  GetAccountsAdclientsRequest,
+  GetAccountsAdclientsResponse,
+  GetAccountsAdclientsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsAdclientsRequest,
   output: GetAccountsAdclientsResponse,
   errors: [],
@@ -825,7 +1060,12 @@ export const ListAccountsAdclientsResponse = ListAdClientsResponse;
 export type ListAccountsAdclientsError = DefaultErrors;
 
 /** Lists all the ad clients available in an account. */
-export const listAccountsAdclients: API.PaginatedOperationMethod<ListAccountsAdclientsRequest, ListAccountsAdclientsResponse, ListAccountsAdclientsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsAdclients: API.PaginatedOperationMethod<
+  ListAccountsAdclientsRequest,
+  ListAccountsAdclientsResponse,
+  ListAccountsAdclientsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsAdclientsRequest,
   output: ListAccountsAdclientsResponse,
   errors: [],
@@ -843,7 +1083,10 @@ export interface GetAdcodeAccountsAdclientsAdunitsRequest {
 export const GetAdcodeAccountsAdclientsAdunitsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}/adcode" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}/adcode",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsAdunitsRequest>;
 
@@ -853,7 +1096,12 @@ export const GetAdcodeAccountsAdclientsAdunitsResponse = AdUnitAdCode;
 export type GetAdcodeAccountsAdclientsAdunitsError = DefaultErrors;
 
 /** Gets the ad unit code for a given ad unit. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634) and [Where to place the ad code in your HTML](https://support.google.com/adsense/answer/9190028). */
-export const getAdcodeAccountsAdclientsAdunits: API.OperationMethod<GetAdcodeAccountsAdclientsAdunitsRequest, GetAdcodeAccountsAdclientsAdunitsResponse, GetAdcodeAccountsAdclientsAdunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAdcodeAccountsAdclientsAdunits: API.OperationMethod<
+  GetAdcodeAccountsAdclientsAdunitsRequest,
+  GetAdcodeAccountsAdclientsAdunitsResponse,
+  GetAdcodeAccountsAdclientsAdunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAdcodeAccountsAdclientsAdunitsRequest,
   output: GetAdcodeAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -870,7 +1118,11 @@ export const CreateAccountsAdclientsAdunitsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AdUnit).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsAdclientsAdunitsRequest>;
 
@@ -880,7 +1132,12 @@ export const CreateAccountsAdclientsAdunitsResponse = AdUnit;
 export type CreateAccountsAdclientsAdunitsError = DefaultErrors;
 
 /** Creates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. Note that ad units can only be created for ad clients with an "AFC" product code. For more info see the [AdClient resource](/adsense/management/reference/rest/v2/accounts.adclients). For now, this method can only be used to create `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
-export const createAccountsAdclientsAdunits: API.OperationMethod<CreateAccountsAdclientsAdunitsRequest, CreateAccountsAdclientsAdunitsResponse, CreateAccountsAdclientsAdunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsAdclientsAdunits: API.OperationMethod<
+  CreateAccountsAdclientsAdunitsRequest,
+  CreateAccountsAdclientsAdunitsResponse,
+  CreateAccountsAdclientsAdunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsAdclientsAdunitsRequest,
   output: CreateAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -900,7 +1157,11 @@ export const PatchAccountsAdclientsAdunitsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(AdUnit).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsAdclientsAdunitsRequest>;
 
@@ -910,7 +1171,12 @@ export const PatchAccountsAdclientsAdunitsResponse = AdUnit;
 export type PatchAccountsAdclientsAdunitsError = DefaultErrors;
 
 /** Updates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. For now, this method can only be used to update `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
-export const patchAccountsAdclientsAdunits: API.OperationMethod<PatchAccountsAdclientsAdunitsRequest, PatchAccountsAdclientsAdunitsResponse, PatchAccountsAdclientsAdunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsAdclientsAdunits: API.OperationMethod<
+  PatchAccountsAdclientsAdunitsRequest,
+  PatchAccountsAdclientsAdunitsResponse,
+  PatchAccountsAdclientsAdunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsAdclientsAdunitsRequest,
   output: PatchAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -924,7 +1190,10 @@ export interface GetAccountsAdclientsAdunitsRequest {
 export const GetAccountsAdclientsAdunitsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsAdclientsAdunitsRequest>;
 
@@ -934,7 +1203,12 @@ export const GetAccountsAdclientsAdunitsResponse = AdUnit;
 export type GetAccountsAdclientsAdunitsError = DefaultErrors;
 
 /** Gets an ad unit from a specified account and ad client. */
-export const getAccountsAdclientsAdunits: API.OperationMethod<GetAccountsAdclientsAdunitsRequest, GetAccountsAdclientsAdunitsResponse, GetAccountsAdclientsAdunitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsAdclientsAdunits: API.OperationMethod<
+  GetAccountsAdclientsAdunitsRequest,
+  GetAccountsAdclientsAdunitsResponse,
+  GetAccountsAdclientsAdunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsAdclientsAdunitsRequest,
   output: GetAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -954,7 +1228,10 @@ export const ListAccountsAdclientsAdunitsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsAdclientsAdunitsRequest>;
 
@@ -964,7 +1241,12 @@ export const ListAccountsAdclientsAdunitsResponse = ListAdUnitsResponse;
 export type ListAccountsAdclientsAdunitsError = DefaultErrors;
 
 /** Lists all ad units under a specified account and ad client. */
-export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<ListAccountsAdclientsAdunitsRequest, ListAccountsAdclientsAdunitsResponse, ListAccountsAdclientsAdunitsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<
+  ListAccountsAdclientsAdunitsRequest,
+  ListAccountsAdclientsAdunitsResponse,
+  ListAccountsAdclientsAdunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsAdclientsAdunitsRequest,
   output: ListAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -983,22 +1265,34 @@ export interface ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest {
   pageSize?: number;
 }
 
-export const ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}:listLinkedCustomChannels" }),
-  svc,
-) as unknown as Schema.Schema<ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest>;
+export const ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest =
+  Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}:listLinkedCustomChannels",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest>;
 
-export type ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse = ListLinkedCustomChannelsResponse;
-export const ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse = ListLinkedCustomChannelsResponse;
+export type ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse =
+  ListLinkedCustomChannelsResponse;
+export const ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse =
+  ListLinkedCustomChannelsResponse;
 
-export type ListLinkedCustomChannelsAccountsAdclientsAdunitsError = DefaultErrors;
+export type ListLinkedCustomChannelsAccountsAdclientsAdunitsError =
+  DefaultErrors;
 
 /** Lists all the custom channels available for an ad unit. */
-export const listLinkedCustomChannelsAccountsAdclientsAdunits: API.PaginatedOperationMethod<ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest, ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse, ListLinkedCustomChannelsAccountsAdclientsAdunitsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listLinkedCustomChannelsAccountsAdclientsAdunits: API.PaginatedOperationMethod<
+  ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest,
+  ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse,
+  ListLinkedCustomChannelsAccountsAdclientsAdunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest,
   output: ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -1016,7 +1310,10 @@ export interface GetAccountsAdclientsUrlchannelsRequest {
 export const GetAccountsAdclientsUrlchannelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels/{urlchannelsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels/{urlchannelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsAdclientsUrlchannelsRequest>;
 
@@ -1026,7 +1323,12 @@ export const GetAccountsAdclientsUrlchannelsResponse = UrlChannel;
 export type GetAccountsAdclientsUrlchannelsError = DefaultErrors;
 
 /** Gets information about the selected url channel. */
-export const getAccountsAdclientsUrlchannels: API.OperationMethod<GetAccountsAdclientsUrlchannelsRequest, GetAccountsAdclientsUrlchannelsResponse, GetAccountsAdclientsUrlchannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsAdclientsUrlchannels: API.OperationMethod<
+  GetAccountsAdclientsUrlchannelsRequest,
+  GetAccountsAdclientsUrlchannelsResponse,
+  GetAccountsAdclientsUrlchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsAdclientsUrlchannelsRequest,
   output: GetAccountsAdclientsUrlchannelsResponse,
   errors: [],
@@ -1046,7 +1348,10 @@ export const ListAccountsAdclientsUrlchannelsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsAdclientsUrlchannelsRequest>;
 
@@ -1056,7 +1361,12 @@ export const ListAccountsAdclientsUrlchannelsResponse = ListUrlChannelsResponse;
 export type ListAccountsAdclientsUrlchannelsError = DefaultErrors;
 
 /** Lists active url channels. */
-export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<ListAccountsAdclientsUrlchannelsRequest, ListAccountsAdclientsUrlchannelsResponse, ListAccountsAdclientsUrlchannelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<
+  ListAccountsAdclientsUrlchannelsRequest,
+  ListAccountsAdclientsUrlchannelsResponse,
+  ListAccountsAdclientsUrlchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsAdclientsUrlchannelsRequest,
   output: ListAccountsAdclientsUrlchannelsResponse,
   errors: [],
@@ -1074,7 +1384,10 @@ export interface GetAccountsAdclientsCustomchannelsRequest {
 export const GetAccountsAdclientsCustomchannelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsAdclientsCustomchannelsRequest>;
 
@@ -1084,7 +1397,12 @@ export const GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
 export type GetAccountsAdclientsCustomchannelsError = DefaultErrors;
 
 /** Gets information about the selected custom channel. */
-export const getAccountsAdclientsCustomchannels: API.OperationMethod<GetAccountsAdclientsCustomchannelsRequest, GetAccountsAdclientsCustomchannelsResponse, GetAccountsAdclientsCustomchannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsAdclientsCustomchannels: API.OperationMethod<
+  GetAccountsAdclientsCustomchannelsRequest,
+  GetAccountsAdclientsCustomchannelsResponse,
+  GetAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsAdclientsCustomchannelsRequest,
   output: GetAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1101,7 +1419,11 @@ export const CreateAccountsAdclientsCustomchannelsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsAdclientsCustomchannelsRequest>;
 
@@ -1111,7 +1433,12 @@ export const CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
 export type CreateAccountsAdclientsCustomchannelsError = DefaultErrors;
 
 /** Creates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
-export const createAccountsAdclientsCustomchannels: API.OperationMethod<CreateAccountsAdclientsCustomchannelsRequest, CreateAccountsAdclientsCustomchannelsResponse, CreateAccountsAdclientsCustomchannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsAdclientsCustomchannels: API.OperationMethod<
+  CreateAccountsAdclientsCustomchannelsRequest,
+  CreateAccountsAdclientsCustomchannelsResponse,
+  CreateAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsAdclientsCustomchannelsRequest,
   output: CreateAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1131,7 +1458,11 @@ export const PatchAccountsAdclientsCustomchannelsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsAdclientsCustomchannelsRequest>;
 
@@ -1141,7 +1472,12 @@ export const PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
 export type PatchAccountsAdclientsCustomchannelsError = DefaultErrors;
 
 /** Updates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
-export const patchAccountsAdclientsCustomchannels: API.OperationMethod<PatchAccountsAdclientsCustomchannelsRequest, PatchAccountsAdclientsCustomchannelsResponse, PatchAccountsAdclientsCustomchannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsAdclientsCustomchannels: API.OperationMethod<
+  PatchAccountsAdclientsCustomchannelsRequest,
+  PatchAccountsAdclientsCustomchannelsResponse,
+  PatchAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsAdclientsCustomchannelsRequest,
   output: PatchAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1161,17 +1497,27 @@ export const ListAccountsAdclientsCustomchannelsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsAdclientsCustomchannelsRequest>;
 
-export type ListAccountsAdclientsCustomchannelsResponse = ListCustomChannelsResponse;
-export const ListAccountsAdclientsCustomchannelsResponse = ListCustomChannelsResponse;
+export type ListAccountsAdclientsCustomchannelsResponse =
+  ListCustomChannelsResponse;
+export const ListAccountsAdclientsCustomchannelsResponse =
+  ListCustomChannelsResponse;
 
 export type ListAccountsAdclientsCustomchannelsError = DefaultErrors;
 
 /** Lists all the custom channels available in an ad client. */
-export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<ListAccountsAdclientsCustomchannelsRequest, ListAccountsAdclientsCustomchannelsResponse, ListAccountsAdclientsCustomchannelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
+  ListAccountsAdclientsCustomchannelsRequest,
+  ListAccountsAdclientsCustomchannelsResponse,
+  ListAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsAdclientsCustomchannelsRequest,
   output: ListAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1189,7 +1535,10 @@ export interface DeleteAccountsAdclientsCustomchannelsRequest {
 export const DeleteAccountsAdclientsCustomchannelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsAdclientsCustomchannelsRequest>;
 
@@ -1199,7 +1548,12 @@ export const DeleteAccountsAdclientsCustomchannelsResponse = Empty;
 export type DeleteAccountsAdclientsCustomchannelsError = DefaultErrors;
 
 /** Deletes a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
-export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<DeleteAccountsAdclientsCustomchannelsRequest, DeleteAccountsAdclientsCustomchannelsResponse, DeleteAccountsAdclientsCustomchannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<
+  DeleteAccountsAdclientsCustomchannelsRequest,
+  DeleteAccountsAdclientsCustomchannelsResponse,
+  DeleteAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsAdclientsCustomchannelsRequest,
   output: DeleteAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1214,22 +1568,34 @@ export interface ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest {
   pageToken?: string;
 }
 
-export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}:listLinkedAdUnits" }),
-  svc,
-) as unknown as Schema.Schema<ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest>;
+export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest =
+  Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}:listLinkedAdUnits",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest>;
 
-export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse = ListLinkedAdUnitsResponse;
-export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse = ListLinkedAdUnitsResponse;
+export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
+  ListLinkedAdUnitsResponse;
+export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
+  ListLinkedAdUnitsResponse;
 
-export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsError = DefaultErrors;
+export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsError =
+  DefaultErrors;
 
 /** Lists all the ad units available for a custom channel. */
-export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest, ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse, ListLinkedAdUnitsAccountsAdclientsCustomchannelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
+  ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
+  ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
+  ListLinkedAdUnitsAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
   output: ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1263,7 +1629,12 @@ export const ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
 export type ListAccountsPolicyIssuesError = DefaultErrors;
 
 /** Lists all the policy issues where the specified account is involved, both directly and through any AFP child accounts. */
-export const listAccountsPolicyIssues: API.PaginatedOperationMethod<ListAccountsPolicyIssuesRequest, ListAccountsPolicyIssuesResponse, ListAccountsPolicyIssuesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
+  ListAccountsPolicyIssuesRequest,
+  ListAccountsPolicyIssuesResponse,
+  ListAccountsPolicyIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsPolicyIssuesRequest,
   output: ListAccountsPolicyIssuesResponse,
   errors: [],
@@ -1281,7 +1652,10 @@ export interface GetAccountsPolicyIssuesRequest {
 export const GetAccountsPolicyIssuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/policyIssues/{policyIssuesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/policyIssues/{policyIssuesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsPolicyIssuesRequest>;
 
@@ -1291,7 +1665,12 @@ export const GetAccountsPolicyIssuesResponse = PolicyIssue;
 export type GetAccountsPolicyIssuesError = DefaultErrors;
 
 /** Gets information about the selected policy issue. */
-export const getAccountsPolicyIssues: API.OperationMethod<GetAccountsPolicyIssuesRequest, GetAccountsPolicyIssuesResponse, GetAccountsPolicyIssuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsPolicyIssues: API.OperationMethod<
+  GetAccountsPolicyIssuesRequest,
+  GetAccountsPolicyIssuesResponse,
+  GetAccountsPolicyIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsPolicyIssuesRequest,
   output: GetAccountsPolicyIssuesResponse,
   errors: [],
@@ -1305,7 +1684,45 @@ export interface GenerateAccountsReportsRequest {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "endDate.year"?: number;
   /** Required. Reporting metrics. */
-  metrics?: "METRIC_UNSPECIFIED" | "PAGE_VIEWS" | "AD_REQUESTS" | "MATCHED_AD_REQUESTS" | "TOTAL_IMPRESSIONS" | "IMPRESSIONS" | "INDIVIDUAL_AD_IMPRESSIONS" | "CLICKS" | "PAGE_VIEWS_SPAM_RATIO" | "AD_REQUESTS_SPAM_RATIO" | "MATCHED_AD_REQUESTS_SPAM_RATIO" | "IMPRESSIONS_SPAM_RATIO" | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO" | "CLICKS_SPAM_RATIO" | "AD_REQUESTS_COVERAGE" | "PAGE_VIEWS_CTR" | "AD_REQUESTS_CTR" | "MATCHED_AD_REQUESTS_CTR" | "IMPRESSIONS_CTR" | "INDIVIDUAL_AD_IMPRESSIONS_CTR" | "ACTIVE_VIEW_MEASURABILITY" | "ACTIVE_VIEW_VIEWABILITY" | "ACTIVE_VIEW_TIME" | "ESTIMATED_EARNINGS" | "PAGE_VIEWS_RPM" | "AD_REQUESTS_RPM" | "MATCHED_AD_REQUESTS_RPM" | "IMPRESSIONS_RPM" | "INDIVIDUAL_AD_IMPRESSIONS_RPM" | "COST_PER_CLICK" | "ADS_PER_IMPRESSION" | "TOTAL_EARNINGS" | "WEBSEARCH_RESULT_PAGES" | "FUNNEL_REQUESTS" | "FUNNEL_IMPRESSIONS" | "FUNNEL_CLICKS" | "FUNNEL_RPM" | (string & {})[];
+  metrics?:
+    | "METRIC_UNSPECIFIED"
+    | "PAGE_VIEWS"
+    | "AD_REQUESTS"
+    | "MATCHED_AD_REQUESTS"
+    | "TOTAL_IMPRESSIONS"
+    | "IMPRESSIONS"
+    | "INDIVIDUAL_AD_IMPRESSIONS"
+    | "CLICKS"
+    | "PAGE_VIEWS_SPAM_RATIO"
+    | "AD_REQUESTS_SPAM_RATIO"
+    | "MATCHED_AD_REQUESTS_SPAM_RATIO"
+    | "IMPRESSIONS_SPAM_RATIO"
+    | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
+    | "CLICKS_SPAM_RATIO"
+    | "AD_REQUESTS_COVERAGE"
+    | "PAGE_VIEWS_CTR"
+    | "AD_REQUESTS_CTR"
+    | "MATCHED_AD_REQUESTS_CTR"
+    | "IMPRESSIONS_CTR"
+    | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
+    | "ACTIVE_VIEW_MEASURABILITY"
+    | "ACTIVE_VIEW_VIEWABILITY"
+    | "ACTIVE_VIEW_TIME"
+    | "ESTIMATED_EARNINGS"
+    | "PAGE_VIEWS_RPM"
+    | "AD_REQUESTS_RPM"
+    | "MATCHED_AD_REQUESTS_RPM"
+    | "IMPRESSIONS_RPM"
+    | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
+    | "COST_PER_CLICK"
+    | "ADS_PER_IMPRESSION"
+    | "TOTAL_EARNINGS"
+    | "WEBSEARCH_RESULT_PAGES"
+    | "FUNNEL_REQUESTS"
+    | "FUNNEL_IMPRESSIONS"
+    | "FUNNEL_CLICKS"
+    | "FUNNEL_RPM"
+    | (string & {})[];
   /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
   orderBy?: string[];
   /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
@@ -1315,13 +1732,84 @@ export interface GenerateAccountsReportsRequest {
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   account: string;
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: "REPORTING_DATE_RANGE_UNSPECIFIED" | "CUSTOM" | "TODAY" | "YESTERDAY" | "MONTH_TO_DATE" | "YEAR_TO_DATE" | "LAST_7_DAYS" | "LAST_30_DAYS" | (string & {});
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: "REPORTING_TIME_ZONE_UNSPECIFIED" | "ACCOUNT_TIME_ZONE" | "GOOGLE_TIME_ZONE" | (string & {});
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "startDate.month"?: number;
   /** Dimensions to base the report on. */
-  dimensions?: "DIMENSION_UNSPECIFIED" | "DATE" | "WEEK" | "MONTH" | "ACCOUNT_NAME" | "AD_CLIENT_ID" | "HOSTED_AD_CLIENT_ID" | "PRODUCT_NAME" | "PRODUCT_CODE" | "AD_UNIT_NAME" | "AD_UNIT_ID" | "AD_UNIT_SIZE_NAME" | "AD_UNIT_SIZE_CODE" | "CUSTOM_CHANNEL_NAME" | "CUSTOM_CHANNEL_ID" | "HOSTED_CUSTOM_CHANNEL_ID" | "OWNED_SITE_DOMAIN_NAME" | "OWNED_SITE_ID" | "PAGE_URL" | "URL_CHANNEL_NAME" | "URL_CHANNEL_ID" | "BUYER_NETWORK_NAME" | "BUYER_NETWORK_ID" | "BID_TYPE_NAME" | "BID_TYPE_CODE" | "CREATIVE_SIZE_NAME" | "CREATIVE_SIZE_CODE" | "DOMAIN_NAME" | "DOMAIN_CODE" | "COUNTRY_NAME" | "COUNTRY_CODE" | "PLATFORM_TYPE_NAME" | "PLATFORM_TYPE_CODE" | "TARGETING_TYPE_NAME" | "TARGETING_TYPE_CODE" | "TRAFFIC_SOURCE_NAME" | "TRAFFIC_SOURCE_CODE" | "CONTENT_PLATFORM_NAME" | "CONTENT_PLATFORM_CODE" | "AD_PLACEMENT_NAME" | "AD_PLACEMENT_CODE" | "REQUESTED_AD_TYPE_NAME" | "REQUESTED_AD_TYPE_CODE" | "SERVED_AD_TYPE_NAME" | "SERVED_AD_TYPE_CODE" | "AD_FORMAT_NAME" | "AD_FORMAT_CODE" | "CUSTOM_SEARCH_STYLE_NAME" | "CUSTOM_SEARCH_STYLE_ID" | "DOMAIN_REGISTRANT" | "WEBSEARCH_QUERY_STRING" | "OS_TYPE_NAME" | "OS_TYPE_CODE" | "BROWSER_TYPE_NAME" | "BROWSER_TYPE_CODE" | "WEBVIEW_TYPE_NAME" | "WEBVIEW_TYPE_CODE" | (string & {})[];
+  dimensions?:
+    | "DIMENSION_UNSPECIFIED"
+    | "DATE"
+    | "WEEK"
+    | "MONTH"
+    | "ACCOUNT_NAME"
+    | "AD_CLIENT_ID"
+    | "HOSTED_AD_CLIENT_ID"
+    | "PRODUCT_NAME"
+    | "PRODUCT_CODE"
+    | "AD_UNIT_NAME"
+    | "AD_UNIT_ID"
+    | "AD_UNIT_SIZE_NAME"
+    | "AD_UNIT_SIZE_CODE"
+    | "CUSTOM_CHANNEL_NAME"
+    | "CUSTOM_CHANNEL_ID"
+    | "HOSTED_CUSTOM_CHANNEL_ID"
+    | "OWNED_SITE_DOMAIN_NAME"
+    | "OWNED_SITE_ID"
+    | "PAGE_URL"
+    | "URL_CHANNEL_NAME"
+    | "URL_CHANNEL_ID"
+    | "BUYER_NETWORK_NAME"
+    | "BUYER_NETWORK_ID"
+    | "BID_TYPE_NAME"
+    | "BID_TYPE_CODE"
+    | "CREATIVE_SIZE_NAME"
+    | "CREATIVE_SIZE_CODE"
+    | "DOMAIN_NAME"
+    | "DOMAIN_CODE"
+    | "COUNTRY_NAME"
+    | "COUNTRY_CODE"
+    | "PLATFORM_TYPE_NAME"
+    | "PLATFORM_TYPE_CODE"
+    | "TARGETING_TYPE_NAME"
+    | "TARGETING_TYPE_CODE"
+    | "TRAFFIC_SOURCE_NAME"
+    | "TRAFFIC_SOURCE_CODE"
+    | "CONTENT_PLATFORM_NAME"
+    | "CONTENT_PLATFORM_CODE"
+    | "AD_PLACEMENT_NAME"
+    | "AD_PLACEMENT_CODE"
+    | "REQUESTED_AD_TYPE_NAME"
+    | "REQUESTED_AD_TYPE_CODE"
+    | "SERVED_AD_TYPE_NAME"
+    | "SERVED_AD_TYPE_CODE"
+    | "AD_FORMAT_NAME"
+    | "AD_FORMAT_CODE"
+    | "CUSTOM_SEARCH_STYLE_NAME"
+    | "CUSTOM_SEARCH_STYLE_ID"
+    | "DOMAIN_REGISTRANT"
+    | "WEBSEARCH_QUERY_STRING"
+    | "OS_TYPE_NAME"
+    | "OS_TYPE_CODE"
+    | "BROWSER_TYPE_NAME"
+    | "BROWSER_TYPE_CODE"
+    | "WEBVIEW_TYPE_NAME"
+    | "WEBVIEW_TYPE_CODE"
+    | (string & {})[];
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "startDate.year"?: number;
   /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
@@ -1333,22 +1821,48 @@ export interface GenerateAccountsReportsRequest {
 }
 
 export const GenerateAccountsReportsRequest = Schema.Struct({
-  "endDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.day")),
-  currencyCode: Schema.optional(Schema.String).pipe(T.HttpQuery("currencyCode")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.year")),
-  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("metrics")),
-  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("orderBy")),
-  filters: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("filters")),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("metrics"),
+  ),
+  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("orderBy"),
+  ),
+  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("filters"),
+  ),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
   account: Schema.String.pipe(T.HttpPath("account")),
   dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("reportingTimeZone")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.month")),
-  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("dimensions")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.year")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.month")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.day")),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dimensions"),
+  ),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports:generate" }),
   svc,
@@ -1360,7 +1874,12 @@ export const GenerateAccountsReportsResponse = ReportResult;
 export type GenerateAccountsReportsError = DefaultErrors;
 
 /** Generates an ad hoc report. */
-export const generateAccountsReports: API.OperationMethod<GenerateAccountsReportsRequest, GenerateAccountsReportsResponse, GenerateAccountsReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateAccountsReports: API.OperationMethod<
+  GenerateAccountsReportsRequest,
+  GenerateAccountsReportsResponse,
+  GenerateAccountsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateAccountsReportsRequest,
   output: GenerateAccountsReportsResponse,
   errors: [],
@@ -1372,7 +1891,45 @@ export interface GenerateCsvAccountsReportsRequest {
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   account: string;
   /** Required. Reporting metrics. */
-  metrics?: "METRIC_UNSPECIFIED" | "PAGE_VIEWS" | "AD_REQUESTS" | "MATCHED_AD_REQUESTS" | "TOTAL_IMPRESSIONS" | "IMPRESSIONS" | "INDIVIDUAL_AD_IMPRESSIONS" | "CLICKS" | "PAGE_VIEWS_SPAM_RATIO" | "AD_REQUESTS_SPAM_RATIO" | "MATCHED_AD_REQUESTS_SPAM_RATIO" | "IMPRESSIONS_SPAM_RATIO" | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO" | "CLICKS_SPAM_RATIO" | "AD_REQUESTS_COVERAGE" | "PAGE_VIEWS_CTR" | "AD_REQUESTS_CTR" | "MATCHED_AD_REQUESTS_CTR" | "IMPRESSIONS_CTR" | "INDIVIDUAL_AD_IMPRESSIONS_CTR" | "ACTIVE_VIEW_MEASURABILITY" | "ACTIVE_VIEW_VIEWABILITY" | "ACTIVE_VIEW_TIME" | "ESTIMATED_EARNINGS" | "PAGE_VIEWS_RPM" | "AD_REQUESTS_RPM" | "MATCHED_AD_REQUESTS_RPM" | "IMPRESSIONS_RPM" | "INDIVIDUAL_AD_IMPRESSIONS_RPM" | "COST_PER_CLICK" | "ADS_PER_IMPRESSION" | "TOTAL_EARNINGS" | "WEBSEARCH_RESULT_PAGES" | "FUNNEL_REQUESTS" | "FUNNEL_IMPRESSIONS" | "FUNNEL_CLICKS" | "FUNNEL_RPM" | (string & {})[];
+  metrics?:
+    | "METRIC_UNSPECIFIED"
+    | "PAGE_VIEWS"
+    | "AD_REQUESTS"
+    | "MATCHED_AD_REQUESTS"
+    | "TOTAL_IMPRESSIONS"
+    | "IMPRESSIONS"
+    | "INDIVIDUAL_AD_IMPRESSIONS"
+    | "CLICKS"
+    | "PAGE_VIEWS_SPAM_RATIO"
+    | "AD_REQUESTS_SPAM_RATIO"
+    | "MATCHED_AD_REQUESTS_SPAM_RATIO"
+    | "IMPRESSIONS_SPAM_RATIO"
+    | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
+    | "CLICKS_SPAM_RATIO"
+    | "AD_REQUESTS_COVERAGE"
+    | "PAGE_VIEWS_CTR"
+    | "AD_REQUESTS_CTR"
+    | "MATCHED_AD_REQUESTS_CTR"
+    | "IMPRESSIONS_CTR"
+    | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
+    | "ACTIVE_VIEW_MEASURABILITY"
+    | "ACTIVE_VIEW_VIEWABILITY"
+    | "ACTIVE_VIEW_TIME"
+    | "ESTIMATED_EARNINGS"
+    | "PAGE_VIEWS_RPM"
+    | "AD_REQUESTS_RPM"
+    | "MATCHED_AD_REQUESTS_RPM"
+    | "IMPRESSIONS_RPM"
+    | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
+    | "COST_PER_CLICK"
+    | "ADS_PER_IMPRESSION"
+    | "TOTAL_EARNINGS"
+    | "WEBSEARCH_RESULT_PAGES"
+    | "FUNNEL_REQUESTS"
+    | "FUNNEL_IMPRESSIONS"
+    | "FUNNEL_CLICKS"
+    | "FUNNEL_RPM"
+    | (string & {})[];
   /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
   orderBy?: string[];
   /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
@@ -1392,34 +1949,134 @@ export interface GenerateCsvAccountsReportsRequest {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "startDate.month"?: number;
   /** Dimensions to base the report on. */
-  dimensions?: "DIMENSION_UNSPECIFIED" | "DATE" | "WEEK" | "MONTH" | "ACCOUNT_NAME" | "AD_CLIENT_ID" | "HOSTED_AD_CLIENT_ID" | "PRODUCT_NAME" | "PRODUCT_CODE" | "AD_UNIT_NAME" | "AD_UNIT_ID" | "AD_UNIT_SIZE_NAME" | "AD_UNIT_SIZE_CODE" | "CUSTOM_CHANNEL_NAME" | "CUSTOM_CHANNEL_ID" | "HOSTED_CUSTOM_CHANNEL_ID" | "OWNED_SITE_DOMAIN_NAME" | "OWNED_SITE_ID" | "PAGE_URL" | "URL_CHANNEL_NAME" | "URL_CHANNEL_ID" | "BUYER_NETWORK_NAME" | "BUYER_NETWORK_ID" | "BID_TYPE_NAME" | "BID_TYPE_CODE" | "CREATIVE_SIZE_NAME" | "CREATIVE_SIZE_CODE" | "DOMAIN_NAME" | "DOMAIN_CODE" | "COUNTRY_NAME" | "COUNTRY_CODE" | "PLATFORM_TYPE_NAME" | "PLATFORM_TYPE_CODE" | "TARGETING_TYPE_NAME" | "TARGETING_TYPE_CODE" | "TRAFFIC_SOURCE_NAME" | "TRAFFIC_SOURCE_CODE" | "CONTENT_PLATFORM_NAME" | "CONTENT_PLATFORM_CODE" | "AD_PLACEMENT_NAME" | "AD_PLACEMENT_CODE" | "REQUESTED_AD_TYPE_NAME" | "REQUESTED_AD_TYPE_CODE" | "SERVED_AD_TYPE_NAME" | "SERVED_AD_TYPE_CODE" | "AD_FORMAT_NAME" | "AD_FORMAT_CODE" | "CUSTOM_SEARCH_STYLE_NAME" | "CUSTOM_SEARCH_STYLE_ID" | "DOMAIN_REGISTRANT" | "WEBSEARCH_QUERY_STRING" | "OS_TYPE_NAME" | "OS_TYPE_CODE" | "BROWSER_TYPE_NAME" | "BROWSER_TYPE_CODE" | "WEBVIEW_TYPE_NAME" | "WEBVIEW_TYPE_CODE" | (string & {})[];
+  dimensions?:
+    | "DIMENSION_UNSPECIFIED"
+    | "DATE"
+    | "WEEK"
+    | "MONTH"
+    | "ACCOUNT_NAME"
+    | "AD_CLIENT_ID"
+    | "HOSTED_AD_CLIENT_ID"
+    | "PRODUCT_NAME"
+    | "PRODUCT_CODE"
+    | "AD_UNIT_NAME"
+    | "AD_UNIT_ID"
+    | "AD_UNIT_SIZE_NAME"
+    | "AD_UNIT_SIZE_CODE"
+    | "CUSTOM_CHANNEL_NAME"
+    | "CUSTOM_CHANNEL_ID"
+    | "HOSTED_CUSTOM_CHANNEL_ID"
+    | "OWNED_SITE_DOMAIN_NAME"
+    | "OWNED_SITE_ID"
+    | "PAGE_URL"
+    | "URL_CHANNEL_NAME"
+    | "URL_CHANNEL_ID"
+    | "BUYER_NETWORK_NAME"
+    | "BUYER_NETWORK_ID"
+    | "BID_TYPE_NAME"
+    | "BID_TYPE_CODE"
+    | "CREATIVE_SIZE_NAME"
+    | "CREATIVE_SIZE_CODE"
+    | "DOMAIN_NAME"
+    | "DOMAIN_CODE"
+    | "COUNTRY_NAME"
+    | "COUNTRY_CODE"
+    | "PLATFORM_TYPE_NAME"
+    | "PLATFORM_TYPE_CODE"
+    | "TARGETING_TYPE_NAME"
+    | "TARGETING_TYPE_CODE"
+    | "TRAFFIC_SOURCE_NAME"
+    | "TRAFFIC_SOURCE_CODE"
+    | "CONTENT_PLATFORM_NAME"
+    | "CONTENT_PLATFORM_CODE"
+    | "AD_PLACEMENT_NAME"
+    | "AD_PLACEMENT_CODE"
+    | "REQUESTED_AD_TYPE_NAME"
+    | "REQUESTED_AD_TYPE_CODE"
+    | "SERVED_AD_TYPE_NAME"
+    | "SERVED_AD_TYPE_CODE"
+    | "AD_FORMAT_NAME"
+    | "AD_FORMAT_CODE"
+    | "CUSTOM_SEARCH_STYLE_NAME"
+    | "CUSTOM_SEARCH_STYLE_ID"
+    | "DOMAIN_REGISTRANT"
+    | "WEBSEARCH_QUERY_STRING"
+    | "OS_TYPE_NAME"
+    | "OS_TYPE_CODE"
+    | "BROWSER_TYPE_NAME"
+    | "BROWSER_TYPE_CODE"
+    | "WEBVIEW_TYPE_NAME"
+    | "WEBVIEW_TYPE_CODE"
+    | (string & {})[];
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "startDate.year"?: number;
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: "REPORTING_DATE_RANGE_UNSPECIFIED" | "CUSTOM" | "TODAY" | "YESTERDAY" | "MONTH_TO_DATE" | "YEAR_TO_DATE" | "LAST_7_DAYS" | "LAST_30_DAYS" | (string & {});
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: "REPORTING_TIME_ZONE_UNSPECIFIED" | "ACCOUNT_TIME_ZONE" | "GOOGLE_TIME_ZONE" | (string & {});
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
 }
 
 export const GenerateCsvAccountsReportsRequest = Schema.Struct({
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
   account: Schema.String.pipe(T.HttpPath("account")),
-  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("metrics")),
-  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("orderBy")),
-  filters: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("filters")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.year")),
-  "endDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.day")),
-  currencyCode: Schema.optional(Schema.String).pipe(T.HttpQuery("currencyCode")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.day")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.month")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.month")),
-  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("dimensions")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.year")),
+  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("metrics"),
+  ),
+  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("orderBy"),
+  ),
+  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("filters"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dimensions"),
+  ),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
   dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("reportingTimeZone")),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports:generateCsv" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports:generateCsv",
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateCsvAccountsReportsRequest>;
 
@@ -1429,7 +2086,12 @@ export const GenerateCsvAccountsReportsResponse = HttpBody;
 export type GenerateCsvAccountsReportsError = DefaultErrors;
 
 /** Generates a csv formatted ad hoc report. */
-export const generateCsvAccountsReports: API.OperationMethod<GenerateCsvAccountsReportsRequest, GenerateCsvAccountsReportsResponse, GenerateCsvAccountsReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateCsvAccountsReports: API.OperationMethod<
+  GenerateCsvAccountsReportsRequest,
+  GenerateCsvAccountsReportsResponse,
+  GenerateCsvAccountsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateCsvAccountsReportsRequest,
   output: GenerateCsvAccountsReportsResponse,
   errors: [],
@@ -1443,7 +2105,10 @@ export interface GetSavedAccountsReportsRequest {
 export const GetSavedAccountsReportsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports/{reportsId}/saved" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSavedAccountsReportsRequest>;
 
@@ -1453,7 +2118,12 @@ export const GetSavedAccountsReportsResponse = SavedReport;
 export type GetSavedAccountsReportsError = DefaultErrors;
 
 /** Gets the saved report from the given resource name. */
-export const getSavedAccountsReports: API.OperationMethod<GetSavedAccountsReportsRequest, GetSavedAccountsReportsResponse, GetSavedAccountsReportsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSavedAccountsReports: API.OperationMethod<
+  GetSavedAccountsReportsRequest,
+  GetSavedAccountsReportsResponse,
+  GetSavedAccountsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSavedAccountsReportsRequest,
   output: GetSavedAccountsReportsResponse,
   errors: [],
@@ -1473,9 +2143,22 @@ export interface GenerateAccountsReportsSavedRequest {
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
   currencyCode?: string;
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: "REPORTING_TIME_ZONE_UNSPECIFIED" | "ACCOUNT_TIME_ZONE" | "GOOGLE_TIME_ZONE" | (string & {});
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: "REPORTING_DATE_RANGE_UNSPECIFIED" | "CUSTOM" | "TODAY" | "YESTERDAY" | "MONTH_TO_DATE" | "YEAR_TO_DATE" | "LAST_7_DAYS" | "LAST_30_DAYS" | (string & {});
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "startDate.year"?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -1485,19 +2168,40 @@ export interface GenerateAccountsReportsSavedRequest {
 }
 
 export const GenerateAccountsReportsSavedRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   name: Schema.String.pipe(T.HttpPath("name")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.month")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.day")),
-  "endDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.day")),
-  currencyCode: Schema.optional(Schema.String).pipe(T.HttpQuery("currencyCode")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("reportingTimeZone")),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
   dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.year")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.year")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.month")),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generate" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generate",
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateAccountsReportsSavedRequest>;
 
@@ -1507,7 +2211,12 @@ export const GenerateAccountsReportsSavedResponse = ReportResult;
 export type GenerateAccountsReportsSavedError = DefaultErrors;
 
 /** Generates a saved report. */
-export const generateAccountsReportsSaved: API.OperationMethod<GenerateAccountsReportsSavedRequest, GenerateAccountsReportsSavedResponse, GenerateAccountsReportsSavedError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateAccountsReportsSaved: API.OperationMethod<
+  GenerateAccountsReportsSavedRequest,
+  GenerateAccountsReportsSavedResponse,
+  GenerateAccountsReportsSavedError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateAccountsReportsSavedRequest,
   output: GenerateAccountsReportsSavedResponse,
   errors: [],
@@ -1515,13 +2224,26 @@ export const generateAccountsReportsSaved: API.OperationMethod<GenerateAccountsR
 
 export interface GenerateCsvAccountsReportsSavedRequest {
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: "REPORTING_DATE_RANGE_UNSPECIFIED" | "CUSTOM" | "TODAY" | "YESTERDAY" | "MONTH_TO_DATE" | "YEAR_TO_DATE" | "LAST_7_DAYS" | "LAST_30_DAYS" | (string & {});
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "endDate.day"?: number;
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
   currencyCode?: string;
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: "REPORTING_TIME_ZONE_UNSPECIFIED" | "ACCOUNT_TIME_ZONE" | "GOOGLE_TIME_ZONE" | (string & {});
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "endDate.year"?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
@@ -1540,18 +2262,39 @@ export interface GenerateCsvAccountsReportsSavedRequest {
 
 export const GenerateCsvAccountsReportsSavedRequest = Schema.Struct({
   dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  "endDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.day")),
-  currencyCode: Schema.optional(Schema.String).pipe(T.HttpQuery("currencyCode")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("reportingTimeZone")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.year")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.month")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.year")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   name: Schema.String.pipe(T.HttpPath("name")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.month")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.day")),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generateCsv" }),
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generateCsv",
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateCsvAccountsReportsSavedRequest>;
 
@@ -1561,7 +2304,12 @@ export const GenerateCsvAccountsReportsSavedResponse = HttpBody;
 export type GenerateCsvAccountsReportsSavedError = DefaultErrors;
 
 /** Generates a csv formatted saved report. */
-export const generateCsvAccountsReportsSaved: API.OperationMethod<GenerateCsvAccountsReportsSavedRequest, GenerateCsvAccountsReportsSavedResponse, GenerateCsvAccountsReportsSavedError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateCsvAccountsReportsSaved: API.OperationMethod<
+  GenerateCsvAccountsReportsSavedRequest,
+  GenerateCsvAccountsReportsSavedResponse,
+  GenerateCsvAccountsReportsSavedError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateCsvAccountsReportsSavedRequest,
   output: GenerateCsvAccountsReportsSavedResponse,
   errors: [],
@@ -1591,7 +2339,12 @@ export const ListAccountsReportsSavedResponse = ListSavedReportsResponse;
 export type ListAccountsReportsSavedError = DefaultErrors;
 
 /** Lists saved reports. */
-export const listAccountsReportsSaved: API.PaginatedOperationMethod<ListAccountsReportsSavedRequest, ListAccountsReportsSavedResponse, ListAccountsReportsSavedError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsReportsSaved: API.PaginatedOperationMethod<
+  ListAccountsReportsSavedRequest,
+  ListAccountsReportsSavedResponse,
+  ListAccountsReportsSavedError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsReportsSavedRequest,
   output: ListAccountsReportsSavedResponse,
   errors: [],
@@ -1609,7 +2362,9 @@ export interface ListAccountsAlertsRequest {
 }
 
 export const ListAccountsAlertsRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
   T.Http({ method: "GET", path: "v2/accounts/{accountsId}/alerts" }),
@@ -1622,9 +2377,13 @@ export const ListAccountsAlertsResponse = ListAlertsResponse;
 export type ListAccountsAlertsError = DefaultErrors;
 
 /** Lists all the alerts available in an account. */
-export const listAccountsAlerts: API.OperationMethod<ListAccountsAlertsRequest, ListAccountsAlertsResponse, ListAccountsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listAccountsAlerts: API.OperationMethod<
+  ListAccountsAlertsRequest,
+  ListAccountsAlertsResponse,
+  ListAccountsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListAccountsAlertsRequest,
   output: ListAccountsAlertsResponse,
   errors: [],
 }));
-

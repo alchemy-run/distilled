@@ -32,11 +32,16 @@ export interface OperationError {
   message?: string;
 }
 
-export const OperationError: Schema.Schema<OperationError> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationError" }) as any as Schema.Schema<OperationError>;
+export const OperationError: Schema.Schema<OperationError> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "OperationError",
+}) as any as Schema.Schema<OperationError>;
 
 export interface OperationErrors {
   /** This is always `sql#operationErrors`. */
@@ -45,25 +50,38 @@ export interface OperationErrors {
   errors?: Array<OperationError>;
 }
 
-export const OperationErrors: Schema.Schema<OperationErrors> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  errors: Schema.optional(Schema.Array(OperationError)),
-})).annotate({ identifier: "OperationErrors" }) as any as Schema.Schema<OperationErrors>;
+export const OperationErrors: Schema.Schema<OperationErrors> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      errors: Schema.optional(Schema.Array(OperationError)),
+    }),
+).annotate({
+  identifier: "OperationErrors",
+}) as any as Schema.Schema<OperationErrors>;
 
 export interface ApiWarning {
   /** Code to uniquely identify the warning type. */
-  code?: "SQL_API_WARNING_CODE_UNSPECIFIED" | "REGION_UNREACHABLE" | "MAX_RESULTS_EXCEEDS_LIMIT" | "COMPROMISED_CREDENTIALS" | "INTERNAL_STATE_FAILURE" | (string & {});
+  code?:
+    | "SQL_API_WARNING_CODE_UNSPECIFIED"
+    | "REGION_UNREACHABLE"
+    | "MAX_RESULTS_EXCEEDS_LIMIT"
+    | "COMPROMISED_CREDENTIALS"
+    | "INTERNAL_STATE_FAILURE"
+    | (string & {});
   /** The warning message. */
   message?: string;
   /** The region name for REGION_UNREACHABLE warning. */
   region?: string;
 }
 
-export const ApiWarning: Schema.Schema<ApiWarning> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApiWarning" }) as any as Schema.Schema<ApiWarning>;
+export const ApiWarning: Schema.Schema<ApiWarning> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.String),
+    message: Schema.optional(Schema.String),
+    region: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ApiWarning" }) as any as Schema.Schema<ApiWarning>;
 
 export interface ImportContext {
   /** Path to the import file in Cloud Storage, in the form `gs://bucketName/fileName`. Compressed gzip files (.gz) are supported when `fileType` is `SQL`. The instance must have write permissions to the bucket and read access to the file. */
@@ -73,30 +91,113 @@ export interface ImportContext {
   /** This is always `sql#importContext`. */
   kind?: string;
   /** The file type for the specified uri.\`SQL`: The file contains SQL statements. \`CSV`: The file contains CSV data. */
-  fileType?: "SQL_FILE_TYPE_UNSPECIFIED" | "SQL" | "CSV" | "BAK" | "TDE" | (string & {});
+  fileType?:
+    | "SQL_FILE_TYPE_UNSPECIFIED"
+    | "SQL"
+    | "CSV"
+    | "BAK"
+    | "TDE"
+    | (string & {});
   /** Options for importing data as CSV. */
-  csvImportOptions?: { table?: string; columns?: Array<string>; escapeCharacter?: string; quoteCharacter?: string; fieldsTerminatedBy?: string; linesTerminatedBy?: string };
+  csvImportOptions?: {
+    table?: string;
+    columns?: Array<string>;
+    escapeCharacter?: string;
+    quoteCharacter?: string;
+    fieldsTerminatedBy?: string;
+    linesTerminatedBy?: string;
+  };
   /** The PostgreSQL user for this import operation. PostgreSQL instances only. */
   importUser?: string;
   /** Import parameters specific to SQL Server .BAK files */
-  bakImportOptions?: { encryptionOptions?: { certPath?: string; pvkPath?: string; pvkPassword?: string; keepEncrypted?: boolean }; striped?: boolean; noRecovery?: boolean; recoveryOnly?: boolean; bakType?: "BAK_TYPE_UNSPECIFIED" | "FULL" | "DIFF" | "TLOG" | (string & {}); stopAt?: string; stopAtMark?: string };
+  bakImportOptions?: {
+    encryptionOptions?: {
+      certPath?: string;
+      pvkPath?: string;
+      pvkPassword?: string;
+      keepEncrypted?: boolean;
+    };
+    striped?: boolean;
+    noRecovery?: boolean;
+    recoveryOnly?: boolean;
+    bakType?: "BAK_TYPE_UNSPECIFIED" | "FULL" | "DIFF" | "TLOG" | (string & {});
+    stopAt?: string;
+    stopAtMark?: string;
+  };
   /** Optional. Options for importing data from SQL statements. */
-  sqlImportOptions?: { threads?: number; parallel?: boolean; postgresImportOptions?: { clean?: boolean; ifExists?: boolean } };
+  sqlImportOptions?: {
+    threads?: number;
+    parallel?: boolean;
+    postgresImportOptions?: { clean?: boolean; ifExists?: boolean };
+  };
   /** Optional. Import parameters specific to SQL Server TDE certificates */
-  tdeImportOptions?: { certificatePath?: string; privateKeyPath?: string; privateKeyPassword?: string; name?: string };
+  tdeImportOptions?: {
+    certificatePath?: string;
+    privateKeyPath?: string;
+    privateKeyPassword?: string;
+    name?: string;
+  };
 }
 
-export const ImportContext: Schema.Schema<ImportContext> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  database: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  fileType: Schema.optional(Schema.String),
-  csvImportOptions: Schema.optional(Schema.Struct({ table: Schema.optional(Schema.String), columns: Schema.optional(Schema.Array(Schema.String)), escapeCharacter: Schema.optional(Schema.String), quoteCharacter: Schema.optional(Schema.String), fieldsTerminatedBy: Schema.optional(Schema.String), linesTerminatedBy: Schema.optional(Schema.String) })),
-  importUser: Schema.optional(Schema.String),
-  bakImportOptions: Schema.optional(Schema.Struct({ encryptionOptions: Schema.optional(Schema.Struct({ certPath: Schema.optional(Schema.String), pvkPath: Schema.optional(Schema.String), pvkPassword: Schema.optional(Schema.String), keepEncrypted: Schema.optional(Schema.Boolean) })), striped: Schema.optional(Schema.Boolean), noRecovery: Schema.optional(Schema.Boolean), recoveryOnly: Schema.optional(Schema.Boolean), bakType: Schema.optional(Schema.String), stopAt: Schema.optional(Schema.String), stopAtMark: Schema.optional(Schema.String) })),
-  sqlImportOptions: Schema.optional(Schema.Struct({ threads: Schema.optional(Schema.Number), parallel: Schema.optional(Schema.Boolean), postgresImportOptions: Schema.optional(Schema.Struct({ clean: Schema.optional(Schema.Boolean), ifExists: Schema.optional(Schema.Boolean) })) })),
-  tdeImportOptions: Schema.optional(Schema.Struct({ certificatePath: Schema.optional(Schema.String), privateKeyPath: Schema.optional(Schema.String), privateKeyPassword: Schema.optional(Schema.String), name: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "ImportContext" }) as any as Schema.Schema<ImportContext>;
+export const ImportContext: Schema.Schema<ImportContext> = Schema.suspend(() =>
+  Schema.Struct({
+    uri: Schema.optional(Schema.String),
+    database: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    fileType: Schema.optional(Schema.String),
+    csvImportOptions: Schema.optional(
+      Schema.Struct({
+        table: Schema.optional(Schema.String),
+        columns: Schema.optional(Schema.Array(Schema.String)),
+        escapeCharacter: Schema.optional(Schema.String),
+        quoteCharacter: Schema.optional(Schema.String),
+        fieldsTerminatedBy: Schema.optional(Schema.String),
+        linesTerminatedBy: Schema.optional(Schema.String),
+      }),
+    ),
+    importUser: Schema.optional(Schema.String),
+    bakImportOptions: Schema.optional(
+      Schema.Struct({
+        encryptionOptions: Schema.optional(
+          Schema.Struct({
+            certPath: Schema.optional(Schema.String),
+            pvkPath: Schema.optional(Schema.String),
+            pvkPassword: Schema.optional(Schema.String),
+            keepEncrypted: Schema.optional(Schema.Boolean),
+          }),
+        ),
+        striped: Schema.optional(Schema.Boolean),
+        noRecovery: Schema.optional(Schema.Boolean),
+        recoveryOnly: Schema.optional(Schema.Boolean),
+        bakType: Schema.optional(Schema.String),
+        stopAt: Schema.optional(Schema.String),
+        stopAtMark: Schema.optional(Schema.String),
+      }),
+    ),
+    sqlImportOptions: Schema.optional(
+      Schema.Struct({
+        threads: Schema.optional(Schema.Number),
+        parallel: Schema.optional(Schema.Boolean),
+        postgresImportOptions: Schema.optional(
+          Schema.Struct({
+            clean: Schema.optional(Schema.Boolean),
+            ifExists: Schema.optional(Schema.Boolean),
+          }),
+        ),
+      }),
+    ),
+    tdeImportOptions: Schema.optional(
+      Schema.Struct({
+        certificatePath: Schema.optional(Schema.String),
+        privateKeyPath: Schema.optional(Schema.String),
+        privateKeyPassword: Schema.optional(Schema.String),
+        name: Schema.optional(Schema.String),
+      }),
+    ),
+  }),
+).annotate({
+  identifier: "ImportContext",
+}) as any as Schema.Schema<ImportContext>;
 
 export interface ExportContext {
   /** The path to the file in Google Cloud Storage where the export will be stored. The URI is in the form `gs://bucketName/fileName`. If the file already exists, the request succeeds, but the operation fails. If `fileType` is `SQL` and the filename ends with .gz, the contents are compressed. */
@@ -106,30 +207,107 @@ export interface ExportContext {
   /** This is always `sql#exportContext`. */
   kind?: string;
   /** Options for exporting data as SQL statements. */
-  sqlExportOptions?: { tables?: Array<string>; schemaOnly?: boolean; mysqlExportOptions?: { masterData?: number }; threads?: number; parallel?: boolean; postgresExportOptions?: { clean?: boolean; ifExists?: boolean } };
+  sqlExportOptions?: {
+    tables?: Array<string>;
+    schemaOnly?: boolean;
+    mysqlExportOptions?: { masterData?: number };
+    threads?: number;
+    parallel?: boolean;
+    postgresExportOptions?: { clean?: boolean; ifExists?: boolean };
+  };
   /** Options for exporting data as CSV. `MySQL` and `PostgreSQL` instances only. */
-  csvExportOptions?: { selectQuery?: string; escapeCharacter?: string; quoteCharacter?: string; fieldsTerminatedBy?: string; linesTerminatedBy?: string };
+  csvExportOptions?: {
+    selectQuery?: string;
+    escapeCharacter?: string;
+    quoteCharacter?: string;
+    fieldsTerminatedBy?: string;
+    linesTerminatedBy?: string;
+  };
   /** The file type for the specified uri. */
-  fileType?: "SQL_FILE_TYPE_UNSPECIFIED" | "SQL" | "CSV" | "BAK" | "TDE" | (string & {});
+  fileType?:
+    | "SQL_FILE_TYPE_UNSPECIFIED"
+    | "SQL"
+    | "CSV"
+    | "BAK"
+    | "TDE"
+    | (string & {});
   /** Whether to perform a serverless export. */
   offload?: boolean;
   /** Options for exporting BAK files (SQL Server-only) */
-  bakExportOptions?: { striped?: boolean; stripeCount?: number; bakType?: "BAK_TYPE_UNSPECIFIED" | "FULL" | "DIFF" | "TLOG" | (string & {}); copyOnly?: boolean; differentialBase?: boolean; exportLogStartTime?: string; exportLogEndTime?: string };
+  bakExportOptions?: {
+    striped?: boolean;
+    stripeCount?: number;
+    bakType?: "BAK_TYPE_UNSPECIFIED" | "FULL" | "DIFF" | "TLOG" | (string & {});
+    copyOnly?: boolean;
+    differentialBase?: boolean;
+    exportLogStartTime?: string;
+    exportLogEndTime?: string;
+  };
   /** Optional. Export parameters specific to SQL Server TDE certificates */
-  tdeExportOptions?: { certificatePath?: string; privateKeyPath?: string; privateKeyPassword?: string; name?: string };
+  tdeExportOptions?: {
+    certificatePath?: string;
+    privateKeyPath?: string;
+    privateKeyPassword?: string;
+    name?: string;
+  };
 }
 
-export const ExportContext: Schema.Schema<ExportContext> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  databases: Schema.optional(Schema.Array(Schema.String)),
-  kind: Schema.optional(Schema.String),
-  sqlExportOptions: Schema.optional(Schema.Struct({ tables: Schema.optional(Schema.Array(Schema.String)), schemaOnly: Schema.optional(Schema.Boolean), mysqlExportOptions: Schema.optional(Schema.Struct({ masterData: Schema.optional(Schema.Number) })), threads: Schema.optional(Schema.Number), parallel: Schema.optional(Schema.Boolean), postgresExportOptions: Schema.optional(Schema.Struct({ clean: Schema.optional(Schema.Boolean), ifExists: Schema.optional(Schema.Boolean) })) })),
-  csvExportOptions: Schema.optional(Schema.Struct({ selectQuery: Schema.optional(Schema.String), escapeCharacter: Schema.optional(Schema.String), quoteCharacter: Schema.optional(Schema.String), fieldsTerminatedBy: Schema.optional(Schema.String), linesTerminatedBy: Schema.optional(Schema.String) })),
-  fileType: Schema.optional(Schema.String),
-  offload: Schema.optional(Schema.Boolean),
-  bakExportOptions: Schema.optional(Schema.Struct({ striped: Schema.optional(Schema.Boolean), stripeCount: Schema.optional(Schema.Number), bakType: Schema.optional(Schema.String), copyOnly: Schema.optional(Schema.Boolean), differentialBase: Schema.optional(Schema.Boolean), exportLogStartTime: Schema.optional(Schema.String), exportLogEndTime: Schema.optional(Schema.String) })),
-  tdeExportOptions: Schema.optional(Schema.Struct({ certificatePath: Schema.optional(Schema.String), privateKeyPath: Schema.optional(Schema.String), privateKeyPassword: Schema.optional(Schema.String), name: Schema.optional(Schema.String) })),
-})).annotate({ identifier: "ExportContext" }) as any as Schema.Schema<ExportContext>;
+export const ExportContext: Schema.Schema<ExportContext> = Schema.suspend(() =>
+  Schema.Struct({
+    uri: Schema.optional(Schema.String),
+    databases: Schema.optional(Schema.Array(Schema.String)),
+    kind: Schema.optional(Schema.String),
+    sqlExportOptions: Schema.optional(
+      Schema.Struct({
+        tables: Schema.optional(Schema.Array(Schema.String)),
+        schemaOnly: Schema.optional(Schema.Boolean),
+        mysqlExportOptions: Schema.optional(
+          Schema.Struct({ masterData: Schema.optional(Schema.Number) }),
+        ),
+        threads: Schema.optional(Schema.Number),
+        parallel: Schema.optional(Schema.Boolean),
+        postgresExportOptions: Schema.optional(
+          Schema.Struct({
+            clean: Schema.optional(Schema.Boolean),
+            ifExists: Schema.optional(Schema.Boolean),
+          }),
+        ),
+      }),
+    ),
+    csvExportOptions: Schema.optional(
+      Schema.Struct({
+        selectQuery: Schema.optional(Schema.String),
+        escapeCharacter: Schema.optional(Schema.String),
+        quoteCharacter: Schema.optional(Schema.String),
+        fieldsTerminatedBy: Schema.optional(Schema.String),
+        linesTerminatedBy: Schema.optional(Schema.String),
+      }),
+    ),
+    fileType: Schema.optional(Schema.String),
+    offload: Schema.optional(Schema.Boolean),
+    bakExportOptions: Schema.optional(
+      Schema.Struct({
+        striped: Schema.optional(Schema.Boolean),
+        stripeCount: Schema.optional(Schema.Number),
+        bakType: Schema.optional(Schema.String),
+        copyOnly: Schema.optional(Schema.Boolean),
+        differentialBase: Schema.optional(Schema.Boolean),
+        exportLogStartTime: Schema.optional(Schema.String),
+        exportLogEndTime: Schema.optional(Schema.String),
+      }),
+    ),
+    tdeExportOptions: Schema.optional(
+      Schema.Struct({
+        certificatePath: Schema.optional(Schema.String),
+        privateKeyPath: Schema.optional(Schema.String),
+        privateKeyPassword: Schema.optional(Schema.String),
+        name: Schema.optional(Schema.String),
+      }),
+    ),
+  }),
+).annotate({
+  identifier: "ExportContext",
+}) as any as Schema.Schema<ExportContext>;
 
 export interface BackupContext {
   /** The identifier of the backup. */
@@ -140,41 +318,115 @@ export interface BackupContext {
   name?: string;
 }
 
-export const BackupContext: Schema.Schema<BackupContext> = Schema.suspend(() => Schema.Struct({
-  backupId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupContext" }) as any as Schema.Schema<BackupContext>;
+export const BackupContext: Schema.Schema<BackupContext> = Schema.suspend(() =>
+  Schema.Struct({
+    backupId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "BackupContext",
+}) as any as Schema.Schema<BackupContext>;
 
 export interface PreCheckResponse {
   /** The message to be displayed to the user. */
   message?: string;
   /** The type of message whether it is an info, warning, or error. */
-  messageType?: "MESSAGE_TYPE_UNSPECIFIED" | "INFO" | "WARNING" | "ERROR" | (string & {});
+  messageType?:
+    | "MESSAGE_TYPE_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "ERROR"
+    | (string & {});
   /** The actions that the user needs to take. Use repeated for multiple actions. */
   actionsRequired?: Array<string>;
 }
 
-export const PreCheckResponse: Schema.Schema<PreCheckResponse> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  messageType: Schema.optional(Schema.String),
-  actionsRequired: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PreCheckResponse" }) as any as Schema.Schema<PreCheckResponse>;
+export const PreCheckResponse: Schema.Schema<PreCheckResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      messageType: Schema.optional(Schema.String),
+      actionsRequired: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "PreCheckResponse",
+}) as any as Schema.Schema<PreCheckResponse>;
 
 export interface PreCheckMajorVersionUpgradeContext {
   /** Required. The target database version to upgrade to. */
-  targetDatabaseVersion?: "SQL_DATABASE_VERSION_UNSPECIFIED" | "MYSQL_5_1" | "MYSQL_5_5" | "MYSQL_5_6" | "MYSQL_5_7" | "MYSQL_8_0" | "MYSQL_8_0_18" | "MYSQL_8_0_26" | "MYSQL_8_0_27" | "MYSQL_8_0_28" | "MYSQL_8_0_29" | "MYSQL_8_0_30" | "MYSQL_8_0_31" | "MYSQL_8_0_32" | "MYSQL_8_0_33" | "MYSQL_8_0_34" | "MYSQL_8_0_35" | "MYSQL_8_0_36" | "MYSQL_8_0_37" | "MYSQL_8_0_39" | "MYSQL_8_0_40" | "MYSQL_8_0_41" | "MYSQL_8_0_42" | "MYSQL_8_0_43" | "MYSQL_8_0_44" | "MYSQL_8_0_45" | "MYSQL_8_0_46" | "MYSQL_8_4" | "MYSQL_9_7" | "SQLSERVER_2017_STANDARD" | "SQLSERVER_2017_ENTERPRISE" | "SQLSERVER_2017_EXPRESS" | "SQLSERVER_2017_WEB" | "POSTGRES_9_6" | "POSTGRES_10" | "POSTGRES_11" | "POSTGRES_12" | "POSTGRES_13" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | "POSTGRES_17" | "POSTGRES_18" | "SQLSERVER_2019_STANDARD" | "SQLSERVER_2019_ENTERPRISE" | "SQLSERVER_2019_EXPRESS" | "SQLSERVER_2019_WEB" | "SQLSERVER_2022_STANDARD" | "SQLSERVER_2022_ENTERPRISE" | "SQLSERVER_2022_EXPRESS" | "SQLSERVER_2022_WEB" | "SQLSERVER_2025_STANDARD" | "SQLSERVER_2025_ENTERPRISE" | "SQLSERVER_2025_EXPRESS" | (string & {});
+  targetDatabaseVersion?:
+    | "SQL_DATABASE_VERSION_UNSPECIFIED"
+    | "MYSQL_5_1"
+    | "MYSQL_5_5"
+    | "MYSQL_5_6"
+    | "MYSQL_5_7"
+    | "MYSQL_8_0"
+    | "MYSQL_8_0_18"
+    | "MYSQL_8_0_26"
+    | "MYSQL_8_0_27"
+    | "MYSQL_8_0_28"
+    | "MYSQL_8_0_29"
+    | "MYSQL_8_0_30"
+    | "MYSQL_8_0_31"
+    | "MYSQL_8_0_32"
+    | "MYSQL_8_0_33"
+    | "MYSQL_8_0_34"
+    | "MYSQL_8_0_35"
+    | "MYSQL_8_0_36"
+    | "MYSQL_8_0_37"
+    | "MYSQL_8_0_39"
+    | "MYSQL_8_0_40"
+    | "MYSQL_8_0_41"
+    | "MYSQL_8_0_42"
+    | "MYSQL_8_0_43"
+    | "MYSQL_8_0_44"
+    | "MYSQL_8_0_45"
+    | "MYSQL_8_0_46"
+    | "MYSQL_8_4"
+    | "MYSQL_9_7"
+    | "SQLSERVER_2017_STANDARD"
+    | "SQLSERVER_2017_ENTERPRISE"
+    | "SQLSERVER_2017_EXPRESS"
+    | "SQLSERVER_2017_WEB"
+    | "POSTGRES_9_6"
+    | "POSTGRES_10"
+    | "POSTGRES_11"
+    | "POSTGRES_12"
+    | "POSTGRES_13"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | "POSTGRES_17"
+    | "POSTGRES_18"
+    | "SQLSERVER_2019_STANDARD"
+    | "SQLSERVER_2019_ENTERPRISE"
+    | "SQLSERVER_2019_EXPRESS"
+    | "SQLSERVER_2019_WEB"
+    | "SQLSERVER_2022_STANDARD"
+    | "SQLSERVER_2022_ENTERPRISE"
+    | "SQLSERVER_2022_EXPRESS"
+    | "SQLSERVER_2022_WEB"
+    | "SQLSERVER_2025_STANDARD"
+    | "SQLSERVER_2025_ENTERPRISE"
+    | "SQLSERVER_2025_EXPRESS"
+    | (string & {});
   /** Output only. The responses from the precheck operation. */
   preCheckResponse?: Array<PreCheckResponse>;
   /** Optional. This is always `sql#preCheckMajorVersionUpgradeContext`. */
   kind?: string;
 }
 
-export const PreCheckMajorVersionUpgradeContext: Schema.Schema<PreCheckMajorVersionUpgradeContext> = Schema.suspend(() => Schema.Struct({
-  targetDatabaseVersion: Schema.optional(Schema.String),
-  preCheckResponse: Schema.optional(Schema.Array(PreCheckResponse)),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "PreCheckMajorVersionUpgradeContext" }) as any as Schema.Schema<PreCheckMajorVersionUpgradeContext>;
+export const PreCheckMajorVersionUpgradeContext: Schema.Schema<PreCheckMajorVersionUpgradeContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      targetDatabaseVersion: Schema.optional(Schema.String),
+      preCheckResponse: Schema.optional(Schema.Array(PreCheckResponse)),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PreCheckMajorVersionUpgradeContext",
+  }) as any as Schema.Schema<PreCheckMajorVersionUpgradeContext>;
 
 export interface AcquireSsrsLeaseContext {
   /** The username to be used as the setup login to connect to the database server for SSRS setup. */
@@ -187,28 +439,49 @@ export interface AcquireSsrsLeaseContext {
   duration?: string;
 }
 
-export const AcquireSsrsLeaseContext: Schema.Schema<AcquireSsrsLeaseContext> = Schema.suspend(() => Schema.Struct({
-  setupLogin: Schema.optional(Schema.String),
-  serviceLogin: Schema.optional(Schema.String),
-  reportDatabase: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "AcquireSsrsLeaseContext" }) as any as Schema.Schema<AcquireSsrsLeaseContext>;
+export const AcquireSsrsLeaseContext: Schema.Schema<AcquireSsrsLeaseContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      setupLogin: Schema.optional(Schema.String),
+      serviceLogin: Schema.optional(Schema.String),
+      reportDatabase: Schema.optional(Schema.String),
+      duration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AcquireSsrsLeaseContext",
+  }) as any as Schema.Schema<AcquireSsrsLeaseContext>;
 
 export interface SqlSubOperationType {
   /** The type of maintenance to be performed on the instance. */
-  maintenanceType?: "SQL_MAINTENANCE_TYPE_UNSPECIFIED" | "INSTANCE_MAINTENANCE" | "REPLICA_INCLUDED_MAINTENANCE" | "INSTANCE_SELF_SERVICE_MAINTENANCE" | "REPLICA_INCLUDED_SELF_SERVICE_MAINTENANCE" | (string & {});
+  maintenanceType?:
+    | "SQL_MAINTENANCE_TYPE_UNSPECIFIED"
+    | "INSTANCE_MAINTENANCE"
+    | "REPLICA_INCLUDED_MAINTENANCE"
+    | "INSTANCE_SELF_SERVICE_MAINTENANCE"
+    | "REPLICA_INCLUDED_SELF_SERVICE_MAINTENANCE"
+    | (string & {});
 }
 
-export const SqlSubOperationType: Schema.Schema<SqlSubOperationType> = Schema.suspend(() => Schema.Struct({
-  maintenanceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlSubOperationType" }) as any as Schema.Schema<SqlSubOperationType>;
+export const SqlSubOperationType: Schema.Schema<SqlSubOperationType> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maintenanceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlSubOperationType",
+  }) as any as Schema.Schema<SqlSubOperationType>;
 
 export interface Operation {
   /** This is always `sql#operation`. */
   kind?: string;
   targetLink?: string;
   /** The status of an operation. */
-  status?: "SQL_OPERATION_STATUS_UNSPECIFIED" | "PENDING" | "RUNNING" | "DONE" | (string & {});
+  status?:
+    | "SQL_OPERATION_STATUS_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "DONE"
+    | (string & {});
   /** The email address of the user who initiated this operation. */
   user?: string;
   /** The time this operation was enqueued in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
@@ -222,7 +495,60 @@ export interface Operation {
   /** An Admin API warning message. */
   apiWarning?: ApiWarning;
   /** The type of the operation. Valid values are: * `CREATE` * `DELETE` * `UPDATE` * `RESTART` * `IMPORT` * `EXPORT` * `BACKUP_VOLUME` * `RESTORE_VOLUME` * `CREATE_USER` * `DELETE_USER` * `CREATE_DATABASE` * `DELETE_DATABASE` */
-  operationType?: "SQL_OPERATION_TYPE_UNSPECIFIED" | "IMPORT" | "EXPORT" | "CREATE" | "UPDATE" | "DELETE" | "RESTART" | "BACKUP" | "SNAPSHOT" | "BACKUP_VOLUME" | "DELETE_VOLUME" | "RESTORE_VOLUME" | "INJECT_USER" | "CLONE" | "STOP_REPLICA" | "START_REPLICA" | "PROMOTE_REPLICA" | "CREATE_REPLICA" | "CREATE_USER" | "DELETE_USER" | "UPDATE_USER" | "CREATE_DATABASE" | "DELETE_DATABASE" | "UPDATE_DATABASE" | "FAILOVER" | "DELETE_BACKUP" | "RECREATE_REPLICA" | "TRUNCATE_LOG" | "DEMOTE_MASTER" | "MAINTENANCE" | "ENABLE_PRIVATE_IP" | "DEFER_MAINTENANCE" | "CREATE_CLONE" | "RESCHEDULE_MAINTENANCE" | "START_EXTERNAL_SYNC" | "LOG_CLEANUP" | "AUTO_RESTART" | "REENCRYPT" | "SWITCHOVER" | "UPDATE_BACKUP" | "ACQUIRE_SSRS_LEASE" | "RELEASE_SSRS_LEASE" | "RECONFIGURE_OLD_PRIMARY" | "CLUSTER_MAINTENANCE" | "SELF_SERVICE_MAINTENANCE" | "SWITCHOVER_TO_REPLICA" | "MAJOR_VERSION_UPGRADE" | "ADVANCED_BACKUP" | "MANAGE_BACKUP" | "ENHANCED_BACKUP" | "REPAIR_READ_POOL" | "CREATE_READ_POOL" | (string & {});
+  operationType?:
+    | "SQL_OPERATION_TYPE_UNSPECIFIED"
+    | "IMPORT"
+    | "EXPORT"
+    | "CREATE"
+    | "UPDATE"
+    | "DELETE"
+    | "RESTART"
+    | "BACKUP"
+    | "SNAPSHOT"
+    | "BACKUP_VOLUME"
+    | "DELETE_VOLUME"
+    | "RESTORE_VOLUME"
+    | "INJECT_USER"
+    | "CLONE"
+    | "STOP_REPLICA"
+    | "START_REPLICA"
+    | "PROMOTE_REPLICA"
+    | "CREATE_REPLICA"
+    | "CREATE_USER"
+    | "DELETE_USER"
+    | "UPDATE_USER"
+    | "CREATE_DATABASE"
+    | "DELETE_DATABASE"
+    | "UPDATE_DATABASE"
+    | "FAILOVER"
+    | "DELETE_BACKUP"
+    | "RECREATE_REPLICA"
+    | "TRUNCATE_LOG"
+    | "DEMOTE_MASTER"
+    | "MAINTENANCE"
+    | "ENABLE_PRIVATE_IP"
+    | "DEFER_MAINTENANCE"
+    | "CREATE_CLONE"
+    | "RESCHEDULE_MAINTENANCE"
+    | "START_EXTERNAL_SYNC"
+    | "LOG_CLEANUP"
+    | "AUTO_RESTART"
+    | "REENCRYPT"
+    | "SWITCHOVER"
+    | "UPDATE_BACKUP"
+    | "ACQUIRE_SSRS_LEASE"
+    | "RELEASE_SSRS_LEASE"
+    | "RECONFIGURE_OLD_PRIMARY"
+    | "CLUSTER_MAINTENANCE"
+    | "SELF_SERVICE_MAINTENANCE"
+    | "SWITCHOVER_TO_REPLICA"
+    | "MAJOR_VERSION_UPGRADE"
+    | "ADVANCED_BACKUP"
+    | "MANAGE_BACKUP"
+    | "ENHANCED_BACKUP"
+    | "REPAIR_READ_POOL"
+    | "CREATE_READ_POOL"
+    | (string & {});
   /** The context for import operation, if applicable. */
   importContext?: ImportContext;
   /** The context for export operation, if applicable. */
@@ -245,28 +571,32 @@ export interface Operation {
   subOperationType?: SqlSubOperationType;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  targetLink: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  user: Schema.optional(Schema.String),
-  insertTime: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  error: Schema.optional(OperationErrors),
-  apiWarning: Schema.optional(ApiWarning),
-  operationType: Schema.optional(Schema.String),
-  importContext: Schema.optional(ImportContext),
-  exportContext: Schema.optional(ExportContext),
-  backupContext: Schema.optional(BackupContext),
-  preCheckMajorVersionUpgradeContext: Schema.optional(PreCheckMajorVersionUpgradeContext),
-  name: Schema.optional(Schema.String),
-  targetId: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  targetProject: Schema.optional(Schema.String),
-  acquireSsrsLeaseContext: Schema.optional(AcquireSsrsLeaseContext),
-  subOperationType: Schema.optional(SqlSubOperationType),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    targetLink: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    user: Schema.optional(Schema.String),
+    insertTime: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    error: Schema.optional(OperationErrors),
+    apiWarning: Schema.optional(ApiWarning),
+    operationType: Schema.optional(Schema.String),
+    importContext: Schema.optional(ImportContext),
+    exportContext: Schema.optional(ExportContext),
+    backupContext: Schema.optional(BackupContext),
+    preCheckMajorVersionUpgradeContext: Schema.optional(
+      PreCheckMajorVersionUpgradeContext,
+    ),
+    name: Schema.optional(Schema.String),
+    targetId: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    targetProject: Schema.optional(Schema.String),
+    acquireSsrsLeaseContext: Schema.optional(AcquireSsrsLeaseContext),
+    subOperationType: Schema.optional(SqlSubOperationType),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface BinLogCoordinates {
   /** Name of the binary log file for a Cloud SQL instance. */
@@ -277,11 +607,16 @@ export interface BinLogCoordinates {
   kind?: string;
 }
 
-export const BinLogCoordinates: Schema.Schema<BinLogCoordinates> = Schema.suspend(() => Schema.Struct({
-  binLogFileName: Schema.optional(Schema.String),
-  binLogPosition: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "BinLogCoordinates" }) as any as Schema.Schema<BinLogCoordinates>;
+export const BinLogCoordinates: Schema.Schema<BinLogCoordinates> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      binLogFileName: Schema.optional(Schema.String),
+      binLogPosition: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BinLogCoordinates",
+  }) as any as Schema.Schema<BinLogCoordinates>;
 
 export interface CloneContext {
   /** This is always `sql#cloneContext`. */
@@ -310,29 +645,38 @@ export interface CloneContext {
   destinationNetwork?: string;
 }
 
-export const CloneContext: Schema.Schema<CloneContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  pitrTimestampMs: Schema.optional(Schema.String),
-  destinationInstanceName: Schema.optional(Schema.String),
-  binLogCoordinates: Schema.optional(BinLogCoordinates),
-  pointInTime: Schema.optional(Schema.String),
-  allocatedIpRange: Schema.optional(Schema.String),
-  databaseNames: Schema.optional(Schema.Array(Schema.String)),
-  preferredZone: Schema.optional(Schema.String),
-  preferredSecondaryZone: Schema.optional(Schema.String),
-  sourceInstanceDeletionTime: Schema.optional(Schema.String),
-  destinationProject: Schema.optional(Schema.String),
-  destinationNetwork: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloneContext" }) as any as Schema.Schema<CloneContext>;
+export const CloneContext: Schema.Schema<CloneContext> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    pitrTimestampMs: Schema.optional(Schema.String),
+    destinationInstanceName: Schema.optional(Schema.String),
+    binLogCoordinates: Schema.optional(BinLogCoordinates),
+    pointInTime: Schema.optional(Schema.String),
+    allocatedIpRange: Schema.optional(Schema.String),
+    databaseNames: Schema.optional(Schema.Array(Schema.String)),
+    preferredZone: Schema.optional(Schema.String),
+    preferredSecondaryZone: Schema.optional(Schema.String),
+    sourceInstanceDeletionTime: Schema.optional(Schema.String),
+    destinationProject: Schema.optional(Schema.String),
+    destinationNetwork: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CloneContext",
+}) as any as Schema.Schema<CloneContext>;
 
 export interface InstancesCloneRequest {
   /** Required. Contains details about the clone operation. */
   cloneContext?: CloneContext;
 }
 
-export const InstancesCloneRequest: Schema.Schema<InstancesCloneRequest> = Schema.suspend(() => Schema.Struct({
-  cloneContext: Schema.optional(CloneContext),
-})).annotate({ identifier: "InstancesCloneRequest" }) as any as Schema.Schema<InstancesCloneRequest>;
+export const InstancesCloneRequest: Schema.Schema<InstancesCloneRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloneContext: Schema.optional(CloneContext),
+    }),
+  ).annotate({
+    identifier: "InstancesCloneRequest",
+  }) as any as Schema.Schema<InstancesCloneRequest>;
 
 export interface DemoteMasterMySqlReplicaConfiguration {
   /** This is always `sql#demoteMasterMysqlReplicaConfiguration`. */
@@ -349,14 +693,19 @@ export interface DemoteMasterMySqlReplicaConfiguration {
   caCertificate?: string;
 }
 
-export const DemoteMasterMySqlReplicaConfiguration: Schema.Schema<DemoteMasterMySqlReplicaConfiguration> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  clientKey: Schema.optional(Schema.String),
-  clientCertificate: Schema.optional(Schema.String),
-  caCertificate: Schema.optional(Schema.String),
-})).annotate({ identifier: "DemoteMasterMySqlReplicaConfiguration" }) as any as Schema.Schema<DemoteMasterMySqlReplicaConfiguration>;
+export const DemoteMasterMySqlReplicaConfiguration: Schema.Schema<DemoteMasterMySqlReplicaConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      clientKey: Schema.optional(Schema.String),
+      clientCertificate: Schema.optional(Schema.String),
+      caCertificate: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DemoteMasterMySqlReplicaConfiguration",
+  }) as any as Schema.Schema<DemoteMasterMySqlReplicaConfiguration>;
 
 export interface DemoteMasterConfiguration {
   /** This is always `sql#demoteMasterConfiguration`. */
@@ -365,10 +714,17 @@ export interface DemoteMasterConfiguration {
   mysqlReplicaConfiguration?: DemoteMasterMySqlReplicaConfiguration;
 }
 
-export const DemoteMasterConfiguration: Schema.Schema<DemoteMasterConfiguration> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  mysqlReplicaConfiguration: Schema.optional(DemoteMasterMySqlReplicaConfiguration),
-})).annotate({ identifier: "DemoteMasterConfiguration" }) as any as Schema.Schema<DemoteMasterConfiguration>;
+export const DemoteMasterConfiguration: Schema.Schema<DemoteMasterConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      mysqlReplicaConfiguration: Schema.optional(
+        DemoteMasterMySqlReplicaConfiguration,
+      ),
+    }),
+  ).annotate({
+    identifier: "DemoteMasterConfiguration",
+  }) as any as Schema.Schema<DemoteMasterConfiguration>;
 
 export interface DemoteMasterContext {
   /** This is always `sql#demoteMasterContext`. */
@@ -383,22 +739,32 @@ export interface DemoteMasterContext {
   skipReplicationSetup?: boolean;
 }
 
-export const DemoteMasterContext: Schema.Schema<DemoteMasterContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  verifyGtidConsistency: Schema.optional(Schema.Boolean),
-  masterInstanceName: Schema.optional(Schema.String),
-  replicaConfiguration: Schema.optional(DemoteMasterConfiguration),
-  skipReplicationSetup: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DemoteMasterContext" }) as any as Schema.Schema<DemoteMasterContext>;
+export const DemoteMasterContext: Schema.Schema<DemoteMasterContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      verifyGtidConsistency: Schema.optional(Schema.Boolean),
+      masterInstanceName: Schema.optional(Schema.String),
+      replicaConfiguration: Schema.optional(DemoteMasterConfiguration),
+      skipReplicationSetup: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DemoteMasterContext",
+  }) as any as Schema.Schema<DemoteMasterContext>;
 
 export interface InstancesDemoteMasterRequest {
   /** Contains details about the demoteMaster operation. */
   demoteMasterContext?: DemoteMasterContext;
 }
 
-export const InstancesDemoteMasterRequest: Schema.Schema<InstancesDemoteMasterRequest> = Schema.suspend(() => Schema.Struct({
-  demoteMasterContext: Schema.optional(DemoteMasterContext),
-})).annotate({ identifier: "InstancesDemoteMasterRequest" }) as any as Schema.Schema<InstancesDemoteMasterRequest>;
+export const InstancesDemoteMasterRequest: Schema.Schema<InstancesDemoteMasterRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      demoteMasterContext: Schema.optional(DemoteMasterContext),
+    }),
+  ).annotate({
+    identifier: "InstancesDemoteMasterRequest",
+  }) as any as Schema.Schema<InstancesDemoteMasterRequest>;
 
 export interface DemoteContext {
   /** This is always `sql#demoteContext`. */
@@ -407,28 +773,42 @@ export interface DemoteContext {
   sourceRepresentativeInstanceName?: string;
 }
 
-export const DemoteContext: Schema.Schema<DemoteContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  sourceRepresentativeInstanceName: Schema.optional(Schema.String),
-})).annotate({ identifier: "DemoteContext" }) as any as Schema.Schema<DemoteContext>;
+export const DemoteContext: Schema.Schema<DemoteContext> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    sourceRepresentativeInstanceName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DemoteContext",
+}) as any as Schema.Schema<DemoteContext>;
 
 export interface InstancesDemoteRequest {
   /** Required. Contains details about the demote operation. */
   demoteContext?: DemoteContext;
 }
 
-export const InstancesDemoteRequest: Schema.Schema<InstancesDemoteRequest> = Schema.suspend(() => Schema.Struct({
-  demoteContext: Schema.optional(DemoteContext),
-})).annotate({ identifier: "InstancesDemoteRequest" }) as any as Schema.Schema<InstancesDemoteRequest>;
+export const InstancesDemoteRequest: Schema.Schema<InstancesDemoteRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      demoteContext: Schema.optional(DemoteContext),
+    }),
+  ).annotate({
+    identifier: "InstancesDemoteRequest",
+  }) as any as Schema.Schema<InstancesDemoteRequest>;
 
 export interface InstancesExportRequest {
   /** Contains details about the export operation. */
   exportContext?: ExportContext;
 }
 
-export const InstancesExportRequest: Schema.Schema<InstancesExportRequest> = Schema.suspend(() => Schema.Struct({
-  exportContext: Schema.optional(ExportContext),
-})).annotate({ identifier: "InstancesExportRequest" }) as any as Schema.Schema<InstancesExportRequest>;
+export const InstancesExportRequest: Schema.Schema<InstancesExportRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exportContext: Schema.optional(ExportContext),
+    }),
+  ).annotate({
+    identifier: "InstancesExportRequest",
+  }) as any as Schema.Schema<InstancesExportRequest>;
 
 export interface FailoverContext {
   /** The current settings version of this instance. Request will be rejected if this version doesn't match the current settings version. */
@@ -437,40 +817,64 @@ export interface FailoverContext {
   kind?: string;
 }
 
-export const FailoverContext: Schema.Schema<FailoverContext> = Schema.suspend(() => Schema.Struct({
-  settingsVersion: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "FailoverContext" }) as any as Schema.Schema<FailoverContext>;
+export const FailoverContext: Schema.Schema<FailoverContext> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      settingsVersion: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FailoverContext",
+}) as any as Schema.Schema<FailoverContext>;
 
 export interface InstancesFailoverRequest {
   /** Failover Context. */
   failoverContext?: FailoverContext;
 }
 
-export const InstancesFailoverRequest: Schema.Schema<InstancesFailoverRequest> = Schema.suspend(() => Schema.Struct({
-  failoverContext: Schema.optional(FailoverContext),
-})).annotate({ identifier: "InstancesFailoverRequest" }) as any as Schema.Schema<InstancesFailoverRequest>;
+export const InstancesFailoverRequest: Schema.Schema<InstancesFailoverRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      failoverContext: Schema.optional(FailoverContext),
+    }),
+  ).annotate({
+    identifier: "InstancesFailoverRequest",
+  }) as any as Schema.Schema<InstancesFailoverRequest>;
 
 export interface BackupReencryptionConfig {
   /** Backup re-encryption limit */
   backupLimit?: number;
   /** Type of backups users want to re-encrypt. */
-  backupType?: "BACKUP_TYPE_UNSPECIFIED" | "AUTOMATED" | "ON_DEMAND" | (string & {});
+  backupType?:
+    | "BACKUP_TYPE_UNSPECIFIED"
+    | "AUTOMATED"
+    | "ON_DEMAND"
+    | (string & {});
 }
 
-export const BackupReencryptionConfig: Schema.Schema<BackupReencryptionConfig> = Schema.suspend(() => Schema.Struct({
-  backupLimit: Schema.optional(Schema.Number),
-  backupType: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupReencryptionConfig" }) as any as Schema.Schema<BackupReencryptionConfig>;
+export const BackupReencryptionConfig: Schema.Schema<BackupReencryptionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backupLimit: Schema.optional(Schema.Number),
+      backupType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BackupReencryptionConfig",
+  }) as any as Schema.Schema<BackupReencryptionConfig>;
 
 export interface InstancesReencryptRequest {
   /** Configuration specific to backup re-encryption */
   backupReencryptionConfig?: BackupReencryptionConfig;
 }
 
-export const InstancesReencryptRequest: Schema.Schema<InstancesReencryptRequest> = Schema.suspend(() => Schema.Struct({
-  backupReencryptionConfig: Schema.optional(BackupReencryptionConfig),
-})).annotate({ identifier: "InstancesReencryptRequest" }) as any as Schema.Schema<InstancesReencryptRequest>;
+export const InstancesReencryptRequest: Schema.Schema<InstancesReencryptRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backupReencryptionConfig: Schema.optional(BackupReencryptionConfig),
+    }),
+  ).annotate({
+    identifier: "InstancesReencryptRequest",
+  }) as any as Schema.Schema<InstancesReencryptRequest>;
 
 export interface AclEntry {
   /** The allowlisted value for the access control list. */
@@ -483,12 +887,14 @@ export interface AclEntry {
   kind?: string;
 }
 
-export const AclEntry: Schema.Schema<AclEntry> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "AclEntry" }) as any as Schema.Schema<AclEntry>;
+export const AclEntry: Schema.Schema<AclEntry> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+    expirationTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AclEntry" }) as any as Schema.Schema<AclEntry>;
 
 export interface PscAutoConnectionConfig {
   /** Optional. This is the project ID of consumer service project of this consumer endpoint. Optional. This is only applicable if consumer_network is a shared vpc network. */
@@ -503,13 +909,18 @@ export interface PscAutoConnectionConfig {
   consumerNetworkStatus?: string;
 }
 
-export const PscAutoConnectionConfig: Schema.Schema<PscAutoConnectionConfig> = Schema.suspend(() => Schema.Struct({
-  consumerProject: Schema.optional(Schema.String),
-  consumerNetwork: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  consumerNetworkStatus: Schema.optional(Schema.String),
-})).annotate({ identifier: "PscAutoConnectionConfig" }) as any as Schema.Schema<PscAutoConnectionConfig>;
+export const PscAutoConnectionConfig: Schema.Schema<PscAutoConnectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      consumerProject: Schema.optional(Schema.String),
+      consumerNetwork: Schema.optional(Schema.String),
+      ipAddress: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      consumerNetworkStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PscAutoConnectionConfig",
+  }) as any as Schema.Schema<PscAutoConnectionConfig>;
 
 export interface PscConfig {
   /** Whether PSC connectivity is enabled for this instance. */
@@ -522,12 +933,14 @@ export interface PscConfig {
   networkAttachmentUri?: string;
 }
 
-export const PscConfig: Schema.Schema<PscConfig> = Schema.suspend(() => Schema.Struct({
-  pscEnabled: Schema.optional(Schema.Boolean),
-  allowedConsumerProjects: Schema.optional(Schema.Array(Schema.String)),
-  pscAutoConnections: Schema.optional(Schema.Array(PscAutoConnectionConfig)),
-  networkAttachmentUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "PscConfig" }) as any as Schema.Schema<PscConfig>;
+export const PscConfig: Schema.Schema<PscConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    pscEnabled: Schema.optional(Schema.Boolean),
+    allowedConsumerProjects: Schema.optional(Schema.Array(Schema.String)),
+    pscAutoConnections: Schema.optional(Schema.Array(PscAutoConnectionConfig)),
+    networkAttachmentUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PscConfig" }) as any as Schema.Schema<PscConfig>;
 
 export interface IpConfiguration {
   /** Whether the instance is assigned a public IP address or not. */
@@ -543,33 +956,54 @@ export interface IpConfiguration {
   /** Controls connectivity to private IP instances from Google services, such as BigQuery. */
   enablePrivatePathForGoogleCloudServices?: boolean;
   /** Specify how SSL/TLS is enforced in database connections. If you must use the `require_ssl` flag for backward compatibility, then only the following value pairs are valid: For PostgreSQL and MySQL: * `ssl_mode=ALLOW_UNENCRYPTED_AND_ENCRYPTED` and `require_ssl=false` * `ssl_mode=ENCRYPTED_ONLY` and `require_ssl=false` * `ssl_mode=TRUSTED_CLIENT_CERTIFICATE_REQUIRED` and `require_ssl=true` For SQL Server: * `ssl_mode=ALLOW_UNENCRYPTED_AND_ENCRYPTED` and `require_ssl=false` * `ssl_mode=ENCRYPTED_ONLY` and `require_ssl=true` The value of `ssl_mode` has priority over the value of `require_ssl`. For example, for the pair `ssl_mode=ENCRYPTED_ONLY` and `require_ssl=false`, `ssl_mode=ENCRYPTED_ONLY` means accept only SSL connections, while `require_ssl=false` means accept both non-SSL and SSL connections. In this case, MySQL and PostgreSQL databases respect `ssl_mode` and accepts only SSL connections. */
-  sslMode?: "SSL_MODE_UNSPECIFIED" | "ALLOW_UNENCRYPTED_AND_ENCRYPTED" | "ENCRYPTED_ONLY" | "TRUSTED_CLIENT_CERTIFICATE_REQUIRED" | (string & {});
+  sslMode?:
+    | "SSL_MODE_UNSPECIFIED"
+    | "ALLOW_UNENCRYPTED_AND_ENCRYPTED"
+    | "ENCRYPTED_ONLY"
+    | "TRUSTED_CLIENT_CERTIFICATE_REQUIRED"
+    | (string & {});
   /** PSC settings for this instance. */
   pscConfig?: PscConfig;
   /** Specify what type of CA is used for the server certificate. */
-  serverCaMode?: "CA_MODE_UNSPECIFIED" | "GOOGLE_MANAGED_INTERNAL_CA" | "GOOGLE_MANAGED_CAS_CA" | "CUSTOMER_MANAGED_CAS_CA" | (string & {});
+  serverCaMode?:
+    | "CA_MODE_UNSPECIFIED"
+    | "GOOGLE_MANAGED_INTERNAL_CA"
+    | "GOOGLE_MANAGED_CAS_CA"
+    | "CUSTOMER_MANAGED_CAS_CA"
+    | (string & {});
   /** Optional. Custom Subject Alternative Name(SAN)s for a Cloud SQL instance. */
   customSubjectAlternativeNames?: Array<string>;
   /** Optional. The resource name of the server CA pool for an instance with `CUSTOMER_MANAGED_CAS_CA` as the `server_ca_mode`. Format: projects/{PROJECT}/locations/{REGION}/caPools/{CA_POOL_ID} */
   serverCaPool?: string;
   /** Optional. Controls the automatic server certificate rotation feature. This feature is disabled by default. When enabled, the server certificate will be automatically rotated during Cloud SQL scheduled maintenance or self-service maintenance updates up to six months before it expires. This setting can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. */
-  serverCertificateRotationMode?: "SERVER_CERTIFICATE_ROTATION_MODE_UNSPECIFIED" | "NO_AUTOMATIC_ROTATION" | "AUTOMATIC_ROTATION_DURING_MAINTENANCE" | (string & {});
+  serverCertificateRotationMode?:
+    | "SERVER_CERTIFICATE_ROTATION_MODE_UNSPECIFIED"
+    | "NO_AUTOMATIC_ROTATION"
+    | "AUTOMATIC_ROTATION_DURING_MAINTENANCE"
+    | (string & {});
 }
 
-export const IpConfiguration: Schema.Schema<IpConfiguration> = Schema.suspend(() => Schema.Struct({
-  ipv4Enabled: Schema.optional(Schema.Boolean),
-  privateNetwork: Schema.optional(Schema.String),
-  requireSsl: Schema.optional(Schema.Boolean),
-  authorizedNetworks: Schema.optional(Schema.Array(AclEntry)),
-  allocatedIpRange: Schema.optional(Schema.String),
-  enablePrivatePathForGoogleCloudServices: Schema.optional(Schema.Boolean),
-  sslMode: Schema.optional(Schema.String),
-  pscConfig: Schema.optional(PscConfig),
-  serverCaMode: Schema.optional(Schema.String),
-  customSubjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
-  serverCaPool: Schema.optional(Schema.String),
-  serverCertificateRotationMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "IpConfiguration" }) as any as Schema.Schema<IpConfiguration>;
+export const IpConfiguration: Schema.Schema<IpConfiguration> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      ipv4Enabled: Schema.optional(Schema.Boolean),
+      privateNetwork: Schema.optional(Schema.String),
+      requireSsl: Schema.optional(Schema.Boolean),
+      authorizedNetworks: Schema.optional(Schema.Array(AclEntry)),
+      allocatedIpRange: Schema.optional(Schema.String),
+      enablePrivatePathForGoogleCloudServices: Schema.optional(Schema.Boolean),
+      sslMode: Schema.optional(Schema.String),
+      pscConfig: Schema.optional(PscConfig),
+      serverCaMode: Schema.optional(Schema.String),
+      customSubjectAlternativeNames: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      serverCaPool: Schema.optional(Schema.String),
+      serverCertificateRotationMode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "IpConfiguration",
+}) as any as Schema.Schema<IpConfiguration>;
 
 export interface LocationPreference {
   /** The App Engine application to follow, it must be in the same region as the Cloud SQL instance. WARNING: Changing this might restart the instance. */
@@ -582,12 +1016,17 @@ export interface LocationPreference {
   kind?: string;
 }
 
-export const LocationPreference: Schema.Schema<LocationPreference> = Schema.suspend(() => Schema.Struct({
-  followGaeApplication: Schema.optional(Schema.String),
-  zone: Schema.optional(Schema.String),
-  secondaryZone: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "LocationPreference" }) as any as Schema.Schema<LocationPreference>;
+export const LocationPreference: Schema.Schema<LocationPreference> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      followGaeApplication: Schema.optional(Schema.String),
+      zone: Schema.optional(Schema.String),
+      secondaryZone: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LocationPreference",
+  }) as any as Schema.Schema<LocationPreference>;
 
 export interface DatabaseFlags {
   /** The name of the flag. These flags are passed at instance startup, so include both server options and system variables. Flags are specified with underscores, not hyphens. For more information, see [Configuring Database Flags](https://cloud.google.com/sql/docs/mysql/flags) in the Cloud SQL documentation. */
@@ -596,10 +1035,14 @@ export interface DatabaseFlags {
   value?: string;
 }
 
-export const DatabaseFlags: Schema.Schema<DatabaseFlags> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "DatabaseFlags" }) as any as Schema.Schema<DatabaseFlags>;
+export const DatabaseFlags: Schema.Schema<DatabaseFlags> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DatabaseFlags",
+}) as any as Schema.Schema<DatabaseFlags>;
 
 export interface MaintenanceWindow {
   /** Hour of day - 0 to 23. Specify in the UTC time zone. */
@@ -607,17 +1050,27 @@ export interface MaintenanceWindow {
   /** Day of week - `MONDAY`, `TUESDAY`, `WEDNESDAY`, `THURSDAY`, `FRIDAY`, `SATURDAY`, or `SUNDAY`. Specify in the UTC time zone. Returned in output as an integer, 1 to 7, where `1` equals Monday. */
   day?: number;
   /** Maintenance timing settings: `canary`, `stable`, or `week5`. For more information, see [About maintenance on Cloud SQL instances](https://cloud.google.com/sql/docs/mysql/maintenance). */
-  updateTrack?: "SQL_UPDATE_TRACK_UNSPECIFIED" | "canary" | "stable" | "week5" | (string & {});
+  updateTrack?:
+    | "SQL_UPDATE_TRACK_UNSPECIFIED"
+    | "canary"
+    | "stable"
+    | "week5"
+    | (string & {});
   /** This is always `sql#maintenanceWindow`. */
   kind?: string;
 }
 
-export const MaintenanceWindow: Schema.Schema<MaintenanceWindow> = Schema.suspend(() => Schema.Struct({
-  hour: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-  updateTrack: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "MaintenanceWindow" }) as any as Schema.Schema<MaintenanceWindow>;
+export const MaintenanceWindow: Schema.Schema<MaintenanceWindow> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hour: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+      updateTrack: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MaintenanceWindow",
+  }) as any as Schema.Schema<MaintenanceWindow>;
 
 export interface BackupRetentionSettings {
   /** The unit that 'retained_backups' represents. */
@@ -626,10 +1079,15 @@ export interface BackupRetentionSettings {
   retainedBackups?: number;
 }
 
-export const BackupRetentionSettings: Schema.Schema<BackupRetentionSettings> = Schema.suspend(() => Schema.Struct({
-  retentionUnit: Schema.optional(Schema.String),
-  retainedBackups: Schema.optional(Schema.Number),
-})).annotate({ identifier: "BackupRetentionSettings" }) as any as Schema.Schema<BackupRetentionSettings>;
+export const BackupRetentionSettings: Schema.Schema<BackupRetentionSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      retentionUnit: Schema.optional(Schema.String),
+      retainedBackups: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "BackupRetentionSettings",
+  }) as any as Schema.Schema<BackupRetentionSettings>;
 
 export interface BackupConfiguration {
   /** Start time for the daily backup configuration in UTC timezone in the 24 hour format - `HH:MM`. */
@@ -651,24 +1109,40 @@ export interface BackupConfiguration {
   /** The number of days of transaction logs we retain for point in time restore, from 1-7. */
   transactionLogRetentionDays?: number;
   /** Output only. This value contains the storage location of transactional logs used to perform point-in-time recovery (PITR) for the database. */
-  transactionalLogStorageState?: "TRANSACTIONAL_LOG_STORAGE_STATE_UNSPECIFIED" | "DISK" | "SWITCHING_TO_CLOUD_STORAGE" | "SWITCHED_TO_CLOUD_STORAGE" | "CLOUD_STORAGE" | (string & {});
+  transactionalLogStorageState?:
+    | "TRANSACTIONAL_LOG_STORAGE_STATE_UNSPECIFIED"
+    | "DISK"
+    | "SWITCHING_TO_CLOUD_STORAGE"
+    | "SWITCHED_TO_CLOUD_STORAGE"
+    | "CLOUD_STORAGE"
+    | (string & {});
   /** Output only. Backup tier that manages the backups for the instance. */
-  backupTier?: "BACKUP_TIER_UNSPECIFIED" | "STANDARD" | "ADVANCED" | "ENHANCED" | (string & {});
+  backupTier?:
+    | "BACKUP_TIER_UNSPECIFIED"
+    | "STANDARD"
+    | "ADVANCED"
+    | "ENHANCED"
+    | (string & {});
 }
 
-export const BackupConfiguration: Schema.Schema<BackupConfiguration> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  binaryLogEnabled: Schema.optional(Schema.Boolean),
-  replicationLogArchivingEnabled: Schema.optional(Schema.Boolean),
-  location: Schema.optional(Schema.String),
-  pointInTimeRecoveryEnabled: Schema.optional(Schema.Boolean),
-  backupRetentionSettings: Schema.optional(BackupRetentionSettings),
-  transactionLogRetentionDays: Schema.optional(Schema.Number),
-  transactionalLogStorageState: Schema.optional(Schema.String),
-  backupTier: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupConfiguration" }) as any as Schema.Schema<BackupConfiguration>;
+export const BackupConfiguration: Schema.Schema<BackupConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      binaryLogEnabled: Schema.optional(Schema.Boolean),
+      replicationLogArchivingEnabled: Schema.optional(Schema.Boolean),
+      location: Schema.optional(Schema.String),
+      pointInTimeRecoveryEnabled: Schema.optional(Schema.Boolean),
+      backupRetentionSettings: Schema.optional(BackupRetentionSettings),
+      transactionLogRetentionDays: Schema.optional(Schema.Number),
+      transactionalLogStorageState: Schema.optional(Schema.String),
+      backupTier: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BackupConfiguration",
+  }) as any as Schema.Schema<BackupConfiguration>;
 
 export interface SqlActiveDirectoryConfig {
   /** This is always sql#activeDirectoryConfig. */
@@ -676,7 +1150,12 @@ export interface SqlActiveDirectoryConfig {
   /** The name of the domain (e.g., mydomain.com). */
   domain?: string;
   /** Optional. The mode of the Active Directory configuration. */
-  mode?: "ACTIVE_DIRECTORY_MODE_UNSPECIFIED" | "MANAGED_ACTIVE_DIRECTORY" | "SELF_MANAGED_ACTIVE_DIRECTORY" | "CUSTOMER_MANAGED_ACTIVE_DIRECTORY" | (string & {});
+  mode?:
+    | "ACTIVE_DIRECTORY_MODE_UNSPECIFIED"
+    | "MANAGED_ACTIVE_DIRECTORY"
+    | "SELF_MANAGED_ACTIVE_DIRECTORY"
+    | "CUSTOMER_MANAGED_ACTIVE_DIRECTORY"
+    | (string & {});
   /** Optional. Domain controller IPv4 addresses used to bootstrap Active Directory. */
   dnsServers?: Array<string>;
   /** Optional. The secret manager key storing the administrator credential. (e.g., projects/{project}/secrets/{secret}). */
@@ -685,14 +1164,19 @@ export interface SqlActiveDirectoryConfig {
   organizationalUnit?: string;
 }
 
-export const SqlActiveDirectoryConfig: Schema.Schema<SqlActiveDirectoryConfig> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.String),
-  dnsServers: Schema.optional(Schema.Array(Schema.String)),
-  adminCredentialSecretName: Schema.optional(Schema.String),
-  organizationalUnit: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlActiveDirectoryConfig" }) as any as Schema.Schema<SqlActiveDirectoryConfig>;
+export const SqlActiveDirectoryConfig: Schema.Schema<SqlActiveDirectoryConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+      mode: Schema.optional(Schema.String),
+      dnsServers: Schema.optional(Schema.Array(Schema.String)),
+      adminCredentialSecretName: Schema.optional(Schema.String),
+      organizationalUnit: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlActiveDirectoryConfig",
+  }) as any as Schema.Schema<SqlActiveDirectoryConfig>;
 
 export interface DenyMaintenancePeriod {
   /** "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01 */
@@ -703,11 +1187,16 @@ export interface DenyMaintenancePeriod {
   time?: string;
 }
 
-export const DenyMaintenancePeriod: Schema.Schema<DenyMaintenancePeriod> = Schema.suspend(() => Schema.Struct({
-  startDate: Schema.optional(Schema.String),
-  endDate: Schema.optional(Schema.String),
-  time: Schema.optional(Schema.String),
-})).annotate({ identifier: "DenyMaintenancePeriod" }) as any as Schema.Schema<DenyMaintenancePeriod>;
+export const DenyMaintenancePeriod: Schema.Schema<DenyMaintenancePeriod> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startDate: Schema.optional(Schema.String),
+      endDate: Schema.optional(Schema.String),
+      time: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DenyMaintenancePeriod",
+  }) as any as Schema.Schema<DenyMaintenancePeriod>;
 
 export interface InsightsConfig {
   /** Whether Query Insights feature is enabled. */
@@ -724,14 +1213,19 @@ export interface InsightsConfig {
   enhancedQueryInsightsEnabled?: boolean;
 }
 
-export const InsightsConfig: Schema.Schema<InsightsConfig> = Schema.suspend(() => Schema.Struct({
-  queryInsightsEnabled: Schema.optional(Schema.Boolean),
-  recordClientAddress: Schema.optional(Schema.Boolean),
-  recordApplicationTags: Schema.optional(Schema.Boolean),
-  queryStringLength: Schema.optional(Schema.Number),
-  queryPlansPerMinute: Schema.optional(Schema.Number),
-  enhancedQueryInsightsEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "InsightsConfig" }) as any as Schema.Schema<InsightsConfig>;
+export const InsightsConfig: Schema.Schema<InsightsConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      queryInsightsEnabled: Schema.optional(Schema.Boolean),
+      recordClientAddress: Schema.optional(Schema.Boolean),
+      recordApplicationTags: Schema.optional(Schema.Boolean),
+      queryStringLength: Schema.optional(Schema.Number),
+      queryPlansPerMinute: Schema.optional(Schema.Number),
+      enhancedQueryInsightsEnabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "InsightsConfig",
+}) as any as Schema.Schema<InsightsConfig>;
 
 export interface PasswordValidationPolicy {
   /** Minimum number of characters allowed. */
@@ -750,15 +1244,20 @@ export interface PasswordValidationPolicy {
   disallowCompromisedCredentials?: boolean;
 }
 
-export const PasswordValidationPolicy: Schema.Schema<PasswordValidationPolicy> = Schema.suspend(() => Schema.Struct({
-  minLength: Schema.optional(Schema.Number),
-  complexity: Schema.optional(Schema.String),
-  reuseInterval: Schema.optional(Schema.Number),
-  disallowUsernameSubstring: Schema.optional(Schema.Boolean),
-  passwordChangeInterval: Schema.optional(Schema.String),
-  enablePasswordPolicy: Schema.optional(Schema.Boolean),
-  disallowCompromisedCredentials: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PasswordValidationPolicy" }) as any as Schema.Schema<PasswordValidationPolicy>;
+export const PasswordValidationPolicy: Schema.Schema<PasswordValidationPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      minLength: Schema.optional(Schema.Number),
+      complexity: Schema.optional(Schema.String),
+      reuseInterval: Schema.optional(Schema.Number),
+      disallowUsernameSubstring: Schema.optional(Schema.Boolean),
+      passwordChangeInterval: Schema.optional(Schema.String),
+      enablePasswordPolicy: Schema.optional(Schema.Boolean),
+      disallowCompromisedCredentials: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PasswordValidationPolicy",
+  }) as any as Schema.Schema<PasswordValidationPolicy>;
 
 export interface SqlServerAuditConfig {
   /** This is always sql#sqlServerAuditConfig */
@@ -771,30 +1270,45 @@ export interface SqlServerAuditConfig {
   uploadInterval?: string;
 }
 
-export const SqlServerAuditConfig: Schema.Schema<SqlServerAuditConfig> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  bucket: Schema.optional(Schema.String),
-  retentionInterval: Schema.optional(Schema.String),
-  uploadInterval: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerAuditConfig" }) as any as Schema.Schema<SqlServerAuditConfig>;
+export const SqlServerAuditConfig: Schema.Schema<SqlServerAuditConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      bucket: Schema.optional(Schema.String),
+      retentionInterval: Schema.optional(Schema.String),
+      uploadInterval: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlServerAuditConfig",
+  }) as any as Schema.Schema<SqlServerAuditConfig>;
 
 export interface AdvancedMachineFeatures {
   /** The number of threads per physical core. */
   threadsPerCore?: number;
 }
 
-export const AdvancedMachineFeatures: Schema.Schema<AdvancedMachineFeatures> = Schema.suspend(() => Schema.Struct({
-  threadsPerCore: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AdvancedMachineFeatures" }) as any as Schema.Schema<AdvancedMachineFeatures>;
+export const AdvancedMachineFeatures: Schema.Schema<AdvancedMachineFeatures> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      threadsPerCore: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AdvancedMachineFeatures",
+  }) as any as Schema.Schema<AdvancedMachineFeatures>;
 
 export interface DataCacheConfig {
   /** Whether data cache is enabled for the instance. */
   dataCacheEnabled?: boolean;
 }
 
-export const DataCacheConfig: Schema.Schema<DataCacheConfig> = Schema.suspend(() => Schema.Struct({
-  dataCacheEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DataCacheConfig" }) as any as Schema.Schema<DataCacheConfig>;
+export const DataCacheConfig: Schema.Schema<DataCacheConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      dataCacheEnabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "DataCacheConfig",
+}) as any as Schema.Schema<DataCacheConfig>;
 
 export interface ConnectionPoolFlags {
   /** Required. The name of the flag. */
@@ -803,10 +1317,15 @@ export interface ConnectionPoolFlags {
   value?: string;
 }
 
-export const ConnectionPoolFlags: Schema.Schema<ConnectionPoolFlags> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectionPoolFlags" }) as any as Schema.Schema<ConnectionPoolFlags>;
+export const ConnectionPoolFlags: Schema.Schema<ConnectionPoolFlags> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectionPoolFlags",
+  }) as any as Schema.Schema<ConnectionPoolFlags>;
 
 export interface ConnectionPoolConfig {
   /** Whether managed connection pooling is enabled. */
@@ -817,11 +1336,16 @@ export interface ConnectionPoolConfig {
   poolerCount?: number;
 }
 
-export const ConnectionPoolConfig: Schema.Schema<ConnectionPoolConfig> = Schema.suspend(() => Schema.Struct({
-  connectionPoolingEnabled: Schema.optional(Schema.Boolean),
-  flags: Schema.optional(Schema.Array(ConnectionPoolFlags)),
-  poolerCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ConnectionPoolConfig" }) as any as Schema.Schema<ConnectionPoolConfig>;
+export const ConnectionPoolConfig: Schema.Schema<ConnectionPoolConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      connectionPoolingEnabled: Schema.optional(Schema.Boolean),
+      flags: Schema.optional(Schema.Array(ConnectionPoolFlags)),
+      poolerCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ConnectionPoolConfig",
+  }) as any as Schema.Schema<ConnectionPoolConfig>;
 
 export interface FinalBackupConfig {
   /** Whether the final backup is enabled for the instance. */
@@ -830,10 +1354,15 @@ export interface FinalBackupConfig {
   retentionDays?: number;
 }
 
-export const FinalBackupConfig: Schema.Schema<FinalBackupConfig> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  retentionDays: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FinalBackupConfig" }) as any as Schema.Schema<FinalBackupConfig>;
+export const FinalBackupConfig: Schema.Schema<FinalBackupConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      retentionDays: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "FinalBackupConfig",
+  }) as any as Schema.Schema<FinalBackupConfig>;
 
 export interface TargetMetric {
   /** The metric name to be used for auto scaling. */
@@ -842,10 +1371,14 @@ export interface TargetMetric {
   targetValue?: number;
 }
 
-export const TargetMetric: Schema.Schema<TargetMetric> = Schema.suspend(() => Schema.Struct({
-  metric: Schema.optional(Schema.String),
-  targetValue: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TargetMetric" }) as any as Schema.Schema<TargetMetric>;
+export const TargetMetric: Schema.Schema<TargetMetric> = Schema.suspend(() =>
+  Schema.Struct({
+    metric: Schema.optional(Schema.String),
+    targetValue: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "TargetMetric",
+}) as any as Schema.Schema<TargetMetric>;
 
 export interface ReadPoolAutoScaleConfig {
   /** Indicates whether read pool auto scaling is enabled. */
@@ -864,15 +1397,20 @@ export interface ReadPoolAutoScaleConfig {
   scaleOutCooldownSeconds?: number;
 }
 
-export const ReadPoolAutoScaleConfig: Schema.Schema<ReadPoolAutoScaleConfig> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  minNodeCount: Schema.optional(Schema.Number),
-  maxNodeCount: Schema.optional(Schema.Number),
-  targetMetrics: Schema.optional(Schema.Array(TargetMetric)),
-  disableScaleIn: Schema.optional(Schema.Boolean),
-  scaleInCooldownSeconds: Schema.optional(Schema.Number),
-  scaleOutCooldownSeconds: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ReadPoolAutoScaleConfig" }) as any as Schema.Schema<ReadPoolAutoScaleConfig>;
+export const ReadPoolAutoScaleConfig: Schema.Schema<ReadPoolAutoScaleConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      minNodeCount: Schema.optional(Schema.Number),
+      maxNodeCount: Schema.optional(Schema.Number),
+      targetMetrics: Schema.optional(Schema.Array(TargetMetric)),
+      disableScaleIn: Schema.optional(Schema.Boolean),
+      scaleInCooldownSeconds: Schema.optional(Schema.Number),
+      scaleOutCooldownSeconds: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ReadPoolAutoScaleConfig",
+  }) as any as Schema.Schema<ReadPoolAutoScaleConfig>;
 
 export interface SqlServerEntraIdConfig {
   /** Output only. This is always sql#sqlServerEntraIdConfig */
@@ -883,11 +1421,16 @@ export interface SqlServerEntraIdConfig {
   applicationId?: string;
 }
 
-export const SqlServerEntraIdConfig: Schema.Schema<SqlServerEntraIdConfig> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  tenantId: Schema.optional(Schema.String),
-  applicationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerEntraIdConfig" }) as any as Schema.Schema<SqlServerEntraIdConfig>;
+export const SqlServerEntraIdConfig: Schema.Schema<SqlServerEntraIdConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      tenantId: Schema.optional(Schema.String),
+      applicationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlServerEntraIdConfig",
+  }) as any as Schema.Schema<SqlServerEntraIdConfig>;
 
 export interface PerformanceCaptureConfig {
   /** Optional. Enable or disable the Performance Capture feature. */
@@ -904,14 +1447,19 @@ export interface PerformanceCaptureConfig {
   transactionDurationThreshold?: number;
 }
 
-export const PerformanceCaptureConfig: Schema.Schema<PerformanceCaptureConfig> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  probingIntervalSeconds: Schema.optional(Schema.Number),
-  probeThreshold: Schema.optional(Schema.Number),
-  runningThreadsThreshold: Schema.optional(Schema.Number),
-  secondsBehindSourceThreshold: Schema.optional(Schema.Number),
-  transactionDurationThreshold: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PerformanceCaptureConfig" }) as any as Schema.Schema<PerformanceCaptureConfig>;
+export const PerformanceCaptureConfig: Schema.Schema<PerformanceCaptureConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      probingIntervalSeconds: Schema.optional(Schema.Number),
+      probeThreshold: Schema.optional(Schema.Number),
+      runningThreadsThreshold: Schema.optional(Schema.Number),
+      secondsBehindSourceThreshold: Schema.optional(Schema.Number),
+      transactionDurationThreshold: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "PerformanceCaptureConfig",
+  }) as any as Schema.Schema<PerformanceCaptureConfig>;
 
 export interface Settings {
   /** The version of instance settings. This is a required field for update method to make sure concurrent updates are handled properly. During update, use the most recent settingsVersion value for this instance and do not try to update this value. */
@@ -925,15 +1473,32 @@ export interface Settings {
   /** User-provided labels, represented as a dictionary where each label is a single key value pair. */
   userLabels?: Record<string, string>;
   /** Availability type. Potential values: * `ZONAL`: The instance serves data from only one zone. Outages in that zone affect data accessibility. * `REGIONAL`: The instance can serve data from more than one zone in a region (it is highly available)./ For more information, see [Overview of the High Availability Configuration](https://cloud.google.com/sql/docs/mysql/high-availability). */
-  availabilityType?: "SQL_AVAILABILITY_TYPE_UNSPECIFIED" | "ZONAL" | "REGIONAL" | (string & {});
+  availabilityType?:
+    | "SQL_AVAILABILITY_TYPE_UNSPECIFIED"
+    | "ZONAL"
+    | "REGIONAL"
+    | (string & {});
   /** The pricing plan for this instance. This can be either `PER_USE` or `PACKAGE`. Only `PER_USE` is supported for Second Generation instances. */
-  pricingPlan?: "SQL_PRICING_PLAN_UNSPECIFIED" | "PACKAGE" | "PER_USE" | (string & {});
+  pricingPlan?:
+    | "SQL_PRICING_PLAN_UNSPECIFIED"
+    | "PACKAGE"
+    | "PER_USE"
+    | (string & {});
   /** The type of replication this instance uses. This can be either `ASYNCHRONOUS` or `SYNCHRONOUS`. (Deprecated) This property was only applicable to First Generation instances. */
-  replicationType?: "SQL_REPLICATION_TYPE_UNSPECIFIED" | "SYNCHRONOUS" | "ASYNCHRONOUS" | (string & {});
+  replicationType?:
+    | "SQL_REPLICATION_TYPE_UNSPECIFIED"
+    | "SYNCHRONOUS"
+    | "ASYNCHRONOUS"
+    | (string & {});
   /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
   storageAutoResizeLimit?: string;
   /** The activation policy specifies when the instance is activated; it is applicable only when the instance state is RUNNABLE. Valid values: * `ALWAYS`: The instance is on, and remains so even in the absence of connection requests. * `NEVER`: The instance is off; it is not activated, even if a connection request arrives. */
-  activationPolicy?: "SQL_ACTIVATION_POLICY_UNSPECIFIED" | "ALWAYS" | "NEVER" | "ON_DEMAND" | (string & {});
+  activationPolicy?:
+    | "SQL_ACTIVATION_POLICY_UNSPECIFIED"
+    | "ALWAYS"
+    | "NEVER"
+    | "ON_DEMAND"
+    | (string & {});
   /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled for Second Generation instances. */
   ipConfiguration?: IpConfiguration;
   /** Configuration to increase storage size automatically. The default value is true. */
@@ -943,7 +1508,13 @@ export interface Settings {
   /** The database flags passed to the instance at startup. */
   databaseFlags?: Array<DatabaseFlags>;
   /** The type of data disk: `PD_SSD` (default) or `PD_HDD`. Not used for First Generation instances. */
-  dataDiskType?: "SQL_DATA_DISK_TYPE_UNSPECIFIED" | "PD_SSD" | "PD_HDD" | "OBSOLETE_LOCAL_SSD" | "HYPERDISK_BALANCED" | (string & {});
+  dataDiskType?:
+    | "SQL_DATA_DISK_TYPE_UNSPECIFIED"
+    | "PD_SSD"
+    | "PD_HDD"
+    | "OBSOLETE_LOCAL_SSD"
+    | "HYPERDISK_BALANCED"
+    | (string & {});
   /** The maintenance window for this instance. This specifies when the instance can be restarted for maintenance purposes. */
   maintenanceWindow?: MaintenanceWindow;
   /** The daily backup configuration for the instance. */
@@ -967,9 +1538,17 @@ export interface Settings {
   /** SQL Server specific audit configuration. */
   sqlServerAuditConfig?: SqlServerAuditConfig;
   /** Optional. The edition of the instance. */
-  edition?: "EDITION_UNSPECIFIED" | "ENTERPRISE" | "ENTERPRISE_PLUS" | (string & {});
+  edition?:
+    | "EDITION_UNSPECIFIED"
+    | "ENTERPRISE"
+    | "ENTERPRISE_PLUS"
+    | (string & {});
   /** Specifies if connections must use Cloud SQL connectors. Option values include the following: `NOT_REQUIRED` (Cloud SQL instances can be connected without Cloud SQL Connectors) and `REQUIRED` (Only allow connections that use Cloud SQL Connectors). Note that using REQUIRED disables all existing authorized networks. If this field is not specified when creating a new instance, NOT_REQUIRED is used. If this field is not specified when patching or updating an existing instance, it is left unchanged in the instance. */
-  connectorEnforcement?: "CONNECTOR_ENFORCEMENT_UNSPECIFIED" | "NOT_REQUIRED" | "REQUIRED" | (string & {});
+  connectorEnforcement?:
+    | "CONNECTOR_ENFORCEMENT_UNSPECIFIED"
+    | "NOT_REQUIRED"
+    | "REQUIRED"
+    | (string & {});
   /** Configuration to protect against accidental instance deletion. */
   deletionProtectionEnabled?: boolean;
   /** Server timezone, relevant only for Cloud SQL for SQL Server. */
@@ -1003,74 +1582,90 @@ export interface Settings {
   /** Optional. The Microsoft Entra ID configuration for the SQL Server instance. */
   entraidConfig?: SqlServerEntraIdConfig;
   /** This parameter controls whether to allow using ExecuteSql API to connect to the instance. Not allowed by default. */
-  dataApiAccess?: "DATA_API_ACCESS_UNSPECIFIED" | "DISALLOW_DATA_API" | "ALLOW_DATA_API" | (string & {});
+  dataApiAccess?:
+    | "DATA_API_ACCESS_UNSPECIFIED"
+    | "DISALLOW_DATA_API"
+    | "ALLOW_DATA_API"
+    | (string & {});
   /** Optional. Configuration for Performance Capture, provides diagnostic metrics during high load situations. */
   performanceCaptureConfig?: PerformanceCaptureConfig;
 }
 
-export const Settings: Schema.Schema<Settings> = Schema.suspend(() => Schema.Struct({
-  settingsVersion: Schema.optional(Schema.String),
-  authorizedGaeApplications: Schema.optional(Schema.Array(Schema.String)),
-  tier: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  userLabels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  availabilityType: Schema.optional(Schema.String),
-  pricingPlan: Schema.optional(Schema.String),
-  replicationType: Schema.optional(Schema.String),
-  storageAutoResizeLimit: Schema.optional(Schema.String),
-  activationPolicy: Schema.optional(Schema.String),
-  ipConfiguration: Schema.optional(IpConfiguration),
-  storageAutoResize: Schema.optional(Schema.Boolean),
-  locationPreference: Schema.optional(LocationPreference),
-  databaseFlags: Schema.optional(Schema.Array(DatabaseFlags)),
-  dataDiskType: Schema.optional(Schema.String),
-  maintenanceWindow: Schema.optional(MaintenanceWindow),
-  backupConfiguration: Schema.optional(BackupConfiguration),
-  databaseReplicationEnabled: Schema.optional(Schema.Boolean),
-  crashSafeReplicationEnabled: Schema.optional(Schema.Boolean),
-  dataDiskSizeGb: Schema.optional(Schema.String),
-  activeDirectoryConfig: Schema.optional(SqlActiveDirectoryConfig),
-  collation: Schema.optional(Schema.String),
-  denyMaintenancePeriods: Schema.optional(Schema.Array(DenyMaintenancePeriod)),
-  insightsConfig: Schema.optional(InsightsConfig),
-  passwordValidationPolicy: Schema.optional(PasswordValidationPolicy),
-  sqlServerAuditConfig: Schema.optional(SqlServerAuditConfig),
-  edition: Schema.optional(Schema.String),
-  connectorEnforcement: Schema.optional(Schema.String),
-  deletionProtectionEnabled: Schema.optional(Schema.Boolean),
-  timeZone: Schema.optional(Schema.String),
-  advancedMachineFeatures: Schema.optional(AdvancedMachineFeatures),
-  dataCacheConfig: Schema.optional(DataCacheConfig),
-  replicationLagMaxSeconds: Schema.optional(Schema.Number),
-  enableGoogleMlIntegration: Schema.optional(Schema.Boolean),
-  enableDataplexIntegration: Schema.optional(Schema.Boolean),
-  retainBackupsOnDelete: Schema.optional(Schema.Boolean),
-  dataDiskProvisionedIops: Schema.optional(Schema.String),
-  dataDiskProvisionedThroughput: Schema.optional(Schema.String),
-  connectionPoolConfig: Schema.optional(ConnectionPoolConfig),
-  finalBackupConfig: Schema.optional(FinalBackupConfig),
-  readPoolAutoScaleConfig: Schema.optional(ReadPoolAutoScaleConfig),
-  acceleratedReplicaMode: Schema.optional(Schema.Boolean),
-  autoUpgradeEnabled: Schema.optional(Schema.Boolean),
-  entraidConfig: Schema.optional(SqlServerEntraIdConfig),
-  dataApiAccess: Schema.optional(Schema.String),
-  performanceCaptureConfig: Schema.optional(PerformanceCaptureConfig),
-})).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
+export const Settings: Schema.Schema<Settings> = Schema.suspend(() =>
+  Schema.Struct({
+    settingsVersion: Schema.optional(Schema.String),
+    authorizedGaeApplications: Schema.optional(Schema.Array(Schema.String)),
+    tier: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    userLabels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    availabilityType: Schema.optional(Schema.String),
+    pricingPlan: Schema.optional(Schema.String),
+    replicationType: Schema.optional(Schema.String),
+    storageAutoResizeLimit: Schema.optional(Schema.String),
+    activationPolicy: Schema.optional(Schema.String),
+    ipConfiguration: Schema.optional(IpConfiguration),
+    storageAutoResize: Schema.optional(Schema.Boolean),
+    locationPreference: Schema.optional(LocationPreference),
+    databaseFlags: Schema.optional(Schema.Array(DatabaseFlags)),
+    dataDiskType: Schema.optional(Schema.String),
+    maintenanceWindow: Schema.optional(MaintenanceWindow),
+    backupConfiguration: Schema.optional(BackupConfiguration),
+    databaseReplicationEnabled: Schema.optional(Schema.Boolean),
+    crashSafeReplicationEnabled: Schema.optional(Schema.Boolean),
+    dataDiskSizeGb: Schema.optional(Schema.String),
+    activeDirectoryConfig: Schema.optional(SqlActiveDirectoryConfig),
+    collation: Schema.optional(Schema.String),
+    denyMaintenancePeriods: Schema.optional(
+      Schema.Array(DenyMaintenancePeriod),
+    ),
+    insightsConfig: Schema.optional(InsightsConfig),
+    passwordValidationPolicy: Schema.optional(PasswordValidationPolicy),
+    sqlServerAuditConfig: Schema.optional(SqlServerAuditConfig),
+    edition: Schema.optional(Schema.String),
+    connectorEnforcement: Schema.optional(Schema.String),
+    deletionProtectionEnabled: Schema.optional(Schema.Boolean),
+    timeZone: Schema.optional(Schema.String),
+    advancedMachineFeatures: Schema.optional(AdvancedMachineFeatures),
+    dataCacheConfig: Schema.optional(DataCacheConfig),
+    replicationLagMaxSeconds: Schema.optional(Schema.Number),
+    enableGoogleMlIntegration: Schema.optional(Schema.Boolean),
+    enableDataplexIntegration: Schema.optional(Schema.Boolean),
+    retainBackupsOnDelete: Schema.optional(Schema.Boolean),
+    dataDiskProvisionedIops: Schema.optional(Schema.String),
+    dataDiskProvisionedThroughput: Schema.optional(Schema.String),
+    connectionPoolConfig: Schema.optional(ConnectionPoolConfig),
+    finalBackupConfig: Schema.optional(FinalBackupConfig),
+    readPoolAutoScaleConfig: Schema.optional(ReadPoolAutoScaleConfig),
+    acceleratedReplicaMode: Schema.optional(Schema.Boolean),
+    autoUpgradeEnabled: Schema.optional(Schema.Boolean),
+    entraidConfig: Schema.optional(SqlServerEntraIdConfig),
+    dataApiAccess: Schema.optional(Schema.String),
+    performanceCaptureConfig: Schema.optional(PerformanceCaptureConfig),
+  }),
+).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
 
 export interface IpMapping {
   /** The type of this IP address. A `PRIMARY` address is a public address that can accept incoming connections. A `PRIVATE` address is a private address that can accept incoming connections. An `OUTGOING` address is the source address of connections originating from the instance, if supported. */
-  type?: "SQL_IP_ADDRESS_TYPE_UNSPECIFIED" | "PRIMARY" | "OUTGOING" | "PRIVATE" | "MIGRATED_1ST_GEN" | (string & {});
+  type?:
+    | "SQL_IP_ADDRESS_TYPE_UNSPECIFIED"
+    | "PRIMARY"
+    | "OUTGOING"
+    | "PRIVATE"
+    | "MIGRATED_1ST_GEN"
+    | (string & {});
   /** The IP address assigned. */
   ipAddress?: string;
   /** The due time for this IP to be retired in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. This field is only available when the IP is scheduled to be retired. */
   timeToRetire?: string;
 }
 
-export const IpMapping: Schema.Schema<IpMapping> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  ipAddress: Schema.optional(Schema.String),
-  timeToRetire: Schema.optional(Schema.String),
-})).annotate({ identifier: "IpMapping" }) as any as Schema.Schema<IpMapping>;
+export const IpMapping: Schema.Schema<IpMapping> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    ipAddress: Schema.optional(Schema.String),
+    timeToRetire: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "IpMapping" }) as any as Schema.Schema<IpMapping>;
 
 export interface SslCert {
   /** This is always `sql#sslCert`. */
@@ -1093,17 +1688,19 @@ export interface SslCert {
   selfLink?: string;
 }
 
-export const SslCert: Schema.Schema<SslCert> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  certSerialNumber: Schema.optional(Schema.String),
-  cert: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  commonName: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-  sha1Fingerprint: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-})).annotate({ identifier: "SslCert" }) as any as Schema.Schema<SslCert>;
+export const SslCert: Schema.Schema<SslCert> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    certSerialNumber: Schema.optional(Schema.String),
+    cert: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    commonName: Schema.optional(Schema.String),
+    expirationTime: Schema.optional(Schema.String),
+    sha1Fingerprint: Schema.optional(Schema.String),
+    instance: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SslCert" }) as any as Schema.Schema<SslCert>;
 
 export interface InstanceReference {
   /** The name of the Cloud SQL instance being referenced. This does not include the project ID. */
@@ -1114,20 +1711,30 @@ export interface InstanceReference {
   project?: string;
 }
 
-export const InstanceReference: Schema.Schema<InstanceReference> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstanceReference" }) as any as Schema.Schema<InstanceReference>;
+export const InstanceReference: Schema.Schema<InstanceReference> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      project: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InstanceReference",
+  }) as any as Schema.Schema<InstanceReference>;
 
 export interface SelectedObjects {
   /** Required. The name of the database to migrate. */
   database?: string;
 }
 
-export const SelectedObjects: Schema.Schema<SelectedObjects> = Schema.suspend(() => Schema.Struct({
-  database: Schema.optional(Schema.String),
-})).annotate({ identifier: "SelectedObjects" }) as any as Schema.Schema<SelectedObjects>;
+export const SelectedObjects: Schema.Schema<SelectedObjects> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      database: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SelectedObjects",
+}) as any as Schema.Schema<SelectedObjects>;
 
 export interface OnPremisesConfiguration {
   /** The host and port of the on-premises instance in host:port format */
@@ -1151,22 +1758,32 @@ export interface OnPremisesConfiguration {
   /** Optional. A list of objects that the user selects for replication from an external source instance. */
   selectedObjects?: Array<SelectedObjects>;
   /** Optional. SSL option for replica connection to the on-premises source. */
-  sslOption?: "SSL_OPTION_UNSPECIFIED" | "DISABLE" | "REQUIRE" | "VERIFY_CA" | (string & {});
+  sslOption?:
+    | "SSL_OPTION_UNSPECIFIED"
+    | "DISABLE"
+    | "REQUIRE"
+    | "VERIFY_CA"
+    | (string & {});
 }
 
-export const OnPremisesConfiguration: Schema.Schema<OnPremisesConfiguration> = Schema.suspend(() => Schema.Struct({
-  hostPort: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  caCertificate: Schema.optional(Schema.String),
-  clientCertificate: Schema.optional(Schema.String),
-  clientKey: Schema.optional(Schema.String),
-  dumpFilePath: Schema.optional(Schema.String),
-  sourceInstance: Schema.optional(InstanceReference),
-  selectedObjects: Schema.optional(Schema.Array(SelectedObjects)),
-  sslOption: Schema.optional(Schema.String),
-})).annotate({ identifier: "OnPremisesConfiguration" }) as any as Schema.Schema<OnPremisesConfiguration>;
+export const OnPremisesConfiguration: Schema.Schema<OnPremisesConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hostPort: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      caCertificate: Schema.optional(Schema.String),
+      clientCertificate: Schema.optional(Schema.String),
+      clientKey: Schema.optional(Schema.String),
+      dumpFilePath: Schema.optional(Schema.String),
+      sourceInstance: Schema.optional(InstanceReference),
+      selectedObjects: Schema.optional(Schema.Array(SelectedObjects)),
+      sslOption: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OnPremisesConfiguration",
+  }) as any as Schema.Schema<OnPremisesConfiguration>;
 
 export interface MySqlReplicaConfiguration {
   /** Path to a SQL dump file in Google Cloud Storage from which the replica instance is to be created. The URI is in the form gs://bucketName/fileName. Compressed gzip files (.gz) are also supported. Dumps have the binlog co-ordinates from which replication begins. This can be accomplished by setting --master-data to 1 when using mysqldump. */
@@ -1193,19 +1810,24 @@ export interface MySqlReplicaConfiguration {
   kind?: string;
 }
 
-export const MySqlReplicaConfiguration: Schema.Schema<MySqlReplicaConfiguration> = Schema.suspend(() => Schema.Struct({
-  dumpFilePath: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  connectRetryInterval: Schema.optional(Schema.Number),
-  masterHeartbeatPeriod: Schema.optional(Schema.String),
-  caCertificate: Schema.optional(Schema.String),
-  clientCertificate: Schema.optional(Schema.String),
-  clientKey: Schema.optional(Schema.String),
-  sslCipher: Schema.optional(Schema.String),
-  verifyServerCertificate: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "MySqlReplicaConfiguration" }) as any as Schema.Schema<MySqlReplicaConfiguration>;
+export const MySqlReplicaConfiguration: Schema.Schema<MySqlReplicaConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dumpFilePath: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      connectRetryInterval: Schema.optional(Schema.Number),
+      masterHeartbeatPeriod: Schema.optional(Schema.String),
+      caCertificate: Schema.optional(Schema.String),
+      clientCertificate: Schema.optional(Schema.String),
+      clientKey: Schema.optional(Schema.String),
+      sslCipher: Schema.optional(Schema.String),
+      verifyServerCertificate: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MySqlReplicaConfiguration",
+  }) as any as Schema.Schema<MySqlReplicaConfiguration>;
 
 export interface ReplicaConfiguration {
   /** This is always `sql#replicaConfiguration`. */
@@ -1218,12 +1840,17 @@ export interface ReplicaConfiguration {
   cascadableReplica?: boolean;
 }
 
-export const ReplicaConfiguration: Schema.Schema<ReplicaConfiguration> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  mysqlReplicaConfiguration: Schema.optional(MySqlReplicaConfiguration),
-  failoverTarget: Schema.optional(Schema.Boolean),
-  cascadableReplica: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ReplicaConfiguration" }) as any as Schema.Schema<ReplicaConfiguration>;
+export const ReplicaConfiguration: Schema.Schema<ReplicaConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      mysqlReplicaConfiguration: Schema.optional(MySqlReplicaConfiguration),
+      failoverTarget: Schema.optional(Schema.Boolean),
+      cascadableReplica: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ReplicaConfiguration",
+  }) as any as Schema.Schema<ReplicaConfiguration>;
 
 export interface DiskEncryptionConfiguration {
   /** Resource name of KMS key for disk encryption */
@@ -1232,10 +1859,15 @@ export interface DiskEncryptionConfiguration {
   kind?: string;
 }
 
-export const DiskEncryptionConfiguration: Schema.Schema<DiskEncryptionConfiguration> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "DiskEncryptionConfiguration" }) as any as Schema.Schema<DiskEncryptionConfiguration>;
+export const DiskEncryptionConfiguration: Schema.Schema<DiskEncryptionConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DiskEncryptionConfiguration",
+  }) as any as Schema.Schema<DiskEncryptionConfiguration>;
 
 export interface DiskEncryptionStatus {
   /** KMS key version used to encrypt the Cloud SQL instance resource */
@@ -1244,10 +1876,15 @@ export interface DiskEncryptionStatus {
   kind?: string;
 }
 
-export const DiskEncryptionStatus: Schema.Schema<DiskEncryptionStatus> = Schema.suspend(() => Schema.Struct({
-  kmsKeyVersionName: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "DiskEncryptionStatus" }) as any as Schema.Schema<DiskEncryptionStatus>;
+export const DiskEncryptionStatus: Schema.Schema<DiskEncryptionStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyVersionName: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DiskEncryptionStatus",
+  }) as any as Schema.Schema<DiskEncryptionStatus>;
 
 export interface SqlScheduledMaintenance {
   /** The start time of any upcoming scheduled maintenance for this instance. */
@@ -1259,24 +1896,38 @@ export interface SqlScheduledMaintenance {
   scheduleDeadlineTime?: string;
 }
 
-export const SqlScheduledMaintenance: Schema.Schema<SqlScheduledMaintenance> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  canDefer: Schema.optional(Schema.Boolean),
-  canReschedule: Schema.optional(Schema.Boolean),
-  scheduleDeadlineTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlScheduledMaintenance" }) as any as Schema.Schema<SqlScheduledMaintenance>;
+export const SqlScheduledMaintenance: Schema.Schema<SqlScheduledMaintenance> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      canDefer: Schema.optional(Schema.Boolean),
+      canReschedule: Schema.optional(Schema.Boolean),
+      scheduleDeadlineTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlScheduledMaintenance",
+  }) as any as Schema.Schema<SqlScheduledMaintenance>;
 
 export interface SqlOutOfDiskReport {
   /** This field represents the state generated by the proactive database wellness job for OutOfDisk issues. * Writers: * the proactive database wellness job for OOD. * Readers: * the proactive database wellness job */
-  sqlOutOfDiskState?: "SQL_OUT_OF_DISK_STATE_UNSPECIFIED" | "NORMAL" | "SOFT_SHUTDOWN" | (string & {});
+  sqlOutOfDiskState?:
+    | "SQL_OUT_OF_DISK_STATE_UNSPECIFIED"
+    | "NORMAL"
+    | "SOFT_SHUTDOWN"
+    | (string & {});
   /** The minimum recommended increase size in GigaBytes This field is consumed by the frontend * Writers: * the proactive database wellness job for OOD. * Readers: */
   sqlMinRecommendedIncreaseSizeGb?: number;
 }
 
-export const SqlOutOfDiskReport: Schema.Schema<SqlOutOfDiskReport> = Schema.suspend(() => Schema.Struct({
-  sqlOutOfDiskState: Schema.optional(Schema.String),
-  sqlMinRecommendedIncreaseSizeGb: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SqlOutOfDiskReport" }) as any as Schema.Schema<SqlOutOfDiskReport>;
+export const SqlOutOfDiskReport: Schema.Schema<SqlOutOfDiskReport> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sqlOutOfDiskState: Schema.optional(Schema.String),
+      sqlMinRecommendedIncreaseSizeGb: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SqlOutOfDiskReport",
+  }) as any as Schema.Schema<SqlOutOfDiskReport>;
 
 export interface AvailableDatabaseVersion {
   /** The version's major version name. */
@@ -1287,11 +1938,16 @@ export interface AvailableDatabaseVersion {
   displayName?: string;
 }
 
-export const AvailableDatabaseVersion: Schema.Schema<AvailableDatabaseVersion> = Schema.suspend(() => Schema.Struct({
-  majorVersion: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AvailableDatabaseVersion" }) as any as Schema.Schema<AvailableDatabaseVersion>;
+export const AvailableDatabaseVersion: Schema.Schema<AvailableDatabaseVersion> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      majorVersion: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AvailableDatabaseVersion",
+  }) as any as Schema.Schema<AvailableDatabaseVersion>;
 
 export interface ReplicationCluster {
   /** Output only. If set, this field indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted. */
@@ -1302,11 +1958,16 @@ export interface ReplicationCluster {
   drReplica?: boolean;
 }
 
-export const ReplicationCluster: Schema.Schema<ReplicationCluster> = Schema.suspend(() => Schema.Struct({
-  psaWriteEndpoint: Schema.optional(Schema.String),
-  failoverDrReplicaName: Schema.optional(Schema.String),
-  drReplica: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ReplicationCluster" }) as any as Schema.Schema<ReplicationCluster>;
+export const ReplicationCluster: Schema.Schema<ReplicationCluster> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      psaWriteEndpoint: Schema.optional(Schema.String),
+      failoverDrReplicaName: Schema.optional(Schema.String),
+      drReplica: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ReplicationCluster",
+  }) as any as Schema.Schema<ReplicationCluster>;
 
 export interface GeminiInstanceConfig {
   /** Output only. Whether Gemini is enabled. */
@@ -1323,32 +1984,51 @@ export interface GeminiInstanceConfig {
   flagRecommenderEnabled?: boolean;
 }
 
-export const GeminiInstanceConfig: Schema.Schema<GeminiInstanceConfig> = Schema.suspend(() => Schema.Struct({
-  entitled: Schema.optional(Schema.Boolean),
-  googleVacuumMgmtEnabled: Schema.optional(Schema.Boolean),
-  oomSessionCancelEnabled: Schema.optional(Schema.Boolean),
-  activeQueryEnabled: Schema.optional(Schema.Boolean),
-  indexAdvisorEnabled: Schema.optional(Schema.Boolean),
-  flagRecommenderEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GeminiInstanceConfig" }) as any as Schema.Schema<GeminiInstanceConfig>;
+export const GeminiInstanceConfig: Schema.Schema<GeminiInstanceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entitled: Schema.optional(Schema.Boolean),
+      googleVacuumMgmtEnabled: Schema.optional(Schema.Boolean),
+      oomSessionCancelEnabled: Schema.optional(Schema.Boolean),
+      activeQueryEnabled: Schema.optional(Schema.Boolean),
+      indexAdvisorEnabled: Schema.optional(Schema.Boolean),
+      flagRecommenderEnabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GeminiInstanceConfig",
+  }) as any as Schema.Schema<GeminiInstanceConfig>;
 
 export interface DnsNameMapping {
   /** Output only. The DNS name. */
   name?: string;
   /** Output only. The connection type of the DNS name. */
-  connectionType?: "CONNECTION_TYPE_UNSPECIFIED" | "PUBLIC" | "PRIVATE_SERVICES_ACCESS" | "PRIVATE_SERVICE_CONNECT" | (string & {});
+  connectionType?:
+    | "CONNECTION_TYPE_UNSPECIFIED"
+    | "PUBLIC"
+    | "PRIVATE_SERVICES_ACCESS"
+    | "PRIVATE_SERVICE_CONNECT"
+    | (string & {});
   /** Output only. The scope that the DNS name applies to. */
   dnsScope?: "DNS_SCOPE_UNSPECIFIED" | "INSTANCE" | "CLUSTER" | (string & {});
   /** Output only. The manager for this DNS record. */
-  recordManager?: "RECORD_MANAGER_UNSPECIFIED" | "CUSTOMER" | "CLOUD_SQL_AUTOMATION" | (string & {});
+  recordManager?:
+    | "RECORD_MANAGER_UNSPECIFIED"
+    | "CUSTOMER"
+    | "CLOUD_SQL_AUTOMATION"
+    | (string & {});
 }
 
-export const DnsNameMapping: Schema.Schema<DnsNameMapping> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  connectionType: Schema.optional(Schema.String),
-  dnsScope: Schema.optional(Schema.String),
-  recordManager: Schema.optional(Schema.String),
-})).annotate({ identifier: "DnsNameMapping" }) as any as Schema.Schema<DnsNameMapping>;
+export const DnsNameMapping: Schema.Schema<DnsNameMapping> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      connectionType: Schema.optional(Schema.String),
+      dnsScope: Schema.optional(Schema.String),
+      recordManager: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DnsNameMapping",
+}) as any as Schema.Schema<DnsNameMapping>;
 
 export interface PoolNodeConfig {
   /** Output only. The name of the read pool node, to be used for retrieving metrics and logs. */
@@ -1360,7 +2040,17 @@ export interface PoolNodeConfig {
   /** Output only. The DNS name of the read pool node. */
   dnsName?: string;
   /** Output only. The current state of the read pool node. */
-  state?: "SQL_INSTANCE_STATE_UNSPECIFIED" | "RUNNABLE" | "SUSPENDED" | "PENDING_DELETE" | "PENDING_CREATE" | "MAINTENANCE" | "FAILED" | "ONLINE_MAINTENANCE" | "REPAIRING" | (string & {});
+  state?:
+    | "SQL_INSTANCE_STATE_UNSPECIFIED"
+    | "RUNNABLE"
+    | "SUSPENDED"
+    | "PENDING_DELETE"
+    | "PENDING_CREATE"
+    | "MAINTENANCE"
+    | "FAILED"
+    | "ONLINE_MAINTENANCE"
+    | "REPAIRING"
+    | (string & {});
   /** Output only. The list of DNS names used by this read pool node. */
   dnsNames?: Array<DnsNameMapping>;
   /** Output only. The Private Service Connect (PSC) service attachment of the read pool node. */
@@ -1369,24 +2059,96 @@ export interface PoolNodeConfig {
   pscAutoConnections?: Array<PscAutoConnectionConfig>;
 }
 
-export const PoolNodeConfig: Schema.Schema<PoolNodeConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  gceZone: Schema.optional(Schema.String),
-  ipAddresses: Schema.optional(Schema.Array(IpMapping)),
-  dnsName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
-  pscServiceAttachmentLink: Schema.optional(Schema.String),
-  pscAutoConnections: Schema.optional(Schema.Array(PscAutoConnectionConfig)),
-})).annotate({ identifier: "PoolNodeConfig" }) as any as Schema.Schema<PoolNodeConfig>;
+export const PoolNodeConfig: Schema.Schema<PoolNodeConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      gceZone: Schema.optional(Schema.String),
+      ipAddresses: Schema.optional(Schema.Array(IpMapping)),
+      dnsName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
+      pscServiceAttachmentLink: Schema.optional(Schema.String),
+      pscAutoConnections: Schema.optional(
+        Schema.Array(PscAutoConnectionConfig),
+      ),
+    }),
+).annotate({
+  identifier: "PoolNodeConfig",
+}) as any as Schema.Schema<PoolNodeConfig>;
 
 export interface DatabaseInstance {
   /** This is always `sql#instance`. */
   kind?: string;
   /** The current serving state of the Cloud SQL instance. */
-  state?: "SQL_INSTANCE_STATE_UNSPECIFIED" | "RUNNABLE" | "SUSPENDED" | "PENDING_DELETE" | "PENDING_CREATE" | "MAINTENANCE" | "FAILED" | "ONLINE_MAINTENANCE" | "REPAIRING" | (string & {});
+  state?:
+    | "SQL_INSTANCE_STATE_UNSPECIFIED"
+    | "RUNNABLE"
+    | "SUSPENDED"
+    | "PENDING_DELETE"
+    | "PENDING_CREATE"
+    | "MAINTENANCE"
+    | "FAILED"
+    | "ONLINE_MAINTENANCE"
+    | "REPAIRING"
+    | (string & {});
   /** The database engine type and version. The `databaseVersion` field cannot be changed after instance creation. */
-  databaseVersion?: "SQL_DATABASE_VERSION_UNSPECIFIED" | "MYSQL_5_1" | "MYSQL_5_5" | "MYSQL_5_6" | "MYSQL_5_7" | "MYSQL_8_0" | "MYSQL_8_0_18" | "MYSQL_8_0_26" | "MYSQL_8_0_27" | "MYSQL_8_0_28" | "MYSQL_8_0_29" | "MYSQL_8_0_30" | "MYSQL_8_0_31" | "MYSQL_8_0_32" | "MYSQL_8_0_33" | "MYSQL_8_0_34" | "MYSQL_8_0_35" | "MYSQL_8_0_36" | "MYSQL_8_0_37" | "MYSQL_8_0_39" | "MYSQL_8_0_40" | "MYSQL_8_0_41" | "MYSQL_8_0_42" | "MYSQL_8_0_43" | "MYSQL_8_0_44" | "MYSQL_8_0_45" | "MYSQL_8_0_46" | "MYSQL_8_4" | "MYSQL_9_7" | "SQLSERVER_2017_STANDARD" | "SQLSERVER_2017_ENTERPRISE" | "SQLSERVER_2017_EXPRESS" | "SQLSERVER_2017_WEB" | "POSTGRES_9_6" | "POSTGRES_10" | "POSTGRES_11" | "POSTGRES_12" | "POSTGRES_13" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | "POSTGRES_17" | "POSTGRES_18" | "SQLSERVER_2019_STANDARD" | "SQLSERVER_2019_ENTERPRISE" | "SQLSERVER_2019_EXPRESS" | "SQLSERVER_2019_WEB" | "SQLSERVER_2022_STANDARD" | "SQLSERVER_2022_ENTERPRISE" | "SQLSERVER_2022_EXPRESS" | "SQLSERVER_2022_WEB" | "SQLSERVER_2025_STANDARD" | "SQLSERVER_2025_ENTERPRISE" | "SQLSERVER_2025_EXPRESS" | (string & {});
+  databaseVersion?:
+    | "SQL_DATABASE_VERSION_UNSPECIFIED"
+    | "MYSQL_5_1"
+    | "MYSQL_5_5"
+    | "MYSQL_5_6"
+    | "MYSQL_5_7"
+    | "MYSQL_8_0"
+    | "MYSQL_8_0_18"
+    | "MYSQL_8_0_26"
+    | "MYSQL_8_0_27"
+    | "MYSQL_8_0_28"
+    | "MYSQL_8_0_29"
+    | "MYSQL_8_0_30"
+    | "MYSQL_8_0_31"
+    | "MYSQL_8_0_32"
+    | "MYSQL_8_0_33"
+    | "MYSQL_8_0_34"
+    | "MYSQL_8_0_35"
+    | "MYSQL_8_0_36"
+    | "MYSQL_8_0_37"
+    | "MYSQL_8_0_39"
+    | "MYSQL_8_0_40"
+    | "MYSQL_8_0_41"
+    | "MYSQL_8_0_42"
+    | "MYSQL_8_0_43"
+    | "MYSQL_8_0_44"
+    | "MYSQL_8_0_45"
+    | "MYSQL_8_0_46"
+    | "MYSQL_8_4"
+    | "MYSQL_9_7"
+    | "SQLSERVER_2017_STANDARD"
+    | "SQLSERVER_2017_ENTERPRISE"
+    | "SQLSERVER_2017_EXPRESS"
+    | "SQLSERVER_2017_WEB"
+    | "POSTGRES_9_6"
+    | "POSTGRES_10"
+    | "POSTGRES_11"
+    | "POSTGRES_12"
+    | "POSTGRES_13"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | "POSTGRES_17"
+    | "POSTGRES_18"
+    | "SQLSERVER_2019_STANDARD"
+    | "SQLSERVER_2019_ENTERPRISE"
+    | "SQLSERVER_2019_EXPRESS"
+    | "SQLSERVER_2019_WEB"
+    | "SQLSERVER_2022_STANDARD"
+    | "SQLSERVER_2022_ENTERPRISE"
+    | "SQLSERVER_2022_EXPRESS"
+    | "SQLSERVER_2022_WEB"
+    | "SQLSERVER_2025_STANDARD"
+    | "SQLSERVER_2025_ENTERPRISE"
+    | "SQLSERVER_2025_EXPRESS"
+    | (string & {});
   /** The user settings. */
   settings?: Settings;
   /** This field is deprecated and will be removed from a future version of the API. Use the `settings.settingsVersion` field instead. */
@@ -1406,7 +2168,13 @@ export interface DatabaseInstance {
   /** SSL configuration. */
   serverCaCert?: SslCert;
   /** The instance type. */
-  instanceType?: "SQL_INSTANCE_TYPE_UNSPECIFIED" | "CLOUD_SQL_INSTANCE" | "ON_PREMISES_INSTANCE" | "READ_REPLICA_INSTANCE" | "READ_POOL_INSTANCE" | (string & {});
+  instanceType?:
+    | "SQL_INSTANCE_TYPE_UNSPECIFIED"
+    | "CLOUD_SQL_INSTANCE"
+    | "ON_PREMISES_INSTANCE"
+    | "READ_REPLICA_INSTANCE"
+    | "READ_POOL_INSTANCE"
+    | (string & {});
   /** The project ID of the project containing the Cloud SQL instance. The Google apps domain is prefixed if applicable. */
   project?: string;
   /** The IPv6 address assigned to the instance. (Deprecated) This property was applicable only to First Generation instances. */
@@ -1418,11 +2186,23 @@ export interface DatabaseInstance {
   /** Configuration specific to failover replicas and read replicas. */
   replicaConfiguration?: ReplicaConfiguration;
   /** The backend type. `SECOND_GEN`: Cloud SQL database instance. `EXTERNAL`: A database server that is not managed by Google. This property is read-only; use the `tier` property in the `settings` object to determine the database type. */
-  backendType?: "SQL_BACKEND_TYPE_UNSPECIFIED" | "FIRST_GEN" | "SECOND_GEN" | "EXTERNAL" | (string & {});
+  backendType?:
+    | "SQL_BACKEND_TYPE_UNSPECIFIED"
+    | "FIRST_GEN"
+    | "SECOND_GEN"
+    | "EXTERNAL"
+    | (string & {});
   /** The URI of this resource. */
   selfLink?: string;
   /** If the instance state is SUSPENDED, the reason for the suspension. */
-  suspensionReason?: Array<"SQL_SUSPENSION_REASON_UNSPECIFIED" | "BILLING_ISSUE" | "LEGAL_ISSUE" | "OPERATIONAL_ISSUE" | "KMS_KEY_ISSUE" | (string & {})>;
+  suspensionReason?: Array<
+    | "SQL_SUSPENSION_REASON_UNSPECIFIED"
+    | "BILLING_ISSUE"
+    | "LEGAL_ISSUE"
+    | "OPERATIONAL_ISSUE"
+    | "KMS_KEY_ISSUE"
+    | (string & {})
+  >;
   /** Connection name of the Cloud SQL instance used in connection strings. */
   connectionName?: string;
   /** Name of the Cloud SQL instance. This does not include the project ID. */
@@ -1455,7 +2235,11 @@ export interface DatabaseInstance {
   maintenanceVersion?: string;
   /** Output only. All database versions that are available for upgrade. */
   upgradableDatabaseVersions?: Array<AvailableDatabaseVersion>;
-  sqlNetworkArchitecture?: "SQL_NETWORK_ARCHITECTURE_UNSPECIFIED" | "NEW_NETWORK_ARCHITECTURE" | "OLD_NETWORK_ARCHITECTURE" | (string & {});
+  sqlNetworkArchitecture?:
+    | "SQL_NETWORK_ARCHITECTURE_UNSPECIFIED"
+    | "NEW_NETWORK_ARCHITECTURE"
+    | "OLD_NETWORK_ARCHITECTURE"
+    | (string & {});
   /** Output only. The link to service attachment of PSC instance. */
   pscServiceAttachmentLink?: string;
   /** Output only. The dns name of the instance. */
@@ -1484,68 +2268,89 @@ export interface DatabaseInstance {
   dnsNames?: Array<DnsNameMapping>;
 }
 
-export const DatabaseInstance: Schema.Schema<DatabaseInstance> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  databaseVersion: Schema.optional(Schema.String),
-  settings: Schema.optional(Settings),
-  etag: Schema.optional(Schema.String),
-  failoverReplica: Schema.optional(Schema.Struct({ name: Schema.optional(Schema.String), available: Schema.optional(Schema.Boolean) })),
-  masterInstanceName: Schema.optional(Schema.String),
-  replicaNames: Schema.optional(Schema.Array(Schema.String)),
-  maxDiskSize: Schema.optional(Schema.String),
-  currentDiskSize: Schema.optional(Schema.String),
-  ipAddresses: Schema.optional(Schema.Array(IpMapping)),
-  serverCaCert: Schema.optional(SslCert),
-  instanceType: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  ipv6Address: Schema.optional(Schema.String),
-  serviceAccountEmailAddress: Schema.optional(Schema.String),
-  onPremisesConfiguration: Schema.optional(OnPremisesConfiguration),
-  replicaConfiguration: Schema.optional(ReplicaConfiguration),
-  backendType: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  suspensionReason: Schema.optional(Schema.Array(Schema.String)),
-  connectionName: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  gceZone: Schema.optional(Schema.String),
-  secondaryGceZone: Schema.optional(Schema.String),
-  diskEncryptionConfiguration: Schema.optional(DiskEncryptionConfiguration),
-  diskEncryptionStatus: Schema.optional(DiskEncryptionStatus),
-  rootPassword: Schema.optional(Schema.String),
-  scheduledMaintenance: Schema.optional(SqlScheduledMaintenance),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  databaseInstalledVersion: Schema.optional(Schema.String),
-  outOfDiskReport: Schema.optional(SqlOutOfDiskReport),
-  createTime: Schema.optional(Schema.String),
-  availableMaintenanceVersions: Schema.optional(Schema.Array(Schema.String)),
-  maintenanceVersion: Schema.optional(Schema.String),
-  upgradableDatabaseVersions: Schema.optional(Schema.Array(AvailableDatabaseVersion)),
-  sqlNetworkArchitecture: Schema.optional(Schema.String),
-  pscServiceAttachmentLink: Schema.optional(Schema.String),
-  dnsName: Schema.optional(Schema.String),
-  primaryDnsName: Schema.optional(Schema.String),
-  writeEndpoint: Schema.optional(Schema.String),
-  replicationCluster: Schema.optional(ReplicationCluster),
-  geminiConfig: Schema.optional(GeminiInstanceConfig),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-  switchTransactionLogsToCloudStorageEnabled: Schema.optional(Schema.Boolean),
-  includeReplicasForMajorVersionUpgrade: Schema.optional(Schema.Boolean),
-  tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  nodeCount: Schema.optional(Schema.Number),
-  nodes: Schema.optional(Schema.Array(PoolNodeConfig)),
-  dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
-})).annotate({ identifier: "DatabaseInstance" }) as any as Schema.Schema<DatabaseInstance>;
+export const DatabaseInstance: Schema.Schema<DatabaseInstance> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      databaseVersion: Schema.optional(Schema.String),
+      settings: Schema.optional(Settings),
+      etag: Schema.optional(Schema.String),
+      failoverReplica: Schema.optional(
+        Schema.Struct({
+          name: Schema.optional(Schema.String),
+          available: Schema.optional(Schema.Boolean),
+        }),
+      ),
+      masterInstanceName: Schema.optional(Schema.String),
+      replicaNames: Schema.optional(Schema.Array(Schema.String)),
+      maxDiskSize: Schema.optional(Schema.String),
+      currentDiskSize: Schema.optional(Schema.String),
+      ipAddresses: Schema.optional(Schema.Array(IpMapping)),
+      serverCaCert: Schema.optional(SslCert),
+      instanceType: Schema.optional(Schema.String),
+      project: Schema.optional(Schema.String),
+      ipv6Address: Schema.optional(Schema.String),
+      serviceAccountEmailAddress: Schema.optional(Schema.String),
+      onPremisesConfiguration: Schema.optional(OnPremisesConfiguration),
+      replicaConfiguration: Schema.optional(ReplicaConfiguration),
+      backendType: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      suspensionReason: Schema.optional(Schema.Array(Schema.String)),
+      connectionName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      gceZone: Schema.optional(Schema.String),
+      secondaryGceZone: Schema.optional(Schema.String),
+      diskEncryptionConfiguration: Schema.optional(DiskEncryptionConfiguration),
+      diskEncryptionStatus: Schema.optional(DiskEncryptionStatus),
+      rootPassword: Schema.optional(Schema.String),
+      scheduledMaintenance: Schema.optional(SqlScheduledMaintenance),
+      satisfiesPzs: Schema.optional(Schema.Boolean),
+      databaseInstalledVersion: Schema.optional(Schema.String),
+      outOfDiskReport: Schema.optional(SqlOutOfDiskReport),
+      createTime: Schema.optional(Schema.String),
+      availableMaintenanceVersions: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      maintenanceVersion: Schema.optional(Schema.String),
+      upgradableDatabaseVersions: Schema.optional(
+        Schema.Array(AvailableDatabaseVersion),
+      ),
+      sqlNetworkArchitecture: Schema.optional(Schema.String),
+      pscServiceAttachmentLink: Schema.optional(Schema.String),
+      dnsName: Schema.optional(Schema.String),
+      primaryDnsName: Schema.optional(Schema.String),
+      writeEndpoint: Schema.optional(Schema.String),
+      replicationCluster: Schema.optional(ReplicationCluster),
+      geminiConfig: Schema.optional(GeminiInstanceConfig),
+      satisfiesPzi: Schema.optional(Schema.Boolean),
+      switchTransactionLogsToCloudStorageEnabled: Schema.optional(
+        Schema.Boolean,
+      ),
+      includeReplicasForMajorVersionUpgrade: Schema.optional(Schema.Boolean),
+      tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      nodeCount: Schema.optional(Schema.Number),
+      nodes: Schema.optional(Schema.Array(PoolNodeConfig)),
+      dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
+    }),
+).annotate({
+  identifier: "DatabaseInstance",
+}) as any as Schema.Schema<DatabaseInstance>;
 
 export interface InstancesImportRequest {
   /** Contains details about the import operation. */
   importContext?: ImportContext;
 }
 
-export const InstancesImportRequest: Schema.Schema<InstancesImportRequest> = Schema.suspend(() => Schema.Struct({
-  importContext: Schema.optional(ImportContext),
-})).annotate({ identifier: "InstancesImportRequest" }) as any as Schema.Schema<InstancesImportRequest>;
+export const InstancesImportRequest: Schema.Schema<InstancesImportRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      importContext: Schema.optional(ImportContext),
+    }),
+  ).annotate({
+    identifier: "InstancesImportRequest",
+  }) as any as Schema.Schema<InstancesImportRequest>;
 
 export interface InstancesListResponse {
   /** This is always `sql#instancesList`. */
@@ -1558,12 +2363,17 @@ export interface InstancesListResponse {
   nextPageToken?: string;
 }
 
-export const InstancesListResponse: Schema.Schema<InstancesListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  warnings: Schema.optional(Schema.Array(ApiWarning)),
-  items: Schema.optional(Schema.Array(DatabaseInstance)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstancesListResponse" }) as any as Schema.Schema<InstancesListResponse>;
+export const InstancesListResponse: Schema.Schema<InstancesListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      warnings: Schema.optional(Schema.Array(ApiWarning)),
+      items: Schema.optional(Schema.Array(DatabaseInstance)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InstancesListResponse",
+  }) as any as Schema.Schema<InstancesListResponse>;
 
 export interface InstancesListServerCasResponse {
   /** List of server CA certificates for the instance. */
@@ -1573,11 +2383,16 @@ export interface InstancesListServerCasResponse {
   kind?: string;
 }
 
-export const InstancesListServerCasResponse: Schema.Schema<InstancesListServerCasResponse> = Schema.suspend(() => Schema.Struct({
-  certs: Schema.optional(Schema.Array(SslCert)),
-  activeVersion: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstancesListServerCasResponse" }) as any as Schema.Schema<InstancesListServerCasResponse>;
+export const InstancesListServerCasResponse: Schema.Schema<InstancesListServerCasResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certs: Schema.optional(Schema.Array(SslCert)),
+      activeVersion: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InstancesListServerCasResponse",
+  }) as any as Schema.Schema<InstancesListServerCasResponse>;
 
 export interface InstancesListServerCertificatesResponse {
   /** List of server CA certificates for the instance. */
@@ -1590,12 +2405,17 @@ export interface InstancesListServerCertificatesResponse {
   kind?: string;
 }
 
-export const InstancesListServerCertificatesResponse: Schema.Schema<InstancesListServerCertificatesResponse> = Schema.suspend(() => Schema.Struct({
-  caCerts: Schema.optional(Schema.Array(SslCert)),
-  serverCerts: Schema.optional(Schema.Array(SslCert)),
-  activeVersion: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstancesListServerCertificatesResponse" }) as any as Schema.Schema<InstancesListServerCertificatesResponse>;
+export const InstancesListServerCertificatesResponse: Schema.Schema<InstancesListServerCertificatesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      caCerts: Schema.optional(Schema.Array(SslCert)),
+      serverCerts: Schema.optional(Schema.Array(SslCert)),
+      activeVersion: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InstancesListServerCertificatesResponse",
+  }) as any as Schema.Schema<InstancesListServerCertificatesResponse>;
 
 export interface InstancesListEntraIdCertificatesResponse {
   /** List of Entra ID certificates for the instance. */
@@ -1606,11 +2426,16 @@ export interface InstancesListEntraIdCertificatesResponse {
   kind?: string;
 }
 
-export const InstancesListEntraIdCertificatesResponse: Schema.Schema<InstancesListEntraIdCertificatesResponse> = Schema.suspend(() => Schema.Struct({
-  certs: Schema.optional(Schema.Array(SslCert)),
-  activeVersion: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstancesListEntraIdCertificatesResponse" }) as any as Schema.Schema<InstancesListEntraIdCertificatesResponse>;
+export const InstancesListEntraIdCertificatesResponse: Schema.Schema<InstancesListEntraIdCertificatesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certs: Schema.optional(Schema.Array(SslCert)),
+      activeVersion: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InstancesListEntraIdCertificatesResponse",
+  }) as any as Schema.Schema<InstancesListEntraIdCertificatesResponse>;
 
 export interface RestoreBackupContext {
   /** This is always `sql#restoreBackupContext`. */
@@ -1623,12 +2448,17 @@ export interface RestoreBackupContext {
   project?: string;
 }
 
-export const RestoreBackupContext: Schema.Schema<RestoreBackupContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  backupRunId: Schema.optional(Schema.String),
-  instanceId: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-})).annotate({ identifier: "RestoreBackupContext" }) as any as Schema.Schema<RestoreBackupContext>;
+export const RestoreBackupContext: Schema.Schema<RestoreBackupContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      backupRunId: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+      project: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RestoreBackupContext",
+  }) as any as Schema.Schema<RestoreBackupContext>;
 
 export interface InstancesRestoreBackupRequest {
   /** Parameters required to perform the restore backup operation. */
@@ -1643,13 +2473,20 @@ export interface InstancesRestoreBackupRequest {
   restoreInstanceClearOverridesFieldNames?: Array<string>;
 }
 
-export const InstancesRestoreBackupRequest: Schema.Schema<InstancesRestoreBackupRequest> = Schema.suspend(() => Schema.Struct({
-  restoreBackupContext: Schema.optional(RestoreBackupContext),
-  backup: Schema.optional(Schema.String),
-  backupdrBackup: Schema.optional(Schema.String),
-  restoreInstanceSettings: Schema.optional(DatabaseInstance),
-  restoreInstanceClearOverridesFieldNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "InstancesRestoreBackupRequest" }) as any as Schema.Schema<InstancesRestoreBackupRequest>;
+export const InstancesRestoreBackupRequest: Schema.Schema<InstancesRestoreBackupRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      restoreBackupContext: Schema.optional(RestoreBackupContext),
+      backup: Schema.optional(Schema.String),
+      backupdrBackup: Schema.optional(Schema.String),
+      restoreInstanceSettings: Schema.optional(DatabaseInstance),
+      restoreInstanceClearOverridesFieldNames: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "InstancesRestoreBackupRequest",
+  }) as any as Schema.Schema<InstancesRestoreBackupRequest>;
 
 export interface RotateServerCaContext {
   /** This is always `sql#rotateServerCaContext`. */
@@ -1658,19 +2495,29 @@ export interface RotateServerCaContext {
   nextVersion?: string;
 }
 
-export const RotateServerCaContext: Schema.Schema<RotateServerCaContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "RotateServerCaContext" }) as any as Schema.Schema<RotateServerCaContext>;
+export const RotateServerCaContext: Schema.Schema<RotateServerCaContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RotateServerCaContext",
+  }) as any as Schema.Schema<RotateServerCaContext>;
 
 export interface InstancesRotateServerCaRequest {
   /** Contains details about the rotate server CA operation. */
   rotateServerCaContext?: RotateServerCaContext;
 }
 
-export const InstancesRotateServerCaRequest: Schema.Schema<InstancesRotateServerCaRequest> = Schema.suspend(() => Schema.Struct({
-  rotateServerCaContext: Schema.optional(RotateServerCaContext),
-})).annotate({ identifier: "InstancesRotateServerCaRequest" }) as any as Schema.Schema<InstancesRotateServerCaRequest>;
+export const InstancesRotateServerCaRequest: Schema.Schema<InstancesRotateServerCaRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rotateServerCaContext: Schema.optional(RotateServerCaContext),
+    }),
+  ).annotate({
+    identifier: "InstancesRotateServerCaRequest",
+  }) as any as Schema.Schema<InstancesRotateServerCaRequest>;
 
 export interface RotateServerCertificateContext {
   /** Optional. This is always `sql#rotateServerCertificateContext`. */
@@ -1679,19 +2526,31 @@ export interface RotateServerCertificateContext {
   nextVersion?: string;
 }
 
-export const RotateServerCertificateContext: Schema.Schema<RotateServerCertificateContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "RotateServerCertificateContext" }) as any as Schema.Schema<RotateServerCertificateContext>;
+export const RotateServerCertificateContext: Schema.Schema<RotateServerCertificateContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RotateServerCertificateContext",
+  }) as any as Schema.Schema<RotateServerCertificateContext>;
 
 export interface InstancesRotateServerCertificateRequest {
   /** Optional. Contains details about the rotate server certificate operation. */
   rotateServerCertificateContext?: RotateServerCertificateContext;
 }
 
-export const InstancesRotateServerCertificateRequest: Schema.Schema<InstancesRotateServerCertificateRequest> = Schema.suspend(() => Schema.Struct({
-  rotateServerCertificateContext: Schema.optional(RotateServerCertificateContext),
-})).annotate({ identifier: "InstancesRotateServerCertificateRequest" }) as any as Schema.Schema<InstancesRotateServerCertificateRequest>;
+export const InstancesRotateServerCertificateRequest: Schema.Schema<InstancesRotateServerCertificateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rotateServerCertificateContext: Schema.optional(
+        RotateServerCertificateContext,
+      ),
+    }),
+  ).annotate({
+    identifier: "InstancesRotateServerCertificateRequest",
+  }) as any as Schema.Schema<InstancesRotateServerCertificateRequest>;
 
 export interface RotateEntraIdCertificateContext {
   /** Optional. This is always `sql#rotateEntraIdCertificateContext`. */
@@ -1700,19 +2559,31 @@ export interface RotateEntraIdCertificateContext {
   nextVersion?: string;
 }
 
-export const RotateEntraIdCertificateContext: Schema.Schema<RotateEntraIdCertificateContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "RotateEntraIdCertificateContext" }) as any as Schema.Schema<RotateEntraIdCertificateContext>;
+export const RotateEntraIdCertificateContext: Schema.Schema<RotateEntraIdCertificateContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RotateEntraIdCertificateContext",
+  }) as any as Schema.Schema<RotateEntraIdCertificateContext>;
 
 export interface InstancesRotateEntraIdCertificateRequest {
   /** Optional. Contains details about the rotate server certificate operation. */
   rotateEntraIdCertificateContext?: RotateEntraIdCertificateContext;
 }
 
-export const InstancesRotateEntraIdCertificateRequest: Schema.Schema<InstancesRotateEntraIdCertificateRequest> = Schema.suspend(() => Schema.Struct({
-  rotateEntraIdCertificateContext: Schema.optional(RotateEntraIdCertificateContext),
-})).annotate({ identifier: "InstancesRotateEntraIdCertificateRequest" }) as any as Schema.Schema<InstancesRotateEntraIdCertificateRequest>;
+export const InstancesRotateEntraIdCertificateRequest: Schema.Schema<InstancesRotateEntraIdCertificateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rotateEntraIdCertificateContext: Schema.optional(
+        RotateEntraIdCertificateContext,
+      ),
+    }),
+  ).annotate({
+    identifier: "InstancesRotateEntraIdCertificateRequest",
+  }) as any as Schema.Schema<InstancesRotateEntraIdCertificateRequest>;
 
 export interface TruncateLogContext {
   /** This is always `sql#truncateLogContext`. */
@@ -1721,19 +2592,29 @@ export interface TruncateLogContext {
   logType?: string;
 }
 
-export const TruncateLogContext: Schema.Schema<TruncateLogContext> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  logType: Schema.optional(Schema.String),
-})).annotate({ identifier: "TruncateLogContext" }) as any as Schema.Schema<TruncateLogContext>;
+export const TruncateLogContext: Schema.Schema<TruncateLogContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      logType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TruncateLogContext",
+  }) as any as Schema.Schema<TruncateLogContext>;
 
 export interface InstancesTruncateLogRequest {
   /** Contains details about the truncate log operation. */
   truncateLogContext?: TruncateLogContext;
 }
 
-export const InstancesTruncateLogRequest: Schema.Schema<InstancesTruncateLogRequest> = Schema.suspend(() => Schema.Struct({
-  truncateLogContext: Schema.optional(TruncateLogContext),
-})).annotate({ identifier: "InstancesTruncateLogRequest" }) as any as Schema.Schema<InstancesTruncateLogRequest>;
+export const InstancesTruncateLogRequest: Schema.Schema<InstancesTruncateLogRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      truncateLogContext: Schema.optional(TruncateLogContext),
+    }),
+  ).annotate({
+    identifier: "InstancesTruncateLogRequest",
+  }) as any as Schema.Schema<InstancesTruncateLogRequest>;
 
 export interface SslCertsCreateEphemeralRequest {
   /** PEM encoded public key to include in the signed certificate. */
@@ -1742,31 +2623,48 @@ export interface SslCertsCreateEphemeralRequest {
   access_token?: string;
 }
 
-export const SslCertsCreateEphemeralRequest: Schema.Schema<SslCertsCreateEphemeralRequest> = Schema.suspend(() => Schema.Struct({
-  public_key: Schema.optional(Schema.String),
-  access_token: Schema.optional(Schema.String),
-})).annotate({ identifier: "SslCertsCreateEphemeralRequest" }) as any as Schema.Schema<SslCertsCreateEphemeralRequest>;
+export const SslCertsCreateEphemeralRequest: Schema.Schema<SslCertsCreateEphemeralRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      public_key: Schema.optional(Schema.String),
+      access_token: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SslCertsCreateEphemeralRequest",
+  }) as any as Schema.Schema<SslCertsCreateEphemeralRequest>;
 
 export interface Reschedule {
   /** Required. The type of the reschedule. */
-  rescheduleType?: "RESCHEDULE_TYPE_UNSPECIFIED" | "IMMEDIATE" | "NEXT_AVAILABLE_WINDOW" | "SPECIFIC_TIME" | (string & {});
+  rescheduleType?:
+    | "RESCHEDULE_TYPE_UNSPECIFIED"
+    | "IMMEDIATE"
+    | "NEXT_AVAILABLE_WINDOW"
+    | "SPECIFIC_TIME"
+    | (string & {});
   /** Optional. Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
   scheduleTime?: string;
 }
 
-export const Reschedule: Schema.Schema<Reschedule> = Schema.suspend(() => Schema.Struct({
-  rescheduleType: Schema.optional(Schema.String),
-  scheduleTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Reschedule" }) as any as Schema.Schema<Reschedule>;
+export const Reschedule: Schema.Schema<Reschedule> = Schema.suspend(() =>
+  Schema.Struct({
+    rescheduleType: Schema.optional(Schema.String),
+    scheduleTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Reschedule" }) as any as Schema.Schema<Reschedule>;
 
 export interface SqlInstancesRescheduleMaintenanceRequestBody {
   /** Required. The type of the reschedule the user wants. */
   reschedule?: Reschedule;
 }
 
-export const SqlInstancesRescheduleMaintenanceRequestBody: Schema.Schema<SqlInstancesRescheduleMaintenanceRequestBody> = Schema.suspend(() => Schema.Struct({
-  reschedule: Schema.optional(Reschedule),
-})).annotate({ identifier: "SqlInstancesRescheduleMaintenanceRequestBody" }) as any as Schema.Schema<SqlInstancesRescheduleMaintenanceRequestBody>;
+export const SqlInstancesRescheduleMaintenanceRequestBody: Schema.Schema<SqlInstancesRescheduleMaintenanceRequestBody> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reschedule: Schema.optional(Reschedule),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesRescheduleMaintenanceRequestBody",
+  }) as any as Schema.Schema<SqlInstancesRescheduleMaintenanceRequestBody>;
 
 export interface SyncFlags {
   /** The name of the flag. */
@@ -1775,70 +2673,167 @@ export interface SyncFlags {
   value?: string;
 }
 
-export const SyncFlags: Schema.Schema<SyncFlags> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "SyncFlags" }) as any as Schema.Schema<SyncFlags>;
+export const SyncFlags: Schema.Schema<SyncFlags> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SyncFlags" }) as any as Schema.Schema<SyncFlags>;
 
 export interface MySqlSyncConfig {
   /** Flags to use for the initial dump. */
   initialSyncFlags?: Array<SyncFlags>;
 }
 
-export const MySqlSyncConfig: Schema.Schema<MySqlSyncConfig> = Schema.suspend(() => Schema.Struct({
-  initialSyncFlags: Schema.optional(Schema.Array(SyncFlags)),
-})).annotate({ identifier: "MySqlSyncConfig" }) as any as Schema.Schema<MySqlSyncConfig>;
+export const MySqlSyncConfig: Schema.Schema<MySqlSyncConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      initialSyncFlags: Schema.optional(Schema.Array(SyncFlags)),
+    }),
+).annotate({
+  identifier: "MySqlSyncConfig",
+}) as any as Schema.Schema<MySqlSyncConfig>;
 
 export interface ExternalSyncSelectedObject {
   /** The name of the database that Cloud SQL migrates. */
   database?: string;
 }
 
-export const ExternalSyncSelectedObject: Schema.Schema<ExternalSyncSelectedObject> = Schema.suspend(() => Schema.Struct({
-  database: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExternalSyncSelectedObject" }) as any as Schema.Schema<ExternalSyncSelectedObject>;
+export const ExternalSyncSelectedObject: Schema.Schema<ExternalSyncSelectedObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      database: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExternalSyncSelectedObject",
+  }) as any as Schema.Schema<ExternalSyncSelectedObject>;
 
 export interface SqlInstancesVerifyExternalSyncSettingsRequest {
   /** Flag to enable verifying connection only */
   verifyConnectionOnly?: boolean;
   /** External sync mode */
-  syncMode?: "EXTERNAL_SYNC_MODE_UNSPECIFIED" | "ONLINE" | "OFFLINE" | (string & {});
+  syncMode?:
+    | "EXTERNAL_SYNC_MODE_UNSPECIFIED"
+    | "ONLINE"
+    | "OFFLINE"
+    | (string & {});
   /** Optional. Flag to verify settings required by replication setup only */
   verifyReplicationOnly?: boolean;
   /** Optional. MySQL-specific settings for start external sync. */
   mysqlSyncConfig?: MySqlSyncConfig;
   /** Optional. MigrationType configures the migration to use physical files or logical dump files. If not set, then the logical dump file configuration is used. Valid values are `LOGICAL` or `PHYSICAL`. Only applicable to MySQL. */
-  migrationType?: "MIGRATION_TYPE_UNSPECIFIED" | "LOGICAL" | "PHYSICAL" | (string & {});
+  migrationType?:
+    | "MIGRATION_TYPE_UNSPECIFIED"
+    | "LOGICAL"
+    | "PHYSICAL"
+    | (string & {});
   /** Optional. Parallel level for initial data sync. Only applicable for PostgreSQL. */
-  syncParallelLevel?: "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED" | "MIN" | "OPTIMAL" | "MAX" | (string & {});
+  syncParallelLevel?:
+    | "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED"
+    | "MIN"
+    | "OPTIMAL"
+    | "MAX"
+    | (string & {});
   /** Optional. Migrate only the specified objects from the source instance. If this field is empty, then migrate all objects. */
   selectedObjects?: Array<ExternalSyncSelectedObject>;
 }
 
-export const SqlInstancesVerifyExternalSyncSettingsRequest: Schema.Schema<SqlInstancesVerifyExternalSyncSettingsRequest> = Schema.suspend(() => Schema.Struct({
-  verifyConnectionOnly: Schema.optional(Schema.Boolean),
-  syncMode: Schema.optional(Schema.String),
-  verifyReplicationOnly: Schema.optional(Schema.Boolean),
-  mysqlSyncConfig: Schema.optional(MySqlSyncConfig),
-  migrationType: Schema.optional(Schema.String),
-  syncParallelLevel: Schema.optional(Schema.String),
-  selectedObjects: Schema.optional(Schema.Array(ExternalSyncSelectedObject)),
-})).annotate({ identifier: "SqlInstancesVerifyExternalSyncSettingsRequest" }) as any as Schema.Schema<SqlInstancesVerifyExternalSyncSettingsRequest>;
+export const SqlInstancesVerifyExternalSyncSettingsRequest: Schema.Schema<SqlInstancesVerifyExternalSyncSettingsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      verifyConnectionOnly: Schema.optional(Schema.Boolean),
+      syncMode: Schema.optional(Schema.String),
+      verifyReplicationOnly: Schema.optional(Schema.Boolean),
+      mysqlSyncConfig: Schema.optional(MySqlSyncConfig),
+      migrationType: Schema.optional(Schema.String),
+      syncParallelLevel: Schema.optional(Schema.String),
+      selectedObjects: Schema.optional(
+        Schema.Array(ExternalSyncSelectedObject),
+      ),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesVerifyExternalSyncSettingsRequest",
+  }) as any as Schema.Schema<SqlInstancesVerifyExternalSyncSettingsRequest>;
 
 export interface SqlExternalSyncSettingError {
   /** Can be `sql#externalSyncSettingError` or `sql#externalSyncSettingWarning`. */
   kind?: string;
   /** Identifies the specific error that occurred. */
-  type?: "SQL_EXTERNAL_SYNC_SETTING_ERROR_TYPE_UNSPECIFIED" | "CONNECTION_FAILURE" | "BINLOG_NOT_ENABLED" | "INCOMPATIBLE_DATABASE_VERSION" | "REPLICA_ALREADY_SETUP" | "INSUFFICIENT_PRIVILEGE" | "UNSUPPORTED_MIGRATION_TYPE" | "NO_PGLOGICAL_INSTALLED" | "PGLOGICAL_NODE_ALREADY_EXISTS" | "INVALID_WAL_LEVEL" | "INVALID_SHARED_PRELOAD_LIBRARY" | "INSUFFICIENT_MAX_REPLICATION_SLOTS" | "INSUFFICIENT_MAX_WAL_SENDERS" | "INSUFFICIENT_MAX_WORKER_PROCESSES" | "UNSUPPORTED_EXTENSIONS" | "INVALID_RDS_LOGICAL_REPLICATION" | "INVALID_LOGGING_SETUP" | "INVALID_DB_PARAM" | "UNSUPPORTED_GTID_MODE" | "SQLSERVER_AGENT_NOT_RUNNING" | "UNSUPPORTED_TABLE_DEFINITION" | "UNSUPPORTED_DEFINER" | "SQLSERVER_SERVERNAME_MISMATCH" | "PRIMARY_ALREADY_SETUP" | "UNSUPPORTED_BINLOG_FORMAT" | "BINLOG_RETENTION_SETTING" | "UNSUPPORTED_STORAGE_ENGINE" | "LIMITED_SUPPORT_TABLES" | "EXISTING_DATA_IN_REPLICA" | "MISSING_OPTIONAL_PRIVILEGES" | "RISKY_BACKUP_ADMIN_PRIVILEGE" | "INSUFFICIENT_GCS_PERMISSIONS" | "INVALID_FILE_INFO" | "UNSUPPORTED_DATABASE_SETTINGS" | "MYSQL_PARALLEL_IMPORT_INSUFFICIENT_PRIVILEGE" | "LOCAL_INFILE_OFF" | "TURN_ON_PITR_AFTER_PROMOTE" | "INCOMPATIBLE_DATABASE_MINOR_VERSION" | "SOURCE_MAX_SUBSCRIPTIONS" | "UNABLE_TO_VERIFY_DEFINERS" | "SUBSCRIPTION_CALCULATION_STATUS" | "PG_SUBSCRIPTION_COUNT" | "PG_SYNC_PARALLEL_LEVEL" | "INSUFFICIENT_DISK_SIZE" | "INSUFFICIENT_MACHINE_TIER" | "UNSUPPORTED_EXTENSIONS_NOT_MIGRATED" | "EXTENSIONS_NOT_MIGRATED" | "PG_CRON_FLAG_ENABLED_IN_REPLICA" | "EXTENSIONS_NOT_ENABLED_IN_REPLICA" | "UNSUPPORTED_COLUMNS" | "USERS_NOT_CREATED_IN_REPLICA" | "UNSUPPORTED_SYSTEM_OBJECTS" | "UNSUPPORTED_TABLES_WITH_REPLICA_IDENTITY" | "SELECTED_OBJECTS_NOT_EXIST_ON_SOURCE" | "PSC_ONLY_INSTANCE_WITH_NO_NETWORK_ATTACHMENT_URI" | "SELECTED_OBJECTS_REFERENCE_UNSELECTED_OBJECTS" | "PROMPT_DELETE_EXISTING" | "WILL_DELETE_EXISTING" | "PG_DDL_REPLICATION_INSUFFICIENT_PRIVILEGE" | (string & {});
+  type?:
+    | "SQL_EXTERNAL_SYNC_SETTING_ERROR_TYPE_UNSPECIFIED"
+    | "CONNECTION_FAILURE"
+    | "BINLOG_NOT_ENABLED"
+    | "INCOMPATIBLE_DATABASE_VERSION"
+    | "REPLICA_ALREADY_SETUP"
+    | "INSUFFICIENT_PRIVILEGE"
+    | "UNSUPPORTED_MIGRATION_TYPE"
+    | "NO_PGLOGICAL_INSTALLED"
+    | "PGLOGICAL_NODE_ALREADY_EXISTS"
+    | "INVALID_WAL_LEVEL"
+    | "INVALID_SHARED_PRELOAD_LIBRARY"
+    | "INSUFFICIENT_MAX_REPLICATION_SLOTS"
+    | "INSUFFICIENT_MAX_WAL_SENDERS"
+    | "INSUFFICIENT_MAX_WORKER_PROCESSES"
+    | "UNSUPPORTED_EXTENSIONS"
+    | "INVALID_RDS_LOGICAL_REPLICATION"
+    | "INVALID_LOGGING_SETUP"
+    | "INVALID_DB_PARAM"
+    | "UNSUPPORTED_GTID_MODE"
+    | "SQLSERVER_AGENT_NOT_RUNNING"
+    | "UNSUPPORTED_TABLE_DEFINITION"
+    | "UNSUPPORTED_DEFINER"
+    | "SQLSERVER_SERVERNAME_MISMATCH"
+    | "PRIMARY_ALREADY_SETUP"
+    | "UNSUPPORTED_BINLOG_FORMAT"
+    | "BINLOG_RETENTION_SETTING"
+    | "UNSUPPORTED_STORAGE_ENGINE"
+    | "LIMITED_SUPPORT_TABLES"
+    | "EXISTING_DATA_IN_REPLICA"
+    | "MISSING_OPTIONAL_PRIVILEGES"
+    | "RISKY_BACKUP_ADMIN_PRIVILEGE"
+    | "INSUFFICIENT_GCS_PERMISSIONS"
+    | "INVALID_FILE_INFO"
+    | "UNSUPPORTED_DATABASE_SETTINGS"
+    | "MYSQL_PARALLEL_IMPORT_INSUFFICIENT_PRIVILEGE"
+    | "LOCAL_INFILE_OFF"
+    | "TURN_ON_PITR_AFTER_PROMOTE"
+    | "INCOMPATIBLE_DATABASE_MINOR_VERSION"
+    | "SOURCE_MAX_SUBSCRIPTIONS"
+    | "UNABLE_TO_VERIFY_DEFINERS"
+    | "SUBSCRIPTION_CALCULATION_STATUS"
+    | "PG_SUBSCRIPTION_COUNT"
+    | "PG_SYNC_PARALLEL_LEVEL"
+    | "INSUFFICIENT_DISK_SIZE"
+    | "INSUFFICIENT_MACHINE_TIER"
+    | "UNSUPPORTED_EXTENSIONS_NOT_MIGRATED"
+    | "EXTENSIONS_NOT_MIGRATED"
+    | "PG_CRON_FLAG_ENABLED_IN_REPLICA"
+    | "EXTENSIONS_NOT_ENABLED_IN_REPLICA"
+    | "UNSUPPORTED_COLUMNS"
+    | "USERS_NOT_CREATED_IN_REPLICA"
+    | "UNSUPPORTED_SYSTEM_OBJECTS"
+    | "UNSUPPORTED_TABLES_WITH_REPLICA_IDENTITY"
+    | "SELECTED_OBJECTS_NOT_EXIST_ON_SOURCE"
+    | "PSC_ONLY_INSTANCE_WITH_NO_NETWORK_ATTACHMENT_URI"
+    | "SELECTED_OBJECTS_REFERENCE_UNSELECTED_OBJECTS"
+    | "PROMPT_DELETE_EXISTING"
+    | "WILL_DELETE_EXISTING"
+    | "PG_DDL_REPLICATION_INSUFFICIENT_PRIVILEGE"
+    | (string & {});
   /** Additional information about the error encountered. */
   detail?: string;
 }
 
-export const SqlExternalSyncSettingError: Schema.Schema<SqlExternalSyncSettingError> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  detail: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlExternalSyncSettingError" }) as any as Schema.Schema<SqlExternalSyncSettingError>;
+export const SqlExternalSyncSettingError: Schema.Schema<SqlExternalSyncSettingError> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      detail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlExternalSyncSettingError",
+  }) as any as Schema.Schema<SqlExternalSyncSettingError>;
 
 export interface SqlInstancesVerifyExternalSyncSettingsResponse {
   /** This is always `sql#migrationSettingErrorList`. */
@@ -1849,44 +2844,72 @@ export interface SqlInstancesVerifyExternalSyncSettingsResponse {
   warnings?: Array<SqlExternalSyncSettingError>;
 }
 
-export const SqlInstancesVerifyExternalSyncSettingsResponse: Schema.Schema<SqlInstancesVerifyExternalSyncSettingsResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  errors: Schema.optional(Schema.Array(SqlExternalSyncSettingError)),
-  warnings: Schema.optional(Schema.Array(SqlExternalSyncSettingError)),
-})).annotate({ identifier: "SqlInstancesVerifyExternalSyncSettingsResponse" }) as any as Schema.Schema<SqlInstancesVerifyExternalSyncSettingsResponse>;
+export const SqlInstancesVerifyExternalSyncSettingsResponse: Schema.Schema<SqlInstancesVerifyExternalSyncSettingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      errors: Schema.optional(Schema.Array(SqlExternalSyncSettingError)),
+      warnings: Schema.optional(Schema.Array(SqlExternalSyncSettingError)),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesVerifyExternalSyncSettingsResponse",
+  }) as any as Schema.Schema<SqlInstancesVerifyExternalSyncSettingsResponse>;
 
 export interface SqlInstancesStartExternalSyncRequest {
   /** External sync mode. */
-  syncMode?: "EXTERNAL_SYNC_MODE_UNSPECIFIED" | "ONLINE" | "OFFLINE" | (string & {});
+  syncMode?:
+    | "EXTERNAL_SYNC_MODE_UNSPECIFIED"
+    | "ONLINE"
+    | "OFFLINE"
+    | (string & {});
   /** Whether to skip the verification step (VESS). */
   skipVerification?: boolean;
   /** MySQL-specific settings for start external sync. */
   mysqlSyncConfig?: MySqlSyncConfig;
   /** Optional. Parallel level for initial data sync. Currently only applicable for MySQL. */
-  syncParallelLevel?: "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED" | "MIN" | "OPTIMAL" | "MAX" | (string & {});
+  syncParallelLevel?:
+    | "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED"
+    | "MIN"
+    | "OPTIMAL"
+    | "MAX"
+    | (string & {});
   /** Optional. MigrationType configures the migration to use physical files or logical dump files. If not set, then the logical dump file configuration is used. Valid values are `LOGICAL` or `PHYSICAL`. Only applicable to MySQL. */
-  migrationType?: "MIGRATION_TYPE_UNSPECIFIED" | "LOGICAL" | "PHYSICAL" | (string & {});
+  migrationType?:
+    | "MIGRATION_TYPE_UNSPECIFIED"
+    | "LOGICAL"
+    | "PHYSICAL"
+    | (string & {});
   /** Optional. MySQL only. True if end-user has confirmed that this SES call will wipe replica databases overlapping with the proposed selected_objects. If this field is not set and there are both overlapping and additional databases proposed, an error will be returned. */
   replicaOverwriteEnabled?: boolean;
 }
 
-export const SqlInstancesStartExternalSyncRequest: Schema.Schema<SqlInstancesStartExternalSyncRequest> = Schema.suspend(() => Schema.Struct({
-  syncMode: Schema.optional(Schema.String),
-  skipVerification: Schema.optional(Schema.Boolean),
-  mysqlSyncConfig: Schema.optional(MySqlSyncConfig),
-  syncParallelLevel: Schema.optional(Schema.String),
-  migrationType: Schema.optional(Schema.String),
-  replicaOverwriteEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SqlInstancesStartExternalSyncRequest" }) as any as Schema.Schema<SqlInstancesStartExternalSyncRequest>;
+export const SqlInstancesStartExternalSyncRequest: Schema.Schema<SqlInstancesStartExternalSyncRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      syncMode: Schema.optional(Schema.String),
+      skipVerification: Schema.optional(Schema.Boolean),
+      mysqlSyncConfig: Schema.optional(MySqlSyncConfig),
+      syncParallelLevel: Schema.optional(Schema.String),
+      migrationType: Schema.optional(Schema.String),
+      replicaOverwriteEnabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesStartExternalSyncRequest",
+  }) as any as Schema.Schema<SqlInstancesStartExternalSyncRequest>;
 
 export interface PerformDiskShrinkContext {
   /** The target disk shrink size in GigaBytes. */
   targetSizeGb?: string;
 }
 
-export const PerformDiskShrinkContext: Schema.Schema<PerformDiskShrinkContext> = Schema.suspend(() => Schema.Struct({
-  targetSizeGb: Schema.optional(Schema.String),
-})).annotate({ identifier: "PerformDiskShrinkContext" }) as any as Schema.Schema<PerformDiskShrinkContext>;
+export const PerformDiskShrinkContext: Schema.Schema<PerformDiskShrinkContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      targetSizeGb: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PerformDiskShrinkContext",
+  }) as any as Schema.Schema<PerformDiskShrinkContext>;
 
 export interface SqlInstancesGetDiskShrinkConfigResponse {
   /** This is always `sql#getDiskShrinkConfig`. */
@@ -1897,17 +2920,23 @@ export interface SqlInstancesGetDiskShrinkConfigResponse {
   message?: string;
 }
 
-export const SqlInstancesGetDiskShrinkConfigResponse: Schema.Schema<SqlInstancesGetDiskShrinkConfigResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  minimalTargetSizeGb: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlInstancesGetDiskShrinkConfigResponse" }) as any as Schema.Schema<SqlInstancesGetDiskShrinkConfigResponse>;
+export const SqlInstancesGetDiskShrinkConfigResponse: Schema.Schema<SqlInstancesGetDiskShrinkConfigResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      minimalTargetSizeGb: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesGetDiskShrinkConfigResponse",
+  }) as any as Schema.Schema<SqlInstancesGetDiskShrinkConfigResponse>;
 
-export interface SqlInstancesResetReplicaSizeRequest {
-}
+export interface SqlInstancesResetReplicaSizeRequest {}
 
-export const SqlInstancesResetReplicaSizeRequest: Schema.Schema<SqlInstancesResetReplicaSizeRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SqlInstancesResetReplicaSizeRequest" }) as any as Schema.Schema<SqlInstancesResetReplicaSizeRequest>;
+export const SqlInstancesResetReplicaSizeRequest: Schema.Schema<SqlInstancesResetReplicaSizeRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SqlInstancesResetReplicaSizeRequest",
+  }) as any as Schema.Schema<SqlInstancesResetReplicaSizeRequest>;
 
 export interface SqlInstancesGetLatestRecoveryTimeResponse {
   /** This is always `sql#getLatestRecoveryTime`. */
@@ -1918,11 +2947,16 @@ export interface SqlInstancesGetLatestRecoveryTimeResponse {
   earliestRecoveryTime?: string;
 }
 
-export const SqlInstancesGetLatestRecoveryTimeResponse: Schema.Schema<SqlInstancesGetLatestRecoveryTimeResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  latestRecoveryTime: Schema.optional(Schema.String),
-  earliestRecoveryTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlInstancesGetLatestRecoveryTimeResponse" }) as any as Schema.Schema<SqlInstancesGetLatestRecoveryTimeResponse>;
+export const SqlInstancesGetLatestRecoveryTimeResponse: Schema.Schema<SqlInstancesGetLatestRecoveryTimeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      latestRecoveryTime: Schema.optional(Schema.String),
+      earliestRecoveryTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesGetLatestRecoveryTimeResponse",
+  }) as any as Schema.Schema<SqlInstancesGetLatestRecoveryTimeResponse>;
 
 export interface ExecuteSqlPayload {
   /** Optional. The name of an existing database user to connect to the database. When `auto_iam_authn` is set to true, this field is ignored and the API caller's IAM user is used. */
@@ -1936,20 +2970,29 @@ export interface ExecuteSqlPayload {
   /** Optional. The maximum number of rows returned per SQL statement. */
   rowLimit?: string;
   /** Optional. Controls how the API should respond when the SQL execution result is incomplete due to the size limit or another error. The default mode is to throw an error. */
-  partialResultMode?: "PARTIAL_RESULT_MODE_UNSPECIFIED" | "FAIL_PARTIAL_RESULT" | "ALLOW_PARTIAL_RESULT" | (string & {});
+  partialResultMode?:
+    | "PARTIAL_RESULT_MODE_UNSPECIFIED"
+    | "FAIL_PARTIAL_RESULT"
+    | "ALLOW_PARTIAL_RESULT"
+    | (string & {});
   /** Optional. Specifies the name of the application that is making the request. This field is used for telemetry. Only alphanumeric characters, dashes, and underscores are allowed. The maximum length is 32 characters. */
   application?: string;
 }
 
-export const ExecuteSqlPayload: Schema.Schema<ExecuteSqlPayload> = Schema.suspend(() => Schema.Struct({
-  user: Schema.optional(Schema.String),
-  sqlStatement: Schema.optional(Schema.String),
-  database: Schema.optional(Schema.String),
-  autoIamAuthn: Schema.optional(Schema.Boolean),
-  rowLimit: Schema.optional(Schema.String),
-  partialResultMode: Schema.optional(Schema.String),
-  application: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExecuteSqlPayload" }) as any as Schema.Schema<ExecuteSqlPayload>;
+export const ExecuteSqlPayload: Schema.Schema<ExecuteSqlPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      user: Schema.optional(Schema.String),
+      sqlStatement: Schema.optional(Schema.String),
+      database: Schema.optional(Schema.String),
+      autoIamAuthn: Schema.optional(Schema.Boolean),
+      rowLimit: Schema.optional(Schema.String),
+      partialResultMode: Schema.optional(Schema.String),
+      application: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExecuteSqlPayload",
+  }) as any as Schema.Schema<ExecuteSqlPayload>;
 
 export interface Message {
   /** The full message string. For PostgreSQL, this is a formatted string that may include severity, code, and the notice/warning message. For MySQL, this contains the warning message. */
@@ -1958,19 +3001,23 @@ export interface Message {
   severity?: string;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-})).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface Metadata {
   /** The time taken to execute the SQL statements. */
   sqlStatementExecutionTime?: string;
 }
 
-export const Metadata: Schema.Schema<Metadata> = Schema.suspend(() => Schema.Struct({
-  sqlStatementExecutionTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
+export const Metadata: Schema.Schema<Metadata> = Schema.suspend(() =>
+  Schema.Struct({
+    sqlStatementExecutionTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
 
 export interface Column {
   /** Name of the column. */
@@ -1979,10 +3026,12 @@ export interface Column {
   type?: string;
 }
 
-export const Column: Schema.Schema<Column> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "Column" }) as any as Schema.Schema<Column>;
+export const Column: Schema.Schema<Column> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Column" }) as any as Schema.Schema<Column>;
 
 export interface Value {
   /** The cell value in string format. */
@@ -1991,19 +3040,23 @@ export interface Value {
   nullValue?: boolean;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  nullValue: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+    nullValue: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface Row {
   /** The values for the row. */
   values?: Array<Value>;
 }
 
-export const Row: Schema.Schema<Row> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Value)),
-})).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
+export const Row: Schema.Schema<Row> = Schema.suspend(() =>
+  Schema.Struct({
+    values: Schema.optional(Schema.Array(Value)),
+  }),
+).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -2014,11 +3067,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface QueryResult {
   /** List of columns included in the result. This also includes the data type of the column. */
@@ -2033,13 +3090,15 @@ export interface QueryResult {
   status?: Status;
 }
 
-export const QueryResult: Schema.Schema<QueryResult> = Schema.suspend(() => Schema.Struct({
-  columns: Schema.optional(Schema.Array(Column)),
-  rows: Schema.optional(Schema.Array(Row)),
-  message: Schema.optional(Schema.String),
-  partialResult: Schema.optional(Schema.Boolean),
-  status: Schema.optional(Status),
-})).annotate({ identifier: "QueryResult" }) as any as Schema.Schema<QueryResult>;
+export const QueryResult: Schema.Schema<QueryResult> = Schema.suspend(() =>
+  Schema.Struct({
+    columns: Schema.optional(Schema.Array(Column)),
+    rows: Schema.optional(Schema.Array(Row)),
+    message: Schema.optional(Schema.String),
+    partialResult: Schema.optional(Schema.Boolean),
+    status: Schema.optional(Status),
+  }),
+).annotate({ identifier: "QueryResult" }) as any as Schema.Schema<QueryResult>;
 
 export interface SqlInstancesExecuteSqlResponse {
   /** A list of notices and warnings generated during query execution. For PostgreSQL, this includes all notices and warnings. For MySQL, this includes warnings generated by the last executed statement. To retrieve all warnings for a multi-statement query, `SHOW WARNINGS` must be executed after each statement. */
@@ -2052,48 +3111,75 @@ export interface SqlInstancesExecuteSqlResponse {
   status?: Status;
 }
 
-export const SqlInstancesExecuteSqlResponse: Schema.Schema<SqlInstancesExecuteSqlResponse> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(Message)),
-  metadata: Schema.optional(Metadata),
-  results: Schema.optional(Schema.Array(QueryResult)),
-  status: Schema.optional(Status),
-})).annotate({ identifier: "SqlInstancesExecuteSqlResponse" }) as any as Schema.Schema<SqlInstancesExecuteSqlResponse>;
+export const SqlInstancesExecuteSqlResponse: Schema.Schema<SqlInstancesExecuteSqlResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(Message)),
+      metadata: Schema.optional(Metadata),
+      results: Schema.optional(Schema.Array(QueryResult)),
+      status: Schema.optional(Status),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesExecuteSqlResponse",
+  }) as any as Schema.Schema<SqlInstancesExecuteSqlResponse>;
 
 export interface InstancesAcquireSsrsLeaseRequest {
   /** Contains details about the acquire SSRS lease operation. */
   acquireSsrsLeaseContext?: AcquireSsrsLeaseContext;
 }
 
-export const InstancesAcquireSsrsLeaseRequest: Schema.Schema<InstancesAcquireSsrsLeaseRequest> = Schema.suspend(() => Schema.Struct({
-  acquireSsrsLeaseContext: Schema.optional(AcquireSsrsLeaseContext),
-})).annotate({ identifier: "InstancesAcquireSsrsLeaseRequest" }) as any as Schema.Schema<InstancesAcquireSsrsLeaseRequest>;
+export const InstancesAcquireSsrsLeaseRequest: Schema.Schema<InstancesAcquireSsrsLeaseRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      acquireSsrsLeaseContext: Schema.optional(AcquireSsrsLeaseContext),
+    }),
+  ).annotate({
+    identifier: "InstancesAcquireSsrsLeaseRequest",
+  }) as any as Schema.Schema<InstancesAcquireSsrsLeaseRequest>;
 
 export interface SqlInstancesAcquireSsrsLeaseResponse {
   /** The unique identifier for this operation. */
   operationId?: string;
 }
 
-export const SqlInstancesAcquireSsrsLeaseResponse: Schema.Schema<SqlInstancesAcquireSsrsLeaseResponse> = Schema.suspend(() => Schema.Struct({
-  operationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlInstancesAcquireSsrsLeaseResponse" }) as any as Schema.Schema<SqlInstancesAcquireSsrsLeaseResponse>;
+export const SqlInstancesAcquireSsrsLeaseResponse: Schema.Schema<SqlInstancesAcquireSsrsLeaseResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesAcquireSsrsLeaseResponse",
+  }) as any as Schema.Schema<SqlInstancesAcquireSsrsLeaseResponse>;
 
 export interface SqlInstancesReleaseSsrsLeaseResponse {
   /** The unique identifier for this operation. */
   operationId?: string;
 }
 
-export const SqlInstancesReleaseSsrsLeaseResponse: Schema.Schema<SqlInstancesReleaseSsrsLeaseResponse> = Schema.suspend(() => Schema.Struct({
-  operationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlInstancesReleaseSsrsLeaseResponse" }) as any as Schema.Schema<SqlInstancesReleaseSsrsLeaseResponse>;
+export const SqlInstancesReleaseSsrsLeaseResponse: Schema.Schema<SqlInstancesReleaseSsrsLeaseResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlInstancesReleaseSsrsLeaseResponse",
+  }) as any as Schema.Schema<SqlInstancesReleaseSsrsLeaseResponse>;
 
 export interface InstancesPreCheckMajorVersionUpgradeRequest {
   /** Required. Contains details about the pre-check major version upgrade operation. */
   preCheckMajorVersionUpgradeContext?: PreCheckMajorVersionUpgradeContext;
 }
 
-export const InstancesPreCheckMajorVersionUpgradeRequest: Schema.Schema<InstancesPreCheckMajorVersionUpgradeRequest> = Schema.suspend(() => Schema.Struct({
-  preCheckMajorVersionUpgradeContext: Schema.optional(PreCheckMajorVersionUpgradeContext),
-})).annotate({ identifier: "InstancesPreCheckMajorVersionUpgradeRequest" }) as any as Schema.Schema<InstancesPreCheckMajorVersionUpgradeRequest>;
+export const InstancesPreCheckMajorVersionUpgradeRequest: Schema.Schema<InstancesPreCheckMajorVersionUpgradeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      preCheckMajorVersionUpgradeContext: Schema.optional(
+        PreCheckMajorVersionUpgradeContext,
+      ),
+    }),
+  ).annotate({
+    identifier: "InstancesPreCheckMajorVersionUpgradeRequest",
+  }) as any as Schema.Schema<InstancesPreCheckMajorVersionUpgradeRequest>;
 
 export interface PointInTimeRestoreContext {
   /** The Backup and Disaster Recovery (DR) Service Datasource URI. Format: projects/{project}/locations/{region}/backupVaults/{backupvault}/dataSources/{datasource}. */
@@ -2112,21 +3198,37 @@ export interface PointInTimeRestoreContext {
   preferredSecondaryZone?: string;
 }
 
-export const PointInTimeRestoreContext: Schema.Schema<PointInTimeRestoreContext> = Schema.suspend(() => Schema.Struct({
-  datasource: Schema.optional(Schema.String),
-  pointInTime: Schema.optional(Schema.String),
-  targetInstance: Schema.optional(Schema.String),
-  privateNetwork: Schema.optional(Schema.String),
-  allocatedIpRange: Schema.optional(Schema.String),
-  preferredZone: Schema.optional(Schema.String),
-  preferredSecondaryZone: Schema.optional(Schema.String),
-})).annotate({ identifier: "PointInTimeRestoreContext" }) as any as Schema.Schema<PointInTimeRestoreContext>;
+export const PointInTimeRestoreContext: Schema.Schema<PointInTimeRestoreContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datasource: Schema.optional(Schema.String),
+      pointInTime: Schema.optional(Schema.String),
+      targetInstance: Schema.optional(Schema.String),
+      privateNetwork: Schema.optional(Schema.String),
+      allocatedIpRange: Schema.optional(Schema.String),
+      preferredZone: Schema.optional(Schema.String),
+      preferredSecondaryZone: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PointInTimeRestoreContext",
+  }) as any as Schema.Schema<PointInTimeRestoreContext>;
 
 export interface BackupRun {
   /** This is always `sql#backupRun`. */
   kind?: string;
   /** The status of this run. */
-  status?: "SQL_BACKUP_RUN_STATUS_UNSPECIFIED" | "ENQUEUED" | "OVERDUE" | "RUNNING" | "FAILED" | "SUCCESSFUL" | "SKIPPED" | "DELETION_PENDING" | "DELETION_FAILED" | "DELETED" | (string & {});
+  status?:
+    | "SQL_BACKUP_RUN_STATUS_UNSPECIFIED"
+    | "ENQUEUED"
+    | "OVERDUE"
+    | "RUNNING"
+    | "FAILED"
+    | "SUCCESSFUL"
+    | "SKIPPED"
+    | "DELETION_PENDING"
+    | "DELETION_FAILED"
+    | "DELETED"
+    | (string & {});
   /** The time the run was enqueued in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
   enqueuedTime?: string;
   /** The identifier for this backup run. Unique only for a specific Cloud SQL instance. */
@@ -2138,7 +3240,11 @@ export interface BackupRun {
   /** Information about why the backup operation failed. This is only present if the run has the FAILED status. */
   error?: OperationError;
   /** The type of this run; can be either "AUTOMATED" or "ON_DEMAND" or "FINAL". This field defaults to "ON_DEMAND" and is ignored, when specified for insert requests. */
-  type?: "SQL_BACKUP_RUN_TYPE_UNSPECIFIED" | "AUTOMATED" | "ON_DEMAND" | (string & {});
+  type?:
+    | "SQL_BACKUP_RUN_TYPE_UNSPECIFIED"
+    | "AUTOMATED"
+    | "ON_DEMAND"
+    | (string & {});
   /** The description of this run, only applicable to on-demand backups. */
   description?: string;
   /** The start time of the backup window during which this the backup was attempted in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
@@ -2150,40 +3256,101 @@ export interface BackupRun {
   /** Location of the backups. */
   location?: string;
   /** Output only. The instance database version at the time this backup was made. */
-  databaseVersion?: "SQL_DATABASE_VERSION_UNSPECIFIED" | "MYSQL_5_1" | "MYSQL_5_5" | "MYSQL_5_6" | "MYSQL_5_7" | "MYSQL_8_0" | "MYSQL_8_0_18" | "MYSQL_8_0_26" | "MYSQL_8_0_27" | "MYSQL_8_0_28" | "MYSQL_8_0_29" | "MYSQL_8_0_30" | "MYSQL_8_0_31" | "MYSQL_8_0_32" | "MYSQL_8_0_33" | "MYSQL_8_0_34" | "MYSQL_8_0_35" | "MYSQL_8_0_36" | "MYSQL_8_0_37" | "MYSQL_8_0_39" | "MYSQL_8_0_40" | "MYSQL_8_0_41" | "MYSQL_8_0_42" | "MYSQL_8_0_43" | "MYSQL_8_0_44" | "MYSQL_8_0_45" | "MYSQL_8_0_46" | "MYSQL_8_4" | "MYSQL_9_7" | "SQLSERVER_2017_STANDARD" | "SQLSERVER_2017_ENTERPRISE" | "SQLSERVER_2017_EXPRESS" | "SQLSERVER_2017_WEB" | "POSTGRES_9_6" | "POSTGRES_10" | "POSTGRES_11" | "POSTGRES_12" | "POSTGRES_13" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | "POSTGRES_17" | "POSTGRES_18" | "SQLSERVER_2019_STANDARD" | "SQLSERVER_2019_ENTERPRISE" | "SQLSERVER_2019_EXPRESS" | "SQLSERVER_2019_WEB" | "SQLSERVER_2022_STANDARD" | "SQLSERVER_2022_ENTERPRISE" | "SQLSERVER_2022_EXPRESS" | "SQLSERVER_2022_WEB" | "SQLSERVER_2025_STANDARD" | "SQLSERVER_2025_ENTERPRISE" | "SQLSERVER_2025_EXPRESS" | (string & {});
+  databaseVersion?:
+    | "SQL_DATABASE_VERSION_UNSPECIFIED"
+    | "MYSQL_5_1"
+    | "MYSQL_5_5"
+    | "MYSQL_5_6"
+    | "MYSQL_5_7"
+    | "MYSQL_8_0"
+    | "MYSQL_8_0_18"
+    | "MYSQL_8_0_26"
+    | "MYSQL_8_0_27"
+    | "MYSQL_8_0_28"
+    | "MYSQL_8_0_29"
+    | "MYSQL_8_0_30"
+    | "MYSQL_8_0_31"
+    | "MYSQL_8_0_32"
+    | "MYSQL_8_0_33"
+    | "MYSQL_8_0_34"
+    | "MYSQL_8_0_35"
+    | "MYSQL_8_0_36"
+    | "MYSQL_8_0_37"
+    | "MYSQL_8_0_39"
+    | "MYSQL_8_0_40"
+    | "MYSQL_8_0_41"
+    | "MYSQL_8_0_42"
+    | "MYSQL_8_0_43"
+    | "MYSQL_8_0_44"
+    | "MYSQL_8_0_45"
+    | "MYSQL_8_0_46"
+    | "MYSQL_8_4"
+    | "MYSQL_9_7"
+    | "SQLSERVER_2017_STANDARD"
+    | "SQLSERVER_2017_ENTERPRISE"
+    | "SQLSERVER_2017_EXPRESS"
+    | "SQLSERVER_2017_WEB"
+    | "POSTGRES_9_6"
+    | "POSTGRES_10"
+    | "POSTGRES_11"
+    | "POSTGRES_12"
+    | "POSTGRES_13"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | "POSTGRES_17"
+    | "POSTGRES_18"
+    | "SQLSERVER_2019_STANDARD"
+    | "SQLSERVER_2019_ENTERPRISE"
+    | "SQLSERVER_2019_EXPRESS"
+    | "SQLSERVER_2019_WEB"
+    | "SQLSERVER_2022_STANDARD"
+    | "SQLSERVER_2022_ENTERPRISE"
+    | "SQLSERVER_2022_EXPRESS"
+    | "SQLSERVER_2022_WEB"
+    | "SQLSERVER_2025_STANDARD"
+    | "SQLSERVER_2025_ENTERPRISE"
+    | "SQLSERVER_2025_EXPRESS"
+    | (string & {});
   /** Encryption configuration specific to a backup. */
   diskEncryptionConfiguration?: DiskEncryptionConfiguration;
   /** Encryption status specific to a backup. */
   diskEncryptionStatus?: DiskEncryptionStatus;
   /** Specifies the kind of backup, PHYSICAL or DEFAULT_SNAPSHOT. */
-  backupKind?: "SQL_BACKUP_KIND_UNSPECIFIED" | "SNAPSHOT" | "PHYSICAL" | (string & {});
+  backupKind?:
+    | "SQL_BACKUP_KIND_UNSPECIFIED"
+    | "SNAPSHOT"
+    | "PHYSICAL"
+    | (string & {});
   /** Backup time zone to prevent restores to an instance with a different time zone. Now relevant only for SQL Server. */
   timeZone?: string;
   /** Output only. The maximum chargeable bytes for the backup. */
   maxChargeableBytes?: string;
 }
 
-export const BackupRun: Schema.Schema<BackupRun> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  enqueuedTime: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  error: Schema.optional(OperationError),
-  type: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  windowStartTime: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  databaseVersion: Schema.optional(Schema.String),
-  diskEncryptionConfiguration: Schema.optional(DiskEncryptionConfiguration),
-  diskEncryptionStatus: Schema.optional(DiskEncryptionStatus),
-  backupKind: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-  maxChargeableBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupRun" }) as any as Schema.Schema<BackupRun>;
+export const BackupRun: Schema.Schema<BackupRun> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    enqueuedTime: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    error: Schema.optional(OperationError),
+    type: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    windowStartTime: Schema.optional(Schema.String),
+    instance: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    databaseVersion: Schema.optional(Schema.String),
+    diskEncryptionConfiguration: Schema.optional(DiskEncryptionConfiguration),
+    diskEncryptionStatus: Schema.optional(DiskEncryptionStatus),
+    backupKind: Schema.optional(Schema.String),
+    timeZone: Schema.optional(Schema.String),
+    maxChargeableBytes: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "BackupRun" }) as any as Schema.Schema<BackupRun>;
 
 export interface BackupRunsListResponse {
   /** This is always `sql#backupRunsList`. */
@@ -2194,11 +3361,16 @@ export interface BackupRunsListResponse {
   nextPageToken?: string;
 }
 
-export const BackupRunsListResponse: Schema.Schema<BackupRunsListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(BackupRun)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupRunsListResponse" }) as any as Schema.Schema<BackupRunsListResponse>;
+export const BackupRunsListResponse: Schema.Schema<BackupRunsListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(BackupRun)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BackupRunsListResponse",
+  }) as any as Schema.Schema<BackupRunsListResponse>;
 
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -2207,10 +3379,12 @@ export interface Interval {
   endTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface Backup {
   /** Output only. The resource name of the backup. Format: projects/{project}/backups/{backup}. */
@@ -2220,7 +3394,12 @@ export interface Backup {
   /** Output only. The URI of this resource. */
   selfLink?: string;
   /** Output only. The type of this backup. The type can be "AUTOMATED", "ON_DEMAND" or “FINAL”. */
-  type?: "SQL_BACKUP_TYPE_UNSPECIFIED" | "AUTOMATED" | "ON_DEMAND" | "FINAL" | (string & {});
+  type?:
+    | "SQL_BACKUP_TYPE_UNSPECIFIED"
+    | "AUTOMATED"
+    | "ON_DEMAND"
+    | "FINAL"
+    | (string & {});
   /** The description of this backup. */
   description?: string;
   /** The name of the source database instance. */
@@ -2230,7 +3409,15 @@ export interface Backup {
   /** Output only. This output contains the following values: start_time: All database writes up to this time are available. end_time: Any database writes after this time aren't available. */
   backupInterval?: Interval;
   /** Output only. The status of this backup. */
-  state?: "SQL_BACKUP_STATE_UNSPECIFIED" | "ENQUEUED" | "RUNNING" | "FAILED" | "SUCCESSFUL" | "DELETING" | "DELETION_FAILED" | (string & {});
+  state?:
+    | "SQL_BACKUP_STATE_UNSPECIFIED"
+    | "ENQUEUED"
+    | "RUNNING"
+    | "FAILED"
+    | "SUCCESSFUL"
+    | "DELETING"
+    | "DELETION_FAILED"
+    | (string & {});
   /** Output only. Information about why the backup operation fails (for example, when the backup state fails). */
   error?: OperationError;
   /** Output only. This output contains the encryption configuration for a backup and the resource name of the KMS key for disk encryption. */
@@ -2238,7 +3425,11 @@ export interface Backup {
   /** Output only. This output contains the encryption status for a backup and the version of the KMS key that's used to encrypt the Cloud SQL instance. */
   kmsKeyVersion?: string;
   /** Output only. Specifies the kind of backup, PHYSICAL or DEFAULT_SNAPSHOT. */
-  backupKind?: "SQL_BACKUP_KIND_UNSPECIFIED" | "SNAPSHOT" | "PHYSICAL" | (string & {});
+  backupKind?:
+    | "SQL_BACKUP_KIND_UNSPECIFIED"
+    | "SNAPSHOT"
+    | "PHYSICAL"
+    | (string & {});
   /** Output only. This output contains a backup time zone. If a Cloud SQL for SQL Server instance has a different time zone from the backup's time zone, then the restore to the instance doesn't happen. */
   timeZone?: string;
   /** Input only. The time-to-live (TTL) interval for this resource (in days). For example: ttlDays:7, means 7 days from the current time. The expiration time can't exceed 365 days from the time that the backup is created. */
@@ -2246,7 +3437,62 @@ export interface Backup {
   /** Backup expiration time. A UTC timestamp of when this backup expired. */
   expiryTime?: string;
   /** Output only. The database version of the instance of at the time this backup was made. */
-  databaseVersion?: "SQL_DATABASE_VERSION_UNSPECIFIED" | "MYSQL_5_1" | "MYSQL_5_5" | "MYSQL_5_6" | "MYSQL_5_7" | "MYSQL_8_0" | "MYSQL_8_0_18" | "MYSQL_8_0_26" | "MYSQL_8_0_27" | "MYSQL_8_0_28" | "MYSQL_8_0_29" | "MYSQL_8_0_30" | "MYSQL_8_0_31" | "MYSQL_8_0_32" | "MYSQL_8_0_33" | "MYSQL_8_0_34" | "MYSQL_8_0_35" | "MYSQL_8_0_36" | "MYSQL_8_0_37" | "MYSQL_8_0_39" | "MYSQL_8_0_40" | "MYSQL_8_0_41" | "MYSQL_8_0_42" | "MYSQL_8_0_43" | "MYSQL_8_0_44" | "MYSQL_8_0_45" | "MYSQL_8_0_46" | "MYSQL_8_4" | "MYSQL_9_7" | "SQLSERVER_2017_STANDARD" | "SQLSERVER_2017_ENTERPRISE" | "SQLSERVER_2017_EXPRESS" | "SQLSERVER_2017_WEB" | "POSTGRES_9_6" | "POSTGRES_10" | "POSTGRES_11" | "POSTGRES_12" | "POSTGRES_13" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | "POSTGRES_17" | "POSTGRES_18" | "SQLSERVER_2019_STANDARD" | "SQLSERVER_2019_ENTERPRISE" | "SQLSERVER_2019_EXPRESS" | "SQLSERVER_2019_WEB" | "SQLSERVER_2022_STANDARD" | "SQLSERVER_2022_ENTERPRISE" | "SQLSERVER_2022_EXPRESS" | "SQLSERVER_2022_WEB" | "SQLSERVER_2025_STANDARD" | "SQLSERVER_2025_ENTERPRISE" | "SQLSERVER_2025_EXPRESS" | (string & {});
+  databaseVersion?:
+    | "SQL_DATABASE_VERSION_UNSPECIFIED"
+    | "MYSQL_5_1"
+    | "MYSQL_5_5"
+    | "MYSQL_5_6"
+    | "MYSQL_5_7"
+    | "MYSQL_8_0"
+    | "MYSQL_8_0_18"
+    | "MYSQL_8_0_26"
+    | "MYSQL_8_0_27"
+    | "MYSQL_8_0_28"
+    | "MYSQL_8_0_29"
+    | "MYSQL_8_0_30"
+    | "MYSQL_8_0_31"
+    | "MYSQL_8_0_32"
+    | "MYSQL_8_0_33"
+    | "MYSQL_8_0_34"
+    | "MYSQL_8_0_35"
+    | "MYSQL_8_0_36"
+    | "MYSQL_8_0_37"
+    | "MYSQL_8_0_39"
+    | "MYSQL_8_0_40"
+    | "MYSQL_8_0_41"
+    | "MYSQL_8_0_42"
+    | "MYSQL_8_0_43"
+    | "MYSQL_8_0_44"
+    | "MYSQL_8_0_45"
+    | "MYSQL_8_0_46"
+    | "MYSQL_8_4"
+    | "MYSQL_9_7"
+    | "SQLSERVER_2017_STANDARD"
+    | "SQLSERVER_2017_ENTERPRISE"
+    | "SQLSERVER_2017_EXPRESS"
+    | "SQLSERVER_2017_WEB"
+    | "POSTGRES_9_6"
+    | "POSTGRES_10"
+    | "POSTGRES_11"
+    | "POSTGRES_12"
+    | "POSTGRES_13"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | "POSTGRES_17"
+    | "POSTGRES_18"
+    | "SQLSERVER_2019_STANDARD"
+    | "SQLSERVER_2019_ENTERPRISE"
+    | "SQLSERVER_2019_EXPRESS"
+    | "SQLSERVER_2019_WEB"
+    | "SQLSERVER_2022_STANDARD"
+    | "SQLSERVER_2022_ENTERPRISE"
+    | "SQLSERVER_2022_EXPRESS"
+    | "SQLSERVER_2022_WEB"
+    | "SQLSERVER_2025_STANDARD"
+    | "SQLSERVER_2025_ENTERPRISE"
+    | "SQLSERVER_2025_EXPRESS"
+    | (string & {});
   /** Output only. The maximum chargeable bytes for the backup. */
   maxChargeableBytes?: string;
   /** Optional. Output only. Timestamp in UTC of when the instance associated with this backup is deleted. */
@@ -2261,31 +3507,33 @@ export interface Backup {
   satisfiesPzi?: boolean;
 }
 
-export const Backup: Schema.Schema<Backup> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  backupInterval: Schema.optional(Interval),
-  state: Schema.optional(Schema.String),
-  error: Schema.optional(OperationError),
-  kmsKey: Schema.optional(Schema.String),
-  kmsKeyVersion: Schema.optional(Schema.String),
-  backupKind: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-  ttlDays: Schema.optional(Schema.String),
-  expiryTime: Schema.optional(Schema.String),
-  databaseVersion: Schema.optional(Schema.String),
-  maxChargeableBytes: Schema.optional(Schema.String),
-  instanceDeletionTime: Schema.optional(Schema.String),
-  instanceSettings: Schema.optional(DatabaseInstance),
-  backupRun: Schema.optional(Schema.String),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Backup" }) as any as Schema.Schema<Backup>;
+export const Backup: Schema.Schema<Backup> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    instance: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    backupInterval: Schema.optional(Interval),
+    state: Schema.optional(Schema.String),
+    error: Schema.optional(OperationError),
+    kmsKey: Schema.optional(Schema.String),
+    kmsKeyVersion: Schema.optional(Schema.String),
+    backupKind: Schema.optional(Schema.String),
+    timeZone: Schema.optional(Schema.String),
+    ttlDays: Schema.optional(Schema.String),
+    expiryTime: Schema.optional(Schema.String),
+    databaseVersion: Schema.optional(Schema.String),
+    maxChargeableBytes: Schema.optional(Schema.String),
+    instanceDeletionTime: Schema.optional(Schema.String),
+    instanceSettings: Schema.optional(DatabaseInstance),
+    backupRun: Schema.optional(Schema.String),
+    satisfiesPzs: Schema.optional(Schema.Boolean),
+    satisfiesPzi: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Backup" }) as any as Schema.Schema<Backup>;
 
 export interface ListBackupsResponse {
   /** A list of backups. */
@@ -2296,11 +3544,16 @@ export interface ListBackupsResponse {
   warnings?: Array<ApiWarning>;
 }
 
-export const ListBackupsResponse: Schema.Schema<ListBackupsResponse> = Schema.suspend(() => Schema.Struct({
-  backups: Schema.optional(Schema.Array(Backup)),
-  nextPageToken: Schema.optional(Schema.String),
-  warnings: Schema.optional(Schema.Array(ApiWarning)),
-})).annotate({ identifier: "ListBackupsResponse" }) as any as Schema.Schema<ListBackupsResponse>;
+export const ListBackupsResponse: Schema.Schema<ListBackupsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backups: Schema.optional(Schema.Array(Backup)),
+      nextPageToken: Schema.optional(Schema.String),
+      warnings: Schema.optional(Schema.Array(ApiWarning)),
+    }),
+  ).annotate({
+    identifier: "ListBackupsResponse",
+  }) as any as Schema.Schema<ListBackupsResponse>;
 
 export interface ConnectPoolNodeConfig {
   /** Output only. The name of the read pool node. Doesn't include the project ID. */
@@ -2313,12 +3566,17 @@ export interface ConnectPoolNodeConfig {
   dnsNames?: Array<DnsNameMapping>;
 }
 
-export const ConnectPoolNodeConfig: Schema.Schema<ConnectPoolNodeConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  ipAddresses: Schema.optional(Schema.Array(IpMapping)),
-  dnsName: Schema.optional(Schema.String),
-  dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
-})).annotate({ identifier: "ConnectPoolNodeConfig" }) as any as Schema.Schema<ConnectPoolNodeConfig>;
+export const ConnectPoolNodeConfig: Schema.Schema<ConnectPoolNodeConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      ipAddresses: Schema.optional(Schema.Array(IpMapping)),
+      dnsName: Schema.optional(Schema.String),
+      dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
+    }),
+  ).annotate({
+    identifier: "ConnectPoolNodeConfig",
+  }) as any as Schema.Schema<ConnectPoolNodeConfig>;
 
 export interface ConnectSettings {
   /** This is always `sql#connectSettings`. */
@@ -2330,15 +3588,80 @@ export interface ConnectSettings {
   /** The cloud region for the instance. For example, `us-central1`, `europe-west1`. The region cannot be changed after instance creation. */
   region?: string;
   /** The database engine type and version. The `databaseVersion` field cannot be changed after instance creation. MySQL instances: `MYSQL_8_0`, `MYSQL_5_7` (default), or `MYSQL_5_6`. PostgreSQL instances: `POSTGRES_9_6`, `POSTGRES_10`, `POSTGRES_11`, `POSTGRES_12` (default), `POSTGRES_13`, or `POSTGRES_14`. SQL Server instances: `SQLSERVER_2017_STANDARD` (default), `SQLSERVER_2017_ENTERPRISE`, `SQLSERVER_2017_EXPRESS`, `SQLSERVER_2017_WEB`, `SQLSERVER_2019_STANDARD`, `SQLSERVER_2019_ENTERPRISE`, `SQLSERVER_2019_EXPRESS`, or `SQLSERVER_2019_WEB`. */
-  databaseVersion?: "SQL_DATABASE_VERSION_UNSPECIFIED" | "MYSQL_5_1" | "MYSQL_5_5" | "MYSQL_5_6" | "MYSQL_5_7" | "MYSQL_8_0" | "MYSQL_8_0_18" | "MYSQL_8_0_26" | "MYSQL_8_0_27" | "MYSQL_8_0_28" | "MYSQL_8_0_29" | "MYSQL_8_0_30" | "MYSQL_8_0_31" | "MYSQL_8_0_32" | "MYSQL_8_0_33" | "MYSQL_8_0_34" | "MYSQL_8_0_35" | "MYSQL_8_0_36" | "MYSQL_8_0_37" | "MYSQL_8_0_39" | "MYSQL_8_0_40" | "MYSQL_8_0_41" | "MYSQL_8_0_42" | "MYSQL_8_0_43" | "MYSQL_8_0_44" | "MYSQL_8_0_45" | "MYSQL_8_0_46" | "MYSQL_8_4" | "MYSQL_9_7" | "SQLSERVER_2017_STANDARD" | "SQLSERVER_2017_ENTERPRISE" | "SQLSERVER_2017_EXPRESS" | "SQLSERVER_2017_WEB" | "POSTGRES_9_6" | "POSTGRES_10" | "POSTGRES_11" | "POSTGRES_12" | "POSTGRES_13" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | "POSTGRES_17" | "POSTGRES_18" | "SQLSERVER_2019_STANDARD" | "SQLSERVER_2019_ENTERPRISE" | "SQLSERVER_2019_EXPRESS" | "SQLSERVER_2019_WEB" | "SQLSERVER_2022_STANDARD" | "SQLSERVER_2022_ENTERPRISE" | "SQLSERVER_2022_EXPRESS" | "SQLSERVER_2022_WEB" | "SQLSERVER_2025_STANDARD" | "SQLSERVER_2025_ENTERPRISE" | "SQLSERVER_2025_EXPRESS" | (string & {});
+  databaseVersion?:
+    | "SQL_DATABASE_VERSION_UNSPECIFIED"
+    | "MYSQL_5_1"
+    | "MYSQL_5_5"
+    | "MYSQL_5_6"
+    | "MYSQL_5_7"
+    | "MYSQL_8_0"
+    | "MYSQL_8_0_18"
+    | "MYSQL_8_0_26"
+    | "MYSQL_8_0_27"
+    | "MYSQL_8_0_28"
+    | "MYSQL_8_0_29"
+    | "MYSQL_8_0_30"
+    | "MYSQL_8_0_31"
+    | "MYSQL_8_0_32"
+    | "MYSQL_8_0_33"
+    | "MYSQL_8_0_34"
+    | "MYSQL_8_0_35"
+    | "MYSQL_8_0_36"
+    | "MYSQL_8_0_37"
+    | "MYSQL_8_0_39"
+    | "MYSQL_8_0_40"
+    | "MYSQL_8_0_41"
+    | "MYSQL_8_0_42"
+    | "MYSQL_8_0_43"
+    | "MYSQL_8_0_44"
+    | "MYSQL_8_0_45"
+    | "MYSQL_8_0_46"
+    | "MYSQL_8_4"
+    | "MYSQL_9_7"
+    | "SQLSERVER_2017_STANDARD"
+    | "SQLSERVER_2017_ENTERPRISE"
+    | "SQLSERVER_2017_EXPRESS"
+    | "SQLSERVER_2017_WEB"
+    | "POSTGRES_9_6"
+    | "POSTGRES_10"
+    | "POSTGRES_11"
+    | "POSTGRES_12"
+    | "POSTGRES_13"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | "POSTGRES_17"
+    | "POSTGRES_18"
+    | "SQLSERVER_2019_STANDARD"
+    | "SQLSERVER_2019_ENTERPRISE"
+    | "SQLSERVER_2019_EXPRESS"
+    | "SQLSERVER_2019_WEB"
+    | "SQLSERVER_2022_STANDARD"
+    | "SQLSERVER_2022_ENTERPRISE"
+    | "SQLSERVER_2022_EXPRESS"
+    | "SQLSERVER_2022_WEB"
+    | "SQLSERVER_2025_STANDARD"
+    | "SQLSERVER_2025_ENTERPRISE"
+    | "SQLSERVER_2025_EXPRESS"
+    | (string & {});
   /** `SECOND_GEN`: Cloud SQL database instance. `EXTERNAL`: A database server that is not managed by Google. This property is read-only; use the `tier` property in the `settings` object to determine the database type. */
-  backendType?: "SQL_BACKEND_TYPE_UNSPECIFIED" | "FIRST_GEN" | "SECOND_GEN" | "EXTERNAL" | (string & {});
+  backendType?:
+    | "SQL_BACKEND_TYPE_UNSPECIFIED"
+    | "FIRST_GEN"
+    | "SECOND_GEN"
+    | "EXTERNAL"
+    | (string & {});
   /** Whether PSC connectivity is enabled for this instance. */
   pscEnabled?: boolean;
   /** The dns name of the instance. */
   dnsName?: string;
   /** Specify what type of CA is used for the server certificate. */
-  serverCaMode?: "CA_MODE_UNSPECIFIED" | "GOOGLE_MANAGED_INTERNAL_CA" | "GOOGLE_MANAGED_CAS_CA" | "CUSTOMER_MANAGED_CAS_CA" | (string & {});
+  serverCaMode?:
+    | "CA_MODE_UNSPECIFIED"
+    | "GOOGLE_MANAGED_INTERNAL_CA"
+    | "GOOGLE_MANAGED_CAS_CA"
+    | "CUSTOMER_MANAGED_CAS_CA"
+    | (string & {});
   /** Custom subject alternative names for the server certificate. */
   customSubjectAlternativeNames?: Array<string>;
   /** Output only. The list of DNS names used by this instance. */
@@ -2348,25 +3671,34 @@ export interface ConnectSettings {
   /** Output only. Entries containing information about each read pool node of the read pool. */
   nodes?: Array<ConnectPoolNodeConfig>;
   /** Optional. Output only. mdx_protocol_support controls how the client uses metadata exchange when connecting to the instance. The values in the list representing parts of the MDX protocol that are supported by this instance. When the list is empty, the instance does not support MDX, so the client must not send an MDX request. The default is empty. */
-  mdxProtocolSupport?: Array<"MDX_PROTOCOL_SUPPORT_UNSPECIFIED" | "CLIENT_PROTOCOL_TYPE" | (string & {})>;
+  mdxProtocolSupport?: Array<
+    "MDX_PROTOCOL_SUPPORT_UNSPECIFIED" | "CLIENT_PROTOCOL_TYPE" | (string & {})
+  >;
 }
 
-export const ConnectSettings: Schema.Schema<ConnectSettings> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  serverCaCert: Schema.optional(SslCert),
-  ipAddresses: Schema.optional(Schema.Array(IpMapping)),
-  region: Schema.optional(Schema.String),
-  databaseVersion: Schema.optional(Schema.String),
-  backendType: Schema.optional(Schema.String),
-  pscEnabled: Schema.optional(Schema.Boolean),
-  dnsName: Schema.optional(Schema.String),
-  serverCaMode: Schema.optional(Schema.String),
-  customSubjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
-  dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
-  nodeCount: Schema.optional(Schema.Number),
-  nodes: Schema.optional(Schema.Array(ConnectPoolNodeConfig)),
-  mdxProtocolSupport: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ConnectSettings" }) as any as Schema.Schema<ConnectSettings>;
+export const ConnectSettings: Schema.Schema<ConnectSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      serverCaCert: Schema.optional(SslCert),
+      ipAddresses: Schema.optional(Schema.Array(IpMapping)),
+      region: Schema.optional(Schema.String),
+      databaseVersion: Schema.optional(Schema.String),
+      backendType: Schema.optional(Schema.String),
+      pscEnabled: Schema.optional(Schema.Boolean),
+      dnsName: Schema.optional(Schema.String),
+      serverCaMode: Schema.optional(Schema.String),
+      customSubjectAlternativeNames: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      dnsNames: Schema.optional(Schema.Array(DnsNameMapping)),
+      nodeCount: Schema.optional(Schema.Number),
+      nodes: Schema.optional(Schema.Array(ConnectPoolNodeConfig)),
+      mdxProtocolSupport: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "ConnectSettings",
+}) as any as Schema.Schema<ConnectSettings>;
 
 export interface GenerateEphemeralCertRequest {
   /** PEM encoded public key to include in the signed certificate. */
@@ -2379,21 +3711,31 @@ export interface GenerateEphemeralCertRequest {
   validDuration?: string;
 }
 
-export const GenerateEphemeralCertRequest: Schema.Schema<GenerateEphemeralCertRequest> = Schema.suspend(() => Schema.Struct({
-  public_key: Schema.optional(Schema.String),
-  access_token: Schema.optional(Schema.String),
-  readTime: Schema.optional(Schema.String),
-  validDuration: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateEphemeralCertRequest" }) as any as Schema.Schema<GenerateEphemeralCertRequest>;
+export const GenerateEphemeralCertRequest: Schema.Schema<GenerateEphemeralCertRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      public_key: Schema.optional(Schema.String),
+      access_token: Schema.optional(Schema.String),
+      readTime: Schema.optional(Schema.String),
+      validDuration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateEphemeralCertRequest",
+  }) as any as Schema.Schema<GenerateEphemeralCertRequest>;
 
 export interface GenerateEphemeralCertResponse {
   /** Generated cert */
   ephemeralCert?: SslCert;
 }
 
-export const GenerateEphemeralCertResponse: Schema.Schema<GenerateEphemeralCertResponse> = Schema.suspend(() => Schema.Struct({
-  ephemeralCert: Schema.optional(SslCert),
-})).annotate({ identifier: "GenerateEphemeralCertResponse" }) as any as Schema.Schema<GenerateEphemeralCertResponse>;
+export const GenerateEphemeralCertResponse: Schema.Schema<GenerateEphemeralCertResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ephemeralCert: Schema.optional(SslCert),
+    }),
+  ).annotate({
+    identifier: "GenerateEphemeralCertResponse",
+  }) as any as Schema.Schema<GenerateEphemeralCertResponse>;
 
 export interface SqlServerDatabaseDetails {
   /** The version of SQL Server with which the database is to be made compatible */
@@ -2402,10 +3744,15 @@ export interface SqlServerDatabaseDetails {
   recoveryModel?: string;
 }
 
-export const SqlServerDatabaseDetails: Schema.Schema<SqlServerDatabaseDetails> = Schema.suspend(() => Schema.Struct({
-  compatibilityLevel: Schema.optional(Schema.Number),
-  recoveryModel: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerDatabaseDetails" }) as any as Schema.Schema<SqlServerDatabaseDetails>;
+export const SqlServerDatabaseDetails: Schema.Schema<SqlServerDatabaseDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      compatibilityLevel: Schema.optional(Schema.Number),
+      recoveryModel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlServerDatabaseDetails",
+  }) as any as Schema.Schema<SqlServerDatabaseDetails>;
 
 export interface Database {
   /** This is always `sql#database`. */
@@ -2427,17 +3774,19 @@ export interface Database {
   sqlserverDatabaseDetails?: SqlServerDatabaseDetails;
 }
 
-export const Database: Schema.Schema<Database> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  charset: Schema.optional(Schema.String),
-  collation: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  sqlserverDatabaseDetails: Schema.optional(SqlServerDatabaseDetails),
-})).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
+export const Database: Schema.Schema<Database> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    charset: Schema.optional(Schema.String),
+    collation: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    instance: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    project: Schema.optional(Schema.String),
+    sqlserverDatabaseDetails: Schema.optional(SqlServerDatabaseDetails),
+  }),
+).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
 
 export interface DatabasesListResponse {
   /** This is always `sql#databasesList`. */
@@ -2446,18 +3795,88 @@ export interface DatabasesListResponse {
   items?: Array<Database>;
 }
 
-export const DatabasesListResponse: Schema.Schema<DatabasesListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Database)),
-})).annotate({ identifier: "DatabasesListResponse" }) as any as Schema.Schema<DatabasesListResponse>;
+export const DatabasesListResponse: Schema.Schema<DatabasesListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Database)),
+    }),
+  ).annotate({
+    identifier: "DatabasesListResponse",
+  }) as any as Schema.Schema<DatabasesListResponse>;
 
 export interface Flag {
   /** This is the name of the flag. Flag names always use underscores, not hyphens, for example: `max_allowed_packet` */
   name?: string;
   /** The type of the flag. Flags are typed to being `BOOLEAN`, `STRING`, `INTEGER` or `NONE`. `NONE` is used for flags that do not take a value, such as `skip_grant_tables`. */
-  type?: "SQL_FLAG_TYPE_UNSPECIFIED" | "BOOLEAN" | "STRING" | "INTEGER" | "NONE" | "MYSQL_TIMEZONE_OFFSET" | "FLOAT" | "REPEATED_STRING" | (string & {});
+  type?:
+    | "SQL_FLAG_TYPE_UNSPECIFIED"
+    | "BOOLEAN"
+    | "STRING"
+    | "INTEGER"
+    | "NONE"
+    | "MYSQL_TIMEZONE_OFFSET"
+    | "FLOAT"
+    | "REPEATED_STRING"
+    | (string & {});
   /** The database version this flag applies to. Can be MySQL instances: `MYSQL_8_0`, `MYSQL_8_0_18`, `MYSQL_8_0_26`, `MYSQL_5_7`, or `MYSQL_5_6`. PostgreSQL instances: `POSTGRES_9_6`, `POSTGRES_10`, `POSTGRES_11` or `POSTGRES_12`. SQL Server instances: `SQLSERVER_2017_STANDARD`, `SQLSERVER_2017_ENTERPRISE`, `SQLSERVER_2017_EXPRESS`, `SQLSERVER_2017_WEB`, `SQLSERVER_2019_STANDARD`, `SQLSERVER_2019_ENTERPRISE`, `SQLSERVER_2019_EXPRESS`, or `SQLSERVER_2019_WEB`. See [the complete list](/sql/docs/mysql/admin-api/rest/v1/SqlDatabaseVersion). */
-  appliesTo?: Array<"SQL_DATABASE_VERSION_UNSPECIFIED" | "MYSQL_5_1" | "MYSQL_5_5" | "MYSQL_5_6" | "MYSQL_5_7" | "MYSQL_8_0" | "MYSQL_8_0_18" | "MYSQL_8_0_26" | "MYSQL_8_0_27" | "MYSQL_8_0_28" | "MYSQL_8_0_29" | "MYSQL_8_0_30" | "MYSQL_8_0_31" | "MYSQL_8_0_32" | "MYSQL_8_0_33" | "MYSQL_8_0_34" | "MYSQL_8_0_35" | "MYSQL_8_0_36" | "MYSQL_8_0_37" | "MYSQL_8_0_39" | "MYSQL_8_0_40" | "MYSQL_8_0_41" | "MYSQL_8_0_42" | "MYSQL_8_0_43" | "MYSQL_8_0_44" | "MYSQL_8_0_45" | "MYSQL_8_0_46" | "MYSQL_8_4" | "MYSQL_9_7" | "SQLSERVER_2017_STANDARD" | "SQLSERVER_2017_ENTERPRISE" | "SQLSERVER_2017_EXPRESS" | "SQLSERVER_2017_WEB" | "POSTGRES_9_6" | "POSTGRES_10" | "POSTGRES_11" | "POSTGRES_12" | "POSTGRES_13" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | "POSTGRES_17" | "POSTGRES_18" | "SQLSERVER_2019_STANDARD" | "SQLSERVER_2019_ENTERPRISE" | "SQLSERVER_2019_EXPRESS" | "SQLSERVER_2019_WEB" | "SQLSERVER_2022_STANDARD" | "SQLSERVER_2022_ENTERPRISE" | "SQLSERVER_2022_EXPRESS" | "SQLSERVER_2022_WEB" | "SQLSERVER_2025_STANDARD" | "SQLSERVER_2025_ENTERPRISE" | "SQLSERVER_2025_EXPRESS" | (string & {})>;
+  appliesTo?: Array<
+    | "SQL_DATABASE_VERSION_UNSPECIFIED"
+    | "MYSQL_5_1"
+    | "MYSQL_5_5"
+    | "MYSQL_5_6"
+    | "MYSQL_5_7"
+    | "MYSQL_8_0"
+    | "MYSQL_8_0_18"
+    | "MYSQL_8_0_26"
+    | "MYSQL_8_0_27"
+    | "MYSQL_8_0_28"
+    | "MYSQL_8_0_29"
+    | "MYSQL_8_0_30"
+    | "MYSQL_8_0_31"
+    | "MYSQL_8_0_32"
+    | "MYSQL_8_0_33"
+    | "MYSQL_8_0_34"
+    | "MYSQL_8_0_35"
+    | "MYSQL_8_0_36"
+    | "MYSQL_8_0_37"
+    | "MYSQL_8_0_39"
+    | "MYSQL_8_0_40"
+    | "MYSQL_8_0_41"
+    | "MYSQL_8_0_42"
+    | "MYSQL_8_0_43"
+    | "MYSQL_8_0_44"
+    | "MYSQL_8_0_45"
+    | "MYSQL_8_0_46"
+    | "MYSQL_8_4"
+    | "MYSQL_9_7"
+    | "SQLSERVER_2017_STANDARD"
+    | "SQLSERVER_2017_ENTERPRISE"
+    | "SQLSERVER_2017_EXPRESS"
+    | "SQLSERVER_2017_WEB"
+    | "POSTGRES_9_6"
+    | "POSTGRES_10"
+    | "POSTGRES_11"
+    | "POSTGRES_12"
+    | "POSTGRES_13"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | "POSTGRES_17"
+    | "POSTGRES_18"
+    | "SQLSERVER_2019_STANDARD"
+    | "SQLSERVER_2019_ENTERPRISE"
+    | "SQLSERVER_2019_EXPRESS"
+    | "SQLSERVER_2019_WEB"
+    | "SQLSERVER_2022_STANDARD"
+    | "SQLSERVER_2022_ENTERPRISE"
+    | "SQLSERVER_2022_EXPRESS"
+    | "SQLSERVER_2022_WEB"
+    | "SQLSERVER_2025_STANDARD"
+    | "SQLSERVER_2025_ENTERPRISE"
+    | "SQLSERVER_2025_EXPRESS"
+    | (string & {})
+  >;
   /** For `STRING` flags, a list of strings that the value can be set to. */
   allowedStringValues?: Array<string>;
   /** For `INTEGER` flags, the minimum allowed value. */
@@ -2473,28 +3892,34 @@ export interface Flag {
   /** Use this field if only certain integers are accepted. Can be combined with min_value and max_value to add additional values. */
   allowedIntValues?: Array<string>;
   /** Scope of flag. */
-  flagScope?: "SQL_FLAG_SCOPE_UNSPECIFIED" | "SQL_FLAG_SCOPE_DATABASE" | "SQL_FLAG_SCOPE_CONNECTION_POOL" | (string & {});
+  flagScope?:
+    | "SQL_FLAG_SCOPE_UNSPECIFIED"
+    | "SQL_FLAG_SCOPE_DATABASE"
+    | "SQL_FLAG_SCOPE_CONNECTION_POOL"
+    | (string & {});
   /** Recommended string value in string format for UI display. */
   recommendedStringValue?: string;
   /** Recommended int value in integer format for UI display. */
   recommendedIntValue?: string;
 }
 
-export const Flag: Schema.Schema<Flag> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  appliesTo: Schema.optional(Schema.Array(Schema.String)),
-  allowedStringValues: Schema.optional(Schema.Array(Schema.String)),
-  minValue: Schema.optional(Schema.String),
-  maxValue: Schema.optional(Schema.String),
-  requiresRestart: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  inBeta: Schema.optional(Schema.Boolean),
-  allowedIntValues: Schema.optional(Schema.Array(Schema.String)),
-  flagScope: Schema.optional(Schema.String),
-  recommendedStringValue: Schema.optional(Schema.String),
-  recommendedIntValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "Flag" }) as any as Schema.Schema<Flag>;
+export const Flag: Schema.Schema<Flag> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    appliesTo: Schema.optional(Schema.Array(Schema.String)),
+    allowedStringValues: Schema.optional(Schema.Array(Schema.String)),
+    minValue: Schema.optional(Schema.String),
+    maxValue: Schema.optional(Schema.String),
+    requiresRestart: Schema.optional(Schema.Boolean),
+    kind: Schema.optional(Schema.String),
+    inBeta: Schema.optional(Schema.Boolean),
+    allowedIntValues: Schema.optional(Schema.Array(Schema.String)),
+    flagScope: Schema.optional(Schema.String),
+    recommendedStringValue: Schema.optional(Schema.String),
+    recommendedIntValue: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Flag" }) as any as Schema.Schema<Flag>;
 
 export interface FlagsListResponse {
   /** This is always `sql#flagsList`. */
@@ -2503,10 +3928,15 @@ export interface FlagsListResponse {
   items?: Array<Flag>;
 }
 
-export const FlagsListResponse: Schema.Schema<FlagsListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Flag)),
-})).annotate({ identifier: "FlagsListResponse" }) as any as Schema.Schema<FlagsListResponse>;
+export const FlagsListResponse: Schema.Schema<FlagsListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Flag)),
+    }),
+  ).annotate({
+    identifier: "FlagsListResponse",
+  }) as any as Schema.Schema<FlagsListResponse>;
 
 export interface OperationsListResponse {
   /** This is always `sql#operationsList`. */
@@ -2517,26 +3947,36 @@ export interface OperationsListResponse {
   nextPageToken?: string;
 }
 
-export const OperationsListResponse: Schema.Schema<OperationsListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationsListResponse" }) as any as Schema.Schema<OperationsListResponse>;
+export const OperationsListResponse: Schema.Schema<OperationsListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationsListResponse",
+  }) as any as Schema.Schema<OperationsListResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface SslCertsInsertRequest {
   /** User supplied name. Must be a distinct name from the other certificates for this instance. */
   commonName?: string;
 }
 
-export const SslCertsInsertRequest: Schema.Schema<SslCertsInsertRequest> = Schema.suspend(() => Schema.Struct({
-  commonName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SslCertsInsertRequest" }) as any as Schema.Schema<SslCertsInsertRequest>;
+export const SslCertsInsertRequest: Schema.Schema<SslCertsInsertRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commonName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SslCertsInsertRequest",
+  }) as any as Schema.Schema<SslCertsInsertRequest>;
 
 export interface SslCertDetail {
   /** The public information about the cert. */
@@ -2545,10 +3985,14 @@ export interface SslCertDetail {
   certPrivateKey?: string;
 }
 
-export const SslCertDetail: Schema.Schema<SslCertDetail> = Schema.suspend(() => Schema.Struct({
-  certInfo: Schema.optional(SslCert),
-  certPrivateKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "SslCertDetail" }) as any as Schema.Schema<SslCertDetail>;
+export const SslCertDetail: Schema.Schema<SslCertDetail> = Schema.suspend(() =>
+  Schema.Struct({
+    certInfo: Schema.optional(SslCert),
+    certPrivateKey: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SslCertDetail",
+}) as any as Schema.Schema<SslCertDetail>;
 
 export interface SslCertsInsertResponse {
   /** This is always `sql#sslCertsInsert`. */
@@ -2561,12 +4005,17 @@ export interface SslCertsInsertResponse {
   clientCert?: SslCertDetail;
 }
 
-export const SslCertsInsertResponse: Schema.Schema<SslCertsInsertResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  operation: Schema.optional(Operation),
-  serverCaCert: Schema.optional(SslCert),
-  clientCert: Schema.optional(SslCertDetail),
-})).annotate({ identifier: "SslCertsInsertResponse" }) as any as Schema.Schema<SslCertsInsertResponse>;
+export const SslCertsInsertResponse: Schema.Schema<SslCertsInsertResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      operation: Schema.optional(Operation),
+      serverCaCert: Schema.optional(SslCert),
+      clientCert: Schema.optional(SslCertDetail),
+    }),
+  ).annotate({
+    identifier: "SslCertsInsertResponse",
+  }) as any as Schema.Schema<SslCertsInsertResponse>;
 
 export interface SslCertsListResponse {
   /** This is always `sql#sslCertsList`. */
@@ -2575,10 +4024,15 @@ export interface SslCertsListResponse {
   items?: Array<SslCert>;
 }
 
-export const SslCertsListResponse: Schema.Schema<SslCertsListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(SslCert)),
-})).annotate({ identifier: "SslCertsListResponse" }) as any as Schema.Schema<SslCertsListResponse>;
+export const SslCertsListResponse: Schema.Schema<SslCertsListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(SslCert)),
+    }),
+  ).annotate({
+    identifier: "SslCertsListResponse",
+  }) as any as Schema.Schema<SslCertsListResponse>;
 
 export interface Tier {
   /** An identifier for the machine type, for example, `db-custom-1-3840`. For related information, see [Pricing](/sql/pricing). */
@@ -2593,13 +4047,15 @@ export interface Tier {
   region?: Array<string>;
 }
 
-export const Tier: Schema.Schema<Tier> = Schema.suspend(() => Schema.Struct({
-  tier: Schema.optional(Schema.String),
-  RAM: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  DiskQuota: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Tier" }) as any as Schema.Schema<Tier>;
+export const Tier: Schema.Schema<Tier> = Schema.suspend(() =>
+  Schema.Struct({
+    tier: Schema.optional(Schema.String),
+    RAM: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    DiskQuota: Schema.optional(Schema.String),
+    region: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Tier" }) as any as Schema.Schema<Tier>;
 
 export interface TiersListResponse {
   /** This is always `sql#tiersList`. */
@@ -2608,10 +4064,15 @@ export interface TiersListResponse {
   items?: Array<Tier>;
 }
 
-export const TiersListResponse: Schema.Schema<TiersListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Tier)),
-})).annotate({ identifier: "TiersListResponse" }) as any as Schema.Schema<TiersListResponse>;
+export const TiersListResponse: Schema.Schema<TiersListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Tier)),
+    }),
+  ).annotate({
+    identifier: "TiersListResponse",
+  }) as any as Schema.Schema<TiersListResponse>;
 
 export interface SqlServerUserDetails {
   /** If the user has been disabled */
@@ -2620,10 +4081,15 @@ export interface SqlServerUserDetails {
   serverRoles?: Array<string>;
 }
 
-export const SqlServerUserDetails: Schema.Schema<SqlServerUserDetails> = Schema.suspend(() => Schema.Struct({
-  disabled: Schema.optional(Schema.Boolean),
-  serverRoles: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "SqlServerUserDetails" }) as any as Schema.Schema<SqlServerUserDetails>;
+export const SqlServerUserDetails: Schema.Schema<SqlServerUserDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      disabled: Schema.optional(Schema.Boolean),
+      serverRoles: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "SqlServerUserDetails",
+  }) as any as Schema.Schema<SqlServerUserDetails>;
 
 export interface PasswordStatus {
   /** If true, user does not have login privileges. */
@@ -2632,10 +4098,15 @@ export interface PasswordStatus {
   passwordExpirationTime?: string;
 }
 
-export const PasswordStatus: Schema.Schema<PasswordStatus> = Schema.suspend(() => Schema.Struct({
-  locked: Schema.optional(Schema.Boolean),
-  passwordExpirationTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "PasswordStatus" }) as any as Schema.Schema<PasswordStatus>;
+export const PasswordStatus: Schema.Schema<PasswordStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      locked: Schema.optional(Schema.Boolean),
+      passwordExpirationTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PasswordStatus",
+}) as any as Schema.Schema<PasswordStatus>;
 
 export interface UserPasswordValidationPolicy {
   /** Number of failed login attempts allowed before user get locked. */
@@ -2650,13 +4121,18 @@ export interface UserPasswordValidationPolicy {
   enablePasswordVerification?: boolean;
 }
 
-export const UserPasswordValidationPolicy: Schema.Schema<UserPasswordValidationPolicy> = Schema.suspend(() => Schema.Struct({
-  allowedFailedAttempts: Schema.optional(Schema.Number),
-  passwordExpirationDuration: Schema.optional(Schema.String),
-  enableFailedAttemptsCheck: Schema.optional(Schema.Boolean),
-  status: Schema.optional(PasswordStatus),
-  enablePasswordVerification: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UserPasswordValidationPolicy" }) as any as Schema.Schema<UserPasswordValidationPolicy>;
+export const UserPasswordValidationPolicy: Schema.Schema<UserPasswordValidationPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowedFailedAttempts: Schema.optional(Schema.Number),
+      passwordExpirationDuration: Schema.optional(Schema.String),
+      enableFailedAttemptsCheck: Schema.optional(Schema.Boolean),
+      status: Schema.optional(PasswordStatus),
+      enablePasswordVerification: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UserPasswordValidationPolicy",
+  }) as any as Schema.Schema<UserPasswordValidationPolicy>;
 
 export interface User {
   /** This is always `sql#user`. */
@@ -2674,36 +4150,51 @@ export interface User {
   /** The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. Can be omitted for `update` because it is already specified on the URL. */
   project?: string;
   /** The user type. It determines the method to authenticate the user during login. The default is the database's built-in user type. */
-  type?: "BUILT_IN" | "CLOUD_IAM_USER" | "CLOUD_IAM_SERVICE_ACCOUNT" | "CLOUD_IAM_GROUP" | "CLOUD_IAM_GROUP_USER" | "CLOUD_IAM_GROUP_SERVICE_ACCOUNT" | "ENTRAID_USER" | (string & {});
+  type?:
+    | "BUILT_IN"
+    | "CLOUD_IAM_USER"
+    | "CLOUD_IAM_SERVICE_ACCOUNT"
+    | "CLOUD_IAM_GROUP"
+    | "CLOUD_IAM_GROUP_USER"
+    | "CLOUD_IAM_GROUP_SERVICE_ACCOUNT"
+    | "ENTRAID_USER"
+    | (string & {});
   sqlserverUserDetails?: SqlServerUserDetails;
   /** Optional. The full email for an IAM user. For normal database users, this will not be filled. Only applicable to MySQL database users. */
   iamEmail?: string;
   /** User level password validation policy. */
   passwordPolicy?: UserPasswordValidationPolicy;
   /** Dual password status for the user. */
-  dualPasswordType?: "DUAL_PASSWORD_TYPE_UNSPECIFIED" | "NO_MODIFY_DUAL_PASSWORD" | "NO_DUAL_PASSWORD" | "DUAL_PASSWORD" | (string & {});
+  dualPasswordType?:
+    | "DUAL_PASSWORD_TYPE_UNSPECIFIED"
+    | "NO_MODIFY_DUAL_PASSWORD"
+    | "NO_DUAL_PASSWORD"
+    | "DUAL_PASSWORD"
+    | (string & {});
   /** Indicates if a group is active or inactive for IAM database authentication. */
   iamStatus?: "IAM_STATUS_UNSPECIFIED" | "INACTIVE" | "ACTIVE" | (string & {});
   /** Optional. Role memberships of the user */
   databaseRoles?: Array<string>;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  host: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  sqlserverUserDetails: Schema.optional(SqlServerUserDetails),
-  iamEmail: Schema.optional(Schema.String),
-  passwordPolicy: Schema.optional(UserPasswordValidationPolicy),
-  dualPasswordType: Schema.optional(Schema.String),
-  iamStatus: Schema.optional(Schema.String),
-  databaseRoles: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    password: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    host: Schema.optional(Schema.String),
+    instance: Schema.optional(Schema.String),
+    project: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    sqlserverUserDetails: Schema.optional(SqlServerUserDetails),
+    iamEmail: Schema.optional(Schema.String),
+    passwordPolicy: Schema.optional(UserPasswordValidationPolicy),
+    dualPasswordType: Schema.optional(Schema.String),
+    iamStatus: Schema.optional(Schema.String),
+    databaseRoles: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface UsersListResponse {
   /** This is always `sql#usersList`. */
@@ -2714,11 +4205,16 @@ export interface UsersListResponse {
   nextPageToken?: string;
 }
 
-export const UsersListResponse: Schema.Schema<UsersListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(User)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "UsersListResponse" }) as any as Schema.Schema<UsersListResponse>;
+export const UsersListResponse: Schema.Schema<UsersListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(User)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UsersListResponse",
+  }) as any as Schema.Schema<UsersListResponse>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -2737,15 +4233,20 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusDetail: Schema.optional(Schema.String),
-  cancelRequested: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusDetail: Schema.optional(Schema.String),
+      cancelRequested: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -2762,7 +4263,11 @@ export const AddServerCaInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/addServerCa", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/addServerCa",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddServerCaInstancesRequest>;
 
@@ -2772,7 +4277,12 @@ export const AddServerCaInstancesResponse = Operation;
 export type AddServerCaInstancesError = DefaultErrors;
 
 /** Adds a new trusted Certificate Authority (CA) version for the specified instance. Required to prepare for a certificate rotation. If a CA version was previously added but never used in a certificate rotation, this operation replaces that version. There cannot be more than one CA version waiting to be rotated in. For instances that have enabled Certificate Authority Service (CAS) based server CA, use AddServerCertificate to add a new server certificate. */
-export const addServerCaInstances: API.OperationMethod<AddServerCaInstancesRequest, AddServerCaInstancesResponse, AddServerCaInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addServerCaInstances: API.OperationMethod<
+  AddServerCaInstancesRequest,
+  AddServerCaInstancesResponse,
+  AddServerCaInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddServerCaInstancesRequest,
   output: AddServerCaInstancesResponse,
   errors: [],
@@ -2789,7 +4299,11 @@ export const AddServerCertificateInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/addServerCertificate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/addServerCertificate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddServerCertificateInstancesRequest>;
 
@@ -2799,7 +4313,12 @@ export const AddServerCertificateInstancesResponse = Operation;
 export type AddServerCertificateInstancesError = DefaultErrors;
 
 /** Add a new trusted server certificate version for the specified instance using Certificate Authority Service (CAS) server CA. Required to prepare for a certificate rotation. If a server certificate version was previously added but never used in a certificate rotation, this operation replaces that version. There cannot be more than one certificate version waiting to be rotated in. For instances not using CAS server CA, use AddServerCa instead. */
-export const addServerCertificateInstances: API.OperationMethod<AddServerCertificateInstancesRequest, AddServerCertificateInstancesResponse, AddServerCertificateInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addServerCertificateInstances: API.OperationMethod<
+  AddServerCertificateInstancesRequest,
+  AddServerCertificateInstancesResponse,
+  AddServerCertificateInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddServerCertificateInstancesRequest,
   output: AddServerCertificateInstancesResponse,
   errors: [],
@@ -2816,7 +4335,11 @@ export const AddEntraIdCertificateInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/addEntraIdCertificate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/addEntraIdCertificate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddEntraIdCertificateInstancesRequest>;
 
@@ -2826,7 +4349,12 @@ export const AddEntraIdCertificateInstancesResponse = Operation;
 export type AddEntraIdCertificateInstancesError = DefaultErrors;
 
 /** Adds a new Entra ID certificate for the specified instance. If an Entra ID certificate was previously added but never used in a certificate rotation, this operation replaces that version. */
-export const addEntraIdCertificateInstances: API.OperationMethod<AddEntraIdCertificateInstancesRequest, AddEntraIdCertificateInstancesResponse, AddEntraIdCertificateInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addEntraIdCertificateInstances: API.OperationMethod<
+  AddEntraIdCertificateInstancesRequest,
+  AddEntraIdCertificateInstancesResponse,
+  AddEntraIdCertificateInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddEntraIdCertificateInstancesRequest,
   output: AddEntraIdCertificateInstancesResponse,
   errors: [],
@@ -2846,7 +4374,11 @@ export const CloneInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesCloneRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/clone", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/clone",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CloneInstancesRequest>;
 
@@ -2856,7 +4388,12 @@ export const CloneInstancesResponse = Operation;
 export type CloneInstancesError = DefaultErrors;
 
 /** Creates a Cloud SQL instance as a clone of the source instance. Using this operation might cause your instance to restart. */
-export const cloneInstances: API.OperationMethod<CloneInstancesRequest, CloneInstancesResponse, CloneInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cloneInstances: API.OperationMethod<
+  CloneInstancesRequest,
+  CloneInstancesResponse,
+  CloneInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CloneInstancesRequest,
   output: CloneInstancesResponse,
   errors: [],
@@ -2880,12 +4417,23 @@ export interface DeleteInstancesRequest {
 export const DeleteInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
-  enableFinalBackup: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("enableFinalBackup")),
-  finalBackupTtlDays: Schema.optional(Schema.String).pipe(T.HttpQuery("finalBackupTtlDays")),
-  finalBackupExpiryTime: Schema.optional(Schema.String).pipe(T.HttpQuery("finalBackupExpiryTime")),
-  finalBackupDescription: Schema.optional(Schema.String).pipe(T.HttpQuery("finalBackupDescription")),
+  enableFinalBackup: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("enableFinalBackup"),
+  ),
+  finalBackupTtlDays: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("finalBackupTtlDays"),
+  ),
+  finalBackupExpiryTime: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("finalBackupExpiryTime"),
+  ),
+  finalBackupDescription: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("finalBackupDescription"),
+  ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{project}/instances/{instance}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{project}/instances/{instance}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteInstancesRequest>;
 
@@ -2895,7 +4443,12 @@ export const DeleteInstancesResponse = Operation;
 export type DeleteInstancesError = DefaultErrors;
 
 /** Deletes a Cloud SQL instance. */
-export const deleteInstances: API.OperationMethod<DeleteInstancesRequest, DeleteInstancesResponse, DeleteInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteInstances: API.OperationMethod<
+  DeleteInstancesRequest,
+  DeleteInstancesResponse,
+  DeleteInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteInstancesRequest,
   output: DeleteInstancesResponse,
   errors: [],
@@ -2915,7 +4468,11 @@ export const DemoteMasterInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesDemoteMasterRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/demoteMaster", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/demoteMaster",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DemoteMasterInstancesRequest>;
 
@@ -2925,7 +4482,12 @@ export const DemoteMasterInstancesResponse = Operation;
 export type DemoteMasterInstancesError = DefaultErrors;
 
 /** Demotes the stand-alone instance to be a Cloud SQL read replica for an external database server. */
-export const demoteMasterInstances: API.OperationMethod<DemoteMasterInstancesRequest, DemoteMasterInstancesResponse, DemoteMasterInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const demoteMasterInstances: API.OperationMethod<
+  DemoteMasterInstancesRequest,
+  DemoteMasterInstancesResponse,
+  DemoteMasterInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DemoteMasterInstancesRequest,
   output: DemoteMasterInstancesResponse,
   errors: [],
@@ -2945,7 +4507,11 @@ export const DemoteInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesDemoteRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/demote", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/demote",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DemoteInstancesRequest>;
 
@@ -2955,7 +4521,12 @@ export const DemoteInstancesResponse = Operation;
 export type DemoteInstancesError = DefaultErrors;
 
 /** Demotes an existing standalone instance to be a Cloud SQL read replica for an external database server. */
-export const demoteInstances: API.OperationMethod<DemoteInstancesRequest, DemoteInstancesResponse, DemoteInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const demoteInstances: API.OperationMethod<
+  DemoteInstancesRequest,
+  DemoteInstancesResponse,
+  DemoteInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DemoteInstancesRequest,
   output: DemoteInstancesResponse,
   errors: [],
@@ -2975,7 +4546,11 @@ export const ExportInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesExportRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/export", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/export",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExportInstancesRequest>;
 
@@ -2985,7 +4560,12 @@ export const ExportInstancesResponse = Operation;
 export type ExportInstancesError = DefaultErrors;
 
 /** Exports data from a Cloud SQL instance to a Cloud Storage bucket as a SQL dump or CSV file. */
-export const exportInstances: API.OperationMethod<ExportInstancesRequest, ExportInstancesResponse, ExportInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const exportInstances: API.OperationMethod<
+  ExportInstancesRequest,
+  ExportInstancesResponse,
+  ExportInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExportInstancesRequest,
   output: ExportInstancesResponse,
   errors: [],
@@ -3005,7 +4585,11 @@ export const FailoverInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesFailoverRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/failover", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/failover",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<FailoverInstancesRequest>;
 
@@ -3015,7 +4599,12 @@ export const FailoverInstancesResponse = Operation;
 export type FailoverInstancesError = DefaultErrors;
 
 /** Initiates a manual failover of a high availability (HA) primary instance to a standby instance, which becomes the primary instance. Users are then rerouted to the new primary. For more information, see the [Overview of high availability](https://cloud.google.com/sql/docs/mysql/high-availability) page in the Cloud SQL documentation. If using Legacy HA (MySQL only), this causes the instance to failover to its failover replica instance. */
-export const failoverInstances: API.OperationMethod<FailoverInstancesRequest, FailoverInstancesResponse, FailoverInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const failoverInstances: API.OperationMethod<
+  FailoverInstancesRequest,
+  FailoverInstancesResponse,
+  FailoverInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FailoverInstancesRequest,
   output: FailoverInstancesResponse,
   errors: [],
@@ -3035,7 +4624,11 @@ export const ReencryptInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesReencryptRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/reencrypt", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/reencrypt",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReencryptInstancesRequest>;
 
@@ -3045,7 +4638,12 @@ export const ReencryptInstancesResponse = Operation;
 export type ReencryptInstancesError = DefaultErrors;
 
 /** Reencrypt CMEK instance with latest key version. */
-export const reencryptInstances: API.OperationMethod<ReencryptInstancesRequest, ReencryptInstancesResponse, ReencryptInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const reencryptInstances: API.OperationMethod<
+  ReencryptInstancesRequest,
+  ReencryptInstancesResponse,
+  ReencryptInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReencryptInstancesRequest,
   output: ReencryptInstancesResponse,
   errors: [],
@@ -3072,7 +4670,12 @@ export const GetInstancesResponse = DatabaseInstance;
 export type GetInstancesError = DefaultErrors;
 
 /** Retrieves a resource containing information about a Cloud SQL instance. */
-export const getInstances: API.OperationMethod<GetInstancesRequest, GetInstancesResponse, GetInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getInstances: API.OperationMethod<
+  GetInstancesRequest,
+  GetInstancesResponse,
+  GetInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetInstancesRequest,
   output: GetInstancesResponse,
   errors: [],
@@ -3092,7 +4695,11 @@ export const ImportInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesImportRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/import", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/import",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ImportInstancesRequest>;
 
@@ -3102,7 +4709,12 @@ export const ImportInstancesResponse = Operation;
 export type ImportInstancesError = DefaultErrors;
 
 /** Imports data into a Cloud SQL instance from a SQL dump or CSV file in Cloud Storage. */
-export const importInstances: API.OperationMethod<ImportInstancesRequest, ImportInstancesResponse, ImportInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importInstances: API.OperationMethod<
+  ImportInstancesRequest,
+  ImportInstancesResponse,
+  ImportInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportInstancesRequest,
   output: ImportInstancesResponse,
   errors: [],
@@ -3119,7 +4731,11 @@ export const InsertInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertInstancesRequest>;
 
@@ -3129,7 +4745,12 @@ export const InsertInstancesResponse = Operation;
 export type InsertInstancesError = DefaultErrors;
 
 /** Creates a new Cloud SQL instance. */
-export const insertInstances: API.OperationMethod<InsertInstancesRequest, InsertInstancesResponse, InsertInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertInstances: API.OperationMethod<
+  InsertInstancesRequest,
+  InsertInstancesResponse,
+  InsertInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertInstancesRequest,
   output: InsertInstancesResponse,
   errors: [],
@@ -3162,7 +4783,12 @@ export const ListInstancesResponse = InstancesListResponse;
 export type ListInstancesError = DefaultErrors;
 
 /** Lists instances under a given project. */
-export const listInstances: API.PaginatedOperationMethod<ListInstancesRequest, ListInstancesResponse, ListInstancesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listInstances: API.PaginatedOperationMethod<
+  ListInstancesRequest,
+  ListInstancesResponse,
+  ListInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
   errors: [],
@@ -3184,7 +4810,10 @@ export const ListServerCasInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/listServerCas" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/listServerCas",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListServerCasInstancesRequest>;
 
@@ -3194,7 +4823,12 @@ export const ListServerCasInstancesResponse = InstancesListServerCasResponse;
 export type ListServerCasInstancesError = DefaultErrors;
 
 /** Lists all of the trusted Certificate Authorities (CAs) for the specified instance. There can be up to three CAs listed: the CA that was used to sign the certificate that is currently in use, a CA that has been added but not yet used to sign a certificate, and a CA used to sign a certificate that has previously rotated out. */
-export const listServerCasInstances: API.OperationMethod<ListServerCasInstancesRequest, ListServerCasInstancesResponse, ListServerCasInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listServerCasInstances: API.OperationMethod<
+  ListServerCasInstancesRequest,
+  ListServerCasInstancesResponse,
+  ListServerCasInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListServerCasInstancesRequest,
   output: ListServerCasInstancesResponse,
   errors: [],
@@ -3211,17 +4845,27 @@ export const ListServerCertificatesInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/listServerCertificates" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/listServerCertificates",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListServerCertificatesInstancesRequest>;
 
-export type ListServerCertificatesInstancesResponse = InstancesListServerCertificatesResponse;
-export const ListServerCertificatesInstancesResponse = InstancesListServerCertificatesResponse;
+export type ListServerCertificatesInstancesResponse =
+  InstancesListServerCertificatesResponse;
+export const ListServerCertificatesInstancesResponse =
+  InstancesListServerCertificatesResponse;
 
 export type ListServerCertificatesInstancesError = DefaultErrors;
 
 /** Lists all versions of server certificates and certificate authorities (CAs) for the specified instance. There can be up to three sets of certs listed: the certificate that is currently in use, a future that has been added but not yet used to sign a certificate, and a certificate that has been rotated out. For instances not using Certificate Authority Service (CAS) server CA, use ListServerCas instead. */
-export const ListServerCertificatesInstances: API.OperationMethod<ListServerCertificatesInstancesRequest, ListServerCertificatesInstancesResponse, ListServerCertificatesInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const ListServerCertificatesInstances: API.OperationMethod<
+  ListServerCertificatesInstancesRequest,
+  ListServerCertificatesInstancesResponse,
+  ListServerCertificatesInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListServerCertificatesInstancesRequest,
   output: ListServerCertificatesInstancesResponse,
   errors: [],
@@ -3238,17 +4882,27 @@ export const ListEntraIdCertificatesInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/listEntraIdCertificates" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/listEntraIdCertificates",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListEntraIdCertificatesInstancesRequest>;
 
-export type ListEntraIdCertificatesInstancesResponse = InstancesListEntraIdCertificatesResponse;
-export const ListEntraIdCertificatesInstancesResponse = InstancesListEntraIdCertificatesResponse;
+export type ListEntraIdCertificatesInstancesResponse =
+  InstancesListEntraIdCertificatesResponse;
+export const ListEntraIdCertificatesInstancesResponse =
+  InstancesListEntraIdCertificatesResponse;
 
 export type ListEntraIdCertificatesInstancesError = DefaultErrors;
 
 /** Lists all versions of EntraID certificates for the specified instance. There can be up to three sets of certificates listed: the certificate that is currently in use, a future that has been added but not yet used to sign a certificate, and a certificate that has been rotated out. */
-export const ListEntraIdCertificatesInstances: API.OperationMethod<ListEntraIdCertificatesInstancesRequest, ListEntraIdCertificatesInstancesResponse, ListEntraIdCertificatesInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const ListEntraIdCertificatesInstances: API.OperationMethod<
+  ListEntraIdCertificatesInstancesRequest,
+  ListEntraIdCertificatesInstancesResponse,
+  ListEntraIdCertificatesInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListEntraIdCertificatesInstancesRequest,
   output: ListEntraIdCertificatesInstancesResponse,
   errors: [],
@@ -3268,7 +4922,11 @@ export const PatchInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{project}/instances/{instance}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{project}/instances/{instance}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchInstancesRequest>;
 
@@ -3278,7 +4936,12 @@ export const PatchInstancesResponse = Operation;
 export type PatchInstancesError = DefaultErrors;
 
 /** Partially updates settings of a Cloud SQL instance by merging the request with the current configuration. This method supports patch semantics. */
-export const patchInstances: API.OperationMethod<PatchInstancesRequest, PatchInstancesResponse, PatchInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchInstances: API.OperationMethod<
+  PatchInstancesRequest,
+  PatchInstancesResponse,
+  PatchInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchInstancesRequest,
   output: PatchInstancesResponse,
   errors: [],
@@ -3298,7 +4961,11 @@ export const PromoteReplicaInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   failover: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("failover")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/promoteReplica", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/promoteReplica",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PromoteReplicaInstancesRequest>;
 
@@ -3308,7 +4975,12 @@ export const PromoteReplicaInstancesResponse = Operation;
 export type PromoteReplicaInstancesError = DefaultErrors;
 
 /** Promotes the read replica instance to be an independent Cloud SQL primary instance. Using this operation might cause your instance to restart. */
-export const promoteReplicaInstances: API.OperationMethod<PromoteReplicaInstancesRequest, PromoteReplicaInstancesResponse, PromoteReplicaInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const promoteReplicaInstances: API.OperationMethod<
+  PromoteReplicaInstancesRequest,
+  PromoteReplicaInstancesResponse,
+  PromoteReplicaInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PromoteReplicaInstancesRequest,
   output: PromoteReplicaInstancesResponse,
   errors: [],
@@ -3328,7 +5000,11 @@ export const SwitchoverInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   dbTimeout: Schema.optional(Schema.String).pipe(T.HttpQuery("dbTimeout")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/switchover", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/switchover",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SwitchoverInstancesRequest>;
 
@@ -3338,7 +5014,12 @@ export const SwitchoverInstancesResponse = Operation;
 export type SwitchoverInstancesError = DefaultErrors;
 
 /** Switches over from the primary instance to the DR replica instance. */
-export const switchoverInstances: API.OperationMethod<SwitchoverInstancesRequest, SwitchoverInstancesResponse, SwitchoverInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const switchoverInstances: API.OperationMethod<
+  SwitchoverInstancesRequest,
+  SwitchoverInstancesResponse,
+  SwitchoverInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SwitchoverInstancesRequest,
   output: SwitchoverInstancesResponse,
   errors: [],
@@ -3350,7 +5031,11 @@ export interface ResetSslConfigInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Reset SSL mode to use. */
-  mode?: "RESET_SSL_MODE_UNSPECIFIED" | "ALL" | "SYNC_FROM_PRIMARY" | (string & {});
+  mode?:
+    | "RESET_SSL_MODE_UNSPECIFIED"
+    | "ALL"
+    | "SYNC_FROM_PRIMARY"
+    | (string & {});
 }
 
 export const ResetSslConfigInstancesRequest = Schema.Struct({
@@ -3358,7 +5043,11 @@ export const ResetSslConfigInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   mode: Schema.optional(Schema.String).pipe(T.HttpQuery("mode")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/resetSslConfig", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/resetSslConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResetSslConfigInstancesRequest>;
 
@@ -3368,7 +5057,12 @@ export const ResetSslConfigInstancesResponse = Operation;
 export type ResetSslConfigInstancesError = DefaultErrors;
 
 /** Deletes all client certificates and generates a new server SSL certificate for the instance. */
-export const resetSslConfigInstances: API.OperationMethod<ResetSslConfigInstancesRequest, ResetSslConfigInstancesResponse, ResetSslConfigInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resetSslConfigInstances: API.OperationMethod<
+  ResetSslConfigInstancesRequest,
+  ResetSslConfigInstancesResponse,
+  ResetSslConfigInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResetSslConfigInstancesRequest,
   output: ResetSslConfigInstancesResponse,
   errors: [],
@@ -3385,7 +5079,11 @@ export const RestartInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/restart", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/restart",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RestartInstancesRequest>;
 
@@ -3395,7 +5093,12 @@ export const RestartInstancesResponse = Operation;
 export type RestartInstancesError = DefaultErrors;
 
 /** Restarts a Cloud SQL instance. */
-export const restartInstances: API.OperationMethod<RestartInstancesRequest, RestartInstancesResponse, RestartInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restartInstances: API.OperationMethod<
+  RestartInstancesRequest,
+  RestartInstancesResponse,
+  RestartInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestartInstancesRequest,
   output: RestartInstancesResponse,
   errors: [],
@@ -3415,7 +5118,11 @@ export const RestoreBackupInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesRestoreBackupRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/restoreBackup", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/restoreBackup",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RestoreBackupInstancesRequest>;
 
@@ -3425,7 +5132,12 @@ export const RestoreBackupInstancesResponse = Operation;
 export type RestoreBackupInstancesError = DefaultErrors;
 
 /** Restores a backup of a Cloud SQL instance. Using this operation might cause your instance to restart. */
-export const restoreBackupInstances: API.OperationMethod<RestoreBackupInstancesRequest, RestoreBackupInstancesResponse, RestoreBackupInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restoreBackupInstances: API.OperationMethod<
+  RestoreBackupInstancesRequest,
+  RestoreBackupInstancesResponse,
+  RestoreBackupInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestoreBackupInstancesRequest,
   output: RestoreBackupInstancesResponse,
   errors: [],
@@ -3445,7 +5157,11 @@ export const RotateServerCaInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesRotateServerCaRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/rotateServerCa", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/rotateServerCa",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RotateServerCaInstancesRequest>;
 
@@ -3455,7 +5171,12 @@ export const RotateServerCaInstancesResponse = Operation;
 export type RotateServerCaInstancesError = DefaultErrors;
 
 /** Rotates the server certificate to one signed by the Certificate Authority (CA) version previously added with the addServerCA method. For instances that have enabled Certificate Authority Service (CAS) based server CA, use RotateServerCertificate to rotate the server certificate. */
-export const rotateServerCaInstances: API.OperationMethod<RotateServerCaInstancesRequest, RotateServerCaInstancesResponse, RotateServerCaInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rotateServerCaInstances: API.OperationMethod<
+  RotateServerCaInstancesRequest,
+  RotateServerCaInstancesResponse,
+  RotateServerCaInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RotateServerCaInstancesRequest,
   output: RotateServerCaInstancesResponse,
   errors: [],
@@ -3473,9 +5194,15 @@ export interface RotateServerCertificateInstancesRequest {
 export const RotateServerCertificateInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
-  body: Schema.optional(InstancesRotateServerCertificateRequest).pipe(T.HttpBody()),
+  body: Schema.optional(InstancesRotateServerCertificateRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/rotateServerCertificate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/rotateServerCertificate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RotateServerCertificateInstancesRequest>;
 
@@ -3485,7 +5212,12 @@ export const RotateServerCertificateInstancesResponse = Operation;
 export type RotateServerCertificateInstancesError = DefaultErrors;
 
 /** Rotates the server certificate version to one previously added with the addServerCertificate method. For instances not using Certificate Authority Service (CAS) server CA, use RotateServerCa instead. */
-export const RotateServerCertificateInstances: API.OperationMethod<RotateServerCertificateInstancesRequest, RotateServerCertificateInstancesResponse, RotateServerCertificateInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const RotateServerCertificateInstances: API.OperationMethod<
+  RotateServerCertificateInstancesRequest,
+  RotateServerCertificateInstancesResponse,
+  RotateServerCertificateInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RotateServerCertificateInstancesRequest,
   output: RotateServerCertificateInstancesResponse,
   errors: [],
@@ -3503,9 +5235,15 @@ export interface RotateEntraIdCertificateInstancesRequest {
 export const RotateEntraIdCertificateInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
-  body: Schema.optional(InstancesRotateEntraIdCertificateRequest).pipe(T.HttpBody()),
+  body: Schema.optional(InstancesRotateEntraIdCertificateRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/rotateEntraIdCertificate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/rotateEntraIdCertificate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RotateEntraIdCertificateInstancesRequest>;
 
@@ -3515,7 +5253,12 @@ export const RotateEntraIdCertificateInstancesResponse = Operation;
 export type RotateEntraIdCertificateInstancesError = DefaultErrors;
 
 /** Rotates the server certificate version to one previously added with the addEntraIdCertificate method. */
-export const RotateEntraIdCertificateInstances: API.OperationMethod<RotateEntraIdCertificateInstancesRequest, RotateEntraIdCertificateInstancesResponse, RotateEntraIdCertificateInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const RotateEntraIdCertificateInstances: API.OperationMethod<
+  RotateEntraIdCertificateInstancesRequest,
+  RotateEntraIdCertificateInstancesResponse,
+  RotateEntraIdCertificateInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RotateEntraIdCertificateInstancesRequest,
   output: RotateEntraIdCertificateInstancesResponse,
   errors: [],
@@ -3532,7 +5275,11 @@ export const StartReplicaInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/startReplica", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/startReplica",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartReplicaInstancesRequest>;
 
@@ -3542,7 +5289,12 @@ export const StartReplicaInstancesResponse = Operation;
 export type StartReplicaInstancesError = DefaultErrors;
 
 /** Starts the replication in the read replica instance. */
-export const startReplicaInstances: API.OperationMethod<StartReplicaInstancesRequest, StartReplicaInstancesResponse, StartReplicaInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startReplicaInstances: API.OperationMethod<
+  StartReplicaInstancesRequest,
+  StartReplicaInstancesResponse,
+  StartReplicaInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartReplicaInstancesRequest,
   output: StartReplicaInstancesResponse,
   errors: [],
@@ -3559,7 +5311,11 @@ export const StopReplicaInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/stopReplica", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/stopReplica",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StopReplicaInstancesRequest>;
 
@@ -3569,7 +5325,12 @@ export const StopReplicaInstancesResponse = Operation;
 export type StopReplicaInstancesError = DefaultErrors;
 
 /** Stops the replication in the read replica instance. */
-export const stopReplicaInstances: API.OperationMethod<StopReplicaInstancesRequest, StopReplicaInstancesResponse, StopReplicaInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopReplicaInstances: API.OperationMethod<
+  StopReplicaInstancesRequest,
+  StopReplicaInstancesResponse,
+  StopReplicaInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopReplicaInstancesRequest,
   output: StopReplicaInstancesResponse,
   errors: [],
@@ -3589,7 +5350,11 @@ export const TruncateLogInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesTruncateLogRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/truncateLog", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/truncateLog",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TruncateLogInstancesRequest>;
 
@@ -3599,7 +5364,12 @@ export const TruncateLogInstancesResponse = Operation;
 export type TruncateLogInstancesError = DefaultErrors;
 
 /** Truncate MySQL general and slow query log tables MySQL only. */
-export const truncateLogInstances: API.OperationMethod<TruncateLogInstancesRequest, TruncateLogInstancesResponse, TruncateLogInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const truncateLogInstances: API.OperationMethod<
+  TruncateLogInstancesRequest,
+  TruncateLogInstancesResponse,
+  TruncateLogInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TruncateLogInstancesRequest,
   output: TruncateLogInstancesResponse,
   errors: [],
@@ -3619,7 +5389,11 @@ export const UpdateInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{project}/instances/{instance}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/projects/{project}/instances/{instance}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateInstancesRequest>;
 
@@ -3629,7 +5403,12 @@ export const UpdateInstancesResponse = Operation;
 export type UpdateInstancesError = DefaultErrors;
 
 /** Updates settings of a Cloud SQL instance. Using this operation might cause your instance to restart. */
-export const updateInstances: API.OperationMethod<UpdateInstancesRequest, UpdateInstancesResponse, UpdateInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateInstances: API.OperationMethod<
+  UpdateInstancesRequest,
+  UpdateInstancesResponse,
+  UpdateInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateInstancesRequest,
   output: UpdateInstancesResponse,
   errors: [],
@@ -3649,7 +5428,11 @@ export const ExecuteSqlInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(ExecuteSqlPayload).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/executeSql", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/executeSql",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExecuteSqlInstancesRequest>;
 
@@ -3659,7 +5442,12 @@ export const ExecuteSqlInstancesResponse = SqlInstancesExecuteSqlResponse;
 export type ExecuteSqlInstancesError = DefaultErrors;
 
 /** Execute SQL statements. */
-export const executeSqlInstances: API.OperationMethod<ExecuteSqlInstancesRequest, ExecuteSqlInstancesResponse, ExecuteSqlInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const executeSqlInstances: API.OperationMethod<
+  ExecuteSqlInstancesRequest,
+  ExecuteSqlInstancesResponse,
+  ExecuteSqlInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExecuteSqlInstancesRequest,
   output: ExecuteSqlInstancesResponse,
   errors: [],
@@ -3679,17 +5467,28 @@ export const AcquireSsrsLeaseInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(InstancesAcquireSsrsLeaseRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/acquireSsrsLease", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/acquireSsrsLease",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AcquireSsrsLeaseInstancesRequest>;
 
-export type AcquireSsrsLeaseInstancesResponse = SqlInstancesAcquireSsrsLeaseResponse;
-export const AcquireSsrsLeaseInstancesResponse = SqlInstancesAcquireSsrsLeaseResponse;
+export type AcquireSsrsLeaseInstancesResponse =
+  SqlInstancesAcquireSsrsLeaseResponse;
+export const AcquireSsrsLeaseInstancesResponse =
+  SqlInstancesAcquireSsrsLeaseResponse;
 
 export type AcquireSsrsLeaseInstancesError = DefaultErrors;
 
 /** Acquire a lease for the setup of SQL Server Reporting Services (SSRS). */
-export const acquireSsrsLeaseInstances: API.OperationMethod<AcquireSsrsLeaseInstancesRequest, AcquireSsrsLeaseInstancesResponse, AcquireSsrsLeaseInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const acquireSsrsLeaseInstances: API.OperationMethod<
+  AcquireSsrsLeaseInstancesRequest,
+  AcquireSsrsLeaseInstancesResponse,
+  AcquireSsrsLeaseInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AcquireSsrsLeaseInstancesRequest,
   output: AcquireSsrsLeaseInstancesResponse,
   errors: [],
@@ -3706,17 +5505,28 @@ export const ReleaseSsrsLeaseInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/releaseSsrsLease", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/releaseSsrsLease",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReleaseSsrsLeaseInstancesRequest>;
 
-export type ReleaseSsrsLeaseInstancesResponse = SqlInstancesReleaseSsrsLeaseResponse;
-export const ReleaseSsrsLeaseInstancesResponse = SqlInstancesReleaseSsrsLeaseResponse;
+export type ReleaseSsrsLeaseInstancesResponse =
+  SqlInstancesReleaseSsrsLeaseResponse;
+export const ReleaseSsrsLeaseInstancesResponse =
+  SqlInstancesReleaseSsrsLeaseResponse;
 
 export type ReleaseSsrsLeaseInstancesError = DefaultErrors;
 
 /** Release a lease for the setup of SQL Server Reporting Services (SSRS). */
-export const releaseSsrsLeaseInstances: API.OperationMethod<ReleaseSsrsLeaseInstancesRequest, ReleaseSsrsLeaseInstancesResponse, ReleaseSsrsLeaseInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const releaseSsrsLeaseInstances: API.OperationMethod<
+  ReleaseSsrsLeaseInstancesRequest,
+  ReleaseSsrsLeaseInstancesResponse,
+  ReleaseSsrsLeaseInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReleaseSsrsLeaseInstancesRequest,
   output: ReleaseSsrsLeaseInstancesResponse,
   errors: [],
@@ -3734,9 +5544,15 @@ export interface PreCheckMajorVersionUpgradeInstancesRequest {
 export const PreCheckMajorVersionUpgradeInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
-  body: Schema.optional(InstancesPreCheckMajorVersionUpgradeRequest).pipe(T.HttpBody()),
+  body: Schema.optional(InstancesPreCheckMajorVersionUpgradeRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/preCheckMajorVersionUpgrade", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/preCheckMajorVersionUpgrade",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PreCheckMajorVersionUpgradeInstancesRequest>;
 
@@ -3746,7 +5562,12 @@ export const PreCheckMajorVersionUpgradeInstancesResponse = Operation;
 export type PreCheckMajorVersionUpgradeInstancesError = DefaultErrors;
 
 /** Execute MVU Pre-checks */
-export const preCheckMajorVersionUpgradeInstances: API.OperationMethod<PreCheckMajorVersionUpgradeInstancesRequest, PreCheckMajorVersionUpgradeInstancesResponse, PreCheckMajorVersionUpgradeInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const preCheckMajorVersionUpgradeInstances: API.OperationMethod<
+  PreCheckMajorVersionUpgradeInstancesRequest,
+  PreCheckMajorVersionUpgradeInstancesResponse,
+  PreCheckMajorVersionUpgradeInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PreCheckMajorVersionUpgradeInstancesRequest,
   output: PreCheckMajorVersionUpgradeInstancesResponse,
   errors: [],
@@ -3763,7 +5584,11 @@ export const PointInTimeRestoreInstancesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(PointInTimeRestoreContext).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}:pointInTimeRestore", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}:pointInTimeRestore",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PointInTimeRestoreInstancesRequest>;
 
@@ -3773,7 +5598,12 @@ export const PointInTimeRestoreInstancesResponse = Operation;
 export type PointInTimeRestoreInstancesError = DefaultErrors;
 
 /** Point in time restore for an instance managed by Google Cloud Backup and Disaster Recovery. */
-export const pointInTimeRestoreInstances: API.OperationMethod<PointInTimeRestoreInstancesRequest, PointInTimeRestoreInstancesResponse, PointInTimeRestoreInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pointInTimeRestoreInstances: API.OperationMethod<
+  PointInTimeRestoreInstancesRequest,
+  PointInTimeRestoreInstancesResponse,
+  PointInTimeRestoreInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PointInTimeRestoreInstancesRequest,
   output: PointInTimeRestoreInstancesResponse,
   errors: [],
@@ -3793,7 +5623,11 @@ export const CreateEphemeralSslCertsRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(SslCertsCreateEphemeralRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/createEphemeral", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/createEphemeral",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateEphemeralSslCertsRequest>;
 
@@ -3803,7 +5637,12 @@ export const CreateEphemeralSslCertsResponse = SslCert;
 export type CreateEphemeralSslCertsError = DefaultErrors;
 
 /** Generates a short-lived X509 certificate containing the provided public key and signed by a private key specific to the target instance. Users may use the certificate to authenticate as themselves when connecting to the database. */
-export const createEphemeralSslCerts: API.OperationMethod<CreateEphemeralSslCertsRequest, CreateEphemeralSslCertsResponse, CreateEphemeralSslCertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createEphemeralSslCerts: API.OperationMethod<
+  CreateEphemeralSslCertsRequest,
+  CreateEphemeralSslCertsResponse,
+  CreateEphemeralSslCertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateEphemeralSslCertsRequest,
   output: CreateEphemeralSslCertsResponse,
   errors: [],
@@ -3823,7 +5662,10 @@ export const DeleteSslCertsRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   sha1Fingerprint: Schema.String.pipe(T.HttpPath("sha1Fingerprint")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{project}/instances/{instance}/sslCerts/{sha1Fingerprint}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{project}/instances/{instance}/sslCerts/{sha1Fingerprint}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSslCertsRequest>;
 
@@ -3833,7 +5675,12 @@ export const DeleteSslCertsResponse = Operation;
 export type DeleteSslCertsError = DefaultErrors;
 
 /** Deletes the SSL certificate. For First Generation instances, the certificate remains valid until the instance is restarted. */
-export const deleteSslCerts: API.OperationMethod<DeleteSslCertsRequest, DeleteSslCertsResponse, DeleteSslCertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSslCerts: API.OperationMethod<
+  DeleteSslCertsRequest,
+  DeleteSslCertsResponse,
+  DeleteSslCertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSslCertsRequest,
   output: DeleteSslCertsResponse,
   errors: [],
@@ -3853,7 +5700,10 @@ export const GetSslCertsRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   sha1Fingerprint: Schema.String.pipe(T.HttpPath("sha1Fingerprint")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/sslCerts/{sha1Fingerprint}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/sslCerts/{sha1Fingerprint}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSslCertsRequest>;
 
@@ -3863,7 +5713,12 @@ export const GetSslCertsResponse = SslCert;
 export type GetSslCertsError = DefaultErrors;
 
 /** Retrieves a particular SSL certificate. Does not include the private key (required for usage). The private key must be saved from the response to initial creation. */
-export const getSslCerts: API.OperationMethod<GetSslCertsRequest, GetSslCertsResponse, GetSslCertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSslCerts: API.OperationMethod<
+  GetSslCertsRequest,
+  GetSslCertsResponse,
+  GetSslCertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSslCertsRequest,
   output: GetSslCertsResponse,
   errors: [],
@@ -3883,7 +5738,11 @@ export const InsertSslCertsRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(SslCertsInsertRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/sslCerts", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/sslCerts",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertSslCertsRequest>;
 
@@ -3893,7 +5752,12 @@ export const InsertSslCertsResponse = SslCertsInsertResponse;
 export type InsertSslCertsError = DefaultErrors;
 
 /** Creates an SSL certificate and returns it along with the private key and server certificate authority. The new certificate will not be usable until the instance is restarted. */
-export const insertSslCerts: API.OperationMethod<InsertSslCertsRequest, InsertSslCertsResponse, InsertSslCertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertSslCerts: API.OperationMethod<
+  InsertSslCertsRequest,
+  InsertSslCertsResponse,
+  InsertSslCertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertSslCertsRequest,
   output: InsertSslCertsResponse,
   errors: [],
@@ -3910,7 +5774,10 @@ export const ListSslCertsRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/sslCerts" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/sslCerts",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListSslCertsRequest>;
 
@@ -3920,7 +5787,12 @@ export const ListSslCertsResponse = SslCertsListResponse;
 export type ListSslCertsError = DefaultErrors;
 
 /** Lists all of the current SSL certificates for the instance. */
-export const listSslCerts: API.OperationMethod<ListSslCertsRequest, ListSslCertsResponse, ListSslCertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listSslCerts: API.OperationMethod<
+  ListSslCertsRequest,
+  ListSslCertsResponse,
+  ListSslCertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListSslCertsRequest,
   output: ListSslCertsResponse,
   errors: [],
@@ -3938,9 +5810,15 @@ export interface RescheduleMaintenanceProjectsInstancesRequest {
 export const RescheduleMaintenanceProjectsInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
-  body: Schema.optional(SqlInstancesRescheduleMaintenanceRequestBody).pipe(T.HttpBody()),
+  body: Schema.optional(SqlInstancesRescheduleMaintenanceRequestBody).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/rescheduleMaintenance", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/rescheduleMaintenance",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RescheduleMaintenanceProjectsInstancesRequest>;
 
@@ -3950,7 +5828,12 @@ export const RescheduleMaintenanceProjectsInstancesResponse = Operation;
 export type RescheduleMaintenanceProjectsInstancesError = DefaultErrors;
 
 /** Reschedules the maintenance on the given instance. */
-export const rescheduleMaintenanceProjectsInstances: API.OperationMethod<RescheduleMaintenanceProjectsInstancesRequest, RescheduleMaintenanceProjectsInstancesResponse, RescheduleMaintenanceProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rescheduleMaintenanceProjectsInstances: API.OperationMethod<
+  RescheduleMaintenanceProjectsInstancesRequest,
+  RescheduleMaintenanceProjectsInstancesResponse,
+  RescheduleMaintenanceProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RescheduleMaintenanceProjectsInstancesRequest,
   output: RescheduleMaintenanceProjectsInstancesResponse,
   errors: [],
@@ -3965,22 +5848,37 @@ export interface VerifyExternalSyncSettingsProjectsInstancesRequest {
   body?: SqlInstancesVerifyExternalSyncSettingsRequest;
 }
 
-export const VerifyExternalSyncSettingsProjectsInstancesRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-  instance: Schema.String.pipe(T.HttpPath("instance")),
-  body: Schema.optional(SqlInstancesVerifyExternalSyncSettingsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/verifyExternalSyncSettings", hasBody: true }),
+export const VerifyExternalSyncSettingsProjectsInstancesRequest = Schema.Struct(
+  {
+    project: Schema.String.pipe(T.HttpPath("project")),
+    instance: Schema.String.pipe(T.HttpPath("instance")),
+    body: Schema.optional(SqlInstancesVerifyExternalSyncSettingsRequest).pipe(
+      T.HttpBody(),
+    ),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/verifyExternalSyncSettings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<VerifyExternalSyncSettingsProjectsInstancesRequest>;
 
-export type VerifyExternalSyncSettingsProjectsInstancesResponse = SqlInstancesVerifyExternalSyncSettingsResponse;
-export const VerifyExternalSyncSettingsProjectsInstancesResponse = SqlInstancesVerifyExternalSyncSettingsResponse;
+export type VerifyExternalSyncSettingsProjectsInstancesResponse =
+  SqlInstancesVerifyExternalSyncSettingsResponse;
+export const VerifyExternalSyncSettingsProjectsInstancesResponse =
+  SqlInstancesVerifyExternalSyncSettingsResponse;
 
 export type VerifyExternalSyncSettingsProjectsInstancesError = DefaultErrors;
 
 /** Verify External primary instance external sync settings. */
-export const verifyExternalSyncSettingsProjectsInstances: API.OperationMethod<VerifyExternalSyncSettingsProjectsInstancesRequest, VerifyExternalSyncSettingsProjectsInstancesResponse, VerifyExternalSyncSettingsProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyExternalSyncSettingsProjectsInstances: API.OperationMethod<
+  VerifyExternalSyncSettingsProjectsInstancesRequest,
+  VerifyExternalSyncSettingsProjectsInstancesResponse,
+  VerifyExternalSyncSettingsProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyExternalSyncSettingsProjectsInstancesRequest,
   output: VerifyExternalSyncSettingsProjectsInstancesResponse,
   errors: [],
@@ -3998,9 +5896,15 @@ export interface StartExternalSyncProjectsInstancesRequest {
 export const StartExternalSyncProjectsInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
-  body: Schema.optional(SqlInstancesStartExternalSyncRequest).pipe(T.HttpBody()),
+  body: Schema.optional(SqlInstancesStartExternalSyncRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/startExternalSync", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/startExternalSync",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartExternalSyncProjectsInstancesRequest>;
 
@@ -4010,7 +5914,12 @@ export const StartExternalSyncProjectsInstancesResponse = Operation;
 export type StartExternalSyncProjectsInstancesError = DefaultErrors;
 
 /** Start External primary instance migration. */
-export const startExternalSyncProjectsInstances: API.OperationMethod<StartExternalSyncProjectsInstancesRequest, StartExternalSyncProjectsInstancesResponse, StartExternalSyncProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startExternalSyncProjectsInstances: API.OperationMethod<
+  StartExternalSyncProjectsInstancesRequest,
+  StartExternalSyncProjectsInstancesResponse,
+  StartExternalSyncProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartExternalSyncProjectsInstancesRequest,
   output: StartExternalSyncProjectsInstancesResponse,
   errors: [],
@@ -4030,7 +5939,11 @@ export const PerformDiskShrinkProjectsInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(PerformDiskShrinkContext).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/performDiskShrink", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/performDiskShrink",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PerformDiskShrinkProjectsInstancesRequest>;
 
@@ -4040,7 +5953,12 @@ export const PerformDiskShrinkProjectsInstancesResponse = Operation;
 export type PerformDiskShrinkProjectsInstancesError = DefaultErrors;
 
 /** Perform Disk Shrink on primary instance. */
-export const performDiskShrinkProjectsInstances: API.OperationMethod<PerformDiskShrinkProjectsInstancesRequest, PerformDiskShrinkProjectsInstancesResponse, PerformDiskShrinkProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const performDiskShrinkProjectsInstances: API.OperationMethod<
+  PerformDiskShrinkProjectsInstancesRequest,
+  PerformDiskShrinkProjectsInstancesResponse,
+  PerformDiskShrinkProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PerformDiskShrinkProjectsInstancesRequest,
   output: PerformDiskShrinkProjectsInstancesResponse,
   errors: [],
@@ -4057,17 +5975,27 @@ export const GetDiskShrinkConfigProjectsInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/getDiskShrinkConfig" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/getDiskShrinkConfig",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDiskShrinkConfigProjectsInstancesRequest>;
 
-export type GetDiskShrinkConfigProjectsInstancesResponse = SqlInstancesGetDiskShrinkConfigResponse;
-export const GetDiskShrinkConfigProjectsInstancesResponse = SqlInstancesGetDiskShrinkConfigResponse;
+export type GetDiskShrinkConfigProjectsInstancesResponse =
+  SqlInstancesGetDiskShrinkConfigResponse;
+export const GetDiskShrinkConfigProjectsInstancesResponse =
+  SqlInstancesGetDiskShrinkConfigResponse;
 
 export type GetDiskShrinkConfigProjectsInstancesError = DefaultErrors;
 
 /** Get Disk Shrink Config for a given instance. */
-export const getDiskShrinkConfigProjectsInstances: API.OperationMethod<GetDiskShrinkConfigProjectsInstancesRequest, GetDiskShrinkConfigProjectsInstancesResponse, GetDiskShrinkConfigProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDiskShrinkConfigProjectsInstances: API.OperationMethod<
+  GetDiskShrinkConfigProjectsInstancesRequest,
+  GetDiskShrinkConfigProjectsInstancesResponse,
+  GetDiskShrinkConfigProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDiskShrinkConfigProjectsInstancesRequest,
   output: GetDiskShrinkConfigProjectsInstancesResponse,
   errors: [],
@@ -4087,7 +6015,11 @@ export const ResetReplicaSizeProjectsInstancesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(SqlInstancesResetReplicaSizeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/resetReplicaSize", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/resetReplicaSize",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResetReplicaSizeProjectsInstancesRequest>;
 
@@ -4097,7 +6029,12 @@ export const ResetReplicaSizeProjectsInstancesResponse = Operation;
 export type ResetReplicaSizeProjectsInstancesError = DefaultErrors;
 
 /** Reset Replica Size to primary instance disk size. */
-export const resetReplicaSizeProjectsInstances: API.OperationMethod<ResetReplicaSizeProjectsInstancesRequest, ResetReplicaSizeProjectsInstancesResponse, ResetReplicaSizeProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resetReplicaSizeProjectsInstances: API.OperationMethod<
+  ResetReplicaSizeProjectsInstancesRequest,
+  ResetReplicaSizeProjectsInstancesResponse,
+  ResetReplicaSizeProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResetReplicaSizeProjectsInstancesRequest,
   output: ResetReplicaSizeProjectsInstancesResponse,
   errors: [],
@@ -4115,19 +6052,31 @@ export interface GetLatestRecoveryTimeProjectsInstancesRequest {
 export const GetLatestRecoveryTimeProjectsInstancesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
-  sourceInstanceDeletionTime: Schema.optional(Schema.String).pipe(T.HttpQuery("sourceInstanceDeletionTime")),
+  sourceInstanceDeletionTime: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("sourceInstanceDeletionTime"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/getLatestRecoveryTime" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/getLatestRecoveryTime",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetLatestRecoveryTimeProjectsInstancesRequest>;
 
-export type GetLatestRecoveryTimeProjectsInstancesResponse = SqlInstancesGetLatestRecoveryTimeResponse;
-export const GetLatestRecoveryTimeProjectsInstancesResponse = SqlInstancesGetLatestRecoveryTimeResponse;
+export type GetLatestRecoveryTimeProjectsInstancesResponse =
+  SqlInstancesGetLatestRecoveryTimeResponse;
+export const GetLatestRecoveryTimeProjectsInstancesResponse =
+  SqlInstancesGetLatestRecoveryTimeResponse;
 
 export type GetLatestRecoveryTimeProjectsInstancesError = DefaultErrors;
 
 /** Get Latest Recovery Time for a given instance. */
-export const getLatestRecoveryTimeProjectsInstances: API.OperationMethod<GetLatestRecoveryTimeProjectsInstancesRequest, GetLatestRecoveryTimeProjectsInstancesResponse, GetLatestRecoveryTimeProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLatestRecoveryTimeProjectsInstances: API.OperationMethod<
+  GetLatestRecoveryTimeProjectsInstancesRequest,
+  GetLatestRecoveryTimeProjectsInstancesResponse,
+  GetLatestRecoveryTimeProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLatestRecoveryTimeProjectsInstancesRequest,
   output: GetLatestRecoveryTimeProjectsInstancesResponse,
   errors: [],
@@ -4147,7 +6096,10 @@ export const DeleteBackupRunsRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{project}/instances/{instance}/backupRuns/{id}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{project}/instances/{instance}/backupRuns/{id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteBackupRunsRequest>;
 
@@ -4157,7 +6109,12 @@ export const DeleteBackupRunsResponse = Operation;
 export type DeleteBackupRunsError = DefaultErrors;
 
 /** Deletes the backup taken by a backup run. */
-export const deleteBackupRuns: API.OperationMethod<DeleteBackupRunsRequest, DeleteBackupRunsResponse, DeleteBackupRunsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteBackupRuns: API.OperationMethod<
+  DeleteBackupRunsRequest,
+  DeleteBackupRunsResponse,
+  DeleteBackupRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteBackupRunsRequest,
   output: DeleteBackupRunsResponse,
   errors: [],
@@ -4177,7 +6134,10 @@ export const GetBackupRunsRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/backupRuns/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/backupRuns/{id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBackupRunsRequest>;
 
@@ -4187,7 +6147,12 @@ export const GetBackupRunsResponse = BackupRun;
 export type GetBackupRunsError = DefaultErrors;
 
 /** Retrieves a resource containing information about a backup run. */
-export const getBackupRuns: API.OperationMethod<GetBackupRunsRequest, GetBackupRunsResponse, GetBackupRunsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBackupRuns: API.OperationMethod<
+  GetBackupRunsRequest,
+  GetBackupRunsResponse,
+  GetBackupRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBackupRunsRequest,
   output: GetBackupRunsResponse,
   errors: [],
@@ -4207,7 +6172,11 @@ export const InsertBackupRunsRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(BackupRun).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/backupRuns", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/backupRuns",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertBackupRunsRequest>;
 
@@ -4217,7 +6186,12 @@ export const InsertBackupRunsResponse = Operation;
 export type InsertBackupRunsError = DefaultErrors;
 
 /** Creates a new backup run on demand. */
-export const insertBackupRuns: API.OperationMethod<InsertBackupRunsRequest, InsertBackupRunsResponse, InsertBackupRunsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertBackupRuns: API.OperationMethod<
+  InsertBackupRunsRequest,
+  InsertBackupRunsResponse,
+  InsertBackupRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertBackupRunsRequest,
   output: InsertBackupRunsResponse,
   errors: [],
@@ -4240,7 +6214,10 @@ export const ListBackupRunsRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/backupRuns" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/backupRuns",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListBackupRunsRequest>;
 
@@ -4250,7 +6227,12 @@ export const ListBackupRunsResponse = BackupRunsListResponse;
 export type ListBackupRunsError = DefaultErrors;
 
 /** Lists all backup runs associated with the project or a given instance and configuration in the reverse chronological order of the backup initiation time. */
-export const listBackupRuns: API.PaginatedOperationMethod<ListBackupRunsRequest, ListBackupRunsResponse, ListBackupRunsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listBackupRuns: API.PaginatedOperationMethod<
+  ListBackupRunsRequest,
+  ListBackupRunsResponse,
+  ListBackupRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBackupRunsRequest,
   output: ListBackupRunsResponse,
   errors: [],
@@ -4272,7 +6254,11 @@ export const CreateBackupBackupsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Backup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/backups", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/backups",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateBackupBackupsRequest>;
 
@@ -4282,7 +6268,12 @@ export const CreateBackupBackupsResponse = Operation;
 export type CreateBackupBackupsError = DefaultErrors;
 
 /** Creates a backup for a Cloud SQL instance. This API can be used only to create on-demand backups. */
-export const CreateBackupBackups: API.OperationMethod<CreateBackupBackupsRequest, CreateBackupBackupsResponse, CreateBackupBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const CreateBackupBackups: API.OperationMethod<
+  CreateBackupBackupsRequest,
+  CreateBackupBackupsResponse,
+  CreateBackupBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateBackupBackupsRequest,
   output: CreateBackupBackupsResponse,
   errors: [],
@@ -4296,7 +6287,10 @@ export interface GetBackupBackupsRequest {
 export const GetBackupBackupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/backups/{backupsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/backups/{backupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBackupBackupsRequest>;
 
@@ -4306,7 +6300,12 @@ export const GetBackupBackupsResponse = Backup;
 export type GetBackupBackupsError = DefaultErrors;
 
 /** Retrieves a resource containing information about a backup. */
-export const GetBackupBackups: API.OperationMethod<GetBackupBackupsRequest, GetBackupBackupsResponse, GetBackupBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const GetBackupBackups: API.OperationMethod<
+  GetBackupBackupsRequest,
+  GetBackupBackupsResponse,
+  GetBackupBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBackupBackupsRequest,
   output: GetBackupBackupsResponse,
   errors: [],
@@ -4339,7 +6338,12 @@ export const ListBackupsBackupsResponse = ListBackupsResponse;
 export type ListBackupsBackupsError = DefaultErrors;
 
 /** Lists all backups associated with the project. */
-export const ListBackupsBackups: API.PaginatedOperationMethod<ListBackupsBackupsRequest, ListBackupsBackupsResponse, ListBackupsBackupsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const ListBackupsBackups: API.PaginatedOperationMethod<
+  ListBackupsBackupsRequest,
+  ListBackupsBackupsResponse,
+  ListBackupsBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListBackupsBackupsRequest,
   output: ListBackupsBackupsResponse,
   errors: [],
@@ -4363,7 +6367,11 @@ export const UpdateBackupBackupsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Backup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/backups/{backupsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/backups/{backupsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateBackupBackupsRequest>;
 
@@ -4373,7 +6381,12 @@ export const UpdateBackupBackupsResponse = Operation;
 export type UpdateBackupBackupsError = DefaultErrors;
 
 /** Updates the retention period and description of the backup. You can use this API to update final backups only. */
-export const UpdateBackupBackups: API.OperationMethod<UpdateBackupBackupsRequest, UpdateBackupBackupsResponse, UpdateBackupBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const UpdateBackupBackups: API.OperationMethod<
+  UpdateBackupBackupsRequest,
+  UpdateBackupBackupsResponse,
+  UpdateBackupBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateBackupBackupsRequest,
   output: UpdateBackupBackupsResponse,
   errors: [],
@@ -4387,7 +6400,10 @@ export interface DeleteBackupBackupsRequest {
 export const DeleteBackupBackupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/backups/{backupsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/backups/{backupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteBackupBackupsRequest>;
 
@@ -4397,7 +6413,12 @@ export const DeleteBackupBackupsResponse = Operation;
 export type DeleteBackupBackupsError = DefaultErrors;
 
 /** Deletes the backup. */
-export const DeleteBackupBackups: API.OperationMethod<DeleteBackupBackupsRequest, DeleteBackupBackupsResponse, DeleteBackupBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const DeleteBackupBackups: API.OperationMethod<
+  DeleteBackupBackupsRequest,
+  DeleteBackupBackupsResponse,
+  DeleteBackupBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteBackupBackupsRequest,
   output: DeleteBackupBackupsResponse,
   errors: [],
@@ -4417,7 +6438,10 @@ export const GetConnectRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/connectSettings" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/connectSettings",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConnectRequest>;
 
@@ -4427,7 +6451,12 @@ export const GetConnectResponse = ConnectSettings;
 export type GetConnectError = DefaultErrors;
 
 /** Retrieves connect settings about a Cloud SQL instance. */
-export const getConnect: API.OperationMethod<GetConnectRequest, GetConnectResponse, GetConnectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConnect: API.OperationMethod<
+  GetConnectRequest,
+  GetConnectResponse,
+  GetConnectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConnectRequest,
   output: GetConnectResponse,
   errors: [],
@@ -4447,17 +6476,28 @@ export const GenerateEphemeralCertConnectRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(GenerateEphemeralCertRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}:generateEphemeralCert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}:generateEphemeralCert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateEphemeralCertConnectRequest>;
 
-export type GenerateEphemeralCertConnectResponse = GenerateEphemeralCertResponse;
-export const GenerateEphemeralCertConnectResponse = GenerateEphemeralCertResponse;
+export type GenerateEphemeralCertConnectResponse =
+  GenerateEphemeralCertResponse;
+export const GenerateEphemeralCertConnectResponse =
+  GenerateEphemeralCertResponse;
 
 export type GenerateEphemeralCertConnectError = DefaultErrors;
 
 /** Generates a short-lived X509 certificate containing the provided public key and signed by a private key specific to the target instance. Users may use the certificate to authenticate as themselves when connecting to the database. */
-export const generateEphemeralCertConnect: API.OperationMethod<GenerateEphemeralCertConnectRequest, GenerateEphemeralCertConnectResponse, GenerateEphemeralCertConnectError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateEphemeralCertConnect: API.OperationMethod<
+  GenerateEphemeralCertConnectRequest,
+  GenerateEphemeralCertConnectResponse,
+  GenerateEphemeralCertConnectError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateEphemeralCertConnectRequest,
   output: GenerateEphemeralCertConnectResponse,
   errors: [],
@@ -4477,7 +6517,10 @@ export const DeleteDatabasesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   database: Schema.String.pipe(T.HttpPath("database")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{project}/instances/{instance}/databases/{database}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{project}/instances/{instance}/databases/{database}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteDatabasesRequest>;
 
@@ -4487,7 +6530,12 @@ export const DeleteDatabasesResponse = Operation;
 export type DeleteDatabasesError = DefaultErrors;
 
 /** Deletes a database from a Cloud SQL instance. */
-export const deleteDatabases: API.OperationMethod<DeleteDatabasesRequest, DeleteDatabasesResponse, DeleteDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteDatabases: API.OperationMethod<
+  DeleteDatabasesRequest,
+  DeleteDatabasesResponse,
+  DeleteDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteDatabasesRequest,
   output: DeleteDatabasesResponse,
   errors: [],
@@ -4507,7 +6555,10 @@ export const GetDatabasesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   database: Schema.String.pipe(T.HttpPath("database")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/databases/{database}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/databases/{database}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDatabasesRequest>;
 
@@ -4517,7 +6568,12 @@ export const GetDatabasesResponse = Database;
 export type GetDatabasesError = DefaultErrors;
 
 /** Retrieves a resource containing information about a database inside a Cloud SQL instance. */
-export const getDatabases: API.OperationMethod<GetDatabasesRequest, GetDatabasesResponse, GetDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDatabases: API.OperationMethod<
+  GetDatabasesRequest,
+  GetDatabasesResponse,
+  GetDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDatabasesRequest,
   output: GetDatabasesResponse,
   errors: [],
@@ -4537,7 +6593,11 @@ export const InsertDatabasesRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(Database).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/databases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/databases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertDatabasesRequest>;
 
@@ -4547,7 +6607,12 @@ export const InsertDatabasesResponse = Operation;
 export type InsertDatabasesError = DefaultErrors;
 
 /** Inserts a resource containing information about a database inside a Cloud SQL instance. **Note:** You can't modify the default character set and collation. */
-export const insertDatabases: API.OperationMethod<InsertDatabasesRequest, InsertDatabasesResponse, InsertDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertDatabases: API.OperationMethod<
+  InsertDatabasesRequest,
+  InsertDatabasesResponse,
+  InsertDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertDatabasesRequest,
   output: InsertDatabasesResponse,
   errors: [],
@@ -4564,7 +6629,10 @@ export const ListDatabasesRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/databases" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/databases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListDatabasesRequest>;
 
@@ -4574,7 +6642,12 @@ export const ListDatabasesResponse = DatabasesListResponse;
 export type ListDatabasesError = DefaultErrors;
 
 /** Lists databases in the specified Cloud SQL instance. */
-export const listDatabases: API.OperationMethod<ListDatabasesRequest, ListDatabasesResponse, ListDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listDatabases: API.OperationMethod<
+  ListDatabasesRequest,
+  ListDatabasesResponse,
+  ListDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListDatabasesRequest,
   output: ListDatabasesResponse,
   errors: [],
@@ -4597,7 +6670,11 @@ export const PatchDatabasesRequest = Schema.Struct({
   database: Schema.String.pipe(T.HttpPath("database")),
   body: Schema.optional(Database).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{project}/instances/{instance}/databases/{database}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{project}/instances/{instance}/databases/{database}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchDatabasesRequest>;
 
@@ -4607,7 +6684,12 @@ export const PatchDatabasesResponse = Operation;
 export type PatchDatabasesError = DefaultErrors;
 
 /** Partially updates a resource containing information about a database inside a Cloud SQL instance. This method supports patch semantics. */
-export const patchDatabases: API.OperationMethod<PatchDatabasesRequest, PatchDatabasesResponse, PatchDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchDatabases: API.OperationMethod<
+  PatchDatabasesRequest,
+  PatchDatabasesResponse,
+  PatchDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchDatabasesRequest,
   output: PatchDatabasesResponse,
   errors: [],
@@ -4630,7 +6712,11 @@ export const UpdateDatabasesRequest = Schema.Struct({
   database: Schema.String.pipe(T.HttpPath("database")),
   body: Schema.optional(Database).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{project}/instances/{instance}/databases/{database}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/projects/{project}/instances/{instance}/databases/{database}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateDatabasesRequest>;
 
@@ -4640,7 +6726,12 @@ export const UpdateDatabasesResponse = Operation;
 export type UpdateDatabasesError = DefaultErrors;
 
 /** Updates a resource containing information about a database inside a Cloud SQL instance. */
-export const updateDatabases: API.OperationMethod<UpdateDatabasesRequest, UpdateDatabasesResponse, UpdateDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateDatabases: API.OperationMethod<
+  UpdateDatabasesRequest,
+  UpdateDatabasesResponse,
+  UpdateDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateDatabasesRequest,
   output: UpdateDatabasesResponse,
   errors: [],
@@ -4650,11 +6741,17 @@ export interface ListFlagsRequest {
   /** Database type and version you want to retrieve flags for. By default, this method returns flags for all database types and versions. */
   databaseVersion?: string;
   /** Optional. Specify the scope of flags to be returned by SqlFlagsListService. Return list of database flags if unspecified. */
-  flagScope?: "SQL_FLAG_SCOPE_UNSPECIFIED" | "SQL_FLAG_SCOPE_DATABASE" | "SQL_FLAG_SCOPE_CONNECTION_POOL" | (string & {});
+  flagScope?:
+    | "SQL_FLAG_SCOPE_UNSPECIFIED"
+    | "SQL_FLAG_SCOPE_DATABASE"
+    | "SQL_FLAG_SCOPE_CONNECTION_POOL"
+    | (string & {});
 }
 
 export const ListFlagsRequest = Schema.Struct({
-  databaseVersion: Schema.optional(Schema.String).pipe(T.HttpQuery("databaseVersion")),
+  databaseVersion: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("databaseVersion"),
+  ),
   flagScope: Schema.optional(Schema.String).pipe(T.HttpQuery("flagScope")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/flags" }),
@@ -4667,7 +6764,12 @@ export const ListFlagsResponse = FlagsListResponse;
 export type ListFlagsError = DefaultErrors;
 
 /** Lists all available database flags for Cloud SQL instances. */
-export const listFlags: API.OperationMethod<ListFlagsRequest, ListFlagsResponse, ListFlagsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listFlags: API.OperationMethod<
+  ListFlagsRequest,
+  ListFlagsResponse,
+  ListFlagsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListFlagsRequest,
   output: ListFlagsResponse,
   errors: [],
@@ -4684,7 +6786,10 @@ export const GetOperationsRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   operation: Schema.String.pipe(T.HttpPath("operation")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/operations/{operation}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/operations/{operation}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
@@ -4694,7 +6799,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Retrieves an instance operation that has been performed on an instance. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -4727,7 +6837,12 @@ export const ListOperationsResponse = OperationsListResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists all instance operations that have been performed on the given Cloud SQL instance in the reverse chronological order of the start time. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -4749,7 +6864,11 @@ export const CancelOperationsRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   operation: Schema.String.pipe(T.HttpPath("operation")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/operations/{operation}/cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/operations/{operation}/cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -4759,7 +6878,12 @@ export const CancelOperationsResponse = Empty;
 export type CancelOperationsError = DefaultErrors;
 
 /** Cancels an instance operation that has been performed on an instance. */
-export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOperations: API.OperationMethod<
+  CancelOperationsRequest,
+  CancelOperationsResponse,
+  CancelOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -4783,7 +6907,12 @@ export const ListTiersResponse = TiersListResponse;
 export type ListTiersError = DefaultErrors;
 
 /** Lists all available machine types (tiers) for Cloud SQL, for example, `db-custom-1-3840`. For more information, see https://cloud.google.com/sql/pricing. */
-export const listTiers: API.OperationMethod<ListTiersRequest, ListTiersResponse, ListTiersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listTiers: API.OperationMethod<
+  ListTiersRequest,
+  ListTiersResponse,
+  ListTiersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListTiersRequest,
   output: ListTiersResponse,
   errors: [],
@@ -4806,7 +6935,10 @@ export const DeleteUsersRequest = Schema.Struct({
   host: Schema.optional(Schema.String).pipe(T.HttpQuery("host")),
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{project}/instances/{instance}/users" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{project}/instances/{instance}/users",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersRequest>;
 
@@ -4816,7 +6948,12 @@ export const DeleteUsersResponse = Operation;
 export type DeleteUsersError = DefaultErrors;
 
 /** Deletes a user from a Cloud SQL instance. */
-export const deleteUsers: API.OperationMethod<DeleteUsersRequest, DeleteUsersResponse, DeleteUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsers: API.OperationMethod<
+  DeleteUsersRequest,
+  DeleteUsersResponse,
+  DeleteUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersRequest,
   output: DeleteUsersResponse,
   errors: [],
@@ -4839,7 +6976,10 @@ export const GetUsersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   host: Schema.optional(Schema.String).pipe(T.HttpQuery("host")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/users/{name}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/users/{name}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersRequest>;
 
@@ -4849,7 +6989,12 @@ export const GetUsersResponse = User;
 export type GetUsersError = DefaultErrors;
 
 /** Retrieves a resource containing information about a user. */
-export const getUsers: API.OperationMethod<GetUsersRequest, GetUsersResponse, GetUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsers: API.OperationMethod<
+  GetUsersRequest,
+  GetUsersResponse,
+  GetUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,
   errors: [],
@@ -4869,7 +7014,11 @@ export const InsertUsersRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{project}/instances/{instance}/users", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{project}/instances/{instance}/users",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertUsersRequest>;
 
@@ -4879,7 +7028,12 @@ export const InsertUsersResponse = Operation;
 export type InsertUsersError = DefaultErrors;
 
 /** Creates a new user in a Cloud SQL instance. */
-export const insertUsers: API.OperationMethod<InsertUsersRequest, InsertUsersResponse, InsertUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertUsers: API.OperationMethod<
+  InsertUsersRequest,
+  InsertUsersResponse,
+  InsertUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertUsersRequest,
   output: InsertUsersResponse,
   errors: [],
@@ -4896,7 +7050,10 @@ export const ListUsersRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   instance: Schema.String.pipe(T.HttpPath("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{project}/instances/{instance}/users" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{project}/instances/{instance}/users",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListUsersRequest>;
 
@@ -4906,7 +7063,12 @@ export const ListUsersResponse = UsersListResponse;
 export type ListUsersError = DefaultErrors;
 
 /** Lists users in the specified Cloud SQL instance. */
-export const listUsers: API.OperationMethod<ListUsersRequest, ListUsersResponse, ListUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  ListUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [],
@@ -4934,11 +7096,19 @@ export const UpdateUsersRequest = Schema.Struct({
   instance: Schema.String.pipe(T.HttpPath("instance")),
   host: Schema.optional(Schema.String).pipe(T.HttpQuery("host")),
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-  databaseRoles: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("databaseRoles")),
-  revokeExistingRoles: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("revokeExistingRoles")),
+  databaseRoles: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("databaseRoles"),
+  ),
+  revokeExistingRoles: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("revokeExistingRoles"),
+  ),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{project}/instances/{instance}/users", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/projects/{project}/instances/{instance}/users",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersRequest>;
 
@@ -4948,9 +7118,13 @@ export const UpdateUsersResponse = Operation;
 export type UpdateUsersError = DefaultErrors;
 
 /** Updates an existing user in a Cloud SQL instance. */
-export const updateUsers: API.OperationMethod<UpdateUsersRequest, UpdateUsersResponse, UpdateUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsers: API.OperationMethod<
+  UpdateUsersRequest,
+  UpdateUsersResponse,
+  UpdateUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersRequest,
   output: UpdateUsersResponse,
   errors: [],
 }));
-

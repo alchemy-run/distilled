@@ -22,7 +22,7 @@ class NodeCrc32 implements Checksum {
   }
 }
 
-export const getCrc32ChecksumAlgorithmFunction = (): new () => Checksum => {
+export const getCrc32ChecksumAlgorithmFunction = (): (new () => Checksum) => {
   if (typeof (zlib as any).crc32 === "function") {
     return NodeCrc32;
   }

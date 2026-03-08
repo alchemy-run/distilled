@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,31 +55,42 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface DnsRecord {
   /** Output only. The domain name the record pertains to, e.g. `foo.bar.com.`. */
   domainName?: string;
   /** Output only. The record's type, which determines what data the record contains. */
-  type?: "TYPE_UNSPECIFIED" | "A" | "CNAME" | "TXT" | "AAAA" | "CAA" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "A"
+    | "CNAME"
+    | "TXT"
+    | "AAAA"
+    | "CAA"
+    | (string & {});
   /** Output only. The data of the record. The meaning of the value depends on record type: - A and AAAA: IP addresses for the domain name. - CNAME: Another domain to check for records. - TXT: Arbitrary text strings associated with the domain name. Hosting uses TXT records to determine which Firebase projects have permission to act on the domain name's behalf. - CAA: The record's flags, tag, and value, e.g. `0 issue "pki.goog"`. */
   rdata?: string;
   /** Output only. An enum that indicates the a required action for this record. */
   requiredAction?: "NONE" | "ADD" | "REMOVE" | (string & {});
 }
 
-export const DnsRecord: Schema.Schema<DnsRecord> = Schema.suspend(() => Schema.Struct({
-  domainName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  rdata: Schema.optional(Schema.String),
-  requiredAction: Schema.optional(Schema.String),
-})).annotate({ identifier: "DnsRecord" }) as any as Schema.Schema<DnsRecord>;
+export const DnsRecord: Schema.Schema<DnsRecord> = Schema.suspend(() =>
+  Schema.Struct({
+    domainName: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    rdata: Schema.optional(Schema.String),
+    requiredAction: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DnsRecord" }) as any as Schema.Schema<DnsRecord>;
 
 export interface DnsRecordSet {
   /** Output only. The domain name the record set pertains to. */
@@ -86,11 +101,15 @@ export interface DnsRecordSet {
   records?: Array<DnsRecord>;
 }
 
-export const DnsRecordSet: Schema.Schema<DnsRecordSet> = Schema.suspend(() => Schema.Struct({
-  domainName: Schema.optional(Schema.String),
-  checkError: Schema.optional(Status),
-  records: Schema.optional(Schema.Array(DnsRecord)),
-})).annotate({ identifier: "DnsRecordSet" }) as any as Schema.Schema<DnsRecordSet>;
+export const DnsRecordSet: Schema.Schema<DnsRecordSet> = Schema.suspend(() =>
+  Schema.Struct({
+    domainName: Schema.optional(Schema.String),
+    checkError: Schema.optional(Status),
+    records: Schema.optional(Schema.Array(DnsRecord)),
+  }),
+).annotate({
+  identifier: "DnsRecordSet",
+}) as any as Schema.Schema<DnsRecordSet>;
 
 export interface DnsUpdates {
   /** The set of DNS records Hosting discovered when inspecting a domain. */
@@ -101,11 +120,13 @@ export interface DnsUpdates {
   checkTime?: string;
 }
 
-export const DnsUpdates: Schema.Schema<DnsUpdates> = Schema.suspend(() => Schema.Struct({
-  discovered: Schema.optional(Schema.Array(DnsRecordSet)),
-  desired: Schema.optional(Schema.Array(DnsRecordSet)),
-  checkTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DnsUpdates" }) as any as Schema.Schema<DnsUpdates>;
+export const DnsUpdates: Schema.Schema<DnsUpdates> = Schema.suspend(() =>
+  Schema.Struct({
+    discovered: Schema.optional(Schema.Array(DnsRecordSet)),
+    desired: Schema.optional(Schema.Array(DnsRecordSet)),
+    checkTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DnsUpdates" }) as any as Schema.Schema<DnsUpdates>;
 
 export interface HttpUpdate {
   /** Output only. The path to the file. */
@@ -120,13 +141,15 @@ export interface HttpUpdate {
   checkError?: Status;
 }
 
-export const HttpUpdate: Schema.Schema<HttpUpdate> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  desired: Schema.optional(Schema.String),
-  discovered: Schema.optional(Schema.String),
-  lastCheckTime: Schema.optional(Schema.String),
-  checkError: Schema.optional(Status),
-})).annotate({ identifier: "HttpUpdate" }) as any as Schema.Schema<HttpUpdate>;
+export const HttpUpdate: Schema.Schema<HttpUpdate> = Schema.suspend(() =>
+  Schema.Struct({
+    path: Schema.optional(Schema.String),
+    desired: Schema.optional(Schema.String),
+    discovered: Schema.optional(Schema.String),
+    lastCheckTime: Schema.optional(Schema.String),
+    checkError: Schema.optional(Status),
+  }),
+).annotate({ identifier: "HttpUpdate" }) as any as Schema.Schema<HttpUpdate>;
 
 export interface CertVerification {
   /** Output only. A `TXT` record to add to your DNS records that confirms your intent to let Hosting create an SSL cert for your domain name. */
@@ -135,16 +158,35 @@ export interface CertVerification {
   http?: HttpUpdate;
 }
 
-export const CertVerification: Schema.Schema<CertVerification> = Schema.suspend(() => Schema.Struct({
-  dns: Schema.optional(DnsUpdates),
-  http: Schema.optional(HttpUpdate),
-})).annotate({ identifier: "CertVerification" }) as any as Schema.Schema<CertVerification>;
+export const CertVerification: Schema.Schema<CertVerification> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      dns: Schema.optional(DnsUpdates),
+      http: Schema.optional(HttpUpdate),
+    }),
+).annotate({
+  identifier: "CertVerification",
+}) as any as Schema.Schema<CertVerification>;
 
 export interface Certificate {
   /** Output only. The certificate's type. */
-  type?: "TYPE_UNSPECIFIED" | "TEMPORARY" | "GROUPED" | "PROJECT_GROUPED" | "DEDICATED" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "TEMPORARY"
+    | "GROUPED"
+    | "PROJECT_GROUPED"
+    | "DEDICATED"
+    | (string & {});
   /** Output only. The state of the certificate. Only the `CERT_ACTIVE` and `CERT_EXPIRING_SOON` states provide SSL coverage for a domain name. If the state is `PROPAGATING` and Hosting had an active cert for the domain name before, that formerly-active cert provides SSL coverage for the domain name until the current cert propagates. */
-  state?: "CERT_STATE_UNSPECIFIED" | "CERT_PREPARING" | "CERT_VALIDATING" | "CERT_PROPAGATING" | "CERT_ACTIVE" | "CERT_EXPIRING_SOON" | "CERT_EXPIRED" | (string & {});
+  state?:
+    | "CERT_STATE_UNSPECIFIED"
+    | "CERT_PREPARING"
+    | "CERT_VALIDATING"
+    | "CERT_PROPAGATING"
+    | "CERT_ACTIVE"
+    | "CERT_EXPIRING_SOON"
+    | "CERT_EXPIRED"
+    | (string & {});
   /** Output only. A set of ACME challenges you can add to your DNS records or existing, non-Hosting hosting provider to allow Hosting to create an SSL certificate for your domain name before you point traffic toward hosting. You can use thse challenges as part of a zero downtime transition from your old provider to Hosting. */
   verification?: CertVerification;
   /** Output only. A set of errors Hosting encountered when attempting to create a cert for your domain name. Resolve these issues to ensure Hosting is able to provide secure communication with your site's visitors. */
@@ -155,14 +197,16 @@ export interface Certificate {
   expireTime?: string;
 }
 
-export const Certificate: Schema.Schema<Certificate> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  verification: Schema.optional(CertVerification),
-  issues: Schema.optional(Schema.Array(Status)),
-  createTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Certificate" }) as any as Schema.Schema<Certificate>;
+export const Certificate: Schema.Schema<Certificate> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    verification: Schema.optional(CertVerification),
+    issues: Schema.optional(Schema.Array(Status)),
+    createTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Certificate" }) as any as Schema.Schema<Certificate>;
 
 export interface CustomDomain {
   /** Output only. The fully-qualified name of the `CustomDomain`. */
@@ -180,15 +224,36 @@ export interface CustomDomain {
   /** Output only. A string that represents the current state of the `CustomDomain` and allows you to confirm its initial state in requests that would modify it. Use the tag to ensure consistency when making `UpdateCustomDomain`, `DeleteCustomDomain`, and `UndeleteCustomDomain` requests. */
   etag?: string;
   /** Output only. The `HostState` of the domain name this `CustomDomain` refers to. */
-  hostState?: "HOST_STATE_UNSPECIFIED" | "HOST_UNHOSTED" | "HOST_UNREACHABLE" | "HOST_MISMATCH" | "HOST_CONFLICT" | "HOST_ACTIVE" | (string & {});
+  hostState?:
+    | "HOST_STATE_UNSPECIFIED"
+    | "HOST_UNHOSTED"
+    | "HOST_UNREACHABLE"
+    | "HOST_MISMATCH"
+    | "HOST_CONFLICT"
+    | "HOST_ACTIVE"
+    | (string & {});
   /** Output only. The `OwnershipState` of the domain name this `CustomDomain` refers to. */
-  ownershipState?: "OWNERSHIP_STATE_UNSPECIFIED" | "OWNERSHIP_MISSING" | "OWNERSHIP_UNREACHABLE" | "OWNERSHIP_MISMATCH" | "OWNERSHIP_CONFLICT" | "OWNERSHIP_PENDING" | "OWNERSHIP_ACTIVE" | (string & {});
+  ownershipState?:
+    | "OWNERSHIP_STATE_UNSPECIFIED"
+    | "OWNERSHIP_MISSING"
+    | "OWNERSHIP_UNREACHABLE"
+    | "OWNERSHIP_MISMATCH"
+    | "OWNERSHIP_CONFLICT"
+    | "OWNERSHIP_PENDING"
+    | "OWNERSHIP_ACTIVE"
+    | (string & {});
   /** Output only. A set of updates you should make to the domain name's DNS records to let Hosting serve secure content on its behalf. */
   requiredDnsUpdates?: DnsUpdates;
   /** Output only. A set of errors Hosting systems encountered when trying to establish Hosting's ability to serve secure content for your domain name. Resolve these issues to ensure your `CustomDomain` behaves properly. */
   issues?: Array<Status>;
   /** A field that lets you specify which SSL certificate type Hosting creates for your domain name. Spark plan custom domains only have access to the `GROUPED` cert type, while Blaze plan domains can select any option. */
-  certPreference?: "TYPE_UNSPECIFIED" | "TEMPORARY" | "GROUPED" | "PROJECT_GROUPED" | "DEDICATED" | (string & {});
+  certPreference?:
+    | "TYPE_UNSPECIFIED"
+    | "TEMPORARY"
+    | "GROUPED"
+    | "PROJECT_GROUPED"
+    | "DEDICATED"
+    | (string & {});
   /** Output only. The SSL certificate Hosting has for this custom domain's domain name. For new custom domains, this often represents Hosting's intent to create a certificate, rather than an actual cert. Check the `state` field for more. */
   cert?: Certificate;
   /** A domain name that this `CustomDomain` should direct traffic towards. If specified, Hosting will respond to requests against this custom domain with an HTTP 301 code, and route traffic to the specified `redirect_target` instead. */
@@ -199,24 +264,28 @@ export interface CustomDomain {
   labels?: Record<string, string>;
 }
 
-export const CustomDomain: Schema.Schema<CustomDomain> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  hostState: Schema.optional(Schema.String),
-  ownershipState: Schema.optional(Schema.String),
-  requiredDnsUpdates: Schema.optional(DnsUpdates),
-  issues: Schema.optional(Schema.Array(Status)),
-  certPreference: Schema.optional(Schema.String),
-  cert: Schema.optional(Certificate),
-  redirectTarget: Schema.optional(Schema.String),
-  reconciling: Schema.optional(Schema.Boolean),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "CustomDomain" }) as any as Schema.Schema<CustomDomain>;
+export const CustomDomain: Schema.Schema<CustomDomain> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    hostState: Schema.optional(Schema.String),
+    ownershipState: Schema.optional(Schema.String),
+    requiredDnsUpdates: Schema.optional(DnsUpdates),
+    issues: Schema.optional(Schema.Array(Status)),
+    certPreference: Schema.optional(Schema.String),
+    cert: Schema.optional(Certificate),
+    redirectTarget: Schema.optional(Schema.String),
+    reconciling: Schema.optional(Schema.Boolean),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({
+  identifier: "CustomDomain",
+}) as any as Schema.Schema<CustomDomain>;
 
 export interface ListCustomDomainsResponse {
   /** A list of `CustomDomain` entities associated with the specified Firebase `Site`. */
@@ -225,10 +294,15 @@ export interface ListCustomDomainsResponse {
   nextPageToken?: string;
 }
 
-export const ListCustomDomainsResponse: Schema.Schema<ListCustomDomainsResponse> = Schema.suspend(() => Schema.Struct({
-  customDomains: Schema.optional(Schema.Array(CustomDomain)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCustomDomainsResponse" }) as any as Schema.Schema<ListCustomDomainsResponse>;
+export const ListCustomDomainsResponse: Schema.Schema<ListCustomDomainsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customDomains: Schema.optional(Schema.Array(CustomDomain)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomDomainsResponse",
+  }) as any as Schema.Schema<ListCustomDomainsResponse>;
 
 export interface UndeleteCustomDomainRequest {
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually delete the `CustomDomain`. */
@@ -237,10 +311,15 @@ export interface UndeleteCustomDomainRequest {
   etag?: string;
 }
 
-export const UndeleteCustomDomainRequest: Schema.Schema<UndeleteCustomDomainRequest> = Schema.suspend(() => Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "UndeleteCustomDomainRequest" }) as any as Schema.Schema<UndeleteCustomDomainRequest>;
+export const UndeleteCustomDomainRequest: Schema.Schema<UndeleteCustomDomainRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      validateOnly: Schema.optional(Schema.Boolean),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UndeleteCustomDomainRequest",
+  }) as any as Schema.Schema<UndeleteCustomDomainRequest>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -251,11 +330,16 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
 export interface SiteConfig {
   /** The number of FINALIZED versions that will be held for a site before automatic deletion. When a new version is deployed, content for versions in storage in excess of this number will be deleted, and will no longer be billed for storage usage. Oldest versions will be deleted first; sites are created with an unlimited number of max_versions by default. */
@@ -264,10 +348,12 @@ export interface SiteConfig {
   cloudLoggingEnabled?: boolean;
 }
 
-export const SiteConfig: Schema.Schema<SiteConfig> = Schema.suspend(() => Schema.Struct({
-  maxVersions: Schema.optional(Schema.String),
-  cloudLoggingEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SiteConfig" }) as any as Schema.Schema<SiteConfig>;
+export const SiteConfig: Schema.Schema<SiteConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    maxVersions: Schema.optional(Schema.String),
+    cloudLoggingEnabled: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "SiteConfig" }) as any as Schema.Schema<SiteConfig>;
 
 export interface DomainRedirect {
   /** Required. The domain name to redirect to. */
@@ -276,10 +362,15 @@ export interface DomainRedirect {
   type?: "REDIRECT_TYPE_UNSPECIFIED" | "MOVED_PERMANENTLY" | (string & {});
 }
 
-export const DomainRedirect: Schema.Schema<DomainRedirect> = Schema.suspend(() => Schema.Struct({
-  domainName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "DomainRedirect" }) as any as Schema.Schema<DomainRedirect>;
+export const DomainRedirect: Schema.Schema<DomainRedirect> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      domainName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DomainRedirect",
+}) as any as Schema.Schema<DomainRedirect>;
 
 export interface CertDnsChallenge {
   /** The domain name upon which the DNS challenge must be satisfied. */
@@ -288,10 +379,15 @@ export interface CertDnsChallenge {
   token?: string;
 }
 
-export const CertDnsChallenge: Schema.Schema<CertDnsChallenge> = Schema.suspend(() => Schema.Struct({
-  domainName: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-})).annotate({ identifier: "CertDnsChallenge" }) as any as Schema.Schema<CertDnsChallenge>;
+export const CertDnsChallenge: Schema.Schema<CertDnsChallenge> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      domainName: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CertDnsChallenge",
+}) as any as Schema.Schema<CertDnsChallenge>;
 
 export interface CertHttpChallenge {
   /** The URL path on which to serve the specified token to satisfy the certificate challenge. */
@@ -300,14 +396,27 @@ export interface CertHttpChallenge {
   token?: string;
 }
 
-export const CertHttpChallenge: Schema.Schema<CertHttpChallenge> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-})).annotate({ identifier: "CertHttpChallenge" }) as any as Schema.Schema<CertHttpChallenge>;
+export const CertHttpChallenge: Schema.Schema<CertHttpChallenge> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CertHttpChallenge",
+  }) as any as Schema.Schema<CertHttpChallenge>;
 
 export interface DomainProvisioning {
   /** The certificate provisioning status; updated when Firebase Hosting provisions an SSL certificate for the domain. */
-  certStatus?: "CERT_STATUS_UNSPECIFIED" | "CERT_PENDING" | "CERT_MISSING" | "CERT_PROCESSING" | "CERT_PROPAGATING" | "CERT_ACTIVE" | "CERT_ERROR" | (string & {});
+  certStatus?:
+    | "CERT_STATUS_UNSPECIFIED"
+    | "CERT_PENDING"
+    | "CERT_MISSING"
+    | "CERT_PROCESSING"
+    | "CERT_PROPAGATING"
+    | "CERT_ACTIVE"
+    | "CERT_ERROR"
+    | (string & {});
   /** The DNS challenge for generating a certificate. */
   certChallengeDns?: CertDnsChallenge;
   /** The HTTP challenge for generating a certificate. */
@@ -315,7 +424,14 @@ export interface DomainProvisioning {
   /** The TXT records (for the certificate challenge) that were found at the last DNS fetch. */
   certChallengeDiscoveredTxt?: Array<string>;
   /** The DNS record match status as of the last DNS fetch. */
-  dnsStatus?: "DNS_STATUS_UNSPECIFIED" | "DNS_PENDING" | "DNS_MISSING" | "DNS_PARTIAL_MATCH" | "DNS_MATCH" | "DNS_EXTRANEOUS_MATCH" | (string & {});
+  dnsStatus?:
+    | "DNS_STATUS_UNSPECIFIED"
+    | "DNS_PENDING"
+    | "DNS_MISSING"
+    | "DNS_PARTIAL_MATCH"
+    | "DNS_MATCH"
+    | "DNS_EXTRANEOUS_MATCH"
+    | (string & {});
   /** The list of IPs to which the domain is expected to resolve. */
   expectedIps?: Array<string>;
   /** The IPs found at the last DNS fetch. */
@@ -324,16 +440,21 @@ export interface DomainProvisioning {
   dnsFetchTime?: string;
 }
 
-export const DomainProvisioning: Schema.Schema<DomainProvisioning> = Schema.suspend(() => Schema.Struct({
-  certStatus: Schema.optional(Schema.String),
-  certChallengeDns: Schema.optional(CertDnsChallenge),
-  certChallengeHttp: Schema.optional(CertHttpChallenge),
-  certChallengeDiscoveredTxt: Schema.optional(Schema.Array(Schema.String)),
-  dnsStatus: Schema.optional(Schema.String),
-  expectedIps: Schema.optional(Schema.Array(Schema.String)),
-  discoveredIps: Schema.optional(Schema.Array(Schema.String)),
-  dnsFetchTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DomainProvisioning" }) as any as Schema.Schema<DomainProvisioning>;
+export const DomainProvisioning: Schema.Schema<DomainProvisioning> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certStatus: Schema.optional(Schema.String),
+      certChallengeDns: Schema.optional(CertDnsChallenge),
+      certChallengeHttp: Schema.optional(CertHttpChallenge),
+      certChallengeDiscoveredTxt: Schema.optional(Schema.Array(Schema.String)),
+      dnsStatus: Schema.optional(Schema.String),
+      expectedIps: Schema.optional(Schema.Array(Schema.String)),
+      discoveredIps: Schema.optional(Schema.Array(Schema.String)),
+      dnsFetchTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DomainProvisioning",
+  }) as any as Schema.Schema<DomainProvisioning>;
 
 export interface Domain {
   /** Required. The site name of the association. */
@@ -347,17 +468,25 @@ export interface Domain {
   /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
   provisioning?: DomainProvisioning;
   /** Output only. Additional status of the domain association. */
-  status?: "DOMAIN_STATUS_UNSPECIFIED" | "DOMAIN_CHANGE_PENDING" | "DOMAIN_ACTIVE" | "DOMAIN_VERIFICATION_REQUIRED" | "DOMAIN_VERIFICATION_LOST" | (string & {});
+  status?:
+    | "DOMAIN_STATUS_UNSPECIFIED"
+    | "DOMAIN_CHANGE_PENDING"
+    | "DOMAIN_ACTIVE"
+    | "DOMAIN_VERIFICATION_REQUIRED"
+    | "DOMAIN_VERIFICATION_LOST"
+    | (string & {});
 }
 
-export const Domain: Schema.Schema<Domain> = Schema.suspend(() => Schema.Struct({
-  site: Schema.optional(Schema.String),
-  domainName: Schema.optional(Schema.String),
-  domainRedirect: Schema.optional(DomainRedirect),
-  updateTime: Schema.optional(Schema.String),
-  provisioning: Schema.optional(DomainProvisioning),
-  status: Schema.optional(Schema.String),
-})).annotate({ identifier: "Domain" }) as any as Schema.Schema<Domain>;
+export const Domain: Schema.Schema<Domain> = Schema.suspend(() =>
+  Schema.Struct({
+    site: Schema.optional(Schema.String),
+    domainName: Schema.optional(Schema.String),
+    domainRedirect: Schema.optional(DomainRedirect),
+    updateTime: Schema.optional(Schema.String),
+    provisioning: Schema.optional(DomainProvisioning),
+    status: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Domain" }) as any as Schema.Schema<Domain>;
 
 export interface ListDomainsResponse {
   /** The list of domains, if any exist. */
@@ -366,16 +495,21 @@ export interface ListDomainsResponse {
   nextPageToken?: string;
 }
 
-export const ListDomainsResponse: Schema.Schema<ListDomainsResponse> = Schema.suspend(() => Schema.Struct({
-  domains: Schema.optional(Schema.Array(Domain)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDomainsResponse" }) as any as Schema.Schema<ListDomainsResponse>;
+export const ListDomainsResponse: Schema.Schema<ListDomainsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      domains: Schema.optional(Schema.Array(Domain)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDomainsResponse",
+  }) as any as Schema.Schema<ListDomainsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Header {
   /** The user-supplied [glob](https://firebase.google.com/docs/hosting/full-config#glob_pattern_matching) to match against the request URL path. */
@@ -386,11 +520,13 @@ export interface Header {
   headers?: Record<string, string>;
 }
 
-export const Header: Schema.Schema<Header> = Schema.suspend(() => Schema.Struct({
-  glob: Schema.optional(Schema.String),
-  regex: Schema.optional(Schema.String),
-  headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
+export const Header: Schema.Schema<Header> = Schema.suspend(() =>
+  Schema.Struct({
+    glob: Schema.optional(Schema.String),
+    regex: Schema.optional(Schema.String),
+    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
 
 export interface Redirect {
   /** The user-supplied [glob](https://firebase.google.com/docs/hosting/full-config#glob_pattern_matching) to match against the request URL path. */
@@ -403,12 +539,14 @@ export interface Redirect {
   location?: string;
 }
 
-export const Redirect: Schema.Schema<Redirect> = Schema.suspend(() => Schema.Struct({
-  glob: Schema.optional(Schema.String),
-  regex: Schema.optional(Schema.String),
-  statusCode: Schema.optional(Schema.Number),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Redirect" }) as any as Schema.Schema<Redirect>;
+export const Redirect: Schema.Schema<Redirect> = Schema.suspend(() =>
+  Schema.Struct({
+    glob: Schema.optional(Schema.String),
+    regex: Schema.optional(Schema.String),
+    statusCode: Schema.optional(Schema.Number),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Redirect" }) as any as Schema.Schema<Redirect>;
 
 export interface CloudRunRewrite {
   /** Required. User-defined ID of the Cloud Run service. */
@@ -419,11 +557,16 @@ export interface CloudRunRewrite {
   tag?: string;
 }
 
-export const CloudRunRewrite: Schema.Schema<CloudRunRewrite> = Schema.suspend(() => Schema.Struct({
-  serviceId: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudRunRewrite" }) as any as Schema.Schema<CloudRunRewrite>;
+export const CloudRunRewrite: Schema.Schema<CloudRunRewrite> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      serviceId: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      tag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CloudRunRewrite",
+}) as any as Schema.Schema<CloudRunRewrite>;
 
 export interface Rewrite {
   /** The user-supplied [glob](https://firebase.google.com/docs/hosting/full-config#glob_pattern_matching) to match against the request URL path. */
@@ -442,24 +585,28 @@ export interface Rewrite {
   functionRegion?: string;
 }
 
-export const Rewrite: Schema.Schema<Rewrite> = Schema.suspend(() => Schema.Struct({
-  glob: Schema.optional(Schema.String),
-  regex: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  function: Schema.optional(Schema.String),
-  dynamicLinks: Schema.optional(Schema.Boolean),
-  run: Schema.optional(CloudRunRewrite),
-  functionRegion: Schema.optional(Schema.String),
-})).annotate({ identifier: "Rewrite" }) as any as Schema.Schema<Rewrite>;
+export const Rewrite: Schema.Schema<Rewrite> = Schema.suspend(() =>
+  Schema.Struct({
+    glob: Schema.optional(Schema.String),
+    regex: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+    function: Schema.optional(Schema.String),
+    dynamicLinks: Schema.optional(Schema.Boolean),
+    run: Schema.optional(CloudRunRewrite),
+    functionRegion: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Rewrite" }) as any as Schema.Schema<Rewrite>;
 
 export interface I18nConfig {
   /** Required. The user-supplied path where country and language specific content will be looked for within the public directory. */
   root?: string;
 }
 
-export const I18nConfig: Schema.Schema<I18nConfig> = Schema.suspend(() => Schema.Struct({
-  root: Schema.optional(Schema.String),
-})).annotate({ identifier: "I18nConfig" }) as any as Schema.Schema<I18nConfig>;
+export const I18nConfig: Schema.Schema<I18nConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    root: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "I18nConfig" }) as any as Schema.Schema<I18nConfig>;
 
 export interface ServingConfig {
   /** An array of objects, where each object specifies a URL pattern that, if matched to the request URL path, triggers Hosting to apply the specified custom response headers. */
@@ -471,22 +618,30 @@ export interface ServingConfig {
   /** Defines whether to drop the file extension from uploaded files. */
   cleanUrls?: boolean;
   /** Defines how to handle a trailing slash in the URL path. */
-  trailingSlashBehavior?: "TRAILING_SLASH_BEHAVIOR_UNSPECIFIED" | "ADD" | "REMOVE" | (string & {});
+  trailingSlashBehavior?:
+    | "TRAILING_SLASH_BEHAVIOR_UNSPECIFIED"
+    | "ADD"
+    | "REMOVE"
+    | (string & {});
   /** How to handle well known App Association files. */
   appAssociation?: "AUTO" | "NONE" | (string & {});
   /** Optional. Defines i18n rewrite behavior. */
   i18n?: I18nConfig;
 }
 
-export const ServingConfig: Schema.Schema<ServingConfig> = Schema.suspend(() => Schema.Struct({
-  headers: Schema.optional(Schema.Array(Header)),
-  redirects: Schema.optional(Schema.Array(Redirect)),
-  rewrites: Schema.optional(Schema.Array(Rewrite)),
-  cleanUrls: Schema.optional(Schema.Boolean),
-  trailingSlashBehavior: Schema.optional(Schema.String),
-  appAssociation: Schema.optional(Schema.String),
-  i18n: Schema.optional(I18nConfig),
-})).annotate({ identifier: "ServingConfig" }) as any as Schema.Schema<ServingConfig>;
+export const ServingConfig: Schema.Schema<ServingConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    headers: Schema.optional(Schema.Array(Header)),
+    redirects: Schema.optional(Schema.Array(Redirect)),
+    rewrites: Schema.optional(Schema.Array(Rewrite)),
+    cleanUrls: Schema.optional(Schema.Boolean),
+    trailingSlashBehavior: Schema.optional(Schema.String),
+    appAssociation: Schema.optional(Schema.String),
+    i18n: Schema.optional(I18nConfig),
+  }),
+).annotate({
+  identifier: "ServingConfig",
+}) as any as Schema.Schema<ServingConfig>;
 
 export interface ActingUser {
   /** The email address of the user when the user performed the action. */
@@ -495,16 +650,26 @@ export interface ActingUser {
   imageUrl?: string;
 }
 
-export const ActingUser: Schema.Schema<ActingUser> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  imageUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActingUser" }) as any as Schema.Schema<ActingUser>;
+export const ActingUser: Schema.Schema<ActingUser> = Schema.suspend(() =>
+  Schema.Struct({
+    email: Schema.optional(Schema.String),
+    imageUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ActingUser" }) as any as Schema.Schema<ActingUser>;
 
 export interface Version {
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name?: string;
   /** The deploy status of the version. For a successful deploy, call [`CreateVersion`](sites.versions/create) to make a new version (`CREATED` status), [upload all desired files](sites.versions/populateFiles) to the version, then [update](sites.versions/patch) the version to the `FINALIZED` status. Note that if you leave the version in the `CREATED` state for more than 12 hours, the system will automatically mark the version as `ABANDONED`. You can also change the status of a version to `DELETED` by calling [`DeleteVersion`](sites.versions/delete). */
-  status?: "VERSION_STATUS_UNSPECIFIED" | "CREATED" | "FINALIZED" | "DELETED" | "ABANDONED" | "EXPIRED" | "CLONING" | (string & {});
+  status?:
+    | "VERSION_STATUS_UNSPECIFIED"
+    | "CREATED"
+    | "FINALIZED"
+    | "DELETED"
+    | "ABANDONED"
+    | "EXPIRED"
+    | "CLONING"
+    | (string & {});
   /** The configuration for the behavior of the site. This configuration exists in the [`firebase.json`](https://firebase.google.com/docs/cli/#the_firebasejson_file) file. */
   config?: ServingConfig;
   /** The labels used for extra metadata and/or filtering. */
@@ -527,20 +692,22 @@ export interface Version {
   versionBytes?: string;
 }
 
-export const Version: Schema.Schema<Version> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  config: Schema.optional(ServingConfig),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  createTime: Schema.optional(Schema.String),
-  createUser: Schema.optional(ActingUser),
-  finalizeTime: Schema.optional(Schema.String),
-  finalizeUser: Schema.optional(ActingUser),
-  deleteTime: Schema.optional(Schema.String),
-  deleteUser: Schema.optional(ActingUser),
-  fileCount: Schema.optional(Schema.String),
-  versionBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "Version" }) as any as Schema.Schema<Version>;
+export const Version: Schema.Schema<Version> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    config: Schema.optional(ServingConfig),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    createTime: Schema.optional(Schema.String),
+    createUser: Schema.optional(ActingUser),
+    finalizeTime: Schema.optional(Schema.String),
+    finalizeUser: Schema.optional(ActingUser),
+    deleteTime: Schema.optional(Schema.String),
+    deleteUser: Schema.optional(ActingUser),
+    fileCount: Schema.optional(Schema.String),
+    versionBytes: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Version" }) as any as Schema.Schema<Version>;
 
 export interface VersionFile {
   /** The URI at which the file's content should display. */
@@ -551,11 +718,13 @@ export interface VersionFile {
   status?: "STATUS_UNSPECIFIED" | "EXPECTED" | "ACTIVE" | (string & {});
 }
 
-export const VersionFile: Schema.Schema<VersionFile> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  hash: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-})).annotate({ identifier: "VersionFile" }) as any as Schema.Schema<VersionFile>;
+export const VersionFile: Schema.Schema<VersionFile> = Schema.suspend(() =>
+  Schema.Struct({
+    path: Schema.optional(Schema.String),
+    hash: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "VersionFile" }) as any as Schema.Schema<VersionFile>;
 
 export interface ListVersionFilesResponse {
   /** The list of paths to the hashes of the files in the specified version. */
@@ -564,19 +733,29 @@ export interface ListVersionFilesResponse {
   nextPageToken?: string;
 }
 
-export const ListVersionFilesResponse: Schema.Schema<ListVersionFilesResponse> = Schema.suspend(() => Schema.Struct({
-  files: Schema.optional(Schema.Array(VersionFile)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListVersionFilesResponse" }) as any as Schema.Schema<ListVersionFilesResponse>;
+export const ListVersionFilesResponse: Schema.Schema<ListVersionFilesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      files: Schema.optional(Schema.Array(VersionFile)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListVersionFilesResponse",
+  }) as any as Schema.Schema<ListVersionFilesResponse>;
 
 export interface PopulateVersionFilesRequest {
   /** A set of file paths to the hashes corresponding to assets that should be added to the version. A file path to an empty hash will remove the path from the version. Calculate a hash by Gzipping the file then taking the SHA256 hash of the newly compressed file. */
   files?: Record<string, string>;
 }
 
-export const PopulateVersionFilesRequest: Schema.Schema<PopulateVersionFilesRequest> = Schema.suspend(() => Schema.Struct({
-  files: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "PopulateVersionFilesRequest" }) as any as Schema.Schema<PopulateVersionFilesRequest>;
+export const PopulateVersionFilesRequest: Schema.Schema<PopulateVersionFilesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      files: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PopulateVersionFilesRequest",
+  }) as any as Schema.Schema<PopulateVersionFilesRequest>;
 
 export interface PopulateVersionFilesResponse {
   /** The content hashes of the specified files that need to be uploaded to the specified URL. */
@@ -585,10 +764,15 @@ export interface PopulateVersionFilesResponse {
   uploadUrl?: string;
 }
 
-export const PopulateVersionFilesResponse: Schema.Schema<PopulateVersionFilesResponse> = Schema.suspend(() => Schema.Struct({
-  uploadRequiredHashes: Schema.optional(Schema.Array(Schema.String)),
-  uploadUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "PopulateVersionFilesResponse" }) as any as Schema.Schema<PopulateVersionFilesResponse>;
+export const PopulateVersionFilesResponse: Schema.Schema<PopulateVersionFilesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      uploadRequiredHashes: Schema.optional(Schema.Array(Schema.String)),
+      uploadUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PopulateVersionFilesResponse",
+  }) as any as Schema.Schema<PopulateVersionFilesResponse>;
 
 export interface Release {
   /** Output only. The unique identifier for the release, in either of the following formats: - sites/SITE_ID/releases/RELEASE_ID - sites/SITE_ID/channels/CHANNEL_ID/releases/RELEASE_ID This name is provided in the response body when you call [`releases.create`](sites.releases/create) or [`channels.releases.create`](sites.channels.releases/create). */
@@ -596,7 +780,12 @@ export interface Release {
   /** Output only. The configuration and content that was released. */
   version?: Version;
   /** Explains the reason for the release. Specify a value for this field only when creating a `SITE_DISABLE` type release. */
-  type?: "TYPE_UNSPECIFIED" | "DEPLOY" | "ROLLBACK" | "SITE_DISABLE" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "DEPLOY"
+    | "ROLLBACK"
+    | "SITE_DISABLE"
+    | (string & {});
   /** Output only. The time at which the version is set to be public. */
   releaseTime?: string;
   /** Output only. Identifies the user who created the release. */
@@ -605,14 +794,16 @@ export interface Release {
   message?: string;
 }
 
-export const Release: Schema.Schema<Release> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  version: Schema.optional(Version),
-  type: Schema.optional(Schema.String),
-  releaseTime: Schema.optional(Schema.String),
-  releaseUser: Schema.optional(ActingUser),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "Release" }) as any as Schema.Schema<Release>;
+export const Release: Schema.Schema<Release> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    version: Schema.optional(Version),
+    type: Schema.optional(Schema.String),
+    releaseTime: Schema.optional(Schema.String),
+    releaseUser: Schema.optional(ActingUser),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Release" }) as any as Schema.Schema<Release>;
 
 export interface ListReleasesResponse {
   /** The list of hashes of files that still need to be uploaded, if any exist. */
@@ -621,10 +812,15 @@ export interface ListReleasesResponse {
   nextPageToken?: string;
 }
 
-export const ListReleasesResponse: Schema.Schema<ListReleasesResponse> = Schema.suspend(() => Schema.Struct({
-  releases: Schema.optional(Schema.Array(Release)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListReleasesResponse" }) as any as Schema.Schema<ListReleasesResponse>;
+export const ListReleasesResponse: Schema.Schema<ListReleasesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      releases: Schema.optional(Schema.Array(Release)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListReleasesResponse",
+  }) as any as Schema.Schema<ListReleasesResponse>;
 
 export interface ListVersionsResponse {
   /** The list of versions, if any exist. */
@@ -633,19 +829,26 @@ export interface ListVersionsResponse {
   nextPageToken?: string;
 }
 
-export const ListVersionsResponse: Schema.Schema<ListVersionsResponse> = Schema.suspend(() => Schema.Struct({
-  versions: Schema.optional(Schema.Array(Version)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListVersionsResponse" }) as any as Schema.Schema<ListVersionsResponse>;
+export const ListVersionsResponse: Schema.Schema<ListVersionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      versions: Schema.optional(Schema.Array(Version)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListVersionsResponse",
+  }) as any as Schema.Schema<ListVersionsResponse>;
 
 export interface PathFilter {
   /** An array of RegEx values by which to filter. */
   regexes?: Array<string>;
 }
 
-export const PathFilter: Schema.Schema<PathFilter> = Schema.suspend(() => Schema.Struct({
-  regexes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PathFilter" }) as any as Schema.Schema<PathFilter>;
+export const PathFilter: Schema.Schema<PathFilter> = Schema.suspend(() =>
+  Schema.Struct({
+    regexes: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "PathFilter" }) as any as Schema.Schema<PathFilter>;
 
 export interface CloneVersionRequest {
   /** Required. The unique identifier for the version to be cloned, in the format: sites/SITE_ID/versions/VERSION_ID */
@@ -658,12 +861,17 @@ export interface CloneVersionRequest {
   exclude?: PathFilter;
 }
 
-export const CloneVersionRequest: Schema.Schema<CloneVersionRequest> = Schema.suspend(() => Schema.Struct({
-  sourceVersion: Schema.optional(Schema.String),
-  finalize: Schema.optional(Schema.Boolean),
-  include: Schema.optional(PathFilter),
-  exclude: Schema.optional(PathFilter),
-})).annotate({ identifier: "CloneVersionRequest" }) as any as Schema.Schema<CloneVersionRequest>;
+export const CloneVersionRequest: Schema.Schema<CloneVersionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceVersion: Schema.optional(Schema.String),
+      finalize: Schema.optional(Schema.Boolean),
+      include: Schema.optional(PathFilter),
+      exclude: Schema.optional(PathFilter),
+    }),
+  ).annotate({
+    identifier: "CloneVersionRequest",
+  }) as any as Schema.Schema<CloneVersionRequest>;
 
 export interface Channel {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
@@ -686,17 +894,19 @@ export interface Channel {
   labels?: Record<string, string>;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  release: Schema.optional(Release),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  ttl: Schema.optional(Schema.String),
-  retainedReleaseCount: Schema.optional(Schema.Number),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+    release: Schema.optional(Release),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    ttl: Schema.optional(Schema.String),
+    retainedReleaseCount: Schema.optional(Schema.Number),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface ListChannelsResponse {
   /** The list of channels. */
@@ -705,10 +915,15 @@ export interface ListChannelsResponse {
   nextPageToken?: string;
 }
 
-export const ListChannelsResponse: Schema.Schema<ListChannelsResponse> = Schema.suspend(() => Schema.Struct({
-  channels: Schema.optional(Schema.Array(Channel)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListChannelsResponse" }) as any as Schema.Schema<ListChannelsResponse>;
+export const ListChannelsResponse: Schema.Schema<ListChannelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      channels: Schema.optional(Schema.Array(Channel)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListChannelsResponse",
+  }) as any as Schema.Schema<ListChannelsResponse>;
 
 export interface Site {
   /** Output only. The fully-qualified resource name of the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID PROJECT_IDENTIFIER: the Firebase project's [`ProjectNumber`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). */
@@ -723,13 +938,15 @@ export interface Site {
   type?: "TYPE_UNSPECIFIED" | "DEFAULT_SITE" | "USER_SITE" | (string & {});
 }
 
-export const Site: Schema.Schema<Site> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  defaultUrl: Schema.optional(Schema.String),
-  appId: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
+export const Site: Schema.Schema<Site> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    defaultUrl: Schema.optional(Schema.String),
+    appId: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
 
 export interface ListSitesResponse {
   /** A list of Site objects associated with the specified Firebase project. */
@@ -738,14 +955,26 @@ export interface ListSitesResponse {
   nextPageToken?: string;
 }
 
-export const ListSitesResponse: Schema.Schema<ListSitesResponse> = Schema.suspend(() => Schema.Struct({
-  sites: Schema.optional(Schema.Array(Site)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSitesResponse" }) as any as Schema.Schema<ListSitesResponse>;
+export const ListSitesResponse: Schema.Schema<ListSitesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sites: Schema.optional(Schema.Array(Site)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSitesResponse",
+  }) as any as Schema.Schema<ListSitesResponse>;
 
 export interface LiveMigrationStep {
   /** Output only. The state of the live migration step, indicates whether you should work to complete the step now, in the future, or have already completed it. */
-  state?: "STATE_UNSPECIFIED" | "PREPARING" | "PENDING" | "INCOMPLETE" | "PROCESSING" | "COMPLETE" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "PREPARING"
+    | "PENDING"
+    | "INCOMPLETE"
+    | "PROCESSING"
+    | "COMPLETE"
+    | (string & {});
   /** Output only. A pair of ACME challenges that Hosting's Certificate Authority (CA) can use to create an SSL cert for your domain name. Use either the DNS or HTTP challenge; it's not necessary to provide both. */
   certVerification?: CertVerification;
   /** Output only. DNS updates to facilitate your domain's zero-downtime migration to Hosting. */
@@ -754,20 +983,48 @@ export interface LiveMigrationStep {
   issues?: Array<Status>;
 }
 
-export const LiveMigrationStep: Schema.Schema<LiveMigrationStep> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  certVerification: Schema.optional(CertVerification),
-  dnsUpdates: Schema.optional(DnsUpdates),
-  issues: Schema.optional(Schema.Array(Status)),
-})).annotate({ identifier: "LiveMigrationStep" }) as any as Schema.Schema<LiveMigrationStep>;
+export const LiveMigrationStep: Schema.Schema<LiveMigrationStep> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      certVerification: Schema.optional(CertVerification),
+      dnsUpdates: Schema.optional(DnsUpdates),
+      issues: Schema.optional(Schema.Array(Status)),
+    }),
+  ).annotate({
+    identifier: "LiveMigrationStep",
+  }) as any as Schema.Schema<LiveMigrationStep>;
 
 export interface CustomDomainMetadata {
   /** The `HostState` of the domain name this `CustomDomain` refers to. */
-  hostState?: "HOST_STATE_UNSPECIFIED" | "HOST_UNHOSTED" | "HOST_UNREACHABLE" | "HOST_MISMATCH" | "HOST_CONFLICT" | "HOST_ACTIVE" | (string & {});
+  hostState?:
+    | "HOST_STATE_UNSPECIFIED"
+    | "HOST_UNHOSTED"
+    | "HOST_UNREACHABLE"
+    | "HOST_MISMATCH"
+    | "HOST_CONFLICT"
+    | "HOST_ACTIVE"
+    | (string & {});
   /** The `OwnershipState` of the domain name this `CustomDomain` refers to. */
-  ownershipState?: "OWNERSHIP_STATE_UNSPECIFIED" | "OWNERSHIP_MISSING" | "OWNERSHIP_UNREACHABLE" | "OWNERSHIP_MISMATCH" | "OWNERSHIP_CONFLICT" | "OWNERSHIP_PENDING" | "OWNERSHIP_ACTIVE" | (string & {});
+  ownershipState?:
+    | "OWNERSHIP_STATE_UNSPECIFIED"
+    | "OWNERSHIP_MISSING"
+    | "OWNERSHIP_UNREACHABLE"
+    | "OWNERSHIP_MISMATCH"
+    | "OWNERSHIP_CONFLICT"
+    | "OWNERSHIP_PENDING"
+    | "OWNERSHIP_ACTIVE"
+    | (string & {});
   /** The `CertState` of the domain name's SSL certificate. */
-  certState?: "CERT_STATE_UNSPECIFIED" | "CERT_PREPARING" | "CERT_VALIDATING" | "CERT_PROPAGATING" | "CERT_ACTIVE" | "CERT_EXPIRING_SOON" | "CERT_EXPIRED" | (string & {});
+  certState?:
+    | "CERT_STATE_UNSPECIFIED"
+    | "CERT_PREPARING"
+    | "CERT_VALIDATING"
+    | "CERT_PROPAGATING"
+    | "CERT_ACTIVE"
+    | "CERT_EXPIRING_SOON"
+    | "CERT_EXPIRED"
+    | (string & {});
   /** A set of DNS record updates and ACME challenges that allow you to transition domain names to Firebase Hosting with zero downtime. These updates allow Hosting to create an SSL certificate and establish ownership for your custom domain before Hosting begins serving traffic on it. If your domain name is already in active use with another provider, add one of the challenges and make the recommended DNS updates. After adding challenges and adjusting DNS records as necessary, wait for the `ownershipState` to be `OWNERSHIP_ACTIVE` and the `certState` to be `CERT_ACTIVE` before sending traffic to Hosting. */
   liveMigrationSteps?: Array<LiveMigrationStep>;
   /** A set of DNS record updates that allow Hosting to serve secure content on your domain name. The record type determines the update's purpose: - `A` and `AAAA`: Updates your domain name's IP addresses so that they direct traffic to Hosting servers. - `TXT`: Updates ownership permissions on your domain name, letting Hosting know that your custom domain's project has permission to perform actions for that domain name. - `CAA`: Updates your domain name's list of authorized Certificate Authorities (CAs). Only present if you have existing `CAA` records that prohibit Hosting's CA from minting certs for your domain name. These updates include all DNS changes you'll need to get started with Hosting, but, if made all at once, can result in a brief period of downtime for your domain name--while Hosting creates and uploads an SSL cert, for example. If you'd like to add your domain name to Hosting without downtime, complete the `liveMigrationSteps` first, before making the remaining updates in this field. */
@@ -776,14 +1033,19 @@ export interface CustomDomainMetadata {
   issues?: Array<Status>;
 }
 
-export const CustomDomainMetadata: Schema.Schema<CustomDomainMetadata> = Schema.suspend(() => Schema.Struct({
-  hostState: Schema.optional(Schema.String),
-  ownershipState: Schema.optional(Schema.String),
-  certState: Schema.optional(Schema.String),
-  liveMigrationSteps: Schema.optional(Schema.Array(LiveMigrationStep)),
-  quickSetupUpdates: Schema.optional(DnsUpdates),
-  issues: Schema.optional(Schema.Array(Status)),
-})).annotate({ identifier: "CustomDomainMetadata" }) as any as Schema.Schema<CustomDomainMetadata>;
+export const CustomDomainMetadata: Schema.Schema<CustomDomainMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hostState: Schema.optional(Schema.String),
+      ownershipState: Schema.optional(Schema.String),
+      certState: Schema.optional(Schema.String),
+      liveMigrationSteps: Schema.optional(Schema.Array(LiveMigrationStep)),
+      quickSetupUpdates: Schema.optional(DnsUpdates),
+      issues: Schema.optional(Schema.Array(Status)),
+    }),
+  ).annotate({
+    identifier: "CustomDomainMetadata",
+  }) as any as Schema.Schema<CustomDomainMetadata>;
 
 // ==========================================================================
 // Operations
@@ -797,7 +1059,10 @@ export interface GetProjectsOperationsRequest {
 export const GetProjectsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -807,7 +1072,12 @@ export const GetProjectsOperationsResponse = Operation;
 export type GetProjectsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsOperations: API.OperationMethod<
+  GetProjectsOperationsRequest,
+  GetProjectsOperationsResponse,
+  GetProjectsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -821,7 +1091,10 @@ export interface GetConfigProjectsSitesRequest {
 export const GetConfigProjectsSitesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/config" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/config",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConfigProjectsSitesRequest>;
 
@@ -831,7 +1104,12 @@ export const GetConfigProjectsSitesResponse = SiteConfig;
 export type GetConfigProjectsSitesError = DefaultErrors;
 
 /** Gets the Hosting metadata for a specific site. */
-export const getConfigProjectsSites: API.OperationMethod<GetConfigProjectsSitesRequest, GetConfigProjectsSitesResponse, GetConfigProjectsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConfigProjectsSites: API.OperationMethod<
+  GetConfigProjectsSitesRequest,
+  GetConfigProjectsSitesResponse,
+  GetConfigProjectsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConfigProjectsSitesRequest,
   output: GetConfigProjectsSitesResponse,
   errors: [],
@@ -851,7 +1129,11 @@ export const UpdateConfigProjectsSitesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SiteConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/config", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/config",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateConfigProjectsSitesRequest>;
 
@@ -861,7 +1143,12 @@ export const UpdateConfigProjectsSitesResponse = SiteConfig;
 export type UpdateConfigProjectsSitesError = DefaultErrors;
 
 /** Sets the Hosting metadata for a specific site. */
-export const updateConfigProjectsSites: API.OperationMethod<UpdateConfigProjectsSitesRequest, UpdateConfigProjectsSitesResponse, UpdateConfigProjectsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateConfigProjectsSites: API.OperationMethod<
+  UpdateConfigProjectsSitesRequest,
+  UpdateConfigProjectsSitesResponse,
+  UpdateConfigProjectsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateConfigProjectsSitesRequest,
   output: UpdateConfigProjectsSitesResponse,
   errors: [],
@@ -881,10 +1168,16 @@ export interface CreateProjectsSitesRequest {
 export const CreateProjectsSitesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   siteId: Schema.optional(Schema.String).pipe(T.HttpQuery("siteId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(Site).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSitesRequest>;
 
@@ -894,7 +1187,12 @@ export const CreateProjectsSitesResponse = Site;
 export type CreateProjectsSitesError = DefaultErrors;
 
 /** Creates a new Hosting Site in the specified parent Firebase project. Note that Hosting sites can take several minutes to propagate through Firebase systems. */
-export const createProjectsSites: API.OperationMethod<CreateProjectsSitesRequest, CreateProjectsSitesResponse, CreateProjectsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSites: API.OperationMethod<
+  CreateProjectsSitesRequest,
+  CreateProjectsSitesResponse,
+  CreateProjectsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSitesRequest,
   output: CreateProjectsSitesResponse,
   errors: [],
@@ -914,7 +1212,11 @@ export const PatchProjectsSitesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Site).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/sites/{sitesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsSitesRequest>;
 
@@ -924,7 +1226,12 @@ export const PatchProjectsSitesResponse = Site;
 export type PatchProjectsSitesError = DefaultErrors;
 
 /** Updates attributes of the specified Hosting Site. */
-export const patchProjectsSites: API.OperationMethod<PatchProjectsSitesRequest, PatchProjectsSitesResponse, PatchProjectsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsSites: API.OperationMethod<
+  PatchProjectsSitesRequest,
+  PatchProjectsSitesResponse,
+  PatchProjectsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsSitesRequest,
   output: PatchProjectsSitesResponse,
   errors: [],
@@ -938,7 +1245,10 @@ export interface GetProjectsSitesRequest {
 export const GetProjectsSitesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesRequest>;
 
@@ -948,7 +1258,12 @@ export const GetProjectsSitesResponse = Site;
 export type GetProjectsSitesError = DefaultErrors;
 
 /** Gets the specified Hosting Site. */
-export const getProjectsSites: API.OperationMethod<GetProjectsSitesRequest, GetProjectsSitesResponse, GetProjectsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSites: API.OperationMethod<
+  GetProjectsSitesRequest,
+  GetProjectsSitesResponse,
+  GetProjectsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesRequest,
   output: GetProjectsSitesResponse,
   errors: [],
@@ -978,7 +1293,12 @@ export const ListProjectsSitesResponse = ListSitesResponse;
 export type ListProjectsSitesError = DefaultErrors;
 
 /** Lists each Hosting Site associated with the specified parent Firebase project. */
-export const listProjectsSites: API.PaginatedOperationMethod<ListProjectsSitesRequest, ListProjectsSitesResponse, ListProjectsSitesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSites: API.PaginatedOperationMethod<
+  ListProjectsSitesRequest,
+  ListProjectsSitesResponse,
+  ListProjectsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesRequest,
   output: ListProjectsSitesResponse,
   errors: [],
@@ -996,7 +1316,10 @@ export interface DeleteProjectsSitesRequest {
 export const DeleteProjectsSitesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/sites/{sitesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsSitesRequest>;
 
@@ -1006,7 +1329,12 @@ export const DeleteProjectsSitesResponse = Empty;
 export type DeleteProjectsSitesError = DefaultErrors;
 
 /** Deletes the specified Hosting Site from the specified parent Firebase project. */
-export const deleteProjectsSites: API.OperationMethod<DeleteProjectsSitesRequest, DeleteProjectsSitesResponse, DeleteProjectsSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsSites: API.OperationMethod<
+  DeleteProjectsSitesRequest,
+  DeleteProjectsSitesResponse,
+  DeleteProjectsSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsSitesRequest,
   output: DeleteProjectsSitesResponse,
   errors: [],
@@ -1025,11 +1353,19 @@ export interface CreateProjectsSitesCustomDomainsRequest {
 
 export const CreateProjectsSitesCustomDomainsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  customDomainId: Schema.optional(Schema.String).pipe(T.HttpQuery("customDomainId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  customDomainId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("customDomainId"),
+  ),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(CustomDomain).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSitesCustomDomainsRequest>;
 
@@ -1039,7 +1375,12 @@ export const CreateProjectsSitesCustomDomainsResponse = Operation;
 export type CreateProjectsSitesCustomDomainsError = DefaultErrors;
 
 /** Creates a `CustomDomain`. */
-export const createProjectsSitesCustomDomains: API.OperationMethod<CreateProjectsSitesCustomDomainsRequest, CreateProjectsSitesCustomDomainsResponse, CreateProjectsSitesCustomDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSitesCustomDomains: API.OperationMethod<
+  CreateProjectsSitesCustomDomainsRequest,
+  CreateProjectsSitesCustomDomainsResponse,
+  CreateProjectsSitesCustomDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSitesCustomDomainsRequest,
   output: CreateProjectsSitesCustomDomainsResponse,
   errors: [],
@@ -1061,11 +1402,19 @@ export interface PatchProjectsSitesCustomDomainsRequest {
 export const PatchProjectsSitesCustomDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(CustomDomain).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsSitesCustomDomainsRequest>;
 
@@ -1075,7 +1424,12 @@ export const PatchProjectsSitesCustomDomainsResponse = Operation;
 export type PatchProjectsSitesCustomDomainsError = DefaultErrors;
 
 /** Updates the specified `CustomDomain`. */
-export const patchProjectsSitesCustomDomains: API.OperationMethod<PatchProjectsSitesCustomDomainsRequest, PatchProjectsSitesCustomDomainsResponse, PatchProjectsSitesCustomDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsSitesCustomDomains: API.OperationMethod<
+  PatchProjectsSitesCustomDomainsRequest,
+  PatchProjectsSitesCustomDomainsResponse,
+  PatchProjectsSitesCustomDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsSitesCustomDomainsRequest,
   output: PatchProjectsSitesCustomDomainsResponse,
   errors: [],
@@ -1089,7 +1443,10 @@ export interface GetProjectsSitesCustomDomainsRequest {
 export const GetProjectsSitesCustomDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesCustomDomainsRequest>;
 
@@ -1099,7 +1456,12 @@ export const GetProjectsSitesCustomDomainsResponse = CustomDomain;
 export type GetProjectsSitesCustomDomainsError = DefaultErrors;
 
 /** Gets the specified `CustomDomain`. */
-export const getProjectsSitesCustomDomains: API.OperationMethod<GetProjectsSitesCustomDomainsRequest, GetProjectsSitesCustomDomainsResponse, GetProjectsSitesCustomDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSitesCustomDomains: API.OperationMethod<
+  GetProjectsSitesCustomDomainsRequest,
+  GetProjectsSitesCustomDomainsResponse,
+  GetProjectsSitesCustomDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesCustomDomainsRequest,
   output: GetProjectsSitesCustomDomainsResponse,
   errors: [],
@@ -1122,7 +1484,10 @@ export const ListProjectsSitesCustomDomainsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesCustomDomainsRequest>;
 
@@ -1132,7 +1497,12 @@ export const ListProjectsSitesCustomDomainsResponse = ListCustomDomainsResponse;
 export type ListProjectsSitesCustomDomainsError = DefaultErrors;
 
 /** Lists each `CustomDomain` associated with the specified parent Hosting site. Returns `CustomDomain`s in a consistent, but undefined, order to facilitate pagination. */
-export const listProjectsSitesCustomDomains: API.PaginatedOperationMethod<ListProjectsSitesCustomDomainsRequest, ListProjectsSitesCustomDomainsResponse, ListProjectsSitesCustomDomainsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesCustomDomains: API.PaginatedOperationMethod<
+  ListProjectsSitesCustomDomainsRequest,
+  ListProjectsSitesCustomDomainsResponse,
+  ListProjectsSitesCustomDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesCustomDomainsRequest,
   output: ListProjectsSitesCustomDomainsResponse,
   errors: [],
@@ -1155,11 +1525,18 @@ export interface DeleteProjectsSitesCustomDomainsRequest {
 
 export const DeleteProjectsSitesCustomDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsSitesCustomDomainsRequest>;
 
@@ -1169,7 +1546,12 @@ export const DeleteProjectsSitesCustomDomainsResponse = Operation;
 export type DeleteProjectsSitesCustomDomainsError = DefaultErrors;
 
 /** Deletes the specified `CustomDomain`. */
-export const deleteProjectsSitesCustomDomains: API.OperationMethod<DeleteProjectsSitesCustomDomainsRequest, DeleteProjectsSitesCustomDomainsResponse, DeleteProjectsSitesCustomDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsSitesCustomDomains: API.OperationMethod<
+  DeleteProjectsSitesCustomDomainsRequest,
+  DeleteProjectsSitesCustomDomainsResponse,
+  DeleteProjectsSitesCustomDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsSitesCustomDomainsRequest,
   output: DeleteProjectsSitesCustomDomainsResponse,
   errors: [],
@@ -1186,7 +1568,11 @@ export const UndeleteProjectsSitesCustomDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteCustomDomainRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteProjectsSitesCustomDomainsRequest>;
 
@@ -1196,7 +1582,12 @@ export const UndeleteProjectsSitesCustomDomainsResponse = Operation;
 export type UndeleteProjectsSitesCustomDomainsError = DefaultErrors;
 
 /** Undeletes the specified `CustomDomain` if it has been soft-deleted. Hosting retains soft-deleted custom domains for around 30 days before permanently deleting them. */
-export const undeleteProjectsSitesCustomDomains: API.OperationMethod<UndeleteProjectsSitesCustomDomainsRequest, UndeleteProjectsSitesCustomDomainsResponse, UndeleteProjectsSitesCustomDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteProjectsSitesCustomDomains: API.OperationMethod<
+  UndeleteProjectsSitesCustomDomainsRequest,
+  UndeleteProjectsSitesCustomDomainsResponse,
+  UndeleteProjectsSitesCustomDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteProjectsSitesCustomDomainsRequest,
   output: UndeleteProjectsSitesCustomDomainsResponse,
   errors: [],
@@ -1220,19 +1611,31 @@ export const ListProjectsSitesCustomDomainsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesCustomDomainsOperationsRequest>;
 
-export type ListProjectsSitesCustomDomainsOperationsResponse = ListOperationsResponse;
-export const ListProjectsSitesCustomDomainsOperationsResponse = ListOperationsResponse;
+export type ListProjectsSitesCustomDomainsOperationsResponse =
+  ListOperationsResponse;
+export const ListProjectsSitesCustomDomainsOperationsResponse =
+  ListOperationsResponse;
 
 export type ListProjectsSitesCustomDomainsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. */
-export const listProjectsSitesCustomDomainsOperations: API.PaginatedOperationMethod<ListProjectsSitesCustomDomainsOperationsRequest, ListProjectsSitesCustomDomainsOperationsResponse, ListProjectsSitesCustomDomainsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesCustomDomainsOperations: API.PaginatedOperationMethod<
+  ListProjectsSitesCustomDomainsOperationsRequest,
+  ListProjectsSitesCustomDomainsOperationsResponse,
+  ListProjectsSitesCustomDomainsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesCustomDomainsOperationsRequest,
   output: ListProjectsSitesCustomDomainsOperationsResponse,
   errors: [],
@@ -1250,7 +1653,10 @@ export interface GetProjectsSitesCustomDomainsOperationsRequest {
 export const GetProjectsSitesCustomDomainsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesCustomDomainsOperationsRequest>;
 
@@ -1260,7 +1666,12 @@ export const GetProjectsSitesCustomDomainsOperationsResponse = Operation;
 export type GetProjectsSitesCustomDomainsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsSitesCustomDomainsOperations: API.OperationMethod<GetProjectsSitesCustomDomainsOperationsRequest, GetProjectsSitesCustomDomainsOperationsResponse, GetProjectsSitesCustomDomainsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSitesCustomDomainsOperations: API.OperationMethod<
+  GetProjectsSitesCustomDomainsOperationsRequest,
+  GetProjectsSitesCustomDomainsOperationsResponse,
+  GetProjectsSitesCustomDomainsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesCustomDomainsOperationsRequest,
   output: GetProjectsSitesCustomDomainsOperationsResponse,
   errors: [],
@@ -1280,7 +1691,10 @@ export const ListProjectsSitesDomainsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesDomainsRequest>;
 
@@ -1290,7 +1704,12 @@ export const ListProjectsSitesDomainsResponse = ListDomainsResponse;
 export type ListProjectsSitesDomainsError = DefaultErrors;
 
 /** Lists the domains for the specified site. */
-export const listProjectsSitesDomains: API.PaginatedOperationMethod<ListProjectsSitesDomainsRequest, ListProjectsSitesDomainsResponse, ListProjectsSitesDomainsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesDomains: API.PaginatedOperationMethod<
+  ListProjectsSitesDomainsRequest,
+  ListProjectsSitesDomainsResponse,
+  ListProjectsSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesDomainsRequest,
   output: ListProjectsSitesDomainsResponse,
   errors: [],
@@ -1308,7 +1727,10 @@ export interface GetProjectsSitesDomainsRequest {
 export const GetProjectsSitesDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains/{domainsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains/{domainsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesDomainsRequest>;
 
@@ -1318,7 +1740,12 @@ export const GetProjectsSitesDomainsResponse = Domain;
 export type GetProjectsSitesDomainsError = DefaultErrors;
 
 /** Gets a domain mapping on the specified site. */
-export const getProjectsSitesDomains: API.OperationMethod<GetProjectsSitesDomainsRequest, GetProjectsSitesDomainsResponse, GetProjectsSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSitesDomains: API.OperationMethod<
+  GetProjectsSitesDomainsRequest,
+  GetProjectsSitesDomainsResponse,
+  GetProjectsSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesDomainsRequest,
   output: GetProjectsSitesDomainsResponse,
   errors: [],
@@ -1335,7 +1762,11 @@ export const CreateProjectsSitesDomainsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Domain).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSitesDomainsRequest>;
 
@@ -1345,7 +1776,12 @@ export const CreateProjectsSitesDomainsResponse = Domain;
 export type CreateProjectsSitesDomainsError = DefaultErrors;
 
 /** Creates a domain mapping on the specified site. */
-export const createProjectsSitesDomains: API.OperationMethod<CreateProjectsSitesDomainsRequest, CreateProjectsSitesDomainsResponse, CreateProjectsSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSitesDomains: API.OperationMethod<
+  CreateProjectsSitesDomainsRequest,
+  CreateProjectsSitesDomainsResponse,
+  CreateProjectsSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSitesDomainsRequest,
   output: CreateProjectsSitesDomainsResponse,
   errors: [],
@@ -1362,7 +1798,11 @@ export const UpdateProjectsSitesDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Domain).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains/{domainsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains/{domainsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateProjectsSitesDomainsRequest>;
 
@@ -1372,7 +1812,12 @@ export const UpdateProjectsSitesDomainsResponse = Domain;
 export type UpdateProjectsSitesDomainsError = DefaultErrors;
 
 /** Updates the specified domain mapping, creating the mapping as if it does not exist. */
-export const updateProjectsSitesDomains: API.OperationMethod<UpdateProjectsSitesDomainsRequest, UpdateProjectsSitesDomainsResponse, UpdateProjectsSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateProjectsSitesDomains: API.OperationMethod<
+  UpdateProjectsSitesDomainsRequest,
+  UpdateProjectsSitesDomainsResponse,
+  UpdateProjectsSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateProjectsSitesDomainsRequest,
   output: UpdateProjectsSitesDomainsResponse,
   errors: [],
@@ -1386,7 +1831,10 @@ export interface DeleteProjectsSitesDomainsRequest {
 export const DeleteProjectsSitesDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains/{domainsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/domains/{domainsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsSitesDomainsRequest>;
 
@@ -1396,7 +1844,12 @@ export const DeleteProjectsSitesDomainsResponse = Empty;
 export type DeleteProjectsSitesDomainsError = DefaultErrors;
 
 /** Deletes the existing domain mapping on the specified site. */
-export const deleteProjectsSitesDomains: API.OperationMethod<DeleteProjectsSitesDomainsRequest, DeleteProjectsSitesDomainsResponse, DeleteProjectsSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsSitesDomains: API.OperationMethod<
+  DeleteProjectsSitesDomainsRequest,
+  DeleteProjectsSitesDomainsResponse,
+  DeleteProjectsSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsSitesDomainsRequest,
   output: DeleteProjectsSitesDomainsResponse,
   errors: [],
@@ -1419,7 +1872,11 @@ export const CreateProjectsSitesVersionsRequest = Schema.Struct({
   sizeBytes: Schema.optional(Schema.String).pipe(T.HttpQuery("sizeBytes")),
   body: Schema.optional(Version).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSitesVersionsRequest>;
 
@@ -1429,7 +1886,12 @@ export const CreateProjectsSitesVersionsResponse = Version;
 export type CreateProjectsSitesVersionsError = DefaultErrors;
 
 /** Creates a new version for the specified site. */
-export const createProjectsSitesVersions: API.OperationMethod<CreateProjectsSitesVersionsRequest, CreateProjectsSitesVersionsResponse, CreateProjectsSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSitesVersions: API.OperationMethod<
+  CreateProjectsSitesVersionsRequest,
+  CreateProjectsSitesVersionsResponse,
+  CreateProjectsSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSitesVersionsRequest,
   output: CreateProjectsSitesVersionsResponse,
   errors: [],
@@ -1449,7 +1911,11 @@ export const PatchProjectsSitesVersionsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Version).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsSitesVersionsRequest>;
 
@@ -1459,7 +1925,12 @@ export const PatchProjectsSitesVersionsResponse = Version;
 export type PatchProjectsSitesVersionsError = DefaultErrors;
 
 /** Updates the specified metadata for the specified version. This method will fail with `FAILED_PRECONDITION` in the event of an invalid state transition. The supported [state](../sites.versions#versionstatus) transitions for a version are from `CREATED` to `FINALIZED`. Use [`DeleteVersion`](delete) to set the status of a version to `DELETED`. */
-export const patchProjectsSitesVersions: API.OperationMethod<PatchProjectsSitesVersionsRequest, PatchProjectsSitesVersionsResponse, PatchProjectsSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsSitesVersions: API.OperationMethod<
+  PatchProjectsSitesVersionsRequest,
+  PatchProjectsSitesVersionsResponse,
+  PatchProjectsSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsSitesVersionsRequest,
   output: PatchProjectsSitesVersionsResponse,
   errors: [],
@@ -1473,7 +1944,10 @@ export interface DeleteProjectsSitesVersionsRequest {
 export const DeleteProjectsSitesVersionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsSitesVersionsRequest>;
 
@@ -1483,7 +1957,12 @@ export const DeleteProjectsSitesVersionsResponse = Empty;
 export type DeleteProjectsSitesVersionsError = DefaultErrors;
 
 /** Deletes the specified version. */
-export const deleteProjectsSitesVersions: API.OperationMethod<DeleteProjectsSitesVersionsRequest, DeleteProjectsSitesVersionsResponse, DeleteProjectsSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsSitesVersions: API.OperationMethod<
+  DeleteProjectsSitesVersionsRequest,
+  DeleteProjectsSitesVersionsResponse,
+  DeleteProjectsSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsSitesVersionsRequest,
   output: DeleteProjectsSitesVersionsResponse,
   errors: [],
@@ -1500,17 +1979,28 @@ export const PopulateFilesProjectsSitesVersionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(PopulateVersionFilesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}:populateFiles", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}:populateFiles",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PopulateFilesProjectsSitesVersionsRequest>;
 
-export type PopulateFilesProjectsSitesVersionsResponse = PopulateVersionFilesResponse;
-export const PopulateFilesProjectsSitesVersionsResponse = PopulateVersionFilesResponse;
+export type PopulateFilesProjectsSitesVersionsResponse =
+  PopulateVersionFilesResponse;
+export const PopulateFilesProjectsSitesVersionsResponse =
+  PopulateVersionFilesResponse;
 
 export type PopulateFilesProjectsSitesVersionsError = DefaultErrors;
 
 /** Adds content files to the specified version. Each file must be under 2 GB. */
-export const populateFilesProjectsSitesVersions: API.OperationMethod<PopulateFilesProjectsSitesVersionsRequest, PopulateFilesProjectsSitesVersionsResponse, PopulateFilesProjectsSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const populateFilesProjectsSitesVersions: API.OperationMethod<
+  PopulateFilesProjectsSitesVersionsRequest,
+  PopulateFilesProjectsSitesVersionsResponse,
+  PopulateFilesProjectsSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PopulateFilesProjectsSitesVersionsRequest,
   output: PopulateFilesProjectsSitesVersionsResponse,
   errors: [],
@@ -1533,7 +2023,10 @@ export const ListProjectsSitesVersionsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesVersionsRequest>;
 
@@ -1543,7 +2036,12 @@ export const ListProjectsSitesVersionsResponse = ListVersionsResponse;
 export type ListProjectsSitesVersionsError = DefaultErrors;
 
 /** Lists the versions that have been created for the specified site. This list includes versions for both the default `live` channel and any active preview channels for the specified site. */
-export const listProjectsSitesVersions: API.PaginatedOperationMethod<ListProjectsSitesVersionsRequest, ListProjectsSitesVersionsResponse, ListProjectsSitesVersionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesVersions: API.PaginatedOperationMethod<
+  ListProjectsSitesVersionsRequest,
+  ListProjectsSitesVersionsResponse,
+  ListProjectsSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesVersionsRequest,
   output: ListProjectsSitesVersionsResponse,
   errors: [],
@@ -1561,7 +2059,10 @@ export interface GetProjectsSitesVersionsRequest {
 export const GetProjectsSitesVersionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesVersionsRequest>;
 
@@ -1571,7 +2072,12 @@ export const GetProjectsSitesVersionsResponse = Version;
 export type GetProjectsSitesVersionsError = DefaultErrors;
 
 /** Get the specified version that has been created for the specified site. This can include versions that were created for the default `live` channel or for any active preview channels for the specified site. */
-export const getProjectsSitesVersions: API.OperationMethod<GetProjectsSitesVersionsRequest, GetProjectsSitesVersionsResponse, GetProjectsSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSitesVersions: API.OperationMethod<
+  GetProjectsSitesVersionsRequest,
+  GetProjectsSitesVersionsResponse,
+  GetProjectsSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesVersionsRequest,
   output: GetProjectsSitesVersionsResponse,
   errors: [],
@@ -1588,7 +2094,11 @@ export const CloneProjectsSitesVersionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CloneVersionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions:clone", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions:clone",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CloneProjectsSitesVersionsRequest>;
 
@@ -1598,7 +2108,12 @@ export const CloneProjectsSitesVersionsResponse = Operation;
 export type CloneProjectsSitesVersionsError = DefaultErrors;
 
 /** Creates a new version on the specified target site using the content of the specified version. */
-export const cloneProjectsSitesVersions: API.OperationMethod<CloneProjectsSitesVersionsRequest, CloneProjectsSitesVersionsResponse, CloneProjectsSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cloneProjectsSitesVersions: API.OperationMethod<
+  CloneProjectsSitesVersionsRequest,
+  CloneProjectsSitesVersionsResponse,
+  CloneProjectsSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CloneProjectsSitesVersionsRequest,
   output: CloneProjectsSitesVersionsResponse,
   errors: [],
@@ -1621,7 +2136,10 @@ export const ListProjectsSitesVersionsFilesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}/files" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/versions/{versionsId}/files",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesVersionsFilesRequest>;
 
@@ -1631,7 +2149,12 @@ export const ListProjectsSitesVersionsFilesResponse = ListVersionFilesResponse;
 export type ListProjectsSitesVersionsFilesError = DefaultErrors;
 
 /** Lists the remaining files to be uploaded for the specified version. */
-export const listProjectsSitesVersionsFiles: API.PaginatedOperationMethod<ListProjectsSitesVersionsFilesRequest, ListProjectsSitesVersionsFilesResponse, ListProjectsSitesVersionsFilesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesVersionsFiles: API.PaginatedOperationMethod<
+  ListProjectsSitesVersionsFilesRequest,
+  ListProjectsSitesVersionsFilesResponse,
+  ListProjectsSitesVersionsFilesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesVersionsFilesRequest,
   output: ListProjectsSitesVersionsFilesResponse,
   errors: [],
@@ -1655,7 +2178,10 @@ export const ListProjectsSitesReleasesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/releases" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/releases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesReleasesRequest>;
 
@@ -1665,7 +2191,12 @@ export const ListProjectsSitesReleasesResponse = ListReleasesResponse;
 export type ListProjectsSitesReleasesError = DefaultErrors;
 
 /** Lists the releases that have been created for the specified site or channel. When used to list releases for a site, this list includes releases for both the default `live` channel and any active preview channels for the specified site. */
-export const listProjectsSitesReleases: API.PaginatedOperationMethod<ListProjectsSitesReleasesRequest, ListProjectsSitesReleasesResponse, ListProjectsSitesReleasesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesReleases: API.PaginatedOperationMethod<
+  ListProjectsSitesReleasesRequest,
+  ListProjectsSitesReleasesResponse,
+  ListProjectsSitesReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesReleasesRequest,
   output: ListProjectsSitesReleasesResponse,
   errors: [],
@@ -1683,7 +2214,10 @@ export interface GetProjectsSitesReleasesRequest {
 export const GetProjectsSitesReleasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/releases/{releasesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/releases/{releasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesReleasesRequest>;
 
@@ -1693,7 +2227,12 @@ export const GetProjectsSitesReleasesResponse = Release;
 export type GetProjectsSitesReleasesError = DefaultErrors;
 
 /** Gets the specified release for a site or channel. When used to get a release for a site, this can get releases for both the default `live` channel and any active preview channels for the specified site. */
-export const getProjectsSitesReleases: API.OperationMethod<GetProjectsSitesReleasesRequest, GetProjectsSitesReleasesResponse, GetProjectsSitesReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSitesReleases: API.OperationMethod<
+  GetProjectsSitesReleasesRequest,
+  GetProjectsSitesReleasesResponse,
+  GetProjectsSitesReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesReleasesRequest,
   output: GetProjectsSitesReleasesResponse,
   errors: [],
@@ -1713,7 +2252,11 @@ export const CreateProjectsSitesReleasesRequest = Schema.Struct({
   versionName: Schema.optional(Schema.String).pipe(T.HttpQuery("versionName")),
   body: Schema.optional(Release).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/releases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/releases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSitesReleasesRequest>;
 
@@ -1723,7 +2266,12 @@ export const CreateProjectsSitesReleasesResponse = Release;
 export type CreateProjectsSitesReleasesError = DefaultErrors;
 
 /** Creates a new release, which makes the content of the specified version actively display on the appropriate URL(s). */
-export const createProjectsSitesReleases: API.OperationMethod<CreateProjectsSitesReleasesRequest, CreateProjectsSitesReleasesResponse, CreateProjectsSitesReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSitesReleases: API.OperationMethod<
+  CreateProjectsSitesReleasesRequest,
+  CreateProjectsSitesReleasesResponse,
+  CreateProjectsSitesReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSitesReleasesRequest,
   output: CreateProjectsSitesReleasesResponse,
   errors: [],
@@ -1743,7 +2291,10 @@ export const ListProjectsSitesChannelsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesChannelsRequest>;
 
@@ -1753,7 +2304,12 @@ export const ListProjectsSitesChannelsResponse = ListChannelsResponse;
 export type ListProjectsSitesChannelsError = DefaultErrors;
 
 /** Lists the channels for the specified site. All sites have a default `live` channel. */
-export const listProjectsSitesChannels: API.PaginatedOperationMethod<ListProjectsSitesChannelsRequest, ListProjectsSitesChannelsResponse, ListProjectsSitesChannelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesChannels: API.PaginatedOperationMethod<
+  ListProjectsSitesChannelsRequest,
+  ListProjectsSitesChannelsResponse,
+  ListProjectsSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesChannelsRequest,
   output: ListProjectsSitesChannelsResponse,
   errors: [],
@@ -1777,7 +2333,11 @@ export const CreateProjectsSitesChannelsRequest = Schema.Struct({
   channelId: Schema.optional(Schema.String).pipe(T.HttpQuery("channelId")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSitesChannelsRequest>;
 
@@ -1787,7 +2347,12 @@ export const CreateProjectsSitesChannelsResponse = Channel;
 export type CreateProjectsSitesChannelsError = DefaultErrors;
 
 /** Creates a new channel in the specified site. */
-export const createProjectsSitesChannels: API.OperationMethod<CreateProjectsSitesChannelsRequest, CreateProjectsSitesChannelsResponse, CreateProjectsSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSitesChannels: API.OperationMethod<
+  CreateProjectsSitesChannelsRequest,
+  CreateProjectsSitesChannelsResponse,
+  CreateProjectsSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSitesChannelsRequest,
   output: CreateProjectsSitesChannelsResponse,
   errors: [],
@@ -1801,7 +2366,10 @@ export interface GetProjectsSitesChannelsRequest {
 export const GetProjectsSitesChannelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesChannelsRequest>;
 
@@ -1811,7 +2379,12 @@ export const GetProjectsSitesChannelsResponse = Channel;
 export type GetProjectsSitesChannelsError = DefaultErrors;
 
 /** Retrieves information for the specified channel of the specified site. */
-export const getProjectsSitesChannels: API.OperationMethod<GetProjectsSitesChannelsRequest, GetProjectsSitesChannelsResponse, GetProjectsSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSitesChannels: API.OperationMethod<
+  GetProjectsSitesChannelsRequest,
+  GetProjectsSitesChannelsResponse,
+  GetProjectsSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesChannelsRequest,
   output: GetProjectsSitesChannelsResponse,
   errors: [],
@@ -1831,7 +2404,11 @@ export const PatchProjectsSitesChannelsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsSitesChannelsRequest>;
 
@@ -1841,7 +2418,12 @@ export const PatchProjectsSitesChannelsResponse = Channel;
 export type PatchProjectsSitesChannelsError = DefaultErrors;
 
 /** Updates information for the specified channel of the specified site. Implicitly creates the channel if it doesn't already exist. */
-export const patchProjectsSitesChannels: API.OperationMethod<PatchProjectsSitesChannelsRequest, PatchProjectsSitesChannelsResponse, PatchProjectsSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsSitesChannels: API.OperationMethod<
+  PatchProjectsSitesChannelsRequest,
+  PatchProjectsSitesChannelsResponse,
+  PatchProjectsSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsSitesChannelsRequest,
   output: PatchProjectsSitesChannelsResponse,
   errors: [],
@@ -1855,7 +2437,10 @@ export interface DeleteProjectsSitesChannelsRequest {
 export const DeleteProjectsSitesChannelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsSitesChannelsRequest>;
 
@@ -1865,7 +2450,12 @@ export const DeleteProjectsSitesChannelsResponse = Empty;
 export type DeleteProjectsSitesChannelsError = DefaultErrors;
 
 /** Deletes the specified channel of the specified site. The `live` channel cannot be deleted. */
-export const deleteProjectsSitesChannels: API.OperationMethod<DeleteProjectsSitesChannelsRequest, DeleteProjectsSitesChannelsResponse, DeleteProjectsSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsSitesChannels: API.OperationMethod<
+  DeleteProjectsSitesChannelsRequest,
+  DeleteProjectsSitesChannelsResponse,
+  DeleteProjectsSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsSitesChannelsRequest,
   output: DeleteProjectsSitesChannelsResponse,
   errors: [],
@@ -1885,7 +2475,10 @@ export const ListProjectsSitesChannelsReleasesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}/releases" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}/releases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsSitesChannelsReleasesRequest>;
 
@@ -1895,7 +2488,12 @@ export const ListProjectsSitesChannelsReleasesResponse = ListReleasesResponse;
 export type ListProjectsSitesChannelsReleasesError = DefaultErrors;
 
 /** Lists the releases that have been created for the specified site or channel. When used to list releases for a site, this list includes releases for both the default `live` channel and any active preview channels for the specified site. */
-export const listProjectsSitesChannelsReleases: API.PaginatedOperationMethod<ListProjectsSitesChannelsReleasesRequest, ListProjectsSitesChannelsReleasesResponse, ListProjectsSitesChannelsReleasesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsSitesChannelsReleases: API.PaginatedOperationMethod<
+  ListProjectsSitesChannelsReleasesRequest,
+  ListProjectsSitesChannelsReleasesResponse,
+  ListProjectsSitesChannelsReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsSitesChannelsReleasesRequest,
   output: ListProjectsSitesChannelsReleasesResponse,
   errors: [],
@@ -1913,7 +2511,10 @@ export interface GetProjectsSitesChannelsReleasesRequest {
 export const GetProjectsSitesChannelsReleasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}/releases/{releasesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}/releases/{releasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsSitesChannelsReleasesRequest>;
 
@@ -1923,7 +2524,12 @@ export const GetProjectsSitesChannelsReleasesResponse = Release;
 export type GetProjectsSitesChannelsReleasesError = DefaultErrors;
 
 /** Gets the specified release for a site or channel. When used to get a release for a site, this can get releases for both the default `live` channel and any active preview channels for the specified site. */
-export const getProjectsSitesChannelsReleases: API.OperationMethod<GetProjectsSitesChannelsReleasesRequest, GetProjectsSitesChannelsReleasesResponse, GetProjectsSitesChannelsReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsSitesChannelsReleases: API.OperationMethod<
+  GetProjectsSitesChannelsReleasesRequest,
+  GetProjectsSitesChannelsReleasesResponse,
+  GetProjectsSitesChannelsReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsSitesChannelsReleasesRequest,
   output: GetProjectsSitesChannelsReleasesResponse,
   errors: [],
@@ -1943,7 +2549,11 @@ export const CreateProjectsSitesChannelsReleasesRequest = Schema.Struct({
   versionName: Schema.optional(Schema.String).pipe(T.HttpQuery("versionName")),
   body: Schema.optional(Release).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}/releases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/sites/{sitesId}/channels/{channelsId}/releases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsSitesChannelsReleasesRequest>;
 
@@ -1953,7 +2563,12 @@ export const CreateProjectsSitesChannelsReleasesResponse = Release;
 export type CreateProjectsSitesChannelsReleasesError = DefaultErrors;
 
 /** Creates a new release, which makes the content of the specified version actively display on the appropriate URL(s). */
-export const createProjectsSitesChannelsReleases: API.OperationMethod<CreateProjectsSitesChannelsReleasesRequest, CreateProjectsSitesChannelsReleasesResponse, CreateProjectsSitesChannelsReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsSitesChannelsReleases: API.OperationMethod<
+  CreateProjectsSitesChannelsReleasesRequest,
+  CreateProjectsSitesChannelsReleasesResponse,
+  CreateProjectsSitesChannelsReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsSitesChannelsReleasesRequest,
   output: CreateProjectsSitesChannelsReleasesResponse,
   errors: [],
@@ -1977,7 +2592,12 @@ export const GetConfigSitesResponse = SiteConfig;
 export type GetConfigSitesError = DefaultErrors;
 
 /** Gets the Hosting metadata for a specific site. */
-export const getConfigSites: API.OperationMethod<GetConfigSitesRequest, GetConfigSitesResponse, GetConfigSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConfigSites: API.OperationMethod<
+  GetConfigSitesRequest,
+  GetConfigSitesResponse,
+  GetConfigSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConfigSitesRequest,
   output: GetConfigSitesResponse,
   errors: [],
@@ -1997,7 +2617,11 @@ export const UpdateConfigSitesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SiteConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/sites/{sitesId}/config", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/sites/{sitesId}/config",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateConfigSitesRequest>;
 
@@ -2007,7 +2631,12 @@ export const UpdateConfigSitesResponse = SiteConfig;
 export type UpdateConfigSitesError = DefaultErrors;
 
 /** Sets the Hosting metadata for a specific site. */
-export const updateConfigSites: API.OperationMethod<UpdateConfigSitesRequest, UpdateConfigSitesResponse, UpdateConfigSitesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateConfigSites: API.OperationMethod<
+  UpdateConfigSitesRequest,
+  UpdateConfigSitesResponse,
+  UpdateConfigSitesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateConfigSitesRequest,
   output: UpdateConfigSitesResponse,
   errors: [],
@@ -2037,7 +2666,12 @@ export const ListSitesDomainsResponse = ListDomainsResponse;
 export type ListSitesDomainsError = DefaultErrors;
 
 /** Lists the domains for the specified site. */
-export const listSitesDomains: API.PaginatedOperationMethod<ListSitesDomainsRequest, ListSitesDomainsResponse, ListSitesDomainsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSitesDomains: API.PaginatedOperationMethod<
+  ListSitesDomainsRequest,
+  ListSitesDomainsResponse,
+  ListSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSitesDomainsRequest,
   output: ListSitesDomainsResponse,
   errors: [],
@@ -2055,7 +2689,10 @@ export interface GetSitesDomainsRequest {
 export const GetSitesDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/sites/{sitesId}/domains/{domainsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/sites/{sitesId}/domains/{domainsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSitesDomainsRequest>;
 
@@ -2065,7 +2702,12 @@ export const GetSitesDomainsResponse = Domain;
 export type GetSitesDomainsError = DefaultErrors;
 
 /** Gets a domain mapping on the specified site. */
-export const getSitesDomains: API.OperationMethod<GetSitesDomainsRequest, GetSitesDomainsResponse, GetSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSitesDomains: API.OperationMethod<
+  GetSitesDomainsRequest,
+  GetSitesDomainsResponse,
+  GetSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSitesDomainsRequest,
   output: GetSitesDomainsResponse,
   errors: [],
@@ -2082,7 +2724,11 @@ export const CreateSitesDomainsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Domain).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/sites/{sitesId}/domains", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/sites/{sitesId}/domains",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSitesDomainsRequest>;
 
@@ -2092,7 +2738,12 @@ export const CreateSitesDomainsResponse = Domain;
 export type CreateSitesDomainsError = DefaultErrors;
 
 /** Creates a domain mapping on the specified site. */
-export const createSitesDomains: API.OperationMethod<CreateSitesDomainsRequest, CreateSitesDomainsResponse, CreateSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSitesDomains: API.OperationMethod<
+  CreateSitesDomainsRequest,
+  CreateSitesDomainsResponse,
+  CreateSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSitesDomainsRequest,
   output: CreateSitesDomainsResponse,
   errors: [],
@@ -2109,7 +2760,11 @@ export const UpdateSitesDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Domain).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1beta1/sites/{sitesId}/domains/{domainsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1beta1/sites/{sitesId}/domains/{domainsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSitesDomainsRequest>;
 
@@ -2119,7 +2774,12 @@ export const UpdateSitesDomainsResponse = Domain;
 export type UpdateSitesDomainsError = DefaultErrors;
 
 /** Updates the specified domain mapping, creating the mapping as if it does not exist. */
-export const updateSitesDomains: API.OperationMethod<UpdateSitesDomainsRequest, UpdateSitesDomainsResponse, UpdateSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSitesDomains: API.OperationMethod<
+  UpdateSitesDomainsRequest,
+  UpdateSitesDomainsResponse,
+  UpdateSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSitesDomainsRequest,
   output: UpdateSitesDomainsResponse,
   errors: [],
@@ -2133,7 +2793,10 @@ export interface DeleteSitesDomainsRequest {
 export const DeleteSitesDomainsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/sites/{sitesId}/domains/{domainsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/sites/{sitesId}/domains/{domainsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSitesDomainsRequest>;
 
@@ -2143,7 +2806,12 @@ export const DeleteSitesDomainsResponse = Empty;
 export type DeleteSitesDomainsError = DefaultErrors;
 
 /** Deletes the existing domain mapping on the specified site. */
-export const deleteSitesDomains: API.OperationMethod<DeleteSitesDomainsRequest, DeleteSitesDomainsResponse, DeleteSitesDomainsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSitesDomains: API.OperationMethod<
+  DeleteSitesDomainsRequest,
+  DeleteSitesDomainsResponse,
+  DeleteSitesDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSitesDomainsRequest,
   output: DeleteSitesDomainsResponse,
   errors: [],
@@ -2166,7 +2834,11 @@ export const CreateSitesVersionsRequest = Schema.Struct({
   sizeBytes: Schema.optional(Schema.String).pipe(T.HttpQuery("sizeBytes")),
   body: Schema.optional(Version).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/sites/{sitesId}/versions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/sites/{sitesId}/versions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSitesVersionsRequest>;
 
@@ -2176,7 +2848,12 @@ export const CreateSitesVersionsResponse = Version;
 export type CreateSitesVersionsError = DefaultErrors;
 
 /** Creates a new version for the specified site. */
-export const createSitesVersions: API.OperationMethod<CreateSitesVersionsRequest, CreateSitesVersionsResponse, CreateSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSitesVersions: API.OperationMethod<
+  CreateSitesVersionsRequest,
+  CreateSitesVersionsResponse,
+  CreateSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSitesVersionsRequest,
   output: CreateSitesVersionsResponse,
   errors: [],
@@ -2196,7 +2873,11 @@ export const PatchSitesVersionsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Version).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/sites/{sitesId}/versions/{versionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/sites/{sitesId}/versions/{versionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchSitesVersionsRequest>;
 
@@ -2206,7 +2887,12 @@ export const PatchSitesVersionsResponse = Version;
 export type PatchSitesVersionsError = DefaultErrors;
 
 /** Updates the specified metadata for the specified version. This method will fail with `FAILED_PRECONDITION` in the event of an invalid state transition. The supported [state](../sites.versions#versionstatus) transitions for a version are from `CREATED` to `FINALIZED`. Use [`DeleteVersion`](delete) to set the status of a version to `DELETED`. */
-export const patchSitesVersions: API.OperationMethod<PatchSitesVersionsRequest, PatchSitesVersionsResponse, PatchSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSitesVersions: API.OperationMethod<
+  PatchSitesVersionsRequest,
+  PatchSitesVersionsResponse,
+  PatchSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSitesVersionsRequest,
   output: PatchSitesVersionsResponse,
   errors: [],
@@ -2220,7 +2906,10 @@ export interface DeleteSitesVersionsRequest {
 export const DeleteSitesVersionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/sites/{sitesId}/versions/{versionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/sites/{sitesId}/versions/{versionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSitesVersionsRequest>;
 
@@ -2230,7 +2919,12 @@ export const DeleteSitesVersionsResponse = Empty;
 export type DeleteSitesVersionsError = DefaultErrors;
 
 /** Deletes the specified version. */
-export const deleteSitesVersions: API.OperationMethod<DeleteSitesVersionsRequest, DeleteSitesVersionsResponse, DeleteSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSitesVersions: API.OperationMethod<
+  DeleteSitesVersionsRequest,
+  DeleteSitesVersionsResponse,
+  DeleteSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSitesVersionsRequest,
   output: DeleteSitesVersionsResponse,
   errors: [],
@@ -2247,7 +2941,11 @@ export const PopulateFilesSitesVersionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(PopulateVersionFilesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/sites/{sitesId}/versions/{versionsId}:populateFiles", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/sites/{sitesId}/versions/{versionsId}:populateFiles",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PopulateFilesSitesVersionsRequest>;
 
@@ -2257,7 +2955,12 @@ export const PopulateFilesSitesVersionsResponse = PopulateVersionFilesResponse;
 export type PopulateFilesSitesVersionsError = DefaultErrors;
 
 /** Adds content files to the specified version. Each file must be under 2 GB. */
-export const populateFilesSitesVersions: API.OperationMethod<PopulateFilesSitesVersionsRequest, PopulateFilesSitesVersionsResponse, PopulateFilesSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const populateFilesSitesVersions: API.OperationMethod<
+  PopulateFilesSitesVersionsRequest,
+  PopulateFilesSitesVersionsResponse,
+  PopulateFilesSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PopulateFilesSitesVersionsRequest,
   output: PopulateFilesSitesVersionsResponse,
   errors: [],
@@ -2290,7 +2993,12 @@ export const ListSitesVersionsResponse = ListVersionsResponse;
 export type ListSitesVersionsError = DefaultErrors;
 
 /** Lists the versions that have been created for the specified site. This list includes versions for both the default `live` channel and any active preview channels for the specified site. */
-export const listSitesVersions: API.PaginatedOperationMethod<ListSitesVersionsRequest, ListSitesVersionsResponse, ListSitesVersionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSitesVersions: API.PaginatedOperationMethod<
+  ListSitesVersionsRequest,
+  ListSitesVersionsResponse,
+  ListSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSitesVersionsRequest,
   output: ListSitesVersionsResponse,
   errors: [],
@@ -2308,7 +3016,10 @@ export interface GetSitesVersionsRequest {
 export const GetSitesVersionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/sites/{sitesId}/versions/{versionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/sites/{sitesId}/versions/{versionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSitesVersionsRequest>;
 
@@ -2318,7 +3029,12 @@ export const GetSitesVersionsResponse = Version;
 export type GetSitesVersionsError = DefaultErrors;
 
 /** Get the specified version that has been created for the specified site. This can include versions that were created for the default `live` channel or for any active preview channels for the specified site. */
-export const getSitesVersions: API.OperationMethod<GetSitesVersionsRequest, GetSitesVersionsResponse, GetSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSitesVersions: API.OperationMethod<
+  GetSitesVersionsRequest,
+  GetSitesVersionsResponse,
+  GetSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSitesVersionsRequest,
   output: GetSitesVersionsResponse,
   errors: [],
@@ -2335,7 +3051,11 @@ export const CloneSitesVersionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CloneVersionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/sites/{sitesId}/versions:clone", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/sites/{sitesId}/versions:clone",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CloneSitesVersionsRequest>;
 
@@ -2345,7 +3065,12 @@ export const CloneSitesVersionsResponse = Operation;
 export type CloneSitesVersionsError = DefaultErrors;
 
 /** Creates a new version on the specified target site using the content of the specified version. */
-export const cloneSitesVersions: API.OperationMethod<CloneSitesVersionsRequest, CloneSitesVersionsResponse, CloneSitesVersionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cloneSitesVersions: API.OperationMethod<
+  CloneSitesVersionsRequest,
+  CloneSitesVersionsResponse,
+  CloneSitesVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CloneSitesVersionsRequest,
   output: CloneSitesVersionsResponse,
   errors: [],
@@ -2368,7 +3093,10 @@ export const ListSitesVersionsFilesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/sites/{sitesId}/versions/{versionsId}/files" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/sites/{sitesId}/versions/{versionsId}/files",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListSitesVersionsFilesRequest>;
 
@@ -2378,7 +3106,12 @@ export const ListSitesVersionsFilesResponse = ListVersionFilesResponse;
 export type ListSitesVersionsFilesError = DefaultErrors;
 
 /** Lists the remaining files to be uploaded for the specified version. */
-export const listSitesVersionsFiles: API.PaginatedOperationMethod<ListSitesVersionsFilesRequest, ListSitesVersionsFilesResponse, ListSitesVersionsFilesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSitesVersionsFiles: API.PaginatedOperationMethod<
+  ListSitesVersionsFilesRequest,
+  ListSitesVersionsFilesResponse,
+  ListSitesVersionsFilesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSitesVersionsFilesRequest,
   output: ListSitesVersionsFilesResponse,
   errors: [],
@@ -2412,7 +3145,12 @@ export const ListSitesReleasesResponse = ListReleasesResponse;
 export type ListSitesReleasesError = DefaultErrors;
 
 /** Lists the releases that have been created for the specified site or channel. When used to list releases for a site, this list includes releases for both the default `live` channel and any active preview channels for the specified site. */
-export const listSitesReleases: API.PaginatedOperationMethod<ListSitesReleasesRequest, ListSitesReleasesResponse, ListSitesReleasesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSitesReleases: API.PaginatedOperationMethod<
+  ListSitesReleasesRequest,
+  ListSitesReleasesResponse,
+  ListSitesReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSitesReleasesRequest,
   output: ListSitesReleasesResponse,
   errors: [],
@@ -2430,7 +3168,10 @@ export interface GetSitesReleasesRequest {
 export const GetSitesReleasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/sites/{sitesId}/releases/{releasesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/sites/{sitesId}/releases/{releasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSitesReleasesRequest>;
 
@@ -2440,7 +3181,12 @@ export const GetSitesReleasesResponse = Release;
 export type GetSitesReleasesError = DefaultErrors;
 
 /** Gets the specified release for a site or channel. When used to get a release for a site, this can get releases for both the default `live` channel and any active preview channels for the specified site. */
-export const getSitesReleases: API.OperationMethod<GetSitesReleasesRequest, GetSitesReleasesResponse, GetSitesReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSitesReleases: API.OperationMethod<
+  GetSitesReleasesRequest,
+  GetSitesReleasesResponse,
+  GetSitesReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSitesReleasesRequest,
   output: GetSitesReleasesResponse,
   errors: [],
@@ -2460,7 +3206,11 @@ export const CreateSitesReleasesRequest = Schema.Struct({
   versionName: Schema.optional(Schema.String).pipe(T.HttpQuery("versionName")),
   body: Schema.optional(Release).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/sites/{sitesId}/releases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/sites/{sitesId}/releases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSitesReleasesRequest>;
 
@@ -2470,7 +3220,12 @@ export const CreateSitesReleasesResponse = Release;
 export type CreateSitesReleasesError = DefaultErrors;
 
 /** Creates a new release, which makes the content of the specified version actively display on the appropriate URL(s). */
-export const createSitesReleases: API.OperationMethod<CreateSitesReleasesRequest, CreateSitesReleasesResponse, CreateSitesReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSitesReleases: API.OperationMethod<
+  CreateSitesReleasesRequest,
+  CreateSitesReleasesResponse,
+  CreateSitesReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSitesReleasesRequest,
   output: CreateSitesReleasesResponse,
   errors: [],
@@ -2500,7 +3255,12 @@ export const ListSitesChannelsResponse = ListChannelsResponse;
 export type ListSitesChannelsError = DefaultErrors;
 
 /** Lists the channels for the specified site. All sites have a default `live` channel. */
-export const listSitesChannels: API.PaginatedOperationMethod<ListSitesChannelsRequest, ListSitesChannelsResponse, ListSitesChannelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSitesChannels: API.PaginatedOperationMethod<
+  ListSitesChannelsRequest,
+  ListSitesChannelsResponse,
+  ListSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSitesChannelsRequest,
   output: ListSitesChannelsResponse,
   errors: [],
@@ -2524,7 +3284,11 @@ export const CreateSitesChannelsRequest = Schema.Struct({
   channelId: Schema.optional(Schema.String).pipe(T.HttpQuery("channelId")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/sites/{sitesId}/channels", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/sites/{sitesId}/channels",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSitesChannelsRequest>;
 
@@ -2534,7 +3298,12 @@ export const CreateSitesChannelsResponse = Channel;
 export type CreateSitesChannelsError = DefaultErrors;
 
 /** Creates a new channel in the specified site. */
-export const createSitesChannels: API.OperationMethod<CreateSitesChannelsRequest, CreateSitesChannelsResponse, CreateSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSitesChannels: API.OperationMethod<
+  CreateSitesChannelsRequest,
+  CreateSitesChannelsResponse,
+  CreateSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSitesChannelsRequest,
   output: CreateSitesChannelsResponse,
   errors: [],
@@ -2548,7 +3317,10 @@ export interface GetSitesChannelsRequest {
 export const GetSitesChannelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/sites/{sitesId}/channels/{channelsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/sites/{sitesId}/channels/{channelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSitesChannelsRequest>;
 
@@ -2558,7 +3330,12 @@ export const GetSitesChannelsResponse = Channel;
 export type GetSitesChannelsError = DefaultErrors;
 
 /** Retrieves information for the specified channel of the specified site. */
-export const getSitesChannels: API.OperationMethod<GetSitesChannelsRequest, GetSitesChannelsResponse, GetSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSitesChannels: API.OperationMethod<
+  GetSitesChannelsRequest,
+  GetSitesChannelsResponse,
+  GetSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSitesChannelsRequest,
   output: GetSitesChannelsResponse,
   errors: [],
@@ -2578,7 +3355,11 @@ export const PatchSitesChannelsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/sites/{sitesId}/channels/{channelsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/sites/{sitesId}/channels/{channelsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchSitesChannelsRequest>;
 
@@ -2588,7 +3369,12 @@ export const PatchSitesChannelsResponse = Channel;
 export type PatchSitesChannelsError = DefaultErrors;
 
 /** Updates information for the specified channel of the specified site. Implicitly creates the channel if it doesn't already exist. */
-export const patchSitesChannels: API.OperationMethod<PatchSitesChannelsRequest, PatchSitesChannelsResponse, PatchSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSitesChannels: API.OperationMethod<
+  PatchSitesChannelsRequest,
+  PatchSitesChannelsResponse,
+  PatchSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSitesChannelsRequest,
   output: PatchSitesChannelsResponse,
   errors: [],
@@ -2602,7 +3388,10 @@ export interface DeleteSitesChannelsRequest {
 export const DeleteSitesChannelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/sites/{sitesId}/channels/{channelsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/sites/{sitesId}/channels/{channelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSitesChannelsRequest>;
 
@@ -2612,7 +3401,12 @@ export const DeleteSitesChannelsResponse = Empty;
 export type DeleteSitesChannelsError = DefaultErrors;
 
 /** Deletes the specified channel of the specified site. The `live` channel cannot be deleted. */
-export const deleteSitesChannels: API.OperationMethod<DeleteSitesChannelsRequest, DeleteSitesChannelsResponse, DeleteSitesChannelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSitesChannels: API.OperationMethod<
+  DeleteSitesChannelsRequest,
+  DeleteSitesChannelsResponse,
+  DeleteSitesChannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSitesChannelsRequest,
   output: DeleteSitesChannelsResponse,
   errors: [],
@@ -2632,7 +3426,10 @@ export const ListSitesChannelsReleasesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/sites/{sitesId}/channels/{channelsId}/releases" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/sites/{sitesId}/channels/{channelsId}/releases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListSitesChannelsReleasesRequest>;
 
@@ -2642,7 +3439,12 @@ export const ListSitesChannelsReleasesResponse = ListReleasesResponse;
 export type ListSitesChannelsReleasesError = DefaultErrors;
 
 /** Lists the releases that have been created for the specified site or channel. When used to list releases for a site, this list includes releases for both the default `live` channel and any active preview channels for the specified site. */
-export const listSitesChannelsReleases: API.PaginatedOperationMethod<ListSitesChannelsReleasesRequest, ListSitesChannelsReleasesResponse, ListSitesChannelsReleasesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSitesChannelsReleases: API.PaginatedOperationMethod<
+  ListSitesChannelsReleasesRequest,
+  ListSitesChannelsReleasesResponse,
+  ListSitesChannelsReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSitesChannelsReleasesRequest,
   output: ListSitesChannelsReleasesResponse,
   errors: [],
@@ -2660,7 +3462,10 @@ export interface GetSitesChannelsReleasesRequest {
 export const GetSitesChannelsReleasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/sites/{sitesId}/channels/{channelsId}/releases/{releasesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/sites/{sitesId}/channels/{channelsId}/releases/{releasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSitesChannelsReleasesRequest>;
 
@@ -2670,7 +3475,12 @@ export const GetSitesChannelsReleasesResponse = Release;
 export type GetSitesChannelsReleasesError = DefaultErrors;
 
 /** Gets the specified release for a site or channel. When used to get a release for a site, this can get releases for both the default `live` channel and any active preview channels for the specified site. */
-export const getSitesChannelsReleases: API.OperationMethod<GetSitesChannelsReleasesRequest, GetSitesChannelsReleasesResponse, GetSitesChannelsReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSitesChannelsReleases: API.OperationMethod<
+  GetSitesChannelsReleasesRequest,
+  GetSitesChannelsReleasesResponse,
+  GetSitesChannelsReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSitesChannelsReleasesRequest,
   output: GetSitesChannelsReleasesResponse,
   errors: [],
@@ -2690,7 +3500,11 @@ export const CreateSitesChannelsReleasesRequest = Schema.Struct({
   versionName: Schema.optional(Schema.String).pipe(T.HttpQuery("versionName")),
   body: Schema.optional(Release).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/sites/{sitesId}/channels/{channelsId}/releases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/sites/{sitesId}/channels/{channelsId}/releases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSitesChannelsReleasesRequest>;
 
@@ -2700,9 +3514,13 @@ export const CreateSitesChannelsReleasesResponse = Release;
 export type CreateSitesChannelsReleasesError = DefaultErrors;
 
 /** Creates a new release, which makes the content of the specified version actively display on the appropriate URL(s). */
-export const createSitesChannelsReleases: API.OperationMethod<CreateSitesChannelsReleasesRequest, CreateSitesChannelsReleasesResponse, CreateSitesChannelsReleasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSitesChannelsReleases: API.OperationMethod<
+  CreateSitesChannelsReleasesRequest,
+  CreateSitesChannelsReleasesResponse,
+  CreateSitesChannelsReleasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSitesChannelsReleasesRequest,
   output: CreateSitesChannelsReleasesResponse,
   errors: [],
 }));
-

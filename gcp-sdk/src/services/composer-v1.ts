@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,26 +74,36 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface CloudDataLineageIntegration {
   /** Optional. Whether or not Cloud Data Lineage integration is enabled. */
   enabled?: boolean;
 }
 
-export const CloudDataLineageIntegration: Schema.Schema<CloudDataLineageIntegration> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CloudDataLineageIntegration" }) as any as Schema.Schema<CloudDataLineageIntegration>;
+export const CloudDataLineageIntegration: Schema.Schema<CloudDataLineageIntegration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CloudDataLineageIntegration",
+  }) as any as Schema.Schema<CloudDataLineageIntegration>;
 
 export interface SoftwareConfig {
   /** Optional. The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression `composer-([0-9]+(\.[0-9]+\.[0-9]+(-preview\.[0-9]+)?)?|latest)-airflow-([0-9]+(\.[0-9]+(\.[0-9]+)?)?)`. When used as input, the server also checks if the provided version is supported and denies the request for an unsupported version. The Cloud Composer portion of the image version is a full [semantic version](https://semver.org), or an alias in the form of major version number or `latest`. When an alias is provided, the server replaces it with the current Cloud Composer version that satisfies the alias. The Apache Airflow portion of the image version is a full semantic version that points to one of the supported Apache Airflow versions, or an alias in the form of only major or major.minor versions specified. When an alias is provided, the server replaces it with the latest Apache Airflow version that satisfies the alias and is supported in the given Cloud Composer version. In all cases, the resolved image version is stored in the same field. See also [version list](/composer/docs/concepts/versioning/composer-versions) and [versioning overview](/composer/docs/concepts/versioning/composer-versioning-overview). */
@@ -105,19 +121,34 @@ export interface SoftwareConfig {
   /** Optional. The configuration for Cloud Data Lineage integration. */
   cloudDataLineageIntegration?: CloudDataLineageIntegration;
   /** Optional. Whether or not the web server uses custom plugins. If unspecified, the field defaults to `PLUGINS_ENABLED`. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-  webServerPluginsMode?: "WEB_SERVER_PLUGINS_MODE_UNSPECIFIED" | "PLUGINS_DISABLED" | "PLUGINS_ENABLED" | (string & {});
+  webServerPluginsMode?:
+    | "WEB_SERVER_PLUGINS_MODE_UNSPECIFIED"
+    | "PLUGINS_DISABLED"
+    | "PLUGINS_ENABLED"
+    | (string & {});
 }
 
-export const SoftwareConfig: Schema.Schema<SoftwareConfig> = Schema.suspend(() => Schema.Struct({
-  imageVersion: Schema.optional(Schema.String),
-  airflowConfigOverrides: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  pypiPackages: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  envVariables: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  pythonVersion: Schema.optional(Schema.String),
-  schedulerCount: Schema.optional(Schema.Number),
-  cloudDataLineageIntegration: Schema.optional(CloudDataLineageIntegration),
-  webServerPluginsMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "SoftwareConfig" }) as any as Schema.Schema<SoftwareConfig>;
+export const SoftwareConfig: Schema.Schema<SoftwareConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      imageVersion: Schema.optional(Schema.String),
+      airflowConfigOverrides: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      pypiPackages: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      envVariables: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      pythonVersion: Schema.optional(Schema.String),
+      schedulerCount: Schema.optional(Schema.Number),
+      cloudDataLineageIntegration: Schema.optional(CloudDataLineageIntegration),
+      webServerPluginsMode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SoftwareConfig",
+}) as any as Schema.Schema<SoftwareConfig>;
 
 export interface IPAllocationPolicy {
   /** Optional. Whether or not to enable Alias IPs in the GKE cluster. If `true`, a VPC-native cluster is created. This field is only supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. Environments in newer versions always use VPC-native GKE clusters. */
@@ -132,13 +163,18 @@ export interface IPAllocationPolicy {
   servicesIpv4CidrBlock?: string;
 }
 
-export const IPAllocationPolicy: Schema.Schema<IPAllocationPolicy> = Schema.suspend(() => Schema.Struct({
-  useIpAliases: Schema.optional(Schema.Boolean),
-  clusterSecondaryRangeName: Schema.optional(Schema.String),
-  clusterIpv4CidrBlock: Schema.optional(Schema.String),
-  servicesSecondaryRangeName: Schema.optional(Schema.String),
-  servicesIpv4CidrBlock: Schema.optional(Schema.String),
-})).annotate({ identifier: "IPAllocationPolicy" }) as any as Schema.Schema<IPAllocationPolicy>;
+export const IPAllocationPolicy: Schema.Schema<IPAllocationPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      useIpAliases: Schema.optional(Schema.Boolean),
+      clusterSecondaryRangeName: Schema.optional(Schema.String),
+      clusterIpv4CidrBlock: Schema.optional(Schema.String),
+      servicesSecondaryRangeName: Schema.optional(Schema.String),
+      servicesIpv4CidrBlock: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IPAllocationPolicy",
+  }) as any as Schema.Schema<IPAllocationPolicy>;
 
 export interface NodeConfig {
   /** Optional. The Compute Engine [zone](/compute/docs/regions-zones) in which to deploy the VMs used to run the Apache Airflow software, specified as a [relative resource name](/apis/design/resource_names#relative_resource_name). For example: "projects/{projectId}/zones/{zoneId}". This `location` must belong to the enclosing environment's project and location. If both this field and `nodeConfig.machineType` are specified, `nodeConfig.machineType` must belong to this `location`; if both are unspecified, the service will pick a zone in the Compute Engine region corresponding to the Cloud Composer location, and propagate that choice to both fields. If only one field (`location` or `nodeConfig.machineType`) is specified, the location information from the specified field will be propagated to the unspecified field. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
@@ -167,20 +203,22 @@ export interface NodeConfig {
   composerInternalIpv4CidrBlock?: string;
 }
 
-export const NodeConfig: Schema.Schema<NodeConfig> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(Schema.String),
-  machineType: Schema.optional(Schema.String),
-  network: Schema.optional(Schema.String),
-  subnetwork: Schema.optional(Schema.String),
-  diskSizeGb: Schema.optional(Schema.Number),
-  oauthScopes: Schema.optional(Schema.Array(Schema.String)),
-  serviceAccount: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  ipAllocationPolicy: Schema.optional(IPAllocationPolicy),
-  enableIpMasqAgent: Schema.optional(Schema.Boolean),
-  composerNetworkAttachment: Schema.optional(Schema.String),
-  composerInternalIpv4CidrBlock: Schema.optional(Schema.String),
-})).annotate({ identifier: "NodeConfig" }) as any as Schema.Schema<NodeConfig>;
+export const NodeConfig: Schema.Schema<NodeConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    location: Schema.optional(Schema.String),
+    machineType: Schema.optional(Schema.String),
+    network: Schema.optional(Schema.String),
+    subnetwork: Schema.optional(Schema.String),
+    diskSizeGb: Schema.optional(Schema.Number),
+    oauthScopes: Schema.optional(Schema.Array(Schema.String)),
+    serviceAccount: Schema.optional(Schema.String),
+    tags: Schema.optional(Schema.Array(Schema.String)),
+    ipAllocationPolicy: Schema.optional(IPAllocationPolicy),
+    enableIpMasqAgent: Schema.optional(Schema.Boolean),
+    composerNetworkAttachment: Schema.optional(Schema.String),
+    composerInternalIpv4CidrBlock: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "NodeConfig" }) as any as Schema.Schema<NodeConfig>;
 
 export interface PrivateClusterConfig {
   /** Optional. If `true`, access to the public endpoint of the GKE cluster is denied. */
@@ -191,24 +229,42 @@ export interface PrivateClusterConfig {
   masterIpv4ReservedRange?: string;
 }
 
-export const PrivateClusterConfig: Schema.Schema<PrivateClusterConfig> = Schema.suspend(() => Schema.Struct({
-  enablePrivateEndpoint: Schema.optional(Schema.Boolean),
-  masterIpv4CidrBlock: Schema.optional(Schema.String),
-  masterIpv4ReservedRange: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrivateClusterConfig" }) as any as Schema.Schema<PrivateClusterConfig>;
+export const PrivateClusterConfig: Schema.Schema<PrivateClusterConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enablePrivateEndpoint: Schema.optional(Schema.Boolean),
+      masterIpv4CidrBlock: Schema.optional(Schema.String),
+      masterIpv4ReservedRange: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrivateClusterConfig",
+  }) as any as Schema.Schema<PrivateClusterConfig>;
 
 export interface NetworkingConfig {
   /** Optional. Indicates the user requested specific connection type between Tenant and Customer projects. You cannot set networking connection type in public IP environment. */
-  connectionType?: "CONNECTION_TYPE_UNSPECIFIED" | "VPC_PEERING" | "PRIVATE_SERVICE_CONNECT" | (string & {});
+  connectionType?:
+    | "CONNECTION_TYPE_UNSPECIFIED"
+    | "VPC_PEERING"
+    | "PRIVATE_SERVICE_CONNECT"
+    | (string & {});
 }
 
-export const NetworkingConfig: Schema.Schema<NetworkingConfig> = Schema.suspend(() => Schema.Struct({
-  connectionType: Schema.optional(Schema.String),
-})).annotate({ identifier: "NetworkingConfig" }) as any as Schema.Schema<NetworkingConfig>;
+export const NetworkingConfig: Schema.Schema<NetworkingConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      connectionType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "NetworkingConfig",
+}) as any as Schema.Schema<NetworkingConfig>;
 
 export interface PrivateEnvironmentConfig {
   /** Optional. Networking type for the environment, either private or public. */
-  networkingType?: "NETWORKING_TYPE_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | (string & {});
+  networkingType?:
+    | "NETWORKING_TYPE_UNSPECIFIED"
+    | "PRIVATE"
+    | "PUBLIC"
+    | (string & {});
   /** Optional. If `true`, a Private IP Cloud Composer environment is created. If this field is set to true, `IPAllocationPolicy.use_ip_aliases` must be set to true for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. This field is going to be deprecated. Use `networking_type` instead. */
   enablePrivateEnvironment?: boolean;
   /** Optional. If `true`, builds performed during operations that install Python packages have only private connectivity to Google services (including Artifact Registry) and VPC network (if either `NodeConfig.network` and `NodeConfig.subnetwork` fields or `NodeConfig.composer_network_attachment` field are specified). If `false`, the builds also have access to the internet. This field is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
@@ -233,20 +289,25 @@ export interface PrivateEnvironmentConfig {
   networkingConfig?: NetworkingConfig;
 }
 
-export const PrivateEnvironmentConfig: Schema.Schema<PrivateEnvironmentConfig> = Schema.suspend(() => Schema.Struct({
-  networkingType: Schema.optional(Schema.String),
-  enablePrivateEnvironment: Schema.optional(Schema.Boolean),
-  enablePrivateBuildsOnly: Schema.optional(Schema.Boolean),
-  privateClusterConfig: Schema.optional(PrivateClusterConfig),
-  webServerIpv4CidrBlock: Schema.optional(Schema.String),
-  cloudSqlIpv4CidrBlock: Schema.optional(Schema.String),
-  webServerIpv4ReservedRange: Schema.optional(Schema.String),
-  cloudComposerNetworkIpv4CidrBlock: Schema.optional(Schema.String),
-  cloudComposerNetworkIpv4ReservedRange: Schema.optional(Schema.String),
-  enablePrivatelyUsedPublicIps: Schema.optional(Schema.Boolean),
-  cloudComposerConnectionSubnetwork: Schema.optional(Schema.String),
-  networkingConfig: Schema.optional(NetworkingConfig),
-})).annotate({ identifier: "PrivateEnvironmentConfig" }) as any as Schema.Schema<PrivateEnvironmentConfig>;
+export const PrivateEnvironmentConfig: Schema.Schema<PrivateEnvironmentConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      networkingType: Schema.optional(Schema.String),
+      enablePrivateEnvironment: Schema.optional(Schema.Boolean),
+      enablePrivateBuildsOnly: Schema.optional(Schema.Boolean),
+      privateClusterConfig: Schema.optional(PrivateClusterConfig),
+      webServerIpv4CidrBlock: Schema.optional(Schema.String),
+      cloudSqlIpv4CidrBlock: Schema.optional(Schema.String),
+      webServerIpv4ReservedRange: Schema.optional(Schema.String),
+      cloudComposerNetworkIpv4CidrBlock: Schema.optional(Schema.String),
+      cloudComposerNetworkIpv4ReservedRange: Schema.optional(Schema.String),
+      enablePrivatelyUsedPublicIps: Schema.optional(Schema.Boolean),
+      cloudComposerConnectionSubnetwork: Schema.optional(Schema.String),
+      networkingConfig: Schema.optional(NetworkingConfig),
+    }),
+  ).annotate({
+    identifier: "PrivateEnvironmentConfig",
+  }) as any as Schema.Schema<PrivateEnvironmentConfig>;
 
 export interface AllowedIpRange {
   /** IP address or range, defined using CIDR notation, of requests that this rule applies to. Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32` or `2001:0db8:0000:0042:0000:8a2e:0370:7334`. IP range prefixes should be properly truncated. For example, `1.2.3.4/24` should be truncated to `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` should be truncated to `2001:db8::/32`. */
@@ -255,19 +316,29 @@ export interface AllowedIpRange {
   description?: string;
 }
 
-export const AllowedIpRange: Schema.Schema<AllowedIpRange> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "AllowedIpRange" }) as any as Schema.Schema<AllowedIpRange>;
+export const AllowedIpRange: Schema.Schema<AllowedIpRange> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AllowedIpRange",
+}) as any as Schema.Schema<AllowedIpRange>;
 
 export interface WebServerNetworkAccessControl {
   /** A collection of allowed IP ranges with descriptions. */
   allowedIpRanges?: Array<AllowedIpRange>;
 }
 
-export const WebServerNetworkAccessControl: Schema.Schema<WebServerNetworkAccessControl> = Schema.suspend(() => Schema.Struct({
-  allowedIpRanges: Schema.optional(Schema.Array(AllowedIpRange)),
-})).annotate({ identifier: "WebServerNetworkAccessControl" }) as any as Schema.Schema<WebServerNetworkAccessControl>;
+export const WebServerNetworkAccessControl: Schema.Schema<WebServerNetworkAccessControl> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowedIpRanges: Schema.optional(Schema.Array(AllowedIpRange)),
+    }),
+  ).annotate({
+    identifier: "WebServerNetworkAccessControl",
+  }) as any as Schema.Schema<WebServerNetworkAccessControl>;
 
 export interface DatabaseConfig {
   /** Optional. Cloud SQL machine type used by Airflow database. It has to be one of: db-n1-standard-2, db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16. If not specified, db-n1-standard-2 will be used. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
@@ -276,28 +347,43 @@ export interface DatabaseConfig {
   zone?: string;
 }
 
-export const DatabaseConfig: Schema.Schema<DatabaseConfig> = Schema.suspend(() => Schema.Struct({
-  machineType: Schema.optional(Schema.String),
-  zone: Schema.optional(Schema.String),
-})).annotate({ identifier: "DatabaseConfig" }) as any as Schema.Schema<DatabaseConfig>;
+export const DatabaseConfig: Schema.Schema<DatabaseConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      machineType: Schema.optional(Schema.String),
+      zone: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DatabaseConfig",
+}) as any as Schema.Schema<DatabaseConfig>;
 
 export interface WebServerConfig {
   /** Optional. Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2, composer-n1-webserver-4 or composer-n1-webserver-8. If not specified, composer-n1-webserver-2 will be used. Value custom is returned only in response, if Airflow web server parameters were manually changed to a non-standard values. */
   machineType?: string;
 }
 
-export const WebServerConfig: Schema.Schema<WebServerConfig> = Schema.suspend(() => Schema.Struct({
-  machineType: Schema.optional(Schema.String),
-})).annotate({ identifier: "WebServerConfig" }) as any as Schema.Schema<WebServerConfig>;
+export const WebServerConfig: Schema.Schema<WebServerConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      machineType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "WebServerConfig",
+}) as any as Schema.Schema<WebServerConfig>;
 
 export interface EncryptionConfig {
   /** Optional. Customer-managed Encryption Key available through Google's Key Management Service. Cannot be updated. If not specified, Google-managed key will be used. */
   kmsKeyName?: string;
 }
 
-export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "EncryptionConfig" }) as any as Schema.Schema<EncryptionConfig>;
+export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EncryptionConfig",
+}) as any as Schema.Schema<EncryptionConfig>;
 
 export interface MaintenanceWindow {
   /** Required. Start time of the first recurrence of the maintenance window. */
@@ -308,11 +394,16 @@ export interface MaintenanceWindow {
   recurrence?: string;
 }
 
-export const MaintenanceWindow: Schema.Schema<MaintenanceWindow> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  recurrence: Schema.optional(Schema.String),
-})).annotate({ identifier: "MaintenanceWindow" }) as any as Schema.Schema<MaintenanceWindow>;
+export const MaintenanceWindow: Schema.Schema<MaintenanceWindow> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      recurrence: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MaintenanceWindow",
+  }) as any as Schema.Schema<MaintenanceWindow>;
 
 export interface SchedulerResource {
   /** Optional. CPU request and limit for a single Airflow scheduler replica. */
@@ -325,12 +416,17 @@ export interface SchedulerResource {
   count?: number;
 }
 
-export const SchedulerResource: Schema.Schema<SchedulerResource> = Schema.suspend(() => Schema.Struct({
-  cpu: Schema.optional(Schema.Number),
-  memoryGb: Schema.optional(Schema.Number),
-  storageGb: Schema.optional(Schema.Number),
-  count: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SchedulerResource" }) as any as Schema.Schema<SchedulerResource>;
+export const SchedulerResource: Schema.Schema<SchedulerResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cpu: Schema.optional(Schema.Number),
+      memoryGb: Schema.optional(Schema.Number),
+      storageGb: Schema.optional(Schema.Number),
+      count: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SchedulerResource",
+  }) as any as Schema.Schema<SchedulerResource>;
 
 export interface WebServerResource {
   /** Optional. CPU request and limit for Airflow web server. */
@@ -341,11 +437,16 @@ export interface WebServerResource {
   storageGb?: number;
 }
 
-export const WebServerResource: Schema.Schema<WebServerResource> = Schema.suspend(() => Schema.Struct({
-  cpu: Schema.optional(Schema.Number),
-  memoryGb: Schema.optional(Schema.Number),
-  storageGb: Schema.optional(Schema.Number),
-})).annotate({ identifier: "WebServerResource" }) as any as Schema.Schema<WebServerResource>;
+export const WebServerResource: Schema.Schema<WebServerResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cpu: Schema.optional(Schema.Number),
+      memoryGb: Schema.optional(Schema.Number),
+      storageGb: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "WebServerResource",
+  }) as any as Schema.Schema<WebServerResource>;
 
 export interface WorkerResource {
   /** Optional. CPU request and limit for a single Airflow worker replica. */
@@ -360,13 +461,18 @@ export interface WorkerResource {
   maxCount?: number;
 }
 
-export const WorkerResource: Schema.Schema<WorkerResource> = Schema.suspend(() => Schema.Struct({
-  cpu: Schema.optional(Schema.Number),
-  memoryGb: Schema.optional(Schema.Number),
-  storageGb: Schema.optional(Schema.Number),
-  minCount: Schema.optional(Schema.Number),
-  maxCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "WorkerResource" }) as any as Schema.Schema<WorkerResource>;
+export const WorkerResource: Schema.Schema<WorkerResource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      cpu: Schema.optional(Schema.Number),
+      memoryGb: Schema.optional(Schema.Number),
+      storageGb: Schema.optional(Schema.Number),
+      minCount: Schema.optional(Schema.Number),
+      maxCount: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "WorkerResource",
+}) as any as Schema.Schema<WorkerResource>;
 
 export interface TriggererResource {
   /** Optional. The number of triggerers. */
@@ -377,11 +483,16 @@ export interface TriggererResource {
   memoryGb?: number;
 }
 
-export const TriggererResource: Schema.Schema<TriggererResource> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Schema.Number),
-  cpu: Schema.optional(Schema.Number),
-  memoryGb: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TriggererResource" }) as any as Schema.Schema<TriggererResource>;
+export const TriggererResource: Schema.Schema<TriggererResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      count: Schema.optional(Schema.Number),
+      cpu: Schema.optional(Schema.Number),
+      memoryGb: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "TriggererResource",
+  }) as any as Schema.Schema<TriggererResource>;
 
 export interface DagProcessorResource {
   /** Optional. CPU request and limit for a single Airflow DAG processor replica. */
@@ -394,12 +505,17 @@ export interface DagProcessorResource {
   count?: number;
 }
 
-export const DagProcessorResource: Schema.Schema<DagProcessorResource> = Schema.suspend(() => Schema.Struct({
-  cpu: Schema.optional(Schema.Number),
-  memoryGb: Schema.optional(Schema.Number),
-  storageGb: Schema.optional(Schema.Number),
-  count: Schema.optional(Schema.Number),
-})).annotate({ identifier: "DagProcessorResource" }) as any as Schema.Schema<DagProcessorResource>;
+export const DagProcessorResource: Schema.Schema<DagProcessorResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cpu: Schema.optional(Schema.Number),
+      memoryGb: Schema.optional(Schema.Number),
+      storageGb: Schema.optional(Schema.Number),
+      count: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "DagProcessorResource",
+  }) as any as Schema.Schema<DagProcessorResource>;
 
 export interface WorkloadsConfig {
   /** Optional. Resources used by Airflow schedulers. */
@@ -414,13 +530,18 @@ export interface WorkloadsConfig {
   dagProcessor?: DagProcessorResource;
 }
 
-export const WorkloadsConfig: Schema.Schema<WorkloadsConfig> = Schema.suspend(() => Schema.Struct({
-  scheduler: Schema.optional(SchedulerResource),
-  webServer: Schema.optional(WebServerResource),
-  worker: Schema.optional(WorkerResource),
-  triggerer: Schema.optional(TriggererResource),
-  dagProcessor: Schema.optional(DagProcessorResource),
-})).annotate({ identifier: "WorkloadsConfig" }) as any as Schema.Schema<WorkloadsConfig>;
+export const WorkloadsConfig: Schema.Schema<WorkloadsConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      scheduler: Schema.optional(SchedulerResource),
+      webServer: Schema.optional(WebServerResource),
+      worker: Schema.optional(WorkerResource),
+      triggerer: Schema.optional(TriggererResource),
+      dagProcessor: Schema.optional(DagProcessorResource),
+    }),
+).annotate({
+  identifier: "WorkloadsConfig",
+}) as any as Schema.Schema<WorkloadsConfig>;
 
 export interface CidrBlock {
   /** User-defined name that identifies the CIDR block. */
@@ -429,10 +550,12 @@ export interface CidrBlock {
   cidrBlock?: string;
 }
 
-export const CidrBlock: Schema.Schema<CidrBlock> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  cidrBlock: Schema.optional(Schema.String),
-})).annotate({ identifier: "CidrBlock" }) as any as Schema.Schema<CidrBlock>;
+export const CidrBlock: Schema.Schema<CidrBlock> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    cidrBlock: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CidrBlock" }) as any as Schema.Schema<CidrBlock>;
 
 export interface MasterAuthorizedNetworksConfig {
   /** Optional. Whether or not master authorized networks feature is enabled. */
@@ -441,10 +564,15 @@ export interface MasterAuthorizedNetworksConfig {
   cidrBlocks?: Array<CidrBlock>;
 }
 
-export const MasterAuthorizedNetworksConfig: Schema.Schema<MasterAuthorizedNetworksConfig> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  cidrBlocks: Schema.optional(Schema.Array(CidrBlock)),
-})).annotate({ identifier: "MasterAuthorizedNetworksConfig" }) as any as Schema.Schema<MasterAuthorizedNetworksConfig>;
+export const MasterAuthorizedNetworksConfig: Schema.Schema<MasterAuthorizedNetworksConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      cidrBlocks: Schema.optional(Schema.Array(CidrBlock)),
+    }),
+  ).annotate({
+    identifier: "MasterAuthorizedNetworksConfig",
+  }) as any as Schema.Schema<MasterAuthorizedNetworksConfig>;
 
 export interface ScheduledSnapshotsConfig {
   /** Optional. Whether scheduled snapshots creation is enabled. */
@@ -457,42 +585,70 @@ export interface ScheduledSnapshotsConfig {
   timeZone?: string;
 }
 
-export const ScheduledSnapshotsConfig: Schema.Schema<ScheduledSnapshotsConfig> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  snapshotLocation: Schema.optional(Schema.String),
-  snapshotCreationSchedule: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-})).annotate({ identifier: "ScheduledSnapshotsConfig" }) as any as Schema.Schema<ScheduledSnapshotsConfig>;
+export const ScheduledSnapshotsConfig: Schema.Schema<ScheduledSnapshotsConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      snapshotLocation: Schema.optional(Schema.String),
+      snapshotCreationSchedule: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ScheduledSnapshotsConfig",
+  }) as any as Schema.Schema<ScheduledSnapshotsConfig>;
 
 export interface RecoveryConfig {
   /** Optional. The configuration for scheduled snapshot creation mechanism. */
   scheduledSnapshotsConfig?: ScheduledSnapshotsConfig;
 }
 
-export const RecoveryConfig: Schema.Schema<RecoveryConfig> = Schema.suspend(() => Schema.Struct({
-  scheduledSnapshotsConfig: Schema.optional(ScheduledSnapshotsConfig),
-})).annotate({ identifier: "RecoveryConfig" }) as any as Schema.Schema<RecoveryConfig>;
+export const RecoveryConfig: Schema.Schema<RecoveryConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      scheduledSnapshotsConfig: Schema.optional(ScheduledSnapshotsConfig),
+    }),
+).annotate({
+  identifier: "RecoveryConfig",
+}) as any as Schema.Schema<RecoveryConfig>;
 
 export interface AirflowMetadataRetentionPolicyConfig {
   /** Optional. Retention can be either enabled or disabled. */
-  retentionMode?: "RETENTION_MODE_UNSPECIFIED" | "RETENTION_MODE_ENABLED" | "RETENTION_MODE_DISABLED" | (string & {});
+  retentionMode?:
+    | "RETENTION_MODE_UNSPECIFIED"
+    | "RETENTION_MODE_ENABLED"
+    | "RETENTION_MODE_DISABLED"
+    | (string & {});
   /** Optional. How many days data should be retained for. */
   retentionDays?: number;
 }
 
-export const AirflowMetadataRetentionPolicyConfig: Schema.Schema<AirflowMetadataRetentionPolicyConfig> = Schema.suspend(() => Schema.Struct({
-  retentionMode: Schema.optional(Schema.String),
-  retentionDays: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AirflowMetadataRetentionPolicyConfig" }) as any as Schema.Schema<AirflowMetadataRetentionPolicyConfig>;
+export const AirflowMetadataRetentionPolicyConfig: Schema.Schema<AirflowMetadataRetentionPolicyConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      retentionMode: Schema.optional(Schema.String),
+      retentionDays: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AirflowMetadataRetentionPolicyConfig",
+  }) as any as Schema.Schema<AirflowMetadataRetentionPolicyConfig>;
 
 export interface TaskLogsRetentionConfig {
   /** Optional. The mode of storage for Airflow workers task logs. */
-  storageMode?: "TASK_LOGS_STORAGE_MODE_UNSPECIFIED" | "CLOUD_LOGGING_AND_CLOUD_STORAGE" | "CLOUD_LOGGING_ONLY" | (string & {});
+  storageMode?:
+    | "TASK_LOGS_STORAGE_MODE_UNSPECIFIED"
+    | "CLOUD_LOGGING_AND_CLOUD_STORAGE"
+    | "CLOUD_LOGGING_ONLY"
+    | (string & {});
 }
 
-export const TaskLogsRetentionConfig: Schema.Schema<TaskLogsRetentionConfig> = Schema.suspend(() => Schema.Struct({
-  storageMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "TaskLogsRetentionConfig" }) as any as Schema.Schema<TaskLogsRetentionConfig>;
+export const TaskLogsRetentionConfig: Schema.Schema<TaskLogsRetentionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      storageMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TaskLogsRetentionConfig",
+  }) as any as Schema.Schema<TaskLogsRetentionConfig>;
 
 export interface DataRetentionConfig {
   /** Optional. The retention policy for airflow metadata database. */
@@ -501,10 +657,17 @@ export interface DataRetentionConfig {
   taskLogsRetentionConfig?: TaskLogsRetentionConfig;
 }
 
-export const DataRetentionConfig: Schema.Schema<DataRetentionConfig> = Schema.suspend(() => Schema.Struct({
-  airflowMetadataRetentionConfig: Schema.optional(AirflowMetadataRetentionPolicyConfig),
-  taskLogsRetentionConfig: Schema.optional(TaskLogsRetentionConfig),
-})).annotate({ identifier: "DataRetentionConfig" }) as any as Schema.Schema<DataRetentionConfig>;
+export const DataRetentionConfig: Schema.Schema<DataRetentionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      airflowMetadataRetentionConfig: Schema.optional(
+        AirflowMetadataRetentionPolicyConfig,
+      ),
+      taskLogsRetentionConfig: Schema.optional(TaskLogsRetentionConfig),
+    }),
+  ).annotate({
+    identifier: "DataRetentionConfig",
+  }) as any as Schema.Schema<DataRetentionConfig>;
 
 export interface EnvironmentConfig {
   /** Output only. The Kubernetes Engine cluster used to run this environment. */
@@ -532,7 +695,13 @@ export interface EnvironmentConfig {
   /** Optional. The workloads configuration settings for the GKE cluster associated with the Cloud Composer environment. The GKE cluster runs Airflow scheduler, web server and workers workloads. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
   workloadsConfig?: WorkloadsConfig;
   /** Optional. The size of the Cloud Composer environment. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
-  environmentSize?: "ENVIRONMENT_SIZE_UNSPECIFIED" | "ENVIRONMENT_SIZE_SMALL" | "ENVIRONMENT_SIZE_MEDIUM" | "ENVIRONMENT_SIZE_LARGE" | "ENVIRONMENT_SIZE_EXTRA_LARGE" | (string & {});
+  environmentSize?:
+    | "ENVIRONMENT_SIZE_UNSPECIFIED"
+    | "ENVIRONMENT_SIZE_SMALL"
+    | "ENVIRONMENT_SIZE_MEDIUM"
+    | "ENVIRONMENT_SIZE_LARGE"
+    | "ENVIRONMENT_SIZE_EXTRA_LARGE"
+    | (string & {});
   /** Output only. The URI of the Apache Airflow Web UI hosted within this environment (see [Airflow web interface](/composer/docs/how-to/accessing/airflow-web-interface)). */
   airflowUri?: string;
   /** Output only. The 'bring your own identity' variant of the URI of the Apache Airflow Web UI hosted within this environment, to be accessed with external identities using workforce identity federation (see [Access environments with workforce identity federation](/composer/docs/composer-2/access-environments-with-workforce-identity-federation)). */
@@ -542,41 +711,57 @@ export interface EnvironmentConfig {
   /** Optional. The Recovery settings configuration of an environment. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
   recoveryConfig?: RecoveryConfig;
   /** Optional. Resilience mode of the Cloud Composer Environment. This field is supported for Cloud Composer environments in versions composer-2.2.0-airflow-*.*.* and newer. */
-  resilienceMode?: "RESILIENCE_MODE_UNSPECIFIED" | "HIGH_RESILIENCE" | (string & {});
+  resilienceMode?:
+    | "RESILIENCE_MODE_UNSPECIFIED"
+    | "HIGH_RESILIENCE"
+    | (string & {});
   /** Optional. The configuration setting for Airflow database data retention mechanism. */
   dataRetentionConfig?: DataRetentionConfig;
 }
 
-export const EnvironmentConfig: Schema.Schema<EnvironmentConfig> = Schema.suspend(() => Schema.Struct({
-  gkeCluster: Schema.optional(Schema.String),
-  dagGcsPrefix: Schema.optional(Schema.String),
-  nodeCount: Schema.optional(Schema.Number),
-  softwareConfig: Schema.optional(SoftwareConfig),
-  nodeConfig: Schema.optional(NodeConfig),
-  privateEnvironmentConfig: Schema.optional(PrivateEnvironmentConfig),
-  webServerNetworkAccessControl: Schema.optional(WebServerNetworkAccessControl),
-  databaseConfig: Schema.optional(DatabaseConfig),
-  webServerConfig: Schema.optional(WebServerConfig),
-  encryptionConfig: Schema.optional(EncryptionConfig),
-  maintenanceWindow: Schema.optional(MaintenanceWindow),
-  workloadsConfig: Schema.optional(WorkloadsConfig),
-  environmentSize: Schema.optional(Schema.String),
-  airflowUri: Schema.optional(Schema.String),
-  airflowByoidUri: Schema.optional(Schema.String),
-  masterAuthorizedNetworksConfig: Schema.optional(MasterAuthorizedNetworksConfig),
-  recoveryConfig: Schema.optional(RecoveryConfig),
-  resilienceMode: Schema.optional(Schema.String),
-  dataRetentionConfig: Schema.optional(DataRetentionConfig),
-})).annotate({ identifier: "EnvironmentConfig" }) as any as Schema.Schema<EnvironmentConfig>;
+export const EnvironmentConfig: Schema.Schema<EnvironmentConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gkeCluster: Schema.optional(Schema.String),
+      dagGcsPrefix: Schema.optional(Schema.String),
+      nodeCount: Schema.optional(Schema.Number),
+      softwareConfig: Schema.optional(SoftwareConfig),
+      nodeConfig: Schema.optional(NodeConfig),
+      privateEnvironmentConfig: Schema.optional(PrivateEnvironmentConfig),
+      webServerNetworkAccessControl: Schema.optional(
+        WebServerNetworkAccessControl,
+      ),
+      databaseConfig: Schema.optional(DatabaseConfig),
+      webServerConfig: Schema.optional(WebServerConfig),
+      encryptionConfig: Schema.optional(EncryptionConfig),
+      maintenanceWindow: Schema.optional(MaintenanceWindow),
+      workloadsConfig: Schema.optional(WorkloadsConfig),
+      environmentSize: Schema.optional(Schema.String),
+      airflowUri: Schema.optional(Schema.String),
+      airflowByoidUri: Schema.optional(Schema.String),
+      masterAuthorizedNetworksConfig: Schema.optional(
+        MasterAuthorizedNetworksConfig,
+      ),
+      recoveryConfig: Schema.optional(RecoveryConfig),
+      resilienceMode: Schema.optional(Schema.String),
+      dataRetentionConfig: Schema.optional(DataRetentionConfig),
+    }),
+  ).annotate({
+    identifier: "EnvironmentConfig",
+  }) as any as Schema.Schema<EnvironmentConfig>;
 
 export interface StorageConfig {
   /** Optional. The name of the Cloud Storage bucket used by the environment. No `gs://` prefix. */
   bucket?: string;
 }
 
-export const StorageConfig: Schema.Schema<StorageConfig> = Schema.suspend(() => Schema.Struct({
-  bucket: Schema.optional(Schema.String),
-})).annotate({ identifier: "StorageConfig" }) as any as Schema.Schema<StorageConfig>;
+export const StorageConfig: Schema.Schema<StorageConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    bucket: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "StorageConfig",
+}) as any as Schema.Schema<StorageConfig>;
 
 export interface Environment {
   /** Identifier. The resource name of the environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" EnvironmentId must start with a lowercase letter followed by up to 63 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
@@ -586,7 +771,14 @@ export interface Environment {
   /** Output only. The UUID (Universally Unique IDentifier) associated with this environment. This value is generated when the environment is created. */
   uuid?: string;
   /** The current state of the environment. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "RUNNING" | "UPDATING" | "DELETING" | "ERROR" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "RUNNING"
+    | "UPDATING"
+    | "DELETING"
+    | "ERROR"
+    | (string & {});
   /** Output only. The time at which this environment was created. */
   createTime?: string;
   /** Output only. The time at which this environment was last modified. */
@@ -601,18 +793,20 @@ export interface Environment {
   storageConfig?: StorageConfig;
 }
 
-export const Environment: Schema.Schema<Environment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  config: Schema.optional(EnvironmentConfig),
-  uuid: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-  storageConfig: Schema.optional(StorageConfig),
-})).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
+export const Environment: Schema.Schema<Environment> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    config: Schema.optional(EnvironmentConfig),
+    uuid: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    satisfiesPzs: Schema.optional(Schema.Boolean),
+    satisfiesPzi: Schema.optional(Schema.Boolean),
+    storageConfig: Schema.optional(StorageConfig),
+  }),
+).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
 
 export interface ListEnvironmentsResponse {
   /** The list of environments returned by a ListEnvironmentsRequest. */
@@ -621,16 +815,22 @@ export interface ListEnvironmentsResponse {
   nextPageToken?: string;
 }
 
-export const ListEnvironmentsResponse: Schema.Schema<ListEnvironmentsResponse> = Schema.suspend(() => Schema.Struct({
-  environments: Schema.optional(Schema.Array(Environment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListEnvironmentsResponse" }) as any as Schema.Schema<ListEnvironmentsResponse>;
+export const ListEnvironmentsResponse: Schema.Schema<ListEnvironmentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      environments: Schema.optional(Schema.Array(Environment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListEnvironmentsResponse",
+  }) as any as Schema.Schema<ListEnvironmentsResponse>;
 
-export interface RestartWebServerRequest {
-}
+export interface RestartWebServerRequest {}
 
-export const RestartWebServerRequest: Schema.Schema<RestartWebServerRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RestartWebServerRequest" }) as any as Schema.Schema<RestartWebServerRequest>;
+export const RestartWebServerRequest: Schema.Schema<RestartWebServerRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RestartWebServerRequest",
+  }) as any as Schema.Schema<RestartWebServerRequest>;
 
 export interface ExecuteAirflowCommandRequest {
   /** Airflow command. */
@@ -641,11 +841,16 @@ export interface ExecuteAirflowCommandRequest {
   parameters?: Array<string>;
 }
 
-export const ExecuteAirflowCommandRequest: Schema.Schema<ExecuteAirflowCommandRequest> = Schema.suspend(() => Schema.Struct({
-  command: Schema.optional(Schema.String),
-  subcommand: Schema.optional(Schema.String),
-  parameters: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ExecuteAirflowCommandRequest" }) as any as Schema.Schema<ExecuteAirflowCommandRequest>;
+export const ExecuteAirflowCommandRequest: Schema.Schema<ExecuteAirflowCommandRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      command: Schema.optional(Schema.String),
+      subcommand: Schema.optional(Schema.String),
+      parameters: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ExecuteAirflowCommandRequest",
+  }) as any as Schema.Schema<ExecuteAirflowCommandRequest>;
 
 export interface ExecuteAirflowCommandResponse {
   /** The unique ID of the command execution for polling. */
@@ -658,12 +863,17 @@ export interface ExecuteAirflowCommandResponse {
   error?: string;
 }
 
-export const ExecuteAirflowCommandResponse: Schema.Schema<ExecuteAirflowCommandResponse> = Schema.suspend(() => Schema.Struct({
-  executionId: Schema.optional(Schema.String),
-  pod: Schema.optional(Schema.String),
-  podNamespace: Schema.optional(Schema.String),
-  error: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExecuteAirflowCommandResponse" }) as any as Schema.Schema<ExecuteAirflowCommandResponse>;
+export const ExecuteAirflowCommandResponse: Schema.Schema<ExecuteAirflowCommandResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      executionId: Schema.optional(Schema.String),
+      pod: Schema.optional(Schema.String),
+      podNamespace: Schema.optional(Schema.String),
+      error: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExecuteAirflowCommandResponse",
+  }) as any as Schema.Schema<ExecuteAirflowCommandResponse>;
 
 export interface StopAirflowCommandRequest {
   /** The unique ID of the command execution. */
@@ -676,12 +886,17 @@ export interface StopAirflowCommandRequest {
   force?: boolean;
 }
 
-export const StopAirflowCommandRequest: Schema.Schema<StopAirflowCommandRequest> = Schema.suspend(() => Schema.Struct({
-  executionId: Schema.optional(Schema.String),
-  pod: Schema.optional(Schema.String),
-  podNamespace: Schema.optional(Schema.String),
-  force: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "StopAirflowCommandRequest" }) as any as Schema.Schema<StopAirflowCommandRequest>;
+export const StopAirflowCommandRequest: Schema.Schema<StopAirflowCommandRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      executionId: Schema.optional(Schema.String),
+      pod: Schema.optional(Schema.String),
+      podNamespace: Schema.optional(Schema.String),
+      force: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "StopAirflowCommandRequest",
+  }) as any as Schema.Schema<StopAirflowCommandRequest>;
 
 export interface StopAirflowCommandResponse {
   /** Whether the execution is still running. */
@@ -690,10 +905,15 @@ export interface StopAirflowCommandResponse {
   output?: Array<string>;
 }
 
-export const StopAirflowCommandResponse: Schema.Schema<StopAirflowCommandResponse> = Schema.suspend(() => Schema.Struct({
-  isDone: Schema.optional(Schema.Boolean),
-  output: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "StopAirflowCommandResponse" }) as any as Schema.Schema<StopAirflowCommandResponse>;
+export const StopAirflowCommandResponse: Schema.Schema<StopAirflowCommandResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      isDone: Schema.optional(Schema.Boolean),
+      output: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "StopAirflowCommandResponse",
+  }) as any as Schema.Schema<StopAirflowCommandResponse>;
 
 export interface PollAirflowCommandRequest {
   /** The unique ID of the command execution. */
@@ -706,12 +926,17 @@ export interface PollAirflowCommandRequest {
   nextLineNumber?: number;
 }
 
-export const PollAirflowCommandRequest: Schema.Schema<PollAirflowCommandRequest> = Schema.suspend(() => Schema.Struct({
-  executionId: Schema.optional(Schema.String),
-  pod: Schema.optional(Schema.String),
-  podNamespace: Schema.optional(Schema.String),
-  nextLineNumber: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PollAirflowCommandRequest" }) as any as Schema.Schema<PollAirflowCommandRequest>;
+export const PollAirflowCommandRequest: Schema.Schema<PollAirflowCommandRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      executionId: Schema.optional(Schema.String),
+      pod: Schema.optional(Schema.String),
+      podNamespace: Schema.optional(Schema.String),
+      nextLineNumber: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "PollAirflowCommandRequest",
+  }) as any as Schema.Schema<PollAirflowCommandRequest>;
 
 export interface Line {
   /** Number of the line. */
@@ -720,10 +945,12 @@ export interface Line {
   content?: string;
 }
 
-export const Line: Schema.Schema<Line> = Schema.suspend(() => Schema.Struct({
-  lineNumber: Schema.optional(Schema.Number),
-  content: Schema.optional(Schema.String),
-})).annotate({ identifier: "Line" }) as any as Schema.Schema<Line>;
+export const Line: Schema.Schema<Line> = Schema.suspend(() =>
+  Schema.Struct({
+    lineNumber: Schema.optional(Schema.Number),
+    content: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Line" }) as any as Schema.Schema<Line>;
 
 export interface ExitInfo {
   /** The exit code from the command execution. */
@@ -732,10 +959,12 @@ export interface ExitInfo {
   error?: string;
 }
 
-export const ExitInfo: Schema.Schema<ExitInfo> = Schema.suspend(() => Schema.Struct({
-  exitCode: Schema.optional(Schema.Number),
-  error: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExitInfo" }) as any as Schema.Schema<ExitInfo>;
+export const ExitInfo: Schema.Schema<ExitInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    exitCode: Schema.optional(Schema.Number),
+    error: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ExitInfo" }) as any as Schema.Schema<ExitInfo>;
 
 export interface PollAirflowCommandResponse {
   /** Output from the command execution. It may not contain the full output and the caller may need to poll for more lines. */
@@ -746,41 +975,74 @@ export interface PollAirflowCommandResponse {
   exitInfo?: ExitInfo;
 }
 
-export const PollAirflowCommandResponse: Schema.Schema<PollAirflowCommandResponse> = Schema.suspend(() => Schema.Struct({
-  output: Schema.optional(Schema.Array(Line)),
-  outputEnd: Schema.optional(Schema.Boolean),
-  exitInfo: Schema.optional(ExitInfo),
-})).annotate({ identifier: "PollAirflowCommandResponse" }) as any as Schema.Schema<PollAirflowCommandResponse>;
+export const PollAirflowCommandResponse: Schema.Schema<PollAirflowCommandResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      output: Schema.optional(Schema.Array(Line)),
+      outputEnd: Schema.optional(Schema.Boolean),
+      exitInfo: Schema.optional(ExitInfo),
+    }),
+  ).annotate({
+    identifier: "PollAirflowCommandResponse",
+  }) as any as Schema.Schema<PollAirflowCommandResponse>;
 
 export interface ComposerWorkloadStatus {
   /** Output only. Workload state. */
-  state?: "COMPOSER_WORKLOAD_STATE_UNSPECIFIED" | "PENDING" | "OK" | "WARNING" | "ERROR" | "SUCCEEDED" | "FAILED" | (string & {});
+  state?:
+    | "COMPOSER_WORKLOAD_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "OK"
+    | "WARNING"
+    | "ERROR"
+    | "SUCCEEDED"
+    | "FAILED"
+    | (string & {});
   /** Output only. Text to provide more descriptive status. */
   statusMessage?: string;
   /** Output only. Detailed message of the status. */
   detailedStatusMessage?: string;
 }
 
-export const ComposerWorkloadStatus: Schema.Schema<ComposerWorkloadStatus> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  detailedStatusMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "ComposerWorkloadStatus" }) as any as Schema.Schema<ComposerWorkloadStatus>;
+export const ComposerWorkloadStatus: Schema.Schema<ComposerWorkloadStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      detailedStatusMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ComposerWorkloadStatus",
+  }) as any as Schema.Schema<ComposerWorkloadStatus>;
 
 export interface ComposerWorkload {
   /** Name of a workload. */
   name?: string;
   /** Type of a workload. */
-  type?: "COMPOSER_WORKLOAD_TYPE_UNSPECIFIED" | "CELERY_WORKER" | "KUBERNETES_WORKER" | "KUBERNETES_OPERATOR_POD" | "SCHEDULER" | "DAG_PROCESSOR" | "TRIGGERER" | "WEB_SERVER" | "REDIS" | (string & {});
+  type?:
+    | "COMPOSER_WORKLOAD_TYPE_UNSPECIFIED"
+    | "CELERY_WORKER"
+    | "KUBERNETES_WORKER"
+    | "KUBERNETES_OPERATOR_POD"
+    | "SCHEDULER"
+    | "DAG_PROCESSOR"
+    | "TRIGGERER"
+    | "WEB_SERVER"
+    | "REDIS"
+    | (string & {});
   /** Output only. Status of a workload. */
   status?: ComposerWorkloadStatus;
 }
 
-export const ComposerWorkload: Schema.Schema<ComposerWorkload> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  status: Schema.optional(ComposerWorkloadStatus),
-})).annotate({ identifier: "ComposerWorkload" }) as any as Schema.Schema<ComposerWorkload>;
+export const ComposerWorkload: Schema.Schema<ComposerWorkload> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      status: Schema.optional(ComposerWorkloadStatus),
+    }),
+).annotate({
+  identifier: "ComposerWorkload",
+}) as any as Schema.Schema<ComposerWorkload>;
 
 export interface ListWorkloadsResponse {
   /** The list of environment workloads. */
@@ -789,19 +1051,29 @@ export interface ListWorkloadsResponse {
   nextPageToken?: string;
 }
 
-export const ListWorkloadsResponse: Schema.Schema<ListWorkloadsResponse> = Schema.suspend(() => Schema.Struct({
-  workloads: Schema.optional(Schema.Array(ComposerWorkload)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListWorkloadsResponse" }) as any as Schema.Schema<ListWorkloadsResponse>;
+export const ListWorkloadsResponse: Schema.Schema<ListWorkloadsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workloads: Schema.optional(Schema.Array(ComposerWorkload)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListWorkloadsResponse",
+  }) as any as Schema.Schema<ListWorkloadsResponse>;
 
 export interface CheckUpgradeRequest {
   /** Optional. The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression `composer-([0-9]+(\.[0-9]+\.[0-9]+(-preview\.[0-9]+)?)?|latest)-airflow-([0-9]+(\.[0-9]+(\.[0-9]+)?)?)`. When used as input, the server also checks if the provided version is supported and denies the request for an unsupported version. The Cloud Composer portion of the image version is a full [semantic version](https://semver.org), or an alias in the form of major version number or `latest`. When an alias is provided, the server replaces it with the current Cloud Composer version that satisfies the alias. The Apache Airflow portion of the image version is a full semantic version that points to one of the supported Apache Airflow versions, or an alias in the form of only major or major.minor versions specified. When an alias is provided, the server replaces it with the latest Apache Airflow version that satisfies the alias and is supported in the given Cloud Composer version. In all cases, the resolved image version is stored in the same field. See also [version list](/composer/docs/concepts/versioning/composer-versions) and [versioning overview](/composer/docs/concepts/versioning/composer-versioning-overview). */
   imageVersion?: string;
 }
 
-export const CheckUpgradeRequest: Schema.Schema<CheckUpgradeRequest> = Schema.suspend(() => Schema.Struct({
-  imageVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "CheckUpgradeRequest" }) as any as Schema.Schema<CheckUpgradeRequest>;
+export const CheckUpgradeRequest: Schema.Schema<CheckUpgradeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      imageVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CheckUpgradeRequest",
+  }) as any as Schema.Schema<CheckUpgradeRequest>;
 
 export interface UserWorkloadsSecret {
   /** Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
@@ -810,10 +1082,15 @@ export interface UserWorkloadsSecret {
   data?: Record<string, string>;
 }
 
-export const UserWorkloadsSecret: Schema.Schema<UserWorkloadsSecret> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "UserWorkloadsSecret" }) as any as Schema.Schema<UserWorkloadsSecret>;
+export const UserWorkloadsSecret: Schema.Schema<UserWorkloadsSecret> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UserWorkloadsSecret",
+  }) as any as Schema.Schema<UserWorkloadsSecret>;
 
 export interface ListUserWorkloadsSecretsResponse {
   /** The list of Secrets returned by a ListUserWorkloadsSecretsRequest. */
@@ -822,10 +1099,15 @@ export interface ListUserWorkloadsSecretsResponse {
   nextPageToken?: string;
 }
 
-export const ListUserWorkloadsSecretsResponse: Schema.Schema<ListUserWorkloadsSecretsResponse> = Schema.suspend(() => Schema.Struct({
-  userWorkloadsSecrets: Schema.optional(Schema.Array(UserWorkloadsSecret)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListUserWorkloadsSecretsResponse" }) as any as Schema.Schema<ListUserWorkloadsSecretsResponse>;
+export const ListUserWorkloadsSecretsResponse: Schema.Schema<ListUserWorkloadsSecretsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userWorkloadsSecrets: Schema.optional(Schema.Array(UserWorkloadsSecret)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListUserWorkloadsSecretsResponse",
+  }) as any as Schema.Schema<ListUserWorkloadsSecretsResponse>;
 
 export interface UserWorkloadsConfigMap {
   /** Identifier. The resource name of the ConfigMap, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
@@ -834,10 +1116,15 @@ export interface UserWorkloadsConfigMap {
   data?: Record<string, string>;
 }
 
-export const UserWorkloadsConfigMap: Schema.Schema<UserWorkloadsConfigMap> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "UserWorkloadsConfigMap" }) as any as Schema.Schema<UserWorkloadsConfigMap>;
+export const UserWorkloadsConfigMap: Schema.Schema<UserWorkloadsConfigMap> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UserWorkloadsConfigMap",
+  }) as any as Schema.Schema<UserWorkloadsConfigMap>;
 
 export interface ListUserWorkloadsConfigMapsResponse {
   /** The list of ConfigMaps returned by a ListUserWorkloadsConfigMapsRequest. */
@@ -846,19 +1133,31 @@ export interface ListUserWorkloadsConfigMapsResponse {
   nextPageToken?: string;
 }
 
-export const ListUserWorkloadsConfigMapsResponse: Schema.Schema<ListUserWorkloadsConfigMapsResponse> = Schema.suspend(() => Schema.Struct({
-  userWorkloadsConfigMaps: Schema.optional(Schema.Array(UserWorkloadsConfigMap)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListUserWorkloadsConfigMapsResponse" }) as any as Schema.Schema<ListUserWorkloadsConfigMapsResponse>;
+export const ListUserWorkloadsConfigMapsResponse: Schema.Schema<ListUserWorkloadsConfigMapsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userWorkloadsConfigMaps: Schema.optional(
+        Schema.Array(UserWorkloadsConfigMap),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListUserWorkloadsConfigMapsResponse",
+  }) as any as Schema.Schema<ListUserWorkloadsConfigMapsResponse>;
 
 export interface SaveSnapshotRequest {
   /** Location in a Cloud Storage where the snapshot is going to be stored, e.g.: "gs://my-bucket/snapshots". */
   snapshotLocation?: string;
 }
 
-export const SaveSnapshotRequest: Schema.Schema<SaveSnapshotRequest> = Schema.suspend(() => Schema.Struct({
-  snapshotLocation: Schema.optional(Schema.String),
-})).annotate({ identifier: "SaveSnapshotRequest" }) as any as Schema.Schema<SaveSnapshotRequest>;
+export const SaveSnapshotRequest: Schema.Schema<SaveSnapshotRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      snapshotLocation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SaveSnapshotRequest",
+  }) as any as Schema.Schema<SaveSnapshotRequest>;
 
 export interface LoadSnapshotRequest {
   /** A Cloud Storage path to a snapshot to load, e.g.: "gs://my-bucket/snapshots/project_location_environment_timestamp". */
@@ -873,19 +1172,25 @@ export interface LoadSnapshotRequest {
   skipGcsDataCopying?: boolean;
 }
 
-export const LoadSnapshotRequest: Schema.Schema<LoadSnapshotRequest> = Schema.suspend(() => Schema.Struct({
-  snapshotPath: Schema.optional(Schema.String),
-  skipPypiPackagesInstallation: Schema.optional(Schema.Boolean),
-  skipEnvironmentVariablesSetting: Schema.optional(Schema.Boolean),
-  skipAirflowOverridesSetting: Schema.optional(Schema.Boolean),
-  skipGcsDataCopying: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "LoadSnapshotRequest" }) as any as Schema.Schema<LoadSnapshotRequest>;
+export const LoadSnapshotRequest: Schema.Schema<LoadSnapshotRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      snapshotPath: Schema.optional(Schema.String),
+      skipPypiPackagesInstallation: Schema.optional(Schema.Boolean),
+      skipEnvironmentVariablesSetting: Schema.optional(Schema.Boolean),
+      skipAirflowOverridesSetting: Schema.optional(Schema.Boolean),
+      skipGcsDataCopying: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "LoadSnapshotRequest",
+  }) as any as Schema.Schema<LoadSnapshotRequest>;
 
-export interface DatabaseFailoverRequest {
-}
+export interface DatabaseFailoverRequest {}
 
-export const DatabaseFailoverRequest: Schema.Schema<DatabaseFailoverRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DatabaseFailoverRequest" }) as any as Schema.Schema<DatabaseFailoverRequest>;
+export const DatabaseFailoverRequest: Schema.Schema<DatabaseFailoverRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DatabaseFailoverRequest",
+  }) as any as Schema.Schema<DatabaseFailoverRequest>;
 
 export interface FetchDatabasePropertiesResponse {
   /** The Compute Engine zone that the instance is currently serving from. */
@@ -896,11 +1201,16 @@ export interface FetchDatabasePropertiesResponse {
   isFailoverReplicaAvailable?: boolean;
 }
 
-export const FetchDatabasePropertiesResponse: Schema.Schema<FetchDatabasePropertiesResponse> = Schema.suspend(() => Schema.Struct({
-  primaryGceZone: Schema.optional(Schema.String),
-  secondaryGceZone: Schema.optional(Schema.String),
-  isFailoverReplicaAvailable: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "FetchDatabasePropertiesResponse" }) as any as Schema.Schema<FetchDatabasePropertiesResponse>;
+export const FetchDatabasePropertiesResponse: Schema.Schema<FetchDatabasePropertiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      primaryGceZone: Schema.optional(Schema.String),
+      secondaryGceZone: Schema.optional(Schema.String),
+      isFailoverReplicaAvailable: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "FetchDatabasePropertiesResponse",
+  }) as any as Schema.Schema<FetchDatabasePropertiesResponse>;
 
 export interface Composer_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -911,11 +1221,15 @@ export interface Composer_Date {
   day?: number;
 }
 
-export const Composer_Date: Schema.Schema<Composer_Date> = Schema.suspend(() => Schema.Struct({
-  year: Schema.optional(Schema.Number),
-  month: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Composer_Date" }) as any as Schema.Schema<Composer_Date>;
+export const Composer_Date: Schema.Schema<Composer_Date> = Schema.suspend(() =>
+  Schema.Struct({
+    year: Schema.optional(Schema.Number),
+    month: Schema.optional(Schema.Number),
+    day: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "Composer_Date",
+}) as any as Schema.Schema<Composer_Date>;
 
 export interface ImageVersion {
   /** The string identifier of the ImageVersion, in the form: "composer-x.y.z-airflow-a.b.c" */
@@ -932,14 +1246,18 @@ export interface ImageVersion {
   upgradeDisabled?: boolean;
 }
 
-export const ImageVersion: Schema.Schema<ImageVersion> = Schema.suspend(() => Schema.Struct({
-  imageVersionId: Schema.optional(Schema.String),
-  isDefault: Schema.optional(Schema.Boolean),
-  supportedPythonVersions: Schema.optional(Schema.Array(Schema.String)),
-  releaseDate: Schema.optional(Composer_Date),
-  creationDisabled: Schema.optional(Schema.Boolean),
-  upgradeDisabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ImageVersion" }) as any as Schema.Schema<ImageVersion>;
+export const ImageVersion: Schema.Schema<ImageVersion> = Schema.suspend(() =>
+  Schema.Struct({
+    imageVersionId: Schema.optional(Schema.String),
+    isDefault: Schema.optional(Schema.Boolean),
+    supportedPythonVersions: Schema.optional(Schema.Array(Schema.String)),
+    releaseDate: Schema.optional(Composer_Date),
+    creationDisabled: Schema.optional(Schema.Boolean),
+    upgradeDisabled: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "ImageVersion",
+}) as any as Schema.Schema<ImageVersion>;
 
 export interface ListImageVersionsResponse {
   /** The list of supported ImageVersions in a location. */
@@ -948,16 +1266,38 @@ export interface ListImageVersionsResponse {
   nextPageToken?: string;
 }
 
-export const ListImageVersionsResponse: Schema.Schema<ListImageVersionsResponse> = Schema.suspend(() => Schema.Struct({
-  imageVersions: Schema.optional(Schema.Array(ImageVersion)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListImageVersionsResponse" }) as any as Schema.Schema<ListImageVersionsResponse>;
+export const ListImageVersionsResponse: Schema.Schema<ListImageVersionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      imageVersions: Schema.optional(Schema.Array(ImageVersion)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListImageVersionsResponse",
+  }) as any as Schema.Schema<ListImageVersionsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The current operation state. */
-  state?: "STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "SUCCESSFUL" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "SUCCESSFUL"
+    | "FAILED"
+    | (string & {});
   /** Output only. The type of operation being performed. */
-  operationType?: "TYPE_UNSPECIFIED" | "CREATE" | "DELETE" | "UPDATE" | "CHECK" | "SAVE_SNAPSHOT" | "LOAD_SNAPSHOT" | "DATABASE_FAILOVER" | "MIGRATE" | (string & {});
+  operationType?:
+    | "TYPE_UNSPECIFIED"
+    | "CREATE"
+    | "DELETE"
+    | "UPDATE"
+    | "CHECK"
+    | "SAVE_SNAPSHOT"
+    | "LOAD_SNAPSHOT"
+    | "DATABASE_FAILOVER"
+    | "MIGRATE"
+    | (string & {});
   /** Output only. The resource being operated on, as a [relative resource name]( /apis/design/resource_names#relative_resource_name). */
   resource?: string;
   /** Output only. The UUID of the resource being operated on. */
@@ -968,32 +1308,50 @@ export interface OperationMetadata {
   endTime?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  resourceUuid: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      resourceUuid: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 export interface ConfigConflict {
   /** Conflict message. */
   message?: string;
   /** Conflict type. It can be blocking or non-blocking. */
-  type?: "CONFLICT_TYPE_UNSPECIFIED" | "BLOCKING" | "NON_BLOCKING" | (string & {});
+  type?:
+    | "CONFLICT_TYPE_UNSPECIFIED"
+    | "BLOCKING"
+    | "NON_BLOCKING"
+    | (string & {});
 }
 
-export const ConfigConflict: Schema.Schema<ConfigConflict> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConfigConflict" }) as any as Schema.Schema<ConfigConflict>;
+export const ConfigConflict: Schema.Schema<ConfigConflict> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ConfigConflict",
+}) as any as Schema.Schema<ConfigConflict>;
 
 export interface CheckUpgradeResponse {
   /** Output only. Url for a docker build log of an upgraded image. */
   buildLogUri?: string;
   /** Output only. Whether build has succeeded or failed on modules conflicts. */
-  containsPypiModulesConflict?: "CONFLICT_RESULT_UNSPECIFIED" | "CONFLICT" | "NO_CONFLICT" | (string & {});
+  containsPypiModulesConflict?:
+    | "CONFLICT_RESULT_UNSPECIFIED"
+    | "CONFLICT"
+    | "NO_CONFLICT"
+    | (string & {});
   /** Output only. Extract from a docker image build log containing information about pypi modules conflicts. */
   pypiConflictBuildLogExtract?: string;
   /** Composer image for which the build was happening. */
@@ -1004,35 +1362,49 @@ export interface CheckUpgradeResponse {
   configConflicts?: Array<ConfigConflict>;
 }
 
-export const CheckUpgradeResponse: Schema.Schema<CheckUpgradeResponse> = Schema.suspend(() => Schema.Struct({
-  buildLogUri: Schema.optional(Schema.String),
-  containsPypiModulesConflict: Schema.optional(Schema.String),
-  pypiConflictBuildLogExtract: Schema.optional(Schema.String),
-  imageVersion: Schema.optional(Schema.String),
-  pypiDependencies: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  configConflicts: Schema.optional(Schema.Array(ConfigConflict)),
-})).annotate({ identifier: "CheckUpgradeResponse" }) as any as Schema.Schema<CheckUpgradeResponse>;
+export const CheckUpgradeResponse: Schema.Schema<CheckUpgradeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      buildLogUri: Schema.optional(Schema.String),
+      containsPypiModulesConflict: Schema.optional(Schema.String),
+      pypiConflictBuildLogExtract: Schema.optional(Schema.String),
+      imageVersion: Schema.optional(Schema.String),
+      pypiDependencies: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      configConflicts: Schema.optional(Schema.Array(ConfigConflict)),
+    }),
+  ).annotate({
+    identifier: "CheckUpgradeResponse",
+  }) as any as Schema.Schema<CheckUpgradeResponse>;
 
 export interface SaveSnapshotResponse {
   /** The fully-resolved Cloud Storage path of the created snapshot, e.g.: "gs://my-bucket/snapshots/project_location_environment_timestamp". This field is populated only if the snapshot creation was successful. */
   snapshotPath?: string;
 }
 
-export const SaveSnapshotResponse: Schema.Schema<SaveSnapshotResponse> = Schema.suspend(() => Schema.Struct({
-  snapshotPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "SaveSnapshotResponse" }) as any as Schema.Schema<SaveSnapshotResponse>;
+export const SaveSnapshotResponse: Schema.Schema<SaveSnapshotResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      snapshotPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SaveSnapshotResponse",
+  }) as any as Schema.Schema<SaveSnapshotResponse>;
 
-export interface LoadSnapshotResponse {
-}
+export interface LoadSnapshotResponse {}
 
-export const LoadSnapshotResponse: Schema.Schema<LoadSnapshotResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "LoadSnapshotResponse" }) as any as Schema.Schema<LoadSnapshotResponse>;
+export const LoadSnapshotResponse: Schema.Schema<LoadSnapshotResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "LoadSnapshotResponse",
+  }) as any as Schema.Schema<LoadSnapshotResponse>;
 
-export interface DatabaseFailoverResponse {
-}
+export interface DatabaseFailoverResponse {}
 
-export const DatabaseFailoverResponse: Schema.Schema<DatabaseFailoverResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DatabaseFailoverResponse" }) as any as Schema.Schema<DatabaseFailoverResponse>;
+export const DatabaseFailoverResponse: Schema.Schema<DatabaseFailoverResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DatabaseFailoverResponse",
+  }) as any as Schema.Schema<DatabaseFailoverResponse>;
 
 // ==========================================================================
 // Operations
@@ -1056,9 +1428,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1068,7 +1445,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1086,7 +1468,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1096,7 +1481,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1110,7 +1500,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1120,7 +1513,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1137,7 +1535,11 @@ export const CreateProjectsLocationsEnvironmentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Environment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsEnvironmentsRequest>;
 
@@ -1147,7 +1549,12 @@ export const CreateProjectsLocationsEnvironmentsResponse = Operation;
 export type CreateProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Create a new environment. */
-export const createProjectsLocationsEnvironments: API.OperationMethod<CreateProjectsLocationsEnvironmentsRequest, CreateProjectsLocationsEnvironmentsResponse, CreateProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsEnvironments: API.OperationMethod<
+  CreateProjectsLocationsEnvironmentsRequest,
+  CreateProjectsLocationsEnvironmentsResponse,
+  CreateProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsEnvironmentsRequest,
   output: CreateProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1161,7 +1568,10 @@ export interface GetProjectsLocationsEnvironmentsRequest {
 export const GetProjectsLocationsEnvironmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsEnvironmentsRequest>;
 
@@ -1171,7 +1581,12 @@ export const GetProjectsLocationsEnvironmentsResponse = Environment;
 export type GetProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Get an existing environment. */
-export const getProjectsLocationsEnvironments: API.OperationMethod<GetProjectsLocationsEnvironmentsRequest, GetProjectsLocationsEnvironmentsResponse, GetProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsEnvironments: API.OperationMethod<
+  GetProjectsLocationsEnvironmentsRequest,
+  GetProjectsLocationsEnvironmentsResponse,
+  GetProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsEnvironmentsRequest,
   output: GetProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1191,17 +1606,27 @@ export const ListProjectsLocationsEnvironmentsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsEnvironmentsRequest>;
 
-export type ListProjectsLocationsEnvironmentsResponse = ListEnvironmentsResponse;
-export const ListProjectsLocationsEnvironmentsResponse = ListEnvironmentsResponse;
+export type ListProjectsLocationsEnvironmentsResponse =
+  ListEnvironmentsResponse;
+export const ListProjectsLocationsEnvironmentsResponse =
+  ListEnvironmentsResponse;
 
 export type ListProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** List environments. */
-export const listProjectsLocationsEnvironments: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsRequest, ListProjectsLocationsEnvironmentsResponse, ListProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsEnvironments: API.PaginatedOperationMethod<
+  ListProjectsLocationsEnvironmentsRequest,
+  ListProjectsLocationsEnvironmentsResponse,
+  ListProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsRequest,
   output: ListProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1225,7 +1650,11 @@ export const PatchProjectsLocationsEnvironmentsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Environment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsEnvironmentsRequest>;
 
@@ -1235,7 +1664,12 @@ export const PatchProjectsLocationsEnvironmentsResponse = Operation;
 export type PatchProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Update an environment. */
-export const patchProjectsLocationsEnvironments: API.OperationMethod<PatchProjectsLocationsEnvironmentsRequest, PatchProjectsLocationsEnvironmentsResponse, PatchProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsEnvironments: API.OperationMethod<
+  PatchProjectsLocationsEnvironmentsRequest,
+  PatchProjectsLocationsEnvironmentsResponse,
+  PatchProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsEnvironmentsRequest,
   output: PatchProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1249,7 +1683,10 @@ export interface DeleteProjectsLocationsEnvironmentsRequest {
 export const DeleteProjectsLocationsEnvironmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsEnvironmentsRequest>;
 
@@ -1259,7 +1696,12 @@ export const DeleteProjectsLocationsEnvironmentsResponse = Operation;
 export type DeleteProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Delete an environment. */
-export const deleteProjectsLocationsEnvironments: API.OperationMethod<DeleteProjectsLocationsEnvironmentsRequest, DeleteProjectsLocationsEnvironmentsResponse, DeleteProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsEnvironments: API.OperationMethod<
+  DeleteProjectsLocationsEnvironmentsRequest,
+  DeleteProjectsLocationsEnvironmentsResponse,
+  DeleteProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsEnvironmentsRequest,
   output: DeleteProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1272,13 +1714,18 @@ export interface RestartWebServerProjectsLocationsEnvironmentsRequest {
   body?: RestartWebServerRequest;
 }
 
-export const RestartWebServerProjectsLocationsEnvironmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RestartWebServerRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:restartWebServer", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RestartWebServerProjectsLocationsEnvironmentsRequest>;
+export const RestartWebServerProjectsLocationsEnvironmentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RestartWebServerRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:restartWebServer",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RestartWebServerProjectsLocationsEnvironmentsRequest>;
 
 export type RestartWebServerProjectsLocationsEnvironmentsResponse = Operation;
 export const RestartWebServerProjectsLocationsEnvironmentsResponse = Operation;
@@ -1286,7 +1733,12 @@ export const RestartWebServerProjectsLocationsEnvironmentsResponse = Operation;
 export type RestartWebServerProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Restart Airflow web server. */
-export const restartWebServerProjectsLocationsEnvironments: API.OperationMethod<RestartWebServerProjectsLocationsEnvironmentsRequest, RestartWebServerProjectsLocationsEnvironmentsResponse, RestartWebServerProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restartWebServerProjectsLocationsEnvironments: API.OperationMethod<
+  RestartWebServerProjectsLocationsEnvironmentsRequest,
+  RestartWebServerProjectsLocationsEnvironmentsResponse,
+  RestartWebServerProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestartWebServerProjectsLocationsEnvironmentsRequest,
   output: RestartWebServerProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1299,21 +1751,34 @@ export interface ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest {
   body?: ExecuteAirflowCommandRequest;
 }
 
-export const ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-  body: Schema.optional(ExecuteAirflowCommandRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:executeAirflowCommand", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest>;
+export const ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest =
+  Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+    body: Schema.optional(ExecuteAirflowCommandRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:executeAirflowCommand",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest>;
 
-export type ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse = ExecuteAirflowCommandResponse;
-export const ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse = ExecuteAirflowCommandResponse;
+export type ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse =
+  ExecuteAirflowCommandResponse;
+export const ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse =
+  ExecuteAirflowCommandResponse;
 
-export type ExecuteAirflowCommandProjectsLocationsEnvironmentsError = DefaultErrors;
+export type ExecuteAirflowCommandProjectsLocationsEnvironmentsError =
+  DefaultErrors;
 
 /** Executes Airflow CLI command. */
-export const executeAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest, ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse, ExecuteAirflowCommandProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const executeAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<
+  ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest,
+  ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse,
+  ExecuteAirflowCommandProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest,
   output: ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1326,21 +1791,34 @@ export interface StopAirflowCommandProjectsLocationsEnvironmentsRequest {
   body?: StopAirflowCommandRequest;
 }
 
-export const StopAirflowCommandProjectsLocationsEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-  body: Schema.optional(StopAirflowCommandRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:stopAirflowCommand", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<StopAirflowCommandProjectsLocationsEnvironmentsRequest>;
+export const StopAirflowCommandProjectsLocationsEnvironmentsRequest =
+  Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+    body: Schema.optional(StopAirflowCommandRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:stopAirflowCommand",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StopAirflowCommandProjectsLocationsEnvironmentsRequest>;
 
-export type StopAirflowCommandProjectsLocationsEnvironmentsResponse = StopAirflowCommandResponse;
-export const StopAirflowCommandProjectsLocationsEnvironmentsResponse = StopAirflowCommandResponse;
+export type StopAirflowCommandProjectsLocationsEnvironmentsResponse =
+  StopAirflowCommandResponse;
+export const StopAirflowCommandProjectsLocationsEnvironmentsResponse =
+  StopAirflowCommandResponse;
 
-export type StopAirflowCommandProjectsLocationsEnvironmentsError = DefaultErrors;
+export type StopAirflowCommandProjectsLocationsEnvironmentsError =
+  DefaultErrors;
 
 /** Stops Airflow CLI command execution. */
-export const stopAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<StopAirflowCommandProjectsLocationsEnvironmentsRequest, StopAirflowCommandProjectsLocationsEnvironmentsResponse, StopAirflowCommandProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<
+  StopAirflowCommandProjectsLocationsEnvironmentsRequest,
+  StopAirflowCommandProjectsLocationsEnvironmentsResponse,
+  StopAirflowCommandProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopAirflowCommandProjectsLocationsEnvironmentsRequest,
   output: StopAirflowCommandProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1353,21 +1831,34 @@ export interface PollAirflowCommandProjectsLocationsEnvironmentsRequest {
   body?: PollAirflowCommandRequest;
 }
 
-export const PollAirflowCommandProjectsLocationsEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-  body: Schema.optional(PollAirflowCommandRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:pollAirflowCommand", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PollAirflowCommandProjectsLocationsEnvironmentsRequest>;
+export const PollAirflowCommandProjectsLocationsEnvironmentsRequest =
+  Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+    body: Schema.optional(PollAirflowCommandRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:pollAirflowCommand",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PollAirflowCommandProjectsLocationsEnvironmentsRequest>;
 
-export type PollAirflowCommandProjectsLocationsEnvironmentsResponse = PollAirflowCommandResponse;
-export const PollAirflowCommandProjectsLocationsEnvironmentsResponse = PollAirflowCommandResponse;
+export type PollAirflowCommandProjectsLocationsEnvironmentsResponse =
+  PollAirflowCommandResponse;
+export const PollAirflowCommandProjectsLocationsEnvironmentsResponse =
+  PollAirflowCommandResponse;
 
-export type PollAirflowCommandProjectsLocationsEnvironmentsError = DefaultErrors;
+export type PollAirflowCommandProjectsLocationsEnvironmentsError =
+  DefaultErrors;
 
 /** Polls Airflow CLI command execution and fetches logs. */
-export const pollAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<PollAirflowCommandProjectsLocationsEnvironmentsRequest, PollAirflowCommandProjectsLocationsEnvironmentsResponse, PollAirflowCommandProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pollAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<
+  PollAirflowCommandProjectsLocationsEnvironmentsRequest,
+  PollAirflowCommandProjectsLocationsEnvironmentsResponse,
+  PollAirflowCommandProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PollAirflowCommandProjectsLocationsEnvironmentsRequest,
   output: PollAirflowCommandProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1384,7 +1875,11 @@ export const CheckUpgradeProjectsLocationsEnvironmentsRequest = Schema.Struct({
   environment: Schema.String.pipe(T.HttpPath("environment")),
   body: Schema.optional(CheckUpgradeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:checkUpgrade", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:checkUpgrade",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CheckUpgradeProjectsLocationsEnvironmentsRequest>;
 
@@ -1394,7 +1889,12 @@ export const CheckUpgradeProjectsLocationsEnvironmentsResponse = Operation;
 export type CheckUpgradeProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Check if an upgrade operation on the environment will succeed. In case of problems detailed info can be found in the returned Operation. */
-export const checkUpgradeProjectsLocationsEnvironments: API.OperationMethod<CheckUpgradeProjectsLocationsEnvironmentsRequest, CheckUpgradeProjectsLocationsEnvironmentsResponse, CheckUpgradeProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const checkUpgradeProjectsLocationsEnvironments: API.OperationMethod<
+  CheckUpgradeProjectsLocationsEnvironmentsRequest,
+  CheckUpgradeProjectsLocationsEnvironmentsResponse,
+  CheckUpgradeProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CheckUpgradeProjectsLocationsEnvironmentsRequest,
   output: CheckUpgradeProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1411,7 +1911,11 @@ export const SaveSnapshotProjectsLocationsEnvironmentsRequest = Schema.Struct({
   environment: Schema.String.pipe(T.HttpPath("environment")),
   body: Schema.optional(SaveSnapshotRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:saveSnapshot", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:saveSnapshot",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SaveSnapshotProjectsLocationsEnvironmentsRequest>;
 
@@ -1421,7 +1925,12 @@ export const SaveSnapshotProjectsLocationsEnvironmentsResponse = Operation;
 export type SaveSnapshotProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Creates a snapshots of a Cloud Composer environment. As a result of this operation, snapshot of environment's state is stored in a location specified in the SaveSnapshotRequest. */
-export const saveSnapshotProjectsLocationsEnvironments: API.OperationMethod<SaveSnapshotProjectsLocationsEnvironmentsRequest, SaveSnapshotProjectsLocationsEnvironmentsResponse, SaveSnapshotProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const saveSnapshotProjectsLocationsEnvironments: API.OperationMethod<
+  SaveSnapshotProjectsLocationsEnvironmentsRequest,
+  SaveSnapshotProjectsLocationsEnvironmentsResponse,
+  SaveSnapshotProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SaveSnapshotProjectsLocationsEnvironmentsRequest,
   output: SaveSnapshotProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1438,7 +1947,11 @@ export const LoadSnapshotProjectsLocationsEnvironmentsRequest = Schema.Struct({
   environment: Schema.String.pipe(T.HttpPath("environment")),
   body: Schema.optional(LoadSnapshotRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:loadSnapshot", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:loadSnapshot",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LoadSnapshotProjectsLocationsEnvironmentsRequest>;
 
@@ -1448,7 +1961,12 @@ export const LoadSnapshotProjectsLocationsEnvironmentsResponse = Operation;
 export type LoadSnapshotProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Loads a snapshot of a Cloud Composer environment. As a result of this operation, a snapshot of environment's specified in LoadSnapshotRequest is loaded into the environment. */
-export const loadSnapshotProjectsLocationsEnvironments: API.OperationMethod<LoadSnapshotProjectsLocationsEnvironmentsRequest, LoadSnapshotProjectsLocationsEnvironmentsResponse, LoadSnapshotProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const loadSnapshotProjectsLocationsEnvironments: API.OperationMethod<
+  LoadSnapshotProjectsLocationsEnvironmentsRequest,
+  LoadSnapshotProjectsLocationsEnvironmentsResponse,
+  LoadSnapshotProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LoadSnapshotProjectsLocationsEnvironmentsRequest,
   output: LoadSnapshotProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1461,13 +1979,18 @@ export interface DatabaseFailoverProjectsLocationsEnvironmentsRequest {
   body?: DatabaseFailoverRequest;
 }
 
-export const DatabaseFailoverProjectsLocationsEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-  body: Schema.optional(DatabaseFailoverRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:databaseFailover", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DatabaseFailoverProjectsLocationsEnvironmentsRequest>;
+export const DatabaseFailoverProjectsLocationsEnvironmentsRequest =
+  Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+    body: Schema.optional(DatabaseFailoverRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:databaseFailover",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DatabaseFailoverProjectsLocationsEnvironmentsRequest>;
 
 export type DatabaseFailoverProjectsLocationsEnvironmentsResponse = Operation;
 export const DatabaseFailoverProjectsLocationsEnvironmentsResponse = Operation;
@@ -1475,7 +1998,12 @@ export const DatabaseFailoverProjectsLocationsEnvironmentsResponse = Operation;
 export type DatabaseFailoverProjectsLocationsEnvironmentsError = DefaultErrors;
 
 /** Triggers database failover (only for highly resilient environments). */
-export const databaseFailoverProjectsLocationsEnvironments: API.OperationMethod<DatabaseFailoverProjectsLocationsEnvironmentsRequest, DatabaseFailoverProjectsLocationsEnvironmentsResponse, DatabaseFailoverProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const databaseFailoverProjectsLocationsEnvironments: API.OperationMethod<
+  DatabaseFailoverProjectsLocationsEnvironmentsRequest,
+  DatabaseFailoverProjectsLocationsEnvironmentsResponse,
+  DatabaseFailoverProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DatabaseFailoverProjectsLocationsEnvironmentsRequest,
   output: DatabaseFailoverProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1486,20 +2014,32 @@ export interface FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest {
   environment: string;
 }
 
-export const FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:fetchDatabaseProperties" }),
-  svc,
-) as unknown as Schema.Schema<FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest>;
+export const FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest =
+  Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}:fetchDatabaseProperties",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest>;
 
-export type FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse = FetchDatabasePropertiesResponse;
-export const FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse = FetchDatabasePropertiesResponse;
+export type FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse =
+  FetchDatabasePropertiesResponse;
+export const FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse =
+  FetchDatabasePropertiesResponse;
 
-export type FetchDatabasePropertiesProjectsLocationsEnvironmentsError = DefaultErrors;
+export type FetchDatabasePropertiesProjectsLocationsEnvironmentsError =
+  DefaultErrors;
 
 /** Fetches database properties. */
-export const fetchDatabasePropertiesProjectsLocationsEnvironments: API.OperationMethod<FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest, FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse, FetchDatabasePropertiesProjectsLocationsEnvironmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const fetchDatabasePropertiesProjectsLocationsEnvironments: API.OperationMethod<
+  FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest,
+  FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse,
+  FetchDatabasePropertiesProjectsLocationsEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest,
   output: FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1522,17 +2062,27 @@ export const ListProjectsLocationsEnvironmentsWorkloadsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/workloads" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/workloads",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsEnvironmentsWorkloadsRequest>;
 
-export type ListProjectsLocationsEnvironmentsWorkloadsResponse = ListWorkloadsResponse;
-export const ListProjectsLocationsEnvironmentsWorkloadsResponse = ListWorkloadsResponse;
+export type ListProjectsLocationsEnvironmentsWorkloadsResponse =
+  ListWorkloadsResponse;
+export const ListProjectsLocationsEnvironmentsWorkloadsResponse =
+  ListWorkloadsResponse;
 
 export type ListProjectsLocationsEnvironmentsWorkloadsError = DefaultErrors;
 
 /** Lists workloads in a Cloud Composer environment. Workload is a unit that runs a single Composer component. This method is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
-export const listProjectsLocationsEnvironmentsWorkloads: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsWorkloadsRequest, ListProjectsLocationsEnvironmentsWorkloadsResponse, ListProjectsLocationsEnvironmentsWorkloadsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsEnvironmentsWorkloads: API.PaginatedOperationMethod<
+  ListProjectsLocationsEnvironmentsWorkloadsRequest,
+  ListProjectsLocationsEnvironmentsWorkloadsResponse,
+  ListProjectsLocationsEnvironmentsWorkloadsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsWorkloadsRequest,
   output: ListProjectsLocationsEnvironmentsWorkloadsResponse,
   errors: [],
@@ -1549,21 +2099,34 @@ export interface CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest 
   body?: UserWorkloadsSecret;
 }
 
-export const CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(UserWorkloadsSecret).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
+export const CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(UserWorkloadsSecret).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
 
-export type CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = UserWorkloadsSecret;
-export const CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = UserWorkloadsSecret;
+export type CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  UserWorkloadsSecret;
+export const CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  UserWorkloadsSecret;
 
-export type CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsError = DefaultErrors;
+export type CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsError =
+  DefaultErrors;
 
 /** Creates a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const createProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<
+  CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
+  CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
+  CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
@@ -1574,20 +2137,32 @@ export interface GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets/{userWorkloadsSecretsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
+export const GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets/{userWorkloadsSecretsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
 
-export type GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = UserWorkloadsSecret;
-export const GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = UserWorkloadsSecret;
+export type GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  UserWorkloadsSecret;
+export const GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  UserWorkloadsSecret;
 
-export type GetProjectsLocationsEnvironmentsUserWorkloadsSecretsError = DefaultErrors;
+export type GetProjectsLocationsEnvironmentsUserWorkloadsSecretsError =
+  DefaultErrors;
 
 /** Gets an existing user workloads Secret. Values of the "data" field in the response are cleared. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const getProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, GetProjectsLocationsEnvironmentsUserWorkloadsSecretsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<
+  GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
+  GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
+  GetProjectsLocationsEnvironmentsUserWorkloadsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
@@ -1602,22 +2177,34 @@ export interface ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
+export const ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
 
-export type ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = ListUserWorkloadsSecretsResponse;
-export const ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = ListUserWorkloadsSecretsResponse;
+export type ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  ListUserWorkloadsSecretsResponse;
+export const ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  ListUserWorkloadsSecretsResponse;
 
-export type ListProjectsLocationsEnvironmentsUserWorkloadsSecretsError = DefaultErrors;
+export type ListProjectsLocationsEnvironmentsUserWorkloadsSecretsError =
+  DefaultErrors;
 
 /** Lists user workloads Secrets. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const listProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, ListProjectsLocationsEnvironmentsUserWorkloadsSecretsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.PaginatedOperationMethod<
+  ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
+  ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
+  ListProjectsLocationsEnvironmentsUserWorkloadsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
@@ -1634,21 +2221,34 @@ export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest 
   body?: UserWorkloadsSecret;
 }
 
-export const UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UserWorkloadsSecret).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets/{userWorkloadsSecretsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
+export const UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UserWorkloadsSecret).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets/{userWorkloadsSecretsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
 
-export type UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = UserWorkloadsSecret;
-export const UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = UserWorkloadsSecret;
+export type UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  UserWorkloadsSecret;
+export const UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  UserWorkloadsSecret;
 
-export type UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsError = DefaultErrors;
+export type UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsError =
+  DefaultErrors;
 
 /** Updates a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const updateProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<
+  UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
+  UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
+  UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
@@ -1659,20 +2259,32 @@ export interface DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest 
   name: string;
 }
 
-export const DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets/{userWorkloadsSecretsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
+export const DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsSecrets/{userWorkloadsSecretsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>;
 
-export type DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = Empty;
-export const DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = Empty;
+export type DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  Empty;
+export const DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse =
+  Empty;
 
-export type DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsError = DefaultErrors;
+export type DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsError =
+  DefaultErrors;
 
 /** Deletes a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const deleteProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<
+  DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
+  DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
+  DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
@@ -1685,21 +2297,34 @@ export interface CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsReque
   body?: UserWorkloadsConfigMap;
 }
 
-export const CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(UserWorkloadsConfigMap).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
+export const CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(UserWorkloadsConfigMap).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
 
-export type CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = UserWorkloadsConfigMap;
-export const CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = UserWorkloadsConfigMap;
+export type CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  UserWorkloadsConfigMap;
+export const CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  UserWorkloadsConfigMap;
 
-export type CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = DefaultErrors;
+export type CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError =
+  DefaultErrors;
 
 /** Creates a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const createProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<
+  CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
+  CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
+  CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
@@ -1710,20 +2335,32 @@ export interface GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest 
   name: string;
 }
 
-export const GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
+export const GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
 
-export type GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = UserWorkloadsConfigMap;
-export const GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = UserWorkloadsConfigMap;
+export type GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  UserWorkloadsConfigMap;
+export const GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  UserWorkloadsConfigMap;
 
-export type GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = DefaultErrors;
+export type GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError =
+  DefaultErrors;
 
 /** Gets an existing user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const getProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<
+  GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
+  GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
+  GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
@@ -1738,22 +2375,34 @@ export interface ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest
   pageToken?: string;
 }
 
-export const ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
+export const ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
 
-export type ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = ListUserWorkloadsConfigMapsResponse;
-export const ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = ListUserWorkloadsConfigMapsResponse;
+export type ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  ListUserWorkloadsConfigMapsResponse;
+export const ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  ListUserWorkloadsConfigMapsResponse;
 
-export type ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = DefaultErrors;
+export type ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError =
+  DefaultErrors;
 
 /** Lists user workloads ConfigMaps. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.PaginatedOperationMethod<
+  ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
+  ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
+  ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
@@ -1770,21 +2419,34 @@ export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsReque
   body?: UserWorkloadsConfigMap;
 }
 
-export const UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UserWorkloadsConfigMap).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PUT", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
+export const UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UserWorkloadsConfigMap).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
 
-export type UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = UserWorkloadsConfigMap;
-export const UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = UserWorkloadsConfigMap;
+export type UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  UserWorkloadsConfigMap;
+export const UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  UserWorkloadsConfigMap;
 
-export type UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = DefaultErrors;
+export type UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError =
+  DefaultErrors;
 
 /** Updates a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const updateProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<
+  UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
+  UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
+  UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
@@ -1795,20 +2457,32 @@ export interface DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsReque
   name: string;
 }
 
-export const DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
+export const DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/environments/{environmentsId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>;
 
-export type DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = Empty;
-export const DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = Empty;
+export type DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  Empty;
+export const DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse =
+  Empty;
 
-export type DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = DefaultErrors;
+export type DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError =
+  DefaultErrors;
 
 /** Deletes a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
-export const deleteProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<
+  DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
+  DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
+  DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
@@ -1829,19 +2503,31 @@ export const ListProjectsLocationsImageVersionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  includePastReleases: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includePastReleases")),
+  includePastReleases: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includePastReleases"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/imageVersions" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/imageVersions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsImageVersionsRequest>;
 
-export type ListProjectsLocationsImageVersionsResponse = ListImageVersionsResponse;
-export const ListProjectsLocationsImageVersionsResponse = ListImageVersionsResponse;
+export type ListProjectsLocationsImageVersionsResponse =
+  ListImageVersionsResponse;
+export const ListProjectsLocationsImageVersionsResponse =
+  ListImageVersionsResponse;
 
 export type ListProjectsLocationsImageVersionsError = DefaultErrors;
 
 /** List ImageVersions for provided location. */
-export const listProjectsLocationsImageVersions: API.PaginatedOperationMethod<ListProjectsLocationsImageVersionsRequest, ListProjectsLocationsImageVersionsResponse, ListProjectsLocationsImageVersionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsImageVersions: API.PaginatedOperationMethod<
+  ListProjectsLocationsImageVersionsRequest,
+  ListProjectsLocationsImageVersionsResponse,
+  ListProjectsLocationsImageVersionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsImageVersionsRequest,
   output: ListProjectsLocationsImageVersionsResponse,
   errors: [],
@@ -1850,4 +2536,3 @@ export const listProjectsLocationsImageVersions: API.PaginatedOperationMethod<Li
     outputToken: "nextPageToken",
   },
 }));
-

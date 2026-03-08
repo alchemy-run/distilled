@@ -10,46 +10,76 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "Marketplace Commerce Analytics", serviceShapeName: "MarketplaceCommerceAnalytics20150701" });
+const svc = T.AwsApiService({
+  sdkId: "Marketplace Commerce Analytics",
+  serviceShapeName: "MarketplaceCommerceAnalytics20150701",
+});
 const auth = T.AwsAuthSigv4({ name: "marketplacecommerceanalytics" });
 const ver = T.ServiceVersion("2015-07-01");
 const proto = T.AwsProtocolsAwsJson1_1();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
-    if ((UseDualStack === true)) {
-      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+    if (UseDualStack === true) {
+      return err(
+        "Invalid Configuration: Dualstack and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((UseFIPS === true) && (UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsFIPS")) && (true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://marketplacecommerceanalytics-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseFIPS === true && UseDualStack === true) {
+          if (
+            true === _.getAttr(PartitionResult, "supportsFIPS") &&
+            true === _.getAttr(PartitionResult, "supportsDualStack")
+          ) {
+            return e(
+              `https://marketplacecommerceanalytics-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("FIPS and DualStack are enabled, but this partition does not support one or both");
+          return err(
+            "FIPS and DualStack are enabled, but this partition does not support one or both",
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://marketplacecommerceanalytics-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://marketplacecommerceanalytics-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        if ((UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://marketplacecommerceanalytics.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseDualStack === true) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            return e(
+              `https://marketplacecommerceanalytics.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("DualStack is enabled but this partition does not support DualStack");
+          return err(
+            "DualStack is enabled but this partition does not support DualStack",
+          );
         }
-        return e(`https://marketplacecommerceanalytics.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://marketplacecommerceanalytics.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -98,23 +128,85 @@ export type DataSetType =
   | (string & {});
 export const DataSetType = S.String;
 export type CustomerDefinedValues = { [key: string]: string | undefined };
-export const CustomerDefinedValues = S.Record(S.String, S.String.pipe(S.optional));
-export interface GenerateDataSetRequest { dataSetType: DataSetType; dataSetPublicationDate: Date; roleNameArn: string; destinationS3BucketName: string; destinationS3Prefix?: string; snsTopicArn: string; customerDefinedValues?: { [key: string]: string | undefined } }
-export const GenerateDataSetRequest = S.suspend(() => S.Struct({dataSetType: DataSetType, dataSetPublicationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")), roleNameArn: S.String, destinationS3BucketName: S.String, destinationS3Prefix: S.optional(S.String), snsTopicArn: S.String, customerDefinedValues: S.optional(CustomerDefinedValues)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GenerateDataSetRequest" }) as any as S.Schema<GenerateDataSetRequest>;
-export interface GenerateDataSetResult { dataSetRequestId?: string }
-export const GenerateDataSetResult = S.suspend(() => S.Struct({dataSetRequestId: S.optional(S.String)})).annotate({ identifier: "GenerateDataSetResult" }) as any as S.Schema<GenerateDataSetResult>;
+export const CustomerDefinedValues = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface GenerateDataSetRequest {
+  dataSetType: DataSetType;
+  dataSetPublicationDate: Date;
+  roleNameArn: string;
+  destinationS3BucketName: string;
+  destinationS3Prefix?: string;
+  snsTopicArn: string;
+  customerDefinedValues?: { [key: string]: string | undefined };
+}
+export const GenerateDataSetRequest = S.suspend(() =>
+  S.Struct({
+    dataSetType: DataSetType,
+    dataSetPublicationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    roleNameArn: S.String,
+    destinationS3BucketName: S.String,
+    destinationS3Prefix: S.optional(S.String),
+    snsTopicArn: S.String,
+    customerDefinedValues: S.optional(CustomerDefinedValues),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GenerateDataSetRequest",
+}) as any as S.Schema<GenerateDataSetRequest>;
+export interface GenerateDataSetResult {
+  dataSetRequestId?: string;
+}
+export const GenerateDataSetResult = S.suspend(() =>
+  S.Struct({ dataSetRequestId: S.optional(S.String) }),
+).annotate({
+  identifier: "GenerateDataSetResult",
+}) as any as S.Schema<GenerateDataSetResult>;
 export type SupportDataSetType =
   | "customer_support_contacts_data"
   | "test_customer_support_contacts_data"
   | (string & {});
 export const SupportDataSetType = S.String;
-export interface StartSupportDataExportRequest { dataSetType: SupportDataSetType; fromDate: Date; roleNameArn: string; destinationS3BucketName: string; destinationS3Prefix?: string; snsTopicArn: string; customerDefinedValues?: { [key: string]: string | undefined } }
-export const StartSupportDataExportRequest = S.suspend(() => S.Struct({dataSetType: SupportDataSetType, fromDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")), roleNameArn: S.String, destinationS3BucketName: S.String, destinationS3Prefix: S.optional(S.String), snsTopicArn: S.String, customerDefinedValues: S.optional(CustomerDefinedValues)}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartSupportDataExportRequest" }) as any as S.Schema<StartSupportDataExportRequest>;
-export interface StartSupportDataExportResult { dataSetRequestId?: string }
-export const StartSupportDataExportResult = S.suspend(() => S.Struct({dataSetRequestId: S.optional(S.String)})).annotate({ identifier: "StartSupportDataExportResult" }) as any as S.Schema<StartSupportDataExportResult>;
+export interface StartSupportDataExportRequest {
+  dataSetType: SupportDataSetType;
+  fromDate: Date;
+  roleNameArn: string;
+  destinationS3BucketName: string;
+  destinationS3Prefix?: string;
+  snsTopicArn: string;
+  customerDefinedValues?: { [key: string]: string | undefined };
+}
+export const StartSupportDataExportRequest = S.suspend(() =>
+  S.Struct({
+    dataSetType: SupportDataSetType,
+    fromDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    roleNameArn: S.String,
+    destinationS3BucketName: S.String,
+    destinationS3Prefix: S.optional(S.String),
+    snsTopicArn: S.String,
+    customerDefinedValues: S.optional(CustomerDefinedValues),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "StartSupportDataExportRequest",
+}) as any as S.Schema<StartSupportDataExportRequest>;
+export interface StartSupportDataExportResult {
+  dataSetRequestId?: string;
+}
+export const StartSupportDataExportResult = S.suspend(() =>
+  S.Struct({ dataSetRequestId: S.optional(S.String) }),
+).annotate({
+  identifier: "StartSupportDataExportResult",
+}) as any as S.Schema<StartSupportDataExportResult>;
 
 //# Errors
-export class MarketplaceCommerceAnalyticsException extends S.TaggedErrorClass<MarketplaceCommerceAnalyticsException>()("MarketplaceCommerceAnalyticsException", {message: S.optional(S.String)}) {}
+export class MarketplaceCommerceAnalyticsException extends S.TaggedErrorClass<MarketplaceCommerceAnalyticsException>()(
+  "MarketplaceCommerceAnalyticsException",
+  { message: S.optional(S.String) },
+) {}
 
 //# Operations
 export type GenerateDataSetError =
@@ -130,7 +222,16 @@ export type GenerateDataSetError =
  * Requires a Role with an attached permissions policy providing Allow permissions for the following actions:
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
-export const generateDataSet: API.OperationMethod<GenerateDataSetRequest, GenerateDataSetResult, GenerateDataSetError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GenerateDataSetRequest, output: GenerateDataSetResult, errors: [MarketplaceCommerceAnalyticsException] }));
+export const generateDataSet: API.OperationMethod<
+  GenerateDataSetRequest,
+  GenerateDataSetResult,
+  GenerateDataSetError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateDataSetRequest,
+  output: GenerateDataSetResult,
+  errors: [MarketplaceCommerceAnalyticsException],
+}));
 export type StartSupportDataExportError =
   | MarketplaceCommerceAnalyticsException
   | CommonErrors;
@@ -144,4 +245,13 @@ export type StartSupportDataExportError =
  * Requires a Role with an attached permissions policy providing Allow permissions for the following actions:
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
-export const startSupportDataExport: API.OperationMethod<StartSupportDataExportRequest, StartSupportDataExportResult, StartSupportDataExportError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartSupportDataExportRequest, output: StartSupportDataExportResult, errors: [MarketplaceCommerceAnalyticsException] }));
+export const startSupportDataExport: API.OperationMethod<
+  StartSupportDataExportRequest,
+  StartSupportDataExportResult,
+  StartSupportDataExportError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSupportDataExportRequest,
+  output: StartSupportDataExportResult,
+  errors: [MarketplaceCommerceAnalyticsException],
+}));

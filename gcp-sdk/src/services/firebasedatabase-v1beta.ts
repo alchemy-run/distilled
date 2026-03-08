@@ -29,32 +29,48 @@ export interface DatabaseInstance {
   /** The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}`. */
   name?: string;
   /** Output only. The database's lifecycle state. Read-only. */
-  state?: "LIFECYCLE_STATE_UNSPECIFIED" | "ACTIVE" | "DISABLED" | "DELETED" | (string & {});
+  state?:
+    | "LIFECYCLE_STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "DISABLED"
+    | "DELETED"
+    | (string & {});
   /** Output only. The resource name of the project this instance belongs to. For example: `projects/{project-number}`. */
   project?: string;
   /** Immutable. The database instance type. On creation only USER_DATABASE is allowed, which is also the default when omitted. */
-  type?: "DATABASE_INSTANCE_TYPE_UNSPECIFIED" | "DEFAULT_DATABASE" | "USER_DATABASE" | (string & {});
+  type?:
+    | "DATABASE_INSTANCE_TYPE_UNSPECIFIED"
+    | "DEFAULT_DATABASE"
+    | "USER_DATABASE"
+    | (string & {});
 }
 
-export const DatabaseInstance: Schema.Schema<DatabaseInstance> = Schema.suspend(() => Schema.Struct({
-  databaseUrl: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "DatabaseInstance" }) as any as Schema.Schema<DatabaseInstance>;
+export const DatabaseInstance: Schema.Schema<DatabaseInstance> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      databaseUrl: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      project: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DatabaseInstance",
+}) as any as Schema.Schema<DatabaseInstance>;
 
-export interface DisableDatabaseInstanceRequest {
-}
+export interface DisableDatabaseInstanceRequest {}
 
-export const DisableDatabaseInstanceRequest: Schema.Schema<DisableDatabaseInstanceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DisableDatabaseInstanceRequest" }) as any as Schema.Schema<DisableDatabaseInstanceRequest>;
+export const DisableDatabaseInstanceRequest: Schema.Schema<DisableDatabaseInstanceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DisableDatabaseInstanceRequest",
+  }) as any as Schema.Schema<DisableDatabaseInstanceRequest>;
 
-export interface ReenableDatabaseInstanceRequest {
-}
+export interface ReenableDatabaseInstanceRequest {}
 
-export const ReenableDatabaseInstanceRequest: Schema.Schema<ReenableDatabaseInstanceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ReenableDatabaseInstanceRequest" }) as any as Schema.Schema<ReenableDatabaseInstanceRequest>;
+export const ReenableDatabaseInstanceRequest: Schema.Schema<ReenableDatabaseInstanceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ReenableDatabaseInstanceRequest",
+  }) as any as Schema.Schema<ReenableDatabaseInstanceRequest>;
 
 export interface ListDatabaseInstancesResponse {
   /** List of each DatabaseInstance that is in the parent Firebase project. */
@@ -63,16 +79,22 @@ export interface ListDatabaseInstancesResponse {
   nextPageToken?: string;
 }
 
-export const ListDatabaseInstancesResponse: Schema.Schema<ListDatabaseInstancesResponse> = Schema.suspend(() => Schema.Struct({
-  instances: Schema.optional(Schema.Array(DatabaseInstance)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDatabaseInstancesResponse" }) as any as Schema.Schema<ListDatabaseInstancesResponse>;
+export const ListDatabaseInstancesResponse: Schema.Schema<ListDatabaseInstancesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instances: Schema.optional(Schema.Array(DatabaseInstance)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDatabaseInstancesResponse",
+  }) as any as Schema.Schema<ListDatabaseInstancesResponse>;
 
-export interface UndeleteDatabaseInstanceRequest {
-}
+export interface UndeleteDatabaseInstanceRequest {}
 
-export const UndeleteDatabaseInstanceRequest: Schema.Schema<UndeleteDatabaseInstanceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndeleteDatabaseInstanceRequest" }) as any as Schema.Schema<UndeleteDatabaseInstanceRequest>;
+export const UndeleteDatabaseInstanceRequest: Schema.Schema<UndeleteDatabaseInstanceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndeleteDatabaseInstanceRequest",
+  }) as any as Schema.Schema<UndeleteDatabaseInstanceRequest>;
 
 // ==========================================================================
 // Operations
@@ -89,7 +111,11 @@ export const UndeleteProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteDatabaseInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteProjectsLocationsInstancesRequest>;
 
@@ -99,7 +125,12 @@ export const UndeleteProjectsLocationsInstancesResponse = DatabaseInstance;
 export type UndeleteProjectsLocationsInstancesError = DefaultErrors;
 
 /** Restores a DatabaseInstance that was previously marked to be deleted. After the delete method is used, DatabaseInstances are set to the DELETED state for 20 days, and will be purged within 30 days. Databases in the DELETED state can be undeleted without losing any data. This method may only be used on a DatabaseInstance in the DELETED state. Purged DatabaseInstances may not be recovered. */
-export const undeleteProjectsLocationsInstances: API.OperationMethod<UndeleteProjectsLocationsInstancesRequest, UndeleteProjectsLocationsInstancesResponse, UndeleteProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteProjectsLocationsInstances: API.OperationMethod<
+  UndeleteProjectsLocationsInstancesRequest,
+  UndeleteProjectsLocationsInstancesResponse,
+  UndeleteProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteProjectsLocationsInstancesRequest,
   output: UndeleteProjectsLocationsInstancesResponse,
   errors: [],
@@ -116,7 +147,11 @@ export const ReenableProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ReenableDatabaseInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reenable", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reenable",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReenableProjectsLocationsInstancesRequest>;
 
@@ -126,7 +161,12 @@ export const ReenableProjectsLocationsInstancesResponse = DatabaseInstance;
 export type ReenableProjectsLocationsInstancesError = DefaultErrors;
 
 /** Enables a DatabaseInstance. The database must have been disabled previously using DisableDatabaseInstance. The state of a successfully reenabled DatabaseInstance is ACTIVE. */
-export const reenableProjectsLocationsInstances: API.OperationMethod<ReenableProjectsLocationsInstancesRequest, ReenableProjectsLocationsInstancesResponse, ReenableProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const reenableProjectsLocationsInstances: API.OperationMethod<
+  ReenableProjectsLocationsInstancesRequest,
+  ReenableProjectsLocationsInstancesResponse,
+  ReenableProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReenableProjectsLocationsInstancesRequest,
   output: ReenableProjectsLocationsInstancesResponse,
   errors: [],
@@ -149,17 +189,27 @@ export const ListProjectsLocationsInstancesRequest = Schema.Struct({
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
 
-export type ListProjectsLocationsInstancesResponse = ListDatabaseInstancesResponse;
-export const ListProjectsLocationsInstancesResponse = ListDatabaseInstancesResponse;
+export type ListProjectsLocationsInstancesResponse =
+  ListDatabaseInstancesResponse;
+export const ListProjectsLocationsInstancesResponse =
+  ListDatabaseInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = DefaultErrors;
 
 /** Lists each DatabaseInstance associated with the specified parent project. The list items are returned in no particular order, but will be a consistent view of the database instances when additional requests are made with a `pageToken`. The resulting list contains instances in any STATE. The list results may be stale by a few seconds. Use GetDatabaseInstance for consistent reads. */
-export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
+  ListProjectsLocationsInstancesRequest,
+  ListProjectsLocationsInstancesResponse,
+  ListProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -182,11 +232,17 @@ export interface CreateProjectsLocationsInstancesRequest {
 
 export const CreateProjectsLocationsInstancesRequest = Schema.Struct({
   databaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("databaseId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
 
@@ -196,7 +252,12 @@ export const CreateProjectsLocationsInstancesResponse = DatabaseInstance;
 export type CreateProjectsLocationsInstancesError = DefaultErrors;
 
 /** Requests that a new DatabaseInstance be created. The state of a successfully created DatabaseInstance is ACTIVE. Only available for projects on the Blaze plan. Projects can be upgraded using the Cloud Billing API https://cloud.google.com/billing/reference/rest/v1/projects/updateBillingInfo. Note that it might take a few minutes for billing enablement state to propagate to Firebase systems. */
-export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsInstances: API.OperationMethod<
+  CreateProjectsLocationsInstancesRequest,
+  CreateProjectsLocationsInstancesResponse,
+  CreateProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
@@ -210,7 +271,10 @@ export interface DeleteProjectsLocationsInstancesRequest {
 export const DeleteProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsInstancesRequest>;
 
@@ -220,7 +284,12 @@ export const DeleteProjectsLocationsInstancesResponse = DatabaseInstance;
 export type DeleteProjectsLocationsInstancesError = DefaultErrors;
 
 /** Marks a DatabaseInstance to be deleted. The DatabaseInstance will be set to the DELETED state for 20 days, and will be purged within 30 days. The default database cannot be deleted. IDs for deleted database instances may never be recovered or re-used. The Database may only be deleted if it is already in a DISABLED state. */
-export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsInstances: API.OperationMethod<
+  DeleteProjectsLocationsInstancesRequest,
+  DeleteProjectsLocationsInstancesResponse,
+  DeleteProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
@@ -234,7 +303,10 @@ export interface GetProjectsLocationsInstancesRequest {
 export const GetProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
 
@@ -244,7 +316,12 @@ export const GetProjectsLocationsInstancesResponse = DatabaseInstance;
 export type GetProjectsLocationsInstancesError = DefaultErrors;
 
 /** Gets the DatabaseInstance identified by the specified resource name. */
-export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsInstances: API.OperationMethod<
+  GetProjectsLocationsInstancesRequest,
+  GetProjectsLocationsInstancesResponse,
+  GetProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
@@ -261,7 +338,11 @@ export const DisableProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(DisableDatabaseInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:disable", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:disable",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DisableProjectsLocationsInstancesRequest>;
 
@@ -271,9 +352,13 @@ export const DisableProjectsLocationsInstancesResponse = DatabaseInstance;
 export type DisableProjectsLocationsInstancesError = DefaultErrors;
 
 /** Disables a DatabaseInstance. The database can be re-enabled later using ReenableDatabaseInstance. When a database is disabled, all reads and writes are denied, including view access in the Firebase console. */
-export const disableProjectsLocationsInstances: API.OperationMethod<DisableProjectsLocationsInstancesRequest, DisableProjectsLocationsInstancesResponse, DisableProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const disableProjectsLocationsInstances: API.OperationMethod<
+  DisableProjectsLocationsInstancesRequest,
+  DisableProjectsLocationsInstancesResponse,
+  DisableProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DisableProjectsLocationsInstancesRequest,
   output: DisableProjectsLocationsInstancesResponse,
   errors: [],
 }));
-

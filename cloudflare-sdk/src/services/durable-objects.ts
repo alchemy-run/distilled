@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Errors
@@ -23,19 +21,19 @@ export class InvalidIdentifier extends Schema.TaggedErrorClass<InvalidIdentifier
   "InvalidIdentifier",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidIdentifier, [{"code":7003}]);
+T.applyErrorMatchers(InvalidIdentifier, [{ code: 7003 }]);
 
 export class MalformedParameter extends Schema.TaggedErrorClass<MalformedParameter>()(
   "MalformedParameter",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(MalformedParameter, [{"code":10077}]);
+T.applyErrorMatchers(MalformedParameter, [{ code: 10077 }]);
 
 export class NamespaceNotFound extends Schema.TaggedErrorClass<NamespaceNotFound>()(
   "NamespaceNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(NamespaceNotFound, [{"code":10066}]);
+T.applyErrorMatchers(NamespaceNotFound, [{ code: 10066 }]);
 
 // =============================================================================
 // Namespace
@@ -47,23 +45,41 @@ export interface ListNamespacesRequest {
 }
 
 export const ListNamespacesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/workers/durable_objects/namespaces" })) as unknown as Schema.Schema<ListNamespacesRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/workers/durable_objects/namespaces",
+  }),
+) as unknown as Schema.Schema<ListNamespacesRequest>;
 
-export type ListNamespacesResponse = { id?: string; class?: string; name?: string; script?: string; useSqlite?: boolean }[];
+export type ListNamespacesResponse = {
+  id?: string;
+  class?: string;
+  name?: string;
+  script?: string;
+  useSqlite?: boolean;
+}[];
 
-export const ListNamespacesResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  class: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  script: Schema.optional(Schema.String),
-  useSqlite: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ id: "id", class: "class", name: "name", script: "script", useSqlite: "use_sqlite" }))) as unknown as Schema.Schema<ListNamespacesResponse>;
+export const ListNamespacesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    class: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    script: Schema.optional(Schema.String),
+    useSqlite: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      class: "class",
+      name: "name",
+      script: "script",
+      useSqlite: "use_sqlite",
+    }),
+  ),
+) as unknown as Schema.Schema<ListNamespacesResponse>;
 
-export type ListNamespacesError =
-  | DefaultErrors
-  | InvalidIdentifier;
+export type ListNamespacesError = DefaultErrors | InvalidIdentifier;
 
 export const listNamespaces: API.OperationMethod<
   ListNamespacesRequest,
@@ -75,7 +91,6 @@ export const listNamespaces: API.OperationMethod<
   output: ListNamespacesResponse,
   errors: [InvalidIdentifier],
 }));
-
 
 // =============================================================================
 // NamespaceObject
@@ -92,16 +107,25 @@ export interface ListNamespaceObjectsRequest {
 export const ListNamespaceObjectsRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/workers/durable_objects/namespaces/{id}/objects" })) as unknown as Schema.Schema<ListNamespaceObjectsRequest>;
+  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/workers/durable_objects/namespaces/{id}/objects",
+  }),
+) as unknown as Schema.Schema<ListNamespaceObjectsRequest>;
 
-export type ListNamespaceObjectsResponse = { id?: string; hasStoredData?: boolean }[];
+export type ListNamespaceObjectsResponse = {
+  id?: string;
+  hasStoredData?: boolean;
+}[];
 
-export const ListNamespaceObjectsResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  hasStoredData: Schema.optional(Schema.Boolean)
-})) as unknown as Schema.Schema<ListNamespaceObjectsResponse>;
+export const ListNamespaceObjectsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    hasStoredData: Schema.optional(Schema.Boolean),
+  }),
+) as unknown as Schema.Schema<ListNamespaceObjectsResponse>;
 
 export type ListNamespaceObjectsError =
   | DefaultErrors

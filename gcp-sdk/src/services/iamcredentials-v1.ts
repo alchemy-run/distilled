@@ -32,11 +32,16 @@ export interface GenerateAccessTokenRequest {
   lifetime?: string;
 }
 
-export const GenerateAccessTokenRequest: Schema.Schema<GenerateAccessTokenRequest> = Schema.suspend(() => Schema.Struct({
-  delegates: Schema.optional(Schema.Array(Schema.String)),
-  scope: Schema.optional(Schema.Array(Schema.String)),
-  lifetime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateAccessTokenRequest" }) as any as Schema.Schema<GenerateAccessTokenRequest>;
+export const GenerateAccessTokenRequest: Schema.Schema<GenerateAccessTokenRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      delegates: Schema.optional(Schema.Array(Schema.String)),
+      scope: Schema.optional(Schema.Array(Schema.String)),
+      lifetime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateAccessTokenRequest",
+  }) as any as Schema.Schema<GenerateAccessTokenRequest>;
 
 export interface GenerateAccessTokenResponse {
   /** The OAuth 2.0 access token. */
@@ -45,10 +50,15 @@ export interface GenerateAccessTokenResponse {
   expireTime?: string;
 }
 
-export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> = Schema.suspend(() => Schema.Struct({
-  accessToken: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateAccessTokenResponse" }) as any as Schema.Schema<GenerateAccessTokenResponse>;
+export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessToken: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateAccessTokenResponse",
+  }) as any as Schema.Schema<GenerateAccessTokenResponse>;
 
 export interface GenerateIdTokenRequest {
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -61,21 +71,31 @@ export interface GenerateIdTokenRequest {
   organizationNumberIncluded?: boolean;
 }
 
-export const GenerateIdTokenRequest: Schema.Schema<GenerateIdTokenRequest> = Schema.suspend(() => Schema.Struct({
-  delegates: Schema.optional(Schema.Array(Schema.String)),
-  audience: Schema.optional(Schema.String),
-  includeEmail: Schema.optional(Schema.Boolean),
-  organizationNumberIncluded: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GenerateIdTokenRequest" }) as any as Schema.Schema<GenerateIdTokenRequest>;
+export const GenerateIdTokenRequest: Schema.Schema<GenerateIdTokenRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      delegates: Schema.optional(Schema.Array(Schema.String)),
+      audience: Schema.optional(Schema.String),
+      includeEmail: Schema.optional(Schema.Boolean),
+      organizationNumberIncluded: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GenerateIdTokenRequest",
+  }) as any as Schema.Schema<GenerateIdTokenRequest>;
 
 export interface GenerateIdTokenResponse {
   /** The OpenId Connect ID token. The token is a JSON Web Token (JWT) that contains a payload with claims. See the [JSON Web Token spec](https://tools.ietf.org/html/rfc7519) for more information. Here is an example of a decoded JWT payload: ``` { "iss": "https://accounts.google.com", "iat": 1496953245, "exp": 1496953245, "aud": "https://www.example.com", "sub": "107517467455664443765", "azp": "107517467455664443765", "email": "my-iam-account@my-project.iam.gserviceaccount.com", "email_verified": true, "google": { "organization_number": 123456 } } ``` */
   token?: string;
 }
 
-export const GenerateIdTokenResponse: Schema.Schema<GenerateIdTokenResponse> = Schema.suspend(() => Schema.Struct({
-  token: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateIdTokenResponse" }) as any as Schema.Schema<GenerateIdTokenResponse>;
+export const GenerateIdTokenResponse: Schema.Schema<GenerateIdTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      token: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateIdTokenResponse",
+  }) as any as Schema.Schema<GenerateIdTokenResponse>;
 
 export interface SignBlobRequest {
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -84,10 +104,15 @@ export interface SignBlobRequest {
   payload?: string;
 }
 
-export const SignBlobRequest: Schema.Schema<SignBlobRequest> = Schema.suspend(() => Schema.Struct({
-  delegates: Schema.optional(Schema.Array(Schema.String)),
-  payload: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignBlobRequest" }) as any as Schema.Schema<SignBlobRequest>;
+export const SignBlobRequest: Schema.Schema<SignBlobRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      delegates: Schema.optional(Schema.Array(Schema.String)),
+      payload: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SignBlobRequest",
+}) as any as Schema.Schema<SignBlobRequest>;
 
 export interface SignBlobResponse {
   /** The ID of the key used to sign the blob. The key used for signing will remain valid for at least 12 hours after the blob is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
@@ -96,10 +121,15 @@ export interface SignBlobResponse {
   signedBlob?: string;
 }
 
-export const SignBlobResponse: Schema.Schema<SignBlobResponse> = Schema.suspend(() => Schema.Struct({
-  keyId: Schema.optional(Schema.String),
-  signedBlob: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignBlobResponse" }) as any as Schema.Schema<SignBlobResponse>;
+export const SignBlobResponse: Schema.Schema<SignBlobResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      keyId: Schema.optional(Schema.String),
+      signedBlob: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SignBlobResponse",
+}) as any as Schema.Schema<SignBlobResponse>;
 
 export interface SignJwtRequest {
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -108,10 +138,15 @@ export interface SignJwtRequest {
   payload?: string;
 }
 
-export const SignJwtRequest: Schema.Schema<SignJwtRequest> = Schema.suspend(() => Schema.Struct({
-  delegates: Schema.optional(Schema.Array(Schema.String)),
-  payload: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignJwtRequest" }) as any as Schema.Schema<SignJwtRequest>;
+export const SignJwtRequest: Schema.Schema<SignJwtRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      delegates: Schema.optional(Schema.Array(Schema.String)),
+      payload: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SignJwtRequest",
+}) as any as Schema.Schema<SignJwtRequest>;
 
 export interface SignJwtResponse {
   /** The ID of the key used to sign the JWT. The key used for signing will remain valid for at least 12 hours after the JWT is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
@@ -120,10 +155,15 @@ export interface SignJwtResponse {
   signedJwt?: string;
 }
 
-export const SignJwtResponse: Schema.Schema<SignJwtResponse> = Schema.suspend(() => Schema.Struct({
-  keyId: Schema.optional(Schema.String),
-  signedJwt: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignJwtResponse" }) as any as Schema.Schema<SignJwtResponse>;
+export const SignJwtResponse: Schema.Schema<SignJwtResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      keyId: Schema.optional(Schema.String),
+      signedJwt: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SignJwtResponse",
+}) as any as Schema.Schema<SignJwtResponse>;
 
 export interface ServiceAccountAllowedLocations {
   /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
@@ -132,10 +172,15 @@ export interface ServiceAccountAllowedLocations {
   encodedLocations?: string;
 }
 
-export const ServiceAccountAllowedLocations: Schema.Schema<ServiceAccountAllowedLocations> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Schema.String)),
-  encodedLocations: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServiceAccountAllowedLocations" }) as any as Schema.Schema<ServiceAccountAllowedLocations>;
+export const ServiceAccountAllowedLocations: Schema.Schema<ServiceAccountAllowedLocations> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Schema.String)),
+      encodedLocations: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ServiceAccountAllowedLocations",
+  }) as any as Schema.Schema<ServiceAccountAllowedLocations>;
 
 export interface WorkloadIdentityPoolAllowedLocations {
   /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
@@ -144,10 +189,15 @@ export interface WorkloadIdentityPoolAllowedLocations {
   encodedLocations?: string;
 }
 
-export const WorkloadIdentityPoolAllowedLocations: Schema.Schema<WorkloadIdentityPoolAllowedLocations> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Schema.String)),
-  encodedLocations: Schema.optional(Schema.String),
-})).annotate({ identifier: "WorkloadIdentityPoolAllowedLocations" }) as any as Schema.Schema<WorkloadIdentityPoolAllowedLocations>;
+export const WorkloadIdentityPoolAllowedLocations: Schema.Schema<WorkloadIdentityPoolAllowedLocations> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Schema.String)),
+      encodedLocations: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WorkloadIdentityPoolAllowedLocations",
+  }) as any as Schema.Schema<WorkloadIdentityPoolAllowedLocations>;
 
 export interface WorkforcePoolAllowedLocations {
   /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
@@ -156,10 +206,15 @@ export interface WorkforcePoolAllowedLocations {
   encodedLocations?: string;
 }
 
-export const WorkforcePoolAllowedLocations: Schema.Schema<WorkforcePoolAllowedLocations> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Schema.String)),
-  encodedLocations: Schema.optional(Schema.String),
-})).annotate({ identifier: "WorkforcePoolAllowedLocations" }) as any as Schema.Schema<WorkforcePoolAllowedLocations>;
+export const WorkforcePoolAllowedLocations: Schema.Schema<WorkforcePoolAllowedLocations> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Schema.String)),
+      encodedLocations: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WorkforcePoolAllowedLocations",
+  }) as any as Schema.Schema<WorkforcePoolAllowedLocations>;
 
 // ==========================================================================
 // Operations
@@ -176,17 +231,28 @@ export const GenerateAccessTokenProjectsServiceAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(GenerateAccessTokenRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateAccessToken", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateAccessToken",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateAccessTokenProjectsServiceAccountsRequest>;
 
-export type GenerateAccessTokenProjectsServiceAccountsResponse = GenerateAccessTokenResponse;
-export const GenerateAccessTokenProjectsServiceAccountsResponse = GenerateAccessTokenResponse;
+export type GenerateAccessTokenProjectsServiceAccountsResponse =
+  GenerateAccessTokenResponse;
+export const GenerateAccessTokenProjectsServiceAccountsResponse =
+  GenerateAccessTokenResponse;
 
 export type GenerateAccessTokenProjectsServiceAccountsError = DefaultErrors;
 
 /** Generates an OAuth 2.0 access token for a service account. */
-export const generateAccessTokenProjectsServiceAccounts: API.OperationMethod<GenerateAccessTokenProjectsServiceAccountsRequest, GenerateAccessTokenProjectsServiceAccountsResponse, GenerateAccessTokenProjectsServiceAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateAccessTokenProjectsServiceAccounts: API.OperationMethod<
+  GenerateAccessTokenProjectsServiceAccountsRequest,
+  GenerateAccessTokenProjectsServiceAccountsResponse,
+  GenerateAccessTokenProjectsServiceAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateAccessTokenProjectsServiceAccountsRequest,
   output: GenerateAccessTokenProjectsServiceAccountsResponse,
   errors: [],
@@ -203,17 +269,28 @@ export const GenerateIdTokenProjectsServiceAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(GenerateIdTokenRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateIdToken", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateIdToken",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateIdTokenProjectsServiceAccountsRequest>;
 
-export type GenerateIdTokenProjectsServiceAccountsResponse = GenerateIdTokenResponse;
-export const GenerateIdTokenProjectsServiceAccountsResponse = GenerateIdTokenResponse;
+export type GenerateIdTokenProjectsServiceAccountsResponse =
+  GenerateIdTokenResponse;
+export const GenerateIdTokenProjectsServiceAccountsResponse =
+  GenerateIdTokenResponse;
 
 export type GenerateIdTokenProjectsServiceAccountsError = DefaultErrors;
 
 /** Generates an OpenID Connect ID token for a service account. */
-export const generateIdTokenProjectsServiceAccounts: API.OperationMethod<GenerateIdTokenProjectsServiceAccountsRequest, GenerateIdTokenProjectsServiceAccountsResponse, GenerateIdTokenProjectsServiceAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateIdTokenProjectsServiceAccounts: API.OperationMethod<
+  GenerateIdTokenProjectsServiceAccountsRequest,
+  GenerateIdTokenProjectsServiceAccountsResponse,
+  GenerateIdTokenProjectsServiceAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateIdTokenProjectsServiceAccountsRequest,
   output: GenerateIdTokenProjectsServiceAccountsResponse,
   errors: [],
@@ -230,7 +307,11 @@ export const SignBlobProjectsServiceAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SignBlobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signBlob", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signBlob",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SignBlobProjectsServiceAccountsRequest>;
 
@@ -240,7 +321,12 @@ export const SignBlobProjectsServiceAccountsResponse = SignBlobResponse;
 export type SignBlobProjectsServiceAccountsError = DefaultErrors;
 
 /** Signs a blob using a service account's system-managed private key. */
-export const signBlobProjectsServiceAccounts: API.OperationMethod<SignBlobProjectsServiceAccountsRequest, SignBlobProjectsServiceAccountsResponse, SignBlobProjectsServiceAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signBlobProjectsServiceAccounts: API.OperationMethod<
+  SignBlobProjectsServiceAccountsRequest,
+  SignBlobProjectsServiceAccountsResponse,
+  SignBlobProjectsServiceAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignBlobProjectsServiceAccountsRequest,
   output: SignBlobProjectsServiceAccountsResponse,
   errors: [],
@@ -257,7 +343,11 @@ export const SignJwtProjectsServiceAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SignJwtRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signJwt", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signJwt",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SignJwtProjectsServiceAccountsRequest>;
 
@@ -267,7 +357,12 @@ export const SignJwtProjectsServiceAccountsResponse = SignJwtResponse;
 export type SignJwtProjectsServiceAccountsError = DefaultErrors;
 
 /** Signs a JWT using a service account's system-managed private key. */
-export const signJwtProjectsServiceAccounts: API.OperationMethod<SignJwtProjectsServiceAccountsRequest, SignJwtProjectsServiceAccountsResponse, SignJwtProjectsServiceAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signJwtProjectsServiceAccounts: API.OperationMethod<
+  SignJwtProjectsServiceAccountsRequest,
+  SignJwtProjectsServiceAccountsResponse,
+  SignJwtProjectsServiceAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignJwtProjectsServiceAccountsRequest,
   output: SignJwtProjectsServiceAccountsResponse,
   errors: [],
@@ -281,17 +376,27 @@ export interface GetAllowedLocationsProjectsServiceAccountsRequest {
 export const GetAllowedLocationsProjectsServiceAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}/allowedLocations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}/allowedLocations",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAllowedLocationsProjectsServiceAccountsRequest>;
 
-export type GetAllowedLocationsProjectsServiceAccountsResponse = ServiceAccountAllowedLocations;
-export const GetAllowedLocationsProjectsServiceAccountsResponse = ServiceAccountAllowedLocations;
+export type GetAllowedLocationsProjectsServiceAccountsResponse =
+  ServiceAccountAllowedLocations;
+export const GetAllowedLocationsProjectsServiceAccountsResponse =
+  ServiceAccountAllowedLocations;
 
 export type GetAllowedLocationsProjectsServiceAccountsError = DefaultErrors;
 
 /** Returns the trust boundary info for a given service account. */
-export const getAllowedLocationsProjectsServiceAccounts: API.OperationMethod<GetAllowedLocationsProjectsServiceAccountsRequest, GetAllowedLocationsProjectsServiceAccountsResponse, GetAllowedLocationsProjectsServiceAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAllowedLocationsProjectsServiceAccounts: API.OperationMethod<
+  GetAllowedLocationsProjectsServiceAccountsRequest,
+  GetAllowedLocationsProjectsServiceAccountsResponse,
+  GetAllowedLocationsProjectsServiceAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAllowedLocationsProjectsServiceAccountsRequest,
   output: GetAllowedLocationsProjectsServiceAccountsResponse,
   errors: [],
@@ -302,20 +407,32 @@ export interface GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsReques
   name: string;
 }
 
-export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/workloadIdentityPools/{workloadIdentityPoolsId}/allowedLocations" }),
-  svc,
-) as unknown as Schema.Schema<GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest>;
+export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/workloadIdentityPools/{workloadIdentityPoolsId}/allowedLocations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest>;
 
-export type GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse = WorkloadIdentityPoolAllowedLocations;
-export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse = WorkloadIdentityPoolAllowedLocations;
+export type GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse =
+  WorkloadIdentityPoolAllowedLocations;
+export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse =
+  WorkloadIdentityPoolAllowedLocations;
 
-export type GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError = DefaultErrors;
+export type GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError =
+  DefaultErrors;
 
 /** Returns the trust boundary info for a given workload identity pool. */
-export const getAllowedLocationsProjectsLocationsWorkloadIdentityPools: API.OperationMethod<GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest, GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse, GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAllowedLocationsProjectsLocationsWorkloadIdentityPools: API.OperationMethod<
+  GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest,
+  GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse,
+  GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest,
   output: GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse,
   errors: [],
@@ -329,19 +446,28 @@ export interface GetAllowedLocationsLocationsWorkforcePoolsRequest {
 export const GetAllowedLocationsLocationsWorkforcePoolsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/locations/{locationsId}/workforcePools/{workforcePoolsId}/allowedLocations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/locations/{locationsId}/workforcePools/{workforcePoolsId}/allowedLocations",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAllowedLocationsLocationsWorkforcePoolsRequest>;
 
-export type GetAllowedLocationsLocationsWorkforcePoolsResponse = WorkforcePoolAllowedLocations;
-export const GetAllowedLocationsLocationsWorkforcePoolsResponse = WorkforcePoolAllowedLocations;
+export type GetAllowedLocationsLocationsWorkforcePoolsResponse =
+  WorkforcePoolAllowedLocations;
+export const GetAllowedLocationsLocationsWorkforcePoolsResponse =
+  WorkforcePoolAllowedLocations;
 
 export type GetAllowedLocationsLocationsWorkforcePoolsError = DefaultErrors;
 
 /** Returns the trust boundary info for a given workforce pool. */
-export const getAllowedLocationsLocationsWorkforcePools: API.OperationMethod<GetAllowedLocationsLocationsWorkforcePoolsRequest, GetAllowedLocationsLocationsWorkforcePoolsResponse, GetAllowedLocationsLocationsWorkforcePoolsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAllowedLocationsLocationsWorkforcePools: API.OperationMethod<
+  GetAllowedLocationsLocationsWorkforcePoolsRequest,
+  GetAllowedLocationsLocationsWorkforcePoolsResponse,
+  GetAllowedLocationsLocationsWorkforcePoolsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAllowedLocationsLocationsWorkforcePoolsRequest,
   output: GetAllowedLocationsLocationsWorkforcePoolsResponse,
   errors: [],
 }));
-

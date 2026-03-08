@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -65,11 +72,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -84,13 +95,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -101,32 +114,43 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface WaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
   timeout?: string;
 }
 
-export const WaitOperationRequest: Schema.Schema<WaitOperationRequest> = Schema.suspend(() => Schema.Struct({
-  timeout: Schema.optional(Schema.String),
-})).annotate({ identifier: "WaitOperationRequest" }) as any as Schema.Schema<WaitOperationRequest>;
+export const WaitOperationRequest: Schema.Schema<WaitOperationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeout: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WaitOperationRequest",
+  }) as any as Schema.Schema<WaitOperationRequest>;
 
 export interface TranslateTextGlossaryConfig {
   /** Required. The `glossary` to be applied for this translation. The format depends on the glossary: - User-provided custom glossary: `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}` */
@@ -137,20 +161,30 @@ export interface TranslateTextGlossaryConfig {
   contextualTranslationEnabled?: boolean;
 }
 
-export const TranslateTextGlossaryConfig: Schema.Schema<TranslateTextGlossaryConfig> = Schema.suspend(() => Schema.Struct({
-  glossary: Schema.optional(Schema.String),
-  ignoreCase: Schema.optional(Schema.Boolean),
-  contextualTranslationEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "TranslateTextGlossaryConfig" }) as any as Schema.Schema<TranslateTextGlossaryConfig>;
+export const TranslateTextGlossaryConfig: Schema.Schema<TranslateTextGlossaryConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      glossary: Schema.optional(Schema.String),
+      ignoreCase: Schema.optional(Schema.Boolean),
+      contextualTranslationEnabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "TranslateTextGlossaryConfig",
+  }) as any as Schema.Schema<TranslateTextGlossaryConfig>;
 
 export interface TransliterationConfig {
   /** If true, source text in romanized form can be translated to the target language. */
   enableTransliteration?: boolean;
 }
 
-export const TransliterationConfig: Schema.Schema<TransliterationConfig> = Schema.suspend(() => Schema.Struct({
-  enableTransliteration: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "TransliterationConfig" }) as any as Schema.Schema<TransliterationConfig>;
+export const TransliterationConfig: Schema.Schema<TransliterationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableTransliteration: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "TransliterationConfig",
+  }) as any as Schema.Schema<TransliterationConfig>;
 
 export interface TranslateTextRequest {
   /** Required. The content of the input in string format. We recommend the total content be less than 30,000 codepoints. The max length of this field is 1024. Use BatchTranslateText for larger text. */
@@ -171,16 +205,21 @@ export interface TranslateTextRequest {
   labels?: Record<string, string>;
 }
 
-export const TranslateTextRequest: Schema.Schema<TranslateTextRequest> = Schema.suspend(() => Schema.Struct({
-  contents: Schema.optional(Schema.Array(Schema.String)),
-  mimeType: Schema.optional(Schema.String),
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-  model: Schema.optional(Schema.String),
-  glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
-  transliterationConfig: Schema.optional(TransliterationConfig),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "TranslateTextRequest" }) as any as Schema.Schema<TranslateTextRequest>;
+export const TranslateTextRequest: Schema.Schema<TranslateTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      contents: Schema.optional(Schema.Array(Schema.String)),
+      mimeType: Schema.optional(Schema.String),
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCode: Schema.optional(Schema.String),
+      model: Schema.optional(Schema.String),
+      glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
+      transliterationConfig: Schema.optional(TransliterationConfig),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TranslateTextRequest",
+  }) as any as Schema.Schema<TranslateTextRequest>;
 
 export interface Translation {
   /** Text translated into the target language. If an error occurs during translation, this field might be excluded from the response. */
@@ -193,12 +232,14 @@ export interface Translation {
   glossaryConfig?: TranslateTextGlossaryConfig;
 }
 
-export const Translation: Schema.Schema<Translation> = Schema.suspend(() => Schema.Struct({
-  translatedText: Schema.optional(Schema.String),
-  model: Schema.optional(Schema.String),
-  detectedLanguageCode: Schema.optional(Schema.String),
-  glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
-})).annotate({ identifier: "Translation" }) as any as Schema.Schema<Translation>;
+export const Translation: Schema.Schema<Translation> = Schema.suspend(() =>
+  Schema.Struct({
+    translatedText: Schema.optional(Schema.String),
+    model: Schema.optional(Schema.String),
+    detectedLanguageCode: Schema.optional(Schema.String),
+    glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
+  }),
+).annotate({ identifier: "Translation" }) as any as Schema.Schema<Translation>;
 
 export interface TranslateTextResponse {
   /** Text translation responses with no glossary applied. This field has the same length as `contents`. */
@@ -207,10 +248,15 @@ export interface TranslateTextResponse {
   glossaryTranslations?: Array<Translation>;
 }
 
-export const TranslateTextResponse: Schema.Schema<TranslateTextResponse> = Schema.suspend(() => Schema.Struct({
-  translations: Schema.optional(Schema.Array(Translation)),
-  glossaryTranslations: Schema.optional(Schema.Array(Translation)),
-})).annotate({ identifier: "TranslateTextResponse" }) as any as Schema.Schema<TranslateTextResponse>;
+export const TranslateTextResponse: Schema.Schema<TranslateTextResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      translations: Schema.optional(Schema.Array(Translation)),
+      glossaryTranslations: Schema.optional(Schema.Array(Translation)),
+    }),
+  ).annotate({
+    identifier: "TranslateTextResponse",
+  }) as any as Schema.Schema<TranslateTextResponse>;
 
 export interface RomanizeTextRequest {
   /** Required. The content of the input in string format. */
@@ -219,10 +265,15 @@ export interface RomanizeTextRequest {
   sourceLanguageCode?: string;
 }
 
-export const RomanizeTextRequest: Schema.Schema<RomanizeTextRequest> = Schema.suspend(() => Schema.Struct({
-  contents: Schema.optional(Schema.Array(Schema.String)),
-  sourceLanguageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "RomanizeTextRequest" }) as any as Schema.Schema<RomanizeTextRequest>;
+export const RomanizeTextRequest: Schema.Schema<RomanizeTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      contents: Schema.optional(Schema.Array(Schema.String)),
+      sourceLanguageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RomanizeTextRequest",
+  }) as any as Schema.Schema<RomanizeTextRequest>;
 
 export interface Romanization {
   /** Romanized text. If an error occurs during romanization, this field might be excluded from the response. */
@@ -231,28 +282,39 @@ export interface Romanization {
   detectedLanguageCode?: string;
 }
 
-export const Romanization: Schema.Schema<Romanization> = Schema.suspend(() => Schema.Struct({
-  romanizedText: Schema.optional(Schema.String),
-  detectedLanguageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Romanization" }) as any as Schema.Schema<Romanization>;
+export const Romanization: Schema.Schema<Romanization> = Schema.suspend(() =>
+  Schema.Struct({
+    romanizedText: Schema.optional(Schema.String),
+    detectedLanguageCode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Romanization",
+}) as any as Schema.Schema<Romanization>;
 
 export interface RomanizeTextResponse {
   /** Text romanization responses. This field has the same length as `contents`. */
   romanizations?: Array<Romanization>;
 }
 
-export const RomanizeTextResponse: Schema.Schema<RomanizeTextResponse> = Schema.suspend(() => Schema.Struct({
-  romanizations: Schema.optional(Schema.Array(Romanization)),
-})).annotate({ identifier: "RomanizeTextResponse" }) as any as Schema.Schema<RomanizeTextResponse>;
+export const RomanizeTextResponse: Schema.Schema<RomanizeTextResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      romanizations: Schema.optional(Schema.Array(Romanization)),
+    }),
+  ).annotate({
+    identifier: "RomanizeTextResponse",
+  }) as any as Schema.Schema<RomanizeTextResponse>;
 
 export interface GcsSource {
   /** Required. Source data URI. For example, `gs://my_bucket/my_object`. */
   inputUri?: string;
 }
 
-export const GcsSource: Schema.Schema<GcsSource> = Schema.suspend(() => Schema.Struct({
-  inputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GcsSource" }) as any as Schema.Schema<GcsSource>;
+export const GcsSource: Schema.Schema<GcsSource> = Schema.suspend(() =>
+  Schema.Struct({
+    inputUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GcsSource" }) as any as Schema.Schema<GcsSource>;
 
 export interface DocumentInputConfig {
   /** Document's content represented as a stream of bytes. */
@@ -263,11 +325,16 @@ export interface DocumentInputConfig {
   mimeType?: string;
 }
 
-export const DocumentInputConfig: Schema.Schema<DocumentInputConfig> = Schema.suspend(() => Schema.Struct({
-  content: Schema.optional(Schema.String),
-  gcsSource: Schema.optional(GcsSource),
-  mimeType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DocumentInputConfig" }) as any as Schema.Schema<DocumentInputConfig>;
+export const DocumentInputConfig: Schema.Schema<DocumentInputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      content: Schema.optional(Schema.String),
+      gcsSource: Schema.optional(GcsSource),
+      mimeType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DocumentInputConfig",
+  }) as any as Schema.Schema<DocumentInputConfig>;
 
 export interface DetectLanguageRequest {
   /** Optional. The language detection model to be used. Format: `projects/{project-number-or-id}/locations/{location-id}/models/language-detection/{model-id}` Only one language detection model is currently supported: `projects/{project-number-or-id}/locations/{location-id}/models/language-detection/default`. If not specified, the default model is used. */
@@ -282,13 +349,18 @@ export interface DetectLanguageRequest {
   labels?: Record<string, string>;
 }
 
-export const DetectLanguageRequest: Schema.Schema<DetectLanguageRequest> = Schema.suspend(() => Schema.Struct({
-  model: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  documentInputConfig: Schema.optional(DocumentInputConfig),
-  mimeType: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "DetectLanguageRequest" }) as any as Schema.Schema<DetectLanguageRequest>;
+export const DetectLanguageRequest: Schema.Schema<DetectLanguageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      model: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      documentInputConfig: Schema.optional(DocumentInputConfig),
+      mimeType: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DetectLanguageRequest",
+  }) as any as Schema.Schema<DetectLanguageRequest>;
 
 export interface DetectedLanguage {
   /** The ISO-639 language code of the source content in the request, detected automatically. */
@@ -297,19 +369,29 @@ export interface DetectedLanguage {
   confidence?: number;
 }
 
-export const DetectedLanguage: Schema.Schema<DetectedLanguage> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "DetectedLanguage" }) as any as Schema.Schema<DetectedLanguage>;
+export const DetectedLanguage: Schema.Schema<DetectedLanguage> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      languageCode: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "DetectedLanguage",
+}) as any as Schema.Schema<DetectedLanguage>;
 
 export interface DetectLanguageResponse {
   /** The most probable language detected by the Translation API. For each request, the Translation API will always return only one result. */
   languages?: Array<DetectedLanguage>;
 }
 
-export const DetectLanguageResponse: Schema.Schema<DetectLanguageResponse> = Schema.suspend(() => Schema.Struct({
-  languages: Schema.optional(Schema.Array(DetectedLanguage)),
-})).annotate({ identifier: "DetectLanguageResponse" }) as any as Schema.Schema<DetectLanguageResponse>;
+export const DetectLanguageResponse: Schema.Schema<DetectLanguageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languages: Schema.optional(Schema.Array(DetectedLanguage)),
+    }),
+  ).annotate({
+    identifier: "DetectLanguageResponse",
+  }) as any as Schema.Schema<DetectLanguageResponse>;
 
 export interface SupportedLanguage {
   /** Supported language code, generally consisting of its ISO 639-1 identifier, for example, 'en', 'ja'. In certain cases, ISO-639 codes including language and region identifiers are returned (for example, 'zh-TW' and 'zh-CN'). */
@@ -322,30 +404,45 @@ export interface SupportedLanguage {
   supportTarget?: boolean;
 }
 
-export const SupportedLanguage: Schema.Schema<SupportedLanguage> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  supportSource: Schema.optional(Schema.Boolean),
-  supportTarget: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SupportedLanguage" }) as any as Schema.Schema<SupportedLanguage>;
+export const SupportedLanguage: Schema.Schema<SupportedLanguage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languageCode: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      supportSource: Schema.optional(Schema.Boolean),
+      supportTarget: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "SupportedLanguage",
+  }) as any as Schema.Schema<SupportedLanguage>;
 
 export interface SupportedLanguages {
   /** A list of supported language responses. This list contains an entry for each language the Translation API supports. */
   languages?: Array<SupportedLanguage>;
 }
 
-export const SupportedLanguages: Schema.Schema<SupportedLanguages> = Schema.suspend(() => Schema.Struct({
-  languages: Schema.optional(Schema.Array(SupportedLanguage)),
-})).annotate({ identifier: "SupportedLanguages" }) as any as Schema.Schema<SupportedLanguages>;
+export const SupportedLanguages: Schema.Schema<SupportedLanguages> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languages: Schema.optional(Schema.Array(SupportedLanguage)),
+    }),
+  ).annotate({
+    identifier: "SupportedLanguages",
+  }) as any as Schema.Schema<SupportedLanguages>;
 
 export interface GcsDestination {
   /** Required. The bucket used in 'output_uri_prefix' must exist and there must be no files under 'output_uri_prefix'. 'output_uri_prefix' must end with "/" and start with "gs://". One 'output_uri_prefix' can only be used by one batch translation job at a time. Otherwise an INVALID_ARGUMENT (400) error is returned. */
   outputUriPrefix?: string;
 }
 
-export const GcsDestination: Schema.Schema<GcsDestination> = Schema.suspend(() => Schema.Struct({
-  outputUriPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "GcsDestination" }) as any as Schema.Schema<GcsDestination>;
+export const GcsDestination: Schema.Schema<GcsDestination> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      outputUriPrefix: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GcsDestination",
+}) as any as Schema.Schema<GcsDestination>;
 
 export interface DocumentOutputConfig {
   /** Optional. Google Cloud Storage destination for the translation output, e.g., `gs://my_bucket/my_directory/`. The destination directory provided does not have to be empty, but the bucket must exist. If a file with the same name as the output file already exists in the destination an error will be returned. For a DocumentInputConfig.contents provided document, the output file will have the name "output_[trg]_translations.[ext]", where - [trg] corresponds to the translated file's language code, - [ext] corresponds to the translated file's extension according to its mime type. For a DocumentInputConfig.gcs_uri provided document, the output file will have a name according to its URI. For example: an input file with URI: `gs://a/b/c.[extension]` stored in a gcs_destination bucket with name "my_bucket" will have an output URI: `gs://my_bucket/a_b_c_[trg]_translations.[ext]`, where - [trg] corresponds to the translated file's language code, - [ext] corresponds to the translated file's extension according to its mime type. If the document was directly provided through the request, then the output document will have the format: `gs://my_bucket/translated_document_[trg]_translations.[ext]`, where - [trg] corresponds to the translated file's language code, - [ext] corresponds to the translated file's extension according to its mime type. If a glossary was provided, then the output URI for the glossary translation will be equal to the default output URI but have `glossary_translations` instead of `translations`. For the previous example, its glossary URI would be: `gs://my_bucket/a_b_c_[trg]_glossary_translations.[ext]`. Thus the max number of output files will be 2 (Translated document, Glossary translated document). Callers should expect no partial outputs. If there is any error during document translation, no output will be stored in the Cloud Storage bucket. */
@@ -354,10 +451,15 @@ export interface DocumentOutputConfig {
   mimeType?: string;
 }
 
-export const DocumentOutputConfig: Schema.Schema<DocumentOutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsDestination: Schema.optional(GcsDestination),
-  mimeType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DocumentOutputConfig" }) as any as Schema.Schema<DocumentOutputConfig>;
+export const DocumentOutputConfig: Schema.Schema<DocumentOutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(GcsDestination),
+      mimeType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DocumentOutputConfig",
+  }) as any as Schema.Schema<DocumentOutputConfig>;
 
 export interface TranslateDocumentRequest {
   /** Optional. The ISO-639 language code of the input document if known, for example, "en-US" or "sr-Latn". Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). If the source language isn't specified, the API attempts to identify the source language automatically and returns the source language within the response. Source language must be specified if the request contains a glossary or a custom model. */
@@ -384,19 +486,24 @@ export interface TranslateDocumentRequest {
   enableRotationCorrection?: boolean;
 }
 
-export const TranslateDocumentRequest: Schema.Schema<TranslateDocumentRequest> = Schema.suspend(() => Schema.Struct({
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-  documentInputConfig: Schema.optional(DocumentInputConfig),
-  documentOutputConfig: Schema.optional(DocumentOutputConfig),
-  model: Schema.optional(Schema.String),
-  glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  customizedAttribution: Schema.optional(Schema.String),
-  isTranslateNativePdfOnly: Schema.optional(Schema.Boolean),
-  enableShadowRemovalNativePdf: Schema.optional(Schema.Boolean),
-  enableRotationCorrection: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "TranslateDocumentRequest" }) as any as Schema.Schema<TranslateDocumentRequest>;
+export const TranslateDocumentRequest: Schema.Schema<TranslateDocumentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCode: Schema.optional(Schema.String),
+      documentInputConfig: Schema.optional(DocumentInputConfig),
+      documentOutputConfig: Schema.optional(DocumentOutputConfig),
+      model: Schema.optional(Schema.String),
+      glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      customizedAttribution: Schema.optional(Schema.String),
+      isTranslateNativePdfOnly: Schema.optional(Schema.Boolean),
+      enableShadowRemovalNativePdf: Schema.optional(Schema.Boolean),
+      enableRotationCorrection: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "TranslateDocumentRequest",
+  }) as any as Schema.Schema<TranslateDocumentRequest>;
 
 export interface DocumentTranslation {
   /** The array of translated documents. It is expected to be size 1 for now. We may produce multiple translated documents in the future for other type of file formats. */
@@ -407,11 +514,16 @@ export interface DocumentTranslation {
   detectedLanguageCode?: string;
 }
 
-export const DocumentTranslation: Schema.Schema<DocumentTranslation> = Schema.suspend(() => Schema.Struct({
-  byteStreamOutputs: Schema.optional(Schema.Array(Schema.String)),
-  mimeType: Schema.optional(Schema.String),
-  detectedLanguageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "DocumentTranslation" }) as any as Schema.Schema<DocumentTranslation>;
+export const DocumentTranslation: Schema.Schema<DocumentTranslation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      byteStreamOutputs: Schema.optional(Schema.Array(Schema.String)),
+      mimeType: Schema.optional(Schema.String),
+      detectedLanguageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DocumentTranslation",
+  }) as any as Schema.Schema<DocumentTranslation>;
 
 export interface TranslateDocumentResponse {
   /** Translated document. */
@@ -424,12 +536,17 @@ export interface TranslateDocumentResponse {
   glossaryConfig?: TranslateTextGlossaryConfig;
 }
 
-export const TranslateDocumentResponse: Schema.Schema<TranslateDocumentResponse> = Schema.suspend(() => Schema.Struct({
-  documentTranslation: Schema.optional(DocumentTranslation),
-  glossaryDocumentTranslation: Schema.optional(DocumentTranslation),
-  model: Schema.optional(Schema.String),
-  glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
-})).annotate({ identifier: "TranslateDocumentResponse" }) as any as Schema.Schema<TranslateDocumentResponse>;
+export const TranslateDocumentResponse: Schema.Schema<TranslateDocumentResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      documentTranslation: Schema.optional(DocumentTranslation),
+      glossaryDocumentTranslation: Schema.optional(DocumentTranslation),
+      model: Schema.optional(Schema.String),
+      glossaryConfig: Schema.optional(TranslateTextGlossaryConfig),
+    }),
+  ).annotate({
+    identifier: "TranslateDocumentResponse",
+  }) as any as Schema.Schema<TranslateDocumentResponse>;
 
 export interface InputConfig {
   /** Optional. Can be "text/plain" or "text/html". For `.tsv`, "text/html" is used if mime_type is missing. For `.html`, this field must be "text/html" or empty. For `.txt`, this field must be "text/plain" or empty. */
@@ -438,19 +555,25 @@ export interface InputConfig {
   gcsSource?: GcsSource;
 }
 
-export const InputConfig: Schema.Schema<InputConfig> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  gcsSource: Schema.optional(GcsSource),
-})).annotate({ identifier: "InputConfig" }) as any as Schema.Schema<InputConfig>;
+export const InputConfig: Schema.Schema<InputConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    mimeType: Schema.optional(Schema.String),
+    gcsSource: Schema.optional(GcsSource),
+  }),
+).annotate({ identifier: "InputConfig" }) as any as Schema.Schema<InputConfig>;
 
 export interface OutputConfig {
   /** Google Cloud Storage destination for output content. For every single input file (for example, gs://a/b/c.[extension]), we generate at most 2 * n output files. (n is the # of target_language_codes in the BatchTranslateTextRequest). Output files (tsv) generated are compliant with RFC 4180 except that record delimiters are '\n' instead of '\r\n'. We don't provide any way to change record delimiters. While the input files are being processed, we write/update an index file 'index.csv' under 'output_uri_prefix' (for example, gs://translation-test/index.csv) The index file is generated/updated as new files are being translated. The format is: input_file,target_language_code,translations_file,errors_file, glossary_translations_file,glossary_errors_file input_file is one file we matched using gcs_source.input_uri. target_language_code is provided in the request. translations_file contains the translations. (details provided below) errors_file contains the errors during processing of the file. (details below). Both translations_file and errors_file could be empty strings if we have no content to output. glossary_translations_file and glossary_errors_file are always empty strings if the input_file is tsv. They could also be empty if we have no content to output. Once a row is present in index.csv, the input/output matching never changes. Callers should also expect all the content in input_file are processed and ready to be consumed (that is, no partial output file is written). Since index.csv will be keeping updated during the process, please make sure there is no custom retention policy applied on the output bucket that may avoid file updating. (https://cloud.google.com/storage/docs/bucket-lock#retention-policy) The format of translations_file (for target language code 'trg') is: `gs://translation_test/a_b_c_'trg'_translations.[extension]` If the input file extension is tsv, the output has the following columns: Column 1: ID of the request provided in the input, if it's not provided in the input, then the input row number is used (0-based). Column 2: source sentence. Column 3: translation without applying a glossary. Empty string if there is an error. Column 4 (only present if a glossary is provided in the request): translation after applying the glossary. Empty string if there is an error applying the glossary. Could be same string as column 3 if there is no glossary applied. If input file extension is a txt or html, the translation is directly written to the output file. If glossary is requested, a separate glossary_translations_file has format of `gs://translation_test/a_b_c_'trg'_glossary_translations.[extension]` The format of errors file (for target language code 'trg') is: `gs://translation_test/a_b_c_'trg'_errors.[extension]` If the input file extension is tsv, errors_file contains the following: Column 1: ID of the request provided in the input, if it's not provided in the input, then the input row number is used (0-based). Column 2: source sentence. Column 3: Error detail for the translation. Could be empty. Column 4 (only present if a glossary is provided in the request): Error when applying the glossary. If the input file extension is txt or html, glossary_error_file will be generated that contains error details. glossary_error_file has format of `gs://translation_test/a_b_c_'trg'_glossary_errors.[extension]` */
   gcsDestination?: GcsDestination;
 }
 
-export const OutputConfig: Schema.Schema<OutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsDestination: Schema.optional(GcsDestination),
-})).annotate({ identifier: "OutputConfig" }) as any as Schema.Schema<OutputConfig>;
+export const OutputConfig: Schema.Schema<OutputConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    gcsDestination: Schema.optional(GcsDestination),
+  }),
+).annotate({
+  identifier: "OutputConfig",
+}) as any as Schema.Schema<OutputConfig>;
 
 export interface BatchTranslateTextRequest {
   /** Required. Source language code. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
@@ -469,33 +592,50 @@ export interface BatchTranslateTextRequest {
   labels?: Record<string, string>;
 }
 
-export const BatchTranslateTextRequest: Schema.Schema<BatchTranslateTextRequest> = Schema.suspend(() => Schema.Struct({
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCodes: Schema.optional(Schema.Array(Schema.String)),
-  models: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  inputConfigs: Schema.optional(Schema.Array(InputConfig)),
-  outputConfig: Schema.optional(OutputConfig),
-  glossaries: Schema.optional(Schema.Record(Schema.String, TranslateTextGlossaryConfig)),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "BatchTranslateTextRequest" }) as any as Schema.Schema<BatchTranslateTextRequest>;
+export const BatchTranslateTextRequest: Schema.Schema<BatchTranslateTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCodes: Schema.optional(Schema.Array(Schema.String)),
+      models: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      inputConfigs: Schema.optional(Schema.Array(InputConfig)),
+      outputConfig: Schema.optional(OutputConfig),
+      glossaries: Schema.optional(
+        Schema.Record(Schema.String, TranslateTextGlossaryConfig),
+      ),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchTranslateTextRequest",
+  }) as any as Schema.Schema<BatchTranslateTextRequest>;
 
 export interface BatchDocumentInputConfig {
   /** Google Cloud Storage location for the source input. This can be a single file (for example, `gs://translation-test/input.docx`) or a wildcard (for example, `gs://translation-test/*`). File mime type is determined based on extension. Supported mime type includes: - `pdf`, application/pdf - `docx`, application/vnd.openxmlformats-officedocument.wordprocessingml.document - `pptx`, application/vnd.openxmlformats-officedocument.presentationml.presentation - `xlsx`, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet The max file size to support for `.docx`, `.pptx` and `.xlsx` is 100MB. The max file size to support for `.pdf` is 1GB and the max page limit is 1000 pages. The max file size to support for all input documents is 1GB. */
   gcsSource?: GcsSource;
 }
 
-export const BatchDocumentInputConfig: Schema.Schema<BatchDocumentInputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsSource: Schema.optional(GcsSource),
-})).annotate({ identifier: "BatchDocumentInputConfig" }) as any as Schema.Schema<BatchDocumentInputConfig>;
+export const BatchDocumentInputConfig: Schema.Schema<BatchDocumentInputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsSource: Schema.optional(GcsSource),
+    }),
+  ).annotate({
+    identifier: "BatchDocumentInputConfig",
+  }) as any as Schema.Schema<BatchDocumentInputConfig>;
 
 export interface BatchDocumentOutputConfig {
   /** Google Cloud Storage destination for output content. For every single input document (for example, gs://a/b/c.[extension]), we generate at most 2 * n output files. (n is the # of target_language_codes in the BatchTranslateDocumentRequest). While the input documents are being processed, we write/update an index file `index.csv` under `gcs_destination.output_uri_prefix` (for example, gs://translation_output/index.csv) The index file is generated/updated as new files are being translated. The format is: input_document,target_language_code,translation_output,error_output, glossary_translation_output,glossary_error_output `input_document` is one file we matched using gcs_source.input_uri. `target_language_code` is provided in the request. `translation_output` contains the translations. (details provided below) `error_output` contains the error message during processing of the file. Both translations_file and errors_file could be empty strings if we have no content to output. `glossary_translation_output` and `glossary_error_output` are the translated output/error when we apply glossaries. They could also be empty if we have no content to output. Once a row is present in index.csv, the input/output matching never changes. Callers should also expect all the content in input_file are processed and ready to be consumed (that is, no partial output file is written). Since index.csv will be keeping updated during the process, please make sure there is no custom retention policy applied on the output bucket that may avoid file updating. (https://cloud.google.com/storage/docs/bucket-lock#retention-policy) The naming format of translation output files follows (for target language code [trg]): `translation_output`: `gs://translation_output/a_b_c_[trg]_translation.[extension]` `glossary_translation_output`: `gs://translation_test/a_b_c_[trg]_glossary_translation.[extension]`. The output document will maintain the same file format as the input document. The naming format of error output files follows (for target language code [trg]): `error_output`: `gs://translation_test/a_b_c_[trg]_errors.txt` `glossary_error_output`: `gs://translation_test/a_b_c_[trg]_glossary_translation.txt`. The error output is a txt file containing error details. */
   gcsDestination?: GcsDestination;
 }
 
-export const BatchDocumentOutputConfig: Schema.Schema<BatchDocumentOutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsDestination: Schema.optional(GcsDestination),
-})).annotate({ identifier: "BatchDocumentOutputConfig" }) as any as Schema.Schema<BatchDocumentOutputConfig>;
+export const BatchDocumentOutputConfig: Schema.Schema<BatchDocumentOutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(GcsDestination),
+    }),
+  ).annotate({
+    identifier: "BatchDocumentOutputConfig",
+  }) as any as Schema.Schema<BatchDocumentOutputConfig>;
 
 export interface BatchTranslateDocumentRequest {
   /** Required. The ISO-639 language code of the input document if known, for example, "en-US" or "sr-Latn". Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
@@ -522,19 +662,28 @@ export interface BatchTranslateDocumentRequest {
   pdfNativeOnly?: boolean;
 }
 
-export const BatchTranslateDocumentRequest: Schema.Schema<BatchTranslateDocumentRequest> = Schema.suspend(() => Schema.Struct({
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCodes: Schema.optional(Schema.Array(Schema.String)),
-  inputConfigs: Schema.optional(Schema.Array(BatchDocumentInputConfig)),
-  outputConfig: Schema.optional(BatchDocumentOutputConfig),
-  models: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  glossaries: Schema.optional(Schema.Record(Schema.String, TranslateTextGlossaryConfig)),
-  formatConversions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  customizedAttribution: Schema.optional(Schema.String),
-  enableShadowRemovalNativePdf: Schema.optional(Schema.Boolean),
-  enableRotationCorrection: Schema.optional(Schema.Boolean),
-  pdfNativeOnly: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "BatchTranslateDocumentRequest" }) as any as Schema.Schema<BatchTranslateDocumentRequest>;
+export const BatchTranslateDocumentRequest: Schema.Schema<BatchTranslateDocumentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCodes: Schema.optional(Schema.Array(Schema.String)),
+      inputConfigs: Schema.optional(Schema.Array(BatchDocumentInputConfig)),
+      outputConfig: Schema.optional(BatchDocumentOutputConfig),
+      models: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      glossaries: Schema.optional(
+        Schema.Record(Schema.String, TranslateTextGlossaryConfig),
+      ),
+      formatConversions: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      customizedAttribution: Schema.optional(Schema.String),
+      enableShadowRemovalNativePdf: Schema.optional(Schema.Boolean),
+      enableRotationCorrection: Schema.optional(Schema.Boolean),
+      pdfNativeOnly: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "BatchTranslateDocumentRequest",
+  }) as any as Schema.Schema<BatchTranslateDocumentRequest>;
 
 export interface LanguageCodePair {
   /** Required. The ISO-639 language code of the input text, for example, "en-US". Expected to be an exact match for GlossaryTerm.language_code. */
@@ -543,28 +692,43 @@ export interface LanguageCodePair {
   targetLanguageCode?: string;
 }
 
-export const LanguageCodePair: Schema.Schema<LanguageCodePair> = Schema.suspend(() => Schema.Struct({
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "LanguageCodePair" }) as any as Schema.Schema<LanguageCodePair>;
+export const LanguageCodePair: Schema.Schema<LanguageCodePair> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LanguageCodePair",
+}) as any as Schema.Schema<LanguageCodePair>;
 
 export interface LanguageCodesSet {
   /** Optional. The ISO-639 language code(s) for terms defined in the glossary. All entries are unique. The list contains at least two entries. Expected to be an exact match for GlossaryTerm.language_code. */
   languageCodes?: Array<string>;
 }
 
-export const LanguageCodesSet: Schema.Schema<LanguageCodesSet> = Schema.suspend(() => Schema.Struct({
-  languageCodes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "LanguageCodesSet" }) as any as Schema.Schema<LanguageCodesSet>;
+export const LanguageCodesSet: Schema.Schema<LanguageCodesSet> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      languageCodes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "LanguageCodesSet",
+}) as any as Schema.Schema<LanguageCodesSet>;
 
 export interface GlossaryInputConfig {
   /** Required. Google Cloud Storage location of glossary data. File format is determined based on the filename extension. API returns [google.rpc.Code.INVALID_ARGUMENT] for unsupported URI-s and file formats. Wildcards are not allowed. This must be a single file in one of the following formats: For unidirectional glossaries: - TSV/CSV (`.tsv`/`.csv`): Two column file, tab- or comma-separated. The first column is source text. The second column is target text. No headers in this file. The first row contains data and not column names. - TMX (`.tmx`): TMX file with parallel data defining source/target term pairs. For equivalent term sets glossaries: - CSV (`.csv`): Multi-column CSV file defining equivalent glossary terms in multiple languages. See documentation for more information - [glossaries](https://cloud.google.com/translate/docs/advanced/glossary). */
   gcsSource?: GcsSource;
 }
 
-export const GlossaryInputConfig: Schema.Schema<GlossaryInputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsSource: Schema.optional(GcsSource),
-})).annotate({ identifier: "GlossaryInputConfig" }) as any as Schema.Schema<GlossaryInputConfig>;
+export const GlossaryInputConfig: Schema.Schema<GlossaryInputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsSource: Schema.optional(GcsSource),
+    }),
+  ).annotate({
+    identifier: "GlossaryInputConfig",
+  }) as any as Schema.Schema<GlossaryInputConfig>;
 
 export interface Glossary {
   /** Identifier. The resource name of the glossary. Glossary names have the form `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}`. */
@@ -585,16 +749,18 @@ export interface Glossary {
   displayName?: string;
 }
 
-export const Glossary: Schema.Schema<Glossary> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  languagePair: Schema.optional(LanguageCodePair),
-  languageCodesSet: Schema.optional(LanguageCodesSet),
-  inputConfig: Schema.optional(GlossaryInputConfig),
-  entryCount: Schema.optional(Schema.Number),
-  submitTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Glossary" }) as any as Schema.Schema<Glossary>;
+export const Glossary: Schema.Schema<Glossary> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    languagePair: Schema.optional(LanguageCodePair),
+    languageCodesSet: Schema.optional(LanguageCodesSet),
+    inputConfig: Schema.optional(GlossaryInputConfig),
+    entryCount: Schema.optional(Schema.Number),
+    submitTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Glossary" }) as any as Schema.Schema<Glossary>;
 
 export interface ListGlossariesResponse {
   /** The list of glossaries for a project. */
@@ -603,10 +769,15 @@ export interface ListGlossariesResponse {
   nextPageToken?: string;
 }
 
-export const ListGlossariesResponse: Schema.Schema<ListGlossariesResponse> = Schema.suspend(() => Schema.Struct({
-  glossaries: Schema.optional(Schema.Array(Glossary)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListGlossariesResponse" }) as any as Schema.Schema<ListGlossariesResponse>;
+export const ListGlossariesResponse: Schema.Schema<ListGlossariesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      glossaries: Schema.optional(Schema.Array(Glossary)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListGlossariesResponse",
+  }) as any as Schema.Schema<ListGlossariesResponse>;
 
 export interface GlossaryTerm {
   /** The language for this glossary term. */
@@ -615,10 +786,14 @@ export interface GlossaryTerm {
   text?: string;
 }
 
-export const GlossaryTerm: Schema.Schema<GlossaryTerm> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  text: Schema.optional(Schema.String),
-})).annotate({ identifier: "GlossaryTerm" }) as any as Schema.Schema<GlossaryTerm>;
+export const GlossaryTerm: Schema.Schema<GlossaryTerm> = Schema.suspend(() =>
+  Schema.Struct({
+    languageCode: Schema.optional(Schema.String),
+    text: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "GlossaryTerm",
+}) as any as Schema.Schema<GlossaryTerm>;
 
 export interface GlossaryTermsPair {
   /** The source term is the term that will get match in the text, */
@@ -627,19 +802,29 @@ export interface GlossaryTermsPair {
   targetTerm?: GlossaryTerm;
 }
 
-export const GlossaryTermsPair: Schema.Schema<GlossaryTermsPair> = Schema.suspend(() => Schema.Struct({
-  sourceTerm: Schema.optional(GlossaryTerm),
-  targetTerm: Schema.optional(GlossaryTerm),
-})).annotate({ identifier: "GlossaryTermsPair" }) as any as Schema.Schema<GlossaryTermsPair>;
+export const GlossaryTermsPair: Schema.Schema<GlossaryTermsPair> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceTerm: Schema.optional(GlossaryTerm),
+      targetTerm: Schema.optional(GlossaryTerm),
+    }),
+  ).annotate({
+    identifier: "GlossaryTermsPair",
+  }) as any as Schema.Schema<GlossaryTermsPair>;
 
 export interface GlossaryTermsSet {
   /** Each term in the set represents a term that can be replaced by the other terms. */
   terms?: Array<GlossaryTerm>;
 }
 
-export const GlossaryTermsSet: Schema.Schema<GlossaryTermsSet> = Schema.suspend(() => Schema.Struct({
-  terms: Schema.optional(Schema.Array(GlossaryTerm)),
-})).annotate({ identifier: "GlossaryTermsSet" }) as any as Schema.Schema<GlossaryTermsSet>;
+export const GlossaryTermsSet: Schema.Schema<GlossaryTermsSet> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      terms: Schema.optional(Schema.Array(GlossaryTerm)),
+    }),
+).annotate({
+  identifier: "GlossaryTermsSet",
+}) as any as Schema.Schema<GlossaryTermsSet>;
 
 export interface GlossaryEntry {
   /** Identifier. The resource name of the entry. Format: `projects/* /locations/* /glossaries/* /glossaryEntries/*` */
@@ -652,12 +837,16 @@ export interface GlossaryEntry {
   description?: string;
 }
 
-export const GlossaryEntry: Schema.Schema<GlossaryEntry> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  termsPair: Schema.optional(GlossaryTermsPair),
-  termsSet: Schema.optional(GlossaryTermsSet),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "GlossaryEntry" }) as any as Schema.Schema<GlossaryEntry>;
+export const GlossaryEntry: Schema.Schema<GlossaryEntry> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    termsPair: Schema.optional(GlossaryTermsPair),
+    termsSet: Schema.optional(GlossaryTermsSet),
+    description: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "GlossaryEntry",
+}) as any as Schema.Schema<GlossaryEntry>;
 
 export interface ListGlossaryEntriesResponse {
   /** Optional. The Glossary Entries */
@@ -666,10 +855,15 @@ export interface ListGlossaryEntriesResponse {
   nextPageToken?: string;
 }
 
-export const ListGlossaryEntriesResponse: Schema.Schema<ListGlossaryEntriesResponse> = Schema.suspend(() => Schema.Struct({
-  glossaryEntries: Schema.optional(Schema.Array(GlossaryEntry)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListGlossaryEntriesResponse" }) as any as Schema.Schema<ListGlossaryEntriesResponse>;
+export const ListGlossaryEntriesResponse: Schema.Schema<ListGlossaryEntriesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      glossaryEntries: Schema.optional(Schema.Array(GlossaryEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListGlossaryEntriesResponse",
+  }) as any as Schema.Schema<ListGlossaryEntriesResponse>;
 
 export interface Dataset {
   /** The resource name of the dataset, in form of `projects/{project-number-or-id}/locations/{location_id}/datasets/{dataset_id}` */
@@ -694,18 +888,20 @@ export interface Dataset {
   updateTime?: string;
 }
 
-export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-  exampleCount: Schema.optional(Schema.Number),
-  trainExampleCount: Schema.optional(Schema.Number),
-  validateExampleCount: Schema.optional(Schema.Number),
-  testExampleCount: Schema.optional(Schema.Number),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
+export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    sourceLanguageCode: Schema.optional(Schema.String),
+    targetLanguageCode: Schema.optional(Schema.String),
+    exampleCount: Schema.optional(Schema.Number),
+    trainExampleCount: Schema.optional(Schema.Number),
+    validateExampleCount: Schema.optional(Schema.Number),
+    testExampleCount: Schema.optional(Schema.Number),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
 
 export interface ListDatasetsResponse {
   /** The datasets read. */
@@ -714,10 +910,15 @@ export interface ListDatasetsResponse {
   nextPageToken?: string;
 }
 
-export const ListDatasetsResponse: Schema.Schema<ListDatasetsResponse> = Schema.suspend(() => Schema.Struct({
-  datasets: Schema.optional(Schema.Array(Dataset)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDatasetsResponse" }) as any as Schema.Schema<ListDatasetsResponse>;
+export const ListDatasetsResponse: Schema.Schema<ListDatasetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datasets: Schema.optional(Schema.Array(Dataset)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDatasetsResponse",
+  }) as any as Schema.Schema<ListDatasetsResponse>;
 
 export interface AdaptiveMtDataset {
   /** Identifier. The resource name of the dataset, in form of `projects/{project-number-or-id}/locations/{location_id}/adaptiveMtDatasets/{dataset_id}` */
@@ -736,15 +937,20 @@ export interface AdaptiveMtDataset {
   updateTime?: string;
 }
 
-export const AdaptiveMtDataset: Schema.Schema<AdaptiveMtDataset> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-  exampleCount: Schema.optional(Schema.Number),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdaptiveMtDataset" }) as any as Schema.Schema<AdaptiveMtDataset>;
+export const AdaptiveMtDataset: Schema.Schema<AdaptiveMtDataset> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCode: Schema.optional(Schema.String),
+      exampleCount: Schema.optional(Schema.Number),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdaptiveMtDataset",
+  }) as any as Schema.Schema<AdaptiveMtDataset>;
 
 export interface ListAdaptiveMtDatasetsResponse {
   /** Output only. A list of Adaptive MT datasets. */
@@ -753,10 +959,15 @@ export interface ListAdaptiveMtDatasetsResponse {
   nextPageToken?: string;
 }
 
-export const ListAdaptiveMtDatasetsResponse: Schema.Schema<ListAdaptiveMtDatasetsResponse> = Schema.suspend(() => Schema.Struct({
-  adaptiveMtDatasets: Schema.optional(Schema.Array(AdaptiveMtDataset)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAdaptiveMtDatasetsResponse" }) as any as Schema.Schema<ListAdaptiveMtDatasetsResponse>;
+export const ListAdaptiveMtDatasetsResponse: Schema.Schema<ListAdaptiveMtDatasetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adaptiveMtDatasets: Schema.optional(Schema.Array(AdaptiveMtDataset)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAdaptiveMtDatasetsResponse",
+  }) as any as Schema.Schema<ListAdaptiveMtDatasetsResponse>;
 
 export interface ReferenceSentencePair {
   /** Source sentence in the sentence pair. */
@@ -765,19 +976,31 @@ export interface ReferenceSentencePair {
   targetSentence?: string;
 }
 
-export const ReferenceSentencePair: Schema.Schema<ReferenceSentencePair> = Schema.suspend(() => Schema.Struct({
-  sourceSentence: Schema.optional(Schema.String),
-  targetSentence: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReferenceSentencePair" }) as any as Schema.Schema<ReferenceSentencePair>;
+export const ReferenceSentencePair: Schema.Schema<ReferenceSentencePair> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceSentence: Schema.optional(Schema.String),
+      targetSentence: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReferenceSentencePair",
+  }) as any as Schema.Schema<ReferenceSentencePair>;
 
 export interface ReferenceSentencePairList {
   /** Reference sentence pairs. */
   referenceSentencePairs?: Array<ReferenceSentencePair>;
 }
 
-export const ReferenceSentencePairList: Schema.Schema<ReferenceSentencePairList> = Schema.suspend(() => Schema.Struct({
-  referenceSentencePairs: Schema.optional(Schema.Array(ReferenceSentencePair)),
-})).annotate({ identifier: "ReferenceSentencePairList" }) as any as Schema.Schema<ReferenceSentencePairList>;
+export const ReferenceSentencePairList: Schema.Schema<ReferenceSentencePairList> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      referenceSentencePairs: Schema.optional(
+        Schema.Array(ReferenceSentencePair),
+      ),
+    }),
+  ).annotate({
+    identifier: "ReferenceSentencePairList",
+  }) as any as Schema.Schema<ReferenceSentencePairList>;
 
 export interface ReferenceSentenceConfig {
   /** Reference sentences pair lists. Each list will be used as the references to translate the sentence under "content" field at the corresponding index. Length of the list is required to be equal to the length of "content" field. */
@@ -788,11 +1011,18 @@ export interface ReferenceSentenceConfig {
   targetLanguageCode?: string;
 }
 
-export const ReferenceSentenceConfig: Schema.Schema<ReferenceSentenceConfig> = Schema.suspend(() => Schema.Struct({
-  referenceSentencePairLists: Schema.optional(Schema.Array(ReferenceSentencePairList)),
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReferenceSentenceConfig" }) as any as Schema.Schema<ReferenceSentenceConfig>;
+export const ReferenceSentenceConfig: Schema.Schema<ReferenceSentenceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      referenceSentencePairLists: Schema.optional(
+        Schema.Array(ReferenceSentencePairList),
+      ),
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReferenceSentenceConfig",
+  }) as any as Schema.Schema<ReferenceSentenceConfig>;
 
 export interface GlossaryConfig {
   /** Required. The `glossary` to be applied for this translation. The format depends on the glossary: - User-provided custom glossary: `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}` */
@@ -803,11 +1033,16 @@ export interface GlossaryConfig {
   contextualTranslationEnabled?: boolean;
 }
 
-export const GlossaryConfig: Schema.Schema<GlossaryConfig> = Schema.suspend(() => Schema.Struct({
-  glossary: Schema.optional(Schema.String),
-  ignoreCase: Schema.optional(Schema.Boolean),
-  contextualTranslationEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GlossaryConfig" }) as any as Schema.Schema<GlossaryConfig>;
+export const GlossaryConfig: Schema.Schema<GlossaryConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      glossary: Schema.optional(Schema.String),
+      ignoreCase: Schema.optional(Schema.Boolean),
+      contextualTranslationEnabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "GlossaryConfig",
+}) as any as Schema.Schema<GlossaryConfig>;
 
 export interface AdaptiveMtTranslateRequest {
   /** Required. The resource name for the dataset to use for adaptive MT translation. `projects/{project}/locations/{location-id}/adaptiveMtDatasets/{dataset}` */
@@ -820,21 +1055,31 @@ export interface AdaptiveMtTranslateRequest {
   glossaryConfig?: GlossaryConfig;
 }
 
-export const AdaptiveMtTranslateRequest: Schema.Schema<AdaptiveMtTranslateRequest> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.Array(Schema.String)),
-  referenceSentenceConfig: Schema.optional(ReferenceSentenceConfig),
-  glossaryConfig: Schema.optional(GlossaryConfig),
-})).annotate({ identifier: "AdaptiveMtTranslateRequest" }) as any as Schema.Schema<AdaptiveMtTranslateRequest>;
+export const AdaptiveMtTranslateRequest: Schema.Schema<AdaptiveMtTranslateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.Array(Schema.String)),
+      referenceSentenceConfig: Schema.optional(ReferenceSentenceConfig),
+      glossaryConfig: Schema.optional(GlossaryConfig),
+    }),
+  ).annotate({
+    identifier: "AdaptiveMtTranslateRequest",
+  }) as any as Schema.Schema<AdaptiveMtTranslateRequest>;
 
 export interface AdaptiveMtTranslation {
   /** Output only. The translated text. */
   translatedText?: string;
 }
 
-export const AdaptiveMtTranslation: Schema.Schema<AdaptiveMtTranslation> = Schema.suspend(() => Schema.Struct({
-  translatedText: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdaptiveMtTranslation" }) as any as Schema.Schema<AdaptiveMtTranslation>;
+export const AdaptiveMtTranslation: Schema.Schema<AdaptiveMtTranslation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      translatedText: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdaptiveMtTranslation",
+  }) as any as Schema.Schema<AdaptiveMtTranslation>;
 
 export interface AdaptiveMtTranslateResponse {
   /** Output only. The translation. */
@@ -845,11 +1090,18 @@ export interface AdaptiveMtTranslateResponse {
   glossaryTranslations?: Array<AdaptiveMtTranslation>;
 }
 
-export const AdaptiveMtTranslateResponse: Schema.Schema<AdaptiveMtTranslateResponse> = Schema.suspend(() => Schema.Struct({
-  translations: Schema.optional(Schema.Array(AdaptiveMtTranslation)),
-  languageCode: Schema.optional(Schema.String),
-  glossaryTranslations: Schema.optional(Schema.Array(AdaptiveMtTranslation)),
-})).annotate({ identifier: "AdaptiveMtTranslateResponse" }) as any as Schema.Schema<AdaptiveMtTranslateResponse>;
+export const AdaptiveMtTranslateResponse: Schema.Schema<AdaptiveMtTranslateResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      translations: Schema.optional(Schema.Array(AdaptiveMtTranslation)),
+      languageCode: Schema.optional(Schema.String),
+      glossaryTranslations: Schema.optional(
+        Schema.Array(AdaptiveMtTranslation),
+      ),
+    }),
+  ).annotate({
+    identifier: "AdaptiveMtTranslateResponse",
+  }) as any as Schema.Schema<AdaptiveMtTranslateResponse>;
 
 export interface AdaptiveMtFile {
   /** Identifier. The resource name of the file, in form of `projects/{project-number-or-id}/locations/{location_id}/adaptiveMtDatasets/{dataset}/adaptiveMtFiles/{file}` */
@@ -864,13 +1116,18 @@ export interface AdaptiveMtFile {
   updateTime?: string;
 }
 
-export const AdaptiveMtFile: Schema.Schema<AdaptiveMtFile> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  entryCount: Schema.optional(Schema.Number),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdaptiveMtFile" }) as any as Schema.Schema<AdaptiveMtFile>;
+export const AdaptiveMtFile: Schema.Schema<AdaptiveMtFile> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      entryCount: Schema.optional(Schema.Number),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AdaptiveMtFile",
+}) as any as Schema.Schema<AdaptiveMtFile>;
 
 export interface FileInputSource {
   /** Required. The file's mime type. */
@@ -881,20 +1138,30 @@ export interface FileInputSource {
   displayName?: string;
 }
 
-export const FileInputSource: Schema.Schema<FileInputSource> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "FileInputSource" }) as any as Schema.Schema<FileInputSource>;
+export const FileInputSource: Schema.Schema<FileInputSource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FileInputSource",
+}) as any as Schema.Schema<FileInputSource>;
 
 export interface GcsInputSource {
   /** Required. Source data URI. For example, `gs://my_bucket/my_object`. */
   inputUri?: string;
 }
 
-export const GcsInputSource: Schema.Schema<GcsInputSource> = Schema.suspend(() => Schema.Struct({
-  inputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GcsInputSource" }) as any as Schema.Schema<GcsInputSource>;
+export const GcsInputSource: Schema.Schema<GcsInputSource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      inputUri: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GcsInputSource",
+}) as any as Schema.Schema<GcsInputSource>;
 
 export interface ImportAdaptiveMtFileRequest {
   /** Inline file source. */
@@ -903,19 +1170,29 @@ export interface ImportAdaptiveMtFileRequest {
   gcsInputSource?: GcsInputSource;
 }
 
-export const ImportAdaptiveMtFileRequest: Schema.Schema<ImportAdaptiveMtFileRequest> = Schema.suspend(() => Schema.Struct({
-  fileInputSource: Schema.optional(FileInputSource),
-  gcsInputSource: Schema.optional(GcsInputSource),
-})).annotate({ identifier: "ImportAdaptiveMtFileRequest" }) as any as Schema.Schema<ImportAdaptiveMtFileRequest>;
+export const ImportAdaptiveMtFileRequest: Schema.Schema<ImportAdaptiveMtFileRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fileInputSource: Schema.optional(FileInputSource),
+      gcsInputSource: Schema.optional(GcsInputSource),
+    }),
+  ).annotate({
+    identifier: "ImportAdaptiveMtFileRequest",
+  }) as any as Schema.Schema<ImportAdaptiveMtFileRequest>;
 
 export interface ImportAdaptiveMtFileResponse {
   /** Output only. The Adaptive MT file that was imported. */
   adaptiveMtFile?: AdaptiveMtFile;
 }
 
-export const ImportAdaptiveMtFileResponse: Schema.Schema<ImportAdaptiveMtFileResponse> = Schema.suspend(() => Schema.Struct({
-  adaptiveMtFile: Schema.optional(AdaptiveMtFile),
-})).annotate({ identifier: "ImportAdaptiveMtFileResponse" }) as any as Schema.Schema<ImportAdaptiveMtFileResponse>;
+export const ImportAdaptiveMtFileResponse: Schema.Schema<ImportAdaptiveMtFileResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adaptiveMtFile: Schema.optional(AdaptiveMtFile),
+    }),
+  ).annotate({
+    identifier: "ImportAdaptiveMtFileResponse",
+  }) as any as Schema.Schema<ImportAdaptiveMtFileResponse>;
 
 export interface ListAdaptiveMtFilesResponse {
   /** Output only. The Adaptive MT files. */
@@ -924,10 +1201,15 @@ export interface ListAdaptiveMtFilesResponse {
   nextPageToken?: string;
 }
 
-export const ListAdaptiveMtFilesResponse: Schema.Schema<ListAdaptiveMtFilesResponse> = Schema.suspend(() => Schema.Struct({
-  adaptiveMtFiles: Schema.optional(Schema.Array(AdaptiveMtFile)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAdaptiveMtFilesResponse" }) as any as Schema.Schema<ListAdaptiveMtFilesResponse>;
+export const ListAdaptiveMtFilesResponse: Schema.Schema<ListAdaptiveMtFilesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adaptiveMtFiles: Schema.optional(Schema.Array(AdaptiveMtFile)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAdaptiveMtFilesResponse",
+  }) as any as Schema.Schema<ListAdaptiveMtFilesResponse>;
 
 export interface AdaptiveMtSentence {
   /** Identifier. The resource name of the file, in form of `projects/{project-number-or-id}/locations/{location_id}/adaptiveMtDatasets/{dataset}/adaptiveMtFiles/{file}/adaptiveMtSentences/{sentence}` */
@@ -942,13 +1224,18 @@ export interface AdaptiveMtSentence {
   updateTime?: string;
 }
 
-export const AdaptiveMtSentence: Schema.Schema<AdaptiveMtSentence> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  sourceSentence: Schema.optional(Schema.String),
-  targetSentence: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdaptiveMtSentence" }) as any as Schema.Schema<AdaptiveMtSentence>;
+export const AdaptiveMtSentence: Schema.Schema<AdaptiveMtSentence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      sourceSentence: Schema.optional(Schema.String),
+      targetSentence: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdaptiveMtSentence",
+  }) as any as Schema.Schema<AdaptiveMtSentence>;
 
 export interface ListAdaptiveMtSentencesResponse {
   /** Output only. The list of AdaptiveMtSentences. */
@@ -957,10 +1244,15 @@ export interface ListAdaptiveMtSentencesResponse {
   nextPageToken?: string;
 }
 
-export const ListAdaptiveMtSentencesResponse: Schema.Schema<ListAdaptiveMtSentencesResponse> = Schema.suspend(() => Schema.Struct({
-  adaptiveMtSentences: Schema.optional(Schema.Array(AdaptiveMtSentence)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAdaptiveMtSentencesResponse" }) as any as Schema.Schema<ListAdaptiveMtSentencesResponse>;
+export const ListAdaptiveMtSentencesResponse: Schema.Schema<ListAdaptiveMtSentencesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adaptiveMtSentences: Schema.optional(Schema.Array(AdaptiveMtSentence)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAdaptiveMtSentencesResponse",
+  }) as any as Schema.Schema<ListAdaptiveMtSentencesResponse>;
 
 export interface InputFile {
   /** Optional. Usage of the file contents. Options are TRAIN|VALIDATION|TEST, or UNASSIGNED (by default) for auto split. */
@@ -969,55 +1261,82 @@ export interface InputFile {
   gcsSource?: GcsInputSource;
 }
 
-export const InputFile: Schema.Schema<InputFile> = Schema.suspend(() => Schema.Struct({
-  usage: Schema.optional(Schema.String),
-  gcsSource: Schema.optional(GcsInputSource),
-})).annotate({ identifier: "InputFile" }) as any as Schema.Schema<InputFile>;
+export const InputFile: Schema.Schema<InputFile> = Schema.suspend(() =>
+  Schema.Struct({
+    usage: Schema.optional(Schema.String),
+    gcsSource: Schema.optional(GcsInputSource),
+  }),
+).annotate({ identifier: "InputFile" }) as any as Schema.Schema<InputFile>;
 
 export interface DatasetInputConfig {
   /** Files containing the sentence pairs to be imported to the dataset. */
   inputFiles?: Array<InputFile>;
 }
 
-export const DatasetInputConfig: Schema.Schema<DatasetInputConfig> = Schema.suspend(() => Schema.Struct({
-  inputFiles: Schema.optional(Schema.Array(InputFile)),
-})).annotate({ identifier: "DatasetInputConfig" }) as any as Schema.Schema<DatasetInputConfig>;
+export const DatasetInputConfig: Schema.Schema<DatasetInputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputFiles: Schema.optional(Schema.Array(InputFile)),
+    }),
+  ).annotate({
+    identifier: "DatasetInputConfig",
+  }) as any as Schema.Schema<DatasetInputConfig>;
 
 export interface ImportDataRequest {
   /** Required. The config for the input content. */
   inputConfig?: DatasetInputConfig;
 }
 
-export const ImportDataRequest: Schema.Schema<ImportDataRequest> = Schema.suspend(() => Schema.Struct({
-  inputConfig: Schema.optional(DatasetInputConfig),
-})).annotate({ identifier: "ImportDataRequest" }) as any as Schema.Schema<ImportDataRequest>;
+export const ImportDataRequest: Schema.Schema<ImportDataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputConfig: Schema.optional(DatasetInputConfig),
+    }),
+  ).annotate({
+    identifier: "ImportDataRequest",
+  }) as any as Schema.Schema<ImportDataRequest>;
 
 export interface GcsOutputDestination {
   /** Required. Google Cloud Storage URI to output directory. For example, `gs://bucket/directory`. The requesting user must have write permission to the bucket. The directory will be created if it doesn't exist. */
   outputUriPrefix?: string;
 }
 
-export const GcsOutputDestination: Schema.Schema<GcsOutputDestination> = Schema.suspend(() => Schema.Struct({
-  outputUriPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "GcsOutputDestination" }) as any as Schema.Schema<GcsOutputDestination>;
+export const GcsOutputDestination: Schema.Schema<GcsOutputDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUriPrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GcsOutputDestination",
+  }) as any as Schema.Schema<GcsOutputDestination>;
 
 export interface DatasetOutputConfig {
   /** Google Cloud Storage destination to write the output. */
   gcsDestination?: GcsOutputDestination;
 }
 
-export const DatasetOutputConfig: Schema.Schema<DatasetOutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsDestination: Schema.optional(GcsOutputDestination),
-})).annotate({ identifier: "DatasetOutputConfig" }) as any as Schema.Schema<DatasetOutputConfig>;
+export const DatasetOutputConfig: Schema.Schema<DatasetOutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(GcsOutputDestination),
+    }),
+  ).annotate({
+    identifier: "DatasetOutputConfig",
+  }) as any as Schema.Schema<DatasetOutputConfig>;
 
 export interface ExportDataRequest {
   /** Required. The config for the output content. */
   outputConfig?: DatasetOutputConfig;
 }
 
-export const ExportDataRequest: Schema.Schema<ExportDataRequest> = Schema.suspend(() => Schema.Struct({
-  outputConfig: Schema.optional(DatasetOutputConfig),
-})).annotate({ identifier: "ExportDataRequest" }) as any as Schema.Schema<ExportDataRequest>;
+export const ExportDataRequest: Schema.Schema<ExportDataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputConfig: Schema.optional(DatasetOutputConfig),
+    }),
+  ).annotate({
+    identifier: "ExportDataRequest",
+  }) as any as Schema.Schema<ExportDataRequest>;
 
 export interface Example {
   /** Output only. The resource name of the example, in form of `projects/{project-number-or-id}/locations/{location_id}/datasets/{dataset_id}/examples/{example_id}` */
@@ -1030,12 +1349,14 @@ export interface Example {
   usage?: string;
 }
 
-export const Example: Schema.Schema<Example> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  sourceText: Schema.optional(Schema.String),
-  targetText: Schema.optional(Schema.String),
-  usage: Schema.optional(Schema.String),
-})).annotate({ identifier: "Example" }) as any as Schema.Schema<Example>;
+export const Example: Schema.Schema<Example> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    sourceText: Schema.optional(Schema.String),
+    targetText: Schema.optional(Schema.String),
+    usage: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Example" }) as any as Schema.Schema<Example>;
 
 export interface ListExamplesResponse {
   /** The sentence pairs. */
@@ -1044,10 +1365,15 @@ export interface ListExamplesResponse {
   nextPageToken?: string;
 }
 
-export const ListExamplesResponse: Schema.Schema<ListExamplesResponse> = Schema.suspend(() => Schema.Struct({
-  examples: Schema.optional(Schema.Array(Example)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListExamplesResponse" }) as any as Schema.Schema<ListExamplesResponse>;
+export const ListExamplesResponse: Schema.Schema<ListExamplesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      examples: Schema.optional(Schema.Array(Example)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListExamplesResponse",
+  }) as any as Schema.Schema<ListExamplesResponse>;
 
 export interface Model {
   /** The resource name of the model, in form of `projects/{project-number-or-id}/locations/{location_id}/models/{model_id}` */
@@ -1072,18 +1398,20 @@ export interface Model {
   updateTime?: string;
 }
 
-export const Model: Schema.Schema<Model> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-  trainExampleCount: Schema.optional(Schema.Number),
-  validateExampleCount: Schema.optional(Schema.Number),
-  testExampleCount: Schema.optional(Schema.Number),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Model" }) as any as Schema.Schema<Model>;
+export const Model: Schema.Schema<Model> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    dataset: Schema.optional(Schema.String),
+    sourceLanguageCode: Schema.optional(Schema.String),
+    targetLanguageCode: Schema.optional(Schema.String),
+    trainExampleCount: Schema.optional(Schema.Number),
+    validateExampleCount: Schema.optional(Schema.Number),
+    testExampleCount: Schema.optional(Schema.Number),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Model" }) as any as Schema.Schema<Model>;
 
 export interface ListModelsResponse {
   /** The models read. */
@@ -1092,10 +1420,15 @@ export interface ListModelsResponse {
   nextPageToken?: string;
 }
 
-export const ListModelsResponse: Schema.Schema<ListModelsResponse> = Schema.suspend(() => Schema.Struct({
-  models: Schema.optional(Schema.Array(Model)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListModelsResponse" }) as any as Schema.Schema<ListModelsResponse>;
+export const ListModelsResponse: Schema.Schema<ListModelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      models: Schema.optional(Schema.Array(Model)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListModelsResponse",
+  }) as any as Schema.Schema<ListModelsResponse>;
 
 export interface RefinementEntry {
   /** Required. The source text to be refined. */
@@ -1104,10 +1437,15 @@ export interface RefinementEntry {
   originalTranslation?: string;
 }
 
-export const RefinementEntry: Schema.Schema<RefinementEntry> = Schema.suspend(() => Schema.Struct({
-  sourceText: Schema.optional(Schema.String),
-  originalTranslation: Schema.optional(Schema.String),
-})).annotate({ identifier: "RefinementEntry" }) as any as Schema.Schema<RefinementEntry>;
+export const RefinementEntry: Schema.Schema<RefinementEntry> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sourceText: Schema.optional(Schema.String),
+      originalTranslation: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RefinementEntry",
+}) as any as Schema.Schema<RefinementEntry>;
 
 export interface RefineTextRequest {
   /** Required. The source texts and original translations in the source and target languages. */
@@ -1118,20 +1456,30 @@ export interface RefineTextRequest {
   targetLanguageCode?: string;
 }
 
-export const RefineTextRequest: Schema.Schema<RefineTextRequest> = Schema.suspend(() => Schema.Struct({
-  refinementEntries: Schema.optional(Schema.Array(RefinementEntry)),
-  sourceLanguageCode: Schema.optional(Schema.String),
-  targetLanguageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "RefineTextRequest" }) as any as Schema.Schema<RefineTextRequest>;
+export const RefineTextRequest: Schema.Schema<RefineTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      refinementEntries: Schema.optional(Schema.Array(RefinementEntry)),
+      sourceLanguageCode: Schema.optional(Schema.String),
+      targetLanguageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RefineTextRequest",
+  }) as any as Schema.Schema<RefineTextRequest>;
 
 export interface RefineTextResponse {
   /** The refined translations obtained from the original translations. */
   refinedTranslations?: Array<string>;
 }
 
-export const RefineTextResponse: Schema.Schema<RefineTextResponse> = Schema.suspend(() => Schema.Struct({
-  refinedTranslations: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RefineTextResponse" }) as any as Schema.Schema<RefineTextResponse>;
+export const RefineTextResponse: Schema.Schema<RefineTextResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      refinedTranslations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "RefineTextResponse",
+  }) as any as Schema.Schema<RefineTextResponse>;
 
 // ==========================================================================
 // Operations
@@ -1148,7 +1496,11 @@ export const TranslateTextProjectsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(TranslateTextRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:translateText", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:translateText",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TranslateTextProjectsRequest>;
 
@@ -1158,7 +1510,12 @@ export const TranslateTextProjectsResponse = TranslateTextResponse;
 export type TranslateTextProjectsError = DefaultErrors;
 
 /** Translates input text and returns translated text. */
-export const translateTextProjects: API.OperationMethod<TranslateTextProjectsRequest, TranslateTextProjectsResponse, TranslateTextProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const translateTextProjects: API.OperationMethod<
+  TranslateTextProjectsRequest,
+  TranslateTextProjectsResponse,
+  TranslateTextProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TranslateTextProjectsRequest,
   output: TranslateTextProjectsResponse,
   errors: [],
@@ -1175,7 +1532,11 @@ export const RomanizeTextProjectsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(RomanizeTextRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:romanizeText", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:romanizeText",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RomanizeTextProjectsRequest>;
 
@@ -1185,7 +1546,12 @@ export const RomanizeTextProjectsResponse = RomanizeTextResponse;
 export type RomanizeTextProjectsError = DefaultErrors;
 
 /** Romanize input text written in non-Latin scripts to Latin text. */
-export const romanizeTextProjects: API.OperationMethod<RomanizeTextProjectsRequest, RomanizeTextProjectsResponse, RomanizeTextProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const romanizeTextProjects: API.OperationMethod<
+  RomanizeTextProjectsRequest,
+  RomanizeTextProjectsResponse,
+  RomanizeTextProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RomanizeTextProjectsRequest,
   output: RomanizeTextProjectsResponse,
   errors: [],
@@ -1202,7 +1568,11 @@ export const DetectLanguageProjectsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(DetectLanguageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:detectLanguage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:detectLanguage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DetectLanguageProjectsRequest>;
 
@@ -1212,7 +1582,12 @@ export const DetectLanguageProjectsResponse = DetectLanguageResponse;
 export type DetectLanguageProjectsError = DefaultErrors;
 
 /** Detects the language of text within a request. */
-export const detectLanguageProjects: API.OperationMethod<DetectLanguageProjectsRequest, DetectLanguageProjectsResponse, DetectLanguageProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const detectLanguageProjects: API.OperationMethod<
+  DetectLanguageProjectsRequest,
+  DetectLanguageProjectsResponse,
+  DetectLanguageProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DetectLanguageProjectsRequest,
   output: DetectLanguageProjectsResponse,
   errors: [],
@@ -1229,10 +1604,15 @@ export interface GetSupportedLanguagesProjectsRequest {
 
 export const GetSupportedLanguagesProjectsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  displayLanguageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("displayLanguageCode")),
+  displayLanguageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("displayLanguageCode"),
+  ),
   model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/supportedLanguages" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/supportedLanguages",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSupportedLanguagesProjectsRequest>;
 
@@ -1242,7 +1622,12 @@ export const GetSupportedLanguagesProjectsResponse = SupportedLanguages;
 export type GetSupportedLanguagesProjectsError = DefaultErrors;
 
 /** Returns a list of supported languages for translation. */
-export const getSupportedLanguagesProjects: API.OperationMethod<GetSupportedLanguagesProjectsRequest, GetSupportedLanguagesProjectsResponse, GetSupportedLanguagesProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSupportedLanguagesProjects: API.OperationMethod<
+  GetSupportedLanguagesProjectsRequest,
+  GetSupportedLanguagesProjectsResponse,
+  GetSupportedLanguagesProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSupportedLanguagesProjectsRequest,
   output: GetSupportedLanguagesProjectsResponse,
   errors: [],
@@ -1266,7 +1651,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations" }),
   svc,
@@ -1278,7 +1665,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1296,7 +1688,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1306,7 +1701,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1323,7 +1723,11 @@ export const TranslateTextProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(TranslateTextRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:translateText", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:translateText",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TranslateTextProjectsLocationsRequest>;
 
@@ -1333,7 +1737,12 @@ export const TranslateTextProjectsLocationsResponse = TranslateTextResponse;
 export type TranslateTextProjectsLocationsError = DefaultErrors;
 
 /** Translates input text and returns translated text. */
-export const translateTextProjectsLocations: API.OperationMethod<TranslateTextProjectsLocationsRequest, TranslateTextProjectsLocationsResponse, TranslateTextProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const translateTextProjectsLocations: API.OperationMethod<
+  TranslateTextProjectsLocationsRequest,
+  TranslateTextProjectsLocationsResponse,
+  TranslateTextProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TranslateTextProjectsLocationsRequest,
   output: TranslateTextProjectsLocationsResponse,
   errors: [],
@@ -1350,7 +1759,11 @@ export const RomanizeTextProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(RomanizeTextRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:romanizeText", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:romanizeText",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RomanizeTextProjectsLocationsRequest>;
 
@@ -1360,7 +1773,12 @@ export const RomanizeTextProjectsLocationsResponse = RomanizeTextResponse;
 export type RomanizeTextProjectsLocationsError = DefaultErrors;
 
 /** Romanize input text written in non-Latin scripts to Latin text. */
-export const romanizeTextProjectsLocations: API.OperationMethod<RomanizeTextProjectsLocationsRequest, RomanizeTextProjectsLocationsResponse, RomanizeTextProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const romanizeTextProjectsLocations: API.OperationMethod<
+  RomanizeTextProjectsLocationsRequest,
+  RomanizeTextProjectsLocationsResponse,
+  RomanizeTextProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RomanizeTextProjectsLocationsRequest,
   output: RomanizeTextProjectsLocationsResponse,
   errors: [],
@@ -1377,7 +1795,11 @@ export const DetectLanguageProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(DetectLanguageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:detectLanguage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:detectLanguage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DetectLanguageProjectsLocationsRequest>;
 
@@ -1387,7 +1809,12 @@ export const DetectLanguageProjectsLocationsResponse = DetectLanguageResponse;
 export type DetectLanguageProjectsLocationsError = DefaultErrors;
 
 /** Detects the language of text within a request. */
-export const detectLanguageProjectsLocations: API.OperationMethod<DetectLanguageProjectsLocationsRequest, DetectLanguageProjectsLocationsResponse, DetectLanguageProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const detectLanguageProjectsLocations: API.OperationMethod<
+  DetectLanguageProjectsLocationsRequest,
+  DetectLanguageProjectsLocationsResponse,
+  DetectLanguageProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DetectLanguageProjectsLocationsRequest,
   output: DetectLanguageProjectsLocationsResponse,
   errors: [],
@@ -1404,20 +1831,31 @@ export interface GetSupportedLanguagesProjectsLocationsRequest {
 
 export const GetSupportedLanguagesProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  displayLanguageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("displayLanguageCode")),
+  displayLanguageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("displayLanguageCode"),
+  ),
   model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/supportedLanguages" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/supportedLanguages",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSupportedLanguagesProjectsLocationsRequest>;
 
 export type GetSupportedLanguagesProjectsLocationsResponse = SupportedLanguages;
-export const GetSupportedLanguagesProjectsLocationsResponse = SupportedLanguages;
+export const GetSupportedLanguagesProjectsLocationsResponse =
+  SupportedLanguages;
 
 export type GetSupportedLanguagesProjectsLocationsError = DefaultErrors;
 
 /** Returns a list of supported languages for translation. */
-export const getSupportedLanguagesProjectsLocations: API.OperationMethod<GetSupportedLanguagesProjectsLocationsRequest, GetSupportedLanguagesProjectsLocationsResponse, GetSupportedLanguagesProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSupportedLanguagesProjectsLocations: API.OperationMethod<
+  GetSupportedLanguagesProjectsLocationsRequest,
+  GetSupportedLanguagesProjectsLocationsResponse,
+  GetSupportedLanguagesProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSupportedLanguagesProjectsLocationsRequest,
   output: GetSupportedLanguagesProjectsLocationsResponse,
   errors: [],
@@ -1434,17 +1872,28 @@ export const TranslateDocumentProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(TranslateDocumentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:translateDocument", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:translateDocument",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TranslateDocumentProjectsLocationsRequest>;
 
-export type TranslateDocumentProjectsLocationsResponse = TranslateDocumentResponse;
-export const TranslateDocumentProjectsLocationsResponse = TranslateDocumentResponse;
+export type TranslateDocumentProjectsLocationsResponse =
+  TranslateDocumentResponse;
+export const TranslateDocumentProjectsLocationsResponse =
+  TranslateDocumentResponse;
 
 export type TranslateDocumentProjectsLocationsError = DefaultErrors;
 
 /** Translates documents in synchronous mode. */
-export const translateDocumentProjectsLocations: API.OperationMethod<TranslateDocumentProjectsLocationsRequest, TranslateDocumentProjectsLocationsResponse, TranslateDocumentProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const translateDocumentProjectsLocations: API.OperationMethod<
+  TranslateDocumentProjectsLocationsRequest,
+  TranslateDocumentProjectsLocationsResponse,
+  TranslateDocumentProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TranslateDocumentProjectsLocationsRequest,
   output: TranslateDocumentProjectsLocationsResponse,
   errors: [],
@@ -1461,7 +1910,11 @@ export const BatchTranslateTextProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchTranslateTextRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:batchTranslateText", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:batchTranslateText",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchTranslateTextProjectsLocationsRequest>;
 
@@ -1471,7 +1924,12 @@ export const BatchTranslateTextProjectsLocationsResponse = Operation;
 export type BatchTranslateTextProjectsLocationsError = DefaultErrors;
 
 /** Translates a large volume of text in asynchronous batch mode. This function provides real-time output as the inputs are being processed. If caller cancels a request, the partial results (for an input file, it's all or nothing) may still be available on the specified output location. This call returns immediately and you can use google.longrunning.Operation.name to poll the status of the call. */
-export const batchTranslateTextProjectsLocations: API.OperationMethod<BatchTranslateTextProjectsLocationsRequest, BatchTranslateTextProjectsLocationsResponse, BatchTranslateTextProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchTranslateTextProjectsLocations: API.OperationMethod<
+  BatchTranslateTextProjectsLocationsRequest,
+  BatchTranslateTextProjectsLocationsResponse,
+  BatchTranslateTextProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchTranslateTextProjectsLocationsRequest,
   output: BatchTranslateTextProjectsLocationsResponse,
   errors: [],
@@ -1488,7 +1946,11 @@ export const BatchTranslateDocumentProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchTranslateDocumentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:batchTranslateDocument", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:batchTranslateDocument",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchTranslateDocumentProjectsLocationsRequest>;
 
@@ -1498,7 +1960,12 @@ export const BatchTranslateDocumentProjectsLocationsResponse = Operation;
 export type BatchTranslateDocumentProjectsLocationsError = DefaultErrors;
 
 /** Translates a large volume of document in asynchronous batch mode. This function provides real-time output as the inputs are being processed. If caller cancels a request, the partial results (for an input file, it's all or nothing) may still be available on the specified output location. This call returns immediately and you can use google.longrunning.Operation.name to poll the status of the call. */
-export const batchTranslateDocumentProjectsLocations: API.OperationMethod<BatchTranslateDocumentProjectsLocationsRequest, BatchTranslateDocumentProjectsLocationsResponse, BatchTranslateDocumentProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchTranslateDocumentProjectsLocations: API.OperationMethod<
+  BatchTranslateDocumentProjectsLocationsRequest,
+  BatchTranslateDocumentProjectsLocationsResponse,
+  BatchTranslateDocumentProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchTranslateDocumentProjectsLocationsRequest,
   output: BatchTranslateDocumentProjectsLocationsResponse,
   errors: [],
@@ -1515,17 +1982,28 @@ export const AdaptiveMtTranslateProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AdaptiveMtTranslateRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:adaptiveMtTranslate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:adaptiveMtTranslate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AdaptiveMtTranslateProjectsLocationsRequest>;
 
-export type AdaptiveMtTranslateProjectsLocationsResponse = AdaptiveMtTranslateResponse;
-export const AdaptiveMtTranslateProjectsLocationsResponse = AdaptiveMtTranslateResponse;
+export type AdaptiveMtTranslateProjectsLocationsResponse =
+  AdaptiveMtTranslateResponse;
+export const AdaptiveMtTranslateProjectsLocationsResponse =
+  AdaptiveMtTranslateResponse;
 
 export type AdaptiveMtTranslateProjectsLocationsError = DefaultErrors;
 
 /** Translate text using Adaptive MT. */
-export const adaptiveMtTranslateProjectsLocations: API.OperationMethod<AdaptiveMtTranslateProjectsLocationsRequest, AdaptiveMtTranslateProjectsLocationsResponse, AdaptiveMtTranslateProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const adaptiveMtTranslateProjectsLocations: API.OperationMethod<
+  AdaptiveMtTranslateProjectsLocationsRequest,
+  AdaptiveMtTranslateProjectsLocationsResponse,
+  AdaptiveMtTranslateProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AdaptiveMtTranslateProjectsLocationsRequest,
   output: AdaptiveMtTranslateProjectsLocationsResponse,
   errors: [],
@@ -1542,7 +2020,11 @@ export const RefineTextProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(RefineTextRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}:refineText", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}:refineText",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RefineTextProjectsLocationsRequest>;
 
@@ -1552,7 +2034,12 @@ export const RefineTextProjectsLocationsResponse = RefineTextResponse;
 export type RefineTextProjectsLocationsError = DefaultErrors;
 
 /** Refines the input translated text to improve the quality. */
-export const refineTextProjectsLocations: API.OperationMethod<RefineTextProjectsLocationsRequest, RefineTextProjectsLocationsResponse, RefineTextProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const refineTextProjectsLocations: API.OperationMethod<
+  RefineTextProjectsLocationsRequest,
+  RefineTextProjectsLocationsResponse,
+  RefineTextProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RefineTextProjectsLocationsRequest,
   output: RefineTextProjectsLocationsResponse,
   errors: [],
@@ -1576,9 +2063,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1588,7 +2080,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1606,7 +2103,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1616,7 +2116,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1630,7 +2135,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1640,7 +2148,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1657,7 +2170,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -1667,7 +2184,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -1684,7 +2206,11 @@ export const WaitProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(WaitOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:wait", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:wait",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WaitProjectsLocationsOperationsRequest>;
 
@@ -1694,7 +2220,12 @@ export const WaitProjectsLocationsOperationsResponse = Operation;
 export type WaitProjectsLocationsOperationsError = DefaultErrors;
 
 /** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
-export const waitProjectsLocationsOperations: API.OperationMethod<WaitProjectsLocationsOperationsRequest, WaitProjectsLocationsOperationsResponse, WaitProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const waitProjectsLocationsOperations: API.OperationMethod<
+  WaitProjectsLocationsOperationsRequest,
+  WaitProjectsLocationsOperationsResponse,
+  WaitProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WaitProjectsLocationsOperationsRequest,
   output: WaitProjectsLocationsOperationsResponse,
   errors: [],
@@ -1711,7 +2242,11 @@ export const CreateProjectsLocationsGlossariesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Glossary).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsGlossariesRequest>;
 
@@ -1721,7 +2256,12 @@ export const CreateProjectsLocationsGlossariesResponse = Operation;
 export type CreateProjectsLocationsGlossariesError = DefaultErrors;
 
 /** Creates a glossary and returns the long-running operation. Returns NOT_FOUND, if the project doesn't exist. */
-export const createProjectsLocationsGlossaries: API.OperationMethod<CreateProjectsLocationsGlossariesRequest, CreateProjectsLocationsGlossariesResponse, CreateProjectsLocationsGlossariesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsGlossaries: API.OperationMethod<
+  CreateProjectsLocationsGlossariesRequest,
+  CreateProjectsLocationsGlossariesResponse,
+  CreateProjectsLocationsGlossariesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsGlossariesRequest,
   output: CreateProjectsLocationsGlossariesResponse,
   errors: [],
@@ -1741,7 +2281,11 @@ export const PatchProjectsLocationsGlossariesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Glossary).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsGlossariesRequest>;
 
@@ -1751,7 +2295,12 @@ export const PatchProjectsLocationsGlossariesResponse = Operation;
 export type PatchProjectsLocationsGlossariesError = DefaultErrors;
 
 /** Updates a glossary. A LRO is used since the update can be async if the glossary's entry file is updated. */
-export const patchProjectsLocationsGlossaries: API.OperationMethod<PatchProjectsLocationsGlossariesRequest, PatchProjectsLocationsGlossariesResponse, PatchProjectsLocationsGlossariesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsGlossaries: API.OperationMethod<
+  PatchProjectsLocationsGlossariesRequest,
+  PatchProjectsLocationsGlossariesResponse,
+  PatchProjectsLocationsGlossariesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsGlossariesRequest,
   output: PatchProjectsLocationsGlossariesResponse,
   errors: [],
@@ -1774,7 +2323,10 @@ export const ListProjectsLocationsGlossariesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsGlossariesRequest>;
 
@@ -1784,7 +2336,12 @@ export const ListProjectsLocationsGlossariesResponse = ListGlossariesResponse;
 export type ListProjectsLocationsGlossariesError = DefaultErrors;
 
 /** Lists glossaries in a project. Returns NOT_FOUND, if the project doesn't exist. */
-export const listProjectsLocationsGlossaries: API.PaginatedOperationMethod<ListProjectsLocationsGlossariesRequest, ListProjectsLocationsGlossariesResponse, ListProjectsLocationsGlossariesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsGlossaries: API.PaginatedOperationMethod<
+  ListProjectsLocationsGlossariesRequest,
+  ListProjectsLocationsGlossariesResponse,
+  ListProjectsLocationsGlossariesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlossariesRequest,
   output: ListProjectsLocationsGlossariesResponse,
   errors: [],
@@ -1802,7 +2359,10 @@ export interface GetProjectsLocationsGlossariesRequest {
 export const GetProjectsLocationsGlossariesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsGlossariesRequest>;
 
@@ -1812,7 +2372,12 @@ export const GetProjectsLocationsGlossariesResponse = Glossary;
 export type GetProjectsLocationsGlossariesError = DefaultErrors;
 
 /** Gets a glossary. Returns NOT_FOUND, if the glossary doesn't exist. */
-export const getProjectsLocationsGlossaries: API.OperationMethod<GetProjectsLocationsGlossariesRequest, GetProjectsLocationsGlossariesResponse, GetProjectsLocationsGlossariesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsGlossaries: API.OperationMethod<
+  GetProjectsLocationsGlossariesRequest,
+  GetProjectsLocationsGlossariesResponse,
+  GetProjectsLocationsGlossariesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsGlossariesRequest,
   output: GetProjectsLocationsGlossariesResponse,
   errors: [],
@@ -1826,7 +2391,10 @@ export interface DeleteProjectsLocationsGlossariesRequest {
 export const DeleteProjectsLocationsGlossariesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsGlossariesRequest>;
 
@@ -1836,7 +2404,12 @@ export const DeleteProjectsLocationsGlossariesResponse = Operation;
 export type DeleteProjectsLocationsGlossariesError = DefaultErrors;
 
 /** Deletes a glossary, or cancels glossary construction if the glossary isn't created yet. Returns NOT_FOUND, if the glossary doesn't exist. */
-export const deleteProjectsLocationsGlossaries: API.OperationMethod<DeleteProjectsLocationsGlossariesRequest, DeleteProjectsLocationsGlossariesResponse, DeleteProjectsLocationsGlossariesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsGlossaries: API.OperationMethod<
+  DeleteProjectsLocationsGlossariesRequest,
+  DeleteProjectsLocationsGlossariesResponse,
+  DeleteProjectsLocationsGlossariesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsGlossariesRequest,
   output: DeleteProjectsLocationsGlossariesResponse,
   errors: [],
@@ -1847,20 +2420,31 @@ export interface GetProjectsLocationsGlossariesGlossaryEntriesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsGlossariesGlossaryEntriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries/{glossaryEntriesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsGlossariesGlossaryEntriesRequest>;
+export const GetProjectsLocationsGlossariesGlossaryEntriesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries/{glossaryEntriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsGlossariesGlossaryEntriesRequest>;
 
-export type GetProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryEntry;
-export const GetProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryEntry;
+export type GetProjectsLocationsGlossariesGlossaryEntriesResponse =
+  GlossaryEntry;
+export const GetProjectsLocationsGlossariesGlossaryEntriesResponse =
+  GlossaryEntry;
 
 export type GetProjectsLocationsGlossariesGlossaryEntriesError = DefaultErrors;
 
 /** Gets a single glossary entry by the given id. */
-export const getProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<GetProjectsLocationsGlossariesGlossaryEntriesRequest, GetProjectsLocationsGlossariesGlossaryEntriesResponse, GetProjectsLocationsGlossariesGlossaryEntriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<
+  GetProjectsLocationsGlossariesGlossaryEntriesRequest,
+  GetProjectsLocationsGlossariesGlossaryEntriesResponse,
+  GetProjectsLocationsGlossariesGlossaryEntriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: GetProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
@@ -1875,22 +2459,33 @@ export interface ListProjectsLocationsGlossariesGlossaryEntriesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsGlossariesGlossaryEntriesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsGlossariesGlossaryEntriesRequest>;
+export const ListProjectsLocationsGlossariesGlossaryEntriesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsGlossariesGlossaryEntriesRequest>;
 
-export type ListProjectsLocationsGlossariesGlossaryEntriesResponse = ListGlossaryEntriesResponse;
-export const ListProjectsLocationsGlossariesGlossaryEntriesResponse = ListGlossaryEntriesResponse;
+export type ListProjectsLocationsGlossariesGlossaryEntriesResponse =
+  ListGlossaryEntriesResponse;
+export const ListProjectsLocationsGlossariesGlossaryEntriesResponse =
+  ListGlossaryEntriesResponse;
 
 export type ListProjectsLocationsGlossariesGlossaryEntriesError = DefaultErrors;
 
 /** List the entries for the glossary. */
-export const listProjectsLocationsGlossariesGlossaryEntries: API.PaginatedOperationMethod<ListProjectsLocationsGlossariesGlossaryEntriesRequest, ListProjectsLocationsGlossariesGlossaryEntriesResponse, ListProjectsLocationsGlossariesGlossaryEntriesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsGlossariesGlossaryEntries: API.PaginatedOperationMethod<
+  ListProjectsLocationsGlossariesGlossaryEntriesRequest,
+  ListProjectsLocationsGlossariesGlossaryEntriesResponse,
+  ListProjectsLocationsGlossariesGlossaryEntriesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: ListProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
@@ -1907,21 +2502,34 @@ export interface CreateProjectsLocationsGlossariesGlossaryEntriesRequest {
   body?: GlossaryEntry;
 }
 
-export const CreateProjectsLocationsGlossariesGlossaryEntriesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GlossaryEntry).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsGlossariesGlossaryEntriesRequest>;
+export const CreateProjectsLocationsGlossariesGlossaryEntriesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GlossaryEntry).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsGlossariesGlossaryEntriesRequest>;
 
-export type CreateProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryEntry;
-export const CreateProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryEntry;
+export type CreateProjectsLocationsGlossariesGlossaryEntriesResponse =
+  GlossaryEntry;
+export const CreateProjectsLocationsGlossariesGlossaryEntriesResponse =
+  GlossaryEntry;
 
-export type CreateProjectsLocationsGlossariesGlossaryEntriesError = DefaultErrors;
+export type CreateProjectsLocationsGlossariesGlossaryEntriesError =
+  DefaultErrors;
 
 /** Creates a glossary entry. */
-export const createProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<CreateProjectsLocationsGlossariesGlossaryEntriesRequest, CreateProjectsLocationsGlossariesGlossaryEntriesResponse, CreateProjectsLocationsGlossariesGlossaryEntriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<
+  CreateProjectsLocationsGlossariesGlossaryEntriesRequest,
+  CreateProjectsLocationsGlossariesGlossaryEntriesResponse,
+  CreateProjectsLocationsGlossariesGlossaryEntriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: CreateProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
@@ -1934,21 +2542,34 @@ export interface PatchProjectsLocationsGlossariesGlossaryEntriesRequest {
   body?: GlossaryEntry;
 }
 
-export const PatchProjectsLocationsGlossariesGlossaryEntriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GlossaryEntry).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries/{glossaryEntriesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsGlossariesGlossaryEntriesRequest>;
+export const PatchProjectsLocationsGlossariesGlossaryEntriesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GlossaryEntry).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries/{glossaryEntriesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsGlossariesGlossaryEntriesRequest>;
 
-export type PatchProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryEntry;
-export const PatchProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryEntry;
+export type PatchProjectsLocationsGlossariesGlossaryEntriesResponse =
+  GlossaryEntry;
+export const PatchProjectsLocationsGlossariesGlossaryEntriesResponse =
+  GlossaryEntry;
 
-export type PatchProjectsLocationsGlossariesGlossaryEntriesError = DefaultErrors;
+export type PatchProjectsLocationsGlossariesGlossaryEntriesError =
+  DefaultErrors;
 
 /** Updates a glossary entry. */
-export const patchProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<PatchProjectsLocationsGlossariesGlossaryEntriesRequest, PatchProjectsLocationsGlossariesGlossaryEntriesResponse, PatchProjectsLocationsGlossariesGlossaryEntriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<
+  PatchProjectsLocationsGlossariesGlossaryEntriesRequest,
+  PatchProjectsLocationsGlossariesGlossaryEntriesResponse,
+  PatchProjectsLocationsGlossariesGlossaryEntriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: PatchProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
@@ -1959,20 +2580,30 @@ export interface DeleteProjectsLocationsGlossariesGlossaryEntriesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsGlossariesGlossaryEntriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries/{glossaryEntriesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsGlossariesGlossaryEntriesRequest>;
+export const DeleteProjectsLocationsGlossariesGlossaryEntriesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/glossaries/{glossariesId}/glossaryEntries/{glossaryEntriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsGlossariesGlossaryEntriesRequest>;
 
 export type DeleteProjectsLocationsGlossariesGlossaryEntriesResponse = Empty;
 export const DeleteProjectsLocationsGlossariesGlossaryEntriesResponse = Empty;
 
-export type DeleteProjectsLocationsGlossariesGlossaryEntriesError = DefaultErrors;
+export type DeleteProjectsLocationsGlossariesGlossaryEntriesError =
+  DefaultErrors;
 
 /** Deletes a single entry from the glossary */
-export const deleteProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<DeleteProjectsLocationsGlossariesGlossaryEntriesRequest, DeleteProjectsLocationsGlossariesGlossaryEntriesResponse, DeleteProjectsLocationsGlossariesGlossaryEntriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<
+  DeleteProjectsLocationsGlossariesGlossaryEntriesRequest,
+  DeleteProjectsLocationsGlossariesGlossaryEntriesResponse,
+  DeleteProjectsLocationsGlossariesGlossaryEntriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: DeleteProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
@@ -1989,7 +2620,11 @@ export const CreateProjectsLocationsDatasetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Dataset).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/datasets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/datasets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsDatasetsRequest>;
 
@@ -1999,7 +2634,12 @@ export const CreateProjectsLocationsDatasetsResponse = Operation;
 export type CreateProjectsLocationsDatasetsError = DefaultErrors;
 
 /** Creates a Dataset. */
-export const createProjectsLocationsDatasets: API.OperationMethod<CreateProjectsLocationsDatasetsRequest, CreateProjectsLocationsDatasetsResponse, CreateProjectsLocationsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsDatasets: API.OperationMethod<
+  CreateProjectsLocationsDatasetsRequest,
+  CreateProjectsLocationsDatasetsResponse,
+  CreateProjectsLocationsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsDatasetsRequest,
   output: CreateProjectsLocationsDatasetsResponse,
   errors: [],
@@ -2013,7 +2653,10 @@ export interface GetProjectsLocationsDatasetsRequest {
 export const GetProjectsLocationsDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsDatasetsRequest>;
 
@@ -2023,7 +2666,12 @@ export const GetProjectsLocationsDatasetsResponse = Dataset;
 export type GetProjectsLocationsDatasetsError = DefaultErrors;
 
 /** Gets a Dataset. */
-export const getProjectsLocationsDatasets: API.OperationMethod<GetProjectsLocationsDatasetsRequest, GetProjectsLocationsDatasetsResponse, GetProjectsLocationsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsDatasets: API.OperationMethod<
+  GetProjectsLocationsDatasetsRequest,
+  GetProjectsLocationsDatasetsResponse,
+  GetProjectsLocationsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsDatasetsRequest,
   output: GetProjectsLocationsDatasetsResponse,
   errors: [],
@@ -2043,7 +2691,10 @@ export const ListProjectsLocationsDatasetsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/datasets" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/datasets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsDatasetsRequest>;
 
@@ -2053,7 +2704,12 @@ export const ListProjectsLocationsDatasetsResponse = ListDatasetsResponse;
 export type ListProjectsLocationsDatasetsError = DefaultErrors;
 
 /** Lists datasets. */
-export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<ListProjectsLocationsDatasetsRequest, ListProjectsLocationsDatasetsResponse, ListProjectsLocationsDatasetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
+  ListProjectsLocationsDatasetsRequest,
+  ListProjectsLocationsDatasetsResponse,
+  ListProjectsLocationsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsRequest,
   output: ListProjectsLocationsDatasetsResponse,
   errors: [],
@@ -2071,7 +2727,10 @@ export interface DeleteProjectsLocationsDatasetsRequest {
 export const DeleteProjectsLocationsDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsDatasetsRequest>;
 
@@ -2081,7 +2740,12 @@ export const DeleteProjectsLocationsDatasetsResponse = Operation;
 export type DeleteProjectsLocationsDatasetsError = DefaultErrors;
 
 /** Deletes a dataset and all of its contents. */
-export const deleteProjectsLocationsDatasets: API.OperationMethod<DeleteProjectsLocationsDatasetsRequest, DeleteProjectsLocationsDatasetsResponse, DeleteProjectsLocationsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsDatasets: API.OperationMethod<
+  DeleteProjectsLocationsDatasetsRequest,
+  DeleteProjectsLocationsDatasetsResponse,
+  DeleteProjectsLocationsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsDatasetsRequest,
   output: DeleteProjectsLocationsDatasetsResponse,
   errors: [],
@@ -2098,7 +2762,11 @@ export const ImportDataProjectsLocationsDatasetsRequest = Schema.Struct({
   dataset: Schema.String.pipe(T.HttpPath("dataset")),
   body: Schema.optional(ImportDataRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}:importData", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}:importData",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ImportDataProjectsLocationsDatasetsRequest>;
 
@@ -2108,7 +2776,12 @@ export const ImportDataProjectsLocationsDatasetsResponse = Operation;
 export type ImportDataProjectsLocationsDatasetsError = DefaultErrors;
 
 /** Import sentence pairs into translation Dataset. */
-export const importDataProjectsLocationsDatasets: API.OperationMethod<ImportDataProjectsLocationsDatasetsRequest, ImportDataProjectsLocationsDatasetsResponse, ImportDataProjectsLocationsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importDataProjectsLocationsDatasets: API.OperationMethod<
+  ImportDataProjectsLocationsDatasetsRequest,
+  ImportDataProjectsLocationsDatasetsResponse,
+  ImportDataProjectsLocationsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportDataProjectsLocationsDatasetsRequest,
   output: ImportDataProjectsLocationsDatasetsResponse,
   errors: [],
@@ -2125,7 +2798,11 @@ export const ExportDataProjectsLocationsDatasetsRequest = Schema.Struct({
   dataset: Schema.String.pipe(T.HttpPath("dataset")),
   body: Schema.optional(ExportDataRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}:exportData", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}:exportData",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExportDataProjectsLocationsDatasetsRequest>;
 
@@ -2135,7 +2812,12 @@ export const ExportDataProjectsLocationsDatasetsResponse = Operation;
 export type ExportDataProjectsLocationsDatasetsError = DefaultErrors;
 
 /** Exports dataset's data to the provided output location. */
-export const exportDataProjectsLocationsDatasets: API.OperationMethod<ExportDataProjectsLocationsDatasetsRequest, ExportDataProjectsLocationsDatasetsResponse, ExportDataProjectsLocationsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const exportDataProjectsLocationsDatasets: API.OperationMethod<
+  ExportDataProjectsLocationsDatasetsRequest,
+  ExportDataProjectsLocationsDatasetsResponse,
+  ExportDataProjectsLocationsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExportDataProjectsLocationsDatasetsRequest,
   output: ExportDataProjectsLocationsDatasetsResponse,
   errors: [],
@@ -2158,17 +2840,27 @@ export const ListProjectsLocationsDatasetsExamplesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/examples" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/examples",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsDatasetsExamplesRequest>;
 
-export type ListProjectsLocationsDatasetsExamplesResponse = ListExamplesResponse;
-export const ListProjectsLocationsDatasetsExamplesResponse = ListExamplesResponse;
+export type ListProjectsLocationsDatasetsExamplesResponse =
+  ListExamplesResponse;
+export const ListProjectsLocationsDatasetsExamplesResponse =
+  ListExamplesResponse;
 
 export type ListProjectsLocationsDatasetsExamplesError = DefaultErrors;
 
 /** Lists sentence pairs in the dataset. */
-export const listProjectsLocationsDatasetsExamples: API.PaginatedOperationMethod<ListProjectsLocationsDatasetsExamplesRequest, ListProjectsLocationsDatasetsExamplesResponse, ListProjectsLocationsDatasetsExamplesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsDatasetsExamples: API.PaginatedOperationMethod<
+  ListProjectsLocationsDatasetsExamplesRequest,
+  ListProjectsLocationsDatasetsExamplesResponse,
+  ListProjectsLocationsDatasetsExamplesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsExamplesRequest,
   output: ListProjectsLocationsDatasetsExamplesResponse,
   errors: [],
@@ -2189,17 +2881,28 @@ export const CreateProjectsLocationsAdaptiveMtDatasetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AdaptiveMtDataset).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsAdaptiveMtDatasetsRequest>;
 
-export type CreateProjectsLocationsAdaptiveMtDatasetsResponse = AdaptiveMtDataset;
-export const CreateProjectsLocationsAdaptiveMtDatasetsResponse = AdaptiveMtDataset;
+export type CreateProjectsLocationsAdaptiveMtDatasetsResponse =
+  AdaptiveMtDataset;
+export const CreateProjectsLocationsAdaptiveMtDatasetsResponse =
+  AdaptiveMtDataset;
 
 export type CreateProjectsLocationsAdaptiveMtDatasetsError = DefaultErrors;
 
 /** Creates an Adaptive MT dataset. */
-export const createProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<CreateProjectsLocationsAdaptiveMtDatasetsRequest, CreateProjectsLocationsAdaptiveMtDatasetsResponse, CreateProjectsLocationsAdaptiveMtDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<
+  CreateProjectsLocationsAdaptiveMtDatasetsRequest,
+  CreateProjectsLocationsAdaptiveMtDatasetsResponse,
+  CreateProjectsLocationsAdaptiveMtDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsAdaptiveMtDatasetsRequest,
   output: CreateProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
@@ -2213,7 +2916,10 @@ export interface DeleteProjectsLocationsAdaptiveMtDatasetsRequest {
 export const DeleteProjectsLocationsAdaptiveMtDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsAdaptiveMtDatasetsRequest>;
 
@@ -2223,7 +2929,12 @@ export const DeleteProjectsLocationsAdaptiveMtDatasetsResponse = Empty;
 export type DeleteProjectsLocationsAdaptiveMtDatasetsError = DefaultErrors;
 
 /** Deletes an Adaptive MT dataset, including all its entries and associated metadata. */
-export const deleteProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<DeleteProjectsLocationsAdaptiveMtDatasetsRequest, DeleteProjectsLocationsAdaptiveMtDatasetsResponse, DeleteProjectsLocationsAdaptiveMtDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<
+  DeleteProjectsLocationsAdaptiveMtDatasetsRequest,
+  DeleteProjectsLocationsAdaptiveMtDatasetsResponse,
+  DeleteProjectsLocationsAdaptiveMtDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsAdaptiveMtDatasetsRequest,
   output: DeleteProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
@@ -2237,7 +2948,10 @@ export interface GetProjectsLocationsAdaptiveMtDatasetsRequest {
 export const GetProjectsLocationsAdaptiveMtDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsAdaptiveMtDatasetsRequest>;
 
@@ -2247,7 +2961,12 @@ export const GetProjectsLocationsAdaptiveMtDatasetsResponse = AdaptiveMtDataset;
 export type GetProjectsLocationsAdaptiveMtDatasetsError = DefaultErrors;
 
 /** Gets the Adaptive MT dataset. */
-export const getProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<GetProjectsLocationsAdaptiveMtDatasetsRequest, GetProjectsLocationsAdaptiveMtDatasetsResponse, GetProjectsLocationsAdaptiveMtDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<
+  GetProjectsLocationsAdaptiveMtDatasetsRequest,
+  GetProjectsLocationsAdaptiveMtDatasetsResponse,
+  GetProjectsLocationsAdaptiveMtDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsAdaptiveMtDatasetsRequest,
   output: GetProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
@@ -2270,17 +2989,27 @@ export const ListProjectsLocationsAdaptiveMtDatasetsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsAdaptiveMtDatasetsRequest>;
 
-export type ListProjectsLocationsAdaptiveMtDatasetsResponse = ListAdaptiveMtDatasetsResponse;
-export const ListProjectsLocationsAdaptiveMtDatasetsResponse = ListAdaptiveMtDatasetsResponse;
+export type ListProjectsLocationsAdaptiveMtDatasetsResponse =
+  ListAdaptiveMtDatasetsResponse;
+export const ListProjectsLocationsAdaptiveMtDatasetsResponse =
+  ListAdaptiveMtDatasetsResponse;
 
 export type ListProjectsLocationsAdaptiveMtDatasetsError = DefaultErrors;
 
 /** Lists all Adaptive MT datasets for which the caller has read permission. */
-export const listProjectsLocationsAdaptiveMtDatasets: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsRequest, ListProjectsLocationsAdaptiveMtDatasetsResponse, ListProjectsLocationsAdaptiveMtDatasetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsAdaptiveMtDatasets: API.PaginatedOperationMethod<
+  ListProjectsLocationsAdaptiveMtDatasetsRequest,
+  ListProjectsLocationsAdaptiveMtDatasetsResponse,
+  ListProjectsLocationsAdaptiveMtDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsAdaptiveMtDatasetsRequest,
   output: ListProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
@@ -2297,21 +3026,34 @@ export interface ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest 
   body?: ImportAdaptiveMtFileRequest;
 }
 
-export const ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ImportAdaptiveMtFileRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}:importAdaptiveMtFile", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest>;
+export const ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ImportAdaptiveMtFileRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}:importAdaptiveMtFile",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest>;
 
-export type ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse = ImportAdaptiveMtFileResponse;
-export const ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse = ImportAdaptiveMtFileResponse;
+export type ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse =
+  ImportAdaptiveMtFileResponse;
+export const ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse =
+  ImportAdaptiveMtFileResponse;
 
-export type ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsError = DefaultErrors;
+export type ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsError =
+  DefaultErrors;
 
 /** Imports an AdaptiveMtFile and adds all of its sentences into the AdaptiveMtDataset. */
-export const importAdaptiveMtFileProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest, ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse, ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importAdaptiveMtFileProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<
+  ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest,
+  ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse,
+  ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest,
   output: ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
@@ -2322,20 +3064,32 @@ export interface GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles/{adaptiveMtFilesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest>;
+export const GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles/{adaptiveMtFilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest>;
 
-export type GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = AdaptiveMtFile;
-export const GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = AdaptiveMtFile;
+export type GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse =
+  AdaptiveMtFile;
+export const GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse =
+  AdaptiveMtFile;
 
-export type GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError = DefaultErrors;
+export type GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError =
+  DefaultErrors;
 
 /** Gets and AdaptiveMtFile */
-export const getProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.OperationMethod<GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest, GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse, GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.OperationMethod<
+  GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
+  GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
+  GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
   output: GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
   errors: [],
@@ -2346,20 +3100,32 @@ export interface DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest
   name: string;
 }
 
-export const DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles/{adaptiveMtFilesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest>;
+export const DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles/{adaptiveMtFilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest>;
 
-export type DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = Empty;
-export const DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = Empty;
+export type DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse =
+  Empty;
+export const DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse =
+  Empty;
 
-export type DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError = DefaultErrors;
+export type DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError =
+  DefaultErrors;
 
 /** Deletes an AdaptiveMtFile along with its sentences. */
-export const deleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.OperationMethod<DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest, DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse, DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.OperationMethod<
+  DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
+  DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
+  DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
   output: DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
   errors: [],
@@ -2374,22 +3140,34 @@ export interface ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest>;
+export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest>;
 
-export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = ListAdaptiveMtFilesResponse;
-export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = ListAdaptiveMtFilesResponse;
+export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse =
+  ListAdaptiveMtFilesResponse;
+export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse =
+  ListAdaptiveMtFilesResponse;
 
-export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError = DefaultErrors;
+export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError =
+  DefaultErrors;
 
 /** Lists all AdaptiveMtFiles associated to an AdaptiveMtDataset. */
-export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.PaginatedOperationMethod<
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
   output: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
   errors: [],
@@ -2407,24 +3185,38 @@ export interface ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveM
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles/{adaptiveMtFilesId}/adaptiveMtSentences" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest>;
+export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtFiles/{adaptiveMtFilesId}/adaptiveMtSentences",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest>;
 
-export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse = ListAdaptiveMtSentencesResponse;
-export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse = ListAdaptiveMtSentencesResponse;
+export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse =
+  ListAdaptiveMtSentencesResponse;
+export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse =
+  ListAdaptiveMtSentencesResponse;
 
-export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesError = DefaultErrors;
+export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesError =
+  DefaultErrors;
 
 /** Lists all AdaptiveMtSentences under a given file/dataset. */
-export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentences: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
-  input: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest,
-  output: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse,
+export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentences: API.PaginatedOperationMethod<
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest,
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse,
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input:
+    ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest,
+  output:
+    ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -2440,22 +3232,34 @@ export interface ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesReque
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtSentences" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest>;
+export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/projects/{projectsId}/locations/{locationsId}/adaptiveMtDatasets/{adaptiveMtDatasetsId}/adaptiveMtSentences",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest>;
 
-export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse = ListAdaptiveMtSentencesResponse;
-export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse = ListAdaptiveMtSentencesResponse;
+export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse =
+  ListAdaptiveMtSentencesResponse;
+export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse =
+  ListAdaptiveMtSentencesResponse;
 
-export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesError = DefaultErrors;
+export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesError =
+  DefaultErrors;
 
 /** Lists all AdaptiveMtSentences under a given file/dataset. */
-export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences: API.PaginatedOperationMethod<
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest,
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse,
+  ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest,
   output: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse,
   errors: [],
@@ -2476,7 +3280,11 @@ export const CreateProjectsLocationsModelsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Model).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}/locations/{locationsId}/models", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/models",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsModelsRequest>;
 
@@ -2486,7 +3294,12 @@ export const CreateProjectsLocationsModelsResponse = Operation;
 export type CreateProjectsLocationsModelsError = DefaultErrors;
 
 /** Creates a Model. */
-export const createProjectsLocationsModels: API.OperationMethod<CreateProjectsLocationsModelsRequest, CreateProjectsLocationsModelsResponse, CreateProjectsLocationsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsModels: API.OperationMethod<
+  CreateProjectsLocationsModelsRequest,
+  CreateProjectsLocationsModelsResponse,
+  CreateProjectsLocationsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsModelsRequest,
   output: CreateProjectsLocationsModelsResponse,
   errors: [],
@@ -2509,7 +3322,10 @@ export const ListProjectsLocationsModelsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/models" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/models",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsModelsRequest>;
 
@@ -2519,7 +3335,12 @@ export const ListProjectsLocationsModelsResponse = ListModelsResponse;
 export type ListProjectsLocationsModelsError = DefaultErrors;
 
 /** Lists models. */
-export const listProjectsLocationsModels: API.PaginatedOperationMethod<ListProjectsLocationsModelsRequest, ListProjectsLocationsModelsResponse, ListProjectsLocationsModelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsModels: API.PaginatedOperationMethod<
+  ListProjectsLocationsModelsRequest,
+  ListProjectsLocationsModelsResponse,
+  ListProjectsLocationsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsModelsRequest,
   output: ListProjectsLocationsModelsResponse,
   errors: [],
@@ -2537,7 +3358,10 @@ export interface GetProjectsLocationsModelsRequest {
 export const GetProjectsLocationsModelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/projects/{projectsId}/locations/{locationsId}/models/{modelsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/models/{modelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsModelsRequest>;
 
@@ -2547,7 +3371,12 @@ export const GetProjectsLocationsModelsResponse = Model;
 export type GetProjectsLocationsModelsError = DefaultErrors;
 
 /** Gets a model. */
-export const getProjectsLocationsModels: API.OperationMethod<GetProjectsLocationsModelsRequest, GetProjectsLocationsModelsResponse, GetProjectsLocationsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsModels: API.OperationMethod<
+  GetProjectsLocationsModelsRequest,
+  GetProjectsLocationsModelsResponse,
+  GetProjectsLocationsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsModelsRequest,
   output: GetProjectsLocationsModelsResponse,
   errors: [],
@@ -2561,7 +3390,10 @@ export interface DeleteProjectsLocationsModelsRequest {
 export const DeleteProjectsLocationsModelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3/projects/{projectsId}/locations/{locationsId}/models/{modelsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3/projects/{projectsId}/locations/{locationsId}/models/{modelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsModelsRequest>;
 
@@ -2571,9 +3403,13 @@ export const DeleteProjectsLocationsModelsResponse = Operation;
 export type DeleteProjectsLocationsModelsError = DefaultErrors;
 
 /** Deletes a model. */
-export const deleteProjectsLocationsModels: API.OperationMethod<DeleteProjectsLocationsModelsRequest, DeleteProjectsLocationsModelsResponse, DeleteProjectsLocationsModelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsModels: API.OperationMethod<
+  DeleteProjectsLocationsModelsRequest,
+  DeleteProjectsLocationsModelsResponse,
+  DeleteProjectsLocationsModelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsModelsRequest,
   output: DeleteProjectsLocationsModelsResponse,
   errors: [],
 }));
-

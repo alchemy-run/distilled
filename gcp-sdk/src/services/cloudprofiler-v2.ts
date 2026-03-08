@@ -32,29 +32,55 @@ export interface Deployment {
   labels?: Record<string, string>;
 }
 
-export const Deployment: Schema.Schema<Deployment> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
+export const Deployment: Schema.Schema<Deployment> = Schema.suspend(() =>
+  Schema.Struct({
+    projectId: Schema.optional(Schema.String),
+    target: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
 
 export interface CreateProfileRequest {
   /** Deployment details. */
   deployment?: Deployment;
   /** One or more profile types that the agent is capable of providing. */
-  profileType?: Array<"PROFILE_TYPE_UNSPECIFIED" | "CPU" | "WALL" | "HEAP" | "THREADS" | "CONTENTION" | "PEAK_HEAP" | "HEAP_ALLOC" | (string & {})>;
+  profileType?: Array<
+    | "PROFILE_TYPE_UNSPECIFIED"
+    | "CPU"
+    | "WALL"
+    | "HEAP"
+    | "THREADS"
+    | "CONTENTION"
+    | "PEAK_HEAP"
+    | "HEAP_ALLOC"
+    | (string & {})
+  >;
 }
 
-export const CreateProfileRequest: Schema.Schema<CreateProfileRequest> = Schema.suspend(() => Schema.Struct({
-  deployment: Schema.optional(Deployment),
-  profileType: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CreateProfileRequest" }) as any as Schema.Schema<CreateProfileRequest>;
+export const CreateProfileRequest: Schema.Schema<CreateProfileRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deployment: Schema.optional(Deployment),
+      profileType: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CreateProfileRequest",
+  }) as any as Schema.Schema<CreateProfileRequest>;
 
 export interface Profile {
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name?: string;
   /** Type of profile. For offline mode, this must be specified when creating the profile. For online mode it is assigned and returned by the server. */
-  profileType?: "PROFILE_TYPE_UNSPECIFIED" | "CPU" | "WALL" | "HEAP" | "THREADS" | "CONTENTION" | "PEAK_HEAP" | "HEAP_ALLOC" | (string & {});
+  profileType?:
+    | "PROFILE_TYPE_UNSPECIFIED"
+    | "CPU"
+    | "WALL"
+    | "HEAP"
+    | "THREADS"
+    | "CONTENTION"
+    | "PEAK_HEAP"
+    | "HEAP_ALLOC"
+    | (string & {});
   /** Deployment this profile corresponds to. */
   deployment?: Deployment;
   /** Duration of the profiling session. Input (for the offline mode) or output (for the online mode). The field represents requested profiling duration. It may slightly differ from the effective profiling duration, which is recorded in the profile data, in case the profiling can't be stopped immediately (e.g. in case stopping the profiling is handled asynchronously). */
@@ -67,15 +93,17 @@ export interface Profile {
   startTime?: string;
 }
 
-export const Profile: Schema.Schema<Profile> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  profileType: Schema.optional(Schema.String),
-  deployment: Schema.optional(Deployment),
-  duration: Schema.optional(Schema.String),
-  profileBytes: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  startTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
+export const Profile: Schema.Schema<Profile> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    profileType: Schema.optional(Schema.String),
+    deployment: Schema.optional(Deployment),
+    duration: Schema.optional(Schema.String),
+    profileBytes: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    startTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
 
 export interface ListProfilesResponse {
   /** List of profiles fetched. */
@@ -86,11 +114,16 @@ export interface ListProfilesResponse {
   skippedProfiles?: number;
 }
 
-export const ListProfilesResponse: Schema.Schema<ListProfilesResponse> = Schema.suspend(() => Schema.Struct({
-  profiles: Schema.optional(Schema.Array(Profile)),
-  nextPageToken: Schema.optional(Schema.String),
-  skippedProfiles: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ListProfilesResponse" }) as any as Schema.Schema<ListProfilesResponse>;
+export const ListProfilesResponse: Schema.Schema<ListProfilesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      profiles: Schema.optional(Schema.Array(Profile)),
+      nextPageToken: Schema.optional(Schema.String),
+      skippedProfiles: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListProfilesResponse",
+  }) as any as Schema.Schema<ListProfilesResponse>;
 
 // ==========================================================================
 // Operations
@@ -107,7 +140,11 @@ export const CreateProjectsProfilesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateProfileRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/profiles", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/profiles",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsProfilesRequest>;
 
@@ -117,7 +154,12 @@ export const CreateProjectsProfilesResponse = Profile;
 export type CreateProjectsProfilesError = DefaultErrors;
 
 /** CreateProfile creates a new profile resource in the online mode. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ The server ensures that the new profiles are created at a constant rate per deployment, so the creation request may hang for some time until the next profile session is available. The request may fail with ABORTED error if the creation is not available within ~1m, the response will indicate the duration of the backoff the client should take before attempting creating a profile again. The backoff duration is returned in google.rpc.RetryInfo extension on the response status. To a gRPC client, the extension will be return as a binary-serialized proto in the trailing metadata item named "google.rpc.retryinfo-bin". */
-export const createProjectsProfiles: API.OperationMethod<CreateProjectsProfilesRequest, CreateProjectsProfilesResponse, CreateProjectsProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsProfiles: API.OperationMethod<
+  CreateProjectsProfilesRequest,
+  CreateProjectsProfilesResponse,
+  CreateProjectsProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsProfilesRequest,
   output: CreateProjectsProfilesResponse,
   errors: [],
@@ -134,7 +176,11 @@ export const CreateOfflineProjectsProfilesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Profile).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/profiles:createOffline", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/profiles:createOffline",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOfflineProjectsProfilesRequest>;
 
@@ -144,7 +190,12 @@ export const CreateOfflineProjectsProfilesResponse = Profile;
 export type CreateOfflineProjectsProfilesError = DefaultErrors;
 
 /** CreateOfflineProfile creates a new profile resource in the offline mode. The client provides the profile to create along with the profile bytes, the server records it. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ */
-export const createOfflineProjectsProfiles: API.OperationMethod<CreateOfflineProjectsProfilesRequest, CreateOfflineProjectsProfilesResponse, CreateOfflineProjectsProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOfflineProjectsProfiles: API.OperationMethod<
+  CreateOfflineProjectsProfilesRequest,
+  CreateOfflineProjectsProfilesResponse,
+  CreateOfflineProjectsProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOfflineProjectsProfilesRequest,
   output: CreateOfflineProjectsProfilesResponse,
   errors: [],
@@ -164,7 +215,11 @@ export const PatchProjectsProfilesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Profile).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v2/projects/{projectsId}/profiles/{profilesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v2/projects/{projectsId}/profiles/{profilesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsProfilesRequest>;
 
@@ -174,7 +229,12 @@ export const PatchProjectsProfilesResponse = Profile;
 export type PatchProjectsProfilesError = DefaultErrors;
 
 /** UpdateProfile updates the profile bytes and labels on the profile resource created in the online mode. Updating the bytes for profiles created in the offline mode is currently not supported: the profile content must be provided at the time of the profile creation. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ */
-export const patchProjectsProfiles: API.OperationMethod<PatchProjectsProfilesRequest, PatchProjectsProfilesResponse, PatchProjectsProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsProfiles: API.OperationMethod<
+  PatchProjectsProfilesRequest,
+  PatchProjectsProfilesResponse,
+  PatchProjectsProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsProfilesRequest,
   output: PatchProjectsProfilesResponse,
   errors: [],
@@ -204,7 +264,12 @@ export const ListProjectsProfilesResponse = ListProfilesResponse;
 export type ListProjectsProfilesError = DefaultErrors;
 
 /** Lists profiles which have been collected so far and for which the caller has permission to view. */
-export const listProjectsProfiles: API.PaginatedOperationMethod<ListProjectsProfilesRequest, ListProjectsProfilesResponse, ListProjectsProfilesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsProfiles: API.PaginatedOperationMethod<
+  ListProjectsProfilesRequest,
+  ListProjectsProfilesResponse,
+  ListProjectsProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsProfilesRequest,
   output: ListProjectsProfilesResponse,
   errors: [],
@@ -213,4 +278,3 @@ export const listProjectsProfiles: API.PaginatedOperationMethod<ListProjectsProf
     outputToken: "nextPageToken",
   },
 }));
-

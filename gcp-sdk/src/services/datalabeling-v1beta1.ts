@@ -28,9 +28,14 @@ export interface GoogleCloudDatalabelingV1beta1PdfInstruction {
   gcsFileUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1PdfInstruction: Schema.Schema<GoogleCloudDatalabelingV1beta1PdfInstruction> = Schema.suspend(() => Schema.Struct({
-  gcsFileUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1PdfInstruction" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PdfInstruction>;
+export const GoogleCloudDatalabelingV1beta1PdfInstruction: Schema.Schema<GoogleCloudDatalabelingV1beta1PdfInstruction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsFileUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1PdfInstruction",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PdfInstruction>;
 
 export interface GoogleCloudDatalabelingV1beta1NormalizedVertex {
   /** Y coordinate. */
@@ -39,19 +44,31 @@ export interface GoogleCloudDatalabelingV1beta1NormalizedVertex {
   x?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1NormalizedVertex: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedVertex> = Schema.suspend(() => Schema.Struct({
-  y: Schema.optional(Schema.Number),
-  x: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1NormalizedVertex" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedVertex>;
+export const GoogleCloudDatalabelingV1beta1NormalizedVertex: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedVertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      y: Schema.optional(Schema.Number),
+      x: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1NormalizedVertex",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedVertex>;
 
 export interface GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly {
   /** The bounding polygon normalized vertices. */
   normalizedVertices?: Array<GoogleCloudDatalabelingV1beta1NormalizedVertex>;
 }
 
-export const GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly> = Schema.suspend(() => Schema.Struct({
-  normalizedVertices: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly>;
+export const GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedVertices: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly>;
 
 export interface GoogleCloudDatalabelingV1beta1Vertex {
   /** Y coordinate. */
@@ -60,19 +77,31 @@ export interface GoogleCloudDatalabelingV1beta1Vertex {
   x?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1Vertex: Schema.Schema<GoogleCloudDatalabelingV1beta1Vertex> = Schema.suspend(() => Schema.Struct({
-  y: Schema.optional(Schema.Number),
-  x: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Vertex" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Vertex>;
+export const GoogleCloudDatalabelingV1beta1Vertex: Schema.Schema<GoogleCloudDatalabelingV1beta1Vertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      y: Schema.optional(Schema.Number),
+      x: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Vertex",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Vertex>;
 
 export interface GoogleCloudDatalabelingV1beta1BoundingPoly {
   /** The bounding polygon vertices. */
   vertices?: Array<GoogleCloudDatalabelingV1beta1Vertex>;
 }
 
-export const GoogleCloudDatalabelingV1beta1BoundingPoly: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPoly> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Vertex)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1BoundingPoly" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPoly>;
+export const GoogleCloudDatalabelingV1beta1BoundingPoly: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Vertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1BoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPoly>;
 
 export interface GoogleCloudDatalabelingV1beta1AnnotationSpec {
   /** Output only. This is the integer index of the AnnotationSpec. The index for the whole AnnotationSpecSet is sequential starting from 0. For example, an AnnotationSpecSet with classes `dog` and `cat`, might contain one AnnotationSpec with `{ display_name: "dog", index: 0 }` and one AnnotationSpec with `{ display_name: "cat", index: 1 }`. This is especially useful for model training as it encodes the string labels into numeric values. */
@@ -83,11 +112,16 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationSpec {
   displayName?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1AnnotationSpec: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpec> = Schema.suspend(() => Schema.Struct({
-  index: Schema.optional(Schema.Number),
-  description: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1AnnotationSpec" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpec>;
+export const GoogleCloudDatalabelingV1beta1AnnotationSpec: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      index: Schema.optional(Schema.Number),
+      description: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1AnnotationSpec",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpec>;
 
 export interface GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation {
   normalizedBoundingPoly?: GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly;
@@ -96,44 +130,73 @@ export interface GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation {
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingPoly: Schema.optional(GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly),
-  boundingPoly: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPoly),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation>;
+export const GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingPoly: Schema.optional(
+        GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly,
+      ),
+      boundingPoly: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPoly),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation>;
 
 export interface GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions {
   /** Minimum [intersection-over-union (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union) required for 2 bounding boxes to be considered a match. This must be a number between 0 and 1. */
   iouThreshold?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions> = Schema.suspend(() => Schema.Struct({
-  iouThreshold: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions>;
+export const GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      iouThreshold: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions>;
 
 export interface GoogleCloudDatalabelingV1beta1EvaluationConfig {
   /** Only specify this field if the related model performs image object detection (`IMAGE_BOUNDING_BOX_ANNOTATION`). Describes how to evaluate bounding boxes. */
   boundingBoxEvaluationOptions?: GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions;
 }
 
-export const GoogleCloudDatalabelingV1beta1EvaluationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationConfig> = Schema.suspend(() => Schema.Struct({
-  boundingBoxEvaluationOptions: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1EvaluationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationConfig>;
+export const GoogleCloudDatalabelingV1beta1EvaluationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      boundingBoxEvaluationOptions: Schema.optional(
+        GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1EvaluationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationConfig>;
 
-export interface GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata {
-}
+export interface GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata {}
 
-export const GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata>;
+export const GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1TextClassificationAnnotation {
   /** Label of the text. */
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1TextClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationAnnotation> = Schema.suspend(() => Schema.Struct({
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1TextClassificationAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationAnnotation>;
+export const GoogleCloudDatalabelingV1beta1TextClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1TextClassificationAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationAnnotation>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig {
   /** Optional. A human-readable label used to logically group labeling tasks. This string must match the regular expression `[a-zA-Z\\d_-]{0,128}`. */
@@ -156,26 +219,39 @@ export interface GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig {
   languageCode?: string;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig> = Schema.suspend(() => Schema.Struct({
-  labelGroup: Schema.optional(Schema.String),
-  annotatedDatasetDisplayName: Schema.optional(Schema.String),
-  userEmailAddress: Schema.optional(Schema.String),
-  annotatedDatasetDescription: Schema.optional(Schema.String),
-  questionDuration: Schema.optional(Schema.String),
-  contributorEmails: Schema.optional(Schema.Array(Schema.String)),
-  replicaCount: Schema.optional(Schema.Number),
-  instruction: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig>;
+export const GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labelGroup: Schema.optional(Schema.String),
+      annotatedDatasetDisplayName: Schema.optional(Schema.String),
+      userEmailAddress: Schema.optional(Schema.String),
+      annotatedDatasetDescription: Schema.optional(Schema.String),
+      questionDuration: Schema.optional(Schema.String),
+      contributorEmails: Schema.optional(Schema.Array(Schema.String)),
+      replicaCount: Schema.optional(Schema.Number),
+      instruction: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata>;
 
 export interface GoogleRpcStatus {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -186,11 +262,18 @@ export interface GoogleRpcStatus {
   code?: number;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  code: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleRpcStatus" }) as any as Schema.Schema<GoogleRpcStatus>;
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GoogleRpcStatus",
+}) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata {
   /** Output only. The name of imported dataset. "projects/* /datasets/*" */
@@ -201,11 +284,16 @@ export interface GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata {
   partialFailures?: Array<GoogleRpcStatus>;
 }
 
-export const GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest {
   /** Optional. A token identifying a page of results for the server to return. Typically obtained by the nextPageToken of the response to a previous search rquest. If you don't specify this field, the API call requests the first page of the search. */
@@ -214,10 +302,15 @@ export interface GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest {
   pageSize?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest> = Schema.suspend(() => Schema.Struct({
-  pageToken: Schema.optional(Schema.String),
-  pageSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest>;
+export const GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageToken: Schema.optional(Schema.String),
+      pageSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest>;
 
 export interface GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig {
   /** Optional. A human-readable description for AnnotatedDataset. The description can be up to 10000 characters long. */
@@ -240,26 +333,39 @@ export interface GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig {
   annotatedDatasetDisplayName?: string;
 }
 
-export const GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig> = Schema.suspend(() => Schema.Struct({
-  annotatedDatasetDescription: Schema.optional(Schema.String),
-  labelGroup: Schema.optional(Schema.String),
-  instruction: Schema.optional(Schema.String),
-  userEmailAddress: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  questionDuration: Schema.optional(Schema.String),
-  replicaCount: Schema.optional(Schema.Number),
-  contributorEmails: Schema.optional(Schema.Array(Schema.String)),
-  annotatedDatasetDisplayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig>;
+export const GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotatedDatasetDescription: Schema.optional(Schema.String),
+      labelGroup: Schema.optional(Schema.String),
+      instruction: Schema.optional(Schema.String),
+      userEmailAddress: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      questionDuration: Schema.optional(Schema.String),
+      replicaCount: Schema.optional(Schema.Number),
+      contributorEmails: Schema.optional(Schema.Array(Schema.String)),
+      annotatedDatasetDisplayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig {
   /** Optional. Replication of questions. Each question will be sent to up to this number of contributors to label. Aggregated answers will be returned. Default is set to 1. For image related labeling, valid values are 1, 3, 5. */
@@ -282,35 +388,56 @@ export interface GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig {
   languageCode?: string;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig> = Schema.suspend(() => Schema.Struct({
-  replicaCount: Schema.optional(Schema.Number),
-  labelGroup: Schema.optional(Schema.String),
-  instruction: Schema.optional(Schema.String),
-  userEmailAddress: Schema.optional(Schema.String),
-  contributorEmails: Schema.optional(Schema.Array(Schema.String)),
-  annotatedDatasetDescription: Schema.optional(Schema.String),
-  annotatedDatasetDisplayName: Schema.optional(Schema.String),
-  questionDuration: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig>;
+export const GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      replicaCount: Schema.optional(Schema.Number),
+      labelGroup: Schema.optional(Schema.String),
+      instruction: Schema.optional(Schema.String),
+      userEmailAddress: Schema.optional(Schema.String),
+      contributorEmails: Schema.optional(Schema.Array(Schema.String)),
+      annotatedDatasetDescription: Schema.optional(Schema.String),
+      annotatedDatasetDisplayName: Schema.optional(Schema.String),
+      questionDuration: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse {
   /** Output only. Number of examples imported successfully. */
@@ -321,11 +448,16 @@ export interface GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse {
   totalCount?: number;
 }
 
-export const GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  importCount: Schema.optional(Schema.Number),
-  dataset: Schema.optional(Schema.String),
-  totalCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      importCount: Schema.optional(Schema.Number),
+      dataset: Schema.optional(Schema.String),
+      totalCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse>;
 
 export interface GoogleCloudDatalabelingV1beta1HumanAnnotationConfig {
   /** Optional. Maximum duration for contributors to answer a question. Maximum is 3600 seconds. Default is 3600 seconds. */
@@ -348,125 +480,226 @@ export interface GoogleCloudDatalabelingV1beta1HumanAnnotationConfig {
   replicaCount?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1HumanAnnotationConfig> = Schema.suspend(() => Schema.Struct({
-  questionDuration: Schema.optional(Schema.String),
-  annotatedDatasetDescription: Schema.optional(Schema.String),
-  annotatedDatasetDisplayName: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  contributorEmails: Schema.optional(Schema.Array(Schema.String)),
-  labelGroup: Schema.optional(Schema.String),
-  instruction: Schema.optional(Schema.String),
-  userEmailAddress: Schema.optional(Schema.String),
-  replicaCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1HumanAnnotationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1HumanAnnotationConfig>;
+export const GoogleCloudDatalabelingV1beta1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1HumanAnnotationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      questionDuration: Schema.optional(Schema.String),
+      annotatedDatasetDescription: Schema.optional(Schema.String),
+      annotatedDatasetDisplayName: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      contributorEmails: Schema.optional(Schema.Array(Schema.String)),
+      labelGroup: Schema.optional(Schema.String),
+      instruction: Schema.optional(Schema.String),
+      userEmailAddress: Schema.optional(Schema.String),
+      replicaCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1HumanAnnotationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1HumanAnnotationConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelOperationMetadata {
   /** Details of label video classification operation. */
@@ -505,25 +738,54 @@ export interface GoogleCloudDatalabelingV1beta1LabelOperationMetadata {
   progressPercent?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  videoClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata),
-  imageClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata),
-  videoObjectDetectionDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata),
-  textEntityExtractionDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata),
-  createTime: Schema.optional(Schema.String),
-  videoEventDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata),
-  textClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata),
-  dataset: Schema.optional(Schema.String),
-  imageBoundingPolyDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata),
-  imageSegmentationDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata),
-  imageOrientedBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata),
-  imageBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata),
-  annotatedDataset: Schema.optional(Schema.String),
-  videoObjectTrackingDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  imagePolylineDetails: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata),
-  progressPercent: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      videoClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata,
+      ),
+      imageClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata,
+      ),
+      videoObjectDetectionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata,
+      ),
+      textEntityExtractionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata,
+      ),
+      createTime: Schema.optional(Schema.String),
+      videoEventDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata,
+      ),
+      textClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata,
+      ),
+      dataset: Schema.optional(Schema.String),
+      imageBoundingPolyDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata,
+      ),
+      imageSegmentationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata,
+      ),
+      imageOrientedBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata,
+      ),
+      imageBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata,
+      ),
+      annotatedDataset: Schema.optional(Schema.String),
+      videoObjectTrackingDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata,
+      ),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      imagePolylineDetails: Schema.optional(
+        GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata,
+      ),
+      progressPercent: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1LabelOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry {
   /** Recall value for entries with label that has highest 5 scores. */
@@ -548,18 +810,23 @@ export interface GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry {
   recall?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry> = Schema.suspend(() => Schema.Struct({
-  recallAt5: Schema.optional(Schema.Number),
-  precision: Schema.optional(Schema.Number),
-  precisionAt5: Schema.optional(Schema.Number),
-  f1ScoreAt5: Schema.optional(Schema.Number),
-  recallAt1: Schema.optional(Schema.Number),
-  precisionAt1: Schema.optional(Schema.Number),
-  confidenceThreshold: Schema.optional(Schema.Number),
-  f1Score: Schema.optional(Schema.Number),
-  f1ScoreAt1: Schema.optional(Schema.Number),
-  recall: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry>;
+export const GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      recallAt5: Schema.optional(Schema.Number),
+      precision: Schema.optional(Schema.Number),
+      precisionAt5: Schema.optional(Schema.Number),
+      f1ScoreAt5: Schema.optional(Schema.Number),
+      recallAt1: Schema.optional(Schema.Number),
+      precisionAt1: Schema.optional(Schema.Number),
+      confidenceThreshold: Schema.optional(Schema.Number),
+      f1Score: Schema.optional(Schema.Number),
+      f1ScoreAt1: Schema.optional(Schema.Number),
+      recall: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry>;
 
 export interface GoogleCloudDatalabelingV1beta1PrCurve {
   /** Entries that make up the precision-recall graph. Each entry is a "point" on the graph drawn for a different `confidence_threshold`. */
@@ -572,12 +839,21 @@ export interface GoogleCloudDatalabelingV1beta1PrCurve {
   areaUnderCurve?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1PrCurve: Schema.Schema<GoogleCloudDatalabelingV1beta1PrCurve> = Schema.suspend(() => Schema.Struct({
-  confidenceMetricsEntries: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry)),
-  meanAveragePrecision: Schema.optional(Schema.Number),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-  areaUnderCurve: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1PrCurve" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PrCurve>;
+export const GoogleCloudDatalabelingV1beta1PrCurve: Schema.Schema<GoogleCloudDatalabelingV1beta1PrCurve> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidenceMetricsEntries: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry),
+      ),
+      meanAveragePrecision: Schema.optional(Schema.Number),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+      areaUnderCurve: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1PrCurve",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PrCurve>;
 
 export interface GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry {
   /** Number of items predicted to have this label. (The ground truth label for these items is the `Row.annotationSpec` of this entry's parent.) */
@@ -586,10 +862,17 @@ export interface GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry {
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry> = Schema.suspend(() => Schema.Struct({
-  itemCount: Schema.optional(Schema.Number),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry>;
+export const GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      itemCount: Schema.optional(Schema.Number),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry>;
 
 export interface GoogleCloudDatalabelingV1beta1Row {
   /** A list of the confusion matrix entries. One entry for each possible predicted label. */
@@ -598,18 +881,32 @@ export interface GoogleCloudDatalabelingV1beta1Row {
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1Row: Schema.Schema<GoogleCloudDatalabelingV1beta1Row> = Schema.suspend(() => Schema.Struct({
-  entries: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry)),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Row" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Row>;
+export const GoogleCloudDatalabelingV1beta1Row: Schema.Schema<GoogleCloudDatalabelingV1beta1Row> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entries: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry),
+      ),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Row",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Row>;
 
 export interface GoogleCloudDatalabelingV1beta1ConfusionMatrix {
   row?: Array<GoogleCloudDatalabelingV1beta1Row>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ConfusionMatrix: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrix> = Schema.suspend(() => Schema.Struct({
-  row: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Row)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ConfusionMatrix" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrix>;
+export const GoogleCloudDatalabelingV1beta1ConfusionMatrix: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrix> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      row: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Row)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ConfusionMatrix",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrix>;
 
 export interface GoogleCloudDatalabelingV1beta1ClassificationMetrics {
   /** Precision-recall curve based on ground truth labels, predicted labels, and scores for the predicted labels. */
@@ -618,37 +915,67 @@ export interface GoogleCloudDatalabelingV1beta1ClassificationMetrics {
   confusionMatrix?: GoogleCloudDatalabelingV1beta1ConfusionMatrix;
 }
 
-export const GoogleCloudDatalabelingV1beta1ClassificationMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetrics> = Schema.suspend(() => Schema.Struct({
-  prCurve: Schema.optional(GoogleCloudDatalabelingV1beta1PrCurve),
-  confusionMatrix: Schema.optional(GoogleCloudDatalabelingV1beta1ConfusionMatrix),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ClassificationMetrics" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetrics>;
+export const GoogleCloudDatalabelingV1beta1ClassificationMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetrics> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      prCurve: Schema.optional(GoogleCloudDatalabelingV1beta1PrCurve),
+      confusionMatrix: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ConfusionMatrix,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ClassificationMetrics",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetrics>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation {
   /** Label of image. */
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation> = Schema.suspend(() => Schema.Struct({
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation>;
+export const GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ImagePayload {
   /** Image format. */
@@ -661,21 +988,31 @@ export interface GoogleCloudDatalabelingV1beta1ImagePayload {
   imageThumbnail?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImagePayload: Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePayload> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  imageUri: Schema.optional(Schema.String),
-  signedUri: Schema.optional(Schema.String),
-  imageThumbnail: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImagePayload" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePayload>;
+export const GoogleCloudDatalabelingV1beta1ImagePayload: Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      imageUri: Schema.optional(Schema.String),
+      signedUri: Schema.optional(Schema.String),
+      imageThumbnail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImagePayload",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePayload>;
 
 export interface GoogleCloudDatalabelingV1beta1TextPayload {
   /** Text content. */
   textContent?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1TextPayload: Schema.Schema<GoogleCloudDatalabelingV1beta1TextPayload> = Schema.suspend(() => Schema.Struct({
-  textContent: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1TextPayload" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextPayload>;
+export const GoogleCloudDatalabelingV1beta1TextPayload: Schema.Schema<GoogleCloudDatalabelingV1beta1TextPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      textContent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1TextPayload",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextPayload>;
 
 export interface GoogleCloudDatalabelingV1beta1VideoThumbnail {
   /** A byte string of the video frame. */
@@ -684,10 +1021,15 @@ export interface GoogleCloudDatalabelingV1beta1VideoThumbnail {
   timeOffset?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1VideoThumbnail: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoThumbnail> = Schema.suspend(() => Schema.Struct({
-  thumbnail: Schema.optional(Schema.String),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1VideoThumbnail" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoThumbnail>;
+export const GoogleCloudDatalabelingV1beta1VideoThumbnail: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoThumbnail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thumbnail: Schema.optional(Schema.String),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1VideoThumbnail",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoThumbnail>;
 
 export interface GoogleCloudDatalabelingV1beta1VideoPayload {
   /** FPS of the video. */
@@ -702,13 +1044,20 @@ export interface GoogleCloudDatalabelingV1beta1VideoPayload {
   videoThumbnails?: Array<GoogleCloudDatalabelingV1beta1VideoThumbnail>;
 }
 
-export const GoogleCloudDatalabelingV1beta1VideoPayload: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoPayload> = Schema.suspend(() => Schema.Struct({
-  frameRate: Schema.optional(Schema.Number),
-  mimeType: Schema.optional(Schema.String),
-  signedUri: Schema.optional(Schema.String),
-  videoUri: Schema.optional(Schema.String),
-  videoThumbnails: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1VideoThumbnail)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1VideoPayload" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoPayload>;
+export const GoogleCloudDatalabelingV1beta1VideoPayload: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frameRate: Schema.optional(Schema.Number),
+      mimeType: Schema.optional(Schema.String),
+      signedUri: Schema.optional(Schema.String),
+      videoUri: Schema.optional(Schema.String),
+      videoThumbnails: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1VideoThumbnail),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1VideoPayload",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoPayload>;
 
 export interface GoogleCloudDatalabelingV1beta1OperatorMetadata {
   /** Comments from contributors. */
@@ -721,54 +1070,93 @@ export interface GoogleCloudDatalabelingV1beta1OperatorMetadata {
   labelVotes?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1OperatorMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorMetadata> = Schema.suspend(() => Schema.Struct({
-  comments: Schema.optional(Schema.Array(Schema.String)),
-  totalVotes: Schema.optional(Schema.Number),
-  score: Schema.optional(Schema.Number),
-  labelVotes: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1OperatorMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorMetadata>;
+export const GoogleCloudDatalabelingV1beta1OperatorMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      comments: Schema.optional(Schema.Array(Schema.String)),
+      totalVotes: Schema.optional(Schema.Number),
+      score: Schema.optional(Schema.Number),
+      labelVotes: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1OperatorMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1AnnotationMetadata {
   /** Metadata related to human labeling. */
   operatorMetadata?: GoogleCloudDatalabelingV1beta1OperatorMetadata;
 }
 
-export const GoogleCloudDatalabelingV1beta1AnnotationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationMetadata> = Schema.suspend(() => Schema.Struct({
-  operatorMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1OperatorMetadata),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1AnnotationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationMetadata>;
+export const GoogleCloudDatalabelingV1beta1AnnotationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operatorMetadata: Schema.optional(
+        GoogleCloudDatalabelingV1beta1OperatorMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1AnnotationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation {
   /** The mapping between rgb color and annotation spec. The key is the rgb color represented in format of rgb(0, 0, 0). The value is the AnnotationSpec. */
-  annotationColors?: Record<string, GoogleCloudDatalabelingV1beta1AnnotationSpec>;
+  annotationColors?: Record<
+    string,
+    GoogleCloudDatalabelingV1beta1AnnotationSpec
+  >;
   /** A byte string of a full image's color map. */
   imageBytes?: string;
   /** Image format. */
   mimeType?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation> = Schema.suspend(() => Schema.Struct({
-  annotationColors: Schema.optional(Schema.Record(Schema.String, GoogleCloudDatalabelingV1beta1AnnotationSpec)),
-  imageBytes: Schema.optional(Schema.String),
-  mimeType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation>;
+export const GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationColors: Schema.optional(
+        Schema.Record(
+          Schema.String,
+          GoogleCloudDatalabelingV1beta1AnnotationSpec,
+        ),
+      ),
+      imageBytes: Schema.optional(Schema.String),
+      mimeType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation>;
 
 export interface GoogleCloudDatalabelingV1beta1Polyline {
   /** The polyline vertices. */
   vertices?: Array<GoogleCloudDatalabelingV1beta1Vertex>;
 }
 
-export const GoogleCloudDatalabelingV1beta1Polyline: Schema.Schema<GoogleCloudDatalabelingV1beta1Polyline> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Vertex)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Polyline" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Polyline>;
+export const GoogleCloudDatalabelingV1beta1Polyline: Schema.Schema<GoogleCloudDatalabelingV1beta1Polyline> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Vertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Polyline",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Polyline>;
 
 export interface GoogleCloudDatalabelingV1beta1NormalizedPolyline {
   /** The normalized polyline vertices. */
   normalizedVertices?: Array<GoogleCloudDatalabelingV1beta1NormalizedVertex>;
 }
 
-export const GoogleCloudDatalabelingV1beta1NormalizedPolyline: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedPolyline> = Schema.suspend(() => Schema.Struct({
-  normalizedVertices: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1NormalizedPolyline" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedPolyline>;
+export const GoogleCloudDatalabelingV1beta1NormalizedPolyline: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedPolyline> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedVertices: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1NormalizedPolyline",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedPolyline>;
 
 export interface GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation {
   polyline?: GoogleCloudDatalabelingV1beta1Polyline;
@@ -777,11 +1165,20 @@ export interface GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation {
   normalizedPolyline?: GoogleCloudDatalabelingV1beta1NormalizedPolyline;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation> = Schema.suspend(() => Schema.Struct({
-  polyline: Schema.optional(GoogleCloudDatalabelingV1beta1Polyline),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-  normalizedPolyline: Schema.optional(GoogleCloudDatalabelingV1beta1NormalizedPolyline),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation>;
+export const GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      polyline: Schema.optional(GoogleCloudDatalabelingV1beta1Polyline),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+      normalizedPolyline: Schema.optional(
+        GoogleCloudDatalabelingV1beta1NormalizedPolyline,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation>;
 
 export interface GoogleCloudDatalabelingV1beta1TimeSegment {
   /** End of the time segment (exclusive), represented as the duration since the example start. */
@@ -790,10 +1187,15 @@ export interface GoogleCloudDatalabelingV1beta1TimeSegment {
   startTimeOffset?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1TimeSegment: Schema.Schema<GoogleCloudDatalabelingV1beta1TimeSegment> = Schema.suspend(() => Schema.Struct({
-  endTimeOffset: Schema.optional(Schema.String),
-  startTimeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1TimeSegment" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TimeSegment>;
+export const GoogleCloudDatalabelingV1beta1TimeSegment: Schema.Schema<GoogleCloudDatalabelingV1beta1TimeSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endTimeOffset: Schema.optional(Schema.String),
+      startTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1TimeSegment",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TimeSegment>;
 
 export interface GoogleCloudDatalabelingV1beta1ObjectTrackingFrame {
   normalizedBoundingPoly?: GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly;
@@ -802,11 +1204,18 @@ export interface GoogleCloudDatalabelingV1beta1ObjectTrackingFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ObjectTrackingFrame: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingPoly: Schema.optional(GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly),
-  boundingPoly: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPoly),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ObjectTrackingFrame" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingFrame>;
+export const GoogleCloudDatalabelingV1beta1ObjectTrackingFrame: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingPoly: Schema.optional(
+        GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly,
+      ),
+      boundingPoly: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPoly),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ObjectTrackingFrame",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingFrame>;
 
 export interface GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation {
   /** The time segment of the video to which object tracking applies. */
@@ -817,11 +1226,20 @@ export interface GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation {
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation> = Schema.suspend(() => Schema.Struct({
-  timeSegment: Schema.optional(GoogleCloudDatalabelingV1beta1TimeSegment),
-  objectTrackingFrames: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1ObjectTrackingFrame)),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation>;
+export const GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeSegment: Schema.optional(GoogleCloudDatalabelingV1beta1TimeSegment),
+      objectTrackingFrames: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1ObjectTrackingFrame),
+      ),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation>;
 
 export interface GoogleCloudDatalabelingV1beta1VideoEventAnnotation {
   /** The time segment of the video to which the annotation applies. */
@@ -830,10 +1248,17 @@ export interface GoogleCloudDatalabelingV1beta1VideoEventAnnotation {
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1VideoEventAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoEventAnnotation> = Schema.suspend(() => Schema.Struct({
-  timeSegment: Schema.optional(GoogleCloudDatalabelingV1beta1TimeSegment),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1VideoEventAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoEventAnnotation>;
+export const GoogleCloudDatalabelingV1beta1VideoEventAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoEventAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeSegment: Schema.optional(GoogleCloudDatalabelingV1beta1TimeSegment),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1VideoEventAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoEventAnnotation>;
 
 export interface GoogleCloudDatalabelingV1beta1SequentialSegment {
   /** End position (exclusive). */
@@ -842,10 +1267,15 @@ export interface GoogleCloudDatalabelingV1beta1SequentialSegment {
   start?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1SequentialSegment: Schema.Schema<GoogleCloudDatalabelingV1beta1SequentialSegment> = Schema.suspend(() => Schema.Struct({
-  end: Schema.optional(Schema.Number),
-  start: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1SequentialSegment" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SequentialSegment>;
+export const GoogleCloudDatalabelingV1beta1SequentialSegment: Schema.Schema<GoogleCloudDatalabelingV1beta1SequentialSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      end: Schema.optional(Schema.Number),
+      start: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1SequentialSegment",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SequentialSegment>;
 
 export interface GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation {
   /** Position of the entity. */
@@ -854,10 +1284,19 @@ export interface GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation {
   annotationSpec?: GoogleCloudDatalabelingV1beta1AnnotationSpec;
 }
 
-export const GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation> = Schema.suspend(() => Schema.Struct({
-  sequentialSegment: Schema.optional(GoogleCloudDatalabelingV1beta1SequentialSegment),
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation>;
+export const GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sequentialSegment: Schema.optional(
+        GoogleCloudDatalabelingV1beta1SequentialSegment,
+      ),
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation>;
 
 export interface GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation {
   /** Label of the segment specified by time_segment. */
@@ -866,10 +1305,17 @@ export interface GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation {
   timeSegment?: GoogleCloudDatalabelingV1beta1TimeSegment;
 }
 
-export const GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation> = Schema.suspend(() => Schema.Struct({
-  annotationSpec: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpec),
-  timeSegment: Schema.optional(GoogleCloudDatalabelingV1beta1TimeSegment),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation>;
+export const GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpec: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpec,
+      ),
+      timeSegment: Schema.optional(GoogleCloudDatalabelingV1beta1TimeSegment),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation>;
 
 export interface GoogleCloudDatalabelingV1beta1AnnotationValue {
   /** Annotation value for image bounding box, oriented bounding box and polygon cases. */
@@ -892,38 +1338,77 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationValue {
   videoClassificationAnnotation?: GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation;
 }
 
-export const GoogleCloudDatalabelingV1beta1AnnotationValue: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationValue> = Schema.suspend(() => Schema.Struct({
-  imageBoundingPolyAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation),
-  imageSegmentationAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation),
-  imagePolylineAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation),
-  videoObjectTrackingAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation),
-  imageClassificationAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation),
-  videoEventAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1VideoEventAnnotation),
-  textEntityExtractionAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation),
-  textClassificationAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1TextClassificationAnnotation),
-  videoClassificationAnnotation: Schema.optional(GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1AnnotationValue" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationValue>;
+export const GoogleCloudDatalabelingV1beta1AnnotationValue: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      imageBoundingPolyAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation,
+      ),
+      imageSegmentationAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation,
+      ),
+      imagePolylineAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation,
+      ),
+      videoObjectTrackingAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation,
+      ),
+      imageClassificationAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation,
+      ),
+      videoEventAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1VideoEventAnnotation,
+      ),
+      textEntityExtractionAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation,
+      ),
+      textClassificationAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1TextClassificationAnnotation,
+      ),
+      videoClassificationAnnotation: Schema.optional(
+        GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1AnnotationValue",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationValue>;
 
 export interface GoogleCloudDatalabelingV1beta1Annotation {
   /** Output only. The source of the annotation. */
-  annotationSource?: "ANNOTATION_SOURCE_UNSPECIFIED" | "OPERATOR" | (string & {});
+  annotationSource?:
+    | "ANNOTATION_SOURCE_UNSPECIFIED"
+    | "OPERATOR"
+    | (string & {});
   /** Output only. Unique name of this annotation, format is: projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset}/examples/{example_id}/annotations/{annotation_id} */
   name?: string;
   /** Output only. Annotation metadata, including information like votes for labels. */
   annotationMetadata?: GoogleCloudDatalabelingV1beta1AnnotationMetadata;
   /** Output only. Sentiment for this annotation. */
-  annotationSentiment?: "ANNOTATION_SENTIMENT_UNSPECIFIED" | "NEGATIVE" | "POSITIVE" | (string & {});
+  annotationSentiment?:
+    | "ANNOTATION_SENTIMENT_UNSPECIFIED"
+    | "NEGATIVE"
+    | "POSITIVE"
+    | (string & {});
   /** Output only. This is the actual annotation value, e.g classification, bounding box values are stored here. */
   annotationValue?: GoogleCloudDatalabelingV1beta1AnnotationValue;
 }
 
-export const GoogleCloudDatalabelingV1beta1Annotation: Schema.Schema<GoogleCloudDatalabelingV1beta1Annotation> = Schema.suspend(() => Schema.Struct({
-  annotationSource: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  annotationMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationMetadata),
-  annotationSentiment: Schema.optional(Schema.String),
-  annotationValue: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationValue),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Annotation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Annotation>;
+export const GoogleCloudDatalabelingV1beta1Annotation: Schema.Schema<GoogleCloudDatalabelingV1beta1Annotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSource: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      annotationMetadata: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationMetadata,
+      ),
+      annotationSentiment: Schema.optional(Schema.String),
+      annotationValue: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationValue,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Annotation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Annotation>;
 
 export interface GoogleCloudDatalabelingV1beta1Example {
   /** The image payload, a container of the image bytes/uri. */
@@ -938,22 +1423,37 @@ export interface GoogleCloudDatalabelingV1beta1Example {
   name?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1Example: Schema.Schema<GoogleCloudDatalabelingV1beta1Example> = Schema.suspend(() => Schema.Struct({
-  imagePayload: Schema.optional(GoogleCloudDatalabelingV1beta1ImagePayload),
-  textPayload: Schema.optional(GoogleCloudDatalabelingV1beta1TextPayload),
-  videoPayload: Schema.optional(GoogleCloudDatalabelingV1beta1VideoPayload),
-  annotations: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Annotation)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Example" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Example>;
+export const GoogleCloudDatalabelingV1beta1Example: Schema.Schema<GoogleCloudDatalabelingV1beta1Example> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      imagePayload: Schema.optional(GoogleCloudDatalabelingV1beta1ImagePayload),
+      textPayload: Schema.optional(GoogleCloudDatalabelingV1beta1TextPayload),
+      videoPayload: Schema.optional(GoogleCloudDatalabelingV1beta1VideoPayload),
+      annotations: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Annotation),
+      ),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Example",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Example>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata>;
 
 export interface GoogleLongrunningOperation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
@@ -968,13 +1468,18 @@ export interface GoogleLongrunningOperation {
   metadata?: Record<string, unknown>;
 }
 
-export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> = Schema.suspend(() => Schema.Struct({
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  error: Schema.optional(GoogleRpcStatus),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "GoogleLongrunningOperation" }) as any as Schema.Schema<GoogleLongrunningOperation>;
+export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      error: Schema.optional(GoogleRpcStatus),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningOperation",
+  }) as any as Schema.Schema<GoogleLongrunningOperation>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse {
   /** Ouptut only. The name of imported dataset. */
@@ -985,11 +1490,16 @@ export interface GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse {
   importCount?: number;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  totalCount: Schema.optional(Schema.Number),
-  importCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      totalCount: Schema.optional(Schema.Number),
+      importCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse>;
 
 export interface GoogleCloudDatalabelingV1beta1ImageClassificationConfig {
   /** Optional. If allow_multi_label is true, contributors are able to choose multiple labels for one image. */
@@ -997,23 +1507,38 @@ export interface GoogleCloudDatalabelingV1beta1ImageClassificationConfig {
   /** Required. Annotation spec set resource name. */
   annotationSpecSet?: string;
   /** Optional. The type of how to aggregate answers. */
-  answerAggregationType?: "STRING_AGGREGATION_TYPE_UNSPECIFIED" | "MAJORITY_VOTE" | "UNANIMOUS_VOTE" | "NO_AGGREGATION" | (string & {});
+  answerAggregationType?:
+    | "STRING_AGGREGATION_TYPE_UNSPECIFIED"
+    | "MAJORITY_VOTE"
+    | "UNANIMOUS_VOTE"
+    | "NO_AGGREGATION"
+    | (string & {});
 }
 
-export const GoogleCloudDatalabelingV1beta1ImageClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationConfig> = Schema.suspend(() => Schema.Struct({
-  allowMultiLabel: Schema.optional(Schema.Boolean),
-  annotationSpecSet: Schema.optional(Schema.String),
-  answerAggregationType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImageClassificationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationConfig>;
+export const GoogleCloudDatalabelingV1beta1ImageClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowMultiLabel: Schema.optional(Schema.Boolean),
+      annotationSpecSet: Schema.optional(Schema.String),
+      answerAggregationType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImageClassificationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1SentimentConfig {
   /** If set to true, contributors will have the option to select sentiment of the label they selected, to mark it as negative or positive label. Default is false. */
   enableLabelSentimentSelection?: boolean;
 }
 
-export const GoogleCloudDatalabelingV1beta1SentimentConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1SentimentConfig> = Schema.suspend(() => Schema.Struct({
-  enableLabelSentimentSelection: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1SentimentConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SentimentConfig>;
+export const GoogleCloudDatalabelingV1beta1SentimentConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1SentimentConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableLabelSentimentSelection: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1SentimentConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SentimentConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1TextClassificationConfig {
   /** Optional. If allow_multi_label is true, contributors are able to choose multiple labels for one text segment. */
@@ -1024,11 +1549,18 @@ export interface GoogleCloudDatalabelingV1beta1TextClassificationConfig {
   sentimentConfig?: GoogleCloudDatalabelingV1beta1SentimentConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1TextClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationConfig> = Schema.suspend(() => Schema.Struct({
-  allowMultiLabel: Schema.optional(Schema.Boolean),
-  annotationSpecSet: Schema.optional(Schema.String),
-  sentimentConfig: Schema.optional(GoogleCloudDatalabelingV1beta1SentimentConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1TextClassificationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationConfig>;
+export const GoogleCloudDatalabelingV1beta1TextClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowMultiLabel: Schema.optional(Schema.Boolean),
+      annotationSpecSet: Schema.optional(Schema.String),
+      sentimentConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1SentimentConfig,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1TextClassificationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1GcsSource {
   /** Required. The format of the source file. Only "text/csv" is supported. */
@@ -1037,45 +1569,86 @@ export interface GoogleCloudDatalabelingV1beta1GcsSource {
   inputUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1GcsSource: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsSource> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  inputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1GcsSource" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1GcsSource>;
+export const GoogleCloudDatalabelingV1beta1GcsSource: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsSource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      inputUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1GcsSource",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1GcsSource>;
 
 export interface GoogleCloudDatalabelingV1beta1BigQuerySource {
   /** Required. BigQuery URI to a table, up to 2,000 characters long. If you specify the URI of a table that does not exist, Data Labeling Service creates a table at the URI with the correct schema when you create your EvaluationJob. If you specify the URI of a table that already exists, it must have the [correct schema](/ml-engine/docs/continuous-evaluation/create-job#table-schema). Provide the table URI in the following format: "bq://{your_project_id}/ {your_dataset_name}/{your_table_name}" [Learn more](/ml-engine/docs/continuous-evaluation/create-job#table-schema). */
   inputUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1BigQuerySource: Schema.Schema<GoogleCloudDatalabelingV1beta1BigQuerySource> = Schema.suspend(() => Schema.Struct({
-  inputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1BigQuerySource" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BigQuerySource>;
+export const GoogleCloudDatalabelingV1beta1BigQuerySource: Schema.Schema<GoogleCloudDatalabelingV1beta1BigQuerySource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1BigQuerySource",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BigQuerySource>;
 
 export interface GoogleCloudDatalabelingV1beta1TextMetadata {
   /** The language of this text, as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). Default value is en-US. */
   languageCode?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1TextMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1TextMetadata> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1TextMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextMetadata>;
+export const GoogleCloudDatalabelingV1beta1TextMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1TextMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1TextMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ClassificationMetadata {
   /** Whether the classification task is multi-label or not. */
   isMultiLabel?: boolean;
 }
 
-export const GoogleCloudDatalabelingV1beta1ClassificationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetadata> = Schema.suspend(() => Schema.Struct({
-  isMultiLabel: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ClassificationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetadata>;
+export const GoogleCloudDatalabelingV1beta1ClassificationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      isMultiLabel: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ClassificationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1InputConfig {
   /** Required. Data type must be specifed when user tries to import data. */
-  dataType?: "DATA_TYPE_UNSPECIFIED" | "IMAGE" | "VIDEO" | "TEXT" | "GENERAL_DATA" | (string & {});
+  dataType?:
+    | "DATA_TYPE_UNSPECIFIED"
+    | "IMAGE"
+    | "VIDEO"
+    | "TEXT"
+    | "GENERAL_DATA"
+    | (string & {});
   /** Source located in Cloud Storage. */
   gcsSource?: GoogleCloudDatalabelingV1beta1GcsSource;
   /** Optional. The type of annotation to be performed on this data. You must specify this field if you are using this InputConfig in an EvaluationJob. */
-  annotationType?: "ANNOTATION_TYPE_UNSPECIFIED" | "IMAGE_CLASSIFICATION_ANNOTATION" | "IMAGE_BOUNDING_BOX_ANNOTATION" | "IMAGE_ORIENTED_BOUNDING_BOX_ANNOTATION" | "IMAGE_BOUNDING_POLY_ANNOTATION" | "IMAGE_POLYLINE_ANNOTATION" | "IMAGE_SEGMENTATION_ANNOTATION" | "VIDEO_SHOTS_CLASSIFICATION_ANNOTATION" | "VIDEO_OBJECT_TRACKING_ANNOTATION" | "VIDEO_OBJECT_DETECTION_ANNOTATION" | "VIDEO_EVENT_ANNOTATION" | "TEXT_CLASSIFICATION_ANNOTATION" | "TEXT_ENTITY_EXTRACTION_ANNOTATION" | "GENERAL_CLASSIFICATION_ANNOTATION" | (string & {});
+  annotationType?:
+    | "ANNOTATION_TYPE_UNSPECIFIED"
+    | "IMAGE_CLASSIFICATION_ANNOTATION"
+    | "IMAGE_BOUNDING_BOX_ANNOTATION"
+    | "IMAGE_ORIENTED_BOUNDING_BOX_ANNOTATION"
+    | "IMAGE_BOUNDING_POLY_ANNOTATION"
+    | "IMAGE_POLYLINE_ANNOTATION"
+    | "IMAGE_SEGMENTATION_ANNOTATION"
+    | "VIDEO_SHOTS_CLASSIFICATION_ANNOTATION"
+    | "VIDEO_OBJECT_TRACKING_ANNOTATION"
+    | "VIDEO_OBJECT_DETECTION_ANNOTATION"
+    | "VIDEO_EVENT_ANNOTATION"
+    | "TEXT_CLASSIFICATION_ANNOTATION"
+    | "TEXT_ENTITY_EXTRACTION_ANNOTATION"
+    | "GENERAL_CLASSIFICATION_ANNOTATION"
+    | (string & {});
   /** Source located in BigQuery. You must specify this field if you are using this InputConfig in an EvaluationJob. */
   bigquerySource?: GoogleCloudDatalabelingV1beta1BigQuerySource;
   /** Required for text import, as language code must be specified. */
@@ -1084,14 +1657,23 @@ export interface GoogleCloudDatalabelingV1beta1InputConfig {
   classificationMetadata?: GoogleCloudDatalabelingV1beta1ClassificationMetadata;
 }
 
-export const GoogleCloudDatalabelingV1beta1InputConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1InputConfig> = Schema.suspend(() => Schema.Struct({
-  dataType: Schema.optional(Schema.String),
-  gcsSource: Schema.optional(GoogleCloudDatalabelingV1beta1GcsSource),
-  annotationType: Schema.optional(Schema.String),
-  bigquerySource: Schema.optional(GoogleCloudDatalabelingV1beta1BigQuerySource),
-  textMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1TextMetadata),
-  classificationMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1ClassificationMetadata),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1InputConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1InputConfig>;
+export const GoogleCloudDatalabelingV1beta1InputConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1InputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataType: Schema.optional(Schema.String),
+      gcsSource: Schema.optional(GoogleCloudDatalabelingV1beta1GcsSource),
+      annotationType: Schema.optional(Schema.String),
+      bigquerySource: Schema.optional(
+        GoogleCloudDatalabelingV1beta1BigQuerySource,
+      ),
+      textMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1TextMetadata),
+      classificationMetadata: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ClassificationMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1InputConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1InputConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1BoundingPolyConfig {
   /** Optional. Instruction message showed on contributors UI. */
@@ -1100,10 +1682,15 @@ export interface GoogleCloudDatalabelingV1beta1BoundingPolyConfig {
   annotationSpecSet?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1BoundingPolyConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPolyConfig> = Schema.suspend(() => Schema.Struct({
-  instructionMessage: Schema.optional(Schema.String),
-  annotationSpecSet: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1BoundingPolyConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPolyConfig>;
+export const GoogleCloudDatalabelingV1beta1BoundingPolyConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPolyConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instructionMessage: Schema.optional(Schema.String),
+      annotationSpecSet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1BoundingPolyConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPolyConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig {
   /** Required. An email address to send alerts to. */
@@ -1112,10 +1699,15 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig {
   minAcceptableMeanAveragePrecision?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  minAcceptableMeanAveragePrecision: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig>;
+export const GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      minAcceptableMeanAveragePrecision: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1EvaluationJobConfig {
   /** Required. Details for calculating evaluation metrics and creating Evaulations. If your model version performs image object detection, you must specify the `boundingBoxEvaluationOptions` field within this configuration. Otherwise, provide an empty object for this configuration. */
@@ -1140,18 +1732,37 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationJobConfig {
   evaluationJobAlertConfig?: GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1EvaluationJobConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobConfig> = Schema.suspend(() => Schema.Struct({
-  evaluationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationConfig),
-  exampleSamplePercentage: Schema.optional(Schema.Number),
-  bigqueryImportKeys: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  imageClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1ImageClassificationConfig),
-  textClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1TextClassificationConfig),
-  inputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1InputConfig),
-  humanAnnotationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-  boundingPolyConfig: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPolyConfig),
-  exampleCount: Schema.optional(Schema.Number),
-  evaluationJobAlertConfig: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1EvaluationJobConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobConfig>;
+export const GoogleCloudDatalabelingV1beta1EvaluationJobConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      evaluationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1EvaluationConfig,
+      ),
+      exampleSamplePercentage: Schema.optional(Schema.Number),
+      bigqueryImportKeys: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      imageClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ImageClassificationConfig,
+      ),
+      textClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1TextClassificationConfig,
+      ),
+      inputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1InputConfig),
+      humanAnnotationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+      boundingPolyConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1BoundingPolyConfig,
+      ),
+      exampleCount: Schema.optional(Schema.Number),
+      evaluationJobAlertConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1EvaluationJobConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1Attempt {
   attemptTime?: string;
@@ -1159,10 +1770,15 @@ export interface GoogleCloudDatalabelingV1beta1Attempt {
   partialFailures?: Array<GoogleRpcStatus>;
 }
 
-export const GoogleCloudDatalabelingV1beta1Attempt: Schema.Schema<GoogleCloudDatalabelingV1beta1Attempt> = Schema.suspend(() => Schema.Struct({
-  attemptTime: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Attempt" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Attempt>;
+export const GoogleCloudDatalabelingV1beta1Attempt: Schema.Schema<GoogleCloudDatalabelingV1beta1Attempt> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attemptTime: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Attempt",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Attempt>;
 
 export interface GoogleCloudDatalabelingV1beta1EvaluationJob {
   /** Required. Configuration details for the evaluation job. */
@@ -1180,25 +1796,40 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationJob {
   /** Output only. Every time the evaluation job runs and an error occurs, the failed attempt is appended to this array. */
   attempts?: Array<GoogleCloudDatalabelingV1beta1Attempt>;
   /** Output only. Describes the current state of the job. */
-  state?: "STATE_UNSPECIFIED" | "SCHEDULED" | "RUNNING" | "PAUSED" | "STOPPED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "SCHEDULED"
+    | "RUNNING"
+    | "PAUSED"
+    | "STOPPED"
+    | (string & {});
   /** Required. Name of the AnnotationSpecSet describing all the labels that your machine learning model outputs. You must create this resource before you create an evaluation job and provide its name in the following format: "projects/{project_id}/annotationSpecSets/{annotation_spec_set_id}" */
   annotationSpecSet?: string;
   /** Required. Whether you want Data Labeling Service to provide ground truth labels for prediction input. If you want the service to assign human labelers to annotate your data, set this to `true`. If you want to provide your own ground truth labels in the evaluation job's BigQuery table, set this to `false`. */
   labelMissingGroundTruth?: boolean;
 }
 
-export const GoogleCloudDatalabelingV1beta1EvaluationJob: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJob> = Schema.suspend(() => Schema.Struct({
-  evaluationJobConfig: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJobConfig),
-  description: Schema.optional(Schema.String),
-  modelVersion: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  schedule: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  attempts: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Attempt)),
-  state: Schema.optional(Schema.String),
-  annotationSpecSet: Schema.optional(Schema.String),
-  labelMissingGroundTruth: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1EvaluationJob" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJob>;
+export const GoogleCloudDatalabelingV1beta1EvaluationJob: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJob> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      evaluationJobConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1EvaluationJobConfig,
+      ),
+      description: Schema.optional(Schema.String),
+      modelVersion: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      schedule: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      attempts: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Attempt),
+      ),
+      state: Schema.optional(Schema.String),
+      annotationSpecSet: Schema.optional(Schema.String),
+      labelMissingGroundTruth: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1EvaluationJob",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJob>;
 
 export interface GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse {
   /** A token to retrieve next page of results. */
@@ -1207,10 +1838,17 @@ export interface GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse {
   evaluationJobs?: Array<GoogleCloudDatalabelingV1beta1EvaluationJob>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  evaluationJobs: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1EvaluationJob)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse>;
+export const GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      evaluationJobs: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1EvaluationJob),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse>;
 
 export interface GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata {
   /** Output only. The name of imported dataset. "projects/* /datasets/*" */
@@ -1221,26 +1859,40 @@ export interface GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata>;
 
-export interface GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata {
-}
+export interface GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata {}
 
-export const GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata>;
+export const GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1FeedbackMessage {
   /** Name of the feedback message in a feedback thread. Format: 'project/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}/feedbackMessage/{feedback_message_id}' */
@@ -1255,14 +1907,23 @@ export interface GoogleCloudDatalabelingV1beta1FeedbackMessage {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1FeedbackMessage: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackMessage> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  image: Schema.optional(Schema.String),
-  requesterFeedbackMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata),
-  operatorFeedbackMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1FeedbackMessage" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackMessage>;
+export const GoogleCloudDatalabelingV1beta1FeedbackMessage: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      image: Schema.optional(Schema.String),
+      requesterFeedbackMetadata: Schema.optional(
+        GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata,
+      ),
+      operatorFeedbackMetadata: Schema.optional(
+        GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata,
+      ),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1FeedbackMessage",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackMessage>;
 
 export interface GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse {
   /** A token to retrieve next page of results. */
@@ -1271,10 +1932,17 @@ export interface GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse {
   feedbackMessages?: Array<GoogleCloudDatalabelingV1beta1FeedbackMessage>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  feedbackMessages: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1FeedbackMessage)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse>;
+export const GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      feedbackMessages: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1FeedbackMessage),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse>;
 
 export interface GoogleCloudDatalabelingV1alpha1GcsDestination {
   /** Required. The format of the gcs destination. Only "text/csv" and "application/json" are supported. */
@@ -1283,19 +1951,29 @@ export interface GoogleCloudDatalabelingV1alpha1GcsDestination {
   outputUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsDestination> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  outputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1GcsDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsDestination>;
+export const GoogleCloudDatalabelingV1alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      outputUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1GcsDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsDestination>;
 
 export interface GoogleCloudDatalabelingV1alpha1GcsFolderDestination {
   /** Required. Cloud Storage directory to export data to. */
   outputFolderUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsFolderDestination> = Schema.suspend(() => Schema.Struct({
-  outputFolderUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1GcsFolderDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsFolderDestination>;
+export const GoogleCloudDatalabelingV1alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsFolderDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputFolderUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1GcsFolderDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsFolderDestination>;
 
 export interface GoogleCloudDatalabelingV1alpha1OutputConfig {
   /** Output to a file in Cloud Storage. Should be used for labeling output other than image segmentation. */
@@ -1304,19 +1982,35 @@ export interface GoogleCloudDatalabelingV1alpha1OutputConfig {
   gcsFolderDestination?: GoogleCloudDatalabelingV1alpha1GcsFolderDestination;
 }
 
-export const GoogleCloudDatalabelingV1alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1alpha1OutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsDestination: Schema.optional(GoogleCloudDatalabelingV1alpha1GcsDestination),
-  gcsFolderDestination: Schema.optional(GoogleCloudDatalabelingV1alpha1GcsFolderDestination),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1OutputConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1OutputConfig>;
+export const GoogleCloudDatalabelingV1alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1alpha1OutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1GcsDestination,
+      ),
+      gcsFolderDestination: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1GcsFolderDestination,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1OutputConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1OutputConfig>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelStats {
   /** Map of each annotation spec's example count. Key is the annotation spec name and value is the number of examples for that annotation spec. If the annotated dataset does not have annotation spec, the map will return a pair where the key is empty string and value is the total number of annotations. */
   exampleCount?: Record<string, string>;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelStats> = Schema.suspend(() => Schema.Struct({
-  exampleCount: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelStats" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelStats>;
+export const GoogleCloudDatalabelingV1alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelStats> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exampleCount: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1LabelStats",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelStats>;
 
 export interface GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse {
   /** Output only. The name of annotated dataset in format "projects/* /datasets/* /annotatedDatasets/*". */
@@ -1333,14 +2027,21 @@ export interface GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse {
   labelStats?: GoogleCloudDatalabelingV1alpha1LabelStats;
 }
 
-export const GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  annotatedDataset: Schema.optional(Schema.String),
-  totalCount: Schema.optional(Schema.Number),
-  dataset: Schema.optional(Schema.String),
-  outputConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1OutputConfig),
-  exportCount: Schema.optional(Schema.Number),
-  labelStats: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelStats),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotatedDataset: Schema.optional(Schema.String),
+      totalCount: Schema.optional(Schema.Number),
+      dataset: Schema.optional(Schema.String),
+      outputConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1OutputConfig,
+      ),
+      exportCount: Schema.optional(Schema.Number),
+      labelStats: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelStats),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse>;
 
 export interface GoogleCloudDatalabelingV1beta1DataItem {
   /** The image payload, a container of the image bytes/uri. */
@@ -1353,21 +2054,31 @@ export interface GoogleCloudDatalabelingV1beta1DataItem {
   videoPayload?: GoogleCloudDatalabelingV1beta1VideoPayload;
 }
 
-export const GoogleCloudDatalabelingV1beta1DataItem: Schema.Schema<GoogleCloudDatalabelingV1beta1DataItem> = Schema.suspend(() => Schema.Struct({
-  imagePayload: Schema.optional(GoogleCloudDatalabelingV1beta1ImagePayload),
-  textPayload: Schema.optional(GoogleCloudDatalabelingV1beta1TextPayload),
-  name: Schema.optional(Schema.String),
-  videoPayload: Schema.optional(GoogleCloudDatalabelingV1beta1VideoPayload),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1DataItem" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1DataItem>;
+export const GoogleCloudDatalabelingV1beta1DataItem: Schema.Schema<GoogleCloudDatalabelingV1beta1DataItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      imagePayload: Schema.optional(GoogleCloudDatalabelingV1beta1ImagePayload),
+      textPayload: Schema.optional(GoogleCloudDatalabelingV1beta1TextPayload),
+      name: Schema.optional(Schema.String),
+      videoPayload: Schema.optional(GoogleCloudDatalabelingV1beta1VideoPayload),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1DataItem",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1DataItem>;
 
 export interface GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig {
   /** Required. Annotation spec set resource name. */
   annotationSpecSet?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig> = Schema.suspend(() => Schema.Struct({
-  annotationSpecSet: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig>;
+export const GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpecSet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig {
   /** Optional. If allow_multi_label is true, contributors are able to choose multiple labels from one annotation spec set. */
@@ -1376,10 +2087,15 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig {
   annotationSpecSet?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig> = Schema.suspend(() => Schema.Struct({
-  allowMultiLabel: Schema.optional(Schema.Boolean),
-  annotationSpecSet: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig>;
+export const GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowMultiLabel: Schema.optional(Schema.Boolean),
+      annotationSpecSet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1VideoClassificationConfig {
   /** Required. The list of annotation spec set configs. Since watching a video clip takes much longer time than an image, we support label with multiple AnnotationSpecSet at the same time. Labels in each AnnotationSpecSet will be shown in a group to contributors. Contributors can select one or more (depending on whether to allow multi label) from each group. */
@@ -1388,10 +2104,17 @@ export interface GoogleCloudDatalabelingV1beta1VideoClassificationConfig {
   applyShotDetection?: boolean;
 }
 
-export const GoogleCloudDatalabelingV1beta1VideoClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationConfig> = Schema.suspend(() => Schema.Struct({
-  annotationSpecSetConfigs: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig)),
-  applyShotDetection: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1VideoClassificationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationConfig>;
+export const GoogleCloudDatalabelingV1beta1VideoClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpecSetConfigs: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig),
+      ),
+      applyShotDetection: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1VideoClassificationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1ObjectTrackingConfig {
   /** Required. Annotation spec set resource name. */
@@ -1402,11 +2125,16 @@ export interface GoogleCloudDatalabelingV1beta1ObjectTrackingConfig {
   overlapLength?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1ObjectTrackingConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingConfig> = Schema.suspend(() => Schema.Struct({
-  annotationSpecSet: Schema.optional(Schema.String),
-  clipLength: Schema.optional(Schema.Number),
-  overlapLength: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ObjectTrackingConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingConfig>;
+export const GoogleCloudDatalabelingV1beta1ObjectTrackingConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpecSet: Schema.optional(Schema.String),
+      clipLength: Schema.optional(Schema.Number),
+      overlapLength: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ObjectTrackingConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1ObjectDetectionConfig {
   /** Required. Annotation spec set resource name. */
@@ -1415,10 +2143,15 @@ export interface GoogleCloudDatalabelingV1beta1ObjectDetectionConfig {
   extractionFrameRate?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1ObjectDetectionConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionConfig> = Schema.suspend(() => Schema.Struct({
-  annotationSpecSet: Schema.optional(Schema.String),
-  extractionFrameRate: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ObjectDetectionConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionConfig>;
+export const GoogleCloudDatalabelingV1beta1ObjectDetectionConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpecSet: Schema.optional(Schema.String),
+      extractionFrameRate: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ObjectDetectionConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1PolylineConfig {
   /** Required. Annotation spec set resource name. */
@@ -1427,10 +2160,15 @@ export interface GoogleCloudDatalabelingV1beta1PolylineConfig {
   instructionMessage?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1PolylineConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1PolylineConfig> = Schema.suspend(() => Schema.Struct({
-  annotationSpecSet: Schema.optional(Schema.String),
-  instructionMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1PolylineConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PolylineConfig>;
+export const GoogleCloudDatalabelingV1beta1PolylineConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1PolylineConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpecSet: Schema.optional(Schema.String),
+      instructionMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1PolylineConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PolylineConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1SegmentationConfig {
   /** Required. Annotation spec set resource name. format: projects/{project_id}/annotationSpecSets/{annotation_spec_set_id} */
@@ -1439,10 +2177,15 @@ export interface GoogleCloudDatalabelingV1beta1SegmentationConfig {
   instructionMessage?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1SegmentationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1SegmentationConfig> = Schema.suspend(() => Schema.Struct({
-  annotationSpecSet: Schema.optional(Schema.String),
-  instructionMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1SegmentationConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SegmentationConfig>;
+export const GoogleCloudDatalabelingV1beta1SegmentationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1SegmentationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpecSet: Schema.optional(Schema.String),
+      instructionMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1SegmentationConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SegmentationConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1EventConfig {
   /** Videos will be cut to smaller clips to make it easier for labelers to work on. Users can configure is field in seconds, if not set, default value is 60s. */
@@ -1453,11 +2196,16 @@ export interface GoogleCloudDatalabelingV1beta1EventConfig {
   annotationSpecSets?: Array<string>;
 }
 
-export const GoogleCloudDatalabelingV1beta1EventConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EventConfig> = Schema.suspend(() => Schema.Struct({
-  clipLength: Schema.optional(Schema.Number),
-  overlapLength: Schema.optional(Schema.Number),
-  annotationSpecSets: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1EventConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EventConfig>;
+export const GoogleCloudDatalabelingV1beta1EventConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EventConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      clipLength: Schema.optional(Schema.Number),
+      overlapLength: Schema.optional(Schema.Number),
+      annotationSpecSets: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1EventConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EventConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata {
   /** Configuration for text entity extraction task. */
@@ -1484,34 +2232,70 @@ export interface GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata {
   eventConfig?: GoogleCloudDatalabelingV1beta1EventConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata> = Schema.suspend(() => Schema.Struct({
-  textEntityExtractionConfig: Schema.optional(GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig),
-  videoClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1VideoClassificationConfig),
-  objectTrackingConfig: Schema.optional(GoogleCloudDatalabelingV1beta1ObjectTrackingConfig),
-  imageClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1ImageClassificationConfig),
-  boundingPolyConfig: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPolyConfig),
-  objectDetectionConfig: Schema.optional(GoogleCloudDatalabelingV1beta1ObjectDetectionConfig),
-  polylineConfig: Schema.optional(GoogleCloudDatalabelingV1beta1PolylineConfig),
-  segmentationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1SegmentationConfig),
-  textClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1TextClassificationConfig),
-  humanAnnotationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-  eventConfig: Schema.optional(GoogleCloudDatalabelingV1beta1EventConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata>;
+export const GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      textEntityExtractionConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig,
+      ),
+      videoClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1VideoClassificationConfig,
+      ),
+      objectTrackingConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ObjectTrackingConfig,
+      ),
+      imageClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ImageClassificationConfig,
+      ),
+      boundingPolyConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1BoundingPolyConfig,
+      ),
+      objectDetectionConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ObjectDetectionConfig,
+      ),
+      polylineConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1PolylineConfig,
+      ),
+      segmentationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1SegmentationConfig,
+      ),
+      textClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1TextClassificationConfig,
+      ),
+      humanAnnotationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+      eventConfig: Schema.optional(GoogleCloudDatalabelingV1beta1EventConfig),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1CsvInstruction {
   /** CSV file for the instruction. Only gcs path is allowed. */
   gcsFileUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1CsvInstruction: Schema.Schema<GoogleCloudDatalabelingV1beta1CsvInstruction> = Schema.suspend(() => Schema.Struct({
-  gcsFileUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1CsvInstruction" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CsvInstruction>;
+export const GoogleCloudDatalabelingV1beta1CsvInstruction: Schema.Schema<GoogleCloudDatalabelingV1beta1CsvInstruction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsFileUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1CsvInstruction",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CsvInstruction>;
 
 export interface GoogleCloudDatalabelingV1beta1Instruction {
   /** Output only. Instruction resource name, format: projects/{project_id}/instructions/{instruction_id} */
   name?: string;
   /** Required. The data type of this instruction. */
-  dataType?: "DATA_TYPE_UNSPECIFIED" | "IMAGE" | "VIDEO" | "TEXT" | "GENERAL_DATA" | (string & {});
+  dataType?:
+    | "DATA_TYPE_UNSPECIFIED"
+    | "IMAGE"
+    | "VIDEO"
+    | "TEXT"
+    | "GENERAL_DATA"
+    | (string & {});
   /** Output only. The names of any related resources that are blocking changes to the instruction. */
   blockingResources?: Array<string>;
   /** Deprecated: this instruction format is not supported any more. Instruction from a CSV file, such as for classification task. The CSV file should have exact two columns, in the following format: * The first column is labeled data, such as an image reference, text. * The second column is comma separated labels associated with data. */
@@ -1528,17 +2312,26 @@ export interface GoogleCloudDatalabelingV1beta1Instruction {
   description?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1Instruction: Schema.Schema<GoogleCloudDatalabelingV1beta1Instruction> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  dataType: Schema.optional(Schema.String),
-  blockingResources: Schema.optional(Schema.Array(Schema.String)),
-  csvInstruction: Schema.optional(GoogleCloudDatalabelingV1beta1CsvInstruction),
-  displayName: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  pdfInstruction: Schema.optional(GoogleCloudDatalabelingV1beta1PdfInstruction),
-  createTime: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Instruction" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Instruction>;
+export const GoogleCloudDatalabelingV1beta1Instruction: Schema.Schema<GoogleCloudDatalabelingV1beta1Instruction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      dataType: Schema.optional(Schema.String),
+      blockingResources: Schema.optional(Schema.Array(Schema.String)),
+      csvInstruction: Schema.optional(
+        GoogleCloudDatalabelingV1beta1CsvInstruction,
+      ),
+      displayName: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      pdfInstruction: Schema.optional(
+        GoogleCloudDatalabelingV1beta1PdfInstruction,
+      ),
+      createTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Instruction",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Instruction>;
 
 export interface GoogleCloudDatalabelingV1beta1Dataset {
   /** Optional. User-provided description of the annotation specification set. The description can be up to 10000 characters long. */
@@ -1559,16 +2352,23 @@ export interface GoogleCloudDatalabelingV1beta1Dataset {
   dataItemCount?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1Dataset: Schema.Schema<GoogleCloudDatalabelingV1beta1Dataset> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  lastMigrateTime: Schema.optional(Schema.String),
-  blockingResources: Schema.optional(Schema.Array(Schema.String)),
-  inputConfigs: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1InputConfig)),
-  dataItemCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Dataset" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Dataset>;
+export const GoogleCloudDatalabelingV1beta1Dataset: Schema.Schema<GoogleCloudDatalabelingV1beta1Dataset> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      lastMigrateTime: Schema.optional(Schema.String),
+      blockingResources: Schema.optional(Schema.Array(Schema.String)),
+      inputConfigs: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1InputConfig),
+      ),
+      dataItemCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Dataset",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Dataset>;
 
 export interface GoogleCloudDatalabelingV1beta1ListDatasetsResponse {
   /** The list of datasets to return. */
@@ -1577,47 +2377,83 @@ export interface GoogleCloudDatalabelingV1beta1ListDatasetsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListDatasetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListDatasetsResponse> = Schema.suspend(() => Schema.Struct({
-  datasets: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Dataset)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListDatasetsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListDatasetsResponse>;
+export const GoogleCloudDatalabelingV1beta1ListDatasetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListDatasetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datasets: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Dataset),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListDatasetsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListDatasetsResponse>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelStats {
   /** Map of each annotation spec's example count. Key is the annotation spec name and value is the number of examples for that annotation spec. If the annotated dataset does not have annotation spec, the map will return a pair where the key is empty string and value is the total number of annotations. */
   exampleCount?: Record<string, string>;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelStats> = Schema.suspend(() => Schema.Struct({
-  exampleCount: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelStats" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelStats>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelStats> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exampleCount: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1LabelStats",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelStats>;
 
 export interface GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics {
   /** Precision-recall curve. */
   prCurve?: GoogleCloudDatalabelingV1beta1PrCurve;
 }
 
-export const GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics> = Schema.suspend(() => Schema.Struct({
-  prCurve: Schema.optional(GoogleCloudDatalabelingV1beta1PrCurve),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics>;
+export const GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      prCurve: Schema.optional(GoogleCloudDatalabelingV1beta1PrCurve),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics>;
 
 export interface GoogleCloudDatalabelingV1beta1EvaluationMetrics {
   objectDetectionMetrics?: GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics;
   classificationMetrics?: GoogleCloudDatalabelingV1beta1ClassificationMetrics;
 }
 
-export const GoogleCloudDatalabelingV1beta1EvaluationMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationMetrics> = Schema.suspend(() => Schema.Struct({
-  objectDetectionMetrics: Schema.optional(GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics),
-  classificationMetrics: Schema.optional(GoogleCloudDatalabelingV1beta1ClassificationMetrics),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1EvaluationMetrics" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationMetrics>;
+export const GoogleCloudDatalabelingV1beta1EvaluationMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationMetrics> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectDetectionMetrics: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics,
+      ),
+      classificationMetrics: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ClassificationMetrics,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1EvaluationMetrics",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationMetrics>;
 
 export interface GoogleCloudDatalabelingV1beta1Evaluation {
   /** Output only. Resource name of an evaluation. The name has the following format: "projects/{project_id}/datasets/{dataset_id}/evaluations/ {evaluation_id}' */
@@ -1629,31 +2465,61 @@ export interface GoogleCloudDatalabelingV1beta1Evaluation {
   /** Output only. Timestamp for when this evaluation was created. */
   createTime?: string;
   /** Output only. Type of task that the model version being evaluated performs, as defined in the evaluationJobConfig.inputConfig.annotationType field of the evaluation job that created this evaluation. */
-  annotationType?: "ANNOTATION_TYPE_UNSPECIFIED" | "IMAGE_CLASSIFICATION_ANNOTATION" | "IMAGE_BOUNDING_BOX_ANNOTATION" | "IMAGE_ORIENTED_BOUNDING_BOX_ANNOTATION" | "IMAGE_BOUNDING_POLY_ANNOTATION" | "IMAGE_POLYLINE_ANNOTATION" | "IMAGE_SEGMENTATION_ANNOTATION" | "VIDEO_SHOTS_CLASSIFICATION_ANNOTATION" | "VIDEO_OBJECT_TRACKING_ANNOTATION" | "VIDEO_OBJECT_DETECTION_ANNOTATION" | "VIDEO_EVENT_ANNOTATION" | "TEXT_CLASSIFICATION_ANNOTATION" | "TEXT_ENTITY_EXTRACTION_ANNOTATION" | "GENERAL_CLASSIFICATION_ANNOTATION" | (string & {});
+  annotationType?:
+    | "ANNOTATION_TYPE_UNSPECIFIED"
+    | "IMAGE_CLASSIFICATION_ANNOTATION"
+    | "IMAGE_BOUNDING_BOX_ANNOTATION"
+    | "IMAGE_ORIENTED_BOUNDING_BOX_ANNOTATION"
+    | "IMAGE_BOUNDING_POLY_ANNOTATION"
+    | "IMAGE_POLYLINE_ANNOTATION"
+    | "IMAGE_SEGMENTATION_ANNOTATION"
+    | "VIDEO_SHOTS_CLASSIFICATION_ANNOTATION"
+    | "VIDEO_OBJECT_TRACKING_ANNOTATION"
+    | "VIDEO_OBJECT_DETECTION_ANNOTATION"
+    | "VIDEO_EVENT_ANNOTATION"
+    | "TEXT_CLASSIFICATION_ANNOTATION"
+    | "TEXT_ENTITY_EXTRACTION_ANNOTATION"
+    | "GENERAL_CLASSIFICATION_ANNOTATION"
+    | (string & {});
   /** Output only. Options used in the evaluation job that created this evaluation. */
   config?: GoogleCloudDatalabelingV1beta1EvaluationConfig;
   /** Output only. Timestamp for when the evaluation job that created this evaluation ran. */
   evaluationJobRunTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1Evaluation: Schema.Schema<GoogleCloudDatalabelingV1beta1Evaluation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  evaluatedItemCount: Schema.optional(Schema.String),
-  evaluationMetrics: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationMetrics),
-  createTime: Schema.optional(Schema.String),
-  annotationType: Schema.optional(Schema.String),
-  config: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationConfig),
-  evaluationJobRunTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1Evaluation" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Evaluation>;
+export const GoogleCloudDatalabelingV1beta1Evaluation: Schema.Schema<GoogleCloudDatalabelingV1beta1Evaluation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      evaluatedItemCount: Schema.optional(Schema.String),
+      evaluationMetrics: Schema.optional(
+        GoogleCloudDatalabelingV1beta1EvaluationMetrics,
+      ),
+      createTime: Schema.optional(Schema.String),
+      annotationType: Schema.optional(Schema.String),
+      config: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationConfig),
+      evaluationJobRunTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1Evaluation",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1Evaluation>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1AnnotationSpecSet {
   /** Output only. The names of any related resources that are blocking changes to the annotation spec set. */
@@ -1668,53 +2534,92 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationSpecSet {
   name?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1AnnotationSpecSet: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSet> = Schema.suspend(() => Schema.Struct({
-  blockingResources: Schema.optional(Schema.Array(Schema.String)),
-  description: Schema.optional(Schema.String),
-  annotationSpecs: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1AnnotationSpec)),
-  displayName: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1AnnotationSpecSet" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSet>;
+export const GoogleCloudDatalabelingV1beta1AnnotationSpecSet: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSet> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      blockingResources: Schema.optional(Schema.Array(Schema.String)),
+      description: Schema.optional(Schema.String),
+      annotationSpecs: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1AnnotationSpec),
+      ),
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1AnnotationSpecSet",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSet>;
 
 export interface GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest {
   /** Required. Annotation spec set to create. Annotation specs must be included. Only one annotation spec will be accepted for annotation specs with same display_name. */
   annotationSpecSet?: GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
 }
 
-export const GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest> = Schema.suspend(() => Schema.Struct({
-  annotationSpecSet: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotationSpecSet),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest>;
+export const GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationSpecSet: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotationSpecSet,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1GcsFolderDestination {
   /** Required. Cloud Storage directory to export data to. */
   outputFolderUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsFolderDestination> = Schema.suspend(() => Schema.Struct({
-  outputFolderUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1GcsFolderDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1GcsFolderDestination>;
+export const GoogleCloudDatalabelingV1beta1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsFolderDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputFolderUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1GcsFolderDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1GcsFolderDestination>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelTextRequest {
   /** Required. The type of text labeling task. */
-  feature?: "FEATURE_UNSPECIFIED" | "TEXT_CLASSIFICATION" | "TEXT_ENTITY_EXTRACTION" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "TEXT_CLASSIFICATION"
+    | "TEXT_ENTITY_EXTRACTION"
+    | (string & {});
   /** Required. Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
   /** Configuration for entity extraction task. One of text_classification_config and text_entity_extraction_config is required. */
@@ -1723,12 +2628,23 @@ export interface GoogleCloudDatalabelingV1beta1LabelTextRequest {
   textClassificationConfig?: GoogleCloudDatalabelingV1beta1TextClassificationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelTextRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextRequest> = Schema.suspend(() => Schema.Struct({
-  feature: Schema.optional(Schema.String),
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-  textEntityExtractionConfig: Schema.optional(GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig),
-  textClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1TextClassificationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelTextRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextRequest>;
+export const GoogleCloudDatalabelingV1beta1LabelTextRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      feature: Schema.optional(Schema.String),
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+      textEntityExtractionConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig,
+      ),
+      textClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1TextClassificationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1LabelTextRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextRequest>;
 
 export interface GoogleCloudDatalabelingV1beta1GcsDestination {
   /** Required. The format of the gcs destination. Only "text/csv" and "application/json" are supported. */
@@ -1737,10 +2653,15 @@ export interface GoogleCloudDatalabelingV1beta1GcsDestination {
   outputUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsDestination> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  outputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1GcsDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1GcsDestination>;
+export const GoogleCloudDatalabelingV1beta1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      outputUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1GcsDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1GcsDestination>;
 
 export interface GoogleCloudDatalabelingV1beta1OutputConfig {
   /** Output to a file in Cloud Storage. Should be used for labeling output other than image segmentation. */
@@ -1749,10 +2670,19 @@ export interface GoogleCloudDatalabelingV1beta1OutputConfig {
   gcsFolderDestination?: GoogleCloudDatalabelingV1beta1GcsFolderDestination;
 }
 
-export const GoogleCloudDatalabelingV1beta1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1OutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsDestination: Schema.optional(GoogleCloudDatalabelingV1beta1GcsDestination),
-  gcsFolderDestination: Schema.optional(GoogleCloudDatalabelingV1beta1GcsFolderDestination),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1OutputConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1OutputConfig>;
+export const GoogleCloudDatalabelingV1beta1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1OutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(
+        GoogleCloudDatalabelingV1beta1GcsDestination,
+      ),
+      gcsFolderDestination: Schema.optional(
+        GoogleCloudDatalabelingV1beta1GcsFolderDestination,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1OutputConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1OutputConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1ExportDataRequest {
   /** Email of the user who started the export task and should be notified by email. If empty no notification will be sent. */
@@ -1765,12 +2695,17 @@ export interface GoogleCloudDatalabelingV1beta1ExportDataRequest {
   annotatedDataset?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ExportDataRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataRequest> = Schema.suspend(() => Schema.Struct({
-  userEmailAddress: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-  outputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1OutputConfig),
-  annotatedDataset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ExportDataRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataRequest>;
+export const GoogleCloudDatalabelingV1beta1ExportDataRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userEmailAddress: Schema.optional(Schema.String),
+      filter: Schema.optional(Schema.String),
+      outputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1OutputConfig),
+      annotatedDataset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ExportDataRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataRequest>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1GcsDestination {
   /** Required. The format of the gcs destination. Only "text/csv" and "application/json" are supported. */
@@ -1779,10 +2714,15 @@ export interface GoogleCloudDatalabelingV1p2alpha1GcsDestination {
   outputUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsDestination> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  outputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1GcsDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsDestination>;
+export const GoogleCloudDatalabelingV1p2alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      outputUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1GcsDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsDestination>;
 
 export interface GoogleLongrunningListOperationsResponse {
   /** The standard List next-page token. */
@@ -1793,11 +2733,16 @@ export interface GoogleLongrunningListOperationsResponse {
   operations?: Array<GoogleLongrunningOperation>;
 }
 
-export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
-})).annotate({ identifier: "GoogleLongrunningListOperationsResponse" }) as any as Schema.Schema<GoogleLongrunningListOperationsResponse>;
+export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningListOperationsResponse",
+  }) as any as Schema.Schema<GoogleLongrunningListOperationsResponse>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata {
   /** Output only. Partial failures encountered. E.g. single files that couldn't be read. Status details field will contain standard GCP error details. */
@@ -1810,48 +2755,81 @@ export interface GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata {
   dataset?: string;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  annotatedDataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      annotatedDataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination {
   /** Required. Cloud Storage directory to export data to. */
   outputFolderUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination> = Schema.suspend(() => Schema.Struct({
-  outputFolderUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination>;
+export const GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputFolderUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelStats {
   /** Map of each annotation spec's example count. Key is the annotation spec name and value is the number of examples for that annotation spec. If the annotated dataset does not have annotation spec, the map will return a pair where the key is empty string and value is the total number of annotations. */
   exampleCount?: Record<string, string>;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelStats> = Schema.suspend(() => Schema.Struct({
-  exampleCount: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelStats" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelStats>;
+export const GoogleCloudDatalabelingV1beta1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelStats> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exampleCount: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1LabelStats",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelStats>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1OutputConfig {
   /** Output to a file in Cloud Storage. Should be used for labeling output other than image segmentation. */
@@ -1860,19 +2838,36 @@ export interface GoogleCloudDatalabelingV1p2alpha1OutputConfig {
   gcsFolderDestination?: GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1OutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsDestination: Schema.optional(GoogleCloudDatalabelingV1p2alpha1GcsDestination),
-  gcsFolderDestination: Schema.optional(GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1OutputConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1OutputConfig>;
+export const GoogleCloudDatalabelingV1p2alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1OutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1GcsDestination,
+      ),
+      gcsFolderDestination: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1OutputConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1OutputConfig>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ExampleComparison {
   /** Predictions by the model for the input. */
@@ -1881,10 +2876,19 @@ export interface GoogleCloudDatalabelingV1beta1ExampleComparison {
   groundTruthExample?: GoogleCloudDatalabelingV1beta1Example;
 }
 
-export const GoogleCloudDatalabelingV1beta1ExampleComparison: Schema.Schema<GoogleCloudDatalabelingV1beta1ExampleComparison> = Schema.suspend(() => Schema.Struct({
-  modelCreatedExamples: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Example)),
-  groundTruthExample: Schema.optional(GoogleCloudDatalabelingV1beta1Example),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ExampleComparison" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExampleComparison>;
+export const GoogleCloudDatalabelingV1beta1ExampleComparison: Schema.Schema<GoogleCloudDatalabelingV1beta1ExampleComparison> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      modelCreatedExamples: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Example),
+      ),
+      groundTruthExample: Schema.optional(
+        GoogleCloudDatalabelingV1beta1Example,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ExampleComparison",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExampleComparison>;
 
 export interface GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse {
   /** A list of example comparisons matching the search criteria. */
@@ -1893,28 +2897,51 @@ export interface GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse 
   nextPageToken?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse> = Schema.suspend(() => Schema.Struct({
-  exampleComparisons: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1ExampleComparison)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse>;
+export const GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exampleComparisons: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1ExampleComparison),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelStats {
   /** Map of each annotation spec's example count. Key is the annotation spec name and value is the number of examples for that annotation spec. If the annotated dataset does not have annotation spec, the map will return a pair where the key is empty string and value is the total number of annotations. */
   exampleCount?: Record<string, string>;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelStats> = Schema.suspend(() => Schema.Struct({
-  exampleCount: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelStats" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelStats>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelStats> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exampleCount: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1LabelStats",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelStats>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata {
   /** Output only. The name of dataset to be exported. "projects/* /datasets/*" */
@@ -1927,45 +2954,72 @@ export interface GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  annotatedDataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      annotatedDataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata>;
 
-export interface GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest {
-}
+export interface GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest {}
 
-export const GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest>;
+export const GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest>;
 
 export interface GoogleCloudDatalabelingV1beta1CreateInstructionRequest {
   /** Required. Instruction of how to perform the labeling task. */
   instruction?: GoogleCloudDatalabelingV1beta1Instruction;
 }
 
-export const GoogleCloudDatalabelingV1beta1CreateInstructionRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionRequest> = Schema.suspend(() => Schema.Struct({
-  instruction: Schema.optional(GoogleCloudDatalabelingV1beta1Instruction),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1CreateInstructionRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionRequest>;
+export const GoogleCloudDatalabelingV1beta1CreateInstructionRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instruction: Schema.optional(GoogleCloudDatalabelingV1beta1Instruction),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1CreateInstructionRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionRequest>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata {
   /** When the thread is created */
@@ -1974,15 +3028,24 @@ export interface GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata {
   lastUpdateTime?: string;
   /** An image thumbnail of this thread. */
   thumbnail?: string;
-  status?: "FEEDBACK_THREAD_STATUS_UNSPECIFIED" | "NEW" | "REPLIED" | (string & {});
+  status?:
+    | "FEEDBACK_THREAD_STATUS_UNSPECIFIED"
+    | "NEW"
+    | "REPLIED"
+    | (string & {});
 }
 
-export const GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  lastUpdateTime: Schema.optional(Schema.String),
-  thumbnail: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata>;
+export const GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      lastUpdateTime: Schema.optional(Schema.String),
+      thumbnail: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1FeedbackThread {
   /** Name of the feedback thread. Format: 'project/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}' */
@@ -1991,10 +3054,17 @@ export interface GoogleCloudDatalabelingV1beta1FeedbackThread {
   feedbackThreadMetadata?: GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata;
 }
 
-export const GoogleCloudDatalabelingV1beta1FeedbackThread: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThread> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  feedbackThreadMetadata: Schema.optional(GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1FeedbackThread" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThread>;
+export const GoogleCloudDatalabelingV1beta1FeedbackThread: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThread> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      feedbackThreadMetadata: Schema.optional(
+        GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1FeedbackThread",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThread>;
 
 export interface GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse {
   /** A token to retrieve next page of results. */
@@ -2003,25 +3073,38 @@ export interface GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse {
   feedbackThreads?: Array<GoogleCloudDatalabelingV1beta1FeedbackThread>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  feedbackThreads: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1FeedbackThread)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse>;
+export const GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      feedbackThreads: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1FeedbackThread),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse>;
 
-export interface GoogleProtobufEmpty {
-}
+export interface GoogleProtobufEmpty {}
 
-export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleProtobufEmpty" }) as any as Schema.Schema<GoogleProtobufEmpty>;
+export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleProtobufEmpty",
+  }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination {
   /** Required. Cloud Storage directory to export data to. */
   outputFolderUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination> = Schema.suspend(() => Schema.Struct({
-  outputFolderUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination>;
+export const GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputFolderUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1GcsDestination {
   /** Required. The format of the gcs destination. Only "text/csv" and "application/json" are supported. */
@@ -2030,10 +3113,15 @@ export interface GoogleCloudDatalabelingV1p1alpha1GcsDestination {
   outputUri?: string;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsDestination> = Schema.suspend(() => Schema.Struct({
-  mimeType: Schema.optional(Schema.String),
-  outputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1GcsDestination" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsDestination>;
+export const GoogleCloudDatalabelingV1p1alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      outputUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1GcsDestination",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsDestination>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1OutputConfig {
   /** Output to a folder in Cloud Storage. Should be used for image segmentation or document de-identification labeling outputs. */
@@ -2042,10 +3130,19 @@ export interface GoogleCloudDatalabelingV1p1alpha1OutputConfig {
   gcsDestination?: GoogleCloudDatalabelingV1p1alpha1GcsDestination;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1OutputConfig> = Schema.suspend(() => Schema.Struct({
-  gcsFolderDestination: Schema.optional(GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination),
-  gcsDestination: Schema.optional(GoogleCloudDatalabelingV1p1alpha1GcsDestination),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1OutputConfig" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1OutputConfig>;
+export const GoogleCloudDatalabelingV1p1alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1OutputConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcsFolderDestination: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination,
+      ),
+      gcsDestination: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1GcsDestination,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1OutputConfig",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1OutputConfig>;
 
 export interface GoogleCloudDatalabelingV1beta1ListExamplesResponse {
   /** A token to retrieve next page of results. */
@@ -2054,10 +3151,17 @@ export interface GoogleCloudDatalabelingV1beta1ListExamplesResponse {
   examples?: Array<GoogleCloudDatalabelingV1beta1Example>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListExamplesResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListExamplesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  examples: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Example)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListExamplesResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListExamplesResponse>;
+export const GoogleCloudDatalabelingV1beta1ListExamplesResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListExamplesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      examples: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Example),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListExamplesResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListExamplesResponse>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata {
   /** Output only. Partial failures encountered. E.g. single files that couldn't be read. Status details field will contain standard GCP error details. */
@@ -2068,11 +3172,16 @@ export interface GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  dataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      dataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1CreateInstructionMetadata {
   /** Partial failures encountered. E.g. single files that couldn't be read. Status details field will contain standard GCP error details. */
@@ -2083,26 +3192,40 @@ export interface GoogleCloudDatalabelingV1beta1CreateInstructionMetadata {
   instruction?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionMetadata> = Schema.suspend(() => Schema.Struct({
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  createTime: Schema.optional(Schema.String),
-  instruction: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1CreateInstructionMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionMetadata>;
+export const GoogleCloudDatalabelingV1beta1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      createTime: Schema.optional(Schema.String),
+      instruction: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1CreateInstructionMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionMetadata>;
 
-export interface GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest {
-}
+export interface GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest {}
 
-export const GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest>;
+export const GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata {
   /** Timestamp when create instruction request was created. */
@@ -2113,11 +3236,16 @@ export interface GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata {
   partialFailures?: Array<GoogleRpcStatus>;
 }
 
-export const GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  instruction: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata>;
+export const GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      instruction: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata {
   /** Output only. The name of dataset to be exported. "projects/* /datasets/*" */
@@ -2130,12 +3258,17 @@ export interface GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  annotatedDataset: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      annotatedDataset: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata {
   /** Partial failures encountered. E.g. single files that couldn't be read. Status details field will contain standard GCP error details. */
@@ -2146,11 +3279,16 @@ export interface GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata> = Schema.suspend(() => Schema.Struct({
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  instruction: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      instruction: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ImportDataOperationResponse {
   /** Ouptut only. The name of imported dataset. */
@@ -2161,11 +3299,16 @@ export interface GoogleCloudDatalabelingV1beta1ImportDataOperationResponse {
   importCount?: number;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  totalCount: Schema.optional(Schema.Number),
-  importCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1beta1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      totalCount: Schema.optional(Schema.Number),
+      importCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationResponse>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelVideoRequest {
   /** Required. Basic human annotation config. */
@@ -2175,93 +3318,176 @@ export interface GoogleCloudDatalabelingV1beta1LabelVideoRequest {
   /** Configuration for video object tracking task. One of video_classification_config, object_detection_config, object_tracking_config and event_config is required. */
   objectTrackingConfig?: GoogleCloudDatalabelingV1beta1ObjectTrackingConfig;
   /** Required. The type of video labeling task. */
-  feature?: "FEATURE_UNSPECIFIED" | "CLASSIFICATION" | "OBJECT_DETECTION" | "OBJECT_TRACKING" | "EVENT" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "CLASSIFICATION"
+    | "OBJECT_DETECTION"
+    | "OBJECT_TRACKING"
+    | "EVENT"
+    | (string & {});
   /** Configuration for video object detection task. One of video_classification_config, object_detection_config, object_tracking_config and event_config is required. */
   objectDetectionConfig?: GoogleCloudDatalabelingV1beta1ObjectDetectionConfig;
   /** Configuration for video event task. One of video_classification_config, object_detection_config, object_tracking_config and event_config is required. */
   eventConfig?: GoogleCloudDatalabelingV1beta1EventConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelVideoRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoRequest> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-  videoClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1VideoClassificationConfig),
-  objectTrackingConfig: Schema.optional(GoogleCloudDatalabelingV1beta1ObjectTrackingConfig),
-  feature: Schema.optional(Schema.String),
-  objectDetectionConfig: Schema.optional(GoogleCloudDatalabelingV1beta1ObjectDetectionConfig),
-  eventConfig: Schema.optional(GoogleCloudDatalabelingV1beta1EventConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelVideoRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoRequest>;
+export const GoogleCloudDatalabelingV1beta1LabelVideoRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+      videoClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1VideoClassificationConfig,
+      ),
+      objectTrackingConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ObjectTrackingConfig,
+      ),
+      feature: Schema.optional(Schema.String),
+      objectDetectionConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ObjectDetectionConfig,
+      ),
+      eventConfig: Schema.optional(GoogleCloudDatalabelingV1beta1EventConfig),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1LabelVideoRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoRequest>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata {
   /** Details of label text entity extraction operation. */
@@ -2300,34 +3526,68 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata {
   videoEventDetails?: GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  textEntityExtractionDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata),
-  imageClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata),
-  annotatedDataset: Schema.optional(Schema.String),
-  imageSegmentationDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata),
-  textClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata),
-  videoObjectDetectionDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata),
-  dataset: Schema.optional(Schema.String),
-  imageBoundingPolyDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata),
-  createTime: Schema.optional(Schema.String),
-  imageOrientedBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata),
-  videoObjectTrackingDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata),
-  videoClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata),
-  imagePolylineDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata),
-  imageBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  progressPercent: Schema.optional(Schema.Number),
-  videoEventDetails: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      textEntityExtractionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata,
+      ),
+      imageClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata,
+      ),
+      annotatedDataset: Schema.optional(Schema.String),
+      imageSegmentationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata,
+      ),
+      textClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata,
+      ),
+      videoObjectDetectionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata,
+      ),
+      dataset: Schema.optional(Schema.String),
+      imageBoundingPolyDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata,
+      ),
+      createTime: Schema.optional(Schema.String),
+      imageOrientedBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata,
+      ),
+      videoObjectTrackingDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata,
+      ),
+      videoClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata,
+      ),
+      imagePolylineDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata,
+      ),
+      imageBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata,
+      ),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      progressPercent: Schema.optional(Schema.Number),
+      videoEventDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest {
   /** Required. The evaluation job to create. */
   job?: GoogleCloudDatalabelingV1beta1EvaluationJob;
 }
 
-export const GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest> = Schema.suspend(() => Schema.Struct({
-  job: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJob),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest>;
+export const GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      job: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJob),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse {
   /** Output only. Total number of examples requested to import */
@@ -2338,20 +3598,33 @@ export interface GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse {
   dataset?: string;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  totalCount: Schema.optional(Schema.Number),
-  importCount: Schema.optional(Schema.Number),
-  dataset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      totalCount: Schema.optional(Schema.Number),
+      importCount: Schema.optional(Schema.Number),
+      dataset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1AnnotatedDataset {
   /** Output only. Number of examples in the annotated dataset. */
@@ -2359,7 +3632,10 @@ export interface GoogleCloudDatalabelingV1beta1AnnotatedDataset {
   /** Output only. The display name of the AnnotatedDataset. It is specified in HumanAnnotationConfig when user starts a labeling task. Maximum of 64 characters. */
   displayName?: string;
   /** Output only. Source of the annotation. */
-  annotationSource?: "ANNOTATION_SOURCE_UNSPECIFIED" | "OPERATOR" | (string & {});
+  annotationSource?:
+    | "ANNOTATION_SOURCE_UNSPECIFIED"
+    | "OPERATOR"
+    | (string & {});
   /** Output only. Number of examples that have annotation in the annotated dataset. */
   completedExampleCount?: string;
   /** Output only. The names of any related resources that are blocking changes to the annotated dataset. */
@@ -2371,26 +3647,48 @@ export interface GoogleCloudDatalabelingV1beta1AnnotatedDataset {
   /** Output only. The description of the AnnotatedDataset. It is specified in HumanAnnotationConfig when user starts a labeling task. Maximum of 10000 characters. */
   description?: string;
   /** Output only. Type of the annotation. It is specified when starting labeling task. */
-  annotationType?: "ANNOTATION_TYPE_UNSPECIFIED" | "IMAGE_CLASSIFICATION_ANNOTATION" | "IMAGE_BOUNDING_BOX_ANNOTATION" | "IMAGE_ORIENTED_BOUNDING_BOX_ANNOTATION" | "IMAGE_BOUNDING_POLY_ANNOTATION" | "IMAGE_POLYLINE_ANNOTATION" | "IMAGE_SEGMENTATION_ANNOTATION" | "VIDEO_SHOTS_CLASSIFICATION_ANNOTATION" | "VIDEO_OBJECT_TRACKING_ANNOTATION" | "VIDEO_OBJECT_DETECTION_ANNOTATION" | "VIDEO_EVENT_ANNOTATION" | "TEXT_CLASSIFICATION_ANNOTATION" | "TEXT_ENTITY_EXTRACTION_ANNOTATION" | "GENERAL_CLASSIFICATION_ANNOTATION" | (string & {});
+  annotationType?:
+    | "ANNOTATION_TYPE_UNSPECIFIED"
+    | "IMAGE_CLASSIFICATION_ANNOTATION"
+    | "IMAGE_BOUNDING_BOX_ANNOTATION"
+    | "IMAGE_ORIENTED_BOUNDING_BOX_ANNOTATION"
+    | "IMAGE_BOUNDING_POLY_ANNOTATION"
+    | "IMAGE_POLYLINE_ANNOTATION"
+    | "IMAGE_SEGMENTATION_ANNOTATION"
+    | "VIDEO_SHOTS_CLASSIFICATION_ANNOTATION"
+    | "VIDEO_OBJECT_TRACKING_ANNOTATION"
+    | "VIDEO_OBJECT_DETECTION_ANNOTATION"
+    | "VIDEO_EVENT_ANNOTATION"
+    | "TEXT_CLASSIFICATION_ANNOTATION"
+    | "TEXT_ENTITY_EXTRACTION_ANNOTATION"
+    | "GENERAL_CLASSIFICATION_ANNOTATION"
+    | (string & {});
   /** Output only. Time the AnnotatedDataset was created. */
   createTime?: string;
   /** Output only. AnnotatedDataset resource name in format of: projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/ {annotated_dataset_id} */
   name?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1AnnotatedDataset: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDataset> = Schema.suspend(() => Schema.Struct({
-  exampleCount: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  annotationSource: Schema.optional(Schema.String),
-  completedExampleCount: Schema.optional(Schema.String),
-  blockingResources: Schema.optional(Schema.Array(Schema.String)),
-  labelStats: Schema.optional(GoogleCloudDatalabelingV1beta1LabelStats),
-  metadata: Schema.optional(GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata),
-  description: Schema.optional(Schema.String),
-  annotationType: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1AnnotatedDataset" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDataset>;
+export const GoogleCloudDatalabelingV1beta1AnnotatedDataset: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDataset> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exampleCount: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      annotationSource: Schema.optional(Schema.String),
+      completedExampleCount: Schema.optional(Schema.String),
+      blockingResources: Schema.optional(Schema.Array(Schema.String)),
+      labelStats: Schema.optional(GoogleCloudDatalabelingV1beta1LabelStats),
+      metadata: Schema.optional(
+        GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata,
+      ),
+      description: Schema.optional(Schema.String),
+      annotationType: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1AnnotatedDataset",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDataset>;
 
 export interface GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse {
   /** The list of annotated datasets to return. */
@@ -2399,10 +3697,17 @@ export interface GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse> = Schema.suspend(() => Schema.Struct({
-  annotatedDatasets: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1AnnotatedDataset)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse>;
+export const GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotatedDatasets: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1AnnotatedDataset),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse>;
 
 export interface GoogleCloudDatalabelingV1beta1ListDataItemsResponse {
   /** A token to retrieve next page of results. */
@@ -2411,55 +3716,102 @@ export interface GoogleCloudDatalabelingV1beta1ListDataItemsResponse {
   dataItems?: Array<GoogleCloudDatalabelingV1beta1DataItem>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListDataItemsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListDataItemsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  dataItems: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1DataItem)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListDataItemsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListDataItemsResponse>;
+export const GoogleCloudDatalabelingV1beta1ListDataItemsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListDataItemsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      dataItems: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1DataItem),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListDataItemsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListDataItemsResponse>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata {
   /** Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1alpha1LabelOperationMetadata {
   /** Output only. Partial failures encountered. E.g. single files that couldn't be read. Status details field will contain standard GCP error details. */
@@ -2498,25 +3850,54 @@ export interface GoogleCloudDatalabelingV1alpha1LabelOperationMetadata {
   textEntityExtractionDetails?: GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata;
 }
 
-export const GoogleCloudDatalabelingV1alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  imageOrientedBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata),
-  videoObjectDetectionDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata),
-  videoObjectTrackingDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata),
-  videoClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata),
-  imageSegmentationDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata),
-  progressPercent: Schema.optional(Schema.Number),
-  videoEventDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata),
-  imagePolylineDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata),
-  textClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata),
-  annotatedDataset: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  imageBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata),
-  imageClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata),
-  imageBoundingPolyDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata),
-  textEntityExtractionDetails: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1alpha1LabelOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelOperationMetadata>;
+export const GoogleCloudDatalabelingV1alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      imageOrientedBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata,
+      ),
+      videoObjectDetectionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata,
+      ),
+      videoObjectTrackingDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata,
+      ),
+      videoClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata,
+      ),
+      imageSegmentationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata,
+      ),
+      progressPercent: Schema.optional(Schema.Number),
+      videoEventDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata,
+      ),
+      imagePolylineDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata,
+      ),
+      textClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata,
+      ),
+      annotatedDataset: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      imageBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata,
+      ),
+      imageClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata,
+      ),
+      imageBoundingPolyDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata,
+      ),
+      textEntityExtractionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1alpha1LabelOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata {
   /** Timestamp when generate report request was created. */
@@ -2525,19 +3906,33 @@ export interface GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperatio
   dataset?: string;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ListInstructionsResponse {
   /** A token to retrieve next page of results. */
@@ -2546,28 +3941,51 @@ export interface GoogleCloudDatalabelingV1beta1ListInstructionsResponse {
   instructions?: Array<GoogleCloudDatalabelingV1beta1Instruction>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListInstructionsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListInstructionsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  instructions: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Instruction)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListInstructionsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListInstructionsResponse>;
+export const GoogleCloudDatalabelingV1beta1ListInstructionsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListInstructionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      instructions: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Instruction),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListInstructionsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListInstructionsResponse>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata {
   /** Basic human annotation config used in labeling request. */
   basicConfig?: GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata {
   /** Output only. Progress of label operation. Range: [0, 100]. */
@@ -2606,25 +4024,54 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata {
   textClassificationDetails?: GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  progressPercent: Schema.optional(Schema.Number),
-  videoObjectTrackingDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata),
-  imageOrientedBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata),
-  imageClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata),
-  createTime: Schema.optional(Schema.String),
-  videoObjectDetectionDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata),
-  annotatedDataset: Schema.optional(Schema.String),
-  imageSegmentationDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata),
-  imageBoundingBoxDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata),
-  imagePolylineDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata),
-  dataset: Schema.optional(Schema.String),
-  videoEventDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata),
-  textEntityExtractionDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  imageBoundingPolyDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata),
-  videoClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata),
-  textClassificationDetails: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      progressPercent: Schema.optional(Schema.Number),
+      videoObjectTrackingDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata,
+      ),
+      imageOrientedBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata,
+      ),
+      imageClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata,
+      ),
+      createTime: Schema.optional(Schema.String),
+      videoObjectDetectionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata,
+      ),
+      annotatedDataset: Schema.optional(Schema.String),
+      imageSegmentationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata,
+      ),
+      imageBoundingBoxDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata,
+      ),
+      imagePolylineDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata,
+      ),
+      dataset: Schema.optional(Schema.String),
+      videoEventDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata,
+      ),
+      textEntityExtractionDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata,
+      ),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      imageBoundingPolyDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata,
+      ),
+      videoClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata,
+      ),
+      textClassificationDetails: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse {
   /** A token to retrieve next page of results. */
@@ -2633,10 +4080,17 @@ export interface GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse {
   annotationSpecSets?: Array<GoogleCloudDatalabelingV1beta1AnnotationSpecSet>;
 }
 
-export const GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  annotationSpecSets: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1AnnotationSpecSet)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse>;
+export const GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      annotationSpecSets: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1AnnotationSpecSet),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata {
   /** Output only. The name of dataset to be exported. "projects/* /datasets/*" */
@@ -2649,18 +4103,31 @@ export interface GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  annotatedDataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      annotatedDataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1LabelImageRequest {
   /** Configuration for polyline task. One of image_classification_config, bounding_poly_config, polyline_config and segmentation_config are required. */
   polylineConfig?: GoogleCloudDatalabelingV1beta1PolylineConfig;
   /** Required. The type of image labeling task. */
-  feature?: "FEATURE_UNSPECIFIED" | "CLASSIFICATION" | "BOUNDING_BOX" | "ORIENTED_BOUNDING_BOX" | "BOUNDING_POLY" | "POLYLINE" | "SEGMENTATION" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "CLASSIFICATION"
+    | "BOUNDING_BOX"
+    | "ORIENTED_BOUNDING_BOX"
+    | "BOUNDING_POLY"
+    | "POLYLINE"
+    | "SEGMENTATION"
+    | (string & {});
   /** Required. Basic human annotation config. */
   basicConfig?: GoogleCloudDatalabelingV1beta1HumanAnnotationConfig;
   /** Configuration for bounding box and bounding poly task. One of image_classification_config, bounding_poly_config, polyline_config and segmentation_config are required. */
@@ -2671,14 +4138,29 @@ export interface GoogleCloudDatalabelingV1beta1LabelImageRequest {
   segmentationConfig?: GoogleCloudDatalabelingV1beta1SegmentationConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1LabelImageRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageRequest> = Schema.suspend(() => Schema.Struct({
-  polylineConfig: Schema.optional(GoogleCloudDatalabelingV1beta1PolylineConfig),
-  feature: Schema.optional(Schema.String),
-  basicConfig: Schema.optional(GoogleCloudDatalabelingV1beta1HumanAnnotationConfig),
-  boundingPolyConfig: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPolyConfig),
-  imageClassificationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1ImageClassificationConfig),
-  segmentationConfig: Schema.optional(GoogleCloudDatalabelingV1beta1SegmentationConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1LabelImageRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageRequest>;
+export const GoogleCloudDatalabelingV1beta1LabelImageRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      polylineConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1PolylineConfig,
+      ),
+      feature: Schema.optional(Schema.String),
+      basicConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
+      ),
+      boundingPolyConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1BoundingPolyConfig,
+      ),
+      imageClassificationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1ImageClassificationConfig,
+      ),
+      segmentationConfig: Schema.optional(
+        GoogleCloudDatalabelingV1beta1SegmentationConfig,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1LabelImageRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageRequest>;
 
 export interface GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse {
   /** The list of evaluations matching the search. */
@@ -2687,10 +4169,17 @@ export interface GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse> = Schema.suspend(() => Schema.Struct({
-  evaluations: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Evaluation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse>;
+export const GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      evaluations: Schema.optional(
+        Schema.Array(GoogleCloudDatalabelingV1beta1Evaluation),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata {
   /** Output only. Partial failures encountered. E.g. single files that couldn't be read. Status details field will contain standard GCP error details. */
@@ -2701,20 +4190,30 @@ export interface GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata {
   createTime?: string;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-  dataset: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata>;
+export const GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+      dataset: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1CreateDatasetRequest {
   /** Required. The dataset to be created. */
   dataset?: GoogleCloudDatalabelingV1beta1Dataset;
 }
 
-export const GoogleCloudDatalabelingV1beta1CreateDatasetRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateDatasetRequest> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(GoogleCloudDatalabelingV1beta1Dataset),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1CreateDatasetRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateDatasetRequest>;
+export const GoogleCloudDatalabelingV1beta1CreateDatasetRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateDatasetRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(GoogleCloudDatalabelingV1beta1Dataset),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1CreateDatasetRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1CreateDatasetRequest>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata {
   /** The name of the created Instruction. projects/{project_id}/instructions/{instruction_id} */
@@ -2725,11 +4224,16 @@ export interface GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata {
   partialFailures?: Array<GoogleRpcStatus>;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata> = Schema.suspend(() => Schema.Struct({
-  instruction: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata>;
+export const GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instruction: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1ImportDataRequest {
   /** Required. Specify the input source of the data. */
@@ -2738,10 +4242,15 @@ export interface GoogleCloudDatalabelingV1beta1ImportDataRequest {
   userEmailAddress?: string;
 }
 
-export const GoogleCloudDatalabelingV1beta1ImportDataRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataRequest> = Schema.suspend(() => Schema.Struct({
-  inputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1InputConfig),
-  userEmailAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ImportDataRequest" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataRequest>;
+export const GoogleCloudDatalabelingV1beta1ImportDataRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1InputConfig),
+      userEmailAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ImportDataRequest",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataRequest>;
 
 export interface GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse {
   /** Ouptut only. The name of dataset. "projects/* /datasets/*" */
@@ -2758,14 +4267,21 @@ export interface GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse {
   annotatedDataset?: string;
 }
 
-export const GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  dataset: Schema.optional(Schema.String),
-  exportCount: Schema.optional(Schema.Number),
-  outputConfig: Schema.optional(GoogleCloudDatalabelingV1p1alpha1OutputConfig),
-  labelStats: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelStats),
-  totalCount: Schema.optional(Schema.Number),
-  annotatedDataset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataset: Schema.optional(Schema.String),
+      exportCount: Schema.optional(Schema.Number),
+      outputConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p1alpha1OutputConfig,
+      ),
+      labelStats: Schema.optional(GoogleCloudDatalabelingV1p1alpha1LabelStats),
+      totalCount: Schema.optional(Schema.Number),
+      annotatedDataset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse>;
 
 export interface GoogleCloudDatalabelingV1beta1ExportDataOperationResponse {
   /** Output only. Number of examples exported successfully. */
@@ -2782,14 +4298,19 @@ export interface GoogleCloudDatalabelingV1beta1ExportDataOperationResponse {
   outputConfig?: GoogleCloudDatalabelingV1beta1OutputConfig;
 }
 
-export const GoogleCloudDatalabelingV1beta1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  exportCount: Schema.optional(Schema.Number),
-  totalCount: Schema.optional(Schema.Number),
-  labelStats: Schema.optional(GoogleCloudDatalabelingV1beta1LabelStats),
-  annotatedDataset: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-  outputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1OutputConfig),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1beta1ExportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1beta1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exportCount: Schema.optional(Schema.Number),
+      totalCount: Schema.optional(Schema.Number),
+      labelStats: Schema.optional(GoogleCloudDatalabelingV1beta1LabelStats),
+      annotatedDataset: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.String),
+      outputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1OutputConfig),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1beta1ExportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationResponse>;
 
 export interface GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse {
   /** Output only. Number of examples exported successfully. */
@@ -2806,14 +4327,21 @@ export interface GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse {
   totalCount?: number;
 }
 
-export const GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse> = Schema.suspend(() => Schema.Struct({
-  exportCount: Schema.optional(Schema.Number),
-  outputConfig: Schema.optional(GoogleCloudDatalabelingV1p2alpha1OutputConfig),
-  labelStats: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelStats),
-  annotatedDataset: Schema.optional(Schema.String),
-  dataset: Schema.optional(Schema.String),
-  totalCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse" }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse>;
+export const GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exportCount: Schema.optional(Schema.Number),
+      outputConfig: Schema.optional(
+        GoogleCloudDatalabelingV1p2alpha1OutputConfig,
+      ),
+      labelStats: Schema.optional(GoogleCloudDatalabelingV1p2alpha1LabelStats),
+      annotatedDataset: Schema.optional(Schema.String),
+      dataset: Schema.optional(Schema.String),
+      totalCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse",
+  }) as any as Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse>;
 
 // ==========================================================================
 // Operations
@@ -2837,19 +4365,28 @@ export const ListProjectsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/operations" }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
 
-export type ListProjectsOperationsResponse = GoogleLongrunningListOperationsResponse;
-export const ListProjectsOperationsResponse = GoogleLongrunningListOperationsResponse;
+export type ListProjectsOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
+export const ListProjectsOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsOperations: API.PaginatedOperationMethod<
+  ListProjectsOperationsRequest,
+  ListProjectsOperationsResponse,
+  ListProjectsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -2867,7 +4404,10 @@ export interface DeleteProjectsOperationsRequest {
 export const DeleteProjectsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsOperationsRequest>;
 
@@ -2877,7 +4417,12 @@ export const DeleteProjectsOperationsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsOperations: API.OperationMethod<DeleteProjectsOperationsRequest, DeleteProjectsOperationsResponse, DeleteProjectsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsOperations: API.OperationMethod<
+  DeleteProjectsOperationsRequest,
+  DeleteProjectsOperationsResponse,
+  DeleteProjectsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsOperationsRequest,
   output: DeleteProjectsOperationsResponse,
   errors: [],
@@ -2891,7 +4436,10 @@ export interface GetProjectsOperationsRequest {
 export const GetProjectsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -2901,7 +4449,12 @@ export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
 export type GetProjectsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsOperations: API.OperationMethod<
+  GetProjectsOperationsRequest,
+  GetProjectsOperationsResponse,
+  GetProjectsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -2915,7 +4468,10 @@ export interface CancelProjectsOperationsRequest {
 export const CancelProjectsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/operations/{operationsId}:cancel" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/operations/{operationsId}:cancel",
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsOperationsRequest>;
 
@@ -2925,7 +4481,12 @@ export const CancelProjectsOperationsResponse = GoogleProtobufEmpty;
 export type CancelProjectsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsOperations: API.OperationMethod<CancelProjectsOperationsRequest, CancelProjectsOperationsResponse, CancelProjectsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsOperations: API.OperationMethod<
+  CancelProjectsOperationsRequest,
+  CancelProjectsOperationsResponse,
+  CancelProjectsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
@@ -2948,17 +4509,27 @@ export const SearchProjectsEvaluationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/evaluations:search" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/evaluations:search",
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchProjectsEvaluationsRequest>;
 
-export type SearchProjectsEvaluationsResponse = GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse;
-export const SearchProjectsEvaluationsResponse = GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse;
+export type SearchProjectsEvaluationsResponse =
+  GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse;
+export const SearchProjectsEvaluationsResponse =
+  GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse;
 
 export type SearchProjectsEvaluationsError = DefaultErrors;
 
 /** Searches evaluations within a project. */
-export const searchProjectsEvaluations: API.PaginatedOperationMethod<SearchProjectsEvaluationsRequest, SearchProjectsEvaluationsResponse, SearchProjectsEvaluationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchProjectsEvaluations: API.PaginatedOperationMethod<
+  SearchProjectsEvaluationsRequest,
+  SearchProjectsEvaluationsResponse,
+  SearchProjectsEvaluationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchProjectsEvaluationsRequest,
   output: SearchProjectsEvaluationsResponse,
   errors: [],
@@ -2977,19 +4548,32 @@ export interface CreateProjectsDatasetsRequest {
 
 export const CreateProjectsDatasetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1CreateDatasetRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudDatalabelingV1beta1CreateDatasetRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/datasets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsDatasetsRequest>;
 
-export type CreateProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1Dataset;
-export const CreateProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1Dataset;
+export type CreateProjectsDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1Dataset;
+export const CreateProjectsDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1Dataset;
 
 export type CreateProjectsDatasetsError = DefaultErrors;
 
 /** Creates dataset. If success return a Dataset resource. */
-export const createProjectsDatasets: API.OperationMethod<CreateProjectsDatasetsRequest, CreateProjectsDatasetsResponse, CreateProjectsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsDatasets: API.OperationMethod<
+  CreateProjectsDatasetsRequest,
+  CreateProjectsDatasetsResponse,
+  CreateProjectsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsDatasetsRequest,
   output: CreateProjectsDatasetsResponse,
   errors: [],
@@ -3003,17 +4587,26 @@ export interface GetProjectsDatasetsRequest {
 export const GetProjectsDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsDatasetsRequest>;
 
 export type GetProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1Dataset;
-export const GetProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1Dataset;
+export const GetProjectsDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1Dataset;
 
 export type GetProjectsDatasetsError = DefaultErrors;
 
 /** Gets dataset by resource name. */
-export const getProjectsDatasets: API.OperationMethod<GetProjectsDatasetsRequest, GetProjectsDatasetsResponse, GetProjectsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDatasets: API.OperationMethod<
+  GetProjectsDatasetsRequest,
+  GetProjectsDatasetsResponse,
+  GetProjectsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDatasetsRequest,
   output: GetProjectsDatasetsResponse,
   errors: [],
@@ -3040,13 +4633,20 @@ export const ListProjectsDatasetsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<ListProjectsDatasetsRequest>;
 
-export type ListProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1ListDatasetsResponse;
-export const ListProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1ListDatasetsResponse;
+export type ListProjectsDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1ListDatasetsResponse;
+export const ListProjectsDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1ListDatasetsResponse;
 
 export type ListProjectsDatasetsError = DefaultErrors;
 
 /** Lists datasets under a project. Pagination is supported. */
-export const listProjectsDatasets: API.PaginatedOperationMethod<ListProjectsDatasetsRequest, ListProjectsDatasetsResponse, ListProjectsDatasetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsDatasets: API.PaginatedOperationMethod<
+  ListProjectsDatasetsRequest,
+  ListProjectsDatasetsResponse,
+  ListProjectsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsDatasetsRequest,
   output: ListProjectsDatasetsResponse,
   errors: [],
@@ -3065,9 +4665,15 @@ export interface ExportDataProjectsDatasetsRequest {
 
 export const ExportDataProjectsDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1ExportDataRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudDatalabelingV1beta1ExportDataRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:exportData", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:exportData",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExportDataProjectsDatasetsRequest>;
 
@@ -3077,7 +4683,12 @@ export const ExportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
 export type ExportDataProjectsDatasetsError = DefaultErrors;
 
 /** Exports data and annotations from dataset. */
-export const exportDataProjectsDatasets: API.OperationMethod<ExportDataProjectsDatasetsRequest, ExportDataProjectsDatasetsResponse, ExportDataProjectsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const exportDataProjectsDatasets: API.OperationMethod<
+  ExportDataProjectsDatasetsRequest,
+  ExportDataProjectsDatasetsResponse,
+  ExportDataProjectsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExportDataProjectsDatasetsRequest,
   output: ExportDataProjectsDatasetsResponse,
   errors: [],
@@ -3092,9 +4703,15 @@ export interface ImportDataProjectsDatasetsRequest {
 
 export const ImportDataProjectsDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1ImportDataRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudDatalabelingV1beta1ImportDataRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:importData", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:importData",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ImportDataProjectsDatasetsRequest>;
 
@@ -3104,7 +4721,12 @@ export const ImportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
 export type ImportDataProjectsDatasetsError = DefaultErrors;
 
 /** Imports data into dataset based on source locations defined in request. It can be called multiple times for the same dataset. Each dataset can only have one long running operation running on it. For example, no labeling task (also long running operation) can be started while importing is still ongoing. Vice versa. */
-export const importDataProjectsDatasets: API.OperationMethod<ImportDataProjectsDatasetsRequest, ImportDataProjectsDatasetsResponse, ImportDataProjectsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importDataProjectsDatasets: API.OperationMethod<
+  ImportDataProjectsDatasetsRequest,
+  ImportDataProjectsDatasetsResponse,
+  ImportDataProjectsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportDataProjectsDatasetsRequest,
   output: ImportDataProjectsDatasetsResponse,
   errors: [],
@@ -3118,7 +4740,10 @@ export interface DeleteProjectsDatasetsRequest {
 export const DeleteProjectsDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsDatasetsRequest>;
 
@@ -3128,7 +4753,12 @@ export const DeleteProjectsDatasetsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsDatasetsError = DefaultErrors;
 
 /** Deletes a dataset by resource name. */
-export const deleteProjectsDatasets: API.OperationMethod<DeleteProjectsDatasetsRequest, DeleteProjectsDatasetsResponse, DeleteProjectsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsDatasets: API.OperationMethod<
+  DeleteProjectsDatasetsRequest,
+  DeleteProjectsDatasetsResponse,
+  DeleteProjectsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsDatasetsRequest,
   output: DeleteProjectsDatasetsResponse,
   errors: [],
@@ -3151,17 +4781,27 @@ export const ListProjectsDatasetsDataItemsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsDatasetsDataItemsRequest>;
 
-export type ListProjectsDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
-export const ListProjectsDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
+export type ListProjectsDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
+export const ListProjectsDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
 
 export type ListProjectsDatasetsDataItemsError = DefaultErrors;
 
 /** Lists data items in a dataset. This API can be called after data are imported into dataset. Pagination is supported. */
-export const listProjectsDatasetsDataItems: API.PaginatedOperationMethod<ListProjectsDatasetsDataItemsRequest, ListProjectsDatasetsDataItemsResponse, ListProjectsDatasetsDataItemsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsDatasetsDataItems: API.PaginatedOperationMethod<
+  ListProjectsDatasetsDataItemsRequest,
+  ListProjectsDatasetsDataItemsResponse,
+  ListProjectsDatasetsDataItemsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsDatasetsDataItemsRequest,
   output: ListProjectsDatasetsDataItemsResponse,
   errors: [],
@@ -3179,17 +4819,27 @@ export interface GetProjectsDatasetsDataItemsRequest {
 export const GetProjectsDatasetsDataItemsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems/{dataItemsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems/{dataItemsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsDatasetsDataItemsRequest>;
 
-export type GetProjectsDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1DataItem;
-export const GetProjectsDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1DataItem;
+export type GetProjectsDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1DataItem;
+export const GetProjectsDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1DataItem;
 
 export type GetProjectsDatasetsDataItemsError = DefaultErrors;
 
 /** Gets a data item in a dataset by resource name. This API can be called after data are imported into dataset. */
-export const getProjectsDatasetsDataItems: API.OperationMethod<GetProjectsDatasetsDataItemsRequest, GetProjectsDatasetsDataItemsResponse, GetProjectsDatasetsDataItemsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDatasetsDataItems: API.OperationMethod<
+  GetProjectsDatasetsDataItemsRequest,
+  GetProjectsDatasetsDataItemsResponse,
+  GetProjectsDatasetsDataItemsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDatasetsDataItemsRequest,
   output: GetProjectsDatasetsDataItemsResponse,
   errors: [],
@@ -3203,17 +4853,27 @@ export interface DeleteProjectsDatasetsAnnotatedDatasetsRequest {
 export const DeleteProjectsDatasetsAnnotatedDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsRequest>;
 
-export type DeleteProjectsDatasetsAnnotatedDatasetsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsDatasetsAnnotatedDatasetsResponse = GoogleProtobufEmpty;
+export type DeleteProjectsDatasetsAnnotatedDatasetsResponse =
+  GoogleProtobufEmpty;
+export const DeleteProjectsDatasetsAnnotatedDatasetsResponse =
+  GoogleProtobufEmpty;
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsError = DefaultErrors;
 
 /** Deletes an annotated dataset by resource name. */
-export const deleteProjectsDatasetsAnnotatedDatasets: API.OperationMethod<DeleteProjectsDatasetsAnnotatedDatasetsRequest, DeleteProjectsDatasetsAnnotatedDatasetsResponse, DeleteProjectsDatasetsAnnotatedDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsDatasetsAnnotatedDatasets: API.OperationMethod<
+  DeleteProjectsDatasetsAnnotatedDatasetsRequest,
+  DeleteProjectsDatasetsAnnotatedDatasetsResponse,
+  DeleteProjectsDatasetsAnnotatedDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsDatasetsAnnotatedDatasetsRequest,
   output: DeleteProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
@@ -3236,17 +4896,27 @@ export const ListProjectsDatasetsAnnotatedDatasetsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsRequest>;
 
-export type ListProjectsDatasetsAnnotatedDatasetsResponse = GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse;
-export const ListProjectsDatasetsAnnotatedDatasetsResponse = GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse;
+export type ListProjectsDatasetsAnnotatedDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse;
+export const ListProjectsDatasetsAnnotatedDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsError = DefaultErrors;
 
 /** Lists annotated datasets for a dataset. Pagination is supported. */
-export const listProjectsDatasetsAnnotatedDatasets: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsRequest, ListProjectsDatasetsAnnotatedDatasetsResponse, ListProjectsDatasetsAnnotatedDatasetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsDatasetsAnnotatedDatasets: API.PaginatedOperationMethod<
+  ListProjectsDatasetsAnnotatedDatasetsRequest,
+  ListProjectsDatasetsAnnotatedDatasetsResponse,
+  ListProjectsDatasetsAnnotatedDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
@@ -3264,17 +4934,27 @@ export interface GetProjectsDatasetsAnnotatedDatasetsRequest {
 export const GetProjectsDatasetsAnnotatedDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsRequest>;
 
-export type GetProjectsDatasetsAnnotatedDatasetsResponse = GoogleCloudDatalabelingV1beta1AnnotatedDataset;
-export const GetProjectsDatasetsAnnotatedDatasetsResponse = GoogleCloudDatalabelingV1beta1AnnotatedDataset;
+export type GetProjectsDatasetsAnnotatedDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1AnnotatedDataset;
+export const GetProjectsDatasetsAnnotatedDatasetsResponse =
+  GoogleCloudDatalabelingV1beta1AnnotatedDataset;
 
 export type GetProjectsDatasetsAnnotatedDatasetsError = DefaultErrors;
 
 /** Gets an annotated dataset by resource name. */
-export const getProjectsDatasetsAnnotatedDatasets: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsRequest, GetProjectsDatasetsAnnotatedDatasetsResponse, GetProjectsDatasetsAnnotatedDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDatasetsAnnotatedDatasets: API.OperationMethod<
+  GetProjectsDatasetsAnnotatedDatasetsRequest,
+  GetProjectsDatasetsAnnotatedDatasetsResponse,
+  GetProjectsDatasetsAnnotatedDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
@@ -3291,23 +4971,34 @@ export interface ListProjectsDatasetsAnnotatedDatasetsExamplesRequest {
   filter?: string;
 }
 
-export const ListProjectsDatasetsAnnotatedDatasetsExamplesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/examples" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsExamplesRequest>;
+export const ListProjectsDatasetsAnnotatedDatasetsExamplesRequest =
+  Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/examples",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsExamplesRequest>;
 
-export type ListProjectsDatasetsAnnotatedDatasetsExamplesResponse = GoogleCloudDatalabelingV1beta1ListExamplesResponse;
-export const ListProjectsDatasetsAnnotatedDatasetsExamplesResponse = GoogleCloudDatalabelingV1beta1ListExamplesResponse;
+export type ListProjectsDatasetsAnnotatedDatasetsExamplesResponse =
+  GoogleCloudDatalabelingV1beta1ListExamplesResponse;
+export const ListProjectsDatasetsAnnotatedDatasetsExamplesResponse =
+  GoogleCloudDatalabelingV1beta1ListExamplesResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsExamplesError = DefaultErrors;
 
 /** Lists examples in an annotated dataset. Pagination is supported. */
-export const listProjectsDatasetsAnnotatedDatasetsExamples: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsExamplesRequest, ListProjectsDatasetsAnnotatedDatasetsExamplesResponse, ListProjectsDatasetsAnnotatedDatasetsExamplesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsDatasetsAnnotatedDatasetsExamples: API.PaginatedOperationMethod<
+  ListProjectsDatasetsAnnotatedDatasetsExamplesRequest,
+  ListProjectsDatasetsAnnotatedDatasetsExamplesResponse,
+  ListProjectsDatasetsAnnotatedDatasetsExamplesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsExamplesRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   errors: [],
@@ -3324,21 +5015,32 @@ export interface GetProjectsDatasetsAnnotatedDatasetsExamplesRequest {
   filter?: string;
 }
 
-export const GetProjectsDatasetsAnnotatedDatasetsExamplesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/examples/{examplesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsExamplesRequest>;
+export const GetProjectsDatasetsAnnotatedDatasetsExamplesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/examples/{examplesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsExamplesRequest>;
 
-export type GetProjectsDatasetsAnnotatedDatasetsExamplesResponse = GoogleCloudDatalabelingV1beta1Example;
-export const GetProjectsDatasetsAnnotatedDatasetsExamplesResponse = GoogleCloudDatalabelingV1beta1Example;
+export type GetProjectsDatasetsAnnotatedDatasetsExamplesResponse =
+  GoogleCloudDatalabelingV1beta1Example;
+export const GetProjectsDatasetsAnnotatedDatasetsExamplesResponse =
+  GoogleCloudDatalabelingV1beta1Example;
 
 export type GetProjectsDatasetsAnnotatedDatasetsExamplesError = DefaultErrors;
 
 /** Gets an example by resource name, including both data and annotation. */
-export const getProjectsDatasetsAnnotatedDatasetsExamples: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsExamplesRequest, GetProjectsDatasetsAnnotatedDatasetsExamplesResponse, GetProjectsDatasetsAnnotatedDatasetsExamplesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDatasetsAnnotatedDatasetsExamples: API.OperationMethod<
+  GetProjectsDatasetsAnnotatedDatasetsExamplesRequest,
+  GetProjectsDatasetsAnnotatedDatasetsExamplesResponse,
+  GetProjectsDatasetsAnnotatedDatasetsExamplesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsExamplesRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   errors: [],
@@ -3349,20 +5051,32 @@ export interface GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
   name: string;
 }
 
-export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
+export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
 
-export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = GoogleCloudDatalabelingV1beta1FeedbackThread;
-export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = GoogleCloudDatalabelingV1beta1FeedbackThread;
+export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
+  GoogleCloudDatalabelingV1beta1FeedbackThread;
+export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
+  GoogleCloudDatalabelingV1beta1FeedbackThread;
 
-export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError = DefaultErrors;
+export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError =
+  DefaultErrors;
 
 /** Get a FeedbackThread object. */
-export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationMethod<
+  GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
+  GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
+  GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
@@ -3373,20 +5087,32 @@ export interface DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
   name: string;
 }
 
-export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
+export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
 
-export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = GoogleProtobufEmpty;
+export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
+  GoogleProtobufEmpty;
+export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
+  GoogleProtobufEmpty;
 
-export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError = DefaultErrors;
+export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError =
+  DefaultErrors;
 
 /** Delete a FeedbackThread. */
-export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationMethod<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationMethod<
+  DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
+  DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
+  DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
@@ -3401,22 +5127,34 @@ export interface ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
+export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
+  Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
 
-export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse;
-export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse;
+export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
+  GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse;
+export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
+  GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse;
 
-export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError = DefaultErrors;
+export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError =
+  DefaultErrors;
 
 /** List FeedbackThreads with pagination. */
-export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.PaginatedOperationMethod<
+  ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
+  ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
+  ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
@@ -3431,22 +5169,36 @@ export interface GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMess
   name: string;
 }
 
-export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages/{feedbackMessagesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
+export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages/{feedbackMessagesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
 
-export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleCloudDatalabelingV1beta1FeedbackMessage;
-export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleCloudDatalabelingV1beta1FeedbackMessage;
+export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleCloudDatalabelingV1beta1FeedbackMessage;
+export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleCloudDatalabelingV1beta1FeedbackMessage;
 
-export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = DefaultErrors;
+export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
+  DefaultErrors;
 
 /** Get a FeedbackMessage object. */
-export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
-  output: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<
+  GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+  GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  output:
+    GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
 }));
 
@@ -3455,22 +5207,36 @@ export interface DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackM
   name: string;
 }
 
-export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages/{feedbackMessagesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
+export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages/{feedbackMessagesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
 
-export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleProtobufEmpty;
+export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleProtobufEmpty;
+export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleProtobufEmpty;
 
-export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = DefaultErrors;
+export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
+  DefaultErrors;
 
 /** Delete a FeedbackMessage. */
-export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
-  output: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<
+  DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+  DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  output:
+    DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
 }));
 
@@ -3483,24 +5249,38 @@ export interface ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMes
   pageSize?: number;
 }
 
-export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
+export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
+  Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
 
-export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse;
-export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse;
+export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse;
+export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse;
 
-export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = DefaultErrors;
+export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
+  DefaultErrors;
 
 /** List FeedbackMessages with pagination. */
-export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
-  input: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
-  output: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.PaginatedOperationMethod<
+  ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+  ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input:
+    ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  output:
+    ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -3515,23 +5295,40 @@ export interface CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackM
   body?: GoogleCloudDatalabelingV1beta1FeedbackMessage;
 }
 
-export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1FeedbackMessage).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
+export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDatalabelingV1beta1FeedbackMessage).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/feedbackThreads/{feedbackThreadsId}/feedbackMessages",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
 
-export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleLongrunningOperation;
-export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse = GoogleLongrunningOperation;
+export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleLongrunningOperation;
+export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
+  GoogleLongrunningOperation;
 
-export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = DefaultErrors;
+export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
+  DefaultErrors;
 
 /** Create a FeedbackMessage object. */
-export const createProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
-  output: CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+export const createProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<
+  CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
+  CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
+  output:
+    CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
 }));
 
@@ -3546,23 +5343,34 @@ export interface ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest {
   filter?: string;
 }
 
-export const ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/dataItems" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest>;
+export const ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
+  Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/dataItems",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest>;
 
-export type ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
-export const ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
+export type ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
+export const ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsDataItemsError = DefaultErrors;
 
 /** Lists data items in a dataset. This API can be called after data are imported into dataset. Pagination is supported. */
-export const listProjectsDatasetsAnnotatedDatasetsDataItems: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest, ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse, ListProjectsDatasetsAnnotatedDatasetsDataItemsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsDatasetsAnnotatedDatasetsDataItems: API.PaginatedOperationMethod<
+  ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
+  ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
+  ListProjectsDatasetsAnnotatedDatasetsDataItemsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   errors: [],
@@ -3577,20 +5385,31 @@ export interface GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest {
   name: string;
 }
 
-export const GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/dataItems/{dataItemsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest>;
+export const GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}/dataItems/{dataItemsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest>;
 
-export type GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1DataItem;
-export const GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse = GoogleCloudDatalabelingV1beta1DataItem;
+export type GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1DataItem;
+export const GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
+  GoogleCloudDatalabelingV1beta1DataItem;
 
 export type GetProjectsDatasetsAnnotatedDatasetsDataItemsError = DefaultErrors;
 
 /** Gets a data item in a dataset by resource name. This API can be called after data are imported into dataset. */
-export const getProjectsDatasetsAnnotatedDatasetsDataItems: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest, GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse, GetProjectsDatasetsAnnotatedDatasetsDataItemsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDatasetsAnnotatedDatasetsDataItems: API.OperationMethod<
+  GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
+  GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
+  GetProjectsDatasetsAnnotatedDatasetsDataItemsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   errors: [],
@@ -3605,9 +5424,15 @@ export interface LabelProjectsDatasetsVideoRequest {
 
 export const LabelProjectsDatasetsVideoRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/video:label", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/video:label",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LabelProjectsDatasetsVideoRequest>;
 
@@ -3617,7 +5442,12 @@ export const LabelProjectsDatasetsVideoResponse = GoogleLongrunningOperation;
 export type LabelProjectsDatasetsVideoError = DefaultErrors;
 
 /** Starts a labeling task for video. The type of video labeling task is configured by feature in the request. */
-export const labelProjectsDatasetsVideo: API.OperationMethod<LabelProjectsDatasetsVideoRequest, LabelProjectsDatasetsVideoResponse, LabelProjectsDatasetsVideoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const labelProjectsDatasetsVideo: API.OperationMethod<
+  LabelProjectsDatasetsVideoRequest,
+  LabelProjectsDatasetsVideoResponse,
+  LabelProjectsDatasetsVideoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LabelProjectsDatasetsVideoRequest,
   output: LabelProjectsDatasetsVideoResponse,
   errors: [],
@@ -3631,17 +5461,27 @@ export interface GetProjectsDatasetsEvaluationsRequest {
 export const GetProjectsDatasetsEvaluationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/evaluations/{evaluationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/evaluations/{evaluationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsDatasetsEvaluationsRequest>;
 
-export type GetProjectsDatasetsEvaluationsResponse = GoogleCloudDatalabelingV1beta1Evaluation;
-export const GetProjectsDatasetsEvaluationsResponse = GoogleCloudDatalabelingV1beta1Evaluation;
+export type GetProjectsDatasetsEvaluationsResponse =
+  GoogleCloudDatalabelingV1beta1Evaluation;
+export const GetProjectsDatasetsEvaluationsResponse =
+  GoogleCloudDatalabelingV1beta1Evaluation;
 
 export type GetProjectsDatasetsEvaluationsError = DefaultErrors;
 
 /** Gets an evaluation by resource name (to search, use projects.evaluations.search). */
-export const getProjectsDatasetsEvaluations: API.OperationMethod<GetProjectsDatasetsEvaluationsRequest, GetProjectsDatasetsEvaluationsResponse, GetProjectsDatasetsEvaluationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsDatasetsEvaluations: API.OperationMethod<
+  GetProjectsDatasetsEvaluationsRequest,
+  GetProjectsDatasetsEvaluationsResponse,
+  GetProjectsDatasetsEvaluationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsDatasetsEvaluationsRequest,
   output: GetProjectsDatasetsEvaluationsResponse,
   errors: [],
@@ -3654,21 +5494,36 @@ export interface SearchProjectsDatasetsEvaluationsExampleComparisonsRequest {
   body?: GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest;
 }
 
-export const SearchProjectsDatasetsEvaluationsExampleComparisonsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/evaluations/{evaluationsId}/exampleComparisons:search", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsDatasetsEvaluationsExampleComparisonsRequest>;
+export const SearchProjectsDatasetsEvaluationsExampleComparisonsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/evaluations/{evaluationsId}/exampleComparisons:search",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsDatasetsEvaluationsExampleComparisonsRequest>;
 
-export type SearchProjectsDatasetsEvaluationsExampleComparisonsResponse = GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse;
-export const SearchProjectsDatasetsEvaluationsExampleComparisonsResponse = GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse;
+export type SearchProjectsDatasetsEvaluationsExampleComparisonsResponse =
+  GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse;
+export const SearchProjectsDatasetsEvaluationsExampleComparisonsResponse =
+  GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse;
 
-export type SearchProjectsDatasetsEvaluationsExampleComparisonsError = DefaultErrors;
+export type SearchProjectsDatasetsEvaluationsExampleComparisonsError =
+  DefaultErrors;
 
 /** Searches example comparisons from an evaluation. The return format is a list of example comparisons that show ground truth and prediction(s) for a single input. Search by providing an evaluation ID. */
-export const searchProjectsDatasetsEvaluationsExampleComparisons: API.OperationMethod<SearchProjectsDatasetsEvaluationsExampleComparisonsRequest, SearchProjectsDatasetsEvaluationsExampleComparisonsResponse, SearchProjectsDatasetsEvaluationsExampleComparisonsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const searchProjectsDatasetsEvaluationsExampleComparisons: API.OperationMethod<
+  SearchProjectsDatasetsEvaluationsExampleComparisonsRequest,
+  SearchProjectsDatasetsEvaluationsExampleComparisonsResponse,
+  SearchProjectsDatasetsEvaluationsExampleComparisonsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SearchProjectsDatasetsEvaluationsExampleComparisonsRequest,
   output: SearchProjectsDatasetsEvaluationsExampleComparisonsResponse,
   errors: [],
@@ -3683,9 +5538,15 @@ export interface LabelProjectsDatasetsTextRequest {
 
 export const LabelProjectsDatasetsTextRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelTextRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelTextRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/text:label", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/text:label",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LabelProjectsDatasetsTextRequest>;
 
@@ -3695,7 +5556,12 @@ export const LabelProjectsDatasetsTextResponse = GoogleLongrunningOperation;
 export type LabelProjectsDatasetsTextError = DefaultErrors;
 
 /** Starts a labeling task for text. The type of text labeling task is configured by feature in the request. */
-export const labelProjectsDatasetsText: API.OperationMethod<LabelProjectsDatasetsTextRequest, LabelProjectsDatasetsTextResponse, LabelProjectsDatasetsTextError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const labelProjectsDatasetsText: API.OperationMethod<
+  LabelProjectsDatasetsTextRequest,
+  LabelProjectsDatasetsTextResponse,
+  LabelProjectsDatasetsTextError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LabelProjectsDatasetsTextRequest,
   output: LabelProjectsDatasetsTextResponse,
   errors: [],
@@ -3710,9 +5576,15 @@ export interface LabelProjectsDatasetsImageRequest {
 
 export const LabelProjectsDatasetsImageRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/image:label", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/image:label",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LabelProjectsDatasetsImageRequest>;
 
@@ -3722,7 +5594,12 @@ export const LabelProjectsDatasetsImageResponse = GoogleLongrunningOperation;
 export type LabelProjectsDatasetsImageError = DefaultErrors;
 
 /** Starts a labeling task for image. The type of image labeling task is configured by feature in the request. */
-export const labelProjectsDatasetsImage: API.OperationMethod<LabelProjectsDatasetsImageRequest, LabelProjectsDatasetsImageResponse, LabelProjectsDatasetsImageError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const labelProjectsDatasetsImage: API.OperationMethod<
+  LabelProjectsDatasetsImageRequest,
+  LabelProjectsDatasetsImageResponse,
+  LabelProjectsDatasetsImageError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LabelProjectsDatasetsImageRequest,
   output: LabelProjectsDatasetsImageResponse,
   errors: [],
@@ -3737,9 +5614,15 @@ export interface ResumeProjectsEvaluationJobsRequest {
 
 export const ResumeProjectsEvaluationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:resume", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:resume",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResumeProjectsEvaluationJobsRequest>;
 
@@ -3749,7 +5632,12 @@ export const ResumeProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
 export type ResumeProjectsEvaluationJobsError = DefaultErrors;
 
 /** Resumes a paused evaluation job. A deleted evaluation job can't be resumed. Resuming a running or scheduled evaluation job is a no-op. */
-export const resumeProjectsEvaluationJobs: API.OperationMethod<ResumeProjectsEvaluationJobsRequest, ResumeProjectsEvaluationJobsResponse, ResumeProjectsEvaluationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resumeProjectsEvaluationJobs: API.OperationMethod<
+  ResumeProjectsEvaluationJobsRequest,
+  ResumeProjectsEvaluationJobsResponse,
+  ResumeProjectsEvaluationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResumeProjectsEvaluationJobsRequest,
   output: ResumeProjectsEvaluationJobsResponse,
   errors: [],
@@ -3763,17 +5651,27 @@ export interface GetProjectsEvaluationJobsRequest {
 export const GetProjectsEvaluationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsEvaluationJobsRequest>;
 
-export type GetProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1EvaluationJob;
-export const GetProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1EvaluationJob;
+export type GetProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1EvaluationJob;
+export const GetProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1EvaluationJob;
 
 export type GetProjectsEvaluationJobsError = DefaultErrors;
 
 /** Gets an evaluation job by resource name. */
-export const getProjectsEvaluationJobs: API.OperationMethod<GetProjectsEvaluationJobsRequest, GetProjectsEvaluationJobsResponse, GetProjectsEvaluationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsEvaluationJobs: API.OperationMethod<
+  GetProjectsEvaluationJobsRequest,
+  GetProjectsEvaluationJobsResponse,
+  GetProjectsEvaluationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsEvaluationJobsRequest,
   output: GetProjectsEvaluationJobsResponse,
   errors: [],
@@ -3791,19 +5689,32 @@ export interface PatchProjectsEvaluationJobsRequest {
 export const PatchProjectsEvaluationJobsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJob).pipe(T.HttpBody()),
+  body: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJob).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsEvaluationJobsRequest>;
 
-export type PatchProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1EvaluationJob;
-export const PatchProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1EvaluationJob;
+export type PatchProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1EvaluationJob;
+export const PatchProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1EvaluationJob;
 
 export type PatchProjectsEvaluationJobsError = DefaultErrors;
 
 /** Updates an evaluation job. You can only update certain fields of the job's EvaluationJobConfig: `humanAnnotationConfig.instruction`, `exampleCount`, and `exampleSamplePercentage`. If you want to change any other aspect of the evaluation job, you must delete the job and create a new one. */
-export const patchProjectsEvaluationJobs: API.OperationMethod<PatchProjectsEvaluationJobsRequest, PatchProjectsEvaluationJobsResponse, PatchProjectsEvaluationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsEvaluationJobs: API.OperationMethod<
+  PatchProjectsEvaluationJobsRequest,
+  PatchProjectsEvaluationJobsResponse,
+  PatchProjectsEvaluationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsEvaluationJobsRequest,
   output: PatchProjectsEvaluationJobsResponse,
   errors: [],
@@ -3817,7 +5728,10 @@ export interface DeleteProjectsEvaluationJobsRequest {
 export const DeleteProjectsEvaluationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsEvaluationJobsRequest>;
 
@@ -3827,7 +5741,12 @@ export const DeleteProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsEvaluationJobsError = DefaultErrors;
 
 /** Stops and deletes an evaluation job. */
-export const deleteProjectsEvaluationJobs: API.OperationMethod<DeleteProjectsEvaluationJobsRequest, DeleteProjectsEvaluationJobsResponse, DeleteProjectsEvaluationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsEvaluationJobs: API.OperationMethod<
+  DeleteProjectsEvaluationJobsRequest,
+  DeleteProjectsEvaluationJobsResponse,
+  DeleteProjectsEvaluationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsEvaluationJobsRequest,
   output: DeleteProjectsEvaluationJobsResponse,
   errors: [],
@@ -3850,17 +5769,27 @@ export const ListProjectsEvaluationJobsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/evaluationJobs" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/evaluationJobs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsEvaluationJobsRequest>;
 
-export type ListProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse;
-export const ListProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse;
+export type ListProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse;
+export const ListProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse;
 
 export type ListProjectsEvaluationJobsError = DefaultErrors;
 
 /** Lists all evaluation jobs within a project with possible filters. Pagination is supported. */
-export const listProjectsEvaluationJobs: API.PaginatedOperationMethod<ListProjectsEvaluationJobsRequest, ListProjectsEvaluationJobsResponse, ListProjectsEvaluationJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsEvaluationJobs: API.PaginatedOperationMethod<
+  ListProjectsEvaluationJobsRequest,
+  ListProjectsEvaluationJobsResponse,
+  ListProjectsEvaluationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsEvaluationJobsRequest,
   output: ListProjectsEvaluationJobsResponse,
   errors: [],
@@ -3879,9 +5808,15 @@ export interface PauseProjectsEvaluationJobsRequest {
 
 export const PauseProjectsEvaluationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:pause", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:pause",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PauseProjectsEvaluationJobsRequest>;
 
@@ -3891,7 +5826,12 @@ export const PauseProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
 export type PauseProjectsEvaluationJobsError = DefaultErrors;
 
 /** Pauses an evaluation job. Pausing an evaluation job that is already in a `PAUSED` state is a no-op. */
-export const pauseProjectsEvaluationJobs: API.OperationMethod<PauseProjectsEvaluationJobsRequest, PauseProjectsEvaluationJobsResponse, PauseProjectsEvaluationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pauseProjectsEvaluationJobs: API.OperationMethod<
+  PauseProjectsEvaluationJobsRequest,
+  PauseProjectsEvaluationJobsResponse,
+  PauseProjectsEvaluationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PauseProjectsEvaluationJobsRequest,
   output: PauseProjectsEvaluationJobsResponse,
   errors: [],
@@ -3906,19 +5846,32 @@ export interface CreateProjectsEvaluationJobsRequest {
 
 export const CreateProjectsEvaluationJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/evaluationJobs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/evaluationJobs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsEvaluationJobsRequest>;
 
-export type CreateProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1EvaluationJob;
-export const CreateProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1EvaluationJob;
+export type CreateProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1EvaluationJob;
+export const CreateProjectsEvaluationJobsResponse =
+  GoogleCloudDatalabelingV1beta1EvaluationJob;
 
 export type CreateProjectsEvaluationJobsError = DefaultErrors;
 
 /** Creates an evaluation job. */
-export const createProjectsEvaluationJobs: API.OperationMethod<CreateProjectsEvaluationJobsRequest, CreateProjectsEvaluationJobsResponse, CreateProjectsEvaluationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsEvaluationJobs: API.OperationMethod<
+  CreateProjectsEvaluationJobsRequest,
+  CreateProjectsEvaluationJobsResponse,
+  CreateProjectsEvaluationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsEvaluationJobsRequest,
   output: CreateProjectsEvaluationJobsResponse,
   errors: [],
@@ -3941,17 +5894,27 @@ export const ListProjectsAnnotationSpecSetsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/annotationSpecSets" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/annotationSpecSets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsAnnotationSpecSetsRequest>;
 
-export type ListProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse;
-export const ListProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse;
+export type ListProjectsAnnotationSpecSetsResponse =
+  GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse;
+export const ListProjectsAnnotationSpecSetsResponse =
+  GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse;
 
 export type ListProjectsAnnotationSpecSetsError = DefaultErrors;
 
 /** Lists annotation spec sets for a project. Pagination is supported. */
-export const listProjectsAnnotationSpecSets: API.PaginatedOperationMethod<ListProjectsAnnotationSpecSetsRequest, ListProjectsAnnotationSpecSetsResponse, ListProjectsAnnotationSpecSetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsAnnotationSpecSets: API.PaginatedOperationMethod<
+  ListProjectsAnnotationSpecSetsRequest,
+  ListProjectsAnnotationSpecSetsResponse,
+  ListProjectsAnnotationSpecSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsAnnotationSpecSetsRequest,
   output: ListProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -3969,7 +5932,10 @@ export interface DeleteProjectsAnnotationSpecSetsRequest {
 export const DeleteProjectsAnnotationSpecSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsAnnotationSpecSetsRequest>;
 
@@ -3979,7 +5945,12 @@ export const DeleteProjectsAnnotationSpecSetsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsAnnotationSpecSetsError = DefaultErrors;
 
 /** Deletes an annotation spec set by resource name. */
-export const deleteProjectsAnnotationSpecSets: API.OperationMethod<DeleteProjectsAnnotationSpecSetsRequest, DeleteProjectsAnnotationSpecSetsResponse, DeleteProjectsAnnotationSpecSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsAnnotationSpecSets: API.OperationMethod<
+  DeleteProjectsAnnotationSpecSetsRequest,
+  DeleteProjectsAnnotationSpecSetsResponse,
+  DeleteProjectsAnnotationSpecSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsAnnotationSpecSetsRequest,
   output: DeleteProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -3994,19 +5965,32 @@ export interface CreateProjectsAnnotationSpecSetsRequest {
 
 export const CreateProjectsAnnotationSpecSetsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/annotationSpecSets", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/annotationSpecSets",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsAnnotationSpecSetsRequest>;
 
-export type CreateProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
-export const CreateProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
+export type CreateProjectsAnnotationSpecSetsResponse =
+  GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
+export const CreateProjectsAnnotationSpecSetsResponse =
+  GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
 
 export type CreateProjectsAnnotationSpecSetsError = DefaultErrors;
 
 /** Creates an annotation spec set by providing a set of labels. */
-export const createProjectsAnnotationSpecSets: API.OperationMethod<CreateProjectsAnnotationSpecSetsRequest, CreateProjectsAnnotationSpecSetsResponse, CreateProjectsAnnotationSpecSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsAnnotationSpecSets: API.OperationMethod<
+  CreateProjectsAnnotationSpecSetsRequest,
+  CreateProjectsAnnotationSpecSetsResponse,
+  CreateProjectsAnnotationSpecSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsAnnotationSpecSetsRequest,
   output: CreateProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -4020,17 +6004,27 @@ export interface GetProjectsAnnotationSpecSetsRequest {
 export const GetProjectsAnnotationSpecSetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsAnnotationSpecSetsRequest>;
 
-export type GetProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
-export const GetProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
+export type GetProjectsAnnotationSpecSetsResponse =
+  GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
+export const GetProjectsAnnotationSpecSetsResponse =
+  GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
 
 export type GetProjectsAnnotationSpecSetsError = DefaultErrors;
 
 /** Gets an annotation spec set by resource name. */
-export const getProjectsAnnotationSpecSets: API.OperationMethod<GetProjectsAnnotationSpecSetsRequest, GetProjectsAnnotationSpecSetsResponse, GetProjectsAnnotationSpecSetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsAnnotationSpecSets: API.OperationMethod<
+  GetProjectsAnnotationSpecSetsRequest,
+  GetProjectsAnnotationSpecSetsResponse,
+  GetProjectsAnnotationSpecSetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsAnnotationSpecSetsRequest,
   output: GetProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -4045,9 +6039,15 @@ export interface CreateProjectsInstructionsRequest {
 
 export const CreateProjectsInstructionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1CreateInstructionRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudDatalabelingV1beta1CreateInstructionRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/instructions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/instructions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsInstructionsRequest>;
 
@@ -4057,7 +6057,12 @@ export const CreateProjectsInstructionsResponse = GoogleLongrunningOperation;
 export type CreateProjectsInstructionsError = DefaultErrors;
 
 /** Creates an instruction for how data should be labeled. */
-export const createProjectsInstructions: API.OperationMethod<CreateProjectsInstructionsRequest, CreateProjectsInstructionsResponse, CreateProjectsInstructionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstructions: API.OperationMethod<
+  CreateProjectsInstructionsRequest,
+  CreateProjectsInstructionsResponse,
+  CreateProjectsInstructionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstructionsRequest,
   output: CreateProjectsInstructionsResponse,
   errors: [],
@@ -4071,7 +6076,10 @@ export interface DeleteProjectsInstructionsRequest {
 export const DeleteProjectsInstructionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstructionsRequest>;
 
@@ -4081,7 +6089,12 @@ export const DeleteProjectsInstructionsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsInstructionsError = DefaultErrors;
 
 /** Deletes an instruction object by resource name. */
-export const deleteProjectsInstructions: API.OperationMethod<DeleteProjectsInstructionsRequest, DeleteProjectsInstructionsResponse, DeleteProjectsInstructionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstructions: API.OperationMethod<
+  DeleteProjectsInstructionsRequest,
+  DeleteProjectsInstructionsResponse,
+  DeleteProjectsInstructionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstructionsRequest,
   output: DeleteProjectsInstructionsResponse,
   errors: [],
@@ -4095,17 +6108,27 @@ export interface GetProjectsInstructionsRequest {
 export const GetProjectsInstructionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstructionsRequest>;
 
-export type GetProjectsInstructionsResponse = GoogleCloudDatalabelingV1beta1Instruction;
-export const GetProjectsInstructionsResponse = GoogleCloudDatalabelingV1beta1Instruction;
+export type GetProjectsInstructionsResponse =
+  GoogleCloudDatalabelingV1beta1Instruction;
+export const GetProjectsInstructionsResponse =
+  GoogleCloudDatalabelingV1beta1Instruction;
 
 export type GetProjectsInstructionsError = DefaultErrors;
 
 /** Gets an instruction by resource name. */
-export const getProjectsInstructions: API.OperationMethod<GetProjectsInstructionsRequest, GetProjectsInstructionsResponse, GetProjectsInstructionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstructions: API.OperationMethod<
+  GetProjectsInstructionsRequest,
+  GetProjectsInstructionsResponse,
+  GetProjectsInstructionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstructionsRequest,
   output: GetProjectsInstructionsResponse,
   errors: [],
@@ -4132,13 +6155,20 @@ export const ListProjectsInstructionsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstructionsRequest>;
 
-export type ListProjectsInstructionsResponse = GoogleCloudDatalabelingV1beta1ListInstructionsResponse;
-export const ListProjectsInstructionsResponse = GoogleCloudDatalabelingV1beta1ListInstructionsResponse;
+export type ListProjectsInstructionsResponse =
+  GoogleCloudDatalabelingV1beta1ListInstructionsResponse;
+export const ListProjectsInstructionsResponse =
+  GoogleCloudDatalabelingV1beta1ListInstructionsResponse;
 
 export type ListProjectsInstructionsError = DefaultErrors;
 
 /** Lists instructions for a project. Pagination is supported. */
-export const listProjectsInstructions: API.PaginatedOperationMethod<ListProjectsInstructionsRequest, ListProjectsInstructionsResponse, ListProjectsInstructionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstructions: API.PaginatedOperationMethod<
+  ListProjectsInstructionsRequest,
+  ListProjectsInstructionsResponse,
+  ListProjectsInstructionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstructionsRequest,
   output: ListProjectsInstructionsResponse,
   errors: [],
@@ -4147,4 +6177,3 @@ export const listProjectsInstructions: API.PaginatedOperationMethod<ListProjects
     outputToken: "nextPageToken",
   },
 }));
-

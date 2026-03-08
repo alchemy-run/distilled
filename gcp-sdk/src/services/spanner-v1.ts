@@ -28,13 +28,24 @@ export interface ClientContext {
   secureContext?: Record<string, unknown>;
 }
 
-export const ClientContext: Schema.Schema<ClientContext> = Schema.suspend(() => Schema.Struct({
-  secureContext: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "ClientContext" }) as any as Schema.Schema<ClientContext>;
+export const ClientContext: Schema.Schema<ClientContext> = Schema.suspend(() =>
+  Schema.Struct({
+    secureContext: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({
+  identifier: "ClientContext",
+}) as any as Schema.Schema<ClientContext>;
 
 export interface RequestOptions {
   /** Priority for the request. */
-  priority?: "PRIORITY_UNSPECIFIED" | "PRIORITY_LOW" | "PRIORITY_MEDIUM" | "PRIORITY_HIGH" | (string & {});
+  priority?:
+    | "PRIORITY_UNSPECIFIED"
+    | "PRIORITY_LOW"
+    | "PRIORITY_MEDIUM"
+    | "PRIORITY_HIGH"
+    | (string & {});
   /** Optional. Optional context that may be needed for some requests. */
   clientContext?: ClientContext;
   /** A per-request tag which can be applied to queries or reads, used for statistics collection. Both `request_tag` and `transaction_tag` can be specified for a read or query that belongs to a transaction. This field is ignored for requests where it's not applicable (for example, `CommitRequest`). Legal characters for `request_tag` values are all printable characters (ASCII 32 - 126) and the length of a request_tag is limited to 50 characters. Values that exceed this limit are truncated. Any leading underscore (_) characters are removed from the string. */
@@ -43,12 +54,17 @@ export interface RequestOptions {
   transactionTag?: string;
 }
 
-export const RequestOptions: Schema.Schema<RequestOptions> = Schema.suspend(() => Schema.Struct({
-  priority: Schema.optional(Schema.String),
-  clientContext: Schema.optional(ClientContext),
-  requestTag: Schema.optional(Schema.String),
-  transactionTag: Schema.optional(Schema.String),
-})).annotate({ identifier: "RequestOptions" }) as any as Schema.Schema<RequestOptions>;
+export const RequestOptions: Schema.Schema<RequestOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      priority: Schema.optional(Schema.String),
+      clientContext: Schema.optional(ClientContext),
+      requestTag: Schema.optional(Schema.String),
+      transactionTag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RequestOptions",
+}) as any as Schema.Schema<RequestOptions>;
 
 export interface Send {
   /** Required. The primary key of the message to be sent. */
@@ -61,12 +77,14 @@ export interface Send {
   deliverTime?: string;
 }
 
-export const Send: Schema.Schema<Send> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.Array(Schema.Unknown)),
-  queue: Schema.optional(Schema.String),
-  payload: Schema.optional(Schema.Unknown),
-  deliverTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Send" }) as any as Schema.Schema<Send>;
+export const Send: Schema.Schema<Send> = Schema.suspend(() =>
+  Schema.Struct({
+    key: Schema.optional(Schema.Array(Schema.Unknown)),
+    queue: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.Unknown),
+    deliverTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Send" }) as any as Schema.Schema<Send>;
 
 export interface Write {
   /** The values to be written. `values` can contain more than one list of values. If it does, then multiple rows are written, one for each entry in `values`. Each list in `values` must have exactly as many entries as there are entries in columns above. Sending multiple lists is equivalent to sending multiple `Mutation`s, each containing one `values` entry and repeating table and columns. Individual values in each list are encoded as described here. */
@@ -77,11 +95,13 @@ export interface Write {
   table?: string;
 }
 
-export const Write: Schema.Schema<Write> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
-  columns: Schema.optional(Schema.Array(Schema.String)),
-  table: Schema.optional(Schema.String),
-})).annotate({ identifier: "Write" }) as any as Schema.Schema<Write>;
+export const Write: Schema.Schema<Write> = Schema.suspend(() =>
+  Schema.Struct({
+    values: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
+    columns: Schema.optional(Schema.Array(Schema.String)),
+    table: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Write" }) as any as Schema.Schema<Write>;
 
 export interface Ack {
   /** By default, an attempt to ack a message that does not exist will fail with a `NOT_FOUND` error. With `ignore_not_found` set to true, the ack will succeed even if the message does not exist. This is useful for unconditionally acking a message, even if it is missing or has already been acked. */
@@ -92,11 +112,13 @@ export interface Ack {
   queue?: string;
 }
 
-export const Ack: Schema.Schema<Ack> = Schema.suspend(() => Schema.Struct({
-  ignoreNotFound: Schema.optional(Schema.Boolean),
-  key: Schema.optional(Schema.Array(Schema.Unknown)),
-  queue: Schema.optional(Schema.String),
-})).annotate({ identifier: "Ack" }) as any as Schema.Schema<Ack>;
+export const Ack: Schema.Schema<Ack> = Schema.suspend(() =>
+  Schema.Struct({
+    ignoreNotFound: Schema.optional(Schema.Boolean),
+    key: Schema.optional(Schema.Array(Schema.Unknown)),
+    queue: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Ack" }) as any as Schema.Schema<Ack>;
 
 export interface KeyRange {
   /** If the start is closed, then the range includes all rows whose first `len(start_closed)` key columns exactly match `start_closed`. */
@@ -109,12 +131,14 @@ export interface KeyRange {
   endClosed?: Array<unknown>;
 }
 
-export const KeyRange: Schema.Schema<KeyRange> = Schema.suspend(() => Schema.Struct({
-  startClosed: Schema.optional(Schema.Array(Schema.Unknown)),
-  startOpen: Schema.optional(Schema.Array(Schema.Unknown)),
-  endOpen: Schema.optional(Schema.Array(Schema.Unknown)),
-  endClosed: Schema.optional(Schema.Array(Schema.Unknown)),
-})).annotate({ identifier: "KeyRange" }) as any as Schema.Schema<KeyRange>;
+export const KeyRange: Schema.Schema<KeyRange> = Schema.suspend(() =>
+  Schema.Struct({
+    startClosed: Schema.optional(Schema.Array(Schema.Unknown)),
+    startOpen: Schema.optional(Schema.Array(Schema.Unknown)),
+    endOpen: Schema.optional(Schema.Array(Schema.Unknown)),
+    endClosed: Schema.optional(Schema.Array(Schema.Unknown)),
+  }),
+).annotate({ identifier: "KeyRange" }) as any as Schema.Schema<KeyRange>;
 
 export interface KeySet {
   /** A list of specific keys. Entries in `keys` should have exactly as many elements as there are columns in the primary or index key with which this `KeySet` is used. Individual key values are encoded as described here. */
@@ -125,11 +149,13 @@ export interface KeySet {
   all?: boolean;
 }
 
-export const KeySet: Schema.Schema<KeySet> = Schema.suspend(() => Schema.Struct({
-  keys: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
-  ranges: Schema.optional(Schema.Array(KeyRange)),
-  all: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "KeySet" }) as any as Schema.Schema<KeySet>;
+export const KeySet: Schema.Schema<KeySet> = Schema.suspend(() =>
+  Schema.Struct({
+    keys: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
+    ranges: Schema.optional(Schema.Array(KeyRange)),
+    all: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "KeySet" }) as any as Schema.Schema<KeySet>;
 
 export interface Delete {
   /** Required. The table whose rows will be deleted. */
@@ -138,10 +164,12 @@ export interface Delete {
   keySet?: KeySet;
 }
 
-export const Delete: Schema.Schema<Delete> = Schema.suspend(() => Schema.Struct({
-  table: Schema.optional(Schema.String),
-  keySet: Schema.optional(KeySet),
-})).annotate({ identifier: "Delete" }) as any as Schema.Schema<Delete>;
+export const Delete: Schema.Schema<Delete> = Schema.suspend(() =>
+  Schema.Struct({
+    table: Schema.optional(Schema.String),
+    keySet: Schema.optional(KeySet),
+  }),
+).annotate({ identifier: "Delete" }) as any as Schema.Schema<Delete>;
 
 export interface Mutation {
   /** Send a message to a queue. */
@@ -160,24 +188,30 @@ export interface Mutation {
   update?: Write;
 }
 
-export const Mutation: Schema.Schema<Mutation> = Schema.suspend(() => Schema.Struct({
-  send: Schema.optional(Send),
-  insertOrUpdate: Schema.optional(Write),
-  replace: Schema.optional(Write),
-  ack: Schema.optional(Ack),
-  delete: Schema.optional(Delete),
-  insert: Schema.optional(Write),
-  update: Schema.optional(Write),
-})).annotate({ identifier: "Mutation" }) as any as Schema.Schema<Mutation>;
+export const Mutation: Schema.Schema<Mutation> = Schema.suspend(() =>
+  Schema.Struct({
+    send: Schema.optional(Send),
+    insertOrUpdate: Schema.optional(Write),
+    replace: Schema.optional(Write),
+    ack: Schema.optional(Ack),
+    delete: Schema.optional(Delete),
+    insert: Schema.optional(Write),
+    update: Schema.optional(Write),
+  }),
+).annotate({ identifier: "Mutation" }) as any as Schema.Schema<Mutation>;
 
 export interface MutationGroup {
   /** Required. The mutations in this group. */
   mutations?: Array<Mutation>;
 }
 
-export const MutationGroup: Schema.Schema<MutationGroup> = Schema.suspend(() => Schema.Struct({
-  mutations: Schema.optional(Schema.Array(Mutation)),
-})).annotate({ identifier: "MutationGroup" }) as any as Schema.Schema<MutationGroup>;
+export const MutationGroup: Schema.Schema<MutationGroup> = Schema.suspend(() =>
+  Schema.Struct({
+    mutations: Schema.optional(Schema.Array(Mutation)),
+  }),
+).annotate({
+  identifier: "MutationGroup",
+}) as any as Schema.Schema<MutationGroup>;
 
 export interface BatchWriteRequest {
   /** Optional. If you don't set the `exclude_txn_from_change_streams` option or if it's set to `false`, then any change streams monitoring columns modified by transactions will capture the updates made within that transaction. */
@@ -188,11 +222,16 @@ export interface BatchWriteRequest {
   mutationGroups?: Array<MutationGroup>;
 }
 
-export const BatchWriteRequest: Schema.Schema<BatchWriteRequest> = Schema.suspend(() => Schema.Struct({
-  excludeTxnFromChangeStreams: Schema.optional(Schema.Boolean),
-  requestOptions: Schema.optional(RequestOptions),
-  mutationGroups: Schema.optional(Schema.Array(MutationGroup)),
-})).annotate({ identifier: "BatchWriteRequest" }) as any as Schema.Schema<BatchWriteRequest>;
+export const BatchWriteRequest: Schema.Schema<BatchWriteRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      excludeTxnFromChangeStreams: Schema.optional(Schema.Boolean),
+      requestOptions: Schema.optional(RequestOptions),
+      mutationGroups: Schema.optional(Schema.Array(MutationGroup)),
+    }),
+  ).annotate({
+    identifier: "BatchWriteRequest",
+  }) as any as Schema.Schema<BatchWriteRequest>;
 
 export interface CrontabSpec {
   /** Output only. Scheduled backups contain an externally consistent copy of the database at the version time specified in `schedule_spec.cron_spec`. However, Spanner might not initiate the creation of the scheduled backups at that version time. Spanner initiates the creation of scheduled backups within the time window bounded by the version_time specified in `schedule_spec.cron_spec` and version_time + `creation_window`. */
@@ -203,32 +242,42 @@ export interface CrontabSpec {
   timeZone?: string;
 }
 
-export const CrontabSpec: Schema.Schema<CrontabSpec> = Schema.suspend(() => Schema.Struct({
-  creationWindow: Schema.optional(Schema.String),
-  text: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-})).annotate({ identifier: "CrontabSpec" }) as any as Schema.Schema<CrontabSpec>;
+export const CrontabSpec: Schema.Schema<CrontabSpec> = Schema.suspend(() =>
+  Schema.Struct({
+    creationWindow: Schema.optional(Schema.String),
+    text: Schema.optional(Schema.String),
+    timeZone: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CrontabSpec" }) as any as Schema.Schema<CrontabSpec>;
 
 export interface BackupScheduleSpec {
   /** Cron style schedule specification. */
   cronSpec?: CrontabSpec;
 }
 
-export const BackupScheduleSpec: Schema.Schema<BackupScheduleSpec> = Schema.suspend(() => Schema.Struct({
-  cronSpec: Schema.optional(CrontabSpec),
-})).annotate({ identifier: "BackupScheduleSpec" }) as any as Schema.Schema<BackupScheduleSpec>;
+export const BackupScheduleSpec: Schema.Schema<BackupScheduleSpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cronSpec: Schema.optional(CrontabSpec),
+    }),
+  ).annotate({
+    identifier: "BackupScheduleSpec",
+  }) as any as Schema.Schema<BackupScheduleSpec>;
 
-export interface IncrementalBackupSpec {
-}
+export interface IncrementalBackupSpec {}
 
-export const IncrementalBackupSpec: Schema.Schema<IncrementalBackupSpec> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "IncrementalBackupSpec" }) as any as Schema.Schema<IncrementalBackupSpec>;
+export const IncrementalBackupSpec: Schema.Schema<IncrementalBackupSpec> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "IncrementalBackupSpec",
+  }) as any as Schema.Schema<IncrementalBackupSpec>;
 
-export interface FullBackupSpec {
-}
+export interface FullBackupSpec {}
 
-export const FullBackupSpec: Schema.Schema<FullBackupSpec> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "FullBackupSpec" }) as any as Schema.Schema<FullBackupSpec>;
+export const FullBackupSpec: Schema.Schema<FullBackupSpec> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "FullBackupSpec",
+}) as any as Schema.Schema<FullBackupSpec>;
 
 export interface CreateBackupEncryptionConfig {
   /** Optional. This field is maintained for backwards compatibility. For new callers, we recommend using `kms_key_names` to specify the KMS key. Only use `kms_key_name` if the location of the KMS key matches the database instance's configuration (location) exactly. For example, if the KMS location is in `us-central1` or `nam3`, then the database instance must also be in `us-central1` or `nam3`. The Cloud KMS key that is used to encrypt and decrypt the restored database. Set this field only when encryption_type is `CUSTOMER_MANAGED_ENCRYPTION`. Values are of the form `projects//locations//keyRings//cryptoKeys/`. */
@@ -236,14 +285,24 @@ export interface CreateBackupEncryptionConfig {
   /** Optional. Specifies the KMS configuration for the one or more keys used to protect the backup. Values are of the form `projects//locations//keyRings//cryptoKeys/`. The keys referenced by `kms_key_names` must fully cover all regions of the backup's instance configuration. Some examples: * For regional (single-region) instance configurations, specify a regional location KMS key. * For multi-region instance configurations of type `GOOGLE_MANAGED`, either specify a multi-region location KMS key or multiple regional location KMS keys that cover all regions in the instance configuration. * For an instance configuration of type `USER_MANAGED`, specify only regional location KMS keys to cover each region in the instance configuration. Multi-region location KMS keys aren't supported for `USER_MANAGED` type instance configurations. */
   kmsKeyNames?: Array<string>;
   /** Required. The encryption type of the backup. */
-  encryptionType?: "ENCRYPTION_TYPE_UNSPECIFIED" | "USE_DATABASE_ENCRYPTION" | "GOOGLE_DEFAULT_ENCRYPTION" | "CUSTOMER_MANAGED_ENCRYPTION" | (string & {});
+  encryptionType?:
+    | "ENCRYPTION_TYPE_UNSPECIFIED"
+    | "USE_DATABASE_ENCRYPTION"
+    | "GOOGLE_DEFAULT_ENCRYPTION"
+    | "CUSTOMER_MANAGED_ENCRYPTION"
+    | (string & {});
 }
 
-export const CreateBackupEncryptionConfig: Schema.Schema<CreateBackupEncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-  kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
-  encryptionType: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateBackupEncryptionConfig" }) as any as Schema.Schema<CreateBackupEncryptionConfig>;
+export const CreateBackupEncryptionConfig: Schema.Schema<CreateBackupEncryptionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+      kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
+      encryptionType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateBackupEncryptionConfig",
+  }) as any as Schema.Schema<CreateBackupEncryptionConfig>;
 
 export interface BackupSchedule {
   /** Optional. The schedule specification based on which the backup creations are triggered. */
@@ -262,15 +321,20 @@ export interface BackupSchedule {
   encryptionConfig?: CreateBackupEncryptionConfig;
 }
 
-export const BackupSchedule: Schema.Schema<BackupSchedule> = Schema.suspend(() => Schema.Struct({
-  spec: Schema.optional(BackupScheduleSpec),
-  retentionDuration: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  incrementalBackupSpec: Schema.optional(IncrementalBackupSpec),
-  fullBackupSpec: Schema.optional(FullBackupSpec),
-  name: Schema.optional(Schema.String),
-  encryptionConfig: Schema.optional(CreateBackupEncryptionConfig),
-})).annotate({ identifier: "BackupSchedule" }) as any as Schema.Schema<BackupSchedule>;
+export const BackupSchedule: Schema.Schema<BackupSchedule> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      spec: Schema.optional(BackupScheduleSpec),
+      retentionDuration: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      incrementalBackupSpec: Schema.optional(IncrementalBackupSpec),
+      fullBackupSpec: Schema.optional(FullBackupSpec),
+      name: Schema.optional(Schema.String),
+      encryptionConfig: Schema.optional(CreateBackupEncryptionConfig),
+    }),
+).annotate({
+  identifier: "BackupSchedule",
+}) as any as Schema.Schema<BackupSchedule>;
 
 export interface AutoscalingLimits {
   /** Maximum number of processing units allocated to the instance. If set, this number should be multiples of 1000 and be greater than or equal to min_processing_units. */
@@ -283,12 +347,17 @@ export interface AutoscalingLimits {
   maxNodes?: number;
 }
 
-export const AutoscalingLimits: Schema.Schema<AutoscalingLimits> = Schema.suspend(() => Schema.Struct({
-  maxProcessingUnits: Schema.optional(Schema.Number),
-  minProcessingUnits: Schema.optional(Schema.Number),
-  minNodes: Schema.optional(Schema.Number),
-  maxNodes: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AutoscalingLimits" }) as any as Schema.Schema<AutoscalingLimits>;
+export const AutoscalingLimits: Schema.Schema<AutoscalingLimits> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maxProcessingUnits: Schema.optional(Schema.Number),
+      minProcessingUnits: Schema.optional(Schema.Number),
+      minNodes: Schema.optional(Schema.Number),
+      maxNodes: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AutoscalingLimits",
+  }) as any as Schema.Schema<AutoscalingLimits>;
 
 export interface AutoscalingConfigOverrides {
   /** Optional. If true, disables total CPU autoscaling for the selected replicas and ignores total_cpu_utilization_percent in the top-level autoscaling configuration. When setting this field to true, setting autoscaling_target_total_cpu_utilization_percent field to a non-zero value for the same replica is not supported. If false, the autoscaling_target_total_cpu_utilization_percent field in the replica will be used if set to a non-zero value. Otherwise, the total_cpu_utilization_percent field in the top-level autoscaling configuration will be used. Setting both disable_high_priority_cpu_autoscaling and disable_total_cpu_autoscaling to true for the same replica is not supported. */
@@ -303,22 +372,36 @@ export interface AutoscalingConfigOverrides {
   autoscalingTargetTotalCpuUtilizationPercent?: number;
 }
 
-export const AutoscalingConfigOverrides: Schema.Schema<AutoscalingConfigOverrides> = Schema.suspend(() => Schema.Struct({
-  disableTotalCpuAutoscaling: Schema.optional(Schema.Boolean),
-  autoscalingLimits: Schema.optional(AutoscalingLimits),
-  autoscalingTargetHighPriorityCpuUtilizationPercent: Schema.optional(Schema.Number),
-  disableHighPriorityCpuAutoscaling: Schema.optional(Schema.Boolean),
-  autoscalingTargetTotalCpuUtilizationPercent: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AutoscalingConfigOverrides" }) as any as Schema.Schema<AutoscalingConfigOverrides>;
+export const AutoscalingConfigOverrides: Schema.Schema<AutoscalingConfigOverrides> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      disableTotalCpuAutoscaling: Schema.optional(Schema.Boolean),
+      autoscalingLimits: Schema.optional(AutoscalingLimits),
+      autoscalingTargetHighPriorityCpuUtilizationPercent: Schema.optional(
+        Schema.Number,
+      ),
+      disableHighPriorityCpuAutoscaling: Schema.optional(Schema.Boolean),
+      autoscalingTargetTotalCpuUtilizationPercent: Schema.optional(
+        Schema.Number,
+      ),
+    }),
+  ).annotate({
+    identifier: "AutoscalingConfigOverrides",
+  }) as any as Schema.Schema<AutoscalingConfigOverrides>;
 
 export interface InstanceReplicaSelection {
   /** Required. Name of the location of the replicas (for example, "us-central1"). */
   location?: string;
 }
 
-export const InstanceReplicaSelection: Schema.Schema<InstanceReplicaSelection> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstanceReplicaSelection" }) as any as Schema.Schema<InstanceReplicaSelection>;
+export const InstanceReplicaSelection: Schema.Schema<InstanceReplicaSelection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InstanceReplicaSelection",
+  }) as any as Schema.Schema<InstanceReplicaSelection>;
 
 export interface AsymmetricAutoscalingOption {
   /** Optional. Overrides applied to the top-level autoscaling configuration for the selected replicas. */
@@ -327,10 +410,15 @@ export interface AsymmetricAutoscalingOption {
   replicaSelection?: InstanceReplicaSelection;
 }
 
-export const AsymmetricAutoscalingOption: Schema.Schema<AsymmetricAutoscalingOption> = Schema.suspend(() => Schema.Struct({
-  overrides: Schema.optional(AutoscalingConfigOverrides),
-  replicaSelection: Schema.optional(InstanceReplicaSelection),
-})).annotate({ identifier: "AsymmetricAutoscalingOption" }) as any as Schema.Schema<AsymmetricAutoscalingOption>;
+export const AsymmetricAutoscalingOption: Schema.Schema<AsymmetricAutoscalingOption> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      overrides: Schema.optional(AutoscalingConfigOverrides),
+      replicaSelection: Schema.optional(InstanceReplicaSelection),
+    }),
+  ).annotate({
+    identifier: "AsymmetricAutoscalingOption",
+  }) as any as Schema.Schema<AsymmetricAutoscalingOption>;
 
 export interface AutoscalingTargets {
   /** Required. The target storage utilization percentage that the autoscaler should be trying to achieve for the instance. This number is on a scale from 0 (no utilization) to 100 (full utilization). The valid range is [10, 99] inclusive. */
@@ -341,11 +429,16 @@ export interface AutoscalingTargets {
   highPriorityCpuUtilizationPercent?: number;
 }
 
-export const AutoscalingTargets: Schema.Schema<AutoscalingTargets> = Schema.suspend(() => Schema.Struct({
-  storageUtilizationPercent: Schema.optional(Schema.Number),
-  totalCpuUtilizationPercent: Schema.optional(Schema.Number),
-  highPriorityCpuUtilizationPercent: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AutoscalingTargets" }) as any as Schema.Schema<AutoscalingTargets>;
+export const AutoscalingTargets: Schema.Schema<AutoscalingTargets> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      storageUtilizationPercent: Schema.optional(Schema.Number),
+      totalCpuUtilizationPercent: Schema.optional(Schema.Number),
+      highPriorityCpuUtilizationPercent: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AutoscalingTargets",
+  }) as any as Schema.Schema<AutoscalingTargets>;
 
 export interface AutoscalingConfig {
   /** Optional. Optional asymmetric autoscaling options. Replicas matching the replica selection criteria will be autoscaled independently from other replicas. The autoscaler will scale the replicas based on the utilization of replicas identified by the replica selection. Replica selections should not overlap with each other. Other replicas (those do not match any replica selection) will be autoscaled together and will have the same compute capacity allocated to them. */
@@ -356,11 +449,18 @@ export interface AutoscalingConfig {
   autoscalingTargets?: AutoscalingTargets;
 }
 
-export const AutoscalingConfig: Schema.Schema<AutoscalingConfig> = Schema.suspend(() => Schema.Struct({
-  asymmetricAutoscalingOptions: Schema.optional(Schema.Array(AsymmetricAutoscalingOption)),
-  autoscalingLimits: Schema.optional(AutoscalingLimits),
-  autoscalingTargets: Schema.optional(AutoscalingTargets),
-})).annotate({ identifier: "AutoscalingConfig" }) as any as Schema.Schema<AutoscalingConfig>;
+export const AutoscalingConfig: Schema.Schema<AutoscalingConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      asymmetricAutoscalingOptions: Schema.optional(
+        Schema.Array(AsymmetricAutoscalingOption),
+      ),
+      autoscalingLimits: Schema.optional(AutoscalingLimits),
+      autoscalingTargets: Schema.optional(AutoscalingTargets),
+    }),
+  ).annotate({
+    identifier: "AutoscalingConfig",
+  }) as any as Schema.Schema<AutoscalingConfig>;
 
 export interface InstancePartition {
   /** Output only. The names of the databases that reference this instance partition. Referencing databases should share the parent instance. The existence of any referencing database prevents the instance partition from being deleted. */
@@ -389,20 +489,25 @@ export interface InstancePartition {
   processingUnits?: number;
 }
 
-export const InstancePartition: Schema.Schema<InstancePartition> = Schema.suspend(() => Schema.Struct({
-  referencingDatabases: Schema.optional(Schema.Array(Schema.String)),
-  config: Schema.optional(Schema.String),
-  referencingBackups: Schema.optional(Schema.Array(Schema.String)),
-  etag: Schema.optional(Schema.String),
-  nodeCount: Schema.optional(Schema.Number),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  autoscalingConfig: Schema.optional(AutoscalingConfig),
-  updateTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  processingUnits: Schema.optional(Schema.Number),
-})).annotate({ identifier: "InstancePartition" }) as any as Schema.Schema<InstancePartition>;
+export const InstancePartition: Schema.Schema<InstancePartition> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      referencingDatabases: Schema.optional(Schema.Array(Schema.String)),
+      config: Schema.optional(Schema.String),
+      referencingBackups: Schema.optional(Schema.Array(Schema.String)),
+      etag: Schema.optional(Schema.String),
+      nodeCount: Schema.optional(Schema.Number),
+      state: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      autoscalingConfig: Schema.optional(AutoscalingConfig),
+      updateTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      processingUnits: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "InstancePartition",
+  }) as any as Schema.Schema<InstancePartition>;
 
 export interface CreateInstancePartitionRequest {
   /** Required. The ID of the instance partition to create. Valid identifiers are of the form `a-z*[a-z0-9]` and must be between 2 and 64 characters in length. */
@@ -411,19 +516,29 @@ export interface CreateInstancePartitionRequest {
   instancePartition?: InstancePartition;
 }
 
-export const CreateInstancePartitionRequest: Schema.Schema<CreateInstancePartitionRequest> = Schema.suspend(() => Schema.Struct({
-  instancePartitionId: Schema.optional(Schema.String),
-  instancePartition: Schema.optional(InstancePartition),
-})).annotate({ identifier: "CreateInstancePartitionRequest" }) as any as Schema.Schema<CreateInstancePartitionRequest>;
+export const CreateInstancePartitionRequest: Schema.Schema<CreateInstancePartitionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instancePartitionId: Schema.optional(Schema.String),
+      instancePartition: Schema.optional(InstancePartition),
+    }),
+  ).annotate({
+    identifier: "CreateInstancePartitionRequest",
+  }) as any as Schema.Schema<CreateInstancePartitionRequest>;
 
 export interface HeartbeatRecord {
   /** Indicates the timestamp at which the query has returned all the records in the change stream partition with timestamp <= heartbeat timestamp. The heartbeat timestamp will not be the same as the timestamps of other record types in the same partition. */
   timestamp?: string;
 }
 
-export const HeartbeatRecord: Schema.Schema<HeartbeatRecord> = Schema.suspend(() => Schema.Struct({
-  timestamp: Schema.optional(Schema.String),
-})).annotate({ identifier: "HeartbeatRecord" }) as any as Schema.Schema<HeartbeatRecord>;
+export const HeartbeatRecord: Schema.Schema<HeartbeatRecord> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      timestamp: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "HeartbeatRecord",
+}) as any as Schema.Schema<HeartbeatRecord>;
 
 export interface ChildLink {
   /** The type of the link. For example, in Hash Joins this could be used to distinguish between the build child and the probe child, or in the case of the child being an output variable, to represent the tag associated with the output variable. */
@@ -434,11 +549,13 @@ export interface ChildLink {
   childIndex?: number;
 }
 
-export const ChildLink: Schema.Schema<ChildLink> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  variable: Schema.optional(Schema.String),
-  childIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ChildLink" }) as any as Schema.Schema<ChildLink>;
+export const ChildLink: Schema.Schema<ChildLink> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    variable: Schema.optional(Schema.String),
+    childIndex: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "ChildLink" }) as any as Schema.Schema<ChildLink>;
 
 export interface ShortRepresentation {
   /** A string representation of the expression subtree rooted at this node. */
@@ -447,10 +564,15 @@ export interface ShortRepresentation {
   subqueries?: Record<string, number>;
 }
 
-export const ShortRepresentation: Schema.Schema<ShortRepresentation> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  subqueries: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
-})).annotate({ identifier: "ShortRepresentation" }) as any as Schema.Schema<ShortRepresentation>;
+export const ShortRepresentation: Schema.Schema<ShortRepresentation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      subqueries: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
+    }),
+  ).annotate({
+    identifier: "ShortRepresentation",
+  }) as any as Schema.Schema<ShortRepresentation>;
 
 export interface PlanNode {
   /** Used to determine the type of node. May be needed for visualizing different kinds of nodes differently. For example, If the node is a SCALAR node, it will have a condensed representation which can be used to directly embed a description of the node in its parent. */
@@ -469,15 +591,19 @@ export interface PlanNode {
   index?: number;
 }
 
-export const PlanNode: Schema.Schema<PlanNode> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  childLinks: Schema.optional(Schema.Array(ChildLink)),
-  displayName: Schema.optional(Schema.String),
-  executionStats: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  shortRepresentation: Schema.optional(ShortRepresentation),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  index: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PlanNode" }) as any as Schema.Schema<PlanNode>;
+export const PlanNode: Schema.Schema<PlanNode> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    childLinks: Schema.optional(Schema.Array(ChildLink)),
+    displayName: Schema.optional(Schema.String),
+    executionStats: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+    shortRepresentation: Schema.optional(ShortRepresentation),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    index: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "PlanNode" }) as any as Schema.Schema<PlanNode>;
 
 export interface IndexAdvice {
   /** Optional. Estimated latency improvement factor. For example if the query currently takes 500 ms to run and the estimated latency with new indexes is 100 ms this field will be 5. */
@@ -486,19 +612,26 @@ export interface IndexAdvice {
   ddl?: Array<string>;
 }
 
-export const IndexAdvice: Schema.Schema<IndexAdvice> = Schema.suspend(() => Schema.Struct({
-  improvementFactor: Schema.optional(Schema.Number),
-  ddl: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "IndexAdvice" }) as any as Schema.Schema<IndexAdvice>;
+export const IndexAdvice: Schema.Schema<IndexAdvice> = Schema.suspend(() =>
+  Schema.Struct({
+    improvementFactor: Schema.optional(Schema.Number),
+    ddl: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "IndexAdvice" }) as any as Schema.Schema<IndexAdvice>;
 
 export interface QueryAdvisorResult {
   /** Optional. Index Recommendation for a query. This is an optional field and the recommendation will only be available when the recommendation guarantees significant improvement in query performance. */
   indexAdvice?: Array<IndexAdvice>;
 }
 
-export const QueryAdvisorResult: Schema.Schema<QueryAdvisorResult> = Schema.suspend(() => Schema.Struct({
-  indexAdvice: Schema.optional(Schema.Array(IndexAdvice)),
-})).annotate({ identifier: "QueryAdvisorResult" }) as any as Schema.Schema<QueryAdvisorResult>;
+export const QueryAdvisorResult: Schema.Schema<QueryAdvisorResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      indexAdvice: Schema.optional(Schema.Array(IndexAdvice)),
+    }),
+  ).annotate({
+    identifier: "QueryAdvisorResult",
+  }) as any as Schema.Schema<QueryAdvisorResult>;
 
 export interface QueryPlan {
   /** The nodes in the query plan. Plan nodes are returned in pre-order starting with the plan root. Each PlanNode's `id` corresponds to its index in `plan_nodes`. */
@@ -507,25 +640,36 @@ export interface QueryPlan {
   queryAdvice?: QueryAdvisorResult;
 }
 
-export const QueryPlan: Schema.Schema<QueryPlan> = Schema.suspend(() => Schema.Struct({
-  planNodes: Schema.optional(Schema.Array(PlanNode)),
-  queryAdvice: Schema.optional(QueryAdvisorResult),
-})).annotate({ identifier: "QueryPlan" }) as any as Schema.Schema<QueryPlan>;
+export const QueryPlan: Schema.Schema<QueryPlan> = Schema.suspend(() =>
+  Schema.Struct({
+    planNodes: Schema.optional(Schema.Array(PlanNode)),
+    queryAdvice: Schema.optional(QueryAdvisorResult),
+  }),
+).annotate({ identifier: "QueryPlan" }) as any as Schema.Schema<QueryPlan>;
 
 export interface FreeInstanceMetadata {
   /** Output only. If present, the timestamp at which the free instance was upgraded to a provisioned instance. */
   upgradeTime?: string;
   /** Specifies the expiration behavior of a free instance. The default of ExpireBehavior is `REMOVE_AFTER_GRACE_PERIOD`. This can be modified during or after creation, and before expiration. */
-  expireBehavior?: "EXPIRE_BEHAVIOR_UNSPECIFIED" | "FREE_TO_PROVISIONED" | "REMOVE_AFTER_GRACE_PERIOD" | (string & {});
+  expireBehavior?:
+    | "EXPIRE_BEHAVIOR_UNSPECIFIED"
+    | "FREE_TO_PROVISIONED"
+    | "REMOVE_AFTER_GRACE_PERIOD"
+    | (string & {});
   /** Output only. Timestamp after which the instance will either be upgraded or scheduled for deletion after a grace period. ExpireBehavior is used to choose between upgrading or scheduling the free instance for deletion. This timestamp is set during the creation of a free instance. */
   expireTime?: string;
 }
 
-export const FreeInstanceMetadata: Schema.Schema<FreeInstanceMetadata> = Schema.suspend(() => Schema.Struct({
-  upgradeTime: Schema.optional(Schema.String),
-  expireBehavior: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "FreeInstanceMetadata" }) as any as Schema.Schema<FreeInstanceMetadata>;
+export const FreeInstanceMetadata: Schema.Schema<FreeInstanceMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      upgradeTime: Schema.optional(Schema.String),
+      expireBehavior: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FreeInstanceMetadata",
+  }) as any as Schema.Schema<FreeInstanceMetadata>;
 
 export interface Session {
   /** Output only. The timestamp when the session is created. */
@@ -542,23 +686,30 @@ export interface Session {
   name?: string;
 }
 
-export const Session: Schema.Schema<Session> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  approximateLastUseTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  multiplexed: Schema.optional(Schema.Boolean),
-  creatorRole: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Session" }) as any as Schema.Schema<Session>;
+export const Session: Schema.Schema<Session> = Schema.suspend(() =>
+  Schema.Struct({
+    createTime: Schema.optional(Schema.String),
+    approximateLastUseTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    multiplexed: Schema.optional(Schema.Boolean),
+    creatorRole: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Session" }) as any as Schema.Schema<Session>;
 
 export interface CreateSessionRequest {
   /** Required. The session to create. */
   session?: Session;
 }
 
-export const CreateSessionRequest: Schema.Schema<CreateSessionRequest> = Schema.suspend(() => Schema.Struct({
-  session: Schema.optional(Session),
-})).annotate({ identifier: "CreateSessionRequest" }) as any as Schema.Schema<CreateSessionRequest>;
+export const CreateSessionRequest: Schema.Schema<CreateSessionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      session: Schema.optional(Session),
+    }),
+  ).annotate({
+    identifier: "CreateSessionRequest",
+  }) as any as Schema.Schema<CreateSessionRequest>;
 
 export interface InstanceEncryptionConfig {
   /** Optional. This field is maintained for backwards compatibility. For new callers, we recommend using `kms_key_names` to specify the KMS key. Only use `kms_key_name` if the location of the KMS key matches the database instance's configuration (location) exactly. For example, if the KMS location is in `us-central1` or `nam3`, then the database instance must also be in `us-central1` or `nam3`. The Cloud KMS key that is used to encrypt and decrypt the restored database. Values are of the form `projects//locations//keyRings//cryptoKeys/`. */
@@ -567,10 +718,15 @@ export interface InstanceEncryptionConfig {
   kmsKeyNames?: Array<string>;
 }
 
-export const InstanceEncryptionConfig: Schema.Schema<InstanceEncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-  kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "InstanceEncryptionConfig" }) as any as Schema.Schema<InstanceEncryptionConfig>;
+export const InstanceEncryptionConfig: Schema.Schema<InstanceEncryptionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+      kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "InstanceEncryptionConfig",
+  }) as any as Schema.Schema<InstanceEncryptionConfig>;
 
 export interface DatabaseMoveConfig {
   /** Required. The unique identifier of the database resource in the Instance. For example, if the database uri is `projects/foo/instances/bar/databases/baz`, then the id to supply here is baz. */
@@ -579,10 +735,15 @@ export interface DatabaseMoveConfig {
   encryptionConfig?: InstanceEncryptionConfig;
 }
 
-export const DatabaseMoveConfig: Schema.Schema<DatabaseMoveConfig> = Schema.suspend(() => Schema.Struct({
-  databaseId: Schema.optional(Schema.String),
-  encryptionConfig: Schema.optional(InstanceEncryptionConfig),
-})).annotate({ identifier: "DatabaseMoveConfig" }) as any as Schema.Schema<DatabaseMoveConfig>;
+export const DatabaseMoveConfig: Schema.Schema<DatabaseMoveConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      databaseId: Schema.optional(Schema.String),
+      encryptionConfig: Schema.optional(InstanceEncryptionConfig),
+    }),
+  ).annotate({
+    identifier: "DatabaseMoveConfig",
+  }) as any as Schema.Schema<DatabaseMoveConfig>;
 
 export interface MoveInstanceRequest {
   /** Required. The target instance configuration where to move the instance. Values are of the form `projects//instanceConfigs/`. */
@@ -591,10 +752,17 @@ export interface MoveInstanceRequest {
   targetDatabaseMoveConfigs?: Array<DatabaseMoveConfig>;
 }
 
-export const MoveInstanceRequest: Schema.Schema<MoveInstanceRequest> = Schema.suspend(() => Schema.Struct({
-  targetConfig: Schema.optional(Schema.String),
-  targetDatabaseMoveConfigs: Schema.optional(Schema.Array(DatabaseMoveConfig)),
-})).annotate({ identifier: "MoveInstanceRequest" }) as any as Schema.Schema<MoveInstanceRequest>;
+export const MoveInstanceRequest: Schema.Schema<MoveInstanceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      targetConfig: Schema.optional(Schema.String),
+      targetDatabaseMoveConfigs: Schema.optional(
+        Schema.Array(DatabaseMoveConfig),
+      ),
+    }),
+  ).annotate({
+    identifier: "MoveInstanceRequest",
+  }) as any as Schema.Schema<MoveInstanceRequest>;
 
 export interface EncryptionConfig {
   /** The Cloud KMS key to be used for encrypting and decrypting the database. Values are of the form `projects//locations//keyRings//cryptoKeys/`. */
@@ -603,10 +771,15 @@ export interface EncryptionConfig {
   kmsKeyNames?: Array<string>;
 }
 
-export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-  kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "EncryptionConfig" }) as any as Schema.Schema<EncryptionConfig>;
+export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+      kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "EncryptionConfig",
+}) as any as Schema.Schema<EncryptionConfig>;
 
 export interface LocalizedString {
   /** A map of arguments used when creating the localized message. Keys represent parameter names which may be used by the localized version when substituting dynamic values. */
@@ -617,15 +790,26 @@ export interface LocalizedString {
   token?: string;
 }
 
-export const LocalizedString: Schema.Schema<LocalizedString> = Schema.suspend(() => Schema.Struct({
-  args: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  message: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-})).annotate({ identifier: "LocalizedString" }) as any as Schema.Schema<LocalizedString>;
+export const LocalizedString: Schema.Schema<LocalizedString> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      args: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      message: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LocalizedString",
+}) as any as Schema.Schema<LocalizedString>;
 
 export interface ContextValue {
   /** The severity of this context. */
-  severity?: "SEVERITY_UNSPECIFIED" | "INFO" | "WARNING" | "ERROR" | "FATAL" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "ERROR"
+    | "FATAL"
+    | (string & {});
   /** The label for the context value. e.g. "latency". */
   label?: LocalizedString;
   /** The unit of the context value. */
@@ -634,12 +818,16 @@ export interface ContextValue {
   value?: number;
 }
 
-export const ContextValue: Schema.Schema<ContextValue> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  label: Schema.optional(LocalizedString),
-  unit: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ContextValue" }) as any as Schema.Schema<ContextValue>;
+export const ContextValue: Schema.Schema<ContextValue> = Schema.suspend(() =>
+  Schema.Struct({
+    severity: Schema.optional(Schema.String),
+    label: Schema.optional(LocalizedString),
+    unit: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "ContextValue",
+}) as any as Schema.Schema<ContextValue>;
 
 export interface KeyRangeInfo {
   /** The time offset. This is the time since the start of the time interval. */
@@ -662,17 +850,21 @@ export interface KeyRangeInfo {
   metric?: LocalizedString;
 }
 
-export const KeyRangeInfo: Schema.Schema<KeyRangeInfo> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  contextValues: Schema.optional(Schema.Array(ContextValue)),
-  keysCount: Schema.optional(Schema.String),
-  unit: Schema.optional(LocalizedString),
-  info: Schema.optional(LocalizedString),
-  value: Schema.optional(Schema.Number),
-  endKeyIndex: Schema.optional(Schema.Number),
-  startKeyIndex: Schema.optional(Schema.Number),
-  metric: Schema.optional(LocalizedString),
-})).annotate({ identifier: "KeyRangeInfo" }) as any as Schema.Schema<KeyRangeInfo>;
+export const KeyRangeInfo: Schema.Schema<KeyRangeInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    timeOffset: Schema.optional(Schema.String),
+    contextValues: Schema.optional(Schema.Array(ContextValue)),
+    keysCount: Schema.optional(Schema.String),
+    unit: Schema.optional(LocalizedString),
+    info: Schema.optional(LocalizedString),
+    value: Schema.optional(Schema.Number),
+    endKeyIndex: Schema.optional(Schema.Number),
+    startKeyIndex: Schema.optional(Schema.Number),
+    metric: Schema.optional(LocalizedString),
+  }),
+).annotate({
+  identifier: "KeyRangeInfo",
+}) as any as Schema.Schema<KeyRangeInfo>;
 
 export interface KeyRangeInfos {
   /** The list individual KeyRangeInfos. */
@@ -681,19 +873,30 @@ export interface KeyRangeInfos {
   totalSize?: number;
 }
 
-export const KeyRangeInfos: Schema.Schema<KeyRangeInfos> = Schema.suspend(() => Schema.Struct({
-  infos: Schema.optional(Schema.Array(KeyRangeInfo)),
-  totalSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "KeyRangeInfos" }) as any as Schema.Schema<KeyRangeInfos>;
+export const KeyRangeInfos: Schema.Schema<KeyRangeInfos> = Schema.suspend(() =>
+  Schema.Struct({
+    infos: Schema.optional(Schema.Array(KeyRangeInfo)),
+    totalSize: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "KeyRangeInfos",
+}) as any as Schema.Schema<KeyRangeInfos>;
 
 export interface IndexedKeyRangeInfos {
   /** A (sparse) mapping from key bucket index to the KeyRangeInfos for that key bucket. */
   keyRangeInfos?: Record<string, KeyRangeInfos>;
 }
 
-export const IndexedKeyRangeInfos: Schema.Schema<IndexedKeyRangeInfos> = Schema.suspend(() => Schema.Struct({
-  keyRangeInfos: Schema.optional(Schema.Record(Schema.String, KeyRangeInfos)),
-})).annotate({ identifier: "IndexedKeyRangeInfos" }) as any as Schema.Schema<IndexedKeyRangeInfos>;
+export const IndexedKeyRangeInfos: Schema.Schema<IndexedKeyRangeInfos> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      keyRangeInfos: Schema.optional(
+        Schema.Record(Schema.String, KeyRangeInfos),
+      ),
+    }),
+  ).annotate({
+    identifier: "IndexedKeyRangeInfos",
+  }) as any as Schema.Schema<IndexedKeyRangeInfos>;
 
 export interface DerivedMetric {
   /** The name of the numerator metric. e.g. "latency". */
@@ -702,37 +905,54 @@ export interface DerivedMetric {
   denominator?: LocalizedString;
 }
 
-export const DerivedMetric: Schema.Schema<DerivedMetric> = Schema.suspend(() => Schema.Struct({
-  numerator: Schema.optional(LocalizedString),
-  denominator: Schema.optional(LocalizedString),
-})).annotate({ identifier: "DerivedMetric" }) as any as Schema.Schema<DerivedMetric>;
+export const DerivedMetric: Schema.Schema<DerivedMetric> = Schema.suspend(() =>
+  Schema.Struct({
+    numerator: Schema.optional(LocalizedString),
+    denominator: Schema.optional(LocalizedString),
+  }),
+).annotate({
+  identifier: "DerivedMetric",
+}) as any as Schema.Schema<DerivedMetric>;
 
 export interface IndexedHotKey {
   /** A (sparse) mapping from key bucket index to the index of the specific hot row key for that key bucket. The index of the hot row key can be translated to the actual row key via the ScanData.VisualizationData.indexed_keys repeated field. */
   sparseHotKeys?: Record<string, number>;
 }
 
-export const IndexedHotKey: Schema.Schema<IndexedHotKey> = Schema.suspend(() => Schema.Struct({
-  sparseHotKeys: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
-})).annotate({ identifier: "IndexedHotKey" }) as any as Schema.Schema<IndexedHotKey>;
+export const IndexedHotKey: Schema.Schema<IndexedHotKey> = Schema.suspend(() =>
+  Schema.Struct({
+    sparseHotKeys: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
+  }),
+).annotate({
+  identifier: "IndexedHotKey",
+}) as any as Schema.Schema<IndexedHotKey>;
 
 export interface MetricMatrixRow {
   /** The columns of the row. */
   cols?: Array<number>;
 }
 
-export const MetricMatrixRow: Schema.Schema<MetricMatrixRow> = Schema.suspend(() => Schema.Struct({
-  cols: Schema.optional(Schema.Array(Schema.Number)),
-})).annotate({ identifier: "MetricMatrixRow" }) as any as Schema.Schema<MetricMatrixRow>;
+export const MetricMatrixRow: Schema.Schema<MetricMatrixRow> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      cols: Schema.optional(Schema.Array(Schema.Number)),
+    }),
+).annotate({
+  identifier: "MetricMatrixRow",
+}) as any as Schema.Schema<MetricMatrixRow>;
 
 export interface MetricMatrix {
   /** The rows of the matrix. */
   rows?: Array<MetricMatrixRow>;
 }
 
-export const MetricMatrix: Schema.Schema<MetricMatrix> = Schema.suspend(() => Schema.Struct({
-  rows: Schema.optional(Schema.Array(MetricMatrixRow)),
-})).annotate({ identifier: "MetricMatrix" }) as any as Schema.Schema<MetricMatrix>;
+export const MetricMatrix: Schema.Schema<MetricMatrix> = Schema.suspend(() =>
+  Schema.Struct({
+    rows: Schema.optional(Schema.Array(MetricMatrixRow)),
+  }),
+).annotate({
+  identifier: "MetricMatrix",
+}) as any as Schema.Schema<MetricMatrix>;
 
 export interface Metric {
   /** The aggregation function used to aggregate each key bucket */
@@ -761,35 +981,48 @@ export interface Metric {
   displayLabel?: LocalizedString;
 }
 
-export const Metric: Schema.Schema<Metric> = Schema.suspend(() => Schema.Struct({
-  aggregation: Schema.optional(Schema.String),
-  indexedKeyRangeInfos: Schema.optional(Schema.Record(Schema.String, IndexedKeyRangeInfos)),
-  info: Schema.optional(LocalizedString),
-  hotValue: Schema.optional(Schema.Number),
-  visible: Schema.optional(Schema.Boolean),
-  category: Schema.optional(LocalizedString),
-  derived: Schema.optional(DerivedMetric),
-  hasNonzeroData: Schema.optional(Schema.Boolean),
-  indexedHotKeys: Schema.optional(Schema.Record(Schema.String, IndexedHotKey)),
-  unit: Schema.optional(LocalizedString),
-  matrix: Schema.optional(MetricMatrix),
-  displayLabel: Schema.optional(LocalizedString),
-})).annotate({ identifier: "Metric" }) as any as Schema.Schema<Metric>;
+export const Metric: Schema.Schema<Metric> = Schema.suspend(() =>
+  Schema.Struct({
+    aggregation: Schema.optional(Schema.String),
+    indexedKeyRangeInfos: Schema.optional(
+      Schema.Record(Schema.String, IndexedKeyRangeInfos),
+    ),
+    info: Schema.optional(LocalizedString),
+    hotValue: Schema.optional(Schema.Number),
+    visible: Schema.optional(Schema.Boolean),
+    category: Schema.optional(LocalizedString),
+    derived: Schema.optional(DerivedMetric),
+    hasNonzeroData: Schema.optional(Schema.Boolean),
+    indexedHotKeys: Schema.optional(
+      Schema.Record(Schema.String, IndexedHotKey),
+    ),
+    unit: Schema.optional(LocalizedString),
+    matrix: Schema.optional(MetricMatrix),
+    displayLabel: Schema.optional(LocalizedString),
+  }),
+).annotate({ identifier: "Metric" }) as any as Schema.Schema<Metric>;
 
-export interface DualRegionQuorum {
-}
+export interface DualRegionQuorum {}
 
-export const DualRegionQuorum: Schema.Schema<DualRegionQuorum> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DualRegionQuorum" }) as any as Schema.Schema<DualRegionQuorum>;
+export const DualRegionQuorum: Schema.Schema<DualRegionQuorum> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "DualRegionQuorum",
+}) as any as Schema.Schema<DualRegionQuorum>;
 
 export interface SingleRegionQuorum {
   /** Required. The location of the serving region, for example, "us-central1". The location must be one of the regions within the dual-region instance configuration of your database. The list of valid locations is available using the GetInstanceConfig API. This should only be used if you plan to change quorum to the single-region quorum type. */
   servingLocation?: string;
 }
 
-export const SingleRegionQuorum: Schema.Schema<SingleRegionQuorum> = Schema.suspend(() => Schema.Struct({
-  servingLocation: Schema.optional(Schema.String),
-})).annotate({ identifier: "SingleRegionQuorum" }) as any as Schema.Schema<SingleRegionQuorum>;
+export const SingleRegionQuorum: Schema.Schema<SingleRegionQuorum> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      servingLocation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SingleRegionQuorum",
+  }) as any as Schema.Schema<SingleRegionQuorum>;
 
 export interface QuorumType {
   /** Dual-region quorum type. */
@@ -798,10 +1031,12 @@ export interface QuorumType {
   singleRegion?: SingleRegionQuorum;
 }
 
-export const QuorumType: Schema.Schema<QuorumType> = Schema.suspend(() => Schema.Struct({
-  dualRegion: Schema.optional(DualRegionQuorum),
-  singleRegion: Schema.optional(SingleRegionQuorum),
-})).annotate({ identifier: "QuorumType" }) as any as Schema.Schema<QuorumType>;
+export const QuorumType: Schema.Schema<QuorumType> = Schema.suspend(() =>
+  Schema.Struct({
+    dualRegion: Schema.optional(DualRegionQuorum),
+    singleRegion: Schema.optional(SingleRegionQuorum),
+  }),
+).annotate({ identifier: "QuorumType" }) as any as Schema.Schema<QuorumType>;
 
 export interface ChangeQuorumRequest {
   /** Required. Name of the database in which to apply `ChangeQuorum`. Values are of the form `projects//instances//databases/`. */
@@ -812,11 +1047,16 @@ export interface ChangeQuorumRequest {
   quorumType?: QuorumType;
 }
 
-export const ChangeQuorumRequest: Schema.Schema<ChangeQuorumRequest> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  quorumType: Schema.optional(QuorumType),
-})).annotate({ identifier: "ChangeQuorumRequest" }) as any as Schema.Schema<ChangeQuorumRequest>;
+export const ChangeQuorumRequest: Schema.Schema<ChangeQuorumRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      quorumType: Schema.optional(QuorumType),
+    }),
+  ).annotate({
+    identifier: "ChangeQuorumRequest",
+  }) as any as Schema.Schema<ChangeQuorumRequest>;
 
 export interface PartitionEndRecord {
   /** Unique partition identifier describing the terminated change stream partition. partition_token is equal to the partition token of the change stream partition currently queried to return this PartitionEndRecord. */
@@ -827,11 +1067,16 @@ export interface PartitionEndRecord {
   recordSequence?: string;
 }
 
-export const PartitionEndRecord: Schema.Schema<PartitionEndRecord> = Schema.suspend(() => Schema.Struct({
-  partitionToken: Schema.optional(Schema.String),
-  endTimestamp: Schema.optional(Schema.String),
-  recordSequence: Schema.optional(Schema.String),
-})).annotate({ identifier: "PartitionEndRecord" }) as any as Schema.Schema<PartitionEndRecord>;
+export const PartitionEndRecord: Schema.Schema<PartitionEndRecord> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partitionToken: Schema.optional(Schema.String),
+      endTimestamp: Schema.optional(Schema.String),
+      recordSequence: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PartitionEndRecord",
+  }) as any as Schema.Schema<PartitionEndRecord>;
 
 export interface DdlStatementActionInfo {
   /** The entity type for the DDL statement, for example, TABLE, INDEX, VIEW, etc. This field can be empty string for some DDL statement, for example, for statement "ANALYZE", `entity_type` = "". */
@@ -842,11 +1087,16 @@ export interface DdlStatementActionInfo {
   entityNames?: Array<string>;
 }
 
-export const DdlStatementActionInfo: Schema.Schema<DdlStatementActionInfo> = Schema.suspend(() => Schema.Struct({
-  entityType: Schema.optional(Schema.String),
-  action: Schema.optional(Schema.String),
-  entityNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "DdlStatementActionInfo" }) as any as Schema.Schema<DdlStatementActionInfo>;
+export const DdlStatementActionInfo: Schema.Schema<DdlStatementActionInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entityType: Schema.optional(Schema.String),
+      action: Schema.optional(Schema.String),
+      entityNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DdlStatementActionInfo",
+  }) as any as Schema.Schema<DdlStatementActionInfo>;
 
 export interface OperationProgress {
   /** Percent completion of the operation. Values are between 0 and 100 inclusive. */
@@ -857,11 +1107,16 @@ export interface OperationProgress {
   endTime?: string;
 }
 
-export const OperationProgress: Schema.Schema<OperationProgress> = Schema.suspend(() => Schema.Struct({
-  progressPercent: Schema.optional(Schema.Number),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationProgress" }) as any as Schema.Schema<OperationProgress>;
+export const OperationProgress: Schema.Schema<OperationProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      progressPercent: Schema.optional(Schema.Number),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationProgress",
+  }) as any as Schema.Schema<OperationProgress>;
 
 export interface UpdateDatabaseDdlMetadata {
   /** The brief action info for the DDL statements. `actions[i]` is the brief info for `statements[i]`. */
@@ -878,18 +1133,29 @@ export interface UpdateDatabaseDdlMetadata {
   database?: string;
 }
 
-export const UpdateDatabaseDdlMetadata: Schema.Schema<UpdateDatabaseDdlMetadata> = Schema.suspend(() => Schema.Struct({
-  actions: Schema.optional(Schema.Array(DdlStatementActionInfo)),
-  throttled: Schema.optional(Schema.Boolean),
-  commitTimestamps: Schema.optional(Schema.Array(Schema.String)),
-  progress: Schema.optional(Schema.Array(OperationProgress)),
-  statements: Schema.optional(Schema.Array(Schema.String)),
-  database: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateDatabaseDdlMetadata" }) as any as Schema.Schema<UpdateDatabaseDdlMetadata>;
+export const UpdateDatabaseDdlMetadata: Schema.Schema<UpdateDatabaseDdlMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actions: Schema.optional(Schema.Array(DdlStatementActionInfo)),
+      throttled: Schema.optional(Schema.Boolean),
+      commitTimestamps: Schema.optional(Schema.Array(Schema.String)),
+      progress: Schema.optional(Schema.Array(OperationProgress)),
+      statements: Schema.optional(Schema.Array(Schema.String)),
+      database: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateDatabaseDdlMetadata",
+  }) as any as Schema.Schema<UpdateDatabaseDdlMetadata>;
 
 export interface DiagnosticMessage {
   /** The severity of the diagnostic message. */
-  severity?: "SEVERITY_UNSPECIFIED" | "INFO" | "WARNING" | "ERROR" | "FATAL" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "ERROR"
+    | "FATAL"
+    | (string & {});
   /** Information about this diagnostic information. */
   info?: LocalizedString;
   /** The short message. */
@@ -900,13 +1166,18 @@ export interface DiagnosticMessage {
   metric?: LocalizedString;
 }
 
-export const DiagnosticMessage: Schema.Schema<DiagnosticMessage> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  info: Schema.optional(LocalizedString),
-  shortMessage: Schema.optional(LocalizedString),
-  metricSpecific: Schema.optional(Schema.Boolean),
-  metric: Schema.optional(LocalizedString),
-})).annotate({ identifier: "DiagnosticMessage" }) as any as Schema.Schema<DiagnosticMessage>;
+export const DiagnosticMessage: Schema.Schema<DiagnosticMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      severity: Schema.optional(Schema.String),
+      info: Schema.optional(LocalizedString),
+      shortMessage: Schema.optional(LocalizedString),
+      metricSpecific: Schema.optional(Schema.Boolean),
+      metric: Schema.optional(LocalizedString),
+    }),
+  ).annotate({
+    identifier: "DiagnosticMessage",
+  }) as any as Schema.Schema<DiagnosticMessage>;
 
 export interface PrefixNode {
   /** The index of the start key bucket of the range that this node spans. */
@@ -921,13 +1192,15 @@ export interface PrefixNode {
   depth?: number;
 }
 
-export const PrefixNode: Schema.Schema<PrefixNode> = Schema.suspend(() => Schema.Struct({
-  startIndex: Schema.optional(Schema.Number),
-  dataSourceNode: Schema.optional(Schema.Boolean),
-  endIndex: Schema.optional(Schema.Number),
-  word: Schema.optional(Schema.String),
-  depth: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PrefixNode" }) as any as Schema.Schema<PrefixNode>;
+export const PrefixNode: Schema.Schema<PrefixNode> = Schema.suspend(() =>
+  Schema.Struct({
+    startIndex: Schema.optional(Schema.Number),
+    dataSourceNode: Schema.optional(Schema.Boolean),
+    endIndex: Schema.optional(Schema.Number),
+    word: Schema.optional(Schema.String),
+    depth: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "PrefixNode" }) as any as Schema.Schema<PrefixNode>;
 
 export interface VisualizationData {
   /** The token delimiting the key prefixes. */
@@ -952,18 +1225,23 @@ export interface VisualizationData {
   prefixNodes?: Array<PrefixNode>;
 }
 
-export const VisualizationData: Schema.Schema<VisualizationData> = Schema.suspend(() => Schema.Struct({
-  keySeparator: Schema.optional(Schema.String),
-  hasPii: Schema.optional(Schema.Boolean),
-  dataSourceSeparatorToken: Schema.optional(Schema.String),
-  indexedKeys: Schema.optional(Schema.Array(Schema.String)),
-  dataSourceEndToken: Schema.optional(Schema.String),
-  metrics: Schema.optional(Schema.Array(Metric)),
-  diagnosticMessages: Schema.optional(Schema.Array(DiagnosticMessage)),
-  keyUnit: Schema.optional(Schema.String),
-  endKeyStrings: Schema.optional(Schema.Array(Schema.String)),
-  prefixNodes: Schema.optional(Schema.Array(PrefixNode)),
-})).annotate({ identifier: "VisualizationData" }) as any as Schema.Schema<VisualizationData>;
+export const VisualizationData: Schema.Schema<VisualizationData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      keySeparator: Schema.optional(Schema.String),
+      hasPii: Schema.optional(Schema.Boolean),
+      dataSourceSeparatorToken: Schema.optional(Schema.String),
+      indexedKeys: Schema.optional(Schema.Array(Schema.String)),
+      dataSourceEndToken: Schema.optional(Schema.String),
+      metrics: Schema.optional(Schema.Array(Metric)),
+      diagnosticMessages: Schema.optional(Schema.Array(DiagnosticMessage)),
+      keyUnit: Schema.optional(Schema.String),
+      endKeyStrings: Schema.optional(Schema.Array(Schema.String)),
+      prefixNodes: Schema.optional(Schema.Array(PrefixNode)),
+    }),
+  ).annotate({
+    identifier: "VisualizationData",
+  }) as any as Schema.Schema<VisualizationData>;
 
 export interface ScanData {
   /** A range of time (inclusive) for when the contained data is defined. The lower bound for when the contained data is defined. */
@@ -974,32 +1252,41 @@ export interface ScanData {
   endTime?: string;
 }
 
-export const ScanData: Schema.Schema<ScanData> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  data: Schema.optional(VisualizationData),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ScanData" }) as any as Schema.Schema<ScanData>;
+export const ScanData: Schema.Schema<ScanData> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    data: Schema.optional(VisualizationData),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ScanData" }) as any as Schema.Schema<ScanData>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ReplicaInfo {
   /** The location of the serving resources, e.g., "us-central1". */
   location?: string;
   /** The type of replica. */
-  type?: "TYPE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY" | "WITNESS" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "READ_WRITE"
+    | "READ_ONLY"
+    | "WITNESS"
+    | (string & {});
   /** If true, this location is designated as the default leader location where leader replicas are placed. See the [region types documentation](https://cloud.google.com/spanner/docs/instances#region_types) for more details. */
   defaultLeaderLocation?: boolean;
 }
 
-export const ReplicaInfo: Schema.Schema<ReplicaInfo> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  defaultLeaderLocation: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ReplicaInfo" }) as any as Schema.Schema<ReplicaInfo>;
+export const ReplicaInfo: Schema.Schema<ReplicaInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    location: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    defaultLeaderLocation: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "ReplicaInfo" }) as any as Schema.Schema<ReplicaInfo>;
 
 export interface ModValue {
   /** Index within the repeated column_metadata field, to obtain the column metadata for the column that was modified. */
@@ -1008,10 +1295,12 @@ export interface ModValue {
   value?: unknown;
 }
 
-export const ModValue: Schema.Schema<ModValue> = Schema.suspend(() => Schema.Struct({
-  columnMetadataIndex: Schema.optional(Schema.Number),
-  value: Schema.optional(Schema.Unknown),
-})).annotate({ identifier: "ModValue" }) as any as Schema.Schema<ModValue>;
+export const ModValue: Schema.Schema<ModValue> = Schema.suspend(() =>
+  Schema.Struct({
+    columnMetadataIndex: Schema.optional(Schema.Number),
+    value: Schema.optional(Schema.Unknown),
+  }),
+).annotate({ identifier: "ModValue" }) as any as Schema.Schema<ModValue>;
 
 export interface Mod {
   /** Returns the value of the primary key of the modified row. */
@@ -1022,11 +1311,13 @@ export interface Mod {
   newValues?: Array<ModValue>;
 }
 
-export const Mod: Schema.Schema<Mod> = Schema.suspend(() => Schema.Struct({
-  keys: Schema.optional(Schema.Array(ModValue)),
-  oldValues: Schema.optional(Schema.Array(ModValue)),
-  newValues: Schema.optional(Schema.Array(ModValue)),
-})).annotate({ identifier: "Mod" }) as any as Schema.Schema<Mod>;
+export const Mod: Schema.Schema<Mod> = Schema.suspend(() =>
+  Schema.Struct({
+    keys: Schema.optional(Schema.Array(ModValue)),
+    oldValues: Schema.optional(Schema.Array(ModValue)),
+    newValues: Schema.optional(Schema.Array(ModValue)),
+  }),
+).annotate({ identifier: "Mod" }) as any as Schema.Schema<Mod>;
 
 export interface PartitionOptions {
   /** **Note:** This hint is currently ignored by `PartitionQuery` and `PartitionRead` requests. The desired maximum number of partitions to return. For example, this might be set to the number of workers available. The default for this option is currently 10,000. The maximum value is currently 200,000. This is only a hint. The actual number of partitions returned can be smaller or larger than this maximum count request. */
@@ -1035,10 +1326,15 @@ export interface PartitionOptions {
   partitionSizeBytes?: string;
 }
 
-export const PartitionOptions: Schema.Schema<PartitionOptions> = Schema.suspend(() => Schema.Struct({
-  maxPartitions: Schema.optional(Schema.String),
-  partitionSizeBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "PartitionOptions" }) as any as Schema.Schema<PartitionOptions>;
+export const PartitionOptions: Schema.Schema<PartitionOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      maxPartitions: Schema.optional(Schema.String),
+      partitionSizeBytes: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PartitionOptions",
+}) as any as Schema.Schema<PartitionOptions>;
 
 export interface CopyBackupMetadata {
   /** The time at which cancellation of CopyBackup operation was received. Operations.CancelOperation starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`. */
@@ -1051,12 +1347,17 @@ export interface CopyBackupMetadata {
   sourceBackup?: string;
 }
 
-export const CopyBackupMetadata: Schema.Schema<CopyBackupMetadata> = Schema.suspend(() => Schema.Struct({
-  cancelTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  progress: Schema.optional(OperationProgress),
-  sourceBackup: Schema.optional(Schema.String),
-})).annotate({ identifier: "CopyBackupMetadata" }) as any as Schema.Schema<CopyBackupMetadata>;
+export const CopyBackupMetadata: Schema.Schema<CopyBackupMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cancelTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      progress: Schema.optional(OperationProgress),
+      sourceBackup: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CopyBackupMetadata",
+  }) as any as Schema.Schema<CopyBackupMetadata>;
 
 export interface Expr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
@@ -1069,12 +1370,14 @@ export interface Expr {
   title?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    expression: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
@@ -1085,11 +1388,13 @@ export interface Binding {
   role?: string;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-  role: Schema.optional(Schema.String),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+    role: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
@@ -1100,20 +1405,27 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  bindings: Schema.optional(Schema.Array(Binding)),
-  version: Schema.optional(Schema.Number),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    bindings: Schema.optional(Schema.Array(Binding)),
+    version: Schema.optional(Schema.Number),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface BackupInfo {
   /** The time the CreateBackup request was received. */
@@ -1126,12 +1438,14 @@ export interface BackupInfo {
   versionTime?: string;
 }
 
-export const BackupInfo: Schema.Schema<BackupInfo> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  sourceDatabase: Schema.optional(Schema.String),
-  backup: Schema.optional(Schema.String),
-  versionTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupInfo" }) as any as Schema.Schema<BackupInfo>;
+export const BackupInfo: Schema.Schema<BackupInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    createTime: Schema.optional(Schema.String),
+    sourceDatabase: Schema.optional(Schema.String),
+    backup: Schema.optional(Schema.String),
+    versionTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "BackupInfo" }) as any as Schema.Schema<BackupInfo>;
 
 export interface RestoreDatabaseMetadata {
   /** Name of the database being created and restored to. */
@@ -1148,32 +1462,46 @@ export interface RestoreDatabaseMetadata {
   sourceType?: "TYPE_UNSPECIFIED" | "BACKUP" | (string & {});
 }
 
-export const RestoreDatabaseMetadata: Schema.Schema<RestoreDatabaseMetadata> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  progress: Schema.optional(OperationProgress),
-  cancelTime: Schema.optional(Schema.String),
-  optimizeDatabaseOperationName: Schema.optional(Schema.String),
-  backupInfo: Schema.optional(BackupInfo),
-  sourceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "RestoreDatabaseMetadata" }) as any as Schema.Schema<RestoreDatabaseMetadata>;
+export const RestoreDatabaseMetadata: Schema.Schema<RestoreDatabaseMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      progress: Schema.optional(OperationProgress),
+      cancelTime: Schema.optional(Schema.String),
+      optimizeDatabaseOperationName: Schema.optional(Schema.String),
+      backupInfo: Schema.optional(BackupInfo),
+      sourceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RestoreDatabaseMetadata",
+  }) as any as Schema.Schema<RestoreDatabaseMetadata>;
 
 export interface MoveOutEvent {
   /** An unique partition identifier describing the destination change stream partition that will record changes for the key range that is moving out of this partition. */
   destinationPartitionToken?: string;
 }
 
-export const MoveOutEvent: Schema.Schema<MoveOutEvent> = Schema.suspend(() => Schema.Struct({
-  destinationPartitionToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveOutEvent" }) as any as Schema.Schema<MoveOutEvent>;
+export const MoveOutEvent: Schema.Schema<MoveOutEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    destinationPartitionToken: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "MoveOutEvent",
+}) as any as Schema.Schema<MoveOutEvent>;
 
 export interface BackupInstancePartition {
   /** A unique identifier for the instance partition. Values are of the form `projects//instances//instancePartitions/` */
   instancePartition?: string;
 }
 
-export const BackupInstancePartition: Schema.Schema<BackupInstancePartition> = Schema.suspend(() => Schema.Struct({
-  instancePartition: Schema.optional(Schema.String),
-})).annotate({ identifier: "BackupInstancePartition" }) as any as Schema.Schema<BackupInstancePartition>;
+export const BackupInstancePartition: Schema.Schema<BackupInstancePartition> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instancePartition: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BackupInstancePartition",
+  }) as any as Schema.Schema<BackupInstancePartition>;
 
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
@@ -1184,11 +1512,15 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -1203,13 +1535,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  name: Schema.optional(Schema.String),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    name: Schema.optional(Schema.String),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -1220,29 +1554,42 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface PartitionedDml {
-}
+export interface PartitionedDml {}
 
-export const PartitionedDml: Schema.Schema<PartitionedDml> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "PartitionedDml" }) as any as Schema.Schema<PartitionedDml>;
+export const PartitionedDml: Schema.Schema<PartitionedDml> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "PartitionedDml",
+}) as any as Schema.Schema<PartitionedDml>;
 
 export interface ReadWrite {
   /** Optional. Clients should pass the transaction ID of the previous transaction attempt that was aborted if this transaction is being executed on a multiplexed session. */
   multiplexedSessionPreviousTransactionId?: string;
   /** Read lock mode for the transaction. */
-  readLockMode?: "READ_LOCK_MODE_UNSPECIFIED" | "PESSIMISTIC" | "OPTIMISTIC" | (string & {});
+  readLockMode?:
+    | "READ_LOCK_MODE_UNSPECIFIED"
+    | "PESSIMISTIC"
+    | "OPTIMISTIC"
+    | (string & {});
 }
 
-export const ReadWrite: Schema.Schema<ReadWrite> = Schema.suspend(() => Schema.Struct({
-  multiplexedSessionPreviousTransactionId: Schema.optional(Schema.String),
-  readLockMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
+export const ReadWrite: Schema.Schema<ReadWrite> = Schema.suspend(() =>
+  Schema.Struct({
+    multiplexedSessionPreviousTransactionId: Schema.optional(Schema.String),
+    readLockMode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
 
 export interface ReadOnly {
   /** Executes all reads at a timestamp >= `min_read_timestamp`. This is useful for requesting fresher data than some previous read, or data that is fresh enough to observe the effects of some previously committed transaction whose timestamp is known. Note that this option can only be used in single-use transactions. A timestamp in RFC3339 UTC \"Zulu\" format, accurate to nanoseconds. Example: `"2014-10-02T15:01:23.045123456Z"`. */
@@ -1259,14 +1606,16 @@ export interface ReadOnly {
   strong?: boolean;
 }
 
-export const ReadOnly: Schema.Schema<ReadOnly> = Schema.suspend(() => Schema.Struct({
-  minReadTimestamp: Schema.optional(Schema.String),
-  exactStaleness: Schema.optional(Schema.String),
-  maxStaleness: Schema.optional(Schema.String),
-  returnReadTimestamp: Schema.optional(Schema.Boolean),
-  readTimestamp: Schema.optional(Schema.String),
-  strong: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
+export const ReadOnly: Schema.Schema<ReadOnly> = Schema.suspend(() =>
+  Schema.Struct({
+    minReadTimestamp: Schema.optional(Schema.String),
+    exactStaleness: Schema.optional(Schema.String),
+    maxStaleness: Schema.optional(Schema.String),
+    returnReadTimestamp: Schema.optional(Schema.Boolean),
+    readTimestamp: Schema.optional(Schema.String),
+    strong: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
 
 export interface TransactionOptions {
   /** Partitioned DML transaction. Authorization to begin a Partitioned DML transaction requires `spanner.databases.beginPartitionedDmlTransaction` permission on the `session` resource. */
@@ -1276,18 +1625,27 @@ export interface TransactionOptions {
   /** Transaction does not write. Authorization to begin a read-only transaction requires `spanner.databases.beginReadOnlyTransaction` permission on the `session` resource. */
   readOnly?: ReadOnly;
   /** Isolation level for the transaction. */
-  isolationLevel?: "ISOLATION_LEVEL_UNSPECIFIED" | "SERIALIZABLE" | "REPEATABLE_READ" | (string & {});
+  isolationLevel?:
+    | "ISOLATION_LEVEL_UNSPECIFIED"
+    | "SERIALIZABLE"
+    | "REPEATABLE_READ"
+    | (string & {});
   /** When `exclude_txn_from_change_streams` is set to `true`, it prevents read or write transactions from being tracked in change streams. * If the DDL option `allow_txn_exclusion` is set to `true`, then the updates made within this transaction aren't recorded in the change stream. * If you don't set the DDL option `allow_txn_exclusion` or if it's set to `false`, then the updates made within this transaction are recorded in the change stream. When `exclude_txn_from_change_streams` is set to `false` or not set, modifications from this transaction are recorded in all change streams that are tracking columns modified by these transactions. The `exclude_txn_from_change_streams` option can only be specified for read-write or partitioned DML transactions, otherwise the API returns an `INVALID_ARGUMENT` error. */
   excludeTxnFromChangeStreams?: boolean;
 }
 
-export const TransactionOptions: Schema.Schema<TransactionOptions> = Schema.suspend(() => Schema.Struct({
-  partitionedDml: Schema.optional(PartitionedDml),
-  readWrite: Schema.optional(ReadWrite),
-  readOnly: Schema.optional(ReadOnly),
-  isolationLevel: Schema.optional(Schema.String),
-  excludeTxnFromChangeStreams: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "TransactionOptions" }) as any as Schema.Schema<TransactionOptions>;
+export const TransactionOptions: Schema.Schema<TransactionOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partitionedDml: Schema.optional(PartitionedDml),
+      readWrite: Schema.optional(ReadWrite),
+      readOnly: Schema.optional(ReadOnly),
+      isolationLevel: Schema.optional(Schema.String),
+      excludeTxnFromChangeStreams: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "TransactionOptions",
+  }) as any as Schema.Schema<TransactionOptions>;
 
 export interface TransactionSelector {
   /** Begin a new transaction and execute this read or SQL query in it. The transaction ID of the new transaction is returned in ResultSetMetadata.transaction, which is a Transaction. */
@@ -1298,11 +1656,16 @@ export interface TransactionSelector {
   singleUse?: TransactionOptions;
 }
 
-export const TransactionSelector: Schema.Schema<TransactionSelector> = Schema.suspend(() => Schema.Struct({
-  begin: Schema.optional(TransactionOptions),
-  id: Schema.optional(Schema.String),
-  singleUse: Schema.optional(TransactionOptions),
-})).annotate({ identifier: "TransactionSelector" }) as any as Schema.Schema<TransactionSelector>;
+export const TransactionSelector: Schema.Schema<TransactionSelector> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      begin: Schema.optional(TransactionOptions),
+      id: Schema.optional(Schema.String),
+      singleUse: Schema.optional(TransactionOptions),
+    }),
+  ).annotate({
+    identifier: "TransactionSelector",
+  }) as any as Schema.Schema<TransactionSelector>;
 
 export interface Field {
   /** The type of the field. */
@@ -1311,40 +1674,69 @@ export interface Field {
   name?: string;
 }
 
-export const Field: Schema.Schema<Field> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Type),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Field" }) as any as Schema.Schema<Field>;
+export const Field: Schema.Schema<Field> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Type),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Field" }) as any as Schema.Schema<Field>;
 
 export interface StructType {
   /** The list of fields that make up this struct. Order is significant, because values of this struct type are represented as lists, where the order of field values matches the order of fields in the StructType. In turn, the order of fields matches the order of columns in a read request, or the order of fields in the `SELECT` clause of a query. */
   fields?: Array<Field>;
 }
 
-export const StructType: Schema.Schema<StructType> = Schema.suspend(() => Schema.Struct({
-  fields: Schema.optional(Schema.Array(Field)),
-})).annotate({ identifier: "StructType" }) as any as Schema.Schema<StructType>;
+export const StructType: Schema.Schema<StructType> = Schema.suspend(() =>
+  Schema.Struct({
+    fields: Schema.optional(Schema.Array(Field)),
+  }),
+).annotate({ identifier: "StructType" }) as any as Schema.Schema<StructType>;
 
 export interface Type {
   /** If code == PROTO or code == ENUM, then `proto_type_fqn` is the fully qualified name of the proto type representing the proto/enum definition. */
   protoTypeFqn?: string;
   /** The TypeAnnotationCode that disambiguates SQL type that Spanner will use to represent values of this type during query processing. This is necessary for some type codes because a single TypeCode can be mapped to different SQL types depending on the SQL dialect. type_annotation typically is not needed to process the content of a value (it doesn't affect serialization) and clients can ignore it on the read path. */
-  typeAnnotation?: "TYPE_ANNOTATION_CODE_UNSPECIFIED" | "PG_NUMERIC" | "PG_JSONB" | "PG_OID" | (string & {});
+  typeAnnotation?:
+    | "TYPE_ANNOTATION_CODE_UNSPECIFIED"
+    | "PG_NUMERIC"
+    | "PG_JSONB"
+    | "PG_OID"
+    | (string & {});
   /** If code == STRUCT, then `struct_type` provides type information for the struct's fields. */
   structType?: StructType;
   /** Required. The TypeCode for this type. */
-  code?: "TYPE_CODE_UNSPECIFIED" | "BOOL" | "INT64" | "FLOAT64" | "FLOAT32" | "TIMESTAMP" | "DATE" | "STRING" | "BYTES" | "ARRAY" | "STRUCT" | "NUMERIC" | "JSON" | "PROTO" | "ENUM" | "INTERVAL" | "UUID" | (string & {});
+  code?:
+    | "TYPE_CODE_UNSPECIFIED"
+    | "BOOL"
+    | "INT64"
+    | "FLOAT64"
+    | "FLOAT32"
+    | "TIMESTAMP"
+    | "DATE"
+    | "STRING"
+    | "BYTES"
+    | "ARRAY"
+    | "STRUCT"
+    | "NUMERIC"
+    | "JSON"
+    | "PROTO"
+    | "ENUM"
+    | "INTERVAL"
+    | "UUID"
+    | (string & {});
   /** If code == ARRAY, then `array_element_type` is the type of the array elements. */
   arrayElementType?: Type;
 }
 
-export const Type: Schema.Schema<Type> = Schema.suspend(() => Schema.Struct({
-  protoTypeFqn: Schema.optional(Schema.String),
-  typeAnnotation: Schema.optional(Schema.String),
-  structType: Schema.optional(StructType),
-  code: Schema.optional(Schema.String),
-  arrayElementType: Schema.optional(Type),
-})).annotate({ identifier: "Type" }) as any as Schema.Schema<Type>;
+export const Type: Schema.Schema<Type> = Schema.suspend(() =>
+  Schema.Struct({
+    protoTypeFqn: Schema.optional(Schema.String),
+    typeAnnotation: Schema.optional(Schema.String),
+    structType: Schema.optional(StructType),
+    code: Schema.optional(Schema.String),
+    arrayElementType: Schema.optional(Type),
+  }),
+).annotate({ identifier: "Type" }) as any as Schema.Schema<Type>;
 
 export interface PartitionQueryRequest {
   /** Read-only snapshot transactions are supported, read and write and single-use transactions are not. */
@@ -1359,13 +1751,18 @@ export interface PartitionQueryRequest {
   params?: Record<string, unknown>;
 }
 
-export const PartitionQueryRequest: Schema.Schema<PartitionQueryRequest> = Schema.suspend(() => Schema.Struct({
-  transaction: Schema.optional(TransactionSelector),
-  sql: Schema.optional(Schema.String),
-  partitionOptions: Schema.optional(PartitionOptions),
-  paramTypes: Schema.optional(Schema.Record(Schema.String, Type)),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "PartitionQueryRequest" }) as any as Schema.Schema<PartitionQueryRequest>;
+export const PartitionQueryRequest: Schema.Schema<PartitionQueryRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transaction: Schema.optional(TransactionSelector),
+      sql: Schema.optional(Schema.String),
+      partitionOptions: Schema.optional(PartitionOptions),
+      paramTypes: Schema.optional(Schema.Record(Schema.String, Type)),
+      params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "PartitionQueryRequest",
+  }) as any as Schema.Schema<PartitionQueryRequest>;
 
 export interface ResultSetStats {
   /** Aggregated statistics from the execution of the query. Only present when the query is profiled. For example, a query could return the statistics as follows: { "rows_returned": "3", "elapsed_time": "1.22 secs", "cpu_time": "1.19 secs" } */
@@ -1378,12 +1775,17 @@ export interface ResultSetStats {
   queryPlan?: QueryPlan;
 }
 
-export const ResultSetStats: Schema.Schema<ResultSetStats> = Schema.suspend(() => Schema.Struct({
-  queryStats: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  rowCountExact: Schema.optional(Schema.String),
-  rowCountLowerBound: Schema.optional(Schema.String),
-  queryPlan: Schema.optional(QueryPlan),
-})).annotate({ identifier: "ResultSetStats" }) as any as Schema.Schema<ResultSetStats>;
+export const ResultSetStats: Schema.Schema<ResultSetStats> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      queryStats: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      rowCountExact: Schema.optional(Schema.String),
+      rowCountLowerBound: Schema.optional(Schema.String),
+      queryPlan: Schema.optional(QueryPlan),
+    }),
+).annotate({
+  identifier: "ResultSetStats",
+}) as any as Schema.Schema<ResultSetStats>;
 
 export interface ReplicaComputeCapacity {
   /** Required. Identifies replicas by specified properties. All replicas in the selection have the same amount of compute capacity. */
@@ -1394,21 +1796,35 @@ export interface ReplicaComputeCapacity {
   processingUnits?: number;
 }
 
-export const ReplicaComputeCapacity: Schema.Schema<ReplicaComputeCapacity> = Schema.suspend(() => Schema.Struct({
-  replicaSelection: Schema.optional(InstanceReplicaSelection),
-  nodeCount: Schema.optional(Schema.Number),
-  processingUnits: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ReplicaComputeCapacity" }) as any as Schema.Schema<ReplicaComputeCapacity>;
+export const ReplicaComputeCapacity: Schema.Schema<ReplicaComputeCapacity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      replicaSelection: Schema.optional(InstanceReplicaSelection),
+      nodeCount: Schema.optional(Schema.Number),
+      processingUnits: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ReplicaComputeCapacity",
+  }) as any as Schema.Schema<ReplicaComputeCapacity>;
 
 export interface Instance {
   /** The number of processing units allocated to this instance. At most, one of either `processing_units` or `node_count` should be present in the message. Users can set the `processing_units` field to specify the target number of processing units allocated to the instance. If autoscaling is enabled, `processing_units` is treated as an `OUTPUT_ONLY` field and reflects the current number of processing units allocated to the instance. This might be zero in API responses for instances that are not yet in the `READY` state. If the instance has varying processing units per replica (achieved by setting `asymmetric_autoscaling_options` in the autoscaling configuration), the `processing_units` set here is the maximum processing units across all replicas. For more information, see [Compute capacity, nodes and processing units](https://cloud.google.com/spanner/docs/compute-capacity). */
   processingUnits?: number;
   /** The `InstanceType` of the current instance. */
-  instanceType?: "INSTANCE_TYPE_UNSPECIFIED" | "PROVISIONED" | "FREE_INSTANCE" | (string & {});
+  instanceType?:
+    | "INSTANCE_TYPE_UNSPECIFIED"
+    | "PROVISIONED"
+    | "FREE_INSTANCE"
+    | (string & {});
   /** Free instance metadata. Only populated for free instances. */
   freeInstanceMetadata?: FreeInstanceMetadata;
   /** Optional. The `Edition` of the current instance. */
-  edition?: "EDITION_UNSPECIFIED" | "STANDARD" | "ENTERPRISE" | "ENTERPRISE_PLUS" | (string & {});
+  edition?:
+    | "EDITION_UNSPECIFIED"
+    | "STANDARD"
+    | "ENTERPRISE"
+    | "ENTERPRISE_PLUS"
+    | (string & {});
   /** Optional. The autoscaling configuration. Autoscaling is enabled if this field is set. When autoscaling is enabled, node_count and processing_units are treated as OUTPUT_ONLY fields and reflect the current compute capacity allocated to the instance. */
   autoscalingConfig?: AutoscalingConfig;
   /** Output only. The current instance state. For CreateInstance, the state must be either omitted or set to `CREATING`. For UpdateInstance, the state must be either omitted or set to `READY`. */
@@ -1420,7 +1836,11 @@ export interface Instance {
   /** The number of nodes allocated to this instance. At most, one of either `node_count` or `processing_units` should be present in the message. Users can set the `node_count` field to specify the target number of nodes allocated to the instance. If autoscaling is enabled, `node_count` is treated as an `OUTPUT_ONLY` field and reflects the current number of nodes allocated to the instance. This might be zero in API responses for instances that are not yet in the `READY` state. If the instance has varying node count across replicas (achieved by setting `asymmetric_autoscaling_options` in the autoscaling configuration), the `node_count` set here is the maximum node count across all replicas. For more information, see [Compute capacity, nodes, and processing units](https://cloud.google.com/spanner/docs/compute-capacity). */
   nodeCount?: number;
   /** Optional. Controls the default backup schedule behavior for new databases within the instance. By default, a backup schedule is created automatically when a new database is created in a new instance. Note that the `AUTOMATIC` value isn't permitted for free instances, as backups and backup schedules aren't supported for free instances. In the `GetInstance` or `ListInstances` response, if the value of `default_backup_schedule_type` isn't set, or set to `NONE`, Spanner doesn't create a default backup schedule for new databases in the instance. */
-  defaultBackupScheduleType?: "DEFAULT_BACKUP_SCHEDULE_TYPE_UNSPECIFIED" | "NONE" | "AUTOMATIC" | (string & {});
+  defaultBackupScheduleType?:
+    | "DEFAULT_BACKUP_SCHEDULE_TYPE_UNSPECIFIED"
+    | "NONE"
+    | "AUTOMATIC"
+    | (string & {});
   /** Deprecated. This field is not populated. */
   endpointUris?: Array<string>;
   /** Required. The descriptive name for this instance as it appears in UIs. Must be unique per project and between 4 and 30 characters in length. */
@@ -1435,24 +1855,28 @@ export interface Instance {
   name?: string;
 }
 
-export const Instance: Schema.Schema<Instance> = Schema.suspend(() => Schema.Struct({
-  processingUnits: Schema.optional(Schema.Number),
-  instanceType: Schema.optional(Schema.String),
-  freeInstanceMetadata: Schema.optional(FreeInstanceMetadata),
-  edition: Schema.optional(Schema.String),
-  autoscalingConfig: Schema.optional(AutoscalingConfig),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  config: Schema.optional(Schema.String),
-  nodeCount: Schema.optional(Schema.Number),
-  defaultBackupScheduleType: Schema.optional(Schema.String),
-  endpointUris: Schema.optional(Schema.Array(Schema.String)),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  replicaComputeCapacity: Schema.optional(Schema.Array(ReplicaComputeCapacity)),
-  updateTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
+export const Instance: Schema.Schema<Instance> = Schema.suspend(() =>
+  Schema.Struct({
+    processingUnits: Schema.optional(Schema.Number),
+    instanceType: Schema.optional(Schema.String),
+    freeInstanceMetadata: Schema.optional(FreeInstanceMetadata),
+    edition: Schema.optional(Schema.String),
+    autoscalingConfig: Schema.optional(AutoscalingConfig),
+    state: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    config: Schema.optional(Schema.String),
+    nodeCount: Schema.optional(Schema.Number),
+    defaultBackupScheduleType: Schema.optional(Schema.String),
+    endpointUris: Schema.optional(Schema.Array(Schema.String)),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    replicaComputeCapacity: Schema.optional(
+      Schema.Array(ReplicaComputeCapacity),
+    ),
+    updateTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
 
 export interface CreateInstanceRequest {
   /** Required. The instance to create. The name may be omitted, but if specified must be `/instances/`. */
@@ -1461,10 +1885,15 @@ export interface CreateInstanceRequest {
   instanceId?: string;
 }
 
-export const CreateInstanceRequest: Schema.Schema<CreateInstanceRequest> = Schema.suspend(() => Schema.Struct({
-  instance: Schema.optional(Instance),
-  instanceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateInstanceRequest" }) as any as Schema.Schema<CreateInstanceRequest>;
+export const CreateInstanceRequest: Schema.Schema<CreateInstanceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instance: Schema.optional(Instance),
+      instanceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateInstanceRequest",
+  }) as any as Schema.Schema<CreateInstanceRequest>;
 
 export interface OptimizeRestoredDatabaseMetadata {
   /** The progress of the post-restore optimizations. */
@@ -1473,19 +1902,26 @@ export interface OptimizeRestoredDatabaseMetadata {
   name?: string;
 }
 
-export const OptimizeRestoredDatabaseMetadata: Schema.Schema<OptimizeRestoredDatabaseMetadata> = Schema.suspend(() => Schema.Struct({
-  progress: Schema.optional(OperationProgress),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "OptimizeRestoredDatabaseMetadata" }) as any as Schema.Schema<OptimizeRestoredDatabaseMetadata>;
+export const OptimizeRestoredDatabaseMetadata: Schema.Schema<OptimizeRestoredDatabaseMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      progress: Schema.optional(OperationProgress),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OptimizeRestoredDatabaseMetadata",
+  }) as any as Schema.Schema<OptimizeRestoredDatabaseMetadata>;
 
 export interface Key {
   /** Required. The column values making up the split key. */
   keyParts?: Array<unknown>;
 }
 
-export const Key: Schema.Schema<Key> = Schema.suspend(() => Schema.Struct({
-  keyParts: Schema.optional(Schema.Array(Schema.Unknown)),
-})).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
+export const Key: Schema.Schema<Key> = Schema.suspend(() =>
+  Schema.Struct({
+    keyParts: Schema.optional(Schema.Array(Schema.Unknown)),
+  }),
+).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
 
 export interface SplitPoints {
   /** The index to split. If specified, the `table` field must refer to the index's base table. */
@@ -1498,12 +1934,14 @@ export interface SplitPoints {
   keys?: Array<Key>;
 }
 
-export const SplitPoints: Schema.Schema<SplitPoints> = Schema.suspend(() => Schema.Struct({
-  index: Schema.optional(Schema.String),
-  table: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  keys: Schema.optional(Schema.Array(Key)),
-})).annotate({ identifier: "SplitPoints" }) as any as Schema.Schema<SplitPoints>;
+export const SplitPoints: Schema.Schema<SplitPoints> = Schema.suspend(() =>
+  Schema.Struct({
+    index: Schema.optional(Schema.String),
+    table: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    keys: Schema.optional(Schema.Array(Key)),
+  }),
+).annotate({ identifier: "SplitPoints" }) as any as Schema.Schema<SplitPoints>;
 
 export interface AddSplitPointsRequest {
   /** Required. The split points to add. */
@@ -1512,10 +1950,15 @@ export interface AddSplitPointsRequest {
   initiator?: string;
 }
 
-export const AddSplitPointsRequest: Schema.Schema<AddSplitPointsRequest> = Schema.suspend(() => Schema.Struct({
-  splitPoints: Schema.optional(Schema.Array(SplitPoints)),
-  initiator: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddSplitPointsRequest" }) as any as Schema.Schema<AddSplitPointsRequest>;
+export const AddSplitPointsRequest: Schema.Schema<AddSplitPointsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      splitPoints: Schema.optional(Schema.Array(SplitPoints)),
+      initiator: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddSplitPointsRequest",
+  }) as any as Schema.Schema<AddSplitPointsRequest>;
 
 export interface ReplicaSelection {
   /** The location or region of the serving requests, for example, "us-east1". */
@@ -1524,10 +1967,15 @@ export interface ReplicaSelection {
   type?: "TYPE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY" | (string & {});
 }
 
-export const ReplicaSelection: Schema.Schema<ReplicaSelection> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReplicaSelection" }) as any as Schema.Schema<ReplicaSelection>;
+export const ReplicaSelection: Schema.Schema<ReplicaSelection> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      location: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ReplicaSelection",
+}) as any as Schema.Schema<ReplicaSelection>;
 
 export interface IncludeReplicas {
   /** If `true`, Spanner doesn't route requests to a replica outside the <`include_replicas` list when all of the specified replicas are unavailable or unhealthy. Default value is `false`. */
@@ -1536,19 +1984,29 @@ export interface IncludeReplicas {
   replicaSelections?: Array<ReplicaSelection>;
 }
 
-export const IncludeReplicas: Schema.Schema<IncludeReplicas> = Schema.suspend(() => Schema.Struct({
-  autoFailoverDisabled: Schema.optional(Schema.Boolean),
-  replicaSelections: Schema.optional(Schema.Array(ReplicaSelection)),
-})).annotate({ identifier: "IncludeReplicas" }) as any as Schema.Schema<IncludeReplicas>;
+export const IncludeReplicas: Schema.Schema<IncludeReplicas> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      autoFailoverDisabled: Schema.optional(Schema.Boolean),
+      replicaSelections: Schema.optional(Schema.Array(ReplicaSelection)),
+    }),
+).annotate({
+  identifier: "IncludeReplicas",
+}) as any as Schema.Schema<IncludeReplicas>;
 
 export interface ExcludeReplicas {
   /** The directed read replica selector. */
   replicaSelections?: Array<ReplicaSelection>;
 }
 
-export const ExcludeReplicas: Schema.Schema<ExcludeReplicas> = Schema.suspend(() => Schema.Struct({
-  replicaSelections: Schema.optional(Schema.Array(ReplicaSelection)),
-})).annotate({ identifier: "ExcludeReplicas" }) as any as Schema.Schema<ExcludeReplicas>;
+export const ExcludeReplicas: Schema.Schema<ExcludeReplicas> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      replicaSelections: Schema.optional(Schema.Array(ReplicaSelection)),
+    }),
+).annotate({
+  identifier: "ExcludeReplicas",
+}) as any as Schema.Schema<ExcludeReplicas>;
 
 export interface DirectedReadOptions {
   /** `Include_replicas` indicates the order of replicas (as they appear in this list) to process the request. If `auto_failover_disabled` is set to `true` and all replicas are exhausted without finding a healthy replica, Spanner waits for a replica in the list to become available, requests might fail due to `DEADLINE_EXCEEDED` errors. */
@@ -1557,10 +2015,15 @@ export interface DirectedReadOptions {
   excludeReplicas?: ExcludeReplicas;
 }
 
-export const DirectedReadOptions: Schema.Schema<DirectedReadOptions> = Schema.suspend(() => Schema.Struct({
-  includeReplicas: Schema.optional(IncludeReplicas),
-  excludeReplicas: Schema.optional(ExcludeReplicas),
-})).annotate({ identifier: "DirectedReadOptions" }) as any as Schema.Schema<DirectedReadOptions>;
+export const DirectedReadOptions: Schema.Schema<DirectedReadOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      includeReplicas: Schema.optional(IncludeReplicas),
+      excludeReplicas: Schema.optional(ExcludeReplicas),
+    }),
+  ).annotate({
+    identifier: "DirectedReadOptions",
+  }) as any as Schema.Schema<DirectedReadOptions>;
 
 export interface InstanceConfig {
   /** A unique identifier for the instance configuration. Values are of the form `projects//instanceConfigs/a-z*`. User instance configuration must start with `custom-`. */
@@ -1574,9 +2037,19 @@ export interface InstanceConfig {
   /** Output only. The available optional replicas to choose from for user-managed configurations. Populated for Google-managed configurations. */
   optionalReplicas?: Array<ReplicaInfo>;
   /** Output only. Whether this instance configuration is a Google-managed or user-managed configuration. */
-  configType?: "TYPE_UNSPECIFIED" | "GOOGLE_MANAGED" | "USER_MANAGED" | (string & {});
+  configType?:
+    | "TYPE_UNSPECIFIED"
+    | "GOOGLE_MANAGED"
+    | "USER_MANAGED"
+    | (string & {});
   /** Output only. Describes whether free instances are available to be created in this instance configuration. */
-  freeInstanceAvailability?: "FREE_INSTANCE_AVAILABILITY_UNSPECIFIED" | "AVAILABLE" | "UNSUPPORTED" | "DISABLED" | "QUOTA_EXCEEDED" | (string & {});
+  freeInstanceAvailability?:
+    | "FREE_INSTANCE_AVAILABILITY_UNSPECIFIED"
+    | "AVAILABLE"
+    | "UNSUPPORTED"
+    | "DISABLED"
+    | "QUOTA_EXCEEDED"
+    | (string & {});
   /** The name of this instance configuration as it appears in UIs. */
   displayName?: string;
   /** The geographic placement of nodes in this instance configuration and their replication properties. To create user-managed configurations, input `replicas` must include all replicas in `replicas` of the `base_config` and include one or more replicas in the `optional_replicas` of the `base_config`. */
@@ -1584,7 +2057,12 @@ export interface InstanceConfig {
   /** Cloud Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. Cloud Labels can be used to filter collections of resources. They can be used to control how resource metrics are aggregated. And they can be used as arguments to policy management rules (e.g. route, firewall, load balancing, etc.). * Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `a-z{0,62}`. * Label values must be between 0 and 63 characters long and must conform to the regular expression `[a-z0-9_-]{0,63}`. * No more than 64 labels can be associated with a given resource. See https://goo.gl/xmQnxf for more information on and examples of labels. If you plan to use labels in your own code, please note that additional characters may be allowed in the future. Therefore, you are advised to use an internal label representation, such as JSON, which doesn't rely upon specific characters being disallowed. For example, representing labels as the string: name + "_" + value would prove problematic if we were to allow "_" in a future release. */
   labels?: Record<string, string>;
   /** Output only. The `QuorumType` of the instance configuration. */
-  quorumType?: "QUORUM_TYPE_UNSPECIFIED" | "REGION" | "DUAL_REGION" | "MULTI_REGION" | (string & {});
+  quorumType?:
+    | "QUORUM_TYPE_UNSPECIFIED"
+    | "REGION"
+    | "DUAL_REGION"
+    | "MULTI_REGION"
+    | (string & {});
   /** Output only. The storage limit in bytes per processing unit. */
   storageLimitPerProcessingUnit?: string;
   /** Allowed values of the "default_leader" schema option for databases in instances that use this instance configuration. */
@@ -1593,22 +2071,27 @@ export interface InstanceConfig {
   reconciling?: boolean;
 }
 
-export const InstanceConfig: Schema.Schema<InstanceConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  baseConfig: Schema.optional(Schema.String),
-  optionalReplicas: Schema.optional(Schema.Array(ReplicaInfo)),
-  configType: Schema.optional(Schema.String),
-  freeInstanceAvailability: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  replicas: Schema.optional(Schema.Array(ReplicaInfo)),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  quorumType: Schema.optional(Schema.String),
-  storageLimitPerProcessingUnit: Schema.optional(Schema.String),
-  leaderOptions: Schema.optional(Schema.Array(Schema.String)),
-  reconciling: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "InstanceConfig" }) as any as Schema.Schema<InstanceConfig>;
+export const InstanceConfig: Schema.Schema<InstanceConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      baseConfig: Schema.optional(Schema.String),
+      optionalReplicas: Schema.optional(Schema.Array(ReplicaInfo)),
+      configType: Schema.optional(Schema.String),
+      freeInstanceAvailability: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      replicas: Schema.optional(Schema.Array(ReplicaInfo)),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      quorumType: Schema.optional(Schema.String),
+      storageLimitPerProcessingUnit: Schema.optional(Schema.String),
+      leaderOptions: Schema.optional(Schema.Array(Schema.String)),
+      reconciling: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "InstanceConfig",
+}) as any as Schema.Schema<InstanceConfig>;
 
 export interface CreateInstanceConfigRequest {
   /** An option to validate, but not actually execute, a request, and provide the same response. */
@@ -1619,20 +2102,30 @@ export interface CreateInstanceConfigRequest {
   instanceConfigId?: string;
 }
 
-export const CreateInstanceConfigRequest: Schema.Schema<CreateInstanceConfigRequest> = Schema.suspend(() => Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean),
-  instanceConfig: Schema.optional(InstanceConfig),
-  instanceConfigId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateInstanceConfigRequest" }) as any as Schema.Schema<CreateInstanceConfigRequest>;
+export const CreateInstanceConfigRequest: Schema.Schema<CreateInstanceConfigRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      validateOnly: Schema.optional(Schema.Boolean),
+      instanceConfig: Schema.optional(InstanceConfig),
+      instanceConfigId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateInstanceConfigRequest",
+  }) as any as Schema.Schema<CreateInstanceConfigRequest>;
 
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(() => Schema.Struct({
-  requestedPolicyVersion: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GetPolicyOptions" }) as any as Schema.Schema<GetPolicyOptions>;
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GetPolicyOptions",
+}) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface UpdateInstanceConfigRequest {
   /** An option to validate, but not actually execute, a request, and provide the same response. */
@@ -1643,20 +2136,29 @@ export interface UpdateInstanceConfigRequest {
   instanceConfig?: InstanceConfig;
 }
 
-export const UpdateInstanceConfigRequest: Schema.Schema<UpdateInstanceConfigRequest> = Schema.suspend(() => Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean),
-  updateMask: Schema.optional(Schema.String),
-  instanceConfig: Schema.optional(InstanceConfig),
-})).annotate({ identifier: "UpdateInstanceConfigRequest" }) as any as Schema.Schema<UpdateInstanceConfigRequest>;
+export const UpdateInstanceConfigRequest: Schema.Schema<UpdateInstanceConfigRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      validateOnly: Schema.optional(Schema.Boolean),
+      updateMask: Schema.optional(Schema.String),
+      instanceConfig: Schema.optional(InstanceConfig),
+    }),
+  ).annotate({
+    identifier: "UpdateInstanceConfigRequest",
+  }) as any as Schema.Schema<UpdateInstanceConfigRequest>;
 
 export interface DatabaseRole {
   /** Required. The name of the database role. Values are of the form `projects//instances//databases//databaseRoles/` where `` is as specified in the `CREATE ROLE` DDL statement. */
   name?: string;
 }
 
-export const DatabaseRole: Schema.Schema<DatabaseRole> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "DatabaseRole" }) as any as Schema.Schema<DatabaseRole>;
+export const DatabaseRole: Schema.Schema<DatabaseRole> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DatabaseRole",
+}) as any as Schema.Schema<DatabaseRole>;
 
 export interface ListDatabaseRolesResponse {
   /** Database roles that matched the request. */
@@ -1665,19 +2167,26 @@ export interface ListDatabaseRolesResponse {
   nextPageToken?: string;
 }
 
-export const ListDatabaseRolesResponse: Schema.Schema<ListDatabaseRolesResponse> = Schema.suspend(() => Schema.Struct({
-  databaseRoles: Schema.optional(Schema.Array(DatabaseRole)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDatabaseRolesResponse" }) as any as Schema.Schema<ListDatabaseRolesResponse>;
+export const ListDatabaseRolesResponse: Schema.Schema<ListDatabaseRolesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      databaseRoles: Schema.optional(Schema.Array(DatabaseRole)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDatabaseRolesResponse",
+  }) as any as Schema.Schema<ListDatabaseRolesResponse>;
 
 export interface CommitStats {
   /** The total number of mutations for the transaction. Knowing the `mutation_count` value can help you maximize the number of mutations in a transaction and minimize the number of API round trips. You can also monitor this value to prevent transactions from exceeding the system [limit](https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data). If the number of mutations exceeds the limit, the server returns [INVALID_ARGUMENT](https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT). */
   mutationCount?: string;
 }
 
-export const CommitStats: Schema.Schema<CommitStats> = Schema.suspend(() => Schema.Struct({
-  mutationCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommitStats" }) as any as Schema.Schema<CommitStats>;
+export const CommitStats: Schema.Schema<CommitStats> = Schema.suspend(() =>
+  Schema.Struct({
+    mutationCount: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CommitStats" }) as any as Schema.Schema<CommitStats>;
 
 export interface Scan {
   /** Additional information provided by the implementer. */
@@ -1692,13 +2201,15 @@ export interface Scan {
   startTime?: string;
 }
 
-export const Scan: Schema.Schema<Scan> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  endTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  scanData: Schema.optional(ScanData),
-  startTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Scan" }) as any as Schema.Schema<Scan>;
+export const Scan: Schema.Schema<Scan> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    endTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    scanData: Schema.optional(ScanData),
+    startTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Scan" }) as any as Schema.Schema<Scan>;
 
 export interface ListScansResponse {
   /** Available scans based on the list query parameters. */
@@ -1707,16 +2218,22 @@ export interface ListScansResponse {
   nextPageToken?: string;
 }
 
-export const ListScansResponse: Schema.Schema<ListScansResponse> = Schema.suspend(() => Schema.Struct({
-  scans: Schema.optional(Schema.Array(Scan)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListScansResponse" }) as any as Schema.Schema<ListScansResponse>;
+export const ListScansResponse: Schema.Schema<ListScansResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      scans: Schema.optional(Schema.Array(Scan)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListScansResponse",
+  }) as any as Schema.Schema<ListScansResponse>;
 
-export interface AddSplitPointsResponse {
-}
+export interface AddSplitPointsResponse {}
 
-export const AddSplitPointsResponse: Schema.Schema<AddSplitPointsResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AddSplitPointsResponse" }) as any as Schema.Schema<AddSplitPointsResponse>;
+export const AddSplitPointsResponse: Schema.Schema<AddSplitPointsResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AddSplitPointsResponse",
+  }) as any as Schema.Schema<AddSplitPointsResponse>;
 
 export interface ListInstanceConfigOperationsResponse {
   /** `next_page_token` can be sent in a subsequent ListInstanceConfigOperations call to fetch more of the matching metadata. */
@@ -1725,19 +2242,29 @@ export interface ListInstanceConfigOperationsResponse {
   operations?: Array<Operation>;
 }
 
-export const ListInstanceConfigOperationsResponse: Schema.Schema<ListInstanceConfigOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  operations: Schema.optional(Schema.Array(Operation)),
-})).annotate({ identifier: "ListInstanceConfigOperationsResponse" }) as any as Schema.Schema<ListInstanceConfigOperationsResponse>;
+export const ListInstanceConfigOperationsResponse: Schema.Schema<ListInstanceConfigOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      operations: Schema.optional(Schema.Array(Operation)),
+    }),
+  ).annotate({
+    identifier: "ListInstanceConfigOperationsResponse",
+  }) as any as Schema.Schema<ListInstanceConfigOperationsResponse>;
 
 export interface TestIamPermissionsRequest {
   /** REQUIRED: The set of permissions to check for 'resource'. Permissions with wildcards (such as '*', 'spanner.*', 'spanner.instances.*') are not allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface ListSessionsResponse {
   /** The list of requested sessions. */
@@ -1746,25 +2273,39 @@ export interface ListSessionsResponse {
   nextPageToken?: string;
 }
 
-export const ListSessionsResponse: Schema.Schema<ListSessionsResponse> = Schema.suspend(() => Schema.Struct({
-  sessions: Schema.optional(Schema.Array(Session)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSessionsResponse" }) as any as Schema.Schema<ListSessionsResponse>;
+export const ListSessionsResponse: Schema.Schema<ListSessionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sessions: Schema.optional(Schema.Array(Session)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSessionsResponse",
+  }) as any as Schema.Schema<ListSessionsResponse>;
 
 export interface EncryptionInfo {
   /** Output only. The type of encryption. */
-  encryptionType?: "TYPE_UNSPECIFIED" | "GOOGLE_DEFAULT_ENCRYPTION" | "CUSTOMER_MANAGED_ENCRYPTION" | (string & {});
+  encryptionType?:
+    | "TYPE_UNSPECIFIED"
+    | "GOOGLE_DEFAULT_ENCRYPTION"
+    | "CUSTOMER_MANAGED_ENCRYPTION"
+    | (string & {});
   /** Output only. If present, the status of a recent encrypt/decrypt call on underlying data for this database or backup. Regardless of status, data is always encrypted at rest. */
   encryptionStatus?: Status;
   /** Output only. A Cloud KMS key version that is being used to protect the database or backup. */
   kmsKeyVersion?: string;
 }
 
-export const EncryptionInfo: Schema.Schema<EncryptionInfo> = Schema.suspend(() => Schema.Struct({
-  encryptionType: Schema.optional(Schema.String),
-  encryptionStatus: Schema.optional(Status),
-  kmsKeyVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "EncryptionInfo" }) as any as Schema.Schema<EncryptionInfo>;
+export const EncryptionInfo: Schema.Schema<EncryptionInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      encryptionType: Schema.optional(Schema.String),
+      encryptionStatus: Schema.optional(Status),
+      kmsKeyVersion: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EncryptionInfo",
+}) as any as Schema.Schema<EncryptionInfo>;
 
 export interface Backup {
   /** Output only. The names of the restored databases that reference the backup. The database names are of the form `projects//instances//databases/`. Referencing databases may exist in different instances. The existence of any referencing database prevents the backup from being deleted. When a restored database from the backup enters the `READY` state, the reference to the backup is removed. */
@@ -1776,7 +2317,12 @@ export interface Backup {
   /** Output only. Data deleted at a time older than this is guaranteed not to be retained in order to support this backup. For a backup in an incremental backup chain, this is the version time of the oldest backup that exists or ever existed in the chain. For all other backups, this is the version time of the backup. This field can be used to understand what data is being retained by the backup system. */
   oldestVersionTime?: string;
   /** Output only. The minimum edition required to successfully restore the backup. Populated only if the edition is Enterprise or Enterprise Plus. */
-  minimumRestorableEdition?: "EDITION_UNSPECIFIED" | "STANDARD" | "ENTERPRISE" | "ENTERPRISE_PLUS" | (string & {});
+  minimumRestorableEdition?:
+    | "EDITION_UNSPECIFIED"
+    | "STANDARD"
+    | "ENTERPRISE"
+    | "ENTERPRISE_PLUS"
+    | (string & {});
   /** Required for the CreateBackup operation. Name of the database from which this backup was created. This needs to be in the same instance as the backup. Values are of the form `projects//instances//databases/`. */
   database?: string;
   /** Output only. The encryption information for the backup. */
@@ -1796,7 +2342,11 @@ export interface Backup {
   /** Required for the CreateBackup operation. The expiration time of the backup, with microseconds granularity that must be at least 6 hours and at most 366 days from the time the CreateBackup request is processed. Once the `expire_time` has passed, the backup is eligible to be automatically deleted by Cloud Spanner to free the resources used by the backup. */
   expireTime?: string;
   /** Output only. The database dialect information for the backup. */
-  databaseDialect?: "DATABASE_DIALECT_UNSPECIFIED" | "GOOGLE_STANDARD_SQL" | "POSTGRESQL" | (string & {});
+  databaseDialect?:
+    | "DATABASE_DIALECT_UNSPECIFIED"
+    | "GOOGLE_STANDARD_SQL"
+    | "POSTGRESQL"
+    | (string & {});
   /** Output only. The current state of the backup. */
   state?: "STATE_UNSPECIFIED" | "CREATING" | "READY" | (string & {});
   /** Output only for the CreateBackup operation. Required for the UpdateBackup operation. A globally unique identifier for the backup which cannot be changed. Values are of the form `projects//instances//backups/a-z*[a-z0-9]` The final segment of the name must be between 2 and 60 characters in length. The backup is stored in the location(s) specified in the instance configuration of the instance containing the backup, identified by the prefix of the backup name of the form `projects//instances/`. */
@@ -1809,28 +2359,30 @@ export interface Backup {
   instancePartitions?: Array<BackupInstancePartition>;
 }
 
-export const Backup: Schema.Schema<Backup> = Schema.suspend(() => Schema.Struct({
-  referencingDatabases: Schema.optional(Schema.Array(Schema.String)),
-  referencingBackups: Schema.optional(Schema.Array(Schema.String)),
-  incrementalBackupChainId: Schema.optional(Schema.String),
-  oldestVersionTime: Schema.optional(Schema.String),
-  minimumRestorableEdition: Schema.optional(Schema.String),
-  database: Schema.optional(Schema.String),
-  encryptionInfo: Schema.optional(EncryptionInfo),
-  encryptionInformation: Schema.optional(Schema.Array(EncryptionInfo)),
-  createTime: Schema.optional(Schema.String),
-  sizeBytes: Schema.optional(Schema.String),
-  freeableSizeBytes: Schema.optional(Schema.String),
-  versionTime: Schema.optional(Schema.String),
-  maxExpireTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  databaseDialect: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  backupSchedules: Schema.optional(Schema.Array(Schema.String)),
-  exclusiveSizeBytes: Schema.optional(Schema.String),
-  instancePartitions: Schema.optional(Schema.Array(BackupInstancePartition)),
-})).annotate({ identifier: "Backup" }) as any as Schema.Schema<Backup>;
+export const Backup: Schema.Schema<Backup> = Schema.suspend(() =>
+  Schema.Struct({
+    referencingDatabases: Schema.optional(Schema.Array(Schema.String)),
+    referencingBackups: Schema.optional(Schema.Array(Schema.String)),
+    incrementalBackupChainId: Schema.optional(Schema.String),
+    oldestVersionTime: Schema.optional(Schema.String),
+    minimumRestorableEdition: Schema.optional(Schema.String),
+    database: Schema.optional(Schema.String),
+    encryptionInfo: Schema.optional(EncryptionInfo),
+    encryptionInformation: Schema.optional(Schema.Array(EncryptionInfo)),
+    createTime: Schema.optional(Schema.String),
+    sizeBytes: Schema.optional(Schema.String),
+    freeableSizeBytes: Schema.optional(Schema.String),
+    versionTime: Schema.optional(Schema.String),
+    maxExpireTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    databaseDialect: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    backupSchedules: Schema.optional(Schema.Array(Schema.String)),
+    exclusiveSizeBytes: Schema.optional(Schema.String),
+    instancePartitions: Schema.optional(Schema.Array(BackupInstancePartition)),
+  }),
+).annotate({ identifier: "Backup" }) as any as Schema.Schema<Backup>;
 
 export interface ListBackupsResponse {
   /** The list of matching backups. Backups returned are ordered by `create_time` in descending order, starting from the most recent `create_time`. */
@@ -1839,10 +2391,15 @@ export interface ListBackupsResponse {
   nextPageToken?: string;
 }
 
-export const ListBackupsResponse: Schema.Schema<ListBackupsResponse> = Schema.suspend(() => Schema.Struct({
-  backups: Schema.optional(Schema.Array(Backup)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListBackupsResponse" }) as any as Schema.Schema<ListBackupsResponse>;
+export const ListBackupsResponse: Schema.Schema<ListBackupsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backups: Schema.optional(Schema.Array(Backup)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListBackupsResponse",
+  }) as any as Schema.Schema<ListBackupsResponse>;
 
 export interface QuorumInfo {
   /** Output only. The etag is used for optimistic concurrency control as a way to help prevent simultaneous `ChangeQuorum` requests that might create a race condition. */
@@ -1855,12 +2412,14 @@ export interface QuorumInfo {
   quorumType?: QuorumType;
 }
 
-export const QuorumInfo: Schema.Schema<QuorumInfo> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  initiator: Schema.optional(Schema.String),
-  quorumType: Schema.optional(QuorumType),
-})).annotate({ identifier: "QuorumInfo" }) as any as Schema.Schema<QuorumInfo>;
+export const QuorumInfo: Schema.Schema<QuorumInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    etag: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    initiator: Schema.optional(Schema.String),
+    quorumType: Schema.optional(QuorumType),
+  }),
+).annotate({ identifier: "QuorumInfo" }) as any as Schema.Schema<QuorumInfo>;
 
 export interface RestoreInfo {
   /** The type of the restore source. */
@@ -1869,10 +2428,12 @@ export interface RestoreInfo {
   backupInfo?: BackupInfo;
 }
 
-export const RestoreInfo: Schema.Schema<RestoreInfo> = Schema.suspend(() => Schema.Struct({
-  sourceType: Schema.optional(Schema.String),
-  backupInfo: Schema.optional(BackupInfo),
-})).annotate({ identifier: "RestoreInfo" }) as any as Schema.Schema<RestoreInfo>;
+export const RestoreInfo: Schema.Schema<RestoreInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    sourceType: Schema.optional(Schema.String),
+    backupInfo: Schema.optional(BackupInfo),
+  }),
+).annotate({ identifier: "RestoreInfo" }) as any as Schema.Schema<RestoreInfo>;
 
 export interface Database {
   /** Optional. Whether drop protection is enabled for this database. Defaults to false, if not set. For more details, please see how to [prevent accidental database deletion](https://cloud.google.com/spanner/docs/prevent-database-deletion). */
@@ -1882,7 +2443,12 @@ export interface Database {
   /** Output only. If exists, the time at which the database creation started. */
   createTime?: string;
   /** Output only. The current database state. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "READY" | "READY_OPTIMIZING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "READY"
+    | "READY_OPTIMIZING"
+    | (string & {});
   /** Output only. For databases that are using customer managed encryption, this field contains the encryption configuration for the database. For databases that are using Google default or other types of encryption, this field is empty. */
   encryptionConfig?: EncryptionConfig;
   /** Output only. Applicable only for databases that use dual-region instance configurations. Contains information about the quorum. */
@@ -1890,7 +2456,11 @@ export interface Database {
   /** Output only. For databases that are using customer managed encryption, this field contains the encryption information for the database, such as all Cloud KMS key versions that are in use. The `encryption_status` field inside of each `EncryptionInfo` is not populated. For databases that are using Google default or other types of encryption, this field is empty. This field is propagated lazily from the backend. There might be a delay from when a key version is being used and when it appears in this field. */
   encryptionInfo?: Array<EncryptionInfo>;
   /** Output only. The dialect of the Cloud Spanner Database. */
-  databaseDialect?: "DATABASE_DIALECT_UNSPECIFIED" | "GOOGLE_STANDARD_SQL" | "POSTGRESQL" | (string & {});
+  databaseDialect?:
+    | "DATABASE_DIALECT_UNSPECIFIED"
+    | "GOOGLE_STANDARD_SQL"
+    | "POSTGRESQL"
+    | (string & {});
   /** Output only. The period in which Cloud Spanner retains all versions of data for the database. This is the same as the value of version_retention_period database option set using UpdateDatabaseDdl. Defaults to 1 hour, if not set. */
   versionRetentionPeriod?: string;
   /** Output only. Applicable only for restored databases. Contains information about the restore source. */
@@ -1903,21 +2473,23 @@ export interface Database {
   defaultLeader?: string;
 }
 
-export const Database: Schema.Schema<Database> = Schema.suspend(() => Schema.Struct({
-  enableDropProtection: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  encryptionConfig: Schema.optional(EncryptionConfig),
-  quorumInfo: Schema.optional(QuorumInfo),
-  encryptionInfo: Schema.optional(Schema.Array(EncryptionInfo)),
-  databaseDialect: Schema.optional(Schema.String),
-  versionRetentionPeriod: Schema.optional(Schema.String),
-  restoreInfo: Schema.optional(RestoreInfo),
-  earliestVersionTime: Schema.optional(Schema.String),
-  reconciling: Schema.optional(Schema.Boolean),
-  defaultLeader: Schema.optional(Schema.String),
-})).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
+export const Database: Schema.Schema<Database> = Schema.suspend(() =>
+  Schema.Struct({
+    enableDropProtection: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    encryptionConfig: Schema.optional(EncryptionConfig),
+    quorumInfo: Schema.optional(QuorumInfo),
+    encryptionInfo: Schema.optional(Schema.Array(EncryptionInfo)),
+    databaseDialect: Schema.optional(Schema.String),
+    versionRetentionPeriod: Schema.optional(Schema.String),
+    restoreInfo: Schema.optional(RestoreInfo),
+    earliestVersionTime: Schema.optional(Schema.String),
+    reconciling: Schema.optional(Schema.Boolean),
+    defaultLeader: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
 
 export interface UpdateDatabaseRequest {
   /** Required. The database to update. The `name` field of the database is of the form `projects//instances//databases/`. */
@@ -1926,10 +2498,15 @@ export interface UpdateDatabaseRequest {
   updateMask?: string;
 }
 
-export const UpdateDatabaseRequest: Schema.Schema<UpdateDatabaseRequest> = Schema.suspend(() => Schema.Struct({
-  database: Schema.optional(Database),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateDatabaseRequest" }) as any as Schema.Schema<UpdateDatabaseRequest>;
+export const UpdateDatabaseRequest: Schema.Schema<UpdateDatabaseRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      database: Schema.optional(Database),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateDatabaseRequest",
+  }) as any as Schema.Schema<UpdateDatabaseRequest>;
 
 export interface ListInstancePartitionOperationsResponse {
   /** The list of matching instance partition long-running operations. Each operation's name will be prefixed by the instance partition's name. The operation's metadata field type `metadata.type_url` describes the type of the metadata. */
@@ -1940,29 +2517,43 @@ export interface ListInstancePartitionOperationsResponse {
   unreachableInstancePartitions?: Array<string>;
 }
 
-export const ListInstancePartitionOperationsResponse: Schema.Schema<ListInstancePartitionOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachableInstancePartitions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListInstancePartitionOperationsResponse" }) as any as Schema.Schema<ListInstancePartitionOperationsResponse>;
+export const ListInstancePartitionOperationsResponse: Schema.Schema<ListInstancePartitionOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachableInstancePartitions: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "ListInstancePartitionOperationsResponse",
+  }) as any as Schema.Schema<ListInstancePartitionOperationsResponse>;
 
 export interface RollbackRequest {
   /** Required. The transaction to roll back. */
   transactionId?: string;
 }
 
-export const RollbackRequest: Schema.Schema<RollbackRequest> = Schema.suspend(() => Schema.Struct({
-  transactionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RollbackRequest" }) as any as Schema.Schema<RollbackRequest>;
+export const RollbackRequest: Schema.Schema<RollbackRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      transactionId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "RollbackRequest",
+}) as any as Schema.Schema<RollbackRequest>;
 
 export interface MoveInEvent {
   /** An unique partition identifier describing the source change stream partition that recorded changes for the key range that is moving into this partition. */
   sourcePartitionToken?: string;
 }
 
-export const MoveInEvent: Schema.Schema<MoveInEvent> = Schema.suspend(() => Schema.Struct({
-  sourcePartitionToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveInEvent" }) as any as Schema.Schema<MoveInEvent>;
+export const MoveInEvent: Schema.Schema<MoveInEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    sourcePartitionToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "MoveInEvent" }) as any as Schema.Schema<MoveInEvent>;
 
 export interface PartitionEventRecord {
   /** Set when one or more key ranges are moved into the change stream partition identified by partition_token. Example: Two key ranges are moved into partition (P1) from partition (P2) and partition (P3) in a single transaction at timestamp T. The PartitionEventRecord returned in P1 will reflect the move as: PartitionEventRecord { commit_timestamp: T partition_token: "P1" move_in_events { source_partition_token: "P2" } move_in_events { source_partition_token: "P3" } } The PartitionEventRecord returned in P2 will reflect the move as: PartitionEventRecord { commit_timestamp: T partition_token: "P2" move_out_events { destination_partition_token: "P1" } } The PartitionEventRecord returned in P3 will reflect the move as: PartitionEventRecord { commit_timestamp: T partition_token: "P3" move_out_events { destination_partition_token: "P1" } } */
@@ -1977,13 +2568,18 @@ export interface PartitionEventRecord {
   moveOutEvents?: Array<MoveOutEvent>;
 }
 
-export const PartitionEventRecord: Schema.Schema<PartitionEventRecord> = Schema.suspend(() => Schema.Struct({
-  moveInEvents: Schema.optional(Schema.Array(MoveInEvent)),
-  commitTimestamp: Schema.optional(Schema.String),
-  recordSequence: Schema.optional(Schema.String),
-  partitionToken: Schema.optional(Schema.String),
-  moveOutEvents: Schema.optional(Schema.Array(MoveOutEvent)),
-})).annotate({ identifier: "PartitionEventRecord" }) as any as Schema.Schema<PartitionEventRecord>;
+export const PartitionEventRecord: Schema.Schema<PartitionEventRecord> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      moveInEvents: Schema.optional(Schema.Array(MoveInEvent)),
+      commitTimestamp: Schema.optional(Schema.String),
+      recordSequence: Schema.optional(Schema.String),
+      partitionToken: Schema.optional(Schema.String),
+      moveOutEvents: Schema.optional(Schema.Array(MoveOutEvent)),
+    }),
+  ).annotate({
+    identifier: "PartitionEventRecord",
+  }) as any as Schema.Schema<PartitionEventRecord>;
 
 export interface InstanceOperationProgress {
   /** If set, the time at which this operation failed or was completed successfully. */
@@ -1994,11 +2590,16 @@ export interface InstanceOperationProgress {
   startTime?: string;
 }
 
-export const InstanceOperationProgress: Schema.Schema<InstanceOperationProgress> = Schema.suspend(() => Schema.Struct({
-  endTime: Schema.optional(Schema.String),
-  progressPercent: Schema.optional(Schema.Number),
-  startTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "InstanceOperationProgress" }) as any as Schema.Schema<InstanceOperationProgress>;
+export const InstanceOperationProgress: Schema.Schema<InstanceOperationProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      progressPercent: Schema.optional(Schema.Number),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InstanceOperationProgress",
+  }) as any as Schema.Schema<InstanceOperationProgress>;
 
 export interface CreateInstanceConfigMetadata {
   /** The target instance configuration end state. */
@@ -2009,11 +2610,16 @@ export interface CreateInstanceConfigMetadata {
   progress?: InstanceOperationProgress;
 }
 
-export const CreateInstanceConfigMetadata: Schema.Schema<CreateInstanceConfigMetadata> = Schema.suspend(() => Schema.Struct({
-  instanceConfig: Schema.optional(InstanceConfig),
-  cancelTime: Schema.optional(Schema.String),
-  progress: Schema.optional(InstanceOperationProgress),
-})).annotate({ identifier: "CreateInstanceConfigMetadata" }) as any as Schema.Schema<CreateInstanceConfigMetadata>;
+export const CreateInstanceConfigMetadata: Schema.Schema<CreateInstanceConfigMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instanceConfig: Schema.optional(InstanceConfig),
+      cancelTime: Schema.optional(Schema.String),
+      progress: Schema.optional(InstanceOperationProgress),
+    }),
+  ).annotate({
+    identifier: "CreateInstanceConfigMetadata",
+  }) as any as Schema.Schema<CreateInstanceConfigMetadata>;
 
 export interface MultiplexedSessionPrecommitToken {
   /** Opaque precommit token. */
@@ -2022,10 +2628,15 @@ export interface MultiplexedSessionPrecommitToken {
   seqNum?: number;
 }
 
-export const MultiplexedSessionPrecommitToken: Schema.Schema<MultiplexedSessionPrecommitToken> = Schema.suspend(() => Schema.Struct({
-  precommitToken: Schema.optional(Schema.String),
-  seqNum: Schema.optional(Schema.Number),
-})).annotate({ identifier: "MultiplexedSessionPrecommitToken" }) as any as Schema.Schema<MultiplexedSessionPrecommitToken>;
+export const MultiplexedSessionPrecommitToken: Schema.Schema<MultiplexedSessionPrecommitToken> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      precommitToken: Schema.optional(Schema.String),
+      seqNum: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "MultiplexedSessionPrecommitToken",
+  }) as any as Schema.Schema<MultiplexedSessionPrecommitToken>;
 
 export interface Transaction {
   /** A precommit token is included in the response of a BeginTransaction request if the read-write transaction is on a multiplexed session and a mutation_key was specified in the BeginTransaction. The precommit token with the highest sequence number from this transaction attempt should be passed to the Commit request for this transaction. */
@@ -2036,11 +2647,13 @@ export interface Transaction {
   readTimestamp?: string;
 }
 
-export const Transaction: Schema.Schema<Transaction> = Schema.suspend(() => Schema.Struct({
-  precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
-  id: Schema.optional(Schema.String),
-  readTimestamp: Schema.optional(Schema.String),
-})).annotate({ identifier: "Transaction" }) as any as Schema.Schema<Transaction>;
+export const Transaction: Schema.Schema<Transaction> = Schema.suspend(() =>
+  Schema.Struct({
+    precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
+    id: Schema.optional(Schema.String),
+    readTimestamp: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Transaction" }) as any as Schema.Schema<Transaction>;
 
 export interface ResultSetMetadata {
   /** Indicates the field names and types for the rows in the result set. For example, a SQL query like `"SELECT UserId, UserName FROM Users"` could return a `row_type` value like: "fields": [ { "name": "UserId", "type": { "code": "INT64" } }, { "name": "UserName", "type": { "code": "STRING" } }, ] */
@@ -2051,11 +2664,16 @@ export interface ResultSetMetadata {
   undeclaredParameters?: StructType;
 }
 
-export const ResultSetMetadata: Schema.Schema<ResultSetMetadata> = Schema.suspend(() => Schema.Struct({
-  rowType: Schema.optional(StructType),
-  transaction: Schema.optional(Transaction),
-  undeclaredParameters: Schema.optional(StructType),
-})).annotate({ identifier: "ResultSetMetadata" }) as any as Schema.Schema<ResultSetMetadata>;
+export const ResultSetMetadata: Schema.Schema<ResultSetMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rowType: Schema.optional(StructType),
+      transaction: Schema.optional(Transaction),
+      undeclaredParameters: Schema.optional(StructType),
+    }),
+  ).annotate({
+    identifier: "ResultSetMetadata",
+  }) as any as Schema.Schema<ResultSetMetadata>;
 
 export interface PartialResultSet {
   /** Metadata about the result set, such as row type information. Only present in the first response. */
@@ -2074,15 +2692,20 @@ export interface PartialResultSet {
   chunkedValue?: boolean;
 }
 
-export const PartialResultSet: Schema.Schema<PartialResultSet> = Schema.suspend(() => Schema.Struct({
-  metadata: Schema.optional(ResultSetMetadata),
-  values: Schema.optional(Schema.Array(Schema.Unknown)),
-  last: Schema.optional(Schema.Boolean),
-  resumeToken: Schema.optional(Schema.String),
-  precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
-  stats: Schema.optional(ResultSetStats),
-  chunkedValue: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PartialResultSet" }) as any as Schema.Schema<PartialResultSet>;
+export const PartialResultSet: Schema.Schema<PartialResultSet> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      metadata: Schema.optional(ResultSetMetadata),
+      values: Schema.optional(Schema.Array(Schema.Unknown)),
+      last: Schema.optional(Schema.Boolean),
+      resumeToken: Schema.optional(Schema.String),
+      precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
+      stats: Schema.optional(ResultSetStats),
+      chunkedValue: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "PartialResultSet",
+}) as any as Schema.Schema<PartialResultSet>;
 
 export interface BeginTransactionRequest {
   /** Required. Options for the new transaction. */
@@ -2093,11 +2716,16 @@ export interface BeginTransactionRequest {
   mutationKey?: Mutation;
 }
 
-export const BeginTransactionRequest: Schema.Schema<BeginTransactionRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(TransactionOptions),
-  requestOptions: Schema.optional(RequestOptions),
-  mutationKey: Schema.optional(Mutation),
-})).annotate({ identifier: "BeginTransactionRequest" }) as any as Schema.Schema<BeginTransactionRequest>;
+export const BeginTransactionRequest: Schema.Schema<BeginTransactionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(TransactionOptions),
+      requestOptions: Schema.optional(RequestOptions),
+      mutationKey: Schema.optional(Mutation),
+    }),
+  ).annotate({
+    identifier: "BeginTransactionRequest",
+  }) as any as Schema.Schema<BeginTransactionRequest>;
 
 export interface ColumnMetadata {
   /** Name of the column. */
@@ -2110,12 +2738,17 @@ export interface ColumnMetadata {
   isPrimaryKey?: boolean;
 }
 
-export const ColumnMetadata: Schema.Schema<ColumnMetadata> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  ordinalPosition: Schema.optional(Schema.String),
-  type: Schema.optional(Type),
-  isPrimaryKey: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ColumnMetadata" }) as any as Schema.Schema<ColumnMetadata>;
+export const ColumnMetadata: Schema.Schema<ColumnMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      ordinalPosition: Schema.optional(Schema.String),
+      type: Schema.optional(Type),
+      isPrimaryKey: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "ColumnMetadata",
+}) as any as Schema.Schema<ColumnMetadata>;
 
 export interface DataChangeRecord {
   /** Indicates whether the transaction is a system transaction. System transactions include those issued by time-to-live (TTL), column backfill, etc. */
@@ -2129,7 +2762,13 @@ export interface DataChangeRecord {
   /** Indicates the transaction tag associated with this transaction. */
   transactionTag?: string;
   /** Describes the value capture type that was specified in the change stream configuration when this change was captured. */
-  valueCaptureType?: "VALUE_CAPTURE_TYPE_UNSPECIFIED" | "OLD_AND_NEW_VALUES" | "NEW_VALUES" | "NEW_ROW" | "NEW_ROW_AND_OLD_VALUES" | (string & {});
+  valueCaptureType?:
+    | "VALUE_CAPTURE_TYPE_UNSPECIFIED"
+    | "OLD_AND_NEW_VALUES"
+    | "NEW_VALUES"
+    | "NEW_ROW"
+    | "NEW_ROW_AND_OLD_VALUES"
+    | (string & {});
   /** Provides metadata describing the columns associated with the mods listed below. */
   columnMetadata?: Array<ColumnMetadata>;
   /** Record sequence numbers are unique and monotonically increasing (but not necessarily contiguous) for a specific timestamp across record types in the same partition. To guarantee ordered processing, the reader should process records (of potentially different types) in record_sequence order for a specific timestamp in the same partition. The record sequence number ordering across partitions is only meaningful in the context of a specific transaction. Record sequence numbers are unique across partitions for a specific transaction. Sort the DataChangeRecords for the same server_transaction_id by record_sequence to reconstruct the ordering of the changes within the transaction. */
@@ -2143,24 +2782,34 @@ export interface DataChangeRecord {
   /** Indicates whether this is the last record for a transaction in the current partition. Clients can use this field to determine when all records for a transaction in the current partition have been received. */
   isLastRecordInTransactionInPartition?: boolean;
   /** Describes the type of change. */
-  modType?: "MOD_TYPE_UNSPECIFIED" | "INSERT" | "UPDATE" | "DELETE" | (string & {});
+  modType?:
+    | "MOD_TYPE_UNSPECIFIED"
+    | "INSERT"
+    | "UPDATE"
+    | "DELETE"
+    | (string & {});
 }
 
-export const DataChangeRecord: Schema.Schema<DataChangeRecord> = Schema.suspend(() => Schema.Struct({
-  isSystemTransaction: Schema.optional(Schema.Boolean),
-  table: Schema.optional(Schema.String),
-  serverTransactionId: Schema.optional(Schema.String),
-  numberOfRecordsInTransaction: Schema.optional(Schema.Number),
-  transactionTag: Schema.optional(Schema.String),
-  valueCaptureType: Schema.optional(Schema.String),
-  columnMetadata: Schema.optional(Schema.Array(ColumnMetadata)),
-  recordSequence: Schema.optional(Schema.String),
-  commitTimestamp: Schema.optional(Schema.String),
-  numberOfPartitionsInTransaction: Schema.optional(Schema.Number),
-  mods: Schema.optional(Schema.Array(Mod)),
-  isLastRecordInTransactionInPartition: Schema.optional(Schema.Boolean),
-  modType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataChangeRecord" }) as any as Schema.Schema<DataChangeRecord>;
+export const DataChangeRecord: Schema.Schema<DataChangeRecord> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      isSystemTransaction: Schema.optional(Schema.Boolean),
+      table: Schema.optional(Schema.String),
+      serverTransactionId: Schema.optional(Schema.String),
+      numberOfRecordsInTransaction: Schema.optional(Schema.Number),
+      transactionTag: Schema.optional(Schema.String),
+      valueCaptureType: Schema.optional(Schema.String),
+      columnMetadata: Schema.optional(Schema.Array(ColumnMetadata)),
+      recordSequence: Schema.optional(Schema.String),
+      commitTimestamp: Schema.optional(Schema.String),
+      numberOfPartitionsInTransaction: Schema.optional(Schema.Number),
+      mods: Schema.optional(Schema.Array(Mod)),
+      isLastRecordInTransactionInPartition: Schema.optional(Schema.Boolean),
+      modType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DataChangeRecord",
+}) as any as Schema.Schema<DataChangeRecord>;
 
 export interface PartitionStartRecord {
   /** Record sequence numbers are unique and monotonically increasing (but not necessarily contiguous) for a specific timestamp across record types in the same partition. To guarantee ordered processing, the reader should process records (of potentially different types) in record_sequence order for a specific timestamp in the same partition. */
@@ -2171,11 +2820,16 @@ export interface PartitionStartRecord {
   partitionTokens?: Array<string>;
 }
 
-export const PartitionStartRecord: Schema.Schema<PartitionStartRecord> = Schema.suspend(() => Schema.Struct({
-  recordSequence: Schema.optional(Schema.String),
-  startTimestamp: Schema.optional(Schema.String),
-  partitionTokens: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PartitionStartRecord" }) as any as Schema.Schema<PartitionStartRecord>;
+export const PartitionStartRecord: Schema.Schema<PartitionStartRecord> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      recordSequence: Schema.optional(Schema.String),
+      startTimestamp: Schema.optional(Schema.String),
+      partitionTokens: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PartitionStartRecord",
+  }) as any as Schema.Schema<PartitionStartRecord>;
 
 export interface ChangeStreamRecord {
   /** Heartbeat record describing a heartbeat for a change stream partition. */
@@ -2190,13 +2844,18 @@ export interface ChangeStreamRecord {
   partitionEndRecord?: PartitionEndRecord;
 }
 
-export const ChangeStreamRecord: Schema.Schema<ChangeStreamRecord> = Schema.suspend(() => Schema.Struct({
-  heartbeatRecord: Schema.optional(HeartbeatRecord),
-  partitionEventRecord: Schema.optional(PartitionEventRecord),
-  dataChangeRecord: Schema.optional(DataChangeRecord),
-  partitionStartRecord: Schema.optional(PartitionStartRecord),
-  partitionEndRecord: Schema.optional(PartitionEndRecord),
-})).annotate({ identifier: "ChangeStreamRecord" }) as any as Schema.Schema<ChangeStreamRecord>;
+export const ChangeStreamRecord: Schema.Schema<ChangeStreamRecord> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      heartbeatRecord: Schema.optional(HeartbeatRecord),
+      partitionEventRecord: Schema.optional(PartitionEventRecord),
+      dataChangeRecord: Schema.optional(DataChangeRecord),
+      partitionStartRecord: Schema.optional(PartitionStartRecord),
+      partitionEndRecord: Schema.optional(PartitionEndRecord),
+    }),
+  ).annotate({
+    identifier: "ChangeStreamRecord",
+  }) as any as Schema.Schema<ChangeStreamRecord>;
 
 export interface UpdateInstanceRequest {
   /** Required. A mask specifying which fields in Instance should be updated. The field mask must always be specified; this prevents any future fields in Instance from being erased accidentally by clients that do not know about them. */
@@ -2205,10 +2864,15 @@ export interface UpdateInstanceRequest {
   instance?: Instance;
 }
 
-export const UpdateInstanceRequest: Schema.Schema<UpdateInstanceRequest> = Schema.suspend(() => Schema.Struct({
-  fieldMask: Schema.optional(Schema.String),
-  instance: Schema.optional(Instance),
-})).annotate({ identifier: "UpdateInstanceRequest" }) as any as Schema.Schema<UpdateInstanceRequest>;
+export const UpdateInstanceRequest: Schema.Schema<UpdateInstanceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fieldMask: Schema.optional(Schema.String),
+      instance: Schema.optional(Instance),
+    }),
+  ).annotate({
+    identifier: "UpdateInstanceRequest",
+  }) as any as Schema.Schema<UpdateInstanceRequest>;
 
 export interface ListDatabaseOperationsResponse {
   /** The list of matching database long-running operations. Each operation's name will be prefixed by the database's name. The operation's metadata field type `metadata.type_url` describes the type of the metadata. */
@@ -2217,10 +2881,15 @@ export interface ListDatabaseOperationsResponse {
   nextPageToken?: string;
 }
 
-export const ListDatabaseOperationsResponse: Schema.Schema<ListDatabaseOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDatabaseOperationsResponse" }) as any as Schema.Schema<ListDatabaseOperationsResponse>;
+export const ListDatabaseOperationsResponse: Schema.Schema<ListDatabaseOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDatabaseOperationsResponse",
+  }) as any as Schema.Schema<ListDatabaseOperationsResponse>;
 
 export interface UpdateInstancePartitionMetadata {
   /** The time at which this operation was cancelled. If set, this operation is in the process of undoing itself (which is guaranteed to succeed) and cannot be cancelled again. */
@@ -2233,21 +2902,31 @@ export interface UpdateInstancePartitionMetadata {
   instancePartition?: InstancePartition;
 }
 
-export const UpdateInstancePartitionMetadata: Schema.Schema<UpdateInstancePartitionMetadata> = Schema.suspend(() => Schema.Struct({
-  cancelTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  instancePartition: Schema.optional(InstancePartition),
-})).annotate({ identifier: "UpdateInstancePartitionMetadata" }) as any as Schema.Schema<UpdateInstancePartitionMetadata>;
+export const UpdateInstancePartitionMetadata: Schema.Schema<UpdateInstancePartitionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cancelTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      instancePartition: Schema.optional(InstancePartition),
+    }),
+  ).annotate({
+    identifier: "UpdateInstancePartitionMetadata",
+  }) as any as Schema.Schema<UpdateInstancePartitionMetadata>;
 
 export interface AdapterSession {
   /** Identifier. The name of the session. This is always system-assigned. */
   name?: string;
 }
 
-export const AdapterSession: Schema.Schema<AdapterSession> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdapterSession" }) as any as Schema.Schema<AdapterSession>;
+export const AdapterSession: Schema.Schema<AdapterSession> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AdapterSession",
+}) as any as Schema.Schema<AdapterSession>;
 
 export interface ChangeQuorumMetadata {
   /** Time the request was received. */
@@ -2258,11 +2937,16 @@ export interface ChangeQuorumMetadata {
   endTime?: string;
 }
 
-export const ChangeQuorumMetadata: Schema.Schema<ChangeQuorumMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  request: Schema.optional(ChangeQuorumRequest),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChangeQuorumMetadata" }) as any as Schema.Schema<ChangeQuorumMetadata>;
+export const ChangeQuorumMetadata: Schema.Schema<ChangeQuorumMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      request: Schema.optional(ChangeQuorumRequest),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ChangeQuorumMetadata",
+  }) as any as Schema.Schema<ChangeQuorumMetadata>;
 
 export interface GetDatabaseDdlResponse {
   /** A list of formatted DDL statements defining the schema of the database specified in the request. */
@@ -2271,10 +2955,15 @@ export interface GetDatabaseDdlResponse {
   protoDescriptors?: string;
 }
 
-export const GetDatabaseDdlResponse: Schema.Schema<GetDatabaseDdlResponse> = Schema.suspend(() => Schema.Struct({
-  statements: Schema.optional(Schema.Array(Schema.String)),
-  protoDescriptors: Schema.optional(Schema.String),
-})).annotate({ identifier: "GetDatabaseDdlResponse" }) as any as Schema.Schema<GetDatabaseDdlResponse>;
+export const GetDatabaseDdlResponse: Schema.Schema<GetDatabaseDdlResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      statements: Schema.optional(Schema.Array(Schema.String)),
+      protoDescriptors: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GetDatabaseDdlResponse",
+  }) as any as Schema.Schema<GetDatabaseDdlResponse>;
 
 export interface QueryOptions {
   /** An option to control the selection of optimizer statistics package. This parameter allows individual queries to use a different query optimizer statistics package. Specifying `latest` as a value instructs Cloud Spanner to use the latest generated statistics package. If not specified, Cloud Spanner uses the statistics package set at the database level options, or the latest package if the database option isn't set. The statistics package requested by the query has to be exempt from garbage collection. This can be achieved with the following DDL statement: ```sql ALTER STATISTICS SET OPTIONS (allow_gc=false) ``` The list of available statistics packages can be queried from `INFORMATION_SCHEMA.SPANNER_STATISTICS`. Executing a SQL statement with an invalid optimizer statistics package or with a statistics package that allows garbage collection fails with an `INVALID_ARGUMENT` error. */
@@ -2283,10 +2972,14 @@ export interface QueryOptions {
   optimizerVersion?: string;
 }
 
-export const QueryOptions: Schema.Schema<QueryOptions> = Schema.suspend(() => Schema.Struct({
-  optimizerStatisticsPackage: Schema.optional(Schema.String),
-  optimizerVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "QueryOptions" }) as any as Schema.Schema<QueryOptions>;
+export const QueryOptions: Schema.Schema<QueryOptions> = Schema.suspend(() =>
+  Schema.Struct({
+    optimizerStatisticsPackage: Schema.optional(Schema.String),
+    optimizerVersion: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "QueryOptions",
+}) as any as Schema.Schema<QueryOptions>;
 
 export interface UpdateInstancePartitionRequest {
   /** Required. The instance partition to update, which must always include the instance partition name. Otherwise, only fields mentioned in field_mask need be included. */
@@ -2295,10 +2988,15 @@ export interface UpdateInstancePartitionRequest {
   fieldMask?: string;
 }
 
-export const UpdateInstancePartitionRequest: Schema.Schema<UpdateInstancePartitionRequest> = Schema.suspend(() => Schema.Struct({
-  instancePartition: Schema.optional(InstancePartition),
-  fieldMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateInstancePartitionRequest" }) as any as Schema.Schema<UpdateInstancePartitionRequest>;
+export const UpdateInstancePartitionRequest: Schema.Schema<UpdateInstancePartitionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instancePartition: Schema.optional(InstancePartition),
+      fieldMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateInstancePartitionRequest",
+  }) as any as Schema.Schema<UpdateInstancePartitionRequest>;
 
 export interface ListBackupSchedulesResponse {
   /** The list of backup schedules for a database. */
@@ -2307,10 +3005,15 @@ export interface ListBackupSchedulesResponse {
   nextPageToken?: string;
 }
 
-export const ListBackupSchedulesResponse: Schema.Schema<ListBackupSchedulesResponse> = Schema.suspend(() => Schema.Struct({
-  backupSchedules: Schema.optional(Schema.Array(BackupSchedule)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListBackupSchedulesResponse" }) as any as Schema.Schema<ListBackupSchedulesResponse>;
+export const ListBackupSchedulesResponse: Schema.Schema<ListBackupSchedulesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backupSchedules: Schema.optional(Schema.Array(BackupSchedule)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListBackupSchedulesResponse",
+  }) as any as Schema.Schema<ListBackupSchedulesResponse>;
 
 export interface ListInstancesResponse {
   /** The list of requested instances. */
@@ -2321,11 +3024,16 @@ export interface ListInstancesResponse {
   nextPageToken?: string;
 }
 
-export const ListInstancesResponse: Schema.Schema<ListInstancesResponse> = Schema.suspend(() => Schema.Struct({
-  instances: Schema.optional(Schema.Array(Instance)),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListInstancesResponse" }) as any as Schema.Schema<ListInstancesResponse>;
+export const ListInstancesResponse: Schema.Schema<ListInstancesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instances: Schema.optional(Schema.Array(Instance)),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListInstancesResponse",
+  }) as any as Schema.Schema<ListInstancesResponse>;
 
 export interface AdaptMessageRequest {
   /** Optional. Uninterpreted bytes from the underlying wire protocol. */
@@ -2336,20 +3044,27 @@ export interface AdaptMessageRequest {
   protocol?: string;
 }
 
-export const AdaptMessageRequest: Schema.Schema<AdaptMessageRequest> = Schema.suspend(() => Schema.Struct({
-  payload: Schema.optional(Schema.String),
-  attachments: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  protocol: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdaptMessageRequest" }) as any as Schema.Schema<AdaptMessageRequest>;
+export const AdaptMessageRequest: Schema.Schema<AdaptMessageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      payload: Schema.optional(Schema.String),
+      attachments: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      protocol: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdaptMessageRequest",
+  }) as any as Schema.Schema<AdaptMessageRequest>;
 
 export interface Partition {
   /** This token can be passed to `Read`, `StreamingRead`, `ExecuteSql`, or `ExecuteStreamingSql` requests to restrict the results to those identified by this partition token. */
   partitionToken?: string;
 }
 
-export const Partition: Schema.Schema<Partition> = Schema.suspend(() => Schema.Struct({
-  partitionToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Partition" }) as any as Schema.Schema<Partition>;
+export const Partition: Schema.Schema<Partition> = Schema.suspend(() =>
+  Schema.Struct({
+    partitionToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Partition" }) as any as Schema.Schema<Partition>;
 
 export interface PartitionResponse {
   /** Partitions created by this request. */
@@ -2358,10 +3073,15 @@ export interface PartitionResponse {
   transaction?: Transaction;
 }
 
-export const PartitionResponse: Schema.Schema<PartitionResponse> = Schema.suspend(() => Schema.Struct({
-  partitions: Schema.optional(Schema.Array(Partition)),
-  transaction: Schema.optional(Transaction),
-})).annotate({ identifier: "PartitionResponse" }) as any as Schema.Schema<PartitionResponse>;
+export const PartitionResponse: Schema.Schema<PartitionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partitions: Schema.optional(Schema.Array(Partition)),
+      transaction: Schema.optional(Transaction),
+    }),
+  ).annotate({
+    identifier: "PartitionResponse",
+  }) as any as Schema.Schema<PartitionResponse>;
 
 export interface CompactDatabaseMetadata {
   /** Output only. The progress of the compaction operation. */
@@ -2372,11 +3092,16 @@ export interface CompactDatabaseMetadata {
   database?: string;
 }
 
-export const CompactDatabaseMetadata: Schema.Schema<CompactDatabaseMetadata> = Schema.suspend(() => Schema.Struct({
-  progress: Schema.optional(OperationProgress),
-  cancelTime: Schema.optional(Schema.String),
-  database: Schema.optional(Schema.String),
-})).annotate({ identifier: "CompactDatabaseMetadata" }) as any as Schema.Schema<CompactDatabaseMetadata>;
+export const CompactDatabaseMetadata: Schema.Schema<CompactDatabaseMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      progress: Schema.optional(OperationProgress),
+      cancelTime: Schema.optional(Schema.String),
+      database: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CompactDatabaseMetadata",
+  }) as any as Schema.Schema<CompactDatabaseMetadata>;
 
 export interface ResultSet {
   /** Each element in `rows` is a row whose format is defined by metadata.row_type. The ith element in each row matches the ith field in metadata.row_type. Elements are encoded based on type as described here. */
@@ -2389,12 +3114,14 @@ export interface ResultSet {
   stats?: ResultSetStats;
 }
 
-export const ResultSet: Schema.Schema<ResultSet> = Schema.suspend(() => Schema.Struct({
-  rows: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
-  precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
-  metadata: Schema.optional(ResultSetMetadata),
-  stats: Schema.optional(ResultSetStats),
-})).annotate({ identifier: "ResultSet" }) as any as Schema.Schema<ResultSet>;
+export const ResultSet: Schema.Schema<ResultSet> = Schema.suspend(() =>
+  Schema.Struct({
+    rows: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
+    precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
+    metadata: Schema.optional(ResultSetMetadata),
+    stats: Schema.optional(ResultSetStats),
+  }),
+).annotate({ identifier: "ResultSet" }) as any as Schema.Schema<ResultSet>;
 
 export interface ExecuteBatchDmlResponse {
   /** One ResultSet for each statement in the request that ran successfully, in the same order as the statements in the request. Each ResultSet does not contain any rows. The ResultSetStats in each ResultSet contain the number of rows modified by the statement. Only the first ResultSet in the response contains valid ResultSetMetadata. */
@@ -2405,11 +3132,16 @@ export interface ExecuteBatchDmlResponse {
   status?: Status;
 }
 
-export const ExecuteBatchDmlResponse: Schema.Schema<ExecuteBatchDmlResponse> = Schema.suspend(() => Schema.Struct({
-  resultSets: Schema.optional(Schema.Array(ResultSet)),
-  precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
-  status: Schema.optional(Status),
-})).annotate({ identifier: "ExecuteBatchDmlResponse" }) as any as Schema.Schema<ExecuteBatchDmlResponse>;
+export const ExecuteBatchDmlResponse: Schema.Schema<ExecuteBatchDmlResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resultSets: Schema.optional(Schema.Array(ResultSet)),
+      precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
+      status: Schema.optional(Status),
+    }),
+  ).annotate({
+    identifier: "ExecuteBatchDmlResponse",
+  }) as any as Schema.Schema<ExecuteBatchDmlResponse>;
 
 export interface Statement {
   /** It isn't always possible for Cloud Spanner to infer the right SQL type from a JSON value. For example, values of type `BYTES` and values of type `STRING` both appear in params as JSON strings. In these cases, `param_types` can be used to specify the exact SQL type for some or all of the SQL statement parameters. See the definition of Type for more information about SQL types. */
@@ -2420,11 +3152,13 @@ export interface Statement {
   sql?: string;
 }
 
-export const Statement: Schema.Schema<Statement> = Schema.suspend(() => Schema.Struct({
-  paramTypes: Schema.optional(Schema.Record(Schema.String, Type)),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  sql: Schema.optional(Schema.String),
-})).annotate({ identifier: "Statement" }) as any as Schema.Schema<Statement>;
+export const Statement: Schema.Schema<Statement> = Schema.suspend(() =>
+  Schema.Struct({
+    paramTypes: Schema.optional(Schema.Record(Schema.String, Type)),
+    params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    sql: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Statement" }) as any as Schema.Schema<Statement>;
 
 export interface CommitResponse {
   /** If `TransactionOptions.isolation_level` is set to `IsolationLevel.REPEATABLE_READ`, then the snapshot timestamp is the timestamp at which all reads in the transaction ran. This timestamp is never returned. */
@@ -2437,12 +3171,17 @@ export interface CommitResponse {
   commitTimestamp?: string;
 }
 
-export const CommitResponse: Schema.Schema<CommitResponse> = Schema.suspend(() => Schema.Struct({
-  snapshotTimestamp: Schema.optional(Schema.String),
-  precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
-  commitStats: Schema.optional(CommitStats),
-  commitTimestamp: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommitResponse" }) as any as Schema.Schema<CommitResponse>;
+export const CommitResponse: Schema.Schema<CommitResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      snapshotTimestamp: Schema.optional(Schema.String),
+      precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
+      commitStats: Schema.optional(CommitStats),
+      commitTimestamp: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CommitResponse",
+}) as any as Schema.Schema<CommitResponse>;
 
 export interface CreateBackupMetadata {
   /** The progress of the CreateBackup operation. */
@@ -2455,12 +3194,17 @@ export interface CreateBackupMetadata {
   cancelTime?: string;
 }
 
-export const CreateBackupMetadata: Schema.Schema<CreateBackupMetadata> = Schema.suspend(() => Schema.Struct({
-  progress: Schema.optional(OperationProgress),
-  name: Schema.optional(Schema.String),
-  database: Schema.optional(Schema.String),
-  cancelTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateBackupMetadata" }) as any as Schema.Schema<CreateBackupMetadata>;
+export const CreateBackupMetadata: Schema.Schema<CreateBackupMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      progress: Schema.optional(OperationProgress),
+      name: Schema.optional(Schema.String),
+      database: Schema.optional(Schema.String),
+      cancelTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateBackupMetadata",
+  }) as any as Schema.Schema<CreateBackupMetadata>;
 
 export interface UpdateDatabaseMetadata {
   /** The request for UpdateDatabase. */
@@ -2471,11 +3215,16 @@ export interface UpdateDatabaseMetadata {
   progress?: OperationProgress;
 }
 
-export const UpdateDatabaseMetadata: Schema.Schema<UpdateDatabaseMetadata> = Schema.suspend(() => Schema.Struct({
-  request: Schema.optional(UpdateDatabaseRequest),
-  cancelTime: Schema.optional(Schema.String),
-  progress: Schema.optional(OperationProgress),
-})).annotate({ identifier: "UpdateDatabaseMetadata" }) as any as Schema.Schema<UpdateDatabaseMetadata>;
+export const UpdateDatabaseMetadata: Schema.Schema<UpdateDatabaseMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      request: Schema.optional(UpdateDatabaseRequest),
+      cancelTime: Schema.optional(Schema.String),
+      progress: Schema.optional(OperationProgress),
+    }),
+  ).annotate({
+    identifier: "UpdateDatabaseMetadata",
+  }) as any as Schema.Schema<UpdateDatabaseMetadata>;
 
 export interface RestoreDatabaseEncryptionConfig {
   /** Optional. Specifies the KMS configuration for one or more keys used to encrypt the database. Values have the form `projects//locations//keyRings//cryptoKeys/`. The keys referenced by `kms_key_names` must fully cover all regions of the database's instance configuration. Some examples: * For regional (single-region) instance configurations, specify a regional location KMS key. * For multi-region instance configurations of type `GOOGLE_MANAGED`, either specify a multi-region location KMS key or multiple regional location KMS keys that cover all regions in the instance configuration. * For an instance configuration of type `USER_MANAGED`, specify only regional location KMS keys to cover each region in the instance configuration. Multi-region location KMS keys aren't supported for `USER_MANAGED` type instance configurations. */
@@ -2483,14 +3232,24 @@ export interface RestoreDatabaseEncryptionConfig {
   /** Optional. This field is maintained for backwards compatibility. For new callers, we recommend using `kms_key_names` to specify the KMS key. Only use `kms_key_name` if the location of the KMS key matches the database instance's configuration (location) exactly. For example, if the KMS location is in `us-central1` or `nam3`, then the database instance must also be in `us-central1` or `nam3`. The Cloud KMS key that is used to encrypt and decrypt the restored database. Set this field only when encryption_type is `CUSTOMER_MANAGED_ENCRYPTION`. Values are of the form `projects//locations//keyRings//cryptoKeys/`. */
   kmsKeyName?: string;
   /** Required. The encryption type of the restored database. */
-  encryptionType?: "ENCRYPTION_TYPE_UNSPECIFIED" | "USE_CONFIG_DEFAULT_OR_BACKUP_ENCRYPTION" | "GOOGLE_DEFAULT_ENCRYPTION" | "CUSTOMER_MANAGED_ENCRYPTION" | (string & {});
+  encryptionType?:
+    | "ENCRYPTION_TYPE_UNSPECIFIED"
+    | "USE_CONFIG_DEFAULT_OR_BACKUP_ENCRYPTION"
+    | "GOOGLE_DEFAULT_ENCRYPTION"
+    | "CUSTOMER_MANAGED_ENCRYPTION"
+    | (string & {});
 }
 
-export const RestoreDatabaseEncryptionConfig: Schema.Schema<RestoreDatabaseEncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
-  kmsKeyName: Schema.optional(Schema.String),
-  encryptionType: Schema.optional(Schema.String),
-})).annotate({ identifier: "RestoreDatabaseEncryptionConfig" }) as any as Schema.Schema<RestoreDatabaseEncryptionConfig>;
+export const RestoreDatabaseEncryptionConfig: Schema.Schema<RestoreDatabaseEncryptionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
+      kmsKeyName: Schema.optional(Schema.String),
+      encryptionType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RestoreDatabaseEncryptionConfig",
+  }) as any as Schema.Schema<RestoreDatabaseEncryptionConfig>;
 
 export interface RestoreDatabaseRequest {
   /** Optional. An encryption configuration describing the encryption type and key resources in Cloud KMS used to encrypt/decrypt the database to restore to. If this field is not specified, the restored database will use the same encryption configuration as the backup by default, namely encryption_type = `USE_CONFIG_DEFAULT_OR_BACKUP_ENCRYPTION`. */
@@ -2501,26 +3260,41 @@ export interface RestoreDatabaseRequest {
   backup?: string;
 }
 
-export const RestoreDatabaseRequest: Schema.Schema<RestoreDatabaseRequest> = Schema.suspend(() => Schema.Struct({
-  encryptionConfig: Schema.optional(RestoreDatabaseEncryptionConfig),
-  databaseId: Schema.optional(Schema.String),
-  backup: Schema.optional(Schema.String),
-})).annotate({ identifier: "RestoreDatabaseRequest" }) as any as Schema.Schema<RestoreDatabaseRequest>;
+export const RestoreDatabaseRequest: Schema.Schema<RestoreDatabaseRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      encryptionConfig: Schema.optional(RestoreDatabaseEncryptionConfig),
+      databaseId: Schema.optional(Schema.String),
+      backup: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RestoreDatabaseRequest",
+  }) as any as Schema.Schema<RestoreDatabaseRequest>;
 
 export interface CopyBackupEncryptionConfig {
   /** Required. The encryption type of the backup. */
-  encryptionType?: "ENCRYPTION_TYPE_UNSPECIFIED" | "USE_CONFIG_DEFAULT_OR_BACKUP_ENCRYPTION" | "GOOGLE_DEFAULT_ENCRYPTION" | "CUSTOMER_MANAGED_ENCRYPTION" | (string & {});
+  encryptionType?:
+    | "ENCRYPTION_TYPE_UNSPECIFIED"
+    | "USE_CONFIG_DEFAULT_OR_BACKUP_ENCRYPTION"
+    | "GOOGLE_DEFAULT_ENCRYPTION"
+    | "CUSTOMER_MANAGED_ENCRYPTION"
+    | (string & {});
   /** Optional. Specifies the KMS configuration for the one or more keys used to protect the backup. Values are of the form `projects//locations//keyRings//cryptoKeys/`. KMS keys specified can be in any order. The keys referenced by `kms_key_names` must fully cover all regions of the backup's instance configuration. Some examples: * For regional (single-region) instance configurations, specify a regional location KMS key. * For multi-region instance configurations of type `GOOGLE_MANAGED`, either specify a multi-region location KMS key or multiple regional location KMS keys that cover all regions in the instance configuration. * For an instance configuration of type `USER_MANAGED`, specify only regional location KMS keys to cover each region in the instance configuration. Multi-region location KMS keys aren't supported for `USER_MANAGED` type instance configurations. */
   kmsKeyNames?: Array<string>;
   /** Optional. This field is maintained for backwards compatibility. For new callers, we recommend using `kms_key_names` to specify the KMS key. Only use `kms_key_name` if the location of the KMS key matches the database instance's configuration (location) exactly. For example, if the KMS location is in `us-central1` or `nam3`, then the database instance must also be in `us-central1` or `nam3`. The Cloud KMS key that is used to encrypt and decrypt the restored database. Set this field only when encryption_type is `CUSTOMER_MANAGED_ENCRYPTION`. Values are of the form `projects//locations//keyRings//cryptoKeys/`. */
   kmsKeyName?: string;
 }
 
-export const CopyBackupEncryptionConfig: Schema.Schema<CopyBackupEncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  encryptionType: Schema.optional(Schema.String),
-  kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
-  kmsKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "CopyBackupEncryptionConfig" }) as any as Schema.Schema<CopyBackupEncryptionConfig>;
+export const CopyBackupEncryptionConfig: Schema.Schema<CopyBackupEncryptionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      encryptionType: Schema.optional(Schema.String),
+      kmsKeyNames: Schema.optional(Schema.Array(Schema.String)),
+      kmsKeyName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CopyBackupEncryptionConfig",
+  }) as any as Schema.Schema<CopyBackupEncryptionConfig>;
 
 export interface PartitionReadRequest {
   /** Read only snapshot transactions are supported, read/write and single use transactions are not. */
@@ -2537,14 +3311,19 @@ export interface PartitionReadRequest {
   partitionOptions?: PartitionOptions;
 }
 
-export const PartitionReadRequest: Schema.Schema<PartitionReadRequest> = Schema.suspend(() => Schema.Struct({
-  transaction: Schema.optional(TransactionSelector),
-  index: Schema.optional(Schema.String),
-  keySet: Schema.optional(KeySet),
-  table: Schema.optional(Schema.String),
-  columns: Schema.optional(Schema.Array(Schema.String)),
-  partitionOptions: Schema.optional(PartitionOptions),
-})).annotate({ identifier: "PartitionReadRequest" }) as any as Schema.Schema<PartitionReadRequest>;
+export const PartitionReadRequest: Schema.Schema<PartitionReadRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transaction: Schema.optional(TransactionSelector),
+      index: Schema.optional(Schema.String),
+      keySet: Schema.optional(KeySet),
+      table: Schema.optional(Schema.String),
+      columns: Schema.optional(Schema.Array(Schema.String)),
+      partitionOptions: Schema.optional(PartitionOptions),
+    }),
+  ).annotate({
+    identifier: "PartitionReadRequest",
+  }) as any as Schema.Schema<PartitionReadRequest>;
 
 export interface CreateInstancePartitionMetadata {
   /** The instance partition being created. */
@@ -2557,12 +3336,17 @@ export interface CreateInstancePartitionMetadata {
   endTime?: string;
 }
 
-export const CreateInstancePartitionMetadata: Schema.Schema<CreateInstancePartitionMetadata> = Schema.suspend(() => Schema.Struct({
-  instancePartition: Schema.optional(InstancePartition),
-  cancelTime: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateInstancePartitionMetadata" }) as any as Schema.Schema<CreateInstancePartitionMetadata>;
+export const CreateInstancePartitionMetadata: Schema.Schema<CreateInstancePartitionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instancePartition: Schema.optional(InstancePartition),
+      cancelTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateInstancePartitionMetadata",
+  }) as any as Schema.Schema<CreateInstancePartitionMetadata>;
 
 export interface AdaptMessageResponse {
   /** Optional. Uninterpreted bytes from the underlying wire protocol. */
@@ -2573,11 +3357,18 @@ export interface AdaptMessageResponse {
   last?: boolean;
 }
 
-export const AdaptMessageResponse: Schema.Schema<AdaptMessageResponse> = Schema.suspend(() => Schema.Struct({
-  payload: Schema.optional(Schema.String),
-  stateUpdates: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  last: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AdaptMessageResponse" }) as any as Schema.Schema<AdaptMessageResponse>;
+export const AdaptMessageResponse: Schema.Schema<AdaptMessageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      payload: Schema.optional(Schema.String),
+      stateUpdates: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      last: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AdaptMessageResponse",
+  }) as any as Schema.Schema<AdaptMessageResponse>;
 
 export interface ListInstanceConfigsResponse {
   /** The list of requested instance configurations. */
@@ -2586,10 +3377,15 @@ export interface ListInstanceConfigsResponse {
   nextPageToken?: string;
 }
 
-export const ListInstanceConfigsResponse: Schema.Schema<ListInstanceConfigsResponse> = Schema.suspend(() => Schema.Struct({
-  instanceConfigs: Schema.optional(Schema.Array(InstanceConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListInstanceConfigsResponse" }) as any as Schema.Schema<ListInstanceConfigsResponse>;
+export const ListInstanceConfigsResponse: Schema.Schema<ListInstanceConfigsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instanceConfigs: Schema.optional(Schema.Array(InstanceConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListInstanceConfigsResponse",
+  }) as any as Schema.Schema<ListInstanceConfigsResponse>;
 
 export interface ListBackupOperationsResponse {
   /** `next_page_token` can be sent in a subsequent ListBackupOperations call to fetch more of the matching metadata. */
@@ -2598,10 +3394,15 @@ export interface ListBackupOperationsResponse {
   operations?: Array<Operation>;
 }
 
-export const ListBackupOperationsResponse: Schema.Schema<ListBackupOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  operations: Schema.optional(Schema.Array(Operation)),
-})).annotate({ identifier: "ListBackupOperationsResponse" }) as any as Schema.Schema<ListBackupOperationsResponse>;
+export const ListBackupOperationsResponse: Schema.Schema<ListBackupOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      operations: Schema.optional(Schema.Array(Operation)),
+    }),
+  ).annotate({
+    identifier: "ListBackupOperationsResponse",
+  }) as any as Schema.Schema<ListBackupOperationsResponse>;
 
 export interface ListDatabasesResponse {
   /** Databases that matched the request. */
@@ -2610,14 +3411,25 @@ export interface ListDatabasesResponse {
   nextPageToken?: string;
 }
 
-export const ListDatabasesResponse: Schema.Schema<ListDatabasesResponse> = Schema.suspend(() => Schema.Struct({
-  databases: Schema.optional(Schema.Array(Database)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDatabasesResponse" }) as any as Schema.Schema<ListDatabasesResponse>;
+export const ListDatabasesResponse: Schema.Schema<ListDatabasesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      databases: Schema.optional(Schema.Array(Database)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDatabasesResponse",
+  }) as any as Schema.Schema<ListDatabasesResponse>;
 
 export interface ExecuteSqlRequest {
   /** Used to control the amount of debugging information returned in ResultSetStats. If partition_token is set, query_mode can only be set to QueryMode.NORMAL. */
-  queryMode?: "NORMAL" | "PLAN" | "PROFILE" | "WITH_STATS" | "WITH_PLAN_AND_STATS" | (string & {});
+  queryMode?:
+    | "NORMAL"
+    | "PLAN"
+    | "PROFILE"
+    | "WITH_STATS"
+    | "WITH_PLAN_AND_STATS"
+    | (string & {});
   /** Common options for this request. */
   requestOptions?: RequestOptions;
   /** Optional. If set to `true`, this statement marks the end of the transaction. After this statement executes, you must commit or abort the transaction. Attempts to execute any other requests against this transaction (including reads and queries) are rejected. For DML statements, setting this option might cause some error reporting to be deferred until commit time (for example, validation of unique constraints). Given this, successful execution of a DML statement shouldn't be assumed until a subsequent `Commit` call completes successfully. */
@@ -2644,21 +3456,26 @@ export interface ExecuteSqlRequest {
   queryOptions?: QueryOptions;
 }
 
-export const ExecuteSqlRequest: Schema.Schema<ExecuteSqlRequest> = Schema.suspend(() => Schema.Struct({
-  queryMode: Schema.optional(Schema.String),
-  requestOptions: Schema.optional(RequestOptions),
-  lastStatement: Schema.optional(Schema.Boolean),
-  sql: Schema.optional(Schema.String),
-  partitionToken: Schema.optional(Schema.String),
-  params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  resumeToken: Schema.optional(Schema.String),
-  dataBoostEnabled: Schema.optional(Schema.Boolean),
-  paramTypes: Schema.optional(Schema.Record(Schema.String, Type)),
-  directedReadOptions: Schema.optional(DirectedReadOptions),
-  seqno: Schema.optional(Schema.String),
-  transaction: Schema.optional(TransactionSelector),
-  queryOptions: Schema.optional(QueryOptions),
-})).annotate({ identifier: "ExecuteSqlRequest" }) as any as Schema.Schema<ExecuteSqlRequest>;
+export const ExecuteSqlRequest: Schema.Schema<ExecuteSqlRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      queryMode: Schema.optional(Schema.String),
+      requestOptions: Schema.optional(RequestOptions),
+      lastStatement: Schema.optional(Schema.Boolean),
+      sql: Schema.optional(Schema.String),
+      partitionToken: Schema.optional(Schema.String),
+      params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      resumeToken: Schema.optional(Schema.String),
+      dataBoostEnabled: Schema.optional(Schema.Boolean),
+      paramTypes: Schema.optional(Schema.Record(Schema.String, Type)),
+      directedReadOptions: Schema.optional(DirectedReadOptions),
+      seqno: Schema.optional(Schema.String),
+      transaction: Schema.optional(TransactionSelector),
+      queryOptions: Schema.optional(QueryOptions),
+    }),
+  ).annotate({
+    identifier: "ExecuteSqlRequest",
+  }) as any as Schema.Schema<ExecuteSqlRequest>;
 
 export interface UpdateInstanceConfigMetadata {
   /** The desired instance configuration after updating. */
@@ -2669,20 +3486,30 @@ export interface UpdateInstanceConfigMetadata {
   cancelTime?: string;
 }
 
-export const UpdateInstanceConfigMetadata: Schema.Schema<UpdateInstanceConfigMetadata> = Schema.suspend(() => Schema.Struct({
-  instanceConfig: Schema.optional(InstanceConfig),
-  progress: Schema.optional(InstanceOperationProgress),
-  cancelTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateInstanceConfigMetadata" }) as any as Schema.Schema<UpdateInstanceConfigMetadata>;
+export const UpdateInstanceConfigMetadata: Schema.Schema<UpdateInstanceConfigMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instanceConfig: Schema.optional(InstanceConfig),
+      progress: Schema.optional(InstanceOperationProgress),
+      cancelTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateInstanceConfigMetadata",
+  }) as any as Schema.Schema<UpdateInstanceConfigMetadata>;
 
 export interface CreateDatabaseMetadata {
   /** The database being created. */
   database?: string;
 }
 
-export const CreateDatabaseMetadata: Schema.Schema<CreateDatabaseMetadata> = Schema.suspend(() => Schema.Struct({
-  database: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateDatabaseMetadata" }) as any as Schema.Schema<CreateDatabaseMetadata>;
+export const CreateDatabaseMetadata: Schema.Schema<CreateDatabaseMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      database: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateDatabaseMetadata",
+  }) as any as Schema.Schema<CreateDatabaseMetadata>;
 
 export interface BatchCreateSessionsRequest {
   /** Required. The number of sessions to be created in this batch call. At least one session is created. The API can return fewer than the requested number of sessions. If a specific number of sessions are desired, the client can make additional calls to `BatchCreateSessions` (adjusting session_count as necessary). */
@@ -2691,19 +3518,29 @@ export interface BatchCreateSessionsRequest {
   sessionTemplate?: Session;
 }
 
-export const BatchCreateSessionsRequest: Schema.Schema<BatchCreateSessionsRequest> = Schema.suspend(() => Schema.Struct({
-  sessionCount: Schema.optional(Schema.Number),
-  sessionTemplate: Schema.optional(Session),
-})).annotate({ identifier: "BatchCreateSessionsRequest" }) as any as Schema.Schema<BatchCreateSessionsRequest>;
+export const BatchCreateSessionsRequest: Schema.Schema<BatchCreateSessionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sessionCount: Schema.optional(Schema.Number),
+      sessionTemplate: Schema.optional(Session),
+    }),
+  ).annotate({
+    identifier: "BatchCreateSessionsRequest",
+  }) as any as Schema.Schema<BatchCreateSessionsRequest>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions;
 }
 
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(GetPolicyOptions),
-})).annotate({ identifier: "GetIamPolicyRequest" }) as any as Schema.Schema<GetIamPolicyRequest>;
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
 
 export interface BatchWriteResponse {
   /** The commit timestamp of the transaction that applied this batch. Present if status is OK and the mutation groups were applied, absent otherwise. For mutation groups with conditions, a status=OK and missing commit_timestamp means that the mutation groups were not applied due to the condition not being satisfied after evaluation. */
@@ -2714,11 +3551,16 @@ export interface BatchWriteResponse {
   status?: Status;
 }
 
-export const BatchWriteResponse: Schema.Schema<BatchWriteResponse> = Schema.suspend(() => Schema.Struct({
-  commitTimestamp: Schema.optional(Schema.String),
-  indexes: Schema.optional(Schema.Array(Schema.Number)),
-  status: Schema.optional(Status),
-})).annotate({ identifier: "BatchWriteResponse" }) as any as Schema.Schema<BatchWriteResponse>;
+export const BatchWriteResponse: Schema.Schema<BatchWriteResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commitTimestamp: Schema.optional(Schema.String),
+      indexes: Schema.optional(Schema.Array(Schema.Number)),
+      status: Schema.optional(Status),
+    }),
+  ).annotate({
+    identifier: "BatchWriteResponse",
+  }) as any as Schema.Schema<BatchWriteResponse>;
 
 export interface CreateDatabaseRequest {
   /** Optional. Proto descriptors used by `CREATE/ALTER PROTO BUNDLE` statements in 'extra_statements'. Contains a protobuf-serialized [`google.protobuf.FileDescriptorSet`](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/descriptor.proto) descriptor set. To generate it, [install](https://grpc.io/docs/protoc-installation/) and run `protoc` with --include_imports and --descriptor_set_out. For example, to generate for moon/shot/app.proto, run ``` $protoc --proto_path=/app_path --proto_path=/lib_path \ --include_imports \ --descriptor_set_out=descriptors.data \ moon/shot/app.proto ``` For more details, see protobuffer [self description](https://developers.google.com/protocol-buffers/docs/techniques#self-description). */
@@ -2726,20 +3568,29 @@ export interface CreateDatabaseRequest {
   /** Required. A `CREATE DATABASE` statement, which specifies the ID of the new database. The database ID must conform to the regular expression `a-z*[a-z0-9]` and be between 2 and 30 characters in length. If the database ID is a reserved word or if it contains a hyphen, the database ID must be enclosed in backticks (`` ` ``). */
   createStatement?: string;
   /** Optional. The dialect of the Cloud Spanner Database. */
-  databaseDialect?: "DATABASE_DIALECT_UNSPECIFIED" | "GOOGLE_STANDARD_SQL" | "POSTGRESQL" | (string & {});
+  databaseDialect?:
+    | "DATABASE_DIALECT_UNSPECIFIED"
+    | "GOOGLE_STANDARD_SQL"
+    | "POSTGRESQL"
+    | (string & {});
   /** Optional. A list of DDL statements to run inside the newly created database. Statements can create tables, indexes, etc. These statements execute atomically with the creation of the database: if there is an error in any statement, the database is not created. */
   extraStatements?: Array<string>;
   /** Optional. The encryption configuration for the database. If this field is not specified, Cloud Spanner will encrypt/decrypt all data at rest using Google default encryption. */
   encryptionConfig?: EncryptionConfig;
 }
 
-export const CreateDatabaseRequest: Schema.Schema<CreateDatabaseRequest> = Schema.suspend(() => Schema.Struct({
-  protoDescriptors: Schema.optional(Schema.String),
-  createStatement: Schema.optional(Schema.String),
-  databaseDialect: Schema.optional(Schema.String),
-  extraStatements: Schema.optional(Schema.Array(Schema.String)),
-  encryptionConfig: Schema.optional(EncryptionConfig),
-})).annotate({ identifier: "CreateDatabaseRequest" }) as any as Schema.Schema<CreateDatabaseRequest>;
+export const CreateDatabaseRequest: Schema.Schema<CreateDatabaseRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      protoDescriptors: Schema.optional(Schema.String),
+      createStatement: Schema.optional(Schema.String),
+      databaseDialect: Schema.optional(Schema.String),
+      extraStatements: Schema.optional(Schema.Array(Schema.String)),
+      encryptionConfig: Schema.optional(EncryptionConfig),
+    }),
+  ).annotate({
+    identifier: "CreateDatabaseRequest",
+  }) as any as Schema.Schema<CreateDatabaseRequest>;
 
 export interface ReadRequest {
   /** If this is for a partitioned read and this field is set to `true`, the request is executed with Spanner Data Boost independent compute resources. If the field is set to `true` but the request doesn't set `partition_token`, the API returns an `INVALID_ARGUMENT` error. */
@@ -2749,7 +3600,11 @@ export interface ReadRequest {
   /** If greater than zero, only the first `limit` rows are yielded. If `limit` is zero, the default is no limit. A limit can't be specified if `partition_token` is set. */
   limit?: string;
   /** Optional. Lock Hint for the request, it can only be used with read-write transactions. */
-  lockHint?: "LOCK_HINT_UNSPECIFIED" | "LOCK_HINT_SHARED" | "LOCK_HINT_EXCLUSIVE" | (string & {});
+  lockHint?:
+    | "LOCK_HINT_UNSPECIFIED"
+    | "LOCK_HINT_SHARED"
+    | "LOCK_HINT_EXCLUSIVE"
+    | (string & {});
   /** The transaction to use. If none is provided, the default is a temporary read-only transaction with strong concurrency. */
   transaction?: TransactionSelector;
   /** If non-empty, the name of an index on table. This index is used instead of the table primary key when interpreting key_set and sorting result rows. See key_set for further information. */
@@ -2763,37 +3618,48 @@ export interface ReadRequest {
   /** Required. The name of the table in the database to be read. */
   table?: string;
   /** Optional. Order for the returned rows. By default, Spanner returns result rows in primary key order except for PartitionRead requests. For applications that don't require rows to be returned in primary key (`ORDER_BY_PRIMARY_KEY`) order, setting `ORDER_BY_NO_ORDER` option allows Spanner to optimize row retrieval, resulting in lower latencies in certain cases (for example, bulk point lookups). */
-  orderBy?: "ORDER_BY_UNSPECIFIED" | "ORDER_BY_PRIMARY_KEY" | "ORDER_BY_NO_ORDER" | (string & {});
+  orderBy?:
+    | "ORDER_BY_UNSPECIFIED"
+    | "ORDER_BY_PRIMARY_KEY"
+    | "ORDER_BY_NO_ORDER"
+    | (string & {});
   /** If this request is resuming a previously interrupted read, `resume_token` should be copied from the last PartialResultSet yielded before the interruption. Doing this enables the new read to resume where the last read left off. The rest of the request parameters must exactly match the request that yielded this token. */
   resumeToken?: string;
   /** Directed read options for this request. */
   directedReadOptions?: DirectedReadOptions;
 }
 
-export const ReadRequest: Schema.Schema<ReadRequest> = Schema.suspend(() => Schema.Struct({
-  dataBoostEnabled: Schema.optional(Schema.Boolean),
-  keySet: Schema.optional(KeySet),
-  limit: Schema.optional(Schema.String),
-  lockHint: Schema.optional(Schema.String),
-  transaction: Schema.optional(TransactionSelector),
-  index: Schema.optional(Schema.String),
-  columns: Schema.optional(Schema.Array(Schema.String)),
-  requestOptions: Schema.optional(RequestOptions),
-  partitionToken: Schema.optional(Schema.String),
-  table: Schema.optional(Schema.String),
-  orderBy: Schema.optional(Schema.String),
-  resumeToken: Schema.optional(Schema.String),
-  directedReadOptions: Schema.optional(DirectedReadOptions),
-})).annotate({ identifier: "ReadRequest" }) as any as Schema.Schema<ReadRequest>;
+export const ReadRequest: Schema.Schema<ReadRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    dataBoostEnabled: Schema.optional(Schema.Boolean),
+    keySet: Schema.optional(KeySet),
+    limit: Schema.optional(Schema.String),
+    lockHint: Schema.optional(Schema.String),
+    transaction: Schema.optional(TransactionSelector),
+    index: Schema.optional(Schema.String),
+    columns: Schema.optional(Schema.Array(Schema.String)),
+    requestOptions: Schema.optional(RequestOptions),
+    partitionToken: Schema.optional(Schema.String),
+    table: Schema.optional(Schema.String),
+    orderBy: Schema.optional(Schema.String),
+    resumeToken: Schema.optional(Schema.String),
+    directedReadOptions: Schema.optional(DirectedReadOptions),
+  }),
+).annotate({ identifier: "ReadRequest" }) as any as Schema.Schema<ReadRequest>;
 
 export interface BatchCreateSessionsResponse {
   /** The freshly created sessions. */
   session?: Array<Session>;
 }
 
-export const BatchCreateSessionsResponse: Schema.Schema<BatchCreateSessionsResponse> = Schema.suspend(() => Schema.Struct({
-  session: Schema.optional(Schema.Array(Session)),
-})).annotate({ identifier: "BatchCreateSessionsResponse" }) as any as Schema.Schema<BatchCreateSessionsResponse>;
+export const BatchCreateSessionsResponse: Schema.Schema<BatchCreateSessionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      session: Schema.optional(Schema.Array(Session)),
+    }),
+  ).annotate({
+    identifier: "BatchCreateSessionsResponse",
+  }) as any as Schema.Schema<BatchCreateSessionsResponse>;
 
 export interface CommitRequest {
   /** If `true`, then statistics related to the transaction is included in the CommitResponse. Default value is `false`. */
@@ -2812,30 +3678,43 @@ export interface CommitRequest {
   precommitToken?: MultiplexedSessionPrecommitToken;
 }
 
-export const CommitRequest: Schema.Schema<CommitRequest> = Schema.suspend(() => Schema.Struct({
-  returnCommitStats: Schema.optional(Schema.Boolean),
-  transactionId: Schema.optional(Schema.String),
-  maxCommitDelay: Schema.optional(Schema.String),
-  singleUseTransaction: Schema.optional(TransactionOptions),
-  mutations: Schema.optional(Schema.Array(Mutation)),
-  requestOptions: Schema.optional(RequestOptions),
-  precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
-})).annotate({ identifier: "CommitRequest" }) as any as Schema.Schema<CommitRequest>;
+export const CommitRequest: Schema.Schema<CommitRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    returnCommitStats: Schema.optional(Schema.Boolean),
+    transactionId: Schema.optional(Schema.String),
+    maxCommitDelay: Schema.optional(Schema.String),
+    singleUseTransaction: Schema.optional(TransactionOptions),
+    mutations: Schema.optional(Schema.Array(Mutation)),
+    requestOptions: Schema.optional(RequestOptions),
+    precommitToken: Schema.optional(MultiplexedSessionPrecommitToken),
+  }),
+).annotate({
+  identifier: "CommitRequest",
+}) as any as Schema.Schema<CommitRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface CreateInstanceMetadata {
   /** The time at which the CreateInstance request was received. */
   startTime?: string;
   /** The expected fulfillment period of this create operation. */
-  expectedFulfillmentPeriod?: "FULFILLMENT_PERIOD_UNSPECIFIED" | "FULFILLMENT_PERIOD_NORMAL" | "FULFILLMENT_PERIOD_EXTENDED" | (string & {});
+  expectedFulfillmentPeriod?:
+    | "FULFILLMENT_PERIOD_UNSPECIFIED"
+    | "FULFILLMENT_PERIOD_NORMAL"
+    | "FULFILLMENT_PERIOD_EXTENDED"
+    | (string & {});
   /** The time at which this operation failed or was completed successfully. */
   endTime?: string;
   /** The instance being created. */
@@ -2844,13 +3723,18 @@ export interface CreateInstanceMetadata {
   cancelTime?: string;
 }
 
-export const CreateInstanceMetadata: Schema.Schema<CreateInstanceMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  expectedFulfillmentPeriod: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  instance: Schema.optional(Instance),
-  cancelTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateInstanceMetadata" }) as any as Schema.Schema<CreateInstanceMetadata>;
+export const CreateInstanceMetadata: Schema.Schema<CreateInstanceMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      expectedFulfillmentPeriod: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      instance: Schema.optional(Instance),
+      cancelTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateInstanceMetadata",
+  }) as any as Schema.Schema<CreateInstanceMetadata>;
 
 export interface ListInstancePartitionsResponse {
   /** The list of requested instancePartitions. */
@@ -2861,11 +3745,16 @@ export interface ListInstancePartitionsResponse {
   nextPageToken?: string;
 }
 
-export const ListInstancePartitionsResponse: Schema.Schema<ListInstancePartitionsResponse> = Schema.suspend(() => Schema.Struct({
-  instancePartitions: Schema.optional(Schema.Array(InstancePartition)),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListInstancePartitionsResponse" }) as any as Schema.Schema<ListInstancePartitionsResponse>;
+export const ListInstancePartitionsResponse: Schema.Schema<ListInstancePartitionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instancePartitions: Schema.optional(Schema.Array(InstancePartition)),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListInstancePartitionsResponse",
+  }) as any as Schema.Schema<ListInstancePartitionsResponse>;
 
 export interface UpdateDatabaseDdlRequest {
   /** If empty, the new update request is assigned an automatically-generated operation ID. Otherwise, `operation_id` is used to construct the name of the resulting Operation. Specifying an explicit operation ID simplifies determining whether the statements were executed in the event that the UpdateDatabaseDdl call is replayed, or the return value is otherwise lost: the database and `operation_id` fields can be combined to form the `name` of the resulting longrunning.Operation: `/operations/`. `operation_id` should be unique within the database, and must be a valid identifier: `a-z*`. Note that automatically-generated operation IDs always begin with an underscore. If the named operation already exists, UpdateDatabaseDdl returns `ALREADY_EXISTS`. */
@@ -2876,11 +3765,16 @@ export interface UpdateDatabaseDdlRequest {
   protoDescriptors?: string;
 }
 
-export const UpdateDatabaseDdlRequest: Schema.Schema<UpdateDatabaseDdlRequest> = Schema.suspend(() => Schema.Struct({
-  operationId: Schema.optional(Schema.String),
-  statements: Schema.optional(Schema.Array(Schema.String)),
-  protoDescriptors: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateDatabaseDdlRequest" }) as any as Schema.Schema<UpdateDatabaseDdlRequest>;
+export const UpdateDatabaseDdlRequest: Schema.Schema<UpdateDatabaseDdlRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operationId: Schema.optional(Schema.String),
+      statements: Schema.optional(Schema.Array(Schema.String)),
+      protoDescriptors: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateDatabaseDdlRequest",
+  }) as any as Schema.Schema<UpdateDatabaseDdlRequest>;
 
 export interface ExecuteBatchDmlRequest {
   /** Required. A per-transaction sequence number used to identify this request. This field makes each request idempotent such that if the request is received multiple times, at most one succeeds. The sequence number must be monotonically increasing within the transaction. If a request arrives for the first time with an out-of-order sequence number, the transaction might be aborted. Replays of previously handled requests yield the same response as the first execution. */
@@ -2895,13 +3789,18 @@ export interface ExecuteBatchDmlRequest {
   transaction?: TransactionSelector;
 }
 
-export const ExecuteBatchDmlRequest: Schema.Schema<ExecuteBatchDmlRequest> = Schema.suspend(() => Schema.Struct({
-  seqno: Schema.optional(Schema.String),
-  statements: Schema.optional(Schema.Array(Statement)),
-  requestOptions: Schema.optional(RequestOptions),
-  lastStatements: Schema.optional(Schema.Boolean),
-  transaction: Schema.optional(TransactionSelector),
-})).annotate({ identifier: "ExecuteBatchDmlRequest" }) as any as Schema.Schema<ExecuteBatchDmlRequest>;
+export const ExecuteBatchDmlRequest: Schema.Schema<ExecuteBatchDmlRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      seqno: Schema.optional(Schema.String),
+      statements: Schema.optional(Schema.Array(Statement)),
+      requestOptions: Schema.optional(RequestOptions),
+      lastStatements: Schema.optional(Schema.Boolean),
+      transaction: Schema.optional(TransactionSelector),
+    }),
+  ).annotate({
+    identifier: "ExecuteBatchDmlRequest",
+  }) as any as Schema.Schema<ExecuteBatchDmlRequest>;
 
 export interface CopyBackupRequest {
   /** Required. The id of the backup copy. The `backup_id` appended to `parent` forms the full backup_uri of the form `projects//instances//backups/`. */
@@ -2914,12 +3813,17 @@ export interface CopyBackupRequest {
   encryptionConfig?: CopyBackupEncryptionConfig;
 }
 
-export const CopyBackupRequest: Schema.Schema<CopyBackupRequest> = Schema.suspend(() => Schema.Struct({
-  backupId: Schema.optional(Schema.String),
-  sourceBackup: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  encryptionConfig: Schema.optional(CopyBackupEncryptionConfig),
-})).annotate({ identifier: "CopyBackupRequest" }) as any as Schema.Schema<CopyBackupRequest>;
+export const CopyBackupRequest: Schema.Schema<CopyBackupRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backupId: Schema.optional(Schema.String),
+      sourceBackup: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      encryptionConfig: Schema.optional(CopyBackupEncryptionConfig),
+    }),
+  ).annotate({
+    identifier: "CopyBackupRequest",
+  }) as any as Schema.Schema<CopyBackupRequest>;
 
 export interface UpdateInstanceMetadata {
   /** The time at which this operation failed or was completed successfully. */
@@ -2927,20 +3831,29 @@ export interface UpdateInstanceMetadata {
   /** The time at which UpdateInstance request was received. */
   startTime?: string;
   /** The expected fulfillment period of this update operation. */
-  expectedFulfillmentPeriod?: "FULFILLMENT_PERIOD_UNSPECIFIED" | "FULFILLMENT_PERIOD_NORMAL" | "FULFILLMENT_PERIOD_EXTENDED" | (string & {});
+  expectedFulfillmentPeriod?:
+    | "FULFILLMENT_PERIOD_UNSPECIFIED"
+    | "FULFILLMENT_PERIOD_NORMAL"
+    | "FULFILLMENT_PERIOD_EXTENDED"
+    | (string & {});
   /** The time at which this operation was cancelled. If set, this operation is in the process of undoing itself (which is guaranteed to succeed) and cannot be cancelled again. */
   cancelTime?: string;
   /** The desired end state of the update. */
   instance?: Instance;
 }
 
-export const UpdateInstanceMetadata: Schema.Schema<UpdateInstanceMetadata> = Schema.suspend(() => Schema.Struct({
-  endTime: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  expectedFulfillmentPeriod: Schema.optional(Schema.String),
-  cancelTime: Schema.optional(Schema.String),
-  instance: Schema.optional(Instance),
-})).annotate({ identifier: "UpdateInstanceMetadata" }) as any as Schema.Schema<UpdateInstanceMetadata>;
+export const UpdateInstanceMetadata: Schema.Schema<UpdateInstanceMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      expectedFulfillmentPeriod: Schema.optional(Schema.String),
+      cancelTime: Schema.optional(Schema.String),
+      instance: Schema.optional(Instance),
+    }),
+  ).annotate({
+    identifier: "UpdateInstanceMetadata",
+  }) as any as Schema.Schema<UpdateInstanceMetadata>;
 
 // ==========================================================================
 // Operations
@@ -2957,7 +3870,11 @@ export const GetIamPolicyProjectsInstancesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsInstancesRequest>;
 
@@ -2967,7 +3884,12 @@ export const GetIamPolicyProjectsInstancesResponse = Policy;
 export type GetIamPolicyProjectsInstancesError = DefaultErrors;
 
 /** Gets the access control policy for an instance resource. Returns an empty policy if an instance exists but does not have a policy set. Authorization requires `spanner.instances.getIamPolicy` on resource. */
-export const getIamPolicyProjectsInstances: API.OperationMethod<GetIamPolicyProjectsInstancesRequest, GetIamPolicyProjectsInstancesResponse, GetIamPolicyProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsInstances: API.OperationMethod<
+  GetIamPolicyProjectsInstancesRequest,
+  GetIamPolicyProjectsInstancesResponse,
+  GetIamPolicyProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesRequest,
   output: GetIamPolicyProjectsInstancesResponse,
   errors: [],
@@ -2981,7 +3903,10 @@ export interface DeleteProjectsInstancesRequest {
 export const DeleteProjectsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstancesRequest>;
 
@@ -2991,7 +3916,12 @@ export const DeleteProjectsInstancesResponse = Empty;
 export type DeleteProjectsInstancesError = DefaultErrors;
 
 /** Deletes an instance. Immediately upon completion of the request: * Billing ceases for all of the instance's reserved resources. Soon afterward: * The instance and *all of its databases* immediately and irrevocably disappear from the API. All data in the databases is permanently deleted. */
-export const deleteProjectsInstances: API.OperationMethod<DeleteProjectsInstancesRequest, DeleteProjectsInstancesResponse, DeleteProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstances: API.OperationMethod<
+  DeleteProjectsInstancesRequest,
+  DeleteProjectsInstancesResponse,
+  DeleteProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesRequest,
   output: DeleteProjectsInstancesResponse,
   errors: [],
@@ -3015,7 +3945,9 @@ export const ListProjectsInstancesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  instanceDeadline: Schema.optional(Schema.String).pipe(T.HttpQuery("instanceDeadline")),
+  instanceDeadline: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("instanceDeadline"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances" }),
   svc,
@@ -3027,7 +3959,12 @@ export const ListProjectsInstancesResponse = ListInstancesResponse;
 export type ListProjectsInstancesError = DefaultErrors;
 
 /** Lists all instances in the given project. */
-export const listProjectsInstances: API.PaginatedOperationMethod<ListProjectsInstancesRequest, ListProjectsInstancesResponse, ListProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstances: API.PaginatedOperationMethod<
+  ListProjectsInstancesRequest,
+  ListProjectsInstancesResponse,
+  ListProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesRequest,
   output: ListProjectsInstancesResponse,
   errors: [],
@@ -3048,17 +3985,28 @@ export const TestIamPermissionsProjectsInstancesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesRequest>;
 
-export type TestIamPermissionsProjectsInstancesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsInstancesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsInstancesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsInstancesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsInstancesError = DefaultErrors;
 
 /** Returns permissions that the caller has on the specified instance resource. Attempting this RPC on a non-existent Cloud Spanner instance resource will result in a NOT_FOUND error if the user has `spanner.instances.list` permission on the containing Google Cloud Project. Otherwise returns an empty set of permissions. */
-export const testIamPermissionsProjectsInstances: API.OperationMethod<TestIamPermissionsProjectsInstancesRequest, TestIamPermissionsProjectsInstancesResponse, TestIamPermissionsProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsInstances: API.OperationMethod<
+  TestIamPermissionsProjectsInstancesRequest,
+  TestIamPermissionsProjectsInstancesResponse,
+  TestIamPermissionsProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesRequest,
   output: TestIamPermissionsProjectsInstancesResponse,
   errors: [],
@@ -3075,7 +4023,10 @@ export const GetProjectsInstancesRequest = Schema.Struct({
   fieldMask: Schema.optional(Schema.String).pipe(T.HttpQuery("fieldMask")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesRequest>;
 
@@ -3085,7 +4036,12 @@ export const GetProjectsInstancesResponse = Instance;
 export type GetProjectsInstancesError = DefaultErrors;
 
 /** Gets information about a particular instance. */
-export const getProjectsInstances: API.OperationMethod<GetProjectsInstancesRequest, GetProjectsInstancesResponse, GetProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstances: API.OperationMethod<
+  GetProjectsInstancesRequest,
+  GetProjectsInstancesResponse,
+  GetProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesRequest,
   output: GetProjectsInstancesResponse,
   errors: [],
@@ -3102,7 +4058,11 @@ export const SetIamPolicyProjectsInstancesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsInstancesRequest>;
 
@@ -3112,7 +4072,12 @@ export const SetIamPolicyProjectsInstancesResponse = Policy;
 export type SetIamPolicyProjectsInstancesError = DefaultErrors;
 
 /** Sets the access control policy on an instance resource. Replaces any existing policy. Authorization requires `spanner.instances.setIamPolicy` on resource. */
-export const setIamPolicyProjectsInstances: API.OperationMethod<SetIamPolicyProjectsInstancesRequest, SetIamPolicyProjectsInstancesResponse, SetIamPolicyProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsInstances: API.OperationMethod<
+  SetIamPolicyProjectsInstancesRequest,
+  SetIamPolicyProjectsInstancesResponse,
+  SetIamPolicyProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesRequest,
   output: SetIamPolicyProjectsInstancesResponse,
   errors: [],
@@ -3129,7 +4094,11 @@ export const PatchProjectsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpdateInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/instances/{instancesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/instances/{instancesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsInstancesRequest>;
 
@@ -3139,7 +4108,12 @@ export const PatchProjectsInstancesResponse = Operation;
 export type PatchProjectsInstancesError = DefaultErrors;
 
 /** Updates an instance, and begins allocating or releasing resources as requested. The returned long-running operation can be used to track the progress of updating the instance. If the named instance does not exist, returns `NOT_FOUND`. Immediately upon completion of this request: * For resource types for which a decrease in the instance's allocation has been requested, billing is based on the newly-requested level. Until completion of the returned operation: * Cancelling the operation sets its metadata's cancel_time, and begins restoring resources to their pre-request values. The operation is guaranteed to succeed at undoing all resource changes, after which point it terminates with a `CANCELLED` status. * All other attempts to modify the instance are rejected. * Reading the instance via the API continues to give the pre-request resource levels. Upon completion of the returned operation: * Billing begins for all successfully-allocated resources (some types may have lower than the requested levels). * All newly-reserved resources are available for serving the instance's tables. * The instance's new resource levels are readable via the API. The returned long-running operation will have a name of the format `/operations/` and can be used to track the instance modification. The metadata field type is UpdateInstanceMetadata. The response field type is Instance, if successful. Authorization requires `spanner.instances.update` permission on the resource name. */
-export const patchProjectsInstances: API.OperationMethod<PatchProjectsInstancesRequest, PatchProjectsInstancesResponse, PatchProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsInstances: API.OperationMethod<
+  PatchProjectsInstancesRequest,
+  PatchProjectsInstancesResponse,
+  PatchProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsInstancesRequest,
   output: PatchProjectsInstancesResponse,
   errors: [],
@@ -3156,7 +4130,11 @@ export const CreateProjectsInstancesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsInstancesRequest>;
 
@@ -3166,7 +4144,12 @@ export const CreateProjectsInstancesResponse = Operation;
 export type CreateProjectsInstancesError = DefaultErrors;
 
 /** Creates an instance and begins preparing it to begin serving. The returned long-running operation can be used to track the progress of preparing the new instance. The instance name is assigned by the caller. If the named instance already exists, `CreateInstance` returns `ALREADY_EXISTS`. Immediately upon completion of this request: * The instance is readable via the API, with all requested attributes but no allocated resources. Its state is `CREATING`. Until completion of the returned operation: * Cancelling the operation renders the instance immediately unreadable via the API. * The instance can be deleted. * All other attempts to modify the instance are rejected. Upon completion of the returned operation: * Billing for all successfully-allocated resources begins (some types may have lower than the requested levels). * Databases can be created in the instance. * The instance's allocated resource levels are readable via the API. * The instance's state becomes `READY`. The returned long-running operation will have a name of the format `/operations/` and can be used to track creation of the instance. The metadata field type is CreateInstanceMetadata. The response field type is Instance, if successful. */
-export const createProjectsInstances: API.OperationMethod<CreateProjectsInstancesRequest, CreateProjectsInstancesResponse, CreateProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstances: API.OperationMethod<
+  CreateProjectsInstancesRequest,
+  CreateProjectsInstancesResponse,
+  CreateProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstancesRequest,
   output: CreateProjectsInstancesResponse,
   errors: [],
@@ -3183,7 +4166,11 @@ export const MoveProjectsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MoveInstanceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveProjectsInstancesRequest>;
 
@@ -3193,7 +4180,12 @@ export const MoveProjectsInstancesResponse = Operation;
 export type MoveProjectsInstancesError = DefaultErrors;
 
 /** Moves an instance to the target instance configuration. You can use the returned long-running operation to track the progress of moving the instance. `MoveInstance` returns `FAILED_PRECONDITION` if the instance meets any of the following criteria: * Is undergoing a move to a different instance configuration * Has backups * Has an ongoing update * Contains any CMEK-enabled databases * Is a free trial instance While the operation is pending: * All other attempts to modify the instance, including changes to its compute capacity, are rejected. * The following database and backup admin operations are rejected: * `DatabaseAdmin.CreateDatabase` * `DatabaseAdmin.UpdateDatabaseDdl` (disabled if default_leader is specified in the request.) * `DatabaseAdmin.RestoreDatabase` * `DatabaseAdmin.CreateBackup` * `DatabaseAdmin.CopyBackup` * Both the source and target instance configurations are subject to hourly compute and storage charges. * The instance might experience higher read-write latencies and a higher transaction abort rate. However, moving an instance doesn't cause any downtime. The returned long-running operation has a name of the format `/operations/` and can be used to track the move instance operation. The metadata field type is MoveInstanceMetadata. The response field type is Instance, if successful. Cancelling the operation sets its metadata's cancel_time. Cancellation is not immediate because it involves moving any data previously moved to the target instance configuration back to the original instance configuration. You can use this operation to track the progress of the cancellation. Upon successful completion of the cancellation, the operation terminates with `CANCELLED` status. If not cancelled, upon completion of the returned operation: * The instance successfully moves to the target instance configuration. * You are billed for compute and storage in target instance configuration. Authorization requires the `spanner.instances.update` permission on the resource instance. For more details, see [Move an instance](https://cloud.google.com/spanner/docs/move-instance). */
-export const moveProjectsInstances: API.OperationMethod<MoveProjectsInstancesRequest, MoveProjectsInstancesResponse, MoveProjectsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveProjectsInstances: API.OperationMethod<
+  MoveProjectsInstancesRequest,
+  MoveProjectsInstancesResponse,
+  MoveProjectsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveProjectsInstancesRequest,
   output: MoveProjectsInstancesResponse,
   errors: [],
@@ -3216,17 +4208,27 @@ export const ListProjectsInstancesDatabaseOperationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databaseOperations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databaseOperations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesDatabaseOperationsRequest>;
 
-export type ListProjectsInstancesDatabaseOperationsResponse = ListDatabaseOperationsResponse;
-export const ListProjectsInstancesDatabaseOperationsResponse = ListDatabaseOperationsResponse;
+export type ListProjectsInstancesDatabaseOperationsResponse =
+  ListDatabaseOperationsResponse;
+export const ListProjectsInstancesDatabaseOperationsResponse =
+  ListDatabaseOperationsResponse;
 
 export type ListProjectsInstancesDatabaseOperationsError = DefaultErrors;
 
 /** Lists database longrunning-operations. A database operation has a name of the form `projects//instances//databases//operations/`. The long-running operation metadata field type `metadata.type_url` describes the type of the metadata. Operations returned include those that have completed/failed/canceled within the last 7 days, and pending operations. */
-export const listProjectsInstancesDatabaseOperations: API.PaginatedOperationMethod<ListProjectsInstancesDatabaseOperationsRequest, ListProjectsInstancesDatabaseOperationsResponse, ListProjectsInstancesDatabaseOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesDatabaseOperations: API.PaginatedOperationMethod<
+  ListProjectsInstancesDatabaseOperationsRequest,
+  ListProjectsInstancesDatabaseOperationsResponse,
+  ListProjectsInstancesDatabaseOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesDatabaseOperationsRequest,
   output: ListProjectsInstancesDatabaseOperationsResponse,
   errors: [],
@@ -3253,17 +4255,27 @@ export const ListProjectsInstancesBackupOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/backupOperations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backupOperations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesBackupOperationsRequest>;
 
-export type ListProjectsInstancesBackupOperationsResponse = ListBackupOperationsResponse;
-export const ListProjectsInstancesBackupOperationsResponse = ListBackupOperationsResponse;
+export type ListProjectsInstancesBackupOperationsResponse =
+  ListBackupOperationsResponse;
+export const ListProjectsInstancesBackupOperationsResponse =
+  ListBackupOperationsResponse;
 
 export type ListProjectsInstancesBackupOperationsError = DefaultErrors;
 
 /** Lists the backup long-running operations in the given instance. A backup operation has a name of the form `projects//instances//backups//operations/`. The long-running operation metadata field type `metadata.type_url` describes the type of the metadata. Operations returned include those that have completed/failed/canceled within the last 7 days, and pending operations. Operations returned are ordered by `operation.metadata.value.progress.start_time` in descending order starting from the most recently started operation. */
-export const listProjectsInstancesBackupOperations: API.PaginatedOperationMethod<ListProjectsInstancesBackupOperationsRequest, ListProjectsInstancesBackupOperationsResponse, ListProjectsInstancesBackupOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesBackupOperations: API.PaginatedOperationMethod<
+  ListProjectsInstancesBackupOperationsRequest,
+  ListProjectsInstancesBackupOperationsResponse,
+  ListProjectsInstancesBackupOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesBackupOperationsRequest,
   output: ListProjectsInstancesBackupOperationsResponse,
   errors: [],
@@ -3284,7 +4296,11 @@ export const CreateProjectsInstancesInstancePartitionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateInstancePartitionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsInstancesInstancePartitionsRequest>;
 
@@ -3294,7 +4310,12 @@ export const CreateProjectsInstancesInstancePartitionsResponse = Operation;
 export type CreateProjectsInstancesInstancePartitionsError = DefaultErrors;
 
 /** Creates an instance partition and begins preparing it to be used. The returned long-running operation can be used to track the progress of preparing the new instance partition. The instance partition name is assigned by the caller. If the named instance partition already exists, `CreateInstancePartition` returns `ALREADY_EXISTS`. Immediately upon completion of this request: * The instance partition is readable via the API, with all requested attributes but no allocated resources. Its state is `CREATING`. Until completion of the returned operation: * Cancelling the operation renders the instance partition immediately unreadable via the API. * The instance partition can be deleted. * All other attempts to modify the instance partition are rejected. Upon completion of the returned operation: * Billing for all successfully-allocated resources begins (some types may have lower than the requested levels). * Databases can start using this instance partition. * The instance partition's allocated resource levels are readable via the API. * The instance partition's state becomes `READY`. The returned long-running operation will have a name of the format `/operations/` and can be used to track creation of the instance partition. The metadata field type is CreateInstancePartitionMetadata. The response field type is InstancePartition, if successful. */
-export const createProjectsInstancesInstancePartitions: API.OperationMethod<CreateProjectsInstancesInstancePartitionsRequest, CreateProjectsInstancesInstancePartitionsResponse, CreateProjectsInstancesInstancePartitionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstancesInstancePartitions: API.OperationMethod<
+  CreateProjectsInstancesInstancePartitionsRequest,
+  CreateProjectsInstancesInstancePartitionsResponse,
+  CreateProjectsInstancesInstancePartitionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstancesInstancePartitionsRequest,
   output: CreateProjectsInstancesInstancePartitionsResponse,
   errors: [],
@@ -3311,7 +4332,10 @@ export const DeleteProjectsInstancesInstancePartitionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstancesInstancePartitionsRequest>;
 
@@ -3321,7 +4345,12 @@ export const DeleteProjectsInstancesInstancePartitionsResponse = Empty;
 export type DeleteProjectsInstancesInstancePartitionsError = DefaultErrors;
 
 /** Deletes an existing instance partition. Requires that the instance partition is not used by any database or backup and is not the default instance partition of an instance. Authorization requires `spanner.instancePartitions.delete` permission on the resource name. */
-export const deleteProjectsInstancesInstancePartitions: API.OperationMethod<DeleteProjectsInstancesInstancePartitionsRequest, DeleteProjectsInstancesInstancePartitionsResponse, DeleteProjectsInstancesInstancePartitionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesInstancePartitions: API.OperationMethod<
+  DeleteProjectsInstancesInstancePartitionsRequest,
+  DeleteProjectsInstancesInstancePartitionsResponse,
+  DeleteProjectsInstancesInstancePartitionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesInstancePartitionsRequest,
   output: DeleteProjectsInstancesInstancePartitionsResponse,
   errors: [],
@@ -3339,22 +4368,34 @@ export interface ListProjectsInstancesInstancePartitionsRequest {
 }
 
 export const ListProjectsInstancesInstancePartitionsRequest = Schema.Struct({
-  instancePartitionDeadline: Schema.optional(Schema.String).pipe(T.HttpQuery("instancePartitionDeadline")),
+  instancePartitionDeadline: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("instancePartitionDeadline"),
+  ),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesInstancePartitionsRequest>;
 
-export type ListProjectsInstancesInstancePartitionsResponse = ListInstancePartitionsResponse;
-export const ListProjectsInstancesInstancePartitionsResponse = ListInstancePartitionsResponse;
+export type ListProjectsInstancesInstancePartitionsResponse =
+  ListInstancePartitionsResponse;
+export const ListProjectsInstancesInstancePartitionsResponse =
+  ListInstancePartitionsResponse;
 
 export type ListProjectsInstancesInstancePartitionsError = DefaultErrors;
 
 /** Lists all instance partitions for the given instance. */
-export const listProjectsInstancesInstancePartitions: API.PaginatedOperationMethod<ListProjectsInstancesInstancePartitionsRequest, ListProjectsInstancesInstancePartitionsResponse, ListProjectsInstancesInstancePartitionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesInstancePartitions: API.PaginatedOperationMethod<
+  ListProjectsInstancesInstancePartitionsRequest,
+  ListProjectsInstancesInstancePartitionsResponse,
+  ListProjectsInstancesInstancePartitionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesInstancePartitionsRequest,
   output: ListProjectsInstancesInstancePartitionsResponse,
   errors: [],
@@ -3375,7 +4416,11 @@ export const PatchProjectsInstancesInstancePartitionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpdateInstancePartitionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsInstancesInstancePartitionsRequest>;
 
@@ -3385,7 +4430,12 @@ export const PatchProjectsInstancesInstancePartitionsResponse = Operation;
 export type PatchProjectsInstancesInstancePartitionsError = DefaultErrors;
 
 /** Updates an instance partition, and begins allocating or releasing resources as requested. The returned long-running operation can be used to track the progress of updating the instance partition. If the named instance partition does not exist, returns `NOT_FOUND`. Immediately upon completion of this request: * For resource types for which a decrease in the instance partition's allocation has been requested, billing is based on the newly-requested level. Until completion of the returned operation: * Cancelling the operation sets its metadata's cancel_time, and begins restoring resources to their pre-request values. The operation is guaranteed to succeed at undoing all resource changes, after which point it terminates with a `CANCELLED` status. * All other attempts to modify the instance partition are rejected. * Reading the instance partition via the API continues to give the pre-request resource levels. Upon completion of the returned operation: * Billing begins for all successfully-allocated resources (some types may have lower than the requested levels). * All newly-reserved resources are available for serving the instance partition's tables. * The instance partition's new resource levels are readable via the API. The returned long-running operation will have a name of the format `/operations/` and can be used to track the instance partition modification. The metadata field type is UpdateInstancePartitionMetadata. The response field type is InstancePartition, if successful. Authorization requires `spanner.instancePartitions.update` permission on the resource name. */
-export const patchProjectsInstancesInstancePartitions: API.OperationMethod<PatchProjectsInstancesInstancePartitionsRequest, PatchProjectsInstancesInstancePartitionsResponse, PatchProjectsInstancesInstancePartitionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsInstancesInstancePartitions: API.OperationMethod<
+  PatchProjectsInstancesInstancePartitionsRequest,
+  PatchProjectsInstancesInstancePartitionsResponse,
+  PatchProjectsInstancesInstancePartitionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsInstancesInstancePartitionsRequest,
   output: PatchProjectsInstancesInstancePartitionsResponse,
   errors: [],
@@ -3399,7 +4449,10 @@ export interface GetProjectsInstancesInstancePartitionsRequest {
 export const GetProjectsInstancesInstancePartitionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesInstancePartitionsRequest>;
 
@@ -3409,7 +4462,12 @@ export const GetProjectsInstancesInstancePartitionsResponse = InstancePartition;
 export type GetProjectsInstancesInstancePartitionsError = DefaultErrors;
 
 /** Gets information about a particular instance partition. */
-export const getProjectsInstancesInstancePartitions: API.OperationMethod<GetProjectsInstancesInstancePartitionsRequest, GetProjectsInstancesInstancePartitionsResponse, GetProjectsInstancesInstancePartitionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesInstancePartitions: API.OperationMethod<
+  GetProjectsInstancesInstancePartitionsRequest,
+  GetProjectsInstancesInstancePartitionsResponse,
+  GetProjectsInstancesInstancePartitionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesInstancePartitionsRequest,
   output: GetProjectsInstancesInstancePartitionsResponse,
   errors: [],
@@ -3420,20 +4478,32 @@ export interface GetProjectsInstancesInstancePartitionsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsInstancesInstancePartitionsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsInstancesInstancePartitionsOperationsRequest>;
+export const GetProjectsInstancesInstancePartitionsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsInstancesInstancePartitionsOperationsRequest>;
 
-export type GetProjectsInstancesInstancePartitionsOperationsResponse = Operation;
-export const GetProjectsInstancesInstancePartitionsOperationsResponse = Operation;
+export type GetProjectsInstancesInstancePartitionsOperationsResponse =
+  Operation;
+export const GetProjectsInstancesInstancePartitionsOperationsResponse =
+  Operation;
 
-export type GetProjectsInstancesInstancePartitionsOperationsError = DefaultErrors;
+export type GetProjectsInstancesInstancePartitionsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsInstancesInstancePartitionsOperations: API.OperationMethod<GetProjectsInstancesInstancePartitionsOperationsRequest, GetProjectsInstancesInstancePartitionsOperationsResponse, GetProjectsInstancesInstancePartitionsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesInstancePartitionsOperations: API.OperationMethod<
+  GetProjectsInstancesInstancePartitionsOperationsRequest,
+  GetProjectsInstancesInstancePartitionsOperationsResponse,
+  GetProjectsInstancesInstancePartitionsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesInstancePartitionsOperationsRequest,
   output: GetProjectsInstancesInstancePartitionsOperationsResponse,
   errors: [],
@@ -3444,20 +4514,32 @@ export interface CancelProjectsInstancesInstancePartitionsOperationsRequest {
   name: string;
 }
 
-export const CancelProjectsInstancesInstancePartitionsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations/{operationsId}:cancel", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsInstancesInstancePartitionsOperationsRequest>;
+export const CancelProjectsInstancesInstancePartitionsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsInstancesInstancePartitionsOperationsRequest>;
 
 export type CancelProjectsInstancesInstancePartitionsOperationsResponse = Empty;
-export const CancelProjectsInstancesInstancePartitionsOperationsResponse = Empty;
+export const CancelProjectsInstancesInstancePartitionsOperationsResponse =
+  Empty;
 
-export type CancelProjectsInstancesInstancePartitionsOperationsError = DefaultErrors;
+export type CancelProjectsInstancesInstancePartitionsOperationsError =
+  DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsInstancesInstancePartitionsOperations: API.OperationMethod<CancelProjectsInstancesInstancePartitionsOperationsRequest, CancelProjectsInstancesInstancePartitionsOperationsResponse, CancelProjectsInstancesInstancePartitionsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsInstancesInstancePartitionsOperations: API.OperationMethod<
+  CancelProjectsInstancesInstancePartitionsOperationsRequest,
+  CancelProjectsInstancesInstancePartitionsOperationsResponse,
+  CancelProjectsInstancesInstancePartitionsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsInstancesInstancePartitionsOperationsRequest,
   output: CancelProjectsInstancesInstancePartitionsOperationsResponse,
   errors: [],
@@ -3468,20 +4550,31 @@ export interface DeleteProjectsInstancesInstancePartitionsOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsInstancesInstancePartitionsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsInstancesInstancePartitionsOperationsRequest>;
+export const DeleteProjectsInstancesInstancePartitionsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsInstancesInstancePartitionsOperationsRequest>;
 
 export type DeleteProjectsInstancesInstancePartitionsOperationsResponse = Empty;
-export const DeleteProjectsInstancesInstancePartitionsOperationsResponse = Empty;
+export const DeleteProjectsInstancesInstancePartitionsOperationsResponse =
+  Empty;
 
-export type DeleteProjectsInstancesInstancePartitionsOperationsError = DefaultErrors;
+export type DeleteProjectsInstancesInstancePartitionsOperationsError =
+  DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsInstancesInstancePartitionsOperations: API.OperationMethod<DeleteProjectsInstancesInstancePartitionsOperationsRequest, DeleteProjectsInstancesInstancePartitionsOperationsResponse, DeleteProjectsInstancesInstancePartitionsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesInstancePartitionsOperations: API.OperationMethod<
+  DeleteProjectsInstancesInstancePartitionsOperationsRequest,
+  DeleteProjectsInstancesInstancePartitionsOperationsResponse,
+  DeleteProjectsInstancesInstancePartitionsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesInstancePartitionsOperationsRequest,
   output: DeleteProjectsInstancesInstancePartitionsOperationsResponse,
   errors: [],
@@ -3500,24 +4593,38 @@ export interface ListProjectsInstancesInstancePartitionsOperationsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsInstancesInstancePartitionsOperationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsInstancesInstancePartitionsOperationsRequest>;
+export const ListProjectsInstancesInstancePartitionsOperationsRequest =
+  Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitions/{instancePartitionsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsInstancesInstancePartitionsOperationsRequest>;
 
-export type ListProjectsInstancesInstancePartitionsOperationsResponse = ListOperationsResponse;
-export const ListProjectsInstancesInstancePartitionsOperationsResponse = ListOperationsResponse;
+export type ListProjectsInstancesInstancePartitionsOperationsResponse =
+  ListOperationsResponse;
+export const ListProjectsInstancesInstancePartitionsOperationsResponse =
+  ListOperationsResponse;
 
-export type ListProjectsInstancesInstancePartitionsOperationsError = DefaultErrors;
+export type ListProjectsInstancesInstancePartitionsOperationsError =
+  DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsInstancesInstancePartitionsOperations: API.PaginatedOperationMethod<ListProjectsInstancesInstancePartitionsOperationsRequest, ListProjectsInstancesInstancePartitionsOperationsResponse, ListProjectsInstancesInstancePartitionsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesInstancePartitionsOperations: API.PaginatedOperationMethod<
+  ListProjectsInstancesInstancePartitionsOperationsRequest,
+  ListProjectsInstancesInstancePartitionsOperationsResponse,
+  ListProjectsInstancesInstancePartitionsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesInstancePartitionsOperationsRequest,
   output: ListProjectsInstancesInstancePartitionsOperationsResponse,
   errors: [],
@@ -3541,7 +4648,10 @@ export const ListProjectsInstancesDatabasesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesDatabasesRequest>;
 
@@ -3551,7 +4661,12 @@ export const ListProjectsInstancesDatabasesResponse = ListDatabasesResponse;
 export type ListProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Lists Cloud Spanner databases. */
-export const listProjectsInstancesDatabases: API.PaginatedOperationMethod<ListProjectsInstancesDatabasesRequest, ListProjectsInstancesDatabasesResponse, ListProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesDatabases: API.PaginatedOperationMethod<
+  ListProjectsInstancesDatabasesRequest,
+  ListProjectsInstancesDatabasesResponse,
+  ListProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesDatabasesRequest,
   output: ListProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3569,7 +4684,10 @@ export interface DropDatabaseProjectsInstancesDatabasesRequest {
 export const DropDatabaseProjectsInstancesDatabasesRequest = Schema.Struct({
   database: Schema.String.pipe(T.HttpPath("database")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DropDatabaseProjectsInstancesDatabasesRequest>;
 
@@ -3579,7 +4697,12 @@ export const DropDatabaseProjectsInstancesDatabasesResponse = Empty;
 export type DropDatabaseProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Drops (aka deletes) a Cloud Spanner database. Completed backups for the database will be retained according to their `expire_time`. Note: Cloud Spanner might continue to accept requests for a few seconds after the database has been deleted. */
-export const dropDatabaseProjectsInstancesDatabases: API.OperationMethod<DropDatabaseProjectsInstancesDatabasesRequest, DropDatabaseProjectsInstancesDatabasesResponse, DropDatabaseProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const dropDatabaseProjectsInstancesDatabases: API.OperationMethod<
+  DropDatabaseProjectsInstancesDatabasesRequest,
+  DropDatabaseProjectsInstancesDatabasesResponse,
+  DropDatabaseProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DropDatabaseProjectsInstancesDatabasesRequest,
   output: DropDatabaseProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3602,7 +4725,10 @@ export const GetScansProjectsInstancesDatabasesRequest = Schema.Struct({
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/scans" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/scans",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetScansProjectsInstancesDatabasesRequest>;
 
@@ -3612,7 +4738,12 @@ export const GetScansProjectsInstancesDatabasesResponse = Scan;
 export type GetScansProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Request a specific scan with Database-specific data for Cloud Key Visualizer. */
-export const getScansProjectsInstancesDatabases: API.OperationMethod<GetScansProjectsInstancesDatabasesRequest, GetScansProjectsInstancesDatabasesResponse, GetScansProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getScansProjectsInstancesDatabases: API.OperationMethod<
+  GetScansProjectsInstancesDatabasesRequest,
+  GetScansProjectsInstancesDatabasesResponse,
+  GetScansProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetScansProjectsInstancesDatabasesRequest,
   output: GetScansProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3626,7 +4757,10 @@ export interface GetDdlProjectsInstancesDatabasesRequest {
 export const GetDdlProjectsInstancesDatabasesRequest = Schema.Struct({
   database: Schema.String.pipe(T.HttpPath("database")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/ddl" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/ddl",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDdlProjectsInstancesDatabasesRequest>;
 
@@ -3636,7 +4770,12 @@ export const GetDdlProjectsInstancesDatabasesResponse = GetDatabaseDdlResponse;
 export type GetDdlProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Returns the schema of a Cloud Spanner database as a list of formatted DDL statements. This method does not show pending schema updates, those may be queried using the Operations API. */
-export const getDdlProjectsInstancesDatabases: API.OperationMethod<GetDdlProjectsInstancesDatabasesRequest, GetDdlProjectsInstancesDatabasesResponse, GetDdlProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDdlProjectsInstancesDatabases: API.OperationMethod<
+  GetDdlProjectsInstancesDatabasesRequest,
+  GetDdlProjectsInstancesDatabasesResponse,
+  GetDdlProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDdlProjectsInstancesDatabasesRequest,
   output: GetDdlProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3653,7 +4792,11 @@ export const ChangequorumProjectsInstancesDatabasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ChangeQuorumRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:changequorum", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:changequorum",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ChangequorumProjectsInstancesDatabasesRequest>;
 
@@ -3663,7 +4806,12 @@ export const ChangequorumProjectsInstancesDatabasesResponse = Operation;
 export type ChangequorumProjectsInstancesDatabasesError = DefaultErrors;
 
 /** `ChangeQuorum` is strictly restricted to databases that use dual-region instance configurations. Initiates a background operation to change the quorum of a database from dual-region mode to single-region mode or vice versa. The returned long-running operation has a name of the format `projects//instances//databases//operations/` and can be used to track execution of the `ChangeQuorum`. The metadata field type is ChangeQuorumMetadata. Authorization requires `spanner.databases.changequorum` permission on the resource database. */
-export const changequorumProjectsInstancesDatabases: API.OperationMethod<ChangequorumProjectsInstancesDatabasesRequest, ChangequorumProjectsInstancesDatabasesResponse, ChangequorumProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const changequorumProjectsInstancesDatabases: API.OperationMethod<
+  ChangequorumProjectsInstancesDatabasesRequest,
+  ChangequorumProjectsInstancesDatabasesResponse,
+  ChangequorumProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ChangequorumProjectsInstancesDatabasesRequest,
   output: ChangequorumProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3680,7 +4828,11 @@ export const SetIamPolicyProjectsInstancesDatabasesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsInstancesDatabasesRequest>;
 
@@ -3690,7 +4842,12 @@ export const SetIamPolicyProjectsInstancesDatabasesResponse = Policy;
 export type SetIamPolicyProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Sets the access control policy on a database or backup resource. Replaces any existing policy. Authorization requires `spanner.databases.setIamPolicy` permission on resource. For backups, authorization requires `spanner.backups.setIamPolicy` permission on resource. For backup schedules, authorization requires `spanner.backupSchedules.setIamPolicy` permission on resource. */
-export const setIamPolicyProjectsInstancesDatabases: API.OperationMethod<SetIamPolicyProjectsInstancesDatabasesRequest, SetIamPolicyProjectsInstancesDatabasesResponse, SetIamPolicyProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsInstancesDatabases: API.OperationMethod<
+  SetIamPolicyProjectsInstancesDatabasesRequest,
+  SetIamPolicyProjectsInstancesDatabasesResponse,
+  SetIamPolicyProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesDatabasesRequest,
   output: SetIamPolicyProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3710,7 +4867,11 @@ export const PatchProjectsInstancesDatabasesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Database).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsInstancesDatabasesRequest>;
 
@@ -3720,7 +4881,12 @@ export const PatchProjectsInstancesDatabasesResponse = Operation;
 export type PatchProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Updates a Cloud Spanner database. The returned long-running operation can be used to track the progress of updating the database. If the named database does not exist, returns `NOT_FOUND`. While the operation is pending: * The database's reconciling field is set to true. * Cancelling the operation is best-effort. If the cancellation succeeds, the operation metadata's cancel_time is set, the updates are reverted, and the operation terminates with a `CANCELLED` status. * New UpdateDatabase requests will return a `FAILED_PRECONDITION` error until the pending operation is done (returns successfully or with error). * Reading the database via the API continues to give the pre-request values. Upon completion of the returned operation: * The new values are in effect and readable via the API. * The database's reconciling field becomes false. The returned long-running operation will have a name of the format `projects//instances//databases//operations/` and can be used to track the database modification. The metadata field type is UpdateDatabaseMetadata. The response field type is Database, if successful. */
-export const patchProjectsInstancesDatabases: API.OperationMethod<PatchProjectsInstancesDatabasesRequest, PatchProjectsInstancesDatabasesResponse, PatchProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsInstancesDatabases: API.OperationMethod<
+  PatchProjectsInstancesDatabasesRequest,
+  PatchProjectsInstancesDatabasesResponse,
+  PatchProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsInstancesDatabasesRequest,
   output: PatchProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3733,21 +4899,33 @@ export interface TestIamPermissionsProjectsInstancesDatabasesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsInstancesDatabasesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesDatabasesRequest>;
+export const TestIamPermissionsProjectsInstancesDatabasesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesDatabasesRequest>;
 
-export type TestIamPermissionsProjectsInstancesDatabasesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsInstancesDatabasesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsInstancesDatabasesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsInstancesDatabasesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Returns permissions that the caller has on the specified database or backup resource. Attempting this RPC on a non-existent Cloud Spanner database will result in a NOT_FOUND error if the user has `spanner.databases.list` permission on the containing Cloud Spanner instance. Otherwise returns an empty set of permissions. Calling this method on a backup that does not exist will result in a NOT_FOUND error if the user has `spanner.backups.list` permission on the containing instance. Calling this method on a backup schedule that does not exist will result in a NOT_FOUND error if the user has `spanner.backupSchedules.list` permission on the containing database. */
-export const testIamPermissionsProjectsInstancesDatabases: API.OperationMethod<TestIamPermissionsProjectsInstancesDatabasesRequest, TestIamPermissionsProjectsInstancesDatabasesResponse, TestIamPermissionsProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsInstancesDatabases: API.OperationMethod<
+  TestIamPermissionsProjectsInstancesDatabasesRequest,
+  TestIamPermissionsProjectsInstancesDatabasesResponse,
+  TestIamPermissionsProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesDatabasesRequest,
   output: TestIamPermissionsProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3764,17 +4942,28 @@ export const AddSplitPointsProjectsInstancesDatabasesRequest = Schema.Struct({
   database: Schema.String.pipe(T.HttpPath("database")),
   body: Schema.optional(AddSplitPointsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:addSplitPoints", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:addSplitPoints",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddSplitPointsProjectsInstancesDatabasesRequest>;
 
-export type AddSplitPointsProjectsInstancesDatabasesResponse = AddSplitPointsResponse;
-export const AddSplitPointsProjectsInstancesDatabasesResponse = AddSplitPointsResponse;
+export type AddSplitPointsProjectsInstancesDatabasesResponse =
+  AddSplitPointsResponse;
+export const AddSplitPointsProjectsInstancesDatabasesResponse =
+  AddSplitPointsResponse;
 
 export type AddSplitPointsProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Adds split points to specified tables and indexes of a database. */
-export const addSplitPointsProjectsInstancesDatabases: API.OperationMethod<AddSplitPointsProjectsInstancesDatabasesRequest, AddSplitPointsProjectsInstancesDatabasesResponse, AddSplitPointsProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addSplitPointsProjectsInstancesDatabases: API.OperationMethod<
+  AddSplitPointsProjectsInstancesDatabasesRequest,
+  AddSplitPointsProjectsInstancesDatabasesResponse,
+  AddSplitPointsProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddSplitPointsProjectsInstancesDatabasesRequest,
   output: AddSplitPointsProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3791,7 +4980,11 @@ export const RestoreProjectsInstancesDatabasesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(RestoreDatabaseRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases:restore", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases:restore",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RestoreProjectsInstancesDatabasesRequest>;
 
@@ -3801,7 +4994,12 @@ export const RestoreProjectsInstancesDatabasesResponse = Operation;
 export type RestoreProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Create a new database by restoring from a completed backup. The new database must be in the same project and in an instance with the same instance configuration as the instance containing the backup. The returned database long-running operation has a name of the format `projects//instances//databases//operations/`, and can be used to track the progress of the operation, and to cancel it. The metadata field type is RestoreDatabaseMetadata. The response type is Database, if successful. Cancelling the returned operation will stop the restore and delete the database. There can be only one database being restored into an instance at a time. Once the restore operation completes, a new restore operation can be initiated, without waiting for the optimize operation associated with the first restore to complete. */
-export const restoreProjectsInstancesDatabases: API.OperationMethod<RestoreProjectsInstancesDatabasesRequest, RestoreProjectsInstancesDatabasesResponse, RestoreProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restoreProjectsInstancesDatabases: API.OperationMethod<
+  RestoreProjectsInstancesDatabasesRequest,
+  RestoreProjectsInstancesDatabasesResponse,
+  RestoreProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestoreProjectsInstancesDatabasesRequest,
   output: RestoreProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3818,7 +5016,11 @@ export const GetIamPolicyProjectsInstancesDatabasesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsInstancesDatabasesRequest>;
 
@@ -3828,7 +5030,12 @@ export const GetIamPolicyProjectsInstancesDatabasesResponse = Policy;
 export type GetIamPolicyProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Gets the access control policy for a database or backup resource. Returns an empty policy if a database or backup exists but does not have a policy set. Authorization requires `spanner.databases.getIamPolicy` permission on resource. For backups, authorization requires `spanner.backups.getIamPolicy` permission on resource. For backup schedules, authorization requires `spanner.backupSchedules.getIamPolicy` permission on resource. */
-export const getIamPolicyProjectsInstancesDatabases: API.OperationMethod<GetIamPolicyProjectsInstancesDatabasesRequest, GetIamPolicyProjectsInstancesDatabasesResponse, GetIamPolicyProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsInstancesDatabases: API.OperationMethod<
+  GetIamPolicyProjectsInstancesDatabasesRequest,
+  GetIamPolicyProjectsInstancesDatabasesResponse,
+  GetIamPolicyProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesDatabasesRequest,
   output: GetIamPolicyProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3842,7 +5049,10 @@ export interface GetProjectsInstancesDatabasesRequest {
 export const GetProjectsInstancesDatabasesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesDatabasesRequest>;
 
@@ -3852,7 +5062,12 @@ export const GetProjectsInstancesDatabasesResponse = Database;
 export type GetProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Gets the state of a Cloud Spanner database. */
-export const getProjectsInstancesDatabases: API.OperationMethod<GetProjectsInstancesDatabasesRequest, GetProjectsInstancesDatabasesResponse, GetProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesDatabases: API.OperationMethod<
+  GetProjectsInstancesDatabasesRequest,
+  GetProjectsInstancesDatabasesResponse,
+  GetProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesDatabasesRequest,
   output: GetProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3869,7 +5084,11 @@ export const UpdateDdlProjectsInstancesDatabasesRequest = Schema.Struct({
   database: Schema.String.pipe(T.HttpPath("database")),
   body: Schema.optional(UpdateDatabaseDdlRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/ddl", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/ddl",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateDdlProjectsInstancesDatabasesRequest>;
 
@@ -3879,7 +5098,12 @@ export const UpdateDdlProjectsInstancesDatabasesResponse = Operation;
 export type UpdateDdlProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Updates the schema of a Cloud Spanner database by creating/altering/dropping tables, columns, indexes, etc. The returned long-running operation will have a name of the format `/operations/` and can be used to track execution of the schema changes. The metadata field type is UpdateDatabaseDdlMetadata. The operation has no response. */
-export const updateDdlProjectsInstancesDatabases: API.OperationMethod<UpdateDdlProjectsInstancesDatabasesRequest, UpdateDdlProjectsInstancesDatabasesResponse, UpdateDdlProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateDdlProjectsInstancesDatabases: API.OperationMethod<
+  UpdateDdlProjectsInstancesDatabasesRequest,
+  UpdateDdlProjectsInstancesDatabasesResponse,
+  UpdateDdlProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateDdlProjectsInstancesDatabasesRequest,
   output: UpdateDdlProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3896,7 +5120,11 @@ export const CreateProjectsInstancesDatabasesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateDatabaseRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsInstancesDatabasesRequest>;
 
@@ -3906,7 +5134,12 @@ export const CreateProjectsInstancesDatabasesResponse = Operation;
 export type CreateProjectsInstancesDatabasesError = DefaultErrors;
 
 /** Creates a new Spanner database and starts to prepare it for serving. The returned long-running operation will have a name of the format `/operations/` and can be used to track preparation of the database. The metadata field type is CreateDatabaseMetadata. The response field type is Database, if successful. */
-export const createProjectsInstancesDatabases: API.OperationMethod<CreateProjectsInstancesDatabasesRequest, CreateProjectsInstancesDatabasesResponse, CreateProjectsInstancesDatabasesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstancesDatabases: API.OperationMethod<
+  CreateProjectsInstancesDatabasesRequest,
+  CreateProjectsInstancesDatabasesResponse,
+  CreateProjectsInstancesDatabasesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstancesDatabasesRequest,
   output: CreateProjectsInstancesDatabasesResponse,
   errors: [],
@@ -3919,21 +5152,34 @@ export interface TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesReques
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/databaseRoles/{databaseRolesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest>;
+export const TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/databaseRoles/{databaseRolesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest>;
 
-export type TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesError = DefaultErrors;
+export type TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesError =
+  DefaultErrors;
 
 /** Returns permissions that the caller has on the specified database or backup resource. Attempting this RPC on a non-existent Cloud Spanner database will result in a NOT_FOUND error if the user has `spanner.databases.list` permission on the containing Cloud Spanner instance. Otherwise returns an empty set of permissions. Calling this method on a backup that does not exist will result in a NOT_FOUND error if the user has `spanner.backups.list` permission on the containing instance. Calling this method on a backup schedule that does not exist will result in a NOT_FOUND error if the user has `spanner.backupSchedules.list` permission on the containing database. */
-export const testIamPermissionsProjectsInstancesDatabasesDatabaseRoles: API.OperationMethod<TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest, TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesResponse, TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsInstancesDatabasesDatabaseRoles: API.OperationMethod<
+  TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest,
+  TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesResponse,
+  TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest,
   output: TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesResponse,
   errors: [],
@@ -3948,22 +5194,34 @@ export interface ListProjectsInstancesDatabasesDatabaseRolesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsInstancesDatabasesDatabaseRolesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/databaseRoles" }),
+export const ListProjectsInstancesDatabasesDatabaseRolesRequest = Schema.Struct(
+  {
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/databaseRoles",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesDatabasesDatabaseRolesRequest>;
 
-export type ListProjectsInstancesDatabasesDatabaseRolesResponse = ListDatabaseRolesResponse;
-export const ListProjectsInstancesDatabasesDatabaseRolesResponse = ListDatabaseRolesResponse;
+export type ListProjectsInstancesDatabasesDatabaseRolesResponse =
+  ListDatabaseRolesResponse;
+export const ListProjectsInstancesDatabasesDatabaseRolesResponse =
+  ListDatabaseRolesResponse;
 
 export type ListProjectsInstancesDatabasesDatabaseRolesError = DefaultErrors;
 
 /** Lists Cloud Spanner database roles. */
-export const listProjectsInstancesDatabasesDatabaseRoles: API.PaginatedOperationMethod<ListProjectsInstancesDatabasesDatabaseRolesRequest, ListProjectsInstancesDatabasesDatabaseRolesResponse, ListProjectsInstancesDatabasesDatabaseRolesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesDatabasesDatabaseRoles: API.PaginatedOperationMethod<
+  ListProjectsInstancesDatabasesDatabaseRolesRequest,
+  ListProjectsInstancesDatabasesDatabaseRolesResponse,
+  ListProjectsInstancesDatabasesDatabaseRolesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesDatabasesDatabaseRolesRequest,
   output: ListProjectsInstancesDatabasesDatabaseRolesResponse,
   errors: [],
@@ -3980,21 +5238,33 @@ export interface BatchWriteProjectsInstancesDatabasesSessionsRequest {
   body?: BatchWriteRequest;
 }
 
-export const BatchWriteProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(BatchWriteRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:batchWrite", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BatchWriteProjectsInstancesDatabasesSessionsRequest>;
+export const BatchWriteProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(BatchWriteRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:batchWrite",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchWriteProjectsInstancesDatabasesSessionsRequest>;
 
-export type BatchWriteProjectsInstancesDatabasesSessionsResponse = BatchWriteResponse;
-export const BatchWriteProjectsInstancesDatabasesSessionsResponse = BatchWriteResponse;
+export type BatchWriteProjectsInstancesDatabasesSessionsResponse =
+  BatchWriteResponse;
+export const BatchWriteProjectsInstancesDatabasesSessionsResponse =
+  BatchWriteResponse;
 
 export type BatchWriteProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Batches the supplied mutation groups in a collection of efficient transactions. All mutations in a group are committed atomically. However, mutations across groups can be committed non-atomically in an unspecified order and thus, they must be independent of each other. Partial failure is possible, that is, some groups might have been committed successfully, while some might have failed. The results of individual batches are streamed into the response as the batches are applied. `BatchWrite` requests are not replay protected, meaning that each mutation group can be applied more than once. Replays of non-idempotent mutations can have undesirable effects. For example, replays of an insert mutation can produce an already exists error or if you use generated or commit timestamp-based keys, it can result in additional rows being added to the mutation's table. We recommend structuring your mutation groups to be idempotent to avoid this issue. */
-export const batchWriteProjectsInstancesDatabasesSessions: API.OperationMethod<BatchWriteProjectsInstancesDatabasesSessionsRequest, BatchWriteProjectsInstancesDatabasesSessionsResponse, BatchWriteProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchWriteProjectsInstancesDatabasesSessions: API.OperationMethod<
+  BatchWriteProjectsInstancesDatabasesSessionsRequest,
+  BatchWriteProjectsInstancesDatabasesSessionsResponse,
+  BatchWriteProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchWriteProjectsInstancesDatabasesSessionsRequest,
   output: BatchWriteProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4007,21 +5277,33 @@ export interface BatchCreateProjectsInstancesDatabasesSessionsRequest {
   body?: BatchCreateSessionsRequest;
 }
 
-export const BatchCreateProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(BatchCreateSessionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions:batchCreate", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BatchCreateProjectsInstancesDatabasesSessionsRequest>;
+export const BatchCreateProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(BatchCreateSessionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions:batchCreate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchCreateProjectsInstancesDatabasesSessionsRequest>;
 
-export type BatchCreateProjectsInstancesDatabasesSessionsResponse = BatchCreateSessionsResponse;
-export const BatchCreateProjectsInstancesDatabasesSessionsResponse = BatchCreateSessionsResponse;
+export type BatchCreateProjectsInstancesDatabasesSessionsResponse =
+  BatchCreateSessionsResponse;
+export const BatchCreateProjectsInstancesDatabasesSessionsResponse =
+  BatchCreateSessionsResponse;
 
 export type BatchCreateProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Creates multiple new sessions. This API can be used to initialize a session cache on the clients. See https://goo.gl/TgSFN2 for best practices on session cache management. */
-export const batchCreateProjectsInstancesDatabasesSessions: API.OperationMethod<BatchCreateProjectsInstancesDatabasesSessionsRequest, BatchCreateProjectsInstancesDatabasesSessionsResponse, BatchCreateProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchCreateProjectsInstancesDatabasesSessions: API.OperationMethod<
+  BatchCreateProjectsInstancesDatabasesSessionsRequest,
+  BatchCreateProjectsInstancesDatabasesSessionsResponse,
+  BatchCreateProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchCreateProjectsInstancesDatabasesSessionsRequest,
   output: BatchCreateProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4034,21 +5316,34 @@ export interface ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest {
   body?: ExecuteBatchDmlRequest;
 }
 
-export const ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(ExecuteBatchDmlRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:executeBatchDml", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest>;
+export const ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(ExecuteBatchDmlRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:executeBatchDml",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest>;
 
-export type ExecuteBatchDmlProjectsInstancesDatabasesSessionsResponse = ExecuteBatchDmlResponse;
-export const ExecuteBatchDmlProjectsInstancesDatabasesSessionsResponse = ExecuteBatchDmlResponse;
+export type ExecuteBatchDmlProjectsInstancesDatabasesSessionsResponse =
+  ExecuteBatchDmlResponse;
+export const ExecuteBatchDmlProjectsInstancesDatabasesSessionsResponse =
+  ExecuteBatchDmlResponse;
 
-export type ExecuteBatchDmlProjectsInstancesDatabasesSessionsError = DefaultErrors;
+export type ExecuteBatchDmlProjectsInstancesDatabasesSessionsError =
+  DefaultErrors;
 
 /** Executes a batch of SQL DML statements. This method allows many statements to be run with lower latency than submitting them sequentially with ExecuteSql. Statements are executed in sequential order. A request can succeed even if a statement fails. The ExecuteBatchDmlResponse.status field in the response provides information about the statement that failed. Clients must inspect this field to determine whether an error occurred. Execution stops after the first failed statement; the remaining statements are not executed. */
-export const executeBatchDmlProjectsInstancesDatabasesSessions: API.OperationMethod<ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest, ExecuteBatchDmlProjectsInstancesDatabasesSessionsResponse, ExecuteBatchDmlProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const executeBatchDmlProjectsInstancesDatabasesSessions: API.OperationMethod<
+  ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest,
+  ExecuteBatchDmlProjectsInstancesDatabasesSessionsResponse,
+  ExecuteBatchDmlProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest,
   output: ExecuteBatchDmlProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4061,21 +5356,34 @@ export interface PartitionQueryProjectsInstancesDatabasesSessionsRequest {
   body?: PartitionQueryRequest;
 }
 
-export const PartitionQueryProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(PartitionQueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:partitionQuery", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PartitionQueryProjectsInstancesDatabasesSessionsRequest>;
+export const PartitionQueryProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(PartitionQueryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:partitionQuery",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PartitionQueryProjectsInstancesDatabasesSessionsRequest>;
 
-export type PartitionQueryProjectsInstancesDatabasesSessionsResponse = PartitionResponse;
-export const PartitionQueryProjectsInstancesDatabasesSessionsResponse = PartitionResponse;
+export type PartitionQueryProjectsInstancesDatabasesSessionsResponse =
+  PartitionResponse;
+export const PartitionQueryProjectsInstancesDatabasesSessionsResponse =
+  PartitionResponse;
 
-export type PartitionQueryProjectsInstancesDatabasesSessionsError = DefaultErrors;
+export type PartitionQueryProjectsInstancesDatabasesSessionsError =
+  DefaultErrors;
 
 /** Creates a set of partition tokens that can be used to execute a query operation in parallel. Each of the returned partition tokens can be used by ExecuteStreamingSql to specify a subset of the query result to read. The same session and read-only transaction must be used by the `PartitionQueryRequest` used to create the partition tokens and the `ExecuteSqlRequests` that use the partition tokens. Partition tokens become invalid when the session used to create them is deleted, is idle for too long, begins a new transaction, or becomes too old. When any of these happen, it isn't possible to resume the query, and the whole operation must be restarted from the beginning. */
-export const partitionQueryProjectsInstancesDatabasesSessions: API.OperationMethod<PartitionQueryProjectsInstancesDatabasesSessionsRequest, PartitionQueryProjectsInstancesDatabasesSessionsResponse, PartitionQueryProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const partitionQueryProjectsInstancesDatabasesSessions: API.OperationMethod<
+  PartitionQueryProjectsInstancesDatabasesSessionsRequest,
+  PartitionQueryProjectsInstancesDatabasesSessionsResponse,
+  PartitionQueryProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PartitionQueryProjectsInstancesDatabasesSessionsRequest,
   output: PartitionQueryProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4089,7 +5397,10 @@ export interface GetProjectsInstancesDatabasesSessionsRequest {
 export const GetProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesDatabasesSessionsRequest>;
 
@@ -4099,7 +5410,12 @@ export const GetProjectsInstancesDatabasesSessionsResponse = Session;
 export type GetProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Gets a session. Returns `NOT_FOUND` if the session doesn't exist. This is mainly useful for determining whether a session is still alive. */
-export const getProjectsInstancesDatabasesSessions: API.OperationMethod<GetProjectsInstancesDatabasesSessionsRequest, GetProjectsInstancesDatabasesSessionsResponse, GetProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesDatabasesSessions: API.OperationMethod<
+  GetProjectsInstancesDatabasesSessionsRequest,
+  GetProjectsInstancesDatabasesSessionsResponse,
+  GetProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesDatabasesSessionsRequest,
   output: GetProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4116,7 +5432,11 @@ export const RollbackProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   session: Schema.String.pipe(T.HttpPath("session")),
   body: Schema.optional(RollbackRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:rollback", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:rollback",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RollbackProjectsInstancesDatabasesSessionsRequest>;
 
@@ -4126,7 +5446,12 @@ export const RollbackProjectsInstancesDatabasesSessionsResponse = Empty;
 export type RollbackProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Rolls back a transaction, releasing any locks it holds. It's a good idea to call this for any transaction that includes one or more Read or ExecuteSql requests and ultimately decides not to commit. `Rollback` returns `OK` if it successfully aborts the transaction, the transaction was already aborted, or the transaction isn't found. `Rollback` never returns `ABORTED`. */
-export const rollbackProjectsInstancesDatabasesSessions: API.OperationMethod<RollbackProjectsInstancesDatabasesSessionsRequest, RollbackProjectsInstancesDatabasesSessionsResponse, RollbackProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rollbackProjectsInstancesDatabasesSessions: API.OperationMethod<
+  RollbackProjectsInstancesDatabasesSessionsRequest,
+  RollbackProjectsInstancesDatabasesSessionsResponse,
+  RollbackProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RollbackProjectsInstancesDatabasesSessionsRequest,
   output: RollbackProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4143,7 +5468,11 @@ export const CreateProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   database: Schema.String.pipe(T.HttpPath("database")),
   body: Schema.optional(CreateSessionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsInstancesDatabasesSessionsRequest>;
 
@@ -4153,7 +5482,12 @@ export const CreateProjectsInstancesDatabasesSessionsResponse = Session;
 export type CreateProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Creates a new session. A session can be used to perform transactions that read and/or modify data in a Cloud Spanner database. Sessions are meant to be reused for many consecutive transactions. Sessions can only execute one transaction at a time. To execute multiple concurrent read-write/write-only transactions, create multiple sessions. Note that standalone reads and queries use a transaction internally, and count toward the one transaction limit. Active sessions use additional server resources, so it's a good idea to delete idle and unneeded sessions. Aside from explicit deletes, Cloud Spanner can delete sessions when no operations are sent for more than an hour. If a session is deleted, requests to it return `NOT_FOUND`. Idle sessions can be kept alive by sending a trivial SQL query periodically, for example, `"SELECT 1"`. */
-export const createProjectsInstancesDatabasesSessions: API.OperationMethod<CreateProjectsInstancesDatabasesSessionsRequest, CreateProjectsInstancesDatabasesSessionsResponse, CreateProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstancesDatabasesSessions: API.OperationMethod<
+  CreateProjectsInstancesDatabasesSessionsRequest,
+  CreateProjectsInstancesDatabasesSessionsResponse,
+  CreateProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstancesDatabasesSessionsRequest,
   output: CreateProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4170,7 +5504,11 @@ export const AdapterProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AdapterSession).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions:adapter", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions:adapter",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AdapterProjectsInstancesDatabasesSessionsRequest>;
 
@@ -4180,7 +5518,12 @@ export const AdapterProjectsInstancesDatabasesSessionsResponse = AdapterSession;
 export type AdapterProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Creates a new session to be used for requests made by the adapter. A session identifies a specific incarnation of a database resource and is meant to be reused across many `AdaptMessage` calls. */
-export const adapterProjectsInstancesDatabasesSessions: API.OperationMethod<AdapterProjectsInstancesDatabasesSessionsRequest, AdapterProjectsInstancesDatabasesSessionsResponse, AdapterProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const adapterProjectsInstancesDatabasesSessions: API.OperationMethod<
+  AdapterProjectsInstancesDatabasesSessionsRequest,
+  AdapterProjectsInstancesDatabasesSessionsResponse,
+  AdapterProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AdapterProjectsInstancesDatabasesSessionsRequest,
   output: AdapterProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4193,21 +5536,34 @@ export interface ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest {
   body?: ExecuteSqlRequest;
 }
 
-export const ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(ExecuteSqlRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:executeStreamingSql", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest>;
+export const ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(ExecuteSqlRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:executeStreamingSql",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest>;
 
-export type ExecuteStreamingSqlProjectsInstancesDatabasesSessionsResponse = PartialResultSet;
-export const ExecuteStreamingSqlProjectsInstancesDatabasesSessionsResponse = PartialResultSet;
+export type ExecuteStreamingSqlProjectsInstancesDatabasesSessionsResponse =
+  PartialResultSet;
+export const ExecuteStreamingSqlProjectsInstancesDatabasesSessionsResponse =
+  PartialResultSet;
 
-export type ExecuteStreamingSqlProjectsInstancesDatabasesSessionsError = DefaultErrors;
+export type ExecuteStreamingSqlProjectsInstancesDatabasesSessionsError =
+  DefaultErrors;
 
 /** Like ExecuteSql, except returns the result set as a stream. Unlike ExecuteSql, there is no limit on the size of the returned result set. However, no individual row in the result set can exceed 100 MiB, and no column value can exceed 10 MiB. The query string can be SQL or [Graph Query Language (GQL)](https://cloud.google.com/spanner/docs/reference/standard-sql/graph-intro). */
-export const executeStreamingSqlProjectsInstancesDatabasesSessions: API.OperationMethod<ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest, ExecuteStreamingSqlProjectsInstancesDatabasesSessionsResponse, ExecuteStreamingSqlProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const executeStreamingSqlProjectsInstancesDatabasesSessions: API.OperationMethod<
+  ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest,
+  ExecuteStreamingSqlProjectsInstancesDatabasesSessionsResponse,
+  ExecuteStreamingSqlProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest,
   output: ExecuteStreamingSqlProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4220,21 +5576,34 @@ export interface PartitionReadProjectsInstancesDatabasesSessionsRequest {
   body?: PartitionReadRequest;
 }
 
-export const PartitionReadProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(PartitionReadRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:partitionRead", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PartitionReadProjectsInstancesDatabasesSessionsRequest>;
+export const PartitionReadProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(PartitionReadRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:partitionRead",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PartitionReadProjectsInstancesDatabasesSessionsRequest>;
 
-export type PartitionReadProjectsInstancesDatabasesSessionsResponse = PartitionResponse;
-export const PartitionReadProjectsInstancesDatabasesSessionsResponse = PartitionResponse;
+export type PartitionReadProjectsInstancesDatabasesSessionsResponse =
+  PartitionResponse;
+export const PartitionReadProjectsInstancesDatabasesSessionsResponse =
+  PartitionResponse;
 
-export type PartitionReadProjectsInstancesDatabasesSessionsError = DefaultErrors;
+export type PartitionReadProjectsInstancesDatabasesSessionsError =
+  DefaultErrors;
 
 /** Creates a set of partition tokens that can be used to execute a read operation in parallel. Each of the returned partition tokens can be used by StreamingRead to specify a subset of the read result to read. The same session and read-only transaction must be used by the `PartitionReadRequest` used to create the partition tokens and the `ReadRequests` that use the partition tokens. There are no ordering guarantees on rows returned among the returned partition tokens, or even within each individual `StreamingRead` call issued with a `partition_token`. Partition tokens become invalid when the session used to create them is deleted, is idle for too long, begins a new transaction, or becomes too old. When any of these happen, it isn't possible to resume the read, and the whole operation must be restarted from the beginning. */
-export const partitionReadProjectsInstancesDatabasesSessions: API.OperationMethod<PartitionReadProjectsInstancesDatabasesSessionsRequest, PartitionReadProjectsInstancesDatabasesSessionsResponse, PartitionReadProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const partitionReadProjectsInstancesDatabasesSessions: API.OperationMethod<
+  PartitionReadProjectsInstancesDatabasesSessionsRequest,
+  PartitionReadProjectsInstancesDatabasesSessionsResponse,
+  PartitionReadProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PartitionReadProjectsInstancesDatabasesSessionsRequest,
   output: PartitionReadProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4247,21 +5616,34 @@ export interface StreamingReadProjectsInstancesDatabasesSessionsRequest {
   body?: ReadRequest;
 }
 
-export const StreamingReadProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(ReadRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:streamingRead", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<StreamingReadProjectsInstancesDatabasesSessionsRequest>;
+export const StreamingReadProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(ReadRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:streamingRead",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StreamingReadProjectsInstancesDatabasesSessionsRequest>;
 
-export type StreamingReadProjectsInstancesDatabasesSessionsResponse = PartialResultSet;
-export const StreamingReadProjectsInstancesDatabasesSessionsResponse = PartialResultSet;
+export type StreamingReadProjectsInstancesDatabasesSessionsResponse =
+  PartialResultSet;
+export const StreamingReadProjectsInstancesDatabasesSessionsResponse =
+  PartialResultSet;
 
-export type StreamingReadProjectsInstancesDatabasesSessionsError = DefaultErrors;
+export type StreamingReadProjectsInstancesDatabasesSessionsError =
+  DefaultErrors;
 
 /** Like Read, except returns the result set as a stream. Unlike Read, there is no limit on the size of the returned result set. However, no individual row in the result set can exceed 100 MiB, and no column value can exceed 10 MiB. */
-export const streamingReadProjectsInstancesDatabasesSessions: API.OperationMethod<StreamingReadProjectsInstancesDatabasesSessionsRequest, StreamingReadProjectsInstancesDatabasesSessionsResponse, StreamingReadProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const streamingReadProjectsInstancesDatabasesSessions: API.OperationMethod<
+  StreamingReadProjectsInstancesDatabasesSessionsRequest,
+  StreamingReadProjectsInstancesDatabasesSessionsResponse,
+  StreamingReadProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StreamingReadProjectsInstancesDatabasesSessionsRequest,
   output: StreamingReadProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4274,21 +5656,34 @@ export interface BeginTransactionProjectsInstancesDatabasesSessionsRequest {
   body?: BeginTransactionRequest;
 }
 
-export const BeginTransactionProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(BeginTransactionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:beginTransaction", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BeginTransactionProjectsInstancesDatabasesSessionsRequest>;
+export const BeginTransactionProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(BeginTransactionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:beginTransaction",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BeginTransactionProjectsInstancesDatabasesSessionsRequest>;
 
-export type BeginTransactionProjectsInstancesDatabasesSessionsResponse = Transaction;
-export const BeginTransactionProjectsInstancesDatabasesSessionsResponse = Transaction;
+export type BeginTransactionProjectsInstancesDatabasesSessionsResponse =
+  Transaction;
+export const BeginTransactionProjectsInstancesDatabasesSessionsResponse =
+  Transaction;
 
-export type BeginTransactionProjectsInstancesDatabasesSessionsError = DefaultErrors;
+export type BeginTransactionProjectsInstancesDatabasesSessionsError =
+  DefaultErrors;
 
 /** Begins a new transaction. This step can often be skipped: Read, ExecuteSql and Commit can begin a new transaction as a side-effect. */
-export const beginTransactionProjectsInstancesDatabasesSessions: API.OperationMethod<BeginTransactionProjectsInstancesDatabasesSessionsRequest, BeginTransactionProjectsInstancesDatabasesSessionsResponse, BeginTransactionProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const beginTransactionProjectsInstancesDatabasesSessions: API.OperationMethod<
+  BeginTransactionProjectsInstancesDatabasesSessionsRequest,
+  BeginTransactionProjectsInstancesDatabasesSessionsResponse,
+  BeginTransactionProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BeginTransactionProjectsInstancesDatabasesSessionsRequest,
   output: BeginTransactionProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4305,7 +5700,11 @@ export const ReadProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   session: Schema.String.pipe(T.HttpPath("session")),
   body: Schema.optional(ReadRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:read", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:read",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReadProjectsInstancesDatabasesSessionsRequest>;
 
@@ -4315,7 +5714,12 @@ export const ReadProjectsInstancesDatabasesSessionsResponse = ResultSet;
 export type ReadProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Reads rows from the database using key lookups and scans, as a simple key/value style alternative to ExecuteSql. This method can't be used to return a result set larger than 10 MiB; if the read matches more data than that, the read fails with a `FAILED_PRECONDITION` error. Reads inside read-write transactions might return `ABORTED`. If this occurs, the application should restart the transaction from the beginning. See Transaction for more details. Larger result sets can be yielded in streaming fashion by calling StreamingRead instead. */
-export const readProjectsInstancesDatabasesSessions: API.OperationMethod<ReadProjectsInstancesDatabasesSessionsRequest, ReadProjectsInstancesDatabasesSessionsResponse, ReadProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const readProjectsInstancesDatabasesSessions: API.OperationMethod<
+  ReadProjectsInstancesDatabasesSessionsRequest,
+  ReadProjectsInstancesDatabasesSessionsResponse,
+  ReadProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReadProjectsInstancesDatabasesSessionsRequest,
   output: ReadProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4328,13 +5732,18 @@ export interface ExecuteSqlProjectsInstancesDatabasesSessionsRequest {
   body?: ExecuteSqlRequest;
 }
 
-export const ExecuteSqlProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(ExecuteSqlRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:executeSql", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ExecuteSqlProjectsInstancesDatabasesSessionsRequest>;
+export const ExecuteSqlProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(ExecuteSqlRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:executeSql",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteSqlProjectsInstancesDatabasesSessionsRequest>;
 
 export type ExecuteSqlProjectsInstancesDatabasesSessionsResponse = ResultSet;
 export const ExecuteSqlProjectsInstancesDatabasesSessionsResponse = ResultSet;
@@ -4342,7 +5751,12 @@ export const ExecuteSqlProjectsInstancesDatabasesSessionsResponse = ResultSet;
 export type ExecuteSqlProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Executes an SQL statement, returning all results in a single reply. This method can't be used to return a result set larger than 10 MiB; if the query yields more data than that, the query fails with a `FAILED_PRECONDITION` error. Operations inside read-write transactions might return `ABORTED`. If this occurs, the application should restart the transaction from the beginning. See Transaction for more details. Larger result sets can be fetched in streaming fashion by calling ExecuteStreamingSql instead. The query string can be SQL or [Graph Query Language (GQL)](https://cloud.google.com/spanner/docs/reference/standard-sql/graph-intro). */
-export const executeSqlProjectsInstancesDatabasesSessions: API.OperationMethod<ExecuteSqlProjectsInstancesDatabasesSessionsRequest, ExecuteSqlProjectsInstancesDatabasesSessionsResponse, ExecuteSqlProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const executeSqlProjectsInstancesDatabasesSessions: API.OperationMethod<
+  ExecuteSqlProjectsInstancesDatabasesSessionsRequest,
+  ExecuteSqlProjectsInstancesDatabasesSessionsResponse,
+  ExecuteSqlProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExecuteSqlProjectsInstancesDatabasesSessionsRequest,
   output: ExecuteSqlProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4359,7 +5773,11 @@ export const CommitProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   session: Schema.String.pipe(T.HttpPath("session")),
   body: Schema.optional(CommitRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:commit", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:commit",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CommitProjectsInstancesDatabasesSessionsRequest>;
 
@@ -4369,7 +5787,12 @@ export const CommitProjectsInstancesDatabasesSessionsResponse = CommitResponse;
 export type CommitProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Commits a transaction. The request includes the mutations to be applied to rows in the database. `Commit` might return an `ABORTED` error. This can occur at any time; commonly, the cause is conflicts with concurrent transactions. However, it can also happen for a variety of other reasons. If `Commit` returns `ABORTED`, the caller should retry the transaction from the beginning, reusing the same session. On very rare occasions, `Commit` might return `UNKNOWN`. This can happen, for example, if the client job experiences a 1+ hour networking failure. At that point, Cloud Spanner has lost track of the transaction outcome and we recommend that you perform another read from the database to see the state of things as they are now. */
-export const commitProjectsInstancesDatabasesSessions: API.OperationMethod<CommitProjectsInstancesDatabasesSessionsRequest, CommitProjectsInstancesDatabasesSessionsResponse, CommitProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const commitProjectsInstancesDatabasesSessions: API.OperationMethod<
+  CommitProjectsInstancesDatabasesSessionsRequest,
+  CommitProjectsInstancesDatabasesSessionsResponse,
+  CommitProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CommitProjectsInstancesDatabasesSessionsRequest,
   output: CommitProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4382,21 +5805,33 @@ export interface AdaptMessageProjectsInstancesDatabasesSessionsRequest {
   body?: AdaptMessageRequest;
 }
 
-export const AdaptMessageProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AdaptMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:adaptMessage", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AdaptMessageProjectsInstancesDatabasesSessionsRequest>;
+export const AdaptMessageProjectsInstancesDatabasesSessionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AdaptMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}:adaptMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AdaptMessageProjectsInstancesDatabasesSessionsRequest>;
 
-export type AdaptMessageProjectsInstancesDatabasesSessionsResponse = AdaptMessageResponse;
-export const AdaptMessageProjectsInstancesDatabasesSessionsResponse = AdaptMessageResponse;
+export type AdaptMessageProjectsInstancesDatabasesSessionsResponse =
+  AdaptMessageResponse;
+export const AdaptMessageProjectsInstancesDatabasesSessionsResponse =
+  AdaptMessageResponse;
 
 export type AdaptMessageProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Handles a single message from the client and returns the result as a stream. The server will interpret the message frame and respond with message frames to the client. */
-export const adaptMessageProjectsInstancesDatabasesSessions: API.OperationMethod<AdaptMessageProjectsInstancesDatabasesSessionsRequest, AdaptMessageProjectsInstancesDatabasesSessionsResponse, AdaptMessageProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const adaptMessageProjectsInstancesDatabasesSessions: API.OperationMethod<
+  AdaptMessageProjectsInstancesDatabasesSessionsRequest,
+  AdaptMessageProjectsInstancesDatabasesSessionsResponse,
+  AdaptMessageProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AdaptMessageProjectsInstancesDatabasesSessionsRequest,
   output: AdaptMessageProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4410,7 +5845,10 @@ export interface DeleteProjectsInstancesDatabasesSessionsRequest {
 export const DeleteProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions/{sessionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstancesDatabasesSessionsRequest>;
 
@@ -4420,7 +5858,12 @@ export const DeleteProjectsInstancesDatabasesSessionsResponse = Empty;
 export type DeleteProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Ends a session, releasing server resources associated with it. This asynchronously triggers the cancellation of any operations that are running with this session. */
-export const deleteProjectsInstancesDatabasesSessions: API.OperationMethod<DeleteProjectsInstancesDatabasesSessionsRequest, DeleteProjectsInstancesDatabasesSessionsResponse, DeleteProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesDatabasesSessions: API.OperationMethod<
+  DeleteProjectsInstancesDatabasesSessionsRequest,
+  DeleteProjectsInstancesDatabasesSessionsResponse,
+  DeleteProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesDatabasesSessionsRequest,
   output: DeleteProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4443,17 +5886,27 @@ export const ListProjectsInstancesDatabasesSessionsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   database: Schema.String.pipe(T.HttpPath("database")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/sessions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesDatabasesSessionsRequest>;
 
-export type ListProjectsInstancesDatabasesSessionsResponse = ListSessionsResponse;
-export const ListProjectsInstancesDatabasesSessionsResponse = ListSessionsResponse;
+export type ListProjectsInstancesDatabasesSessionsResponse =
+  ListSessionsResponse;
+export const ListProjectsInstancesDatabasesSessionsResponse =
+  ListSessionsResponse;
 
 export type ListProjectsInstancesDatabasesSessionsError = DefaultErrors;
 
 /** Lists all sessions in a given database. */
-export const listProjectsInstancesDatabasesSessions: API.PaginatedOperationMethod<ListProjectsInstancesDatabasesSessionsRequest, ListProjectsInstancesDatabasesSessionsResponse, ListProjectsInstancesDatabasesSessionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesDatabasesSessions: API.PaginatedOperationMethod<
+  ListProjectsInstancesDatabasesSessionsRequest,
+  ListProjectsInstancesDatabasesSessionsResponse,
+  ListProjectsInstancesDatabasesSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesDatabasesSessionsRequest,
   output: ListProjectsInstancesDatabasesSessionsResponse,
   errors: [],
@@ -4471,7 +5924,10 @@ export interface GetProjectsInstancesDatabasesOperationsRequest {
 export const GetProjectsInstancesDatabasesOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesDatabasesOperationsRequest>;
 
@@ -4481,7 +5937,12 @@ export const GetProjectsInstancesDatabasesOperationsResponse = Operation;
 export type GetProjectsInstancesDatabasesOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsInstancesDatabasesOperations: API.OperationMethod<GetProjectsInstancesDatabasesOperationsRequest, GetProjectsInstancesDatabasesOperationsResponse, GetProjectsInstancesDatabasesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesDatabasesOperations: API.OperationMethod<
+  GetProjectsInstancesDatabasesOperationsRequest,
+  GetProjectsInstancesDatabasesOperationsResponse,
+  GetProjectsInstancesDatabasesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesDatabasesOperationsRequest,
   output: GetProjectsInstancesDatabasesOperationsResponse,
   errors: [],
@@ -4501,23 +5962,35 @@ export interface ListProjectsInstancesDatabasesOperationsRequest {
 }
 
 export const ListProjectsInstancesDatabasesOperationsRequest = Schema.Struct({
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   name: Schema.String.pipe(T.HttpPath("name")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesDatabasesOperationsRequest>;
 
-export type ListProjectsInstancesDatabasesOperationsResponse = ListOperationsResponse;
-export const ListProjectsInstancesDatabasesOperationsResponse = ListOperationsResponse;
+export type ListProjectsInstancesDatabasesOperationsResponse =
+  ListOperationsResponse;
+export const ListProjectsInstancesDatabasesOperationsResponse =
+  ListOperationsResponse;
 
 export type ListProjectsInstancesDatabasesOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsInstancesDatabasesOperations: API.PaginatedOperationMethod<ListProjectsInstancesDatabasesOperationsRequest, ListProjectsInstancesDatabasesOperationsResponse, ListProjectsInstancesDatabasesOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesDatabasesOperations: API.PaginatedOperationMethod<
+  ListProjectsInstancesDatabasesOperationsRequest,
+  ListProjectsInstancesDatabasesOperationsResponse,
+  ListProjectsInstancesDatabasesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesDatabasesOperationsRequest,
   output: ListProjectsInstancesDatabasesOperationsResponse,
   errors: [],
@@ -4535,7 +6008,11 @@ export interface CancelProjectsInstancesDatabasesOperationsRequest {
 export const CancelProjectsInstancesDatabasesOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsInstancesDatabasesOperationsRequest>;
 
@@ -4545,7 +6022,12 @@ export const CancelProjectsInstancesDatabasesOperationsResponse = Empty;
 export type CancelProjectsInstancesDatabasesOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsInstancesDatabasesOperations: API.OperationMethod<CancelProjectsInstancesDatabasesOperationsRequest, CancelProjectsInstancesDatabasesOperationsResponse, CancelProjectsInstancesDatabasesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsInstancesDatabasesOperations: API.OperationMethod<
+  CancelProjectsInstancesDatabasesOperationsRequest,
+  CancelProjectsInstancesDatabasesOperationsResponse,
+  CancelProjectsInstancesDatabasesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsInstancesDatabasesOperationsRequest,
   output: CancelProjectsInstancesDatabasesOperationsResponse,
   errors: [],
@@ -4559,7 +6041,10 @@ export interface DeleteProjectsInstancesDatabasesOperationsRequest {
 export const DeleteProjectsInstancesDatabasesOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstancesDatabasesOperationsRequest>;
 
@@ -4569,7 +6054,12 @@ export const DeleteProjectsInstancesDatabasesOperationsResponse = Empty;
 export type DeleteProjectsInstancesDatabasesOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsInstancesDatabasesOperations: API.OperationMethod<DeleteProjectsInstancesDatabasesOperationsRequest, DeleteProjectsInstancesDatabasesOperationsResponse, DeleteProjectsInstancesDatabasesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesDatabasesOperations: API.OperationMethod<
+  DeleteProjectsInstancesDatabasesOperationsRequest,
+  DeleteProjectsInstancesDatabasesOperationsResponse,
+  DeleteProjectsInstancesDatabasesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesDatabasesOperationsRequest,
   output: DeleteProjectsInstancesDatabasesOperationsResponse,
   errors: [],
@@ -4584,22 +6074,34 @@ export interface PatchProjectsInstancesDatabasesBackupSchedulesRequest {
   body?: BackupSchedule;
 }
 
-export const PatchProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(BackupSchedule).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const PatchProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(BackupSchedule).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsInstancesDatabasesBackupSchedulesRequest>;
 
-export type PatchProjectsInstancesDatabasesBackupSchedulesResponse = BackupSchedule;
-export const PatchProjectsInstancesDatabasesBackupSchedulesResponse = BackupSchedule;
+export type PatchProjectsInstancesDatabasesBackupSchedulesResponse =
+  BackupSchedule;
+export const PatchProjectsInstancesDatabasesBackupSchedulesResponse =
+  BackupSchedule;
 
 export type PatchProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
 
 /** Updates a backup schedule. */
-export const patchProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<PatchProjectsInstancesDatabasesBackupSchedulesRequest, PatchProjectsInstancesDatabasesBackupSchedulesResponse, PatchProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
+  PatchProjectsInstancesDatabasesBackupSchedulesRequest,
+  PatchProjectsInstancesDatabasesBackupSchedulesResponse,
+  PatchProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsInstancesDatabasesBackupSchedulesRequest,
   output: PatchProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4614,22 +6116,33 @@ export interface ListProjectsInstancesDatabasesBackupSchedulesRequest {
   pageSize?: number;
 }
 
-export const ListProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const ListProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsInstancesDatabasesBackupSchedulesRequest>;
 
-export type ListProjectsInstancesDatabasesBackupSchedulesResponse = ListBackupSchedulesResponse;
-export const ListProjectsInstancesDatabasesBackupSchedulesResponse = ListBackupSchedulesResponse;
+export type ListProjectsInstancesDatabasesBackupSchedulesResponse =
+  ListBackupSchedulesResponse;
+export const ListProjectsInstancesDatabasesBackupSchedulesResponse =
+  ListBackupSchedulesResponse;
 
 export type ListProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
 
 /** Lists all the backup schedules for the database. */
-export const listProjectsInstancesDatabasesBackupSchedules: API.PaginatedOperationMethod<ListProjectsInstancesDatabasesBackupSchedulesRequest, ListProjectsInstancesDatabasesBackupSchedulesResponse, ListProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesDatabasesBackupSchedules: API.PaginatedOperationMethod<
+  ListProjectsInstancesDatabasesBackupSchedulesRequest,
+  ListProjectsInstancesDatabasesBackupSchedulesResponse,
+  ListProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesDatabasesBackupSchedulesRequest,
   output: ListProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4646,21 +6159,34 @@ export interface SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest>;
 
-export type SetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse = Policy;
-export const SetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse = Policy;
+export type SetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse =
+  Policy;
+export const SetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse =
+  Policy;
 
-export type SetIamPolicyProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
+export type SetIamPolicyProjectsInstancesDatabasesBackupSchedulesError =
+  DefaultErrors;
 
 /** Sets the access control policy on a database or backup resource. Replaces any existing policy. Authorization requires `spanner.databases.setIamPolicy` permission on resource. For backups, authorization requires `spanner.backups.setIamPolicy` permission on resource. For backup schedules, authorization requires `spanner.backupSchedules.setIamPolicy` permission on resource. */
-export const setIamPolicyProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest, SetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse, SetIamPolicyProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
+  SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest,
+  SetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse,
+  SetIamPolicyProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest,
   output: SetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4673,21 +6199,34 @@ export interface GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}:getIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest>;
 
-export type GetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse = Policy;
-export const GetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse = Policy;
+export type GetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse =
+  Policy;
+export const GetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse =
+  Policy;
 
-export type GetIamPolicyProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
+export type GetIamPolicyProjectsInstancesDatabasesBackupSchedulesError =
+  DefaultErrors;
 
 /** Gets the access control policy for a database or backup resource. Returns an empty policy if a database or backup exists but does not have a policy set. Authorization requires `spanner.databases.getIamPolicy` permission on resource. For backups, authorization requires `spanner.backups.getIamPolicy` permission on resource. For backup schedules, authorization requires `spanner.backupSchedules.getIamPolicy` permission on resource. */
-export const getIamPolicyProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest, GetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse, GetIamPolicyProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
+  GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest,
+  GetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse,
+  GetIamPolicyProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest,
   output: GetIamPolicyProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4698,20 +6237,31 @@ export interface GetProjectsInstancesDatabasesBackupSchedulesRequest {
   name: string;
 }
 
-export const GetProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const GetProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsInstancesDatabasesBackupSchedulesRequest>;
 
-export type GetProjectsInstancesDatabasesBackupSchedulesResponse = BackupSchedule;
-export const GetProjectsInstancesDatabasesBackupSchedulesResponse = BackupSchedule;
+export type GetProjectsInstancesDatabasesBackupSchedulesResponse =
+  BackupSchedule;
+export const GetProjectsInstancesDatabasesBackupSchedulesResponse =
+  BackupSchedule;
 
 export type GetProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
 
 /** Gets backup schedule for the input schedule name. */
-export const getProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<GetProjectsInstancesDatabasesBackupSchedulesRequest, GetProjectsInstancesDatabasesBackupSchedulesResponse, GetProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
+  GetProjectsInstancesDatabasesBackupSchedulesRequest,
+  GetProjectsInstancesDatabasesBackupSchedulesResponse,
+  GetProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesDatabasesBackupSchedulesRequest,
   output: GetProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4726,22 +6276,37 @@ export interface CreateProjectsInstancesDatabasesBackupSchedulesRequest {
   body?: BackupSchedule;
 }
 
-export const CreateProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  backupScheduleId: Schema.optional(Schema.String).pipe(T.HttpQuery("backupScheduleId")),
-  body: Schema.optional(BackupSchedule).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const CreateProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    backupScheduleId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("backupScheduleId"),
+    ),
+    body: Schema.optional(BackupSchedule).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsInstancesDatabasesBackupSchedulesRequest>;
 
-export type CreateProjectsInstancesDatabasesBackupSchedulesResponse = BackupSchedule;
-export const CreateProjectsInstancesDatabasesBackupSchedulesResponse = BackupSchedule;
+export type CreateProjectsInstancesDatabasesBackupSchedulesResponse =
+  BackupSchedule;
+export const CreateProjectsInstancesDatabasesBackupSchedulesResponse =
+  BackupSchedule;
 
-export type CreateProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
+export type CreateProjectsInstancesDatabasesBackupSchedulesError =
+  DefaultErrors;
 
 /** Creates a new backup schedule. */
-export const createProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<CreateProjectsInstancesDatabasesBackupSchedulesRequest, CreateProjectsInstancesDatabasesBackupSchedulesResponse, CreateProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
+  CreateProjectsInstancesDatabasesBackupSchedulesRequest,
+  CreateProjectsInstancesDatabasesBackupSchedulesResponse,
+  CreateProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstancesDatabasesBackupSchedulesRequest,
   output: CreateProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4754,21 +6319,34 @@ export interface TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequ
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest>;
 
-export type TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
+export type TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesError =
+  DefaultErrors;
 
 /** Returns permissions that the caller has on the specified database or backup resource. Attempting this RPC on a non-existent Cloud Spanner database will result in a NOT_FOUND error if the user has `spanner.databases.list` permission on the containing Cloud Spanner instance. Otherwise returns an empty set of permissions. Calling this method on a backup that does not exist will result in a NOT_FOUND error if the user has `spanner.backups.list` permission on the containing instance. Calling this method on a backup schedule that does not exist will result in a NOT_FOUND error if the user has `spanner.backupSchedules.list` permission on the containing database. */
-export const testIamPermissionsProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest, TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesResponse, TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
+  TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest,
+  TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesResponse,
+  TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest,
   output: TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4779,20 +6357,30 @@ export interface DeleteProjectsInstancesDatabasesBackupSchedulesRequest {
   name: string;
 }
 
-export const DeleteProjectsInstancesDatabasesBackupSchedulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsInstancesDatabasesBackupSchedulesRequest>;
+export const DeleteProjectsInstancesDatabasesBackupSchedulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/databases/{databasesId}/backupSchedules/{backupSchedulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsInstancesDatabasesBackupSchedulesRequest>;
 
 export type DeleteProjectsInstancesDatabasesBackupSchedulesResponse = Empty;
 export const DeleteProjectsInstancesDatabasesBackupSchedulesResponse = Empty;
 
-export type DeleteProjectsInstancesDatabasesBackupSchedulesError = DefaultErrors;
+export type DeleteProjectsInstancesDatabasesBackupSchedulesError =
+  DefaultErrors;
 
 /** Deletes a backup schedule. */
-export const deleteProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<DeleteProjectsInstancesDatabasesBackupSchedulesRequest, DeleteProjectsInstancesDatabasesBackupSchedulesResponse, DeleteProjectsInstancesDatabasesBackupSchedulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
+  DeleteProjectsInstancesDatabasesBackupSchedulesRequest,
+  DeleteProjectsInstancesDatabasesBackupSchedulesResponse,
+  DeleteProjectsInstancesDatabasesBackupSchedulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesDatabasesBackupSchedulesRequest,
   output: DeleteProjectsInstancesDatabasesBackupSchedulesResponse,
   errors: [],
@@ -4806,7 +6394,10 @@ export interface GetProjectsInstancesOperationsRequest {
 export const GetProjectsInstancesOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesOperationsRequest>;
 
@@ -4816,7 +6407,12 @@ export const GetProjectsInstancesOperationsResponse = Operation;
 export type GetProjectsInstancesOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsInstancesOperations: API.OperationMethod<GetProjectsInstancesOperationsRequest, GetProjectsInstancesOperationsResponse, GetProjectsInstancesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesOperations: API.OperationMethod<
+  GetProjectsInstancesOperationsRequest,
+  GetProjectsInstancesOperationsResponse,
+  GetProjectsInstancesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesOperationsRequest,
   output: GetProjectsInstancesOperationsResponse,
   errors: [],
@@ -4840,9 +6436,14 @@ export const ListProjectsInstancesOperationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   name: Schema.String.pipe(T.HttpPath("name")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesOperationsRequest>;
 
@@ -4852,7 +6453,12 @@ export const ListProjectsInstancesOperationsResponse = ListOperationsResponse;
 export type ListProjectsInstancesOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsInstancesOperations: API.PaginatedOperationMethod<ListProjectsInstancesOperationsRequest, ListProjectsInstancesOperationsResponse, ListProjectsInstancesOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesOperations: API.PaginatedOperationMethod<
+  ListProjectsInstancesOperationsRequest,
+  ListProjectsInstancesOperationsResponse,
+  ListProjectsInstancesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesOperationsRequest,
   output: ListProjectsInstancesOperationsResponse,
   errors: [],
@@ -4870,7 +6476,10 @@ export interface DeleteProjectsInstancesOperationsRequest {
 export const DeleteProjectsInstancesOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstancesOperationsRequest>;
 
@@ -4880,7 +6489,12 @@ export const DeleteProjectsInstancesOperationsResponse = Empty;
 export type DeleteProjectsInstancesOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsInstancesOperations: API.OperationMethod<DeleteProjectsInstancesOperationsRequest, DeleteProjectsInstancesOperationsResponse, DeleteProjectsInstancesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesOperations: API.OperationMethod<
+  DeleteProjectsInstancesOperationsRequest,
+  DeleteProjectsInstancesOperationsResponse,
+  DeleteProjectsInstancesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesOperationsRequest,
   output: DeleteProjectsInstancesOperationsResponse,
   errors: [],
@@ -4894,7 +6508,11 @@ export interface CancelProjectsInstancesOperationsRequest {
 export const CancelProjectsInstancesOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsInstancesOperationsRequest>;
 
@@ -4904,7 +6522,12 @@ export const CancelProjectsInstancesOperationsResponse = Empty;
 export type CancelProjectsInstancesOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsInstancesOperations: API.OperationMethod<CancelProjectsInstancesOperationsRequest, CancelProjectsInstancesOperationsResponse, CancelProjectsInstancesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsInstancesOperations: API.OperationMethod<
+  CancelProjectsInstancesOperationsRequest,
+  CancelProjectsInstancesOperationsResponse,
+  CancelProjectsInstancesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsInstancesOperationsRequest,
   output: CancelProjectsInstancesOperationsResponse,
   errors: [],
@@ -4921,7 +6544,11 @@ export const SetIamPolicyProjectsInstancesBackupsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsInstancesBackupsRequest>;
 
@@ -4931,7 +6558,12 @@ export const SetIamPolicyProjectsInstancesBackupsResponse = Policy;
 export type SetIamPolicyProjectsInstancesBackupsError = DefaultErrors;
 
 /** Sets the access control policy on a database or backup resource. Replaces any existing policy. Authorization requires `spanner.databases.setIamPolicy` permission on resource. For backups, authorization requires `spanner.backups.setIamPolicy` permission on resource. For backup schedules, authorization requires `spanner.backupSchedules.setIamPolicy` permission on resource. */
-export const setIamPolicyProjectsInstancesBackups: API.OperationMethod<SetIamPolicyProjectsInstancesBackupsRequest, SetIamPolicyProjectsInstancesBackupsResponse, SetIamPolicyProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsInstancesBackups: API.OperationMethod<
+  SetIamPolicyProjectsInstancesBackupsRequest,
+  SetIamPolicyProjectsInstancesBackupsResponse,
+  SetIamPolicyProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesBackupsRequest,
   output: SetIamPolicyProjectsInstancesBackupsResponse,
   errors: [],
@@ -4948,7 +6580,11 @@ export const CopyProjectsInstancesBackupsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CopyBackupRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/backups:copy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups:copy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CopyProjectsInstancesBackupsRequest>;
 
@@ -4958,7 +6594,12 @@ export const CopyProjectsInstancesBackupsResponse = Operation;
 export type CopyProjectsInstancesBackupsError = DefaultErrors;
 
 /** Starts copying a Cloud Spanner Backup. The returned backup long-running operation will have a name of the format `projects//instances//backups//operations/` and can be used to track copying of the backup. The operation is associated with the destination backup. The metadata field type is CopyBackupMetadata. The response field type is Backup, if successful. Cancelling the returned operation will stop the copying and delete the destination backup. Concurrent CopyBackup requests can run on the same source backup. */
-export const copyProjectsInstancesBackups: API.OperationMethod<CopyProjectsInstancesBackupsRequest, CopyProjectsInstancesBackupsResponse, CopyProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const copyProjectsInstancesBackups: API.OperationMethod<
+  CopyProjectsInstancesBackupsRequest,
+  CopyProjectsInstancesBackupsResponse,
+  CopyProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CopyProjectsInstancesBackupsRequest,
   output: CopyProjectsInstancesBackupsResponse,
   errors: [],
@@ -4975,7 +6616,11 @@ export const GetIamPolicyProjectsInstancesBackupsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsInstancesBackupsRequest>;
 
@@ -4985,7 +6630,12 @@ export const GetIamPolicyProjectsInstancesBackupsResponse = Policy;
 export type GetIamPolicyProjectsInstancesBackupsError = DefaultErrors;
 
 /** Gets the access control policy for a database or backup resource. Returns an empty policy if a database or backup exists but does not have a policy set. Authorization requires `spanner.databases.getIamPolicy` permission on resource. For backups, authorization requires `spanner.backups.getIamPolicy` permission on resource. For backup schedules, authorization requires `spanner.backupSchedules.getIamPolicy` permission on resource. */
-export const getIamPolicyProjectsInstancesBackups: API.OperationMethod<GetIamPolicyProjectsInstancesBackupsRequest, GetIamPolicyProjectsInstancesBackupsResponse, GetIamPolicyProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsInstancesBackups: API.OperationMethod<
+  GetIamPolicyProjectsInstancesBackupsRequest,
+  GetIamPolicyProjectsInstancesBackupsResponse,
+  GetIamPolicyProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesBackupsRequest,
   output: GetIamPolicyProjectsInstancesBackupsResponse,
   errors: [],
@@ -4999,7 +6649,10 @@ export interface DeleteProjectsInstancesBackupsRequest {
 export const DeleteProjectsInstancesBackupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstancesBackupsRequest>;
 
@@ -5009,7 +6662,12 @@ export const DeleteProjectsInstancesBackupsResponse = Empty;
 export type DeleteProjectsInstancesBackupsError = DefaultErrors;
 
 /** Deletes a pending or completed Backup. */
-export const deleteProjectsInstancesBackups: API.OperationMethod<DeleteProjectsInstancesBackupsRequest, DeleteProjectsInstancesBackupsResponse, DeleteProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesBackups: API.OperationMethod<
+  DeleteProjectsInstancesBackupsRequest,
+  DeleteProjectsInstancesBackupsResponse,
+  DeleteProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesBackupsRequest,
   output: DeleteProjectsInstancesBackupsResponse,
   errors: [],
@@ -5023,7 +6681,10 @@ export interface GetProjectsInstancesBackupsRequest {
 export const GetProjectsInstancesBackupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesBackupsRequest>;
 
@@ -5033,7 +6694,12 @@ export const GetProjectsInstancesBackupsResponse = Backup;
 export type GetProjectsInstancesBackupsError = DefaultErrors;
 
 /** Gets metadata on a pending or completed Backup. */
-export const getProjectsInstancesBackups: API.OperationMethod<GetProjectsInstancesBackupsRequest, GetProjectsInstancesBackupsResponse, GetProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesBackups: API.OperationMethod<
+  GetProjectsInstancesBackupsRequest,
+  GetProjectsInstancesBackupsResponse,
+  GetProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesBackupsRequest,
   output: GetProjectsInstancesBackupsResponse,
   errors: [],
@@ -5056,7 +6722,10 @@ export const ListProjectsInstancesBackupsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/backups" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesBackupsRequest>;
 
@@ -5066,7 +6735,12 @@ export const ListProjectsInstancesBackupsResponse = ListBackupsResponse;
 export type ListProjectsInstancesBackupsError = DefaultErrors;
 
 /** Lists completed and pending backups. Backups returned are ordered by `create_time` in descending order, starting from the most recent `create_time`. */
-export const listProjectsInstancesBackups: API.PaginatedOperationMethod<ListProjectsInstancesBackupsRequest, ListProjectsInstancesBackupsResponse, ListProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesBackups: API.PaginatedOperationMethod<
+  ListProjectsInstancesBackupsRequest,
+  ListProjectsInstancesBackupsResponse,
+  ListProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesBackupsRequest,
   output: ListProjectsInstancesBackupsResponse,
   errors: [],
@@ -5086,20 +6760,35 @@ export interface CreateProjectsInstancesBackupsRequest {
   /** Optional. Specifies the KMS configuration for the one or more keys used to protect the backup. Values are of the form `projects//locations//keyRings//cryptoKeys/`. The keys referenced by `kms_key_names` must fully cover all regions of the backup's instance configuration. Some examples: * For regional (single-region) instance configurations, specify a regional location KMS key. * For multi-region instance configurations of type `GOOGLE_MANAGED`, either specify a multi-region location KMS key or multiple regional location KMS keys that cover all regions in the instance configuration. * For an instance configuration of type `USER_MANAGED`, specify only regional location KMS keys to cover each region in the instance configuration. Multi-region location KMS keys aren't supported for `USER_MANAGED` type instance configurations. */
   "encryptionConfig.kmsKeyNames"?: string[];
   /** Required. The encryption type of the backup. */
-  "encryptionConfig.encryptionType"?: "ENCRYPTION_TYPE_UNSPECIFIED" | "USE_DATABASE_ENCRYPTION" | "GOOGLE_DEFAULT_ENCRYPTION" | "CUSTOMER_MANAGED_ENCRYPTION" | (string & {});
+  "encryptionConfig.encryptionType"?:
+    | "ENCRYPTION_TYPE_UNSPECIFIED"
+    | "USE_DATABASE_ENCRYPTION"
+    | "GOOGLE_DEFAULT_ENCRYPTION"
+    | "CUSTOMER_MANAGED_ENCRYPTION"
+    | (string & {});
   /** Request body */
   body?: Backup;
 }
 
 export const CreateProjectsInstancesBackupsRequest = Schema.Struct({
-  "encryptionConfig.kmsKeyName": Schema.optional(Schema.String).pipe(T.HttpQuery("encryptionConfig.kmsKeyName")),
+  "encryptionConfig.kmsKeyName": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("encryptionConfig.kmsKeyName"),
+  ),
   backupId: Schema.optional(Schema.String).pipe(T.HttpQuery("backupId")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  "encryptionConfig.kmsKeyNames": Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("encryptionConfig.kmsKeyNames")),
-  "encryptionConfig.encryptionType": Schema.optional(Schema.String).pipe(T.HttpQuery("encryptionConfig.encryptionType")),
+  "encryptionConfig.kmsKeyNames": Schema.optional(
+    Schema.Array(Schema.String),
+  ).pipe(T.HttpQuery("encryptionConfig.kmsKeyNames")),
+  "encryptionConfig.encryptionType": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("encryptionConfig.encryptionType"),
+  ),
   body: Schema.optional(Backup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/backups", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsInstancesBackupsRequest>;
 
@@ -5109,7 +6798,12 @@ export const CreateProjectsInstancesBackupsResponse = Operation;
 export type CreateProjectsInstancesBackupsError = DefaultErrors;
 
 /** Starts creating a new Cloud Spanner Backup. The returned backup long-running operation will have a name of the format `projects//instances//backups//operations/` and can be used to track creation of the backup. The metadata field type is CreateBackupMetadata. The response field type is Backup, if successful. Cancelling the returned operation will stop the creation and delete the backup. There can be only one pending backup creation per database. Backup creation of different databases can run concurrently. */
-export const createProjectsInstancesBackups: API.OperationMethod<CreateProjectsInstancesBackupsRequest, CreateProjectsInstancesBackupsResponse, CreateProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstancesBackups: API.OperationMethod<
+  CreateProjectsInstancesBackupsRequest,
+  CreateProjectsInstancesBackupsResponse,
+  CreateProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstancesBackupsRequest,
   output: CreateProjectsInstancesBackupsResponse,
   errors: [],
@@ -5129,7 +6823,11 @@ export const PatchProjectsInstancesBackupsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Backup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsInstancesBackupsRequest>;
 
@@ -5139,7 +6837,12 @@ export const PatchProjectsInstancesBackupsResponse = Backup;
 export type PatchProjectsInstancesBackupsError = DefaultErrors;
 
 /** Updates a pending or completed Backup. */
-export const patchProjectsInstancesBackups: API.OperationMethod<PatchProjectsInstancesBackupsRequest, PatchProjectsInstancesBackupsResponse, PatchProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsInstancesBackups: API.OperationMethod<
+  PatchProjectsInstancesBackupsRequest,
+  PatchProjectsInstancesBackupsResponse,
+  PatchProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsInstancesBackupsRequest,
   output: PatchProjectsInstancesBackupsResponse,
   errors: [],
@@ -5156,17 +6859,28 @@ export const TestIamPermissionsProjectsInstancesBackupsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsInstancesBackupsRequest>;
 
-export type TestIamPermissionsProjectsInstancesBackupsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsInstancesBackupsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsInstancesBackupsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsInstancesBackupsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsInstancesBackupsError = DefaultErrors;
 
 /** Returns permissions that the caller has on the specified database or backup resource. Attempting this RPC on a non-existent Cloud Spanner database will result in a NOT_FOUND error if the user has `spanner.databases.list` permission on the containing Cloud Spanner instance. Otherwise returns an empty set of permissions. Calling this method on a backup that does not exist will result in a NOT_FOUND error if the user has `spanner.backups.list` permission on the containing instance. Calling this method on a backup schedule that does not exist will result in a NOT_FOUND error if the user has `spanner.backupSchedules.list` permission on the containing database. */
-export const testIamPermissionsProjectsInstancesBackups: API.OperationMethod<TestIamPermissionsProjectsInstancesBackupsRequest, TestIamPermissionsProjectsInstancesBackupsResponse, TestIamPermissionsProjectsInstancesBackupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsInstancesBackups: API.OperationMethod<
+  TestIamPermissionsProjectsInstancesBackupsRequest,
+  TestIamPermissionsProjectsInstancesBackupsResponse,
+  TestIamPermissionsProjectsInstancesBackupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesBackupsRequest,
   output: TestIamPermissionsProjectsInstancesBackupsResponse,
   errors: [],
@@ -5180,7 +6894,10 @@ export interface GetProjectsInstancesBackupsOperationsRequest {
 export const GetProjectsInstancesBackupsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstancesBackupsOperationsRequest>;
 
@@ -5190,7 +6907,12 @@ export const GetProjectsInstancesBackupsOperationsResponse = Operation;
 export type GetProjectsInstancesBackupsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsInstancesBackupsOperations: API.OperationMethod<GetProjectsInstancesBackupsOperationsRequest, GetProjectsInstancesBackupsOperationsResponse, GetProjectsInstancesBackupsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstancesBackupsOperations: API.OperationMethod<
+  GetProjectsInstancesBackupsOperationsRequest,
+  GetProjectsInstancesBackupsOperationsResponse,
+  GetProjectsInstancesBackupsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstancesBackupsOperationsRequest,
   output: GetProjectsInstancesBackupsOperationsResponse,
   errors: [],
@@ -5212,21 +6934,33 @@ export interface ListProjectsInstancesBackupsOperationsRequest {
 export const ListProjectsInstancesBackupsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
   name: Schema.String.pipe(T.HttpPath("name")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstancesBackupsOperationsRequest>;
 
-export type ListProjectsInstancesBackupsOperationsResponse = ListOperationsResponse;
-export const ListProjectsInstancesBackupsOperationsResponse = ListOperationsResponse;
+export type ListProjectsInstancesBackupsOperationsResponse =
+  ListOperationsResponse;
+export const ListProjectsInstancesBackupsOperationsResponse =
+  ListOperationsResponse;
 
 export type ListProjectsInstancesBackupsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsInstancesBackupsOperations: API.PaginatedOperationMethod<ListProjectsInstancesBackupsOperationsRequest, ListProjectsInstancesBackupsOperationsResponse, ListProjectsInstancesBackupsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesBackupsOperations: API.PaginatedOperationMethod<
+  ListProjectsInstancesBackupsOperationsRequest,
+  ListProjectsInstancesBackupsOperationsResponse,
+  ListProjectsInstancesBackupsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesBackupsOperationsRequest,
   output: ListProjectsInstancesBackupsOperationsResponse,
   errors: [],
@@ -5244,7 +6978,10 @@ export interface DeleteProjectsInstancesBackupsOperationsRequest {
 export const DeleteProjectsInstancesBackupsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstancesBackupsOperationsRequest>;
 
@@ -5254,7 +6991,12 @@ export const DeleteProjectsInstancesBackupsOperationsResponse = Empty;
 export type DeleteProjectsInstancesBackupsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsInstancesBackupsOperations: API.OperationMethod<DeleteProjectsInstancesBackupsOperationsRequest, DeleteProjectsInstancesBackupsOperationsResponse, DeleteProjectsInstancesBackupsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstancesBackupsOperations: API.OperationMethod<
+  DeleteProjectsInstancesBackupsOperationsRequest,
+  DeleteProjectsInstancesBackupsOperationsResponse,
+  DeleteProjectsInstancesBackupsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstancesBackupsOperationsRequest,
   output: DeleteProjectsInstancesBackupsOperationsResponse,
   errors: [],
@@ -5268,7 +7010,11 @@ export interface CancelProjectsInstancesBackupsOperationsRequest {
 export const CancelProjectsInstancesBackupsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instances/{instancesId}/backups/{backupsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsInstancesBackupsOperationsRequest>;
 
@@ -5278,7 +7024,12 @@ export const CancelProjectsInstancesBackupsOperationsResponse = Empty;
 export type CancelProjectsInstancesBackupsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsInstancesBackupsOperations: API.OperationMethod<CancelProjectsInstancesBackupsOperationsRequest, CancelProjectsInstancesBackupsOperationsResponse, CancelProjectsInstancesBackupsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsInstancesBackupsOperations: API.OperationMethod<
+  CancelProjectsInstancesBackupsOperationsRequest,
+  CancelProjectsInstancesBackupsOperationsResponse,
+  CancelProjectsInstancesBackupsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsInstancesBackupsOperationsRequest,
   output: CancelProjectsInstancesBackupsOperationsResponse,
   errors: [],
@@ -5297,24 +7048,38 @@ export interface ListProjectsInstancesInstancePartitionOperationsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsInstancesInstancePartitionOperationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  instancePartitionDeadline: Schema.optional(Schema.String).pipe(T.HttpQuery("instancePartitionDeadline")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitionOperations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsInstancesInstancePartitionOperationsRequest>;
+export const ListProjectsInstancesInstancePartitionOperationsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    instancePartitionDeadline: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("instancePartitionDeadline"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/instances/{instancesId}/instancePartitionOperations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsInstancesInstancePartitionOperationsRequest>;
 
-export type ListProjectsInstancesInstancePartitionOperationsResponse = ListInstancePartitionOperationsResponse;
-export const ListProjectsInstancesInstancePartitionOperationsResponse = ListInstancePartitionOperationsResponse;
+export type ListProjectsInstancesInstancePartitionOperationsResponse =
+  ListInstancePartitionOperationsResponse;
+export const ListProjectsInstancesInstancePartitionOperationsResponse =
+  ListInstancePartitionOperationsResponse;
 
-export type ListProjectsInstancesInstancePartitionOperationsError = DefaultErrors;
+export type ListProjectsInstancesInstancePartitionOperationsError =
+  DefaultErrors;
 
 /** Lists instance partition long-running operations in the given instance. An instance partition operation has a name of the form `projects//instances//instancePartitions//operations/`. The long-running operation metadata field type `metadata.type_url` describes the type of the metadata. Operations returned include those that have completed/failed/canceled within the last 7 days, and pending operations. Operations returned are ordered by `operation.metadata.value.start_time` in descending order starting from the most recently started operation. Authorization requires `spanner.instancePartitionOperations.list` permission on the resource parent. */
-export const listProjectsInstancesInstancePartitionOperations: API.PaginatedOperationMethod<ListProjectsInstancesInstancePartitionOperationsRequest, ListProjectsInstancesInstancePartitionOperationsResponse, ListProjectsInstancesInstancePartitionOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstancesInstancePartitionOperations: API.PaginatedOperationMethod<
+  ListProjectsInstancesInstancePartitionOperationsRequest,
+  ListProjectsInstancesInstancePartitionOperationsResponse,
+  ListProjectsInstancesInstancePartitionOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstancesInstancePartitionOperationsRequest,
   output: ListProjectsInstancesInstancePartitionOperationsResponse,
   errors: [],
@@ -5341,17 +7106,27 @@ export const ListProjectsInstanceConfigOperationsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instanceConfigOperations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instanceConfigOperations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstanceConfigOperationsRequest>;
 
-export type ListProjectsInstanceConfigOperationsResponse = ListInstanceConfigOperationsResponse;
-export const ListProjectsInstanceConfigOperationsResponse = ListInstanceConfigOperationsResponse;
+export type ListProjectsInstanceConfigOperationsResponse =
+  ListInstanceConfigOperationsResponse;
+export const ListProjectsInstanceConfigOperationsResponse =
+  ListInstanceConfigOperationsResponse;
 
 export type ListProjectsInstanceConfigOperationsError = DefaultErrors;
 
 /** Lists the user-managed instance configuration long-running operations in the given project. An instance configuration operation has a name of the form `projects//instanceConfigs//operations/`. The long-running operation metadata field type `metadata.type_url` describes the type of the metadata. Operations returned include those that have completed/failed/canceled within the last 7 days, and pending operations. Operations returned are ordered by `operation.metadata.value.start_time` in descending order starting from the most recently started operation. */
-export const listProjectsInstanceConfigOperations: API.PaginatedOperationMethod<ListProjectsInstanceConfigOperationsRequest, ListProjectsInstanceConfigOperationsResponse, ListProjectsInstanceConfigOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstanceConfigOperations: API.PaginatedOperationMethod<
+  ListProjectsInstanceConfigOperationsRequest,
+  ListProjectsInstanceConfigOperationsResponse,
+  ListProjectsInstanceConfigOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstanceConfigOperationsRequest,
   output: ListProjectsInstanceConfigOperationsResponse,
   errors: [],
@@ -5372,7 +7147,11 @@ export const CreateProjectsInstanceConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateInstanceConfigRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instanceConfigs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instanceConfigs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsInstanceConfigsRequest>;
 
@@ -5382,7 +7161,12 @@ export const CreateProjectsInstanceConfigsResponse = Operation;
 export type CreateProjectsInstanceConfigsError = DefaultErrors;
 
 /** Creates an instance configuration and begins preparing it to be used. The returned long-running operation can be used to track the progress of preparing the new instance configuration. The instance configuration name is assigned by the caller. If the named instance configuration already exists, `CreateInstanceConfig` returns `ALREADY_EXISTS`. Immediately after the request returns: * The instance configuration is readable via the API, with all requested attributes. The instance configuration's reconciling field is set to true. Its state is `CREATING`. While the operation is pending: * Cancelling the operation renders the instance configuration immediately unreadable via the API. * Except for deleting the creating resource, all other attempts to modify the instance configuration are rejected. Upon completion of the returned operation: * Instances can be created using the instance configuration. * The instance configuration's reconciling field becomes false. Its state becomes `READY`. The returned long-running operation will have a name of the format `/operations/` and can be used to track creation of the instance configuration. The metadata field type is CreateInstanceConfigMetadata. The response field type is InstanceConfig, if successful. Authorization requires `spanner.instanceConfigs.create` permission on the resource parent. */
-export const createProjectsInstanceConfigs: API.OperationMethod<CreateProjectsInstanceConfigsRequest, CreateProjectsInstanceConfigsResponse, CreateProjectsInstanceConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsInstanceConfigs: API.OperationMethod<
+  CreateProjectsInstanceConfigsRequest,
+  CreateProjectsInstanceConfigsResponse,
+  CreateProjectsInstanceConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsInstanceConfigsRequest,
   output: CreateProjectsInstanceConfigsResponse,
   errors: [],
@@ -5399,7 +7183,11 @@ export const PatchProjectsInstanceConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpdateInstanceConfigRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsInstanceConfigsRequest>;
 
@@ -5409,7 +7197,12 @@ export const PatchProjectsInstanceConfigsResponse = Operation;
 export type PatchProjectsInstanceConfigsError = DefaultErrors;
 
 /** Updates an instance configuration. The returned long-running operation can be used to track the progress of updating the instance. If the named instance configuration does not exist, returns `NOT_FOUND`. Only user-managed configurations can be updated. Immediately after the request returns: * The instance configuration's reconciling field is set to true. While the operation is pending: * Cancelling the operation sets its metadata's cancel_time. The operation is guaranteed to succeed at undoing all changes, after which point it terminates with a `CANCELLED` status. * All other attempts to modify the instance configuration are rejected. * Reading the instance configuration via the API continues to give the pre-request values. Upon completion of the returned operation: * Creating instances using the instance configuration uses the new values. * The new values of the instance configuration are readable via the API. * The instance configuration's reconciling field becomes false. The returned long-running operation will have a name of the format `/operations/` and can be used to track the instance configuration modification. The metadata field type is UpdateInstanceConfigMetadata. The response field type is InstanceConfig, if successful. Authorization requires `spanner.instanceConfigs.update` permission on the resource name. */
-export const patchProjectsInstanceConfigs: API.OperationMethod<PatchProjectsInstanceConfigsRequest, PatchProjectsInstanceConfigsResponse, PatchProjectsInstanceConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsInstanceConfigs: API.OperationMethod<
+  PatchProjectsInstanceConfigsRequest,
+  PatchProjectsInstanceConfigsResponse,
+  PatchProjectsInstanceConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsInstanceConfigsRequest,
   output: PatchProjectsInstanceConfigsResponse,
   errors: [],
@@ -5439,7 +7232,12 @@ export const ListProjectsInstanceConfigsResponse = ListInstanceConfigsResponse;
 export type ListProjectsInstanceConfigsError = DefaultErrors;
 
 /** Lists the supported instance configurations for a given project. Returns both Google-managed configurations and user-managed configurations. */
-export const listProjectsInstanceConfigs: API.PaginatedOperationMethod<ListProjectsInstanceConfigsRequest, ListProjectsInstanceConfigsResponse, ListProjectsInstanceConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstanceConfigs: API.PaginatedOperationMethod<
+  ListProjectsInstanceConfigsRequest,
+  ListProjectsInstanceConfigsResponse,
+  ListProjectsInstanceConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstanceConfigsRequest,
   output: ListProjectsInstanceConfigsResponse,
   errors: [],
@@ -5459,11 +7257,16 @@ export interface DeleteProjectsInstanceConfigsRequest {
 }
 
 export const DeleteProjectsInstanceConfigsRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstanceConfigsRequest>;
 
@@ -5473,7 +7276,12 @@ export const DeleteProjectsInstanceConfigsResponse = Empty;
 export type DeleteProjectsInstanceConfigsError = DefaultErrors;
 
 /** Deletes the instance configuration. Deletion is only allowed when no instances are using the configuration. If any instances are using the configuration, returns `FAILED_PRECONDITION`. Only user-managed configurations can be deleted. Authorization requires `spanner.instanceConfigs.delete` permission on the resource name. */
-export const deleteProjectsInstanceConfigs: API.OperationMethod<DeleteProjectsInstanceConfigsRequest, DeleteProjectsInstanceConfigsResponse, DeleteProjectsInstanceConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstanceConfigs: API.OperationMethod<
+  DeleteProjectsInstanceConfigsRequest,
+  DeleteProjectsInstanceConfigsResponse,
+  DeleteProjectsInstanceConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstanceConfigsRequest,
   output: DeleteProjectsInstanceConfigsResponse,
   errors: [],
@@ -5487,7 +7295,10 @@ export interface GetProjectsInstanceConfigsRequest {
 export const GetProjectsInstanceConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstanceConfigsRequest>;
 
@@ -5497,7 +7308,12 @@ export const GetProjectsInstanceConfigsResponse = InstanceConfig;
 export type GetProjectsInstanceConfigsError = DefaultErrors;
 
 /** Gets information about a particular instance configuration. */
-export const getProjectsInstanceConfigs: API.OperationMethod<GetProjectsInstanceConfigsRequest, GetProjectsInstanceConfigsResponse, GetProjectsInstanceConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstanceConfigs: API.OperationMethod<
+  GetProjectsInstanceConfigsRequest,
+  GetProjectsInstanceConfigsResponse,
+  GetProjectsInstanceConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstanceConfigsRequest,
   output: GetProjectsInstanceConfigsResponse,
   errors: [],
@@ -5511,7 +7327,11 @@ export interface CancelProjectsInstanceConfigsOperationsRequest {
 export const CancelProjectsInstanceConfigsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsInstanceConfigsOperationsRequest>;
 
@@ -5521,7 +7341,12 @@ export const CancelProjectsInstanceConfigsOperationsResponse = Empty;
 export type CancelProjectsInstanceConfigsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsInstanceConfigsOperations: API.OperationMethod<CancelProjectsInstanceConfigsOperationsRequest, CancelProjectsInstanceConfigsOperationsResponse, CancelProjectsInstanceConfigsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsInstanceConfigsOperations: API.OperationMethod<
+  CancelProjectsInstanceConfigsOperationsRequest,
+  CancelProjectsInstanceConfigsOperationsResponse,
+  CancelProjectsInstanceConfigsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsInstanceConfigsOperationsRequest,
   output: CancelProjectsInstanceConfigsOperationsResponse,
   errors: [],
@@ -5543,21 +7368,33 @@ export interface ListProjectsInstanceConfigsOperationsRequest {
 export const ListProjectsInstanceConfigsOperationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   name: Schema.String.pipe(T.HttpPath("name")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsInstanceConfigsOperationsRequest>;
 
-export type ListProjectsInstanceConfigsOperationsResponse = ListOperationsResponse;
-export const ListProjectsInstanceConfigsOperationsResponse = ListOperationsResponse;
+export type ListProjectsInstanceConfigsOperationsResponse =
+  ListOperationsResponse;
+export const ListProjectsInstanceConfigsOperationsResponse =
+  ListOperationsResponse;
 
 export type ListProjectsInstanceConfigsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsInstanceConfigsOperations: API.PaginatedOperationMethod<ListProjectsInstanceConfigsOperationsRequest, ListProjectsInstanceConfigsOperationsResponse, ListProjectsInstanceConfigsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstanceConfigsOperations: API.PaginatedOperationMethod<
+  ListProjectsInstanceConfigsOperationsRequest,
+  ListProjectsInstanceConfigsOperationsResponse,
+  ListProjectsInstanceConfigsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstanceConfigsOperationsRequest,
   output: ListProjectsInstanceConfigsOperationsResponse,
   errors: [],
@@ -5575,7 +7412,10 @@ export interface DeleteProjectsInstanceConfigsOperationsRequest {
 export const DeleteProjectsInstanceConfigsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsInstanceConfigsOperationsRequest>;
 
@@ -5585,7 +7425,12 @@ export const DeleteProjectsInstanceConfigsOperationsResponse = Empty;
 export type DeleteProjectsInstanceConfigsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsInstanceConfigsOperations: API.OperationMethod<DeleteProjectsInstanceConfigsOperationsRequest, DeleteProjectsInstanceConfigsOperationsResponse, DeleteProjectsInstanceConfigsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstanceConfigsOperations: API.OperationMethod<
+  DeleteProjectsInstanceConfigsOperationsRequest,
+  DeleteProjectsInstanceConfigsOperationsResponse,
+  DeleteProjectsInstanceConfigsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstanceConfigsOperationsRequest,
   output: DeleteProjectsInstanceConfigsOperationsResponse,
   errors: [],
@@ -5599,7 +7444,10 @@ export interface GetProjectsInstanceConfigsOperationsRequest {
 export const GetProjectsInstanceConfigsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsInstanceConfigsOperationsRequest>;
 
@@ -5609,7 +7457,12 @@ export const GetProjectsInstanceConfigsOperationsResponse = Operation;
 export type GetProjectsInstanceConfigsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsInstanceConfigsOperations: API.OperationMethod<GetProjectsInstanceConfigsOperationsRequest, GetProjectsInstanceConfigsOperationsResponse, GetProjectsInstanceConfigsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstanceConfigsOperations: API.OperationMethod<
+  GetProjectsInstanceConfigsOperationsRequest,
+  GetProjectsInstanceConfigsOperationsResponse,
+  GetProjectsInstanceConfigsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstanceConfigsOperationsRequest,
   output: GetProjectsInstanceConfigsOperationsResponse,
   errors: [],
@@ -5620,12 +7473,16 @@ export interface GetProjectsInstanceConfigsSsdCachesOperationsRequest {
   name: string;
 }
 
-export const GetProjectsInstanceConfigsSsdCachesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsInstanceConfigsSsdCachesOperationsRequest>;
+export const GetProjectsInstanceConfigsSsdCachesOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsInstanceConfigsSsdCachesOperationsRequest>;
 
 export type GetProjectsInstanceConfigsSsdCachesOperationsResponse = Operation;
 export const GetProjectsInstanceConfigsSsdCachesOperationsResponse = Operation;
@@ -5633,7 +7490,12 @@ export const GetProjectsInstanceConfigsSsdCachesOperationsResponse = Operation;
 export type GetProjectsInstanceConfigsSsdCachesOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsInstanceConfigsSsdCachesOperations: API.OperationMethod<GetProjectsInstanceConfigsSsdCachesOperationsRequest, GetProjectsInstanceConfigsSsdCachesOperationsResponse, GetProjectsInstanceConfigsSsdCachesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsInstanceConfigsSsdCachesOperations: API.OperationMethod<
+  GetProjectsInstanceConfigsSsdCachesOperationsRequest,
+  GetProjectsInstanceConfigsSsdCachesOperationsResponse,
+  GetProjectsInstanceConfigsSsdCachesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsInstanceConfigsSsdCachesOperationsRequest,
   output: GetProjectsInstanceConfigsSsdCachesOperationsResponse,
   errors: [],
@@ -5644,20 +7506,31 @@ export interface CancelProjectsInstanceConfigsSsdCachesOperationsRequest {
   name: string;
 }
 
-export const CancelProjectsInstanceConfigsSsdCachesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations/{operationsId}:cancel", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsInstanceConfigsSsdCachesOperationsRequest>;
+export const CancelProjectsInstanceConfigsSsdCachesOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsInstanceConfigsSsdCachesOperationsRequest>;
 
 export type CancelProjectsInstanceConfigsSsdCachesOperationsResponse = Empty;
 export const CancelProjectsInstanceConfigsSsdCachesOperationsResponse = Empty;
 
-export type CancelProjectsInstanceConfigsSsdCachesOperationsError = DefaultErrors;
+export type CancelProjectsInstanceConfigsSsdCachesOperationsError =
+  DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsInstanceConfigsSsdCachesOperations: API.OperationMethod<CancelProjectsInstanceConfigsSsdCachesOperationsRequest, CancelProjectsInstanceConfigsSsdCachesOperationsResponse, CancelProjectsInstanceConfigsSsdCachesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsInstanceConfigsSsdCachesOperations: API.OperationMethod<
+  CancelProjectsInstanceConfigsSsdCachesOperationsRequest,
+  CancelProjectsInstanceConfigsSsdCachesOperationsResponse,
+  CancelProjectsInstanceConfigsSsdCachesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsInstanceConfigsSsdCachesOperationsRequest,
   output: CancelProjectsInstanceConfigsSsdCachesOperationsResponse,
   errors: [],
@@ -5668,20 +7541,30 @@ export interface DeleteProjectsInstanceConfigsSsdCachesOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsInstanceConfigsSsdCachesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsInstanceConfigsSsdCachesOperationsRequest>;
+export const DeleteProjectsInstanceConfigsSsdCachesOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsInstanceConfigsSsdCachesOperationsRequest>;
 
 export type DeleteProjectsInstanceConfigsSsdCachesOperationsResponse = Empty;
 export const DeleteProjectsInstanceConfigsSsdCachesOperationsResponse = Empty;
 
-export type DeleteProjectsInstanceConfigsSsdCachesOperationsError = DefaultErrors;
+export type DeleteProjectsInstanceConfigsSsdCachesOperationsError =
+  DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsInstanceConfigsSsdCachesOperations: API.OperationMethod<DeleteProjectsInstanceConfigsSsdCachesOperationsRequest, DeleteProjectsInstanceConfigsSsdCachesOperationsResponse, DeleteProjectsInstanceConfigsSsdCachesOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsInstanceConfigsSsdCachesOperations: API.OperationMethod<
+  DeleteProjectsInstanceConfigsSsdCachesOperationsRequest,
+  DeleteProjectsInstanceConfigsSsdCachesOperationsResponse,
+  DeleteProjectsInstanceConfigsSsdCachesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsInstanceConfigsSsdCachesOperationsRequest,
   output: DeleteProjectsInstanceConfigsSsdCachesOperationsResponse,
   errors: [],
@@ -5700,24 +7583,37 @@ export interface ListProjectsInstanceConfigsSsdCachesOperationsRequest {
   name: string;
 }
 
-export const ListProjectsInstanceConfigsSsdCachesOperationsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsInstanceConfigsSsdCachesOperationsRequest>;
+export const ListProjectsInstanceConfigsSsdCachesOperationsRequest =
+  Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/instanceConfigs/{instanceConfigsId}/ssdCaches/{ssdCachesId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsInstanceConfigsSsdCachesOperationsRequest>;
 
-export type ListProjectsInstanceConfigsSsdCachesOperationsResponse = ListOperationsResponse;
-export const ListProjectsInstanceConfigsSsdCachesOperationsResponse = ListOperationsResponse;
+export type ListProjectsInstanceConfigsSsdCachesOperationsResponse =
+  ListOperationsResponse;
+export const ListProjectsInstanceConfigsSsdCachesOperationsResponse =
+  ListOperationsResponse;
 
 export type ListProjectsInstanceConfigsSsdCachesOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsInstanceConfigsSsdCachesOperations: API.PaginatedOperationMethod<ListProjectsInstanceConfigsSsdCachesOperationsRequest, ListProjectsInstanceConfigsSsdCachesOperationsResponse, ListProjectsInstanceConfigsSsdCachesOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsInstanceConfigsSsdCachesOperations: API.PaginatedOperationMethod<
+  ListProjectsInstanceConfigsSsdCachesOperationsRequest,
+  ListProjectsInstanceConfigsSsdCachesOperationsResponse,
+  ListProjectsInstanceConfigsSsdCachesOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsInstanceConfigsSsdCachesOperationsRequest,
   output: ListProjectsInstanceConfigsSsdCachesOperationsResponse,
   errors: [],
@@ -5757,7 +7653,12 @@ export const ListScansResponse_Op = ListScansResponse;
 export type ListScansError = DefaultErrors;
 
 /** Return available scans given a Database-specific resource name. */
-export const listScans: API.PaginatedOperationMethod<ListScansRequest, ListScansResponse_Op, ListScansError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listScans: API.PaginatedOperationMethod<
+  ListScansRequest,
+  ListScansResponse_Op,
+  ListScansError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListScansRequest,
   output: ListScansResponse_Op,
   errors: [],
@@ -5766,4 +7667,3 @@ export const listScans: API.PaginatedOperationMethod<ListScansRequest, ListScans
     outputToken: "nextPageToken",
   },
 }));
-

@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 import { UploadableSchema } from "../schemas";
 
 // =============================================================================
@@ -28,16 +26,20 @@ export interface GetBinaryStorageRequest {
 
 export const GetBinaryStorageRequest = Schema.Struct({
   hash: Schema.String.pipe(T.HttpPath("hash")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/binary/{hash}" })) as unknown as Schema.Schema<GetBinaryStorageRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/binary/{hash}",
+  }),
+) as unknown as Schema.Schema<GetBinaryStorageRequest>;
 
 export type GetBinaryStorageResponse = unknown;
 
-export const GetBinaryStorageResponse = Schema.Unknown as unknown as Schema.Schema<GetBinaryStorageResponse>;
+export const GetBinaryStorageResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetBinaryStorageResponse>;
 
-export type GetBinaryStorageError =
-  | DefaultErrors;
+export type GetBinaryStorageError = DefaultErrors;
 
 export const getBinaryStorage: API.OperationMethod<
   GetBinaryStorageRequest,
@@ -59,9 +61,14 @@ export interface CreateBinaryStorageRequest {
 
 export const CreateBinaryStorageRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  file: UploadableSchema.pipe(T.HttpFormDataFile())
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/binary", contentType: "multipart" })) as unknown as Schema.Schema<CreateBinaryStorageRequest>;
+  file: UploadableSchema.pipe(T.HttpFormDataFile()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/binary",
+    contentType: "multipart",
+  }),
+) as unknown as Schema.Schema<CreateBinaryStorageRequest>;
 
 export interface CreateBinaryStorageResponse {
   contentType: string;
@@ -74,11 +81,17 @@ export const CreateBinaryStorageResponse = Schema.Struct({
   contentType: Schema.String,
   md5: Schema.String,
   sha1: Schema.String,
-  sha256: Schema.String
-}).pipe(Schema.encodeKeys({ contentType: "content_type", md5: "md5", sha1: "sha1", sha256: "sha256" })) as unknown as Schema.Schema<CreateBinaryStorageResponse>;
+  sha256: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    contentType: "content_type",
+    md5: "md5",
+    sha1: "sha1",
+    sha256: "sha256",
+  }),
+) as unknown as Schema.Schema<CreateBinaryStorageResponse>;
 
-export type CreateBinaryStorageError =
-  | DefaultErrors;
+export type CreateBinaryStorageError = DefaultErrors;
 
 export const createBinaryStorage: API.OperationMethod<
   CreateBinaryStorageRequest,
@@ -90,7 +103,6 @@ export const createBinaryStorage: API.OperationMethod<
   output: CreateBinaryStorageResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Request
@@ -104,9 +116,13 @@ export interface GetRequestRequest {
 
 export const GetRequestRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}" })) as unknown as Schema.Schema<GetRequestRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}",
+  }),
+) as unknown as Schema.Schema<GetRequestRequest>;
 
 export interface GetRequestResponse {
   /** UUID. */
@@ -128,7 +144,13 @@ export interface GetRequestResponse {
   /** Readable Request ID. */
   readableId?: string;
   /** Request Status. */
-  status?: "open" | "accepted" | "reported" | "approved" | "completed" | "declined";
+  status?:
+    | "open"
+    | "accepted"
+    | "reported"
+    | "approved"
+    | "completed"
+    | "declined";
   /** Tokens for the request. */
   tokens?: number;
 }
@@ -145,12 +167,36 @@ export const GetRequestResponse = Schema.Struct({
   completed: Schema.optional(Schema.String),
   messageTokens: Schema.optional(Schema.Number),
   readableId: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["open", "accepted", "reported", "approved", "completed", "declined"])),
-  tokens: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ id: "id", content: "content", created: "created", priority: "priority", request: "request", summary: "summary", tlp: "tlp", updated: "updated", completed: "completed", messageTokens: "message_tokens", readableId: "readable_id", status: "status", tokens: "tokens" })) as unknown as Schema.Schema<GetRequestResponse>;
+  status: Schema.optional(
+    Schema.Literals([
+      "open",
+      "accepted",
+      "reported",
+      "approved",
+      "completed",
+      "declined",
+    ]),
+  ),
+  tokens: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    content: "content",
+    created: "created",
+    priority: "priority",
+    request: "request",
+    summary: "summary",
+    tlp: "tlp",
+    updated: "updated",
+    completed: "completed",
+    messageTokens: "message_tokens",
+    readableId: "readable_id",
+    status: "status",
+    tokens: "tokens",
+  }),
+) as unknown as Schema.Schema<GetRequestResponse>;
 
-export type GetRequestError =
-  | DefaultErrors;
+export type GetRequestError = DefaultErrors;
 
 export const getRequest: API.OperationMethod<
   GetRequestRequest,
@@ -185,7 +231,13 @@ export interface ListRequestsRequest {
   /** Body param: Sort order (asc or desc). */
   sortOrder?: "asc" | "desc";
   /** Body param: Request Status. */
-  status?: "open" | "accepted" | "reported" | "approved" | "completed" | "declined";
+  status?:
+    | "open"
+    | "accepted"
+    | "reported"
+    | "approved"
+    | "completed"
+    | "declined";
 }
 
 export const ListRequestsRequest = Schema.Struct({
@@ -199,29 +251,98 @@ export const ListRequestsRequest = Schema.Struct({
   requestType: Schema.optional(Schema.String),
   sortBy: Schema.optional(Schema.String),
   sortOrder: Schema.optional(Schema.Literals(["asc", "desc"])),
-  status: Schema.optional(Schema.Literals(["open", "accepted", "reported", "approved", "completed", "declined"]))
-})
-  .pipe(Schema.encodeKeys({ page: "page", perPage: "per_page", completedAfter: "completed_after", completedBefore: "completed_before", createdAfter: "created_after", createdBefore: "created_before", requestType: "request_type", sortBy: "sort_by", sortOrder: "sort_order", status: "status" }), T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/requests" })) as unknown as Schema.Schema<ListRequestsRequest>;
+  status: Schema.optional(
+    Schema.Literals([
+      "open",
+      "accepted",
+      "reported",
+      "approved",
+      "completed",
+      "declined",
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    page: "page",
+    perPage: "per_page",
+    completedAfter: "completed_after",
+    completedBefore: "completed_before",
+    createdAfter: "created_after",
+    createdBefore: "created_before",
+    requestType: "request_type",
+    sortBy: "sort_by",
+    sortOrder: "sort_order",
+    status: "status",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/requests",
+  }),
+) as unknown as Schema.Schema<ListRequestsRequest>;
 
-export type ListRequestsResponse = ({ id: string; created: string; priority: "routine" | "high" | "urgent"; request: string; summary: string; tlp: "clear" | "amber" | "amber-strict" | "green" | "red"; updated: string; completed?: string; messageTokens?: number; readableId?: string; status?: "open" | "accepted" | "reported" | "approved" | "completed" | "declined"; tokens?: number })[];
+export type ListRequestsResponse = {
+  id: string;
+  created: string;
+  priority: "routine" | "high" | "urgent";
+  request: string;
+  summary: string;
+  tlp: "clear" | "amber" | "amber-strict" | "green" | "red";
+  updated: string;
+  completed?: string;
+  messageTokens?: number;
+  readableId?: string;
+  status?:
+    | "open"
+    | "accepted"
+    | "reported"
+    | "approved"
+    | "completed"
+    | "declined";
+  tokens?: number;
+}[];
 
-export const ListRequestsResponse = Schema.Array(Schema.Struct({
-  id: Schema.String,
-  created: Schema.String,
-  priority: Schema.Literals(["routine", "high", "urgent"]),
-  request: Schema.String,
-  summary: Schema.String,
-  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
-  updated: Schema.String,
-  completed: Schema.optional(Schema.String),
-  messageTokens: Schema.optional(Schema.Number),
-  readableId: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["open", "accepted", "reported", "approved", "completed", "declined"])),
-  tokens: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ id: "id", created: "created", priority: "priority", request: "request", summary: "summary", tlp: "tlp", updated: "updated", completed: "completed", messageTokens: "message_tokens", readableId: "readable_id", status: "status", tokens: "tokens" }))) as unknown as Schema.Schema<ListRequestsResponse>;
+export const ListRequestsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    created: Schema.String,
+    priority: Schema.Literals(["routine", "high", "urgent"]),
+    request: Schema.String,
+    summary: Schema.String,
+    tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
+    updated: Schema.String,
+    completed: Schema.optional(Schema.String),
+    messageTokens: Schema.optional(Schema.Number),
+    readableId: Schema.optional(Schema.String),
+    status: Schema.optional(
+      Schema.Literals([
+        "open",
+        "accepted",
+        "reported",
+        "approved",
+        "completed",
+        "declined",
+      ]),
+    ),
+    tokens: Schema.optional(Schema.Number),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      priority: "priority",
+      request: "request",
+      summary: "summary",
+      tlp: "tlp",
+      updated: "updated",
+      completed: "completed",
+      messageTokens: "message_tokens",
+      readableId: "readable_id",
+      status: "status",
+      tokens: "tokens",
+    }),
+  ),
+) as unknown as Schema.Schema<ListRequestsResponse>;
 
-export type ListRequestsError =
-  | DefaultErrors;
+export type ListRequestsError = DefaultErrors;
 
 export const listRequests: API.OperationMethod<
   ListRequestsRequest,
@@ -255,9 +376,22 @@ export const CreateRequestRequest = Schema.Struct({
   priority: Schema.optional(Schema.String),
   requestType: Schema.optional(Schema.String),
   summary: Schema.optional(Schema.String),
-  tlp: Schema.optional(Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]))
-})
-  .pipe(Schema.encodeKeys({ content: "content", priority: "priority", requestType: "request_type", summary: "summary", tlp: "tlp" }), T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/requests/new" })) as unknown as Schema.Schema<CreateRequestRequest>;
+  tlp: Schema.optional(
+    Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    content: "content",
+    priority: "priority",
+    requestType: "request_type",
+    summary: "summary",
+    tlp: "tlp",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/requests/new",
+  }),
+) as unknown as Schema.Schema<CreateRequestRequest>;
 
 export interface CreateRequestResponse {
   /** UUID. */
@@ -279,7 +413,13 @@ export interface CreateRequestResponse {
   /** Readable Request ID. */
   readableId?: string;
   /** Request Status. */
-  status?: "open" | "accepted" | "reported" | "approved" | "completed" | "declined";
+  status?:
+    | "open"
+    | "accepted"
+    | "reported"
+    | "approved"
+    | "completed"
+    | "declined";
   /** Tokens for the request. */
   tokens?: number;
 }
@@ -296,12 +436,36 @@ export const CreateRequestResponse = Schema.Struct({
   completed: Schema.optional(Schema.String),
   messageTokens: Schema.optional(Schema.Number),
   readableId: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["open", "accepted", "reported", "approved", "completed", "declined"])),
-  tokens: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ id: "id", content: "content", created: "created", priority: "priority", request: "request", summary: "summary", tlp: "tlp", updated: "updated", completed: "completed", messageTokens: "message_tokens", readableId: "readable_id", status: "status", tokens: "tokens" })) as unknown as Schema.Schema<CreateRequestResponse>;
+  status: Schema.optional(
+    Schema.Literals([
+      "open",
+      "accepted",
+      "reported",
+      "approved",
+      "completed",
+      "declined",
+    ]),
+  ),
+  tokens: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    content: "content",
+    created: "created",
+    priority: "priority",
+    request: "request",
+    summary: "summary",
+    tlp: "tlp",
+    updated: "updated",
+    completed: "completed",
+    messageTokens: "message_tokens",
+    readableId: "readable_id",
+    status: "status",
+    tokens: "tokens",
+  }),
+) as unknown as Schema.Schema<CreateRequestResponse>;
 
-export type CreateRequestError =
-  | DefaultErrors;
+export type CreateRequestError = DefaultErrors;
 
 export const createRequest: API.OperationMethod<
   CreateRequestRequest,
@@ -337,9 +501,22 @@ export const UpdateRequestRequest = Schema.Struct({
   priority: Schema.optional(Schema.String),
   requestType: Schema.optional(Schema.String),
   summary: Schema.optional(Schema.String),
-  tlp: Schema.optional(Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]))
-})
-  .pipe(Schema.encodeKeys({ content: "content", priority: "priority", requestType: "request_type", summary: "summary", tlp: "tlp" }), T.Http({ method: "PUT", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}" })) as unknown as Schema.Schema<UpdateRequestRequest>;
+  tlp: Schema.optional(
+    Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    content: "content",
+    priority: "priority",
+    requestType: "request_type",
+    summary: "summary",
+    tlp: "tlp",
+  }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}",
+  }),
+) as unknown as Schema.Schema<UpdateRequestRequest>;
 
 export interface UpdateRequestResponse {
   /** UUID. */
@@ -361,7 +538,13 @@ export interface UpdateRequestResponse {
   /** Readable Request ID. */
   readableId?: string;
   /** Request Status. */
-  status?: "open" | "accepted" | "reported" | "approved" | "completed" | "declined";
+  status?:
+    | "open"
+    | "accepted"
+    | "reported"
+    | "approved"
+    | "completed"
+    | "declined";
   /** Tokens for the request. */
   tokens?: number;
 }
@@ -378,12 +561,36 @@ export const UpdateRequestResponse = Schema.Struct({
   completed: Schema.optional(Schema.String),
   messageTokens: Schema.optional(Schema.Number),
   readableId: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["open", "accepted", "reported", "approved", "completed", "declined"])),
-  tokens: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ id: "id", content: "content", created: "created", priority: "priority", request: "request", summary: "summary", tlp: "tlp", updated: "updated", completed: "completed", messageTokens: "message_tokens", readableId: "readable_id", status: "status", tokens: "tokens" })) as unknown as Schema.Schema<UpdateRequestResponse>;
+  status: Schema.optional(
+    Schema.Literals([
+      "open",
+      "accepted",
+      "reported",
+      "approved",
+      "completed",
+      "declined",
+    ]),
+  ),
+  tokens: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    content: "content",
+    created: "created",
+    priority: "priority",
+    request: "request",
+    summary: "summary",
+    tlp: "tlp",
+    updated: "updated",
+    completed: "completed",
+    messageTokens: "message_tokens",
+    readableId: "readable_id",
+    status: "status",
+    tokens: "tokens",
+  }),
+) as unknown as Schema.Schema<UpdateRequestResponse>;
 
-export type UpdateRequestError =
-  | DefaultErrors;
+export type UpdateRequestError = DefaultErrors;
 
 export const updateRequest: API.OperationMethod<
   UpdateRequestRequest,
@@ -404,39 +611,74 @@ export interface DeleteRequestRequest {
 
 export const DeleteRequestRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}" })) as unknown as Schema.Schema<DeleteRequestRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}",
+  }),
+) as unknown as Schema.Schema<DeleteRequestRequest>;
 
 export interface DeleteRequestResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeleteRequestResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestResponse>;
 
-export type DeleteRequestError =
-  | DefaultErrors;
+export type DeleteRequestError = DefaultErrors;
 
 export const deleteRequest: API.OperationMethod<
   DeleteRequestRequest,
@@ -455,24 +697,51 @@ export interface ConstantsRequestRequest {
 }
 
 export const ConstantsRequestRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/requests/constants" })) as unknown as Schema.Schema<ConstantsRequestRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/requests/constants",
+  }),
+) as unknown as Schema.Schema<ConstantsRequestRequest>;
 
 export interface ConstantsRequestResponse {
   priority?: ("routine" | "high" | "urgent")[];
-  status?: ("open" | "accepted" | "reported" | "approved" | "completed" | "declined")[];
+  status?: (
+    | "open"
+    | "accepted"
+    | "reported"
+    | "approved"
+    | "completed"
+    | "declined"
+  )[];
   tlp?: ("clear" | "amber" | "amber-strict" | "green" | "red")[];
 }
 
 export const ConstantsRequestResponse = Schema.Struct({
-  priority: Schema.optional(Schema.Array(Schema.Literals(["routine", "high", "urgent"]))),
-  status: Schema.optional(Schema.Array(Schema.Literals(["open", "accepted", "reported", "approved", "completed", "declined"]))),
-  tlp: Schema.optional(Schema.Array(Schema.Literals(["clear", "amber", "amber-strict", "green", "red"])))
+  priority: Schema.optional(
+    Schema.Array(Schema.Literals(["routine", "high", "urgent"])),
+  ),
+  status: Schema.optional(
+    Schema.Array(
+      Schema.Literals([
+        "open",
+        "accepted",
+        "reported",
+        "approved",
+        "completed",
+        "declined",
+      ]),
+    ),
+  ),
+  tlp: Schema.optional(
+    Schema.Array(
+      Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
+    ),
+  ),
 }) as unknown as Schema.Schema<ConstantsRequestResponse>;
 
-export type ConstantsRequestError =
-  | DefaultErrors;
+export type ConstantsRequestError = DefaultErrors;
 
 export const constantsRequest: API.OperationMethod<
   ConstantsRequestRequest,
@@ -491,9 +760,13 @@ export interface QuotaRequestRequest {
 }
 
 export const QuotaRequestRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/requests/quota" })) as unknown as Schema.Schema<QuotaRequestRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/requests/quota",
+  }),
+) as unknown as Schema.Schema<QuotaRequestRequest>;
 
 export interface QuotaRequestResponse {
   /** Anniversary date is when annual quota limit is refreshed. */
@@ -510,11 +783,17 @@ export const QuotaRequestResponse = Schema.Struct({
   anniversaryDate: Schema.optional(Schema.String),
   quarterAnniversaryDate: Schema.optional(Schema.String),
   quota: Schema.optional(Schema.Number),
-  remaining: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ anniversaryDate: "anniversary_date", quarterAnniversaryDate: "quarter_anniversary_date", quota: "quota", remaining: "remaining" })) as unknown as Schema.Schema<QuotaRequestResponse>;
+  remaining: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    anniversaryDate: "anniversary_date",
+    quarterAnniversaryDate: "quarter_anniversary_date",
+    quota: "quota",
+    remaining: "remaining",
+  }),
+) as unknown as Schema.Schema<QuotaRequestResponse>;
 
-export type QuotaRequestError =
-  | DefaultErrors;
+export type QuotaRequestError = DefaultErrors;
 
 export const quotaRequest: API.OperationMethod<
   QuotaRequestRequest,
@@ -533,16 +812,21 @@ export interface TypesRequestRequest {
 }
 
 export const TypesRequestRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/requests/types" })) as unknown as Schema.Schema<TypesRequestRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/requests/types",
+  }),
+) as unknown as Schema.Schema<TypesRequestRequest>;
 
 export type TypesRequestResponse = string[];
 
-export const TypesRequestResponse = Schema.Array(Schema.String) as unknown as Schema.Schema<TypesRequestResponse>;
+export const TypesRequestResponse = Schema.Array(
+  Schema.String,
+) as unknown as Schema.Schema<TypesRequestResponse>;
 
-export type TypesRequestError =
-  | DefaultErrors;
+export type TypesRequestError = DefaultErrors;
 
 export const typesRequest: API.OperationMethod<
   TypesRequestRequest,
@@ -554,7 +838,6 @@ export const typesRequest: API.OperationMethod<
   output: TypesRequestResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // RequestAsset
@@ -570,22 +853,41 @@ export interface GetRequestAssetRequest {
 export const GetRequestAssetRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
   assetId: Schema.String.pipe(T.HttpPath("assetId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset/{assetId}" })) as unknown as Schema.Schema<GetRequestAssetRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset/{assetId}",
+  }),
+) as unknown as Schema.Schema<GetRequestAssetRequest>;
 
-export type GetRequestAssetResponse = { id: number; name: string; created?: string; description?: string; fileType?: string }[];
+export type GetRequestAssetResponse = {
+  id: number;
+  name: string;
+  created?: string;
+  description?: string;
+  fileType?: string;
+}[];
 
-export const GetRequestAssetResponse = Schema.Array(Schema.Struct({
-  id: Schema.Number,
-  name: Schema.String,
-  created: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  fileType: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", created: "created", description: "description", fileType: "file_type" }))) as unknown as Schema.Schema<GetRequestAssetResponse>;
+export const GetRequestAssetResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.Number,
+    name: Schema.String,
+    created: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    fileType: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      created: "created",
+      description: "description",
+      fileType: "file_type",
+    }),
+  ),
+) as unknown as Schema.Schema<GetRequestAssetResponse>;
 
-export type GetRequestAssetError =
-  | DefaultErrors;
+export type GetRequestAssetError = DefaultErrors;
 
 export const getRequestAsset: API.OperationMethod<
   GetRequestAssetRequest,
@@ -612,22 +914,42 @@ export const CreateRequestAssetRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   page: Schema.Number,
-  perPage: Schema.Number
-})
-  .pipe(Schema.encodeKeys({ page: "page", perPage: "per_page" }), T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset" })) as unknown as Schema.Schema<CreateRequestAssetRequest>;
+  perPage: Schema.Number,
+}).pipe(
+  Schema.encodeKeys({ page: "page", perPage: "per_page" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset",
+  }),
+) as unknown as Schema.Schema<CreateRequestAssetRequest>;
 
-export type CreateRequestAssetResponse = { id: number; name: string; created?: string; description?: string; fileType?: string }[];
+export type CreateRequestAssetResponse = {
+  id: number;
+  name: string;
+  created?: string;
+  description?: string;
+  fileType?: string;
+}[];
 
-export const CreateRequestAssetResponse = Schema.Array(Schema.Struct({
-  id: Schema.Number,
-  name: Schema.String,
-  created: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  fileType: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", created: "created", description: "description", fileType: "file_type" }))) as unknown as Schema.Schema<CreateRequestAssetResponse>;
+export const CreateRequestAssetResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.Number,
+    name: Schema.String,
+    created: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    fileType: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      created: "created",
+      description: "description",
+      fileType: "file_type",
+    }),
+  ),
+) as unknown as Schema.Schema<CreateRequestAssetResponse>;
 
-export type CreateRequestAssetError =
-  | DefaultErrors;
+export type CreateRequestAssetError = DefaultErrors;
 
 export const createRequestAsset: API.OperationMethod<
   CreateRequestAssetRequest,
@@ -653,9 +975,13 @@ export const UpdateRequestAssetRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
   assetId: Schema.String.pipe(T.HttpPath("assetId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  source: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset/{assetId}" })) as unknown as Schema.Schema<UpdateRequestAssetRequest>;
+  source: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset/{assetId}",
+  }),
+) as unknown as Schema.Schema<UpdateRequestAssetRequest>;
 
 export interface UpdateRequestAssetResponse {
   /** Asset ID. */
@@ -675,11 +1001,18 @@ export const UpdateRequestAssetResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  fileType: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", created: "created", description: "description", fileType: "file_type" })) as unknown as Schema.Schema<UpdateRequestAssetResponse>;
+  fileType: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    name: "name",
+    created: "created",
+    description: "description",
+    fileType: "file_type",
+  }),
+) as unknown as Schema.Schema<UpdateRequestAssetResponse>;
 
-export type UpdateRequestAssetError =
-  | DefaultErrors;
+export type UpdateRequestAssetError = DefaultErrors;
 
 export const updateRequestAsset: API.OperationMethod<
   UpdateRequestAssetRequest,
@@ -702,39 +1035,74 @@ export interface DeleteRequestAssetRequest {
 export const DeleteRequestAssetRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
   assetId: Schema.String.pipe(T.HttpPath("assetId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset/{assetId}" })) as unknown as Schema.Schema<DeleteRequestAssetRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset/{assetId}",
+  }),
+) as unknown as Schema.Schema<DeleteRequestAssetRequest>;
 
 export interface DeleteRequestAssetResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeleteRequestAssetResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestAssetResponse>;
 
-export type DeleteRequestAssetError =
-  | DefaultErrors;
+export type DeleteRequestAssetError = DefaultErrors;
 
 export const deleteRequestAsset: API.OperationMethod<
   DeleteRequestAssetRequest,
@@ -746,7 +1114,6 @@ export const deleteRequestAsset: API.OperationMethod<
   output: DeleteRequestAssetResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // RequestMessage
@@ -778,23 +1145,50 @@ export const GetRequestMessageRequest = Schema.Struct({
   after: Schema.optional(Schema.String),
   before: Schema.optional(Schema.String),
   sortBy: Schema.optional(Schema.String),
-  sortOrder: Schema.optional(Schema.Literals(["asc", "desc"]))
-})
-  .pipe(Schema.encodeKeys({ page: "page", perPage: "per_page", after: "after", before: "before", sortBy: "sort_by", sortOrder: "sort_order" }), T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message" })) as unknown as Schema.Schema<GetRequestMessageRequest>;
+  sortOrder: Schema.optional(Schema.Literals(["asc", "desc"])),
+}).pipe(
+  Schema.encodeKeys({
+    page: "page",
+    perPage: "per_page",
+    after: "after",
+    before: "before",
+    sortBy: "sort_by",
+    sortOrder: "sort_order",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message",
+  }),
+) as unknown as Schema.Schema<GetRequestMessageRequest>;
 
-export type GetRequestMessageResponse = { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+export type GetRequestMessageResponse = {
+  code: number;
+  message: string;
+  documentationUrl?: string;
+  source?: { pointer?: string };
+}[];
 
-export const GetRequestMessageResponse = Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))) as unknown as Schema.Schema<GetRequestMessageResponse>;
+export const GetRequestMessageResponse = Schema.Array(
+  Schema.Struct({
+    code: Schema.Number,
+    message: Schema.String,
+    documentationUrl: Schema.optional(Schema.String),
+    source: Schema.optional(
+      Schema.Struct({
+        pointer: Schema.optional(Schema.String),
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      code: "code",
+      message: "message",
+      documentationUrl: "documentation_url",
+      source: "source",
+    }),
+  ),
+) as unknown as Schema.Schema<GetRequestMessageResponse>;
 
-export type GetRequestMessageError =
-  | DefaultErrors;
+export type GetRequestMessageError = DefaultErrors;
 
 export const getRequestMessage: API.OperationMethod<
   GetRequestMessageRequest,
@@ -818,9 +1212,13 @@ export interface CreateRequestMessageRequest {
 export const CreateRequestMessageRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  content: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message/new" })) as unknown as Schema.Schema<CreateRequestMessageRequest>;
+  content: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message/new",
+  }),
+) as unknown as Schema.Schema<CreateRequestMessageRequest>;
 
 export interface CreateRequestMessageResponse {
   code: number;
@@ -833,13 +1231,21 @@ export const CreateRequestMessageResponse = Schema.Struct({
   code: Schema.Number,
   message: Schema.String,
   documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-  pointer: Schema.optional(Schema.String)
-}))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" })) as unknown as Schema.Schema<CreateRequestMessageResponse>;
+  source: Schema.optional(
+    Schema.Struct({
+      pointer: Schema.optional(Schema.String),
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    code: "code",
+    message: "message",
+    documentationUrl: "documentation_url",
+    source: "source",
+  }),
+) as unknown as Schema.Schema<CreateRequestMessageResponse>;
 
-export type CreateRequestMessageError =
-  | DefaultErrors;
+export type CreateRequestMessageError = DefaultErrors;
 
 export const createRequestMessage: API.OperationMethod<
   CreateRequestMessageRequest,
@@ -865,9 +1271,13 @@ export const UpdateRequestMessageRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
   messageId: Schema.Number.pipe(T.HttpPath("messageId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  content: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message/{messageId}" })) as unknown as Schema.Schema<UpdateRequestMessageRequest>;
+  content: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message/{messageId}",
+  }),
+) as unknown as Schema.Schema<UpdateRequestMessageRequest>;
 
 export interface UpdateRequestMessageResponse {
   code: number;
@@ -880,13 +1290,21 @@ export const UpdateRequestMessageResponse = Schema.Struct({
   code: Schema.Number,
   message: Schema.String,
   documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-  pointer: Schema.optional(Schema.String)
-}))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" })) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
+  source: Schema.optional(
+    Schema.Struct({
+      pointer: Schema.optional(Schema.String),
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    code: "code",
+    message: "message",
+    documentationUrl: "documentation_url",
+    source: "source",
+  }),
+) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
 
-export type UpdateRequestMessageError =
-  | DefaultErrors;
+export type UpdateRequestMessageError = DefaultErrors;
 
 export const updateRequestMessage: API.OperationMethod<
   UpdateRequestMessageRequest,
@@ -909,39 +1327,74 @@ export interface DeleteRequestMessageRequest {
 export const DeleteRequestMessageRequest = Schema.Struct({
   requestId: Schema.String.pipe(T.HttpPath("requestId")),
   messageId: Schema.Number.pipe(T.HttpPath("messageId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message/{messageId}" })) as unknown as Schema.Schema<DeleteRequestMessageRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/message/{messageId}",
+  }),
+) as unknown as Schema.Schema<DeleteRequestMessageRequest>;
 
 export interface DeleteRequestMessageResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeleteRequestMessageResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestMessageResponse>;
 
-export type DeleteRequestMessageError =
-  | DefaultErrors;
+export type DeleteRequestMessageError = DefaultErrors;
 
 export const deleteRequestMessage: API.OperationMethod<
   DeleteRequestMessageRequest,
@@ -953,7 +1406,6 @@ export const deleteRequestMessage: API.OperationMethod<
   output: DeleteRequestMessageResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // RequestPriority
@@ -967,16 +1419,20 @@ export interface GetRequestPriorityRequest {
 
 export const GetRequestPriorityRequest = Schema.Struct({
   priorityId: Schema.String.pipe(T.HttpPath("priorityId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/requests/priority/{priorityId}" })) as unknown as Schema.Schema<GetRequestPriorityRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/requests/priority/{priorityId}",
+  }),
+) as unknown as Schema.Schema<GetRequestPriorityRequest>;
 
 export type GetRequestPriorityResponse = unknown;
 
-export const GetRequestPriorityResponse = Schema.Unknown as unknown as Schema.Schema<GetRequestPriorityResponse>;
+export const GetRequestPriorityResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetRequestPriorityResponse>;
 
-export type GetRequestPriorityError =
-  | DefaultErrors;
+export type GetRequestPriorityError = DefaultErrors;
 
 export const getRequestPriority: API.OperationMethod<
   GetRequestPriorityRequest,
@@ -1007,9 +1463,13 @@ export const CreateRequestPriorityRequest = Schema.Struct({
   labels: Schema.Array(Schema.String),
   priority: Schema.Number,
   requirement: Schema.String,
-  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"])
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/requests/priority/new" })) as unknown as Schema.Schema<CreateRequestPriorityRequest>;
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/requests/priority/new",
+  }),
+) as unknown as Schema.Schema<CreateRequestPriorityRequest>;
 
 export interface CreateRequestPriorityResponse {
   /** UUID. */
@@ -1035,11 +1495,10 @@ export const CreateRequestPriorityResponse = Schema.Struct({
   priority: Schema.Number,
   requirement: Schema.String,
   tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
-  updated: Schema.String
+  updated: Schema.String,
 }) as unknown as Schema.Schema<CreateRequestPriorityResponse>;
 
-export type CreateRequestPriorityError =
-  | DefaultErrors;
+export type CreateRequestPriorityError = DefaultErrors;
 
 export const createRequestPriority: API.OperationMethod<
   CreateRequestPriorityRequest,
@@ -1072,16 +1531,20 @@ export const UpdateRequestPriorityRequest = Schema.Struct({
   labels: Schema.Array(Schema.String),
   priority: Schema.Number,
   requirement: Schema.String,
-  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"])
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/cloudforce-one/requests/priority/{priorityId}" })) as unknown as Schema.Schema<UpdateRequestPriorityRequest>;
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/cloudforce-one/requests/priority/{priorityId}",
+  }),
+) as unknown as Schema.Schema<UpdateRequestPriorityRequest>;
 
 export type UpdateRequestPriorityResponse = unknown;
 
-export const UpdateRequestPriorityResponse = Schema.Unknown as unknown as Schema.Schema<UpdateRequestPriorityResponse>;
+export const UpdateRequestPriorityResponse =
+  Schema.Unknown as unknown as Schema.Schema<UpdateRequestPriorityResponse>;
 
-export type UpdateRequestPriorityError =
-  | DefaultErrors;
+export type UpdateRequestPriorityError = DefaultErrors;
 
 export const updateRequestPriority: API.OperationMethod<
   UpdateRequestPriorityRequest,
@@ -1102,39 +1565,74 @@ export interface DeleteRequestPriorityRequest {
 
 export const DeleteRequestPriorityRequest = Schema.Struct({
   priorityId: Schema.String.pipe(T.HttpPath("priorityId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/requests/priority/{priorityId}" })) as unknown as Schema.Schema<DeleteRequestPriorityRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/requests/priority/{priorityId}",
+  }),
+) as unknown as Schema.Schema<DeleteRequestPriorityRequest>;
 
 export interface DeleteRequestPriorityResponse {
-  errors: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
-  messages: { code: number; message: string; documentationUrl?: string; source?: { pointer?: string } }[];
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
   /** Whether the API call was successful. */
   success: true;
 }
 
 export const DeleteRequestPriorityResponse = Schema.Struct({
-  errors: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  messages: Schema.Array(Schema.Struct({
-  code: Schema.Number,
-  message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.Struct({
-    pointer: Schema.optional(Schema.String)
-  }))
-}).pipe(Schema.encodeKeys({ code: "code", message: "message", documentationUrl: "documentation_url", source: "source" }))),
-  success: Schema.Literal(true)
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestPriorityResponse>;
 
-export type DeleteRequestPriorityError =
-  | DefaultErrors;
+export type DeleteRequestPriorityError = DefaultErrors;
 
 export const deleteRequestPriority: API.OperationMethod<
   DeleteRequestPriorityRequest,
@@ -1153,16 +1651,20 @@ export interface QuotaRequestPriorityRequest {
 }
 
 export const QuotaRequestPriorityRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/requests/priority/quota" })) as unknown as Schema.Schema<QuotaRequestPriorityRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/requests/priority/quota",
+  }),
+) as unknown as Schema.Schema<QuotaRequestPriorityRequest>;
 
 export type QuotaRequestPriorityResponse = unknown;
 
-export const QuotaRequestPriorityResponse = Schema.Unknown as unknown as Schema.Schema<QuotaRequestPriorityResponse>;
+export const QuotaRequestPriorityResponse =
+  Schema.Unknown as unknown as Schema.Schema<QuotaRequestPriorityResponse>;
 
-export type QuotaRequestPriorityError =
-  | DefaultErrors;
+export type QuotaRequestPriorityError = DefaultErrors;
 
 export const quotaRequestPriority: API.OperationMethod<
   QuotaRequestPriorityRequest,
@@ -1175,7 +1677,6 @@ export const quotaRequestPriority: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // ScanConfig
 // =============================================================================
@@ -1186,22 +1687,41 @@ export interface ListScanConfigsRequest {
 }
 
 export const ListScanConfigsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/scans/config" })) as unknown as Schema.Schema<ListScanConfigsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/scans/config",
+  }),
+) as unknown as Schema.Schema<ListScanConfigsRequest>;
 
-export type ListScanConfigsResponse = { id: string; accountId: string; frequency: number; ips: string[]; ports: string[] }[];
+export type ListScanConfigsResponse = {
+  id: string;
+  accountId: string;
+  frequency: number;
+  ips: string[];
+  ports: string[];
+}[];
 
-export const ListScanConfigsResponse = Schema.Array(Schema.Struct({
-  id: Schema.String,
-  accountId: Schema.String,
-  frequency: Schema.Number,
-  ips: Schema.Array(Schema.String),
-  ports: Schema.Array(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", frequency: "frequency", ips: "ips", ports: "ports" }))) as unknown as Schema.Schema<ListScanConfigsResponse>;
+export const ListScanConfigsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    accountId: Schema.String,
+    frequency: Schema.Number,
+    ips: Schema.Array(Schema.String),
+    ports: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      frequency: "frequency",
+      ips: "ips",
+      ports: "ports",
+    }),
+  ),
+) as unknown as Schema.Schema<ListScanConfigsResponse>;
 
-export type ListScanConfigsError =
-  | DefaultErrors;
+export type ListScanConfigsError = DefaultErrors;
 
 export const listScanConfigs: API.OperationMethod<
   ListScanConfigsRequest,
@@ -1229,9 +1749,13 @@ export const CreateScanConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   ips: Schema.Array(Schema.String),
   frequency: Schema.optional(Schema.Number),
-  ports: Schema.optional(Schema.Array(Schema.String))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/scans/config" })) as unknown as Schema.Schema<CreateScanConfigRequest>;
+  ports: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/scans/config",
+  }),
+) as unknown as Schema.Schema<CreateScanConfigRequest>;
 
 export interface CreateScanConfigResponse {
   /** Defines the Config ID. */
@@ -1250,11 +1774,18 @@ export const CreateScanConfigResponse = Schema.Struct({
   accountId: Schema.String,
   frequency: Schema.Number,
   ips: Schema.Array(Schema.String),
-  ports: Schema.Array(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", frequency: "frequency", ips: "ips", ports: "ports" })) as unknown as Schema.Schema<CreateScanConfigResponse>;
+  ports: Schema.Array(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    frequency: "frequency",
+    ips: "ips",
+    ports: "ports",
+  }),
+) as unknown as Schema.Schema<CreateScanConfigResponse>;
 
-export type CreateScanConfigError =
-  | DefaultErrors;
+export type CreateScanConfigError = DefaultErrors;
 
 export const createScanConfig: API.OperationMethod<
   CreateScanConfigRequest,
@@ -1284,9 +1815,13 @@ export const PatchScanConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   frequency: Schema.optional(Schema.Number),
   ips: Schema.optional(Schema.Array(Schema.String)),
-  ports: Schema.optional(Schema.Array(Schema.String))
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/cloudforce-one/scans/config/{configId}" })) as unknown as Schema.Schema<PatchScanConfigRequest>;
+  ports: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/cloudforce-one/scans/config/{configId}",
+  }),
+) as unknown as Schema.Schema<PatchScanConfigRequest>;
 
 export interface PatchScanConfigResponse {
   /** Defines the Config ID. */
@@ -1305,11 +1840,18 @@ export const PatchScanConfigResponse = Schema.Struct({
   accountId: Schema.String,
   frequency: Schema.Number,
   ips: Schema.Array(Schema.String),
-  ports: Schema.Array(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountId: "account_id", frequency: "frequency", ips: "ips", ports: "ports" })) as unknown as Schema.Schema<PatchScanConfigResponse>;
+  ports: Schema.Array(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    frequency: "frequency",
+    ips: "ips",
+    ports: "ports",
+  }),
+) as unknown as Schema.Schema<PatchScanConfigResponse>;
 
-export type PatchScanConfigError =
-  | DefaultErrors;
+export type PatchScanConfigError = DefaultErrors;
 
 export const patchScanConfig: API.OperationMethod<
   PatchScanConfigRequest,
@@ -1330,16 +1872,20 @@ export interface DeleteScanConfigRequest {
 
 export const DeleteScanConfigRequest = Schema.Struct({
   configId: Schema.String.pipe(T.HttpPath("configId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/scans/config/{configId}" })) as unknown as Schema.Schema<DeleteScanConfigRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/scans/config/{configId}",
+  }),
+) as unknown as Schema.Schema<DeleteScanConfigRequest>;
 
 export type DeleteScanConfigResponse = unknown;
 
-export const DeleteScanConfigResponse = Schema.Unknown as unknown as Schema.Schema<DeleteScanConfigResponse>;
+export const DeleteScanConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteScanConfigResponse>;
 
-export type DeleteScanConfigError =
-  | DefaultErrors;
+export type DeleteScanConfigError = DefaultErrors;
 
 export const deleteScanConfig: API.OperationMethod<
   DeleteScanConfigRequest,
@@ -1351,7 +1897,6 @@ export const deleteScanConfig: API.OperationMethod<
   output: DeleteScanConfigResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ScanResult
@@ -1365,24 +1910,29 @@ export interface GetScanResultRequest {
 
 export const GetScanResultRequest = Schema.Struct({
   configId: Schema.String.pipe(T.HttpPath("configId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/scans/results/{configId}" })) as unknown as Schema.Schema<GetScanResultRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/scans/results/{configId}",
+  }),
+) as unknown as Schema.Schema<GetScanResultRequest>;
 
 export interface GetScanResultResponse {
-  '1.1.1.1': { number?: number; proto?: string; status?: string }[];
+  "1.1.1.1": { number?: number; proto?: string; status?: string }[];
 }
 
 export const GetScanResultResponse = Schema.Struct({
-  '1.1.1.1': Schema.Array(Schema.Struct({
-  number: Schema.optional(Schema.Number),
-  proto: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String)
-}))
+  "1.1.1.1": Schema.Array(
+    Schema.Struct({
+      number: Schema.optional(Schema.Number),
+      proto: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+    }),
+  ),
 }) as unknown as Schema.Schema<GetScanResultResponse>;
 
-export type GetScanResultError =
-  | DefaultErrors;
+export type GetScanResultError = DefaultErrors;
 
 export const getScanResult: API.OperationMethod<
   GetScanResultRequest,
@@ -1394,7 +1944,6 @@ export const getScanResult: API.OperationMethod<
   output: GetScanResultResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEvent
@@ -1408,9 +1957,13 @@ export interface GetThreatEventRequest {
 
 export const GetThreatEventRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/{eventId}" })) as unknown as Schema.Schema<GetThreatEventRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/{eventId}",
+  }),
+) as unknown as Schema.Schema<GetThreatEventRequest>;
 
 export interface GetThreatEventResponse {
   attacker: string;
@@ -1465,11 +2018,10 @@ export const GetThreatEventResponse = Schema.Struct({
   tlp: Schema.String,
   uuid: Schema.String,
   insight: Schema.optional(Schema.String),
-  releasabilityId: Schema.optional(Schema.String)
+  releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetThreatEventResponse>;
 
-export type GetThreatEventError =
-  | DefaultErrors;
+export type GetThreatEventError = DefaultErrors;
 
 export const getThreatEvent: API.OperationMethod<
   GetThreatEventRequest,
@@ -1500,58 +2052,138 @@ export interface ListThreatEventsRequest {
   /** Query param: */
   pageSize?: number;
   /** Query param: */
-  search?: ({ field?: string; op?: "equals" | "not" | "gt" | "gte" | "lt" | "lte" | "like" | "contains" | "startsWith" | "endsWith" | "in" | "find"; value?: string | number | (string | number)[] })[];
+  search?: {
+    field?: string;
+    op?:
+      | "equals"
+      | "not"
+      | "gt"
+      | "gte"
+      | "lt"
+      | "lte"
+      | "like"
+      | "contains"
+      | "startsWith"
+      | "endsWith"
+      | "in"
+      | "find";
+    value?: string | number | (string | number)[];
+  }[];
 }
 
 export const ListThreatEventsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  datasetId: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("datasetId")),
-  forceRefresh: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("forceRefresh")),
-  format: Schema.optional(Schema.Literals(["json", "stix2"])).pipe(T.HttpQuery("format")),
-  order: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("order")),
+  datasetId: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("datasetId"),
+  ),
+  forceRefresh: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("forceRefresh"),
+  ),
+  format: Schema.optional(Schema.Literals(["json", "stix2"])).pipe(
+    T.HttpQuery("format"),
+  ),
+  order: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("order"),
+  ),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   page: Schema.optional(Schema.Number).pipe(T.HttpQuery("page")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  search: Schema.optional(Schema.Array(Schema.Struct({
-  field: Schema.optional(Schema.String),
-  op: Schema.optional(Schema.Literals(["equals", "not", "gt", "gte", "lt", "lte", "like", "contains", "startsWith", "endsWith", "in", "find"])),
-  value: Schema.optional(Schema.Union([Schema.String, Schema.Number, Schema.Array(Schema.Union([Schema.String, Schema.Number]))]))
-}))).pipe(T.HttpQuery("search"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events" })) as unknown as Schema.Schema<ListThreatEventsRequest>;
+  search: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        field: Schema.optional(Schema.String),
+        op: Schema.optional(
+          Schema.Literals([
+            "equals",
+            "not",
+            "gt",
+            "gte",
+            "lt",
+            "lte",
+            "like",
+            "contains",
+            "startsWith",
+            "endsWith",
+            "in",
+            "find",
+          ]),
+        ),
+        value: Schema.optional(
+          Schema.Union([
+            Schema.String,
+            Schema.Number,
+            Schema.Array(Schema.Union([Schema.String, Schema.Number])),
+          ]),
+        ),
+      }),
+    ),
+  ).pipe(T.HttpQuery("search")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events",
+  }),
+) as unknown as Schema.Schema<ListThreatEventsRequest>;
 
-export type ListThreatEventsResponse = { attacker: string; attackerCountry: string; category: string; date: string; event: string; hasChildren: boolean; indicator: string; indicatorType: string; indicatorTypeId: number; killChain: number; mitreAttack: string[]; numReferenced: number; numReferences: number; rawId: string; referenced: string[]; referencedIds: number[]; references: string[]; referencesIds: number[]; tags: string[]; targetCountry: string; targetIndustry: string; tlp: string; uuid: string; insight?: string; releasabilityId?: string }[];
+export type ListThreatEventsResponse = {
+  attacker: string;
+  attackerCountry: string;
+  category: string;
+  date: string;
+  event: string;
+  hasChildren: boolean;
+  indicator: string;
+  indicatorType: string;
+  indicatorTypeId: number;
+  killChain: number;
+  mitreAttack: string[];
+  numReferenced: number;
+  numReferences: number;
+  rawId: string;
+  referenced: string[];
+  referencedIds: number[];
+  references: string[];
+  referencesIds: number[];
+  tags: string[];
+  targetCountry: string;
+  targetIndustry: string;
+  tlp: string;
+  uuid: string;
+  insight?: string;
+  releasabilityId?: string;
+}[];
 
-export const ListThreatEventsResponse = Schema.Array(Schema.Struct({
-  attacker: Schema.String,
-  attackerCountry: Schema.String,
-  category: Schema.String,
-  date: Schema.String,
-  event: Schema.String,
-  hasChildren: Schema.Boolean,
-  indicator: Schema.String,
-  indicatorType: Schema.String,
-  indicatorTypeId: Schema.Number,
-  killChain: Schema.Number,
-  mitreAttack: Schema.Array(Schema.String),
-  numReferenced: Schema.Number,
-  numReferences: Schema.Number,
-  rawId: Schema.String,
-  referenced: Schema.Array(Schema.String),
-  referencedIds: Schema.Array(Schema.Number),
-  references: Schema.Array(Schema.String),
-  referencesIds: Schema.Array(Schema.Number),
-  tags: Schema.Array(Schema.String),
-  targetCountry: Schema.String,
-  targetIndustry: Schema.String,
-  tlp: Schema.String,
-  uuid: Schema.String,
-  insight: Schema.optional(Schema.String),
-  releasabilityId: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListThreatEventsResponse>;
+export const ListThreatEventsResponse = Schema.Array(
+  Schema.Struct({
+    attacker: Schema.String,
+    attackerCountry: Schema.String,
+    category: Schema.String,
+    date: Schema.String,
+    event: Schema.String,
+    hasChildren: Schema.Boolean,
+    indicator: Schema.String,
+    indicatorType: Schema.String,
+    indicatorTypeId: Schema.Number,
+    killChain: Schema.Number,
+    mitreAttack: Schema.Array(Schema.String),
+    numReferenced: Schema.Number,
+    numReferences: Schema.Number,
+    rawId: Schema.String,
+    referenced: Schema.Array(Schema.String),
+    referencedIds: Schema.Array(Schema.Number),
+    references: Schema.Array(Schema.String),
+    referencesIds: Schema.Array(Schema.Number),
+    tags: Schema.Array(Schema.String),
+    targetCountry: Schema.String,
+    targetIndustry: Schema.String,
+    tlp: Schema.String,
+    uuid: Schema.String,
+    insight: Schema.optional(Schema.String),
+    releasabilityId: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListThreatEventsResponse>;
 
-export type ListThreatEventsError =
-  | DefaultErrors;
+export type ListThreatEventsError = DefaultErrors;
 
 export const listThreatEvents: API.OperationMethod<
   ListThreatEventsRequest,
@@ -1607,27 +2239,35 @@ export const CreateThreatEventRequest = Schema.Struct({
   date: Schema.String,
   event: Schema.String,
   raw: Schema.Struct({
-  data: Schema.Union([Schema.Struct({}), Schema.Null]),
-  source: Schema.optional(Schema.String),
-  tlp: Schema.optional(Schema.String)
-}),
+    data: Schema.Union([Schema.Struct({}), Schema.Null]),
+    source: Schema.optional(Schema.String),
+    tlp: Schema.optional(Schema.String),
+  }),
   tlp: Schema.String,
   attacker: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   attackerCountry: Schema.optional(Schema.String),
   datasetId: Schema.optional(Schema.String),
   indicator: Schema.optional(Schema.String),
-  indicators: Schema.optional(Schema.Array(Schema.Struct({
-  indicatorType: Schema.String,
-  value: Schema.String
-}))),
+  indicators: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        indicatorType: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  ),
   indicatorType: Schema.optional(Schema.String),
   insight: Schema.optional(Schema.String),
   tags: Schema.optional(Schema.Array(Schema.String)),
   targetCountry: Schema.optional(Schema.String),
   targetIndustry: Schema.optional(Schema.String),
-  uuid: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/events/create" })) as unknown as Schema.Schema<CreateThreatEventRequest>;
+  uuid: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/events/create",
+  }),
+) as unknown as Schema.Schema<CreateThreatEventRequest>;
 
 export interface CreateThreatEventResponse {
   attacker: string;
@@ -1682,11 +2322,10 @@ export const CreateThreatEventResponse = Schema.Struct({
   tlp: Schema.String,
   uuid: Schema.String,
   insight: Schema.optional(Schema.String),
-  releasabilityId: Schema.optional(Schema.String)
+  releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventResponse>;
 
-export type CreateThreatEventError =
-  | DefaultErrors;
+export type CreateThreatEventError = DefaultErrors;
 
 export const createThreatEvent: API.OperationMethod<
   CreateThreatEventRequest,
@@ -1724,7 +2363,11 @@ export interface PatchThreatEventRequest {
   /** Body param: */
   insight?: string;
   /** Body param: */
-  raw?: { data?: Record<string, unknown> | null; source?: string; tlp?: string };
+  raw?: {
+    data?: Record<string, unknown> | null;
+    source?: string;
+    tlp?: string;
+  };
   /** Body param: */
   targetCountry?: string;
   /** Body param: */
@@ -1746,16 +2389,22 @@ export const PatchThreatEventRequest = Schema.Struct({
   indicator: Schema.optional(Schema.String),
   indicatorType: Schema.optional(Schema.String),
   insight: Schema.optional(Schema.String),
-  raw: Schema.optional(Schema.Struct({
-  data: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-  source: Schema.optional(Schema.String),
-  tlp: Schema.optional(Schema.String)
-})),
+  raw: Schema.optional(
+    Schema.Struct({
+      data: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      source: Schema.optional(Schema.String),
+      tlp: Schema.optional(Schema.String),
+    }),
+  ),
   targetCountry: Schema.optional(Schema.String),
   targetIndustry: Schema.optional(Schema.String),
-  tlp: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/cloudforce-one/events/{eventId}" })) as unknown as Schema.Schema<PatchThreatEventRequest>;
+  tlp: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/cloudforce-one/events/{eventId}",
+  }),
+) as unknown as Schema.Schema<PatchThreatEventRequest>;
 
 export interface PatchThreatEventResponse {
   attacker: string;
@@ -1810,11 +2459,10 @@ export const PatchThreatEventResponse = Schema.Struct({
   tlp: Schema.String,
   uuid: Schema.String,
   insight: Schema.optional(Schema.String),
-  releasabilityId: Schema.optional(Schema.String)
+  releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchThreatEventResponse>;
 
-export type PatchThreatEventError =
-  | DefaultErrors;
+export type PatchThreatEventError = DefaultErrors;
 
 export const patchThreatEvent: API.OperationMethod<
   PatchThreatEventRequest,
@@ -1835,20 +2483,23 @@ export interface DeleteThreatEventRequest {
 
 export const DeleteThreatEventRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/events/{eventId}" })) as unknown as Schema.Schema<DeleteThreatEventRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/events/{eventId}",
+  }),
+) as unknown as Schema.Schema<DeleteThreatEventRequest>;
 
 export interface DeleteThreatEventResponse {
   uuid: string;
 }
 
 export const DeleteThreatEventResponse = Schema.Struct({
-  uuid: Schema.String
+  uuid: Schema.String,
 }) as unknown as Schema.Schema<DeleteThreatEventResponse>;
 
-export type DeleteThreatEventError =
-  | DefaultErrors;
+export type DeleteThreatEventError = DefaultErrors;
 
 export const deleteThreatEvent: API.OperationMethod<
   DeleteThreatEventRequest,
@@ -1865,7 +2516,29 @@ export interface BulkCreateThreatEventsRequest {
   /** Path param: Account ID. */
   accountId: string;
   /** Body param: */
-  data: ({ category: string; date: string; event: string; raw: { data: Record<string, unknown> | null; source?: string; tlp?: string }; tlp: string; accountId?: number; attacker?: string | null; attackerCountry?: string; datasetId?: string; indicator?: string; indicators?: { indicatorType: string; value: string }[]; indicatorType?: string; insight?: string; tags?: string[]; targetCountry?: string; targetIndustry?: string; uuid?: string })[];
+  data: {
+    category: string;
+    date: string;
+    event: string;
+    raw: {
+      data: Record<string, unknown> | null;
+      source?: string;
+      tlp?: string;
+    };
+    tlp: string;
+    accountId?: number;
+    attacker?: string | null;
+    attackerCountry?: string;
+    datasetId?: string;
+    indicator?: string;
+    indicators?: { indicatorType: string; value: string }[];
+    indicatorType?: string;
+    insight?: string;
+    tags?: string[];
+    targetCountry?: string;
+    targetIndustry?: string;
+    uuid?: string;
+  }[];
   /** Body param: */
   datasetId: string;
   /** Body param: When true, use provided UUIDs from event data instead of generating new ones. Used for migration scenarios where original UUIDs must be preserved. Duplicate UUIDs will be skipped. */
@@ -1874,36 +2547,46 @@ export interface BulkCreateThreatEventsRequest {
 
 export const BulkCreateThreatEventsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  data: Schema.Array(Schema.Struct({
-  category: Schema.String,
-  date: Schema.String,
-  event: Schema.String,
-  raw: Schema.Struct({
-    data: Schema.Union([Schema.Struct({}), Schema.Null]),
-    source: Schema.optional(Schema.String),
-    tlp: Schema.optional(Schema.String)
-  }),
-  tlp: Schema.String,
-  accountId: Schema.optional(Schema.Number),
-  attacker: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  attackerCountry: Schema.optional(Schema.String),
-  datasetId: Schema.optional(Schema.String),
-  indicator: Schema.optional(Schema.String),
-  indicators: Schema.optional(Schema.Array(Schema.Struct({
-    indicatorType: Schema.String,
-    value: Schema.String
-  }))),
-  indicatorType: Schema.optional(Schema.String),
-  insight: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  targetCountry: Schema.optional(Schema.String),
-  targetIndustry: Schema.optional(Schema.String),
-  uuid: Schema.optional(Schema.String)
-})),
+  data: Schema.Array(
+    Schema.Struct({
+      category: Schema.String,
+      date: Schema.String,
+      event: Schema.String,
+      raw: Schema.Struct({
+        data: Schema.Union([Schema.Struct({}), Schema.Null]),
+        source: Schema.optional(Schema.String),
+        tlp: Schema.optional(Schema.String),
+      }),
+      tlp: Schema.String,
+      accountId: Schema.optional(Schema.Number),
+      attacker: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      attackerCountry: Schema.optional(Schema.String),
+      datasetId: Schema.optional(Schema.String),
+      indicator: Schema.optional(Schema.String),
+      indicators: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            indicatorType: Schema.String,
+            value: Schema.String,
+          }),
+        ),
+      ),
+      indicatorType: Schema.optional(Schema.String),
+      insight: Schema.optional(Schema.String),
+      tags: Schema.optional(Schema.Array(Schema.String)),
+      targetCountry: Schema.optional(Schema.String),
+      targetIndustry: Schema.optional(Schema.String),
+      uuid: Schema.optional(Schema.String),
+    }),
+  ),
   datasetId: Schema.String,
-  preserveUuid: Schema.optional(Schema.Boolean)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/events/create/bulk" })) as unknown as Schema.Schema<BulkCreateThreatEventsRequest>;
+  preserveUuid: Schema.optional(Schema.Boolean),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/events/create/bulk",
+  }),
+) as unknown as Schema.Schema<BulkCreateThreatEventsRequest>;
 
 export interface BulkCreateThreatEventsResponse {
   /** Number of events created */
@@ -1929,14 +2612,17 @@ export const BulkCreateThreatEventsResponse = Schema.Struct({
   queuedIndicatorsCount: Schema.Number,
   skippedEventsCount: Schema.Number,
   createBulkEventsRequestId: Schema.optional(Schema.String),
-  errors: Schema.optional(Schema.Array(Schema.Struct({
-  error: Schema.String,
-  eventIndex: Schema.Number
-})))
+  errors: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        error: Schema.String,
+        eventIndex: Schema.Number,
+      }),
+    ),
+  ),
 }) as unknown as Schema.Schema<BulkCreateThreatEventsResponse>;
 
-export type BulkCreateThreatEventsError =
-  | DefaultErrors;
+export type BulkCreateThreatEventsError = DefaultErrors;
 
 export const bulkCreateThreatEvents: API.OperationMethod<
   BulkCreateThreatEventsRequest,
@@ -1948,7 +2634,6 @@ export const bulkCreateThreatEvents: API.OperationMethod<
   output: BulkCreateThreatEventsResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventAttacker
@@ -1963,9 +2648,15 @@ export interface ListThreatEventAttackersRequest {
 
 export const ListThreatEventAttackersRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("datasetIds"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/attackers" })) as unknown as Schema.Schema<ListThreatEventAttackersRequest>;
+  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("datasetIds"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/attackers",
+  }),
+) as unknown as Schema.Schema<ListThreatEventAttackersRequest>;
 
 export interface ListThreatEventAttackersResponse {
   items: { type: string };
@@ -1974,13 +2665,12 @@ export interface ListThreatEventAttackersResponse {
 
 export const ListThreatEventAttackersResponse = Schema.Struct({
   items: Schema.Struct({
-  type: Schema.String
-}),
-  type: Schema.String
+    type: Schema.String,
+  }),
+  type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventAttackersResponse>;
 
-export type ListThreatEventAttackersError =
-  | DefaultErrors;
+export type ListThreatEventAttackersError = DefaultErrors;
 
 export const listThreatEventAttackers: API.OperationMethod<
   ListThreatEventAttackersRequest,
@@ -1992,7 +2682,6 @@ export const listThreatEventAttackers: API.OperationMethod<
   output: ListThreatEventAttackersResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventCategory
@@ -2006,9 +2695,13 @@ export interface GetThreatEventCategoryRequest {
 
 export const GetThreatEventCategoryRequest = Schema.Struct({
   categoryId: Schema.String.pipe(T.HttpPath("categoryId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/categories/{categoryId}" })) as unknown as Schema.Schema<GetThreatEventCategoryRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/categories/{categoryId}",
+  }),
+) as unknown as Schema.Schema<GetThreatEventCategoryRequest>;
 
 export interface GetThreatEventCategoryResponse {
   killChain: number;
@@ -2023,11 +2716,10 @@ export const GetThreatEventCategoryResponse = Schema.Struct({
   name: Schema.String,
   uuid: Schema.String,
   mitreAttack: Schema.optional(Schema.Array(Schema.String)),
-  shortname: Schema.optional(Schema.String)
+  shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetThreatEventCategoryResponse>;
 
-export type GetThreatEventCategoryError =
-  | DefaultErrors;
+export type GetThreatEventCategoryError = DefaultErrors;
 
 export const getThreatEventCategory: API.OperationMethod<
   GetThreatEventCategoryRequest,
@@ -2049,22 +2741,35 @@ export interface ListThreatEventCategoriesRequest {
 
 export const ListThreatEventCategoriesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("datasetIds"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/categories" })) as unknown as Schema.Schema<ListThreatEventCategoriesRequest>;
+  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("datasetIds"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/categories",
+  }),
+) as unknown as Schema.Schema<ListThreatEventCategoriesRequest>;
 
-export type ListThreatEventCategoriesResponse = { killChain: number; name: string; uuid: string; mitreAttack?: string[]; shortname?: string }[];
+export type ListThreatEventCategoriesResponse = {
+  killChain: number;
+  name: string;
+  uuid: string;
+  mitreAttack?: string[];
+  shortname?: string;
+}[];
 
-export const ListThreatEventCategoriesResponse = Schema.Array(Schema.Struct({
-  killChain: Schema.Number,
-  name: Schema.String,
-  uuid: Schema.String,
-  mitreAttack: Schema.optional(Schema.Array(Schema.String)),
-  shortname: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListThreatEventCategoriesResponse>;
+export const ListThreatEventCategoriesResponse = Schema.Array(
+  Schema.Struct({
+    killChain: Schema.Number,
+    name: Schema.String,
+    uuid: Schema.String,
+    mitreAttack: Schema.optional(Schema.Array(Schema.String)),
+    shortname: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListThreatEventCategoriesResponse>;
 
-export type ListThreatEventCategoriesError =
-  | DefaultErrors;
+export type ListThreatEventCategoriesError = DefaultErrors;
 
 export const listThreatEventCategories: API.OperationMethod<
   ListThreatEventCategoriesRequest,
@@ -2095,9 +2800,13 @@ export const CreateThreatEventCategoryRequest = Schema.Struct({
   killChain: Schema.Number,
   name: Schema.String,
   mitreAttack: Schema.optional(Schema.Array(Schema.String)),
-  shortname: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/events/categories/create" })) as unknown as Schema.Schema<CreateThreatEventCategoryRequest>;
+  shortname: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/events/categories/create",
+  }),
+) as unknown as Schema.Schema<CreateThreatEventCategoryRequest>;
 
 export interface CreateThreatEventCategoryResponse {
   killChain: number;
@@ -2112,11 +2821,10 @@ export const CreateThreatEventCategoryResponse = Schema.Struct({
   name: Schema.String,
   uuid: Schema.String,
   mitreAttack: Schema.optional(Schema.Array(Schema.String)),
-  shortname: Schema.optional(Schema.String)
+  shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventCategoryResponse>;
 
-export type CreateThreatEventCategoryError =
-  | DefaultErrors;
+export type CreateThreatEventCategoryError = DefaultErrors;
 
 export const createThreatEventCategory: API.OperationMethod<
   CreateThreatEventCategoryRequest,
@@ -2149,9 +2857,13 @@ export const PatchThreatEventCategoryRequest = Schema.Struct({
   killChain: Schema.optional(Schema.Number),
   mitreAttack: Schema.optional(Schema.Array(Schema.String)),
   name: Schema.optional(Schema.String),
-  shortname: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/cloudforce-one/events/categories/{categoryId}" })) as unknown as Schema.Schema<PatchThreatEventCategoryRequest>;
+  shortname: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/cloudforce-one/events/categories/{categoryId}",
+  }),
+) as unknown as Schema.Schema<PatchThreatEventCategoryRequest>;
 
 export interface PatchThreatEventCategoryResponse {
   killChain: number;
@@ -2166,11 +2878,10 @@ export const PatchThreatEventCategoryResponse = Schema.Struct({
   name: Schema.String,
   uuid: Schema.String,
   mitreAttack: Schema.optional(Schema.Array(Schema.String)),
-  shortname: Schema.optional(Schema.String)
+  shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchThreatEventCategoryResponse>;
 
-export type PatchThreatEventCategoryError =
-  | DefaultErrors;
+export type PatchThreatEventCategoryError = DefaultErrors;
 
 export const patchThreatEventCategory: API.OperationMethod<
   PatchThreatEventCategoryRequest,
@@ -2191,20 +2902,23 @@ export interface DeleteThreatEventCategoryRequest {
 
 export const DeleteThreatEventCategoryRequest = Schema.Struct({
   categoryId: Schema.String.pipe(T.HttpPath("categoryId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/events/categories/{categoryId}" })) as unknown as Schema.Schema<DeleteThreatEventCategoryRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/events/categories/{categoryId}",
+  }),
+) as unknown as Schema.Schema<DeleteThreatEventCategoryRequest>;
 
 export interface DeleteThreatEventCategoryResponse {
   uuid: string;
 }
 
 export const DeleteThreatEventCategoryResponse = Schema.Struct({
-  uuid: Schema.String
+  uuid: Schema.String,
 }) as unknown as Schema.Schema<DeleteThreatEventCategoryResponse>;
 
-export type DeleteThreatEventCategoryError =
-  | DefaultErrors;
+export type DeleteThreatEventCategoryError = DefaultErrors;
 
 export const deleteThreatEventCategory: API.OperationMethod<
   DeleteThreatEventCategoryRequest,
@@ -2217,7 +2931,6 @@ export const deleteThreatEventCategory: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // ThreatEventCountry
 // =============================================================================
@@ -2228,22 +2941,32 @@ export interface ListThreatEventCountriesRequest {
 }
 
 export const ListThreatEventCountriesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/countries" })) as unknown as Schema.Schema<ListThreatEventCountriesRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/countries",
+  }),
+) as unknown as Schema.Schema<ListThreatEventCountriesRequest>;
 
-export type ListThreatEventCountriesResponse = { result: { alpha3: string; name: string }[]; success: string }[];
+export type ListThreatEventCountriesResponse = {
+  result: { alpha3: string; name: string }[];
+  success: string;
+}[];
 
-export const ListThreatEventCountriesResponse = Schema.Array(Schema.Struct({
-  result: Schema.Array(Schema.Struct({
-    alpha3: Schema.String,
-    name: Schema.String
-  })),
-  success: Schema.String
-})) as unknown as Schema.Schema<ListThreatEventCountriesResponse>;
+export const ListThreatEventCountriesResponse = Schema.Array(
+  Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        alpha3: Schema.String,
+        name: Schema.String,
+      }),
+    ),
+    success: Schema.String,
+  }),
+) as unknown as Schema.Schema<ListThreatEventCountriesResponse>;
 
-export type ListThreatEventCountriesError =
-  | DefaultErrors;
+export type ListThreatEventCountriesError = DefaultErrors;
 
 export const listThreatEventCountries: API.OperationMethod<
   ListThreatEventCountriesRequest,
@@ -2255,7 +2978,6 @@ export const listThreatEventCountries: API.OperationMethod<
   output: ListThreatEventCountriesResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventDataset
@@ -2269,9 +2991,13 @@ export interface GetThreatEventDatasetRequest {
 
 export const GetThreatEventDatasetRequest = Schema.Struct({
   datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/dataset/{datasetId}" })) as unknown as Schema.Schema<GetThreatEventDatasetRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/dataset/{datasetId}",
+  }),
+) as unknown as Schema.Schema<GetThreatEventDatasetRequest>;
 
 export interface GetThreatEventDatasetResponse {
   isPublic: boolean;
@@ -2282,11 +3008,10 @@ export interface GetThreatEventDatasetResponse {
 export const GetThreatEventDatasetResponse = Schema.Struct({
   isPublic: Schema.Boolean,
   name: Schema.String,
-  uuid: Schema.String
+  uuid: Schema.String,
 }) as unknown as Schema.Schema<GetThreatEventDatasetResponse>;
 
-export type GetThreatEventDatasetError =
-  | DefaultErrors;
+export type GetThreatEventDatasetError = DefaultErrors;
 
 export const getThreatEventDataset: API.OperationMethod<
   GetThreatEventDatasetRequest,
@@ -2305,20 +3030,29 @@ export interface ListThreatEventDatasetsRequest {
 }
 
 export const ListThreatEventDatasetsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/dataset" })) as unknown as Schema.Schema<ListThreatEventDatasetsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/dataset",
+  }),
+) as unknown as Schema.Schema<ListThreatEventDatasetsRequest>;
 
-export type ListThreatEventDatasetsResponse = { isPublic: boolean; name: string; uuid: string }[];
+export type ListThreatEventDatasetsResponse = {
+  isPublic: boolean;
+  name: string;
+  uuid: string;
+}[];
 
-export const ListThreatEventDatasetsResponse = Schema.Array(Schema.Struct({
-  isPublic: Schema.Boolean,
-  name: Schema.String,
-  uuid: Schema.String
-})) as unknown as Schema.Schema<ListThreatEventDatasetsResponse>;
+export const ListThreatEventDatasetsResponse = Schema.Array(
+  Schema.Struct({
+    isPublic: Schema.Boolean,
+    name: Schema.String,
+    uuid: Schema.String,
+  }),
+) as unknown as Schema.Schema<ListThreatEventDatasetsResponse>;
 
-export type ListThreatEventDatasetsError =
-  | DefaultErrors;
+export type ListThreatEventDatasetsError = DefaultErrors;
 
 export const listThreatEventDatasets: API.OperationMethod<
   ListThreatEventDatasetsRequest,
@@ -2343,9 +3077,13 @@ export interface CreateThreatEventDatasetRequest {
 export const CreateThreatEventDatasetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   isPublic: Schema.Boolean,
-  name: Schema.String
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/events/dataset/create" })) as unknown as Schema.Schema<CreateThreatEventDatasetRequest>;
+  name: Schema.String,
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/events/dataset/create",
+  }),
+) as unknown as Schema.Schema<CreateThreatEventDatasetRequest>;
 
 export interface CreateThreatEventDatasetResponse {
   isPublic: boolean;
@@ -2356,11 +3094,10 @@ export interface CreateThreatEventDatasetResponse {
 export const CreateThreatEventDatasetResponse = Schema.Struct({
   isPublic: Schema.Boolean,
   name: Schema.String,
-  uuid: Schema.String
+  uuid: Schema.String,
 }) as unknown as Schema.Schema<CreateThreatEventDatasetResponse>;
 
-export type CreateThreatEventDatasetError =
-  | DefaultErrors;
+export type CreateThreatEventDatasetError = DefaultErrors;
 
 export const createThreatEventDataset: API.OperationMethod<
   CreateThreatEventDatasetRequest,
@@ -2387,9 +3124,13 @@ export const PatchThreatEventDatasetRequest = Schema.Struct({
   datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   isPublic: Schema.Boolean,
-  name: Schema.String
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/cloudforce-one/events/dataset/{datasetId}" })) as unknown as Schema.Schema<PatchThreatEventDatasetRequest>;
+  name: Schema.String,
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/cloudforce-one/events/dataset/{datasetId}",
+  }),
+) as unknown as Schema.Schema<PatchThreatEventDatasetRequest>;
 
 export interface PatchThreatEventDatasetResponse {
   isPublic: boolean;
@@ -2400,11 +3141,10 @@ export interface PatchThreatEventDatasetResponse {
 export const PatchThreatEventDatasetResponse = Schema.Struct({
   isPublic: Schema.Boolean,
   name: Schema.String,
-  uuid: Schema.String
+  uuid: Schema.String,
 }) as unknown as Schema.Schema<PatchThreatEventDatasetResponse>;
 
-export type PatchThreatEventDatasetError =
-  | DefaultErrors;
+export type PatchThreatEventDatasetError = DefaultErrors;
 
 export const patchThreatEventDataset: API.OperationMethod<
   PatchThreatEventDatasetRequest,
@@ -2427,9 +3167,13 @@ export interface RawThreatEventDatasetRequest {
 export const RawThreatEventDatasetRequest = Schema.Struct({
   datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/raw/{datasetId}/{eventId}" })) as unknown as Schema.Schema<RawThreatEventDatasetRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/raw/{datasetId}/{eventId}",
+  }),
+) as unknown as Schema.Schema<RawThreatEventDatasetRequest>;
 
 export interface RawThreatEventDatasetResponse {
   id: string;
@@ -2446,11 +3190,10 @@ export const RawThreatEventDatasetResponse = Schema.Struct({
   created: Schema.String,
   data: Schema.Unknown,
   source: Schema.String,
-  tlp: Schema.String
+  tlp: Schema.String,
 }) as unknown as Schema.Schema<RawThreatEventDatasetResponse>;
 
-export type RawThreatEventDatasetError =
-  | DefaultErrors;
+export type RawThreatEventDatasetError = DefaultErrors;
 
 export const rawThreatEventDataset: API.OperationMethod<
   RawThreatEventDatasetRequest,
@@ -2462,7 +3205,6 @@ export const rawThreatEventDataset: API.OperationMethod<
   output: RawThreatEventDatasetResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventEventTag
@@ -2479,20 +3221,23 @@ export interface CreateThreatEventEventTagRequest {
 export const CreateThreatEventEventTagRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  tags: Schema.Array(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/events/event_tag/{eventId}/create" })) as unknown as Schema.Schema<CreateThreatEventEventTagRequest>;
+  tags: Schema.Array(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/events/event_tag/{eventId}/create",
+  }),
+) as unknown as Schema.Schema<CreateThreatEventEventTagRequest>;
 
 export interface CreateThreatEventEventTagResponse {
   success: boolean;
 }
 
 export const CreateThreatEventEventTagResponse = Schema.Struct({
-  success: Schema.Boolean
+  success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreateThreatEventEventTagResponse>;
 
-export type CreateThreatEventEventTagError =
-  | DefaultErrors;
+export type CreateThreatEventEventTagError = DefaultErrors;
 
 export const createThreatEventEventTag: API.OperationMethod<
   CreateThreatEventEventTagRequest,
@@ -2513,20 +3258,23 @@ export interface DeleteThreatEventEventTagRequest {
 
 export const DeleteThreatEventEventTagRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/events/event_tag/{eventId}" })) as unknown as Schema.Schema<DeleteThreatEventEventTagRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/events/event_tag/{eventId}",
+  }),
+) as unknown as Schema.Schema<DeleteThreatEventEventTagRequest>;
 
 export interface DeleteThreatEventEventTagResponse {
   success: boolean;
 }
 
 export const DeleteThreatEventEventTagResponse = Schema.Struct({
-  success: Schema.Boolean
+  success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteThreatEventEventTagResponse>;
 
-export type DeleteThreatEventEventTagError =
-  | DefaultErrors;
+export type DeleteThreatEventEventTagError = DefaultErrors;
 
 export const deleteThreatEventEventTag: API.OperationMethod<
   DeleteThreatEventEventTagRequest,
@@ -2539,7 +3287,6 @@ export const deleteThreatEventEventTag: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // ThreatEventIndicatorType
 // =============================================================================
@@ -2550,9 +3297,13 @@ export interface ListThreatEventIndicatorTypesRequest {
 }
 
 export const ListThreatEventIndicatorTypesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/indicatorTypes" })) as unknown as Schema.Schema<ListThreatEventIndicatorTypesRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/indicatorTypes",
+  }),
+) as unknown as Schema.Schema<ListThreatEventIndicatorTypesRequest>;
 
 export interface ListThreatEventIndicatorTypesResponse {
   items: { type: string };
@@ -2561,13 +3312,12 @@ export interface ListThreatEventIndicatorTypesResponse {
 
 export const ListThreatEventIndicatorTypesResponse = Schema.Struct({
   items: Schema.Struct({
-  type: Schema.String
-}),
-  type: Schema.String
+    type: Schema.String,
+  }),
+  type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventIndicatorTypesResponse>;
 
-export type ListThreatEventIndicatorTypesError =
-  | DefaultErrors;
+export type ListThreatEventIndicatorTypesError = DefaultErrors;
 
 export const listThreatEventIndicatorTypes: API.OperationMethod<
   ListThreatEventIndicatorTypesRequest,
@@ -2579,7 +3329,6 @@ export const listThreatEventIndicatorTypes: API.OperationMethod<
   output: ListThreatEventIndicatorTypesResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventRaw
@@ -2595,9 +3344,13 @@ export interface GetThreatEventRawRequest {
 export const GetThreatEventRawRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
   rawId: Schema.String.pipe(T.HttpPath("rawId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/{eventId}/raw/{rawId}" })) as unknown as Schema.Schema<GetThreatEventRawRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/{eventId}/raw/{rawId}",
+  }),
+) as unknown as Schema.Schema<GetThreatEventRawRequest>;
 
 export interface GetThreatEventRawResponse {
   id: string;
@@ -2614,11 +3367,10 @@ export const GetThreatEventRawResponse = Schema.Struct({
   created: Schema.String,
   data: Schema.Unknown,
   source: Schema.String,
-  tlp: Schema.String
+  tlp: Schema.String,
 }) as unknown as Schema.Schema<GetThreatEventRawResponse>;
 
-export type GetThreatEventRawError =
-  | DefaultErrors;
+export type GetThreatEventRawError = DefaultErrors;
 
 export const getThreatEventRaw: API.OperationMethod<
   GetThreatEventRawRequest,
@@ -2650,9 +3402,13 @@ export const PatchThreatEventRawRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   data: Schema.optional(Schema.Unknown),
   source: Schema.optional(Schema.String),
-  tlp: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/cloudforce-one/events/{eventId}/raw/{rawId}" })) as unknown as Schema.Schema<PatchThreatEventRawRequest>;
+  tlp: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/cloudforce-one/events/{eventId}/raw/{rawId}",
+  }),
+) as unknown as Schema.Schema<PatchThreatEventRawRequest>;
 
 export interface PatchThreatEventRawResponse {
   id: string;
@@ -2661,11 +3417,10 @@ export interface PatchThreatEventRawResponse {
 
 export const PatchThreatEventRawResponse = Schema.Struct({
   id: Schema.String,
-  data: Schema.Unknown
+  data: Schema.Unknown,
 }) as unknown as Schema.Schema<PatchThreatEventRawResponse>;
 
-export type PatchThreatEventRawError =
-  | DefaultErrors;
+export type PatchThreatEventRawError = DefaultErrors;
 
 export const patchThreatEventRaw: API.OperationMethod<
   PatchThreatEventRawRequest,
@@ -2677,7 +3432,6 @@ export const patchThreatEventRaw: API.OperationMethod<
   output: PatchThreatEventRawResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventRelate
@@ -2691,20 +3445,23 @@ export interface DeleteThreatEventRelateRequest {
 
 export const DeleteThreatEventRelateRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/cloudforce-one/events/relate/{eventId}" })) as unknown as Schema.Schema<DeleteThreatEventRelateRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cloudforce-one/events/relate/{eventId}",
+  }),
+) as unknown as Schema.Schema<DeleteThreatEventRelateRequest>;
 
 export interface DeleteThreatEventRelateResponse {
   success: boolean;
 }
 
 export const DeleteThreatEventRelateResponse = Schema.Struct({
-  success: Schema.Boolean
+  success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteThreatEventRelateResponse>;
 
-export type DeleteThreatEventRelateError =
-  | DefaultErrors;
+export type DeleteThreatEventRelateError = DefaultErrors;
 
 export const deleteThreatEventRelate: API.OperationMethod<
   DeleteThreatEventRelateRequest,
@@ -2716,7 +3473,6 @@ export const deleteThreatEventRelate: API.OperationMethod<
   output: DeleteThreatEventRelateResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventTag
@@ -2776,9 +3532,13 @@ export const CreateThreatEventTagRequest = Schema.Struct({
   opsecLevel: Schema.optional(Schema.String),
   originCountryISO: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.Number),
-  sophisticationLevel: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/cloudforce-one/events/tags/create" })) as unknown as Schema.Schema<CreateThreatEventTagRequest>;
+  sophisticationLevel: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/cloudforce-one/events/tags/create",
+  }),
+) as unknown as Schema.Schema<CreateThreatEventTagRequest>;
 
 export interface CreateThreatEventTagResponse {
   uuid: string;
@@ -2819,11 +3579,10 @@ export const CreateThreatEventTagResponse = Schema.Struct({
   opsecLevel: Schema.optional(Schema.String),
   originCountryISO: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.Number),
-  sophisticationLevel: Schema.optional(Schema.String)
+  sophisticationLevel: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventTagResponse>;
 
-export type CreateThreatEventTagError =
-  | DefaultErrors;
+export type CreateThreatEventTagError = DefaultErrors;
 
 export const createThreatEventTag: API.OperationMethod<
   CreateThreatEventTagRequest,
@@ -2835,7 +3594,6 @@ export const createThreatEventTag: API.OperationMethod<
   output: CreateThreatEventTagResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ThreatEventTargetIndustry
@@ -2850,9 +3608,15 @@ export interface ListThreatEventTargetIndustriesRequest {
 
 export const ListThreatEventTargetIndustriesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("datasetIds"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/cloudforce-one/events/targetIndustries" })) as unknown as Schema.Schema<ListThreatEventTargetIndustriesRequest>;
+  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("datasetIds"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cloudforce-one/events/targetIndustries",
+  }),
+) as unknown as Schema.Schema<ListThreatEventTargetIndustriesRequest>;
 
 export interface ListThreatEventTargetIndustriesResponse {
   items: { type: string };
@@ -2861,13 +3625,12 @@ export interface ListThreatEventTargetIndustriesResponse {
 
 export const ListThreatEventTargetIndustriesResponse = Schema.Struct({
   items: Schema.Struct({
-  type: Schema.String
-}),
-  type: Schema.String
+    type: Schema.String,
+  }),
+  type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventTargetIndustriesResponse>;
 
-export type ListThreatEventTargetIndustriesError =
-  | DefaultErrors;
+export type ListThreatEventTargetIndustriesError = DefaultErrors;
 
 export const listThreatEventTargetIndustries: API.OperationMethod<
   ListThreatEventTargetIndustriesRequest,

@@ -36,13 +36,18 @@ export interface GoogleAdsHomeservicesLocalservicesV1BookingLead {
   bookingAppointmentTimestamp?: string;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1BookingLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1BookingLead> = Schema.suspend(() => Schema.Struct({
-  consumerPhoneNumber: Schema.optional(Schema.String),
-  consumerEmail: Schema.optional(Schema.String),
-  customerName: Schema.optional(Schema.String),
-  jobType: Schema.optional(Schema.String),
-  bookingAppointmentTimestamp: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1BookingLead" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1BookingLead>;
+export const GoogleAdsHomeservicesLocalservicesV1BookingLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1BookingLead> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      consumerPhoneNumber: Schema.optional(Schema.String),
+      consumerEmail: Schema.optional(Schema.String),
+      customerName: Schema.optional(Schema.String),
+      jobType: Schema.optional(Schema.String),
+      bookingAppointmentTimestamp: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAdsHomeservicesLocalservicesV1BookingLead",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1BookingLead>;
 
 export interface GoogleAdsHomeservicesLocalservicesV1MessageLead {
   /** The postal code of the customer who created the lead. */
@@ -55,12 +60,17 @@ export interface GoogleAdsHomeservicesLocalservicesV1MessageLead {
   consumerPhoneNumber?: string;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1MessageLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1MessageLead> = Schema.suspend(() => Schema.Struct({
-  postalCode: Schema.optional(Schema.String),
-  jobType: Schema.optional(Schema.String),
-  customerName: Schema.optional(Schema.String),
-  consumerPhoneNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1MessageLead" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1MessageLead>;
+export const GoogleAdsHomeservicesLocalservicesV1MessageLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1MessageLead> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      postalCode: Schema.optional(Schema.String),
+      jobType: Schema.optional(Schema.String),
+      customerName: Schema.optional(Schema.String),
+      consumerPhoneNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAdsHomeservicesLocalservicesV1MessageLead",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1MessageLead>;
 
 export interface GoogleTypeTimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
@@ -69,19 +79,29 @@ export interface GoogleTypeTimeZone {
   version?: string;
 }
 
-export const GoogleTypeTimeZone: Schema.Schema<GoogleTypeTimeZone> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeTimeZone" }) as any as Schema.Schema<GoogleTypeTimeZone>;
+export const GoogleTypeTimeZone: Schema.Schema<GoogleTypeTimeZone> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleTypeTimeZone",
+  }) as any as Schema.Schema<GoogleTypeTimeZone>;
 
 export interface GoogleAdsHomeservicesLocalservicesV1AggregatorInfo {
   /** Provider id (listed in aggregator system) which maps to a account id in GLS system. */
   aggregatorProviderId?: string;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1AggregatorInfo: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AggregatorInfo> = Schema.suspend(() => Schema.Struct({
-  aggregatorProviderId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1AggregatorInfo" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AggregatorInfo>;
+export const GoogleAdsHomeservicesLocalservicesV1AggregatorInfo: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AggregatorInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      aggregatorProviderId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAdsHomeservicesLocalservicesV1AggregatorInfo",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AggregatorInfo>;
 
 export interface GoogleAdsHomeservicesLocalservicesV1PhoneLead {
   /** Timestamp of the phone call which resulted in a charged phone lead. */
@@ -92,15 +112,25 @@ export interface GoogleAdsHomeservicesLocalservicesV1PhoneLead {
   chargedConnectedCallDurationSeconds?: string;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1PhoneLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1PhoneLead> = Schema.suspend(() => Schema.Struct({
-  chargedCallTimestamp: Schema.optional(Schema.String),
-  consumerPhoneNumber: Schema.optional(Schema.String),
-  chargedConnectedCallDurationSeconds: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1PhoneLead" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1PhoneLead>;
+export const GoogleAdsHomeservicesLocalservicesV1PhoneLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1PhoneLead> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      chargedCallTimestamp: Schema.optional(Schema.String),
+      consumerPhoneNumber: Schema.optional(Schema.String),
+      chargedConnectedCallDurationSeconds: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAdsHomeservicesLocalservicesV1PhoneLead",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1PhoneLead>;
 
 export interface GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport {
   /** Lead type. */
-  leadType?: "LEAD_TYPE_UNSPECIFIED" | "MESSAGE" | "PHONE_CALL" | "BOOKING" | (string & {});
+  leadType?:
+    | "LEAD_TYPE_UNSPECIFIED"
+    | "MESSAGE"
+    | "PHONE_CALL"
+    | "BOOKING"
+    | (string & {});
   /** Dispute status related to the lead. */
   disputeStatus?: string;
   /** Price of the lead (available only after it has been charged). */
@@ -112,7 +142,11 @@ export interface GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport {
   /** Currency code. */
   currencyCode?: string;
   /** Whether the lead has been charged. */
-  chargeStatus?: "CHARGE_STATUS_UNSPECIFIED" | "CHARGED" | "NOT_CHARGED" | (string & {});
+  chargeStatus?:
+    | "CHARGE_STATUS_UNSPECIFIED"
+    | "CHARGED"
+    | "NOT_CHARGED"
+    | (string & {});
   /** More information associated to only message leads. */
   messageLead?: GoogleAdsHomeservicesLocalservicesV1MessageLead;
   /** Timezone of the particular provider associated to a lead. */
@@ -135,25 +169,36 @@ export interface GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport {
   phoneLead?: GoogleAdsHomeservicesLocalservicesV1PhoneLead;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport> = Schema.suspend(() => Schema.Struct({
-  leadType: Schema.optional(Schema.String),
-  disputeStatus: Schema.optional(Schema.String),
-  leadPrice: Schema.optional(Schema.Number),
-  businessName: Schema.optional(Schema.String),
-  leadCategory: Schema.optional(Schema.String),
-  currencyCode: Schema.optional(Schema.String),
-  chargeStatus: Schema.optional(Schema.String),
-  messageLead: Schema.optional(GoogleAdsHomeservicesLocalservicesV1MessageLead),
-  timezone: Schema.optional(GoogleTypeTimeZone),
-  leadId: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  leadCreationTimestamp: Schema.optional(Schema.String),
-  geo: Schema.optional(Schema.String),
-  googleAdsLeadId: Schema.optional(Schema.String),
-  bookingLead: Schema.optional(GoogleAdsHomeservicesLocalservicesV1BookingLead),
-  aggregatorInfo: Schema.optional(GoogleAdsHomeservicesLocalservicesV1AggregatorInfo),
-  phoneLead: Schema.optional(GoogleAdsHomeservicesLocalservicesV1PhoneLead),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport>;
+export const GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      leadType: Schema.optional(Schema.String),
+      disputeStatus: Schema.optional(Schema.String),
+      leadPrice: Schema.optional(Schema.Number),
+      businessName: Schema.optional(Schema.String),
+      leadCategory: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+      chargeStatus: Schema.optional(Schema.String),
+      messageLead: Schema.optional(
+        GoogleAdsHomeservicesLocalservicesV1MessageLead,
+      ),
+      timezone: Schema.optional(GoogleTypeTimeZone),
+      leadId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      leadCreationTimestamp: Schema.optional(Schema.String),
+      geo: Schema.optional(Schema.String),
+      googleAdsLeadId: Schema.optional(Schema.String),
+      bookingLead: Schema.optional(
+        GoogleAdsHomeservicesLocalservicesV1BookingLead,
+      ),
+      aggregatorInfo: Schema.optional(
+        GoogleAdsHomeservicesLocalservicesV1AggregatorInfo,
+      ),
+      phoneLead: Schema.optional(GoogleAdsHomeservicesLocalservicesV1PhoneLead),
+    }),
+  ).annotate({
+    identifier: "GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport>;
 
 export interface GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse {
   /** Pagination token to retrieve the next page of results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
@@ -162,10 +207,18 @@ export interface GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsRe
   detailedLeadReports?: Array<GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport>;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  detailedLeadReports: Schema.optional(Schema.Array(GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport)),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse>;
+export const GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      detailedLeadReports: Schema.optional(
+        Schema.Array(GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse>;
 
 export interface GoogleAdsHomeservicesLocalservicesV1AccountReport {
   /** Total cost of the account in current specified period in the account's specified currency. */
@@ -204,25 +257,32 @@ export interface GoogleAdsHomeservicesLocalservicesV1AccountReport {
   previousPeriodConnectedPhoneCalls?: string;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1AccountReport: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AccountReport> = Schema.suspend(() => Schema.Struct({
-  currentPeriodTotalCost: Schema.optional(Schema.Number),
-  currentPeriodPhoneCalls: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  previousPeriodTotalCost: Schema.optional(Schema.Number),
-  impressionsLastTwoDays: Schema.optional(Schema.String),
-  previousPeriodChargedLeads: Schema.optional(Schema.String),
-  averageFiveStarRating: Schema.optional(Schema.Number),
-  previousPeriodPhoneCalls: Schema.optional(Schema.String),
-  totalReview: Schema.optional(Schema.Number),
-  aggregatorInfo: Schema.optional(GoogleAdsHomeservicesLocalservicesV1AggregatorInfo),
-  phoneLeadResponsiveness: Schema.optional(Schema.Number),
-  currentPeriodChargedLeads: Schema.optional(Schema.String),
-  businessName: Schema.optional(Schema.String),
-  averageWeeklyBudget: Schema.optional(Schema.Number),
-  currencyCode: Schema.optional(Schema.String),
-  currentPeriodConnectedPhoneCalls: Schema.optional(Schema.String),
-  previousPeriodConnectedPhoneCalls: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1AccountReport" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AccountReport>;
+export const GoogleAdsHomeservicesLocalservicesV1AccountReport: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AccountReport> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      currentPeriodTotalCost: Schema.optional(Schema.Number),
+      currentPeriodPhoneCalls: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      previousPeriodTotalCost: Schema.optional(Schema.Number),
+      impressionsLastTwoDays: Schema.optional(Schema.String),
+      previousPeriodChargedLeads: Schema.optional(Schema.String),
+      averageFiveStarRating: Schema.optional(Schema.Number),
+      previousPeriodPhoneCalls: Schema.optional(Schema.String),
+      totalReview: Schema.optional(Schema.Number),
+      aggregatorInfo: Schema.optional(
+        GoogleAdsHomeservicesLocalservicesV1AggregatorInfo,
+      ),
+      phoneLeadResponsiveness: Schema.optional(Schema.Number),
+      currentPeriodChargedLeads: Schema.optional(Schema.String),
+      businessName: Schema.optional(Schema.String),
+      averageWeeklyBudget: Schema.optional(Schema.Number),
+      currencyCode: Schema.optional(Schema.String),
+      currentPeriodConnectedPhoneCalls: Schema.optional(Schema.String),
+      previousPeriodConnectedPhoneCalls: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAdsHomeservicesLocalservicesV1AccountReport",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AccountReport>;
 
 export interface GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse {
   /** Pagination token to retrieve the next page of results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
@@ -231,10 +291,18 @@ export interface GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsRespons
   accountReports?: Array<GoogleAdsHomeservicesLocalservicesV1AccountReport>;
 }
 
-export const GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  accountReports: Schema.optional(Schema.Array(GoogleAdsHomeservicesLocalservicesV1AccountReport)),
-})).annotate({ identifier: "GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse" }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse>;
+export const GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      accountReports: Schema.optional(
+        Schema.Array(GoogleAdsHomeservicesLocalservicesV1AccountReport),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse",
+  }) as any as Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse>;
 
 // ==========================================================================
 // Operations
@@ -262,27 +330,46 @@ export interface SearchAccountReportsRequest {
 }
 
 export const SearchAccountReportsRequest = Schema.Struct({
-  "startDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.month")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.year")),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.year")),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  "endDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.day")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.day")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.month")),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/accountReports:search" }),
   svc,
 ) as unknown as Schema.Schema<SearchAccountReportsRequest>;
 
-export type SearchAccountReportsResponse = GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse;
-export const SearchAccountReportsResponse = GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse;
+export type SearchAccountReportsResponse =
+  GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse;
+export const SearchAccountReportsResponse =
+  GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse;
 
 export type SearchAccountReportsError = DefaultErrors;
 
 /** Get account reports containing aggregate account data of all linked GLS accounts. Caller needs to provide their manager customer id and the associated auth credential that allows them read permissions on their linked accounts. */
-export const searchAccountReports: API.PaginatedOperationMethod<SearchAccountReportsRequest, SearchAccountReportsResponse, SearchAccountReportsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchAccountReports: API.PaginatedOperationMethod<
+  SearchAccountReportsRequest,
+  SearchAccountReportsResponse,
+  SearchAccountReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchAccountReportsRequest,
   output: SearchAccountReportsResponse,
   errors: [],
@@ -314,27 +401,46 @@ export interface SearchDetailedLeadReportsRequest {
 }
 
 export const SearchDetailedLeadReportsRequest = Schema.Struct({
-  "endDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.day")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.day")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.month")),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.year")),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("startDate.month")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("endDate.year")),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/detailedLeadReports:search" }),
   svc,
 ) as unknown as Schema.Schema<SearchDetailedLeadReportsRequest>;
 
-export type SearchDetailedLeadReportsResponse = GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse;
-export const SearchDetailedLeadReportsResponse = GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse;
+export type SearchDetailedLeadReportsResponse =
+  GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse;
+export const SearchDetailedLeadReportsResponse =
+  GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse;
 
 export type SearchDetailedLeadReportsError = DefaultErrors;
 
 /** Get detailed lead reports containing leads that have been received by all linked GLS accounts. Caller needs to provide their manager customer id and the associated auth credential that allows them read permissions on their linked accounts. */
-export const searchDetailedLeadReports: API.PaginatedOperationMethod<SearchDetailedLeadReportsRequest, SearchDetailedLeadReportsResponse, SearchDetailedLeadReportsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchDetailedLeadReports: API.PaginatedOperationMethod<
+  SearchDetailedLeadReportsRequest,
+  SearchDetailedLeadReportsResponse,
+  SearchDetailedLeadReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchDetailedLeadReportsRequest,
   output: SearchDetailedLeadReportsResponse,
   errors: [],
@@ -343,4 +449,3 @@ export const searchDetailedLeadReports: API.PaginatedOperationMethod<SearchDetai
     outputToken: "nextPageToken",
   },
 }));
-

@@ -32,62 +32,85 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface PauseCollectorRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 
-export const PauseCollectorRequest: Schema.Schema<PauseCollectorRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "PauseCollectorRequest" }) as any as Schema.Schema<PauseCollectorRequest>;
+export const PauseCollectorRequest: Schema.Schema<PauseCollectorRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PauseCollectorRequest",
+  }) as any as Schema.Schema<PauseCollectorRequest>;
 
 export interface ResumeCollectorRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 
-export const ResumeCollectorRequest: Schema.Schema<ResumeCollectorRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResumeCollectorRequest" }) as any as Schema.Schema<ResumeCollectorRequest>;
+export const ResumeCollectorRequest: Schema.Schema<ResumeCollectorRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResumeCollectorRequest",
+  }) as any as Schema.Schema<ResumeCollectorRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface RegisterCollectorRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 
-export const RegisterCollectorRequest: Schema.Schema<RegisterCollectorRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RegisterCollectorRequest" }) as any as Schema.Schema<RegisterCollectorRequest>;
+export const RegisterCollectorRequest: Schema.Schema<RegisterCollectorRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RegisterCollectorRequest",
+  }) as any as Schema.Schema<RegisterCollectorRequest>;
 
 export interface GuestOsScan {
   /** reference to the corresponding Guest OS Scan in MC Source. */
   coreSource?: string;
 }
 
-export const GuestOsScan: Schema.Schema<GuestOsScan> = Schema.suspend(() => Schema.Struct({
-  coreSource: Schema.optional(Schema.String),
-})).annotate({ identifier: "GuestOsScan" }) as any as Schema.Schema<GuestOsScan>;
+export const GuestOsScan: Schema.Schema<GuestOsScan> = Schema.suspend(() =>
+  Schema.Struct({
+    coreSource: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GuestOsScan" }) as any as Schema.Schema<GuestOsScan>;
 
 export interface VSphereScan {
   /** reference to the corresponding VSphere Scan in MC Source. */
   coreSource?: string;
 }
 
-export const VSphereScan: Schema.Schema<VSphereScan> = Schema.suspend(() => Schema.Struct({
-  coreSource: Schema.optional(Schema.String),
-})).annotate({ identifier: "VSphereScan" }) as any as Schema.Schema<VSphereScan>;
+export const VSphereScan: Schema.Schema<VSphereScan> = Schema.suspend(() =>
+  Schema.Struct({
+    coreSource: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "VSphereScan" }) as any as Schema.Schema<VSphereScan>;
 
 export interface Collector {
   /** Output only. Update time stamp. */
@@ -119,26 +142,38 @@ export interface Collector {
   /** User specified name of the Collector. */
   displayName?: string;
   /** Output only. State of the Collector. */
-  state?: "STATE_UNSPECIFIED" | "STATE_INITIALIZING" | "STATE_READY_TO_USE" | "STATE_REGISTERED" | "STATE_ACTIVE" | "STATE_PAUSED" | "STATE_DELETING" | "STATE_DECOMMISSIONED" | "STATE_ERROR" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STATE_INITIALIZING"
+    | "STATE_READY_TO_USE"
+    | "STATE_REGISTERED"
+    | "STATE_ACTIVE"
+    | "STATE_PAUSED"
+    | "STATE_DELETING"
+    | "STATE_DECOMMISSIONED"
+    | "STATE_ERROR"
+    | (string & {});
 }
 
-export const Collector: Schema.Schema<Collector> = Schema.suspend(() => Schema.Struct({
-  updateTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  clientVersion: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  eulaUri: Schema.optional(Schema.String),
-  guestOsScan: Schema.optional(GuestOsScan),
-  collectionDays: Schema.optional(Schema.Number),
-  bucket: Schema.optional(Schema.String),
-  expectedAssetCount: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  vsphereScan: Schema.optional(VSphereScan),
-  serviceAccount: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "Collector" }) as any as Schema.Schema<Collector>;
+export const Collector: Schema.Schema<Collector> = Schema.suspend(() =>
+  Schema.Struct({
+    updateTime: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    clientVersion: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    eulaUri: Schema.optional(Schema.String),
+    guestOsScan: Schema.optional(GuestOsScan),
+    collectionDays: Schema.optional(Schema.Number),
+    bucket: Schema.optional(Schema.String),
+    expectedAssetCount: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    vsphereScan: Schema.optional(VSphereScan),
+    serviceAccount: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Collector" }) as any as Schema.Schema<Collector>;
 
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
@@ -153,13 +188,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -168,10 +205,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation finished running. */
@@ -190,21 +232,30 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  endTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 export interface Annotation {
   /** Output only. Create time stamp. */
   createTime?: string;
   /** Type of an annotation. */
-  type?: "TYPE_UNSPECIFIED" | "TYPE_LEGACY_EXPORT_CONSENT" | "TYPE_QWIKLAB" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "TYPE_LEGACY_EXPORT_CONSENT"
+    | "TYPE_QWIKLAB"
+    | (string & {});
   /** name of resource. */
   name?: string;
   /** Labels as key value pairs. */
@@ -213,13 +264,15 @@ export interface Annotation {
   updateTime?: string;
 }
 
-export const Annotation: Schema.Schema<Annotation> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
+export const Annotation: Schema.Schema<Annotation> = Schema.suspend(() =>
+  Schema.Struct({
+    createTime: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
 
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
@@ -234,13 +287,15 @@ export interface Operation {
   done?: boolean;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  error: Schema.optional(Status),
-  name: Schema.optional(Schema.String),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    error: Schema.optional(Status),
+    name: Schema.optional(Schema.String),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
@@ -249,10 +304,15 @@ export interface ListOperationsResponse {
   operations?: Array<Operation>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  operations: Schema.optional(Schema.Array(Operation)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      operations: Schema.optional(Schema.Array(Operation)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
 export interface ListCollectorsResponse {
   /** The list of Collectors. */
@@ -263,17 +323,23 @@ export interface ListCollectorsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListCollectorsResponse: Schema.Schema<ListCollectorsResponse> = Schema.suspend(() => Schema.Struct({
-  collectors: Schema.optional(Schema.Array(Collector)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListCollectorsResponse" }) as any as Schema.Schema<ListCollectorsResponse>;
+export const ListCollectorsResponse: Schema.Schema<ListCollectorsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      collectors: Schema.optional(Schema.Array(Collector)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListCollectorsResponse",
+  }) as any as Schema.Schema<ListCollectorsResponse>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 // ==========================================================================
 // Operations
@@ -295,7 +361,9 @@ export interface ListProjectsLocationsRequest {
 export const ListProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -309,7 +377,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -327,7 +400,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -337,7 +413,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -360,7 +441,10 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -370,7 +454,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -388,7 +477,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -398,7 +490,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -415,7 +512,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -425,7 +526,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -439,7 +545,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -449,7 +558,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -469,7 +583,11 @@ export const CreateProjectsLocationsAnnotationsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Annotation).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/annotations", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/annotations",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsAnnotationsRequest>;
 
@@ -479,7 +597,12 @@ export const CreateProjectsLocationsAnnotationsResponse = Operation;
 export type CreateProjectsLocationsAnnotationsError = DefaultErrors;
 
 /** Creates an Annotation */
-export const createProjectsLocationsAnnotations: API.OperationMethod<CreateProjectsLocationsAnnotationsRequest, CreateProjectsLocationsAnnotationsResponse, CreateProjectsLocationsAnnotationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsAnnotations: API.OperationMethod<
+  CreateProjectsLocationsAnnotationsRequest,
+  CreateProjectsLocationsAnnotationsResponse,
+  CreateProjectsLocationsAnnotationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsAnnotationsRequest,
   output: CreateProjectsLocationsAnnotationsResponse,
   errors: [],
@@ -493,7 +616,10 @@ export interface GetProjectsLocationsAnnotationsRequest {
 export const GetProjectsLocationsAnnotationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/annotations/{annotationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/annotations/{annotationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsAnnotationsRequest>;
 
@@ -503,7 +629,12 @@ export const GetProjectsLocationsAnnotationsResponse = Annotation;
 export type GetProjectsLocationsAnnotationsError = DefaultErrors;
 
 /** Gets details of a single Annotation. */
-export const getProjectsLocationsAnnotations: API.OperationMethod<GetProjectsLocationsAnnotationsRequest, GetProjectsLocationsAnnotationsResponse, GetProjectsLocationsAnnotationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsAnnotations: API.OperationMethod<
+  GetProjectsLocationsAnnotationsRequest,
+  GetProjectsLocationsAnnotationsResponse,
+  GetProjectsLocationsAnnotationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsAnnotationsRequest,
   output: GetProjectsLocationsAnnotationsResponse,
   errors: [],
@@ -517,7 +648,10 @@ export interface GetProjectsLocationsCollectorsRequest {
 export const GetProjectsLocationsCollectorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsCollectorsRequest>;
 
@@ -527,7 +661,12 @@ export const GetProjectsLocationsCollectorsResponse = Collector;
 export type GetProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Gets details of a single Collector. */
-export const getProjectsLocationsCollectors: API.OperationMethod<GetProjectsLocationsCollectorsRequest, GetProjectsLocationsCollectorsResponse, GetProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsCollectors: API.OperationMethod<
+  GetProjectsLocationsCollectorsRequest,
+  GetProjectsLocationsCollectorsResponse,
+  GetProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsCollectorsRequest,
   output: GetProjectsLocationsCollectorsResponse,
   errors: [],
@@ -553,7 +692,10 @@ export const ListProjectsLocationsCollectorsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsCollectorsRequest>;
 
@@ -563,7 +705,12 @@ export const ListProjectsLocationsCollectorsResponse = ListCollectorsResponse;
 export type ListProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Lists Collectors in a given project and location. */
-export const listProjectsLocationsCollectors: API.PaginatedOperationMethod<ListProjectsLocationsCollectorsRequest, ListProjectsLocationsCollectorsResponse, ListProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsCollectors: API.PaginatedOperationMethod<
+  ListProjectsLocationsCollectorsRequest,
+  ListProjectsLocationsCollectorsResponse,
+  ListProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectorsRequest,
   output: ListProjectsLocationsCollectorsResponse,
   errors: [],
@@ -584,7 +731,10 @@ export const DeleteProjectsLocationsCollectorsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsCollectorsRequest>;
 
@@ -594,7 +744,12 @@ export const DeleteProjectsLocationsCollectorsResponse = Operation;
 export type DeleteProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Deletes a single Collector - changes state of collector to "Deleting". Background jobs does final deletion through producer API. */
-export const deleteProjectsLocationsCollectors: API.OperationMethod<DeleteProjectsLocationsCollectorsRequest, DeleteProjectsLocationsCollectorsResponse, DeleteProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsCollectors: API.OperationMethod<
+  DeleteProjectsLocationsCollectorsRequest,
+  DeleteProjectsLocationsCollectorsResponse,
+  DeleteProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsCollectorsRequest,
   output: DeleteProjectsLocationsCollectorsResponse,
   errors: [],
@@ -611,7 +766,11 @@ export const RegisterProjectsLocationsCollectorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RegisterCollectorRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}:register", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}:register",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RegisterProjectsLocationsCollectorsRequest>;
 
@@ -621,7 +780,12 @@ export const RegisterProjectsLocationsCollectorsResponse = Operation;
 export type RegisterProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Registers the given collector. */
-export const registerProjectsLocationsCollectors: API.OperationMethod<RegisterProjectsLocationsCollectorsRequest, RegisterProjectsLocationsCollectorsResponse, RegisterProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const registerProjectsLocationsCollectors: API.OperationMethod<
+  RegisterProjectsLocationsCollectorsRequest,
+  RegisterProjectsLocationsCollectorsResponse,
+  RegisterProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RegisterProjectsLocationsCollectorsRequest,
   output: RegisterProjectsLocationsCollectorsResponse,
   errors: [],
@@ -638,7 +802,11 @@ export const PauseProjectsLocationsCollectorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(PauseCollectorRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}:pause", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}:pause",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PauseProjectsLocationsCollectorsRequest>;
 
@@ -648,7 +816,12 @@ export const PauseProjectsLocationsCollectorsResponse = Operation;
 export type PauseProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Pauses the given collector. */
-export const pauseProjectsLocationsCollectors: API.OperationMethod<PauseProjectsLocationsCollectorsRequest, PauseProjectsLocationsCollectorsResponse, PauseProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pauseProjectsLocationsCollectors: API.OperationMethod<
+  PauseProjectsLocationsCollectorsRequest,
+  PauseProjectsLocationsCollectorsResponse,
+  PauseProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PauseProjectsLocationsCollectorsRequest,
   output: PauseProjectsLocationsCollectorsResponse,
   errors: [],
@@ -665,7 +838,11 @@ export const ResumeProjectsLocationsCollectorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResumeCollectorRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}:resume", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}:resume",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResumeProjectsLocationsCollectorsRequest>;
 
@@ -675,7 +852,12 @@ export const ResumeProjectsLocationsCollectorsResponse = Operation;
 export type ResumeProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Resumes the given collector. */
-export const resumeProjectsLocationsCollectors: API.OperationMethod<ResumeProjectsLocationsCollectorsRequest, ResumeProjectsLocationsCollectorsResponse, ResumeProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resumeProjectsLocationsCollectors: API.OperationMethod<
+  ResumeProjectsLocationsCollectorsRequest,
+  ResumeProjectsLocationsCollectorsResponse,
+  ResumeProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResumeProjectsLocationsCollectorsRequest,
   output: ResumeProjectsLocationsCollectorsResponse,
   errors: [],
@@ -698,7 +880,11 @@ export const CreateProjectsLocationsCollectorsRequest = Schema.Struct({
   collectorId: Schema.optional(Schema.String).pipe(T.HttpQuery("collectorId")),
   body: Schema.optional(Collector).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsCollectorsRequest>;
 
@@ -708,7 +894,12 @@ export const CreateProjectsLocationsCollectorsResponse = Operation;
 export type CreateProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Create a Collector to manage the on-prem appliance which collects information about Customer assets. */
-export const createProjectsLocationsCollectors: API.OperationMethod<CreateProjectsLocationsCollectorsRequest, CreateProjectsLocationsCollectorsResponse, CreateProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsCollectors: API.OperationMethod<
+  CreateProjectsLocationsCollectorsRequest,
+  CreateProjectsLocationsCollectorsResponse,
+  CreateProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsCollectorsRequest,
   output: CreateProjectsLocationsCollectorsResponse,
   errors: [],
@@ -731,7 +922,11 @@ export const PatchProjectsLocationsCollectorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Collector).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/collectors/{collectorsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsCollectorsRequest>;
 
@@ -741,9 +936,13 @@ export const PatchProjectsLocationsCollectorsResponse = Operation;
 export type PatchProjectsLocationsCollectorsError = DefaultErrors;
 
 /** Updates the parameters of a single Collector. */
-export const patchProjectsLocationsCollectors: API.OperationMethod<PatchProjectsLocationsCollectorsRequest, PatchProjectsLocationsCollectorsResponse, PatchProjectsLocationsCollectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsCollectors: API.OperationMethod<
+  PatchProjectsLocationsCollectorsRequest,
+  PatchProjectsLocationsCollectorsResponse,
+  PatchProjectsLocationsCollectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsCollectorsRequest,
   output: PatchProjectsLocationsCollectorsResponse,
   errors: [],
 }));
-

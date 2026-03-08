@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,23 +74,29 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface AccessPolicy {
   /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
@@ -99,13 +111,17 @@ export interface AccessPolicy {
   etag?: string;
 }
 
-export const AccessPolicy: Schema.Schema<AccessPolicy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  scopes: Schema.optional(Schema.Array(Schema.String)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccessPolicy" }) as any as Schema.Schema<AccessPolicy>;
+export const AccessPolicy: Schema.Schema<AccessPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    scopes: Schema.optional(Schema.Array(Schema.String)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AccessPolicy",
+}) as any as Schema.Schema<AccessPolicy>;
 
 export interface ListAccessPoliciesResponse {
   /** List of the AccessPolicy instances. */
@@ -114,49 +130,78 @@ export interface ListAccessPoliciesResponse {
   nextPageToken?: string;
 }
 
-export const ListAccessPoliciesResponse: Schema.Schema<ListAccessPoliciesResponse> = Schema.suspend(() => Schema.Struct({
-  accessPolicies: Schema.optional(Schema.Array(AccessPolicy)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAccessPoliciesResponse" }) as any as Schema.Schema<ListAccessPoliciesResponse>;
+export const ListAccessPoliciesResponse: Schema.Schema<ListAccessPoliciesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessPolicies: Schema.optional(Schema.Array(AccessPolicy)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAccessPoliciesResponse",
+  }) as any as Schema.Schema<ListAccessPoliciesResponse>;
 
 export interface OsConstraint {
   /** Required. The allowed OS type. */
-  osType?: "OS_UNSPECIFIED" | "DESKTOP_MAC" | "DESKTOP_WINDOWS" | "DESKTOP_LINUX" | "DESKTOP_CHROME_OS" | "ANDROID" | "IOS" | (string & {});
+  osType?:
+    | "OS_UNSPECIFIED"
+    | "DESKTOP_MAC"
+    | "DESKTOP_WINDOWS"
+    | "DESKTOP_LINUX"
+    | "DESKTOP_CHROME_OS"
+    | "ANDROID"
+    | "IOS"
+    | (string & {});
   /** The minimum allowed OS version. If not set, any version of this OS satisfies the constraint. Format: `"major.minor.patch"`. Examples: `"10.5.301"`, `"9.2.1"`. */
   minimumVersion?: string;
   /** Only allows requests from devices with a verified Chrome OS. Verifications includes requirements that the device is enterprise-managed, conformant to domain policies, and the caller has permission to call the API targeted by the request. */
   requireVerifiedChromeOs?: boolean;
 }
 
-export const OsConstraint: Schema.Schema<OsConstraint> = Schema.suspend(() => Schema.Struct({
-  osType: Schema.optional(Schema.String),
-  minimumVersion: Schema.optional(Schema.String),
-  requireVerifiedChromeOs: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "OsConstraint" }) as any as Schema.Schema<OsConstraint>;
+export const OsConstraint: Schema.Schema<OsConstraint> = Schema.suspend(() =>
+  Schema.Struct({
+    osType: Schema.optional(Schema.String),
+    minimumVersion: Schema.optional(Schema.String),
+    requireVerifiedChromeOs: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "OsConstraint",
+}) as any as Schema.Schema<OsConstraint>;
 
 export interface DevicePolicy {
   /** Whether or not screenlock is required for the DevicePolicy to be true. Defaults to `false`. */
   requireScreenlock?: boolean;
   /** Allowed encryptions statuses, an empty list allows all statuses. */
-  allowedEncryptionStatuses?: Array<"ENCRYPTION_UNSPECIFIED" | "ENCRYPTION_UNSUPPORTED" | "UNENCRYPTED" | "ENCRYPTED" | (string & {})>;
+  allowedEncryptionStatuses?: Array<
+    | "ENCRYPTION_UNSPECIFIED"
+    | "ENCRYPTION_UNSUPPORTED"
+    | "UNENCRYPTED"
+    | "ENCRYPTED"
+    | (string & {})
+  >;
   /** Allowed OS versions, an empty list allows all types and all versions. */
   osConstraints?: Array<OsConstraint>;
   /** Allowed device management levels, an empty list allows all management levels. */
-  allowedDeviceManagementLevels?: Array<"MANAGEMENT_UNSPECIFIED" | "NONE" | "BASIC" | "COMPLETE" | (string & {})>;
+  allowedDeviceManagementLevels?: Array<
+    "MANAGEMENT_UNSPECIFIED" | "NONE" | "BASIC" | "COMPLETE" | (string & {})
+  >;
   /** Whether the device needs to be approved by the customer admin. */
   requireAdminApproval?: boolean;
   /** Whether the device needs to be corp owned. */
   requireCorpOwned?: boolean;
 }
 
-export const DevicePolicy: Schema.Schema<DevicePolicy> = Schema.suspend(() => Schema.Struct({
-  requireScreenlock: Schema.optional(Schema.Boolean),
-  allowedEncryptionStatuses: Schema.optional(Schema.Array(Schema.String)),
-  osConstraints: Schema.optional(Schema.Array(OsConstraint)),
-  allowedDeviceManagementLevels: Schema.optional(Schema.Array(Schema.String)),
-  requireAdminApproval: Schema.optional(Schema.Boolean),
-  requireCorpOwned: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DevicePolicy" }) as any as Schema.Schema<DevicePolicy>;
+export const DevicePolicy: Schema.Schema<DevicePolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    requireScreenlock: Schema.optional(Schema.Boolean),
+    allowedEncryptionStatuses: Schema.optional(Schema.Array(Schema.String)),
+    osConstraints: Schema.optional(Schema.Array(OsConstraint)),
+    allowedDeviceManagementLevels: Schema.optional(Schema.Array(Schema.String)),
+    requireAdminApproval: Schema.optional(Schema.Boolean),
+    requireCorpOwned: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "DevicePolicy",
+}) as any as Schema.Schema<DevicePolicy>;
 
 export interface VpcSubNetwork {
   /** Required. Network name. If the network is not part of the organization, the `compute.network.get` permission must be granted to the caller. Format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NETWORK_NAME}` Example: `//compute.googleapis.com/projects/my-project/global/networks/network-1` */
@@ -165,19 +210,28 @@ export interface VpcSubNetwork {
   vpcIpSubnetworks?: Array<string>;
 }
 
-export const VpcSubNetwork: Schema.Schema<VpcSubNetwork> = Schema.suspend(() => Schema.Struct({
-  network: Schema.optional(Schema.String),
-  vpcIpSubnetworks: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "VpcSubNetwork" }) as any as Schema.Schema<VpcSubNetwork>;
+export const VpcSubNetwork: Schema.Schema<VpcSubNetwork> = Schema.suspend(() =>
+  Schema.Struct({
+    network: Schema.optional(Schema.String),
+    vpcIpSubnetworks: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "VpcSubNetwork",
+}) as any as Schema.Schema<VpcSubNetwork>;
 
 export interface VpcNetworkSource {
   /** Sub-segment ranges of a VPC network. */
   vpcSubnetwork?: VpcSubNetwork;
 }
 
-export const VpcNetworkSource: Schema.Schema<VpcNetworkSource> = Schema.suspend(() => Schema.Struct({
-  vpcSubnetwork: Schema.optional(VpcSubNetwork),
-})).annotate({ identifier: "VpcNetworkSource" }) as any as Schema.Schema<VpcNetworkSource>;
+export const VpcNetworkSource: Schema.Schema<VpcNetworkSource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      vpcSubnetwork: Schema.optional(VpcSubNetwork),
+    }),
+).annotate({
+  identifier: "VpcNetworkSource",
+}) as any as Schema.Schema<VpcNetworkSource>;
 
 export interface Condition {
   /** CIDR block IP subnetwork specification. May be IPv4 or IPv6. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. Similarly, for IPv6, "2001:db8::/32" is accepted whereas "2001:db8::1/32" is not. The originating IP of a request must be in one of the listed subnets in order for this Condition to be true. If empty, all IP addresses are allowed. */
@@ -196,15 +250,17 @@ export interface Condition {
   vpcNetworkSources?: Array<VpcNetworkSource>;
 }
 
-export const Condition: Schema.Schema<Condition> = Schema.suspend(() => Schema.Struct({
-  ipSubnetworks: Schema.optional(Schema.Array(Schema.String)),
-  devicePolicy: Schema.optional(DevicePolicy),
-  requiredAccessLevels: Schema.optional(Schema.Array(Schema.String)),
-  negate: Schema.optional(Schema.Boolean),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  regions: Schema.optional(Schema.Array(Schema.String)),
-  vpcNetworkSources: Schema.optional(Schema.Array(VpcNetworkSource)),
-})).annotate({ identifier: "Condition" }) as any as Schema.Schema<Condition>;
+export const Condition: Schema.Schema<Condition> = Schema.suspend(() =>
+  Schema.Struct({
+    ipSubnetworks: Schema.optional(Schema.Array(Schema.String)),
+    devicePolicy: Schema.optional(DevicePolicy),
+    requiredAccessLevels: Schema.optional(Schema.Array(Schema.String)),
+    negate: Schema.optional(Schema.Boolean),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    regions: Schema.optional(Schema.Array(Schema.String)),
+    vpcNetworkSources: Schema.optional(Schema.Array(VpcNetworkSource)),
+  }),
+).annotate({ identifier: "Condition" }) as any as Schema.Schema<Condition>;
 
 export interface BasicLevel {
   /** Required. A list of requirements for the `AccessLevel` to be granted. */
@@ -213,10 +269,12 @@ export interface BasicLevel {
   combiningFunction?: "AND" | "OR" | (string & {});
 }
 
-export const BasicLevel: Schema.Schema<BasicLevel> = Schema.suspend(() => Schema.Struct({
-  conditions: Schema.optional(Schema.Array(Condition)),
-  combiningFunction: Schema.optional(Schema.String),
-})).annotate({ identifier: "BasicLevel" }) as any as Schema.Schema<BasicLevel>;
+export const BasicLevel: Schema.Schema<BasicLevel> = Schema.suspend(() =>
+  Schema.Struct({
+    conditions: Schema.optional(Schema.Array(Condition)),
+    combiningFunction: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "BasicLevel" }) as any as Schema.Schema<BasicLevel>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -229,21 +287,25 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface CustomLevel {
   /** Required. A Cloud CEL expression evaluating to a boolean. */
   expr?: Expr;
 }
 
-export const CustomLevel: Schema.Schema<CustomLevel> = Schema.suspend(() => Schema.Struct({
-  expr: Schema.optional(Expr),
-})).annotate({ identifier: "CustomLevel" }) as any as Schema.Schema<CustomLevel>;
+export const CustomLevel: Schema.Schema<CustomLevel> = Schema.suspend(() =>
+  Schema.Struct({
+    expr: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "CustomLevel" }) as any as Schema.Schema<CustomLevel>;
 
 export interface AccessLevel {
   /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
@@ -258,13 +320,15 @@ export interface AccessLevel {
   custom?: CustomLevel;
 }
 
-export const AccessLevel: Schema.Schema<AccessLevel> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  basic: Schema.optional(BasicLevel),
-  custom: Schema.optional(CustomLevel),
-})).annotate({ identifier: "AccessLevel" }) as any as Schema.Schema<AccessLevel>;
+export const AccessLevel: Schema.Schema<AccessLevel> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    basic: Schema.optional(BasicLevel),
+    custom: Schema.optional(CustomLevel),
+  }),
+).annotate({ identifier: "AccessLevel" }) as any as Schema.Schema<AccessLevel>;
 
 export interface ListAccessLevelsResponse {
   /** List of the Access Level instances. */
@@ -273,10 +337,15 @@ export interface ListAccessLevelsResponse {
   nextPageToken?: string;
 }
 
-export const ListAccessLevelsResponse: Schema.Schema<ListAccessLevelsResponse> = Schema.suspend(() => Schema.Struct({
-  accessLevels: Schema.optional(Schema.Array(AccessLevel)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAccessLevelsResponse" }) as any as Schema.Schema<ListAccessLevelsResponse>;
+export const ListAccessLevelsResponse: Schema.Schema<ListAccessLevelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessLevels: Schema.optional(Schema.Array(AccessLevel)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAccessLevelsResponse",
+  }) as any as Schema.Schema<ListAccessLevelsResponse>;
 
 export interface ReplaceAccessLevelsRequest {
   /** Required. The desired Access Levels that should replace all existing Access Levels in the Access Policy. */
@@ -285,10 +354,15 @@ export interface ReplaceAccessLevelsRequest {
   etag?: string;
 }
 
-export const ReplaceAccessLevelsRequest: Schema.Schema<ReplaceAccessLevelsRequest> = Schema.suspend(() => Schema.Struct({
-  accessLevels: Schema.optional(Schema.Array(AccessLevel)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReplaceAccessLevelsRequest" }) as any as Schema.Schema<ReplaceAccessLevelsRequest>;
+export const ReplaceAccessLevelsRequest: Schema.Schema<ReplaceAccessLevelsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessLevels: Schema.optional(Schema.Array(AccessLevel)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReplaceAccessLevelsRequest",
+  }) as any as Schema.Schema<ReplaceAccessLevelsRequest>;
 
 export interface VpcAccessibleServices {
   /** Whether to restrict API calls within the Service Perimeter to the list of APIs specified in 'allowed_services'. */
@@ -297,10 +371,15 @@ export interface VpcAccessibleServices {
   allowedServices?: Array<string>;
 }
 
-export const VpcAccessibleServices: Schema.Schema<VpcAccessibleServices> = Schema.suspend(() => Schema.Struct({
-  enableRestriction: Schema.optional(Schema.Boolean),
-  allowedServices: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "VpcAccessibleServices" }) as any as Schema.Schema<VpcAccessibleServices>;
+export const VpcAccessibleServices: Schema.Schema<VpcAccessibleServices> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableRestriction: Schema.optional(Schema.Boolean),
+      allowedServices: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "VpcAccessibleServices",
+  }) as any as Schema.Schema<VpcAccessibleServices>;
 
 export interface IngressSource {
   /** An AccessLevel resource name that allow resources within the ServicePerimeters to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all IngressSources will be allowed. */
@@ -309,10 +388,14 @@ export interface IngressSource {
   resource?: string;
 }
 
-export const IngressSource: Schema.Schema<IngressSource> = Schema.suspend(() => Schema.Struct({
-  accessLevel: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-})).annotate({ identifier: "IngressSource" }) as any as Schema.Schema<IngressSource>;
+export const IngressSource: Schema.Schema<IngressSource> = Schema.suspend(() =>
+  Schema.Struct({
+    accessLevel: Schema.optional(Schema.String),
+    resource: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "IngressSource",
+}) as any as Schema.Schema<IngressSource>;
 
 export interface IngressFrom {
   /** Sources that this IngressPolicy authorizes access from. */
@@ -320,14 +403,21 @@ export interface IngressFrom {
   /** A list of identities that are allowed access through [IngressPolicy]. Identities can be an individual user, service account, Google group, or third-party identity. For third-party identity, only single identities are supported and other identity types are not supported. The `v1` identities that have the prefix `user`, `group`, `serviceAccount`, and `principal` in https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported. */
   identities?: Array<string>;
   /** Specifies the type of identities that are allowed access from outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
-  identityType?: "IDENTITY_TYPE_UNSPECIFIED" | "ANY_IDENTITY" | "ANY_USER_ACCOUNT" | "ANY_SERVICE_ACCOUNT" | (string & {});
+  identityType?:
+    | "IDENTITY_TYPE_UNSPECIFIED"
+    | "ANY_IDENTITY"
+    | "ANY_USER_ACCOUNT"
+    | "ANY_SERVICE_ACCOUNT"
+    | (string & {});
 }
 
-export const IngressFrom: Schema.Schema<IngressFrom> = Schema.suspend(() => Schema.Struct({
-  sources: Schema.optional(Schema.Array(IngressSource)),
-  identities: Schema.optional(Schema.Array(Schema.String)),
-  identityType: Schema.optional(Schema.String),
-})).annotate({ identifier: "IngressFrom" }) as any as Schema.Schema<IngressFrom>;
+export const IngressFrom: Schema.Schema<IngressFrom> = Schema.suspend(() =>
+  Schema.Struct({
+    sources: Schema.optional(Schema.Array(IngressSource)),
+    identities: Schema.optional(Schema.Array(Schema.String)),
+    identityType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "IngressFrom" }) as any as Schema.Schema<IngressFrom>;
 
 export interface MethodSelector {
   /** A valid method name for the corresponding `service_name` in ApiOperation. If `*` is used as the value for the `method`, then ALL methods and permissions are allowed. */
@@ -336,10 +426,15 @@ export interface MethodSelector {
   permission?: string;
 }
 
-export const MethodSelector: Schema.Schema<MethodSelector> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  permission: Schema.optional(Schema.String),
-})).annotate({ identifier: "MethodSelector" }) as any as Schema.Schema<MethodSelector>;
+export const MethodSelector: Schema.Schema<MethodSelector> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      permission: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MethodSelector",
+}) as any as Schema.Schema<MethodSelector>;
 
 export interface ApiOperation {
   /** The name of the API whose methods or permissions the IngressPolicy or EgressPolicy want to allow. A single ApiOperation with `service_name` field set to `*` will allow all methods AND permissions for all services. */
@@ -348,10 +443,14 @@ export interface ApiOperation {
   methodSelectors?: Array<MethodSelector>;
 }
 
-export const ApiOperation: Schema.Schema<ApiOperation> = Schema.suspend(() => Schema.Struct({
-  serviceName: Schema.optional(Schema.String),
-  methodSelectors: Schema.optional(Schema.Array(MethodSelector)),
-})).annotate({ identifier: "ApiOperation" }) as any as Schema.Schema<ApiOperation>;
+export const ApiOperation: Schema.Schema<ApiOperation> = Schema.suspend(() =>
+  Schema.Struct({
+    serviceName: Schema.optional(Schema.String),
+    methodSelectors: Schema.optional(Schema.Array(MethodSelector)),
+  }),
+).annotate({
+  identifier: "ApiOperation",
+}) as any as Schema.Schema<ApiOperation>;
 
 export interface IngressTo {
   /** A list of ApiOperations allowed to be performed by the sources specified in corresponding IngressFrom in this ServicePerimeter. */
@@ -362,11 +461,13 @@ export interface IngressTo {
   roles?: Array<string>;
 }
 
-export const IngressTo: Schema.Schema<IngressTo> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(ApiOperation)),
-  resources: Schema.optional(Schema.Array(Schema.String)),
-  roles: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "IngressTo" }) as any as Schema.Schema<IngressTo>;
+export const IngressTo: Schema.Schema<IngressTo> = Schema.suspend(() =>
+  Schema.Struct({
+    operations: Schema.optional(Schema.Array(ApiOperation)),
+    resources: Schema.optional(Schema.Array(Schema.String)),
+    roles: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "IngressTo" }) as any as Schema.Schema<IngressTo>;
 
 export interface IngressPolicy {
   /** Defines the conditions on the source of a request causing this IngressPolicy to apply. */
@@ -377,11 +478,15 @@ export interface IngressPolicy {
   title?: string;
 }
 
-export const IngressPolicy: Schema.Schema<IngressPolicy> = Schema.suspend(() => Schema.Struct({
-  ingressFrom: Schema.optional(IngressFrom),
-  ingressTo: Schema.optional(IngressTo),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "IngressPolicy" }) as any as Schema.Schema<IngressPolicy>;
+export const IngressPolicy: Schema.Schema<IngressPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    ingressFrom: Schema.optional(IngressFrom),
+    ingressTo: Schema.optional(IngressTo),
+    title: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "IngressPolicy",
+}) as any as Schema.Schema<IngressPolicy>;
 
 export interface EgressSource {
   /** An AccessLevel resource name that allows protected resources inside the ServicePerimeters to access outside the ServicePerimeter boundaries. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If an AccessLevel name is not specified, only resources within the perimeter can be accessed through Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all EgressSources will be allowed. */
@@ -390,28 +495,43 @@ export interface EgressSource {
   resource?: string;
 }
 
-export const EgressSource: Schema.Schema<EgressSource> = Schema.suspend(() => Schema.Struct({
-  accessLevel: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-})).annotate({ identifier: "EgressSource" }) as any as Schema.Schema<EgressSource>;
+export const EgressSource: Schema.Schema<EgressSource> = Schema.suspend(() =>
+  Schema.Struct({
+    accessLevel: Schema.optional(Schema.String),
+    resource: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EgressSource",
+}) as any as Schema.Schema<EgressSource>;
 
 export interface EgressFrom {
   /** A list of identities that are allowed access through [EgressPolicy]. Identities can be an individual user, service account, Google group, or third-party identity. For third-party identity, only single identities are supported and other identity types are not supported. The `v1` identities that have the prefix `user`, `group`, `serviceAccount`, and `principal` in https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported. */
   identities?: Array<string>;
   /** Specifies the type of identities that are allowed access to outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
-  identityType?: "IDENTITY_TYPE_UNSPECIFIED" | "ANY_IDENTITY" | "ANY_USER_ACCOUNT" | "ANY_SERVICE_ACCOUNT" | (string & {});
+  identityType?:
+    | "IDENTITY_TYPE_UNSPECIFIED"
+    | "ANY_IDENTITY"
+    | "ANY_USER_ACCOUNT"
+    | "ANY_SERVICE_ACCOUNT"
+    | (string & {});
   /** Sources that this EgressPolicy authorizes access from. If this field is not empty, then `source_restriction` must be set to `SOURCE_RESTRICTION_ENABLED`. */
   sources?: Array<EgressSource>;
   /** Whether to enforce traffic restrictions based on `sources` field. If the `sources` fields is non-empty, then this field must be set to `SOURCE_RESTRICTION_ENABLED`. */
-  sourceRestriction?: "SOURCE_RESTRICTION_UNSPECIFIED" | "SOURCE_RESTRICTION_ENABLED" | "SOURCE_RESTRICTION_DISABLED" | (string & {});
+  sourceRestriction?:
+    | "SOURCE_RESTRICTION_UNSPECIFIED"
+    | "SOURCE_RESTRICTION_ENABLED"
+    | "SOURCE_RESTRICTION_DISABLED"
+    | (string & {});
 }
 
-export const EgressFrom: Schema.Schema<EgressFrom> = Schema.suspend(() => Schema.Struct({
-  identities: Schema.optional(Schema.Array(Schema.String)),
-  identityType: Schema.optional(Schema.String),
-  sources: Schema.optional(Schema.Array(EgressSource)),
-  sourceRestriction: Schema.optional(Schema.String),
-})).annotate({ identifier: "EgressFrom" }) as any as Schema.Schema<EgressFrom>;
+export const EgressFrom: Schema.Schema<EgressFrom> = Schema.suspend(() =>
+  Schema.Struct({
+    identities: Schema.optional(Schema.Array(Schema.String)),
+    identityType: Schema.optional(Schema.String),
+    sources: Schema.optional(Schema.Array(EgressSource)),
+    sourceRestriction: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EgressFrom" }) as any as Schema.Schema<EgressFrom>;
 
 export interface EgressTo {
   /** A list of resources, currently only projects in the form `projects/`, that are allowed to be accessed by sources defined in the corresponding EgressFrom. A request matches if it contains a resource in this list. If `*` is specified for `resources`, then this EgressTo rule will authorize access to all resources outside the perimeter. */
@@ -424,12 +544,14 @@ export interface EgressTo {
   roles?: Array<string>;
 }
 
-export const EgressTo: Schema.Schema<EgressTo> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(Schema.String)),
-  operations: Schema.optional(Schema.Array(ApiOperation)),
-  externalResources: Schema.optional(Schema.Array(Schema.String)),
-  roles: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "EgressTo" }) as any as Schema.Schema<EgressTo>;
+export const EgressTo: Schema.Schema<EgressTo> = Schema.suspend(() =>
+  Schema.Struct({
+    resources: Schema.optional(Schema.Array(Schema.String)),
+    operations: Schema.optional(Schema.Array(ApiOperation)),
+    externalResources: Schema.optional(Schema.Array(Schema.String)),
+    roles: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "EgressTo" }) as any as Schema.Schema<EgressTo>;
 
 export interface EgressPolicy {
   /** Defines conditions on the source of a request causing this EgressPolicy to apply. */
@@ -440,11 +562,15 @@ export interface EgressPolicy {
   title?: string;
 }
 
-export const EgressPolicy: Schema.Schema<EgressPolicy> = Schema.suspend(() => Schema.Struct({
-  egressFrom: Schema.optional(EgressFrom),
-  egressTo: Schema.optional(EgressTo),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "EgressPolicy" }) as any as Schema.Schema<EgressPolicy>;
+export const EgressPolicy: Schema.Schema<EgressPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    egressFrom: Schema.optional(EgressFrom),
+    egressTo: Schema.optional(EgressTo),
+    title: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EgressPolicy",
+}) as any as Schema.Schema<EgressPolicy>;
 
 export interface ServicePerimeterConfig {
   /** A list of Google Cloud resources that are inside of the service perimeter. Currently only projects and VPCs are allowed. Project format: `projects/{project_number}` VPC network format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}`. */
@@ -461,14 +587,19 @@ export interface ServicePerimeterConfig {
   egressPolicies?: Array<EgressPolicy>;
 }
 
-export const ServicePerimeterConfig: Schema.Schema<ServicePerimeterConfig> = Schema.suspend(() => Schema.Struct({
-  resources: Schema.optional(Schema.Array(Schema.String)),
-  accessLevels: Schema.optional(Schema.Array(Schema.String)),
-  restrictedServices: Schema.optional(Schema.Array(Schema.String)),
-  vpcAccessibleServices: Schema.optional(VpcAccessibleServices),
-  ingressPolicies: Schema.optional(Schema.Array(IngressPolicy)),
-  egressPolicies: Schema.optional(Schema.Array(EgressPolicy)),
-})).annotate({ identifier: "ServicePerimeterConfig" }) as any as Schema.Schema<ServicePerimeterConfig>;
+export const ServicePerimeterConfig: Schema.Schema<ServicePerimeterConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(Schema.String)),
+      accessLevels: Schema.optional(Schema.Array(Schema.String)),
+      restrictedServices: Schema.optional(Schema.Array(Schema.String)),
+      vpcAccessibleServices: Schema.optional(VpcAccessibleServices),
+      ingressPolicies: Schema.optional(Schema.Array(IngressPolicy)),
+      egressPolicies: Schema.optional(Schema.Array(EgressPolicy)),
+    }),
+  ).annotate({
+    identifier: "ServicePerimeterConfig",
+  }) as any as Schema.Schema<ServicePerimeterConfig>;
 
 export interface ServicePerimeter {
   /** Identifier. Resource name for the `ServicePerimeter`. Format: `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The `service_perimeter` component must begin with a letter, followed by alphanumeric characters or `_`. After you create a `ServicePerimeter`, you cannot change its `name`. */
@@ -478,7 +609,10 @@ export interface ServicePerimeter {
   /** Description of the `ServicePerimeter` and its use. Does not affect behavior. */
   description?: string;
   /** Perimeter type indicator. A single project or VPC network is allowed to be a member of single regular perimeter, but multiple service perimeter bridges. A project cannot be a included in a perimeter bridge without being included in regular perimeter. For perimeter bridges, the restricted service list as well as access level lists must be empty. */
-  perimeterType?: "PERIMETER_TYPE_REGULAR" | "PERIMETER_TYPE_BRIDGE" | (string & {});
+  perimeterType?:
+    | "PERIMETER_TYPE_REGULAR"
+    | "PERIMETER_TYPE_BRIDGE"
+    | (string & {});
   /** Current ServicePerimeter configuration. Specifies sets of resources, restricted services and access levels that determine perimeter content and boundaries. */
   status?: ServicePerimeterConfig;
   /** Proposed (or dry run) ServicePerimeter configuration. This configuration allows to specify and test ServicePerimeter configuration without enforcing actual access restrictions. Only allowed to be set when the "use_explicit_dry_run_spec" flag is set. */
@@ -489,16 +623,21 @@ export interface ServicePerimeter {
   etag?: string;
 }
 
-export const ServicePerimeter: Schema.Schema<ServicePerimeter> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  perimeterType: Schema.optional(Schema.String),
-  status: Schema.optional(ServicePerimeterConfig),
-  spec: Schema.optional(ServicePerimeterConfig),
-  useExplicitDryRunSpec: Schema.optional(Schema.Boolean),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServicePerimeter" }) as any as Schema.Schema<ServicePerimeter>;
+export const ServicePerimeter: Schema.Schema<ServicePerimeter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      perimeterType: Schema.optional(Schema.String),
+      status: Schema.optional(ServicePerimeterConfig),
+      spec: Schema.optional(ServicePerimeterConfig),
+      useExplicitDryRunSpec: Schema.optional(Schema.Boolean),
+      etag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ServicePerimeter",
+}) as any as Schema.Schema<ServicePerimeter>;
 
 export interface ListServicePerimetersResponse {
   /** List of the Service Perimeter instances. */
@@ -507,10 +646,15 @@ export interface ListServicePerimetersResponse {
   nextPageToken?: string;
 }
 
-export const ListServicePerimetersResponse: Schema.Schema<ListServicePerimetersResponse> = Schema.suspend(() => Schema.Struct({
-  servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListServicePerimetersResponse" }) as any as Schema.Schema<ListServicePerimetersResponse>;
+export const ListServicePerimetersResponse: Schema.Schema<ListServicePerimetersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListServicePerimetersResponse",
+  }) as any as Schema.Schema<ListServicePerimetersResponse>;
 
 export interface ReplaceServicePerimetersRequest {
   /** Required. The desired Service Perimeters that should replace all existing Service Perimeters in the Access Policy. */
@@ -519,25 +663,44 @@ export interface ReplaceServicePerimetersRequest {
   etag?: string;
 }
 
-export const ReplaceServicePerimetersRequest: Schema.Schema<ReplaceServicePerimetersRequest> = Schema.suspend(() => Schema.Struct({
-  servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReplaceServicePerimetersRequest" }) as any as Schema.Schema<ReplaceServicePerimetersRequest>;
+export const ReplaceServicePerimetersRequest: Schema.Schema<ReplaceServicePerimetersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReplaceServicePerimetersRequest",
+  }) as any as Schema.Schema<ReplaceServicePerimetersRequest>;
 
 export interface CommitServicePerimetersRequest {
   /** Optional. The etag for the version of the Access Policy that this commit operation is to be performed on. If, at the time of commit, the etag for the Access Policy stored in Access Context Manager is different from the specified etag, then the commit operation will not be performed and the call will fail. This field is not required. If etag is not provided, the operation will be performed as if a valid etag is provided. */
   etag?: string;
 }
 
-export const CommitServicePerimetersRequest: Schema.Schema<CommitServicePerimetersRequest> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommitServicePerimetersRequest" }) as any as Schema.Schema<CommitServicePerimetersRequest>;
+export const CommitServicePerimetersRequest: Schema.Schema<CommitServicePerimetersRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitServicePerimetersRequest",
+  }) as any as Schema.Schema<CommitServicePerimetersRequest>;
 
 export interface SupportedService {
   /** The service name or address of the supported service, such as `service.googleapis.com`. */
   name?: string;
   /** The support stage of the service. */
-  supportStage?: "LAUNCH_STAGE_UNSPECIFIED" | "UNIMPLEMENTED" | "PRELAUNCH" | "EARLY_ACCESS" | "ALPHA" | "BETA" | "GA" | "DEPRECATED" | (string & {});
+  supportStage?:
+    | "LAUNCH_STAGE_UNSPECIFIED"
+    | "UNIMPLEMENTED"
+    | "PRELAUNCH"
+    | "EARLY_ACCESS"
+    | "ALPHA"
+    | "BETA"
+    | "GA"
+    | "DEPRECATED"
+    | (string & {});
   /** True if the service is available on the restricted VIP. Services on the restricted VIP typically either support VPC Service Controls or are core infrastructure services required for the functioning of Google Cloud. */
   availableOnRestrictedVip?: boolean;
   /** The name of the supported product, such as 'Cloud Product API'. */
@@ -547,18 +710,28 @@ export interface SupportedService {
   /** True if the service is supported with some limitations. Check [documentation](https://cloud.google.com/vpc-service-controls/docs/supported-products) for details. */
   knownLimitations?: boolean;
   /** The support stage of the service. */
-  serviceSupportStage?: "SERVICE_SUPPORT_STAGE_UNSPECIFIED" | "GA" | "PREVIEW" | "DEPRECATED" | (string & {});
+  serviceSupportStage?:
+    | "SERVICE_SUPPORT_STAGE_UNSPECIFIED"
+    | "GA"
+    | "PREVIEW"
+    | "DEPRECATED"
+    | (string & {});
 }
 
-export const SupportedService: Schema.Schema<SupportedService> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  supportStage: Schema.optional(Schema.String),
-  availableOnRestrictedVip: Schema.optional(Schema.Boolean),
-  title: Schema.optional(Schema.String),
-  supportedMethods: Schema.optional(Schema.Array(MethodSelector)),
-  knownLimitations: Schema.optional(Schema.Boolean),
-  serviceSupportStage: Schema.optional(Schema.String),
-})).annotate({ identifier: "SupportedService" }) as any as Schema.Schema<SupportedService>;
+export const SupportedService: Schema.Schema<SupportedService> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      supportStage: Schema.optional(Schema.String),
+      availableOnRestrictedVip: Schema.optional(Schema.Boolean),
+      title: Schema.optional(Schema.String),
+      supportedMethods: Schema.optional(Schema.Array(MethodSelector)),
+      knownLimitations: Schema.optional(Schema.Boolean),
+      serviceSupportStage: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SupportedService",
+}) as any as Schema.Schema<SupportedService>;
 
 export interface ListSupportedServicesResponse {
   /** List of services supported by VPC Service Controls instances. */
@@ -567,14 +740,24 @@ export interface ListSupportedServicesResponse {
   nextPageToken?: string;
 }
 
-export const ListSupportedServicesResponse: Schema.Schema<ListSupportedServicesResponse> = Schema.suspend(() => Schema.Struct({
-  supportedServices: Schema.optional(Schema.Array(SupportedService)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSupportedServicesResponse" }) as any as Schema.Schema<ListSupportedServicesResponse>;
+export const ListSupportedServicesResponse: Schema.Schema<ListSupportedServicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      supportedServices: Schema.optional(Schema.Array(SupportedService)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSupportedServicesResponse",
+  }) as any as Schema.Schema<ListSupportedServicesResponse>;
 
 export interface SessionSettings {
   /** Optional. Session method when user's Google Cloud session is up. */
-  sessionReauthMethod?: "SESSION_REAUTH_METHOD_UNSPECIFIED" | "LOGIN" | "SECURITY_KEY" | "PASSWORD" | (string & {});
+  sessionReauthMethod?:
+    | "SESSION_REAUTH_METHOD_UNSPECIFIED"
+    | "LOGIN"
+    | "SECURITY_KEY"
+    | "PASSWORD"
+    | (string & {});
   /** Optional. The session length. Setting this field to zero is equal to disabling session. Also can set infinite session by flipping the enabled bit to false below. If use_oidc_max_age is true, for OIDC apps, the session length will be the minimum of this field and OIDC max_age param. */
   sessionLength?: string;
   /** Optional. How long a user is allowed to take between actions before a new access token must be issued. Only set for Google Cloud apps. */
@@ -585,13 +768,18 @@ export interface SessionSettings {
   sessionLengthEnabled?: boolean;
 }
 
-export const SessionSettings: Schema.Schema<SessionSettings> = Schema.suspend(() => Schema.Struct({
-  sessionReauthMethod: Schema.optional(Schema.String),
-  sessionLength: Schema.optional(Schema.String),
-  maxInactivity: Schema.optional(Schema.String),
-  useOidcMaxAge: Schema.optional(Schema.Boolean),
-  sessionLengthEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SessionSettings" }) as any as Schema.Schema<SessionSettings>;
+export const SessionSettings: Schema.Schema<SessionSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sessionReauthMethod: Schema.optional(Schema.String),
+      sessionLength: Schema.optional(Schema.String),
+      maxInactivity: Schema.optional(Schema.String),
+      useOidcMaxAge: Schema.optional(Schema.Boolean),
+      sessionLengthEnabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "SessionSettings",
+}) as any as Schema.Schema<SessionSettings>;
 
 export interface Application {
   /** The OAuth client ID of the application. */
@@ -600,28 +788,34 @@ export interface Application {
   name?: string;
 }
 
-export const Application: Schema.Schema<Application> = Schema.suspend(() => Schema.Struct({
-  clientId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
+export const Application: Schema.Schema<Application> = Schema.suspend(() =>
+  Schema.Struct({
+    clientId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
 
 export interface ClientScope {
   /** Optional. The application that is subject to this binding's scope. */
   restrictedClientApplication?: Application;
 }
 
-export const ClientScope: Schema.Schema<ClientScope> = Schema.suspend(() => Schema.Struct({
-  restrictedClientApplication: Schema.optional(Application),
-})).annotate({ identifier: "ClientScope" }) as any as Schema.Schema<ClientScope>;
+export const ClientScope: Schema.Schema<ClientScope> = Schema.suspend(() =>
+  Schema.Struct({
+    restrictedClientApplication: Schema.optional(Application),
+  }),
+).annotate({ identifier: "ClientScope" }) as any as Schema.Schema<ClientScope>;
 
 export interface AccessScope {
   /** Optional. Client scope for this access scope. */
   clientScope?: ClientScope;
 }
 
-export const AccessScope: Schema.Schema<AccessScope> = Schema.suspend(() => Schema.Struct({
-  clientScope: Schema.optional(ClientScope),
-})).annotate({ identifier: "AccessScope" }) as any as Schema.Schema<AccessScope>;
+export const AccessScope: Schema.Schema<AccessScope> = Schema.suspend(() =>
+  Schema.Struct({
+    clientScope: Schema.optional(ClientScope),
+  }),
+).annotate({ identifier: "AccessScope" }) as any as Schema.Schema<AccessScope>;
 
 export interface AccessSettings {
   /** Optional. Access level that a user must have to be granted access. Only one access level is supported, not multiple. This repeated field must have exactly one element. Example: "accessPolicies/9522/accessLevels/device_trusted" */
@@ -630,10 +824,15 @@ export interface AccessSettings {
   sessionSettings?: SessionSettings;
 }
 
-export const AccessSettings: Schema.Schema<AccessSettings> = Schema.suspend(() => Schema.Struct({
-  accessLevels: Schema.optional(Schema.Array(Schema.String)),
-  sessionSettings: Schema.optional(SessionSettings),
-})).annotate({ identifier: "AccessSettings" }) as any as Schema.Schema<AccessSettings>;
+export const AccessSettings: Schema.Schema<AccessSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      accessLevels: Schema.optional(Schema.Array(Schema.String)),
+      sessionSettings: Schema.optional(SessionSettings),
+    }),
+).annotate({
+  identifier: "AccessSettings",
+}) as any as Schema.Schema<AccessSettings>;
 
 export interface ScopedAccessSettings {
   /** Optional. Application, etc. to which the access settings will be applied to. Implicitly, this is the scoped access settings key; as such, it must be unique and non-empty. */
@@ -644,11 +843,16 @@ export interface ScopedAccessSettings {
   dryRunSettings?: AccessSettings;
 }
 
-export const ScopedAccessSettings: Schema.Schema<ScopedAccessSettings> = Schema.suspend(() => Schema.Struct({
-  scope: Schema.optional(AccessScope),
-  activeSettings: Schema.optional(AccessSettings),
-  dryRunSettings: Schema.optional(AccessSettings),
-})).annotate({ identifier: "ScopedAccessSettings" }) as any as Schema.Schema<ScopedAccessSettings>;
+export const ScopedAccessSettings: Schema.Schema<ScopedAccessSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      scope: Schema.optional(AccessScope),
+      activeSettings: Schema.optional(AccessSettings),
+      dryRunSettings: Schema.optional(AccessSettings),
+    }),
+  ).annotate({
+    identifier: "ScopedAccessSettings",
+  }) as any as Schema.Schema<ScopedAccessSettings>;
 
 export interface GcpUserAccessBinding {
   /** Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N" */
@@ -667,15 +871,20 @@ export interface GcpUserAccessBinding {
   scopedAccessSettings?: Array<ScopedAccessSettings>;
 }
 
-export const GcpUserAccessBinding: Schema.Schema<GcpUserAccessBinding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  groupKey: Schema.optional(Schema.String),
-  accessLevels: Schema.optional(Schema.Array(Schema.String)),
-  dryRunAccessLevels: Schema.optional(Schema.Array(Schema.String)),
-  sessionSettings: Schema.optional(SessionSettings),
-  restrictedClientApplications: Schema.optional(Schema.Array(Application)),
-  scopedAccessSettings: Schema.optional(Schema.Array(ScopedAccessSettings)),
-})).annotate({ identifier: "GcpUserAccessBinding" }) as any as Schema.Schema<GcpUserAccessBinding>;
+export const GcpUserAccessBinding: Schema.Schema<GcpUserAccessBinding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      groupKey: Schema.optional(Schema.String),
+      accessLevels: Schema.optional(Schema.Array(Schema.String)),
+      dryRunAccessLevels: Schema.optional(Schema.Array(Schema.String)),
+      sessionSettings: Schema.optional(SessionSettings),
+      restrictedClientApplications: Schema.optional(Schema.Array(Application)),
+      scopedAccessSettings: Schema.optional(Schema.Array(ScopedAccessSettings)),
+    }),
+  ).annotate({
+    identifier: "GcpUserAccessBinding",
+  }) as any as Schema.Schema<GcpUserAccessBinding>;
 
 export interface ListGcpUserAccessBindingsResponse {
   /** GcpUserAccessBinding */
@@ -684,10 +893,17 @@ export interface ListGcpUserAccessBindingsResponse {
   nextPageToken?: string;
 }
 
-export const ListGcpUserAccessBindingsResponse: Schema.Schema<ListGcpUserAccessBindingsResponse> = Schema.suspend(() => Schema.Struct({
-  gcpUserAccessBindings: Schema.optional(Schema.Array(GcpUserAccessBinding)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListGcpUserAccessBindingsResponse" }) as any as Schema.Schema<ListGcpUserAccessBindingsResponse>;
+export const ListGcpUserAccessBindingsResponse: Schema.Schema<ListGcpUserAccessBindingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcpUserAccessBindings: Schema.optional(
+        Schema.Array(GcpUserAccessBinding),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListGcpUserAccessBindingsResponse",
+  }) as any as Schema.Schema<ListGcpUserAccessBindingsResponse>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -698,23 +914,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -723,10 +951,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -739,12 +969,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -753,67 +985,108 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(() => Schema.Struct({
-  requestedPolicyVersion: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GetPolicyOptions" }) as any as Schema.Schema<GetPolicyOptions>;
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GetPolicyOptions",
+}) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions;
 }
 
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(GetPolicyOptions),
-})).annotate({ identifier: "GetIamPolicyRequest" }) as any as Schema.Schema<GetIamPolicyRequest>;
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface AuthorizedOrgsDesc {
   /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
   name?: string;
   /** A granular control type for authorization levels. Valid value is `AUTHORIZATION_TYPE_TRUST`. */
-  authorizationType?: "AUTHORIZATION_TYPE_UNSPECIFIED" | "AUTHORIZATION_TYPE_TRUST" | (string & {});
+  authorizationType?:
+    | "AUTHORIZATION_TYPE_UNSPECIFIED"
+    | "AUTHORIZATION_TYPE_TRUST"
+    | (string & {});
   /** The asset type of this authorized orgs desc. Valid values are `ASSET_TYPE_DEVICE`, and `ASSET_TYPE_CREDENTIAL_STRENGTH`. */
-  assetType?: "ASSET_TYPE_UNSPECIFIED" | "ASSET_TYPE_DEVICE" | "ASSET_TYPE_CREDENTIAL_STRENGTH" | (string & {});
+  assetType?:
+    | "ASSET_TYPE_UNSPECIFIED"
+    | "ASSET_TYPE_DEVICE"
+    | "ASSET_TYPE_CREDENTIAL_STRENGTH"
+    | (string & {});
   /** The direction of the authorization relationship between this organization and the organizations listed in the `orgs` field. The valid values for this field include the following: `AUTHORIZATION_DIRECTION_FROM`: Allows this organization to evaluate traffic in the organizations listed in the `orgs` field. `AUTHORIZATION_DIRECTION_TO`: Allows the organizations listed in the `orgs` field to evaluate the traffic in this organization. For the authorization relationship to take effect, all of the organizations must authorize and specify the appropriate relationship direction. For example, if organization A authorized organization B and C to evaluate its traffic, by specifying `AUTHORIZATION_DIRECTION_TO` as the authorization direction, organizations B and C must specify `AUTHORIZATION_DIRECTION_FROM` as the authorization direction in their `AuthorizedOrgsDesc` resource. */
-  authorizationDirection?: "AUTHORIZATION_DIRECTION_UNSPECIFIED" | "AUTHORIZATION_DIRECTION_TO" | "AUTHORIZATION_DIRECTION_FROM" | (string & {});
+  authorizationDirection?:
+    | "AUTHORIZATION_DIRECTION_UNSPECIFIED"
+    | "AUTHORIZATION_DIRECTION_TO"
+    | "AUTHORIZATION_DIRECTION_FROM"
+    | (string & {});
   /** The list of organization ids in this AuthorizedOrgsDesc. Format: `organizations/` Example: `organizations/123456` */
   orgs?: Array<string>;
 }
 
-export const AuthorizedOrgsDesc: Schema.Schema<AuthorizedOrgsDesc> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  authorizationType: Schema.optional(Schema.String),
-  assetType: Schema.optional(Schema.String),
-  authorizationDirection: Schema.optional(Schema.String),
-  orgs: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuthorizedOrgsDesc" }) as any as Schema.Schema<AuthorizedOrgsDesc>;
+export const AuthorizedOrgsDesc: Schema.Schema<AuthorizedOrgsDesc> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      authorizationType: Schema.optional(Schema.String),
+      assetType: Schema.optional(Schema.String),
+      authorizationDirection: Schema.optional(Schema.String),
+      orgs: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AuthorizedOrgsDesc",
+  }) as any as Schema.Schema<AuthorizedOrgsDesc>;
 
 export interface ListAuthorizedOrgsDescsResponse {
   /** List of all the Authorized Orgs Desc instances. */
@@ -822,10 +1095,15 @@ export interface ListAuthorizedOrgsDescsResponse {
   nextPageToken?: string;
 }
 
-export const ListAuthorizedOrgsDescsResponse: Schema.Schema<ListAuthorizedOrgsDescsResponse> = Schema.suspend(() => Schema.Struct({
-  authorizedOrgsDescs: Schema.optional(Schema.Array(AuthorizedOrgsDesc)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAuthorizedOrgsDescsResponse" }) as any as Schema.Schema<ListAuthorizedOrgsDescsResponse>;
+export const ListAuthorizedOrgsDescsResponse: Schema.Schema<ListAuthorizedOrgsDescsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      authorizedOrgsDescs: Schema.optional(Schema.Array(AuthorizedOrgsDesc)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAuthorizedOrgsDescsResponse",
+  }) as any as Schema.Schema<ListAuthorizedOrgsDescsResponse>;
 
 export interface ListSupportedPermissionsResponse {
   /** List of VPC-SC supported permissions. */
@@ -834,49 +1112,71 @@ export interface ListSupportedPermissionsResponse {
   nextPageToken?: string;
 }
 
-export const ListSupportedPermissionsResponse: Schema.Schema<ListSupportedPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  supportedPermissions: Schema.optional(Schema.Array(Schema.String)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSupportedPermissionsResponse" }) as any as Schema.Schema<ListSupportedPermissionsResponse>;
+export const ListSupportedPermissionsResponse: Schema.Schema<ListSupportedPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      supportedPermissions: Schema.optional(Schema.Array(Schema.String)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSupportedPermissionsResponse",
+  }) as any as Schema.Schema<ListSupportedPermissionsResponse>;
 
 export interface ReplaceAccessLevelsResponse {
   /** List of the Access Level instances. */
   accessLevels?: Array<AccessLevel>;
 }
 
-export const ReplaceAccessLevelsResponse: Schema.Schema<ReplaceAccessLevelsResponse> = Schema.suspend(() => Schema.Struct({
-  accessLevels: Schema.optional(Schema.Array(AccessLevel)),
-})).annotate({ identifier: "ReplaceAccessLevelsResponse" }) as any as Schema.Schema<ReplaceAccessLevelsResponse>;
+export const ReplaceAccessLevelsResponse: Schema.Schema<ReplaceAccessLevelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessLevels: Schema.optional(Schema.Array(AccessLevel)),
+    }),
+  ).annotate({
+    identifier: "ReplaceAccessLevelsResponse",
+  }) as any as Schema.Schema<ReplaceAccessLevelsResponse>;
 
 export interface ReplaceServicePerimetersResponse {
   /** List of the Service Perimeter instances. */
   servicePerimeters?: Array<ServicePerimeter>;
 }
 
-export const ReplaceServicePerimetersResponse: Schema.Schema<ReplaceServicePerimetersResponse> = Schema.suspend(() => Schema.Struct({
-  servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
-})).annotate({ identifier: "ReplaceServicePerimetersResponse" }) as any as Schema.Schema<ReplaceServicePerimetersResponse>;
+export const ReplaceServicePerimetersResponse: Schema.Schema<ReplaceServicePerimetersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
+    }),
+  ).annotate({
+    identifier: "ReplaceServicePerimetersResponse",
+  }) as any as Schema.Schema<ReplaceServicePerimetersResponse>;
 
 export interface CommitServicePerimetersResponse {
   /** List of all the Service Perimeter instances in the Access Policy. */
   servicePerimeters?: Array<ServicePerimeter>;
 }
 
-export const CommitServicePerimetersResponse: Schema.Schema<CommitServicePerimetersResponse> = Schema.suspend(() => Schema.Struct({
-  servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
-})).annotate({ identifier: "CommitServicePerimetersResponse" }) as any as Schema.Schema<CommitServicePerimetersResponse>;
+export const CommitServicePerimetersResponse: Schema.Schema<CommitServicePerimetersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      servicePerimeters: Schema.optional(Schema.Array(ServicePerimeter)),
+    }),
+  ).annotate({
+    identifier: "CommitServicePerimetersResponse",
+  }) as any as Schema.Schema<CommitServicePerimetersResponse>;
 
-export interface GcpUserAccessBindingOperationMetadata {
-}
+export interface GcpUserAccessBindingOperationMetadata {}
 
-export const GcpUserAccessBindingOperationMetadata: Schema.Schema<GcpUserAccessBindingOperationMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GcpUserAccessBindingOperationMetadata" }) as any as Schema.Schema<GcpUserAccessBindingOperationMetadata>;
+export const GcpUserAccessBindingOperationMetadata: Schema.Schema<GcpUserAccessBindingOperationMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GcpUserAccessBindingOperationMetadata",
+  }) as any as Schema.Schema<GcpUserAccessBindingOperationMetadata>;
 
-export interface AccessContextManagerOperationMetadata {
-}
+export interface AccessContextManagerOperationMetadata {}
 
-export const AccessContextManagerOperationMetadata: Schema.Schema<AccessContextManagerOperationMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AccessContextManagerOperationMetadata" }) as any as Schema.Schema<AccessContextManagerOperationMetadata>;
+export const AccessContextManagerOperationMetadata: Schema.Schema<AccessContextManagerOperationMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AccessContextManagerOperationMetadata",
+  }) as any as Schema.Schema<AccessContextManagerOperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -900,7 +1200,9 @@ export const ListOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations" }),
   svc,
@@ -912,7 +1214,12 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse_Op,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -940,7 +1247,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -964,7 +1276,12 @@ export const DeleteOperationsResponse = Empty;
 export type DeleteOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOperations: API.OperationMethod<
+  DeleteOperationsRequest,
+  DeleteOperationsResponse,
+  DeleteOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -981,7 +1298,11 @@ export const CancelOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -991,7 +1312,12 @@ export const CancelOperationsResponse = Empty;
 export type CancelOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOperations: API.OperationMethod<
+  CancelOperationsRequest,
+  CancelOperationsResponse,
+  CancelOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -1021,7 +1347,12 @@ export const ListAccessPoliciesResponse_Op = ListAccessPoliciesResponse;
 export type ListAccessPoliciesError = DefaultErrors;
 
 /** Lists all access policies in an organization. */
-export const listAccessPolicies: API.PaginatedOperationMethod<ListAccessPoliciesRequest, ListAccessPoliciesResponse_Op, ListAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccessPolicies: API.PaginatedOperationMethod<
+  ListAccessPoliciesRequest,
+  ListAccessPoliciesResponse_Op,
+  ListAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccessPoliciesRequest,
   output: ListAccessPoliciesResponse_Op,
   errors: [],
@@ -1049,7 +1380,12 @@ export const GetAccessPoliciesResponse = AccessPolicy;
 export type GetAccessPoliciesError = DefaultErrors;
 
 /** Returns an access policy based on the name. */
-export const getAccessPolicies: API.OperationMethod<GetAccessPoliciesRequest, GetAccessPoliciesResponse, GetAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccessPolicies: API.OperationMethod<
+  GetAccessPoliciesRequest,
+  GetAccessPoliciesResponse,
+  GetAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccessPoliciesRequest,
   output: GetAccessPoliciesResponse,
   errors: [],
@@ -1073,7 +1409,12 @@ export const CreateAccessPoliciesResponse = Operation;
 export type CreateAccessPoliciesError = DefaultErrors;
 
 /** Creates an access policy. This method fails if the organization already has an access policy. The long-running operation has a successful status after the access policy propagates to long-lasting storage. Syntactic and basic semantic errors are returned in `metadata` as a BadRequest proto. */
-export const createAccessPolicies: API.OperationMethod<CreateAccessPoliciesRequest, CreateAccessPoliciesResponse, CreateAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccessPolicies: API.OperationMethod<
+  CreateAccessPoliciesRequest,
+  CreateAccessPoliciesResponse,
+  CreateAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccessPoliciesRequest,
   output: CreateAccessPoliciesResponse,
   errors: [],
@@ -1093,7 +1434,11 @@ export const PatchAccessPoliciesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AccessPolicy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/accessPolicies/{accessPoliciesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/accessPolicies/{accessPoliciesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccessPoliciesRequest>;
 
@@ -1103,7 +1448,12 @@ export const PatchAccessPoliciesResponse = Operation;
 export type PatchAccessPoliciesError = DefaultErrors;
 
 /** Updates an access policy. The long-running operation from this RPC has a successful status after the changes to the access policy propagate to long-lasting storage. */
-export const patchAccessPolicies: API.OperationMethod<PatchAccessPoliciesRequest, PatchAccessPoliciesResponse, PatchAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccessPolicies: API.OperationMethod<
+  PatchAccessPoliciesRequest,
+  PatchAccessPoliciesResponse,
+  PatchAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccessPoliciesRequest,
   output: PatchAccessPoliciesResponse,
   errors: [],
@@ -1127,7 +1477,12 @@ export const DeleteAccessPoliciesResponse = Operation;
 export type DeleteAccessPoliciesError = DefaultErrors;
 
 /** Deletes an access policy based on the resource name. The long-running operation has a successful status after the access policy is removed from long-lasting storage. */
-export const deleteAccessPolicies: API.OperationMethod<DeleteAccessPoliciesRequest, DeleteAccessPoliciesResponse, DeleteAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccessPolicies: API.OperationMethod<
+  DeleteAccessPoliciesRequest,
+  DeleteAccessPoliciesResponse,
+  DeleteAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccessPoliciesRequest,
   output: DeleteAccessPoliciesResponse,
   errors: [],
@@ -1144,7 +1499,11 @@ export const SetIamPolicyAccessPoliciesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyAccessPoliciesRequest>;
 
@@ -1154,7 +1513,12 @@ export const SetIamPolicyAccessPoliciesResponse = Policy;
 export type SetIamPolicyAccessPoliciesError = DefaultErrors;
 
 /** Sets the IAM policy for the specified Access Context Manager access policy. This method replaces the existing IAM policy on the access policy. The IAM policy controls the set of users who can perform specific operations on the Access Context Manager access policy. */
-export const setIamPolicyAccessPolicies: API.OperationMethod<SetIamPolicyAccessPoliciesRequest, SetIamPolicyAccessPoliciesResponse, SetIamPolicyAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyAccessPolicies: API.OperationMethod<
+  SetIamPolicyAccessPoliciesRequest,
+  SetIamPolicyAccessPoliciesResponse,
+  SetIamPolicyAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyAccessPoliciesRequest,
   output: SetIamPolicyAccessPoliciesResponse,
   errors: [],
@@ -1171,7 +1535,11 @@ export const GetIamPolicyAccessPoliciesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyAccessPoliciesRequest>;
 
@@ -1181,7 +1549,12 @@ export const GetIamPolicyAccessPoliciesResponse = Policy;
 export type GetIamPolicyAccessPoliciesError = DefaultErrors;
 
 /** Gets the IAM policy for the specified Access Context Manager access policy. */
-export const getIamPolicyAccessPolicies: API.OperationMethod<GetIamPolicyAccessPoliciesRequest, GetIamPolicyAccessPoliciesResponse, GetIamPolicyAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyAccessPolicies: API.OperationMethod<
+  GetIamPolicyAccessPoliciesRequest,
+  GetIamPolicyAccessPoliciesResponse,
+  GetIamPolicyAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyAccessPoliciesRequest,
   output: GetIamPolicyAccessPoliciesResponse,
   errors: [],
@@ -1198,17 +1571,28 @@ export const TestIamPermissionsAccessPoliciesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsAccessPoliciesRequest>;
 
-export type TestIamPermissionsAccessPoliciesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsAccessPoliciesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsAccessPoliciesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsAccessPoliciesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsAccessPoliciesError = DefaultErrors;
 
 /** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
-export const testIamPermissionsAccessPolicies: API.OperationMethod<TestIamPermissionsAccessPoliciesRequest, TestIamPermissionsAccessPoliciesResponse, TestIamPermissionsAccessPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsAccessPolicies: API.OperationMethod<
+  TestIamPermissionsAccessPoliciesRequest,
+  TestIamPermissionsAccessPoliciesResponse,
+  TestIamPermissionsAccessPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsAccessPoliciesRequest,
   output: TestIamPermissionsAccessPoliciesResponse,
   errors: [],
@@ -1222,16 +1606,25 @@ export interface ListAccessPoliciesAccessLevelsRequest {
   /** Next page token for the next batch of Access Level instances. Defaults to the first page of results. */
   pageToken?: string;
   /** Whether to return `BasicLevels` in the Cloud Common Expression language, as `CustomLevels`, rather than as `BasicLevels`. Defaults to returning `AccessLevels` in the format they were defined. */
-  accessLevelFormat?: "LEVEL_FORMAT_UNSPECIFIED" | "AS_DEFINED" | "CEL" | (string & {});
+  accessLevelFormat?:
+    | "LEVEL_FORMAT_UNSPECIFIED"
+    | "AS_DEFINED"
+    | "CEL"
+    | (string & {});
 }
 
 export const ListAccessPoliciesAccessLevelsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  accessLevelFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("accessLevelFormat")),
+  accessLevelFormat: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("accessLevelFormat"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accessPolicies/{accessPoliciesId}/accessLevels" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accessPolicies/{accessPoliciesId}/accessLevels",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccessPoliciesAccessLevelsRequest>;
 
@@ -1241,7 +1634,12 @@ export const ListAccessPoliciesAccessLevelsResponse = ListAccessLevelsResponse;
 export type ListAccessPoliciesAccessLevelsError = DefaultErrors;
 
 /** Lists all access levels for an access policy. */
-export const listAccessPoliciesAccessLevels: API.PaginatedOperationMethod<ListAccessPoliciesAccessLevelsRequest, ListAccessPoliciesAccessLevelsResponse, ListAccessPoliciesAccessLevelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccessPoliciesAccessLevels: API.PaginatedOperationMethod<
+  ListAccessPoliciesAccessLevelsRequest,
+  ListAccessPoliciesAccessLevelsResponse,
+  ListAccessPoliciesAccessLevelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccessPoliciesAccessLevelsRequest,
   output: ListAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1255,14 +1653,23 @@ export interface GetAccessPoliciesAccessLevelsRequest {
   /** Required. Resource name for the Access Level. Format: `accessPolicies/{policy_id}/accessLevels/{access_level_id}` */
   name: string;
   /** Whether to return `BasicLevels` in the Cloud Common Expression Language rather than as `BasicLevels`. Defaults to AS_DEFINED, where Access Levels are returned as `BasicLevels` or `CustomLevels` based on how they were created. If set to CEL, all Access Levels are returned as `CustomLevels`. In the CEL case, `BasicLevels` are translated to equivalent `CustomLevels`. */
-  accessLevelFormat?: "LEVEL_FORMAT_UNSPECIFIED" | "AS_DEFINED" | "CEL" | (string & {});
+  accessLevelFormat?:
+    | "LEVEL_FORMAT_UNSPECIFIED"
+    | "AS_DEFINED"
+    | "CEL"
+    | (string & {});
 }
 
 export const GetAccessPoliciesAccessLevelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  accessLevelFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("accessLevelFormat")),
+  accessLevelFormat: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("accessLevelFormat"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccessPoliciesAccessLevelsRequest>;
 
@@ -1272,7 +1679,12 @@ export const GetAccessPoliciesAccessLevelsResponse = AccessLevel;
 export type GetAccessPoliciesAccessLevelsError = DefaultErrors;
 
 /** Gets an access level based on the resource name. */
-export const getAccessPoliciesAccessLevels: API.OperationMethod<GetAccessPoliciesAccessLevelsRequest, GetAccessPoliciesAccessLevelsResponse, GetAccessPoliciesAccessLevelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccessPoliciesAccessLevels: API.OperationMethod<
+  GetAccessPoliciesAccessLevelsRequest,
+  GetAccessPoliciesAccessLevelsResponse,
+  GetAccessPoliciesAccessLevelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccessPoliciesAccessLevelsRequest,
   output: GetAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1289,7 +1701,11 @@ export const CreateAccessPoliciesAccessLevelsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AccessLevel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/accessLevels", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}/accessLevels",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccessPoliciesAccessLevelsRequest>;
 
@@ -1299,7 +1715,12 @@ export const CreateAccessPoliciesAccessLevelsResponse = Operation;
 export type CreateAccessPoliciesAccessLevelsError = DefaultErrors;
 
 /** Creates an access level. The long-running operation from this RPC has a successful status after the access level propagates to long-lasting storage. If access levels contain errors, an error response is returned for the first error encountered. */
-export const createAccessPoliciesAccessLevels: API.OperationMethod<CreateAccessPoliciesAccessLevelsRequest, CreateAccessPoliciesAccessLevelsResponse, CreateAccessPoliciesAccessLevelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccessPoliciesAccessLevels: API.OperationMethod<
+  CreateAccessPoliciesAccessLevelsRequest,
+  CreateAccessPoliciesAccessLevelsResponse,
+  CreateAccessPoliciesAccessLevelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccessPoliciesAccessLevelsRequest,
   output: CreateAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1319,7 +1740,11 @@ export const PatchAccessPoliciesAccessLevelsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AccessLevel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccessPoliciesAccessLevelsRequest>;
 
@@ -1329,7 +1754,12 @@ export const PatchAccessPoliciesAccessLevelsResponse = Operation;
 export type PatchAccessPoliciesAccessLevelsError = DefaultErrors;
 
 /** Updates an access level. The long-running operation from this RPC has a successful status after the changes to the access level propagate to long-lasting storage. If access levels contain errors, an error response is returned for the first error encountered. */
-export const patchAccessPoliciesAccessLevels: API.OperationMethod<PatchAccessPoliciesAccessLevelsRequest, PatchAccessPoliciesAccessLevelsResponse, PatchAccessPoliciesAccessLevelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccessPoliciesAccessLevels: API.OperationMethod<
+  PatchAccessPoliciesAccessLevelsRequest,
+  PatchAccessPoliciesAccessLevelsResponse,
+  PatchAccessPoliciesAccessLevelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccessPoliciesAccessLevelsRequest,
   output: PatchAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1343,7 +1773,10 @@ export interface DeleteAccessPoliciesAccessLevelsRequest {
 export const DeleteAccessPoliciesAccessLevelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccessPoliciesAccessLevelsRequest>;
 
@@ -1353,7 +1786,12 @@ export const DeleteAccessPoliciesAccessLevelsResponse = Operation;
 export type DeleteAccessPoliciesAccessLevelsError = DefaultErrors;
 
 /** Deletes an access level based on the resource name. The long-running operation from this RPC has a successful status after the access level has been removed from long-lasting storage. */
-export const deleteAccessPoliciesAccessLevels: API.OperationMethod<DeleteAccessPoliciesAccessLevelsRequest, DeleteAccessPoliciesAccessLevelsResponse, DeleteAccessPoliciesAccessLevelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccessPoliciesAccessLevels: API.OperationMethod<
+  DeleteAccessPoliciesAccessLevelsRequest,
+  DeleteAccessPoliciesAccessLevelsResponse,
+  DeleteAccessPoliciesAccessLevelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccessPoliciesAccessLevelsRequest,
   output: DeleteAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1370,7 +1808,11 @@ export const ReplaceAllAccessPoliciesAccessLevelsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ReplaceAccessLevelsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/accessLevels:replaceAll", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}/accessLevels:replaceAll",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReplaceAllAccessPoliciesAccessLevelsRequest>;
 
@@ -1380,7 +1822,12 @@ export const ReplaceAllAccessPoliciesAccessLevelsResponse = Operation;
 export type ReplaceAllAccessPoliciesAccessLevelsError = DefaultErrors;
 
 /** Replaces all existing access levels in an access policy with the access levels provided. This is done atomically. The long-running operation from this RPC has a successful status after all replacements propagate to long-lasting storage. If the replacement contains errors, an error response is returned for the first error encountered. Upon error, the replacement is cancelled, and existing access levels are not affected. The Operation.response field contains ReplaceAccessLevelsResponse. Removing access levels contained in existing service perimeters result in an error. */
-export const replaceAllAccessPoliciesAccessLevels: API.OperationMethod<ReplaceAllAccessPoliciesAccessLevelsRequest, ReplaceAllAccessPoliciesAccessLevelsResponse, ReplaceAllAccessPoliciesAccessLevelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const replaceAllAccessPoliciesAccessLevels: API.OperationMethod<
+  ReplaceAllAccessPoliciesAccessLevelsRequest,
+  ReplaceAllAccessPoliciesAccessLevelsResponse,
+  ReplaceAllAccessPoliciesAccessLevelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReplaceAllAccessPoliciesAccessLevelsRequest,
   output: ReplaceAllAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1393,21 +1840,33 @@ export interface TestIamPermissionsAccessPoliciesAccessLevelsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsAccessPoliciesAccessLevelsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsAccessPoliciesAccessLevelsRequest>;
+export const TestIamPermissionsAccessPoliciesAccessLevelsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accessPolicies/{accessPoliciesId}/accessLevels/{accessLevelsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsAccessPoliciesAccessLevelsRequest>;
 
-export type TestIamPermissionsAccessPoliciesAccessLevelsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsAccessPoliciesAccessLevelsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsAccessPoliciesAccessLevelsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsAccessPoliciesAccessLevelsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsAccessPoliciesAccessLevelsError = DefaultErrors;
 
 /** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
-export const testIamPermissionsAccessPoliciesAccessLevels: API.OperationMethod<TestIamPermissionsAccessPoliciesAccessLevelsRequest, TestIamPermissionsAccessPoliciesAccessLevelsResponse, TestIamPermissionsAccessPoliciesAccessLevelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsAccessPoliciesAccessLevels: API.OperationMethod<
+  TestIamPermissionsAccessPoliciesAccessLevelsRequest,
+  TestIamPermissionsAccessPoliciesAccessLevelsResponse,
+  TestIamPermissionsAccessPoliciesAccessLevelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsAccessPoliciesAccessLevelsRequest,
   output: TestIamPermissionsAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1427,17 +1886,27 @@ export const ListAccessPoliciesServicePerimetersRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccessPoliciesServicePerimetersRequest>;
 
-export type ListAccessPoliciesServicePerimetersResponse = ListServicePerimetersResponse;
-export const ListAccessPoliciesServicePerimetersResponse = ListServicePerimetersResponse;
+export type ListAccessPoliciesServicePerimetersResponse =
+  ListServicePerimetersResponse;
+export const ListAccessPoliciesServicePerimetersResponse =
+  ListServicePerimetersResponse;
 
 export type ListAccessPoliciesServicePerimetersError = DefaultErrors;
 
 /** Lists all service perimeters for an access policy. */
-export const listAccessPoliciesServicePerimeters: API.PaginatedOperationMethod<ListAccessPoliciesServicePerimetersRequest, ListAccessPoliciesServicePerimetersResponse, ListAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccessPoliciesServicePerimeters: API.PaginatedOperationMethod<
+  ListAccessPoliciesServicePerimetersRequest,
+  ListAccessPoliciesServicePerimetersResponse,
+  ListAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccessPoliciesServicePerimetersRequest,
   output: ListAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1455,7 +1924,10 @@ export interface GetAccessPoliciesServicePerimetersRequest {
 export const GetAccessPoliciesServicePerimetersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccessPoliciesServicePerimetersRequest>;
 
@@ -1465,7 +1937,12 @@ export const GetAccessPoliciesServicePerimetersResponse = ServicePerimeter;
 export type GetAccessPoliciesServicePerimetersError = DefaultErrors;
 
 /** Gets a service perimeter based on the resource name. */
-export const getAccessPoliciesServicePerimeters: API.OperationMethod<GetAccessPoliciesServicePerimetersRequest, GetAccessPoliciesServicePerimetersResponse, GetAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccessPoliciesServicePerimeters: API.OperationMethod<
+  GetAccessPoliciesServicePerimetersRequest,
+  GetAccessPoliciesServicePerimetersResponse,
+  GetAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccessPoliciesServicePerimetersRequest,
   output: GetAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1482,7 +1959,11 @@ export const CreateAccessPoliciesServicePerimetersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ServicePerimeter).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccessPoliciesServicePerimetersRequest>;
 
@@ -1492,7 +1973,12 @@ export const CreateAccessPoliciesServicePerimetersResponse = Operation;
 export type CreateAccessPoliciesServicePerimetersError = DefaultErrors;
 
 /** Creates a service perimeter. The long-running operation from this RPC has a successful status after the service perimeter propagates to long-lasting storage. If a service perimeter contains errors, an error response is returned for the first error encountered. */
-export const createAccessPoliciesServicePerimeters: API.OperationMethod<CreateAccessPoliciesServicePerimetersRequest, CreateAccessPoliciesServicePerimetersResponse, CreateAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccessPoliciesServicePerimeters: API.OperationMethod<
+  CreateAccessPoliciesServicePerimetersRequest,
+  CreateAccessPoliciesServicePerimetersResponse,
+  CreateAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccessPoliciesServicePerimetersRequest,
   output: CreateAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1512,7 +1998,11 @@ export const PatchAccessPoliciesServicePerimetersRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(ServicePerimeter).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccessPoliciesServicePerimetersRequest>;
 
@@ -1522,7 +2012,12 @@ export const PatchAccessPoliciesServicePerimetersResponse = Operation;
 export type PatchAccessPoliciesServicePerimetersError = DefaultErrors;
 
 /** Updates a service perimeter. The long-running operation from this RPC has a successful status after the service perimeter propagates to long-lasting storage. If a service perimeter contains errors, an error response is returned for the first error encountered. */
-export const patchAccessPoliciesServicePerimeters: API.OperationMethod<PatchAccessPoliciesServicePerimetersRequest, PatchAccessPoliciesServicePerimetersResponse, PatchAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccessPoliciesServicePerimeters: API.OperationMethod<
+  PatchAccessPoliciesServicePerimetersRequest,
+  PatchAccessPoliciesServicePerimetersResponse,
+  PatchAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccessPoliciesServicePerimetersRequest,
   output: PatchAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1536,7 +2031,10 @@ export interface DeleteAccessPoliciesServicePerimetersRequest {
 export const DeleteAccessPoliciesServicePerimetersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccessPoliciesServicePerimetersRequest>;
 
@@ -1546,7 +2044,12 @@ export const DeleteAccessPoliciesServicePerimetersResponse = Operation;
 export type DeleteAccessPoliciesServicePerimetersError = DefaultErrors;
 
 /** Deletes a service perimeter based on the resource name. The long-running operation from this RPC has a successful status after the service perimeter is removed from long-lasting storage. */
-export const deleteAccessPoliciesServicePerimeters: API.OperationMethod<DeleteAccessPoliciesServicePerimetersRequest, DeleteAccessPoliciesServicePerimetersResponse, DeleteAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccessPoliciesServicePerimeters: API.OperationMethod<
+  DeleteAccessPoliciesServicePerimetersRequest,
+  DeleteAccessPoliciesServicePerimetersResponse,
+  DeleteAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccessPoliciesServicePerimetersRequest,
   output: DeleteAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1563,7 +2066,11 @@ export const ReplaceAllAccessPoliciesServicePerimetersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ReplaceServicePerimetersRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters:replaceAll", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters:replaceAll",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReplaceAllAccessPoliciesServicePerimetersRequest>;
 
@@ -1573,7 +2080,12 @@ export const ReplaceAllAccessPoliciesServicePerimetersResponse = Operation;
 export type ReplaceAllAccessPoliciesServicePerimetersError = DefaultErrors;
 
 /** Replace all existing service perimeters in an access policy with the service perimeters provided. This is done atomically. The long-running operation from this RPC has a successful status after all replacements propagate to long-lasting storage. Replacements containing errors result in an error response for the first error encountered. Upon an error, replacement are cancelled and existing service perimeters are not affected. The Operation.response field contains ReplaceServicePerimetersResponse. */
-export const replaceAllAccessPoliciesServicePerimeters: API.OperationMethod<ReplaceAllAccessPoliciesServicePerimetersRequest, ReplaceAllAccessPoliciesServicePerimetersResponse, ReplaceAllAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const replaceAllAccessPoliciesServicePerimeters: API.OperationMethod<
+  ReplaceAllAccessPoliciesServicePerimetersRequest,
+  ReplaceAllAccessPoliciesServicePerimetersResponse,
+  ReplaceAllAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReplaceAllAccessPoliciesServicePerimetersRequest,
   output: ReplaceAllAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1590,7 +2102,11 @@ export const CommitAccessPoliciesServicePerimetersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CommitServicePerimetersRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters:commit", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters:commit",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CommitAccessPoliciesServicePerimetersRequest>;
 
@@ -1600,7 +2116,12 @@ export const CommitAccessPoliciesServicePerimetersResponse = Operation;
 export type CommitAccessPoliciesServicePerimetersError = DefaultErrors;
 
 /** Commits the dry-run specification for all the service perimeters in an access policy. A commit operation on a service perimeter involves copying its `spec` field to the `status` field of the service perimeter. Only service perimeters with `use_explicit_dry_run_spec` field set to true are affected by a commit operation. The long-running operation from this RPC has a successful status after the dry-run specifications for all the service perimeters have been committed. If a commit fails, it causes the long-running operation to return an error response and the entire commit operation is cancelled. When successful, the Operation.response field contains CommitServicePerimetersResponse. The `dry_run` and the `spec` fields are cleared after a successful commit operation. */
-export const commitAccessPoliciesServicePerimeters: API.OperationMethod<CommitAccessPoliciesServicePerimetersRequest, CommitAccessPoliciesServicePerimetersResponse, CommitAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const commitAccessPoliciesServicePerimeters: API.OperationMethod<
+  CommitAccessPoliciesServicePerimetersRequest,
+  CommitAccessPoliciesServicePerimetersResponse,
+  CommitAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CommitAccessPoliciesServicePerimetersRequest,
   output: CommitAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1613,21 +2134,34 @@ export interface TestIamPermissionsAccessPoliciesServicePerimetersRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsAccessPoliciesServicePerimetersRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsAccessPoliciesServicePerimetersRequest>;
+export const TestIamPermissionsAccessPoliciesServicePerimetersRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accessPolicies/{accessPoliciesId}/servicePerimeters/{servicePerimetersId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsAccessPoliciesServicePerimetersRequest>;
 
-export type TestIamPermissionsAccessPoliciesServicePerimetersResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsAccessPoliciesServicePerimetersResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsAccessPoliciesServicePerimetersResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsAccessPoliciesServicePerimetersResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsAccessPoliciesServicePerimetersError = DefaultErrors;
+export type TestIamPermissionsAccessPoliciesServicePerimetersError =
+  DefaultErrors;
 
 /** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
-export const testIamPermissionsAccessPoliciesServicePerimeters: API.OperationMethod<TestIamPermissionsAccessPoliciesServicePerimetersRequest, TestIamPermissionsAccessPoliciesServicePerimetersResponse, TestIamPermissionsAccessPoliciesServicePerimetersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsAccessPoliciesServicePerimeters: API.OperationMethod<
+  TestIamPermissionsAccessPoliciesServicePerimetersRequest,
+  TestIamPermissionsAccessPoliciesServicePerimetersResponse,
+  TestIamPermissionsAccessPoliciesServicePerimetersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsAccessPoliciesServicePerimetersRequest,
   output: TestIamPermissionsAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1647,17 +2181,27 @@ export const ListAccessPoliciesAuthorizedOrgsDescsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccessPoliciesAuthorizedOrgsDescsRequest>;
 
-export type ListAccessPoliciesAuthorizedOrgsDescsResponse = ListAuthorizedOrgsDescsResponse;
-export const ListAccessPoliciesAuthorizedOrgsDescsResponse = ListAuthorizedOrgsDescsResponse;
+export type ListAccessPoliciesAuthorizedOrgsDescsResponse =
+  ListAuthorizedOrgsDescsResponse;
+export const ListAccessPoliciesAuthorizedOrgsDescsResponse =
+  ListAuthorizedOrgsDescsResponse;
 
 export type ListAccessPoliciesAuthorizedOrgsDescsError = DefaultErrors;
 
 /** Lists all authorized orgs descs for an access policy. */
-export const listAccessPoliciesAuthorizedOrgsDescs: API.PaginatedOperationMethod<ListAccessPoliciesAuthorizedOrgsDescsRequest, ListAccessPoliciesAuthorizedOrgsDescsResponse, ListAccessPoliciesAuthorizedOrgsDescsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccessPoliciesAuthorizedOrgsDescs: API.PaginatedOperationMethod<
+  ListAccessPoliciesAuthorizedOrgsDescsRequest,
+  ListAccessPoliciesAuthorizedOrgsDescsResponse,
+  ListAccessPoliciesAuthorizedOrgsDescsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccessPoliciesAuthorizedOrgsDescsRequest,
   output: ListAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
@@ -1675,7 +2219,10 @@ export interface GetAccessPoliciesAuthorizedOrgsDescsRequest {
 export const GetAccessPoliciesAuthorizedOrgsDescsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs/{authorizedOrgsDescsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs/{authorizedOrgsDescsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccessPoliciesAuthorizedOrgsDescsRequest>;
 
@@ -1685,7 +2232,12 @@ export const GetAccessPoliciesAuthorizedOrgsDescsResponse = AuthorizedOrgsDesc;
 export type GetAccessPoliciesAuthorizedOrgsDescsError = DefaultErrors;
 
 /** Gets an authorized orgs desc based on the resource name. */
-export const getAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<GetAccessPoliciesAuthorizedOrgsDescsRequest, GetAccessPoliciesAuthorizedOrgsDescsResponse, GetAccessPoliciesAuthorizedOrgsDescsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
+  GetAccessPoliciesAuthorizedOrgsDescsRequest,
+  GetAccessPoliciesAuthorizedOrgsDescsResponse,
+  GetAccessPoliciesAuthorizedOrgsDescsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccessPoliciesAuthorizedOrgsDescsRequest,
   output: GetAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
@@ -1702,7 +2254,11 @@ export const CreateAccessPoliciesAuthorizedOrgsDescsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AuthorizedOrgsDesc).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccessPoliciesAuthorizedOrgsDescsRequest>;
 
@@ -1712,7 +2268,12 @@ export const CreateAccessPoliciesAuthorizedOrgsDescsResponse = Operation;
 export type CreateAccessPoliciesAuthorizedOrgsDescsError = DefaultErrors;
 
 /** Creates an authorized orgs desc. The long-running operation from this RPC has a successful status after the authorized orgs desc propagates to long-lasting storage. If a authorized orgs desc contains errors, an error response is returned for the first error encountered. The name of this `AuthorizedOrgsDesc` will be assigned during creation. */
-export const createAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<CreateAccessPoliciesAuthorizedOrgsDescsRequest, CreateAccessPoliciesAuthorizedOrgsDescsResponse, CreateAccessPoliciesAuthorizedOrgsDescsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
+  CreateAccessPoliciesAuthorizedOrgsDescsRequest,
+  CreateAccessPoliciesAuthorizedOrgsDescsResponse,
+  CreateAccessPoliciesAuthorizedOrgsDescsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccessPoliciesAuthorizedOrgsDescsRequest,
   output: CreateAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
@@ -1732,7 +2293,11 @@ export const PatchAccessPoliciesAuthorizedOrgsDescsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AuthorizedOrgsDesc).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs/{authorizedOrgsDescsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs/{authorizedOrgsDescsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccessPoliciesAuthorizedOrgsDescsRequest>;
 
@@ -1742,7 +2307,12 @@ export const PatchAccessPoliciesAuthorizedOrgsDescsResponse = Operation;
 export type PatchAccessPoliciesAuthorizedOrgsDescsError = DefaultErrors;
 
 /** Updates an authorized orgs desc. The long-running operation from this RPC has a successful status after the authorized orgs desc propagates to long-lasting storage. If a authorized orgs desc contains errors, an error response is returned for the first error encountered. Only the organization list in `AuthorizedOrgsDesc` can be updated. The name, authorization_type, asset_type and authorization_direction cannot be updated. */
-export const patchAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<PatchAccessPoliciesAuthorizedOrgsDescsRequest, PatchAccessPoliciesAuthorizedOrgsDescsResponse, PatchAccessPoliciesAuthorizedOrgsDescsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
+  PatchAccessPoliciesAuthorizedOrgsDescsRequest,
+  PatchAccessPoliciesAuthorizedOrgsDescsResponse,
+  PatchAccessPoliciesAuthorizedOrgsDescsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccessPoliciesAuthorizedOrgsDescsRequest,
   output: PatchAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
@@ -1756,7 +2326,10 @@ export interface DeleteAccessPoliciesAuthorizedOrgsDescsRequest {
 export const DeleteAccessPoliciesAuthorizedOrgsDescsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs/{authorizedOrgsDescsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/accessPolicies/{accessPoliciesId}/authorizedOrgsDescs/{authorizedOrgsDescsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccessPoliciesAuthorizedOrgsDescsRequest>;
 
@@ -1766,7 +2339,12 @@ export const DeleteAccessPoliciesAuthorizedOrgsDescsResponse = Operation;
 export type DeleteAccessPoliciesAuthorizedOrgsDescsError = DefaultErrors;
 
 /** Deletes an authorized orgs desc based on the resource name. The long-running operation from this RPC has a successful status after the authorized orgs desc is removed from long-lasting storage. */
-export const deleteAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<DeleteAccessPoliciesAuthorizedOrgsDescsRequest, DeleteAccessPoliciesAuthorizedOrgsDescsResponse, DeleteAccessPoliciesAuthorizedOrgsDescsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
+  DeleteAccessPoliciesAuthorizedOrgsDescsRequest,
+  DeleteAccessPoliciesAuthorizedOrgsDescsResponse,
+  DeleteAccessPoliciesAuthorizedOrgsDescsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccessPoliciesAuthorizedOrgsDescsRequest,
   output: DeleteAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
@@ -1793,7 +2371,12 @@ export const ListServicesResponse = ListSupportedServicesResponse;
 export type ListServicesError = DefaultErrors;
 
 /** Lists all VPC-SC supported services. */
-export const listServices: API.PaginatedOperationMethod<ListServicesRequest, ListServicesResponse, ListServicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listServices: API.PaginatedOperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  ListServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse,
   errors: [],
@@ -1821,7 +2404,12 @@ export const GetServicesResponse = SupportedService;
 export type GetServicesError = DefaultErrors;
 
 /** Returns a VPC-SC supported service based on the service name. */
-export const getServices: API.OperationMethod<GetServicesRequest, GetServicesResponse, GetServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getServices: API.OperationMethod<
+  GetServicesRequest,
+  GetServicesResponse,
+  GetServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetServicesRequest,
   output: GetServicesResponse,
   errors: [],
@@ -1841,17 +2429,27 @@ export const ListOrganizationsGcpUserAccessBindingsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/gcpUserAccessBindings" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/gcpUserAccessBindings",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsGcpUserAccessBindingsRequest>;
 
-export type ListOrganizationsGcpUserAccessBindingsResponse = ListGcpUserAccessBindingsResponse;
-export const ListOrganizationsGcpUserAccessBindingsResponse = ListGcpUserAccessBindingsResponse;
+export type ListOrganizationsGcpUserAccessBindingsResponse =
+  ListGcpUserAccessBindingsResponse;
+export const ListOrganizationsGcpUserAccessBindingsResponse =
+  ListGcpUserAccessBindingsResponse;
 
 export type ListOrganizationsGcpUserAccessBindingsError = DefaultErrors;
 
 /** Lists all GcpUserAccessBindings for a Google Cloud organization. */
-export const listOrganizationsGcpUserAccessBindings: API.PaginatedOperationMethod<ListOrganizationsGcpUserAccessBindingsRequest, ListOrganizationsGcpUserAccessBindingsResponse, ListOrganizationsGcpUserAccessBindingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsGcpUserAccessBindings: API.PaginatedOperationMethod<
+  ListOrganizationsGcpUserAccessBindingsRequest,
+  ListOrganizationsGcpUserAccessBindingsResponse,
+  ListOrganizationsGcpUserAccessBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsGcpUserAccessBindingsRequest,
   output: ListOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
@@ -1869,17 +2467,27 @@ export interface GetOrganizationsGcpUserAccessBindingsRequest {
 export const GetOrganizationsGcpUserAccessBindingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/gcpUserAccessBindings/{gcpUserAccessBindingsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/gcpUserAccessBindings/{gcpUserAccessBindingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsGcpUserAccessBindingsRequest>;
 
-export type GetOrganizationsGcpUserAccessBindingsResponse = GcpUserAccessBinding;
-export const GetOrganizationsGcpUserAccessBindingsResponse = GcpUserAccessBinding;
+export type GetOrganizationsGcpUserAccessBindingsResponse =
+  GcpUserAccessBinding;
+export const GetOrganizationsGcpUserAccessBindingsResponse =
+  GcpUserAccessBinding;
 
 export type GetOrganizationsGcpUserAccessBindingsError = DefaultErrors;
 
 /** Gets the GcpUserAccessBinding with the given name. */
-export const getOrganizationsGcpUserAccessBindings: API.OperationMethod<GetOrganizationsGcpUserAccessBindingsRequest, GetOrganizationsGcpUserAccessBindingsResponse, GetOrganizationsGcpUserAccessBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsGcpUserAccessBindings: API.OperationMethod<
+  GetOrganizationsGcpUserAccessBindingsRequest,
+  GetOrganizationsGcpUserAccessBindingsResponse,
+  GetOrganizationsGcpUserAccessBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsGcpUserAccessBindingsRequest,
   output: GetOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
@@ -1896,7 +2504,11 @@ export const CreateOrganizationsGcpUserAccessBindingsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GcpUserAccessBinding).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/organizations/{organizationsId}/gcpUserAccessBindings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/organizations/{organizationsId}/gcpUserAccessBindings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOrganizationsGcpUserAccessBindingsRequest>;
 
@@ -1906,7 +2518,12 @@ export const CreateOrganizationsGcpUserAccessBindingsResponse = Operation;
 export type CreateOrganizationsGcpUserAccessBindingsError = DefaultErrors;
 
 /** Creates a GcpUserAccessBinding. If the client specifies a name, the server ignores it. Fails if a resource already exists with the same group_key. Completion of this long-running operation does not necessarily signify that the new binding is deployed onto all affected users, which may take more time. */
-export const createOrganizationsGcpUserAccessBindings: API.OperationMethod<CreateOrganizationsGcpUserAccessBindingsRequest, CreateOrganizationsGcpUserAccessBindingsResponse, CreateOrganizationsGcpUserAccessBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsGcpUserAccessBindings: API.OperationMethod<
+  CreateOrganizationsGcpUserAccessBindingsRequest,
+  CreateOrganizationsGcpUserAccessBindingsResponse,
+  CreateOrganizationsGcpUserAccessBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsGcpUserAccessBindingsRequest,
   output: CreateOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
@@ -1929,7 +2546,11 @@ export const PatchOrganizationsGcpUserAccessBindingsRequest = Schema.Struct({
   append: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("append")),
   body: Schema.optional(GcpUserAccessBinding).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/organizations/{organizationsId}/gcpUserAccessBindings/{gcpUserAccessBindingsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/organizations/{organizationsId}/gcpUserAccessBindings/{gcpUserAccessBindingsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchOrganizationsGcpUserAccessBindingsRequest>;
 
@@ -1939,7 +2560,12 @@ export const PatchOrganizationsGcpUserAccessBindingsResponse = Operation;
 export type PatchOrganizationsGcpUserAccessBindingsError = DefaultErrors;
 
 /** Updates a GcpUserAccessBinding. Completion of this long-running operation does not necessarily signify that the changed binding is deployed onto all affected users, which may take more time. */
-export const patchOrganizationsGcpUserAccessBindings: API.OperationMethod<PatchOrganizationsGcpUserAccessBindingsRequest, PatchOrganizationsGcpUserAccessBindingsResponse, PatchOrganizationsGcpUserAccessBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchOrganizationsGcpUserAccessBindings: API.OperationMethod<
+  PatchOrganizationsGcpUserAccessBindingsRequest,
+  PatchOrganizationsGcpUserAccessBindingsResponse,
+  PatchOrganizationsGcpUserAccessBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchOrganizationsGcpUserAccessBindingsRequest,
   output: PatchOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
@@ -1953,7 +2579,10 @@ export interface DeleteOrganizationsGcpUserAccessBindingsRequest {
 export const DeleteOrganizationsGcpUserAccessBindingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/organizations/{organizationsId}/gcpUserAccessBindings/{gcpUserAccessBindingsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/organizations/{organizationsId}/gcpUserAccessBindings/{gcpUserAccessBindingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteOrganizationsGcpUserAccessBindingsRequest>;
 
@@ -1963,7 +2592,12 @@ export const DeleteOrganizationsGcpUserAccessBindingsResponse = Operation;
 export type DeleteOrganizationsGcpUserAccessBindingsError = DefaultErrors;
 
 /** Deletes a GcpUserAccessBinding. Completion of this long-running operation does not necessarily signify that the binding deletion is deployed onto all affected users, which may take more time. */
-export const deleteOrganizationsGcpUserAccessBindings: API.OperationMethod<DeleteOrganizationsGcpUserAccessBindingsRequest, DeleteOrganizationsGcpUserAccessBindingsResponse, DeleteOrganizationsGcpUserAccessBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOrganizationsGcpUserAccessBindings: API.OperationMethod<
+  DeleteOrganizationsGcpUserAccessBindingsRequest,
+  DeleteOrganizationsGcpUserAccessBindingsResponse,
+  DeleteOrganizationsGcpUserAccessBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOrganizationsGcpUserAccessBindingsRequest,
   output: DeleteOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
@@ -1990,7 +2624,12 @@ export const ListPermissionsResponse = ListSupportedPermissionsResponse;
 export type ListPermissionsError = DefaultErrors;
 
 /** Lists all supported permissions in VPCSC Granular Controls. */
-export const listPermissions: API.PaginatedOperationMethod<ListPermissionsRequest, ListPermissionsResponse, ListPermissionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPermissions: API.PaginatedOperationMethod<
+  ListPermissionsRequest,
+  ListPermissionsResponse,
+  ListPermissionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPermissionsRequest,
   output: ListPermissionsResponse,
   errors: [],
@@ -1999,4 +2638,3 @@ export const listPermissions: API.PaginatedOperationMethod<ListPermissionsReques
     outputToken: "nextPageToken",
   },
 }));
-

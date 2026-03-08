@@ -32,11 +32,16 @@ export interface ExternalAccountKey {
   b64MacKey?: string;
 }
 
-export const ExternalAccountKey: Schema.Schema<ExternalAccountKey> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  keyId: Schema.optional(Schema.String),
-  b64MacKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExternalAccountKey" }) as any as Schema.Schema<ExternalAccountKey>;
+export const ExternalAccountKey: Schema.Schema<ExternalAccountKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      keyId: Schema.optional(Schema.String),
+      b64MacKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExternalAccountKey",
+  }) as any as Schema.Schema<ExternalAccountKey>;
 
 // ==========================================================================
 // Operations
@@ -53,19 +58,29 @@ export const CreateProjectsLocationsExternalAccountKeysRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ExternalAccountKey).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/projects/{projectsId}/locations/{locationsId}/externalAccountKeys", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/projects/{projectsId}/locations/{locationsId}/externalAccountKeys",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsExternalAccountKeysRequest>;
 
-export type CreateProjectsLocationsExternalAccountKeysResponse = ExternalAccountKey;
-export const CreateProjectsLocationsExternalAccountKeysResponse = ExternalAccountKey;
+export type CreateProjectsLocationsExternalAccountKeysResponse =
+  ExternalAccountKey;
+export const CreateProjectsLocationsExternalAccountKeysResponse =
+  ExternalAccountKey;
 
 export type CreateProjectsLocationsExternalAccountKeysError = DefaultErrors;
 
 /** Creates a new ExternalAccountKey bound to the project. */
-export const createProjectsLocationsExternalAccountKeys: API.OperationMethod<CreateProjectsLocationsExternalAccountKeysRequest, CreateProjectsLocationsExternalAccountKeysResponse, CreateProjectsLocationsExternalAccountKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsExternalAccountKeys: API.OperationMethod<
+  CreateProjectsLocationsExternalAccountKeysRequest,
+  CreateProjectsLocationsExternalAccountKeysResponse,
+  CreateProjectsLocationsExternalAccountKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsExternalAccountKeysRequest,
   output: CreateProjectsLocationsExternalAccountKeysResponse,
   errors: [],
 }));
-

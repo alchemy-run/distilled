@@ -30,10 +30,15 @@ export interface ProductDimension {
   value?: number;
 }
 
-export const ProductDimension: Schema.Schema<ProductDimension> = Schema.suspend(() => Schema.Struct({
-  unit: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ProductDimension" }) as any as Schema.Schema<ProductDimension>;
+export const ProductDimension: Schema.Schema<ProductDimension> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      unit: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "ProductDimension",
+}) as any as Schema.Schema<ProductDimension>;
 
 export interface CustomAttribute {
   /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
@@ -44,11 +49,16 @@ export interface CustomAttribute {
   value?: string;
 }
 
-export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(() => Schema.Struct({
-  groupValues: Schema.optional(Schema.Array(CustomAttribute)),
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomAttribute" }) as any as Schema.Schema<CustomAttribute>;
+export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      groupValues: Schema.optional(Schema.Array(CustomAttribute)),
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CustomAttribute",
+}) as any as Schema.Schema<CustomAttribute>;
 
 export interface Price {
   /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
@@ -57,10 +67,12 @@ export interface Price {
   currencyCode?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() => Schema.Struct({
-  amountMicros: Schema.optional(Schema.String),
-  currencyCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> = Schema.suspend(() =>
+  Schema.Struct({
+    amountMicros: Schema.optional(Schema.String),
+    currencyCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface HeadlineOfferSubscriptionCost {
   /** The number of subscription periods the buyer has to pay. */
@@ -71,11 +83,16 @@ export interface HeadlineOfferSubscriptionCost {
   period?: "SUBSCRIPTION_PERIOD_UNSPECIFIED" | "MONTH" | "YEAR" | (string & {});
 }
 
-export const HeadlineOfferSubscriptionCost: Schema.Schema<HeadlineOfferSubscriptionCost> = Schema.suspend(() => Schema.Struct({
-  periodLength: Schema.optional(Schema.String),
-  amount: Schema.optional(Price),
-  period: Schema.optional(Schema.String),
-})).annotate({ identifier: "HeadlineOfferSubscriptionCost" }) as any as Schema.Schema<HeadlineOfferSubscriptionCost>;
+export const HeadlineOfferSubscriptionCost: Schema.Schema<HeadlineOfferSubscriptionCost> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      periodLength: Schema.optional(Schema.String),
+      amount: Schema.optional(Price),
+      period: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HeadlineOfferSubscriptionCost",
+  }) as any as Schema.Schema<HeadlineOfferSubscriptionCost>;
 
 export interface HeadlineOfferInstallment {
   /** The number of installments the buyer has to pay. */
@@ -86,11 +103,16 @@ export interface HeadlineOfferInstallment {
   downpayment?: Price;
 }
 
-export const HeadlineOfferInstallment: Schema.Schema<HeadlineOfferInstallment> = Schema.suspend(() => Schema.Struct({
-  months: Schema.optional(Schema.String),
-  amount: Schema.optional(Price),
-  downpayment: Schema.optional(Price),
-})).annotate({ identifier: "HeadlineOfferInstallment" }) as any as Schema.Schema<HeadlineOfferInstallment>;
+export const HeadlineOfferInstallment: Schema.Schema<HeadlineOfferInstallment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      months: Schema.optional(Schema.String),
+      amount: Schema.optional(Price),
+      downpayment: Schema.optional(Price),
+    }),
+  ).annotate({
+    identifier: "HeadlineOfferInstallment",
+  }) as any as Schema.Schema<HeadlineOfferInstallment>;
 
 export interface ProductDetail {
   /** The value of the product detail. */
@@ -101,11 +123,15 @@ export interface ProductDetail {
   attributeName?: string;
 }
 
-export const ProductDetail: Schema.Schema<ProductDetail> = Schema.suspend(() => Schema.Struct({
-  attributeValue: Schema.optional(Schema.String),
-  sectionName: Schema.optional(Schema.String),
-  attributeName: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductDetail" }) as any as Schema.Schema<ProductDetail>;
+export const ProductDetail: Schema.Schema<ProductDetail> = Schema.suspend(() =>
+  Schema.Struct({
+    attributeValue: Schema.optional(Schema.String),
+    sectionName: Schema.optional(Schema.String),
+    attributeName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductDetail",
+}) as any as Schema.Schema<ProductDetail>;
 
 export interface ProductWeight {
   /** Required. The weight unit. Acceptable values are: * "`g`" * "`kg`" * "`oz`" * "`lb`" */
@@ -114,10 +140,14 @@ export interface ProductWeight {
   value?: number;
 }
 
-export const ProductWeight: Schema.Schema<ProductWeight> = Schema.suspend(() => Schema.Struct({
-  unit: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ProductWeight" }) as any as Schema.Schema<ProductWeight>;
+export const ProductWeight: Schema.Schema<ProductWeight> = Schema.suspend(() =>
+  Schema.Struct({
+    unit: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "ProductWeight",
+}) as any as Schema.Schema<ProductWeight>;
 
 export interface Certification {
   /** The code of the certification. For example, for the EPREL certificate with the link https://eprel.ec.europa.eu/screen/product/dishwashers2019/123456 the code is 123456. The code is required for European Energy Labels. */
@@ -128,11 +158,15 @@ export interface Certification {
   authority?: string;
 }
 
-export const Certification: Schema.Schema<Certification> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  authority: Schema.optional(Schema.String),
-})).annotate({ identifier: "Certification" }) as any as Schema.Schema<Certification>;
+export const Certification: Schema.Schema<Certification> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    authority: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Certification",
+}) as any as Schema.Schema<Certification>;
 
 export interface Attributes {
   /** Number of periods (months or years) and amount of payment per period for an item with an associated subscription contract. */
@@ -237,58 +271,62 @@ export interface Attributes {
   pause?: string;
 }
 
-export const Attributes: Schema.Schema<Attributes> = Schema.suspend(() => Schema.Struct({
-  headlineOfferSubscriptionCost: Schema.optional(HeadlineOfferSubscriptionCost),
-  includedDestinations: Schema.optional(Schema.Array(Schema.String)),
-  gender: Schema.optional(Schema.String),
-  ageGroup: Schema.optional(Schema.String),
-  customLabel2: Schema.optional(Schema.String),
-  cppMobileLink: Schema.optional(Schema.String),
-  customLabel4: Schema.optional(Schema.String),
-  expirationDate: Schema.optional(Schema.String),
-  lowPrice: Schema.optional(Price),
-  title: Schema.optional(Schema.String),
-  color: Schema.optional(Schema.String),
-  gtin: Schema.optional(Schema.String),
-  cppAdsRedirect: Schema.optional(Schema.String),
-  additionalImageLinks: Schema.optional(Schema.Array(Schema.String)),
-  headlineOfferShippingPrice: Schema.optional(Price),
-  headlineOfferInstallment: Schema.optional(HeadlineOfferInstallment),
-  productDetails: Schema.optional(Schema.Array(ProductDetail)),
-  sizeTypes: Schema.optional(Schema.Array(Schema.String)),
-  productLength: Schema.optional(ProductDimension),
-  headlineOfferPrice: Schema.optional(Price),
-  cppLink: Schema.optional(Schema.String),
-  productTypes: Schema.optional(Schema.Array(Schema.String)),
-  productHighlights: Schema.optional(Schema.Array(Schema.String)),
-  itemGroupId: Schema.optional(Schema.String),
-  sizeSystem: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.String),
-  headlineOfferCondition: Schema.optional(Schema.String),
-  excludedDestinations: Schema.optional(Schema.Array(Schema.String)),
-  headlineOfferLink: Schema.optional(Schema.String),
-  customLabel3: Schema.optional(Schema.String),
-  productWeight: Schema.optional(ProductWeight),
-  brand: Schema.optional(Schema.String),
-  material: Schema.optional(Schema.String),
-  customLabel0: Schema.optional(Schema.String),
-  multipack: Schema.optional(Schema.String),
-  pattern: Schema.optional(Schema.String),
-  productWidth: Schema.optional(ProductDimension),
-  customLabel1: Schema.optional(Schema.String),
-  imageLink: Schema.optional(Schema.String),
-  highPrice: Schema.optional(Price),
-  googleProductCategory: Schema.optional(Schema.String),
-  headlineOfferMobileLink: Schema.optional(Schema.String),
-  certifications: Schema.optional(Schema.Array(Certification)),
-  description: Schema.optional(Schema.String),
-  mpn: Schema.optional(Schema.String),
-  productHeight: Schema.optional(ProductDimension),
-  numberOfOffers: Schema.optional(Schema.String),
-  adult: Schema.optional(Schema.Boolean),
-  isBundle: Schema.optional(Schema.Boolean),
-  pause: Schema.optional(Schema.String),
-})).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
+export const Attributes: Schema.Schema<Attributes> = Schema.suspend(() =>
+  Schema.Struct({
+    headlineOfferSubscriptionCost: Schema.optional(
+      HeadlineOfferSubscriptionCost,
+    ),
+    includedDestinations: Schema.optional(Schema.Array(Schema.String)),
+    gender: Schema.optional(Schema.String),
+    ageGroup: Schema.optional(Schema.String),
+    customLabel2: Schema.optional(Schema.String),
+    cppMobileLink: Schema.optional(Schema.String),
+    customLabel4: Schema.optional(Schema.String),
+    expirationDate: Schema.optional(Schema.String),
+    lowPrice: Schema.optional(Price),
+    title: Schema.optional(Schema.String),
+    color: Schema.optional(Schema.String),
+    gtin: Schema.optional(Schema.String),
+    cppAdsRedirect: Schema.optional(Schema.String),
+    additionalImageLinks: Schema.optional(Schema.Array(Schema.String)),
+    headlineOfferShippingPrice: Schema.optional(Price),
+    headlineOfferInstallment: Schema.optional(HeadlineOfferInstallment),
+    productDetails: Schema.optional(Schema.Array(ProductDetail)),
+    sizeTypes: Schema.optional(Schema.Array(Schema.String)),
+    productLength: Schema.optional(ProductDimension),
+    headlineOfferPrice: Schema.optional(Price),
+    cppLink: Schema.optional(Schema.String),
+    productTypes: Schema.optional(Schema.Array(Schema.String)),
+    productHighlights: Schema.optional(Schema.Array(Schema.String)),
+    itemGroupId: Schema.optional(Schema.String),
+    sizeSystem: Schema.optional(Schema.String),
+    size: Schema.optional(Schema.String),
+    headlineOfferCondition: Schema.optional(Schema.String),
+    excludedDestinations: Schema.optional(Schema.Array(Schema.String)),
+    headlineOfferLink: Schema.optional(Schema.String),
+    customLabel3: Schema.optional(Schema.String),
+    productWeight: Schema.optional(ProductWeight),
+    brand: Schema.optional(Schema.String),
+    material: Schema.optional(Schema.String),
+    customLabel0: Schema.optional(Schema.String),
+    multipack: Schema.optional(Schema.String),
+    pattern: Schema.optional(Schema.String),
+    productWidth: Schema.optional(ProductDimension),
+    customLabel1: Schema.optional(Schema.String),
+    imageLink: Schema.optional(Schema.String),
+    highPrice: Schema.optional(Price),
+    googleProductCategory: Schema.optional(Schema.String),
+    headlineOfferMobileLink: Schema.optional(Schema.String),
+    certifications: Schema.optional(Schema.Array(Certification)),
+    description: Schema.optional(Schema.String),
+    mpn: Schema.optional(Schema.String),
+    productHeight: Schema.optional(ProductDimension),
+    numberOfOffers: Schema.optional(Schema.String),
+    adult: Schema.optional(Schema.Boolean),
+    isBundle: Schema.optional(Schema.Boolean),
+    pause: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
 
 export interface DestinationStatus {
   /** List of country codes (ISO 3166-1 alpha-2) where the CSS Product is disapproved. */
@@ -301,12 +339,17 @@ export interface DestinationStatus {
   pendingCountries?: Array<string>;
 }
 
-export const DestinationStatus: Schema.Schema<DestinationStatus> = Schema.suspend(() => Schema.Struct({
-  disapprovedCountries: Schema.optional(Schema.Array(Schema.String)),
-  destination: Schema.optional(Schema.String),
-  approvedCountries: Schema.optional(Schema.Array(Schema.String)),
-  pendingCountries: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "DestinationStatus" }) as any as Schema.Schema<DestinationStatus>;
+export const DestinationStatus: Schema.Schema<DestinationStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      disapprovedCountries: Schema.optional(Schema.Array(Schema.String)),
+      destination: Schema.optional(Schema.String),
+      approvedCountries: Schema.optional(Schema.Array(Schema.String)),
+      pendingCountries: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DestinationStatus",
+  }) as any as Schema.Schema<DestinationStatus>;
 
 export interface ItemLevelIssue {
   /** The error code of the issue. */
@@ -329,17 +372,22 @@ export interface ItemLevelIssue {
   applicableCountries?: Array<string>;
 }
 
-export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  destination: Schema.optional(Schema.String),
-  documentation: Schema.optional(Schema.String),
-  servability: Schema.optional(Schema.String),
-  detail: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  resolution: Schema.optional(Schema.String),
-  applicableCountries: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ItemLevelIssue" }) as any as Schema.Schema<ItemLevelIssue>;
+export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      destination: Schema.optional(Schema.String),
+      documentation: Schema.optional(Schema.String),
+      servability: Schema.optional(Schema.String),
+      detail: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      resolution: Schema.optional(Schema.String),
+      applicableCountries: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "ItemLevelIssue",
+}) as any as Schema.Schema<ItemLevelIssue>;
 
 export interface CssProductStatus {
   /** Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
@@ -354,13 +402,18 @@ export interface CssProductStatus {
   googleExpirationDate?: string;
 }
 
-export const CssProductStatus: Schema.Schema<CssProductStatus> = Schema.suspend(() => Schema.Struct({
-  creationDate: Schema.optional(Schema.String),
-  destinationStatuses: Schema.optional(Schema.Array(DestinationStatus)),
-  itemLevelIssues: Schema.optional(Schema.Array(ItemLevelIssue)),
-  lastUpdateDate: Schema.optional(Schema.String),
-  googleExpirationDate: Schema.optional(Schema.String),
-})).annotate({ identifier: "CssProductStatus" }) as any as Schema.Schema<CssProductStatus>;
+export const CssProductStatus: Schema.Schema<CssProductStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      creationDate: Schema.optional(Schema.String),
+      destinationStatuses: Schema.optional(Schema.Array(DestinationStatus)),
+      itemLevelIssues: Schema.optional(Schema.Array(ItemLevelIssue)),
+      lastUpdateDate: Schema.optional(Schema.String),
+      googleExpirationDate: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CssProductStatus",
+}) as any as Schema.Schema<CssProductStatus>;
 
 export interface CssProduct {
   /** Output only. A list of custom (CSS-provided) attributes. It can also be used to submit any attribute of the feed specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google. */
@@ -379,15 +432,17 @@ export interface CssProduct {
   contentLanguage?: string;
 }
 
-export const CssProduct: Schema.Schema<CssProduct> = Schema.suspend(() => Schema.Struct({
-  customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-  feedLabel: Schema.optional(Schema.String),
-  attributes: Schema.optional(Attributes),
-  name: Schema.optional(Schema.String),
-  cssProductStatus: Schema.optional(CssProductStatus),
-  rawProvidedId: Schema.optional(Schema.String),
-  contentLanguage: Schema.optional(Schema.String),
-})).annotate({ identifier: "CssProduct" }) as any as Schema.Schema<CssProduct>;
+export const CssProduct: Schema.Schema<CssProduct> = Schema.suspend(() =>
+  Schema.Struct({
+    customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+    feedLabel: Schema.optional(Schema.String),
+    attributes: Schema.optional(Attributes),
+    name: Schema.optional(Schema.String),
+    cssProductStatus: Schema.optional(CssProductStatus),
+    rawProvidedId: Schema.optional(Schema.String),
+    contentLanguage: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CssProduct" }) as any as Schema.Schema<CssProduct>;
 
 export interface ListCssProductsResponse {
   /** The processed CSS products from the specified account. These are your processed CSS products after applying rules and supplemental feeds. */
@@ -396,10 +451,15 @@ export interface ListCssProductsResponse {
   nextPageToken?: string;
 }
 
-export const ListCssProductsResponse: Schema.Schema<ListCssProductsResponse> = Schema.suspend(() => Schema.Struct({
-  cssProducts: Schema.optional(Schema.Array(CssProduct)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCssProductsResponse" }) as any as Schema.Schema<ListCssProductsResponse>;
+export const ListCssProductsResponse: Schema.Schema<ListCssProductsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cssProducts: Schema.optional(Schema.Array(CssProduct)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCssProductsResponse",
+  }) as any as Schema.Schema<ListCssProductsResponse>;
 
 export interface AccountLabel {
   /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
@@ -416,14 +476,18 @@ export interface AccountLabel {
   displayName?: string;
 }
 
-export const AccountLabel: Schema.Schema<AccountLabel> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  labelId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  labelType: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountLabel" }) as any as Schema.Schema<AccountLabel>;
+export const AccountLabel: Schema.Schema<AccountLabel> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    labelId: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    labelType: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AccountLabel",
+}) as any as Schema.Schema<AccountLabel>;
 
 export interface MethodDetails {
   /** Output only. The name of the method for example `cssproductsservice.listcssproducts`. */
@@ -436,12 +500,16 @@ export interface MethodDetails {
   version?: string;
 }
 
-export const MethodDetails: Schema.Schema<MethodDetails> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  subapi: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "MethodDetails" }) as any as Schema.Schema<MethodDetails>;
+export const MethodDetails: Schema.Schema<MethodDetails> = Schema.suspend(() =>
+  Schema.Struct({
+    method: Schema.optional(Schema.String),
+    subapi: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "MethodDetails",
+}) as any as Schema.Schema<MethodDetails>;
 
 export interface CssProductInput {
   /** Required. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the CSS Product. */
@@ -462,16 +530,21 @@ export interface CssProductInput {
   customAttributes?: Array<CustomAttribute>;
 }
 
-export const CssProductInput: Schema.Schema<CssProductInput> = Schema.suspend(() => Schema.Struct({
-  contentLanguage: Schema.optional(Schema.String),
-  rawProvidedId: Schema.optional(Schema.String),
-  freshnessTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  attributes: Schema.optional(Attributes),
-  finalName: Schema.optional(Schema.String),
-  feedLabel: Schema.optional(Schema.String),
-  customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-})).annotate({ identifier: "CssProductInput" }) as any as Schema.Schema<CssProductInput>;
+export const CssProductInput: Schema.Schema<CssProductInput> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      contentLanguage: Schema.optional(Schema.String),
+      rawProvidedId: Schema.optional(Schema.String),
+      freshnessTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(Attributes),
+      finalName: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
+      customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+    }),
+).annotate({
+  identifier: "CssProductInput",
+}) as any as Schema.Schema<CssProductInput>;
 
 export interface Account {
   /** Output only. Immutable. The CSS/MC account's homepage. */
@@ -479,7 +552,17 @@ export interface Account {
   /** The CSS/MC account's parent resource. CSS group for CSS domains; CSS domain for MC accounts. Returned only if the user has access to the parent account. Note: For MC sub-accounts, this is also the CSS domain that is the parent resource of the MCA account, since we are effectively flattening the hierarchy." */
   parent?: string;
   /** Output only. The type of this account. */
-  accountType?: "ACCOUNT_TYPE_UNSPECIFIED" | "CSS_GROUP" | "CSS_DOMAIN" | "MC_PRIMARY_CSS_MCA" | "MC_CSS_MCA" | "MC_MARKETPLACE_MCA" | "MC_OTHER_MCA" | "MC_STANDALONE" | "MC_MCA_SUBACCOUNT" | (string & {});
+  accountType?:
+    | "ACCOUNT_TYPE_UNSPECIFIED"
+    | "CSS_GROUP"
+    | "CSS_DOMAIN"
+    | "MC_PRIMARY_CSS_MCA"
+    | "MC_CSS_MCA"
+    | "MC_MARKETPLACE_MCA"
+    | "MC_OTHER_MCA"
+    | "MC_STANDALONE"
+    | "MC_MCA_SUBACCOUNT"
+    | (string & {});
   /** The CSS/MC account's short display name. */
   displayName?: string;
   /** The label resource name. Format: accounts/{account} */
@@ -492,16 +575,18 @@ export interface Account {
   labelIds?: Array<string>;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() => Schema.Struct({
-  homepageUri: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  accountType: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  fullName: Schema.optional(Schema.String),
-  automaticLabelIds: Schema.optional(Schema.Array(Schema.String)),
-  labelIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> = Schema.suspend(() =>
+  Schema.Struct({
+    homepageUri: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    accountType: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    fullName: Schema.optional(Schema.String),
+    automaticLabelIds: Schema.optional(Schema.Array(Schema.String)),
+    labelIds: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface ListChildAccountsResponse {
   /** The CSS/MC accounts returned for the specified CSS parent account. */
@@ -510,10 +595,15 @@ export interface ListChildAccountsResponse {
   nextPageToken?: string;
 }
 
-export const ListChildAccountsResponse: Schema.Schema<ListChildAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  accounts: Schema.optional(Schema.Array(Account)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListChildAccountsResponse" }) as any as Schema.Schema<ListChildAccountsResponse>;
+export const ListChildAccountsResponse: Schema.Schema<ListChildAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accounts: Schema.optional(Schema.Array(Account)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListChildAccountsResponse",
+  }) as any as Schema.Schema<ListChildAccountsResponse>;
 
 export interface QuotaGroup {
   /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at at 12:00 PM midday UTC. */
@@ -528,13 +618,15 @@ export interface QuotaGroup {
   quotaLimit?: string;
 }
 
-export const QuotaGroup: Schema.Schema<QuotaGroup> = Schema.suspend(() => Schema.Struct({
-  quotaUsage: Schema.optional(Schema.String),
-  methodDetails: Schema.optional(Schema.Array(MethodDetails)),
-  quotaMinuteLimit: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  quotaLimit: Schema.optional(Schema.String),
-})).annotate({ identifier: "QuotaGroup" }) as any as Schema.Schema<QuotaGroup>;
+export const QuotaGroup: Schema.Schema<QuotaGroup> = Schema.suspend(() =>
+  Schema.Struct({
+    quotaUsage: Schema.optional(Schema.String),
+    methodDetails: Schema.optional(Schema.Array(MethodDetails)),
+    quotaMinuteLimit: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    quotaLimit: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "QuotaGroup" }) as any as Schema.Schema<QuotaGroup>;
 
 export interface ListQuotaGroupsResponse {
   /** The methods, current quota usage and limits per each group. The quota is shared between all methods in the group. The groups are sorted in descending order based on quota_usage. */
@@ -543,10 +635,15 @@ export interface ListQuotaGroupsResponse {
   nextPageToken?: string;
 }
 
-export const ListQuotaGroupsResponse: Schema.Schema<ListQuotaGroupsResponse> = Schema.suspend(() => Schema.Struct({
-  quotaGroups: Schema.optional(Schema.Array(QuotaGroup)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListQuotaGroupsResponse" }) as any as Schema.Schema<ListQuotaGroupsResponse>;
+export const ListQuotaGroupsResponse: Schema.Schema<ListQuotaGroupsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      quotaGroups: Schema.optional(Schema.Array(QuotaGroup)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListQuotaGroupsResponse",
+  }) as any as Schema.Schema<ListQuotaGroupsResponse>;
 
 export interface ListAccountLabelsResponse {
   /** The labels from the specified account. */
@@ -555,16 +652,21 @@ export interface ListAccountLabelsResponse {
   nextPageToken?: string;
 }
 
-export const ListAccountLabelsResponse: Schema.Schema<ListAccountLabelsResponse> = Schema.suspend(() => Schema.Struct({
-  accountLabels: Schema.optional(Schema.Array(AccountLabel)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAccountLabelsResponse" }) as any as Schema.Schema<ListAccountLabelsResponse>;
+export const ListAccountLabelsResponse: Schema.Schema<ListAccountLabelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accountLabels: Schema.optional(Schema.Array(AccountLabel)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAccountLabelsResponse",
+  }) as any as Schema.Schema<ListAccountLabelsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface UpdateAccountLabelsRequest {
   /** The list of label IDs to overwrite the existing account label IDs. If the list is empty, all currently assigned label IDs will be deleted. */
@@ -573,10 +675,15 @@ export interface UpdateAccountLabelsRequest {
   parent?: string;
 }
 
-export const UpdateAccountLabelsRequest: Schema.Schema<UpdateAccountLabelsRequest> = Schema.suspend(() => Schema.Struct({
-  labelIds: Schema.optional(Schema.Array(Schema.String)),
-  parent: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateAccountLabelsRequest" }) as any as Schema.Schema<UpdateAccountLabelsRequest>;
+export const UpdateAccountLabelsRequest: Schema.Schema<UpdateAccountLabelsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labelIds: Schema.optional(Schema.Array(Schema.String)),
+      parent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateAccountLabelsRequest",
+  }) as any as Schema.Schema<UpdateAccountLabelsRequest>;
 
 // ==========================================================================
 // Operations
@@ -612,7 +719,12 @@ export const ListChildAccountsAccountsResponse = ListChildAccountsResponse;
 export type ListChildAccountsAccountsError = DefaultErrors;
 
 /** Lists all the accounts under the specified CSS account ID, and optionally filters by label ID and account name. */
-export const listChildAccountsAccounts: API.PaginatedOperationMethod<ListChildAccountsAccountsRequest, ListChildAccountsAccountsResponse, ListChildAccountsAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listChildAccountsAccounts: API.PaginatedOperationMethod<
+  ListChildAccountsAccountsRequest,
+  ListChildAccountsAccountsResponse,
+  ListChildAccountsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListChildAccountsAccountsRequest,
   output: ListChildAccountsAccountsResponse,
   errors: [],
@@ -643,7 +755,12 @@ export const GetAccountsResponse = Account;
 export type GetAccountsError = DefaultErrors;
 
 /** Retrieves a single CSS/MC account by ID. */
-export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccounts: API.OperationMethod<
+  GetAccountsRequest,
+  GetAccountsResponse,
+  GetAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -660,7 +777,11 @@ export const UpdateLabelsAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpdateAccountLabelsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accounts/{accountsId}:updateLabels", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accounts/{accountsId}:updateLabels",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateLabelsAccountsRequest>;
 
@@ -670,7 +791,12 @@ export const UpdateLabelsAccountsResponse = Account;
 export type UpdateLabelsAccountsError = DefaultErrors;
 
 /** Updates labels assigned to CSS/MC accounts by a CSS domain. */
-export const updateLabelsAccounts: API.OperationMethod<UpdateLabelsAccountsRequest, UpdateLabelsAccountsResponse, UpdateLabelsAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateLabelsAccounts: API.OperationMethod<
+  UpdateLabelsAccountsRequest,
+  UpdateLabelsAccountsResponse,
+  UpdateLabelsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateLabelsAccountsRequest,
   output: UpdateLabelsAccountsResponse,
   errors: [],
@@ -700,7 +826,12 @@ export const ListAccountsLabelsResponse = ListAccountLabelsResponse;
 export type ListAccountsLabelsError = DefaultErrors;
 
 /** Lists the labels owned by an account. */
-export const listAccountsLabels: API.PaginatedOperationMethod<ListAccountsLabelsRequest, ListAccountsLabelsResponse, ListAccountsLabelsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsLabels: API.PaginatedOperationMethod<
+  ListAccountsLabelsRequest,
+  ListAccountsLabelsResponse,
+  ListAccountsLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsLabelsRequest,
   output: ListAccountsLabelsResponse,
   errors: [],
@@ -721,7 +852,11 @@ export const CreateAccountsLabelsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accounts/{accountsId}/labels", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accounts/{accountsId}/labels",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsLabelsRequest>;
 
@@ -731,7 +866,12 @@ export const CreateAccountsLabelsResponse = AccountLabel;
 export type CreateAccountsLabelsError = DefaultErrors;
 
 /** Creates a new label, not assigned to any account. */
-export const createAccountsLabels: API.OperationMethod<CreateAccountsLabelsRequest, CreateAccountsLabelsResponse, CreateAccountsLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsLabels: API.OperationMethod<
+  CreateAccountsLabelsRequest,
+  CreateAccountsLabelsResponse,
+  CreateAccountsLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsLabelsRequest,
   output: CreateAccountsLabelsResponse,
   errors: [],
@@ -748,7 +888,11 @@ export const PatchAccountsLabelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/accounts/{accountsId}/labels/{labelsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/accounts/{accountsId}/labels/{labelsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsLabelsRequest>;
 
@@ -758,7 +902,12 @@ export const PatchAccountsLabelsResponse = AccountLabel;
 export type PatchAccountsLabelsError = DefaultErrors;
 
 /** Updates a label. */
-export const patchAccountsLabels: API.OperationMethod<PatchAccountsLabelsRequest, PatchAccountsLabelsResponse, PatchAccountsLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsLabels: API.OperationMethod<
+  PatchAccountsLabelsRequest,
+  PatchAccountsLabelsResponse,
+  PatchAccountsLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsLabelsRequest,
   output: PatchAccountsLabelsResponse,
   errors: [],
@@ -772,7 +921,10 @@ export interface DeleteAccountsLabelsRequest {
 export const DeleteAccountsLabelsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/accounts/{accountsId}/labels/{labelsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/accounts/{accountsId}/labels/{labelsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsLabelsRequest>;
 
@@ -782,7 +934,12 @@ export const DeleteAccountsLabelsResponse = Empty;
 export type DeleteAccountsLabelsError = DefaultErrors;
 
 /** Deletes a label and removes it from all accounts to which it was assigned. */
-export const deleteAccountsLabels: API.OperationMethod<DeleteAccountsLabelsRequest, DeleteAccountsLabelsResponse, DeleteAccountsLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsLabels: API.OperationMethod<
+  DeleteAccountsLabelsRequest,
+  DeleteAccountsLabelsResponse,
+  DeleteAccountsLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsLabelsRequest,
   output: DeleteAccountsLabelsResponse,
   errors: [],
@@ -796,7 +953,10 @@ export interface GetAccountsCssProductsRequest {
 export const GetAccountsCssProductsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/cssProducts/{cssProductsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accounts/{accountsId}/cssProducts/{cssProductsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsCssProductsRequest>;
 
@@ -806,7 +966,12 @@ export const GetAccountsCssProductsResponse = CssProduct;
 export type GetAccountsCssProductsError = DefaultErrors;
 
 /** Retrieves the processed CSS Product from your CSS Center account. After inserting, updating, or deleting a product input, it may take several minutes before the updated final product can be retrieved. */
-export const getAccountsCssProducts: API.OperationMethod<GetAccountsCssProductsRequest, GetAccountsCssProductsResponse, GetAccountsCssProductsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsCssProducts: API.OperationMethod<
+  GetAccountsCssProductsRequest,
+  GetAccountsCssProductsResponse,
+  GetAccountsCssProductsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsCssProductsRequest,
   output: GetAccountsCssProductsResponse,
   errors: [],
@@ -836,7 +1001,12 @@ export const ListAccountsCssProductsResponse = ListCssProductsResponse;
 export type ListAccountsCssProductsError = DefaultErrors;
 
 /** Lists the processed CSS Products in your CSS Center account. The response might contain fewer items than specified by pageSize. Rely on pageToken to determine if there are more items to be requested. After inserting, updating, or deleting a CSS product input, it may take several minutes before the updated processed CSS product can be retrieved. */
-export const listAccountsCssProducts: API.PaginatedOperationMethod<ListAccountsCssProductsRequest, ListAccountsCssProductsResponse, ListAccountsCssProductsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsCssProducts: API.PaginatedOperationMethod<
+  ListAccountsCssProductsRequest,
+  ListAccountsCssProductsResponse,
+  ListAccountsCssProductsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsCssProductsRequest,
   output: ListAccountsCssProductsResponse,
   errors: [],
@@ -860,7 +1030,11 @@ export const InsertAccountsCssProductInputsRequest = Schema.Struct({
   feedId: Schema.optional(Schema.String).pipe(T.HttpQuery("feedId")),
   body: Schema.optional(CssProductInput).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/accounts/{accountsId}/cssProductInputs:insert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/accounts/{accountsId}/cssProductInputs:insert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertAccountsCssProductInputsRequest>;
 
@@ -870,7 +1044,12 @@ export const InsertAccountsCssProductInputsResponse = CssProductInput;
 export type InsertAccountsCssProductInputsError = DefaultErrors;
 
 /** Uploads a CssProductInput to your CSS Center account. If an input with the same contentLanguage, identity, feedLabel and feedId already exists, this method replaces that entry. After inserting, updating, or deleting a CSS Product input, it may take several minutes before the processed CSS Product can be retrieved. */
-export const insertAccountsCssProductInputs: API.OperationMethod<InsertAccountsCssProductInputsRequest, InsertAccountsCssProductInputsResponse, InsertAccountsCssProductInputsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertAccountsCssProductInputs: API.OperationMethod<
+  InsertAccountsCssProductInputsRequest,
+  InsertAccountsCssProductInputsResponse,
+  InsertAccountsCssProductInputsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertAccountsCssProductInputsRequest,
   output: InsertAccountsCssProductInputsResponse,
   errors: [],
@@ -885,9 +1064,14 @@ export interface DeleteAccountsCssProductInputsRequest {
 
 export const DeleteAccountsCssProductInputsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  supplementalFeedId: Schema.optional(Schema.String).pipe(T.HttpQuery("supplementalFeedId")),
+  supplementalFeedId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("supplementalFeedId"),
+  ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/accounts/{accountsId}/cssProductInputs/{cssProductInputsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/accounts/{accountsId}/cssProductInputs/{cssProductInputsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsCssProductInputsRequest>;
 
@@ -897,7 +1081,12 @@ export const DeleteAccountsCssProductInputsResponse = Empty;
 export type DeleteAccountsCssProductInputsError = DefaultErrors;
 
 /** Deletes a CSS Product input from your CSS Center account. After a delete it may take several minutes until the input is no longer available. */
-export const deleteAccountsCssProductInputs: API.OperationMethod<DeleteAccountsCssProductInputsRequest, DeleteAccountsCssProductInputsResponse, DeleteAccountsCssProductInputsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsCssProductInputs: API.OperationMethod<
+  DeleteAccountsCssProductInputsRequest,
+  DeleteAccountsCssProductInputsResponse,
+  DeleteAccountsCssProductInputsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsCssProductInputsRequest,
   output: DeleteAccountsCssProductInputsResponse,
   errors: [],
@@ -917,7 +1106,11 @@ export const PatchAccountsCssProductInputsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(CssProductInput).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/accounts/{accountsId}/cssProductInputs/{cssProductInputsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/accounts/{accountsId}/cssProductInputs/{cssProductInputsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsCssProductInputsRequest>;
 
@@ -927,7 +1120,12 @@ export const PatchAccountsCssProductInputsResponse = CssProductInput;
 export type PatchAccountsCssProductInputsError = DefaultErrors;
 
 /** Updates the existing Css Product input in your CSS Center account. After inserting, updating, or deleting a CSS Product input, it may take several minutes before the processed Css Product can be retrieved. */
-export const patchAccountsCssProductInputs: API.OperationMethod<PatchAccountsCssProductInputsRequest, PatchAccountsCssProductInputsResponse, PatchAccountsCssProductInputsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsCssProductInputs: API.OperationMethod<
+  PatchAccountsCssProductInputsRequest,
+  PatchAccountsCssProductInputsResponse,
+  PatchAccountsCssProductInputsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsCssProductInputsRequest,
   output: PatchAccountsCssProductInputsResponse,
   errors: [],
@@ -957,7 +1155,12 @@ export const ListAccountsQuotasResponse = ListQuotaGroupsResponse;
 export type ListAccountsQuotasError = DefaultErrors;
 
 /** Lists the daily call quota and usage per group for your CSS Center account. */
-export const listAccountsQuotas: API.PaginatedOperationMethod<ListAccountsQuotasRequest, ListAccountsQuotasResponse, ListAccountsQuotasError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsQuotas: API.PaginatedOperationMethod<
+  ListAccountsQuotasRequest,
+  ListAccountsQuotasResponse,
+  ListAccountsQuotasError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsQuotasRequest,
   output: ListAccountsQuotasResponse,
   errors: [],
@@ -966,4 +1169,3 @@ export const listAccountsQuotas: API.PaginatedOperationMethod<ListAccountsQuotas
     outputToken: "nextPageToken",
   },
 }));
-

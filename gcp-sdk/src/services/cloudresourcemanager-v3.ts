@@ -38,14 +38,16 @@ export interface Lien {
   createTime?: string;
 }
 
-export const Lien: Schema.Schema<Lien> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  restrictions: Schema.optional(Schema.Array(Schema.String)),
-  reason: Schema.optional(Schema.String),
-  origin: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Lien" }) as any as Schema.Schema<Lien>;
+export const Lien: Schema.Schema<Lien> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    restrictions: Schema.optional(Schema.Array(Schema.String)),
+    reason: Schema.optional(Schema.String),
+    origin: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Lien" }) as any as Schema.Schema<Lien>;
 
 export interface ListLiensResponse {
   /** A list of Liens. */
@@ -54,16 +56,21 @@ export interface ListLiensResponse {
   nextPageToken?: string;
 }
 
-export const ListLiensResponse: Schema.Schema<ListLiensResponse> = Schema.suspend(() => Schema.Struct({
-  liens: Schema.optional(Schema.Array(Lien)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLiensResponse" }) as any as Schema.Schema<ListLiensResponse>;
+export const ListLiensResponse: Schema.Schema<ListLiensResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      liens: Schema.optional(Schema.Array(Lien)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLiensResponse",
+  }) as any as Schema.Schema<ListLiensResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -74,11 +81,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -93,13 +104,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface Folder {
   /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
@@ -126,19 +139,21 @@ export interface Folder {
   managementProject?: string;
 }
 
-export const Folder: Schema.Schema<Folder> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
-  managementProject: Schema.optional(Schema.String),
-})).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
+export const Folder: Schema.Schema<Folder> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
+    managementProject: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
 
 export interface ListFoldersResponse {
   /** A possibly paginated list of folders that are direct descendants of the specified parent resource. */
@@ -147,10 +162,15 @@ export interface ListFoldersResponse {
   nextPageToken?: string;
 }
 
-export const ListFoldersResponse: Schema.Schema<ListFoldersResponse> = Schema.suspend(() => Schema.Struct({
-  folders: Schema.optional(Schema.Array(Folder)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListFoldersResponse" }) as any as Schema.Schema<ListFoldersResponse>;
+export const ListFoldersResponse: Schema.Schema<ListFoldersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      folders: Schema.optional(Schema.Array(Folder)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListFoldersResponse",
+  }) as any as Schema.Schema<ListFoldersResponse>;
 
 export interface SearchFoldersResponse {
   /** A possibly paginated folder search results. the specified parent resource. */
@@ -159,43 +179,64 @@ export interface SearchFoldersResponse {
   nextPageToken?: string;
 }
 
-export const SearchFoldersResponse: Schema.Schema<SearchFoldersResponse> = Schema.suspend(() => Schema.Struct({
-  folders: Schema.optional(Schema.Array(Folder)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchFoldersResponse" }) as any as Schema.Schema<SearchFoldersResponse>;
+export const SearchFoldersResponse: Schema.Schema<SearchFoldersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      folders: Schema.optional(Schema.Array(Folder)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchFoldersResponse",
+  }) as any as Schema.Schema<SearchFoldersResponse>;
 
 export interface MoveFolderRequest {
   /** Required. The resource name of the folder or organization which should be the folder's new parent. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
   destinationParent?: string;
 }
 
-export const MoveFolderRequest: Schema.Schema<MoveFolderRequest> = Schema.suspend(() => Schema.Struct({
-  destinationParent: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveFolderRequest" }) as any as Schema.Schema<MoveFolderRequest>;
+export const MoveFolderRequest: Schema.Schema<MoveFolderRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationParent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveFolderRequest",
+  }) as any as Schema.Schema<MoveFolderRequest>;
 
-export interface UndeleteFolderRequest {
-}
+export interface UndeleteFolderRequest {}
 
-export const UndeleteFolderRequest: Schema.Schema<UndeleteFolderRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndeleteFolderRequest" }) as any as Schema.Schema<UndeleteFolderRequest>;
+export const UndeleteFolderRequest: Schema.Schema<UndeleteFolderRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndeleteFolderRequest",
+  }) as any as Schema.Schema<UndeleteFolderRequest>;
 
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(() => Schema.Struct({
-  requestedPolicyVersion: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GetPolicyOptions" }) as any as Schema.Schema<GetPolicyOptions>;
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GetPolicyOptions",
+}) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions;
 }
 
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(GetPolicyOptions),
-})).annotate({ identifier: "GetIamPolicyRequest" }) as any as Schema.Schema<GetIamPolicyRequest>;
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -208,12 +249,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -224,23 +267,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -249,10 +304,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -265,12 +322,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -279,28 +338,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface Organization {
   /** Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
@@ -321,16 +395,20 @@ export interface Organization {
   etag?: string;
 }
 
-export const Organization: Schema.Schema<Organization> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  directoryCustomerId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Organization" }) as any as Schema.Schema<Organization>;
+export const Organization: Schema.Schema<Organization> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    directoryCustomerId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Organization",
+}) as any as Schema.Schema<Organization>;
 
 export interface SearchOrganizationsResponse {
   /** The list of Organizations that matched the search query, possibly paginated. */
@@ -339,10 +417,15 @@ export interface SearchOrganizationsResponse {
   nextPageToken?: string;
 }
 
-export const SearchOrganizationsResponse: Schema.Schema<SearchOrganizationsResponse> = Schema.suspend(() => Schema.Struct({
-  organizations: Schema.optional(Schema.Array(Organization)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchOrganizationsResponse" }) as any as Schema.Schema<SearchOrganizationsResponse>;
+export const SearchOrganizationsResponse: Schema.Schema<SearchOrganizationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      organizations: Schema.optional(Schema.Array(Organization)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchOrganizationsResponse",
+  }) as any as Schema.Schema<SearchOrganizationsResponse>;
 
 export interface Project {
   /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
@@ -371,20 +454,22 @@ export interface Project {
   configuredCapabilities?: Array<string>;
 }
 
-export const Project: Schema.Schema<Project> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Project" }) as any as Schema.Schema<Project>;
+export const Project: Schema.Schema<Project> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Project" }) as any as Schema.Schema<Project>;
 
 export interface ListProjectsResponse {
   /** The list of Projects under the parent. This list can be paginated. */
@@ -393,10 +478,15 @@ export interface ListProjectsResponse {
   nextPageToken?: string;
 }
 
-export const ListProjectsResponse: Schema.Schema<ListProjectsResponse> = Schema.suspend(() => Schema.Struct({
-  projects: Schema.optional(Schema.Array(Project)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListProjectsResponse" }) as any as Schema.Schema<ListProjectsResponse>;
+export const ListProjectsResponse: Schema.Schema<ListProjectsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projects: Schema.optional(Schema.Array(Project)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListProjectsResponse",
+  }) as any as Schema.Schema<ListProjectsResponse>;
 
 export interface SearchProjectsResponse {
   /** The list of Projects that matched the list filter query. This list can be paginated. */
@@ -405,25 +495,36 @@ export interface SearchProjectsResponse {
   nextPageToken?: string;
 }
 
-export const SearchProjectsResponse: Schema.Schema<SearchProjectsResponse> = Schema.suspend(() => Schema.Struct({
-  projects: Schema.optional(Schema.Array(Project)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchProjectsResponse" }) as any as Schema.Schema<SearchProjectsResponse>;
+export const SearchProjectsResponse: Schema.Schema<SearchProjectsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projects: Schema.optional(Schema.Array(Project)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchProjectsResponse",
+  }) as any as Schema.Schema<SearchProjectsResponse>;
 
 export interface MoveProjectRequest {
   /** Required. The new parent to move the Project under. */
   destinationParent?: string;
 }
 
-export const MoveProjectRequest: Schema.Schema<MoveProjectRequest> = Schema.suspend(() => Schema.Struct({
-  destinationParent: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveProjectRequest" }) as any as Schema.Schema<MoveProjectRequest>;
+export const MoveProjectRequest: Schema.Schema<MoveProjectRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationParent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveProjectRequest",
+  }) as any as Schema.Schema<MoveProjectRequest>;
 
-export interface UndeleteProjectRequest {
-}
+export interface UndeleteProjectRequest {}
 
-export const UndeleteProjectRequest: Schema.Schema<UndeleteProjectRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndeleteProjectRequest" }) as any as Schema.Schema<UndeleteProjectRequest>;
+export const UndeleteProjectRequest: Schema.Schema<UndeleteProjectRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndeleteProjectRequest",
+  }) as any as Schema.Schema<UndeleteProjectRequest>;
 
 export interface Capability {
   /** Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
@@ -432,10 +533,12 @@ export interface Capability {
   value?: boolean;
 }
 
-export const Capability: Schema.Schema<Capability> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Capability" }) as any as Schema.Schema<Capability>;
+export const Capability: Schema.Schema<Capability> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Capability" }) as any as Schema.Schema<Capability>;
 
 export interface TagBindingCollection {
   /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
@@ -448,12 +551,17 @@ export interface TagBindingCollection {
   etag?: string;
 }
 
-export const TagBindingCollection: Schema.Schema<TagBindingCollection> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  fullResourceName: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "TagBindingCollection" }) as any as Schema.Schema<TagBindingCollection>;
+export const TagBindingCollection: Schema.Schema<TagBindingCollection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      fullResourceName: Schema.optional(Schema.String),
+      tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TagBindingCollection",
+  }) as any as Schema.Schema<TagBindingCollection>;
 
 export interface EffectiveTagBindingCollection {
   /** Identifier. The name of the EffectiveTagBindingCollection, following the convention: `locations/{location}/effectiveTagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. E.g. "locations/global/effectiveTagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
@@ -464,11 +572,18 @@ export interface EffectiveTagBindingCollection {
   effectiveTags?: Record<string, string>;
 }
 
-export const EffectiveTagBindingCollection: Schema.Schema<EffectiveTagBindingCollection> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  fullResourceName: Schema.optional(Schema.String),
-  effectiveTags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "EffectiveTagBindingCollection" }) as any as Schema.Schema<EffectiveTagBindingCollection>;
+export const EffectiveTagBindingCollection: Schema.Schema<EffectiveTagBindingCollection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      fullResourceName: Schema.optional(Schema.String),
+      effectiveTags: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "EffectiveTagBindingCollection",
+  }) as any as Schema.Schema<EffectiveTagBindingCollection>;
 
 export interface TagBinding {
   /** Output only. The name of the TagBinding. This is a String of the form: `tagBindings/{full-resource-name}/{tag-value-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagValues/456`) or `tagBindings/{full-resource-name}/{tag-key-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagKeys/123`). */
@@ -481,12 +596,14 @@ export interface TagBinding {
   tagValueNamespacedName?: string;
 }
 
-export const TagBinding: Schema.Schema<TagBinding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  tagValue: Schema.optional(Schema.String),
-  tagValueNamespacedName: Schema.optional(Schema.String),
-})).annotate({ identifier: "TagBinding" }) as any as Schema.Schema<TagBinding>;
+export const TagBinding: Schema.Schema<TagBinding> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    tagValue: Schema.optional(Schema.String),
+    tagValueNamespacedName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TagBinding" }) as any as Schema.Schema<TagBinding>;
 
 export interface ListTagBindingsResponse {
   /** A possibly paginated list of TagBindings for the specified resource. */
@@ -495,10 +612,15 @@ export interface ListTagBindingsResponse {
   nextPageToken?: string;
 }
 
-export const ListTagBindingsResponse: Schema.Schema<ListTagBindingsResponse> = Schema.suspend(() => Schema.Struct({
-  tagBindings: Schema.optional(Schema.Array(TagBinding)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTagBindingsResponse" }) as any as Schema.Schema<ListTagBindingsResponse>;
+export const ListTagBindingsResponse: Schema.Schema<ListTagBindingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tagBindings: Schema.optional(Schema.Array(TagBinding)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTagBindingsResponse",
+  }) as any as Schema.Schema<ListTagBindingsResponse>;
 
 export interface EffectiveTag {
   /** Resource name for TagValue in the format `tagValues/456`. */
@@ -515,14 +637,18 @@ export interface EffectiveTag {
   inherited?: boolean;
 }
 
-export const EffectiveTag: Schema.Schema<EffectiveTag> = Schema.suspend(() => Schema.Struct({
-  tagValue: Schema.optional(Schema.String),
-  namespacedTagValue: Schema.optional(Schema.String),
-  tagKey: Schema.optional(Schema.String),
-  namespacedTagKey: Schema.optional(Schema.String),
-  tagKeyParentName: Schema.optional(Schema.String),
-  inherited: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "EffectiveTag" }) as any as Schema.Schema<EffectiveTag>;
+export const EffectiveTag: Schema.Schema<EffectiveTag> = Schema.suspend(() =>
+  Schema.Struct({
+    tagValue: Schema.optional(Schema.String),
+    namespacedTagValue: Schema.optional(Schema.String),
+    tagKey: Schema.optional(Schema.String),
+    namespacedTagKey: Schema.optional(Schema.String),
+    tagKeyParentName: Schema.optional(Schema.String),
+    inherited: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "EffectiveTag",
+}) as any as Schema.Schema<EffectiveTag>;
 
 export interface ListEffectiveTagsResponse {
   /** A possibly paginated list of effective tags for the specified resource. */
@@ -531,10 +657,15 @@ export interface ListEffectiveTagsResponse {
   nextPageToken?: string;
 }
 
-export const ListEffectiveTagsResponse: Schema.Schema<ListEffectiveTagsResponse> = Schema.suspend(() => Schema.Struct({
-  effectiveTags: Schema.optional(Schema.Array(EffectiveTag)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListEffectiveTagsResponse" }) as any as Schema.Schema<ListEffectiveTagsResponse>;
+export const ListEffectiveTagsResponse: Schema.Schema<ListEffectiveTagsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      effectiveTags: Schema.optional(Schema.Array(EffectiveTag)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListEffectiveTagsResponse",
+  }) as any as Schema.Schema<ListEffectiveTagsResponse>;
 
 export interface TagHold {
   /** Output only. The resource name of a TagHold. This is a String of the form: `tagValues/{tag-value-id}/tagHolds/{tag-hold-id}` (e.g. `tagValues/123/tagHolds/456`). This resource name is generated by the server. */
@@ -549,13 +680,15 @@ export interface TagHold {
   createTime?: string;
 }
 
-export const TagHold: Schema.Schema<TagHold> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  holder: Schema.optional(Schema.String),
-  origin: Schema.optional(Schema.String),
-  helpLink: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TagHold" }) as any as Schema.Schema<TagHold>;
+export const TagHold: Schema.Schema<TagHold> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    holder: Schema.optional(Schema.String),
+    origin: Schema.optional(Schema.String),
+    helpLink: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TagHold" }) as any as Schema.Schema<TagHold>;
 
 export interface ListTagHoldsResponse {
   /** A possibly paginated list of TagHolds. */
@@ -564,10 +697,15 @@ export interface ListTagHoldsResponse {
   nextPageToken?: string;
 }
 
-export const ListTagHoldsResponse: Schema.Schema<ListTagHoldsResponse> = Schema.suspend(() => Schema.Struct({
-  tagHolds: Schema.optional(Schema.Array(TagHold)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTagHoldsResponse" }) as any as Schema.Schema<ListTagHoldsResponse>;
+export const ListTagHoldsResponse: Schema.Schema<ListTagHoldsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tagHolds: Schema.optional(Schema.Array(TagHold)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTagHoldsResponse",
+  }) as any as Schema.Schema<ListTagHoldsResponse>;
 
 export interface TagKey {
   /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
@@ -587,26 +725,32 @@ export interface TagKey {
   /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagKeyRequest for details. */
   etag?: string;
   /** Optional. A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag. A purpose does not grant a policy engine exclusive rights to the Tag, and it may be referenced by other policy engines. A purpose cannot be changed once set. */
-  purpose?: "PURPOSE_UNSPECIFIED" | "GCE_FIREWALL" | "DATA_GOVERNANCE" | (string & {});
+  purpose?:
+    | "PURPOSE_UNSPECIFIED"
+    | "GCE_FIREWALL"
+    | "DATA_GOVERNANCE"
+    | (string & {});
   /** Optional. Purpose data corresponds to the policy system that the tag is intended for. See documentation for `Purpose` for formatting of this field. Purpose data cannot be changed once set. */
   purposeData?: Record<string, string>;
   /** Optional. Regular expression constraint for freeform tag values. If present, it implicitly allows freeform values (constrained by the regex). */
   allowedValuesRegex?: string;
 }
 
-export const TagKey: Schema.Schema<TagKey> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  shortName: Schema.optional(Schema.String),
-  namespacedName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  purpose: Schema.optional(Schema.String),
-  purposeData: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  allowedValuesRegex: Schema.optional(Schema.String),
-})).annotate({ identifier: "TagKey" }) as any as Schema.Schema<TagKey>;
+export const TagKey: Schema.Schema<TagKey> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    shortName: Schema.optional(Schema.String),
+    namespacedName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    purpose: Schema.optional(Schema.String),
+    purposeData: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    allowedValuesRegex: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TagKey" }) as any as Schema.Schema<TagKey>;
 
 export interface ListTagKeysResponse {
   /** List of TagKeys that live under the specified parent in the request. */
@@ -615,10 +759,15 @@ export interface ListTagKeysResponse {
   nextPageToken?: string;
 }
 
-export const ListTagKeysResponse: Schema.Schema<ListTagKeysResponse> = Schema.suspend(() => Schema.Struct({
-  tagKeys: Schema.optional(Schema.Array(TagKey)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTagKeysResponse" }) as any as Schema.Schema<ListTagKeysResponse>;
+export const ListTagKeysResponse: Schema.Schema<ListTagKeysResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tagKeys: Schema.optional(Schema.Array(TagKey)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTagKeysResponse",
+  }) as any as Schema.Schema<ListTagKeysResponse>;
 
 export interface TagValue {
   /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
@@ -639,16 +788,18 @@ export interface TagValue {
   etag?: string;
 }
 
-export const TagValue: Schema.Schema<TagValue> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  shortName: Schema.optional(Schema.String),
-  namespacedName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "TagValue" }) as any as Schema.Schema<TagValue>;
+export const TagValue: Schema.Schema<TagValue> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    shortName: Schema.optional(Schema.String),
+    namespacedName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TagValue" }) as any as Schema.Schema<TagValue>;
 
 export interface ListTagValuesResponse {
   /** A possibly paginated list of TagValues that are direct descendants of the specified parent TagKey. */
@@ -657,10 +808,15 @@ export interface ListTagValuesResponse {
   nextPageToken?: string;
 }
 
-export const ListTagValuesResponse: Schema.Schema<ListTagValuesResponse> = Schema.suspend(() => Schema.Struct({
-  tagValues: Schema.optional(Schema.Array(TagValue)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTagValuesResponse" }) as any as Schema.Schema<ListTagValuesResponse>;
+export const ListTagValuesResponse: Schema.Schema<ListTagValuesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tagValues: Schema.optional(Schema.Array(TagValue)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTagValuesResponse",
+  }) as any as Schema.Schema<ListTagValuesResponse>;
 
 export interface ProjectCreationStatus {
   /** Creation time of the project creation workflow. */
@@ -671,86 +827,139 @@ export interface ProjectCreationStatus {
   ready?: boolean;
 }
 
-export const ProjectCreationStatus: Schema.Schema<ProjectCreationStatus> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  gettable: Schema.optional(Schema.Boolean),
-  ready: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ProjectCreationStatus" }) as any as Schema.Schema<ProjectCreationStatus>;
+export const ProjectCreationStatus: Schema.Schema<ProjectCreationStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      gettable: Schema.optional(Schema.Boolean),
+      ready: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ProjectCreationStatus",
+  }) as any as Schema.Schema<ProjectCreationStatus>;
 
 export interface CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation {
   /** The display name of the folder. */
   displayName?: string;
   /** The type of this operation. */
-  operationType?: "OPERATION_TYPE_UNSPECIFIED" | "CREATE" | "MOVE" | (string & {});
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "CREATE"
+    | "MOVE"
+    | (string & {});
   /** The resource name of the folder's parent. Only applicable when the operation_type is MOVE. */
   sourceParent?: string;
   /** The resource name of the folder or organization we are either creating the folder under or moving the folder to. */
   destinationParent?: string;
 }
 
-export const CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation: Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  sourceParent: Schema.optional(Schema.String),
-  destinationParent: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation" }) as any as Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation>;
+export const CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation: Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      sourceParent: Schema.optional(Schema.String),
+      destinationParent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation",
+  }) as any as Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation>;
 
 export interface FolderOperationError {
   /** The type of operation error experienced. */
-  errorMessageId?: "ERROR_TYPE_UNSPECIFIED" | "ACTIVE_FOLDER_HEIGHT_VIOLATION" | "MAX_CHILD_FOLDERS_VIOLATION" | "FOLDER_NAME_UNIQUENESS_VIOLATION" | "RESOURCE_DELETED_VIOLATION" | "PARENT_DELETED_VIOLATION" | "CYCLE_INTRODUCED_VIOLATION" | "FOLDER_BEING_MOVED_VIOLATION" | "FOLDER_TO_DELETE_NON_EMPTY_VIOLATION" | "DELETED_FOLDER_HEIGHT_VIOLATION" | "FOLDER_TO_DELETE_CONFIGURED_CAPABILITY_VIOLATION" | (string & {});
+  errorMessageId?:
+    | "ERROR_TYPE_UNSPECIFIED"
+    | "ACTIVE_FOLDER_HEIGHT_VIOLATION"
+    | "MAX_CHILD_FOLDERS_VIOLATION"
+    | "FOLDER_NAME_UNIQUENESS_VIOLATION"
+    | "RESOURCE_DELETED_VIOLATION"
+    | "PARENT_DELETED_VIOLATION"
+    | "CYCLE_INTRODUCED_VIOLATION"
+    | "FOLDER_BEING_MOVED_VIOLATION"
+    | "FOLDER_TO_DELETE_NON_EMPTY_VIOLATION"
+    | "DELETED_FOLDER_HEIGHT_VIOLATION"
+    | "FOLDER_TO_DELETE_CONFIGURED_CAPABILITY_VIOLATION"
+    | (string & {});
 }
 
-export const FolderOperationError: Schema.Schema<FolderOperationError> = Schema.suspend(() => Schema.Struct({
-  errorMessageId: Schema.optional(Schema.String),
-})).annotate({ identifier: "FolderOperationError" }) as any as Schema.Schema<FolderOperationError>;
+export const FolderOperationError: Schema.Schema<FolderOperationError> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      errorMessageId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FolderOperationError",
+  }) as any as Schema.Schema<FolderOperationError>;
 
 export interface CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation {
   /** The display name of the folder. */
   displayName?: string;
   /** The type of this operation. */
-  operationType?: "OPERATION_TYPE_UNSPECIFIED" | "CREATE" | "MOVE" | (string & {});
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "CREATE"
+    | "MOVE"
+    | (string & {});
   /** The resource name of the folder's parent. Only applicable when the operation_type is MOVE. */
   sourceParent?: string;
   /** The resource name of the folder or organization we are either creating the folder under or moving the folder to. */
   destinationParent?: string;
 }
 
-export const CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation: Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  sourceParent: Schema.optional(Schema.String),
-  destinationParent: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation" }) as any as Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation>;
+export const CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation: Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      sourceParent: Schema.optional(Schema.String),
+      destinationParent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation",
+  }) as any as Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation>;
 
 export interface FolderOperation {
   /** The display name of the folder. */
   displayName?: string;
   /** The type of this operation. */
-  operationType?: "OPERATION_TYPE_UNSPECIFIED" | "CREATE" | "MOVE" | (string & {});
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "CREATE"
+    | "MOVE"
+    | (string & {});
   /** The resource name of the folder's parent. Only applicable when the operation_type is MOVE. */
   sourceParent?: string;
   /** The resource name of the folder or organization we are either creating the folder under or moving the folder to. */
   destinationParent?: string;
 }
 
-export const FolderOperation: Schema.Schema<FolderOperation> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  operationType: Schema.optional(Schema.String),
-  sourceParent: Schema.optional(Schema.String),
-  destinationParent: Schema.optional(Schema.String),
-})).annotate({ identifier: "FolderOperation" }) as any as Schema.Schema<FolderOperation>;
+export const FolderOperation: Schema.Schema<FolderOperation> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      sourceParent: Schema.optional(Schema.String),
+      destinationParent: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FolderOperation",
+}) as any as Schema.Schema<FolderOperation>;
 
-export interface DeleteOrganizationMetadata {
-}
+export interface DeleteOrganizationMetadata {}
 
-export const DeleteOrganizationMetadata: Schema.Schema<DeleteOrganizationMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteOrganizationMetadata" }) as any as Schema.Schema<DeleteOrganizationMetadata>;
+export const DeleteOrganizationMetadata: Schema.Schema<DeleteOrganizationMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteOrganizationMetadata",
+  }) as any as Schema.Schema<DeleteOrganizationMetadata>;
 
-export interface UndeleteOrganizationMetadata {
-}
+export interface UndeleteOrganizationMetadata {}
 
-export const UndeleteOrganizationMetadata: Schema.Schema<UndeleteOrganizationMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndeleteOrganizationMetadata" }) as any as Schema.Schema<UndeleteOrganizationMetadata>;
+export const UndeleteOrganizationMetadata: Schema.Schema<UndeleteOrganizationMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndeleteOrganizationMetadata",
+  }) as any as Schema.Schema<UndeleteOrganizationMetadata>;
 
 export interface CreateFolderMetadata {
   /** The display name of the folder. */
@@ -759,16 +968,22 @@ export interface CreateFolderMetadata {
   parent?: string;
 }
 
-export const CreateFolderMetadata: Schema.Schema<CreateFolderMetadata> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateFolderMetadata" }) as any as Schema.Schema<CreateFolderMetadata>;
+export const CreateFolderMetadata: Schema.Schema<CreateFolderMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateFolderMetadata",
+  }) as any as Schema.Schema<CreateFolderMetadata>;
 
-export interface UpdateFolderMetadata {
-}
+export interface UpdateFolderMetadata {}
 
-export const UpdateFolderMetadata: Schema.Schema<UpdateFolderMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UpdateFolderMetadata" }) as any as Schema.Schema<UpdateFolderMetadata>;
+export const UpdateFolderMetadata: Schema.Schema<UpdateFolderMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UpdateFolderMetadata",
+  }) as any as Schema.Schema<UpdateFolderMetadata>;
 
 export interface MoveFolderMetadata {
   /** The display name of the folder. */
@@ -779,23 +994,30 @@ export interface MoveFolderMetadata {
   destinationParent?: string;
 }
 
-export const MoveFolderMetadata: Schema.Schema<MoveFolderMetadata> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  sourceParent: Schema.optional(Schema.String),
-  destinationParent: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveFolderMetadata" }) as any as Schema.Schema<MoveFolderMetadata>;
+export const MoveFolderMetadata: Schema.Schema<MoveFolderMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      sourceParent: Schema.optional(Schema.String),
+      destinationParent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveFolderMetadata",
+  }) as any as Schema.Schema<MoveFolderMetadata>;
 
-export interface DeleteFolderMetadata {
-}
+export interface DeleteFolderMetadata {}
 
-export const DeleteFolderMetadata: Schema.Schema<DeleteFolderMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteFolderMetadata" }) as any as Schema.Schema<DeleteFolderMetadata>;
+export const DeleteFolderMetadata: Schema.Schema<DeleteFolderMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteFolderMetadata",
+  }) as any as Schema.Schema<DeleteFolderMetadata>;
 
-export interface UndeleteFolderMetadata {
-}
+export interface UndeleteFolderMetadata {}
 
-export const UndeleteFolderMetadata: Schema.Schema<UndeleteFolderMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndeleteFolderMetadata" }) as any as Schema.Schema<UndeleteFolderMetadata>;
+export const UndeleteFolderMetadata: Schema.Schema<UndeleteFolderMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndeleteFolderMetadata",
+  }) as any as Schema.Schema<UndeleteFolderMetadata>;
 
 export interface CreateProjectMetadata {
   /** Creation time of the project creation workflow. */
@@ -806,83 +1028,100 @@ export interface CreateProjectMetadata {
   ready?: boolean;
 }
 
-export const CreateProjectMetadata: Schema.Schema<CreateProjectMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  gettable: Schema.optional(Schema.Boolean),
-  ready: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CreateProjectMetadata" }) as any as Schema.Schema<CreateProjectMetadata>;
+export const CreateProjectMetadata: Schema.Schema<CreateProjectMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      gettable: Schema.optional(Schema.Boolean),
+      ready: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CreateProjectMetadata",
+  }) as any as Schema.Schema<CreateProjectMetadata>;
 
-export interface UpdateProjectMetadata {
-}
+export interface UpdateProjectMetadata {}
 
-export const UpdateProjectMetadata: Schema.Schema<UpdateProjectMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UpdateProjectMetadata" }) as any as Schema.Schema<UpdateProjectMetadata>;
+export const UpdateProjectMetadata: Schema.Schema<UpdateProjectMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UpdateProjectMetadata",
+  }) as any as Schema.Schema<UpdateProjectMetadata>;
 
-export interface MoveProjectMetadata {
-}
+export interface MoveProjectMetadata {}
 
-export const MoveProjectMetadata: Schema.Schema<MoveProjectMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MoveProjectMetadata" }) as any as Schema.Schema<MoveProjectMetadata>;
+export const MoveProjectMetadata: Schema.Schema<MoveProjectMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MoveProjectMetadata",
+  }) as any as Schema.Schema<MoveProjectMetadata>;
 
-export interface DeleteProjectMetadata {
-}
+export interface DeleteProjectMetadata {}
 
-export const DeleteProjectMetadata: Schema.Schema<DeleteProjectMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteProjectMetadata" }) as any as Schema.Schema<DeleteProjectMetadata>;
+export const DeleteProjectMetadata: Schema.Schema<DeleteProjectMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteProjectMetadata",
+  }) as any as Schema.Schema<DeleteProjectMetadata>;
 
-export interface UndeleteProjectMetadata {
-}
+export interface UndeleteProjectMetadata {}
 
-export const UndeleteProjectMetadata: Schema.Schema<UndeleteProjectMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndeleteProjectMetadata" }) as any as Schema.Schema<UndeleteProjectMetadata>;
+export const UndeleteProjectMetadata: Schema.Schema<UndeleteProjectMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndeleteProjectMetadata",
+  }) as any as Schema.Schema<UndeleteProjectMetadata>;
 
-export interface CreateTagKeyMetadata {
-}
+export interface CreateTagKeyMetadata {}
 
-export const CreateTagKeyMetadata: Schema.Schema<CreateTagKeyMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CreateTagKeyMetadata" }) as any as Schema.Schema<CreateTagKeyMetadata>;
+export const CreateTagKeyMetadata: Schema.Schema<CreateTagKeyMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CreateTagKeyMetadata",
+  }) as any as Schema.Schema<CreateTagKeyMetadata>;
 
-export interface UpdateTagKeyMetadata {
-}
+export interface UpdateTagKeyMetadata {}
 
-export const UpdateTagKeyMetadata: Schema.Schema<UpdateTagKeyMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UpdateTagKeyMetadata" }) as any as Schema.Schema<UpdateTagKeyMetadata>;
+export const UpdateTagKeyMetadata: Schema.Schema<UpdateTagKeyMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UpdateTagKeyMetadata",
+  }) as any as Schema.Schema<UpdateTagKeyMetadata>;
 
-export interface DeleteTagKeyMetadata {
-}
+export interface DeleteTagKeyMetadata {}
 
-export const DeleteTagKeyMetadata: Schema.Schema<DeleteTagKeyMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteTagKeyMetadata" }) as any as Schema.Schema<DeleteTagKeyMetadata>;
+export const DeleteTagKeyMetadata: Schema.Schema<DeleteTagKeyMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteTagKeyMetadata",
+  }) as any as Schema.Schema<DeleteTagKeyMetadata>;
 
-export interface CreateTagValueMetadata {
-}
+export interface CreateTagValueMetadata {}
 
-export const CreateTagValueMetadata: Schema.Schema<CreateTagValueMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CreateTagValueMetadata" }) as any as Schema.Schema<CreateTagValueMetadata>;
+export const CreateTagValueMetadata: Schema.Schema<CreateTagValueMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CreateTagValueMetadata",
+  }) as any as Schema.Schema<CreateTagValueMetadata>;
 
-export interface UpdateTagValueMetadata {
-}
+export interface UpdateTagValueMetadata {}
 
-export const UpdateTagValueMetadata: Schema.Schema<UpdateTagValueMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UpdateTagValueMetadata" }) as any as Schema.Schema<UpdateTagValueMetadata>;
+export const UpdateTagValueMetadata: Schema.Schema<UpdateTagValueMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UpdateTagValueMetadata",
+  }) as any as Schema.Schema<UpdateTagValueMetadata>;
 
-export interface DeleteTagValueMetadata {
-}
+export interface DeleteTagValueMetadata {}
 
-export const DeleteTagValueMetadata: Schema.Schema<DeleteTagValueMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteTagValueMetadata" }) as any as Schema.Schema<DeleteTagValueMetadata>;
+export const DeleteTagValueMetadata: Schema.Schema<DeleteTagValueMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteTagValueMetadata",
+  }) as any as Schema.Schema<DeleteTagValueMetadata>;
 
-export interface CreateTagBindingMetadata {
-}
+export interface CreateTagBindingMetadata {}
 
-export const CreateTagBindingMetadata: Schema.Schema<CreateTagBindingMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CreateTagBindingMetadata" }) as any as Schema.Schema<CreateTagBindingMetadata>;
+export const CreateTagBindingMetadata: Schema.Schema<CreateTagBindingMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CreateTagBindingMetadata",
+  }) as any as Schema.Schema<CreateTagBindingMetadata>;
 
-export interface DeleteTagBindingMetadata {
-}
+export interface DeleteTagBindingMetadata {}
 
-export const DeleteTagBindingMetadata: Schema.Schema<DeleteTagBindingMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteTagBindingMetadata" }) as any as Schema.Schema<DeleteTagBindingMetadata>;
+export const DeleteTagBindingMetadata: Schema.Schema<DeleteTagBindingMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteTagBindingMetadata",
+  }) as any as Schema.Schema<DeleteTagBindingMetadata>;
 
 // ==========================================================================
 // Operations
@@ -912,7 +1151,12 @@ export const ListLiensResponse_Op = ListLiensResponse;
 export type ListLiensError = DefaultErrors;
 
 /** List all Liens applied to the `parent` resource. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get`. */
-export const listLiens: API.PaginatedOperationMethod<ListLiensRequest, ListLiensResponse_Op, ListLiensError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listLiens: API.PaginatedOperationMethod<
+  ListLiensRequest,
+  ListLiensResponse_Op,
+  ListLiensError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListLiensRequest,
   output: ListLiensResponse_Op,
   errors: [],
@@ -940,7 +1184,12 @@ export const GetLiensResponse = Lien;
 export type GetLiensError = DefaultErrors;
 
 /** Retrieve a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get` */
-export const getLiens: API.OperationMethod<GetLiensRequest, GetLiensResponse, GetLiensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLiens: API.OperationMethod<
+  GetLiensRequest,
+  GetLiensResponse,
+  GetLiensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLiensRequest,
   output: GetLiensResponse,
   errors: [],
@@ -964,7 +1213,12 @@ export const CreateLiensResponse = Lien;
 export type CreateLiensError = DefaultErrors;
 
 /** Create a Lien which applies to the resource denoted by the `parent` field. Callers of this method will require permission on the `parent` resource. For example, applying to `projects/1234` requires permission `resourcemanager.projects.updateLiens`. NOTE: Some resources may limit the number of Liens which may be applied. */
-export const createLiens: API.OperationMethod<CreateLiensRequest, CreateLiensResponse, CreateLiensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createLiens: API.OperationMethod<
+  CreateLiensRequest,
+  CreateLiensResponse,
+  CreateLiensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateLiensRequest,
   output: CreateLiensResponse,
   errors: [],
@@ -988,7 +1242,12 @@ export const DeleteLiensResponse = Empty;
 export type DeleteLiensError = DefaultErrors;
 
 /** Delete a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.updateLiens`. */
-export const deleteLiens: API.OperationMethod<DeleteLiensRequest, DeleteLiensResponse, DeleteLiensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteLiens: API.OperationMethod<
+  DeleteLiensRequest,
+  DeleteLiensResponse,
+  DeleteLiensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteLiensRequest,
   output: DeleteLiensResponse,
   errors: [],
@@ -1012,7 +1271,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -1036,7 +1300,12 @@ export const GetFoldersResponse = Folder;
 export type GetFoldersError = DefaultErrors;
 
 /** Retrieves a folder identified by the supplied resource name. Valid folder resource names have the format `folders/{folder_id}` (for example, `folders/1234`). The caller must have `resourcemanager.folders.get` permission on the identified folder. */
-export const getFolders: API.OperationMethod<GetFoldersRequest, GetFoldersResponse, GetFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFolders: API.OperationMethod<
+  GetFoldersRequest,
+  GetFoldersResponse,
+  GetFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersRequest,
   output: GetFoldersResponse,
   errors: [],
@@ -1069,7 +1338,12 @@ export const ListFoldersResponse_Op = ListFoldersResponse;
 export type ListFoldersError = DefaultErrors;
 
 /** Lists the folders that are direct descendants of supplied parent resource. `list()` provides a strongly consistent view of the folders underneath the specified parent resource. `list()` returns folders sorted based upon the (ascending) lexical ordering of their display_name. The caller must have `resourcemanager.folders.list` permission on the identified parent. */
-export const listFolders: API.PaginatedOperationMethod<ListFoldersRequest, ListFoldersResponse_Op, ListFoldersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listFolders: API.PaginatedOperationMethod<
+  ListFoldersRequest,
+  ListFoldersResponse_Op,
+  ListFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListFoldersRequest,
   output: ListFoldersResponse_Op,
   errors: [],
@@ -1103,7 +1377,12 @@ export const SearchFoldersResponse_Op = SearchFoldersResponse;
 export type SearchFoldersError = DefaultErrors;
 
 /** Search for folders that match specific filter criteria. `search()` provides an eventually consistent view of the folders a user has access to which meet the specified filter criteria. This will only return folders on which the caller has the permission `resourcemanager.folders.get`. */
-export const searchFolders: API.PaginatedOperationMethod<SearchFoldersRequest, SearchFoldersResponse_Op, SearchFoldersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchFolders: API.PaginatedOperationMethod<
+  SearchFoldersRequest,
+  SearchFoldersResponse_Op,
+  SearchFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchFoldersRequest,
   output: SearchFoldersResponse_Op,
   errors: [],
@@ -1131,7 +1410,12 @@ export const CreateFoldersResponse = Operation;
 export type CreateFoldersError = DefaultErrors;
 
 /** Creates a folder in the resource hierarchy. Returns an `Operation` which can be used to track the progress of the folder creation workflow. Upon success, the `Operation.response` field will be populated with the created Folder. In order to succeed, the addition of this new folder must not violate the folder naming, height, or fanout constraints. + The folder's `display_name` must be distinct from all other folders that share its parent. + The addition of the folder must not cause the active folder hierarchy to exceed a height of 10. Note, the full active + deleted folder hierarchy is allowed to reach a height of 20; this provides additional headroom when moving folders that contain deleted folders. + The addition of the folder must not cause the total number of folders under its parent to exceed 300. If the operation fails due to a folder constraint violation, some errors may be returned by the `CreateFolder` request, with status code `FAILED_PRECONDITION` and an error description. Other folder constraint violations will be communicated in the `Operation`, with the specific `PreconditionFailure` returned in the details list in the `Operation.error` field. The caller must have `resourcemanager.folders.create` permission on the identified parent. */
-export const createFolders: API.OperationMethod<CreateFoldersRequest, CreateFoldersResponse, CreateFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createFolders: API.OperationMethod<
+  CreateFoldersRequest,
+  CreateFoldersResponse,
+  CreateFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateFoldersRequest,
   output: CreateFoldersResponse,
   errors: [],
@@ -1161,7 +1445,12 @@ export const PatchFoldersResponse = Operation;
 export type PatchFoldersError = DefaultErrors;
 
 /** Updates a folder, changing its `display_name`. Changes to the folder `display_name` will be rejected if they violate either the `display_name` formatting rules or the naming constraints described in the CreateFolder documentation. The folder's `display_name` must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be between 3 and 30 characters. This is captured by the regular expression: `\p{L}\p{N}{1,28}[\p{L}\p{N}]`. The caller must have `resourcemanager.folders.update` permission on the identified folder. If the update fails due to the unique name constraint then a `PreconditionFailure` explaining this violation will be returned in the Status.details field. */
-export const patchFolders: API.OperationMethod<PatchFoldersRequest, PatchFoldersResponse, PatchFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchFolders: API.OperationMethod<
+  PatchFoldersRequest,
+  PatchFoldersResponse,
+  PatchFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchFoldersRequest,
   output: PatchFoldersResponse,
   errors: [],
@@ -1178,7 +1467,11 @@ export const MoveFoldersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MoveFolderRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/folders/{foldersId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/folders/{foldersId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveFoldersRequest>;
 
@@ -1188,7 +1481,12 @@ export const MoveFoldersResponse = Operation;
 export type MoveFoldersError = DefaultErrors;
 
 /** Moves a folder under a new resource parent. Returns an `Operation` which can be used to track the progress of the folder move workflow. Upon success, the `Operation.response` field will be populated with the moved folder. Upon failure, a `FolderOperationError` categorizing the failure cause will be returned - if the failure occurs synchronously then the `FolderOperationError` will be returned in the `Status.details` field. If it occurs asynchronously, then the FolderOperation will be returned in the `Operation.error` field. In addition, the `Operation.metadata` field will be populated with a `FolderOperation` message as an aid to stateless clients. Folder moves will be rejected if they violate either the naming, height, or fanout constraints described in the CreateFolder documentation. The caller must have `resourcemanager.folders.move` permission on the folder's current and proposed new parent. */
-export const moveFolders: API.OperationMethod<MoveFoldersRequest, MoveFoldersResponse, MoveFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveFolders: API.OperationMethod<
+  MoveFoldersRequest,
+  MoveFoldersResponse,
+  MoveFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveFoldersRequest,
   output: MoveFoldersResponse,
   errors: [],
@@ -1212,7 +1510,12 @@ export const DeleteFoldersResponse = Operation;
 export type DeleteFoldersError = DefaultErrors;
 
 /** Requests deletion of a folder. The folder is moved into the DELETE_REQUESTED state immediately, and is deleted approximately 30 days later. This method may only be called on an empty folder, where a folder is empty if it doesn't contain any folders or projects in the ACTIVE state. If called on a folder in DELETE_REQUESTED state the operation will result in a no-op success. The caller must have `resourcemanager.folders.delete` permission on the identified folder. */
-export const deleteFolders: API.OperationMethod<DeleteFoldersRequest, DeleteFoldersResponse, DeleteFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteFolders: API.OperationMethod<
+  DeleteFoldersRequest,
+  DeleteFoldersResponse,
+  DeleteFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteFoldersRequest,
   output: DeleteFoldersResponse,
   errors: [],
@@ -1229,7 +1532,11 @@ export const UndeleteFoldersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteFolderRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/folders/{foldersId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/folders/{foldersId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteFoldersRequest>;
 
@@ -1239,7 +1546,12 @@ export const UndeleteFoldersResponse = Operation;
 export type UndeleteFoldersError = DefaultErrors;
 
 /** Cancels the deletion request for a folder. This method may be called on a folder in any state. If the folder is in the ACTIVE state the result will be a no-op success. In order to succeed, the folder's parent must be in the ACTIVE state. In addition, reintroducing the folder into the tree must not violate folder naming, height, and fanout constraints described in the CreateFolder documentation. The caller must have `resourcemanager.folders.undelete` permission on the identified folder. */
-export const undeleteFolders: API.OperationMethod<UndeleteFoldersRequest, UndeleteFoldersResponse, UndeleteFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteFolders: API.OperationMethod<
+  UndeleteFoldersRequest,
+  UndeleteFoldersResponse,
+  UndeleteFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteFoldersRequest,
   output: UndeleteFoldersResponse,
   errors: [],
@@ -1256,7 +1568,11 @@ export const GetIamPolicyFoldersRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/folders/{foldersId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/folders/{foldersId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyFoldersRequest>;
 
@@ -1266,7 +1582,12 @@ export const GetIamPolicyFoldersResponse = Policy;
 export type GetIamPolicyFoldersError = DefaultErrors;
 
 /** Gets the access control policy for a folder. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the folder's resource name, for example: "folders/1234". The caller must have `resourcemanager.folders.getIamPolicy` permission on the identified folder. */
-export const getIamPolicyFolders: API.OperationMethod<GetIamPolicyFoldersRequest, GetIamPolicyFoldersResponse, GetIamPolicyFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyFolders: API.OperationMethod<
+  GetIamPolicyFoldersRequest,
+  GetIamPolicyFoldersResponse,
+  GetIamPolicyFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyFoldersRequest,
   output: GetIamPolicyFoldersResponse,
   errors: [],
@@ -1283,7 +1604,11 @@ export const SetIamPolicyFoldersRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/folders/{foldersId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/folders/{foldersId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyFoldersRequest>;
 
@@ -1293,7 +1618,12 @@ export const SetIamPolicyFoldersResponse = Policy;
 export type SetIamPolicyFoldersError = DefaultErrors;
 
 /** Sets the access control policy on a folder, replacing any existing policy. The `resource` field should be the folder's resource name, for example: "folders/1234". The caller must have `resourcemanager.folders.setIamPolicy` permission on the identified folder. */
-export const setIamPolicyFolders: API.OperationMethod<SetIamPolicyFoldersRequest, SetIamPolicyFoldersResponse, SetIamPolicyFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyFolders: API.OperationMethod<
+  SetIamPolicyFoldersRequest,
+  SetIamPolicyFoldersResponse,
+  SetIamPolicyFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyFoldersRequest,
   output: SetIamPolicyFoldersResponse,
   errors: [],
@@ -1310,7 +1640,11 @@ export const TestIamPermissionsFoldersRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/folders/{foldersId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/folders/{foldersId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsFoldersRequest>;
 
@@ -1320,7 +1654,12 @@ export const TestIamPermissionsFoldersResponse = TestIamPermissionsResponse;
 export type TestIamPermissionsFoldersError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified folder. The `resource` field should be the folder's resource name, for example: "folders/1234". There are no permissions required for making this API call. */
-export const testIamPermissionsFolders: API.OperationMethod<TestIamPermissionsFoldersRequest, TestIamPermissionsFoldersResponse, TestIamPermissionsFoldersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsFolders: API.OperationMethod<
+  TestIamPermissionsFoldersRequest,
+  TestIamPermissionsFoldersResponse,
+  TestIamPermissionsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsFoldersRequest,
   output: TestIamPermissionsFoldersResponse,
   errors: [],
@@ -1334,7 +1673,10 @@ export interface GetFoldersCapabilitiesRequest {
 export const GetFoldersCapabilitiesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetFoldersCapabilitiesRequest>;
 
@@ -1344,7 +1686,12 @@ export const GetFoldersCapabilitiesResponse = Capability;
 export type GetFoldersCapabilitiesError = DefaultErrors;
 
 /** Retrieves the Capability identified by the supplied resource name. */
-export const getFoldersCapabilities: API.OperationMethod<GetFoldersCapabilitiesRequest, GetFoldersCapabilitiesResponse, GetFoldersCapabilitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFoldersCapabilities: API.OperationMethod<
+  GetFoldersCapabilitiesRequest,
+  GetFoldersCapabilitiesResponse,
+  GetFoldersCapabilitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersCapabilitiesRequest,
   output: GetFoldersCapabilitiesResponse,
   errors: [],
@@ -1364,7 +1711,11 @@ export const PatchFoldersCapabilitiesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Capability).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchFoldersCapabilitiesRequest>;
 
@@ -1374,7 +1725,12 @@ export const PatchFoldersCapabilitiesResponse = Operation;
 export type PatchFoldersCapabilitiesError = DefaultErrors;
 
 /** Updates the Capability. */
-export const patchFoldersCapabilities: API.OperationMethod<PatchFoldersCapabilitiesRequest, PatchFoldersCapabilitiesResponse, PatchFoldersCapabilitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchFoldersCapabilities: API.OperationMethod<
+  PatchFoldersCapabilitiesRequest,
+  PatchFoldersCapabilitiesResponse,
+  PatchFoldersCapabilitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchFoldersCapabilitiesRequest,
   output: PatchFoldersCapabilitiesResponse,
   errors: [],
@@ -1398,7 +1754,12 @@ export const GetOrganizationsResponse = Organization;
 export type GetOrganizationsError = DefaultErrors;
 
 /** Fetches an organization resource identified by the specified resource name. */
-export const getOrganizations: API.OperationMethod<GetOrganizationsRequest, GetOrganizationsResponse, GetOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizations: API.OperationMethod<
+  GetOrganizationsRequest,
+  GetOrganizationsResponse,
+  GetOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsRequest,
   output: GetOrganizationsResponse,
   errors: [],
@@ -1428,7 +1789,12 @@ export const SearchOrganizationsResponse_Op = SearchOrganizationsResponse;
 export type SearchOrganizationsError = DefaultErrors;
 
 /** Searches organization resources that are visible to the user and satisfy the specified filter. This method returns organizations in an unspecified order. New organizations do not necessarily appear at the end of the results, and may take a small amount of time to appear. Search will only return organizations on which the user has the permission `resourcemanager.organizations.get` or has super admin privileges. */
-export const searchOrganizations: API.PaginatedOperationMethod<SearchOrganizationsRequest, SearchOrganizationsResponse_Op, SearchOrganizationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchOrganizations: API.PaginatedOperationMethod<
+  SearchOrganizationsRequest,
+  SearchOrganizationsResponse_Op,
+  SearchOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchOrganizationsRequest,
   output: SearchOrganizationsResponse_Op,
   errors: [],
@@ -1449,7 +1815,11 @@ export const GetIamPolicyOrganizationsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/organizations/{organizationsId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/organizations/{organizationsId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyOrganizationsRequest>;
 
@@ -1459,7 +1829,12 @@ export const GetIamPolicyOrganizationsResponse = Policy;
 export type GetIamPolicyOrganizationsError = DefaultErrors;
 
 /** Gets the access control policy for an organization resource. The policy may be empty if no such policy or resource exists. The `resource` field should be the organization's resource name, for example: "organizations/123". Authorization requires the IAM permission `resourcemanager.organizations.getIamPolicy` on the specified organization. */
-export const getIamPolicyOrganizations: API.OperationMethod<GetIamPolicyOrganizationsRequest, GetIamPolicyOrganizationsResponse, GetIamPolicyOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyOrganizations: API.OperationMethod<
+  GetIamPolicyOrganizationsRequest,
+  GetIamPolicyOrganizationsResponse,
+  GetIamPolicyOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyOrganizationsRequest,
   output: GetIamPolicyOrganizationsResponse,
   errors: [],
@@ -1476,7 +1851,11 @@ export const SetIamPolicyOrganizationsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/organizations/{organizationsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/organizations/{organizationsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyOrganizationsRequest>;
 
@@ -1486,7 +1865,12 @@ export const SetIamPolicyOrganizationsResponse = Policy;
 export type SetIamPolicyOrganizationsError = DefaultErrors;
 
 /** Sets the access control policy on an organization resource. Replaces any existing policy. The `resource` field should be the organization's resource name, for example: "organizations/123". Authorization requires the IAM permission `resourcemanager.organizations.setIamPolicy` on the specified organization. */
-export const setIamPolicyOrganizations: API.OperationMethod<SetIamPolicyOrganizationsRequest, SetIamPolicyOrganizationsResponse, SetIamPolicyOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyOrganizations: API.OperationMethod<
+  SetIamPolicyOrganizationsRequest,
+  SetIamPolicyOrganizationsResponse,
+  SetIamPolicyOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyOrganizationsRequest,
   output: SetIamPolicyOrganizationsResponse,
   errors: [],
@@ -1503,17 +1887,28 @@ export const TestIamPermissionsOrganizationsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/organizations/{organizationsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/organizations/{organizationsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsOrganizationsRequest>;
 
-export type TestIamPermissionsOrganizationsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsOrganizationsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsOrganizationsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsOrganizationsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsOrganizationsError = DefaultErrors;
 
 /** Returns the permissions that a caller has on the specified organization. The `resource` field should be the organization's resource name, for example: "organizations/123". There are no permissions required for making this API call. */
-export const testIamPermissionsOrganizations: API.OperationMethod<TestIamPermissionsOrganizationsRequest, TestIamPermissionsOrganizationsResponse, TestIamPermissionsOrganizationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsOrganizations: API.OperationMethod<
+  TestIamPermissionsOrganizationsRequest,
+  TestIamPermissionsOrganizationsResponse,
+  TestIamPermissionsOrganizationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsOrganizationsRequest,
   output: TestIamPermissionsOrganizationsResponse,
   errors: [],
@@ -1537,7 +1932,12 @@ export const GetProjectsResponse = Project;
 export type GetProjectsError = DefaultErrors;
 
 /** Retrieves the project identified by the specified `name` (for example, `projects/415104041262`). The caller must have `resourcemanager.projects.get` permission for this project. */
-export const getProjects: API.OperationMethod<GetProjectsRequest, GetProjectsResponse, GetProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjects: API.OperationMethod<
+  GetProjectsRequest,
+  GetProjectsResponse,
+  GetProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
@@ -1570,7 +1970,12 @@ export const ListProjectsResponse_Op = ListProjectsResponse;
 export type ListProjectsError = DefaultErrors;
 
 /** Lists projects that are direct children of the specified folder or organization resource. `list()` provides a strongly consistent view of the projects underneath the specified parent resource. `list()` returns projects sorted based upon the (ascending) lexical ordering of their `display_name`. The caller must have `resourcemanager.projects.list` permission on the identified parent. */
-export const listProjects: API.PaginatedOperationMethod<ListProjectsRequest, ListProjectsResponse_Op, ListProjectsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjects: API.PaginatedOperationMethod<
+  ListProjectsRequest,
+  ListProjectsResponse_Op,
+  ListProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsRequest,
   output: ListProjectsResponse_Op,
   errors: [],
@@ -1604,7 +2009,12 @@ export const SearchProjectsResponse_Op = SearchProjectsResponse;
 export type SearchProjectsError = DefaultErrors;
 
 /** Search for projects that the caller has the `resourcemanager.projects.get` permission on, and also satisfy the specified query. This method returns projects in an unspecified order. This method is eventually consistent with project mutations; this means that a newly created project may not appear in the results or recent updates to an existing project may not be reflected in the results. To retrieve the latest state of a project, use the GetProject method. */
-export const searchProjects: API.PaginatedOperationMethod<SearchProjectsRequest, SearchProjectsResponse_Op, SearchProjectsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchProjects: API.PaginatedOperationMethod<
+  SearchProjectsRequest,
+  SearchProjectsResponse_Op,
+  SearchProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchProjectsRequest,
   output: SearchProjectsResponse_Op,
   errors: [],
@@ -1632,7 +2042,12 @@ export const CreateProjectsResponse = Operation;
 export type CreateProjectsError = DefaultErrors;
 
 /** Request that a new project be created. The result is an `Operation` which can be used to track the creation process. This process usually takes a few seconds, but can sometimes take much longer. The tracking `Operation` is automatically deleted after a few hours, so there is no need to call `DeleteOperation`. */
-export const createProjects: API.OperationMethod<CreateProjectsRequest, CreateProjectsResponse, CreateProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjects: API.OperationMethod<
+  CreateProjectsRequest,
+  CreateProjectsResponse,
+  CreateProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsRequest,
   output: CreateProjectsResponse,
   errors: [],
@@ -1662,7 +2077,12 @@ export const PatchProjectsResponse = Operation;
 export type PatchProjectsError = DefaultErrors;
 
 /** Updates the `display_name` and labels of the project identified by the specified `name` (for example, `projects/415104041262`). Deleting all labels requires an update mask for labels field. The caller must have `resourcemanager.projects.update` permission for this project. */
-export const patchProjects: API.OperationMethod<PatchProjectsRequest, PatchProjectsResponse, PatchProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjects: API.OperationMethod<
+  PatchProjectsRequest,
+  PatchProjectsResponse,
+  PatchProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsRequest,
   output: PatchProjectsResponse,
   errors: [],
@@ -1679,7 +2099,11 @@ export const MoveProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MoveProjectRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveProjectsRequest>;
 
@@ -1689,7 +2113,12 @@ export const MoveProjectsResponse = Operation;
 export type MoveProjectsError = DefaultErrors;
 
 /** Move a project to another place in your resource hierarchy, under a new resource parent. Returns an operation which can be used to track the process of the project move workflow. Upon success, the `Operation.response` field will be populated with the moved project. The caller must have `resourcemanager.projects.move` permission on the project, on the project's current and proposed new parent. If project has no current parent, or it currently does not have an associated organization resource, you will also need the `resourcemanager.projects.setIamPolicy` permission in the project. */
-export const moveProjects: API.OperationMethod<MoveProjectsRequest, MoveProjectsResponse, MoveProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveProjects: API.OperationMethod<
+  MoveProjectsRequest,
+  MoveProjectsResponse,
+  MoveProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveProjectsRequest,
   output: MoveProjectsResponse,
   errors: [],
@@ -1713,7 +2142,12 @@ export const DeleteProjectsResponse = Operation;
 export type DeleteProjectsError = DefaultErrors;
 
 /** Marks the project identified by the specified `name` (for example, `projects/415104041262`) for deletion. This method will only affect the project if it has a lifecycle state of ACTIVE. This method changes the Project's lifecycle state from ACTIVE to DELETE_REQUESTED. The deletion starts at an unspecified time, at which point the Project is no longer accessible. Until the deletion completes, you can check the lifecycle state checked by retrieving the project with GetProject, and the project remains visible to ListProjects. However, you cannot update the project. After the deletion completes, the project is not retrievable by the GetProject, ListProjects, and SearchProjects methods. The caller must have `resourcemanager.projects.delete` permissions for this project. */
-export const deleteProjects: API.OperationMethod<DeleteProjectsRequest, DeleteProjectsResponse, DeleteProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjects: API.OperationMethod<
+  DeleteProjectsRequest,
+  DeleteProjectsResponse,
+  DeleteProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsRequest,
   output: DeleteProjectsResponse,
   errors: [],
@@ -1730,7 +2164,11 @@ export const UndeleteProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteProjectRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteProjectsRequest>;
 
@@ -1740,7 +2178,12 @@ export const UndeleteProjectsResponse = Operation;
 export type UndeleteProjectsError = DefaultErrors;
 
 /** Restores the project identified by the specified `name` (for example, `projects/415104041262`). You can only use this method for a project that has a lifecycle state of DELETE_REQUESTED. After deletion starts, the project cannot be restored. The caller must have `resourcemanager.projects.undelete` permission for this project. */
-export const undeleteProjects: API.OperationMethod<UndeleteProjectsRequest, UndeleteProjectsResponse, UndeleteProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteProjects: API.OperationMethod<
+  UndeleteProjectsRequest,
+  UndeleteProjectsResponse,
+  UndeleteProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteProjectsRequest,
   output: UndeleteProjectsResponse,
   errors: [],
@@ -1757,7 +2200,11 @@ export const GetIamPolicyProjectsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsRequest>;
 
@@ -1767,7 +2214,12 @@ export const GetIamPolicyProjectsResponse = Policy;
 export type GetIamPolicyProjectsError = DefaultErrors;
 
 /** Returns the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. Permission is denied if the policy or the resource do not exist. */
-export const getIamPolicyProjects: API.OperationMethod<GetIamPolicyProjectsRequest, GetIamPolicyProjectsResponse, GetIamPolicyProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjects: API.OperationMethod<
+  GetIamPolicyProjectsRequest,
+  GetIamPolicyProjectsResponse,
+  GetIamPolicyProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsRequest,
   output: GetIamPolicyProjectsResponse,
   errors: [],
@@ -1784,7 +2236,11 @@ export const SetIamPolicyProjectsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsRequest>;
 
@@ -1794,7 +2250,12 @@ export const SetIamPolicyProjectsResponse = Policy;
 export type SetIamPolicyProjectsError = DefaultErrors;
 
 /** Sets the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. CAUTION: This method will replace the existing policy, and cannot be used to append additional IAM settings. Note: Removing service accounts from policies or changing their roles can render services completely inoperable. It is important to understand how the service account is being used before removing or updating its roles. The following constraints apply when using `setIamPolicy()`: + Project does not support `allUsers` and `allAuthenticatedUsers` as `members` in a `Binding` of a `Policy`. + The owner role can be granted to a `user`, `serviceAccount`, or a group that is part of an organization. For example, group@myownpersonaldomain.com could be added as an owner to a project in the myownpersonaldomain.com organization, but not the examplepetstore.com organization. + Service accounts can be made owners of a project directly without any restrictions. However, to be added as an owner, a user must be invited using the Cloud Platform console and must accept the invitation. + A user cannot be granted the owner role using `setIamPolicy()`. The user must be granted the owner role using the Cloud Platform Console and must explicitly accept the invitation. + Invitations to grant the owner role cannot be sent using `setIamPolicy()`; they must be sent only using the Cloud Platform Console. + If the project is not part of an organization, there must be at least one owner who has accepted the Terms of Service (ToS) agreement in the policy. Calling `setIamPolicy()` to remove the last ToS-accepted owner from the policy will fail. This restriction also applies to legacy projects that no longer have owners who have accepted the ToS. Edits to IAM policies will be rejected until the lack of a ToS-accepting owner is rectified. If the project is part of an organization, you can remove all owners, potentially making the organization inaccessible. */
-export const setIamPolicyProjects: API.OperationMethod<SetIamPolicyProjectsRequest, SetIamPolicyProjectsResponse, SetIamPolicyProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjects: API.OperationMethod<
+  SetIamPolicyProjectsRequest,
+  SetIamPolicyProjectsResponse,
+  SetIamPolicyProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsRequest,
   output: SetIamPolicyProjectsResponse,
   errors: [],
@@ -1811,7 +2272,11 @@ export const TestIamPermissionsProjectsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/projects/{projectsId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/projects/{projectsId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsRequest>;
 
@@ -1821,7 +2286,12 @@ export const TestIamPermissionsProjectsResponse = TestIamPermissionsResponse;
 export type TestIamPermissionsProjectsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123.. */
-export const testIamPermissionsProjects: API.OperationMethod<TestIamPermissionsProjectsRequest, TestIamPermissionsProjectsResponse, TestIamPermissionsProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjects: API.OperationMethod<
+  TestIamPermissionsProjectsRequest,
+  TestIamPermissionsProjectsResponse,
+  TestIamPermissionsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsRequest,
   output: TestIamPermissionsProjectsResponse,
   errors: [],
@@ -1835,7 +2305,10 @@ export interface GetLocationsTagBindingCollectionsRequest {
 export const GetLocationsTagBindingCollectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetLocationsTagBindingCollectionsRequest>;
 
@@ -1845,7 +2318,12 @@ export const GetLocationsTagBindingCollectionsResponse = TagBindingCollection;
 export type GetLocationsTagBindingCollectionsError = DefaultErrors;
 
 /** Returns tag bindings directly attached to a GCP resource. */
-export const getLocationsTagBindingCollections: API.OperationMethod<GetLocationsTagBindingCollectionsRequest, GetLocationsTagBindingCollectionsResponse, GetLocationsTagBindingCollectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLocationsTagBindingCollections: API.OperationMethod<
+  GetLocationsTagBindingCollectionsRequest,
+  GetLocationsTagBindingCollectionsResponse,
+  GetLocationsTagBindingCollectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLocationsTagBindingCollectionsRequest,
   output: GetLocationsTagBindingCollectionsResponse,
   errors: [],
@@ -1865,7 +2343,11 @@ export const PatchLocationsTagBindingCollectionsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(TagBindingCollection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchLocationsTagBindingCollectionsRequest>;
 
@@ -1875,7 +2357,12 @@ export const PatchLocationsTagBindingCollectionsResponse = Operation;
 export type PatchLocationsTagBindingCollectionsError = DefaultErrors;
 
 /** Updates tag bindings directly attached to a GCP resource. Update_mask can be kept empty or "*". */
-export const patchLocationsTagBindingCollections: API.OperationMethod<PatchLocationsTagBindingCollectionsRequest, PatchLocationsTagBindingCollectionsResponse, PatchLocationsTagBindingCollectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchLocationsTagBindingCollections: API.OperationMethod<
+  PatchLocationsTagBindingCollectionsRequest,
+  PatchLocationsTagBindingCollectionsResponse,
+  PatchLocationsTagBindingCollectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchLocationsTagBindingCollectionsRequest,
   output: PatchLocationsTagBindingCollectionsResponse,
   errors: [],
@@ -1889,17 +2376,27 @@ export interface GetLocationsEffectiveTagBindingCollectionsRequest {
 export const GetLocationsEffectiveTagBindingCollectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v3/locations/{locationsId}/effectiveTagBindingCollections/{effectiveTagBindingCollectionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v3/locations/{locationsId}/effectiveTagBindingCollections/{effectiveTagBindingCollectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetLocationsEffectiveTagBindingCollectionsRequest>;
 
-export type GetLocationsEffectiveTagBindingCollectionsResponse = EffectiveTagBindingCollection;
-export const GetLocationsEffectiveTagBindingCollectionsResponse = EffectiveTagBindingCollection;
+export type GetLocationsEffectiveTagBindingCollectionsResponse =
+  EffectiveTagBindingCollection;
+export const GetLocationsEffectiveTagBindingCollectionsResponse =
+  EffectiveTagBindingCollection;
 
 export type GetLocationsEffectiveTagBindingCollectionsError = DefaultErrors;
 
 /** Returns effective tag bindings on a GCP resource. */
-export const getLocationsEffectiveTagBindingCollections: API.OperationMethod<GetLocationsEffectiveTagBindingCollectionsRequest, GetLocationsEffectiveTagBindingCollectionsResponse, GetLocationsEffectiveTagBindingCollectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLocationsEffectiveTagBindingCollections: API.OperationMethod<
+  GetLocationsEffectiveTagBindingCollectionsRequest,
+  GetLocationsEffectiveTagBindingCollectionsResponse,
+  GetLocationsEffectiveTagBindingCollectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLocationsEffectiveTagBindingCollectionsRequest,
   output: GetLocationsEffectiveTagBindingCollectionsResponse,
   errors: [],
@@ -1929,7 +2426,12 @@ export const ListTagBindingsResponse_Op = ListTagBindingsResponse;
 export type ListTagBindingsError = DefaultErrors;
 
 /** Lists the TagBindings for the given Google Cloud resource, as specified with `parent`. NOTE: The `parent` field is expected to be a full resource name: https://cloud.google.com/apis/design/resource_names#full_resource_name */
-export const listTagBindings: API.PaginatedOperationMethod<ListTagBindingsRequest, ListTagBindingsResponse_Op, ListTagBindingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTagBindings: API.PaginatedOperationMethod<
+  ListTagBindingsRequest,
+  ListTagBindingsResponse_Op,
+  ListTagBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTagBindingsRequest,
   output: ListTagBindingsResponse_Op,
   errors: [],
@@ -1947,7 +2449,9 @@ export interface CreateTagBindingsRequest {
 }
 
 export const CreateTagBindingsRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(TagBinding).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v3/tagBindings", hasBody: true }),
@@ -1960,7 +2464,12 @@ export const CreateTagBindingsResponse = Operation;
 export type CreateTagBindingsError = DefaultErrors;
 
 /** Creates a TagBinding between a TagValue and a Google Cloud resource. */
-export const createTagBindings: API.OperationMethod<CreateTagBindingsRequest, CreateTagBindingsResponse, CreateTagBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createTagBindings: API.OperationMethod<
+  CreateTagBindingsRequest,
+  CreateTagBindingsResponse,
+  CreateTagBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateTagBindingsRequest,
   output: CreateTagBindingsResponse,
   errors: [],
@@ -1984,7 +2493,12 @@ export const DeleteTagBindingsResponse = Operation;
 export type DeleteTagBindingsError = DefaultErrors;
 
 /** Deletes a TagBinding. */
-export const deleteTagBindings: API.OperationMethod<DeleteTagBindingsRequest, DeleteTagBindingsResponse, DeleteTagBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTagBindings: API.OperationMethod<
+  DeleteTagBindingsRequest,
+  DeleteTagBindingsResponse,
+  DeleteTagBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTagBindingsRequest,
   output: DeleteTagBindingsResponse,
   errors: [],
@@ -2014,7 +2528,12 @@ export const ListEffectiveTagsResponse_Op = ListEffectiveTagsResponse;
 export type ListEffectiveTagsError = DefaultErrors;
 
 /** Return a list of effective tags for the given Google Cloud resource, as specified in `parent`. */
-export const listEffectiveTags: API.PaginatedOperationMethod<ListEffectiveTagsRequest, ListEffectiveTagsResponse_Op, ListEffectiveTagsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listEffectiveTags: API.PaginatedOperationMethod<
+  ListEffectiveTagsRequest,
+  ListEffectiveTagsResponse_Op,
+  ListEffectiveTagsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListEffectiveTagsRequest,
   output: ListEffectiveTagsResponse_Op,
   errors: [],
@@ -2048,7 +2567,12 @@ export const ListTagKeysResponse_Op = ListTagKeysResponse;
 export type ListTagKeysError = DefaultErrors;
 
 /** Lists all TagKeys for a parent resource. */
-export const listTagKeys: API.PaginatedOperationMethod<ListTagKeysRequest, ListTagKeysResponse_Op, ListTagKeysError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTagKeys: API.PaginatedOperationMethod<
+  ListTagKeysRequest,
+  ListTagKeysResponse_Op,
+  ListTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTagKeysRequest,
   output: ListTagKeysResponse_Op,
   errors: [],
@@ -2076,7 +2600,12 @@ export const GetTagKeysResponse = TagKey;
 export type GetTagKeysError = DefaultErrors;
 
 /** Retrieves a TagKey. This method will return `PERMISSION_DENIED` if the key does not exist or the user does not have permission to view it. */
-export const getTagKeys: API.OperationMethod<GetTagKeysRequest, GetTagKeysResponse, GetTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTagKeys: API.OperationMethod<
+  GetTagKeysRequest,
+  GetTagKeysResponse,
+  GetTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTagKeysRequest,
   output: GetTagKeysResponse,
   errors: [],
@@ -2100,7 +2629,12 @@ export const GetNamespacedTagKeysResponse = TagKey;
 export type GetNamespacedTagKeysError = DefaultErrors;
 
 /** Retrieves a TagKey by its namespaced name. This method will return `PERMISSION_DENIED` if the key does not exist or the user does not have permission to view it. */
-export const getNamespacedTagKeys: API.OperationMethod<GetNamespacedTagKeysRequest, GetNamespacedTagKeysResponse, GetNamespacedTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getNamespacedTagKeys: API.OperationMethod<
+  GetNamespacedTagKeysRequest,
+  GetNamespacedTagKeysResponse,
+  GetNamespacedTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetNamespacedTagKeysRequest,
   output: GetNamespacedTagKeysResponse,
   errors: [],
@@ -2114,7 +2648,9 @@ export interface CreateTagKeysRequest {
 }
 
 export const CreateTagKeysRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(TagKey).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v3/tagKeys", hasBody: true }),
@@ -2127,7 +2663,12 @@ export const CreateTagKeysResponse = Operation;
 export type CreateTagKeysError = DefaultErrors;
 
 /** Creates a new TagKey. If another request with the same parameters is sent while the original request is in process, the second request will receive an error. A maximum of 1000 TagKeys can exist under a parent at any given time. */
-export const createTagKeys: API.OperationMethod<CreateTagKeysRequest, CreateTagKeysResponse, CreateTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createTagKeys: API.OperationMethod<
+  CreateTagKeysRequest,
+  CreateTagKeysResponse,
+  CreateTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateTagKeysRequest,
   output: CreateTagKeysResponse,
   errors: [],
@@ -2147,7 +2688,9 @@ export interface PatchTagKeysRequest {
 export const PatchTagKeysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(TagKey).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "PATCH", path: "v3/tagKeys/{tagKeysId}", hasBody: true }),
@@ -2160,7 +2703,12 @@ export const PatchTagKeysResponse = Operation;
 export type PatchTagKeysError = DefaultErrors;
 
 /** Updates the attributes of the TagKey resource. */
-export const patchTagKeys: API.OperationMethod<PatchTagKeysRequest, PatchTagKeysResponse, PatchTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTagKeys: API.OperationMethod<
+  PatchTagKeysRequest,
+  PatchTagKeysResponse,
+  PatchTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTagKeysRequest,
   output: PatchTagKeysResponse,
   errors: [],
@@ -2177,7 +2725,9 @@ export interface DeleteTagKeysRequest {
 
 export const DeleteTagKeysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v3/tagKeys/{tagKeysId}" }),
@@ -2190,7 +2740,12 @@ export const DeleteTagKeysResponse = Operation;
 export type DeleteTagKeysError = DefaultErrors;
 
 /** Deletes a TagKey. The TagKey cannot be deleted if it has any child TagValues. */
-export const deleteTagKeys: API.OperationMethod<DeleteTagKeysRequest, DeleteTagKeysResponse, DeleteTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTagKeys: API.OperationMethod<
+  DeleteTagKeysRequest,
+  DeleteTagKeysResponse,
+  DeleteTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTagKeysRequest,
   output: DeleteTagKeysResponse,
   errors: [],
@@ -2207,7 +2762,11 @@ export const GetIamPolicyTagKeysRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/tagKeys/{tagKeysId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/tagKeys/{tagKeysId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyTagKeysRequest>;
 
@@ -2217,7 +2776,12 @@ export const GetIamPolicyTagKeysResponse = Policy;
 export type GetIamPolicyTagKeysError = DefaultErrors;
 
 /** Gets the access control policy for a TagKey. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". The caller must have `cloudresourcemanager.googleapis.com/tagKeys.getIamPolicy` permission on the specified TagKey. */
-export const getIamPolicyTagKeys: API.OperationMethod<GetIamPolicyTagKeysRequest, GetIamPolicyTagKeysResponse, GetIamPolicyTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyTagKeys: API.OperationMethod<
+  GetIamPolicyTagKeysRequest,
+  GetIamPolicyTagKeysResponse,
+  GetIamPolicyTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyTagKeysRequest,
   output: GetIamPolicyTagKeysResponse,
   errors: [],
@@ -2234,7 +2798,11 @@ export const SetIamPolicyTagKeysRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/tagKeys/{tagKeysId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/tagKeys/{tagKeysId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyTagKeysRequest>;
 
@@ -2244,7 +2812,12 @@ export const SetIamPolicyTagKeysResponse = Policy;
 export type SetIamPolicyTagKeysError = DefaultErrors;
 
 /** Sets the access control policy on a TagKey, replacing any existing policy. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". The caller must have `resourcemanager.tagKeys.setIamPolicy` permission on the identified tagValue. */
-export const setIamPolicyTagKeys: API.OperationMethod<SetIamPolicyTagKeysRequest, SetIamPolicyTagKeysResponse, SetIamPolicyTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyTagKeys: API.OperationMethod<
+  SetIamPolicyTagKeysRequest,
+  SetIamPolicyTagKeysResponse,
+  SetIamPolicyTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyTagKeysRequest,
   output: SetIamPolicyTagKeysResponse,
   errors: [],
@@ -2261,7 +2834,11 @@ export const TestIamPermissionsTagKeysRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/tagKeys/{tagKeysId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/tagKeys/{tagKeysId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsTagKeysRequest>;
 
@@ -2271,7 +2848,12 @@ export const TestIamPermissionsTagKeysResponse = TestIamPermissionsResponse;
 export type TestIamPermissionsTagKeysError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified TagKey. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". There are no permissions required for making this API call. */
-export const testIamPermissionsTagKeys: API.OperationMethod<TestIamPermissionsTagKeysRequest, TestIamPermissionsTagKeysResponse, TestIamPermissionsTagKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsTagKeys: API.OperationMethod<
+  TestIamPermissionsTagKeysRequest,
+  TestIamPermissionsTagKeysResponse,
+  TestIamPermissionsTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsTagKeysRequest,
   output: TestIamPermissionsTagKeysResponse,
   errors: [],
@@ -2301,7 +2883,12 @@ export const ListTagValuesResponse_Op = ListTagValuesResponse;
 export type ListTagValuesError = DefaultErrors;
 
 /** Lists all TagValues for a specific TagKey. */
-export const listTagValues: API.PaginatedOperationMethod<ListTagValuesRequest, ListTagValuesResponse_Op, ListTagValuesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTagValues: API.PaginatedOperationMethod<
+  ListTagValuesRequest,
+  ListTagValuesResponse_Op,
+  ListTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTagValuesRequest,
   output: ListTagValuesResponse_Op,
   errors: [],
@@ -2329,7 +2916,12 @@ export const GetTagValuesResponse = TagValue;
 export type GetTagValuesError = DefaultErrors;
 
 /** Retrieves a TagValue. This method will return `PERMISSION_DENIED` if the value does not exist or the user does not have permission to view it. */
-export const getTagValues: API.OperationMethod<GetTagValuesRequest, GetTagValuesResponse, GetTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTagValues: API.OperationMethod<
+  GetTagValuesRequest,
+  GetTagValuesResponse,
+  GetTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTagValuesRequest,
   output: GetTagValuesResponse,
   errors: [],
@@ -2353,7 +2945,12 @@ export const GetNamespacedTagValuesResponse = TagValue;
 export type GetNamespacedTagValuesError = DefaultErrors;
 
 /** Retrieves a TagValue by its namespaced name. This method will return `PERMISSION_DENIED` if the value does not exist or the user does not have permission to view it. */
-export const getNamespacedTagValues: API.OperationMethod<GetNamespacedTagValuesRequest, GetNamespacedTagValuesResponse, GetNamespacedTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getNamespacedTagValues: API.OperationMethod<
+  GetNamespacedTagValuesRequest,
+  GetNamespacedTagValuesResponse,
+  GetNamespacedTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetNamespacedTagValuesRequest,
   output: GetNamespacedTagValuesResponse,
   errors: [],
@@ -2367,7 +2964,9 @@ export interface CreateTagValuesRequest {
 }
 
 export const CreateTagValuesRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(TagValue).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v3/tagValues", hasBody: true }),
@@ -2380,7 +2979,12 @@ export const CreateTagValuesResponse = Operation;
 export type CreateTagValuesError = DefaultErrors;
 
 /** Creates a TagValue as a child of the specified TagKey. If a another request with the same parameters is sent while the original request is in process the second request will receive an error. A maximum of 1000 TagValues can exist under a TagKey at any given time. */
-export const createTagValues: API.OperationMethod<CreateTagValuesRequest, CreateTagValuesResponse, CreateTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createTagValues: API.OperationMethod<
+  CreateTagValuesRequest,
+  CreateTagValuesResponse,
+  CreateTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateTagValuesRequest,
   output: CreateTagValuesResponse,
   errors: [],
@@ -2400,10 +3004,16 @@ export interface PatchTagValuesRequest {
 export const PatchTagValuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(TagValue).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v3/tagValues/{tagValuesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v3/tagValues/{tagValuesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchTagValuesRequest>;
 
@@ -2413,7 +3023,12 @@ export const PatchTagValuesResponse = Operation;
 export type PatchTagValuesError = DefaultErrors;
 
 /** Updates the attributes of the TagValue resource. */
-export const patchTagValues: API.OperationMethod<PatchTagValuesRequest, PatchTagValuesResponse, PatchTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTagValues: API.OperationMethod<
+  PatchTagValuesRequest,
+  PatchTagValuesResponse,
+  PatchTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTagValuesRequest,
   output: PatchTagValuesResponse,
   errors: [],
@@ -2430,7 +3045,9 @@ export interface DeleteTagValuesRequest {
 
 export const DeleteTagValuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v3/tagValues/{tagValuesId}" }),
@@ -2443,7 +3060,12 @@ export const DeleteTagValuesResponse = Operation;
 export type DeleteTagValuesError = DefaultErrors;
 
 /** Deletes a TagValue. The TagValue cannot have any bindings when it is deleted. */
-export const deleteTagValues: API.OperationMethod<DeleteTagValuesRequest, DeleteTagValuesResponse, DeleteTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTagValues: API.OperationMethod<
+  DeleteTagValuesRequest,
+  DeleteTagValuesResponse,
+  DeleteTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTagValuesRequest,
   output: DeleteTagValuesResponse,
   errors: [],
@@ -2460,7 +3082,11 @@ export const GetIamPolicyTagValuesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/tagValues/{tagValuesId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/tagValues/{tagValuesId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyTagValuesRequest>;
 
@@ -2470,7 +3096,12 @@ export const GetIamPolicyTagValuesResponse = Policy;
 export type GetIamPolicyTagValuesError = DefaultErrors;
 
 /** Gets the access control policy for a TagValue. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. The caller must have the `cloudresourcemanager.googleapis.com/tagValues.getIamPolicy` permission on the identified TagValue to get the access control policy. */
-export const getIamPolicyTagValues: API.OperationMethod<GetIamPolicyTagValuesRequest, GetIamPolicyTagValuesResponse, GetIamPolicyTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyTagValues: API.OperationMethod<
+  GetIamPolicyTagValuesRequest,
+  GetIamPolicyTagValuesResponse,
+  GetIamPolicyTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyTagValuesRequest,
   output: GetIamPolicyTagValuesResponse,
   errors: [],
@@ -2487,7 +3118,11 @@ export const SetIamPolicyTagValuesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/tagValues/{tagValuesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/tagValues/{tagValuesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyTagValuesRequest>;
 
@@ -2497,7 +3132,12 @@ export const SetIamPolicyTagValuesResponse = Policy;
 export type SetIamPolicyTagValuesError = DefaultErrors;
 
 /** Sets the access control policy on a TagValue, replacing any existing policy. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. The caller must have `resourcemanager.tagValues.setIamPolicy` permission on the identified tagValue. */
-export const setIamPolicyTagValues: API.OperationMethod<SetIamPolicyTagValuesRequest, SetIamPolicyTagValuesResponse, SetIamPolicyTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyTagValues: API.OperationMethod<
+  SetIamPolicyTagValuesRequest,
+  SetIamPolicyTagValuesResponse,
+  SetIamPolicyTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyTagValuesRequest,
   output: SetIamPolicyTagValuesResponse,
   errors: [],
@@ -2514,7 +3154,11 @@ export const TestIamPermissionsTagValuesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/tagValues/{tagValuesId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/tagValues/{tagValuesId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsTagValuesRequest>;
 
@@ -2524,7 +3168,12 @@ export const TestIamPermissionsTagValuesResponse = TestIamPermissionsResponse;
 export type TestIamPermissionsTagValuesError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified TagValue. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. There are no permissions required for making this API call. */
-export const testIamPermissionsTagValues: API.OperationMethod<TestIamPermissionsTagValuesRequest, TestIamPermissionsTagValuesResponse, TestIamPermissionsTagValuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsTagValues: API.OperationMethod<
+  TestIamPermissionsTagValuesRequest,
+  TestIamPermissionsTagValuesResponse,
+  TestIamPermissionsTagValuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsTagValuesRequest,
   output: TestIamPermissionsTagValuesResponse,
   errors: [],
@@ -2541,10 +3190,16 @@ export interface CreateTagValuesTagHoldsRequest {
 
 export const CreateTagValuesTagHoldsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(TagHold).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v3/tagValues/{tagValuesId}/tagHolds", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v3/tagValues/{tagValuesId}/tagHolds",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateTagValuesTagHoldsRequest>;
 
@@ -2554,7 +3209,12 @@ export const CreateTagValuesTagHoldsResponse = Operation;
 export type CreateTagValuesTagHoldsError = DefaultErrors;
 
 /** Creates a TagHold. Returns ALREADY_EXISTS if a TagHold with the same resource and origin exists under the same TagValue. */
-export const createTagValuesTagHolds: API.OperationMethod<CreateTagValuesTagHoldsRequest, CreateTagValuesTagHoldsResponse, CreateTagValuesTagHoldsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createTagValuesTagHolds: API.OperationMethod<
+  CreateTagValuesTagHoldsRequest,
+  CreateTagValuesTagHoldsResponse,
+  CreateTagValuesTagHoldsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateTagValuesTagHoldsRequest,
   output: CreateTagValuesTagHoldsResponse,
   errors: [],
@@ -2569,9 +3229,14 @@ export interface DeleteTagValuesTagHoldsRequest {
 
 export const DeleteTagValuesTagHoldsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v3/tagValues/{tagValuesId}/tagHolds/{tagHoldsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v3/tagValues/{tagValuesId}/tagHolds/{tagHoldsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteTagValuesTagHoldsRequest>;
 
@@ -2581,7 +3246,12 @@ export const DeleteTagValuesTagHoldsResponse = Operation;
 export type DeleteTagValuesTagHoldsError = DefaultErrors;
 
 /** Deletes a TagHold. */
-export const deleteTagValuesTagHolds: API.OperationMethod<DeleteTagValuesTagHoldsRequest, DeleteTagValuesTagHoldsResponse, DeleteTagValuesTagHoldsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTagValuesTagHolds: API.OperationMethod<
+  DeleteTagValuesTagHoldsRequest,
+  DeleteTagValuesTagHoldsResponse,
+  DeleteTagValuesTagHoldsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTagValuesTagHoldsRequest,
   output: DeleteTagValuesTagHoldsResponse,
   errors: [],
@@ -2614,7 +3284,12 @@ export const ListTagValuesTagHoldsResponse = ListTagHoldsResponse;
 export type ListTagValuesTagHoldsError = DefaultErrors;
 
 /** Lists TagHolds under a TagValue. */
-export const listTagValuesTagHolds: API.PaginatedOperationMethod<ListTagValuesTagHoldsRequest, ListTagValuesTagHoldsResponse, ListTagValuesTagHoldsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTagValuesTagHolds: API.PaginatedOperationMethod<
+  ListTagValuesTagHoldsRequest,
+  ListTagValuesTagHoldsResponse,
+  ListTagValuesTagHoldsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTagValuesTagHoldsRequest,
   output: ListTagValuesTagHoldsResponse,
   errors: [],
@@ -2623,4 +3298,3 @@ export const listTagValuesTagHolds: API.PaginatedOperationMethod<ListTagValuesTa
     outputToken: "nextPageToken",
   },
 }));
-

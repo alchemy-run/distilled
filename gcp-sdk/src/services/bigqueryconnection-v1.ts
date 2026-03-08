@@ -28,9 +28,14 @@ export interface CloudResourceProperties {
   serviceAccountId?: string;
 }
 
-export const CloudResourceProperties: Schema.Schema<CloudResourceProperties> = Schema.suspend(() => Schema.Struct({
-  serviceAccountId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudResourceProperties" }) as any as Schema.Schema<CloudResourceProperties>;
+export const CloudResourceProperties: Schema.Schema<CloudResourceProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      serviceAccountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudResourceProperties",
+  }) as any as Schema.Schema<CloudResourceProperties>;
 
 export interface CloudSpannerProperties {
   /** Optional. Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as `SELECT` and `INSERT`. Other users should only use roles provided by their Cloud Spanner admins. For more details, see [About fine-grained access control] (https://cloud.google.com/spanner/docs/fgac-about). REQUIRES: The database role name must start with a letter, and can only contain letters, numbers, and underscores. */
@@ -47,32 +52,49 @@ export interface CloudSpannerProperties {
   useServerlessAnalytics?: boolean;
 }
 
-export const CloudSpannerProperties: Schema.Schema<CloudSpannerProperties> = Schema.suspend(() => Schema.Struct({
-  databaseRole: Schema.optional(Schema.String),
-  useParallelism: Schema.optional(Schema.Boolean),
-  database: Schema.optional(Schema.String),
-  useDataBoost: Schema.optional(Schema.Boolean),
-  maxParallelism: Schema.optional(Schema.Number),
-  useServerlessAnalytics: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CloudSpannerProperties" }) as any as Schema.Schema<CloudSpannerProperties>;
+export const CloudSpannerProperties: Schema.Schema<CloudSpannerProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      databaseRole: Schema.optional(Schema.String),
+      useParallelism: Schema.optional(Schema.Boolean),
+      database: Schema.optional(Schema.String),
+      useDataBoost: Schema.optional(Schema.Boolean),
+      maxParallelism: Schema.optional(Schema.Number),
+      useServerlessAnalytics: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CloudSpannerProperties",
+  }) as any as Schema.Schema<CloudSpannerProperties>;
 
 export interface ConnectorConfigurationPrivateServiceConnect {
   /** Required. Network Attachment name in the format of `projects/{project}/regions/{region}/networkAttachments/{networkattachment}`. */
   networkAttachment?: string;
 }
 
-export const ConnectorConfigurationPrivateServiceConnect: Schema.Schema<ConnectorConfigurationPrivateServiceConnect> = Schema.suspend(() => Schema.Struct({
-  networkAttachment: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectorConfigurationPrivateServiceConnect" }) as any as Schema.Schema<ConnectorConfigurationPrivateServiceConnect>;
+export const ConnectorConfigurationPrivateServiceConnect: Schema.Schema<ConnectorConfigurationPrivateServiceConnect> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      networkAttachment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationPrivateServiceConnect",
+  }) as any as Schema.Schema<ConnectorConfigurationPrivateServiceConnect>;
 
 export interface ConnectorConfigurationNetwork {
   /** Private Service Connect networking configuration. */
   privateServiceConnect?: ConnectorConfigurationPrivateServiceConnect;
 }
 
-export const ConnectorConfigurationNetwork: Schema.Schema<ConnectorConfigurationNetwork> = Schema.suspend(() => Schema.Struct({
-  privateServiceConnect: Schema.optional(ConnectorConfigurationPrivateServiceConnect),
-})).annotate({ identifier: "ConnectorConfigurationNetwork" }) as any as Schema.Schema<ConnectorConfigurationNetwork>;
+export const ConnectorConfigurationNetwork: Schema.Schema<ConnectorConfigurationNetwork> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      privateServiceConnect: Schema.optional(
+        ConnectorConfigurationPrivateServiceConnect,
+      ),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationNetwork",
+  }) as any as Schema.Schema<ConnectorConfigurationNetwork>;
 
 export interface ConnectorConfigurationAsset {
   /** Name of the database. */
@@ -81,10 +103,15 @@ export interface ConnectorConfigurationAsset {
   googleCloudResource?: string;
 }
 
-export const ConnectorConfigurationAsset: Schema.Schema<ConnectorConfigurationAsset> = Schema.suspend(() => Schema.Struct({
-  database: Schema.optional(Schema.String),
-  googleCloudResource: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectorConfigurationAsset" }) as any as Schema.Schema<ConnectorConfigurationAsset>;
+export const ConnectorConfigurationAsset: Schema.Schema<ConnectorConfigurationAsset> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      database: Schema.optional(Schema.String),
+      googleCloudResource: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationAsset",
+  }) as any as Schema.Schema<ConnectorConfigurationAsset>;
 
 export interface ConnectorConfigurationSecret {
   /** Output only. Indicates type of secret. Can be used to check type of stored secret value even if it's `INPUT_ONLY`. */
@@ -93,10 +120,15 @@ export interface ConnectorConfigurationSecret {
   plaintext?: string;
 }
 
-export const ConnectorConfigurationSecret: Schema.Schema<ConnectorConfigurationSecret> = Schema.suspend(() => Schema.Struct({
-  secretType: Schema.optional(Schema.String),
-  plaintext: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectorConfigurationSecret" }) as any as Schema.Schema<ConnectorConfigurationSecret>;
+export const ConnectorConfigurationSecret: Schema.Schema<ConnectorConfigurationSecret> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      secretType: Schema.optional(Schema.String),
+      plaintext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationSecret",
+  }) as any as Schema.Schema<ConnectorConfigurationSecret>;
 
 export interface ConnectorConfigurationUsernamePassword {
   /** Required. Username. */
@@ -105,10 +137,15 @@ export interface ConnectorConfigurationUsernamePassword {
   password?: ConnectorConfigurationSecret;
 }
 
-export const ConnectorConfigurationUsernamePassword: Schema.Schema<ConnectorConfigurationUsernamePassword> = Schema.suspend(() => Schema.Struct({
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(ConnectorConfigurationSecret),
-})).annotate({ identifier: "ConnectorConfigurationUsernamePassword" }) as any as Schema.Schema<ConnectorConfigurationUsernamePassword>;
+export const ConnectorConfigurationUsernamePassword: Schema.Schema<ConnectorConfigurationUsernamePassword> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(ConnectorConfigurationSecret),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationUsernamePassword",
+  }) as any as Schema.Schema<ConnectorConfigurationUsernamePassword>;
 
 export interface ConnectorConfigurationAuthentication {
   /** Username/password authentication. */
@@ -117,19 +154,29 @@ export interface ConnectorConfigurationAuthentication {
   serviceAccount?: string;
 }
 
-export const ConnectorConfigurationAuthentication: Schema.Schema<ConnectorConfigurationAuthentication> = Schema.suspend(() => Schema.Struct({
-  usernamePassword: Schema.optional(ConnectorConfigurationUsernamePassword),
-  serviceAccount: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectorConfigurationAuthentication" }) as any as Schema.Schema<ConnectorConfigurationAuthentication>;
+export const ConnectorConfigurationAuthentication: Schema.Schema<ConnectorConfigurationAuthentication> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      usernamePassword: Schema.optional(ConnectorConfigurationUsernamePassword),
+      serviceAccount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationAuthentication",
+  }) as any as Schema.Schema<ConnectorConfigurationAuthentication>;
 
 export interface ConnectorConfigurationEndpoint {
   /** Host and port in a format of `hostname:port` as defined in https://www.ietf.org/rfc/rfc3986.html#section-3.2.2 and https://www.ietf.org/rfc/rfc3986.html#section-3.2.3. */
   hostPort?: string;
 }
 
-export const ConnectorConfigurationEndpoint: Schema.Schema<ConnectorConfigurationEndpoint> = Schema.suspend(() => Schema.Struct({
-  hostPort: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectorConfigurationEndpoint" }) as any as Schema.Schema<ConnectorConfigurationEndpoint>;
+export const ConnectorConfigurationEndpoint: Schema.Schema<ConnectorConfigurationEndpoint> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hostPort: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationEndpoint",
+  }) as any as Schema.Schema<ConnectorConfigurationEndpoint>;
 
 export interface ConnectorConfiguration {
   /** Networking configuration. */
@@ -144,13 +191,18 @@ export interface ConnectorConfiguration {
   connectorId?: string;
 }
 
-export const ConnectorConfiguration: Schema.Schema<ConnectorConfiguration> = Schema.suspend(() => Schema.Struct({
-  network: Schema.optional(ConnectorConfigurationNetwork),
-  asset: Schema.optional(ConnectorConfigurationAsset),
-  authentication: Schema.optional(ConnectorConfigurationAuthentication),
-  endpoint: Schema.optional(ConnectorConfigurationEndpoint),
-  connectorId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectorConfiguration" }) as any as Schema.Schema<ConnectorConfiguration>;
+export const ConnectorConfiguration: Schema.Schema<ConnectorConfiguration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      network: Schema.optional(ConnectorConfigurationNetwork),
+      asset: Schema.optional(ConnectorConfigurationAsset),
+      authentication: Schema.optional(ConnectorConfigurationAuthentication),
+      endpoint: Schema.optional(ConnectorConfigurationEndpoint),
+      connectorId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfiguration",
+  }) as any as Schema.Schema<ConnectorConfiguration>;
 
 export interface AwsAccessRole {
   /** The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection. */
@@ -159,37 +211,55 @@ export interface AwsAccessRole {
   identity?: string;
 }
 
-export const AwsAccessRole: Schema.Schema<AwsAccessRole> = Schema.suspend(() => Schema.Struct({
-  iamRoleId: Schema.optional(Schema.String),
-  identity: Schema.optional(Schema.String),
-})).annotate({ identifier: "AwsAccessRole" }) as any as Schema.Schema<AwsAccessRole>;
+export const AwsAccessRole: Schema.Schema<AwsAccessRole> = Schema.suspend(() =>
+  Schema.Struct({
+    iamRoleId: Schema.optional(Schema.String),
+    identity: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AwsAccessRole",
+}) as any as Schema.Schema<AwsAccessRole>;
 
 export interface AwsProperties {
   /** Authentication using Google owned service account to assume into customer's AWS IAM Role. */
   accessRole?: AwsAccessRole;
 }
 
-export const AwsProperties: Schema.Schema<AwsProperties> = Schema.suspend(() => Schema.Struct({
-  accessRole: Schema.optional(AwsAccessRole),
-})).annotate({ identifier: "AwsProperties" }) as any as Schema.Schema<AwsProperties>;
+export const AwsProperties: Schema.Schema<AwsProperties> = Schema.suspend(() =>
+  Schema.Struct({
+    accessRole: Schema.optional(AwsAccessRole),
+  }),
+).annotate({
+  identifier: "AwsProperties",
+}) as any as Schema.Schema<AwsProperties>;
 
 export interface MetastoreServiceConfig {
   /** Optional. Resource name of an existing Dataproc Metastore service. Example: * `projects/[project_id]/locations/[region]/services/[service_id]` */
   metastoreService?: string;
 }
 
-export const MetastoreServiceConfig: Schema.Schema<MetastoreServiceConfig> = Schema.suspend(() => Schema.Struct({
-  metastoreService: Schema.optional(Schema.String),
-})).annotate({ identifier: "MetastoreServiceConfig" }) as any as Schema.Schema<MetastoreServiceConfig>;
+export const MetastoreServiceConfig: Schema.Schema<MetastoreServiceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      metastoreService: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MetastoreServiceConfig",
+  }) as any as Schema.Schema<MetastoreServiceConfig>;
 
 export interface SparkHistoryServerConfig {
   /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection. Example: * `projects/[project_id]/regions/[region]/clusters/[cluster_name]` */
   dataprocCluster?: string;
 }
 
-export const SparkHistoryServerConfig: Schema.Schema<SparkHistoryServerConfig> = Schema.suspend(() => Schema.Struct({
-  dataprocCluster: Schema.optional(Schema.String),
-})).annotate({ identifier: "SparkHistoryServerConfig" }) as any as Schema.Schema<SparkHistoryServerConfig>;
+export const SparkHistoryServerConfig: Schema.Schema<SparkHistoryServerConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataprocCluster: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SparkHistoryServerConfig",
+  }) as any as Schema.Schema<SparkHistoryServerConfig>;
 
 export interface SparkProperties {
   /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of a stored procedure for Apache Spark in BigQuery, the service account is used to connect to the desired resources in Google Cloud. The account ID is in the form of: bqcx--@gcp-sa-bigquery-consp.iam.gserviceaccount.com */
@@ -200,11 +270,16 @@ export interface SparkProperties {
   sparkHistoryServerConfig?: SparkHistoryServerConfig;
 }
 
-export const SparkProperties: Schema.Schema<SparkProperties> = Schema.suspend(() => Schema.Struct({
-  serviceAccountId: Schema.optional(Schema.String),
-  metastoreServiceConfig: Schema.optional(MetastoreServiceConfig),
-  sparkHistoryServerConfig: Schema.optional(SparkHistoryServerConfig),
-})).annotate({ identifier: "SparkProperties" }) as any as Schema.Schema<SparkProperties>;
+export const SparkProperties: Schema.Schema<SparkProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      serviceAccountId: Schema.optional(Schema.String),
+      metastoreServiceConfig: Schema.optional(MetastoreServiceConfig),
+      sparkHistoryServerConfig: Schema.optional(SparkHistoryServerConfig),
+    }),
+).annotate({
+  identifier: "SparkProperties",
+}) as any as Schema.Schema<SparkProperties>;
 
 export interface SalesforceDataCloudProperties {
   /** Output only. A unique Google-owned and Google-generated service account identity for the connection. */
@@ -215,11 +290,16 @@ export interface SalesforceDataCloudProperties {
   instanceUri?: string;
 }
 
-export const SalesforceDataCloudProperties: Schema.Schema<SalesforceDataCloudProperties> = Schema.suspend(() => Schema.Struct({
-  identity: Schema.optional(Schema.String),
-  tenantId: Schema.optional(Schema.String),
-  instanceUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "SalesforceDataCloudProperties" }) as any as Schema.Schema<SalesforceDataCloudProperties>;
+export const SalesforceDataCloudProperties: Schema.Schema<SalesforceDataCloudProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      identity: Schema.optional(Schema.String),
+      tenantId: Schema.optional(Schema.String),
+      instanceUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SalesforceDataCloudProperties",
+  }) as any as Schema.Schema<SalesforceDataCloudProperties>;
 
 export interface AzureProperties {
   /** The id of customer's directory that host the data. */
@@ -238,15 +318,20 @@ export interface AzureProperties {
   clientId?: string;
 }
 
-export const AzureProperties: Schema.Schema<AzureProperties> = Schema.suspend(() => Schema.Struct({
-  customerTenantId: Schema.optional(Schema.String),
-  federatedApplicationClientId: Schema.optional(Schema.String),
-  redirectUri: Schema.optional(Schema.String),
-  application: Schema.optional(Schema.String),
-  identity: Schema.optional(Schema.String),
-  objectId: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AzureProperties" }) as any as Schema.Schema<AzureProperties>;
+export const AzureProperties: Schema.Schema<AzureProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      customerTenantId: Schema.optional(Schema.String),
+      federatedApplicationClientId: Schema.optional(Schema.String),
+      redirectUri: Schema.optional(Schema.String),
+      application: Schema.optional(Schema.String),
+      identity: Schema.optional(Schema.String),
+      objectId: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AzureProperties",
+}) as any as Schema.Schema<AzureProperties>;
 
 export interface CloudSqlCredential {
   /** The password for the credential. */
@@ -255,10 +340,15 @@ export interface CloudSqlCredential {
   username?: string;
 }
 
-export const CloudSqlCredential: Schema.Schema<CloudSqlCredential> = Schema.suspend(() => Schema.Struct({
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudSqlCredential" }) as any as Schema.Schema<CloudSqlCredential>;
+export const CloudSqlCredential: Schema.Schema<CloudSqlCredential> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      password: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudSqlCredential",
+  }) as any as Schema.Schema<CloudSqlCredential>;
 
 export interface CloudSqlProperties {
   /** Output only. The account ID of the service used for the purpose of this connection. When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection. */
@@ -273,13 +363,18 @@ export interface CloudSqlProperties {
   type?: "DATABASE_TYPE_UNSPECIFIED" | "POSTGRES" | "MYSQL" | (string & {});
 }
 
-export const CloudSqlProperties: Schema.Schema<CloudSqlProperties> = Schema.suspend(() => Schema.Struct({
-  serviceAccountId: Schema.optional(Schema.String),
-  instanceId: Schema.optional(Schema.String),
-  database: Schema.optional(Schema.String),
-  credential: Schema.optional(CloudSqlCredential),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudSqlProperties" }) as any as Schema.Schema<CloudSqlProperties>;
+export const CloudSqlProperties: Schema.Schema<CloudSqlProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      serviceAccountId: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+      database: Schema.optional(Schema.String),
+      credential: Schema.optional(CloudSqlCredential),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudSqlProperties",
+  }) as any as Schema.Schema<CloudSqlProperties>;
 
 export interface Connection {
   /** Output only. The last update timestamp of the connection. */
@@ -314,23 +409,25 @@ export interface Connection {
   cloudResource?: CloudResourceProperties;
 }
 
-export const Connection: Schema.Schema<Connection> = Schema.suspend(() => Schema.Struct({
-  lastModifiedTime: Schema.optional(Schema.String),
-  cloudSpanner: Schema.optional(CloudSpannerProperties),
-  configuration: Schema.optional(ConnectorConfiguration),
-  aws: Schema.optional(AwsProperties),
-  spark: Schema.optional(SparkProperties),
-  creationTime: Schema.optional(Schema.String),
-  salesforceDataCloud: Schema.optional(SalesforceDataCloudProperties),
-  hasCredential: Schema.optional(Schema.Boolean),
-  azure: Schema.optional(AzureProperties),
-  name: Schema.optional(Schema.String),
-  kmsKeyName: Schema.optional(Schema.String),
-  friendlyName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  cloudSql: Schema.optional(CloudSqlProperties),
-  cloudResource: Schema.optional(CloudResourceProperties),
-})).annotate({ identifier: "Connection" }) as any as Schema.Schema<Connection>;
+export const Connection: Schema.Schema<Connection> = Schema.suspend(() =>
+  Schema.Struct({
+    lastModifiedTime: Schema.optional(Schema.String),
+    cloudSpanner: Schema.optional(CloudSpannerProperties),
+    configuration: Schema.optional(ConnectorConfiguration),
+    aws: Schema.optional(AwsProperties),
+    spark: Schema.optional(SparkProperties),
+    creationTime: Schema.optional(Schema.String),
+    salesforceDataCloud: Schema.optional(SalesforceDataCloudProperties),
+    hasCredential: Schema.optional(Schema.Boolean),
+    azure: Schema.optional(AzureProperties),
+    name: Schema.optional(Schema.String),
+    kmsKeyName: Schema.optional(Schema.String),
+    friendlyName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    cloudSql: Schema.optional(CloudSqlProperties),
+    cloudResource: Schema.optional(CloudResourceProperties),
+  }),
+).annotate({ identifier: "Connection" }) as any as Schema.Schema<Connection>;
 
 export interface ListConnectionsResponse {
   /** List of connections. */
@@ -339,10 +436,15 @@ export interface ListConnectionsResponse {
   nextPageToken?: string;
 }
 
-export const ListConnectionsResponse: Schema.Schema<ListConnectionsResponse> = Schema.suspend(() => Schema.Struct({
-  connections: Schema.optional(Schema.Array(Connection)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListConnectionsResponse" }) as any as Schema.Schema<ListConnectionsResponse>;
+export const ListConnectionsResponse: Schema.Schema<ListConnectionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      connections: Schema.optional(Schema.Array(Connection)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListConnectionsResponse",
+  }) as any as Schema.Schema<ListConnectionsResponse>;
 
 export interface Expr {
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
@@ -355,42 +457,64 @@ export interface Expr {
   title?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    location: Schema.optional(Schema.String),
+    expression: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(() => Schema.Struct({
-  requestedPolicyVersion: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GetPolicyOptions" }) as any as Schema.Schema<GetPolicyOptions>;
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GetPolicyOptions",
+}) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions;
 }
 
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(GetPolicyOptions),
-})).annotate({ identifier: "GetIamPolicyRequest" }) as any as Schema.Schema<GetIamPolicyRequest>;
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
 
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-  logType: Schema.optional(Schema.String),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+      logType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -399,19 +523,26 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -422,20 +553,27 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -448,18 +586,20 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
@@ -468,10 +608,15 @@ export interface SetIamPolicyRequest {
   policy?: Policy;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  updateMask: Schema.optional(Schema.String),
-  policy: Schema.optional(Policy),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateMask: Schema.optional(Schema.String),
+      policy: Schema.optional(Policy),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 // ==========================================================================
 // Operations
@@ -491,7 +636,11 @@ export const PatchProjectsLocationsConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Connection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsConnectionsRequest>;
 
@@ -501,7 +650,12 @@ export const PatchProjectsLocationsConnectionsResponse = Connection;
 export type PatchProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Updates the specified connection. For security reasons, also resets credential if connection properties are in the update field mask. */
-export const patchProjectsLocationsConnections: API.OperationMethod<PatchProjectsLocationsConnectionsRequest, PatchProjectsLocationsConnectionsResponse, PatchProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsConnections: API.OperationMethod<
+  PatchProjectsLocationsConnectionsRequest,
+  PatchProjectsLocationsConnectionsResponse,
+  PatchProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsConnectionsRequest,
   output: PatchProjectsLocationsConnectionsResponse,
   errors: [],
@@ -514,21 +668,33 @@ export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsConnectionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>;
+export const TestIamPermissionsProjectsLocationsConnectionsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>;
 
-export type TestIamPermissionsProjectsLocationsConnectionsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsConnectionsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsConnectionsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsConnectionsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod<TestIamPermissionsProjectsLocationsConnectionsRequest, TestIamPermissionsProjectsLocationsConnectionsResponse, TestIamPermissionsProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsConnectionsRequest,
+  TestIamPermissionsProjectsLocationsConnectionsResponse,
+  TestIamPermissionsProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsConnectionsRequest,
   output: TestIamPermissionsProjectsLocationsConnectionsResponse,
   errors: [],
@@ -542,7 +708,10 @@ export interface GetProjectsLocationsConnectionsRequest {
 export const GetProjectsLocationsConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsConnectionsRequest>;
 
@@ -552,7 +721,12 @@ export const GetProjectsLocationsConnectionsResponse = Connection;
 export type GetProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Returns specified connection. */
-export const getProjectsLocationsConnections: API.OperationMethod<GetProjectsLocationsConnectionsRequest, GetProjectsLocationsConnectionsResponse, GetProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsConnections: API.OperationMethod<
+  GetProjectsLocationsConnectionsRequest,
+  GetProjectsLocationsConnectionsResponse,
+  GetProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsConnectionsRequest,
   output: GetProjectsLocationsConnectionsResponse,
   errors: [],
@@ -569,10 +743,16 @@ export interface CreateProjectsLocationsConnectionsRequest {
 
 export const CreateProjectsLocationsConnectionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  connectionId: Schema.optional(Schema.String).pipe(T.HttpQuery("connectionId")),
+  connectionId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("connectionId"),
+  ),
   body: Schema.optional(Connection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/connections", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsConnectionsRequest>;
 
@@ -582,7 +762,12 @@ export const CreateProjectsLocationsConnectionsResponse = Connection;
 export type CreateProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Creates a new connection. */
-export const createProjectsLocationsConnections: API.OperationMethod<CreateProjectsLocationsConnectionsRequest, CreateProjectsLocationsConnectionsResponse, CreateProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsConnections: API.OperationMethod<
+  CreateProjectsLocationsConnectionsRequest,
+  CreateProjectsLocationsConnectionsResponse,
+  CreateProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsConnectionsRequest,
   output: CreateProjectsLocationsConnectionsResponse,
   errors: [],
@@ -602,7 +787,10 @@ export const ListProjectsLocationsConnectionsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/connections" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
 
@@ -612,7 +800,12 @@ export const ListProjectsLocationsConnectionsResponse = ListConnectionsResponse;
 export type ListProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Returns a list of connections in the given project. */
-export const listProjectsLocationsConnections: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsRequest, ListProjectsLocationsConnectionsResponse, ListProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
+  ListProjectsLocationsConnectionsRequest,
+  ListProjectsLocationsConnectionsResponse,
+  ListProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRequest,
   output: ListProjectsLocationsConnectionsResponse,
   errors: [],
@@ -633,7 +826,11 @@ export const GetIamPolicyProjectsLocationsConnectionsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>;
 
@@ -643,7 +840,12 @@ export const GetIamPolicyProjectsLocationsConnectionsResponse = Policy;
 export type GetIamPolicyProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<GetIamPolicyProjectsLocationsConnectionsRequest, GetIamPolicyProjectsLocationsConnectionsResponse, GetIamPolicyProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<
+  GetIamPolicyProjectsLocationsConnectionsRequest,
+  GetIamPolicyProjectsLocationsConnectionsResponse,
+  GetIamPolicyProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsConnectionsRequest,
   output: GetIamPolicyProjectsLocationsConnectionsResponse,
   errors: [],
@@ -660,7 +862,11 @@ export const SetIamPolicyProjectsLocationsConnectionsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>;
 
@@ -670,7 +876,12 @@ export const SetIamPolicyProjectsLocationsConnectionsResponse = Policy;
 export type SetIamPolicyProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<SetIamPolicyProjectsLocationsConnectionsRequest, SetIamPolicyProjectsLocationsConnectionsResponse, SetIamPolicyProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
+  SetIamPolicyProjectsLocationsConnectionsRequest,
+  SetIamPolicyProjectsLocationsConnectionsResponse,
+  SetIamPolicyProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsConnectionsRequest,
   output: SetIamPolicyProjectsLocationsConnectionsResponse,
   errors: [],
@@ -684,7 +895,10 @@ export interface DeleteProjectsLocationsConnectionsRequest {
 export const DeleteProjectsLocationsConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsConnectionsRequest>;
 
@@ -694,9 +908,13 @@ export const DeleteProjectsLocationsConnectionsResponse = Empty;
 export type DeleteProjectsLocationsConnectionsError = DefaultErrors;
 
 /** Deletes connection and associated credential. */
-export const deleteProjectsLocationsConnections: API.OperationMethod<DeleteProjectsLocationsConnectionsRequest, DeleteProjectsLocationsConnectionsResponse, DeleteProjectsLocationsConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsConnections: API.OperationMethod<
+  DeleteProjectsLocationsConnectionsRequest,
+  DeleteProjectsLocationsConnectionsResponse,
+  DeleteProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionsRequest,
   output: DeleteProjectsLocationsConnectionsResponse,
   errors: [],
 }));
-

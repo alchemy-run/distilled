@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned unique name. The format of `name` is `transferOperations/some/unique/name`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,23 +74,29 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface GoogleServiceAccount {
   /** Email address of the service account. */
@@ -93,10 +105,15 @@ export interface GoogleServiceAccount {
   subjectId?: string;
 }
 
-export const GoogleServiceAccount: Schema.Schema<GoogleServiceAccount> = Schema.suspend(() => Schema.Struct({
-  accountEmail: Schema.optional(Schema.String),
-  subjectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleServiceAccount" }) as any as Schema.Schema<GoogleServiceAccount>;
+export const GoogleServiceAccount: Schema.Schema<GoogleServiceAccount> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accountEmail: Schema.optional(Schema.String),
+      subjectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleServiceAccount",
+  }) as any as Schema.Schema<GoogleServiceAccount>;
 
 export interface GcsData {
   /** Required. Cloud Storage bucket name. Must meet [Bucket Name Requirements](/storage/docs/naming#requirements). */
@@ -107,20 +124,27 @@ export interface GcsData {
   managedFolderTransferEnabled?: boolean;
 }
 
-export const GcsData: Schema.Schema<GcsData> = Schema.suspend(() => Schema.Struct({
-  bucketName: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  managedFolderTransferEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GcsData" }) as any as Schema.Schema<GcsData>;
+export const GcsData: Schema.Schema<GcsData> = Schema.suspend(() =>
+  Schema.Struct({
+    bucketName: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+    managedFolderTransferEnabled: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "GcsData" }) as any as Schema.Schema<GcsData>;
 
 export interface PosixFilesystem {
   /** Root directory path to the filesystem. */
   rootDirectory?: string;
 }
 
-export const PosixFilesystem: Schema.Schema<PosixFilesystem> = Schema.suspend(() => Schema.Struct({
-  rootDirectory: Schema.optional(Schema.String),
-})).annotate({ identifier: "PosixFilesystem" }) as any as Schema.Schema<PosixFilesystem>;
+export const PosixFilesystem: Schema.Schema<PosixFilesystem> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      rootDirectory: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PosixFilesystem",
+}) as any as Schema.Schema<PosixFilesystem>;
 
 export interface AwsAccessKey {
   /** Required. AWS access key ID. */
@@ -129,10 +153,14 @@ export interface AwsAccessKey {
   secretAccessKey?: string;
 }
 
-export const AwsAccessKey: Schema.Schema<AwsAccessKey> = Schema.suspend(() => Schema.Struct({
-  accessKeyId: Schema.optional(Schema.String),
-  secretAccessKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "AwsAccessKey" }) as any as Schema.Schema<AwsAccessKey>;
+export const AwsAccessKey: Schema.Schema<AwsAccessKey> = Schema.suspend(() =>
+  Schema.Struct({
+    accessKeyId: Schema.optional(Schema.String),
+    secretAccessKey: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AwsAccessKey",
+}) as any as Schema.Schema<AwsAccessKey>;
 
 export interface AwsS3Data {
   /** Required. S3 Bucket name (see [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/create-bucket-get-location-example.html)). */
@@ -153,34 +181,43 @@ export interface AwsS3Data {
   privateNetworkService?: string;
 }
 
-export const AwsS3Data: Schema.Schema<AwsS3Data> = Schema.suspend(() => Schema.Struct({
-  bucketName: Schema.optional(Schema.String),
-  awsAccessKey: Schema.optional(AwsAccessKey),
-  path: Schema.optional(Schema.String),
-  roleArn: Schema.optional(Schema.String),
-  cloudfrontDomain: Schema.optional(Schema.String),
-  credentialsSecret: Schema.optional(Schema.String),
-  managedPrivateNetwork: Schema.optional(Schema.Boolean),
-  privateNetworkService: Schema.optional(Schema.String),
-})).annotate({ identifier: "AwsS3Data" }) as any as Schema.Schema<AwsS3Data>;
+export const AwsS3Data: Schema.Schema<AwsS3Data> = Schema.suspend(() =>
+  Schema.Struct({
+    bucketName: Schema.optional(Schema.String),
+    awsAccessKey: Schema.optional(AwsAccessKey),
+    path: Schema.optional(Schema.String),
+    roleArn: Schema.optional(Schema.String),
+    cloudfrontDomain: Schema.optional(Schema.String),
+    credentialsSecret: Schema.optional(Schema.String),
+    managedPrivateNetwork: Schema.optional(Schema.Boolean),
+    privateNetworkService: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AwsS3Data" }) as any as Schema.Schema<AwsS3Data>;
 
 export interface HttpData {
   /** Required. The URL that points to the file that stores the object list entries. This file must allow public access. The URL is either an HTTP/HTTPS address (e.g. `https://example.com/urllist.tsv`) or a Cloud Storage path (e.g. `gs://my-bucket/urllist.tsv`). */
   listUrl?: string;
 }
 
-export const HttpData: Schema.Schema<HttpData> = Schema.suspend(() => Schema.Struct({
-  listUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "HttpData" }) as any as Schema.Schema<HttpData>;
+export const HttpData: Schema.Schema<HttpData> = Schema.suspend(() =>
+  Schema.Struct({
+    listUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "HttpData" }) as any as Schema.Schema<HttpData>;
 
 export interface AzureCredentials {
   /** Required. Azure shared access signature (SAS). For more information about SAS, see [Grant limited access to Azure Storage resources using shared access signatures (SAS)](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview). */
   sasToken?: string;
 }
 
-export const AzureCredentials: Schema.Schema<AzureCredentials> = Schema.suspend(() => Schema.Struct({
-  sasToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "AzureCredentials" }) as any as Schema.Schema<AzureCredentials>;
+export const AzureCredentials: Schema.Schema<AzureCredentials> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sasToken: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AzureCredentials",
+}) as any as Schema.Schema<AzureCredentials>;
 
 export interface FederatedIdentityConfig {
   /** Required. The client (application) ID of the application with federated credentials. */
@@ -189,10 +226,15 @@ export interface FederatedIdentityConfig {
   tenantId?: string;
 }
 
-export const FederatedIdentityConfig: Schema.Schema<FederatedIdentityConfig> = Schema.suspend(() => Schema.Struct({
-  clientId: Schema.optional(Schema.String),
-  tenantId: Schema.optional(Schema.String),
-})).annotate({ identifier: "FederatedIdentityConfig" }) as any as Schema.Schema<FederatedIdentityConfig>;
+export const FederatedIdentityConfig: Schema.Schema<FederatedIdentityConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      clientId: Schema.optional(Schema.String),
+      tenantId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FederatedIdentityConfig",
+  }) as any as Schema.Schema<FederatedIdentityConfig>;
 
 export interface AzureBlobStorageData {
   /** Required. The name of the Azure Storage account. */
@@ -211,33 +253,59 @@ export interface AzureBlobStorageData {
   privateNetworkService?: string;
 }
 
-export const AzureBlobStorageData: Schema.Schema<AzureBlobStorageData> = Schema.suspend(() => Schema.Struct({
-  storageAccount: Schema.optional(Schema.String),
-  azureCredentials: Schema.optional(AzureCredentials),
-  container: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  credentialsSecret: Schema.optional(Schema.String),
-  federatedIdentityConfig: Schema.optional(FederatedIdentityConfig),
-  privateNetworkService: Schema.optional(Schema.String),
-})).annotate({ identifier: "AzureBlobStorageData" }) as any as Schema.Schema<AzureBlobStorageData>;
+export const AzureBlobStorageData: Schema.Schema<AzureBlobStorageData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      storageAccount: Schema.optional(Schema.String),
+      azureCredentials: Schema.optional(AzureCredentials),
+      container: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      credentialsSecret: Schema.optional(Schema.String),
+      federatedIdentityConfig: Schema.optional(FederatedIdentityConfig),
+      privateNetworkService: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AzureBlobStorageData",
+  }) as any as Schema.Schema<AzureBlobStorageData>;
 
 export interface S3CompatibleMetadata {
   /** Specifies the authentication and authorization method used by the storage service. When not specified, Transfer Service will attempt to determine right auth method to use. */
-  authMethod?: "AUTH_METHOD_UNSPECIFIED" | "AUTH_METHOD_AWS_SIGNATURE_V4" | "AUTH_METHOD_AWS_SIGNATURE_V2" | (string & {});
+  authMethod?:
+    | "AUTH_METHOD_UNSPECIFIED"
+    | "AUTH_METHOD_AWS_SIGNATURE_V4"
+    | "AUTH_METHOD_AWS_SIGNATURE_V2"
+    | (string & {});
   /** Specifies the API request model used to call the storage service. When not specified, the default value of RequestModel REQUEST_MODEL_VIRTUAL_HOSTED_STYLE is used. */
-  requestModel?: "REQUEST_MODEL_UNSPECIFIED" | "REQUEST_MODEL_VIRTUAL_HOSTED_STYLE" | "REQUEST_MODEL_PATH_STYLE" | (string & {});
+  requestModel?:
+    | "REQUEST_MODEL_UNSPECIFIED"
+    | "REQUEST_MODEL_VIRTUAL_HOSTED_STYLE"
+    | "REQUEST_MODEL_PATH_STYLE"
+    | (string & {});
   /** Specifies the network protocol of the agent. When not specified, the default value of NetworkProtocol NETWORK_PROTOCOL_HTTPS is used. */
-  protocol?: "NETWORK_PROTOCOL_UNSPECIFIED" | "NETWORK_PROTOCOL_HTTPS" | "NETWORK_PROTOCOL_HTTP" | (string & {});
+  protocol?:
+    | "NETWORK_PROTOCOL_UNSPECIFIED"
+    | "NETWORK_PROTOCOL_HTTPS"
+    | "NETWORK_PROTOCOL_HTTP"
+    | (string & {});
   /** The Listing API to use for discovering objects. When not specified, Transfer Service will attempt to determine the right API to use. */
-  listApi?: "LIST_API_UNSPECIFIED" | "LIST_OBJECTS_V2" | "LIST_OBJECTS" | (string & {});
+  listApi?:
+    | "LIST_API_UNSPECIFIED"
+    | "LIST_OBJECTS_V2"
+    | "LIST_OBJECTS"
+    | (string & {});
 }
 
-export const S3CompatibleMetadata: Schema.Schema<S3CompatibleMetadata> = Schema.suspend(() => Schema.Struct({
-  authMethod: Schema.optional(Schema.String),
-  requestModel: Schema.optional(Schema.String),
-  protocol: Schema.optional(Schema.String),
-  listApi: Schema.optional(Schema.String),
-})).annotate({ identifier: "S3CompatibleMetadata" }) as any as Schema.Schema<S3CompatibleMetadata>;
+export const S3CompatibleMetadata: Schema.Schema<S3CompatibleMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      authMethod: Schema.optional(Schema.String),
+      requestModel: Schema.optional(Schema.String),
+      protocol: Schema.optional(Schema.String),
+      listApi: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "S3CompatibleMetadata",
+  }) as any as Schema.Schema<S3CompatibleMetadata>;
 
 export interface AwsS3CompatibleData {
   /** Required. Specifies the name of the bucket. */
@@ -252,22 +320,29 @@ export interface AwsS3CompatibleData {
   s3Metadata?: S3CompatibleMetadata;
 }
 
-export const AwsS3CompatibleData: Schema.Schema<AwsS3CompatibleData> = Schema.suspend(() => Schema.Struct({
-  bucketName: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  endpoint: Schema.optional(Schema.String),
-  region: Schema.optional(Schema.String),
-  s3Metadata: Schema.optional(S3CompatibleMetadata),
-})).annotate({ identifier: "AwsS3CompatibleData" }) as any as Schema.Schema<AwsS3CompatibleData>;
+export const AwsS3CompatibleData: Schema.Schema<AwsS3CompatibleData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bucketName: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      endpoint: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      s3Metadata: Schema.optional(S3CompatibleMetadata),
+    }),
+  ).annotate({
+    identifier: "AwsS3CompatibleData",
+  }) as any as Schema.Schema<AwsS3CompatibleData>;
 
 export interface HdfsData {
   /** Root path to transfer files. */
   path?: string;
 }
 
-export const HdfsData: Schema.Schema<HdfsData> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-})).annotate({ identifier: "HdfsData" }) as any as Schema.Schema<HdfsData>;
+export const HdfsData: Schema.Schema<HdfsData> = Schema.suspend(() =>
+  Schema.Struct({
+    path: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "HdfsData" }) as any as Schema.Schema<HdfsData>;
 
 export interface ObjectConditions {
   /** Ensures that objects are not transferred until a specific minimum time has elapsed after the "last modification time". When a TransferOperation begins, objects with a "last modification time" are transferred only if the elapsed time between the start_time of the `TransferOperation` and the "last modification time" of the object is equal to or greater than the value of min_time_elapsed_since_last_modification`. Objects that do not have a "last modification time" are also transferred. */
@@ -286,19 +361,28 @@ export interface ObjectConditions {
   matchGlob?: string;
 }
 
-export const ObjectConditions: Schema.Schema<ObjectConditions> = Schema.suspend(() => Schema.Struct({
-  minTimeElapsedSinceLastModification: Schema.optional(Schema.String),
-  maxTimeElapsedSinceLastModification: Schema.optional(Schema.String),
-  includePrefixes: Schema.optional(Schema.Array(Schema.String)),
-  excludePrefixes: Schema.optional(Schema.Array(Schema.String)),
-  lastModifiedSince: Schema.optional(Schema.String),
-  lastModifiedBefore: Schema.optional(Schema.String),
-  matchGlob: Schema.optional(Schema.String),
-})).annotate({ identifier: "ObjectConditions" }) as any as Schema.Schema<ObjectConditions>;
+export const ObjectConditions: Schema.Schema<ObjectConditions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      minTimeElapsedSinceLastModification: Schema.optional(Schema.String),
+      maxTimeElapsedSinceLastModification: Schema.optional(Schema.String),
+      includePrefixes: Schema.optional(Schema.Array(Schema.String)),
+      excludePrefixes: Schema.optional(Schema.Array(Schema.String)),
+      lastModifiedSince: Schema.optional(Schema.String),
+      lastModifiedBefore: Schema.optional(Schema.String),
+      matchGlob: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ObjectConditions",
+}) as any as Schema.Schema<ObjectConditions>;
 
 export interface MetadataOptions {
   /** Specifies how symlinks should be handled by the transfer. By default, symlinks are not preserved. Only applicable to transfers involving POSIX file systems, and ignored for other transfers. */
-  symlink?: "SYMLINK_UNSPECIFIED" | "SYMLINK_SKIP" | "SYMLINK_PRESERVE" | (string & {});
+  symlink?:
+    | "SYMLINK_UNSPECIFIED"
+    | "SYMLINK_SKIP"
+    | "SYMLINK_PRESERVE"
+    | (string & {});
   /** Specifies how each file's mode attribute should be handled by the transfer. By default, mode is not preserved. Only applicable to transfers involving POSIX file systems, and ignored for other transfers. */
   mode?: "MODE_UNSPECIFIED" | "MODE_SKIP" | "MODE_PRESERVE" | (string & {});
   /** Specifies how each file's POSIX group ID (GID) attribute should be handled by the transfer. By default, GID is not preserved. Only applicable to transfers involving POSIX file systems, and ignored for other transfers. */
@@ -306,28 +390,57 @@ export interface MetadataOptions {
   /** Specifies how each file's POSIX user ID (UID) attribute should be handled by the transfer. By default, UID is not preserved. Only applicable to transfers involving POSIX file systems, and ignored for other transfers. */
   uid?: "UID_UNSPECIFIED" | "UID_SKIP" | "UID_NUMBER" | (string & {});
   /** Specifies how each object's ACLs should be preserved for transfers between Google Cloud Storage buckets. If unspecified, the default behavior is the same as ACL_DESTINATION_BUCKET_DEFAULT. */
-  acl?: "ACL_UNSPECIFIED" | "ACL_DESTINATION_BUCKET_DEFAULT" | "ACL_PRESERVE" | (string & {});
+  acl?:
+    | "ACL_UNSPECIFIED"
+    | "ACL_DESTINATION_BUCKET_DEFAULT"
+    | "ACL_PRESERVE"
+    | (string & {});
   /** Specifies the storage class to set on objects being transferred to Google Cloud Storage buckets. If unspecified, the default behavior is the same as STORAGE_CLASS_DESTINATION_BUCKET_DEFAULT. */
-  storageClass?: "STORAGE_CLASS_UNSPECIFIED" | "STORAGE_CLASS_DESTINATION_BUCKET_DEFAULT" | "STORAGE_CLASS_PRESERVE" | "STORAGE_CLASS_STANDARD" | "STORAGE_CLASS_NEARLINE" | "STORAGE_CLASS_COLDLINE" | "STORAGE_CLASS_ARCHIVE" | (string & {});
+  storageClass?:
+    | "STORAGE_CLASS_UNSPECIFIED"
+    | "STORAGE_CLASS_DESTINATION_BUCKET_DEFAULT"
+    | "STORAGE_CLASS_PRESERVE"
+    | "STORAGE_CLASS_STANDARD"
+    | "STORAGE_CLASS_NEARLINE"
+    | "STORAGE_CLASS_COLDLINE"
+    | "STORAGE_CLASS_ARCHIVE"
+    | (string & {});
   /** Specifies how each object's temporary hold status should be preserved for transfers between Google Cloud Storage buckets. If unspecified, the default behavior is the same as TEMPORARY_HOLD_PRESERVE. */
-  temporaryHold?: "TEMPORARY_HOLD_UNSPECIFIED" | "TEMPORARY_HOLD_SKIP" | "TEMPORARY_HOLD_PRESERVE" | (string & {});
+  temporaryHold?:
+    | "TEMPORARY_HOLD_UNSPECIFIED"
+    | "TEMPORARY_HOLD_SKIP"
+    | "TEMPORARY_HOLD_PRESERVE"
+    | (string & {});
   /** Specifies how each object's Cloud KMS customer-managed encryption key (CMEK) is preserved for transfers between Google Cloud Storage buckets. If unspecified, the default behavior is the same as KMS_KEY_DESTINATION_BUCKET_DEFAULT. */
-  kmsKey?: "KMS_KEY_UNSPECIFIED" | "KMS_KEY_DESTINATION_BUCKET_DEFAULT" | "KMS_KEY_PRESERVE" | (string & {});
+  kmsKey?:
+    | "KMS_KEY_UNSPECIFIED"
+    | "KMS_KEY_DESTINATION_BUCKET_DEFAULT"
+    | "KMS_KEY_PRESERVE"
+    | (string & {});
   /** Specifies how each object's `timeCreated` metadata is preserved for transfers. If unspecified, the default behavior is the same as TIME_CREATED_SKIP. This behavior is supported for transfers to Cloud Storage buckets from Cloud Storage, Amazon S3, S3-compatible storage, and Azure sources. */
-  timeCreated?: "TIME_CREATED_UNSPECIFIED" | "TIME_CREATED_SKIP" | "TIME_CREATED_PRESERVE_AS_CUSTOM_TIME" | (string & {});
+  timeCreated?:
+    | "TIME_CREATED_UNSPECIFIED"
+    | "TIME_CREATED_SKIP"
+    | "TIME_CREATED_PRESERVE_AS_CUSTOM_TIME"
+    | (string & {});
 }
 
-export const MetadataOptions: Schema.Schema<MetadataOptions> = Schema.suspend(() => Schema.Struct({
-  symlink: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.String),
-  gid: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  acl: Schema.optional(Schema.String),
-  storageClass: Schema.optional(Schema.String),
-  temporaryHold: Schema.optional(Schema.String),
-  kmsKey: Schema.optional(Schema.String),
-  timeCreated: Schema.optional(Schema.String),
-})).annotate({ identifier: "MetadataOptions" }) as any as Schema.Schema<MetadataOptions>;
+export const MetadataOptions: Schema.Schema<MetadataOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      symlink: Schema.optional(Schema.String),
+      mode: Schema.optional(Schema.String),
+      gid: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      acl: Schema.optional(Schema.String),
+      storageClass: Schema.optional(Schema.String),
+      temporaryHold: Schema.optional(Schema.String),
+      kmsKey: Schema.optional(Schema.String),
+      timeCreated: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MetadataOptions",
+}) as any as Schema.Schema<MetadataOptions>;
 
 export interface TransferOptions {
   /** When to overwrite objects that already exist in the sink. The default is that only objects that are different from the source are overwritten. If true, all objects in the sink whose name matches an object in the source are overwritten with the source object. */
@@ -337,27 +450,42 @@ export interface TransferOptions {
   /** Whether objects should be deleted from the source after they are transferred to the sink. **Note:** This option and delete_objects_unique_in_sink are mutually exclusive. */
   deleteObjectsFromSourceAfterTransfer?: boolean;
   /** When to overwrite objects that already exist in the sink. If not set, overwrite behavior is determined by overwrite_objects_already_existing_in_sink. */
-  overwriteWhen?: "OVERWRITE_WHEN_UNSPECIFIED" | "DIFFERENT" | "NEVER" | "ALWAYS" | (string & {});
+  overwriteWhen?:
+    | "OVERWRITE_WHEN_UNSPECIFIED"
+    | "DIFFERENT"
+    | "NEVER"
+    | "ALWAYS"
+    | (string & {});
   /** Represents the selected metadata options for a transfer job. */
   metadataOptions?: MetadataOptions;
 }
 
-export const TransferOptions: Schema.Schema<TransferOptions> = Schema.suspend(() => Schema.Struct({
-  overwriteObjectsAlreadyExistingInSink: Schema.optional(Schema.Boolean),
-  deleteObjectsUniqueInSink: Schema.optional(Schema.Boolean),
-  deleteObjectsFromSourceAfterTransfer: Schema.optional(Schema.Boolean),
-  overwriteWhen: Schema.optional(Schema.String),
-  metadataOptions: Schema.optional(MetadataOptions),
-})).annotate({ identifier: "TransferOptions" }) as any as Schema.Schema<TransferOptions>;
+export const TransferOptions: Schema.Schema<TransferOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      overwriteObjectsAlreadyExistingInSink: Schema.optional(Schema.Boolean),
+      deleteObjectsUniqueInSink: Schema.optional(Schema.Boolean),
+      deleteObjectsFromSourceAfterTransfer: Schema.optional(Schema.Boolean),
+      overwriteWhen: Schema.optional(Schema.String),
+      metadataOptions: Schema.optional(MetadataOptions),
+    }),
+).annotate({
+  identifier: "TransferOptions",
+}) as any as Schema.Schema<TransferOptions>;
 
 export interface TransferManifest {
   /** Specifies the path to the manifest in Cloud Storage. The Google-managed service account for the transfer must have `storage.objects.get` permission for this object. An example path is `gs://bucket_name/path/manifest.csv`. */
   location?: string;
 }
 
-export const TransferManifest: Schema.Schema<TransferManifest> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferManifest" }) as any as Schema.Schema<TransferManifest>;
+export const TransferManifest: Schema.Schema<TransferManifest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      location: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TransferManifest",
+}) as any as Schema.Schema<TransferManifest>;
 
 export interface TransferSpec {
   /** Optional. A Cloud Storage data sink. */
@@ -392,23 +520,27 @@ export interface TransferSpec {
   sinkAgentPoolName?: string;
 }
 
-export const TransferSpec: Schema.Schema<TransferSpec> = Schema.suspend(() => Schema.Struct({
-  gcsDataSink: Schema.optional(GcsData),
-  posixDataSink: Schema.optional(PosixFilesystem),
-  gcsDataSource: Schema.optional(GcsData),
-  awsS3DataSource: Schema.optional(AwsS3Data),
-  httpDataSource: Schema.optional(HttpData),
-  posixDataSource: Schema.optional(PosixFilesystem),
-  azureBlobStorageDataSource: Schema.optional(AzureBlobStorageData),
-  awsS3CompatibleDataSource: Schema.optional(AwsS3CompatibleData),
-  hdfsDataSource: Schema.optional(HdfsData),
-  gcsIntermediateDataLocation: Schema.optional(GcsData),
-  objectConditions: Schema.optional(ObjectConditions),
-  transferOptions: Schema.optional(TransferOptions),
-  transferManifest: Schema.optional(TransferManifest),
-  sourceAgentPoolName: Schema.optional(Schema.String),
-  sinkAgentPoolName: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferSpec" }) as any as Schema.Schema<TransferSpec>;
+export const TransferSpec: Schema.Schema<TransferSpec> = Schema.suspend(() =>
+  Schema.Struct({
+    gcsDataSink: Schema.optional(GcsData),
+    posixDataSink: Schema.optional(PosixFilesystem),
+    gcsDataSource: Schema.optional(GcsData),
+    awsS3DataSource: Schema.optional(AwsS3Data),
+    httpDataSource: Schema.optional(HttpData),
+    posixDataSource: Schema.optional(PosixFilesystem),
+    azureBlobStorageDataSource: Schema.optional(AzureBlobStorageData),
+    awsS3CompatibleDataSource: Schema.optional(AwsS3CompatibleData),
+    hdfsDataSource: Schema.optional(HdfsData),
+    gcsIntermediateDataLocation: Schema.optional(GcsData),
+    objectConditions: Schema.optional(ObjectConditions),
+    transferOptions: Schema.optional(TransferOptions),
+    transferManifest: Schema.optional(TransferManifest),
+    sourceAgentPoolName: Schema.optional(Schema.String),
+    sinkAgentPoolName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "TransferSpec",
+}) as any as Schema.Schema<TransferSpec>;
 
 export interface ReplicationSpec {
   /** The Cloud Storage bucket from which to replicate objects. */
@@ -421,42 +553,74 @@ export interface ReplicationSpec {
   transferOptions?: TransferOptions;
 }
 
-export const ReplicationSpec: Schema.Schema<ReplicationSpec> = Schema.suspend(() => Schema.Struct({
-  gcsDataSource: Schema.optional(GcsData),
-  gcsDataSink: Schema.optional(GcsData),
-  objectConditions: Schema.optional(ObjectConditions),
-  transferOptions: Schema.optional(TransferOptions),
-})).annotate({ identifier: "ReplicationSpec" }) as any as Schema.Schema<ReplicationSpec>;
+export const ReplicationSpec: Schema.Schema<ReplicationSpec> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      gcsDataSource: Schema.optional(GcsData),
+      gcsDataSink: Schema.optional(GcsData),
+      objectConditions: Schema.optional(ObjectConditions),
+      transferOptions: Schema.optional(TransferOptions),
+    }),
+).annotate({
+  identifier: "ReplicationSpec",
+}) as any as Schema.Schema<ReplicationSpec>;
 
 export interface NotificationConfig {
   /** Required. The `Topic.name` of the Pub/Sub topic to which to publish notifications. Must be of the format: `projects/{project}/topics/{topic}`. Not matching this format results in an INVALID_ARGUMENT error. */
   pubsubTopic?: string;
   /** Event types for which a notification is desired. If empty, send notifications for all event types. */
-  eventTypes?: Array<"EVENT_TYPE_UNSPECIFIED" | "TRANSFER_OPERATION_SUCCESS" | "TRANSFER_OPERATION_FAILED" | "TRANSFER_OPERATION_ABORTED" | (string & {})>;
+  eventTypes?: Array<
+    | "EVENT_TYPE_UNSPECIFIED"
+    | "TRANSFER_OPERATION_SUCCESS"
+    | "TRANSFER_OPERATION_FAILED"
+    | "TRANSFER_OPERATION_ABORTED"
+    | (string & {})
+  >;
   /** Required. The desired format of the notification message payloads. */
-  payloadFormat?: "PAYLOAD_FORMAT_UNSPECIFIED" | "NONE" | "JSON" | (string & {});
+  payloadFormat?:
+    | "PAYLOAD_FORMAT_UNSPECIFIED"
+    | "NONE"
+    | "JSON"
+    | (string & {});
 }
 
-export const NotificationConfig: Schema.Schema<NotificationConfig> = Schema.suspend(() => Schema.Struct({
-  pubsubTopic: Schema.optional(Schema.String),
-  eventTypes: Schema.optional(Schema.Array(Schema.String)),
-  payloadFormat: Schema.optional(Schema.String),
-})).annotate({ identifier: "NotificationConfig" }) as any as Schema.Schema<NotificationConfig>;
+export const NotificationConfig: Schema.Schema<NotificationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pubsubTopic: Schema.optional(Schema.String),
+      eventTypes: Schema.optional(Schema.Array(Schema.String)),
+      payloadFormat: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NotificationConfig",
+  }) as any as Schema.Schema<NotificationConfig>;
 
 export interface LoggingConfig {
   /** Specifies the actions to be logged. If empty, no logs are generated. */
-  logActions?: Array<"LOGGABLE_ACTION_UNSPECIFIED" | "FIND" | "DELETE" | "COPY" | (string & {})>;
+  logActions?: Array<
+    "LOGGABLE_ACTION_UNSPECIFIED" | "FIND" | "DELETE" | "COPY" | (string & {})
+  >;
   /** States in which `log_actions` are logged. If empty, no logs are generated. */
-  logActionStates?: Array<"LOGGABLE_ACTION_STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | "SKIPPED" | (string & {})>;
+  logActionStates?: Array<
+    | "LOGGABLE_ACTION_STATE_UNSPECIFIED"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "SKIPPED"
+    | (string & {})
+  >;
   /** For PosixFilesystem transfers, enables [file system transfer logs](https://cloud.google.com/storage-transfer/docs/on-prem-transfer-log-format) instead of, or in addition to, Cloud Logging. This option ignores [LoggableAction] and [LoggableActionState]. If these are set, Cloud Logging will also be enabled for this transfer. */
   enableOnpremGcsTransferLogs?: boolean;
 }
 
-export const LoggingConfig: Schema.Schema<LoggingConfig> = Schema.suspend(() => Schema.Struct({
-  logActions: Schema.optional(Schema.Array(Schema.String)),
-  logActionStates: Schema.optional(Schema.Array(Schema.String)),
-  enableOnpremGcsTransferLogs: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "LoggingConfig" }) as any as Schema.Schema<LoggingConfig>;
+export const LoggingConfig: Schema.Schema<LoggingConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    logActions: Schema.optional(Schema.Array(Schema.String)),
+    logActionStates: Schema.optional(Schema.Array(Schema.String)),
+    enableOnpremGcsTransferLogs: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "LoggingConfig",
+}) as any as Schema.Schema<LoggingConfig>;
 
 export interface Storagetransfer_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -467,11 +631,16 @@ export interface Storagetransfer_Date {
   day?: number;
 }
 
-export const Storagetransfer_Date: Schema.Schema<Storagetransfer_Date> = Schema.suspend(() => Schema.Struct({
-  year: Schema.optional(Schema.Number),
-  month: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Storagetransfer_Date" }) as any as Schema.Schema<Storagetransfer_Date>;
+export const Storagetransfer_Date: Schema.Schema<Storagetransfer_Date> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      year: Schema.optional(Schema.Number),
+      month: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "Storagetransfer_Date",
+  }) as any as Schema.Schema<Storagetransfer_Date>;
 
 export interface TimeOfDay {
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
@@ -484,12 +653,14 @@ export interface TimeOfDay {
   nanos?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() => Schema.Struct({
-  hours: Schema.optional(Schema.Number),
-  minutes: Schema.optional(Schema.Number),
-  seconds: Schema.optional(Schema.Number),
-  nanos: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
+  Schema.Struct({
+    hours: Schema.optional(Schema.Number),
+    minutes: Schema.optional(Schema.Number),
+    seconds: Schema.optional(Schema.Number),
+    nanos: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface Schedule {
   /** Required. The start date of a transfer. Date boundaries are determined relative to UTC time. If `schedule_start_date` and start_time_of_day are in the past relative to the job's creation time, the transfer starts the day after you schedule the transfer request. **Note:** When starting jobs at or near midnight UTC it is possible that a job starts later than expected. For example, if you send an outbound request on June 1 one millisecond prior to midnight UTC and the Storage Transfer Service server receives the request on June 2, then it creates a TransferJob with `schedule_start_date` set to June 2 and a `start_time_of_day` set to midnight UTC. The first scheduled TransferOperation takes place on June 3 at midnight UTC. */
@@ -504,13 +675,15 @@ export interface Schedule {
   repeatInterval?: string;
 }
 
-export const Schedule: Schema.Schema<Schedule> = Schema.suspend(() => Schema.Struct({
-  scheduleStartDate: Schema.optional(Storagetransfer_Date),
-  scheduleEndDate: Schema.optional(Storagetransfer_Date),
-  startTimeOfDay: Schema.optional(TimeOfDay),
-  endTimeOfDay: Schema.optional(TimeOfDay),
-  repeatInterval: Schema.optional(Schema.String),
-})).annotate({ identifier: "Schedule" }) as any as Schema.Schema<Schedule>;
+export const Schedule: Schema.Schema<Schedule> = Schema.suspend(() =>
+  Schema.Struct({
+    scheduleStartDate: Schema.optional(Storagetransfer_Date),
+    scheduleEndDate: Schema.optional(Storagetransfer_Date),
+    startTimeOfDay: Schema.optional(TimeOfDay),
+    endTimeOfDay: Schema.optional(TimeOfDay),
+    repeatInterval: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Schedule" }) as any as Schema.Schema<Schedule>;
 
 export interface EventStream {
   /** Required. Specifies a unique name of the resource such as AWS SQS ARN in the form 'arn:aws:sqs:region:account_id:queue_name', or Pub/Sub subscription resource name in the form 'projects/{project}/subscriptions/{sub}'. */
@@ -521,11 +694,13 @@ export interface EventStream {
   eventStreamExpirationTime?: string;
 }
 
-export const EventStream: Schema.Schema<EventStream> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  eventStreamStartTime: Schema.optional(Schema.String),
-  eventStreamExpirationTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventStream" }) as any as Schema.Schema<EventStream>;
+export const EventStream: Schema.Schema<EventStream> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    eventStreamStartTime: Schema.optional(Schema.String),
+    eventStreamExpirationTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EventStream" }) as any as Schema.Schema<EventStream>;
 
 export interface TransferJob {
   /** A unique name (within the transfer project) assigned when the job is created. If this field is empty in a CreateTransferJobRequest, Storage Transfer Service assigns a unique name. Otherwise, the specified name is used as the unique name for this job. If the specified name is in use by a job, the creation request fails with an ALREADY_EXISTS error. This name must start with `"transferJobs/"` prefix and end with a letter or a number, and should be no more than 128 characters. For transfers involving PosixFilesystem, this name must start with `transferJobs/OPI` specifically. For all other transfer types, this name must not start with `transferJobs/OPI`. Non-PosixFilesystem example: `"transferJobs/^(?!OPI)[A-Za-z0-9-._~]*[A-Za-z0-9]$"` PosixFilesystem example: `"transferJobs/OPI^[A-Za-z0-9-._~]*[A-Za-z0-9]$"` Applications must not rely on the enforcement of naming requirements involving OPI. Invalid job names fail with an INVALID_ARGUMENT error. */
@@ -549,7 +724,12 @@ export interface TransferJob {
   /** Specifies the event stream for the transfer job for event-driven transfers. When EventStream is specified, the Schedule fields are ignored. */
   eventStream?: EventStream;
   /** Status of the job. This value MUST be specified for `CreateTransferJobRequests`. **Note:** The effect of the new job status takes place during a subsequent job run. For example, if you change the job status from ENABLED to DISABLED, and an operation spawned by the transfer is running, the status change would not affect the current operation. */
-  status?: "STATUS_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DELETED" | (string & {});
+  status?:
+    | "STATUS_UNSPECIFIED"
+    | "ENABLED"
+    | "DISABLED"
+    | "DELETED"
+    | (string & {});
   /** Output only. The time that the transfer job was created. */
   creationTime?: string;
   /** Output only. The time that the transfer job was last modified. */
@@ -560,23 +740,25 @@ export interface TransferJob {
   latestOperationName?: string;
 }
 
-export const TransferJob: Schema.Schema<TransferJob> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  serviceAccount: Schema.optional(Schema.String),
-  transferSpec: Schema.optional(TransferSpec),
-  replicationSpec: Schema.optional(ReplicationSpec),
-  notificationConfig: Schema.optional(NotificationConfig),
-  loggingConfig: Schema.optional(LoggingConfig),
-  schedule: Schema.optional(Schedule),
-  eventStream: Schema.optional(EventStream),
-  status: Schema.optional(Schema.String),
-  creationTime: Schema.optional(Schema.String),
-  lastModificationTime: Schema.optional(Schema.String),
-  deletionTime: Schema.optional(Schema.String),
-  latestOperationName: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferJob" }) as any as Schema.Schema<TransferJob>;
+export const TransferJob: Schema.Schema<TransferJob> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+    serviceAccount: Schema.optional(Schema.String),
+    transferSpec: Schema.optional(TransferSpec),
+    replicationSpec: Schema.optional(ReplicationSpec),
+    notificationConfig: Schema.optional(NotificationConfig),
+    loggingConfig: Schema.optional(LoggingConfig),
+    schedule: Schema.optional(Schedule),
+    eventStream: Schema.optional(EventStream),
+    status: Schema.optional(Schema.String),
+    creationTime: Schema.optional(Schema.String),
+    lastModificationTime: Schema.optional(Schema.String),
+    deletionTime: Schema.optional(Schema.String),
+    latestOperationName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TransferJob" }) as any as Schema.Schema<TransferJob>;
 
 export interface UpdateTransferJobRequest {
   /** Required. The ID of the Google Cloud project that owns the job. */
@@ -587,11 +769,16 @@ export interface UpdateTransferJobRequest {
   updateTransferJobFieldMask?: string;
 }
 
-export const UpdateTransferJobRequest: Schema.Schema<UpdateTransferJobRequest> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-  transferJob: Schema.optional(TransferJob),
-  updateTransferJobFieldMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateTransferJobRequest" }) as any as Schema.Schema<UpdateTransferJobRequest>;
+export const UpdateTransferJobRequest: Schema.Schema<UpdateTransferJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projectId: Schema.optional(Schema.String),
+      transferJob: Schema.optional(TransferJob),
+      updateTransferJobFieldMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateTransferJobRequest",
+  }) as any as Schema.Schema<UpdateTransferJobRequest>;
 
 export interface ListTransferJobsResponse {
   /** A list of transfer jobs. */
@@ -600,40 +787,57 @@ export interface ListTransferJobsResponse {
   nextPageToken?: string;
 }
 
-export const ListTransferJobsResponse: Schema.Schema<ListTransferJobsResponse> = Schema.suspend(() => Schema.Struct({
-  transferJobs: Schema.optional(Schema.Array(TransferJob)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTransferJobsResponse" }) as any as Schema.Schema<ListTransferJobsResponse>;
+export const ListTransferJobsResponse: Schema.Schema<ListTransferJobsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transferJobs: Schema.optional(Schema.Array(TransferJob)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTransferJobsResponse",
+  }) as any as Schema.Schema<ListTransferJobsResponse>;
 
-export interface PauseTransferOperationRequest {
-}
+export interface PauseTransferOperationRequest {}
 
-export const PauseTransferOperationRequest: Schema.Schema<PauseTransferOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "PauseTransferOperationRequest" }) as any as Schema.Schema<PauseTransferOperationRequest>;
+export const PauseTransferOperationRequest: Schema.Schema<PauseTransferOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "PauseTransferOperationRequest",
+  }) as any as Schema.Schema<PauseTransferOperationRequest>;
 
-export interface ResumeTransferOperationRequest {
-}
+export interface ResumeTransferOperationRequest {}
 
-export const ResumeTransferOperationRequest: Schema.Schema<ResumeTransferOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ResumeTransferOperationRequest" }) as any as Schema.Schema<ResumeTransferOperationRequest>;
+export const ResumeTransferOperationRequest: Schema.Schema<ResumeTransferOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ResumeTransferOperationRequest",
+  }) as any as Schema.Schema<ResumeTransferOperationRequest>;
 
 export interface RunTransferJobRequest {
   /** Required. The ID of the Google Cloud project that owns the transfer job. */
   projectId?: string;
 }
 
-export const RunTransferJobRequest: Schema.Schema<RunTransferJobRequest> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RunTransferJobRequest" }) as any as Schema.Schema<RunTransferJobRequest>;
+export const RunTransferJobRequest: Schema.Schema<RunTransferJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RunTransferJobRequest",
+  }) as any as Schema.Schema<RunTransferJobRequest>;
 
 export interface BandwidthLimit {
   /** Bandwidth rate in megabytes per second, distributed across all the agents in the pool. */
   limitMbps?: string;
 }
 
-export const BandwidthLimit: Schema.Schema<BandwidthLimit> = Schema.suspend(() => Schema.Struct({
-  limitMbps: Schema.optional(Schema.String),
-})).annotate({ identifier: "BandwidthLimit" }) as any as Schema.Schema<BandwidthLimit>;
+export const BandwidthLimit: Schema.Schema<BandwidthLimit> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      limitMbps: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "BandwidthLimit",
+}) as any as Schema.Schema<BandwidthLimit>;
 
 export interface AgentPool {
   /** Required. Specifies a unique string that identifies the agent pool. Format: `projects/{project_id}/agentPools/{agent_pool_id}` */
@@ -641,17 +845,24 @@ export interface AgentPool {
   /** Specifies the client-specified AgentPool description. */
   displayName?: string;
   /** Output only. Specifies the state of the AgentPool. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "CREATED" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "CREATED"
+    | "DELETING"
+    | (string & {});
   /** Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'. */
   bandwidthLimit?: BandwidthLimit;
 }
 
-export const AgentPool: Schema.Schema<AgentPool> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  bandwidthLimit: Schema.optional(BandwidthLimit),
-})).annotate({ identifier: "AgentPool" }) as any as Schema.Schema<AgentPool>;
+export const AgentPool: Schema.Schema<AgentPool> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    bandwidthLimit: Schema.optional(BandwidthLimit),
+  }),
+).annotate({ identifier: "AgentPool" }) as any as Schema.Schema<AgentPool>;
 
 export interface ListAgentPoolsResponse {
   /** A list of agent pools. */
@@ -660,10 +871,15 @@ export interface ListAgentPoolsResponse {
   nextPageToken?: string;
 }
 
-export const ListAgentPoolsResponse: Schema.Schema<ListAgentPoolsResponse> = Schema.suspend(() => Schema.Struct({
-  agentPools: Schema.optional(Schema.Array(AgentPool)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAgentPoolsResponse" }) as any as Schema.Schema<ListAgentPoolsResponse>;
+export const ListAgentPoolsResponse: Schema.Schema<ListAgentPoolsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      agentPools: Schema.optional(Schema.Array(AgentPool)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAgentPoolsResponse",
+  }) as any as Schema.Schema<ListAgentPoolsResponse>;
 
 export interface TransferCounters {
   /** Objects found in the data source that are scheduled to be transferred, excluding any that are filtered based on object conditions or skipped due to sync. */
@@ -714,31 +930,36 @@ export interface TransferCounters {
   unsupportedS3GlacierObjectsSkippedCount?: string;
 }
 
-export const TransferCounters: Schema.Schema<TransferCounters> = Schema.suspend(() => Schema.Struct({
-  objectsFoundFromSource: Schema.optional(Schema.String),
-  bytesFoundFromSource: Schema.optional(Schema.String),
-  objectsFoundOnlyFromSink: Schema.optional(Schema.String),
-  bytesFoundOnlyFromSink: Schema.optional(Schema.String),
-  objectsFromSourceSkippedBySync: Schema.optional(Schema.String),
-  bytesFromSourceSkippedBySync: Schema.optional(Schema.String),
-  objectsCopiedToSink: Schema.optional(Schema.String),
-  bytesCopiedToSink: Schema.optional(Schema.String),
-  objectsDeletedFromSource: Schema.optional(Schema.String),
-  bytesDeletedFromSource: Schema.optional(Schema.String),
-  objectsDeletedFromSink: Schema.optional(Schema.String),
-  bytesDeletedFromSink: Schema.optional(Schema.String),
-  objectsFromSourceFailed: Schema.optional(Schema.String),
-  bytesFromSourceFailed: Schema.optional(Schema.String),
-  objectsFailedToDeleteFromSink: Schema.optional(Schema.String),
-  bytesFailedToDeleteFromSink: Schema.optional(Schema.String),
-  directoriesFoundFromSource: Schema.optional(Schema.String),
-  directoriesFailedToListFromSource: Schema.optional(Schema.String),
-  directoriesSuccessfullyListedFromSource: Schema.optional(Schema.String),
-  intermediateObjectsCleanedUp: Schema.optional(Schema.String),
-  intermediateObjectsFailedCleanedUp: Schema.optional(Schema.String),
-  unrestoredDeepArchiveObjectsSkippedCount: Schema.optional(Schema.String),
-  unsupportedS3GlacierObjectsSkippedCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferCounters" }) as any as Schema.Schema<TransferCounters>;
+export const TransferCounters: Schema.Schema<TransferCounters> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      objectsFoundFromSource: Schema.optional(Schema.String),
+      bytesFoundFromSource: Schema.optional(Schema.String),
+      objectsFoundOnlyFromSink: Schema.optional(Schema.String),
+      bytesFoundOnlyFromSink: Schema.optional(Schema.String),
+      objectsFromSourceSkippedBySync: Schema.optional(Schema.String),
+      bytesFromSourceSkippedBySync: Schema.optional(Schema.String),
+      objectsCopiedToSink: Schema.optional(Schema.String),
+      bytesCopiedToSink: Schema.optional(Schema.String),
+      objectsDeletedFromSource: Schema.optional(Schema.String),
+      bytesDeletedFromSource: Schema.optional(Schema.String),
+      objectsDeletedFromSink: Schema.optional(Schema.String),
+      bytesDeletedFromSink: Schema.optional(Schema.String),
+      objectsFromSourceFailed: Schema.optional(Schema.String),
+      bytesFromSourceFailed: Schema.optional(Schema.String),
+      objectsFailedToDeleteFromSink: Schema.optional(Schema.String),
+      bytesFailedToDeleteFromSink: Schema.optional(Schema.String),
+      directoriesFoundFromSource: Schema.optional(Schema.String),
+      directoriesFailedToListFromSource: Schema.optional(Schema.String),
+      directoriesSuccessfullyListedFromSource: Schema.optional(Schema.String),
+      intermediateObjectsCleanedUp: Schema.optional(Schema.String),
+      intermediateObjectsFailedCleanedUp: Schema.optional(Schema.String),
+      unrestoredDeepArchiveObjectsSkippedCount: Schema.optional(Schema.String),
+      unsupportedS3GlacierObjectsSkippedCount: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TransferCounters",
+}) as any as Schema.Schema<TransferCounters>;
 
 export interface ErrorLogEntry {
   /** Output only. A URL that refers to the target (a data source, a data sink, or an object) with which the error is associated. */
@@ -747,25 +968,51 @@ export interface ErrorLogEntry {
   errorDetails?: Array<string>;
 }
 
-export const ErrorLogEntry: Schema.Schema<ErrorLogEntry> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  errorDetails: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ErrorLogEntry" }) as any as Schema.Schema<ErrorLogEntry>;
+export const ErrorLogEntry: Schema.Schema<ErrorLogEntry> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+    errorDetails: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "ErrorLogEntry",
+}) as any as Schema.Schema<ErrorLogEntry>;
 
 export interface ErrorSummary {
   /** Required. */
-  errorCode?: "OK" | "CANCELLED" | "UNKNOWN" | "INVALID_ARGUMENT" | "DEADLINE_EXCEEDED" | "NOT_FOUND" | "ALREADY_EXISTS" | "PERMISSION_DENIED" | "UNAUTHENTICATED" | "RESOURCE_EXHAUSTED" | "FAILED_PRECONDITION" | "ABORTED" | "OUT_OF_RANGE" | "UNIMPLEMENTED" | "INTERNAL" | "UNAVAILABLE" | "DATA_LOSS" | (string & {});
+  errorCode?:
+    | "OK"
+    | "CANCELLED"
+    | "UNKNOWN"
+    | "INVALID_ARGUMENT"
+    | "DEADLINE_EXCEEDED"
+    | "NOT_FOUND"
+    | "ALREADY_EXISTS"
+    | "PERMISSION_DENIED"
+    | "UNAUTHENTICATED"
+    | "RESOURCE_EXHAUSTED"
+    | "FAILED_PRECONDITION"
+    | "ABORTED"
+    | "OUT_OF_RANGE"
+    | "UNIMPLEMENTED"
+    | "INTERNAL"
+    | "UNAVAILABLE"
+    | "DATA_LOSS"
+    | (string & {});
   /** Required. Count of this type of error. */
   errorCount?: string;
   /** Error samples. At most 5 error log entries are recorded for a given error code for a single transfer operation. */
   errorLogEntries?: Array<ErrorLogEntry>;
 }
 
-export const ErrorSummary: Schema.Schema<ErrorSummary> = Schema.suspend(() => Schema.Struct({
-  errorCode: Schema.optional(Schema.String),
-  errorCount: Schema.optional(Schema.String),
-  errorLogEntries: Schema.optional(Schema.Array(ErrorLogEntry)),
-})).annotate({ identifier: "ErrorSummary" }) as any as Schema.Schema<ErrorSummary>;
+export const ErrorSummary: Schema.Schema<ErrorSummary> = Schema.suspend(() =>
+  Schema.Struct({
+    errorCode: Schema.optional(Schema.String),
+    errorCount: Schema.optional(Schema.String),
+    errorLogEntries: Schema.optional(Schema.Array(ErrorLogEntry)),
+  }),
+).annotate({
+  identifier: "ErrorSummary",
+}) as any as Schema.Schema<ErrorSummary>;
 
 export interface TransferOperation {
   /** A globally unique ID assigned by the system. */
@@ -783,7 +1030,16 @@ export interface TransferOperation {
   /** End time of this transfer execution. */
   endTime?: string;
   /** Status of the transfer operation. */
-  status?: "STATUS_UNSPECIFIED" | "IN_PROGRESS" | "PAUSED" | "SUCCESS" | "FAILED" | "ABORTED" | "QUEUED" | "SUSPENDING" | (string & {});
+  status?:
+    | "STATUS_UNSPECIFIED"
+    | "IN_PROGRESS"
+    | "PAUSED"
+    | "SUCCESS"
+    | "FAILED"
+    | "ABORTED"
+    | "QUEUED"
+    | "SUSPENDING"
+    | (string & {});
   /** Information about the progress of the transfer operation. */
   counters?: TransferCounters;
   /** Summarizes errors encountered with sample error log entries. */
@@ -792,19 +1048,24 @@ export interface TransferOperation {
   transferJobName?: string;
 }
 
-export const TransferOperation: Schema.Schema<TransferOperation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  transferSpec: Schema.optional(TransferSpec),
-  notificationConfig: Schema.optional(NotificationConfig),
-  loggingConfig: Schema.optional(LoggingConfig),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  counters: Schema.optional(TransferCounters),
-  errorBreakdowns: Schema.optional(Schema.Array(ErrorSummary)),
-  transferJobName: Schema.optional(Schema.String),
-})).annotate({ identifier: "TransferOperation" }) as any as Schema.Schema<TransferOperation>;
+export const TransferOperation: Schema.Schema<TransferOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      transferSpec: Schema.optional(TransferSpec),
+      notificationConfig: Schema.optional(NotificationConfig),
+      loggingConfig: Schema.optional(LoggingConfig),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      counters: Schema.optional(TransferCounters),
+      errorBreakdowns: Schema.optional(Schema.Array(ErrorSummary)),
+      transferJobName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TransferOperation",
+  }) as any as Schema.Schema<TransferOperation>;
 
 // ==========================================================================
 // Operations
@@ -828,7 +1089,9 @@ export const ListTransferOperationsRequest = Schema.Struct({
   filter: Schema.String.pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/transferOperations" }),
   svc,
@@ -840,7 +1103,12 @@ export const ListTransferOperationsResponse = ListOperationsResponse;
 export type ListTransferOperationsError = DefaultErrors;
 
 /** Lists transfer operations. Operations are ordered by their creation time in reverse chronological order. */
-export const listTransferOperations: API.PaginatedOperationMethod<ListTransferOperationsRequest, ListTransferOperationsResponse, ListTransferOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTransferOperations: API.PaginatedOperationMethod<
+  ListTransferOperationsRequest,
+  ListTransferOperationsResponse,
+  ListTransferOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTransferOperationsRequest,
   output: ListTransferOperationsResponse,
   errors: [],
@@ -858,7 +1126,10 @@ export interface GetTransferOperationsRequest {
 export const GetTransferOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/transferOperations/{transferOperationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/transferOperations/{transferOperationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetTransferOperationsRequest>;
 
@@ -868,7 +1139,12 @@ export const GetTransferOperationsResponse = Operation;
 export type GetTransferOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getTransferOperations: API.OperationMethod<GetTransferOperationsRequest, GetTransferOperationsResponse, GetTransferOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTransferOperations: API.OperationMethod<
+  GetTransferOperationsRequest,
+  GetTransferOperationsResponse,
+  GetTransferOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTransferOperationsRequest,
   output: GetTransferOperationsResponse,
   errors: [],
@@ -885,7 +1161,11 @@ export const CancelTransferOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/transferOperations/{transferOperationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/transferOperations/{transferOperationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelTransferOperationsRequest>;
 
@@ -895,7 +1175,12 @@ export const CancelTransferOperationsResponse = Empty;
 export type CancelTransferOperationsError = DefaultErrors;
 
 /** Cancels a transfer. Use the transferOperations.get method to check if the cancellation succeeded or if the operation completed despite the `cancel` request. When you cancel an operation, the currently running transfer is interrupted. For recurring transfer jobs, the next instance of the transfer job will still run. For example, if your job is configured to run every day at 1pm and you cancel Monday's operation at 1:05pm, Monday's transfer will stop. However, a transfer job will still be attempted on Tuesday. This applies only to currently running operations. If an operation is not currently running, `cancel` does nothing. *Caution:* Canceling a transfer job can leave your data in an unknown state. We recommend that you restore the state at both the destination and the source after the `cancel` request completes so that your data is in a consistent state. When you cancel a job, the next job computes a delta of files and may repair any inconsistent state. For instance, if you run a job every day, and today's job found 10 new files and transferred five files before you canceled the job, tomorrow's transfer operation will compute a new delta with the five files that were not copied today plus any new files discovered tomorrow. */
-export const cancelTransferOperations: API.OperationMethod<CancelTransferOperationsRequest, CancelTransferOperationsResponse, CancelTransferOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelTransferOperations: API.OperationMethod<
+  CancelTransferOperationsRequest,
+  CancelTransferOperationsResponse,
+  CancelTransferOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelTransferOperationsRequest,
   output: CancelTransferOperationsResponse,
   errors: [],
@@ -912,7 +1197,11 @@ export const PauseTransferOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(PauseTransferOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/transferOperations/{transferOperationsId}:pause", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/transferOperations/{transferOperationsId}:pause",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PauseTransferOperationsRequest>;
 
@@ -922,7 +1211,12 @@ export const PauseTransferOperationsResponse = Empty;
 export type PauseTransferOperationsError = DefaultErrors;
 
 /** Pauses a transfer operation. */
-export const pauseTransferOperations: API.OperationMethod<PauseTransferOperationsRequest, PauseTransferOperationsResponse, PauseTransferOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pauseTransferOperations: API.OperationMethod<
+  PauseTransferOperationsRequest,
+  PauseTransferOperationsResponse,
+  PauseTransferOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PauseTransferOperationsRequest,
   output: PauseTransferOperationsResponse,
   errors: [],
@@ -939,7 +1233,11 @@ export const ResumeTransferOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResumeTransferOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/transferOperations/{transferOperationsId}:resume", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/transferOperations/{transferOperationsId}:resume",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResumeTransferOperationsRequest>;
 
@@ -949,7 +1247,12 @@ export const ResumeTransferOperationsResponse = Empty;
 export type ResumeTransferOperationsError = DefaultErrors;
 
 /** Resumes a transfer operation that is paused. */
-export const resumeTransferOperations: API.OperationMethod<ResumeTransferOperationsRequest, ResumeTransferOperationsResponse, ResumeTransferOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resumeTransferOperations: API.OperationMethod<
+  ResumeTransferOperationsRequest,
+  ResumeTransferOperationsResponse,
+  ResumeTransferOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResumeTransferOperationsRequest,
   output: ResumeTransferOperationsResponse,
   errors: [],
@@ -973,7 +1276,12 @@ export const GetGoogleServiceAccountsResponse = GoogleServiceAccount;
 export type GetGoogleServiceAccountsError = DefaultErrors;
 
 /** Returns the Google service account that is used by Storage Transfer Service to access buckets in the project where transfers run or in other projects. Each Google service account is associated with one Google Cloud project. Users should add this service account to the Google Cloud Storage bucket ACLs to grant access to Storage Transfer Service. This service account is created and owned by Storage Transfer Service and can only be used by Storage Transfer Service. */
-export const getGoogleServiceAccounts: API.OperationMethod<GetGoogleServiceAccountsRequest, GetGoogleServiceAccountsResponse, GetGoogleServiceAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getGoogleServiceAccounts: API.OperationMethod<
+  GetGoogleServiceAccountsRequest,
+  GetGoogleServiceAccountsResponse,
+  GetGoogleServiceAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetGoogleServiceAccountsRequest,
   output: GetGoogleServiceAccountsResponse,
   errors: [],
@@ -997,7 +1305,12 @@ export const CreateTransferJobsResponse = TransferJob;
 export type CreateTransferJobsError = DefaultErrors;
 
 /** Creates a transfer job that runs periodically. */
-export const createTransferJobs: API.OperationMethod<CreateTransferJobsRequest, CreateTransferJobsResponse, CreateTransferJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createTransferJobs: API.OperationMethod<
+  CreateTransferJobsRequest,
+  CreateTransferJobsResponse,
+  CreateTransferJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateTransferJobsRequest,
   output: CreateTransferJobsResponse,
   errors: [],
@@ -1014,7 +1327,11 @@ export const PatchTransferJobsRequest = Schema.Struct({
   jobName: Schema.String.pipe(T.HttpPath("jobName")),
   body: Schema.optional(UpdateTransferJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/transferJobs/{transferJobsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/transferJobs/{transferJobsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchTransferJobsRequest>;
 
@@ -1024,7 +1341,12 @@ export const PatchTransferJobsResponse = TransferJob;
 export type PatchTransferJobsError = DefaultErrors;
 
 /** Updates a transfer job. Updating a job's transfer spec does not affect transfer operations that are running already. **Note:** The job's status field can be modified using this RPC (for example, to set a job's status to DELETED, DISABLED, or ENABLED). */
-export const patchTransferJobs: API.OperationMethod<PatchTransferJobsRequest, PatchTransferJobsResponse, PatchTransferJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTransferJobs: API.OperationMethod<
+  PatchTransferJobsRequest,
+  PatchTransferJobsResponse,
+  PatchTransferJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTransferJobsRequest,
   output: PatchTransferJobsResponse,
   errors: [],
@@ -1051,7 +1373,12 @@ export const GetTransferJobsResponse = TransferJob;
 export type GetTransferJobsError = DefaultErrors;
 
 /** Gets a transfer job. */
-export const getTransferJobs: API.OperationMethod<GetTransferJobsRequest, GetTransferJobsResponse, GetTransferJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTransferJobs: API.OperationMethod<
+  GetTransferJobsRequest,
+  GetTransferJobsResponse,
+  GetTransferJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTransferJobsRequest,
   output: GetTransferJobsResponse,
   errors: [],
@@ -1081,7 +1408,12 @@ export const ListTransferJobsResponse_Op = ListTransferJobsResponse;
 export type ListTransferJobsError = DefaultErrors;
 
 /** Lists transfer jobs. */
-export const listTransferJobs: API.PaginatedOperationMethod<ListTransferJobsRequest, ListTransferJobsResponse_Op, ListTransferJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTransferJobs: API.PaginatedOperationMethod<
+  ListTransferJobsRequest,
+  ListTransferJobsResponse_Op,
+  ListTransferJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTransferJobsRequest,
   output: ListTransferJobsResponse_Op,
   errors: [],
@@ -1102,7 +1434,11 @@ export const RunTransferJobsRequest = Schema.Struct({
   jobName: Schema.String.pipe(T.HttpPath("jobName")),
   body: Schema.optional(RunTransferJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/transferJobs/{transferJobsId}:run", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/transferJobs/{transferJobsId}:run",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RunTransferJobsRequest>;
 
@@ -1112,7 +1448,12 @@ export const RunTransferJobsResponse = Operation;
 export type RunTransferJobsError = DefaultErrors;
 
 /** Starts a new operation for the specified transfer job. A `TransferJob` has a maximum of one active `TransferOperation`. If this method is called while a `TransferOperation` is active, an error is returned. */
-export const runTransferJobs: API.OperationMethod<RunTransferJobsRequest, RunTransferJobsResponse, RunTransferJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const runTransferJobs: API.OperationMethod<
+  RunTransferJobsRequest,
+  RunTransferJobsResponse,
+  RunTransferJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RunTransferJobsRequest,
   output: RunTransferJobsResponse,
   errors: [],
@@ -1139,7 +1480,12 @@ export const DeleteTransferJobsResponse = Empty;
 export type DeleteTransferJobsError = DefaultErrors;
 
 /** Deletes a transfer job. Deleting a transfer job sets its status to DELETED. */
-export const deleteTransferJobs: API.OperationMethod<DeleteTransferJobsRequest, DeleteTransferJobsResponse, DeleteTransferJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTransferJobs: API.OperationMethod<
+  DeleteTransferJobsRequest,
+  DeleteTransferJobsResponse,
+  DeleteTransferJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTransferJobsRequest,
   output: DeleteTransferJobsResponse,
   errors: [],
@@ -1159,7 +1505,11 @@ export const CreateProjectsAgentPoolsRequest = Schema.Struct({
   agentPoolId: Schema.optional(Schema.String).pipe(T.HttpQuery("agentPoolId")),
   body: Schema.optional(AgentPool).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/agentPools", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/agentPools",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsAgentPoolsRequest>;
 
@@ -1169,7 +1519,12 @@ export const CreateProjectsAgentPoolsResponse = AgentPool;
 export type CreateProjectsAgentPoolsError = DefaultErrors;
 
 /** Creates an agent pool resource. */
-export const createProjectsAgentPools: API.OperationMethod<CreateProjectsAgentPoolsRequest, CreateProjectsAgentPoolsResponse, CreateProjectsAgentPoolsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsAgentPools: API.OperationMethod<
+  CreateProjectsAgentPoolsRequest,
+  CreateProjectsAgentPoolsResponse,
+  CreateProjectsAgentPoolsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsAgentPoolsRequest,
   output: CreateProjectsAgentPoolsResponse,
   errors: [],
@@ -1189,7 +1544,11 @@ export const PatchProjectsAgentPoolsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AgentPool).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/agentPools/{agentPoolsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/agentPools/{agentPoolsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsAgentPoolsRequest>;
 
@@ -1199,7 +1558,12 @@ export const PatchProjectsAgentPoolsResponse = AgentPool;
 export type PatchProjectsAgentPoolsError = DefaultErrors;
 
 /** Updates an existing agent pool resource. */
-export const patchProjectsAgentPools: API.OperationMethod<PatchProjectsAgentPoolsRequest, PatchProjectsAgentPoolsResponse, PatchProjectsAgentPoolsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsAgentPools: API.OperationMethod<
+  PatchProjectsAgentPoolsRequest,
+  PatchProjectsAgentPoolsResponse,
+  PatchProjectsAgentPoolsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsAgentPoolsRequest,
   output: PatchProjectsAgentPoolsResponse,
   errors: [],
@@ -1213,7 +1577,10 @@ export interface GetProjectsAgentPoolsRequest {
 export const GetProjectsAgentPoolsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/agentPools/{agentPoolsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/agentPools/{agentPoolsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsAgentPoolsRequest>;
 
@@ -1223,7 +1590,12 @@ export const GetProjectsAgentPoolsResponse = AgentPool;
 export type GetProjectsAgentPoolsError = DefaultErrors;
 
 /** Gets an agent pool. */
-export const getProjectsAgentPools: API.OperationMethod<GetProjectsAgentPoolsRequest, GetProjectsAgentPoolsResponse, GetProjectsAgentPoolsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsAgentPools: API.OperationMethod<
+  GetProjectsAgentPoolsRequest,
+  GetProjectsAgentPoolsResponse,
+  GetProjectsAgentPoolsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsAgentPoolsRequest,
   output: GetProjectsAgentPoolsResponse,
   errors: [],
@@ -1256,7 +1628,12 @@ export const ListProjectsAgentPoolsResponse = ListAgentPoolsResponse;
 export type ListProjectsAgentPoolsError = DefaultErrors;
 
 /** Lists agent pools. */
-export const listProjectsAgentPools: API.PaginatedOperationMethod<ListProjectsAgentPoolsRequest, ListProjectsAgentPoolsResponse, ListProjectsAgentPoolsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsAgentPools: API.PaginatedOperationMethod<
+  ListProjectsAgentPoolsRequest,
+  ListProjectsAgentPoolsResponse,
+  ListProjectsAgentPoolsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsAgentPoolsRequest,
   output: ListProjectsAgentPoolsResponse,
   errors: [],
@@ -1274,7 +1651,10 @@ export interface DeleteProjectsAgentPoolsRequest {
 export const DeleteProjectsAgentPoolsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/agentPools/{agentPoolsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/agentPools/{agentPoolsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsAgentPoolsRequest>;
 
@@ -1284,9 +1664,13 @@ export const DeleteProjectsAgentPoolsResponse = Empty;
 export type DeleteProjectsAgentPoolsError = DefaultErrors;
 
 /** Deletes an agent pool. */
-export const deleteProjectsAgentPools: API.OperationMethod<DeleteProjectsAgentPoolsRequest, DeleteProjectsAgentPoolsResponse, DeleteProjectsAgentPoolsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsAgentPools: API.OperationMethod<
+  DeleteProjectsAgentPoolsRequest,
+  DeleteProjectsAgentPoolsResponse,
+  DeleteProjectsAgentPoolsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsAgentPoolsRequest,
   output: DeleteProjectsAgentPoolsResponse,
   errors: [],
 }));
-

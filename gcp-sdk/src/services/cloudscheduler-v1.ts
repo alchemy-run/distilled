@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -65,11 +72,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -84,13 +95,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -101,23 +114,29 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface PubsubTarget {
   /** Required. The name of the Cloud Pub/Sub topic to which messages will be published when a job is delivered. The topic name must be in the same format as required by Pub/Sub's [PublishRequest.name](https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#publishrequest), for example `projects/PROJECT_ID/topics/TOPIC_ID`. The topic must be in the same project as the Cloud Scheduler job. */
@@ -128,11 +147,15 @@ export interface PubsubTarget {
   attributes?: Record<string, string>;
 }
 
-export const PubsubTarget: Schema.Schema<PubsubTarget> = Schema.suspend(() => Schema.Struct({
-  topicName: Schema.optional(Schema.String),
-  data: Schema.optional(Schema.String),
-  attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "PubsubTarget" }) as any as Schema.Schema<PubsubTarget>;
+export const PubsubTarget: Schema.Schema<PubsubTarget> = Schema.suspend(() =>
+  Schema.Struct({
+    topicName: Schema.optional(Schema.String),
+    data: Schema.optional(Schema.String),
+    attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({
+  identifier: "PubsubTarget",
+}) as any as Schema.Schema<PubsubTarget>;
 
 export interface AppEngineRouting {
   /** App service. By default, the job is sent to the service which is the default service when the job is attempted. */
@@ -145,16 +168,30 @@ export interface AppEngineRouting {
   host?: string;
 }
 
-export const AppEngineRouting: Schema.Schema<AppEngineRouting> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  host: Schema.optional(Schema.String),
-})).annotate({ identifier: "AppEngineRouting" }) as any as Schema.Schema<AppEngineRouting>;
+export const AppEngineRouting: Schema.Schema<AppEngineRouting> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      instance: Schema.optional(Schema.String),
+      host: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AppEngineRouting",
+}) as any as Schema.Schema<AppEngineRouting>;
 
 export interface AppEngineHttpTarget {
   /** The HTTP method to use for the request. PATCH and OPTIONS are not permitted. */
-  httpMethod?: "HTTP_METHOD_UNSPECIFIED" | "POST" | "GET" | "HEAD" | "PUT" | "DELETE" | "PATCH" | "OPTIONS" | (string & {});
+  httpMethod?:
+    | "HTTP_METHOD_UNSPECIFIED"
+    | "POST"
+    | "GET"
+    | "HEAD"
+    | "PUT"
+    | "DELETE"
+    | "PATCH"
+    | "OPTIONS"
+    | (string & {});
   /** App Engine Routing setting for the job. */
   appEngineRouting?: AppEngineRouting;
   /** The relative URI. The relative URL must begin with "/" and must be a valid HTTP relative URL. It can contain a path, query string arguments, and `#` fragments. If the relative URL is empty, then the root path "/" will be used. No spaces are allowed, and the maximum length allowed is 2083 characters. */
@@ -165,13 +202,18 @@ export interface AppEngineHttpTarget {
   body?: string;
 }
 
-export const AppEngineHttpTarget: Schema.Schema<AppEngineHttpTarget> = Schema.suspend(() => Schema.Struct({
-  httpMethod: Schema.optional(Schema.String),
-  appEngineRouting: Schema.optional(AppEngineRouting),
-  relativeUri: Schema.optional(Schema.String),
-  headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  body: Schema.optional(Schema.String),
-})).annotate({ identifier: "AppEngineHttpTarget" }) as any as Schema.Schema<AppEngineHttpTarget>;
+export const AppEngineHttpTarget: Schema.Schema<AppEngineHttpTarget> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      httpMethod: Schema.optional(Schema.String),
+      appEngineRouting: Schema.optional(AppEngineRouting),
+      relativeUri: Schema.optional(Schema.String),
+      headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      body: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AppEngineHttpTarget",
+  }) as any as Schema.Schema<AppEngineHttpTarget>;
 
 export interface OAuthToken {
   /** [Service account email](https://cloud.google.com/iam/docs/service-accounts) to be used for generating OAuth token. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. */
@@ -180,10 +222,12 @@ export interface OAuthToken {
   scope?: string;
 }
 
-export const OAuthToken: Schema.Schema<OAuthToken> = Schema.suspend(() => Schema.Struct({
-  serviceAccountEmail: Schema.optional(Schema.String),
-  scope: Schema.optional(Schema.String),
-})).annotate({ identifier: "OAuthToken" }) as any as Schema.Schema<OAuthToken>;
+export const OAuthToken: Schema.Schema<OAuthToken> = Schema.suspend(() =>
+  Schema.Struct({
+    serviceAccountEmail: Schema.optional(Schema.String),
+    scope: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OAuthToken" }) as any as Schema.Schema<OAuthToken>;
 
 export interface OidcToken {
   /** [Service account email](https://cloud.google.com/iam/docs/service-accounts) to be used for generating OIDC token. The service account must be within the same project as the job. The caller must have iam.serviceAccounts.actAs permission for the service account. */
@@ -192,16 +236,27 @@ export interface OidcToken {
   audience?: string;
 }
 
-export const OidcToken: Schema.Schema<OidcToken> = Schema.suspend(() => Schema.Struct({
-  serviceAccountEmail: Schema.optional(Schema.String),
-  audience: Schema.optional(Schema.String),
-})).annotate({ identifier: "OidcToken" }) as any as Schema.Schema<OidcToken>;
+export const OidcToken: Schema.Schema<OidcToken> = Schema.suspend(() =>
+  Schema.Struct({
+    serviceAccountEmail: Schema.optional(Schema.String),
+    audience: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OidcToken" }) as any as Schema.Schema<OidcToken>;
 
 export interface HttpTarget {
   /** Required. The full URI path that the request will be sent to. This string must begin with either "http://" or "https://". Some examples of valid values for uri are: `http://acme.com` and `https://acme.com/sales:8080`. Cloud Scheduler will encode some characters for safety and compatibility. The maximum allowed URL length is 2083 characters after encoding. */
   uri?: string;
   /** Which HTTP method to use for the request. */
-  httpMethod?: "HTTP_METHOD_UNSPECIFIED" | "POST" | "GET" | "HEAD" | "PUT" | "DELETE" | "PATCH" | "OPTIONS" | (string & {});
+  httpMethod?:
+    | "HTTP_METHOD_UNSPECIFIED"
+    | "POST"
+    | "GET"
+    | "HEAD"
+    | "PUT"
+    | "DELETE"
+    | "PATCH"
+    | "OPTIONS"
+    | (string & {});
   /** HTTP request headers. This map contains the header field names and values. The user can specify HTTP request headers to send with the job's HTTP request. Repeated headers are not supported, but a header value can contain commas. The following headers represent a subset of the headers that accompany the job's HTTP request. Some HTTP request headers are ignored or replaced. A partial list of headers that are ignored or replaced is below: * Host: This will be computed by Cloud Scheduler and derived from uri. * `Content-Length`: This will be computed by Cloud Scheduler. * `User-Agent`: This will be set to `"Google-Cloud-Scheduler"`. * `X-Google-*`: Google internal use only. * `X-AppEngine-*`: Google internal use only. * `X-CloudScheduler`: This header will be set to true. * `X-CloudScheduler-JobName`: This header will contain the job name. * `X-CloudScheduler-ScheduleTime`: For Cloud Scheduler jobs specified in the unix-cron format, this header will contain the job schedule as an offset of UTC parsed according to RFC3339. If the job has a body and the following headers are not set by the user, Cloud Scheduler sets default values: * `Content-Type`: This will be set to `"application/octet-stream"`. You can override this default by explicitly setting `Content-Type` to a particular media type when creating the job. For example, you can set `Content-Type` to `"application/json"`. The total size of headers must be less than 80KB. */
   headers?: Record<string, string>;
   /** HTTP request body. A request body is allowed only if the HTTP method is POST, PUT, or PATCH. It is an error to set body on a job with an incompatible HttpMethod. */
@@ -212,14 +267,16 @@ export interface HttpTarget {
   oidcToken?: OidcToken;
 }
 
-export const HttpTarget: Schema.Schema<HttpTarget> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  httpMethod: Schema.optional(Schema.String),
-  headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  body: Schema.optional(Schema.String),
-  oauthToken: Schema.optional(OAuthToken),
-  oidcToken: Schema.optional(OidcToken),
-})).annotate({ identifier: "HttpTarget" }) as any as Schema.Schema<HttpTarget>;
+export const HttpTarget: Schema.Schema<HttpTarget> = Schema.suspend(() =>
+  Schema.Struct({
+    uri: Schema.optional(Schema.String),
+    httpMethod: Schema.optional(Schema.String),
+    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    body: Schema.optional(Schema.String),
+    oauthToken: Schema.optional(OAuthToken),
+    oidcToken: Schema.optional(OidcToken),
+  }),
+).annotate({ identifier: "HttpTarget" }) as any as Schema.Schema<HttpTarget>;
 
 export interface RetryConfig {
   /** The number of attempts that the system will make to run a job using the exponential backoff procedure described by max_doublings. The default value of retry_count is zero. If retry_count is 0 (and if max_retry_duration is also 0), a job attempt won't be retried if it fails. Instead, Cloud Scheduler system will wait for the next scheduled execution time. Setting retry_count to 0 doesn't prevent failed jobs from running according to schedule after the failure. If retry_count is set to a non-zero number, Cloud Scheduler will retry the failed job, using exponential backoff, for retry_count times until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. Values greater than 5 and negative values are not allowed. */
@@ -234,13 +291,15 @@ export interface RetryConfig {
   maxDoublings?: number;
 }
 
-export const RetryConfig: Schema.Schema<RetryConfig> = Schema.suspend(() => Schema.Struct({
-  retryCount: Schema.optional(Schema.Number),
-  maxRetryDuration: Schema.optional(Schema.String),
-  minBackoffDuration: Schema.optional(Schema.String),
-  maxBackoffDuration: Schema.optional(Schema.String),
-  maxDoublings: Schema.optional(Schema.Number),
-})).annotate({ identifier: "RetryConfig" }) as any as Schema.Schema<RetryConfig>;
+export const RetryConfig: Schema.Schema<RetryConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    retryCount: Schema.optional(Schema.Number),
+    maxRetryDuration: Schema.optional(Schema.String),
+    minBackoffDuration: Schema.optional(Schema.String),
+    maxBackoffDuration: Schema.optional(Schema.String),
+    maxDoublings: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "RetryConfig" }) as any as Schema.Schema<RetryConfig>;
 
 export interface Job {
   /** Optionally caller-specified in CreateJob, after which it becomes output only. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the job's location. The list of available locations can be obtained by calling [locations.list](/scheduler/docs/reference/rest/v1/projects.locations/list). For more information, see [Cloud Scheduler locations](/scheduler/docs/locations). * `JOB_ID` can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), or underscores (_). The maximum length is 500 characters. */
@@ -260,7 +319,13 @@ export interface Job {
   /** Output only. The creation time of the job. */
   userUpdateTime?: string;
   /** Output only. State of the job. */
-  state?: "STATE_UNSPECIFIED" | "ENABLED" | "PAUSED" | "DISABLED" | "UPDATE_FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ENABLED"
+    | "PAUSED"
+    | "DISABLED"
+    | "UPDATE_FAILED"
+    | (string & {});
   /** Output only. The response from the target for the last attempted execution. */
   status?: Status;
   /** Output only. The next time the job is scheduled. Note that this may be a retry of a previously failed attempt or the next execution time according to the schedule. */
@@ -275,23 +340,25 @@ export interface Job {
   satisfiesPzs?: boolean;
 }
 
-export const Job: Schema.Schema<Job> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  pubsubTarget: Schema.optional(PubsubTarget),
-  appEngineHttpTarget: Schema.optional(AppEngineHttpTarget),
-  httpTarget: Schema.optional(HttpTarget),
-  schedule: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-  userUpdateTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  status: Schema.optional(Status),
-  scheduleTime: Schema.optional(Schema.String),
-  lastAttemptTime: Schema.optional(Schema.String),
-  retryConfig: Schema.optional(RetryConfig),
-  attemptDeadline: Schema.optional(Schema.String),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
+export const Job: Schema.Schema<Job> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    pubsubTarget: Schema.optional(PubsubTarget),
+    appEngineHttpTarget: Schema.optional(AppEngineHttpTarget),
+    httpTarget: Schema.optional(HttpTarget),
+    schedule: Schema.optional(Schema.String),
+    timeZone: Schema.optional(Schema.String),
+    userUpdateTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    status: Schema.optional(Status),
+    scheduleTime: Schema.optional(Schema.String),
+    lastAttemptTime: Schema.optional(Schema.String),
+    retryConfig: Schema.optional(RetryConfig),
+    attemptDeadline: Schema.optional(Schema.String),
+    satisfiesPzs: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
 
 export interface ListJobsResponse {
   /** The list of jobs. */
@@ -300,28 +367,39 @@ export interface ListJobsResponse {
   nextPageToken?: string;
 }
 
-export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(() => Schema.Struct({
-  jobs: Schema.optional(Schema.Array(Job)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListJobsResponse" }) as any as Schema.Schema<ListJobsResponse>;
+export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      jobs: Schema.optional(Schema.Array(Job)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ListJobsResponse",
+}) as any as Schema.Schema<ListJobsResponse>;
 
-export interface PauseJobRequest {
-}
+export interface PauseJobRequest {}
 
-export const PauseJobRequest: Schema.Schema<PauseJobRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "PauseJobRequest" }) as any as Schema.Schema<PauseJobRequest>;
+export const PauseJobRequest: Schema.Schema<PauseJobRequest> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "PauseJobRequest",
+}) as any as Schema.Schema<PauseJobRequest>;
 
-export interface ResumeJobRequest {
-}
+export interface ResumeJobRequest {}
 
-export const ResumeJobRequest: Schema.Schema<ResumeJobRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ResumeJobRequest" }) as any as Schema.Schema<ResumeJobRequest>;
+export const ResumeJobRequest: Schema.Schema<ResumeJobRequest> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "ResumeJobRequest",
+}) as any as Schema.Schema<ResumeJobRequest>;
 
-export interface RunJobRequest {
-}
+export interface RunJobRequest {}
 
-export const RunJobRequest: Schema.Schema<RunJobRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RunJobRequest" }) as any as Schema.Schema<RunJobRequest>;
+export const RunJobRequest: Schema.Schema<RunJobRequest> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({
+  identifier: "RunJobRequest",
+}) as any as Schema.Schema<RunJobRequest>;
 
 export interface CmekConfig {
   /** Identifier. The config resource name which includes the project and location and must end in 'cmekConfig', in the format projects/PROJECT_ID/locations/LOCATION_ID/cmekConfig` */
@@ -330,10 +408,12 @@ export interface CmekConfig {
   kmsKeyName?: string;
 }
 
-export const CmekConfig: Schema.Schema<CmekConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  kmsKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "CmekConfig" }) as any as Schema.Schema<CmekConfig>;
+export const CmekConfig: Schema.Schema<CmekConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    kmsKeyName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CmekConfig" }) as any as Schema.Schema<CmekConfig>;
 
 export interface PubsubMessage {
   /** Optional. The message data field. If this field is empty, the message must contain at least one attribute. */
@@ -348,13 +428,17 @@ export interface PubsubMessage {
   orderingKey?: string;
 }
 
-export const PubsubMessage: Schema.Schema<PubsubMessage> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  messageId: Schema.optional(Schema.String),
-  publishTime: Schema.optional(Schema.String),
-  orderingKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "PubsubMessage" }) as any as Schema.Schema<PubsubMessage>;
+export const PubsubMessage: Schema.Schema<PubsubMessage> = Schema.suspend(() =>
+  Schema.Struct({
+    data: Schema.optional(Schema.String),
+    attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    messageId: Schema.optional(Schema.String),
+    publishTime: Schema.optional(Schema.String),
+    orderingKey: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PubsubMessage",
+}) as any as Schema.Schema<PubsubMessage>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -373,15 +457,20 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusDetail: Schema.optional(Schema.String),
-  cancelRequested: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusDetail: Schema.optional(Schema.String),
+      cancelRequested: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -405,7 +494,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -417,7 +508,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -435,7 +531,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -445,7 +544,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -465,7 +569,11 @@ export const UpdateCmekConfigProjectsLocationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(CmekConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/cmekConfig", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/cmekConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateCmekConfigProjectsLocationsRequest>;
 
@@ -475,7 +583,12 @@ export const UpdateCmekConfigProjectsLocationsResponse = Operation;
 export type UpdateCmekConfigProjectsLocationsError = DefaultErrors;
 
 /** Initializes or Updates the a scheduler config. */
-export const updateCmekConfigProjectsLocations: API.OperationMethod<UpdateCmekConfigProjectsLocationsRequest, UpdateCmekConfigProjectsLocationsResponse, UpdateCmekConfigProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateCmekConfigProjectsLocations: API.OperationMethod<
+  UpdateCmekConfigProjectsLocationsRequest,
+  UpdateCmekConfigProjectsLocationsResponse,
+  UpdateCmekConfigProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateCmekConfigProjectsLocationsRequest,
   output: UpdateCmekConfigProjectsLocationsResponse,
   errors: [],
@@ -489,7 +602,10 @@ export interface GetCmekConfigProjectsLocationsRequest {
 export const GetCmekConfigProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/cmekConfig" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/cmekConfig",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCmekConfigProjectsLocationsRequest>;
 
@@ -499,7 +615,12 @@ export const GetCmekConfigProjectsLocationsResponse = CmekConfig;
 export type GetCmekConfigProjectsLocationsError = DefaultErrors;
 
 /** Gets the Scheduler config in the project/region. */
-export const getCmekConfigProjectsLocations: API.OperationMethod<GetCmekConfigProjectsLocationsRequest, GetCmekConfigProjectsLocationsResponse, GetCmekConfigProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCmekConfigProjectsLocations: API.OperationMethod<
+  GetCmekConfigProjectsLocationsRequest,
+  GetCmekConfigProjectsLocationsResponse,
+  GetCmekConfigProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCmekConfigProjectsLocationsRequest,
   output: GetCmekConfigProjectsLocationsResponse,
   errors: [],
@@ -523,9 +644,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -535,7 +661,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -553,7 +684,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -563,7 +697,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -577,7 +716,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -587,7 +729,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -604,7 +751,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -614,7 +765,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -634,7 +790,10 @@ export const ListProjectsLocationsJobsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsJobsRequest>;
 
@@ -644,7 +803,12 @@ export const ListProjectsLocationsJobsResponse = ListJobsResponse;
 export type ListProjectsLocationsJobsError = DefaultErrors;
 
 /** Lists jobs. */
-export const listProjectsLocationsJobs: API.PaginatedOperationMethod<ListProjectsLocationsJobsRequest, ListProjectsLocationsJobsResponse, ListProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
+  ListProjectsLocationsJobsRequest,
+  ListProjectsLocationsJobsResponse,
+  ListProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsRequest,
   output: ListProjectsLocationsJobsResponse,
   errors: [],
@@ -662,7 +826,10 @@ export interface GetProjectsLocationsJobsRequest {
 export const GetProjectsLocationsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsJobsRequest>;
 
@@ -672,7 +839,12 @@ export const GetProjectsLocationsJobsResponse = Job;
 export type GetProjectsLocationsJobsError = DefaultErrors;
 
 /** Gets a job. */
-export const getProjectsLocationsJobs: API.OperationMethod<GetProjectsLocationsJobsRequest, GetProjectsLocationsJobsResponse, GetProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsJobs: API.OperationMethod<
+  GetProjectsLocationsJobsRequest,
+  GetProjectsLocationsJobsResponse,
+  GetProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsJobsRequest,
   output: GetProjectsLocationsJobsResponse,
   errors: [],
@@ -689,7 +861,11 @@ export const CreateProjectsLocationsJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Job).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsJobsRequest>;
 
@@ -699,7 +875,12 @@ export const CreateProjectsLocationsJobsResponse = Job;
 export type CreateProjectsLocationsJobsError = DefaultErrors;
 
 /** Creates a job. */
-export const createProjectsLocationsJobs: API.OperationMethod<CreateProjectsLocationsJobsRequest, CreateProjectsLocationsJobsResponse, CreateProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsJobs: API.OperationMethod<
+  CreateProjectsLocationsJobsRequest,
+  CreateProjectsLocationsJobsResponse,
+  CreateProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsJobsRequest,
   output: CreateProjectsLocationsJobsResponse,
   errors: [],
@@ -719,7 +900,11 @@ export const PatchProjectsLocationsJobsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Job).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsJobsRequest>;
 
@@ -729,7 +914,12 @@ export const PatchProjectsLocationsJobsResponse = Job;
 export type PatchProjectsLocationsJobsError = DefaultErrors;
 
 /** Updates a job. If successful, the updated Job is returned. If the job does not exist, `NOT_FOUND` is returned. If UpdateJob does not successfully return, it is possible for the job to be in an Job.State.UPDATE_FAILED state. A job in this state may not be executed. If this happens, retry the UpdateJob request until a successful response is received. */
-export const patchProjectsLocationsJobs: API.OperationMethod<PatchProjectsLocationsJobsRequest, PatchProjectsLocationsJobsResponse, PatchProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsJobs: API.OperationMethod<
+  PatchProjectsLocationsJobsRequest,
+  PatchProjectsLocationsJobsResponse,
+  PatchProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsJobsRequest,
   output: PatchProjectsLocationsJobsResponse,
   errors: [],
@@ -743,7 +933,10 @@ export interface DeleteProjectsLocationsJobsRequest {
 export const DeleteProjectsLocationsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsJobsRequest>;
 
@@ -753,7 +946,12 @@ export const DeleteProjectsLocationsJobsResponse = Empty;
 export type DeleteProjectsLocationsJobsError = DefaultErrors;
 
 /** Deletes a job. */
-export const deleteProjectsLocationsJobs: API.OperationMethod<DeleteProjectsLocationsJobsRequest, DeleteProjectsLocationsJobsResponse, DeleteProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsJobs: API.OperationMethod<
+  DeleteProjectsLocationsJobsRequest,
+  DeleteProjectsLocationsJobsResponse,
+  DeleteProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsJobsRequest,
   output: DeleteProjectsLocationsJobsResponse,
   errors: [],
@@ -770,7 +968,11 @@ export const PauseProjectsLocationsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(PauseJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:pause", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:pause",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PauseProjectsLocationsJobsRequest>;
 
@@ -780,7 +982,12 @@ export const PauseProjectsLocationsJobsResponse = Job;
 export type PauseProjectsLocationsJobsError = DefaultErrors;
 
 /** Pauses a job. If a job is paused then the system will stop executing the job until it is re-enabled via ResumeJob. The state of the job is stored in state; if paused it will be set to Job.State.PAUSED. A job must be in Job.State.ENABLED to be paused. */
-export const pauseProjectsLocationsJobs: API.OperationMethod<PauseProjectsLocationsJobsRequest, PauseProjectsLocationsJobsResponse, PauseProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pauseProjectsLocationsJobs: API.OperationMethod<
+  PauseProjectsLocationsJobsRequest,
+  PauseProjectsLocationsJobsResponse,
+  PauseProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PauseProjectsLocationsJobsRequest,
   output: PauseProjectsLocationsJobsResponse,
   errors: [],
@@ -797,7 +1004,11 @@ export const ResumeProjectsLocationsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResumeJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:resume", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:resume",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResumeProjectsLocationsJobsRequest>;
 
@@ -807,7 +1018,12 @@ export const ResumeProjectsLocationsJobsResponse = Job;
 export type ResumeProjectsLocationsJobsError = DefaultErrors;
 
 /** Resume a job. This method reenables a job after it has been Job.State.PAUSED. The state of a job is stored in Job.state; after calling this method it will be set to Job.State.ENABLED. A job must be in Job.State.PAUSED to be resumed. */
-export const resumeProjectsLocationsJobs: API.OperationMethod<ResumeProjectsLocationsJobsRequest, ResumeProjectsLocationsJobsResponse, ResumeProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resumeProjectsLocationsJobs: API.OperationMethod<
+  ResumeProjectsLocationsJobsRequest,
+  ResumeProjectsLocationsJobsResponse,
+  ResumeProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResumeProjectsLocationsJobsRequest,
   output: ResumeProjectsLocationsJobsResponse,
   errors: [],
@@ -824,7 +1040,11 @@ export const RunProjectsLocationsJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RunJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:run", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}:run",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RunProjectsLocationsJobsRequest>;
 
@@ -834,9 +1054,13 @@ export const RunProjectsLocationsJobsResponse = Job;
 export type RunProjectsLocationsJobsError = DefaultErrors;
 
 /** Forces a job to run now. When this method is called, Cloud Scheduler will dispatch the job, even if the job is already running. */
-export const runProjectsLocationsJobs: API.OperationMethod<RunProjectsLocationsJobsRequest, RunProjectsLocationsJobsResponse, RunProjectsLocationsJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const runProjectsLocationsJobs: API.OperationMethod<
+  RunProjectsLocationsJobsRequest,
+  RunProjectsLocationsJobsResponse,
+  RunProjectsLocationsJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RunProjectsLocationsJobsRequest,
   output: RunProjectsLocationsJobsResponse,
   errors: [],
 }));
-

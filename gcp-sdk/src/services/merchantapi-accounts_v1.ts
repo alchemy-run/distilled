@@ -23,11 +23,12 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface EnableProgramRequest {
-}
+export interface EnableProgramRequest {}
 
-export const EnableProgramRequest: Schema.Schema<EnableProgramRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "EnableProgramRequest" }) as any as Schema.Schema<EnableProgramRequest>;
+export const EnableProgramRequest: Schema.Schema<EnableProgramRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "EnableProgramRequest",
+  }) as any as Schema.Schema<EnableProgramRequest>;
 
 export interface LocalCutoffTime {
   /** Minute local delivery orders must be placed by to process the same day. */
@@ -36,10 +37,15 @@ export interface LocalCutoffTime {
   hour?: string;
 }
 
-export const LocalCutoffTime: Schema.Schema<LocalCutoffTime> = Schema.suspend(() => Schema.Struct({
-  minute: Schema.optional(Schema.String),
-  hour: Schema.optional(Schema.String),
-})).annotate({ identifier: "LocalCutoffTime" }) as any as Schema.Schema<LocalCutoffTime>;
+export const LocalCutoffTime: Schema.Schema<LocalCutoffTime> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      minute: Schema.optional(Schema.String),
+      hour: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LocalCutoffTime",
+}) as any as Schema.Schema<LocalCutoffTime>;
 
 export interface CutoffConfig {
   /** Time that local delivery ends for the day. */
@@ -50,20 +56,28 @@ export interface CutoffConfig {
   storeCloseOffsetHours?: string;
 }
 
-export const CutoffConfig: Schema.Schema<CutoffConfig> = Schema.suspend(() => Schema.Struct({
-  localCutoffTime: Schema.optional(LocalCutoffTime),
-  noDeliveryPostCutoff: Schema.optional(Schema.Boolean),
-  storeCloseOffsetHours: Schema.optional(Schema.String),
-})).annotate({ identifier: "CutoffConfig" }) as any as Schema.Schema<CutoffConfig>;
+export const CutoffConfig: Schema.Schema<CutoffConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    localCutoffTime: Schema.optional(LocalCutoffTime),
+    noDeliveryPostCutoff: Schema.optional(Schema.Boolean),
+    storeCloseOffsetHours: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CutoffConfig",
+}) as any as Schema.Schema<CutoffConfig>;
 
 export interface GeoTargetArea {
   /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (for example, state). */
   geotargetCriteriaIds?: Array<string>;
 }
 
-export const GeoTargetArea: Schema.Schema<GeoTargetArea> = Schema.suspend(() => Schema.Struct({
-  geotargetCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GeoTargetArea" }) as any as Schema.Schema<GeoTargetArea>;
+export const GeoTargetArea: Schema.Schema<GeoTargetArea> = Schema.suspend(() =>
+  Schema.Struct({
+    geotargetCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "GeoTargetArea",
+}) as any as Schema.Schema<GeoTargetArea>;
 
 export interface LatLng {
   /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
@@ -72,10 +86,12 @@ export interface LatLng {
   latitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() => Schema.Struct({
-  longitude: Schema.optional(Schema.Number),
-  latitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
+  Schema.Struct({
+    longitude: Schema.optional(Schema.Number),
+    latitude: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface RadiusArea {
   /** Required. The center of the radius area. It represents a latitude/longitude pair in decimal degrees format. */
@@ -83,17 +99,23 @@ export interface RadiusArea {
   /** Required. The radius distance of the area. */
   radius?: number;
   /** Optional. The unit of the radius. */
-  radiusUnits?: "RADIUS_UNITS_UNSPECIFIED" | "MILES" | "KILOMETERS" | (string & {});
+  radiusUnits?:
+    | "RADIUS_UNITS_UNSPECIFIED"
+    | "MILES"
+    | "KILOMETERS"
+    | (string & {});
   /** Required. [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) or the country the radius area applies to. */
   regionCode?: string;
 }
 
-export const RadiusArea: Schema.Schema<RadiusArea> = Schema.suspend(() => Schema.Struct({
-  latLng: Schema.optional(LatLng),
-  radius: Schema.optional(Schema.Number),
-  radiusUnits: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "RadiusArea" }) as any as Schema.Schema<RadiusArea>;
+export const RadiusArea: Schema.Schema<RadiusArea> = Schema.suspend(() =>
+  Schema.Struct({
+    latLng: Schema.optional(LatLng),
+    radius: Schema.optional(Schema.Number),
+    radiusUnits: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RadiusArea" }) as any as Schema.Schema<RadiusArea>;
 
 export interface PostalCodeRange {
   /** Optional. A postal code or a pattern of the form `prefix*` denoting the inclusive upper bound of the range defining the area. It must have the same length as postalCodeRangeBegin: if postalCodeRangeBegin is a postal code then postalCodeRangeEnd must be a postal code too; if postalCodeRangeBegin is a pattern then postalCodeRangeEnd must be a pattern with the same prefix length. Optional: if not set, then the area is defined as being all the postal codes matching postalCodeRangeBegin. */
@@ -102,10 +124,15 @@ export interface PostalCodeRange {
   begin?: string;
 }
 
-export const PostalCodeRange: Schema.Schema<PostalCodeRange> = Schema.suspend(() => Schema.Struct({
-  end: Schema.optional(Schema.String),
-  begin: Schema.optional(Schema.String),
-})).annotate({ identifier: "PostalCodeRange" }) as any as Schema.Schema<PostalCodeRange>;
+export const PostalCodeRange: Schema.Schema<PostalCodeRange> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      end: Schema.optional(Schema.String),
+      begin: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PostalCodeRange",
+}) as any as Schema.Schema<PostalCodeRange>;
 
 export interface PostalCodeArea {
   /** Required. [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) or the country the postal code group applies to. */
@@ -114,10 +141,15 @@ export interface PostalCodeArea {
   postalCodes?: Array<PostalCodeRange>;
 }
 
-export const PostalCodeArea: Schema.Schema<PostalCodeArea> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  postalCodes: Schema.optional(Schema.Array(PostalCodeRange)),
-})).annotate({ identifier: "PostalCodeArea" }) as any as Schema.Schema<PostalCodeArea>;
+export const PostalCodeArea: Schema.Schema<PostalCodeArea> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      regionCode: Schema.optional(Schema.String),
+      postalCodes: Schema.optional(Schema.Array(PostalCodeRange)),
+    }),
+).annotate({
+  identifier: "PostalCodeArea",
+}) as any as Schema.Schema<PostalCodeArea>;
 
 export interface Region {
   /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
@@ -136,15 +168,17 @@ export interface Region {
   shippingEligible?: boolean;
 }
 
-export const Region: Schema.Schema<Region> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  regionalInventoryEligible: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  geotargetArea: Schema.optional(GeoTargetArea),
-  radiusArea: Schema.optional(RadiusArea),
-  postalCodeArea: Schema.optional(PostalCodeArea),
-  shippingEligible: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
+export const Region: Schema.Schema<Region> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    regionalInventoryEligible: Schema.optional(Schema.Boolean),
+    displayName: Schema.optional(Schema.String),
+    geotargetArea: Schema.optional(GeoTargetArea),
+    radiusArea: Schema.optional(RadiusArea),
+    postalCodeArea: Schema.optional(PostalCodeArea),
+    shippingEligible: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
 
 export interface UpdateRegionRequest {
   /** Required. The updated region. */
@@ -153,67 +187,90 @@ export interface UpdateRegionRequest {
   updateMask?: string;
 }
 
-export const UpdateRegionRequest: Schema.Schema<UpdateRegionRequest> = Schema.suspend(() => Schema.Struct({
-  region: Schema.optional(Region),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateRegionRequest" }) as any as Schema.Schema<UpdateRegionRequest>;
+export const UpdateRegionRequest: Schema.Schema<UpdateRegionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      region: Schema.optional(Region),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateRegionRequest",
+  }) as any as Schema.Schema<UpdateRegionRequest>;
 
 export interface BatchUpdateRegionsRequest {
   /** Required. The region(s) to update. The maximum number of regions that can be updated in a batch is 100. */
   requests?: Array<UpdateRegionRequest>;
 }
 
-export const BatchUpdateRegionsRequest: Schema.Schema<BatchUpdateRegionsRequest> = Schema.suspend(() => Schema.Struct({
-  requests: Schema.optional(Schema.Array(UpdateRegionRequest)),
-})).annotate({ identifier: "BatchUpdateRegionsRequest" }) as any as Schema.Schema<BatchUpdateRegionsRequest>;
+export const BatchUpdateRegionsRequest: Schema.Schema<BatchUpdateRegionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requests: Schema.optional(Schema.Array(UpdateRegionRequest)),
+    }),
+  ).annotate({
+    identifier: "BatchUpdateRegionsRequest",
+  }) as any as Schema.Schema<BatchUpdateRegionsRequest>;
 
 export interface Handshake {
   /** Output only. The approval state of this handshake. */
-  approvalState?: "APPROVAL_STATE_UNSPECIFIED" | "PENDING" | "ESTABLISHED" | "REJECTED" | (string & {});
+  approvalState?:
+    | "APPROVAL_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "ESTABLISHED"
+    | "REJECTED"
+    | (string & {});
   /** Output only. The most recent account to modify the account service's `approval_status`. */
   actor?: "ACTOR_UNSPECIFIED" | "ACCOUNT" | "OTHER_PARTY" | (string & {});
 }
 
-export const Handshake: Schema.Schema<Handshake> = Schema.suspend(() => Schema.Struct({
-  approvalState: Schema.optional(Schema.String),
-  actor: Schema.optional(Schema.String),
-})).annotate({ identifier: "Handshake" }) as any as Schema.Schema<Handshake>;
+export const Handshake: Schema.Schema<Handshake> = Schema.suspend(() =>
+  Schema.Struct({
+    approvalState: Schema.optional(Schema.String),
+    actor: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Handshake" }) as any as Schema.Schema<Handshake>;
 
-export interface ComparisonShopping {
-}
+export interface ComparisonShopping {}
 
-export const ComparisonShopping: Schema.Schema<ComparisonShopping> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ComparisonShopping" }) as any as Schema.Schema<ComparisonShopping>;
+export const ComparisonShopping: Schema.Schema<ComparisonShopping> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ComparisonShopping",
+  }) as any as Schema.Schema<ComparisonShopping>;
 
-export interface CampaignsManagement {
-}
+export interface CampaignsManagement {}
 
-export const CampaignsManagement: Schema.Schema<CampaignsManagement> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CampaignsManagement" }) as any as Schema.Schema<CampaignsManagement>;
+export const CampaignsManagement: Schema.Schema<CampaignsManagement> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CampaignsManagement",
+  }) as any as Schema.Schema<CampaignsManagement>;
 
-export interface ProductsManagement {
-}
+export interface ProductsManagement {}
 
-export const ProductsManagement: Schema.Schema<ProductsManagement> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ProductsManagement" }) as any as Schema.Schema<ProductsManagement>;
+export const ProductsManagement: Schema.Schema<ProductsManagement> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ProductsManagement",
+  }) as any as Schema.Schema<ProductsManagement>;
 
-export interface AccountManagement {
-}
+export interface AccountManagement {}
 
-export const AccountManagement: Schema.Schema<AccountManagement> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AccountManagement" }) as any as Schema.Schema<AccountManagement>;
+export const AccountManagement: Schema.Schema<AccountManagement> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AccountManagement",
+  }) as any as Schema.Schema<AccountManagement>;
 
-export interface AccountAggregation {
-}
+export interface AccountAggregation {}
 
-export const AccountAggregation: Schema.Schema<AccountAggregation> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AccountAggregation" }) as any as Schema.Schema<AccountAggregation>;
+export const AccountAggregation: Schema.Schema<AccountAggregation> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AccountAggregation",
+  }) as any as Schema.Schema<AccountAggregation>;
 
-export interface LocalListingManagement {
-}
+export interface LocalListingManagement {}
 
-export const LocalListingManagement: Schema.Schema<LocalListingManagement> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "LocalListingManagement" }) as any as Schema.Schema<LocalListingManagement>;
+export const LocalListingManagement: Schema.Schema<LocalListingManagement> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "LocalListingManagement",
+  }) as any as Schema.Schema<LocalListingManagement>;
 
 export interface AccountService {
   /** Output only. The human-readable display name of the provider account. */
@@ -227,7 +284,11 @@ export interface AccountService {
   /** Output only. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
   provider?: string;
   /** Output only. Whether the service is mutable (e.g. through Approve / Reject RPCs). A service that was created through another system or API might be immutable. */
-  mutability?: "MUTABILITY_UNSPECIFIED" | "MUTABLE" | "IMMUTABLE" | (string & {});
+  mutability?:
+    | "MUTABILITY_UNSPECIFIED"
+    | "MUTABLE"
+    | "IMMUTABLE"
+    | (string & {});
   /** Service type for managing advertising campaigns. Grants the provider access to create and manage the business's ad campaigns, including setting up campaigns, adjusting bids, and optimizing performance. */
   campaignsManagement?: CampaignsManagement;
   /** Service type for managing products. This allows the provider to handle product data on behalf of the business, including reading and writing product listings. It's commonly used when the provider offers inventory management or catalog synchronization services to keep the business's product information up-to-date across platforms. */
@@ -242,38 +303,53 @@ export interface AccountService {
   name?: string;
 }
 
-export const AccountService: Schema.Schema<AccountService> = Schema.suspend(() => Schema.Struct({
-  providerDisplayName: Schema.optional(Schema.String),
-  externalAccountId: Schema.optional(Schema.String),
-  handshake: Schema.optional(Handshake),
-  comparisonShopping: Schema.optional(ComparisonShopping),
-  provider: Schema.optional(Schema.String),
-  mutability: Schema.optional(Schema.String),
-  campaignsManagement: Schema.optional(CampaignsManagement),
-  productsManagement: Schema.optional(ProductsManagement),
-  accountManagement: Schema.optional(AccountManagement),
-  accountAggregation: Schema.optional(AccountAggregation),
-  localListingManagement: Schema.optional(LocalListingManagement),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountService" }) as any as Schema.Schema<AccountService>;
+export const AccountService: Schema.Schema<AccountService> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      providerDisplayName: Schema.optional(Schema.String),
+      externalAccountId: Schema.optional(Schema.String),
+      handshake: Schema.optional(Handshake),
+      comparisonShopping: Schema.optional(ComparisonShopping),
+      provider: Schema.optional(Schema.String),
+      mutability: Schema.optional(Schema.String),
+      campaignsManagement: Schema.optional(CampaignsManagement),
+      productsManagement: Schema.optional(ProductsManagement),
+      accountManagement: Schema.optional(AccountManagement),
+      accountAggregation: Schema.optional(AccountAggregation),
+      localListingManagement: Schema.optional(LocalListingManagement),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AccountService",
+}) as any as Schema.Schema<AccountService>;
 
 export interface BatchUpdateRegionsResponse {
   /** The updated region(s). */
   regions?: Array<Region>;
 }
 
-export const BatchUpdateRegionsResponse: Schema.Schema<BatchUpdateRegionsResponse> = Schema.suspend(() => Schema.Struct({
-  regions: Schema.optional(Schema.Array(Region)),
-})).annotate({ identifier: "BatchUpdateRegionsResponse" }) as any as Schema.Schema<BatchUpdateRegionsResponse>;
+export const BatchUpdateRegionsResponse: Schema.Schema<BatchUpdateRegionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      regions: Schema.optional(Schema.Array(Region)),
+    }),
+  ).annotate({
+    identifier: "BatchUpdateRegionsResponse",
+  }) as any as Schema.Schema<BatchUpdateRegionsResponse>;
 
 export interface LoyaltyProgramTiers {
   /** The tier label [tier_label] sub-attribute differentiates offer level benefits between each tier. This value is also set in your program settings in Merchant Center, and is required for data source changes even if your loyalty program only has 1 tier. */
   tierLabel?: string;
 }
 
-export const LoyaltyProgramTiers: Schema.Schema<LoyaltyProgramTiers> = Schema.suspend(() => Schema.Struct({
-  tierLabel: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoyaltyProgramTiers" }) as any as Schema.Schema<LoyaltyProgramTiers>;
+export const LoyaltyProgramTiers: Schema.Schema<LoyaltyProgramTiers> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tierLabel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LoyaltyProgramTiers",
+  }) as any as Schema.Schema<LoyaltyProgramTiers>;
 
 export interface LoyaltyProgram {
   /** This is the loyalty program label set in your loyalty program settings in Merchant Center. This sub-attribute allows Google to map your loyalty program to eligible offers. */
@@ -282,10 +358,15 @@ export interface LoyaltyProgram {
   loyaltyProgramTiers?: Array<LoyaltyProgramTiers>;
 }
 
-export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> = Schema.suspend(() => Schema.Struct({
-  programLabel: Schema.optional(Schema.String),
-  loyaltyProgramTiers: Schema.optional(Schema.Array(LoyaltyProgramTiers)),
-})).annotate({ identifier: "LoyaltyProgram" }) as any as Schema.Schema<LoyaltyProgram>;
+export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      programLabel: Schema.optional(Schema.String),
+      loyaltyProgramTiers: Schema.optional(Schema.Array(LoyaltyProgramTiers)),
+    }),
+).annotate({
+  identifier: "LoyaltyProgram",
+}) as any as Schema.Schema<LoyaltyProgram>;
 
 export interface Merchantapi_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
@@ -296,11 +377,16 @@ export interface Merchantapi_Date {
   year?: number;
 }
 
-export const Merchantapi_Date: Schema.Schema<Merchantapi_Date> = Schema.suspend(() => Schema.Struct({
-  month: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-  year: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Merchantapi_Date" }) as any as Schema.Schema<Merchantapi_Date>;
+export const Merchantapi_Date: Schema.Schema<Merchantapi_Date> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      month: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "Merchantapi_Date",
+}) as any as Schema.Schema<Merchantapi_Date>;
 
 export interface CutoffTime {
   /** Required. Hour of the cutoff time until which an order has to be placed to be processed in the same day. */
@@ -311,20 +397,27 @@ export interface CutoffTime {
   minute?: number;
 }
 
-export const CutoffTime: Schema.Schema<CutoffTime> = Schema.suspend(() => Schema.Struct({
-  hour: Schema.optional(Schema.Number),
-  timeZone: Schema.optional(Schema.String),
-  minute: Schema.optional(Schema.Number),
-})).annotate({ identifier: "CutoffTime" }) as any as Schema.Schema<CutoffTime>;
+export const CutoffTime: Schema.Schema<CutoffTime> = Schema.suspend(() =>
+  Schema.Struct({
+    hour: Schema.optional(Schema.Number),
+    timeZone: Schema.optional(Schema.String),
+    minute: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "CutoffTime" }) as any as Schema.Schema<CutoffTime>;
 
 export interface ImageImprovementsAccountLevelSettings {
   /** Enables automatic image improvements. */
   allowAutomaticImageImprovements?: boolean;
 }
 
-export const ImageImprovementsAccountLevelSettings: Schema.Schema<ImageImprovementsAccountLevelSettings> = Schema.suspend(() => Schema.Struct({
-  allowAutomaticImageImprovements: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ImageImprovementsAccountLevelSettings" }) as any as Schema.Schema<ImageImprovementsAccountLevelSettings>;
+export const ImageImprovementsAccountLevelSettings: Schema.Schema<ImageImprovementsAccountLevelSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowAutomaticImageImprovements: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ImageImprovementsAccountLevelSettings",
+  }) as any as Schema.Schema<ImageImprovementsAccountLevelSettings>;
 
 export interface AddAccountService {
   /** The provider manages campaigns for this account. Payload for service type campaigns management. */
@@ -343,15 +436,20 @@ export interface AddAccountService {
   externalAccountId?: string;
 }
 
-export const AddAccountService: Schema.Schema<AddAccountService> = Schema.suspend(() => Schema.Struct({
-  campaignsManagement: Schema.optional(CampaignsManagement),
-  comparisonShopping: Schema.optional(ComparisonShopping),
-  provider: Schema.optional(Schema.String),
-  accountAggregation: Schema.optional(AccountAggregation),
-  accountManagement: Schema.optional(AccountManagement),
-  productsManagement: Schema.optional(ProductsManagement),
-  externalAccountId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddAccountService" }) as any as Schema.Schema<AddAccountService>;
+export const AddAccountService: Schema.Schema<AddAccountService> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      campaignsManagement: Schema.optional(CampaignsManagement),
+      comparisonShopping: Schema.optional(ComparisonShopping),
+      provider: Schema.optional(Schema.String),
+      accountAggregation: Schema.optional(AccountAggregation),
+      accountManagement: Schema.optional(AccountManagement),
+      productsManagement: Schema.optional(ProductsManagement),
+      externalAccountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddAccountService",
+  }) as any as Schema.Schema<AddAccountService>;
 
 export interface Price {
   /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
@@ -360,31 +458,47 @@ export interface Price {
   amountMicros?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() => Schema.Struct({
-  currencyCode: Schema.optional(Schema.String),
-  amountMicros: Schema.optional(Schema.String),
-})).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> = Schema.suspend(() =>
+  Schema.Struct({
+    currencyCode: Schema.optional(Schema.String),
+    amountMicros: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface ReturnShippingFee {
   /** Required. Type of return shipping fee. */
-  type?: "TYPE_UNSPECIFIED" | "FIXED" | "CUSTOMER_PAYING_ACTUAL_FEE" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "FIXED"
+    | "CUSTOMER_PAYING_ACTUAL_FEE"
+    | (string & {});
   /** Fixed return shipping fee amount. This value is only applicable when type is `FIXED`. We will treat the return shipping fee as free if type is `FIXED` and this value is not set. */
   fixedFee?: Price;
 }
 
-export const ReturnShippingFee: Schema.Schema<ReturnShippingFee> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  fixedFee: Schema.optional(Price),
-})).annotate({ identifier: "ReturnShippingFee" }) as any as Schema.Schema<ReturnShippingFee>;
+export const ReturnShippingFee: Schema.Schema<ReturnShippingFee> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      fixedFee: Schema.optional(Price),
+    }),
+  ).annotate({
+    identifier: "ReturnShippingFee",
+  }) as any as Schema.Schema<ReturnShippingFee>;
 
 export interface BatchCreateRegionsResponse {
   /** The created region(s). */
   regions?: Array<Region>;
 }
 
-export const BatchCreateRegionsResponse: Schema.Schema<BatchCreateRegionsResponse> = Schema.suspend(() => Schema.Struct({
-  regions: Schema.optional(Schema.Array(Region)),
-})).annotate({ identifier: "BatchCreateRegionsResponse" }) as any as Schema.Schema<BatchCreateRegionsResponse>;
+export const BatchCreateRegionsResponse: Schema.Schema<BatchCreateRegionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      regions: Schema.optional(Schema.Array(Region)),
+    }),
+  ).annotate({
+    identifier: "BatchCreateRegionsResponse",
+  }) as any as Schema.Schema<BatchCreateRegionsResponse>;
 
 export interface ItemUpdatesAccountLevelSettings {
   /** If price updates are enabled, Google always updates the active price with the crawled information. */
@@ -397,12 +511,17 @@ export interface ItemUpdatesAccountLevelSettings {
   allowStrictAvailabilityUpdates?: boolean;
 }
 
-export const ItemUpdatesAccountLevelSettings: Schema.Schema<ItemUpdatesAccountLevelSettings> = Schema.suspend(() => Schema.Struct({
-  allowPriceUpdates: Schema.optional(Schema.Boolean),
-  allowAvailabilityUpdates: Schema.optional(Schema.Boolean),
-  allowConditionUpdates: Schema.optional(Schema.Boolean),
-  allowStrictAvailabilityUpdates: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ItemUpdatesAccountLevelSettings" }) as any as Schema.Schema<ItemUpdatesAccountLevelSettings>;
+export const ItemUpdatesAccountLevelSettings: Schema.Schema<ItemUpdatesAccountLevelSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowPriceUpdates: Schema.optional(Schema.Boolean),
+      allowAvailabilityUpdates: Schema.optional(Schema.Boolean),
+      allowConditionUpdates: Schema.optional(Schema.Boolean),
+      allowStrictAvailabilityUpdates: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ItemUpdatesAccountLevelSettings",
+  }) as any as Schema.Schema<ItemUpdatesAccountLevelSettings>;
 
 export interface CarrierRate {
   /** Optional. Multiplicative shipping rate modifier as a number in decimal notation. Can be negative. For example `"5.4"` increases the rate by 5.4%, `"-3"` decreases the rate by 3%. */
@@ -419,14 +538,16 @@ export interface CarrierRate {
   flatAdjustment?: Price;
 }
 
-export const CarrierRate: Schema.Schema<CarrierRate> = Schema.suspend(() => Schema.Struct({
-  percentageAdjustment: Schema.optional(Schema.String),
-  carrier: Schema.optional(Schema.String),
-  originPostalCode: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  carrierService: Schema.optional(Schema.String),
-  flatAdjustment: Schema.optional(Price),
-})).annotate({ identifier: "CarrierRate" }) as any as Schema.Schema<CarrierRate>;
+export const CarrierRate: Schema.Schema<CarrierRate> = Schema.suspend(() =>
+  Schema.Struct({
+    percentageAdjustment: Schema.optional(Schema.String),
+    carrier: Schema.optional(Schema.String),
+    originPostalCode: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    carrierService: Schema.optional(Schema.String),
+    flatAdjustment: Schema.optional(Price),
+  }),
+).annotate({ identifier: "CarrierRate" }) as any as Schema.Schema<CarrierRate>;
 
 export interface ShortCode {
   /** Required. The short code digits, without a leading plus ('+') or country calling code. For example "611". */
@@ -435,10 +556,12 @@ export interface ShortCode {
   regionCode?: string;
 }
 
-export const ShortCode: Schema.Schema<ShortCode> = Schema.suspend(() => Schema.Struct({
-  number: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ShortCode" }) as any as Schema.Schema<ShortCode>;
+export const ShortCode: Schema.Schema<ShortCode> = Schema.suspend(() =>
+  Schema.Struct({
+    number: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ShortCode" }) as any as Schema.Schema<ShortCode>;
 
 export interface PhoneNumber {
   /** The phone number, represented as a leading plus sign ('+'), followed by a phone number that uses a relaxed ITU E.164 format consisting of the country calling code (1 to 3 digits) and the subscriber number, with no additional spaces or formatting. For example: - correct: "+15552220123" - incorrect: "+1 (555) 222-01234 x123" The ITU E.164 format limits the latter to 12 digits, but in practice not all countries respect that, so we relax that restriction here. National-only numbers are not allowed. References: - https://www.itu.int/rec/T-REC-E.164-201011-I - https://en.wikipedia.org/wiki/E.164. - https://en.wikipedia.org/wiki/List_of_country_calling_codes */
@@ -449,20 +572,27 @@ export interface PhoneNumber {
   shortCode?: ShortCode;
 }
 
-export const PhoneNumber: Schema.Schema<PhoneNumber> = Schema.suspend(() => Schema.Struct({
-  e164Number: Schema.optional(Schema.String),
-  extension: Schema.optional(Schema.String),
-  shortCode: Schema.optional(ShortCode),
-})).annotate({ identifier: "PhoneNumber" }) as any as Schema.Schema<PhoneNumber>;
+export const PhoneNumber: Schema.Schema<PhoneNumber> = Schema.suspend(() =>
+  Schema.Struct({
+    e164Number: Schema.optional(Schema.String),
+    extension: Schema.optional(Schema.String),
+    shortCode: Schema.optional(ShortCode),
+  }),
+).annotate({ identifier: "PhoneNumber" }) as any as Schema.Schema<PhoneNumber>;
 
 export interface DeleteRegionRequest {
   /** Required. The name of the region to delete. Format: `accounts/{account}/regions/{region}` */
   name?: string;
 }
 
-export const DeleteRegionRequest: Schema.Schema<DeleteRegionRequest> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeleteRegionRequest" }) as any as Schema.Schema<DeleteRegionRequest>;
+export const DeleteRegionRequest: Schema.Schema<DeleteRegionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeleteRegionRequest",
+  }) as any as Schema.Schema<DeleteRegionRequest>;
 
 export interface Value {
   /** A percentage of the price represented as a number in decimal notation (For example, `"5.4"`). Can only be set if all other fields are not set. */
@@ -477,13 +607,15 @@ export interface Value {
   subtable?: string;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() => Schema.Struct({
-  pricePercentage: Schema.optional(Schema.String),
-  noShipping: Schema.optional(Schema.Boolean),
-  carrierRate: Schema.optional(Schema.String),
-  flatRate: Schema.optional(Price),
-  subtable: Schema.optional(Schema.String),
-})).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> = Schema.suspend(() =>
+  Schema.Struct({
+    pricePercentage: Schema.optional(Schema.String),
+    noShipping: Schema.optional(Schema.Boolean),
+    carrierRate: Schema.optional(Schema.String),
+    flatRate: Schema.optional(Price),
+    subtable: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface CustomerService {
   /** Optional. The email address where customer service may be reached. */
@@ -494,11 +626,16 @@ export interface CustomerService {
   phone?: PhoneNumber;
 }
 
-export const CustomerService: Schema.Schema<CustomerService> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  phone: Schema.optional(PhoneNumber),
-})).annotate({ identifier: "CustomerService" }) as any as Schema.Schema<CustomerService>;
+export const CustomerService: Schema.Schema<CustomerService> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      phone: Schema.optional(PhoneNumber),
+    }),
+).annotate({
+  identifier: "CustomerService",
+}) as any as Schema.Schema<CustomerService>;
 
 export interface PostalAddress {
   /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
@@ -525,19 +662,23 @@ export interface PostalAddress {
   languageCode?: string;
 }
 
-export const PostalAddress: Schema.Schema<PostalAddress> = Schema.suspend(() => Schema.Struct({
-  sortingCode: Schema.optional(Schema.String),
-  revision: Schema.optional(Schema.Number),
-  administrativeArea: Schema.optional(Schema.String),
-  sublocality: Schema.optional(Schema.String),
-  locality: Schema.optional(Schema.String),
-  organization: Schema.optional(Schema.String),
-  postalCode: Schema.optional(Schema.String),
-  addressLines: Schema.optional(Schema.Array(Schema.String)),
-  regionCode: Schema.optional(Schema.String),
-  recipients: Schema.optional(Schema.Array(Schema.String)),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "PostalAddress" }) as any as Schema.Schema<PostalAddress>;
+export const PostalAddress: Schema.Schema<PostalAddress> = Schema.suspend(() =>
+  Schema.Struct({
+    sortingCode: Schema.optional(Schema.String),
+    revision: Schema.optional(Schema.Number),
+    administrativeArea: Schema.optional(Schema.String),
+    sublocality: Schema.optional(Schema.String),
+    locality: Schema.optional(Schema.String),
+    organization: Schema.optional(Schema.String),
+    postalCode: Schema.optional(Schema.String),
+    addressLines: Schema.optional(Schema.Array(Schema.String)),
+    regionCode: Schema.optional(Schema.String),
+    recipients: Schema.optional(Schema.Array(Schema.String)),
+    languageCode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PostalAddress",
+}) as any as Schema.Schema<PostalAddress>;
 
 export interface BusinessInfo {
   /** Optional. The customer service of the business. */
@@ -549,43 +690,84 @@ export interface BusinessInfo {
   /** Output only. The phone number of the business. */
   phone?: PhoneNumber;
   /** Output only. The phone verification state of the business. */
-  phoneVerificationState?: "PHONE_VERIFICATION_STATE_UNSPECIFIED" | "PHONE_VERIFICATION_STATE_VERIFIED" | "PHONE_VERIFICATION_STATE_UNVERIFIED" | (string & {});
+  phoneVerificationState?:
+    | "PHONE_VERIFICATION_STATE_UNSPECIFIED"
+    | "PHONE_VERIFICATION_STATE_VERIFIED"
+    | "PHONE_VERIFICATION_STATE_UNVERIFIED"
+    | (string & {});
   /** Optional. The 10-digit [Korean business registration number](https://support.google.com/merchants/answer/9037766) separated with dashes in the format: XXX-XX-XXXXX. */
   koreanBusinessRegistrationNumber?: string;
 }
 
-export const BusinessInfo: Schema.Schema<BusinessInfo> = Schema.suspend(() => Schema.Struct({
-  customerService: Schema.optional(CustomerService),
-  name: Schema.optional(Schema.String),
-  address: Schema.optional(PostalAddress),
-  phone: Schema.optional(PhoneNumber),
-  phoneVerificationState: Schema.optional(Schema.String),
-  koreanBusinessRegistrationNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "BusinessInfo" }) as any as Schema.Schema<BusinessInfo>;
+export const BusinessInfo: Schema.Schema<BusinessInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    customerService: Schema.optional(CustomerService),
+    name: Schema.optional(Schema.String),
+    address: Schema.optional(PostalAddress),
+    phone: Schema.optional(PhoneNumber),
+    phoneVerificationState: Schema.optional(Schema.String),
+    koreanBusinessRegistrationNumber: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "BusinessInfo",
+}) as any as Schema.Schema<BusinessInfo>;
 
 export interface Impact {
   /** The [CLDR region code](https://cldr.unicode.org/) where this issue applies. */
   regionCode?: string;
   /** The severity of the issue on the destination and region. */
-  severity?: "SEVERITY_UNSPECIFIED" | "CRITICAL" | "ERROR" | "SUGGESTION" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "CRITICAL"
+    | "ERROR"
+    | "SUGGESTION"
+    | (string & {});
 }
 
-export const Impact: Schema.Schema<Impact> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-})).annotate({ identifier: "Impact" }) as any as Schema.Schema<Impact>;
+export const Impact: Schema.Schema<Impact> = Schema.suspend(() =>
+  Schema.Struct({
+    regionCode: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Impact" }) as any as Schema.Schema<Impact>;
 
 export interface ImpactedDestination {
   /** The impacted reporting context. */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
   /** The (negative) impact for various regions on the given destination. */
   impacts?: Array<Impact>;
 }
 
-export const ImpactedDestination: Schema.Schema<ImpactedDestination> = Schema.suspend(() => Schema.Struct({
-  reportingContext: Schema.optional(Schema.String),
-  impacts: Schema.optional(Schema.Array(Impact)),
-})).annotate({ identifier: "ImpactedDestination" }) as any as Schema.Schema<ImpactedDestination>;
+export const ImpactedDestination: Schema.Schema<ImpactedDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reportingContext: Schema.optional(Schema.String),
+      impacts: Schema.optional(Schema.Array(Impact)),
+    }),
+  ).annotate({
+    identifier: "ImpactedDestination",
+  }) as any as Schema.Schema<ImpactedDestination>;
 
 export interface AccountIssue {
   /** The impact this issue has on various destinations. */
@@ -595,21 +777,30 @@ export interface AccountIssue {
   /** Identifier. The resource name of the account issue. Format: `accounts/{account}/issues/{id}`. For example, `accounts/123456/issues/misrepresentation-of-self-or-products-unacceptable-business-practice-policy`. */
   name?: string;
   /** The overall severity of the issue. */
-  severity?: "SEVERITY_UNSPECIFIED" | "CRITICAL" | "ERROR" | "SUGGESTION" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "CRITICAL"
+    | "ERROR"
+    | "SUGGESTION"
+    | (string & {});
   /** The localized title of the issue. */
   title?: string;
   /** Further localized details about the issue. */
   detail?: string;
 }
 
-export const AccountIssue: Schema.Schema<AccountIssue> = Schema.suspend(() => Schema.Struct({
-  impactedDestinations: Schema.optional(Schema.Array(ImpactedDestination)),
-  documentationUri: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  detail: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountIssue" }) as any as Schema.Schema<AccountIssue>;
+export const AccountIssue: Schema.Schema<AccountIssue> = Schema.suspend(() =>
+  Schema.Struct({
+    impactedDestinations: Schema.optional(Schema.Array(ImpactedDestination)),
+    documentationUri: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    detail: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AccountIssue",
+}) as any as Schema.Schema<AccountIssue>;
 
 export interface UriSettings {
   /** Checkout URL template. When the placeholders are expanded will redirect the buyer to the merchant checkout page with the item in the cart. For more details, check the [help center doc](https://support.google.com/merchants/answer/13945960#method1&zippy=%2Cproduct-level-url-formatting%2Caccount-level-url-formatting) */
@@ -618,52 +809,102 @@ export interface UriSettings {
   cartUriTemplate?: string;
 }
 
-export const UriSettings: Schema.Schema<UriSettings> = Schema.suspend(() => Schema.Struct({
-  checkoutUriTemplate: Schema.optional(Schema.String),
-  cartUriTemplate: Schema.optional(Schema.String),
-})).annotate({ identifier: "UriSettings" }) as any as Schema.Schema<UriSettings>;
+export const UriSettings: Schema.Schema<UriSettings> = Schema.suspend(() =>
+  Schema.Struct({
+    checkoutUriTemplate: Schema.optional(Schema.String),
+    cartUriTemplate: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UriSettings" }) as any as Schema.Schema<UriSettings>;
 
 export interface CheckoutSettings {
   /** Output only. Reflects the merchant review state in `Checkout` program. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an `enrollment_state` of `ENROLLED` before a review can begin for the merchant.For more details, check the help center doc. */
-  reviewState?: "CHECKOUT_REVIEW_STATE_UNSPECIFIED" | "IN_REVIEW" | "APPROVED" | "DISAPPROVED" | (string & {});
+  reviewState?:
+    | "CHECKOUT_REVIEW_STATE_UNSPECIFIED"
+    | "IN_REVIEW"
+    | "APPROVED"
+    | "DISAPPROVED"
+    | (string & {});
   /** Output only. The effective value of `review_state` for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveReviewState?: "CHECKOUT_REVIEW_STATE_UNSPECIFIED" | "IN_REVIEW" | "APPROVED" | "DISAPPROVED" | (string & {});
+  effectiveReviewState?:
+    | "CHECKOUT_REVIEW_STATE_UNSPECIFIED"
+    | "IN_REVIEW"
+    | "APPROVED"
+    | "DISAPPROVED"
+    | (string & {});
   /** Optional. Required for the create operation. The destinations (also known as [Marketing methods](https://support.google.com/merchants/answer/15130232)) to which the checkout program applies. Valid destination values are `SHOPPING_ADS` and `FREE_LISTINGS`. */
-  eligibleDestinations?: Array<"DESTINATION_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LOCAL_LISTINGS" | "YOUTUBE_SHOPPING" | "YOUTUBE_SHOPPING_CHECKOUT" | "YOUTUBE_AFFILIATE" | "FREE_VEHICLE_LISTINGS" | "VEHICLE_ADS" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | (string & {})>;
+  eligibleDestinations?: Array<
+    | "DESTINATION_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LOCAL_LISTINGS"
+    | "YOUTUBE_SHOPPING"
+    | "YOUTUBE_SHOPPING_CHECKOUT"
+    | "YOUTUBE_AFFILIATE"
+    | "FREE_VEHICLE_LISTINGS"
+    | "VEHICLE_ADS"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | (string & {})
+  >;
   /** Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
   name?: string;
   /** URI settings for cart or checkout URL. */
   uriSettings?: UriSettings;
   /** Output only. The effective value of enrollment_state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveEnrollmentState?: "CHECKOUT_ENROLLMENT_STATE_UNSPECIFIED" | "INACTIVE" | "ENROLLED" | "OPTED_OUT" | (string & {});
+  effectiveEnrollmentState?:
+    | "CHECKOUT_ENROLLMENT_STATE_UNSPECIFIED"
+    | "INACTIVE"
+    | "ENROLLED"
+    | "OPTED_OUT"
+    | (string & {});
   /** Output only. Reflects the merchant enrollment state in `Checkout` program. */
-  enrollmentState?: "CHECKOUT_ENROLLMENT_STATE_UNSPECIFIED" | "INACTIVE" | "ENROLLED" | "OPTED_OUT" | (string & {});
+  enrollmentState?:
+    | "CHECKOUT_ENROLLMENT_STATE_UNSPECIFIED"
+    | "INACTIVE"
+    | "ENROLLED"
+    | "OPTED_OUT"
+    | (string & {});
   /** Output only. The effective value of `uri_settings` for a given merchant. If account level settings are present then this value will be a copy of url settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
   effectiveUriSettings?: UriSettings;
 }
 
-export const CheckoutSettings: Schema.Schema<CheckoutSettings> = Schema.suspend(() => Schema.Struct({
-  reviewState: Schema.optional(Schema.String),
-  effectiveReviewState: Schema.optional(Schema.String),
-  eligibleDestinations: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  uriSettings: Schema.optional(UriSettings),
-  effectiveEnrollmentState: Schema.optional(Schema.String),
-  enrollmentState: Schema.optional(Schema.String),
-  effectiveUriSettings: Schema.optional(UriSettings),
-})).annotate({ identifier: "CheckoutSettings" }) as any as Schema.Schema<CheckoutSettings>;
+export const CheckoutSettings: Schema.Schema<CheckoutSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      reviewState: Schema.optional(Schema.String),
+      effectiveReviewState: Schema.optional(Schema.String),
+      eligibleDestinations: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      uriSettings: Schema.optional(UriSettings),
+      effectiveEnrollmentState: Schema.optional(Schema.String),
+      enrollmentState: Schema.optional(Schema.String),
+      effectiveUriSettings: Schema.optional(UriSettings),
+    }),
+).annotate({
+  identifier: "CheckoutSettings",
+}) as any as Schema.Schema<CheckoutSettings>;
 
 export interface InStock {
   /** Output only. The state of the in-stock serving. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "FAILED" | "RUNNING" | "ACTION_REQUIRED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "FAILED"
+    | "RUNNING"
+    | "ACTION_REQUIRED"
+    | (string & {});
   /** Optional. Product landing page URI. It is only used for the review of MHLSF in-stock serving. This URI domain should match with the business's homepage. Required to be empty if the lsf_type is GHLSF, and required when the lsf_type is MHLSF_FULL or MHLSF_BASIC. */
   uri?: string;
 }
 
-export const InStock: Schema.Schema<InStock> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "InStock" }) as any as Schema.Schema<InStock>;
+export const InStock: Schema.Schema<InStock> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "InStock" }) as any as Schema.Schema<InStock>;
 
 export interface AutomaticImageImprovements {
   /** Optional. Determines how the images should be automatically updated. If this field is not present and provided in the update mask, then the settings will be deleted. If there are no settings for subaccount, they are inherited from aggregator. */
@@ -672,10 +913,17 @@ export interface AutomaticImageImprovements {
   effectiveAllowAutomaticImageImprovements?: boolean;
 }
 
-export const AutomaticImageImprovements: Schema.Schema<AutomaticImageImprovements> = Schema.suspend(() => Schema.Struct({
-  accountImageImprovementsSettings: Schema.optional(ImageImprovementsAccountLevelSettings),
-  effectiveAllowAutomaticImageImprovements: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AutomaticImageImprovements" }) as any as Schema.Schema<AutomaticImageImprovements>;
+export const AutomaticImageImprovements: Schema.Schema<AutomaticImageImprovements> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accountImageImprovementsSettings: Schema.optional(
+        ImageImprovementsAccountLevelSettings,
+      ),
+      effectiveAllowAutomaticImageImprovements: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AutomaticImageImprovements",
+  }) as any as Schema.Schema<AutomaticImageImprovements>;
 
 export interface LfpProvider {
   /** Output only. Region code defined by [CLDR](https://cldr.unicode.org/). */
@@ -686,11 +934,13 @@ export interface LfpProvider {
   displayName?: string;
 }
 
-export const LfpProvider: Schema.Schema<LfpProvider> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "LfpProvider" }) as any as Schema.Schema<LfpProvider>;
+export const LfpProvider: Schema.Schema<LfpProvider> = Schema.suspend(() =>
+  Schema.Struct({
+    regionCode: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "LfpProvider" }) as any as Schema.Schema<LfpProvider>;
 
 export interface FindLfpProvidersResponse {
   /** The LFP providers from the specified merchant in the specified country. */
@@ -699,25 +949,38 @@ export interface FindLfpProvidersResponse {
   nextPageToken?: string;
 }
 
-export const FindLfpProvidersResponse: Schema.Schema<FindLfpProvidersResponse> = Schema.suspend(() => Schema.Struct({
-  lfpProviders: Schema.optional(Schema.Array(LfpProvider)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "FindLfpProvidersResponse" }) as any as Schema.Schema<FindLfpProvidersResponse>;
+export const FindLfpProvidersResponse: Schema.Schema<FindLfpProvidersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lfpProviders: Schema.optional(Schema.Array(LfpProvider)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FindLfpProvidersResponse",
+  }) as any as Schema.Schema<FindLfpProvidersResponse>;
 
 export interface LfpLink {
   /** Required. The account ID by which this merchant is known to the LFP provider. */
   externalAccountId?: string;
   /** Output only. The state of the LFP link. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "FAILED" | "RUNNING" | "ACTION_REQUIRED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "FAILED"
+    | "RUNNING"
+    | "ACTION_REQUIRED"
+    | (string & {});
   /** Required. The resource name of the LFP provider. Format: `lfpProviders/{lfp_provider}` */
   lfpProvider?: string;
 }
 
-export const LfpLink: Schema.Schema<LfpLink> = Schema.suspend(() => Schema.Struct({
-  externalAccountId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  lfpProvider: Schema.optional(Schema.String),
-})).annotate({ identifier: "LfpLink" }) as any as Schema.Schema<LfpLink>;
+export const LfpLink: Schema.Schema<LfpLink> = Schema.suspend(() =>
+  Schema.Struct({
+    externalAccountId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    lfpProvider: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "LfpLink" }) as any as Schema.Schema<LfpLink>;
 
 export interface Weight {
   /** Required. The weight unit. Acceptable values are: kg and lb */
@@ -726,19 +989,25 @@ export interface Weight {
   amountMicros?: string;
 }
 
-export const Weight: Schema.Schema<Weight> = Schema.suspend(() => Schema.Struct({
-  unit: Schema.optional(Schema.String),
-  amountMicros: Schema.optional(Schema.String),
-})).annotate({ identifier: "Weight" }) as any as Schema.Schema<Weight>;
+export const Weight: Schema.Schema<Weight> = Schema.suspend(() =>
+  Schema.Struct({
+    unit: Schema.optional(Schema.String),
+    amountMicros: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Weight" }) as any as Schema.Schema<Weight>;
 
 export interface LocationIdSet {
   /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (For example, state). */
   locationIds?: Array<string>;
 }
 
-export const LocationIdSet: Schema.Schema<LocationIdSet> = Schema.suspend(() => Schema.Struct({
-  locationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "LocationIdSet" }) as any as Schema.Schema<LocationIdSet>;
+export const LocationIdSet: Schema.Schema<LocationIdSet> = Schema.suspend(() =>
+  Schema.Struct({
+    locationIds: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "LocationIdSet",
+}) as any as Schema.Schema<LocationIdSet>;
 
 export interface Headers {
   /** Required. A list of inclusive number of items upper bounds. The last value can be `"infinity"`. For example `["10", "50", "infinity"]` represents the headers "<= 10 items", "<= 50 items", and "> 50 items". Must be non-empty. Can only be set if all other fields are not set. */
@@ -753,22 +1022,26 @@ export interface Headers {
   postalCodeGroupNames?: Array<string>;
 }
 
-export const Headers: Schema.Schema<Headers> = Schema.suspend(() => Schema.Struct({
-  numberOfItems: Schema.optional(Schema.Array(Schema.String)),
-  weights: Schema.optional(Schema.Array(Weight)),
-  locations: Schema.optional(Schema.Array(LocationIdSet)),
-  prices: Schema.optional(Schema.Array(Price)),
-  postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Headers" }) as any as Schema.Schema<Headers>;
+export const Headers: Schema.Schema<Headers> = Schema.suspend(() =>
+  Schema.Struct({
+    numberOfItems: Schema.optional(Schema.Array(Schema.String)),
+    weights: Schema.optional(Schema.Array(Weight)),
+    locations: Schema.optional(Schema.Array(LocationIdSet)),
+    prices: Schema.optional(Schema.Array(Price)),
+    postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Headers" }) as any as Schema.Schema<Headers>;
 
 export interface Row {
   /** Required. The list of cells that constitute the row. Must have the same length as `columnHeaders` for two-dimensional tables, a length of 1 for one-dimensional tables. */
   cells?: Array<Value>;
 }
 
-export const Row: Schema.Schema<Row> = Schema.suspend(() => Schema.Struct({
-  cells: Schema.optional(Schema.Array(Value)),
-})).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
+export const Row: Schema.Schema<Row> = Schema.suspend(() =>
+  Schema.Struct({
+    cells: Schema.optional(Schema.Array(Value)),
+  }),
+).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
 
 export interface Table {
   /** Headers of the table's columns. Optional: if not set then the table has only one dimension. */
@@ -781,12 +1054,14 @@ export interface Table {
   rowHeaders?: Headers;
 }
 
-export const Table: Schema.Schema<Table> = Schema.suspend(() => Schema.Struct({
-  columnHeaders: Schema.optional(Headers),
-  rows: Schema.optional(Schema.Array(Row)),
-  name: Schema.optional(Schema.String),
-  rowHeaders: Schema.optional(Headers),
-})).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
+export const Table: Schema.Schema<Table> = Schema.suspend(() =>
+  Schema.Struct({
+    columnHeaders: Schema.optional(Headers),
+    rows: Schema.optional(Schema.Array(Row)),
+    name: Schema.optional(Schema.String),
+    rowHeaders: Schema.optional(Headers),
+  }),
+).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
 
 export interface RateGroup {
   /** A table defining the rate group, when `single_value` is not expressive enough. Can only be set if `single_value` is not set. */
@@ -803,14 +1078,16 @@ export interface RateGroup {
   name?: string;
 }
 
-export const RateGroup: Schema.Schema<RateGroup> = Schema.suspend(() => Schema.Struct({
-  mainTable: Schema.optional(Table),
-  subtables: Schema.optional(Schema.Array(Table)),
-  applicableShippingLabels: Schema.optional(Schema.Array(Schema.String)),
-  singleValue: Schema.optional(Value),
-  carrierRates: Schema.optional(Schema.Array(CarrierRate)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "RateGroup" }) as any as Schema.Schema<RateGroup>;
+export const RateGroup: Schema.Schema<RateGroup> = Schema.suspend(() =>
+  Schema.Struct({
+    mainTable: Schema.optional(Table),
+    subtables: Schema.optional(Schema.Array(Table)),
+    applicableShippingLabels: Schema.optional(Schema.Array(Schema.String)),
+    singleValue: Schema.optional(Value),
+    carrierRates: Schema.optional(Schema.Array(CarrierRate)),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RateGroup" }) as any as Schema.Schema<RateGroup>;
 
 export interface Distance {
   /** Integer value of distance. */
@@ -819,14 +1096,20 @@ export interface Distance {
   unit?: "UNIT_UNSPECIFIED" | "MILES" | "KILOMETERS" | (string & {});
 }
 
-export const Distance: Schema.Schema<Distance> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  unit: Schema.optional(Schema.String),
-})).annotate({ identifier: "Distance" }) as any as Schema.Schema<Distance>;
+export const Distance: Schema.Schema<Distance> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+    unit: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Distance" }) as any as Schema.Schema<Distance>;
 
 export interface StoreConfig {
   /** Indicates whether all stores, or selected stores, listed by this business provide local delivery. */
-  storeServiceType?: "STORE_SERVICE_TYPE_UNSPECIFIED" | "ALL_STORES" | "SELECTED_STORES" | (string & {});
+  storeServiceType?:
+    | "STORE_SERVICE_TYPE_UNSPECIFIED"
+    | "ALL_STORES"
+    | "SELECTED_STORES"
+    | (string & {});
   /** Maximum delivery radius. This is only required for the local delivery shipment type. */
   serviceRadius?: Distance;
   /** Optional. A list of store codes that provide local delivery. If empty, then `all_stores` must be true. */
@@ -835,21 +1118,38 @@ export interface StoreConfig {
   cutoffConfig?: CutoffConfig;
 }
 
-export const StoreConfig: Schema.Schema<StoreConfig> = Schema.suspend(() => Schema.Struct({
-  storeServiceType: Schema.optional(Schema.String),
-  serviceRadius: Schema.optional(Distance),
-  storeCodes: Schema.optional(Schema.Array(Schema.String)),
-  cutoffConfig: Schema.optional(CutoffConfig),
-})).annotate({ identifier: "StoreConfig" }) as any as Schema.Schema<StoreConfig>;
+export const StoreConfig: Schema.Schema<StoreConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    storeServiceType: Schema.optional(Schema.String),
+    serviceRadius: Schema.optional(Distance),
+    storeCodes: Schema.optional(Schema.Array(Schema.String)),
+    cutoffConfig: Schema.optional(CutoffConfig),
+  }),
+).annotate({ identifier: "StoreConfig" }) as any as Schema.Schema<StoreConfig>;
 
 export interface BusinessDayConfig {
   /** Required. Regular business days. May not be empty. */
-  businessDays?: Array<"WEEKDAY_UNSPECIFIED" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | (string & {})>;
+  businessDays?: Array<
+    | "WEEKDAY_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {})
+  >;
 }
 
-export const BusinessDayConfig: Schema.Schema<BusinessDayConfig> = Schema.suspend(() => Schema.Struct({
-  businessDays: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BusinessDayConfig" }) as any as Schema.Schema<BusinessDayConfig>;
+export const BusinessDayConfig: Schema.Schema<BusinessDayConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      businessDays: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BusinessDayConfig",
+  }) as any as Schema.Schema<BusinessDayConfig>;
 
 export interface TransitTimeValue {
   /** Must be greater than or equal to `min_transit_days`. */
@@ -858,19 +1158,29 @@ export interface TransitTimeValue {
   minTransitDays?: number;
 }
 
-export const TransitTimeValue: Schema.Schema<TransitTimeValue> = Schema.suspend(() => Schema.Struct({
-  maxTransitDays: Schema.optional(Schema.Number),
-  minTransitDays: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TransitTimeValue" }) as any as Schema.Schema<TransitTimeValue>;
+export const TransitTimeValue: Schema.Schema<TransitTimeValue> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      maxTransitDays: Schema.optional(Schema.Number),
+      minTransitDays: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "TransitTimeValue",
+}) as any as Schema.Schema<TransitTimeValue>;
 
 export interface TransitTimeRow {
   /** Required. Transit time range (min-max) in business days. */
   values?: Array<TransitTimeValue>;
 }
 
-export const TransitTimeRow: Schema.Schema<TransitTimeRow> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(Schema.Array(TransitTimeValue)),
-})).annotate({ identifier: "TransitTimeRow" }) as any as Schema.Schema<TransitTimeRow>;
+export const TransitTimeRow: Schema.Schema<TransitTimeRow> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(TransitTimeValue)),
+    }),
+).annotate({
+  identifier: "TransitTimeRow",
+}) as any as Schema.Schema<TransitTimeRow>;
 
 export interface TransitTable {
   /** Required. A list of region names Region.name . The last value can be `"all other locations"`. Example: `["zone 1", "zone 2", "all other locations"]`. The referred postal code groups must match the delivery country of the service. */
@@ -881,11 +1191,15 @@ export interface TransitTable {
   rows?: Array<TransitTimeRow>;
 }
 
-export const TransitTable: Schema.Schema<TransitTable> = Schema.suspend(() => Schema.Struct({
-  postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
-  transitTimeLabels: Schema.optional(Schema.Array(Schema.String)),
-  rows: Schema.optional(Schema.Array(TransitTimeRow)),
-})).annotate({ identifier: "TransitTable" }) as any as Schema.Schema<TransitTable>;
+export const TransitTable: Schema.Schema<TransitTable> = Schema.suspend(() =>
+  Schema.Struct({
+    postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
+    transitTimeLabels: Schema.optional(Schema.Array(Schema.String)),
+    rows: Schema.optional(Schema.Array(TransitTimeRow)),
+  }),
+).annotate({
+  identifier: "TransitTable",
+}) as any as Schema.Schema<TransitTable>;
 
 export interface WarehouseBasedDeliveryTime {
   /** Required. Carrier service, such as `"ground"` or `"2 days"`. The name of the service must be in the eddSupportedServices list. */
@@ -896,11 +1210,16 @@ export interface WarehouseBasedDeliveryTime {
   carrier?: string;
 }
 
-export const WarehouseBasedDeliveryTime: Schema.Schema<WarehouseBasedDeliveryTime> = Schema.suspend(() => Schema.Struct({
-  carrierService: Schema.optional(Schema.String),
-  warehouse: Schema.optional(Schema.String),
-  carrier: Schema.optional(Schema.String),
-})).annotate({ identifier: "WarehouseBasedDeliveryTime" }) as any as Schema.Schema<WarehouseBasedDeliveryTime>;
+export const WarehouseBasedDeliveryTime: Schema.Schema<WarehouseBasedDeliveryTime> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      carrierService: Schema.optional(Schema.String),
+      warehouse: Schema.optional(Schema.String),
+      carrier: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WarehouseBasedDeliveryTime",
+  }) as any as Schema.Schema<WarehouseBasedDeliveryTime>;
 
 export interface DeliveryTime {
   /** The business days during which orders can be in-transit. If not provided, Monday to Friday business days will be assumed. */
@@ -923,17 +1242,23 @@ export interface DeliveryTime {
   maxTransitDays?: number;
 }
 
-export const DeliveryTime: Schema.Schema<DeliveryTime> = Schema.suspend(() => Schema.Struct({
-  transitBusinessDayConfig: Schema.optional(BusinessDayConfig),
-  minTransitDays: Schema.optional(Schema.Number),
-  transitTimeTable: Schema.optional(TransitTable),
-  cutoffTime: Schema.optional(CutoffTime),
-  minHandlingDays: Schema.optional(Schema.Number),
-  maxHandlingDays: Schema.optional(Schema.Number),
-  handlingBusinessDayConfig: Schema.optional(BusinessDayConfig),
-  warehouseBasedDeliveryTimes: Schema.optional(Schema.Array(WarehouseBasedDeliveryTime)),
-  maxTransitDays: Schema.optional(Schema.Number),
-})).annotate({ identifier: "DeliveryTime" }) as any as Schema.Schema<DeliveryTime>;
+export const DeliveryTime: Schema.Schema<DeliveryTime> = Schema.suspend(() =>
+  Schema.Struct({
+    transitBusinessDayConfig: Schema.optional(BusinessDayConfig),
+    minTransitDays: Schema.optional(Schema.Number),
+    transitTimeTable: Schema.optional(TransitTable),
+    cutoffTime: Schema.optional(CutoffTime),
+    minHandlingDays: Schema.optional(Schema.Number),
+    maxHandlingDays: Schema.optional(Schema.Number),
+    handlingBusinessDayConfig: Schema.optional(BusinessDayConfig),
+    warehouseBasedDeliveryTimes: Schema.optional(
+      Schema.Array(WarehouseBasedDeliveryTime),
+    ),
+    maxTransitDays: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "DeliveryTime",
+}) as any as Schema.Schema<DeliveryTime>;
 
 export interface StoreCodeSetWithMov {
   /** The minimum order value for the given stores. */
@@ -942,19 +1267,29 @@ export interface StoreCodeSetWithMov {
   storeCodes?: Array<string>;
 }
 
-export const StoreCodeSetWithMov: Schema.Schema<StoreCodeSetWithMov> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Price),
-  storeCodes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "StoreCodeSetWithMov" }) as any as Schema.Schema<StoreCodeSetWithMov>;
+export const StoreCodeSetWithMov: Schema.Schema<StoreCodeSetWithMov> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Price),
+      storeCodes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "StoreCodeSetWithMov",
+  }) as any as Schema.Schema<StoreCodeSetWithMov>;
 
 export interface MinimumOrderValueTable {
   /** Required. A list of store code sets sharing the same minimum order value (MOV). At least two sets are required and the last one must be empty, which signifies 'MOV for all other stores'. Each store code can only appear once across all the sets. All prices within a service must have the same currency. */
   storeCodeSetWithMovs?: Array<StoreCodeSetWithMov>;
 }
 
-export const MinimumOrderValueTable: Schema.Schema<MinimumOrderValueTable> = Schema.suspend(() => Schema.Struct({
-  storeCodeSetWithMovs: Schema.optional(Schema.Array(StoreCodeSetWithMov)),
-})).annotate({ identifier: "MinimumOrderValueTable" }) as any as Schema.Schema<MinimumOrderValueTable>;
+export const MinimumOrderValueTable: Schema.Schema<MinimumOrderValueTable> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      storeCodeSetWithMovs: Schema.optional(Schema.Array(StoreCodeSetWithMov)),
+    }),
+  ).annotate({
+    identifier: "MinimumOrderValueTable",
+  }) as any as Schema.Schema<MinimumOrderValueTable>;
 
 export interface Service {
   /** Optional. Shipping rate group definitions. Only the last one is allowed to have an empty `applicable_shipping_labels`, which means "everything else". The other `applicable_shipping_labels` must not overlap. */
@@ -966,7 +1301,12 @@ export interface Service {
   /** Optional. Minimum order value for this service. If set, indicates that customers will have to spend at least this amount. All prices within a service must have the same currency. Cannot be set together with `minimum_order_value_table`. */
   minimumOrderValue?: Price;
   /** Optional. Type of locations this service ships orders to. */
-  shipmentType?: "SHIPMENT_TYPE_UNSPECIFIED" | "DELIVERY" | "LOCAL_DELIVERY" | "COLLECTION_POINT" | (string & {});
+  shipmentType?:
+    | "SHIPMENT_TYPE_UNSPECIFIED"
+    | "DELIVERY"
+    | "LOCAL_DELIVERY"
+    | "COLLECTION_POINT"
+    | (string & {});
   /** A list of stores your products are delivered from. This is only valid for the local delivery shipment type. */
   storeConfig?: StoreConfig;
   /** Required. The CLDR territory code of the countries to which the service applies. */
@@ -981,43 +1321,64 @@ export interface Service {
   minimumOrderValueTable?: MinimumOrderValueTable;
 }
 
-export const Service: Schema.Schema<Service> = Schema.suspend(() => Schema.Struct({
-  rateGroups: Schema.optional(Schema.Array(RateGroup)),
-  active: Schema.optional(Schema.Boolean),
-  currencyCode: Schema.optional(Schema.String),
-  minimumOrderValue: Schema.optional(Price),
-  shipmentType: Schema.optional(Schema.String),
-  storeConfig: Schema.optional(StoreConfig),
-  deliveryCountries: Schema.optional(Schema.Array(Schema.String)),
-  serviceName: Schema.optional(Schema.String),
-  deliveryTime: Schema.optional(DeliveryTime),
-  loyaltyPrograms: Schema.optional(Schema.Array(LoyaltyProgram)),
-  minimumOrderValueTable: Schema.optional(MinimumOrderValueTable),
-})).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
+export const Service: Schema.Schema<Service> = Schema.suspend(() =>
+  Schema.Struct({
+    rateGroups: Schema.optional(Schema.Array(RateGroup)),
+    active: Schema.optional(Schema.Boolean),
+    currencyCode: Schema.optional(Schema.String),
+    minimumOrderValue: Schema.optional(Price),
+    shipmentType: Schema.optional(Schema.String),
+    storeConfig: Schema.optional(StoreConfig),
+    deliveryCountries: Schema.optional(Schema.Array(Schema.String)),
+    serviceName: Schema.optional(Schema.String),
+    deliveryTime: Schema.optional(DeliveryTime),
+    loyaltyPrograms: Schema.optional(Schema.Array(LoyaltyProgram)),
+    minimumOrderValueTable: Schema.optional(MinimumOrderValueTable),
+  }),
+).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
 
 export interface VerificationMailSettings {
   /** Optional. Mode of the verification mail. If not set, the default is `SEND_VERIFICATION_MAIL`. */
-  verificationMailMode?: "VERIFICATION_MAIL_MODE_UNSPECIFIED" | "SEND_VERIFICATION_MAIL" | "SUPPRESS_VERIFICATION_MAIL" | (string & {});
+  verificationMailMode?:
+    | "VERIFICATION_MAIL_MODE_UNSPECIFIED"
+    | "SEND_VERIFICATION_MAIL"
+    | "SUPPRESS_VERIFICATION_MAIL"
+    | (string & {});
 }
 
-export const VerificationMailSettings: Schema.Schema<VerificationMailSettings> = Schema.suspend(() => Schema.Struct({
-  verificationMailMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "VerificationMailSettings" }) as any as Schema.Schema<VerificationMailSettings>;
+export const VerificationMailSettings: Schema.Schema<VerificationMailSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      verificationMailMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VerificationMailSettings",
+  }) as any as Schema.Schema<VerificationMailSettings>;
 
 export interface User {
   /** Output only. The state of the user. */
   state?: "STATE_UNSPECIFIED" | "PENDING" | "VERIFIED" | (string & {});
   /** Required. The [access rights](https://support.google.com/merchants/answer/12160472?sjid=6789834943175119429-EU#accesstypes) the user has. */
-  accessRights?: Array<"ACCESS_RIGHT_UNSPECIFIED" | "STANDARD" | "READ_ONLY" | "ADMIN" | "PERFORMANCE_REPORTING" | "API_DEVELOPER" | (string & {})>;
+  accessRights?: Array<
+    | "ACCESS_RIGHT_UNSPECIFIED"
+    | "STANDARD"
+    | "READ_ONLY"
+    | "ADMIN"
+    | "PERFORMANCE_REPORTING"
+    | "API_DEVELOPER"
+    | (string & {})
+  >;
   /** Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
   name?: string;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  accessRights: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    accessRights: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface AddUser {
   /** Optional. Settings related to configuring the verification email that is sent after adding a user. */
@@ -1028,11 +1389,13 @@ export interface AddUser {
   user?: User;
 }
 
-export const AddUser: Schema.Schema<AddUser> = Schema.suspend(() => Schema.Struct({
-  verificationMailSettings: Schema.optional(VerificationMailSettings),
-  userId: Schema.optional(Schema.String),
-  user: Schema.optional(User),
-})).annotate({ identifier: "AddUser" }) as any as Schema.Schema<AddUser>;
+export const AddUser: Schema.Schema<AddUser> = Schema.suspend(() =>
+  Schema.Struct({
+    verificationMailSettings: Schema.optional(VerificationMailSettings),
+    userId: Schema.optional(Schema.String),
+    user: Schema.optional(User),
+  }),
+).annotate({ identifier: "AddUser" }) as any as Schema.Schema<AddUser>;
 
 export interface SetAliasForRelationship {
   /** Required. The provider of the service. This is a reference to an account such as `providers/123` or `accounts/123`. The same provider must be specified in at least one of the `service` fields. */
@@ -1041,10 +1404,15 @@ export interface SetAliasForRelationship {
   accountIdAlias?: string;
 }
 
-export const SetAliasForRelationship: Schema.Schema<SetAliasForRelationship> = Schema.suspend(() => Schema.Struct({
-  provider: Schema.optional(Schema.String),
-  accountIdAlias: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetAliasForRelationship" }) as any as Schema.Schema<SetAliasForRelationship>;
+export const SetAliasForRelationship: Schema.Schema<SetAliasForRelationship> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      provider: Schema.optional(Schema.String),
+      accountIdAlias: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetAliasForRelationship",
+  }) as any as Schema.Schema<SetAliasForRelationship>;
 
 export interface TimeZone {
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
@@ -1053,10 +1421,12 @@ export interface TimeZone {
   id?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface Account {
   /** Required. A human-readable name of the account. Don't use punctuation, capitalization, or non-alphanumeric symbols such as the "/" or "_" symbols. See [Adding a business name](https://support.google.com/merchants/answer/12159159) for more information. */
@@ -1075,15 +1445,17 @@ export interface Account {
   timeZone?: TimeZone;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() => Schema.Struct({
-  accountName: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  accountId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  testAccount: Schema.optional(Schema.Boolean),
-  adultContent: Schema.optional(Schema.Boolean),
-  timeZone: Schema.optional(TimeZone),
-})).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> = Schema.suspend(() =>
+  Schema.Struct({
+    accountName: Schema.optional(Schema.String),
+    languageCode: Schema.optional(Schema.String),
+    accountId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    testAccount: Schema.optional(Schema.Boolean),
+    adultContent: Schema.optional(Schema.Boolean),
+    timeZone: Schema.optional(TimeZone),
+  }),
+).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface CreateAndConfigureAccountRequest {
   /** Optional. Users to be added to the account. */
@@ -1096,12 +1468,17 @@ export interface CreateAndConfigureAccountRequest {
   account?: Account;
 }
 
-export const CreateAndConfigureAccountRequest: Schema.Schema<CreateAndConfigureAccountRequest> = Schema.suspend(() => Schema.Struct({
-  user: Schema.optional(Schema.Array(AddUser)),
-  service: Schema.optional(Schema.Array(AddAccountService)),
-  setAlias: Schema.optional(Schema.Array(SetAliasForRelationship)),
-  account: Schema.optional(Account),
-})).annotate({ identifier: "CreateAndConfigureAccountRequest" }) as any as Schema.Schema<CreateAndConfigureAccountRequest>;
+export const CreateAndConfigureAccountRequest: Schema.Schema<CreateAndConfigureAccountRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      user: Schema.optional(Schema.Array(AddUser)),
+      service: Schema.optional(Schema.Array(AddAccountService)),
+      setAlias: Schema.optional(Schema.Array(SetAliasForRelationship)),
+      account: Schema.optional(Account),
+    }),
+  ).annotate({
+    identifier: "CreateAndConfigureAccountRequest",
+  }) as any as Schema.Schema<CreateAndConfigureAccountRequest>;
 
 export interface Accepted {
   /** Optional. When set, it states that the accepted `TermsOfService` is only valid until the end of this date (in UTC). A new one must be accepted before then. The information of the required `TermsOfService` is found in the `Required` message. */
@@ -1112,17 +1489,20 @@ export interface Accepted {
   acceptedBy?: string;
 }
 
-export const Accepted: Schema.Schema<Accepted> = Schema.suspend(() => Schema.Struct({
-  validUntil: Schema.optional(Merchantapi_Date),
-  termsOfService: Schema.optional(Schema.String),
-  acceptedBy: Schema.optional(Schema.String),
-})).annotate({ identifier: "Accepted" }) as any as Schema.Schema<Accepted>;
+export const Accepted: Schema.Schema<Accepted> = Schema.suspend(() =>
+  Schema.Struct({
+    validUntil: Schema.optional(Merchantapi_Date),
+    termsOfService: Schema.optional(Schema.String),
+    acceptedBy: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Accepted" }) as any as Schema.Schema<Accepted>;
 
-export interface RequestInventoryVerificationRequest {
-}
+export interface RequestInventoryVerificationRequest {}
 
-export const RequestInventoryVerificationRequest: Schema.Schema<RequestInventoryVerificationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RequestInventoryVerificationRequest" }) as any as Schema.Schema<RequestInventoryVerificationRequest>;
+export const RequestInventoryVerificationRequest: Schema.Schema<RequestInventoryVerificationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RequestInventoryVerificationRequest",
+  }) as any as Schema.Schema<RequestInventoryVerificationRequest>;
 
 export interface AutomaticItemUpdates {
   /** Output only. The effective value of allow_availability_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
@@ -1137,13 +1517,20 @@ export interface AutomaticItemUpdates {
   accountItemUpdatesSettings?: ItemUpdatesAccountLevelSettings;
 }
 
-export const AutomaticItemUpdates: Schema.Schema<AutomaticItemUpdates> = Schema.suspend(() => Schema.Struct({
-  effectiveAllowAvailabilityUpdates: Schema.optional(Schema.Boolean),
-  effectiveAllowPriceUpdates: Schema.optional(Schema.Boolean),
-  effectiveAllowConditionUpdates: Schema.optional(Schema.Boolean),
-  effectiveAllowStrictAvailabilityUpdates: Schema.optional(Schema.Boolean),
-  accountItemUpdatesSettings: Schema.optional(ItemUpdatesAccountLevelSettings),
-})).annotate({ identifier: "AutomaticItemUpdates" }) as any as Schema.Schema<AutomaticItemUpdates>;
+export const AutomaticItemUpdates: Schema.Schema<AutomaticItemUpdates> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      effectiveAllowAvailabilityUpdates: Schema.optional(Schema.Boolean),
+      effectiveAllowPriceUpdates: Schema.optional(Schema.Boolean),
+      effectiveAllowConditionUpdates: Schema.optional(Schema.Boolean),
+      effectiveAllowStrictAvailabilityUpdates: Schema.optional(Schema.Boolean),
+      accountItemUpdatesSettings: Schema.optional(
+        ItemUpdatesAccountLevelSettings,
+      ),
+    }),
+  ).annotate({
+    identifier: "AutomaticItemUpdates",
+  }) as any as Schema.Schema<AutomaticItemUpdates>;
 
 export interface Requirement {
   /** Output only. The URL of a help page describing the requirement. */
@@ -1154,11 +1541,13 @@ export interface Requirement {
   title?: string;
 }
 
-export const Requirement: Schema.Schema<Requirement> = Schema.suspend(() => Schema.Struct({
-  documentationUri: Schema.optional(Schema.String),
-  affectedRegionCodes: Schema.optional(Schema.Array(Schema.String)),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "Requirement" }) as any as Schema.Schema<Requirement>;
+export const Requirement: Schema.Schema<Requirement> = Schema.suspend(() =>
+  Schema.Struct({
+    documentationUri: Schema.optional(Schema.String),
+    affectedRegionCodes: Schema.optional(Schema.Array(Schema.String)),
+    title: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Requirement" }) as any as Schema.Schema<Requirement>;
 
 export interface Program {
   /** Identifier. The resource name of the program. Format: `accounts/{account}/programs/{program}` */
@@ -1170,16 +1559,23 @@ export interface Program {
   /** Output only. The requirements that the account has not yet satisfied that are affecting participation in the program. */
   unmetRequirements?: Array<Requirement>;
   /** Output only. The participation state of the account in the program. */
-  state?: "STATE_UNSPECIFIED" | "NOT_ELIGIBLE" | "ELIGIBLE" | "ENABLED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "NOT_ELIGIBLE"
+    | "ELIGIBLE"
+    | "ENABLED"
+    | (string & {});
 }
 
-export const Program: Schema.Schema<Program> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  documentationUri: Schema.optional(Schema.String),
-  activeRegionCodes: Schema.optional(Schema.Array(Schema.String)),
-  unmetRequirements: Schema.optional(Schema.Array(Requirement)),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "Program" }) as any as Schema.Schema<Program>;
+export const Program: Schema.Schema<Program> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    documentationUri: Schema.optional(Schema.String),
+    activeRegionCodes: Schema.optional(Schema.Array(Schema.String)),
+    unmetRequirements: Schema.optional(Schema.Array(Requirement)),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Program" }) as any as Schema.Schema<Program>;
 
 export interface ListProgramsResponse {
   /** The programs for the given account. */
@@ -1188,10 +1584,15 @@ export interface ListProgramsResponse {
   nextPageToken?: string;
 }
 
-export const ListProgramsResponse: Schema.Schema<ListProgramsResponse> = Schema.suspend(() => Schema.Struct({
-  programs: Schema.optional(Schema.Array(Program)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListProgramsResponse" }) as any as Schema.Schema<ListProgramsResponse>;
+export const ListProgramsResponse: Schema.Schema<ListProgramsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      programs: Schema.optional(Schema.Array(Program)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListProgramsResponse",
+  }) as any as Schema.Schema<ListProgramsResponse>;
 
 export interface AccountRelationship {
   /** Identifier. The resource name of the account relationship. Format: `accounts/{account}/relationships/{relationship}`. For example, `accounts/123456/relationships/567890`. */
@@ -1204,12 +1605,17 @@ export interface AccountRelationship {
   accountIdAlias?: string;
 }
 
-export const AccountRelationship: Schema.Schema<AccountRelationship> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  provider: Schema.optional(Schema.String),
-  providerDisplayName: Schema.optional(Schema.String),
-  accountIdAlias: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccountRelationship" }) as any as Schema.Schema<AccountRelationship>;
+export const AccountRelationship: Schema.Schema<AccountRelationship> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      provider: Schema.optional(Schema.String),
+      providerDisplayName: Schema.optional(Schema.String),
+      accountIdAlias: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountRelationship",
+  }) as any as Schema.Schema<AccountRelationship>;
 
 export interface ListAccountRelationshipsResponse {
   /** A page token. You can send the `page_token` to get the next page. Only included in the `list` response if there are more pages. */
@@ -1218,26 +1624,45 @@ export interface ListAccountRelationshipsResponse {
   accountRelationships?: Array<AccountRelationship>;
 }
 
-export const ListAccountRelationshipsResponse: Schema.Schema<ListAccountRelationshipsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  accountRelationships: Schema.optional(Schema.Array(AccountRelationship)),
-})).annotate({ identifier: "ListAccountRelationshipsResponse" }) as any as Schema.Schema<ListAccountRelationshipsResponse>;
+export const ListAccountRelationshipsResponse: Schema.Schema<ListAccountRelationshipsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      accountRelationships: Schema.optional(Schema.Array(AccountRelationship)),
+    }),
+  ).annotate({
+    identifier: "ListAccountRelationshipsResponse",
+  }) as any as Schema.Schema<ListAccountRelationshipsResponse>;
 
 export interface OnDisplayToOrder {
   /** Required. The on display to order (ODO) policy URI. */
   uri?: string;
   /** Output only. The state of the URI. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "FAILED" | "RUNNING" | "ACTION_REQUIRED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "FAILED"
+    | "RUNNING"
+    | "ACTION_REQUIRED"
+    | (string & {});
 }
 
-export const OnDisplayToOrder: Schema.Schema<OnDisplayToOrder> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "OnDisplayToOrder" }) as any as Schema.Schema<OnDisplayToOrder>;
+export const OnDisplayToOrder: Schema.Schema<OnDisplayToOrder> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "OnDisplayToOrder",
+}) as any as Schema.Schema<OnDisplayToOrder>;
 
 export interface TermsOfService {
   /** The Kind this terms of service version applies to. */
-  kind?: "TERMS_OF_SERVICE_KIND_UNSPECIFIED" | "MERCHANT_CENTER" | (string & {});
+  kind?:
+    | "TERMS_OF_SERVICE_KIND_UNSPECIFIED"
+    | "MERCHANT_CENTER"
+    | (string & {});
   /** Whether this terms of service version is external. External terms of service versions can only be agreed through external processes and not directly by the merchant through UI or API. */
   external?: boolean;
   /** URI for terms of service file that needs to be displayed to signing users. */
@@ -1248,55 +1673,94 @@ export interface TermsOfService {
   regionCode?: string;
 }
 
-export const TermsOfService: Schema.Schema<TermsOfService> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  external: Schema.optional(Schema.Boolean),
-  fileUri: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "TermsOfService" }) as any as Schema.Schema<TermsOfService>;
+export const TermsOfService: Schema.Schema<TermsOfService> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      external: Schema.optional(Schema.Boolean),
+      fileUri: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TermsOfService",
+}) as any as Schema.Schema<TermsOfService>;
 
 export interface InventoryVerification {
   /** Required. The email address of the contact for the inventory verification process. */
   contactEmail?: string;
   /** Output only. The state of the inventory verification process. */
-  state?: "STATE_UNSPECIFIED" | "ACTION_REQUIRED" | "INACTIVE" | "RUNNING" | "SUCCEEDED" | "SUSPENDED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTION_REQUIRED"
+    | "INACTIVE"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "SUSPENDED"
+    | (string & {});
   /** Required. The name of the contact for the inventory verification process. */
   contact?: string;
   /** Output only. The state of the contact verification. */
-  contactState?: "STATE_UNSPECIFIED" | "ACTIVE" | "FAILED" | "RUNNING" | "ACTION_REQUIRED" | (string & {});
+  contactState?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "FAILED"
+    | "RUNNING"
+    | "ACTION_REQUIRED"
+    | (string & {});
 }
 
-export const InventoryVerification: Schema.Schema<InventoryVerification> = Schema.suspend(() => Schema.Struct({
-  contactEmail: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  contact: Schema.optional(Schema.String),
-  contactState: Schema.optional(Schema.String),
-})).annotate({ identifier: "InventoryVerification" }) as any as Schema.Schema<InventoryVerification>;
+export const InventoryVerification: Schema.Schema<InventoryVerification> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      contactEmail: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      contact: Schema.optional(Schema.String),
+      contactState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InventoryVerification",
+  }) as any as Schema.Schema<InventoryVerification>;
 
 export interface Pickup {
   /** Required. Pickup product page URI. It is only used for the review of pickup serving. This URI domain should match with the business's homepage. */
   uri?: string;
   /** Output only. The state of the pickup serving. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "FAILED" | "RUNNING" | "ACTION_REQUIRED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "FAILED"
+    | "RUNNING"
+    | "ACTION_REQUIRED"
+    | (string & {});
 }
 
-export const Pickup: Schema.Schema<Pickup> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "Pickup" }) as any as Schema.Schema<Pickup>;
+export const Pickup: Schema.Schema<Pickup> = Schema.suspend(() =>
+  Schema.Struct({
+    uri: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Pickup" }) as any as Schema.Schema<Pickup>;
 
 export interface About {
   /** Output only. The state of the URI. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "FAILED" | "RUNNING" | "ACTION_REQUIRED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "FAILED"
+    | "RUNNING"
+    | "ACTION_REQUIRED"
+    | (string & {});
   /** Required. The about page URI. */
   uri?: string;
 }
 
-export const About: Schema.Schema<About> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "About" }) as any as Schema.Schema<About>;
+export const About: Schema.Schema<About> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "About" }) as any as Schema.Schema<About>;
 
 export interface OmnichannelSetting {
   /** Optional. The InStock URI and state for this country. */
@@ -1314,40 +1778,60 @@ export interface OmnichannelSetting {
   /** Output only. The established link to a LFP provider. */
   lfpLink?: LfpLink;
   /** Required. The Local Store Front type for this country. */
-  lsfType?: "LSF_TYPE_UNSPECIFIED" | "GHLSF" | "MHLSF_BASIC" | "MHLSF_FULL" | (string & {});
+  lsfType?:
+    | "LSF_TYPE_UNSPECIFIED"
+    | "GHLSF"
+    | "MHLSF_BASIC"
+    | "MHLSF_FULL"
+    | (string & {});
   /** Optional. The about page URI and state for this country. */
   about?: About;
 }
 
-export const OmnichannelSetting: Schema.Schema<OmnichannelSetting> = Schema.suspend(() => Schema.Struct({
-  inStock: Schema.optional(InStock),
-  regionCode: Schema.optional(Schema.String),
-  inventoryVerification: Schema.optional(InventoryVerification),
-  pickup: Schema.optional(Pickup),
-  name: Schema.optional(Schema.String),
-  odo: Schema.optional(OnDisplayToOrder),
-  lfpLink: Schema.optional(LfpLink),
-  lsfType: Schema.optional(Schema.String),
-  about: Schema.optional(About),
-})).annotate({ identifier: "OmnichannelSetting" }) as any as Schema.Schema<OmnichannelSetting>;
+export const OmnichannelSetting: Schema.Schema<OmnichannelSetting> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inStock: Schema.optional(InStock),
+      regionCode: Schema.optional(Schema.String),
+      inventoryVerification: Schema.optional(InventoryVerification),
+      pickup: Schema.optional(Pickup),
+      name: Schema.optional(Schema.String),
+      odo: Schema.optional(OnDisplayToOrder),
+      lfpLink: Schema.optional(LfpLink),
+      lsfType: Schema.optional(Schema.String),
+      about: Schema.optional(About),
+    }),
+  ).annotate({
+    identifier: "OmnichannelSetting",
+  }) as any as Schema.Schema<OmnichannelSetting>;
 
 export interface RequestInventoryVerificationResponse {
   /** The omnichannel setting that was updated. */
   omnichannelSetting?: OmnichannelSetting;
 }
 
-export const RequestInventoryVerificationResponse: Schema.Schema<RequestInventoryVerificationResponse> = Schema.suspend(() => Schema.Struct({
-  omnichannelSetting: Schema.optional(OmnichannelSetting),
-})).annotate({ identifier: "RequestInventoryVerificationResponse" }) as any as Schema.Schema<RequestInventoryVerificationResponse>;
+export const RequestInventoryVerificationResponse: Schema.Schema<RequestInventoryVerificationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      omnichannelSetting: Schema.optional(OmnichannelSetting),
+    }),
+  ).annotate({
+    identifier: "RequestInventoryVerificationResponse",
+  }) as any as Schema.Schema<RequestInventoryVerificationResponse>;
 
 export interface RegisterGcpRequest {
   /** Immutable. If the developer email provided is associated with a user in the merchant account provided, the user will be updated to have "API developer" access type and the email preference corresponding to that user will be updated to have the new "API notifications" preference. If the developer email provided is not associated with any user we will just add it as a contact. The email preference corresponding to that contact will have the new "API notifications" preference. Make sure the email used is associated with a Google Account (Google Workspace account or Gmail account) and is not a service account as service accounts can't receive emails. */
   developerEmail?: string;
 }
 
-export const RegisterGcpRequest: Schema.Schema<RegisterGcpRequest> = Schema.suspend(() => Schema.Struct({
-  developerEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "RegisterGcpRequest" }) as any as Schema.Schema<RegisterGcpRequest>;
+export const RegisterGcpRequest: Schema.Schema<RegisterGcpRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      developerEmail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RegisterGcpRequest",
+  }) as any as Schema.Schema<RegisterGcpRequest>;
 
 export interface Address {
   /** Required. Postal code or ZIP (For example "94043"). */
@@ -1362,13 +1846,15 @@ export interface Address {
   streetAddress?: string;
 }
 
-export const Address: Schema.Schema<Address> = Schema.suspend(() => Schema.Struct({
-  postalCode: Schema.optional(Schema.String),
-  city: Schema.optional(Schema.String),
-  administrativeArea: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  streetAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
+export const Address: Schema.Schema<Address> = Schema.suspend(() =>
+  Schema.Struct({
+    postalCode: Schema.optional(Schema.String),
+    city: Schema.optional(Schema.String),
+    administrativeArea: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    streetAddress: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
 
 export interface WarehouseCutoffTime {
   /** Required. Hour of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Hour is based on the timezone of warehouse. */
@@ -1377,10 +1863,15 @@ export interface WarehouseCutoffTime {
   minute?: number;
 }
 
-export const WarehouseCutoffTime: Schema.Schema<WarehouseCutoffTime> = Schema.suspend(() => Schema.Struct({
-  hour: Schema.optional(Schema.Number),
-  minute: Schema.optional(Schema.Number),
-})).annotate({ identifier: "WarehouseCutoffTime" }) as any as Schema.Schema<WarehouseCutoffTime>;
+export const WarehouseCutoffTime: Schema.Schema<WarehouseCutoffTime> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hour: Schema.optional(Schema.Number),
+      minute: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "WarehouseCutoffTime",
+  }) as any as Schema.Schema<WarehouseCutoffTime>;
 
 export interface Warehouse {
   /** Business days of the warehouse. If not set, will be Monday to Friday by default. */
@@ -1395,13 +1886,15 @@ export interface Warehouse {
   handlingDays?: string;
 }
 
-export const Warehouse: Schema.Schema<Warehouse> = Schema.suspend(() => Schema.Struct({
-  businessDayConfig: Schema.optional(BusinessDayConfig),
-  shippingAddress: Schema.optional(Address),
-  name: Schema.optional(Schema.String),
-  cutoffTime: Schema.optional(WarehouseCutoffTime),
-  handlingDays: Schema.optional(Schema.String),
-})).annotate({ identifier: "Warehouse" }) as any as Schema.Schema<Warehouse>;
+export const Warehouse: Schema.Schema<Warehouse> = Schema.suspend(() =>
+  Schema.Struct({
+    businessDayConfig: Schema.optional(BusinessDayConfig),
+    shippingAddress: Schema.optional(Address),
+    name: Schema.optional(Schema.String),
+    cutoffTime: Schema.optional(WarehouseCutoffTime),
+    handlingDays: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Warehouse" }) as any as Schema.Schema<Warehouse>;
 
 export interface ShippingSettings {
   /** Required. This field helps avoid async issues. It ensures that the shipping setting data doesn't change between the `get` call and the `insert` call. The user should follow these steps: 1. Set the etag field as an empty string for the initial shipping setting creation. 2. After the initial creation, call the `get` method to obtain an etag and the current shipping setting data before calling `insert`. 3. Modify the shipping setting information. 4. Call the `insert` method with the shipping setting information and the etag obtained in step 2. 5. If the shipping setting data changes between step 2 and step 4, the insert request will fail because the etag changes every time the shipping setting data changes. In this case, the user should repeat steps 2-4 with the new etag. */
@@ -1414,12 +1907,17 @@ export interface ShippingSettings {
   name?: string;
 }
 
-export const ShippingSettings: Schema.Schema<ShippingSettings> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  services: Schema.optional(Schema.Array(Service)),
-  warehouses: Schema.optional(Schema.Array(Warehouse)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ShippingSettings" }) as any as Schema.Schema<ShippingSettings>;
+export const ShippingSettings: Schema.Schema<ShippingSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      services: Schema.optional(Schema.Array(Service)),
+      warehouses: Schema.optional(Schema.Array(Warehouse)),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ShippingSettings",
+}) as any as Schema.Schema<ShippingSettings>;
 
 export interface ListAccountIssuesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -1428,19 +1926,29 @@ export interface ListAccountIssuesResponse {
   accountIssues?: Array<AccountIssue>;
 }
 
-export const ListAccountIssuesResponse: Schema.Schema<ListAccountIssuesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  accountIssues: Schema.optional(Schema.Array(AccountIssue)),
-})).annotate({ identifier: "ListAccountIssuesResponse" }) as any as Schema.Schema<ListAccountIssuesResponse>;
+export const ListAccountIssuesResponse: Schema.Schema<ListAccountIssuesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      accountIssues: Schema.optional(Schema.Array(AccountIssue)),
+    }),
+  ).annotate({
+    identifier: "ListAccountIssuesResponse",
+  }) as any as Schema.Schema<ListAccountIssuesResponse>;
 
 export interface BatchDeleteRegionsRequest {
   /** Required. The names of the regions to delete. A maximum of 100 regions can be deleted in a batch. */
   requests?: Array<DeleteRegionRequest>;
 }
 
-export const BatchDeleteRegionsRequest: Schema.Schema<BatchDeleteRegionsRequest> = Schema.suspend(() => Schema.Struct({
-  requests: Schema.optional(Schema.Array(DeleteRegionRequest)),
-})).annotate({ identifier: "BatchDeleteRegionsRequest" }) as any as Schema.Schema<BatchDeleteRegionsRequest>;
+export const BatchDeleteRegionsRequest: Schema.Schema<BatchDeleteRegionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requests: Schema.optional(Schema.Array(DeleteRegionRequest)),
+    }),
+  ).annotate({
+    identifier: "BatchDeleteRegionsRequest",
+  }) as any as Schema.Schema<BatchDeleteRegionsRequest>;
 
 export interface Homepage {
   /** Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
@@ -1451,11 +1959,13 @@ export interface Homepage {
   claimed?: boolean;
 }
 
-export const Homepage: Schema.Schema<Homepage> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  claimed: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Homepage" }) as any as Schema.Schema<Homepage>;
+export const Homepage: Schema.Schema<Homepage> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    claimed: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Homepage" }) as any as Schema.Schema<Homepage>;
 
 export interface GbpAccount {
   /** Identifier. The resource name of the GBP account. Format: `accounts/{account}/gbpAccount/{gbp_account}` */
@@ -1470,19 +1980,22 @@ export interface GbpAccount {
   gbpAccountName?: string;
 }
 
-export const GbpAccount: Schema.Schema<GbpAccount> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  gbpAccountId: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  listingCount: Schema.optional(Schema.String),
-  gbpAccountName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GbpAccount" }) as any as Schema.Schema<GbpAccount>;
+export const GbpAccount: Schema.Schema<GbpAccount> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    gbpAccountId: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    listingCount: Schema.optional(Schema.String),
+    gbpAccountName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GbpAccount" }) as any as Schema.Schema<GbpAccount>;
 
-export interface VerifySelfRequest {
-}
+export interface VerifySelfRequest {}
 
-export const VerifySelfRequest: Schema.Schema<VerifySelfRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "VerifySelfRequest" }) as any as Schema.Schema<VerifySelfRequest>;
+export const VerifySelfRequest: Schema.Schema<VerifySelfRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "VerifySelfRequest",
+  }) as any as Schema.Schema<VerifySelfRequest>;
 
 export interface ListUsersResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -1491,19 +2004,29 @@ export interface ListUsersResponse {
   users?: Array<User>;
 }
 
-export const ListUsersResponse: Schema.Schema<ListUsersResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  users: Schema.optional(Schema.Array(User)),
-})).annotate({ identifier: "ListUsersResponse" }) as any as Schema.Schema<ListUsersResponse>;
+export const ListUsersResponse: Schema.Schema<ListUsersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      users: Schema.optional(Schema.Array(User)),
+    }),
+  ).annotate({
+    identifier: "ListUsersResponse",
+  }) as any as Schema.Schema<ListUsersResponse>;
 
 export interface LinkGbpAccountRequest {
   /** Required. The email address of the Business Profile account. */
   gbpEmail?: string;
 }
 
-export const LinkGbpAccountRequest: Schema.Schema<LinkGbpAccountRequest> = Schema.suspend(() => Schema.Struct({
-  gbpEmail: Schema.optional(Schema.String),
-})).annotate({ identifier: "LinkGbpAccountRequest" }) as any as Schema.Schema<LinkGbpAccountRequest>;
+export const LinkGbpAccountRequest: Schema.Schema<LinkGbpAccountRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gbpEmail: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LinkGbpAccountRequest",
+  }) as any as Schema.Schema<LinkGbpAccountRequest>;
 
 export interface ProposeAccountServiceRequest {
   /** Required. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
@@ -1512,25 +2035,35 @@ export interface ProposeAccountServiceRequest {
   accountService?: AccountService;
 }
 
-export const ProposeAccountServiceRequest: Schema.Schema<ProposeAccountServiceRequest> = Schema.suspend(() => Schema.Struct({
-  provider: Schema.optional(Schema.String),
-  accountService: Schema.optional(AccountService),
-})).annotate({ identifier: "ProposeAccountServiceRequest" }) as any as Schema.Schema<ProposeAccountServiceRequest>;
+export const ProposeAccountServiceRequest: Schema.Schema<ProposeAccountServiceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      provider: Schema.optional(Schema.String),
+      accountService: Schema.optional(AccountService),
+    }),
+  ).annotate({
+    identifier: "ProposeAccountServiceRequest",
+  }) as any as Schema.Schema<ProposeAccountServiceRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface LinkGbpAccountResponse {
   /** Empty response. */
   response?: Empty;
 }
 
-export const LinkGbpAccountResponse: Schema.Schema<LinkGbpAccountResponse> = Schema.suspend(() => Schema.Struct({
-  response: Schema.optional(Empty),
-})).annotate({ identifier: "LinkGbpAccountResponse" }) as any as Schema.Schema<LinkGbpAccountResponse>;
+export const LinkGbpAccountResponse: Schema.Schema<LinkGbpAccountResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      response: Schema.optional(Empty),
+    }),
+  ).annotate({
+    identifier: "LinkGbpAccountResponse",
+  }) as any as Schema.Schema<LinkGbpAccountResponse>;
 
 export interface ListSubAccountsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -1539,10 +2072,15 @@ export interface ListSubAccountsResponse {
   accounts?: Array<Account>;
 }
 
-export const ListSubAccountsResponse: Schema.Schema<ListSubAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  accounts: Schema.optional(Schema.Array(Account)),
-})).annotate({ identifier: "ListSubAccountsResponse" }) as any as Schema.Schema<ListSubAccountsResponse>;
+export const ListSubAccountsResponse: Schema.Schema<ListSubAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      accounts: Schema.optional(Schema.Array(Account)),
+    }),
+  ).annotate({
+    identifier: "ListSubAccountsResponse",
+  }) as any as Schema.Schema<ListSubAccountsResponse>;
 
 export interface SeasonalOverride {
   /** Number of days (from the delivery date) that the product can be returned. */
@@ -1557,13 +2095,18 @@ export interface SeasonalOverride {
   endDate?: Merchantapi_Date;
 }
 
-export const SeasonalOverride: Schema.Schema<SeasonalOverride> = Schema.suspend(() => Schema.Struct({
-  returnDays: Schema.optional(Schema.Number),
-  returnUntilDate: Schema.optional(Merchantapi_Date),
-  label: Schema.optional(Schema.String),
-  startDate: Schema.optional(Merchantapi_Date),
-  endDate: Schema.optional(Merchantapi_Date),
-})).annotate({ identifier: "SeasonalOverride" }) as any as Schema.Schema<SeasonalOverride>;
+export const SeasonalOverride: Schema.Schema<SeasonalOverride> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      returnDays: Schema.optional(Schema.Number),
+      returnUntilDate: Schema.optional(Merchantapi_Date),
+      label: Schema.optional(Schema.String),
+      startDate: Schema.optional(Merchantapi_Date),
+      endDate: Schema.optional(Merchantapi_Date),
+    }),
+).annotate({
+  identifier: "SeasonalOverride",
+}) as any as Schema.Schema<SeasonalOverride>;
 
 export interface RestockingFee {
   /** Fixed restocking fee. */
@@ -1572,22 +2115,33 @@ export interface RestockingFee {
   microPercent?: number;
 }
 
-export const RestockingFee: Schema.Schema<RestockingFee> = Schema.suspend(() => Schema.Struct({
-  fixedFee: Schema.optional(Price),
-  microPercent: Schema.optional(Schema.Number),
-})).annotate({ identifier: "RestockingFee" }) as any as Schema.Schema<RestockingFee>;
+export const RestockingFee: Schema.Schema<RestockingFee> = Schema.suspend(() =>
+  Schema.Struct({
+    fixedFee: Schema.optional(Price),
+    microPercent: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "RestockingFee",
+}) as any as Schema.Schema<RestockingFee>;
 
 export interface Policy {
   /** Policy type. */
-  type?: "TYPE_UNSPECIFIED" | "NUMBER_OF_DAYS_AFTER_DELIVERY" | "NO_RETURNS" | "LIFETIME_RETURNS" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "NUMBER_OF_DAYS_AFTER_DELIVERY"
+    | "NO_RETURNS"
+    | "LIFETIME_RETURNS"
+    | (string & {});
   /** The number of days items can be returned after delivery, where one day is defined as 24 hours after the delivery timestamp. Required for `NUMBER_OF_DAYS_AFTER_DELIVERY` returns. */
   days?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  days: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    days: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface OnlineReturnPolicy {
   /** Optional. The return shipping fee. Should be set only when customer need to download and print the return label. */
@@ -1595,7 +2149,13 @@ export interface OnlineReturnPolicy {
   /** Required. Immutable. The countries of sale where the return policy applies. The values must be a valid 2 letter ISO 3166 code. */
   countries?: Array<string>;
   /** Optional. The return methods of how customers can return an item. This value is required to not be empty unless the type of return policy is noReturns. */
-  returnMethods?: Array<"RETURN_METHOD_UNSPECIFIED" | "BY_MAIL" | "IN_STORE" | "AT_A_KIOSK" | (string & {})>;
+  returnMethods?: Array<
+    | "RETURN_METHOD_UNSPECIFIED"
+    | "BY_MAIL"
+    | "IN_STORE"
+    | "AT_A_KIOSK"
+    | (string & {})
+  >;
   /** Optional. Overrides to the general policy for orders placed during a specific set of time intervals. */
   seasonalOverrides?: Array<SeasonalOverride>;
   /** Output only. Return policy ID generated by Google. */
@@ -1613,32 +2173,44 @@ export interface OnlineReturnPolicy {
   /** Optional. The return policy. */
   policy?: Policy;
   /** Optional. The field specifies the return label source. */
-  returnLabelSource?: "RETURN_LABEL_SOURCE_UNSPECIFIED" | "DOWNLOAD_AND_PRINT" | "IN_THE_PACKAGE" | "CUSTOMER_RESPONSIBILITY" | (string & {});
+  returnLabelSource?:
+    | "RETURN_LABEL_SOURCE_UNSPECIFIED"
+    | "DOWNLOAD_AND_PRINT"
+    | "IN_THE_PACKAGE"
+    | "CUSTOMER_RESPONSIBILITY"
+    | (string & {});
   /** Optional. The item conditions accepted for returns must not be empty unless the type of return policy is 'noReturns'. */
-  itemConditions?: Array<"ITEM_CONDITION_UNSPECIFIED" | "NEW" | "USED" | (string & {})>;
+  itemConditions?: Array<
+    "ITEM_CONDITION_UNSPECIFIED" | "NEW" | "USED" | (string & {})
+  >;
   /** Optional. Immutable. This field represents the unique user-defined label of the return policy for the given country. It is important to note that the same label cannot be used in different return policies for the same country. If not given, policies will be automatically treated as the 'default' for the country. When using label, you are creating an exception policy in that country to assign a custom return policy to certain product groups, follow the instructions provided in the [Return policy label] (https://support.google.com/merchants/answer/9445425). The label can contain up to 50 characters. */
   label?: string;
   /** Optional. The field specifies the number of days it takes for business to process refunds. */
   processRefundDays?: number;
 }
 
-export const OnlineReturnPolicy: Schema.Schema<OnlineReturnPolicy> = Schema.suspend(() => Schema.Struct({
-  returnShippingFee: Schema.optional(ReturnShippingFee),
-  countries: Schema.optional(Schema.Array(Schema.String)),
-  returnMethods: Schema.optional(Schema.Array(Schema.String)),
-  seasonalOverrides: Schema.optional(Schema.Array(SeasonalOverride)),
-  returnPolicyId: Schema.optional(Schema.String),
-  acceptDefectiveOnly: Schema.optional(Schema.Boolean),
-  acceptExchange: Schema.optional(Schema.Boolean),
-  returnPolicyUri: Schema.optional(Schema.String),
-  restockingFee: Schema.optional(RestockingFee),
-  name: Schema.optional(Schema.String),
-  policy: Schema.optional(Policy),
-  returnLabelSource: Schema.optional(Schema.String),
-  itemConditions: Schema.optional(Schema.Array(Schema.String)),
-  label: Schema.optional(Schema.String),
-  processRefundDays: Schema.optional(Schema.Number),
-})).annotate({ identifier: "OnlineReturnPolicy" }) as any as Schema.Schema<OnlineReturnPolicy>;
+export const OnlineReturnPolicy: Schema.Schema<OnlineReturnPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      returnShippingFee: Schema.optional(ReturnShippingFee),
+      countries: Schema.optional(Schema.Array(Schema.String)),
+      returnMethods: Schema.optional(Schema.Array(Schema.String)),
+      seasonalOverrides: Schema.optional(Schema.Array(SeasonalOverride)),
+      returnPolicyId: Schema.optional(Schema.String),
+      acceptDefectiveOnly: Schema.optional(Schema.Boolean),
+      acceptExchange: Schema.optional(Schema.Boolean),
+      returnPolicyUri: Schema.optional(Schema.String),
+      restockingFee: Schema.optional(RestockingFee),
+      name: Schema.optional(Schema.String),
+      policy: Schema.optional(Policy),
+      returnLabelSource: Schema.optional(Schema.String),
+      itemConditions: Schema.optional(Schema.Array(Schema.String)),
+      label: Schema.optional(Schema.String),
+      processRefundDays: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "OnlineReturnPolicy",
+  }) as any as Schema.Schema<OnlineReturnPolicy>;
 
 export interface ListOnlineReturnPoliciesResponse {
   /** The retrieved return policies. */
@@ -1647,10 +2219,15 @@ export interface ListOnlineReturnPoliciesResponse {
   nextPageToken?: string;
 }
 
-export const ListOnlineReturnPoliciesResponse: Schema.Schema<ListOnlineReturnPoliciesResponse> = Schema.suspend(() => Schema.Struct({
-  onlineReturnPolicies: Schema.optional(Schema.Array(OnlineReturnPolicy)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOnlineReturnPoliciesResponse" }) as any as Schema.Schema<ListOnlineReturnPoliciesResponse>;
+export const ListOnlineReturnPoliciesResponse: Schema.Schema<ListOnlineReturnPoliciesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      onlineReturnPolicies: Schema.optional(Schema.Array(OnlineReturnPolicy)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOnlineReturnPoliciesResponse",
+  }) as any as Schema.Schema<ListOnlineReturnPoliciesResponse>;
 
 export interface ListAccountServicesResponse {
   /** The account services that match your filter. */
@@ -1659,10 +2236,15 @@ export interface ListAccountServicesResponse {
   nextPageToken?: string;
 }
 
-export const ListAccountServicesResponse: Schema.Schema<ListAccountServicesResponse> = Schema.suspend(() => Schema.Struct({
-  accountServices: Schema.optional(Schema.Array(AccountService)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAccountServicesResponse" }) as any as Schema.Schema<ListAccountServicesResponse>;
+export const ListAccountServicesResponse: Schema.Schema<ListAccountServicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accountServices: Schema.optional(Schema.Array(AccountService)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAccountServicesResponse",
+  }) as any as Schema.Schema<ListAccountServicesResponse>;
 
 export interface ListAccountsResponse {
   /** The accounts matching the `ListAccountsRequest`. */
@@ -1671,10 +2253,15 @@ export interface ListAccountsResponse {
   nextPageToken?: string;
 }
 
-export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  accounts: Schema.optional(Schema.Array(Account)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAccountsResponse" }) as any as Schema.Schema<ListAccountsResponse>;
+export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accounts: Schema.optional(Schema.Array(Account)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAccountsResponse",
+  }) as any as Schema.Schema<ListAccountsResponse>;
 
 export interface ListRegionsResponse {
   /** The regions from the specified business. */
@@ -1683,22 +2270,29 @@ export interface ListRegionsResponse {
   nextPageToken?: string;
 }
 
-export const ListRegionsResponse: Schema.Schema<ListRegionsResponse> = Schema.suspend(() => Schema.Struct({
-  regions: Schema.optional(Schema.Array(Region)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListRegionsResponse" }) as any as Schema.Schema<ListRegionsResponse>;
+export const ListRegionsResponse: Schema.Schema<ListRegionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      regions: Schema.optional(Schema.Array(Region)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListRegionsResponse",
+  }) as any as Schema.Schema<ListRegionsResponse>;
 
-export interface ApproveAccountServiceRequest {
-}
+export interface ApproveAccountServiceRequest {}
 
-export const ApproveAccountServiceRequest: Schema.Schema<ApproveAccountServiceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ApproveAccountServiceRequest" }) as any as Schema.Schema<ApproveAccountServiceRequest>;
+export const ApproveAccountServiceRequest: Schema.Schema<ApproveAccountServiceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ApproveAccountServiceRequest",
+  }) as any as Schema.Schema<ApproveAccountServiceRequest>;
 
-export interface UnregisterGcpRequest {
-}
+export interface UnregisterGcpRequest {}
 
-export const UnregisterGcpRequest: Schema.Schema<UnregisterGcpRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UnregisterGcpRequest" }) as any as Schema.Schema<UnregisterGcpRequest>;
+export const UnregisterGcpRequest: Schema.Schema<UnregisterGcpRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UnregisterGcpRequest",
+  }) as any as Schema.Schema<UnregisterGcpRequest>;
 
 export interface CreateRegionRequest {
   /** Required. The account to create a region for. Format: `accounts/{account}` */
@@ -1709,26 +2303,37 @@ export interface CreateRegionRequest {
   regionId?: string;
 }
 
-export const CreateRegionRequest: Schema.Schema<CreateRegionRequest> = Schema.suspend(() => Schema.Struct({
-  parent: Schema.optional(Schema.String),
-  region: Schema.optional(Region),
-  regionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateRegionRequest" }) as any as Schema.Schema<CreateRegionRequest>;
+export const CreateRegionRequest: Schema.Schema<CreateRegionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parent: Schema.optional(Schema.String),
+      region: Schema.optional(Region),
+      regionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateRegionRequest",
+  }) as any as Schema.Schema<CreateRegionRequest>;
 
 export interface BatchCreateRegionsRequest {
   /** Required. The region(s) to create. The maximum number of regions that can be created in a batch is 100. */
   requests?: Array<CreateRegionRequest>;
 }
 
-export const BatchCreateRegionsRequest: Schema.Schema<BatchCreateRegionsRequest> = Schema.suspend(() => Schema.Struct({
-  requests: Schema.optional(Schema.Array(CreateRegionRequest)),
-})).annotate({ identifier: "BatchCreateRegionsRequest" }) as any as Schema.Schema<BatchCreateRegionsRequest>;
+export const BatchCreateRegionsRequest: Schema.Schema<BatchCreateRegionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requests: Schema.optional(Schema.Array(CreateRegionRequest)),
+    }),
+  ).annotate({
+    identifier: "BatchCreateRegionsRequest",
+  }) as any as Schema.Schema<BatchCreateRegionsRequest>;
 
-export interface UnclaimHomepageRequest {
-}
+export interface UnclaimHomepageRequest {}
 
-export const UnclaimHomepageRequest: Schema.Schema<UnclaimHomepageRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UnclaimHomepageRequest" }) as any as Schema.Schema<UnclaimHomepageRequest>;
+export const UnclaimHomepageRequest: Schema.Schema<UnclaimHomepageRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UnclaimHomepageRequest",
+  }) as any as Schema.Schema<UnclaimHomepageRequest>;
 
 export interface DeveloperRegistration {
   /** Identifier. The `name` (ID) of the developer registration. Generated by the Content API upon creation of a new `DeveloperRegistration`. The `account` represents the merchant ID of the merchant that owns the registration. */
@@ -1737,82 +2342,147 @@ export interface DeveloperRegistration {
   gcpIds?: Array<string>;
 }
 
-export const DeveloperRegistration: Schema.Schema<DeveloperRegistration> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  gcpIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "DeveloperRegistration" }) as any as Schema.Schema<DeveloperRegistration>;
+export const DeveloperRegistration: Schema.Schema<DeveloperRegistration> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      gcpIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DeveloperRegistration",
+  }) as any as Schema.Schema<DeveloperRegistration>;
 
 export interface GetAccountForGcpRegistrationResponse {
   /** The name of the merchant account id that the GCP is registered with. */
   name?: string;
 }
 
-export const GetAccountForGcpRegistrationResponse: Schema.Schema<GetAccountForGcpRegistrationResponse> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GetAccountForGcpRegistrationResponse" }) as any as Schema.Schema<GetAccountForGcpRegistrationResponse>;
+export const GetAccountForGcpRegistrationResponse: Schema.Schema<GetAccountForGcpRegistrationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GetAccountForGcpRegistrationResponse",
+  }) as any as Schema.Schema<GetAccountForGcpRegistrationResponse>;
 
 export interface EmailPreferences {
   /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
   name?: string;
   /** Optional. Updates on new features, tips and best practices. */
-  newsAndTips?: "OPT_IN_STATE_UNSPECIFIED" | "OPTED_OUT" | "OPTED_IN" | "UNCONFIRMED" | (string & {});
+  newsAndTips?:
+    | "OPT_IN_STATE_UNSPECIFIED"
+    | "OPTED_OUT"
+    | "OPTED_IN"
+    | "UNCONFIRMED"
+    | (string & {});
 }
 
-export const EmailPreferences: Schema.Schema<EmailPreferences> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  newsAndTips: Schema.optional(Schema.String),
-})).annotate({ identifier: "EmailPreferences" }) as any as Schema.Schema<EmailPreferences>;
+export const EmailPreferences: Schema.Schema<EmailPreferences> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      newsAndTips: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EmailPreferences",
+}) as any as Schema.Schema<EmailPreferences>;
 
 export interface ProductChange {
   /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
   regionCode?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
   /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
   oldValue?: string;
   /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
   newValue?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  reportingContext: Schema.optional(Schema.String),
-  oldValue: Schema.optional(Schema.String),
-  newValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductChange" }) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
+  Schema.Struct({
+    regionCode: Schema.optional(Schema.String),
+    reportingContext: Schema.optional(Schema.String),
+    oldValue: Schema.optional(Schema.String),
+    newValue: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductChange",
+}) as any as Schema.Schema<ProductChange>;
 
 export interface IdentityAttribute {
   /** Required. The declaration of identity for this attribute. */
-  identityDeclaration?: "IDENTITY_DECLARATION_UNSPECIFIED" | "SELF_IDENTIFIES_AS" | "DOES_NOT_SELF_IDENTIFY_AS" | (string & {});
+  identityDeclaration?:
+    | "IDENTITY_DECLARATION_UNSPECIFIED"
+    | "SELF_IDENTIFIES_AS"
+    | "DOES_NOT_SELF_IDENTIFY_AS"
+    | (string & {});
 }
 
-export const IdentityAttribute: Schema.Schema<IdentityAttribute> = Schema.suspend(() => Schema.Struct({
-  identityDeclaration: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentityAttribute" }) as any as Schema.Schema<IdentityAttribute>;
+export const IdentityAttribute: Schema.Schema<IdentityAttribute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      identityDeclaration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentityAttribute",
+  }) as any as Schema.Schema<IdentityAttribute>;
 
-export interface DisableProgramRequest {
-}
+export interface DisableProgramRequest {}
 
-export const DisableProgramRequest: Schema.Schema<DisableProgramRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DisableProgramRequest" }) as any as Schema.Schema<DisableProgramRequest>;
+export const DisableProgramRequest: Schema.Schema<DisableProgramRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DisableProgramRequest",
+  }) as any as Schema.Schema<DisableProgramRequest>;
 
 export interface ClaimHomepageRequest {
   /** Optional. When set to `true`, this option removes any existing claim on the requested website from any other account to the account making the request, effectively replacing the previous claim. */
   overwrite?: boolean;
 }
 
-export const ClaimHomepageRequest: Schema.Schema<ClaimHomepageRequest> = Schema.suspend(() => Schema.Struct({
-  overwrite: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ClaimHomepageRequest" }) as any as Schema.Schema<ClaimHomepageRequest>;
+export const ClaimHomepageRequest: Schema.Schema<ClaimHomepageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      overwrite: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ClaimHomepageRequest",
+  }) as any as Schema.Schema<ClaimHomepageRequest>;
 
 export interface AutomaticShippingImprovements {
   /** Enables automatic shipping improvements. */
   allowShippingImprovements?: boolean;
 }
 
-export const AutomaticShippingImprovements: Schema.Schema<AutomaticShippingImprovements> = Schema.suspend(() => Schema.Struct({
-  allowShippingImprovements: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AutomaticShippingImprovements" }) as any as Schema.Schema<AutomaticShippingImprovements>;
+export const AutomaticShippingImprovements: Schema.Schema<AutomaticShippingImprovements> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowShippingImprovements: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AutomaticShippingImprovements",
+  }) as any as Schema.Schema<AutomaticShippingImprovements>;
 
 export interface AutomaticImprovements {
   /** Identifier. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements`. */
@@ -1825,18 +2495,24 @@ export interface AutomaticImprovements {
   imageImprovements?: AutomaticImageImprovements;
 }
 
-export const AutomaticImprovements: Schema.Schema<AutomaticImprovements> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  shippingImprovements: Schema.optional(AutomaticShippingImprovements),
-  itemUpdates: Schema.optional(AutomaticItemUpdates),
-  imageImprovements: Schema.optional(AutomaticImageImprovements),
-})).annotate({ identifier: "AutomaticImprovements" }) as any as Schema.Schema<AutomaticImprovements>;
+export const AutomaticImprovements: Schema.Schema<AutomaticImprovements> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      shippingImprovements: Schema.optional(AutomaticShippingImprovements),
+      itemUpdates: Schema.optional(AutomaticItemUpdates),
+      imageImprovements: Schema.optional(AutomaticImageImprovements),
+    }),
+  ).annotate({
+    identifier: "AutomaticImprovements",
+  }) as any as Schema.Schema<AutomaticImprovements>;
 
-export interface RejectAccountServiceRequest {
-}
+export interface RejectAccountServiceRequest {}
 
-export const RejectAccountServiceRequest: Schema.Schema<RejectAccountServiceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RejectAccountServiceRequest" }) as any as Schema.Schema<RejectAccountServiceRequest>;
+export const RejectAccountServiceRequest: Schema.Schema<RejectAccountServiceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RejectAccountServiceRequest",
+  }) as any as Schema.Schema<RejectAccountServiceRequest>;
 
 export interface Required {
   /** Required. The `TermsOfService` that need to be accepted. */
@@ -1845,10 +2521,12 @@ export interface Required {
   tosFileUri?: string;
 }
 
-export const Required: Schema.Schema<Required> = Schema.suspend(() => Schema.Struct({
-  termsOfService: Schema.optional(Schema.String),
-  tosFileUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "Required" }) as any as Schema.Schema<Required>;
+export const Required: Schema.Schema<Required> = Schema.suspend(() =>
+  Schema.Struct({
+    termsOfService: Schema.optional(Schema.String),
+    tosFileUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Required" }) as any as Schema.Schema<Required>;
 
 export interface TermsOfServiceAgreementState {
   /** Identifier. The resource name of the terms of service version. Format: `accounts/{account}/termsOfServiceAgreementState/{identifier}` The identifier format is: `{TermsOfServiceKind}-{country}` For example, an identifier could be: `MERCHANT_CENTER-EU` or `MERCHANT_CENTER-US`. */
@@ -1858,18 +2536,26 @@ export interface TermsOfServiceAgreementState {
   /** Required. Region code as defined by https://cldr.unicode.org/. This is the country the current state applies to. */
   regionCode?: string;
   /** Required. Terms of Service kind associated with the particular version. */
-  termsOfServiceKind?: "TERMS_OF_SERVICE_KIND_UNSPECIFIED" | "MERCHANT_CENTER" | (string & {});
+  termsOfServiceKind?:
+    | "TERMS_OF_SERVICE_KIND_UNSPECIFIED"
+    | "MERCHANT_CENTER"
+    | (string & {});
   /** Optional. The required terms of service */
   required?: Required;
 }
 
-export const TermsOfServiceAgreementState: Schema.Schema<TermsOfServiceAgreementState> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  accepted: Schema.optional(Accepted),
-  regionCode: Schema.optional(Schema.String),
-  termsOfServiceKind: Schema.optional(Schema.String),
-  required: Schema.optional(Required),
-})).annotate({ identifier: "TermsOfServiceAgreementState" }) as any as Schema.Schema<TermsOfServiceAgreementState>;
+export const TermsOfServiceAgreementState: Schema.Schema<TermsOfServiceAgreementState> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      accepted: Schema.optional(Accepted),
+      regionCode: Schema.optional(Schema.String),
+      termsOfServiceKind: Schema.optional(Schema.String),
+      required: Schema.optional(Required),
+    }),
+  ).annotate({
+    identifier: "TermsOfServiceAgreementState",
+  }) as any as Schema.Schema<TermsOfServiceAgreementState>;
 
 export interface ListGbpAccountsResponse {
   /** The GBP accounts from the specified merchant in the specified country. */
@@ -1878,19 +2564,29 @@ export interface ListGbpAccountsResponse {
   nextPageToken?: string;
 }
 
-export const ListGbpAccountsResponse: Schema.Schema<ListGbpAccountsResponse> = Schema.suspend(() => Schema.Struct({
-  gbpAccounts: Schema.optional(Schema.Array(GbpAccount)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListGbpAccountsResponse" }) as any as Schema.Schema<ListGbpAccountsResponse>;
+export const ListGbpAccountsResponse: Schema.Schema<ListGbpAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gbpAccounts: Schema.optional(Schema.Array(GbpAccount)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListGbpAccountsResponse",
+  }) as any as Schema.Schema<ListGbpAccountsResponse>;
 
 export interface LinkLfpProviderRequest {
   /** Required. The external account ID by which this merchant is known to the LFP provider. */
   externalAccountId?: string;
 }
 
-export const LinkLfpProviderRequest: Schema.Schema<LinkLfpProviderRequest> = Schema.suspend(() => Schema.Struct({
-  externalAccountId: Schema.optional(Schema.String),
-})).annotate({ identifier: "LinkLfpProviderRequest" }) as any as Schema.Schema<LinkLfpProviderRequest>;
+export const LinkLfpProviderRequest: Schema.Schema<LinkLfpProviderRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      externalAccountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LinkLfpProviderRequest",
+  }) as any as Schema.Schema<LinkLfpProviderRequest>;
 
 export interface ProductStatusChangeMessage {
   /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
@@ -1913,17 +2609,22 @@ export interface ProductStatusChangeMessage {
   attribute?: "ATTRIBUTE_UNSPECIFIED" | "STATUS" | (string & {});
 }
 
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> = Schema.suspend(() => Schema.Struct({
-  account: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  changes: Schema.optional(Schema.Array(ProductChange)),
-  resource: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-  managingAccount: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductStatusChangeMessage" }) as any as Schema.Schema<ProductStatusChangeMessage>;
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      account: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+      resource: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+      managingAccount: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 export interface AutofeedSettings {
   /** Output only. Determines whether the business is eligible for being enrolled into an autofeed. */
@@ -1934,11 +2635,16 @@ export interface AutofeedSettings {
   enableProducts?: boolean;
 }
 
-export const AutofeedSettings: Schema.Schema<AutofeedSettings> = Schema.suspend(() => Schema.Struct({
-  eligible: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  enableProducts: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AutofeedSettings" }) as any as Schema.Schema<AutofeedSettings>;
+export const AutofeedSettings: Schema.Schema<AutofeedSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      eligible: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      enableProducts: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "AutofeedSettings",
+}) as any as Schema.Schema<AutofeedSettings>;
 
 export interface BusinessIdentity {
   /** Optional. Specifies whether the business identifies itself as being veteran-owned. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
@@ -1948,7 +2654,11 @@ export interface BusinessIdentity {
   /** Optional. Specifies whether the business identifies itself as a small business. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces. */
   smallBusiness?: IdentityAttribute;
   /** Required. Whether the identity attributes may be used for promotions. */
-  promotionsConsent?: "PROMOTIONS_CONSENT_UNSPECIFIED" | "PROMOTIONS_CONSENT_GIVEN" | "PROMOTIONS_CONSENT_DENIED" | (string & {});
+  promotionsConsent?:
+    | "PROMOTIONS_CONSENT_UNSPECIFIED"
+    | "PROMOTIONS_CONSENT_GIVEN"
+    | "PROMOTIONS_CONSENT_DENIED"
+    | (string & {});
   /** Optional. Specifies whether the business identifies itself as being black-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
   blackOwned?: IdentityAttribute;
   /** Optional. Specifies whether the business identifies itself as being latino-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
@@ -1957,15 +2667,20 @@ export interface BusinessIdentity {
   womenOwned?: IdentityAttribute;
 }
 
-export const BusinessIdentity: Schema.Schema<BusinessIdentity> = Schema.suspend(() => Schema.Struct({
-  veteranOwned: Schema.optional(IdentityAttribute),
-  name: Schema.optional(Schema.String),
-  smallBusiness: Schema.optional(IdentityAttribute),
-  promotionsConsent: Schema.optional(Schema.String),
-  blackOwned: Schema.optional(IdentityAttribute),
-  latinoOwned: Schema.optional(IdentityAttribute),
-  womenOwned: Schema.optional(IdentityAttribute),
-})).annotate({ identifier: "BusinessIdentity" }) as any as Schema.Schema<BusinessIdentity>;
+export const BusinessIdentity: Schema.Schema<BusinessIdentity> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      veteranOwned: Schema.optional(IdentityAttribute),
+      name: Schema.optional(Schema.String),
+      smallBusiness: Schema.optional(IdentityAttribute),
+      promotionsConsent: Schema.optional(Schema.String),
+      blackOwned: Schema.optional(IdentityAttribute),
+      latinoOwned: Schema.optional(IdentityAttribute),
+      womenOwned: Schema.optional(IdentityAttribute),
+    }),
+).annotate({
+  identifier: "BusinessIdentity",
+}) as any as Schema.Schema<BusinessIdentity>;
 
 export interface ListOmnichannelSettingsResponse {
   /** The omnichannel settings from the specified merchant. */
@@ -1974,28 +2689,45 @@ export interface ListOmnichannelSettingsResponse {
   nextPageToken?: string;
 }
 
-export const ListOmnichannelSettingsResponse: Schema.Schema<ListOmnichannelSettingsResponse> = Schema.suspend(() => Schema.Struct({
-  omnichannelSettings: Schema.optional(Schema.Array(OmnichannelSetting)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOmnichannelSettingsResponse" }) as any as Schema.Schema<ListOmnichannelSettingsResponse>;
+export const ListOmnichannelSettingsResponse: Schema.Schema<ListOmnichannelSettingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      omnichannelSettings: Schema.optional(Schema.Array(OmnichannelSetting)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOmnichannelSettingsResponse",
+  }) as any as Schema.Schema<ListOmnichannelSettingsResponse>;
 
 export interface LinkLfpProviderResponse {
   /** Empty response. */
   response?: Empty;
 }
 
-export const LinkLfpProviderResponse: Schema.Schema<LinkLfpProviderResponse> = Schema.suspend(() => Schema.Struct({
-  response: Schema.optional(Empty),
-})).annotate({ identifier: "LinkLfpProviderResponse" }) as any as Schema.Schema<LinkLfpProviderResponse>;
+export const LinkLfpProviderResponse: Schema.Schema<LinkLfpProviderResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      response: Schema.optional(Empty),
+    }),
+  ).annotate({
+    identifier: "LinkLfpProviderResponse",
+  }) as any as Schema.Schema<LinkLfpProviderResponse>;
 
 export interface AcceptTermsOfServiceResponse {
   /** The agreement state after accepting the ToS. */
   termsOfServiceAgreementState?: TermsOfServiceAgreementState;
 }
 
-export const AcceptTermsOfServiceResponse: Schema.Schema<AcceptTermsOfServiceResponse> = Schema.suspend(() => Schema.Struct({
-  termsOfServiceAgreementState: Schema.optional(TermsOfServiceAgreementState),
-})).annotate({ identifier: "AcceptTermsOfServiceResponse" }) as any as Schema.Schema<AcceptTermsOfServiceResponse>;
+export const AcceptTermsOfServiceResponse: Schema.Schema<AcceptTermsOfServiceResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      termsOfServiceAgreementState: Schema.optional(
+        TermsOfServiceAgreementState,
+      ),
+    }),
+  ).annotate({
+    identifier: "AcceptTermsOfServiceResponse",
+  }) as any as Schema.Schema<AcceptTermsOfServiceResponse>;
 
 // ==========================================================================
 // Operations
@@ -2009,7 +2741,11 @@ export interface CreateAndConfigureAccountsRequest {
 export const CreateAndConfigureAccountsRequest = Schema.Struct({
   body: Schema.optional(CreateAndConfigureAccountRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts:createAndConfigure", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts:createAndConfigure",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAndConfigureAccountsRequest>;
 
@@ -2019,7 +2755,12 @@ export const CreateAndConfigureAccountsResponse = Account;
 export type CreateAndConfigureAccountsError = DefaultErrors;
 
 /** Creates a Merchant Center account with additional configuration. Adds the user that makes the request as an admin for the new account. */
-export const createAndConfigureAccounts: API.OperationMethod<CreateAndConfigureAccountsRequest, CreateAndConfigureAccountsResponse, CreateAndConfigureAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAndConfigureAccounts: API.OperationMethod<
+  CreateAndConfigureAccountsRequest,
+  CreateAndConfigureAccountsResponse,
+  CreateAndConfigureAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAndConfigureAccountsRequest,
   output: CreateAndConfigureAccountsResponse,
   errors: [],
@@ -2049,7 +2790,12 @@ export const ListAccountsResponse_Op = ListAccountsResponse;
 export type ListAccountsError = DefaultErrors;
 
 /** Note: For the `accounts.list` method, quota and limits usage are charged for each user, and not for the Merchant Center ID or the advanced account ID. To list several sub-accounts, you should use the `accounts.listSubaccounts` method, which is more suitable for advanced accounts use case. */
-export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse_Op, ListAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccounts: API.PaginatedOperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse_Op,
+  ListAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -2073,7 +2819,10 @@ export const ListSubaccountsAccountsRequest = Schema.Struct({
   provider: Schema.String.pipe(T.HttpPath("provider")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}:listSubaccounts" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}:listSubaccounts",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListSubaccountsAccountsRequest>;
 
@@ -2083,7 +2832,12 @@ export const ListSubaccountsAccountsResponse = ListSubAccountsResponse;
 export type ListSubaccountsAccountsError = DefaultErrors;
 
 /** List all sub-accounts for a given advanced account. This is a convenience wrapper for the more powerful `accounts.list` method. This method will produce the same results as calling `ListsAccounts` with the following filter: `relationship(providerId={parent} AND service(type="ACCOUNT_AGGREGATION"))` */
-export const listSubaccountsAccounts: API.PaginatedOperationMethod<ListSubaccountsAccountsRequest, ListSubaccountsAccountsResponse, ListSubaccountsAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSubaccountsAccounts: API.PaginatedOperationMethod<
+  ListSubaccountsAccountsRequest,
+  ListSubaccountsAccountsResponse,
+  ListSubaccountsAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSubaccountsAccountsRequest,
   output: ListSubaccountsAccountsResponse,
   errors: [],
@@ -2111,7 +2865,12 @@ export const GetAccountsResponse = Account;
 export type GetAccountsError = DefaultErrors;
 
 /** Retrieves an account from your Merchant Center account. After inserting, updating, or deleting an account, it may take several minutes before changes take effect. */
-export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccounts: API.OperationMethod<
+  GetAccountsRequest,
+  GetAccountsResponse,
+  GetAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -2138,7 +2897,12 @@ export const DeleteAccountsResponse = Empty;
 export type DeleteAccountsError = DefaultErrors;
 
 /** Deletes the specified account regardless of its type: standalone, advanced account or sub-account. Deleting an advanced account leads to the deletion of all of its sub-accounts. This also deletes the account's [developer registration entity](/merchant/api/reference/rest/accounts_v1/accounts.developerRegistration) and any associated GCP project to the account. Executing this method requires admin access. The deletion succeeds only if the account does not provide services to any other account and has no processed offers. You can use the `force` parameter to override this. */
-export const deleteAccounts: API.OperationMethod<DeleteAccountsRequest, DeleteAccountsResponse, DeleteAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccounts: API.OperationMethod<
+  DeleteAccountsRequest,
+  DeleteAccountsResponse,
+  DeleteAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsRequest,
   output: DeleteAccountsResponse,
   errors: [],
@@ -2158,7 +2922,11 @@ export const PatchAccountsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Account).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsRequest>;
 
@@ -2168,7 +2936,12 @@ export const PatchAccountsResponse = Account;
 export type PatchAccountsError = DefaultErrors;
 
 /** Updates an account regardless of its type: standalone, advanced account or sub-account. Executing this method requires admin access. */
-export const patchAccounts: API.OperationMethod<PatchAccountsRequest, PatchAccountsResponse, PatchAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccounts: API.OperationMethod<
+  PatchAccountsRequest,
+  PatchAccountsResponse,
+  PatchAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsRequest,
   output: PatchAccountsResponse,
   errors: [],
@@ -2179,20 +2952,32 @@ export interface GetAutofeedSettingsAccountsAutofeedSettingsRequest {
   name: string;
 }
 
-export const GetAutofeedSettingsAccountsAutofeedSettingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/autofeedSettings" }),
+export const GetAutofeedSettingsAccountsAutofeedSettingsRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/autofeedSettings",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAutofeedSettingsAccountsAutofeedSettingsRequest>;
 
-export type GetAutofeedSettingsAccountsAutofeedSettingsResponse = AutofeedSettings;
-export const GetAutofeedSettingsAccountsAutofeedSettingsResponse = AutofeedSettings;
+export type GetAutofeedSettingsAccountsAutofeedSettingsResponse =
+  AutofeedSettings;
+export const GetAutofeedSettingsAccountsAutofeedSettingsResponse =
+  AutofeedSettings;
 
 export type GetAutofeedSettingsAccountsAutofeedSettingsError = DefaultErrors;
 
 /** Retrieves the autofeed settings of an account. */
-export const getAutofeedSettingsAccountsAutofeedSettings: API.OperationMethod<GetAutofeedSettingsAccountsAutofeedSettingsRequest, GetAutofeedSettingsAccountsAutofeedSettingsResponse, GetAutofeedSettingsAccountsAutofeedSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAutofeedSettingsAccountsAutofeedSettings: API.OperationMethod<
+  GetAutofeedSettingsAccountsAutofeedSettingsRequest,
+  GetAutofeedSettingsAccountsAutofeedSettingsResponse,
+  GetAutofeedSettingsAccountsAutofeedSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAutofeedSettingsAccountsAutofeedSettingsRequest,
   output: GetAutofeedSettingsAccountsAutofeedSettingsResponse,
   errors: [],
@@ -2207,22 +2992,34 @@ export interface UpdateAutofeedSettingsAccountsAutofeedSettingsRequest {
   body?: AutofeedSettings;
 }
 
-export const UpdateAutofeedSettingsAccountsAutofeedSettingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(AutofeedSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/autofeedSettings", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateAutofeedSettingsAccountsAutofeedSettingsRequest>;
+export const UpdateAutofeedSettingsAccountsAutofeedSettingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(AutofeedSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "accounts/v1/accounts/{accountsId}/autofeedSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAutofeedSettingsAccountsAutofeedSettingsRequest>;
 
-export type UpdateAutofeedSettingsAccountsAutofeedSettingsResponse = AutofeedSettings;
-export const UpdateAutofeedSettingsAccountsAutofeedSettingsResponse = AutofeedSettings;
+export type UpdateAutofeedSettingsAccountsAutofeedSettingsResponse =
+  AutofeedSettings;
+export const UpdateAutofeedSettingsAccountsAutofeedSettingsResponse =
+  AutofeedSettings;
 
 export type UpdateAutofeedSettingsAccountsAutofeedSettingsError = DefaultErrors;
 
 /** Updates the autofeed settings of an account. */
-export const updateAutofeedSettingsAccountsAutofeedSettings: API.OperationMethod<UpdateAutofeedSettingsAccountsAutofeedSettingsRequest, UpdateAutofeedSettingsAccountsAutofeedSettingsResponse, UpdateAutofeedSettingsAccountsAutofeedSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateAutofeedSettingsAccountsAutofeedSettings: API.OperationMethod<
+  UpdateAutofeedSettingsAccountsAutofeedSettingsRequest,
+  UpdateAutofeedSettingsAccountsAutofeedSettingsResponse,
+  UpdateAutofeedSettingsAccountsAutofeedSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateAutofeedSettingsAccountsAutofeedSettingsRequest,
   output: UpdateAutofeedSettingsAccountsAutofeedSettingsResponse,
   errors: [],
@@ -2236,17 +3033,27 @@ export interface GetAccountsTermsOfServiceAgreementStatesRequest {
 export const GetAccountsTermsOfServiceAgreementStatesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/termsOfServiceAgreementStates/{termsOfServiceAgreementStatesId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/termsOfServiceAgreementStates/{termsOfServiceAgreementStatesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsTermsOfServiceAgreementStatesRequest>;
 
-export type GetAccountsTermsOfServiceAgreementStatesResponse = TermsOfServiceAgreementState;
-export const GetAccountsTermsOfServiceAgreementStatesResponse = TermsOfServiceAgreementState;
+export type GetAccountsTermsOfServiceAgreementStatesResponse =
+  TermsOfServiceAgreementState;
+export const GetAccountsTermsOfServiceAgreementStatesResponse =
+  TermsOfServiceAgreementState;
 
 export type GetAccountsTermsOfServiceAgreementStatesError = DefaultErrors;
 
 /** Returns the state of a terms of service agreement. */
-export const getAccountsTermsOfServiceAgreementStates: API.OperationMethod<GetAccountsTermsOfServiceAgreementStatesRequest, GetAccountsTermsOfServiceAgreementStatesResponse, GetAccountsTermsOfServiceAgreementStatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsTermsOfServiceAgreementStates: API.OperationMethod<
+  GetAccountsTermsOfServiceAgreementStatesRequest,
+  GetAccountsTermsOfServiceAgreementStatesResponse,
+  GetAccountsTermsOfServiceAgreementStatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsTermsOfServiceAgreementStatesRequest,
   output: GetAccountsTermsOfServiceAgreementStatesResponse,
   errors: [],
@@ -2257,20 +3064,32 @@ export interface RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequ
   parent: string;
 }
 
-export const RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/termsOfServiceAgreementStates:retrieveForApplication" }),
-  svc,
-) as unknown as Schema.Schema<RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequest>;
+export const RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "accounts/v1/accounts/{accountsId}/termsOfServiceAgreementStates:retrieveForApplication",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequest>;
 
-export type RetrieveForApplicationAccountsTermsOfServiceAgreementStatesResponse = TermsOfServiceAgreementState;
-export const RetrieveForApplicationAccountsTermsOfServiceAgreementStatesResponse = TermsOfServiceAgreementState;
+export type RetrieveForApplicationAccountsTermsOfServiceAgreementStatesResponse =
+  TermsOfServiceAgreementState;
+export const RetrieveForApplicationAccountsTermsOfServiceAgreementStatesResponse =
+  TermsOfServiceAgreementState;
 
-export type RetrieveForApplicationAccountsTermsOfServiceAgreementStatesError = DefaultErrors;
+export type RetrieveForApplicationAccountsTermsOfServiceAgreementStatesError =
+  DefaultErrors;
 
 /** Retrieves the state of the agreement for the application terms of service. Application terms of service covers permissions related to the usage of data provided through Merchant Center, CSS Center, Manufacturer Center, and more. */
-export const retrieveForApplicationAccountsTermsOfServiceAgreementStates: API.OperationMethod<RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequest, RetrieveForApplicationAccountsTermsOfServiceAgreementStatesResponse, RetrieveForApplicationAccountsTermsOfServiceAgreementStatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const retrieveForApplicationAccountsTermsOfServiceAgreementStates: API.OperationMethod<
+  RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequest,
+  RetrieveForApplicationAccountsTermsOfServiceAgreementStatesResponse,
+  RetrieveForApplicationAccountsTermsOfServiceAgreementStatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RetrieveForApplicationAccountsTermsOfServiceAgreementStatesRequest,
   output: RetrieveForApplicationAccountsTermsOfServiceAgreementStatesResponse,
   errors: [],
@@ -2285,22 +3104,35 @@ export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest
   body?: AutomaticImprovements;
 }
 
-export const UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(AutomaticImprovements).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/automaticImprovements", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest>;
+export const UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(AutomaticImprovements).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "accounts/v1/accounts/{accountsId}/automaticImprovements",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest>;
 
-export type UpdateAutomaticImprovementsAccountsAutomaticImprovementsResponse = AutomaticImprovements;
-export const UpdateAutomaticImprovementsAccountsAutomaticImprovementsResponse = AutomaticImprovements;
+export type UpdateAutomaticImprovementsAccountsAutomaticImprovementsResponse =
+  AutomaticImprovements;
+export const UpdateAutomaticImprovementsAccountsAutomaticImprovementsResponse =
+  AutomaticImprovements;
 
-export type UpdateAutomaticImprovementsAccountsAutomaticImprovementsError = DefaultErrors;
+export type UpdateAutomaticImprovementsAccountsAutomaticImprovementsError =
+  DefaultErrors;
 
 /** Updates the automatic improvements of an account. */
-export const updateAutomaticImprovementsAccountsAutomaticImprovements: API.OperationMethod<UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest, UpdateAutomaticImprovementsAccountsAutomaticImprovementsResponse, UpdateAutomaticImprovementsAccountsAutomaticImprovementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateAutomaticImprovementsAccountsAutomaticImprovements: API.OperationMethod<
+  UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest,
+  UpdateAutomaticImprovementsAccountsAutomaticImprovementsResponse,
+  UpdateAutomaticImprovementsAccountsAutomaticImprovementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest,
   output: UpdateAutomaticImprovementsAccountsAutomaticImprovementsResponse,
   errors: [],
@@ -2311,20 +3143,32 @@ export interface GetAutomaticImprovementsAccountsAutomaticImprovementsRequest {
   name: string;
 }
 
-export const GetAutomaticImprovementsAccountsAutomaticImprovementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/automaticImprovements" }),
-  svc,
-) as unknown as Schema.Schema<GetAutomaticImprovementsAccountsAutomaticImprovementsRequest>;
+export const GetAutomaticImprovementsAccountsAutomaticImprovementsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "accounts/v1/accounts/{accountsId}/automaticImprovements",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAutomaticImprovementsAccountsAutomaticImprovementsRequest>;
 
-export type GetAutomaticImprovementsAccountsAutomaticImprovementsResponse = AutomaticImprovements;
-export const GetAutomaticImprovementsAccountsAutomaticImprovementsResponse = AutomaticImprovements;
+export type GetAutomaticImprovementsAccountsAutomaticImprovementsResponse =
+  AutomaticImprovements;
+export const GetAutomaticImprovementsAccountsAutomaticImprovementsResponse =
+  AutomaticImprovements;
 
-export type GetAutomaticImprovementsAccountsAutomaticImprovementsError = DefaultErrors;
+export type GetAutomaticImprovementsAccountsAutomaticImprovementsError =
+  DefaultErrors;
 
 /** Retrieves the automatic improvements of an account. */
-export const getAutomaticImprovementsAccountsAutomaticImprovements: API.OperationMethod<GetAutomaticImprovementsAccountsAutomaticImprovementsRequest, GetAutomaticImprovementsAccountsAutomaticImprovementsResponse, GetAutomaticImprovementsAccountsAutomaticImprovementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAutomaticImprovementsAccountsAutomaticImprovements: API.OperationMethod<
+  GetAutomaticImprovementsAccountsAutomaticImprovementsRequest,
+  GetAutomaticImprovementsAccountsAutomaticImprovementsResponse,
+  GetAutomaticImprovementsAccountsAutomaticImprovementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAutomaticImprovementsAccountsAutomaticImprovementsRequest,
   output: GetAutomaticImprovementsAccountsAutomaticImprovementsResponse,
   errors: [],
@@ -2347,7 +3191,9 @@ export const ListAccountsIssuesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/issues" }),
@@ -2360,7 +3206,12 @@ export const ListAccountsIssuesResponse = ListAccountIssuesResponse;
 export type ListAccountsIssuesError = DefaultErrors;
 
 /** Lists all account issues of a Merchant Center account. When called on a multi-client account, this method only returns issues belonging to that account, not its sub-accounts. To retrieve issues for sub-accounts, you must first call the accounts.listSubaccounts method to obtain a list of sub-accounts, and then call `accounts.issues.list` for each sub-account individually. */
-export const listAccountsIssues: API.PaginatedOperationMethod<ListAccountsIssuesRequest, ListAccountsIssuesResponse, ListAccountsIssuesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsIssues: API.PaginatedOperationMethod<
+  ListAccountsIssuesRequest,
+  ListAccountsIssuesResponse,
+  ListAccountsIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsIssuesRequest,
   output: ListAccountsIssuesResponse,
   errors: [],
@@ -2370,22 +3221,32 @@ export const listAccountsIssues: API.PaginatedOperationMethod<ListAccountsIssues
   },
 }));
 
-export interface GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest {
-}
+export interface GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest {}
 
-export const GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest = Schema.Struct({
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts:getAccountForGcpRegistration" }),
-  svc,
-) as unknown as Schema.Schema<GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest>;
+export const GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest =
+  Schema.Struct({}).pipe(
+    T.Http({
+      method: "GET",
+      path: "accounts/v1/accounts:getAccountForGcpRegistration",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest>;
 
-export type GetAccountForGcpRegistrationAccountsDeveloperRegistrationResponse = GetAccountForGcpRegistrationResponse;
-export const GetAccountForGcpRegistrationAccountsDeveloperRegistrationResponse = GetAccountForGcpRegistrationResponse;
+export type GetAccountForGcpRegistrationAccountsDeveloperRegistrationResponse =
+  GetAccountForGcpRegistrationResponse;
+export const GetAccountForGcpRegistrationAccountsDeveloperRegistrationResponse =
+  GetAccountForGcpRegistrationResponse;
 
-export type GetAccountForGcpRegistrationAccountsDeveloperRegistrationError = DefaultErrors;
+export type GetAccountForGcpRegistrationAccountsDeveloperRegistrationError =
+  DefaultErrors;
 
 /** Retrieves the merchant account that the calling GCP is registered with. */
-export const getAccountForGcpRegistrationAccountsDeveloperRegistration: API.OperationMethod<GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest, GetAccountForGcpRegistrationAccountsDeveloperRegistrationResponse, GetAccountForGcpRegistrationAccountsDeveloperRegistrationError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountForGcpRegistrationAccountsDeveloperRegistration: API.OperationMethod<
+  GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest,
+  GetAccountForGcpRegistrationAccountsDeveloperRegistrationResponse,
+  GetAccountForGcpRegistrationAccountsDeveloperRegistrationError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest,
   output: GetAccountForGcpRegistrationAccountsDeveloperRegistrationResponse,
   errors: [],
@@ -2396,20 +3257,32 @@ export interface GetDeveloperRegistrationAccountsDeveloperRegistrationRequest {
   name: string;
 }
 
-export const GetDeveloperRegistrationAccountsDeveloperRegistrationRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/developerRegistration" }),
-  svc,
-) as unknown as Schema.Schema<GetDeveloperRegistrationAccountsDeveloperRegistrationRequest>;
+export const GetDeveloperRegistrationAccountsDeveloperRegistrationRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "accounts/v1/accounts/{accountsId}/developerRegistration",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDeveloperRegistrationAccountsDeveloperRegistrationRequest>;
 
-export type GetDeveloperRegistrationAccountsDeveloperRegistrationResponse = DeveloperRegistration;
-export const GetDeveloperRegistrationAccountsDeveloperRegistrationResponse = DeveloperRegistration;
+export type GetDeveloperRegistrationAccountsDeveloperRegistrationResponse =
+  DeveloperRegistration;
+export const GetDeveloperRegistrationAccountsDeveloperRegistrationResponse =
+  DeveloperRegistration;
 
-export type GetDeveloperRegistrationAccountsDeveloperRegistrationError = DefaultErrors;
+export type GetDeveloperRegistrationAccountsDeveloperRegistrationError =
+  DefaultErrors;
 
 /** Retrieves a developer registration for a merchant. */
-export const getDeveloperRegistrationAccountsDeveloperRegistration: API.OperationMethod<GetDeveloperRegistrationAccountsDeveloperRegistrationRequest, GetDeveloperRegistrationAccountsDeveloperRegistrationResponse, GetDeveloperRegistrationAccountsDeveloperRegistrationError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDeveloperRegistrationAccountsDeveloperRegistration: API.OperationMethod<
+  GetDeveloperRegistrationAccountsDeveloperRegistrationRequest,
+  GetDeveloperRegistrationAccountsDeveloperRegistrationResponse,
+  GetDeveloperRegistrationAccountsDeveloperRegistrationError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDeveloperRegistrationAccountsDeveloperRegistrationRequest,
   output: GetDeveloperRegistrationAccountsDeveloperRegistrationResponse,
   errors: [],
@@ -2426,7 +3299,11 @@ export const UnregisterGcpAccountsDeveloperRegistrationRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UnregisterGcpRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/developerRegistration:unregisterGcp", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/developerRegistration:unregisterGcp",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UnregisterGcpAccountsDeveloperRegistrationRequest>;
 
@@ -2436,7 +3313,12 @@ export const UnregisterGcpAccountsDeveloperRegistrationResponse = Empty;
 export type UnregisterGcpAccountsDeveloperRegistrationError = DefaultErrors;
 
 /** Unregister the calling GCP from the calling shopping account. Note that the GCP will still be able to access the API for at most 1 day from the unregister succussful call. */
-export const unregisterGcpAccountsDeveloperRegistration: API.OperationMethod<UnregisterGcpAccountsDeveloperRegistrationRequest, UnregisterGcpAccountsDeveloperRegistrationResponse, UnregisterGcpAccountsDeveloperRegistrationError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const unregisterGcpAccountsDeveloperRegistration: API.OperationMethod<
+  UnregisterGcpAccountsDeveloperRegistrationRequest,
+  UnregisterGcpAccountsDeveloperRegistrationResponse,
+  UnregisterGcpAccountsDeveloperRegistrationError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UnregisterGcpAccountsDeveloperRegistrationRequest,
   output: UnregisterGcpAccountsDeveloperRegistrationResponse,
   errors: [],
@@ -2453,17 +3335,28 @@ export const RegisterGcpAccountsDeveloperRegistrationRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RegisterGcpRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/developerRegistration:registerGcp", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/developerRegistration:registerGcp",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RegisterGcpAccountsDeveloperRegistrationRequest>;
 
-export type RegisterGcpAccountsDeveloperRegistrationResponse = DeveloperRegistration;
-export const RegisterGcpAccountsDeveloperRegistrationResponse = DeveloperRegistration;
+export type RegisterGcpAccountsDeveloperRegistrationResponse =
+  DeveloperRegistration;
+export const RegisterGcpAccountsDeveloperRegistrationResponse =
+  DeveloperRegistration;
 
 export type RegisterGcpAccountsDeveloperRegistrationError = DefaultErrors;
 
 /** Registers the GCP used for the API call to the shopping account passed in the request. Will create a user with an "API developer" and add the "developer_email" as a contact with "API notifications" email preference on. */
-export const registerGcpAccountsDeveloperRegistration: API.OperationMethod<RegisterGcpAccountsDeveloperRegistrationRequest, RegisterGcpAccountsDeveloperRegistrationResponse, RegisterGcpAccountsDeveloperRegistrationError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const registerGcpAccountsDeveloperRegistration: API.OperationMethod<
+  RegisterGcpAccountsDeveloperRegistrationRequest,
+  RegisterGcpAccountsDeveloperRegistrationResponse,
+  RegisterGcpAccountsDeveloperRegistrationError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RegisterGcpAccountsDeveloperRegistrationRequest,
   output: RegisterGcpAccountsDeveloperRegistrationResponse,
   errors: [],
@@ -2477,7 +3370,10 @@ export interface GetAccountsRelationshipsRequest {
 export const GetAccountsRelationshipsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/relationships/{relationshipsId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/relationships/{relationshipsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsRelationshipsRequest>;
 
@@ -2487,7 +3383,12 @@ export const GetAccountsRelationshipsResponse = AccountRelationship;
 export type GetAccountsRelationshipsError = DefaultErrors;
 
 /** Retrieve an account relationship. */
-export const getAccountsRelationships: API.OperationMethod<GetAccountsRelationshipsRequest, GetAccountsRelationshipsResponse, GetAccountsRelationshipsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsRelationships: API.OperationMethod<
+  GetAccountsRelationshipsRequest,
+  GetAccountsRelationshipsResponse,
+  GetAccountsRelationshipsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsRelationshipsRequest,
   output: GetAccountsRelationshipsResponse,
   errors: [],
@@ -2507,7 +3408,11 @@ export const PatchAccountsRelationshipsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AccountRelationship).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/relationships/{relationshipsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}/relationships/{relationshipsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsRelationshipsRequest>;
 
@@ -2517,7 +3422,12 @@ export const PatchAccountsRelationshipsResponse = AccountRelationship;
 export type PatchAccountsRelationshipsError = DefaultErrors;
 
 /** Updates the account relationship. Executing this method requires admin access. */
-export const patchAccountsRelationships: API.OperationMethod<PatchAccountsRelationshipsRequest, PatchAccountsRelationshipsResponse, PatchAccountsRelationshipsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsRelationships: API.OperationMethod<
+  PatchAccountsRelationshipsRequest,
+  PatchAccountsRelationshipsResponse,
+  PatchAccountsRelationshipsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsRelationshipsRequest,
   output: PatchAccountsRelationshipsResponse,
   errors: [],
@@ -2537,17 +3447,27 @@ export const ListAccountsRelationshipsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/relationships" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/relationships",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsRelationshipsRequest>;
 
-export type ListAccountsRelationshipsResponse = ListAccountRelationshipsResponse;
-export const ListAccountsRelationshipsResponse = ListAccountRelationshipsResponse;
+export type ListAccountsRelationshipsResponse =
+  ListAccountRelationshipsResponse;
+export const ListAccountsRelationshipsResponse =
+  ListAccountRelationshipsResponse;
 
 export type ListAccountsRelationshipsError = DefaultErrors;
 
 /** List account relationships for the specified account. */
-export const listAccountsRelationships: API.PaginatedOperationMethod<ListAccountsRelationshipsRequest, ListAccountsRelationshipsResponse, ListAccountsRelationshipsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsRelationships: API.PaginatedOperationMethod<
+  ListAccountsRelationshipsRequest,
+  ListAccountsRelationshipsResponse,
+  ListAccountsRelationshipsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsRelationshipsRequest,
   output: ListAccountsRelationshipsResponse,
   errors: [],
@@ -2571,7 +3491,11 @@ export const CreateAccountsUsersRequest = Schema.Struct({
   userId: Schema.optional(Schema.String).pipe(T.HttpQuery("userId")),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/users", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/users",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsUsersRequest>;
 
@@ -2581,7 +3505,12 @@ export const CreateAccountsUsersResponse = User;
 export type CreateAccountsUsersError = DefaultErrors;
 
 /** Creates a Merchant Center account user. Executing this method requires admin access. */
-export const createAccountsUsers: API.OperationMethod<CreateAccountsUsersRequest, CreateAccountsUsersResponse, CreateAccountsUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsUsers: API.OperationMethod<
+  CreateAccountsUsersRequest,
+  CreateAccountsUsersResponse,
+  CreateAccountsUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsUsersRequest,
   output: CreateAccountsUsersResponse,
   errors: [],
@@ -2601,7 +3530,11 @@ export const PatchAccountsUsersRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/users/{usersId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}/users/{usersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsUsersRequest>;
 
@@ -2611,7 +3544,12 @@ export const PatchAccountsUsersResponse = User;
 export type PatchAccountsUsersError = DefaultErrors;
 
 /** Updates a Merchant Center account user. Executing this method requires admin access. */
-export const patchAccountsUsers: API.OperationMethod<PatchAccountsUsersRequest, PatchAccountsUsersResponse, PatchAccountsUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsUsers: API.OperationMethod<
+  PatchAccountsUsersRequest,
+  PatchAccountsUsersResponse,
+  PatchAccountsUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsUsersRequest,
   output: PatchAccountsUsersResponse,
   errors: [],
@@ -2625,7 +3563,10 @@ export interface GetAccountsUsersRequest {
 export const GetAccountsUsersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/users/{usersId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/users/{usersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsUsersRequest>;
 
@@ -2635,7 +3576,12 @@ export const GetAccountsUsersResponse = User;
 export type GetAccountsUsersError = DefaultErrors;
 
 /** Retrieves a Merchant Center account user. */
-export const getAccountsUsers: API.OperationMethod<GetAccountsUsersRequest, GetAccountsUsersResponse, GetAccountsUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsUsers: API.OperationMethod<
+  GetAccountsUsersRequest,
+  GetAccountsUsersResponse,
+  GetAccountsUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsUsersRequest,
   output: GetAccountsUsersResponse,
   errors: [],
@@ -2649,7 +3595,10 @@ export interface DeleteAccountsUsersRequest {
 export const DeleteAccountsUsersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "accounts/v1/accounts/{accountsId}/users/{usersId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "accounts/v1/accounts/{accountsId}/users/{usersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsUsersRequest>;
 
@@ -2659,7 +3608,12 @@ export const DeleteAccountsUsersResponse = Empty;
 export type DeleteAccountsUsersError = DefaultErrors;
 
 /** Deletes a Merchant Center account user. Executing this method requires admin access. The user to be deleted can't be the last admin user of that account. Also a user is protected from deletion if it is managed by Business Manager" */
-export const deleteAccountsUsers: API.OperationMethod<DeleteAccountsUsersRequest, DeleteAccountsUsersResponse, DeleteAccountsUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsUsers: API.OperationMethod<
+  DeleteAccountsUsersRequest,
+  DeleteAccountsUsersResponse,
+  DeleteAccountsUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsUsersRequest,
   output: DeleteAccountsUsersResponse,
   errors: [],
@@ -2689,7 +3643,12 @@ export const ListAccountsUsersResponse = ListUsersResponse;
 export type ListAccountsUsersError = DefaultErrors;
 
 /** Lists all users of a Merchant Center account. */
-export const listAccountsUsers: API.PaginatedOperationMethod<ListAccountsUsersRequest, ListAccountsUsersResponse, ListAccountsUsersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsUsers: API.PaginatedOperationMethod<
+  ListAccountsUsersRequest,
+  ListAccountsUsersResponse,
+  ListAccountsUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsUsersRequest,
   output: ListAccountsUsersResponse,
   errors: [],
@@ -2710,7 +3669,11 @@ export const VerifySelfAccountsUsersMeRequest = Schema.Struct({
   account: Schema.String.pipe(T.HttpPath("account")),
   body: Schema.optional(VerifySelfRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/users/me:verifySelf", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}/users/me:verifySelf",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<VerifySelfAccountsUsersMeRequest>;
 
@@ -2720,7 +3683,12 @@ export const VerifySelfAccountsUsersMeResponse = User;
 export type VerifySelfAccountsUsersMeError = DefaultErrors;
 
 /** Updates the user that is represented by the caller from pending to verified. */
-export const verifySelfAccountsUsersMe: API.OperationMethod<VerifySelfAccountsUsersMeRequest, VerifySelfAccountsUsersMeResponse, VerifySelfAccountsUsersMeError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifySelfAccountsUsersMe: API.OperationMethod<
+  VerifySelfAccountsUsersMeRequest,
+  VerifySelfAccountsUsersMeResponse,
+  VerifySelfAccountsUsersMeError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifySelfAccountsUsersMeRequest,
   output: VerifySelfAccountsUsersMeResponse,
   errors: [],
@@ -2734,7 +3702,10 @@ export interface GetAccountsOnlineReturnPoliciesRequest {
 export const GetAccountsOnlineReturnPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies/{onlineReturnPoliciesId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies/{onlineReturnPoliciesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsOnlineReturnPoliciesRequest>;
 
@@ -2744,7 +3715,12 @@ export const GetAccountsOnlineReturnPoliciesResponse = OnlineReturnPolicy;
 export type GetAccountsOnlineReturnPoliciesError = DefaultErrors;
 
 /** Gets an existing return policy for a given business. */
-export const getAccountsOnlineReturnPolicies: API.OperationMethod<GetAccountsOnlineReturnPoliciesRequest, GetAccountsOnlineReturnPoliciesResponse, GetAccountsOnlineReturnPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsOnlineReturnPolicies: API.OperationMethod<
+  GetAccountsOnlineReturnPoliciesRequest,
+  GetAccountsOnlineReturnPoliciesResponse,
+  GetAccountsOnlineReturnPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsOnlineReturnPoliciesRequest,
   output: GetAccountsOnlineReturnPoliciesResponse,
   errors: [],
@@ -2758,7 +3734,10 @@ export interface DeleteAccountsOnlineReturnPoliciesRequest {
 export const DeleteAccountsOnlineReturnPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies/{onlineReturnPoliciesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies/{onlineReturnPoliciesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsOnlineReturnPoliciesRequest>;
 
@@ -2768,7 +3747,12 @@ export const DeleteAccountsOnlineReturnPoliciesResponse = Empty;
 export type DeleteAccountsOnlineReturnPoliciesError = DefaultErrors;
 
 /** Deletes an existing return policy. */
-export const deleteAccountsOnlineReturnPolicies: API.OperationMethod<DeleteAccountsOnlineReturnPoliciesRequest, DeleteAccountsOnlineReturnPoliciesResponse, DeleteAccountsOnlineReturnPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsOnlineReturnPolicies: API.OperationMethod<
+  DeleteAccountsOnlineReturnPoliciesRequest,
+  DeleteAccountsOnlineReturnPoliciesResponse,
+  DeleteAccountsOnlineReturnPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsOnlineReturnPoliciesRequest,
   output: DeleteAccountsOnlineReturnPoliciesResponse,
   errors: [],
@@ -2785,7 +3769,11 @@ export const CreateAccountsOnlineReturnPoliciesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(OnlineReturnPolicy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsOnlineReturnPoliciesRequest>;
 
@@ -2795,7 +3783,12 @@ export const CreateAccountsOnlineReturnPoliciesResponse = OnlineReturnPolicy;
 export type CreateAccountsOnlineReturnPoliciesError = DefaultErrors;
 
 /** Creates a new return policy for a given business. */
-export const createAccountsOnlineReturnPolicies: API.OperationMethod<CreateAccountsOnlineReturnPoliciesRequest, CreateAccountsOnlineReturnPoliciesResponse, CreateAccountsOnlineReturnPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsOnlineReturnPolicies: API.OperationMethod<
+  CreateAccountsOnlineReturnPoliciesRequest,
+  CreateAccountsOnlineReturnPoliciesResponse,
+  CreateAccountsOnlineReturnPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsOnlineReturnPoliciesRequest,
   output: CreateAccountsOnlineReturnPoliciesResponse,
   errors: [],
@@ -2815,17 +3808,27 @@ export const ListAccountsOnlineReturnPoliciesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/onlineReturnPolicies",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsOnlineReturnPoliciesRequest>;
 
-export type ListAccountsOnlineReturnPoliciesResponse = ListOnlineReturnPoliciesResponse;
-export const ListAccountsOnlineReturnPoliciesResponse = ListOnlineReturnPoliciesResponse;
+export type ListAccountsOnlineReturnPoliciesResponse =
+  ListOnlineReturnPoliciesResponse;
+export const ListAccountsOnlineReturnPoliciesResponse =
+  ListOnlineReturnPoliciesResponse;
 
 export type ListAccountsOnlineReturnPoliciesError = DefaultErrors;
 
 /** Lists all existing return policies for a given business. */
-export const listAccountsOnlineReturnPolicies: API.PaginatedOperationMethod<ListAccountsOnlineReturnPoliciesRequest, ListAccountsOnlineReturnPoliciesResponse, ListAccountsOnlineReturnPoliciesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsOnlineReturnPolicies: API.PaginatedOperationMethod<
+  ListAccountsOnlineReturnPoliciesRequest,
+  ListAccountsOnlineReturnPoliciesResponse,
+  ListAccountsOnlineReturnPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsOnlineReturnPoliciesRequest,
   output: ListAccountsOnlineReturnPoliciesResponse,
   errors: [],
@@ -2843,7 +3846,10 @@ export interface GetAccountsOmnichannelSettingsRequest {
 export const GetAccountsOmnichannelSettingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsOmnichannelSettingsRequest>;
 
@@ -2853,7 +3859,12 @@ export const GetAccountsOmnichannelSettingsResponse = OmnichannelSetting;
 export type GetAccountsOmnichannelSettingsError = DefaultErrors;
 
 /** Get the omnichannel settings for a given merchant. */
-export const getAccountsOmnichannelSettings: API.OperationMethod<GetAccountsOmnichannelSettingsRequest, GetAccountsOmnichannelSettingsResponse, GetAccountsOmnichannelSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsOmnichannelSettings: API.OperationMethod<
+  GetAccountsOmnichannelSettingsRequest,
+  GetAccountsOmnichannelSettingsResponse,
+  GetAccountsOmnichannelSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsOmnichannelSettingsRequest,
   output: GetAccountsOmnichannelSettingsResponse,
   errors: [],
@@ -2866,21 +3877,36 @@ export interface RequestInventoryVerificationAccountsOmnichannelSettingsRequest 
   body?: RequestInventoryVerificationRequest;
 }
 
-export const RequestInventoryVerificationAccountsOmnichannelSettingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RequestInventoryVerificationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}:requestInventoryVerification", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RequestInventoryVerificationAccountsOmnichannelSettingsRequest>;
+export const RequestInventoryVerificationAccountsOmnichannelSettingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RequestInventoryVerificationRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}:requestInventoryVerification",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RequestInventoryVerificationAccountsOmnichannelSettingsRequest>;
 
-export type RequestInventoryVerificationAccountsOmnichannelSettingsResponse = RequestInventoryVerificationResponse;
-export const RequestInventoryVerificationAccountsOmnichannelSettingsResponse = RequestInventoryVerificationResponse;
+export type RequestInventoryVerificationAccountsOmnichannelSettingsResponse =
+  RequestInventoryVerificationResponse;
+export const RequestInventoryVerificationAccountsOmnichannelSettingsResponse =
+  RequestInventoryVerificationResponse;
 
-export type RequestInventoryVerificationAccountsOmnichannelSettingsError = DefaultErrors;
+export type RequestInventoryVerificationAccountsOmnichannelSettingsError =
+  DefaultErrors;
 
 /** Requests inventory verification for a given merchant in a given country. */
-export const requestInventoryVerificationAccountsOmnichannelSettings: API.OperationMethod<RequestInventoryVerificationAccountsOmnichannelSettingsRequest, RequestInventoryVerificationAccountsOmnichannelSettingsResponse, RequestInventoryVerificationAccountsOmnichannelSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const requestInventoryVerificationAccountsOmnichannelSettings: API.OperationMethod<
+  RequestInventoryVerificationAccountsOmnichannelSettingsRequest,
+  RequestInventoryVerificationAccountsOmnichannelSettingsResponse,
+  RequestInventoryVerificationAccountsOmnichannelSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RequestInventoryVerificationAccountsOmnichannelSettingsRequest,
   output: RequestInventoryVerificationAccountsOmnichannelSettingsResponse,
   errors: [],
@@ -2900,17 +3926,27 @@ export const ListAccountsOmnichannelSettingsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/omnichannelSettings" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/omnichannelSettings",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsOmnichannelSettingsRequest>;
 
-export type ListAccountsOmnichannelSettingsResponse = ListOmnichannelSettingsResponse;
-export const ListAccountsOmnichannelSettingsResponse = ListOmnichannelSettingsResponse;
+export type ListAccountsOmnichannelSettingsResponse =
+  ListOmnichannelSettingsResponse;
+export const ListAccountsOmnichannelSettingsResponse =
+  ListOmnichannelSettingsResponse;
 
 export type ListAccountsOmnichannelSettingsError = DefaultErrors;
 
 /** List all the omnichannel settings for a given merchant. */
-export const listAccountsOmnichannelSettings: API.PaginatedOperationMethod<ListAccountsOmnichannelSettingsRequest, ListAccountsOmnichannelSettingsResponse, ListAccountsOmnichannelSettingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsOmnichannelSettings: API.PaginatedOperationMethod<
+  ListAccountsOmnichannelSettingsRequest,
+  ListAccountsOmnichannelSettingsResponse,
+  ListAccountsOmnichannelSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsOmnichannelSettingsRequest,
   output: ListAccountsOmnichannelSettingsResponse,
   errors: [],
@@ -2931,7 +3967,11 @@ export const CreateAccountsOmnichannelSettingsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(OmnichannelSetting).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/omnichannelSettings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/omnichannelSettings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsOmnichannelSettingsRequest>;
 
@@ -2941,7 +3981,12 @@ export const CreateAccountsOmnichannelSettingsResponse = OmnichannelSetting;
 export type CreateAccountsOmnichannelSettingsError = DefaultErrors;
 
 /** Create the omnichannel settings for a given merchant. */
-export const createAccountsOmnichannelSettings: API.OperationMethod<CreateAccountsOmnichannelSettingsRequest, CreateAccountsOmnichannelSettingsResponse, CreateAccountsOmnichannelSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsOmnichannelSettings: API.OperationMethod<
+  CreateAccountsOmnichannelSettingsRequest,
+  CreateAccountsOmnichannelSettingsResponse,
+  CreateAccountsOmnichannelSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsOmnichannelSettingsRequest,
   output: CreateAccountsOmnichannelSettingsResponse,
   errors: [],
@@ -2961,7 +4006,11 @@ export const PatchAccountsOmnichannelSettingsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(OmnichannelSetting).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsOmnichannelSettingsRequest>;
 
@@ -2971,7 +4020,12 @@ export const PatchAccountsOmnichannelSettingsResponse = OmnichannelSetting;
 export type PatchAccountsOmnichannelSettingsError = DefaultErrors;
 
 /** Update the omnichannel setting for a given merchant in a given country. */
-export const patchAccountsOmnichannelSettings: API.OperationMethod<PatchAccountsOmnichannelSettingsRequest, PatchAccountsOmnichannelSettingsResponse, PatchAccountsOmnichannelSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsOmnichannelSettings: API.OperationMethod<
+  PatchAccountsOmnichannelSettingsRequest,
+  PatchAccountsOmnichannelSettingsResponse,
+  PatchAccountsOmnichannelSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsOmnichannelSettingsRequest,
   output: PatchAccountsOmnichannelSettingsResponse,
   errors: [],
@@ -2986,22 +4040,34 @@ export interface FindAccountsOmnichannelSettingsLfpProvidersRequest {
   pageToken?: string;
 }
 
-export const FindAccountsOmnichannelSettingsLfpProvidersRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}/lfpProviders:find" }),
+export const FindAccountsOmnichannelSettingsLfpProvidersRequest = Schema.Struct(
+  {
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}/lfpProviders:find",
+  }),
   svc,
 ) as unknown as Schema.Schema<FindAccountsOmnichannelSettingsLfpProvidersRequest>;
 
-export type FindAccountsOmnichannelSettingsLfpProvidersResponse = FindLfpProvidersResponse;
-export const FindAccountsOmnichannelSettingsLfpProvidersResponse = FindLfpProvidersResponse;
+export type FindAccountsOmnichannelSettingsLfpProvidersResponse =
+  FindLfpProvidersResponse;
+export const FindAccountsOmnichannelSettingsLfpProvidersResponse =
+  FindLfpProvidersResponse;
 
 export type FindAccountsOmnichannelSettingsLfpProvidersError = DefaultErrors;
 
 /** Find the LFP provider candidates in a given country. */
-export const findAccountsOmnichannelSettingsLfpProviders: API.PaginatedOperationMethod<FindAccountsOmnichannelSettingsLfpProvidersRequest, FindAccountsOmnichannelSettingsLfpProvidersResponse, FindAccountsOmnichannelSettingsLfpProvidersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const findAccountsOmnichannelSettingsLfpProviders: API.PaginatedOperationMethod<
+  FindAccountsOmnichannelSettingsLfpProvidersRequest,
+  FindAccountsOmnichannelSettingsLfpProvidersResponse,
+  FindAccountsOmnichannelSettingsLfpProvidersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: FindAccountsOmnichannelSettingsLfpProvidersRequest,
   output: FindAccountsOmnichannelSettingsLfpProvidersResponse,
   errors: [],
@@ -3018,21 +4084,34 @@ export interface LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest {
   body?: LinkLfpProviderRequest;
 }
 
-export const LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(LinkLfpProviderRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}/lfpProviders/{lfpProvidersId}:linkLfpProvider", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest>;
+export const LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(LinkLfpProviderRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "accounts/v1/accounts/{accountsId}/omnichannelSettings/{omnichannelSettingsId}/lfpProviders/{lfpProvidersId}:linkLfpProvider",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest>;
 
-export type LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersResponse = LinkLfpProviderResponse;
-export const LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersResponse = LinkLfpProviderResponse;
+export type LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersResponse =
+  LinkLfpProviderResponse;
+export const LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersResponse =
+  LinkLfpProviderResponse;
 
-export type LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersError = DefaultErrors;
+export type LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersError =
+  DefaultErrors;
 
 /** Link the specified merchant to a LFP provider for the specified country. */
-export const linkLfpProviderAccountsOmnichannelSettingsLfpProviders: API.OperationMethod<LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest, LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersResponse, LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const linkLfpProviderAccountsOmnichannelSettingsLfpProviders: API.OperationMethod<
+  LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest,
+  LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersResponse,
+  LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest,
   output: LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersResponse,
   errors: [],
@@ -3062,7 +4141,12 @@ export const ListAccountsProgramsResponse = ListProgramsResponse;
 export type ListAccountsProgramsError = DefaultErrors;
 
 /** Retrieves all programs for the account. */
-export const listAccountsPrograms: API.PaginatedOperationMethod<ListAccountsProgramsRequest, ListAccountsProgramsResponse, ListAccountsProgramsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsPrograms: API.PaginatedOperationMethod<
+  ListAccountsProgramsRequest,
+  ListAccountsProgramsResponse,
+  ListAccountsProgramsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsProgramsRequest,
   output: ListAccountsProgramsResponse,
   errors: [],
@@ -3083,7 +4167,11 @@ export const EnableAccountsProgramsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EnableProgramRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/programs/{programsId}:enable", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/programs/{programsId}:enable",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EnableAccountsProgramsRequest>;
 
@@ -3093,7 +4181,12 @@ export const EnableAccountsProgramsResponse = Program;
 export type EnableAccountsProgramsError = DefaultErrors;
 
 /** Enable participation in the specified program for the account. */
-export const enableAccountsPrograms: API.OperationMethod<EnableAccountsProgramsRequest, EnableAccountsProgramsResponse, EnableAccountsProgramsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const enableAccountsPrograms: API.OperationMethod<
+  EnableAccountsProgramsRequest,
+  EnableAccountsProgramsResponse,
+  EnableAccountsProgramsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EnableAccountsProgramsRequest,
   output: EnableAccountsProgramsResponse,
   errors: [],
@@ -3107,7 +4200,10 @@ export interface GetAccountsProgramsRequest {
 export const GetAccountsProgramsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/programs/{programsId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/programs/{programsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsProgramsRequest>;
 
@@ -3117,7 +4213,12 @@ export const GetAccountsProgramsResponse = Program;
 export type GetAccountsProgramsError = DefaultErrors;
 
 /** Retrieves the specified program for the account. */
-export const getAccountsPrograms: API.OperationMethod<GetAccountsProgramsRequest, GetAccountsProgramsResponse, GetAccountsProgramsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsPrograms: API.OperationMethod<
+  GetAccountsProgramsRequest,
+  GetAccountsProgramsResponse,
+  GetAccountsProgramsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsProgramsRequest,
   output: GetAccountsProgramsResponse,
   errors: [],
@@ -3134,7 +4235,11 @@ export const DisableAccountsProgramsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(DisableProgramRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/programs/{programsId}:disable", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/programs/{programsId}:disable",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DisableAccountsProgramsRequest>;
 
@@ -3144,7 +4249,12 @@ export const DisableAccountsProgramsResponse = Program;
 export type DisableAccountsProgramsError = DefaultErrors;
 
 /** Disable participation in the specified program for the account. */
-export const disableAccountsPrograms: API.OperationMethod<DisableAccountsProgramsRequest, DisableAccountsProgramsResponse, DisableAccountsProgramsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const disableAccountsPrograms: API.OperationMethod<
+  DisableAccountsProgramsRequest,
+  DisableAccountsProgramsResponse,
+  DisableAccountsProgramsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DisableAccountsProgramsRequest,
   output: DisableAccountsProgramsResponse,
   errors: [],
@@ -3161,7 +4271,11 @@ export const CreateAccountsProgramsCheckoutSettingsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CheckoutSettings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsProgramsCheckoutSettingsRequest>;
 
@@ -3171,7 +4285,12 @@ export const CreateAccountsProgramsCheckoutSettingsResponse = CheckoutSettings;
 export type CreateAccountsProgramsCheckoutSettingsError = DefaultErrors;
 
 /** Creates `CheckoutSettings` for the given merchant. */
-export const createAccountsProgramsCheckoutSettings: API.OperationMethod<CreateAccountsProgramsCheckoutSettingsRequest, CreateAccountsProgramsCheckoutSettingsResponse, CreateAccountsProgramsCheckoutSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsProgramsCheckoutSettings: API.OperationMethod<
+  CreateAccountsProgramsCheckoutSettingsRequest,
+  CreateAccountsProgramsCheckoutSettingsResponse,
+  CreateAccountsProgramsCheckoutSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsProgramsCheckoutSettingsRequest,
   output: CreateAccountsProgramsCheckoutSettingsResponse,
   errors: [],
@@ -3182,20 +4301,32 @@ export interface GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest {
   name: string;
 }
 
-export const GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings" }),
-  svc,
-) as unknown as Schema.Schema<GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest>;
+export const GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest>;
 
-export type GetCheckoutSettingsAccountsProgramsCheckoutSettingsResponse = CheckoutSettings;
-export const GetCheckoutSettingsAccountsProgramsCheckoutSettingsResponse = CheckoutSettings;
+export type GetCheckoutSettingsAccountsProgramsCheckoutSettingsResponse =
+  CheckoutSettings;
+export const GetCheckoutSettingsAccountsProgramsCheckoutSettingsResponse =
+  CheckoutSettings;
 
-export type GetCheckoutSettingsAccountsProgramsCheckoutSettingsError = DefaultErrors;
+export type GetCheckoutSettingsAccountsProgramsCheckoutSettingsError =
+  DefaultErrors;
 
 /** Gets `CheckoutSettings` for the given merchant. This includes information about review state, enrollment state and URL settings. */
-export const getCheckoutSettingsAccountsProgramsCheckoutSettings: API.OperationMethod<GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest, GetCheckoutSettingsAccountsProgramsCheckoutSettingsResponse, GetCheckoutSettingsAccountsProgramsCheckoutSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCheckoutSettingsAccountsProgramsCheckoutSettings: API.OperationMethod<
+  GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest,
+  GetCheckoutSettingsAccountsProgramsCheckoutSettingsResponse,
+  GetCheckoutSettingsAccountsProgramsCheckoutSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest,
   output: GetCheckoutSettingsAccountsProgramsCheckoutSettingsResponse,
   errors: [],
@@ -3206,20 +4337,32 @@ export interface DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest {
   name: string;
 }
 
-export const DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest>;
+export const DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest>;
 
-export type DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsResponse = Empty;
-export const DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsResponse = Empty;
+export type DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsResponse =
+  Empty;
+export const DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsResponse =
+  Empty;
 
-export type DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsError = DefaultErrors;
+export type DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsError =
+  DefaultErrors;
 
 /** Deletes `CheckoutSettings` and unenrolls merchant from `Checkout` program. */
-export const deleteCheckoutSettingsAccountsProgramsCheckoutSettings: API.OperationMethod<DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest, DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsResponse, DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCheckoutSettingsAccountsProgramsCheckoutSettings: API.OperationMethod<
+  DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest,
+  DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsResponse,
+  DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsRequest,
   output: DeleteCheckoutSettingsAccountsProgramsCheckoutSettingsResponse,
   errors: [],
@@ -3234,22 +4377,35 @@ export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest {
   body?: CheckoutSettings;
 }
 
-export const UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(CheckoutSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest>;
+export const UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(CheckoutSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "accounts/v1/accounts/{accountsId}/programs/{programsId}/checkoutSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest>;
 
-export type UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsResponse = CheckoutSettings;
-export const UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsResponse = CheckoutSettings;
+export type UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsResponse =
+  CheckoutSettings;
+export const UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsResponse =
+  CheckoutSettings;
 
-export type UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsError = DefaultErrors;
+export type UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsError =
+  DefaultErrors;
 
 /** Updates `CheckoutSettings` for the given merchant. */
-export const updateCheckoutSettingsAccountsProgramsCheckoutSettings: API.OperationMethod<UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest, UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsResponse, UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateCheckoutSettingsAccountsProgramsCheckoutSettings: API.OperationMethod<
+  UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest,
+  UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsResponse,
+  UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest,
   output: UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsResponse,
   errors: [],
@@ -3264,22 +4420,34 @@ export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest {
   body?: BusinessIdentity;
 }
 
-export const UpdateBusinessIdentityAccountsBusinessIdentityRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(BusinessIdentity).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/businessIdentity", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateBusinessIdentityAccountsBusinessIdentityRequest>;
+export const UpdateBusinessIdentityAccountsBusinessIdentityRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(BusinessIdentity).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "accounts/v1/accounts/{accountsId}/businessIdentity",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateBusinessIdentityAccountsBusinessIdentityRequest>;
 
-export type UpdateBusinessIdentityAccountsBusinessIdentityResponse = BusinessIdentity;
-export const UpdateBusinessIdentityAccountsBusinessIdentityResponse = BusinessIdentity;
+export type UpdateBusinessIdentityAccountsBusinessIdentityResponse =
+  BusinessIdentity;
+export const UpdateBusinessIdentityAccountsBusinessIdentityResponse =
+  BusinessIdentity;
 
 export type UpdateBusinessIdentityAccountsBusinessIdentityError = DefaultErrors;
 
 /** Updates the business identity of an account. Executing this method requires admin access. */
-export const updateBusinessIdentityAccountsBusinessIdentity: API.OperationMethod<UpdateBusinessIdentityAccountsBusinessIdentityRequest, UpdateBusinessIdentityAccountsBusinessIdentityResponse, UpdateBusinessIdentityAccountsBusinessIdentityError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateBusinessIdentityAccountsBusinessIdentity: API.OperationMethod<
+  UpdateBusinessIdentityAccountsBusinessIdentityRequest,
+  UpdateBusinessIdentityAccountsBusinessIdentityResponse,
+  UpdateBusinessIdentityAccountsBusinessIdentityError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateBusinessIdentityAccountsBusinessIdentityRequest,
   output: UpdateBusinessIdentityAccountsBusinessIdentityResponse,
   errors: [],
@@ -3290,20 +4458,32 @@ export interface GetBusinessIdentityAccountsBusinessIdentityRequest {
   name: string;
 }
 
-export const GetBusinessIdentityAccountsBusinessIdentityRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/businessIdentity" }),
+export const GetBusinessIdentityAccountsBusinessIdentityRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/businessIdentity",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBusinessIdentityAccountsBusinessIdentityRequest>;
 
-export type GetBusinessIdentityAccountsBusinessIdentityResponse = BusinessIdentity;
-export const GetBusinessIdentityAccountsBusinessIdentityResponse = BusinessIdentity;
+export type GetBusinessIdentityAccountsBusinessIdentityResponse =
+  BusinessIdentity;
+export const GetBusinessIdentityAccountsBusinessIdentityResponse =
+  BusinessIdentity;
 
 export type GetBusinessIdentityAccountsBusinessIdentityError = DefaultErrors;
 
 /** Retrieves the business identity of an account. */
-export const getBusinessIdentityAccountsBusinessIdentity: API.OperationMethod<GetBusinessIdentityAccountsBusinessIdentityRequest, GetBusinessIdentityAccountsBusinessIdentityResponse, GetBusinessIdentityAccountsBusinessIdentityError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBusinessIdentityAccountsBusinessIdentity: API.OperationMethod<
+  GetBusinessIdentityAccountsBusinessIdentityRequest,
+  GetBusinessIdentityAccountsBusinessIdentityResponse,
+  GetBusinessIdentityAccountsBusinessIdentityError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBusinessIdentityAccountsBusinessIdentityRequest,
   output: GetBusinessIdentityAccountsBusinessIdentityResponse,
   errors: [],
@@ -3320,7 +4500,11 @@ export const ClaimAccountsHomepageRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ClaimHomepageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/homepage:claim", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/homepage:claim",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ClaimAccountsHomepageRequest>;
 
@@ -3330,7 +4514,12 @@ export const ClaimAccountsHomepageResponse = Homepage;
 export type ClaimAccountsHomepageError = DefaultErrors;
 
 /** Claims a store's homepage. Executing this method requires admin access. If the homepage is already claimed, this will recheck the verification (unless the business is exempted from claiming, which also exempts from verification) and return a successful response. If ownership can no longer be verified, it will return an error, but it won't clear the claim. In case of failure, a canonical error message is returned: * PERMISSION_DENIED: User doesn't have the necessary permissions on this Merchant Center account. * FAILED_PRECONDITION: - The account is not a Merchant Center account. - Merchant Center account doesn't have a homepage. - Claiming failed (in this case the error message contains more details). */
-export const claimAccountsHomepage: API.OperationMethod<ClaimAccountsHomepageRequest, ClaimAccountsHomepageResponse, ClaimAccountsHomepageError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const claimAccountsHomepage: API.OperationMethod<
+  ClaimAccountsHomepageRequest,
+  ClaimAccountsHomepageResponse,
+  ClaimAccountsHomepageError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ClaimAccountsHomepageRequest,
   output: ClaimAccountsHomepageResponse,
   errors: [],
@@ -3354,7 +4543,12 @@ export const GetHomepageAccountsHomepageResponse = Homepage;
 export type GetHomepageAccountsHomepageError = DefaultErrors;
 
 /** Retrieves a store's homepage. */
-export const getHomepageAccountsHomepage: API.OperationMethod<GetHomepageAccountsHomepageRequest, GetHomepageAccountsHomepageResponse, GetHomepageAccountsHomepageError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getHomepageAccountsHomepage: API.OperationMethod<
+  GetHomepageAccountsHomepageRequest,
+  GetHomepageAccountsHomepageResponse,
+  GetHomepageAccountsHomepageError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetHomepageAccountsHomepageRequest,
   output: GetHomepageAccountsHomepageResponse,
   errors: [],
@@ -3374,7 +4568,11 @@ export const UpdateHomepageAccountsHomepageRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Homepage).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/homepage", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}/homepage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateHomepageAccountsHomepageRequest>;
 
@@ -3384,7 +4582,12 @@ export const UpdateHomepageAccountsHomepageResponse = Homepage;
 export type UpdateHomepageAccountsHomepageError = DefaultErrors;
 
 /** Updates a store's homepage. Executing this method requires admin access. */
-export const updateHomepageAccountsHomepage: API.OperationMethod<UpdateHomepageAccountsHomepageRequest, UpdateHomepageAccountsHomepageResponse, UpdateHomepageAccountsHomepageError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateHomepageAccountsHomepage: API.OperationMethod<
+  UpdateHomepageAccountsHomepageRequest,
+  UpdateHomepageAccountsHomepageResponse,
+  UpdateHomepageAccountsHomepageError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateHomepageAccountsHomepageRequest,
   output: UpdateHomepageAccountsHomepageResponse,
   errors: [],
@@ -3401,7 +4604,11 @@ export const UnclaimAccountsHomepageRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UnclaimHomepageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/homepage:unclaim", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/homepage:unclaim",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UnclaimAccountsHomepageRequest>;
 
@@ -3411,7 +4618,12 @@ export const UnclaimAccountsHomepageResponse = Homepage;
 export type UnclaimAccountsHomepageError = DefaultErrors;
 
 /** Unclaims a store's homepage. Executing this method requires admin access. */
-export const unclaimAccountsHomepage: API.OperationMethod<UnclaimAccountsHomepageRequest, UnclaimAccountsHomepageResponse, UnclaimAccountsHomepageError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const unclaimAccountsHomepage: API.OperationMethod<
+  UnclaimAccountsHomepageRequest,
+  UnclaimAccountsHomepageResponse,
+  UnclaimAccountsHomepageError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UnclaimAccountsHomepageRequest,
   output: UnclaimAccountsHomepageResponse,
   errors: [],
@@ -3425,7 +4637,10 @@ export interface GetAccountsRegionsRequest {
 export const GetAccountsRegionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/regions/{regionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/regions/{regionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsRegionsRequest>;
 
@@ -3435,7 +4650,12 @@ export const GetAccountsRegionsResponse = Region;
 export type GetAccountsRegionsError = DefaultErrors;
 
 /** Retrieves a region defined in your Merchant Center account. */
-export const getAccountsRegions: API.OperationMethod<GetAccountsRegionsRequest, GetAccountsRegionsResponse, GetAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsRegions: API.OperationMethod<
+  GetAccountsRegionsRequest,
+  GetAccountsRegionsResponse,
+  GetAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsRegionsRequest,
   output: GetAccountsRegionsResponse,
   errors: [],
@@ -3449,7 +4669,10 @@ export interface DeleteAccountsRegionsRequest {
 export const DeleteAccountsRegionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "accounts/v1/accounts/{accountsId}/regions/{regionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "accounts/v1/accounts/{accountsId}/regions/{regionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsRegionsRequest>;
 
@@ -3459,7 +4682,12 @@ export const DeleteAccountsRegionsResponse = Empty;
 export type DeleteAccountsRegionsError = DefaultErrors;
 
 /** Deletes a region definition from your Merchant Center account. Executing this method requires admin access. */
-export const deleteAccountsRegions: API.OperationMethod<DeleteAccountsRegionsRequest, DeleteAccountsRegionsResponse, DeleteAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsRegions: API.OperationMethod<
+  DeleteAccountsRegionsRequest,
+  DeleteAccountsRegionsResponse,
+  DeleteAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsRegionsRequest,
   output: DeleteAccountsRegionsResponse,
   errors: [],
@@ -3476,7 +4704,11 @@ export const BatchDeleteAccountsRegionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchDeleteRegionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/regions:batchDelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/regions:batchDelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchDeleteAccountsRegionsRequest>;
 
@@ -3486,7 +4718,12 @@ export const BatchDeleteAccountsRegionsResponse = Empty;
 export type BatchDeleteAccountsRegionsError = DefaultErrors;
 
 /** Deletes multiple regions by name from your Merchant Center account. Executing this method requires admin access. */
-export const batchDeleteAccountsRegions: API.OperationMethod<BatchDeleteAccountsRegionsRequest, BatchDeleteAccountsRegionsResponse, BatchDeleteAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchDeleteAccountsRegions: API.OperationMethod<
+  BatchDeleteAccountsRegionsRequest,
+  BatchDeleteAccountsRegionsResponse,
+  BatchDeleteAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchDeleteAccountsRegionsRequest,
   output: BatchDeleteAccountsRegionsResponse,
   errors: [],
@@ -3516,7 +4753,12 @@ export const ListAccountsRegionsResponse = ListRegionsResponse;
 export type ListAccountsRegionsError = DefaultErrors;
 
 /** Lists the regions in your Merchant Center account. */
-export const listAccountsRegions: API.PaginatedOperationMethod<ListAccountsRegionsRequest, ListAccountsRegionsResponse, ListAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsRegions: API.PaginatedOperationMethod<
+  ListAccountsRegionsRequest,
+  ListAccountsRegionsResponse,
+  ListAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsRegionsRequest,
   output: ListAccountsRegionsResponse,
   errors: [],
@@ -3537,7 +4779,11 @@ export const BatchUpdateAccountsRegionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchUpdateRegionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/regions:batchUpdate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/regions:batchUpdate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchUpdateAccountsRegionsRequest>;
 
@@ -3547,7 +4793,12 @@ export const BatchUpdateAccountsRegionsResponse = BatchUpdateRegionsResponse;
 export type BatchUpdateAccountsRegionsError = DefaultErrors;
 
 /** Updates one or more regions in your Merchant Center account. Executing this method requires admin access. */
-export const batchUpdateAccountsRegions: API.OperationMethod<BatchUpdateAccountsRegionsRequest, BatchUpdateAccountsRegionsResponse, BatchUpdateAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchUpdateAccountsRegions: API.OperationMethod<
+  BatchUpdateAccountsRegionsRequest,
+  BatchUpdateAccountsRegionsResponse,
+  BatchUpdateAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchUpdateAccountsRegionsRequest,
   output: BatchUpdateAccountsRegionsResponse,
   errors: [],
@@ -3567,7 +4818,11 @@ export const CreateAccountsRegionsRequest = Schema.Struct({
   regionId: Schema.optional(Schema.String).pipe(T.HttpQuery("regionId")),
   body: Schema.optional(Region).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/regions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/regions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsRegionsRequest>;
 
@@ -3577,7 +4832,12 @@ export const CreateAccountsRegionsResponse = Region;
 export type CreateAccountsRegionsError = DefaultErrors;
 
 /** Creates a region definition in your Merchant Center account. Executing this method requires admin access. */
-export const createAccountsRegions: API.OperationMethod<CreateAccountsRegionsRequest, CreateAccountsRegionsResponse, CreateAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsRegions: API.OperationMethod<
+  CreateAccountsRegionsRequest,
+  CreateAccountsRegionsResponse,
+  CreateAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsRegionsRequest,
   output: CreateAccountsRegionsResponse,
   errors: [],
@@ -3597,7 +4857,11 @@ export const PatchAccountsRegionsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Region).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/regions/{regionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}/regions/{regionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsRegionsRequest>;
 
@@ -3607,7 +4871,12 @@ export const PatchAccountsRegionsResponse = Region;
 export type PatchAccountsRegionsError = DefaultErrors;
 
 /** Updates a region definition in your Merchant Center account. Executing this method requires admin access. */
-export const patchAccountsRegions: API.OperationMethod<PatchAccountsRegionsRequest, PatchAccountsRegionsResponse, PatchAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsRegions: API.OperationMethod<
+  PatchAccountsRegionsRequest,
+  PatchAccountsRegionsResponse,
+  PatchAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsRegionsRequest,
   output: PatchAccountsRegionsResponse,
   errors: [],
@@ -3624,7 +4893,11 @@ export const BatchCreateAccountsRegionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(BatchCreateRegionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/regions:batchCreate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/regions:batchCreate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchCreateAccountsRegionsRequest>;
 
@@ -3634,7 +4907,12 @@ export const BatchCreateAccountsRegionsResponse = BatchCreateRegionsResponse;
 export type BatchCreateAccountsRegionsError = DefaultErrors;
 
 /** Creates one or more regions in your Merchant Center account. Executing this method requires admin access. */
-export const batchCreateAccountsRegions: API.OperationMethod<BatchCreateAccountsRegionsRequest, BatchCreateAccountsRegionsResponse, BatchCreateAccountsRegionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchCreateAccountsRegions: API.OperationMethod<
+  BatchCreateAccountsRegionsRequest,
+  BatchCreateAccountsRegionsResponse,
+  BatchCreateAccountsRegionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchCreateAccountsRegionsRequest,
   output: BatchCreateAccountsRegionsResponse,
   errors: [],
@@ -3648,7 +4926,10 @@ export interface GetBusinessInfoAccountsBusinessInfoRequest {
 export const GetBusinessInfoAccountsBusinessInfoRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/businessInfo" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/businessInfo",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBusinessInfoAccountsBusinessInfoRequest>;
 
@@ -3658,7 +4939,12 @@ export const GetBusinessInfoAccountsBusinessInfoResponse = BusinessInfo;
 export type GetBusinessInfoAccountsBusinessInfoError = DefaultErrors;
 
 /** Retrieves the business info of an account. */
-export const getBusinessInfoAccountsBusinessInfo: API.OperationMethod<GetBusinessInfoAccountsBusinessInfoRequest, GetBusinessInfoAccountsBusinessInfoResponse, GetBusinessInfoAccountsBusinessInfoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBusinessInfoAccountsBusinessInfo: API.OperationMethod<
+  GetBusinessInfoAccountsBusinessInfoRequest,
+  GetBusinessInfoAccountsBusinessInfoResponse,
+  GetBusinessInfoAccountsBusinessInfoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBusinessInfoAccountsBusinessInfoRequest,
   output: GetBusinessInfoAccountsBusinessInfoResponse,
   errors: [],
@@ -3678,7 +4964,11 @@ export const UpdateBusinessInfoAccountsBusinessInfoRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(BusinessInfo).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/businessInfo", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "accounts/v1/accounts/{accountsId}/businessInfo",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateBusinessInfoAccountsBusinessInfoRequest>;
 
@@ -3688,7 +4978,12 @@ export const UpdateBusinessInfoAccountsBusinessInfoResponse = BusinessInfo;
 export type UpdateBusinessInfoAccountsBusinessInfoError = DefaultErrors;
 
 /** Updates the business info of an account. Executing this method requires admin access. */
-export const updateBusinessInfoAccountsBusinessInfo: API.OperationMethod<UpdateBusinessInfoAccountsBusinessInfoRequest, UpdateBusinessInfoAccountsBusinessInfoResponse, UpdateBusinessInfoAccountsBusinessInfoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateBusinessInfoAccountsBusinessInfo: API.OperationMethod<
+  UpdateBusinessInfoAccountsBusinessInfoRequest,
+  UpdateBusinessInfoAccountsBusinessInfoResponse,
+  UpdateBusinessInfoAccountsBusinessInfoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateBusinessInfoAccountsBusinessInfoRequest,
   output: UpdateBusinessInfoAccountsBusinessInfoResponse,
   errors: [],
@@ -3703,22 +4998,34 @@ export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest {
   body?: EmailPreferences;
 }
 
-export const UpdateEmailPreferencesAccountsEmailPreferencesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(EmailPreferences).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "accounts/v1/accounts/{accountsId}/users/{usersId}/emailPreferences", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateEmailPreferencesAccountsEmailPreferencesRequest>;
+export const UpdateEmailPreferencesAccountsEmailPreferencesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(EmailPreferences).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "accounts/v1/accounts/{accountsId}/users/{usersId}/emailPreferences",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateEmailPreferencesAccountsEmailPreferencesRequest>;
 
-export type UpdateEmailPreferencesAccountsEmailPreferencesResponse = EmailPreferences;
-export const UpdateEmailPreferencesAccountsEmailPreferencesResponse = EmailPreferences;
+export type UpdateEmailPreferencesAccountsEmailPreferencesResponse =
+  EmailPreferences;
+export const UpdateEmailPreferencesAccountsEmailPreferencesResponse =
+  EmailPreferences;
 
 export type UpdateEmailPreferencesAccountsEmailPreferencesError = DefaultErrors;
 
 /** Updates the email preferences for a Merchant Center account user. Advanced account users should specify the advanced account rather than a sub-account of the advanced account. Preferences which are not explicitly selected in the update mask will not be updated. It is invalid for updates to specify an UNCONFIRMED opt-in status value. Use the name=accounts/* /users/me/emailPreferences alias to update preferences for the authenticated user. */
-export const updateEmailPreferencesAccountsEmailPreferences: API.OperationMethod<UpdateEmailPreferencesAccountsEmailPreferencesRequest, UpdateEmailPreferencesAccountsEmailPreferencesResponse, UpdateEmailPreferencesAccountsEmailPreferencesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateEmailPreferencesAccountsEmailPreferences: API.OperationMethod<
+  UpdateEmailPreferencesAccountsEmailPreferencesRequest,
+  UpdateEmailPreferencesAccountsEmailPreferencesResponse,
+  UpdateEmailPreferencesAccountsEmailPreferencesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateEmailPreferencesAccountsEmailPreferencesRequest,
   output: UpdateEmailPreferencesAccountsEmailPreferencesResponse,
   errors: [],
@@ -3729,20 +5036,32 @@ export interface GetEmailPreferencesAccountsEmailPreferencesRequest {
   name: string;
 }
 
-export const GetEmailPreferencesAccountsEmailPreferencesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/users/{usersId}/emailPreferences" }),
+export const GetEmailPreferencesAccountsEmailPreferencesRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/users/{usersId}/emailPreferences",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetEmailPreferencesAccountsEmailPreferencesRequest>;
 
-export type GetEmailPreferencesAccountsEmailPreferencesResponse = EmailPreferences;
-export const GetEmailPreferencesAccountsEmailPreferencesResponse = EmailPreferences;
+export type GetEmailPreferencesAccountsEmailPreferencesResponse =
+  EmailPreferences;
+export const GetEmailPreferencesAccountsEmailPreferencesResponse =
+  EmailPreferences;
 
 export type GetEmailPreferencesAccountsEmailPreferencesError = DefaultErrors;
 
 /** Returns the email preferences for a Merchant Center account user. This service only permits retrieving and updating email preferences for the authenticated user. Use the name=accounts/* /users/me/emailPreferences alias to get preferences for the authenticated user. */
-export const getEmailPreferencesAccountsEmailPreferences: API.OperationMethod<GetEmailPreferencesAccountsEmailPreferencesRequest, GetEmailPreferencesAccountsEmailPreferencesResponse, GetEmailPreferencesAccountsEmailPreferencesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getEmailPreferencesAccountsEmailPreferences: API.OperationMethod<
+  GetEmailPreferencesAccountsEmailPreferencesRequest,
+  GetEmailPreferencesAccountsEmailPreferencesResponse,
+  GetEmailPreferencesAccountsEmailPreferencesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetEmailPreferencesAccountsEmailPreferencesRequest,
   output: GetEmailPreferencesAccountsEmailPreferencesResponse,
   errors: [],
@@ -3759,7 +5078,11 @@ export const RejectAccountsServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RejectAccountServiceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/services/{servicesId}:reject", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/services/{servicesId}:reject",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RejectAccountsServicesRequest>;
 
@@ -3769,7 +5092,12 @@ export const RejectAccountsServicesResponse = Empty;
 export type RejectAccountsServicesError = DefaultErrors;
 
 /** Reject an account service (both proposed and approve services can be rejected). */
-export const rejectAccountsServices: API.OperationMethod<RejectAccountsServicesRequest, RejectAccountsServicesResponse, RejectAccountsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rejectAccountsServices: API.OperationMethod<
+  RejectAccountsServicesRequest,
+  RejectAccountsServicesResponse,
+  RejectAccountsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RejectAccountsServicesRequest,
   output: RejectAccountsServicesResponse,
   errors: [],
@@ -3799,7 +5127,12 @@ export const ListAccountsServicesResponse = ListAccountServicesResponse;
 export type ListAccountsServicesError = DefaultErrors;
 
 /** List account services for the specified accounts. Supports filtering. */
-export const listAccountsServices: API.PaginatedOperationMethod<ListAccountsServicesRequest, ListAccountsServicesResponse, ListAccountsServicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsServices: API.PaginatedOperationMethod<
+  ListAccountsServicesRequest,
+  ListAccountsServicesResponse,
+  ListAccountsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsServicesRequest,
   output: ListAccountsServicesResponse,
   errors: [],
@@ -3820,7 +5153,11 @@ export const ProposeAccountsServicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ProposeAccountServiceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/services:propose", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/services:propose",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ProposeAccountsServicesRequest>;
 
@@ -3830,7 +5167,12 @@ export const ProposeAccountsServicesResponse = AccountService;
 export type ProposeAccountsServicesError = DefaultErrors;
 
 /** Propose an account service. */
-export const proposeAccountsServices: API.OperationMethod<ProposeAccountsServicesRequest, ProposeAccountsServicesResponse, ProposeAccountsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const proposeAccountsServices: API.OperationMethod<
+  ProposeAccountsServicesRequest,
+  ProposeAccountsServicesResponse,
+  ProposeAccountsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ProposeAccountsServicesRequest,
   output: ProposeAccountsServicesResponse,
   errors: [],
@@ -3847,7 +5189,11 @@ export const ApproveAccountsServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ApproveAccountServiceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/services/{servicesId}:approve", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/services/{servicesId}:approve",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ApproveAccountsServicesRequest>;
 
@@ -3857,7 +5203,12 @@ export const ApproveAccountsServicesResponse = AccountService;
 export type ApproveAccountsServicesError = DefaultErrors;
 
 /** Approve an account service proposal. */
-export const approveAccountsServices: API.OperationMethod<ApproveAccountsServicesRequest, ApproveAccountsServicesResponse, ApproveAccountsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const approveAccountsServices: API.OperationMethod<
+  ApproveAccountsServicesRequest,
+  ApproveAccountsServicesResponse,
+  ApproveAccountsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ApproveAccountsServicesRequest,
   output: ApproveAccountsServicesResponse,
   errors: [],
@@ -3871,7 +5222,10 @@ export interface GetAccountsServicesRequest {
 export const GetAccountsServicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/services/{servicesId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/services/{servicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsServicesRequest>;
 
@@ -3881,7 +5235,12 @@ export const GetAccountsServicesResponse = AccountService;
 export type GetAccountsServicesError = DefaultErrors;
 
 /** Retrieve an account service. */
-export const getAccountsServices: API.OperationMethod<GetAccountsServicesRequest, GetAccountsServicesResponse, GetAccountsServicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsServices: API.OperationMethod<
+  GetAccountsServicesRequest,
+  GetAccountsServicesResponse,
+  GetAccountsServicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsServicesRequest,
   output: GetAccountsServicesResponse,
   errors: [],
@@ -3898,7 +5257,11 @@ export const LinkGbpAccountAccountsGbpAccountsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(LinkGbpAccountRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/gbpAccounts:linkGbpAccount", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/gbpAccounts:linkGbpAccount",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LinkGbpAccountAccountsGbpAccountsRequest>;
 
@@ -3908,7 +5271,12 @@ export const LinkGbpAccountAccountsGbpAccountsResponse = LinkGbpAccountResponse;
 export type LinkGbpAccountAccountsGbpAccountsError = DefaultErrors;
 
 /** Link the specified merchant to a GBP account for all countries. To run this method, you must have admin access to the Merchant Center account. If you don't have admin access, the request fails with the error message `User is not an administrator of account {ACCOUNT_ID}`. */
-export const linkGbpAccountAccountsGbpAccounts: API.OperationMethod<LinkGbpAccountAccountsGbpAccountsRequest, LinkGbpAccountAccountsGbpAccountsResponse, LinkGbpAccountAccountsGbpAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const linkGbpAccountAccountsGbpAccounts: API.OperationMethod<
+  LinkGbpAccountAccountsGbpAccountsRequest,
+  LinkGbpAccountAccountsGbpAccountsResponse,
+  LinkGbpAccountAccountsGbpAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LinkGbpAccountAccountsGbpAccountsRequest,
   output: LinkGbpAccountAccountsGbpAccountsResponse,
   errors: [],
@@ -3928,7 +5296,10 @@ export const ListAccountsGbpAccountsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/gbpAccounts" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/gbpAccounts",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsGbpAccountsRequest>;
 
@@ -3938,7 +5309,12 @@ export const ListAccountsGbpAccountsResponse = ListGbpAccountsResponse;
 export type ListAccountsGbpAccountsError = DefaultErrors;
 
 /** List the GBP accounts for a given merchant. */
-export const listAccountsGbpAccounts: API.PaginatedOperationMethod<ListAccountsGbpAccountsRequest, ListAccountsGbpAccountsResponse, ListAccountsGbpAccountsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsGbpAccounts: API.PaginatedOperationMethod<
+  ListAccountsGbpAccountsRequest,
+  ListAccountsGbpAccountsResponse,
+  ListAccountsGbpAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsGbpAccountsRequest,
   output: ListAccountsGbpAccountsResponse,
   errors: [],
@@ -3953,20 +5329,32 @@ export interface GetShippingSettingsAccountsShippingSettingsRequest {
   name: string;
 }
 
-export const GetShippingSettingsAccountsShippingSettingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/accounts/{accountsId}/shippingSettings" }),
+export const GetShippingSettingsAccountsShippingSettingsRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/accounts/{accountsId}/shippingSettings",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetShippingSettingsAccountsShippingSettingsRequest>;
 
-export type GetShippingSettingsAccountsShippingSettingsResponse = ShippingSettings;
-export const GetShippingSettingsAccountsShippingSettingsResponse = ShippingSettings;
+export type GetShippingSettingsAccountsShippingSettingsResponse =
+  ShippingSettings;
+export const GetShippingSettingsAccountsShippingSettingsResponse =
+  ShippingSettings;
 
 export type GetShippingSettingsAccountsShippingSettingsError = DefaultErrors;
 
 /** Retrieve shipping setting information. */
-export const getShippingSettingsAccountsShippingSettings: API.OperationMethod<GetShippingSettingsAccountsShippingSettingsRequest, GetShippingSettingsAccountsShippingSettingsResponse, GetShippingSettingsAccountsShippingSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getShippingSettingsAccountsShippingSettings: API.OperationMethod<
+  GetShippingSettingsAccountsShippingSettingsRequest,
+  GetShippingSettingsAccountsShippingSettingsResponse,
+  GetShippingSettingsAccountsShippingSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetShippingSettingsAccountsShippingSettingsRequest,
   output: GetShippingSettingsAccountsShippingSettingsResponse,
   errors: [],
@@ -3983,7 +5371,11 @@ export const InsertAccountsShippingSettingsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ShippingSettings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/accounts/{accountsId}/shippingSettings:insert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/accounts/{accountsId}/shippingSettings:insert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertAccountsShippingSettingsRequest>;
 
@@ -3993,7 +5385,12 @@ export const InsertAccountsShippingSettingsResponse = ShippingSettings;
 export type InsertAccountsShippingSettingsError = DefaultErrors;
 
 /** Replace the shipping setting of a business with the request shipping setting. Executing this method requires admin access. */
-export const insertAccountsShippingSettings: API.OperationMethod<InsertAccountsShippingSettingsRequest, InsertAccountsShippingSettingsResponse, InsertAccountsShippingSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertAccountsShippingSettings: API.OperationMethod<
+  InsertAccountsShippingSettingsRequest,
+  InsertAccountsShippingSettingsResponse,
+  InsertAccountsShippingSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertAccountsShippingSettingsRequest,
   output: InsertAccountsShippingSettingsResponse,
   errors: [],
@@ -4003,7 +5400,10 @@ export interface RetrieveLatestTermsOfServiceRequest {
   /** Required. Region code as defined by [CLDR](https://cldr.unicode.org/). This is either a country when the ToS applies specifically to that country or 001 when it applies globally. */
   regionCode?: string;
   /** Required. The Kind this terms of service version applies to. */
-  kind?: "TERMS_OF_SERVICE_KIND_UNSPECIFIED" | "MERCHANT_CENTER" | (string & {});
+  kind?:
+    | "TERMS_OF_SERVICE_KIND_UNSPECIFIED"
+    | "MERCHANT_CENTER"
+    | (string & {});
 }
 
 export const RetrieveLatestTermsOfServiceRequest = Schema.Struct({
@@ -4020,7 +5420,12 @@ export const RetrieveLatestTermsOfServiceResponse = TermsOfService;
 export type RetrieveLatestTermsOfServiceError = DefaultErrors;
 
 /** Retrieves the latest version of the `TermsOfService` for a given `kind` and `region_code`. */
-export const retrieveLatestTermsOfService: API.OperationMethod<RetrieveLatestTermsOfServiceRequest, RetrieveLatestTermsOfServiceResponse, RetrieveLatestTermsOfServiceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const retrieveLatestTermsOfService: API.OperationMethod<
+  RetrieveLatestTermsOfServiceRequest,
+  RetrieveLatestTermsOfServiceResponse,
+  RetrieveLatestTermsOfServiceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RetrieveLatestTermsOfServiceRequest,
   output: RetrieveLatestTermsOfServiceResponse,
   errors: [],
@@ -4040,7 +5445,11 @@ export const AcceptTermsOfServiceRequest = Schema.Struct({
   regionCode: Schema.optional(Schema.String).pipe(T.HttpQuery("regionCode")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "POST", path: "accounts/v1/termsOfService/{termsOfServiceId}:accept", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "accounts/v1/termsOfService/{termsOfServiceId}:accept",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AcceptTermsOfServiceRequest>;
 
@@ -4050,7 +5459,12 @@ export const AcceptTermsOfServiceResponse_Op = AcceptTermsOfServiceResponse;
 export type AcceptTermsOfServiceError = DefaultErrors;
 
 /** Accepts a `TermsOfService`. Executing this method requires admin access. */
-export const acceptTermsOfService: API.OperationMethod<AcceptTermsOfServiceRequest, AcceptTermsOfServiceResponse_Op, AcceptTermsOfServiceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const acceptTermsOfService: API.OperationMethod<
+  AcceptTermsOfServiceRequest,
+  AcceptTermsOfServiceResponse_Op,
+  AcceptTermsOfServiceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AcceptTermsOfServiceRequest,
   output: AcceptTermsOfServiceResponse_Op,
   errors: [],
@@ -4064,7 +5478,10 @@ export interface GetTermsOfServiceRequest {
 export const GetTermsOfServiceRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "accounts/v1/termsOfService/{termsOfServiceId}" }),
+  T.Http({
+    method: "GET",
+    path: "accounts/v1/termsOfService/{termsOfServiceId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetTermsOfServiceRequest>;
 
@@ -4074,9 +5491,13 @@ export const GetTermsOfServiceResponse = TermsOfService;
 export type GetTermsOfServiceError = DefaultErrors;
 
 /** Retrieves the `TermsOfService` associated with the provided version. */
-export const getTermsOfService: API.OperationMethod<GetTermsOfServiceRequest, GetTermsOfServiceResponse, GetTermsOfServiceError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTermsOfService: API.OperationMethod<
+  GetTermsOfServiceRequest,
+  GetTermsOfServiceResponse,
+  GetTermsOfServiceError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTermsOfServiceRequest,
   output: GetTermsOfServiceResponse,
   errors: [],
 }));
-

@@ -30,10 +30,12 @@ export interface Dimension {
   unit?: "UNIT_UNSPECIFIED" | "EMU" | "PT" | (string & {});
 }
 
-export const Dimension: Schema.Schema<Dimension> = Schema.suspend(() => Schema.Struct({
-  magnitude: Schema.optional(Schema.Number),
-  unit: Schema.optional(Schema.String),
-})).annotate({ identifier: "Dimension" }) as any as Schema.Schema<Dimension>;
+export const Dimension: Schema.Schema<Dimension> = Schema.suspend(() =>
+  Schema.Struct({
+    magnitude: Schema.optional(Schema.Number),
+    unit: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Dimension" }) as any as Schema.Schema<Dimension>;
 
 export interface Size {
   /** The width of the object. */
@@ -42,10 +44,12 @@ export interface Size {
   height?: Dimension;
 }
 
-export const Size: Schema.Schema<Size> = Schema.suspend(() => Schema.Struct({
-  width: Schema.optional(Dimension),
-  height: Schema.optional(Dimension),
-})).annotate({ identifier: "Size" }) as any as Schema.Schema<Size>;
+export const Size: Schema.Schema<Size> = Schema.suspend(() =>
+  Schema.Struct({
+    width: Schema.optional(Dimension),
+    height: Schema.optional(Dimension),
+  }),
+).annotate({ identifier: "Size" }) as any as Schema.Schema<Size>;
 
 export interface AffineTransform {
   /** The X coordinate scaling element. */
@@ -64,30 +68,43 @@ export interface AffineTransform {
   unit?: "UNIT_UNSPECIFIED" | "EMU" | "PT" | (string & {});
 }
 
-export const AffineTransform: Schema.Schema<AffineTransform> = Schema.suspend(() => Schema.Struct({
-  scaleX: Schema.optional(Schema.Number),
-  scaleY: Schema.optional(Schema.Number),
-  shearX: Schema.optional(Schema.Number),
-  shearY: Schema.optional(Schema.Number),
-  translateX: Schema.optional(Schema.Number),
-  translateY: Schema.optional(Schema.Number),
-  unit: Schema.optional(Schema.String),
-})).annotate({ identifier: "AffineTransform" }) as any as Schema.Schema<AffineTransform>;
+export const AffineTransform: Schema.Schema<AffineTransform> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      scaleX: Schema.optional(Schema.Number),
+      scaleY: Schema.optional(Schema.Number),
+      shearX: Schema.optional(Schema.Number),
+      shearY: Schema.optional(Schema.Number),
+      translateX: Schema.optional(Schema.Number),
+      translateY: Schema.optional(Schema.Number),
+      unit: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AffineTransform",
+}) as any as Schema.Schema<AffineTransform>;
 
 export interface Group {
   /** The collection of elements in the group. The minimum size of a group is 2. */
   children?: Array<PageElement>;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() => Schema.Struct({
-  children: Schema.optional(Schema.Array(PageElement)),
-})).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> = Schema.suspend(() =>
+  Schema.Struct({
+    children: Schema.optional(Schema.Array(PageElement)),
+  }),
+).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface ParagraphStyle {
   /** The amount of space between lines, as a percentage of normal, where normal is represented as 100.0. If unset, the value is inherited from the parent. */
   lineSpacing?: number;
   /** The text alignment for this paragraph. */
-  alignment?: "ALIGNMENT_UNSPECIFIED" | "START" | "CENTER" | "END" | "JUSTIFIED" | (string & {});
+  alignment?:
+    | "ALIGNMENT_UNSPECIFIED"
+    | "START"
+    | "CENTER"
+    | "END"
+    | "JUSTIFIED"
+    | (string & {});
   /** The amount indentation for the paragraph on the side that corresponds to the start of the text, based on the current text direction. If unset, the value is inherited from the parent. */
   indentStart?: Dimension;
   /** The amount indentation for the paragraph on the side that corresponds to the end of the text, based on the current text direction. If unset, the value is inherited from the parent. */
@@ -99,22 +116,35 @@ export interface ParagraphStyle {
   /** The amount of indentation for the start of the first line of the paragraph. If unset, the value is inherited from the parent. */
   indentFirstLine?: Dimension;
   /** The text direction of this paragraph. If unset, the value defaults to LEFT_TO_RIGHT since text direction is not inherited. */
-  direction?: "TEXT_DIRECTION_UNSPECIFIED" | "LEFT_TO_RIGHT" | "RIGHT_TO_LEFT" | (string & {});
+  direction?:
+    | "TEXT_DIRECTION_UNSPECIFIED"
+    | "LEFT_TO_RIGHT"
+    | "RIGHT_TO_LEFT"
+    | (string & {});
   /** The spacing mode for the paragraph. */
-  spacingMode?: "SPACING_MODE_UNSPECIFIED" | "NEVER_COLLAPSE" | "COLLAPSE_LISTS" | (string & {});
+  spacingMode?:
+    | "SPACING_MODE_UNSPECIFIED"
+    | "NEVER_COLLAPSE"
+    | "COLLAPSE_LISTS"
+    | (string & {});
 }
 
-export const ParagraphStyle: Schema.Schema<ParagraphStyle> = Schema.suspend(() => Schema.Struct({
-  lineSpacing: Schema.optional(Schema.Number),
-  alignment: Schema.optional(Schema.String),
-  indentStart: Schema.optional(Dimension),
-  indentEnd: Schema.optional(Dimension),
-  spaceAbove: Schema.optional(Dimension),
-  spaceBelow: Schema.optional(Dimension),
-  indentFirstLine: Schema.optional(Dimension),
-  direction: Schema.optional(Schema.String),
-  spacingMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ParagraphStyle" }) as any as Schema.Schema<ParagraphStyle>;
+export const ParagraphStyle: Schema.Schema<ParagraphStyle> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      lineSpacing: Schema.optional(Schema.Number),
+      alignment: Schema.optional(Schema.String),
+      indentStart: Schema.optional(Dimension),
+      indentEnd: Schema.optional(Dimension),
+      spaceAbove: Schema.optional(Dimension),
+      spaceBelow: Schema.optional(Dimension),
+      indentFirstLine: Schema.optional(Dimension),
+      direction: Schema.optional(Schema.String),
+      spacingMode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ParagraphStyle",
+}) as any as Schema.Schema<ParagraphStyle>;
 
 export interface RgbColor {
   /** The red component of the color, from 0.0 to 1.0. */
@@ -125,50 +155,84 @@ export interface RgbColor {
   blue?: number;
 }
 
-export const RgbColor: Schema.Schema<RgbColor> = Schema.suspend(() => Schema.Struct({
-  red: Schema.optional(Schema.Number),
-  green: Schema.optional(Schema.Number),
-  blue: Schema.optional(Schema.Number),
-})).annotate({ identifier: "RgbColor" }) as any as Schema.Schema<RgbColor>;
+export const RgbColor: Schema.Schema<RgbColor> = Schema.suspend(() =>
+  Schema.Struct({
+    red: Schema.optional(Schema.Number),
+    green: Schema.optional(Schema.Number),
+    blue: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "RgbColor" }) as any as Schema.Schema<RgbColor>;
 
 export interface OpaqueColor {
   /** An opaque RGB color. */
   rgbColor?: RgbColor;
   /** An opaque theme color. */
-  themeColor?: "THEME_COLOR_TYPE_UNSPECIFIED" | "DARK1" | "LIGHT1" | "DARK2" | "LIGHT2" | "ACCENT1" | "ACCENT2" | "ACCENT3" | "ACCENT4" | "ACCENT5" | "ACCENT6" | "HYPERLINK" | "FOLLOWED_HYPERLINK" | "TEXT1" | "BACKGROUND1" | "TEXT2" | "BACKGROUND2" | (string & {});
+  themeColor?:
+    | "THEME_COLOR_TYPE_UNSPECIFIED"
+    | "DARK1"
+    | "LIGHT1"
+    | "DARK2"
+    | "LIGHT2"
+    | "ACCENT1"
+    | "ACCENT2"
+    | "ACCENT3"
+    | "ACCENT4"
+    | "ACCENT5"
+    | "ACCENT6"
+    | "HYPERLINK"
+    | "FOLLOWED_HYPERLINK"
+    | "TEXT1"
+    | "BACKGROUND1"
+    | "TEXT2"
+    | "BACKGROUND2"
+    | (string & {});
 }
 
-export const OpaqueColor: Schema.Schema<OpaqueColor> = Schema.suspend(() => Schema.Struct({
-  rgbColor: Schema.optional(RgbColor),
-  themeColor: Schema.optional(Schema.String),
-})).annotate({ identifier: "OpaqueColor" }) as any as Schema.Schema<OpaqueColor>;
+export const OpaqueColor: Schema.Schema<OpaqueColor> = Schema.suspend(() =>
+  Schema.Struct({
+    rgbColor: Schema.optional(RgbColor),
+    themeColor: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OpaqueColor" }) as any as Schema.Schema<OpaqueColor>;
 
 export interface OptionalColor {
   /** If set, this will be used as an opaque color. If unset, this represents a transparent color. */
   opaqueColor?: OpaqueColor;
 }
 
-export const OptionalColor: Schema.Schema<OptionalColor> = Schema.suspend(() => Schema.Struct({
-  opaqueColor: Schema.optional(OpaqueColor),
-})).annotate({ identifier: "OptionalColor" }) as any as Schema.Schema<OptionalColor>;
+export const OptionalColor: Schema.Schema<OptionalColor> = Schema.suspend(() =>
+  Schema.Struct({
+    opaqueColor: Schema.optional(OpaqueColor),
+  }),
+).annotate({
+  identifier: "OptionalColor",
+}) as any as Schema.Schema<OptionalColor>;
 
 export interface Link {
   /** If set, indicates this is a link to the external web page at this URL. */
   url?: string;
   /** If set, indicates this is a link to a slide in this presentation, addressed by its position. */
-  relativeLink?: "RELATIVE_SLIDE_LINK_UNSPECIFIED" | "NEXT_SLIDE" | "PREVIOUS_SLIDE" | "FIRST_SLIDE" | "LAST_SLIDE" | (string & {});
+  relativeLink?:
+    | "RELATIVE_SLIDE_LINK_UNSPECIFIED"
+    | "NEXT_SLIDE"
+    | "PREVIOUS_SLIDE"
+    | "FIRST_SLIDE"
+    | "LAST_SLIDE"
+    | (string & {});
   /** If set, indicates this is a link to the specific page in this presentation with this ID. A page with this ID may not exist. */
   pageObjectId?: string;
   /** If set, indicates this is a link to the slide at this zero-based index in the presentation. There may not be a slide at this index. */
   slideIndex?: number;
 }
 
-export const Link: Schema.Schema<Link> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  relativeLink: Schema.optional(Schema.String),
-  pageObjectId: Schema.optional(Schema.String),
-  slideIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
+export const Link: Schema.Schema<Link> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+    relativeLink: Schema.optional(Schema.String),
+    pageObjectId: Schema.optional(Schema.String),
+    slideIndex: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
 
 export interface WeightedFontFamily {
   /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. */
@@ -177,10 +241,15 @@ export interface WeightedFontFamily {
   weight?: number;
 }
 
-export const WeightedFontFamily: Schema.Schema<WeightedFontFamily> = Schema.suspend(() => Schema.Struct({
-  fontFamily: Schema.optional(Schema.String),
-  weight: Schema.optional(Schema.Number),
-})).annotate({ identifier: "WeightedFontFamily" }) as any as Schema.Schema<WeightedFontFamily>;
+export const WeightedFontFamily: Schema.Schema<WeightedFontFamily> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fontFamily: Schema.optional(Schema.String),
+      weight: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "WeightedFontFamily",
+  }) as any as Schema.Schema<WeightedFontFamily>;
 
 export interface TextStyle {
   /** The background color of the text. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
@@ -198,7 +267,12 @@ export interface TextStyle {
   /** The hyperlink destination of the text. If unset, there is no link. Links are not inherited from parent text. Changing the link in an update request causes some other changes to the text style of the range: * When setting a link, the text foreground color will be set to ThemeColorType.HYPERLINK and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. * Setting a link on a text range that overlaps with an existing link will also update the existing link to point to the new URL. * Links are not settable on newline characters. As a result, setting a link on a text range that crosses a paragraph boundary, such as `"ABC\n123"`, will separate the newline character(s) into their own text runs. The link will be applied separately to the runs before and after the newline. * Removing a link will update the text style of the range to match the style of the preceding text (or the default text styles if the preceding text is another link) unless different styles are being set in the same request. */
   link?: Link;
   /** The text's vertical offset from its normal position. Text with `SUPERSCRIPT` or `SUBSCRIPT` baseline offsets is automatically rendered in a smaller font size, computed based on the `font_size` field. The `font_size` itself is not affected by changes in this field. */
-  baselineOffset?: "BASELINE_OFFSET_UNSPECIFIED" | "NONE" | "SUPERSCRIPT" | "SUBSCRIPT" | (string & {});
+  baselineOffset?:
+    | "BASELINE_OFFSET_UNSPECIFIED"
+    | "NONE"
+    | "SUPERSCRIPT"
+    | "SUBSCRIPT"
+    | (string & {});
   /** Whether or not the text is in small capital letters. */
   smallCaps?: boolean;
   /** Whether or not the text is struck through. */
@@ -209,20 +283,22 @@ export interface TextStyle {
   weightedFontFamily?: WeightedFontFamily;
 }
 
-export const TextStyle: Schema.Schema<TextStyle> = Schema.suspend(() => Schema.Struct({
-  backgroundColor: Schema.optional(OptionalColor),
-  foregroundColor: Schema.optional(OptionalColor),
-  bold: Schema.optional(Schema.Boolean),
-  italic: Schema.optional(Schema.Boolean),
-  fontFamily: Schema.optional(Schema.String),
-  fontSize: Schema.optional(Dimension),
-  link: Schema.optional(Link),
-  baselineOffset: Schema.optional(Schema.String),
-  smallCaps: Schema.optional(Schema.Boolean),
-  strikethrough: Schema.optional(Schema.Boolean),
-  underline: Schema.optional(Schema.Boolean),
-  weightedFontFamily: Schema.optional(WeightedFontFamily),
-})).annotate({ identifier: "TextStyle" }) as any as Schema.Schema<TextStyle>;
+export const TextStyle: Schema.Schema<TextStyle> = Schema.suspend(() =>
+  Schema.Struct({
+    backgroundColor: Schema.optional(OptionalColor),
+    foregroundColor: Schema.optional(OptionalColor),
+    bold: Schema.optional(Schema.Boolean),
+    italic: Schema.optional(Schema.Boolean),
+    fontFamily: Schema.optional(Schema.String),
+    fontSize: Schema.optional(Dimension),
+    link: Schema.optional(Link),
+    baselineOffset: Schema.optional(Schema.String),
+    smallCaps: Schema.optional(Schema.Boolean),
+    strikethrough: Schema.optional(Schema.Boolean),
+    underline: Schema.optional(Schema.Boolean),
+    weightedFontFamily: Schema.optional(WeightedFontFamily),
+  }),
+).annotate({ identifier: "TextStyle" }) as any as Schema.Schema<TextStyle>;
 
 export interface Bullet {
   /** The ID of the list this paragraph belongs to. */
@@ -235,12 +311,14 @@ export interface Bullet {
   bulletStyle?: TextStyle;
 }
 
-export const Bullet: Schema.Schema<Bullet> = Schema.suspend(() => Schema.Struct({
-  listId: Schema.optional(Schema.String),
-  nestingLevel: Schema.optional(Schema.Number),
-  glyph: Schema.optional(Schema.String),
-  bulletStyle: Schema.optional(TextStyle),
-})).annotate({ identifier: "Bullet" }) as any as Schema.Schema<Bullet>;
+export const Bullet: Schema.Schema<Bullet> = Schema.suspend(() =>
+  Schema.Struct({
+    listId: Schema.optional(Schema.String),
+    nestingLevel: Schema.optional(Schema.Number),
+    glyph: Schema.optional(Schema.String),
+    bulletStyle: Schema.optional(TextStyle),
+  }),
+).annotate({ identifier: "Bullet" }) as any as Schema.Schema<Bullet>;
 
 export interface ParagraphMarker {
   /** The paragraph's style */
@@ -249,10 +327,15 @@ export interface ParagraphMarker {
   bullet?: Bullet;
 }
 
-export const ParagraphMarker: Schema.Schema<ParagraphMarker> = Schema.suspend(() => Schema.Struct({
-  style: Schema.optional(ParagraphStyle),
-  bullet: Schema.optional(Bullet),
-})).annotate({ identifier: "ParagraphMarker" }) as any as Schema.Schema<ParagraphMarker>;
+export const ParagraphMarker: Schema.Schema<ParagraphMarker> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      style: Schema.optional(ParagraphStyle),
+      bullet: Schema.optional(Bullet),
+    }),
+).annotate({
+  identifier: "ParagraphMarker",
+}) as any as Schema.Schema<ParagraphMarker>;
 
 export interface TextRun {
   /** The text of this run. */
@@ -261,10 +344,12 @@ export interface TextRun {
   style?: TextStyle;
 }
 
-export const TextRun: Schema.Schema<TextRun> = Schema.suspend(() => Schema.Struct({
-  content: Schema.optional(Schema.String),
-  style: Schema.optional(TextStyle),
-})).annotate({ identifier: "TextRun" }) as any as Schema.Schema<TextRun>;
+export const TextRun: Schema.Schema<TextRun> = Schema.suspend(() =>
+  Schema.Struct({
+    content: Schema.optional(Schema.String),
+    style: Schema.optional(TextStyle),
+  }),
+).annotate({ identifier: "TextRun" }) as any as Schema.Schema<TextRun>;
 
 export interface AutoText {
   /** The type of this auto text. */
@@ -275,11 +360,13 @@ export interface AutoText {
   style?: TextStyle;
 }
 
-export const AutoText: Schema.Schema<AutoText> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  style: Schema.optional(TextStyle),
-})).annotate({ identifier: "AutoText" }) as any as Schema.Schema<AutoText>;
+export const AutoText: Schema.Schema<AutoText> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    style: Schema.optional(TextStyle),
+  }),
+).annotate({ identifier: "AutoText" }) as any as Schema.Schema<AutoText>;
 
 export interface TextElement {
   /** The zero-based start index of this text element, in Unicode code units. */
@@ -294,22 +381,28 @@ export interface TextElement {
   autoText?: AutoText;
 }
 
-export const TextElement: Schema.Schema<TextElement> = Schema.suspend(() => Schema.Struct({
-  startIndex: Schema.optional(Schema.Number),
-  endIndex: Schema.optional(Schema.Number),
-  paragraphMarker: Schema.optional(ParagraphMarker),
-  textRun: Schema.optional(TextRun),
-  autoText: Schema.optional(AutoText),
-})).annotate({ identifier: "TextElement" }) as any as Schema.Schema<TextElement>;
+export const TextElement: Schema.Schema<TextElement> = Schema.suspend(() =>
+  Schema.Struct({
+    startIndex: Schema.optional(Schema.Number),
+    endIndex: Schema.optional(Schema.Number),
+    paragraphMarker: Schema.optional(ParagraphMarker),
+    textRun: Schema.optional(TextRun),
+    autoText: Schema.optional(AutoText),
+  }),
+).annotate({ identifier: "TextElement" }) as any as Schema.Schema<TextElement>;
 
 export interface NestingLevel {
   /** The style of a bullet at this level of nesting. */
   bulletStyle?: TextStyle;
 }
 
-export const NestingLevel: Schema.Schema<NestingLevel> = Schema.suspend(() => Schema.Struct({
-  bulletStyle: Schema.optional(TextStyle),
-})).annotate({ identifier: "NestingLevel" }) as any as Schema.Schema<NestingLevel>;
+export const NestingLevel: Schema.Schema<NestingLevel> = Schema.suspend(() =>
+  Schema.Struct({
+    bulletStyle: Schema.optional(TextStyle),
+  }),
+).annotate({
+  identifier: "NestingLevel",
+}) as any as Schema.Schema<NestingLevel>;
 
 export interface List {
   /** The ID of the list. */
@@ -318,10 +411,12 @@ export interface List {
   nestingLevel?: Record<string, NestingLevel>;
 }
 
-export const List: Schema.Schema<List> = Schema.suspend(() => Schema.Struct({
-  listId: Schema.optional(Schema.String),
-  nestingLevel: Schema.optional(Schema.Record(Schema.String, NestingLevel)),
-})).annotate({ identifier: "List" }) as any as Schema.Schema<List>;
+export const List: Schema.Schema<List> = Schema.suspend(() =>
+  Schema.Struct({
+    listId: Schema.optional(Schema.String),
+    nestingLevel: Schema.optional(Schema.Record(Schema.String, NestingLevel)),
+  }),
+).annotate({ identifier: "List" }) as any as Schema.Schema<List>;
 
 export interface TextContent {
   /** The text contents broken down into its component parts, including styling information. This property is read-only. */
@@ -330,10 +425,12 @@ export interface TextContent {
   lists?: Record<string, List>;
 }
 
-export const TextContent: Schema.Schema<TextContent> = Schema.suspend(() => Schema.Struct({
-  textElements: Schema.optional(Schema.Array(TextElement)),
-  lists: Schema.optional(Schema.Record(Schema.String, List)),
-})).annotate({ identifier: "TextContent" }) as any as Schema.Schema<TextContent>;
+export const TextContent: Schema.Schema<TextContent> = Schema.suspend(() =>
+  Schema.Struct({
+    textElements: Schema.optional(Schema.Array(TextElement)),
+    lists: Schema.optional(Schema.Record(Schema.String, List)),
+  }),
+).annotate({ identifier: "TextContent" }) as any as Schema.Schema<TextContent>;
 
 export interface SolidFill {
   /** The color value of the solid fill. */
@@ -342,10 +439,12 @@ export interface SolidFill {
   alpha?: number;
 }
 
-export const SolidFill: Schema.Schema<SolidFill> = Schema.suspend(() => Schema.Struct({
-  color: Schema.optional(OpaqueColor),
-  alpha: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SolidFill" }) as any as Schema.Schema<SolidFill>;
+export const SolidFill: Schema.Schema<SolidFill> = Schema.suspend(() =>
+  Schema.Struct({
+    color: Schema.optional(OpaqueColor),
+    alpha: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "SolidFill" }) as any as Schema.Schema<SolidFill>;
 
 export interface ShapeBackgroundFill {
   /** The background fill property state. Updating the fill on a shape will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a shape, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
@@ -354,19 +453,26 @@ export interface ShapeBackgroundFill {
   solidFill?: SolidFill;
 }
 
-export const ShapeBackgroundFill: Schema.Schema<ShapeBackgroundFill> = Schema.suspend(() => Schema.Struct({
-  propertyState: Schema.optional(Schema.String),
-  solidFill: Schema.optional(SolidFill),
-})).annotate({ identifier: "ShapeBackgroundFill" }) as any as Schema.Schema<ShapeBackgroundFill>;
+export const ShapeBackgroundFill: Schema.Schema<ShapeBackgroundFill> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      propertyState: Schema.optional(Schema.String),
+      solidFill: Schema.optional(SolidFill),
+    }),
+  ).annotate({
+    identifier: "ShapeBackgroundFill",
+  }) as any as Schema.Schema<ShapeBackgroundFill>;
 
 export interface OutlineFill {
   /** Solid color fill. */
   solidFill?: SolidFill;
 }
 
-export const OutlineFill: Schema.Schema<OutlineFill> = Schema.suspend(() => Schema.Struct({
-  solidFill: Schema.optional(SolidFill),
-})).annotate({ identifier: "OutlineFill" }) as any as Schema.Schema<OutlineFill>;
+export const OutlineFill: Schema.Schema<OutlineFill> = Schema.suspend(() =>
+  Schema.Struct({
+    solidFill: Schema.optional(SolidFill),
+  }),
+).annotate({ identifier: "OutlineFill" }) as any as Schema.Schema<OutlineFill>;
 
 export interface Outline {
   /** The fill of the outline. */
@@ -374,17 +480,27 @@ export interface Outline {
   /** The thickness of the outline. */
   weight?: Dimension;
   /** The dash style of the outline. */
-  dashStyle?: "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH" | "DASH_DOT" | "LONG_DASH" | "LONG_DASH_DOT" | (string & {});
+  dashStyle?:
+    | "DASH_STYLE_UNSPECIFIED"
+    | "SOLID"
+    | "DOT"
+    | "DASH"
+    | "DASH_DOT"
+    | "LONG_DASH"
+    | "LONG_DASH_DOT"
+    | (string & {});
   /** The outline property state. Updating the outline on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no outline on a page element, set this field to `NOT_RENDERED`. In this case, any other outline fields set in the same request will be ignored. */
   propertyState?: "RENDERED" | "NOT_RENDERED" | "INHERIT" | (string & {});
 }
 
-export const Outline: Schema.Schema<Outline> = Schema.suspend(() => Schema.Struct({
-  outlineFill: Schema.optional(OutlineFill),
-  weight: Schema.optional(Dimension),
-  dashStyle: Schema.optional(Schema.String),
-  propertyState: Schema.optional(Schema.String),
-})).annotate({ identifier: "Outline" }) as any as Schema.Schema<Outline>;
+export const Outline: Schema.Schema<Outline> = Schema.suspend(() =>
+  Schema.Struct({
+    outlineFill: Schema.optional(OutlineFill),
+    weight: Schema.optional(Dimension),
+    dashStyle: Schema.optional(Schema.String),
+    propertyState: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Outline" }) as any as Schema.Schema<Outline>;
 
 export interface Shadow {
   /** The type of the shadow. This property is read-only. */
@@ -392,7 +508,18 @@ export interface Shadow {
   /** Transform that encodes the translate, scale, and skew of the shadow, relative to the alignment position. */
   transform?: AffineTransform;
   /** The alignment point of the shadow, that sets the origin for translate, scale and skew of the shadow. This property is read-only. */
-  alignment?: "RECTANGLE_POSITION_UNSPECIFIED" | "TOP_LEFT" | "TOP_CENTER" | "TOP_RIGHT" | "LEFT_CENTER" | "CENTER" | "RIGHT_CENTER" | "BOTTOM_LEFT" | "BOTTOM_CENTER" | "BOTTOM_RIGHT" | (string & {});
+  alignment?:
+    | "RECTANGLE_POSITION_UNSPECIFIED"
+    | "TOP_LEFT"
+    | "TOP_CENTER"
+    | "TOP_RIGHT"
+    | "LEFT_CENTER"
+    | "CENTER"
+    | "RIGHT_CENTER"
+    | "BOTTOM_LEFT"
+    | "BOTTOM_CENTER"
+    | "BOTTOM_RIGHT"
+    | (string & {});
   /** The radius of the shadow blur. The larger the radius, the more diffuse the shadow becomes. */
   blurRadius?: Dimension;
   /** The shadow color value. */
@@ -405,31 +532,40 @@ export interface Shadow {
   propertyState?: "RENDERED" | "NOT_RENDERED" | "INHERIT" | (string & {});
 }
 
-export const Shadow: Schema.Schema<Shadow> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  transform: Schema.optional(AffineTransform),
-  alignment: Schema.optional(Schema.String),
-  blurRadius: Schema.optional(Dimension),
-  color: Schema.optional(OpaqueColor),
-  alpha: Schema.optional(Schema.Number),
-  rotateWithShape: Schema.optional(Schema.Boolean),
-  propertyState: Schema.optional(Schema.String),
-})).annotate({ identifier: "Shadow" }) as any as Schema.Schema<Shadow>;
+export const Shadow: Schema.Schema<Shadow> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    transform: Schema.optional(AffineTransform),
+    alignment: Schema.optional(Schema.String),
+    blurRadius: Schema.optional(Dimension),
+    color: Schema.optional(OpaqueColor),
+    alpha: Schema.optional(Schema.Number),
+    rotateWithShape: Schema.optional(Schema.Boolean),
+    propertyState: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Shadow" }) as any as Schema.Schema<Shadow>;
 
 export interface Autofit {
   /** The autofit type of the shape. If the autofit type is AUTOFIT_TYPE_UNSPECIFIED, the autofit type is inherited from a parent placeholder if it exists. The field is automatically set to NONE if a request is made that might affect text fitting within its bounding text box. In this case, the font_scale is applied to the font_size and the line_spacing_reduction is applied to the line_spacing. Both properties are also reset to default values. */
-  autofitType?: "AUTOFIT_TYPE_UNSPECIFIED" | "NONE" | "TEXT_AUTOFIT" | "SHAPE_AUTOFIT" | (string & {});
+  autofitType?:
+    | "AUTOFIT_TYPE_UNSPECIFIED"
+    | "NONE"
+    | "TEXT_AUTOFIT"
+    | "SHAPE_AUTOFIT"
+    | (string & {});
   /** The font scale applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 1. For TEXT_AUTOFIT, this value multiplied by the font_size gives the font size that's rendered in the editor. This property is read-only. */
   fontScale?: number;
   /** The line spacing reduction applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 0. For TEXT_AUTOFIT, this value subtracted from the line_spacing gives the line spacing that's rendered in the editor. This property is read-only. */
   lineSpacingReduction?: number;
 }
 
-export const Autofit: Schema.Schema<Autofit> = Schema.suspend(() => Schema.Struct({
-  autofitType: Schema.optional(Schema.String),
-  fontScale: Schema.optional(Schema.Number),
-  lineSpacingReduction: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Autofit" }) as any as Schema.Schema<Autofit>;
+export const Autofit: Schema.Schema<Autofit> = Schema.suspend(() =>
+  Schema.Struct({
+    autofitType: Schema.optional(Schema.String),
+    fontScale: Schema.optional(Schema.Number),
+    lineSpacingReduction: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Autofit" }) as any as Schema.Schema<Autofit>;
 
 export interface ShapeProperties {
   /** The background fill of the shape. If unset, the background fill is inherited from a parent placeholder if it exists. If the shape has no parent, then the default background fill depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
@@ -441,38 +577,213 @@ export interface ShapeProperties {
   /** The hyperlink destination of the shape. If unset, there is no link. Links are not inherited from parent placeholders. */
   link?: Link;
   /** The alignment of the content in the shape. If unspecified, the alignment is inherited from a parent placeholder if it exists. If the shape has no parent, the default alignment matches the alignment for new shapes created in the Slides editor. */
-  contentAlignment?: "CONTENT_ALIGNMENT_UNSPECIFIED" | "CONTENT_ALIGNMENT_UNSUPPORTED" | "TOP" | "MIDDLE" | "BOTTOM" | (string & {});
+  contentAlignment?:
+    | "CONTENT_ALIGNMENT_UNSPECIFIED"
+    | "CONTENT_ALIGNMENT_UNSUPPORTED"
+    | "TOP"
+    | "MIDDLE"
+    | "BOTTOM"
+    | (string & {});
   /** The autofit properties of the shape. This property is only set for shapes that allow text. */
   autofit?: Autofit;
 }
 
-export const ShapeProperties: Schema.Schema<ShapeProperties> = Schema.suspend(() => Schema.Struct({
-  shapeBackgroundFill: Schema.optional(ShapeBackgroundFill),
-  outline: Schema.optional(Outline),
-  shadow: Schema.optional(Shadow),
-  link: Schema.optional(Link),
-  contentAlignment: Schema.optional(Schema.String),
-  autofit: Schema.optional(Autofit),
-})).annotate({ identifier: "ShapeProperties" }) as any as Schema.Schema<ShapeProperties>;
+export const ShapeProperties: Schema.Schema<ShapeProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      shapeBackgroundFill: Schema.optional(ShapeBackgroundFill),
+      outline: Schema.optional(Outline),
+      shadow: Schema.optional(Shadow),
+      link: Schema.optional(Link),
+      contentAlignment: Schema.optional(Schema.String),
+      autofit: Schema.optional(Autofit),
+    }),
+).annotate({
+  identifier: "ShapeProperties",
+}) as any as Schema.Schema<ShapeProperties>;
 
 export interface Placeholder {
   /** The type of the placeholder. */
-  type?: "NONE" | "BODY" | "CHART" | "CLIP_ART" | "CENTERED_TITLE" | "DIAGRAM" | "DATE_AND_TIME" | "FOOTER" | "HEADER" | "MEDIA" | "OBJECT" | "PICTURE" | "SLIDE_NUMBER" | "SUBTITLE" | "TABLE" | "TITLE" | "SLIDE_IMAGE" | (string & {});
+  type?:
+    | "NONE"
+    | "BODY"
+    | "CHART"
+    | "CLIP_ART"
+    | "CENTERED_TITLE"
+    | "DIAGRAM"
+    | "DATE_AND_TIME"
+    | "FOOTER"
+    | "HEADER"
+    | "MEDIA"
+    | "OBJECT"
+    | "PICTURE"
+    | "SLIDE_NUMBER"
+    | "SUBTITLE"
+    | "TABLE"
+    | "TITLE"
+    | "SLIDE_IMAGE"
+    | (string & {});
   /** The index of the placeholder. If the same placeholder types are present in the same page, they would have different index values. */
   index?: number;
   /** The object ID of this shape's parent placeholder. If unset, the parent placeholder shape does not exist, so the shape does not inherit properties from any other shape. */
   parentObjectId?: string;
 }
 
-export const Placeholder: Schema.Schema<Placeholder> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  index: Schema.optional(Schema.Number),
-  parentObjectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Placeholder" }) as any as Schema.Schema<Placeholder>;
+export const Placeholder: Schema.Schema<Placeholder> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    index: Schema.optional(Schema.Number),
+    parentObjectId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Placeholder" }) as any as Schema.Schema<Placeholder>;
 
 export interface Shape {
   /** The type of the shape. */
-  shapeType?: "TYPE_UNSPECIFIED" | "TEXT_BOX" | "RECTANGLE" | "ROUND_RECTANGLE" | "ELLIPSE" | "ARC" | "BENT_ARROW" | "BENT_UP_ARROW" | "BEVEL" | "BLOCK_ARC" | "BRACE_PAIR" | "BRACKET_PAIR" | "CAN" | "CHEVRON" | "CHORD" | "CLOUD" | "CORNER" | "CUBE" | "CURVED_DOWN_ARROW" | "CURVED_LEFT_ARROW" | "CURVED_RIGHT_ARROW" | "CURVED_UP_ARROW" | "DECAGON" | "DIAGONAL_STRIPE" | "DIAMOND" | "DODECAGON" | "DONUT" | "DOUBLE_WAVE" | "DOWN_ARROW" | "DOWN_ARROW_CALLOUT" | "FOLDED_CORNER" | "FRAME" | "HALF_FRAME" | "HEART" | "HEPTAGON" | "HEXAGON" | "HOME_PLATE" | "HORIZONTAL_SCROLL" | "IRREGULAR_SEAL_1" | "IRREGULAR_SEAL_2" | "LEFT_ARROW" | "LEFT_ARROW_CALLOUT" | "LEFT_BRACE" | "LEFT_BRACKET" | "LEFT_RIGHT_ARROW" | "LEFT_RIGHT_ARROW_CALLOUT" | "LEFT_RIGHT_UP_ARROW" | "LEFT_UP_ARROW" | "LIGHTNING_BOLT" | "MATH_DIVIDE" | "MATH_EQUAL" | "MATH_MINUS" | "MATH_MULTIPLY" | "MATH_NOT_EQUAL" | "MATH_PLUS" | "MOON" | "NO_SMOKING" | "NOTCHED_RIGHT_ARROW" | "OCTAGON" | "PARALLELOGRAM" | "PENTAGON" | "PIE" | "PLAQUE" | "PLUS" | "QUAD_ARROW" | "QUAD_ARROW_CALLOUT" | "RIBBON" | "RIBBON_2" | "RIGHT_ARROW" | "RIGHT_ARROW_CALLOUT" | "RIGHT_BRACE" | "RIGHT_BRACKET" | "ROUND_1_RECTANGLE" | "ROUND_2_DIAGONAL_RECTANGLE" | "ROUND_2_SAME_RECTANGLE" | "RIGHT_TRIANGLE" | "SMILEY_FACE" | "SNIP_1_RECTANGLE" | "SNIP_2_DIAGONAL_RECTANGLE" | "SNIP_2_SAME_RECTANGLE" | "SNIP_ROUND_RECTANGLE" | "STAR_10" | "STAR_12" | "STAR_16" | "STAR_24" | "STAR_32" | "STAR_4" | "STAR_5" | "STAR_6" | "STAR_7" | "STAR_8" | "STRIPED_RIGHT_ARROW" | "SUN" | "TRAPEZOID" | "TRIANGLE" | "UP_ARROW" | "UP_ARROW_CALLOUT" | "UP_DOWN_ARROW" | "UTURN_ARROW" | "VERTICAL_SCROLL" | "WAVE" | "WEDGE_ELLIPSE_CALLOUT" | "WEDGE_RECTANGLE_CALLOUT" | "WEDGE_ROUND_RECTANGLE_CALLOUT" | "FLOW_CHART_ALTERNATE_PROCESS" | "FLOW_CHART_COLLATE" | "FLOW_CHART_CONNECTOR" | "FLOW_CHART_DECISION" | "FLOW_CHART_DELAY" | "FLOW_CHART_DISPLAY" | "FLOW_CHART_DOCUMENT" | "FLOW_CHART_EXTRACT" | "FLOW_CHART_INPUT_OUTPUT" | "FLOW_CHART_INTERNAL_STORAGE" | "FLOW_CHART_MAGNETIC_DISK" | "FLOW_CHART_MAGNETIC_DRUM" | "FLOW_CHART_MAGNETIC_TAPE" | "FLOW_CHART_MANUAL_INPUT" | "FLOW_CHART_MANUAL_OPERATION" | "FLOW_CHART_MERGE" | "FLOW_CHART_MULTIDOCUMENT" | "FLOW_CHART_OFFLINE_STORAGE" | "FLOW_CHART_OFFPAGE_CONNECTOR" | "FLOW_CHART_ONLINE_STORAGE" | "FLOW_CHART_OR" | "FLOW_CHART_PREDEFINED_PROCESS" | "FLOW_CHART_PREPARATION" | "FLOW_CHART_PROCESS" | "FLOW_CHART_PUNCHED_CARD" | "FLOW_CHART_PUNCHED_TAPE" | "FLOW_CHART_SORT" | "FLOW_CHART_SUMMING_JUNCTION" | "FLOW_CHART_TERMINATOR" | "ARROW_EAST" | "ARROW_NORTH_EAST" | "ARROW_NORTH" | "SPEECH" | "STARBURST" | "TEARDROP" | "ELLIPSE_RIBBON" | "ELLIPSE_RIBBON_2" | "CLOUD_CALLOUT" | "CUSTOM" | (string & {});
+  shapeType?:
+    | "TYPE_UNSPECIFIED"
+    | "TEXT_BOX"
+    | "RECTANGLE"
+    | "ROUND_RECTANGLE"
+    | "ELLIPSE"
+    | "ARC"
+    | "BENT_ARROW"
+    | "BENT_UP_ARROW"
+    | "BEVEL"
+    | "BLOCK_ARC"
+    | "BRACE_PAIR"
+    | "BRACKET_PAIR"
+    | "CAN"
+    | "CHEVRON"
+    | "CHORD"
+    | "CLOUD"
+    | "CORNER"
+    | "CUBE"
+    | "CURVED_DOWN_ARROW"
+    | "CURVED_LEFT_ARROW"
+    | "CURVED_RIGHT_ARROW"
+    | "CURVED_UP_ARROW"
+    | "DECAGON"
+    | "DIAGONAL_STRIPE"
+    | "DIAMOND"
+    | "DODECAGON"
+    | "DONUT"
+    | "DOUBLE_WAVE"
+    | "DOWN_ARROW"
+    | "DOWN_ARROW_CALLOUT"
+    | "FOLDED_CORNER"
+    | "FRAME"
+    | "HALF_FRAME"
+    | "HEART"
+    | "HEPTAGON"
+    | "HEXAGON"
+    | "HOME_PLATE"
+    | "HORIZONTAL_SCROLL"
+    | "IRREGULAR_SEAL_1"
+    | "IRREGULAR_SEAL_2"
+    | "LEFT_ARROW"
+    | "LEFT_ARROW_CALLOUT"
+    | "LEFT_BRACE"
+    | "LEFT_BRACKET"
+    | "LEFT_RIGHT_ARROW"
+    | "LEFT_RIGHT_ARROW_CALLOUT"
+    | "LEFT_RIGHT_UP_ARROW"
+    | "LEFT_UP_ARROW"
+    | "LIGHTNING_BOLT"
+    | "MATH_DIVIDE"
+    | "MATH_EQUAL"
+    | "MATH_MINUS"
+    | "MATH_MULTIPLY"
+    | "MATH_NOT_EQUAL"
+    | "MATH_PLUS"
+    | "MOON"
+    | "NO_SMOKING"
+    | "NOTCHED_RIGHT_ARROW"
+    | "OCTAGON"
+    | "PARALLELOGRAM"
+    | "PENTAGON"
+    | "PIE"
+    | "PLAQUE"
+    | "PLUS"
+    | "QUAD_ARROW"
+    | "QUAD_ARROW_CALLOUT"
+    | "RIBBON"
+    | "RIBBON_2"
+    | "RIGHT_ARROW"
+    | "RIGHT_ARROW_CALLOUT"
+    | "RIGHT_BRACE"
+    | "RIGHT_BRACKET"
+    | "ROUND_1_RECTANGLE"
+    | "ROUND_2_DIAGONAL_RECTANGLE"
+    | "ROUND_2_SAME_RECTANGLE"
+    | "RIGHT_TRIANGLE"
+    | "SMILEY_FACE"
+    | "SNIP_1_RECTANGLE"
+    | "SNIP_2_DIAGONAL_RECTANGLE"
+    | "SNIP_2_SAME_RECTANGLE"
+    | "SNIP_ROUND_RECTANGLE"
+    | "STAR_10"
+    | "STAR_12"
+    | "STAR_16"
+    | "STAR_24"
+    | "STAR_32"
+    | "STAR_4"
+    | "STAR_5"
+    | "STAR_6"
+    | "STAR_7"
+    | "STAR_8"
+    | "STRIPED_RIGHT_ARROW"
+    | "SUN"
+    | "TRAPEZOID"
+    | "TRIANGLE"
+    | "UP_ARROW"
+    | "UP_ARROW_CALLOUT"
+    | "UP_DOWN_ARROW"
+    | "UTURN_ARROW"
+    | "VERTICAL_SCROLL"
+    | "WAVE"
+    | "WEDGE_ELLIPSE_CALLOUT"
+    | "WEDGE_RECTANGLE_CALLOUT"
+    | "WEDGE_ROUND_RECTANGLE_CALLOUT"
+    | "FLOW_CHART_ALTERNATE_PROCESS"
+    | "FLOW_CHART_COLLATE"
+    | "FLOW_CHART_CONNECTOR"
+    | "FLOW_CHART_DECISION"
+    | "FLOW_CHART_DELAY"
+    | "FLOW_CHART_DISPLAY"
+    | "FLOW_CHART_DOCUMENT"
+    | "FLOW_CHART_EXTRACT"
+    | "FLOW_CHART_INPUT_OUTPUT"
+    | "FLOW_CHART_INTERNAL_STORAGE"
+    | "FLOW_CHART_MAGNETIC_DISK"
+    | "FLOW_CHART_MAGNETIC_DRUM"
+    | "FLOW_CHART_MAGNETIC_TAPE"
+    | "FLOW_CHART_MANUAL_INPUT"
+    | "FLOW_CHART_MANUAL_OPERATION"
+    | "FLOW_CHART_MERGE"
+    | "FLOW_CHART_MULTIDOCUMENT"
+    | "FLOW_CHART_OFFLINE_STORAGE"
+    | "FLOW_CHART_OFFPAGE_CONNECTOR"
+    | "FLOW_CHART_ONLINE_STORAGE"
+    | "FLOW_CHART_OR"
+    | "FLOW_CHART_PREDEFINED_PROCESS"
+    | "FLOW_CHART_PREPARATION"
+    | "FLOW_CHART_PROCESS"
+    | "FLOW_CHART_PUNCHED_CARD"
+    | "FLOW_CHART_PUNCHED_TAPE"
+    | "FLOW_CHART_SORT"
+    | "FLOW_CHART_SUMMING_JUNCTION"
+    | "FLOW_CHART_TERMINATOR"
+    | "ARROW_EAST"
+    | "ARROW_NORTH_EAST"
+    | "ARROW_NORTH"
+    | "SPEECH"
+    | "STARBURST"
+    | "TEARDROP"
+    | "ELLIPSE_RIBBON"
+    | "ELLIPSE_RIBBON_2"
+    | "CLOUD_CALLOUT"
+    | "CUSTOM"
+    | (string & {});
   /** The text content of the shape. */
   text?: TextContent;
   /** The properties of the shape. */
@@ -481,12 +792,14 @@ export interface Shape {
   placeholder?: Placeholder;
 }
 
-export const Shape: Schema.Schema<Shape> = Schema.suspend(() => Schema.Struct({
-  shapeType: Schema.optional(Schema.String),
-  text: Schema.optional(TextContent),
-  shapeProperties: Schema.optional(ShapeProperties),
-  placeholder: Schema.optional(Placeholder),
-})).annotate({ identifier: "Shape" }) as any as Schema.Schema<Shape>;
+export const Shape: Schema.Schema<Shape> = Schema.suspend(() =>
+  Schema.Struct({
+    shapeType: Schema.optional(Schema.String),
+    text: Schema.optional(TextContent),
+    shapeProperties: Schema.optional(ShapeProperties),
+    placeholder: Schema.optional(Placeholder),
+  }),
+).annotate({ identifier: "Shape" }) as any as Schema.Schema<Shape>;
 
 export interface CropProperties {
   /** The offset specifies the left edge of the crop rectangle that is located to the right of the original bounding rectangle left edge, relative to the object's original width. */
@@ -501,13 +814,18 @@ export interface CropProperties {
   angle?: number;
 }
 
-export const CropProperties: Schema.Schema<CropProperties> = Schema.suspend(() => Schema.Struct({
-  leftOffset: Schema.optional(Schema.Number),
-  rightOffset: Schema.optional(Schema.Number),
-  topOffset: Schema.optional(Schema.Number),
-  bottomOffset: Schema.optional(Schema.Number),
-  angle: Schema.optional(Schema.Number),
-})).annotate({ identifier: "CropProperties" }) as any as Schema.Schema<CropProperties>;
+export const CropProperties: Schema.Schema<CropProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      leftOffset: Schema.optional(Schema.Number),
+      rightOffset: Schema.optional(Schema.Number),
+      topOffset: Schema.optional(Schema.Number),
+      bottomOffset: Schema.optional(Schema.Number),
+      angle: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "CropProperties",
+}) as any as Schema.Schema<CropProperties>;
 
 export interface ColorStop {
   /** The color of the gradient stop. */
@@ -518,23 +836,53 @@ export interface ColorStop {
   position?: number;
 }
 
-export const ColorStop: Schema.Schema<ColorStop> = Schema.suspend(() => Schema.Struct({
-  color: Schema.optional(OpaqueColor),
-  alpha: Schema.optional(Schema.Number),
-  position: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ColorStop" }) as any as Schema.Schema<ColorStop>;
+export const ColorStop: Schema.Schema<ColorStop> = Schema.suspend(() =>
+  Schema.Struct({
+    color: Schema.optional(OpaqueColor),
+    alpha: Schema.optional(Schema.Number),
+    position: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "ColorStop" }) as any as Schema.Schema<ColorStop>;
 
 export interface Recolor {
   /** The recolor effect is represented by a gradient, which is a list of color stops. The colors in the gradient will replace the corresponding colors at the same position in the color palette and apply to the image. This property is read-only. */
   recolorStops?: Array<ColorStop>;
   /** The name of the recolor effect. The name is determined from the `recolor_stops` by matching the gradient against the colors in the page's current color scheme. This property is read-only. */
-  name?: "NONE" | "LIGHT1" | "LIGHT2" | "LIGHT3" | "LIGHT4" | "LIGHT5" | "LIGHT6" | "LIGHT7" | "LIGHT8" | "LIGHT9" | "LIGHT10" | "DARK1" | "DARK2" | "DARK3" | "DARK4" | "DARK5" | "DARK6" | "DARK7" | "DARK8" | "DARK9" | "DARK10" | "GRAYSCALE" | "NEGATIVE" | "SEPIA" | "CUSTOM" | (string & {});
+  name?:
+    | "NONE"
+    | "LIGHT1"
+    | "LIGHT2"
+    | "LIGHT3"
+    | "LIGHT4"
+    | "LIGHT5"
+    | "LIGHT6"
+    | "LIGHT7"
+    | "LIGHT8"
+    | "LIGHT9"
+    | "LIGHT10"
+    | "DARK1"
+    | "DARK2"
+    | "DARK3"
+    | "DARK4"
+    | "DARK5"
+    | "DARK6"
+    | "DARK7"
+    | "DARK8"
+    | "DARK9"
+    | "DARK10"
+    | "GRAYSCALE"
+    | "NEGATIVE"
+    | "SEPIA"
+    | "CUSTOM"
+    | (string & {});
 }
 
-export const Recolor: Schema.Schema<Recolor> = Schema.suspend(() => Schema.Struct({
-  recolorStops: Schema.optional(Schema.Array(ColorStop)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Recolor" }) as any as Schema.Schema<Recolor>;
+export const Recolor: Schema.Schema<Recolor> = Schema.suspend(() =>
+  Schema.Struct({
+    recolorStops: Schema.optional(Schema.Array(ColorStop)),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Recolor" }) as any as Schema.Schema<Recolor>;
 
 export interface ImageProperties {
   /** The crop properties of the image. If not set, the image is not cropped. This property is read-only. */
@@ -555,16 +903,21 @@ export interface ImageProperties {
   link?: Link;
 }
 
-export const ImageProperties: Schema.Schema<ImageProperties> = Schema.suspend(() => Schema.Struct({
-  cropProperties: Schema.optional(CropProperties),
-  transparency: Schema.optional(Schema.Number),
-  brightness: Schema.optional(Schema.Number),
-  contrast: Schema.optional(Schema.Number),
-  recolor: Schema.optional(Recolor),
-  outline: Schema.optional(Outline),
-  shadow: Schema.optional(Shadow),
-  link: Schema.optional(Link),
-})).annotate({ identifier: "ImageProperties" }) as any as Schema.Schema<ImageProperties>;
+export const ImageProperties: Schema.Schema<ImageProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      cropProperties: Schema.optional(CropProperties),
+      transparency: Schema.optional(Schema.Number),
+      brightness: Schema.optional(Schema.Number),
+      contrast: Schema.optional(Schema.Number),
+      recolor: Schema.optional(Recolor),
+      outline: Schema.optional(Outline),
+      shadow: Schema.optional(Shadow),
+      link: Schema.optional(Link),
+    }),
+).annotate({
+  identifier: "ImageProperties",
+}) as any as Schema.Schema<ImageProperties>;
 
 export interface Image {
   /** An URL to an image with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
@@ -577,12 +930,14 @@ export interface Image {
   placeholder?: Placeholder;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() => Schema.Struct({
-  contentUrl: Schema.optional(Schema.String),
-  imageProperties: Schema.optional(ImageProperties),
-  sourceUrl: Schema.optional(Schema.String),
-  placeholder: Schema.optional(Placeholder),
-})).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> = Schema.suspend(() =>
+  Schema.Struct({
+    contentUrl: Schema.optional(Schema.String),
+    imageProperties: Schema.optional(ImageProperties),
+    sourceUrl: Schema.optional(Schema.String),
+    placeholder: Schema.optional(Placeholder),
+  }),
+).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface VideoProperties {
   /** The outline of the video. The default outline matches the defaults for new videos created in the Slides editor. */
@@ -597,13 +952,18 @@ export interface VideoProperties {
   mute?: boolean;
 }
 
-export const VideoProperties: Schema.Schema<VideoProperties> = Schema.suspend(() => Schema.Struct({
-  outline: Schema.optional(Outline),
-  autoPlay: Schema.optional(Schema.Boolean),
-  start: Schema.optional(Schema.Number),
-  end: Schema.optional(Schema.Number),
-  mute: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "VideoProperties" }) as any as Schema.Schema<VideoProperties>;
+export const VideoProperties: Schema.Schema<VideoProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      outline: Schema.optional(Outline),
+      autoPlay: Schema.optional(Schema.Boolean),
+      start: Schema.optional(Schema.Number),
+      end: Schema.optional(Schema.Number),
+      mute: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "VideoProperties",
+}) as any as Schema.Schema<VideoProperties>;
 
 export interface Video {
   /** An URL to a video. The URL is valid as long as the source video exists and sharing settings do not change. */
@@ -616,21 +976,25 @@ export interface Video {
   videoProperties?: VideoProperties;
 }
 
-export const Video: Schema.Schema<Video> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  videoProperties: Schema.optional(VideoProperties),
-})).annotate({ identifier: "Video" }) as any as Schema.Schema<Video>;
+export const Video: Schema.Schema<Video> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+    source: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    videoProperties: Schema.optional(VideoProperties),
+  }),
+).annotate({ identifier: "Video" }) as any as Schema.Schema<Video>;
 
 export interface LineFill {
   /** Solid color fill. */
   solidFill?: SolidFill;
 }
 
-export const LineFill: Schema.Schema<LineFill> = Schema.suspend(() => Schema.Struct({
-  solidFill: Schema.optional(SolidFill),
-})).annotate({ identifier: "LineFill" }) as any as Schema.Schema<LineFill>;
+export const LineFill: Schema.Schema<LineFill> = Schema.suspend(() =>
+  Schema.Struct({
+    solidFill: Schema.optional(SolidFill),
+  }),
+).annotate({ identifier: "LineFill" }) as any as Schema.Schema<LineFill>;
 
 export interface LineConnection {
   /** The object ID of the connected page element. Some page elements, such as groups, tables, and lines do not have connection sites and therefore cannot be connected to a connector line. */
@@ -639,10 +1003,15 @@ export interface LineConnection {
   connectionSiteIndex?: number;
 }
 
-export const LineConnection: Schema.Schema<LineConnection> = Schema.suspend(() => Schema.Struct({
-  connectedObjectId: Schema.optional(Schema.String),
-  connectionSiteIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "LineConnection" }) as any as Schema.Schema<LineConnection>;
+export const LineConnection: Schema.Schema<LineConnection> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      connectedObjectId: Schema.optional(Schema.String),
+      connectionSiteIndex: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "LineConnection",
+}) as any as Schema.Schema<LineConnection>;
 
 export interface LineProperties {
   /** The fill of the line. The default line fill matches the defaults for new lines created in the Slides editor. */
@@ -650,11 +1019,43 @@ export interface LineProperties {
   /** The thickness of the line. */
   weight?: Dimension;
   /** The dash style of the line. */
-  dashStyle?: "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH" | "DASH_DOT" | "LONG_DASH" | "LONG_DASH_DOT" | (string & {});
+  dashStyle?:
+    | "DASH_STYLE_UNSPECIFIED"
+    | "SOLID"
+    | "DOT"
+    | "DASH"
+    | "DASH_DOT"
+    | "LONG_DASH"
+    | "LONG_DASH_DOT"
+    | (string & {});
   /** The style of the arrow at the beginning of the line. */
-  startArrow?: "ARROW_STYLE_UNSPECIFIED" | "NONE" | "STEALTH_ARROW" | "FILL_ARROW" | "FILL_CIRCLE" | "FILL_SQUARE" | "FILL_DIAMOND" | "OPEN_ARROW" | "OPEN_CIRCLE" | "OPEN_SQUARE" | "OPEN_DIAMOND" | (string & {});
+  startArrow?:
+    | "ARROW_STYLE_UNSPECIFIED"
+    | "NONE"
+    | "STEALTH_ARROW"
+    | "FILL_ARROW"
+    | "FILL_CIRCLE"
+    | "FILL_SQUARE"
+    | "FILL_DIAMOND"
+    | "OPEN_ARROW"
+    | "OPEN_CIRCLE"
+    | "OPEN_SQUARE"
+    | "OPEN_DIAMOND"
+    | (string & {});
   /** The style of the arrow at the end of the line. */
-  endArrow?: "ARROW_STYLE_UNSPECIFIED" | "NONE" | "STEALTH_ARROW" | "FILL_ARROW" | "FILL_CIRCLE" | "FILL_SQUARE" | "FILL_DIAMOND" | "OPEN_ARROW" | "OPEN_CIRCLE" | "OPEN_SQUARE" | "OPEN_DIAMOND" | (string & {});
+  endArrow?:
+    | "ARROW_STYLE_UNSPECIFIED"
+    | "NONE"
+    | "STEALTH_ARROW"
+    | "FILL_ARROW"
+    | "FILL_CIRCLE"
+    | "FILL_SQUARE"
+    | "FILL_DIAMOND"
+    | "OPEN_ARROW"
+    | "OPEN_CIRCLE"
+    | "OPEN_SQUARE"
+    | "OPEN_DIAMOND"
+    | (string & {});
   /** The hyperlink destination of the line. If unset, there is no link. */
   link?: Link;
   /** The connection at the beginning of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have a `start_connection`. */
@@ -663,40 +1064,69 @@ export interface LineProperties {
   endConnection?: LineConnection;
 }
 
-export const LineProperties: Schema.Schema<LineProperties> = Schema.suspend(() => Schema.Struct({
-  lineFill: Schema.optional(LineFill),
-  weight: Schema.optional(Dimension),
-  dashStyle: Schema.optional(Schema.String),
-  startArrow: Schema.optional(Schema.String),
-  endArrow: Schema.optional(Schema.String),
-  link: Schema.optional(Link),
-  startConnection: Schema.optional(LineConnection),
-  endConnection: Schema.optional(LineConnection),
-})).annotate({ identifier: "LineProperties" }) as any as Schema.Schema<LineProperties>;
+export const LineProperties: Schema.Schema<LineProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      lineFill: Schema.optional(LineFill),
+      weight: Schema.optional(Dimension),
+      dashStyle: Schema.optional(Schema.String),
+      startArrow: Schema.optional(Schema.String),
+      endArrow: Schema.optional(Schema.String),
+      link: Schema.optional(Link),
+      startConnection: Schema.optional(LineConnection),
+      endConnection: Schema.optional(LineConnection),
+    }),
+).annotate({
+  identifier: "LineProperties",
+}) as any as Schema.Schema<LineProperties>;
 
 export interface Line {
   /** The properties of the line. */
   lineProperties?: LineProperties;
   /** The type of the line. */
-  lineType?: "TYPE_UNSPECIFIED" | "STRAIGHT_CONNECTOR_1" | "BENT_CONNECTOR_2" | "BENT_CONNECTOR_3" | "BENT_CONNECTOR_4" | "BENT_CONNECTOR_5" | "CURVED_CONNECTOR_2" | "CURVED_CONNECTOR_3" | "CURVED_CONNECTOR_4" | "CURVED_CONNECTOR_5" | "STRAIGHT_LINE" | (string & {});
+  lineType?:
+    | "TYPE_UNSPECIFIED"
+    | "STRAIGHT_CONNECTOR_1"
+    | "BENT_CONNECTOR_2"
+    | "BENT_CONNECTOR_3"
+    | "BENT_CONNECTOR_4"
+    | "BENT_CONNECTOR_5"
+    | "CURVED_CONNECTOR_2"
+    | "CURVED_CONNECTOR_3"
+    | "CURVED_CONNECTOR_4"
+    | "CURVED_CONNECTOR_5"
+    | "STRAIGHT_LINE"
+    | (string & {});
   /** The category of the line. It matches the `category` specified in CreateLineRequest, and can be updated with UpdateLineCategoryRequest. */
-  lineCategory?: "LINE_CATEGORY_UNSPECIFIED" | "STRAIGHT" | "BENT" | "CURVED" | (string & {});
+  lineCategory?:
+    | "LINE_CATEGORY_UNSPECIFIED"
+    | "STRAIGHT"
+    | "BENT"
+    | "CURVED"
+    | (string & {});
 }
 
-export const Line: Schema.Schema<Line> = Schema.suspend(() => Schema.Struct({
-  lineProperties: Schema.optional(LineProperties),
-  lineType: Schema.optional(Schema.String),
-  lineCategory: Schema.optional(Schema.String),
-})).annotate({ identifier: "Line" }) as any as Schema.Schema<Line>;
+export const Line: Schema.Schema<Line> = Schema.suspend(() =>
+  Schema.Struct({
+    lineProperties: Schema.optional(LineProperties),
+    lineType: Schema.optional(Schema.String),
+    lineCategory: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Line" }) as any as Schema.Schema<Line>;
 
 export interface TableRowProperties {
   /** Minimum height of the row. The row will be rendered in the Slides editor at a height equal to or greater than this value in order to show all the text in the row's cell(s). */
   minRowHeight?: Dimension;
 }
 
-export const TableRowProperties: Schema.Schema<TableRowProperties> = Schema.suspend(() => Schema.Struct({
-  minRowHeight: Schema.optional(Dimension),
-})).annotate({ identifier: "TableRowProperties" }) as any as Schema.Schema<TableRowProperties>;
+export const TableRowProperties: Schema.Schema<TableRowProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      minRowHeight: Schema.optional(Dimension),
+    }),
+  ).annotate({
+    identifier: "TableRowProperties",
+  }) as any as Schema.Schema<TableRowProperties>;
 
 export interface TableCellLocation {
   /** The 0-based row index. */
@@ -705,10 +1135,15 @@ export interface TableCellLocation {
   columnIndex?: number;
 }
 
-export const TableCellLocation: Schema.Schema<TableCellLocation> = Schema.suspend(() => Schema.Struct({
-  rowIndex: Schema.optional(Schema.Number),
-  columnIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TableCellLocation" }) as any as Schema.Schema<TableCellLocation>;
+export const TableCellLocation: Schema.Schema<TableCellLocation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rowIndex: Schema.optional(Schema.Number),
+      columnIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "TableCellLocation",
+  }) as any as Schema.Schema<TableCellLocation>;
 
 export interface TableCellBackgroundFill {
   /** The background fill property state. Updating the fill on a table cell will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a table cell, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
@@ -717,22 +1152,38 @@ export interface TableCellBackgroundFill {
   solidFill?: SolidFill;
 }
 
-export const TableCellBackgroundFill: Schema.Schema<TableCellBackgroundFill> = Schema.suspend(() => Schema.Struct({
-  propertyState: Schema.optional(Schema.String),
-  solidFill: Schema.optional(SolidFill),
-})).annotate({ identifier: "TableCellBackgroundFill" }) as any as Schema.Schema<TableCellBackgroundFill>;
+export const TableCellBackgroundFill: Schema.Schema<TableCellBackgroundFill> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      propertyState: Schema.optional(Schema.String),
+      solidFill: Schema.optional(SolidFill),
+    }),
+  ).annotate({
+    identifier: "TableCellBackgroundFill",
+  }) as any as Schema.Schema<TableCellBackgroundFill>;
 
 export interface TableCellProperties {
   /** The background fill of the table cell. The default fill matches the fill for newly created table cells in the Slides editor. */
   tableCellBackgroundFill?: TableCellBackgroundFill;
   /** The alignment of the content in the table cell. The default alignment matches the alignment for newly created table cells in the Slides editor. */
-  contentAlignment?: "CONTENT_ALIGNMENT_UNSPECIFIED" | "CONTENT_ALIGNMENT_UNSUPPORTED" | "TOP" | "MIDDLE" | "BOTTOM" | (string & {});
+  contentAlignment?:
+    | "CONTENT_ALIGNMENT_UNSPECIFIED"
+    | "CONTENT_ALIGNMENT_UNSUPPORTED"
+    | "TOP"
+    | "MIDDLE"
+    | "BOTTOM"
+    | (string & {});
 }
 
-export const TableCellProperties: Schema.Schema<TableCellProperties> = Schema.suspend(() => Schema.Struct({
-  tableCellBackgroundFill: Schema.optional(TableCellBackgroundFill),
-  contentAlignment: Schema.optional(Schema.String),
-})).annotate({ identifier: "TableCellProperties" }) as any as Schema.Schema<TableCellProperties>;
+export const TableCellProperties: Schema.Schema<TableCellProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableCellBackgroundFill: Schema.optional(TableCellBackgroundFill),
+      contentAlignment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TableCellProperties",
+  }) as any as Schema.Schema<TableCellProperties>;
 
 export interface TableCell {
   /** The location of the cell within the table. */
@@ -747,13 +1198,15 @@ export interface TableCell {
   tableCellProperties?: TableCellProperties;
 }
 
-export const TableCell: Schema.Schema<TableCell> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(TableCellLocation),
-  rowSpan: Schema.optional(Schema.Number),
-  columnSpan: Schema.optional(Schema.Number),
-  text: Schema.optional(TextContent),
-  tableCellProperties: Schema.optional(TableCellProperties),
-})).annotate({ identifier: "TableCell" }) as any as Schema.Schema<TableCell>;
+export const TableCell: Schema.Schema<TableCell> = Schema.suspend(() =>
+  Schema.Struct({
+    location: Schema.optional(TableCellLocation),
+    rowSpan: Schema.optional(Schema.Number),
+    columnSpan: Schema.optional(Schema.Number),
+    text: Schema.optional(TextContent),
+    tableCellProperties: Schema.optional(TableCellProperties),
+  }),
+).annotate({ identifier: "TableCell" }) as any as Schema.Schema<TableCell>;
 
 export interface TableRow {
   /** Height of a row. */
@@ -764,29 +1217,41 @@ export interface TableRow {
   tableCells?: Array<TableCell>;
 }
 
-export const TableRow: Schema.Schema<TableRow> = Schema.suspend(() => Schema.Struct({
-  rowHeight: Schema.optional(Dimension),
-  tableRowProperties: Schema.optional(TableRowProperties),
-  tableCells: Schema.optional(Schema.Array(TableCell)),
-})).annotate({ identifier: "TableRow" }) as any as Schema.Schema<TableRow>;
+export const TableRow: Schema.Schema<TableRow> = Schema.suspend(() =>
+  Schema.Struct({
+    rowHeight: Schema.optional(Dimension),
+    tableRowProperties: Schema.optional(TableRowProperties),
+    tableCells: Schema.optional(Schema.Array(TableCell)),
+  }),
+).annotate({ identifier: "TableRow" }) as any as Schema.Schema<TableRow>;
 
 export interface TableColumnProperties {
   /** Width of a column. */
   columnWidth?: Dimension;
 }
 
-export const TableColumnProperties: Schema.Schema<TableColumnProperties> = Schema.suspend(() => Schema.Struct({
-  columnWidth: Schema.optional(Dimension),
-})).annotate({ identifier: "TableColumnProperties" }) as any as Schema.Schema<TableColumnProperties>;
+export const TableColumnProperties: Schema.Schema<TableColumnProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      columnWidth: Schema.optional(Dimension),
+    }),
+  ).annotate({
+    identifier: "TableColumnProperties",
+  }) as any as Schema.Schema<TableColumnProperties>;
 
 export interface TableBorderFill {
   /** Solid fill. */
   solidFill?: SolidFill;
 }
 
-export const TableBorderFill: Schema.Schema<TableBorderFill> = Schema.suspend(() => Schema.Struct({
-  solidFill: Schema.optional(SolidFill),
-})).annotate({ identifier: "TableBorderFill" }) as any as Schema.Schema<TableBorderFill>;
+export const TableBorderFill: Schema.Schema<TableBorderFill> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      solidFill: Schema.optional(SolidFill),
+    }),
+).annotate({
+  identifier: "TableBorderFill",
+}) as any as Schema.Schema<TableBorderFill>;
 
 export interface TableBorderProperties {
   /** The fill of the table border. */
@@ -794,14 +1259,27 @@ export interface TableBorderProperties {
   /** The thickness of the border. */
   weight?: Dimension;
   /** The dash style of the border. */
-  dashStyle?: "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH" | "DASH_DOT" | "LONG_DASH" | "LONG_DASH_DOT" | (string & {});
+  dashStyle?:
+    | "DASH_STYLE_UNSPECIFIED"
+    | "SOLID"
+    | "DOT"
+    | "DASH"
+    | "DASH_DOT"
+    | "LONG_DASH"
+    | "LONG_DASH_DOT"
+    | (string & {});
 }
 
-export const TableBorderProperties: Schema.Schema<TableBorderProperties> = Schema.suspend(() => Schema.Struct({
-  tableBorderFill: Schema.optional(TableBorderFill),
-  weight: Schema.optional(Dimension),
-  dashStyle: Schema.optional(Schema.String),
-})).annotate({ identifier: "TableBorderProperties" }) as any as Schema.Schema<TableBorderProperties>;
+export const TableBorderProperties: Schema.Schema<TableBorderProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableBorderFill: Schema.optional(TableBorderFill),
+      weight: Schema.optional(Dimension),
+      dashStyle: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TableBorderProperties",
+  }) as any as Schema.Schema<TableBorderProperties>;
 
 export interface TableBorderCell {
   /** The location of the border within the border table. */
@@ -810,19 +1288,29 @@ export interface TableBorderCell {
   tableBorderProperties?: TableBorderProperties;
 }
 
-export const TableBorderCell: Schema.Schema<TableBorderCell> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(TableCellLocation),
-  tableBorderProperties: Schema.optional(TableBorderProperties),
-})).annotate({ identifier: "TableBorderCell" }) as any as Schema.Schema<TableBorderCell>;
+export const TableBorderCell: Schema.Schema<TableBorderCell> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      location: Schema.optional(TableCellLocation),
+      tableBorderProperties: Schema.optional(TableBorderProperties),
+    }),
+).annotate({
+  identifier: "TableBorderCell",
+}) as any as Schema.Schema<TableBorderCell>;
 
 export interface TableBorderRow {
   /** Properties of each border cell. When a border's adjacent table cells are merged, it is not included in the response. */
   tableBorderCells?: Array<TableBorderCell>;
 }
 
-export const TableBorderRow: Schema.Schema<TableBorderRow> = Schema.suspend(() => Schema.Struct({
-  tableBorderCells: Schema.optional(Schema.Array(TableBorderCell)),
-})).annotate({ identifier: "TableBorderRow" }) as any as Schema.Schema<TableBorderRow>;
+export const TableBorderRow: Schema.Schema<TableBorderRow> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      tableBorderCells: Schema.optional(Schema.Array(TableBorderCell)),
+    }),
+).annotate({
+  identifier: "TableBorderRow",
+}) as any as Schema.Schema<TableBorderRow>;
 
 export interface Table {
   /** Number of rows in the table. */
@@ -839,32 +1327,41 @@ export interface Table {
   verticalBorderRows?: Array<TableBorderRow>;
 }
 
-export const Table: Schema.Schema<Table> = Schema.suspend(() => Schema.Struct({
-  rows: Schema.optional(Schema.Number),
-  columns: Schema.optional(Schema.Number),
-  tableRows: Schema.optional(Schema.Array(TableRow)),
-  tableColumns: Schema.optional(Schema.Array(TableColumnProperties)),
-  horizontalBorderRows: Schema.optional(Schema.Array(TableBorderRow)),
-  verticalBorderRows: Schema.optional(Schema.Array(TableBorderRow)),
-})).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
+export const Table: Schema.Schema<Table> = Schema.suspend(() =>
+  Schema.Struct({
+    rows: Schema.optional(Schema.Number),
+    columns: Schema.optional(Schema.Number),
+    tableRows: Schema.optional(Schema.Array(TableRow)),
+    tableColumns: Schema.optional(Schema.Array(TableColumnProperties)),
+    horizontalBorderRows: Schema.optional(Schema.Array(TableBorderRow)),
+    verticalBorderRows: Schema.optional(Schema.Array(TableBorderRow)),
+  }),
+).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
 
 export interface WordArt {
   /** The text rendered as word art. */
   renderedText?: string;
 }
 
-export const WordArt: Schema.Schema<WordArt> = Schema.suspend(() => Schema.Struct({
-  renderedText: Schema.optional(Schema.String),
-})).annotate({ identifier: "WordArt" }) as any as Schema.Schema<WordArt>;
+export const WordArt: Schema.Schema<WordArt> = Schema.suspend(() =>
+  Schema.Struct({
+    renderedText: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "WordArt" }) as any as Schema.Schema<WordArt>;
 
 export interface SheetsChartProperties {
   /** The properties of the embedded chart image. */
   chartImageProperties?: ImageProperties;
 }
 
-export const SheetsChartProperties: Schema.Schema<SheetsChartProperties> = Schema.suspend(() => Schema.Struct({
-  chartImageProperties: Schema.optional(ImageProperties),
-})).annotate({ identifier: "SheetsChartProperties" }) as any as Schema.Schema<SheetsChartProperties>;
+export const SheetsChartProperties: Schema.Schema<SheetsChartProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      chartImageProperties: Schema.optional(ImageProperties),
+    }),
+  ).annotate({
+    identifier: "SheetsChartProperties",
+  }) as any as Schema.Schema<SheetsChartProperties>;
 
 export interface SheetsChart {
   /** The ID of the Google Sheets spreadsheet that contains the source chart. */
@@ -877,12 +1374,14 @@ export interface SheetsChart {
   sheetsChartProperties?: SheetsChartProperties;
 }
 
-export const SheetsChart: Schema.Schema<SheetsChart> = Schema.suspend(() => Schema.Struct({
-  spreadsheetId: Schema.optional(Schema.String),
-  chartId: Schema.optional(Schema.Number),
-  contentUrl: Schema.optional(Schema.String),
-  sheetsChartProperties: Schema.optional(SheetsChartProperties),
-})).annotate({ identifier: "SheetsChart" }) as any as Schema.Schema<SheetsChart>;
+export const SheetsChart: Schema.Schema<SheetsChart> = Schema.suspend(() =>
+  Schema.Struct({
+    spreadsheetId: Schema.optional(Schema.String),
+    chartId: Schema.optional(Schema.Number),
+    contentUrl: Schema.optional(Schema.String),
+    sheetsChartProperties: Schema.optional(SheetsChartProperties),
+  }),
+).annotate({ identifier: "SheetsChart" }) as any as Schema.Schema<SheetsChart>;
 
 export interface SpeakerSpotlightProperties {
   /** The outline of the Speaker Spotlight. If not set, it has no outline. */
@@ -891,19 +1390,29 @@ export interface SpeakerSpotlightProperties {
   shadow?: Shadow;
 }
 
-export const SpeakerSpotlightProperties: Schema.Schema<SpeakerSpotlightProperties> = Schema.suspend(() => Schema.Struct({
-  outline: Schema.optional(Outline),
-  shadow: Schema.optional(Shadow),
-})).annotate({ identifier: "SpeakerSpotlightProperties" }) as any as Schema.Schema<SpeakerSpotlightProperties>;
+export const SpeakerSpotlightProperties: Schema.Schema<SpeakerSpotlightProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outline: Schema.optional(Outline),
+      shadow: Schema.optional(Shadow),
+    }),
+  ).annotate({
+    identifier: "SpeakerSpotlightProperties",
+  }) as any as Schema.Schema<SpeakerSpotlightProperties>;
 
 export interface SpeakerSpotlight {
   /** The properties of the Speaker Spotlight. */
   speakerSpotlightProperties?: SpeakerSpotlightProperties;
 }
 
-export const SpeakerSpotlight: Schema.Schema<SpeakerSpotlight> = Schema.suspend(() => Schema.Struct({
-  speakerSpotlightProperties: Schema.optional(SpeakerSpotlightProperties),
-})).annotate({ identifier: "SpeakerSpotlight" }) as any as Schema.Schema<SpeakerSpotlight>;
+export const SpeakerSpotlight: Schema.Schema<SpeakerSpotlight> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      speakerSpotlightProperties: Schema.optional(SpeakerSpotlightProperties),
+    }),
+).annotate({
+  identifier: "SpeakerSpotlight",
+}) as any as Schema.Schema<SpeakerSpotlight>;
 
 export interface PageElement {
   /** The object ID for this page element. Object IDs used by google.apps.slides.v1.Page and google.apps.slides.v1.PageElement share the same namespace. */
@@ -936,22 +1445,24 @@ export interface PageElement {
   speakerSpotlight?: SpeakerSpotlight;
 }
 
-export const PageElement: Schema.Schema<PageElement> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  size: Schema.optional(Size),
-  transform: Schema.optional(AffineTransform),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  elementGroup: Schema.optional(Group),
-  shape: Schema.optional(Shape),
-  image: Schema.optional(Image),
-  video: Schema.optional(Video),
-  line: Schema.optional(Line),
-  table: Schema.optional(Table),
-  wordArt: Schema.optional(WordArt),
-  sheetsChart: Schema.optional(SheetsChart),
-  speakerSpotlight: Schema.optional(SpeakerSpotlight),
-})).annotate({ identifier: "PageElement" }) as any as Schema.Schema<PageElement>;
+export const PageElement: Schema.Schema<PageElement> = Schema.suspend(() =>
+  Schema.Struct({
+    objectId: Schema.optional(Schema.String),
+    size: Schema.optional(Size),
+    transform: Schema.optional(AffineTransform),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    elementGroup: Schema.optional(Group),
+    shape: Schema.optional(Shape),
+    image: Schema.optional(Image),
+    video: Schema.optional(Video),
+    line: Schema.optional(Line),
+    table: Schema.optional(Table),
+    wordArt: Schema.optional(WordArt),
+    sheetsChart: Schema.optional(SheetsChart),
+    speakerSpotlight: Schema.optional(SpeakerSpotlight),
+  }),
+).annotate({ identifier: "PageElement" }) as any as Schema.Schema<PageElement>;
 
 export interface SlideProperties {
   /** The object ID of the layout that this slide is based on. This property is read-only. */
@@ -964,12 +1475,17 @@ export interface SlideProperties {
   isSkipped?: boolean;
 }
 
-export const SlideProperties: Schema.Schema<SlideProperties> = Schema.suspend(() => Schema.Struct({
-  layoutObjectId: Schema.optional(Schema.String),
-  masterObjectId: Schema.optional(Schema.String),
-  notesPage: Schema.optional(Page),
-  isSkipped: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SlideProperties" }) as any as Schema.Schema<SlideProperties>;
+export const SlideProperties: Schema.Schema<SlideProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      layoutObjectId: Schema.optional(Schema.String),
+      masterObjectId: Schema.optional(Schema.String),
+      notesPage: Schema.optional(Page),
+      isSkipped: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "SlideProperties",
+}) as any as Schema.Schema<SlideProperties>;
 
 export interface LayoutProperties {
   /** The object ID of the master that this layout is based on. */
@@ -980,29 +1496,44 @@ export interface LayoutProperties {
   displayName?: string;
 }
 
-export const LayoutProperties: Schema.Schema<LayoutProperties> = Schema.suspend(() => Schema.Struct({
-  masterObjectId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "LayoutProperties" }) as any as Schema.Schema<LayoutProperties>;
+export const LayoutProperties: Schema.Schema<LayoutProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      masterObjectId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LayoutProperties",
+}) as any as Schema.Schema<LayoutProperties>;
 
 export interface NotesProperties {
   /** The object ID of the shape on this notes page that contains the speaker notes for the corresponding slide. The actual shape may not always exist on the notes page. Inserting text using this object ID will automatically create the shape. In this case, the actual shape may have different object ID. The `GetPresentation` or `GetPage` action will always return the latest object ID. */
   speakerNotesObjectId?: string;
 }
 
-export const NotesProperties: Schema.Schema<NotesProperties> = Schema.suspend(() => Schema.Struct({
-  speakerNotesObjectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "NotesProperties" }) as any as Schema.Schema<NotesProperties>;
+export const NotesProperties: Schema.Schema<NotesProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      speakerNotesObjectId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "NotesProperties",
+}) as any as Schema.Schema<NotesProperties>;
 
 export interface MasterProperties {
   /** The human-readable name of the master. */
   displayName?: string;
 }
 
-export const MasterProperties: Schema.Schema<MasterProperties> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "MasterProperties" }) as any as Schema.Schema<MasterProperties>;
+export const MasterProperties: Schema.Schema<MasterProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MasterProperties",
+}) as any as Schema.Schema<MasterProperties>;
 
 export interface StretchedPictureFill {
   /** Reading the content_url: An URL to a picture with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the picture as the original requester. Access to the picture may be lost if the presentation's sharing settings change. Writing the content_url: The picture is fetched once at insertion time and a copy is stored for display inside the presentation. Pictures must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. */
@@ -1011,10 +1542,15 @@ export interface StretchedPictureFill {
   size?: Size;
 }
 
-export const StretchedPictureFill: Schema.Schema<StretchedPictureFill> = Schema.suspend(() => Schema.Struct({
-  contentUrl: Schema.optional(Schema.String),
-  size: Schema.optional(Size),
-})).annotate({ identifier: "StretchedPictureFill" }) as any as Schema.Schema<StretchedPictureFill>;
+export const StretchedPictureFill: Schema.Schema<StretchedPictureFill> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      contentUrl: Schema.optional(Schema.String),
+      size: Schema.optional(Size),
+    }),
+  ).annotate({
+    identifier: "StretchedPictureFill",
+  }) as any as Schema.Schema<StretchedPictureFill>;
 
 export interface PageBackgroundFill {
   /** The background fill property state. Updating the fill on a page will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a page, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
@@ -1025,32 +1561,62 @@ export interface PageBackgroundFill {
   stretchedPictureFill?: StretchedPictureFill;
 }
 
-export const PageBackgroundFill: Schema.Schema<PageBackgroundFill> = Schema.suspend(() => Schema.Struct({
-  propertyState: Schema.optional(Schema.String),
-  solidFill: Schema.optional(SolidFill),
-  stretchedPictureFill: Schema.optional(StretchedPictureFill),
-})).annotate({ identifier: "PageBackgroundFill" }) as any as Schema.Schema<PageBackgroundFill>;
+export const PageBackgroundFill: Schema.Schema<PageBackgroundFill> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      propertyState: Schema.optional(Schema.String),
+      solidFill: Schema.optional(SolidFill),
+      stretchedPictureFill: Schema.optional(StretchedPictureFill),
+    }),
+  ).annotate({
+    identifier: "PageBackgroundFill",
+  }) as any as Schema.Schema<PageBackgroundFill>;
 
 export interface ThemeColorPair {
   /** The type of the theme color. */
-  type?: "THEME_COLOR_TYPE_UNSPECIFIED" | "DARK1" | "LIGHT1" | "DARK2" | "LIGHT2" | "ACCENT1" | "ACCENT2" | "ACCENT3" | "ACCENT4" | "ACCENT5" | "ACCENT6" | "HYPERLINK" | "FOLLOWED_HYPERLINK" | "TEXT1" | "BACKGROUND1" | "TEXT2" | "BACKGROUND2" | (string & {});
+  type?:
+    | "THEME_COLOR_TYPE_UNSPECIFIED"
+    | "DARK1"
+    | "LIGHT1"
+    | "DARK2"
+    | "LIGHT2"
+    | "ACCENT1"
+    | "ACCENT2"
+    | "ACCENT3"
+    | "ACCENT4"
+    | "ACCENT5"
+    | "ACCENT6"
+    | "HYPERLINK"
+    | "FOLLOWED_HYPERLINK"
+    | "TEXT1"
+    | "BACKGROUND1"
+    | "TEXT2"
+    | "BACKGROUND2"
+    | (string & {});
   /** The concrete color corresponding to the theme color type above. */
   color?: RgbColor;
 }
 
-export const ThemeColorPair: Schema.Schema<ThemeColorPair> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  color: Schema.optional(RgbColor),
-})).annotate({ identifier: "ThemeColorPair" }) as any as Schema.Schema<ThemeColorPair>;
+export const ThemeColorPair: Schema.Schema<ThemeColorPair> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      color: Schema.optional(RgbColor),
+    }),
+).annotate({
+  identifier: "ThemeColorPair",
+}) as any as Schema.Schema<ThemeColorPair>;
 
 export interface ColorScheme {
   /** The ThemeColorType and corresponding concrete color pairs. */
   colors?: Array<ThemeColorPair>;
 }
 
-export const ColorScheme: Schema.Schema<ColorScheme> = Schema.suspend(() => Schema.Struct({
-  colors: Schema.optional(Schema.Array(ThemeColorPair)),
-})).annotate({ identifier: "ColorScheme" }) as any as Schema.Schema<ColorScheme>;
+export const ColorScheme: Schema.Schema<ColorScheme> = Schema.suspend(() =>
+  Schema.Struct({
+    colors: Schema.optional(Schema.Array(ThemeColorPair)),
+  }),
+).annotate({ identifier: "ColorScheme" }) as any as Schema.Schema<ColorScheme>;
 
 export interface PageProperties {
   /** The background fill of the page. If unset, the background fill is inherited from a parent page if it exists. If the page has no parent, then the background fill defaults to the corresponding fill in the Slides editor. */
@@ -1059,16 +1625,27 @@ export interface PageProperties {
   colorScheme?: ColorScheme;
 }
 
-export const PageProperties: Schema.Schema<PageProperties> = Schema.suspend(() => Schema.Struct({
-  pageBackgroundFill: Schema.optional(PageBackgroundFill),
-  colorScheme: Schema.optional(ColorScheme),
-})).annotate({ identifier: "PageProperties" }) as any as Schema.Schema<PageProperties>;
+export const PageProperties: Schema.Schema<PageProperties> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      pageBackgroundFill: Schema.optional(PageBackgroundFill),
+      colorScheme: Schema.optional(ColorScheme),
+    }),
+).annotate({
+  identifier: "PageProperties",
+}) as any as Schema.Schema<PageProperties>;
 
 export interface Page {
   /** The object ID for this page. Object IDs used by Page and PageElement share the same namespace. */
   objectId?: string;
   /** The type of the page. */
-  pageType?: "SLIDE" | "MASTER" | "LAYOUT" | "NOTES" | "NOTES_MASTER" | (string & {});
+  pageType?:
+    | "SLIDE"
+    | "MASTER"
+    | "LAYOUT"
+    | "NOTES"
+    | "NOTES_MASTER"
+    | (string & {});
   /** The page elements rendered on the page. */
   pageElements?: Array<PageElement>;
   /** Slide specific properties. Only set if page_type = SLIDE. */
@@ -1085,17 +1662,19 @@ export interface Page {
   pageProperties?: PageProperties;
 }
 
-export const Page: Schema.Schema<Page> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  pageType: Schema.optional(Schema.String),
-  pageElements: Schema.optional(Schema.Array(PageElement)),
-  slideProperties: Schema.optional(SlideProperties),
-  layoutProperties: Schema.optional(LayoutProperties),
-  notesProperties: Schema.optional(NotesProperties),
-  masterProperties: Schema.optional(MasterProperties),
-  revisionId: Schema.optional(Schema.String),
-  pageProperties: Schema.optional(PageProperties),
-})).annotate({ identifier: "Page" }) as any as Schema.Schema<Page>;
+export const Page: Schema.Schema<Page> = Schema.suspend(() =>
+  Schema.Struct({
+    objectId: Schema.optional(Schema.String),
+    pageType: Schema.optional(Schema.String),
+    pageElements: Schema.optional(Schema.Array(PageElement)),
+    slideProperties: Schema.optional(SlideProperties),
+    layoutProperties: Schema.optional(LayoutProperties),
+    notesProperties: Schema.optional(NotesProperties),
+    masterProperties: Schema.optional(MasterProperties),
+    revisionId: Schema.optional(Schema.String),
+    pageProperties: Schema.optional(PageProperties),
+  }),
+).annotate({ identifier: "Page" }) as any as Schema.Schema<Page>;
 
 export interface Presentation {
   /** The ID of the presentation. */
@@ -1118,29 +1697,51 @@ export interface Presentation {
   notesMaster?: Page;
 }
 
-export const Presentation: Schema.Schema<Presentation> = Schema.suspend(() => Schema.Struct({
-  presentationId: Schema.optional(Schema.String),
-  pageSize: Schema.optional(Size),
-  slides: Schema.optional(Schema.Array(Page)),
-  title: Schema.optional(Schema.String),
-  masters: Schema.optional(Schema.Array(Page)),
-  layouts: Schema.optional(Schema.Array(Page)),
-  locale: Schema.optional(Schema.String),
-  revisionId: Schema.optional(Schema.String),
-  notesMaster: Schema.optional(Page),
-})).annotate({ identifier: "Presentation" }) as any as Schema.Schema<Presentation>;
+export const Presentation: Schema.Schema<Presentation> = Schema.suspend(() =>
+  Schema.Struct({
+    presentationId: Schema.optional(Schema.String),
+    pageSize: Schema.optional(Size),
+    slides: Schema.optional(Schema.Array(Page)),
+    title: Schema.optional(Schema.String),
+    masters: Schema.optional(Schema.Array(Page)),
+    layouts: Schema.optional(Schema.Array(Page)),
+    locale: Schema.optional(Schema.String),
+    revisionId: Schema.optional(Schema.String),
+    notesMaster: Schema.optional(Page),
+  }),
+).annotate({
+  identifier: "Presentation",
+}) as any as Schema.Schema<Presentation>;
 
 export interface LayoutReference {
   /** Predefined layout. */
-  predefinedLayout?: "PREDEFINED_LAYOUT_UNSPECIFIED" | "BLANK" | "CAPTION_ONLY" | "TITLE" | "TITLE_AND_BODY" | "TITLE_AND_TWO_COLUMNS" | "TITLE_ONLY" | "SECTION_HEADER" | "SECTION_TITLE_AND_DESCRIPTION" | "ONE_COLUMN_TEXT" | "MAIN_POINT" | "BIG_NUMBER" | (string & {});
+  predefinedLayout?:
+    | "PREDEFINED_LAYOUT_UNSPECIFIED"
+    | "BLANK"
+    | "CAPTION_ONLY"
+    | "TITLE"
+    | "TITLE_AND_BODY"
+    | "TITLE_AND_TWO_COLUMNS"
+    | "TITLE_ONLY"
+    | "SECTION_HEADER"
+    | "SECTION_TITLE_AND_DESCRIPTION"
+    | "ONE_COLUMN_TEXT"
+    | "MAIN_POINT"
+    | "BIG_NUMBER"
+    | (string & {});
   /** Layout ID: the object ID of one of the layouts in the presentation. */
   layoutId?: string;
 }
 
-export const LayoutReference: Schema.Schema<LayoutReference> = Schema.suspend(() => Schema.Struct({
-  predefinedLayout: Schema.optional(Schema.String),
-  layoutId: Schema.optional(Schema.String),
-})).annotate({ identifier: "LayoutReference" }) as any as Schema.Schema<LayoutReference>;
+export const LayoutReference: Schema.Schema<LayoutReference> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      predefinedLayout: Schema.optional(Schema.String),
+      layoutId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LayoutReference",
+}) as any as Schema.Schema<LayoutReference>;
 
 export interface LayoutPlaceholderIdMapping {
   /** The placeholder on a layout that will be applied to a slide. Only type and index are needed. For example, a predefined `TITLE_AND_BODY` layout may usually have a TITLE placeholder with index 0 and a BODY placeholder with index 0. */
@@ -1151,11 +1752,16 @@ export interface LayoutPlaceholderIdMapping {
   objectId?: string;
 }
 
-export const LayoutPlaceholderIdMapping: Schema.Schema<LayoutPlaceholderIdMapping> = Schema.suspend(() => Schema.Struct({
-  layoutPlaceholder: Schema.optional(Placeholder),
-  layoutPlaceholderObjectId: Schema.optional(Schema.String),
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "LayoutPlaceholderIdMapping" }) as any as Schema.Schema<LayoutPlaceholderIdMapping>;
+export const LayoutPlaceholderIdMapping: Schema.Schema<LayoutPlaceholderIdMapping> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      layoutPlaceholder: Schema.optional(Placeholder),
+      layoutPlaceholderObjectId: Schema.optional(Schema.String),
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LayoutPlaceholderIdMapping",
+  }) as any as Schema.Schema<LayoutPlaceholderIdMapping>;
 
 export interface CreateSlideRequest {
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The ID length must be between 5 and 50 characters, inclusive. If you don't specify an ID, a unique one is generated. */
@@ -1168,12 +1774,19 @@ export interface CreateSlideRequest {
   placeholderIdMappings?: Array<LayoutPlaceholderIdMapping>;
 }
 
-export const CreateSlideRequest: Schema.Schema<CreateSlideRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  insertionIndex: Schema.optional(Schema.Number),
-  slideLayoutReference: Schema.optional(LayoutReference),
-  placeholderIdMappings: Schema.optional(Schema.Array(LayoutPlaceholderIdMapping)),
-})).annotate({ identifier: "CreateSlideRequest" }) as any as Schema.Schema<CreateSlideRequest>;
+export const CreateSlideRequest: Schema.Schema<CreateSlideRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      insertionIndex: Schema.optional(Schema.Number),
+      slideLayoutReference: Schema.optional(LayoutReference),
+      placeholderIdMappings: Schema.optional(
+        Schema.Array(LayoutPlaceholderIdMapping),
+      ),
+    }),
+  ).annotate({
+    identifier: "CreateSlideRequest",
+  }) as any as Schema.Schema<CreateSlideRequest>;
 
 export interface PageElementProperties {
   /** The object ID of the page where the element is located. */
@@ -1184,11 +1797,16 @@ export interface PageElementProperties {
   transform?: AffineTransform;
 }
 
-export const PageElementProperties: Schema.Schema<PageElementProperties> = Schema.suspend(() => Schema.Struct({
-  pageObjectId: Schema.optional(Schema.String),
-  size: Schema.optional(Size),
-  transform: Schema.optional(AffineTransform),
-})).annotate({ identifier: "PageElementProperties" }) as any as Schema.Schema<PageElementProperties>;
+export const PageElementProperties: Schema.Schema<PageElementProperties> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageObjectId: Schema.optional(Schema.String),
+      size: Schema.optional(Size),
+      transform: Schema.optional(AffineTransform),
+    }),
+  ).annotate({
+    identifier: "PageElementProperties",
+  }) as any as Schema.Schema<PageElementProperties>;
 
 export interface CreateShapeRequest {
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
@@ -1196,14 +1814,163 @@ export interface CreateShapeRequest {
   /** The element properties for the shape. */
   elementProperties?: PageElementProperties;
   /** The shape type. */
-  shapeType?: "TYPE_UNSPECIFIED" | "TEXT_BOX" | "RECTANGLE" | "ROUND_RECTANGLE" | "ELLIPSE" | "ARC" | "BENT_ARROW" | "BENT_UP_ARROW" | "BEVEL" | "BLOCK_ARC" | "BRACE_PAIR" | "BRACKET_PAIR" | "CAN" | "CHEVRON" | "CHORD" | "CLOUD" | "CORNER" | "CUBE" | "CURVED_DOWN_ARROW" | "CURVED_LEFT_ARROW" | "CURVED_RIGHT_ARROW" | "CURVED_UP_ARROW" | "DECAGON" | "DIAGONAL_STRIPE" | "DIAMOND" | "DODECAGON" | "DONUT" | "DOUBLE_WAVE" | "DOWN_ARROW" | "DOWN_ARROW_CALLOUT" | "FOLDED_CORNER" | "FRAME" | "HALF_FRAME" | "HEART" | "HEPTAGON" | "HEXAGON" | "HOME_PLATE" | "HORIZONTAL_SCROLL" | "IRREGULAR_SEAL_1" | "IRREGULAR_SEAL_2" | "LEFT_ARROW" | "LEFT_ARROW_CALLOUT" | "LEFT_BRACE" | "LEFT_BRACKET" | "LEFT_RIGHT_ARROW" | "LEFT_RIGHT_ARROW_CALLOUT" | "LEFT_RIGHT_UP_ARROW" | "LEFT_UP_ARROW" | "LIGHTNING_BOLT" | "MATH_DIVIDE" | "MATH_EQUAL" | "MATH_MINUS" | "MATH_MULTIPLY" | "MATH_NOT_EQUAL" | "MATH_PLUS" | "MOON" | "NO_SMOKING" | "NOTCHED_RIGHT_ARROW" | "OCTAGON" | "PARALLELOGRAM" | "PENTAGON" | "PIE" | "PLAQUE" | "PLUS" | "QUAD_ARROW" | "QUAD_ARROW_CALLOUT" | "RIBBON" | "RIBBON_2" | "RIGHT_ARROW" | "RIGHT_ARROW_CALLOUT" | "RIGHT_BRACE" | "RIGHT_BRACKET" | "ROUND_1_RECTANGLE" | "ROUND_2_DIAGONAL_RECTANGLE" | "ROUND_2_SAME_RECTANGLE" | "RIGHT_TRIANGLE" | "SMILEY_FACE" | "SNIP_1_RECTANGLE" | "SNIP_2_DIAGONAL_RECTANGLE" | "SNIP_2_SAME_RECTANGLE" | "SNIP_ROUND_RECTANGLE" | "STAR_10" | "STAR_12" | "STAR_16" | "STAR_24" | "STAR_32" | "STAR_4" | "STAR_5" | "STAR_6" | "STAR_7" | "STAR_8" | "STRIPED_RIGHT_ARROW" | "SUN" | "TRAPEZOID" | "TRIANGLE" | "UP_ARROW" | "UP_ARROW_CALLOUT" | "UP_DOWN_ARROW" | "UTURN_ARROW" | "VERTICAL_SCROLL" | "WAVE" | "WEDGE_ELLIPSE_CALLOUT" | "WEDGE_RECTANGLE_CALLOUT" | "WEDGE_ROUND_RECTANGLE_CALLOUT" | "FLOW_CHART_ALTERNATE_PROCESS" | "FLOW_CHART_COLLATE" | "FLOW_CHART_CONNECTOR" | "FLOW_CHART_DECISION" | "FLOW_CHART_DELAY" | "FLOW_CHART_DISPLAY" | "FLOW_CHART_DOCUMENT" | "FLOW_CHART_EXTRACT" | "FLOW_CHART_INPUT_OUTPUT" | "FLOW_CHART_INTERNAL_STORAGE" | "FLOW_CHART_MAGNETIC_DISK" | "FLOW_CHART_MAGNETIC_DRUM" | "FLOW_CHART_MAGNETIC_TAPE" | "FLOW_CHART_MANUAL_INPUT" | "FLOW_CHART_MANUAL_OPERATION" | "FLOW_CHART_MERGE" | "FLOW_CHART_MULTIDOCUMENT" | "FLOW_CHART_OFFLINE_STORAGE" | "FLOW_CHART_OFFPAGE_CONNECTOR" | "FLOW_CHART_ONLINE_STORAGE" | "FLOW_CHART_OR" | "FLOW_CHART_PREDEFINED_PROCESS" | "FLOW_CHART_PREPARATION" | "FLOW_CHART_PROCESS" | "FLOW_CHART_PUNCHED_CARD" | "FLOW_CHART_PUNCHED_TAPE" | "FLOW_CHART_SORT" | "FLOW_CHART_SUMMING_JUNCTION" | "FLOW_CHART_TERMINATOR" | "ARROW_EAST" | "ARROW_NORTH_EAST" | "ARROW_NORTH" | "SPEECH" | "STARBURST" | "TEARDROP" | "ELLIPSE_RIBBON" | "ELLIPSE_RIBBON_2" | "CLOUD_CALLOUT" | "CUSTOM" | (string & {});
+  shapeType?:
+    | "TYPE_UNSPECIFIED"
+    | "TEXT_BOX"
+    | "RECTANGLE"
+    | "ROUND_RECTANGLE"
+    | "ELLIPSE"
+    | "ARC"
+    | "BENT_ARROW"
+    | "BENT_UP_ARROW"
+    | "BEVEL"
+    | "BLOCK_ARC"
+    | "BRACE_PAIR"
+    | "BRACKET_PAIR"
+    | "CAN"
+    | "CHEVRON"
+    | "CHORD"
+    | "CLOUD"
+    | "CORNER"
+    | "CUBE"
+    | "CURVED_DOWN_ARROW"
+    | "CURVED_LEFT_ARROW"
+    | "CURVED_RIGHT_ARROW"
+    | "CURVED_UP_ARROW"
+    | "DECAGON"
+    | "DIAGONAL_STRIPE"
+    | "DIAMOND"
+    | "DODECAGON"
+    | "DONUT"
+    | "DOUBLE_WAVE"
+    | "DOWN_ARROW"
+    | "DOWN_ARROW_CALLOUT"
+    | "FOLDED_CORNER"
+    | "FRAME"
+    | "HALF_FRAME"
+    | "HEART"
+    | "HEPTAGON"
+    | "HEXAGON"
+    | "HOME_PLATE"
+    | "HORIZONTAL_SCROLL"
+    | "IRREGULAR_SEAL_1"
+    | "IRREGULAR_SEAL_2"
+    | "LEFT_ARROW"
+    | "LEFT_ARROW_CALLOUT"
+    | "LEFT_BRACE"
+    | "LEFT_BRACKET"
+    | "LEFT_RIGHT_ARROW"
+    | "LEFT_RIGHT_ARROW_CALLOUT"
+    | "LEFT_RIGHT_UP_ARROW"
+    | "LEFT_UP_ARROW"
+    | "LIGHTNING_BOLT"
+    | "MATH_DIVIDE"
+    | "MATH_EQUAL"
+    | "MATH_MINUS"
+    | "MATH_MULTIPLY"
+    | "MATH_NOT_EQUAL"
+    | "MATH_PLUS"
+    | "MOON"
+    | "NO_SMOKING"
+    | "NOTCHED_RIGHT_ARROW"
+    | "OCTAGON"
+    | "PARALLELOGRAM"
+    | "PENTAGON"
+    | "PIE"
+    | "PLAQUE"
+    | "PLUS"
+    | "QUAD_ARROW"
+    | "QUAD_ARROW_CALLOUT"
+    | "RIBBON"
+    | "RIBBON_2"
+    | "RIGHT_ARROW"
+    | "RIGHT_ARROW_CALLOUT"
+    | "RIGHT_BRACE"
+    | "RIGHT_BRACKET"
+    | "ROUND_1_RECTANGLE"
+    | "ROUND_2_DIAGONAL_RECTANGLE"
+    | "ROUND_2_SAME_RECTANGLE"
+    | "RIGHT_TRIANGLE"
+    | "SMILEY_FACE"
+    | "SNIP_1_RECTANGLE"
+    | "SNIP_2_DIAGONAL_RECTANGLE"
+    | "SNIP_2_SAME_RECTANGLE"
+    | "SNIP_ROUND_RECTANGLE"
+    | "STAR_10"
+    | "STAR_12"
+    | "STAR_16"
+    | "STAR_24"
+    | "STAR_32"
+    | "STAR_4"
+    | "STAR_5"
+    | "STAR_6"
+    | "STAR_7"
+    | "STAR_8"
+    | "STRIPED_RIGHT_ARROW"
+    | "SUN"
+    | "TRAPEZOID"
+    | "TRIANGLE"
+    | "UP_ARROW"
+    | "UP_ARROW_CALLOUT"
+    | "UP_DOWN_ARROW"
+    | "UTURN_ARROW"
+    | "VERTICAL_SCROLL"
+    | "WAVE"
+    | "WEDGE_ELLIPSE_CALLOUT"
+    | "WEDGE_RECTANGLE_CALLOUT"
+    | "WEDGE_ROUND_RECTANGLE_CALLOUT"
+    | "FLOW_CHART_ALTERNATE_PROCESS"
+    | "FLOW_CHART_COLLATE"
+    | "FLOW_CHART_CONNECTOR"
+    | "FLOW_CHART_DECISION"
+    | "FLOW_CHART_DELAY"
+    | "FLOW_CHART_DISPLAY"
+    | "FLOW_CHART_DOCUMENT"
+    | "FLOW_CHART_EXTRACT"
+    | "FLOW_CHART_INPUT_OUTPUT"
+    | "FLOW_CHART_INTERNAL_STORAGE"
+    | "FLOW_CHART_MAGNETIC_DISK"
+    | "FLOW_CHART_MAGNETIC_DRUM"
+    | "FLOW_CHART_MAGNETIC_TAPE"
+    | "FLOW_CHART_MANUAL_INPUT"
+    | "FLOW_CHART_MANUAL_OPERATION"
+    | "FLOW_CHART_MERGE"
+    | "FLOW_CHART_MULTIDOCUMENT"
+    | "FLOW_CHART_OFFLINE_STORAGE"
+    | "FLOW_CHART_OFFPAGE_CONNECTOR"
+    | "FLOW_CHART_ONLINE_STORAGE"
+    | "FLOW_CHART_OR"
+    | "FLOW_CHART_PREDEFINED_PROCESS"
+    | "FLOW_CHART_PREPARATION"
+    | "FLOW_CHART_PROCESS"
+    | "FLOW_CHART_PUNCHED_CARD"
+    | "FLOW_CHART_PUNCHED_TAPE"
+    | "FLOW_CHART_SORT"
+    | "FLOW_CHART_SUMMING_JUNCTION"
+    | "FLOW_CHART_TERMINATOR"
+    | "ARROW_EAST"
+    | "ARROW_NORTH_EAST"
+    | "ARROW_NORTH"
+    | "SPEECH"
+    | "STARBURST"
+    | "TEARDROP"
+    | "ELLIPSE_RIBBON"
+    | "ELLIPSE_RIBBON_2"
+    | "CLOUD_CALLOUT"
+    | "CUSTOM"
+    | (string & {});
 }
 
-export const CreateShapeRequest: Schema.Schema<CreateShapeRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  elementProperties: Schema.optional(PageElementProperties),
-  shapeType: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateShapeRequest" }) as any as Schema.Schema<CreateShapeRequest>;
+export const CreateShapeRequest: Schema.Schema<CreateShapeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      elementProperties: Schema.optional(PageElementProperties),
+      shapeType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateShapeRequest",
+  }) as any as Schema.Schema<CreateShapeRequest>;
 
 export interface CreateTableRequest {
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
@@ -1216,12 +1983,17 @@ export interface CreateTableRequest {
   columns?: number;
 }
 
-export const CreateTableRequest: Schema.Schema<CreateTableRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  elementProperties: Schema.optional(PageElementProperties),
-  rows: Schema.optional(Schema.Number),
-  columns: Schema.optional(Schema.Number),
-})).annotate({ identifier: "CreateTableRequest" }) as any as Schema.Schema<CreateTableRequest>;
+export const CreateTableRequest: Schema.Schema<CreateTableRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      elementProperties: Schema.optional(PageElementProperties),
+      rows: Schema.optional(Schema.Number),
+      columns: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "CreateTableRequest",
+  }) as any as Schema.Schema<CreateTableRequest>;
 
 export interface InsertTextRequest {
   /** The object ID of the shape or table where the text will be inserted. */
@@ -1234,12 +2006,17 @@ export interface InsertTextRequest {
   insertionIndex?: number;
 }
 
-export const InsertTextRequest: Schema.Schema<InsertTextRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  text: Schema.optional(Schema.String),
-  insertionIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "InsertTextRequest" }) as any as Schema.Schema<InsertTextRequest>;
+export const InsertTextRequest: Schema.Schema<InsertTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      text: Schema.optional(Schema.String),
+      insertionIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "InsertTextRequest",
+  }) as any as Schema.Schema<InsertTextRequest>;
 
 export interface InsertTableRowsRequest {
   /** The table to insert rows into. */
@@ -1252,12 +2029,17 @@ export interface InsertTableRowsRequest {
   number?: number;
 }
 
-export const InsertTableRowsRequest: Schema.Schema<InsertTableRowsRequest> = Schema.suspend(() => Schema.Struct({
-  tableObjectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  insertBelow: Schema.optional(Schema.Boolean),
-  number: Schema.optional(Schema.Number),
-})).annotate({ identifier: "InsertTableRowsRequest" }) as any as Schema.Schema<InsertTableRowsRequest>;
+export const InsertTableRowsRequest: Schema.Schema<InsertTableRowsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableObjectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      insertBelow: Schema.optional(Schema.Boolean),
+      number: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "InsertTableRowsRequest",
+  }) as any as Schema.Schema<InsertTableRowsRequest>;
 
 export interface InsertTableColumnsRequest {
   /** The table to insert columns into. */
@@ -1270,12 +2052,17 @@ export interface InsertTableColumnsRequest {
   number?: number;
 }
 
-export const InsertTableColumnsRequest: Schema.Schema<InsertTableColumnsRequest> = Schema.suspend(() => Schema.Struct({
-  tableObjectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  insertRight: Schema.optional(Schema.Boolean),
-  number: Schema.optional(Schema.Number),
-})).annotate({ identifier: "InsertTableColumnsRequest" }) as any as Schema.Schema<InsertTableColumnsRequest>;
+export const InsertTableColumnsRequest: Schema.Schema<InsertTableColumnsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableObjectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      insertRight: Schema.optional(Schema.Boolean),
+      number: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "InsertTableColumnsRequest",
+  }) as any as Schema.Schema<InsertTableColumnsRequest>;
 
 export interface DeleteTableRowRequest {
   /** The table to delete rows from. */
@@ -1284,10 +2071,15 @@ export interface DeleteTableRowRequest {
   cellLocation?: TableCellLocation;
 }
 
-export const DeleteTableRowRequest: Schema.Schema<DeleteTableRowRequest> = Schema.suspend(() => Schema.Struct({
-  tableObjectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-})).annotate({ identifier: "DeleteTableRowRequest" }) as any as Schema.Schema<DeleteTableRowRequest>;
+export const DeleteTableRowRequest: Schema.Schema<DeleteTableRowRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableObjectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+    }),
+  ).annotate({
+    identifier: "DeleteTableRowRequest",
+  }) as any as Schema.Schema<DeleteTableRowRequest>;
 
 export interface DeleteTableColumnRequest {
   /** The table to delete columns from. */
@@ -1296,10 +2088,15 @@ export interface DeleteTableColumnRequest {
   cellLocation?: TableCellLocation;
 }
 
-export const DeleteTableColumnRequest: Schema.Schema<DeleteTableColumnRequest> = Schema.suspend(() => Schema.Struct({
-  tableObjectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-})).annotate({ identifier: "DeleteTableColumnRequest" }) as any as Schema.Schema<DeleteTableColumnRequest>;
+export const DeleteTableColumnRequest: Schema.Schema<DeleteTableColumnRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tableObjectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+    }),
+  ).annotate({
+    identifier: "DeleteTableColumnRequest",
+  }) as any as Schema.Schema<DeleteTableColumnRequest>;
 
 export interface SubstringMatchCriteria {
   /** The text to search for in the shape or table. */
@@ -1310,11 +2107,16 @@ export interface SubstringMatchCriteria {
   searchByRegex?: boolean;
 }
 
-export const SubstringMatchCriteria: Schema.Schema<SubstringMatchCriteria> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  matchCase: Schema.optional(Schema.Boolean),
-  searchByRegex: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SubstringMatchCriteria" }) as any as Schema.Schema<SubstringMatchCriteria>;
+export const SubstringMatchCriteria: Schema.Schema<SubstringMatchCriteria> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      matchCase: Schema.optional(Schema.Boolean),
+      searchByRegex: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "SubstringMatchCriteria",
+  }) as any as Schema.Schema<SubstringMatchCriteria>;
 
 export interface ReplaceAllTextRequest {
   /** The text that will replace the matched text. */
@@ -1325,20 +2127,30 @@ export interface ReplaceAllTextRequest {
   containsText?: SubstringMatchCriteria;
 }
 
-export const ReplaceAllTextRequest: Schema.Schema<ReplaceAllTextRequest> = Schema.suspend(() => Schema.Struct({
-  replaceText: Schema.optional(Schema.String),
-  pageObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  containsText: Schema.optional(SubstringMatchCriteria),
-})).annotate({ identifier: "ReplaceAllTextRequest" }) as any as Schema.Schema<ReplaceAllTextRequest>;
+export const ReplaceAllTextRequest: Schema.Schema<ReplaceAllTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      replaceText: Schema.optional(Schema.String),
+      pageObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      containsText: Schema.optional(SubstringMatchCriteria),
+    }),
+  ).annotate({
+    identifier: "ReplaceAllTextRequest",
+  }) as any as Schema.Schema<ReplaceAllTextRequest>;
 
 export interface DeleteObjectRequest {
   /** The object ID of the page or page element to delete. If after a delete operation a group contains only 1 or no page elements, the group is also deleted. If a placeholder is deleted on a layout, any empty inheriting placeholders are also deleted. */
   objectId?: string;
 }
 
-export const DeleteObjectRequest: Schema.Schema<DeleteObjectRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeleteObjectRequest" }) as any as Schema.Schema<DeleteObjectRequest>;
+export const DeleteObjectRequest: Schema.Schema<DeleteObjectRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeleteObjectRequest",
+  }) as any as Schema.Schema<DeleteObjectRequest>;
 
 export interface UpdatePageElementTransformRequest {
   /** The object ID of the page element to update. */
@@ -1346,14 +2158,23 @@ export interface UpdatePageElementTransformRequest {
   /** The input transform matrix used to update the page element. */
   transform?: AffineTransform;
   /** The apply mode of the transform update. */
-  applyMode?: "APPLY_MODE_UNSPECIFIED" | "RELATIVE" | "ABSOLUTE" | (string & {});
+  applyMode?:
+    | "APPLY_MODE_UNSPECIFIED"
+    | "RELATIVE"
+    | "ABSOLUTE"
+    | (string & {});
 }
 
-export const UpdatePageElementTransformRequest: Schema.Schema<UpdatePageElementTransformRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  transform: Schema.optional(AffineTransform),
-  applyMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdatePageElementTransformRequest" }) as any as Schema.Schema<UpdatePageElementTransformRequest>;
+export const UpdatePageElementTransformRequest: Schema.Schema<UpdatePageElementTransformRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      transform: Schema.optional(AffineTransform),
+      applyMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdatePageElementTransformRequest",
+  }) as any as Schema.Schema<UpdatePageElementTransformRequest>;
 
 export interface UpdateSlidesPositionRequest {
   /** The IDs of the slides in the presentation that should be moved. The slides in this list must be in existing presentation order, without duplicates. */
@@ -1362,10 +2183,15 @@ export interface UpdateSlidesPositionRequest {
   insertionIndex?: number;
 }
 
-export const UpdateSlidesPositionRequest: Schema.Schema<UpdateSlidesPositionRequest> = Schema.suspend(() => Schema.Struct({
-  slideObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  insertionIndex: Schema.optional(Schema.Number),
-})).annotate({ identifier: "UpdateSlidesPositionRequest" }) as any as Schema.Schema<UpdateSlidesPositionRequest>;
+export const UpdateSlidesPositionRequest: Schema.Schema<UpdateSlidesPositionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      slideObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      insertionIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "UpdateSlidesPositionRequest",
+  }) as any as Schema.Schema<UpdateSlidesPositionRequest>;
 
 export interface Range {
   /** The optional zero-based index of the beginning of the collection. Required for `FIXED_RANGE` and `FROM_START_INDEX` ranges. */
@@ -1373,14 +2199,21 @@ export interface Range {
   /** The optional zero-based index of the end of the collection. Required for `FIXED_RANGE` ranges. */
   endIndex?: number;
   /** The type of range. */
-  type?: "RANGE_TYPE_UNSPECIFIED" | "FIXED_RANGE" | "FROM_START_INDEX" | "ALL" | (string & {});
+  type?:
+    | "RANGE_TYPE_UNSPECIFIED"
+    | "FIXED_RANGE"
+    | "FROM_START_INDEX"
+    | "ALL"
+    | (string & {});
 }
 
-export const Range: Schema.Schema<Range> = Schema.suspend(() => Schema.Struct({
-  startIndex: Schema.optional(Schema.Number),
-  endIndex: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "Range" }) as any as Schema.Schema<Range>;
+export const Range: Schema.Schema<Range> = Schema.suspend(() =>
+  Schema.Struct({
+    startIndex: Schema.optional(Schema.Number),
+    endIndex: Schema.optional(Schema.Number),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Range" }) as any as Schema.Schema<Range>;
 
 export interface DeleteTextRequest {
   /** The object ID of the shape or table from which the text will be deleted. */
@@ -1391,11 +2224,16 @@ export interface DeleteTextRequest {
   textRange?: Range;
 }
 
-export const DeleteTextRequest: Schema.Schema<DeleteTextRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  textRange: Schema.optional(Range),
-})).annotate({ identifier: "DeleteTextRequest" }) as any as Schema.Schema<DeleteTextRequest>;
+export const DeleteTextRequest: Schema.Schema<DeleteTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      textRange: Schema.optional(Range),
+    }),
+  ).annotate({
+    identifier: "DeleteTextRequest",
+  }) as any as Schema.Schema<DeleteTextRequest>;
 
 export interface CreateImageRequest {
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
@@ -1406,11 +2244,16 @@ export interface CreateImageRequest {
   url?: string;
 }
 
-export const CreateImageRequest: Schema.Schema<CreateImageRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  elementProperties: Schema.optional(PageElementProperties),
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateImageRequest" }) as any as Schema.Schema<CreateImageRequest>;
+export const CreateImageRequest: Schema.Schema<CreateImageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      elementProperties: Schema.optional(PageElementProperties),
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateImageRequest",
+  }) as any as Schema.Schema<CreateImageRequest>;
 
 export interface CreateVideoRequest {
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
@@ -1423,12 +2266,17 @@ export interface CreateVideoRequest {
   id?: string;
 }
 
-export const CreateVideoRequest: Schema.Schema<CreateVideoRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  elementProperties: Schema.optional(PageElementProperties),
-  source: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateVideoRequest" }) as any as Schema.Schema<CreateVideoRequest>;
+export const CreateVideoRequest: Schema.Schema<CreateVideoRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      elementProperties: Schema.optional(PageElementProperties),
+      source: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateVideoRequest",
+  }) as any as Schema.Schema<CreateVideoRequest>;
 
 export interface CreateSheetsChartRequest {
   /** A user-supplied object ID. If specified, the ID must be unique among all pages and page elements in the presentation. The ID should start with a word character [a-zA-Z0-9_] and then followed by any number of the following characters [a-zA-Z0-9_-:]. The length of the ID should not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
@@ -1443,13 +2291,18 @@ export interface CreateSheetsChartRequest {
   linkingMode?: "NOT_LINKED_IMAGE" | "LINKED" | (string & {});
 }
 
-export const CreateSheetsChartRequest: Schema.Schema<CreateSheetsChartRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  elementProperties: Schema.optional(PageElementProperties),
-  spreadsheetId: Schema.optional(Schema.String),
-  chartId: Schema.optional(Schema.Number),
-  linkingMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateSheetsChartRequest" }) as any as Schema.Schema<CreateSheetsChartRequest>;
+export const CreateSheetsChartRequest: Schema.Schema<CreateSheetsChartRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      elementProperties: Schema.optional(PageElementProperties),
+      spreadsheetId: Schema.optional(Schema.String),
+      chartId: Schema.optional(Schema.Number),
+      linkingMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateSheetsChartRequest",
+  }) as any as Schema.Schema<CreateSheetsChartRequest>;
 
 export interface CreateLineRequest {
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
@@ -1459,24 +2312,39 @@ export interface CreateLineRequest {
   /** The category of the line to be created. *Deprecated*: use `category` instead. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. */
   lineCategory?: "STRAIGHT" | "BENT" | "CURVED" | (string & {});
   /** The category of the line to be created. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. If you do not specify a value for `category`, but specify a value for `line_category`, then the specified `line_category` value is used. If you do not specify either, then STRAIGHT is used. */
-  category?: "LINE_CATEGORY_UNSPECIFIED" | "STRAIGHT" | "BENT" | "CURVED" | (string & {});
+  category?:
+    | "LINE_CATEGORY_UNSPECIFIED"
+    | "STRAIGHT"
+    | "BENT"
+    | "CURVED"
+    | (string & {});
 }
 
-export const CreateLineRequest: Schema.Schema<CreateLineRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  elementProperties: Schema.optional(PageElementProperties),
-  lineCategory: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateLineRequest" }) as any as Schema.Schema<CreateLineRequest>;
+export const CreateLineRequest: Schema.Schema<CreateLineRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      elementProperties: Schema.optional(PageElementProperties),
+      lineCategory: Schema.optional(Schema.String),
+      category: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateLineRequest",
+  }) as any as Schema.Schema<CreateLineRequest>;
 
 export interface RefreshSheetsChartRequest {
   /** The object ID of the chart to refresh. */
   objectId?: string;
 }
 
-export const RefreshSheetsChartRequest: Schema.Schema<RefreshSheetsChartRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RefreshSheetsChartRequest" }) as any as Schema.Schema<RefreshSheetsChartRequest>;
+export const RefreshSheetsChartRequest: Schema.Schema<RefreshSheetsChartRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RefreshSheetsChartRequest",
+  }) as any as Schema.Schema<RefreshSheetsChartRequest>;
 
 export interface UpdateShapePropertiesRequest {
   /** The object ID of the shape the updates are applied to. */
@@ -1487,11 +2355,16 @@ export interface UpdateShapePropertiesRequest {
   fields?: string;
 }
 
-export const UpdateShapePropertiesRequest: Schema.Schema<UpdateShapePropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  shapeProperties: Schema.optional(ShapeProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateShapePropertiesRequest" }) as any as Schema.Schema<UpdateShapePropertiesRequest>;
+export const UpdateShapePropertiesRequest: Schema.Schema<UpdateShapePropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      shapeProperties: Schema.optional(ShapeProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateShapePropertiesRequest",
+  }) as any as Schema.Schema<UpdateShapePropertiesRequest>;
 
 export interface UpdateImagePropertiesRequest {
   /** The object ID of the image the updates are applied to. */
@@ -1502,11 +2375,16 @@ export interface UpdateImagePropertiesRequest {
   fields?: string;
 }
 
-export const UpdateImagePropertiesRequest: Schema.Schema<UpdateImagePropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  imageProperties: Schema.optional(ImageProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateImagePropertiesRequest" }) as any as Schema.Schema<UpdateImagePropertiesRequest>;
+export const UpdateImagePropertiesRequest: Schema.Schema<UpdateImagePropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      imageProperties: Schema.optional(ImageProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateImagePropertiesRequest",
+  }) as any as Schema.Schema<UpdateImagePropertiesRequest>;
 
 export interface UpdateVideoPropertiesRequest {
   /** The object ID of the video the updates are applied to. */
@@ -1517,11 +2395,16 @@ export interface UpdateVideoPropertiesRequest {
   fields?: string;
 }
 
-export const UpdateVideoPropertiesRequest: Schema.Schema<UpdateVideoPropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  videoProperties: Schema.optional(VideoProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateVideoPropertiesRequest" }) as any as Schema.Schema<UpdateVideoPropertiesRequest>;
+export const UpdateVideoPropertiesRequest: Schema.Schema<UpdateVideoPropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      videoProperties: Schema.optional(VideoProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateVideoPropertiesRequest",
+  }) as any as Schema.Schema<UpdateVideoPropertiesRequest>;
 
 export interface UpdatePagePropertiesRequest {
   /** The object ID of the page the update is applied to. */
@@ -1532,11 +2415,16 @@ export interface UpdatePagePropertiesRequest {
   fields?: string;
 }
 
-export const UpdatePagePropertiesRequest: Schema.Schema<UpdatePagePropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  pageProperties: Schema.optional(PageProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdatePagePropertiesRequest" }) as any as Schema.Schema<UpdatePagePropertiesRequest>;
+export const UpdatePagePropertiesRequest: Schema.Schema<UpdatePagePropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      pageProperties: Schema.optional(PageProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdatePagePropertiesRequest",
+  }) as any as Schema.Schema<UpdatePagePropertiesRequest>;
 
 export interface TableRange {
   /** The starting location of the table range. */
@@ -1547,11 +2435,13 @@ export interface TableRange {
   columnSpan?: number;
 }
 
-export const TableRange: Schema.Schema<TableRange> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(TableCellLocation),
-  rowSpan: Schema.optional(Schema.Number),
-  columnSpan: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TableRange" }) as any as Schema.Schema<TableRange>;
+export const TableRange: Schema.Schema<TableRange> = Schema.suspend(() =>
+  Schema.Struct({
+    location: Schema.optional(TableCellLocation),
+    rowSpan: Schema.optional(Schema.Number),
+    columnSpan: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "TableRange" }) as any as Schema.Schema<TableRange>;
 
 export interface UpdateTableCellPropertiesRequest {
   /** The object ID of the table. */
@@ -1564,12 +2454,17 @@ export interface UpdateTableCellPropertiesRequest {
   fields?: string;
 }
 
-export const UpdateTableCellPropertiesRequest: Schema.Schema<UpdateTableCellPropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  tableRange: Schema.optional(TableRange),
-  tableCellProperties: Schema.optional(TableCellProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateTableCellPropertiesRequest" }) as any as Schema.Schema<UpdateTableCellPropertiesRequest>;
+export const UpdateTableCellPropertiesRequest: Schema.Schema<UpdateTableCellPropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      tableRange: Schema.optional(TableRange),
+      tableCellProperties: Schema.optional(TableCellProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateTableCellPropertiesRequest",
+  }) as any as Schema.Schema<UpdateTableCellPropertiesRequest>;
 
 export interface UpdateLinePropertiesRequest {
   /** The object ID of the line the update is applied to. */
@@ -1580,11 +2475,16 @@ export interface UpdateLinePropertiesRequest {
   fields?: string;
 }
 
-export const UpdateLinePropertiesRequest: Schema.Schema<UpdateLinePropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  lineProperties: Schema.optional(LineProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateLinePropertiesRequest" }) as any as Schema.Schema<UpdateLinePropertiesRequest>;
+export const UpdateLinePropertiesRequest: Schema.Schema<UpdateLinePropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      lineProperties: Schema.optional(LineProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateLinePropertiesRequest",
+  }) as any as Schema.Schema<UpdateLinePropertiesRequest>;
 
 export interface CreateParagraphBulletsRequest {
   /** The object ID of the shape or table containing the text to add bullets to. */
@@ -1594,15 +2494,36 @@ export interface CreateParagraphBulletsRequest {
   /** The range of text to apply the bullet presets to, based on TextElement indexes. */
   textRange?: Range;
   /** The kinds of bullet glyphs to be used. Defaults to the `BULLET_DISC_CIRCLE_SQUARE` preset. */
-  bulletPreset?: "BULLET_DISC_CIRCLE_SQUARE" | "BULLET_DIAMONDX_ARROW3D_SQUARE" | "BULLET_CHECKBOX" | "BULLET_ARROW_DIAMOND_DISC" | "BULLET_STAR_CIRCLE_SQUARE" | "BULLET_ARROW3D_CIRCLE_SQUARE" | "BULLET_LEFTTRIANGLE_DIAMOND_DISC" | "BULLET_DIAMONDX_HOLLOWDIAMOND_SQUARE" | "BULLET_DIAMOND_CIRCLE_SQUARE" | "NUMBERED_DIGIT_ALPHA_ROMAN" | "NUMBERED_DIGIT_ALPHA_ROMAN_PARENS" | "NUMBERED_DIGIT_NESTED" | "NUMBERED_UPPERALPHA_ALPHA_ROMAN" | "NUMBERED_UPPERROMAN_UPPERALPHA_DIGIT" | "NUMBERED_ZERODIGIT_ALPHA_ROMAN" | (string & {});
+  bulletPreset?:
+    | "BULLET_DISC_CIRCLE_SQUARE"
+    | "BULLET_DIAMONDX_ARROW3D_SQUARE"
+    | "BULLET_CHECKBOX"
+    | "BULLET_ARROW_DIAMOND_DISC"
+    | "BULLET_STAR_CIRCLE_SQUARE"
+    | "BULLET_ARROW3D_CIRCLE_SQUARE"
+    | "BULLET_LEFTTRIANGLE_DIAMOND_DISC"
+    | "BULLET_DIAMONDX_HOLLOWDIAMOND_SQUARE"
+    | "BULLET_DIAMOND_CIRCLE_SQUARE"
+    | "NUMBERED_DIGIT_ALPHA_ROMAN"
+    | "NUMBERED_DIGIT_ALPHA_ROMAN_PARENS"
+    | "NUMBERED_DIGIT_NESTED"
+    | "NUMBERED_UPPERALPHA_ALPHA_ROMAN"
+    | "NUMBERED_UPPERROMAN_UPPERALPHA_DIGIT"
+    | "NUMBERED_ZERODIGIT_ALPHA_ROMAN"
+    | (string & {});
 }
 
-export const CreateParagraphBulletsRequest: Schema.Schema<CreateParagraphBulletsRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  textRange: Schema.optional(Range),
-  bulletPreset: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateParagraphBulletsRequest" }) as any as Schema.Schema<CreateParagraphBulletsRequest>;
+export const CreateParagraphBulletsRequest: Schema.Schema<CreateParagraphBulletsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      textRange: Schema.optional(Range),
+      bulletPreset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateParagraphBulletsRequest",
+  }) as any as Schema.Schema<CreateParagraphBulletsRequest>;
 
 export interface ReplaceAllShapesWithImageRequest {
   /** If set, this request will replace all of the shapes that contain the given text. */
@@ -1612,18 +2533,27 @@ export interface ReplaceAllShapesWithImageRequest {
   /** The replace method. *Deprecated*: use `image_replace_method` instead. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. */
   replaceMethod?: "CENTER_INSIDE" | "CENTER_CROP" | (string & {});
   /** The image replace method. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. If you do not specify a value for `image_replace_method`, but specify a value for `replace_method`, then the specified `replace_method` value is used. If you do not specify either, then CENTER_INSIDE is used. */
-  imageReplaceMethod?: "IMAGE_REPLACE_METHOD_UNSPECIFIED" | "CENTER_INSIDE" | "CENTER_CROP" | (string & {});
+  imageReplaceMethod?:
+    | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
+    | "CENTER_INSIDE"
+    | "CENTER_CROP"
+    | (string & {});
   /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
   pageObjectIds?: Array<string>;
 }
 
-export const ReplaceAllShapesWithImageRequest: Schema.Schema<ReplaceAllShapesWithImageRequest> = Schema.suspend(() => Schema.Struct({
-  containsText: Schema.optional(SubstringMatchCriteria),
-  imageUrl: Schema.optional(Schema.String),
-  replaceMethod: Schema.optional(Schema.String),
-  imageReplaceMethod: Schema.optional(Schema.String),
-  pageObjectIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ReplaceAllShapesWithImageRequest" }) as any as Schema.Schema<ReplaceAllShapesWithImageRequest>;
+export const ReplaceAllShapesWithImageRequest: Schema.Schema<ReplaceAllShapesWithImageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      containsText: Schema.optional(SubstringMatchCriteria),
+      imageUrl: Schema.optional(Schema.String),
+      replaceMethod: Schema.optional(Schema.String),
+      imageReplaceMethod: Schema.optional(Schema.String),
+      pageObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ReplaceAllShapesWithImageRequest",
+  }) as any as Schema.Schema<ReplaceAllShapesWithImageRequest>;
 
 export interface DuplicateObjectRequest {
   /** The ID of the object to duplicate. */
@@ -1632,10 +2562,15 @@ export interface DuplicateObjectRequest {
   objectIds?: Record<string, string>;
 }
 
-export const DuplicateObjectRequest: Schema.Schema<DuplicateObjectRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  objectIds: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "DuplicateObjectRequest" }) as any as Schema.Schema<DuplicateObjectRequest>;
+export const DuplicateObjectRequest: Schema.Schema<DuplicateObjectRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      objectIds: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DuplicateObjectRequest",
+  }) as any as Schema.Schema<DuplicateObjectRequest>;
 
 export interface UpdateTextStyleRequest {
   /** The object ID of the shape or table with the text to be styled. */
@@ -1650,13 +2585,18 @@ export interface UpdateTextStyleRequest {
   fields?: string;
 }
 
-export const UpdateTextStyleRequest: Schema.Schema<UpdateTextStyleRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  style: Schema.optional(TextStyle),
-  textRange: Schema.optional(Range),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateTextStyleRequest" }) as any as Schema.Schema<UpdateTextStyleRequest>;
+export const UpdateTextStyleRequest: Schema.Schema<UpdateTextStyleRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      style: Schema.optional(TextStyle),
+      textRange: Schema.optional(Range),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateTextStyleRequest",
+  }) as any as Schema.Schema<UpdateTextStyleRequest>;
 
 export interface ReplaceAllShapesWithSheetsChartRequest {
   /** The criteria that the shapes must match in order to be replaced. The request will replace all of the shapes that contain the given text. */
@@ -1671,13 +2611,18 @@ export interface ReplaceAllShapesWithSheetsChartRequest {
   pageObjectIds?: Array<string>;
 }
 
-export const ReplaceAllShapesWithSheetsChartRequest: Schema.Schema<ReplaceAllShapesWithSheetsChartRequest> = Schema.suspend(() => Schema.Struct({
-  containsText: Schema.optional(SubstringMatchCriteria),
-  spreadsheetId: Schema.optional(Schema.String),
-  chartId: Schema.optional(Schema.Number),
-  linkingMode: Schema.optional(Schema.String),
-  pageObjectIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ReplaceAllShapesWithSheetsChartRequest" }) as any as Schema.Schema<ReplaceAllShapesWithSheetsChartRequest>;
+export const ReplaceAllShapesWithSheetsChartRequest: Schema.Schema<ReplaceAllShapesWithSheetsChartRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      containsText: Schema.optional(SubstringMatchCriteria),
+      spreadsheetId: Schema.optional(Schema.String),
+      chartId: Schema.optional(Schema.Number),
+      linkingMode: Schema.optional(Schema.String),
+      pageObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ReplaceAllShapesWithSheetsChartRequest",
+  }) as any as Schema.Schema<ReplaceAllShapesWithSheetsChartRequest>;
 
 export interface DeleteParagraphBulletsRequest {
   /** The object ID of the shape or table containing the text to delete bullets from. */
@@ -1688,11 +2633,16 @@ export interface DeleteParagraphBulletsRequest {
   textRange?: Range;
 }
 
-export const DeleteParagraphBulletsRequest: Schema.Schema<DeleteParagraphBulletsRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  textRange: Schema.optional(Range),
-})).annotate({ identifier: "DeleteParagraphBulletsRequest" }) as any as Schema.Schema<DeleteParagraphBulletsRequest>;
+export const DeleteParagraphBulletsRequest: Schema.Schema<DeleteParagraphBulletsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      textRange: Schema.optional(Range),
+    }),
+  ).annotate({
+    identifier: "DeleteParagraphBulletsRequest",
+  }) as any as Schema.Schema<DeleteParagraphBulletsRequest>;
 
 export interface UpdateParagraphStyleRequest {
   /** The object ID of the shape or table with the text to be styled. */
@@ -1707,13 +2657,18 @@ export interface UpdateParagraphStyleRequest {
   fields?: string;
 }
 
-export const UpdateParagraphStyleRequest: Schema.Schema<UpdateParagraphStyleRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  cellLocation: Schema.optional(TableCellLocation),
-  style: Schema.optional(ParagraphStyle),
-  textRange: Schema.optional(Range),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateParagraphStyleRequest" }) as any as Schema.Schema<UpdateParagraphStyleRequest>;
+export const UpdateParagraphStyleRequest: Schema.Schema<UpdateParagraphStyleRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      cellLocation: Schema.optional(TableCellLocation),
+      style: Schema.optional(ParagraphStyle),
+      textRange: Schema.optional(Range),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateParagraphStyleRequest",
+  }) as any as Schema.Schema<UpdateParagraphStyleRequest>;
 
 export interface UpdateTableBorderPropertiesRequest {
   /** The object ID of the table. */
@@ -1721,20 +2676,35 @@ export interface UpdateTableBorderPropertiesRequest {
   /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
   tableRange?: TableRange;
   /** The border position in the table range the updates should apply to. If a border position is not specified, the updates will apply to all borders in the table range. */
-  borderPosition?: "ALL" | "BOTTOM" | "INNER" | "INNER_HORIZONTAL" | "INNER_VERTICAL" | "LEFT" | "OUTER" | "RIGHT" | "TOP" | (string & {});
+  borderPosition?:
+    | "ALL"
+    | "BOTTOM"
+    | "INNER"
+    | "INNER_HORIZONTAL"
+    | "INNER_VERTICAL"
+    | "LEFT"
+    | "OUTER"
+    | "RIGHT"
+    | "TOP"
+    | (string & {});
   /** The table border properties to update. */
   tableBorderProperties?: TableBorderProperties;
   /** The fields that should be updated. At least one field must be specified. The root `tableBorderProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table border solid fill color, set `fields` to `"tableBorderFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
   fields?: string;
 }
 
-export const UpdateTableBorderPropertiesRequest: Schema.Schema<UpdateTableBorderPropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  tableRange: Schema.optional(TableRange),
-  borderPosition: Schema.optional(Schema.String),
-  tableBorderProperties: Schema.optional(TableBorderProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateTableBorderPropertiesRequest" }) as any as Schema.Schema<UpdateTableBorderPropertiesRequest>;
+export const UpdateTableBorderPropertiesRequest: Schema.Schema<UpdateTableBorderPropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      tableRange: Schema.optional(TableRange),
+      borderPosition: Schema.optional(Schema.String),
+      tableBorderProperties: Schema.optional(TableBorderProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateTableBorderPropertiesRequest",
+  }) as any as Schema.Schema<UpdateTableBorderPropertiesRequest>;
 
 export interface UpdateTableColumnPropertiesRequest {
   /** The object ID of the table. */
@@ -1747,12 +2717,17 @@ export interface UpdateTableColumnPropertiesRequest {
   fields?: string;
 }
 
-export const UpdateTableColumnPropertiesRequest: Schema.Schema<UpdateTableColumnPropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  columnIndices: Schema.optional(Schema.Array(Schema.Number)),
-  tableColumnProperties: Schema.optional(TableColumnProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateTableColumnPropertiesRequest" }) as any as Schema.Schema<UpdateTableColumnPropertiesRequest>;
+export const UpdateTableColumnPropertiesRequest: Schema.Schema<UpdateTableColumnPropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      columnIndices: Schema.optional(Schema.Array(Schema.Number)),
+      tableColumnProperties: Schema.optional(TableColumnProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateTableColumnPropertiesRequest",
+  }) as any as Schema.Schema<UpdateTableColumnPropertiesRequest>;
 
 export interface UpdateTableRowPropertiesRequest {
   /** The object ID of the table. */
@@ -1765,12 +2740,17 @@ export interface UpdateTableRowPropertiesRequest {
   fields?: string;
 }
 
-export const UpdateTableRowPropertiesRequest: Schema.Schema<UpdateTableRowPropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  rowIndices: Schema.optional(Schema.Array(Schema.Number)),
-  tableRowProperties: Schema.optional(TableRowProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateTableRowPropertiesRequest" }) as any as Schema.Schema<UpdateTableRowPropertiesRequest>;
+export const UpdateTableRowPropertiesRequest: Schema.Schema<UpdateTableRowPropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      rowIndices: Schema.optional(Schema.Array(Schema.Number)),
+      tableRowProperties: Schema.optional(TableRowProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateTableRowPropertiesRequest",
+  }) as any as Schema.Schema<UpdateTableRowPropertiesRequest>;
 
 export interface MergeTableCellsRequest {
   /** The object ID of the table. */
@@ -1779,10 +2759,15 @@ export interface MergeTableCellsRequest {
   tableRange?: TableRange;
 }
 
-export const MergeTableCellsRequest: Schema.Schema<MergeTableCellsRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  tableRange: Schema.optional(TableRange),
-})).annotate({ identifier: "MergeTableCellsRequest" }) as any as Schema.Schema<MergeTableCellsRequest>;
+export const MergeTableCellsRequest: Schema.Schema<MergeTableCellsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      tableRange: Schema.optional(TableRange),
+    }),
+  ).annotate({
+    identifier: "MergeTableCellsRequest",
+  }) as any as Schema.Schema<MergeTableCellsRequest>;
 
 export interface UnmergeTableCellsRequest {
   /** The object ID of the table. */
@@ -1791,10 +2776,15 @@ export interface UnmergeTableCellsRequest {
   tableRange?: TableRange;
 }
 
-export const UnmergeTableCellsRequest: Schema.Schema<UnmergeTableCellsRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  tableRange: Schema.optional(TableRange),
-})).annotate({ identifier: "UnmergeTableCellsRequest" }) as any as Schema.Schema<UnmergeTableCellsRequest>;
+export const UnmergeTableCellsRequest: Schema.Schema<UnmergeTableCellsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      tableRange: Schema.optional(TableRange),
+    }),
+  ).annotate({
+    identifier: "UnmergeTableCellsRequest",
+  }) as any as Schema.Schema<UnmergeTableCellsRequest>;
 
 export interface GroupObjectsRequest {
   /** A user-supplied object ID for the group to be created. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
@@ -1803,19 +2793,29 @@ export interface GroupObjectsRequest {
   childrenObjectIds?: Array<string>;
 }
 
-export const GroupObjectsRequest: Schema.Schema<GroupObjectsRequest> = Schema.suspend(() => Schema.Struct({
-  groupObjectId: Schema.optional(Schema.String),
-  childrenObjectIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GroupObjectsRequest" }) as any as Schema.Schema<GroupObjectsRequest>;
+export const GroupObjectsRequest: Schema.Schema<GroupObjectsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      groupObjectId: Schema.optional(Schema.String),
+      childrenObjectIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GroupObjectsRequest",
+  }) as any as Schema.Schema<GroupObjectsRequest>;
 
 export interface UngroupObjectsRequest {
   /** The object IDs of the objects to ungroup. Only groups that are not inside other groups can be ungrouped. All the groups should be on the same page. The group itself is deleted. The visual sizes and positions of all the children are preserved. */
   objectIds?: Array<string>;
 }
 
-export const UngroupObjectsRequest: Schema.Schema<UngroupObjectsRequest> = Schema.suspend(() => Schema.Struct({
-  objectIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "UngroupObjectsRequest" }) as any as Schema.Schema<UngroupObjectsRequest>;
+export const UngroupObjectsRequest: Schema.Schema<UngroupObjectsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UngroupObjectsRequest",
+  }) as any as Schema.Schema<UngroupObjectsRequest>;
 
 export interface UpdatePageElementAltTextRequest {
   /** The object ID of the page element the updates are applied to. */
@@ -1826,11 +2826,16 @@ export interface UpdatePageElementAltTextRequest {
   description?: string;
 }
 
-export const UpdatePageElementAltTextRequest: Schema.Schema<UpdatePageElementAltTextRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdatePageElementAltTextRequest" }) as any as Schema.Schema<UpdatePageElementAltTextRequest>;
+export const UpdatePageElementAltTextRequest: Schema.Schema<UpdatePageElementAltTextRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdatePageElementAltTextRequest",
+  }) as any as Schema.Schema<UpdatePageElementAltTextRequest>;
 
 export interface ReplaceImageRequest {
   /** The ID of the existing image that will be replaced. The ID can be retrieved from the response of a get request. */
@@ -1838,14 +2843,23 @@ export interface ReplaceImageRequest {
   /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB, cannot exceed 25 megapixels, and must be in PNG, JPEG, or GIF format. The provided URL can't surpass 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
   url?: string;
   /** The replacement method. */
-  imageReplaceMethod?: "IMAGE_REPLACE_METHOD_UNSPECIFIED" | "CENTER_INSIDE" | "CENTER_CROP" | (string & {});
+  imageReplaceMethod?:
+    | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
+    | "CENTER_INSIDE"
+    | "CENTER_CROP"
+    | (string & {});
 }
 
-export const ReplaceImageRequest: Schema.Schema<ReplaceImageRequest> = Schema.suspend(() => Schema.Struct({
-  imageObjectId: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  imageReplaceMethod: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReplaceImageRequest" }) as any as Schema.Schema<ReplaceImageRequest>;
+export const ReplaceImageRequest: Schema.Schema<ReplaceImageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      imageObjectId: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      imageReplaceMethod: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReplaceImageRequest",
+  }) as any as Schema.Schema<ReplaceImageRequest>;
 
 export interface UpdateSlidePropertiesRequest {
   /** The object ID of the slide the update is applied to. */
@@ -1856,44 +2870,75 @@ export interface UpdateSlidePropertiesRequest {
   fields?: string;
 }
 
-export const UpdateSlidePropertiesRequest: Schema.Schema<UpdateSlidePropertiesRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  slideProperties: Schema.optional(SlideProperties),
-  fields: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateSlidePropertiesRequest" }) as any as Schema.Schema<UpdateSlidePropertiesRequest>;
+export const UpdateSlidePropertiesRequest: Schema.Schema<UpdateSlidePropertiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      slideProperties: Schema.optional(SlideProperties),
+      fields: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateSlidePropertiesRequest",
+  }) as any as Schema.Schema<UpdateSlidePropertiesRequest>;
 
 export interface UpdatePageElementsZOrderRequest {
   /** The object IDs of the page elements to update. All the page elements must be on the same page and must not be grouped. */
   pageElementObjectIds?: Array<string>;
   /** The Z-order operation to apply on the page elements. When applying the operation on multiple page elements, the relative Z-orders within these page elements before the operation is maintained. */
-  operation?: "Z_ORDER_OPERATION_UNSPECIFIED" | "BRING_TO_FRONT" | "BRING_FORWARD" | "SEND_BACKWARD" | "SEND_TO_BACK" | (string & {});
+  operation?:
+    | "Z_ORDER_OPERATION_UNSPECIFIED"
+    | "BRING_TO_FRONT"
+    | "BRING_FORWARD"
+    | "SEND_BACKWARD"
+    | "SEND_TO_BACK"
+    | (string & {});
 }
 
-export const UpdatePageElementsZOrderRequest: Schema.Schema<UpdatePageElementsZOrderRequest> = Schema.suspend(() => Schema.Struct({
-  pageElementObjectIds: Schema.optional(Schema.Array(Schema.String)),
-  operation: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdatePageElementsZOrderRequest" }) as any as Schema.Schema<UpdatePageElementsZOrderRequest>;
+export const UpdatePageElementsZOrderRequest: Schema.Schema<UpdatePageElementsZOrderRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageElementObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      operation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdatePageElementsZOrderRequest",
+  }) as any as Schema.Schema<UpdatePageElementsZOrderRequest>;
 
 export interface UpdateLineCategoryRequest {
   /** The object ID of the line the update is applied to. Only a line with a category indicating it is a "connector" can be updated. The line may be rerouted after updating its category. */
   objectId?: string;
   /** The line category to update to. The exact line type is determined based on the category to update to and how it's routed to connect to other page elements. */
-  lineCategory?: "LINE_CATEGORY_UNSPECIFIED" | "STRAIGHT" | "BENT" | "CURVED" | (string & {});
+  lineCategory?:
+    | "LINE_CATEGORY_UNSPECIFIED"
+    | "STRAIGHT"
+    | "BENT"
+    | "CURVED"
+    | (string & {});
 }
 
-export const UpdateLineCategoryRequest: Schema.Schema<UpdateLineCategoryRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-  lineCategory: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdateLineCategoryRequest" }) as any as Schema.Schema<UpdateLineCategoryRequest>;
+export const UpdateLineCategoryRequest: Schema.Schema<UpdateLineCategoryRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+      lineCategory: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdateLineCategoryRequest",
+  }) as any as Schema.Schema<UpdateLineCategoryRequest>;
 
 export interface RerouteLineRequest {
   /** The object ID of the line to reroute. Only a line with a category indicating it is a "connector" can be rerouted. The start and end connections of the line must be on different page elements. */
   objectId?: string;
 }
 
-export const RerouteLineRequest: Schema.Schema<RerouteLineRequest> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RerouteLineRequest" }) as any as Schema.Schema<RerouteLineRequest>;
+export const RerouteLineRequest: Schema.Schema<RerouteLineRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RerouteLineRequest",
+  }) as any as Schema.Schema<RerouteLineRequest>;
 
 export interface Request {
   /** Creates a new slide. */
@@ -1986,61 +3031,79 @@ export interface Request {
   rerouteLine?: RerouteLineRequest;
 }
 
-export const Request: Schema.Schema<Request> = Schema.suspend(() => Schema.Struct({
-  createSlide: Schema.optional(CreateSlideRequest),
-  createShape: Schema.optional(CreateShapeRequest),
-  createTable: Schema.optional(CreateTableRequest),
-  insertText: Schema.optional(InsertTextRequest),
-  insertTableRows: Schema.optional(InsertTableRowsRequest),
-  insertTableColumns: Schema.optional(InsertTableColumnsRequest),
-  deleteTableRow: Schema.optional(DeleteTableRowRequest),
-  deleteTableColumn: Schema.optional(DeleteTableColumnRequest),
-  replaceAllText: Schema.optional(ReplaceAllTextRequest),
-  deleteObject: Schema.optional(DeleteObjectRequest),
-  updatePageElementTransform: Schema.optional(UpdatePageElementTransformRequest),
-  updateSlidesPosition: Schema.optional(UpdateSlidesPositionRequest),
-  deleteText: Schema.optional(DeleteTextRequest),
-  createImage: Schema.optional(CreateImageRequest),
-  createVideo: Schema.optional(CreateVideoRequest),
-  createSheetsChart: Schema.optional(CreateSheetsChartRequest),
-  createLine: Schema.optional(CreateLineRequest),
-  refreshSheetsChart: Schema.optional(RefreshSheetsChartRequest),
-  updateShapeProperties: Schema.optional(UpdateShapePropertiesRequest),
-  updateImageProperties: Schema.optional(UpdateImagePropertiesRequest),
-  updateVideoProperties: Schema.optional(UpdateVideoPropertiesRequest),
-  updatePageProperties: Schema.optional(UpdatePagePropertiesRequest),
-  updateTableCellProperties: Schema.optional(UpdateTableCellPropertiesRequest),
-  updateLineProperties: Schema.optional(UpdateLinePropertiesRequest),
-  createParagraphBullets: Schema.optional(CreateParagraphBulletsRequest),
-  replaceAllShapesWithImage: Schema.optional(ReplaceAllShapesWithImageRequest),
-  duplicateObject: Schema.optional(DuplicateObjectRequest),
-  updateTextStyle: Schema.optional(UpdateTextStyleRequest),
-  replaceAllShapesWithSheetsChart: Schema.optional(ReplaceAllShapesWithSheetsChartRequest),
-  deleteParagraphBullets: Schema.optional(DeleteParagraphBulletsRequest),
-  updateParagraphStyle: Schema.optional(UpdateParagraphStyleRequest),
-  updateTableBorderProperties: Schema.optional(UpdateTableBorderPropertiesRequest),
-  updateTableColumnProperties: Schema.optional(UpdateTableColumnPropertiesRequest),
-  updateTableRowProperties: Schema.optional(UpdateTableRowPropertiesRequest),
-  mergeTableCells: Schema.optional(MergeTableCellsRequest),
-  unmergeTableCells: Schema.optional(UnmergeTableCellsRequest),
-  groupObjects: Schema.optional(GroupObjectsRequest),
-  ungroupObjects: Schema.optional(UngroupObjectsRequest),
-  updatePageElementAltText: Schema.optional(UpdatePageElementAltTextRequest),
-  replaceImage: Schema.optional(ReplaceImageRequest),
-  updateSlideProperties: Schema.optional(UpdateSlidePropertiesRequest),
-  updatePageElementsZOrder: Schema.optional(UpdatePageElementsZOrderRequest),
-  updateLineCategory: Schema.optional(UpdateLineCategoryRequest),
-  rerouteLine: Schema.optional(RerouteLineRequest),
-})).annotate({ identifier: "Request" }) as any as Schema.Schema<Request>;
+export const Request: Schema.Schema<Request> = Schema.suspend(() =>
+  Schema.Struct({
+    createSlide: Schema.optional(CreateSlideRequest),
+    createShape: Schema.optional(CreateShapeRequest),
+    createTable: Schema.optional(CreateTableRequest),
+    insertText: Schema.optional(InsertTextRequest),
+    insertTableRows: Schema.optional(InsertTableRowsRequest),
+    insertTableColumns: Schema.optional(InsertTableColumnsRequest),
+    deleteTableRow: Schema.optional(DeleteTableRowRequest),
+    deleteTableColumn: Schema.optional(DeleteTableColumnRequest),
+    replaceAllText: Schema.optional(ReplaceAllTextRequest),
+    deleteObject: Schema.optional(DeleteObjectRequest),
+    updatePageElementTransform: Schema.optional(
+      UpdatePageElementTransformRequest,
+    ),
+    updateSlidesPosition: Schema.optional(UpdateSlidesPositionRequest),
+    deleteText: Schema.optional(DeleteTextRequest),
+    createImage: Schema.optional(CreateImageRequest),
+    createVideo: Schema.optional(CreateVideoRequest),
+    createSheetsChart: Schema.optional(CreateSheetsChartRequest),
+    createLine: Schema.optional(CreateLineRequest),
+    refreshSheetsChart: Schema.optional(RefreshSheetsChartRequest),
+    updateShapeProperties: Schema.optional(UpdateShapePropertiesRequest),
+    updateImageProperties: Schema.optional(UpdateImagePropertiesRequest),
+    updateVideoProperties: Schema.optional(UpdateVideoPropertiesRequest),
+    updatePageProperties: Schema.optional(UpdatePagePropertiesRequest),
+    updateTableCellProperties: Schema.optional(
+      UpdateTableCellPropertiesRequest,
+    ),
+    updateLineProperties: Schema.optional(UpdateLinePropertiesRequest),
+    createParagraphBullets: Schema.optional(CreateParagraphBulletsRequest),
+    replaceAllShapesWithImage: Schema.optional(
+      ReplaceAllShapesWithImageRequest,
+    ),
+    duplicateObject: Schema.optional(DuplicateObjectRequest),
+    updateTextStyle: Schema.optional(UpdateTextStyleRequest),
+    replaceAllShapesWithSheetsChart: Schema.optional(
+      ReplaceAllShapesWithSheetsChartRequest,
+    ),
+    deleteParagraphBullets: Schema.optional(DeleteParagraphBulletsRequest),
+    updateParagraphStyle: Schema.optional(UpdateParagraphStyleRequest),
+    updateTableBorderProperties: Schema.optional(
+      UpdateTableBorderPropertiesRequest,
+    ),
+    updateTableColumnProperties: Schema.optional(
+      UpdateTableColumnPropertiesRequest,
+    ),
+    updateTableRowProperties: Schema.optional(UpdateTableRowPropertiesRequest),
+    mergeTableCells: Schema.optional(MergeTableCellsRequest),
+    unmergeTableCells: Schema.optional(UnmergeTableCellsRequest),
+    groupObjects: Schema.optional(GroupObjectsRequest),
+    ungroupObjects: Schema.optional(UngroupObjectsRequest),
+    updatePageElementAltText: Schema.optional(UpdatePageElementAltTextRequest),
+    replaceImage: Schema.optional(ReplaceImageRequest),
+    updateSlideProperties: Schema.optional(UpdateSlidePropertiesRequest),
+    updatePageElementsZOrder: Schema.optional(UpdatePageElementsZOrderRequest),
+    updateLineCategory: Schema.optional(UpdateLineCategoryRequest),
+    rerouteLine: Schema.optional(RerouteLineRequest),
+  }),
+).annotate({ identifier: "Request" }) as any as Schema.Schema<Request>;
 
 export interface WriteControl {
   /** The revision ID of the presentation required for the write request. If specified and the required revision ID doesn't match the presentation's current revision ID, the request is not processed and returns a 400 bad request error. When a required revision ID is returned in a response, it indicates the revision ID of the document after the request was applied. */
   requiredRevisionId?: string;
 }
 
-export const WriteControl: Schema.Schema<WriteControl> = Schema.suspend(() => Schema.Struct({
-  requiredRevisionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "WriteControl" }) as any as Schema.Schema<WriteControl>;
+export const WriteControl: Schema.Schema<WriteControl> = Schema.suspend(() =>
+  Schema.Struct({
+    requiredRevisionId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "WriteControl",
+}) as any as Schema.Schema<WriteControl>;
 
 export interface BatchUpdatePresentationRequest {
   /** A list of updates to apply to the presentation. */
@@ -2049,118 +3112,183 @@ export interface BatchUpdatePresentationRequest {
   writeControl?: WriteControl;
 }
 
-export const BatchUpdatePresentationRequest: Schema.Schema<BatchUpdatePresentationRequest> = Schema.suspend(() => Schema.Struct({
-  requests: Schema.optional(Schema.Array(Request)),
-  writeControl: Schema.optional(WriteControl),
-})).annotate({ identifier: "BatchUpdatePresentationRequest" }) as any as Schema.Schema<BatchUpdatePresentationRequest>;
+export const BatchUpdatePresentationRequest: Schema.Schema<BatchUpdatePresentationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requests: Schema.optional(Schema.Array(Request)),
+      writeControl: Schema.optional(WriteControl),
+    }),
+  ).annotate({
+    identifier: "BatchUpdatePresentationRequest",
+  }) as any as Schema.Schema<BatchUpdatePresentationRequest>;
 
 export interface CreateSlideResponse {
   /** The object ID of the created slide. */
   objectId?: string;
 }
 
-export const CreateSlideResponse: Schema.Schema<CreateSlideResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateSlideResponse" }) as any as Schema.Schema<CreateSlideResponse>;
+export const CreateSlideResponse: Schema.Schema<CreateSlideResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateSlideResponse",
+  }) as any as Schema.Schema<CreateSlideResponse>;
 
 export interface CreateShapeResponse {
   /** The object ID of the created shape. */
   objectId?: string;
 }
 
-export const CreateShapeResponse: Schema.Schema<CreateShapeResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateShapeResponse" }) as any as Schema.Schema<CreateShapeResponse>;
+export const CreateShapeResponse: Schema.Schema<CreateShapeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateShapeResponse",
+  }) as any as Schema.Schema<CreateShapeResponse>;
 
 export interface CreateTableResponse {
   /** The object ID of the created table. */
   objectId?: string;
 }
 
-export const CreateTableResponse: Schema.Schema<CreateTableResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateTableResponse" }) as any as Schema.Schema<CreateTableResponse>;
+export const CreateTableResponse: Schema.Schema<CreateTableResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateTableResponse",
+  }) as any as Schema.Schema<CreateTableResponse>;
 
 export interface ReplaceAllTextResponse {
   /** The number of occurrences changed by replacing all text. */
   occurrencesChanged?: number;
 }
 
-export const ReplaceAllTextResponse: Schema.Schema<ReplaceAllTextResponse> = Schema.suspend(() => Schema.Struct({
-  occurrencesChanged: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ReplaceAllTextResponse" }) as any as Schema.Schema<ReplaceAllTextResponse>;
+export const ReplaceAllTextResponse: Schema.Schema<ReplaceAllTextResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      occurrencesChanged: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ReplaceAllTextResponse",
+  }) as any as Schema.Schema<ReplaceAllTextResponse>;
 
 export interface CreateImageResponse {
   /** The object ID of the created image. */
   objectId?: string;
 }
 
-export const CreateImageResponse: Schema.Schema<CreateImageResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateImageResponse" }) as any as Schema.Schema<CreateImageResponse>;
+export const CreateImageResponse: Schema.Schema<CreateImageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateImageResponse",
+  }) as any as Schema.Schema<CreateImageResponse>;
 
 export interface CreateVideoResponse {
   /** The object ID of the created video. */
   objectId?: string;
 }
 
-export const CreateVideoResponse: Schema.Schema<CreateVideoResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateVideoResponse" }) as any as Schema.Schema<CreateVideoResponse>;
+export const CreateVideoResponse: Schema.Schema<CreateVideoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateVideoResponse",
+  }) as any as Schema.Schema<CreateVideoResponse>;
 
 export interface CreateSheetsChartResponse {
   /** The object ID of the created chart. */
   objectId?: string;
 }
 
-export const CreateSheetsChartResponse: Schema.Schema<CreateSheetsChartResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateSheetsChartResponse" }) as any as Schema.Schema<CreateSheetsChartResponse>;
+export const CreateSheetsChartResponse: Schema.Schema<CreateSheetsChartResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateSheetsChartResponse",
+  }) as any as Schema.Schema<CreateSheetsChartResponse>;
 
 export interface CreateLineResponse {
   /** The object ID of the created line. */
   objectId?: string;
 }
 
-export const CreateLineResponse: Schema.Schema<CreateLineResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateLineResponse" }) as any as Schema.Schema<CreateLineResponse>;
+export const CreateLineResponse: Schema.Schema<CreateLineResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateLineResponse",
+  }) as any as Schema.Schema<CreateLineResponse>;
 
 export interface ReplaceAllShapesWithImageResponse {
   /** The number of shapes replaced with images. */
   occurrencesChanged?: number;
 }
 
-export const ReplaceAllShapesWithImageResponse: Schema.Schema<ReplaceAllShapesWithImageResponse> = Schema.suspend(() => Schema.Struct({
-  occurrencesChanged: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ReplaceAllShapesWithImageResponse" }) as any as Schema.Schema<ReplaceAllShapesWithImageResponse>;
+export const ReplaceAllShapesWithImageResponse: Schema.Schema<ReplaceAllShapesWithImageResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      occurrencesChanged: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ReplaceAllShapesWithImageResponse",
+  }) as any as Schema.Schema<ReplaceAllShapesWithImageResponse>;
 
 export interface DuplicateObjectResponse {
   /** The ID of the new duplicate object. */
   objectId?: string;
 }
 
-export const DuplicateObjectResponse: Schema.Schema<DuplicateObjectResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DuplicateObjectResponse" }) as any as Schema.Schema<DuplicateObjectResponse>;
+export const DuplicateObjectResponse: Schema.Schema<DuplicateObjectResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DuplicateObjectResponse",
+  }) as any as Schema.Schema<DuplicateObjectResponse>;
 
 export interface ReplaceAllShapesWithSheetsChartResponse {
   /** The number of shapes replaced with charts. */
   occurrencesChanged?: number;
 }
 
-export const ReplaceAllShapesWithSheetsChartResponse: Schema.Schema<ReplaceAllShapesWithSheetsChartResponse> = Schema.suspend(() => Schema.Struct({
-  occurrencesChanged: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ReplaceAllShapesWithSheetsChartResponse" }) as any as Schema.Schema<ReplaceAllShapesWithSheetsChartResponse>;
+export const ReplaceAllShapesWithSheetsChartResponse: Schema.Schema<ReplaceAllShapesWithSheetsChartResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      occurrencesChanged: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ReplaceAllShapesWithSheetsChartResponse",
+  }) as any as Schema.Schema<ReplaceAllShapesWithSheetsChartResponse>;
 
 export interface GroupObjectsResponse {
   /** The object ID of the created group. */
   objectId?: string;
 }
 
-export const GroupObjectsResponse: Schema.Schema<GroupObjectsResponse> = Schema.suspend(() => Schema.Struct({
-  objectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GroupObjectsResponse" }) as any as Schema.Schema<GroupObjectsResponse>;
+export const GroupObjectsResponse: Schema.Schema<GroupObjectsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GroupObjectsResponse",
+  }) as any as Schema.Schema<GroupObjectsResponse>;
 
 export interface Response {
   /** The result of creating a slide. */
@@ -2189,20 +3317,26 @@ export interface Response {
   groupObjects?: GroupObjectsResponse;
 }
 
-export const Response: Schema.Schema<Response> = Schema.suspend(() => Schema.Struct({
-  createSlide: Schema.optional(CreateSlideResponse),
-  createShape: Schema.optional(CreateShapeResponse),
-  createTable: Schema.optional(CreateTableResponse),
-  replaceAllText: Schema.optional(ReplaceAllTextResponse),
-  createImage: Schema.optional(CreateImageResponse),
-  createVideo: Schema.optional(CreateVideoResponse),
-  createSheetsChart: Schema.optional(CreateSheetsChartResponse),
-  createLine: Schema.optional(CreateLineResponse),
-  replaceAllShapesWithImage: Schema.optional(ReplaceAllShapesWithImageResponse),
-  duplicateObject: Schema.optional(DuplicateObjectResponse),
-  replaceAllShapesWithSheetsChart: Schema.optional(ReplaceAllShapesWithSheetsChartResponse),
-  groupObjects: Schema.optional(GroupObjectsResponse),
-})).annotate({ identifier: "Response" }) as any as Schema.Schema<Response>;
+export const Response: Schema.Schema<Response> = Schema.suspend(() =>
+  Schema.Struct({
+    createSlide: Schema.optional(CreateSlideResponse),
+    createShape: Schema.optional(CreateShapeResponse),
+    createTable: Schema.optional(CreateTableResponse),
+    replaceAllText: Schema.optional(ReplaceAllTextResponse),
+    createImage: Schema.optional(CreateImageResponse),
+    createVideo: Schema.optional(CreateVideoResponse),
+    createSheetsChart: Schema.optional(CreateSheetsChartResponse),
+    createLine: Schema.optional(CreateLineResponse),
+    replaceAllShapesWithImage: Schema.optional(
+      ReplaceAllShapesWithImageResponse,
+    ),
+    duplicateObject: Schema.optional(DuplicateObjectResponse),
+    replaceAllShapesWithSheetsChart: Schema.optional(
+      ReplaceAllShapesWithSheetsChartResponse,
+    ),
+    groupObjects: Schema.optional(GroupObjectsResponse),
+  }),
+).annotate({ identifier: "Response" }) as any as Schema.Schema<Response>;
 
 export interface BatchUpdatePresentationResponse {
   /** The presentation the updates were applied to. */
@@ -2213,11 +3347,16 @@ export interface BatchUpdatePresentationResponse {
   writeControl?: WriteControl;
 }
 
-export const BatchUpdatePresentationResponse: Schema.Schema<BatchUpdatePresentationResponse> = Schema.suspend(() => Schema.Struct({
-  presentationId: Schema.optional(Schema.String),
-  replies: Schema.optional(Schema.Array(Response)),
-  writeControl: Schema.optional(WriteControl),
-})).annotate({ identifier: "BatchUpdatePresentationResponse" }) as any as Schema.Schema<BatchUpdatePresentationResponse>;
+export const BatchUpdatePresentationResponse: Schema.Schema<BatchUpdatePresentationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      presentationId: Schema.optional(Schema.String),
+      replies: Schema.optional(Schema.Array(Response)),
+      writeControl: Schema.optional(WriteControl),
+    }),
+  ).annotate({
+    identifier: "BatchUpdatePresentationResponse",
+  }) as any as Schema.Schema<BatchUpdatePresentationResponse>;
 
 export interface Thumbnail {
   /** The positive width in pixels of the thumbnail image. */
@@ -2228,11 +3367,13 @@ export interface Thumbnail {
   contentUrl?: string;
 }
 
-export const Thumbnail: Schema.Schema<Thumbnail> = Schema.suspend(() => Schema.Struct({
-  width: Schema.optional(Schema.Number),
-  height: Schema.optional(Schema.Number),
-  contentUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "Thumbnail" }) as any as Schema.Schema<Thumbnail>;
+export const Thumbnail: Schema.Schema<Thumbnail> = Schema.suspend(() =>
+  Schema.Struct({
+    width: Schema.optional(Schema.Number),
+    height: Schema.optional(Schema.Number),
+    contentUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Thumbnail" }) as any as Schema.Schema<Thumbnail>;
 
 // ==========================================================================
 // Operations
@@ -2256,7 +3397,12 @@ export const GetPresentationsResponse = Presentation;
 export type GetPresentationsError = DefaultErrors;
 
 /** Gets the latest version of the specified presentation. */
-export const getPresentations: API.OperationMethod<GetPresentationsRequest, GetPresentationsResponse, GetPresentationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPresentations: API.OperationMethod<
+  GetPresentationsRequest,
+  GetPresentationsResponse,
+  GetPresentationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPresentationsRequest,
   output: GetPresentationsResponse,
   errors: [],
@@ -2280,7 +3426,12 @@ export const CreatePresentationsResponse = Presentation;
 export type CreatePresentationsError = DefaultErrors;
 
 /** Creates a blank presentation using the title given in the request. If a `presentationId` is provided, it is used as the ID of the new presentation. Otherwise, a new ID is generated. Other fields in the request, including any provided content, are ignored. Returns the created presentation. */
-export const createPresentations: API.OperationMethod<CreatePresentationsRequest, CreatePresentationsResponse, CreatePresentationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPresentations: API.OperationMethod<
+  CreatePresentationsRequest,
+  CreatePresentationsResponse,
+  CreatePresentationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePresentationsRequest,
   output: CreatePresentationsResponse,
   errors: [],
@@ -2297,7 +3448,11 @@ export const BatchUpdatePresentationsRequest = Schema.Struct({
   presentationId: Schema.String.pipe(T.HttpPath("presentationId")),
   body: Schema.optional(BatchUpdatePresentationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/presentations/{presentationId}:batchUpdate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/presentations/{presentationId}:batchUpdate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchUpdatePresentationsRequest>;
 
@@ -2307,7 +3462,12 @@ export const BatchUpdatePresentationsResponse = BatchUpdatePresentationResponse;
 export type BatchUpdatePresentationsError = DefaultErrors;
 
 /** Applies one or more updates to the presentation. Each request is validated before being applied. If any request is not valid, then the entire request will fail and nothing will be applied. Some requests have replies to give you some information about how they are applied. Other requests do not need to return information; these each return an empty reply. The order of replies matches that of the requests. For example, suppose you call batchUpdate with four updates, and only the third one returns information. The response would have two empty replies: the reply to the third request, and another empty reply, in that order. Because other users may be editing the presentation, the presentation might not exactly reflect your changes: your changes may be altered with respect to collaborator changes. If there are no collaborators, the presentation should reflect your changes. In any case, the updates in your request are guaranteed to be applied together atomically. */
-export const batchUpdatePresentations: API.OperationMethod<BatchUpdatePresentationsRequest, BatchUpdatePresentationsResponse, BatchUpdatePresentationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchUpdatePresentations: API.OperationMethod<
+  BatchUpdatePresentationsRequest,
+  BatchUpdatePresentationsResponse,
+  BatchUpdatePresentationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchUpdatePresentationsRequest,
   output: BatchUpdatePresentationsResponse,
   errors: [],
@@ -2324,7 +3484,10 @@ export const GetPresentationsPagesRequest = Schema.Struct({
   presentationId: Schema.String.pipe(T.HttpPath("presentationId")),
   pageObjectId: Schema.String.pipe(T.HttpPath("pageObjectId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/presentations/{presentationId}/pages/{pageObjectId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/presentations/{presentationId}/pages/{pageObjectId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPresentationsPagesRequest>;
 
@@ -2334,7 +3497,12 @@ export const GetPresentationsPagesResponse = Page;
 export type GetPresentationsPagesError = DefaultErrors;
 
 /** Gets the latest version of the specified page in the presentation. */
-export const getPresentationsPages: API.OperationMethod<GetPresentationsPagesRequest, GetPresentationsPagesResponse, GetPresentationsPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPresentationsPages: API.OperationMethod<
+  GetPresentationsPagesRequest,
+  GetPresentationsPagesResponse,
+  GetPresentationsPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPresentationsPagesRequest,
   output: GetPresentationsPagesResponse,
   errors: [],
@@ -2348,16 +3516,28 @@ export interface GetThumbnailPresentationsPagesRequest {
   /** The optional mime type of the thumbnail image. If you don't specify the mime type, the mime type defaults to PNG. */
   "thumbnailProperties.mimeType"?: "PNG" | (string & {});
   /** The optional thumbnail image size. If you don't specify the size, the server chooses a default size of the image. */
-  "thumbnailProperties.thumbnailSize"?: "THUMBNAIL_SIZE_UNSPECIFIED" | "LARGE" | "MEDIUM" | "SMALL" | (string & {});
+  "thumbnailProperties.thumbnailSize"?:
+    | "THUMBNAIL_SIZE_UNSPECIFIED"
+    | "LARGE"
+    | "MEDIUM"
+    | "SMALL"
+    | (string & {});
 }
 
 export const GetThumbnailPresentationsPagesRequest = Schema.Struct({
   presentationId: Schema.String.pipe(T.HttpPath("presentationId")),
   pageObjectId: Schema.String.pipe(T.HttpPath("pageObjectId")),
-  "thumbnailProperties.mimeType": Schema.optional(Schema.String).pipe(T.HttpQuery("thumbnailProperties.mimeType")),
-  "thumbnailProperties.thumbnailSize": Schema.optional(Schema.String).pipe(T.HttpQuery("thumbnailProperties.thumbnailSize")),
+  "thumbnailProperties.mimeType": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("thumbnailProperties.mimeType"),
+  ),
+  "thumbnailProperties.thumbnailSize": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("thumbnailProperties.thumbnailSize"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/presentations/{presentationId}/pages/{pageObjectId}/thumbnail" }),
+  T.Http({
+    method: "GET",
+    path: "v1/presentations/{presentationId}/pages/{pageObjectId}/thumbnail",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetThumbnailPresentationsPagesRequest>;
 
@@ -2367,9 +3547,13 @@ export const GetThumbnailPresentationsPagesResponse = Thumbnail;
 export type GetThumbnailPresentationsPagesError = DefaultErrors;
 
 /** Generates a thumbnail of the latest version of the specified page in the presentation and returns a URL to the thumbnail image. This request counts as an [expensive read request](https://developers.google.com/workspace/slides/limits) for quota purposes. */
-export const getThumbnailPresentationsPages: API.OperationMethod<GetThumbnailPresentationsPagesRequest, GetThumbnailPresentationsPagesResponse, GetThumbnailPresentationsPagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getThumbnailPresentationsPages: API.OperationMethod<
+  GetThumbnailPresentationsPagesRequest,
+  GetThumbnailPresentationsPagesResponse,
+  GetThumbnailPresentationsPagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetThumbnailPresentationsPagesRequest,
   output: GetThumbnailPresentationsPagesResponse,
   errors: [],
 }));
-

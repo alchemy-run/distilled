@@ -30,10 +30,12 @@ export interface Autoscale {
   maxSlots?: string;
 }
 
-export const Autoscale: Schema.Schema<Autoscale> = Schema.suspend(() => Schema.Struct({
-  currentSlots: Schema.optional(Schema.String),
-  maxSlots: Schema.optional(Schema.String),
-})).annotate({ identifier: "Autoscale" }) as any as Schema.Schema<Autoscale>;
+export const Autoscale: Schema.Schema<Autoscale> = Schema.suspend(() =>
+  Schema.Struct({
+    currentSlots: Schema.optional(Schema.String),
+    maxSlots: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Autoscale" }) as any as Schema.Schema<Autoscale>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -44,11 +46,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface ReplicationStatus {
   /** Output only. The last error encountered while trying to replicate changes from the primary to the secondary. This field is only available if the replication has not succeeded since. */
@@ -61,12 +67,17 @@ export interface ReplicationStatus {
   softFailoverStartTime?: string;
 }
 
-export const ReplicationStatus: Schema.Schema<ReplicationStatus> = Schema.suspend(() => Schema.Struct({
-  error: Schema.optional(Status),
-  lastErrorTime: Schema.optional(Schema.String),
-  lastReplicationTime: Schema.optional(Schema.String),
-  softFailoverStartTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReplicationStatus" }) as any as Schema.Schema<ReplicationStatus>;
+export const ReplicationStatus: Schema.Schema<ReplicationStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      error: Schema.optional(Status),
+      lastErrorTime: Schema.optional(Schema.String),
+      lastReplicationTime: Schema.optional(Schema.String),
+      softFailoverStartTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReplicationStatus",
+  }) as any as Schema.Schema<ReplicationStatus>;
 
 export interface SchedulingPolicy {
   /** Optional. If present and > 0, the reservation will attempt to limit the concurrency of jobs running for any particular project within it to the given value. This feature is not yet generally available. */
@@ -75,10 +86,15 @@ export interface SchedulingPolicy {
   maxSlots?: string;
 }
 
-export const SchedulingPolicy: Schema.Schema<SchedulingPolicy> = Schema.suspend(() => Schema.Struct({
-  concurrency: Schema.optional(Schema.String),
-  maxSlots: Schema.optional(Schema.String),
-})).annotate({ identifier: "SchedulingPolicy" }) as any as Schema.Schema<SchedulingPolicy>;
+export const SchedulingPolicy: Schema.Schema<SchedulingPolicy> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      concurrency: Schema.optional(Schema.String),
+      maxSlots: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SchedulingPolicy",
+}) as any as Schema.Schema<SchedulingPolicy>;
 
 export interface Reservation {
   /** Identifier. The resource name of the reservation, e.g., `projects/* /locations/* /reservations/team1-prod`. The reservation_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
@@ -98,7 +114,12 @@ export interface Reservation {
   /** Applicable only for reservations located within one of the BigQuery multi-regions (US or EU). If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region. NOTE: this is a preview feature. Project must be allow-listed in order to set this field. */
   multiRegionAuxiliary?: boolean;
   /** Optional. Edition of the reservation. */
-  edition?: "EDITION_UNSPECIFIED" | "STANDARD" | "ENTERPRISE" | "ENTERPRISE_PLUS" | (string & {});
+  edition?:
+    | "EDITION_UNSPECIFIED"
+    | "STANDARD"
+    | "ENTERPRISE"
+    | "ENTERPRISE_PLUS"
+    | (string & {});
   /** Output only. The current location of the reservation's primary replica. This field is only set for reservations using the managed disaster recovery feature. */
   primaryLocation?: string;
   /** Optional. The current location of the reservation's secondary replica. This field is only set for reservations using the managed disaster recovery feature. Users can set this in create reservation calls to create a failover reservation or in update reservation calls to convert a non-failover reservation to a failover reservation(or vice versa). */
@@ -108,7 +129,12 @@ export interface Reservation {
   /** Optional. The overall max slots for the reservation, covering slot_capacity (baseline), idle slots (if ignore_idle_slots is false) and scaled slots. If present, the reservation won't use more than the specified number of slots, even if there is demand and supply (from idle slots). NOTE: capping a reservation's idle slot usage is best effort and its usage may exceed the max_slots value. However, in terms of autoscale.current_slots (which accounts for the additional added slots), it will never exceed the max_slots - baseline. This field must be set together with the scaling_mode enum value, otherwise the request will be rejected with error code `google.rpc.Code.INVALID_ARGUMENT`. If the max_slots and scaling_mode are set, the autoscale or autoscale.max_slots field must be unset. Otherwise the request will be rejected with error code `google.rpc.Code.INVALID_ARGUMENT`. However, the autoscale field may still be in the output. The autopscale.max_slots will always show as 0 and the autoscaler.current_slots will represent the current slots from autoscaler excluding idle slots. For example, if the max_slots is 1000 and scaling_mode is AUTOSCALE_ONLY, then in the output, the autoscaler.max_slots will be 0 and the autoscaler.current_slots may be any value between 0 and 1000. If the max_slots is 1000, scaling_mode is ALL_SLOTS, the baseline is 100 and idle slots usage is 200, then in the output, the autoscaler.max_slots will be 0 and the autoscaler.current_slots will not be higher than 700. If the max_slots is 1000, scaling_mode is IDLE_SLOTS_ONLY, then in the output, the autoscaler field will be null. If the max_slots and scaling_mode are set, then the ignore_idle_slots field must be aligned with the scaling_mode enum value.(See details in ScalingMode comments). Otherwise the request will be rejected with error code `google.rpc.Code.INVALID_ARGUMENT`. Please note, the max_slots is for user to manage the part of slots greater than the baseline. Therefore, we don't allow users to set max_slots smaller or equal to the baseline as it will not be meaningful. If the field is present and slot_capacity>=max_slots, requests will be rejected with error code `google.rpc.Code.INVALID_ARGUMENT`. Please note that if max_slots is set to 0, we will treat it as unset. Customers can set max_slots to 0 and set scaling_mode to SCALING_MODE_UNSPECIFIED to disable the max_slots feature. */
   maxSlots?: string;
   /** Optional. The scaling mode for the reservation. If the field is present but max_slots is not present, requests will be rejected with error code `google.rpc.Code.INVALID_ARGUMENT`. */
-  scalingMode?: "SCALING_MODE_UNSPECIFIED" | "AUTOSCALE_ONLY" | "IDLE_SLOTS_ONLY" | "ALL_SLOTS" | (string & {});
+  scalingMode?:
+    | "SCALING_MODE_UNSPECIFIED"
+    | "AUTOSCALE_ONLY"
+    | "IDLE_SLOTS_ONLY"
+    | "ALL_SLOTS"
+    | (string & {});
   /** Optional. The labels associated with this reservation. You can use these to organize and group your reservations. You can set this property when you create or update a reservation. */
   labels?: Record<string, string>;
   /** Optional. The reservation group that this reservation belongs to. You can set this property when you create or update a reservation. Reservations do not need to belong to a reservation group. Format: projects/{project}/locations/{location}/reservationGroups/{reservation_group} or just {reservation_group} */
@@ -119,26 +145,28 @@ export interface Reservation {
   schedulingPolicy?: SchedulingPolicy;
 }
 
-export const Reservation: Schema.Schema<Reservation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  slotCapacity: Schema.optional(Schema.String),
-  ignoreIdleSlots: Schema.optional(Schema.Boolean),
-  autoscale: Schema.optional(Autoscale),
-  concurrency: Schema.optional(Schema.String),
-  creationTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  multiRegionAuxiliary: Schema.optional(Schema.Boolean),
-  edition: Schema.optional(Schema.String),
-  primaryLocation: Schema.optional(Schema.String),
-  secondaryLocation: Schema.optional(Schema.String),
-  originalPrimaryLocation: Schema.optional(Schema.String),
-  maxSlots: Schema.optional(Schema.String),
-  scalingMode: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  reservationGroup: Schema.optional(Schema.String),
-  replicationStatus: Schema.optional(ReplicationStatus),
-  schedulingPolicy: Schema.optional(SchedulingPolicy),
-})).annotate({ identifier: "Reservation" }) as any as Schema.Schema<Reservation>;
+export const Reservation: Schema.Schema<Reservation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    slotCapacity: Schema.optional(Schema.String),
+    ignoreIdleSlots: Schema.optional(Schema.Boolean),
+    autoscale: Schema.optional(Autoscale),
+    concurrency: Schema.optional(Schema.String),
+    creationTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    multiRegionAuxiliary: Schema.optional(Schema.Boolean),
+    edition: Schema.optional(Schema.String),
+    primaryLocation: Schema.optional(Schema.String),
+    secondaryLocation: Schema.optional(Schema.String),
+    originalPrimaryLocation: Schema.optional(Schema.String),
+    maxSlots: Schema.optional(Schema.String),
+    scalingMode: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    reservationGroup: Schema.optional(Schema.String),
+    replicationStatus: Schema.optional(ReplicationStatus),
+    schedulingPolicy: Schema.optional(SchedulingPolicy),
+  }),
+).annotate({ identifier: "Reservation" }) as any as Schema.Schema<Reservation>;
 
 export interface ListReservationsResponse {
   /** List of reservations visible to the user. */
@@ -147,25 +175,35 @@ export interface ListReservationsResponse {
   nextPageToken?: string;
 }
 
-export const ListReservationsResponse: Schema.Schema<ListReservationsResponse> = Schema.suspend(() => Schema.Struct({
-  reservations: Schema.optional(Schema.Array(Reservation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListReservationsResponse" }) as any as Schema.Schema<ListReservationsResponse>;
+export const ListReservationsResponse: Schema.Schema<ListReservationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reservations: Schema.optional(Schema.Array(Reservation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListReservationsResponse",
+  }) as any as Schema.Schema<ListReservationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface FailoverReservationRequest {
   /** Optional. A parameter that determines how writes that are pending replication are handled after a failover is initiated. If not specified, HARD failover mode is used by default. */
   failoverMode?: "FAILOVER_MODE_UNSPECIFIED" | "SOFT" | "HARD" | (string & {});
 }
 
-export const FailoverReservationRequest: Schema.Schema<FailoverReservationRequest> = Schema.suspend(() => Schema.Struct({
-  failoverMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "FailoverReservationRequest" }) as any as Schema.Schema<FailoverReservationRequest>;
+export const FailoverReservationRequest: Schema.Schema<FailoverReservationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      failoverMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FailoverReservationRequest",
+  }) as any as Schema.Schema<FailoverReservationRequest>;
 
 export interface CapacityCommitment {
   /** Output only. The resource name of the capacity commitment, e.g., `projects/myproject/locations/US/capacityCommitments/123` The commitment_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
@@ -173,7 +211,18 @@ export interface CapacityCommitment {
   /** Optional. Number of slots in this commitment. */
   slotCount?: string;
   /** Optional. Capacity commitment commitment plan. */
-  plan?: "COMMITMENT_PLAN_UNSPECIFIED" | "FLEX" | "FLEX_FLAT_RATE" | "TRIAL" | "MONTHLY" | "MONTHLY_FLAT_RATE" | "ANNUAL" | "ANNUAL_FLAT_RATE" | "THREE_YEAR" | "NONE" | (string & {});
+  plan?:
+    | "COMMITMENT_PLAN_UNSPECIFIED"
+    | "FLEX"
+    | "FLEX_FLAT_RATE"
+    | "TRIAL"
+    | "MONTHLY"
+    | "MONTHLY_FLAT_RATE"
+    | "ANNUAL"
+    | "ANNUAL_FLAT_RATE"
+    | "THREE_YEAR"
+    | "NONE"
+    | (string & {});
   /** Output only. State of the commitment. */
   state?: "STATE_UNSPECIFIED" | "PENDING" | "ACTIVE" | "FAILED" | (string & {});
   /** Output only. The start of the current commitment period. It is applicable only for ACTIVE capacity commitments. Note after the commitment is renewed, commitment_start_time won't be changed. It refers to the start time of the original commitment. */
@@ -183,28 +232,49 @@ export interface CapacityCommitment {
   /** Output only. For FAILED commitment plan, provides the reason of failure. */
   failureStatus?: Status;
   /** Optional. The plan this capacity commitment is converted to after commitment_end_time passes. Once the plan is changed, committed period is extended according to commitment plan. Only applicable for ANNUAL and TRIAL commitments. */
-  renewalPlan?: "COMMITMENT_PLAN_UNSPECIFIED" | "FLEX" | "FLEX_FLAT_RATE" | "TRIAL" | "MONTHLY" | "MONTHLY_FLAT_RATE" | "ANNUAL" | "ANNUAL_FLAT_RATE" | "THREE_YEAR" | "NONE" | (string & {});
+  renewalPlan?:
+    | "COMMITMENT_PLAN_UNSPECIFIED"
+    | "FLEX"
+    | "FLEX_FLAT_RATE"
+    | "TRIAL"
+    | "MONTHLY"
+    | "MONTHLY_FLAT_RATE"
+    | "ANNUAL"
+    | "ANNUAL_FLAT_RATE"
+    | "THREE_YEAR"
+    | "NONE"
+    | (string & {});
   /** Applicable only for commitments located within one of the BigQuery multi-regions (US or EU). If set to true, this commitment is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this commitment is placed in the organization's default region. NOTE: this is a preview feature. Project must be allow-listed in order to set this field. */
   multiRegionAuxiliary?: boolean;
   /** Optional. Edition of the capacity commitment. */
-  edition?: "EDITION_UNSPECIFIED" | "STANDARD" | "ENTERPRISE" | "ENTERPRISE_PLUS" | (string & {});
+  edition?:
+    | "EDITION_UNSPECIFIED"
+    | "STANDARD"
+    | "ENTERPRISE"
+    | "ENTERPRISE_PLUS"
+    | (string & {});
   /** Output only. If true, the commitment is a flat-rate commitment, otherwise, it's an edition commitment. */
   isFlatRate?: boolean;
 }
 
-export const CapacityCommitment: Schema.Schema<CapacityCommitment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  slotCount: Schema.optional(Schema.String),
-  plan: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  commitmentStartTime: Schema.optional(Schema.String),
-  commitmentEndTime: Schema.optional(Schema.String),
-  failureStatus: Schema.optional(Status),
-  renewalPlan: Schema.optional(Schema.String),
-  multiRegionAuxiliary: Schema.optional(Schema.Boolean),
-  edition: Schema.optional(Schema.String),
-  isFlatRate: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CapacityCommitment" }) as any as Schema.Schema<CapacityCommitment>;
+export const CapacityCommitment: Schema.Schema<CapacityCommitment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      slotCount: Schema.optional(Schema.String),
+      plan: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      commitmentStartTime: Schema.optional(Schema.String),
+      commitmentEndTime: Schema.optional(Schema.String),
+      failureStatus: Schema.optional(Status),
+      renewalPlan: Schema.optional(Schema.String),
+      multiRegionAuxiliary: Schema.optional(Schema.Boolean),
+      edition: Schema.optional(Schema.String),
+      isFlatRate: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CapacityCommitment",
+  }) as any as Schema.Schema<CapacityCommitment>;
 
 export interface ListCapacityCommitmentsResponse {
   /** List of capacity commitments visible to the user. */
@@ -213,19 +283,29 @@ export interface ListCapacityCommitmentsResponse {
   nextPageToken?: string;
 }
 
-export const ListCapacityCommitmentsResponse: Schema.Schema<ListCapacityCommitmentsResponse> = Schema.suspend(() => Schema.Struct({
-  capacityCommitments: Schema.optional(Schema.Array(CapacityCommitment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCapacityCommitmentsResponse" }) as any as Schema.Schema<ListCapacityCommitmentsResponse>;
+export const ListCapacityCommitmentsResponse: Schema.Schema<ListCapacityCommitmentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      capacityCommitments: Schema.optional(Schema.Array(CapacityCommitment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCapacityCommitmentsResponse",
+  }) as any as Schema.Schema<ListCapacityCommitmentsResponse>;
 
 export interface SplitCapacityCommitmentRequest {
   /** Number of slots in the capacity commitment after the split. */
   slotCount?: string;
 }
 
-export const SplitCapacityCommitmentRequest: Schema.Schema<SplitCapacityCommitmentRequest> = Schema.suspend(() => Schema.Struct({
-  slotCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "SplitCapacityCommitmentRequest" }) as any as Schema.Schema<SplitCapacityCommitmentRequest>;
+export const SplitCapacityCommitmentRequest: Schema.Schema<SplitCapacityCommitmentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      slotCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SplitCapacityCommitmentRequest",
+  }) as any as Schema.Schema<SplitCapacityCommitmentRequest>;
 
 export interface SplitCapacityCommitmentResponse {
   /** First capacity commitment, result of a split. */
@@ -234,10 +314,15 @@ export interface SplitCapacityCommitmentResponse {
   second?: CapacityCommitment;
 }
 
-export const SplitCapacityCommitmentResponse: Schema.Schema<SplitCapacityCommitmentResponse> = Schema.suspend(() => Schema.Struct({
-  first: Schema.optional(CapacityCommitment),
-  second: Schema.optional(CapacityCommitment),
-})).annotate({ identifier: "SplitCapacityCommitmentResponse" }) as any as Schema.Schema<SplitCapacityCommitmentResponse>;
+export const SplitCapacityCommitmentResponse: Schema.Schema<SplitCapacityCommitmentResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      first: Schema.optional(CapacityCommitment),
+      second: Schema.optional(CapacityCommitment),
+    }),
+  ).annotate({
+    identifier: "SplitCapacityCommitmentResponse",
+  }) as any as Schema.Schema<SplitCapacityCommitmentResponse>;
 
 export interface MergeCapacityCommitmentsRequest {
   /** Ids of capacity commitments to merge. These capacity commitments must exist under admin project and location specified in the parent. ID is the last portion of capacity commitment name e.g., 'abc' for projects/myproject/locations/US/capacityCommitments/abc */
@@ -246,10 +331,15 @@ export interface MergeCapacityCommitmentsRequest {
   capacityCommitmentId?: string;
 }
 
-export const MergeCapacityCommitmentsRequest: Schema.Schema<MergeCapacityCommitmentsRequest> = Schema.suspend(() => Schema.Struct({
-  capacityCommitmentIds: Schema.optional(Schema.Array(Schema.String)),
-  capacityCommitmentId: Schema.optional(Schema.String),
-})).annotate({ identifier: "MergeCapacityCommitmentsRequest" }) as any as Schema.Schema<MergeCapacityCommitmentsRequest>;
+export const MergeCapacityCommitmentsRequest: Schema.Schema<MergeCapacityCommitmentsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      capacityCommitmentIds: Schema.optional(Schema.Array(Schema.String)),
+      capacityCommitmentId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MergeCapacityCommitmentsRequest",
+  }) as any as Schema.Schema<MergeCapacityCommitmentsRequest>;
 
 export interface Assignment {
   /** Output only. Name of the resource. E.g.: `projects/myproject/locations/US/reservations/team1-prod/assignments/123`. The assignment_id must only contain lower case alphanumeric characters or dashes and the max length is 64 characters. */
@@ -257,7 +347,17 @@ export interface Assignment {
   /** Optional. The resource which will use the reservation. E.g. `projects/myproject`, `folders/123`, or `organizations/456`. */
   assignee?: string;
   /** Optional. Which type of jobs will use the reservation. */
-  jobType?: "JOB_TYPE_UNSPECIFIED" | "PIPELINE" | "QUERY" | "ML_EXTERNAL" | "BACKGROUND" | "CONTINUOUS" | "BACKGROUND_CHANGE_DATA_CAPTURE" | "BACKGROUND_COLUMN_METADATA_INDEX" | "BACKGROUND_SEARCH_INDEX_REFRESH" | (string & {});
+  jobType?:
+    | "JOB_TYPE_UNSPECIFIED"
+    | "PIPELINE"
+    | "QUERY"
+    | "ML_EXTERNAL"
+    | "BACKGROUND"
+    | "CONTINUOUS"
+    | "BACKGROUND_CHANGE_DATA_CAPTURE"
+    | "BACKGROUND_COLUMN_METADATA_INDEX"
+    | "BACKGROUND_SEARCH_INDEX_REFRESH"
+    | (string & {});
   /** Output only. State of the assignment. */
   state?: "STATE_UNSPECIFIED" | "PENDING" | "ACTIVE" | (string & {});
   /** Optional. Deprecated: "Gemini in BigQuery" is now available by default for all BigQuery editions and should not be explicitly set. Controls if "Gemini in BigQuery" (https://cloud.google.com/gemini/docs/bigquery/overview) features should be enabled for this reservation assignment. */
@@ -266,14 +366,16 @@ export interface Assignment {
   schedulingPolicy?: SchedulingPolicy;
 }
 
-export const Assignment: Schema.Schema<Assignment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  assignee: Schema.optional(Schema.String),
-  jobType: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  enableGeminiInBigquery: Schema.optional(Schema.Boolean),
-  schedulingPolicy: Schema.optional(SchedulingPolicy),
-})).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
+export const Assignment: Schema.Schema<Assignment> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    assignee: Schema.optional(Schema.String),
+    jobType: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    enableGeminiInBigquery: Schema.optional(Schema.Boolean),
+    schedulingPolicy: Schema.optional(SchedulingPolicy),
+  }),
+).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
 
 export interface ListAssignmentsResponse {
   /** List of assignments visible to the user. */
@@ -282,10 +384,15 @@ export interface ListAssignmentsResponse {
   nextPageToken?: string;
 }
 
-export const ListAssignmentsResponse: Schema.Schema<ListAssignmentsResponse> = Schema.suspend(() => Schema.Struct({
-  assignments: Schema.optional(Schema.Array(Assignment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAssignmentsResponse" }) as any as Schema.Schema<ListAssignmentsResponse>;
+export const ListAssignmentsResponse: Schema.Schema<ListAssignmentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      assignments: Schema.optional(Schema.Array(Assignment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAssignmentsResponse",
+  }) as any as Schema.Schema<ListAssignmentsResponse>;
 
 export interface SearchAssignmentsResponse {
   /** List of assignments visible to the user. */
@@ -294,10 +401,15 @@ export interface SearchAssignmentsResponse {
   nextPageToken?: string;
 }
 
-export const SearchAssignmentsResponse: Schema.Schema<SearchAssignmentsResponse> = Schema.suspend(() => Schema.Struct({
-  assignments: Schema.optional(Schema.Array(Assignment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchAssignmentsResponse" }) as any as Schema.Schema<SearchAssignmentsResponse>;
+export const SearchAssignmentsResponse: Schema.Schema<SearchAssignmentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      assignments: Schema.optional(Schema.Array(Assignment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchAssignmentsResponse",
+  }) as any as Schema.Schema<SearchAssignmentsResponse>;
 
 export interface SearchAllAssignmentsResponse {
   /** List of assignments visible to the user. */
@@ -306,10 +418,15 @@ export interface SearchAllAssignmentsResponse {
   nextPageToken?: string;
 }
 
-export const SearchAllAssignmentsResponse: Schema.Schema<SearchAllAssignmentsResponse> = Schema.suspend(() => Schema.Struct({
-  assignments: Schema.optional(Schema.Array(Assignment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchAllAssignmentsResponse" }) as any as Schema.Schema<SearchAllAssignmentsResponse>;
+export const SearchAllAssignmentsResponse: Schema.Schema<SearchAllAssignmentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      assignments: Schema.optional(Schema.Array(Assignment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchAllAssignmentsResponse",
+  }) as any as Schema.Schema<SearchAllAssignmentsResponse>;
 
 export interface MoveAssignmentRequest {
   /** The new reservation ID, e.g.: `projects/myotherproject/locations/US/reservations/team2-prod` */
@@ -318,10 +435,15 @@ export interface MoveAssignmentRequest {
   assignmentId?: string;
 }
 
-export const MoveAssignmentRequest: Schema.Schema<MoveAssignmentRequest> = Schema.suspend(() => Schema.Struct({
-  destinationId: Schema.optional(Schema.String),
-  assignmentId: Schema.optional(Schema.String),
-})).annotate({ identifier: "MoveAssignmentRequest" }) as any as Schema.Schema<MoveAssignmentRequest>;
+export const MoveAssignmentRequest: Schema.Schema<MoveAssignmentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destinationId: Schema.optional(Schema.String),
+      assignmentId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveAssignmentRequest",
+  }) as any as Schema.Schema<MoveAssignmentRequest>;
 
 export interface TableReference {
   /** Optional. The assigned project ID of the project. */
@@ -332,11 +454,16 @@ export interface TableReference {
   tableId?: string;
 }
 
-export const TableReference: Schema.Schema<TableReference> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-  datasetId: Schema.optional(Schema.String),
-  tableId: Schema.optional(Schema.String),
-})).annotate({ identifier: "TableReference" }) as any as Schema.Schema<TableReference>;
+export const TableReference: Schema.Schema<TableReference> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      projectId: Schema.optional(Schema.String),
+      datasetId: Schema.optional(Schema.String),
+      tableId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TableReference",
+}) as any as Schema.Schema<TableReference>;
 
 export interface BiReservation {
   /** Identifier. The resource name of the singleton BI reservation. Reservation names have the form `projects/{project_id}/locations/{location_id}/biReservation`. */
@@ -349,12 +476,16 @@ export interface BiReservation {
   preferredTables?: Array<TableReference>;
 }
 
-export const BiReservation: Schema.Schema<BiReservation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.String),
-  preferredTables: Schema.optional(Schema.Array(TableReference)),
-})).annotate({ identifier: "BiReservation" }) as any as Schema.Schema<BiReservation>;
+export const BiReservation: Schema.Schema<BiReservation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    size: Schema.optional(Schema.String),
+    preferredTables: Schema.optional(Schema.Array(TableReference)),
+  }),
+).annotate({
+  identifier: "BiReservation",
+}) as any as Schema.Schema<BiReservation>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -367,12 +498,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -383,23 +516,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -408,10 +553,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -424,12 +571,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -438,37 +587,57 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface ReservationGroup {
   /** Identifier. The resource name of the reservation group, e.g., `projects/* /locations/* /reservationGroups/team1-prod`. The reservation_group_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   name?: string;
 }
 
-export const ReservationGroup: Schema.Schema<ReservationGroup> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReservationGroup" }) as any as Schema.Schema<ReservationGroup>;
+export const ReservationGroup: Schema.Schema<ReservationGroup> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ReservationGroup",
+}) as any as Schema.Schema<ReservationGroup>;
 
 export interface ListReservationGroupsResponse {
   /** List of reservations visible to the user. */
@@ -477,10 +646,15 @@ export interface ListReservationGroupsResponse {
   nextPageToken?: string;
 }
 
-export const ListReservationGroupsResponse: Schema.Schema<ListReservationGroupsResponse> = Schema.suspend(() => Schema.Struct({
-  reservationGroups: Schema.optional(Schema.Array(ReservationGroup)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListReservationGroupsResponse" }) as any as Schema.Schema<ListReservationGroupsResponse>;
+export const ListReservationGroupsResponse: Schema.Schema<ListReservationGroupsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reservationGroups: Schema.optional(Schema.Array(ReservationGroup)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListReservationGroupsResponse",
+  }) as any as Schema.Schema<ListReservationGroupsResponse>;
 
 // ==========================================================================
 // Operations
@@ -503,17 +677,27 @@ export const SearchAssignmentsProjectsLocationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}:searchAssignments" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:searchAssignments",
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchAssignmentsProjectsLocationsRequest>;
 
-export type SearchAssignmentsProjectsLocationsResponse = SearchAssignmentsResponse;
-export const SearchAssignmentsProjectsLocationsResponse = SearchAssignmentsResponse;
+export type SearchAssignmentsProjectsLocationsResponse =
+  SearchAssignmentsResponse;
+export const SearchAssignmentsProjectsLocationsResponse =
+  SearchAssignmentsResponse;
 
 export type SearchAssignmentsProjectsLocationsError = DefaultErrors;
 
 /** Deprecated: Looks up assignments for a specified resource for a particular region. If the request is about a project: 1. Assignments created on the project will be returned if they exist. 2. Otherwise assignments created on the closest ancestor will be returned. 3. Assignments for different JobTypes will all be returned. The same logic applies if the request is about a folder. If the request is about an organization, then assignments created on the organization will be returned (organization doesn't have ancestors). Comparing to ListAssignments, there are some behavior differences: 1. permission on the assignee will be verified in this API. 2. Hierarchy lookup (project->folder->organization) happens in this API. 3. Parent here is `projects/* /locations/*`, instead of `projects/* /locations/*reservations/*`. **Note** "-" cannot be used for projects nor locations. */
-export const searchAssignmentsProjectsLocations: API.PaginatedOperationMethod<SearchAssignmentsProjectsLocationsRequest, SearchAssignmentsProjectsLocationsResponse, SearchAssignmentsProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchAssignmentsProjectsLocations: API.PaginatedOperationMethod<
+  SearchAssignmentsProjectsLocationsRequest,
+  SearchAssignmentsProjectsLocationsResponse,
+  SearchAssignmentsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchAssignmentsProjectsLocationsRequest,
   output: SearchAssignmentsProjectsLocationsResponse,
   errors: [],
@@ -540,17 +724,27 @@ export const SearchAllAssignmentsProjectsLocationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}:searchAllAssignments" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:searchAllAssignments",
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchAllAssignmentsProjectsLocationsRequest>;
 
-export type SearchAllAssignmentsProjectsLocationsResponse = SearchAllAssignmentsResponse;
-export const SearchAllAssignmentsProjectsLocationsResponse = SearchAllAssignmentsResponse;
+export type SearchAllAssignmentsProjectsLocationsResponse =
+  SearchAllAssignmentsResponse;
+export const SearchAllAssignmentsProjectsLocationsResponse =
+  SearchAllAssignmentsResponse;
 
 export type SearchAllAssignmentsProjectsLocationsError = DefaultErrors;
 
 /** Looks up assignments for a specified resource for a particular region. If the request is about a project: 1. Assignments created on the project will be returned if they exist. 2. Otherwise assignments created on the closest ancestor will be returned. 3. Assignments for different JobTypes will all be returned. The same logic applies if the request is about a folder. If the request is about an organization, then assignments created on the organization will be returned (organization doesn't have ancestors). Comparing to ListAssignments, there are some behavior differences: 1. permission on the assignee will be verified in this API. 2. Hierarchy lookup (project->folder->organization) happens in this API. 3. Parent here is `projects/* /locations/*`, instead of `projects/* /locations/*reservations/*`. */
-export const searchAllAssignmentsProjectsLocations: API.PaginatedOperationMethod<SearchAllAssignmentsProjectsLocationsRequest, SearchAllAssignmentsProjectsLocationsResponse, SearchAllAssignmentsProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchAllAssignmentsProjectsLocations: API.PaginatedOperationMethod<
+  SearchAllAssignmentsProjectsLocationsRequest,
+  SearchAllAssignmentsProjectsLocationsResponse,
+  SearchAllAssignmentsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchAllAssignmentsProjectsLocationsRequest,
   output: SearchAllAssignmentsProjectsLocationsResponse,
   errors: [],
@@ -568,7 +762,10 @@ export interface GetBiReservationProjectsLocationsRequest {
 export const GetBiReservationProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/biReservation" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/biReservation",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetBiReservationProjectsLocationsRequest>;
 
@@ -578,7 +775,12 @@ export const GetBiReservationProjectsLocationsResponse = BiReservation;
 export type GetBiReservationProjectsLocationsError = DefaultErrors;
 
 /** Retrieves a BI reservation. */
-export const getBiReservationProjectsLocations: API.OperationMethod<GetBiReservationProjectsLocationsRequest, GetBiReservationProjectsLocationsResponse, GetBiReservationProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getBiReservationProjectsLocations: API.OperationMethod<
+  GetBiReservationProjectsLocationsRequest,
+  GetBiReservationProjectsLocationsResponse,
+  GetBiReservationProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetBiReservationProjectsLocationsRequest,
   output: GetBiReservationProjectsLocationsResponse,
   errors: [],
@@ -598,7 +800,11 @@ export const UpdateBiReservationProjectsLocationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(BiReservation).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/biReservation", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/biReservation",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateBiReservationProjectsLocationsRequest>;
 
@@ -608,7 +814,12 @@ export const UpdateBiReservationProjectsLocationsResponse = BiReservation;
 export type UpdateBiReservationProjectsLocationsError = DefaultErrors;
 
 /** Updates a BI reservation. Only fields specified in the `field_mask` are updated. A singleton BI reservation always exists with default size 0. In order to reserve BI capacity it needs to be updated to an amount greater than 0. In order to release BI capacity reservation size must be set to 0. */
-export const updateBiReservationProjectsLocations: API.OperationMethod<UpdateBiReservationProjectsLocationsRequest, UpdateBiReservationProjectsLocationsResponse, UpdateBiReservationProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateBiReservationProjectsLocations: API.OperationMethod<
+  UpdateBiReservationProjectsLocationsRequest,
+  UpdateBiReservationProjectsLocationsResponse,
+  UpdateBiReservationProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateBiReservationProjectsLocationsRequest,
   output: UpdateBiReservationProjectsLocationsResponse,
   errors: [],
@@ -625,10 +836,16 @@ export interface CreateProjectsLocationsReservationsRequest {
 
 export const CreateProjectsLocationsReservationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  reservationId: Schema.optional(Schema.String).pipe(T.HttpQuery("reservationId")),
+  reservationId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reservationId"),
+  ),
   body: Schema.optional(Reservation).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservations",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsReservationsRequest>;
 
@@ -638,7 +855,12 @@ export const CreateProjectsLocationsReservationsResponse = Reservation;
 export type CreateProjectsLocationsReservationsError = DefaultErrors;
 
 /** Creates a new reservation resource. */
-export const createProjectsLocationsReservations: API.OperationMethod<CreateProjectsLocationsReservationsRequest, CreateProjectsLocationsReservationsResponse, CreateProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsReservations: API.OperationMethod<
+  CreateProjectsLocationsReservationsRequest,
+  CreateProjectsLocationsReservationsResponse,
+  CreateProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsReservationsRequest,
   output: CreateProjectsLocationsReservationsResponse,
   errors: [],
@@ -658,17 +880,27 @@ export const ListProjectsLocationsReservationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsReservationsRequest>;
 
-export type ListProjectsLocationsReservationsResponse = ListReservationsResponse;
-export const ListProjectsLocationsReservationsResponse = ListReservationsResponse;
+export type ListProjectsLocationsReservationsResponse =
+  ListReservationsResponse;
+export const ListProjectsLocationsReservationsResponse =
+  ListReservationsResponse;
 
 export type ListProjectsLocationsReservationsError = DefaultErrors;
 
 /** Lists all the reservations for the project in the specified location. */
-export const listProjectsLocationsReservations: API.PaginatedOperationMethod<ListProjectsLocationsReservationsRequest, ListProjectsLocationsReservationsResponse, ListProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsReservations: API.PaginatedOperationMethod<
+  ListProjectsLocationsReservationsRequest,
+  ListProjectsLocationsReservationsResponse,
+  ListProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsReservationsRequest,
   output: ListProjectsLocationsReservationsResponse,
   errors: [],
@@ -686,7 +918,10 @@ export interface GetProjectsLocationsReservationsRequest {
 export const GetProjectsLocationsReservationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsReservationsRequest>;
 
@@ -696,7 +931,12 @@ export const GetProjectsLocationsReservationsResponse = Reservation;
 export type GetProjectsLocationsReservationsError = DefaultErrors;
 
 /** Returns information about the reservation. */
-export const getProjectsLocationsReservations: API.OperationMethod<GetProjectsLocationsReservationsRequest, GetProjectsLocationsReservationsResponse, GetProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsReservations: API.OperationMethod<
+  GetProjectsLocationsReservationsRequest,
+  GetProjectsLocationsReservationsResponse,
+  GetProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsReservationsRequest,
   output: GetProjectsLocationsReservationsResponse,
   errors: [],
@@ -710,7 +950,10 @@ export interface DeleteProjectsLocationsReservationsRequest {
 export const DeleteProjectsLocationsReservationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsReservationsRequest>;
 
@@ -720,7 +963,12 @@ export const DeleteProjectsLocationsReservationsResponse = Empty;
 export type DeleteProjectsLocationsReservationsError = DefaultErrors;
 
 /** Deletes a reservation. Returns `google.rpc.Code.FAILED_PRECONDITION` when reservation has assignments. */
-export const deleteProjectsLocationsReservations: API.OperationMethod<DeleteProjectsLocationsReservationsRequest, DeleteProjectsLocationsReservationsResponse, DeleteProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsReservations: API.OperationMethod<
+  DeleteProjectsLocationsReservationsRequest,
+  DeleteProjectsLocationsReservationsResponse,
+  DeleteProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsReservationsRequest,
   output: DeleteProjectsLocationsReservationsResponse,
   errors: [],
@@ -740,7 +988,11 @@ export const PatchProjectsLocationsReservationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Reservation).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsReservationsRequest>;
 
@@ -750,7 +1002,12 @@ export const PatchProjectsLocationsReservationsResponse = Reservation;
 export type PatchProjectsLocationsReservationsError = DefaultErrors;
 
 /** Updates an existing reservation resource. */
-export const patchProjectsLocationsReservations: API.OperationMethod<PatchProjectsLocationsReservationsRequest, PatchProjectsLocationsReservationsResponse, PatchProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsReservations: API.OperationMethod<
+  PatchProjectsLocationsReservationsRequest,
+  PatchProjectsLocationsReservationsResponse,
+  PatchProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsReservationsRequest,
   output: PatchProjectsLocationsReservationsResponse,
   errors: [],
@@ -763,21 +1020,34 @@ export interface FailoverReservationProjectsLocationsReservationsRequest {
   body?: FailoverReservationRequest;
 }
 
-export const FailoverReservationProjectsLocationsReservationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(FailoverReservationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:failoverReservation", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<FailoverReservationProjectsLocationsReservationsRequest>;
+export const FailoverReservationProjectsLocationsReservationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(FailoverReservationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:failoverReservation",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FailoverReservationProjectsLocationsReservationsRequest>;
 
-export type FailoverReservationProjectsLocationsReservationsResponse = Reservation;
-export const FailoverReservationProjectsLocationsReservationsResponse = Reservation;
+export type FailoverReservationProjectsLocationsReservationsResponse =
+  Reservation;
+export const FailoverReservationProjectsLocationsReservationsResponse =
+  Reservation;
 
-export type FailoverReservationProjectsLocationsReservationsError = DefaultErrors;
+export type FailoverReservationProjectsLocationsReservationsError =
+  DefaultErrors;
 
 /** Fail over a reservation to the secondary location. The operation should be done in the current secondary location, which will be promoted to the new primary location for the reservation. Attempting to failover a reservation in the current primary location will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
-export const failoverReservationProjectsLocationsReservations: API.OperationMethod<FailoverReservationProjectsLocationsReservationsRequest, FailoverReservationProjectsLocationsReservationsResponse, FailoverReservationProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const failoverReservationProjectsLocationsReservations: API.OperationMethod<
+  FailoverReservationProjectsLocationsReservationsRequest,
+  FailoverReservationProjectsLocationsReservationsResponse,
+  FailoverReservationProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FailoverReservationProjectsLocationsReservationsRequest,
   output: FailoverReservationProjectsLocationsReservationsResponse,
   errors: [],
@@ -792,9 +1062,14 @@ export interface GetIamPolicyProjectsLocationsReservationsRequest {
 
 export const GetIamPolicyProjectsLocationsReservationsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsReservationsRequest>;
 
@@ -804,7 +1079,12 @@ export const GetIamPolicyProjectsLocationsReservationsResponse = Policy;
 export type GetIamPolicyProjectsLocationsReservationsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Reservations - ReservationAssignments To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.getIamPolicy` to get policies on reservations. */
-export const getIamPolicyProjectsLocationsReservations: API.OperationMethod<GetIamPolicyProjectsLocationsReservationsRequest, GetIamPolicyProjectsLocationsReservationsResponse, GetIamPolicyProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsReservations: API.OperationMethod<
+  GetIamPolicyProjectsLocationsReservationsRequest,
+  GetIamPolicyProjectsLocationsReservationsResponse,
+  GetIamPolicyProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsReservationsRequest,
   output: GetIamPolicyProjectsLocationsReservationsResponse,
   errors: [],
@@ -821,7 +1101,11 @@ export const SetIamPolicyProjectsLocationsReservationsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsReservationsRequest>;
 
@@ -831,7 +1115,12 @@ export const SetIamPolicyProjectsLocationsReservationsResponse = Policy;
 export type SetIamPolicyProjectsLocationsReservationsError = DefaultErrors;
 
 /** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Reservations To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.setIamPolicy` to set policies on reservations. */
-export const setIamPolicyProjectsLocationsReservations: API.OperationMethod<SetIamPolicyProjectsLocationsReservationsRequest, SetIamPolicyProjectsLocationsReservationsResponse, SetIamPolicyProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsReservations: API.OperationMethod<
+  SetIamPolicyProjectsLocationsReservationsRequest,
+  SetIamPolicyProjectsLocationsReservationsResponse,
+  SetIamPolicyProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsReservationsRequest,
   output: SetIamPolicyProjectsLocationsReservationsResponse,
   errors: [],
@@ -844,21 +1133,34 @@ export interface TestIamPermissionsProjectsLocationsReservationsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsReservationsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsReservationsRequest>;
+export const TestIamPermissionsProjectsLocationsReservationsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsReservationsRequest>;
 
-export type TestIamPermissionsProjectsLocationsReservationsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsReservationsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsReservationsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsReservationsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsReservationsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsReservationsError =
+  DefaultErrors;
 
 /** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Reservations No Google IAM permissions are required to call this method. */
-export const testIamPermissionsProjectsLocationsReservations: API.OperationMethod<TestIamPermissionsProjectsLocationsReservationsRequest, TestIamPermissionsProjectsLocationsReservationsResponse, TestIamPermissionsProjectsLocationsReservationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsReservations: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsReservationsRequest,
+  TestIamPermissionsProjectsLocationsReservationsResponse,
+  TestIamPermissionsProjectsLocationsReservationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsReservationsRequest,
   output: TestIamPermissionsProjectsLocationsReservationsResponse,
   errors: [],
@@ -873,22 +1175,35 @@ export interface CreateProjectsLocationsReservationsAssignmentsRequest {
   body?: Assignment;
 }
 
-export const CreateProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  assignmentId: Schema.optional(Schema.String).pipe(T.HttpQuery("assignmentId")),
-  body: Schema.optional(Assignment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsReservationsAssignmentsRequest>;
+export const CreateProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    assignmentId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("assignmentId"),
+    ),
+    body: Schema.optional(Assignment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsReservationsAssignmentsRequest>;
 
 export type CreateProjectsLocationsReservationsAssignmentsResponse = Assignment;
-export const CreateProjectsLocationsReservationsAssignmentsResponse = Assignment;
+export const CreateProjectsLocationsReservationsAssignmentsResponse =
+  Assignment;
 
 export type CreateProjectsLocationsReservationsAssignmentsError = DefaultErrors;
 
 /** Creates an assignment object which allows the given project to submit jobs of a certain type using slots from the specified reservation. Currently a resource (project, folder, organization) can only have one assignment per each (job_type, location) combination, and that reservation will be used for all jobs of the matching type. Different assignments can be created on different levels of the projects, folders or organization hierarchy. During query execution, the assignment is looked up at the project, folder and organization levels in that order. The first assignment found is applied to the query. When creating assignments, it does not matter if other assignments exist at higher levels. Example: * The organization `organizationA` contains two projects, `project1` and `project2`. * Assignments for all three entities (`organizationA`, `project1`, and `project2`) could all be created and mapped to the same or different reservations. "None" assignments represent an absence of the assignment. Projects assigned to None use on-demand pricing. To create a "None" assignment, use "none" as a reservation_id in the parent. Example parent: `projects/myproject/locations/US/reservations/none`. Returns `google.rpc.Code.PERMISSION_DENIED` if user does not have 'bigquery.admin' permissions on the project using the reservation and the project that owns this reservation. Returns `google.rpc.Code.INVALID_ARGUMENT` when location of the assignment does not match location of the reservation. */
-export const createProjectsLocationsReservationsAssignments: API.OperationMethod<CreateProjectsLocationsReservationsAssignmentsRequest, CreateProjectsLocationsReservationsAssignmentsResponse, CreateProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsReservationsAssignments: API.OperationMethod<
+  CreateProjectsLocationsReservationsAssignmentsRequest,
+  CreateProjectsLocationsReservationsAssignmentsResponse,
+  CreateProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsReservationsAssignmentsRequest,
   output: CreateProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -903,22 +1218,33 @@ export interface ListProjectsLocationsReservationsAssignmentsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsReservationsAssignmentsRequest>;
+export const ListProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsReservationsAssignmentsRequest>;
 
-export type ListProjectsLocationsReservationsAssignmentsResponse = ListAssignmentsResponse;
-export const ListProjectsLocationsReservationsAssignmentsResponse = ListAssignmentsResponse;
+export type ListProjectsLocationsReservationsAssignmentsResponse =
+  ListAssignmentsResponse;
+export const ListProjectsLocationsReservationsAssignmentsResponse =
+  ListAssignmentsResponse;
 
 export type ListProjectsLocationsReservationsAssignmentsError = DefaultErrors;
 
 /** Lists assignments. Only explicitly created assignments will be returned. Example: * Organization `organizationA` contains two projects, `project1` and `project2`. * Reservation `res1` exists and was created previously. * CreateAssignment was used previously to define the following associations between entities and reservations: `` and `` In this example, ListAssignments will just return the above two assignments for reservation `res1`, and no expansion/merge will happen. The wildcard "-" can be used for reservations in the request. In that case all assignments belongs to the specified project and location will be listed. **Note** "-" cannot be used for projects nor locations. */
-export const listProjectsLocationsReservationsAssignments: API.PaginatedOperationMethod<ListProjectsLocationsReservationsAssignmentsRequest, ListProjectsLocationsReservationsAssignmentsResponse, ListProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsReservationsAssignments: API.PaginatedOperationMethod<
+  ListProjectsLocationsReservationsAssignmentsRequest,
+  ListProjectsLocationsReservationsAssignmentsResponse,
+  ListProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsReservationsAssignmentsRequest,
   output: ListProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -933,12 +1259,16 @@ export interface DeleteProjectsLocationsReservationsAssignmentsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsReservationsAssignmentsRequest>;
+export const DeleteProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsReservationsAssignmentsRequest>;
 
 export type DeleteProjectsLocationsReservationsAssignmentsResponse = Empty;
 export const DeleteProjectsLocationsReservationsAssignmentsResponse = Empty;
@@ -946,7 +1276,12 @@ export const DeleteProjectsLocationsReservationsAssignmentsResponse = Empty;
 export type DeleteProjectsLocationsReservationsAssignmentsError = DefaultErrors;
 
 /** Deletes a assignment. No expansion will happen. Example: * Organization `organizationA` contains two projects, `project1` and `project2`. * Reservation `res1` exists and was created previously. * CreateAssignment was used previously to define the following associations between entities and reservations: `` and `` In this example, deletion of the `` assignment won't affect the other assignment ``. After said deletion, queries from `project1` will still use `res1` while queries from `project2` will switch to use on-demand mode. */
-export const deleteProjectsLocationsReservationsAssignments: API.OperationMethod<DeleteProjectsLocationsReservationsAssignmentsRequest, DeleteProjectsLocationsReservationsAssignmentsResponse, DeleteProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsReservationsAssignments: API.OperationMethod<
+  DeleteProjectsLocationsReservationsAssignmentsRequest,
+  DeleteProjectsLocationsReservationsAssignmentsResponse,
+  DeleteProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsReservationsAssignmentsRequest,
   output: DeleteProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -959,13 +1294,18 @@ export interface MoveProjectsLocationsReservationsAssignmentsRequest {
   body?: MoveAssignmentRequest;
 }
 
-export const MoveProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MoveAssignmentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:move", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<MoveProjectsLocationsReservationsAssignmentsRequest>;
+export const MoveProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MoveAssignmentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:move",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveProjectsLocationsReservationsAssignmentsRequest>;
 
 export type MoveProjectsLocationsReservationsAssignmentsResponse = Assignment;
 export const MoveProjectsLocationsReservationsAssignmentsResponse = Assignment;
@@ -973,7 +1313,12 @@ export const MoveProjectsLocationsReservationsAssignmentsResponse = Assignment;
 export type MoveProjectsLocationsReservationsAssignmentsError = DefaultErrors;
 
 /** Moves an assignment under a new reservation. This differs from removing an existing assignment and recreating a new one by providing a transactional change that ensures an assignee always has an associated reservation. */
-export const moveProjectsLocationsReservationsAssignments: API.OperationMethod<MoveProjectsLocationsReservationsAssignmentsRequest, MoveProjectsLocationsReservationsAssignmentsResponse, MoveProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveProjectsLocationsReservationsAssignments: API.OperationMethod<
+  MoveProjectsLocationsReservationsAssignmentsRequest,
+  MoveProjectsLocationsReservationsAssignmentsResponse,
+  MoveProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveProjectsLocationsReservationsAssignmentsRequest,
   output: MoveProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -988,14 +1333,19 @@ export interface PatchProjectsLocationsReservationsAssignmentsRequest {
   body?: Assignment;
 }
 
-export const PatchProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Assignment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsReservationsAssignmentsRequest>;
+export const PatchProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Assignment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsReservationsAssignmentsRequest>;
 
 export type PatchProjectsLocationsReservationsAssignmentsResponse = Assignment;
 export const PatchProjectsLocationsReservationsAssignmentsResponse = Assignment;
@@ -1003,7 +1353,12 @@ export const PatchProjectsLocationsReservationsAssignmentsResponse = Assignment;
 export type PatchProjectsLocationsReservationsAssignmentsError = DefaultErrors;
 
 /** Updates an existing assignment. Only the `priority` field can be updated. */
-export const patchProjectsLocationsReservationsAssignments: API.OperationMethod<PatchProjectsLocationsReservationsAssignmentsRequest, PatchProjectsLocationsReservationsAssignmentsResponse, PatchProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsReservationsAssignments: API.OperationMethod<
+  PatchProjectsLocationsReservationsAssignmentsRequest,
+  PatchProjectsLocationsReservationsAssignmentsResponse,
+  PatchProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsReservationsAssignmentsRequest,
   output: PatchProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -1016,21 +1371,35 @@ export interface GetIamPolicyProjectsLocationsReservationsAssignmentsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsReservationsAssignmentsRequest>;
+export const GetIamPolicyProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsReservationsAssignmentsRequest>;
 
-export type GetIamPolicyProjectsLocationsReservationsAssignmentsResponse = Policy;
-export const GetIamPolicyProjectsLocationsReservationsAssignmentsResponse = Policy;
+export type GetIamPolicyProjectsLocationsReservationsAssignmentsResponse =
+  Policy;
+export const GetIamPolicyProjectsLocationsReservationsAssignmentsResponse =
+  Policy;
 
-export type GetIamPolicyProjectsLocationsReservationsAssignmentsError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsReservationsAssignmentsError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Reservations - ReservationAssignments To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.getIamPolicy` to get policies on reservations. */
-export const getIamPolicyProjectsLocationsReservationsAssignments: API.OperationMethod<GetIamPolicyProjectsLocationsReservationsAssignmentsRequest, GetIamPolicyProjectsLocationsReservationsAssignmentsResponse, GetIamPolicyProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsReservationsAssignments: API.OperationMethod<
+  GetIamPolicyProjectsLocationsReservationsAssignmentsRequest,
+  GetIamPolicyProjectsLocationsReservationsAssignmentsResponse,
+  GetIamPolicyProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsReservationsAssignmentsRequest,
   output: GetIamPolicyProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -1043,21 +1412,34 @@ export interface SetIamPolicyProjectsLocationsReservationsAssignmentsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsReservationsAssignmentsRequest>;
+export const SetIamPolicyProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsReservationsAssignmentsRequest>;
 
-export type SetIamPolicyProjectsLocationsReservationsAssignmentsResponse = Policy;
-export const SetIamPolicyProjectsLocationsReservationsAssignmentsResponse = Policy;
+export type SetIamPolicyProjectsLocationsReservationsAssignmentsResponse =
+  Policy;
+export const SetIamPolicyProjectsLocationsReservationsAssignmentsResponse =
+  Policy;
 
-export type SetIamPolicyProjectsLocationsReservationsAssignmentsError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsReservationsAssignmentsError =
+  DefaultErrors;
 
 /** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Reservations To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.setIamPolicy` to set policies on reservations. */
-export const setIamPolicyProjectsLocationsReservationsAssignments: API.OperationMethod<SetIamPolicyProjectsLocationsReservationsAssignmentsRequest, SetIamPolicyProjectsLocationsReservationsAssignmentsResponse, SetIamPolicyProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsReservationsAssignments: API.OperationMethod<
+  SetIamPolicyProjectsLocationsReservationsAssignmentsRequest,
+  SetIamPolicyProjectsLocationsReservationsAssignmentsResponse,
+  SetIamPolicyProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsReservationsAssignmentsRequest,
   output: SetIamPolicyProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -1070,21 +1452,34 @@ export interface TestIamPermissionsProjectsLocationsReservationsAssignmentsReque
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest>;
+export const TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}/assignments/{assignmentsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest>;
 
-export type TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsReservationsAssignmentsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsReservationsAssignmentsError =
+  DefaultErrors;
 
 /** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Reservations No Google IAM permissions are required to call this method. */
-export const testIamPermissionsProjectsLocationsReservationsAssignments: API.OperationMethod<TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest, TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse, TestIamPermissionsProjectsLocationsReservationsAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsReservationsAssignments: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest,
+  TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse,
+  TestIamPermissionsProjectsLocationsReservationsAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest,
   output: TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -1103,21 +1498,36 @@ export interface CreateProjectsLocationsCapacityCommitmentsRequest {
 
 export const CreateProjectsLocationsCapacityCommitmentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  enforceSingleAdminProjectPerOrg: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("enforceSingleAdminProjectPerOrg")),
-  capacityCommitmentId: Schema.optional(Schema.String).pipe(T.HttpQuery("capacityCommitmentId")),
+  enforceSingleAdminProjectPerOrg: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("enforceSingleAdminProjectPerOrg"),
+  ),
+  capacityCommitmentId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("capacityCommitmentId"),
+  ),
   body: Schema.optional(CapacityCommitment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsCapacityCommitmentsRequest>;
 
-export type CreateProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
-export const CreateProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
+export type CreateProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
+export const CreateProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
 
 export type CreateProjectsLocationsCapacityCommitmentsError = DefaultErrors;
 
 /** Creates a new capacity commitment resource. */
-export const createProjectsLocationsCapacityCommitments: API.OperationMethod<CreateProjectsLocationsCapacityCommitmentsRequest, CreateProjectsLocationsCapacityCommitmentsResponse, CreateProjectsLocationsCapacityCommitmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsCapacityCommitments: API.OperationMethod<
+  CreateProjectsLocationsCapacityCommitmentsRequest,
+  CreateProjectsLocationsCapacityCommitmentsResponse,
+  CreateProjectsLocationsCapacityCommitmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsCapacityCommitmentsRequest,
   output: CreateProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -1137,17 +1547,27 @@ export const ListProjectsLocationsCapacityCommitmentsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsCapacityCommitmentsRequest>;
 
-export type ListProjectsLocationsCapacityCommitmentsResponse = ListCapacityCommitmentsResponse;
-export const ListProjectsLocationsCapacityCommitmentsResponse = ListCapacityCommitmentsResponse;
+export type ListProjectsLocationsCapacityCommitmentsResponse =
+  ListCapacityCommitmentsResponse;
+export const ListProjectsLocationsCapacityCommitmentsResponse =
+  ListCapacityCommitmentsResponse;
 
 export type ListProjectsLocationsCapacityCommitmentsError = DefaultErrors;
 
 /** Lists all the capacity commitments for the admin project. */
-export const listProjectsLocationsCapacityCommitments: API.PaginatedOperationMethod<ListProjectsLocationsCapacityCommitmentsRequest, ListProjectsLocationsCapacityCommitmentsResponse, ListProjectsLocationsCapacityCommitmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsCapacityCommitments: API.PaginatedOperationMethod<
+  ListProjectsLocationsCapacityCommitmentsRequest,
+  ListProjectsLocationsCapacityCommitmentsResponse,
+  ListProjectsLocationsCapacityCommitmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsCapacityCommitmentsRequest,
   output: ListProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -1165,17 +1585,27 @@ export interface GetProjectsLocationsCapacityCommitmentsRequest {
 export const GetProjectsLocationsCapacityCommitmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsCapacityCommitmentsRequest>;
 
-export type GetProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
-export const GetProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
+export type GetProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
+export const GetProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
 
 export type GetProjectsLocationsCapacityCommitmentsError = DefaultErrors;
 
 /** Returns information about the capacity commitment. */
-export const getProjectsLocationsCapacityCommitments: API.OperationMethod<GetProjectsLocationsCapacityCommitmentsRequest, GetProjectsLocationsCapacityCommitmentsResponse, GetProjectsLocationsCapacityCommitmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsCapacityCommitments: API.OperationMethod<
+  GetProjectsLocationsCapacityCommitmentsRequest,
+  GetProjectsLocationsCapacityCommitmentsResponse,
+  GetProjectsLocationsCapacityCommitmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsCapacityCommitmentsRequest,
   output: GetProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -1192,7 +1622,10 @@ export const DeleteProjectsLocationsCapacityCommitmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsCapacityCommitmentsRequest>;
 
@@ -1202,7 +1635,12 @@ export const DeleteProjectsLocationsCapacityCommitmentsResponse = Empty;
 export type DeleteProjectsLocationsCapacityCommitmentsError = DefaultErrors;
 
 /** Deletes a capacity commitment. Attempting to delete capacity commitment before its commitment_end_time will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
-export const deleteProjectsLocationsCapacityCommitments: API.OperationMethod<DeleteProjectsLocationsCapacityCommitmentsRequest, DeleteProjectsLocationsCapacityCommitmentsResponse, DeleteProjectsLocationsCapacityCommitmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsCapacityCommitments: API.OperationMethod<
+  DeleteProjectsLocationsCapacityCommitmentsRequest,
+  DeleteProjectsLocationsCapacityCommitmentsResponse,
+  DeleteProjectsLocationsCapacityCommitmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsCapacityCommitmentsRequest,
   output: DeleteProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -1222,17 +1660,28 @@ export const PatchProjectsLocationsCapacityCommitmentsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(CapacityCommitment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsCapacityCommitmentsRequest>;
 
-export type PatchProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
-export const PatchProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
+export type PatchProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
+export const PatchProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
 
 export type PatchProjectsLocationsCapacityCommitmentsError = DefaultErrors;
 
 /** Updates an existing capacity commitment. Only `plan` and `renewal_plan` fields can be updated. Plan can only be changed to a plan of a longer commitment period. Attempting to change to a plan with shorter commitment period will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
-export const patchProjectsLocationsCapacityCommitments: API.OperationMethod<PatchProjectsLocationsCapacityCommitmentsRequest, PatchProjectsLocationsCapacityCommitmentsResponse, PatchProjectsLocationsCapacityCommitmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsCapacityCommitments: API.OperationMethod<
+  PatchProjectsLocationsCapacityCommitmentsRequest,
+  PatchProjectsLocationsCapacityCommitmentsResponse,
+  PatchProjectsLocationsCapacityCommitmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsCapacityCommitmentsRequest,
   output: PatchProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -1249,17 +1698,28 @@ export const SplitProjectsLocationsCapacityCommitmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SplitCapacityCommitmentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}:split", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments/{capacityCommitmentsId}:split",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SplitProjectsLocationsCapacityCommitmentsRequest>;
 
-export type SplitProjectsLocationsCapacityCommitmentsResponse = SplitCapacityCommitmentResponse;
-export const SplitProjectsLocationsCapacityCommitmentsResponse = SplitCapacityCommitmentResponse;
+export type SplitProjectsLocationsCapacityCommitmentsResponse =
+  SplitCapacityCommitmentResponse;
+export const SplitProjectsLocationsCapacityCommitmentsResponse =
+  SplitCapacityCommitmentResponse;
 
 export type SplitProjectsLocationsCapacityCommitmentsError = DefaultErrors;
 
 /** Splits capacity commitment to two commitments of the same plan and `commitment_end_time`. A common use case is to enable downgrading commitments. For example, in order to downgrade from 10000 slots to 8000, you might split a 10000 capacity commitment into commitments of 2000 and 8000. Then, you delete the first one after the commitment end time passes. */
-export const splitProjectsLocationsCapacityCommitments: API.OperationMethod<SplitProjectsLocationsCapacityCommitmentsRequest, SplitProjectsLocationsCapacityCommitmentsResponse, SplitProjectsLocationsCapacityCommitmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const splitProjectsLocationsCapacityCommitments: API.OperationMethod<
+  SplitProjectsLocationsCapacityCommitmentsRequest,
+  SplitProjectsLocationsCapacityCommitmentsResponse,
+  SplitProjectsLocationsCapacityCommitmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SplitProjectsLocationsCapacityCommitmentsRequest,
   output: SplitProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -1276,17 +1736,28 @@ export const MergeProjectsLocationsCapacityCommitmentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(MergeCapacityCommitmentsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments:merge", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/capacityCommitments:merge",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MergeProjectsLocationsCapacityCommitmentsRequest>;
 
-export type MergeProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
-export const MergeProjectsLocationsCapacityCommitmentsResponse = CapacityCommitment;
+export type MergeProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
+export const MergeProjectsLocationsCapacityCommitmentsResponse =
+  CapacityCommitment;
 
 export type MergeProjectsLocationsCapacityCommitmentsError = DefaultErrors;
 
 /** Merges capacity commitments of the same plan into a single commitment. The resulting capacity commitment has the greater commitment_end_time out of the to-be-merged capacity commitments. Attempting to merge capacity commitments of different plan will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
-export const mergeProjectsLocationsCapacityCommitments: API.OperationMethod<MergeProjectsLocationsCapacityCommitmentsRequest, MergeProjectsLocationsCapacityCommitmentsResponse, MergeProjectsLocationsCapacityCommitmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const mergeProjectsLocationsCapacityCommitments: API.OperationMethod<
+  MergeProjectsLocationsCapacityCommitmentsRequest,
+  MergeProjectsLocationsCapacityCommitmentsResponse,
+  MergeProjectsLocationsCapacityCommitmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MergeProjectsLocationsCapacityCommitmentsRequest,
   output: MergeProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -1303,20 +1774,32 @@ export interface CreateProjectsLocationsReservationGroupsRequest {
 
 export const CreateProjectsLocationsReservationGroupsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  reservationGroupId: Schema.optional(Schema.String).pipe(T.HttpQuery("reservationGroupId")),
+  reservationGroupId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reservationGroupId"),
+  ),
   body: Schema.optional(ReservationGroup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsReservationGroupsRequest>;
 
 export type CreateProjectsLocationsReservationGroupsResponse = ReservationGroup;
-export const CreateProjectsLocationsReservationGroupsResponse = ReservationGroup;
+export const CreateProjectsLocationsReservationGroupsResponse =
+  ReservationGroup;
 
 export type CreateProjectsLocationsReservationGroupsError = DefaultErrors;
 
 /** Creates a new reservation group. */
-export const createProjectsLocationsReservationGroups: API.OperationMethod<CreateProjectsLocationsReservationGroupsRequest, CreateProjectsLocationsReservationGroupsResponse, CreateProjectsLocationsReservationGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsReservationGroups: API.OperationMethod<
+  CreateProjectsLocationsReservationGroupsRequest,
+  CreateProjectsLocationsReservationGroupsResponse,
+  CreateProjectsLocationsReservationGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsReservationGroupsRequest,
   output: CreateProjectsLocationsReservationGroupsResponse,
   errors: [],
@@ -1330,7 +1813,10 @@ export interface GetProjectsLocationsReservationGroupsRequest {
 export const GetProjectsLocationsReservationGroupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups/{reservationGroupsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups/{reservationGroupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsReservationGroupsRequest>;
 
@@ -1340,7 +1826,12 @@ export const GetProjectsLocationsReservationGroupsResponse = ReservationGroup;
 export type GetProjectsLocationsReservationGroupsError = DefaultErrors;
 
 /** Returns information about the reservation group. */
-export const getProjectsLocationsReservationGroups: API.OperationMethod<GetProjectsLocationsReservationGroupsRequest, GetProjectsLocationsReservationGroupsResponse, GetProjectsLocationsReservationGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsReservationGroups: API.OperationMethod<
+  GetProjectsLocationsReservationGroupsRequest,
+  GetProjectsLocationsReservationGroupsResponse,
+  GetProjectsLocationsReservationGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsReservationGroupsRequest,
   output: GetProjectsLocationsReservationGroupsResponse,
   errors: [],
@@ -1354,7 +1845,10 @@ export interface DeleteProjectsLocationsReservationGroupsRequest {
 export const DeleteProjectsLocationsReservationGroupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups/{reservationGroupsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups/{reservationGroupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsReservationGroupsRequest>;
 
@@ -1364,7 +1858,12 @@ export const DeleteProjectsLocationsReservationGroupsResponse = Empty;
 export type DeleteProjectsLocationsReservationGroupsError = DefaultErrors;
 
 /** Deletes a reservation. Returns `google.rpc.Code.FAILED_PRECONDITION` when reservation has assignments. */
-export const deleteProjectsLocationsReservationGroups: API.OperationMethod<DeleteProjectsLocationsReservationGroupsRequest, DeleteProjectsLocationsReservationGroupsResponse, DeleteProjectsLocationsReservationGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsReservationGroups: API.OperationMethod<
+  DeleteProjectsLocationsReservationGroupsRequest,
+  DeleteProjectsLocationsReservationGroupsResponse,
+  DeleteProjectsLocationsReservationGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsReservationGroupsRequest,
   output: DeleteProjectsLocationsReservationGroupsResponse,
   errors: [],
@@ -1384,17 +1883,27 @@ export const ListProjectsLocationsReservationGroupsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/reservationGroups",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsReservationGroupsRequest>;
 
-export type ListProjectsLocationsReservationGroupsResponse = ListReservationGroupsResponse;
-export const ListProjectsLocationsReservationGroupsResponse = ListReservationGroupsResponse;
+export type ListProjectsLocationsReservationGroupsResponse =
+  ListReservationGroupsResponse;
+export const ListProjectsLocationsReservationGroupsResponse =
+  ListReservationGroupsResponse;
 
 export type ListProjectsLocationsReservationGroupsError = DefaultErrors;
 
 /** Lists all the reservation groups for the project in the specified location. */
-export const listProjectsLocationsReservationGroups: API.PaginatedOperationMethod<ListProjectsLocationsReservationGroupsRequest, ListProjectsLocationsReservationGroupsResponse, ListProjectsLocationsReservationGroupsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsReservationGroups: API.PaginatedOperationMethod<
+  ListProjectsLocationsReservationGroupsRequest,
+  ListProjectsLocationsReservationGroupsResponse,
+  ListProjectsLocationsReservationGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsReservationGroupsRequest,
   output: ListProjectsLocationsReservationGroupsResponse,
   errors: [],
@@ -1403,4 +1912,3 @@ export const listProjectsLocationsReservationGroups: API.PaginatedOperationMetho
     outputToken: "nextPageToken",
   },
 }));
-

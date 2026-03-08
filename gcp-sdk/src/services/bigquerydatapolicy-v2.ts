@@ -25,15 +25,30 @@ const svc = T.Service({
 
 export interface DataMaskingPolicy {
   /** Optional. A predefined masking expression. */
-  predefinedExpression?: "PREDEFINED_EXPRESSION_UNSPECIFIED" | "SHA256" | "ALWAYS_NULL" | "DEFAULT_MASKING_VALUE" | "LAST_FOUR_CHARACTERS" | "FIRST_FOUR_CHARACTERS" | "EMAIL_MASK" | "DATE_YEAR_MASK" | "RANDOM_HASH" | (string & {});
+  predefinedExpression?:
+    | "PREDEFINED_EXPRESSION_UNSPECIFIED"
+    | "SHA256"
+    | "ALWAYS_NULL"
+    | "DEFAULT_MASKING_VALUE"
+    | "LAST_FOUR_CHARACTERS"
+    | "FIRST_FOUR_CHARACTERS"
+    | "EMAIL_MASK"
+    | "DATE_YEAR_MASK"
+    | "RANDOM_HASH"
+    | (string & {});
   /** Optional. The name of the BigQuery routine that contains the custom masking routine, in the format of `projects/{project_number}/datasets/{dataset_id}/routines/{routine_id}`. */
   routine?: string;
 }
 
-export const DataMaskingPolicy: Schema.Schema<DataMaskingPolicy> = Schema.suspend(() => Schema.Struct({
-  predefinedExpression: Schema.optional(Schema.String),
-  routine: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataMaskingPolicy" }) as any as Schema.Schema<DataMaskingPolicy>;
+export const DataMaskingPolicy: Schema.Schema<DataMaskingPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      predefinedExpression: Schema.optional(Schema.String),
+      routine: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DataMaskingPolicy",
+  }) as any as Schema.Schema<DataMaskingPolicy>;
 
 export interface DataPolicy {
   /** Optional. The data masking policy that specifies the data masking rule to use. It must be set if the data policy type is DATA_MASKING_POLICY. */
@@ -45,7 +60,12 @@ export interface DataPolicy {
   /** The etag for this Data Policy. This field is used for UpdateDataPolicy calls. If Data Policy exists, this field is required and must match the server's etag. It will also be populated in the response of GetDataPolicy, CreateDataPolicy, and UpdateDataPolicy calls. */
   etag?: string;
   /** Required. Type of data policy. */
-  dataPolicyType?: "DATA_POLICY_TYPE_UNSPECIFIED" | "DATA_MASKING_POLICY" | "RAW_DATA_ACCESS_POLICY" | "COLUMN_LEVEL_SECURITY_POLICY" | (string & {});
+  dataPolicyType?:
+    | "DATA_POLICY_TYPE_UNSPECIFIED"
+    | "DATA_MASKING_POLICY"
+    | "RAW_DATA_ACCESS_POLICY"
+    | "COLUMN_LEVEL_SECURITY_POLICY"
+    | (string & {});
   /** Output only. Policy tag resource name, in the format of `projects/{project_number}/locations/{location_id}/taxonomies/{taxonomy_id}/policyTags/{policyTag_id}`. policy_tag is supported only for V1 data policies. */
   policyTag?: string;
   /** Optional. The list of IAM principals that have Fine Grained Access to the underlying data goverened by this data policy. Uses the [IAM V2 principal syntax](https://cloud.google.com/iam/docs/principal-identifiers#v2) Only supports principal types users, groups, serviceaccounts, cloudidentity. This field is supported in V2 Data Policy only. In case of V1 data policies (i.e. verion = 1 and policy_tag is set), this field is not populated. */
@@ -54,16 +74,18 @@ export interface DataPolicy {
   version?: "VERSION_UNSPECIFIED" | "V1" | "V2" | (string & {});
 }
 
-export const DataPolicy: Schema.Schema<DataPolicy> = Schema.suspend(() => Schema.Struct({
-  dataMaskingPolicy: Schema.optional(DataMaskingPolicy),
-  name: Schema.optional(Schema.String),
-  dataPolicyId: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  dataPolicyType: Schema.optional(Schema.String),
-  policyTag: Schema.optional(Schema.String),
-  grantees: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataPolicy" }) as any as Schema.Schema<DataPolicy>;
+export const DataPolicy: Schema.Schema<DataPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    dataMaskingPolicy: Schema.optional(DataMaskingPolicy),
+    name: Schema.optional(Schema.String),
+    dataPolicyId: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    dataPolicyType: Schema.optional(Schema.String),
+    policyTag: Schema.optional(Schema.String),
+    grantees: Schema.optional(Schema.Array(Schema.String)),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DataPolicy" }) as any as Schema.Schema<DataPolicy>;
 
 export interface CreateDataPolicyRequest {
   /** Required. User-assigned (human readable) ID of the data policy that needs to be unique within a project. Used as {data_policy_id} in part of the resource name. */
@@ -72,34 +94,49 @@ export interface CreateDataPolicyRequest {
   dataPolicy?: DataPolicy;
 }
 
-export const CreateDataPolicyRequest: Schema.Schema<CreateDataPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  dataPolicyId: Schema.optional(Schema.String),
-  dataPolicy: Schema.optional(DataPolicy),
-})).annotate({ identifier: "CreateDataPolicyRequest" }) as any as Schema.Schema<CreateDataPolicyRequest>;
+export const CreateDataPolicyRequest: Schema.Schema<CreateDataPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataPolicyId: Schema.optional(Schema.String),
+      dataPolicy: Schema.optional(DataPolicy),
+    }),
+  ).annotate({
+    identifier: "CreateDataPolicyRequest",
+  }) as any as Schema.Schema<CreateDataPolicyRequest>;
 
 export interface AddGranteesRequest {
   /** Required. IAM principal that should be granted Fine Grained Access to the underlying data goverened by the data policy. The target data policy is determined by the `data_policy` field. Uses the [IAM V2 principal syntax](https://cloud.google.com/iam/docs/principal-identifiers#v2). Supported principal types: * User * Group * Service account */
   grantees?: Array<string>;
 }
 
-export const AddGranteesRequest: Schema.Schema<AddGranteesRequest> = Schema.suspend(() => Schema.Struct({
-  grantees: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AddGranteesRequest" }) as any as Schema.Schema<AddGranteesRequest>;
+export const AddGranteesRequest: Schema.Schema<AddGranteesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      grantees: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AddGranteesRequest",
+  }) as any as Schema.Schema<AddGranteesRequest>;
 
 export interface RemoveGranteesRequest {
   /** Required. IAM principal that should be revoked from Fine Grained Access to the underlying data goverened by the data policy. The target data policy is determined by the `data_policy` field. Uses the [IAM V2 principal syntax](https://cloud.google.com/iam/docs/principal-identifiers#v2). Supported principal types: * User * Group * Service account */
   grantees?: Array<string>;
 }
 
-export const RemoveGranteesRequest: Schema.Schema<RemoveGranteesRequest> = Schema.suspend(() => Schema.Struct({
-  grantees: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "RemoveGranteesRequest" }) as any as Schema.Schema<RemoveGranteesRequest>;
+export const RemoveGranteesRequest: Schema.Schema<RemoveGranteesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      grantees: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "RemoveGranteesRequest",
+  }) as any as Schema.Schema<RemoveGranteesRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ListDataPoliciesResponse {
   /** Data policies that belong to the requested project. */
@@ -108,28 +145,43 @@ export interface ListDataPoliciesResponse {
   nextPageToken?: string;
 }
 
-export const ListDataPoliciesResponse: Schema.Schema<ListDataPoliciesResponse> = Schema.suspend(() => Schema.Struct({
-  dataPolicies: Schema.optional(Schema.Array(DataPolicy)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDataPoliciesResponse" }) as any as Schema.Schema<ListDataPoliciesResponse>;
+export const ListDataPoliciesResponse: Schema.Schema<ListDataPoliciesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataPolicies: Schema.optional(Schema.Array(DataPolicy)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDataPoliciesResponse",
+  }) as any as Schema.Schema<ListDataPoliciesResponse>;
 
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(() => Schema.Struct({
-  requestedPolicyVersion: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GetPolicyOptions" }) as any as Schema.Schema<GetPolicyOptions>;
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GetPolicyOptions",
+}) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions;
 }
 
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  options: Schema.optional(GetPolicyOptions),
-})).annotate({ identifier: "GetIamPolicyRequest" }) as any as Schema.Schema<GetIamPolicyRequest>;
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -142,12 +194,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -158,23 +212,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -183,10 +249,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -199,12 +267,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -213,28 +283,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 // ==========================================================================
 // Operations
@@ -251,7 +336,11 @@ export const CreateProjectsLocationsDataPoliciesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateDataPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsDataPoliciesRequest>;
 
@@ -261,7 +350,12 @@ export const CreateProjectsLocationsDataPoliciesResponse = DataPolicy;
 export type CreateProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Creates a new data policy under a project with the given `data_policy_id` (used as the display name), and data policy type. */
-export const createProjectsLocationsDataPolicies: API.OperationMethod<CreateProjectsLocationsDataPoliciesRequest, CreateProjectsLocationsDataPoliciesResponse, CreateProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsDataPolicies: API.OperationMethod<
+  CreateProjectsLocationsDataPoliciesRequest,
+  CreateProjectsLocationsDataPoliciesResponse,
+  CreateProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsDataPoliciesRequest,
   output: CreateProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -278,7 +372,11 @@ export const AddGranteesProjectsLocationsDataPoliciesRequest = Schema.Struct({
   dataPolicy: Schema.String.pipe(T.HttpPath("dataPolicy")),
   body: Schema.optional(AddGranteesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:addGrantees", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:addGrantees",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddGranteesProjectsLocationsDataPoliciesRequest>;
 
@@ -288,7 +386,12 @@ export const AddGranteesProjectsLocationsDataPoliciesResponse = DataPolicy;
 export type AddGranteesProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Adds new grantees to a data policy. The new grantees will be added to the existing grantees. If the request contains a duplicate grantee, the grantee will be ignored. If the request contains a grantee that already exists, the grantee will be ignored. */
-export const addGranteesProjectsLocationsDataPolicies: API.OperationMethod<AddGranteesProjectsLocationsDataPoliciesRequest, AddGranteesProjectsLocationsDataPoliciesResponse, AddGranteesProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addGranteesProjectsLocationsDataPolicies: API.OperationMethod<
+  AddGranteesProjectsLocationsDataPoliciesRequest,
+  AddGranteesProjectsLocationsDataPoliciesResponse,
+  AddGranteesProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddGranteesProjectsLocationsDataPoliciesRequest,
   output: AddGranteesProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -301,11 +404,17 @@ export interface RemoveGranteesProjectsLocationsDataPoliciesRequest {
   body?: RemoveGranteesRequest;
 }
 
-export const RemoveGranteesProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  dataPolicy: Schema.String.pipe(T.HttpPath("dataPolicy")),
-  body: Schema.optional(RemoveGranteesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:removeGrantees", hasBody: true }),
+export const RemoveGranteesProjectsLocationsDataPoliciesRequest = Schema.Struct(
+  {
+    dataPolicy: Schema.String.pipe(T.HttpPath("dataPolicy")),
+    body: Schema.optional(RemoveGranteesRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:removeGrantees",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveGranteesProjectsLocationsDataPoliciesRequest>;
 
@@ -315,7 +424,12 @@ export const RemoveGranteesProjectsLocationsDataPoliciesResponse = DataPolicy;
 export type RemoveGranteesProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Removes grantees from a data policy. The grantees will be removed from the existing grantees. If the request contains a grantee that does not exist, the grantee will be ignored. */
-export const removeGranteesProjectsLocationsDataPolicies: API.OperationMethod<RemoveGranteesProjectsLocationsDataPoliciesRequest, RemoveGranteesProjectsLocationsDataPoliciesResponse, RemoveGranteesProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeGranteesProjectsLocationsDataPolicies: API.OperationMethod<
+  RemoveGranteesProjectsLocationsDataPoliciesRequest,
+  RemoveGranteesProjectsLocationsDataPoliciesResponse,
+  RemoveGranteesProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveGranteesProjectsLocationsDataPoliciesRequest,
   output: RemoveGranteesProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -335,10 +449,16 @@ export interface PatchProjectsLocationsDataPoliciesRequest {
 export const PatchProjectsLocationsDataPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
   body: Schema.optional(DataPolicy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsDataPoliciesRequest>;
 
@@ -348,7 +468,12 @@ export const PatchProjectsLocationsDataPoliciesResponse = DataPolicy;
 export type PatchProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Updates the metadata for an existing data policy. The target data policy can be specified by the resource name. */
-export const patchProjectsLocationsDataPolicies: API.OperationMethod<PatchProjectsLocationsDataPoliciesRequest, PatchProjectsLocationsDataPoliciesResponse, PatchProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsDataPolicies: API.OperationMethod<
+  PatchProjectsLocationsDataPoliciesRequest,
+  PatchProjectsLocationsDataPoliciesResponse,
+  PatchProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsDataPoliciesRequest,
   output: PatchProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -362,7 +487,10 @@ export interface DeleteProjectsLocationsDataPoliciesRequest {
 export const DeleteProjectsLocationsDataPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsDataPoliciesRequest>;
 
@@ -372,7 +500,12 @@ export const DeleteProjectsLocationsDataPoliciesResponse = Empty;
 export type DeleteProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Deletes the data policy specified by its resource name. */
-export const deleteProjectsLocationsDataPolicies: API.OperationMethod<DeleteProjectsLocationsDataPoliciesRequest, DeleteProjectsLocationsDataPoliciesResponse, DeleteProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsDataPolicies: API.OperationMethod<
+  DeleteProjectsLocationsDataPoliciesRequest,
+  DeleteProjectsLocationsDataPoliciesResponse,
+  DeleteProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsDataPoliciesRequest,
   output: DeleteProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -386,7 +519,10 @@ export interface GetProjectsLocationsDataPoliciesRequest {
 export const GetProjectsLocationsDataPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsDataPoliciesRequest>;
 
@@ -396,7 +532,12 @@ export const GetProjectsLocationsDataPoliciesResponse = DataPolicy;
 export type GetProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Gets the data policy specified by its resource name. */
-export const getProjectsLocationsDataPolicies: API.OperationMethod<GetProjectsLocationsDataPoliciesRequest, GetProjectsLocationsDataPoliciesResponse, GetProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsDataPolicies: API.OperationMethod<
+  GetProjectsLocationsDataPoliciesRequest,
+  GetProjectsLocationsDataPoliciesResponse,
+  GetProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsDataPoliciesRequest,
   output: GetProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -419,17 +560,27 @@ export const ListProjectsLocationsDataPoliciesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies" }),
+  T.Http({
+    method: "GET",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsDataPoliciesRequest>;
 
-export type ListProjectsLocationsDataPoliciesResponse = ListDataPoliciesResponse;
-export const ListProjectsLocationsDataPoliciesResponse = ListDataPoliciesResponse;
+export type ListProjectsLocationsDataPoliciesResponse =
+  ListDataPoliciesResponse;
+export const ListProjectsLocationsDataPoliciesResponse =
+  ListDataPoliciesResponse;
 
 export type ListProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** List all of the data policies in the specified parent project. */
-export const listProjectsLocationsDataPolicies: API.PaginatedOperationMethod<ListProjectsLocationsDataPoliciesRequest, ListProjectsLocationsDataPoliciesResponse, ListProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsDataPolicies: API.PaginatedOperationMethod<
+  ListProjectsLocationsDataPoliciesRequest,
+  ListProjectsLocationsDataPoliciesResponse,
+  ListProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataPoliciesRequest,
   output: ListProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -450,7 +601,11 @@ export const GetIamPolicyProjectsLocationsDataPoliciesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsDataPoliciesRequest>;
 
@@ -460,7 +615,12 @@ export const GetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
 export type GetIamPolicyProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Gets the IAM policy for the specified data policy. */
-export const getIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<GetIamPolicyProjectsLocationsDataPoliciesRequest, GetIamPolicyProjectsLocationsDataPoliciesResponse, GetIamPolicyProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
+  GetIamPolicyProjectsLocationsDataPoliciesRequest,
+  GetIamPolicyProjectsLocationsDataPoliciesResponse,
+  GetIamPolicyProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsDataPoliciesRequest,
   output: GetIamPolicyProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -477,7 +637,11 @@ export const SetIamPolicyProjectsLocationsDataPoliciesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsDataPoliciesRequest>;
 
@@ -487,7 +651,12 @@ export const SetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
 export type SetIamPolicyProjectsLocationsDataPoliciesError = DefaultErrors;
 
 /** Sets the IAM policy for the specified data policy. */
-export const setIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<SetIamPolicyProjectsLocationsDataPoliciesRequest, SetIamPolicyProjectsLocationsDataPoliciesResponse, SetIamPolicyProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
+  SetIamPolicyProjectsLocationsDataPoliciesRequest,
+  SetIamPolicyProjectsLocationsDataPoliciesResponse,
+  SetIamPolicyProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsDataPoliciesRequest,
   output: SetIamPolicyProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -500,23 +669,35 @@ export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsDataPoliciesRequest>;
+export const TestIamPermissionsProjectsLocationsDataPoliciesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsDataPoliciesRequest>;
 
-export type TestIamPermissionsProjectsLocationsDataPoliciesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsDataPoliciesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsDataPoliciesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsDataPoliciesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsDataPoliciesError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsDataPoliciesError =
+  DefaultErrors;
 
 /** Returns the caller's permission on the specified data policy resource. */
-export const testIamPermissionsProjectsLocationsDataPolicies: API.OperationMethod<TestIamPermissionsProjectsLocationsDataPoliciesRequest, TestIamPermissionsProjectsLocationsDataPoliciesResponse, TestIamPermissionsProjectsLocationsDataPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsDataPolicies: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsDataPoliciesRequest,
+  TestIamPermissionsProjectsLocationsDataPoliciesResponse,
+  TestIamPermissionsProjectsLocationsDataPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsDataPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
-

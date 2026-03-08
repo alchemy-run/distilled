@@ -23,11 +23,12 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface VerifyTokenResponse {
-}
+export interface VerifyTokenResponse {}
 
-export const VerifyTokenResponse: Schema.Schema<VerifyTokenResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "VerifyTokenResponse" }) as any as Schema.Schema<VerifyTokenResponse>;
+export const VerifyTokenResponse: Schema.Schema<VerifyTokenResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "VerifyTokenResponse",
+  }) as any as Schema.Schema<VerifyTokenResponse>;
 
 export interface Tag {
   /** A boolean value of the tag. */
@@ -42,40 +43,57 @@ export interface Tag {
   int64Value?: string;
 }
 
-export const Tag: Schema.Schema<Tag> = Schema.suspend(() => Schema.Struct({
-  booleanValue: Schema.optional(Schema.Boolean),
-  key: Schema.optional(Schema.String),
-  timeValue: Schema.optional(Schema.String),
-  stringValue: Schema.optional(Schema.String),
-  int64Value: Schema.optional(Schema.String),
-})).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
+export const Tag: Schema.Schema<Tag> = Schema.suspend(() =>
+  Schema.Struct({
+    booleanValue: Schema.optional(Schema.Boolean),
+    key: Schema.optional(Schema.String),
+    timeValue: Schema.optional(Schema.String),
+    stringValue: Schema.optional(Schema.String),
+    int64Value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
 export interface CreateOrUpdateTagsRequest {
   /** Tags to be inserted or updated. */
   tags?: Array<Tag>;
 }
 
-export const CreateOrUpdateTagsRequest: Schema.Schema<CreateOrUpdateTagsRequest> = Schema.suspend(() => Schema.Struct({
-  tags: Schema.optional(Schema.Array(Tag)),
-})).annotate({ identifier: "CreateOrUpdateTagsRequest" }) as any as Schema.Schema<CreateOrUpdateTagsRequest>;
+export const CreateOrUpdateTagsRequest: Schema.Schema<CreateOrUpdateTagsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tags: Schema.optional(Schema.Array(Tag)),
+    }),
+  ).annotate({
+    identifier: "CreateOrUpdateTagsRequest",
+  }) as any as Schema.Schema<CreateOrUpdateTagsRequest>;
 
 export interface VerifyTokenRequest {
   /** Required. Persona represented by the token. Format: personas/{persona} */
   persona?: string;
 }
 
-export const VerifyTokenRequest: Schema.Schema<VerifyTokenRequest> = Schema.suspend(() => Schema.Struct({
-  persona: Schema.optional(Schema.String),
-})).annotate({ identifier: "VerifyTokenRequest" }) as any as Schema.Schema<VerifyTokenRequest>;
+export const VerifyTokenRequest: Schema.Schema<VerifyTokenRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      persona: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VerifyTokenRequest",
+  }) as any as Schema.Schema<VerifyTokenRequest>;
 
 export interface CreateOrUpdateTagsResponse {
   /** All requested tags are returned, including pre-existing ones. */
   tags?: Array<Tag>;
 }
 
-export const CreateOrUpdateTagsResponse: Schema.Schema<CreateOrUpdateTagsResponse> = Schema.suspend(() => Schema.Struct({
-  tags: Schema.optional(Schema.Array(Tag)),
-})).annotate({ identifier: "CreateOrUpdateTagsResponse" }) as any as Schema.Schema<CreateOrUpdateTagsResponse>;
+export const CreateOrUpdateTagsResponse: Schema.Schema<CreateOrUpdateTagsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tags: Schema.optional(Schema.Array(Tag)),
+    }),
+  ).annotate({
+    identifier: "CreateOrUpdateTagsResponse",
+  }) as any as Schema.Schema<CreateOrUpdateTagsResponse>;
 
 // ==========================================================================
 // Operations
@@ -95,7 +113,11 @@ export const VerifyAppsTokensRequest = Schema.Struct({
   token: Schema.String.pipe(T.HttpPath("token")),
   body: Schema.optional(VerifyTokenRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/apps/{appsId}/tokens/{tokensId}:verify", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/apps/{appsId}/tokens/{tokensId}:verify",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<VerifyAppsTokensRequest>;
 
@@ -105,7 +127,12 @@ export const VerifyAppsTokensResponse = VerifyTokenResponse;
 export type VerifyAppsTokensError = DefaultErrors;
 
 /** Verify an API token by asserting the app and persona it belongs to. The verification is a protection against client-side attacks and will fail if the contents of the token don't match the provided values. A token must be verified before it can be used to manipulate user tags. */
-export const verifyAppsTokens: API.OperationMethod<VerifyAppsTokensRequest, VerifyAppsTokensResponse, VerifyAppsTokensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyAppsTokens: API.OperationMethod<
+  VerifyAppsTokensRequest,
+  VerifyAppsTokensResponse,
+  VerifyAppsTokensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyAppsTokensRequest,
   output: VerifyAppsTokensResponse,
   errors: [],
@@ -125,7 +152,11 @@ export const CreateOrUpdateAppsTokensTagsRequest = Schema.Struct({
   token: Schema.String.pipe(T.HttpPath("token")),
   body: Schema.optional(CreateOrUpdateTagsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/apps/{appsId}/tokens/{tokensId}/tags:createOrUpdate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/apps/{appsId}/tokens/{tokensId}/tags:createOrUpdate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOrUpdateAppsTokensTagsRequest>;
 
@@ -135,9 +166,13 @@ export const CreateOrUpdateAppsTokensTagsResponse = CreateOrUpdateTagsResponse;
 export type CreateOrUpdateAppsTokensTagsError = DefaultErrors;
 
 /** Create or update tags for the user and app that are represented by the given token. */
-export const createOrUpdateAppsTokensTags: API.OperationMethod<CreateOrUpdateAppsTokensTagsRequest, CreateOrUpdateAppsTokensTagsResponse, CreateOrUpdateAppsTokensTagsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrUpdateAppsTokensTags: API.OperationMethod<
+  CreateOrUpdateAppsTokensTagsRequest,
+  CreateOrUpdateAppsTokensTagsResponse,
+  CreateOrUpdateAppsTokensTagsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrUpdateAppsTokensTagsRequest,
   output: CreateOrUpdateAppsTokensTagsResponse,
   errors: [],
 }));
-

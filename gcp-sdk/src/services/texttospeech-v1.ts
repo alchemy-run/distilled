@@ -28,33 +28,54 @@ export interface SynthesizeSpeechResponse {
   audioContent?: string;
 }
 
-export const SynthesizeSpeechResponse: Schema.Schema<SynthesizeSpeechResponse> = Schema.suspend(() => Schema.Struct({
-  audioContent: Schema.optional(Schema.String),
-})).annotate({ identifier: "SynthesizeSpeechResponse" }) as any as Schema.Schema<SynthesizeSpeechResponse>;
+export const SynthesizeSpeechResponse: Schema.Schema<SynthesizeSpeechResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      audioContent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SynthesizeSpeechResponse",
+  }) as any as Schema.Schema<SynthesizeSpeechResponse>;
 
 export interface CustomPronunciationParams {
   /** The phrase to which the customization is applied. The phrase can be multiple words, such as proper nouns, but shouldn't span the length of the sentence. */
   phrase?: string;
   /** The phonetic encoding of the phrase. */
-  phoneticEncoding?: "PHONETIC_ENCODING_UNSPECIFIED" | "PHONETIC_ENCODING_IPA" | "PHONETIC_ENCODING_X_SAMPA" | "PHONETIC_ENCODING_JAPANESE_YOMIGANA" | "PHONETIC_ENCODING_PINYIN" | (string & {});
+  phoneticEncoding?:
+    | "PHONETIC_ENCODING_UNSPECIFIED"
+    | "PHONETIC_ENCODING_IPA"
+    | "PHONETIC_ENCODING_X_SAMPA"
+    | "PHONETIC_ENCODING_JAPANESE_YOMIGANA"
+    | "PHONETIC_ENCODING_PINYIN"
+    | (string & {});
   /** The pronunciation of the phrase. This must be in the phonetic encoding specified above. */
   pronunciation?: string;
 }
 
-export const CustomPronunciationParams: Schema.Schema<CustomPronunciationParams> = Schema.suspend(() => Schema.Struct({
-  phrase: Schema.optional(Schema.String),
-  phoneticEncoding: Schema.optional(Schema.String),
-  pronunciation: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomPronunciationParams" }) as any as Schema.Schema<CustomPronunciationParams>;
+export const CustomPronunciationParams: Schema.Schema<CustomPronunciationParams> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      phrase: Schema.optional(Schema.String),
+      phoneticEncoding: Schema.optional(Schema.String),
+      pronunciation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomPronunciationParams",
+  }) as any as Schema.Schema<CustomPronunciationParams>;
 
 export interface CustomPronunciations {
   /** The pronunciation customizations are applied. */
   pronunciations?: Array<CustomPronunciationParams>;
 }
 
-export const CustomPronunciations: Schema.Schema<CustomPronunciations> = Schema.suspend(() => Schema.Struct({
-  pronunciations: Schema.optional(Schema.Array(CustomPronunciationParams)),
-})).annotate({ identifier: "CustomPronunciations" }) as any as Schema.Schema<CustomPronunciations>;
+export const CustomPronunciations: Schema.Schema<CustomPronunciations> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pronunciations: Schema.optional(Schema.Array(CustomPronunciationParams)),
+    }),
+  ).annotate({
+    identifier: "CustomPronunciations",
+  }) as any as Schema.Schema<CustomPronunciations>;
 
 export interface Turn {
   /** Required. The speaker of the turn, for example, 'O' or 'Q'. Please refer to documentation for available speakers. */
@@ -63,19 +84,26 @@ export interface Turn {
   text?: string;
 }
 
-export const Turn: Schema.Schema<Turn> = Schema.suspend(() => Schema.Struct({
-  speaker: Schema.optional(Schema.String),
-  text: Schema.optional(Schema.String),
-})).annotate({ identifier: "Turn" }) as any as Schema.Schema<Turn>;
+export const Turn: Schema.Schema<Turn> = Schema.suspend(() =>
+  Schema.Struct({
+    speaker: Schema.optional(Schema.String),
+    text: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Turn" }) as any as Schema.Schema<Turn>;
 
 export interface MultiSpeakerMarkup {
   /** Required. Speaker turns. */
   turns?: Array<Turn>;
 }
 
-export const MultiSpeakerMarkup: Schema.Schema<MultiSpeakerMarkup> = Schema.suspend(() => Schema.Struct({
-  turns: Schema.optional(Schema.Array(Turn)),
-})).annotate({ identifier: "MultiSpeakerMarkup" }) as any as Schema.Schema<MultiSpeakerMarkup>;
+export const MultiSpeakerMarkup: Schema.Schema<MultiSpeakerMarkup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      turns: Schema.optional(Schema.Array(Turn)),
+    }),
+  ).annotate({
+    identifier: "MultiSpeakerMarkup",
+  }) as any as Schema.Schema<MultiSpeakerMarkup>;
 
 export interface GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata {
   /** Time when the request was received. */
@@ -86,11 +114,16 @@ export interface GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata {
   progressPercentage?: number;
 }
 
-export const GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata: Schema.Schema<GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  lastUpdateTime: Schema.optional(Schema.String),
-  progressPercentage: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata" }) as any as Schema.Schema<GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata>;
+export const GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata: Schema.Schema<GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      lastUpdateTime: Schema.optional(Schema.String),
+      progressPercentage: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata",
+  }) as any as Schema.Schema<GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata>;
 
 export interface MultispeakerPrebuiltVoice {
   /** Required. The speaker ID of the voice. See https://cloud.google.com/text-to-speech/docs/gemini-tts#voice_options for available values. */
@@ -99,25 +132,37 @@ export interface MultispeakerPrebuiltVoice {
   speakerAlias?: string;
 }
 
-export const MultispeakerPrebuiltVoice: Schema.Schema<MultispeakerPrebuiltVoice> = Schema.suspend(() => Schema.Struct({
-  speakerId: Schema.optional(Schema.String),
-  speakerAlias: Schema.optional(Schema.String),
-})).annotate({ identifier: "MultispeakerPrebuiltVoice" }) as any as Schema.Schema<MultispeakerPrebuiltVoice>;
+export const MultispeakerPrebuiltVoice: Schema.Schema<MultispeakerPrebuiltVoice> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      speakerId: Schema.optional(Schema.String),
+      speakerAlias: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MultispeakerPrebuiltVoice",
+  }) as any as Schema.Schema<MultispeakerPrebuiltVoice>;
 
 export interface MultiSpeakerVoiceConfig {
   /** Required. A list of configurations for the voices of the speakers. Exactly two speaker voice configurations must be provided. */
   speakerVoiceConfigs?: Array<MultispeakerPrebuiltVoice>;
 }
 
-export const MultiSpeakerVoiceConfig: Schema.Schema<MultiSpeakerVoiceConfig> = Schema.suspend(() => Schema.Struct({
-  speakerVoiceConfigs: Schema.optional(Schema.Array(MultispeakerPrebuiltVoice)),
-})).annotate({ identifier: "MultiSpeakerVoiceConfig" }) as any as Schema.Schema<MultiSpeakerVoiceConfig>;
+export const MultiSpeakerVoiceConfig: Schema.Schema<MultiSpeakerVoiceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      speakerVoiceConfigs: Schema.optional(
+        Schema.Array(MultispeakerPrebuiltVoice),
+      ),
+    }),
+  ).annotate({
+    identifier: "MultiSpeakerVoiceConfig",
+  }) as any as Schema.Schema<MultiSpeakerVoiceConfig>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Voice {
   /** The languages that this voice supports, expressed as [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tags (e.g. "en-US", "es-419", "cmn-tw"). */
@@ -127,45 +172,71 @@ export interface Voice {
   /** The name of this voice. Each distinct voice has a unique name. */
   name?: string;
   /** The gender of this voice. */
-  ssmlGender?: "SSML_VOICE_GENDER_UNSPECIFIED" | "MALE" | "FEMALE" | "NEUTRAL" | (string & {});
+  ssmlGender?:
+    | "SSML_VOICE_GENDER_UNSPECIFIED"
+    | "MALE"
+    | "FEMALE"
+    | "NEUTRAL"
+    | (string & {});
 }
 
-export const Voice: Schema.Schema<Voice> = Schema.suspend(() => Schema.Struct({
-  languageCodes: Schema.optional(Schema.Array(Schema.String)),
-  naturalSampleRateHertz: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  ssmlGender: Schema.optional(Schema.String),
-})).annotate({ identifier: "Voice" }) as any as Schema.Schema<Voice>;
+export const Voice: Schema.Schema<Voice> = Schema.suspend(() =>
+  Schema.Struct({
+    languageCodes: Schema.optional(Schema.Array(Schema.String)),
+    naturalSampleRateHertz: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    ssmlGender: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Voice" }) as any as Schema.Schema<Voice>;
 
 export interface ListVoicesResponse {
   /** The list of voices. */
   voices?: Array<Voice>;
 }
 
-export const ListVoicesResponse: Schema.Schema<ListVoicesResponse> = Schema.suspend(() => Schema.Struct({
-  voices: Schema.optional(Schema.Array(Voice)),
-})).annotate({ identifier: "ListVoicesResponse" }) as any as Schema.Schema<ListVoicesResponse>;
+export const ListVoicesResponse: Schema.Schema<ListVoicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      voices: Schema.optional(Schema.Array(Voice)),
+    }),
+  ).annotate({
+    identifier: "ListVoicesResponse",
+  }) as any as Schema.Schema<ListVoicesResponse>;
 
 export interface CustomVoiceParams {
   /** Required. The name of the AutoML model that synthesizes the custom voice. */
   model?: string;
   /** Optional. Deprecated. The usage of the synthesized audio to be reported. */
-  reportedUsage?: "REPORTED_USAGE_UNSPECIFIED" | "REALTIME" | "OFFLINE" | (string & {});
+  reportedUsage?:
+    | "REPORTED_USAGE_UNSPECIFIED"
+    | "REALTIME"
+    | "OFFLINE"
+    | (string & {});
 }
 
-export const CustomVoiceParams: Schema.Schema<CustomVoiceParams> = Schema.suspend(() => Schema.Struct({
-  model: Schema.optional(Schema.String),
-  reportedUsage: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomVoiceParams" }) as any as Schema.Schema<CustomVoiceParams>;
+export const CustomVoiceParams: Schema.Schema<CustomVoiceParams> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      model: Schema.optional(Schema.String),
+      reportedUsage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomVoiceParams",
+  }) as any as Schema.Schema<CustomVoiceParams>;
 
 export interface VoiceCloneParams {
   /** Required. Created by GenerateVoiceCloningKey. */
   voiceCloningKey?: string;
 }
 
-export const VoiceCloneParams: Schema.Schema<VoiceCloneParams> = Schema.suspend(() => Schema.Struct({
-  voiceCloningKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "VoiceCloneParams" }) as any as Schema.Schema<VoiceCloneParams>;
+export const VoiceCloneParams: Schema.Schema<VoiceCloneParams> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      voiceCloningKey: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VoiceCloneParams",
+}) as any as Schema.Schema<VoiceCloneParams>;
 
 export interface VoiceSelectionParams {
   /** The configuration for a custom voice. If [CustomVoiceParams.model] is set, the service will choose the custom voice matching the specified configuration. */
@@ -175,7 +246,12 @@ export interface VoiceSelectionParams {
   /** Optional. The configuration for a Gemini multi-speaker text-to-speech setup. Enables the use of two distinct voices in a single synthesis request. */
   multiSpeakerVoiceConfig?: MultiSpeakerVoiceConfig;
   /** The preferred gender of the voice. If not set, the service will choose a voice based on the other parameters such as language_code and name. Note that this is only a preference, not requirement; if a voice of the appropriate gender is not available, the synthesizer should substitute a voice with a different gender rather than failing the request. */
-  ssmlGender?: "SSML_VOICE_GENDER_UNSPECIFIED" | "MALE" | "FEMALE" | "NEUTRAL" | (string & {});
+  ssmlGender?:
+    | "SSML_VOICE_GENDER_UNSPECIFIED"
+    | "MALE"
+    | "FEMALE"
+    | "NEUTRAL"
+    | (string & {});
   /** Optional. The configuration for a voice clone. If [VoiceCloneParams.voice_clone_key] is set, the service chooses the voice clone matching the specified configuration. */
   voiceClone?: VoiceCloneParams;
   /** The name of the voice. If both the name and the gender are not set, the service will choose a voice based on the other parameters such as language_code. */
@@ -184,15 +260,20 @@ export interface VoiceSelectionParams {
   languageCode?: string;
 }
 
-export const VoiceSelectionParams: Schema.Schema<VoiceSelectionParams> = Schema.suspend(() => Schema.Struct({
-  customVoice: Schema.optional(CustomVoiceParams),
-  modelName: Schema.optional(Schema.String),
-  multiSpeakerVoiceConfig: Schema.optional(MultiSpeakerVoiceConfig),
-  ssmlGender: Schema.optional(Schema.String),
-  voiceClone: Schema.optional(VoiceCloneParams),
-  name: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "VoiceSelectionParams" }) as any as Schema.Schema<VoiceSelectionParams>;
+export const VoiceSelectionParams: Schema.Schema<VoiceSelectionParams> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customVoice: Schema.optional(CustomVoiceParams),
+      modelName: Schema.optional(Schema.String),
+      multiSpeakerVoiceConfig: Schema.optional(MultiSpeakerVoiceConfig),
+      ssmlGender: Schema.optional(Schema.String),
+      voiceClone: Schema.optional(VoiceCloneParams),
+      name: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VoiceSelectionParams",
+  }) as any as Schema.Schema<VoiceSelectionParams>;
 
 export interface AdvancedVoiceOptions {
   /** Optional. Input only. If true, relaxes safety filters for Gemini TTS. Only supported for accounts linked to Invoiced (Offline) Cloud billing accounts. Otherwise, will return result google.rpc.Code.INVALID_ARGUMENT. */
@@ -203,11 +284,16 @@ export interface AdvancedVoiceOptions {
   lowLatencyJourneySynthesis?: boolean;
 }
 
-export const AdvancedVoiceOptions: Schema.Schema<AdvancedVoiceOptions> = Schema.suspend(() => Schema.Struct({
-  relaxSafetyFilters: Schema.optional(Schema.Boolean),
-  enableTextnorm: Schema.optional(Schema.Boolean),
-  lowLatencyJourneySynthesis: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AdvancedVoiceOptions" }) as any as Schema.Schema<AdvancedVoiceOptions>;
+export const AdvancedVoiceOptions: Schema.Schema<AdvancedVoiceOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      relaxSafetyFilters: Schema.optional(Schema.Boolean),
+      enableTextnorm: Schema.optional(Schema.Boolean),
+      lowLatencyJourneySynthesis: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AdvancedVoiceOptions",
+  }) as any as Schema.Schema<AdvancedVoiceOptions>;
 
 export interface AudioConfig {
   /** Optional. Input only. Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]. If unset, or set to a value of 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB) will play at approximately half the amplitude of the normal native signal amplitude. A value of +6.0 (dB) will play at approximately twice the amplitude of the normal native signal amplitude. Strongly recommend not to exceed +10 (dB) as there's usually no effective increase in loudness for any value greater than that. */
@@ -221,17 +307,28 @@ export interface AudioConfig {
   /** Optional. Input only. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. */
   pitch?: number;
   /** Required. The format of the audio byte stream. */
-  audioEncoding?: "AUDIO_ENCODING_UNSPECIFIED" | "LINEAR16" | "MP3" | "OGG_OPUS" | "MULAW" | "ALAW" | "PCM" | "M4A" | (string & {});
+  audioEncoding?:
+    | "AUDIO_ENCODING_UNSPECIFIED"
+    | "LINEAR16"
+    | "MP3"
+    | "OGG_OPUS"
+    | "MULAW"
+    | "ALAW"
+    | "PCM"
+    | "M4A"
+    | (string & {});
 }
 
-export const AudioConfig: Schema.Schema<AudioConfig> = Schema.suspend(() => Schema.Struct({
-  volumeGainDb: Schema.optional(Schema.Number),
-  sampleRateHertz: Schema.optional(Schema.Number),
-  effectsProfileId: Schema.optional(Schema.Array(Schema.String)),
-  speakingRate: Schema.optional(Schema.Number),
-  pitch: Schema.optional(Schema.Number),
-  audioEncoding: Schema.optional(Schema.String),
-})).annotate({ identifier: "AudioConfig" }) as any as Schema.Schema<AudioConfig>;
+export const AudioConfig: Schema.Schema<AudioConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    volumeGainDb: Schema.optional(Schema.Number),
+    sampleRateHertz: Schema.optional(Schema.Number),
+    effectsProfileId: Schema.optional(Schema.Array(Schema.String)),
+    speakingRate: Schema.optional(Schema.Number),
+    pitch: Schema.optional(Schema.Number),
+    audioEncoding: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AudioConfig" }) as any as Schema.Schema<AudioConfig>;
 
 export interface SynthesisInput {
   /** Markup for Chirp 3: HD voices specifically. This field may not be used with any other voices. */
@@ -248,14 +345,19 @@ export interface SynthesisInput {
   text?: string;
 }
 
-export const SynthesisInput: Schema.Schema<SynthesisInput> = Schema.suspend(() => Schema.Struct({
-  markup: Schema.optional(Schema.String),
-  prompt: Schema.optional(Schema.String),
-  multiSpeakerMarkup: Schema.optional(MultiSpeakerMarkup),
-  customPronunciations: Schema.optional(CustomPronunciations),
-  ssml: Schema.optional(Schema.String),
-  text: Schema.optional(Schema.String),
-})).annotate({ identifier: "SynthesisInput" }) as any as Schema.Schema<SynthesisInput>;
+export const SynthesisInput: Schema.Schema<SynthesisInput> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      markup: Schema.optional(Schema.String),
+      prompt: Schema.optional(Schema.String),
+      multiSpeakerMarkup: Schema.optional(MultiSpeakerMarkup),
+      customPronunciations: Schema.optional(CustomPronunciations),
+      ssml: Schema.optional(Schema.String),
+      text: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SynthesisInput",
+}) as any as Schema.Schema<SynthesisInput>;
 
 export interface SynthesizeSpeechRequest {
   /** Required. The desired voice of the synthesized audio. */
@@ -268,12 +370,17 @@ export interface SynthesizeSpeechRequest {
   input?: SynthesisInput;
 }
 
-export const SynthesizeSpeechRequest: Schema.Schema<SynthesizeSpeechRequest> = Schema.suspend(() => Schema.Struct({
-  voice: Schema.optional(VoiceSelectionParams),
-  advancedVoiceOptions: Schema.optional(AdvancedVoiceOptions),
-  audioConfig: Schema.optional(AudioConfig),
-  input: Schema.optional(SynthesisInput),
-})).annotate({ identifier: "SynthesizeSpeechRequest" }) as any as Schema.Schema<SynthesizeSpeechRequest>;
+export const SynthesizeSpeechRequest: Schema.Schema<SynthesizeSpeechRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      voice: Schema.optional(VoiceSelectionParams),
+      advancedVoiceOptions: Schema.optional(AdvancedVoiceOptions),
+      audioConfig: Schema.optional(AudioConfig),
+      input: Schema.optional(SynthesisInput),
+    }),
+  ).annotate({
+    identifier: "SynthesizeSpeechRequest",
+  }) as any as Schema.Schema<SynthesizeSpeechRequest>;
 
 export interface SynthesizeLongAudioMetadata {
   /** Time when the request was received. */
@@ -284,11 +391,16 @@ export interface SynthesizeLongAudioMetadata {
   progressPercentage?: number;
 }
 
-export const SynthesizeLongAudioMetadata: Schema.Schema<SynthesizeLongAudioMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  lastUpdateTime: Schema.optional(Schema.String),
-  progressPercentage: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SynthesizeLongAudioMetadata" }) as any as Schema.Schema<SynthesizeLongAudioMetadata>;
+export const SynthesizeLongAudioMetadata: Schema.Schema<SynthesizeLongAudioMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      lastUpdateTime: Schema.optional(Schema.String),
+      progressPercentage: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SynthesizeLongAudioMetadata",
+  }) as any as Schema.Schema<SynthesizeLongAudioMetadata>;
 
 export interface SynthesizeLongAudioRequest {
   /** Required. The Synthesizer requires either plain text or SSML as input. */
@@ -301,12 +413,17 @@ export interface SynthesizeLongAudioRequest {
   voice?: VoiceSelectionParams;
 }
 
-export const SynthesizeLongAudioRequest: Schema.Schema<SynthesizeLongAudioRequest> = Schema.suspend(() => Schema.Struct({
-  input: Schema.optional(SynthesisInput),
-  audioConfig: Schema.optional(AudioConfig),
-  outputGcsUri: Schema.optional(Schema.String),
-  voice: Schema.optional(VoiceSelectionParams),
-})).annotate({ identifier: "SynthesizeLongAudioRequest" }) as any as Schema.Schema<SynthesizeLongAudioRequest>;
+export const SynthesizeLongAudioRequest: Schema.Schema<SynthesizeLongAudioRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      input: Schema.optional(SynthesisInput),
+      audioConfig: Schema.optional(AudioConfig),
+      outputGcsUri: Schema.optional(Schema.String),
+      voice: Schema.optional(VoiceSelectionParams),
+    }),
+  ).annotate({
+    identifier: "SynthesizeLongAudioRequest",
+  }) as any as Schema.Schema<SynthesizeLongAudioRequest>;
 
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
@@ -317,11 +434,15 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -336,13 +457,15 @@ export interface Operation {
   name?: string;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -353,17 +476,23 @@ export interface ListOperationsResponse {
   nextPageToken?: string;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 // ==========================================================================
 // Operations
@@ -375,7 +504,9 @@ export interface ListVoicesRequest {
 }
 
 export const ListVoicesRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(T.HttpQuery("languageCode")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/voices" }),
   svc,
@@ -387,7 +518,12 @@ export const ListVoicesResponse_Op = ListVoicesResponse;
 export type ListVoicesError = DefaultErrors;
 
 /** Returns a list of Voice supported for synthesis. */
-export const listVoices: API.OperationMethod<ListVoicesRequest, ListVoicesResponse_Op, ListVoicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listVoices: API.OperationMethod<
+  ListVoicesRequest,
+  ListVoicesResponse_Op,
+  ListVoicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListVoicesRequest,
   output: ListVoicesResponse_Op,
   errors: [],
@@ -411,7 +547,12 @@ export const SynthesizeTextResponse = SynthesizeSpeechResponse;
 export type SynthesizeTextError = DefaultErrors;
 
 /** Synthesizes speech synchronously: receive results after all text input has been processed. */
-export const synthesizeText: API.OperationMethod<SynthesizeTextRequest, SynthesizeTextResponse, SynthesizeTextError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const synthesizeText: API.OperationMethod<
+  SynthesizeTextRequest,
+  SynthesizeTextResponse,
+  SynthesizeTextError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SynthesizeTextRequest,
   output: SynthesizeTextResponse,
   errors: [],
@@ -428,7 +569,11 @@ export const SynthesizeLongAudioProjectsLocationsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SynthesizeLongAudioRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}:synthesizeLongAudio", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:synthesizeLongAudio",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SynthesizeLongAudioProjectsLocationsRequest>;
 
@@ -438,7 +583,12 @@ export const SynthesizeLongAudioProjectsLocationsResponse = Operation;
 export type SynthesizeLongAudioProjectsLocationsError = DefaultErrors;
 
 /** Synthesizes long form text asynchronously. */
-export const synthesizeLongAudioProjectsLocations: API.OperationMethod<SynthesizeLongAudioProjectsLocationsRequest, SynthesizeLongAudioProjectsLocationsResponse, SynthesizeLongAudioProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const synthesizeLongAudioProjectsLocations: API.OperationMethod<
+  SynthesizeLongAudioProjectsLocationsRequest,
+  SynthesizeLongAudioProjectsLocationsResponse,
+  SynthesizeLongAudioProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SynthesizeLongAudioProjectsLocationsRequest,
   output: SynthesizeLongAudioProjectsLocationsResponse,
   errors: [],
@@ -460,11 +610,16 @@ export interface ListProjectsLocationsOperationsRequest {
 export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -474,7 +629,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -492,7 +652,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -502,7 +665,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -526,7 +694,12 @@ export const DeleteOperationsResponse = Empty;
 export type DeleteOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOperations: API.OperationMethod<
+  DeleteOperationsRequest,
+  DeleteOperationsResponse,
+  DeleteOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -543,7 +716,11 @@ export const CancelOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -553,9 +730,13 @@ export const CancelOperationsResponse = Empty;
 export type CancelOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOperations: API.OperationMethod<
+  CancelOperationsRequest,
+  CancelOperationsResponse,
+  CancelOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
-

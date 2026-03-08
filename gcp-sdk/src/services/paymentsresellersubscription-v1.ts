@@ -30,10 +30,15 @@ export interface EntitleSubscriptionRequestLineItemEntitlementDetails {
   products?: Array<string>;
 }
 
-export const EntitleSubscriptionRequestLineItemEntitlementDetails: Schema.Schema<EntitleSubscriptionRequestLineItemEntitlementDetails> = Schema.suspend(() => Schema.Struct({
-  lineItemIndex: Schema.optional(Schema.Number),
-  products: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "EntitleSubscriptionRequestLineItemEntitlementDetails" }) as any as Schema.Schema<EntitleSubscriptionRequestLineItemEntitlementDetails>;
+export const EntitleSubscriptionRequestLineItemEntitlementDetails: Schema.Schema<EntitleSubscriptionRequestLineItemEntitlementDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lineItemIndex: Schema.optional(Schema.Number),
+      products: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "EntitleSubscriptionRequestLineItemEntitlementDetails",
+  }) as any as Schema.Schema<EntitleSubscriptionRequestLineItemEntitlementDetails>;
 
 export interface Duration {
   /** The unit used for the duration */
@@ -42,40 +47,60 @@ export interface Duration {
   count?: number;
 }
 
-export const Duration: Schema.Schema<Duration> = Schema.suspend(() => Schema.Struct({
-  unit: Schema.optional(Schema.String),
-  count: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Duration" }) as any as Schema.Schema<Duration>;
+export const Duration: Schema.Schema<Duration> = Schema.suspend(() =>
+  Schema.Struct({
+    unit: Schema.optional(Schema.String),
+    count: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Duration" }) as any as Schema.Schema<Duration>;
 
 export interface CycleOptions {
   /** Optional. The duration of the initial cycle. Only `DAY` is supported. If set, Google will start the subscription with this initial cycle duration starting at the request time (see available methods below). A prorated charge will be applied. This option is available to the following methods: - partners.subscriptions.provision - partners.subscriptions.resume - partners.userSessions.generate */
   initialCycleDuration?: Duration;
 }
 
-export const CycleOptions: Schema.Schema<CycleOptions> = Schema.suspend(() => Schema.Struct({
-  initialCycleDuration: Schema.optional(Duration),
-})).annotate({ identifier: "CycleOptions" }) as any as Schema.Schema<CycleOptions>;
+export const CycleOptions: Schema.Schema<CycleOptions> = Schema.suspend(() =>
+  Schema.Struct({
+    initialCycleDuration: Schema.optional(Duration),
+  }),
+).annotate({
+  identifier: "CycleOptions",
+}) as any as Schema.Schema<CycleOptions>;
 
 export interface ResumeSubscriptionRequest {
   /** Optional. The cycle options for the subscription. */
   cycleOptions?: CycleOptions;
   /** Required. The mode to resume the subscription. */
-  resumeMode?: "RESUME_MODE_UNSPECIFIED" | "RESUME_MODE_CYCLE_OPTIONS" | "RESUME_MODE_RESTORE_EXISTING_BILLING_SCHEDULE" | (string & {});
+  resumeMode?:
+    | "RESUME_MODE_UNSPECIFIED"
+    | "RESUME_MODE_CYCLE_OPTIONS"
+    | "RESUME_MODE_RESTORE_EXISTING_BILLING_SCHEDULE"
+    | (string & {});
 }
 
-export const ResumeSubscriptionRequest: Schema.Schema<ResumeSubscriptionRequest> = Schema.suspend(() => Schema.Struct({
-  cycleOptions: Schema.optional(CycleOptions),
-  resumeMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResumeSubscriptionRequest" }) as any as Schema.Schema<ResumeSubscriptionRequest>;
+export const ResumeSubscriptionRequest: Schema.Schema<ResumeSubscriptionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cycleOptions: Schema.optional(CycleOptions),
+      resumeMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResumeSubscriptionRequest",
+  }) as any as Schema.Schema<ResumeSubscriptionRequest>;
 
 export interface FiniteBillingCycleDetails {
   /** The number of a subscription line item billing cycles after which billing will stop automatically. */
   billingCycleCountLimit?: string;
 }
 
-export const FiniteBillingCycleDetails: Schema.Schema<FiniteBillingCycleDetails> = Schema.suspend(() => Schema.Struct({
-  billingCycleCountLimit: Schema.optional(Schema.String),
-})).annotate({ identifier: "FiniteBillingCycleDetails" }) as any as Schema.Schema<FiniteBillingCycleDetails>;
+export const FiniteBillingCycleDetails: Schema.Schema<FiniteBillingCycleDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      billingCycleCountLimit: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FiniteBillingCycleDetails",
+  }) as any as Schema.Schema<FiniteBillingCycleDetails>;
 
 export interface ServicePeriod {
   /** Required. The start time of the service period. Time is inclusive. */
@@ -84,19 +109,28 @@ export interface ServicePeriod {
   endTime?: string;
 }
 
-export const ServicePeriod: Schema.Schema<ServicePeriod> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServicePeriod" }) as any as Schema.Schema<ServicePeriod>;
+export const ServicePeriod: Schema.Schema<ServicePeriod> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ServicePeriod",
+}) as any as Schema.Schema<ServicePeriod>;
 
 export interface SubscriptionLineItemOneTimeRecurrenceDetails {
   /** Output only. The service period of the ONE_TIME line item. */
   servicePeriod?: ServicePeriod;
 }
 
-export const SubscriptionLineItemOneTimeRecurrenceDetails: Schema.Schema<SubscriptionLineItemOneTimeRecurrenceDetails> = Schema.suspend(() => Schema.Struct({
-  servicePeriod: Schema.optional(ServicePeriod),
-})).annotate({ identifier: "SubscriptionLineItemOneTimeRecurrenceDetails" }) as any as Schema.Schema<SubscriptionLineItemOneTimeRecurrenceDetails>;
+export const SubscriptionLineItemOneTimeRecurrenceDetails: Schema.Schema<SubscriptionLineItemOneTimeRecurrenceDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      servicePeriod: Schema.optional(ServicePeriod),
+    }),
+  ).annotate({
+    identifier: "SubscriptionLineItemOneTimeRecurrenceDetails",
+  }) as any as Schema.Schema<SubscriptionLineItemOneTimeRecurrenceDetails>;
 
 export interface GoogleHomePayload {
   /** Optional. This identifies the structure ID on partner side that the subscription should be applied to. Only required when the partner requires structure mapping. */
@@ -107,29 +141,51 @@ export interface GoogleHomePayload {
   attachedToGoogleStructure?: boolean;
 }
 
-export const GoogleHomePayload: Schema.Schema<GoogleHomePayload> = Schema.suspend(() => Schema.Struct({
-  partnerStructureId: Schema.optional(Schema.String),
-  googleStructureId: Schema.optional(Schema.String),
-  attachedToGoogleStructure: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleHomePayload" }) as any as Schema.Schema<GoogleHomePayload>;
+export const GoogleHomePayload: Schema.Schema<GoogleHomePayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      partnerStructureId: Schema.optional(Schema.String),
+      googleStructureId: Schema.optional(Schema.String),
+      attachedToGoogleStructure: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleHomePayload",
+  }) as any as Schema.Schema<GoogleHomePayload>;
 
 export interface GoogleOnePayload {
   /** Campaign attributed to sales of this subscription. */
   campaigns?: Array<string>;
   /** The type of sales channel through which the subscription was sold. */
-  salesChannel?: "CHANNEL_UNSPECIFIED" | "CHANNEL_RETAIL" | "CHANNEL_ONLINE_WEB" | "CHANNEL_ONLINE_ANDROID_APP" | "CHANNEL_ONLINE_IOS_APP" | (string & {});
+  salesChannel?:
+    | "CHANNEL_UNSPECIFIED"
+    | "CHANNEL_RETAIL"
+    | "CHANNEL_ONLINE_WEB"
+    | "CHANNEL_ONLINE_ANDROID_APP"
+    | "CHANNEL_ONLINE_IOS_APP"
+    | (string & {});
   /** The identifier for the partner store where the subscription was sold. */
   storeId?: string;
   /** The type of offering the subscription was sold by the partner. e.g. VAS. */
-  offering?: "OFFERING_UNSPECIFIED" | "OFFERING_VAS_BUNDLE" | "OFFERING_VAS_STANDALONE" | "OFFERING_HARD_BUNDLE" | "OFFERING_SOFT_BUNDLE" | (string & {});
+  offering?:
+    | "OFFERING_UNSPECIFIED"
+    | "OFFERING_VAS_BUNDLE"
+    | "OFFERING_VAS_STANDALONE"
+    | "OFFERING_HARD_BUNDLE"
+    | "OFFERING_SOFT_BUNDLE"
+    | (string & {});
 }
 
-export const GoogleOnePayload: Schema.Schema<GoogleOnePayload> = Schema.suspend(() => Schema.Struct({
-  campaigns: Schema.optional(Schema.Array(Schema.String)),
-  salesChannel: Schema.optional(Schema.String),
-  storeId: Schema.optional(Schema.String),
-  offering: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleOnePayload" }) as any as Schema.Schema<GoogleOnePayload>;
+export const GoogleOnePayload: Schema.Schema<GoogleOnePayload> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      campaigns: Schema.optional(Schema.Array(Schema.String)),
+      salesChannel: Schema.optional(Schema.String),
+      storeId: Schema.optional(Schema.String),
+      offering: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GoogleOnePayload",
+}) as any as Schema.Schema<GoogleOnePayload>;
 
 export interface YoutubePayload {
   /** The list of eligibility_ids which are applicable for the line item. */
@@ -137,14 +193,24 @@ export interface YoutubePayload {
   /** Output only. The access expiration time for this line item. */
   accessEndTime?: string;
   /** Optional. Specifies the plan type offered to the end user by the partner. */
-  partnerPlanType?: "PARTNER_PLAN_TYPE_UNSPECIFIED" | "PARTNER_PLAN_TYPE_STANDALONE" | "PARTNER_PLAN_TYPE_HARD_BUNDLE" | "PARTNER_PLAN_TYPE_SOFT_BUNDLE" | (string & {});
+  partnerPlanType?:
+    | "PARTNER_PLAN_TYPE_UNSPECIFIED"
+    | "PARTNER_PLAN_TYPE_STANDALONE"
+    | "PARTNER_PLAN_TYPE_HARD_BUNDLE"
+    | "PARTNER_PLAN_TYPE_SOFT_BUNDLE"
+    | (string & {});
 }
 
-export const YoutubePayload: Schema.Schema<YoutubePayload> = Schema.suspend(() => Schema.Struct({
-  partnerEligibilityIds: Schema.optional(Schema.Array(Schema.String)),
-  accessEndTime: Schema.optional(Schema.String),
-  partnerPlanType: Schema.optional(Schema.String),
-})).annotate({ identifier: "YoutubePayload" }) as any as Schema.Schema<YoutubePayload>;
+export const YoutubePayload: Schema.Schema<YoutubePayload> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      partnerEligibilityIds: Schema.optional(Schema.Array(Schema.String)),
+      accessEndTime: Schema.optional(Schema.String),
+      partnerPlanType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "YoutubePayload",
+}) as any as Schema.Schema<YoutubePayload>;
 
 export interface ProductPayload {
   /** Payload specific to Google Home products. */
@@ -155,11 +221,16 @@ export interface ProductPayload {
   youtubePayload?: YoutubePayload;
 }
 
-export const ProductPayload: Schema.Schema<ProductPayload> = Schema.suspend(() => Schema.Struct({
-  googleHomePayload: Schema.optional(GoogleHomePayload),
-  googleOnePayload: Schema.optional(GoogleOnePayload),
-  youtubePayload: Schema.optional(YoutubePayload),
-})).annotate({ identifier: "ProductPayload" }) as any as Schema.Schema<ProductPayload>;
+export const ProductPayload: Schema.Schema<ProductPayload> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      googleHomePayload: Schema.optional(GoogleHomePayload),
+      googleOnePayload: Schema.optional(GoogleOnePayload),
+      youtubePayload: Schema.optional(YoutubePayload),
+    }),
+).annotate({
+  identifier: "ProductPayload",
+}) as any as Schema.Schema<ProductPayload>;
 
 export interface Amount {
   /** Required. Currency codes in accordance with [ISO-4217 Currency Codes] (https://en.wikipedia.org/wiki/ISO_4217). For example, USD. */
@@ -168,10 +239,12 @@ export interface Amount {
   amountMicros?: string;
 }
 
-export const Amount: Schema.Schema<Amount> = Schema.suspend(() => Schema.Struct({
-  currencyCode: Schema.optional(Schema.String),
-  amountMicros: Schema.optional(Schema.String),
-})).annotate({ identifier: "Amount" }) as any as Schema.Schema<Amount>;
+export const Amount: Schema.Schema<Amount> = Schema.suspend(() =>
+  Schema.Struct({
+    currencyCode: Schema.optional(Schema.String),
+    amountMicros: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Amount" }) as any as Schema.Schema<Amount>;
 
 export interface SubscriptionLineItemBundleDetailsBundleElementDetails {
   /** Output only. Product resource name that identifies the bundle element. The format is 'partners/{partner_id}/products/{product_id}'. */
@@ -180,19 +253,31 @@ export interface SubscriptionLineItemBundleDetailsBundleElementDetails {
   userAccountLinkedTime?: string;
 }
 
-export const SubscriptionLineItemBundleDetailsBundleElementDetails: Schema.Schema<SubscriptionLineItemBundleDetailsBundleElementDetails> = Schema.suspend(() => Schema.Struct({
-  product: Schema.optional(Schema.String),
-  userAccountLinkedTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "SubscriptionLineItemBundleDetailsBundleElementDetails" }) as any as Schema.Schema<SubscriptionLineItemBundleDetailsBundleElementDetails>;
+export const SubscriptionLineItemBundleDetailsBundleElementDetails: Schema.Schema<SubscriptionLineItemBundleDetailsBundleElementDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      product: Schema.optional(Schema.String),
+      userAccountLinkedTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SubscriptionLineItemBundleDetailsBundleElementDetails",
+  }) as any as Schema.Schema<SubscriptionLineItemBundleDetailsBundleElementDetails>;
 
 export interface SubscriptionLineItemBundleDetails {
   /** Output only. The details for each element in the hard bundle. */
   bundleElementDetails?: Array<SubscriptionLineItemBundleDetailsBundleElementDetails>;
 }
 
-export const SubscriptionLineItemBundleDetails: Schema.Schema<SubscriptionLineItemBundleDetails> = Schema.suspend(() => Schema.Struct({
-  bundleElementDetails: Schema.optional(Schema.Array(SubscriptionLineItemBundleDetailsBundleElementDetails)),
-})).annotate({ identifier: "SubscriptionLineItemBundleDetails" }) as any as Schema.Schema<SubscriptionLineItemBundleDetails>;
+export const SubscriptionLineItemBundleDetails: Schema.Schema<SubscriptionLineItemBundleDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bundleElementDetails: Schema.optional(
+        Schema.Array(SubscriptionLineItemBundleDetailsBundleElementDetails),
+      ),
+    }),
+  ).annotate({
+    identifier: "SubscriptionLineItemBundleDetails",
+  }) as any as Schema.Schema<SubscriptionLineItemBundleDetails>;
 
 export interface PromotionIntroductoryPricingDetailsIntroductoryPricingSpec {
   /** Output only. The discount amount. The value is positive. */
@@ -205,39 +290,64 @@ export interface PromotionIntroductoryPricingDetailsIntroductoryPricingSpec {
   regionCode?: string;
 }
 
-export const PromotionIntroductoryPricingDetailsIntroductoryPricingSpec: Schema.Schema<PromotionIntroductoryPricingDetailsIntroductoryPricingSpec> = Schema.suspend(() => Schema.Struct({
-  discountAmount: Schema.optional(Amount),
-  recurrenceCount: Schema.optional(Schema.Number),
-  discountRatioMicros: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "PromotionIntroductoryPricingDetailsIntroductoryPricingSpec" }) as any as Schema.Schema<PromotionIntroductoryPricingDetailsIntroductoryPricingSpec>;
+export const PromotionIntroductoryPricingDetailsIntroductoryPricingSpec: Schema.Schema<PromotionIntroductoryPricingDetailsIntroductoryPricingSpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      discountAmount: Schema.optional(Amount),
+      recurrenceCount: Schema.optional(Schema.Number),
+      discountRatioMicros: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PromotionIntroductoryPricingDetailsIntroductoryPricingSpec",
+  }) as any as Schema.Schema<PromotionIntroductoryPricingDetailsIntroductoryPricingSpec>;
 
 export interface PromotionIntroductoryPricingDetails {
   /** Output only. Specifies the introductory pricing periods. */
   introductoryPricingSpecs?: Array<PromotionIntroductoryPricingDetailsIntroductoryPricingSpec>;
 }
 
-export const PromotionIntroductoryPricingDetails: Schema.Schema<PromotionIntroductoryPricingDetails> = Schema.suspend(() => Schema.Struct({
-  introductoryPricingSpecs: Schema.optional(Schema.Array(PromotionIntroductoryPricingDetailsIntroductoryPricingSpec)),
-})).annotate({ identifier: "PromotionIntroductoryPricingDetails" }) as any as Schema.Schema<PromotionIntroductoryPricingDetails>;
+export const PromotionIntroductoryPricingDetails: Schema.Schema<PromotionIntroductoryPricingDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      introductoryPricingSpecs: Schema.optional(
+        Schema.Array(
+          PromotionIntroductoryPricingDetailsIntroductoryPricingSpec,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "PromotionIntroductoryPricingDetails",
+  }) as any as Schema.Schema<PromotionIntroductoryPricingDetails>;
 
 export interface SubscriptionPromotionSpec {
   /** Required. Promotion resource name that identifies a promotion. The format is 'partners/{partner_id}/promotions/{promotion_id}'. */
   promotion?: string;
   /** Output only. The type of the promotion for the spec. */
-  type?: "PROMOTION_TYPE_UNSPECIFIED" | "PROMOTION_TYPE_FREE_TRIAL" | "PROMOTION_TYPE_INTRODUCTORY_PRICING" | (string & {});
+  type?:
+    | "PROMOTION_TYPE_UNSPECIFIED"
+    | "PROMOTION_TYPE_FREE_TRIAL"
+    | "PROMOTION_TYPE_INTRODUCTORY_PRICING"
+    | (string & {});
   /** Output only. The details of the introductory pricing spec if the promotion is of type INTRODUCTORY_PRICING. */
   introductoryPricingDetails?: PromotionIntroductoryPricingDetails;
   /** Output only. The duration of the free trial if the promotion is of type FREE_TRIAL. */
   freeTrialDuration?: Duration;
 }
 
-export const SubscriptionPromotionSpec: Schema.Schema<SubscriptionPromotionSpec> = Schema.suspend(() => Schema.Struct({
-  promotion: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  introductoryPricingDetails: Schema.optional(PromotionIntroductoryPricingDetails),
-  freeTrialDuration: Schema.optional(Duration),
-})).annotate({ identifier: "SubscriptionPromotionSpec" }) as any as Schema.Schema<SubscriptionPromotionSpec>;
+export const SubscriptionPromotionSpec: Schema.Schema<SubscriptionPromotionSpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      promotion: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      introductoryPricingDetails: Schema.optional(
+        PromotionIntroductoryPricingDetails,
+      ),
+      freeTrialDuration: Schema.optional(Duration),
+    }),
+  ).annotate({
+    identifier: "SubscriptionPromotionSpec",
+  }) as any as Schema.Schema<SubscriptionPromotionSpec>;
 
 export interface SubscriptionLineItem {
   /** Optional. Details for a subscription line item with finite billing cycles. If unset, the line item will be charged indefinitely. Used only with LINE_ITEM_RECURRENCE_TYPE_PERIODIC. */
@@ -255,7 +365,16 @@ export interface SubscriptionLineItem {
   /** Output only. The price of the product/service in this line item. The amount could be the wholesale price, or it can include a cost of sale based on the contract. */
   amount?: Amount;
   /** Output only. The state of the line item. */
-  state?: "LINE_ITEM_STATE_UNSPECIFIED" | "LINE_ITEM_STATE_ACTIVE" | "LINE_ITEM_STATE_INACTIVE" | "LINE_ITEM_STATE_NEW" | "LINE_ITEM_STATE_ACTIVATING" | "LINE_ITEM_STATE_DEACTIVATING" | "LINE_ITEM_STATE_WAITING_TO_DEACTIVATE" | "LINE_ITEM_STATE_OFF_CYCLE_CHARGING" | (string & {});
+  state?:
+    | "LINE_ITEM_STATE_UNSPECIFIED"
+    | "LINE_ITEM_STATE_ACTIVE"
+    | "LINE_ITEM_STATE_INACTIVE"
+    | "LINE_ITEM_STATE_NEW"
+    | "LINE_ITEM_STATE_ACTIVATING"
+    | "LINE_ITEM_STATE_DEACTIVATING"
+    | "LINE_ITEM_STATE_WAITING_TO_DEACTIVATE"
+    | "LINE_ITEM_STATE_OFF_CYCLE_CHARGING"
+    | (string & {});
   /** Output only. The bundle details for the line item. Only populated if the line item corresponds to a hard bundle. */
   bundleDetails?: SubscriptionLineItemBundleDetails;
   /** Optional. The promotions applied on the line item. It can be: - an introductory pricing promotion. - a free trial promotion. This feature is not enabled. If used, the request will be rejected. When used as input in Create or Provision API, specify its resource name only. */
@@ -265,36 +384,59 @@ export interface SubscriptionLineItem {
   /** Output only. The free trial end time will be populated after the line item is successfully processed. End time of the line item free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
   lineItemFreeTrialEndTime?: string;
   /** Output only. The recurrence type of the line item. */
-  recurrenceType?: "LINE_ITEM_RECURRENCE_TYPE_UNSPECIFIED" | "LINE_ITEM_RECURRENCE_TYPE_PERIODIC" | "LINE_ITEM_RECURRENCE_TYPE_ONE_TIME" | (string & {});
+  recurrenceType?:
+    | "LINE_ITEM_RECURRENCE_TYPE_UNSPECIFIED"
+    | "LINE_ITEM_RECURRENCE_TYPE_PERIODIC"
+    | "LINE_ITEM_RECURRENCE_TYPE_ONE_TIME"
+    | (string & {});
 }
 
-export const SubscriptionLineItem: Schema.Schema<SubscriptionLineItem> = Schema.suspend(() => Schema.Struct({
-  finiteBillingCycleDetails: Schema.optional(FiniteBillingCycleDetails),
-  lineItemIndex: Schema.optional(Schema.Number),
-  product: Schema.optional(Schema.String),
-  oneTimeRecurrenceDetails: Schema.optional(SubscriptionLineItemOneTimeRecurrenceDetails),
-  description: Schema.optional(Schema.String),
-  productPayload: Schema.optional(ProductPayload),
-  amount: Schema.optional(Amount),
-  state: Schema.optional(Schema.String),
-  bundleDetails: Schema.optional(SubscriptionLineItemBundleDetails),
-  lineItemPromotionSpecs: Schema.optional(Schema.Array(SubscriptionPromotionSpec)),
-  name: Schema.optional(Schema.String),
-  lineItemFreeTrialEndTime: Schema.optional(Schema.String),
-  recurrenceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "SubscriptionLineItem" }) as any as Schema.Schema<SubscriptionLineItem>;
+export const SubscriptionLineItem: Schema.Schema<SubscriptionLineItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      finiteBillingCycleDetails: Schema.optional(FiniteBillingCycleDetails),
+      lineItemIndex: Schema.optional(Schema.Number),
+      product: Schema.optional(Schema.String),
+      oneTimeRecurrenceDetails: Schema.optional(
+        SubscriptionLineItemOneTimeRecurrenceDetails,
+      ),
+      description: Schema.optional(Schema.String),
+      productPayload: Schema.optional(ProductPayload),
+      amount: Schema.optional(Amount),
+      state: Schema.optional(Schema.String),
+      bundleDetails: Schema.optional(SubscriptionLineItemBundleDetails),
+      lineItemPromotionSpecs: Schema.optional(
+        Schema.Array(SubscriptionPromotionSpec),
+      ),
+      name: Schema.optional(Schema.String),
+      lineItemFreeTrialEndTime: Schema.optional(Schema.String),
+      recurrenceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SubscriptionLineItem",
+  }) as any as Schema.Schema<SubscriptionLineItem>;
 
 export interface SubscriptionUpgradeDowngradeDetails {
   /** Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription. */
-  billingCycleSpec?: "BILLING_CYCLE_SPEC_UNSPECIFIED" | "BILLING_CYCLE_SPEC_ALIGN_WITH_PREVIOUS_SUBSCRIPTION" | "BILLING_CYCLE_SPEC_START_IMMEDIATELY" | "BILLING_CYCLE_SPEC_DEFERRED_TO_NEXT_RECURRENCE" | (string & {});
+  billingCycleSpec?:
+    | "BILLING_CYCLE_SPEC_UNSPECIFIED"
+    | "BILLING_CYCLE_SPEC_ALIGN_WITH_PREVIOUS_SUBSCRIPTION"
+    | "BILLING_CYCLE_SPEC_START_IMMEDIATELY"
+    | "BILLING_CYCLE_SPEC_DEFERRED_TO_NEXT_RECURRENCE"
+    | (string & {});
   /** Required. The previous subscription id to be replaced. The format can be one of the following: 1. `subscription_id`: the old subscription id under the same partner_id. 2. `partners/{partner_id}/subscriptions/{subscription_id}`. A different partner_id is allowed. But they must be under the same partner group. */
   previousSubscriptionId?: string;
 }
 
-export const SubscriptionUpgradeDowngradeDetails: Schema.Schema<SubscriptionUpgradeDowngradeDetails> = Schema.suspend(() => Schema.Struct({
-  billingCycleSpec: Schema.optional(Schema.String),
-  previousSubscriptionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SubscriptionUpgradeDowngradeDetails" }) as any as Schema.Schema<SubscriptionUpgradeDowngradeDetails>;
+export const SubscriptionUpgradeDowngradeDetails: Schema.Schema<SubscriptionUpgradeDowngradeDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      billingCycleSpec: Schema.optional(Schema.String),
+      previousSubscriptionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SubscriptionUpgradeDowngradeDetails",
+  }) as any as Schema.Schema<SubscriptionUpgradeDowngradeDetails>;
 
 export interface Location {
   /** 2-letter ISO region code for current content region. Ex. “US” Please refers to: https://en.wikipedia.org/wiki/ISO_3166-1 */
@@ -303,32 +445,65 @@ export interface Location {
   postalCode?: string;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  postalCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    regionCode: Schema.optional(Schema.String),
+    postalCode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface SubscriptionCancellationDetails {
   /** Output only. The reason of the cancellation. */
-  reason?: "CANCELLATION_REASON_UNSPECIFIED" | "CANCELLATION_REASON_FRAUD" | "CANCELLATION_REASON_REMORSE" | "CANCELLATION_REASON_ACCIDENTAL_PURCHASE" | "CANCELLATION_REASON_PAST_DUE" | "CANCELLATION_REASON_ACCOUNT_CLOSED" | "CANCELLATION_REASON_UPGRADE_DOWNGRADE" | "CANCELLATION_REASON_USER_DELINQUENCY" | "CANCELLATION_REASON_SYSTEM_ERROR" | "CANCELLATION_REASON_SYSTEM_CANCEL" | "CANCELLATION_REASON_BILLING_SYSTEM_SWITCH" | "CANCELLATION_REASON_OTHER" | (string & {});
+  reason?:
+    | "CANCELLATION_REASON_UNSPECIFIED"
+    | "CANCELLATION_REASON_FRAUD"
+    | "CANCELLATION_REASON_REMORSE"
+    | "CANCELLATION_REASON_ACCIDENTAL_PURCHASE"
+    | "CANCELLATION_REASON_PAST_DUE"
+    | "CANCELLATION_REASON_ACCOUNT_CLOSED"
+    | "CANCELLATION_REASON_UPGRADE_DOWNGRADE"
+    | "CANCELLATION_REASON_USER_DELINQUENCY"
+    | "CANCELLATION_REASON_SYSTEM_ERROR"
+    | "CANCELLATION_REASON_SYSTEM_CANCEL"
+    | "CANCELLATION_REASON_BILLING_SYSTEM_SWITCH"
+    | "CANCELLATION_REASON_OTHER"
+    | (string & {});
 }
 
-export const SubscriptionCancellationDetails: Schema.Schema<SubscriptionCancellationDetails> = Schema.suspend(() => Schema.Struct({
-  reason: Schema.optional(Schema.String),
-})).annotate({ identifier: "SubscriptionCancellationDetails" }) as any as Schema.Schema<SubscriptionCancellationDetails>;
+export const SubscriptionCancellationDetails: Schema.Schema<SubscriptionCancellationDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SubscriptionCancellationDetails",
+  }) as any as Schema.Schema<SubscriptionCancellationDetails>;
 
 export interface SubscriptionMigrationDetails {
   /** Output only. The migrated subscription id in the legacy system. */
   migratedSubscriptionId?: string;
 }
 
-export const SubscriptionMigrationDetails: Schema.Schema<SubscriptionMigrationDetails> = Schema.suspend(() => Schema.Struct({
-  migratedSubscriptionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SubscriptionMigrationDetails" }) as any as Schema.Schema<SubscriptionMigrationDetails>;
+export const SubscriptionMigrationDetails: Schema.Schema<SubscriptionMigrationDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migratedSubscriptionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SubscriptionMigrationDetails",
+  }) as any as Schema.Schema<SubscriptionMigrationDetails>;
 
 export interface Subscription {
   /** Output only. Describes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
-  state?: "STATE_UNSPECIFIED" | "STATE_CREATED" | "STATE_ACTIVE" | "STATE_CANCELLED" | "STATE_IN_GRACE_PERIOD" | "STATE_CANCEL_AT_END_OF_CYCLE" | "STATE_SUSPENDED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "STATE_CREATED"
+    | "STATE_ACTIVE"
+    | "STATE_CANCELLED"
+    | "STATE_IN_GRACE_PERIOD"
+    | "STATE_CANCEL_AT_END_OF_CYCLE"
+    | "STATE_SUSPENDED"
+    | (string & {});
   /** Optional. Deprecated: consider using `line_items` as the input. Required. Resource name that identifies the purchased products. The format will be 'partners/{partner_id}/products/{product_id}'. */
   products?: Array<string>;
   /** Required. The line items of the subscription. */
@@ -348,7 +523,12 @@ export interface Subscription {
   /** Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum. */
   partnerUserToken?: string;
   /** Output only. Describes the processing state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
-  processingState?: "PROCESSING_STATE_UNSPECIFIED" | "PROCESSING_STATE_CANCELLING" | "PROCESSING_STATE_RECURRING" | "PROCESSING_STATE_RESUMING" | (string & {});
+  processingState?:
+    | "PROCESSING_STATE_UNSPECIFIED"
+    | "PROCESSING_STATE_CANCELLING"
+    | "PROCESSING_STATE_RECURRING"
+    | "PROCESSING_STATE_RESUMING"
+    | (string & {});
   /** Output only. System generated timestamp when the subscription is created. UTC timezone. */
   createTime?: string;
   /** Output only. The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. For example: "2019-08-31T17:28:54.564Z" */
@@ -369,52 +549,69 @@ export interface Subscription {
   migrationDetails?: SubscriptionMigrationDetails;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  products: Schema.optional(Schema.Array(Schema.String)),
-  lineItems: Schema.optional(Schema.Array(SubscriptionLineItem)),
-  updateTime: Schema.optional(Schema.String),
-  upgradeDowngradeDetails: Schema.optional(SubscriptionUpgradeDowngradeDetails),
-  freeTrialEndTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  redirectUri: Schema.optional(Schema.String),
-  promotionSpecs: Schema.optional(Schema.Array(SubscriptionPromotionSpec)),
-  partnerUserToken: Schema.optional(Schema.String),
-  processingState: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  cycleEndTime: Schema.optional(Schema.String),
-  serviceLocation: Schema.optional(Location),
-  purchaseTime: Schema.optional(Schema.String),
-  renewalTime: Schema.optional(Schema.String),
-  cancellationDetails: Schema.optional(SubscriptionCancellationDetails),
-  promotions: Schema.optional(Schema.Array(Schema.String)),
-  endUserEntitled: Schema.optional(Schema.Boolean),
-  migrationDetails: Schema.optional(SubscriptionMigrationDetails),
-})).annotate({ identifier: "Subscription" }) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
+  Schema.Struct({
+    state: Schema.optional(Schema.String),
+    products: Schema.optional(Schema.Array(Schema.String)),
+    lineItems: Schema.optional(Schema.Array(SubscriptionLineItem)),
+    updateTime: Schema.optional(Schema.String),
+    upgradeDowngradeDetails: Schema.optional(
+      SubscriptionUpgradeDowngradeDetails,
+    ),
+    freeTrialEndTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    redirectUri: Schema.optional(Schema.String),
+    promotionSpecs: Schema.optional(Schema.Array(SubscriptionPromotionSpec)),
+    partnerUserToken: Schema.optional(Schema.String),
+    processingState: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    cycleEndTime: Schema.optional(Schema.String),
+    serviceLocation: Schema.optional(Location),
+    purchaseTime: Schema.optional(Schema.String),
+    renewalTime: Schema.optional(Schema.String),
+    cancellationDetails: Schema.optional(SubscriptionCancellationDetails),
+    promotions: Schema.optional(Schema.Array(Schema.String)),
+    endUserEntitled: Schema.optional(Schema.Boolean),
+    migrationDetails: Schema.optional(SubscriptionMigrationDetails),
+  }),
+).annotate({
+  identifier: "Subscription",
+}) as any as Schema.Schema<Subscription>;
 
 export interface UndoCancelSubscriptionResponse {
   /** The updated subscription resource. */
   subscription?: Subscription;
 }
 
-export const UndoCancelSubscriptionResponse: Schema.Schema<UndoCancelSubscriptionResponse> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Subscription),
-})).annotate({ identifier: "UndoCancelSubscriptionResponse" }) as any as Schema.Schema<UndoCancelSubscriptionResponse>;
+export const UndoCancelSubscriptionResponse: Schema.Schema<UndoCancelSubscriptionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Subscription),
+    }),
+  ).annotate({
+    identifier: "UndoCancelSubscriptionResponse",
+  }) as any as Schema.Schema<UndoCancelSubscriptionResponse>;
 
 export interface SuspendSubscriptionResponse {
   /** The suspended subscription resource. */
   subscription?: Subscription;
 }
 
-export const SuspendSubscriptionResponse: Schema.Schema<SuspendSubscriptionResponse> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Subscription),
-})).annotate({ identifier: "SuspendSubscriptionResponse" }) as any as Schema.Schema<SuspendSubscriptionResponse>;
+export const SuspendSubscriptionResponse: Schema.Schema<SuspendSubscriptionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Subscription),
+    }),
+  ).annotate({
+    identifier: "SuspendSubscriptionResponse",
+  }) as any as Schema.Schema<SuspendSubscriptionResponse>;
 
-export interface SuspendSubscriptionRequest {
-}
+export interface SuspendSubscriptionRequest {}
 
-export const SuspendSubscriptionRequest: Schema.Schema<SuspendSubscriptionRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SuspendSubscriptionRequest" }) as any as Schema.Schema<SuspendSubscriptionRequest>;
+export const SuspendSubscriptionRequest: Schema.Schema<SuspendSubscriptionRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SuspendSubscriptionRequest",
+  }) as any as Schema.Schema<SuspendSubscriptionRequest>;
 
 export interface GoogleTypeLocalizedText {
   /** Localized string in the language corresponding to language_code below. */
@@ -423,10 +620,15 @@ export interface GoogleTypeLocalizedText {
   languageCode?: string;
 }
 
-export const GoogleTypeLocalizedText: Schema.Schema<GoogleTypeLocalizedText> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeLocalizedText" }) as any as Schema.Schema<GoogleTypeLocalizedText>;
+export const GoogleTypeLocalizedText: Schema.Schema<GoogleTypeLocalizedText> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleTypeLocalizedText",
+  }) as any as Schema.Schema<GoogleTypeLocalizedText>;
 
 export interface Promotion {
   /** Optional. Specifies the duration of the free trial of the subscription when promotion_type is PROMOTION_TYPE_FREE_TRIAL */
@@ -436,7 +638,11 @@ export interface Promotion {
   /** Optional. Specifies the start time (inclusive) of the period that the promotion is available in. */
   startTime?: string;
   /** Output only. Specifies the type of the promotion. */
-  promotionType?: "PROMOTION_TYPE_UNSPECIFIED" | "PROMOTION_TYPE_FREE_TRIAL" | "PROMOTION_TYPE_INTRODUCTORY_PRICING" | (string & {});
+  promotionType?:
+    | "PROMOTION_TYPE_UNSPECIFIED"
+    | "PROMOTION_TYPE_FREE_TRIAL"
+    | "PROMOTION_TYPE_INTRODUCTORY_PRICING"
+    | (string & {});
   /** Identifier. Response only. Resource name of the subscription promotion. It will have the format of "partners/{partner_id}/promotion/{promotion_id}" */
   name?: string;
   /** Output only. The product ids this promotion can be applied to. */
@@ -449,17 +655,21 @@ export interface Promotion {
   titles?: Array<GoogleTypeLocalizedText>;
 }
 
-export const Promotion: Schema.Schema<Promotion> = Schema.suspend(() => Schema.Struct({
-  freeTrialDuration: Schema.optional(Duration),
-  regionCodes: Schema.optional(Schema.Array(Schema.String)),
-  startTime: Schema.optional(Schema.String),
-  promotionType: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  applicableProducts: Schema.optional(Schema.Array(Schema.String)),
-  endTime: Schema.optional(Schema.String),
-  introductoryPricingDetails: Schema.optional(PromotionIntroductoryPricingDetails),
-  titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
-})).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
+export const Promotion: Schema.Schema<Promotion> = Schema.suspend(() =>
+  Schema.Struct({
+    freeTrialDuration: Schema.optional(Duration),
+    regionCodes: Schema.optional(Schema.Array(Schema.String)),
+    startTime: Schema.optional(Schema.String),
+    promotionType: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    applicableProducts: Schema.optional(Schema.Array(Schema.String)),
+    endTime: Schema.optional(Schema.String),
+    introductoryPricingDetails: Schema.optional(
+      PromotionIntroductoryPricingDetails,
+    ),
+    titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
+  }),
+).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
 
 export interface FindEligiblePromotionsResponse {
   /** The promotions for the current user. */
@@ -468,10 +678,15 @@ export interface FindEligiblePromotionsResponse {
   nextPageToken?: string;
 }
 
-export const FindEligiblePromotionsResponse: Schema.Schema<FindEligiblePromotionsResponse> = Schema.suspend(() => Schema.Struct({
-  promotions: Schema.optional(Schema.Array(Promotion)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "FindEligiblePromotionsResponse" }) as any as Schema.Schema<FindEligiblePromotionsResponse>;
+export const FindEligiblePromotionsResponse: Schema.Schema<FindEligiblePromotionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      promotions: Schema.optional(Schema.Array(Promotion)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FindEligiblePromotionsResponse",
+  }) as any as Schema.Schema<FindEligiblePromotionsResponse>;
 
 export interface ListPromotionsResponse {
   /** The promotions for the specified partner. */
@@ -480,10 +695,15 @@ export interface ListPromotionsResponse {
   nextPageToken?: string;
 }
 
-export const ListPromotionsResponse: Schema.Schema<ListPromotionsResponse> = Schema.suspend(() => Schema.Struct({
-  promotions: Schema.optional(Schema.Array(Promotion)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPromotionsResponse" }) as any as Schema.Schema<ListPromotionsResponse>;
+export const ListPromotionsResponse: Schema.Schema<ListPromotionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      promotions: Schema.optional(Schema.Array(Promotion)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPromotionsResponse",
+  }) as any as Schema.Schema<ListPromotionsResponse>;
 
 export interface UserSession {
   /** Output only. The encrypted token of the user session, including the information of the user's intent and request. This token should be provided when redirecting the user to Google. */
@@ -492,10 +712,12 @@ export interface UserSession {
   expireTime?: string;
 }
 
-export const UserSession: Schema.Schema<UserSession> = Schema.suspend(() => Schema.Struct({
-  token: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserSession" }) as any as Schema.Schema<UserSession>;
+export const UserSession: Schema.Schema<UserSession> = Schema.suspend(() =>
+  Schema.Struct({
+    token: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserSession" }) as any as Schema.Schema<UserSession>;
 
 export interface Extension {
   /** Required. Identifier of the end-user in partner’s system. */
@@ -504,10 +726,12 @@ export interface Extension {
   duration?: Duration;
 }
 
-export const Extension: Schema.Schema<Extension> = Schema.suspend(() => Schema.Struct({
-  partnerUserToken: Schema.optional(Schema.String),
-  duration: Schema.optional(Duration),
-})).annotate({ identifier: "Extension" }) as any as Schema.Schema<Extension>;
+export const Extension: Schema.Schema<Extension> = Schema.suspend(() =>
+  Schema.Struct({
+    partnerUserToken: Schema.optional(Schema.String),
+    duration: Schema.optional(Duration),
+  }),
+).annotate({ identifier: "Extension" }) as any as Schema.Schema<Extension>;
 
 export interface ExtendSubscriptionRequest {
   /** Required. Specifies details of the extension. Currently, the duration of the extension must be exactly one billing cycle of the original subscription. */
@@ -516,46 +740,75 @@ export interface ExtendSubscriptionRequest {
   requestId?: string;
 }
 
-export const ExtendSubscriptionRequest: Schema.Schema<ExtendSubscriptionRequest> = Schema.suspend(() => Schema.Struct({
-  extension: Schema.optional(Extension),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExtendSubscriptionRequest" }) as any as Schema.Schema<ExtendSubscriptionRequest>;
+export const ExtendSubscriptionRequest: Schema.Schema<ExtendSubscriptionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      extension: Schema.optional(Extension),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExtendSubscriptionRequest",
+  }) as any as Schema.Schema<ExtendSubscriptionRequest>;
 
 export interface EntitleSubscriptionRequest {
   /** Optional. The line items to be entitled. If unspecified, all line items will be entitled. */
   lineItemEntitlementDetails?: Array<EntitleSubscriptionRequestLineItemEntitlementDetails>;
 }
 
-export const EntitleSubscriptionRequest: Schema.Schema<EntitleSubscriptionRequest> = Schema.suspend(() => Schema.Struct({
-  lineItemEntitlementDetails: Schema.optional(Schema.Array(EntitleSubscriptionRequestLineItemEntitlementDetails)),
-})).annotate({ identifier: "EntitleSubscriptionRequest" }) as any as Schema.Schema<EntitleSubscriptionRequest>;
+export const EntitleSubscriptionRequest: Schema.Schema<EntitleSubscriptionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lineItemEntitlementDetails: Schema.optional(
+        Schema.Array(EntitleSubscriptionRequestLineItemEntitlementDetails),
+      ),
+    }),
+  ).annotate({
+    identifier: "EntitleSubscriptionRequest",
+  }) as any as Schema.Schema<EntitleSubscriptionRequest>;
 
-export interface UndoCancelSubscriptionRequest {
-}
+export interface UndoCancelSubscriptionRequest {}
 
-export const UndoCancelSubscriptionRequest: Schema.Schema<UndoCancelSubscriptionRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndoCancelSubscriptionRequest" }) as any as Schema.Schema<UndoCancelSubscriptionRequest>;
+export const UndoCancelSubscriptionRequest: Schema.Schema<UndoCancelSubscriptionRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndoCancelSubscriptionRequest",
+  }) as any as Schema.Schema<UndoCancelSubscriptionRequest>;
 
 export interface ProductBundleDetailsBundleElement {
   /** Required. Output only. Product resource name that identifies the bundle element. The format is 'partners/{partner_id}/products/{product_id}'. */
   product?: string;
 }
 
-export const ProductBundleDetailsBundleElement: Schema.Schema<ProductBundleDetailsBundleElement> = Schema.suspend(() => Schema.Struct({
-  product: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductBundleDetailsBundleElement" }) as any as Schema.Schema<ProductBundleDetailsBundleElement>;
+export const ProductBundleDetailsBundleElement: Schema.Schema<ProductBundleDetailsBundleElement> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      product: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductBundleDetailsBundleElement",
+  }) as any as Schema.Schema<ProductBundleDetailsBundleElement>;
 
 export interface ProductBundleDetails {
   /** The individual products that are included in the bundle. */
   bundleElements?: Array<ProductBundleDetailsBundleElement>;
   /** The entitlement mode of the bundle product. */
-  entitlementMode?: "ENTITLEMENT_MODE_UNSPECIFIED" | "ENTITLEMENT_MODE_FULL" | "ENTITLEMENT_MODE_INCREMENTAL" | (string & {});
+  entitlementMode?:
+    | "ENTITLEMENT_MODE_UNSPECIFIED"
+    | "ENTITLEMENT_MODE_FULL"
+    | "ENTITLEMENT_MODE_INCREMENTAL"
+    | (string & {});
 }
 
-export const ProductBundleDetails: Schema.Schema<ProductBundleDetails> = Schema.suspend(() => Schema.Struct({
-  bundleElements: Schema.optional(Schema.Array(ProductBundleDetailsBundleElement)),
-  entitlementMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductBundleDetails" }) as any as Schema.Schema<ProductBundleDetails>;
+export const ProductBundleDetails: Schema.Schema<ProductBundleDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      bundleElements: Schema.optional(
+        Schema.Array(ProductBundleDetailsBundleElement),
+      ),
+      entitlementMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductBundleDetails",
+  }) as any as Schema.Schema<ProductBundleDetails>;
 
 export interface ProductPriceConfig {
   /** Output only. 2-letter ISO region code where the product is available in. Ex. "US". */
@@ -564,16 +817,25 @@ export interface ProductPriceConfig {
   amount?: Amount;
 }
 
-export const ProductPriceConfig: Schema.Schema<ProductPriceConfig> = Schema.suspend(() => Schema.Struct({
-  regionCode: Schema.optional(Schema.String),
-  amount: Schema.optional(Amount),
-})).annotate({ identifier: "ProductPriceConfig" }) as any as Schema.Schema<ProductPriceConfig>;
+export const ProductPriceConfig: Schema.Schema<ProductPriceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      regionCode: Schema.optional(Schema.String),
+      amount: Schema.optional(Amount),
+    }),
+  ).annotate({
+    identifier: "ProductPriceConfig",
+  }) as any as Schema.Schema<ProductPriceConfig>;
 
 export interface Product {
   /** Identifier. Response only. Resource name of the product. It will have the format of "partners/{partner_id}/products/{product_id}" */
   name?: string;
   /** Output only. Specifies the type of the product. */
-  productType?: "PRODUCT_TYPE_UNSPECIFIED" | "PRODUCT_TYPE_SUBSCRIPTION" | "PRODUCT_TYPE_BUNDLE_SUBSCRIPTION" | (string & {});
+  productType?:
+    | "PRODUCT_TYPE_UNSPECIFIED"
+    | "PRODUCT_TYPE_SUBSCRIPTION"
+    | "PRODUCT_TYPE_BUNDLE_SUBSCRIPTION"
+    | (string & {});
   /** Output only. Localized human readable name of the product. */
   titles?: Array<GoogleTypeLocalizedText>;
   /** Output only. Specifies the details for a bundle product. */
@@ -588,25 +850,32 @@ export interface Product {
   priceConfigs?: Array<ProductPriceConfig>;
 }
 
-export const Product: Schema.Schema<Product> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  productType: Schema.optional(Schema.String),
-  titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
-  bundleDetails: Schema.optional(ProductBundleDetails),
-  regionCodes: Schema.optional(Schema.Array(Schema.String)),
-  subscriptionBillingCycleDuration: Schema.optional(Duration),
-  finiteBillingCycleDetails: Schema.optional(FiniteBillingCycleDetails),
-  priceConfigs: Schema.optional(Schema.Array(ProductPriceConfig)),
-})).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
+export const Product: Schema.Schema<Product> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    productType: Schema.optional(Schema.String),
+    titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
+    bundleDetails: Schema.optional(ProductBundleDetails),
+    regionCodes: Schema.optional(Schema.Array(Schema.String)),
+    subscriptionBillingCycleDuration: Schema.optional(Duration),
+    finiteBillingCycleDetails: Schema.optional(FiniteBillingCycleDetails),
+    priceConfigs: Schema.optional(Schema.Array(ProductPriceConfig)),
+  }),
+).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
 
 export interface GenerateUserSessionResponse {
   /** The generated user session. The token size is proportional to the size of the intent payload. */
   userSession?: UserSession;
 }
 
-export const GenerateUserSessionResponse: Schema.Schema<GenerateUserSessionResponse> = Schema.suspend(() => Schema.Struct({
-  userSession: Schema.optional(UserSession),
-})).annotate({ identifier: "GenerateUserSessionResponse" }) as any as Schema.Schema<GenerateUserSessionResponse>;
+export const GenerateUserSessionResponse: Schema.Schema<GenerateUserSessionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userSession: Schema.optional(UserSession),
+    }),
+  ).annotate({
+    identifier: "GenerateUserSessionResponse",
+  }) as any as Schema.Schema<GenerateUserSessionResponse>;
 
 export interface CreateSubscriptionIntent {
   /** Required. The parent resource name, which is the identifier of the partner. */
@@ -619,30 +888,45 @@ export interface CreateSubscriptionIntent {
   cycleOptions?: CycleOptions;
 }
 
-export const CreateSubscriptionIntent: Schema.Schema<CreateSubscriptionIntent> = Schema.suspend(() => Schema.Struct({
-  parent: Schema.optional(Schema.String),
-  subscription: Schema.optional(Subscription),
-  subscriptionId: Schema.optional(Schema.String),
-  cycleOptions: Schema.optional(CycleOptions),
-})).annotate({ identifier: "CreateSubscriptionIntent" }) as any as Schema.Schema<CreateSubscriptionIntent>;
+export const CreateSubscriptionIntent: Schema.Schema<CreateSubscriptionIntent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parent: Schema.optional(Schema.String),
+      subscription: Schema.optional(Subscription),
+      subscriptionId: Schema.optional(Schema.String),
+      cycleOptions: Schema.optional(CycleOptions),
+    }),
+  ).annotate({
+    identifier: "CreateSubscriptionIntent",
+  }) as any as Schema.Schema<CreateSubscriptionIntent>;
 
 export interface EntitleSubscriptionIntent {
   /** Required. The name of the subscription resource that is entitled to the current end user. It is in the format of "partners/{partner_id}/subscriptions/{subscriptionId}". */
   name?: string;
 }
 
-export const EntitleSubscriptionIntent: Schema.Schema<EntitleSubscriptionIntent> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntitleSubscriptionIntent" }) as any as Schema.Schema<EntitleSubscriptionIntent>;
+export const EntitleSubscriptionIntent: Schema.Schema<EntitleSubscriptionIntent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EntitleSubscriptionIntent",
+  }) as any as Schema.Schema<EntitleSubscriptionIntent>;
 
 export interface IntentPayloadIntentOptions {
   /** Optional. If true, Google may use a different product and promotion id from the ones in the `create_intent` based on the user's eligibility. Only applicable for certain YouTube free trial offers. */
   enableOfferOverride?: boolean;
 }
 
-export const IntentPayloadIntentOptions: Schema.Schema<IntentPayloadIntentOptions> = Schema.suspend(() => Schema.Struct({
-  enableOfferOverride: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "IntentPayloadIntentOptions" }) as any as Schema.Schema<IntentPayloadIntentOptions>;
+export const IntentPayloadIntentOptions: Schema.Schema<IntentPayloadIntentOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enableOfferOverride: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "IntentPayloadIntentOptions",
+  }) as any as Schema.Schema<IntentPayloadIntentOptions>;
 
 export interface IntentPayload {
   /** The request to create a subscription. */
@@ -653,29 +937,43 @@ export interface IntentPayload {
   intentOptions?: IntentPayloadIntentOptions;
 }
 
-export const IntentPayload: Schema.Schema<IntentPayload> = Schema.suspend(() => Schema.Struct({
-  createIntent: Schema.optional(CreateSubscriptionIntent),
-  entitleIntent: Schema.optional(EntitleSubscriptionIntent),
-  intentOptions: Schema.optional(IntentPayloadIntentOptions),
-})).annotate({ identifier: "IntentPayload" }) as any as Schema.Schema<IntentPayload>;
+export const IntentPayload: Schema.Schema<IntentPayload> = Schema.suspend(() =>
+  Schema.Struct({
+    createIntent: Schema.optional(CreateSubscriptionIntent),
+    entitleIntent: Schema.optional(EntitleSubscriptionIntent),
+    intentOptions: Schema.optional(IntentPayloadIntentOptions),
+  }),
+).annotate({
+  identifier: "IntentPayload",
+}) as any as Schema.Schema<IntentPayload>;
 
 export interface GenerateUserSessionRequest {
   /** The user intent to generate the user session. */
   intentPayload?: IntentPayload;
 }
 
-export const GenerateUserSessionRequest: Schema.Schema<GenerateUserSessionRequest> = Schema.suspend(() => Schema.Struct({
-  intentPayload: Schema.optional(IntentPayload),
-})).annotate({ identifier: "GenerateUserSessionRequest" }) as any as Schema.Schema<GenerateUserSessionRequest>;
+export const GenerateUserSessionRequest: Schema.Schema<GenerateUserSessionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      intentPayload: Schema.optional(IntentPayload),
+    }),
+  ).annotate({
+    identifier: "GenerateUserSessionRequest",
+  }) as any as Schema.Schema<GenerateUserSessionRequest>;
 
 export interface CancelSubscriptionResponse {
   /** The cancelled subscription resource. */
   subscription?: Subscription;
 }
 
-export const CancelSubscriptionResponse: Schema.Schema<CancelSubscriptionResponse> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Subscription),
-})).annotate({ identifier: "CancelSubscriptionResponse" }) as any as Schema.Schema<CancelSubscriptionResponse>;
+export const CancelSubscriptionResponse: Schema.Schema<CancelSubscriptionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Subscription),
+    }),
+  ).annotate({
+    identifier: "CancelSubscriptionResponse",
+  }) as any as Schema.Schema<CancelSubscriptionResponse>;
 
 export interface ExtendSubscriptionResponse {
   /** The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. Example, "cycleEndTime":"2019-08-31T17:28:54.564Z" */
@@ -686,23 +984,46 @@ export interface ExtendSubscriptionResponse {
   freeTrialEndTime?: string;
 }
 
-export const ExtendSubscriptionResponse: Schema.Schema<ExtendSubscriptionResponse> = Schema.suspend(() => Schema.Struct({
-  cycleEndTime: Schema.optional(Schema.String),
-  renewalTime: Schema.optional(Schema.String),
-  freeTrialEndTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExtendSubscriptionResponse" }) as any as Schema.Schema<ExtendSubscriptionResponse>;
+export const ExtendSubscriptionResponse: Schema.Schema<ExtendSubscriptionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cycleEndTime: Schema.optional(Schema.String),
+      renewalTime: Schema.optional(Schema.String),
+      freeTrialEndTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExtendSubscriptionResponse",
+  }) as any as Schema.Schema<ExtendSubscriptionResponse>;
 
 export interface CancelSubscriptionRequest {
   /** Specifies the reason for the cancellation. */
-  cancellationReason?: "CANCELLATION_REASON_UNSPECIFIED" | "CANCELLATION_REASON_FRAUD" | "CANCELLATION_REASON_REMORSE" | "CANCELLATION_REASON_ACCIDENTAL_PURCHASE" | "CANCELLATION_REASON_PAST_DUE" | "CANCELLATION_REASON_ACCOUNT_CLOSED" | "CANCELLATION_REASON_UPGRADE_DOWNGRADE" | "CANCELLATION_REASON_USER_DELINQUENCY" | "CANCELLATION_REASON_SYSTEM_ERROR" | "CANCELLATION_REASON_SYSTEM_CANCEL" | "CANCELLATION_REASON_BILLING_SYSTEM_SWITCH" | "CANCELLATION_REASON_OTHER" | (string & {});
+  cancellationReason?:
+    | "CANCELLATION_REASON_UNSPECIFIED"
+    | "CANCELLATION_REASON_FRAUD"
+    | "CANCELLATION_REASON_REMORSE"
+    | "CANCELLATION_REASON_ACCIDENTAL_PURCHASE"
+    | "CANCELLATION_REASON_PAST_DUE"
+    | "CANCELLATION_REASON_ACCOUNT_CLOSED"
+    | "CANCELLATION_REASON_UPGRADE_DOWNGRADE"
+    | "CANCELLATION_REASON_USER_DELINQUENCY"
+    | "CANCELLATION_REASON_SYSTEM_ERROR"
+    | "CANCELLATION_REASON_SYSTEM_CANCEL"
+    | "CANCELLATION_REASON_BILLING_SYSTEM_SWITCH"
+    | "CANCELLATION_REASON_OTHER"
+    | (string & {});
   /** Optional. If true, Google will cancel the subscription immediately, and may or may not (based on the contract) issue a prorated refund for the remainder of the billing cycle. Otherwise, Google defers the cancellation at renewal_time, and will not issue a refund. - YouTube subscriptions must use this option currently. However, the user will still have access to the subscription until the end of the billing cycle. */
   cancelImmediately?: boolean;
 }
 
-export const CancelSubscriptionRequest: Schema.Schema<CancelSubscriptionRequest> = Schema.suspend(() => Schema.Struct({
-  cancellationReason: Schema.optional(Schema.String),
-  cancelImmediately: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CancelSubscriptionRequest" }) as any as Schema.Schema<CancelSubscriptionRequest>;
+export const CancelSubscriptionRequest: Schema.Schema<CancelSubscriptionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cancellationReason: Schema.optional(Schema.String),
+      cancelImmediately: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CancelSubscriptionRequest",
+  }) as any as Schema.Schema<CancelSubscriptionRequest>;
 
 export interface FindEligiblePromotionsRequest {
   /** Optional. Specifies the filters for the promotion results. The syntax is defined in https://google.aip.dev/160 with the following caveats: 1. Only the following features are supported: - Logical operator `AND` - Comparison operator `=` (no wildcards `*`) - Traversal operator `.` - Has operator `:` (no wildcards `*`) 2. Only the following fields are supported: - `applicableProducts` - `regionCodes` - `youtubePayload.partnerEligibilityId` - `youtubePayload.postalCode` 3. Unless explicitly mentioned above, other features are not supported. Example: `applicableProducts:partners/partner1/products/product1 AND regionCodes:US AND youtubePayload.postalCode=94043 AND youtubePayload.partnerEligibilityId=eligibility-id` */
@@ -713,11 +1034,16 @@ export interface FindEligiblePromotionsRequest {
   pageSize?: number;
 }
 
-export const FindEligiblePromotionsRequest: Schema.Schema<FindEligiblePromotionsRequest> = Schema.suspend(() => Schema.Struct({
-  filter: Schema.optional(Schema.String),
-  pageToken: Schema.optional(Schema.String),
-  pageSize: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FindEligiblePromotionsRequest" }) as any as Schema.Schema<FindEligiblePromotionsRequest>;
+export const FindEligiblePromotionsRequest: Schema.Schema<FindEligiblePromotionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filter: Schema.optional(Schema.String),
+      pageToken: Schema.optional(Schema.String),
+      pageSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "FindEligiblePromotionsRequest",
+  }) as any as Schema.Schema<FindEligiblePromotionsRequest>;
 
 export interface ListProductsResponse {
   /** The products for the specified partner. */
@@ -726,28 +1052,43 @@ export interface ListProductsResponse {
   nextPageToken?: string;
 }
 
-export const ListProductsResponse: Schema.Schema<ListProductsResponse> = Schema.suspend(() => Schema.Struct({
-  products: Schema.optional(Schema.Array(Product)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListProductsResponse" }) as any as Schema.Schema<ListProductsResponse>;
+export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      products: Schema.optional(Schema.Array(Product)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListProductsResponse",
+  }) as any as Schema.Schema<ListProductsResponse>;
 
 export interface EntitleSubscriptionResponse {
   /** The subscription that has user linked to it. */
   subscription?: Subscription;
 }
 
-export const EntitleSubscriptionResponse: Schema.Schema<EntitleSubscriptionResponse> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Subscription),
-})).annotate({ identifier: "EntitleSubscriptionResponse" }) as any as Schema.Schema<EntitleSubscriptionResponse>;
+export const EntitleSubscriptionResponse: Schema.Schema<EntitleSubscriptionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Subscription),
+    }),
+  ).annotate({
+    identifier: "EntitleSubscriptionResponse",
+  }) as any as Schema.Schema<EntitleSubscriptionResponse>;
 
 export interface ResumeSubscriptionResponse {
   /** The resumed subscription resource. */
   subscription?: Subscription;
 }
 
-export const ResumeSubscriptionResponse: Schema.Schema<ResumeSubscriptionResponse> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Subscription),
-})).annotate({ identifier: "ResumeSubscriptionResponse" }) as any as Schema.Schema<ResumeSubscriptionResponse>;
+export const ResumeSubscriptionResponse: Schema.Schema<ResumeSubscriptionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Subscription),
+    }),
+  ).annotate({
+    identifier: "ResumeSubscriptionResponse",
+  }) as any as Schema.Schema<ResumeSubscriptionResponse>;
 
 // ==========================================================================
 // Operations
@@ -780,7 +1121,12 @@ export const ListPartnersProductsResponse = ListProductsResponse;
 export type ListPartnersProductsError = DefaultErrors;
 
 /** Currently, it doesn't support **YouTube** products. Retrieves the products that can be resold by the partner. It should be authenticated with a service account. */
-export const listPartnersProducts: API.PaginatedOperationMethod<ListPartnersProductsRequest, ListPartnersProductsResponse, ListPartnersProductsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPartnersProducts: API.PaginatedOperationMethod<
+  ListPartnersProductsRequest,
+  ListPartnersProductsResponse,
+  ListPartnersProductsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPartnersProductsRequest,
   output: ListPartnersProductsResponse,
   errors: [],
@@ -801,17 +1147,28 @@ export const FindEligiblePartnersPromotionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(FindEligiblePromotionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/promotions:findEligible", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/promotions:findEligible",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<FindEligiblePartnersPromotionsRequest>;
 
-export type FindEligiblePartnersPromotionsResponse = FindEligiblePromotionsResponse;
-export const FindEligiblePartnersPromotionsResponse = FindEligiblePromotionsResponse;
+export type FindEligiblePartnersPromotionsResponse =
+  FindEligiblePromotionsResponse;
+export const FindEligiblePartnersPromotionsResponse =
+  FindEligiblePromotionsResponse;
 
 export type FindEligiblePartnersPromotionsError = DefaultErrors;
 
 /** Currently, it is only enabled for **YouTube**. Finds eligible promotions for the current user. The API requires user authorization via OAuth. The bare minimum oauth scope `openid` is sufficient, which will skip the consent screen. */
-export const findEligiblePartnersPromotions: API.OperationMethod<FindEligiblePartnersPromotionsRequest, FindEligiblePartnersPromotionsResponse, FindEligiblePartnersPromotionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const findEligiblePartnersPromotions: API.OperationMethod<
+  FindEligiblePartnersPromotionsRequest,
+  FindEligiblePartnersPromotionsResponse,
+  FindEligiblePartnersPromotionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FindEligiblePartnersPromotionsRequest,
   output: FindEligiblePartnersPromotionsResponse,
   errors: [],
@@ -844,7 +1201,12 @@ export const ListPartnersPromotionsResponse = ListPromotionsResponse;
 export type ListPartnersPromotionsError = DefaultErrors;
 
 /** Currently, it doesn't support **YouTube** promotions. Retrieves the promotions, such as free trial, that can be used by the partner. It should be authenticated with a service account. */
-export const listPartnersPromotions: API.PaginatedOperationMethod<ListPartnersPromotionsRequest, ListPartnersPromotionsResponse, ListPartnersPromotionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPartnersPromotions: API.PaginatedOperationMethod<
+  ListPartnersPromotionsRequest,
+  ListPartnersPromotionsResponse,
+  ListPartnersPromotionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPartnersPromotionsRequest,
   output: ListPartnersPromotionsResponse,
   errors: [],
@@ -865,7 +1227,11 @@ export const GeneratePartnersUserSessionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GenerateUserSessionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/userSessions:generate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/userSessions:generate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GeneratePartnersUserSessionsRequest>;
 
@@ -875,7 +1241,12 @@ export const GeneratePartnersUserSessionsResponse = GenerateUserSessionResponse;
 export type GeneratePartnersUserSessionsError = DefaultErrors;
 
 /** This API replaces user authorized OAuth consent based APIs (Create, Entitle). Issues a timed session token for the given user intent. You can use the session token to redirect the user to Google to finish the signup flow. You can re-generate new session token repeatedly for the same request if necessary, regardless of the previous tokens being expired or not. By default, the session token is valid for 1 hour. */
-export const generatePartnersUserSessions: API.OperationMethod<GeneratePartnersUserSessionsRequest, GeneratePartnersUserSessionsResponse, GeneratePartnersUserSessionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generatePartnersUserSessions: API.OperationMethod<
+  GeneratePartnersUserSessionsRequest,
+  GeneratePartnersUserSessionsResponse,
+  GeneratePartnersUserSessionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GeneratePartnersUserSessionsRequest,
   output: GeneratePartnersUserSessionsResponse,
   errors: [],
@@ -887,7 +1258,12 @@ export interface ProvisionPartnersSubscriptionsRequest {
   /** number of duration units to be included. */
   "cycleOptions.initialCycleDuration.count"?: number;
   /** The unit used for the duration */
-  "cycleOptions.initialCycleDuration.unit"?: "UNIT_UNSPECIFIED" | "MONTH" | "DAY" | "HOUR" | (string & {});
+  "cycleOptions.initialCycleDuration.unit"?:
+    | "UNIT_UNSPECIFIED"
+    | "MONTH"
+    | "DAY"
+    | "HOUR"
+    | (string & {});
   /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
   parent: string;
   /** Request body */
@@ -895,13 +1271,23 @@ export interface ProvisionPartnersSubscriptionsRequest {
 }
 
 export const ProvisionPartnersSubscriptionsRequest = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.String).pipe(T.HttpQuery("subscriptionId")),
-  "cycleOptions.initialCycleDuration.count": Schema.optional(Schema.Number).pipe(T.HttpQuery("cycleOptions.initialCycleDuration.count")),
-  "cycleOptions.initialCycleDuration.unit": Schema.optional(Schema.String).pipe(T.HttpQuery("cycleOptions.initialCycleDuration.unit")),
+  subscriptionId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("subscriptionId"),
+  ),
+  "cycleOptions.initialCycleDuration.count": Schema.optional(
+    Schema.Number,
+  ).pipe(T.HttpQuery("cycleOptions.initialCycleDuration.count")),
+  "cycleOptions.initialCycleDuration.unit": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("cycleOptions.initialCycleDuration.unit"),
+  ),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Subscription).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions:provision", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions:provision",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ProvisionPartnersSubscriptionsRequest>;
 
@@ -911,7 +1297,12 @@ export const ProvisionPartnersSubscriptionsResponse = Subscription;
 export type ProvisionPartnersSubscriptionsError = DefaultErrors;
 
 /** Used by partners to provision a subscription for their customers. This creates a subscription without associating it with the end user account. EntitleSubscription must be called separately using OAuth in order for the end user account to be associated with the subscription. It should be called directly by the partner using service accounts. */
-export const provisionPartnersSubscriptions: API.OperationMethod<ProvisionPartnersSubscriptionsRequest, ProvisionPartnersSubscriptionsResponse, ProvisionPartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const provisionPartnersSubscriptions: API.OperationMethod<
+  ProvisionPartnersSubscriptionsRequest,
+  ProvisionPartnersSubscriptionsResponse,
+  ProvisionPartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ProvisionPartnersSubscriptionsRequest,
   output: ProvisionPartnersSubscriptionsResponse,
   errors: [],
@@ -928,7 +1319,11 @@ export const EntitlePartnersSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EntitleSubscriptionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:entitle", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:entitle",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EntitlePartnersSubscriptionsRequest>;
 
@@ -938,7 +1333,12 @@ export const EntitlePartnersSubscriptionsResponse = EntitleSubscriptionResponse;
 export type EntitlePartnersSubscriptionsError = DefaultErrors;
 
 /** Entitles a previously provisioned subscription to the current end user. The end user identity is inferred from the authorized credential of the request. This API must be authorized by the end user using OAuth. */
-export const entitlePartnersSubscriptions: API.OperationMethod<EntitlePartnersSubscriptionsRequest, EntitlePartnersSubscriptionsResponse, EntitlePartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const entitlePartnersSubscriptions: API.OperationMethod<
+  EntitlePartnersSubscriptionsRequest,
+  EntitlePartnersSubscriptionsResponse,
+  EntitlePartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EntitlePartnersSubscriptionsRequest,
   output: EntitlePartnersSubscriptionsResponse,
   errors: [],
@@ -955,7 +1355,11 @@ export const ExtendPartnersSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ExtendSubscriptionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:extend", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:extend",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ExtendPartnersSubscriptionsRequest>;
 
@@ -965,7 +1369,12 @@ export const ExtendPartnersSubscriptionsResponse = ExtendSubscriptionResponse;
 export type ExtendPartnersSubscriptionsError = DefaultErrors;
 
 /** [Opt-in only] Most partners should be on auto-extend by default. Extends a subscription service for their customers on an ongoing basis for the subscription to remain active and renewable. It should be called directly by the partner using service accounts. */
-export const extendPartnersSubscriptions: API.OperationMethod<ExtendPartnersSubscriptionsRequest, ExtendPartnersSubscriptionsResponse, ExtendPartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const extendPartnersSubscriptions: API.OperationMethod<
+  ExtendPartnersSubscriptionsRequest,
+  ExtendPartnersSubscriptionsResponse,
+  ExtendPartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ExtendPartnersSubscriptionsRequest,
   output: ExtendPartnersSubscriptionsResponse,
   errors: [],
@@ -982,7 +1391,11 @@ export const CancelPartnersSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelSubscriptionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelPartnersSubscriptionsRequest>;
 
@@ -992,7 +1405,12 @@ export const CancelPartnersSubscriptionsResponse = CancelSubscriptionResponse;
 export type CancelPartnersSubscriptionsError = DefaultErrors;
 
 /** Cancels a subscription service either immediately or by the end of the current billing cycle for their customers. It should be called directly by the partner using service accounts. */
-export const cancelPartnersSubscriptions: API.OperationMethod<CancelPartnersSubscriptionsRequest, CancelPartnersSubscriptionsResponse, CancelPartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelPartnersSubscriptions: API.OperationMethod<
+  CancelPartnersSubscriptionsRequest,
+  CancelPartnersSubscriptionsResponse,
+  CancelPartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelPartnersSubscriptionsRequest,
   output: CancelPartnersSubscriptionsResponse,
   errors: [],
@@ -1009,17 +1427,28 @@ export const UndoCancelPartnersSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndoCancelSubscriptionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:undoCancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:undoCancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndoCancelPartnersSubscriptionsRequest>;
 
-export type UndoCancelPartnersSubscriptionsResponse = UndoCancelSubscriptionResponse;
-export const UndoCancelPartnersSubscriptionsResponse = UndoCancelSubscriptionResponse;
+export type UndoCancelPartnersSubscriptionsResponse =
+  UndoCancelSubscriptionResponse;
+export const UndoCancelPartnersSubscriptionsResponse =
+  UndoCancelSubscriptionResponse;
 
 export type UndoCancelPartnersSubscriptionsError = DefaultErrors;
 
 /** Currently, it is used by **Google One, Play Pass** partners. Revokes the pending cancellation of a subscription, which is currently in `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts. */
-export const undoCancelPartnersSubscriptions: API.OperationMethod<UndoCancelPartnersSubscriptionsRequest, UndoCancelPartnersSubscriptionsResponse, UndoCancelPartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undoCancelPartnersSubscriptions: API.OperationMethod<
+  UndoCancelPartnersSubscriptionsRequest,
+  UndoCancelPartnersSubscriptionsResponse,
+  UndoCancelPartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndoCancelPartnersSubscriptionsRequest,
   output: UndoCancelPartnersSubscriptionsResponse,
   errors: [],
@@ -1036,7 +1465,11 @@ export const SuspendPartnersSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SuspendSubscriptionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:suspend", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:suspend",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SuspendPartnersSubscriptionsRequest>;
 
@@ -1046,7 +1479,12 @@ export const SuspendPartnersSubscriptionsResponse = SuspendSubscriptionResponse;
 export type SuspendPartnersSubscriptionsError = DefaultErrors;
 
 /** Suspends a subscription. Contract terms may dictate if a prorated refund will be issued upon suspension. It should be called directly by the partner using service accounts. */
-export const suspendPartnersSubscriptions: API.OperationMethod<SuspendPartnersSubscriptionsRequest, SuspendPartnersSubscriptionsResponse, SuspendPartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const suspendPartnersSubscriptions: API.OperationMethod<
+  SuspendPartnersSubscriptionsRequest,
+  SuspendPartnersSubscriptionsResponse,
+  SuspendPartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SuspendPartnersSubscriptionsRequest,
   output: SuspendPartnersSubscriptionsResponse,
   errors: [],
@@ -1063,7 +1501,11 @@ export const ResumePartnersSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResumeSubscriptionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:resume", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:resume",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResumePartnersSubscriptionsRequest>;
 
@@ -1073,7 +1515,12 @@ export const ResumePartnersSubscriptionsResponse = ResumeSubscriptionResponse;
 export type ResumePartnersSubscriptionsError = DefaultErrors;
 
 /** Resumes a suspended subscription. The new billing cycle will start at the time of the request. It should be called directly by the partner using service accounts. */
-export const resumePartnersSubscriptions: API.OperationMethod<ResumePartnersSubscriptionsRequest, ResumePartnersSubscriptionsResponse, ResumePartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resumePartnersSubscriptions: API.OperationMethod<
+  ResumePartnersSubscriptionsRequest,
+  ResumePartnersSubscriptionsResponse,
+  ResumePartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResumePartnersSubscriptionsRequest,
   output: ResumePartnersSubscriptionsResponse,
   errors: [],
@@ -1090,10 +1537,16 @@ export interface CreatePartnersSubscriptionsRequest {
 
 export const CreatePartnersSubscriptionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  subscriptionId: Schema.optional(Schema.String).pipe(T.HttpQuery("subscriptionId")),
+  subscriptionId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("subscriptionId"),
+  ),
   body: Schema.optional(Subscription).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/partners/{partnersId}/subscriptions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/subscriptions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreatePartnersSubscriptionsRequest>;
 
@@ -1103,7 +1556,12 @@ export const CreatePartnersSubscriptionsResponse = Subscription;
 export type CreatePartnersSubscriptionsError = DefaultErrors;
 
 /** Used by partners to create a subscription for their customers. The created subscription is associated with the end user inferred from the end user credentials. This API must be authorized by the end user using OAuth. */
-export const createPartnersSubscriptions: API.OperationMethod<CreatePartnersSubscriptionsRequest, CreatePartnersSubscriptionsResponse, CreatePartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createPartnersSubscriptions: API.OperationMethod<
+  CreatePartnersSubscriptionsRequest,
+  CreatePartnersSubscriptionsResponse,
+  CreatePartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreatePartnersSubscriptionsRequest,
   output: CreatePartnersSubscriptionsResponse,
   errors: [],
@@ -1117,7 +1575,10 @@ export interface GetPartnersSubscriptionsRequest {
 export const GetPartnersSubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetPartnersSubscriptionsRequest>;
 
@@ -1127,7 +1588,12 @@ export const GetPartnersSubscriptionsResponse = Subscription;
 export type GetPartnersSubscriptionsError = DefaultErrors;
 
 /** Gets a subscription by id. It should be called directly by the partner using service accounts. */
-export const getPartnersSubscriptions: API.OperationMethod<GetPartnersSubscriptionsRequest, GetPartnersSubscriptionsResponse, GetPartnersSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPartnersSubscriptions: API.OperationMethod<
+  GetPartnersSubscriptionsRequest,
+  GetPartnersSubscriptionsResponse,
+  GetPartnersSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPartnersSubscriptionsRequest,
   output: GetPartnersSubscriptionsResponse,
   errors: [],
@@ -1147,7 +1613,11 @@ export const PatchPartnersSubscriptionsLineItemsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SubscriptionLineItem).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}/lineItems/{lineItemsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}/lineItems/{lineItemsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchPartnersSubscriptionsLineItemsRequest>;
 
@@ -1157,9 +1627,13 @@ export const PatchPartnersSubscriptionsLineItemsResponse = SubscriptionLineItem;
 export type PatchPartnersSubscriptionsLineItemsError = DefaultErrors;
 
 /** Updates a line item of a subscription. It should be authenticated with a service account. */
-export const patchPartnersSubscriptionsLineItems: API.OperationMethod<PatchPartnersSubscriptionsLineItemsRequest, PatchPartnersSubscriptionsLineItemsResponse, PatchPartnersSubscriptionsLineItemsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchPartnersSubscriptionsLineItems: API.OperationMethod<
+  PatchPartnersSubscriptionsLineItemsRequest,
+  PatchPartnersSubscriptionsLineItemsResponse,
+  PatchPartnersSubscriptionsLineItemsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchPartnersSubscriptionsLineItemsRequest,
   output: PatchPartnersSubscriptionsLineItemsResponse,
   errors: [],
 }));
-

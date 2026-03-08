@@ -10,46 +10,76 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "Bedrock AgentCore", serviceShapeName: "AmazonBedrockAgentCore" });
+const svc = T.AwsApiService({
+  sdkId: "Bedrock AgentCore",
+  serviceShapeName: "AmazonBedrockAgentCore",
+});
 const auth = T.AwsAuthSigv4({ name: "bedrock-agentcore" });
 const ver = T.ServiceVersion("2024-02-28");
 const proto = T.AwsProtocolsRestJson1();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
-    if ((UseDualStack === true)) {
-      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+    if (UseDualStack === true) {
+      return err(
+        "Invalid Configuration: Dualstack and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((UseFIPS === true) && (UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsFIPS")) && (true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://bedrock-agentcore-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseFIPS === true && UseDualStack === true) {
+          if (
+            true === _.getAttr(PartitionResult, "supportsFIPS") &&
+            true === _.getAttr(PartitionResult, "supportsDualStack")
+          ) {
+            return e(
+              `https://bedrock-agentcore-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("FIPS and DualStack are enabled, but this partition does not support one or both");
+          return err(
+            "FIPS and DualStack are enabled, but this partition does not support one or both",
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://bedrock-agentcore-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://bedrock-agentcore-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        if ((UseDualStack === true)) {
-          if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-            return e(`https://bedrock-agentcore.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (UseDualStack === true) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            return e(
+              `https://bedrock-agentcore.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
           }
-          return err("DualStack is enabled but this partition does not support DualStack");
+          return err(
+            "DualStack is enabled but this partition does not support DualStack",
+          );
         }
-        return e(`https://bedrock-agentcore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://bedrock-agentcore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -118,12 +148,37 @@ export type MetadataKey = string;
 export type PaginationToken = string;
 
 //# Schemas
-export type UserIdentifier = { userToken: string | redacted.Redacted<string>; userId?: never } | { userToken?: never; userId: string };
-export const UserIdentifier = S.Union([S.Struct({ userToken: SensitiveString }), S.Struct({ userId: S.String })]);
-export interface CompleteResourceTokenAuthRequest { userIdentifier: UserIdentifier; sessionUri: string }
-export const CompleteResourceTokenAuthRequest = S.suspend(() => S.Struct({userIdentifier: UserIdentifier, sessionUri: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/identities/CompleteResourceTokenAuth" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CompleteResourceTokenAuthRequest" }) as any as S.Schema<CompleteResourceTokenAuthRequest>;
-export interface CompleteResourceTokenAuthResponse {  }
-export const CompleteResourceTokenAuthResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "CompleteResourceTokenAuthResponse" }) as any as S.Schema<CompleteResourceTokenAuthResponse>;
+export type UserIdentifier =
+  | { userToken: string | redacted.Redacted<string>; userId?: never }
+  | { userToken?: never; userId: string };
+export const UserIdentifier = S.Union([
+  S.Struct({ userToken: SensitiveString }),
+  S.Struct({ userId: S.String }),
+]);
+export interface CompleteResourceTokenAuthRequest {
+  userIdentifier: UserIdentifier;
+  sessionUri: string;
+}
+export const CompleteResourceTokenAuthRequest = S.suspend(() =>
+  S.Struct({ userIdentifier: UserIdentifier, sessionUri: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/CompleteResourceTokenAuth" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CompleteResourceTokenAuthRequest",
+}) as any as S.Schema<CompleteResourceTokenAuthRequest>;
+export interface CompleteResourceTokenAuthResponse {}
+export const CompleteResourceTokenAuthResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CompleteResourceTokenAuthResponse",
+}) as any as S.Schema<CompleteResourceTokenAuthResponse>;
 export type ValidationExceptionReason =
   | "CannotParse"
   | "FieldValidationFailed"
@@ -132,44 +187,195 @@ export type ValidationExceptionReason =
   | "ResourceConflict"
   | (string & {});
 export const ValidationExceptionReason = S.String;
-export interface ValidationExceptionField { name: string; message: string }
-export const ValidationExceptionField = S.suspend(() => S.Struct({name: S.String, message: S.String})).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export interface GetResourceApiKeyRequest { workloadIdentityToken: string | redacted.Redacted<string>; resourceCredentialProviderName: string }
-export const GetResourceApiKeyRequest = S.suspend(() => S.Struct({workloadIdentityToken: SensitiveString, resourceCredentialProviderName: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/identities/api-key" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetResourceApiKeyRequest" }) as any as S.Schema<GetResourceApiKeyRequest>;
-export interface GetResourceApiKeyResponse { apiKey: string | redacted.Redacted<string> }
-export const GetResourceApiKeyResponse = S.suspend(() => S.Struct({apiKey: SensitiveString})).annotate({ identifier: "GetResourceApiKeyResponse" }) as any as S.Schema<GetResourceApiKeyResponse>;
+export interface GetResourceApiKeyRequest {
+  workloadIdentityToken: string | redacted.Redacted<string>;
+  resourceCredentialProviderName: string;
+}
+export const GetResourceApiKeyRequest = S.suspend(() =>
+  S.Struct({
+    workloadIdentityToken: SensitiveString,
+    resourceCredentialProviderName: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/api-key" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetResourceApiKeyRequest",
+}) as any as S.Schema<GetResourceApiKeyRequest>;
+export interface GetResourceApiKeyResponse {
+  apiKey: string | redacted.Redacted<string>;
+}
+export const GetResourceApiKeyResponse = S.suspend(() =>
+  S.Struct({ apiKey: SensitiveString }),
+).annotate({
+  identifier: "GetResourceApiKeyResponse",
+}) as any as S.Schema<GetResourceApiKeyResponse>;
 export type ScopesListType = string[];
 export const ScopesListType = S.Array(S.String);
-export type Oauth2FlowType =
-  | "USER_FEDERATION"
-  | "M2M"
-  | (string & {});
+export type Oauth2FlowType = "USER_FEDERATION" | "M2M" | (string & {});
 export const Oauth2FlowType = S.String;
-export type CustomRequestParametersType = { [key: string]: string | redacted.Redacted<string> | undefined };
-export const CustomRequestParametersType = S.Record(S.String, SensitiveString.pipe(S.optional));
-export interface GetResourceOauth2TokenRequest { workloadIdentityToken: string | redacted.Redacted<string>; resourceCredentialProviderName: string; scopes: string[]; oauth2Flow: Oauth2FlowType; sessionUri?: string; resourceOauth2ReturnUrl?: string; forceAuthentication?: boolean; customParameters?: { [key: string]: string | redacted.Redacted<string> | undefined }; customState?: string | redacted.Redacted<string> }
-export const GetResourceOauth2TokenRequest = S.suspend(() => S.Struct({workloadIdentityToken: SensitiveString, resourceCredentialProviderName: S.String, scopes: ScopesListType, oauth2Flow: Oauth2FlowType, sessionUri: S.optional(S.String), resourceOauth2ReturnUrl: S.optional(S.String), forceAuthentication: S.optional(S.Boolean), customParameters: S.optional(CustomRequestParametersType), customState: S.optional(SensitiveString)}).pipe(T.all(T.Http({ method: "POST", uri: "/identities/oauth2/token" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetResourceOauth2TokenRequest" }) as any as S.Schema<GetResourceOauth2TokenRequest>;
-export type SessionStatus =
-  | "IN_PROGRESS"
-  | "FAILED"
-  | (string & {});
+export type CustomRequestParametersType = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const CustomRequestParametersType = S.Record(
+  S.String,
+  SensitiveString.pipe(S.optional),
+);
+export interface GetResourceOauth2TokenRequest {
+  workloadIdentityToken: string | redacted.Redacted<string>;
+  resourceCredentialProviderName: string;
+  scopes: string[];
+  oauth2Flow: Oauth2FlowType;
+  sessionUri?: string;
+  resourceOauth2ReturnUrl?: string;
+  forceAuthentication?: boolean;
+  customParameters?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  customState?: string | redacted.Redacted<string>;
+}
+export const GetResourceOauth2TokenRequest = S.suspend(() =>
+  S.Struct({
+    workloadIdentityToken: SensitiveString,
+    resourceCredentialProviderName: S.String,
+    scopes: ScopesListType,
+    oauth2Flow: Oauth2FlowType,
+    sessionUri: S.optional(S.String),
+    resourceOauth2ReturnUrl: S.optional(S.String),
+    forceAuthentication: S.optional(S.Boolean),
+    customParameters: S.optional(CustomRequestParametersType),
+    customState: S.optional(SensitiveString),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/oauth2/token" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetResourceOauth2TokenRequest",
+}) as any as S.Schema<GetResourceOauth2TokenRequest>;
+export type SessionStatus = "IN_PROGRESS" | "FAILED" | (string & {});
 export const SessionStatus = S.String;
-export interface GetResourceOauth2TokenResponse { authorizationUrl?: string | redacted.Redacted<string>; accessToken?: string | redacted.Redacted<string>; sessionUri?: string; sessionStatus?: SessionStatus }
-export const GetResourceOauth2TokenResponse = S.suspend(() => S.Struct({authorizationUrl: S.optional(SensitiveString), accessToken: S.optional(SensitiveString), sessionUri: S.optional(S.String), sessionStatus: S.optional(SessionStatus)})).annotate({ identifier: "GetResourceOauth2TokenResponse" }) as any as S.Schema<GetResourceOauth2TokenResponse>;
-export interface GetWorkloadAccessTokenRequest { workloadName: string }
-export const GetWorkloadAccessTokenRequest = S.suspend(() => S.Struct({workloadName: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/identities/GetWorkloadAccessToken" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetWorkloadAccessTokenRequest" }) as any as S.Schema<GetWorkloadAccessTokenRequest>;
-export interface GetWorkloadAccessTokenResponse { workloadAccessToken: string | redacted.Redacted<string> }
-export const GetWorkloadAccessTokenResponse = S.suspend(() => S.Struct({workloadAccessToken: SensitiveString})).annotate({ identifier: "GetWorkloadAccessTokenResponse" }) as any as S.Schema<GetWorkloadAccessTokenResponse>;
-export interface GetWorkloadAccessTokenForJWTRequest { workloadName: string; userToken: string | redacted.Redacted<string> }
-export const GetWorkloadAccessTokenForJWTRequest = S.suspend(() => S.Struct({workloadName: S.String, userToken: SensitiveString}).pipe(T.all(T.Http({ method: "POST", uri: "/identities/GetWorkloadAccessTokenForJWT" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetWorkloadAccessTokenForJWTRequest" }) as any as S.Schema<GetWorkloadAccessTokenForJWTRequest>;
-export interface GetWorkloadAccessTokenForJWTResponse { workloadAccessToken: string | redacted.Redacted<string> }
-export const GetWorkloadAccessTokenForJWTResponse = S.suspend(() => S.Struct({workloadAccessToken: SensitiveString})).annotate({ identifier: "GetWorkloadAccessTokenForJWTResponse" }) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>;
-export interface GetWorkloadAccessTokenForUserIdRequest { workloadName: string; userId: string }
-export const GetWorkloadAccessTokenForUserIdRequest = S.suspend(() => S.Struct({workloadName: S.String, userId: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/identities/GetWorkloadAccessTokenForUserId" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetWorkloadAccessTokenForUserIdRequest" }) as any as S.Schema<GetWorkloadAccessTokenForUserIdRequest>;
-export interface GetWorkloadAccessTokenForUserIdResponse { workloadAccessToken: string | redacted.Redacted<string> }
-export const GetWorkloadAccessTokenForUserIdResponse = S.suspend(() => S.Struct({workloadAccessToken: SensitiveString})).annotate({ identifier: "GetWorkloadAccessTokenForUserIdResponse" }) as any as S.Schema<GetWorkloadAccessTokenForUserIdResponse>;
+export interface GetResourceOauth2TokenResponse {
+  authorizationUrl?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
+  sessionUri?: string;
+  sessionStatus?: SessionStatus;
+}
+export const GetResourceOauth2TokenResponse = S.suspend(() =>
+  S.Struct({
+    authorizationUrl: S.optional(SensitiveString),
+    accessToken: S.optional(SensitiveString),
+    sessionUri: S.optional(S.String),
+    sessionStatus: S.optional(SessionStatus),
+  }),
+).annotate({
+  identifier: "GetResourceOauth2TokenResponse",
+}) as any as S.Schema<GetResourceOauth2TokenResponse>;
+export interface GetWorkloadAccessTokenRequest {
+  workloadName: string;
+}
+export const GetWorkloadAccessTokenRequest = S.suspend(() =>
+  S.Struct({ workloadName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/GetWorkloadAccessToken" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkloadAccessTokenRequest",
+}) as any as S.Schema<GetWorkloadAccessTokenRequest>;
+export interface GetWorkloadAccessTokenResponse {
+  workloadAccessToken: string | redacted.Redacted<string>;
+}
+export const GetWorkloadAccessTokenResponse = S.suspend(() =>
+  S.Struct({ workloadAccessToken: SensitiveString }),
+).annotate({
+  identifier: "GetWorkloadAccessTokenResponse",
+}) as any as S.Schema<GetWorkloadAccessTokenResponse>;
+export interface GetWorkloadAccessTokenForJWTRequest {
+  workloadName: string;
+  userToken: string | redacted.Redacted<string>;
+}
+export const GetWorkloadAccessTokenForJWTRequest = S.suspend(() =>
+  S.Struct({ workloadName: S.String, userToken: SensitiveString }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/identities/GetWorkloadAccessTokenForJWT",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkloadAccessTokenForJWTRequest",
+}) as any as S.Schema<GetWorkloadAccessTokenForJWTRequest>;
+export interface GetWorkloadAccessTokenForJWTResponse {
+  workloadAccessToken: string | redacted.Redacted<string>;
+}
+export const GetWorkloadAccessTokenForJWTResponse = S.suspend(() =>
+  S.Struct({ workloadAccessToken: SensitiveString }),
+).annotate({
+  identifier: "GetWorkloadAccessTokenForJWTResponse",
+}) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>;
+export interface GetWorkloadAccessTokenForUserIdRequest {
+  workloadName: string;
+  userId: string;
+}
+export const GetWorkloadAccessTokenForUserIdRequest = S.suspend(() =>
+  S.Struct({ workloadName: S.String, userId: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/identities/GetWorkloadAccessTokenForUserId",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkloadAccessTokenForUserIdRequest",
+}) as any as S.Schema<GetWorkloadAccessTokenForUserIdRequest>;
+export interface GetWorkloadAccessTokenForUserIdResponse {
+  workloadAccessToken: string | redacted.Redacted<string>;
+}
+export const GetWorkloadAccessTokenForUserIdResponse = S.suspend(() =>
+  S.Struct({ workloadAccessToken: SensitiveString }),
+).annotate({
+  identifier: "GetWorkloadAccessTokenForUserIdResponse",
+}) as any as S.Schema<GetWorkloadAccessTokenForUserIdResponse>;
 export type ToolName =
   | "executeCode"
   | "executeCommand"
@@ -190,14 +396,82 @@ export type ProgrammingLanguage =
 export const ProgrammingLanguage = S.String;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
-export interface InputContentBlock { path: string; text?: string; blob?: Uint8Array | redacted.Redacted<Uint8Array> }
-export const InputContentBlock = S.suspend(() => S.Struct({path: S.String, text: S.optional(S.String), blob: S.optional(SensitiveBlob)})).annotate({ identifier: "InputContentBlock" }) as any as S.Schema<InputContentBlock>;
+export interface InputContentBlock {
+  path: string;
+  text?: string;
+  blob?: Uint8Array | redacted.Redacted<Uint8Array>;
+}
+export const InputContentBlock = S.suspend(() =>
+  S.Struct({
+    path: S.String,
+    text: S.optional(S.String),
+    blob: S.optional(SensitiveBlob),
+  }),
+).annotate({
+  identifier: "InputContentBlock",
+}) as any as S.Schema<InputContentBlock>;
 export type InputContentBlockList = InputContentBlock[];
 export const InputContentBlockList = S.Array(InputContentBlock);
-export interface ToolArguments { code?: string; language?: ProgrammingLanguage; clearContext?: boolean; command?: string; path?: string; paths?: string[]; content?: InputContentBlock[]; directoryPath?: string; taskId?: string }
-export const ToolArguments = S.suspend(() => S.Struct({code: S.optional(S.String), language: S.optional(ProgrammingLanguage), clearContext: S.optional(S.Boolean), command: S.optional(S.String), path: S.optional(S.String), paths: S.optional(StringList), content: S.optional(InputContentBlockList), directoryPath: S.optional(S.String), taskId: S.optional(S.String)})).annotate({ identifier: "ToolArguments" }) as any as S.Schema<ToolArguments>;
-export interface InvokeCodeInterpreterRequest { codeInterpreterIdentifier: string; sessionId?: string; traceId?: string; traceParent?: string; name: ToolName; arguments?: ToolArguments }
-export const InvokeCodeInterpreterRequest = S.suspend(() => S.Struct({codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")), sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-code-interpreter-session-id")), traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), name: ToolName, arguments: S.optional(ToolArguments)}).pipe(T.all(T.Http({ method: "POST", uri: "/code-interpreters/{codeInterpreterIdentifier}/tools/invoke" }), svc, auth, proto, ver, rules))).annotate({ identifier: "InvokeCodeInterpreterRequest" }) as any as S.Schema<InvokeCodeInterpreterRequest>;
+export interface ToolArguments {
+  code?: string;
+  language?: ProgrammingLanguage;
+  clearContext?: boolean;
+  command?: string;
+  path?: string;
+  paths?: string[];
+  content?: InputContentBlock[];
+  directoryPath?: string;
+  taskId?: string;
+}
+export const ToolArguments = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    language: S.optional(ProgrammingLanguage),
+    clearContext: S.optional(S.Boolean),
+    command: S.optional(S.String),
+    path: S.optional(S.String),
+    paths: S.optional(StringList),
+    content: S.optional(InputContentBlockList),
+    directoryPath: S.optional(S.String),
+    taskId: S.optional(S.String),
+  }),
+).annotate({ identifier: "ToolArguments" }) as any as S.Schema<ToolArguments>;
+export interface InvokeCodeInterpreterRequest {
+  codeInterpreterIdentifier: string;
+  sessionId?: string;
+  traceId?: string;
+  traceParent?: string;
+  name: ToolName;
+  arguments?: ToolArguments;
+}
+export const InvokeCodeInterpreterRequest = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String.pipe(
+      T.HttpLabel("codeInterpreterIdentifier"),
+    ),
+    sessionId: S.optional(S.String).pipe(
+      T.HttpHeader("x-amzn-code-interpreter-session-id"),
+    ),
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    name: ToolName,
+    arguments: S.optional(ToolArguments),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/tools/invoke",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "InvokeCodeInterpreterRequest",
+}) as any as S.Schema<InvokeCodeInterpreterRequest>;
 export type ContentBlockType =
   | "text"
   | "image"
@@ -205,15 +479,50 @@ export type ContentBlockType =
   | "resource_link"
   | (string & {});
 export const ContentBlockType = S.String;
-export type ResourceContentType =
-  | "text"
-  | "blob"
-  | (string & {});
+export type ResourceContentType = "text" | "blob" | (string & {});
 export const ResourceContentType = S.String;
-export interface ResourceContent { type: ResourceContentType; uri?: string; mimeType?: string; text?: string; blob?: Uint8Array }
-export const ResourceContent = S.suspend(() => S.Struct({type: ResourceContentType, uri: S.optional(S.String), mimeType: S.optional(S.String), text: S.optional(S.String), blob: S.optional(T.Blob)})).annotate({ identifier: "ResourceContent" }) as any as S.Schema<ResourceContent>;
-export interface ContentBlock { type: ContentBlockType; text?: string; data?: Uint8Array; mimeType?: string; uri?: string; name?: string; description?: string; size?: number; resource?: ResourceContent }
-export const ContentBlock = S.suspend(() => S.Struct({type: ContentBlockType, text: S.optional(S.String), data: S.optional(T.Blob), mimeType: S.optional(S.String), uri: S.optional(S.String), name: S.optional(S.String), description: S.optional(S.String), size: S.optional(S.Number), resource: S.optional(ResourceContent)})).annotate({ identifier: "ContentBlock" }) as any as S.Schema<ContentBlock>;
+export interface ResourceContent {
+  type: ResourceContentType;
+  uri?: string;
+  mimeType?: string;
+  text?: string;
+  blob?: Uint8Array;
+}
+export const ResourceContent = S.suspend(() =>
+  S.Struct({
+    type: ResourceContentType,
+    uri: S.optional(S.String),
+    mimeType: S.optional(S.String),
+    text: S.optional(S.String),
+    blob: S.optional(T.Blob),
+  }),
+).annotate({
+  identifier: "ResourceContent",
+}) as any as S.Schema<ResourceContent>;
+export interface ContentBlock {
+  type: ContentBlockType;
+  text?: string;
+  data?: Uint8Array;
+  mimeType?: string;
+  uri?: string;
+  name?: string;
+  description?: string;
+  size?: number;
+  resource?: ResourceContent;
+}
+export const ContentBlock = S.suspend(() =>
+  S.Struct({
+    type: ContentBlockType,
+    text: S.optional(S.String),
+    data: S.optional(T.Blob),
+    mimeType: S.optional(S.String),
+    uri: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    size: S.optional(S.Number),
+    resource: S.optional(ResourceContent),
+  }),
+).annotate({ identifier: "ContentBlock" }) as any as S.Schema<ContentBlock>;
 export type ContentBlockList = ContentBlock[];
 export const ContentBlockList = S.Array(ContentBlock);
 export type TaskStatus =
@@ -224,127 +533,1002 @@ export type TaskStatus =
   | "failed"
   | (string & {});
 export const TaskStatus = S.String;
-export interface ToolResultStructuredContent { taskId?: string; taskStatus?: TaskStatus; stdout?: string; stderr?: string; exitCode?: number; executionTime?: number }
-export const ToolResultStructuredContent = S.suspend(() => S.Struct({taskId: S.optional(S.String), taskStatus: S.optional(TaskStatus), stdout: S.optional(S.String), stderr: S.optional(S.String), exitCode: S.optional(S.Number), executionTime: S.optional(S.Number)})).annotate({ identifier: "ToolResultStructuredContent" }) as any as S.Schema<ToolResultStructuredContent>;
-export interface CodeInterpreterResult { content: ContentBlock[]; structuredContent?: ToolResultStructuredContent; isError?: boolean }
-export const CodeInterpreterResult = S.suspend(() => S.Struct({content: ContentBlockList, structuredContent: S.optional(ToolResultStructuredContent), isError: S.optional(S.Boolean)})).annotate({ identifier: "CodeInterpreterResult" }) as any as S.Schema<CodeInterpreterResult>;
-export type CodeInterpreterStreamOutput = { result: CodeInterpreterResult; accessDeniedException?: never; conflictException?: never; internalServerException?: never; resourceNotFoundException?: never; serviceQuotaExceededException?: never; throttlingException?: never; validationException?: never } | { result?: never; accessDeniedException: AccessDeniedException; conflictException?: never; internalServerException?: never; resourceNotFoundException?: never; serviceQuotaExceededException?: never; throttlingException?: never; validationException?: never } | { result?: never; accessDeniedException?: never; conflictException: ConflictException; internalServerException?: never; resourceNotFoundException?: never; serviceQuotaExceededException?: never; throttlingException?: never; validationException?: never } | { result?: never; accessDeniedException?: never; conflictException?: never; internalServerException: InternalServerException; resourceNotFoundException?: never; serviceQuotaExceededException?: never; throttlingException?: never; validationException?: never } | { result?: never; accessDeniedException?: never; conflictException?: never; internalServerException?: never; resourceNotFoundException: ResourceNotFoundException; serviceQuotaExceededException?: never; throttlingException?: never; validationException?: never } | { result?: never; accessDeniedException?: never; conflictException?: never; internalServerException?: never; resourceNotFoundException?: never; serviceQuotaExceededException: ServiceQuotaExceededException; throttlingException?: never; validationException?: never } | { result?: never; accessDeniedException?: never; conflictException?: never; internalServerException?: never; resourceNotFoundException?: never; serviceQuotaExceededException?: never; throttlingException: ThrottlingException; validationException?: never } | { result?: never; accessDeniedException?: never; conflictException?: never; internalServerException?: never; resourceNotFoundException?: never; serviceQuotaExceededException?: never; throttlingException?: never; validationException: ValidationException };
-export const CodeInterpreterStreamOutput = T.EventStream(S.Union([S.Struct({ result: CodeInterpreterResult }), S.Struct({ accessDeniedException: S.suspend(() => AccessDeniedException).annotate({ identifier: "AccessDeniedException" }) }), S.Struct({ conflictException: S.suspend(() => ConflictException).annotate({ identifier: "ConflictException" }) }), S.Struct({ internalServerException: S.suspend(() => InternalServerException).annotate({ identifier: "InternalServerException" }) }), S.Struct({ resourceNotFoundException: S.suspend(() => ResourceNotFoundException).annotate({ identifier: "ResourceNotFoundException" }) }), S.Struct({ serviceQuotaExceededException: S.suspend(() => ServiceQuotaExceededException).annotate({ identifier: "ServiceQuotaExceededException" }) }), S.Struct({ throttlingException: S.suspend(() => ThrottlingException).annotate({ identifier: "ThrottlingException" }) }), S.Struct({ validationException: S.suspend(() => ValidationException).annotate({ identifier: "ValidationException" }) })])) as any as S.Schema<stream.Stream<CodeInterpreterStreamOutput, Error, never>>;
-export interface InvokeCodeInterpreterResponse { sessionId?: string; stream: stream.Stream<CodeInterpreterStreamOutput, Error, never> }
-export const InvokeCodeInterpreterResponse = S.suspend(() => S.Struct({sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-code-interpreter-session-id")), stream: CodeInterpreterStreamOutput.pipe(T.HttpPayload())})).annotate({ identifier: "InvokeCodeInterpreterResponse" }) as any as S.Schema<InvokeCodeInterpreterResponse>;
-export interface GetAgentCardRequest { runtimeSessionId?: string; agentRuntimeArn: string; qualifier?: string }
-export const GetAgentCardRequest = S.suspend(() => S.Struct({runtimeSessionId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"), T.IdempotencyToken()), agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")), qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier"))}).pipe(T.all(T.Http({ method: "GET", uri: "/runtimes/{agentRuntimeArn}/invocations/.well-known/agent-card.json" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetAgentCardRequest" }) as any as S.Schema<GetAgentCardRequest>;
-export interface GetAgentCardResponse { runtimeSessionId?: string; agentCard: any; statusCode?: number }
-export const GetAgentCardResponse = S.suspend(() => S.Struct({runtimeSessionId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")), agentCard: S.Any.pipe(T.HttpPayload()), statusCode: S.optional(S.Number).pipe(T.HttpResponseCode())})).annotate({ identifier: "GetAgentCardResponse" }) as any as S.Schema<GetAgentCardResponse>;
-export interface InvokeAgentRuntimeRequest { contentType?: string; accept?: string; mcpSessionId?: string; runtimeSessionId?: string; mcpProtocolVersion?: string; runtimeUserId?: string; traceId?: string; traceParent?: string; traceState?: string; baggage?: string; agentRuntimeArn: string; qualifier?: string; accountId?: string; payload: T.StreamingInputBody }
-export const InvokeAgentRuntimeRequest = S.suspend(() => S.Struct({contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")), accept: S.optional(S.String).pipe(T.HttpHeader("Accept")), mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")), runtimeSessionId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"), T.IdempotencyToken()), mcpProtocolVersion: S.optional(S.String).pipe(T.HttpHeader("Mcp-Protocol-Version")), runtimeUserId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-User-Id")), traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")), baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")), agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")), qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")), accountId: S.optional(S.String).pipe(T.HttpQuery("accountId")), payload: T.StreamingInput.pipe(T.HttpPayload())}).pipe(T.all(T.Http({ method: "POST", uri: "/runtimes/{agentRuntimeArn}/invocations" }), svc, auth, proto, ver, rules))).annotate({ identifier: "InvokeAgentRuntimeRequest" }) as any as S.Schema<InvokeAgentRuntimeRequest>;
-export interface InvokeAgentRuntimeResponse { runtimeSessionId?: string; mcpSessionId?: string; mcpProtocolVersion?: string; traceId?: string; traceParent?: string; traceState?: string; baggage?: string; contentType: string; response?: T.StreamingOutputBody; statusCode?: number }
-export const InvokeAgentRuntimeResponse = S.suspend(() => S.Struct({runtimeSessionId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")), mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")), mcpProtocolVersion: S.optional(S.String).pipe(T.HttpHeader("Mcp-Protocol-Version")), traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")), baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")), contentType: S.String.pipe(T.HttpHeader("Content-Type")), response: S.optional(T.StreamingOutput).pipe(T.HttpPayload()), statusCode: S.optional(S.Number).pipe(T.HttpResponseCode())})).annotate({ identifier: "InvokeAgentRuntimeResponse" }) as any as S.Schema<InvokeAgentRuntimeResponse>;
-export interface StopRuntimeSessionRequest { runtimeSessionId: string; agentRuntimeArn: string; qualifier?: string; clientToken?: string }
-export const StopRuntimeSessionRequest = S.suspend(() => S.Struct({runtimeSessionId: S.String.pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")), agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")), qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/runtimes/{agentRuntimeArn}/stopruntimesession" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StopRuntimeSessionRequest" }) as any as S.Schema<StopRuntimeSessionRequest>;
-export interface StopRuntimeSessionResponse { runtimeSessionId?: string; statusCode?: number }
-export const StopRuntimeSessionResponse = S.suspend(() => S.Struct({runtimeSessionId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")), statusCode: S.optional(S.Number).pipe(T.HttpResponseCode())})).annotate({ identifier: "StopRuntimeSessionResponse" }) as any as S.Schema<StopRuntimeSessionResponse>;
-export interface SaveBrowserSessionProfileRequest { traceId?: string; traceParent?: string; profileIdentifier: string; browserIdentifier: string; sessionId: string; clientToken?: string }
-export const SaveBrowserSessionProfileRequest = S.suspend(() => S.Struct({traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), profileIdentifier: S.String.pipe(T.HttpLabel("profileIdentifier")), browserIdentifier: S.String, sessionId: S.String, clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "PUT", uri: "/browser-profiles/{profileIdentifier}/save" }), svc, auth, proto, ver, rules))).annotate({ identifier: "SaveBrowserSessionProfileRequest" }) as any as S.Schema<SaveBrowserSessionProfileRequest>;
-export interface SaveBrowserSessionProfileResponse { profileIdentifier: string; browserIdentifier: string; sessionId: string; lastUpdatedAt: Date }
-export const SaveBrowserSessionProfileResponse = S.suspend(() => S.Struct({profileIdentifier: S.String, browserIdentifier: S.String, sessionId: S.String, lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time"))})).annotate({ identifier: "SaveBrowserSessionProfileResponse" }) as any as S.Schema<SaveBrowserSessionProfileResponse>;
-export interface GetBrowserSessionRequest { browserIdentifier: string; sessionId: string }
-export const GetBrowserSessionRequest = S.suspend(() => S.Struct({browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")), sessionId: S.String.pipe(T.HttpQuery("sessionId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/browsers/{browserIdentifier}/sessions/get" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetBrowserSessionRequest" }) as any as S.Schema<GetBrowserSessionRequest>;
-export interface ViewPort { width: number; height: number }
-export const ViewPort = S.suspend(() => S.Struct({width: S.Number, height: S.Number})).annotate({ identifier: "ViewPort" }) as any as S.Schema<ViewPort>;
-export interface S3Location { bucket: string; prefix: string; versionId?: string }
-export const S3Location = S.suspend(() => S.Struct({bucket: S.String, prefix: S.String, versionId: S.optional(S.String)})).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface ToolResultStructuredContent {
+  taskId?: string;
+  taskStatus?: TaskStatus;
+  stdout?: string;
+  stderr?: string;
+  exitCode?: number;
+  executionTime?: number;
+}
+export const ToolResultStructuredContent = S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String),
+    taskStatus: S.optional(TaskStatus),
+    stdout: S.optional(S.String),
+    stderr: S.optional(S.String),
+    exitCode: S.optional(S.Number),
+    executionTime: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ToolResultStructuredContent",
+}) as any as S.Schema<ToolResultStructuredContent>;
+export interface CodeInterpreterResult {
+  content: ContentBlock[];
+  structuredContent?: ToolResultStructuredContent;
+  isError?: boolean;
+}
+export const CodeInterpreterResult = S.suspend(() =>
+  S.Struct({
+    content: ContentBlockList,
+    structuredContent: S.optional(ToolResultStructuredContent),
+    isError: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CodeInterpreterResult",
+}) as any as S.Schema<CodeInterpreterResult>;
+export type CodeInterpreterStreamOutput =
+  | {
+      result: CodeInterpreterResult;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException: AccessDeniedException;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException: ConflictException;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException: InternalServerException;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException: ResourceNotFoundException;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException: ServiceQuotaExceededException;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException: ThrottlingException;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException: ValidationException;
+    };
+export const CodeInterpreterStreamOutput = T.EventStream(
+  S.Union([
+    S.Struct({ result: CodeInterpreterResult }),
+    S.Struct({
+      accessDeniedException: S.suspend(() => AccessDeniedException).annotate({
+        identifier: "AccessDeniedException",
+      }),
+    }),
+    S.Struct({
+      conflictException: S.suspend(() => ConflictException).annotate({
+        identifier: "ConflictException",
+      }),
+    }),
+    S.Struct({
+      internalServerException: S.suspend(
+        () => InternalServerException,
+      ).annotate({ identifier: "InternalServerException" }),
+    }),
+    S.Struct({
+      resourceNotFoundException: S.suspend(
+        () => ResourceNotFoundException,
+      ).annotate({ identifier: "ResourceNotFoundException" }),
+    }),
+    S.Struct({
+      serviceQuotaExceededException: S.suspend(
+        () => ServiceQuotaExceededException,
+      ).annotate({ identifier: "ServiceQuotaExceededException" }),
+    }),
+    S.Struct({
+      throttlingException: S.suspend(() => ThrottlingException).annotate({
+        identifier: "ThrottlingException",
+      }),
+    }),
+    S.Struct({
+      validationException: S.suspend(() => ValidationException).annotate({
+        identifier: "ValidationException",
+      }),
+    }),
+  ]),
+) as any as S.Schema<stream.Stream<CodeInterpreterStreamOutput, Error, never>>;
+export interface InvokeCodeInterpreterResponse {
+  sessionId?: string;
+  stream: stream.Stream<CodeInterpreterStreamOutput, Error, never>;
+}
+export const InvokeCodeInterpreterResponse = S.suspend(() =>
+  S.Struct({
+    sessionId: S.optional(S.String).pipe(
+      T.HttpHeader("x-amzn-code-interpreter-session-id"),
+    ),
+    stream: CodeInterpreterStreamOutput.pipe(T.HttpPayload()),
+  }),
+).annotate({
+  identifier: "InvokeCodeInterpreterResponse",
+}) as any as S.Schema<InvokeCodeInterpreterResponse>;
+export interface GetAgentCardRequest {
+  runtimeSessionId?: string;
+  agentRuntimeArn: string;
+  qualifier?: string;
+}
+export const GetAgentCardRequest = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+      T.IdempotencyToken(),
+    ),
+    agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")),
+    qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/runtimes/{agentRuntimeArn}/invocations/.well-known/agent-card.json",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAgentCardRequest",
+}) as any as S.Schema<GetAgentCardRequest>;
+export interface GetAgentCardResponse {
+  runtimeSessionId?: string;
+  agentCard: any;
+  statusCode?: number;
+}
+export const GetAgentCardResponse = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+    ),
+    agentCard: S.Any.pipe(T.HttpPayload()),
+    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotate({
+  identifier: "GetAgentCardResponse",
+}) as any as S.Schema<GetAgentCardResponse>;
+export interface InvokeAgentRuntimeRequest {
+  contentType?: string;
+  accept?: string;
+  mcpSessionId?: string;
+  runtimeSessionId?: string;
+  mcpProtocolVersion?: string;
+  runtimeUserId?: string;
+  traceId?: string;
+  traceParent?: string;
+  traceState?: string;
+  baggage?: string;
+  agentRuntimeArn: string;
+  qualifier?: string;
+  accountId?: string;
+  payload: T.StreamingInputBody;
+}
+export const InvokeAgentRuntimeRequest = S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
+    mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")),
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+      T.IdempotencyToken(),
+    ),
+    mcpProtocolVersion: S.optional(S.String).pipe(
+      T.HttpHeader("Mcp-Protocol-Version"),
+    ),
+    runtimeUserId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-User-Id"),
+    ),
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")),
+    baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")),
+    agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")),
+    qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
+    accountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
+    payload: T.StreamingInput.pipe(T.HttpPayload()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/runtimes/{agentRuntimeArn}/invocations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "InvokeAgentRuntimeRequest",
+}) as any as S.Schema<InvokeAgentRuntimeRequest>;
+export interface InvokeAgentRuntimeResponse {
+  runtimeSessionId?: string;
+  mcpSessionId?: string;
+  mcpProtocolVersion?: string;
+  traceId?: string;
+  traceParent?: string;
+  traceState?: string;
+  baggage?: string;
+  contentType: string;
+  response?: T.StreamingOutputBody;
+  statusCode?: number;
+}
+export const InvokeAgentRuntimeResponse = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+    ),
+    mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")),
+    mcpProtocolVersion: S.optional(S.String).pipe(
+      T.HttpHeader("Mcp-Protocol-Version"),
+    ),
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")),
+    baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")),
+    contentType: S.String.pipe(T.HttpHeader("Content-Type")),
+    response: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotate({
+  identifier: "InvokeAgentRuntimeResponse",
+}) as any as S.Schema<InvokeAgentRuntimeResponse>;
+export interface StopRuntimeSessionRequest {
+  runtimeSessionId: string;
+  agentRuntimeArn: string;
+  qualifier?: string;
+  clientToken?: string;
+}
+export const StopRuntimeSessionRequest = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.String.pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+    ),
+    agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")),
+    qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/runtimes/{agentRuntimeArn}/stopruntimesession",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopRuntimeSessionRequest",
+}) as any as S.Schema<StopRuntimeSessionRequest>;
+export interface StopRuntimeSessionResponse {
+  runtimeSessionId?: string;
+  statusCode?: number;
+}
+export const StopRuntimeSessionResponse = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+    ),
+    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotate({
+  identifier: "StopRuntimeSessionResponse",
+}) as any as S.Schema<StopRuntimeSessionResponse>;
+export interface SaveBrowserSessionProfileRequest {
+  traceId?: string;
+  traceParent?: string;
+  profileIdentifier: string;
+  browserIdentifier: string;
+  sessionId: string;
+  clientToken?: string;
+}
+export const SaveBrowserSessionProfileRequest = S.suspend(() =>
+  S.Struct({
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    profileIdentifier: S.String.pipe(T.HttpLabel("profileIdentifier")),
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browser-profiles/{profileIdentifier}/save",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SaveBrowserSessionProfileRequest",
+}) as any as S.Schema<SaveBrowserSessionProfileRequest>;
+export interface SaveBrowserSessionProfileResponse {
+  profileIdentifier: string;
+  browserIdentifier: string;
+  sessionId: string;
+  lastUpdatedAt: Date;
+}
+export const SaveBrowserSessionProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileIdentifier: S.String,
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "SaveBrowserSessionProfileResponse",
+}) as any as S.Schema<SaveBrowserSessionProfileResponse>;
+export interface GetBrowserSessionRequest {
+  browserIdentifier: string;
+  sessionId: string;
+}
+export const GetBrowserSessionRequest = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
+    sessionId: S.String.pipe(T.HttpQuery("sessionId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/browsers/{browserIdentifier}/sessions/get",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetBrowserSessionRequest",
+}) as any as S.Schema<GetBrowserSessionRequest>;
+export interface ViewPort {
+  width: number;
+  height: number;
+}
+export const ViewPort = S.suspend(() =>
+  S.Struct({ width: S.Number, height: S.Number }),
+).annotate({ identifier: "ViewPort" }) as any as S.Schema<ViewPort>;
+export interface S3Location {
+  bucket: string;
+  prefix: string;
+  versionId?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({
+    bucket: S.String,
+    prefix: S.String,
+    versionId: S.optional(S.String),
+  }),
+).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type ResourceLocation = { s3: S3Location };
 export const ResourceLocation = S.Union([S.Struct({ s3: S3Location })]);
-export interface BrowserExtension { location: ResourceLocation }
-export const BrowserExtension = S.suspend(() => S.Struct({location: ResourceLocation})).annotate({ identifier: "BrowserExtension" }) as any as S.Schema<BrowserExtension>;
+export interface BrowserExtension {
+  location: ResourceLocation;
+}
+export const BrowserExtension = S.suspend(() =>
+  S.Struct({ location: ResourceLocation }),
+).annotate({
+  identifier: "BrowserExtension",
+}) as any as S.Schema<BrowserExtension>;
 export type BrowserExtensions = BrowserExtension[];
 export const BrowserExtensions = S.Array(BrowserExtension);
-export interface BrowserProfileConfiguration { profileIdentifier: string }
-export const BrowserProfileConfiguration = S.suspend(() => S.Struct({profileIdentifier: S.String})).annotate({ identifier: "BrowserProfileConfiguration" }) as any as S.Schema<BrowserProfileConfiguration>;
-export type BrowserSessionStatus =
-  | "READY"
-  | "TERMINATED"
-  | (string & {});
+export interface BrowserProfileConfiguration {
+  profileIdentifier: string;
+}
+export const BrowserProfileConfiguration = S.suspend(() =>
+  S.Struct({ profileIdentifier: S.String }),
+).annotate({
+  identifier: "BrowserProfileConfiguration",
+}) as any as S.Schema<BrowserProfileConfiguration>;
+export type BrowserSessionStatus = "READY" | "TERMINATED" | (string & {});
 export const BrowserSessionStatus = S.String;
-export type AutomationStreamStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type AutomationStreamStatus = "ENABLED" | "DISABLED" | (string & {});
 export const AutomationStreamStatus = S.String;
-export interface AutomationStream { streamEndpoint: string; streamStatus: AutomationStreamStatus }
-export const AutomationStream = S.suspend(() => S.Struct({streamEndpoint: S.String, streamStatus: AutomationStreamStatus})).annotate({ identifier: "AutomationStream" }) as any as S.Schema<AutomationStream>;
-export interface LiveViewStream { streamEndpoint?: string }
-export const LiveViewStream = S.suspend(() => S.Struct({streamEndpoint: S.optional(S.String)})).annotate({ identifier: "LiveViewStream" }) as any as S.Schema<LiveViewStream>;
-export interface BrowserSessionStream { automationStream: AutomationStream; liveViewStream?: LiveViewStream }
-export const BrowserSessionStream = S.suspend(() => S.Struct({automationStream: AutomationStream, liveViewStream: S.optional(LiveViewStream)})).annotate({ identifier: "BrowserSessionStream" }) as any as S.Schema<BrowserSessionStream>;
+export interface AutomationStream {
+  streamEndpoint: string;
+  streamStatus: AutomationStreamStatus;
+}
+export const AutomationStream = S.suspend(() =>
+  S.Struct({ streamEndpoint: S.String, streamStatus: AutomationStreamStatus }),
+).annotate({
+  identifier: "AutomationStream",
+}) as any as S.Schema<AutomationStream>;
+export interface LiveViewStream {
+  streamEndpoint?: string;
+}
+export const LiveViewStream = S.suspend(() =>
+  S.Struct({ streamEndpoint: S.optional(S.String) }),
+).annotate({ identifier: "LiveViewStream" }) as any as S.Schema<LiveViewStream>;
+export interface BrowserSessionStream {
+  automationStream: AutomationStream;
+  liveViewStream?: LiveViewStream;
+}
+export const BrowserSessionStream = S.suspend(() =>
+  S.Struct({
+    automationStream: AutomationStream,
+    liveViewStream: S.optional(LiveViewStream),
+  }),
+).annotate({
+  identifier: "BrowserSessionStream",
+}) as any as S.Schema<BrowserSessionStream>;
 export type DomainPatterns = string[];
 export const DomainPatterns = S.Array(S.String);
-export interface BasicAuth { secretArn: string }
-export const BasicAuth = S.suspend(() => S.Struct({secretArn: S.String})).annotate({ identifier: "BasicAuth" }) as any as S.Schema<BasicAuth>;
+export interface BasicAuth {
+  secretArn: string;
+}
+export const BasicAuth = S.suspend(() =>
+  S.Struct({ secretArn: S.String }),
+).annotate({ identifier: "BasicAuth" }) as any as S.Schema<BasicAuth>;
 export type ProxyCredentials = { basicAuth: BasicAuth };
 export const ProxyCredentials = S.Union([S.Struct({ basicAuth: BasicAuth })]);
-export interface ExternalProxy { server: string; port: number; domainPatterns?: string[]; credentials?: ProxyCredentials }
-export const ExternalProxy = S.suspend(() => S.Struct({server: S.String, port: S.Number, domainPatterns: S.optional(DomainPatterns), credentials: S.optional(ProxyCredentials)})).annotate({ identifier: "ExternalProxy" }) as any as S.Schema<ExternalProxy>;
+export interface ExternalProxy {
+  server: string;
+  port: number;
+  domainPatterns?: string[];
+  credentials?: ProxyCredentials;
+}
+export const ExternalProxy = S.suspend(() =>
+  S.Struct({
+    server: S.String,
+    port: S.Number,
+    domainPatterns: S.optional(DomainPatterns),
+    credentials: S.optional(ProxyCredentials),
+  }),
+).annotate({ identifier: "ExternalProxy" }) as any as S.Schema<ExternalProxy>;
 export type Proxy = { externalProxy: ExternalProxy };
 export const Proxy = S.Union([S.Struct({ externalProxy: ExternalProxy })]);
 export type Proxies = Proxy[];
 export const Proxies = S.Array(Proxy);
-export interface ProxyBypass { domainPatterns?: string[] }
-export const ProxyBypass = S.suspend(() => S.Struct({domainPatterns: S.optional(DomainPatterns)})).annotate({ identifier: "ProxyBypass" }) as any as S.Schema<ProxyBypass>;
-export interface ProxyConfiguration { proxies: Proxy[]; bypass?: ProxyBypass }
-export const ProxyConfiguration = S.suspend(() => S.Struct({proxies: Proxies, bypass: S.optional(ProxyBypass)})).annotate({ identifier: "ProxyConfiguration" }) as any as S.Schema<ProxyConfiguration>;
-export interface GetBrowserSessionResponse { browserIdentifier: string; sessionId: string; name?: string; createdAt: Date; viewPort?: ViewPort; extensions?: BrowserExtension[]; profileConfiguration?: BrowserProfileConfiguration; sessionTimeoutSeconds?: number; status?: BrowserSessionStatus; streams?: BrowserSessionStream; proxyConfiguration?: ProxyConfiguration; sessionReplayArtifact?: string; lastUpdatedAt?: Date }
-export const GetBrowserSessionResponse = S.suspend(() => S.Struct({browserIdentifier: S.String, sessionId: S.String, name: S.optional(S.String), createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")), viewPort: S.optional(ViewPort), extensions: S.optional(BrowserExtensions), profileConfiguration: S.optional(BrowserProfileConfiguration), sessionTimeoutSeconds: S.optional(S.Number), status: S.optional(BrowserSessionStatus), streams: S.optional(BrowserSessionStream), proxyConfiguration: S.optional(ProxyConfiguration), sessionReplayArtifact: S.optional(S.String), lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time")))})).annotate({ identifier: "GetBrowserSessionResponse" }) as any as S.Schema<GetBrowserSessionResponse>;
-export interface ListBrowserSessionsRequest { browserIdentifier: string; maxResults?: number; nextToken?: string; status?: BrowserSessionStatus }
-export const ListBrowserSessionsRequest = S.suspend(() => S.Struct({browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")), maxResults: S.optional(S.Number), nextToken: S.optional(S.String), status: S.optional(BrowserSessionStatus)}).pipe(T.all(T.Http({ method: "POST", uri: "/browsers/{browserIdentifier}/sessions/list" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListBrowserSessionsRequest" }) as any as S.Schema<ListBrowserSessionsRequest>;
-export interface BrowserSessionSummary { browserIdentifier: string; sessionId: string; name?: string; status: BrowserSessionStatus; createdAt: Date; lastUpdatedAt?: Date }
-export const BrowserSessionSummary = S.suspend(() => S.Struct({browserIdentifier: S.String, sessionId: S.String, name: S.optional(S.String), status: BrowserSessionStatus, createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")), lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time")))})).annotate({ identifier: "BrowserSessionSummary" }) as any as S.Schema<BrowserSessionSummary>;
+export interface ProxyBypass {
+  domainPatterns?: string[];
+}
+export const ProxyBypass = S.suspend(() =>
+  S.Struct({ domainPatterns: S.optional(DomainPatterns) }),
+).annotate({ identifier: "ProxyBypass" }) as any as S.Schema<ProxyBypass>;
+export interface ProxyConfiguration {
+  proxies: Proxy[];
+  bypass?: ProxyBypass;
+}
+export const ProxyConfiguration = S.suspend(() =>
+  S.Struct({ proxies: Proxies, bypass: S.optional(ProxyBypass) }),
+).annotate({
+  identifier: "ProxyConfiguration",
+}) as any as S.Schema<ProxyConfiguration>;
+export interface GetBrowserSessionResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  name?: string;
+  createdAt: Date;
+  viewPort?: ViewPort;
+  extensions?: BrowserExtension[];
+  profileConfiguration?: BrowserProfileConfiguration;
+  sessionTimeoutSeconds?: number;
+  status?: BrowserSessionStatus;
+  streams?: BrowserSessionStream;
+  proxyConfiguration?: ProxyConfiguration;
+  sessionReplayArtifact?: string;
+  lastUpdatedAt?: Date;
+}
+export const GetBrowserSessionResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    viewPort: S.optional(ViewPort),
+    extensions: S.optional(BrowserExtensions),
+    profileConfiguration: S.optional(BrowserProfileConfiguration),
+    sessionTimeoutSeconds: S.optional(S.Number),
+    status: S.optional(BrowserSessionStatus),
+    streams: S.optional(BrowserSessionStream),
+    proxyConfiguration: S.optional(ProxyConfiguration),
+    sessionReplayArtifact: S.optional(S.String),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetBrowserSessionResponse",
+}) as any as S.Schema<GetBrowserSessionResponse>;
+export interface ListBrowserSessionsRequest {
+  browserIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+  status?: BrowserSessionStatus;
+}
+export const ListBrowserSessionsRequest = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    status: S.optional(BrowserSessionStatus),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/browsers/{browserIdentifier}/sessions/list",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListBrowserSessionsRequest",
+}) as any as S.Schema<ListBrowserSessionsRequest>;
+export interface BrowserSessionSummary {
+  browserIdentifier: string;
+  sessionId: string;
+  name?: string;
+  status: BrowserSessionStatus;
+  createdAt: Date;
+  lastUpdatedAt?: Date;
+}
+export const BrowserSessionSummary = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    status: BrowserSessionStatus,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "BrowserSessionSummary",
+}) as any as S.Schema<BrowserSessionSummary>;
 export type BrowserSessionSummaries = BrowserSessionSummary[];
 export const BrowserSessionSummaries = S.Array(BrowserSessionSummary);
-export interface ListBrowserSessionsResponse { items: BrowserSessionSummary[]; nextToken?: string }
-export const ListBrowserSessionsResponse = S.suspend(() => S.Struct({items: BrowserSessionSummaries, nextToken: S.optional(S.String)})).annotate({ identifier: "ListBrowserSessionsResponse" }) as any as S.Schema<ListBrowserSessionsResponse>;
-export interface StartBrowserSessionRequest { traceId?: string; traceParent?: string; browserIdentifier: string; name?: string; sessionTimeoutSeconds?: number; viewPort?: ViewPort; extensions?: BrowserExtension[]; profileConfiguration?: BrowserProfileConfiguration; proxyConfiguration?: ProxyConfiguration; clientToken?: string }
-export const StartBrowserSessionRequest = S.suspend(() => S.Struct({traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")), name: S.optional(S.String), sessionTimeoutSeconds: S.optional(S.Number), viewPort: S.optional(ViewPort), extensions: S.optional(BrowserExtensions), profileConfiguration: S.optional(BrowserProfileConfiguration), proxyConfiguration: S.optional(ProxyConfiguration), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "PUT", uri: "/browsers/{browserIdentifier}/sessions/start" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartBrowserSessionRequest" }) as any as S.Schema<StartBrowserSessionRequest>;
-export interface StartBrowserSessionResponse { browserIdentifier: string; sessionId: string; createdAt: Date; streams?: BrowserSessionStream }
-export const StartBrowserSessionResponse = S.suspend(() => S.Struct({browserIdentifier: S.String, sessionId: S.String, createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")), streams: S.optional(BrowserSessionStream)})).annotate({ identifier: "StartBrowserSessionResponse" }) as any as S.Schema<StartBrowserSessionResponse>;
-export interface StopBrowserSessionRequest { traceId?: string; traceParent?: string; browserIdentifier: string; sessionId: string; clientToken?: string }
-export const StopBrowserSessionRequest = S.suspend(() => S.Struct({traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")), sessionId: S.String.pipe(T.HttpQuery("sessionId")), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "PUT", uri: "/browsers/{browserIdentifier}/sessions/stop" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StopBrowserSessionRequest" }) as any as S.Schema<StopBrowserSessionRequest>;
-export interface StopBrowserSessionResponse { browserIdentifier: string; sessionId: string; lastUpdatedAt: Date }
-export const StopBrowserSessionResponse = S.suspend(() => S.Struct({browserIdentifier: S.String, sessionId: S.String, lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time"))})).annotate({ identifier: "StopBrowserSessionResponse" }) as any as S.Schema<StopBrowserSessionResponse>;
-export interface AutomationStreamUpdate { streamStatus?: AutomationStreamStatus }
-export const AutomationStreamUpdate = S.suspend(() => S.Struct({streamStatus: S.optional(AutomationStreamStatus)})).annotate({ identifier: "AutomationStreamUpdate" }) as any as S.Schema<AutomationStreamUpdate>;
+export interface ListBrowserSessionsResponse {
+  items: BrowserSessionSummary[];
+  nextToken?: string;
+}
+export const ListBrowserSessionsResponse = S.suspend(() =>
+  S.Struct({ items: BrowserSessionSummaries, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListBrowserSessionsResponse",
+}) as any as S.Schema<ListBrowserSessionsResponse>;
+export interface StartBrowserSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  browserIdentifier: string;
+  name?: string;
+  sessionTimeoutSeconds?: number;
+  viewPort?: ViewPort;
+  extensions?: BrowserExtension[];
+  profileConfiguration?: BrowserProfileConfiguration;
+  proxyConfiguration?: ProxyConfiguration;
+  clientToken?: string;
+}
+export const StartBrowserSessionRequest = S.suspend(() =>
+  S.Struct({
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
+    name: S.optional(S.String),
+    sessionTimeoutSeconds: S.optional(S.Number),
+    viewPort: S.optional(ViewPort),
+    extensions: S.optional(BrowserExtensions),
+    profileConfiguration: S.optional(BrowserProfileConfiguration),
+    proxyConfiguration: S.optional(ProxyConfiguration),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browsers/{browserIdentifier}/sessions/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartBrowserSessionRequest",
+}) as any as S.Schema<StartBrowserSessionRequest>;
+export interface StartBrowserSessionResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  createdAt: Date;
+  streams?: BrowserSessionStream;
+}
+export const StartBrowserSessionResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    streams: S.optional(BrowserSessionStream),
+  }),
+).annotate({
+  identifier: "StartBrowserSessionResponse",
+}) as any as S.Schema<StartBrowserSessionResponse>;
+export interface StopBrowserSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  browserIdentifier: string;
+  sessionId: string;
+  clientToken?: string;
+}
+export const StopBrowserSessionRequest = S.suspend(() =>
+  S.Struct({
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
+    sessionId: S.String.pipe(T.HttpQuery("sessionId")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browsers/{browserIdentifier}/sessions/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopBrowserSessionRequest",
+}) as any as S.Schema<StopBrowserSessionRequest>;
+export interface StopBrowserSessionResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  lastUpdatedAt: Date;
+}
+export const StopBrowserSessionResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "StopBrowserSessionResponse",
+}) as any as S.Schema<StopBrowserSessionResponse>;
+export interface AutomationStreamUpdate {
+  streamStatus?: AutomationStreamStatus;
+}
+export const AutomationStreamUpdate = S.suspend(() =>
+  S.Struct({ streamStatus: S.optional(AutomationStreamStatus) }),
+).annotate({
+  identifier: "AutomationStreamUpdate",
+}) as any as S.Schema<AutomationStreamUpdate>;
 export type StreamUpdate = { automationStreamUpdate: AutomationStreamUpdate };
-export const StreamUpdate = S.Union([S.Struct({ automationStreamUpdate: AutomationStreamUpdate })]);
-export interface UpdateBrowserStreamRequest { browserIdentifier: string; sessionId: string; streamUpdate: StreamUpdate; clientToken?: string }
-export const UpdateBrowserStreamRequest = S.suspend(() => S.Struct({browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")), sessionId: S.String.pipe(T.HttpQuery("sessionId")), streamUpdate: StreamUpdate, clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "PUT", uri: "/browsers/{browserIdentifier}/sessions/streams/update" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateBrowserStreamRequest" }) as any as S.Schema<UpdateBrowserStreamRequest>;
-export interface UpdateBrowserStreamResponse { browserIdentifier: string; sessionId: string; streams: BrowserSessionStream; updatedAt: Date }
-export const UpdateBrowserStreamResponse = S.suspend(() => S.Struct({browserIdentifier: S.String, sessionId: S.String, streams: BrowserSessionStream, updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time"))})).annotate({ identifier: "UpdateBrowserStreamResponse" }) as any as S.Schema<UpdateBrowserStreamResponse>;
-export interface GetCodeInterpreterSessionRequest { codeInterpreterIdentifier: string; sessionId: string }
-export const GetCodeInterpreterSessionRequest = S.suspend(() => S.Struct({codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")), sessionId: S.String.pipe(T.HttpQuery("sessionId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/get" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetCodeInterpreterSessionRequest" }) as any as S.Schema<GetCodeInterpreterSessionRequest>;
+export const StreamUpdate = S.Union([
+  S.Struct({ automationStreamUpdate: AutomationStreamUpdate }),
+]);
+export interface UpdateBrowserStreamRequest {
+  browserIdentifier: string;
+  sessionId: string;
+  streamUpdate: StreamUpdate;
+  clientToken?: string;
+}
+export const UpdateBrowserStreamRequest = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
+    sessionId: S.String.pipe(T.HttpQuery("sessionId")),
+    streamUpdate: StreamUpdate,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browsers/{browserIdentifier}/sessions/streams/update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateBrowserStreamRequest",
+}) as any as S.Schema<UpdateBrowserStreamRequest>;
+export interface UpdateBrowserStreamResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  streams: BrowserSessionStream;
+  updatedAt: Date;
+}
+export const UpdateBrowserStreamResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    streams: BrowserSessionStream,
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "UpdateBrowserStreamResponse",
+}) as any as S.Schema<UpdateBrowserStreamResponse>;
+export interface GetCodeInterpreterSessionRequest {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+}
+export const GetCodeInterpreterSessionRequest = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String.pipe(
+      T.HttpLabel("codeInterpreterIdentifier"),
+    ),
+    sessionId: S.String.pipe(T.HttpQuery("sessionId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/get",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCodeInterpreterSessionRequest",
+}) as any as S.Schema<GetCodeInterpreterSessionRequest>;
 export type CodeInterpreterSessionStatus =
   | "READY"
   | "TERMINATED"
   | (string & {});
 export const CodeInterpreterSessionStatus = S.String;
-export interface GetCodeInterpreterSessionResponse { codeInterpreterIdentifier: string; sessionId: string; name?: string; createdAt: Date; sessionTimeoutSeconds?: number; status?: CodeInterpreterSessionStatus }
-export const GetCodeInterpreterSessionResponse = S.suspend(() => S.Struct({codeInterpreterIdentifier: S.String, sessionId: S.String, name: S.optional(S.String), createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")), sessionTimeoutSeconds: S.optional(S.Number), status: S.optional(CodeInterpreterSessionStatus)})).annotate({ identifier: "GetCodeInterpreterSessionResponse" }) as any as S.Schema<GetCodeInterpreterSessionResponse>;
-export interface ListCodeInterpreterSessionsRequest { codeInterpreterIdentifier: string; maxResults?: number; nextToken?: string; status?: CodeInterpreterSessionStatus }
-export const ListCodeInterpreterSessionsRequest = S.suspend(() => S.Struct({codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")), maxResults: S.optional(S.Number), nextToken: S.optional(S.String), status: S.optional(CodeInterpreterSessionStatus)}).pipe(T.all(T.Http({ method: "POST", uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/list" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListCodeInterpreterSessionsRequest" }) as any as S.Schema<ListCodeInterpreterSessionsRequest>;
-export interface CodeInterpreterSessionSummary { codeInterpreterIdentifier: string; sessionId: string; name?: string; status: CodeInterpreterSessionStatus; createdAt: Date; lastUpdatedAt?: Date }
-export const CodeInterpreterSessionSummary = S.suspend(() => S.Struct({codeInterpreterIdentifier: S.String, sessionId: S.String, name: S.optional(S.String), status: CodeInterpreterSessionStatus, createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")), lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time")))})).annotate({ identifier: "CodeInterpreterSessionSummary" }) as any as S.Schema<CodeInterpreterSessionSummary>;
+export interface GetCodeInterpreterSessionResponse {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  name?: string;
+  createdAt: Date;
+  sessionTimeoutSeconds?: number;
+  status?: CodeInterpreterSessionStatus;
+}
+export const GetCodeInterpreterSessionResponse = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    sessionTimeoutSeconds: S.optional(S.Number),
+    status: S.optional(CodeInterpreterSessionStatus),
+  }),
+).annotate({
+  identifier: "GetCodeInterpreterSessionResponse",
+}) as any as S.Schema<GetCodeInterpreterSessionResponse>;
+export interface ListCodeInterpreterSessionsRequest {
+  codeInterpreterIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+  status?: CodeInterpreterSessionStatus;
+}
+export const ListCodeInterpreterSessionsRequest = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String.pipe(
+      T.HttpLabel("codeInterpreterIdentifier"),
+    ),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    status: S.optional(CodeInterpreterSessionStatus),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/list",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListCodeInterpreterSessionsRequest",
+}) as any as S.Schema<ListCodeInterpreterSessionsRequest>;
+export interface CodeInterpreterSessionSummary {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  name?: string;
+  status: CodeInterpreterSessionStatus;
+  createdAt: Date;
+  lastUpdatedAt?: Date;
+}
+export const CodeInterpreterSessionSummary = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    status: CodeInterpreterSessionStatus,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "CodeInterpreterSessionSummary",
+}) as any as S.Schema<CodeInterpreterSessionSummary>;
 export type CodeInterpreterSessionSummaries = CodeInterpreterSessionSummary[];
-export const CodeInterpreterSessionSummaries = S.Array(CodeInterpreterSessionSummary);
-export interface ListCodeInterpreterSessionsResponse { items: CodeInterpreterSessionSummary[]; nextToken?: string }
-export const ListCodeInterpreterSessionsResponse = S.suspend(() => S.Struct({items: CodeInterpreterSessionSummaries, nextToken: S.optional(S.String)})).annotate({ identifier: "ListCodeInterpreterSessionsResponse" }) as any as S.Schema<ListCodeInterpreterSessionsResponse>;
-export interface StartCodeInterpreterSessionRequest { traceId?: string; traceParent?: string; codeInterpreterIdentifier: string; name?: string; sessionTimeoutSeconds?: number; clientToken?: string }
-export const StartCodeInterpreterSessionRequest = S.suspend(() => S.Struct({traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")), name: S.optional(S.String), sessionTimeoutSeconds: S.optional(S.Number), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "PUT", uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/start" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartCodeInterpreterSessionRequest" }) as any as S.Schema<StartCodeInterpreterSessionRequest>;
-export interface StartCodeInterpreterSessionResponse { codeInterpreterIdentifier: string; sessionId: string; createdAt: Date }
-export const StartCodeInterpreterSessionResponse = S.suspend(() => S.Struct({codeInterpreterIdentifier: S.String, sessionId: S.String, createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time"))})).annotate({ identifier: "StartCodeInterpreterSessionResponse" }) as any as S.Schema<StartCodeInterpreterSessionResponse>;
-export interface StopCodeInterpreterSessionRequest { traceId?: string; traceParent?: string; codeInterpreterIdentifier: string; sessionId: string; clientToken?: string }
-export const StopCodeInterpreterSessionRequest = S.suspend(() => S.Struct({traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")), traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")), codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")), sessionId: S.String.pipe(T.HttpQuery("sessionId")), clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "PUT", uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/stop" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StopCodeInterpreterSessionRequest" }) as any as S.Schema<StopCodeInterpreterSessionRequest>;
-export interface StopCodeInterpreterSessionResponse { codeInterpreterIdentifier: string; sessionId: string; lastUpdatedAt: Date }
-export const StopCodeInterpreterSessionResponse = S.suspend(() => S.Struct({codeInterpreterIdentifier: S.String, sessionId: S.String, lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time"))})).annotate({ identifier: "StopCodeInterpreterSessionResponse" }) as any as S.Schema<StopCodeInterpreterSessionResponse>;
+export const CodeInterpreterSessionSummaries = S.Array(
+  CodeInterpreterSessionSummary,
+);
+export interface ListCodeInterpreterSessionsResponse {
+  items: CodeInterpreterSessionSummary[];
+  nextToken?: string;
+}
+export const ListCodeInterpreterSessionsResponse = S.suspend(() =>
+  S.Struct({
+    items: CodeInterpreterSessionSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListCodeInterpreterSessionsResponse",
+}) as any as S.Schema<ListCodeInterpreterSessionsResponse>;
+export interface StartCodeInterpreterSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  codeInterpreterIdentifier: string;
+  name?: string;
+  sessionTimeoutSeconds?: number;
+  clientToken?: string;
+}
+export const StartCodeInterpreterSessionRequest = S.suspend(() =>
+  S.Struct({
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    codeInterpreterIdentifier: S.String.pipe(
+      T.HttpLabel("codeInterpreterIdentifier"),
+    ),
+    name: S.optional(S.String),
+    sessionTimeoutSeconds: S.optional(S.Number),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartCodeInterpreterSessionRequest",
+}) as any as S.Schema<StartCodeInterpreterSessionRequest>;
+export interface StartCodeInterpreterSessionResponse {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  createdAt: Date;
+}
+export const StartCodeInterpreterSessionResponse = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "StartCodeInterpreterSessionResponse",
+}) as any as S.Schema<StartCodeInterpreterSessionResponse>;
+export interface StopCodeInterpreterSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  clientToken?: string;
+}
+export const StopCodeInterpreterSessionRequest = S.suspend(() =>
+  S.Struct({
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    codeInterpreterIdentifier: S.String.pipe(
+      T.HttpLabel("codeInterpreterIdentifier"),
+    ),
+    sessionId: S.String.pipe(T.HttpQuery("sessionId")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopCodeInterpreterSessionRequest",
+}) as any as S.Schema<StopCodeInterpreterSessionRequest>;
+export interface StopCodeInterpreterSessionResponse {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  lastUpdatedAt: Date;
+}
+export const StopCodeInterpreterSessionResponse = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "StopCodeInterpreterSessionResponse",
+}) as any as S.Schema<StopCodeInterpreterSessionResponse>;
 export type Spans = any[];
 export const Spans = S.Array(S.Any);
 export type EvaluationInput = { sessionSpans: any[] };
@@ -353,114 +1537,580 @@ export type SpanIds = string[];
 export const SpanIds = S.Array(S.String);
 export type TraceIds = string[];
 export const TraceIds = S.Array(S.String);
-export type EvaluationTarget = { spanIds: string[]; traceIds?: never } | { spanIds?: never; traceIds: string[] };
-export const EvaluationTarget = S.Union([S.Struct({ spanIds: SpanIds }), S.Struct({ traceIds: TraceIds })]);
-export interface EvaluateRequest { evaluatorId: string; evaluationInput: EvaluationInput; evaluationTarget?: EvaluationTarget }
-export const EvaluateRequest = S.suspend(() => S.Struct({evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")), evaluationInput: EvaluationInput, evaluationTarget: S.optional(EvaluationTarget)}).pipe(T.all(T.Http({ method: "POST", uri: "/evaluations/evaluate/{evaluatorId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "EvaluateRequest" }) as any as S.Schema<EvaluateRequest>;
-export interface SpanContext { sessionId: string; traceId?: string; spanId?: string }
-export const SpanContext = S.suspend(() => S.Struct({sessionId: S.String, traceId: S.optional(S.String), spanId: S.optional(S.String)})).annotate({ identifier: "SpanContext" }) as any as S.Schema<SpanContext>;
+export type EvaluationTarget =
+  | { spanIds: string[]; traceIds?: never }
+  | { spanIds?: never; traceIds: string[] };
+export const EvaluationTarget = S.Union([
+  S.Struct({ spanIds: SpanIds }),
+  S.Struct({ traceIds: TraceIds }),
+]);
+export interface EvaluateRequest {
+  evaluatorId: string;
+  evaluationInput: EvaluationInput;
+  evaluationTarget?: EvaluationTarget;
+}
+export const EvaluateRequest = S.suspend(() =>
+  S.Struct({
+    evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
+    evaluationInput: EvaluationInput,
+    evaluationTarget: S.optional(EvaluationTarget),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/evaluations/evaluate/{evaluatorId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "EvaluateRequest",
+}) as any as S.Schema<EvaluateRequest>;
+export interface SpanContext {
+  sessionId: string;
+  traceId?: string;
+  spanId?: string;
+}
+export const SpanContext = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    traceId: S.optional(S.String),
+    spanId: S.optional(S.String),
+  }),
+).annotate({ identifier: "SpanContext" }) as any as S.Schema<SpanContext>;
 export type Context = { spanContext: SpanContext };
 export const Context = S.Union([S.Struct({ spanContext: SpanContext })]);
-export interface TokenUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number }
-export const TokenUsage = S.suspend(() => S.Struct({inputTokens: S.optional(S.Number), outputTokens: S.optional(S.Number), totalTokens: S.optional(S.Number)})).annotate({ identifier: "TokenUsage" }) as any as S.Schema<TokenUsage>;
-export interface EvaluationResultContent { evaluatorArn: string; evaluatorId: string; evaluatorName: string; explanation?: string | redacted.Redacted<string>; context: Context; value?: number; label?: string; tokenUsage?: TokenUsage; errorMessage?: string; errorCode?: string }
-export const EvaluationResultContent = S.suspend(() => S.Struct({evaluatorArn: S.String, evaluatorId: S.String, evaluatorName: S.String, explanation: S.optional(SensitiveString), context: Context, value: S.optional(S.Number), label: S.optional(S.String), tokenUsage: S.optional(TokenUsage), errorMessage: S.optional(S.String), errorCode: S.optional(S.String)})).annotate({ identifier: "EvaluationResultContent" }) as any as S.Schema<EvaluationResultContent>;
+export interface TokenUsage {
+  inputTokens?: number;
+  outputTokens?: number;
+  totalTokens?: number;
+}
+export const TokenUsage = S.suspend(() =>
+  S.Struct({
+    inputTokens: S.optional(S.Number),
+    outputTokens: S.optional(S.Number),
+    totalTokens: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TokenUsage" }) as any as S.Schema<TokenUsage>;
+export interface EvaluationResultContent {
+  evaluatorArn: string;
+  evaluatorId: string;
+  evaluatorName: string;
+  explanation?: string | redacted.Redacted<string>;
+  context: Context;
+  value?: number;
+  label?: string;
+  tokenUsage?: TokenUsage;
+  errorMessage?: string;
+  errorCode?: string;
+}
+export const EvaluationResultContent = S.suspend(() =>
+  S.Struct({
+    evaluatorArn: S.String,
+    evaluatorId: S.String,
+    evaluatorName: S.String,
+    explanation: S.optional(SensitiveString),
+    context: Context,
+    value: S.optional(S.Number),
+    label: S.optional(S.String),
+    tokenUsage: S.optional(TokenUsage),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EvaluationResultContent",
+}) as any as S.Schema<EvaluationResultContent>;
 export type EvaluationResults = EvaluationResultContent[];
 export const EvaluationResults = S.Array(EvaluationResultContent);
-export interface EvaluateResponse { evaluationResults: EvaluationResultContent[] }
-export const EvaluateResponse = S.suspend(() => S.Struct({evaluationResults: EvaluationResults})).annotate({ identifier: "EvaluateResponse" }) as any as S.Schema<EvaluateResponse>;
+export interface EvaluateResponse {
+  evaluationResults: EvaluationResultContent[];
+}
+export const EvaluateResponse = S.suspend(() =>
+  S.Struct({ evaluationResults: EvaluationResults }),
+).annotate({
+  identifier: "EvaluateResponse",
+}) as any as S.Schema<EvaluateResponse>;
 export type NamespacesList = string[];
 export const NamespacesList = S.Array(S.String);
 export type MemoryContent = { text: string | redacted.Redacted<string> };
 export const MemoryContent = S.Union([S.Struct({ text: SensitiveString })]);
-export interface MemoryRecordCreateInput { requestIdentifier: string; namespaces: string[]; content: MemoryContent; timestamp: Date; memoryStrategyId?: string }
-export const MemoryRecordCreateInput = S.suspend(() => S.Struct({requestIdentifier: S.String, namespaces: NamespacesList, content: MemoryContent, timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")), memoryStrategyId: S.optional(S.String)})).annotate({ identifier: "MemoryRecordCreateInput" }) as any as S.Schema<MemoryRecordCreateInput>;
+export interface MemoryRecordCreateInput {
+  requestIdentifier: string;
+  namespaces: string[];
+  content: MemoryContent;
+  timestamp: Date;
+  memoryStrategyId?: string;
+}
+export const MemoryRecordCreateInput = S.suspend(() =>
+  S.Struct({
+    requestIdentifier: S.String,
+    namespaces: NamespacesList,
+    content: MemoryContent,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    memoryStrategyId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MemoryRecordCreateInput",
+}) as any as S.Schema<MemoryRecordCreateInput>;
 export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export const MemoryRecordsCreateInputList = S.Array(MemoryRecordCreateInput);
-export interface BatchCreateMemoryRecordsInput { memoryId: string; records: MemoryRecordCreateInput[]; clientToken?: string }
-export const BatchCreateMemoryRecordsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), records: MemoryRecordsCreateInputList, clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords/batchCreate" }), svc, auth, proto, ver, rules))).annotate({ identifier: "BatchCreateMemoryRecordsInput" }) as any as S.Schema<BatchCreateMemoryRecordsInput>;
-export type MemoryRecordStatus =
-  | "SUCCEEDED"
-  | "FAILED"
-  | (string & {});
+export interface BatchCreateMemoryRecordsInput {
+  memoryId: string;
+  records: MemoryRecordCreateInput[];
+  clientToken?: string;
+}
+export const BatchCreateMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    records: MemoryRecordsCreateInputList,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/memoryRecords/batchCreate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchCreateMemoryRecordsInput",
+}) as any as S.Schema<BatchCreateMemoryRecordsInput>;
+export type MemoryRecordStatus = "SUCCEEDED" | "FAILED" | (string & {});
 export const MemoryRecordStatus = S.String;
-export interface MemoryRecordOutput { memoryRecordId: string; status: MemoryRecordStatus; requestIdentifier?: string; errorCode?: number; errorMessage?: string }
-export const MemoryRecordOutput = S.suspend(() => S.Struct({memoryRecordId: S.String, status: MemoryRecordStatus, requestIdentifier: S.optional(S.String), errorCode: S.optional(S.Number), errorMessage: S.optional(S.String)})).annotate({ identifier: "MemoryRecordOutput" }) as any as S.Schema<MemoryRecordOutput>;
+export interface MemoryRecordOutput {
+  memoryRecordId: string;
+  status: MemoryRecordStatus;
+  requestIdentifier?: string;
+  errorCode?: number;
+  errorMessage?: string;
+}
+export const MemoryRecordOutput = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    status: MemoryRecordStatus,
+    requestIdentifier: S.optional(S.String),
+    errorCode: S.optional(S.Number),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MemoryRecordOutput",
+}) as any as S.Schema<MemoryRecordOutput>;
 export type MemoryRecordsOutputList = MemoryRecordOutput[];
 export const MemoryRecordsOutputList = S.Array(MemoryRecordOutput);
-export interface BatchCreateMemoryRecordsOutput { successfulRecords: MemoryRecordOutput[]; failedRecords: MemoryRecordOutput[] }
-export const BatchCreateMemoryRecordsOutput = S.suspend(() => S.Struct({successfulRecords: MemoryRecordsOutputList, failedRecords: MemoryRecordsOutputList})).annotate({ identifier: "BatchCreateMemoryRecordsOutput" }) as any as S.Schema<BatchCreateMemoryRecordsOutput>;
-export interface MemoryRecordDeleteInput { memoryRecordId: string }
-export const MemoryRecordDeleteInput = S.suspend(() => S.Struct({memoryRecordId: S.String})).annotate({ identifier: "MemoryRecordDeleteInput" }) as any as S.Schema<MemoryRecordDeleteInput>;
+export interface BatchCreateMemoryRecordsOutput {
+  successfulRecords: MemoryRecordOutput[];
+  failedRecords: MemoryRecordOutput[];
+}
+export const BatchCreateMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    successfulRecords: MemoryRecordsOutputList,
+    failedRecords: MemoryRecordsOutputList,
+  }),
+).annotate({
+  identifier: "BatchCreateMemoryRecordsOutput",
+}) as any as S.Schema<BatchCreateMemoryRecordsOutput>;
+export interface MemoryRecordDeleteInput {
+  memoryRecordId: string;
+}
+export const MemoryRecordDeleteInput = S.suspend(() =>
+  S.Struct({ memoryRecordId: S.String }),
+).annotate({
+  identifier: "MemoryRecordDeleteInput",
+}) as any as S.Schema<MemoryRecordDeleteInput>;
 export type MemoryRecordsDeleteInputList = MemoryRecordDeleteInput[];
 export const MemoryRecordsDeleteInputList = S.Array(MemoryRecordDeleteInput);
-export interface BatchDeleteMemoryRecordsInput { memoryId: string; records: MemoryRecordDeleteInput[] }
-export const BatchDeleteMemoryRecordsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), records: MemoryRecordsDeleteInputList}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords/batchDelete" }), svc, auth, proto, ver, rules))).annotate({ identifier: "BatchDeleteMemoryRecordsInput" }) as any as S.Schema<BatchDeleteMemoryRecordsInput>;
-export interface BatchDeleteMemoryRecordsOutput { successfulRecords: MemoryRecordOutput[]; failedRecords: MemoryRecordOutput[] }
-export const BatchDeleteMemoryRecordsOutput = S.suspend(() => S.Struct({successfulRecords: MemoryRecordsOutputList, failedRecords: MemoryRecordsOutputList})).annotate({ identifier: "BatchDeleteMemoryRecordsOutput" }) as any as S.Schema<BatchDeleteMemoryRecordsOutput>;
-export interface MemoryRecordUpdateInput { memoryRecordId: string; timestamp: Date; content?: MemoryContent; namespaces?: string[]; memoryStrategyId?: string }
-export const MemoryRecordUpdateInput = S.suspend(() => S.Struct({memoryRecordId: S.String, timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")), content: S.optional(MemoryContent), namespaces: S.optional(NamespacesList), memoryStrategyId: S.optional(S.String)})).annotate({ identifier: "MemoryRecordUpdateInput" }) as any as S.Schema<MemoryRecordUpdateInput>;
+export interface BatchDeleteMemoryRecordsInput {
+  memoryId: string;
+  records: MemoryRecordDeleteInput[];
+}
+export const BatchDeleteMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    records: MemoryRecordsDeleteInputList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/memoryRecords/batchDelete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchDeleteMemoryRecordsInput",
+}) as any as S.Schema<BatchDeleteMemoryRecordsInput>;
+export interface BatchDeleteMemoryRecordsOutput {
+  successfulRecords: MemoryRecordOutput[];
+  failedRecords: MemoryRecordOutput[];
+}
+export const BatchDeleteMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    successfulRecords: MemoryRecordsOutputList,
+    failedRecords: MemoryRecordsOutputList,
+  }),
+).annotate({
+  identifier: "BatchDeleteMemoryRecordsOutput",
+}) as any as S.Schema<BatchDeleteMemoryRecordsOutput>;
+export interface MemoryRecordUpdateInput {
+  memoryRecordId: string;
+  timestamp: Date;
+  content?: MemoryContent;
+  namespaces?: string[];
+  memoryStrategyId?: string;
+}
+export const MemoryRecordUpdateInput = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    content: S.optional(MemoryContent),
+    namespaces: S.optional(NamespacesList),
+    memoryStrategyId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MemoryRecordUpdateInput",
+}) as any as S.Schema<MemoryRecordUpdateInput>;
 export type MemoryRecordsUpdateInputList = MemoryRecordUpdateInput[];
 export const MemoryRecordsUpdateInputList = S.Array(MemoryRecordUpdateInput);
-export interface BatchUpdateMemoryRecordsInput { memoryId: string; records: MemoryRecordUpdateInput[] }
-export const BatchUpdateMemoryRecordsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), records: MemoryRecordsUpdateInputList}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords/batchUpdate" }), svc, auth, proto, ver, rules))).annotate({ identifier: "BatchUpdateMemoryRecordsInput" }) as any as S.Schema<BatchUpdateMemoryRecordsInput>;
-export interface BatchUpdateMemoryRecordsOutput { successfulRecords: MemoryRecordOutput[]; failedRecords: MemoryRecordOutput[] }
-export const BatchUpdateMemoryRecordsOutput = S.suspend(() => S.Struct({successfulRecords: MemoryRecordsOutputList, failedRecords: MemoryRecordsOutputList})).annotate({ identifier: "BatchUpdateMemoryRecordsOutput" }) as any as S.Schema<BatchUpdateMemoryRecordsOutput>;
+export interface BatchUpdateMemoryRecordsInput {
+  memoryId: string;
+  records: MemoryRecordUpdateInput[];
+}
+export const BatchUpdateMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    records: MemoryRecordsUpdateInputList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/memoryRecords/batchUpdate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchUpdateMemoryRecordsInput",
+}) as any as S.Schema<BatchUpdateMemoryRecordsInput>;
+export interface BatchUpdateMemoryRecordsOutput {
+  successfulRecords: MemoryRecordOutput[];
+  failedRecords: MemoryRecordOutput[];
+}
+export const BatchUpdateMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    successfulRecords: MemoryRecordsOutputList,
+    failedRecords: MemoryRecordsOutputList,
+  }),
+).annotate({
+  identifier: "BatchUpdateMemoryRecordsOutput",
+}) as any as S.Schema<BatchUpdateMemoryRecordsOutput>;
 export type Content = { text: string | redacted.Redacted<string> };
 export const Content = S.Union([S.Struct({ text: SensitiveString })]);
-export type Role =
-  | "ASSISTANT"
-  | "USER"
-  | "TOOL"
-  | "OTHER"
-  | (string & {});
+export type Role = "ASSISTANT" | "USER" | "TOOL" | "OTHER" | (string & {});
 export const Role = S.String;
-export interface Conversational { content: Content; role: Role }
-export const Conversational = S.suspend(() => S.Struct({content: Content, role: Role})).annotate({ identifier: "Conversational" }) as any as S.Schema<Conversational>;
-export type PayloadType = { conversational: Conversational; blob?: never } | { conversational?: never; blob: any };
-export const PayloadType = S.Union([S.Struct({ conversational: Conversational }), S.Struct({ blob: S.Any })]);
+export interface Conversational {
+  content: Content;
+  role: Role;
+}
+export const Conversational = S.suspend(() =>
+  S.Struct({ content: Content, role: Role }),
+).annotate({ identifier: "Conversational" }) as any as S.Schema<Conversational>;
+export type PayloadType =
+  | { conversational: Conversational; blob?: never }
+  | { conversational?: never; blob: any };
+export const PayloadType = S.Union([
+  S.Struct({ conversational: Conversational }),
+  S.Struct({ blob: S.Any }),
+]);
 export type PayloadTypeList = PayloadType[];
 export const PayloadTypeList = S.Array(PayloadType);
-export interface Branch { rootEventId?: string; name: string }
-export const Branch = S.suspend(() => S.Struct({rootEventId: S.optional(S.String), name: S.String})).annotate({ identifier: "Branch" }) as any as S.Schema<Branch>;
+export interface Branch {
+  rootEventId?: string;
+  name: string;
+}
+export const Branch = S.suspend(() =>
+  S.Struct({ rootEventId: S.optional(S.String), name: S.String }),
+).annotate({ identifier: "Branch" }) as any as S.Schema<Branch>;
 export type MetadataValue = { stringValue: string };
 export const MetadataValue = S.Union([S.Struct({ stringValue: S.String })]);
 export type MetadataMap = { [key: string]: MetadataValue | undefined };
 export const MetadataMap = S.Record(S.String, MetadataValue.pipe(S.optional));
-export interface CreateEventInput { memoryId: string; actorId: string; sessionId?: string; eventTimestamp: Date; payload: PayloadType[]; branch?: Branch; clientToken?: string; metadata?: { [key: string]: MetadataValue | undefined } }
-export const CreateEventInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), actorId: S.String, sessionId: S.optional(S.String), eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")), payload: PayloadTypeList, branch: S.optional(Branch), clientToken: S.optional(S.String).pipe(T.IdempotencyToken()), metadata: S.optional(MetadataMap)}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/events" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateEventInput" }) as any as S.Schema<CreateEventInput>;
-export interface Event { memoryId: string; actorId: string; sessionId: string; eventId: string; eventTimestamp: Date; payload: PayloadType[]; branch?: Branch; metadata?: { [key: string]: MetadataValue | undefined } }
-export const Event = S.suspend(() => S.Struct({memoryId: S.String, actorId: S.String, sessionId: S.String, eventId: S.String, eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")), payload: PayloadTypeList, branch: S.optional(Branch), metadata: S.optional(MetadataMap)})).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
-export interface CreateEventOutput { event: Event }
-export const CreateEventOutput = S.suspend(() => S.Struct({event: Event})).annotate({ identifier: "CreateEventOutput" }) as any as S.Schema<CreateEventOutput>;
-export interface DeleteEventInput { memoryId: string; sessionId: string; eventId: string; actorId: string }
-export const DeleteEventInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), sessionId: S.String.pipe(T.HttpLabel("sessionId")), eventId: S.String.pipe(T.HttpLabel("eventId")), actorId: S.String.pipe(T.HttpLabel("actorId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteEventInput" }) as any as S.Schema<DeleteEventInput>;
-export interface DeleteEventOutput { eventId: string }
-export const DeleteEventOutput = S.suspend(() => S.Struct({eventId: S.String})).annotate({ identifier: "DeleteEventOutput" }) as any as S.Schema<DeleteEventOutput>;
-export interface DeleteMemoryRecordInput { memoryId: string; memoryRecordId: string }
-export const DeleteMemoryRecordInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), memoryRecordId: S.String.pipe(T.HttpLabel("memoryRecordId"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/memories/{memoryId}/memoryRecords/{memoryRecordId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteMemoryRecordInput" }) as any as S.Schema<DeleteMemoryRecordInput>;
-export interface DeleteMemoryRecordOutput { memoryRecordId: string }
-export const DeleteMemoryRecordOutput = S.suspend(() => S.Struct({memoryRecordId: S.String})).annotate({ identifier: "DeleteMemoryRecordOutput" }) as any as S.Schema<DeleteMemoryRecordOutput>;
-export interface GetEventInput { memoryId: string; sessionId: string; actorId: string; eventId: string }
-export const GetEventInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), sessionId: S.String.pipe(T.HttpLabel("sessionId")), actorId: S.String.pipe(T.HttpLabel("actorId")), eventId: S.String.pipe(T.HttpLabel("eventId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetEventInput" }) as any as S.Schema<GetEventInput>;
-export interface GetEventOutput { event: Event }
-export const GetEventOutput = S.suspend(() => S.Struct({event: Event})).annotate({ identifier: "GetEventOutput" }) as any as S.Schema<GetEventOutput>;
-export interface GetMemoryRecordInput { memoryId: string; memoryRecordId: string }
-export const GetMemoryRecordInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), memoryRecordId: S.String.pipe(T.HttpLabel("memoryRecordId"))}).pipe(T.all(T.Http({ method: "GET", uri: "/memories/{memoryId}/memoryRecord/{memoryRecordId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "GetMemoryRecordInput" }) as any as S.Schema<GetMemoryRecordInput>;
-export interface MemoryRecord { memoryRecordId: string; content: MemoryContent; memoryStrategyId: string; namespaces: string[]; createdAt: Date; metadata?: { [key: string]: MetadataValue | undefined } }
-export const MemoryRecord = S.suspend(() => S.Struct({memoryRecordId: S.String, content: MemoryContent, memoryStrategyId: S.String, namespaces: NamespacesList, createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")), metadata: S.optional(MetadataMap)})).annotate({ identifier: "MemoryRecord" }) as any as S.Schema<MemoryRecord>;
-export interface GetMemoryRecordOutput { memoryRecord: MemoryRecord }
-export const GetMemoryRecordOutput = S.suspend(() => S.Struct({memoryRecord: MemoryRecord})).annotate({ identifier: "GetMemoryRecordOutput" }) as any as S.Schema<GetMemoryRecordOutput>;
-export interface ListActorsInput { memoryId: string; maxResults?: number; nextToken?: string }
-export const ListActorsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), maxResults: S.optional(S.Number), nextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/actors" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListActorsInput" }) as any as S.Schema<ListActorsInput>;
-export interface ActorSummary { actorId: string }
-export const ActorSummary = S.suspend(() => S.Struct({actorId: S.String})).annotate({ identifier: "ActorSummary" }) as any as S.Schema<ActorSummary>;
+export interface CreateEventInput {
+  memoryId: string;
+  actorId: string;
+  sessionId?: string;
+  eventTimestamp: Date;
+  payload: PayloadType[];
+  branch?: Branch;
+  clientToken?: string;
+  metadata?: { [key: string]: MetadataValue | undefined };
+}
+export const CreateEventInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    actorId: S.String,
+    sessionId: S.optional(S.String),
+    eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    payload: PayloadTypeList,
+    branch: S.optional(Branch),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    metadata: S.optional(MetadataMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateEventInput",
+}) as any as S.Schema<CreateEventInput>;
+export interface Event {
+  memoryId: string;
+  actorId: string;
+  sessionId: string;
+  eventId: string;
+  eventTimestamp: Date;
+  payload: PayloadType[];
+  branch?: Branch;
+  metadata?: { [key: string]: MetadataValue | undefined };
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String,
+    actorId: S.String,
+    sessionId: S.String,
+    eventId: S.String,
+    eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    payload: PayloadTypeList,
+    branch: S.optional(Branch),
+    metadata: S.optional(MetadataMap),
+  }),
+).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
+export interface CreateEventOutput {
+  event: Event;
+}
+export const CreateEventOutput = S.suspend(() =>
+  S.Struct({ event: Event }),
+).annotate({
+  identifier: "CreateEventOutput",
+}) as any as S.Schema<CreateEventOutput>;
+export interface DeleteEventInput {
+  memoryId: string;
+  sessionId: string;
+  eventId: string;
+  actorId: string;
+}
+export const DeleteEventInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+    eventId: S.String.pipe(T.HttpLabel("eventId")),
+    actorId: S.String.pipe(T.HttpLabel("actorId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteEventInput",
+}) as any as S.Schema<DeleteEventInput>;
+export interface DeleteEventOutput {
+  eventId: string;
+}
+export const DeleteEventOutput = S.suspend(() =>
+  S.Struct({ eventId: S.String }),
+).annotate({
+  identifier: "DeleteEventOutput",
+}) as any as S.Schema<DeleteEventOutput>;
+export interface DeleteMemoryRecordInput {
+  memoryId: string;
+  memoryRecordId: string;
+}
+export const DeleteMemoryRecordInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    memoryRecordId: S.String.pipe(T.HttpLabel("memoryRecordId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memories/{memoryId}/memoryRecords/{memoryRecordId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteMemoryRecordInput",
+}) as any as S.Schema<DeleteMemoryRecordInput>;
+export interface DeleteMemoryRecordOutput {
+  memoryRecordId: string;
+}
+export const DeleteMemoryRecordOutput = S.suspend(() =>
+  S.Struct({ memoryRecordId: S.String }),
+).annotate({
+  identifier: "DeleteMemoryRecordOutput",
+}) as any as S.Schema<DeleteMemoryRecordOutput>;
+export interface GetEventInput {
+  memoryId: string;
+  sessionId: string;
+  actorId: string;
+  eventId: string;
+}
+export const GetEventInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+    actorId: S.String.pipe(T.HttpLabel("actorId")),
+    eventId: S.String.pipe(T.HttpLabel("eventId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetEventInput" }) as any as S.Schema<GetEventInput>;
+export interface GetEventOutput {
+  event: Event;
+}
+export const GetEventOutput = S.suspend(() =>
+  S.Struct({ event: Event }),
+).annotate({ identifier: "GetEventOutput" }) as any as S.Schema<GetEventOutput>;
+export interface GetMemoryRecordInput {
+  memoryId: string;
+  memoryRecordId: string;
+}
+export const GetMemoryRecordInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    memoryRecordId: S.String.pipe(T.HttpLabel("memoryRecordId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memories/{memoryId}/memoryRecord/{memoryRecordId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetMemoryRecordInput",
+}) as any as S.Schema<GetMemoryRecordInput>;
+export interface MemoryRecord {
+  memoryRecordId: string;
+  content: MemoryContent;
+  memoryStrategyId: string;
+  namespaces: string[];
+  createdAt: Date;
+  metadata?: { [key: string]: MetadataValue | undefined };
+}
+export const MemoryRecord = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    content: MemoryContent,
+    memoryStrategyId: S.String,
+    namespaces: NamespacesList,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    metadata: S.optional(MetadataMap),
+  }),
+).annotate({ identifier: "MemoryRecord" }) as any as S.Schema<MemoryRecord>;
+export interface GetMemoryRecordOutput {
+  memoryRecord: MemoryRecord;
+}
+export const GetMemoryRecordOutput = S.suspend(() =>
+  S.Struct({ memoryRecord: MemoryRecord }),
+).annotate({
+  identifier: "GetMemoryRecordOutput",
+}) as any as S.Schema<GetMemoryRecordOutput>;
+export interface ListActorsInput {
+  memoryId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListActorsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/actors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListActorsInput",
+}) as any as S.Schema<ListActorsInput>;
+export interface ActorSummary {
+  actorId: string;
+}
+export const ActorSummary = S.suspend(() =>
+  S.Struct({ actorId: S.String }),
+).annotate({ identifier: "ActorSummary" }) as any as S.Schema<ActorSummary>;
 export type ActorSummaryList = ActorSummary[];
 export const ActorSummaryList = S.Array(ActorSummary);
-export interface ListActorsOutput { actorSummaries: ActorSummary[]; nextToken?: string }
-export const ListActorsOutput = S.suspend(() => S.Struct({actorSummaries: ActorSummaryList, nextToken: S.optional(S.String)})).annotate({ identifier: "ListActorsOutput" }) as any as S.Schema<ListActorsOutput>;
-export interface BranchFilter { name: string; includeParentBranches?: boolean }
-export const BranchFilter = S.suspend(() => S.Struct({name: S.String, includeParentBranches: S.optional(S.Boolean)})).annotate({ identifier: "BranchFilter" }) as any as S.Schema<BranchFilter>;
+export interface ListActorsOutput {
+  actorSummaries: ActorSummary[];
+  nextToken?: string;
+}
+export const ListActorsOutput = S.suspend(() =>
+  S.Struct({
+    actorSummaries: ActorSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListActorsOutput",
+}) as any as S.Schema<ListActorsOutput>;
+export interface BranchFilter {
+  name: string;
+  includeParentBranches?: boolean;
+}
+export const BranchFilter = S.suspend(() =>
+  S.Struct({ name: S.String, includeParentBranches: S.optional(S.Boolean) }),
+).annotate({ identifier: "BranchFilter" }) as any as S.Schema<BranchFilter>;
 export type LeftExpression = { metadataKey: string };
 export const LeftExpression = S.Union([S.Struct({ metadataKey: S.String })]);
 export type OperatorType =
@@ -470,87 +2120,463 @@ export type OperatorType =
   | (string & {});
 export const OperatorType = S.String;
 export type RightExpression = { metadataValue: MetadataValue };
-export const RightExpression = S.Union([S.Struct({ metadataValue: MetadataValue })]);
-export interface EventMetadataFilterExpression { left: LeftExpression; operator: OperatorType; right?: RightExpression }
-export const EventMetadataFilterExpression = S.suspend(() => S.Struct({left: LeftExpression, operator: OperatorType, right: S.optional(RightExpression)})).annotate({ identifier: "EventMetadataFilterExpression" }) as any as S.Schema<EventMetadataFilterExpression>;
+export const RightExpression = S.Union([
+  S.Struct({ metadataValue: MetadataValue }),
+]);
+export interface EventMetadataFilterExpression {
+  left: LeftExpression;
+  operator: OperatorType;
+  right?: RightExpression;
+}
+export const EventMetadataFilterExpression = S.suspend(() =>
+  S.Struct({
+    left: LeftExpression,
+    operator: OperatorType,
+    right: S.optional(RightExpression),
+  }),
+).annotate({
+  identifier: "EventMetadataFilterExpression",
+}) as any as S.Schema<EventMetadataFilterExpression>;
 export type EventMetadataFilterList = EventMetadataFilterExpression[];
 export const EventMetadataFilterList = S.Array(EventMetadataFilterExpression);
-export interface FilterInput { branch?: BranchFilter; eventMetadata?: EventMetadataFilterExpression[] }
-export const FilterInput = S.suspend(() => S.Struct({branch: S.optional(BranchFilter), eventMetadata: S.optional(EventMetadataFilterList)})).annotate({ identifier: "FilterInput" }) as any as S.Schema<FilterInput>;
-export interface ListEventsInput { memoryId: string; sessionId: string; actorId: string; includePayloads?: boolean; filter?: FilterInput; maxResults?: number; nextToken?: string }
-export const ListEventsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), sessionId: S.String.pipe(T.HttpLabel("sessionId")), actorId: S.String.pipe(T.HttpLabel("actorId")), includePayloads: S.optional(S.Boolean), filter: S.optional(FilterInput), maxResults: S.optional(S.Number), nextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListEventsInput" }) as any as S.Schema<ListEventsInput>;
+export interface FilterInput {
+  branch?: BranchFilter;
+  eventMetadata?: EventMetadataFilterExpression[];
+}
+export const FilterInput = S.suspend(() =>
+  S.Struct({
+    branch: S.optional(BranchFilter),
+    eventMetadata: S.optional(EventMetadataFilterList),
+  }),
+).annotate({ identifier: "FilterInput" }) as any as S.Schema<FilterInput>;
+export interface ListEventsInput {
+  memoryId: string;
+  sessionId: string;
+  actorId: string;
+  includePayloads?: boolean;
+  filter?: FilterInput;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListEventsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+    actorId: S.String.pipe(T.HttpLabel("actorId")),
+    includePayloads: S.optional(S.Boolean),
+    filter: S.optional(FilterInput),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEventsInput",
+}) as any as S.Schema<ListEventsInput>;
 export type EventList = Event[];
 export const EventList = S.Array(Event);
-export interface ListEventsOutput { events: Event[]; nextToken?: string }
-export const ListEventsOutput = S.suspend(() => S.Struct({events: EventList, nextToken: S.optional(S.String)})).annotate({ identifier: "ListEventsOutput" }) as any as S.Schema<ListEventsOutput>;
-export type ExtractionJobStatus =
-  | "FAILED"
-  | (string & {});
+export interface ListEventsOutput {
+  events: Event[];
+  nextToken?: string;
+}
+export const ListEventsOutput = S.suspend(() =>
+  S.Struct({ events: EventList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListEventsOutput",
+}) as any as S.Schema<ListEventsOutput>;
+export type ExtractionJobStatus = "FAILED" | (string & {});
 export const ExtractionJobStatus = S.String;
-export interface ExtractionJobFilterInput { strategyId?: string; sessionId?: string; actorId?: string; status?: ExtractionJobStatus }
-export const ExtractionJobFilterInput = S.suspend(() => S.Struct({strategyId: S.optional(S.String), sessionId: S.optional(S.String), actorId: S.optional(S.String), status: S.optional(ExtractionJobStatus)})).annotate({ identifier: "ExtractionJobFilterInput" }) as any as S.Schema<ExtractionJobFilterInput>;
-export interface ListMemoryExtractionJobsInput { memoryId: string; maxResults?: number; filter?: ExtractionJobFilterInput; nextToken?: string }
-export const ListMemoryExtractionJobsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), maxResults: S.optional(S.Number), filter: S.optional(ExtractionJobFilterInput), nextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/extractionJobs" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListMemoryExtractionJobsInput" }) as any as S.Schema<ListMemoryExtractionJobsInput>;
-export interface MessageMetadata { eventId: string; messageIndex: number }
-export const MessageMetadata = S.suspend(() => S.Struct({eventId: S.String, messageIndex: S.Number})).annotate({ identifier: "MessageMetadata" }) as any as S.Schema<MessageMetadata>;
+export interface ExtractionJobFilterInput {
+  strategyId?: string;
+  sessionId?: string;
+  actorId?: string;
+  status?: ExtractionJobStatus;
+}
+export const ExtractionJobFilterInput = S.suspend(() =>
+  S.Struct({
+    strategyId: S.optional(S.String),
+    sessionId: S.optional(S.String),
+    actorId: S.optional(S.String),
+    status: S.optional(ExtractionJobStatus),
+  }),
+).annotate({
+  identifier: "ExtractionJobFilterInput",
+}) as any as S.Schema<ExtractionJobFilterInput>;
+export interface ListMemoryExtractionJobsInput {
+  memoryId: string;
+  maxResults?: number;
+  filter?: ExtractionJobFilterInput;
+  nextToken?: string;
+}
+export const ListMemoryExtractionJobsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    maxResults: S.optional(S.Number),
+    filter: S.optional(ExtractionJobFilterInput),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/extractionJobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListMemoryExtractionJobsInput",
+}) as any as S.Schema<ListMemoryExtractionJobsInput>;
+export interface MessageMetadata {
+  eventId: string;
+  messageIndex: number;
+}
+export const MessageMetadata = S.suspend(() =>
+  S.Struct({ eventId: S.String, messageIndex: S.Number }),
+).annotate({
+  identifier: "MessageMetadata",
+}) as any as S.Schema<MessageMetadata>;
 export type MessagesList = MessageMetadata[];
 export const MessagesList = S.Array(MessageMetadata);
 export type ExtractionJobMessages = { messagesList: MessageMetadata[] };
-export const ExtractionJobMessages = S.Union([S.Struct({ messagesList: MessagesList })]);
-export interface ExtractionJobMetadata { jobID: string; messages: ExtractionJobMessages; status?: ExtractionJobStatus; failureReason?: string; strategyId?: string; sessionId?: string; actorId?: string }
-export const ExtractionJobMetadata = S.suspend(() => S.Struct({jobID: S.String, messages: ExtractionJobMessages, status: S.optional(ExtractionJobStatus), failureReason: S.optional(S.String), strategyId: S.optional(S.String), sessionId: S.optional(S.String), actorId: S.optional(S.String)})).annotate({ identifier: "ExtractionJobMetadata" }) as any as S.Schema<ExtractionJobMetadata>;
+export const ExtractionJobMessages = S.Union([
+  S.Struct({ messagesList: MessagesList }),
+]);
+export interface ExtractionJobMetadata {
+  jobID: string;
+  messages: ExtractionJobMessages;
+  status?: ExtractionJobStatus;
+  failureReason?: string;
+  strategyId?: string;
+  sessionId?: string;
+  actorId?: string;
+}
+export const ExtractionJobMetadata = S.suspend(() =>
+  S.Struct({
+    jobID: S.String,
+    messages: ExtractionJobMessages,
+    status: S.optional(ExtractionJobStatus),
+    failureReason: S.optional(S.String),
+    strategyId: S.optional(S.String),
+    sessionId: S.optional(S.String),
+    actorId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExtractionJobMetadata",
+}) as any as S.Schema<ExtractionJobMetadata>;
 export type ExtractionJobMetadataList = ExtractionJobMetadata[];
 export const ExtractionJobMetadataList = S.Array(ExtractionJobMetadata);
-export interface ListMemoryExtractionJobsOutput { jobs: ExtractionJobMetadata[]; nextToken?: string }
-export const ListMemoryExtractionJobsOutput = S.suspend(() => S.Struct({jobs: ExtractionJobMetadataList, nextToken: S.optional(S.String)})).annotate({ identifier: "ListMemoryExtractionJobsOutput" }) as any as S.Schema<ListMemoryExtractionJobsOutput>;
-export interface ListMemoryRecordsInput { memoryId: string; namespace: string; memoryStrategyId?: string; maxResults?: number; nextToken?: string }
-export const ListMemoryRecordsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), namespace: S.String, memoryStrategyId: S.optional(S.String), maxResults: S.optional(S.Number), nextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListMemoryRecordsInput" }) as any as S.Schema<ListMemoryRecordsInput>;
-export interface MemoryRecordSummary { memoryRecordId: string; content: MemoryContent; memoryStrategyId: string; namespaces: string[]; createdAt: Date; score?: number; metadata?: { [key: string]: MetadataValue | undefined } }
-export const MemoryRecordSummary = S.suspend(() => S.Struct({memoryRecordId: S.String, content: MemoryContent, memoryStrategyId: S.String, namespaces: NamespacesList, createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")), score: S.optional(S.Number), metadata: S.optional(MetadataMap)})).annotate({ identifier: "MemoryRecordSummary" }) as any as S.Schema<MemoryRecordSummary>;
+export interface ListMemoryExtractionJobsOutput {
+  jobs: ExtractionJobMetadata[];
+  nextToken?: string;
+}
+export const ListMemoryExtractionJobsOutput = S.suspend(() =>
+  S.Struct({
+    jobs: ExtractionJobMetadataList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListMemoryExtractionJobsOutput",
+}) as any as S.Schema<ListMemoryExtractionJobsOutput>;
+export interface ListMemoryRecordsInput {
+  memoryId: string;
+  namespace: string;
+  memoryStrategyId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    namespace: S.String,
+    memoryStrategyId: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListMemoryRecordsInput",
+}) as any as S.Schema<ListMemoryRecordsInput>;
+export interface MemoryRecordSummary {
+  memoryRecordId: string;
+  content: MemoryContent;
+  memoryStrategyId: string;
+  namespaces: string[];
+  createdAt: Date;
+  score?: number;
+  metadata?: { [key: string]: MetadataValue | undefined };
+}
+export const MemoryRecordSummary = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    content: MemoryContent,
+    memoryStrategyId: S.String,
+    namespaces: NamespacesList,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    score: S.optional(S.Number),
+    metadata: S.optional(MetadataMap),
+  }),
+).annotate({
+  identifier: "MemoryRecordSummary",
+}) as any as S.Schema<MemoryRecordSummary>;
 export type MemoryRecordSummaryList = MemoryRecordSummary[];
 export const MemoryRecordSummaryList = S.Array(MemoryRecordSummary);
-export interface ListMemoryRecordsOutput { memoryRecordSummaries: MemoryRecordSummary[]; nextToken?: string }
-export const ListMemoryRecordsOutput = S.suspend(() => S.Struct({memoryRecordSummaries: MemoryRecordSummaryList, nextToken: S.optional(S.String)})).annotate({ identifier: "ListMemoryRecordsOutput" }) as any as S.Schema<ListMemoryRecordsOutput>;
-export interface ListSessionsInput { memoryId: string; actorId: string; maxResults?: number; nextToken?: string }
-export const ListSessionsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), actorId: S.String.pipe(T.HttpLabel("actorId")), maxResults: S.optional(S.Number), nextToken: S.optional(S.String)}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/actor/{actorId}/sessions" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListSessionsInput" }) as any as S.Schema<ListSessionsInput>;
-export interface SessionSummary { sessionId: string; actorId: string; createdAt: Date }
-export const SessionSummary = S.suspend(() => S.Struct({sessionId: S.String, actorId: S.String, createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds"))})).annotate({ identifier: "SessionSummary" }) as any as S.Schema<SessionSummary>;
+export interface ListMemoryRecordsOutput {
+  memoryRecordSummaries: MemoryRecordSummary[];
+  nextToken?: string;
+}
+export const ListMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    memoryRecordSummaries: MemoryRecordSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListMemoryRecordsOutput",
+}) as any as S.Schema<ListMemoryRecordsOutput>;
+export interface ListSessionsInput {
+  memoryId: string;
+  actorId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSessionsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    actorId: S.String.pipe(T.HttpLabel("actorId")),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSessionsInput",
+}) as any as S.Schema<ListSessionsInput>;
+export interface SessionSummary {
+  sessionId: string;
+  actorId: string;
+  createdAt: Date;
+}
+export const SessionSummary = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    actorId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "SessionSummary" }) as any as S.Schema<SessionSummary>;
 export type SessionSummaryList = SessionSummary[];
 export const SessionSummaryList = S.Array(SessionSummary);
-export interface ListSessionsOutput { sessionSummaries: SessionSummary[]; nextToken?: string }
-export const ListSessionsOutput = S.suspend(() => S.Struct({sessionSummaries: SessionSummaryList, nextToken: S.optional(S.String)})).annotate({ identifier: "ListSessionsOutput" }) as any as S.Schema<ListSessionsOutput>;
-export interface MemoryMetadataFilterExpression { left: LeftExpression; operator: OperatorType; right?: RightExpression }
-export const MemoryMetadataFilterExpression = S.suspend(() => S.Struct({left: LeftExpression, operator: OperatorType, right: S.optional(RightExpression)})).annotate({ identifier: "MemoryMetadataFilterExpression" }) as any as S.Schema<MemoryMetadataFilterExpression>;
+export interface ListSessionsOutput {
+  sessionSummaries: SessionSummary[];
+  nextToken?: string;
+}
+export const ListSessionsOutput = S.suspend(() =>
+  S.Struct({
+    sessionSummaries: SessionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSessionsOutput",
+}) as any as S.Schema<ListSessionsOutput>;
+export interface MemoryMetadataFilterExpression {
+  left: LeftExpression;
+  operator: OperatorType;
+  right?: RightExpression;
+}
+export const MemoryMetadataFilterExpression = S.suspend(() =>
+  S.Struct({
+    left: LeftExpression,
+    operator: OperatorType,
+    right: S.optional(RightExpression),
+  }),
+).annotate({
+  identifier: "MemoryMetadataFilterExpression",
+}) as any as S.Schema<MemoryMetadataFilterExpression>;
 export type MemoryMetadataFilterList = MemoryMetadataFilterExpression[];
 export const MemoryMetadataFilterList = S.Array(MemoryMetadataFilterExpression);
-export interface SearchCriteria { searchQuery: string | redacted.Redacted<string>; memoryStrategyId?: string; topK?: number; metadataFilters?: MemoryMetadataFilterExpression[] }
-export const SearchCriteria = S.suspend(() => S.Struct({searchQuery: SensitiveString, memoryStrategyId: S.optional(S.String), topK: S.optional(S.Number), metadataFilters: S.optional(MemoryMetadataFilterList)})).annotate({ identifier: "SearchCriteria" }) as any as S.Schema<SearchCriteria>;
-export interface RetrieveMemoryRecordsInput { memoryId: string; namespace: string; searchCriteria: SearchCriteria; nextToken?: string; maxResults?: number }
-export const RetrieveMemoryRecordsInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), namespace: S.String, searchCriteria: SearchCriteria, nextToken: S.optional(S.String), maxResults: S.optional(S.Number)}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/retrieve" }), svc, auth, proto, ver, rules))).annotate({ identifier: "RetrieveMemoryRecordsInput" }) as any as S.Schema<RetrieveMemoryRecordsInput>;
-export interface RetrieveMemoryRecordsOutput { memoryRecordSummaries: MemoryRecordSummary[]; nextToken?: string }
-export const RetrieveMemoryRecordsOutput = S.suspend(() => S.Struct({memoryRecordSummaries: MemoryRecordSummaryList, nextToken: S.optional(S.String)})).annotate({ identifier: "RetrieveMemoryRecordsOutput" }) as any as S.Schema<RetrieveMemoryRecordsOutput>;
-export interface ExtractionJob { jobId: string }
-export const ExtractionJob = S.suspend(() => S.Struct({jobId: S.String})).annotate({ identifier: "ExtractionJob" }) as any as S.Schema<ExtractionJob>;
-export interface StartMemoryExtractionJobInput { memoryId: string; extractionJob: ExtractionJob; clientToken?: string }
-export const StartMemoryExtractionJobInput = S.suspend(() => S.Struct({memoryId: S.String.pipe(T.HttpLabel("memoryId")), extractionJob: ExtractionJob, clientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/memories/{memoryId}/extractionJobs/start" }), svc, auth, proto, ver, rules))).annotate({ identifier: "StartMemoryExtractionJobInput" }) as any as S.Schema<StartMemoryExtractionJobInput>;
-export interface StartMemoryExtractionJobOutput { jobId: string }
-export const StartMemoryExtractionJobOutput = S.suspend(() => S.Struct({jobId: S.String})).annotate({ identifier: "StartMemoryExtractionJobOutput" }) as any as S.Schema<StartMemoryExtractionJobOutput>;
+export interface SearchCriteria {
+  searchQuery: string | redacted.Redacted<string>;
+  memoryStrategyId?: string;
+  topK?: number;
+  metadataFilters?: MemoryMetadataFilterExpression[];
+}
+export const SearchCriteria = S.suspend(() =>
+  S.Struct({
+    searchQuery: SensitiveString,
+    memoryStrategyId: S.optional(S.String),
+    topK: S.optional(S.Number),
+    metadataFilters: S.optional(MemoryMetadataFilterList),
+  }),
+).annotate({ identifier: "SearchCriteria" }) as any as S.Schema<SearchCriteria>;
+export interface RetrieveMemoryRecordsInput {
+  memoryId: string;
+  namespace: string;
+  searchCriteria: SearchCriteria;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const RetrieveMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    namespace: S.String,
+    searchCriteria: SearchCriteria,
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/retrieve" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RetrieveMemoryRecordsInput",
+}) as any as S.Schema<RetrieveMemoryRecordsInput>;
+export interface RetrieveMemoryRecordsOutput {
+  memoryRecordSummaries: MemoryRecordSummary[];
+  nextToken?: string;
+}
+export const RetrieveMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    memoryRecordSummaries: MemoryRecordSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RetrieveMemoryRecordsOutput",
+}) as any as S.Schema<RetrieveMemoryRecordsOutput>;
+export interface ExtractionJob {
+  jobId: string;
+}
+export const ExtractionJob = S.suspend(() =>
+  S.Struct({ jobId: S.String }),
+).annotate({ identifier: "ExtractionJob" }) as any as S.Schema<ExtractionJob>;
+export interface StartMemoryExtractionJobInput {
+  memoryId: string;
+  extractionJob: ExtractionJob;
+  clientToken?: string;
+}
+export const StartMemoryExtractionJobInput = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String.pipe(T.HttpLabel("memoryId")),
+    extractionJob: ExtractionJob,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/extractionJobs/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartMemoryExtractionJobInput",
+}) as any as S.Schema<StartMemoryExtractionJobInput>;
+export interface StartMemoryExtractionJobOutput {
+  jobId: string;
+}
+export const StartMemoryExtractionJobOutput = S.suspend(() =>
+  S.Struct({ jobId: S.String }),
+).annotate({
+  identifier: "StartMemoryExtractionJobOutput",
+}) as any as S.Schema<StartMemoryExtractionJobOutput>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()("AccessDeniedException", {message: S.optional(S.String)}).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()("InternalServerException", {message: S.optional(S.String)}).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()("ResourceNotFoundException", {message: S.optional(S.String)}).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()("ThrottlingException", {message: S.optional(S.String)}).pipe(C.withThrottlingError) {}
-export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedException>()("UnauthorizedException", {message: S.optional(S.String)}).pipe(C.withAuthError) {}
-export class ValidationException extends S.TaggedErrorClass<ValidationException>()("ValidationException", {message: S.String, reason: ValidationExceptionReason, fieldList: S.optional(ValidationExceptionFieldList)}).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedErrorClass<ConflictException>()("ConflictException", {message: S.optional(S.String)}).pipe(C.withConflictError) {}
-export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()("ServiceQuotaExceededException", {message: S.optional(S.String)}).pipe(C.withQuotaError) {}
-export class RuntimeClientError extends S.TaggedErrorClass<RuntimeClientError>()("RuntimeClientError", {message: S.optional(S.String)}) {}
-export class DuplicateIdException extends S.TaggedErrorClass<DuplicateIdException>()("DuplicateIdException", {message: S.optional(S.String)}).pipe(C.withConflictError) {}
-export class ServiceException extends S.TaggedErrorClass<ServiceException>()("ServiceException", {message: S.String}).pipe(C.withServerError) {}
-export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()("ThrottledException", {message: S.String}).pipe(C.withThrottlingError) {}
-export class InvalidInputException extends S.TaggedErrorClass<InvalidInputException>()("InvalidInputException", {message: S.String}).pipe(C.withBadRequestError) {}
-export class RetryableConflictException extends S.TaggedErrorClass<RetryableConflictException>()("RetryableConflictException", {message: S.String}, T.Retryable()).pipe(C.withConflictError, C.withRetryableError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  { message: S.optional(S.String) },
+).pipe(C.withServerError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedException>()(
+  "UnauthorizedException",
+  { message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: ValidationExceptionReason,
+    fieldList: S.optional(ValidationExceptionFieldList),
+  },
+).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withQuotaError) {}
+export class RuntimeClientError extends S.TaggedErrorClass<RuntimeClientError>()(
+  "RuntimeClientError",
+  { message: S.optional(S.String) },
+) {}
+export class DuplicateIdException extends S.TaggedErrorClass<DuplicateIdException>()(
+  "DuplicateIdException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class ServiceException extends S.TaggedErrorClass<ServiceException>()(
+  "ServiceException",
+  { message: S.String },
+).pipe(C.withServerError) {}
+export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()(
+  "ThrottledException",
+  { message: S.String },
+).pipe(C.withThrottlingError) {}
+export class InvalidInputException extends S.TaggedErrorClass<InvalidInputException>()(
+  "InvalidInputException",
+  { message: S.String },
+).pipe(C.withBadRequestError) {}
+export class RetryableConflictException extends S.TaggedErrorClass<RetryableConflictException>()(
+  "RetryableConflictException",
+  { message: S.String },
+  T.Retryable(),
+).pipe(C.withConflictError, C.withRetryableError) {}
 
 //# Operations
 export type CompleteResourceTokenAuthError =
@@ -564,7 +2590,23 @@ export type CompleteResourceTokenAuthError =
 /**
  * Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource.
  */
-export const completeResourceTokenAuth: API.OperationMethod<CompleteResourceTokenAuthRequest, CompleteResourceTokenAuthResponse, CompleteResourceTokenAuthError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CompleteResourceTokenAuthRequest, output: CompleteResourceTokenAuthResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const completeResourceTokenAuth: API.OperationMethod<
+  CompleteResourceTokenAuthRequest,
+  CompleteResourceTokenAuthResponse,
+  CompleteResourceTokenAuthError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteResourceTokenAuthRequest,
+  output: CompleteResourceTokenAuthResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type GetResourceApiKeyError =
   | AccessDeniedException
   | InternalServerException
@@ -576,7 +2618,23 @@ export type GetResourceApiKeyError =
 /**
  * Retrieves the API key associated with an API key credential provider.
  */
-export const getResourceApiKey: API.OperationMethod<GetResourceApiKeyRequest, GetResourceApiKeyResponse, GetResourceApiKeyError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetResourceApiKeyRequest, output: GetResourceApiKeyResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const getResourceApiKey: API.OperationMethod<
+  GetResourceApiKeyRequest,
+  GetResourceApiKeyResponse,
+  GetResourceApiKeyError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceApiKeyRequest,
+  output: GetResourceApiKeyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type GetResourceOauth2TokenError =
   | AccessDeniedException
   | InternalServerException
@@ -588,7 +2646,23 @@ export type GetResourceOauth2TokenError =
 /**
  * Returns the OAuth 2.0 token of the provided resource.
  */
-export const getResourceOauth2Token: API.OperationMethod<GetResourceOauth2TokenRequest, GetResourceOauth2TokenResponse, GetResourceOauth2TokenError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetResourceOauth2TokenRequest, output: GetResourceOauth2TokenResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const getResourceOauth2Token: API.OperationMethod<
+  GetResourceOauth2TokenRequest,
+  GetResourceOauth2TokenResponse,
+  GetResourceOauth2TokenError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceOauth2TokenRequest,
+  output: GetResourceOauth2TokenResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type GetWorkloadAccessTokenError =
   | AccessDeniedException
   | InternalServerException
@@ -600,7 +2674,23 @@ export type GetWorkloadAccessTokenError =
 /**
  * Obtains a workload access token for agentic workloads not acting on behalf of a user.
  */
-export const getWorkloadAccessToken: API.OperationMethod<GetWorkloadAccessTokenRequest, GetWorkloadAccessTokenResponse, GetWorkloadAccessTokenError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetWorkloadAccessTokenRequest, output: GetWorkloadAccessTokenResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const getWorkloadAccessToken: API.OperationMethod<
+  GetWorkloadAccessTokenRequest,
+  GetWorkloadAccessTokenResponse,
+  GetWorkloadAccessTokenError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadAccessTokenRequest,
+  output: GetWorkloadAccessTokenResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type GetWorkloadAccessTokenForJWTError =
   | AccessDeniedException
   | InternalServerException
@@ -612,7 +2702,23 @@ export type GetWorkloadAccessTokenForJWTError =
 /**
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token.
  */
-export const getWorkloadAccessTokenForJWT: API.OperationMethod<GetWorkloadAccessTokenForJWTRequest, GetWorkloadAccessTokenForJWTResponse, GetWorkloadAccessTokenForJWTError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetWorkloadAccessTokenForJWTRequest, output: GetWorkloadAccessTokenForJWTResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const getWorkloadAccessTokenForJWT: API.OperationMethod<
+  GetWorkloadAccessTokenForJWTRequest,
+  GetWorkloadAccessTokenForJWTResponse,
+  GetWorkloadAccessTokenForJWTError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadAccessTokenForJWTRequest,
+  output: GetWorkloadAccessTokenForJWTResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type GetWorkloadAccessTokenForUserIdError =
   | AccessDeniedException
   | InternalServerException
@@ -624,7 +2730,23 @@ export type GetWorkloadAccessTokenForUserIdError =
 /**
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID.
  */
-export const getWorkloadAccessTokenForUserId: API.OperationMethod<GetWorkloadAccessTokenForUserIdRequest, GetWorkloadAccessTokenForUserIdResponse, GetWorkloadAccessTokenForUserIdError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetWorkloadAccessTokenForUserIdRequest, output: GetWorkloadAccessTokenForUserIdResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const getWorkloadAccessTokenForUserId: API.OperationMethod<
+  GetWorkloadAccessTokenForUserIdRequest,
+  GetWorkloadAccessTokenForUserIdResponse,
+  GetWorkloadAccessTokenForUserIdError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadAccessTokenForUserIdRequest,
+  output: GetWorkloadAccessTokenForUserIdResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type InvokeCodeInterpreterError =
   | AccessDeniedException
   | ConflictException
@@ -636,18 +2758,35 @@ export type InvokeCodeInterpreterError =
   | CommonErrors;
 /**
  * Executes code within an active code interpreter session in Amazon Bedrock AgentCore. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations.
- * 
+ *
  * To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations.
- * 
+ *
  * This operation is subject to request rate limiting based on your account's service quotas.
- * 
+ *
  * The following operations are related to `InvokeCodeInterpreter`:
- * 
+ *
  * - StartCodeInterpreterSession
- * 
+ *
  * - GetCodeInterpreterSession
  */
-export const invokeCodeInterpreter: API.OperationMethod<InvokeCodeInterpreterRequest, InvokeCodeInterpreterResponse, InvokeCodeInterpreterError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: InvokeCodeInterpreterRequest, output: InvokeCodeInterpreterResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const invokeCodeInterpreter: API.OperationMethod<
+  InvokeCodeInterpreterRequest,
+  InvokeCodeInterpreterResponse,
+  InvokeCodeInterpreterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeCodeInterpreterRequest,
+  output: InvokeCodeInterpreterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetAgentCardError =
   | AccessDeniedException
   | InternalServerException
@@ -660,7 +2799,24 @@ export type GetAgentCardError =
 /**
  * Retrieves the A2A agent card associated with an AgentCore Runtime agent.
  */
-export const getAgentCard: API.OperationMethod<GetAgentCardRequest, GetAgentCardResponse, GetAgentCardError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetAgentCardRequest, output: GetAgentCardResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, RuntimeClientError, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const getAgentCard: API.OperationMethod<
+  GetAgentCardRequest,
+  GetAgentCardResponse,
+  GetAgentCardError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAgentCardRequest,
+  output: GetAgentCardResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    RuntimeClientError,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type InvokeAgentRuntimeError =
   | AccessDeniedException
   | InternalServerException
@@ -672,18 +2828,35 @@ export type InvokeAgentRuntimeError =
   | CommonErrors;
 /**
  * Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.
- * 
+ *
  * To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent.
- * 
+ *
  * This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses.
- * 
+ *
  * For example code, see Invoke an AgentCore Runtime agent.
- * 
+ *
  * If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call `InvokeAgentRuntime`. Instead, make a HTTPS request to `InvokeAgentRuntime`. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:InvokeAgentRuntime` permission. If you are making a call to `InvokeAgentRuntime` on behalf of a user ID with the `X-Amzn-Bedrock-AgentCore-Runtime-User-Id` header, You require permissions to both actions (`bedrock-agentcore:InvokeAgentRuntime` and `bedrock-agentcore:InvokeAgentRuntimeForUser`).
  */
-export const invokeAgentRuntime: API.OperationMethod<InvokeAgentRuntimeRequest, InvokeAgentRuntimeResponse, InvokeAgentRuntimeError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: InvokeAgentRuntimeRequest, output: InvokeAgentRuntimeResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, RuntimeClientError, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const invokeAgentRuntime: API.OperationMethod<
+  InvokeAgentRuntimeRequest,
+  InvokeAgentRuntimeResponse,
+  InvokeAgentRuntimeError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeAgentRuntimeRequest,
+  output: InvokeAgentRuntimeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    RuntimeClientError,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StopRuntimeSessionError =
   | AccessDeniedException
   | ConflictException
@@ -698,7 +2871,26 @@ export type StopRuntimeSessionError =
 /**
  * Stops a session that is running in an running AgentCore Runtime agent.
  */
-export const stopRuntimeSession: API.OperationMethod<StopRuntimeSessionRequest, StopRuntimeSessionResponse, StopRuntimeSessionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StopRuntimeSessionRequest, output: StopRuntimeSessionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, RuntimeClientError, ServiceQuotaExceededException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const stopRuntimeSession: API.OperationMethod<
+  StopRuntimeSessionRequest,
+  StopRuntimeSessionResponse,
+  StopRuntimeSessionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopRuntimeSessionRequest,
+  output: StopRuntimeSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    RuntimeClientError,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type SaveBrowserSessionProfileError =
   | AccessDeniedException
   | ConflictException
@@ -709,18 +2901,34 @@ export type SaveBrowserSessionProfileError =
   | CommonErrors;
 /**
  * Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions.
- * 
+ *
  * To save a browser session profile, you must specify the profile identifier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the `StartBrowserSession` operation to initialize new sessions with the stored browser state.
- * 
+ *
  * Browser profiles are useful for scenarios that require persistent authentication, maintaining user preferences across sessions, or continuing tasks that depend on previously stored browser data.
- * 
+ *
  * The following operations are related to `SaveBrowserSessionProfile`:
- * 
+ *
  * - StartBrowserSession
- * 
+ *
  * - GetBrowserSession
  */
-export const saveBrowserSessionProfile: API.OperationMethod<SaveBrowserSessionProfileRequest, SaveBrowserSessionProfileResponse, SaveBrowserSessionProfileError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: SaveBrowserSessionProfileRequest, output: SaveBrowserSessionProfileResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const saveBrowserSessionProfile: API.OperationMethod<
+  SaveBrowserSessionProfileRequest,
+  SaveBrowserSessionProfileResponse,
+  SaveBrowserSessionProfileError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SaveBrowserSessionProfileRequest,
+  output: SaveBrowserSessionProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetBrowserSessionError =
   | AccessDeniedException
   | InternalServerException
@@ -730,18 +2938,33 @@ export type GetBrowserSessionError =
   | CommonErrors;
 /**
  * Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata.
- * 
+ *
  * To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints.
- * 
+ *
  * The following operations are related to `GetBrowserSession`:
- * 
+ *
  * - StartBrowserSession
- * 
+ *
  * - ListBrowserSessions
- * 
+ *
  * - StopBrowserSession
  */
-export const getBrowserSession: API.OperationMethod<GetBrowserSessionRequest, GetBrowserSessionResponse, GetBrowserSessionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetBrowserSessionRequest, output: GetBrowserSessionResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getBrowserSession: API.OperationMethod<
+  GetBrowserSessionRequest,
+  GetBrowserSessionResponse,
+  GetBrowserSessionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBrowserSessionRequest,
+  output: GetBrowserSessionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListBrowserSessionsError =
   | AccessDeniedException
   | InternalServerException
@@ -751,18 +2974,33 @@ export type ListBrowserSessionsError =
   | CommonErrors;
 /**
  * Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps.
- * 
+ *
  * You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently.
- * 
+ *
  * We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions.
- * 
+ *
  * The following operations are related to `ListBrowserSessions`:
- * 
+ *
  * - StartBrowserSession
- * 
+ *
  * - GetBrowserSession
  */
-export const listBrowserSessions: API.OperationMethod<ListBrowserSessionsRequest, ListBrowserSessionsResponse, ListBrowserSessionsError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ListBrowserSessionsRequest, output: ListBrowserSessionsResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const listBrowserSessions: API.OperationMethod<
+  ListBrowserSessionsRequest,
+  ListBrowserSessionsResponse,
+  ListBrowserSessionsError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBrowserSessionsRequest,
+  output: ListBrowserSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StartBrowserSessionError =
   | AccessDeniedException
   | ConflictException
@@ -774,20 +3012,37 @@ export type StartBrowserSessionError =
   | CommonErrors;
 /**
  * Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation.
- * 
+ *
  * To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the `StopBrowserSession` operation.
- * 
+ *
  * The following operations are related to `StartBrowserSession`:
- * 
+ *
  * - GetBrowserSession
- * 
+ *
  * - UpdateBrowserStream
- * 
+ *
  * - SaveBrowserSessionProfile
- * 
+ *
  * - StopBrowserSession
  */
-export const startBrowserSession: API.OperationMethod<StartBrowserSessionRequest, StartBrowserSessionResponse, StartBrowserSessionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartBrowserSessionRequest, output: StartBrowserSessionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const startBrowserSession: API.OperationMethod<
+  StartBrowserSessionRequest,
+  StartBrowserSessionResponse,
+  StartBrowserSessionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBrowserSessionRequest,
+  output: StartBrowserSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StopBrowserSessionError =
   | AccessDeniedException
   | ConflictException
@@ -799,16 +3054,33 @@ export type StopBrowserSessionError =
   | CommonErrors;
 /**
  * Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use.
- * 
+ *
  * To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using `StartBrowserSession`.
- * 
+ *
  * The following operations are related to `StopBrowserSession`:
- * 
+ *
  * - StartBrowserSession
- * 
+ *
  * - GetBrowserSession
  */
-export const stopBrowserSession: API.OperationMethod<StopBrowserSessionRequest, StopBrowserSessionResponse, StopBrowserSessionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StopBrowserSessionRequest, output: StopBrowserSessionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const stopBrowserSession: API.OperationMethod<
+  StopBrowserSessionRequest,
+  StopBrowserSessionResponse,
+  StopBrowserSessionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopBrowserSessionRequest,
+  output: StopBrowserSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateBrowserStreamError =
   | AccessDeniedException
   | ConflictException
@@ -821,7 +3093,24 @@ export type UpdateBrowserStreamError =
 /**
  * Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
  */
-export const updateBrowserStream: API.OperationMethod<UpdateBrowserStreamRequest, UpdateBrowserStreamResponse, UpdateBrowserStreamError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateBrowserStreamRequest, output: UpdateBrowserStreamResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const updateBrowserStream: API.OperationMethod<
+  UpdateBrowserStreamRequest,
+  UpdateBrowserStreamResponse,
+  UpdateBrowserStreamError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrowserStreamRequest,
+  output: UpdateBrowserStreamResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type GetCodeInterpreterSessionError =
   | AccessDeniedException
   | InternalServerException
@@ -831,18 +3120,33 @@ export type GetCodeInterpreterSessionError =
   | CommonErrors;
 /**
  * Retrieves detailed information about a specific code interpreter session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata.
- * 
+ *
  * To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status.
- * 
+ *
  * The following operations are related to `GetCodeInterpreterSession`:
- * 
+ *
  * - StartCodeInterpreterSession
- * 
+ *
  * - ListCodeInterpreterSessions
- * 
+ *
  * - StopCodeInterpreterSession
  */
-export const getCodeInterpreterSession: API.OperationMethod<GetCodeInterpreterSessionRequest, GetCodeInterpreterSessionResponse, GetCodeInterpreterSessionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetCodeInterpreterSessionRequest, output: GetCodeInterpreterSessionResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const getCodeInterpreterSession: API.OperationMethod<
+  GetCodeInterpreterSessionRequest,
+  GetCodeInterpreterSessionResponse,
+  GetCodeInterpreterSessionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCodeInterpreterSessionRequest,
+  output: GetCodeInterpreterSessionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListCodeInterpreterSessionsError =
   | AccessDeniedException
   | InternalServerException
@@ -852,18 +3156,33 @@ export type ListCodeInterpreterSessionsError =
   | CommonErrors;
 /**
  * Retrieves a list of code interpreter sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps.
- * 
+ *
  * You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently.
- * 
+ *
  * We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions.
- * 
+ *
  * The following operations are related to `ListCodeInterpreterSessions`:
- * 
+ *
  * - StartCodeInterpreterSession
- * 
+ *
  * - GetCodeInterpreterSession
  */
-export const listCodeInterpreterSessions: API.OperationMethod<ListCodeInterpreterSessionsRequest, ListCodeInterpreterSessionsResponse, ListCodeInterpreterSessionsError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ListCodeInterpreterSessionsRequest, output: ListCodeInterpreterSessionsResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const listCodeInterpreterSessions: API.OperationMethod<
+  ListCodeInterpreterSessionsRequest,
+  ListCodeInterpreterSessionsResponse,
+  ListCodeInterpreterSessionsError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCodeInterpreterSessionsRequest,
+  output: ListCodeInterpreterSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StartCodeInterpreterSessionError =
   | AccessDeniedException
   | ConflictException
@@ -875,18 +3194,35 @@ export type StartCodeInterpreterSessionError =
   | CommonErrors;
 /**
  * Creates and initializes a code interpreter session in Amazon Bedrock AgentCore. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks.
- * 
+ *
  * To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the `StopCodeInterpreterSession` operation.
- * 
+ *
  * The following operations are related to `StartCodeInterpreterSession`:
- * 
+ *
  * - InvokeCodeInterpreter
- * 
+ *
  * - GetCodeInterpreterSession
- * 
+ *
  * - StopCodeInterpreterSession
  */
-export const startCodeInterpreterSession: API.OperationMethod<StartCodeInterpreterSessionRequest, StartCodeInterpreterSessionResponse, StartCodeInterpreterSessionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartCodeInterpreterSessionRequest, output: StartCodeInterpreterSessionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const startCodeInterpreterSession: API.OperationMethod<
+  StartCodeInterpreterSessionRequest,
+  StartCodeInterpreterSessionResponse,
+  StartCodeInterpreterSessionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCodeInterpreterSessionRequest,
+  output: StartCodeInterpreterSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StopCodeInterpreterSessionError =
   | AccessDeniedException
   | ConflictException
@@ -898,16 +3234,33 @@ export type StopCodeInterpreterSessionError =
   | CommonErrors;
 /**
  * Terminates an active code interpreter session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use.
- * 
+ *
  * To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using `StartCodeInterpreterSession`.
- * 
+ *
  * The following operations are related to `StopCodeInterpreterSession`:
- * 
+ *
  * - StartCodeInterpreterSession
- * 
+ *
  * - GetCodeInterpreterSession
  */
-export const stopCodeInterpreterSession: API.OperationMethod<StopCodeInterpreterSessionRequest, StopCodeInterpreterSessionResponse, StopCodeInterpreterSessionError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StopCodeInterpreterSessionRequest, output: StopCodeInterpreterSessionResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const stopCodeInterpreterSession: API.OperationMethod<
+  StopCodeInterpreterSessionRequest,
+  StopCodeInterpreterSessionResponse,
+  StopCodeInterpreterSessionError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopCodeInterpreterSessionRequest,
+  output: StopCodeInterpreterSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type EvaluateError =
   | AccessDeniedException
   | ConflictException
@@ -922,7 +3275,26 @@ export type EvaluateError =
 /**
  * Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
  */
-export const evaluate: API.OperationMethod<EvaluateRequest, EvaluateResponse, EvaluateError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: EvaluateRequest, output: EvaluateResponse, errors: [AccessDeniedException, ConflictException, DuplicateIdException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, UnauthorizedException, ValidationException] }));
+export const evaluate: API.OperationMethod<
+  EvaluateRequest,
+  EvaluateResponse,
+  EvaluateError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EvaluateRequest,
+  output: EvaluateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DuplicateIdException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 export type BatchCreateMemoryRecordsError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -934,7 +3306,23 @@ export type BatchCreateMemoryRecordsError =
 /**
  * Creates multiple memory records in a single batch operation for the specified memory with custom content.
  */
-export const batchCreateMemoryRecords: API.OperationMethod<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput, BatchCreateMemoryRecordsError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: BatchCreateMemoryRecordsInput, output: BatchCreateMemoryRecordsOutput, errors: [AccessDeniedException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const batchCreateMemoryRecords: API.OperationMethod<
+  BatchCreateMemoryRecordsInput,
+  BatchCreateMemoryRecordsOutput,
+  BatchCreateMemoryRecordsError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateMemoryRecordsInput,
+  output: BatchCreateMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type BatchDeleteMemoryRecordsError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -946,7 +3334,23 @@ export type BatchDeleteMemoryRecordsError =
 /**
  * Deletes multiple memory records in a single batch operation from the specified memory.
  */
-export const batchDeleteMemoryRecords: API.OperationMethod<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput, BatchDeleteMemoryRecordsError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: BatchDeleteMemoryRecordsInput, output: BatchDeleteMemoryRecordsOutput, errors: [AccessDeniedException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const batchDeleteMemoryRecords: API.OperationMethod<
+  BatchDeleteMemoryRecordsInput,
+  BatchDeleteMemoryRecordsOutput,
+  BatchDeleteMemoryRecordsError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteMemoryRecordsInput,
+  output: BatchDeleteMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type BatchUpdateMemoryRecordsError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -958,7 +3362,23 @@ export type BatchUpdateMemoryRecordsError =
 /**
  * Updates multiple memory records with custom content in a single batch operation within the specified memory.
  */
-export const batchUpdateMemoryRecords: API.OperationMethod<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput, BatchUpdateMemoryRecordsError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: BatchUpdateMemoryRecordsInput, output: BatchUpdateMemoryRecordsOutput, errors: [AccessDeniedException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const batchUpdateMemoryRecords: API.OperationMethod<
+  BatchUpdateMemoryRecordsInput,
+  BatchUpdateMemoryRecordsOutput,
+  BatchUpdateMemoryRecordsError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateMemoryRecordsInput,
+  output: BatchUpdateMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type CreateEventError =
   | AccessDeniedException
   | InvalidInputException
@@ -971,12 +3391,30 @@ export type CreateEventError =
   | CommonErrors;
 /**
  * Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:CreateEvent` permission.
- * 
+ *
  * This operation is subject to request rate limiting.
  */
-export const createEvent: API.OperationMethod<CreateEventInput, CreateEventOutput, CreateEventError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateEventInput, output: CreateEventOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, RetryableConflictException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const createEvent: API.OperationMethod<
+  CreateEventInput,
+  CreateEventOutput,
+  CreateEventError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEventInput,
+  output: CreateEventOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type DeleteEventError =
   | AccessDeniedException
   | InvalidInputException
@@ -988,10 +3426,27 @@ export type DeleteEventError =
   | CommonErrors;
 /**
  * Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:DeleteEvent` permission.
  */
-export const deleteEvent: API.OperationMethod<DeleteEventInput, DeleteEventOutput, DeleteEventError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteEventInput, output: DeleteEventOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const deleteEvent: API.OperationMethod<
+  DeleteEventInput,
+  DeleteEventOutput,
+  DeleteEventError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventInput,
+  output: DeleteEventOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type DeleteMemoryRecordError =
   | AccessDeniedException
   | InvalidInputException
@@ -1003,10 +3458,27 @@ export type DeleteMemoryRecordError =
   | CommonErrors;
 /**
  * Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:DeleteMemoryRecord` permission.
  */
-export const deleteMemoryRecord: API.OperationMethod<DeleteMemoryRecordInput, DeleteMemoryRecordOutput, DeleteMemoryRecordError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteMemoryRecordInput, output: DeleteMemoryRecordOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const deleteMemoryRecord: API.OperationMethod<
+  DeleteMemoryRecordInput,
+  DeleteMemoryRecordOutput,
+  DeleteMemoryRecordError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMemoryRecordInput,
+  output: DeleteMemoryRecordOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type GetEventError =
   | AccessDeniedException
   | InvalidInputException
@@ -1018,10 +3490,27 @@ export type GetEventError =
   | CommonErrors;
 /**
  * Retrieves information about a specific event in an AgentCore Memory resource.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:GetEvent` permission.
  */
-export const getEvent: API.OperationMethod<GetEventInput, GetEventOutput, GetEventError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetEventInput, output: GetEventOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const getEvent: API.OperationMethod<
+  GetEventInput,
+  GetEventOutput,
+  GetEventError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventInput,
+  output: GetEventOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type GetMemoryRecordError =
   | AccessDeniedException
   | InvalidInputException
@@ -1033,10 +3522,27 @@ export type GetMemoryRecordError =
   | CommonErrors;
 /**
  * Retrieves a specific memory record from an AgentCore Memory resource.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:GetMemoryRecord` permission.
  */
-export const getMemoryRecord: API.OperationMethod<GetMemoryRecordInput, GetMemoryRecordOutput, GetMemoryRecordError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: GetMemoryRecordInput, output: GetMemoryRecordOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const getMemoryRecord: API.OperationMethod<
+  GetMemoryRecordInput,
+  GetMemoryRecordOutput,
+  GetMemoryRecordError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMemoryRecordInput,
+  output: GetMemoryRecordOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 export type ListActorsError =
   | AccessDeniedException
   | InvalidInputException
@@ -1048,13 +3554,48 @@ export type ListActorsError =
   | CommonErrors;
 /**
  * Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:ListActors` permission.
  */
-export const listActors: API.OperationMethod<ListActorsInput, ListActorsOutput, ListActorsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListActorsInput) => stream.Stream<ListActorsOutput, ListActorsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListActorsInput) => stream.Stream<ActorSummary, ListActorsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListActorsInput, output: ListActorsOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"actorSummaries","pageSize":"maxResults"} as const }));
+export const listActors: API.OperationMethod<
+  ListActorsInput,
+  ListActorsOutput,
+  ListActorsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListActorsInput,
+  ) => stream.Stream<
+    ListActorsOutput,
+    ListActorsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActorsInput,
+  ) => stream.Stream<
+    ActorSummary,
+    ListActorsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActorsInput,
+  output: ListActorsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "actorSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListEventsError =
   | AccessDeniedException
   | InvalidInputException
@@ -1066,13 +3607,48 @@ export type ListEventsError =
   | CommonErrors;
 /**
  * Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:ListEvents` permission.
  */
-export const listEvents: API.OperationMethod<ListEventsInput, ListEventsOutput, ListEventsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListEventsInput) => stream.Stream<ListEventsOutput, ListEventsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListEventsInput) => stream.Stream<Event, ListEventsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListEventsInput, output: ListEventsOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"events","pageSize":"maxResults"} as const }));
+export const listEvents: API.OperationMethod<
+  ListEventsInput,
+  ListEventsOutput,
+  ListEventsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListEventsInput,
+  ) => stream.Stream<
+    ListEventsOutput,
+    ListEventsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventsInput,
+  ) => stream.Stream<
+    Event,
+    ListEventsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventsInput,
+  output: ListEventsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "events",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListMemoryExtractionJobsError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1083,13 +3659,47 @@ export type ListMemoryExtractionJobsError =
   | CommonErrors;
 /**
  * Lists all long-term memory extraction jobs that are eligible to be started with optional filtering.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryExtractionJobs` permission.
  */
-export const listMemoryExtractionJobs: API.OperationMethod<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput, ListMemoryExtractionJobsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListMemoryExtractionJobsInput) => stream.Stream<ListMemoryExtractionJobsOutput, ListMemoryExtractionJobsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListMemoryExtractionJobsInput) => stream.Stream<ExtractionJobMetadata, ListMemoryExtractionJobsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListMemoryExtractionJobsInput, output: ListMemoryExtractionJobsOutput, errors: [AccessDeniedException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"jobs","pageSize":"maxResults"} as const }));
+export const listMemoryExtractionJobs: API.OperationMethod<
+  ListMemoryExtractionJobsInput,
+  ListMemoryExtractionJobsOutput,
+  ListMemoryExtractionJobsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListMemoryExtractionJobsInput,
+  ) => stream.Stream<
+    ListMemoryExtractionJobsOutput,
+    ListMemoryExtractionJobsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMemoryExtractionJobsInput,
+  ) => stream.Stream<
+    ExtractionJobMetadata,
+    ListMemoryExtractionJobsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMemoryExtractionJobsInput,
+  output: ListMemoryExtractionJobsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListMemoryRecordsError =
   | AccessDeniedException
   | InvalidInputException
@@ -1101,13 +3711,48 @@ export type ListMemoryRecordsError =
   | CommonErrors;
 /**
  * Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryRecords` permission.
  */
-export const listMemoryRecords: API.OperationMethod<ListMemoryRecordsInput, ListMemoryRecordsOutput, ListMemoryRecordsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListMemoryRecordsInput) => stream.Stream<ListMemoryRecordsOutput, ListMemoryRecordsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListMemoryRecordsInput) => stream.Stream<MemoryRecordSummary, ListMemoryRecordsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListMemoryRecordsInput, output: ListMemoryRecordsOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"memoryRecordSummaries","pageSize":"maxResults"} as const }));
+export const listMemoryRecords: API.OperationMethod<
+  ListMemoryRecordsInput,
+  ListMemoryRecordsOutput,
+  ListMemoryRecordsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListMemoryRecordsInput,
+  ) => stream.Stream<
+    ListMemoryRecordsOutput,
+    ListMemoryRecordsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMemoryRecordsInput,
+  ) => stream.Stream<
+    MemoryRecordSummary,
+    ListMemoryRecordsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMemoryRecordsInput,
+  output: ListMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memoryRecordSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type ListSessionsError =
   | AccessDeniedException
   | InvalidInputException
@@ -1119,13 +3764,48 @@ export type ListSessionsError =
   | CommonErrors;
 /**
  * Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:ListSessions` permission.
  */
-export const listSessions: API.OperationMethod<ListSessionsInput, ListSessionsOutput, ListSessionsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListSessionsInput) => stream.Stream<ListSessionsOutput, ListSessionsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListSessionsInput) => stream.Stream<SessionSummary, ListSessionsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListSessionsInput, output: ListSessionsOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"sessionSummaries","pageSize":"maxResults"} as const }));
+export const listSessions: API.OperationMethod<
+  ListSessionsInput,
+  ListSessionsOutput,
+  ListSessionsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListSessionsInput,
+  ) => stream.Stream<
+    ListSessionsOutput,
+    ListSessionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsInput,
+  ) => stream.Stream<
+    SessionSummary,
+    ListSessionsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsInput,
+  output: ListSessionsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type RetrieveMemoryRecordsError =
   | AccessDeniedException
   | InvalidInputException
@@ -1137,13 +3817,48 @@ export type RetrieveMemoryRecordsError =
   | CommonErrors;
 /**
  * Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:RetrieveMemoryRecords` permission.
  */
-export const retrieveMemoryRecords: API.OperationMethod<RetrieveMemoryRecordsInput, RetrieveMemoryRecordsOutput, RetrieveMemoryRecordsError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: RetrieveMemoryRecordsInput) => stream.Stream<RetrieveMemoryRecordsOutput, RetrieveMemoryRecordsError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: RetrieveMemoryRecordsInput) => stream.Stream<MemoryRecordSummary, RetrieveMemoryRecordsError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: RetrieveMemoryRecordsInput, output: RetrieveMemoryRecordsOutput, errors: [AccessDeniedException, InvalidInputException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException], pagination: {"inputToken":"nextToken","outputToken":"nextToken","items":"memoryRecordSummaries","pageSize":"maxResults"} as const }));
+export const retrieveMemoryRecords: API.OperationMethod<
+  RetrieveMemoryRecordsInput,
+  RetrieveMemoryRecordsOutput,
+  RetrieveMemoryRecordsError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: RetrieveMemoryRecordsInput,
+  ) => stream.Stream<
+    RetrieveMemoryRecordsOutput,
+    RetrieveMemoryRecordsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: RetrieveMemoryRecordsInput,
+  ) => stream.Stream<
+    MemoryRecordSummary,
+    RetrieveMemoryRecordsError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: RetrieveMemoryRecordsInput,
+  output: RetrieveMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memoryRecordSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 export type StartMemoryExtractionJobError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1154,7 +3869,23 @@ export type StartMemoryExtractionJobError =
   | CommonErrors;
 /**
  * Starts a memory extraction job that processes events that failed extraction previously in an AgentCore Memory resource and produces structured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well.
- * 
+ *
  * To use this operation, you must have the `bedrock-agentcore:StartMemoryExtractionJob` permission.
  */
-export const startMemoryExtractionJob: API.OperationMethod<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput, StartMemoryExtractionJobError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: StartMemoryExtractionJobInput, output: StartMemoryExtractionJobOutput, errors: [AccessDeniedException, ResourceNotFoundException, ServiceException, ServiceQuotaExceededException, ThrottledException, ValidationException] }));
+export const startMemoryExtractionJob: API.OperationMethod<
+  StartMemoryExtractionJobInput,
+  StartMemoryExtractionJobOutput,
+  StartMemoryExtractionJobError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMemoryExtractionJobInput,
+  output: StartMemoryExtractionJobOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));

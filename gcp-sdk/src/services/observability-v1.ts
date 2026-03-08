@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,23 +74,29 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface Scope {
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
@@ -97,12 +109,14 @@ export interface Scope {
   traceScope?: string;
 }
 
-export const Scope: Schema.Schema<Scope> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  logScope: Schema.optional(Schema.String),
-  traceScope: Schema.optional(Schema.String),
-})).annotate({ identifier: "Scope" }) as any as Schema.Schema<Scope>;
+export const Scope: Schema.Schema<Scope> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    logScope: Schema.optional(Schema.String),
+    traceScope: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Scope" }) as any as Schema.Schema<Scope>;
 
 export interface CmekSettings {
   /** Optional. The resource name for the configured Cloud KMS key. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY] For example: projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key */
@@ -113,11 +127,15 @@ export interface CmekSettings {
   serviceAccountId?: string;
 }
 
-export const CmekSettings: Schema.Schema<CmekSettings> = Schema.suspend(() => Schema.Struct({
-  kmsKey: Schema.optional(Schema.String),
-  kmsKeyVersion: Schema.optional(Schema.String),
-  serviceAccountId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CmekSettings" }) as any as Schema.Schema<CmekSettings>;
+export const CmekSettings: Schema.Schema<CmekSettings> = Schema.suspend(() =>
+  Schema.Struct({
+    kmsKey: Schema.optional(Schema.String),
+    kmsKeyVersion: Schema.optional(Schema.String),
+    serviceAccountId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CmekSettings",
+}) as any as Schema.Schema<CmekSettings>;
 
 export interface Bucket {
   /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
@@ -138,16 +156,18 @@ export interface Bucket {
   cmekSettings?: CmekSettings;
 }
 
-export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  purgeTime: Schema.optional(Schema.String),
-  cmekSettings: Schema.optional(CmekSettings),
-})).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
+export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    purgeTime: Schema.optional(Schema.String),
+    cmekSettings: Schema.optional(CmekSettings),
+  }),
+).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
 
 export interface ListBucketsResponse {
   /** Optional. The list of buckets. */
@@ -156,10 +176,15 @@ export interface ListBucketsResponse {
   nextPageToken?: string;
 }
 
-export const ListBucketsResponse: Schema.Schema<ListBucketsResponse> = Schema.suspend(() => Schema.Struct({
-  buckets: Schema.optional(Schema.Array(Bucket)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListBucketsResponse" }) as any as Schema.Schema<ListBucketsResponse>;
+export const ListBucketsResponse: Schema.Schema<ListBucketsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      buckets: Schema.optional(Schema.Array(Bucket)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListBucketsResponse",
+  }) as any as Schema.Schema<ListBucketsResponse>;
 
 export interface Dataset {
   /** Identifier. Name of the dataset. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
@@ -176,14 +201,16 @@ export interface Dataset {
   purgeTime?: string;
 }
 
-export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  purgeTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
+export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    purgeTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
 
 export interface ListDatasetsResponse {
   /** The list of datasets. */
@@ -192,10 +219,15 @@ export interface ListDatasetsResponse {
   nextPageToken?: string;
 }
 
-export const ListDatasetsResponse: Schema.Schema<ListDatasetsResponse> = Schema.suspend(() => Schema.Struct({
-  datasets: Schema.optional(Schema.Array(Dataset)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDatasetsResponse" }) as any as Schema.Schema<ListDatasetsResponse>;
+export const ListDatasetsResponse: Schema.Schema<ListDatasetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datasets: Schema.optional(Schema.Array(Dataset)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDatasetsResponse",
+  }) as any as Schema.Schema<ListDatasetsResponse>;
 
 export interface View {
   /** Identifier. Name of the view. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/views/[VIEW_ID] */
@@ -210,13 +242,15 @@ export interface View {
   updateTime?: string;
 }
 
-export const View: Schema.Schema<View> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "View" }) as any as Schema.Schema<View>;
+export const View: Schema.Schema<View> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "View" }) as any as Schema.Schema<View>;
 
 export interface ListViewsResponse {
   /** The list of views. */
@@ -225,10 +259,15 @@ export interface ListViewsResponse {
   nextPageToken?: string;
 }
 
-export const ListViewsResponse: Schema.Schema<ListViewsResponse> = Schema.suspend(() => Schema.Struct({
-  views: Schema.optional(Schema.Array(View)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListViewsResponse" }) as any as Schema.Schema<ListViewsResponse>;
+export const ListViewsResponse: Schema.Schema<ListViewsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      views: Schema.optional(Schema.Array(View)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListViewsResponse",
+  }) as any as Schema.Schema<ListViewsResponse>;
 
 export interface Link {
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
@@ -241,12 +280,14 @@ export interface Link {
   createTime?: string;
 }
 
-export const Link: Schema.Schema<Link> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
+export const Link: Schema.Schema<Link> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
 
 export interface ListLinksResponse {
   /** The list of links. */
@@ -255,10 +296,15 @@ export interface ListLinksResponse {
   nextPageToken?: string;
 }
 
-export const ListLinksResponse: Schema.Schema<ListLinksResponse> = Schema.suspend(() => Schema.Struct({
-  links: Schema.optional(Schema.Array(Link)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLinksResponse" }) as any as Schema.Schema<ListLinksResponse>;
+export const ListLinksResponse: Schema.Schema<ListLinksResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      links: Schema.optional(Schema.Array(Link)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLinksResponse",
+  }) as any as Schema.Schema<ListLinksResponse>;
 
 export interface TraceScope {
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
@@ -273,13 +319,15 @@ export interface TraceScope {
   updateTime?: string;
 }
 
-export const TraceScope: Schema.Schema<TraceScope> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  resourceNames: Schema.optional(Schema.Array(Schema.String)),
-  description: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TraceScope" }) as any as Schema.Schema<TraceScope>;
+export const TraceScope: Schema.Schema<TraceScope> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    resourceNames: Schema.optional(Schema.Array(Schema.String)),
+    description: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TraceScope" }) as any as Schema.Schema<TraceScope>;
 
 export interface ListTraceScopesResponse {
   /** Optional. A list of trace scopes. */
@@ -288,10 +336,15 @@ export interface ListTraceScopesResponse {
   nextPageToken?: string;
 }
 
-export const ListTraceScopesResponse: Schema.Schema<ListTraceScopesResponse> = Schema.suspend(() => Schema.Struct({
-  traceScopes: Schema.optional(Schema.Array(TraceScope)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTraceScopesResponse" }) as any as Schema.Schema<ListTraceScopesResponse>;
+export const ListTraceScopesResponse: Schema.Schema<ListTraceScopesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      traceScopes: Schema.optional(Schema.Array(TraceScope)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTraceScopesResponse",
+  }) as any as Schema.Schema<ListTraceScopesResponse>;
 
 export interface Settings {
   /** Identifier. The resource name of the settings. */
@@ -304,12 +357,14 @@ export interface Settings {
   kmsKeyName?: string;
 }
 
-export const Settings: Schema.Schema<Settings> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  defaultStorageLocation: Schema.optional(Schema.String),
-  serviceAccountId: Schema.optional(Schema.String),
-  kmsKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
+export const Settings: Schema.Schema<Settings> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    defaultStorageLocation: Schema.optional(Schema.String),
+    serviceAccountId: Schema.optional(Schema.String),
+    kmsKeyName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Settings" }) as any as Schema.Schema<Settings>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -324,13 +379,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -339,10 +396,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -361,15 +423,20 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -383,7 +450,10 @@ export interface GetSettingsProjectsLocationsRequest {
 export const GetSettingsProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/settings" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
 
@@ -393,7 +463,12 @@ export const GetSettingsProjectsLocationsResponse = Settings;
 export type GetSettingsProjectsLocationsError = DefaultErrors;
 
 /** Get Settings */
-export const getSettingsProjectsLocations: API.OperationMethod<GetSettingsProjectsLocationsRequest, GetSettingsProjectsLocationsResponse, GetSettingsProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSettingsProjectsLocations: API.OperationMethod<
+  GetSettingsProjectsLocationsRequest,
+  GetSettingsProjectsLocationsResponse,
+  GetSettingsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSettingsProjectsLocationsRequest,
   output: GetSettingsProjectsLocationsResponse,
   errors: [],
@@ -413,7 +488,11 @@ export const UpdateSettingsProjectsLocationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Settings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/settings", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSettingsProjectsLocationsRequest>;
 
@@ -423,7 +502,12 @@ export const UpdateSettingsProjectsLocationsResponse = Operation;
 export type UpdateSettingsProjectsLocationsError = DefaultErrors;
 
 /** Update Settings */
-export const updateSettingsProjectsLocations: API.OperationMethod<UpdateSettingsProjectsLocationsRequest, UpdateSettingsProjectsLocationsResponse, UpdateSettingsProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSettingsProjectsLocations: API.OperationMethod<
+  UpdateSettingsProjectsLocationsRequest,
+  UpdateSettingsProjectsLocationsResponse,
+  UpdateSettingsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSettingsProjectsLocationsRequest,
   output: UpdateSettingsProjectsLocationsResponse,
   errors: [],
@@ -447,7 +531,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -459,7 +545,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -477,7 +568,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -487,7 +581,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -511,9 +610,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -523,7 +627,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -541,7 +650,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -551,7 +663,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -565,7 +682,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -575,7 +695,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -592,7 +717,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -602,7 +731,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -616,7 +750,10 @@ export interface GetProjectsLocationsScopesRequest {
 export const GetProjectsLocationsScopesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/scopes/{scopesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/scopes/{scopesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsScopesRequest>;
 
@@ -626,7 +763,12 @@ export const GetProjectsLocationsScopesResponse = Scope;
 export type GetProjectsLocationsScopesError = DefaultErrors;
 
 /** Gets details of a single Scope. */
-export const getProjectsLocationsScopes: API.OperationMethod<GetProjectsLocationsScopesRequest, GetProjectsLocationsScopesResponse, GetProjectsLocationsScopesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsScopes: API.OperationMethod<
+  GetProjectsLocationsScopesRequest,
+  GetProjectsLocationsScopesResponse,
+  GetProjectsLocationsScopesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsScopesRequest,
   output: GetProjectsLocationsScopesResponse,
   errors: [],
@@ -646,7 +788,11 @@ export const PatchProjectsLocationsScopesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Scope).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/scopes/{scopesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/scopes/{scopesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsScopesRequest>;
 
@@ -656,7 +802,12 @@ export const PatchProjectsLocationsScopesResponse = Scope;
 export type PatchProjectsLocationsScopesError = DefaultErrors;
 
 /** Updates the parameters of a single Scope. */
-export const patchProjectsLocationsScopes: API.OperationMethod<PatchProjectsLocationsScopesRequest, PatchProjectsLocationsScopesResponse, PatchProjectsLocationsScopesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsScopes: API.OperationMethod<
+  PatchProjectsLocationsScopesRequest,
+  PatchProjectsLocationsScopesResponse,
+  PatchProjectsLocationsScopesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsScopesRequest,
   output: PatchProjectsLocationsScopesResponse,
   errors: [],
@@ -670,7 +821,10 @@ export interface GetProjectsLocationsBucketsRequest {
 export const GetProjectsLocationsBucketsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsBucketsRequest>;
 
@@ -680,7 +834,12 @@ export const GetProjectsLocationsBucketsResponse = Bucket;
 export type GetProjectsLocationsBucketsError = DefaultErrors;
 
 /** Get bucket resource. */
-export const getProjectsLocationsBuckets: API.OperationMethod<GetProjectsLocationsBucketsRequest, GetProjectsLocationsBucketsResponse, GetProjectsLocationsBucketsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsBuckets: API.OperationMethod<
+  GetProjectsLocationsBucketsRequest,
+  GetProjectsLocationsBucketsResponse,
+  GetProjectsLocationsBucketsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsBucketsRequest,
   output: GetProjectsLocationsBucketsResponse,
   errors: [],
@@ -703,7 +862,10 @@ export const ListProjectsLocationsBucketsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsBucketsRequest>;
 
@@ -713,7 +875,12 @@ export const ListProjectsLocationsBucketsResponse = ListBucketsResponse;
 export type ListProjectsLocationsBucketsError = DefaultErrors;
 
 /** List buckets of a project in a particular location. */
-export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<ListProjectsLocationsBucketsRequest, ListProjectsLocationsBucketsResponse, ListProjectsLocationsBucketsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<
+  ListProjectsLocationsBucketsRequest,
+  ListProjectsLocationsBucketsResponse,
+  ListProjectsLocationsBucketsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsRequest,
   output: ListProjectsLocationsBucketsResponse,
   errors: [],
@@ -731,7 +898,10 @@ export interface GetProjectsLocationsBucketsDatasetsRequest {
 export const GetProjectsLocationsBucketsDatasetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsBucketsDatasetsRequest>;
 
@@ -741,7 +911,12 @@ export const GetProjectsLocationsBucketsDatasetsResponse = Dataset;
 export type GetProjectsLocationsBucketsDatasetsError = DefaultErrors;
 
 /** Get a dataset. */
-export const getProjectsLocationsBucketsDatasets: API.OperationMethod<GetProjectsLocationsBucketsDatasetsRequest, GetProjectsLocationsBucketsDatasetsResponse, GetProjectsLocationsBucketsDatasetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsBucketsDatasets: API.OperationMethod<
+  GetProjectsLocationsBucketsDatasetsRequest,
+  GetProjectsLocationsBucketsDatasetsResponse,
+  GetProjectsLocationsBucketsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsBucketsDatasetsRequest,
   output: GetProjectsLocationsBucketsDatasetsResponse,
   errors: [],
@@ -764,17 +939,26 @@ export const ListProjectsLocationsBucketsDatasetsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsBucketsDatasetsRequest>;
 
 export type ListProjectsLocationsBucketsDatasetsResponse = ListDatasetsResponse;
-export const ListProjectsLocationsBucketsDatasetsResponse = ListDatasetsResponse;
+export const ListProjectsLocationsBucketsDatasetsResponse =
+  ListDatasetsResponse;
 
 export type ListProjectsLocationsBucketsDatasetsError = DefaultErrors;
 
 /** List datasets of a bucket. */
-export const listProjectsLocationsBucketsDatasets: API.PaginatedOperationMethod<ListProjectsLocationsBucketsDatasetsRequest, ListProjectsLocationsBucketsDatasetsResponse, ListProjectsLocationsBucketsDatasetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsBucketsDatasets: API.PaginatedOperationMethod<
+  ListProjectsLocationsBucketsDatasetsRequest,
+  ListProjectsLocationsBucketsDatasetsResponse,
+  ListProjectsLocationsBucketsDatasetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsDatasetsRequest,
   output: ListProjectsLocationsBucketsDatasetsResponse,
   errors: [],
@@ -792,7 +976,10 @@ export interface GetProjectsLocationsBucketsDatasetsViewsRequest {
 export const GetProjectsLocationsBucketsDatasetsViewsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/views/{viewsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/views/{viewsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsBucketsDatasetsViewsRequest>;
 
@@ -802,7 +989,12 @@ export const GetProjectsLocationsBucketsDatasetsViewsResponse = View;
 export type GetProjectsLocationsBucketsDatasetsViewsError = DefaultErrors;
 
 /** Get a view. */
-export const getProjectsLocationsBucketsDatasetsViews: API.OperationMethod<GetProjectsLocationsBucketsDatasetsViewsRequest, GetProjectsLocationsBucketsDatasetsViewsResponse, GetProjectsLocationsBucketsDatasetsViewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsBucketsDatasetsViews: API.OperationMethod<
+  GetProjectsLocationsBucketsDatasetsViewsRequest,
+  GetProjectsLocationsBucketsDatasetsViewsResponse,
+  GetProjectsLocationsBucketsDatasetsViewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsBucketsDatasetsViewsRequest,
   output: GetProjectsLocationsBucketsDatasetsViewsResponse,
   errors: [],
@@ -822,17 +1014,27 @@ export const ListProjectsLocationsBucketsDatasetsViewsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/views" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/views",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsBucketsDatasetsViewsRequest>;
 
-export type ListProjectsLocationsBucketsDatasetsViewsResponse = ListViewsResponse;
-export const ListProjectsLocationsBucketsDatasetsViewsResponse = ListViewsResponse;
+export type ListProjectsLocationsBucketsDatasetsViewsResponse =
+  ListViewsResponse;
+export const ListProjectsLocationsBucketsDatasetsViewsResponse =
+  ListViewsResponse;
 
 export type ListProjectsLocationsBucketsDatasetsViewsError = DefaultErrors;
 
 /** List views of a dataset. */
-export const listProjectsLocationsBucketsDatasetsViews: API.PaginatedOperationMethod<ListProjectsLocationsBucketsDatasetsViewsRequest, ListProjectsLocationsBucketsDatasetsViewsResponse, ListProjectsLocationsBucketsDatasetsViewsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsBucketsDatasetsViews: API.PaginatedOperationMethod<
+  ListProjectsLocationsBucketsDatasetsViewsRequest,
+  ListProjectsLocationsBucketsDatasetsViewsResponse,
+  ListProjectsLocationsBucketsDatasetsViewsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsDatasetsViewsRequest,
   output: ListProjectsLocationsBucketsDatasetsViewsResponse,
   errors: [],
@@ -850,7 +1052,10 @@ export interface GetProjectsLocationsBucketsDatasetsLinksRequest {
 export const GetProjectsLocationsBucketsDatasetsLinksRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links/{linksId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links/{linksId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsBucketsDatasetsLinksRequest>;
 
@@ -860,7 +1065,12 @@ export const GetProjectsLocationsBucketsDatasetsLinksResponse = Link;
 export type GetProjectsLocationsBucketsDatasetsLinksError = DefaultErrors;
 
 /** Get a link. */
-export const getProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<GetProjectsLocationsBucketsDatasetsLinksRequest, GetProjectsLocationsBucketsDatasetsLinksResponse, GetProjectsLocationsBucketsDatasetsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
+  GetProjectsLocationsBucketsDatasetsLinksRequest,
+  GetProjectsLocationsBucketsDatasetsLinksResponse,
+  GetProjectsLocationsBucketsDatasetsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsBucketsDatasetsLinksRequest,
   output: GetProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
@@ -880,17 +1090,27 @@ export const ListProjectsLocationsBucketsDatasetsLinksRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsBucketsDatasetsLinksRequest>;
 
-export type ListProjectsLocationsBucketsDatasetsLinksResponse = ListLinksResponse;
-export const ListProjectsLocationsBucketsDatasetsLinksResponse = ListLinksResponse;
+export type ListProjectsLocationsBucketsDatasetsLinksResponse =
+  ListLinksResponse;
+export const ListProjectsLocationsBucketsDatasetsLinksResponse =
+  ListLinksResponse;
 
 export type ListProjectsLocationsBucketsDatasetsLinksError = DefaultErrors;
 
 /** List links of a dataset. */
-export const listProjectsLocationsBucketsDatasetsLinks: API.PaginatedOperationMethod<ListProjectsLocationsBucketsDatasetsLinksRequest, ListProjectsLocationsBucketsDatasetsLinksResponse, ListProjectsLocationsBucketsDatasetsLinksError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsBucketsDatasetsLinks: API.PaginatedOperationMethod<
+  ListProjectsLocationsBucketsDatasetsLinksRequest,
+  ListProjectsLocationsBucketsDatasetsLinksResponse,
+  ListProjectsLocationsBucketsDatasetsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsDatasetsLinksRequest,
   output: ListProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
@@ -909,12 +1129,18 @@ export interface CreateProjectsLocationsBucketsDatasetsLinksRequest {
   body?: Link;
 }
 
-export const CreateProjectsLocationsBucketsDatasetsLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  linkId: Schema.optional(Schema.String).pipe(T.HttpQuery("linkId")),
-  body: Schema.optional(Link).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links", hasBody: true }),
+export const CreateProjectsLocationsBucketsDatasetsLinksRequest = Schema.Struct(
+  {
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    linkId: Schema.optional(Schema.String).pipe(T.HttpQuery("linkId")),
+    body: Schema.optional(Link).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsBucketsDatasetsLinksRequest>;
 
@@ -924,7 +1150,12 @@ export const CreateProjectsLocationsBucketsDatasetsLinksResponse = Operation;
 export type CreateProjectsLocationsBucketsDatasetsLinksError = DefaultErrors;
 
 /** Create a new link. */
-export const createProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<CreateProjectsLocationsBucketsDatasetsLinksRequest, CreateProjectsLocationsBucketsDatasetsLinksResponse, CreateProjectsLocationsBucketsDatasetsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
+  CreateProjectsLocationsBucketsDatasetsLinksRequest,
+  CreateProjectsLocationsBucketsDatasetsLinksResponse,
+  CreateProjectsLocationsBucketsDatasetsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsBucketsDatasetsLinksRequest,
   output: CreateProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
@@ -944,7 +1175,11 @@ export const PatchProjectsLocationsBucketsDatasetsLinksRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Link).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links/{linksId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links/{linksId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsBucketsDatasetsLinksRequest>;
 
@@ -954,7 +1189,12 @@ export const PatchProjectsLocationsBucketsDatasetsLinksResponse = Operation;
 export type PatchProjectsLocationsBucketsDatasetsLinksError = DefaultErrors;
 
 /** Update a link. */
-export const patchProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<PatchProjectsLocationsBucketsDatasetsLinksRequest, PatchProjectsLocationsBucketsDatasetsLinksResponse, PatchProjectsLocationsBucketsDatasetsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
+  PatchProjectsLocationsBucketsDatasetsLinksRequest,
+  PatchProjectsLocationsBucketsDatasetsLinksResponse,
+  PatchProjectsLocationsBucketsDatasetsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsBucketsDatasetsLinksRequest,
   output: PatchProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
@@ -965,10 +1205,15 @@ export interface DeleteProjectsLocationsBucketsDatasetsLinksRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsBucketsDatasetsLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links/{linksId}" }),
+export const DeleteProjectsLocationsBucketsDatasetsLinksRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/buckets/{bucketsId}/datasets/{datasetsId}/links/{linksId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsBucketsDatasetsLinksRequest>;
 
@@ -978,7 +1223,12 @@ export const DeleteProjectsLocationsBucketsDatasetsLinksResponse = Operation;
 export type DeleteProjectsLocationsBucketsDatasetsLinksError = DefaultErrors;
 
 /** Delete a link. */
-export const deleteProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<DeleteProjectsLocationsBucketsDatasetsLinksRequest, DeleteProjectsLocationsBucketsDatasetsLinksResponse, DeleteProjectsLocationsBucketsDatasetsLinksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
+  DeleteProjectsLocationsBucketsDatasetsLinksRequest,
+  DeleteProjectsLocationsBucketsDatasetsLinksResponse,
+  DeleteProjectsLocationsBucketsDatasetsLinksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsBucketsDatasetsLinksRequest,
   output: DeleteProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
@@ -992,7 +1242,10 @@ export interface GetProjectsLocationsTraceScopesRequest {
 export const GetProjectsLocationsTraceScopesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes/{traceScopesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes/{traceScopesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsTraceScopesRequest>;
 
@@ -1002,7 +1255,12 @@ export const GetProjectsLocationsTraceScopesResponse = TraceScope;
 export type GetProjectsLocationsTraceScopesError = DefaultErrors;
 
 /** Get TraceScope resource. */
-export const getProjectsLocationsTraceScopes: API.OperationMethod<GetProjectsLocationsTraceScopesRequest, GetProjectsLocationsTraceScopesResponse, GetProjectsLocationsTraceScopesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsTraceScopes: API.OperationMethod<
+  GetProjectsLocationsTraceScopesRequest,
+  GetProjectsLocationsTraceScopesResponse,
+  GetProjectsLocationsTraceScopesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsTraceScopesRequest,
   output: GetProjectsLocationsTraceScopesResponse,
   errors: [],
@@ -1022,7 +1280,10 @@ export const ListProjectsLocationsTraceScopesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsTraceScopesRequest>;
 
@@ -1032,7 +1293,12 @@ export const ListProjectsLocationsTraceScopesResponse = ListTraceScopesResponse;
 export type ListProjectsLocationsTraceScopesError = DefaultErrors;
 
 /** List TraceScopes of a project in a particular location. */
-export const listProjectsLocationsTraceScopes: API.PaginatedOperationMethod<ListProjectsLocationsTraceScopesRequest, ListProjectsLocationsTraceScopesResponse, ListProjectsLocationsTraceScopesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsTraceScopes: API.PaginatedOperationMethod<
+  ListProjectsLocationsTraceScopesRequest,
+  ListProjectsLocationsTraceScopesResponse,
+  ListProjectsLocationsTraceScopesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsTraceScopesRequest,
   output: ListProjectsLocationsTraceScopesResponse,
   errors: [],
@@ -1053,10 +1319,16 @@ export interface CreateProjectsLocationsTraceScopesRequest {
 
 export const CreateProjectsLocationsTraceScopesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  traceScopeId: Schema.optional(Schema.String).pipe(T.HttpQuery("traceScopeId")),
+  traceScopeId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("traceScopeId"),
+  ),
   body: Schema.optional(TraceScope).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsTraceScopesRequest>;
 
@@ -1066,7 +1338,12 @@ export const CreateProjectsLocationsTraceScopesResponse = TraceScope;
 export type CreateProjectsLocationsTraceScopesError = DefaultErrors;
 
 /** Create a new TraceScope. */
-export const createProjectsLocationsTraceScopes: API.OperationMethod<CreateProjectsLocationsTraceScopesRequest, CreateProjectsLocationsTraceScopesResponse, CreateProjectsLocationsTraceScopesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsTraceScopes: API.OperationMethod<
+  CreateProjectsLocationsTraceScopesRequest,
+  CreateProjectsLocationsTraceScopesResponse,
+  CreateProjectsLocationsTraceScopesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsTraceScopesRequest,
   output: CreateProjectsLocationsTraceScopesResponse,
   errors: [],
@@ -1086,7 +1363,11 @@ export const PatchProjectsLocationsTraceScopesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(TraceScope).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes/{traceScopesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes/{traceScopesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsTraceScopesRequest>;
 
@@ -1096,7 +1377,12 @@ export const PatchProjectsLocationsTraceScopesResponse = TraceScope;
 export type PatchProjectsLocationsTraceScopesError = DefaultErrors;
 
 /** Update a TraceScope. */
-export const patchProjectsLocationsTraceScopes: API.OperationMethod<PatchProjectsLocationsTraceScopesRequest, PatchProjectsLocationsTraceScopesResponse, PatchProjectsLocationsTraceScopesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsTraceScopes: API.OperationMethod<
+  PatchProjectsLocationsTraceScopesRequest,
+  PatchProjectsLocationsTraceScopesResponse,
+  PatchProjectsLocationsTraceScopesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsTraceScopesRequest,
   output: PatchProjectsLocationsTraceScopesResponse,
   errors: [],
@@ -1110,7 +1396,10 @@ export interface DeleteProjectsLocationsTraceScopesRequest {
 export const DeleteProjectsLocationsTraceScopesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes/{traceScopesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/traceScopes/{traceScopesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsTraceScopesRequest>;
 
@@ -1120,7 +1409,12 @@ export const DeleteProjectsLocationsTraceScopesResponse = Empty;
 export type DeleteProjectsLocationsTraceScopesError = DefaultErrors;
 
 /** Delete a TraceScope. */
-export const deleteProjectsLocationsTraceScopes: API.OperationMethod<DeleteProjectsLocationsTraceScopesRequest, DeleteProjectsLocationsTraceScopesResponse, DeleteProjectsLocationsTraceScopesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsTraceScopes: API.OperationMethod<
+  DeleteProjectsLocationsTraceScopesRequest,
+  DeleteProjectsLocationsTraceScopesResponse,
+  DeleteProjectsLocationsTraceScopesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsTraceScopesRequest,
   output: DeleteProjectsLocationsTraceScopesResponse,
   errors: [],
@@ -1134,7 +1428,10 @@ export interface GetSettingsFoldersLocationsRequest {
 export const GetSettingsFoldersLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/settings" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/settings",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSettingsFoldersLocationsRequest>;
 
@@ -1144,7 +1441,12 @@ export const GetSettingsFoldersLocationsResponse = Settings;
 export type GetSettingsFoldersLocationsError = DefaultErrors;
 
 /** Get Settings */
-export const getSettingsFoldersLocations: API.OperationMethod<GetSettingsFoldersLocationsRequest, GetSettingsFoldersLocationsResponse, GetSettingsFoldersLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSettingsFoldersLocations: API.OperationMethod<
+  GetSettingsFoldersLocationsRequest,
+  GetSettingsFoldersLocationsResponse,
+  GetSettingsFoldersLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSettingsFoldersLocationsRequest,
   output: GetSettingsFoldersLocationsResponse,
   errors: [],
@@ -1164,7 +1466,11 @@ export const UpdateSettingsFoldersLocationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Settings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/folders/{foldersId}/locations/{locationsId}/settings", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/settings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSettingsFoldersLocationsRequest>;
 
@@ -1174,7 +1480,12 @@ export const UpdateSettingsFoldersLocationsResponse = Operation;
 export type UpdateSettingsFoldersLocationsError = DefaultErrors;
 
 /** Update Settings */
-export const updateSettingsFoldersLocations: API.OperationMethod<UpdateSettingsFoldersLocationsRequest, UpdateSettingsFoldersLocationsResponse, UpdateSettingsFoldersLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSettingsFoldersLocations: API.OperationMethod<
+  UpdateSettingsFoldersLocationsRequest,
+  UpdateSettingsFoldersLocationsResponse,
+  UpdateSettingsFoldersLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSettingsFoldersLocationsRequest,
   output: UpdateSettingsFoldersLocationsResponse,
   errors: [],
@@ -1198,7 +1509,9 @@ export const ListFoldersLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations" }),
   svc,
@@ -1210,7 +1523,12 @@ export const ListFoldersLocationsResponse = ListLocationsResponse;
 export type ListFoldersLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listFoldersLocations: API.PaginatedOperationMethod<ListFoldersLocationsRequest, ListFoldersLocationsResponse, ListFoldersLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listFoldersLocations: API.PaginatedOperationMethod<
+  ListFoldersLocationsRequest,
+  ListFoldersLocationsResponse,
+  ListFoldersLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListFoldersLocationsRequest,
   output: ListFoldersLocationsResponse,
   errors: [],
@@ -1228,7 +1546,10 @@ export interface GetFoldersLocationsRequest {
 export const GetFoldersLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetFoldersLocationsRequest>;
 
@@ -1238,7 +1559,12 @@ export const GetFoldersLocationsResponse = Location;
 export type GetFoldersLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getFoldersLocations: API.OperationMethod<GetFoldersLocationsRequest, GetFoldersLocationsResponse, GetFoldersLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFoldersLocations: API.OperationMethod<
+  GetFoldersLocationsRequest,
+  GetFoldersLocationsResponse,
+  GetFoldersLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersLocationsRequest,
   output: GetFoldersLocationsResponse,
   errors: [],
@@ -1262,9 +1588,14 @@ export const ListFoldersLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListFoldersLocationsOperationsRequest>;
 
@@ -1274,7 +1605,12 @@ export const ListFoldersLocationsOperationsResponse = ListOperationsResponse;
 export type ListFoldersLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listFoldersLocationsOperations: API.PaginatedOperationMethod<ListFoldersLocationsOperationsRequest, ListFoldersLocationsOperationsResponse, ListFoldersLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listFoldersLocationsOperations: API.PaginatedOperationMethod<
+  ListFoldersLocationsOperationsRequest,
+  ListFoldersLocationsOperationsResponse,
+  ListFoldersLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListFoldersLocationsOperationsRequest,
   output: ListFoldersLocationsOperationsResponse,
   errors: [],
@@ -1292,7 +1628,10 @@ export interface GetFoldersLocationsOperationsRequest {
 export const GetFoldersLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetFoldersLocationsOperationsRequest>;
 
@@ -1302,7 +1641,12 @@ export const GetFoldersLocationsOperationsResponse = Operation;
 export type GetFoldersLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getFoldersLocationsOperations: API.OperationMethod<GetFoldersLocationsOperationsRequest, GetFoldersLocationsOperationsResponse, GetFoldersLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFoldersLocationsOperations: API.OperationMethod<
+  GetFoldersLocationsOperationsRequest,
+  GetFoldersLocationsOperationsResponse,
+  GetFoldersLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersLocationsOperationsRequest,
   output: GetFoldersLocationsOperationsResponse,
   errors: [],
@@ -1316,7 +1660,10 @@ export interface DeleteFoldersLocationsOperationsRequest {
 export const DeleteFoldersLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/folders/{foldersId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteFoldersLocationsOperationsRequest>;
 
@@ -1326,7 +1673,12 @@ export const DeleteFoldersLocationsOperationsResponse = Empty;
 export type DeleteFoldersLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteFoldersLocationsOperations: API.OperationMethod<DeleteFoldersLocationsOperationsRequest, DeleteFoldersLocationsOperationsResponse, DeleteFoldersLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteFoldersLocationsOperations: API.OperationMethod<
+  DeleteFoldersLocationsOperationsRequest,
+  DeleteFoldersLocationsOperationsResponse,
+  DeleteFoldersLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteFoldersLocationsOperationsRequest,
   output: DeleteFoldersLocationsOperationsResponse,
   errors: [],
@@ -1343,7 +1695,11 @@ export const CancelFoldersLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/folders/{foldersId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelFoldersLocationsOperationsRequest>;
 
@@ -1353,7 +1709,12 @@ export const CancelFoldersLocationsOperationsResponse = Empty;
 export type CancelFoldersLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelFoldersLocationsOperations: API.OperationMethod<CancelFoldersLocationsOperationsRequest, CancelFoldersLocationsOperationsResponse, CancelFoldersLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelFoldersLocationsOperations: API.OperationMethod<
+  CancelFoldersLocationsOperationsRequest,
+  CancelFoldersLocationsOperationsResponse,
+  CancelFoldersLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelFoldersLocationsOperationsRequest,
   output: CancelFoldersLocationsOperationsResponse,
   errors: [],
@@ -1367,7 +1728,10 @@ export interface GetSettingsOrganizationsLocationsRequest {
 export const GetSettingsOrganizationsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSettingsOrganizationsLocationsRequest>;
 
@@ -1377,7 +1741,12 @@ export const GetSettingsOrganizationsLocationsResponse = Settings;
 export type GetSettingsOrganizationsLocationsError = DefaultErrors;
 
 /** Get Settings */
-export const getSettingsOrganizationsLocations: API.OperationMethod<GetSettingsOrganizationsLocationsRequest, GetSettingsOrganizationsLocationsResponse, GetSettingsOrganizationsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSettingsOrganizationsLocations: API.OperationMethod<
+  GetSettingsOrganizationsLocationsRequest,
+  GetSettingsOrganizationsLocationsResponse,
+  GetSettingsOrganizationsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSettingsOrganizationsLocationsRequest,
   output: GetSettingsOrganizationsLocationsResponse,
   errors: [],
@@ -1397,7 +1766,11 @@ export const UpdateSettingsOrganizationsLocationsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Settings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSettingsOrganizationsLocationsRequest>;
 
@@ -1407,7 +1780,12 @@ export const UpdateSettingsOrganizationsLocationsResponse = Operation;
 export type UpdateSettingsOrganizationsLocationsError = DefaultErrors;
 
 /** Update Settings */
-export const updateSettingsOrganizationsLocations: API.OperationMethod<UpdateSettingsOrganizationsLocationsRequest, UpdateSettingsOrganizationsLocationsResponse, UpdateSettingsOrganizationsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSettingsOrganizationsLocations: API.OperationMethod<
+  UpdateSettingsOrganizationsLocationsRequest,
+  UpdateSettingsOrganizationsLocationsResponse,
+  UpdateSettingsOrganizationsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSettingsOrganizationsLocationsRequest,
   output: UpdateSettingsOrganizationsLocationsResponse,
   errors: [],
@@ -1431,9 +1809,14 @@ export const ListOrganizationsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsLocationsRequest>;
 
@@ -1443,7 +1826,12 @@ export const ListOrganizationsLocationsResponse = ListLocationsResponse;
 export type ListOrganizationsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listOrganizationsLocations: API.PaginatedOperationMethod<ListOrganizationsLocationsRequest, ListOrganizationsLocationsResponse, ListOrganizationsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocations: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsRequest,
+  ListOrganizationsLocationsResponse,
+  ListOrganizationsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsRequest,
   output: ListOrganizationsLocationsResponse,
   errors: [],
@@ -1461,7 +1849,10 @@ export interface GetOrganizationsLocationsRequest {
 export const GetOrganizationsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsRequest>;
 
@@ -1471,7 +1862,12 @@ export const GetOrganizationsLocationsResponse = Location;
 export type GetOrganizationsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getOrganizationsLocations: API.OperationMethod<GetOrganizationsLocationsRequest, GetOrganizationsLocationsResponse, GetOrganizationsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocations: API.OperationMethod<
+  GetOrganizationsLocationsRequest,
+  GetOrganizationsLocationsResponse,
+  GetOrganizationsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsRequest,
   output: GetOrganizationsLocationsResponse,
   errors: [],
@@ -1495,19 +1891,31 @@ export const ListOrganizationsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsLocationsOperationsRequest>;
 
-export type ListOrganizationsLocationsOperationsResponse = ListOperationsResponse;
-export const ListOrganizationsLocationsOperationsResponse = ListOperationsResponse;
+export type ListOrganizationsLocationsOperationsResponse =
+  ListOperationsResponse;
+export const ListOrganizationsLocationsOperationsResponse =
+  ListOperationsResponse;
 
 export type ListOrganizationsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsOperationsRequest, ListOrganizationsLocationsOperationsResponse, ListOrganizationsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsOperationsRequest,
+  ListOrganizationsLocationsOperationsResponse,
+  ListOrganizationsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOperationsRequest,
   output: ListOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -1525,7 +1933,10 @@ export interface GetOrganizationsLocationsOperationsRequest {
 export const GetOrganizationsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsOperationsRequest>;
 
@@ -1535,7 +1946,12 @@ export const GetOrganizationsLocationsOperationsResponse = Operation;
 export type GetOrganizationsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOrganizationsLocationsOperations: API.OperationMethod<GetOrganizationsLocationsOperationsRequest, GetOrganizationsLocationsOperationsResponse, GetOrganizationsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsOperations: API.OperationMethod<
+  GetOrganizationsLocationsOperationsRequest,
+  GetOrganizationsLocationsOperationsResponse,
+  GetOrganizationsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsOperationsRequest,
   output: GetOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -1549,7 +1965,10 @@ export interface DeleteOrganizationsLocationsOperationsRequest {
 export const DeleteOrganizationsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteOrganizationsLocationsOperationsRequest>;
 
@@ -1559,7 +1978,12 @@ export const DeleteOrganizationsLocationsOperationsResponse = Empty;
 export type DeleteOrganizationsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOrganizationsLocationsOperations: API.OperationMethod<DeleteOrganizationsLocationsOperationsRequest, DeleteOrganizationsLocationsOperationsResponse, DeleteOrganizationsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOrganizationsLocationsOperations: API.OperationMethod<
+  DeleteOrganizationsLocationsOperationsRequest,
+  DeleteOrganizationsLocationsOperationsResponse,
+  DeleteOrganizationsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOrganizationsLocationsOperationsRequest,
   output: DeleteOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -1576,7 +2000,11 @@ export const CancelOrganizationsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOrganizationsLocationsOperationsRequest>;
 
@@ -1586,9 +2014,13 @@ export const CancelOrganizationsLocationsOperationsResponse = Empty;
 export type CancelOrganizationsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOrganizationsLocationsOperations: API.OperationMethod<CancelOrganizationsLocationsOperationsRequest, CancelOrganizationsLocationsOperationsResponse, CancelOrganizationsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOrganizationsLocationsOperations: API.OperationMethod<
+  CancelOrganizationsLocationsOperationsRequest,
+  CancelOrganizationsLocationsOperationsResponse,
+  CancelOrganizationsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOrganizationsLocationsOperationsRequest,
   output: CancelOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
-

@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -65,11 +72,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -84,13 +95,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -101,11 +114,16 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
 export interface Subnet {
   /** Optional. Subnet name (relative, not fully qualified). E.g. if the full subnet selfLink is https://compute.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetName} the correct input for this field would be {subnetName} */
@@ -114,10 +132,12 @@ export interface Subnet {
   projectId?: string;
 }
 
-export const Subnet: Schema.Schema<Subnet> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Subnet" }) as any as Schema.Schema<Subnet>;
+export const Subnet: Schema.Schema<Subnet> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Subnet" }) as any as Schema.Schema<Subnet>;
 
 export interface Connector {
   /** The resource name in the format `projects/* /locations/* /connectors/*`. */
@@ -127,7 +147,14 @@ export interface Connector {
   /** Optional. The range of internal addresses that follows RFC 4632 notation. Example: `10.132.0.0/28`. */
   ipCidrRange?: string;
   /** Output only. State of the VPC access connector. */
-  state?: "STATE_UNSPECIFIED" | "READY" | "CREATING" | "DELETING" | "ERROR" | "UPDATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "READY"
+    | "CREATING"
+    | "DELETING"
+    | "ERROR"
+    | "UPDATING"
+    | (string & {});
   /** Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of `min-throughput` is discouraged in favor of `min-instances`. */
   minThroughput?: number;
   /** Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of `max-throughput` is discouraged in favor of `max-instances`. */
@@ -148,21 +175,23 @@ export interface Connector {
   lastRestartTime?: string;
 }
 
-export const Connector: Schema.Schema<Connector> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  network: Schema.optional(Schema.String),
-  ipCidrRange: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  minThroughput: Schema.optional(Schema.Number),
-  maxThroughput: Schema.optional(Schema.Number),
-  connectedProjects: Schema.optional(Schema.Array(Schema.String)),
-  subnet: Schema.optional(Subnet),
-  machineType: Schema.optional(Schema.String),
-  minInstances: Schema.optional(Schema.Number),
-  maxInstances: Schema.optional(Schema.Number),
-  createTime: Schema.optional(Schema.String),
-  lastRestartTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Connector" }) as any as Schema.Schema<Connector>;
+export const Connector: Schema.Schema<Connector> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    network: Schema.optional(Schema.String),
+    ipCidrRange: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    minThroughput: Schema.optional(Schema.Number),
+    maxThroughput: Schema.optional(Schema.Number),
+    connectedProjects: Schema.optional(Schema.Array(Schema.String)),
+    subnet: Schema.optional(Subnet),
+    machineType: Schema.optional(Schema.String),
+    minInstances: Schema.optional(Schema.Number),
+    maxInstances: Schema.optional(Schema.Number),
+    createTime: Schema.optional(Schema.String),
+    lastRestartTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Connector" }) as any as Schema.Schema<Connector>;
 
 export interface ListConnectorsResponse {
   /** List of Serverless VPC Access connectors. */
@@ -171,10 +200,15 @@ export interface ListConnectorsResponse {
   nextPageToken?: string;
 }
 
-export const ListConnectorsResponse: Schema.Schema<ListConnectorsResponse> = Schema.suspend(() => Schema.Struct({
-  connectors: Schema.optional(Schema.Array(Connector)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListConnectorsResponse" }) as any as Schema.Schema<ListConnectorsResponse>;
+export const ListConnectorsResponse: Schema.Schema<ListConnectorsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      connectors: Schema.optional(Schema.Array(Connector)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListConnectorsResponse",
+  }) as any as Schema.Schema<ListConnectorsResponse>;
 
 export interface OperationMetadataV1Alpha1 {
   /** Output only. Method that initiated the operation e.g. google.cloud.vpcaccess.v1alpha1.Connectors.CreateConnector. */
@@ -187,12 +221,17 @@ export interface OperationMetadataV1Alpha1 {
   target?: string;
 }
 
-export const OperationMetadataV1Alpha1: Schema.Schema<OperationMetadataV1Alpha1> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  insertTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadataV1Alpha1" }) as any as Schema.Schema<OperationMetadataV1Alpha1>;
+export const OperationMetadataV1Alpha1: Schema.Schema<OperationMetadataV1Alpha1> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      insertTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadataV1Alpha1",
+  }) as any as Schema.Schema<OperationMetadataV1Alpha1>;
 
 export interface OperationMetadataV1Beta1 {
   /** Output only. Method that initiated the operation e.g. google.cloud.vpcaccess.v1beta1.Connectors.CreateConnector. */
@@ -205,12 +244,17 @@ export interface OperationMetadataV1Beta1 {
   target?: string;
 }
 
-export const OperationMetadataV1Beta1: Schema.Schema<OperationMetadataV1Beta1> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadataV1Beta1" }) as any as Schema.Schema<OperationMetadataV1Beta1>;
+export const OperationMetadataV1Beta1: Schema.Schema<OperationMetadataV1Beta1> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadataV1Beta1",
+  }) as any as Schema.Schema<OperationMetadataV1Beta1>;
 
 export interface OperationMetadata {
   /** Output only. Method that initiated the operation e.g. google.cloud.vpcaccess.v1.Connectors.CreateConnector. */
@@ -223,12 +267,17 @@ export interface OperationMetadata {
   target?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -252,7 +301,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations" }),
   svc,
@@ -264,7 +315,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -292,9 +348,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -304,7 +365,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -322,7 +388,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -332,7 +401,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -352,7 +426,11 @@ export const CreateProjectsLocationsConnectorsRequest = Schema.Struct({
   connectorId: Schema.optional(Schema.String).pipe(T.HttpQuery("connectorId")),
   body: Schema.optional(Connector).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsConnectorsRequest>;
 
@@ -362,7 +440,12 @@ export const CreateProjectsLocationsConnectorsResponse = Operation;
 export type CreateProjectsLocationsConnectorsError = DefaultErrors;
 
 /** Creates a Serverless VPC Access connector, returns an operation. */
-export const createProjectsLocationsConnectors: API.OperationMethod<CreateProjectsLocationsConnectorsRequest, CreateProjectsLocationsConnectorsResponse, CreateProjectsLocationsConnectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsConnectors: API.OperationMethod<
+  CreateProjectsLocationsConnectorsRequest,
+  CreateProjectsLocationsConnectorsResponse,
+  CreateProjectsLocationsConnectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsConnectorsRequest,
   output: CreateProjectsLocationsConnectorsResponse,
   errors: [],
@@ -382,7 +465,11 @@ export const PatchProjectsLocationsConnectorsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Connector).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors/{connectorsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors/{connectorsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsConnectorsRequest>;
 
@@ -392,7 +479,12 @@ export const PatchProjectsLocationsConnectorsResponse = Operation;
 export type PatchProjectsLocationsConnectorsError = DefaultErrors;
 
 /** Updates a Serverless VPC Access connector, returns an operation. */
-export const patchProjectsLocationsConnectors: API.OperationMethod<PatchProjectsLocationsConnectorsRequest, PatchProjectsLocationsConnectorsResponse, PatchProjectsLocationsConnectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsConnectors: API.OperationMethod<
+  PatchProjectsLocationsConnectorsRequest,
+  PatchProjectsLocationsConnectorsResponse,
+  PatchProjectsLocationsConnectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsConnectorsRequest,
   output: PatchProjectsLocationsConnectorsResponse,
   errors: [],
@@ -406,7 +498,10 @@ export interface GetProjectsLocationsConnectorsRequest {
 export const GetProjectsLocationsConnectorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors/{connectorsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors/{connectorsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsConnectorsRequest>;
 
@@ -416,7 +511,12 @@ export const GetProjectsLocationsConnectorsResponse = Connector;
 export type GetProjectsLocationsConnectorsError = DefaultErrors;
 
 /** Gets a Serverless VPC Access connector. Returns NOT_FOUND if the resource does not exist. */
-export const getProjectsLocationsConnectors: API.OperationMethod<GetProjectsLocationsConnectorsRequest, GetProjectsLocationsConnectorsResponse, GetProjectsLocationsConnectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsConnectors: API.OperationMethod<
+  GetProjectsLocationsConnectorsRequest,
+  GetProjectsLocationsConnectorsResponse,
+  GetProjectsLocationsConnectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsConnectorsRequest,
   output: GetProjectsLocationsConnectorsResponse,
   errors: [],
@@ -436,7 +536,10 @@ export const ListProjectsLocationsConnectorsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsConnectorsRequest>;
 
@@ -446,7 +549,12 @@ export const ListProjectsLocationsConnectorsResponse = ListConnectorsResponse;
 export type ListProjectsLocationsConnectorsError = DefaultErrors;
 
 /** Lists Serverless VPC Access connectors. */
-export const listProjectsLocationsConnectors: API.PaginatedOperationMethod<ListProjectsLocationsConnectorsRequest, ListProjectsLocationsConnectorsResponse, ListProjectsLocationsConnectorsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsConnectors: API.PaginatedOperationMethod<
+  ListProjectsLocationsConnectorsRequest,
+  ListProjectsLocationsConnectorsResponse,
+  ListProjectsLocationsConnectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectorsRequest,
   output: ListProjectsLocationsConnectorsResponse,
   errors: [],
@@ -464,7 +572,10 @@ export interface DeleteProjectsLocationsConnectorsRequest {
 export const DeleteProjectsLocationsConnectorsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors/{connectorsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/connectors/{connectorsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsConnectorsRequest>;
 
@@ -474,9 +585,13 @@ export const DeleteProjectsLocationsConnectorsResponse = Operation;
 export type DeleteProjectsLocationsConnectorsError = DefaultErrors;
 
 /** Deletes a Serverless VPC Access connector. Returns NOT_FOUND if the resource does not exist. */
-export const deleteProjectsLocationsConnectors: API.OperationMethod<DeleteProjectsLocationsConnectorsRequest, DeleteProjectsLocationsConnectorsResponse, DeleteProjectsLocationsConnectorsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsConnectors: API.OperationMethod<
+  DeleteProjectsLocationsConnectorsRequest,
+  DeleteProjectsLocationsConnectorsResponse,
+  DeleteProjectsLocationsConnectorsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsConnectorsRequest,
   output: DeleteProjectsLocationsConnectorsResponse,
   errors: [],
 }));
-

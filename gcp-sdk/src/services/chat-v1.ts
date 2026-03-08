@@ -34,12 +34,14 @@ export interface CardHeader {
   imageUrl?: string;
 }
 
-export const CardHeader: Schema.Schema<CardHeader> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  subtitle: Schema.optional(Schema.String),
-  imageStyle: Schema.optional(Schema.String),
-  imageUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "CardHeader" }) as any as Schema.Schema<CardHeader>;
+export const CardHeader: Schema.Schema<CardHeader> = Schema.suspend(() =>
+  Schema.Struct({
+    title: Schema.optional(Schema.String),
+    subtitle: Schema.optional(Schema.String),
+    imageStyle: Schema.optional(Schema.String),
+    imageUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CardHeader" }) as any as Schema.Schema<CardHeader>;
 
 export interface ActionParameter {
   /** The name of the parameter for the action script. */
@@ -48,10 +50,15 @@ export interface ActionParameter {
   value?: string;
 }
 
-export const ActionParameter: Schema.Schema<ActionParameter> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActionParameter" }) as any as Schema.Schema<ActionParameter>;
+export const ActionParameter: Schema.Schema<ActionParameter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ActionParameter",
+}) as any as Schema.Schema<ActionParameter>;
 
 export interface FormAction {
   /** List of action parameters. */
@@ -60,19 +67,23 @@ export interface FormAction {
   actionMethodName?: string;
 }
 
-export const FormAction: Schema.Schema<FormAction> = Schema.suspend(() => Schema.Struct({
-  parameters: Schema.optional(Schema.Array(ActionParameter)),
-  actionMethodName: Schema.optional(Schema.String),
-})).annotate({ identifier: "FormAction" }) as any as Schema.Schema<FormAction>;
+export const FormAction: Schema.Schema<FormAction> = Schema.suspend(() =>
+  Schema.Struct({
+    parameters: Schema.optional(Schema.Array(ActionParameter)),
+    actionMethodName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "FormAction" }) as any as Schema.Schema<FormAction>;
 
 export interface OpenLink {
   /** The URL to open. */
   url?: string;
 }
 
-export const OpenLink: Schema.Schema<OpenLink> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "OpenLink" }) as any as Schema.Schema<OpenLink>;
+export const OpenLink: Schema.Schema<OpenLink> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "OpenLink" }) as any as Schema.Schema<OpenLink>;
 
 export interface OnClick {
   /** A form action is triggered by this `onclick` action if specified. */
@@ -81,10 +92,12 @@ export interface OnClick {
   openLink?: OpenLink;
 }
 
-export const OnClick: Schema.Schema<OnClick> = Schema.suspend(() => Schema.Struct({
-  action: Schema.optional(FormAction),
-  openLink: Schema.optional(OpenLink),
-})).annotate({ identifier: "OnClick" }) as any as Schema.Schema<OnClick>;
+export const OnClick: Schema.Schema<OnClick> = Schema.suspend(() =>
+  Schema.Struct({
+    action: Schema.optional(FormAction),
+    openLink: Schema.optional(OpenLink),
+  }),
+).annotate({ identifier: "OnClick" }) as any as Schema.Schema<OnClick>;
 
 export interface CardAction {
   /** The label used to be displayed in the action menu item. */
@@ -93,10 +106,12 @@ export interface CardAction {
   onClick?: OnClick;
 }
 
-export const CardAction: Schema.Schema<CardAction> = Schema.suspend(() => Schema.Struct({
-  actionLabel: Schema.optional(Schema.String),
-  onClick: Schema.optional(OnClick),
-})).annotate({ identifier: "CardAction" }) as any as Schema.Schema<CardAction>;
+export const CardAction: Schema.Schema<CardAction> = Schema.suspend(() =>
+  Schema.Struct({
+    actionLabel: Schema.optional(Schema.String),
+    onClick: Schema.optional(OnClick),
+  }),
+).annotate({ identifier: "CardAction" }) as any as Schema.Schema<CardAction>;
 
 export interface Image {
   /** The URL of the image. */
@@ -107,19 +122,25 @@ export interface Image {
   aspectRatio?: number;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() => Schema.Struct({
-  imageUrl: Schema.optional(Schema.String),
-  onClick: Schema.optional(OnClick),
-  aspectRatio: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> = Schema.suspend(() =>
+  Schema.Struct({
+    imageUrl: Schema.optional(Schema.String),
+    onClick: Schema.optional(OnClick),
+    aspectRatio: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface TextParagraph {
   text?: string;
 }
 
-export const TextParagraph: Schema.Schema<TextParagraph> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-})).annotate({ identifier: "TextParagraph" }) as any as Schema.Schema<TextParagraph>;
+export const TextParagraph: Schema.Schema<TextParagraph> = Schema.suspend(() =>
+  Schema.Struct({
+    text: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "TextParagraph",
+}) as any as Schema.Schema<TextParagraph>;
 
 export interface ImageButton {
   /** The `onclick` action. */
@@ -127,17 +148,51 @@ export interface ImageButton {
   /** The name of this `image_button` that's used for accessibility. Default value is provided if this name isn't specified. */
   name?: string;
   /** The icon specified by an `enum` that indices to an icon provided by Chat API. */
-  icon?: "ICON_UNSPECIFIED" | "AIRPLANE" | "BOOKMARK" | "BUS" | "CAR" | "CLOCK" | "CONFIRMATION_NUMBER_ICON" | "DOLLAR" | "DESCRIPTION" | "EMAIL" | "EVENT_PERFORMER" | "EVENT_SEAT" | "FLIGHT_ARRIVAL" | "FLIGHT_DEPARTURE" | "HOTEL" | "HOTEL_ROOM_TYPE" | "INVITE" | "MAP_PIN" | "MEMBERSHIP" | "MULTIPLE_PEOPLE" | "OFFER" | "PERSON" | "PHONE" | "RESTAURANT_ICON" | "SHOPPING_CART" | "STAR" | "STORE" | "TICKET" | "TRAIN" | "VIDEO_CAMERA" | "VIDEO_PLAY" | (string & {});
+  icon?:
+    | "ICON_UNSPECIFIED"
+    | "AIRPLANE"
+    | "BOOKMARK"
+    | "BUS"
+    | "CAR"
+    | "CLOCK"
+    | "CONFIRMATION_NUMBER_ICON"
+    | "DOLLAR"
+    | "DESCRIPTION"
+    | "EMAIL"
+    | "EVENT_PERFORMER"
+    | "EVENT_SEAT"
+    | "FLIGHT_ARRIVAL"
+    | "FLIGHT_DEPARTURE"
+    | "HOTEL"
+    | "HOTEL_ROOM_TYPE"
+    | "INVITE"
+    | "MAP_PIN"
+    | "MEMBERSHIP"
+    | "MULTIPLE_PEOPLE"
+    | "OFFER"
+    | "PERSON"
+    | "PHONE"
+    | "RESTAURANT_ICON"
+    | "SHOPPING_CART"
+    | "STAR"
+    | "STORE"
+    | "TICKET"
+    | "TRAIN"
+    | "VIDEO_CAMERA"
+    | "VIDEO_PLAY"
+    | (string & {});
   /** The icon specified by a URL. */
   iconUrl?: string;
 }
 
-export const ImageButton: Schema.Schema<ImageButton> = Schema.suspend(() => Schema.Struct({
-  onClick: Schema.optional(OnClick),
-  name: Schema.optional(Schema.String),
-  icon: Schema.optional(Schema.String),
-  iconUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImageButton" }) as any as Schema.Schema<ImageButton>;
+export const ImageButton: Schema.Schema<ImageButton> = Schema.suspend(() =>
+  Schema.Struct({
+    onClick: Schema.optional(OnClick),
+    name: Schema.optional(Schema.String),
+    icon: Schema.optional(Schema.String),
+    iconUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ImageButton" }) as any as Schema.Schema<ImageButton>;
 
 export interface TextButton {
   /** The text of the button. */
@@ -146,10 +201,12 @@ export interface TextButton {
   onClick?: OnClick;
 }
 
-export const TextButton: Schema.Schema<TextButton> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  onClick: Schema.optional(OnClick),
-})).annotate({ identifier: "TextButton" }) as any as Schema.Schema<TextButton>;
+export const TextButton: Schema.Schema<TextButton> = Schema.suspend(() =>
+  Schema.Struct({
+    text: Schema.optional(Schema.String),
+    onClick: Schema.optional(OnClick),
+  }),
+).annotate({ identifier: "TextButton" }) as any as Schema.Schema<TextButton>;
 
 export interface Button {
   /** A button with image and `onclick` action. */
@@ -158,14 +215,48 @@ export interface Button {
   textButton?: TextButton;
 }
 
-export const Button: Schema.Schema<Button> = Schema.suspend(() => Schema.Struct({
-  imageButton: Schema.optional(ImageButton),
-  textButton: Schema.optional(TextButton),
-})).annotate({ identifier: "Button" }) as any as Schema.Schema<Button>;
+export const Button: Schema.Schema<Button> = Schema.suspend(() =>
+  Schema.Struct({
+    imageButton: Schema.optional(ImageButton),
+    textButton: Schema.optional(TextButton),
+  }),
+).annotate({ identifier: "Button" }) as any as Schema.Schema<Button>;
 
 export interface KeyValue {
   /** An enum value that's replaced by the Chat API with the corresponding icon image. */
-  icon?: "ICON_UNSPECIFIED" | "AIRPLANE" | "BOOKMARK" | "BUS" | "CAR" | "CLOCK" | "CONFIRMATION_NUMBER_ICON" | "DOLLAR" | "DESCRIPTION" | "EMAIL" | "EVENT_PERFORMER" | "EVENT_SEAT" | "FLIGHT_ARRIVAL" | "FLIGHT_DEPARTURE" | "HOTEL" | "HOTEL_ROOM_TYPE" | "INVITE" | "MAP_PIN" | "MEMBERSHIP" | "MULTIPLE_PEOPLE" | "OFFER" | "PERSON" | "PHONE" | "RESTAURANT_ICON" | "SHOPPING_CART" | "STAR" | "STORE" | "TICKET" | "TRAIN" | "VIDEO_CAMERA" | "VIDEO_PLAY" | (string & {});
+  icon?:
+    | "ICON_UNSPECIFIED"
+    | "AIRPLANE"
+    | "BOOKMARK"
+    | "BUS"
+    | "CAR"
+    | "CLOCK"
+    | "CONFIRMATION_NUMBER_ICON"
+    | "DOLLAR"
+    | "DESCRIPTION"
+    | "EMAIL"
+    | "EVENT_PERFORMER"
+    | "EVENT_SEAT"
+    | "FLIGHT_ARRIVAL"
+    | "FLIGHT_DEPARTURE"
+    | "HOTEL"
+    | "HOTEL_ROOM_TYPE"
+    | "INVITE"
+    | "MAP_PIN"
+    | "MEMBERSHIP"
+    | "MULTIPLE_PEOPLE"
+    | "OFFER"
+    | "PERSON"
+    | "PHONE"
+    | "RESTAURANT_ICON"
+    | "SHOPPING_CART"
+    | "STAR"
+    | "STORE"
+    | "TICKET"
+    | "TRAIN"
+    | "VIDEO_CAMERA"
+    | "VIDEO_PLAY"
+    | (string & {});
   /** The icon specified by a URL. */
   iconUrl?: string;
   /** If the content should be multiline. */
@@ -182,16 +273,18 @@ export interface KeyValue {
   bottomLabel?: string;
 }
 
-export const KeyValue: Schema.Schema<KeyValue> = Schema.suspend(() => Schema.Struct({
-  icon: Schema.optional(Schema.String),
-  iconUrl: Schema.optional(Schema.String),
-  contentMultiline: Schema.optional(Schema.Boolean),
-  onClick: Schema.optional(OnClick),
-  button: Schema.optional(Button),
-  topLabel: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  bottomLabel: Schema.optional(Schema.String),
-})).annotate({ identifier: "KeyValue" }) as any as Schema.Schema<KeyValue>;
+export const KeyValue: Schema.Schema<KeyValue> = Schema.suspend(() =>
+  Schema.Struct({
+    icon: Schema.optional(Schema.String),
+    iconUrl: Schema.optional(Schema.String),
+    contentMultiline: Schema.optional(Schema.Boolean),
+    onClick: Schema.optional(OnClick),
+    button: Schema.optional(Button),
+    topLabel: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    bottomLabel: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "KeyValue" }) as any as Schema.Schema<KeyValue>;
 
 export interface WidgetMarkup {
   /** Display an image in this widget. */
@@ -204,12 +297,16 @@ export interface WidgetMarkup {
   buttons?: Array<Button>;
 }
 
-export const WidgetMarkup: Schema.Schema<WidgetMarkup> = Schema.suspend(() => Schema.Struct({
-  image: Schema.optional(Image),
-  textParagraph: Schema.optional(TextParagraph),
-  keyValue: Schema.optional(KeyValue),
-  buttons: Schema.optional(Schema.Array(Button)),
-})).annotate({ identifier: "WidgetMarkup" }) as any as Schema.Schema<WidgetMarkup>;
+export const WidgetMarkup: Schema.Schema<WidgetMarkup> = Schema.suspend(() =>
+  Schema.Struct({
+    image: Schema.optional(Image),
+    textParagraph: Schema.optional(TextParagraph),
+    keyValue: Schema.optional(KeyValue),
+    buttons: Schema.optional(Schema.Array(Button)),
+  }),
+).annotate({
+  identifier: "WidgetMarkup",
+}) as any as Schema.Schema<WidgetMarkup>;
 
 export interface Section {
   /** The header of the section. Formatted text is supported. For more information about formatting text, see [Formatting text in Google Chat apps](https://developers.google.com/workspace/chat/format-messages#card-formatting) and [Formatting text in Google Workspace Add-ons](https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting). */
@@ -218,10 +315,12 @@ export interface Section {
   widgets?: Array<WidgetMarkup>;
 }
 
-export const Section: Schema.Schema<Section> = Schema.suspend(() => Schema.Struct({
-  header: Schema.optional(Schema.String),
-  widgets: Schema.optional(Schema.Array(WidgetMarkup)),
-})).annotate({ identifier: "Section" }) as any as Schema.Schema<Section>;
+export const Section: Schema.Schema<Section> = Schema.suspend(() =>
+  Schema.Struct({
+    header: Schema.optional(Schema.String),
+    widgets: Schema.optional(Schema.Array(WidgetMarkup)),
+  }),
+).annotate({ identifier: "Section" }) as any as Schema.Schema<Section>;
 
 export interface Card {
   /** The header of the card. A header usually contains a title and an image. */
@@ -234,12 +333,14 @@ export interface Card {
   sections?: Array<Section>;
 }
 
-export const Card: Schema.Schema<Card> = Schema.suspend(() => Schema.Struct({
-  header: Schema.optional(CardHeader),
-  cardActions: Schema.optional(Schema.Array(CardAction)),
-  name: Schema.optional(Schema.String),
-  sections: Schema.optional(Schema.Array(Section)),
-})).annotate({ identifier: "Card" }) as any as Schema.Schema<Card>;
+export const Card: Schema.Schema<Card> = Schema.suspend(() =>
+  Schema.Struct({
+    header: Schema.optional(CardHeader),
+    cardActions: Schema.optional(Schema.Array(CardAction)),
+    name: Schema.optional(Schema.String),
+    sections: Schema.optional(Schema.Array(Section)),
+  }),
+).annotate({ identifier: "Card" }) as any as Schema.Schema<Card>;
 
 export interface Thread {
   /** Optional. Input for creating or updating a thread. Otherwise, output only. ID for the thread. Supports up to 4000 characters. This ID is unique to the Chat app that sets it. For example, if multiple Chat apps create a message using the same thread key, the messages are posted in different threads. To reply in a thread created by a person or another Chat app, specify the thread `name` field instead. */
@@ -248,19 +349,25 @@ export interface Thread {
   name?: string;
 }
 
-export const Thread: Schema.Schema<Thread> = Schema.suspend(() => Schema.Struct({
-  threadKey: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Thread" }) as any as Schema.Schema<Thread>;
+export const Thread: Schema.Schema<Thread> = Schema.suspend(() =>
+  Schema.Struct({
+    threadKey: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Thread" }) as any as Schema.Schema<Thread>;
 
 export interface SlashCommand {
   /** The ID of the slash command. */
   commandId?: string;
 }
 
-export const SlashCommand: Schema.Schema<SlashCommand> = Schema.suspend(() => Schema.Struct({
-  commandId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SlashCommand" }) as any as Schema.Schema<SlashCommand>;
+export const SlashCommand: Schema.Schema<SlashCommand> = Schema.suspend(() =>
+  Schema.Struct({
+    commandId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SlashCommand",
+}) as any as Schema.Schema<SlashCommand>;
 
 export interface AttachmentDataRef {
   /** Optional. The resource name of the attachment data. This field is used with the media API to download the attachment data. */
@@ -269,19 +376,28 @@ export interface AttachmentDataRef {
   attachmentUploadToken?: string;
 }
 
-export const AttachmentDataRef: Schema.Schema<AttachmentDataRef> = Schema.suspend(() => Schema.Struct({
-  resourceName: Schema.optional(Schema.String),
-  attachmentUploadToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "AttachmentDataRef" }) as any as Schema.Schema<AttachmentDataRef>;
+export const AttachmentDataRef: Schema.Schema<AttachmentDataRef> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceName: Schema.optional(Schema.String),
+      attachmentUploadToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AttachmentDataRef",
+  }) as any as Schema.Schema<AttachmentDataRef>;
 
 export interface DriveDataRef {
   /** The ID for the drive file. Use with the Drive API. */
   driveFileId?: string;
 }
 
-export const DriveDataRef: Schema.Schema<DriveDataRef> = Schema.suspend(() => Schema.Struct({
-  driveFileId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DriveDataRef" }) as any as Schema.Schema<DriveDataRef>;
+export const DriveDataRef: Schema.Schema<DriveDataRef> = Schema.suspend(() =>
+  Schema.Struct({
+    driveFileId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DriveDataRef",
+}) as any as Schema.Schema<DriveDataRef>;
 
 export interface Attachment {
   /** Output only. The content type (MIME type) of the file. */
@@ -297,21 +413,27 @@ export interface Attachment {
   /** Output only. The thumbnail URL which should be used to preview the attachment to a human user. Chat apps shouldn't use this URL to download attachment content. */
   thumbnailUri?: string;
   /** Output only. The source of the attachment. */
-  source?: "SOURCE_UNSPECIFIED" | "DRIVE_FILE" | "UPLOADED_CONTENT" | (string & {});
+  source?:
+    | "SOURCE_UNSPECIFIED"
+    | "DRIVE_FILE"
+    | "UPLOADED_CONTENT"
+    | (string & {});
   /** Output only. The download URL which should be used to allow a human user to download the attachment. Chat apps shouldn't use this URL to download attachment content. */
   downloadUri?: string;
 }
 
-export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() => Schema.Struct({
-  contentType: Schema.optional(Schema.String),
-  attachmentDataRef: Schema.optional(AttachmentDataRef),
-  name: Schema.optional(Schema.String),
-  contentName: Schema.optional(Schema.String),
-  driveDataRef: Schema.optional(DriveDataRef),
-  thumbnailUri: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-  downloadUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
+export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() =>
+  Schema.Struct({
+    contentType: Schema.optional(Schema.String),
+    attachmentDataRef: Schema.optional(AttachmentDataRef),
+    name: Schema.optional(Schema.String),
+    contentName: Schema.optional(Schema.String),
+    driveDataRef: Schema.optional(DriveDataRef),
+    thumbnailUri: Schema.optional(Schema.String),
+    source: Schema.optional(Schema.String),
+    downloadUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
 
 export interface Color {
   /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
@@ -324,12 +446,14 @@ export interface Color {
   green?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() => Schema.Struct({
-  alpha: Schema.optional(Schema.Number),
-  red: Schema.optional(Schema.Number),
-  blue: Schema.optional(Schema.Number),
-  green: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> = Schema.suspend(() =>
+  Schema.Struct({
+    alpha: Schema.optional(Schema.Number),
+    red: Schema.optional(Schema.Number),
+    blue: Schema.optional(Schema.Number),
+    green: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface GoogleAppsCardV1MaterialIcon {
   /** Whether the icon renders as filled. Default value is false. To preview different icon settings, go to [Google Font Icons](https://fonts.google.com/icons) and adjust the settings under **Customize**. */
@@ -342,12 +466,17 @@ export interface GoogleAppsCardV1MaterialIcon {
   name?: string;
 }
 
-export const GoogleAppsCardV1MaterialIcon: Schema.Schema<GoogleAppsCardV1MaterialIcon> = Schema.suspend(() => Schema.Struct({
-  fill: Schema.optional(Schema.Boolean),
-  grade: Schema.optional(Schema.Number),
-  weight: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1MaterialIcon" }) as any as Schema.Schema<GoogleAppsCardV1MaterialIcon>;
+export const GoogleAppsCardV1MaterialIcon: Schema.Schema<GoogleAppsCardV1MaterialIcon> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fill: Schema.optional(Schema.Boolean),
+      grade: Schema.optional(Schema.Number),
+      weight: Schema.optional(Schema.Number),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1MaterialIcon",
+  }) as any as Schema.Schema<GoogleAppsCardV1MaterialIcon>;
 
 export interface GoogleAppsCardV1Icon {
   /** Display one of the built-in icons provided by Google Workspace. For example, to display an airplane icon, specify `AIRPLANE`. For a bus, specify `BUS`. For a full list of supported icons, see [built-in icons](https://developers.google.com/workspace/chat/format-messages#builtinicons). */
@@ -362,13 +491,18 @@ export interface GoogleAppsCardV1Icon {
   materialIcon?: GoogleAppsCardV1MaterialIcon;
 }
 
-export const GoogleAppsCardV1Icon: Schema.Schema<GoogleAppsCardV1Icon> = Schema.suspend(() => Schema.Struct({
-  knownIcon: Schema.optional(Schema.String),
-  imageType: Schema.optional(Schema.String),
-  iconUrl: Schema.optional(Schema.String),
-  altText: Schema.optional(Schema.String),
-  materialIcon: Schema.optional(GoogleAppsCardV1MaterialIcon),
-})).annotate({ identifier: "GoogleAppsCardV1Icon" }) as any as Schema.Schema<GoogleAppsCardV1Icon>;
+export const GoogleAppsCardV1Icon: Schema.Schema<GoogleAppsCardV1Icon> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      knownIcon: Schema.optional(Schema.String),
+      imageType: Schema.optional(Schema.String),
+      iconUrl: Schema.optional(Schema.String),
+      altText: Schema.optional(Schema.String),
+      materialIcon: Schema.optional(GoogleAppsCardV1MaterialIcon),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Icon",
+  }) as any as Schema.Schema<GoogleAppsCardV1Icon>;
 
 export interface GoogleAppsCardV1CardFixedFooter {
   /** The secondary button of the fixed footer. The button must be a text button with text and color set. If `secondaryButton` is set, you must also set `primaryButton`. */
@@ -377,10 +511,15 @@ export interface GoogleAppsCardV1CardFixedFooter {
   primaryButton?: GoogleAppsCardV1Button;
 }
 
-export const GoogleAppsCardV1CardFixedFooter: Schema.Schema<GoogleAppsCardV1CardFixedFooter> = Schema.suspend(() => Schema.Struct({
-  secondaryButton: Schema.optional(GoogleAppsCardV1Button),
-  primaryButton: Schema.optional(GoogleAppsCardV1Button),
-})).annotate({ identifier: "GoogleAppsCardV1CardFixedFooter" }) as any as Schema.Schema<GoogleAppsCardV1CardFixedFooter>;
+export const GoogleAppsCardV1CardFixedFooter: Schema.Schema<GoogleAppsCardV1CardFixedFooter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      secondaryButton: Schema.optional(GoogleAppsCardV1Button),
+      primaryButton: Schema.optional(GoogleAppsCardV1Button),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1CardFixedFooter",
+  }) as any as Schema.Schema<GoogleAppsCardV1CardFixedFooter>;
 
 export interface GoogleAppsCardV1TextParagraph {
   /** The text that's shown in the widget. */
@@ -391,11 +530,16 @@ export interface GoogleAppsCardV1TextParagraph {
   textSyntax?: "TEXT_SYNTAX_UNSPECIFIED" | "HTML" | "MARKDOWN" | (string & {});
 }
 
-export const GoogleAppsCardV1TextParagraph: Schema.Schema<GoogleAppsCardV1TextParagraph> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  maxLines: Schema.optional(Schema.Number),
-  textSyntax: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1TextParagraph" }) as any as Schema.Schema<GoogleAppsCardV1TextParagraph>;
+export const GoogleAppsCardV1TextParagraph: Schema.Schema<GoogleAppsCardV1TextParagraph> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      maxLines: Schema.optional(Schema.Number),
+      textSyntax: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1TextParagraph",
+  }) as any as Schema.Schema<GoogleAppsCardV1TextParagraph>;
 
 export interface GoogleAppsCardV1Image {
   /** The alternative text of this image that's used for accessibility. */
@@ -406,11 +550,16 @@ export interface GoogleAppsCardV1Image {
   onClick?: GoogleAppsCardV1OnClick;
 }
 
-export const GoogleAppsCardV1Image: Schema.Schema<GoogleAppsCardV1Image> = Schema.suspend(() => Schema.Struct({
-  altText: Schema.optional(Schema.String),
-  imageUrl: Schema.optional(Schema.String),
-  onClick: Schema.optional(GoogleAppsCardV1OnClick),
-})).annotate({ identifier: "GoogleAppsCardV1Image" }) as any as Schema.Schema<GoogleAppsCardV1Image>;
+export const GoogleAppsCardV1Image: Schema.Schema<GoogleAppsCardV1Image> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      altText: Schema.optional(Schema.String),
+      imageUrl: Schema.optional(Schema.String),
+      onClick: Schema.optional(GoogleAppsCardV1OnClick),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Image",
+  }) as any as Schema.Schema<GoogleAppsCardV1Image>;
 
 export interface GoogleAppsCardV1NestedWidget {
   /** A text paragraph widget. */
@@ -421,11 +570,16 @@ export interface GoogleAppsCardV1NestedWidget {
   image?: GoogleAppsCardV1Image;
 }
 
-export const GoogleAppsCardV1NestedWidget: Schema.Schema<GoogleAppsCardV1NestedWidget> = Schema.suspend(() => Schema.Struct({
-  textParagraph: Schema.optional(GoogleAppsCardV1TextParagraph),
-  buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
-  image: Schema.optional(GoogleAppsCardV1Image),
-})).annotate({ identifier: "GoogleAppsCardV1NestedWidget" }) as any as Schema.Schema<GoogleAppsCardV1NestedWidget>;
+export const GoogleAppsCardV1NestedWidget: Schema.Schema<GoogleAppsCardV1NestedWidget> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      textParagraph: Schema.optional(GoogleAppsCardV1TextParagraph),
+      buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
+      image: Schema.optional(GoogleAppsCardV1Image),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1NestedWidget",
+  }) as any as Schema.Schema<GoogleAppsCardV1NestedWidget>;
 
 export interface GoogleAppsCardV1CarouselCard {
   /** A list of widgets displayed at the bottom of the carousel card. The widgets are displayed in the order that they are specified. */
@@ -434,19 +588,33 @@ export interface GoogleAppsCardV1CarouselCard {
   widgets?: Array<GoogleAppsCardV1NestedWidget>;
 }
 
-export const GoogleAppsCardV1CarouselCard: Schema.Schema<GoogleAppsCardV1CarouselCard> = Schema.suspend(() => Schema.Struct({
-  footerWidgets: Schema.optional(Schema.Array(GoogleAppsCardV1NestedWidget)),
-  widgets: Schema.optional(Schema.Array(GoogleAppsCardV1NestedWidget)),
-})).annotate({ identifier: "GoogleAppsCardV1CarouselCard" }) as any as Schema.Schema<GoogleAppsCardV1CarouselCard>;
+export const GoogleAppsCardV1CarouselCard: Schema.Schema<GoogleAppsCardV1CarouselCard> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      footerWidgets: Schema.optional(
+        Schema.Array(GoogleAppsCardV1NestedWidget),
+      ),
+      widgets: Schema.optional(Schema.Array(GoogleAppsCardV1NestedWidget)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1CarouselCard",
+  }) as any as Schema.Schema<GoogleAppsCardV1CarouselCard>;
 
 export interface GoogleAppsCardV1Carousel {
   /** A list of cards included in the carousel. */
   carouselCards?: Array<GoogleAppsCardV1CarouselCard>;
 }
 
-export const GoogleAppsCardV1Carousel: Schema.Schema<GoogleAppsCardV1Carousel> = Schema.suspend(() => Schema.Struct({
-  carouselCards: Schema.optional(Schema.Array(GoogleAppsCardV1CarouselCard)),
-})).annotate({ identifier: "GoogleAppsCardV1Carousel" }) as any as Schema.Schema<GoogleAppsCardV1Carousel>;
+export const GoogleAppsCardV1Carousel: Schema.Schema<GoogleAppsCardV1Carousel> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      carouselCards: Schema.optional(
+        Schema.Array(GoogleAppsCardV1CarouselCard),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Carousel",
+  }) as any as Schema.Schema<GoogleAppsCardV1Carousel>;
 
 export interface GoogleAppsCardV1ActionParameter {
   /** The name of the parameter for the action script. */
@@ -455,10 +623,15 @@ export interface GoogleAppsCardV1ActionParameter {
   value?: string;
 }
 
-export const GoogleAppsCardV1ActionParameter: Schema.Schema<GoogleAppsCardV1ActionParameter> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1ActionParameter" }) as any as Schema.Schema<GoogleAppsCardV1ActionParameter>;
+export const GoogleAppsCardV1ActionParameter: Schema.Schema<GoogleAppsCardV1ActionParameter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1ActionParameter",
+  }) as any as Schema.Schema<GoogleAppsCardV1ActionParameter>;
 
 export interface GoogleAppsCardV1Action {
   /** List of action parameters. */
@@ -477,33 +650,50 @@ export interface GoogleAppsCardV1Action {
   interaction?: "INTERACTION_UNSPECIFIED" | "OPEN_DIALOG" | (string & {});
 }
 
-export const GoogleAppsCardV1Action: Schema.Schema<GoogleAppsCardV1Action> = Schema.suspend(() => Schema.Struct({
-  parameters: Schema.optional(Schema.Array(GoogleAppsCardV1ActionParameter)),
-  persistValues: Schema.optional(Schema.Boolean),
-  allWidgetsAreRequired: Schema.optional(Schema.Boolean),
-  function: Schema.optional(Schema.String),
-  requiredWidgets: Schema.optional(Schema.Array(Schema.String)),
-  loadIndicator: Schema.optional(Schema.String),
-  interaction: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1Action" }) as any as Schema.Schema<GoogleAppsCardV1Action>;
+export const GoogleAppsCardV1Action: Schema.Schema<GoogleAppsCardV1Action> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parameters: Schema.optional(
+        Schema.Array(GoogleAppsCardV1ActionParameter),
+      ),
+      persistValues: Schema.optional(Schema.Boolean),
+      allWidgetsAreRequired: Schema.optional(Schema.Boolean),
+      function: Schema.optional(Schema.String),
+      requiredWidgets: Schema.optional(Schema.Array(Schema.String)),
+      loadIndicator: Schema.optional(Schema.String),
+      interaction: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Action",
+  }) as any as Schema.Schema<GoogleAppsCardV1Action>;
 
 export interface SpaceDataSource {
   /** If set to `true`, the multiselect menu selects the current Google Chat space as an item by default. */
   defaultToCurrentSpace?: boolean;
 }
 
-export const SpaceDataSource: Schema.Schema<SpaceDataSource> = Schema.suspend(() => Schema.Struct({
-  defaultToCurrentSpace: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SpaceDataSource" }) as any as Schema.Schema<SpaceDataSource>;
+export const SpaceDataSource: Schema.Schema<SpaceDataSource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      defaultToCurrentSpace: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "SpaceDataSource",
+}) as any as Schema.Schema<SpaceDataSource>;
 
 export interface ChatClientDataSourceMarkup {
   /** Google Chat spaces that the user is a member of. */
   spaceDataSource?: SpaceDataSource;
 }
 
-export const ChatClientDataSourceMarkup: Schema.Schema<ChatClientDataSourceMarkup> = Schema.suspend(() => Schema.Struct({
-  spaceDataSource: Schema.optional(SpaceDataSource),
-})).annotate({ identifier: "ChatClientDataSourceMarkup" }) as any as Schema.Schema<ChatClientDataSourceMarkup>;
+export const ChatClientDataSourceMarkup: Schema.Schema<ChatClientDataSourceMarkup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      spaceDataSource: Schema.optional(SpaceDataSource),
+    }),
+  ).annotate({
+    identifier: "ChatClientDataSourceMarkup",
+  }) as any as Schema.Schema<ChatClientDataSourceMarkup>;
 
 export interface WorkflowDataSourceMarkup {
   /** Whether to include variables from the previous step in the data source. */
@@ -512,10 +702,15 @@ export interface WorkflowDataSourceMarkup {
   type?: "UNKNOWN" | "USER" | "SPACE" | "USER_WITH_FREE_FORM" | (string & {});
 }
 
-export const WorkflowDataSourceMarkup: Schema.Schema<WorkflowDataSourceMarkup> = Schema.suspend(() => Schema.Struct({
-  includeVariables: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "WorkflowDataSourceMarkup" }) as any as Schema.Schema<WorkflowDataSourceMarkup>;
+export const WorkflowDataSourceMarkup: Schema.Schema<WorkflowDataSourceMarkup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      includeVariables: Schema.optional(Schema.Boolean),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WorkflowDataSourceMarkup",
+  }) as any as Schema.Schema<WorkflowDataSourceMarkup>;
 
 export interface HostAppDataSourceMarkup {
   /** A data source from Google Chat. */
@@ -524,10 +719,15 @@ export interface HostAppDataSourceMarkup {
   workflowDataSource?: WorkflowDataSourceMarkup;
 }
 
-export const HostAppDataSourceMarkup: Schema.Schema<HostAppDataSourceMarkup> = Schema.suspend(() => Schema.Struct({
-  chatDataSource: Schema.optional(ChatClientDataSourceMarkup),
-  workflowDataSource: Schema.optional(WorkflowDataSourceMarkup),
-})).annotate({ identifier: "HostAppDataSourceMarkup" }) as any as Schema.Schema<HostAppDataSourceMarkup>;
+export const HostAppDataSourceMarkup: Schema.Schema<HostAppDataSourceMarkup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      chatDataSource: Schema.optional(ChatClientDataSourceMarkup),
+      workflowDataSource: Schema.optional(WorkflowDataSourceMarkup),
+    }),
+  ).annotate({
+    identifier: "HostAppDataSourceMarkup",
+  }) as any as Schema.Schema<HostAppDataSourceMarkup>;
 
 export interface GoogleAppsCardV1DateTimePicker {
   /** The default value displayed in the widget, in milliseconds since [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time). Specify the value based on the type of picker (`DateTimePickerType`): * `DATE_AND_TIME`: a calendar date and time in UTC. For example, to represent January 1, 2023 at 12:00 PM UTC, use `1672574400000`. * `DATE_ONLY`: a calendar date at 00:00:00 UTC. For example, to represent January 1, 2023, use `1672531200000`. * `TIME_ONLY`: a time in UTC. For example, to represent 12:00 PM, use `43200000` (or `12 * 60 * 60 * 1000`). */
@@ -546,15 +746,20 @@ export interface GoogleAppsCardV1DateTimePicker {
   hostAppDataSource?: HostAppDataSourceMarkup;
 }
 
-export const GoogleAppsCardV1DateTimePicker: Schema.Schema<GoogleAppsCardV1DateTimePicker> = Schema.suspend(() => Schema.Struct({
-  valueMsEpoch: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.String),
-  timezoneOffsetDate: Schema.optional(Schema.Number),
-  onChangeAction: Schema.optional(GoogleAppsCardV1Action),
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  hostAppDataSource: Schema.optional(HostAppDataSourceMarkup),
-})).annotate({ identifier: "GoogleAppsCardV1DateTimePicker" }) as any as Schema.Schema<GoogleAppsCardV1DateTimePicker>;
+export const GoogleAppsCardV1DateTimePicker: Schema.Schema<GoogleAppsCardV1DateTimePicker> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      valueMsEpoch: Schema.optional(Schema.String),
+      label: Schema.optional(Schema.String),
+      timezoneOffsetDate: Schema.optional(Schema.Number),
+      onChangeAction: Schema.optional(GoogleAppsCardV1Action),
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      hostAppDataSource: Schema.optional(HostAppDataSourceMarkup),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1DateTimePicker",
+  }) as any as Schema.Schema<GoogleAppsCardV1DateTimePicker>;
 
 export interface GoogleAppsCardV1BorderStyle {
   /** The colors to use when the type is `BORDER_TYPE_STROKE`. To set the stroke color, specify a value for the `red`, `green`, and `blue` fields. The value must be a float number between 0 and 1 based on the RGB color value, where `0` (0/255) represents the absence of color and `1` (255/255) represents the maximum intensity of the color. For example, the following sets the color to red at its maximum intensity: ``` "color": { "red": 1, "green": 0, "blue": 0, } ``` The `alpha` field is unavailable for stroke color. If specified, this field is ignored. */
@@ -565,23 +770,39 @@ export interface GoogleAppsCardV1BorderStyle {
   type?: "BORDER_TYPE_UNSPECIFIED" | "NO_BORDER" | "STROKE" | (string & {});
 }
 
-export const GoogleAppsCardV1BorderStyle: Schema.Schema<GoogleAppsCardV1BorderStyle> = Schema.suspend(() => Schema.Struct({
-  strokeColor: Schema.optional(Color),
-  cornerRadius: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1BorderStyle" }) as any as Schema.Schema<GoogleAppsCardV1BorderStyle>;
+export const GoogleAppsCardV1BorderStyle: Schema.Schema<GoogleAppsCardV1BorderStyle> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      strokeColor: Schema.optional(Color),
+      cornerRadius: Schema.optional(Schema.Number),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1BorderStyle",
+  }) as any as Schema.Schema<GoogleAppsCardV1BorderStyle>;
 
 export interface GoogleAppsCardV1ImageCropStyle {
   /** The aspect ratio to use if the crop type is `RECTANGLE_CUSTOM`. For example, here's how to apply a 16:9 aspect ratio: ``` cropStyle { "type": "RECTANGLE_CUSTOM", "aspectRatio": 16/9 } ``` */
   aspectRatio?: number;
   /** The crop type. */
-  type?: "IMAGE_CROP_TYPE_UNSPECIFIED" | "SQUARE" | "CIRCLE" | "RECTANGLE_CUSTOM" | "RECTANGLE_4_3" | (string & {});
+  type?:
+    | "IMAGE_CROP_TYPE_UNSPECIFIED"
+    | "SQUARE"
+    | "CIRCLE"
+    | "RECTANGLE_CUSTOM"
+    | "RECTANGLE_4_3"
+    | (string & {});
 }
 
-export const GoogleAppsCardV1ImageCropStyle: Schema.Schema<GoogleAppsCardV1ImageCropStyle> = Schema.suspend(() => Schema.Struct({
-  aspectRatio: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1ImageCropStyle" }) as any as Schema.Schema<GoogleAppsCardV1ImageCropStyle>;
+export const GoogleAppsCardV1ImageCropStyle: Schema.Schema<GoogleAppsCardV1ImageCropStyle> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      aspectRatio: Schema.optional(Schema.Number),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1ImageCropStyle",
+  }) as any as Schema.Schema<GoogleAppsCardV1ImageCropStyle>;
 
 export interface GoogleAppsCardV1ImageComponent {
   /** The border style to apply to the image. */
@@ -594,12 +815,17 @@ export interface GoogleAppsCardV1ImageComponent {
   altText?: string;
 }
 
-export const GoogleAppsCardV1ImageComponent: Schema.Schema<GoogleAppsCardV1ImageComponent> = Schema.suspend(() => Schema.Struct({
-  borderStyle: Schema.optional(GoogleAppsCardV1BorderStyle),
-  imageUri: Schema.optional(Schema.String),
-  cropStyle: Schema.optional(GoogleAppsCardV1ImageCropStyle),
-  altText: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1ImageComponent" }) as any as Schema.Schema<GoogleAppsCardV1ImageComponent>;
+export const GoogleAppsCardV1ImageComponent: Schema.Schema<GoogleAppsCardV1ImageComponent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      borderStyle: Schema.optional(GoogleAppsCardV1BorderStyle),
+      imageUri: Schema.optional(Schema.String),
+      cropStyle: Schema.optional(GoogleAppsCardV1ImageCropStyle),
+      altText: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1ImageComponent",
+  }) as any as Schema.Schema<GoogleAppsCardV1ImageComponent>;
 
 export interface GoogleAppsCardV1GridItem {
   /** The grid item's title. */
@@ -607,20 +833,29 @@ export interface GoogleAppsCardV1GridItem {
   /** A user-specified identifier for this grid item. This identifier is returned in the parent grid's `onClick` callback parameters. */
   id?: string;
   /** The layout to use for the grid item. */
-  layout?: "GRID_ITEM_LAYOUT_UNSPECIFIED" | "TEXT_BELOW" | "TEXT_ABOVE" | (string & {});
+  layout?:
+    | "GRID_ITEM_LAYOUT_UNSPECIFIED"
+    | "TEXT_BELOW"
+    | "TEXT_ABOVE"
+    | (string & {});
   /** The image that displays in the grid item. */
   image?: GoogleAppsCardV1ImageComponent;
   /** The grid item's subtitle. */
   subtitle?: string;
 }
 
-export const GoogleAppsCardV1GridItem: Schema.Schema<GoogleAppsCardV1GridItem> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  layout: Schema.optional(Schema.String),
-  image: Schema.optional(GoogleAppsCardV1ImageComponent),
-  subtitle: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1GridItem" }) as any as Schema.Schema<GoogleAppsCardV1GridItem>;
+export const GoogleAppsCardV1GridItem: Schema.Schema<GoogleAppsCardV1GridItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      layout: Schema.optional(Schema.String),
+      image: Schema.optional(GoogleAppsCardV1ImageComponent),
+      subtitle: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1GridItem",
+  }) as any as Schema.Schema<GoogleAppsCardV1GridItem>;
 
 export interface GoogleAppsCardV1Grid {
   /** The text that displays in the grid header. */
@@ -635,19 +870,25 @@ export interface GoogleAppsCardV1Grid {
   onClick?: GoogleAppsCardV1OnClick;
 }
 
-export const GoogleAppsCardV1Grid: Schema.Schema<GoogleAppsCardV1Grid> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(GoogleAppsCardV1GridItem)),
-  borderStyle: Schema.optional(GoogleAppsCardV1BorderStyle),
-  columnCount: Schema.optional(Schema.Number),
-  onClick: Schema.optional(GoogleAppsCardV1OnClick),
-})).annotate({ identifier: "GoogleAppsCardV1Grid" }) as any as Schema.Schema<GoogleAppsCardV1Grid>;
+export const GoogleAppsCardV1Grid: Schema.Schema<GoogleAppsCardV1Grid> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(GoogleAppsCardV1GridItem)),
+      borderStyle: Schema.optional(GoogleAppsCardV1BorderStyle),
+      columnCount: Schema.optional(Schema.Number),
+      onClick: Schema.optional(GoogleAppsCardV1OnClick),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Grid",
+  }) as any as Schema.Schema<GoogleAppsCardV1Grid>;
 
-export interface GoogleAppsCardV1Divider {
-}
+export interface GoogleAppsCardV1Divider {}
 
-export const GoogleAppsCardV1Divider: Schema.Schema<GoogleAppsCardV1Divider> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleAppsCardV1Divider" }) as any as Schema.Schema<GoogleAppsCardV1Divider>;
+export const GoogleAppsCardV1Divider: Schema.Schema<GoogleAppsCardV1Divider> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleAppsCardV1Divider",
+  }) as any as Schema.Schema<GoogleAppsCardV1Divider>;
 
 export interface GoogleAppsCardV1PlatformDataSource {
   /** A data source shared by all Google Workspace applications, such as users in a Google Workspace organization. */
@@ -656,10 +897,15 @@ export interface GoogleAppsCardV1PlatformDataSource {
   hostAppDataSource?: HostAppDataSourceMarkup;
 }
 
-export const GoogleAppsCardV1PlatformDataSource: Schema.Schema<GoogleAppsCardV1PlatformDataSource> = Schema.suspend(() => Schema.Struct({
-  commonDataSource: Schema.optional(Schema.String),
-  hostAppDataSource: Schema.optional(HostAppDataSourceMarkup),
-})).annotate({ identifier: "GoogleAppsCardV1PlatformDataSource" }) as any as Schema.Schema<GoogleAppsCardV1PlatformDataSource>;
+export const GoogleAppsCardV1PlatformDataSource: Schema.Schema<GoogleAppsCardV1PlatformDataSource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commonDataSource: Schema.optional(Schema.String),
+      hostAppDataSource: Schema.optional(HostAppDataSourceMarkup),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1PlatformDataSource",
+  }) as any as Schema.Schema<GoogleAppsCardV1PlatformDataSource>;
 
 export interface GoogleAppsCardV1DataSourceConfig {
   /** The data is from a Google Workspace application. */
@@ -670,11 +916,16 @@ export interface GoogleAppsCardV1DataSourceConfig {
   minCharactersTrigger?: number;
 }
 
-export const GoogleAppsCardV1DataSourceConfig: Schema.Schema<GoogleAppsCardV1DataSourceConfig> = Schema.suspend(() => Schema.Struct({
-  platformDataSource: Schema.optional(GoogleAppsCardV1PlatformDataSource),
-  remoteDataSource: Schema.optional(GoogleAppsCardV1Action),
-  minCharactersTrigger: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleAppsCardV1DataSourceConfig" }) as any as Schema.Schema<GoogleAppsCardV1DataSourceConfig>;
+export const GoogleAppsCardV1DataSourceConfig: Schema.Schema<GoogleAppsCardV1DataSourceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      platformDataSource: Schema.optional(GoogleAppsCardV1PlatformDataSource),
+      remoteDataSource: Schema.optional(GoogleAppsCardV1Action),
+      minCharactersTrigger: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1DataSourceConfig",
+  }) as any as Schema.Schema<GoogleAppsCardV1DataSourceConfig>;
 
 export interface GoogleAppsCardV1SelectionItem {
   /** Whether the item is selected by default. If the selection input only accepts one value (such as for radio buttons or a dropdown menu), only set this field for one item. */
@@ -688,13 +939,18 @@ export interface GoogleAppsCardV1SelectionItem {
   value?: string;
 }
 
-export const GoogleAppsCardV1SelectionItem: Schema.Schema<GoogleAppsCardV1SelectionItem> = Schema.suspend(() => Schema.Struct({
-  selected: Schema.optional(Schema.Boolean),
-  text: Schema.optional(Schema.String),
-  startIconUri: Schema.optional(Schema.String),
-  bottomText: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1SelectionItem" }) as any as Schema.Schema<GoogleAppsCardV1SelectionItem>;
+export const GoogleAppsCardV1SelectionItem: Schema.Schema<GoogleAppsCardV1SelectionItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      selected: Schema.optional(Schema.Boolean),
+      text: Schema.optional(Schema.String),
+      startIconUri: Schema.optional(Schema.String),
+      bottomText: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1SelectionItem",
+  }) as any as Schema.Schema<GoogleAppsCardV1SelectionItem>;
 
 export interface GoogleAppsCardV1SelectionInput {
   /** The text that appears above the selection input field in the user interface. Specify text that helps the user enter the information your app needs. For example, if users are selecting the urgency of a work ticket from a drop-down menu, the label might be "Urgency" or "Select urgency". */
@@ -718,49 +974,79 @@ export interface GoogleAppsCardV1SelectionInput {
   /** An external data source, such as a relational database. */
   externalDataSource?: GoogleAppsCardV1Action;
   /** The type of items that are displayed to users in a `SelectionInput` widget. Selection types support different types of interactions. For example, users can select one or more checkboxes, but they can only select one value from a dropdown menu. */
-  type?: "CHECK_BOX" | "RADIO_BUTTON" | "SWITCH" | "DROPDOWN" | "MULTI_SELECT" | (string & {});
+  type?:
+    | "CHECK_BOX"
+    | "RADIO_BUTTON"
+    | "SWITCH"
+    | "DROPDOWN"
+    | "MULTI_SELECT"
+    | (string & {});
 }
 
-export const GoogleAppsCardV1SelectionInput: Schema.Schema<GoogleAppsCardV1SelectionInput> = Schema.suspend(() => Schema.Struct({
-  label: Schema.optional(Schema.String),
-  hintText: Schema.optional(Schema.String),
-  multiSelectMinQueryLength: Schema.optional(Schema.Number),
-  platformDataSource: Schema.optional(GoogleAppsCardV1PlatformDataSource),
-  onChangeAction: Schema.optional(GoogleAppsCardV1Action),
-  multiSelectMaxSelectedItems: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  dataSourceConfigs: Schema.optional(Schema.Array(GoogleAppsCardV1DataSourceConfig)),
-  items: Schema.optional(Schema.Array(GoogleAppsCardV1SelectionItem)),
-  externalDataSource: Schema.optional(GoogleAppsCardV1Action),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1SelectionInput" }) as any as Schema.Schema<GoogleAppsCardV1SelectionInput>;
+export const GoogleAppsCardV1SelectionInput: Schema.Schema<GoogleAppsCardV1SelectionInput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      label: Schema.optional(Schema.String),
+      hintText: Schema.optional(Schema.String),
+      multiSelectMinQueryLength: Schema.optional(Schema.Number),
+      platformDataSource: Schema.optional(GoogleAppsCardV1PlatformDataSource),
+      onChangeAction: Schema.optional(GoogleAppsCardV1Action),
+      multiSelectMaxSelectedItems: Schema.optional(Schema.Number),
+      name: Schema.optional(Schema.String),
+      dataSourceConfigs: Schema.optional(
+        Schema.Array(GoogleAppsCardV1DataSourceConfig),
+      ),
+      items: Schema.optional(Schema.Array(GoogleAppsCardV1SelectionItem)),
+      externalDataSource: Schema.optional(GoogleAppsCardV1Action),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1SelectionInput",
+  }) as any as Schema.Schema<GoogleAppsCardV1SelectionInput>;
 
 export interface GoogleAppsCardV1Trigger {
   /** The unique identifier of the ActionRule. */
   actionRuleId?: string;
 }
 
-export const GoogleAppsCardV1Trigger: Schema.Schema<GoogleAppsCardV1Trigger> = Schema.suspend(() => Schema.Struct({
-  actionRuleId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1Trigger" }) as any as Schema.Schema<GoogleAppsCardV1Trigger>;
+export const GoogleAppsCardV1Trigger: Schema.Schema<GoogleAppsCardV1Trigger> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionRuleId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Trigger",
+  }) as any as Schema.Schema<GoogleAppsCardV1Trigger>;
 
 export interface GoogleAppsCardV1UpdateVisibilityAction {
   /** The new visibility. */
   visibility?: "VISIBILITY_UNSPECIFIED" | "VISIBLE" | "HIDDEN" | (string & {});
 }
 
-export const GoogleAppsCardV1UpdateVisibilityAction: Schema.Schema<GoogleAppsCardV1UpdateVisibilityAction> = Schema.suspend(() => Schema.Struct({
-  visibility: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1UpdateVisibilityAction" }) as any as Schema.Schema<GoogleAppsCardV1UpdateVisibilityAction>;
+export const GoogleAppsCardV1UpdateVisibilityAction: Schema.Schema<GoogleAppsCardV1UpdateVisibilityAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      visibility: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1UpdateVisibilityAction",
+  }) as any as Schema.Schema<GoogleAppsCardV1UpdateVisibilityAction>;
 
 export interface GoogleAppsCardV1CommonWidgetAction {
   /** The action to update the visibility of a widget. */
   updateVisibilityAction?: GoogleAppsCardV1UpdateVisibilityAction;
 }
 
-export const GoogleAppsCardV1CommonWidgetAction: Schema.Schema<GoogleAppsCardV1CommonWidgetAction> = Schema.suspend(() => Schema.Struct({
-  updateVisibilityAction: Schema.optional(GoogleAppsCardV1UpdateVisibilityAction),
-})).annotate({ identifier: "GoogleAppsCardV1CommonWidgetAction" }) as any as Schema.Schema<GoogleAppsCardV1CommonWidgetAction>;
+export const GoogleAppsCardV1CommonWidgetAction: Schema.Schema<GoogleAppsCardV1CommonWidgetAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateVisibilityAction: Schema.optional(
+        GoogleAppsCardV1UpdateVisibilityAction,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1CommonWidgetAction",
+  }) as any as Schema.Schema<GoogleAppsCardV1CommonWidgetAction>;
 
 export interface GoogleAppsCardV1EventAction {
   /** The unique identifier of the ActionRule. */
@@ -771,11 +1057,16 @@ export interface GoogleAppsCardV1EventAction {
   commonWidgetAction?: GoogleAppsCardV1CommonWidgetAction;
 }
 
-export const GoogleAppsCardV1EventAction: Schema.Schema<GoogleAppsCardV1EventAction> = Schema.suspend(() => Schema.Struct({
-  actionRuleId: Schema.optional(Schema.String),
-  postEventTriggers: Schema.optional(Schema.Array(GoogleAppsCardV1Trigger)),
-  commonWidgetAction: Schema.optional(GoogleAppsCardV1CommonWidgetAction),
-})).annotate({ identifier: "GoogleAppsCardV1EventAction" }) as any as Schema.Schema<GoogleAppsCardV1EventAction>;
+export const GoogleAppsCardV1EventAction: Schema.Schema<GoogleAppsCardV1EventAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionRuleId: Schema.optional(Schema.String),
+      postEventTriggers: Schema.optional(Schema.Array(GoogleAppsCardV1Trigger)),
+      commonWidgetAction: Schema.optional(GoogleAppsCardV1CommonWidgetAction),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1EventAction",
+  }) as any as Schema.Schema<GoogleAppsCardV1EventAction>;
 
 export interface GoogleAppsCardV1SwitchControl {
   /** The value entered by a user, returned as part of a form input event. For details about working with form inputs, see [Receive form data](https://developers.google.com/workspace/chat/read-form-data). */
@@ -790,13 +1081,18 @@ export interface GoogleAppsCardV1SwitchControl {
   controlType?: "SWITCH" | "CHECKBOX" | "CHECK_BOX" | (string & {});
 }
 
-export const GoogleAppsCardV1SwitchControl: Schema.Schema<GoogleAppsCardV1SwitchControl> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  selected: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-  onChangeAction: Schema.optional(GoogleAppsCardV1Action),
-  controlType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1SwitchControl" }) as any as Schema.Schema<GoogleAppsCardV1SwitchControl>;
+export const GoogleAppsCardV1SwitchControl: Schema.Schema<GoogleAppsCardV1SwitchControl> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      selected: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      onChangeAction: Schema.optional(GoogleAppsCardV1Action),
+      controlType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1SwitchControl",
+  }) as any as Schema.Schema<GoogleAppsCardV1SwitchControl>;
 
 export interface GoogleAppsCardV1DecoratedText {
   /** The text that appears above `text`. Always truncates. */
@@ -824,57 +1120,89 @@ export interface GoogleAppsCardV1DecoratedText {
   /** Deprecated in favor of `startIcon`. */
   icon?: GoogleAppsCardV1Icon;
   /** Optional. Vertical alignment of the start icon. If not set, the icon will be vertically centered. [Google Chat apps](https://developers.google.com/workspace/chat): */
-  startIconVerticalAlignment?: "VERTICAL_ALIGNMENT_UNSPECIFIED" | "TOP" | "MIDDLE" | "BOTTOM" | (string & {});
+  startIconVerticalAlignment?:
+    | "VERTICAL_ALIGNMENT_UNSPECIFIED"
+    | "TOP"
+    | "MIDDLE"
+    | "BOTTOM"
+    | (string & {});
   /** An icon displayed after the text. Supports [built-in](https://developers.google.com/workspace/chat/format-messages#builtinicons) and [custom](https://developers.google.com/workspace/chat/format-messages#customicons) icons. */
   endIcon?: GoogleAppsCardV1Icon;
 }
 
-export const GoogleAppsCardV1DecoratedText: Schema.Schema<GoogleAppsCardV1DecoratedText> = Schema.suspend(() => Schema.Struct({
-  topLabel: Schema.optional(Schema.String),
-  startIcon: Schema.optional(GoogleAppsCardV1Icon),
-  contentText: Schema.optional(GoogleAppsCardV1TextParagraph),
-  bottomLabel: Schema.optional(Schema.String),
-  switchControl: Schema.optional(GoogleAppsCardV1SwitchControl),
-  bottomLabelText: Schema.optional(GoogleAppsCardV1TextParagraph),
-  onClick: Schema.optional(GoogleAppsCardV1OnClick),
-  button: Schema.optional(GoogleAppsCardV1Button),
-  text: Schema.optional(Schema.String),
-  wrapText: Schema.optional(Schema.Boolean),
-  topLabelText: Schema.optional(GoogleAppsCardV1TextParagraph),
-  icon: Schema.optional(GoogleAppsCardV1Icon),
-  startIconVerticalAlignment: Schema.optional(Schema.String),
-  endIcon: Schema.optional(GoogleAppsCardV1Icon),
-})).annotate({ identifier: "GoogleAppsCardV1DecoratedText" }) as any as Schema.Schema<GoogleAppsCardV1DecoratedText>;
+export const GoogleAppsCardV1DecoratedText: Schema.Schema<GoogleAppsCardV1DecoratedText> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      topLabel: Schema.optional(Schema.String),
+      startIcon: Schema.optional(GoogleAppsCardV1Icon),
+      contentText: Schema.optional(GoogleAppsCardV1TextParagraph),
+      bottomLabel: Schema.optional(Schema.String),
+      switchControl: Schema.optional(GoogleAppsCardV1SwitchControl),
+      bottomLabelText: Schema.optional(GoogleAppsCardV1TextParagraph),
+      onClick: Schema.optional(GoogleAppsCardV1OnClick),
+      button: Schema.optional(GoogleAppsCardV1Button),
+      text: Schema.optional(Schema.String),
+      wrapText: Schema.optional(Schema.Boolean),
+      topLabelText: Schema.optional(GoogleAppsCardV1TextParagraph),
+      icon: Schema.optional(GoogleAppsCardV1Icon),
+      startIconVerticalAlignment: Schema.optional(Schema.String),
+      endIcon: Schema.optional(GoogleAppsCardV1Icon),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1DecoratedText",
+  }) as any as Schema.Schema<GoogleAppsCardV1DecoratedText>;
 
 export interface GoogleAppsCardV1SuggestionItem {
   /** The value of a suggested input to a text input field. This is equivalent to what users enter themselves. */
   text?: string;
 }
 
-export const GoogleAppsCardV1SuggestionItem: Schema.Schema<GoogleAppsCardV1SuggestionItem> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1SuggestionItem" }) as any as Schema.Schema<GoogleAppsCardV1SuggestionItem>;
+export const GoogleAppsCardV1SuggestionItem: Schema.Schema<GoogleAppsCardV1SuggestionItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1SuggestionItem",
+  }) as any as Schema.Schema<GoogleAppsCardV1SuggestionItem>;
 
 export interface GoogleAppsCardV1Suggestions {
   /** A list of suggestions used for autocomplete recommendations in text input fields. */
   items?: Array<GoogleAppsCardV1SuggestionItem>;
 }
 
-export const GoogleAppsCardV1Suggestions: Schema.Schema<GoogleAppsCardV1Suggestions> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(GoogleAppsCardV1SuggestionItem)),
-})).annotate({ identifier: "GoogleAppsCardV1Suggestions" }) as any as Schema.Schema<GoogleAppsCardV1Suggestions>;
+export const GoogleAppsCardV1Suggestions: Schema.Schema<GoogleAppsCardV1Suggestions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(GoogleAppsCardV1SuggestionItem)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Suggestions",
+  }) as any as Schema.Schema<GoogleAppsCardV1Suggestions>;
 
 export interface GoogleAppsCardV1Validation {
   /** Specify the type of the input widgets. [Google Workspace add-ons and Chat apps](https://developers.google.com/workspace/extend): */
-  inputType?: "INPUT_TYPE_UNSPECIFIED" | "TEXT" | "INTEGER" | "FLOAT" | "EMAIL" | "EMOJI_PICKER" | (string & {});
+  inputType?:
+    | "INPUT_TYPE_UNSPECIFIED"
+    | "TEXT"
+    | "INTEGER"
+    | "FLOAT"
+    | "EMAIL"
+    | "EMOJI_PICKER"
+    | (string & {});
   /** Specify the character limit for text input widgets. Note that this is only used for text input and is ignored for other widgets. [Google Workspace add-ons and Chat apps](https://developers.google.com/workspace/extend): */
   characterLimit?: number;
 }
 
-export const GoogleAppsCardV1Validation: Schema.Schema<GoogleAppsCardV1Validation> = Schema.suspend(() => Schema.Struct({
-  inputType: Schema.optional(Schema.String),
-  characterLimit: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleAppsCardV1Validation" }) as any as Schema.Schema<GoogleAppsCardV1Validation>;
+export const GoogleAppsCardV1Validation: Schema.Schema<GoogleAppsCardV1Validation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputType: Schema.optional(Schema.String),
+      characterLimit: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Validation",
+  }) as any as Schema.Schema<GoogleAppsCardV1Validation>;
 
 export interface GoogleAppsCardV1TextInput {
   /** Text that appears in the text input field when the field is empty. Use this text to prompt users to enter a value. For example, `Enter a number from 0 to 100`. [Google Chat apps](https://developers.google.com/workspace/chat): */
@@ -901,19 +1229,24 @@ export interface GoogleAppsCardV1TextInput {
   onChangeAction?: GoogleAppsCardV1Action;
 }
 
-export const GoogleAppsCardV1TextInput: Schema.Schema<GoogleAppsCardV1TextInput> = Schema.suspend(() => Schema.Struct({
-  placeholderText: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-  initialSuggestions: Schema.optional(GoogleAppsCardV1Suggestions),
-  hostAppDataSource: Schema.optional(HostAppDataSourceMarkup),
-  type: Schema.optional(Schema.String),
-  autoCompleteAction: Schema.optional(GoogleAppsCardV1Action),
-  label: Schema.optional(Schema.String),
-  hintText: Schema.optional(Schema.String),
-  validation: Schema.optional(GoogleAppsCardV1Validation),
-  name: Schema.optional(Schema.String),
-  onChangeAction: Schema.optional(GoogleAppsCardV1Action),
-})).annotate({ identifier: "GoogleAppsCardV1TextInput" }) as any as Schema.Schema<GoogleAppsCardV1TextInput>;
+export const GoogleAppsCardV1TextInput: Schema.Schema<GoogleAppsCardV1TextInput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      placeholderText: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      initialSuggestions: Schema.optional(GoogleAppsCardV1Suggestions),
+      hostAppDataSource: Schema.optional(HostAppDataSourceMarkup),
+      type: Schema.optional(Schema.String),
+      autoCompleteAction: Schema.optional(GoogleAppsCardV1Action),
+      label: Schema.optional(Schema.String),
+      hintText: Schema.optional(Schema.String),
+      validation: Schema.optional(GoogleAppsCardV1Validation),
+      name: Schema.optional(Schema.String),
+      onChangeAction: Schema.optional(GoogleAppsCardV1Action),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1TextInput",
+  }) as any as Schema.Schema<GoogleAppsCardV1TextInput>;
 
 export interface GoogleAppsCardV1Chip {
   /** The icon image. If both `icon` and `text` are set, then the icon appears before the text. */
@@ -930,26 +1263,40 @@ export interface GoogleAppsCardV1Chip {
   onClick?: GoogleAppsCardV1OnClick;
 }
 
-export const GoogleAppsCardV1Chip: Schema.Schema<GoogleAppsCardV1Chip> = Schema.suspend(() => Schema.Struct({
-  icon: Schema.optional(GoogleAppsCardV1Icon),
-  enabled: Schema.optional(Schema.Boolean),
-  altText: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.String),
-  disabled: Schema.optional(Schema.Boolean),
-  onClick: Schema.optional(GoogleAppsCardV1OnClick),
-})).annotate({ identifier: "GoogleAppsCardV1Chip" }) as any as Schema.Schema<GoogleAppsCardV1Chip>;
+export const GoogleAppsCardV1Chip: Schema.Schema<GoogleAppsCardV1Chip> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      icon: Schema.optional(GoogleAppsCardV1Icon),
+      enabled: Schema.optional(Schema.Boolean),
+      altText: Schema.optional(Schema.String),
+      label: Schema.optional(Schema.String),
+      disabled: Schema.optional(Schema.Boolean),
+      onClick: Schema.optional(GoogleAppsCardV1OnClick),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Chip",
+  }) as any as Schema.Schema<GoogleAppsCardV1Chip>;
 
 export interface GoogleAppsCardV1ChipList {
   /** Specified chip list layout. */
-  layout?: "LAYOUT_UNSPECIFIED" | "WRAPPED" | "HORIZONTAL_SCROLLABLE" | (string & {});
+  layout?:
+    | "LAYOUT_UNSPECIFIED"
+    | "WRAPPED"
+    | "HORIZONTAL_SCROLLABLE"
+    | (string & {});
   /** An array of chips. */
   chips?: Array<GoogleAppsCardV1Chip>;
 }
 
-export const GoogleAppsCardV1ChipList: Schema.Schema<GoogleAppsCardV1ChipList> = Schema.suspend(() => Schema.Struct({
-  layout: Schema.optional(Schema.String),
-  chips: Schema.optional(Schema.Array(GoogleAppsCardV1Chip)),
-})).annotate({ identifier: "GoogleAppsCardV1ChipList" }) as any as Schema.Schema<GoogleAppsCardV1ChipList>;
+export const GoogleAppsCardV1ChipList: Schema.Schema<GoogleAppsCardV1ChipList> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      layout: Schema.optional(Schema.String),
+      chips: Schema.optional(Schema.Array(GoogleAppsCardV1Chip)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1ChipList",
+  }) as any as Schema.Schema<GoogleAppsCardV1ChipList>;
 
 export interface GoogleAppsCardV1Widgets {
   /** ChipList widget. */
@@ -970,49 +1317,83 @@ export interface GoogleAppsCardV1Widgets {
   buttonList?: GoogleAppsCardV1ButtonList;
 }
 
-export const GoogleAppsCardV1Widgets: Schema.Schema<GoogleAppsCardV1Widgets> = Schema.suspend(() => Schema.Struct({
-  chipList: Schema.optional(GoogleAppsCardV1ChipList),
-  image: Schema.optional(GoogleAppsCardV1Image),
-  selectionInput: Schema.optional(GoogleAppsCardV1SelectionInput),
-  dateTimePicker: Schema.optional(GoogleAppsCardV1DateTimePicker),
-  decoratedText: Schema.optional(GoogleAppsCardV1DecoratedText),
-  textParagraph: Schema.optional(GoogleAppsCardV1TextParagraph),
-  textInput: Schema.optional(GoogleAppsCardV1TextInput),
-  buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
-})).annotate({ identifier: "GoogleAppsCardV1Widgets" }) as any as Schema.Schema<GoogleAppsCardV1Widgets>;
+export const GoogleAppsCardV1Widgets: Schema.Schema<GoogleAppsCardV1Widgets> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      chipList: Schema.optional(GoogleAppsCardV1ChipList),
+      image: Schema.optional(GoogleAppsCardV1Image),
+      selectionInput: Schema.optional(GoogleAppsCardV1SelectionInput),
+      dateTimePicker: Schema.optional(GoogleAppsCardV1DateTimePicker),
+      decoratedText: Schema.optional(GoogleAppsCardV1DecoratedText),
+      textParagraph: Schema.optional(GoogleAppsCardV1TextParagraph),
+      textInput: Schema.optional(GoogleAppsCardV1TextInput),
+      buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Widgets",
+  }) as any as Schema.Schema<GoogleAppsCardV1Widgets>;
 
 export interface GoogleAppsCardV1Column {
   /** Specifies whether widgets align to the left, right, or center of a column. */
-  horizontalAlignment?: "HORIZONTAL_ALIGNMENT_UNSPECIFIED" | "START" | "CENTER" | "END" | (string & {});
+  horizontalAlignment?:
+    | "HORIZONTAL_ALIGNMENT_UNSPECIFIED"
+    | "START"
+    | "CENTER"
+    | "END"
+    | (string & {});
   /** Specifies how a column fills the width of the card. */
-  horizontalSizeStyle?: "HORIZONTAL_SIZE_STYLE_UNSPECIFIED" | "FILL_AVAILABLE_SPACE" | "FILL_MINIMUM_SPACE" | (string & {});
+  horizontalSizeStyle?:
+    | "HORIZONTAL_SIZE_STYLE_UNSPECIFIED"
+    | "FILL_AVAILABLE_SPACE"
+    | "FILL_MINIMUM_SPACE"
+    | (string & {});
   /** Specifies whether widgets align to the top, bottom, or center of a column. */
-  verticalAlignment?: "VERTICAL_ALIGNMENT_UNSPECIFIED" | "CENTER" | "TOP" | "BOTTOM" | (string & {});
+  verticalAlignment?:
+    | "VERTICAL_ALIGNMENT_UNSPECIFIED"
+    | "CENTER"
+    | "TOP"
+    | "BOTTOM"
+    | (string & {});
   /** An array of widgets included in a column. Widgets appear in the order that they are specified. */
   widgets?: Array<GoogleAppsCardV1Widgets>;
 }
 
-export const GoogleAppsCardV1Column: Schema.Schema<GoogleAppsCardV1Column> = Schema.suspend(() => Schema.Struct({
-  horizontalAlignment: Schema.optional(Schema.String),
-  horizontalSizeStyle: Schema.optional(Schema.String),
-  verticalAlignment: Schema.optional(Schema.String),
-  widgets: Schema.optional(Schema.Array(GoogleAppsCardV1Widgets)),
-})).annotate({ identifier: "GoogleAppsCardV1Column" }) as any as Schema.Schema<GoogleAppsCardV1Column>;
+export const GoogleAppsCardV1Column: Schema.Schema<GoogleAppsCardV1Column> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      horizontalAlignment: Schema.optional(Schema.String),
+      horizontalSizeStyle: Schema.optional(Schema.String),
+      verticalAlignment: Schema.optional(Schema.String),
+      widgets: Schema.optional(Schema.Array(GoogleAppsCardV1Widgets)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Column",
+  }) as any as Schema.Schema<GoogleAppsCardV1Column>;
 
 export interface GoogleAppsCardV1Columns {
   /** An array of columns. You can include up to 2 columns in a card or dialog. */
   columnItems?: Array<GoogleAppsCardV1Column>;
 }
 
-export const GoogleAppsCardV1Columns: Schema.Schema<GoogleAppsCardV1Columns> = Schema.suspend(() => Schema.Struct({
-  columnItems: Schema.optional(Schema.Array(GoogleAppsCardV1Column)),
-})).annotate({ identifier: "GoogleAppsCardV1Columns" }) as any as Schema.Schema<GoogleAppsCardV1Columns>;
+export const GoogleAppsCardV1Columns: Schema.Schema<GoogleAppsCardV1Columns> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      columnItems: Schema.optional(Schema.Array(GoogleAppsCardV1Column)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Columns",
+  }) as any as Schema.Schema<GoogleAppsCardV1Columns>;
 
 export interface GoogleAppsCardV1Widget {
   /** Displays a text paragraph. Supports simple HTML formatted text. For more information about formatting text, see [Formatting text in Google Chat apps](https://developers.google.com/workspace/chat/format-messages#card-formatting) and [Formatting text in Google Workspace add-ons](https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting). For example, the following JSON creates a bolded text: ``` "textParagraph": { "text": " *bold text*" } ``` */
   textParagraph?: GoogleAppsCardV1TextParagraph;
   /** Specifies whether widgets align to the left, right, or center of a column. */
-  horizontalAlignment?: "HORIZONTAL_ALIGNMENT_UNSPECIFIED" | "START" | "CENTER" | "END" | (string & {});
+  horizontalAlignment?:
+    | "HORIZONTAL_ALIGNMENT_UNSPECIFIED"
+    | "START"
+    | "CENTER"
+    | "END"
+    | (string & {});
   /** A carousel contains a collection of nested widgets. For example, this is a JSON representation of a carousel that contains two text paragraphs. ``` { "widgets": [ { "textParagraph": { "text": "First text paragraph in the carousel." } }, { "textParagraph": { "text": "Second text paragraph in the carousel." } } ] } ``` */
   carousel?: GoogleAppsCardV1Carousel;
   /** Displays a widget that lets users input a date, time, or date and time. For example, the following JSON creates a date time picker to schedule an appointment: ``` "dateTimePicker": { "name": "appointment_time", "label": "Book your appointment at:", "type": "DATE_AND_TIME", "valueMsEpoch": 796435200000 } ``` */
@@ -1043,24 +1424,29 @@ export interface GoogleAppsCardV1Widget {
   columns?: GoogleAppsCardV1Columns;
 }
 
-export const GoogleAppsCardV1Widget: Schema.Schema<GoogleAppsCardV1Widget> = Schema.suspend(() => Schema.Struct({
-  textParagraph: Schema.optional(GoogleAppsCardV1TextParagraph),
-  horizontalAlignment: Schema.optional(Schema.String),
-  carousel: Schema.optional(GoogleAppsCardV1Carousel),
-  dateTimePicker: Schema.optional(GoogleAppsCardV1DateTimePicker),
-  grid: Schema.optional(GoogleAppsCardV1Grid),
-  buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
-  divider: Schema.optional(GoogleAppsCardV1Divider),
-  visibility: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  image: Schema.optional(GoogleAppsCardV1Image),
-  selectionInput: Schema.optional(GoogleAppsCardV1SelectionInput),
-  eventActions: Schema.optional(Schema.Array(GoogleAppsCardV1EventAction)),
-  decoratedText: Schema.optional(GoogleAppsCardV1DecoratedText),
-  textInput: Schema.optional(GoogleAppsCardV1TextInput),
-  chipList: Schema.optional(GoogleAppsCardV1ChipList),
-  columns: Schema.optional(GoogleAppsCardV1Columns),
-})).annotate({ identifier: "GoogleAppsCardV1Widget" }) as any as Schema.Schema<GoogleAppsCardV1Widget>;
+export const GoogleAppsCardV1Widget: Schema.Schema<GoogleAppsCardV1Widget> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      textParagraph: Schema.optional(GoogleAppsCardV1TextParagraph),
+      horizontalAlignment: Schema.optional(Schema.String),
+      carousel: Schema.optional(GoogleAppsCardV1Carousel),
+      dateTimePicker: Schema.optional(GoogleAppsCardV1DateTimePicker),
+      grid: Schema.optional(GoogleAppsCardV1Grid),
+      buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
+      divider: Schema.optional(GoogleAppsCardV1Divider),
+      visibility: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      image: Schema.optional(GoogleAppsCardV1Image),
+      selectionInput: Schema.optional(GoogleAppsCardV1SelectionInput),
+      eventActions: Schema.optional(Schema.Array(GoogleAppsCardV1EventAction)),
+      decoratedText: Schema.optional(GoogleAppsCardV1DecoratedText),
+      textInput: Schema.optional(GoogleAppsCardV1TextInput),
+      chipList: Schema.optional(GoogleAppsCardV1ChipList),
+      columns: Schema.optional(GoogleAppsCardV1Columns),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Widget",
+  }) as any as Schema.Schema<GoogleAppsCardV1Widget>;
 
 export interface GoogleAppsCardV1CollapseControl {
   /** Optional. Define a customizable button to expand the section. Both expand_button and collapse_button field must be set. Only one field set will not take into effect. If this field isn't set, the default button is used. */
@@ -1068,14 +1454,24 @@ export interface GoogleAppsCardV1CollapseControl {
   /** Optional. Define a customizable button to collapse the section. Both expand_button and collapse_button field must be set. Only one field set will not take into effect. If this field isn't set, the default button is used. */
   collapseButton?: GoogleAppsCardV1Button;
   /** The horizontal alignment of the expand and collapse button. */
-  horizontalAlignment?: "HORIZONTAL_ALIGNMENT_UNSPECIFIED" | "START" | "CENTER" | "END" | (string & {});
+  horizontalAlignment?:
+    | "HORIZONTAL_ALIGNMENT_UNSPECIFIED"
+    | "START"
+    | "CENTER"
+    | "END"
+    | (string & {});
 }
 
-export const GoogleAppsCardV1CollapseControl: Schema.Schema<GoogleAppsCardV1CollapseControl> = Schema.suspend(() => Schema.Struct({
-  expandButton: Schema.optional(GoogleAppsCardV1Button),
-  collapseButton: Schema.optional(GoogleAppsCardV1Button),
-  horizontalAlignment: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1CollapseControl" }) as any as Schema.Schema<GoogleAppsCardV1CollapseControl>;
+export const GoogleAppsCardV1CollapseControl: Schema.Schema<GoogleAppsCardV1CollapseControl> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      expandButton: Schema.optional(GoogleAppsCardV1Button),
+      collapseButton: Schema.optional(GoogleAppsCardV1Button),
+      horizontalAlignment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1CollapseControl",
+  }) as any as Schema.Schema<GoogleAppsCardV1CollapseControl>;
 
 export interface GoogleAppsCardV1Section {
   /** Text that appears at the top of a section. Supports simple HTML formatted text. For more information about formatting text, see [Formatting text in Google Chat apps](https://developers.google.com/workspace/chat/format-messages#card-formatting) and [Formatting text in Google Workspace add-ons](https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting). */
@@ -1092,14 +1488,19 @@ export interface GoogleAppsCardV1Section {
   id?: string;
 }
 
-export const GoogleAppsCardV1Section: Schema.Schema<GoogleAppsCardV1Section> = Schema.suspend(() => Schema.Struct({
-  header: Schema.optional(Schema.String),
-  widgets: Schema.optional(Schema.Array(GoogleAppsCardV1Widget)),
-  collapsible: Schema.optional(Schema.Boolean),
-  uncollapsibleWidgetsCount: Schema.optional(Schema.Number),
-  collapseControl: Schema.optional(GoogleAppsCardV1CollapseControl),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1Section" }) as any as Schema.Schema<GoogleAppsCardV1Section>;
+export const GoogleAppsCardV1Section: Schema.Schema<GoogleAppsCardV1Section> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      header: Schema.optional(Schema.String),
+      widgets: Schema.optional(Schema.Array(GoogleAppsCardV1Widget)),
+      collapsible: Schema.optional(Schema.Boolean),
+      uncollapsibleWidgetsCount: Schema.optional(Schema.Number),
+      collapseControl: Schema.optional(GoogleAppsCardV1CollapseControl),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Section",
+  }) as any as Schema.Schema<GoogleAppsCardV1Section>;
 
 export interface GoogleAppsCardV1CardHeader {
   /** Required. The title of the card header. The header has a fixed height: if both a title and subtitle are specified, each takes up one line. If only the title is specified, it takes up both lines. */
@@ -1114,22 +1515,36 @@ export interface GoogleAppsCardV1CardHeader {
   imageType?: "SQUARE" | "CIRCLE" | (string & {});
 }
 
-export const GoogleAppsCardV1CardHeader: Schema.Schema<GoogleAppsCardV1CardHeader> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(Schema.String),
-  imageUrl: Schema.optional(Schema.String),
-  imageAltText: Schema.optional(Schema.String),
-  subtitle: Schema.optional(Schema.String),
-  imageType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1CardHeader" }) as any as Schema.Schema<GoogleAppsCardV1CardHeader>;
+export const GoogleAppsCardV1CardHeader: Schema.Schema<GoogleAppsCardV1CardHeader> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      imageUrl: Schema.optional(Schema.String),
+      imageAltText: Schema.optional(Schema.String),
+      subtitle: Schema.optional(Schema.String),
+      imageType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1CardHeader",
+  }) as any as Schema.Schema<GoogleAppsCardV1CardHeader>;
 
 export interface GoogleAppsCardV1ExpressionDataCondition {
   /** The type of the condition. */
-  conditionType?: "CONDITION_TYPE_UNSPECIFIED" | "EXPRESSION_EVALUATION_SUCCESS" | "EXPRESSION_EVALUATION_FAILURE" | (string & {});
+  conditionType?:
+    | "CONDITION_TYPE_UNSPECIFIED"
+    | "EXPRESSION_EVALUATION_SUCCESS"
+    | "EXPRESSION_EVALUATION_FAILURE"
+    | (string & {});
 }
 
-export const GoogleAppsCardV1ExpressionDataCondition: Schema.Schema<GoogleAppsCardV1ExpressionDataCondition> = Schema.suspend(() => Schema.Struct({
-  conditionType: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1ExpressionDataCondition" }) as any as Schema.Schema<GoogleAppsCardV1ExpressionDataCondition>;
+export const GoogleAppsCardV1ExpressionDataCondition: Schema.Schema<GoogleAppsCardV1ExpressionDataCondition> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      conditionType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1ExpressionDataCondition",
+  }) as any as Schema.Schema<GoogleAppsCardV1ExpressionDataCondition>;
 
 export interface GoogleAppsCardV1Condition {
   /** The unique identifier of the ActionRule. */
@@ -1138,10 +1553,17 @@ export interface GoogleAppsCardV1Condition {
   expressionDataCondition?: GoogleAppsCardV1ExpressionDataCondition;
 }
 
-export const GoogleAppsCardV1Condition: Schema.Schema<GoogleAppsCardV1Condition> = Schema.suspend(() => Schema.Struct({
-  actionRuleId: Schema.optional(Schema.String),
-  expressionDataCondition: Schema.optional(GoogleAppsCardV1ExpressionDataCondition),
-})).annotate({ identifier: "GoogleAppsCardV1Condition" }) as any as Schema.Schema<GoogleAppsCardV1Condition>;
+export const GoogleAppsCardV1Condition: Schema.Schema<GoogleAppsCardV1Condition> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionRuleId: Schema.optional(Schema.String),
+      expressionDataCondition: Schema.optional(
+        GoogleAppsCardV1ExpressionDataCondition,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Condition",
+  }) as any as Schema.Schema<GoogleAppsCardV1Condition>;
 
 export interface GoogleAppsCardV1ExpressionData {
   /** The unique identifier of the ExpressionData. */
@@ -1154,12 +1576,17 @@ export interface GoogleAppsCardV1ExpressionData {
   eventActions?: Array<GoogleAppsCardV1EventAction>;
 }
 
-export const GoogleAppsCardV1ExpressionData: Schema.Schema<GoogleAppsCardV1ExpressionData> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  conditions: Schema.optional(Schema.Array(GoogleAppsCardV1Condition)),
-  eventActions: Schema.optional(Schema.Array(GoogleAppsCardV1EventAction)),
-})).annotate({ identifier: "GoogleAppsCardV1ExpressionData" }) as any as Schema.Schema<GoogleAppsCardV1ExpressionData>;
+export const GoogleAppsCardV1ExpressionData: Schema.Schema<GoogleAppsCardV1ExpressionData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
+      conditions: Schema.optional(Schema.Array(GoogleAppsCardV1Condition)),
+      eventActions: Schema.optional(Schema.Array(GoogleAppsCardV1EventAction)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1ExpressionData",
+  }) as any as Schema.Schema<GoogleAppsCardV1ExpressionData>;
 
 export interface GoogleAppsCardV1CardAction {
   /** The label that displays as the action menu item. */
@@ -1168,10 +1595,15 @@ export interface GoogleAppsCardV1CardAction {
   onClick?: GoogleAppsCardV1OnClick;
 }
 
-export const GoogleAppsCardV1CardAction: Schema.Schema<GoogleAppsCardV1CardAction> = Schema.suspend(() => Schema.Struct({
-  actionLabel: Schema.optional(Schema.String),
-  onClick: Schema.optional(GoogleAppsCardV1OnClick),
-})).annotate({ identifier: "GoogleAppsCardV1CardAction" }) as any as Schema.Schema<GoogleAppsCardV1CardAction>;
+export const GoogleAppsCardV1CardAction: Schema.Schema<GoogleAppsCardV1CardAction> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      actionLabel: Schema.optional(Schema.String),
+      onClick: Schema.optional(GoogleAppsCardV1OnClick),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1CardAction",
+  }) as any as Schema.Schema<GoogleAppsCardV1CardAction>;
 
 export interface GoogleAppsCardV1Card {
   /** Name of the card. Used as a card identifier in card navigation. [Google Workspace add-ons](https://developers.google.com/workspace/add-ons): */
@@ -1181,7 +1613,11 @@ export interface GoogleAppsCardV1Card {
   /** Contains a collection of widgets. Each section has its own, optional header. Sections are visually separated by a line divider. For an example in Google Chat apps, see [Define a section of a card](https://developers.google.com/workspace/chat/design-components-card-dialog#define_a_section_of_a_card). */
   sections?: Array<GoogleAppsCardV1Section>;
   /** In Google Workspace add-ons, sets the display properties of the `peekCardHeader`. [Google Workspace add-ons](https://developers.google.com/workspace/add-ons): */
-  displayStyle?: "DISPLAY_STYLE_UNSPECIFIED" | "PEEK" | "REPLACE" | (string & {});
+  displayStyle?:
+    | "DISPLAY_STYLE_UNSPECIFIED"
+    | "PEEK"
+    | "REPLACE"
+    | (string & {});
   /** When displaying contextual content, the peek card header acts as a placeholder so that the user can navigate forward between the homepage cards and the contextual cards. [Google Workspace add-ons](https://developers.google.com/workspace/add-ons): */
   peekCardHeader?: GoogleAppsCardV1CardHeader;
   /** The expression data for the card. Available for Google Workspace add-ons that extend Google Workspace Studio. Unavailable for Google Chat apps. */
@@ -1189,22 +1625,33 @@ export interface GoogleAppsCardV1Card {
   /** The header of the card. A header usually contains a leading image and a title. Headers always appear at the top of a card. */
   header?: GoogleAppsCardV1CardHeader;
   /** The divider style between the header, sections and footer. */
-  sectionDividerStyle?: "DIVIDER_STYLE_UNSPECIFIED" | "SOLID_DIVIDER" | "NO_DIVIDER" | (string & {});
+  sectionDividerStyle?:
+    | "DIVIDER_STYLE_UNSPECIFIED"
+    | "SOLID_DIVIDER"
+    | "NO_DIVIDER"
+    | (string & {});
   /** The card's actions. Actions are added to the card's toolbar menu. [Google Workspace add-ons](https://developers.google.com/workspace/add-ons): For example, the following JSON constructs a card action menu with `Settings` and `Send Feedback` options: ``` "card_actions": [ { "actionLabel": "Settings", "onClick": { "action": { "functionName": "goToView", "parameters": [ { "key": "viewType", "value": "SETTING" } ], "loadIndicator": "LoadIndicator.SPINNER" } } }, { "actionLabel": "Send Feedback", "onClick": { "openLink": { "url": "https://example.com/feedback" } } } ] ``` */
   cardActions?: Array<GoogleAppsCardV1CardAction>;
 }
 
-export const GoogleAppsCardV1Card: Schema.Schema<GoogleAppsCardV1Card> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  fixedFooter: Schema.optional(GoogleAppsCardV1CardFixedFooter),
-  sections: Schema.optional(Schema.Array(GoogleAppsCardV1Section)),
-  displayStyle: Schema.optional(Schema.String),
-  peekCardHeader: Schema.optional(GoogleAppsCardV1CardHeader),
-  expressionData: Schema.optional(Schema.Array(GoogleAppsCardV1ExpressionData)),
-  header: Schema.optional(GoogleAppsCardV1CardHeader),
-  sectionDividerStyle: Schema.optional(Schema.String),
-  cardActions: Schema.optional(Schema.Array(GoogleAppsCardV1CardAction)),
-})).annotate({ identifier: "GoogleAppsCardV1Card" }) as any as Schema.Schema<GoogleAppsCardV1Card>;
+export const GoogleAppsCardV1Card: Schema.Schema<GoogleAppsCardV1Card> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      fixedFooter: Schema.optional(GoogleAppsCardV1CardFixedFooter),
+      sections: Schema.optional(Schema.Array(GoogleAppsCardV1Section)),
+      displayStyle: Schema.optional(Schema.String),
+      peekCardHeader: Schema.optional(GoogleAppsCardV1CardHeader),
+      expressionData: Schema.optional(
+        Schema.Array(GoogleAppsCardV1ExpressionData),
+      ),
+      header: Schema.optional(GoogleAppsCardV1CardHeader),
+      sectionDividerStyle: Schema.optional(Schema.String),
+      cardActions: Schema.optional(Schema.Array(GoogleAppsCardV1CardAction)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Card",
+  }) as any as Schema.Schema<GoogleAppsCardV1Card>;
 
 export interface GoogleAppsCardV1OverflowMenuItem {
   /** Required. The text that identifies or describes the item to users. */
@@ -1217,21 +1664,31 @@ export interface GoogleAppsCardV1OverflowMenuItem {
   disabled?: boolean;
 }
 
-export const GoogleAppsCardV1OverflowMenuItem: Schema.Schema<GoogleAppsCardV1OverflowMenuItem> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  onClick: Schema.optional(GoogleAppsCardV1OnClick),
-  startIcon: Schema.optional(GoogleAppsCardV1Icon),
-  disabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleAppsCardV1OverflowMenuItem" }) as any as Schema.Schema<GoogleAppsCardV1OverflowMenuItem>;
+export const GoogleAppsCardV1OverflowMenuItem: Schema.Schema<GoogleAppsCardV1OverflowMenuItem> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      onClick: Schema.optional(GoogleAppsCardV1OnClick),
+      startIcon: Schema.optional(GoogleAppsCardV1Icon),
+      disabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1OverflowMenuItem",
+  }) as any as Schema.Schema<GoogleAppsCardV1OverflowMenuItem>;
 
 export interface GoogleAppsCardV1OverflowMenu {
   /** Required. The list of menu options. */
   items?: Array<GoogleAppsCardV1OverflowMenuItem>;
 }
 
-export const GoogleAppsCardV1OverflowMenu: Schema.Schema<GoogleAppsCardV1OverflowMenu> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(GoogleAppsCardV1OverflowMenuItem)),
-})).annotate({ identifier: "GoogleAppsCardV1OverflowMenu" }) as any as Schema.Schema<GoogleAppsCardV1OverflowMenu>;
+export const GoogleAppsCardV1OverflowMenu: Schema.Schema<GoogleAppsCardV1OverflowMenu> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(GoogleAppsCardV1OverflowMenuItem)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1OverflowMenu",
+  }) as any as Schema.Schema<GoogleAppsCardV1OverflowMenu>;
 
 export interface GoogleAppsCardV1OpenLink {
   /** Whether the client forgets about a link after opening it, or observes it until the window closes. [Google Workspace add-ons](https://developers.google.com/workspace/add-ons): */
@@ -1242,11 +1699,16 @@ export interface GoogleAppsCardV1OpenLink {
   url?: string;
 }
 
-export const GoogleAppsCardV1OpenLink: Schema.Schema<GoogleAppsCardV1OpenLink> = Schema.suspend(() => Schema.Struct({
-  onClose: Schema.optional(Schema.String),
-  openAs: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAppsCardV1OpenLink" }) as any as Schema.Schema<GoogleAppsCardV1OpenLink>;
+export const GoogleAppsCardV1OpenLink: Schema.Schema<GoogleAppsCardV1OpenLink> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      onClose: Schema.optional(Schema.String),
+      openAs: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1OpenLink",
+  }) as any as Schema.Schema<GoogleAppsCardV1OpenLink>;
 
 export interface GoogleAppsCardV1OnClick {
   /** A new card is pushed to the card stack after clicking if specified. [Google Workspace add-ons](https://developers.google.com/workspace/add-ons): */
@@ -1261,13 +1723,18 @@ export interface GoogleAppsCardV1OnClick {
   openLink?: GoogleAppsCardV1OpenLink;
 }
 
-export const GoogleAppsCardV1OnClick: Schema.Schema<GoogleAppsCardV1OnClick> = Schema.suspend(() => Schema.Struct({
-  card: Schema.optional(GoogleAppsCardV1Card),
-  overflowMenu: Schema.optional(GoogleAppsCardV1OverflowMenu),
-  openDynamicLinkAction: Schema.optional(GoogleAppsCardV1Action),
-  action: Schema.optional(GoogleAppsCardV1Action),
-  openLink: Schema.optional(GoogleAppsCardV1OpenLink),
-})).annotate({ identifier: "GoogleAppsCardV1OnClick" }) as any as Schema.Schema<GoogleAppsCardV1OnClick>;
+export const GoogleAppsCardV1OnClick: Schema.Schema<GoogleAppsCardV1OnClick> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      card: Schema.optional(GoogleAppsCardV1Card),
+      overflowMenu: Schema.optional(GoogleAppsCardV1OverflowMenu),
+      openDynamicLinkAction: Schema.optional(GoogleAppsCardV1Action),
+      action: Schema.optional(GoogleAppsCardV1Action),
+      openLink: Schema.optional(GoogleAppsCardV1OpenLink),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1OnClick",
+  }) as any as Schema.Schema<GoogleAppsCardV1OnClick>;
 
 export interface GoogleAppsCardV1Button {
   /** Optional. The color of the button. If set, the button `type` is set to `FILLED` and the color of `text` and `icon` fields are set to a contrasting color for readability. For example, if the button color is set to blue, any text or icons in the button are set to white. To set the button color, specify a value for the `red`, `green`, and `blue` fields. The value must be a float number between 0 and 1 based on the RGB color value, where `0` (0/255) represents the absence of color and `1` (255/255) represents the maximum intensity of the color. For example, the following sets the color to red at its maximum intensity: ``` "color": { "red": 1, "green": 0, "blue": 0, } ``` The `alpha` field is unavailable for button color. If specified, this field is ignored. */
@@ -1281,38 +1748,59 @@ export interface GoogleAppsCardV1Button {
   /** If `true`, the button is displayed in an inactive state and doesn't respond to user actions. */
   disabled?: boolean;
   /** Optional. The type of a button. If unset, button type defaults to `OUTLINED`. If the `color` field is set, the button type is forced to `FILLED` and any value set for this field is ignored. */
-  type?: "TYPE_UNSPECIFIED" | "OUTLINED" | "FILLED" | "FILLED_TONAL" | "BORDERLESS" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "OUTLINED"
+    | "FILLED"
+    | "FILLED_TONAL"
+    | "BORDERLESS"
+    | (string & {});
   /** Required. The action to perform when a user clicks the button, such as opening a hyperlink or running a custom function. */
   onClick?: GoogleAppsCardV1OnClick;
 }
 
-export const GoogleAppsCardV1Button: Schema.Schema<GoogleAppsCardV1Button> = Schema.suspend(() => Schema.Struct({
-  color: Schema.optional(Color),
-  icon: Schema.optional(GoogleAppsCardV1Icon),
-  altText: Schema.optional(Schema.String),
-  text: Schema.optional(Schema.String),
-  disabled: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-  onClick: Schema.optional(GoogleAppsCardV1OnClick),
-})).annotate({ identifier: "GoogleAppsCardV1Button" }) as any as Schema.Schema<GoogleAppsCardV1Button>;
+export const GoogleAppsCardV1Button: Schema.Schema<GoogleAppsCardV1Button> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      color: Schema.optional(Color),
+      icon: Schema.optional(GoogleAppsCardV1Icon),
+      altText: Schema.optional(Schema.String),
+      text: Schema.optional(Schema.String),
+      disabled: Schema.optional(Schema.Boolean),
+      type: Schema.optional(Schema.String),
+      onClick: Schema.optional(GoogleAppsCardV1OnClick),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1Button",
+  }) as any as Schema.Schema<GoogleAppsCardV1Button>;
 
 export interface GoogleAppsCardV1ButtonList {
   /** An array of buttons. */
   buttons?: Array<GoogleAppsCardV1Button>;
 }
 
-export const GoogleAppsCardV1ButtonList: Schema.Schema<GoogleAppsCardV1ButtonList> = Schema.suspend(() => Schema.Struct({
-  buttons: Schema.optional(Schema.Array(GoogleAppsCardV1Button)),
-})).annotate({ identifier: "GoogleAppsCardV1ButtonList" }) as any as Schema.Schema<GoogleAppsCardV1ButtonList>;
+export const GoogleAppsCardV1ButtonList: Schema.Schema<GoogleAppsCardV1ButtonList> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      buttons: Schema.optional(Schema.Array(GoogleAppsCardV1Button)),
+    }),
+  ).annotate({
+    identifier: "GoogleAppsCardV1ButtonList",
+  }) as any as Schema.Schema<GoogleAppsCardV1ButtonList>;
 
 export interface AccessoryWidget {
   /** A list of buttons. */
   buttonList?: GoogleAppsCardV1ButtonList;
 }
 
-export const AccessoryWidget: Schema.Schema<AccessoryWidget> = Schema.suspend(() => Schema.Struct({
-  buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
-})).annotate({ identifier: "AccessoryWidget" }) as any as Schema.Schema<AccessoryWidget>;
+export const AccessoryWidget: Schema.Schema<AccessoryWidget> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
+    }),
+).annotate({
+  identifier: "AccessoryWidget",
+}) as any as Schema.Schema<AccessoryWidget>;
 
 export interface User {
   /** Resource name for a Google Chat user. Format: `users/{user}`. `users/app` can be used as an alias for the calling app bot user. For human users, `{user}` is the same user identifier as: - the `id` for the [Person](https://developers.google.com/people/api/rest/v1/people) in the People API. For example, `users/123456789` in Chat API represents the same person as the `123456789` Person profile ID in People API. - the `id` for a [user](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users) in the Admin SDK Directory API. - the user's email address can be used as an alias for `{user}` in API requests. For example, if the People API Person profile ID for `user@example.com` is `123456789`, you can use `users/user@example.com` as an alias to reference `users/123456789`. Only the canonical resource name (for example `users/123456789`) will be returned from the API. */
@@ -1327,13 +1815,15 @@ export interface User {
   isAnonymous?: boolean;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  domainId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  isAnonymous: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    domainId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    isAnonymous: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface SpaceDetails {
   /** Optional. A description of the space. For example, describe the space's discussion topic, functional purpose, or participants. Supports up to 150 characters. */
@@ -1342,22 +1832,35 @@ export interface SpaceDetails {
   guidelines?: string;
 }
 
-export const SpaceDetails: Schema.Schema<SpaceDetails> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  guidelines: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpaceDetails" }) as any as Schema.Schema<SpaceDetails>;
+export const SpaceDetails: Schema.Schema<SpaceDetails> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    guidelines: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SpaceDetails",
+}) as any as Schema.Schema<SpaceDetails>;
 
 export interface AccessSettings {
   /** Output only. Indicates the access state of the space. */
-  accessState?: "ACCESS_STATE_UNSPECIFIED" | "PRIVATE" | "DISCOVERABLE" | (string & {});
+  accessState?:
+    | "ACCESS_STATE_UNSPECIFIED"
+    | "PRIVATE"
+    | "DISCOVERABLE"
+    | (string & {});
   /** Optional. The resource name of the [target audience](https://support.google.com/a/answer/9934697) who can discover the space, join the space, and preview the messages in the space. If unset, only users or Google Groups who have been individually invited or added to the space can access it. For details, see [Make a space discoverable to a target audience](https://developers.google.com/workspace/chat/space-target-audience). Format: `audiences/{audience}` To use the default target audience for the Google Workspace organization, set to `audiences/default`. Reading the target audience supports: - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` scope. This field is not populated when using the `chat.bot` scope with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). Setting the target audience requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
   audience?: string;
 }
 
-export const AccessSettings: Schema.Schema<AccessSettings> = Schema.suspend(() => Schema.Struct({
-  accessState: Schema.optional(Schema.String),
-  audience: Schema.optional(Schema.String),
-})).annotate({ identifier: "AccessSettings" }) as any as Schema.Schema<AccessSettings>;
+export const AccessSettings: Schema.Schema<AccessSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      accessState: Schema.optional(Schema.String),
+      audience: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AccessSettings",
+}) as any as Schema.Schema<AccessSettings>;
 
 export interface MembershipCount {
   /** Output only. Count of human users that have directly joined the space, not counting users joined by having membership in a joined group. */
@@ -1366,10 +1869,15 @@ export interface MembershipCount {
   joinedGroupCount?: number;
 }
 
-export const MembershipCount: Schema.Schema<MembershipCount> = Schema.suspend(() => Schema.Struct({
-  joinedDirectHumanUserCount: Schema.optional(Schema.Number),
-  joinedGroupCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "MembershipCount" }) as any as Schema.Schema<MembershipCount>;
+export const MembershipCount: Schema.Schema<MembershipCount> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      joinedDirectHumanUserCount: Schema.optional(Schema.Number),
+      joinedGroupCount: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "MembershipCount",
+}) as any as Schema.Schema<MembershipCount>;
 
 export interface PermissionSetting {
   /** Optional. Whether space managers `ROLE_ASSISTANT_MANAGER`) have this permission. */
@@ -1380,11 +1888,16 @@ export interface PermissionSetting {
   managersAllowed?: boolean;
 }
 
-export const PermissionSetting: Schema.Schema<PermissionSetting> = Schema.suspend(() => Schema.Struct({
-  assistantManagersAllowed: Schema.optional(Schema.Boolean),
-  membersAllowed: Schema.optional(Schema.Boolean),
-  managersAllowed: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PermissionSetting" }) as any as Schema.Schema<PermissionSetting>;
+export const PermissionSetting: Schema.Schema<PermissionSetting> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      assistantManagersAllowed: Schema.optional(Schema.Boolean),
+      membersAllowed: Schema.optional(Schema.Boolean),
+      managersAllowed: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PermissionSetting",
+  }) as any as Schema.Schema<PermissionSetting>;
 
 export interface PermissionSettings {
   /** Optional. Setting for updating space name, avatar, description and guidelines. */
@@ -1405,16 +1918,21 @@ export interface PermissionSettings {
   postMessages?: PermissionSetting;
 }
 
-export const PermissionSettings: Schema.Schema<PermissionSettings> = Schema.suspend(() => Schema.Struct({
-  modifySpaceDetails: Schema.optional(PermissionSetting),
-  toggleHistory: Schema.optional(PermissionSetting),
-  manageWebhooks: Schema.optional(PermissionSetting),
-  manageApps: Schema.optional(PermissionSetting),
-  manageMembersAndGroups: Schema.optional(PermissionSetting),
-  replyMessages: Schema.optional(PermissionSetting),
-  useAtMentionAll: Schema.optional(PermissionSetting),
-  postMessages: Schema.optional(PermissionSetting),
-})).annotate({ identifier: "PermissionSettings" }) as any as Schema.Schema<PermissionSettings>;
+export const PermissionSettings: Schema.Schema<PermissionSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      modifySpaceDetails: Schema.optional(PermissionSetting),
+      toggleHistory: Schema.optional(PermissionSetting),
+      manageWebhooks: Schema.optional(PermissionSetting),
+      manageApps: Schema.optional(PermissionSetting),
+      manageMembersAndGroups: Schema.optional(PermissionSetting),
+      replyMessages: Schema.optional(PermissionSetting),
+      useAtMentionAll: Schema.optional(PermissionSetting),
+      postMessages: Schema.optional(PermissionSetting),
+    }),
+  ).annotate({
+    identifier: "PermissionSettings",
+  }) as any as Schema.Schema<PermissionSettings>;
 
 export interface Space {
   /** Optional. The space's display name. Required when [creating a space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/create) with a `spaceType` of `SPACE`. If you receive the error message `ALREADY_EXISTS` when creating a space or updating the `displayName`, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. For direct messages, this field might be empty. Supports up to 128 characters. */
@@ -1434,11 +1952,20 @@ export interface Space {
   /** Output only. For direct message (DM) spaces with a Chat app, whether the space was created by a Google Workspace administrator. Administrators can install and set up a direct message with a Chat app on behalf of users in their organization. To support admin install, your Chat app must feature direct messaging. */
   adminInstalled?: boolean;
   /** Optional. The type of space. Required when creating a space or updating the space type of a space. Output only for other usage. */
-  spaceType?: "SPACE_TYPE_UNSPECIFIED" | "SPACE" | "GROUP_CHAT" | "DIRECT_MESSAGE" | (string & {});
+  spaceType?:
+    | "SPACE_TYPE_UNSPECIFIED"
+    | "SPACE"
+    | "GROUP_CHAT"
+    | "DIRECT_MESSAGE"
+    | (string & {});
   /** Optional. Specifies the [access setting](https://support.google.com/chat/answer/11971020) of the space. Only populated when the `space_type` is `SPACE`. */
   accessSettings?: AccessSettings;
   /** Optional. Input only. Predefined space permission settings, input only when creating a space. If the field is not set, a collaboration space is created. After you create the space, settings are populated in the `PermissionSettings` field. Setting predefined permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` or `chat.app.spaces.create` scopes. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
-  predefinedPermissionSettings?: "PREDEFINED_PERMISSION_SETTINGS_UNSPECIFIED" | "COLLABORATION_SPACE" | "ANNOUNCEMENT_SPACE" | (string & {});
+  predefinedPermissionSettings?:
+    | "PREDEFINED_PERMISSION_SETTINGS_UNSPECIFIED"
+    | "COLLABORATION_SPACE"
+    | "ANNOUNCEMENT_SPACE"
+    | (string & {});
   /** Output only. Deprecated: Use `space_type` instead. The type of a space. */
   type?: "TYPE_UNSPECIFIED" | "ROOM" | "DM" | (string & {});
   /** Optional. Immutable. Whether this space permits any Google Chat user as a member. Input when creating a space in a Google Workspace organization. Omit this field when creating spaces in the following conditions: * The authenticated user uses a consumer account (unmanaged user account). By default, a space created by a consumer account permits any Google Chat user. For existing spaces, this field is output only. */
@@ -1448,11 +1975,20 @@ export interface Space {
   /** Output only. Deprecated: Use `spaceThreadingState` instead. Whether messages are threaded in this space. */
   threaded?: boolean;
   /** Output only. The threading state in the Chat space. */
-  spaceThreadingState?: "SPACE_THREADING_STATE_UNSPECIFIED" | "THREADED_MESSAGES" | "GROUPED_MESSAGES" | "UNTHREADED_MESSAGES" | (string & {});
+  spaceThreadingState?:
+    | "SPACE_THREADING_STATE_UNSPECIFIED"
+    | "THREADED_MESSAGES"
+    | "GROUPED_MESSAGES"
+    | "UNTHREADED_MESSAGES"
+    | (string & {});
   /** Identifier. Resource name of the space. Format: `spaces/{space}` Where `{space}` represents the system-assigned ID for the space. You can obtain the space ID by calling the [`spaces.list()`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/list) method or from the space URL. For example, if the space URL is `https://mail.google.com/mail/u/0/#chat/space/AAAAAAAAA`, the space ID is `AAAAAAAAA`. */
   name?: string;
   /** Optional. The message history state for messages and threads in this space. */
-  spaceHistoryState?: "HISTORY_STATE_UNSPECIFIED" | "HISTORY_OFF" | "HISTORY_ON" | (string & {});
+  spaceHistoryState?:
+    | "HISTORY_STATE_UNSPECIFIED"
+    | "HISTORY_OFF"
+    | "HISTORY_ON"
+    | (string & {});
   /** Optional. Immutable. The customer id of the domain of the space. Required only when creating a space with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and `SpaceType` is `SPACE`, otherwise should not be set. In the format `customers/{customer}`, where `customer` is the `id` from the [Admin SDK customer resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). Private apps can also use the `customers/my_customer` alias to create the space in the same Google Workspace organization as the app. This field isn't populated for direct messages (DMs) or when the space is created by non-Google Workspace users. */
   customer?: string;
   /** Output only. The count of joined memberships grouped by member type. Populated when the `space_type` is `SPACE`, `DIRECT_MESSAGE` or `GROUP_CHAT`. */
@@ -1461,29 +1997,31 @@ export interface Space {
   permissionSettings?: PermissionSettings;
 }
 
-export const Space: Schema.Schema<Space> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  spaceUri: Schema.optional(Schema.String),
-  importModeExpireTime: Schema.optional(Schema.String),
-  importMode: Schema.optional(Schema.Boolean),
-  spaceDetails: Schema.optional(SpaceDetails),
-  singleUserBotDm: Schema.optional(Schema.Boolean),
-  adminInstalled: Schema.optional(Schema.Boolean),
-  spaceType: Schema.optional(Schema.String),
-  accessSettings: Schema.optional(AccessSettings),
-  predefinedPermissionSettings: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  externalUserAllowed: Schema.optional(Schema.Boolean),
-  lastActiveTime: Schema.optional(Schema.String),
-  threaded: Schema.optional(Schema.Boolean),
-  spaceThreadingState: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  spaceHistoryState: Schema.optional(Schema.String),
-  customer: Schema.optional(Schema.String),
-  membershipCount: Schema.optional(MembershipCount),
-  permissionSettings: Schema.optional(PermissionSettings),
-})).annotate({ identifier: "Space" }) as any as Schema.Schema<Space>;
+export const Space: Schema.Schema<Space> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    spaceUri: Schema.optional(Schema.String),
+    importModeExpireTime: Schema.optional(Schema.String),
+    importMode: Schema.optional(Schema.Boolean),
+    spaceDetails: Schema.optional(SpaceDetails),
+    singleUserBotDm: Schema.optional(Schema.Boolean),
+    adminInstalled: Schema.optional(Schema.Boolean),
+    spaceType: Schema.optional(Schema.String),
+    accessSettings: Schema.optional(AccessSettings),
+    predefinedPermissionSettings: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    externalUserAllowed: Schema.optional(Schema.Boolean),
+    lastActiveTime: Schema.optional(Schema.String),
+    threaded: Schema.optional(Schema.Boolean),
+    spaceThreadingState: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    spaceHistoryState: Schema.optional(Schema.String),
+    customer: Schema.optional(Schema.String),
+    membershipCount: Schema.optional(MembershipCount),
+    permissionSettings: Schema.optional(PermissionSettings),
+  }),
+).annotate({ identifier: "Space" }) as any as Schema.Schema<Space>;
 
 export interface UserMentionMetadata {
   /** The user mentioned. */
@@ -1492,10 +2030,15 @@ export interface UserMentionMetadata {
   type?: "TYPE_UNSPECIFIED" | "ADD" | "MENTION" | (string & {});
 }
 
-export const UserMentionMetadata: Schema.Schema<UserMentionMetadata> = Schema.suspend(() => Schema.Struct({
-  user: Schema.optional(User),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserMentionMetadata" }) as any as Schema.Schema<UserMentionMetadata>;
+export const UserMentionMetadata: Schema.Schema<UserMentionMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      user: Schema.optional(User),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserMentionMetadata",
+  }) as any as Schema.Schema<UserMentionMetadata>;
 
 export interface CustomEmojiPayload {
   /** Required. Input only. The image used for the custom emoji. The payload must be under 256 KB and the dimension of the image must be square and between 64 and 500 pixels. The restrictions are subject to change. */
@@ -1504,10 +2047,15 @@ export interface CustomEmojiPayload {
   filename?: string;
 }
 
-export const CustomEmojiPayload: Schema.Schema<CustomEmojiPayload> = Schema.suspend(() => Schema.Struct({
-  fileContent: Schema.optional(Schema.String),
-  filename: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomEmojiPayload" }) as any as Schema.Schema<CustomEmojiPayload>;
+export const CustomEmojiPayload: Schema.Schema<CustomEmojiPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fileContent: Schema.optional(Schema.String),
+      filename: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomEmojiPayload",
+  }) as any as Schema.Schema<CustomEmojiPayload>;
 
 export interface CustomEmoji {
   /** Optional. Immutable. User-provided name for the custom emoji, which is unique within the organization. Required when the custom emoji is created, output only otherwise. Emoji names must start and end with colons, must be lowercase and can only contain alphanumeric characters, hyphens, and underscores. Hyphens and underscores should be used to separate words and cannot be used consecutively. Example: `:valid-emoji-name:` */
@@ -1522,22 +2070,29 @@ export interface CustomEmoji {
   temporaryImageUri?: string;
 }
 
-export const CustomEmoji: Schema.Schema<CustomEmoji> = Schema.suspend(() => Schema.Struct({
-  emojiName: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  payload: Schema.optional(CustomEmojiPayload),
-  uid: Schema.optional(Schema.String),
-  temporaryImageUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomEmoji" }) as any as Schema.Schema<CustomEmoji>;
+export const CustomEmoji: Schema.Schema<CustomEmoji> = Schema.suspend(() =>
+  Schema.Struct({
+    emojiName: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    payload: Schema.optional(CustomEmojiPayload),
+    uid: Schema.optional(Schema.String),
+    temporaryImageUri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CustomEmoji" }) as any as Schema.Schema<CustomEmoji>;
 
 export interface CustomEmojiMetadata {
   /** The custom emoji. */
   customEmoji?: CustomEmoji;
 }
 
-export const CustomEmojiMetadata: Schema.Schema<CustomEmojiMetadata> = Schema.suspend(() => Schema.Struct({
-  customEmoji: Schema.optional(CustomEmoji),
-})).annotate({ identifier: "CustomEmojiMetadata" }) as any as Schema.Schema<CustomEmojiMetadata>;
+export const CustomEmojiMetadata: Schema.Schema<CustomEmojiMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customEmoji: Schema.optional(CustomEmoji),
+    }),
+  ).annotate({
+    identifier: "CustomEmojiMetadata",
+  }) as any as Schema.Schema<CustomEmojiMetadata>;
 
 export interface SlashCommandMetadata {
   /** The name of the invoked slash command. */
@@ -1552,13 +2107,18 @@ export interface SlashCommandMetadata {
   triggersDialog?: boolean;
 }
 
-export const SlashCommandMetadata: Schema.Schema<SlashCommandMetadata> = Schema.suspend(() => Schema.Struct({
-  commandName: Schema.optional(Schema.String),
-  bot: Schema.optional(User),
-  type: Schema.optional(Schema.String),
-  commandId: Schema.optional(Schema.String),
-  triggersDialog: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SlashCommandMetadata" }) as any as Schema.Schema<SlashCommandMetadata>;
+export const SlashCommandMetadata: Schema.Schema<SlashCommandMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commandName: Schema.optional(Schema.String),
+      bot: Schema.optional(User),
+      type: Schema.optional(Schema.String),
+      commandId: Schema.optional(Schema.String),
+      triggersDialog: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "SlashCommandMetadata",
+  }) as any as Schema.Schema<SlashCommandMetadata>;
 
 export interface DriveLinkData {
   /** A [DriveDataRef](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments#drivedataref) which references a Google Drive file. */
@@ -1567,10 +2127,14 @@ export interface DriveLinkData {
   mimeType?: string;
 }
 
-export const DriveLinkData: Schema.Schema<DriveLinkData> = Schema.suspend(() => Schema.Struct({
-  driveDataRef: Schema.optional(DriveDataRef),
-  mimeType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DriveLinkData" }) as any as Schema.Schema<DriveLinkData>;
+export const DriveLinkData: Schema.Schema<DriveLinkData> = Schema.suspend(() =>
+  Schema.Struct({
+    driveDataRef: Schema.optional(DriveDataRef),
+    mimeType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DriveLinkData",
+}) as any as Schema.Schema<DriveLinkData>;
 
 export interface ChatSpaceLinkData {
   /** The thread of the linked Chat space resource. Format: `spaces/{space}/threads/{thread}` */
@@ -1581,26 +2145,41 @@ export interface ChatSpaceLinkData {
   space?: string;
 }
 
-export const ChatSpaceLinkData: Schema.Schema<ChatSpaceLinkData> = Schema.suspend(() => Schema.Struct({
-  thread: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  space: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChatSpaceLinkData" }) as any as Schema.Schema<ChatSpaceLinkData>;
+export const ChatSpaceLinkData: Schema.Schema<ChatSpaceLinkData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thread: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+      space: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ChatSpaceLinkData",
+  }) as any as Schema.Schema<ChatSpaceLinkData>;
 
 export interface MeetSpaceLinkData {
   /** Optional. Output only. If the Meet is a Huddle, indicates the status of the huddle. Otherwise, this is unset. */
-  huddleStatus?: "HUDDLE_STATUS_UNSPECIFIED" | "STARTED" | "ENDED" | "MISSED" | (string & {});
+  huddleStatus?:
+    | "HUDDLE_STATUS_UNSPECIFIED"
+    | "STARTED"
+    | "ENDED"
+    | "MISSED"
+    | (string & {});
   /** Meeting code of the linked Meet space. */
   meetingCode?: string;
   /** Indicates the type of the Meet space. */
   type?: "TYPE_UNSPECIFIED" | "MEETING" | "HUDDLE" | (string & {});
 }
 
-export const MeetSpaceLinkData: Schema.Schema<MeetSpaceLinkData> = Schema.suspend(() => Schema.Struct({
-  huddleStatus: Schema.optional(Schema.String),
-  meetingCode: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "MeetSpaceLinkData" }) as any as Schema.Schema<MeetSpaceLinkData>;
+export const MeetSpaceLinkData: Schema.Schema<MeetSpaceLinkData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      huddleStatus: Schema.optional(Schema.String),
+      meetingCode: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MeetSpaceLinkData",
+  }) as any as Schema.Schema<MeetSpaceLinkData>;
 
 export interface CalendarEventLinkData {
   /** The [Calendar identifier](https://developers.google.com/workspace/calendar/api/v3/reference/calendars) of the linked Calendar. */
@@ -1609,16 +2188,28 @@ export interface CalendarEventLinkData {
   eventId?: string;
 }
 
-export const CalendarEventLinkData: Schema.Schema<CalendarEventLinkData> = Schema.suspend(() => Schema.Struct({
-  calendarId: Schema.optional(Schema.String),
-  eventId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CalendarEventLinkData" }) as any as Schema.Schema<CalendarEventLinkData>;
+export const CalendarEventLinkData: Schema.Schema<CalendarEventLinkData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      calendarId: Schema.optional(Schema.String),
+      eventId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CalendarEventLinkData",
+  }) as any as Schema.Schema<CalendarEventLinkData>;
 
 export interface RichLinkMetadata {
   /** Data for a drive link. */
   driveLinkData?: DriveLinkData;
   /** The rich link type. */
-  richLinkType?: "RICH_LINK_TYPE_UNSPECIFIED" | "DRIVE_FILE" | "CHAT_SPACE" | "GMAIL_MESSAGE" | "MEET_SPACE" | "CALENDAR_EVENT" | (string & {});
+  richLinkType?:
+    | "RICH_LINK_TYPE_UNSPECIFIED"
+    | "DRIVE_FILE"
+    | "CHAT_SPACE"
+    | "GMAIL_MESSAGE"
+    | "MEET_SPACE"
+    | "CALENDAR_EVENT"
+    | (string & {});
   /** Data for a chat space link. */
   chatSpaceLinkData?: ChatSpaceLinkData;
   /** Data for a Meet space link. */
@@ -1629,14 +2220,19 @@ export interface RichLinkMetadata {
   calendarEventLinkData?: CalendarEventLinkData;
 }
 
-export const RichLinkMetadata: Schema.Schema<RichLinkMetadata> = Schema.suspend(() => Schema.Struct({
-  driveLinkData: Schema.optional(DriveLinkData),
-  richLinkType: Schema.optional(Schema.String),
-  chatSpaceLinkData: Schema.optional(ChatSpaceLinkData),
-  meetSpaceLinkData: Schema.optional(MeetSpaceLinkData),
-  uri: Schema.optional(Schema.String),
-  calendarEventLinkData: Schema.optional(CalendarEventLinkData),
-})).annotate({ identifier: "RichLinkMetadata" }) as any as Schema.Schema<RichLinkMetadata>;
+export const RichLinkMetadata: Schema.Schema<RichLinkMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      driveLinkData: Schema.optional(DriveLinkData),
+      richLinkType: Schema.optional(Schema.String),
+      chatSpaceLinkData: Schema.optional(ChatSpaceLinkData),
+      meetSpaceLinkData: Schema.optional(MeetSpaceLinkData),
+      uri: Schema.optional(Schema.String),
+      calendarEventLinkData: Schema.optional(CalendarEventLinkData),
+    }),
+).annotate({
+  identifier: "RichLinkMetadata",
+}) as any as Schema.Schema<RichLinkMetadata>;
 
 export interface Annotation {
   /** The metadata of user mention. */
@@ -1648,22 +2244,30 @@ export interface Annotation {
   /** The metadata for a rich link. */
   richLinkMetadata?: RichLinkMetadata;
   /** The type of this annotation. */
-  type?: "ANNOTATION_TYPE_UNSPECIFIED" | "USER_MENTION" | "SLASH_COMMAND" | "RICH_LINK" | "CUSTOM_EMOJI" | (string & {});
+  type?:
+    | "ANNOTATION_TYPE_UNSPECIFIED"
+    | "USER_MENTION"
+    | "SLASH_COMMAND"
+    | "RICH_LINK"
+    | "CUSTOM_EMOJI"
+    | (string & {});
   /** Start index (0-based, inclusive) in the plain-text message body this annotation corresponds to. */
   startIndex?: number;
   /** Length of the substring in the plain-text message body this annotation corresponds to. If not present, indicates a length of 0. */
   length?: number;
 }
 
-export const Annotation: Schema.Schema<Annotation> = Schema.suspend(() => Schema.Struct({
-  userMention: Schema.optional(UserMentionMetadata),
-  customEmojiMetadata: Schema.optional(CustomEmojiMetadata),
-  slashCommand: Schema.optional(SlashCommandMetadata),
-  richLinkMetadata: Schema.optional(RichLinkMetadata),
-  type: Schema.optional(Schema.String),
-  startIndex: Schema.optional(Schema.Number),
-  length: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
+export const Annotation: Schema.Schema<Annotation> = Schema.suspend(() =>
+  Schema.Struct({
+    userMention: Schema.optional(UserMentionMetadata),
+    customEmojiMetadata: Schema.optional(CustomEmojiMetadata),
+    slashCommand: Schema.optional(SlashCommandMetadata),
+    richLinkMetadata: Schema.optional(RichLinkMetadata),
+    type: Schema.optional(Schema.String),
+    startIndex: Schema.optional(Schema.Number),
+    length: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
 
 export interface QuotedMessageSnapshot {
   /** Output only. Snapshot of the quoted message's text content. */
@@ -1678,13 +2282,18 @@ export interface QuotedMessageSnapshot {
   sender?: string;
 }
 
-export const QuotedMessageSnapshot: Schema.Schema<QuotedMessageSnapshot> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  formattedText: Schema.optional(Schema.String),
-  attachments: Schema.optional(Schema.Array(Attachment)),
-  annotations: Schema.optional(Schema.Array(Annotation)),
-  sender: Schema.optional(Schema.String),
-})).annotate({ identifier: "QuotedMessageSnapshot" }) as any as Schema.Schema<QuotedMessageSnapshot>;
+export const QuotedMessageSnapshot: Schema.Schema<QuotedMessageSnapshot> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      formattedText: Schema.optional(Schema.String),
+      attachments: Schema.optional(Schema.Array(Attachment)),
+      annotations: Schema.optional(Schema.Array(Annotation)),
+      sender: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QuotedMessageSnapshot",
+  }) as any as Schema.Schema<QuotedMessageSnapshot>;
 
 export interface ForwardedMetadata {
   /** Output only. The resource name of the source space. Format: spaces/{space} */
@@ -1693,10 +2302,15 @@ export interface ForwardedMetadata {
   spaceDisplayName?: string;
 }
 
-export const ForwardedMetadata: Schema.Schema<ForwardedMetadata> = Schema.suspend(() => Schema.Struct({
-  space: Schema.optional(Schema.String),
-  spaceDisplayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "ForwardedMetadata" }) as any as Schema.Schema<ForwardedMetadata>;
+export const ForwardedMetadata: Schema.Schema<ForwardedMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      space: Schema.optional(Schema.String),
+      spaceDisplayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ForwardedMetadata",
+  }) as any as Schema.Schema<ForwardedMetadata>;
 
 export interface QuotedMessageMetadata {
   /** Output only. A snapshot of the quoted message's content. */
@@ -1711,22 +2325,32 @@ export interface QuotedMessageMetadata {
   forwardedMetadata?: ForwardedMetadata;
 }
 
-export const QuotedMessageMetadata: Schema.Schema<QuotedMessageMetadata> = Schema.suspend(() => Schema.Struct({
-  quotedMessageSnapshot: Schema.optional(QuotedMessageSnapshot),
-  name: Schema.optional(Schema.String),
-  lastUpdateTime: Schema.optional(Schema.String),
-  quoteType: Schema.optional(Schema.String),
-  forwardedMetadata: Schema.optional(ForwardedMetadata),
-})).annotate({ identifier: "QuotedMessageMetadata" }) as any as Schema.Schema<QuotedMessageMetadata>;
+export const QuotedMessageMetadata: Schema.Schema<QuotedMessageMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      quotedMessageSnapshot: Schema.optional(QuotedMessageSnapshot),
+      name: Schema.optional(Schema.String),
+      lastUpdateTime: Schema.optional(Schema.String),
+      quoteType: Schema.optional(Schema.String),
+      forwardedMetadata: Schema.optional(ForwardedMetadata),
+    }),
+  ).annotate({
+    identifier: "QuotedMessageMetadata",
+  }) as any as Schema.Schema<QuotedMessageMetadata>;
 
 export interface SelectionItems {
   /** An array of the SelectionItem objects. */
   items?: Array<GoogleAppsCardV1SelectionItem>;
 }
 
-export const SelectionItems: Schema.Schema<SelectionItems> = Schema.suspend(() => Schema.Struct({
-  items: Schema.optional(Schema.Array(GoogleAppsCardV1SelectionItem)),
-})).annotate({ identifier: "SelectionItems" }) as any as Schema.Schema<SelectionItems>;
+export const SelectionItems: Schema.Schema<SelectionItems> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(GoogleAppsCardV1SelectionItem)),
+    }),
+).annotate({
+  identifier: "SelectionItems",
+}) as any as Schema.Schema<SelectionItems>;
 
 export interface UpdatedWidget {
   /** List of widget autocomplete results */
@@ -1735,31 +2359,59 @@ export interface UpdatedWidget {
   widget?: string;
 }
 
-export const UpdatedWidget: Schema.Schema<UpdatedWidget> = Schema.suspend(() => Schema.Struct({
-  suggestions: Schema.optional(SelectionItems),
-  widget: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpdatedWidget" }) as any as Schema.Schema<UpdatedWidget>;
+export const UpdatedWidget: Schema.Schema<UpdatedWidget> = Schema.suspend(() =>
+  Schema.Struct({
+    suggestions: Schema.optional(SelectionItems),
+    widget: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "UpdatedWidget",
+}) as any as Schema.Schema<UpdatedWidget>;
 
 export interface Dialog {
   /** Input only. Body of the dialog, which is rendered in a modal. Google Chat apps don't support the following card entities: `DateTimePicker`, `OnChangeAction`. */
   body?: GoogleAppsCardV1Card;
 }
 
-export const Dialog: Schema.Schema<Dialog> = Schema.suspend(() => Schema.Struct({
-  body: Schema.optional(GoogleAppsCardV1Card),
-})).annotate({ identifier: "Dialog" }) as any as Schema.Schema<Dialog>;
+export const Dialog: Schema.Schema<Dialog> = Schema.suspend(() =>
+  Schema.Struct({
+    body: Schema.optional(GoogleAppsCardV1Card),
+  }),
+).annotate({ identifier: "Dialog" }) as any as Schema.Schema<Dialog>;
 
 export interface ActionStatus {
   /** The status code. */
-  statusCode?: "OK" | "CANCELLED" | "UNKNOWN" | "INVALID_ARGUMENT" | "DEADLINE_EXCEEDED" | "NOT_FOUND" | "ALREADY_EXISTS" | "PERMISSION_DENIED" | "UNAUTHENTICATED" | "RESOURCE_EXHAUSTED" | "FAILED_PRECONDITION" | "ABORTED" | "OUT_OF_RANGE" | "UNIMPLEMENTED" | "INTERNAL" | "UNAVAILABLE" | "DATA_LOSS" | (string & {});
+  statusCode?:
+    | "OK"
+    | "CANCELLED"
+    | "UNKNOWN"
+    | "INVALID_ARGUMENT"
+    | "DEADLINE_EXCEEDED"
+    | "NOT_FOUND"
+    | "ALREADY_EXISTS"
+    | "PERMISSION_DENIED"
+    | "UNAUTHENTICATED"
+    | "RESOURCE_EXHAUSTED"
+    | "FAILED_PRECONDITION"
+    | "ABORTED"
+    | "OUT_OF_RANGE"
+    | "UNIMPLEMENTED"
+    | "INTERNAL"
+    | "UNAVAILABLE"
+    | "DATA_LOSS"
+    | (string & {});
   /** The message to send users about the status of their request. If unset, a generic message based on the `status_code` is sent. */
   userFacingMessage?: string;
 }
 
-export const ActionStatus: Schema.Schema<ActionStatus> = Schema.suspend(() => Schema.Struct({
-  statusCode: Schema.optional(Schema.String),
-  userFacingMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "ActionStatus" }) as any as Schema.Schema<ActionStatus>;
+export const ActionStatus: Schema.Schema<ActionStatus> = Schema.suspend(() =>
+  Schema.Struct({
+    statusCode: Schema.optional(Schema.String),
+    userFacingMessage: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ActionStatus",
+}) as any as Schema.Schema<ActionStatus>;
 
 export interface DialogAction {
   /** Input only. [Dialog](https://developers.google.com/workspace/chat/dialogs) for the request. */
@@ -1768,14 +2420,26 @@ export interface DialogAction {
   actionStatus?: ActionStatus;
 }
 
-export const DialogAction: Schema.Schema<DialogAction> = Schema.suspend(() => Schema.Struct({
-  dialog: Schema.optional(Dialog),
-  actionStatus: Schema.optional(ActionStatus),
-})).annotate({ identifier: "DialogAction" }) as any as Schema.Schema<DialogAction>;
+export const DialogAction: Schema.Schema<DialogAction> = Schema.suspend(() =>
+  Schema.Struct({
+    dialog: Schema.optional(Dialog),
+    actionStatus: Schema.optional(ActionStatus),
+  }),
+).annotate({
+  identifier: "DialogAction",
+}) as any as Schema.Schema<DialogAction>;
 
 export interface ActionResponse {
   /** Input only. The type of Chat app response. */
-  type?: "TYPE_UNSPECIFIED" | "NEW_MESSAGE" | "UPDATE_MESSAGE" | "UPDATE_USER_MESSAGE_CARDS" | "REQUEST_CONFIG" | "DIALOG" | "UPDATE_WIDGET" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "NEW_MESSAGE"
+    | "UPDATE_MESSAGE"
+    | "UPDATE_USER_MESSAGE_CARDS"
+    | "REQUEST_CONFIG"
+    | "DIALOG"
+    | "UPDATE_WIDGET"
+    | (string & {});
   /** Input only. URL for users to authenticate or configure. (Only for `REQUEST_CONFIG` response types.) */
   url?: string;
   /** Input only. The response of the updated widget. */
@@ -1784,12 +2448,17 @@ export interface ActionResponse {
   dialogAction?: DialogAction;
 }
 
-export const ActionResponse: Schema.Schema<ActionResponse> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  updatedWidget: Schema.optional(UpdatedWidget),
-  dialogAction: Schema.optional(DialogAction),
-})).annotate({ identifier: "ActionResponse" }) as any as Schema.Schema<ActionResponse>;
+export const ActionResponse: Schema.Schema<ActionResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      updatedWidget: Schema.optional(UpdatedWidget),
+      dialogAction: Schema.optional(DialogAction),
+    }),
+).annotate({
+  identifier: "ActionResponse",
+}) as any as Schema.Schema<ActionResponse>;
 
 export interface CardWithId {
   /** Required if the message contains multiple cards. A unique identifier for a card in a message. */
@@ -1798,19 +2467,23 @@ export interface CardWithId {
   card?: GoogleAppsCardV1Card;
 }
 
-export const CardWithId: Schema.Schema<CardWithId> = Schema.suspend(() => Schema.Struct({
-  cardId: Schema.optional(Schema.String),
-  card: Schema.optional(GoogleAppsCardV1Card),
-})).annotate({ identifier: "CardWithId" }) as any as Schema.Schema<CardWithId>;
+export const CardWithId: Schema.Schema<CardWithId> = Schema.suspend(() =>
+  Schema.Struct({
+    cardId: Schema.optional(Schema.String),
+    card: Schema.optional(GoogleAppsCardV1Card),
+  }),
+).annotate({ identifier: "CardWithId" }) as any as Schema.Schema<CardWithId>;
 
 export interface MatchedUrl {
   /** Output only. The URL that was matched. */
   url?: string;
 }
 
-export const MatchedUrl: Schema.Schema<MatchedUrl> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "MatchedUrl" }) as any as Schema.Schema<MatchedUrl>;
+export const MatchedUrl: Schema.Schema<MatchedUrl> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "MatchedUrl" }) as any as Schema.Schema<MatchedUrl>;
 
 export interface Emoji {
   /** A custom emoji. */
@@ -1819,10 +2492,12 @@ export interface Emoji {
   unicode?: string;
 }
 
-export const Emoji: Schema.Schema<Emoji> = Schema.suspend(() => Schema.Struct({
-  customEmoji: Schema.optional(CustomEmoji),
-  unicode: Schema.optional(Schema.String),
-})).annotate({ identifier: "Emoji" }) as any as Schema.Schema<Emoji>;
+export const Emoji: Schema.Schema<Emoji> = Schema.suspend(() =>
+  Schema.Struct({
+    customEmoji: Schema.optional(CustomEmoji),
+    unicode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Emoji" }) as any as Schema.Schema<Emoji>;
 
 export interface EmojiReactionSummary {
   /** Output only. Emoji associated with the reactions. */
@@ -1831,28 +2506,49 @@ export interface EmojiReactionSummary {
   reactionCount?: number;
 }
 
-export const EmojiReactionSummary: Schema.Schema<EmojiReactionSummary> = Schema.suspend(() => Schema.Struct({
-  emoji: Schema.optional(Emoji),
-  reactionCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "EmojiReactionSummary" }) as any as Schema.Schema<EmojiReactionSummary>;
+export const EmojiReactionSummary: Schema.Schema<EmojiReactionSummary> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      emoji: Schema.optional(Emoji),
+      reactionCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "EmojiReactionSummary",
+  }) as any as Schema.Schema<EmojiReactionSummary>;
 
 export interface DeletionMetadata {
   /** Indicates who deleted the message. */
-  deletionType?: "DELETION_TYPE_UNSPECIFIED" | "CREATOR" | "SPACE_OWNER" | "ADMIN" | "APP_MESSAGE_EXPIRY" | "CREATOR_VIA_APP" | "SPACE_OWNER_VIA_APP" | "SPACE_MEMBER" | (string & {});
+  deletionType?:
+    | "DELETION_TYPE_UNSPECIFIED"
+    | "CREATOR"
+    | "SPACE_OWNER"
+    | "ADMIN"
+    | "APP_MESSAGE_EXPIRY"
+    | "CREATOR_VIA_APP"
+    | "SPACE_OWNER_VIA_APP"
+    | "SPACE_MEMBER"
+    | (string & {});
 }
 
-export const DeletionMetadata: Schema.Schema<DeletionMetadata> = Schema.suspend(() => Schema.Struct({
-  deletionType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeletionMetadata" }) as any as Schema.Schema<DeletionMetadata>;
+export const DeletionMetadata: Schema.Schema<DeletionMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      deletionType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DeletionMetadata",
+}) as any as Schema.Schema<DeletionMetadata>;
 
 export interface AttachedGif {
   /** Output only. The URL that hosts the GIF image. */
   uri?: string;
 }
 
-export const AttachedGif: Schema.Schema<AttachedGif> = Schema.suspend(() => Schema.Struct({
-  uri: Schema.optional(Schema.String),
-})).annotate({ identifier: "AttachedGif" }) as any as Schema.Schema<AttachedGif>;
+export const AttachedGif: Schema.Schema<AttachedGif> = Schema.suspend(() =>
+  Schema.Struct({
+    uri: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AttachedGif" }) as any as Schema.Schema<AttachedGif>;
 
 export interface Message {
   /** Output only. When `true`, the message is a response in a reply thread. When `false`, the message is visible in the space's top-level conversation as either the first message of a thread or a message with no threaded replies. If the space doesn't support reply in threads, this field is always `false`. */
@@ -1909,52 +2605,64 @@ export interface Message {
   fallbackText?: string;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() => Schema.Struct({
-  threadReply: Schema.optional(Schema.Boolean),
-  deleteTime: Schema.optional(Schema.String),
-  cards: Schema.optional(Schema.Array(Card)),
-  thread: Schema.optional(Thread),
-  slashCommand: Schema.optional(SlashCommand),
-  attachment: Schema.optional(Schema.Array(Attachment)),
-  lastUpdateTime: Schema.optional(Schema.String),
-  accessoryWidgets: Schema.optional(Schema.Array(AccessoryWidget)),
-  sender: Schema.optional(User),
-  createTime: Schema.optional(Schema.String),
-  space: Schema.optional(Space),
-  argumentText: Schema.optional(Schema.String),
-  quotedMessageMetadata: Schema.optional(QuotedMessageMetadata),
-  formattedText: Schema.optional(Schema.String),
-  annotations: Schema.optional(Schema.Array(Annotation)),
-  privateMessageViewer: Schema.optional(User),
-  name: Schema.optional(Schema.String),
-  actionResponse: Schema.optional(ActionResponse),
-  cardsV2: Schema.optional(Schema.Array(CardWithId)),
-  text: Schema.optional(Schema.String),
-  clientAssignedMessageId: Schema.optional(Schema.String),
-  matchedUrl: Schema.optional(MatchedUrl),
-  emojiReactionSummaries: Schema.optional(Schema.Array(EmojiReactionSummary)),
-  deletionMetadata: Schema.optional(DeletionMetadata),
-  attachedGifs: Schema.optional(Schema.Array(AttachedGif)),
-  fallbackText: Schema.optional(Schema.String),
-})).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> = Schema.suspend(() =>
+  Schema.Struct({
+    threadReply: Schema.optional(Schema.Boolean),
+    deleteTime: Schema.optional(Schema.String),
+    cards: Schema.optional(Schema.Array(Card)),
+    thread: Schema.optional(Thread),
+    slashCommand: Schema.optional(SlashCommand),
+    attachment: Schema.optional(Schema.Array(Attachment)),
+    lastUpdateTime: Schema.optional(Schema.String),
+    accessoryWidgets: Schema.optional(Schema.Array(AccessoryWidget)),
+    sender: Schema.optional(User),
+    createTime: Schema.optional(Schema.String),
+    space: Schema.optional(Space),
+    argumentText: Schema.optional(Schema.String),
+    quotedMessageMetadata: Schema.optional(QuotedMessageMetadata),
+    formattedText: Schema.optional(Schema.String),
+    annotations: Schema.optional(Schema.Array(Annotation)),
+    privateMessageViewer: Schema.optional(User),
+    name: Schema.optional(Schema.String),
+    actionResponse: Schema.optional(ActionResponse),
+    cardsV2: Schema.optional(Schema.Array(CardWithId)),
+    text: Schema.optional(Schema.String),
+    clientAssignedMessageId: Schema.optional(Schema.String),
+    matchedUrl: Schema.optional(MatchedUrl),
+    emojiReactionSummaries: Schema.optional(Schema.Array(EmojiReactionSummary)),
+    deletionMetadata: Schema.optional(DeletionMetadata),
+    attachedGifs: Schema.optional(Schema.Array(AttachedGif)),
+    fallbackText: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface MessageCreatedEventData {
   /** The new message. */
   message?: Message;
 }
 
-export const MessageCreatedEventData: Schema.Schema<MessageCreatedEventData> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Message),
-})).annotate({ identifier: "MessageCreatedEventData" }) as any as Schema.Schema<MessageCreatedEventData>;
+export const MessageCreatedEventData: Schema.Schema<MessageCreatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "MessageCreatedEventData",
+  }) as any as Schema.Schema<MessageCreatedEventData>;
 
 export interface MessageBatchCreatedEventData {
   /** A list of new messages. */
   messages?: Array<MessageCreatedEventData>;
 }
 
-export const MessageBatchCreatedEventData: Schema.Schema<MessageBatchCreatedEventData> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(MessageCreatedEventData)),
-})).annotate({ identifier: "MessageBatchCreatedEventData" }) as any as Schema.Schema<MessageBatchCreatedEventData>;
+export const MessageBatchCreatedEventData: Schema.Schema<MessageBatchCreatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(MessageCreatedEventData)),
+    }),
+  ).annotate({
+    identifier: "MessageBatchCreatedEventData",
+  }) as any as Schema.Schema<MessageBatchCreatedEventData>;
 
 export interface Reaction {
   /** Identifier. The resource name of the reaction. Format: `spaces/{space}/messages/{message}/reactions/{reaction}` */
@@ -1965,20 +2673,27 @@ export interface Reaction {
   emoji?: Emoji;
 }
 
-export const Reaction: Schema.Schema<Reaction> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  user: Schema.optional(User),
-  emoji: Schema.optional(Emoji),
-})).annotate({ identifier: "Reaction" }) as any as Schema.Schema<Reaction>;
+export const Reaction: Schema.Schema<Reaction> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    user: Schema.optional(User),
+    emoji: Schema.optional(Emoji),
+  }),
+).annotate({ identifier: "Reaction" }) as any as Schema.Schema<Reaction>;
 
 export interface ReactionCreatedEventData {
   /** The new reaction. */
   reaction?: Reaction;
 }
 
-export const ReactionCreatedEventData: Schema.Schema<ReactionCreatedEventData> = Schema.suspend(() => Schema.Struct({
-  reaction: Schema.optional(Reaction),
-})).annotate({ identifier: "ReactionCreatedEventData" }) as any as Schema.Schema<ReactionCreatedEventData>;
+export const ReactionCreatedEventData: Schema.Schema<ReactionCreatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reaction: Schema.optional(Reaction),
+    }),
+  ).annotate({
+    identifier: "ReactionCreatedEventData",
+  }) as any as Schema.Schema<ReactionCreatedEventData>;
 
 export interface TimeInput {
   /** The hour on a 24-hour clock. */
@@ -1987,10 +2702,12 @@ export interface TimeInput {
   minutes?: number;
 }
 
-export const TimeInput: Schema.Schema<TimeInput> = Schema.suspend(() => Schema.Struct({
-  hours: Schema.optional(Schema.Number),
-  minutes: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TimeInput" }) as any as Schema.Schema<TimeInput>;
+export const TimeInput: Schema.Schema<TimeInput> = Schema.suspend(() =>
+  Schema.Struct({
+    hours: Schema.optional(Schema.Number),
+    minutes: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "TimeInput" }) as any as Schema.Schema<TimeInput>;
 
 export interface DateTimeInput {
   /** Whether the `datetime` input includes a calendar date. */
@@ -2001,29 +2718,39 @@ export interface DateTimeInput {
   msSinceEpoch?: string;
 }
 
-export const DateTimeInput: Schema.Schema<DateTimeInput> = Schema.suspend(() => Schema.Struct({
-  hasDate: Schema.optional(Schema.Boolean),
-  hasTime: Schema.optional(Schema.Boolean),
-  msSinceEpoch: Schema.optional(Schema.String),
-})).annotate({ identifier: "DateTimeInput" }) as any as Schema.Schema<DateTimeInput>;
+export const DateTimeInput: Schema.Schema<DateTimeInput> = Schema.suspend(() =>
+  Schema.Struct({
+    hasDate: Schema.optional(Schema.Boolean),
+    hasTime: Schema.optional(Schema.Boolean),
+    msSinceEpoch: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DateTimeInput",
+}) as any as Schema.Schema<DateTimeInput>;
 
 export interface StringInputs {
   /** An list of strings entered by the user. */
   value?: Array<string>;
 }
 
-export const StringInputs: Schema.Schema<StringInputs> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "StringInputs" }) as any as Schema.Schema<StringInputs>;
+export const StringInputs: Schema.Schema<StringInputs> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "StringInputs",
+}) as any as Schema.Schema<StringInputs>;
 
 export interface DateInput {
   /** Time since epoch time, in milliseconds. */
   msSinceEpoch?: string;
 }
 
-export const DateInput: Schema.Schema<DateInput> = Schema.suspend(() => Schema.Struct({
-  msSinceEpoch: Schema.optional(Schema.String),
-})).annotate({ identifier: "DateInput" }) as any as Schema.Schema<DateInput>;
+export const DateInput: Schema.Schema<DateInput> = Schema.suspend(() =>
+  Schema.Struct({
+    msSinceEpoch: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DateInput" }) as any as Schema.Schema<DateInput>;
 
 export interface Inputs {
   /** Time input values from a [`DateTimePicker`](https://developers.google.com/chat/api/reference/rest/v1/cards#DateTimePicker) widget that only accepts time values. */
@@ -2036,12 +2763,14 @@ export interface Inputs {
   dateInput?: DateInput;
 }
 
-export const Inputs: Schema.Schema<Inputs> = Schema.suspend(() => Schema.Struct({
-  timeInput: Schema.optional(TimeInput),
-  dateTimeInput: Schema.optional(DateTimeInput),
-  stringInputs: Schema.optional(StringInputs),
-  dateInput: Schema.optional(DateInput),
-})).annotate({ identifier: "Inputs" }) as any as Schema.Schema<Inputs>;
+export const Inputs: Schema.Schema<Inputs> = Schema.suspend(() =>
+  Schema.Struct({
+    timeInput: Schema.optional(TimeInput),
+    dateTimeInput: Schema.optional(DateTimeInput),
+    stringInputs: Schema.optional(StringInputs),
+    dateInput: Schema.optional(DateInput),
+  }),
+).annotate({ identifier: "Inputs" }) as any as Schema.Schema<Inputs>;
 
 export interface TimeZone {
   /** The user timezone offset, in milliseconds, from Coordinated Universal Time (UTC). */
@@ -2050,14 +2779,28 @@ export interface TimeZone {
   id?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() => Schema.Struct({
-  offset: Schema.optional(Schema.Number),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
+  Schema.Struct({
+    offset: Schema.optional(Schema.Number),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface CommonEventObject {
   /** Indicates the host app the add-on is active in when the event object is generated. Possible values include the following: * `GMAIL` * `CALENDAR` * `DRIVE` * `DOCS` * `SHEETS` * `SLIDES` * `CHAT` */
-  hostApp?: "UNSPECIFIED_HOST_APP" | "GMAIL" | "CALENDAR" | "DRIVE" | "DEMO" | "DOCS" | "MEET" | "SHEETS" | "SLIDES" | "DRAWINGS" | "CHAT" | (string & {});
+  hostApp?:
+    | "UNSPECIFIED_HOST_APP"
+    | "GMAIL"
+    | "CALENDAR"
+    | "DRIVE"
+    | "DEMO"
+    | "DOCS"
+    | "MEET"
+    | "SHEETS"
+    | "SLIDES"
+    | "DRAWINGS"
+    | "CHAT"
+    | (string & {});
   /** A map containing the current values of the widgets in the displayed card. The map keys are the string IDs assigned with each widget. The structure of the map value object is dependent on the widget type: **Note**: The following examples are formatted for Apps Script's V8 runtime. If you're using Rhino runtime, you must add `[""]` after the value. For example, instead of `e.commonEventObject.formInputs.employeeName.stringInputs.value[0]`, format the event object as `e.commonEventObject.formInputs.employeeName[""].stringInputs.value[0]`. To learn more about runtimes in Apps Script, see the [V8 Runtime Overview](https://developers.google.com/apps-script/guides/v8-runtime). * Single-valued widgets (for example, a text box): a list of strings (only one element). **Example**: for a text input widget with `employeeName` as its ID, access the text input value with: `e.commonEventObject.formInputs.employeeName.stringInputs.value[0]`. * Multi-valued widgets (for example, checkbox groups): a list of strings. **Example**: for a multi-value widget with `participants` as its ID, access the value array with: `e.commonEventObject.formInputs.participants.stringInputs.value`. * **A date-time picker**: a [`DateTimeInput object`](https://developers.google.com/workspace/add-ons/concepts/event-objects#date-time-input). **Example**: For a picker with an ID of `myDTPicker`, access the [`DateTimeInput`](https://developers.google.com/workspace/add-ons/concepts/event-objects#date-time-input) object using `e.commonEventObject.formInputs.myDTPicker.dateTimeInput`. * **A date-only picker**: a [`DateInput object`](https://developers.google.com/workspace/add-ons/concepts/event-objects#date-input). **Example**: For a picker with an ID of `myDatePicker`, access the [`DateInput`](https://developers.google.com/workspace/add-ons/concepts/event-objects#date-input) object using `e.commonEventObject.formInputs.myDatePicker.dateInput`. * **A time-only picker**: a [`TimeInput object`](https://developers.google.com/workspace/add-ons/concepts/event-objects#time-input). **Example**: For a picker with an ID of `myTimePicker`, access the [`TimeInput`](https://developers.google.com/workspace/add-ons/concepts/event-objects#time-input) object using `e.commonEventObject.formInputs.myTimePicker.timeInput`. */
   formInputs?: Record<string, Inputs>;
   /** Name of the function to invoke. This field doesn't populate for Google Workspace Add-ons that extend Google Chat. Instead, to receive function data like identifiers, add-ons that extend Chat should use the `parameters` field. See [Build interactive interfaces for Chat apps](https://developers.google.com/workspace/add-ons/chat/build). */
@@ -2072,34 +2815,51 @@ export interface CommonEventObject {
   platform?: "UNKNOWN_PLATFORM" | "WEB" | "IOS" | "ANDROID" | (string & {});
 }
 
-export const CommonEventObject: Schema.Schema<CommonEventObject> = Schema.suspend(() => Schema.Struct({
-  hostApp: Schema.optional(Schema.String),
-  formInputs: Schema.optional(Schema.Record(Schema.String, Inputs)),
-  invokedFunction: Schema.optional(Schema.String),
-  userLocale: Schema.optional(Schema.String),
-  timeZone: Schema.optional(TimeZone),
-  parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  platform: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommonEventObject" }) as any as Schema.Schema<CommonEventObject>;
+export const CommonEventObject: Schema.Schema<CommonEventObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hostApp: Schema.optional(Schema.String),
+      formInputs: Schema.optional(Schema.Record(Schema.String, Inputs)),
+      invokedFunction: Schema.optional(Schema.String),
+      userLocale: Schema.optional(Schema.String),
+      timeZone: Schema.optional(TimeZone),
+      parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      platform: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommonEventObject",
+  }) as any as Schema.Schema<CommonEventObject>;
 
 export interface Group {
   /** Resource name for a Google Group. Represents a [group](https://cloud.google.com/identity/docs/reference/rest/v1/groups) in Cloud Identity Groups API. Format: groups/{group} */
   name?: string;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface Membership {
   /** Optional. User's role within a Chat space, which determines their permitted actions in the space. This field can only be used as input in `UpdateMembership`. */
-  role?: "MEMBERSHIP_ROLE_UNSPECIFIED" | "ROLE_MEMBER" | "ROLE_MANAGER" | "ROLE_ASSISTANT_MANAGER" | (string & {});
+  role?:
+    | "MEMBERSHIP_ROLE_UNSPECIFIED"
+    | "ROLE_MEMBER"
+    | "ROLE_MANAGER"
+    | "ROLE_ASSISTANT_MANAGER"
+    | (string & {});
   /** Optional. Immutable. The creation time of the membership, such as when a member joined or was invited to join a space. This field is output only, except when used to import historical memberships in import mode spaces. */
   createTime?: string;
   /** Optional. The Google Group the membership corresponds to. Reading or mutating memberships for Google Groups requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
   groupMember?: Group;
   /** Output only. State of the membership. */
-  state?: "MEMBERSHIP_STATE_UNSPECIFIED" | "JOINED" | "INVITED" | "NOT_A_MEMBER" | (string & {});
+  state?:
+    | "MEMBERSHIP_STATE_UNSPECIFIED"
+    | "JOINED"
+    | "INVITED"
+    | "NOT_A_MEMBER"
+    | (string & {});
   /** Optional. The Google Chat user or app the membership corresponds to. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type`. */
   member?: User;
   /** Identifier. Resource name of the membership, assigned by the server. Format: `spaces/{space}/members/{member}` */
@@ -2108,15 +2868,17 @@ export interface Membership {
   deleteTime?: string;
 }
 
-export const Membership: Schema.Schema<Membership> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  groupMember: Schema.optional(Group),
-  state: Schema.optional(Schema.String),
-  member: Schema.optional(User),
-  name: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Membership" }) as any as Schema.Schema<Membership>;
+export const Membership: Schema.Schema<Membership> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    groupMember: Schema.optional(Group),
+    state: Schema.optional(Schema.String),
+    member: Schema.optional(User),
+    name: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Membership" }) as any as Schema.Schema<Membership>;
 
 export interface SetUpSpaceRequest {
   /** Required. The `Space.spaceType` field is required. To create a space, set `Space.spaceType` to `SPACE` and set `Space.displayName`. If you receive the error message `ALREADY_EXISTS` when setting up a space, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. To create a group chat, set `Space.spaceType` to `GROUP_CHAT`. Don't set `Space.displayName`. To create a 1:1 conversation between humans, set `Space.spaceType` to `DIRECT_MESSAGE` and set `Space.singleUserBotDm` to `false`. Don't set `Space.displayName` or `Space.spaceDetails`. To create an 1:1 conversation between a human and the calling Chat app, set `Space.spaceType` to `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`. Don't set `Space.displayName` or `Space.spaceDetails`. If a `DIRECT_MESSAGE` space already exists, that space is returned instead of creating a new space. */
@@ -2127,23 +2889,37 @@ export interface SetUpSpaceRequest {
   requestId?: string;
 }
 
-export const SetUpSpaceRequest: Schema.Schema<SetUpSpaceRequest> = Schema.suspend(() => Schema.Struct({
-  space: Schema.optional(Space),
-  memberships: Schema.optional(Schema.Array(Membership)),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetUpSpaceRequest" }) as any as Schema.Schema<SetUpSpaceRequest>;
+export const SetUpSpaceRequest: Schema.Schema<SetUpSpaceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      space: Schema.optional(Space),
+      memberships: Schema.optional(Schema.Array(Membership)),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetUpSpaceRequest",
+  }) as any as Schema.Schema<SetUpSpaceRequest>;
 
 export interface AppCommandMetadata {
   /** The ID for the command specified in the Chat API configuration. */
   appCommandId?: number;
   /** The type of Chat app command. */
-  appCommandType?: "APP_COMMAND_TYPE_UNSPECIFIED" | "SLASH_COMMAND" | "QUICK_COMMAND" | (string & {});
+  appCommandType?:
+    | "APP_COMMAND_TYPE_UNSPECIFIED"
+    | "SLASH_COMMAND"
+    | "QUICK_COMMAND"
+    | (string & {});
 }
 
-export const AppCommandMetadata: Schema.Schema<AppCommandMetadata> = Schema.suspend(() => Schema.Struct({
-  appCommandId: Schema.optional(Schema.Number),
-  appCommandType: Schema.optional(Schema.String),
-})).annotate({ identifier: "AppCommandMetadata" }) as any as Schema.Schema<AppCommandMetadata>;
+export const AppCommandMetadata: Schema.Schema<AppCommandMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      appCommandId: Schema.optional(Schema.Number),
+      appCommandType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AppCommandMetadata",
+  }) as any as Schema.Schema<AppCommandMetadata>;
 
 export interface ListCustomEmojisResponse {
   /** A token that you can send as `pageToken` to retrieve the next page of results. If empty, there are no subsequent pages. */
@@ -2152,70 +2928,115 @@ export interface ListCustomEmojisResponse {
   customEmojis?: Array<CustomEmoji>;
 }
 
-export const ListCustomEmojisResponse: Schema.Schema<ListCustomEmojisResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  customEmojis: Schema.optional(Schema.Array(CustomEmoji)),
-})).annotate({ identifier: "ListCustomEmojisResponse" }) as any as Schema.Schema<ListCustomEmojisResponse>;
+export const ListCustomEmojisResponse: Schema.Schema<ListCustomEmojisResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      customEmojis: Schema.optional(Schema.Array(CustomEmoji)),
+    }),
+  ).annotate({
+    identifier: "ListCustomEmojisResponse",
+  }) as any as Schema.Schema<ListCustomEmojisResponse>;
 
 export interface SpaceNotificationSetting {
   /** Identifier. The resource name of the space notification setting. Format: `users/{user}/spaces/{space}/spaceNotificationSetting`. */
   name?: string;
   /** The space notification mute setting. */
-  muteSetting?: "MUTE_SETTING_UNSPECIFIED" | "UNMUTED" | "MUTED" | (string & {});
+  muteSetting?:
+    | "MUTE_SETTING_UNSPECIFIED"
+    | "UNMUTED"
+    | "MUTED"
+    | (string & {});
   /** The notification setting. */
-  notificationSetting?: "NOTIFICATION_SETTING_UNSPECIFIED" | "ALL" | "MAIN_CONVERSATIONS" | "FOR_YOU" | "OFF" | (string & {});
+  notificationSetting?:
+    | "NOTIFICATION_SETTING_UNSPECIFIED"
+    | "ALL"
+    | "MAIN_CONVERSATIONS"
+    | "FOR_YOU"
+    | "OFF"
+    | (string & {});
 }
 
-export const SpaceNotificationSetting: Schema.Schema<SpaceNotificationSetting> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  muteSetting: Schema.optional(Schema.String),
-  notificationSetting: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpaceNotificationSetting" }) as any as Schema.Schema<SpaceNotificationSetting>;
+export const SpaceNotificationSetting: Schema.Schema<SpaceNotificationSetting> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      muteSetting: Schema.optional(Schema.String),
+      notificationSetting: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SpaceNotificationSetting",
+  }) as any as Schema.Schema<SpaceNotificationSetting>;
 
 export interface CompleteImportSpaceResponse {
   /** The import mode space. */
   space?: Space;
 }
 
-export const CompleteImportSpaceResponse: Schema.Schema<CompleteImportSpaceResponse> = Schema.suspend(() => Schema.Struct({
-  space: Schema.optional(Space),
-})).annotate({ identifier: "CompleteImportSpaceResponse" }) as any as Schema.Schema<CompleteImportSpaceResponse>;
+export const CompleteImportSpaceResponse: Schema.Schema<CompleteImportSpaceResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      space: Schema.optional(Space),
+    }),
+  ).annotate({
+    identifier: "CompleteImportSpaceResponse",
+  }) as any as Schema.Schema<CompleteImportSpaceResponse>;
 
 export interface MembershipCreatedEventData {
   /** The new membership. */
   membership?: Membership;
 }
 
-export const MembershipCreatedEventData: Schema.Schema<MembershipCreatedEventData> = Schema.suspend(() => Schema.Struct({
-  membership: Schema.optional(Membership),
-})).annotate({ identifier: "MembershipCreatedEventData" }) as any as Schema.Schema<MembershipCreatedEventData>;
+export const MembershipCreatedEventData: Schema.Schema<MembershipCreatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      membership: Schema.optional(Membership),
+    }),
+  ).annotate({
+    identifier: "MembershipCreatedEventData",
+  }) as any as Schema.Schema<MembershipCreatedEventData>;
 
 export interface MembershipBatchCreatedEventData {
   /** A list of new memberships. */
   memberships?: Array<MembershipCreatedEventData>;
 }
 
-export const MembershipBatchCreatedEventData: Schema.Schema<MembershipBatchCreatedEventData> = Schema.suspend(() => Schema.Struct({
-  memberships: Schema.optional(Schema.Array(MembershipCreatedEventData)),
-})).annotate({ identifier: "MembershipBatchCreatedEventData" }) as any as Schema.Schema<MembershipBatchCreatedEventData>;
+export const MembershipBatchCreatedEventData: Schema.Schema<MembershipBatchCreatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      memberships: Schema.optional(Schema.Array(MembershipCreatedEventData)),
+    }),
+  ).annotate({
+    identifier: "MembershipBatchCreatedEventData",
+  }) as any as Schema.Schema<MembershipBatchCreatedEventData>;
 
 export interface MessageDeletedEventData {
   /** The deleted message. Only the `name`, `createTime`, and `deletionMetadata` fields are populated. */
   message?: Message;
 }
 
-export const MessageDeletedEventData: Schema.Schema<MessageDeletedEventData> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Message),
-})).annotate({ identifier: "MessageDeletedEventData" }) as any as Schema.Schema<MessageDeletedEventData>;
+export const MessageDeletedEventData: Schema.Schema<MessageDeletedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "MessageDeletedEventData",
+  }) as any as Schema.Schema<MessageDeletedEventData>;
 
 export interface MessageBatchDeletedEventData {
   /** A list of deleted messages. */
   messages?: Array<MessageDeletedEventData>;
 }
 
-export const MessageBatchDeletedEventData: Schema.Schema<MessageBatchDeletedEventData> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(MessageDeletedEventData)),
-})).annotate({ identifier: "MessageBatchDeletedEventData" }) as any as Schema.Schema<MessageBatchDeletedEventData>;
+export const MessageBatchDeletedEventData: Schema.Schema<MessageBatchDeletedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(MessageDeletedEventData)),
+    }),
+  ).annotate({
+    identifier: "MessageBatchDeletedEventData",
+  }) as any as Schema.Schema<MessageBatchDeletedEventData>;
 
 export interface ListReactionsResponse {
   /** List of reactions in the requested (or first) page. */
@@ -2224,19 +3045,29 @@ export interface ListReactionsResponse {
   nextPageToken?: string;
 }
 
-export const ListReactionsResponse: Schema.Schema<ListReactionsResponse> = Schema.suspend(() => Schema.Struct({
-  reactions: Schema.optional(Schema.Array(Reaction)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListReactionsResponse" }) as any as Schema.Schema<ListReactionsResponse>;
+export const ListReactionsResponse: Schema.Schema<ListReactionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reactions: Schema.optional(Schema.Array(Reaction)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListReactionsResponse",
+  }) as any as Schema.Schema<ListReactionsResponse>;
 
 export interface UploadAttachmentResponse {
   /** Reference to the uploaded attachment. */
   attachmentDataRef?: AttachmentDataRef;
 }
 
-export const UploadAttachmentResponse: Schema.Schema<UploadAttachmentResponse> = Schema.suspend(() => Schema.Struct({
-  attachmentDataRef: Schema.optional(AttachmentDataRef),
-})).annotate({ identifier: "UploadAttachmentResponse" }) as any as Schema.Schema<UploadAttachmentResponse>;
+export const UploadAttachmentResponse: Schema.Schema<UploadAttachmentResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attachmentDataRef: Schema.optional(AttachmentDataRef),
+    }),
+  ).annotate({
+    identifier: "UploadAttachmentResponse",
+  }) as any as Schema.Schema<UploadAttachmentResponse>;
 
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
@@ -2247,11 +3078,15 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface ListMessagesResponse {
   /** List of messages. */
@@ -2260,10 +3095,15 @@ export interface ListMessagesResponse {
   nextPageToken?: string;
 }
 
-export const ListMessagesResponse: Schema.Schema<ListMessagesResponse> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(Message)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListMessagesResponse" }) as any as Schema.Schema<ListMessagesResponse>;
+export const ListMessagesResponse: Schema.Schema<ListMessagesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(Message)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListMessagesResponse",
+  }) as any as Schema.Schema<ListMessagesResponse>;
 
 export interface DeprecatedEvent {
   /** The user that interacted with the Chat app. */
@@ -2287,76 +3127,116 @@ export interface DeprecatedEvent {
   /** A secret value that legacy Chat apps can use to verify if a request is from Google. Google randomly generates the token, and its value remains static. You can obtain, revoke, or regenerate the token from the [Chat API configuration page](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) in the Google Cloud Console. Modern Chat apps don't use this field. It is absent from API responses and the [Chat API configuration page](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat). */
   token?: string;
   /** The [type](/workspace/chat/api/reference/rest/v1/EventType) of user interaction with the Chat app, such as `MESSAGE` or `ADDED_TO_SPACE`. */
-  type?: "UNSPECIFIED" | "MESSAGE" | "ADDED_TO_SPACE" | "REMOVED_FROM_SPACE" | "CARD_CLICKED" | "WIDGET_UPDATED" | "APP_COMMAND" | (string & {});
+  type?:
+    | "UNSPECIFIED"
+    | "MESSAGE"
+    | "ADDED_TO_SPACE"
+    | "REMOVED_FROM_SPACE"
+    | "CARD_CLICKED"
+    | "WIDGET_UPDATED"
+    | "APP_COMMAND"
+    | (string & {});
   /** The thread in which the user interacted with the Chat app. This could be in a new thread created by a newly sent message. This field is populated if the interaction event is associated with a specific message or thread. */
   thread?: Thread;
   /** Represents information about the user's client, such as locale, host app, and platform. For Chat apps, `CommonEventObject` includes information submitted by users interacting with [dialogs](https://developers.google.com/workspace/chat/dialogs), like data entered on a card. */
   common?: CommonEventObject;
   /** The type of [dialog](https://developers.google.com/workspace/chat/dialogs) interaction event received. */
-  dialogEventType?: "TYPE_UNSPECIFIED" | "REQUEST_DIALOG" | "SUBMIT_DIALOG" | "CANCEL_DIALOG" | (string & {});
+  dialogEventType?:
+    | "TYPE_UNSPECIFIED"
+    | "REQUEST_DIALOG"
+    | "SUBMIT_DIALOG"
+    | "CANCEL_DIALOG"
+    | (string & {});
 }
 
-export const DeprecatedEvent: Schema.Schema<DeprecatedEvent> = Schema.suspend(() => Schema.Struct({
-  user: Schema.optional(User),
-  threadKey: Schema.optional(Schema.String),
-  appCommandMetadata: Schema.optional(AppCommandMetadata),
-  space: Schema.optional(Space),
-  message: Schema.optional(Message),
-  configCompleteRedirectUrl: Schema.optional(Schema.String),
-  action: Schema.optional(FormAction),
-  isDialogEvent: Schema.optional(Schema.Boolean),
-  eventTime: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  thread: Schema.optional(Thread),
-  common: Schema.optional(CommonEventObject),
-  dialogEventType: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeprecatedEvent" }) as any as Schema.Schema<DeprecatedEvent>;
+export const DeprecatedEvent: Schema.Schema<DeprecatedEvent> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      user: Schema.optional(User),
+      threadKey: Schema.optional(Schema.String),
+      appCommandMetadata: Schema.optional(AppCommandMetadata),
+      space: Schema.optional(Space),
+      message: Schema.optional(Message),
+      configCompleteRedirectUrl: Schema.optional(Schema.String),
+      action: Schema.optional(FormAction),
+      isDialogEvent: Schema.optional(Schema.Boolean),
+      eventTime: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      thread: Schema.optional(Thread),
+      common: Schema.optional(CommonEventObject),
+      dialogEventType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DeprecatedEvent",
+}) as any as Schema.Schema<DeprecatedEvent>;
 
 export interface Media {
   /** Name of the media resource. */
   resourceName?: string;
 }
 
-export const Media: Schema.Schema<Media> = Schema.suspend(() => Schema.Struct({
-  resourceName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
+export const Media: Schema.Schema<Media> = Schema.suspend(() =>
+  Schema.Struct({
+    resourceName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
 
 export interface UploadAttachmentRequest {
   /** Required. The filename of the attachment, including the file extension. */
   filename?: string;
 }
 
-export const UploadAttachmentRequest: Schema.Schema<UploadAttachmentRequest> = Schema.suspend(() => Schema.Struct({
-  filename: Schema.optional(Schema.String),
-})).annotate({ identifier: "UploadAttachmentRequest" }) as any as Schema.Schema<UploadAttachmentRequest>;
+export const UploadAttachmentRequest: Schema.Schema<UploadAttachmentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filename: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UploadAttachmentRequest",
+  }) as any as Schema.Schema<UploadAttachmentRequest>;
 
 export interface ReactionDeletedEventData {
   /** The deleted reaction. */
   reaction?: Reaction;
 }
 
-export const ReactionDeletedEventData: Schema.Schema<ReactionDeletedEventData> = Schema.suspend(() => Schema.Struct({
-  reaction: Schema.optional(Reaction),
-})).annotate({ identifier: "ReactionDeletedEventData" }) as any as Schema.Schema<ReactionDeletedEventData>;
+export const ReactionDeletedEventData: Schema.Schema<ReactionDeletedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reaction: Schema.optional(Reaction),
+    }),
+  ).annotate({
+    identifier: "ReactionDeletedEventData",
+  }) as any as Schema.Schema<ReactionDeletedEventData>;
 
 export interface ReactionBatchDeletedEventData {
   /** A list of deleted reactions. */
   reactions?: Array<ReactionDeletedEventData>;
 }
 
-export const ReactionBatchDeletedEventData: Schema.Schema<ReactionBatchDeletedEventData> = Schema.suspend(() => Schema.Struct({
-  reactions: Schema.optional(Schema.Array(ReactionDeletedEventData)),
-})).annotate({ identifier: "ReactionBatchDeletedEventData" }) as any as Schema.Schema<ReactionBatchDeletedEventData>;
+export const ReactionBatchDeletedEventData: Schema.Schema<ReactionBatchDeletedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reactions: Schema.optional(Schema.Array(ReactionDeletedEventData)),
+    }),
+  ).annotate({
+    identifier: "ReactionBatchDeletedEventData",
+  }) as any as Schema.Schema<ReactionBatchDeletedEventData>;
 
 export interface MembershipDeletedEventData {
   /** The deleted membership. Only the `name` and `state` fields are populated. */
   membership?: Membership;
 }
 
-export const MembershipDeletedEventData: Schema.Schema<MembershipDeletedEventData> = Schema.suspend(() => Schema.Struct({
-  membership: Schema.optional(Membership),
-})).annotate({ identifier: "MembershipDeletedEventData" }) as any as Schema.Schema<MembershipDeletedEventData>;
+export const MembershipDeletedEventData: Schema.Schema<MembershipDeletedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      membership: Schema.optional(Membership),
+    }),
+  ).annotate({
+    identifier: "MembershipDeletedEventData",
+  }) as any as Schema.Schema<MembershipDeletedEventData>;
 
 export interface SpaceReadState {
   /** Resource name of the space read state. Format: `users/{user}/spaces/{space}/spaceReadState` */
@@ -2365,82 +3245,127 @@ export interface SpaceReadState {
   lastReadTime?: string;
 }
 
-export const SpaceReadState: Schema.Schema<SpaceReadState> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  lastReadTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpaceReadState" }) as any as Schema.Schema<SpaceReadState>;
+export const SpaceReadState: Schema.Schema<SpaceReadState> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      lastReadTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SpaceReadState",
+}) as any as Schema.Schema<SpaceReadState>;
 
 export interface MembershipUpdatedEventData {
   /** The updated membership. */
   membership?: Membership;
 }
 
-export const MembershipUpdatedEventData: Schema.Schema<MembershipUpdatedEventData> = Schema.suspend(() => Schema.Struct({
-  membership: Schema.optional(Membership),
-})).annotate({ identifier: "MembershipUpdatedEventData" }) as any as Schema.Schema<MembershipUpdatedEventData>;
+export const MembershipUpdatedEventData: Schema.Schema<MembershipUpdatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      membership: Schema.optional(Membership),
+    }),
+  ).annotate({
+    identifier: "MembershipUpdatedEventData",
+  }) as any as Schema.Schema<MembershipUpdatedEventData>;
 
 export interface MembershipBatchUpdatedEventData {
   /** A list of updated memberships. */
   memberships?: Array<MembershipUpdatedEventData>;
 }
 
-export const MembershipBatchUpdatedEventData: Schema.Schema<MembershipBatchUpdatedEventData> = Schema.suspend(() => Schema.Struct({
-  memberships: Schema.optional(Schema.Array(MembershipUpdatedEventData)),
-})).annotate({ identifier: "MembershipBatchUpdatedEventData" }) as any as Schema.Schema<MembershipBatchUpdatedEventData>;
+export const MembershipBatchUpdatedEventData: Schema.Schema<MembershipBatchUpdatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      memberships: Schema.optional(Schema.Array(MembershipUpdatedEventData)),
+    }),
+  ).annotate({
+    identifier: "MembershipBatchUpdatedEventData",
+  }) as any as Schema.Schema<MembershipBatchUpdatedEventData>;
 
 export interface SpaceUpdatedEventData {
   /** The updated space. */
   space?: Space;
 }
 
-export const SpaceUpdatedEventData: Schema.Schema<SpaceUpdatedEventData> = Schema.suspend(() => Schema.Struct({
-  space: Schema.optional(Space),
-})).annotate({ identifier: "SpaceUpdatedEventData" }) as any as Schema.Schema<SpaceUpdatedEventData>;
+export const SpaceUpdatedEventData: Schema.Schema<SpaceUpdatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      space: Schema.optional(Space),
+    }),
+  ).annotate({
+    identifier: "SpaceUpdatedEventData",
+  }) as any as Schema.Schema<SpaceUpdatedEventData>;
 
 export interface SpaceBatchUpdatedEventData {
   /** A list of updated spaces. */
   spaces?: Array<SpaceUpdatedEventData>;
 }
 
-export const SpaceBatchUpdatedEventData: Schema.Schema<SpaceBatchUpdatedEventData> = Schema.suspend(() => Schema.Struct({
-  spaces: Schema.optional(Schema.Array(SpaceUpdatedEventData)),
-})).annotate({ identifier: "SpaceBatchUpdatedEventData" }) as any as Schema.Schema<SpaceBatchUpdatedEventData>;
+export const SpaceBatchUpdatedEventData: Schema.Schema<SpaceBatchUpdatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      spaces: Schema.optional(Schema.Array(SpaceUpdatedEventData)),
+    }),
+  ).annotate({
+    identifier: "SpaceBatchUpdatedEventData",
+  }) as any as Schema.Schema<SpaceBatchUpdatedEventData>;
 
 export interface MessageUpdatedEventData {
   /** The updated message. */
   message?: Message;
 }
 
-export const MessageUpdatedEventData: Schema.Schema<MessageUpdatedEventData> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Message),
-})).annotate({ identifier: "MessageUpdatedEventData" }) as any as Schema.Schema<MessageUpdatedEventData>;
+export const MessageUpdatedEventData: Schema.Schema<MessageUpdatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "MessageUpdatedEventData",
+  }) as any as Schema.Schema<MessageUpdatedEventData>;
 
 export interface MessageBatchUpdatedEventData {
   /** A list of updated messages. */
   messages?: Array<MessageUpdatedEventData>;
 }
 
-export const MessageBatchUpdatedEventData: Schema.Schema<MessageBatchUpdatedEventData> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(MessageUpdatedEventData)),
-})).annotate({ identifier: "MessageBatchUpdatedEventData" }) as any as Schema.Schema<MessageBatchUpdatedEventData>;
+export const MessageBatchUpdatedEventData: Schema.Schema<MessageBatchUpdatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(MessageUpdatedEventData)),
+    }),
+  ).annotate({
+    identifier: "MessageBatchUpdatedEventData",
+  }) as any as Schema.Schema<MessageBatchUpdatedEventData>;
 
 export interface ReactionBatchCreatedEventData {
   /** A list of new reactions. */
   reactions?: Array<ReactionCreatedEventData>;
 }
 
-export const ReactionBatchCreatedEventData: Schema.Schema<ReactionBatchCreatedEventData> = Schema.suspend(() => Schema.Struct({
-  reactions: Schema.optional(Schema.Array(ReactionCreatedEventData)),
-})).annotate({ identifier: "ReactionBatchCreatedEventData" }) as any as Schema.Schema<ReactionBatchCreatedEventData>;
+export const ReactionBatchCreatedEventData: Schema.Schema<ReactionBatchCreatedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reactions: Schema.optional(Schema.Array(ReactionCreatedEventData)),
+    }),
+  ).annotate({
+    identifier: "ReactionBatchCreatedEventData",
+  }) as any as Schema.Schema<ReactionBatchCreatedEventData>;
 
 export interface MembershipBatchDeletedEventData {
   /** A list of deleted memberships. */
   memberships?: Array<MembershipDeletedEventData>;
 }
 
-export const MembershipBatchDeletedEventData: Schema.Schema<MembershipBatchDeletedEventData> = Schema.suspend(() => Schema.Struct({
-  memberships: Schema.optional(Schema.Array(MembershipDeletedEventData)),
-})).annotate({ identifier: "MembershipBatchDeletedEventData" }) as any as Schema.Schema<MembershipBatchDeletedEventData>;
+export const MembershipBatchDeletedEventData: Schema.Schema<MembershipBatchDeletedEventData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      memberships: Schema.optional(Schema.Array(MembershipDeletedEventData)),
+    }),
+  ).annotate({
+    identifier: "MembershipBatchDeletedEventData",
+  }) as any as Schema.Schema<MembershipBatchDeletedEventData>;
 
 export interface SpaceEvent {
   /** Event payload for a new message. Event type: `google.workspace.chat.message.v1.created` */
@@ -2487,35 +3412,47 @@ export interface SpaceEvent {
   reactionBatchDeletedEventData?: ReactionBatchDeletedEventData;
 }
 
-export const SpaceEvent: Schema.Schema<SpaceEvent> = Schema.suspend(() => Schema.Struct({
-  messageCreatedEventData: Schema.optional(MessageCreatedEventData),
-  eventType: Schema.optional(Schema.String),
-  reactionCreatedEventData: Schema.optional(ReactionCreatedEventData),
-  messageBatchDeletedEventData: Schema.optional(MessageBatchDeletedEventData),
-  membershipBatchUpdatedEventData: Schema.optional(MembershipBatchUpdatedEventData),
-  eventTime: Schema.optional(Schema.String),
-  messageDeletedEventData: Schema.optional(MessageDeletedEventData),
-  membershipCreatedEventData: Schema.optional(MembershipCreatedEventData),
-  membershipDeletedEventData: Schema.optional(MembershipDeletedEventData),
-  name: Schema.optional(Schema.String),
-  spaceBatchUpdatedEventData: Schema.optional(SpaceBatchUpdatedEventData),
-  spaceUpdatedEventData: Schema.optional(SpaceUpdatedEventData),
-  membershipUpdatedEventData: Schema.optional(MembershipUpdatedEventData),
-  messageBatchCreatedEventData: Schema.optional(MessageBatchCreatedEventData),
-  messageBatchUpdatedEventData: Schema.optional(MessageBatchUpdatedEventData),
-  messageUpdatedEventData: Schema.optional(MessageUpdatedEventData),
-  membershipBatchCreatedEventData: Schema.optional(MembershipBatchCreatedEventData),
-  reactionBatchCreatedEventData: Schema.optional(ReactionBatchCreatedEventData),
-  membershipBatchDeletedEventData: Schema.optional(MembershipBatchDeletedEventData),
-  reactionDeletedEventData: Schema.optional(ReactionDeletedEventData),
-  reactionBatchDeletedEventData: Schema.optional(ReactionBatchDeletedEventData),
-})).annotate({ identifier: "SpaceEvent" }) as any as Schema.Schema<SpaceEvent>;
+export const SpaceEvent: Schema.Schema<SpaceEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    messageCreatedEventData: Schema.optional(MessageCreatedEventData),
+    eventType: Schema.optional(Schema.String),
+    reactionCreatedEventData: Schema.optional(ReactionCreatedEventData),
+    messageBatchDeletedEventData: Schema.optional(MessageBatchDeletedEventData),
+    membershipBatchUpdatedEventData: Schema.optional(
+      MembershipBatchUpdatedEventData,
+    ),
+    eventTime: Schema.optional(Schema.String),
+    messageDeletedEventData: Schema.optional(MessageDeletedEventData),
+    membershipCreatedEventData: Schema.optional(MembershipCreatedEventData),
+    membershipDeletedEventData: Schema.optional(MembershipDeletedEventData),
+    name: Schema.optional(Schema.String),
+    spaceBatchUpdatedEventData: Schema.optional(SpaceBatchUpdatedEventData),
+    spaceUpdatedEventData: Schema.optional(SpaceUpdatedEventData),
+    membershipUpdatedEventData: Schema.optional(MembershipUpdatedEventData),
+    messageBatchCreatedEventData: Schema.optional(MessageBatchCreatedEventData),
+    messageBatchUpdatedEventData: Schema.optional(MessageBatchUpdatedEventData),
+    messageUpdatedEventData: Schema.optional(MessageUpdatedEventData),
+    membershipBatchCreatedEventData: Schema.optional(
+      MembershipBatchCreatedEventData,
+    ),
+    reactionBatchCreatedEventData: Schema.optional(
+      ReactionBatchCreatedEventData,
+    ),
+    membershipBatchDeletedEventData: Schema.optional(
+      MembershipBatchDeletedEventData,
+    ),
+    reactionDeletedEventData: Schema.optional(ReactionDeletedEventData),
+    reactionBatchDeletedEventData: Schema.optional(
+      ReactionBatchDeletedEventData,
+    ),
+  }),
+).annotate({ identifier: "SpaceEvent" }) as any as Schema.Schema<SpaceEvent>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ListSpaceEventsResponse {
   /** Results are returned in chronological order (oldest event first). Note: The `permissionSettings` field is not returned in the Space object for list requests. */
@@ -2524,16 +3461,22 @@ export interface ListSpaceEventsResponse {
   nextPageToken?: string;
 }
 
-export const ListSpaceEventsResponse: Schema.Schema<ListSpaceEventsResponse> = Schema.suspend(() => Schema.Struct({
-  spaceEvents: Schema.optional(Schema.Array(SpaceEvent)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSpaceEventsResponse" }) as any as Schema.Schema<ListSpaceEventsResponse>;
+export const ListSpaceEventsResponse: Schema.Schema<ListSpaceEventsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      spaceEvents: Schema.optional(Schema.Array(SpaceEvent)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSpaceEventsResponse",
+  }) as any as Schema.Schema<ListSpaceEventsResponse>;
 
-export interface CompleteImportSpaceRequest {
-}
+export interface CompleteImportSpaceRequest {}
 
-export const CompleteImportSpaceRequest: Schema.Schema<CompleteImportSpaceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CompleteImportSpaceRequest" }) as any as Schema.Schema<CompleteImportSpaceRequest>;
+export const CompleteImportSpaceRequest: Schema.Schema<CompleteImportSpaceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CompleteImportSpaceRequest",
+  }) as any as Schema.Schema<CompleteImportSpaceRequest>;
 
 export interface ListSpacesResponse {
   /** List of spaces in the requested (or first) page. Note: The `permissionSettings` field is not returned in the Space object for list requests. */
@@ -2542,10 +3485,15 @@ export interface ListSpacesResponse {
   nextPageToken?: string;
 }
 
-export const ListSpacesResponse: Schema.Schema<ListSpacesResponse> = Schema.suspend(() => Schema.Struct({
-  spaces: Schema.optional(Schema.Array(Space)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSpacesResponse" }) as any as Schema.Schema<ListSpacesResponse>;
+export const ListSpacesResponse: Schema.Schema<ListSpacesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      spaces: Schema.optional(Schema.Array(Space)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSpacesResponse",
+  }) as any as Schema.Schema<ListSpacesResponse>;
 
 export interface ListMembershipsResponse {
   /** Unordered list. List of memberships in the requested (or first) page. */
@@ -2554,10 +3502,15 @@ export interface ListMembershipsResponse {
   nextPageToken?: string;
 }
 
-export const ListMembershipsResponse: Schema.Schema<ListMembershipsResponse> = Schema.suspend(() => Schema.Struct({
-  memberships: Schema.optional(Schema.Array(Membership)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListMembershipsResponse" }) as any as Schema.Schema<ListMembershipsResponse>;
+export const ListMembershipsResponse: Schema.Schema<ListMembershipsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      memberships: Schema.optional(Schema.Array(Membership)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListMembershipsResponse",
+  }) as any as Schema.Schema<ListMembershipsResponse>;
 
 export interface SearchSpacesResponse {
   /** A token that can be used to retrieve the next page. If this field is empty, there are no subsequent pages. */
@@ -2568,11 +3521,16 @@ export interface SearchSpacesResponse {
   spaces?: Array<Space>;
 }
 
-export const SearchSpacesResponse: Schema.Schema<SearchSpacesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  totalSize: Schema.optional(Schema.Number),
-  spaces: Schema.optional(Schema.Array(Space)),
-})).annotate({ identifier: "SearchSpacesResponse" }) as any as Schema.Schema<SearchSpacesResponse>;
+export const SearchSpacesResponse: Schema.Schema<SearchSpacesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+      spaces: Schema.optional(Schema.Array(Space)),
+    }),
+  ).annotate({
+    identifier: "SearchSpacesResponse",
+  }) as any as Schema.Schema<SearchSpacesResponse>;
 
 export interface ThreadReadState {
   /** Resource name of the thread read state. Format: `users/{user}/spaces/{space}/threads/{thread}/threadReadState` */
@@ -2581,10 +3539,15 @@ export interface ThreadReadState {
   lastReadTime?: string;
 }
 
-export const ThreadReadState: Schema.Schema<ThreadReadState> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  lastReadTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ThreadReadState" }) as any as Schema.Schema<ThreadReadState>;
+export const ThreadReadState: Schema.Schema<ThreadReadState> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      lastReadTime: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ThreadReadState",
+}) as any as Schema.Schema<ThreadReadState>;
 
 export interface ChatAppLogEntry {
   /** The deployment that caused the error. For Chat apps built in Apps Script, this is the deployment ID defined by Apps Script. */
@@ -2595,11 +3558,16 @@ export interface ChatAppLogEntry {
   deploymentFunction?: string;
 }
 
-export const ChatAppLogEntry: Schema.Schema<ChatAppLogEntry> = Schema.suspend(() => Schema.Struct({
-  deployment: Schema.optional(Schema.String),
-  error: Schema.optional(Status),
-  deploymentFunction: Schema.optional(Schema.String),
-})).annotate({ identifier: "ChatAppLogEntry" }) as any as Schema.Schema<ChatAppLogEntry>;
+export const ChatAppLogEntry: Schema.Schema<ChatAppLogEntry> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      deployment: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      deploymentFunction: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ChatAppLogEntry",
+}) as any as Schema.Schema<ChatAppLogEntry>;
 
 // ==========================================================================
 // Operations
@@ -2623,7 +3591,12 @@ export const GetCustomEmojisResponse = CustomEmoji;
 export type GetCustomEmojisError = DefaultErrors;
 
 /** Returns details about a custom emoji. Custom emojis are only available for Google Workspace accounts, and the administrator must turn custom emojis on for the organization. For more information, see [Learn about custom emojis in Google Chat](https://support.google.com/chat/answer/12800149) and [Manage custom emoji permissions](https://support.google.com/a/answer/12850085). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.customemojis.readonly` - `https://www.googleapis.com/auth/chat.customemojis` */
-export const getCustomEmojis: API.OperationMethod<GetCustomEmojisRequest, GetCustomEmojisResponse, GetCustomEmojisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomEmojis: API.OperationMethod<
+  GetCustomEmojisRequest,
+  GetCustomEmojisResponse,
+  GetCustomEmojisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomEmojisRequest,
   output: GetCustomEmojisResponse,
   errors: [],
@@ -2653,7 +3626,12 @@ export const ListCustomEmojisResponse_Op = ListCustomEmojisResponse;
 export type ListCustomEmojisError = DefaultErrors;
 
 /** Lists custom emojis visible to the authenticated user. Custom emojis are only available for Google Workspace accounts, and the administrator must turn custom emojis on for the organization. For more information, see [Learn about custom emojis in Google Chat](https://support.google.com/chat/answer/12800149) and [Manage custom emoji permissions](https://support.google.com/a/answer/12850085). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.customemojis.readonly` - `https://www.googleapis.com/auth/chat.customemojis` */
-export const listCustomEmojis: API.PaginatedOperationMethod<ListCustomEmojisRequest, ListCustomEmojisResponse_Op, ListCustomEmojisError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomEmojis: API.PaginatedOperationMethod<
+  ListCustomEmojisRequest,
+  ListCustomEmojisResponse_Op,
+  ListCustomEmojisError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomEmojisRequest,
   output: ListCustomEmojisResponse_Op,
   errors: [],
@@ -2681,7 +3659,12 @@ export const DeleteCustomEmojisResponse = Empty;
 export type DeleteCustomEmojisError = DefaultErrors;
 
 /** Deletes a custom emoji. By default, users can only delete custom emoji they created. [Emoji managers](https://support.google.com/a/answer/12850085) assigned by the administrator can delete any custom emoji in the organization. See [Learn about custom emojis in Google Chat](https://support.google.com/chat/answer/12800149). Custom emojis are only available for Google Workspace accounts, and the administrator must turn custom emojis on for the organization. For more information, see [Learn about custom emojis in Google Chat](https://support.google.com/chat/answer/12800149) and [Manage custom emoji permissions](https://support.google.com/a/answer/12850085). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with the [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.customemojis` */
-export const deleteCustomEmojis: API.OperationMethod<DeleteCustomEmojisRequest, DeleteCustomEmojisResponse, DeleteCustomEmojisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCustomEmojis: API.OperationMethod<
+  DeleteCustomEmojisRequest,
+  DeleteCustomEmojisResponse,
+  DeleteCustomEmojisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCustomEmojisRequest,
   output: DeleteCustomEmojisResponse,
   errors: [],
@@ -2705,7 +3688,12 @@ export const CreateCustomEmojisResponse = CustomEmoji;
 export type CreateCustomEmojisError = DefaultErrors;
 
 /** Creates a custom emoji. Custom emojis are only available for Google Workspace accounts, and the administrator must turn custom emojis on for the organization. For more information, see [Learn about custom emojis in Google Chat](https://support.google.com/chat/answer/12800149) and [Manage custom emoji permissions](https://support.google.com/a/answer/12850085). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with the [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.customemojis` */
-export const createCustomEmojis: API.OperationMethod<CreateCustomEmojisRequest, CreateCustomEmojisResponse, CreateCustomEmojisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomEmojis: API.OperationMethod<
+  CreateCustomEmojisRequest,
+  CreateCustomEmojisResponse,
+  CreateCustomEmojisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomEmojisRequest,
   output: CreateCustomEmojisResponse,
   errors: [],
@@ -2719,7 +3707,10 @@ export interface GetSpaceReadStateUsersSpacesRequest {
 export const GetSpaceReadStateUsersSpacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState" }),
+  T.Http({
+    method: "GET",
+    path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSpaceReadStateUsersSpacesRequest>;
 
@@ -2729,7 +3720,12 @@ export const GetSpaceReadStateUsersSpacesResponse = SpaceReadState;
 export type GetSpaceReadStateUsersSpacesError = DefaultErrors;
 
 /** Returns details about a user's read state within a space, used to identify read and unread messages. For an example, see [Get details about a user's space read state](https://developers.google.com/workspace/chat/get-space-read-state). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.users.readstate.readonly` - `https://www.googleapis.com/auth/chat.users.readstate` */
-export const getSpaceReadStateUsersSpaces: API.OperationMethod<GetSpaceReadStateUsersSpacesRequest, GetSpaceReadStateUsersSpacesResponse, GetSpaceReadStateUsersSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSpaceReadStateUsersSpaces: API.OperationMethod<
+  GetSpaceReadStateUsersSpacesRequest,
+  GetSpaceReadStateUsersSpacesResponse,
+  GetSpaceReadStateUsersSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSpaceReadStateUsersSpacesRequest,
   output: GetSpaceReadStateUsersSpacesResponse,
   errors: [],
@@ -2749,7 +3745,11 @@ export const UpdateSpaceReadStateUsersSpacesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SpaceReadState).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSpaceReadStateUsersSpacesRequest>;
 
@@ -2759,7 +3759,12 @@ export const UpdateSpaceReadStateUsersSpacesResponse = SpaceReadState;
 export type UpdateSpaceReadStateUsersSpacesError = DefaultErrors;
 
 /** Updates a user's read state within a space, used to identify read and unread messages. For an example, see [Update a user's space read state](https://developers.google.com/workspace/chat/update-space-read-state). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with the [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.users.readstate` */
-export const updateSpaceReadStateUsersSpaces: API.OperationMethod<UpdateSpaceReadStateUsersSpacesRequest, UpdateSpaceReadStateUsersSpacesResponse, UpdateSpaceReadStateUsersSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSpaceReadStateUsersSpaces: API.OperationMethod<
+  UpdateSpaceReadStateUsersSpacesRequest,
+  UpdateSpaceReadStateUsersSpacesResponse,
+  UpdateSpaceReadStateUsersSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSpaceReadStateUsersSpacesRequest,
   output: UpdateSpaceReadStateUsersSpacesResponse,
   errors: [],
@@ -2773,7 +3778,10 @@ export interface GetThreadReadStateUsersSpacesThreadsRequest {
 export const GetThreadReadStateUsersSpacesThreadsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/users/{usersId}/spaces/{spacesId}/threads/{threadsId}/threadReadState" }),
+  T.Http({
+    method: "GET",
+    path: "v1/users/{usersId}/spaces/{spacesId}/threads/{threadsId}/threadReadState",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetThreadReadStateUsersSpacesThreadsRequest>;
 
@@ -2783,7 +3791,12 @@ export const GetThreadReadStateUsersSpacesThreadsResponse = ThreadReadState;
 export type GetThreadReadStateUsersSpacesThreadsError = DefaultErrors;
 
 /** Returns details about a user's read state within a thread, used to identify read and unread messages. For an example, see [Get details about a user's thread read state](https://developers.google.com/workspace/chat/get-thread-read-state). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.users.readstate.readonly` - `https://www.googleapis.com/auth/chat.users.readstate` */
-export const getThreadReadStateUsersSpacesThreads: API.OperationMethod<GetThreadReadStateUsersSpacesThreadsRequest, GetThreadReadStateUsersSpacesThreadsResponse, GetThreadReadStateUsersSpacesThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getThreadReadStateUsersSpacesThreads: API.OperationMethod<
+  GetThreadReadStateUsersSpacesThreadsRequest,
+  GetThreadReadStateUsersSpacesThreadsResponse,
+  GetThreadReadStateUsersSpacesThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetThreadReadStateUsersSpacesThreadsRequest,
   output: GetThreadReadStateUsersSpacesThreadsResponse,
   errors: [],
@@ -2797,17 +3810,27 @@ export interface GetUsersSpacesSpaceNotificationSettingRequest {
 export const GetUsersSpacesSpaceNotificationSettingRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting" }),
+  T.Http({
+    method: "GET",
+    path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSpacesSpaceNotificationSettingRequest>;
 
-export type GetUsersSpacesSpaceNotificationSettingResponse = SpaceNotificationSetting;
-export const GetUsersSpacesSpaceNotificationSettingResponse = SpaceNotificationSetting;
+export type GetUsersSpacesSpaceNotificationSettingResponse =
+  SpaceNotificationSetting;
+export const GetUsersSpacesSpaceNotificationSettingResponse =
+  SpaceNotificationSetting;
 
 export type GetUsersSpacesSpaceNotificationSettingError = DefaultErrors;
 
 /** Gets the space notification setting. For an example, see [Get the caller's space notification setting](https://developers.google.com/workspace/chat/get-space-notification-setting). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with the [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.users.spacesettings` */
-export const getUsersSpacesSpaceNotificationSetting: API.OperationMethod<GetUsersSpacesSpaceNotificationSettingRequest, GetUsersSpacesSpaceNotificationSettingResponse, GetUsersSpacesSpaceNotificationSettingError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSpacesSpaceNotificationSetting: API.OperationMethod<
+  GetUsersSpacesSpaceNotificationSettingRequest,
+  GetUsersSpacesSpaceNotificationSettingResponse,
+  GetUsersSpacesSpaceNotificationSettingError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSpacesSpaceNotificationSettingRequest,
   output: GetUsersSpacesSpaceNotificationSettingResponse,
   errors: [],
@@ -2827,17 +3850,28 @@ export const PatchUsersSpacesSpaceNotificationSettingRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SpaceNotificationSetting).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersSpacesSpaceNotificationSettingRequest>;
 
-export type PatchUsersSpacesSpaceNotificationSettingResponse = SpaceNotificationSetting;
-export const PatchUsersSpacesSpaceNotificationSettingResponse = SpaceNotificationSetting;
+export type PatchUsersSpacesSpaceNotificationSettingResponse =
+  SpaceNotificationSetting;
+export const PatchUsersSpacesSpaceNotificationSettingResponse =
+  SpaceNotificationSetting;
 
 export type PatchUsersSpacesSpaceNotificationSettingError = DefaultErrors;
 
 /** Updates the space notification setting. For an example, see [Update the caller's space notification setting](https://developers.google.com/workspace/chat/update-space-notification-setting). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with the [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.users.spacesettings` */
-export const patchUsersSpacesSpaceNotificationSetting: API.OperationMethod<PatchUsersSpacesSpaceNotificationSettingRequest, PatchUsersSpacesSpaceNotificationSettingResponse, PatchUsersSpacesSpaceNotificationSettingError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchUsersSpacesSpaceNotificationSetting: API.OperationMethod<
+  PatchUsersSpacesSpaceNotificationSettingRequest,
+  PatchUsersSpacesSpaceNotificationSettingResponse,
+  PatchUsersSpacesSpaceNotificationSettingError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchUsersSpacesSpaceNotificationSettingRequest,
   output: PatchUsersSpacesSpaceNotificationSettingResponse,
   errors: [],
@@ -2861,7 +3895,12 @@ export const DownloadMediaResponse = Media;
 export type DownloadMediaError = DefaultErrors;
 
 /** Downloads media. Download is supported on the URI `/v1/media/{+name}?alt=media`. */
-export const downloadMedia: API.OperationMethod<DownloadMediaRequest, DownloadMediaResponse, DownloadMediaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const downloadMedia: API.OperationMethod<
+  DownloadMediaRequest,
+  DownloadMediaResponse,
+  DownloadMediaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
@@ -2878,7 +3917,11 @@ export const UploadMediaRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(UploadAttachmentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/spaces/{spacesId}/attachments:upload", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/spaces/{spacesId}/attachments:upload",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
@@ -2888,7 +3931,12 @@ export const UploadMediaResponse = UploadAttachmentResponse;
 export type UploadMediaError = DefaultErrors;
 
 /** Uploads an attachment. For an example, see [Upload media as a file attachment](https://developers.google.com/workspace/chat/upload-media-attachments). Requires user [authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.messages.create` - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) You can upload attachments up to 200 MB. Certain file types aren't supported. For details, see [File types blocked by Google Chat](https://support.google.com/chat/answer/7651457?&co=GENIE.Platform%3DDesktop#File%20types%20blocked%20in%20Google%20Chat). */
-export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const uploadMedia: API.OperationMethod<
+  UploadMediaRequest,
+  UploadMediaResponse,
+  UploadMediaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
@@ -2915,7 +3963,12 @@ export const CreateSpacesResponse = Space;
 export type CreateSpacesError = DefaultErrors;
 
 /** Creates a space. Can be used to create a named space, or a group chat in `Import mode`. For an example, see [Create a space](https://developers.google.com/workspace/chat/create-spaces). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) and one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.app.spaces.create` - `https://www.googleapis.com/auth/chat.app.spaces` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.spaces.create` - `https://www.googleapis.com/auth/chat.spaces` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When authenticating as an app, the `space.customer` field must be set in the request. When authenticating as an app, the Chat app is added as a member of the space. However, unlike human authentication, the Chat app is not added as a space manager. By default, the Chat app can be removed from the space by all space members. To allow only space managers to remove the app from a space, set `space.permission_settings.manage_apps` to `managers_allowed`. Space membership upon creation depends on whether the space is created in `Import mode`: * **Import mode:** No members are created. * **All other modes:** The calling user is added as a member. This is: * The app itself when using app authentication. * The human user when using user authentication. If you receive the error message `ALREADY_EXISTS` when creating a space, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. */
-export const createSpaces: API.OperationMethod<CreateSpacesRequest, CreateSpacesResponse, CreateSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSpaces: API.OperationMethod<
+  CreateSpacesRequest,
+  CreateSpacesResponse,
+  CreateSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSpacesRequest,
   output: CreateSpacesResponse,
   errors: [],
@@ -2939,7 +3992,12 @@ export const SetupSpacesResponse = Space;
 export type SetupSpacesError = DefaultErrors;
 
 /** Creates a space and adds specified users to it. The calling user is automatically added to the space, and shouldn't be specified as a membership in the request. For an example, see [Set up a space with initial members](https://developers.google.com/workspace/chat/set-up-spaces). To specify the human members to add, add memberships with the appropriate `membership.member.name`. To add a human user, use `users/{user}`, where `{user}` can be the email address for the user. For users in the same Workspace organization `{user}` can also be the `id` for the person from the People API, or the `id` for the user in the Directory API. For example, if the People API Person profile ID for `user@example.com` is `123456789`, you can add the user to the space by setting the `membership.member.name` to `users/user@example.com` or `users/123456789`. To specify the Google groups to add, add memberships with the appropriate `membership.group_member.name`. To add or invite a Google group, use `groups/{group}`, where `{group}` is the `id` for the group from the Cloud Identity Groups API. For example, you can use [Cloud Identity Groups lookup API](https://cloud.google.com/identity/docs/reference/rest/v1/groups/lookup) to retrieve the ID `123456789` for group email `group@example.com`, then you can add the group to the space by setting the `membership.group_member.name` to `groups/123456789`. Group email is not supported, and Google groups can only be added as members in named spaces. For a named space or group chat, if the caller blocks, or is blocked by some members, or doesn't have permission to add some members, then those members aren't added to the created space. To create a direct message (DM) between the calling user and another human user, specify exactly one membership to represent the human user. If one user blocks the other, the request fails and the DM isn't created. To create a DM between the calling user and the calling app, set `Space.singleUserBotDm` to `true` and don't specify any memberships. You can only use this method to set up a DM with the calling app. To add the calling app as a member of a space or an existing DM between two human users, see [Invite or add a user or app to a space](https://developers.google.com/workspace/chat/create-members). If a DM already exists between two users, even when one user blocks the other at the time a request is made, then the existing DM is returned. Spaces with threaded replies aren't supported. If you receive the error message `ALREADY_EXISTS` when setting up a space, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.spaces.create` - `https://www.googleapis.com/auth/chat.spaces` */
-export const setupSpaces: API.OperationMethod<SetupSpacesRequest, SetupSpacesResponse, SetupSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setupSpaces: API.OperationMethod<
+  SetupSpacesRequest,
+  SetupSpacesResponse,
+  SetupSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetupSpacesRequest,
   output: SetupSpacesResponse,
   errors: [],
@@ -2959,7 +4017,9 @@ export interface PatchSpacesRequest {
 export const PatchSpacesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
   body: Schema.optional(Space).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "PATCH", path: "v1/spaces/{spacesId}", hasBody: true }),
@@ -2972,7 +4032,12 @@ export const PatchSpacesResponse = Space;
 export type PatchSpacesError = DefaultErrors;
 
 /** Updates a space. For an example, see [Update a space](https://developers.google.com/workspace/chat/update-spaces). If you're updating the `displayName` field and receive the error message `ALREADY_EXISTS`, try a different display name.. An existing space within the Google Workspace organization might already use this display name. Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) and one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.app.spaces` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.spaces` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and the following authorization scopes is used: - `https://www.googleapis.com/auth/chat.admin.spaces` App authentication has the following limitations: - To update either `space.predefined_permission_settings` or `space.permission_settings`, the app must be the space creator. - Updating the `space.access_settings.audience` is not supported for app authentication. */
-export const patchSpaces: API.OperationMethod<PatchSpacesRequest, PatchSpacesResponse, PatchSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSpaces: API.OperationMethod<
+  PatchSpacesRequest,
+  PatchSpacesResponse,
+  PatchSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSpacesRequest,
   output: PatchSpacesResponse,
   errors: [],
@@ -2989,7 +4054,11 @@ export const CompleteImportSpacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CompleteImportSpaceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/spaces/{spacesId}:completeImport", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/spaces/{spacesId}:completeImport",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CompleteImportSpacesRequest>;
 
@@ -2999,7 +4068,12 @@ export const CompleteImportSpacesResponse = CompleteImportSpaceResponse;
 export type CompleteImportSpacesError = DefaultErrors;
 
 /** Completes the [import process](https://developers.google.com/workspace/chat/import-data) for the specified space and makes it visible to users. Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) and domain-wide delegation with the [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.import` For more information, see [Authorize Google Chat apps to import data](https://developers.google.com/workspace/chat/authorize-import). */
-export const completeImportSpaces: API.OperationMethod<CompleteImportSpacesRequest, CompleteImportSpacesResponse, CompleteImportSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const completeImportSpaces: API.OperationMethod<
+  CompleteImportSpacesRequest,
+  CompleteImportSpacesResponse,
+  CompleteImportSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CompleteImportSpacesRequest,
   output: CompleteImportSpacesResponse,
   errors: [],
@@ -3014,7 +4088,9 @@ export interface DeleteSpacesRequest {
 
 export const DeleteSpacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1/spaces/{spacesId}" }),
   svc,
@@ -3026,7 +4102,12 @@ export const DeleteSpacesResponse = Empty;
 export type DeleteSpacesError = DefaultErrors;
 
 /** Deletes a named space. Always performs a cascading delete, which means that the space's child resources—like messages posted in the space and memberships in the space—are also deleted. For an example, see [Delete a space](https://developers.google.com/workspace/chat/delete-spaces). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) and the authorization scope: - `https://www.googleapis.com/auth/chat.app.delete` (only in spaces the app created) - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.delete` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and the following authorization scope is used: - `https://www.googleapis.com/auth/chat.admin.delete` */
-export const deleteSpaces: API.OperationMethod<DeleteSpacesRequest, DeleteSpacesResponse, DeleteSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSpaces: API.OperationMethod<
+  DeleteSpacesRequest,
+  DeleteSpacesResponse,
+  DeleteSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSpacesRequest,
   output: DeleteSpacesResponse,
   errors: [],
@@ -3049,7 +4130,9 @@ export const SearchSpacesRequest = Schema.Struct({
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/spaces:search" }),
@@ -3062,7 +4145,12 @@ export const SearchSpacesResponse_Op = SearchSpacesResponse;
 export type SearchSpacesError = DefaultErrors;
 
 /** Returns a list of spaces in a Google Workspace organization based on an administrator's search. In the request, set `use_admin_access` to `true`. For an example, see [Search for and manage spaces](https://developers.google.com/workspace/chat/search-manage-admin). Requires [user authentication with administrator privileges](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user#admin-privileges) and one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.admin.spaces.readonly` - `https://www.googleapis.com/auth/chat.admin.spaces` */
-export const searchSpaces: API.PaginatedOperationMethod<SearchSpacesRequest, SearchSpacesResponse_Op, SearchSpacesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchSpaces: API.PaginatedOperationMethod<
+  SearchSpacesRequest,
+  SearchSpacesResponse_Op,
+  SearchSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchSpacesRequest,
   output: SearchSpacesResponse_Op,
   errors: [],
@@ -3096,7 +4184,12 @@ export const ListSpacesResponse_Op = ListSpacesResponse;
 export type ListSpacesError = DefaultErrors;
 
 /** Lists spaces the caller is a member of. Group chats and DMs aren't listed until the first message is sent. For an example, see [List spaces](https://developers.google.com/workspace/chat/list-spaces). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with the authorization scope: - `https://www.googleapis.com/auth/chat.bot` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.spaces.readonly` - `https://www.googleapis.com/auth/chat.spaces` To list all named spaces by Google Workspace organization, use the [`spaces.search()`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/search) method using Workspace administrator privileges instead. */
-export const listSpaces: API.PaginatedOperationMethod<ListSpacesRequest, ListSpacesResponse_Op, ListSpacesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSpaces: API.PaginatedOperationMethod<
+  ListSpacesRequest,
+  ListSpacesResponse_Op,
+  ListSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSpacesRequest,
   output: ListSpacesResponse_Op,
   errors: [],
@@ -3115,7 +4208,9 @@ export interface GetSpacesRequest {
 
 export const GetSpacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/spaces/{spacesId}" }),
   svc,
@@ -3127,7 +4222,12 @@ export const GetSpacesResponse = Space;
 export type GetSpacesError = DefaultErrors;
 
 /** Returns details about a space. For an example, see [Get details about a space](https://developers.google.com/workspace/chat/get-spaces). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.bot` - `https://www.googleapis.com/auth/chat.app.spaces` with [administrator approval](https://support.google.com/a?p=chat-app-auth) - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.spaces.readonly` - `https://www.googleapis.com/auth/chat.spaces` - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and one of the following authorization scopes is used: - `https://www.googleapis.com/auth/chat.admin.spaces.readonly` - `https://www.googleapis.com/auth/chat.admin.spaces` App authentication has the following limitations: - `space.access_settings` is only populated when using the `chat.app.spaces` scope. - `space.predefind_permission_settings` and `space.permission_settings` are only populated when using the `chat.app.spaces` scope, and only for spaces the app created. */
-export const getSpaces: API.OperationMethod<GetSpacesRequest, GetSpacesResponse, GetSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSpaces: API.OperationMethod<
+  GetSpacesRequest,
+  GetSpacesResponse,
+  GetSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSpacesRequest,
   output: GetSpacesResponse,
   errors: [],
@@ -3151,7 +4251,12 @@ export const FindDirectMessageSpacesResponse = Space;
 export type FindDirectMessageSpacesError = DefaultErrors;
 
 /** Returns the existing direct message with the specified user. If no direct message space is found, returns a `404 NOT_FOUND` error. For an example, see [Find a direct message](/chat/api/guides/v1/spaces/find-direct-message). With [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app), returns the direct message space between the specified user and the calling Chat app. With [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), returns the direct message space between the specified user and the authenticated user. Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with the authorization scope: - `https://www.googleapis.com/auth/chat.bot` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.spaces.readonly` - `https://www.googleapis.com/auth/chat.spaces` */
-export const findDirectMessageSpaces: API.OperationMethod<FindDirectMessageSpacesRequest, FindDirectMessageSpacesResponse, FindDirectMessageSpacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const findDirectMessageSpaces: API.OperationMethod<
+  FindDirectMessageSpacesRequest,
+  FindDirectMessageSpacesResponse,
+  FindDirectMessageSpacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FindDirectMessageSpacesRequest,
   output: FindDirectMessageSpacesResponse,
   errors: [],
@@ -3170,11 +4275,17 @@ export interface PatchSpacesMessagesRequest {
 
 export const PatchSpacesMessagesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Message).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/spaces/{spacesId}/messages/{messagesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/spaces/{spacesId}/messages/{messagesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchSpacesMessagesRequest>;
 
@@ -3184,7 +4295,12 @@ export const PatchSpacesMessagesResponse = Message;
 export type PatchSpacesMessagesError = DefaultErrors;
 
 /** Updates a message. There's a difference between the `patch` and `update` methods. The `patch` method uses a `patch` request while the `update` method uses a `put` request. We recommend using the `patch` method. For an example, see [Update a message](https://developers.google.com/workspace/chat/update-messages). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with the authorization scope: - `https://www.googleapis.com/auth/chat.bot` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When using app authentication, requests can only update messages created by the calling Chat app. */
-export const patchSpacesMessages: API.OperationMethod<PatchSpacesMessagesRequest, PatchSpacesMessagesResponse, PatchSpacesMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSpacesMessages: API.OperationMethod<
+  PatchSpacesMessagesRequest,
+  PatchSpacesMessagesResponse,
+  PatchSpacesMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSpacesMessagesRequest,
   output: PatchSpacesMessagesResponse,
   errors: [],
@@ -3201,7 +4317,10 @@ export const DeleteSpacesMessagesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/spaces/{spacesId}/messages/{messagesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/spaces/{spacesId}/messages/{messagesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSpacesMessagesRequest>;
 
@@ -3211,7 +4330,12 @@ export const DeleteSpacesMessagesResponse = Empty;
 export type DeleteSpacesMessagesError = DefaultErrors;
 
 /** Deletes a message. For an example, see [Delete a message](https://developers.google.com/workspace/chat/delete-messages). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with the authorization scope: - `https://www.googleapis.com/auth/chat.bot` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When using app authentication, requests can only delete messages created by the calling Chat app. */
-export const deleteSpacesMessages: API.OperationMethod<DeleteSpacesMessagesRequest, DeleteSpacesMessagesResponse, DeleteSpacesMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSpacesMessages: API.OperationMethod<
+  DeleteSpacesMessagesRequest,
+  DeleteSpacesMessagesResponse,
+  DeleteSpacesMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSpacesMessagesRequest,
   output: DeleteSpacesMessagesResponse,
   errors: [],
@@ -3225,7 +4349,11 @@ export interface CreateSpacesMessagesRequest {
   /** Optional. A custom ID for a message. Lets Chat apps get, update, or delete a message without needing to store the system-assigned ID in the message's resource name (represented in the message `name` field). The value for this field must meet the following requirements: * Begins with `client-`. For example, `client-custom-name` is a valid custom ID, but `custom-name` is not. * Contains up to 63 characters and only lowercase letters, numbers, and hyphens. * Is unique within a space. A Chat app can't use the same custom ID for different messages. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
   messageId?: string;
   /** Optional. Specifies whether a message starts a thread or replies to one. Only supported in named spaces. When [responding to user interactions](https://developers.google.com/workspace/chat/receive-respond-interactions), this field is ignored. For interactions within a thread, the reply is created in the same thread. Otherwise, the reply is created as a new thread. */
-  messageReplyOption?: "MESSAGE_REPLY_OPTION_UNSPECIFIED" | "REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD" | "REPLY_MESSAGE_OR_FAIL" | (string & {});
+  messageReplyOption?:
+    | "MESSAGE_REPLY_OPTION_UNSPECIFIED"
+    | "REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD"
+    | "REPLY_MESSAGE_OR_FAIL"
+    | (string & {});
   /** Optional. A unique request ID for this message. Specifying an existing request ID returns the message created with that ID instead of creating a new message. */
   requestId?: string;
   /** Request body */
@@ -3236,11 +4364,17 @@ export const CreateSpacesMessagesRequest = Schema.Struct({
   threadKey: Schema.optional(Schema.String).pipe(T.HttpQuery("threadKey")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   messageId: Schema.optional(Schema.String).pipe(T.HttpQuery("messageId")),
-  messageReplyOption: Schema.optional(Schema.String).pipe(T.HttpQuery("messageReplyOption")),
+  messageReplyOption: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("messageReplyOption"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Message).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/spaces/{spacesId}/messages", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/spaces/{spacesId}/messages",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSpacesMessagesRequest>;
 
@@ -3250,7 +4384,12 @@ export const CreateSpacesMessagesResponse = Message;
 export type CreateSpacesMessagesError = DefaultErrors;
 
 /** Creates a message in a Google Chat space. For an example, see [Send a message](https://developers.google.com/workspace/chat/create-messages). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with the authorization scope: - `https://www.googleapis.com/auth/chat.bot` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.messages.create` - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) Chat attributes the message sender differently depending on the type of authentication that you use in your request. The following image shows how Chat attributes a message when you use app authentication. Chat displays the Chat app as the message sender. The content of the message can contain text (`text`), cards (`cardsV2`), and accessory widgets (`accessoryWidgets`). ![Message sent with app authentication](https://developers.google.com/workspace/chat/images/message-app-auth.svg) The following image shows how Chat attributes a message when you use user authentication. Chat displays the user as the message sender and attributes the Chat app to the message by displaying its name. The content of message can only contain text (`text`). ![Message sent with user authentication](https://developers.google.com/workspace/chat/images/message-user-auth.svg) The maximum message size, including the message contents, is 32,000 bytes. For [webhook](https://developers.google.com/workspace/chat/quickstart/webhooks) requests, the response doesn't contain the full message. The response only populates the `name` and `thread.name` fields in addition to the information that was in the request. */
-export const createSpacesMessages: API.OperationMethod<CreateSpacesMessagesRequest, CreateSpacesMessagesResponse, CreateSpacesMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSpacesMessages: API.OperationMethod<
+  CreateSpacesMessagesRequest,
+  CreateSpacesMessagesResponse,
+  CreateSpacesMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSpacesMessagesRequest,
   output: CreateSpacesMessagesResponse,
   errors: [],
@@ -3289,7 +4428,12 @@ export const ListSpacesMessagesResponse = ListMessagesResponse;
 export type ListSpacesMessagesError = DefaultErrors;
 
 /** Lists messages in a space that the caller is a member of, including messages from blocked members and spaces. System messages, like those announcing new space members, aren't included. If you list messages from a space with no messages, the response is an empty object. When using a REST/HTTP interface, the response contains an empty JSON object, `{}`. For an example, see [List messages](https://developers.google.com/workspace/chat/api/guides/v1/messages/list). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) in [Developer Preview](https://developers.google.com/workspace/preview) with the authorization scope: - `https://www.googleapis.com/auth/chat.app.messages.readonly`. When using this authentication scope, this method only returns public messages in a space. It doesn't include private messages. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.messages.readonly` - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) */
-export const listSpacesMessages: API.PaginatedOperationMethod<ListSpacesMessagesRequest, ListSpacesMessagesResponse, ListSpacesMessagesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSpacesMessages: API.PaginatedOperationMethod<
+  ListSpacesMessagesRequest,
+  ListSpacesMessagesResponse,
+  ListSpacesMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSpacesMessagesRequest,
   output: ListSpacesMessagesResponse,
   errors: [],
@@ -3317,7 +4461,12 @@ export const GetSpacesMessagesResponse = Message;
 export type GetSpacesMessagesError = DefaultErrors;
 
 /** Returns details about a message. For an example, see [Get details about a message](https://developers.google.com/workspace/chat/get-messages). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.bot`: When using this authorization scope, this method returns details about a message the Chat app has access to, like direct messages and [slash commands](https://developers.google.com/workspace/chat/slash-commands) that invoke the Chat app. - `https://www.googleapis.com/auth/chat.app.messages.readonly` with [administrator approval](https://support.google.com/a?p=chat-app-auth) (available in [Developer Preview](https://developers.google.com/workspace/preview)). When using this authentication scope, this method returns details about a public message in a space. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.messages.readonly` - `https://www.googleapis.com/auth/chat.messages` Note: Might return a message from a blocked member or space. */
-export const getSpacesMessages: API.OperationMethod<GetSpacesMessagesRequest, GetSpacesMessagesResponse, GetSpacesMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSpacesMessages: API.OperationMethod<
+  GetSpacesMessagesRequest,
+  GetSpacesMessagesResponse,
+  GetSpacesMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSpacesMessagesRequest,
   output: GetSpacesMessagesResponse,
   errors: [],
@@ -3335,12 +4484,18 @@ export interface UpdateSpacesMessagesRequest {
 }
 
 export const UpdateSpacesMessagesRequest = Schema.Struct({
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Message).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1/spaces/{spacesId}/messages/{messagesId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1/spaces/{spacesId}/messages/{messagesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSpacesMessagesRequest>;
 
@@ -3350,7 +4505,12 @@ export const UpdateSpacesMessagesResponse = Message;
 export type UpdateSpacesMessagesError = DefaultErrors;
 
 /** Updates a message. There's a difference between the `patch` and `update` methods. The `patch` method uses a `patch` request while the `update` method uses a `put` request. We recommend using the `patch` method. For an example, see [Update a message](https://developers.google.com/workspace/chat/update-messages). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with the authorization scope: - `https://www.googleapis.com/auth/chat.bot` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) When using app authentication, requests can only update messages created by the calling Chat app. */
-export const updateSpacesMessages: API.OperationMethod<UpdateSpacesMessagesRequest, UpdateSpacesMessagesResponse, UpdateSpacesMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSpacesMessages: API.OperationMethod<
+  UpdateSpacesMessagesRequest,
+  UpdateSpacesMessagesResponse,
+  UpdateSpacesMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSpacesMessagesRequest,
   output: UpdateSpacesMessagesResponse,
   errors: [],
@@ -3373,7 +4533,10 @@ export const ListSpacesMessagesReactionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions" }),
+  T.Http({
+    method: "GET",
+    path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListSpacesMessagesReactionsRequest>;
 
@@ -3383,7 +4546,12 @@ export const ListSpacesMessagesReactionsResponse = ListReactionsResponse;
 export type ListSpacesMessagesReactionsError = DefaultErrors;
 
 /** Lists reactions to a message. For an example, see [List reactions for a message](https://developers.google.com/workspace/chat/list-reactions). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.messages.reactions.readonly` - `https://www.googleapis.com/auth/chat.messages.reactions` - `https://www.googleapis.com/auth/chat.messages.readonly` - `https://www.googleapis.com/auth/chat.messages` */
-export const listSpacesMessagesReactions: API.PaginatedOperationMethod<ListSpacesMessagesReactionsRequest, ListSpacesMessagesReactionsResponse, ListSpacesMessagesReactionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSpacesMessagesReactions: API.PaginatedOperationMethod<
+  ListSpacesMessagesReactionsRequest,
+  ListSpacesMessagesReactionsResponse,
+  ListSpacesMessagesReactionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSpacesMessagesReactionsRequest,
   output: ListSpacesMessagesReactionsResponse,
   errors: [],
@@ -3401,7 +4569,10 @@ export interface DeleteSpacesMessagesReactionsRequest {
 export const DeleteSpacesMessagesReactionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions/{reactionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions/{reactionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSpacesMessagesReactionsRequest>;
 
@@ -3411,7 +4582,12 @@ export const DeleteSpacesMessagesReactionsResponse = Empty;
 export type DeleteSpacesMessagesReactionsError = DefaultErrors;
 
 /** Deletes a reaction to a message. For an example, see [Delete a reaction](https://developers.google.com/workspace/chat/delete-reactions). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.messages.reactions` - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) */
-export const deleteSpacesMessagesReactions: API.OperationMethod<DeleteSpacesMessagesReactionsRequest, DeleteSpacesMessagesReactionsResponse, DeleteSpacesMessagesReactionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSpacesMessagesReactions: API.OperationMethod<
+  DeleteSpacesMessagesReactionsRequest,
+  DeleteSpacesMessagesReactionsResponse,
+  DeleteSpacesMessagesReactionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSpacesMessagesReactionsRequest,
   output: DeleteSpacesMessagesReactionsResponse,
   errors: [],
@@ -3428,7 +4604,11 @@ export const CreateSpacesMessagesReactionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Reaction).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSpacesMessagesReactionsRequest>;
 
@@ -3438,7 +4618,12 @@ export const CreateSpacesMessagesReactionsResponse = Reaction;
 export type CreateSpacesMessagesReactionsError = DefaultErrors;
 
 /** Creates a reaction and adds it to a message. For an example, see [Add a reaction to a message](https://developers.google.com/workspace/chat/create-reactions). Requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following [authorization scopes](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.messages.reactions.create` - `https://www.googleapis.com/auth/chat.messages.reactions` - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) */
-export const createSpacesMessagesReactions: API.OperationMethod<CreateSpacesMessagesReactionsRequest, CreateSpacesMessagesReactionsResponse, CreateSpacesMessagesReactionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSpacesMessagesReactions: API.OperationMethod<
+  CreateSpacesMessagesReactionsRequest,
+  CreateSpacesMessagesReactionsResponse,
+  CreateSpacesMessagesReactionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSpacesMessagesReactionsRequest,
   output: CreateSpacesMessagesReactionsResponse,
   errors: [],
@@ -3452,7 +4637,10 @@ export interface GetSpacesMessagesAttachmentsRequest {
 export const GetSpacesMessagesAttachmentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/messages/{messagesId}/attachments/{attachmentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/spaces/{spacesId}/messages/{messagesId}/attachments/{attachmentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSpacesMessagesAttachmentsRequest>;
 
@@ -3462,7 +4650,12 @@ export const GetSpacesMessagesAttachmentsResponse = Attachment;
 export type GetSpacesMessagesAttachmentsError = DefaultErrors;
 
 /** Gets the metadata of a message attachment. The attachment data is fetched using the [media API](https://developers.google.com/workspace/chat/api/reference/rest/v1/media/download). For an example, see [Get metadata about a message attachment](https://developers.google.com/workspace/chat/get-media-attachments). Requires [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with the [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes): - `https://www.googleapis.com/auth/chat.bot` */
-export const getSpacesMessagesAttachments: API.OperationMethod<GetSpacesMessagesAttachmentsRequest, GetSpacesMessagesAttachmentsResponse, GetSpacesMessagesAttachmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSpacesMessagesAttachments: API.OperationMethod<
+  GetSpacesMessagesAttachmentsRequest,
+  GetSpacesMessagesAttachmentsResponse,
+  GetSpacesMessagesAttachmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSpacesMessagesAttachmentsRequest,
   output: GetSpacesMessagesAttachmentsResponse,
   errors: [],
@@ -3476,7 +4669,10 @@ export interface GetSpacesSpaceEventsRequest {
 export const GetSpacesSpaceEventsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/spaceEvents/{spaceEventsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/spaces/{spacesId}/spaceEvents/{spaceEventsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSpacesSpaceEventsRequest>;
 
@@ -3486,7 +4682,12 @@ export const GetSpacesSpaceEventsResponse = SpaceEvent;
 export type GetSpacesSpaceEventsError = DefaultErrors;
 
 /** Returns an event from a Google Chat space. The [event payload](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.spaceEvents#SpaceEvent.FIELDS.oneof_payload) contains the most recent version of the resource that changed. For example, if you request an event about a new message but the message was later updated, the server returns the updated `Message` resource in the event payload. Note: The `permissionSettings` field is not returned in the Space object of the Space event data for this request. Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize) with an [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes) appropriate for reading the requested data: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) in [Developer Preview](https://developers.google.com/workspace/preview) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.app.spaces` - `https://www.googleapis.com/auth/chat.app.messages.readonly` - `https://www.googleapis.com/auth/chat.app.memberships` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.spaces.readonly` - `https://www.googleapis.com/auth/chat.spaces` - `https://www.googleapis.com/auth/chat.messages.readonly` - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.messages.reactions.readonly` - `https://www.googleapis.com/auth/chat.messages.reactions` - `https://www.googleapis.com/auth/chat.memberships.readonly` - `https://www.googleapis.com/auth/chat.memberships` To get an event, the authenticated caller must be a member of the space. For an example, see [Get details about an event from a Google Chat space](https://developers.google.com/workspace/chat/get-space-event). */
-export const getSpacesSpaceEvents: API.OperationMethod<GetSpacesSpaceEventsRequest, GetSpacesSpaceEventsResponse, GetSpacesSpaceEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSpacesSpaceEvents: API.OperationMethod<
+  GetSpacesSpaceEventsRequest,
+  GetSpacesSpaceEventsResponse,
+  GetSpacesSpaceEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSpacesSpaceEventsRequest,
   output: GetSpacesSpaceEventsResponse,
   errors: [],
@@ -3519,7 +4720,12 @@ export const ListSpacesSpaceEventsResponse = ListSpaceEventsResponse;
 export type ListSpacesSpaceEventsError = DefaultErrors;
 
 /** Lists events from a Google Chat space. For each event, the [payload](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.spaceEvents#SpaceEvent.FIELDS.oneof_payload) contains the most recent version of the Chat resource. For example, if you list events about new space members, the server returns `Membership` resources that contain the latest membership details. If new members were removed during the requested period, the event payload contains an empty `Membership` resource. Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize) with an [authorization scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes) appropriate for reading the requested data: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) in [Developer Preview](https://developers.google.com/workspace/preview) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.app.spaces` - `https://www.googleapis.com/auth/chat.app.messages.readonly` - `https://www.googleapis.com/auth/chat.app.memberships` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.spaces.readonly` - `https://www.googleapis.com/auth/chat.spaces` - `https://www.googleapis.com/auth/chat.messages.readonly` - `https://www.googleapis.com/auth/chat.messages` - `https://www.googleapis.com/auth/chat.messages.reactions.readonly` - `https://www.googleapis.com/auth/chat.messages.reactions` - `https://www.googleapis.com/auth/chat.memberships.readonly` - `https://www.googleapis.com/auth/chat.memberships` To list events, the authenticated caller must be a member of the space. For an example, see [List events from a Google Chat space](https://developers.google.com/workspace/chat/list-space-events). */
-export const listSpacesSpaceEvents: API.PaginatedOperationMethod<ListSpacesSpaceEventsRequest, ListSpacesSpaceEventsResponse, ListSpacesSpaceEventsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSpacesSpaceEvents: API.PaginatedOperationMethod<
+  ListSpacesSpaceEventsRequest,
+  ListSpacesSpaceEventsResponse,
+  ListSpacesSpaceEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSpacesSpaceEventsRequest,
   output: ListSpacesSpaceEventsResponse,
   errors: [],
@@ -3542,11 +4748,17 @@ export interface PatchSpacesMembersRequest {
 
 export const PatchSpacesMembersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Membership).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/spaces/{spacesId}/members/{membersId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/spaces/{spacesId}/members/{membersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchSpacesMembersRequest>;
 
@@ -3556,7 +4768,12 @@ export const PatchSpacesMembersResponse = Membership;
 export type PatchSpacesMembersError = DefaultErrors;
 
 /** Updates a membership. For an example, see [Update a user's membership in a space](https://developers.google.com/workspace/chat/update-members). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) and the authorization scope: - `https://www.googleapis.com/auth/chat.app.memberships` (only in spaces the app created) - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.memberships` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and the following authorization scope is used: - `https://www.googleapis.com/auth/chat.admin.memberships` */
-export const patchSpacesMembers: API.OperationMethod<PatchSpacesMembersRequest, PatchSpacesMembersResponse, PatchSpacesMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchSpacesMembers: API.OperationMethod<
+  PatchSpacesMembersRequest,
+  PatchSpacesMembersResponse,
+  PatchSpacesMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchSpacesMembersRequest,
   output: PatchSpacesMembersResponse,
   errors: [],
@@ -3571,9 +4788,14 @@ export interface DeleteSpacesMembersRequest {
 
 export const DeleteSpacesMembersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/spaces/{spacesId}/members/{membersId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/spaces/{spacesId}/members/{membersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSpacesMembersRequest>;
 
@@ -3583,7 +4805,12 @@ export const DeleteSpacesMembersResponse = Membership;
 export type DeleteSpacesMembersError = DefaultErrors;
 
 /** Deletes a membership. For an example, see [Remove a user or a Google Chat app from a space](https://developers.google.com/workspace/chat/delete-members). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) and the authorization scope: - `https://www.googleapis.com/auth/chat.app.memberships` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.memberships` - `https://www.googleapis.com/auth/chat.memberships.app` (to remove the calling app from the space) - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and the following authorization scope is used: - `https://www.googleapis.com/auth/chat.admin.memberships` App authentication is not supported for the following use cases: - Removing a Google Group from a space. - Removing a Chat app from a space. To delete memberships for space managers, the requester must be a space manager. If you're using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) the Chat app must be the space creator. */
-export const deleteSpacesMembers: API.OperationMethod<DeleteSpacesMembersRequest, DeleteSpacesMembersResponse, DeleteSpacesMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSpacesMembers: API.OperationMethod<
+  DeleteSpacesMembersRequest,
+  DeleteSpacesMembersResponse,
+  DeleteSpacesMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSpacesMembersRequest,
   output: DeleteSpacesMembersResponse,
   errors: [],
@@ -3600,10 +4827,16 @@ export interface CreateSpacesMembersRequest {
 
 export const CreateSpacesMembersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
   body: Schema.optional(Membership).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/spaces/{spacesId}/members", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/spaces/{spacesId}/members",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSpacesMembersRequest>;
 
@@ -3613,7 +4846,12 @@ export const CreateSpacesMembersResponse = Membership;
 export type CreateSpacesMembersError = DefaultErrors;
 
 /** Creates a membership for the calling Chat app, a user, or a Google Group. Creating memberships for other Chat apps isn't supported. When creating a membership, if the specified member has their auto-accept policy turned off, then they're invited, and must accept the space invitation before joining. Otherwise, creating a membership adds the member directly to the specified space. Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) and the authorization scope: - `https://www.googleapis.com/auth/chat.app.memberships` - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.memberships` - `https://www.googleapis.com/auth/chat.memberships.app` (to add the calling app to the space) - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and the following authorization scope is used: - `https://www.googleapis.com/auth/chat.admin.memberships` App authentication is not supported for the following use cases: - Inviting users external to the Workspace organization that owns the space. - Adding a Google Group to a space. - Adding a Chat app to a space. For example usage, see: - [Invite or add a user to a space](https://developers.google.com/workspace/chat/create-members#create-user-membership). - [Invite or add a Google Group to a space](https://developers.google.com/workspace/chat/create-members#create-group-membership). - [Add the Chat app to a space](https://developers.google.com/workspace/chat/create-members#create-membership-calling-api). */
-export const createSpacesMembers: API.OperationMethod<CreateSpacesMembersRequest, CreateSpacesMembersResponse, CreateSpacesMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSpacesMembers: API.OperationMethod<
+  CreateSpacesMembersRequest,
+  CreateSpacesMembersResponse,
+  CreateSpacesMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSpacesMembersRequest,
   output: CreateSpacesMembersResponse,
   errors: [],
@@ -3643,7 +4881,9 @@ export const ListSpacesMembersRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showGroups: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showGroups")),
   showInvited: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showInvited")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/spaces/{spacesId}/members" }),
   svc,
@@ -3655,7 +4895,12 @@ export const ListSpacesMembersResponse = ListMembershipsResponse;
 export type ListSpacesMembersError = DefaultErrors;
 
 /** Lists memberships in a space. For an example, see [List users and Google Chat apps in a space](https://developers.google.com/workspace/chat/list-members). Listing memberships with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) lists memberships in spaces that the Chat app has access to, but excludes Chat app memberships, including its own. Listing memberships with [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) lists memberships in spaces that the authenticated user has access to. Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.bot` - `https://www.googleapis.com/auth/chat.app.memberships` (requires [administrator approval](https://support.google.com/a?p=chat-app-auth)) - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.memberships.readonly` - `https://www.googleapis.com/auth/chat.memberships` - `https://www.googleapis.com/auth/chat.import` (import mode spaces only) - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and one of the following authorization scopes is used: - `https://www.googleapis.com/auth/chat.admin.memberships.readonly` - `https://www.googleapis.com/auth/chat.admin.memberships` */
-export const listSpacesMembers: API.PaginatedOperationMethod<ListSpacesMembersRequest, ListSpacesMembersResponse, ListSpacesMembersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSpacesMembers: API.PaginatedOperationMethod<
+  ListSpacesMembersRequest,
+  ListSpacesMembersResponse,
+  ListSpacesMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSpacesMembersRequest,
   output: ListSpacesMembersResponse,
   errors: [],
@@ -3674,7 +4919,9 @@ export interface GetSpacesMembersRequest {
 
 export const GetSpacesMembersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("useAdminAccess")),
+  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("useAdminAccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/spaces/{spacesId}/members/{membersId}" }),
   svc,
@@ -3686,9 +4933,13 @@ export const GetSpacesMembersResponse = Membership;
 export type GetSpacesMembersError = DefaultErrors;
 
 /** Returns details about a membership. For an example, see [Get details about a user's or Google Chat app's membership](https://developers.google.com/workspace/chat/get-members). Supports the following types of [authentication](https://developers.google.com/workspace/chat/authenticate-authorize): - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.bot` - `https://www.googleapis.com/auth/chat.app.memberships` (requires [administrator approval](https://support.google.com/a?p=chat-app-auth)) - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) with one of the following authorization scopes: - `https://www.googleapis.com/auth/chat.memberships.readonly` - `https://www.googleapis.com/auth/chat.memberships` - User authentication grants administrator privileges when an administrator account authenticates, `use_admin_access` is `true`, and one of the following authorization scopes is used: - `https://www.googleapis.com/auth/chat.admin.memberships.readonly` - `https://www.googleapis.com/auth/chat.admin.memberships` */
-export const getSpacesMembers: API.OperationMethod<GetSpacesMembersRequest, GetSpacesMembersResponse, GetSpacesMembersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSpacesMembers: API.OperationMethod<
+  GetSpacesMembersRequest,
+  GetSpacesMembersResponse,
+  GetSpacesMembersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSpacesMembersRequest,
   output: GetSpacesMembersResponse,
   errors: [],
 }));
-

@@ -30,10 +30,15 @@ export interface DriveResourceInfo {
   driveFileId?: string;
 }
 
-export const DriveResourceInfo: Schema.Schema<DriveResourceInfo> = Schema.suspend(() => Schema.Struct({
-  resourceKey: Schema.optional(Schema.String),
-  driveFileId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DriveResourceInfo" }) as any as Schema.Schema<DriveResourceInfo>;
+export const DriveResourceInfo: Schema.Schema<DriveResourceInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceKey: Schema.optional(Schema.String),
+      driveFileId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DriveResourceInfo",
+  }) as any as Schema.Schema<DriveResourceInfo>;
 
 export interface TaskList {
   /** Task list identifier. */
@@ -50,41 +55,55 @@ export interface TaskList {
   title?: string;
 }
 
-export const TaskList: Schema.Schema<TaskList> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-})).annotate({ identifier: "TaskList" }) as any as Schema.Schema<TaskList>;
+export const TaskList: Schema.Schema<TaskList> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TaskList" }) as any as Schema.Schema<TaskList>;
 
 export interface SpaceInfo {
   /** Output only. The Chat space where this task originates from. The format is "spaces/{space}". */
   space?: string;
 }
 
-export const SpaceInfo: Schema.Schema<SpaceInfo> = Schema.suspend(() => Schema.Struct({
-  space: Schema.optional(Schema.String),
-})).annotate({ identifier: "SpaceInfo" }) as any as Schema.Schema<SpaceInfo>;
+export const SpaceInfo: Schema.Schema<SpaceInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    space: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SpaceInfo" }) as any as Schema.Schema<SpaceInfo>;
 
 export interface AssignmentInfo {
   /** Output only. Information about the Drive file where this task originates from. Currently, the Drive file can only be a document. This field is read-only. */
   driveResourceInfo?: DriveResourceInfo;
   /** Output only. The type of surface this assigned task originates from. Currently limited to DOCUMENT or SPACE. */
-  surfaceType?: "CONTEXT_TYPE_UNSPECIFIED" | "GMAIL" | "DOCUMENT" | "SPACE" | (string & {});
+  surfaceType?:
+    | "CONTEXT_TYPE_UNSPECIFIED"
+    | "GMAIL"
+    | "DOCUMENT"
+    | "SPACE"
+    | (string & {});
   /** Output only. An absolute link to the original task in the surface of assignment (Docs, Chat spaces, etc.). */
   linkToTask?: string;
   /** Output only. Information about the Chat Space where this task originates from. This field is read-only. */
   spaceInfo?: SpaceInfo;
 }
 
-export const AssignmentInfo: Schema.Schema<AssignmentInfo> = Schema.suspend(() => Schema.Struct({
-  driveResourceInfo: Schema.optional(DriveResourceInfo),
-  surfaceType: Schema.optional(Schema.String),
-  linkToTask: Schema.optional(Schema.String),
-  spaceInfo: Schema.optional(SpaceInfo),
-})).annotate({ identifier: "AssignmentInfo" }) as any as Schema.Schema<AssignmentInfo>;
+export const AssignmentInfo: Schema.Schema<AssignmentInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      driveResourceInfo: Schema.optional(DriveResourceInfo),
+      surfaceType: Schema.optional(Schema.String),
+      linkToTask: Schema.optional(Schema.String),
+      spaceInfo: Schema.optional(SpaceInfo),
+    }),
+).annotate({
+  identifier: "AssignmentInfo",
+}) as any as Schema.Schema<AssignmentInfo>;
 
 export interface Task {
   /** Flag indicating whether the task is hidden. This is the case if the task had been marked completed when the task list was last cleared. The default is False. This field is read-only. */
@@ -123,25 +142,35 @@ export interface Task {
   assignmentInfo?: AssignmentInfo;
 }
 
-export const Task: Schema.Schema<Task> = Schema.suspend(() => Schema.Struct({
-  hidden: Schema.optional(Schema.Boolean),
-  position: Schema.optional(Schema.String),
-  notes: Schema.optional(Schema.String),
-  deleted: Schema.optional(Schema.Boolean),
-  etag: Schema.optional(Schema.String),
-  webViewLink: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  completed: Schema.optional(Schema.String),
-  due: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  updated: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  links: Schema.optional(Schema.Array(Schema.Struct({ type: Schema.optional(Schema.String), description: Schema.optional(Schema.String), link: Schema.optional(Schema.String) }))),
-  assignmentInfo: Schema.optional(AssignmentInfo),
-})).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
+export const Task: Schema.Schema<Task> = Schema.suspend(() =>
+  Schema.Struct({
+    hidden: Schema.optional(Schema.Boolean),
+    position: Schema.optional(Schema.String),
+    notes: Schema.optional(Schema.String),
+    deleted: Schema.optional(Schema.Boolean),
+    etag: Schema.optional(Schema.String),
+    webViewLink: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    completed: Schema.optional(Schema.String),
+    due: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    selfLink: Schema.optional(Schema.String),
+    updated: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    links: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.optional(Schema.String),
+          description: Schema.optional(Schema.String),
+          link: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    assignmentInfo: Schema.optional(AssignmentInfo),
+  }),
+).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
 
 export interface TaskLists {
   /** Type of the resource. This is always "tasks#taskLists". */
@@ -154,12 +183,14 @@ export interface TaskLists {
   nextPageToken?: string;
 }
 
-export const TaskLists: Schema.Schema<TaskLists> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(TaskList)),
-  etag: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "TaskLists" }) as any as Schema.Schema<TaskLists>;
+export const TaskLists: Schema.Schema<TaskLists> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(TaskList)),
+    etag: Schema.optional(Schema.String),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TaskLists" }) as any as Schema.Schema<TaskLists>;
 
 export interface Tasks {
   /** Type of the resource. This is always "tasks#tasks". */
@@ -172,12 +203,14 @@ export interface Tasks {
   nextPageToken?: string;
 }
 
-export const Tasks: Schema.Schema<Tasks> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Task)),
-  etag: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "Tasks" }) as any as Schema.Schema<Tasks>;
+export const Tasks: Schema.Schema<Tasks> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Task)),
+    etag: Schema.optional(Schema.String),
+    nextPageToken: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Tasks" }) as any as Schema.Schema<Tasks>;
 
 // ==========================================================================
 // Operations
@@ -191,17 +224,27 @@ export interface ClearTasksRequest {
 export const ClearTasksRequest = Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
 }).pipe(
-  T.Http({ method: "POST", path: "tasks/v1/lists/{tasklist}/clear", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "tasks/v1/lists/{tasklist}/clear",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ClearTasksRequest>;
 
 export interface ClearTasksResponse {}
-export const ClearTasksResponse: Schema.Schema<ClearTasksResponse> = Schema.Struct({}) as any as Schema.Schema<ClearTasksResponse>;
+export const ClearTasksResponse: Schema.Schema<ClearTasksResponse> =
+  Schema.Struct({}) as any as Schema.Schema<ClearTasksResponse>;
 
 export type ClearTasksError = DefaultErrors;
 
 /** Clears all completed tasks from the specified task list. The affected tasks will be marked as 'hidden' and no longer be returned by default when retrieving all tasks for a task list. */
-export const clearTasks: API.OperationMethod<ClearTasksRequest, ClearTasksResponse, ClearTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const clearTasks: API.OperationMethod<
+  ClearTasksRequest,
+  ClearTasksResponse,
+  ClearTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ClearTasksRequest,
   output: ClearTasksResponse,
   errors: [],
@@ -224,7 +267,11 @@ export const InsertTasksRequest = Schema.Struct({
   previous: Schema.optional(Schema.String).pipe(T.HttpQuery("previous")),
   body: Schema.optional(Task).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "tasks/v1/lists/{tasklist}/tasks", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "tasks/v1/lists/{tasklist}/tasks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertTasksRequest>;
 
@@ -234,7 +281,12 @@ export const InsertTasksResponse = Task;
 export type InsertTasksError = DefaultErrors;
 
 /** Creates a new task on the specified task list. Tasks assigned from Docs or Chat Spaces cannot be inserted from Tasks Public API; they can only be created by assigning them from Docs or Chat Spaces. A user can have up to 20,000 non-hidden tasks per list and up to 100,000 tasks in total at a time. */
-export const insertTasks: API.OperationMethod<InsertTasksRequest, InsertTasksResponse, InsertTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertTasks: API.OperationMethod<
+  InsertTasksRequest,
+  InsertTasksResponse,
+  InsertTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertTasksRequest,
   output: InsertTasksResponse,
   errors: [],
@@ -256,11 +308,17 @@ export interface MoveTasksRequest {
 export const MoveTasksRequest = Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
-  destinationTasklist: Schema.optional(Schema.String).pipe(T.HttpQuery("destinationTasklist")),
+  destinationTasklist: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("destinationTasklist"),
+  ),
   task: Schema.String.pipe(T.HttpPath("task")),
   previous: Schema.optional(Schema.String).pipe(T.HttpQuery("previous")),
 }).pipe(
-  T.Http({ method: "POST", path: "tasks/v1/lists/{tasklist}/tasks/{task}/move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "tasks/v1/lists/{tasklist}/tasks/{task}/move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveTasksRequest>;
 
@@ -270,7 +328,12 @@ export const MoveTasksResponse = Task;
 export type MoveTasksError = DefaultErrors;
 
 /** Moves the specified task to another position in the destination task list. If the destination list is not specified, the task is moved within its current list. This can include putting it as a child task under a new parent and/or move it to a different position among its sibling tasks. A user can have up to 2,000 subtasks per task. */
-export const moveTasks: API.OperationMethod<MoveTasksRequest, MoveTasksResponse, MoveTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveTasks: API.OperationMethod<
+  MoveTasksRequest,
+  MoveTasksResponse,
+  MoveTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveTasksRequest,
   output: MoveTasksResponse,
   errors: [],
@@ -290,7 +353,11 @@ export const UpdateTasksRequest = Schema.Struct({
   task: Schema.String.pipe(T.HttpPath("task")),
   body: Schema.optional(Task).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "tasks/v1/lists/{tasklist}/tasks/{task}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "tasks/v1/lists/{tasklist}/tasks/{task}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateTasksRequest>;
 
@@ -300,7 +367,12 @@ export const UpdateTasksResponse = Task;
 export type UpdateTasksError = DefaultErrors;
 
 /** Updates the specified task. */
-export const updateTasks: API.OperationMethod<UpdateTasksRequest, UpdateTasksResponse, UpdateTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateTasks: API.OperationMethod<
+  UpdateTasksRequest,
+  UpdateTasksResponse,
+  UpdateTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateTasksRequest,
   output: UpdateTasksResponse,
   errors: [],
@@ -322,12 +394,18 @@ export const DeleteTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteTasksRequest>;
 
 export interface DeleteTasksResponse {}
-export const DeleteTasksResponse: Schema.Schema<DeleteTasksResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteTasksResponse>;
+export const DeleteTasksResponse: Schema.Schema<DeleteTasksResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteTasksResponse>;
 
 export type DeleteTasksError = DefaultErrors;
 
 /** Deletes the specified task from the task list. If the task is assigned, both the assigned task and the original task (in Docs, Chat Spaces) are deleted. To delete the assigned task only, navigate to the assignment surface and unassign the task from there. */
-export const deleteTasks: API.OperationMethod<DeleteTasksRequest, DeleteTasksResponse, DeleteTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTasks: API.OperationMethod<
+  DeleteTasksRequest,
+  DeleteTasksResponse,
+  DeleteTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTasksRequest,
   output: DeleteTasksResponse,
   errors: [],
@@ -347,7 +425,11 @@ export const PatchTasksRequest = Schema.Struct({
   task: Schema.String.pipe(T.HttpPath("task")),
   body: Schema.optional(Task).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "tasks/v1/lists/{tasklist}/tasks/{task}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "tasks/v1/lists/{tasklist}/tasks/{task}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchTasksRequest>;
 
@@ -357,7 +439,12 @@ export const PatchTasksResponse = Task;
 export type PatchTasksError = DefaultErrors;
 
 /** Updates the specified task. This method supports patch semantics. */
-export const patchTasks: API.OperationMethod<PatchTasksRequest, PatchTasksResponse, PatchTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTasks: API.OperationMethod<
+  PatchTasksRequest,
+  PatchTasksResponse,
+  PatchTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTasksRequest,
   output: PatchTasksResponse,
   errors: [],
@@ -384,7 +471,12 @@ export const GetTasksResponse = Task;
 export type GetTasksError = DefaultErrors;
 
 /** Returns the specified task. */
-export const getTasks: API.OperationMethod<GetTasksRequest, GetTasksResponse, GetTasksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTasks: API.OperationMethod<
+  GetTasksRequest,
+  GetTasksResponse,
+  GetTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTasksRequest,
   output: GetTasksResponse,
   errors: [],
@@ -418,13 +510,21 @@ export interface ListTasksRequest {
 }
 
 export const ListTasksRequest = Schema.Struct({
-  showCompleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showCompleted")),
-  showAssigned: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showAssigned")),
+  showCompleted: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("showCompleted"),
+  ),
+  showAssigned: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("showAssigned"),
+  ),
   updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
-  completedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("completedMin")),
+  completedMin: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("completedMin"),
+  ),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
   showHidden: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showHidden")),
-  completedMax: Schema.optional(Schema.String).pipe(T.HttpQuery("completedMax")),
+  completedMax: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("completedMax"),
+  ),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   dueMin: Schema.optional(Schema.String).pipe(T.HttpQuery("dueMin")),
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
@@ -441,7 +541,12 @@ export const ListTasksResponse = Tasks;
 export type ListTasksError = DefaultErrors;
 
 /** Returns all tasks in the specified task list. Doesn't return assigned tasks by default (from Docs, Chat Spaces). A user can have up to 20,000 non-hidden tasks per list and up to 100,000 tasks in total at a time. */
-export const listTasks: API.PaginatedOperationMethod<ListTasksRequest, ListTasksResponse, ListTasksError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTasks: API.PaginatedOperationMethod<
+  ListTasksRequest,
+  ListTasksResponse,
+  ListTasksError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [],
@@ -473,7 +578,12 @@ export const ListTasklistsResponse = TaskLists;
 export type ListTasklistsError = DefaultErrors;
 
 /** Returns all the authenticated user's task lists. A user can have up to 2000 lists at a time. */
-export const listTasklists: API.PaginatedOperationMethod<ListTasklistsRequest, ListTasklistsResponse, ListTasklistsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTasklists: API.PaginatedOperationMethod<
+  ListTasklistsRequest,
+  ListTasklistsResponse,
+  ListTasklistsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTasklistsRequest,
   output: ListTasklistsResponse,
   errors: [],
@@ -502,7 +612,12 @@ export const GetTasklistsResponse = TaskList;
 export type GetTasklistsError = DefaultErrors;
 
 /** Returns the authenticated user's specified task list. */
-export const getTasklists: API.OperationMethod<GetTasklistsRequest, GetTasklistsResponse, GetTasklistsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTasklists: API.OperationMethod<
+  GetTasklistsRequest,
+  GetTasklistsResponse,
+  GetTasklistsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTasklistsRequest,
   output: GetTasklistsResponse,
   errors: [],
@@ -521,12 +636,18 @@ export const DeleteTasklistsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteTasklistsRequest>;
 
 export interface DeleteTasklistsResponse {}
-export const DeleteTasklistsResponse: Schema.Schema<DeleteTasklistsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteTasklistsResponse>;
+export const DeleteTasklistsResponse: Schema.Schema<DeleteTasklistsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteTasklistsResponse>;
 
 export type DeleteTasklistsError = DefaultErrors;
 
 /** Deletes the authenticated user's specified task list. If the list contains assigned tasks, both the assigned tasks and the original tasks in the assignment surface (Docs, Chat Spaces) are deleted. */
-export const deleteTasklists: API.OperationMethod<DeleteTasklistsRequest, DeleteTasklistsResponse, DeleteTasklistsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTasklists: API.OperationMethod<
+  DeleteTasklistsRequest,
+  DeleteTasklistsResponse,
+  DeleteTasklistsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTasklistsRequest,
   output: DeleteTasklistsResponse,
   errors: [],
@@ -543,7 +664,11 @@ export const PatchTasklistsRequest = Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   body: Schema.optional(TaskList).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "tasks/v1/users/@me/lists/{tasklist}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "tasks/v1/users/@me/lists/{tasklist}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchTasklistsRequest>;
 
@@ -553,7 +678,12 @@ export const PatchTasklistsResponse = TaskList;
 export type PatchTasklistsError = DefaultErrors;
 
 /** Updates the authenticated user's specified task list. This method supports patch semantics. */
-export const patchTasklists: API.OperationMethod<PatchTasklistsRequest, PatchTasklistsResponse, PatchTasklistsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTasklists: API.OperationMethod<
+  PatchTasklistsRequest,
+  PatchTasklistsResponse,
+  PatchTasklistsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTasklistsRequest,
   output: PatchTasklistsResponse,
   errors: [],
@@ -577,7 +707,12 @@ export const InsertTasklistsResponse = TaskList;
 export type InsertTasklistsError = DefaultErrors;
 
 /** Creates a new task list and adds it to the authenticated user's task lists. A user can have up to 2000 lists at a time. */
-export const insertTasklists: API.OperationMethod<InsertTasklistsRequest, InsertTasklistsResponse, InsertTasklistsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertTasklists: API.OperationMethod<
+  InsertTasklistsRequest,
+  InsertTasklistsResponse,
+  InsertTasklistsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertTasklistsRequest,
   output: InsertTasklistsResponse,
   errors: [],
@@ -594,7 +729,11 @@ export const UpdateTasklistsRequest = Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   body: Schema.optional(TaskList).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "tasks/v1/users/@me/lists/{tasklist}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "tasks/v1/users/@me/lists/{tasklist}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateTasklistsRequest>;
 
@@ -604,9 +743,13 @@ export const UpdateTasklistsResponse = TaskList;
 export type UpdateTasklistsError = DefaultErrors;
 
 /** Updates the authenticated user's specified task list. */
-export const updateTasklists: API.OperationMethod<UpdateTasklistsRequest, UpdateTasklistsResponse, UpdateTasklistsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateTasklists: API.OperationMethod<
+  UpdateTasklistsRequest,
+  UpdateTasklistsResponse,
+  UpdateTasklistsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateTasklistsRequest,
   output: UpdateTasklistsResponse,
   errors: [],
 }));
-

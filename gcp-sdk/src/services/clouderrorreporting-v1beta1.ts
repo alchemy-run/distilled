@@ -28,9 +28,13 @@ export interface TrackingIssue {
   url?: string;
 }
 
-export const TrackingIssue: Schema.Schema<TrackingIssue> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "TrackingIssue" }) as any as Schema.Schema<TrackingIssue>;
+export const TrackingIssue: Schema.Schema<TrackingIssue> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "TrackingIssue",
+}) as any as Schema.Schema<TrackingIssue>;
 
 export interface ErrorGroup {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
@@ -40,15 +44,23 @@ export interface ErrorGroup {
   /** Associated tracking issues. */
   trackingIssues?: Array<TrackingIssue>;
   /** Error group's resolution status. An unspecified resolution status will be interpreted as OPEN */
-  resolutionStatus?: "RESOLUTION_STATUS_UNSPECIFIED" | "OPEN" | "ACKNOWLEDGED" | "RESOLVED" | "MUTED" | (string & {});
+  resolutionStatus?:
+    | "RESOLUTION_STATUS_UNSPECIFIED"
+    | "OPEN"
+    | "ACKNOWLEDGED"
+    | "RESOLVED"
+    | "MUTED"
+    | (string & {});
 }
 
-export const ErrorGroup: Schema.Schema<ErrorGroup> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  groupId: Schema.optional(Schema.String),
-  trackingIssues: Schema.optional(Schema.Array(TrackingIssue)),
-  resolutionStatus: Schema.optional(Schema.String),
-})).annotate({ identifier: "ErrorGroup" }) as any as Schema.Schema<ErrorGroup>;
+export const ErrorGroup: Schema.Schema<ErrorGroup> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    groupId: Schema.optional(Schema.String),
+    trackingIssues: Schema.optional(Schema.Array(TrackingIssue)),
+    resolutionStatus: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ErrorGroup" }) as any as Schema.Schema<ErrorGroup>;
 
 export interface TimedCount {
   /** Approximate number of occurrences in the given time period. */
@@ -59,11 +71,13 @@ export interface TimedCount {
   endTime?: string;
 }
 
-export const TimedCount: Schema.Schema<TimedCount> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimedCount" }) as any as Schema.Schema<TimedCount>;
+export const TimedCount: Schema.Schema<TimedCount> = Schema.suspend(() =>
+  Schema.Struct({
+    count: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimedCount" }) as any as Schema.Schema<TimedCount>;
 
 export interface ServiceContext {
   /** An identifier of the service, such as the name of the executable, job, or Google App Engine service name. This field is expected to have a low number of values that are relatively stable over time, as opposed to `version`, which can be changed whenever new code is deployed. Contains the service name for error reports extracted from Google App Engine logs or `default` if the App Engine default service is used. */
@@ -74,11 +88,16 @@ export interface ServiceContext {
   resourceType?: string;
 }
 
-export const ServiceContext: Schema.Schema<ServiceContext> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ServiceContext" }) as any as Schema.Schema<ServiceContext>;
+export const ServiceContext: Schema.Schema<ServiceContext> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ServiceContext",
+}) as any as Schema.Schema<ServiceContext>;
 
 export interface HttpRequestContext {
   /** The type of HTTP request, such as `GET`, `POST`, etc. */
@@ -95,14 +114,19 @@ export interface HttpRequestContext {
   remoteIp?: string;
 }
 
-export const HttpRequestContext: Schema.Schema<HttpRequestContext> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  userAgent: Schema.optional(Schema.String),
-  referrer: Schema.optional(Schema.String),
-  responseStatusCode: Schema.optional(Schema.Number),
-  remoteIp: Schema.optional(Schema.String),
-})).annotate({ identifier: "HttpRequestContext" }) as any as Schema.Schema<HttpRequestContext>;
+export const HttpRequestContext: Schema.Schema<HttpRequestContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      userAgent: Schema.optional(Schema.String),
+      referrer: Schema.optional(Schema.String),
+      responseStatusCode: Schema.optional(Schema.Number),
+      remoteIp: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HttpRequestContext",
+  }) as any as Schema.Schema<HttpRequestContext>;
 
 export interface SourceLocation {
   /** The source code filename, which can include a truncated relative path, or a full path from a production machine. */
@@ -113,11 +137,16 @@ export interface SourceLocation {
   functionName?: string;
 }
 
-export const SourceLocation: Schema.Schema<SourceLocation> = Schema.suspend(() => Schema.Struct({
-  filePath: Schema.optional(Schema.String),
-  lineNumber: Schema.optional(Schema.Number),
-  functionName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceLocation" }) as any as Schema.Schema<SourceLocation>;
+export const SourceLocation: Schema.Schema<SourceLocation> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      filePath: Schema.optional(Schema.String),
+      lineNumber: Schema.optional(Schema.Number),
+      functionName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SourceLocation",
+}) as any as Schema.Schema<SourceLocation>;
 
 export interface SourceReference {
   /** Optional. A URI string identifying the repository. Example: "https://github.com/GoogleCloudPlatform/kubernetes.git" */
@@ -126,10 +155,15 @@ export interface SourceReference {
   revisionId?: string;
 }
 
-export const SourceReference: Schema.Schema<SourceReference> = Schema.suspend(() => Schema.Struct({
-  repository: Schema.optional(Schema.String),
-  revisionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceReference" }) as any as Schema.Schema<SourceReference>;
+export const SourceReference: Schema.Schema<SourceReference> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      repository: Schema.optional(Schema.String),
+      revisionId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SourceReference",
+}) as any as Schema.Schema<SourceReference>;
 
 export interface ErrorContext {
   /** The HTTP request which was processed when the error was triggered. */
@@ -142,12 +176,16 @@ export interface ErrorContext {
   sourceReferences?: Array<SourceReference>;
 }
 
-export const ErrorContext: Schema.Schema<ErrorContext> = Schema.suspend(() => Schema.Struct({
-  httpRequest: Schema.optional(HttpRequestContext),
-  user: Schema.optional(Schema.String),
-  reportLocation: Schema.optional(SourceLocation),
-  sourceReferences: Schema.optional(Schema.Array(SourceReference)),
-})).annotate({ identifier: "ErrorContext" }) as any as Schema.Schema<ErrorContext>;
+export const ErrorContext: Schema.Schema<ErrorContext> = Schema.suspend(() =>
+  Schema.Struct({
+    httpRequest: Schema.optional(HttpRequestContext),
+    user: Schema.optional(Schema.String),
+    reportLocation: Schema.optional(SourceLocation),
+    sourceReferences: Schema.optional(Schema.Array(SourceReference)),
+  }),
+).annotate({
+  identifier: "ErrorContext",
+}) as any as Schema.Schema<ErrorContext>;
 
 export interface ErrorEvent {
   /** Time when the event occurred as provided in the error report. If the report did not contain a timestamp, the time the error was received by the Error Reporting system is used. */
@@ -160,12 +198,14 @@ export interface ErrorEvent {
   context?: ErrorContext;
 }
 
-export const ErrorEvent: Schema.Schema<ErrorEvent> = Schema.suspend(() => Schema.Struct({
-  eventTime: Schema.optional(Schema.String),
-  serviceContext: Schema.optional(ServiceContext),
-  message: Schema.optional(Schema.String),
-  context: Schema.optional(ErrorContext),
-})).annotate({ identifier: "ErrorEvent" }) as any as Schema.Schema<ErrorEvent>;
+export const ErrorEvent: Schema.Schema<ErrorEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    eventTime: Schema.optional(Schema.String),
+    serviceContext: Schema.optional(ServiceContext),
+    message: Schema.optional(Schema.String),
+    context: Schema.optional(ErrorContext),
+  }),
+).annotate({ identifier: "ErrorEvent" }) as any as Schema.Schema<ErrorEvent>;
 
 export interface ErrorGroupStats {
   /** Group data that is independent of the filter criteria. */
@@ -188,17 +228,22 @@ export interface ErrorGroupStats {
   representative?: ErrorEvent;
 }
 
-export const ErrorGroupStats: Schema.Schema<ErrorGroupStats> = Schema.suspend(() => Schema.Struct({
-  group: Schema.optional(ErrorGroup),
-  count: Schema.optional(Schema.String),
-  affectedUsersCount: Schema.optional(Schema.String),
-  timedCounts: Schema.optional(Schema.Array(TimedCount)),
-  firstSeenTime: Schema.optional(Schema.String),
-  lastSeenTime: Schema.optional(Schema.String),
-  affectedServices: Schema.optional(Schema.Array(ServiceContext)),
-  numAffectedServices: Schema.optional(Schema.Number),
-  representative: Schema.optional(ErrorEvent),
-})).annotate({ identifier: "ErrorGroupStats" }) as any as Schema.Schema<ErrorGroupStats>;
+export const ErrorGroupStats: Schema.Schema<ErrorGroupStats> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      group: Schema.optional(ErrorGroup),
+      count: Schema.optional(Schema.String),
+      affectedUsersCount: Schema.optional(Schema.String),
+      timedCounts: Schema.optional(Schema.Array(TimedCount)),
+      firstSeenTime: Schema.optional(Schema.String),
+      lastSeenTime: Schema.optional(Schema.String),
+      affectedServices: Schema.optional(Schema.Array(ServiceContext)),
+      numAffectedServices: Schema.optional(Schema.Number),
+      representative: Schema.optional(ErrorEvent),
+    }),
+).annotate({
+  identifier: "ErrorGroupStats",
+}) as any as Schema.Schema<ErrorGroupStats>;
 
 export interface ListGroupStatsResponse {
   /** The error group stats which match the given request. */
@@ -209,11 +254,16 @@ export interface ListGroupStatsResponse {
   timeRangeBegin?: string;
 }
 
-export const ListGroupStatsResponse: Schema.Schema<ListGroupStatsResponse> = Schema.suspend(() => Schema.Struct({
-  errorGroupStats: Schema.optional(Schema.Array(ErrorGroupStats)),
-  nextPageToken: Schema.optional(Schema.String),
-  timeRangeBegin: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListGroupStatsResponse" }) as any as Schema.Schema<ListGroupStatsResponse>;
+export const ListGroupStatsResponse: Schema.Schema<ListGroupStatsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      errorGroupStats: Schema.optional(Schema.Array(ErrorGroupStats)),
+      nextPageToken: Schema.optional(Schema.String),
+      timeRangeBegin: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListGroupStatsResponse",
+  }) as any as Schema.Schema<ListGroupStatsResponse>;
 
 export interface ListEventsResponse {
   /** The error events which match the given request. */
@@ -224,17 +274,23 @@ export interface ListEventsResponse {
   timeRangeBegin?: string;
 }
 
-export const ListEventsResponse: Schema.Schema<ListEventsResponse> = Schema.suspend(() => Schema.Struct({
-  errorEvents: Schema.optional(Schema.Array(ErrorEvent)),
-  nextPageToken: Schema.optional(Schema.String),
-  timeRangeBegin: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListEventsResponse" }) as any as Schema.Schema<ListEventsResponse>;
+export const ListEventsResponse: Schema.Schema<ListEventsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      errorEvents: Schema.optional(Schema.Array(ErrorEvent)),
+      nextPageToken: Schema.optional(Schema.String),
+      timeRangeBegin: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListEventsResponse",
+  }) as any as Schema.Schema<ListEventsResponse>;
 
-export interface DeleteEventsResponse {
-}
+export interface DeleteEventsResponse {}
 
-export const DeleteEventsResponse: Schema.Schema<DeleteEventsResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DeleteEventsResponse" }) as any as Schema.Schema<DeleteEventsResponse>;
+export const DeleteEventsResponse: Schema.Schema<DeleteEventsResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteEventsResponse",
+  }) as any as Schema.Schema<DeleteEventsResponse>;
 
 export interface ReportedErrorEvent {
   /** Optional. Time when the event occurred. If not provided, the time when the event was received by the Error Reporting system is used. If provided, the time must not exceed the [logs retention period](https://cloud.google.com/logging/quotas#logs_retention_periods) in the past, or be more than 24 hours in the future. If an invalid time is provided, then an error is returned. */
@@ -247,18 +303,24 @@ export interface ReportedErrorEvent {
   context?: ErrorContext;
 }
 
-export const ReportedErrorEvent: Schema.Schema<ReportedErrorEvent> = Schema.suspend(() => Schema.Struct({
-  eventTime: Schema.optional(Schema.String),
-  serviceContext: Schema.optional(ServiceContext),
-  message: Schema.optional(Schema.String),
-  context: Schema.optional(ErrorContext),
-})).annotate({ identifier: "ReportedErrorEvent" }) as any as Schema.Schema<ReportedErrorEvent>;
+export const ReportedErrorEvent: Schema.Schema<ReportedErrorEvent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      eventTime: Schema.optional(Schema.String),
+      serviceContext: Schema.optional(ServiceContext),
+      message: Schema.optional(Schema.String),
+      context: Schema.optional(ErrorContext),
+    }),
+  ).annotate({
+    identifier: "ReportedErrorEvent",
+  }) as any as Schema.Schema<ReportedErrorEvent>;
 
-export interface ReportErrorEventResponse {
-}
+export interface ReportErrorEventResponse {}
 
-export const ReportErrorEventResponse: Schema.Schema<ReportErrorEventResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ReportErrorEventResponse" }) as any as Schema.Schema<ReportErrorEventResponse>;
+export const ReportErrorEventResponse: Schema.Schema<ReportErrorEventResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ReportErrorEventResponse",
+  }) as any as Schema.Schema<ReportErrorEventResponse>;
 
 // ==========================================================================
 // Operations
@@ -282,7 +344,12 @@ export const DeleteEventsProjectsResponse = DeleteEventsResponse;
 export type DeleteEventsProjectsError = DefaultErrors;
 
 /** Deletes all error events of a given project. */
-export const deleteEventsProjects: API.OperationMethod<DeleteEventsProjectsRequest, DeleteEventsProjectsResponse, DeleteEventsProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteEventsProjects: API.OperationMethod<
+  DeleteEventsProjectsRequest,
+  DeleteEventsProjectsResponse,
+  DeleteEventsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteEventsProjectsRequest,
   output: DeleteEventsProjectsResponse,
   errors: [],
@@ -296,7 +363,10 @@ export interface GetProjectsGroupsRequest {
 export const GetProjectsGroupsRequest = Schema.Struct({
   groupName: Schema.String.pipe(T.HttpPath("groupName")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/groups/{groupsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/groups/{groupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsGroupsRequest>;
 
@@ -306,7 +376,12 @@ export const GetProjectsGroupsResponse = ErrorGroup;
 export type GetProjectsGroupsError = DefaultErrors;
 
 /** Get the specified group. */
-export const getProjectsGroups: API.OperationMethod<GetProjectsGroupsRequest, GetProjectsGroupsResponse, GetProjectsGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsGroups: API.OperationMethod<
+  GetProjectsGroupsRequest,
+  GetProjectsGroupsResponse,
+  GetProjectsGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsGroupsRequest,
   output: GetProjectsGroupsResponse,
   errors: [],
@@ -323,7 +398,11 @@ export const UpdateProjectsGroupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ErrorGroup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1beta1/projects/{projectsId}/groups/{groupsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1beta1/projects/{projectsId}/groups/{groupsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateProjectsGroupsRequest>;
 
@@ -333,7 +412,12 @@ export const UpdateProjectsGroupsResponse = ErrorGroup;
 export type UpdateProjectsGroupsError = DefaultErrors;
 
 /** Replace the data for the specified group. Fails if the group does not exist. */
-export const updateProjectsGroups: API.OperationMethod<UpdateProjectsGroupsRequest, UpdateProjectsGroupsResponse, UpdateProjectsGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateProjectsGroups: API.OperationMethod<
+  UpdateProjectsGroupsRequest,
+  UpdateProjectsGroupsResponse,
+  UpdateProjectsGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateProjectsGroupsRequest,
   output: UpdateProjectsGroupsResponse,
   errors: [],
@@ -351,15 +435,32 @@ export interface ListProjectsGroupStatsRequest {
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
   "serviceFilter.resourceType"?: string;
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: "PERIOD_UNSPECIFIED" | "PERIOD_1_HOUR" | "PERIOD_6_HOURS" | "PERIOD_1_DAY" | "PERIOD_1_WEEK" | "PERIOD_30_DAYS" | (string & {});
+  "timeRange.period"?:
+    | "PERIOD_UNSPECIFIED"
+    | "PERIOD_1_HOUR"
+    | "PERIOD_6_HOURS"
+    | "PERIOD_1_DAY"
+    | "PERIOD_1_WEEK"
+    | "PERIOD_30_DAYS"
+    | (string & {});
   /** Optional. The preferred duration for a single returned TimedCount. If not set, no timed counts are returned. */
   timedCountDuration?: string;
   /** Optional. The alignment of the timed counts to be returned. Default is `ALIGNMENT_EQUAL_AT_END`. */
-  alignment?: "ERROR_COUNT_ALIGNMENT_UNSPECIFIED" | "ALIGNMENT_EQUAL_ROUNDED" | "ALIGNMENT_EQUAL_AT_END" | (string & {});
+  alignment?:
+    | "ERROR_COUNT_ALIGNMENT_UNSPECIFIED"
+    | "ALIGNMENT_EQUAL_ROUNDED"
+    | "ALIGNMENT_EQUAL_AT_END"
+    | (string & {});
   /** Optional. Time where the timed counts shall be aligned if rounded alignment is chosen. Default is 00:00 UTC. */
   alignmentTime?: string;
   /** Optional. The sort order in which the results are returned. Default is `COUNT_DESC`. */
-  order?: "GROUP_ORDER_UNSPECIFIED" | "COUNT_DESC" | "LAST_SEEN_DESC" | "CREATED_DESC" | "AFFECTED_USERS_DESC" | (string & {});
+  order?:
+    | "GROUP_ORDER_UNSPECIFIED"
+    | "COUNT_DESC"
+    | "LAST_SEEN_DESC"
+    | "CREATED_DESC"
+    | "AFFECTED_USERS_DESC"
+    | (string & {});
   /** Optional. The maximum number of results to return per response. Default is 20. */
   pageSize?: number;
   /** Optional. A next_page_token provided by a previous response. To view additional results, pass this token along with the identical query parameters as the first request. */
@@ -368,14 +469,28 @@ export interface ListProjectsGroupStatsRequest {
 
 export const ListProjectsGroupStatsRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
-  groupId: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("groupId")),
-  "serviceFilter.service": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.service")),
-  "serviceFilter.version": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.version")),
-  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.resourceType")),
-  "timeRange.period": Schema.optional(Schema.String).pipe(T.HttpQuery("timeRange.period")),
-  timedCountDuration: Schema.optional(Schema.String).pipe(T.HttpQuery("timedCountDuration")),
+  groupId: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("groupId"),
+  ),
+  "serviceFilter.service": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.service"),
+  ),
+  "serviceFilter.version": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.version"),
+  ),
+  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.resourceType"),
+  ),
+  "timeRange.period": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("timeRange.period"),
+  ),
+  timedCountDuration: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("timedCountDuration"),
+  ),
   alignment: Schema.optional(Schema.String).pipe(T.HttpQuery("alignment")),
-  alignmentTime: Schema.optional(Schema.String).pipe(T.HttpQuery("alignmentTime")),
+  alignmentTime: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("alignmentTime"),
+  ),
   order: Schema.optional(Schema.String).pipe(T.HttpQuery("order")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -390,7 +505,12 @@ export const ListProjectsGroupStatsResponse = ListGroupStatsResponse;
 export type ListProjectsGroupStatsError = DefaultErrors;
 
 /** Lists the specified groups. */
-export const listProjectsGroupStats: API.PaginatedOperationMethod<ListProjectsGroupStatsRequest, ListProjectsGroupStatsResponse, ListProjectsGroupStatsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsGroupStats: API.PaginatedOperationMethod<
+  ListProjectsGroupStatsRequest,
+  ListProjectsGroupStatsResponse,
+  ListProjectsGroupStatsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsGroupStatsRequest,
   output: ListProjectsGroupStatsResponse,
   errors: [],
@@ -412,7 +532,14 @@ export interface ListProjectsEventsRequest {
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
   "serviceFilter.resourceType"?: string;
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: "PERIOD_UNSPECIFIED" | "PERIOD_1_HOUR" | "PERIOD_6_HOURS" | "PERIOD_1_DAY" | "PERIOD_1_WEEK" | "PERIOD_30_DAYS" | (string & {});
+  "timeRange.period"?:
+    | "PERIOD_UNSPECIFIED"
+    | "PERIOD_1_HOUR"
+    | "PERIOD_6_HOURS"
+    | "PERIOD_1_DAY"
+    | "PERIOD_1_WEEK"
+    | "PERIOD_30_DAYS"
+    | (string & {});
   /** Optional. The maximum number of results to return per response. */
   pageSize?: number;
   /** Optional. A `next_page_token` provided by a previous response. */
@@ -422,10 +549,18 @@ export interface ListProjectsEventsRequest {
 export const ListProjectsEventsRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
   groupId: Schema.optional(Schema.String).pipe(T.HttpQuery("groupId")),
-  "serviceFilter.service": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.service")),
-  "serviceFilter.version": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.version")),
-  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.resourceType")),
-  "timeRange.period": Schema.optional(Schema.String).pipe(T.HttpQuery("timeRange.period")),
+  "serviceFilter.service": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.service"),
+  ),
+  "serviceFilter.version": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.version"),
+  ),
+  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.resourceType"),
+  ),
+  "timeRange.period": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("timeRange.period"),
+  ),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -439,7 +574,12 @@ export const ListProjectsEventsResponse = ListEventsResponse;
 export type ListProjectsEventsError = DefaultErrors;
 
 /** Lists the specified events. */
-export const listProjectsEvents: API.PaginatedOperationMethod<ListProjectsEventsRequest, ListProjectsEventsResponse, ListProjectsEventsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsEvents: API.PaginatedOperationMethod<
+  ListProjectsEventsRequest,
+  ListProjectsEventsResponse,
+  ListProjectsEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsEventsRequest,
   output: ListProjectsEventsResponse,
   errors: [],
@@ -460,7 +600,11 @@ export const ReportProjectsEventsRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
   body: Schema.optional(ReportedErrorEvent).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/events:report", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/events:report",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReportProjectsEventsRequest>;
 
@@ -470,7 +614,12 @@ export const ReportProjectsEventsResponse = ReportErrorEventResponse;
 export type ReportProjectsEventsError = DefaultErrors;
 
 /** Report an individual error event and record the event to a log. This endpoint accepts **either** an OAuth token, **or** an [API key](https://support.google.com/cloud/answer/6158862) for authentication. To use an API key, append it to the URL as the value of a `key` parameter. For example: `POST https://clouderrorreporting.googleapis.com/v1beta1/{projectName}/events:report?key=123ABC456` **Note:** [Error Reporting] (https://cloud.google.com/error-reporting) is a service built on Cloud Logging and can analyze log entries when all of the following are true: * Customer-managed encryption keys (CMEK) are disabled on the log bucket. * The log bucket satisfies one of the following: * The log bucket is stored in the same project where the logs originated. * The logs were routed to a project, and then that project stored those logs in a log bucket that it owns. */
-export const reportProjectsEvents: API.OperationMethod<ReportProjectsEventsRequest, ReportProjectsEventsResponse, ReportProjectsEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const reportProjectsEvents: API.OperationMethod<
+  ReportProjectsEventsRequest,
+  ReportProjectsEventsResponse,
+  ReportProjectsEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReportProjectsEventsRequest,
   output: ReportProjectsEventsResponse,
   errors: [],
@@ -484,7 +633,10 @@ export interface DeleteEventsProjectsLocationsRequest {
 export const DeleteEventsProjectsLocationsRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/events" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/events",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteEventsProjectsLocationsRequest>;
 
@@ -494,7 +646,12 @@ export const DeleteEventsProjectsLocationsResponse = DeleteEventsResponse;
 export type DeleteEventsProjectsLocationsError = DefaultErrors;
 
 /** Deletes all error events of a given project. */
-export const deleteEventsProjectsLocations: API.OperationMethod<DeleteEventsProjectsLocationsRequest, DeleteEventsProjectsLocationsResponse, DeleteEventsProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteEventsProjectsLocations: API.OperationMethod<
+  DeleteEventsProjectsLocationsRequest,
+  DeleteEventsProjectsLocationsResponse,
+  DeleteEventsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteEventsProjectsLocationsRequest,
   output: DeleteEventsProjectsLocationsResponse,
   errors: [],
@@ -508,7 +665,10 @@ export interface GetProjectsLocationsGroupsRequest {
 export const GetProjectsLocationsGroupsRequest = Schema.Struct({
   groupName: Schema.String.pipe(T.HttpPath("groupName")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/groups/{groupsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/groups/{groupsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsGroupsRequest>;
 
@@ -518,7 +678,12 @@ export const GetProjectsLocationsGroupsResponse = ErrorGroup;
 export type GetProjectsLocationsGroupsError = DefaultErrors;
 
 /** Get the specified group. */
-export const getProjectsLocationsGroups: API.OperationMethod<GetProjectsLocationsGroupsRequest, GetProjectsLocationsGroupsResponse, GetProjectsLocationsGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsGroups: API.OperationMethod<
+  GetProjectsLocationsGroupsRequest,
+  GetProjectsLocationsGroupsResponse,
+  GetProjectsLocationsGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsGroupsRequest,
   output: GetProjectsLocationsGroupsResponse,
   errors: [],
@@ -535,7 +700,11 @@ export const UpdateProjectsLocationsGroupsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ErrorGroup).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/groups/{groupsId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/groups/{groupsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateProjectsLocationsGroupsRequest>;
 
@@ -545,7 +714,12 @@ export const UpdateProjectsLocationsGroupsResponse = ErrorGroup;
 export type UpdateProjectsLocationsGroupsError = DefaultErrors;
 
 /** Replace the data for the specified group. Fails if the group does not exist. */
-export const updateProjectsLocationsGroups: API.OperationMethod<UpdateProjectsLocationsGroupsRequest, UpdateProjectsLocationsGroupsResponse, UpdateProjectsLocationsGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateProjectsLocationsGroups: API.OperationMethod<
+  UpdateProjectsLocationsGroupsRequest,
+  UpdateProjectsLocationsGroupsResponse,
+  UpdateProjectsLocationsGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateProjectsLocationsGroupsRequest,
   output: UpdateProjectsLocationsGroupsResponse,
   errors: [],
@@ -563,15 +737,32 @@ export interface ListProjectsLocationsGroupStatsRequest {
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
   "serviceFilter.resourceType"?: string;
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: "PERIOD_UNSPECIFIED" | "PERIOD_1_HOUR" | "PERIOD_6_HOURS" | "PERIOD_1_DAY" | "PERIOD_1_WEEK" | "PERIOD_30_DAYS" | (string & {});
+  "timeRange.period"?:
+    | "PERIOD_UNSPECIFIED"
+    | "PERIOD_1_HOUR"
+    | "PERIOD_6_HOURS"
+    | "PERIOD_1_DAY"
+    | "PERIOD_1_WEEK"
+    | "PERIOD_30_DAYS"
+    | (string & {});
   /** Optional. The preferred duration for a single returned TimedCount. If not set, no timed counts are returned. */
   timedCountDuration?: string;
   /** Optional. The alignment of the timed counts to be returned. Default is `ALIGNMENT_EQUAL_AT_END`. */
-  alignment?: "ERROR_COUNT_ALIGNMENT_UNSPECIFIED" | "ALIGNMENT_EQUAL_ROUNDED" | "ALIGNMENT_EQUAL_AT_END" | (string & {});
+  alignment?:
+    | "ERROR_COUNT_ALIGNMENT_UNSPECIFIED"
+    | "ALIGNMENT_EQUAL_ROUNDED"
+    | "ALIGNMENT_EQUAL_AT_END"
+    | (string & {});
   /** Optional. Time where the timed counts shall be aligned if rounded alignment is chosen. Default is 00:00 UTC. */
   alignmentTime?: string;
   /** Optional. The sort order in which the results are returned. Default is `COUNT_DESC`. */
-  order?: "GROUP_ORDER_UNSPECIFIED" | "COUNT_DESC" | "LAST_SEEN_DESC" | "CREATED_DESC" | "AFFECTED_USERS_DESC" | (string & {});
+  order?:
+    | "GROUP_ORDER_UNSPECIFIED"
+    | "COUNT_DESC"
+    | "LAST_SEEN_DESC"
+    | "CREATED_DESC"
+    | "AFFECTED_USERS_DESC"
+    | (string & {});
   /** Optional. The maximum number of results to return per response. Default is 20. */
   pageSize?: number;
   /** Optional. A next_page_token provided by a previous response. To view additional results, pass this token along with the identical query parameters as the first request. */
@@ -580,19 +771,36 @@ export interface ListProjectsLocationsGroupStatsRequest {
 
 export const ListProjectsLocationsGroupStatsRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
-  groupId: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("groupId")),
-  "serviceFilter.service": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.service")),
-  "serviceFilter.version": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.version")),
-  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.resourceType")),
-  "timeRange.period": Schema.optional(Schema.String).pipe(T.HttpQuery("timeRange.period")),
-  timedCountDuration: Schema.optional(Schema.String).pipe(T.HttpQuery("timedCountDuration")),
+  groupId: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("groupId"),
+  ),
+  "serviceFilter.service": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.service"),
+  ),
+  "serviceFilter.version": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.version"),
+  ),
+  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.resourceType"),
+  ),
+  "timeRange.period": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("timeRange.period"),
+  ),
+  timedCountDuration: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("timedCountDuration"),
+  ),
   alignment: Schema.optional(Schema.String).pipe(T.HttpQuery("alignment")),
-  alignmentTime: Schema.optional(Schema.String).pipe(T.HttpQuery("alignmentTime")),
+  alignmentTime: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("alignmentTime"),
+  ),
   order: Schema.optional(Schema.String).pipe(T.HttpQuery("order")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/groupStats" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/groupStats",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsGroupStatsRequest>;
 
@@ -602,7 +810,12 @@ export const ListProjectsLocationsGroupStatsResponse = ListGroupStatsResponse;
 export type ListProjectsLocationsGroupStatsError = DefaultErrors;
 
 /** Lists the specified groups. */
-export const listProjectsLocationsGroupStats: API.PaginatedOperationMethod<ListProjectsLocationsGroupStatsRequest, ListProjectsLocationsGroupStatsResponse, ListProjectsLocationsGroupStatsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsGroupStats: API.PaginatedOperationMethod<
+  ListProjectsLocationsGroupStatsRequest,
+  ListProjectsLocationsGroupStatsResponse,
+  ListProjectsLocationsGroupStatsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsGroupStatsRequest,
   output: ListProjectsLocationsGroupStatsResponse,
   errors: [],
@@ -624,7 +837,14 @@ export interface ListProjectsLocationsEventsRequest {
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
   "serviceFilter.resourceType"?: string;
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: "PERIOD_UNSPECIFIED" | "PERIOD_1_HOUR" | "PERIOD_6_HOURS" | "PERIOD_1_DAY" | "PERIOD_1_WEEK" | "PERIOD_30_DAYS" | (string & {});
+  "timeRange.period"?:
+    | "PERIOD_UNSPECIFIED"
+    | "PERIOD_1_HOUR"
+    | "PERIOD_6_HOURS"
+    | "PERIOD_1_DAY"
+    | "PERIOD_1_WEEK"
+    | "PERIOD_30_DAYS"
+    | (string & {});
   /** Optional. The maximum number of results to return per response. */
   pageSize?: number;
   /** Optional. A `next_page_token` provided by a previous response. */
@@ -634,14 +854,25 @@ export interface ListProjectsLocationsEventsRequest {
 export const ListProjectsLocationsEventsRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
   groupId: Schema.optional(Schema.String).pipe(T.HttpQuery("groupId")),
-  "serviceFilter.service": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.service")),
-  "serviceFilter.version": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.version")),
-  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(T.HttpQuery("serviceFilter.resourceType")),
-  "timeRange.period": Schema.optional(Schema.String).pipe(T.HttpQuery("timeRange.period")),
+  "serviceFilter.service": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.service"),
+  ),
+  "serviceFilter.version": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.version"),
+  ),
+  "serviceFilter.resourceType": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceFilter.resourceType"),
+  ),
+  "timeRange.period": Schema.optional(Schema.String).pipe(
+    T.HttpQuery("timeRange.period"),
+  ),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations/{locationsId}/events" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/events",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsEventsRequest>;
 
@@ -651,7 +882,12 @@ export const ListProjectsLocationsEventsResponse = ListEventsResponse;
 export type ListProjectsLocationsEventsError = DefaultErrors;
 
 /** Lists the specified events. */
-export const listProjectsLocationsEvents: API.PaginatedOperationMethod<ListProjectsLocationsEventsRequest, ListProjectsLocationsEventsResponse, ListProjectsLocationsEventsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsEvents: API.PaginatedOperationMethod<
+  ListProjectsLocationsEventsRequest,
+  ListProjectsLocationsEventsResponse,
+  ListProjectsLocationsEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsEventsRequest,
   output: ListProjectsLocationsEventsResponse,
   errors: [],
@@ -660,4 +896,3 @@ export const listProjectsLocationsEvents: API.PaginatedOperationMethod<ListProje
     outputToken: "nextPageToken",
   },
 }));
-

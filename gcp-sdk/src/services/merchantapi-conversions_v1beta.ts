@@ -30,10 +30,15 @@ export interface ConversionType {
   name?: string;
 }
 
-export const ConversionType: Schema.Schema<ConversionType> = Schema.suspend(() => Schema.Struct({
-  report: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConversionType" }) as any as Schema.Schema<ConversionType>;
+export const ConversionType: Schema.Schema<ConversionType> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      report: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ConversionType",
+}) as any as Schema.Schema<ConversionType>;
 
 export interface ProductChange {
   /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
@@ -43,36 +48,76 @@ export interface ProductChange {
   /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
   regionCode?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() => Schema.Struct({
-  oldValue: Schema.optional(Schema.String),
-  newValue: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  reportingContext: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductChange" }) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
+  Schema.Struct({
+    oldValue: Schema.optional(Schema.String),
+    newValue: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    reportingContext: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductChange",
+}) as any as Schema.Schema<ProductChange>;
 
 export interface AttributionSettings {
   /** Required. Attribution model. */
-  attributionModel?: "ATTRIBUTION_MODEL_UNSPECIFIED" | "CROSS_CHANNEL_LAST_CLICK" | "ADS_PREFERRED_LAST_CLICK" | "CROSS_CHANNEL_DATA_DRIVEN" | "CROSS_CHANNEL_FIRST_CLICK" | "CROSS_CHANNEL_LINEAR" | "CROSS_CHANNEL_POSITION_BASED" | "CROSS_CHANNEL_TIME_DECAY" | (string & {});
+  attributionModel?:
+    | "ATTRIBUTION_MODEL_UNSPECIFIED"
+    | "CROSS_CHANNEL_LAST_CLICK"
+    | "ADS_PREFERRED_LAST_CLICK"
+    | "CROSS_CHANNEL_DATA_DRIVEN"
+    | "CROSS_CHANNEL_FIRST_CLICK"
+    | "CROSS_CHANNEL_LINEAR"
+    | "CROSS_CHANNEL_POSITION_BASED"
+    | "CROSS_CHANNEL_TIME_DECAY"
+    | (string & {});
   /** Required. Lookback window (in days) used for attribution in this source. Supported values are `7`, `30` & `40`. */
   attributionLookbackWindowDays?: number;
   /** Immutable. Unordered list. List of different conversion types a conversion event can be classified as. A standard "purchase" type will be automatically created if this list is empty at creation time. */
   conversionType?: Array<ConversionType>;
 }
 
-export const AttributionSettings: Schema.Schema<AttributionSettings> = Schema.suspend(() => Schema.Struct({
-  attributionModel: Schema.optional(Schema.String),
-  attributionLookbackWindowDays: Schema.optional(Schema.Number),
-  conversionType: Schema.optional(Schema.Array(ConversionType)),
-})).annotate({ identifier: "AttributionSettings" }) as any as Schema.Schema<AttributionSettings>;
+export const AttributionSettings: Schema.Schema<AttributionSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attributionModel: Schema.optional(Schema.String),
+      attributionLookbackWindowDays: Schema.optional(Schema.Number),
+      conversionType: Schema.optional(Schema.Array(ConversionType)),
+    }),
+  ).annotate({
+    identifier: "AttributionSettings",
+  }) as any as Schema.Schema<AttributionSettings>;
 
-export interface UndeleteConversionSourceRequest {
-}
+export interface UndeleteConversionSourceRequest {}
 
-export const UndeleteConversionSourceRequest: Schema.Schema<UndeleteConversionSourceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "UndeleteConversionSourceRequest" }) as any as Schema.Schema<UndeleteConversionSourceRequest>;
+export const UndeleteConversionSourceRequest: Schema.Schema<UndeleteConversionSourceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UndeleteConversionSourceRequest",
+  }) as any as Schema.Schema<UndeleteConversionSourceRequest>;
 
 export interface ProductStatusChangeMessage {
   /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
@@ -95,17 +140,22 @@ export interface ProductStatusChangeMessage {
   changes?: Array<ProductChange>;
 }
 
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> = Schema.suspend(() => Schema.Struct({
-  account: Schema.optional(Schema.String),
-  managingAccount: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  changes: Schema.optional(Schema.Array(ProductChange)),
-})).annotate({ identifier: "ProductStatusChangeMessage" }) as any as Schema.Schema<ProductStatusChangeMessage>;
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      account: Schema.optional(Schema.String),
+      managingAccount: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 export interface MerchantCenterDestination {
   /** Output only. Merchant Center Destination ID. */
@@ -118,18 +168,23 @@ export interface MerchantCenterDestination {
   attributionSettings?: AttributionSettings;
 }
 
-export const MerchantCenterDestination: Schema.Schema<MerchantCenterDestination> = Schema.suspend(() => Schema.Struct({
-  destination: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  currencyCode: Schema.optional(Schema.String),
-  attributionSettings: Schema.optional(AttributionSettings),
-})).annotate({ identifier: "MerchantCenterDestination" }) as any as Schema.Schema<MerchantCenterDestination>;
+export const MerchantCenterDestination: Schema.Schema<MerchantCenterDestination> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destination: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+      attributionSettings: Schema.optional(AttributionSettings),
+    }),
+  ).annotate({
+    identifier: "MerchantCenterDestination",
+  }) as any as Schema.Schema<MerchantCenterDestination>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface GoogleAnalyticsLink {
   /** Output only. Name of the Google Analytics property the merchant is linked to. */
@@ -140,35 +195,54 @@ export interface GoogleAnalyticsLink {
   propertyId?: string;
 }
 
-export const GoogleAnalyticsLink: Schema.Schema<GoogleAnalyticsLink> = Schema.suspend(() => Schema.Struct({
-  property: Schema.optional(Schema.String),
-  attributionSettings: Schema.optional(AttributionSettings),
-  propertyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleAnalyticsLink" }) as any as Schema.Schema<GoogleAnalyticsLink>;
+export const GoogleAnalyticsLink: Schema.Schema<GoogleAnalyticsLink> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      property: Schema.optional(Schema.String),
+      attributionSettings: Schema.optional(AttributionSettings),
+      propertyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAnalyticsLink",
+  }) as any as Schema.Schema<GoogleAnalyticsLink>;
 
 export interface ConversionSource {
   /** Output only. The time when an archived conversion source becomes permanently deleted and is no longer available to undelete. */
   expireTime?: string;
   /** Output only. Controller of the conversion source. */
-  controller?: "CONTROLLER_UNSPECIFIED" | "MERCHANT" | "YOUTUBE_AFFILIATES" | (string & {});
+  controller?:
+    | "CONTROLLER_UNSPECIFIED"
+    | "MERCHANT"
+    | "YOUTUBE_AFFILIATES"
+    | (string & {});
   /** Output only. Identifier. Generated by the Content API upon creation of a new `ConversionSource`. Format: `[a-z]{4}:.+` The four characters before the colon represent the type of conversion source. Content after the colon represents the ID of the conversion source within that type. The ID of two different conversion sources might be the same across different types. The following type prefixes are supported: * `galk`: For GoogleAnalyticsLink sources. * `mcdn`: For MerchantCenterDestination sources. */
   name?: string;
   /** Output only. Current state of this conversion source. Can't be edited through the API. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "ARCHIVED" | "PENDING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "ARCHIVED"
+    | "PENDING"
+    | (string & {});
   /** Immutable. Conversion Source of type "Link to Google Analytics Property". */
   googleAnalyticsLink?: GoogleAnalyticsLink;
   /** Conversion Source of type "Merchant Center Tag Destination". */
   merchantCenterDestination?: MerchantCenterDestination;
 }
 
-export const ConversionSource: Schema.Schema<ConversionSource> = Schema.suspend(() => Schema.Struct({
-  expireTime: Schema.optional(Schema.String),
-  controller: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  googleAnalyticsLink: Schema.optional(GoogleAnalyticsLink),
-  merchantCenterDestination: Schema.optional(MerchantCenterDestination),
-})).annotate({ identifier: "ConversionSource" }) as any as Schema.Schema<ConversionSource>;
+export const ConversionSource: Schema.Schema<ConversionSource> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      expireTime: Schema.optional(Schema.String),
+      controller: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      googleAnalyticsLink: Schema.optional(GoogleAnalyticsLink),
+      merchantCenterDestination: Schema.optional(MerchantCenterDestination),
+    }),
+).annotate({
+  identifier: "ConversionSource",
+}) as any as Schema.Schema<ConversionSource>;
 
 export interface ListConversionSourcesResponse {
   /** List of conversion sources. */
@@ -177,10 +251,15 @@ export interface ListConversionSourcesResponse {
   nextPageToken?: string;
 }
 
-export const ListConversionSourcesResponse: Schema.Schema<ListConversionSourcesResponse> = Schema.suspend(() => Schema.Struct({
-  conversionSources: Schema.optional(Schema.Array(ConversionSource)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListConversionSourcesResponse" }) as any as Schema.Schema<ListConversionSourcesResponse>;
+export const ListConversionSourcesResponse: Schema.Schema<ListConversionSourcesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      conversionSources: Schema.optional(Schema.Array(ConversionSource)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListConversionSourcesResponse",
+  }) as any as Schema.Schema<ListConversionSourcesResponse>;
 
 // ==========================================================================
 // Operations
@@ -194,7 +273,10 @@ export interface GetAccountsConversionSourcesRequest {
 export const GetAccountsConversionSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}" }),
+  T.Http({
+    method: "GET",
+    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsConversionSourcesRequest>;
 
@@ -204,7 +286,12 @@ export const GetAccountsConversionSourcesResponse = ConversionSource;
 export type GetAccountsConversionSourcesError = DefaultErrors;
 
 /** Fetches a conversion source. */
-export const getAccountsConversionSources: API.OperationMethod<GetAccountsConversionSourcesRequest, GetAccountsConversionSourcesResponse, GetAccountsConversionSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsConversionSources: API.OperationMethod<
+  GetAccountsConversionSourcesRequest,
+  GetAccountsConversionSourcesResponse,
+  GetAccountsConversionSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsConversionSourcesRequest,
   output: GetAccountsConversionSourcesResponse,
   errors: [],
@@ -221,7 +308,11 @@ export const CreateAccountsConversionSourcesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "conversions/v1beta/accounts/{accountsId}/conversionSources", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "conversions/v1beta/accounts/{accountsId}/conversionSources",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsConversionSourcesRequest>;
 
@@ -231,7 +322,12 @@ export const CreateAccountsConversionSourcesResponse = ConversionSource;
 export type CreateAccountsConversionSourcesError = DefaultErrors;
 
 /** Creates a new conversion source. */
-export const createAccountsConversionSources: API.OperationMethod<CreateAccountsConversionSourcesRequest, CreateAccountsConversionSourcesResponse, CreateAccountsConversionSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsConversionSources: API.OperationMethod<
+  CreateAccountsConversionSourcesRequest,
+  CreateAccountsConversionSourcesResponse,
+  CreateAccountsConversionSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsConversionSourcesRequest,
   output: CreateAccountsConversionSourcesResponse,
   errors: [],
@@ -251,7 +347,11 @@ export const PatchAccountsConversionSourcesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsConversionSourcesRequest>;
 
@@ -261,7 +361,12 @@ export const PatchAccountsConversionSourcesResponse = ConversionSource;
 export type PatchAccountsConversionSourcesError = DefaultErrors;
 
 /** Updates information of an existing conversion source. Available only for Merchant Center Destination conversion sources. */
-export const patchAccountsConversionSources: API.OperationMethod<PatchAccountsConversionSourcesRequest, PatchAccountsConversionSourcesResponse, PatchAccountsConversionSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsConversionSources: API.OperationMethod<
+  PatchAccountsConversionSourcesRequest,
+  PatchAccountsConversionSourcesResponse,
+  PatchAccountsConversionSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsConversionSourcesRequest,
   output: PatchAccountsConversionSourcesResponse,
   errors: [],
@@ -275,7 +380,10 @@ export interface DeleteAccountsConversionSourcesRequest {
 export const DeleteAccountsConversionSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsConversionSourcesRequest>;
 
@@ -285,7 +393,12 @@ export const DeleteAccountsConversionSourcesResponse = Empty;
 export type DeleteAccountsConversionSourcesError = DefaultErrors;
 
 /** Archives an existing conversion source. If the conversion source is a Merchant Center Destination, it will be recoverable for 30 days. If the conversion source is a Google Analytics Link, it will be deleted immediately and can be restored by creating a new one. */
-export const deleteAccountsConversionSources: API.OperationMethod<DeleteAccountsConversionSourcesRequest, DeleteAccountsConversionSourcesResponse, DeleteAccountsConversionSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsConversionSources: API.OperationMethod<
+  DeleteAccountsConversionSourcesRequest,
+  DeleteAccountsConversionSourcesResponse,
+  DeleteAccountsConversionSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsConversionSourcesRequest,
   output: DeleteAccountsConversionSourcesResponse,
   errors: [],
@@ -302,7 +415,11 @@ export const UndeleteAccountsConversionSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteConversionSourceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteAccountsConversionSourcesRequest>;
 
@@ -312,7 +429,12 @@ export const UndeleteAccountsConversionSourcesResponse = ConversionSource;
 export type UndeleteAccountsConversionSourcesError = DefaultErrors;
 
 /** Re-enables an archived conversion source. Only Available for Merchant Center Destination conversion sources. */
-export const undeleteAccountsConversionSources: API.OperationMethod<UndeleteAccountsConversionSourcesRequest, UndeleteAccountsConversionSourcesResponse, UndeleteAccountsConversionSourcesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteAccountsConversionSources: API.OperationMethod<
+  UndeleteAccountsConversionSourcesRequest,
+  UndeleteAccountsConversionSourcesResponse,
+  UndeleteAccountsConversionSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteAccountsConversionSourcesRequest,
   output: UndeleteAccountsConversionSourcesResponse,
   errors: [],
@@ -335,17 +457,27 @@ export const ListAccountsConversionSourcesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
 }).pipe(
-  T.Http({ method: "GET", path: "conversions/v1beta/accounts/{accountsId}/conversionSources" }),
+  T.Http({
+    method: "GET",
+    path: "conversions/v1beta/accounts/{accountsId}/conversionSources",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsConversionSourcesRequest>;
 
-export type ListAccountsConversionSourcesResponse = ListConversionSourcesResponse;
-export const ListAccountsConversionSourcesResponse = ListConversionSourcesResponse;
+export type ListAccountsConversionSourcesResponse =
+  ListConversionSourcesResponse;
+export const ListAccountsConversionSourcesResponse =
+  ListConversionSourcesResponse;
 
 export type ListAccountsConversionSourcesError = DefaultErrors;
 
 /** Retrieves the list of conversion sources the caller has access to. */
-export const listAccountsConversionSources: API.PaginatedOperationMethod<ListAccountsConversionSourcesRequest, ListAccountsConversionSourcesResponse, ListAccountsConversionSourcesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsConversionSources: API.PaginatedOperationMethod<
+  ListAccountsConversionSourcesRequest,
+  ListAccountsConversionSourcesResponse,
+  ListAccountsConversionSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsConversionSourcesRequest,
   output: ListAccountsConversionSourcesResponse,
   errors: [],
@@ -354,4 +486,3 @@ export const listAccountsConversionSources: API.PaginatedOperationMethod<ListAcc
     outputToken: "nextPageToken",
   },
 }));
-

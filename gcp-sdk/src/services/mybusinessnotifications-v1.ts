@@ -29,14 +29,33 @@ export interface NotificationSetting {
   /** Optional. The Google Pub/Sub topic that will receive notifications when locations managed by this account are updated. If unset, no notifications will be posted. The account mybusiness-api-pubsub@system.gserviceaccount.com must have at least Publish permissions on the Pub/Sub topic. */
   pubsubTopic?: string;
   /** The types of notifications that will be sent to the Pub/Sub topic. To stop receiving notifications entirely, use NotificationSettings.UpdateNotificationSetting with an empty notification_types or set the pubsub_topic to an empty string. */
-  notificationTypes?: Array<"NOTIFICATION_TYPE_UNSPECIFIED" | "GOOGLE_UPDATE" | "NEW_REVIEW" | "UPDATED_REVIEW" | "NEW_CUSTOMER_MEDIA" | "NEW_QUESTION" | "UPDATED_QUESTION" | "NEW_ANSWER" | "UPDATED_ANSWER" | "DUPLICATE_LOCATION" | "LOSS_OF_VOICE_OF_MERCHANT" | "VOICE_OF_MERCHANT_UPDATED" | (string & {})>;
+  notificationTypes?: Array<
+    | "NOTIFICATION_TYPE_UNSPECIFIED"
+    | "GOOGLE_UPDATE"
+    | "NEW_REVIEW"
+    | "UPDATED_REVIEW"
+    | "NEW_CUSTOMER_MEDIA"
+    | "NEW_QUESTION"
+    | "UPDATED_QUESTION"
+    | "NEW_ANSWER"
+    | "UPDATED_ANSWER"
+    | "DUPLICATE_LOCATION"
+    | "LOSS_OF_VOICE_OF_MERCHANT"
+    | "VOICE_OF_MERCHANT_UPDATED"
+    | (string & {})
+  >;
 }
 
-export const NotificationSetting: Schema.Schema<NotificationSetting> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  pubsubTopic: Schema.optional(Schema.String),
-  notificationTypes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "NotificationSetting" }) as any as Schema.Schema<NotificationSetting>;
+export const NotificationSetting: Schema.Schema<NotificationSetting> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      pubsubTopic: Schema.optional(Schema.String),
+      notificationTypes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "NotificationSetting",
+  }) as any as Schema.Schema<NotificationSetting>;
 
 // ==========================================================================
 // Operations
@@ -56,7 +75,11 @@ export const UpdateNotificationSettingAccountsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(NotificationSetting).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/accounts/{accountsId}/notificationSetting", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/accounts/{accountsId}/notificationSetting",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateNotificationSettingAccountsRequest>;
 
@@ -66,7 +89,12 @@ export const UpdateNotificationSettingAccountsResponse = NotificationSetting;
 export type UpdateNotificationSettingAccountsError = DefaultErrors;
 
 /** Sets the pubsub notification setting for the account informing Google which topic to send pubsub notifications for. Use the notification_types field within notification_setting to manipulate the events an account wants to subscribe to. An account will only have one notification setting resource, and only one pubsub topic can be set. To delete the setting, update with an empty notification_types */
-export const updateNotificationSettingAccounts: API.OperationMethod<UpdateNotificationSettingAccountsRequest, UpdateNotificationSettingAccountsResponse, UpdateNotificationSettingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateNotificationSettingAccounts: API.OperationMethod<
+  UpdateNotificationSettingAccountsRequest,
+  UpdateNotificationSettingAccountsResponse,
+  UpdateNotificationSettingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateNotificationSettingAccountsRequest,
   output: UpdateNotificationSettingAccountsResponse,
   errors: [],
@@ -80,7 +108,10 @@ export interface GetNotificationSettingAccountsRequest {
 export const GetNotificationSettingAccountsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/notificationSetting" }),
+  T.Http({
+    method: "GET",
+    path: "v1/accounts/{accountsId}/notificationSetting",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetNotificationSettingAccountsRequest>;
 
@@ -90,9 +121,13 @@ export const GetNotificationSettingAccountsResponse = NotificationSetting;
 export type GetNotificationSettingAccountsError = DefaultErrors;
 
 /** Returns the pubsub notification settings for the account. */
-export const getNotificationSettingAccounts: API.OperationMethod<GetNotificationSettingAccountsRequest, GetNotificationSettingAccountsResponse, GetNotificationSettingAccountsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getNotificationSettingAccounts: API.OperationMethod<
+  GetNotificationSettingAccountsRequest,
+  GetNotificationSettingAccountsResponse,
+  GetNotificationSettingAccountsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetNotificationSettingAccountsRequest,
   output: GetNotificationSettingAccountsResponse,
   errors: [],
 }));
-

@@ -40,15 +40,17 @@ export interface TraceSpan {
   labels?: Record<string, string>;
 }
 
-export const TraceSpan: Schema.Schema<TraceSpan> = Schema.suspend(() => Schema.Struct({
-  spanId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  parentSpanId: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "TraceSpan" }) as any as Schema.Schema<TraceSpan>;
+export const TraceSpan: Schema.Schema<TraceSpan> = Schema.suspend(() =>
+  Schema.Struct({
+    spanId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    parentSpanId: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "TraceSpan" }) as any as Schema.Schema<TraceSpan>;
 
 export interface Trace {
   /** Project ID of the Cloud project where the trace data is stored. */
@@ -59,11 +61,13 @@ export interface Trace {
   spans?: Array<TraceSpan>;
 }
 
-export const Trace: Schema.Schema<Trace> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-  traceId: Schema.optional(Schema.String),
-  spans: Schema.optional(Schema.Array(TraceSpan)),
-})).annotate({ identifier: "Trace" }) as any as Schema.Schema<Trace>;
+export const Trace: Schema.Schema<Trace> = Schema.suspend(() =>
+  Schema.Struct({
+    projectId: Schema.optional(Schema.String),
+    traceId: Schema.optional(Schema.String),
+    spans: Schema.optional(Schema.Array(TraceSpan)),
+  }),
+).annotate({ identifier: "Trace" }) as any as Schema.Schema<Trace>;
 
 export interface ListTracesResponse {
   /** List of trace records as specified by the view parameter. */
@@ -72,25 +76,32 @@ export interface ListTracesResponse {
   nextPageToken?: string;
 }
 
-export const ListTracesResponse: Schema.Schema<ListTracesResponse> = Schema.suspend(() => Schema.Struct({
-  traces: Schema.optional(Schema.Array(Trace)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTracesResponse" }) as any as Schema.Schema<ListTracesResponse>;
+export const ListTracesResponse: Schema.Schema<ListTracesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      traces: Schema.optional(Schema.Array(Trace)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTracesResponse",
+  }) as any as Schema.Schema<ListTracesResponse>;
 
 export interface Traces {
   /** List of traces. */
   traces?: Array<Trace>;
 }
 
-export const Traces: Schema.Schema<Traces> = Schema.suspend(() => Schema.Struct({
-  traces: Schema.optional(Schema.Array(Trace)),
-})).annotate({ identifier: "Traces" }) as any as Schema.Schema<Traces>;
+export const Traces: Schema.Schema<Traces> = Schema.suspend(() =>
+  Schema.Struct({
+    traces: Schema.optional(Schema.Array(Trace)),
+  }),
+).annotate({ identifier: "Traces" }) as any as Schema.Schema<Traces>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -107,7 +118,11 @@ export const PatchTracesProjectsRequest = Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(Traces).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectId}/traces", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectId}/traces",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchTracesProjectsRequest>;
 
@@ -117,7 +132,12 @@ export const PatchTracesProjectsResponse = Empty;
 export type PatchTracesProjectsError = DefaultErrors;
 
 /** Sends trace spans to Cloud Trace. Spans cannot be updated. If the trace ID and span ID already exist, an additional copy of the span will be stored. */
-export const patchTracesProjects: API.OperationMethod<PatchTracesProjectsRequest, PatchTracesProjectsResponse, PatchTracesProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchTracesProjects: API.OperationMethod<
+  PatchTracesProjectsRequest,
+  PatchTracesProjectsResponse,
+  PatchTracesProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchTracesProjectsRequest,
   output: PatchTracesProjectsResponse,
   errors: [],
@@ -127,7 +147,12 @@ export interface ListProjectsTracesRequest {
   /** Required. ID of the Cloud project where the trace data is stored. */
   projectId: string;
   /** Optional. Type of data returned for traces in the list. Default is `MINIMAL`. */
-  view?: "VIEW_TYPE_UNSPECIFIED" | "MINIMAL" | "ROOTSPAN" | "COMPLETE" | (string & {});
+  view?:
+    | "VIEW_TYPE_UNSPECIFIED"
+    | "MINIMAL"
+    | "ROOTSPAN"
+    | "COMPLETE"
+    | (string & {});
   /** Optional. Maximum number of traces to return. If not specified or <= 0, the implementation selects a reasonable value. The implementation may return fewer traces than the requested page size. */
   pageSize?: number;
   /** Token identifying the page of results to return. If provided, use the value of the `next_page_token` field from a previous request. */
@@ -162,7 +187,12 @@ export const ListProjectsTracesResponse = ListTracesResponse;
 export type ListProjectsTracesError = DefaultErrors;
 
 /** Returns a list of traces that match the specified filter conditions. */
-export const listProjectsTraces: API.PaginatedOperationMethod<ListProjectsTracesRequest, ListProjectsTracesResponse, ListProjectsTracesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsTraces: API.PaginatedOperationMethod<
+  ListProjectsTracesRequest,
+  ListProjectsTracesResponse,
+  ListProjectsTracesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsTracesRequest,
   output: ListProjectsTracesResponse,
   errors: [],
@@ -193,9 +223,13 @@ export const GetProjectsTracesResponse = Trace;
 export type GetProjectsTracesError = DefaultErrors;
 
 /** Gets a single trace by its ID. */
-export const getProjectsTraces: API.OperationMethod<GetProjectsTracesRequest, GetProjectsTracesResponse, GetProjectsTracesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsTraces: API.OperationMethod<
+  GetProjectsTracesRequest,
+  GetProjectsTracesResponse,
+  GetProjectsTracesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsTracesRequest,
   output: GetProjectsTracesResponse,
   errors: [],
 }));
-

@@ -30,10 +30,15 @@ export interface SasPortalAssignment {
   role?: string;
 }
 
-export const SasPortalAssignment: Schema.Schema<SasPortalAssignment> = Schema.suspend(() => Schema.Struct({
-  members: Schema.optional(Schema.Array(Schema.String)),
-  role: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalAssignment" }) as any as Schema.Schema<SasPortalAssignment>;
+export const SasPortalAssignment: Schema.Schema<SasPortalAssignment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      members: Schema.optional(Schema.Array(Schema.String)),
+      role: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalAssignment",
+  }) as any as Schema.Schema<SasPortalAssignment>;
 
 export interface SasPortalPolicy {
   /** List of assignments */
@@ -42,10 +47,15 @@ export interface SasPortalPolicy {
   etag?: string;
 }
 
-export const SasPortalPolicy: Schema.Schema<SasPortalPolicy> = Schema.suspend(() => Schema.Struct({
-  assignments: Schema.optional(Schema.Array(SasPortalAssignment)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalPolicy" }) as any as Schema.Schema<SasPortalPolicy>;
+export const SasPortalPolicy: Schema.Schema<SasPortalPolicy> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      assignments: Schema.optional(Schema.Array(SasPortalAssignment)),
+      etag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SasPortalPolicy",
+}) as any as Schema.Schema<SasPortalPolicy>;
 
 export interface SasPortalSetPolicyRequest {
   /** Optional. Set the field as `true` to disable the onboarding notification. */
@@ -56,11 +66,16 @@ export interface SasPortalSetPolicyRequest {
   policy?: SasPortalPolicy;
 }
 
-export const SasPortalSetPolicyRequest: Schema.Schema<SasPortalSetPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  disableNotification: Schema.optional(Schema.Boolean),
-  resource: Schema.optional(Schema.String),
-  policy: Schema.optional(SasPortalPolicy),
-})).annotate({ identifier: "SasPortalSetPolicyRequest" }) as any as Schema.Schema<SasPortalSetPolicyRequest>;
+export const SasPortalSetPolicyRequest: Schema.Schema<SasPortalSetPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      disableNotification: Schema.optional(Schema.Boolean),
+      resource: Schema.optional(Schema.String),
+      policy: Schema.optional(SasPortalPolicy),
+    }),
+  ).annotate({
+    identifier: "SasPortalSetPolicyRequest",
+  }) as any as Schema.Schema<SasPortalSetPolicyRequest>;
 
 export interface SasPortalDeploymentAssociation {
   /** GCP project id of the associated project. */
@@ -69,10 +84,15 @@ export interface SasPortalDeploymentAssociation {
   userId?: string;
 }
 
-export const SasPortalDeploymentAssociation: Schema.Schema<SasPortalDeploymentAssociation> = Schema.suspend(() => Schema.Struct({
-  gcpProjectId: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalDeploymentAssociation" }) as any as Schema.Schema<SasPortalDeploymentAssociation>;
+export const SasPortalDeploymentAssociation: Schema.Schema<SasPortalDeploymentAssociation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gcpProjectId: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalDeploymentAssociation",
+  }) as any as Schema.Schema<SasPortalDeploymentAssociation>;
 
 export interface SasPortalOrganization {
   /** Id of organization */
@@ -81,10 +101,15 @@ export interface SasPortalOrganization {
   displayName?: string;
 }
 
-export const SasPortalOrganization: Schema.Schema<SasPortalOrganization> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalOrganization" }) as any as Schema.Schema<SasPortalOrganization>;
+export const SasPortalOrganization: Schema.Schema<SasPortalOrganization> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalOrganization",
+  }) as any as Schema.Schema<SasPortalOrganization>;
 
 export interface SasPortalNrqzValidation {
   /** State of the NRQZ validation info. */
@@ -99,13 +124,18 @@ export interface SasPortalNrqzValidation {
   longitude?: number;
 }
 
-export const SasPortalNrqzValidation: Schema.Schema<SasPortalNrqzValidation> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  cpiId: Schema.optional(Schema.String),
-  caseId: Schema.optional(Schema.String),
-  latitude: Schema.optional(Schema.Number),
-  longitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SasPortalNrqzValidation" }) as any as Schema.Schema<SasPortalNrqzValidation>;
+export const SasPortalNrqzValidation: Schema.Schema<SasPortalNrqzValidation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      cpiId: Schema.optional(Schema.String),
+      caseId: Schema.optional(Schema.String),
+      latitude: Schema.optional(Schema.Number),
+      longitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SasPortalNrqzValidation",
+  }) as any as Schema.Schema<SasPortalNrqzValidation>;
 
 export interface SasPortalDeviceMetadata {
   /** Interference Coordination Group (ICG). A group of CBSDs that manage their own interference with the group. For more details, see [CBRSA-TS-2001 V3.0.0](https://ongoalliance.org/wp-content/uploads/2020/02/CBRSA-TS-2001-V3.0.0_Approved-for-publication.pdf). */
@@ -120,25 +150,46 @@ export interface SasPortalDeviceMetadata {
   commonChannelGroup?: string;
 }
 
-export const SasPortalDeviceMetadata: Schema.Schema<SasPortalDeviceMetadata> = Schema.suspend(() => Schema.Struct({
-  interferenceCoordinationGroup: Schema.optional(Schema.String),
-  antennaModel: Schema.optional(Schema.String),
-  nrqzValidation: Schema.optional(SasPortalNrqzValidation),
-  nrqzValidated: Schema.optional(Schema.Boolean),
-  commonChannelGroup: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalDeviceMetadata" }) as any as Schema.Schema<SasPortalDeviceMetadata>;
+export const SasPortalDeviceMetadata: Schema.Schema<SasPortalDeviceMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      interferenceCoordinationGroup: Schema.optional(Schema.String),
+      antennaModel: Schema.optional(Schema.String),
+      nrqzValidation: Schema.optional(SasPortalNrqzValidation),
+      nrqzValidated: Schema.optional(Schema.Boolean),
+      commonChannelGroup: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalDeviceMetadata",
+  }) as any as Schema.Schema<SasPortalDeviceMetadata>;
 
 export interface SasPortalDeviceAirInterface {
   /** Optional. This field is related to the `radioTechnology` and provides the air interface specification that the CBSD is compliant with at the time of registration. */
   supportedSpec?: string;
   /** Conditional. This field specifies the radio access technology that is used for the CBSD. */
-  radioTechnology?: "RADIO_TECHNOLOGY_UNSPECIFIED" | "E_UTRA" | "CAMBIUM_NETWORKS" | "FOUR_G_BBW_SAA_1" | "NR" | "DOODLE_CBRS" | "CW" | "REDLINE" | "TARANA_WIRELESS" | "FAROS" | (string & {});
+  radioTechnology?:
+    | "RADIO_TECHNOLOGY_UNSPECIFIED"
+    | "E_UTRA"
+    | "CAMBIUM_NETWORKS"
+    | "FOUR_G_BBW_SAA_1"
+    | "NR"
+    | "DOODLE_CBRS"
+    | "CW"
+    | "REDLINE"
+    | "TARANA_WIRELESS"
+    | "FAROS"
+    | (string & {});
 }
 
-export const SasPortalDeviceAirInterface: Schema.Schema<SasPortalDeviceAirInterface> = Schema.suspend(() => Schema.Struct({
-  supportedSpec: Schema.optional(Schema.String),
-  radioTechnology: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalDeviceAirInterface" }) as any as Schema.Schema<SasPortalDeviceAirInterface>;
+export const SasPortalDeviceAirInterface: Schema.Schema<SasPortalDeviceAirInterface> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      supportedSpec: Schema.optional(Schema.String),
+      radioTechnology: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalDeviceAirInterface",
+  }) as any as Schema.Schema<SasPortalDeviceAirInterface>;
 
 export interface SasPortalDeviceModel {
   /** The hardware version of the device. */
@@ -153,13 +204,18 @@ export interface SasPortalDeviceModel {
   softwareVersion?: string;
 }
 
-export const SasPortalDeviceModel: Schema.Schema<SasPortalDeviceModel> = Schema.suspend(() => Schema.Struct({
-  hardwareVersion: Schema.optional(Schema.String),
-  firmwareVersion: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  vendor: Schema.optional(Schema.String),
-  softwareVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalDeviceModel" }) as any as Schema.Schema<SasPortalDeviceModel>;
+export const SasPortalDeviceModel: Schema.Schema<SasPortalDeviceModel> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hardwareVersion: Schema.optional(Schema.String),
+      firmwareVersion: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      vendor: Schema.optional(Schema.String),
+      softwareVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalDeviceModel",
+  }) as any as Schema.Schema<SasPortalDeviceModel>;
 
 export interface SasPortalInstallationParams {
   /** Whether the device antenna is indoor or not. `true`: indoor. `false`: outdoor. */
@@ -185,37 +241,55 @@ export interface SasPortalInstallationParams {
   /** If an external antenna is used, the antenna model is optionally provided in this field. The string has a maximum length of 128 octets. */
   antennaModel?: string;
   /** Specifies how the height is measured. */
-  heightType?: "HEIGHT_TYPE_UNSPECIFIED" | "HEIGHT_TYPE_AGL" | "HEIGHT_TYPE_AMSL" | (string & {});
+  heightType?:
+    | "HEIGHT_TYPE_UNSPECIFIED"
+    | "HEIGHT_TYPE_AGL"
+    | "HEIGHT_TYPE_AMSL"
+    | (string & {});
   /** Antenna downtilt in degrees and is an integer with a value between -90 and +90 inclusive; a negative value means the antenna is tilted up (above horizontal). This parameter is optional for Category A devices and conditional for Category B devices. */
   antennaDowntilt?: number;
   /** Latitude of the device antenna location in degrees relative to the WGS 84 datum. The allowed range is from -90.000000 to +90.000000. Positive values represent latitudes north of the equator; negative values south of the equator. */
   latitude?: number;
 }
 
-export const SasPortalInstallationParams: Schema.Schema<SasPortalInstallationParams> = Schema.suspend(() => Schema.Struct({
-  indoorDeployment: Schema.optional(Schema.Boolean),
-  antennaBeamwidth: Schema.optional(Schema.Number),
-  eirpCapability: Schema.optional(Schema.Number),
-  antennaAzimuth: Schema.optional(Schema.Number),
-  longitude: Schema.optional(Schema.Number),
-  height: Schema.optional(Schema.Number),
-  antennaGain: Schema.optional(Schema.Number),
-  cpeCbsdIndication: Schema.optional(Schema.Boolean),
-  verticalAccuracy: Schema.optional(Schema.Number),
-  horizontalAccuracy: Schema.optional(Schema.Number),
-  antennaModel: Schema.optional(Schema.String),
-  heightType: Schema.optional(Schema.String),
-  antennaDowntilt: Schema.optional(Schema.Number),
-  latitude: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SasPortalInstallationParams" }) as any as Schema.Schema<SasPortalInstallationParams>;
+export const SasPortalInstallationParams: Schema.Schema<SasPortalInstallationParams> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      indoorDeployment: Schema.optional(Schema.Boolean),
+      antennaBeamwidth: Schema.optional(Schema.Number),
+      eirpCapability: Schema.optional(Schema.Number),
+      antennaAzimuth: Schema.optional(Schema.Number),
+      longitude: Schema.optional(Schema.Number),
+      height: Schema.optional(Schema.Number),
+      antennaGain: Schema.optional(Schema.Number),
+      cpeCbsdIndication: Schema.optional(Schema.Boolean),
+      verticalAccuracy: Schema.optional(Schema.Number),
+      horizontalAccuracy: Schema.optional(Schema.Number),
+      antennaModel: Schema.optional(Schema.String),
+      heightType: Schema.optional(Schema.String),
+      antennaDowntilt: Schema.optional(Schema.Number),
+      latitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SasPortalInstallationParams",
+  }) as any as Schema.Schema<SasPortalInstallationParams>;
 
 export interface SasPortalDeviceConfig {
   /** Measurement reporting capabilities of the device. */
-  measurementCapabilities?: Array<"MEASUREMENT_CAPABILITY_UNSPECIFIED" | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITH_GRANT" | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITHOUT_GRANT" | (string & {})>;
+  measurementCapabilities?: Array<
+    | "MEASUREMENT_CAPABILITY_UNSPECIFIED"
+    | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITH_GRANT"
+    | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITHOUT_GRANT"
+    | (string & {})
+  >;
   /** State of the configuration. */
   state?: "DEVICE_CONFIG_STATE_UNSPECIFIED" | "DRAFT" | "FINAL" | (string & {});
   /** FCC category of the device. */
-  category?: "DEVICE_CATEGORY_UNSPECIFIED" | "DEVICE_CATEGORY_A" | "DEVICE_CATEGORY_B" | (string & {});
+  category?:
+    | "DEVICE_CATEGORY_UNSPECIFIED"
+    | "DEVICE_CATEGORY_A"
+    | "DEVICE_CATEGORY_B"
+    | (string & {});
   /** The identifier of a device user. */
   userId?: string;
   /** Output only. The last time the device configuration was edited. */
@@ -232,18 +306,23 @@ export interface SasPortalDeviceConfig {
   installationParams?: SasPortalInstallationParams;
 }
 
-export const SasPortalDeviceConfig: Schema.Schema<SasPortalDeviceConfig> = Schema.suspend(() => Schema.Struct({
-  measurementCapabilities: Schema.optional(Schema.Array(Schema.String)),
-  state: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  callSign: Schema.optional(Schema.String),
-  airInterface: Schema.optional(SasPortalDeviceAirInterface),
-  model: Schema.optional(SasPortalDeviceModel),
-  isSigned: Schema.optional(Schema.Boolean),
-  installationParams: Schema.optional(SasPortalInstallationParams),
-})).annotate({ identifier: "SasPortalDeviceConfig" }) as any as Schema.Schema<SasPortalDeviceConfig>;
+export const SasPortalDeviceConfig: Schema.Schema<SasPortalDeviceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      measurementCapabilities: Schema.optional(Schema.Array(Schema.String)),
+      state: Schema.optional(Schema.String),
+      category: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      callSign: Schema.optional(Schema.String),
+      airInterface: Schema.optional(SasPortalDeviceAirInterface),
+      model: Schema.optional(SasPortalDeviceModel),
+      isSigned: Schema.optional(Schema.Boolean),
+      installationParams: Schema.optional(SasPortalInstallationParams),
+    }),
+  ).annotate({
+    identifier: "SasPortalDeviceConfig",
+  }) as any as Schema.Schema<SasPortalDeviceConfig>;
 
 export interface SasPortalFrequencyRange {
   /** The lowest frequency of the frequency range in MHz. */
@@ -252,10 +331,15 @@ export interface SasPortalFrequencyRange {
   highFrequencyMhz?: number;
 }
 
-export const SasPortalFrequencyRange: Schema.Schema<SasPortalFrequencyRange> = Schema.suspend(() => Schema.Struct({
-  lowFrequencyMhz: Schema.optional(Schema.Number),
-  highFrequencyMhz: Schema.optional(Schema.Number),
-})).annotate({ identifier: "SasPortalFrequencyRange" }) as any as Schema.Schema<SasPortalFrequencyRange>;
+export const SasPortalFrequencyRange: Schema.Schema<SasPortalFrequencyRange> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lowFrequencyMhz: Schema.optional(Schema.Number),
+      highFrequencyMhz: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SasPortalFrequencyRange",
+  }) as any as Schema.Schema<SasPortalFrequencyRange>;
 
 export interface SasPortalDpaMoveList {
   /** The ID of the DPA. */
@@ -264,10 +348,15 @@ export interface SasPortalDpaMoveList {
   frequencyRange?: SasPortalFrequencyRange;
 }
 
-export const SasPortalDpaMoveList: Schema.Schema<SasPortalDpaMoveList> = Schema.suspend(() => Schema.Struct({
-  dpaId: Schema.optional(Schema.String),
-  frequencyRange: Schema.optional(SasPortalFrequencyRange),
-})).annotate({ identifier: "SasPortalDpaMoveList" }) as any as Schema.Schema<SasPortalDpaMoveList>;
+export const SasPortalDpaMoveList: Schema.Schema<SasPortalDpaMoveList> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dpaId: Schema.optional(Schema.String),
+      frequencyRange: Schema.optional(SasPortalFrequencyRange),
+    }),
+  ).annotate({
+    identifier: "SasPortalDpaMoveList",
+  }) as any as Schema.Schema<SasPortalDpaMoveList>;
 
 export interface SasPortalDeviceGrant {
   /** The transmission frequency range. */
@@ -279,28 +368,44 @@ export interface SasPortalDeviceGrant {
   /** Maximum Equivalent Isotropically Radiated Power (EIRP) permitted by the grant. The maximum EIRP is in units of dBm/MHz. The value of `maxEirp` represents the average (RMS) EIRP that would be measured by the procedure defined in FCC part 96.41(e)(3). */
   maxEirp?: number;
   /** Type of channel used. */
-  channelType?: "CHANNEL_TYPE_UNSPECIFIED" | "CHANNEL_TYPE_GAA" | "CHANNEL_TYPE_PAL" | (string & {});
+  channelType?:
+    | "CHANNEL_TYPE_UNSPECIFIED"
+    | "CHANNEL_TYPE_GAA"
+    | "CHANNEL_TYPE_PAL"
+    | (string & {});
   /** The DPA move lists on which this grant appears. */
   moveList?: Array<SasPortalDpaMoveList>;
   /** The transmit expiration time of the last heartbeat. */
   lastHeartbeatTransmitExpireTime?: string;
   /** State of the grant. */
-  state?: "GRANT_STATE_UNSPECIFIED" | "GRANT_STATE_GRANTED" | "GRANT_STATE_TERMINATED" | "GRANT_STATE_SUSPENDED" | "GRANT_STATE_AUTHORIZED" | "GRANT_STATE_EXPIRED" | (string & {});
+  state?:
+    | "GRANT_STATE_UNSPECIFIED"
+    | "GRANT_STATE_GRANTED"
+    | "GRANT_STATE_TERMINATED"
+    | "GRANT_STATE_SUSPENDED"
+    | "GRANT_STATE_AUTHORIZED"
+    | "GRANT_STATE_EXPIRED"
+    | (string & {});
   /** If the grant is suspended, the reason(s) for suspension. */
   suspensionReason?: Array<string>;
 }
 
-export const SasPortalDeviceGrant: Schema.Schema<SasPortalDeviceGrant> = Schema.suspend(() => Schema.Struct({
-  frequencyRange: Schema.optional(SasPortalFrequencyRange),
-  expireTime: Schema.optional(Schema.String),
-  grantId: Schema.optional(Schema.String),
-  maxEirp: Schema.optional(Schema.Number),
-  channelType: Schema.optional(Schema.String),
-  moveList: Schema.optional(Schema.Array(SasPortalDpaMoveList)),
-  lastHeartbeatTransmitExpireTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  suspensionReason: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "SasPortalDeviceGrant" }) as any as Schema.Schema<SasPortalDeviceGrant>;
+export const SasPortalDeviceGrant: Schema.Schema<SasPortalDeviceGrant> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frequencyRange: Schema.optional(SasPortalFrequencyRange),
+      expireTime: Schema.optional(Schema.String),
+      grantId: Schema.optional(Schema.String),
+      maxEirp: Schema.optional(Schema.Number),
+      channelType: Schema.optional(Schema.String),
+      moveList: Schema.optional(Schema.Array(SasPortalDpaMoveList)),
+      lastHeartbeatTransmitExpireTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      suspensionReason: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "SasPortalDeviceGrant",
+  }) as any as Schema.Schema<SasPortalDeviceGrant>;
 
 export interface SasPortalChannelWithScore {
   /** The channel score, normalized to be in the range [0,100]. */
@@ -309,10 +414,15 @@ export interface SasPortalChannelWithScore {
   frequencyRange?: SasPortalFrequencyRange;
 }
 
-export const SasPortalChannelWithScore: Schema.Schema<SasPortalChannelWithScore> = Schema.suspend(() => Schema.Struct({
-  score: Schema.optional(Schema.Number),
-  frequencyRange: Schema.optional(SasPortalFrequencyRange),
-})).annotate({ identifier: "SasPortalChannelWithScore" }) as any as Schema.Schema<SasPortalChannelWithScore>;
+export const SasPortalChannelWithScore: Schema.Schema<SasPortalChannelWithScore> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      score: Schema.optional(Schema.Number),
+      frequencyRange: Schema.optional(SasPortalFrequencyRange),
+    }),
+  ).annotate({
+    identifier: "SasPortalChannelWithScore",
+  }) as any as Schema.Schema<SasPortalChannelWithScore>;
 
 export interface SasPortalDevice {
   /** Device parameters that can be overridden by both SAS Portal and SAS registration requests. */
@@ -324,7 +434,12 @@ export interface SasPortalDevice {
   /** Configuration of the device, as specified via SAS Portal API. */
   preloadedConfig?: SasPortalDeviceConfig;
   /** Output only. Device state. */
-  state?: "DEVICE_STATE_UNSPECIFIED" | "RESERVED" | "REGISTERED" | "DEREGISTERED" | (string & {});
+  state?:
+    | "DEVICE_STATE_UNSPECIFIED"
+    | "RESERVED"
+    | "REGISTERED"
+    | "DEREGISTERED"
+    | (string & {});
   /** Output only. The resource path name. */
   name?: string;
   /** Output only. Grants held by the device. */
@@ -339,49 +454,69 @@ export interface SasPortalDevice {
   currentChannels?: Array<SasPortalChannelWithScore>;
 }
 
-export const SasPortalDevice: Schema.Schema<SasPortalDevice> = Schema.suspend(() => Schema.Struct({
-  deviceMetadata: Schema.optional(SasPortalDeviceMetadata),
-  fccId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  preloadedConfig: Schema.optional(SasPortalDeviceConfig),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  grants: Schema.optional(Schema.Array(SasPortalDeviceGrant)),
-  grantRangeAllowlists: Schema.optional(Schema.Array(SasPortalFrequencyRange)),
-  serialNumber: Schema.optional(Schema.String),
-  activeConfig: Schema.optional(SasPortalDeviceConfig),
-  currentChannels: Schema.optional(Schema.Array(SasPortalChannelWithScore)),
-})).annotate({ identifier: "SasPortalDevice" }) as any as Schema.Schema<SasPortalDevice>;
+export const SasPortalDevice: Schema.Schema<SasPortalDevice> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      deviceMetadata: Schema.optional(SasPortalDeviceMetadata),
+      fccId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      preloadedConfig: Schema.optional(SasPortalDeviceConfig),
+      state: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      grants: Schema.optional(Schema.Array(SasPortalDeviceGrant)),
+      grantRangeAllowlists: Schema.optional(
+        Schema.Array(SasPortalFrequencyRange),
+      ),
+      serialNumber: Schema.optional(Schema.String),
+      activeConfig: Schema.optional(SasPortalDeviceConfig),
+      currentChannels: Schema.optional(Schema.Array(SasPortalChannelWithScore)),
+    }),
+).annotate({
+  identifier: "SasPortalDevice",
+}) as any as Schema.Schema<SasPortalDevice>;
 
 export interface SasPortalSignDeviceRequest {
   /** Required. The device to sign. The device fields name, fcc_id and serial_number must be set. The user_id field must be set. */
   device?: SasPortalDevice;
 }
 
-export const SasPortalSignDeviceRequest: Schema.Schema<SasPortalSignDeviceRequest> = Schema.suspend(() => Schema.Struct({
-  device: Schema.optional(SasPortalDevice),
-})).annotate({ identifier: "SasPortalSignDeviceRequest" }) as any as Schema.Schema<SasPortalSignDeviceRequest>;
+export const SasPortalSignDeviceRequest: Schema.Schema<SasPortalSignDeviceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      device: Schema.optional(SasPortalDevice),
+    }),
+  ).annotate({
+    identifier: "SasPortalSignDeviceRequest",
+  }) as any as Schema.Schema<SasPortalSignDeviceRequest>;
 
-export interface SasPortalEmpty {
-}
+export interface SasPortalEmpty {}
 
-export const SasPortalEmpty: Schema.Schema<SasPortalEmpty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SasPortalEmpty" }) as any as Schema.Schema<SasPortalEmpty>;
+export const SasPortalEmpty: Schema.Schema<SasPortalEmpty> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "SasPortalEmpty",
+}) as any as Schema.Schema<SasPortalEmpty>;
 
 export interface SasPortalProvisionDeploymentResponse {
   /** Optional. Optional error message if the provisioning request is not successful. */
   errorMessage?: string;
 }
 
-export const SasPortalProvisionDeploymentResponse: Schema.Schema<SasPortalProvisionDeploymentResponse> = Schema.suspend(() => Schema.Struct({
-  errorMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalProvisionDeploymentResponse" }) as any as Schema.Schema<SasPortalProvisionDeploymentResponse>;
+export const SasPortalProvisionDeploymentResponse: Schema.Schema<SasPortalProvisionDeploymentResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      errorMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalProvisionDeploymentResponse",
+  }) as any as Schema.Schema<SasPortalProvisionDeploymentResponse>;
 
-export interface SasPortalSetupSasAnalyticsResponse {
-}
+export interface SasPortalSetupSasAnalyticsResponse {}
 
-export const SasPortalSetupSasAnalyticsResponse: Schema.Schema<SasPortalSetupSasAnalyticsResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SasPortalSetupSasAnalyticsResponse" }) as any as Schema.Schema<SasPortalSetupSasAnalyticsResponse>;
+export const SasPortalSetupSasAnalyticsResponse: Schema.Schema<SasPortalSetupSasAnalyticsResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SasPortalSetupSasAnalyticsResponse",
+  }) as any as Schema.Schema<SasPortalSetupSasAnalyticsResponse>;
 
 export interface SasPortalDeployment {
   /** Output only. Resource name. */
@@ -394,12 +529,17 @@ export interface SasPortalDeployment {
   displayName?: string;
 }
 
-export const SasPortalDeployment: Schema.Schema<SasPortalDeployment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  sasUserIds: Schema.optional(Schema.Array(Schema.String)),
-  frns: Schema.optional(Schema.Array(Schema.String)),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalDeployment" }) as any as Schema.Schema<SasPortalDeployment>;
+export const SasPortalDeployment: Schema.Schema<SasPortalDeployment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      sasUserIds: Schema.optional(Schema.Array(Schema.String)),
+      frns: Schema.optional(Schema.Array(Schema.String)),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalDeployment",
+  }) as any as Schema.Schema<SasPortalDeployment>;
 
 export interface SasPortalListDeploymentsResponse {
   /** The deployments that match the request. */
@@ -408,16 +548,22 @@ export interface SasPortalListDeploymentsResponse {
   nextPageToken?: string;
 }
 
-export const SasPortalListDeploymentsResponse: Schema.Schema<SasPortalListDeploymentsResponse> = Schema.suspend(() => Schema.Struct({
-  deployments: Schema.optional(Schema.Array(SasPortalDeployment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalListDeploymentsResponse" }) as any as Schema.Schema<SasPortalListDeploymentsResponse>;
+export const SasPortalListDeploymentsResponse: Schema.Schema<SasPortalListDeploymentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deployments: Schema.optional(Schema.Array(SasPortalDeployment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalListDeploymentsResponse",
+  }) as any as Schema.Schema<SasPortalListDeploymentsResponse>;
 
-export interface SasPortalGenerateSecretRequest {
-}
+export interface SasPortalGenerateSecretRequest {}
 
-export const SasPortalGenerateSecretRequest: Schema.Schema<SasPortalGenerateSecretRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SasPortalGenerateSecretRequest" }) as any as Schema.Schema<SasPortalGenerateSecretRequest>;
+export const SasPortalGenerateSecretRequest: Schema.Schema<SasPortalGenerateSecretRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SasPortalGenerateSecretRequest",
+  }) as any as Schema.Schema<SasPortalGenerateSecretRequest>;
 
 export interface SasPortalUpdateSignedDeviceRequest {
   /** Required. The JSON Web Token signed using a CPI private key. Payload must be the JSON encoding of the device. The user_id field must be set. */
@@ -426,10 +572,15 @@ export interface SasPortalUpdateSignedDeviceRequest {
   installerId?: string;
 }
 
-export const SasPortalUpdateSignedDeviceRequest: Schema.Schema<SasPortalUpdateSignedDeviceRequest> = Schema.suspend(() => Schema.Struct({
-  encodedDevice: Schema.optional(Schema.String),
-  installerId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalUpdateSignedDeviceRequest" }) as any as Schema.Schema<SasPortalUpdateSignedDeviceRequest>;
+export const SasPortalUpdateSignedDeviceRequest: Schema.Schema<SasPortalUpdateSignedDeviceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      encodedDevice: Schema.optional(Schema.String),
+      installerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalUpdateSignedDeviceRequest",
+  }) as any as Schema.Schema<SasPortalUpdateSignedDeviceRequest>;
 
 export interface SasPortalCreateSignedDeviceRequest {
   /** Required. JSON Web Token signed using a CPI private key. Payload must be the JSON encoding of the device. The user_id field must be set. */
@@ -438,10 +589,15 @@ export interface SasPortalCreateSignedDeviceRequest {
   installerId?: string;
 }
 
-export const SasPortalCreateSignedDeviceRequest: Schema.Schema<SasPortalCreateSignedDeviceRequest> = Schema.suspend(() => Schema.Struct({
-  encodedDevice: Schema.optional(Schema.String),
-  installerId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalCreateSignedDeviceRequest" }) as any as Schema.Schema<SasPortalCreateSignedDeviceRequest>;
+export const SasPortalCreateSignedDeviceRequest: Schema.Schema<SasPortalCreateSignedDeviceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      encodedDevice: Schema.optional(Schema.String),
+      installerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalCreateSignedDeviceRequest",
+  }) as any as Schema.Schema<SasPortalCreateSignedDeviceRequest>;
 
 export interface SasPortalProvisionDeploymentRequest {
   /** Optional. If this field is set, and a new SAS Portal Organization needs to be created, its display name will be set to the value of this field. */
@@ -452,35 +608,59 @@ export interface SasPortalProvisionDeploymentRequest {
   organizationId?: string;
 }
 
-export const SasPortalProvisionDeploymentRequest: Schema.Schema<SasPortalProvisionDeploymentRequest> = Schema.suspend(() => Schema.Struct({
-  newOrganizationDisplayName: Schema.optional(Schema.String),
-  newDeploymentDisplayName: Schema.optional(Schema.String),
-  organizationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalProvisionDeploymentRequest" }) as any as Schema.Schema<SasPortalProvisionDeploymentRequest>;
+export const SasPortalProvisionDeploymentRequest: Schema.Schema<SasPortalProvisionDeploymentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      newOrganizationDisplayName: Schema.optional(Schema.String),
+      newDeploymentDisplayName: Schema.optional(Schema.String),
+      organizationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalProvisionDeploymentRequest",
+  }) as any as Schema.Schema<SasPortalProvisionDeploymentRequest>;
 
 export interface SasPortalMigrateOrganizationMetadata {
   /** Output only. Current operation state */
-  operationState?: "OPERATION_STATE_UNSPECIFIED" | "OPERATION_STATE_PENDING" | "OPERATION_STATE_RUNNING" | "OPERATION_STATE_SUCCEEDED" | "OPERATION_STATE_FAILED" | (string & {});
+  operationState?:
+    | "OPERATION_STATE_UNSPECIFIED"
+    | "OPERATION_STATE_PENDING"
+    | "OPERATION_STATE_RUNNING"
+    | "OPERATION_STATE_SUCCEEDED"
+    | "OPERATION_STATE_FAILED"
+    | (string & {});
 }
 
-export const SasPortalMigrateOrganizationMetadata: Schema.Schema<SasPortalMigrateOrganizationMetadata> = Schema.suspend(() => Schema.Struct({
-  operationState: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalMigrateOrganizationMetadata" }) as any as Schema.Schema<SasPortalMigrateOrganizationMetadata>;
+export const SasPortalMigrateOrganizationMetadata: Schema.Schema<SasPortalMigrateOrganizationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operationState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalMigrateOrganizationMetadata",
+  }) as any as Schema.Schema<SasPortalMigrateOrganizationMetadata>;
 
 export interface SasPortalMigrateOrganizationResponse {
   /** Optional. A list of deployment association that were created for the migration, or current associations if they already exist. */
   deploymentAssociation?: Array<SasPortalDeploymentAssociation>;
 }
 
-export const SasPortalMigrateOrganizationResponse: Schema.Schema<SasPortalMigrateOrganizationResponse> = Schema.suspend(() => Schema.Struct({
-  deploymentAssociation: Schema.optional(Schema.Array(SasPortalDeploymentAssociation)),
-})).annotate({ identifier: "SasPortalMigrateOrganizationResponse" }) as any as Schema.Schema<SasPortalMigrateOrganizationResponse>;
+export const SasPortalMigrateOrganizationResponse: Schema.Schema<SasPortalMigrateOrganizationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deploymentAssociation: Schema.optional(
+        Schema.Array(SasPortalDeploymentAssociation),
+      ),
+    }),
+  ).annotate({
+    identifier: "SasPortalMigrateOrganizationResponse",
+  }) as any as Schema.Schema<SasPortalMigrateOrganizationResponse>;
 
-export interface SasPortalValidateInstallerResponse {
-}
+export interface SasPortalValidateInstallerResponse {}
 
-export const SasPortalValidateInstallerResponse: Schema.Schema<SasPortalValidateInstallerResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SasPortalValidateInstallerResponse" }) as any as Schema.Schema<SasPortalValidateInstallerResponse>;
+export const SasPortalValidateInstallerResponse: Schema.Schema<SasPortalValidateInstallerResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SasPortalValidateInstallerResponse",
+  }) as any as Schema.Schema<SasPortalValidateInstallerResponse>;
 
 export interface SasPortalCustomer {
   /** Output only. Resource name of the customer. */
@@ -491,11 +671,16 @@ export interface SasPortalCustomer {
   displayName?: string;
 }
 
-export const SasPortalCustomer: Schema.Schema<SasPortalCustomer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  sasUserIds: Schema.optional(Schema.Array(Schema.String)),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalCustomer" }) as any as Schema.Schema<SasPortalCustomer>;
+export const SasPortalCustomer: Schema.Schema<SasPortalCustomer> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      sasUserIds: Schema.optional(Schema.Array(Schema.String)),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalCustomer",
+  }) as any as Schema.Schema<SasPortalCustomer>;
 
 export interface SasPortalListCustomersResponse {
   /** A pagination token returned from a previous call to ListCustomers that indicates from where listing should continue. If the field is missing or empty, it means there are no more customers. */
@@ -504,28 +689,43 @@ export interface SasPortalListCustomersResponse {
   customers?: Array<SasPortalCustomer>;
 }
 
-export const SasPortalListCustomersResponse: Schema.Schema<SasPortalListCustomersResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  customers: Schema.optional(Schema.Array(SasPortalCustomer)),
-})).annotate({ identifier: "SasPortalListCustomersResponse" }) as any as Schema.Schema<SasPortalListCustomersResponse>;
+export const SasPortalListCustomersResponse: Schema.Schema<SasPortalListCustomersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      customers: Schema.optional(Schema.Array(SasPortalCustomer)),
+    }),
+  ).annotate({
+    identifier: "SasPortalListCustomersResponse",
+  }) as any as Schema.Schema<SasPortalListCustomersResponse>;
 
 export interface SasPortalMoveDeploymentRequest {
   /** Required. The name of the new parent resource node or customer to reparent the deployment under. */
   destination?: string;
 }
 
-export const SasPortalMoveDeploymentRequest: Schema.Schema<SasPortalMoveDeploymentRequest> = Schema.suspend(() => Schema.Struct({
-  destination: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalMoveDeploymentRequest" }) as any as Schema.Schema<SasPortalMoveDeploymentRequest>;
+export const SasPortalMoveDeploymentRequest: Schema.Schema<SasPortalMoveDeploymentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destination: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalMoveDeploymentRequest",
+  }) as any as Schema.Schema<SasPortalMoveDeploymentRequest>;
 
 export interface SasPortalMoveNodeRequest {
   /** Required. The name of the new parent resource node or customer to reparent the node under. */
   destination?: string;
 }
 
-export const SasPortalMoveNodeRequest: Schema.Schema<SasPortalMoveNodeRequest> = Schema.suspend(() => Schema.Struct({
-  destination: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalMoveNodeRequest" }) as any as Schema.Schema<SasPortalMoveNodeRequest>;
+export const SasPortalMoveNodeRequest: Schema.Schema<SasPortalMoveNodeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destination: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalMoveNodeRequest",
+  }) as any as Schema.Schema<SasPortalMoveNodeRequest>;
 
 export interface SasPortalStatus {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
@@ -536,11 +736,18 @@ export interface SasPortalStatus {
   message?: string;
 }
 
-export const SasPortalStatus: Schema.Schema<SasPortalStatus> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalStatus" }) as any as Schema.Schema<SasPortalStatus>;
+export const SasPortalStatus: Schema.Schema<SasPortalStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SasPortalStatus",
+}) as any as Schema.Schema<SasPortalStatus>;
 
 export interface SasPortalOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -555,22 +762,32 @@ export interface SasPortalOperation {
   response?: Record<string, unknown>;
 }
 
-export const SasPortalOperation: Schema.Schema<SasPortalOperation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  done: Schema.optional(Schema.Boolean),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  error: Schema.optional(SasPortalStatus),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "SasPortalOperation" }) as any as Schema.Schema<SasPortalOperation>;
+export const SasPortalOperation: Schema.Schema<SasPortalOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      done: Schema.optional(Schema.Boolean),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      error: Schema.optional(SasPortalStatus),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "SasPortalOperation",
+  }) as any as Schema.Schema<SasPortalOperation>;
 
 export interface SasPortalSetupSasAnalyticsRequest {
   /** Optional. User id to setup analytics for, if not provided the user id associated with the project is used. optional */
   userId?: string;
 }
 
-export const SasPortalSetupSasAnalyticsRequest: Schema.Schema<SasPortalSetupSasAnalyticsRequest> = Schema.suspend(() => Schema.Struct({
-  userId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalSetupSasAnalyticsRequest" }) as any as Schema.Schema<SasPortalSetupSasAnalyticsRequest>;
+export const SasPortalSetupSasAnalyticsRequest: Schema.Schema<SasPortalSetupSasAnalyticsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalSetupSasAnalyticsRequest",
+  }) as any as Schema.Schema<SasPortalSetupSasAnalyticsRequest>;
 
 export interface SasPortalValidateInstallerRequest {
   /** Required. Secret returned by the GenerateSecret. */
@@ -581,20 +798,30 @@ export interface SasPortalValidateInstallerRequest {
   encodedSecret?: string;
 }
 
-export const SasPortalValidateInstallerRequest: Schema.Schema<SasPortalValidateInstallerRequest> = Schema.suspend(() => Schema.Struct({
-  secret: Schema.optional(Schema.String),
-  installerId: Schema.optional(Schema.String),
-  encodedSecret: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalValidateInstallerRequest" }) as any as Schema.Schema<SasPortalValidateInstallerRequest>;
+export const SasPortalValidateInstallerRequest: Schema.Schema<SasPortalValidateInstallerRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      secret: Schema.optional(Schema.String),
+      installerId: Schema.optional(Schema.String),
+      encodedSecret: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalValidateInstallerRequest",
+  }) as any as Schema.Schema<SasPortalValidateInstallerRequest>;
 
 export interface SasPortalGetPolicyRequest {
   /** Required. The resource for which the policy is being requested. */
   resource?: string;
 }
 
-export const SasPortalGetPolicyRequest: Schema.Schema<SasPortalGetPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalGetPolicyRequest" }) as any as Schema.Schema<SasPortalGetPolicyRequest>;
+export const SasPortalGetPolicyRequest: Schema.Schema<SasPortalGetPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalGetPolicyRequest",
+  }) as any as Schema.Schema<SasPortalGetPolicyRequest>;
 
 export interface SasPortalGcpProjectDeployment {
   /** Whether SAS analytics has been enabled. */
@@ -603,37 +830,57 @@ export interface SasPortalGcpProjectDeployment {
   deployment?: SasPortalDeployment;
 }
 
-export const SasPortalGcpProjectDeployment: Schema.Schema<SasPortalGcpProjectDeployment> = Schema.suspend(() => Schema.Struct({
-  hasEnabledAnalytics: Schema.optional(Schema.Boolean),
-  deployment: Schema.optional(SasPortalDeployment),
-})).annotate({ identifier: "SasPortalGcpProjectDeployment" }) as any as Schema.Schema<SasPortalGcpProjectDeployment>;
+export const SasPortalGcpProjectDeployment: Schema.Schema<SasPortalGcpProjectDeployment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hasEnabledAnalytics: Schema.optional(Schema.Boolean),
+      deployment: Schema.optional(SasPortalDeployment),
+    }),
+  ).annotate({
+    identifier: "SasPortalGcpProjectDeployment",
+  }) as any as Schema.Schema<SasPortalGcpProjectDeployment>;
 
 export interface SasPortalListGcpProjectDeploymentsResponse {
   /** Optional. Deployments associated with the GCP project */
   deployments?: Array<SasPortalGcpProjectDeployment>;
 }
 
-export const SasPortalListGcpProjectDeploymentsResponse: Schema.Schema<SasPortalListGcpProjectDeploymentsResponse> = Schema.suspend(() => Schema.Struct({
-  deployments: Schema.optional(Schema.Array(SasPortalGcpProjectDeployment)),
-})).annotate({ identifier: "SasPortalListGcpProjectDeploymentsResponse" }) as any as Schema.Schema<SasPortalListGcpProjectDeploymentsResponse>;
+export const SasPortalListGcpProjectDeploymentsResponse: Schema.Schema<SasPortalListGcpProjectDeploymentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deployments: Schema.optional(Schema.Array(SasPortalGcpProjectDeployment)),
+    }),
+  ).annotate({
+    identifier: "SasPortalListGcpProjectDeploymentsResponse",
+  }) as any as Schema.Schema<SasPortalListGcpProjectDeploymentsResponse>;
 
 export interface SasPortalMigrateOrganizationRequest {
   /** Required. Id of the SAS organization to be migrated. */
   organizationId?: string;
 }
 
-export const SasPortalMigrateOrganizationRequest: Schema.Schema<SasPortalMigrateOrganizationRequest> = Schema.suspend(() => Schema.Struct({
-  organizationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalMigrateOrganizationRequest" }) as any as Schema.Schema<SasPortalMigrateOrganizationRequest>;
+export const SasPortalMigrateOrganizationRequest: Schema.Schema<SasPortalMigrateOrganizationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      organizationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalMigrateOrganizationRequest",
+  }) as any as Schema.Schema<SasPortalMigrateOrganizationRequest>;
 
 export interface SasPortalTestPermissionsResponse {
   /** A set of permissions that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const SasPortalTestPermissionsResponse: Schema.Schema<SasPortalTestPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "SasPortalTestPermissionsResponse" }) as any as Schema.Schema<SasPortalTestPermissionsResponse>;
+export const SasPortalTestPermissionsResponse: Schema.Schema<SasPortalTestPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "SasPortalTestPermissionsResponse",
+  }) as any as Schema.Schema<SasPortalTestPermissionsResponse>;
 
 export interface SasPortalNode {
   /** Output only. Resource name. */
@@ -644,20 +891,29 @@ export interface SasPortalNode {
   displayName?: string;
 }
 
-export const SasPortalNode: Schema.Schema<SasPortalNode> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  sasUserIds: Schema.optional(Schema.Array(Schema.String)),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalNode" }) as any as Schema.Schema<SasPortalNode>;
+export const SasPortalNode: Schema.Schema<SasPortalNode> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    sasUserIds: Schema.optional(Schema.Array(Schema.String)),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SasPortalNode",
+}) as any as Schema.Schema<SasPortalNode>;
 
 export interface SasPortalMoveDeviceRequest {
   /** Required. The name of the new parent resource node or customer to reparent the device under. */
   destination?: string;
 }
 
-export const SasPortalMoveDeviceRequest: Schema.Schema<SasPortalMoveDeviceRequest> = Schema.suspend(() => Schema.Struct({
-  destination: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalMoveDeviceRequest" }) as any as Schema.Schema<SasPortalMoveDeviceRequest>;
+export const SasPortalMoveDeviceRequest: Schema.Schema<SasPortalMoveDeviceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      destination: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalMoveDeviceRequest",
+  }) as any as Schema.Schema<SasPortalMoveDeviceRequest>;
 
 export interface SasPortalTestPermissionsRequest {
   /** Required. The resource for which the permissions are being requested. */
@@ -666,10 +922,15 @@ export interface SasPortalTestPermissionsRequest {
   permissions?: Array<string>;
 }
 
-export const SasPortalTestPermissionsRequest: Schema.Schema<SasPortalTestPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(Schema.String),
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "SasPortalTestPermissionsRequest" }) as any as Schema.Schema<SasPortalTestPermissionsRequest>;
+export const SasPortalTestPermissionsRequest: Schema.Schema<SasPortalTestPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(Schema.String),
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "SasPortalTestPermissionsRequest",
+  }) as any as Schema.Schema<SasPortalTestPermissionsRequest>;
 
 export interface SasPortalListDevicesResponse {
   /** The devices that match the request. */
@@ -678,10 +939,15 @@ export interface SasPortalListDevicesResponse {
   nextPageToken?: string;
 }
 
-export const SasPortalListDevicesResponse: Schema.Schema<SasPortalListDevicesResponse> = Schema.suspend(() => Schema.Struct({
-  devices: Schema.optional(Schema.Array(SasPortalDevice)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalListDevicesResponse" }) as any as Schema.Schema<SasPortalListDevicesResponse>;
+export const SasPortalListDevicesResponse: Schema.Schema<SasPortalListDevicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      devices: Schema.optional(Schema.Array(SasPortalDevice)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalListDevicesResponse",
+  }) as any as Schema.Schema<SasPortalListDevicesResponse>;
 
 export interface SasPortalListNodesResponse {
   /** A pagination token returned from a previous call to ListNodes that indicates from where listing should continue. If the field is missing or empty, it means there is no more nodes. */
@@ -690,34 +956,50 @@ export interface SasPortalListNodesResponse {
   nodes?: Array<SasPortalNode>;
 }
 
-export const SasPortalListNodesResponse: Schema.Schema<SasPortalListNodesResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  nodes: Schema.optional(Schema.Array(SasPortalNode)),
-})).annotate({ identifier: "SasPortalListNodesResponse" }) as any as Schema.Schema<SasPortalListNodesResponse>;
+export const SasPortalListNodesResponse: Schema.Schema<SasPortalListNodesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      nodes: Schema.optional(Schema.Array(SasPortalNode)),
+    }),
+  ).annotate({
+    identifier: "SasPortalListNodesResponse",
+  }) as any as Schema.Schema<SasPortalListNodesResponse>;
 
-export interface SasPortalSetupSasAnalyticsMetadata {
-}
+export interface SasPortalSetupSasAnalyticsMetadata {}
 
-export const SasPortalSetupSasAnalyticsMetadata: Schema.Schema<SasPortalSetupSasAnalyticsMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "SasPortalSetupSasAnalyticsMetadata" }) as any as Schema.Schema<SasPortalSetupSasAnalyticsMetadata>;
+export const SasPortalSetupSasAnalyticsMetadata: Schema.Schema<SasPortalSetupSasAnalyticsMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SasPortalSetupSasAnalyticsMetadata",
+  }) as any as Schema.Schema<SasPortalSetupSasAnalyticsMetadata>;
 
 export interface SasPortalListLegacyOrganizationsResponse {
   /** Optional. Legacy SAS organizations. */
   organizations?: Array<SasPortalOrganization>;
 }
 
-export const SasPortalListLegacyOrganizationsResponse: Schema.Schema<SasPortalListLegacyOrganizationsResponse> = Schema.suspend(() => Schema.Struct({
-  organizations: Schema.optional(Schema.Array(SasPortalOrganization)),
-})).annotate({ identifier: "SasPortalListLegacyOrganizationsResponse" }) as any as Schema.Schema<SasPortalListLegacyOrganizationsResponse>;
+export const SasPortalListLegacyOrganizationsResponse: Schema.Schema<SasPortalListLegacyOrganizationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      organizations: Schema.optional(Schema.Array(SasPortalOrganization)),
+    }),
+  ).annotate({
+    identifier: "SasPortalListLegacyOrganizationsResponse",
+  }) as any as Schema.Schema<SasPortalListLegacyOrganizationsResponse>;
 
 export interface SasPortalGenerateSecretResponse {
   /** The secret generated by the string and used by ValidateInstaller. */
   secret?: string;
 }
 
-export const SasPortalGenerateSecretResponse: Schema.Schema<SasPortalGenerateSecretResponse> = Schema.suspend(() => Schema.Struct({
-  secret: Schema.optional(Schema.String),
-})).annotate({ identifier: "SasPortalGenerateSecretResponse" }) as any as Schema.Schema<SasPortalGenerateSecretResponse>;
+export const SasPortalGenerateSecretResponse: Schema.Schema<SasPortalGenerateSecretResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      secret: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SasPortalGenerateSecretResponse",
+  }) as any as Schema.Schema<SasPortalGenerateSecretResponse>;
 
 // ==========================================================================
 // Operations
@@ -741,7 +1023,12 @@ export const GetDeploymentsResponse = SasPortalDeployment;
 export type GetDeploymentsError = DefaultErrors;
 
 /** Returns a requested deployment. */
-export const getDeployments: API.OperationMethod<GetDeploymentsRequest, GetDeploymentsResponse, GetDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDeployments: API.OperationMethod<
+  GetDeploymentsRequest,
+  GetDeploymentsResponse,
+  GetDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDeploymentsRequest,
   output: GetDeploymentsResponse,
   errors: [],
@@ -755,7 +1042,10 @@ export interface DeleteDeploymentsDevicesRequest {
 export const DeleteDeploymentsDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteDeploymentsDevicesRequest>;
 
@@ -765,7 +1055,12 @@ export const DeleteDeploymentsDevicesResponse = SasPortalEmpty;
 export type DeleteDeploymentsDevicesError = DefaultErrors;
 
 /** Deletes a device. */
-export const deleteDeploymentsDevices: API.OperationMethod<DeleteDeploymentsDevicesRequest, DeleteDeploymentsDevicesResponse, DeleteDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteDeploymentsDevices: API.OperationMethod<
+  DeleteDeploymentsDevicesRequest,
+  DeleteDeploymentsDevicesResponse,
+  DeleteDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteDeploymentsDevicesRequest,
   output: DeleteDeploymentsDevicesResponse,
   errors: [],
@@ -782,7 +1077,11 @@ export const SignDeviceDeploymentsDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalSignDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}:signDevice", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}:signDevice",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SignDeviceDeploymentsDevicesRequest>;
 
@@ -792,7 +1091,12 @@ export const SignDeviceDeploymentsDevicesResponse = SasPortalEmpty;
 export type SignDeviceDeploymentsDevicesError = DefaultErrors;
 
 /** Signs a device. */
-export const signDeviceDeploymentsDevices: API.OperationMethod<SignDeviceDeploymentsDevicesRequest, SignDeviceDeploymentsDevicesResponse, SignDeviceDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signDeviceDeploymentsDevices: API.OperationMethod<
+  SignDeviceDeploymentsDevicesRequest,
+  SignDeviceDeploymentsDevicesResponse,
+  SignDeviceDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignDeviceDeploymentsDevicesRequest,
   output: SignDeviceDeploymentsDevicesResponse,
   errors: [],
@@ -806,7 +1110,10 @@ export interface GetDeploymentsDevicesRequest {
 export const GetDeploymentsDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDeploymentsDevicesRequest>;
 
@@ -816,7 +1123,12 @@ export const GetDeploymentsDevicesResponse = SasPortalDevice;
 export type GetDeploymentsDevicesError = DefaultErrors;
 
 /** Gets details about a device. */
-export const getDeploymentsDevices: API.OperationMethod<GetDeploymentsDevicesRequest, GetDeploymentsDevicesResponse, GetDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDeploymentsDevices: API.OperationMethod<
+  GetDeploymentsDevicesRequest,
+  GetDeploymentsDevicesResponse,
+  GetDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDeploymentsDevicesRequest,
   output: GetDeploymentsDevicesResponse,
   errors: [],
@@ -836,7 +1148,11 @@ export const PatchDeploymentsDevicesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchDeploymentsDevicesRequest>;
 
@@ -846,7 +1162,12 @@ export const PatchDeploymentsDevicesResponse = SasPortalDevice;
 export type PatchDeploymentsDevicesError = DefaultErrors;
 
 /** Updates a device. */
-export const patchDeploymentsDevices: API.OperationMethod<PatchDeploymentsDevicesRequest, PatchDeploymentsDevicesResponse, PatchDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchDeploymentsDevices: API.OperationMethod<
+  PatchDeploymentsDevicesRequest,
+  PatchDeploymentsDevicesResponse,
+  PatchDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchDeploymentsDevicesRequest,
   output: PatchDeploymentsDevicesResponse,
   errors: [],
@@ -863,7 +1184,11 @@ export const MoveDeploymentsDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveDeploymentsDevicesRequest>;
 
@@ -873,7 +1198,12 @@ export const MoveDeploymentsDevicesResponse = SasPortalOperation;
 export type MoveDeploymentsDevicesError = DefaultErrors;
 
 /** Moves a device under another node or customer. */
-export const moveDeploymentsDevices: API.OperationMethod<MoveDeploymentsDevicesRequest, MoveDeploymentsDevicesResponse, MoveDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveDeploymentsDevices: API.OperationMethod<
+  MoveDeploymentsDevicesRequest,
+  MoveDeploymentsDevicesResponse,
+  MoveDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveDeploymentsDevicesRequest,
   output: MoveDeploymentsDevicesResponse,
   errors: [],
@@ -890,7 +1220,11 @@ export const UpdateSignedDeploymentsDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalUpdateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}:updateSigned", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/deployments/{deploymentsId}/devices/{devicesId}:updateSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSignedDeploymentsDevicesRequest>;
 
@@ -900,7 +1234,12 @@ export const UpdateSignedDeploymentsDevicesResponse = SasPortalDevice;
 export type UpdateSignedDeploymentsDevicesError = DefaultErrors;
 
 /** Updates a signed device. */
-export const updateSignedDeploymentsDevices: API.OperationMethod<UpdateSignedDeploymentsDevicesRequest, UpdateSignedDeploymentsDevicesResponse, UpdateSignedDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSignedDeploymentsDevices: API.OperationMethod<
+  UpdateSignedDeploymentsDevicesRequest,
+  UpdateSignedDeploymentsDevicesResponse,
+  UpdateSignedDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSignedDeploymentsDevicesRequest,
   output: UpdateSignedDeploymentsDevicesResponse,
   errors: [],
@@ -914,7 +1253,11 @@ export interface GenerateSecretInstallerRequest {
 export const GenerateSecretInstallerRequest = Schema.Struct({
   body: Schema.optional(SasPortalGenerateSecretRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/installer:generateSecret", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/installer:generateSecret",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateSecretInstallerRequest>;
 
@@ -924,7 +1267,12 @@ export const GenerateSecretInstallerResponse = SasPortalGenerateSecretResponse;
 export type GenerateSecretInstallerError = DefaultErrors;
 
 /** Generates a secret to be used with the ValidateInstaller. */
-export const generateSecretInstaller: API.OperationMethod<GenerateSecretInstallerRequest, GenerateSecretInstallerResponse, GenerateSecretInstallerError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateSecretInstaller: API.OperationMethod<
+  GenerateSecretInstallerRequest,
+  GenerateSecretInstallerResponse,
+  GenerateSecretInstallerError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateSecretInstallerRequest,
   output: GenerateSecretInstallerResponse,
   errors: [],
@@ -938,7 +1286,11 @@ export interface ValidateInstallerRequest {
 export const ValidateInstallerRequest = Schema.Struct({
   body: Schema.optional(SasPortalValidateInstallerRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/installer:validate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/installer:validate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ValidateInstallerRequest>;
 
@@ -948,7 +1300,12 @@ export const ValidateInstallerResponse = SasPortalValidateInstallerResponse;
 export type ValidateInstallerError = DefaultErrors;
 
 /** Validates the identity of a Certified Professional Installer (CPI). */
-export const validateInstaller: API.OperationMethod<ValidateInstallerRequest, ValidateInstallerResponse, ValidateInstallerError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const validateInstaller: API.OperationMethod<
+  ValidateInstallerRequest,
+  ValidateInstallerResponse,
+  ValidateInstallerError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ValidateInstallerRequest,
   output: ValidateInstallerResponse,
   errors: [],
@@ -972,7 +1329,12 @@ export const SetPoliciesResponse = SasPortalPolicy;
 export type SetPoliciesError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. */
-export const setPolicies: API.OperationMethod<SetPoliciesRequest, SetPoliciesResponse, SetPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setPolicies: API.OperationMethod<
+  SetPoliciesRequest,
+  SetPoliciesResponse,
+  SetPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetPoliciesRequest,
   output: SetPoliciesResponse,
   errors: [],
@@ -996,7 +1358,12 @@ export const GetPoliciesResponse = SasPortalPolicy;
 export type GetPoliciesError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getPolicies: API.OperationMethod<GetPoliciesRequest, GetPoliciesResponse, GetPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPolicies: API.OperationMethod<
+  GetPoliciesRequest,
+  GetPoliciesResponse,
+  GetPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPoliciesRequest,
   output: GetPoliciesResponse,
   errors: [],
@@ -1020,7 +1387,12 @@ export const TestPoliciesResponse = SasPortalTestPermissionsResponse;
 export type TestPoliciesError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. */
-export const testPolicies: API.OperationMethod<TestPoliciesRequest, TestPoliciesResponse, TestPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testPolicies: API.OperationMethod<
+  TestPoliciesRequest,
+  TestPoliciesResponse,
+  TestPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestPoliciesRequest,
   output: TestPoliciesResponse,
   errors: [],
@@ -1047,7 +1419,12 @@ export const ListCustomersResponse = SasPortalListCustomersResponse;
 export type ListCustomersError = DefaultErrors;
 
 /** Returns a list of requested customers. */
-export const listCustomers: API.PaginatedOperationMethod<ListCustomersRequest, ListCustomersResponse, ListCustomersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomers: API.PaginatedOperationMethod<
+  ListCustomersRequest,
+  ListCustomersResponse,
+  ListCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersRequest,
   output: ListCustomersResponse,
   errors: [],
@@ -1065,7 +1442,11 @@ export interface MigrateOrganizationCustomersRequest {
 export const MigrateOrganizationCustomersRequest = Schema.Struct({
   body: Schema.optional(SasPortalMigrateOrganizationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers:migrateOrganization", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers:migrateOrganization",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MigrateOrganizationCustomersRequest>;
 
@@ -1075,7 +1456,12 @@ export const MigrateOrganizationCustomersResponse = SasPortalOperation;
 export type MigrateOrganizationCustomersError = DefaultErrors;
 
 /** Migrates a SAS organization to the cloud. This will create GCP projects for each deployment and associate them. The SAS Organization is linked to the gcp project that called the command. go/sas-legacy-customer-migration */
-export const migrateOrganizationCustomers: API.OperationMethod<MigrateOrganizationCustomersRequest, MigrateOrganizationCustomersResponse, MigrateOrganizationCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const migrateOrganizationCustomers: API.OperationMethod<
+  MigrateOrganizationCustomersRequest,
+  MigrateOrganizationCustomersResponse,
+  MigrateOrganizationCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MigrateOrganizationCustomersRequest,
   output: MigrateOrganizationCustomersResponse,
   errors: [],
@@ -1089,17 +1475,28 @@ export interface ProvisionDeploymentCustomersRequest {
 export const ProvisionDeploymentCustomersRequest = Schema.Struct({
   body: Schema.optional(SasPortalProvisionDeploymentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers:provisionDeployment", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers:provisionDeployment",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ProvisionDeploymentCustomersRequest>;
 
-export type ProvisionDeploymentCustomersResponse = SasPortalProvisionDeploymentResponse;
-export const ProvisionDeploymentCustomersResponse = SasPortalProvisionDeploymentResponse;
+export type ProvisionDeploymentCustomersResponse =
+  SasPortalProvisionDeploymentResponse;
+export const ProvisionDeploymentCustomersResponse =
+  SasPortalProvisionDeploymentResponse;
 
 export type ProvisionDeploymentCustomersError = DefaultErrors;
 
 /** Creates a new SAS deployment through the GCP workflow. Creates a SAS organization if an organization match is not found. */
-export const provisionDeploymentCustomers: API.OperationMethod<ProvisionDeploymentCustomersRequest, ProvisionDeploymentCustomersResponse, ProvisionDeploymentCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const provisionDeploymentCustomers: API.OperationMethod<
+  ProvisionDeploymentCustomersRequest,
+  ProvisionDeploymentCustomersResponse,
+  ProvisionDeploymentCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ProvisionDeploymentCustomersRequest,
   output: ProvisionDeploymentCustomersResponse,
   errors: [],
@@ -1119,7 +1516,11 @@ export const PatchCustomersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalCustomer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/customers/{customersId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/customers/{customersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersRequest>;
 
@@ -1129,49 +1530,67 @@ export const PatchCustomersResponse = SasPortalCustomer;
 export type PatchCustomersError = DefaultErrors;
 
 /** Updates an existing customer. */
-export const patchCustomers: API.OperationMethod<PatchCustomersRequest, PatchCustomersResponse, PatchCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCustomers: API.OperationMethod<
+  PatchCustomersRequest,
+  PatchCustomersResponse,
+  PatchCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCustomersRequest,
   output: PatchCustomersResponse,
   errors: [],
 }));
 
-export interface ListLegacyOrganizationsCustomersRequest {
-}
+export interface ListLegacyOrganizationsCustomersRequest {}
 
-export const ListLegacyOrganizationsCustomersRequest = Schema.Struct({
-}).pipe(
+export const ListLegacyOrganizationsCustomersRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "v1alpha1/customers:listLegacyOrganizations" }),
   svc,
 ) as unknown as Schema.Schema<ListLegacyOrganizationsCustomersRequest>;
 
-export type ListLegacyOrganizationsCustomersResponse = SasPortalListLegacyOrganizationsResponse;
-export const ListLegacyOrganizationsCustomersResponse = SasPortalListLegacyOrganizationsResponse;
+export type ListLegacyOrganizationsCustomersResponse =
+  SasPortalListLegacyOrganizationsResponse;
+export const ListLegacyOrganizationsCustomersResponse =
+  SasPortalListLegacyOrganizationsResponse;
 
 export type ListLegacyOrganizationsCustomersError = DefaultErrors;
 
 /** Returns a list of legacy organizations. */
-export const listLegacyOrganizationsCustomers: API.OperationMethod<ListLegacyOrganizationsCustomersRequest, ListLegacyOrganizationsCustomersResponse, ListLegacyOrganizationsCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listLegacyOrganizationsCustomers: API.OperationMethod<
+  ListLegacyOrganizationsCustomersRequest,
+  ListLegacyOrganizationsCustomersResponse,
+  ListLegacyOrganizationsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListLegacyOrganizationsCustomersRequest,
   output: ListLegacyOrganizationsCustomersResponse,
   errors: [],
 }));
 
-export interface ListGcpProjectDeploymentsCustomersRequest {
-}
+export interface ListGcpProjectDeploymentsCustomersRequest {}
 
-export const ListGcpProjectDeploymentsCustomersRequest = Schema.Struct({
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers:listGcpProjectDeployments" }),
+export const ListGcpProjectDeploymentsCustomersRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers:listGcpProjectDeployments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListGcpProjectDeploymentsCustomersRequest>;
 
-export type ListGcpProjectDeploymentsCustomersResponse = SasPortalListGcpProjectDeploymentsResponse;
-export const ListGcpProjectDeploymentsCustomersResponse = SasPortalListGcpProjectDeploymentsResponse;
+export type ListGcpProjectDeploymentsCustomersResponse =
+  SasPortalListGcpProjectDeploymentsResponse;
+export const ListGcpProjectDeploymentsCustomersResponse =
+  SasPortalListGcpProjectDeploymentsResponse;
 
 export type ListGcpProjectDeploymentsCustomersError = DefaultErrors;
 
 /** Returns a list of SAS deployments associated with current GCP project. Includes whether SAS analytics has been enabled or not. */
-export const listGcpProjectDeploymentsCustomers: API.OperationMethod<ListGcpProjectDeploymentsCustomersRequest, ListGcpProjectDeploymentsCustomersResponse, ListGcpProjectDeploymentsCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listGcpProjectDeploymentsCustomers: API.OperationMethod<
+  ListGcpProjectDeploymentsCustomersRequest,
+  ListGcpProjectDeploymentsCustomersResponse,
+  ListGcpProjectDeploymentsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListGcpProjectDeploymentsCustomersRequest,
   output: ListGcpProjectDeploymentsCustomersResponse,
   errors: [],
@@ -1195,7 +1614,12 @@ export const GetCustomersResponse = SasPortalCustomer;
 export type GetCustomersError = DefaultErrors;
 
 /** Returns a requested customer. */
-export const getCustomers: API.OperationMethod<GetCustomersRequest, GetCustomersResponse, GetCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomers: API.OperationMethod<
+  GetCustomersRequest,
+  GetCustomersResponse,
+  GetCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomersRequest,
   output: GetCustomersResponse,
   errors: [],
@@ -1209,7 +1633,11 @@ export interface SetupSasAnalyticsCustomersRequest {
 export const SetupSasAnalyticsCustomersRequest = Schema.Struct({
   body: Schema.optional(SasPortalSetupSasAnalyticsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers:setupSasAnalytics", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers:setupSasAnalytics",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetupSasAnalyticsCustomersRequest>;
 
@@ -1219,7 +1647,12 @@ export const SetupSasAnalyticsCustomersResponse = SasPortalOperation;
 export type SetupSasAnalyticsCustomersError = DefaultErrors;
 
 /** Setups the a GCP Project to receive SAS Analytics messages via GCP Pub/Sub with a subscription to BigQuery. All the Pub/Sub topics and BigQuery tables are created automatically as part of this service. */
-export const setupSasAnalyticsCustomers: API.OperationMethod<SetupSasAnalyticsCustomersRequest, SetupSasAnalyticsCustomersResponse, SetupSasAnalyticsCustomersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setupSasAnalyticsCustomers: API.OperationMethod<
+  SetupSasAnalyticsCustomersRequest,
+  SetupSasAnalyticsCustomersResponse,
+  SetupSasAnalyticsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetupSasAnalyticsCustomersRequest,
   output: SetupSasAnalyticsCustomersResponse,
   errors: [],
@@ -1236,7 +1669,11 @@ export const CreateCustomersDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/devices", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/devices",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersDevicesRequest>;
 
@@ -1246,7 +1683,12 @@ export const CreateCustomersDevicesResponse = SasPortalDevice;
 export type CreateCustomersDevicesError = DefaultErrors;
 
 /** Creates a device under a node or customer. */
-export const createCustomersDevices: API.OperationMethod<CreateCustomersDevicesRequest, CreateCustomersDevicesResponse, CreateCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersDevices: API.OperationMethod<
+  CreateCustomersDevicesRequest,
+  CreateCustomersDevicesResponse,
+  CreateCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersDevicesRequest,
   output: CreateCustomersDevicesResponse,
   errors: [],
@@ -1263,7 +1705,11 @@ export const CreateSignedCustomersDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalCreateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/devices:createSigned", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/devices:createSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSignedCustomersDevicesRequest>;
 
@@ -1273,7 +1719,12 @@ export const CreateSignedCustomersDevicesResponse = SasPortalDevice;
 export type CreateSignedCustomersDevicesError = DefaultErrors;
 
 /** Creates a signed device under a node or customer. */
-export const createSignedCustomersDevices: API.OperationMethod<CreateSignedCustomersDevicesRequest, CreateSignedCustomersDevicesResponse, CreateSignedCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSignedCustomersDevices: API.OperationMethod<
+  CreateSignedCustomersDevicesRequest,
+  CreateSignedCustomersDevicesResponse,
+  CreateSignedCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSignedCustomersDevicesRequest,
   output: CreateSignedCustomersDevicesResponse,
   errors: [],
@@ -1290,7 +1741,11 @@ export const MoveCustomersDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/devices/{devicesId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/devices/{devicesId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveCustomersDevicesRequest>;
 
@@ -1300,7 +1755,12 @@ export const MoveCustomersDevicesResponse = SasPortalOperation;
 export type MoveCustomersDevicesError = DefaultErrors;
 
 /** Moves a device under another node or customer. */
-export const moveCustomersDevices: API.OperationMethod<MoveCustomersDevicesRequest, MoveCustomersDevicesResponse, MoveCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveCustomersDevices: API.OperationMethod<
+  MoveCustomersDevicesRequest,
+  MoveCustomersDevicesResponse,
+  MoveCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveCustomersDevicesRequest,
   output: MoveCustomersDevicesResponse,
   errors: [],
@@ -1333,7 +1793,12 @@ export const ListCustomersDevicesResponse = SasPortalListDevicesResponse;
 export type ListCustomersDevicesError = DefaultErrors;
 
 /** Lists devices under a node or customer. */
-export const listCustomersDevices: API.PaginatedOperationMethod<ListCustomersDevicesRequest, ListCustomersDevicesResponse, ListCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersDevices: API.PaginatedOperationMethod<
+  ListCustomersDevicesRequest,
+  ListCustomersDevicesResponse,
+  ListCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersDevicesRequest,
   output: ListCustomersDevicesResponse,
   errors: [],
@@ -1354,7 +1819,11 @@ export const UpdateSignedCustomersDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalUpdateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/customers/{customersId}/devices/{devicesId}:updateSigned", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/customers/{customersId}/devices/{devicesId}:updateSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSignedCustomersDevicesRequest>;
 
@@ -1364,7 +1833,12 @@ export const UpdateSignedCustomersDevicesResponse = SasPortalDevice;
 export type UpdateSignedCustomersDevicesError = DefaultErrors;
 
 /** Updates a signed device. */
-export const updateSignedCustomersDevices: API.OperationMethod<UpdateSignedCustomersDevicesRequest, UpdateSignedCustomersDevicesResponse, UpdateSignedCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSignedCustomersDevices: API.OperationMethod<
+  UpdateSignedCustomersDevicesRequest,
+  UpdateSignedCustomersDevicesResponse,
+  UpdateSignedCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSignedCustomersDevicesRequest,
   output: UpdateSignedCustomersDevicesResponse,
   errors: [],
@@ -1378,7 +1852,10 @@ export interface GetCustomersDevicesRequest {
 export const GetCustomersDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/devices/{devicesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/devices/{devicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCustomersDevicesRequest>;
 
@@ -1388,7 +1865,12 @@ export const GetCustomersDevicesResponse = SasPortalDevice;
 export type GetCustomersDevicesError = DefaultErrors;
 
 /** Gets details about a device. */
-export const getCustomersDevices: API.OperationMethod<GetCustomersDevicesRequest, GetCustomersDevicesResponse, GetCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomersDevices: API.OperationMethod<
+  GetCustomersDevicesRequest,
+  GetCustomersDevicesResponse,
+  GetCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomersDevicesRequest,
   output: GetCustomersDevicesResponse,
   errors: [],
@@ -1402,7 +1884,10 @@ export interface DeleteCustomersDevicesRequest {
 export const DeleteCustomersDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha1/customers/{customersId}/devices/{devicesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha1/customers/{customersId}/devices/{devicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteCustomersDevicesRequest>;
 
@@ -1412,7 +1897,12 @@ export const DeleteCustomersDevicesResponse = SasPortalEmpty;
 export type DeleteCustomersDevicesError = DefaultErrors;
 
 /** Deletes a device. */
-export const deleteCustomersDevices: API.OperationMethod<DeleteCustomersDevicesRequest, DeleteCustomersDevicesResponse, DeleteCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCustomersDevices: API.OperationMethod<
+  DeleteCustomersDevicesRequest,
+  DeleteCustomersDevicesResponse,
+  DeleteCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCustomersDevicesRequest,
   output: DeleteCustomersDevicesResponse,
   errors: [],
@@ -1429,7 +1919,11 @@ export const SignDeviceCustomersDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalSignDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/devices/{devicesId}:signDevice", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/devices/{devicesId}:signDevice",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SignDeviceCustomersDevicesRequest>;
 
@@ -1439,7 +1933,12 @@ export const SignDeviceCustomersDevicesResponse = SasPortalEmpty;
 export type SignDeviceCustomersDevicesError = DefaultErrors;
 
 /** Signs a device. */
-export const signDeviceCustomersDevices: API.OperationMethod<SignDeviceCustomersDevicesRequest, SignDeviceCustomersDevicesResponse, SignDeviceCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signDeviceCustomersDevices: API.OperationMethod<
+  SignDeviceCustomersDevicesRequest,
+  SignDeviceCustomersDevicesResponse,
+  SignDeviceCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignDeviceCustomersDevicesRequest,
   output: SignDeviceCustomersDevicesResponse,
   errors: [],
@@ -1459,7 +1958,11 @@ export const PatchCustomersDevicesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/customers/{customersId}/devices/{devicesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/customers/{customersId}/devices/{devicesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersDevicesRequest>;
 
@@ -1469,7 +1972,12 @@ export const PatchCustomersDevicesResponse = SasPortalDevice;
 export type PatchCustomersDevicesError = DefaultErrors;
 
 /** Updates a device. */
-export const patchCustomersDevices: API.OperationMethod<PatchCustomersDevicesRequest, PatchCustomersDevicesResponse, PatchCustomersDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCustomersDevices: API.OperationMethod<
+  PatchCustomersDevicesRequest,
+  PatchCustomersDevicesResponse,
+  PatchCustomersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCustomersDevicesRequest,
   output: PatchCustomersDevicesResponse,
   errors: [],
@@ -1486,7 +1994,11 @@ export const CreateCustomersDeploymentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDeployment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/deployments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/deployments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersDeploymentsRequest>;
 
@@ -1496,7 +2008,12 @@ export const CreateCustomersDeploymentsResponse = SasPortalDeployment;
 export type CreateCustomersDeploymentsError = DefaultErrors;
 
 /** Creates a new deployment. */
-export const createCustomersDeployments: API.OperationMethod<CreateCustomersDeploymentsRequest, CreateCustomersDeploymentsResponse, CreateCustomersDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersDeployments: API.OperationMethod<
+  CreateCustomersDeploymentsRequest,
+  CreateCustomersDeploymentsResponse,
+  CreateCustomersDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersDeploymentsRequest,
   output: CreateCustomersDeploymentsResponse,
   errors: [],
@@ -1519,17 +2036,26 @@ export const ListCustomersDeploymentsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/deployments" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/deployments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCustomersDeploymentsRequest>;
 
 export type ListCustomersDeploymentsResponse = SasPortalListDeploymentsResponse;
-export const ListCustomersDeploymentsResponse = SasPortalListDeploymentsResponse;
+export const ListCustomersDeploymentsResponse =
+  SasPortalListDeploymentsResponse;
 
 export type ListCustomersDeploymentsError = DefaultErrors;
 
 /** Lists deployments. */
-export const listCustomersDeployments: API.PaginatedOperationMethod<ListCustomersDeploymentsRequest, ListCustomersDeploymentsResponse, ListCustomersDeploymentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersDeployments: API.PaginatedOperationMethod<
+  ListCustomersDeploymentsRequest,
+  ListCustomersDeploymentsResponse,
+  ListCustomersDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersDeploymentsRequest,
   output: ListCustomersDeploymentsResponse,
   errors: [],
@@ -1550,7 +2076,11 @@ export const MoveCustomersDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveDeploymentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveCustomersDeploymentsRequest>;
 
@@ -1560,7 +2090,12 @@ export const MoveCustomersDeploymentsResponse = SasPortalOperation;
 export type MoveCustomersDeploymentsError = DefaultErrors;
 
 /** Moves a deployment under another node or customer. */
-export const moveCustomersDeployments: API.OperationMethod<MoveCustomersDeploymentsRequest, MoveCustomersDeploymentsResponse, MoveCustomersDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveCustomersDeployments: API.OperationMethod<
+  MoveCustomersDeploymentsRequest,
+  MoveCustomersDeploymentsResponse,
+  MoveCustomersDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveCustomersDeploymentsRequest,
   output: MoveCustomersDeploymentsResponse,
   errors: [],
@@ -1580,7 +2115,11 @@ export const PatchCustomersDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalDeployment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersDeploymentsRequest>;
 
@@ -1590,7 +2129,12 @@ export const PatchCustomersDeploymentsResponse = SasPortalDeployment;
 export type PatchCustomersDeploymentsError = DefaultErrors;
 
 /** Updates an existing deployment. */
-export const patchCustomersDeployments: API.OperationMethod<PatchCustomersDeploymentsRequest, PatchCustomersDeploymentsResponse, PatchCustomersDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCustomersDeployments: API.OperationMethod<
+  PatchCustomersDeploymentsRequest,
+  PatchCustomersDeploymentsResponse,
+  PatchCustomersDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCustomersDeploymentsRequest,
   output: PatchCustomersDeploymentsResponse,
   errors: [],
@@ -1604,7 +2148,10 @@ export interface DeleteCustomersDeploymentsRequest {
 export const DeleteCustomersDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteCustomersDeploymentsRequest>;
 
@@ -1614,7 +2161,12 @@ export const DeleteCustomersDeploymentsResponse = SasPortalEmpty;
 export type DeleteCustomersDeploymentsError = DefaultErrors;
 
 /** Deletes a deployment. */
-export const deleteCustomersDeployments: API.OperationMethod<DeleteCustomersDeploymentsRequest, DeleteCustomersDeploymentsResponse, DeleteCustomersDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCustomersDeployments: API.OperationMethod<
+  DeleteCustomersDeploymentsRequest,
+  DeleteCustomersDeploymentsResponse,
+  DeleteCustomersDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCustomersDeploymentsRequest,
   output: DeleteCustomersDeploymentsResponse,
   errors: [],
@@ -1628,7 +2180,10 @@ export interface GetCustomersDeploymentsRequest {
 export const GetCustomersDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCustomersDeploymentsRequest>;
 
@@ -1638,7 +2193,12 @@ export const GetCustomersDeploymentsResponse = SasPortalDeployment;
 export type GetCustomersDeploymentsError = DefaultErrors;
 
 /** Returns a requested deployment. */
-export const getCustomersDeployments: API.OperationMethod<GetCustomersDeploymentsRequest, GetCustomersDeploymentsResponse, GetCustomersDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomersDeployments: API.OperationMethod<
+  GetCustomersDeploymentsRequest,
+  GetCustomersDeploymentsResponse,
+  GetCustomersDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomersDeploymentsRequest,
   output: GetCustomersDeploymentsResponse,
   errors: [],
@@ -1655,7 +2215,11 @@ export const CreateSignedCustomersDeploymentsDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalCreateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}/devices:createSigned", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}/devices:createSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSignedCustomersDeploymentsDevicesRequest>;
 
@@ -1665,7 +2229,12 @@ export const CreateSignedCustomersDeploymentsDevicesResponse = SasPortalDevice;
 export type CreateSignedCustomersDeploymentsDevicesError = DefaultErrors;
 
 /** Creates a signed device under a node or customer. */
-export const createSignedCustomersDeploymentsDevices: API.OperationMethod<CreateSignedCustomersDeploymentsDevicesRequest, CreateSignedCustomersDeploymentsDevicesResponse, CreateSignedCustomersDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSignedCustomersDeploymentsDevices: API.OperationMethod<
+  CreateSignedCustomersDeploymentsDevicesRequest,
+  CreateSignedCustomersDeploymentsDevicesResponse,
+  CreateSignedCustomersDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSignedCustomersDeploymentsDevicesRequest,
   output: CreateSignedCustomersDeploymentsDevicesResponse,
   errors: [],
@@ -1682,7 +2251,11 @@ export const CreateCustomersDeploymentsDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}/devices", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}/devices",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersDeploymentsDevicesRequest>;
 
@@ -1692,7 +2265,12 @@ export const CreateCustomersDeploymentsDevicesResponse = SasPortalDevice;
 export type CreateCustomersDeploymentsDevicesError = DefaultErrors;
 
 /** Creates a device under a node or customer. */
-export const createCustomersDeploymentsDevices: API.OperationMethod<CreateCustomersDeploymentsDevicesRequest, CreateCustomersDeploymentsDevicesResponse, CreateCustomersDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersDeploymentsDevices: API.OperationMethod<
+  CreateCustomersDeploymentsDevicesRequest,
+  CreateCustomersDeploymentsDevicesResponse,
+  CreateCustomersDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersDeploymentsDevicesRequest,
   output: CreateCustomersDeploymentsDevicesResponse,
   errors: [],
@@ -1715,17 +2293,27 @@ export const ListCustomersDeploymentsDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}/devices" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/deployments/{deploymentsId}/devices",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCustomersDeploymentsDevicesRequest>;
 
-export type ListCustomersDeploymentsDevicesResponse = SasPortalListDevicesResponse;
-export const ListCustomersDeploymentsDevicesResponse = SasPortalListDevicesResponse;
+export type ListCustomersDeploymentsDevicesResponse =
+  SasPortalListDevicesResponse;
+export const ListCustomersDeploymentsDevicesResponse =
+  SasPortalListDevicesResponse;
 
 export type ListCustomersDeploymentsDevicesError = DefaultErrors;
 
 /** Lists devices under a node or customer. */
-export const listCustomersDeploymentsDevices: API.PaginatedOperationMethod<ListCustomersDeploymentsDevicesRequest, ListCustomersDeploymentsDevicesResponse, ListCustomersDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersDeploymentsDevices: API.PaginatedOperationMethod<
+  ListCustomersDeploymentsDevicesRequest,
+  ListCustomersDeploymentsDevicesResponse,
+  ListCustomersDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersDeploymentsDevicesRequest,
   output: ListCustomersDeploymentsDevicesResponse,
   errors: [],
@@ -1749,7 +2337,11 @@ export const PatchCustomersNodesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersNodesRequest>;
 
@@ -1759,7 +2351,12 @@ export const PatchCustomersNodesResponse = SasPortalNode;
 export type PatchCustomersNodesError = DefaultErrors;
 
 /** Updates an existing node. */
-export const patchCustomersNodes: API.OperationMethod<PatchCustomersNodesRequest, PatchCustomersNodesResponse, PatchCustomersNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchCustomersNodes: API.OperationMethod<
+  PatchCustomersNodesRequest,
+  PatchCustomersNodesResponse,
+  PatchCustomersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchCustomersNodesRequest,
   output: PatchCustomersNodesResponse,
   errors: [],
@@ -1773,7 +2370,10 @@ export interface GetCustomersNodesRequest {
 export const GetCustomersNodesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCustomersNodesRequest>;
 
@@ -1783,7 +2383,12 @@ export const GetCustomersNodesResponse = SasPortalNode;
 export type GetCustomersNodesError = DefaultErrors;
 
 /** Returns a requested node. */
-export const getCustomersNodes: API.OperationMethod<GetCustomersNodesRequest, GetCustomersNodesResponse, GetCustomersNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomersNodes: API.OperationMethod<
+  GetCustomersNodesRequest,
+  GetCustomersNodesResponse,
+  GetCustomersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomersNodesRequest,
   output: GetCustomersNodesResponse,
   errors: [],
@@ -1797,7 +2402,10 @@ export interface DeleteCustomersNodesRequest {
 export const DeleteCustomersNodesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteCustomersNodesRequest>;
 
@@ -1807,7 +2415,12 @@ export const DeleteCustomersNodesResponse = SasPortalEmpty;
 export type DeleteCustomersNodesError = DefaultErrors;
 
 /** Deletes a node. */
-export const deleteCustomersNodes: API.OperationMethod<DeleteCustomersNodesRequest, DeleteCustomersNodesResponse, DeleteCustomersNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteCustomersNodes: API.OperationMethod<
+  DeleteCustomersNodesRequest,
+  DeleteCustomersNodesResponse,
+  DeleteCustomersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteCustomersNodesRequest,
   output: DeleteCustomersNodesResponse,
   errors: [],
@@ -1840,7 +2453,12 @@ export const ListCustomersNodesResponse = SasPortalListNodesResponse;
 export type ListCustomersNodesError = DefaultErrors;
 
 /** Lists nodes. */
-export const listCustomersNodes: API.PaginatedOperationMethod<ListCustomersNodesRequest, ListCustomersNodesResponse, ListCustomersNodesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersNodes: API.PaginatedOperationMethod<
+  ListCustomersNodesRequest,
+  ListCustomersNodesResponse,
+  ListCustomersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersNodesRequest,
   output: ListCustomersNodesResponse,
   errors: [],
@@ -1861,7 +2479,11 @@ export const CreateCustomersNodesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/nodes", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/nodes",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersNodesRequest>;
 
@@ -1871,7 +2493,12 @@ export const CreateCustomersNodesResponse = SasPortalNode;
 export type CreateCustomersNodesError = DefaultErrors;
 
 /** Creates a new node. */
-export const createCustomersNodes: API.OperationMethod<CreateCustomersNodesRequest, CreateCustomersNodesResponse, CreateCustomersNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersNodes: API.OperationMethod<
+  CreateCustomersNodesRequest,
+  CreateCustomersNodesResponse,
+  CreateCustomersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersNodesRequest,
   output: CreateCustomersNodesResponse,
   errors: [],
@@ -1888,7 +2515,11 @@ export const MoveCustomersNodesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveNodeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveCustomersNodesRequest>;
 
@@ -1898,7 +2529,12 @@ export const MoveCustomersNodesResponse = SasPortalOperation;
 export type MoveCustomersNodesError = DefaultErrors;
 
 /** Moves a node under another node or customer. */
-export const moveCustomersNodes: API.OperationMethod<MoveCustomersNodesRequest, MoveCustomersNodesResponse, MoveCustomersNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveCustomersNodes: API.OperationMethod<
+  MoveCustomersNodesRequest,
+  MoveCustomersNodesResponse,
+  MoveCustomersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveCustomersNodesRequest,
   output: MoveCustomersNodesResponse,
   errors: [],
@@ -1915,7 +2551,11 @@ export const CreateSignedCustomersNodesDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalCreateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/devices:createSigned", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/devices:createSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSignedCustomersNodesDevicesRequest>;
 
@@ -1925,7 +2565,12 @@ export const CreateSignedCustomersNodesDevicesResponse = SasPortalDevice;
 export type CreateSignedCustomersNodesDevicesError = DefaultErrors;
 
 /** Creates a signed device under a node or customer. */
-export const createSignedCustomersNodesDevices: API.OperationMethod<CreateSignedCustomersNodesDevicesRequest, CreateSignedCustomersNodesDevicesResponse, CreateSignedCustomersNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSignedCustomersNodesDevices: API.OperationMethod<
+  CreateSignedCustomersNodesDevicesRequest,
+  CreateSignedCustomersNodesDevicesResponse,
+  CreateSignedCustomersNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSignedCustomersNodesDevicesRequest,
   output: CreateSignedCustomersNodesDevicesResponse,
   errors: [],
@@ -1942,7 +2587,11 @@ export const CreateCustomersNodesDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/devices", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/devices",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersNodesDevicesRequest>;
 
@@ -1952,7 +2601,12 @@ export const CreateCustomersNodesDevicesResponse = SasPortalDevice;
 export type CreateCustomersNodesDevicesError = DefaultErrors;
 
 /** Creates a device under a node or customer. */
-export const createCustomersNodesDevices: API.OperationMethod<CreateCustomersNodesDevicesRequest, CreateCustomersNodesDevicesResponse, CreateCustomersNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersNodesDevices: API.OperationMethod<
+  CreateCustomersNodesDevicesRequest,
+  CreateCustomersNodesDevicesResponse,
+  CreateCustomersNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersNodesDevicesRequest,
   output: CreateCustomersNodesDevicesResponse,
   errors: [],
@@ -1975,7 +2629,10 @@ export const ListCustomersNodesDevicesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/devices" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/devices",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCustomersNodesDevicesRequest>;
 
@@ -1985,7 +2642,12 @@ export const ListCustomersNodesDevicesResponse = SasPortalListDevicesResponse;
 export type ListCustomersNodesDevicesError = DefaultErrors;
 
 /** Lists devices under a node or customer. */
-export const listCustomersNodesDevices: API.PaginatedOperationMethod<ListCustomersNodesDevicesRequest, ListCustomersNodesDevicesResponse, ListCustomersNodesDevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersNodesDevices: API.PaginatedOperationMethod<
+  ListCustomersNodesDevicesRequest,
+  ListCustomersNodesDevicesResponse,
+  ListCustomersNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersNodesDevicesRequest,
   output: ListCustomersNodesDevicesResponse,
   errors: [],
@@ -2012,17 +2674,27 @@ export const ListCustomersNodesDeploymentsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/deployments" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/deployments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCustomersNodesDeploymentsRequest>;
 
-export type ListCustomersNodesDeploymentsResponse = SasPortalListDeploymentsResponse;
-export const ListCustomersNodesDeploymentsResponse = SasPortalListDeploymentsResponse;
+export type ListCustomersNodesDeploymentsResponse =
+  SasPortalListDeploymentsResponse;
+export const ListCustomersNodesDeploymentsResponse =
+  SasPortalListDeploymentsResponse;
 
 export type ListCustomersNodesDeploymentsError = DefaultErrors;
 
 /** Lists deployments. */
-export const listCustomersNodesDeployments: API.PaginatedOperationMethod<ListCustomersNodesDeploymentsRequest, ListCustomersNodesDeploymentsResponse, ListCustomersNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersNodesDeployments: API.PaginatedOperationMethod<
+  ListCustomersNodesDeploymentsRequest,
+  ListCustomersNodesDeploymentsResponse,
+  ListCustomersNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersNodesDeploymentsRequest,
   output: ListCustomersNodesDeploymentsResponse,
   errors: [],
@@ -2043,7 +2715,11 @@ export const CreateCustomersNodesDeploymentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDeployment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/deployments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/deployments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersNodesDeploymentsRequest>;
 
@@ -2053,7 +2729,12 @@ export const CreateCustomersNodesDeploymentsResponse = SasPortalDeployment;
 export type CreateCustomersNodesDeploymentsError = DefaultErrors;
 
 /** Creates a new deployment. */
-export const createCustomersNodesDeployments: API.OperationMethod<CreateCustomersNodesDeploymentsRequest, CreateCustomersNodesDeploymentsResponse, CreateCustomersNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersNodesDeployments: API.OperationMethod<
+  CreateCustomersNodesDeploymentsRequest,
+  CreateCustomersNodesDeploymentsResponse,
+  CreateCustomersNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersNodesDeploymentsRequest,
   output: CreateCustomersNodesDeploymentsResponse,
   errors: [],
@@ -2076,7 +2757,10 @@ export const ListCustomersNodesNodesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/nodes" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/nodes",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCustomersNodesNodesRequest>;
 
@@ -2086,7 +2770,12 @@ export const ListCustomersNodesNodesResponse = SasPortalListNodesResponse;
 export type ListCustomersNodesNodesError = DefaultErrors;
 
 /** Lists nodes. */
-export const listCustomersNodesNodes: API.PaginatedOperationMethod<ListCustomersNodesNodesRequest, ListCustomersNodesNodesResponse, ListCustomersNodesNodesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCustomersNodesNodes: API.PaginatedOperationMethod<
+  ListCustomersNodesNodesRequest,
+  ListCustomersNodesNodesResponse,
+  ListCustomersNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCustomersNodesNodesRequest,
   output: ListCustomersNodesNodesResponse,
   errors: [],
@@ -2107,7 +2796,11 @@ export const CreateCustomersNodesNodesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/nodes", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/customers/{customersId}/nodes/{nodesId}/nodes",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateCustomersNodesNodesRequest>;
 
@@ -2117,7 +2810,12 @@ export const CreateCustomersNodesNodesResponse = SasPortalNode;
 export type CreateCustomersNodesNodesError = DefaultErrors;
 
 /** Creates a new node. */
-export const createCustomersNodesNodes: API.OperationMethod<CreateCustomersNodesNodesRequest, CreateCustomersNodesNodesResponse, CreateCustomersNodesNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createCustomersNodesNodes: API.OperationMethod<
+  CreateCustomersNodesNodesRequest,
+  CreateCustomersNodesNodesResponse,
+  CreateCustomersNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateCustomersNodesNodesRequest,
   output: CreateCustomersNodesNodesResponse,
   errors: [],
@@ -2141,7 +2839,12 @@ export const GetNodesResponse = SasPortalNode;
 export type GetNodesError = DefaultErrors;
 
 /** Returns a requested node. */
-export const getNodes: API.OperationMethod<GetNodesRequest, GetNodesResponse, GetNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getNodes: API.OperationMethod<
+  GetNodesRequest,
+  GetNodesResponse,
+  GetNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetNodesRequest,
   output: GetNodesResponse,
   errors: [],
@@ -2158,7 +2861,11 @@ export const CreateNodesDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/devices", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/devices",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateNodesDevicesRequest>;
 
@@ -2168,7 +2875,12 @@ export const CreateNodesDevicesResponse = SasPortalDevice;
 export type CreateNodesDevicesError = DefaultErrors;
 
 /** Creates a device under a node or customer. */
-export const createNodesDevices: API.OperationMethod<CreateNodesDevicesRequest, CreateNodesDevicesResponse, CreateNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createNodesDevices: API.OperationMethod<
+  CreateNodesDevicesRequest,
+  CreateNodesDevicesResponse,
+  CreateNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateNodesDevicesRequest,
   output: CreateNodesDevicesResponse,
   errors: [],
@@ -2185,7 +2897,11 @@ export const CreateSignedNodesDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalCreateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/devices:createSigned", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/devices:createSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSignedNodesDevicesRequest>;
 
@@ -2195,7 +2911,12 @@ export const CreateSignedNodesDevicesResponse = SasPortalDevice;
 export type CreateSignedNodesDevicesError = DefaultErrors;
 
 /** Creates a signed device under a node or customer. */
-export const createSignedNodesDevices: API.OperationMethod<CreateSignedNodesDevicesRequest, CreateSignedNodesDevicesResponse, CreateSignedNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSignedNodesDevices: API.OperationMethod<
+  CreateSignedNodesDevicesRequest,
+  CreateSignedNodesDevicesResponse,
+  CreateSignedNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSignedNodesDevicesRequest,
   output: CreateSignedNodesDevicesResponse,
   errors: [],
@@ -2228,7 +2949,12 @@ export const ListNodesDevicesResponse = SasPortalListDevicesResponse;
 export type ListNodesDevicesError = DefaultErrors;
 
 /** Lists devices under a node or customer. */
-export const listNodesDevices: API.PaginatedOperationMethod<ListNodesDevicesRequest, ListNodesDevicesResponse, ListNodesDevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listNodesDevices: API.PaginatedOperationMethod<
+  ListNodesDevicesRequest,
+  ListNodesDevicesResponse,
+  ListNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListNodesDevicesRequest,
   output: ListNodesDevicesResponse,
   errors: [],
@@ -2249,7 +2975,11 @@ export const UpdateSignedNodesDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalUpdateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}:updateSigned", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}:updateSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateSignedNodesDevicesRequest>;
 
@@ -2259,7 +2989,12 @@ export const UpdateSignedNodesDevicesResponse = SasPortalDevice;
 export type UpdateSignedNodesDevicesError = DefaultErrors;
 
 /** Updates a signed device. */
-export const updateSignedNodesDevices: API.OperationMethod<UpdateSignedNodesDevicesRequest, UpdateSignedNodesDevicesResponse, UpdateSignedNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateSignedNodesDevices: API.OperationMethod<
+  UpdateSignedNodesDevicesRequest,
+  UpdateSignedNodesDevicesResponse,
+  UpdateSignedNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateSignedNodesDevicesRequest,
   output: UpdateSignedNodesDevicesResponse,
   errors: [],
@@ -2276,7 +3011,11 @@ export const MoveNodesDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveNodesDevicesRequest>;
 
@@ -2286,7 +3025,12 @@ export const MoveNodesDevicesResponse = SasPortalOperation;
 export type MoveNodesDevicesError = DefaultErrors;
 
 /** Moves a device under another node or customer. */
-export const moveNodesDevices: API.OperationMethod<MoveNodesDevicesRequest, MoveNodesDevicesResponse, MoveNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveNodesDevices: API.OperationMethod<
+  MoveNodesDevicesRequest,
+  MoveNodesDevicesResponse,
+  MoveNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveNodesDevicesRequest,
   output: MoveNodesDevicesResponse,
   errors: [],
@@ -2306,7 +3050,11 @@ export const PatchNodesDevicesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchNodesDevicesRequest>;
 
@@ -2316,7 +3064,12 @@ export const PatchNodesDevicesResponse = SasPortalDevice;
 export type PatchNodesDevicesError = DefaultErrors;
 
 /** Updates a device. */
-export const patchNodesDevices: API.OperationMethod<PatchNodesDevicesRequest, PatchNodesDevicesResponse, PatchNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchNodesDevices: API.OperationMethod<
+  PatchNodesDevicesRequest,
+  PatchNodesDevicesResponse,
+  PatchNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchNodesDevicesRequest,
   output: PatchNodesDevicesResponse,
   errors: [],
@@ -2330,7 +3083,10 @@ export interface DeleteNodesDevicesRequest {
 export const DeleteNodesDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteNodesDevicesRequest>;
 
@@ -2340,7 +3096,12 @@ export const DeleteNodesDevicesResponse = SasPortalEmpty;
 export type DeleteNodesDevicesError = DefaultErrors;
 
 /** Deletes a device. */
-export const deleteNodesDevices: API.OperationMethod<DeleteNodesDevicesRequest, DeleteNodesDevicesResponse, DeleteNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteNodesDevices: API.OperationMethod<
+  DeleteNodesDevicesRequest,
+  DeleteNodesDevicesResponse,
+  DeleteNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteNodesDevicesRequest,
   output: DeleteNodesDevicesResponse,
   errors: [],
@@ -2357,7 +3118,11 @@ export const SignDeviceNodesDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalSignDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}:signDevice", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}:signDevice",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SignDeviceNodesDevicesRequest>;
 
@@ -2367,7 +3132,12 @@ export const SignDeviceNodesDevicesResponse = SasPortalEmpty;
 export type SignDeviceNodesDevicesError = DefaultErrors;
 
 /** Signs a device. */
-export const signDeviceNodesDevices: API.OperationMethod<SignDeviceNodesDevicesRequest, SignDeviceNodesDevicesResponse, SignDeviceNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signDeviceNodesDevices: API.OperationMethod<
+  SignDeviceNodesDevicesRequest,
+  SignDeviceNodesDevicesResponse,
+  SignDeviceNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignDeviceNodesDevicesRequest,
   output: SignDeviceNodesDevicesResponse,
   errors: [],
@@ -2381,7 +3151,10 @@ export interface GetNodesDevicesRequest {
 export const GetNodesDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/nodes/{nodesId}/devices/{devicesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetNodesDevicesRequest>;
 
@@ -2391,7 +3164,12 @@ export const GetNodesDevicesResponse = SasPortalDevice;
 export type GetNodesDevicesError = DefaultErrors;
 
 /** Gets details about a device. */
-export const getNodesDevices: API.OperationMethod<GetNodesDevicesRequest, GetNodesDevicesResponse, GetNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getNodesDevices: API.OperationMethod<
+  GetNodesDevicesRequest,
+  GetNodesDevicesResponse,
+  GetNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetNodesDevicesRequest,
   output: GetNodesDevicesResponse,
   errors: [],
@@ -2408,7 +3186,11 @@ export const MoveNodesDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveDeploymentRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveNodesDeploymentsRequest>;
 
@@ -2418,7 +3200,12 @@ export const MoveNodesDeploymentsResponse = SasPortalOperation;
 export type MoveNodesDeploymentsError = DefaultErrors;
 
 /** Moves a deployment under another node or customer. */
-export const moveNodesDeployments: API.OperationMethod<MoveNodesDeploymentsRequest, MoveNodesDeploymentsResponse, MoveNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveNodesDeployments: API.OperationMethod<
+  MoveNodesDeploymentsRequest,
+  MoveNodesDeploymentsResponse,
+  MoveNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveNodesDeploymentsRequest,
   output: MoveNodesDeploymentsResponse,
   errors: [],
@@ -2451,7 +3238,12 @@ export const ListNodesDeploymentsResponse = SasPortalListDeploymentsResponse;
 export type ListNodesDeploymentsError = DefaultErrors;
 
 /** Lists deployments. */
-export const listNodesDeployments: API.PaginatedOperationMethod<ListNodesDeploymentsRequest, ListNodesDeploymentsResponse, ListNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listNodesDeployments: API.PaginatedOperationMethod<
+  ListNodesDeploymentsRequest,
+  ListNodesDeploymentsResponse,
+  ListNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListNodesDeploymentsRequest,
   output: ListNodesDeploymentsResponse,
   errors: [],
@@ -2469,7 +3261,10 @@ export interface DeleteNodesDeploymentsRequest {
 export const DeleteNodesDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteNodesDeploymentsRequest>;
 
@@ -2479,7 +3274,12 @@ export const DeleteNodesDeploymentsResponse = SasPortalEmpty;
 export type DeleteNodesDeploymentsError = DefaultErrors;
 
 /** Deletes a deployment. */
-export const deleteNodesDeployments: API.OperationMethod<DeleteNodesDeploymentsRequest, DeleteNodesDeploymentsResponse, DeleteNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteNodesDeployments: API.OperationMethod<
+  DeleteNodesDeploymentsRequest,
+  DeleteNodesDeploymentsResponse,
+  DeleteNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteNodesDeploymentsRequest,
   output: DeleteNodesDeploymentsResponse,
   errors: [],
@@ -2493,7 +3293,10 @@ export interface GetNodesDeploymentsRequest {
 export const GetNodesDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetNodesDeploymentsRequest>;
 
@@ -2503,7 +3306,12 @@ export const GetNodesDeploymentsResponse = SasPortalDeployment;
 export type GetNodesDeploymentsError = DefaultErrors;
 
 /** Returns a requested deployment. */
-export const getNodesDeployments: API.OperationMethod<GetNodesDeploymentsRequest, GetNodesDeploymentsResponse, GetNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getNodesDeployments: API.OperationMethod<
+  GetNodesDeploymentsRequest,
+  GetNodesDeploymentsResponse,
+  GetNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetNodesDeploymentsRequest,
   output: GetNodesDeploymentsResponse,
   errors: [],
@@ -2523,7 +3331,11 @@ export const PatchNodesDeploymentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalDeployment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchNodesDeploymentsRequest>;
 
@@ -2533,7 +3345,12 @@ export const PatchNodesDeploymentsResponse = SasPortalDeployment;
 export type PatchNodesDeploymentsError = DefaultErrors;
 
 /** Updates an existing deployment. */
-export const patchNodesDeployments: API.OperationMethod<PatchNodesDeploymentsRequest, PatchNodesDeploymentsResponse, PatchNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchNodesDeployments: API.OperationMethod<
+  PatchNodesDeploymentsRequest,
+  PatchNodesDeploymentsResponse,
+  PatchNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchNodesDeploymentsRequest,
   output: PatchNodesDeploymentsResponse,
   errors: [],
@@ -2556,7 +3373,10 @@ export const ListNodesDeploymentsDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}/devices" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}/devices",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListNodesDeploymentsDevicesRequest>;
 
@@ -2566,7 +3386,12 @@ export const ListNodesDeploymentsDevicesResponse = SasPortalListDevicesResponse;
 export type ListNodesDeploymentsDevicesError = DefaultErrors;
 
 /** Lists devices under a node or customer. */
-export const listNodesDeploymentsDevices: API.PaginatedOperationMethod<ListNodesDeploymentsDevicesRequest, ListNodesDeploymentsDevicesResponse, ListNodesDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listNodesDeploymentsDevices: API.PaginatedOperationMethod<
+  ListNodesDeploymentsDevicesRequest,
+  ListNodesDeploymentsDevicesResponse,
+  ListNodesDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListNodesDeploymentsDevicesRequest,
   output: ListNodesDeploymentsDevicesResponse,
   errors: [],
@@ -2587,7 +3412,11 @@ export const CreateNodesDeploymentsDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}/devices", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}/devices",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateNodesDeploymentsDevicesRequest>;
 
@@ -2597,7 +3426,12 @@ export const CreateNodesDeploymentsDevicesResponse = SasPortalDevice;
 export type CreateNodesDeploymentsDevicesError = DefaultErrors;
 
 /** Creates a device under a node or customer. */
-export const createNodesDeploymentsDevices: API.OperationMethod<CreateNodesDeploymentsDevicesRequest, CreateNodesDeploymentsDevicesResponse, CreateNodesDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createNodesDeploymentsDevices: API.OperationMethod<
+  CreateNodesDeploymentsDevicesRequest,
+  CreateNodesDeploymentsDevicesResponse,
+  CreateNodesDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateNodesDeploymentsDevicesRequest,
   output: CreateNodesDeploymentsDevicesResponse,
   errors: [],
@@ -2614,7 +3448,11 @@ export const CreateSignedNodesDeploymentsDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalCreateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}/devices:createSigned", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/deployments/{deploymentsId}/devices:createSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSignedNodesDeploymentsDevicesRequest>;
 
@@ -2624,7 +3462,12 @@ export const CreateSignedNodesDeploymentsDevicesResponse = SasPortalDevice;
 export type CreateSignedNodesDeploymentsDevicesError = DefaultErrors;
 
 /** Creates a signed device under a node or customer. */
-export const createSignedNodesDeploymentsDevices: API.OperationMethod<CreateSignedNodesDeploymentsDevicesRequest, CreateSignedNodesDeploymentsDevicesResponse, CreateSignedNodesDeploymentsDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSignedNodesDeploymentsDevices: API.OperationMethod<
+  CreateSignedNodesDeploymentsDevicesRequest,
+  CreateSignedNodesDeploymentsDevicesResponse,
+  CreateSignedNodesDeploymentsDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSignedNodesDeploymentsDevicesRequest,
   output: CreateSignedNodesDeploymentsDevicesResponse,
   errors: [],
@@ -2644,7 +3487,11 @@ export const PatchNodesNodesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchNodesNodesRequest>;
 
@@ -2654,7 +3501,12 @@ export const PatchNodesNodesResponse = SasPortalNode;
 export type PatchNodesNodesError = DefaultErrors;
 
 /** Updates an existing node. */
-export const patchNodesNodes: API.OperationMethod<PatchNodesNodesRequest, PatchNodesNodesResponse, PatchNodesNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchNodesNodes: API.OperationMethod<
+  PatchNodesNodesRequest,
+  PatchNodesNodesResponse,
+  PatchNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchNodesNodesRequest,
   output: PatchNodesNodesResponse,
   errors: [],
@@ -2678,7 +3530,12 @@ export const GetNodesNodesResponse = SasPortalNode;
 export type GetNodesNodesError = DefaultErrors;
 
 /** Returns a requested node. */
-export const getNodesNodes: API.OperationMethod<GetNodesNodesRequest, GetNodesNodesResponse, GetNodesNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getNodesNodes: API.OperationMethod<
+  GetNodesNodesRequest,
+  GetNodesNodesResponse,
+  GetNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetNodesNodesRequest,
   output: GetNodesNodesResponse,
   errors: [],
@@ -2692,7 +3549,10 @@ export interface DeleteNodesNodesRequest {
 export const DeleteNodesNodesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteNodesNodesRequest>;
 
@@ -2702,7 +3562,12 @@ export const DeleteNodesNodesResponse = SasPortalEmpty;
 export type DeleteNodesNodesError = DefaultErrors;
 
 /** Deletes a node. */
-export const deleteNodesNodes: API.OperationMethod<DeleteNodesNodesRequest, DeleteNodesNodesResponse, DeleteNodesNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteNodesNodes: API.OperationMethod<
+  DeleteNodesNodesRequest,
+  DeleteNodesNodesResponse,
+  DeleteNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteNodesNodesRequest,
   output: DeleteNodesNodesResponse,
   errors: [],
@@ -2735,7 +3600,12 @@ export const ListNodesNodesResponse = SasPortalListNodesResponse;
 export type ListNodesNodesError = DefaultErrors;
 
 /** Lists nodes. */
-export const listNodesNodes: API.PaginatedOperationMethod<ListNodesNodesRequest, ListNodesNodesResponse, ListNodesNodesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listNodesNodes: API.PaginatedOperationMethod<
+  ListNodesNodesRequest,
+  ListNodesNodesResponse,
+  ListNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListNodesNodesRequest,
   output: ListNodesNodesResponse,
   errors: [],
@@ -2756,7 +3626,11 @@ export const CreateNodesNodesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/nodes", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/nodes",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateNodesNodesRequest>;
 
@@ -2766,7 +3640,12 @@ export const CreateNodesNodesResponse = SasPortalNode;
 export type CreateNodesNodesError = DefaultErrors;
 
 /** Creates a new node. */
-export const createNodesNodes: API.OperationMethod<CreateNodesNodesRequest, CreateNodesNodesResponse, CreateNodesNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createNodesNodes: API.OperationMethod<
+  CreateNodesNodesRequest,
+  CreateNodesNodesResponse,
+  CreateNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateNodesNodesRequest,
   output: CreateNodesNodesResponse,
   errors: [],
@@ -2783,7 +3662,11 @@ export const MoveNodesNodesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveNodeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}:move", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}:move",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<MoveNodesNodesRequest>;
 
@@ -2793,7 +3676,12 @@ export const MoveNodesNodesResponse = SasPortalOperation;
 export type MoveNodesNodesError = DefaultErrors;
 
 /** Moves a node under another node or customer. */
-export const moveNodesNodes: API.OperationMethod<MoveNodesNodesRequest, MoveNodesNodesResponse, MoveNodesNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const moveNodesNodes: API.OperationMethod<
+  MoveNodesNodesRequest,
+  MoveNodesNodesResponse,
+  MoveNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MoveNodesNodesRequest,
   output: MoveNodesNodesResponse,
   errors: [],
@@ -2810,7 +3698,11 @@ export const CreateNodesNodesNodesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/nodes", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/nodes",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateNodesNodesNodesRequest>;
 
@@ -2820,7 +3712,12 @@ export const CreateNodesNodesNodesResponse = SasPortalNode;
 export type CreateNodesNodesNodesError = DefaultErrors;
 
 /** Creates a new node. */
-export const createNodesNodesNodes: API.OperationMethod<CreateNodesNodesNodesRequest, CreateNodesNodesNodesResponse, CreateNodesNodesNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createNodesNodesNodes: API.OperationMethod<
+  CreateNodesNodesNodesRequest,
+  CreateNodesNodesNodesResponse,
+  CreateNodesNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateNodesNodesNodesRequest,
   output: CreateNodesNodesNodesResponse,
   errors: [],
@@ -2843,7 +3740,10 @@ export const ListNodesNodesNodesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/nodes" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/nodes",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListNodesNodesNodesRequest>;
 
@@ -2853,7 +3753,12 @@ export const ListNodesNodesNodesResponse = SasPortalListNodesResponse;
 export type ListNodesNodesNodesError = DefaultErrors;
 
 /** Lists nodes. */
-export const listNodesNodesNodes: API.PaginatedOperationMethod<ListNodesNodesNodesRequest, ListNodesNodesNodesResponse, ListNodesNodesNodesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listNodesNodesNodes: API.PaginatedOperationMethod<
+  ListNodesNodesNodesRequest,
+  ListNodesNodesNodesResponse,
+  ListNodesNodesNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListNodesNodesNodesRequest,
   output: ListNodesNodesNodesResponse,
   errors: [],
@@ -2874,7 +3779,11 @@ export const CreateSignedNodesNodesDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalCreateSignedDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/devices:createSigned", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/devices:createSigned",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateSignedNodesNodesDevicesRequest>;
 
@@ -2884,7 +3793,12 @@ export const CreateSignedNodesNodesDevicesResponse = SasPortalDevice;
 export type CreateSignedNodesNodesDevicesError = DefaultErrors;
 
 /** Creates a signed device under a node or customer. */
-export const createSignedNodesNodesDevices: API.OperationMethod<CreateSignedNodesNodesDevicesRequest, CreateSignedNodesNodesDevicesResponse, CreateSignedNodesNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSignedNodesNodesDevices: API.OperationMethod<
+  CreateSignedNodesNodesDevicesRequest,
+  CreateSignedNodesNodesDevicesResponse,
+  CreateSignedNodesNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSignedNodesNodesDevicesRequest,
   output: CreateSignedNodesNodesDevicesResponse,
   errors: [],
@@ -2907,7 +3821,10 @@ export const ListNodesNodesDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/devices" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/devices",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListNodesNodesDevicesRequest>;
 
@@ -2917,7 +3834,12 @@ export const ListNodesNodesDevicesResponse = SasPortalListDevicesResponse;
 export type ListNodesNodesDevicesError = DefaultErrors;
 
 /** Lists devices under a node or customer. */
-export const listNodesNodesDevices: API.PaginatedOperationMethod<ListNodesNodesDevicesRequest, ListNodesNodesDevicesResponse, ListNodesNodesDevicesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listNodesNodesDevices: API.PaginatedOperationMethod<
+  ListNodesNodesDevicesRequest,
+  ListNodesNodesDevicesResponse,
+  ListNodesNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListNodesNodesDevicesRequest,
   output: ListNodesNodesDevicesResponse,
   errors: [],
@@ -2938,7 +3860,11 @@ export const CreateNodesNodesDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/devices", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/devices",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateNodesNodesDevicesRequest>;
 
@@ -2948,7 +3874,12 @@ export const CreateNodesNodesDevicesResponse = SasPortalDevice;
 export type CreateNodesNodesDevicesError = DefaultErrors;
 
 /** Creates a device under a node or customer. */
-export const createNodesNodesDevices: API.OperationMethod<CreateNodesNodesDevicesRequest, CreateNodesNodesDevicesResponse, CreateNodesNodesDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createNodesNodesDevices: API.OperationMethod<
+  CreateNodesNodesDevicesRequest,
+  CreateNodesNodesDevicesResponse,
+  CreateNodesNodesDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateNodesNodesDevicesRequest,
   output: CreateNodesNodesDevicesResponse,
   errors: [],
@@ -2971,17 +3902,27 @@ export const ListNodesNodesDeploymentsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/deployments" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/deployments",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListNodesNodesDeploymentsRequest>;
 
-export type ListNodesNodesDeploymentsResponse = SasPortalListDeploymentsResponse;
-export const ListNodesNodesDeploymentsResponse = SasPortalListDeploymentsResponse;
+export type ListNodesNodesDeploymentsResponse =
+  SasPortalListDeploymentsResponse;
+export const ListNodesNodesDeploymentsResponse =
+  SasPortalListDeploymentsResponse;
 
 export type ListNodesNodesDeploymentsError = DefaultErrors;
 
 /** Lists deployments. */
-export const listNodesNodesDeployments: API.PaginatedOperationMethod<ListNodesNodesDeploymentsRequest, ListNodesNodesDeploymentsResponse, ListNodesNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listNodesNodesDeployments: API.PaginatedOperationMethod<
+  ListNodesNodesDeploymentsRequest,
+  ListNodesNodesDeploymentsResponse,
+  ListNodesNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListNodesNodesDeploymentsRequest,
   output: ListNodesNodesDeploymentsResponse,
   errors: [],
@@ -3002,7 +3943,11 @@ export const CreateNodesNodesDeploymentsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(SasPortalDeployment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/deployments", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha1/nodes/{nodesId}/nodes/{nodesId1}/deployments",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateNodesNodesDeploymentsRequest>;
 
@@ -3012,9 +3957,13 @@ export const CreateNodesNodesDeploymentsResponse = SasPortalDeployment;
 export type CreateNodesNodesDeploymentsError = DefaultErrors;
 
 /** Creates a new deployment. */
-export const createNodesNodesDeployments: API.OperationMethod<CreateNodesNodesDeploymentsRequest, CreateNodesNodesDeploymentsResponse, CreateNodesNodesDeploymentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createNodesNodesDeployments: API.OperationMethod<
+  CreateNodesNodesDeploymentsRequest,
+  CreateNodesNodesDeploymentsResponse,
+  CreateNodesNodesDeploymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateNodesNodesDeploymentsRequest,
   output: CreateNodesNodesDeploymentsResponse,
   errors: [],
 }));
-

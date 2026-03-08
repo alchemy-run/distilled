@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Connection
@@ -27,9 +25,13 @@ export interface GetConnectionRequest {
 
 export const GetConnectionRequest = Schema.Struct({
   connectionId: Schema.String.pipe(T.HttpPath("connectionId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/connections/{connectionId}" })) as unknown as Schema.Schema<GetConnectionRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/connections/{connectionId}",
+  }),
+) as unknown as Schema.Schema<GetConnectionRequest>;
 
 export interface GetConnectionResponse {
   /** Identifier */
@@ -61,11 +63,26 @@ export const GetConnectionResponse = Schema.Struct({
   maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
   maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
   pageUrls: Schema.optional(Schema.Array(Schema.String)),
-  urlReportedMalicious: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ id: "id", addedAt: "added_at", firstSeenAt: "first_seen_at", host: "host", lastSeenAt: "last_seen_at", url: "url", urlContainsCdnCgiPath: "url_contains_cdn_cgi_path", domainReportedMalicious: "domain_reported_malicious", firstPageUrl: "first_page_url", maliciousDomainCategories: "malicious_domain_categories", maliciousUrlCategories: "malicious_url_categories", pageUrls: "page_urls", urlReportedMalicious: "url_reported_malicious" })) as unknown as Schema.Schema<GetConnectionResponse>;
+  urlReportedMalicious: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    addedAt: "added_at",
+    firstSeenAt: "first_seen_at",
+    host: "host",
+    lastSeenAt: "last_seen_at",
+    url: "url",
+    urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+    domainReportedMalicious: "domain_reported_malicious",
+    firstPageUrl: "first_page_url",
+    maliciousDomainCategories: "malicious_domain_categories",
+    maliciousUrlCategories: "malicious_url_categories",
+    pageUrls: "page_urls",
+    urlReportedMalicious: "url_reported_malicious",
+  }),
+) as unknown as Schema.Schema<GetConnectionResponse>;
 
-export type GetConnectionError =
-  | DefaultErrors;
+export type GetConnectionError = DefaultErrors;
 
 export const getConnection: API.OperationMethod<
   GetConnectionRequest,
@@ -109,41 +126,81 @@ export interface ListConnectionsRequest {
 
 export const ListConnectionsRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("direction")),
-  excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("exclude_cdn_cgi")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("exclude_cdn_cgi"),
+  ),
   excludeUrls: Schema.optional(Schema.String).pipe(T.HttpQuery("exclude_urls")),
   export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
   hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
-  orderBy: Schema.optional(Schema.Literals(["first_seen_at", "last_seen_at"])).pipe(T.HttpQuery("order_by")),
+  orderBy: Schema.optional(
+    Schema.Literals(["first_seen_at", "last_seen_at"]),
+  ).pipe(T.HttpQuery("order_by")),
   page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
   pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("prioritize_malicious")),
+  prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("prioritize_malicious"),
+  ),
   status: Schema.optional(Schema.String).pipe(T.HttpQuery("status")),
-  urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/connections" })) as unknown as Schema.Schema<ListConnectionsRequest>;
+  urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/connections" }),
+) as unknown as Schema.Schema<ListConnectionsRequest>;
 
-export type ListConnectionsResponse = { id: string; addedAt: string; firstSeenAt: string; host: string; lastSeenAt: string; url: string; urlContainsCdnCgiPath: boolean; domainReportedMalicious?: boolean; firstPageUrl?: string; maliciousDomainCategories?: string[]; maliciousUrlCategories?: string[]; pageUrls?: string[]; urlReportedMalicious?: boolean }[];
+export type ListConnectionsResponse = {
+  id: string;
+  addedAt: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  url: string;
+  urlContainsCdnCgiPath: boolean;
+  domainReportedMalicious?: boolean;
+  firstPageUrl?: string;
+  maliciousDomainCategories?: string[];
+  maliciousUrlCategories?: string[];
+  pageUrls?: string[];
+  urlReportedMalicious?: boolean;
+}[];
 
-export const ListConnectionsResponse = Schema.Array(Schema.Struct({
-  id: Schema.String,
-  addedAt: Schema.String,
-  firstSeenAt: Schema.String,
-  host: Schema.String,
-  lastSeenAt: Schema.String,
-  url: Schema.String,
-  urlContainsCdnCgiPath: Schema.Boolean,
-  domainReportedMalicious: Schema.optional(Schema.Boolean),
-  firstPageUrl: Schema.optional(Schema.String),
-  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
-  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)),
-  urlReportedMalicious: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ id: "id", addedAt: "added_at", firstSeenAt: "first_seen_at", host: "host", lastSeenAt: "last_seen_at", url: "url", urlContainsCdnCgiPath: "url_contains_cdn_cgi_path", domainReportedMalicious: "domain_reported_malicious", firstPageUrl: "first_page_url", maliciousDomainCategories: "malicious_domain_categories", maliciousUrlCategories: "malicious_url_categories", pageUrls: "page_urls", urlReportedMalicious: "url_reported_malicious" }))) as unknown as Schema.Schema<ListConnectionsResponse>;
+export const ListConnectionsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    addedAt: Schema.String,
+    firstSeenAt: Schema.String,
+    host: Schema.String,
+    lastSeenAt: Schema.String,
+    url: Schema.String,
+    urlContainsCdnCgiPath: Schema.Boolean,
+    domainReportedMalicious: Schema.optional(Schema.Boolean),
+    firstPageUrl: Schema.optional(Schema.String),
+    maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
+    maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+    pageUrls: Schema.optional(Schema.Array(Schema.String)),
+    urlReportedMalicious: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      addedAt: "added_at",
+      firstSeenAt: "first_seen_at",
+      host: "host",
+      lastSeenAt: "last_seen_at",
+      url: "url",
+      urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+      domainReportedMalicious: "domain_reported_malicious",
+      firstPageUrl: "first_page_url",
+      maliciousDomainCategories: "malicious_domain_categories",
+      maliciousUrlCategories: "malicious_url_categories",
+      pageUrls: "page_urls",
+      urlReportedMalicious: "url_reported_malicious",
+    }),
+  ),
+) as unknown as Schema.Schema<ListConnectionsResponse>;
 
-export type ListConnectionsError =
-  | DefaultErrors;
+export type ListConnectionsError = DefaultErrors;
 
 export const listConnections: API.OperationMethod<
   ListConnectionsRequest,
@@ -155,7 +212,6 @@ export const listConnections: API.OperationMethod<
   output: ListConnectionsResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Cooky
@@ -169,9 +225,13 @@ export interface GetCookyRequest {
 
 export const GetCookyRequest = Schema.Struct({
   cookieId: Schema.String.pipe(T.HttpPath("cookieId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/cookies/{cookieId}" })) as unknown as Schema.Schema<GetCookyRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/cookies/{cookieId}",
+  }),
+) as unknown as Schema.Schema<GetCookyRequest>;
 
 export interface GetCookyResponse {
   /** Identifier */
@@ -204,12 +264,30 @@ export const GetCookyResponse = Schema.Struct({
   maxAgeAttribute: Schema.optional(Schema.Number),
   pageUrls: Schema.optional(Schema.Array(Schema.String)),
   pathAttribute: Schema.optional(Schema.String),
-  sameSiteAttribute: Schema.optional(Schema.Literals(["lax", "strict", "none"])),
-  secureAttribute: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ id: "id", firstSeenAt: "first_seen_at", host: "host", lastSeenAt: "last_seen_at", name: "name", type: "type", domainAttribute: "domain_attribute", expiresAttribute: "expires_attribute", httpOnlyAttribute: "http_only_attribute", maxAgeAttribute: "max_age_attribute", pageUrls: "page_urls", pathAttribute: "path_attribute", sameSiteAttribute: "same_site_attribute", secureAttribute: "secure_attribute" })) as unknown as Schema.Schema<GetCookyResponse>;
+  sameSiteAttribute: Schema.optional(
+    Schema.Literals(["lax", "strict", "none"]),
+  ),
+  secureAttribute: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    firstSeenAt: "first_seen_at",
+    host: "host",
+    lastSeenAt: "last_seen_at",
+    name: "name",
+    type: "type",
+    domainAttribute: "domain_attribute",
+    expiresAttribute: "expires_attribute",
+    httpOnlyAttribute: "http_only_attribute",
+    maxAgeAttribute: "max_age_attribute",
+    pageUrls: "page_urls",
+    pathAttribute: "path_attribute",
+    sameSiteAttribute: "same_site_attribute",
+    secureAttribute: "secure_attribute",
+  }),
+) as unknown as Schema.Schema<GetCookyResponse>;
 
-export type GetCookyError =
-  | DefaultErrors;
+export type GetCookyError = DefaultErrors;
 
 export const getCooky: API.OperationMethod<
   GetCookyRequest,
@@ -257,44 +335,88 @@ export interface ListCookiesRequest {
 
 export const ListCookiesRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("direction")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
   domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
   export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
   hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
   httpOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("http_only")),
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-  orderBy: Schema.optional(Schema.Literals(["first_seen_at", "last_seen_at"])).pipe(T.HttpQuery("order_by")),
+  orderBy: Schema.optional(
+    Schema.Literals(["first_seen_at", "last_seen_at"]),
+  ).pipe(T.HttpQuery("order_by")),
   page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
   pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
   path: Schema.optional(Schema.String).pipe(T.HttpQuery("path")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  sameSite: Schema.optional(Schema.Literals(["lax", "strict", "none"])).pipe(T.HttpQuery("same_site")),
+  sameSite: Schema.optional(Schema.Literals(["lax", "strict", "none"])).pipe(
+    T.HttpQuery("same_site"),
+  ),
   secure: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("secure")),
-  type: Schema.optional(Schema.Literals(["first_party", "unknown"])).pipe(T.HttpQuery("type"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/cookies" })) as unknown as Schema.Schema<ListCookiesRequest>;
+  type: Schema.optional(Schema.Literals(["first_party", "unknown"])).pipe(
+    T.HttpQuery("type"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/cookies" }),
+) as unknown as Schema.Schema<ListCookiesRequest>;
 
-export type ListCookiesResponse = ({ id: string; firstSeenAt: string; host: string; lastSeenAt: string; name: string; type: "first_party" | "unknown"; domainAttribute?: string; expiresAttribute?: string; httpOnlyAttribute?: boolean; maxAgeAttribute?: number; pageUrls?: string[]; pathAttribute?: string; sameSiteAttribute?: "lax" | "strict" | "none"; secureAttribute?: boolean })[];
+export type ListCookiesResponse = {
+  id: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  name: string;
+  type: "first_party" | "unknown";
+  domainAttribute?: string;
+  expiresAttribute?: string;
+  httpOnlyAttribute?: boolean;
+  maxAgeAttribute?: number;
+  pageUrls?: string[];
+  pathAttribute?: string;
+  sameSiteAttribute?: "lax" | "strict" | "none";
+  secureAttribute?: boolean;
+}[];
 
-export const ListCookiesResponse = Schema.Array(Schema.Struct({
-  id: Schema.String,
-  firstSeenAt: Schema.String,
-  host: Schema.String,
-  lastSeenAt: Schema.String,
-  name: Schema.String,
-  type: Schema.Literals(["first_party", "unknown"]),
-  domainAttribute: Schema.optional(Schema.String),
-  expiresAttribute: Schema.optional(Schema.String),
-  httpOnlyAttribute: Schema.optional(Schema.Boolean),
-  maxAgeAttribute: Schema.optional(Schema.Number),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)),
-  pathAttribute: Schema.optional(Schema.String),
-  sameSiteAttribute: Schema.optional(Schema.Literals(["lax", "strict", "none"])),
-  secureAttribute: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ id: "id", firstSeenAt: "first_seen_at", host: "host", lastSeenAt: "last_seen_at", name: "name", type: "type", domainAttribute: "domain_attribute", expiresAttribute: "expires_attribute", httpOnlyAttribute: "http_only_attribute", maxAgeAttribute: "max_age_attribute", pageUrls: "page_urls", pathAttribute: "path_attribute", sameSiteAttribute: "same_site_attribute", secureAttribute: "secure_attribute" }))) as unknown as Schema.Schema<ListCookiesResponse>;
+export const ListCookiesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    firstSeenAt: Schema.String,
+    host: Schema.String,
+    lastSeenAt: Schema.String,
+    name: Schema.String,
+    type: Schema.Literals(["first_party", "unknown"]),
+    domainAttribute: Schema.optional(Schema.String),
+    expiresAttribute: Schema.optional(Schema.String),
+    httpOnlyAttribute: Schema.optional(Schema.Boolean),
+    maxAgeAttribute: Schema.optional(Schema.Number),
+    pageUrls: Schema.optional(Schema.Array(Schema.String)),
+    pathAttribute: Schema.optional(Schema.String),
+    sameSiteAttribute: Schema.optional(
+      Schema.Literals(["lax", "strict", "none"]),
+    ),
+    secureAttribute: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      firstSeenAt: "first_seen_at",
+      host: "host",
+      lastSeenAt: "last_seen_at",
+      name: "name",
+      type: "type",
+      domainAttribute: "domain_attribute",
+      expiresAttribute: "expires_attribute",
+      httpOnlyAttribute: "http_only_attribute",
+      maxAgeAttribute: "max_age_attribute",
+      pageUrls: "page_urls",
+      pathAttribute: "path_attribute",
+      sameSiteAttribute: "same_site_attribute",
+      secureAttribute: "secure_attribute",
+    }),
+  ),
+) as unknown as Schema.Schema<ListCookiesResponse>;
 
-export type ListCookiesError =
-  | DefaultErrors;
+export type ListCookiesError = DefaultErrors;
 
 export const listCookies: API.OperationMethod<
   ListCookiesRequest,
@@ -307,7 +429,6 @@ export const listCookies: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // PageShield
 // =============================================================================
@@ -318,9 +439,10 @@ export interface GetPageShieldRequest {
 }
 
 export const GetPageShieldRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield" })) as unknown as Schema.Schema<GetPageShieldRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield" }),
+) as unknown as Schema.Schema<GetPageShieldRequest>;
 
 export interface GetPageShieldResponse {
   /** When true, indicates that Page Shield is enabled. */
@@ -337,11 +459,17 @@ export const GetPageShieldResponse = Schema.Struct({
   enabled: Schema.Boolean,
   updatedAt: Schema.String,
   useCloudflareReportingEndpoint: Schema.Boolean,
-  useConnectionUrlPath: Schema.Boolean
-}).pipe(Schema.encodeKeys({ enabled: "enabled", updatedAt: "updated_at", useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint", useConnectionUrlPath: "use_connection_url_path" })) as unknown as Schema.Schema<GetPageShieldResponse>;
+  useConnectionUrlPath: Schema.Boolean,
+}).pipe(
+  Schema.encodeKeys({
+    enabled: "enabled",
+    updatedAt: "updated_at",
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
+) as unknown as Schema.Schema<GetPageShieldResponse>;
 
-export type GetPageShieldError =
-  | DefaultErrors;
+export type GetPageShieldError = DefaultErrors;
 
 export const getPageShield: API.OperationMethod<
   GetPageShieldRequest,
@@ -369,9 +497,15 @@ export const PutPageShieldRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.optional(Schema.Boolean),
   useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean),
-  useConnectionUrlPath: Schema.optional(Schema.Boolean)
-})
-  .pipe(Schema.encodeKeys({ enabled: "enabled", useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint", useConnectionUrlPath: "use_connection_url_path" }), T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield" })) as unknown as Schema.Schema<PutPageShieldRequest>;
+  useConnectionUrlPath: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    enabled: "enabled",
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
+  T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield" }),
+) as unknown as Schema.Schema<PutPageShieldRequest>;
 
 export interface PutPageShieldResponse {
   /** When true, indicates that Page Shield is enabled. */
@@ -388,11 +522,17 @@ export const PutPageShieldResponse = Schema.Struct({
   enabled: Schema.Boolean,
   updatedAt: Schema.String,
   useCloudflareReportingEndpoint: Schema.Boolean,
-  useConnectionUrlPath: Schema.Boolean
-}).pipe(Schema.encodeKeys({ enabled: "enabled", updatedAt: "updated_at", useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint", useConnectionUrlPath: "use_connection_url_path" })) as unknown as Schema.Schema<PutPageShieldResponse>;
+  useConnectionUrlPath: Schema.Boolean,
+}).pipe(
+  Schema.encodeKeys({
+    enabled: "enabled",
+    updatedAt: "updated_at",
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
+) as unknown as Schema.Schema<PutPageShieldResponse>;
 
-export type PutPageShieldError =
-  | DefaultErrors;
+export type PutPageShieldError = DefaultErrors;
 
 export const putPageShield: API.OperationMethod<
   PutPageShieldRequest,
@@ -404,7 +544,6 @@ export const putPageShield: API.OperationMethod<
   output: PutPageShieldResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Policy
@@ -418,9 +557,13 @@ export interface GetPolicyRequest {
 
 export const GetPolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/policies/{policyId}" })) as unknown as Schema.Schema<GetPolicyRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/policies/{policyId}",
+  }),
+) as unknown as Schema.Schema<GetPolicyRequest>;
 
 export interface GetPolicyResponse {
   /** Identifier */
@@ -443,11 +586,10 @@ export const GetPolicyResponse = Schema.Struct({
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
-  value: Schema.String
+  value: Schema.String,
 }) as unknown as Schema.Schema<GetPolicyResponse>;
 
-export type GetPolicyError =
-  | DefaultErrors;
+export type GetPolicyError = DefaultErrors;
 
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
@@ -466,23 +608,32 @@ export interface ListPoliciesRequest {
 }
 
 export const ListPoliciesRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/policies" })) as unknown as Schema.Schema<ListPoliciesRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/policies" }),
+) as unknown as Schema.Schema<ListPoliciesRequest>;
 
-export type ListPoliciesResponse = ({ id: string; action: "allow" | "log"; description: string; enabled: boolean; expression: string; value: string })[];
+export type ListPoliciesResponse = {
+  id: string;
+  action: "allow" | "log";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  value: string;
+}[];
 
-export const ListPoliciesResponse = Schema.Array(Schema.Struct({
-  id: Schema.String,
-  action: Schema.Literals(["allow", "log"]),
-  description: Schema.String,
-  enabled: Schema.Boolean,
-  expression: Schema.String,
-  value: Schema.String
-})) as unknown as Schema.Schema<ListPoliciesResponse>;
+export const ListPoliciesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    action: Schema.Literals(["allow", "log"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    value: Schema.String,
+  }),
+) as unknown as Schema.Schema<ListPoliciesResponse>;
 
-export type ListPoliciesError =
-  | DefaultErrors;
+export type ListPoliciesError = DefaultErrors;
 
 export const listPolicies: API.OperationMethod<
   ListPoliciesRequest,
@@ -516,9 +667,10 @@ export const CreatePolicyRequest = Schema.Struct({
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
-  value: Schema.String
-})
-  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/page_shield/policies" })) as unknown as Schema.Schema<CreatePolicyRequest>;
+  value: Schema.String,
+}).pipe(
+  T.Http({ method: "POST", path: "/zones/{zone_id}/page_shield/policies" }),
+) as unknown as Schema.Schema<CreatePolicyRequest>;
 
 export interface CreatePolicyResponse {
   /** Identifier */
@@ -541,11 +693,10 @@ export const CreatePolicyResponse = Schema.Struct({
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
-  value: Schema.String
+  value: Schema.String,
 }) as unknown as Schema.Schema<CreatePolicyResponse>;
 
-export type CreatePolicyError =
-  | DefaultErrors;
+export type CreatePolicyError = DefaultErrors;
 
 export const createPolicy: API.OperationMethod<
   CreatePolicyRequest,
@@ -581,9 +732,13 @@ export const UpdatePolicyRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   expression: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield/policies/{policyId}" })) as unknown as Schema.Schema<UpdatePolicyRequest>;
+  value: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/page_shield/policies/{policyId}",
+  }),
+) as unknown as Schema.Schema<UpdatePolicyRequest>;
 
 export interface UpdatePolicyResponse {
   /** Identifier */
@@ -606,11 +761,10 @@ export const UpdatePolicyResponse = Schema.Struct({
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
-  value: Schema.String
+  value: Schema.String,
 }) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
-export type UpdatePolicyError =
-  | DefaultErrors;
+export type UpdatePolicyError = DefaultErrors;
 
 export const updatePolicy: API.OperationMethod<
   UpdatePolicyRequest,
@@ -631,16 +785,20 @@ export interface DeletePolicyRequest {
 
 export const DeletePolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/page_shield/policies/{policyId}" })) as unknown as Schema.Schema<DeletePolicyRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/page_shield/policies/{policyId}",
+  }),
+) as unknown as Schema.Schema<DeletePolicyRequest>;
 
 export type DeletePolicyResponse = unknown;
 
-export const DeletePolicyResponse = Schema.Unknown as unknown as Schema.Schema<DeletePolicyResponse>;
+export const DeletePolicyResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeletePolicyResponse>;
 
-export type DeletePolicyError =
-  | DefaultErrors;
+export type DeletePolicyError = DefaultErrors;
 
 export const deletePolicy: API.OperationMethod<
   DeletePolicyRequest,
@@ -652,7 +810,6 @@ export const deletePolicy: API.OperationMethod<
   output: DeletePolicyResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Script
@@ -666,9 +823,13 @@ export interface GetScriptRequest {
 
 export const GetScriptRequest = Schema.Struct({
   scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/scripts/{scriptId}" })) as unknown as Schema.Schema<GetScriptRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/scripts/{scriptId}",
+  }),
+) as unknown as Schema.Schema<GetScriptRequest>;
 
 export interface GetScriptResponse {
   /** Identifier */
@@ -701,7 +862,18 @@ export interface GetScriptResponse {
   obfuscationScore?: number | null;
   pageUrls?: string[];
   urlReportedMalicious?: boolean;
-  versions?: ({ cryptominingScore?: number | null; dataflowScore?: number | null; fetchedAt?: string | null; hash?: string | null; jsIntegrityScore?: number | null; magecartScore?: number | null; malwareScore?: number | null; obfuscationScore?: number | null })[] | null;
+  versions?:
+    | {
+        cryptominingScore?: number | null;
+        dataflowScore?: number | null;
+        fetchedAt?: string | null;
+        hash?: string | null;
+        jsIntegrityScore?: number | null;
+        magecartScore?: number | null;
+        malwareScore?: number | null;
+        obfuscationScore?: number | null;
+      }[]
+    | null;
 }
 
 export const GetScriptResponse = Schema.Struct({
@@ -712,7 +884,9 @@ export const GetScriptResponse = Schema.Struct({
   lastSeenAt: Schema.String,
   url: Schema.String,
   urlContainsCdnCgiPath: Schema.Boolean,
-  cryptominingScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cryptominingScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
   dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   domainReportedMalicious: Schema.optional(Schema.Boolean),
   fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -726,20 +900,76 @@ export const GetScriptResponse = Schema.Struct({
   obfuscationScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   pageUrls: Schema.optional(Schema.Array(Schema.String)),
   urlReportedMalicious: Schema.optional(Schema.Boolean),
-  versions: Schema.optional(Schema.Union([Schema.Array(Schema.Struct({
-  cryptominingScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  jsIntegrityScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  obfuscationScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null]))
-}).pipe(Schema.encodeKeys({ cryptominingScore: "cryptomining_score", dataflowScore: "dataflow_score", fetchedAt: "fetched_at", hash: "hash", jsIntegrityScore: "js_integrity_score", magecartScore: "magecart_score", malwareScore: "malware_score", obfuscationScore: "obfuscation_score" }))), Schema.Null]))
-}).pipe(Schema.encodeKeys({ id: "id", addedAt: "added_at", firstSeenAt: "first_seen_at", host: "host", lastSeenAt: "last_seen_at", url: "url", urlContainsCdnCgiPath: "url_contains_cdn_cgi_path", cryptominingScore: "cryptomining_score", dataflowScore: "dataflow_score", domainReportedMalicious: "domain_reported_malicious", fetchedAt: "fetched_at", firstPageUrl: "first_page_url", hash: "hash", jsIntegrityScore: "js_integrity_score", magecartScore: "magecart_score", maliciousDomainCategories: "malicious_domain_categories", maliciousUrlCategories: "malicious_url_categories", malwareScore: "malware_score", obfuscationScore: "obfuscation_score", pageUrls: "page_urls", urlReportedMalicious: "url_reported_malicious", versions: "versions" })) as unknown as Schema.Schema<GetScriptResponse>;
+  versions: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          cryptominingScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          dataflowScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          fetchedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          jsIntegrityScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          magecartScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          malwareScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          obfuscationScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            cryptominingScore: "cryptomining_score",
+            dataflowScore: "dataflow_score",
+            fetchedAt: "fetched_at",
+            hash: "hash",
+            jsIntegrityScore: "js_integrity_score",
+            magecartScore: "magecart_score",
+            malwareScore: "malware_score",
+            obfuscationScore: "obfuscation_score",
+          }),
+        ),
+      ),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    addedAt: "added_at",
+    firstSeenAt: "first_seen_at",
+    host: "host",
+    lastSeenAt: "last_seen_at",
+    url: "url",
+    urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+    cryptominingScore: "cryptomining_score",
+    dataflowScore: "dataflow_score",
+    domainReportedMalicious: "domain_reported_malicious",
+    fetchedAt: "fetched_at",
+    firstPageUrl: "first_page_url",
+    hash: "hash",
+    jsIntegrityScore: "js_integrity_score",
+    magecartScore: "magecart_score",
+    maliciousDomainCategories: "malicious_domain_categories",
+    maliciousUrlCategories: "malicious_url_categories",
+    malwareScore: "malware_score",
+    obfuscationScore: "obfuscation_score",
+    pageUrls: "page_urls",
+    urlReportedMalicious: "url_reported_malicious",
+    versions: "versions",
+  }),
+) as unknown as Schema.Schema<GetScriptResponse>;
 
-export type GetScriptError =
-  | DefaultErrors;
+export type GetScriptError = DefaultErrors;
 
 export const getScript: API.OperationMethod<
   GetScriptRequest,
@@ -785,50 +1015,114 @@ export interface ListScriptsRequest {
 
 export const ListScriptsRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("direction")),
-  excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("exclude_cdn_cgi")),
-  excludeDuplicates: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("exclude_duplicates")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("exclude_cdn_cgi"),
+  ),
+  excludeDuplicates: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("exclude_duplicates"),
+  ),
   excludeUrls: Schema.optional(Schema.String).pipe(T.HttpQuery("exclude_urls")),
   export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
   hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
-  orderBy: Schema.optional(Schema.Literals(["first_seen_at", "last_seen_at"])).pipe(T.HttpQuery("order_by")),
+  orderBy: Schema.optional(
+    Schema.Literals(["first_seen_at", "last_seen_at"]),
+  ).pipe(T.HttpQuery("order_by")),
   page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
   pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("prioritize_malicious")),
+  prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("prioritize_malicious"),
+  ),
   status: Schema.optional(Schema.String).pipe(T.HttpQuery("status")),
-  urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/scripts" })) as unknown as Schema.Schema<ListScriptsRequest>;
+  urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/scripts" }),
+) as unknown as Schema.Schema<ListScriptsRequest>;
 
-export type ListScriptsResponse = ({ id: string; addedAt: string; firstSeenAt: string; host: string; lastSeenAt: string; url: string; urlContainsCdnCgiPath: boolean; cryptominingScore?: number | null; dataflowScore?: number | null; domainReportedMalicious?: boolean; fetchedAt?: string | null; firstPageUrl?: string; hash?: string | null; jsIntegrityScore?: number | null; magecartScore?: number | null; maliciousDomainCategories?: string[]; maliciousUrlCategories?: string[]; malwareScore?: number | null; obfuscationScore?: number | null; pageUrls?: string[]; urlReportedMalicious?: boolean })[];
+export type ListScriptsResponse = {
+  id: string;
+  addedAt: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  url: string;
+  urlContainsCdnCgiPath: boolean;
+  cryptominingScore?: number | null;
+  dataflowScore?: number | null;
+  domainReportedMalicious?: boolean;
+  fetchedAt?: string | null;
+  firstPageUrl?: string;
+  hash?: string | null;
+  jsIntegrityScore?: number | null;
+  magecartScore?: number | null;
+  maliciousDomainCategories?: string[];
+  maliciousUrlCategories?: string[];
+  malwareScore?: number | null;
+  obfuscationScore?: number | null;
+  pageUrls?: string[];
+  urlReportedMalicious?: boolean;
+}[];
 
-export const ListScriptsResponse = Schema.Array(Schema.Struct({
-  id: Schema.String,
-  addedAt: Schema.String,
-  firstSeenAt: Schema.String,
-  host: Schema.String,
-  lastSeenAt: Schema.String,
-  url: Schema.String,
-  urlContainsCdnCgiPath: Schema.Boolean,
-  cryptominingScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  domainReportedMalicious: Schema.optional(Schema.Boolean),
-  fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  firstPageUrl: Schema.optional(Schema.String),
-  hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  jsIntegrityScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
-  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
-  malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  obfuscationScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)),
-  urlReportedMalicious: Schema.optional(Schema.Boolean)
-}).pipe(Schema.encodeKeys({ id: "id", addedAt: "added_at", firstSeenAt: "first_seen_at", host: "host", lastSeenAt: "last_seen_at", url: "url", urlContainsCdnCgiPath: "url_contains_cdn_cgi_path", cryptominingScore: "cryptomining_score", dataflowScore: "dataflow_score", domainReportedMalicious: "domain_reported_malicious", fetchedAt: "fetched_at", firstPageUrl: "first_page_url", hash: "hash", jsIntegrityScore: "js_integrity_score", magecartScore: "magecart_score", maliciousDomainCategories: "malicious_domain_categories", maliciousUrlCategories: "malicious_url_categories", malwareScore: "malware_score", obfuscationScore: "obfuscation_score", pageUrls: "page_urls", urlReportedMalicious: "url_reported_malicious" }))) as unknown as Schema.Schema<ListScriptsResponse>;
+export const ListScriptsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    addedAt: Schema.String,
+    firstSeenAt: Schema.String,
+    host: Schema.String,
+    lastSeenAt: Schema.String,
+    url: Schema.String,
+    urlContainsCdnCgiPath: Schema.Boolean,
+    cryptominingScore: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    domainReportedMalicious: Schema.optional(Schema.Boolean),
+    fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    firstPageUrl: Schema.optional(Schema.String),
+    hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    jsIntegrityScore: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
+    maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+    malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    obfuscationScore: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    pageUrls: Schema.optional(Schema.Array(Schema.String)),
+    urlReportedMalicious: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      addedAt: "added_at",
+      firstSeenAt: "first_seen_at",
+      host: "host",
+      lastSeenAt: "last_seen_at",
+      url: "url",
+      urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+      cryptominingScore: "cryptomining_score",
+      dataflowScore: "dataflow_score",
+      domainReportedMalicious: "domain_reported_malicious",
+      fetchedAt: "fetched_at",
+      firstPageUrl: "first_page_url",
+      hash: "hash",
+      jsIntegrityScore: "js_integrity_score",
+      magecartScore: "magecart_score",
+      maliciousDomainCategories: "malicious_domain_categories",
+      maliciousUrlCategories: "malicious_url_categories",
+      malwareScore: "malware_score",
+      obfuscationScore: "obfuscation_score",
+      pageUrls: "page_urls",
+      urlReportedMalicious: "url_reported_malicious",
+    }),
+  ),
+) as unknown as Schema.Schema<ListScriptsResponse>;
 
-export type ListScriptsError =
-  | DefaultErrors;
+export type ListScriptsError = DefaultErrors;
 
 export const listScripts: API.OperationMethod<
   ListScriptsRequest,

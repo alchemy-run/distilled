@@ -30,10 +30,15 @@ export interface UndeleteIosAppRequest {
   validateOnly?: boolean;
 }
 
-export const UndeleteIosAppRequest: Schema.Schema<UndeleteIosAppRequest> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  validateOnly: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UndeleteIosAppRequest" }) as any as Schema.Schema<UndeleteIosAppRequest>;
+export const UndeleteIosAppRequest: Schema.Schema<UndeleteIosAppRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      validateOnly: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UndeleteIosAppRequest",
+  }) as any as Schema.Schema<UndeleteIosAppRequest>;
 
 export interface UndeleteAndroidAppRequest {
   /** Checksum provided in the AndroidApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
@@ -42,22 +47,28 @@ export interface UndeleteAndroidAppRequest {
   validateOnly?: boolean;
 }
 
-export const UndeleteAndroidAppRequest: Schema.Schema<UndeleteAndroidAppRequest> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  validateOnly: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UndeleteAndroidAppRequest" }) as any as Schema.Schema<UndeleteAndroidAppRequest>;
+export const UndeleteAndroidAppRequest: Schema.Schema<UndeleteAndroidAppRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      validateOnly: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UndeleteAndroidAppRequest",
+  }) as any as Schema.Schema<UndeleteAndroidAppRequest>;
 
-export interface OperationMetadata {
-}
+export interface OperationMetadata {}
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
-export interface MessageSet {
-}
+export interface MessageSet {}
 
-export const MessageSet: Schema.Schema<MessageSet> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MessageSet" }) as any as Schema.Schema<MessageSet>;
+export const MessageSet: Schema.Schema<MessageSet> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "MessageSet" }) as any as Schema.Schema<MessageSet>;
 
 export interface StatusProto {
   /** copybara:strip_begin(b/383363683) Space to which this status belongs copybara:strip_end_and_replace optional string space = 2; // Space to which this status belongs */
@@ -72,13 +83,15 @@ export interface StatusProto {
   messageSet?: MessageSet;
 }
 
-export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() => Schema.Struct({
-  space: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  canonicalCode: Schema.optional(Schema.Number),
-  messageSet: Schema.optional(MessageSet),
-})).annotate({ identifier: "StatusProto" }) as any as Schema.Schema<StatusProto>;
+export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() =>
+  Schema.Struct({
+    space: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    canonicalCode: Schema.optional(Schema.Number),
+    messageSet: Schema.optional(MessageSet),
+  }),
+).annotate({ identifier: "StatusProto" }) as any as Schema.Schema<StatusProto>;
 
 export interface DefaultResources {
   /** Output only. **DEPRECATED.** _Instead, find the name of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default Realtime Database instance for a Project has not yet been provisioned, the return might not contain a default instance._ The default Firebase Realtime Database instance name, in the format: PROJECT_ID Though rare, your `projectId` might already be used as the name for an existing Realtime Database instance in another project (learn more about [database sharding](https://firebase.google.com/docs/database/usage/sharding)). In these cases, your `projectId` is appended with a hyphen then five alphanumeric characters to create your default Realtime Database instance name. For example, if your `projectId` is `myproject123`, your default database instance name might be: `myproject123-a5c16` */
@@ -91,27 +104,41 @@ export interface DefaultResources {
   storageBucket?: string;
 }
 
-export const DefaultResources: Schema.Schema<DefaultResources> = Schema.suspend(() => Schema.Struct({
-  realtimeDatabaseInstance: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  hostingSite: Schema.optional(Schema.String),
-  storageBucket: Schema.optional(Schema.String),
-})).annotate({ identifier: "DefaultResources" }) as any as Schema.Schema<DefaultResources>;
+export const DefaultResources: Schema.Schema<DefaultResources> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      realtimeDatabaseInstance: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      hostingSite: Schema.optional(Schema.String),
+      storageBucket: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "DefaultResources",
+}) as any as Schema.Schema<DefaultResources>;
 
 export interface ShaCertificate {
   /** The type of SHA certificate encoded in the hash. */
-  certType?: "SHA_CERTIFICATE_TYPE_UNSPECIFIED" | "SHA_1" | "SHA_256" | (string & {});
+  certType?:
+    | "SHA_CERTIFICATE_TYPE_UNSPECIFIED"
+    | "SHA_1"
+    | "SHA_256"
+    | (string & {});
   /** The certificate hash for the `AndroidApp`. */
   shaHash?: string;
   /** The resource name of the ShaCertificate for the AndroidApp, in the format: projects/PROJECT_IDENTIFIER/androidApps/APP_ID/sha/SHA_HASH * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.androidApps#AndroidApp.FIELDS.app_id)). * SHA_HASH: the certificate hash for the App (see [`shaHash`](../projects.androidApps.sha#ShaCertificate.FIELDS.sha_hash)). */
   name?: string;
 }
 
-export const ShaCertificate: Schema.Schema<ShaCertificate> = Schema.suspend(() => Schema.Struct({
-  certType: Schema.optional(Schema.String),
-  shaHash: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "ShaCertificate" }) as any as Schema.Schema<ShaCertificate>;
+export const ShaCertificate: Schema.Schema<ShaCertificate> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      certType: Schema.optional(Schema.String),
+      shaHash: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ShaCertificate",
+}) as any as Schema.Schema<ShaCertificate>;
 
 export interface AddGoogleAnalyticsRequest {
   /** The ID for the existing [Google Analytics account](http://www.google.com/analytics/) that you want to link with the `FirebaseProject`. Specifying this field will provision a new Google Analytics property in your Google Analytics account and associate the new property with the `FirebaseProject`. */
@@ -120,28 +147,43 @@ export interface AddGoogleAnalyticsRequest {
   analyticsPropertyId?: string;
 }
 
-export const AddGoogleAnalyticsRequest: Schema.Schema<AddGoogleAnalyticsRequest> = Schema.suspend(() => Schema.Struct({
-  analyticsAccountId: Schema.optional(Schema.String),
-  analyticsPropertyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddGoogleAnalyticsRequest" }) as any as Schema.Schema<AddGoogleAnalyticsRequest>;
+export const AddGoogleAnalyticsRequest: Schema.Schema<AddGoogleAnalyticsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      analyticsAccountId: Schema.optional(Schema.String),
+      analyticsPropertyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddGoogleAnalyticsRequest",
+  }) as any as Schema.Schema<AddGoogleAnalyticsRequest>;
 
 export interface FinalizeDefaultLocationRequest {
   /** **DEPRECATED** The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location), which are resources associated with Google App Engine. The location must be one of the available [Google App Engine locations](https://cloud.google.com/about/locations#region). */
   locationId?: string;
 }
 
-export const FinalizeDefaultLocationRequest: Schema.Schema<FinalizeDefaultLocationRequest> = Schema.suspend(() => Schema.Struct({
-  locationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "FinalizeDefaultLocationRequest" }) as any as Schema.Schema<FinalizeDefaultLocationRequest>;
+export const FinalizeDefaultLocationRequest: Schema.Schema<FinalizeDefaultLocationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FinalizeDefaultLocationRequest",
+  }) as any as Schema.Schema<FinalizeDefaultLocationRequest>;
 
 export interface AddFirebaseRequest {
   /** **DEPRECATED.** _Instead, use product-specific REST APIs to work with the location of each resource in a Project. This field may be ignored, especially for newly provisioned projects after October 30, 2024._ The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location), which are resources associated with Google App Engine. The location must be one of the available [Google App Engine locations](https://cloud.google.com/about/locations#region). */
   locationId?: string;
 }
 
-export const AddFirebaseRequest: Schema.Schema<AddFirebaseRequest> = Schema.suspend(() => Schema.Struct({
-  locationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AddFirebaseRequest" }) as any as Schema.Schema<AddFirebaseRequest>;
+export const AddFirebaseRequest: Schema.Schema<AddFirebaseRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddFirebaseRequest",
+  }) as any as Schema.Schema<AddFirebaseRequest>;
 
 export interface WebAppConfig {
   /** **DEPRECATED.** _Instead, find the name of the default Cloud Storage for Firebase bucket using the [list endpoint](https://firebase.google.com/docs/reference/rest/storage/rest/v1beta/projects.buckets/list) within the Cloud Storage for Firebase REST API. If the default bucket for the Project has not yet been provisioned, the return might not contain a default bucket. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Cloud Storage for Firebase endpoint to populate this value for that config._ The name of the default Cloud Storage for Firebase bucket. */
@@ -170,20 +212,24 @@ export interface WebAppConfig {
   messagingSenderId?: string;
 }
 
-export const WebAppConfig: Schema.Schema<WebAppConfig> = Schema.suspend(() => Schema.Struct({
-  storageBucket: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  appId: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  apiKey: Schema.optional(Schema.String),
-  databaseURL: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  projectNumber: Schema.optional(Schema.String),
-  realtimeDatabaseUrl: Schema.optional(Schema.String),
-  measurementId: Schema.optional(Schema.String),
-  authDomain: Schema.optional(Schema.String),
-  messagingSenderId: Schema.optional(Schema.String),
-})).annotate({ identifier: "WebAppConfig" }) as any as Schema.Schema<WebAppConfig>;
+export const WebAppConfig: Schema.Schema<WebAppConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    storageBucket: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    appId: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+    apiKey: Schema.optional(Schema.String),
+    databaseURL: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    projectNumber: Schema.optional(Schema.String),
+    realtimeDatabaseUrl: Schema.optional(Schema.String),
+    measurementId: Schema.optional(Schema.String),
+    authDomain: Schema.optional(Schema.String),
+    messagingSenderId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "WebAppConfig",
+}) as any as Schema.Schema<WebAppConfig>;
 
 export interface AdminSdkConfig {
   /** **DEPRECATED.** _Instead, find the URL of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default instance for the Project has not yet been provisioned, the return might not contain a default instance. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Realtime Database endpoint to populate this value for that config._ The URL of the default Firebase Realtime Database instance. */
@@ -196,12 +242,17 @@ export interface AdminSdkConfig {
   locationId?: string;
 }
 
-export const AdminSdkConfig: Schema.Schema<AdminSdkConfig> = Schema.suspend(() => Schema.Struct({
-  databaseURL: Schema.optional(Schema.String),
-  storageBucket: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AdminSdkConfig" }) as any as Schema.Schema<AdminSdkConfig>;
+export const AdminSdkConfig: Schema.Schema<AdminSdkConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      databaseURL: Schema.optional(Schema.String),
+      storageBucket: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AdminSdkConfig",
+}) as any as Schema.Schema<AdminSdkConfig>;
 
 export interface IosApp {
   /** Output only. Immutable. A user-assigned unique identifier of the parent FirebaseProject for the `IosApp`. */
@@ -228,19 +279,21 @@ export interface IosApp {
   etag?: string;
 }
 
-export const IosApp: Schema.Schema<IosApp> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  teamId: Schema.optional(Schema.String),
-  apiKeyId: Schema.optional(Schema.String),
-  appId: Schema.optional(Schema.String),
-  appStoreId: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  bundleId: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "IosApp" }) as any as Schema.Schema<IosApp>;
+export const IosApp: Schema.Schema<IosApp> = Schema.suspend(() =>
+  Schema.Struct({
+    projectId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    teamId: Schema.optional(Schema.String),
+    apiKeyId: Schema.optional(Schema.String),
+    appId: Schema.optional(Schema.String),
+    appStoreId: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    bundleId: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "IosApp" }) as any as Schema.Schema<IosApp>;
 
 export interface FirebaseProject {
   /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
@@ -261,16 +314,21 @@ export interface FirebaseProject {
   displayName?: string;
 }
 
-export const FirebaseProject: Schema.Schema<FirebaseProject> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  projectNumber: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  resources: Schema.optional(DefaultResources),
-  state: Schema.optional(Schema.String),
-  annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "FirebaseProject" }) as any as Schema.Schema<FirebaseProject>;
+export const FirebaseProject: Schema.Schema<FirebaseProject> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      projectNumber: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      resources: Schema.optional(DefaultResources),
+      state: Schema.optional(Schema.String),
+      annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FirebaseProject",
+}) as any as Schema.Schema<FirebaseProject>;
 
 export interface RemoveAndroidAppRequest {
   /** If set to true, and the App is not found, the request will succeed but no action will be taken on the server. */
@@ -283,27 +341,44 @@ export interface RemoveAndroidAppRequest {
   immediate?: boolean;
 }
 
-export const RemoveAndroidAppRequest: Schema.Schema<RemoveAndroidAppRequest> = Schema.suspend(() => Schema.Struct({
-  allowMissing: Schema.optional(Schema.Boolean),
-  etag: Schema.optional(Schema.String),
-  validateOnly: Schema.optional(Schema.Boolean),
-  immediate: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RemoveAndroidAppRequest" }) as any as Schema.Schema<RemoveAndroidAppRequest>;
+export const RemoveAndroidAppRequest: Schema.Schema<RemoveAndroidAppRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowMissing: Schema.optional(Schema.Boolean),
+      etag: Schema.optional(Schema.String),
+      validateOnly: Schema.optional(Schema.Boolean),
+      immediate: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RemoveAndroidAppRequest",
+  }) as any as Schema.Schema<RemoveAndroidAppRequest>;
 
 export interface Location {
   /** Products and services that are available in the location for default Google Cloud resources. */
-  features?: Array<"LOCATION_FEATURE_UNSPECIFIED" | "FIRESTORE" | "DEFAULT_STORAGE" | "FUNCTIONS" | (string & {})>;
+  features?: Array<
+    | "LOCATION_FEATURE_UNSPECIFIED"
+    | "FIRESTORE"
+    | "DEFAULT_STORAGE"
+    | "FUNCTIONS"
+    | (string & {})
+  >;
   /** Indicates whether the location for default Google Cloud resources is a [regional or multi-regional location](https://firebase.google.com/docs/projects/locations#types) for data replication. */
-  type?: "LOCATION_TYPE_UNSPECIFIED" | "REGIONAL" | "MULTI_REGIONAL" | (string & {});
+  type?:
+    | "LOCATION_TYPE_UNSPECIFIED"
+    | "REGIONAL"
+    | "MULTI_REGIONAL"
+    | (string & {});
   /** The ID of the Project's location for default Google Cloud resources. It will be one of the available [Google App Engine locations](https://cloud.google.com/about/locations#region). */
   locationId?: string;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  features: Schema.optional(Schema.Array(Schema.String)),
-  type: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    features: Schema.optional(Schema.Array(Schema.String)),
+    type: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListAvailableLocationsResponse {
   /** One page of results from a call to `ListAvailableLocations`. */
@@ -312,10 +387,15 @@ export interface ListAvailableLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListAvailableLocationsResponse: Schema.Schema<ListAvailableLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAvailableLocationsResponse" }) as any as Schema.Schema<ListAvailableLocationsResponse>;
+export const ListAvailableLocationsResponse: Schema.Schema<ListAvailableLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAvailableLocationsResponse",
+  }) as any as Schema.Schema<ListAvailableLocationsResponse>;
 
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -326,11 +406,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.Number),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.Number),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface RemoveIosAppRequest {
   /** If set to true, and the App is not found, the request will succeed but no action will be taken on the server. */
@@ -343,12 +427,17 @@ export interface RemoveIosAppRequest {
   etag?: string;
 }
 
-export const RemoveIosAppRequest: Schema.Schema<RemoveIosAppRequest> = Schema.suspend(() => Schema.Struct({
-  allowMissing: Schema.optional(Schema.Boolean),
-  validateOnly: Schema.optional(Schema.Boolean),
-  immediate: Schema.optional(Schema.Boolean),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "RemoveIosAppRequest" }) as any as Schema.Schema<RemoveIosAppRequest>;
+export const RemoveIosAppRequest: Schema.Schema<RemoveIosAppRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowMissing: Schema.optional(Schema.Boolean),
+      validateOnly: Schema.optional(Schema.Boolean),
+      immediate: Schema.optional(Schema.Boolean),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemoveIosAppRequest",
+  }) as any as Schema.Schema<RemoveIosAppRequest>;
 
 export interface AndroidApp {
   /** The resource name of the AndroidApp, in the format: projects/ PROJECT_IDENTIFIER/androidApps/APP_ID * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.androidApps#AndroidApp.FIELDS.app_id)). */
@@ -375,19 +464,21 @@ export interface AndroidApp {
   displayName?: string;
 }
 
-export const AndroidApp: Schema.Schema<AndroidApp> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  apiKeyId: Schema.optional(Schema.String),
-  sha1Hashes: Schema.optional(Schema.Array(Schema.String)),
-  appId: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  packageName: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  sha256Hashes: Schema.optional(Schema.Array(Schema.String)),
-  expireTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "AndroidApp" }) as any as Schema.Schema<AndroidApp>;
+export const AndroidApp: Schema.Schema<AndroidApp> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    apiKeyId: Schema.optional(Schema.String),
+    sha1Hashes: Schema.optional(Schema.Array(Schema.String)),
+    appId: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    packageName: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    sha256Hashes: Schema.optional(Schema.Array(Schema.String)),
+    expireTime: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AndroidApp" }) as any as Schema.Schema<AndroidApp>;
 
 export interface ListAndroidAppsResponse {
   /** List of each `AndroidApp` associated with the specified `FirebaseProject`. */
@@ -396,10 +487,15 @@ export interface ListAndroidAppsResponse {
   nextPageToken?: string;
 }
 
-export const ListAndroidAppsResponse: Schema.Schema<ListAndroidAppsResponse> = Schema.suspend(() => Schema.Struct({
-  apps: Schema.optional(Schema.Array(AndroidApp)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAndroidAppsResponse" }) as any as Schema.Schema<ListAndroidAppsResponse>;
+export const ListAndroidAppsResponse: Schema.Schema<ListAndroidAppsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      apps: Schema.optional(Schema.Array(AndroidApp)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAndroidAppsResponse",
+  }) as any as Schema.Schema<ListAndroidAppsResponse>;
 
 export interface UndeleteWebAppRequest {
   /** Checksum provided in the WebApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
@@ -408,10 +504,15 @@ export interface UndeleteWebAppRequest {
   validateOnly?: boolean;
 }
 
-export const UndeleteWebAppRequest: Schema.Schema<UndeleteWebAppRequest> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  validateOnly: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UndeleteWebAppRequest" }) as any as Schema.Schema<UndeleteWebAppRequest>;
+export const UndeleteWebAppRequest: Schema.Schema<UndeleteWebAppRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      validateOnly: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UndeleteWebAppRequest",
+  }) as any as Schema.Schema<UndeleteWebAppRequest>;
 
 export interface ProjectInfo {
   /** The user-assigned display name of the Google Cloud `Project`, for example: `My App`. */
@@ -422,11 +523,13 @@ export interface ProjectInfo {
   locationId?: string;
 }
 
-export const ProjectInfo: Schema.Schema<ProjectInfo> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProjectInfo" }) as any as Schema.Schema<ProjectInfo>;
+export const ProjectInfo: Schema.Schema<ProjectInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    project: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ProjectInfo" }) as any as Schema.Schema<ProjectInfo>;
 
 export interface ListAvailableProjectsResponse {
   /** The list of Google Cloud `Projects` which can have Firebase resources added to them. */
@@ -435,10 +538,15 @@ export interface ListAvailableProjectsResponse {
   nextPageToken?: string;
 }
 
-export const ListAvailableProjectsResponse: Schema.Schema<ListAvailableProjectsResponse> = Schema.suspend(() => Schema.Struct({
-  projectInfo: Schema.optional(Schema.Array(ProjectInfo)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAvailableProjectsResponse" }) as any as Schema.Schema<ListAvailableProjectsResponse>;
+export const ListAvailableProjectsResponse: Schema.Schema<ListAvailableProjectsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projectInfo: Schema.optional(Schema.Array(ProjectInfo)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAvailableProjectsResponse",
+  }) as any as Schema.Schema<ListAvailableProjectsResponse>;
 
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -453,13 +561,15 @@ export interface Operation {
   name?: string;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface AnalyticsProperty {
   /** Output only. The ID of the [Google Analytics account](https://www.google.com/analytics/) for the Google Analytics property associated with the specified FirebaseProject. */
@@ -470,11 +580,16 @@ export interface AnalyticsProperty {
   id?: string;
 }
 
-export const AnalyticsProperty: Schema.Schema<AnalyticsProperty> = Schema.suspend(() => Schema.Struct({
-  analyticsAccountId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "AnalyticsProperty" }) as any as Schema.Schema<AnalyticsProperty>;
+export const AnalyticsProperty: Schema.Schema<AnalyticsProperty> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      analyticsAccountId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AnalyticsProperty",
+  }) as any as Schema.Schema<AnalyticsProperty>;
 
 export interface IosAppConfig {
   /** The filename that the configuration artifact for the `IosApp` is typically saved as. For example: `GoogleService-Info.plist` */
@@ -483,19 +598,28 @@ export interface IosAppConfig {
   configFileContents?: string;
 }
 
-export const IosAppConfig: Schema.Schema<IosAppConfig> = Schema.suspend(() => Schema.Struct({
-  configFilename: Schema.optional(Schema.String),
-  configFileContents: Schema.optional(Schema.String),
-})).annotate({ identifier: "IosAppConfig" }) as any as Schema.Schema<IosAppConfig>;
+export const IosAppConfig: Schema.Schema<IosAppConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    configFilename: Schema.optional(Schema.String),
+    configFileContents: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "IosAppConfig",
+}) as any as Schema.Schema<IosAppConfig>;
 
 export interface ProductMetadata {
   /** List of warnings related to the associated operation. */
   warningMessages?: Array<string>;
 }
 
-export const ProductMetadata: Schema.Schema<ProductMetadata> = Schema.suspend(() => Schema.Struct({
-  warningMessages: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ProductMetadata" }) as any as Schema.Schema<ProductMetadata>;
+export const ProductMetadata: Schema.Schema<ProductMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      warningMessages: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "ProductMetadata",
+}) as any as Schema.Schema<ProductMetadata>;
 
 export interface AndroidAppConfig {
   /** The filename that the configuration artifact for the `AndroidApp` is typically saved as. For example: `google-services.json` */
@@ -504,10 +628,15 @@ export interface AndroidAppConfig {
   configFileContents?: string;
 }
 
-export const AndroidAppConfig: Schema.Schema<AndroidAppConfig> = Schema.suspend(() => Schema.Struct({
-  configFilename: Schema.optional(Schema.String),
-  configFileContents: Schema.optional(Schema.String),
-})).annotate({ identifier: "AndroidAppConfig" }) as any as Schema.Schema<AndroidAppConfig>;
+export const AndroidAppConfig: Schema.Schema<AndroidAppConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      configFilename: Schema.optional(Schema.String),
+      configFileContents: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AndroidAppConfig",
+}) as any as Schema.Schema<AndroidAppConfig>;
 
 export interface ListIosAppsResponse {
   /** List of each `IosApp` associated with the specified `FirebaseProject`. */
@@ -516,10 +645,15 @@ export interface ListIosAppsResponse {
   nextPageToken?: string;
 }
 
-export const ListIosAppsResponse: Schema.Schema<ListIosAppsResponse> = Schema.suspend(() => Schema.Struct({
-  apps: Schema.optional(Schema.Array(IosApp)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListIosAppsResponse" }) as any as Schema.Schema<ListIosAppsResponse>;
+export const ListIosAppsResponse: Schema.Schema<ListIosAppsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      apps: Schema.optional(Schema.Array(IosApp)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListIosAppsResponse",
+  }) as any as Schema.Schema<ListIosAppsResponse>;
 
 export interface ListFirebaseProjectsResponse {
   /** One page of the list of Projects that are accessible to the caller. */
@@ -528,10 +662,15 @@ export interface ListFirebaseProjectsResponse {
   nextPageToken?: string;
 }
 
-export const ListFirebaseProjectsResponse: Schema.Schema<ListFirebaseProjectsResponse> = Schema.suspend(() => Schema.Struct({
-  results: Schema.optional(Schema.Array(FirebaseProject)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListFirebaseProjectsResponse" }) as any as Schema.Schema<ListFirebaseProjectsResponse>;
+export const ListFirebaseProjectsResponse: Schema.Schema<ListFirebaseProjectsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(Schema.Array(FirebaseProject)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListFirebaseProjectsResponse",
+  }) as any as Schema.Schema<ListFirebaseProjectsResponse>;
 
 export interface RemoveWebAppRequest {
   /** Checksum provided in the WebApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
@@ -544,12 +683,17 @@ export interface RemoveWebAppRequest {
   allowMissing?: boolean;
 }
 
-export const RemoveWebAppRequest: Schema.Schema<RemoveWebAppRequest> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  validateOnly: Schema.optional(Schema.Boolean),
-  immediate: Schema.optional(Schema.Boolean),
-  allowMissing: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RemoveWebAppRequest" }) as any as Schema.Schema<RemoveWebAppRequest>;
+export const RemoveWebAppRequest: Schema.Schema<RemoveWebAppRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      validateOnly: Schema.optional(Schema.Boolean),
+      immediate: Schema.optional(Schema.Boolean),
+      allowMissing: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RemoveWebAppRequest",
+  }) as any as Schema.Schema<RemoveWebAppRequest>;
 
 export interface FirebaseAppInfo {
   /** The resource name of the Firebase App, in the format: projects/PROJECT_ID /iosApps/APP_ID or projects/PROJECT_ID/androidApps/APP_ID or projects/ PROJECT_ID/webApps/APP_ID */
@@ -570,16 +714,21 @@ export interface FirebaseAppInfo {
   displayName?: string;
 }
 
-export const FirebaseAppInfo: Schema.Schema<FirebaseAppInfo> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  apiKeyId: Schema.optional(Schema.String),
-  platform: Schema.optional(Schema.String),
-  appId: Schema.optional(Schema.String),
-  namespace: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "FirebaseAppInfo" }) as any as Schema.Schema<FirebaseAppInfo>;
+export const FirebaseAppInfo: Schema.Schema<FirebaseAppInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      apiKeyId: Schema.optional(Schema.String),
+      platform: Schema.optional(Schema.String),
+      appId: Schema.optional(Schema.String),
+      namespace: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FirebaseAppInfo",
+}) as any as Schema.Schema<FirebaseAppInfo>;
 
 export interface SearchFirebaseAppsResponse {
   /** One page of results from a call to `SearchFirebaseApps`. */
@@ -588,10 +737,15 @@ export interface SearchFirebaseAppsResponse {
   nextPageToken?: string;
 }
 
-export const SearchFirebaseAppsResponse: Schema.Schema<SearchFirebaseAppsResponse> = Schema.suspend(() => Schema.Struct({
-  apps: Schema.optional(Schema.Array(FirebaseAppInfo)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchFirebaseAppsResponse" }) as any as Schema.Schema<SearchFirebaseAppsResponse>;
+export const SearchFirebaseAppsResponse: Schema.Schema<SearchFirebaseAppsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      apps: Schema.optional(Schema.Array(FirebaseAppInfo)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchFirebaseAppsResponse",
+  }) as any as Schema.Schema<SearchFirebaseAppsResponse>;
 
 export interface WebApp {
   /** The user-assigned display name for the `WebApp`. */
@@ -616,18 +770,20 @@ export interface WebApp {
   name?: string;
 }
 
-export const WebApp: Schema.Schema<WebApp> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  appId: Schema.optional(Schema.String),
-  webId: Schema.optional(Schema.String),
-  appUrls: Schema.optional(Schema.Array(Schema.String)),
-  apiKeyId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "WebApp" }) as any as Schema.Schema<WebApp>;
+export const WebApp: Schema.Schema<WebApp> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    appId: Schema.optional(Schema.String),
+    webId: Schema.optional(Schema.String),
+    appUrls: Schema.optional(Schema.Array(Schema.String)),
+    apiKeyId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "WebApp" }) as any as Schema.Schema<WebApp>;
 
 export interface ListWebAppsResponse {
   /** List of each `WebApp` associated with the specified `FirebaseProject`. */
@@ -636,10 +792,15 @@ export interface ListWebAppsResponse {
   nextPageToken?: string;
 }
 
-export const ListWebAppsResponse: Schema.Schema<ListWebAppsResponse> = Schema.suspend(() => Schema.Struct({
-  apps: Schema.optional(Schema.Array(WebApp)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListWebAppsResponse" }) as any as Schema.Schema<ListWebAppsResponse>;
+export const ListWebAppsResponse: Schema.Schema<ListWebAppsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      apps: Schema.optional(Schema.Array(WebApp)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListWebAppsResponse",
+  }) as any as Schema.Schema<ListWebAppsResponse>;
 
 export interface StreamMapping {
   /** The resource name of the Firebase App associated with the Google Analytics data stream, in the format: projects/PROJECT_IDENTIFIER/androidApps/APP_ID or projects/PROJECT_IDENTIFIER/iosApps/APP_ID or projects/PROJECT_IDENTIFIER /webApps/APP_ID Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -650,35 +811,49 @@ export interface StreamMapping {
   measurementId?: string;
 }
 
-export const StreamMapping: Schema.Schema<StreamMapping> = Schema.suspend(() => Schema.Struct({
-  app: Schema.optional(Schema.String),
-  streamId: Schema.optional(Schema.String),
-  measurementId: Schema.optional(Schema.String),
-})).annotate({ identifier: "StreamMapping" }) as any as Schema.Schema<StreamMapping>;
+export const StreamMapping: Schema.Schema<StreamMapping> = Schema.suspend(() =>
+  Schema.Struct({
+    app: Schema.optional(Schema.String),
+    streamId: Schema.optional(Schema.String),
+    measurementId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "StreamMapping",
+}) as any as Schema.Schema<StreamMapping>;
 
 export interface ListShaCertificatesResponse {
   /** The list of each `ShaCertificate` associated with the `AndroidApp`. */
   certificates?: Array<ShaCertificate>;
 }
 
-export const ListShaCertificatesResponse: Schema.Schema<ListShaCertificatesResponse> = Schema.suspend(() => Schema.Struct({
-  certificates: Schema.optional(Schema.Array(ShaCertificate)),
-})).annotate({ identifier: "ListShaCertificatesResponse" }) as any as Schema.Schema<ListShaCertificatesResponse>;
+export const ListShaCertificatesResponse: Schema.Schema<ListShaCertificatesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certificates: Schema.optional(Schema.Array(ShaCertificate)),
+    }),
+  ).annotate({
+    identifier: "ListShaCertificatesResponse",
+  }) as any as Schema.Schema<ListShaCertificatesResponse>;
 
 export interface RemoveAnalyticsRequest {
   /** Optional. The ID of the Google Analytics property associated with the specified `FirebaseProject`. - If not set, then the Google Analytics property that is currently associated with the specified `FirebaseProject` is removed. - If set, and the specified `FirebaseProject` is currently associated with a *different* Google Analytics property, then the response is a `412 Precondition Failed` error. */
   analyticsPropertyId?: string;
 }
 
-export const RemoveAnalyticsRequest: Schema.Schema<RemoveAnalyticsRequest> = Schema.suspend(() => Schema.Struct({
-  analyticsPropertyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RemoveAnalyticsRequest" }) as any as Schema.Schema<RemoveAnalyticsRequest>;
+export const RemoveAnalyticsRequest: Schema.Schema<RemoveAnalyticsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      analyticsPropertyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemoveAnalyticsRequest",
+  }) as any as Schema.Schema<RemoveAnalyticsRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface AnalyticsDetails {
   /** - For `AndroidApps` and `IosApps`: a map of `app` to `streamId` for each Firebase App in the specified `FirebaseProject`. Each `app` and `streamId` appears only once. - For `WebApps`: a map of `app` to `streamId` and `measurementId` for each `WebApp` in the specified `FirebaseProject`. Each `app`, `streamId`, and `measurementId` appears only once. */
@@ -687,10 +862,15 @@ export interface AnalyticsDetails {
   analyticsProperty?: AnalyticsProperty;
 }
 
-export const AnalyticsDetails: Schema.Schema<AnalyticsDetails> = Schema.suspend(() => Schema.Struct({
-  streamMappings: Schema.optional(Schema.Array(StreamMapping)),
-  analyticsProperty: Schema.optional(AnalyticsProperty),
-})).annotate({ identifier: "AnalyticsDetails" }) as any as Schema.Schema<AnalyticsDetails>;
+export const AnalyticsDetails: Schema.Schema<AnalyticsDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      streamMappings: Schema.optional(Schema.Array(StreamMapping)),
+      analyticsProperty: Schema.optional(AnalyticsProperty),
+    }),
+).annotate({
+  identifier: "AnalyticsDetails",
+}) as any as Schema.Schema<AnalyticsDetails>;
 
 // ==========================================================================
 // Operations
@@ -714,7 +894,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -734,7 +919,11 @@ export const PatchProjectsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(FirebaseProject).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsRequest>;
 
@@ -744,7 +933,12 @@ export const PatchProjectsResponse = FirebaseProject;
 export type PatchProjectsError = DefaultErrors;
 
 /** Updates the attributes of the specified FirebaseProject. All [query parameters](#query-parameters) are required. */
-export const patchProjects: API.OperationMethod<PatchProjectsRequest, PatchProjectsResponse, PatchProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjects: API.OperationMethod<
+  PatchProjectsRequest,
+  PatchProjectsResponse,
+  PatchProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsRequest,
   output: PatchProjectsResponse,
   errors: [],
@@ -758,7 +952,10 @@ export interface GetAdminSdkConfigProjectsRequest {
 export const GetAdminSdkConfigProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/adminSdkConfig" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/adminSdkConfig",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAdminSdkConfigProjectsRequest>;
 
@@ -768,7 +965,12 @@ export const GetAdminSdkConfigProjectsResponse = AdminSdkConfig;
 export type GetAdminSdkConfigProjectsError = DefaultErrors;
 
 /** Gets the configuration artifact associated with the specified FirebaseProject, which can be used by servers to simplify initialization. Typically, this configuration is used with the Firebase Admin SDK [initializeApp](https://firebase.google.com/docs/admin/setup#initialize_the_sdk) command. */
-export const getAdminSdkConfigProjects: API.OperationMethod<GetAdminSdkConfigProjectsRequest, GetAdminSdkConfigProjectsResponse, GetAdminSdkConfigProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAdminSdkConfigProjects: API.OperationMethod<
+  GetAdminSdkConfigProjectsRequest,
+  GetAdminSdkConfigProjectsResponse,
+  GetAdminSdkConfigProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAdminSdkConfigProjectsRequest,
   output: GetAdminSdkConfigProjectsResponse,
   errors: [],
@@ -798,7 +1000,12 @@ export const ListProjectsResponse = ListFirebaseProjectsResponse;
 export type ListProjectsError = DefaultErrors;
 
 /** Lists each FirebaseProject accessible to the caller. The elements are returned in no particular order, but they will be a consistent view of the Projects when additional requests are made with a `pageToken`. This method is eventually consistent with Project mutations, which means newly provisioned Projects and recent modifications to existing Projects might not be reflected in the set of Projects. The list will include only ACTIVE Projects. Use GetFirebaseProject for consistent reads as well as for additional Project details. */
-export const listProjects: API.PaginatedOperationMethod<ListProjectsRequest, ListProjectsResponse, ListProjectsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjects: API.PaginatedOperationMethod<
+  ListProjectsRequest,
+  ListProjectsResponse,
+  ListProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsRequest,
   output: ListProjectsResponse,
   errors: [],
@@ -816,7 +1023,10 @@ export interface GetAnalyticsDetailsProjectsRequest {
 export const GetAnalyticsDetailsProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/analyticsDetails" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/analyticsDetails",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAnalyticsDetailsProjectsRequest>;
 
@@ -826,7 +1036,12 @@ export const GetAnalyticsDetailsProjectsResponse = AnalyticsDetails;
 export type GetAnalyticsDetailsProjectsError = DefaultErrors;
 
 /** Gets the Google Analytics details currently associated with the specified FirebaseProject. If the `FirebaseProject` is not yet linked to Google Analytics, then the response to `GetAnalyticsDetails` is `NOT_FOUND`. */
-export const getAnalyticsDetailsProjects: API.OperationMethod<GetAnalyticsDetailsProjectsRequest, GetAnalyticsDetailsProjectsResponse, GetAnalyticsDetailsProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAnalyticsDetailsProjects: API.OperationMethod<
+  GetAnalyticsDetailsProjectsRequest,
+  GetAnalyticsDetailsProjectsResponse,
+  GetAnalyticsDetailsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAnalyticsDetailsProjectsRequest,
   output: GetAnalyticsDetailsProjectsResponse,
   errors: [],
@@ -850,7 +1065,12 @@ export const GetProjectsResponse = FirebaseProject;
 export type GetProjectsError = DefaultErrors;
 
 /** Gets the specified FirebaseProject. */
-export const getProjects: API.OperationMethod<GetProjectsRequest, GetProjectsResponse, GetProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjects: API.OperationMethod<
+  GetProjectsRequest,
+  GetProjectsResponse,
+  GetProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
@@ -867,7 +1087,11 @@ export const AddGoogleAnalyticsProjectsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AddGoogleAnalyticsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}:addGoogleAnalytics", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}:addGoogleAnalytics",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddGoogleAnalyticsProjectsRequest>;
 
@@ -877,7 +1101,12 @@ export const AddGoogleAnalyticsProjectsResponse = Operation;
 export type AddGoogleAnalyticsProjectsError = DefaultErrors;
 
 /** Links the specified FirebaseProject with an existing [Google Analytics account](http://www.google.com/analytics/). Using this call, you can either: - Specify an `analyticsAccountId` to provision a new Google Analytics property within the specified account and associate the new property with the `FirebaseProject`. - Specify an existing `analyticsPropertyId` to associate the property with the `FirebaseProject`. Note that when you call `AddGoogleAnalytics`: 1. The first check determines if any existing data streams in the Google Analytics property correspond to any existing Firebase Apps in the `FirebaseProject` (based on the `packageName` or `bundleId` associated with the data stream). Then, as applicable, the data streams and apps are linked. Note that this auto-linking only applies to `AndroidApps` and `IosApps`. 2. If no corresponding data streams are found for the Firebase Apps, new data streams are provisioned in the Google Analytics property for each of the Firebase Apps. Note that a new data stream is always provisioned for a Web App even if it was previously associated with a data stream in the Analytics property. Learn more about the hierarchy and structure of Google Analytics accounts in the [Analytics documentation](https://support.google.com/analytics/answer/9303323). The result of this call is an [`Operation`](../../v1beta1/operations). Poll the `Operation` to track the provisioning process by calling GetOperation until [`done`](../../v1beta1/operations#Operation.FIELDS.done) is `true`. When `done` is `true`, the `Operation` has either succeeded or failed. If the `Operation` succeeded, its [`response`](../../v1beta1/operations#Operation.FIELDS.response) is set to an AnalyticsDetails; if the `Operation` failed, its [`error`](../../v1beta1/operations#Operation.FIELDS.error) is set to a google.rpc.Status. To call `AddGoogleAnalytics`, a project member must be an Owner for the existing `FirebaseProject` and have the [`Edit` permission](https://support.google.com/analytics/answer/2884495) for the Google Analytics account. If the `FirebaseProject` already has Google Analytics enabled, and you call `AddGoogleAnalytics` using an `analyticsPropertyId` that's different from the currently associated property, then the call will fail. Analytics may have already been enabled in the Firebase console or by specifying `timeZone` and `regionCode` in the call to [`AddFirebase`](../../v1beta1/projects/addFirebase). */
-export const addGoogleAnalyticsProjects: API.OperationMethod<AddGoogleAnalyticsProjectsRequest, AddGoogleAnalyticsProjectsResponse, AddGoogleAnalyticsProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addGoogleAnalyticsProjects: API.OperationMethod<
+  AddGoogleAnalyticsProjectsRequest,
+  AddGoogleAnalyticsProjectsResponse,
+  AddGoogleAnalyticsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddGoogleAnalyticsProjectsRequest,
   output: AddGoogleAnalyticsProjectsResponse,
   errors: [],
@@ -913,7 +1142,12 @@ export const SearchAppsProjectsResponse = SearchFirebaseAppsResponse;
 export type SearchAppsProjectsError = DefaultErrors;
 
 /** Lists all available Apps for the specified FirebaseProject. This is a convenience method. Typically, interaction with an App should be done using the platform-specific service, but some tool use-cases require a summary of all known Apps (such as for App selector interfaces). */
-export const searchAppsProjects: API.PaginatedOperationMethod<SearchAppsProjectsRequest, SearchAppsProjectsResponse, SearchAppsProjectsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchAppsProjects: API.PaginatedOperationMethod<
+  SearchAppsProjectsRequest,
+  SearchAppsProjectsResponse,
+  SearchAppsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchAppsProjectsRequest,
   output: SearchAppsProjectsResponse,
   errors: [],
@@ -934,7 +1168,11 @@ export const RemoveAnalyticsProjectsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(RemoveAnalyticsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}:removeAnalytics", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}:removeAnalytics",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveAnalyticsProjectsRequest>;
 
@@ -944,7 +1182,12 @@ export const RemoveAnalyticsProjectsResponse = Empty;
 export type RemoveAnalyticsProjectsError = DefaultErrors;
 
 /** Unlinks the specified FirebaseProject from its Google Analytics account. This call removes the association of the specified `FirebaseProject` with its current Google Analytics property. However, this call does not delete the Google Analytics resources, such as the Google Analytics property or any data streams. These resources may be re-associated later to the `FirebaseProject` by calling [`AddGoogleAnalytics`](../../v1beta1/projects/addGoogleAnalytics) and specifying the same `analyticsPropertyId`. For Android Apps and iOS Apps, this call re-links data streams with their corresponding apps. However, for Web Apps, this call provisions a *new* data stream for each Web App. To call `RemoveAnalytics`, a project member must be an Owner for the `FirebaseProject`. */
-export const removeAnalyticsProjects: API.OperationMethod<RemoveAnalyticsProjectsRequest, RemoveAnalyticsProjectsResponse, RemoveAnalyticsProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeAnalyticsProjects: API.OperationMethod<
+  RemoveAnalyticsProjectsRequest,
+  RemoveAnalyticsProjectsResponse,
+  RemoveAnalyticsProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveAnalyticsProjectsRequest,
   output: RemoveAnalyticsProjectsResponse,
   errors: [],
@@ -961,7 +1204,11 @@ export const AddFirebaseProjectsRequest = Schema.Struct({
   project: Schema.String.pipe(T.HttpPath("project")),
   body: Schema.optional(AddFirebaseRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}:addFirebase", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}:addFirebase",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddFirebaseProjectsRequest>;
 
@@ -971,7 +1218,12 @@ export const AddFirebaseProjectsResponse = Operation;
 export type AddFirebaseProjectsError = DefaultErrors;
 
 /** Adds Firebase resources and enables Firebase services in the specified existing [Google Cloud `Project`](https://cloud.google.com/resource-manager/reference/rest/v1/projects). Since a FirebaseProject is actually also a Google Cloud `Project`, a `FirebaseProject` has the same underlying Google Cloud identifiers (`projectNumber` and `projectId`). This allows for easy interop with Google APIs. The result of this call is an [`Operation`](../../v1beta1/operations). Poll the `Operation` to track the provisioning process by calling GetOperation until [`done`](../../v1beta1/operations#Operation.FIELDS.done) is `true`. When `done` is `true`, the `Operation` has either succeeded or failed. If the `Operation` succeeded, its [`response`](../../v1beta1/operations#Operation.FIELDS.response) is set to a FirebaseProject; if the `Operation` failed, its [`error`](../../v1beta1/operations#Operation.FIELDS.error) is set to a google.rpc.Status. The `Operation` is automatically deleted after completion, so there is no need to call DeleteOperation. This method does not modify any billing account information on the underlying Google Cloud `Project`. To call `AddFirebase`, a project member or service account must have the following permissions (the IAM roles of Editor and Owner contain these permissions): `firebase.projects.update`, `resourcemanager.projects.get`, `serviceusage.services.enable`, and `serviceusage.services.get`. */
-export const addFirebaseProjects: API.OperationMethod<AddFirebaseProjectsRequest, AddFirebaseProjectsResponse, AddFirebaseProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addFirebaseProjects: API.OperationMethod<
+  AddFirebaseProjectsRequest,
+  AddFirebaseProjectsResponse,
+  AddFirebaseProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddFirebaseProjectsRequest,
   output: AddFirebaseProjectsResponse,
   errors: [],
@@ -988,7 +1240,11 @@ export const CreateProjectsWebAppsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(WebApp).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/webApps", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/webApps",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsWebAppsRequest>;
 
@@ -998,7 +1254,12 @@ export const CreateProjectsWebAppsResponse = Operation;
 export type CreateProjectsWebAppsError = DefaultErrors;
 
 /** Requests the creation of a new WebApp in the specified FirebaseProject. The result of this call is an `Operation` which can be used to track the provisioning process. The `Operation` is automatically deleted after completion, so there is no need to call `DeleteOperation`. */
-export const createProjectsWebApps: API.OperationMethod<CreateProjectsWebAppsRequest, CreateProjectsWebAppsResponse, CreateProjectsWebAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsWebApps: API.OperationMethod<
+  CreateProjectsWebAppsRequest,
+  CreateProjectsWebAppsResponse,
+  CreateProjectsWebAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsWebAppsRequest,
   output: CreateProjectsWebAppsResponse,
   errors: [],
@@ -1018,7 +1279,11 @@ export const PatchProjectsWebAppsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(WebApp).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsWebAppsRequest>;
 
@@ -1028,7 +1293,12 @@ export const PatchProjectsWebAppsResponse = WebApp;
 export type PatchProjectsWebAppsError = DefaultErrors;
 
 /** Updates the attributes of the specified WebApp. */
-export const patchProjectsWebApps: API.OperationMethod<PatchProjectsWebAppsRequest, PatchProjectsWebAppsResponse, PatchProjectsWebAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsWebApps: API.OperationMethod<
+  PatchProjectsWebAppsRequest,
+  PatchProjectsWebAppsResponse,
+  PatchProjectsWebAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsWebAppsRequest,
   output: PatchProjectsWebAppsResponse,
   errors: [],
@@ -1061,7 +1331,12 @@ export const ListProjectsWebAppsResponse = ListWebAppsResponse;
 export type ListProjectsWebAppsError = DefaultErrors;
 
 /** Lists each WebApp associated with the specified FirebaseProject. The elements are returned in no particular order, but will be a consistent view of the Apps when additional requests are made with a `pageToken`. */
-export const listProjectsWebApps: API.PaginatedOperationMethod<ListProjectsWebAppsRequest, ListProjectsWebAppsResponse, ListProjectsWebAppsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsWebApps: API.PaginatedOperationMethod<
+  ListProjectsWebAppsRequest,
+  ListProjectsWebAppsResponse,
+  ListProjectsWebAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsWebAppsRequest,
   output: ListProjectsWebAppsResponse,
   errors: [],
@@ -1082,7 +1357,11 @@ export const UndeleteProjectsWebAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteWebAppRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteProjectsWebAppsRequest>;
 
@@ -1092,7 +1371,12 @@ export const UndeleteProjectsWebAppsResponse = Operation;
 export type UndeleteProjectsWebAppsError = DefaultErrors;
 
 /** Restores the specified WebApp to the FirebaseProject. */
-export const undeleteProjectsWebApps: API.OperationMethod<UndeleteProjectsWebAppsRequest, UndeleteProjectsWebAppsResponse, UndeleteProjectsWebAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteProjectsWebApps: API.OperationMethod<
+  UndeleteProjectsWebAppsRequest,
+  UndeleteProjectsWebAppsResponse,
+  UndeleteProjectsWebAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteProjectsWebAppsRequest,
   output: UndeleteProjectsWebAppsResponse,
   errors: [],
@@ -1106,7 +1390,10 @@ export interface GetConfigProjectsWebAppsRequest {
 export const GetConfigProjectsWebAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}/config" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}/config",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConfigProjectsWebAppsRequest>;
 
@@ -1116,7 +1403,12 @@ export const GetConfigProjectsWebAppsResponse = WebAppConfig;
 export type GetConfigProjectsWebAppsError = DefaultErrors;
 
 /** Gets the configuration artifact associated with the specified WebApp. */
-export const getConfigProjectsWebApps: API.OperationMethod<GetConfigProjectsWebAppsRequest, GetConfigProjectsWebAppsResponse, GetConfigProjectsWebAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConfigProjectsWebApps: API.OperationMethod<
+  GetConfigProjectsWebAppsRequest,
+  GetConfigProjectsWebAppsResponse,
+  GetConfigProjectsWebAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConfigProjectsWebAppsRequest,
   output: GetConfigProjectsWebAppsResponse,
   errors: [],
@@ -1130,7 +1422,10 @@ export interface GetProjectsWebAppsRequest {
 export const GetProjectsWebAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsWebAppsRequest>;
 
@@ -1140,7 +1435,12 @@ export const GetProjectsWebAppsResponse = WebApp;
 export type GetProjectsWebAppsError = DefaultErrors;
 
 /** Gets the specified WebApp. */
-export const getProjectsWebApps: API.OperationMethod<GetProjectsWebAppsRequest, GetProjectsWebAppsResponse, GetProjectsWebAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsWebApps: API.OperationMethod<
+  GetProjectsWebAppsRequest,
+  GetProjectsWebAppsResponse,
+  GetProjectsWebAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsWebAppsRequest,
   output: GetProjectsWebAppsResponse,
   errors: [],
@@ -1157,7 +1457,11 @@ export const RemoveProjectsWebAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RemoveWebAppRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}:remove", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/webApps/{webAppsId}:remove",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveProjectsWebAppsRequest>;
 
@@ -1167,7 +1471,12 @@ export const RemoveProjectsWebAppsResponse = Operation;
 export type RemoveProjectsWebAppsError = DefaultErrors;
 
 /** Removes the specified WebApp from the FirebaseProject. */
-export const removeProjectsWebApps: API.OperationMethod<RemoveProjectsWebAppsRequest, RemoveProjectsWebAppsResponse, RemoveProjectsWebAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeProjectsWebApps: API.OperationMethod<
+  RemoveProjectsWebAppsRequest,
+  RemoveProjectsWebAppsResponse,
+  RemoveProjectsWebAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveProjectsWebAppsRequest,
   output: RemoveProjectsWebAppsResponse,
   errors: [],
@@ -1181,7 +1490,10 @@ export interface GetProjectsAndroidAppsRequest {
 export const GetProjectsAndroidAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsAndroidAppsRequest>;
 
@@ -1191,7 +1503,12 @@ export const GetProjectsAndroidAppsResponse = AndroidApp;
 export type GetProjectsAndroidAppsError = DefaultErrors;
 
 /** Gets the specified AndroidApp. */
-export const getProjectsAndroidApps: API.OperationMethod<GetProjectsAndroidAppsRequest, GetProjectsAndroidAppsResponse, GetProjectsAndroidAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsAndroidApps: API.OperationMethod<
+  GetProjectsAndroidAppsRequest,
+  GetProjectsAndroidAppsResponse,
+  GetProjectsAndroidAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsAndroidAppsRequest,
   output: GetProjectsAndroidAppsResponse,
   errors: [],
@@ -1208,7 +1525,11 @@ export const RemoveProjectsAndroidAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RemoveAndroidAppRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}:remove", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}:remove",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveProjectsAndroidAppsRequest>;
 
@@ -1218,7 +1539,12 @@ export const RemoveProjectsAndroidAppsResponse = Operation;
 export type RemoveProjectsAndroidAppsError = DefaultErrors;
 
 /** Removes the specified AndroidApp from the FirebaseProject. */
-export const removeProjectsAndroidApps: API.OperationMethod<RemoveProjectsAndroidAppsRequest, RemoveProjectsAndroidAppsResponse, RemoveProjectsAndroidAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeProjectsAndroidApps: API.OperationMethod<
+  RemoveProjectsAndroidAppsRequest,
+  RemoveProjectsAndroidAppsResponse,
+  RemoveProjectsAndroidAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveProjectsAndroidAppsRequest,
   output: RemoveProjectsAndroidAppsResponse,
   errors: [],
@@ -1235,7 +1561,11 @@ export const CreateProjectsAndroidAppsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(AndroidApp).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/androidApps", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/androidApps",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsAndroidAppsRequest>;
 
@@ -1245,7 +1575,12 @@ export const CreateProjectsAndroidAppsResponse = Operation;
 export type CreateProjectsAndroidAppsError = DefaultErrors;
 
 /** Requests the creation of a new AndroidApp in the specified FirebaseProject. The result of this call is an `Operation` which can be used to track the provisioning process. The `Operation` is automatically deleted after completion, so there is no need to call `DeleteOperation`. */
-export const createProjectsAndroidApps: API.OperationMethod<CreateProjectsAndroidAppsRequest, CreateProjectsAndroidAppsResponse, CreateProjectsAndroidAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsAndroidApps: API.OperationMethod<
+  CreateProjectsAndroidAppsRequest,
+  CreateProjectsAndroidAppsResponse,
+  CreateProjectsAndroidAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsAndroidAppsRequest,
   output: CreateProjectsAndroidAppsResponse,
   errors: [],
@@ -1265,7 +1600,11 @@ export const PatchProjectsAndroidAppsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AndroidApp).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsAndroidAppsRequest>;
 
@@ -1275,7 +1614,12 @@ export const PatchProjectsAndroidAppsResponse = AndroidApp;
 export type PatchProjectsAndroidAppsError = DefaultErrors;
 
 /** Updates the attributes of the specified AndroidApp. */
-export const patchProjectsAndroidApps: API.OperationMethod<PatchProjectsAndroidAppsRequest, PatchProjectsAndroidAppsResponse, PatchProjectsAndroidAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsAndroidApps: API.OperationMethod<
+  PatchProjectsAndroidAppsRequest,
+  PatchProjectsAndroidAppsResponse,
+  PatchProjectsAndroidAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsAndroidAppsRequest,
   output: PatchProjectsAndroidAppsResponse,
   errors: [],
@@ -1308,7 +1652,12 @@ export const ListProjectsAndroidAppsResponse = ListAndroidAppsResponse;
 export type ListProjectsAndroidAppsError = DefaultErrors;
 
 /** Lists each AndroidApp associated with the specified FirebaseProject. The elements are returned in no particular order, but will be a consistent view of the Apps when additional requests are made with a `pageToken`. */
-export const listProjectsAndroidApps: API.PaginatedOperationMethod<ListProjectsAndroidAppsRequest, ListProjectsAndroidAppsResponse, ListProjectsAndroidAppsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsAndroidApps: API.PaginatedOperationMethod<
+  ListProjectsAndroidAppsRequest,
+  ListProjectsAndroidAppsResponse,
+  ListProjectsAndroidAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsAndroidAppsRequest,
   output: ListProjectsAndroidAppsResponse,
   errors: [],
@@ -1329,7 +1678,11 @@ export const UndeleteProjectsAndroidAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteAndroidAppRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteProjectsAndroidAppsRequest>;
 
@@ -1339,7 +1692,12 @@ export const UndeleteProjectsAndroidAppsResponse = Operation;
 export type UndeleteProjectsAndroidAppsError = DefaultErrors;
 
 /** Restores the specified AndroidApp to the FirebaseProject. */
-export const undeleteProjectsAndroidApps: API.OperationMethod<UndeleteProjectsAndroidAppsRequest, UndeleteProjectsAndroidAppsResponse, UndeleteProjectsAndroidAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteProjectsAndroidApps: API.OperationMethod<
+  UndeleteProjectsAndroidAppsRequest,
+  UndeleteProjectsAndroidAppsResponse,
+  UndeleteProjectsAndroidAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteProjectsAndroidAppsRequest,
   output: UndeleteProjectsAndroidAppsResponse,
   errors: [],
@@ -1353,7 +1711,10 @@ export interface GetConfigProjectsAndroidAppsRequest {
 export const GetConfigProjectsAndroidAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/config" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/config",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConfigProjectsAndroidAppsRequest>;
 
@@ -1363,7 +1724,12 @@ export const GetConfigProjectsAndroidAppsResponse = AndroidAppConfig;
 export type GetConfigProjectsAndroidAppsError = DefaultErrors;
 
 /** Gets the configuration artifact associated with the specified AndroidApp. */
-export const getConfigProjectsAndroidApps: API.OperationMethod<GetConfigProjectsAndroidAppsRequest, GetConfigProjectsAndroidAppsResponse, GetConfigProjectsAndroidAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConfigProjectsAndroidApps: API.OperationMethod<
+  GetConfigProjectsAndroidAppsRequest,
+  GetConfigProjectsAndroidAppsResponse,
+  GetConfigProjectsAndroidAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConfigProjectsAndroidAppsRequest,
   output: GetConfigProjectsAndroidAppsResponse,
   errors: [],
@@ -1380,7 +1746,11 @@ export const CreateProjectsAndroidAppsShaRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ShaCertificate).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/sha", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/sha",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsAndroidAppsShaRequest>;
 
@@ -1390,7 +1760,12 @@ export const CreateProjectsAndroidAppsShaResponse = ShaCertificate;
 export type CreateProjectsAndroidAppsShaError = DefaultErrors;
 
 /** Adds a ShaCertificate to the specified AndroidApp. */
-export const createProjectsAndroidAppsSha: API.OperationMethod<CreateProjectsAndroidAppsShaRequest, CreateProjectsAndroidAppsShaResponse, CreateProjectsAndroidAppsShaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsAndroidAppsSha: API.OperationMethod<
+  CreateProjectsAndroidAppsShaRequest,
+  CreateProjectsAndroidAppsShaResponse,
+  CreateProjectsAndroidAppsShaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsAndroidAppsShaRequest,
   output: CreateProjectsAndroidAppsShaResponse,
   errors: [],
@@ -1404,7 +1779,10 @@ export interface ListProjectsAndroidAppsShaRequest {
 export const ListProjectsAndroidAppsShaRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/sha" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/sha",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsAndroidAppsShaRequest>;
 
@@ -1414,7 +1792,12 @@ export const ListProjectsAndroidAppsShaResponse = ListShaCertificatesResponse;
 export type ListProjectsAndroidAppsShaError = DefaultErrors;
 
 /** Lists the SHA-1 and SHA-256 certificates for the specified AndroidApp. */
-export const listProjectsAndroidAppsSha: API.OperationMethod<ListProjectsAndroidAppsShaRequest, ListProjectsAndroidAppsShaResponse, ListProjectsAndroidAppsShaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listProjectsAndroidAppsSha: API.OperationMethod<
+  ListProjectsAndroidAppsShaRequest,
+  ListProjectsAndroidAppsShaResponse,
+  ListProjectsAndroidAppsShaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListProjectsAndroidAppsShaRequest,
   output: ListProjectsAndroidAppsShaResponse,
   errors: [],
@@ -1428,7 +1811,10 @@ export interface DeleteProjectsAndroidAppsShaRequest {
 export const DeleteProjectsAndroidAppsShaRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/sha/{shaId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1/projects/{projectsId}/androidApps/{androidAppsId}/sha/{shaId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsAndroidAppsShaRequest>;
 
@@ -1438,7 +1824,12 @@ export const DeleteProjectsAndroidAppsShaResponse = Empty;
 export type DeleteProjectsAndroidAppsShaError = DefaultErrors;
 
 /** Removes a ShaCertificate from the specified AndroidApp. */
-export const deleteProjectsAndroidAppsSha: API.OperationMethod<DeleteProjectsAndroidAppsShaRequest, DeleteProjectsAndroidAppsShaResponse, DeleteProjectsAndroidAppsShaError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsAndroidAppsSha: API.OperationMethod<
+  DeleteProjectsAndroidAppsShaRequest,
+  DeleteProjectsAndroidAppsShaResponse,
+  DeleteProjectsAndroidAppsShaError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsAndroidAppsShaRequest,
   output: DeleteProjectsAndroidAppsShaResponse,
   errors: [],
@@ -1455,7 +1846,11 @@ export const FinalizeProjectsDefaultLocationRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(FinalizeDefaultLocationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/defaultLocation:finalize", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/defaultLocation:finalize",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<FinalizeProjectsDefaultLocationRequest>;
 
@@ -1465,7 +1860,12 @@ export const FinalizeProjectsDefaultLocationResponse = Operation;
 export type FinalizeProjectsDefaultLocationError = DefaultErrors;
 
 /** **DECOMMISSIONED.** **If called, this endpoint will return a 404 error.** _Instead, use the applicable resource-specific REST API to set the location for each resource used in your Project._ Sets the ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location) for the specified FirebaseProject. This method creates a Google App Engine application with a [default Cloud Storage bucket](https://cloud.google.com/appengine/docs/standard/python/googlecloudstorageclient/setting-up-cloud-storage#activating_a_cloud_storage_bucket), located in the specified [`locationId`](#body.request_body.FIELDS.location_id). This location must be one of the available [App Engine locations](https://cloud.google.com/about/locations#region). After the location for default Google Cloud resources is finalized, or if it was already set, it cannot be changed. The location for default Google Cloud resources for the specified `FirebaseProject` might already be set because either the underlying Google Cloud `Project` already has an App Engine application or `FinalizeDefaultLocation` was previously called with a specified `locationId`. The result of this call is an [`Operation`](../../v1beta1/operations), which can be used to track the provisioning process. The [`response`](../../v1beta1/operations#Operation.FIELDS.response) type of the `Operation` is google.protobuf.Empty. The `Operation` can be polled by its `name` using GetOperation until `done` is true. When `done` is true, the `Operation` has either succeeded or failed. If the `Operation` has succeeded, its [`response`](../../v1beta1/operations#Operation.FIELDS.response) will be set to a google.protobuf.Empty; if the `Operation` has failed, its `error` will be set to a google.rpc.Status. The `Operation` is automatically deleted after completion, so there is no need to call DeleteOperation. All fields listed in the [request body](#request-body) are required. To call `FinalizeDefaultLocation`, a member must be an Owner of the Project. */
-export const finalizeProjectsDefaultLocation: API.OperationMethod<FinalizeProjectsDefaultLocationRequest, FinalizeProjectsDefaultLocationResponse, FinalizeProjectsDefaultLocationError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const finalizeProjectsDefaultLocation: API.OperationMethod<
+  FinalizeProjectsDefaultLocationRequest,
+  FinalizeProjectsDefaultLocationResponse,
+  FinalizeProjectsDefaultLocationError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FinalizeProjectsDefaultLocationRequest,
   output: FinalizeProjectsDefaultLocationResponse,
   errors: [],
@@ -1485,17 +1885,27 @@ export const ListProjectsAvailableLocationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/availableLocations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/availableLocations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsAvailableLocationsRequest>;
 
-export type ListProjectsAvailableLocationsResponse = ListAvailableLocationsResponse;
-export const ListProjectsAvailableLocationsResponse = ListAvailableLocationsResponse;
+export type ListProjectsAvailableLocationsResponse =
+  ListAvailableLocationsResponse;
+export const ListProjectsAvailableLocationsResponse =
+  ListAvailableLocationsResponse;
 
 export type ListProjectsAvailableLocationsError = DefaultErrors;
 
 /** **DECOMMISSIONED.** **If called, this endpoint will return a 404 error.** _Instead, use the applicable resource-specific REST API (or associated documentation, as needed) to determine valid locations for each resource used in your Project._ Lists the valid ["locations for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location) for the specified Project (including a FirebaseProject). One of these locations can be selected as the Project's location for default Google Cloud resources, which is the geographical location where the Project's resources associated with Google App Engine (such as the default Cloud Firestore instance) will be provisioned by default. However, if the location for default Google Cloud resources has already been set for the Project, then this setting cannot be changed. This call checks for any possible [location restrictions](https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations) for the specified Project and, thus, might return a subset of all possible locations. To list all locations (regardless of any restrictions), call the endpoint without specifying a unique project identifier (that is, `/v1beta1/{parent=projects/-}/listAvailableLocations`). To call `ListAvailableLocations` with a specified project, a member must be at minimum a Viewer of the Project. Calls without a specified project do not require any specific project permissions. */
-export const listProjectsAvailableLocations: API.PaginatedOperationMethod<ListProjectsAvailableLocationsRequest, ListProjectsAvailableLocationsResponse, ListProjectsAvailableLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsAvailableLocations: API.PaginatedOperationMethod<
+  ListProjectsAvailableLocationsRequest,
+  ListProjectsAvailableLocationsResponse,
+  ListProjectsAvailableLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsAvailableLocationsRequest,
   output: ListProjectsAvailableLocationsResponse,
   errors: [],
@@ -1513,7 +1923,10 @@ export interface GetProjectsIosAppsRequest {
 export const GetProjectsIosAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsIosAppsRequest>;
 
@@ -1523,7 +1936,12 @@ export const GetProjectsIosAppsResponse = IosApp;
 export type GetProjectsIosAppsError = DefaultErrors;
 
 /** Gets the specified IosApp. */
-export const getProjectsIosApps: API.OperationMethod<GetProjectsIosAppsRequest, GetProjectsIosAppsResponse, GetProjectsIosAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsIosApps: API.OperationMethod<
+  GetProjectsIosAppsRequest,
+  GetProjectsIosAppsResponse,
+  GetProjectsIosAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsIosAppsRequest,
   output: GetProjectsIosAppsResponse,
   errors: [],
@@ -1540,7 +1958,11 @@ export const RemoveProjectsIosAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RemoveIosAppRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}:remove", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}:remove",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveProjectsIosAppsRequest>;
 
@@ -1550,7 +1972,12 @@ export const RemoveProjectsIosAppsResponse = Operation;
 export type RemoveProjectsIosAppsError = DefaultErrors;
 
 /** Removes the specified IosApp from the FirebaseProject. */
-export const removeProjectsIosApps: API.OperationMethod<RemoveProjectsIosAppsRequest, RemoveProjectsIosAppsResponse, RemoveProjectsIosAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeProjectsIosApps: API.OperationMethod<
+  RemoveProjectsIosAppsRequest,
+  RemoveProjectsIosAppsResponse,
+  RemoveProjectsIosAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveProjectsIosAppsRequest,
   output: RemoveProjectsIosAppsResponse,
   errors: [],
@@ -1567,7 +1994,11 @@ export const CreateProjectsIosAppsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(IosApp).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/iosApps", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/iosApps",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsIosAppsRequest>;
 
@@ -1577,7 +2008,12 @@ export const CreateProjectsIosAppsResponse = Operation;
 export type CreateProjectsIosAppsError = DefaultErrors;
 
 /** Requests the creation of a new IosApp in the specified FirebaseProject. The result of this call is an `Operation` which can be used to track the provisioning process. The `Operation` is automatically deleted after completion, so there is no need to call `DeleteOperation`. */
-export const createProjectsIosApps: API.OperationMethod<CreateProjectsIosAppsRequest, CreateProjectsIosAppsResponse, CreateProjectsIosAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsIosApps: API.OperationMethod<
+  CreateProjectsIosAppsRequest,
+  CreateProjectsIosAppsResponse,
+  CreateProjectsIosAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsIosAppsRequest,
   output: CreateProjectsIosAppsResponse,
   errors: [],
@@ -1597,7 +2033,11 @@ export const PatchProjectsIosAppsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(IosApp).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsIosAppsRequest>;
 
@@ -1607,7 +2047,12 @@ export const PatchProjectsIosAppsResponse = IosApp;
 export type PatchProjectsIosAppsError = DefaultErrors;
 
 /** Updates the attributes of the specified IosApp. */
-export const patchProjectsIosApps: API.OperationMethod<PatchProjectsIosAppsRequest, PatchProjectsIosAppsResponse, PatchProjectsIosAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsIosApps: API.OperationMethod<
+  PatchProjectsIosAppsRequest,
+  PatchProjectsIosAppsResponse,
+  PatchProjectsIosAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsIosAppsRequest,
   output: PatchProjectsIosAppsResponse,
   errors: [],
@@ -1640,7 +2085,12 @@ export const ListProjectsIosAppsResponse = ListIosAppsResponse;
 export type ListProjectsIosAppsError = DefaultErrors;
 
 /** Lists each IosApp associated with the specified FirebaseProject. The elements are returned in no particular order, but will be a consistent view of the Apps when additional requests are made with a `pageToken`. */
-export const listProjectsIosApps: API.PaginatedOperationMethod<ListProjectsIosAppsRequest, ListProjectsIosAppsResponse, ListProjectsIosAppsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsIosApps: API.PaginatedOperationMethod<
+  ListProjectsIosAppsRequest,
+  ListProjectsIosAppsResponse,
+  ListProjectsIosAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsIosAppsRequest,
   output: ListProjectsIosAppsResponse,
   errors: [],
@@ -1661,7 +2111,11 @@ export const UndeleteProjectsIosAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeleteIosAppRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteProjectsIosAppsRequest>;
 
@@ -1671,7 +2125,12 @@ export const UndeleteProjectsIosAppsResponse = Operation;
 export type UndeleteProjectsIosAppsError = DefaultErrors;
 
 /** Restores the specified IosApp to the FirebaseProject. */
-export const undeleteProjectsIosApps: API.OperationMethod<UndeleteProjectsIosAppsRequest, UndeleteProjectsIosAppsResponse, UndeleteProjectsIosAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteProjectsIosApps: API.OperationMethod<
+  UndeleteProjectsIosAppsRequest,
+  UndeleteProjectsIosAppsResponse,
+  UndeleteProjectsIosAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteProjectsIosAppsRequest,
   output: UndeleteProjectsIosAppsResponse,
   errors: [],
@@ -1685,7 +2144,10 @@ export interface GetConfigProjectsIosAppsRequest {
 export const GetConfigProjectsIosAppsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}/config" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta1/projects/{projectsId}/iosApps/{iosAppsId}/config",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetConfigProjectsIosAppsRequest>;
 
@@ -1695,7 +2157,12 @@ export const GetConfigProjectsIosAppsResponse = IosAppConfig;
 export type GetConfigProjectsIosAppsError = DefaultErrors;
 
 /** Gets the configuration artifact associated with the specified IosApp. */
-export const getConfigProjectsIosApps: API.OperationMethod<GetConfigProjectsIosAppsRequest, GetConfigProjectsIosAppsResponse, GetConfigProjectsIosAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getConfigProjectsIosApps: API.OperationMethod<
+  GetConfigProjectsIosAppsRequest,
+  GetConfigProjectsIosAppsResponse,
+  GetConfigProjectsIosAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetConfigProjectsIosAppsRequest,
   output: GetConfigProjectsIosAppsResponse,
   errors: [],
@@ -1722,7 +2189,12 @@ export const ListAvailableProjectsResponse_Op = ListAvailableProjectsResponse;
 export type ListAvailableProjectsError = DefaultErrors;
 
 /** Lists each [Google Cloud `Project`](https://cloud.google.com/resource-manager/reference/rest/v1/projects) that can have Firebase resources added and Firebase services enabled. A Project will only be listed if: - The caller has sufficient [Google IAM](https://cloud.google.com/iam) permissions to call AddFirebase. - The Project is not already a FirebaseProject. - The Project is not in an Organization which has policies that prevent Firebase resources from being added. */
-export const listAvailableProjects: API.PaginatedOperationMethod<ListAvailableProjectsRequest, ListAvailableProjectsResponse_Op, ListAvailableProjectsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAvailableProjects: API.PaginatedOperationMethod<
+  ListAvailableProjectsRequest,
+  ListAvailableProjectsResponse_Op,
+  ListAvailableProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAvailableProjectsRequest,
   output: ListAvailableProjectsResponse_Op,
   errors: [],
@@ -1731,4 +2203,3 @@ export const listAvailableProjects: API.PaginatedOperationMethod<ListAvailablePr
     outputToken: "nextPageToken",
   },
 }));
-

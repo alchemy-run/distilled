@@ -32,26 +32,42 @@ export interface GoogleCloudKmsV1KeyOperationAttestationCertificateChains {
   googlePartitionCerts?: Array<string>;
 }
 
-export const GoogleCloudKmsV1KeyOperationAttestationCertificateChains: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains> = Schema.suspend(() => Schema.Struct({
-  caviumCerts: Schema.optional(Schema.Array(Schema.String)),
-  googleCardCerts: Schema.optional(Schema.Array(Schema.String)),
-  googlePartitionCerts: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudKmsV1KeyOperationAttestationCertificateChains" }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains>;
+export const GoogleCloudKmsV1KeyOperationAttestationCertificateChains: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      caviumCerts: Schema.optional(Schema.Array(Schema.String)),
+      googleCardCerts: Schema.optional(Schema.Array(Schema.String)),
+      googlePartitionCerts: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1KeyOperationAttestationCertificateChains",
+  }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains>;
 
 export interface GoogleCloudKmsV1KeyOperationAttestation {
   /** Output only. The format of the attestation data. */
-  format?: "ATTESTATION_FORMAT_UNSPECIFIED" | "CAVIUM_V1_COMPRESSED" | "CAVIUM_V2_COMPRESSED" | (string & {});
+  format?:
+    | "ATTESTATION_FORMAT_UNSPECIFIED"
+    | "CAVIUM_V1_COMPRESSED"
+    | "CAVIUM_V2_COMPRESSED"
+    | (string & {});
   /** Output only. The attestation data provided by the HSM when the key operation was performed. */
   content?: string;
   /** Output only. The certificate chains needed to validate the attestation */
   certChains?: GoogleCloudKmsV1KeyOperationAttestationCertificateChains;
 }
 
-export const GoogleCloudKmsV1KeyOperationAttestation: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation> = Schema.suspend(() => Schema.Struct({
-  format: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  certChains: Schema.optional(GoogleCloudKmsV1KeyOperationAttestationCertificateChains),
-})).annotate({ identifier: "GoogleCloudKmsV1KeyOperationAttestation" }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation>;
+export const GoogleCloudKmsV1KeyOperationAttestation: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      format: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      certChains: Schema.optional(
+        GoogleCloudKmsV1KeyOperationAttestationCertificateChains,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1KeyOperationAttestation",
+  }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation>;
 
 export interface GoogleCloudKmsV1ExternalProtectionLevelOptions {
   /** The URI for an external resource that this CryptoKeyVersion represents. */
@@ -60,20 +76,92 @@ export interface GoogleCloudKmsV1ExternalProtectionLevelOptions {
   ekmConnectionKeyPath?: string;
 }
 
-export const GoogleCloudKmsV1ExternalProtectionLevelOptions: Schema.Schema<GoogleCloudKmsV1ExternalProtectionLevelOptions> = Schema.suspend(() => Schema.Struct({
-  externalKeyUri: Schema.optional(Schema.String),
-  ekmConnectionKeyPath: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudKmsV1ExternalProtectionLevelOptions" }) as any as Schema.Schema<GoogleCloudKmsV1ExternalProtectionLevelOptions>;
+export const GoogleCloudKmsV1ExternalProtectionLevelOptions: Schema.Schema<GoogleCloudKmsV1ExternalProtectionLevelOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      externalKeyUri: Schema.optional(Schema.String),
+      ekmConnectionKeyPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1ExternalProtectionLevelOptions",
+  }) as any as Schema.Schema<GoogleCloudKmsV1ExternalProtectionLevelOptions>;
 
 export interface GoogleCloudKmsV1CryptoKeyVersion {
   /** Output only. The resource name for this CryptoKeyVersion in the format `projects/* /locations/* /keyRings/* /cryptoKeys/* /cryptoKeyVersions/*`. */
   name?: string;
   /** The current state of the CryptoKeyVersion. */
-  state?: "CRYPTO_KEY_VERSION_STATE_UNSPECIFIED" | "PENDING_GENERATION" | "ENABLED" | "DISABLED" | "DESTROYED" | "DESTROY_SCHEDULED" | "PENDING_IMPORT" | "IMPORT_FAILED" | "GENERATION_FAILED" | "PENDING_EXTERNAL_DESTRUCTION" | "EXTERNAL_DESTRUCTION_FAILED" | (string & {});
+  state?:
+    | "CRYPTO_KEY_VERSION_STATE_UNSPECIFIED"
+    | "PENDING_GENERATION"
+    | "ENABLED"
+    | "DISABLED"
+    | "DESTROYED"
+    | "DESTROY_SCHEDULED"
+    | "PENDING_IMPORT"
+    | "IMPORT_FAILED"
+    | "GENERATION_FAILED"
+    | "PENDING_EXTERNAL_DESTRUCTION"
+    | "EXTERNAL_DESTRUCTION_FAILED"
+    | (string & {});
   /** Output only. The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
   /** Output only. The CryptoKeyVersionAlgorithm that this CryptoKeyVersion supports. */
-  algorithm?: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED" | "GOOGLE_SYMMETRIC_ENCRYPTION" | "AES_128_GCM" | "AES_256_GCM" | "AES_128_CBC" | "AES_256_CBC" | "AES_128_CTR" | "AES_256_CTR" | "RSA_SIGN_PSS_2048_SHA256" | "RSA_SIGN_PSS_3072_SHA256" | "RSA_SIGN_PSS_4096_SHA256" | "RSA_SIGN_PSS_4096_SHA512" | "RSA_SIGN_PKCS1_2048_SHA256" | "RSA_SIGN_PKCS1_3072_SHA256" | "RSA_SIGN_PKCS1_4096_SHA256" | "RSA_SIGN_PKCS1_4096_SHA512" | "RSA_SIGN_RAW_PKCS1_2048" | "RSA_SIGN_RAW_PKCS1_3072" | "RSA_SIGN_RAW_PKCS1_4096" | "RSA_DECRYPT_OAEP_2048_SHA256" | "RSA_DECRYPT_OAEP_3072_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA512" | "RSA_DECRYPT_OAEP_2048_SHA1" | "RSA_DECRYPT_OAEP_3072_SHA1" | "RSA_DECRYPT_OAEP_4096_SHA1" | "EC_SIGN_P256_SHA256" | "EC_SIGN_P384_SHA384" | "EC_SIGN_SECP256K1_SHA256" | "EC_SIGN_ED25519" | "HMAC_SHA256" | "HMAC_SHA1" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224" | "EXTERNAL_SYMMETRIC_ENCRYPTION" | "ML_KEM_768" | "ML_KEM_1024" | "KEM_XWING" | "PQ_SIGN_ML_DSA_44" | "PQ_SIGN_ML_DSA_65" | "PQ_SIGN_ML_DSA_87" | "PQ_SIGN_SLH_DSA_SHA2_128S" | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256" | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU" | (string & {});
+  algorithm?:
+    | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+    | "GOOGLE_SYMMETRIC_ENCRYPTION"
+    | "AES_128_GCM"
+    | "AES_256_GCM"
+    | "AES_128_CBC"
+    | "AES_256_CBC"
+    | "AES_128_CTR"
+    | "AES_256_CTR"
+    | "RSA_SIGN_PSS_2048_SHA256"
+    | "RSA_SIGN_PSS_3072_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA512"
+    | "RSA_SIGN_PKCS1_2048_SHA256"
+    | "RSA_SIGN_PKCS1_3072_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA512"
+    | "RSA_SIGN_RAW_PKCS1_2048"
+    | "RSA_SIGN_RAW_PKCS1_3072"
+    | "RSA_SIGN_RAW_PKCS1_4096"
+    | "RSA_DECRYPT_OAEP_2048_SHA256"
+    | "RSA_DECRYPT_OAEP_3072_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA512"
+    | "RSA_DECRYPT_OAEP_2048_SHA1"
+    | "RSA_DECRYPT_OAEP_3072_SHA1"
+    | "RSA_DECRYPT_OAEP_4096_SHA1"
+    | "EC_SIGN_P256_SHA256"
+    | "EC_SIGN_P384_SHA384"
+    | "EC_SIGN_SECP256K1_SHA256"
+    | "EC_SIGN_ED25519"
+    | "HMAC_SHA256"
+    | "HMAC_SHA1"
+    | "HMAC_SHA384"
+    | "HMAC_SHA512"
+    | "HMAC_SHA224"
+    | "EXTERNAL_SYMMETRIC_ENCRYPTION"
+    | "ML_KEM_768"
+    | "ML_KEM_1024"
+    | "KEM_XWING"
+    | "PQ_SIGN_ML_DSA_44"
+    | "PQ_SIGN_ML_DSA_65"
+    | "PQ_SIGN_ML_DSA_87"
+    | "PQ_SIGN_SLH_DSA_SHA2_128S"
+    | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
+    | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+    | (string & {});
   /** Output only. Statement that was generated and signed by the HSM at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only provided for key versions with protection_level HSM. */
   attestation?: GoogleCloudKmsV1KeyOperationAttestation;
   /** Output only. The time at which this CryptoKeyVersion was created. */
@@ -100,45 +188,131 @@ export interface GoogleCloudKmsV1CryptoKeyVersion {
   reimportEligible?: boolean;
 }
 
-export const GoogleCloudKmsV1CryptoKeyVersion: Schema.Schema<GoogleCloudKmsV1CryptoKeyVersion> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  protectionLevel: Schema.optional(Schema.String),
-  algorithm: Schema.optional(Schema.String),
-  attestation: Schema.optional(GoogleCloudKmsV1KeyOperationAttestation),
-  createTime: Schema.optional(Schema.String),
-  generateTime: Schema.optional(Schema.String),
-  destroyTime: Schema.optional(Schema.String),
-  destroyEventTime: Schema.optional(Schema.String),
-  importJob: Schema.optional(Schema.String),
-  importTime: Schema.optional(Schema.String),
-  importFailureReason: Schema.optional(Schema.String),
-  generationFailureReason: Schema.optional(Schema.String),
-  externalDestructionFailureReason: Schema.optional(Schema.String),
-  externalProtectionLevelOptions: Schema.optional(GoogleCloudKmsV1ExternalProtectionLevelOptions),
-  reimportEligible: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudKmsV1CryptoKeyVersion" }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKeyVersion>;
+export const GoogleCloudKmsV1CryptoKeyVersion: Schema.Schema<GoogleCloudKmsV1CryptoKeyVersion> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      protectionLevel: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+      attestation: Schema.optional(GoogleCloudKmsV1KeyOperationAttestation),
+      createTime: Schema.optional(Schema.String),
+      generateTime: Schema.optional(Schema.String),
+      destroyTime: Schema.optional(Schema.String),
+      destroyEventTime: Schema.optional(Schema.String),
+      importJob: Schema.optional(Schema.String),
+      importTime: Schema.optional(Schema.String),
+      importFailureReason: Schema.optional(Schema.String),
+      generationFailureReason: Schema.optional(Schema.String),
+      externalDestructionFailureReason: Schema.optional(Schema.String),
+      externalProtectionLevelOptions: Schema.optional(
+        GoogleCloudKmsV1ExternalProtectionLevelOptions,
+      ),
+      reimportEligible: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1CryptoKeyVersion",
+  }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKeyVersion>;
 
 export interface GoogleCloudKmsV1CryptoKeyVersionTemplate {
   /** ProtectionLevel to use when creating a CryptoKeyVersion based on this template. Immutable. Defaults to SOFTWARE. */
-  protectionLevel?: "PROTECTION_LEVEL_UNSPECIFIED" | "SOFTWARE" | "HSM" | "EXTERNAL" | "EXTERNAL_VPC" | "HSM_SINGLE_TENANT" | (string & {});
+  protectionLevel?:
+    | "PROTECTION_LEVEL_UNSPECIFIED"
+    | "SOFTWARE"
+    | "HSM"
+    | "EXTERNAL"
+    | "EXTERNAL_VPC"
+    | "HSM_SINGLE_TENANT"
+    | (string & {});
   /** Required. Algorithm to use when creating a CryptoKeyVersion based on this template. For backwards compatibility, GOOGLE_SYMMETRIC_ENCRYPTION is implied if both this field is omitted and CryptoKey.purpose is ENCRYPT_DECRYPT. */
-  algorithm?: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED" | "GOOGLE_SYMMETRIC_ENCRYPTION" | "AES_128_GCM" | "AES_256_GCM" | "AES_128_CBC" | "AES_256_CBC" | "AES_128_CTR" | "AES_256_CTR" | "RSA_SIGN_PSS_2048_SHA256" | "RSA_SIGN_PSS_3072_SHA256" | "RSA_SIGN_PSS_4096_SHA256" | "RSA_SIGN_PSS_4096_SHA512" | "RSA_SIGN_PKCS1_2048_SHA256" | "RSA_SIGN_PKCS1_3072_SHA256" | "RSA_SIGN_PKCS1_4096_SHA256" | "RSA_SIGN_PKCS1_4096_SHA512" | "RSA_SIGN_RAW_PKCS1_2048" | "RSA_SIGN_RAW_PKCS1_3072" | "RSA_SIGN_RAW_PKCS1_4096" | "RSA_DECRYPT_OAEP_2048_SHA256" | "RSA_DECRYPT_OAEP_3072_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA256" | "RSA_DECRYPT_OAEP_4096_SHA512" | "RSA_DECRYPT_OAEP_2048_SHA1" | "RSA_DECRYPT_OAEP_3072_SHA1" | "RSA_DECRYPT_OAEP_4096_SHA1" | "EC_SIGN_P256_SHA256" | "EC_SIGN_P384_SHA384" | "EC_SIGN_SECP256K1_SHA256" | "EC_SIGN_ED25519" | "HMAC_SHA256" | "HMAC_SHA1" | "HMAC_SHA384" | "HMAC_SHA512" | "HMAC_SHA224" | "EXTERNAL_SYMMETRIC_ENCRYPTION" | "ML_KEM_768" | "ML_KEM_1024" | "KEM_XWING" | "PQ_SIGN_ML_DSA_44" | "PQ_SIGN_ML_DSA_65" | "PQ_SIGN_ML_DSA_87" | "PQ_SIGN_SLH_DSA_SHA2_128S" | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256" | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU" | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU" | (string & {});
+  algorithm?:
+    | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+    | "GOOGLE_SYMMETRIC_ENCRYPTION"
+    | "AES_128_GCM"
+    | "AES_256_GCM"
+    | "AES_128_CBC"
+    | "AES_256_CBC"
+    | "AES_128_CTR"
+    | "AES_256_CTR"
+    | "RSA_SIGN_PSS_2048_SHA256"
+    | "RSA_SIGN_PSS_3072_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA256"
+    | "RSA_SIGN_PSS_4096_SHA512"
+    | "RSA_SIGN_PKCS1_2048_SHA256"
+    | "RSA_SIGN_PKCS1_3072_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA256"
+    | "RSA_SIGN_PKCS1_4096_SHA512"
+    | "RSA_SIGN_RAW_PKCS1_2048"
+    | "RSA_SIGN_RAW_PKCS1_3072"
+    | "RSA_SIGN_RAW_PKCS1_4096"
+    | "RSA_DECRYPT_OAEP_2048_SHA256"
+    | "RSA_DECRYPT_OAEP_3072_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA256"
+    | "RSA_DECRYPT_OAEP_4096_SHA512"
+    | "RSA_DECRYPT_OAEP_2048_SHA1"
+    | "RSA_DECRYPT_OAEP_3072_SHA1"
+    | "RSA_DECRYPT_OAEP_4096_SHA1"
+    | "EC_SIGN_P256_SHA256"
+    | "EC_SIGN_P384_SHA384"
+    | "EC_SIGN_SECP256K1_SHA256"
+    | "EC_SIGN_ED25519"
+    | "HMAC_SHA256"
+    | "HMAC_SHA1"
+    | "HMAC_SHA384"
+    | "HMAC_SHA512"
+    | "HMAC_SHA224"
+    | "EXTERNAL_SYMMETRIC_ENCRYPTION"
+    | "ML_KEM_768"
+    | "ML_KEM_1024"
+    | "KEM_XWING"
+    | "PQ_SIGN_ML_DSA_44"
+    | "PQ_SIGN_ML_DSA_65"
+    | "PQ_SIGN_ML_DSA_87"
+    | "PQ_SIGN_SLH_DSA_SHA2_128S"
+    | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
+    | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
+    | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+    | (string & {});
 }
 
-export const GoogleCloudKmsV1CryptoKeyVersionTemplate: Schema.Schema<GoogleCloudKmsV1CryptoKeyVersionTemplate> = Schema.suspend(() => Schema.Struct({
-  protectionLevel: Schema.optional(Schema.String),
-  algorithm: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudKmsV1CryptoKeyVersionTemplate" }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKeyVersionTemplate>;
+export const GoogleCloudKmsV1CryptoKeyVersionTemplate: Schema.Schema<GoogleCloudKmsV1CryptoKeyVersionTemplate> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      protectionLevel: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1CryptoKeyVersionTemplate",
+  }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKeyVersionTemplate>;
 
 export interface GoogleCloudKmsV1KeyAccessJustificationsPolicy {
   /** The list of allowed reasons for access to a CryptoKey. Zero allowed access reasons means all encrypt, decrypt, and sign operations for the CryptoKey associated with this policy will fail. */
-  allowedAccessReasons?: Array<"REASON_UNSPECIFIED" | "CUSTOMER_INITIATED_SUPPORT" | "GOOGLE_INITIATED_SERVICE" | "THIRD_PARTY_DATA_REQUEST" | "GOOGLE_INITIATED_REVIEW" | "CUSTOMER_INITIATED_ACCESS" | "GOOGLE_INITIATED_SYSTEM_OPERATION" | "REASON_NOT_EXPECTED" | "MODIFIED_CUSTOMER_INITIATED_ACCESS" | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION" | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT" | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING" | (string & {})>;
+  allowedAccessReasons?: Array<
+    | "REASON_UNSPECIFIED"
+    | "CUSTOMER_INITIATED_SUPPORT"
+    | "GOOGLE_INITIATED_SERVICE"
+    | "THIRD_PARTY_DATA_REQUEST"
+    | "GOOGLE_INITIATED_REVIEW"
+    | "CUSTOMER_INITIATED_ACCESS"
+    | "GOOGLE_INITIATED_SYSTEM_OPERATION"
+    | "REASON_NOT_EXPECTED"
+    | "MODIFIED_CUSTOMER_INITIATED_ACCESS"
+    | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION"
+    | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+    | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING"
+    | (string & {})
+  >;
 }
 
-export const GoogleCloudKmsV1KeyAccessJustificationsPolicy: Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy> = Schema.suspend(() => Schema.Struct({
-  allowedAccessReasons: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudKmsV1KeyAccessJustificationsPolicy" }) as any as Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy>;
+export const GoogleCloudKmsV1KeyAccessJustificationsPolicy: Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowedAccessReasons: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1KeyAccessJustificationsPolicy",
+  }) as any as Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy>;
 
 export interface GoogleCloudKmsV1CryptoKey {
   /** Output only. The resource name for this CryptoKey in the format `projects/* /locations/* /keyRings/* /cryptoKeys/*`. */
@@ -146,7 +320,15 @@ export interface GoogleCloudKmsV1CryptoKey {
   /** Output only. A copy of the "primary" CryptoKeyVersion that will be used by Encrypt when this CryptoKey is given in EncryptRequest.name. The CryptoKey's primary version can be updated via UpdateCryptoKeyPrimaryVersion. Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be omitted. */
   primary?: GoogleCloudKmsV1CryptoKeyVersion;
   /** Immutable. The immutable purpose of this CryptoKey. */
-  purpose?: "CRYPTO_KEY_PURPOSE_UNSPECIFIED" | "ENCRYPT_DECRYPT" | "ASYMMETRIC_SIGN" | "ASYMMETRIC_DECRYPT" | "RAW_ENCRYPT_DECRYPT" | "MAC" | "KEY_ENCAPSULATION" | (string & {});
+  purpose?:
+    | "CRYPTO_KEY_PURPOSE_UNSPECIFIED"
+    | "ENCRYPT_DECRYPT"
+    | "ASYMMETRIC_SIGN"
+    | "ASYMMETRIC_DECRYPT"
+    | "RAW_ENCRYPT_DECRYPT"
+    | "MAC"
+    | "KEY_ENCAPSULATION"
+    | (string & {});
   /** Output only. The time at which this CryptoKey was created. */
   createTime?: string;
   /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
@@ -167,20 +349,29 @@ export interface GoogleCloudKmsV1CryptoKey {
   keyAccessJustificationsPolicy?: GoogleCloudKmsV1KeyAccessJustificationsPolicy;
 }
 
-export const GoogleCloudKmsV1CryptoKey: Schema.Schema<GoogleCloudKmsV1CryptoKey> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  primary: Schema.optional(GoogleCloudKmsV1CryptoKeyVersion),
-  purpose: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  nextRotationTime: Schema.optional(Schema.String),
-  rotationPeriod: Schema.optional(Schema.String),
-  versionTemplate: Schema.optional(GoogleCloudKmsV1CryptoKeyVersionTemplate),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  importOnly: Schema.optional(Schema.Boolean),
-  destroyScheduledDuration: Schema.optional(Schema.String),
-  cryptoKeyBackend: Schema.optional(Schema.String),
-  keyAccessJustificationsPolicy: Schema.optional(GoogleCloudKmsV1KeyAccessJustificationsPolicy),
-})).annotate({ identifier: "GoogleCloudKmsV1CryptoKey" }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKey>;
+export const GoogleCloudKmsV1CryptoKey: Schema.Schema<GoogleCloudKmsV1CryptoKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      primary: Schema.optional(GoogleCloudKmsV1CryptoKeyVersion),
+      purpose: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      nextRotationTime: Schema.optional(Schema.String),
+      rotationPeriod: Schema.optional(Schema.String),
+      versionTemplate: Schema.optional(
+        GoogleCloudKmsV1CryptoKeyVersionTemplate,
+      ),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      importOnly: Schema.optional(Schema.Boolean),
+      destroyScheduledDuration: Schema.optional(Schema.String),
+      cryptoKeyBackend: Schema.optional(Schema.String),
+      keyAccessJustificationsPolicy: Schema.optional(
+        GoogleCloudKmsV1KeyAccessJustificationsPolicy,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1CryptoKey",
+  }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKey>;
 
 export interface GoogleCloudKmsInventoryV1ListCryptoKeysResponse {
   /** The list of CryptoKeys. */
@@ -189,22 +380,37 @@ export interface GoogleCloudKmsInventoryV1ListCryptoKeysResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudKmsInventoryV1ListCryptoKeysResponse: Schema.Schema<GoogleCloudKmsInventoryV1ListCryptoKeysResponse> = Schema.suspend(() => Schema.Struct({
-  cryptoKeys: Schema.optional(Schema.Array(GoogleCloudKmsV1CryptoKey)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudKmsInventoryV1ListCryptoKeysResponse" }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ListCryptoKeysResponse>;
+export const GoogleCloudKmsInventoryV1ListCryptoKeysResponse: Schema.Schema<GoogleCloudKmsInventoryV1ListCryptoKeysResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cryptoKeys: Schema.optional(Schema.Array(GoogleCloudKmsV1CryptoKey)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1ListCryptoKeysResponse",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ListCryptoKeysResponse>;
 
 export interface GoogleCloudKmsInventoryV1Warning {
   /** The specific warning code for the displayed message. */
-  warningCode?: "WARNING_CODE_UNSPECIFIED" | "INSUFFICIENT_PERMISSIONS_PARTIAL_DATA" | "RESOURCE_LIMIT_EXCEEDED_PARTIAL_DATA" | "ORG_LESS_PROJECT_PARTIAL_DATA" | (string & {});
+  warningCode?:
+    | "WARNING_CODE_UNSPECIFIED"
+    | "INSUFFICIENT_PERMISSIONS_PARTIAL_DATA"
+    | "RESOURCE_LIMIT_EXCEEDED_PARTIAL_DATA"
+    | "ORG_LESS_PROJECT_PARTIAL_DATA"
+    | (string & {});
   /** The literal message providing context and details about the warnings. */
   displayMessage?: string;
 }
 
-export const GoogleCloudKmsInventoryV1Warning: Schema.Schema<GoogleCloudKmsInventoryV1Warning> = Schema.suspend(() => Schema.Struct({
-  warningCode: Schema.optional(Schema.String),
-  displayMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudKmsInventoryV1Warning" }) as any as Schema.Schema<GoogleCloudKmsInventoryV1Warning>;
+export const GoogleCloudKmsInventoryV1Warning: Schema.Schema<GoogleCloudKmsInventoryV1Warning> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      warningCode: Schema.optional(Schema.String),
+      displayMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1Warning",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1Warning>;
 
 export interface GoogleCloudKmsInventoryV1ProtectedResourcesSummary {
   /** The full name of the ProtectedResourcesSummary resource. Example: projects/test-project/locations/us/keyRings/test-keyring/cryptoKeys/test-key/protectedResourcesSummary */
@@ -223,15 +429,24 @@ export interface GoogleCloudKmsInventoryV1ProtectedResourcesSummary {
   warnings?: Array<GoogleCloudKmsInventoryV1Warning>;
 }
 
-export const GoogleCloudKmsInventoryV1ProtectedResourcesSummary: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  resourceCount: Schema.optional(Schema.String),
-  projectCount: Schema.optional(Schema.Number),
-  resourceTypes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  cloudProducts: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  locations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  warnings: Schema.optional(Schema.Array(GoogleCloudKmsInventoryV1Warning)),
-})).annotate({ identifier: "GoogleCloudKmsInventoryV1ProtectedResourcesSummary" }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary>;
+export const GoogleCloudKmsInventoryV1ProtectedResourcesSummary: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      resourceCount: Schema.optional(Schema.String),
+      projectCount: Schema.optional(Schema.Number),
+      resourceTypes: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      cloudProducts: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      locations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      warnings: Schema.optional(Schema.Array(GoogleCloudKmsInventoryV1Warning)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1ProtectedResourcesSummary",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary>;
 
 export interface GoogleCloudKmsInventoryV1ProtectedResource {
   /** The full resource name of the resource. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1`. */
@@ -256,18 +471,23 @@ export interface GoogleCloudKmsInventoryV1ProtectedResource {
   createTime?: string;
 }
 
-export const GoogleCloudKmsInventoryV1ProtectedResource: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  project: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  cloudProduct: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  cryptoKeyVersion: Schema.optional(Schema.String),
-  cryptoKeyVersions: Schema.optional(Schema.Array(Schema.String)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudKmsInventoryV1ProtectedResource" }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource>;
+export const GoogleCloudKmsInventoryV1ProtectedResource: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      project: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      cloudProduct: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      cryptoKeyVersion: Schema.optional(Schema.String),
+      cryptoKeyVersions: Schema.optional(Schema.Array(Schema.String)),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1ProtectedResource",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource>;
 
 export interface GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse {
   /** Protected resources for this page. */
@@ -276,10 +496,17 @@ export interface GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse: Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse> = Schema.suspend(() => Schema.Struct({
-  protectedResources: Schema.optional(Schema.Array(GoogleCloudKmsInventoryV1ProtectedResource)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse" }) as any as Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse>;
+export const GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse: Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      protectedResources: Schema.optional(
+        Schema.Array(GoogleCloudKmsInventoryV1ProtectedResource),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse>;
 
 // ==========================================================================
 // Operations
@@ -303,13 +530,20 @@ export const ListProjectsCryptoKeysRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<ListProjectsCryptoKeysRequest>;
 
-export type ListProjectsCryptoKeysResponse = GoogleCloudKmsInventoryV1ListCryptoKeysResponse;
-export const ListProjectsCryptoKeysResponse = GoogleCloudKmsInventoryV1ListCryptoKeysResponse;
+export type ListProjectsCryptoKeysResponse =
+  GoogleCloudKmsInventoryV1ListCryptoKeysResponse;
+export const ListProjectsCryptoKeysResponse =
+  GoogleCloudKmsInventoryV1ListCryptoKeysResponse;
 
 export type ListProjectsCryptoKeysError = DefaultErrors;
 
 /** Returns cryptographic keys managed by Cloud KMS in a given Cloud project. Note that this data is sourced from snapshots, meaning it may not completely reflect the actual state of key metadata at call time. */
-export const listProjectsCryptoKeys: API.PaginatedOperationMethod<ListProjectsCryptoKeysRequest, ListProjectsCryptoKeysResponse, ListProjectsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsCryptoKeys: API.PaginatedOperationMethod<
+  ListProjectsCryptoKeysRequest,
+  ListProjectsCryptoKeysResponse,
+  ListProjectsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsCryptoKeysRequest,
   output: ListProjectsCryptoKeysResponse,
   errors: [],
@@ -323,26 +557,44 @@ export interface GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys
   /** Required. The resource name of the CryptoKey. */
   name: string;
   /** Optional. The scope to use if the kms organization service account is not configured. */
-  fallbackScope?: "FALLBACK_SCOPE_UNSPECIFIED" | "FALLBACK_SCOPE_PROJECT" | (string & {});
+  fallbackScope?:
+    | "FALLBACK_SCOPE_UNSPECIFIED"
+    | "FALLBACK_SCOPE_PROJECT"
+    | (string & {});
 }
 
-export const GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  fallbackScope: Schema.optional(Schema.String).pipe(T.HttpQuery("fallbackScope")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/protectedResourcesSummary" }),
-  svc,
-) as unknown as Schema.Schema<GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest>;
+export const GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    fallbackScope: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fallbackScope"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/keyRings/{keyRingsId}/cryptoKeys/{cryptoKeysId}/protectedResourcesSummary",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest>;
 
-export type GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse = GoogleCloudKmsInventoryV1ProtectedResourcesSummary;
-export const GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse = GoogleCloudKmsInventoryV1ProtectedResourcesSummary;
+export type GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse =
+  GoogleCloudKmsInventoryV1ProtectedResourcesSummary;
+export const GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse =
+  GoogleCloudKmsInventoryV1ProtectedResourcesSummary;
 
-export type GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysError = DefaultErrors;
+export type GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysError =
+  DefaultErrors;
 
 /** Returns aggregate information about the resources protected by the given Cloud KMS CryptoKey. By default, summary of resources within the same Cloud organization as the key will be returned, which requires the KMS organization service account to be configured(refer https://docs.cloud.google.com/kms/docs/view-key-usage#required-roles). If the KMS organization service account is not configured or key's project is not part of an organization, set fallback_scope to `FALLBACK_SCOPE_PROJECT` to retrieve a summary of protected resources within the key's project. */
-export const getProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest, GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse, GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
+  GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest,
+  GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse,
+  GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest,
-  output: GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse,
+  output:
+    GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
@@ -364,19 +616,31 @@ export const SearchProjectsProtectedResourcesRequest = Schema.Struct({
   cryptoKey: Schema.optional(Schema.String).pipe(T.HttpQuery("cryptoKey")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  resourceTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("resourceTypes")),
+  resourceTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("resourceTypes"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/protectedResources:search" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/protectedResources:search",
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchProjectsProtectedResourcesRequest>;
 
-export type SearchProjectsProtectedResourcesResponse = GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
-export const SearchProjectsProtectedResourcesResponse = GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
+export type SearchProjectsProtectedResourcesResponse =
+  GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
+export const SearchProjectsProtectedResourcesResponse =
+  GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
 
 export type SearchProjectsProtectedResourcesError = DefaultErrors;
 
 /** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
-export const searchProjectsProtectedResources: API.PaginatedOperationMethod<SearchProjectsProtectedResourcesRequest, SearchProjectsProtectedResourcesResponse, SearchProjectsProtectedResourcesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchProjectsProtectedResources: API.PaginatedOperationMethod<
+  SearchProjectsProtectedResourcesRequest,
+  SearchProjectsProtectedResourcesResponse,
+  SearchProjectsProtectedResourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchProjectsProtectedResourcesRequest,
   output: SearchProjectsProtectedResourcesResponse,
   errors: [],
@@ -404,19 +668,31 @@ export const SearchOrganizationsProtectedResourcesRequest = Schema.Struct({
   cryptoKey: Schema.optional(Schema.String).pipe(T.HttpQuery("cryptoKey")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  resourceTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("resourceTypes")),
+  resourceTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("resourceTypes"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/protectedResources:search" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/protectedResources:search",
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchOrganizationsProtectedResourcesRequest>;
 
-export type SearchOrganizationsProtectedResourcesResponse = GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
-export const SearchOrganizationsProtectedResourcesResponse = GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
+export type SearchOrganizationsProtectedResourcesResponse =
+  GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
+export const SearchOrganizationsProtectedResourcesResponse =
+  GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
 
 export type SearchOrganizationsProtectedResourcesError = DefaultErrors;
 
 /** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
-export const searchOrganizationsProtectedResources: API.PaginatedOperationMethod<SearchOrganizationsProtectedResourcesRequest, SearchOrganizationsProtectedResourcesResponse, SearchOrganizationsProtectedResourcesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchOrganizationsProtectedResources: API.PaginatedOperationMethod<
+  SearchOrganizationsProtectedResourcesRequest,
+  SearchOrganizationsProtectedResourcesResponse,
+  SearchOrganizationsProtectedResourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchOrganizationsProtectedResourcesRequest,
   output: SearchOrganizationsProtectedResourcesResponse,
   errors: [],
@@ -425,4 +701,3 @@ export const searchOrganizationsProtectedResources: API.PaginatedOperationMethod
     outputToken: "nextPageToken",
   },
 }));
-

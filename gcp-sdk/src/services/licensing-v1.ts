@@ -23,11 +23,11 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface LicenseAssignment {
   /** Identifies the resource as a LicenseAssignment, which is `licensing#licenseAssignment`. */
@@ -48,25 +48,35 @@ export interface LicenseAssignment {
   productName?: string;
 }
 
-export const LicenseAssignment: Schema.Schema<LicenseAssignment> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etags: Schema.optional(Schema.String),
-  productId: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-  selfLink: Schema.optional(Schema.String),
-  skuId: Schema.optional(Schema.String),
-  skuName: Schema.optional(Schema.String),
-  productName: Schema.optional(Schema.String),
-})).annotate({ identifier: "LicenseAssignment" }) as any as Schema.Schema<LicenseAssignment>;
+export const LicenseAssignment: Schema.Schema<LicenseAssignment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etags: Schema.optional(Schema.String),
+      productId: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      skuId: Schema.optional(Schema.String),
+      skuName: Schema.optional(Schema.String),
+      productName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LicenseAssignment",
+  }) as any as Schema.Schema<LicenseAssignment>;
 
 export interface LicenseAssignmentInsert {
   /** Email id of the user */
   userId?: string;
 }
 
-export const LicenseAssignmentInsert: Schema.Schema<LicenseAssignmentInsert> = Schema.suspend(() => Schema.Struct({
-  userId: Schema.optional(Schema.String),
-})).annotate({ identifier: "LicenseAssignmentInsert" }) as any as Schema.Schema<LicenseAssignmentInsert>;
+export const LicenseAssignmentInsert: Schema.Schema<LicenseAssignmentInsert> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      userId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LicenseAssignmentInsert",
+  }) as any as Schema.Schema<LicenseAssignmentInsert>;
 
 export interface LicenseAssignmentList {
   /** Identifies the resource as a collection of LicenseAssignments. */
@@ -79,12 +89,17 @@ export interface LicenseAssignmentList {
   nextPageToken?: string;
 }
 
-export const LicenseAssignmentList: Schema.Schema<LicenseAssignmentList> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(LicenseAssignment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "LicenseAssignmentList" }) as any as Schema.Schema<LicenseAssignmentList>;
+export const LicenseAssignmentList: Schema.Schema<LicenseAssignmentList> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(LicenseAssignment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LicenseAssignmentList",
+  }) as any as Schema.Schema<LicenseAssignmentList>;
 
 // ==========================================================================
 // Operations
@@ -104,7 +119,10 @@ export const DeleteLicenseAssignmentsRequest = Schema.Struct({
   skuId: Schema.String.pipe(T.HttpPath("skuId")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteLicenseAssignmentsRequest>;
 
@@ -114,7 +132,12 @@ export const DeleteLicenseAssignmentsResponse = Empty;
 export type DeleteLicenseAssignmentsError = DefaultErrors;
 
 /** Revoke a license. */
-export const deleteLicenseAssignments: API.OperationMethod<DeleteLicenseAssignmentsRequest, DeleteLicenseAssignmentsResponse, DeleteLicenseAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteLicenseAssignments: API.OperationMethod<
+  DeleteLicenseAssignmentsRequest,
+  DeleteLicenseAssignmentsResponse,
+  DeleteLicenseAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteLicenseAssignmentsRequest,
   output: DeleteLicenseAssignmentsResponse,
   errors: [],
@@ -134,7 +157,10 @@ export const GetLicenseAssignmentsRequest = Schema.Struct({
   skuId: Schema.String.pipe(T.HttpPath("skuId")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}" }),
+  T.Http({
+    method: "GET",
+    path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetLicenseAssignmentsRequest>;
 
@@ -144,7 +170,12 @@ export const GetLicenseAssignmentsResponse = LicenseAssignment;
 export type GetLicenseAssignmentsError = DefaultErrors;
 
 /** Get a specific user's license by product SKU. */
-export const getLicenseAssignments: API.OperationMethod<GetLicenseAssignmentsRequest, GetLicenseAssignmentsResponse, GetLicenseAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLicenseAssignments: API.OperationMethod<
+  GetLicenseAssignmentsRequest,
+  GetLicenseAssignmentsResponse,
+  GetLicenseAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLicenseAssignmentsRequest,
   output: GetLicenseAssignmentsResponse,
   errors: [],
@@ -164,7 +195,11 @@ export const InsertLicenseAssignmentsRequest = Schema.Struct({
   skuId: Schema.String.pipe(T.HttpPath("skuId")),
   body: Schema.optional(LicenseAssignmentInsert).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertLicenseAssignmentsRequest>;
 
@@ -174,7 +209,12 @@ export const InsertLicenseAssignmentsResponse = LicenseAssignment;
 export type InsertLicenseAssignmentsError = DefaultErrors;
 
 /** Assign a license. */
-export const insertLicenseAssignments: API.OperationMethod<InsertLicenseAssignmentsRequest, InsertLicenseAssignmentsResponse, InsertLicenseAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertLicenseAssignments: API.OperationMethod<
+  InsertLicenseAssignmentsRequest,
+  InsertLicenseAssignmentsResponse,
+  InsertLicenseAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertLicenseAssignmentsRequest,
   output: InsertLicenseAssignmentsResponse,
   errors: [],
@@ -197,7 +237,10 @@ export const ListForProductLicenseAssignmentsRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "apps/licensing/v1/product/{productId}/users" }),
+  T.Http({
+    method: "GET",
+    path: "apps/licensing/v1/product/{productId}/users",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListForProductLicenseAssignmentsRequest>;
 
@@ -207,7 +250,12 @@ export const ListForProductLicenseAssignmentsResponse = LicenseAssignmentList;
 export type ListForProductLicenseAssignmentsError = DefaultErrors;
 
 /** List all users assigned licenses for a specific product SKU. */
-export const listForProductLicenseAssignments: API.PaginatedOperationMethod<ListForProductLicenseAssignmentsRequest, ListForProductLicenseAssignmentsResponse, ListForProductLicenseAssignmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listForProductLicenseAssignments: API.PaginatedOperationMethod<
+  ListForProductLicenseAssignmentsRequest,
+  ListForProductLicenseAssignmentsResponse,
+  ListForProductLicenseAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListForProductLicenseAssignmentsRequest,
   output: ListForProductLicenseAssignmentsResponse,
   errors: [],
@@ -238,17 +286,27 @@ export const ListForProductAndSkuLicenseAssignmentsRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "apps/licensing/v1/product/{productId}/sku/{skuId}/users" }),
+  T.Http({
+    method: "GET",
+    path: "apps/licensing/v1/product/{productId}/sku/{skuId}/users",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListForProductAndSkuLicenseAssignmentsRequest>;
 
-export type ListForProductAndSkuLicenseAssignmentsResponse = LicenseAssignmentList;
-export const ListForProductAndSkuLicenseAssignmentsResponse = LicenseAssignmentList;
+export type ListForProductAndSkuLicenseAssignmentsResponse =
+  LicenseAssignmentList;
+export const ListForProductAndSkuLicenseAssignmentsResponse =
+  LicenseAssignmentList;
 
 export type ListForProductAndSkuLicenseAssignmentsError = DefaultErrors;
 
 /** List all users assigned licenses for a specific product SKU. */
-export const listForProductAndSkuLicenseAssignments: API.PaginatedOperationMethod<ListForProductAndSkuLicenseAssignmentsRequest, ListForProductAndSkuLicenseAssignmentsResponse, ListForProductAndSkuLicenseAssignmentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listForProductAndSkuLicenseAssignments: API.PaginatedOperationMethod<
+  ListForProductAndSkuLicenseAssignmentsRequest,
+  ListForProductAndSkuLicenseAssignmentsResponse,
+  ListForProductAndSkuLicenseAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListForProductAndSkuLicenseAssignmentsRequest,
   output: ListForProductAndSkuLicenseAssignmentsResponse,
   errors: [],
@@ -276,7 +334,11 @@ export const UpdateLicenseAssignmentsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(LicenseAssignment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateLicenseAssignmentsRequest>;
 
@@ -286,7 +348,12 @@ export const UpdateLicenseAssignmentsResponse = LicenseAssignment;
 export type UpdateLicenseAssignmentsError = DefaultErrors;
 
 /** Reassign a user's product SKU with a different SKU in the same product. */
-export const updateLicenseAssignments: API.OperationMethod<UpdateLicenseAssignmentsRequest, UpdateLicenseAssignmentsResponse, UpdateLicenseAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateLicenseAssignments: API.OperationMethod<
+  UpdateLicenseAssignmentsRequest,
+  UpdateLicenseAssignmentsResponse,
+  UpdateLicenseAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateLicenseAssignmentsRequest,
   output: UpdateLicenseAssignmentsResponse,
   errors: [],
@@ -309,7 +376,11 @@ export const PatchLicenseAssignmentsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(LicenseAssignment).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchLicenseAssignmentsRequest>;
 
@@ -319,9 +390,13 @@ export const PatchLicenseAssignmentsResponse = LicenseAssignment;
 export type PatchLicenseAssignmentsError = DefaultErrors;
 
 /** Reassign a user's product SKU with a different SKU in the same product. This method supports patch semantics. */
-export const patchLicenseAssignments: API.OperationMethod<PatchLicenseAssignmentsRequest, PatchLicenseAssignmentsResponse, PatchLicenseAssignmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchLicenseAssignments: API.OperationMethod<
+  PatchLicenseAssignmentsRequest,
+  PatchLicenseAssignmentsResponse,
+  PatchLicenseAssignmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchLicenseAssignmentsRequest,
   output: PatchLicenseAssignmentsResponse,
   errors: [],
 }));
-

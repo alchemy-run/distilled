@@ -28,9 +28,11 @@ export interface Topic {
   name?: string;
 }
 
-export const Topic: Schema.Schema<Topic> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
+export const Topic: Schema.Schema<Topic> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
 
 export interface Label {
   /** The key of a label is a syntactically valid URL (as per RFC 1738) with the "scheme" and initial slashes omitted and with the additional restrictions noted below. Each key should be globally unique. The "host" portion is called the "namespace" and is not necessarily resolvable to a network endpoint. Instead, the namespace indicates what system or entity defines the semantics of the label. Namespaces do not restrict the set of objects to which a label may be associated. Keys are defined by the following grammar: key = hostname "/" kpath kpath = ksegment *[ "/" ksegment ] ksegment = alphadigit | *[ alphadigit | "-" | "_" | "." ] where "hostname" and "alphadigit" are defined as in RFC 1738. Example key: spanner.google.com/universe */
@@ -41,11 +43,13 @@ export interface Label {
   numValue?: string;
 }
 
-export const Label: Schema.Schema<Label> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-  strValue: Schema.optional(Schema.String),
-  numValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
+export const Label: Schema.Schema<Label> = Schema.suspend(() =>
+  Schema.Struct({
+    key: Schema.optional(Schema.String),
+    strValue: Schema.optional(Schema.String),
+    numValue: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
 
 export interface PubsubMessage {
   /** The message payload. */
@@ -58,12 +62,16 @@ export interface PubsubMessage {
   publishTime?: string;
 }
 
-export const PubsubMessage: Schema.Schema<PubsubMessage> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.Array(Label)),
-  messageId: Schema.optional(Schema.String),
-  publishTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "PubsubMessage" }) as any as Schema.Schema<PubsubMessage>;
+export const PubsubMessage: Schema.Schema<PubsubMessage> = Schema.suspend(() =>
+  Schema.Struct({
+    data: Schema.optional(Schema.String),
+    label: Schema.optional(Schema.Array(Label)),
+    messageId: Schema.optional(Schema.String),
+    publishTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PubsubMessage",
+}) as any as Schema.Schema<PubsubMessage>;
 
 export interface PublishRequest {
   /** The message in the request will be published on this topic. */
@@ -72,16 +80,21 @@ export interface PublishRequest {
   message?: PubsubMessage;
 }
 
-export const PublishRequest: Schema.Schema<PublishRequest> = Schema.suspend(() => Schema.Struct({
-  topic: Schema.optional(Schema.String),
-  message: Schema.optional(PubsubMessage),
-})).annotate({ identifier: "PublishRequest" }) as any as Schema.Schema<PublishRequest>;
+export const PublishRequest: Schema.Schema<PublishRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      topic: Schema.optional(Schema.String),
+      message: Schema.optional(PubsubMessage),
+    }),
+).annotate({
+  identifier: "PublishRequest",
+}) as any as Schema.Schema<PublishRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface PublishBatchRequest {
   /** The messages in the request will be published on this topic. */
@@ -90,19 +103,29 @@ export interface PublishBatchRequest {
   messages?: Array<PubsubMessage>;
 }
 
-export const PublishBatchRequest: Schema.Schema<PublishBatchRequest> = Schema.suspend(() => Schema.Struct({
-  topic: Schema.optional(Schema.String),
-  messages: Schema.optional(Schema.Array(PubsubMessage)),
-})).annotate({ identifier: "PublishBatchRequest" }) as any as Schema.Schema<PublishBatchRequest>;
+export const PublishBatchRequest: Schema.Schema<PublishBatchRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      topic: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(PubsubMessage)),
+    }),
+  ).annotate({
+    identifier: "PublishBatchRequest",
+  }) as any as Schema.Schema<PublishBatchRequest>;
 
 export interface PublishBatchResponse {
   /** The server-assigned ID of each published message, in the same order as the messages in the request. IDs are guaranteed to be unique within the topic. */
   messageIds?: Array<string>;
 }
 
-export const PublishBatchResponse: Schema.Schema<PublishBatchResponse> = Schema.suspend(() => Schema.Struct({
-  messageIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PublishBatchResponse" }) as any as Schema.Schema<PublishBatchResponse>;
+export const PublishBatchResponse: Schema.Schema<PublishBatchResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      messageIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PublishBatchResponse",
+  }) as any as Schema.Schema<PublishBatchResponse>;
 
 export interface ListTopicsResponse {
   /** The resulting topics. */
@@ -111,19 +134,26 @@ export interface ListTopicsResponse {
   nextPageToken?: string;
 }
 
-export const ListTopicsResponse: Schema.Schema<ListTopicsResponse> = Schema.suspend(() => Schema.Struct({
-  topic: Schema.optional(Schema.Array(Topic)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListTopicsResponse" }) as any as Schema.Schema<ListTopicsResponse>;
+export const ListTopicsResponse: Schema.Schema<ListTopicsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      topic: Schema.optional(Schema.Array(Topic)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTopicsResponse",
+  }) as any as Schema.Schema<ListTopicsResponse>;
 
 export interface PushConfig {
   /** A URL locating the endpoint to which messages should be pushed. For example, a Webhook endpoint might use "https://example.com/push". */
   pushEndpoint?: string;
 }
 
-export const PushConfig: Schema.Schema<PushConfig> = Schema.suspend(() => Schema.Struct({
-  pushEndpoint: Schema.optional(Schema.String),
-})).annotate({ identifier: "PushConfig" }) as any as Schema.Schema<PushConfig>;
+export const PushConfig: Schema.Schema<PushConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    pushEndpoint: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PushConfig" }) as any as Schema.Schema<PushConfig>;
 
 export interface Subscription {
   /** Name of the subscription. */
@@ -136,12 +166,16 @@ export interface Subscription {
   ackDeadlineSeconds?: number;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  topic: Schema.optional(Schema.String),
-  pushConfig: Schema.optional(PushConfig),
-  ackDeadlineSeconds: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Subscription" }) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    topic: Schema.optional(Schema.String),
+    pushConfig: Schema.optional(PushConfig),
+    ackDeadlineSeconds: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "Subscription",
+}) as any as Schema.Schema<Subscription>;
 
 export interface ListSubscriptionsResponse {
   /** The subscriptions that match the request. */
@@ -150,10 +184,15 @@ export interface ListSubscriptionsResponse {
   nextPageToken?: string;
 }
 
-export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Schema.Array(Subscription)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListSubscriptionsResponse" }) as any as Schema.Schema<ListSubscriptionsResponse>;
+export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Schema.Array(Subscription)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSubscriptionsResponse",
+  }) as any as Schema.Schema<ListSubscriptionsResponse>;
 
 export interface ModifyPushConfigRequest {
   /** The name of the subscription. */
@@ -162,10 +201,15 @@ export interface ModifyPushConfigRequest {
   pushConfig?: PushConfig;
 }
 
-export const ModifyPushConfigRequest: Schema.Schema<ModifyPushConfigRequest> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Schema.String),
-  pushConfig: Schema.optional(PushConfig),
-})).annotate({ identifier: "ModifyPushConfigRequest" }) as any as Schema.Schema<ModifyPushConfigRequest>;
+export const ModifyPushConfigRequest: Schema.Schema<ModifyPushConfigRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Schema.String),
+      pushConfig: Schema.optional(PushConfig),
+    }),
+  ).annotate({
+    identifier: "ModifyPushConfigRequest",
+  }) as any as Schema.Schema<ModifyPushConfigRequest>;
 
 export interface PullRequest {
   /** The subscription from which a message should be pulled. */
@@ -174,10 +218,12 @@ export interface PullRequest {
   returnImmediately?: boolean;
 }
 
-export const PullRequest: Schema.Schema<PullRequest> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Schema.String),
-  returnImmediately: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PullRequest" }) as any as Schema.Schema<PullRequest>;
+export const PullRequest: Schema.Schema<PullRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    subscription: Schema.optional(Schema.String),
+    returnImmediately: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "PullRequest" }) as any as Schema.Schema<PullRequest>;
 
 export interface PubsubEvent {
   /** The subscription that received the event. */
@@ -190,12 +236,14 @@ export interface PubsubEvent {
   deleted?: boolean;
 }
 
-export const PubsubEvent: Schema.Schema<PubsubEvent> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Schema.String),
-  message: Schema.optional(PubsubMessage),
-  truncated: Schema.optional(Schema.Boolean),
-  deleted: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PubsubEvent" }) as any as Schema.Schema<PubsubEvent>;
+export const PubsubEvent: Schema.Schema<PubsubEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    subscription: Schema.optional(Schema.String),
+    message: Schema.optional(PubsubMessage),
+    truncated: Schema.optional(Schema.Boolean),
+    deleted: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "PubsubEvent" }) as any as Schema.Schema<PubsubEvent>;
 
 export interface PullResponse {
   /** This ID must be used to acknowledge the received event or message. */
@@ -204,10 +252,14 @@ export interface PullResponse {
   pubsubEvent?: PubsubEvent;
 }
 
-export const PullResponse: Schema.Schema<PullResponse> = Schema.suspend(() => Schema.Struct({
-  ackId: Schema.optional(Schema.String),
-  pubsubEvent: Schema.optional(PubsubEvent),
-})).annotate({ identifier: "PullResponse" }) as any as Schema.Schema<PullResponse>;
+export const PullResponse: Schema.Schema<PullResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    ackId: Schema.optional(Schema.String),
+    pubsubEvent: Schema.optional(PubsubEvent),
+  }),
+).annotate({
+  identifier: "PullResponse",
+}) as any as Schema.Schema<PullResponse>;
 
 export interface PullBatchRequest {
   /** The subscription from which messages should be pulled. */
@@ -218,20 +270,30 @@ export interface PullBatchRequest {
   maxEvents?: number;
 }
 
-export const PullBatchRequest: Schema.Schema<PullBatchRequest> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Schema.String),
-  returnImmediately: Schema.optional(Schema.Boolean),
-  maxEvents: Schema.optional(Schema.Number),
-})).annotate({ identifier: "PullBatchRequest" }) as any as Schema.Schema<PullBatchRequest>;
+export const PullBatchRequest: Schema.Schema<PullBatchRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      subscription: Schema.optional(Schema.String),
+      returnImmediately: Schema.optional(Schema.Boolean),
+      maxEvents: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "PullBatchRequest",
+}) as any as Schema.Schema<PullBatchRequest>;
 
 export interface PullBatchResponse {
   /** Received Pub/Sub messages or status events. The Pub/Sub system will return zero messages if there are no more messages available in the backlog. The Pub/Sub system may return fewer than the max_events requested even if there are more messages available in the backlog. */
   pullResponses?: Array<PullResponse>;
 }
 
-export const PullBatchResponse: Schema.Schema<PullBatchResponse> = Schema.suspend(() => Schema.Struct({
-  pullResponses: Schema.optional(Schema.Array(PullResponse)),
-})).annotate({ identifier: "PullBatchResponse" }) as any as Schema.Schema<PullBatchResponse>;
+export const PullBatchResponse: Schema.Schema<PullBatchResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pullResponses: Schema.optional(Schema.Array(PullResponse)),
+    }),
+  ).annotate({
+    identifier: "PullBatchResponse",
+  }) as any as Schema.Schema<PullBatchResponse>;
 
 export interface ModifyAckDeadlineRequest {
   /** Next Index: 5 The name of the subscription from which messages are being pulled. */
@@ -244,12 +306,17 @@ export interface ModifyAckDeadlineRequest {
   ackDeadlineSeconds?: number;
 }
 
-export const ModifyAckDeadlineRequest: Schema.Schema<ModifyAckDeadlineRequest> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Schema.String),
-  ackId: Schema.optional(Schema.String),
-  ackIds: Schema.optional(Schema.Array(Schema.String)),
-  ackDeadlineSeconds: Schema.optional(Schema.Number),
-})).annotate({ identifier: "ModifyAckDeadlineRequest" }) as any as Schema.Schema<ModifyAckDeadlineRequest>;
+export const ModifyAckDeadlineRequest: Schema.Schema<ModifyAckDeadlineRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Schema.String),
+      ackId: Schema.optional(Schema.String),
+      ackIds: Schema.optional(Schema.Array(Schema.String)),
+      ackDeadlineSeconds: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ModifyAckDeadlineRequest",
+  }) as any as Schema.Schema<ModifyAckDeadlineRequest>;
 
 export interface AcknowledgeRequest {
   /** The subscription whose message is being acknowledged. */
@@ -258,10 +325,15 @@ export interface AcknowledgeRequest {
   ackId?: Array<string>;
 }
 
-export const AcknowledgeRequest: Schema.Schema<AcknowledgeRequest> = Schema.suspend(() => Schema.Struct({
-  subscription: Schema.optional(Schema.String),
-  ackId: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AcknowledgeRequest" }) as any as Schema.Schema<AcknowledgeRequest>;
+export const AcknowledgeRequest: Schema.Schema<AcknowledgeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Schema.String),
+      ackId: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AcknowledgeRequest",
+  }) as any as Schema.Schema<AcknowledgeRequest>;
 
 // ==========================================================================
 // Operations
@@ -285,7 +357,12 @@ export const CreateTopicsResponse = Topic;
 export type CreateTopicsError = DefaultErrors;
 
 /** Creates the given topic with the given name. */
-export const createTopics: API.OperationMethod<CreateTopicsRequest, CreateTopicsResponse, CreateTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createTopics: API.OperationMethod<
+  CreateTopicsRequest,
+  CreateTopicsResponse,
+  CreateTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateTopicsRequest,
   output: CreateTopicsResponse,
   errors: [],
@@ -309,7 +386,12 @@ export const PublishTopicsResponse = Empty;
 export type PublishTopicsError = DefaultErrors;
 
 /** Adds a message to the topic. Returns NOT_FOUND if the topic does not exist. */
-export const publishTopics: API.OperationMethod<PublishTopicsRequest, PublishTopicsResponse, PublishTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const publishTopics: API.OperationMethod<
+  PublishTopicsRequest,
+  PublishTopicsResponse,
+  PublishTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PublishTopicsRequest,
   output: PublishTopicsResponse,
   errors: [],
@@ -323,7 +405,11 @@ export interface PublishBatchTopicsRequest {
 export const PublishBatchTopicsRequest = Schema.Struct({
   body: Schema.optional(PublishBatchRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1a/topics/publishBatch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1a/topics/publishBatch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PublishBatchTopicsRequest>;
 
@@ -333,7 +419,12 @@ export const PublishBatchTopicsResponse = PublishBatchResponse;
 export type PublishBatchTopicsError = DefaultErrors;
 
 /** Adds one or more messages to the topic. Returns NOT_FOUND if the topic does not exist. */
-export const publishBatchTopics: API.OperationMethod<PublishBatchTopicsRequest, PublishBatchTopicsResponse, PublishBatchTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const publishBatchTopics: API.OperationMethod<
+  PublishBatchTopicsRequest,
+  PublishBatchTopicsResponse,
+  PublishBatchTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PublishBatchTopicsRequest,
   output: PublishBatchTopicsResponse,
   errors: [],
@@ -357,7 +448,12 @@ export const GetTopicsResponse = Topic;
 export type GetTopicsError = DefaultErrors;
 
 /** Gets the configuration of a topic. Since the topic only has the name attribute, this method is only useful to check the existence of a topic. If other attributes are added in the future, they will be returned here. */
-export const getTopics: API.OperationMethod<GetTopicsRequest, GetTopicsResponse, GetTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getTopics: API.OperationMethod<
+  GetTopicsRequest,
+  GetTopicsResponse,
+  GetTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetTopicsRequest,
   output: GetTopicsResponse,
   errors: [],
@@ -387,7 +483,12 @@ export const ListTopicsResponse_Op = ListTopicsResponse;
 export type ListTopicsError = DefaultErrors;
 
 /** Lists matching topics. */
-export const listTopics: API.PaginatedOperationMethod<ListTopicsRequest, ListTopicsResponse_Op, ListTopicsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listTopics: API.PaginatedOperationMethod<
+  ListTopicsRequest,
+  ListTopicsResponse_Op,
+  ListTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListTopicsRequest,
   output: ListTopicsResponse_Op,
   errors: [],
@@ -415,7 +516,12 @@ export const DeleteTopicsResponse = Empty;
 export type DeleteTopicsError = DefaultErrors;
 
 /** Deletes the topic with the given name. Returns NOT_FOUND if the topic does not exist. After a topic is deleted, a new topic may be created with the same name. */
-export const deleteTopics: API.OperationMethod<DeleteTopicsRequest, DeleteTopicsResponse, DeleteTopicsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteTopics: API.OperationMethod<
+  DeleteTopicsRequest,
+  DeleteTopicsResponse,
+  DeleteTopicsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteTopicsRequest,
   output: DeleteTopicsResponse,
   errors: [],
@@ -439,7 +545,12 @@ export const CreateSubscriptionsResponse = Subscription;
 export type CreateSubscriptionsError = DefaultErrors;
 
 /** Creates a subscription on a given topic for a given subscriber. If the subscription already exists, returns ALREADY_EXISTS. If the corresponding topic doesn't exist, returns NOT_FOUND. If the name is not provided in the request, the server will assign a random name for this subscription on the same project as the topic. */
-export const createSubscriptions: API.OperationMethod<CreateSubscriptionsRequest, CreateSubscriptionsResponse, CreateSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createSubscriptions: API.OperationMethod<
+  CreateSubscriptionsRequest,
+  CreateSubscriptionsResponse,
+  CreateSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateSubscriptionsRequest,
   output: CreateSubscriptionsResponse,
   errors: [],
@@ -463,7 +574,12 @@ export const GetSubscriptionsResponse = Subscription;
 export type GetSubscriptionsError = DefaultErrors;
 
 /** Gets the configuration details of a subscription. */
-export const getSubscriptions: API.OperationMethod<GetSubscriptionsRequest, GetSubscriptionsResponse, GetSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSubscriptions: API.OperationMethod<
+  GetSubscriptionsRequest,
+  GetSubscriptionsResponse,
+  GetSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSubscriptionsRequest,
   output: GetSubscriptionsResponse,
   errors: [],
@@ -493,7 +609,12 @@ export const ListSubscriptionsResponse_Op = ListSubscriptionsResponse;
 export type ListSubscriptionsError = DefaultErrors;
 
 /** Lists matching subscriptions. */
-export const listSubscriptions: API.PaginatedOperationMethod<ListSubscriptionsRequest, ListSubscriptionsResponse_Op, ListSubscriptionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSubscriptions: API.PaginatedOperationMethod<
+  ListSubscriptionsRequest,
+  ListSubscriptionsResponse_Op,
+  ListSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSubscriptionsRequest,
   output: ListSubscriptionsResponse_Op,
   errors: [],
@@ -511,7 +632,10 @@ export interface DeleteSubscriptionsRequest {
 export const DeleteSubscriptionsRequest = Schema.Struct({
   subscription: Schema.String.pipe(T.HttpPath("subscription")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1a/subscriptions/{subscriptionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta1a/subscriptions/{subscriptionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteSubscriptionsRequest>;
 
@@ -521,7 +645,12 @@ export const DeleteSubscriptionsResponse = Empty;
 export type DeleteSubscriptionsError = DefaultErrors;
 
 /** Deletes an existing subscription. All pending messages in the subscription are immediately dropped. Calls to Pull after deletion will return NOT_FOUND. */
-export const deleteSubscriptions: API.OperationMethod<DeleteSubscriptionsRequest, DeleteSubscriptionsResponse, DeleteSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteSubscriptions: API.OperationMethod<
+  DeleteSubscriptionsRequest,
+  DeleteSubscriptionsResponse,
+  DeleteSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteSubscriptionsRequest,
   output: DeleteSubscriptionsResponse,
   errors: [],
@@ -535,7 +664,11 @@ export interface ModifyPushConfigSubscriptionsRequest {
 export const ModifyPushConfigSubscriptionsRequest = Schema.Struct({
   body: Schema.optional(ModifyPushConfigRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1a/subscriptions/modifyPushConfig", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1a/subscriptions/modifyPushConfig",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifyPushConfigSubscriptionsRequest>;
 
@@ -545,7 +678,12 @@ export const ModifyPushConfigSubscriptionsResponse = Empty;
 export type ModifyPushConfigSubscriptionsError = DefaultErrors;
 
 /** Modifies the PushConfig for a specified subscription. This method can be used to suspend the flow of messages to an endpoint by clearing the PushConfig field in the request. Messages will be accumulated for delivery even if no push configuration is defined or while the configuration is modified. */
-export const modifyPushConfigSubscriptions: API.OperationMethod<ModifyPushConfigSubscriptionsRequest, ModifyPushConfigSubscriptionsResponse, ModifyPushConfigSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifyPushConfigSubscriptions: API.OperationMethod<
+  ModifyPushConfigSubscriptionsRequest,
+  ModifyPushConfigSubscriptionsResponse,
+  ModifyPushConfigSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifyPushConfigSubscriptionsRequest,
   output: ModifyPushConfigSubscriptionsResponse,
   errors: [],
@@ -559,7 +697,11 @@ export interface PullSubscriptionsRequest {
 export const PullSubscriptionsRequest = Schema.Struct({
   body: Schema.optional(PullRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1a/subscriptions/pull", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1a/subscriptions/pull",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PullSubscriptionsRequest>;
 
@@ -569,7 +711,12 @@ export const PullSubscriptionsResponse = PullResponse;
 export type PullSubscriptionsError = DefaultErrors;
 
 /** Pulls a single message from the server. If return_immediately is true, and no messages are available in the subscription, this method returns FAILED_PRECONDITION. The system is free to return an UNAVAILABLE error if no messages are available in a reasonable amount of time (to reduce system load). */
-export const pullSubscriptions: API.OperationMethod<PullSubscriptionsRequest, PullSubscriptionsResponse, PullSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pullSubscriptions: API.OperationMethod<
+  PullSubscriptionsRequest,
+  PullSubscriptionsResponse,
+  PullSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PullSubscriptionsRequest,
   output: PullSubscriptionsResponse,
   errors: [],
@@ -583,7 +730,11 @@ export interface PullBatchSubscriptionsRequest {
 export const PullBatchSubscriptionsRequest = Schema.Struct({
   body: Schema.optional(PullBatchRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1a/subscriptions/pullBatch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1a/subscriptions/pullBatch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PullBatchSubscriptionsRequest>;
 
@@ -593,7 +744,12 @@ export const PullBatchSubscriptionsResponse = PullBatchResponse;
 export type PullBatchSubscriptionsError = DefaultErrors;
 
 /** Pulls messages from the server. Returns an empty list if there are no messages available in the backlog. The system is free to return UNAVAILABLE if there are too many pull requests outstanding for the given subscription. */
-export const pullBatchSubscriptions: API.OperationMethod<PullBatchSubscriptionsRequest, PullBatchSubscriptionsResponse, PullBatchSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const pullBatchSubscriptions: API.OperationMethod<
+  PullBatchSubscriptionsRequest,
+  PullBatchSubscriptionsResponse,
+  PullBatchSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PullBatchSubscriptionsRequest,
   output: PullBatchSubscriptionsResponse,
   errors: [],
@@ -607,7 +763,11 @@ export interface ModifyAckDeadlineSubscriptionsRequest {
 export const ModifyAckDeadlineSubscriptionsRequest = Schema.Struct({
   body: Schema.optional(ModifyAckDeadlineRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1a/subscriptions/modifyAckDeadline", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1a/subscriptions/modifyAckDeadline",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifyAckDeadlineSubscriptionsRequest>;
 
@@ -617,7 +777,12 @@ export const ModifyAckDeadlineSubscriptionsResponse = Empty;
 export type ModifyAckDeadlineSubscriptionsError = DefaultErrors;
 
 /** Modifies the Ack deadline for a message received from a pull request. */
-export const modifyAckDeadlineSubscriptions: API.OperationMethod<ModifyAckDeadlineSubscriptionsRequest, ModifyAckDeadlineSubscriptionsResponse, ModifyAckDeadlineSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifyAckDeadlineSubscriptions: API.OperationMethod<
+  ModifyAckDeadlineSubscriptionsRequest,
+  ModifyAckDeadlineSubscriptionsResponse,
+  ModifyAckDeadlineSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifyAckDeadlineSubscriptionsRequest,
   output: ModifyAckDeadlineSubscriptionsResponse,
   errors: [],
@@ -631,7 +796,11 @@ export interface AcknowledgeSubscriptionsRequest {
 export const AcknowledgeSubscriptionsRequest = Schema.Struct({
   body: Schema.optional(AcknowledgeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1a/subscriptions/acknowledge", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta1a/subscriptions/acknowledge",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AcknowledgeSubscriptionsRequest>;
 
@@ -641,9 +810,13 @@ export const AcknowledgeSubscriptionsResponse = Empty;
 export type AcknowledgeSubscriptionsError = DefaultErrors;
 
 /** Acknowledges a particular received message: the Pub/Sub system can remove the given message from the subscription. Acknowledging a message whose Ack deadline has expired may succeed, but the message could have been already redelivered. Acknowledging a message more than once will not result in an error. This is only used for messages received via pull. */
-export const acknowledgeSubscriptions: API.OperationMethod<AcknowledgeSubscriptionsRequest, AcknowledgeSubscriptionsResponse, AcknowledgeSubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const acknowledgeSubscriptions: API.OperationMethod<
+  AcknowledgeSubscriptionsRequest,
+  AcknowledgeSubscriptionsResponse,
+  AcknowledgeSubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AcknowledgeSubscriptionsRequest,
   output: AcknowledgeSubscriptionsResponse,
   errors: [],
 }));
-

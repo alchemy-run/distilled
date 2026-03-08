@@ -40,24 +40,31 @@ export interface SmimeInfo {
   pem?: string;
 }
 
-export const SmimeInfo: Schema.Schema<SmimeInfo> = Schema.suspend(() => Schema.Struct({
-  isDefault: Schema.optional(Schema.Boolean),
-  issuerCn: Schema.optional(Schema.String),
-  pkcs12: Schema.optional(Schema.String),
-  expiration: Schema.optional(Schema.String),
-  encryptedKeyPassword: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  pem: Schema.optional(Schema.String),
-})).annotate({ identifier: "SmimeInfo" }) as any as Schema.Schema<SmimeInfo>;
+export const SmimeInfo: Schema.Schema<SmimeInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    isDefault: Schema.optional(Schema.Boolean),
+    issuerCn: Schema.optional(Schema.String),
+    pkcs12: Schema.optional(Schema.String),
+    expiration: Schema.optional(Schema.String),
+    encryptedKeyPassword: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    pem: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SmimeInfo" }) as any as Schema.Schema<SmimeInfo>;
 
 export interface ListSmimeInfoResponse {
   /** List of SmimeInfo. */
   smimeInfo?: Array<SmimeInfo>;
 }
 
-export const ListSmimeInfoResponse: Schema.Schema<ListSmimeInfoResponse> = Schema.suspend(() => Schema.Struct({
-  smimeInfo: Schema.optional(Schema.Array(SmimeInfo)),
-})).annotate({ identifier: "ListSmimeInfoResponse" }) as any as Schema.Schema<ListSmimeInfoResponse>;
+export const ListSmimeInfoResponse: Schema.Schema<ListSmimeInfoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      smimeInfo: Schema.optional(Schema.Array(SmimeInfo)),
+    }),
+  ).annotate({
+    identifier: "ListSmimeInfoResponse",
+  }) as any as Schema.Schema<ListSmimeInfoResponse>;
 
 export interface MessagePartHeader {
   /** The name of the header before the `:` separator. For example, `To`. */
@@ -66,10 +73,15 @@ export interface MessagePartHeader {
   value?: string;
 }
 
-export const MessagePartHeader: Schema.Schema<MessagePartHeader> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "MessagePartHeader" }) as any as Schema.Schema<MessagePartHeader>;
+export const MessagePartHeader: Schema.Schema<MessagePartHeader> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MessagePartHeader",
+  }) as any as Schema.Schema<MessagePartHeader>;
 
 export interface MessagePartBody {
   /** When present, contains the ID of an external attachment that can be retrieved in a separate `messages.attachments.get` request. When not present, the entire content of the message part body is contained in the data field. */
@@ -80,11 +92,16 @@ export interface MessagePartBody {
   size?: number;
 }
 
-export const MessagePartBody: Schema.Schema<MessagePartBody> = Schema.suspend(() => Schema.Struct({
-  attachmentId: Schema.optional(Schema.String),
-  data: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.Number),
-})).annotate({ identifier: "MessagePartBody" }) as any as Schema.Schema<MessagePartBody>;
+export const MessagePartBody: Schema.Schema<MessagePartBody> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      attachmentId: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "MessagePartBody",
+}) as any as Schema.Schema<MessagePartBody>;
 
 export interface MessagePart {
   /** The filename of the attachment. Only present if this message part represents an attachment. */
@@ -101,14 +118,16 @@ export interface MessagePart {
   mimeType?: string;
 }
 
-export const MessagePart: Schema.Schema<MessagePart> = Schema.suspend(() => Schema.Struct({
-  filename: Schema.optional(Schema.String),
-  parts: Schema.optional(Schema.Array(MessagePart)),
-  headers: Schema.optional(Schema.Array(MessagePartHeader)),
-  body: Schema.optional(MessagePartBody),
-  partId: Schema.optional(Schema.String),
-  mimeType: Schema.optional(Schema.String),
-})).annotate({ identifier: "MessagePart" }) as any as Schema.Schema<MessagePart>;
+export const MessagePart: Schema.Schema<MessagePart> = Schema.suspend(() =>
+  Schema.Struct({
+    filename: Schema.optional(Schema.String),
+    parts: Schema.optional(Schema.Array(MessagePart)),
+    headers: Schema.optional(Schema.Array(MessagePartHeader)),
+    body: Schema.optional(MessagePartBody),
+    partId: Schema.optional(Schema.String),
+    mimeType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "MessagePart" }) as any as Schema.Schema<MessagePart>;
 
 export interface ClassificationLabelFieldValue {
   /** Selection choice ID for the selection option. Should only be set if the field type is `SELECTION` in the Google Drive `Label.Field` object. Maps to the id field of the Google Drive `Label.Field.SelectionOptions` resource. */
@@ -117,10 +136,15 @@ export interface ClassificationLabelFieldValue {
   fieldId?: string;
 }
 
-export const ClassificationLabelFieldValue: Schema.Schema<ClassificationLabelFieldValue> = Schema.suspend(() => Schema.Struct({
-  selection: Schema.optional(Schema.String),
-  fieldId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ClassificationLabelFieldValue" }) as any as Schema.Schema<ClassificationLabelFieldValue>;
+export const ClassificationLabelFieldValue: Schema.Schema<ClassificationLabelFieldValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      selection: Schema.optional(Schema.String),
+      fieldId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ClassificationLabelFieldValue",
+  }) as any as Schema.Schema<ClassificationLabelFieldValue>;
 
 export interface ClassificationLabelValue {
   /** Required. The canonical or raw alphanumeric classification label ID. Maps to the ID field of the Google Drive Label resource. */
@@ -129,10 +153,15 @@ export interface ClassificationLabelValue {
   fields?: Array<ClassificationLabelFieldValue>;
 }
 
-export const ClassificationLabelValue: Schema.Schema<ClassificationLabelValue> = Schema.suspend(() => Schema.Struct({
-  labelId: Schema.optional(Schema.String),
-  fields: Schema.optional(Schema.Array(ClassificationLabelFieldValue)),
-})).annotate({ identifier: "ClassificationLabelValue" }) as any as Schema.Schema<ClassificationLabelValue>;
+export const ClassificationLabelValue: Schema.Schema<ClassificationLabelValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labelId: Schema.optional(Schema.String),
+      fields: Schema.optional(Schema.Array(ClassificationLabelFieldValue)),
+    }),
+  ).annotate({
+    identifier: "ClassificationLabelValue",
+  }) as any as Schema.Schema<ClassificationLabelValue>;
 
 export interface Message {
   /** The parsed email structure in the message parts. */
@@ -157,34 +186,48 @@ export interface Message {
   raw?: string;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() => Schema.Struct({
-  payload: Schema.optional(MessagePart),
-  labelIds: Schema.optional(Schema.Array(Schema.String)),
-  snippet: Schema.optional(Schema.String),
-  sizeEstimate: Schema.optional(Schema.Number),
-  historyId: Schema.optional(Schema.String),
-  threadId: Schema.optional(Schema.String),
-  internalDate: Schema.optional(Schema.String),
-  classificationLabelValues: Schema.optional(Schema.Array(ClassificationLabelValue)),
-  id: Schema.optional(Schema.String),
-  raw: Schema.optional(Schema.String),
-})).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> = Schema.suspend(() =>
+  Schema.Struct({
+    payload: Schema.optional(MessagePart),
+    labelIds: Schema.optional(Schema.Array(Schema.String)),
+    snippet: Schema.optional(Schema.String),
+    sizeEstimate: Schema.optional(Schema.Number),
+    historyId: Schema.optional(Schema.String),
+    threadId: Schema.optional(Schema.String),
+    internalDate: Schema.optional(Schema.String),
+    classificationLabelValues: Schema.optional(
+      Schema.Array(ClassificationLabelValue),
+    ),
+    id: Schema.optional(Schema.String),
+    raw: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface HistoryMessageAdded {
   message?: Message;
 }
 
-export const HistoryMessageAdded: Schema.Schema<HistoryMessageAdded> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Message),
-})).annotate({ identifier: "HistoryMessageAdded" }) as any as Schema.Schema<HistoryMessageAdded>;
+export const HistoryMessageAdded: Schema.Schema<HistoryMessageAdded> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "HistoryMessageAdded",
+  }) as any as Schema.Schema<HistoryMessageAdded>;
 
 export interface HistoryMessageDeleted {
   message?: Message;
 }
 
-export const HistoryMessageDeleted: Schema.Schema<HistoryMessageDeleted> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Message),
-})).annotate({ identifier: "HistoryMessageDeleted" }) as any as Schema.Schema<HistoryMessageDeleted>;
+export const HistoryMessageDeleted: Schema.Schema<HistoryMessageDeleted> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "HistoryMessageDeleted",
+  }) as any as Schema.Schema<HistoryMessageDeleted>;
 
 export interface HistoryLabelRemoved {
   /** Label IDs removed from the message. */
@@ -192,10 +235,15 @@ export interface HistoryLabelRemoved {
   message?: Message;
 }
 
-export const HistoryLabelRemoved: Schema.Schema<HistoryLabelRemoved> = Schema.suspend(() => Schema.Struct({
-  labelIds: Schema.optional(Schema.Array(Schema.String)),
-  message: Schema.optional(Message),
-})).annotate({ identifier: "HistoryLabelRemoved" }) as any as Schema.Schema<HistoryLabelRemoved>;
+export const HistoryLabelRemoved: Schema.Schema<HistoryLabelRemoved> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labelIds: Schema.optional(Schema.Array(Schema.String)),
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "HistoryLabelRemoved",
+  }) as any as Schema.Schema<HistoryLabelRemoved>;
 
 export interface HistoryLabelAdded {
   /** Label IDs added to the message. */
@@ -203,10 +251,15 @@ export interface HistoryLabelAdded {
   message?: Message;
 }
 
-export const HistoryLabelAdded: Schema.Schema<HistoryLabelAdded> = Schema.suspend(() => Schema.Struct({
-  labelIds: Schema.optional(Schema.Array(Schema.String)),
-  message: Schema.optional(Message),
-})).annotate({ identifier: "HistoryLabelAdded" }) as any as Schema.Schema<HistoryLabelAdded>;
+export const HistoryLabelAdded: Schema.Schema<HistoryLabelAdded> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labelIds: Schema.optional(Schema.Array(Schema.String)),
+      message: Schema.optional(Message),
+    }),
+  ).annotate({
+    identifier: "HistoryLabelAdded",
+  }) as any as Schema.Schema<HistoryLabelAdded>;
 
 export interface History {
   /** Messages added to the mailbox in this history record. */
@@ -223,14 +276,16 @@ export interface History {
   id?: string;
 }
 
-export const History: Schema.Schema<History> = Schema.suspend(() => Schema.Struct({
-  messagesAdded: Schema.optional(Schema.Array(HistoryMessageAdded)),
-  messagesDeleted: Schema.optional(Schema.Array(HistoryMessageDeleted)),
-  labelsRemoved: Schema.optional(Schema.Array(HistoryLabelRemoved)),
-  messages: Schema.optional(Schema.Array(Message)),
-  labelsAdded: Schema.optional(Schema.Array(HistoryLabelAdded)),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "History" }) as any as Schema.Schema<History>;
+export const History: Schema.Schema<History> = Schema.suspend(() =>
+  Schema.Struct({
+    messagesAdded: Schema.optional(Schema.Array(HistoryMessageAdded)),
+    messagesDeleted: Schema.optional(Schema.Array(HistoryMessageDeleted)),
+    labelsRemoved: Schema.optional(Schema.Array(HistoryLabelRemoved)),
+    messages: Schema.optional(Schema.Array(Message)),
+    labelsAdded: Schema.optional(Schema.Array(HistoryLabelAdded)),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "History" }) as any as Schema.Schema<History>;
 
 export interface Profile {
   /** The ID of the mailbox's current history record. */
@@ -243,21 +298,28 @@ export interface Profile {
   threadsTotal?: number;
 }
 
-export const Profile: Schema.Schema<Profile> = Schema.suspend(() => Schema.Struct({
-  historyId: Schema.optional(Schema.String),
-  emailAddress: Schema.optional(Schema.String),
-  messagesTotal: Schema.optional(Schema.Number),
-  threadsTotal: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
+export const Profile: Schema.Schema<Profile> = Schema.suspend(() =>
+  Schema.Struct({
+    historyId: Schema.optional(Schema.String),
+    emailAddress: Schema.optional(Schema.String),
+    messagesTotal: Schema.optional(Schema.Number),
+    threadsTotal: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
 
 export interface HardwareKeyMetadata {
   /** Description about the hardware key. */
   description?: string;
 }
 
-export const HardwareKeyMetadata: Schema.Schema<HardwareKeyMetadata> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "HardwareKeyMetadata" }) as any as Schema.Schema<HardwareKeyMetadata>;
+export const HardwareKeyMetadata: Schema.Schema<HardwareKeyMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HardwareKeyMetadata",
+  }) as any as Schema.Schema<HardwareKeyMetadata>;
 
 export interface KaclsKeyMetadata {
   /** The URI of the key access control list service that manages the private key. */
@@ -266,10 +328,15 @@ export interface KaclsKeyMetadata {
   kaclsData?: string;
 }
 
-export const KaclsKeyMetadata: Schema.Schema<KaclsKeyMetadata> = Schema.suspend(() => Schema.Struct({
-  kaclsUri: Schema.optional(Schema.String),
-  kaclsData: Schema.optional(Schema.String),
-})).annotate({ identifier: "KaclsKeyMetadata" }) as any as Schema.Schema<KaclsKeyMetadata>;
+export const KaclsKeyMetadata: Schema.Schema<KaclsKeyMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kaclsUri: Schema.optional(Schema.String),
+      kaclsData: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "KaclsKeyMetadata",
+}) as any as Schema.Schema<KaclsKeyMetadata>;
 
 export interface CsePrivateKeyMetadata {
   /** Metadata for hardware keys. */
@@ -280,11 +347,16 @@ export interface CsePrivateKeyMetadata {
   kaclsKeyMetadata?: KaclsKeyMetadata;
 }
 
-export const CsePrivateKeyMetadata: Schema.Schema<CsePrivateKeyMetadata> = Schema.suspend(() => Schema.Struct({
-  hardwareKeyMetadata: Schema.optional(HardwareKeyMetadata),
-  privateKeyMetadataId: Schema.optional(Schema.String),
-  kaclsKeyMetadata: Schema.optional(KaclsKeyMetadata),
-})).annotate({ identifier: "CsePrivateKeyMetadata" }) as any as Schema.Schema<CsePrivateKeyMetadata>;
+export const CsePrivateKeyMetadata: Schema.Schema<CsePrivateKeyMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hardwareKeyMetadata: Schema.optional(HardwareKeyMetadata),
+      privateKeyMetadataId: Schema.optional(Schema.String),
+      kaclsKeyMetadata: Schema.optional(KaclsKeyMetadata),
+    }),
+  ).annotate({
+    identifier: "CsePrivateKeyMetadata",
+  }) as any as Schema.Schema<CsePrivateKeyMetadata>;
 
 export interface CseKeyPair {
   /** Output only. The public key and its certificate chain, in [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format. */
@@ -303,15 +375,17 @@ export interface CseKeyPair {
   privateKeyMetadata?: Array<CsePrivateKeyMetadata>;
 }
 
-export const CseKeyPair: Schema.Schema<CseKeyPair> = Schema.suspend(() => Schema.Struct({
-  pem: Schema.optional(Schema.String),
-  keyPairId: Schema.optional(Schema.String),
-  subjectEmailAddresses: Schema.optional(Schema.Array(Schema.String)),
-  disableTime: Schema.optional(Schema.String),
-  pkcs7: Schema.optional(Schema.String),
-  enablementState: Schema.optional(Schema.String),
-  privateKeyMetadata: Schema.optional(Schema.Array(CsePrivateKeyMetadata)),
-})).annotate({ identifier: "CseKeyPair" }) as any as Schema.Schema<CseKeyPair>;
+export const CseKeyPair: Schema.Schema<CseKeyPair> = Schema.suspend(() =>
+  Schema.Struct({
+    pem: Schema.optional(Schema.String),
+    keyPairId: Schema.optional(Schema.String),
+    subjectEmailAddresses: Schema.optional(Schema.Array(Schema.String)),
+    disableTime: Schema.optional(Schema.String),
+    pkcs7: Schema.optional(Schema.String),
+    enablementState: Schema.optional(Schema.String),
+    privateKeyMetadata: Schema.optional(Schema.Array(CsePrivateKeyMetadata)),
+  }),
+).annotate({ identifier: "CseKeyPair" }) as any as Schema.Schema<CseKeyPair>;
 
 export interface ListCseKeyPairsResponse {
   /** Pagination token to be passed to a subsequent ListCseKeyPairs call in order to retrieve the next page of key pairs. If this value is not returned, then no further pages remain. */
@@ -320,10 +394,15 @@ export interface ListCseKeyPairsResponse {
   cseKeyPairs?: Array<CseKeyPair>;
 }
 
-export const ListCseKeyPairsResponse: Schema.Schema<ListCseKeyPairsResponse> = Schema.suspend(() => Schema.Struct({
-  nextPageToken: Schema.optional(Schema.String),
-  cseKeyPairs: Schema.optional(Schema.Array(CseKeyPair)),
-})).annotate({ identifier: "ListCseKeyPairsResponse" }) as any as Schema.Schema<ListCseKeyPairsResponse>;
+export const ListCseKeyPairsResponse: Schema.Schema<ListCseKeyPairsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      cseKeyPairs: Schema.optional(Schema.Array(CseKeyPair)),
+    }),
+  ).annotate({
+    identifier: "ListCseKeyPairsResponse",
+  }) as any as Schema.Schema<ListCseKeyPairsResponse>;
 
 export interface SignAndEncryptKeyPairs {
   /** The ID of the CseKeyPair that encrypts signed outgoing mail. */
@@ -332,22 +411,40 @@ export interface SignAndEncryptKeyPairs {
   signingKeyPairId?: string;
 }
 
-export const SignAndEncryptKeyPairs: Schema.Schema<SignAndEncryptKeyPairs> = Schema.suspend(() => Schema.Struct({
-  encryptionKeyPairId: Schema.optional(Schema.String),
-  signingKeyPairId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignAndEncryptKeyPairs" }) as any as Schema.Schema<SignAndEncryptKeyPairs>;
+export const SignAndEncryptKeyPairs: Schema.Schema<SignAndEncryptKeyPairs> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      encryptionKeyPairId: Schema.optional(Schema.String),
+      signingKeyPairId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SignAndEncryptKeyPairs",
+  }) as any as Schema.Schema<SignAndEncryptKeyPairs>;
 
 export interface PopSettings {
   /** The range of messages which are accessible via POP. */
-  accessWindow?: "accessWindowUnspecified" | "disabled" | "fromNowOn" | "allMail" | (string & {});
+  accessWindow?:
+    | "accessWindowUnspecified"
+    | "disabled"
+    | "fromNowOn"
+    | "allMail"
+    | (string & {});
   /** The action that will be executed on a message after it has been fetched via POP. */
-  disposition?: "dispositionUnspecified" | "leaveInInbox" | "archive" | "trash" | "markRead" | (string & {});
+  disposition?:
+    | "dispositionUnspecified"
+    | "leaveInInbox"
+    | "archive"
+    | "trash"
+    | "markRead"
+    | (string & {});
 }
 
-export const PopSettings: Schema.Schema<PopSettings> = Schema.suspend(() => Schema.Struct({
-  accessWindow: Schema.optional(Schema.String),
-  disposition: Schema.optional(Schema.String),
-})).annotate({ identifier: "PopSettings" }) as any as Schema.Schema<PopSettings>;
+export const PopSettings: Schema.Schema<PopSettings> = Schema.suspend(() =>
+  Schema.Struct({
+    accessWindow: Schema.optional(Schema.String),
+    disposition: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PopSettings" }) as any as Schema.Schema<PopSettings>;
 
 export interface WatchRequest {
   /** Filtering behavior of `labelIds list` specified. This field is deprecated because it caused incorrect behavior in some cases; use `label_filter_behavior` instead. */
@@ -360,12 +457,16 @@ export interface WatchRequest {
   labelFilterBehavior?: "include" | "exclude" | (string & {});
 }
 
-export const WatchRequest: Schema.Schema<WatchRequest> = Schema.suspend(() => Schema.Struct({
-  labelFilterAction: Schema.optional(Schema.String),
-  topicName: Schema.optional(Schema.String),
-  labelIds: Schema.optional(Schema.Array(Schema.String)),
-  labelFilterBehavior: Schema.optional(Schema.String),
-})).annotate({ identifier: "WatchRequest" }) as any as Schema.Schema<WatchRequest>;
+export const WatchRequest: Schema.Schema<WatchRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    labelFilterAction: Schema.optional(Schema.String),
+    topicName: Schema.optional(Schema.String),
+    labelIds: Schema.optional(Schema.Array(Schema.String)),
+    labelFilterBehavior: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "WatchRequest",
+}) as any as Schema.Schema<WatchRequest>;
 
 export interface WatchResponse {
   /** When Gmail will stop sending notifications for mailbox updates (epoch millis). Call `watch` again before this time to renew the watch. */
@@ -374,10 +475,14 @@ export interface WatchResponse {
   historyId?: string;
 }
 
-export const WatchResponse: Schema.Schema<WatchResponse> = Schema.suspend(() => Schema.Struct({
-  expiration: Schema.optional(Schema.String),
-  historyId: Schema.optional(Schema.String),
-})).annotate({ identifier: "WatchResponse" }) as any as Schema.Schema<WatchResponse>;
+export const WatchResponse: Schema.Schema<WatchResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    expiration: Schema.optional(Schema.String),
+    historyId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "WatchResponse",
+}) as any as Schema.Schema<WatchResponse>;
 
 export interface SmtpMsa {
   /** The password that will be used for authentication with the SMTP service. This is a write-only field that can be specified in requests to create or update SendAs settings; it is never populated in responses. */
@@ -385,20 +490,27 @@ export interface SmtpMsa {
   /** The hostname of the SMTP service. Required. */
   host?: string;
   /** The protocol that will be used to secure communication with the SMTP service. Required. */
-  securityMode?: "securityModeUnspecified" | "none" | "ssl" | "starttls" | (string & {});
+  securityMode?:
+    | "securityModeUnspecified"
+    | "none"
+    | "ssl"
+    | "starttls"
+    | (string & {});
   /** The port of the SMTP service. Required. */
   port?: number;
   /** The username that will be used for authentication with the SMTP service. This is a write-only field that can be specified in requests to create or update SendAs settings; it is never populated in responses. */
   username?: string;
 }
 
-export const SmtpMsa: Schema.Schema<SmtpMsa> = Schema.suspend(() => Schema.Struct({
-  password: Schema.optional(Schema.String),
-  host: Schema.optional(Schema.String),
-  securityMode: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-})).annotate({ identifier: "SmtpMsa" }) as any as Schema.Schema<SmtpMsa>;
+export const SmtpMsa: Schema.Schema<SmtpMsa> = Schema.suspend(() =>
+  Schema.Struct({
+    password: Schema.optional(Schema.String),
+    host: Schema.optional(Schema.String),
+    securityMode: Schema.optional(Schema.String),
+    port: Schema.optional(Schema.Number),
+    username: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SmtpMsa" }) as any as Schema.Schema<SmtpMsa>;
 
 export interface SendAs {
   /** A name that appears in the "From:" header for mail sent using this alias. For custom "from" addresses, when this is empty, Gmail will populate the "From:" header with the name that is used for the primary address associated with the account. If the admin has disabled the ability for users to update their name format, requests to update this field for the primary login will silently fail. */
@@ -406,7 +518,11 @@ export interface SendAs {
   /** An optional SMTP service that will be used as an outbound relay for mail sent using this alias. If this is empty, outbound mail will be sent directly from Gmail's servers to the destination SMTP service. This setting only applies to custom "from" aliases. */
   smtpMsa?: SmtpMsa;
   /** Indicates whether this address has been verified for use as a send-as alias. Read-only. This setting only applies to custom "from" aliases. */
-  verificationStatus?: "verificationStatusUnspecified" | "accepted" | "pending" | (string & {});
+  verificationStatus?:
+    | "verificationStatusUnspecified"
+    | "accepted"
+    | "pending"
+    | (string & {});
   /** The email address that appears in the "From:" header for mail sent using this alias. This is read-only for all operations except create. */
   sendAsEmail?: string;
   /** Whether Gmail should treat this address as an alias for the user's primary email address. This setting only applies to custom "from" aliases. */
@@ -421,26 +537,33 @@ export interface SendAs {
   replyToAddress?: string;
 }
 
-export const SendAs: Schema.Schema<SendAs> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  smtpMsa: Schema.optional(SmtpMsa),
-  verificationStatus: Schema.optional(Schema.String),
-  sendAsEmail: Schema.optional(Schema.String),
-  treatAsAlias: Schema.optional(Schema.Boolean),
-  isDefault: Schema.optional(Schema.Boolean),
-  signature: Schema.optional(Schema.String),
-  isPrimary: Schema.optional(Schema.Boolean),
-  replyToAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "SendAs" }) as any as Schema.Schema<SendAs>;
+export const SendAs: Schema.Schema<SendAs> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    smtpMsa: Schema.optional(SmtpMsa),
+    verificationStatus: Schema.optional(Schema.String),
+    sendAsEmail: Schema.optional(Schema.String),
+    treatAsAlias: Schema.optional(Schema.Boolean),
+    isDefault: Schema.optional(Schema.Boolean),
+    signature: Schema.optional(Schema.String),
+    isPrimary: Schema.optional(Schema.Boolean),
+    replyToAddress: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SendAs" }) as any as Schema.Schema<SendAs>;
 
 export interface ListSendAsResponse {
   /** List of send-as aliases. */
   sendAs?: Array<SendAs>;
 }
 
-export const ListSendAsResponse: Schema.Schema<ListSendAsResponse> = Schema.suspend(() => Schema.Struct({
-  sendAs: Schema.optional(Schema.Array(SendAs)),
-})).annotate({ identifier: "ListSendAsResponse" }) as any as Schema.Schema<ListSendAsResponse>;
+export const ListSendAsResponse: Schema.Schema<ListSendAsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sendAs: Schema.optional(Schema.Array(SendAs)),
+    }),
+  ).annotate({
+    identifier: "ListSendAsResponse",
+  }) as any as Schema.Schema<ListSendAsResponse>;
 
 export interface Thread {
   /** The list of messages in the thread. */
@@ -453,12 +576,14 @@ export interface Thread {
   snippet?: string;
 }
 
-export const Thread: Schema.Schema<Thread> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(Message)),
-  id: Schema.optional(Schema.String),
-  historyId: Schema.optional(Schema.String),
-  snippet: Schema.optional(Schema.String),
-})).annotate({ identifier: "Thread" }) as any as Schema.Schema<Thread>;
+export const Thread: Schema.Schema<Thread> = Schema.suspend(() =>
+  Schema.Struct({
+    messages: Schema.optional(Schema.Array(Message)),
+    id: Schema.optional(Schema.String),
+    historyId: Schema.optional(Schema.String),
+    snippet: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Thread" }) as any as Schema.Schema<Thread>;
 
 export interface ListThreadsResponse {
   /** Estimated total number of results. */
@@ -469,11 +594,16 @@ export interface ListThreadsResponse {
   threads?: Array<Thread>;
 }
 
-export const ListThreadsResponse: Schema.Schema<ListThreadsResponse> = Schema.suspend(() => Schema.Struct({
-  resultSizeEstimate: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-  threads: Schema.optional(Schema.Array(Thread)),
-})).annotate({ identifier: "ListThreadsResponse" }) as any as Schema.Schema<ListThreadsResponse>;
+export const ListThreadsResponse: Schema.Schema<ListThreadsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resultSizeEstimate: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+      threads: Schema.optional(Schema.Array(Thread)),
+    }),
+  ).annotate({
+    identifier: "ListThreadsResponse",
+  }) as any as Schema.Schema<ListThreadsResponse>;
 
 export interface FilterCriteria {
   /** The recipient's display name or email address. Includes recipients in the "to", "cc", and "bcc" header fields. You can use simply the local part of the email address. For example, "example" and "example@" both match "example@gmail.com". This field is case-insensitive. */
@@ -496,23 +626,29 @@ export interface FilterCriteria {
   sizeComparison?: "unspecified" | "smaller" | "larger" | (string & {});
 }
 
-export const FilterCriteria: Schema.Schema<FilterCriteria> = Schema.suspend(() => Schema.Struct({
-  to: Schema.optional(Schema.String),
-  query: Schema.optional(Schema.String),
-  excludeChats: Schema.optional(Schema.Boolean),
-  subject: Schema.optional(Schema.String),
-  from: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.Number),
-  negatedQuery: Schema.optional(Schema.String),
-  hasAttachment: Schema.optional(Schema.Boolean),
-  sizeComparison: Schema.optional(Schema.String),
-})).annotate({ identifier: "FilterCriteria" }) as any as Schema.Schema<FilterCriteria>;
+export const FilterCriteria: Schema.Schema<FilterCriteria> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      to: Schema.optional(Schema.String),
+      query: Schema.optional(Schema.String),
+      excludeChats: Schema.optional(Schema.Boolean),
+      subject: Schema.optional(Schema.String),
+      from: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.Number),
+      negatedQuery: Schema.optional(Schema.String),
+      hasAttachment: Schema.optional(Schema.Boolean),
+      sizeComparison: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "FilterCriteria",
+}) as any as Schema.Schema<FilterCriteria>;
 
-export interface DisableCseKeyPairRequest {
-}
+export interface DisableCseKeyPairRequest {}
 
-export const DisableCseKeyPairRequest: Schema.Schema<DisableCseKeyPairRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DisableCseKeyPairRequest" }) as any as Schema.Schema<DisableCseKeyPairRequest>;
+export const DisableCseKeyPairRequest: Schema.Schema<DisableCseKeyPairRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DisableCseKeyPairRequest",
+  }) as any as Schema.Schema<DisableCseKeyPairRequest>;
 
 export interface Draft {
   /** The message content of the draft. */
@@ -521,10 +657,12 @@ export interface Draft {
   id?: string;
 }
 
-export const Draft: Schema.Schema<Draft> = Schema.suspend(() => Schema.Struct({
-  message: Schema.optional(Message),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "Draft" }) as any as Schema.Schema<Draft>;
+export const Draft: Schema.Schema<Draft> = Schema.suspend(() =>
+  Schema.Struct({
+    message: Schema.optional(Message),
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Draft" }) as any as Schema.Schema<Draft>;
 
 export interface ListDraftsResponse {
   /** List of drafts. Note that the `Message` property in each `Draft` resource only contains an `id` and a `threadId`. The [`messages.get`](https://developers.google.com/workspace/gmail/api/v1/reference/users/messages/get) method can fetch additional message details. */
@@ -535,11 +673,16 @@ export interface ListDraftsResponse {
   nextPageToken?: string;
 }
 
-export const ListDraftsResponse: Schema.Schema<ListDraftsResponse> = Schema.suspend(() => Schema.Struct({
-  drafts: Schema.optional(Schema.Array(Draft)),
-  resultSizeEstimate: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDraftsResponse" }) as any as Schema.Schema<ListDraftsResponse>;
+export const ListDraftsResponse: Schema.Schema<ListDraftsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      drafts: Schema.optional(Schema.Array(Draft)),
+      resultSizeEstimate: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDraftsResponse",
+  }) as any as Schema.Schema<ListDraftsResponse>;
 
 export interface LabelColor {
   /** The text color of the label, represented as hex string. This field is required in order to set the color of a label. Only the following predefined set of color values are allowed: \#000000, #434343, #666666, #999999, #cccccc, #efefef, #f3f3f3, #ffffff, \#fb4c2f, #ffad47, #fad165, #16a766, #43d692, #4a86e8, #a479e2, #f691b3, \#f6c5be, #ffe6c7, #fef1d1, #b9e4d0, #c6f3de, #c9daf8, #e4d7f5, #fcdee8, \#efa093, #ffd6a2, #fce8b3, #89d3b2, #a0eac9, #a4c2f4, #d0bcf1, #fbc8d9, \#e66550, #ffbc6b, #fcda83, #44b984, #68dfa9, #6d9eeb, #b694e8, #f7a7c0, \#cc3a21, #eaa041, #f2c960, #149e60, #3dc789, #3c78d8, #8e63ce, #e07798, \#ac2b16, #cf8933, #d5ae49, #0b804b, #2a9c68, #285bac, #653e9b, #b65775, \#822111, #a46a21, #aa8831, #076239, #1a764d, #1c4587, #41236d, #83334c \#464646, #e7e7e7, #0d3472, #b6cff5, #0d3b44, #98d7e4, #3d188e, #e3d7ff, \#711a36, #fbd3e0, #8a1c0a, #f2b2a8, #7a2e0b, #ffc8af, #7a4706, #ffdeb5, \#594c05, #fbe983, #684e07, #fdedc1, #0b4f30, #b3efd3, #04502e, #a2dcc1, \#c2c2c2, #4986e7, #2da2bb, #b99aff, #994a64, #f691b2, #ff7537, #ffad46, \#662e37, #ebdbde, #cca6ac, #094228, #42d692, #16a765 */
@@ -548,14 +691,21 @@ export interface LabelColor {
   backgroundColor?: string;
 }
 
-export const LabelColor: Schema.Schema<LabelColor> = Schema.suspend(() => Schema.Struct({
-  textColor: Schema.optional(Schema.String),
-  backgroundColor: Schema.optional(Schema.String),
-})).annotate({ identifier: "LabelColor" }) as any as Schema.Schema<LabelColor>;
+export const LabelColor: Schema.Schema<LabelColor> = Schema.suspend(() =>
+  Schema.Struct({
+    textColor: Schema.optional(Schema.String),
+    backgroundColor: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "LabelColor" }) as any as Schema.Schema<LabelColor>;
 
 export interface ImapSettings {
   /** The action that will be executed on a message when it is marked as deleted and expunged from the last visible IMAP folder. */
-  expungeBehavior?: "expungeBehaviorUnspecified" | "archive" | "trash" | "deleteForever" | (string & {});
+  expungeBehavior?:
+    | "expungeBehaviorUnspecified"
+    | "archive"
+    | "trash"
+    | "deleteForever"
+    | (string & {});
   /** An optional limit on the number of messages that an IMAP folder may contain. Legal values are 0, 1000, 2000, 5000 or 10000. A value of zero is interpreted to mean that there is no limit. */
   maxFolderSize?: number;
   /** Whether IMAP is enabled for the account. */
@@ -564,27 +714,42 @@ export interface ImapSettings {
   autoExpunge?: boolean;
 }
 
-export const ImapSettings: Schema.Schema<ImapSettings> = Schema.suspend(() => Schema.Struct({
-  expungeBehavior: Schema.optional(Schema.String),
-  maxFolderSize: Schema.optional(Schema.Number),
-  enabled: Schema.optional(Schema.Boolean),
-  autoExpunge: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ImapSettings" }) as any as Schema.Schema<ImapSettings>;
+export const ImapSettings: Schema.Schema<ImapSettings> = Schema.suspend(() =>
+  Schema.Struct({
+    expungeBehavior: Schema.optional(Schema.String),
+    maxFolderSize: Schema.optional(Schema.Number),
+    enabled: Schema.optional(Schema.Boolean),
+    autoExpunge: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "ImapSettings",
+}) as any as Schema.Schema<ImapSettings>;
 
 export interface AutoForwarding {
   /** Email address to which all incoming messages are forwarded. This email address must be a verified member of the forwarding addresses. */
   emailAddress?: string;
   /** The state that a message should be left in after it has been forwarded. */
-  disposition?: "dispositionUnspecified" | "leaveInInbox" | "archive" | "trash" | "markRead" | (string & {});
+  disposition?:
+    | "dispositionUnspecified"
+    | "leaveInInbox"
+    | "archive"
+    | "trash"
+    | "markRead"
+    | (string & {});
   /** Whether all incoming mail is automatically forwarded to another address. */
   enabled?: boolean;
 }
 
-export const AutoForwarding: Schema.Schema<AutoForwarding> = Schema.suspend(() => Schema.Struct({
-  emailAddress: Schema.optional(Schema.String),
-  disposition: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AutoForwarding" }) as any as Schema.Schema<AutoForwarding>;
+export const AutoForwarding: Schema.Schema<AutoForwarding> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      emailAddress: Schema.optional(Schema.String),
+      disposition: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "AutoForwarding",
+}) as any as Schema.Schema<AutoForwarding>;
 
 export interface ListHistoryResponse {
   /** The ID of the mailbox's current history record. */
@@ -595,11 +760,16 @@ export interface ListHistoryResponse {
   history?: Array<History>;
 }
 
-export const ListHistoryResponse: Schema.Schema<ListHistoryResponse> = Schema.suspend(() => Schema.Struct({
-  historyId: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  history: Schema.optional(Schema.Array(History)),
-})).annotate({ identifier: "ListHistoryResponse" }) as any as Schema.Schema<ListHistoryResponse>;
+export const ListHistoryResponse: Schema.Schema<ListHistoryResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      historyId: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      history: Schema.optional(Schema.Array(History)),
+    }),
+  ).annotate({
+    identifier: "ListHistoryResponse",
+  }) as any as Schema.Schema<ListHistoryResponse>;
 
 export interface FilterAction {
   /** List of labels to remove from the message. */
@@ -610,11 +780,15 @@ export interface FilterAction {
   addLabelIds?: Array<string>;
 }
 
-export const FilterAction: Schema.Schema<FilterAction> = Schema.suspend(() => Schema.Struct({
-  removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
-  forward: Schema.optional(Schema.String),
-  addLabelIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "FilterAction" }) as any as Schema.Schema<FilterAction>;
+export const FilterAction: Schema.Schema<FilterAction> = Schema.suspend(() =>
+  Schema.Struct({
+    removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
+    forward: Schema.optional(Schema.String),
+    addLabelIds: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({
+  identifier: "FilterAction",
+}) as any as Schema.Schema<FilterAction>;
 
 export interface Filter {
   /** The server assigned ID of the filter. */
@@ -625,20 +799,27 @@ export interface Filter {
   action?: FilterAction;
 }
 
-export const Filter: Schema.Schema<Filter> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  criteria: Schema.optional(FilterCriteria),
-  action: Schema.optional(FilterAction),
-})).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
+export const Filter: Schema.Schema<Filter> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    criteria: Schema.optional(FilterCriteria),
+    action: Schema.optional(FilterAction),
+  }),
+).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
 
 export interface ListFiltersResponse {
   /** List of a user's filters. */
   filter?: Array<Filter>;
 }
 
-export const ListFiltersResponse: Schema.Schema<ListFiltersResponse> = Schema.suspend(() => Schema.Struct({
-  filter: Schema.optional(Schema.Array(Filter)),
-})).annotate({ identifier: "ListFiltersResponse" }) as any as Schema.Schema<ListFiltersResponse>;
+export const ListFiltersResponse: Schema.Schema<ListFiltersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filter: Schema.optional(Schema.Array(Filter)),
+    }),
+  ).annotate({
+    identifier: "ListFiltersResponse",
+  }) as any as Schema.Schema<ListFiltersResponse>;
 
 export interface ListMessagesResponse {
   /** List of messages. Note that each message resource contains only an `id` and a `threadId`. Additional message details can be fetched using the messages.get method. */
@@ -649,32 +830,50 @@ export interface ListMessagesResponse {
   nextPageToken?: string;
 }
 
-export const ListMessagesResponse: Schema.Schema<ListMessagesResponse> = Schema.suspend(() => Schema.Struct({
-  messages: Schema.optional(Schema.Array(Message)),
-  resultSizeEstimate: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListMessagesResponse" }) as any as Schema.Schema<ListMessagesResponse>;
+export const ListMessagesResponse: Schema.Schema<ListMessagesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(Message)),
+      resultSizeEstimate: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListMessagesResponse",
+  }) as any as Schema.Schema<ListMessagesResponse>;
 
 export interface Delegate {
   /** The email address of the delegate. */
   delegateEmail?: string;
   /** Indicates whether this address has been verified and can act as a delegate for the account. Read-only. */
-  verificationStatus?: "verificationStatusUnspecified" | "accepted" | "pending" | "rejected" | "expired" | (string & {});
+  verificationStatus?:
+    | "verificationStatusUnspecified"
+    | "accepted"
+    | "pending"
+    | "rejected"
+    | "expired"
+    | (string & {});
 }
 
-export const Delegate: Schema.Schema<Delegate> = Schema.suspend(() => Schema.Struct({
-  delegateEmail: Schema.optional(Schema.String),
-  verificationStatus: Schema.optional(Schema.String),
-})).annotate({ identifier: "Delegate" }) as any as Schema.Schema<Delegate>;
+export const Delegate: Schema.Schema<Delegate> = Schema.suspend(() =>
+  Schema.Struct({
+    delegateEmail: Schema.optional(Schema.String),
+    verificationStatus: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Delegate" }) as any as Schema.Schema<Delegate>;
 
 export interface ListDelegatesResponse {
   /** List of the user's delegates (with any verification status). If an account doesn't have delegates, this field doesn't appear. */
   delegates?: Array<Delegate>;
 }
 
-export const ListDelegatesResponse: Schema.Schema<ListDelegatesResponse> = Schema.suspend(() => Schema.Struct({
-  delegates: Schema.optional(Schema.Array(Delegate)),
-})).annotate({ identifier: "ListDelegatesResponse" }) as any as Schema.Schema<ListDelegatesResponse>;
+export const ListDelegatesResponse: Schema.Schema<ListDelegatesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      delegates: Schema.optional(Schema.Array(Delegate)),
+    }),
+  ).annotate({
+    identifier: "ListDelegatesResponse",
+  }) as any as Schema.Schema<ListDelegatesResponse>;
 
 export interface Label {
   /** The total number of threads with the label. */
@@ -684,7 +883,11 @@ export interface Label {
   /** The owner type for the label. User labels are created by the user and can be modified and deleted by the user and can be applied to any message or thread. System labels are internally created and cannot be added, modified, or deleted. System labels may be able to be applied to or removed from messages and threads under some circumstances but this is not guaranteed. For example, users can apply and remove the `INBOX` and `UNREAD` labels from messages and threads, but cannot apply or remove the `DRAFTS` or `SENT` labels from messages or threads. */
   type?: "system" | "user" | (string & {});
   /** The visibility of the label in the label list in the Gmail web interface. */
-  labelListVisibility?: "labelShow" | "labelShowIfUnread" | "labelHide" | (string & {});
+  labelListVisibility?:
+    | "labelShow"
+    | "labelShowIfUnread"
+    | "labelHide"
+    | (string & {});
   /** The total number of messages with the label. */
   messagesTotal?: number;
   /** The immutable ID of the label. */
@@ -699,18 +902,20 @@ export interface Label {
   threadsUnread?: number;
 }
 
-export const Label: Schema.Schema<Label> = Schema.suspend(() => Schema.Struct({
-  threadsTotal: Schema.optional(Schema.Number),
-  color: Schema.optional(LabelColor),
-  type: Schema.optional(Schema.String),
-  labelListVisibility: Schema.optional(Schema.String),
-  messagesTotal: Schema.optional(Schema.Number),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  messageListVisibility: Schema.optional(Schema.String),
-  messagesUnread: Schema.optional(Schema.Number),
-  threadsUnread: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
+export const Label: Schema.Schema<Label> = Schema.suspend(() =>
+  Schema.Struct({
+    threadsTotal: Schema.optional(Schema.Number),
+    color: Schema.optional(LabelColor),
+    type: Schema.optional(Schema.String),
+    labelListVisibility: Schema.optional(Schema.String),
+    messagesTotal: Schema.optional(Schema.Number),
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    messageListVisibility: Schema.optional(Schema.String),
+    messagesUnread: Schema.optional(Schema.Number),
+    threadsUnread: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
 
 export interface ModifyThreadRequest {
   /** A list of IDs of labels to add to this thread. You can add up to 100 labels with each update. */
@@ -719,10 +924,15 @@ export interface ModifyThreadRequest {
   removeLabelIds?: Array<string>;
 }
 
-export const ModifyThreadRequest: Schema.Schema<ModifyThreadRequest> = Schema.suspend(() => Schema.Struct({
-  addLabelIds: Schema.optional(Schema.Array(Schema.String)),
-  removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ModifyThreadRequest" }) as any as Schema.Schema<ModifyThreadRequest>;
+export const ModifyThreadRequest: Schema.Schema<ModifyThreadRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      addLabelIds: Schema.optional(Schema.Array(Schema.String)),
+      removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ModifyThreadRequest",
+  }) as any as Schema.Schema<ModifyThreadRequest>;
 
 export interface BatchModifyMessagesRequest {
   /** A list of label IDs to add to messages. */
@@ -733,11 +943,16 @@ export interface BatchModifyMessagesRequest {
   ids?: Array<string>;
 }
 
-export const BatchModifyMessagesRequest: Schema.Schema<BatchModifyMessagesRequest> = Schema.suspend(() => Schema.Struct({
-  addLabelIds: Schema.optional(Schema.Array(Schema.String)),
-  removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
-  ids: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchModifyMessagesRequest" }) as any as Schema.Schema<BatchModifyMessagesRequest>;
+export const BatchModifyMessagesRequest: Schema.Schema<BatchModifyMessagesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      addLabelIds: Schema.optional(Schema.Array(Schema.String)),
+      removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
+      ids: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchModifyMessagesRequest",
+  }) as any as Schema.Schema<BatchModifyMessagesRequest>;
 
 export interface ModifyMessageRequest {
   /** A list IDs of labels to remove from this message. You can remove up to 100 labels with each update. */
@@ -746,19 +961,29 @@ export interface ModifyMessageRequest {
   addLabelIds?: Array<string>;
 }
 
-export const ModifyMessageRequest: Schema.Schema<ModifyMessageRequest> = Schema.suspend(() => Schema.Struct({
-  removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
-  addLabelIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ModifyMessageRequest" }) as any as Schema.Schema<ModifyMessageRequest>;
+export const ModifyMessageRequest: Schema.Schema<ModifyMessageRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      removeLabelIds: Schema.optional(Schema.Array(Schema.String)),
+      addLabelIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ModifyMessageRequest",
+  }) as any as Schema.Schema<ModifyMessageRequest>;
 
 export interface ListLabelsResponse {
   /** List of labels. Note that each label resource only contains an `id`, `name`, `messageListVisibility`, `labelListVisibility`, and `type`. The [`labels.get`](https://developers.google.com/workspace/gmail/api/v1/reference/users/labels/get) method can fetch additional label details. */
   labels?: Array<Label>;
 }
 
-export const ListLabelsResponse: Schema.Schema<ListLabelsResponse> = Schema.suspend(() => Schema.Struct({
-  labels: Schema.optional(Schema.Array(Label)),
-})).annotate({ identifier: "ListLabelsResponse" }) as any as Schema.Schema<ListLabelsResponse>;
+export const ListLabelsResponse: Schema.Schema<ListLabelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      labels: Schema.optional(Schema.Array(Label)),
+    }),
+  ).annotate({
+    identifier: "ListLabelsResponse",
+  }) as any as Schema.Schema<ListLabelsResponse>;
 
 export interface CseIdentity {
   /** The email address for the sending identity. The email address must be the primary email address of the authenticated user. */
@@ -769,11 +994,13 @@ export interface CseIdentity {
   primaryKeyPairId?: string;
 }
 
-export const CseIdentity: Schema.Schema<CseIdentity> = Schema.suspend(() => Schema.Struct({
-  emailAddress: Schema.optional(Schema.String),
-  signAndEncryptKeyPairs: Schema.optional(SignAndEncryptKeyPairs),
-  primaryKeyPairId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CseIdentity" }) as any as Schema.Schema<CseIdentity>;
+export const CseIdentity: Schema.Schema<CseIdentity> = Schema.suspend(() =>
+  Schema.Struct({
+    emailAddress: Schema.optional(Schema.String),
+    signAndEncryptKeyPairs: Schema.optional(SignAndEncryptKeyPairs),
+    primaryKeyPairId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "CseIdentity" }) as any as Schema.Schema<CseIdentity>;
 
 export interface ListCseIdentitiesResponse {
   /** One page of the list of CSE identities configured for the user. */
@@ -782,10 +1009,15 @@ export interface ListCseIdentitiesResponse {
   nextPageToken?: string;
 }
 
-export const ListCseIdentitiesResponse: Schema.Schema<ListCseIdentitiesResponse> = Schema.suspend(() => Schema.Struct({
-  cseIdentities: Schema.optional(Schema.Array(CseIdentity)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCseIdentitiesResponse" }) as any as Schema.Schema<ListCseIdentitiesResponse>;
+export const ListCseIdentitiesResponse: Schema.Schema<ListCseIdentitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cseIdentities: Schema.optional(Schema.Array(CseIdentity)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCseIdentitiesResponse",
+  }) as any as Schema.Schema<ListCseIdentitiesResponse>;
 
 export interface VacationSettings {
   /** Optional text to prepend to the subject line in vacation responses. In order to enable auto-replies, either the response subject or the response body must be nonempty. */
@@ -806,67 +1038,98 @@ export interface VacationSettings {
   responseBodyPlainText?: string;
 }
 
-export const VacationSettings: Schema.Schema<VacationSettings> = Schema.suspend(() => Schema.Struct({
-  responseSubject: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  restrictToContacts: Schema.optional(Schema.Boolean),
-  restrictToDomain: Schema.optional(Schema.Boolean),
-  endTime: Schema.optional(Schema.String),
-  responseBodyHtml: Schema.optional(Schema.String),
-  enableAutoReply: Schema.optional(Schema.Boolean),
-  responseBodyPlainText: Schema.optional(Schema.String),
-})).annotate({ identifier: "VacationSettings" }) as any as Schema.Schema<VacationSettings>;
+export const VacationSettings: Schema.Schema<VacationSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      responseSubject: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      restrictToContacts: Schema.optional(Schema.Boolean),
+      restrictToDomain: Schema.optional(Schema.Boolean),
+      endTime: Schema.optional(Schema.String),
+      responseBodyHtml: Schema.optional(Schema.String),
+      enableAutoReply: Schema.optional(Schema.Boolean),
+      responseBodyPlainText: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VacationSettings",
+}) as any as Schema.Schema<VacationSettings>;
 
 export interface BatchDeleteMessagesRequest {
   /** The IDs of the messages to delete. */
   ids?: Array<string>;
 }
 
-export const BatchDeleteMessagesRequest: Schema.Schema<BatchDeleteMessagesRequest> = Schema.suspend(() => Schema.Struct({
-  ids: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "BatchDeleteMessagesRequest" }) as any as Schema.Schema<BatchDeleteMessagesRequest>;
+export const BatchDeleteMessagesRequest: Schema.Schema<BatchDeleteMessagesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ids: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "BatchDeleteMessagesRequest",
+  }) as any as Schema.Schema<BatchDeleteMessagesRequest>;
 
 export interface LanguageSettings {
   /** The language to display Gmail in, formatted as an RFC 3066 Language Tag (for example `en-GB`, `fr` or `ja` for British English, French, or Japanese respectively). The set of languages supported by Gmail evolves over time, so please refer to the "Language" dropdown in the Gmail settings for all available options, as described in the language settings help article. For a table of sample values, see [Manage language settings](https://developers.google.com/workspace/gmail/api/guides/language-settings). Not all Gmail clients can display the same set of languages. In the case that a user's display language is not available for use on a particular client, said client automatically chooses to display in the closest supported variant (or a reasonable default). */
   displayLanguage?: string;
 }
 
-export const LanguageSettings: Schema.Schema<LanguageSettings> = Schema.suspend(() => Schema.Struct({
-  displayLanguage: Schema.optional(Schema.String),
-})).annotate({ identifier: "LanguageSettings" }) as any as Schema.Schema<LanguageSettings>;
+export const LanguageSettings: Schema.Schema<LanguageSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayLanguage: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LanguageSettings",
+}) as any as Schema.Schema<LanguageSettings>;
 
-export interface ObliterateCseKeyPairRequest {
-}
+export interface ObliterateCseKeyPairRequest {}
 
-export const ObliterateCseKeyPairRequest: Schema.Schema<ObliterateCseKeyPairRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ObliterateCseKeyPairRequest" }) as any as Schema.Schema<ObliterateCseKeyPairRequest>;
+export const ObliterateCseKeyPairRequest: Schema.Schema<ObliterateCseKeyPairRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ObliterateCseKeyPairRequest",
+  }) as any as Schema.Schema<ObliterateCseKeyPairRequest>;
 
 export interface ForwardingAddress {
   /** An email address to which messages can be forwarded. */
   forwardingEmail?: string;
   /** Indicates whether this address has been verified and is usable for forwarding. Read-only. */
-  verificationStatus?: "verificationStatusUnspecified" | "accepted" | "pending" | (string & {});
+  verificationStatus?:
+    | "verificationStatusUnspecified"
+    | "accepted"
+    | "pending"
+    | (string & {});
 }
 
-export const ForwardingAddress: Schema.Schema<ForwardingAddress> = Schema.suspend(() => Schema.Struct({
-  forwardingEmail: Schema.optional(Schema.String),
-  verificationStatus: Schema.optional(Schema.String),
-})).annotate({ identifier: "ForwardingAddress" }) as any as Schema.Schema<ForwardingAddress>;
+export const ForwardingAddress: Schema.Schema<ForwardingAddress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      forwardingEmail: Schema.optional(Schema.String),
+      verificationStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ForwardingAddress",
+  }) as any as Schema.Schema<ForwardingAddress>;
 
 export interface ListForwardingAddressesResponse {
   /** List of addresses that may be used for forwarding. */
   forwardingAddresses?: Array<ForwardingAddress>;
 }
 
-export const ListForwardingAddressesResponse: Schema.Schema<ListForwardingAddressesResponse> = Schema.suspend(() => Schema.Struct({
-  forwardingAddresses: Schema.optional(Schema.Array(ForwardingAddress)),
-})).annotate({ identifier: "ListForwardingAddressesResponse" }) as any as Schema.Schema<ListForwardingAddressesResponse>;
+export const ListForwardingAddressesResponse: Schema.Schema<ListForwardingAddressesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      forwardingAddresses: Schema.optional(Schema.Array(ForwardingAddress)),
+    }),
+  ).annotate({
+    identifier: "ListForwardingAddressesResponse",
+  }) as any as Schema.Schema<ListForwardingAddressesResponse>;
 
-export interface EnableCseKeyPairRequest {
-}
+export interface EnableCseKeyPairRequest {}
 
-export const EnableCseKeyPairRequest: Schema.Schema<EnableCseKeyPairRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "EnableCseKeyPairRequest" }) as any as Schema.Schema<EnableCseKeyPairRequest>;
+export const EnableCseKeyPairRequest: Schema.Schema<EnableCseKeyPairRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "EnableCseKeyPairRequest",
+  }) as any as Schema.Schema<EnableCseKeyPairRequest>;
 
 // ==========================================================================
 // Operations
@@ -883,7 +1146,11 @@ export const WatchUsersRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(WatchRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/watch", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/watch",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<WatchUsersRequest>;
 
@@ -893,7 +1160,12 @@ export const WatchUsersResponse = WatchResponse;
 export type WatchUsersError = DefaultErrors;
 
 /** Set up or update a push notification watch on the given user mailbox. */
-export const watchUsers: API.OperationMethod<WatchUsersRequest, WatchUsersResponse, WatchUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const watchUsers: API.OperationMethod<
+  WatchUsersRequest,
+  WatchUsersResponse,
+  WatchUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: WatchUsersRequest,
   output: WatchUsersResponse,
   errors: [],
@@ -917,7 +1189,12 @@ export const GetProfileUsersResponse = Profile;
 export type GetProfileUsersError = DefaultErrors;
 
 /** Gets the current user's Gmail profile. */
-export const getProfileUsers: API.OperationMethod<GetProfileUsersRequest, GetProfileUsersResponse, GetProfileUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProfileUsers: API.OperationMethod<
+  GetProfileUsersRequest,
+  GetProfileUsersResponse,
+  GetProfileUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProfileUsersRequest,
   output: GetProfileUsersResponse,
   errors: [],
@@ -931,17 +1208,27 @@ export interface StopUsersRequest {
 export const StopUsersRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/stop", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/stop",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StopUsersRequest>;
 
 export interface StopUsersResponse {}
-export const StopUsersResponse: Schema.Schema<StopUsersResponse> = Schema.Struct({}) as any as Schema.Schema<StopUsersResponse>;
+export const StopUsersResponse: Schema.Schema<StopUsersResponse> =
+  Schema.Struct({}) as any as Schema.Schema<StopUsersResponse>;
 
 export type StopUsersError = DefaultErrors;
 
 /** Stop receiving push notifications for the given user mailbox. */
-export const stopUsers: API.OperationMethod<StopUsersRequest, StopUsersResponse, StopUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopUsers: API.OperationMethod<
+  StopUsersRequest,
+  StopUsersResponse,
+  StopUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopUsersRequest,
   output: StopUsersResponse,
   errors: [],
@@ -958,7 +1245,11 @@ export const SendUsersMessagesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(Message).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages/send", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages/send",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SendUsersMessagesRequest>;
 
@@ -968,7 +1259,12 @@ export const SendUsersMessagesResponse = Message;
 export type SendUsersMessagesError = DefaultErrors;
 
 /** Sends the specified message to the recipients in the `To`, `Cc`, and `Bcc` headers. For example usage, see [Sending email](https://developers.google.com/workspace/gmail/api/guides/sending). */
-export const sendUsersMessages: API.OperationMethod<SendUsersMessagesRequest, SendUsersMessagesResponse, SendUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const sendUsersMessages: API.OperationMethod<
+  SendUsersMessagesRequest,
+  SendUsersMessagesResponse,
+  SendUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SendUsersMessagesRequest,
   output: SendUsersMessagesResponse,
   errors: [],
@@ -988,10 +1284,16 @@ export interface InsertUsersMessagesRequest {
 export const InsertUsersMessagesRequest = Schema.Struct({
   deleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("deleted")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  internalDateSource: Schema.optional(Schema.String).pipe(T.HttpQuery("internalDateSource")),
+  internalDateSource: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("internalDateSource"),
+  ),
   body: Schema.optional(Message).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertUsersMessagesRequest>;
 
@@ -1001,7 +1303,12 @@ export const InsertUsersMessagesResponse = Message;
 export type InsertUsersMessagesError = DefaultErrors;
 
 /** Directly inserts a message into only this user's mailbox similar to `IMAP APPEND`, bypassing most scanning and classification. Does not send a message. */
-export const insertUsersMessages: API.OperationMethod<InsertUsersMessagesRequest, InsertUsersMessagesResponse, InsertUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertUsersMessages: API.OperationMethod<
+  InsertUsersMessagesRequest,
+  InsertUsersMessagesResponse,
+  InsertUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertUsersMessagesRequest,
   output: InsertUsersMessagesResponse,
   errors: [],
@@ -1024,13 +1331,23 @@ export interface ImportUsersMessagesRequest {
 
 export const ImportUsersMessagesRequest = Schema.Struct({
   deleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("deleted")),
-  internalDateSource: Schema.optional(Schema.String).pipe(T.HttpQuery("internalDateSource")),
+  internalDateSource: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("internalDateSource"),
+  ),
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  processForCalendar: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("processForCalendar")),
-  neverMarkSpam: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("neverMarkSpam")),
+  processForCalendar: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("processForCalendar"),
+  ),
+  neverMarkSpam: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("neverMarkSpam"),
+  ),
   body: Schema.optional(Message).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages/import", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages/import",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ImportUsersMessagesRequest>;
 
@@ -1040,7 +1357,12 @@ export const ImportUsersMessagesResponse = Message;
 export type ImportUsersMessagesError = DefaultErrors;
 
 /** Imports a message into only this user's mailbox, with standard email delivery scanning and classification similar to receiving via SMTP. This method doesn't perform SPF checks, so it might not work for some spam messages, such as those attempting to perform domain spoofing. This method does not send a message. Note that the maximum size of the message is 150MB. */
-export const importUsersMessages: API.OperationMethod<ImportUsersMessagesRequest, ImportUsersMessagesResponse, ImportUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importUsersMessages: API.OperationMethod<
+  ImportUsersMessagesRequest,
+  ImportUsersMessagesResponse,
+  ImportUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportUsersMessagesRequest,
   output: ImportUsersMessagesResponse,
   errors: [],
@@ -1060,7 +1382,11 @@ export const ModifyUsersMessagesRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   body: Schema.optional(ModifyMessageRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages/{id}/modify", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages/{id}/modify",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifyUsersMessagesRequest>;
 
@@ -1070,7 +1396,12 @@ export const ModifyUsersMessagesResponse = Message;
 export type ModifyUsersMessagesError = DefaultErrors;
 
 /** Modifies the labels on the specified message. */
-export const modifyUsersMessages: API.OperationMethod<ModifyUsersMessagesRequest, ModifyUsersMessagesResponse, ModifyUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifyUsersMessages: API.OperationMethod<
+  ModifyUsersMessagesRequest,
+  ModifyUsersMessagesResponse,
+  ModifyUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifyUsersMessagesRequest,
   output: ModifyUsersMessagesResponse,
   errors: [],
@@ -1087,7 +1418,11 @@ export const TrashUsersMessagesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages/{id}/trash", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages/{id}/trash",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TrashUsersMessagesRequest>;
 
@@ -1097,7 +1432,12 @@ export const TrashUsersMessagesResponse = Message;
 export type TrashUsersMessagesError = DefaultErrors;
 
 /** Moves the specified message to the trash. */
-export const trashUsersMessages: API.OperationMethod<TrashUsersMessagesRequest, TrashUsersMessagesResponse, TrashUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const trashUsersMessages: API.OperationMethod<
+  TrashUsersMessagesRequest,
+  TrashUsersMessagesResponse,
+  TrashUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TrashUsersMessagesRequest,
   output: TrashUsersMessagesResponse,
   errors: [],
@@ -1121,10 +1461,14 @@ export interface ListUsersMessagesRequest {
 export const ListUsersMessagesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  includeSpamTrash: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeSpamTrash")),
+  includeSpamTrash: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeSpamTrash"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
-  labelIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("labelIds")),
+  labelIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("labelIds"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "gmail/v1/users/{userId}/messages" }),
   svc,
@@ -1136,7 +1480,12 @@ export const ListUsersMessagesResponse = ListMessagesResponse;
 export type ListUsersMessagesError = DefaultErrors;
 
 /** Lists the messages in the user's mailbox. For example usage, see [List Gmail messages](https://developers.google.com/workspace/gmail/api/guides/list-messages). */
-export const listUsersMessages: API.PaginatedOperationMethod<ListUsersMessagesRequest, ListUsersMessagesResponse, ListUsersMessagesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersMessages: API.PaginatedOperationMethod<
+  ListUsersMessagesRequest,
+  ListUsersMessagesResponse,
+  ListUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersMessagesRequest,
   output: ListUsersMessagesResponse,
   errors: [],
@@ -1162,12 +1511,18 @@ export const DeleteUsersMessagesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteUsersMessagesRequest>;
 
 export interface DeleteUsersMessagesResponse {}
-export const DeleteUsersMessagesResponse: Schema.Schema<DeleteUsersMessagesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersMessagesResponse>;
+export const DeleteUsersMessagesResponse: Schema.Schema<DeleteUsersMessagesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersMessagesResponse>;
 
 export type DeleteUsersMessagesError = DefaultErrors;
 
 /** Immediately and permanently deletes the specified message. This operation cannot be undone. Prefer `messages.trash` instead. */
-export const deleteUsersMessages: API.OperationMethod<DeleteUsersMessagesRequest, DeleteUsersMessagesResponse, DeleteUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersMessages: API.OperationMethod<
+  DeleteUsersMessagesRequest,
+  DeleteUsersMessagesResponse,
+  DeleteUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersMessagesRequest,
   output: DeleteUsersMessagesResponse,
   errors: [],
@@ -1186,7 +1541,9 @@ export interface GetUsersMessagesRequest {
 
 export const GetUsersMessagesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  metadataHeaders: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("metadataHeaders")),
+  metadataHeaders: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("metadataHeaders"),
+  ),
   id: Schema.String.pipe(T.HttpPath("id")),
   format: Schema.optional(Schema.String).pipe(T.HttpQuery("format")),
 }).pipe(
@@ -1200,7 +1557,12 @@ export const GetUsersMessagesResponse = Message;
 export type GetUsersMessagesError = DefaultErrors;
 
 /** Gets the specified message. */
-export const getUsersMessages: API.OperationMethod<GetUsersMessagesRequest, GetUsersMessagesResponse, GetUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersMessages: API.OperationMethod<
+  GetUsersMessagesRequest,
+  GetUsersMessagesResponse,
+  GetUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersMessagesRequest,
   output: GetUsersMessagesResponse,
   errors: [],
@@ -1217,17 +1579,27 @@ export const BatchModifyUsersMessagesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(BatchModifyMessagesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages/batchModify", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages/batchModify",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchModifyUsersMessagesRequest>;
 
 export interface BatchModifyUsersMessagesResponse {}
-export const BatchModifyUsersMessagesResponse: Schema.Schema<BatchModifyUsersMessagesResponse> = Schema.Struct({}) as any as Schema.Schema<BatchModifyUsersMessagesResponse>;
+export const BatchModifyUsersMessagesResponse: Schema.Schema<BatchModifyUsersMessagesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<BatchModifyUsersMessagesResponse>;
 
 export type BatchModifyUsersMessagesError = DefaultErrors;
 
 /** Modifies the labels on the specified messages. */
-export const batchModifyUsersMessages: API.OperationMethod<BatchModifyUsersMessagesRequest, BatchModifyUsersMessagesResponse, BatchModifyUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchModifyUsersMessages: API.OperationMethod<
+  BatchModifyUsersMessagesRequest,
+  BatchModifyUsersMessagesResponse,
+  BatchModifyUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchModifyUsersMessagesRequest,
   output: BatchModifyUsersMessagesResponse,
   errors: [],
@@ -1244,17 +1616,27 @@ export const BatchDeleteUsersMessagesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(BatchDeleteMessagesRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages/batchDelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages/batchDelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BatchDeleteUsersMessagesRequest>;
 
 export interface BatchDeleteUsersMessagesResponse {}
-export const BatchDeleteUsersMessagesResponse: Schema.Schema<BatchDeleteUsersMessagesResponse> = Schema.Struct({}) as any as Schema.Schema<BatchDeleteUsersMessagesResponse>;
+export const BatchDeleteUsersMessagesResponse: Schema.Schema<BatchDeleteUsersMessagesResponse> =
+  Schema.Struct({}) as any as Schema.Schema<BatchDeleteUsersMessagesResponse>;
 
 export type BatchDeleteUsersMessagesError = DefaultErrors;
 
 /** Deletes many messages by message ID. Provides no guarantees that messages were not already deleted or even existed at all. */
-export const batchDeleteUsersMessages: API.OperationMethod<BatchDeleteUsersMessagesRequest, BatchDeleteUsersMessagesResponse, BatchDeleteUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const batchDeleteUsersMessages: API.OperationMethod<
+  BatchDeleteUsersMessagesRequest,
+  BatchDeleteUsersMessagesResponse,
+  BatchDeleteUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BatchDeleteUsersMessagesRequest,
   output: BatchDeleteUsersMessagesResponse,
   errors: [],
@@ -1271,7 +1653,11 @@ export const UntrashUsersMessagesRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/messages/{id}/untrash", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/messages/{id}/untrash",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UntrashUsersMessagesRequest>;
 
@@ -1281,7 +1667,12 @@ export const UntrashUsersMessagesResponse = Message;
 export type UntrashUsersMessagesError = DefaultErrors;
 
 /** Removes the specified message from the trash. */
-export const untrashUsersMessages: API.OperationMethod<UntrashUsersMessagesRequest, UntrashUsersMessagesResponse, UntrashUsersMessagesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const untrashUsersMessages: API.OperationMethod<
+  UntrashUsersMessagesRequest,
+  UntrashUsersMessagesResponse,
+  UntrashUsersMessagesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UntrashUsersMessagesRequest,
   output: UntrashUsersMessagesResponse,
   errors: [],
@@ -1301,7 +1692,10 @@ export const GetUsersMessagesAttachmentsRequest = Schema.Struct({
   messageId: Schema.String.pipe(T.HttpPath("messageId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/messages/{messageId}/attachments/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/messages/{messageId}/attachments/{id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersMessagesAttachmentsRequest>;
 
@@ -1311,7 +1705,12 @@ export const GetUsersMessagesAttachmentsResponse = MessagePartBody;
 export type GetUsersMessagesAttachmentsError = DefaultErrors;
 
 /** Gets the specified message attachment. */
-export const getUsersMessagesAttachments: API.OperationMethod<GetUsersMessagesAttachmentsRequest, GetUsersMessagesAttachmentsResponse, GetUsersMessagesAttachmentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersMessagesAttachments: API.OperationMethod<
+  GetUsersMessagesAttachmentsRequest,
+  GetUsersMessagesAttachmentsResponse,
+  GetUsersMessagesAttachmentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersMessagesAttachmentsRequest,
   output: GetUsersMessagesAttachmentsResponse,
   errors: [],
@@ -1331,7 +1730,11 @@ export const UpdateUsersDraftsRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   body: Schema.optional(Draft).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/drafts/{id}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/drafts/{id}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersDraftsRequest>;
 
@@ -1341,7 +1744,12 @@ export const UpdateUsersDraftsResponse = Draft;
 export type UpdateUsersDraftsError = DefaultErrors;
 
 /** Replaces a draft's content. */
-export const updateUsersDrafts: API.OperationMethod<UpdateUsersDraftsRequest, UpdateUsersDraftsResponse, UpdateUsersDraftsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsersDrafts: API.OperationMethod<
+  UpdateUsersDraftsRequest,
+  UpdateUsersDraftsResponse,
+  UpdateUsersDraftsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersDraftsRequest,
   output: UpdateUsersDraftsResponse,
   errors: [],
@@ -1365,7 +1773,9 @@ export const ListUsersDraftsRequest = Schema.Struct({
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  includeSpamTrash: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeSpamTrash")),
+  includeSpamTrash: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeSpamTrash"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "gmail/v1/users/{userId}/drafts" }),
   svc,
@@ -1377,7 +1787,12 @@ export const ListUsersDraftsResponse = ListDraftsResponse;
 export type ListUsersDraftsError = DefaultErrors;
 
 /** Lists the drafts in the user's mailbox. */
-export const listUsersDrafts: API.PaginatedOperationMethod<ListUsersDraftsRequest, ListUsersDraftsResponse, ListUsersDraftsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersDrafts: API.PaginatedOperationMethod<
+  ListUsersDraftsRequest,
+  ListUsersDraftsResponse,
+  ListUsersDraftsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersDraftsRequest,
   output: ListUsersDraftsResponse,
   errors: [],
@@ -1411,7 +1826,12 @@ export const GetUsersDraftsResponse = Draft;
 export type GetUsersDraftsError = DefaultErrors;
 
 /** Gets the specified draft. */
-export const getUsersDrafts: API.OperationMethod<GetUsersDraftsRequest, GetUsersDraftsResponse, GetUsersDraftsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersDrafts: API.OperationMethod<
+  GetUsersDraftsRequest,
+  GetUsersDraftsResponse,
+  GetUsersDraftsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersDraftsRequest,
   output: GetUsersDraftsResponse,
   errors: [],
@@ -1433,12 +1853,18 @@ export const DeleteUsersDraftsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteUsersDraftsRequest>;
 
 export interface DeleteUsersDraftsResponse {}
-export const DeleteUsersDraftsResponse: Schema.Schema<DeleteUsersDraftsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersDraftsResponse>;
+export const DeleteUsersDraftsResponse: Schema.Schema<DeleteUsersDraftsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersDraftsResponse>;
 
 export type DeleteUsersDraftsError = DefaultErrors;
 
 /** Immediately and permanently deletes the specified draft. Does not simply trash it. */
-export const deleteUsersDrafts: API.OperationMethod<DeleteUsersDraftsRequest, DeleteUsersDraftsResponse, DeleteUsersDraftsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersDrafts: API.OperationMethod<
+  DeleteUsersDraftsRequest,
+  DeleteUsersDraftsResponse,
+  DeleteUsersDraftsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersDraftsRequest,
   output: DeleteUsersDraftsResponse,
   errors: [],
@@ -1455,7 +1881,11 @@ export const SendUsersDraftsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(Draft).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/drafts/send", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/drafts/send",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SendUsersDraftsRequest>;
 
@@ -1465,7 +1895,12 @@ export const SendUsersDraftsResponse = Message;
 export type SendUsersDraftsError = DefaultErrors;
 
 /** Sends the specified, existing draft to the recipients in the `To`, `Cc`, and `Bcc` headers. */
-export const sendUsersDrafts: API.OperationMethod<SendUsersDraftsRequest, SendUsersDraftsResponse, SendUsersDraftsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const sendUsersDrafts: API.OperationMethod<
+  SendUsersDraftsRequest,
+  SendUsersDraftsResponse,
+  SendUsersDraftsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SendUsersDraftsRequest,
   output: SendUsersDraftsResponse,
   errors: [],
@@ -1482,7 +1917,11 @@ export const CreateUsersDraftsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(Draft).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/drafts", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/drafts",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersDraftsRequest>;
 
@@ -1492,7 +1931,12 @@ export const CreateUsersDraftsResponse = Draft;
 export type CreateUsersDraftsError = DefaultErrors;
 
 /** Creates a new draft with the `DRAFT` label. */
-export const createUsersDrafts: API.OperationMethod<CreateUsersDraftsRequest, CreateUsersDraftsResponse, CreateUsersDraftsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersDrafts: API.OperationMethod<
+  CreateUsersDraftsRequest,
+  CreateUsersDraftsResponse,
+  CreateUsersDraftsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersDraftsRequest,
   output: CreateUsersDraftsResponse,
   errors: [],
@@ -1500,7 +1944,12 @@ export const createUsersDrafts: API.OperationMethod<CreateUsersDraftsRequest, Cr
 
 export interface ListUsersHistoryRequest {
   /** History types to be returned by the function */
-  historyTypes?: "messageAdded" | "messageDeleted" | "labelAdded" | "labelRemoved" | (string & {})[];
+  historyTypes?:
+    | "messageAdded"
+    | "messageDeleted"
+    | "labelAdded"
+    | "labelRemoved"
+    | (string & {})[];
   /** Only return messages with a label matching the ID. */
   labelId?: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -1514,12 +1963,16 @@ export interface ListUsersHistoryRequest {
 }
 
 export const ListUsersHistoryRequest = Schema.Struct({
-  historyTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("historyTypes")),
+  historyTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("historyTypes"),
+  ),
   labelId: Schema.optional(Schema.String).pipe(T.HttpQuery("labelId")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  startHistoryId: Schema.optional(Schema.String).pipe(T.HttpQuery("startHistoryId")),
+  startHistoryId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("startHistoryId"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "gmail/v1/users/{userId}/history" }),
   svc,
@@ -1531,7 +1984,12 @@ export const ListUsersHistoryResponse = ListHistoryResponse;
 export type ListUsersHistoryError = DefaultErrors;
 
 /** Lists the history of all changes to the given mailbox. History results are returned in chronological order (increasing `historyId`). */
-export const listUsersHistory: API.PaginatedOperationMethod<ListUsersHistoryRequest, ListUsersHistoryResponse, ListUsersHistoryError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersHistory: API.PaginatedOperationMethod<
+  ListUsersHistoryRequest,
+  ListUsersHistoryResponse,
+  ListUsersHistoryError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersHistoryRequest,
   output: ListUsersHistoryResponse,
   errors: [],
@@ -1557,12 +2015,18 @@ export const DeleteUsersLabelsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteUsersLabelsRequest>;
 
 export interface DeleteUsersLabelsResponse {}
-export const DeleteUsersLabelsResponse: Schema.Schema<DeleteUsersLabelsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersLabelsResponse>;
+export const DeleteUsersLabelsResponse: Schema.Schema<DeleteUsersLabelsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersLabelsResponse>;
 
 export type DeleteUsersLabelsError = DefaultErrors;
 
 /** Immediately and permanently deletes the specified label and removes it from any messages and threads that it is applied to. */
-export const deleteUsersLabels: API.OperationMethod<DeleteUsersLabelsRequest, DeleteUsersLabelsResponse, DeleteUsersLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersLabels: API.OperationMethod<
+  DeleteUsersLabelsRequest,
+  DeleteUsersLabelsResponse,
+  DeleteUsersLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersLabelsRequest,
   output: DeleteUsersLabelsResponse,
   errors: [],
@@ -1582,7 +2046,11 @@ export const PatchUsersLabelsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(Label).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "gmail/v1/users/{userId}/labels/{id}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "gmail/v1/users/{userId}/labels/{id}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersLabelsRequest>;
 
@@ -1592,7 +2060,12 @@ export const PatchUsersLabelsResponse = Label;
 export type PatchUsersLabelsError = DefaultErrors;
 
 /** Patch the specified label. */
-export const patchUsersLabels: API.OperationMethod<PatchUsersLabelsRequest, PatchUsersLabelsResponse, PatchUsersLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchUsersLabels: API.OperationMethod<
+  PatchUsersLabelsRequest,
+  PatchUsersLabelsResponse,
+  PatchUsersLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchUsersLabelsRequest,
   output: PatchUsersLabelsResponse,
   errors: [],
@@ -1612,7 +2085,11 @@ export const UpdateUsersLabelsRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   body: Schema.optional(Label).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/labels/{id}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/labels/{id}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersLabelsRequest>;
 
@@ -1622,7 +2099,12 @@ export const UpdateUsersLabelsResponse = Label;
 export type UpdateUsersLabelsError = DefaultErrors;
 
 /** Updates the specified label. */
-export const updateUsersLabels: API.OperationMethod<UpdateUsersLabelsRequest, UpdateUsersLabelsResponse, UpdateUsersLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsersLabels: API.OperationMethod<
+  UpdateUsersLabelsRequest,
+  UpdateUsersLabelsResponse,
+  UpdateUsersLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersLabelsRequest,
   output: UpdateUsersLabelsResponse,
   errors: [],
@@ -1646,7 +2128,12 @@ export const ListUsersLabelsResponse = ListLabelsResponse;
 export type ListUsersLabelsError = DefaultErrors;
 
 /** Lists all labels in the user's mailbox. */
-export const listUsersLabels: API.OperationMethod<ListUsersLabelsRequest, ListUsersLabelsResponse, ListUsersLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersLabels: API.OperationMethod<
+  ListUsersLabelsRequest,
+  ListUsersLabelsResponse,
+  ListUsersLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersLabelsRequest,
   output: ListUsersLabelsResponse,
   errors: [],
@@ -1663,7 +2150,11 @@ export const CreateUsersLabelsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(Label).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/labels", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/labels",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersLabelsRequest>;
 
@@ -1673,7 +2164,12 @@ export const CreateUsersLabelsResponse = Label;
 export type CreateUsersLabelsError = DefaultErrors;
 
 /** Creates a new label. */
-export const createUsersLabels: API.OperationMethod<CreateUsersLabelsRequest, CreateUsersLabelsResponse, CreateUsersLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersLabels: API.OperationMethod<
+  CreateUsersLabelsRequest,
+  CreateUsersLabelsResponse,
+  CreateUsersLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersLabelsRequest,
   output: CreateUsersLabelsResponse,
   errors: [],
@@ -1700,7 +2196,12 @@ export const GetUsersLabelsResponse = Label;
 export type GetUsersLabelsError = DefaultErrors;
 
 /** Gets the specified label. */
-export const getUsersLabels: API.OperationMethod<GetUsersLabelsRequest, GetUsersLabelsResponse, GetUsersLabelsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersLabels: API.OperationMethod<
+  GetUsersLabelsRequest,
+  GetUsersLabelsResponse,
+  GetUsersLabelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersLabelsRequest,
   output: GetUsersLabelsResponse,
   errors: [],
@@ -1717,7 +2218,11 @@ export const TrashUsersThreadsRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/threads/{id}/trash", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/threads/{id}/trash",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TrashUsersThreadsRequest>;
 
@@ -1727,7 +2232,12 @@ export const TrashUsersThreadsResponse = Thread;
 export type TrashUsersThreadsError = DefaultErrors;
 
 /** Moves the specified thread to the trash. Any messages that belong to the thread are also moved to the trash. */
-export const trashUsersThreads: API.OperationMethod<TrashUsersThreadsRequest, TrashUsersThreadsResponse, TrashUsersThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const trashUsersThreads: API.OperationMethod<
+  TrashUsersThreadsRequest,
+  TrashUsersThreadsResponse,
+  TrashUsersThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TrashUsersThreadsRequest,
   output: TrashUsersThreadsResponse,
   errors: [],
@@ -1748,7 +2258,9 @@ export const GetUsersThreadsRequest = Schema.Struct({
   format: Schema.optional(Schema.String).pipe(T.HttpQuery("format")),
   id: Schema.String.pipe(T.HttpPath("id")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  metadataHeaders: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("metadataHeaders")),
+  metadataHeaders: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("metadataHeaders"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "gmail/v1/users/{userId}/threads/{id}" }),
   svc,
@@ -1760,7 +2272,12 @@ export const GetUsersThreadsResponse = Thread;
 export type GetUsersThreadsError = DefaultErrors;
 
 /** Gets the specified thread. */
-export const getUsersThreads: API.OperationMethod<GetUsersThreadsRequest, GetUsersThreadsResponse, GetUsersThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersThreads: API.OperationMethod<
+  GetUsersThreadsRequest,
+  GetUsersThreadsResponse,
+  GetUsersThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersThreadsRequest,
   output: GetUsersThreadsResponse,
   errors: [],
@@ -1782,12 +2299,18 @@ export const DeleteUsersThreadsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteUsersThreadsRequest>;
 
 export interface DeleteUsersThreadsResponse {}
-export const DeleteUsersThreadsResponse: Schema.Schema<DeleteUsersThreadsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersThreadsResponse>;
+export const DeleteUsersThreadsResponse: Schema.Schema<DeleteUsersThreadsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersThreadsResponse>;
 
 export type DeleteUsersThreadsError = DefaultErrors;
 
 /** Immediately and permanently deletes the specified thread. Any messages that belong to the thread are also deleted. This operation cannot be undone. Prefer `threads.trash` instead. */
-export const deleteUsersThreads: API.OperationMethod<DeleteUsersThreadsRequest, DeleteUsersThreadsResponse, DeleteUsersThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersThreads: API.OperationMethod<
+  DeleteUsersThreadsRequest,
+  DeleteUsersThreadsResponse,
+  DeleteUsersThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersThreadsRequest,
   output: DeleteUsersThreadsResponse,
   errors: [],
@@ -1804,7 +2327,11 @@ export const UntrashUsersThreadsRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/threads/{id}/untrash", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/threads/{id}/untrash",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UntrashUsersThreadsRequest>;
 
@@ -1814,7 +2341,12 @@ export const UntrashUsersThreadsResponse = Thread;
 export type UntrashUsersThreadsError = DefaultErrors;
 
 /** Removes the specified thread from the trash. Any messages that belong to the thread are also removed from the trash. */
-export const untrashUsersThreads: API.OperationMethod<UntrashUsersThreadsRequest, UntrashUsersThreadsResponse, UntrashUsersThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const untrashUsersThreads: API.OperationMethod<
+  UntrashUsersThreadsRequest,
+  UntrashUsersThreadsResponse,
+  UntrashUsersThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UntrashUsersThreadsRequest,
   output: UntrashUsersThreadsResponse,
   errors: [],
@@ -1839,9 +2371,13 @@ export const ListUsersThreadsRequest = Schema.Struct({
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  includeSpamTrash: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("includeSpamTrash")),
+  includeSpamTrash: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeSpamTrash"),
+  ),
   userId: Schema.String.pipe(T.HttpPath("userId")),
-  labelIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("labelIds")),
+  labelIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("labelIds"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "gmail/v1/users/{userId}/threads" }),
   svc,
@@ -1853,7 +2389,12 @@ export const ListUsersThreadsResponse = ListThreadsResponse;
 export type ListUsersThreadsError = DefaultErrors;
 
 /** Lists the threads in the user's mailbox. */
-export const listUsersThreads: API.PaginatedOperationMethod<ListUsersThreadsRequest, ListUsersThreadsResponse, ListUsersThreadsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersThreads: API.PaginatedOperationMethod<
+  ListUsersThreadsRequest,
+  ListUsersThreadsResponse,
+  ListUsersThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersThreadsRequest,
   output: ListUsersThreadsResponse,
   errors: [],
@@ -1877,7 +2418,11 @@ export const ModifyUsersThreadsRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   body: Schema.optional(ModifyThreadRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/threads/{id}/modify", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/threads/{id}/modify",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ModifyUsersThreadsRequest>;
 
@@ -1887,7 +2432,12 @@ export const ModifyUsersThreadsResponse = Thread;
 export type ModifyUsersThreadsError = DefaultErrors;
 
 /** Modifies the labels applied to the thread. This applies to all messages in the thread. */
-export const modifyUsersThreads: API.OperationMethod<ModifyUsersThreadsRequest, ModifyUsersThreadsResponse, ModifyUsersThreadsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const modifyUsersThreads: API.OperationMethod<
+  ModifyUsersThreadsRequest,
+  ModifyUsersThreadsResponse,
+  ModifyUsersThreadsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ModifyUsersThreadsRequest,
   output: ModifyUsersThreadsResponse,
   errors: [],
@@ -1904,7 +2454,11 @@ export const UpdateImapUsersSettingsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(ImapSettings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/settings/imap", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/settings/imap",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateImapUsersSettingsRequest>;
 
@@ -1914,7 +2468,12 @@ export const UpdateImapUsersSettingsResponse = ImapSettings;
 export type UpdateImapUsersSettingsError = DefaultErrors;
 
 /** Updates IMAP settings. */
-export const updateImapUsersSettings: API.OperationMethod<UpdateImapUsersSettingsRequest, UpdateImapUsersSettingsResponse, UpdateImapUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateImapUsersSettings: API.OperationMethod<
+  UpdateImapUsersSettingsRequest,
+  UpdateImapUsersSettingsResponse,
+  UpdateImapUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateImapUsersSettingsRequest,
   output: UpdateImapUsersSettingsResponse,
   errors: [],
@@ -1931,7 +2490,11 @@ export const UpdateVacationUsersSettingsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(VacationSettings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/settings/vacation", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/settings/vacation",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateVacationUsersSettingsRequest>;
 
@@ -1941,7 +2504,12 @@ export const UpdateVacationUsersSettingsResponse = VacationSettings;
 export type UpdateVacationUsersSettingsError = DefaultErrors;
 
 /** Updates vacation responder settings. */
-export const updateVacationUsersSettings: API.OperationMethod<UpdateVacationUsersSettingsRequest, UpdateVacationUsersSettingsResponse, UpdateVacationUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateVacationUsersSettings: API.OperationMethod<
+  UpdateVacationUsersSettingsRequest,
+  UpdateVacationUsersSettingsResponse,
+  UpdateVacationUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateVacationUsersSettingsRequest,
   output: UpdateVacationUsersSettingsResponse,
   errors: [],
@@ -1958,7 +2526,11 @@ export const UpdatePopUsersSettingsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(PopSettings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/settings/pop", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/settings/pop",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdatePopUsersSettingsRequest>;
 
@@ -1968,7 +2540,12 @@ export const UpdatePopUsersSettingsResponse = PopSettings;
 export type UpdatePopUsersSettingsError = DefaultErrors;
 
 /** Updates POP settings. */
-export const updatePopUsersSettings: API.OperationMethod<UpdatePopUsersSettingsRequest, UpdatePopUsersSettingsResponse, UpdatePopUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updatePopUsersSettings: API.OperationMethod<
+  UpdatePopUsersSettingsRequest,
+  UpdatePopUsersSettingsResponse,
+  UpdatePopUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdatePopUsersSettingsRequest,
   output: UpdatePopUsersSettingsResponse,
   errors: [],
@@ -1985,7 +2562,11 @@ export const UpdateLanguageUsersSettingsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(LanguageSettings).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/settings/language", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/settings/language",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateLanguageUsersSettingsRequest>;
 
@@ -1995,7 +2576,12 @@ export const UpdateLanguageUsersSettingsResponse = LanguageSettings;
 export type UpdateLanguageUsersSettingsError = DefaultErrors;
 
 /** Updates language settings. If successful, the return object contains the `displayLanguage` that was saved for the user, which may differ from the value passed into the request. This is because the requested `displayLanguage` may not be directly supported by Gmail but have a close variant that is, and so the variant may be chosen and saved instead. */
-export const updateLanguageUsersSettings: API.OperationMethod<UpdateLanguageUsersSettingsRequest, UpdateLanguageUsersSettingsResponse, UpdateLanguageUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateLanguageUsersSettings: API.OperationMethod<
+  UpdateLanguageUsersSettingsRequest,
+  UpdateLanguageUsersSettingsResponse,
+  UpdateLanguageUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateLanguageUsersSettingsRequest,
   output: UpdateLanguageUsersSettingsResponse,
   errors: [],
@@ -2019,7 +2605,12 @@ export const GetLanguageUsersSettingsResponse = LanguageSettings;
 export type GetLanguageUsersSettingsError = DefaultErrors;
 
 /** Gets language settings. */
-export const getLanguageUsersSettings: API.OperationMethod<GetLanguageUsersSettingsRequest, GetLanguageUsersSettingsResponse, GetLanguageUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLanguageUsersSettings: API.OperationMethod<
+  GetLanguageUsersSettingsRequest,
+  GetLanguageUsersSettingsResponse,
+  GetLanguageUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLanguageUsersSettingsRequest,
   output: GetLanguageUsersSettingsResponse,
   errors: [],
@@ -2043,7 +2634,12 @@ export const GetImapUsersSettingsResponse = ImapSettings;
 export type GetImapUsersSettingsError = DefaultErrors;
 
 /** Gets IMAP settings. */
-export const getImapUsersSettings: API.OperationMethod<GetImapUsersSettingsRequest, GetImapUsersSettingsResponse, GetImapUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getImapUsersSettings: API.OperationMethod<
+  GetImapUsersSettingsRequest,
+  GetImapUsersSettingsResponse,
+  GetImapUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetImapUsersSettingsRequest,
   output: GetImapUsersSettingsResponse,
   errors: [],
@@ -2057,7 +2653,10 @@ export interface GetAutoForwardingUsersSettingsRequest {
 export const GetAutoForwardingUsersSettingsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/autoForwarding" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/autoForwarding",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAutoForwardingUsersSettingsRequest>;
 
@@ -2067,7 +2666,12 @@ export const GetAutoForwardingUsersSettingsResponse = AutoForwarding;
 export type GetAutoForwardingUsersSettingsError = DefaultErrors;
 
 /** Gets the auto-forwarding setting for the specified account. */
-export const getAutoForwardingUsersSettings: API.OperationMethod<GetAutoForwardingUsersSettingsRequest, GetAutoForwardingUsersSettingsResponse, GetAutoForwardingUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAutoForwardingUsersSettings: API.OperationMethod<
+  GetAutoForwardingUsersSettingsRequest,
+  GetAutoForwardingUsersSettingsResponse,
+  GetAutoForwardingUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAutoForwardingUsersSettingsRequest,
   output: GetAutoForwardingUsersSettingsResponse,
   errors: [],
@@ -2091,7 +2695,12 @@ export const GetPopUsersSettingsResponse = PopSettings;
 export type GetPopUsersSettingsError = DefaultErrors;
 
 /** Gets POP settings. */
-export const getPopUsersSettings: API.OperationMethod<GetPopUsersSettingsRequest, GetPopUsersSettingsResponse, GetPopUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPopUsersSettings: API.OperationMethod<
+  GetPopUsersSettingsRequest,
+  GetPopUsersSettingsResponse,
+  GetPopUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPopUsersSettingsRequest,
   output: GetPopUsersSettingsResponse,
   errors: [],
@@ -2115,7 +2724,12 @@ export const GetVacationUsersSettingsResponse = VacationSettings;
 export type GetVacationUsersSettingsError = DefaultErrors;
 
 /** Gets vacation responder settings. */
-export const getVacationUsersSettings: API.OperationMethod<GetVacationUsersSettingsRequest, GetVacationUsersSettingsResponse, GetVacationUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getVacationUsersSettings: API.OperationMethod<
+  GetVacationUsersSettingsRequest,
+  GetVacationUsersSettingsResponse,
+  GetVacationUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetVacationUsersSettingsRequest,
   output: GetVacationUsersSettingsResponse,
   errors: [],
@@ -2132,7 +2746,11 @@ export const UpdateAutoForwardingUsersSettingsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(AutoForwarding).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/settings/autoForwarding", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/settings/autoForwarding",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateAutoForwardingUsersSettingsRequest>;
 
@@ -2142,7 +2760,12 @@ export const UpdateAutoForwardingUsersSettingsResponse = AutoForwarding;
 export type UpdateAutoForwardingUsersSettingsError = DefaultErrors;
 
 /** Updates the auto-forwarding setting for the specified account. A verified forwarding address must be specified when auto-forwarding is enabled. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const updateAutoForwardingUsersSettings: API.OperationMethod<UpdateAutoForwardingUsersSettingsRequest, UpdateAutoForwardingUsersSettingsResponse, UpdateAutoForwardingUsersSettingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateAutoForwardingUsersSettings: API.OperationMethod<
+  UpdateAutoForwardingUsersSettingsRequest,
+  UpdateAutoForwardingUsersSettingsResponse,
+  UpdateAutoForwardingUsersSettingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateAutoForwardingUsersSettingsRequest,
   output: UpdateAutoForwardingUsersSettingsResponse,
   errors: [],
@@ -2166,7 +2789,12 @@ export const ListUsersSettingsFiltersResponse = ListFiltersResponse;
 export type ListUsersSettingsFiltersError = DefaultErrors;
 
 /** Lists the message filters of a Gmail user. */
-export const listUsersSettingsFilters: API.OperationMethod<ListUsersSettingsFiltersRequest, ListUsersSettingsFiltersResponse, ListUsersSettingsFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersSettingsFilters: API.OperationMethod<
+  ListUsersSettingsFiltersRequest,
+  ListUsersSettingsFiltersResponse,
+  ListUsersSettingsFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersSettingsFiltersRequest,
   output: ListUsersSettingsFiltersResponse,
   errors: [],
@@ -2183,7 +2811,10 @@ export const GetUsersSettingsFiltersRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/filters/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/filters/{id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSettingsFiltersRequest>;
 
@@ -2193,7 +2824,12 @@ export const GetUsersSettingsFiltersResponse = Filter;
 export type GetUsersSettingsFiltersError = DefaultErrors;
 
 /** Gets a filter. */
-export const getUsersSettingsFilters: API.OperationMethod<GetUsersSettingsFiltersRequest, GetUsersSettingsFiltersResponse, GetUsersSettingsFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSettingsFilters: API.OperationMethod<
+  GetUsersSettingsFiltersRequest,
+  GetUsersSettingsFiltersResponse,
+  GetUsersSettingsFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSettingsFiltersRequest,
   output: GetUsersSettingsFiltersResponse,
   errors: [],
@@ -2210,7 +2846,11 @@ export const CreateUsersSettingsFiltersRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(Filter).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/filters", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/filters",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersSettingsFiltersRequest>;
 
@@ -2220,7 +2860,12 @@ export const CreateUsersSettingsFiltersResponse = Filter;
 export type CreateUsersSettingsFiltersError = DefaultErrors;
 
 /** Creates a filter. Note: you can only create a maximum of 1,000 filters. */
-export const createUsersSettingsFilters: API.OperationMethod<CreateUsersSettingsFiltersRequest, CreateUsersSettingsFiltersResponse, CreateUsersSettingsFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersSettingsFilters: API.OperationMethod<
+  CreateUsersSettingsFiltersRequest,
+  CreateUsersSettingsFiltersResponse,
+  CreateUsersSettingsFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersSettingsFiltersRequest,
   output: CreateUsersSettingsFiltersResponse,
   errors: [],
@@ -2237,17 +2882,26 @@ export const DeleteUsersSettingsFiltersRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "gmail/v1/users/{userId}/settings/filters/{id}" }),
+  T.Http({
+    method: "DELETE",
+    path: "gmail/v1/users/{userId}/settings/filters/{id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersSettingsFiltersRequest>;
 
 export interface DeleteUsersSettingsFiltersResponse {}
-export const DeleteUsersSettingsFiltersResponse: Schema.Schema<DeleteUsersSettingsFiltersResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsFiltersResponse>;
+export const DeleteUsersSettingsFiltersResponse: Schema.Schema<DeleteUsersSettingsFiltersResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsFiltersResponse>;
 
 export type DeleteUsersSettingsFiltersError = DefaultErrors;
 
 /** Immediately and permanently deletes the specified filter. */
-export const deleteUsersSettingsFilters: API.OperationMethod<DeleteUsersSettingsFiltersRequest, DeleteUsersSettingsFiltersResponse, DeleteUsersSettingsFiltersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersSettingsFilters: API.OperationMethod<
+  DeleteUsersSettingsFiltersRequest,
+  DeleteUsersSettingsFiltersResponse,
+  DeleteUsersSettingsFiltersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersSettingsFiltersRequest,
   output: DeleteUsersSettingsFiltersResponse,
   errors: [],
@@ -2267,7 +2921,10 @@ export const ListUsersSettingsCseIdentitiesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/cse/identities" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/cse/identities",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListUsersSettingsCseIdentitiesRequest>;
 
@@ -2277,7 +2934,12 @@ export const ListUsersSettingsCseIdentitiesResponse = ListCseIdentitiesResponse;
 export type ListUsersSettingsCseIdentitiesError = DefaultErrors;
 
 /** Lists the client-side encrypted identities for an authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const listUsersSettingsCseIdentities: API.PaginatedOperationMethod<ListUsersSettingsCseIdentitiesRequest, ListUsersSettingsCseIdentitiesResponse, ListUsersSettingsCseIdentitiesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersSettingsCseIdentities: API.PaginatedOperationMethod<
+  ListUsersSettingsCseIdentitiesRequest,
+  ListUsersSettingsCseIdentitiesResponse,
+  ListUsersSettingsCseIdentitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersSettingsCseIdentitiesRequest,
   output: ListUsersSettingsCseIdentitiesResponse,
   errors: [],
@@ -2298,7 +2960,11 @@ export const CreateUsersSettingsCseIdentitiesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(CseIdentity).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/cse/identities", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/cse/identities",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersSettingsCseIdentitiesRequest>;
 
@@ -2308,7 +2974,12 @@ export const CreateUsersSettingsCseIdentitiesResponse = CseIdentity;
 export type CreateUsersSettingsCseIdentitiesError = DefaultErrors;
 
 /** Creates and configures a client-side encryption identity that's authorized to send mail from the user account. Google publishes the S/MIME certificate to a shared domain-wide directory so that people within a Google Workspace organization can encrypt and send mail to the identity. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const createUsersSettingsCseIdentities: API.OperationMethod<CreateUsersSettingsCseIdentitiesRequest, CreateUsersSettingsCseIdentitiesResponse, CreateUsersSettingsCseIdentitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersSettingsCseIdentities: API.OperationMethod<
+  CreateUsersSettingsCseIdentitiesRequest,
+  CreateUsersSettingsCseIdentitiesResponse,
+  CreateUsersSettingsCseIdentitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersSettingsCseIdentitiesRequest,
   output: CreateUsersSettingsCseIdentitiesResponse,
   errors: [],
@@ -2328,7 +2999,11 @@ export const PatchUsersSettingsCseIdentitiesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(CseIdentity).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "gmail/v1/users/{userId}/settings/cse/identities/{emailAddress}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "gmail/v1/users/{userId}/settings/cse/identities/{emailAddress}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersSettingsCseIdentitiesRequest>;
 
@@ -2338,7 +3013,12 @@ export const PatchUsersSettingsCseIdentitiesResponse = CseIdentity;
 export type PatchUsersSettingsCseIdentitiesError = DefaultErrors;
 
 /** Associates a different key pair with an existing client-side encryption identity. The updated key pair must validate against Google's [S/MIME certificate profiles](https://support.google.com/a/answer/7300887). For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const patchUsersSettingsCseIdentities: API.OperationMethod<PatchUsersSettingsCseIdentitiesRequest, PatchUsersSettingsCseIdentitiesResponse, PatchUsersSettingsCseIdentitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchUsersSettingsCseIdentities: API.OperationMethod<
+  PatchUsersSettingsCseIdentitiesRequest,
+  PatchUsersSettingsCseIdentitiesResponse,
+  PatchUsersSettingsCseIdentitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchUsersSettingsCseIdentitiesRequest,
   output: PatchUsersSettingsCseIdentitiesResponse,
   errors: [],
@@ -2355,7 +3035,10 @@ export const GetUsersSettingsCseIdentitiesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   cseEmailAddress: Schema.String.pipe(T.HttpPath("cseEmailAddress")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/cse/identities/{cseEmailAddress}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/cse/identities/{cseEmailAddress}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSettingsCseIdentitiesRequest>;
 
@@ -2365,7 +3048,12 @@ export const GetUsersSettingsCseIdentitiesResponse = CseIdentity;
 export type GetUsersSettingsCseIdentitiesError = DefaultErrors;
 
 /** Retrieves a client-side encryption identity configuration. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const getUsersSettingsCseIdentities: API.OperationMethod<GetUsersSettingsCseIdentitiesRequest, GetUsersSettingsCseIdentitiesResponse, GetUsersSettingsCseIdentitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSettingsCseIdentities: API.OperationMethod<
+  GetUsersSettingsCseIdentitiesRequest,
+  GetUsersSettingsCseIdentitiesResponse,
+  GetUsersSettingsCseIdentitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSettingsCseIdentitiesRequest,
   output: GetUsersSettingsCseIdentitiesResponse,
   errors: [],
@@ -2382,17 +3070,28 @@ export const DeleteUsersSettingsCseIdentitiesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   cseEmailAddress: Schema.String.pipe(T.HttpPath("cseEmailAddress")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "gmail/v1/users/{userId}/settings/cse/identities/{cseEmailAddress}" }),
+  T.Http({
+    method: "DELETE",
+    path: "gmail/v1/users/{userId}/settings/cse/identities/{cseEmailAddress}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersSettingsCseIdentitiesRequest>;
 
 export interface DeleteUsersSettingsCseIdentitiesResponse {}
-export const DeleteUsersSettingsCseIdentitiesResponse: Schema.Schema<DeleteUsersSettingsCseIdentitiesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsCseIdentitiesResponse>;
+export const DeleteUsersSettingsCseIdentitiesResponse: Schema.Schema<DeleteUsersSettingsCseIdentitiesResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteUsersSettingsCseIdentitiesResponse>;
 
 export type DeleteUsersSettingsCseIdentitiesError = DefaultErrors;
 
 /** Deletes a client-side encryption identity. The authenticated user can no longer use the identity to send encrypted messages. You cannot restore the identity after you delete it. Instead, use the CreateCseIdentity method to create another identity with the same configuration. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const deleteUsersSettingsCseIdentities: API.OperationMethod<DeleteUsersSettingsCseIdentitiesRequest, DeleteUsersSettingsCseIdentitiesResponse, DeleteUsersSettingsCseIdentitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersSettingsCseIdentities: API.OperationMethod<
+  DeleteUsersSettingsCseIdentitiesRequest,
+  DeleteUsersSettingsCseIdentitiesResponse,
+  DeleteUsersSettingsCseIdentitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersSettingsCseIdentitiesRequest,
   output: DeleteUsersSettingsCseIdentitiesResponse,
   errors: [],
@@ -2409,7 +3108,10 @@ export const GetUsersSettingsCseKeypairsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   keyPairId: Schema.String.pipe(T.HttpPath("keyPairId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSettingsCseKeypairsRequest>;
 
@@ -2419,7 +3121,12 @@ export const GetUsersSettingsCseKeypairsResponse = CseKeyPair;
 export type GetUsersSettingsCseKeypairsError = DefaultErrors;
 
 /** Retrieves an existing client-side encryption key pair. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const getUsersSettingsCseKeypairs: API.OperationMethod<GetUsersSettingsCseKeypairsRequest, GetUsersSettingsCseKeypairsResponse, GetUsersSettingsCseKeypairsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSettingsCseKeypairs: API.OperationMethod<
+  GetUsersSettingsCseKeypairsRequest,
+  GetUsersSettingsCseKeypairsResponse,
+  GetUsersSettingsCseKeypairsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSettingsCseKeypairsRequest,
   output: GetUsersSettingsCseKeypairsResponse,
   errors: [],
@@ -2439,7 +3146,11 @@ export const DisableUsersSettingsCseKeypairsRequest = Schema.Struct({
   keyPairId: Schema.String.pipe(T.HttpPath("keyPairId")),
   body: Schema.optional(DisableCseKeyPairRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:disable", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:disable",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DisableUsersSettingsCseKeypairsRequest>;
 
@@ -2449,7 +3160,12 @@ export const DisableUsersSettingsCseKeypairsResponse = CseKeyPair;
 export type DisableUsersSettingsCseKeypairsError = DefaultErrors;
 
 /** Turns off a client-side encryption key pair. The authenticated user can no longer use the key pair to decrypt incoming CSE message texts or sign outgoing CSE mail. To regain access, use the EnableCseKeyPair to turn on the key pair. After 30 days, you can permanently delete the key pair by using the ObliterateCseKeyPair method. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const disableUsersSettingsCseKeypairs: API.OperationMethod<DisableUsersSettingsCseKeypairsRequest, DisableUsersSettingsCseKeypairsResponse, DisableUsersSettingsCseKeypairsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const disableUsersSettingsCseKeypairs: API.OperationMethod<
+  DisableUsersSettingsCseKeypairsRequest,
+  DisableUsersSettingsCseKeypairsResponse,
+  DisableUsersSettingsCseKeypairsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DisableUsersSettingsCseKeypairsRequest,
   output: DisableUsersSettingsCseKeypairsResponse,
   errors: [],
@@ -2469,17 +3185,29 @@ export const ObliterateUsersSettingsCseKeypairsRequest = Schema.Struct({
   keyPairId: Schema.String.pipe(T.HttpPath("keyPairId")),
   body: Schema.optional(ObliterateCseKeyPairRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:obliterate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:obliterate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ObliterateUsersSettingsCseKeypairsRequest>;
 
 export interface ObliterateUsersSettingsCseKeypairsResponse {}
-export const ObliterateUsersSettingsCseKeypairsResponse: Schema.Schema<ObliterateUsersSettingsCseKeypairsResponse> = Schema.Struct({}) as any as Schema.Schema<ObliterateUsersSettingsCseKeypairsResponse>;
+export const ObliterateUsersSettingsCseKeypairsResponse: Schema.Schema<ObliterateUsersSettingsCseKeypairsResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<ObliterateUsersSettingsCseKeypairsResponse>;
 
 export type ObliterateUsersSettingsCseKeypairsError = DefaultErrors;
 
 /** Deletes a client-side encryption key pair permanently and immediately. You can only permanently delete key pairs that have been turned off for more than 30 days. To turn off a key pair, use the DisableCseKeyPair method. Gmail can't restore or decrypt any messages that were encrypted by an obliterated key. Authenticated users and Google Workspace administrators lose access to reading the encrypted messages. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const obliterateUsersSettingsCseKeypairs: API.OperationMethod<ObliterateUsersSettingsCseKeypairsRequest, ObliterateUsersSettingsCseKeypairsResponse, ObliterateUsersSettingsCseKeypairsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const obliterateUsersSettingsCseKeypairs: API.OperationMethod<
+  ObliterateUsersSettingsCseKeypairsRequest,
+  ObliterateUsersSettingsCseKeypairsResponse,
+  ObliterateUsersSettingsCseKeypairsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ObliterateUsersSettingsCseKeypairsRequest,
   output: ObliterateUsersSettingsCseKeypairsResponse,
   errors: [],
@@ -2499,7 +3227,11 @@ export const EnableUsersSettingsCseKeypairsRequest = Schema.Struct({
   keyPairId: Schema.String.pipe(T.HttpPath("keyPairId")),
   body: Schema.optional(EnableCseKeyPairRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:enable", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:enable",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EnableUsersSettingsCseKeypairsRequest>;
 
@@ -2509,7 +3241,12 @@ export const EnableUsersSettingsCseKeypairsResponse = CseKeyPair;
 export type EnableUsersSettingsCseKeypairsError = DefaultErrors;
 
 /** Turns on a client-side encryption key pair that was turned off. The key pair becomes active again for any associated client-side encryption identities. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const enableUsersSettingsCseKeypairs: API.OperationMethod<EnableUsersSettingsCseKeypairsRequest, EnableUsersSettingsCseKeypairsResponse, EnableUsersSettingsCseKeypairsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const enableUsersSettingsCseKeypairs: API.OperationMethod<
+  EnableUsersSettingsCseKeypairsRequest,
+  EnableUsersSettingsCseKeypairsResponse,
+  EnableUsersSettingsCseKeypairsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EnableUsersSettingsCseKeypairsRequest,
   output: EnableUsersSettingsCseKeypairsResponse,
   errors: [],
@@ -2526,7 +3263,11 @@ export const CreateUsersSettingsCseKeypairsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(CseKeyPair).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/cse/keypairs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/cse/keypairs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersSettingsCseKeypairsRequest>;
 
@@ -2536,7 +3277,12 @@ export const CreateUsersSettingsCseKeypairsResponse = CseKeyPair;
 export type CreateUsersSettingsCseKeypairsError = DefaultErrors;
 
 /** Creates and uploads a client-side encryption S/MIME public key certificate chain and private key metadata for the authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const createUsersSettingsCseKeypairs: API.OperationMethod<CreateUsersSettingsCseKeypairsRequest, CreateUsersSettingsCseKeypairsResponse, CreateUsersSettingsCseKeypairsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersSettingsCseKeypairs: API.OperationMethod<
+  CreateUsersSettingsCseKeypairsRequest,
+  CreateUsersSettingsCseKeypairsResponse,
+  CreateUsersSettingsCseKeypairsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersSettingsCseKeypairsRequest,
   output: CreateUsersSettingsCseKeypairsResponse,
   errors: [],
@@ -2556,7 +3302,10 @@ export const ListUsersSettingsCseKeypairsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/cse/keypairs" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/cse/keypairs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListUsersSettingsCseKeypairsRequest>;
 
@@ -2566,7 +3315,12 @@ export const ListUsersSettingsCseKeypairsResponse = ListCseKeyPairsResponse;
 export type ListUsersSettingsCseKeypairsError = DefaultErrors;
 
 /** Lists client-side encryption key pairs for an authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
-export const listUsersSettingsCseKeypairs: API.PaginatedOperationMethod<ListUsersSettingsCseKeypairsRequest, ListUsersSettingsCseKeypairsResponse, ListUsersSettingsCseKeypairsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listUsersSettingsCseKeypairs: API.PaginatedOperationMethod<
+  ListUsersSettingsCseKeypairsRequest,
+  ListUsersSettingsCseKeypairsResponse,
+  ListUsersSettingsCseKeypairsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListUsersSettingsCseKeypairsRequest,
   output: ListUsersSettingsCseKeypairsResponse,
   errors: [],
@@ -2587,7 +3341,10 @@ export const GetUsersSettingsForwardingAddressesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   forwardingEmail: Schema.String.pipe(T.HttpPath("forwardingEmail")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/forwardingAddresses/{forwardingEmail}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/forwardingAddresses/{forwardingEmail}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSettingsForwardingAddressesRequest>;
 
@@ -2597,7 +3354,12 @@ export const GetUsersSettingsForwardingAddressesResponse = ForwardingAddress;
 export type GetUsersSettingsForwardingAddressesError = DefaultErrors;
 
 /** Gets the specified forwarding address. */
-export const getUsersSettingsForwardingAddresses: API.OperationMethod<GetUsersSettingsForwardingAddressesRequest, GetUsersSettingsForwardingAddressesResponse, GetUsersSettingsForwardingAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSettingsForwardingAddresses: API.OperationMethod<
+  GetUsersSettingsForwardingAddressesRequest,
+  GetUsersSettingsForwardingAddressesResponse,
+  GetUsersSettingsForwardingAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSettingsForwardingAddressesRequest,
   output: GetUsersSettingsForwardingAddressesResponse,
   errors: [],
@@ -2614,7 +3376,11 @@ export const CreateUsersSettingsForwardingAddressesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(ForwardingAddress).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/forwardingAddresses", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/forwardingAddresses",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersSettingsForwardingAddressesRequest>;
 
@@ -2624,7 +3390,12 @@ export const CreateUsersSettingsForwardingAddressesResponse = ForwardingAddress;
 export type CreateUsersSettingsForwardingAddressesError = DefaultErrors;
 
 /** Creates a forwarding address. If ownership verification is required, a message will be sent to the recipient and the resource's verification status will be set to `pending`; otherwise, the resource will be created with verification status set to `accepted`. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const createUsersSettingsForwardingAddresses: API.OperationMethod<CreateUsersSettingsForwardingAddressesRequest, CreateUsersSettingsForwardingAddressesResponse, CreateUsersSettingsForwardingAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersSettingsForwardingAddresses: API.OperationMethod<
+  CreateUsersSettingsForwardingAddressesRequest,
+  CreateUsersSettingsForwardingAddressesResponse,
+  CreateUsersSettingsForwardingAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersSettingsForwardingAddressesRequest,
   output: CreateUsersSettingsForwardingAddressesResponse,
   errors: [],
@@ -2641,17 +3412,28 @@ export const DeleteUsersSettingsForwardingAddressesRequest = Schema.Struct({
   forwardingEmail: Schema.String.pipe(T.HttpPath("forwardingEmail")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "gmail/v1/users/{userId}/settings/forwardingAddresses/{forwardingEmail}" }),
+  T.Http({
+    method: "DELETE",
+    path: "gmail/v1/users/{userId}/settings/forwardingAddresses/{forwardingEmail}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersSettingsForwardingAddressesRequest>;
 
 export interface DeleteUsersSettingsForwardingAddressesResponse {}
-export const DeleteUsersSettingsForwardingAddressesResponse: Schema.Schema<DeleteUsersSettingsForwardingAddressesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsForwardingAddressesResponse>;
+export const DeleteUsersSettingsForwardingAddressesResponse: Schema.Schema<DeleteUsersSettingsForwardingAddressesResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteUsersSettingsForwardingAddressesResponse>;
 
 export type DeleteUsersSettingsForwardingAddressesError = DefaultErrors;
 
 /** Deletes the specified forwarding address and revokes any verification that may have been required. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const deleteUsersSettingsForwardingAddresses: API.OperationMethod<DeleteUsersSettingsForwardingAddressesRequest, DeleteUsersSettingsForwardingAddressesResponse, DeleteUsersSettingsForwardingAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersSettingsForwardingAddresses: API.OperationMethod<
+  DeleteUsersSettingsForwardingAddressesRequest,
+  DeleteUsersSettingsForwardingAddressesResponse,
+  DeleteUsersSettingsForwardingAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersSettingsForwardingAddressesRequest,
   output: DeleteUsersSettingsForwardingAddressesResponse,
   errors: [],
@@ -2665,17 +3447,27 @@ export interface ListUsersSettingsForwardingAddressesRequest {
 export const ListUsersSettingsForwardingAddressesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/forwardingAddresses" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/forwardingAddresses",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListUsersSettingsForwardingAddressesRequest>;
 
-export type ListUsersSettingsForwardingAddressesResponse = ListForwardingAddressesResponse;
-export const ListUsersSettingsForwardingAddressesResponse = ListForwardingAddressesResponse;
+export type ListUsersSettingsForwardingAddressesResponse =
+  ListForwardingAddressesResponse;
+export const ListUsersSettingsForwardingAddressesResponse =
+  ListForwardingAddressesResponse;
 
 export type ListUsersSettingsForwardingAddressesError = DefaultErrors;
 
 /** Lists the forwarding addresses for the specified account. */
-export const listUsersSettingsForwardingAddresses: API.OperationMethod<ListUsersSettingsForwardingAddressesRequest, ListUsersSettingsForwardingAddressesResponse, ListUsersSettingsForwardingAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersSettingsForwardingAddresses: API.OperationMethod<
+  ListUsersSettingsForwardingAddressesRequest,
+  ListUsersSettingsForwardingAddressesResponse,
+  ListUsersSettingsForwardingAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersSettingsForwardingAddressesRequest,
   output: ListUsersSettingsForwardingAddressesResponse,
   errors: [],
@@ -2692,17 +3484,28 @@ export const DeleteUsersSettingsDelegatesRequest = Schema.Struct({
   delegateEmail: Schema.String.pipe(T.HttpPath("delegateEmail")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "gmail/v1/users/{userId}/settings/delegates/{delegateEmail}" }),
+  T.Http({
+    method: "DELETE",
+    path: "gmail/v1/users/{userId}/settings/delegates/{delegateEmail}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersSettingsDelegatesRequest>;
 
 export interface DeleteUsersSettingsDelegatesResponse {}
-export const DeleteUsersSettingsDelegatesResponse: Schema.Schema<DeleteUsersSettingsDelegatesResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsDelegatesResponse>;
+export const DeleteUsersSettingsDelegatesResponse: Schema.Schema<DeleteUsersSettingsDelegatesResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteUsersSettingsDelegatesResponse>;
 
 export type DeleteUsersSettingsDelegatesError = DefaultErrors;
 
 /** Removes the specified delegate (which can be of any verification status), and revokes any verification that may have been required for using it. Note that a delegate user must be referred to by their primary email address, and not an email alias. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const deleteUsersSettingsDelegates: API.OperationMethod<DeleteUsersSettingsDelegatesRequest, DeleteUsersSettingsDelegatesResponse, DeleteUsersSettingsDelegatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersSettingsDelegates: API.OperationMethod<
+  DeleteUsersSettingsDelegatesRequest,
+  DeleteUsersSettingsDelegatesResponse,
+  DeleteUsersSettingsDelegatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersSettingsDelegatesRequest,
   output: DeleteUsersSettingsDelegatesResponse,
   errors: [],
@@ -2719,7 +3522,11 @@ export const CreateUsersSettingsDelegatesRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(Delegate).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/delegates", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/delegates",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersSettingsDelegatesRequest>;
 
@@ -2729,7 +3536,12 @@ export const CreateUsersSettingsDelegatesResponse = Delegate;
 export type CreateUsersSettingsDelegatesError = DefaultErrors;
 
 /** Adds a delegate with its verification status set directly to `accepted`, without sending any verification email. The delegate user must be a member of the same Google Workspace organization as the delegator user. Gmail imposes limitations on the number of delegates and delegators each user in a Google Workspace organization can have. These limits depend on your organization, but in general each user can have up to 25 delegates and up to 10 delegators. Note that a delegate user must be referred to by their primary email address, and not an email alias. Also note that when a new delegate is created, there may be up to a one minute delay before the new delegate is available for use. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const createUsersSettingsDelegates: API.OperationMethod<CreateUsersSettingsDelegatesRequest, CreateUsersSettingsDelegatesResponse, CreateUsersSettingsDelegatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersSettingsDelegates: API.OperationMethod<
+  CreateUsersSettingsDelegatesRequest,
+  CreateUsersSettingsDelegatesResponse,
+  CreateUsersSettingsDelegatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersSettingsDelegatesRequest,
   output: CreateUsersSettingsDelegatesResponse,
   errors: [],
@@ -2753,7 +3565,12 @@ export const ListUsersSettingsDelegatesResponse = ListDelegatesResponse;
 export type ListUsersSettingsDelegatesError = DefaultErrors;
 
 /** Lists the delegates for the specified account. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const listUsersSettingsDelegates: API.OperationMethod<ListUsersSettingsDelegatesRequest, ListUsersSettingsDelegatesResponse, ListUsersSettingsDelegatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersSettingsDelegates: API.OperationMethod<
+  ListUsersSettingsDelegatesRequest,
+  ListUsersSettingsDelegatesResponse,
+  ListUsersSettingsDelegatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersSettingsDelegatesRequest,
   output: ListUsersSettingsDelegatesResponse,
   errors: [],
@@ -2770,7 +3587,10 @@ export const GetUsersSettingsDelegatesRequest = Schema.Struct({
   delegateEmail: Schema.String.pipe(T.HttpPath("delegateEmail")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/delegates/{delegateEmail}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/delegates/{delegateEmail}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSettingsDelegatesRequest>;
 
@@ -2780,7 +3600,12 @@ export const GetUsersSettingsDelegatesResponse = Delegate;
 export type GetUsersSettingsDelegatesError = DefaultErrors;
 
 /** Gets the specified delegate. Note that a delegate user must be referred to by their primary email address, and not an email alias. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const getUsersSettingsDelegates: API.OperationMethod<GetUsersSettingsDelegatesRequest, GetUsersSettingsDelegatesResponse, GetUsersSettingsDelegatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSettingsDelegates: API.OperationMethod<
+  GetUsersSettingsDelegatesRequest,
+  GetUsersSettingsDelegatesResponse,
+  GetUsersSettingsDelegatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSettingsDelegatesRequest,
   output: GetUsersSettingsDelegatesResponse,
   errors: [],
@@ -2797,7 +3622,10 @@ export const GetUsersSettingsSendAsRequest = Schema.Struct({
   sendAsEmail: Schema.String.pipe(T.HttpPath("sendAsEmail")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSettingsSendAsRequest>;
 
@@ -2807,7 +3635,12 @@ export const GetUsersSettingsSendAsResponse = SendAs;
 export type GetUsersSettingsSendAsError = DefaultErrors;
 
 /** Gets the specified send-as alias. Fails with an HTTP 404 error if the specified address is not a member of the collection. */
-export const getUsersSettingsSendAs: API.OperationMethod<GetUsersSettingsSendAsRequest, GetUsersSettingsSendAsResponse, GetUsersSettingsSendAsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSettingsSendAs: API.OperationMethod<
+  GetUsersSettingsSendAsRequest,
+  GetUsersSettingsSendAsResponse,
+  GetUsersSettingsSendAsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSettingsSendAsRequest,
   output: GetUsersSettingsSendAsResponse,
   errors: [],
@@ -2824,17 +3657,27 @@ export const VerifyUsersSettingsSendAsRequest = Schema.Struct({
   sendAsEmail: Schema.String.pipe(T.HttpPath("sendAsEmail")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/verify", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/verify",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<VerifyUsersSettingsSendAsRequest>;
 
 export interface VerifyUsersSettingsSendAsResponse {}
-export const VerifyUsersSettingsSendAsResponse: Schema.Schema<VerifyUsersSettingsSendAsResponse> = Schema.Struct({}) as any as Schema.Schema<VerifyUsersSettingsSendAsResponse>;
+export const VerifyUsersSettingsSendAsResponse: Schema.Schema<VerifyUsersSettingsSendAsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<VerifyUsersSettingsSendAsResponse>;
 
 export type VerifyUsersSettingsSendAsError = DefaultErrors;
 
 /** Sends a verification email to the specified send-as alias address. The verification status must be `pending`. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const verifyUsersSettingsSendAs: API.OperationMethod<VerifyUsersSettingsSendAsRequest, VerifyUsersSettingsSendAsResponse, VerifyUsersSettingsSendAsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyUsersSettingsSendAs: API.OperationMethod<
+  VerifyUsersSettingsSendAsRequest,
+  VerifyUsersSettingsSendAsResponse,
+  VerifyUsersSettingsSendAsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyUsersSettingsSendAsRequest,
   output: VerifyUsersSettingsSendAsResponse,
   errors: [],
@@ -2851,7 +3694,11 @@ export const CreateUsersSettingsSendAsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(SendAs).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/sendAs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/sendAs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateUsersSettingsSendAsRequest>;
 
@@ -2861,7 +3708,12 @@ export const CreateUsersSettingsSendAsResponse = SendAs;
 export type CreateUsersSettingsSendAsError = DefaultErrors;
 
 /** Creates a custom "from" send-as alias. If an SMTP MSA is specified, Gmail will attempt to connect to the SMTP service to validate the configuration before creating the alias. If ownership verification is required for the alias, a message will be sent to the email address and the resource's verification status will be set to `pending`; otherwise, the resource will be created with verification status set to `accepted`. If a signature is provided, Gmail will sanitize the HTML before saving it with the alias. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const createUsersSettingsSendAs: API.OperationMethod<CreateUsersSettingsSendAsRequest, CreateUsersSettingsSendAsResponse, CreateUsersSettingsSendAsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createUsersSettingsSendAs: API.OperationMethod<
+  CreateUsersSettingsSendAsRequest,
+  CreateUsersSettingsSendAsResponse,
+  CreateUsersSettingsSendAsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateUsersSettingsSendAsRequest,
   output: CreateUsersSettingsSendAsResponse,
   errors: [],
@@ -2885,7 +3737,12 @@ export const ListUsersSettingsSendAsResponse = ListSendAsResponse;
 export type ListUsersSettingsSendAsError = DefaultErrors;
 
 /** Lists the send-as aliases for the specified account. The result includes the primary send-as address associated with the account as well as any custom "from" aliases. */
-export const listUsersSettingsSendAs: API.OperationMethod<ListUsersSettingsSendAsRequest, ListUsersSettingsSendAsResponse, ListUsersSettingsSendAsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersSettingsSendAs: API.OperationMethod<
+  ListUsersSettingsSendAsRequest,
+  ListUsersSettingsSendAsResponse,
+  ListUsersSettingsSendAsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersSettingsSendAsRequest,
   output: ListUsersSettingsSendAsResponse,
   errors: [],
@@ -2905,7 +3762,11 @@ export const PatchUsersSettingsSendAsRequest = Schema.Struct({
   sendAsEmail: Schema.String.pipe(T.HttpPath("sendAsEmail")),
   body: Schema.optional(SendAs).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersSettingsSendAsRequest>;
 
@@ -2915,7 +3776,12 @@ export const PatchUsersSettingsSendAsResponse = SendAs;
 export type PatchUsersSettingsSendAsError = DefaultErrors;
 
 /** Patch the specified send-as alias. */
-export const patchUsersSettingsSendAs: API.OperationMethod<PatchUsersSettingsSendAsRequest, PatchUsersSettingsSendAsResponse, PatchUsersSettingsSendAsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchUsersSettingsSendAs: API.OperationMethod<
+  PatchUsersSettingsSendAsRequest,
+  PatchUsersSettingsSendAsResponse,
+  PatchUsersSettingsSendAsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchUsersSettingsSendAsRequest,
   output: PatchUsersSettingsSendAsResponse,
   errors: [],
@@ -2935,7 +3801,11 @@ export const UpdateUsersSettingsSendAsRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(SendAs).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}", hasBody: true }),
+  T.Http({
+    method: "PUT",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateUsersSettingsSendAsRequest>;
 
@@ -2945,7 +3815,12 @@ export const UpdateUsersSettingsSendAsResponse = SendAs;
 export type UpdateUsersSettingsSendAsError = DefaultErrors;
 
 /** Updates a send-as alias. If a signature is provided, Gmail will sanitize the HTML before saving it with the alias. Addresses other than the primary address for the account can only be updated by service account clients that have been delegated domain-wide authority. */
-export const updateUsersSettingsSendAs: API.OperationMethod<UpdateUsersSettingsSendAsRequest, UpdateUsersSettingsSendAsResponse, UpdateUsersSettingsSendAsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateUsersSettingsSendAs: API.OperationMethod<
+  UpdateUsersSettingsSendAsRequest,
+  UpdateUsersSettingsSendAsResponse,
+  UpdateUsersSettingsSendAsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateUsersSettingsSendAsRequest,
   output: UpdateUsersSettingsSendAsResponse,
   errors: [],
@@ -2962,17 +3837,26 @@ export const DeleteUsersSettingsSendAsRequest = Schema.Struct({
   sendAsEmail: Schema.String.pipe(T.HttpPath("sendAsEmail")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}" }),
+  T.Http({
+    method: "DELETE",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersSettingsSendAsRequest>;
 
 export interface DeleteUsersSettingsSendAsResponse {}
-export const DeleteUsersSettingsSendAsResponse: Schema.Schema<DeleteUsersSettingsSendAsResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsSendAsResponse>;
+export const DeleteUsersSettingsSendAsResponse: Schema.Schema<DeleteUsersSettingsSendAsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsSendAsResponse>;
 
 export type DeleteUsersSettingsSendAsError = DefaultErrors;
 
 /** Deletes the specified send-as alias. Revokes any verification that may have been required for using it. This method is only available to service account clients that have been delegated domain-wide authority. */
-export const deleteUsersSettingsSendAs: API.OperationMethod<DeleteUsersSettingsSendAsRequest, DeleteUsersSettingsSendAsResponse, DeleteUsersSettingsSendAsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersSettingsSendAs: API.OperationMethod<
+  DeleteUsersSettingsSendAsRequest,
+  DeleteUsersSettingsSendAsResponse,
+  DeleteUsersSettingsSendAsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersSettingsSendAsRequest,
   output: DeleteUsersSettingsSendAsResponse,
   errors: [],
@@ -2992,7 +3876,10 @@ export const GetUsersSettingsSendAsSmimeInfoRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   sendAsEmail: Schema.String.pipe(T.HttpPath("sendAsEmail")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo/{id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUsersSettingsSendAsSmimeInfoRequest>;
 
@@ -3002,7 +3889,12 @@ export const GetUsersSettingsSendAsSmimeInfoResponse = SmimeInfo;
 export type GetUsersSettingsSendAsSmimeInfoError = DefaultErrors;
 
 /** Gets the specified S/MIME config for the specified send-as alias. */
-export const getUsersSettingsSendAsSmimeInfo: API.OperationMethod<GetUsersSettingsSendAsSmimeInfoRequest, GetUsersSettingsSendAsSmimeInfoResponse, GetUsersSettingsSendAsSmimeInfoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUsersSettingsSendAsSmimeInfo: API.OperationMethod<
+  GetUsersSettingsSendAsSmimeInfoRequest,
+  GetUsersSettingsSendAsSmimeInfoResponse,
+  GetUsersSettingsSendAsSmimeInfoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUsersSettingsSendAsSmimeInfoRequest,
   output: GetUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
@@ -3022,17 +3914,28 @@ export const DeleteUsersSettingsSendAsSmimeInfoRequest = Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo/{id}" }),
+  T.Http({
+    method: "DELETE",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo/{id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersSettingsSendAsSmimeInfoRequest>;
 
 export interface DeleteUsersSettingsSendAsSmimeInfoResponse {}
-export const DeleteUsersSettingsSendAsSmimeInfoResponse: Schema.Schema<DeleteUsersSettingsSendAsSmimeInfoResponse> = Schema.Struct({}) as any as Schema.Schema<DeleteUsersSettingsSendAsSmimeInfoResponse>;
+export const DeleteUsersSettingsSendAsSmimeInfoResponse: Schema.Schema<DeleteUsersSettingsSendAsSmimeInfoResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteUsersSettingsSendAsSmimeInfoResponse>;
 
 export type DeleteUsersSettingsSendAsSmimeInfoError = DefaultErrors;
 
 /** Deletes the specified S/MIME config for the specified send-as alias. */
-export const deleteUsersSettingsSendAsSmimeInfo: API.OperationMethod<DeleteUsersSettingsSendAsSmimeInfoRequest, DeleteUsersSettingsSendAsSmimeInfoResponse, DeleteUsersSettingsSendAsSmimeInfoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteUsersSettingsSendAsSmimeInfo: API.OperationMethod<
+  DeleteUsersSettingsSendAsSmimeInfoRequest,
+  DeleteUsersSettingsSendAsSmimeInfoResponse,
+  DeleteUsersSettingsSendAsSmimeInfoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteUsersSettingsSendAsSmimeInfoRequest,
   output: DeleteUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
@@ -3052,17 +3955,29 @@ export const SetDefaultUsersSettingsSendAsSmimeInfoRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo/{id}/setDefault", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo/{id}/setDefault",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetDefaultUsersSettingsSendAsSmimeInfoRequest>;
 
 export interface SetDefaultUsersSettingsSendAsSmimeInfoResponse {}
-export const SetDefaultUsersSettingsSendAsSmimeInfoResponse: Schema.Schema<SetDefaultUsersSettingsSendAsSmimeInfoResponse> = Schema.Struct({}) as any as Schema.Schema<SetDefaultUsersSettingsSendAsSmimeInfoResponse>;
+export const SetDefaultUsersSettingsSendAsSmimeInfoResponse: Schema.Schema<SetDefaultUsersSettingsSendAsSmimeInfoResponse> =
+  Schema.Struct(
+    {},
+  ) as any as Schema.Schema<SetDefaultUsersSettingsSendAsSmimeInfoResponse>;
 
 export type SetDefaultUsersSettingsSendAsSmimeInfoError = DefaultErrors;
 
 /** Sets the default S/MIME config for the specified send-as alias. */
-export const setDefaultUsersSettingsSendAsSmimeInfo: API.OperationMethod<SetDefaultUsersSettingsSendAsSmimeInfoRequest, SetDefaultUsersSettingsSendAsSmimeInfoResponse, SetDefaultUsersSettingsSendAsSmimeInfoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setDefaultUsersSettingsSendAsSmimeInfo: API.OperationMethod<
+  SetDefaultUsersSettingsSendAsSmimeInfoRequest,
+  SetDefaultUsersSettingsSendAsSmimeInfoResponse,
+  SetDefaultUsersSettingsSendAsSmimeInfoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetDefaultUsersSettingsSendAsSmimeInfoRequest,
   output: SetDefaultUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
@@ -3082,7 +3997,11 @@ export const InsertUsersSettingsSendAsSmimeInfoRequest = Schema.Struct({
   sendAsEmail: Schema.String.pipe(T.HttpPath("sendAsEmail")),
   body: Schema.optional(SmimeInfo).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<InsertUsersSettingsSendAsSmimeInfoRequest>;
 
@@ -3092,7 +4011,12 @@ export const InsertUsersSettingsSendAsSmimeInfoResponse = SmimeInfo;
 export type InsertUsersSettingsSendAsSmimeInfoError = DefaultErrors;
 
 /** Insert (upload) the given S/MIME config for the specified send-as alias. Note that pkcs12 format is required for the key. */
-export const insertUsersSettingsSendAsSmimeInfo: API.OperationMethod<InsertUsersSettingsSendAsSmimeInfoRequest, InsertUsersSettingsSendAsSmimeInfoResponse, InsertUsersSettingsSendAsSmimeInfoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const insertUsersSettingsSendAsSmimeInfo: API.OperationMethod<
+  InsertUsersSettingsSendAsSmimeInfoRequest,
+  InsertUsersSettingsSendAsSmimeInfoResponse,
+  InsertUsersSettingsSendAsSmimeInfoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: InsertUsersSettingsSendAsSmimeInfoRequest,
   output: InsertUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
@@ -3109,7 +4033,10 @@ export const ListUsersSettingsSendAsSmimeInfoRequest = Schema.Struct({
   sendAsEmail: Schema.String.pipe(T.HttpPath("sendAsEmail")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo" }),
+  T.Http({
+    method: "GET",
+    path: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListUsersSettingsSendAsSmimeInfoRequest>;
 
@@ -3119,9 +4046,13 @@ export const ListUsersSettingsSendAsSmimeInfoResponse = ListSmimeInfoResponse;
 export type ListUsersSettingsSendAsSmimeInfoError = DefaultErrors;
 
 /** Lists S/MIME configs for the specified send-as alias. */
-export const listUsersSettingsSendAsSmimeInfo: API.OperationMethod<ListUsersSettingsSendAsSmimeInfoRequest, ListUsersSettingsSendAsSmimeInfoResponse, ListUsersSettingsSendAsSmimeInfoError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listUsersSettingsSendAsSmimeInfo: API.OperationMethod<
+  ListUsersSettingsSendAsSmimeInfoRequest,
+  ListUsersSettingsSendAsSmimeInfoResponse,
+  ListUsersSettingsSendAsSmimeInfoError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListUsersSettingsSendAsSmimeInfoRequest,
   output: ListUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
 }));
-

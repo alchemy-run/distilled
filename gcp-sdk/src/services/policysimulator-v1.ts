@@ -32,11 +32,18 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "GoogleRpcStatus" }) as any as Schema.Schema<GoogleRpcStatus>;
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+).annotate({
+  identifier: "GoogleRpcStatus",
+}) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +58,18 @@ export interface GoogleLongrunningOperation {
   response?: Record<string, unknown>;
 }
 
-export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(GoogleRpcStatus),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "GoogleLongrunningOperation" }) as any as Schema.Schema<GoogleLongrunningOperation>;
+export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(GoogleRpcStatus),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningOperation",
+  }) as any as Schema.Schema<GoogleLongrunningOperation>;
 
 export interface GoogleLongrunningListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,11 +80,16 @@ export interface GoogleLongrunningListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleLongrunningListOperationsResponse" }) as any as Schema.Schema<GoogleLongrunningListOperationsResponse>;
+export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningListOperationsResponse",
+  }) as any as Schema.Schema<GoogleLongrunningListOperationsResponse>;
 
 export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues {
   /** List of values allowed at this resource. */
@@ -81,10 +98,15 @@ export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues {
   deniedValues?: Array<string>;
 }
 
-export const GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues> = Schema.suspend(() => Schema.Struct({
-  allowedValues: Schema.optional(Schema.Array(Schema.String)),
-  deniedValues: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues" }) as any as Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues>;
+export const GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowedValues: Schema.optional(Schema.Array(Schema.String)),
+      deniedValues: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues>;
 
 export interface GoogleTypeExpr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -97,12 +119,17 @@ export interface GoogleTypeExpr {
   location?: string;
 }
 
-export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleTypeExpr" }) as any as Schema.Schema<GoogleTypeExpr>;
+export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GoogleTypeExpr",
+}) as any as Schema.Schema<GoogleTypeExpr>;
 
 export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRule {
   /** List of values to be used for this policy rule. This field can be set only in policies for list constraints. */
@@ -119,14 +146,21 @@ export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRule {
   parameters?: Record<string, unknown>;
 }
 
-export const GoogleCloudOrgpolicyV2PolicySpecPolicyRule: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRule> = Schema.suspend(() => Schema.Struct({
-  values: Schema.optional(GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues),
-  allowAll: Schema.optional(Schema.Boolean),
-  denyAll: Schema.optional(Schema.Boolean),
-  enforce: Schema.optional(Schema.Boolean),
-  condition: Schema.optional(GoogleTypeExpr),
-  parameters: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRule" }) as any as Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRule>;
+export const GoogleCloudOrgpolicyV2PolicySpecPolicyRule: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(
+        GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues,
+      ),
+      allowAll: Schema.optional(Schema.Boolean),
+      denyAll: Schema.optional(Schema.Boolean),
+      enforce: Schema.optional(Schema.Boolean),
+      condition: Schema.optional(GoogleTypeExpr),
+      parameters: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRule",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRule>;
 
 export interface GoogleCloudOrgpolicyV2PolicySpec {
   /** An opaque tag indicating the current version of the policySpec, used for concurrency control. This field is ignored if used in a `CreatePolicy` request. When the policy is returned from either a `GetPolicy` or a `ListPolicies` request, this `etag` indicates the version of the current policySpec to use when executing a read-modify-write loop. When the policy is returned from a `GetEffectivePolicy` request, the `etag` will be unset. */
@@ -141,13 +175,20 @@ export interface GoogleCloudOrgpolicyV2PolicySpec {
   reset?: boolean;
 }
 
-export const GoogleCloudOrgpolicyV2PolicySpec: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpec> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  rules: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV2PolicySpecPolicyRule)),
-  inheritFromParent: Schema.optional(Schema.Boolean),
-  reset: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpec" }) as any as Schema.Schema<GoogleCloudOrgpolicyV2PolicySpec>;
+export const GoogleCloudOrgpolicyV2PolicySpec: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      rules: Schema.optional(
+        Schema.Array(GoogleCloudOrgpolicyV2PolicySpecPolicyRule),
+      ),
+      inheritFromParent: Schema.optional(Schema.Boolean),
+      reset: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOrgpolicyV2PolicySpec",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV2PolicySpec>;
 
 export interface GoogleCloudOrgpolicyV2AlternatePolicySpec {
   /** Reference to the launch that will be used while audit logging and to control the launch. Should be set only in the alternate policy. */
@@ -156,10 +197,15 @@ export interface GoogleCloudOrgpolicyV2AlternatePolicySpec {
   spec?: GoogleCloudOrgpolicyV2PolicySpec;
 }
 
-export const GoogleCloudOrgpolicyV2AlternatePolicySpec: Schema.Schema<GoogleCloudOrgpolicyV2AlternatePolicySpec> = Schema.suspend(() => Schema.Struct({
-  launch: Schema.optional(Schema.String),
-  spec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
-})).annotate({ identifier: "GoogleCloudOrgpolicyV2AlternatePolicySpec" }) as any as Schema.Schema<GoogleCloudOrgpolicyV2AlternatePolicySpec>;
+export const GoogleCloudOrgpolicyV2AlternatePolicySpec: Schema.Schema<GoogleCloudOrgpolicyV2AlternatePolicySpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      launch: Schema.optional(Schema.String),
+      spec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOrgpolicyV2AlternatePolicySpec",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV2AlternatePolicySpec>;
 
 export interface GoogleCloudOrgpolicyV2Policy {
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint which this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
@@ -174,13 +220,18 @@ export interface GoogleCloudOrgpolicyV2Policy {
   etag?: string;
 }
 
-export const GoogleCloudOrgpolicyV2Policy: Schema.Schema<GoogleCloudOrgpolicyV2Policy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  spec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
-  alternate: Schema.optional(GoogleCloudOrgpolicyV2AlternatePolicySpec),
-  dryRunSpec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOrgpolicyV2Policy" }) as any as Schema.Schema<GoogleCloudOrgpolicyV2Policy>;
+export const GoogleCloudOrgpolicyV2Policy: Schema.Schema<GoogleCloudOrgpolicyV2Policy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      spec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
+      alternate: Schema.optional(GoogleCloudOrgpolicyV2AlternatePolicySpec),
+      dryRunSpec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOrgpolicyV2Policy",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV2Policy>;
 
 export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay {
   /** Optional. The parent of the policy we are attaching to. Example: "projects/123456" */
@@ -189,10 +240,15 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay {
   policy?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay> = Schema.suspend(() => Schema.Struct({
-  policyParent: Schema.optional(Schema.String),
-  policy: Schema.optional(GoogleCloudOrgpolicyV2Policy),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay>;
+export const GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policyParent: Schema.optional(Schema.String),
+      policy: Schema.optional(GoogleCloudOrgpolicyV2Policy),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay>;
 
 export interface GoogleCloudOrgpolicyV2CustomConstraint {
   /** Immutable. Name of the constraint. This is unique within the organization. Format of the name should be * `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The max length is 71 characters and the minimum length is 1. Note that the prefix `organizations/{organization_id}/customConstraints/custom.` is not counted. */
@@ -200,7 +256,15 @@ export interface GoogleCloudOrgpolicyV2CustomConstraint {
   /** Immutable. The resource instance type on which this policy applies. Format will be of the form : `/` Example: * `compute.googleapis.com/Instance`. */
   resourceTypes?: Array<string>;
   /** All the operations being applied for this constraint. */
-  methodTypes?: Array<"METHOD_TYPE_UNSPECIFIED" | "CREATE" | "UPDATE" | "DELETE" | "REMOVE_GRANT" | "GOVERN_TAGS" | (string & {})>;
+  methodTypes?: Array<
+    | "METHOD_TYPE_UNSPECIFIED"
+    | "CREATE"
+    | "UPDATE"
+    | "DELETE"
+    | "REMOVE_GRANT"
+    | "GOVERN_TAGS"
+    | (string & {})
+  >;
   /** A Common Expression Language (CEL) condition which is used in the evaluation of the constraint. For example: `resource.instanceName.matches("(production|test)_(.+_)?[\d]+")` or, `resource.management.auto_upgrade == true` The max length of the condition is 1000 characters. */
   condition?: string;
   /** Allow or deny type. */
@@ -213,16 +277,21 @@ export interface GoogleCloudOrgpolicyV2CustomConstraint {
   updateTime?: string;
 }
 
-export const GoogleCloudOrgpolicyV2CustomConstraint: Schema.Schema<GoogleCloudOrgpolicyV2CustomConstraint> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  resourceTypes: Schema.optional(Schema.Array(Schema.String)),
-  methodTypes: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Schema.String),
-  actionType: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudOrgpolicyV2CustomConstraint" }) as any as Schema.Schema<GoogleCloudOrgpolicyV2CustomConstraint>;
+export const GoogleCloudOrgpolicyV2CustomConstraint: Schema.Schema<GoogleCloudOrgpolicyV2CustomConstraint> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      resourceTypes: Schema.optional(Schema.Array(Schema.String)),
+      methodTypes: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Schema.String),
+      actionType: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOrgpolicyV2CustomConstraint",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV2CustomConstraint>;
 
 export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay {
   /** Optional. Resource the constraint is attached to. Example: "organization/987654" */
@@ -231,10 +300,16 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOve
   customConstraint?: GoogleCloudOrgpolicyV2CustomConstraint;
 }
 
-export const GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay> = Schema.suspend(() => Schema.Struct({
-  customConstraintParent: Schema.optional(Schema.String),
-  customConstraint: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay>;
+export const GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customConstraintParent: Schema.optional(Schema.String),
+      customConstraint: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay>;
 
 export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlay {
   /** Optional. The OrgPolicy changes to preview violations for. Any existing OrgPolicies with the same name will be overridden in the simulation. That is, violations will be determined as if all policies in the overlay were created or updated. */
@@ -243,10 +318,21 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlay {
   customConstraints?: Array<GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay>;
 }
 
-export const GoogleCloudPolicysimulatorV1OrgPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlay> = Schema.suspend(() => Schema.Struct({
-  policies: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay)),
-  customConstraints: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay)),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlay" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlay>;
+export const GoogleCloudPolicysimulatorV1OrgPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlay> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policies: Schema.optional(
+        Schema.Array(GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay),
+      ),
+      customConstraints: Schema.optional(
+        Schema.Array(
+          GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlay",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyOverlay>;
 
 export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts {
   /** Output only. Number of resources checked for compliance. Must equal: unenforced + noncompliant + compliant + error */
@@ -261,19 +347,31 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceC
   errors?: number;
 }
 
-export const GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts> = Schema.suspend(() => Schema.Struct({
-  scanned: Schema.optional(Schema.Number),
-  noncompliant: Schema.optional(Schema.Number),
-  compliant: Schema.optional(Schema.Number),
-  unenforced: Schema.optional(Schema.Number),
-  errors: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts>;
+export const GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      scanned: Schema.optional(Schema.Number),
+      noncompliant: Schema.optional(Schema.Number),
+      compliant: Schema.optional(Schema.Number),
+      unenforced: Schema.optional(Schema.Number),
+      errors: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts>;
 
 export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview {
   /** Output only. The resource name of the `OrgPolicyViolationsPreview`. It has the following format: `organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview}` Example: `organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f` */
   name?: string;
   /** Output only. The state of the `OrgPolicyViolationsPreview`. */
-  state?: "PREVIEW_STATE_UNSPECIFIED" | "PREVIEW_PENDING" | "PREVIEW_RUNNING" | "PREVIEW_SUCCEEDED" | "PREVIEW_FAILED" | (string & {});
+  state?:
+    | "PREVIEW_STATE_UNSPECIFIED"
+    | "PREVIEW_PENDING"
+    | "PREVIEW_RUNNING"
+    | "PREVIEW_SUCCEEDED"
+    | "PREVIEW_FAILED"
+    | (string & {});
   /** Required. The proposed changes we are previewing violations for. */
   overlay?: GoogleCloudPolicysimulatorV1OrgPolicyOverlay;
   /** Output only. The number of OrgPolicyViolations in this `OrgPolicyViolationsPreview`. This count may differ from `resource_summary.noncompliant_count` because each OrgPolicyViolation is specific to a resource **and** constraint. If there are multiple constraints being evaluated (i.e. multiple policies in the overlay), a single resource may violate multiple constraints. */
@@ -286,15 +384,22 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview {
   createTime?: string;
 }
 
-export const GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  overlay: Schema.optional(GoogleCloudPolicysimulatorV1OrgPolicyOverlay),
-  violationsCount: Schema.optional(Schema.Number),
-  resourceCounts: Schema.optional(GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts),
-  customConstraints: Schema.optional(Schema.Array(Schema.String)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview>;
+export const GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      overlay: Schema.optional(GoogleCloudPolicysimulatorV1OrgPolicyOverlay),
+      violationsCount: Schema.optional(Schema.Number),
+      resourceCounts: Schema.optional(
+        GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts,
+      ),
+      customConstraints: Schema.optional(Schema.Array(Schema.String)),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview>;
 
 export interface GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse {
   /** The list of OrgPolicyViolationsPreview */
@@ -303,10 +408,18 @@ export interface GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResp
   nextPageToken?: string;
 }
 
-export const GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse: Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse> = Schema.suspend(() => Schema.Struct({
-  orgPolicyViolationsPreviews: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse>;
+export const GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse: Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      orgPolicyViolationsPreviews: Schema.optional(
+        Schema.Array(GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse>;
 
 export interface GoogleCloudPolicysimulatorV1ResourceContext {
   /** The full name of the resource. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
@@ -317,11 +430,16 @@ export interface GoogleCloudPolicysimulatorV1ResourceContext {
   ancestors?: Array<string>;
 }
 
-export const GoogleCloudPolicysimulatorV1ResourceContext: Schema.Schema<GoogleCloudPolicysimulatorV1ResourceContext> = Schema.suspend(() => Schema.Struct({
-  resource: Schema.optional(Schema.String),
-  assetType: Schema.optional(Schema.String),
-  ancestors: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ResourceContext" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ResourceContext>;
+export const GoogleCloudPolicysimulatorV1ResourceContext: Schema.Schema<GoogleCloudPolicysimulatorV1ResourceContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resource: Schema.optional(Schema.String),
+      assetType: Schema.optional(Schema.String),
+      ancestors: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ResourceContext",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ResourceContext>;
 
 export interface GoogleCloudPolicysimulatorV1OrgPolicyViolation {
   /** The name of the `OrgPolicyViolation`. Example: organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f/orgPolicyViolations/38ce` */
@@ -334,12 +452,17 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyViolation {
   error?: GoogleRpcStatus;
 }
 
-export const GoogleCloudPolicysimulatorV1OrgPolicyViolation: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  resource: Schema.optional(GoogleCloudPolicysimulatorV1ResourceContext),
-  customConstraint: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint),
-  error: Schema.optional(GoogleRpcStatus),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolation" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolation>;
+export const GoogleCloudPolicysimulatorV1OrgPolicyViolation: Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      resource: Schema.optional(GoogleCloudPolicysimulatorV1ResourceContext),
+      customConstraint: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint),
+      error: Schema.optional(GoogleRpcStatus),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolation",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolation>;
 
 export interface GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse {
   /** The list of OrgPolicyViolations */
@@ -348,10 +471,17 @@ export interface GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse: Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse> = Schema.suspend(() => Schema.Struct({
-  orgPolicyViolations: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1OrgPolicyViolation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse>;
+export const GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse: Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      orgPolicyViolations: Schema.optional(
+        Schema.Array(GoogleCloudPolicysimulatorV1OrgPolicyViolation),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse>;
 
 export interface GoogleIamV1Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -362,23 +492,38 @@ export interface GoogleIamV1Binding {
   condition?: GoogleTypeExpr;
 }
 
-export const GoogleIamV1Binding: Schema.Schema<GoogleIamV1Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(GoogleTypeExpr),
-})).annotate({ identifier: "GoogleIamV1Binding" }) as any as Schema.Schema<GoogleIamV1Binding>;
+export const GoogleIamV1Binding: Schema.Schema<GoogleIamV1Binding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(GoogleTypeExpr),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1Binding",
+  }) as any as Schema.Schema<GoogleIamV1Binding>;
 
 export interface GoogleIamV1AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const GoogleIamV1AuditLogConfig: Schema.Schema<GoogleIamV1AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleIamV1AuditLogConfig" }) as any as Schema.Schema<GoogleIamV1AuditLogConfig>;
+export const GoogleIamV1AuditLogConfig: Schema.Schema<GoogleIamV1AuditLogConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1AuditLogConfig",
+  }) as any as Schema.Schema<GoogleIamV1AuditLogConfig>;
 
 export interface GoogleIamV1AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -387,10 +532,15 @@ export interface GoogleIamV1AuditConfig {
   auditLogConfigs?: Array<GoogleIamV1AuditLogConfig>;
 }
 
-export const GoogleIamV1AuditConfig: Schema.Schema<GoogleIamV1AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditLogConfig)),
-})).annotate({ identifier: "GoogleIamV1AuditConfig" }) as any as Schema.Schema<GoogleIamV1AuditConfig>;
+export const GoogleIamV1AuditConfig: Schema.Schema<GoogleIamV1AuditConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      auditLogConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditLogConfig)),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1AuditConfig",
+  }) as any as Schema.Schema<GoogleIamV1AuditConfig>;
 
 export interface GoogleIamV1Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -403,12 +553,17 @@ export interface GoogleIamV1Policy {
   etag?: string;
 }
 
-export const GoogleIamV1Policy: Schema.Schema<GoogleIamV1Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(GoogleIamV1Binding)),
-  auditConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleIamV1Policy" }) as any as Schema.Schema<GoogleIamV1Policy>;
+export const GoogleIamV1Policy: Schema.Schema<GoogleIamV1Policy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(GoogleIamV1Binding)),
+      auditConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditConfig)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamV1Policy",
+  }) as any as Schema.Schema<GoogleIamV1Policy>;
 
 export interface GoogleCloudPolicysimulatorV1ReplayConfig {
   /** A mapping of the resources that you want to simulate policies for and the policies that you want to simulate. Keys are the full resource names for the resources. For example, `//cloudresourcemanager.googleapis.com/projects/my-project`. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. Values are Policy objects representing the policies that you want to simulate. Replays automatically take into account any IAM policies inherited through the resource hierarchy, and any policies set on descendant resources. You do not need to include these policies in the policy overlay. */
@@ -417,10 +572,17 @@ export interface GoogleCloudPolicysimulatorV1ReplayConfig {
   logSource?: "LOG_SOURCE_UNSPECIFIED" | "RECENT_ACCESSES" | (string & {});
 }
 
-export const GoogleCloudPolicysimulatorV1ReplayConfig: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayConfig> = Schema.suspend(() => Schema.Struct({
-  policyOverlay: Schema.optional(Schema.Record(Schema.String, GoogleIamV1Policy)),
-  logSource: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayConfig" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayConfig>;
+export const GoogleCloudPolicysimulatorV1ReplayConfig: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policyOverlay: Schema.optional(
+        Schema.Record(Schema.String, GoogleIamV1Policy),
+      ),
+      logSource: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ReplayConfig",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayConfig>;
 
 export interface GoogleTypeDate {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -431,11 +593,16 @@ export interface GoogleTypeDate {
   day?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(() => Schema.Struct({
-  year: Schema.optional(Schema.Number),
-  month: Schema.optional(Schema.Number),
-  day: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleTypeDate" }) as any as Schema.Schema<GoogleTypeDate>;
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      year: Schema.optional(Schema.Number),
+      month: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "GoogleTypeDate",
+}) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GoogleCloudPolicysimulatorV1ReplayResultsSummary {
   /** The total number of log entries replayed. */
@@ -452,75 +619,147 @@ export interface GoogleCloudPolicysimulatorV1ReplayResultsSummary {
   newestDate?: GoogleTypeDate;
 }
 
-export const GoogleCloudPolicysimulatorV1ReplayResultsSummary: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResultsSummary> = Schema.suspend(() => Schema.Struct({
-  logCount: Schema.optional(Schema.Number),
-  unchangedCount: Schema.optional(Schema.Number),
-  differenceCount: Schema.optional(Schema.Number),
-  errorCount: Schema.optional(Schema.Number),
-  oldestDate: Schema.optional(GoogleTypeDate),
-  newestDate: Schema.optional(GoogleTypeDate),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayResultsSummary" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResultsSummary>;
+export const GoogleCloudPolicysimulatorV1ReplayResultsSummary: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResultsSummary> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      logCount: Schema.optional(Schema.Number),
+      unchangedCount: Schema.optional(Schema.Number),
+      differenceCount: Schema.optional(Schema.Number),
+      errorCount: Schema.optional(Schema.Number),
+      oldestDate: Schema.optional(GoogleTypeDate),
+      newestDate: Schema.optional(GoogleTypeDate),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ReplayResultsSummary",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResultsSummary>;
 
 export interface GoogleCloudPolicysimulatorV1Replay {
   /** Output only. The resource name of the `Replay`, which has the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the Replay. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   name?: string;
   /** Output only. The current state of the `Replay`. */
-  state?: "STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | (string & {});
   /** Required. The configuration used for the `Replay`. */
   config?: GoogleCloudPolicysimulatorV1ReplayConfig;
   /** Output only. Summary statistics about the replayed log entries. */
   resultsSummary?: GoogleCloudPolicysimulatorV1ReplayResultsSummary;
 }
 
-export const GoogleCloudPolicysimulatorV1Replay: Schema.Schema<GoogleCloudPolicysimulatorV1Replay> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  config: Schema.optional(GoogleCloudPolicysimulatorV1ReplayConfig),
-  resultsSummary: Schema.optional(GoogleCloudPolicysimulatorV1ReplayResultsSummary),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1Replay" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1Replay>;
+export const GoogleCloudPolicysimulatorV1Replay: Schema.Schema<GoogleCloudPolicysimulatorV1Replay> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      config: Schema.optional(GoogleCloudPolicysimulatorV1ReplayConfig),
+      resultsSummary: Schema.optional(
+        GoogleCloudPolicysimulatorV1ReplayResultsSummary,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1Replay",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1Replay>;
 
 export interface GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership {
   /** Indicates whether the binding includes the principal. */
-  membership?: "MEMBERSHIP_UNSPECIFIED" | "MEMBERSHIP_INCLUDED" | "MEMBERSHIP_NOT_INCLUDED" | "MEMBERSHIP_UNKNOWN_INFO_DENIED" | "MEMBERSHIP_UNKNOWN_UNSUPPORTED" | (string & {});
+  membership?:
+    | "MEMBERSHIP_UNSPECIFIED"
+    | "MEMBERSHIP_INCLUDED"
+    | "MEMBERSHIP_NOT_INCLUDED"
+    | "MEMBERSHIP_UNKNOWN_INFO_DENIED"
+    | "MEMBERSHIP_UNKNOWN_UNSUPPORTED"
+    | (string & {});
   /** The relevance of the principal's status to the overall determination for the binding. */
-  relevance?: "HEURISTIC_RELEVANCE_UNSPECIFIED" | "NORMAL" | "HIGH" | (string & {});
+  relevance?:
+    | "HEURISTIC_RELEVANCE_UNSPECIFIED"
+    | "NORMAL"
+    | "HIGH"
+    | (string & {});
 }
 
-export const GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership: Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership> = Schema.suspend(() => Schema.Struct({
-  membership: Schema.optional(Schema.String),
-  relevance: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership>;
+export const GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership: Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      membership: Schema.optional(Schema.String),
+      relevance: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership>;
 
 export interface GoogleCloudPolicysimulatorV1BindingExplanation {
   /** Required. Indicates whether _this binding_ provides the specified permission to the specified principal for the specified resource. This field does _not_ indicate whether the principal actually has the permission for the resource. There might be another binding that overrides this binding. To determine whether the principal actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
-  access?: "ACCESS_STATE_UNSPECIFIED" | "GRANTED" | "NOT_GRANTED" | "UNKNOWN_CONDITIONAL" | "UNKNOWN_INFO_DENIED" | (string & {});
+  access?:
+    | "ACCESS_STATE_UNSPECIFIED"
+    | "GRANTED"
+    | "NOT_GRANTED"
+    | "UNKNOWN_CONDITIONAL"
+    | "UNKNOWN_INFO_DENIED"
+    | (string & {});
   /** The role that this binding grants. For example, `roles/compute.serviceAgent`. For a complete list of predefined IAM roles, as well as the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
   role?: string;
   /** Indicates whether the role granted by this binding contains the specified permission. */
-  rolePermission?: "ROLE_PERMISSION_UNSPECIFIED" | "ROLE_PERMISSION_INCLUDED" | "ROLE_PERMISSION_NOT_INCLUDED" | "ROLE_PERMISSION_UNKNOWN_INFO_DENIED" | (string & {});
+  rolePermission?:
+    | "ROLE_PERMISSION_UNSPECIFIED"
+    | "ROLE_PERMISSION_INCLUDED"
+    | "ROLE_PERMISSION_NOT_INCLUDED"
+    | "ROLE_PERMISSION_UNKNOWN_INFO_DENIED"
+    | (string & {});
   /** The relevance of the permission's existence, or nonexistence, in the role to the overall determination for the entire policy. */
-  rolePermissionRelevance?: "HEURISTIC_RELEVANCE_UNSPECIFIED" | "NORMAL" | "HIGH" | (string & {});
+  rolePermissionRelevance?:
+    | "HEURISTIC_RELEVANCE_UNSPECIFIED"
+    | "NORMAL"
+    | "HIGH"
+    | (string & {});
   /** Indicates whether each principal in the binding includes the principal specified in the request, either directly or indirectly. Each key identifies a principal in the binding, and each value indicates whether the principal in the binding includes the principal in the request. For example, suppose that a binding includes the following principals: * `user:alice@example.com` * `group:product-eng@example.com` The principal in the replayed access tuple is `user:bob@example.com`. This user is a principal of the group `group:product-eng@example.com`. For the first principal in the binding, the key is `user:alice@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_NOT_INCLUDED`. For the second principal in the binding, the key is `group:product-eng@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_INCLUDED`. */
-  memberships?: Record<string, GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership>;
+  memberships?: Record<
+    string,
+    GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership
+  >;
   /** The relevance of this binding to the overall determination for the entire policy. */
-  relevance?: "HEURISTIC_RELEVANCE_UNSPECIFIED" | "NORMAL" | "HIGH" | (string & {});
+  relevance?:
+    | "HEURISTIC_RELEVANCE_UNSPECIFIED"
+    | "NORMAL"
+    | "HIGH"
+    | (string & {});
   /** A condition expression that prevents this binding from granting access unless the expression evaluates to `true`. To learn about IAM Conditions, see https://cloud.google.com/iam/docs/conditions-overview. */
   condition?: GoogleTypeExpr;
 }
 
-export const GoogleCloudPolicysimulatorV1BindingExplanation: Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanation> = Schema.suspend(() => Schema.Struct({
-  access: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  rolePermission: Schema.optional(Schema.String),
-  rolePermissionRelevance: Schema.optional(Schema.String),
-  memberships: Schema.optional(Schema.Record(Schema.String, GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership)),
-  relevance: Schema.optional(Schema.String),
-  condition: Schema.optional(GoogleTypeExpr),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1BindingExplanation" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanation>;
+export const GoogleCloudPolicysimulatorV1BindingExplanation: Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      access: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      rolePermission: Schema.optional(Schema.String),
+      rolePermissionRelevance: Schema.optional(Schema.String),
+      memberships: Schema.optional(
+        Schema.Record(
+          Schema.String,
+          GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership,
+        ),
+      ),
+      relevance: Schema.optional(Schema.String),
+      condition: Schema.optional(GoogleTypeExpr),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1BindingExplanation",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1BindingExplanation>;
 
 export interface GoogleCloudPolicysimulatorV1ExplainedPolicy {
   /** Indicates whether _this policy_ provides the specified permission to the specified principal for the specified resource. This field does _not_ indicate whether the principal actually has the permission for the resource. There might be another policy that overrides this policy. To determine whether the principal actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
-  access?: "ACCESS_STATE_UNSPECIFIED" | "GRANTED" | "NOT_GRANTED" | "UNKNOWN_CONDITIONAL" | "UNKNOWN_INFO_DENIED" | (string & {});
+  access?:
+    | "ACCESS_STATE_UNSPECIFIED"
+    | "GRANTED"
+    | "NOT_GRANTED"
+    | "UNKNOWN_CONDITIONAL"
+    | "UNKNOWN_INFO_DENIED"
+    | (string & {});
   /** The full resource name that identifies the resource. For example, `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`. If the user who created the Replay does not have access to the policy, this field is omitted. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
   fullResourceName?: string;
   /** The IAM policy attached to the resource. If the user who created the Replay does not have access to the policy, this field is empty. */
@@ -528,31 +767,55 @@ export interface GoogleCloudPolicysimulatorV1ExplainedPolicy {
   /** Details about how each binding in the policy affects the principal's ability, or inability, to use the permission for the resource. If the user who created the Replay does not have access to the policy, this field is omitted. */
   bindingExplanations?: Array<GoogleCloudPolicysimulatorV1BindingExplanation>;
   /** The relevance of this policy to the overall determination in the TroubleshootIamPolicyResponse. If the user who created the Replay does not have access to the policy, this field is omitted. */
-  relevance?: "HEURISTIC_RELEVANCE_UNSPECIFIED" | "NORMAL" | "HIGH" | (string & {});
+  relevance?:
+    | "HEURISTIC_RELEVANCE_UNSPECIFIED"
+    | "NORMAL"
+    | "HIGH"
+    | (string & {});
 }
 
-export const GoogleCloudPolicysimulatorV1ExplainedPolicy: Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedPolicy> = Schema.suspend(() => Schema.Struct({
-  access: Schema.optional(Schema.String),
-  fullResourceName: Schema.optional(Schema.String),
-  policy: Schema.optional(GoogleIamV1Policy),
-  bindingExplanations: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1BindingExplanation)),
-  relevance: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ExplainedPolicy" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedPolicy>;
+export const GoogleCloudPolicysimulatorV1ExplainedPolicy: Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      access: Schema.optional(Schema.String),
+      fullResourceName: Schema.optional(Schema.String),
+      policy: Schema.optional(GoogleIamV1Policy),
+      bindingExplanations: Schema.optional(
+        Schema.Array(GoogleCloudPolicysimulatorV1BindingExplanation),
+      ),
+      relevance: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ExplainedPolicy",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedPolicy>;
 
 export interface GoogleCloudPolicysimulatorV1ExplainedAccess {
   /** Whether the principal in the access tuple has permission to access the resource in the access tuple under the given policies. */
-  accessState?: "ACCESS_STATE_UNSPECIFIED" | "GRANTED" | "NOT_GRANTED" | "UNKNOWN_CONDITIONAL" | "UNKNOWN_INFO_DENIED" | (string & {});
+  accessState?:
+    | "ACCESS_STATE_UNSPECIFIED"
+    | "GRANTED"
+    | "NOT_GRANTED"
+    | "UNKNOWN_CONDITIONAL"
+    | "UNKNOWN_INFO_DENIED"
+    | (string & {});
   /** If the AccessState is `UNKNOWN`, this field contains the policies that led to that result. If the `AccessState` is `GRANTED` or `NOT_GRANTED`, this field is omitted. */
   policies?: Array<GoogleCloudPolicysimulatorV1ExplainedPolicy>;
   /** If the AccessState is `UNKNOWN`, this field contains a list of errors explaining why the result is `UNKNOWN`. If the `AccessState` is `GRANTED` or `NOT_GRANTED`, this field is omitted. */
   errors?: Array<GoogleRpcStatus>;
 }
 
-export const GoogleCloudPolicysimulatorV1ExplainedAccess: Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedAccess> = Schema.suspend(() => Schema.Struct({
-  accessState: Schema.optional(Schema.String),
-  policies: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1ExplainedPolicy)),
-  errors: Schema.optional(Schema.Array(GoogleRpcStatus)),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ExplainedAccess" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedAccess>;
+export const GoogleCloudPolicysimulatorV1ExplainedAccess: Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedAccess> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessState: Schema.optional(Schema.String),
+      policies: Schema.optional(
+        Schema.Array(GoogleCloudPolicysimulatorV1ExplainedPolicy),
+      ),
+      errors: Schema.optional(Schema.Array(GoogleRpcStatus)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ExplainedAccess",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ExplainedAccess>;
 
 export interface GoogleCloudPolicysimulatorV1AccessStateDiff {
   /** The results of evaluating the access tuple under the current (baseline) policies. If the AccessState couldn't be fully evaluated, this field explains why. */
@@ -560,23 +823,41 @@ export interface GoogleCloudPolicysimulatorV1AccessStateDiff {
   /** The results of evaluating the access tuple under the proposed (simulated) policies. If the AccessState couldn't be fully evaluated, this field explains why. */
   simulated?: GoogleCloudPolicysimulatorV1ExplainedAccess;
   /** How the principal's access, specified in the AccessState field, changed between the current (baseline) policies and proposed (simulated) policies. */
-  accessChange?: "ACCESS_CHANGE_TYPE_UNSPECIFIED" | "NO_CHANGE" | "UNKNOWN_CHANGE" | "ACCESS_REVOKED" | "ACCESS_GAINED" | "ACCESS_MAYBE_REVOKED" | "ACCESS_MAYBE_GAINED" | (string & {});
+  accessChange?:
+    | "ACCESS_CHANGE_TYPE_UNSPECIFIED"
+    | "NO_CHANGE"
+    | "UNKNOWN_CHANGE"
+    | "ACCESS_REVOKED"
+    | "ACCESS_GAINED"
+    | "ACCESS_MAYBE_REVOKED"
+    | "ACCESS_MAYBE_GAINED"
+    | (string & {});
 }
 
-export const GoogleCloudPolicysimulatorV1AccessStateDiff: Schema.Schema<GoogleCloudPolicysimulatorV1AccessStateDiff> = Schema.suspend(() => Schema.Struct({
-  baseline: Schema.optional(GoogleCloudPolicysimulatorV1ExplainedAccess),
-  simulated: Schema.optional(GoogleCloudPolicysimulatorV1ExplainedAccess),
-  accessChange: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1AccessStateDiff" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1AccessStateDiff>;
+export const GoogleCloudPolicysimulatorV1AccessStateDiff: Schema.Schema<GoogleCloudPolicysimulatorV1AccessStateDiff> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      baseline: Schema.optional(GoogleCloudPolicysimulatorV1ExplainedAccess),
+      simulated: Schema.optional(GoogleCloudPolicysimulatorV1ExplainedAccess),
+      accessChange: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1AccessStateDiff",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1AccessStateDiff>;
 
 export interface GoogleCloudPolicysimulatorV1ReplayDiff {
   /** A summary and comparison of the principal's access under the current (baseline) policies and the proposed (simulated) policies for a single access tuple. The evaluation of the principal's access is reported in the AccessState field. */
   accessDiff?: GoogleCloudPolicysimulatorV1AccessStateDiff;
 }
 
-export const GoogleCloudPolicysimulatorV1ReplayDiff: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayDiff> = Schema.suspend(() => Schema.Struct({
-  accessDiff: Schema.optional(GoogleCloudPolicysimulatorV1AccessStateDiff),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayDiff" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayDiff>;
+export const GoogleCloudPolicysimulatorV1ReplayDiff: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayDiff> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accessDiff: Schema.optional(GoogleCloudPolicysimulatorV1AccessStateDiff),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ReplayDiff",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayDiff>;
 
 export interface GoogleCloudPolicysimulatorV1AccessTuple {
   /** Required. The principal whose access you want to check, in the form of the email address that represents that principal. For example, `alice@example.com` or `my-service-account@my-project.iam.gserviceaccount.com`. The principal must be a Google Account or a service account. Other types of principals are not supported. */
@@ -587,11 +868,16 @@ export interface GoogleCloudPolicysimulatorV1AccessTuple {
   permission?: string;
 }
 
-export const GoogleCloudPolicysimulatorV1AccessTuple: Schema.Schema<GoogleCloudPolicysimulatorV1AccessTuple> = Schema.suspend(() => Schema.Struct({
-  principal: Schema.optional(Schema.String),
-  fullResourceName: Schema.optional(Schema.String),
-  permission: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1AccessTuple" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1AccessTuple>;
+export const GoogleCloudPolicysimulatorV1AccessTuple: Schema.Schema<GoogleCloudPolicysimulatorV1AccessTuple> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      principal: Schema.optional(Schema.String),
+      fullResourceName: Schema.optional(Schema.String),
+      permission: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1AccessTuple",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1AccessTuple>;
 
 export interface GoogleCloudPolicysimulatorV1ReplayResult {
   /** The difference between the principal's access under the current (baseline) policies and the principal's access under the proposed (simulated) policies. This field is only included for access tuples that were successfully replayed and had different results under the current policies and the proposed policies. */
@@ -608,14 +894,19 @@ export interface GoogleCloudPolicysimulatorV1ReplayResult {
   lastSeenDate?: GoogleTypeDate;
 }
 
-export const GoogleCloudPolicysimulatorV1ReplayResult: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResult> = Schema.suspend(() => Schema.Struct({
-  diff: Schema.optional(GoogleCloudPolicysimulatorV1ReplayDiff),
-  error: Schema.optional(GoogleRpcStatus),
-  name: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.String),
-  accessTuple: Schema.optional(GoogleCloudPolicysimulatorV1AccessTuple),
-  lastSeenDate: Schema.optional(GoogleTypeDate),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayResult" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResult>;
+export const GoogleCloudPolicysimulatorV1ReplayResult: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      diff: Schema.optional(GoogleCloudPolicysimulatorV1ReplayDiff),
+      error: Schema.optional(GoogleRpcStatus),
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      accessTuple: Schema.optional(GoogleCloudPolicysimulatorV1AccessTuple),
+      lastSeenDate: Schema.optional(GoogleTypeDate),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ReplayResult",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayResult>;
 
 export interface GoogleCloudPolicysimulatorV1ListReplayResultsResponse {
   /** The results of running a Replay. */
@@ -624,19 +915,31 @@ export interface GoogleCloudPolicysimulatorV1ListReplayResultsResponse {
   nextPageToken?: string;
 }
 
-export const GoogleCloudPolicysimulatorV1ListReplayResultsResponse: Schema.Schema<GoogleCloudPolicysimulatorV1ListReplayResultsResponse> = Schema.suspend(() => Schema.Struct({
-  replayResults: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1ReplayResult)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ListReplayResultsResponse" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ListReplayResultsResponse>;
+export const GoogleCloudPolicysimulatorV1ListReplayResultsResponse: Schema.Schema<GoogleCloudPolicysimulatorV1ListReplayResultsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      replayResults: Schema.optional(
+        Schema.Array(GoogleCloudPolicysimulatorV1ReplayResult),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ListReplayResultsResponse",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ListReplayResultsResponse>;
 
 export interface GoogleCloudPolicysimulatorV1ReplayOperationMetadata {
   /** Time when the request was received. */
   startTime?: string;
 }
 
-export const GoogleCloudPolicysimulatorV1ReplayOperationMetadata: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayOperationMetadata" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayOperationMetadata>;
+export const GoogleCloudPolicysimulatorV1ReplayOperationMetadata: Schema.Schema<GoogleCloudPolicysimulatorV1ReplayOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1ReplayOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1ReplayOperationMetadata>;
 
 export interface GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata {
   /** Time when the request was received. */
@@ -644,7 +947,13 @@ export interface GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPrevie
   /** Time when the request started processing, i.e., when the state was set to RUNNING. */
   startTime?: string;
   /** Output only. The current state of the operation. */
-  state?: "PREVIEW_STATE_UNSPECIFIED" | "PREVIEW_PENDING" | "PREVIEW_RUNNING" | "PREVIEW_SUCCEEDED" | "PREVIEW_FAILED" | (string & {});
+  state?:
+    | "PREVIEW_STATE_UNSPECIFIED"
+    | "PREVIEW_PENDING"
+    | "PREVIEW_RUNNING"
+    | "PREVIEW_SUCCEEDED"
+    | "PREVIEW_FAILED"
+    | (string & {});
   /** Total number of resources that need scanning. Should equal resource_scanned + resources_pending */
   resourcesFound?: number;
   /** Number of resources already scanned. */
@@ -653,14 +962,20 @@ export interface GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPrevie
   resourcesPending?: number;
 }
 
-export const GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata: Schema.Schema<GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  requestTime: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  resourcesFound: Schema.optional(Schema.Number),
-  resourcesScanned: Schema.optional(Schema.Number),
-  resourcesPending: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata>;
+export const GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata: Schema.Schema<GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      resourcesFound: Schema.optional(Schema.Number),
+      resourcesScanned: Schema.optional(Schema.Number),
+      resourcesPending: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaCreateOrgPolicyViolationsPreviewOperationMetadata>;
 
 export interface GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata {
   /** Time when the request was received. */
@@ -668,7 +983,13 @@ export interface GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPrev
   /** Time when the request started processing, i.e. when the state was set to RUNNING. */
   startTime?: string;
   /** The current state of the operation. */
-  state?: "PREVIEW_STATE_UNSPECIFIED" | "PREVIEW_PENDING" | "PREVIEW_RUNNING" | "PREVIEW_SUCCEEDED" | "PREVIEW_FAILED" | (string & {});
+  state?:
+    | "PREVIEW_STATE_UNSPECIFIED"
+    | "PREVIEW_PENDING"
+    | "PREVIEW_RUNNING"
+    | "PREVIEW_SUCCEEDED"
+    | "PREVIEW_FAILED"
+    | (string & {});
   /** Total number of resources that need scanning. Should equal resource_scanned + resources_pending */
   resourcesFound?: number;
   /** Number of resources already scanned. */
@@ -677,14 +998,20 @@ export interface GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPrev
   resourcesPending?: number;
 }
 
-export const GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata: Schema.Schema<GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  requestTime: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  resourcesFound: Schema.optional(Schema.Number),
-  resourcesScanned: Schema.optional(Schema.Number),
-  resourcesPending: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata>;
+export const GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata: Schema.Schema<GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      resourcesFound: Schema.optional(Schema.Number),
+      resourcesScanned: Schema.optional(Schema.Number),
+      resourcesPending: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaGenerateOrgPolicyViolationsPreviewOperationMetadata>;
 
 export interface GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay {
   /** Optional. The parent of the policy we are attaching to. Example: "projects/123456" */
@@ -693,10 +1020,15 @@ export interface GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay {
   policy?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay> = Schema.suspend(() => Schema.Struct({
-  policyParent: Schema.optional(Schema.String),
-  policy: Schema.optional(GoogleCloudOrgpolicyV2Policy),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay>;
+export const GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policyParent: Schema.optional(Schema.String),
+      policy: Schema.optional(GoogleCloudOrgpolicyV2Policy),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay>;
 
 export interface GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay {
   /** Optional. Resource the constraint is attached to. Example: "organization/987654" */
@@ -705,10 +1037,16 @@ export interface GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstrain
   customConstraint?: GoogleCloudOrgpolicyV2CustomConstraint;
 }
 
-export const GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay> = Schema.suspend(() => Schema.Struct({
-  customConstraintParent: Schema.optional(Schema.String),
-  customConstraint: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay>;
+export const GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customConstraintParent: Schema.optional(Schema.String),
+      customConstraint: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay>;
 
 export interface GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay {
   /** Optional. The OrgPolicy changes to preview violations for. Any existing OrgPolicies with the same name will be overridden in the simulation. That is, violations will be determined as if all policies in the overlay were created or updated. */
@@ -717,10 +1055,23 @@ export interface GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay {
   customConstraints?: Array<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay>;
 }
 
-export const GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay> = Schema.suspend(() => Schema.Struct({
-  policies: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay)),
-  customConstraints: Schema.optional(Schema.Array(GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay)),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay>;
+export const GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policies: Schema.optional(
+        Schema.Array(
+          GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayPolicyOverlay,
+        ),
+      ),
+      customConstraints: Schema.optional(
+        Schema.Array(
+          GoogleCloudPolicysimulatorV1betaOrgPolicyOverlayCustomConstraintOverlay,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay>;
 
 export interface GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts {
   /** Output only. Number of resources checked for compliance. Must equal: unenforced + noncompliant + compliant + error */
@@ -735,19 +1086,31 @@ export interface GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResou
   errors?: number;
 }
 
-export const GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts> = Schema.suspend(() => Schema.Struct({
-  scanned: Schema.optional(Schema.Number),
-  noncompliant: Schema.optional(Schema.Number),
-  compliant: Schema.optional(Schema.Number),
-  unenforced: Schema.optional(Schema.Number),
-  errors: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts>;
+export const GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      scanned: Schema.optional(Schema.Number),
+      noncompliant: Schema.optional(Schema.Number),
+      compliant: Schema.optional(Schema.Number),
+      unenforced: Schema.optional(Schema.Number),
+      errors: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts>;
 
 export interface GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview {
   /** Output only. The resource name of the `OrgPolicyViolationsPreview`. It has the following format: `organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview}` Example: `organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f` */
   name?: string;
   /** Output only. The state of the `OrgPolicyViolationsPreview`. */
-  state?: "PREVIEW_STATE_UNSPECIFIED" | "PREVIEW_PENDING" | "PREVIEW_RUNNING" | "PREVIEW_SUCCEEDED" | "PREVIEW_FAILED" | (string & {});
+  state?:
+    | "PREVIEW_STATE_UNSPECIFIED"
+    | "PREVIEW_PENDING"
+    | "PREVIEW_RUNNING"
+    | "PREVIEW_SUCCEEDED"
+    | "PREVIEW_FAILED"
+    | (string & {});
   /** Required. The proposed changes we are previewing violations for. */
   overlay?: GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay;
   /** Output only. The number of OrgPolicyViolations in this `OrgPolicyViolationsPreview`. This count may differ from `resource_summary.noncompliant_count` because each OrgPolicyViolation is specific to a resource **and** constraint. If there are multiple constraints being evaluated (i.e. multiple policies in the overlay), a single resource may violate multiple constraints. */
@@ -760,15 +1123,24 @@ export interface GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview {
   createTime?: string;
 }
 
-export const GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  overlay: Schema.optional(GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay),
-  violationsCount: Schema.optional(Schema.Number),
-  resourceCounts: Schema.optional(GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts),
-  customConstraints: Schema.optional(Schema.Array(Schema.String)),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview" }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview>;
+export const GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview: Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      overlay: Schema.optional(
+        GoogleCloudPolicysimulatorV1betaOrgPolicyOverlay,
+      ),
+      violationsCount: Schema.optional(Schema.Number),
+      resourceCounts: Schema.optional(
+        GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreviewResourceCounts,
+      ),
+      customConstraints: Schema.optional(Schema.Array(Schema.String)),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview",
+  }) as any as Schema.Schema<GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview>;
 
 // ==========================================================================
 // Operations
@@ -792,7 +1164,9 @@ export const ListOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations" }),
   svc,
@@ -804,7 +1178,12 @@ export const ListOperationsResponse = GoogleLongrunningListOperationsResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -832,7 +1211,12 @@ export const GetOperationsResponse = GoogleLongrunningOperation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -843,20 +1227,32 @@ export interface GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsReques
   name: string;
 }
 
-export const GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
+export const GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
 
-export type GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse = GoogleLongrunningOperation;
+export type GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse =
+  GoogleLongrunningOperation;
 
-export type GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsError = DefaultErrors;
+export type GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest, GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse, GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<
+  GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest,
+  GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse,
+  GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest,
   output: GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse,
   errors: [],
@@ -867,20 +1263,32 @@ export interface GetProjectsLocationsAccessPolicySimulationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAccessPolicySimulationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/accessPolicySimulations/{accessPolicySimulationsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAccessPolicySimulationsOperationsRequest>;
+export const GetProjectsLocationsAccessPolicySimulationsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/accessPolicySimulations/{accessPolicySimulationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAccessPolicySimulationsOperationsRequest>;
 
-export type GetProjectsLocationsAccessPolicySimulationsOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsLocationsAccessPolicySimulationsOperationsResponse = GoogleLongrunningOperation;
+export type GetProjectsLocationsAccessPolicySimulationsOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetProjectsLocationsAccessPolicySimulationsOperationsResponse =
+  GoogleLongrunningOperation;
 
-export type GetProjectsLocationsAccessPolicySimulationsOperationsError = DefaultErrors;
+export type GetProjectsLocationsAccessPolicySimulationsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsAccessPolicySimulationsOperations: API.OperationMethod<GetProjectsLocationsAccessPolicySimulationsOperationsRequest, GetProjectsLocationsAccessPolicySimulationsOperationsResponse, GetProjectsLocationsAccessPolicySimulationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsAccessPolicySimulationsOperations: API.OperationMethod<
+  GetProjectsLocationsAccessPolicySimulationsOperationsRequest,
+  GetProjectsLocationsAccessPolicySimulationsOperationsResponse,
+  GetProjectsLocationsAccessPolicySimulationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsAccessPolicySimulationsOperationsRequest,
   output: GetProjectsLocationsAccessPolicySimulationsOperationsResponse,
   errors: [],
@@ -894,17 +1302,27 @@ export interface GetProjectsLocationsReplaysRequest {
 export const GetProjectsLocationsReplaysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsReplaysRequest>;
 
-export type GetProjectsLocationsReplaysResponse = GoogleCloudPolicysimulatorV1Replay;
-export const GetProjectsLocationsReplaysResponse = GoogleCloudPolicysimulatorV1Replay;
+export type GetProjectsLocationsReplaysResponse =
+  GoogleCloudPolicysimulatorV1Replay;
+export const GetProjectsLocationsReplaysResponse =
+  GoogleCloudPolicysimulatorV1Replay;
 
 export type GetProjectsLocationsReplaysError = DefaultErrors;
 
 /** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
-export const getProjectsLocationsReplays: API.OperationMethod<GetProjectsLocationsReplaysRequest, GetProjectsLocationsReplaysResponse, GetProjectsLocationsReplaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsReplays: API.OperationMethod<
+  GetProjectsLocationsReplaysRequest,
+  GetProjectsLocationsReplaysResponse,
+  GetProjectsLocationsReplaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsReplaysRequest,
   output: GetProjectsLocationsReplaysResponse,
   errors: [],
@@ -921,17 +1339,27 @@ export const CreateProjectsLocationsReplaysRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GoogleCloudPolicysimulatorV1Replay).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/replays", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/replays",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsReplaysRequest>;
 
 export type CreateProjectsLocationsReplaysResponse = GoogleLongrunningOperation;
-export const CreateProjectsLocationsReplaysResponse = GoogleLongrunningOperation;
+export const CreateProjectsLocationsReplaysResponse =
+  GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsReplaysError = DefaultErrors;
 
 /** Creates and starts a Replay using the given ReplayConfig. */
-export const createProjectsLocationsReplays: API.OperationMethod<CreateProjectsLocationsReplaysRequest, CreateProjectsLocationsReplaysResponse, CreateProjectsLocationsReplaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsReplays: API.OperationMethod<
+  CreateProjectsLocationsReplaysRequest,
+  CreateProjectsLocationsReplaysResponse,
+  CreateProjectsLocationsReplaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsReplaysRequest,
   output: CreateProjectsLocationsReplaysResponse,
   errors: [],
@@ -955,19 +1383,31 @@ export const ListProjectsLocationsReplaysOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsReplaysOperationsRequest>;
 
-export type ListProjectsLocationsReplaysOperationsResponse = GoogleLongrunningListOperationsResponse;
-export const ListProjectsLocationsReplaysOperationsResponse = GoogleLongrunningListOperationsResponse;
+export type ListProjectsLocationsReplaysOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
+export const ListProjectsLocationsReplaysOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsReplaysOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsReplaysOperations: API.PaginatedOperationMethod<ListProjectsLocationsReplaysOperationsRequest, ListProjectsLocationsReplaysOperationsResponse, ListProjectsLocationsReplaysOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsReplaysOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsReplaysOperationsRequest,
+  ListProjectsLocationsReplaysOperationsResponse,
+  ListProjectsLocationsReplaysOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsReplaysOperationsRequest,
   output: ListProjectsLocationsReplaysOperationsResponse,
   errors: [],
@@ -985,17 +1425,27 @@ export interface GetProjectsLocationsReplaysOperationsRequest {
 export const GetProjectsLocationsReplaysOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsReplaysOperationsRequest>;
 
-export type GetProjectsLocationsReplaysOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsLocationsReplaysOperationsResponse = GoogleLongrunningOperation;
+export type GetProjectsLocationsReplaysOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetProjectsLocationsReplaysOperationsResponse =
+  GoogleLongrunningOperation;
 
 export type GetProjectsLocationsReplaysOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsReplaysOperations: API.OperationMethod<GetProjectsLocationsReplaysOperationsRequest, GetProjectsLocationsReplaysOperationsResponse, GetProjectsLocationsReplaysOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsReplaysOperations: API.OperationMethod<
+  GetProjectsLocationsReplaysOperationsRequest,
+  GetProjectsLocationsReplaysOperationsResponse,
+  GetProjectsLocationsReplaysOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsReplaysOperationsRequest,
   output: GetProjectsLocationsReplaysOperationsResponse,
   errors: [],
@@ -1015,17 +1465,27 @@ export const ListProjectsLocationsReplaysResultsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}/results" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/replays/{replaysId}/results",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsReplaysResultsRequest>;
 
-export type ListProjectsLocationsReplaysResultsResponse = GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
-export const ListProjectsLocationsReplaysResultsResponse = GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
+export type ListProjectsLocationsReplaysResultsResponse =
+  GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
+export const ListProjectsLocationsReplaysResultsResponse =
+  GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
 
 export type ListProjectsLocationsReplaysResultsError = DefaultErrors;
 
 /** Lists the results of running a Replay. */
-export const listProjectsLocationsReplaysResults: API.PaginatedOperationMethod<ListProjectsLocationsReplaysResultsRequest, ListProjectsLocationsReplaysResultsResponse, ListProjectsLocationsReplaysResultsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsReplaysResults: API.PaginatedOperationMethod<
+  ListProjectsLocationsReplaysResultsRequest,
+  ListProjectsLocationsReplaysResultsResponse,
+  ListProjectsLocationsReplaysResultsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsReplaysResultsRequest,
   output: ListProjectsLocationsReplaysResultsResponse,
   errors: [],
@@ -1040,20 +1500,32 @@ export interface GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest
   name: string;
 }
 
-export const GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
+export const GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/folders/{foldersId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
 
-export type GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse = GoogleLongrunningOperation;
-export const GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse = GoogleLongrunningOperation;
+export type GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse =
+  GoogleLongrunningOperation;
 
-export type GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsError = DefaultErrors;
+export type GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getFoldersLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest, GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse, GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFoldersLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<
+  GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest,
+  GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse,
+  GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest,
   output: GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse,
   errors: [],
@@ -1064,20 +1536,32 @@ export interface GetFoldersLocationsAccessPolicySimulationsOperationsRequest {
   name: string;
 }
 
-export const GetFoldersLocationsAccessPolicySimulationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/accessPolicySimulations/{accessPolicySimulationsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetFoldersLocationsAccessPolicySimulationsOperationsRequest>;
+export const GetFoldersLocationsAccessPolicySimulationsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/folders/{foldersId}/locations/{locationsId}/accessPolicySimulations/{accessPolicySimulationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFoldersLocationsAccessPolicySimulationsOperationsRequest>;
 
-export type GetFoldersLocationsAccessPolicySimulationsOperationsResponse = GoogleLongrunningOperation;
-export const GetFoldersLocationsAccessPolicySimulationsOperationsResponse = GoogleLongrunningOperation;
+export type GetFoldersLocationsAccessPolicySimulationsOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetFoldersLocationsAccessPolicySimulationsOperationsResponse =
+  GoogleLongrunningOperation;
 
-export type GetFoldersLocationsAccessPolicySimulationsOperationsError = DefaultErrors;
+export type GetFoldersLocationsAccessPolicySimulationsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getFoldersLocationsAccessPolicySimulationsOperations: API.OperationMethod<GetFoldersLocationsAccessPolicySimulationsOperationsRequest, GetFoldersLocationsAccessPolicySimulationsOperationsResponse, GetFoldersLocationsAccessPolicySimulationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFoldersLocationsAccessPolicySimulationsOperations: API.OperationMethod<
+  GetFoldersLocationsAccessPolicySimulationsOperationsRequest,
+  GetFoldersLocationsAccessPolicySimulationsOperationsResponse,
+  GetFoldersLocationsAccessPolicySimulationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersLocationsAccessPolicySimulationsOperationsRequest,
   output: GetFoldersLocationsAccessPolicySimulationsOperationsResponse,
   errors: [],
@@ -1091,17 +1575,27 @@ export interface GetFoldersLocationsReplaysRequest {
 export const GetFoldersLocationsReplaysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetFoldersLocationsReplaysRequest>;
 
-export type GetFoldersLocationsReplaysResponse = GoogleCloudPolicysimulatorV1Replay;
-export const GetFoldersLocationsReplaysResponse = GoogleCloudPolicysimulatorV1Replay;
+export type GetFoldersLocationsReplaysResponse =
+  GoogleCloudPolicysimulatorV1Replay;
+export const GetFoldersLocationsReplaysResponse =
+  GoogleCloudPolicysimulatorV1Replay;
 
 export type GetFoldersLocationsReplaysError = DefaultErrors;
 
 /** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
-export const getFoldersLocationsReplays: API.OperationMethod<GetFoldersLocationsReplaysRequest, GetFoldersLocationsReplaysResponse, GetFoldersLocationsReplaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFoldersLocationsReplays: API.OperationMethod<
+  GetFoldersLocationsReplaysRequest,
+  GetFoldersLocationsReplaysResponse,
+  GetFoldersLocationsReplaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersLocationsReplaysRequest,
   output: GetFoldersLocationsReplaysResponse,
   errors: [],
@@ -1118,7 +1612,11 @@ export const CreateFoldersLocationsReplaysRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GoogleCloudPolicysimulatorV1Replay).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/folders/{foldersId}/locations/{locationsId}/replays", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/replays",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateFoldersLocationsReplaysRequest>;
 
@@ -1128,7 +1626,12 @@ export const CreateFoldersLocationsReplaysResponse = GoogleLongrunningOperation;
 export type CreateFoldersLocationsReplaysError = DefaultErrors;
 
 /** Creates and starts a Replay using the given ReplayConfig. */
-export const createFoldersLocationsReplays: API.OperationMethod<CreateFoldersLocationsReplaysRequest, CreateFoldersLocationsReplaysResponse, CreateFoldersLocationsReplaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createFoldersLocationsReplays: API.OperationMethod<
+  CreateFoldersLocationsReplaysRequest,
+  CreateFoldersLocationsReplaysResponse,
+  CreateFoldersLocationsReplaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateFoldersLocationsReplaysRequest,
   output: CreateFoldersLocationsReplaysResponse,
   errors: [],
@@ -1152,19 +1655,31 @@ export const ListFoldersLocationsReplaysOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListFoldersLocationsReplaysOperationsRequest>;
 
-export type ListFoldersLocationsReplaysOperationsResponse = GoogleLongrunningListOperationsResponse;
-export const ListFoldersLocationsReplaysOperationsResponse = GoogleLongrunningListOperationsResponse;
+export type ListFoldersLocationsReplaysOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
+export const ListFoldersLocationsReplaysOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
 
 export type ListFoldersLocationsReplaysOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listFoldersLocationsReplaysOperations: API.PaginatedOperationMethod<ListFoldersLocationsReplaysOperationsRequest, ListFoldersLocationsReplaysOperationsResponse, ListFoldersLocationsReplaysOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listFoldersLocationsReplaysOperations: API.PaginatedOperationMethod<
+  ListFoldersLocationsReplaysOperationsRequest,
+  ListFoldersLocationsReplaysOperationsResponse,
+  ListFoldersLocationsReplaysOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListFoldersLocationsReplaysOperationsRequest,
   output: ListFoldersLocationsReplaysOperationsResponse,
   errors: [],
@@ -1182,17 +1697,27 @@ export interface GetFoldersLocationsReplaysOperationsRequest {
 export const GetFoldersLocationsReplaysOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetFoldersLocationsReplaysOperationsRequest>;
 
-export type GetFoldersLocationsReplaysOperationsResponse = GoogleLongrunningOperation;
-export const GetFoldersLocationsReplaysOperationsResponse = GoogleLongrunningOperation;
+export type GetFoldersLocationsReplaysOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetFoldersLocationsReplaysOperationsResponse =
+  GoogleLongrunningOperation;
 
 export type GetFoldersLocationsReplaysOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getFoldersLocationsReplaysOperations: API.OperationMethod<GetFoldersLocationsReplaysOperationsRequest, GetFoldersLocationsReplaysOperationsResponse, GetFoldersLocationsReplaysOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getFoldersLocationsReplaysOperations: API.OperationMethod<
+  GetFoldersLocationsReplaysOperationsRequest,
+  GetFoldersLocationsReplaysOperationsResponse,
+  GetFoldersLocationsReplaysOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetFoldersLocationsReplaysOperationsRequest,
   output: GetFoldersLocationsReplaysOperationsResponse,
   errors: [],
@@ -1212,17 +1737,27 @@ export const ListFoldersLocationsReplaysResultsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}/results" }),
+  T.Http({
+    method: "GET",
+    path: "v1/folders/{foldersId}/locations/{locationsId}/replays/{replaysId}/results",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListFoldersLocationsReplaysResultsRequest>;
 
-export type ListFoldersLocationsReplaysResultsResponse = GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
-export const ListFoldersLocationsReplaysResultsResponse = GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
+export type ListFoldersLocationsReplaysResultsResponse =
+  GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
+export const ListFoldersLocationsReplaysResultsResponse =
+  GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
 
 export type ListFoldersLocationsReplaysResultsError = DefaultErrors;
 
 /** Lists the results of running a Replay. */
-export const listFoldersLocationsReplaysResults: API.PaginatedOperationMethod<ListFoldersLocationsReplaysResultsRequest, ListFoldersLocationsReplaysResultsResponse, ListFoldersLocationsReplaysResultsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listFoldersLocationsReplaysResults: API.PaginatedOperationMethod<
+  ListFoldersLocationsReplaysResultsRequest,
+  ListFoldersLocationsReplaysResultsResponse,
+  ListFoldersLocationsReplaysResultsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListFoldersLocationsReplaysResultsRequest,
   output: ListFoldersLocationsReplaysResultsResponse,
   errors: [],
@@ -1237,20 +1772,32 @@ export interface GetOrganizationsLocationsAccessPolicySimulationsOperationsReque
   name: string;
 }
 
-export const GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/accessPolicySimulations/{accessPolicySimulationsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest>;
+export const GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/accessPolicySimulations/{accessPolicySimulationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest>;
 
-export type GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse = GoogleLongrunningOperation;
-export const GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse = GoogleLongrunningOperation;
+export type GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse =
+  GoogleLongrunningOperation;
 
-export type GetOrganizationsLocationsAccessPolicySimulationsOperationsError = DefaultErrors;
+export type GetOrganizationsLocationsAccessPolicySimulationsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOrganizationsLocationsAccessPolicySimulationsOperations: API.OperationMethod<GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest, GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse, GetOrganizationsLocationsAccessPolicySimulationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsAccessPolicySimulationsOperations: API.OperationMethod<
+  GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest,
+  GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse,
+  GetOrganizationsLocationsAccessPolicySimulationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest,
   output: GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse,
   errors: [],
@@ -1265,22 +1812,34 @@ export interface ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
   pageToken?: string;
 }
 
-export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews" }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
+export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
 
-export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse;
-export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse;
+export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse =
+  GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse;
+export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse =
+  GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse;
 
-export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsError = DefaultErrors;
+export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsError =
+  DefaultErrors;
 
 /** ListOrgPolicyViolationsPreviews lists each OrgPolicyViolationsPreview in an organization. Each OrgPolicyViolationsPreview is available for at least 7 days. */
-export const listOrganizationsLocationsOrgPolicyViolationsPreviews: API.PaginatedOperationMethod<ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest, ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse, ListOrganizationsLocationsOrgPolicyViolationsPreviewsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsOrgPolicyViolationsPreviews: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
+  ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
+  ListOrganizationsLocationsOrgPolicyViolationsPreviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
   output: ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
   errors: [],
@@ -1295,20 +1854,32 @@ export interface GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
+export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
 
-export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview;
-export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview;
+export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse =
+  GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview;
+export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse =
+  GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview;
 
-export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsError = DefaultErrors;
+export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsError =
+  DefaultErrors;
 
 /** GetOrgPolicyViolationsPreview gets the specified OrgPolicyViolationsPreview. Each OrgPolicyViolationsPreview is available for at least 7 days. */
-export const getOrganizationsLocationsOrgPolicyViolationsPreviews: API.OperationMethod<GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest, GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse, GetOrganizationsLocationsOrgPolicyViolationsPreviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsOrgPolicyViolationsPreviews: API.OperationMethod<
+  GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
+  GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
+  GetOrganizationsLocationsOrgPolicyViolationsPreviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
   output: GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
   errors: [],
@@ -1323,22 +1894,39 @@ export interface CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest 
   body?: GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview;
 }
 
-export const CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orgPolicyViolationsPreviewId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgPolicyViolationsPreviewId")),
-  body: Schema.optional(GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
+export const CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orgPolicyViolationsPreviewId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("orgPolicyViolationsPreviewId"),
+    ),
+    body: Schema.optional(
+      GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
 
-export type CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = GoogleLongrunningOperation;
-export const CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = GoogleLongrunningOperation;
+export type CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse =
+  GoogleLongrunningOperation;
+export const CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse =
+  GoogleLongrunningOperation;
 
-export type CreateOrganizationsLocationsOrgPolicyViolationsPreviewsError = DefaultErrors;
+export type CreateOrganizationsLocationsOrgPolicyViolationsPreviewsError =
+  DefaultErrors;
 
 /** CreateOrgPolicyViolationsPreview creates an OrgPolicyViolationsPreview for the proposed changes in the provided OrgPolicyViolationsPreview.OrgPolicyOverlay. The changes to OrgPolicy are specified by this `OrgPolicyOverlay`. The resources to scan are inferred from these specified changes. */
-export const createOrganizationsLocationsOrgPolicyViolationsPreviews: API.OperationMethod<CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest, CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse, CreateOrganizationsLocationsOrgPolicyViolationsPreviewsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsLocationsOrgPolicyViolationsPreviews: API.OperationMethod<
+  CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
+  CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
+  CreateOrganizationsLocationsOrgPolicyViolationsPreviewsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
   output: CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
   errors: [],
@@ -1349,22 +1937,35 @@ export interface GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsR
   name: string;
 }
 
-export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
+export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
 
-export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse = GoogleLongrunningOperation;
-export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse = GoogleLongrunningOperation;
+export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse =
+  GoogleLongrunningOperation;
 
-export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsError = DefaultErrors;
+export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsError =
+  DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOrganizationsLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest, GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse, GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<
+  GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest,
+  GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse,
+  GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest,
-  output: GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse,
+  output:
+    GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse,
   errors: [],
 }));
 
@@ -1377,24 +1978,38 @@ export interface ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyV
   pageToken?: string;
 }
 
-export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/orgPolicyViolations" }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest>;
+export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreviewsId}/orgPolicyViolations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest>;
 
-export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse = GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse;
-export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse = GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse;
+export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse =
+  GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse;
+export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse =
+  GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse;
 
-export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsError = DefaultErrors;
+export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsError =
+  DefaultErrors;
 
 /** ListOrgPolicyViolations lists the OrgPolicyViolations that are present in an OrgPolicyViolationsPreview. */
-export const listOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolations: API.PaginatedOperationMethod<ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest, ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse, ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
-  input: ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest,
-  output: ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse,
+export const listOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolations: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest,
+  ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse,
+  ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input:
+    ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest,
+  output:
+    ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -1410,17 +2025,27 @@ export interface GetOrganizationsLocationsReplaysRequest {
 export const GetOrganizationsLocationsReplaysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsReplaysRequest>;
 
-export type GetOrganizationsLocationsReplaysResponse = GoogleCloudPolicysimulatorV1Replay;
-export const GetOrganizationsLocationsReplaysResponse = GoogleCloudPolicysimulatorV1Replay;
+export type GetOrganizationsLocationsReplaysResponse =
+  GoogleCloudPolicysimulatorV1Replay;
+export const GetOrganizationsLocationsReplaysResponse =
+  GoogleCloudPolicysimulatorV1Replay;
 
 export type GetOrganizationsLocationsReplaysError = DefaultErrors;
 
 /** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
-export const getOrganizationsLocationsReplays: API.OperationMethod<GetOrganizationsLocationsReplaysRequest, GetOrganizationsLocationsReplaysResponse, GetOrganizationsLocationsReplaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsReplays: API.OperationMethod<
+  GetOrganizationsLocationsReplaysRequest,
+  GetOrganizationsLocationsReplaysResponse,
+  GetOrganizationsLocationsReplaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsReplaysRequest,
   output: GetOrganizationsLocationsReplaysResponse,
   errors: [],
@@ -1437,17 +2062,28 @@ export const CreateOrganizationsLocationsReplaysRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GoogleCloudPolicysimulatorV1Replay).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateOrganizationsLocationsReplaysRequest>;
 
-export type CreateOrganizationsLocationsReplaysResponse = GoogleLongrunningOperation;
-export const CreateOrganizationsLocationsReplaysResponse = GoogleLongrunningOperation;
+export type CreateOrganizationsLocationsReplaysResponse =
+  GoogleLongrunningOperation;
+export const CreateOrganizationsLocationsReplaysResponse =
+  GoogleLongrunningOperation;
 
 export type CreateOrganizationsLocationsReplaysError = DefaultErrors;
 
 /** Creates and starts a Replay using the given ReplayConfig. */
-export const createOrganizationsLocationsReplays: API.OperationMethod<CreateOrganizationsLocationsReplaysRequest, CreateOrganizationsLocationsReplaysResponse, CreateOrganizationsLocationsReplaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createOrganizationsLocationsReplays: API.OperationMethod<
+  CreateOrganizationsLocationsReplaysRequest,
+  CreateOrganizationsLocationsReplaysResponse,
+  CreateOrganizationsLocationsReplaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateOrganizationsLocationsReplaysRequest,
   output: CreateOrganizationsLocationsReplaysResponse,
   errors: [],
@@ -1466,24 +2102,38 @@ export interface ListOrganizationsLocationsReplaysOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListOrganizationsLocationsReplaysOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}/operations" }),
+export const ListOrganizationsLocationsReplaysOperationsRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsLocationsReplaysOperationsRequest>;
 
-export type ListOrganizationsLocationsReplaysOperationsResponse = GoogleLongrunningListOperationsResponse;
-export const ListOrganizationsLocationsReplaysOperationsResponse = GoogleLongrunningListOperationsResponse;
+export type ListOrganizationsLocationsReplaysOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
+export const ListOrganizationsLocationsReplaysOperationsResponse =
+  GoogleLongrunningListOperationsResponse;
 
 export type ListOrganizationsLocationsReplaysOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOrganizationsLocationsReplaysOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsReplaysOperationsRequest, ListOrganizationsLocationsReplaysOperationsResponse, ListOrganizationsLocationsReplaysOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsReplaysOperations: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsReplaysOperationsRequest,
+  ListOrganizationsLocationsReplaysOperationsResponse,
+  ListOrganizationsLocationsReplaysOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsReplaysOperationsRequest,
   output: ListOrganizationsLocationsReplaysOperationsResponse,
   errors: [],
@@ -1501,17 +2151,27 @@ export interface GetOrganizationsLocationsReplaysOperationsRequest {
 export const GetOrganizationsLocationsReplaysOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetOrganizationsLocationsReplaysOperationsRequest>;
 
-export type GetOrganizationsLocationsReplaysOperationsResponse = GoogleLongrunningOperation;
-export const GetOrganizationsLocationsReplaysOperationsResponse = GoogleLongrunningOperation;
+export type GetOrganizationsLocationsReplaysOperationsResponse =
+  GoogleLongrunningOperation;
+export const GetOrganizationsLocationsReplaysOperationsResponse =
+  GoogleLongrunningOperation;
 
 export type GetOrganizationsLocationsReplaysOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOrganizationsLocationsReplaysOperations: API.OperationMethod<GetOrganizationsLocationsReplaysOperationsRequest, GetOrganizationsLocationsReplaysOperationsResponse, GetOrganizationsLocationsReplaysOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOrganizationsLocationsReplaysOperations: API.OperationMethod<
+  GetOrganizationsLocationsReplaysOperationsRequest,
+  GetOrganizationsLocationsReplaysOperationsResponse,
+  GetOrganizationsLocationsReplaysOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOrganizationsLocationsReplaysOperationsRequest,
   output: GetOrganizationsLocationsReplaysOperationsResponse,
   errors: [],
@@ -1531,17 +2191,27 @@ export const ListOrganizationsLocationsReplaysResultsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}/results" }),
+  T.Http({
+    method: "GET",
+    path: "v1/organizations/{organizationsId}/locations/{locationsId}/replays/{replaysId}/results",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListOrganizationsLocationsReplaysResultsRequest>;
 
-export type ListOrganizationsLocationsReplaysResultsResponse = GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
-export const ListOrganizationsLocationsReplaysResultsResponse = GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
+export type ListOrganizationsLocationsReplaysResultsResponse =
+  GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
+export const ListOrganizationsLocationsReplaysResultsResponse =
+  GoogleCloudPolicysimulatorV1ListReplayResultsResponse;
 
 export type ListOrganizationsLocationsReplaysResultsError = DefaultErrors;
 
 /** Lists the results of running a Replay. */
-export const listOrganizationsLocationsReplaysResults: API.PaginatedOperationMethod<ListOrganizationsLocationsReplaysResultsRequest, ListOrganizationsLocationsReplaysResultsResponse, ListOrganizationsLocationsReplaysResultsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOrganizationsLocationsReplaysResults: API.PaginatedOperationMethod<
+  ListOrganizationsLocationsReplaysResultsRequest,
+  ListOrganizationsLocationsReplaysResultsResponse,
+  ListOrganizationsLocationsReplaysResultsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsReplaysResultsRequest,
   output: ListOrganizationsLocationsReplaysResultsResponse,
   errors: [],
@@ -1550,4 +2220,3 @@ export const listOrganizationsLocationsReplaysResults: API.PaginatedOperationMet
     outputToken: "nextPageToken",
   },
 }));
-

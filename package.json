@@ -6,7 +6,10 @@
     "typecheck": "bun --filter '*' typecheck",
     "fmt": "bun --filter '*' fmt",
     "lint": "bun --filter '*' lint",
-    "check": "bun --filter '*' check"
+    "check": "bun --filter '*' check",
+    "generate": "bun --filter '*' generate",
+    "specs:fetch": "bun --filter '*' specs:fetch",
+    "specs:update": "bun --filter '*' specs:update"
   },
   "workspaces": {
     "packages": [

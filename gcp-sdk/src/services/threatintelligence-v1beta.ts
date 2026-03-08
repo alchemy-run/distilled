@@ -34,12 +34,14 @@ export interface Audit {
   updater?: string;
 }
 
-export const Audit: Schema.Schema<Audit> = Schema.suspend(() => Schema.Struct({
-  updateTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.String),
-  updater: Schema.optional(Schema.String),
-})).annotate({ identifier: "Audit" }) as any as Schema.Schema<Audit>;
+export const Audit: Schema.Schema<Audit> = Schema.suspend(() =>
+  Schema.Struct({
+    updateTime: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    creator: Schema.optional(Schema.String),
+    updater: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Audit" }) as any as Schema.Schema<Audit>;
 
 export interface CustomerProfileIndustry {
   /** Required. The name of the industry. */
@@ -48,10 +50,15 @@ export interface CustomerProfileIndustry {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfileIndustry: Schema.Schema<CustomerProfileIndustry> = Schema.suspend(() => Schema.Struct({
-  industry: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileIndustry" }) as any as Schema.Schema<CustomerProfileIndustry>;
+export const CustomerProfileIndustry: Schema.Schema<CustomerProfileIndustry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      industry: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileIndustry",
+  }) as any as Schema.Schema<CustomerProfileIndustry>;
 
 export interface CustomerProfileCompany {
   /** Required. The name of the company. */
@@ -60,10 +67,15 @@ export interface CustomerProfileCompany {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfileCompany: Schema.Schema<CustomerProfileCompany> = Schema.suspend(() => Schema.Struct({
-  company: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileCompany" }) as any as Schema.Schema<CustomerProfileCompany>;
+export const CustomerProfileCompany: Schema.Schema<CustomerProfileCompany> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      company: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileCompany",
+  }) as any as Schema.Schema<CustomerProfileCompany>;
 
 export interface CustomerProfileProduct {
   /** Required. The name of the product. */
@@ -74,11 +86,16 @@ export interface CustomerProfileProduct {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfileProduct: Schema.Schema<CustomerProfileProduct> = Schema.suspend(() => Schema.Struct({
-  product: Schema.optional(Schema.String),
-  brand: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileProduct" }) as any as Schema.Schema<CustomerProfileProduct>;
+export const CustomerProfileProduct: Schema.Schema<CustomerProfileProduct> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      product: Schema.optional(Schema.String),
+      brand: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileProduct",
+  }) as any as Schema.Schema<CustomerProfileProduct>;
 
 export interface CustomerProfileLocation {
   /** Optional. The type of location. */
@@ -91,12 +108,17 @@ export interface CustomerProfileLocation {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfileLocation: Schema.Schema<CustomerProfileLocation> = Schema.suspend(() => Schema.Struct({
-  facilityType: Schema.optional(Schema.String),
-  brand: Schema.optional(Schema.String),
-  address: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileLocation" }) as any as Schema.Schema<CustomerProfileLocation>;
+export const CustomerProfileLocation: Schema.Schema<CustomerProfileLocation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      facilityType: Schema.optional(Schema.String),
+      brand: Schema.optional(Schema.String),
+      address: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileLocation",
+  }) as any as Schema.Schema<CustomerProfileLocation>;
 
 export interface CustomerProfilePerson {
   /** Required. The name of the person. */
@@ -107,11 +129,16 @@ export interface CustomerProfilePerson {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfilePerson: Schema.Schema<CustomerProfilePerson> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfilePerson" }) as any as Schema.Schema<CustomerProfilePerson>;
+export const CustomerProfilePerson: Schema.Schema<CustomerProfilePerson> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfilePerson",
+  }) as any as Schema.Schema<CustomerProfilePerson>;
 
 export interface CustomerProfileWebPresence {
   /** Required. The domain name of the web presence. */
@@ -120,10 +147,15 @@ export interface CustomerProfileWebPresence {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfileWebPresence: Schema.Schema<CustomerProfileWebPresence> = Schema.suspend(() => Schema.Struct({
-  domain: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileWebPresence" }) as any as Schema.Schema<CustomerProfileWebPresence>;
+export const CustomerProfileWebPresence: Schema.Schema<CustomerProfileWebPresence> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      domain: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileWebPresence",
+  }) as any as Schema.Schema<CustomerProfileWebPresence>;
 
 export interface CustomerProfileSecurityConsiderations {
   /** Optional. A note about the security considerations. */
@@ -132,10 +164,15 @@ export interface CustomerProfileSecurityConsiderations {
   considerations?: Array<string>;
 }
 
-export const CustomerProfileSecurityConsiderations: Schema.Schema<CustomerProfileSecurityConsiderations> = Schema.suspend(() => Schema.Struct({
-  note: Schema.optional(Schema.String),
-  considerations: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileSecurityConsiderations" }) as any as Schema.Schema<CustomerProfileSecurityConsiderations>;
+export const CustomerProfileSecurityConsiderations: Schema.Schema<CustomerProfileSecurityConsiderations> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      note: Schema.optional(Schema.String),
+      considerations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileSecurityConsiderations",
+  }) as any as Schema.Schema<CustomerProfileSecurityConsiderations>;
 
 export interface CustomerProfileContactInfo {
   /** The email address of the contact. */
@@ -152,14 +189,19 @@ export interface CustomerProfileContactInfo {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfileContactInfo: Schema.Schema<CustomerProfileContactInfo> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  phone: Schema.optional(Schema.String),
-  address: Schema.optional(Schema.String),
-  other: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileContactInfo" }) as any as Schema.Schema<CustomerProfileContactInfo>;
+export const CustomerProfileContactInfo: Schema.Schema<CustomerProfileContactInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      phone: Schema.optional(Schema.String),
+      address: Schema.optional(Schema.String),
+      other: Schema.optional(Schema.String),
+      label: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileContactInfo",
+  }) as any as Schema.Schema<CustomerProfileContactInfo>;
 
 export interface CustomerProfileCitation {
   /** Required. The citation id for the citation. Should be unique within the profile. */
@@ -174,13 +216,18 @@ export interface CustomerProfileCitation {
   document?: string;
 }
 
-export const CustomerProfileCitation: Schema.Schema<CustomerProfileCitation> = Schema.suspend(() => Schema.Struct({
-  citationId: Schema.optional(Schema.String),
-  uri: Schema.optional(Schema.String),
-  retrievalTime: Schema.optional(Schema.String),
-  source: Schema.optional(Schema.String),
-  document: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomerProfileCitation" }) as any as Schema.Schema<CustomerProfileCitation>;
+export const CustomerProfileCitation: Schema.Schema<CustomerProfileCitation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      citationId: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      retrievalTime: Schema.optional(Schema.String),
+      source: Schema.optional(Schema.String),
+      document: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileCitation",
+  }) as any as Schema.Schema<CustomerProfileCitation>;
 
 export interface CustomerProfileCitedString {
   /** Required. The value of the string. */
@@ -189,10 +236,15 @@ export interface CustomerProfileCitedString {
   citationIds?: Array<string>;
 }
 
-export const CustomerProfileCitedString: Schema.Schema<CustomerProfileCitedString> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  citationIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CustomerProfileCitedString" }) as any as Schema.Schema<CustomerProfileCitedString>;
+export const CustomerProfileCitedString: Schema.Schema<CustomerProfileCitedString> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      citationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileCitedString",
+  }) as any as Schema.Schema<CustomerProfileCitedString>;
 
 export interface CustomerProfileSummary {
   /** Optional. The official name of the customer. */
@@ -221,20 +273,25 @@ export interface CustomerProfileSummary {
   primaryWebsite?: CustomerProfileCitedString;
 }
 
-export const CustomerProfileSummary: Schema.Schema<CustomerProfileSummary> = Schema.suspend(() => Schema.Struct({
-  title: Schema.optional(CustomerProfileCitedString),
-  entityType: Schema.optional(CustomerProfileCitedString),
-  industry: Schema.optional(CustomerProfileCitedString),
-  founded: Schema.optional(CustomerProfileCitedString),
-  headquarters: Schema.optional(CustomerProfileCitedString),
-  areaServed: Schema.optional(CustomerProfileCitedString),
-  keyPeopleSummary: Schema.optional(CustomerProfileCitedString),
-  productsSummary: Schema.optional(CustomerProfileCitedString),
-  servicesSummary: Schema.optional(CustomerProfileCitedString),
-  brands: Schema.optional(CustomerProfileCitedString),
-  parentCompany: Schema.optional(CustomerProfileCitedString),
-  primaryWebsite: Schema.optional(CustomerProfileCitedString),
-})).annotate({ identifier: "CustomerProfileSummary" }) as any as Schema.Schema<CustomerProfileSummary>;
+export const CustomerProfileSummary: Schema.Schema<CustomerProfileSummary> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(CustomerProfileCitedString),
+      entityType: Schema.optional(CustomerProfileCitedString),
+      industry: Schema.optional(CustomerProfileCitedString),
+      founded: Schema.optional(CustomerProfileCitedString),
+      headquarters: Schema.optional(CustomerProfileCitedString),
+      areaServed: Schema.optional(CustomerProfileCitedString),
+      keyPeopleSummary: Schema.optional(CustomerProfileCitedString),
+      productsSummary: Schema.optional(CustomerProfileCitedString),
+      servicesSummary: Schema.optional(CustomerProfileCitedString),
+      brands: Schema.optional(CustomerProfileCitedString),
+      parentCompany: Schema.optional(CustomerProfileCitedString),
+      primaryWebsite: Schema.optional(CustomerProfileCitedString),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileSummary",
+  }) as any as Schema.Schema<CustomerProfileSummary>;
 
 export interface CustomerProfileConfig {
   /** Required. The name of the organization. */
@@ -265,21 +322,28 @@ export interface CustomerProfileConfig {
   summary?: CustomerProfileSummary;
 }
 
-export const CustomerProfileConfig: Schema.Schema<CustomerProfileConfig> = Schema.suspend(() => Schema.Struct({
-  org: Schema.optional(Schema.String),
-  orgSummary: Schema.optional(Schema.String),
-  industries: Schema.optional(Schema.Array(CustomerProfileIndustry)),
-  parentCompanies: Schema.optional(Schema.Array(CustomerProfileCompany)),
-  products: Schema.optional(Schema.Array(CustomerProfileProduct)),
-  locations: Schema.optional(Schema.Array(CustomerProfileLocation)),
-  executives: Schema.optional(Schema.Array(CustomerProfilePerson)),
-  webPresences: Schema.optional(Schema.Array(CustomerProfileWebPresence)),
-  technologyPresence: Schema.optional(Schema.String),
-  securityConsiderations: Schema.optional(CustomerProfileSecurityConsiderations),
-  contactInfo: Schema.optional(Schema.Array(CustomerProfileContactInfo)),
-  citations: Schema.optional(Schema.Array(CustomerProfileCitation)),
-  summary: Schema.optional(CustomerProfileSummary),
-})).annotate({ identifier: "CustomerProfileConfig" }) as any as Schema.Schema<CustomerProfileConfig>;
+export const CustomerProfileConfig: Schema.Schema<CustomerProfileConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      org: Schema.optional(Schema.String),
+      orgSummary: Schema.optional(Schema.String),
+      industries: Schema.optional(Schema.Array(CustomerProfileIndustry)),
+      parentCompanies: Schema.optional(Schema.Array(CustomerProfileCompany)),
+      products: Schema.optional(Schema.Array(CustomerProfileProduct)),
+      locations: Schema.optional(Schema.Array(CustomerProfileLocation)),
+      executives: Schema.optional(Schema.Array(CustomerProfilePerson)),
+      webPresences: Schema.optional(Schema.Array(CustomerProfileWebPresence)),
+      technologyPresence: Schema.optional(Schema.String),
+      securityConsiderations: Schema.optional(
+        CustomerProfileSecurityConsiderations,
+      ),
+      contactInfo: Schema.optional(Schema.Array(CustomerProfileContactInfo)),
+      citations: Schema.optional(Schema.Array(CustomerProfileCitation)),
+      summary: Schema.optional(CustomerProfileSummary),
+    }),
+  ).annotate({
+    identifier: "CustomerProfileConfig",
+  }) as any as Schema.Schema<CustomerProfileConfig>;
 
 export interface ConfigurationDetail {
   /** Customer Profile detail config. */
@@ -288,10 +352,15 @@ export interface ConfigurationDetail {
   detailType?: string;
 }
 
-export const ConfigurationDetail: Schema.Schema<ConfigurationDetail> = Schema.suspend(() => Schema.Struct({
-  customerProfile: Schema.optional(CustomerProfileConfig),
-  detailType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConfigurationDetail" }) as any as Schema.Schema<ConfigurationDetail>;
+export const ConfigurationDetail: Schema.Schema<ConfigurationDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customerProfile: Schema.optional(CustomerProfileConfig),
+      detailType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConfigurationDetail",
+  }) as any as Schema.Schema<ConfigurationDetail>;
 
 export interface Configuration {
   /** Identifier. Server generated name for the configuration. format is projects/{project}/configurations/{configuration} */
@@ -303,7 +372,12 @@ export interface Configuration {
   /** Required. Name of the service that provides the configuration. */
   provider?: string;
   /** Optional. State of the configuration. */
-  state?: "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DEPRECATED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ENABLED"
+    | "DISABLED"
+    | "DEPRECATED"
+    | (string & {});
   /** Required. Domain specific details for the configuration. */
   detail?: ConfigurationDetail;
   /** Optional. A user-manipulatable version. Does not adhere to a specific format */
@@ -312,16 +386,20 @@ export interface Configuration {
   description?: string;
 }
 
-export const Configuration: Schema.Schema<Configuration> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  audit: Schema.optional(Audit),
-  provider: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  detail: Schema.optional(ConfigurationDetail),
-  version: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "Configuration" }) as any as Schema.Schema<Configuration>;
+export const Configuration: Schema.Schema<Configuration> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    audit: Schema.optional(Audit),
+    provider: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    detail: Schema.optional(ConfigurationDetail),
+    version: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Configuration",
+}) as any as Schema.Schema<Configuration>;
 
 export interface ListConfigurationsResponse {
   /** List of configurations. */
@@ -330,10 +408,15 @@ export interface ListConfigurationsResponse {
   nextPageToken?: string;
 }
 
-export const ListConfigurationsResponse: Schema.Schema<ListConfigurationsResponse> = Schema.suspend(() => Schema.Struct({
-  configurations: Schema.optional(Schema.Array(Configuration)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListConfigurationsResponse" }) as any as Schema.Schema<ListConfigurationsResponse>;
+export const ListConfigurationsResponse: Schema.Schema<ListConfigurationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      configurations: Schema.optional(Schema.Array(Configuration)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListConfigurationsResponse",
+  }) as any as Schema.Schema<ListConfigurationsResponse>;
 
 export interface ConfigurationRevision {
   /** Identifier. The name of the ConfigurationRevision Format: projects//configurations//revisions/ */
@@ -344,11 +427,16 @@ export interface ConfigurationRevision {
   createTime?: string;
 }
 
-export const ConfigurationRevision: Schema.Schema<ConfigurationRevision> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  snapshot: Schema.optional(Configuration),
-  createTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConfigurationRevision" }) as any as Schema.Schema<ConfigurationRevision>;
+export const ConfigurationRevision: Schema.Schema<ConfigurationRevision> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      snapshot: Schema.optional(Configuration),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConfigurationRevision",
+  }) as any as Schema.Schema<ConfigurationRevision>;
 
 export interface ListConfigurationRevisionsResponse {
   /** The Configuration Revisions associated with the specified Configuration */
@@ -357,19 +445,29 @@ export interface ListConfigurationRevisionsResponse {
   nextPageToken?: string;
 }
 
-export const ListConfigurationRevisionsResponse: Schema.Schema<ListConfigurationRevisionsResponse> = Schema.suspend(() => Schema.Struct({
-  revisions: Schema.optional(Schema.Array(ConfigurationRevision)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListConfigurationRevisionsResponse" }) as any as Schema.Schema<ListConfigurationRevisionsResponse>;
+export const ListConfigurationRevisionsResponse: Schema.Schema<ListConfigurationRevisionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      revisions: Schema.optional(Schema.Array(ConfigurationRevision)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListConfigurationRevisionsResponse",
+  }) as any as Schema.Schema<ListConfigurationRevisionsResponse>;
 
 export interface UpsertConfigurationResponse {
   /** Output only. Created configuration ID with server assigned id. */
   configuration?: string;
 }
 
-export const UpsertConfigurationResponse: Schema.Schema<UpsertConfigurationResponse> = Schema.suspend(() => Schema.Struct({
-  configuration: Schema.optional(Schema.String),
-})).annotate({ identifier: "UpsertConfigurationResponse" }) as any as Schema.Schema<UpsertConfigurationResponse>;
+export const UpsertConfigurationResponse: Schema.Schema<UpsertConfigurationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      configuration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpsertConfigurationResponse",
+  }) as any as Schema.Schema<UpsertConfigurationResponse>;
 
 export interface GenerateOrgProfileConfigurationRequest {
   /** Required. The domain of the organization to generate the profile for. */
@@ -378,10 +476,15 @@ export interface GenerateOrgProfileConfigurationRequest {
   displayName?: string;
 }
 
-export const GenerateOrgProfileConfigurationRequest: Schema.Schema<GenerateOrgProfileConfigurationRequest> = Schema.suspend(() => Schema.Struct({
-  domain: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateOrgProfileConfigurationRequest" }) as any as Schema.Schema<GenerateOrgProfileConfigurationRequest>;
+export const GenerateOrgProfileConfigurationRequest: Schema.Schema<GenerateOrgProfileConfigurationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      domain: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateOrgProfileConfigurationRequest",
+  }) as any as Schema.Schema<GenerateOrgProfileConfigurationRequest>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -392,11 +495,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -411,58 +518,93 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface InitialAccessBrokerFindingDetail {
   /** Required. Reference to the match score of the IAB finding. This is a float value between 0 and 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
   matchScore?: number;
   /** Required. The severity of the IAB finding. This indicates the potential impact of the threat. */
-  severity?: "SEVERITY_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | (string & {});
   /** Required. The unique identifier of the document that triggered the IAB finding. This ID can be used to retrieve the content of the document for further analysis. */
   documentId?: string;
 }
 
-export const InitialAccessBrokerFindingDetail: Schema.Schema<InitialAccessBrokerFindingDetail> = Schema.suspend(() => Schema.Struct({
-  matchScore: Schema.optional(Schema.Number),
-  severity: Schema.optional(Schema.String),
-  documentId: Schema.optional(Schema.String),
-})).annotate({ identifier: "InitialAccessBrokerFindingDetail" }) as any as Schema.Schema<InitialAccessBrokerFindingDetail>;
+export const InitialAccessBrokerFindingDetail: Schema.Schema<InitialAccessBrokerFindingDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      matchScore: Schema.optional(Schema.Number),
+      severity: Schema.optional(Schema.String),
+      documentId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InitialAccessBrokerFindingDetail",
+  }) as any as Schema.Schema<InitialAccessBrokerFindingDetail>;
 
 export interface DataLeakFindingDetail {
   /** Required. Reference to the match score of the Data Leak finding. This is a float value greater than 0 and less than or equal to 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
   matchScore?: number;
   /** Required. The severity of the Data Leak finding. This indicates the potential impact of the threat. */
-  severity?: "SEVERITY_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | (string & {});
   /** Required. The unique identifier of the document that triggered the Data Leak finding. This ID can be used to retrieve the content of the document for further analysis. */
   documentId?: string;
 }
 
-export const DataLeakFindingDetail: Schema.Schema<DataLeakFindingDetail> = Schema.suspend(() => Schema.Struct({
-  matchScore: Schema.optional(Schema.Number),
-  severity: Schema.optional(Schema.String),
-  documentId: Schema.optional(Schema.String),
-})).annotate({ identifier: "DataLeakFindingDetail" }) as any as Schema.Schema<DataLeakFindingDetail>;
+export const DataLeakFindingDetail: Schema.Schema<DataLeakFindingDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      matchScore: Schema.optional(Schema.Number),
+      severity: Schema.optional(Schema.String),
+      documentId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DataLeakFindingDetail",
+  }) as any as Schema.Schema<DataLeakFindingDetail>;
 
 export interface InsiderThreatFindingDetail {
   /** Required. Reference to the match score of the InsiderThreat finding. This is a float value greater than 0 and less than or equal to 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
   matchScore?: number;
   /** Required. The severity of the InsiderThreat finding. This indicates the potential impact of the threat. */
-  severity?: "SEVERITY_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "LOW"
+    | "MEDIUM"
+    | "HIGH"
+    | "CRITICAL"
+    | (string & {});
   /** Required. The unique identifier of the document that triggered the InsiderThreat finding. This ID can be used to retrieve the content of the document for further analysis. */
   documentId?: string;
 }
 
-export const InsiderThreatFindingDetail: Schema.Schema<InsiderThreatFindingDetail> = Schema.suspend(() => Schema.Struct({
-  matchScore: Schema.optional(Schema.Number),
-  severity: Schema.optional(Schema.String),
-  documentId: Schema.optional(Schema.String),
-})).annotate({ identifier: "InsiderThreatFindingDetail" }) as any as Schema.Schema<InsiderThreatFindingDetail>;
+export const InsiderThreatFindingDetail: Schema.Schema<InsiderThreatFindingDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      matchScore: Schema.optional(Schema.Number),
+      severity: Schema.optional(Schema.String),
+      documentId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InsiderThreatFindingDetail",
+  }) as any as Schema.Schema<InsiderThreatFindingDetail>;
 
 export interface FindingDetail {
   /** Initial Access Broker finding detail type. */
@@ -475,12 +617,16 @@ export interface FindingDetail {
   detailType?: string;
 }
 
-export const FindingDetail: Schema.Schema<FindingDetail> = Schema.suspend(() => Schema.Struct({
-  initialAccessBroker: Schema.optional(InitialAccessBrokerFindingDetail),
-  dataLeak: Schema.optional(DataLeakFindingDetail),
-  insiderThreat: Schema.optional(InsiderThreatFindingDetail),
-  detailType: Schema.optional(Schema.String),
-})).annotate({ identifier: "FindingDetail" }) as any as Schema.Schema<FindingDetail>;
+export const FindingDetail: Schema.Schema<FindingDetail> = Schema.suspend(() =>
+  Schema.Struct({
+    initialAccessBroker: Schema.optional(InitialAccessBrokerFindingDetail),
+    dataLeak: Schema.optional(DataLeakFindingDetail),
+    insiderThreat: Schema.optional(InsiderThreatFindingDetail),
+    detailType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "FindingDetail",
+}) as any as Schema.Schema<FindingDetail>;
 
 export interface Evidence {
   /** A list of semantic themes or concepts found to be common, related, or aligned between the sources, supporting the verdict. */
@@ -489,46 +635,78 @@ export interface Evidence {
   distinctThemes?: Array<string>;
 }
 
-export const Evidence: Schema.Schema<Evidence> = Schema.suspend(() => Schema.Struct({
-  commonThemes: Schema.optional(Schema.Array(Schema.String)),
-  distinctThemes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Evidence" }) as any as Schema.Schema<Evidence>;
+export const Evidence: Schema.Schema<Evidence> = Schema.suspend(() =>
+  Schema.Struct({
+    commonThemes: Schema.optional(Schema.Array(Schema.String)),
+    distinctThemes: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Evidence" }) as any as Schema.Schema<Evidence>;
 
 export interface RelevanceAnalysis {
   /** Indicates whether the threat is considered relevant. */
   relevant?: boolean;
   /** The level of confidence in the given verdict. */
-  confidence?: "CONFIDENCE_LEVEL_UNSPECIFIED" | "CONFIDENCE_LEVEL_LOW" | "CONFIDENCE_LEVEL_MEDIUM" | "CONFIDENCE_LEVEL_HIGH" | (string & {});
+  confidence?:
+    | "CONFIDENCE_LEVEL_UNSPECIFIED"
+    | "CONFIDENCE_LEVEL_LOW"
+    | "CONFIDENCE_LEVEL_MEDIUM"
+    | "CONFIDENCE_LEVEL_HIGH"
+    | (string & {});
   /** Human-readable explanation from the matcher, detailing why a particular result is considered relevant or not relevant. */
   reasoning?: string;
   /** Evidence supporting the verdict, including matched and unmatched items. */
   evidence?: Evidence;
   /** The level of relevance. */
-  relevanceLevel?: "RELEVANCE_LEVEL_UNSPECIFIED" | "RELEVANCE_LEVEL_LOW" | "RELEVANCE_LEVEL_MEDIUM" | "RELEVANCE_LEVEL_HIGH" | (string & {});
+  relevanceLevel?:
+    | "RELEVANCE_LEVEL_UNSPECIFIED"
+    | "RELEVANCE_LEVEL_LOW"
+    | "RELEVANCE_LEVEL_MEDIUM"
+    | "RELEVANCE_LEVEL_HIGH"
+    | (string & {});
 }
 
-export const RelevanceAnalysis: Schema.Schema<RelevanceAnalysis> = Schema.suspend(() => Schema.Struct({
-  relevant: Schema.optional(Schema.Boolean),
-  confidence: Schema.optional(Schema.String),
-  reasoning: Schema.optional(Schema.String),
-  evidence: Schema.optional(Evidence),
-  relevanceLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "RelevanceAnalysis" }) as any as Schema.Schema<RelevanceAnalysis>;
+export const RelevanceAnalysis: Schema.Schema<RelevanceAnalysis> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      relevant: Schema.optional(Schema.Boolean),
+      confidence: Schema.optional(Schema.String),
+      reasoning: Schema.optional(Schema.String),
+      evidence: Schema.optional(Evidence),
+      relevanceLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RelevanceAnalysis",
+  }) as any as Schema.Schema<RelevanceAnalysis>;
 
 export interface SeverityAnalysis {
   /** The level of severity. */
-  severityLevel?: "SEVERITY_LEVEL_UNSPECIFIED" | "SEVERITY_LEVEL_LOW" | "SEVERITY_LEVEL_MEDIUM" | "SEVERITY_LEVEL_HIGH" | (string & {});
+  severityLevel?:
+    | "SEVERITY_LEVEL_UNSPECIFIED"
+    | "SEVERITY_LEVEL_LOW"
+    | "SEVERITY_LEVEL_MEDIUM"
+    | "SEVERITY_LEVEL_HIGH"
+    | (string & {});
   /** The level of confidence in the given verdict. */
-  confidence?: "CONFIDENCE_LEVEL_UNSPECIFIED" | "CONFIDENCE_LEVEL_LOW" | "CONFIDENCE_LEVEL_MEDIUM" | "CONFIDENCE_LEVEL_HIGH" | (string & {});
+  confidence?:
+    | "CONFIDENCE_LEVEL_UNSPECIFIED"
+    | "CONFIDENCE_LEVEL_LOW"
+    | "CONFIDENCE_LEVEL_MEDIUM"
+    | "CONFIDENCE_LEVEL_HIGH"
+    | (string & {});
   /** Human-readable explanation from the model, detailing why a particular result is considered to have a certain severity. */
   reasoning?: string;
 }
 
-export const SeverityAnalysis: Schema.Schema<SeverityAnalysis> = Schema.suspend(() => Schema.Struct({
-  severityLevel: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.String),
-  reasoning: Schema.optional(Schema.String),
-})).annotate({ identifier: "SeverityAnalysis" }) as any as Schema.Schema<SeverityAnalysis>;
+export const SeverityAnalysis: Schema.Schema<SeverityAnalysis> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      severityLevel: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.String),
+      reasoning: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SeverityAnalysis",
+}) as any as Schema.Schema<SeverityAnalysis>;
 
 export interface Finding {
   /** Identifier. Server generated name for the finding (leave clear during creation). Format: projects/{project}/findings/{finding} */
@@ -557,20 +735,22 @@ export interface Finding {
   configurations?: Array<string>;
 }
 
-export const Finding: Schema.Schema<Finding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  provider: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  detail: Schema.optional(FindingDetail),
-  severity: Schema.optional(Schema.Number),
-  reoccurrenceTimes: Schema.optional(Schema.Array(Schema.String)),
-  relevanceAnalysis: Schema.optional(RelevanceAnalysis),
-  severityAnalysis: Schema.optional(SeverityAnalysis),
-  aiSummary: Schema.optional(Schema.String),
-  audit: Schema.optional(Audit),
-  alert: Schema.optional(Schema.String),
-  configurations: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
+export const Finding: Schema.Schema<Finding> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    provider: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    detail: Schema.optional(FindingDetail),
+    severity: Schema.optional(Schema.Number),
+    reoccurrenceTimes: Schema.optional(Schema.Array(Schema.String)),
+    relevanceAnalysis: Schema.optional(RelevanceAnalysis),
+    severityAnalysis: Schema.optional(SeverityAnalysis),
+    aiSummary: Schema.optional(Schema.String),
+    audit: Schema.optional(Audit),
+    alert: Schema.optional(Schema.String),
+    configurations: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
 
 export interface ListFindingsResponse {
   /** List of findings. */
@@ -579,10 +759,15 @@ export interface ListFindingsResponse {
   nextPageToken?: string;
 }
 
-export const ListFindingsResponse: Schema.Schema<ListFindingsResponse> = Schema.suspend(() => Schema.Struct({
-  findings: Schema.optional(Schema.Array(Finding)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListFindingsResponse" }) as any as Schema.Schema<ListFindingsResponse>;
+export const ListFindingsResponse: Schema.Schema<ListFindingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      findings: Schema.optional(Schema.Array(Finding)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListFindingsResponse",
+  }) as any as Schema.Schema<ListFindingsResponse>;
 
 export interface SearchFindingsResponse {
   /** List of findings. */
@@ -591,10 +776,15 @@ export interface SearchFindingsResponse {
   nextPageToken?: string;
 }
 
-export const SearchFindingsResponse: Schema.Schema<SearchFindingsResponse> = Schema.suspend(() => Schema.Struct({
-  findings: Schema.optional(Schema.Array(Finding)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchFindingsResponse" }) as any as Schema.Schema<SearchFindingsResponse>;
+export const SearchFindingsResponse: Schema.Schema<SearchFindingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      findings: Schema.optional(Schema.Array(Finding)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchFindingsResponse",
+  }) as any as Schema.Schema<SearchFindingsResponse>;
 
 export interface InitialAccessBrokerAlertDetail {
   /** Required. IAB specific severity */
@@ -603,10 +793,15 @@ export interface InitialAccessBrokerAlertDetail {
   discoveryDocumentIds?: Array<string>;
 }
 
-export const InitialAccessBrokerAlertDetail: Schema.Schema<InitialAccessBrokerAlertDetail> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "InitialAccessBrokerAlertDetail" }) as any as Schema.Schema<InitialAccessBrokerAlertDetail>;
+export const InitialAccessBrokerAlertDetail: Schema.Schema<InitialAccessBrokerAlertDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      severity: Schema.optional(Schema.String),
+      discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "InitialAccessBrokerAlertDetail",
+  }) as any as Schema.Schema<InitialAccessBrokerAlertDetail>;
 
 export interface DataLeakAlertDetail {
   /** Required. Data Leak specific severity This will be the string representation of the DataLeakFindingDetail.Severityenum. (e.g., "LOW", "MEDIUM", "HIGH", "CRITICAL") */
@@ -615,10 +810,15 @@ export interface DataLeakAlertDetail {
   discoveryDocumentIds?: Array<string>;
 }
 
-export const DataLeakAlertDetail: Schema.Schema<DataLeakAlertDetail> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "DataLeakAlertDetail" }) as any as Schema.Schema<DataLeakAlertDetail>;
+export const DataLeakAlertDetail: Schema.Schema<DataLeakAlertDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      severity: Schema.optional(Schema.String),
+      discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DataLeakAlertDetail",
+  }) as any as Schema.Schema<DataLeakAlertDetail>;
 
 export interface InsiderThreatAlertDetail {
   /** Required. InsiderThreat specific severity This will be the string representation of the InsiderThreatFindingDetail.Severityenum. (e.g., "LOW", "MEDIUM", "HIGH", "CRITICAL") */
@@ -627,10 +827,15 @@ export interface InsiderThreatAlertDetail {
   discoveryDocumentIds?: Array<string>;
 }
 
-export const InsiderThreatAlertDetail: Schema.Schema<InsiderThreatAlertDetail> = Schema.suspend(() => Schema.Struct({
-  severity: Schema.optional(Schema.String),
-  discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "InsiderThreatAlertDetail" }) as any as Schema.Schema<InsiderThreatAlertDetail>;
+export const InsiderThreatAlertDetail: Schema.Schema<InsiderThreatAlertDetail> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      severity: Schema.optional(Schema.String),
+      discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "InsiderThreatAlertDetail",
+  }) as any as Schema.Schema<InsiderThreatAlertDetail>;
 
 export interface AlertDetail {
   /** Initial Access Broker alert detail type. */
@@ -643,27 +848,45 @@ export interface AlertDetail {
   detailType?: string;
 }
 
-export const AlertDetail: Schema.Schema<AlertDetail> = Schema.suspend(() => Schema.Struct({
-  initialAccessBroker: Schema.optional(InitialAccessBrokerAlertDetail),
-  dataLeak: Schema.optional(DataLeakAlertDetail),
-  insiderThreat: Schema.optional(InsiderThreatAlertDetail),
-  detailType: Schema.optional(Schema.String),
-})).annotate({ identifier: "AlertDetail" }) as any as Schema.Schema<AlertDetail>;
+export const AlertDetail: Schema.Schema<AlertDetail> = Schema.suspend(() =>
+  Schema.Struct({
+    initialAccessBroker: Schema.optional(InitialAccessBrokerAlertDetail),
+    dataLeak: Schema.optional(DataLeakAlertDetail),
+    insiderThreat: Schema.optional(InsiderThreatAlertDetail),
+    detailType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AlertDetail" }) as any as Schema.Schema<AlertDetail>;
 
 export interface PriorityAnalysis {
   /** The level of Priority. */
-  priorityLevel?: "PRIORITY_LEVEL_UNSPECIFIED" | "PRIORITY_LEVEL_LOW" | "PRIORITY_LEVEL_MEDIUM" | "PRIORITY_LEVEL_HIGH" | "PRIORITY_LEVEL_CRITICAL" | (string & {});
+  priorityLevel?:
+    | "PRIORITY_LEVEL_UNSPECIFIED"
+    | "PRIORITY_LEVEL_LOW"
+    | "PRIORITY_LEVEL_MEDIUM"
+    | "PRIORITY_LEVEL_HIGH"
+    | "PRIORITY_LEVEL_CRITICAL"
+    | (string & {});
   /** The level of confidence in the given verdict. */
-  confidence?: "CONFIDENCE_LEVEL_UNSPECIFIED" | "CONFIDENCE_LEVEL_LOW" | "CONFIDENCE_LEVEL_MEDIUM" | "CONFIDENCE_LEVEL_HIGH" | (string & {});
+  confidence?:
+    | "CONFIDENCE_LEVEL_UNSPECIFIED"
+    | "CONFIDENCE_LEVEL_LOW"
+    | "CONFIDENCE_LEVEL_MEDIUM"
+    | "CONFIDENCE_LEVEL_HIGH"
+    | (string & {});
   /** Human-readable explanation from the model, detailing why a particular result is considered to have a certain priority. */
   reasoning?: string;
 }
 
-export const PriorityAnalysis: Schema.Schema<PriorityAnalysis> = Schema.suspend(() => Schema.Struct({
-  priorityLevel: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.String),
-  reasoning: Schema.optional(Schema.String),
-})).annotate({ identifier: "PriorityAnalysis" }) as any as Schema.Schema<PriorityAnalysis>;
+export const PriorityAnalysis: Schema.Schema<PriorityAnalysis> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      priorityLevel: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.String),
+      reasoning: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PriorityAnalysis",
+}) as any as Schema.Schema<PriorityAnalysis>;
 
 export interface Alert {
   /** Identifier. Server generated name for the alert. format is projects/{project}/alerts/{alert} */
@@ -671,7 +894,19 @@ export interface Alert {
   /** Output only. Findings that are covered by this alert. */
   findings?: Array<string>;
   /** Output only. State of the alert. */
-  state?: "STATE_UNSPECIFIED" | "NEW" | "READ" | "TRIAGED" | "ESCALATED" | "RESOLVED" | "DUPLICATE" | "FALSE_POSITIVE" | "NOT_ACTIONABLE" | "BENIGN" | "TRACKED_EXTERNALLY" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "NEW"
+    | "READ"
+    | "TRIAGED"
+    | "ESCALATED"
+    | "RESOLVED"
+    | "DUPLICATE"
+    | "FALSE_POSITIVE"
+    | "NOT_ACTIONABLE"
+    | "BENIGN"
+    | "TRACKED_EXTERNALLY"
+    | (string & {});
   /** Output only. Audit information for the alert. */
   audit?: Audit;
   /** Output only. A short title for the alert. */
@@ -700,24 +935,26 @@ export interface Alert {
   configurations?: Array<string>;
 }
 
-export const Alert: Schema.Schema<Alert> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  findings: Schema.optional(Schema.Array(Schema.String)),
-  state: Schema.optional(Schema.String),
-  audit: Schema.optional(Audit),
-  displayName: Schema.optional(Schema.String),
-  detail: Schema.optional(AlertDetail),
-  duplicateOf: Schema.optional(Schema.String),
-  duplicatedBy: Schema.optional(Schema.Array(Schema.String)),
-  etag: Schema.optional(Schema.String),
-  externalId: Schema.optional(Schema.String),
-  aiSummary: Schema.optional(Schema.String),
-  relevanceAnalysis: Schema.optional(RelevanceAnalysis),
-  severityAnalysis: Schema.optional(SeverityAnalysis),
-  priorityAnalysis: Schema.optional(PriorityAnalysis),
-  findingCount: Schema.optional(Schema.String),
-  configurations: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
+export const Alert: Schema.Schema<Alert> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    findings: Schema.optional(Schema.Array(Schema.String)),
+    state: Schema.optional(Schema.String),
+    audit: Schema.optional(Audit),
+    displayName: Schema.optional(Schema.String),
+    detail: Schema.optional(AlertDetail),
+    duplicateOf: Schema.optional(Schema.String),
+    duplicatedBy: Schema.optional(Schema.Array(Schema.String)),
+    etag: Schema.optional(Schema.String),
+    externalId: Schema.optional(Schema.String),
+    aiSummary: Schema.optional(Schema.String),
+    relevanceAnalysis: Schema.optional(RelevanceAnalysis),
+    severityAnalysis: Schema.optional(SeverityAnalysis),
+    priorityAnalysis: Schema.optional(PriorityAnalysis),
+    findingCount: Schema.optional(Schema.String),
+    configurations: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
 
 export interface ListAlertsResponse {
   /** List of alerts. */
@@ -726,10 +963,15 @@ export interface ListAlertsResponse {
   nextPageToken?: string;
 }
 
-export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> = Schema.suspend(() => Schema.Struct({
-  alerts: Schema.optional(Schema.Array(Alert)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAlertsResponse" }) as any as Schema.Schema<ListAlertsResponse>;
+export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alerts: Schema.optional(Schema.Array(Alert)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAlertsResponse",
+  }) as any as Schema.Schema<ListAlertsResponse>;
 
 export interface FacetCount {
   /** Value of the facet stringified. Timestamps will be formatted using RFC3339. */
@@ -738,10 +980,12 @@ export interface FacetCount {
   count?: number;
 }
 
-export const FacetCount: Schema.Schema<FacetCount> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  count: Schema.optional(Schema.Number),
-})).annotate({ identifier: "FacetCount" }) as any as Schema.Schema<FacetCount>;
+export const FacetCount: Schema.Schema<FacetCount> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+    count: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "FacetCount" }) as any as Schema.Schema<FacetCount>;
 
 export interface Facet {
   /** Name of the facet. This is also the string that needs to be used in the filtering expression. */
@@ -758,80 +1002,100 @@ export interface Facet {
   totalCount?: string;
 }
 
-export const Facet: Schema.Schema<Facet> = Schema.suspend(() => Schema.Struct({
-  facet: Schema.optional(Schema.String),
-  facetCounts: Schema.optional(Schema.Array(FacetCount)),
-  facetType: Schema.optional(Schema.String),
-  minValue: Schema.optional(Schema.String),
-  maxValue: Schema.optional(Schema.String),
-  totalCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "Facet" }) as any as Schema.Schema<Facet>;
+export const Facet: Schema.Schema<Facet> = Schema.suspend(() =>
+  Schema.Struct({
+    facet: Schema.optional(Schema.String),
+    facetCounts: Schema.optional(Schema.Array(FacetCount)),
+    facetType: Schema.optional(Schema.String),
+    minValue: Schema.optional(Schema.String),
+    maxValue: Schema.optional(Schema.String),
+    totalCount: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Facet" }) as any as Schema.Schema<Facet>;
 
 export interface EnumerateAlertFacetsResponse {
   /** List of facets and the counts. */
   facets?: Array<Facet>;
 }
 
-export const EnumerateAlertFacetsResponse: Schema.Schema<EnumerateAlertFacetsResponse> = Schema.suspend(() => Schema.Struct({
-  facets: Schema.optional(Schema.Array(Facet)),
-})).annotate({ identifier: "EnumerateAlertFacetsResponse" }) as any as Schema.Schema<EnumerateAlertFacetsResponse>;
+export const EnumerateAlertFacetsResponse: Schema.Schema<EnumerateAlertFacetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      facets: Schema.optional(Schema.Array(Facet)),
+    }),
+  ).annotate({
+    identifier: "EnumerateAlertFacetsResponse",
+  }) as any as Schema.Schema<EnumerateAlertFacetsResponse>;
 
-export interface MarkAlertAsReadRequest {
-}
+export interface MarkAlertAsReadRequest {}
 
-export const MarkAlertAsReadRequest: Schema.Schema<MarkAlertAsReadRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsReadRequest" }) as any as Schema.Schema<MarkAlertAsReadRequest>;
+export const MarkAlertAsReadRequest: Schema.Schema<MarkAlertAsReadRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsReadRequest",
+  }) as any as Schema.Schema<MarkAlertAsReadRequest>;
 
-export interface MarkAlertAsTriagedRequest {
-}
+export interface MarkAlertAsTriagedRequest {}
 
-export const MarkAlertAsTriagedRequest: Schema.Schema<MarkAlertAsTriagedRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsTriagedRequest" }) as any as Schema.Schema<MarkAlertAsTriagedRequest>;
+export const MarkAlertAsTriagedRequest: Schema.Schema<MarkAlertAsTriagedRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsTriagedRequest",
+  }) as any as Schema.Schema<MarkAlertAsTriagedRequest>;
 
-export interface MarkAlertAsEscalatedRequest {
-}
+export interface MarkAlertAsEscalatedRequest {}
 
-export const MarkAlertAsEscalatedRequest: Schema.Schema<MarkAlertAsEscalatedRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsEscalatedRequest" }) as any as Schema.Schema<MarkAlertAsEscalatedRequest>;
+export const MarkAlertAsEscalatedRequest: Schema.Schema<MarkAlertAsEscalatedRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsEscalatedRequest",
+  }) as any as Schema.Schema<MarkAlertAsEscalatedRequest>;
 
-export interface MarkAlertAsResolvedRequest {
-}
+export interface MarkAlertAsResolvedRequest {}
 
-export const MarkAlertAsResolvedRequest: Schema.Schema<MarkAlertAsResolvedRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsResolvedRequest" }) as any as Schema.Schema<MarkAlertAsResolvedRequest>;
+export const MarkAlertAsResolvedRequest: Schema.Schema<MarkAlertAsResolvedRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsResolvedRequest",
+  }) as any as Schema.Schema<MarkAlertAsResolvedRequest>;
 
-export interface MarkAlertAsFalsePositiveRequest {
-}
+export interface MarkAlertAsFalsePositiveRequest {}
 
-export const MarkAlertAsFalsePositiveRequest: Schema.Schema<MarkAlertAsFalsePositiveRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsFalsePositiveRequest" }) as any as Schema.Schema<MarkAlertAsFalsePositiveRequest>;
+export const MarkAlertAsFalsePositiveRequest: Schema.Schema<MarkAlertAsFalsePositiveRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsFalsePositiveRequest",
+  }) as any as Schema.Schema<MarkAlertAsFalsePositiveRequest>;
 
-export interface MarkAlertAsNotActionableRequest {
-}
+export interface MarkAlertAsNotActionableRequest {}
 
-export const MarkAlertAsNotActionableRequest: Schema.Schema<MarkAlertAsNotActionableRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsNotActionableRequest" }) as any as Schema.Schema<MarkAlertAsNotActionableRequest>;
+export const MarkAlertAsNotActionableRequest: Schema.Schema<MarkAlertAsNotActionableRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsNotActionableRequest",
+  }) as any as Schema.Schema<MarkAlertAsNotActionableRequest>;
 
-export interface MarkAlertAsBenignRequest {
-}
+export interface MarkAlertAsBenignRequest {}
 
-export const MarkAlertAsBenignRequest: Schema.Schema<MarkAlertAsBenignRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsBenignRequest" }) as any as Schema.Schema<MarkAlertAsBenignRequest>;
+export const MarkAlertAsBenignRequest: Schema.Schema<MarkAlertAsBenignRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsBenignRequest",
+  }) as any as Schema.Schema<MarkAlertAsBenignRequest>;
 
-export interface MarkAlertAsTrackedExternallyRequest {
-}
+export interface MarkAlertAsTrackedExternallyRequest {}
 
-export const MarkAlertAsTrackedExternallyRequest: Schema.Schema<MarkAlertAsTrackedExternallyRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MarkAlertAsTrackedExternallyRequest" }) as any as Schema.Schema<MarkAlertAsTrackedExternallyRequest>;
+export const MarkAlertAsTrackedExternallyRequest: Schema.Schema<MarkAlertAsTrackedExternallyRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MarkAlertAsTrackedExternallyRequest",
+  }) as any as Schema.Schema<MarkAlertAsTrackedExternallyRequest>;
 
 export interface MarkAlertAsDuplicateRequest {
   /** Optional. Name of the alert to mark as a duplicate of. Format: projects/{project}/alerts/{alert} */
   duplicateOf?: string;
 }
 
-export const MarkAlertAsDuplicateRequest: Schema.Schema<MarkAlertAsDuplicateRequest> = Schema.suspend(() => Schema.Struct({
-  duplicateOf: Schema.optional(Schema.String),
-})).annotate({ identifier: "MarkAlertAsDuplicateRequest" }) as any as Schema.Schema<MarkAlertAsDuplicateRequest>;
+export const MarkAlertAsDuplicateRequest: Schema.Schema<MarkAlertAsDuplicateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      duplicateOf: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MarkAlertAsDuplicateRequest",
+  }) as any as Schema.Schema<MarkAlertAsDuplicateRequest>;
 
 export interface AlertDocumentTranslation {
   /** Output only. The translated title of the document. */
@@ -840,10 +1104,15 @@ export interface AlertDocumentTranslation {
   translatedContent?: string;
 }
 
-export const AlertDocumentTranslation: Schema.Schema<AlertDocumentTranslation> = Schema.suspend(() => Schema.Struct({
-  translatedTitle: Schema.optional(Schema.String),
-  translatedContent: Schema.optional(Schema.String),
-})).annotate({ identifier: "AlertDocumentTranslation" }) as any as Schema.Schema<AlertDocumentTranslation>;
+export const AlertDocumentTranslation: Schema.Schema<AlertDocumentTranslation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      translatedTitle: Schema.optional(Schema.String),
+      translatedContent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AlertDocumentTranslation",
+  }) as any as Schema.Schema<AlertDocumentTranslation>;
 
 export interface AlertDocument {
   /** Identifier. Server generated name for the alert document. format is projects/{project}/alerts/{alert}/documents/{document} */
@@ -874,21 +1143,25 @@ export interface AlertDocument {
   sourceUpdateTime?: string;
 }
 
-export const AlertDocument: Schema.Schema<AlertDocument> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  author: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  aiSummary: Schema.optional(Schema.String),
-  translation: Schema.optional(AlertDocumentTranslation),
-  source: Schema.optional(Schema.String),
-  sourceUri: Schema.optional(Schema.String),
-  ingestTime: Schema.optional(Schema.String),
-  collectionTime: Schema.optional(Schema.String),
-  sourceUpdateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "AlertDocument" }) as any as Schema.Schema<AlertDocument>;
+export const AlertDocument: Schema.Schema<AlertDocument> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    author: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    languageCode: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    aiSummary: Schema.optional(Schema.String),
+    translation: Schema.optional(AlertDocumentTranslation),
+    source: Schema.optional(Schema.String),
+    sourceUri: Schema.optional(Schema.String),
+    ingestTime: Schema.optional(Schema.String),
+    collectionTime: Schema.optional(Schema.String),
+    sourceUpdateTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AlertDocument",
+}) as any as Schema.Schema<AlertDocument>;
 
 // ==========================================================================
 // Operations
@@ -903,9 +1176,15 @@ export interface GenerateOrgProfileProjectsRequest {
 
 export const GenerateOrgProfileProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GenerateOrgProfileConfigurationRequest).pipe(T.HttpBody()),
+  body: Schema.optional(GenerateOrgProfileConfigurationRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}:generateOrgProfile", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}:generateOrgProfile",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateOrgProfileProjectsRequest>;
 
@@ -915,7 +1194,12 @@ export const GenerateOrgProfileProjectsResponse = Operation;
 export type GenerateOrgProfileProjectsError = DefaultErrors;
 
 /** Triggers the generation of a Customer Profile for a project. */
-export const generateOrgProfileProjects: API.OperationMethod<GenerateOrgProfileProjectsRequest, GenerateOrgProfileProjectsResponse, GenerateOrgProfileProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateOrgProfileProjects: API.OperationMethod<
+  GenerateOrgProfileProjectsRequest,
+  GenerateOrgProfileProjectsResponse,
+  GenerateOrgProfileProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateOrgProfileProjectsRequest,
   output: GenerateOrgProfileProjectsResponse,
   errors: [],
@@ -929,7 +1213,10 @@ export interface GetProjectsConfigurationsRequest {
 export const GetProjectsConfigurationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/configurations/{configurationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/configurations/{configurationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsConfigurationsRequest>;
 
@@ -939,7 +1226,12 @@ export const GetProjectsConfigurationsResponse = Configuration;
 export type GetProjectsConfigurationsError = DefaultErrors;
 
 /** Get a configuration by name. */
-export const getProjectsConfigurations: API.OperationMethod<GetProjectsConfigurationsRequest, GetProjectsConfigurationsResponse, GetProjectsConfigurationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsConfigurations: API.OperationMethod<
+  GetProjectsConfigurationsRequest,
+  GetProjectsConfigurationsResponse,
+  GetProjectsConfigurationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsConfigurationsRequest,
   output: GetProjectsConfigurationsResponse,
   errors: [],
@@ -965,7 +1257,10 @@ export const ListProjectsConfigurationsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/configurations" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/configurations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsConfigurationsRequest>;
 
@@ -975,7 +1270,12 @@ export const ListProjectsConfigurationsResponse = ListConfigurationsResponse;
 export type ListProjectsConfigurationsError = DefaultErrors;
 
 /** Get a list of configurations that meet the filter criteria. */
-export const listProjectsConfigurations: API.PaginatedOperationMethod<ListProjectsConfigurationsRequest, ListProjectsConfigurationsResponse, ListProjectsConfigurationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsConfigurations: API.PaginatedOperationMethod<
+  ListProjectsConfigurationsRequest,
+  ListProjectsConfigurationsResponse,
+  ListProjectsConfigurationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsConfigurationsRequest,
   output: ListProjectsConfigurationsResponse,
   errors: [],
@@ -999,7 +1299,11 @@ export const UpsertProjectsConfigurationsRequest = Schema.Struct({
   publishTime: Schema.optional(Schema.String).pipe(T.HttpQuery("publishTime")),
   body: Schema.optional(Configuration).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/configurations:upsert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/configurations:upsert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpsertProjectsConfigurationsRequest>;
 
@@ -1009,7 +1313,12 @@ export const UpsertProjectsConfigurationsResponse = UpsertConfigurationResponse;
 export type UpsertProjectsConfigurationsError = DefaultErrors;
 
 /** Creates or updates a configuration. */
-export const upsertProjectsConfigurations: API.OperationMethod<UpsertProjectsConfigurationsRequest, UpsertProjectsConfigurationsResponse, UpsertProjectsConfigurationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const upsertProjectsConfigurations: API.OperationMethod<
+  UpsertProjectsConfigurationsRequest,
+  UpsertProjectsConfigurationsResponse,
+  UpsertProjectsConfigurationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpsertProjectsConfigurationsRequest,
   output: UpsertProjectsConfigurationsResponse,
   errors: [],
@@ -1035,17 +1344,27 @@ export const ListProjectsConfigurationsRevisionsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/configurations/{configurationsId}/revisions" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/configurations/{configurationsId}/revisions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsConfigurationsRevisionsRequest>;
 
-export type ListProjectsConfigurationsRevisionsResponse = ListConfigurationRevisionsResponse;
-export const ListProjectsConfigurationsRevisionsResponse = ListConfigurationRevisionsResponse;
+export type ListProjectsConfigurationsRevisionsResponse =
+  ListConfigurationRevisionsResponse;
+export const ListProjectsConfigurationsRevisionsResponse =
+  ListConfigurationRevisionsResponse;
 
 export type ListProjectsConfigurationsRevisionsError = DefaultErrors;
 
 /** List configuration revisions that meet the filter criteria. */
-export const listProjectsConfigurationsRevisions: API.PaginatedOperationMethod<ListProjectsConfigurationsRevisionsRequest, ListProjectsConfigurationsRevisionsResponse, ListProjectsConfigurationsRevisionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsConfigurationsRevisions: API.PaginatedOperationMethod<
+  ListProjectsConfigurationsRevisionsRequest,
+  ListProjectsConfigurationsRevisionsResponse,
+  ListProjectsConfigurationsRevisionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsConfigurationsRevisionsRequest,
   output: ListProjectsConfigurationsRevisionsResponse,
   errors: [],
@@ -1063,7 +1382,10 @@ export interface GetProjectsFindingsRequest {
 export const GetProjectsFindingsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/findings/{findingsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/findings/{findingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsFindingsRequest>;
 
@@ -1073,7 +1395,12 @@ export const GetProjectsFindingsResponse = Finding;
 export type GetProjectsFindingsError = DefaultErrors;
 
 /** Get a finding by name. The `name` field should have the format: `projects/{project}/findings/{finding}` */
-export const getProjectsFindings: API.OperationMethod<GetProjectsFindingsRequest, GetProjectsFindingsResponse, GetProjectsFindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsFindings: API.OperationMethod<
+  GetProjectsFindingsRequest,
+  GetProjectsFindingsResponse,
+  GetProjectsFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsFindingsRequest,
   output: GetProjectsFindingsResponse,
   errors: [],
@@ -1109,7 +1436,12 @@ export const ListProjectsFindingsResponse = ListFindingsResponse;
 export type ListProjectsFindingsError = DefaultErrors;
 
 /** Get a list of findings that meet the filter criteria. The `parent` field in ListFindingsRequest should have the format: projects/{project} */
-export const listProjectsFindings: API.PaginatedOperationMethod<ListProjectsFindingsRequest, ListProjectsFindingsResponse, ListProjectsFindingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsFindings: API.PaginatedOperationMethod<
+  ListProjectsFindingsRequest,
+  ListProjectsFindingsResponse,
+  ListProjectsFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsFindingsRequest,
   output: ListProjectsFindingsResponse,
   errors: [],
@@ -1139,7 +1471,10 @@ export const SearchProjectsFindingsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/findings:search" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/findings:search",
+  }),
   svc,
 ) as unknown as Schema.Schema<SearchProjectsFindingsRequest>;
 
@@ -1149,7 +1484,12 @@ export const SearchProjectsFindingsResponse = SearchFindingsResponse;
 export type SearchProjectsFindingsError = DefaultErrors;
 
 /** SearchFindings is a more powerful version of ListFindings that supports complex queries like "findings for alerts" using functions such as `has_alert` in the query string. The `parent` field in SearchFindingsRequest should have the format: projects/{project} Example to search for findings for a specific issue: `has_alert("name=\"projects/gti-12345/alerts/alert-12345\"")` */
-export const searchProjectsFindings: API.PaginatedOperationMethod<SearchProjectsFindingsRequest, SearchProjectsFindingsResponse, SearchProjectsFindingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const searchProjectsFindings: API.PaginatedOperationMethod<
+  SearchProjectsFindingsRequest,
+  SearchProjectsFindingsResponse,
+  SearchProjectsFindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: SearchProjectsFindingsRequest,
   output: SearchProjectsFindingsResponse,
   errors: [],
@@ -1167,7 +1507,10 @@ export interface GetProjectsAlertsRequest {
 export const GetProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/alerts/{alertsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsAlertsRequest>;
 
@@ -1177,7 +1520,12 @@ export const GetProjectsAlertsResponse = Alert;
 export type GetProjectsAlertsError = DefaultErrors;
 
 /** Get an alert by name. */
-export const getProjectsAlerts: API.OperationMethod<GetProjectsAlertsRequest, GetProjectsAlertsResponse, GetProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsAlerts: API.OperationMethod<
+  GetProjectsAlertsRequest,
+  GetProjectsAlertsResponse,
+  GetProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsAlertsRequest,
   output: GetProjectsAlertsResponse,
   errors: [],
@@ -1213,7 +1561,12 @@ export const ListProjectsAlertsResponse = ListAlertsResponse;
 export type ListProjectsAlertsError = DefaultErrors;
 
 /** Get a list of alerts that meet the filter criteria. */
-export const listProjectsAlerts: API.PaginatedOperationMethod<ListProjectsAlertsRequest, ListProjectsAlertsResponse, ListProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsAlerts: API.PaginatedOperationMethod<
+  ListProjectsAlertsRequest,
+  ListProjectsAlertsResponse,
+  ListProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsAlertsRequest,
   output: ListProjectsAlertsResponse,
   errors: [],
@@ -1234,17 +1587,27 @@ export const EnumerateFacetsProjectsAlertsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/alerts:enumerateFacets" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/alerts:enumerateFacets",
+  }),
   svc,
 ) as unknown as Schema.Schema<EnumerateFacetsProjectsAlertsRequest>;
 
-export type EnumerateFacetsProjectsAlertsResponse = EnumerateAlertFacetsResponse;
-export const EnumerateFacetsProjectsAlertsResponse = EnumerateAlertFacetsResponse;
+export type EnumerateFacetsProjectsAlertsResponse =
+  EnumerateAlertFacetsResponse;
+export const EnumerateFacetsProjectsAlertsResponse =
+  EnumerateAlertFacetsResponse;
 
 export type EnumerateFacetsProjectsAlertsError = DefaultErrors;
 
 /** EnumerateAlertFacets returns the facets and the number of alerts that meet the filter criteria and have that value for each facet. */
-export const enumerateFacetsProjectsAlerts: API.OperationMethod<EnumerateFacetsProjectsAlertsRequest, EnumerateFacetsProjectsAlertsResponse, EnumerateFacetsProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const enumerateFacetsProjectsAlerts: API.OperationMethod<
+  EnumerateFacetsProjectsAlertsRequest,
+  EnumerateFacetsProjectsAlertsResponse,
+  EnumerateFacetsProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EnumerateFacetsProjectsAlertsRequest,
   output: EnumerateFacetsProjectsAlertsResponse,
   errors: [],
@@ -1261,7 +1624,11 @@ export const ReadProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsReadRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:read", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:read",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReadProjectsAlertsRequest>;
 
@@ -1271,7 +1638,12 @@ export const ReadProjectsAlertsResponse = Alert;
 export type ReadProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as read - READ. */
-export const readProjectsAlerts: API.OperationMethod<ReadProjectsAlertsRequest, ReadProjectsAlertsResponse, ReadProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const readProjectsAlerts: API.OperationMethod<
+  ReadProjectsAlertsRequest,
+  ReadProjectsAlertsResponse,
+  ReadProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReadProjectsAlertsRequest,
   output: ReadProjectsAlertsResponse,
   errors: [],
@@ -1288,7 +1660,11 @@ export const TriageProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsTriagedRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:triage", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:triage",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TriageProjectsAlertsRequest>;
 
@@ -1298,7 +1674,12 @@ export const TriageProjectsAlertsResponse = Alert;
 export type TriageProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as triaged - TRIAGED. */
-export const triageProjectsAlerts: API.OperationMethod<TriageProjectsAlertsRequest, TriageProjectsAlertsResponse, TriageProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const triageProjectsAlerts: API.OperationMethod<
+  TriageProjectsAlertsRequest,
+  TriageProjectsAlertsResponse,
+  TriageProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TriageProjectsAlertsRequest,
   output: TriageProjectsAlertsResponse,
   errors: [],
@@ -1315,7 +1696,11 @@ export const EscalateProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsEscalatedRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:escalate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:escalate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<EscalateProjectsAlertsRequest>;
 
@@ -1325,7 +1710,12 @@ export const EscalateProjectsAlertsResponse = Alert;
 export type EscalateProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as escalated - ESCALATED. */
-export const escalateProjectsAlerts: API.OperationMethod<EscalateProjectsAlertsRequest, EscalateProjectsAlertsResponse, EscalateProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const escalateProjectsAlerts: API.OperationMethod<
+  EscalateProjectsAlertsRequest,
+  EscalateProjectsAlertsResponse,
+  EscalateProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EscalateProjectsAlertsRequest,
   output: EscalateProjectsAlertsResponse,
   errors: [],
@@ -1342,7 +1732,11 @@ export const ResolveProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsResolvedRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:resolve", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:resolve",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResolveProjectsAlertsRequest>;
 
@@ -1352,7 +1746,12 @@ export const ResolveProjectsAlertsResponse = Alert;
 export type ResolveProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert to closed state - RESOLVED. */
-export const resolveProjectsAlerts: API.OperationMethod<ResolveProjectsAlertsRequest, ResolveProjectsAlertsResponse, ResolveProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resolveProjectsAlerts: API.OperationMethod<
+  ResolveProjectsAlertsRequest,
+  ResolveProjectsAlertsResponse,
+  ResolveProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResolveProjectsAlertsRequest,
   output: ResolveProjectsAlertsResponse,
   errors: [],
@@ -1369,7 +1768,11 @@ export const FalsePositiveProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsFalsePositiveRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:falsePositive", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:falsePositive",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<FalsePositiveProjectsAlertsRequest>;
 
@@ -1379,7 +1782,12 @@ export const FalsePositiveProjectsAlertsResponse = Alert;
 export type FalsePositiveProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as a false positive - FALSE_POSITIVE. */
-export const falsePositiveProjectsAlerts: API.OperationMethod<FalsePositiveProjectsAlertsRequest, FalsePositiveProjectsAlertsResponse, FalsePositiveProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const falsePositiveProjectsAlerts: API.OperationMethod<
+  FalsePositiveProjectsAlertsRequest,
+  FalsePositiveProjectsAlertsResponse,
+  FalsePositiveProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FalsePositiveProjectsAlertsRequest,
   output: FalsePositiveProjectsAlertsResponse,
   errors: [],
@@ -1396,7 +1804,11 @@ export const NotActionableProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsNotActionableRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:notActionable", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:notActionable",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<NotActionableProjectsAlertsRequest>;
 
@@ -1406,7 +1818,12 @@ export const NotActionableProjectsAlertsResponse = Alert;
 export type NotActionableProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as not actionable - NOT_ACTIONABLE. */
-export const notActionableProjectsAlerts: API.OperationMethod<NotActionableProjectsAlertsRequest, NotActionableProjectsAlertsResponse, NotActionableProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const notActionableProjectsAlerts: API.OperationMethod<
+  NotActionableProjectsAlertsRequest,
+  NotActionableProjectsAlertsResponse,
+  NotActionableProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: NotActionableProjectsAlertsRequest,
   output: NotActionableProjectsAlertsResponse,
   errors: [],
@@ -1423,7 +1840,11 @@ export const BenignProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsBenignRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:benign", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:benign",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<BenignProjectsAlertsRequest>;
 
@@ -1433,7 +1854,12 @@ export const BenignProjectsAlertsResponse = Alert;
 export type BenignProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as benign - BENIGN. */
-export const benignProjectsAlerts: API.OperationMethod<BenignProjectsAlertsRequest, BenignProjectsAlertsResponse, BenignProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const benignProjectsAlerts: API.OperationMethod<
+  BenignProjectsAlertsRequest,
+  BenignProjectsAlertsResponse,
+  BenignProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: BenignProjectsAlertsRequest,
   output: BenignProjectsAlertsResponse,
   errors: [],
@@ -1450,7 +1876,11 @@ export const TrackExternallyProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsTrackedExternallyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:trackExternally", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:trackExternally",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TrackExternallyProjectsAlertsRequest>;
 
@@ -1460,7 +1890,12 @@ export const TrackExternallyProjectsAlertsResponse = Alert;
 export type TrackExternallyProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as tracked externally - TRACKED_EXTERNALLY. */
-export const trackExternallyProjectsAlerts: API.OperationMethod<TrackExternallyProjectsAlertsRequest, TrackExternallyProjectsAlertsResponse, TrackExternallyProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const trackExternallyProjectsAlerts: API.OperationMethod<
+  TrackExternallyProjectsAlertsRequest,
+  TrackExternallyProjectsAlertsResponse,
+  TrackExternallyProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TrackExternallyProjectsAlertsRequest,
   output: TrackExternallyProjectsAlertsResponse,
   errors: [],
@@ -1477,7 +1912,11 @@ export const DuplicateProjectsAlertsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MarkAlertAsDuplicateRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/alerts/{alertsId}:duplicate", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:duplicate",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<DuplicateProjectsAlertsRequest>;
 
@@ -1487,7 +1926,12 @@ export const DuplicateProjectsAlertsResponse = Alert;
 export type DuplicateProjectsAlertsError = DefaultErrors;
 
 /** Marks an alert as a duplicate of another alert. - DUPLICATE. */
-export const duplicateProjectsAlerts: API.OperationMethod<DuplicateProjectsAlertsRequest, DuplicateProjectsAlertsResponse, DuplicateProjectsAlertsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const duplicateProjectsAlerts: API.OperationMethod<
+  DuplicateProjectsAlertsRequest,
+  DuplicateProjectsAlertsResponse,
+  DuplicateProjectsAlertsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DuplicateProjectsAlertsRequest,
   output: DuplicateProjectsAlertsResponse,
   errors: [],
@@ -1501,7 +1945,10 @@ export interface GetProjectsAlertsDocumentsRequest {
 export const GetProjectsAlertsDocumentsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/alerts/{alertsId}/documents/{documentsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/alerts/{alertsId}/documents/{documentsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsAlertsDocumentsRequest>;
 
@@ -1511,9 +1958,13 @@ export const GetProjectsAlertsDocumentsResponse = AlertDocument;
 export type GetProjectsAlertsDocumentsError = DefaultErrors;
 
 /** Gets a specific document associated with an alert. */
-export const getProjectsAlertsDocuments: API.OperationMethod<GetProjectsAlertsDocumentsRequest, GetProjectsAlertsDocumentsResponse, GetProjectsAlertsDocumentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsAlertsDocuments: API.OperationMethod<
+  GetProjectsAlertsDocumentsRequest,
+  GetProjectsAlertsDocumentsResponse,
+  GetProjectsAlertsDocumentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsAlertsDocumentsRequest,
   output: GetProjectsAlertsDocumentsResponse,
   errors: [],
 }));
-

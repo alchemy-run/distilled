@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // OriginPostQuantumEncryption
@@ -25,9 +23,13 @@ export interface GetOriginPostQuantumEncryptionRequest {
 }
 
 export const GetOriginPostQuantumEncryptionRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/cache/origin_post_quantum_encryption" })) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/cache/origin_post_quantum_encryption",
+  }),
+) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionRequest>;
 
 export interface GetOriginPostQuantumEncryptionResponse {
   /** The identifier of the caching setting. */
@@ -44,11 +46,17 @@ export const GetOriginPostQuantumEncryptionResponse = Schema.Struct({
   id: Schema.Literal("origin_pqe"),
   editable: Schema.Boolean,
   value: Schema.Literals(["preferred", "supported", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ id: "id", editable: "editable", value: "value", modifiedOn: "modified_on" })) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
+) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
 
-export type GetOriginPostQuantumEncryptionError =
-  | DefaultErrors;
+export type GetOriginPostQuantumEncryptionError = DefaultErrors;
 
 export const getOriginPostQuantumEncryption: API.OperationMethod<
   GetOriginPostQuantumEncryptionRequest,
@@ -70,9 +78,13 @@ export interface PutOriginPostQuantumEncryptionRequest {
 
 export const PutOriginPostQuantumEncryptionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literals(["preferred", "supported", "off"])
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/cache/origin_post_quantum_encryption" })) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionRequest>;
+  value: Schema.Literals(["preferred", "supported", "off"]),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/cache/origin_post_quantum_encryption",
+  }),
+) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionRequest>;
 
 export interface PutOriginPostQuantumEncryptionResponse {
   /** The identifier of the caching setting. */
@@ -89,11 +101,17 @@ export const PutOriginPostQuantumEncryptionResponse = Schema.Struct({
   id: Schema.Literal("origin_pqe"),
   editable: Schema.Boolean,
   value: Schema.Literals(["preferred", "supported", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null]))
-}).pipe(Schema.encodeKeys({ id: "id", editable: "editable", value: "value", modifiedOn: "modified_on" })) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
+) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
 
-export type PutOriginPostQuantumEncryptionError =
-  | DefaultErrors;
+export type PutOriginPostQuantumEncryptionError = DefaultErrors;
 
 export const putOriginPostQuantumEncryption: API.OperationMethod<
   PutOriginPostQuantumEncryptionRequest,

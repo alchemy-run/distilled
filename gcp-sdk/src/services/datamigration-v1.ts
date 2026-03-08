@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,23 +74,29 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface DumpFlag {
   /** The name of the flag */
@@ -93,19 +105,23 @@ export interface DumpFlag {
   value?: string;
 }
 
-export const DumpFlag: Schema.Schema<DumpFlag> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "DumpFlag" }) as any as Schema.Schema<DumpFlag>;
+export const DumpFlag: Schema.Schema<DumpFlag> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DumpFlag" }) as any as Schema.Schema<DumpFlag>;
 
 export interface DumpFlags {
   /** The flags for the initial dump. */
   dumpFlags?: Array<DumpFlag>;
 }
 
-export const DumpFlags: Schema.Schema<DumpFlags> = Schema.suspend(() => Schema.Struct({
-  dumpFlags: Schema.optional(Schema.Array(DumpFlag)),
-})).annotate({ identifier: "DumpFlags" }) as any as Schema.Schema<DumpFlags>;
+export const DumpFlags: Schema.Schema<DumpFlags> = Schema.suspend(() =>
+  Schema.Struct({
+    dumpFlags: Schema.optional(Schema.Array(DumpFlag)),
+  }),
+).annotate({ identifier: "DumpFlags" }) as any as Schema.Schema<DumpFlags>;
 
 export interface ReverseSshConnectivity {
   /** Required. The IP of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
@@ -118,39 +134,67 @@ export interface ReverseSshConnectivity {
   vpc?: string;
 }
 
-export const ReverseSshConnectivity: Schema.Schema<ReverseSshConnectivity> = Schema.suspend(() => Schema.Struct({
-  vmIp: Schema.optional(Schema.String),
-  vmPort: Schema.optional(Schema.Number),
-  vm: Schema.optional(Schema.String),
-  vpc: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReverseSshConnectivity" }) as any as Schema.Schema<ReverseSshConnectivity>;
+export const ReverseSshConnectivity: Schema.Schema<ReverseSshConnectivity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vmIp: Schema.optional(Schema.String),
+      vmPort: Schema.optional(Schema.Number),
+      vm: Schema.optional(Schema.String),
+      vpc: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReverseSshConnectivity",
+  }) as any as Schema.Schema<ReverseSshConnectivity>;
 
 export interface VpcPeeringConnectivity {
   /** The name of the VPC network to peer with the Cloud SQL private network. */
   vpc?: string;
 }
 
-export const VpcPeeringConnectivity: Schema.Schema<VpcPeeringConnectivity> = Schema.suspend(() => Schema.Struct({
-  vpc: Schema.optional(Schema.String),
-})).annotate({ identifier: "VpcPeeringConnectivity" }) as any as Schema.Schema<VpcPeeringConnectivity>;
+export const VpcPeeringConnectivity: Schema.Schema<VpcPeeringConnectivity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vpc: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VpcPeeringConnectivity",
+  }) as any as Schema.Schema<VpcPeeringConnectivity>;
 
-export interface StaticIpConnectivity {
-}
+export interface StaticIpConnectivity {}
 
-export const StaticIpConnectivity: Schema.Schema<StaticIpConnectivity> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "StaticIpConnectivity" }) as any as Schema.Schema<StaticIpConnectivity>;
+export const StaticIpConnectivity: Schema.Schema<StaticIpConnectivity> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "StaticIpConnectivity",
+  }) as any as Schema.Schema<StaticIpConnectivity>;
 
 export interface DatabaseType {
   /** The database provider. */
-  provider?: "DATABASE_PROVIDER_UNSPECIFIED" | "CLOUDSQL" | "RDS" | "AURORA" | "ALLOYDB" | "AZURE_DATABASE" | (string & {});
+  provider?:
+    | "DATABASE_PROVIDER_UNSPECIFIED"
+    | "CLOUDSQL"
+    | "RDS"
+    | "AURORA"
+    | "ALLOYDB"
+    | "AZURE_DATABASE"
+    | (string & {});
   /** The database engine. */
-  engine?: "DATABASE_ENGINE_UNSPECIFIED" | "MYSQL" | "POSTGRESQL" | "SQLSERVER" | "ORACLE" | (string & {});
+  engine?:
+    | "DATABASE_ENGINE_UNSPECIFIED"
+    | "MYSQL"
+    | "POSTGRESQL"
+    | "SQLSERVER"
+    | "ORACLE"
+    | (string & {});
 }
 
-export const DatabaseType: Schema.Schema<DatabaseType> = Schema.suspend(() => Schema.Struct({
-  provider: Schema.optional(Schema.String),
-  engine: Schema.optional(Schema.String),
-})).annotate({ identifier: "DatabaseType" }) as any as Schema.Schema<DatabaseType>;
+export const DatabaseType: Schema.Schema<DatabaseType> = Schema.suspend(() =>
+  Schema.Struct({
+    provider: Schema.optional(Schema.String),
+    engine: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DatabaseType",
+}) as any as Schema.Schema<DatabaseType>;
 
 export interface ConversionWorkspaceInfo {
   /** The resource name (URI) of the conversion workspace. */
@@ -159,19 +203,34 @@ export interface ConversionWorkspaceInfo {
   commitId?: string;
 }
 
-export const ConversionWorkspaceInfo: Schema.Schema<ConversionWorkspaceInfo> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  commitId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConversionWorkspaceInfo" }) as any as Schema.Schema<ConversionWorkspaceInfo>;
+export const ConversionWorkspaceInfo: Schema.Schema<ConversionWorkspaceInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      commitId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConversionWorkspaceInfo",
+  }) as any as Schema.Schema<ConversionWorkspaceInfo>;
 
 export interface PerformanceConfig {
   /** Initial dump parallelism level. */
-  dumpParallelLevel?: "DUMP_PARALLEL_LEVEL_UNSPECIFIED" | "MIN" | "OPTIMAL" | "MAX" | (string & {});
+  dumpParallelLevel?:
+    | "DUMP_PARALLEL_LEVEL_UNSPECIFIED"
+    | "MIN"
+    | "OPTIMAL"
+    | "MAX"
+    | (string & {});
 }
 
-export const PerformanceConfig: Schema.Schema<PerformanceConfig> = Schema.suspend(() => Schema.Struct({
-  dumpParallelLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "PerformanceConfig" }) as any as Schema.Schema<PerformanceConfig>;
+export const PerformanceConfig: Schema.Schema<PerformanceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dumpParallelLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PerformanceConfig",
+  }) as any as Schema.Schema<PerformanceConfig>;
 
 export interface SqlServerEncryptionOptions {
   /** Required. Path to the Certificate (.cer) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
@@ -182,11 +241,16 @@ export interface SqlServerEncryptionOptions {
   pvkPassword?: string;
 }
 
-export const SqlServerEncryptionOptions: Schema.Schema<SqlServerEncryptionOptions> = Schema.suspend(() => Schema.Struct({
-  certPath: Schema.optional(Schema.String),
-  pvkPath: Schema.optional(Schema.String),
-  pvkPassword: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerEncryptionOptions" }) as any as Schema.Schema<SqlServerEncryptionOptions>;
+export const SqlServerEncryptionOptions: Schema.Schema<SqlServerEncryptionOptions> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certPath: Schema.optional(Schema.String),
+      pvkPath: Schema.optional(Schema.String),
+      pvkPassword: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlServerEncryptionOptions",
+  }) as any as Schema.Schema<SqlServerEncryptionOptions>;
 
 export interface SqlServerDatabaseBackup {
   /** Required. Name of a SQL Server database for which to define backup configuration. */
@@ -195,10 +259,15 @@ export interface SqlServerDatabaseBackup {
   encryptionOptions?: SqlServerEncryptionOptions;
 }
 
-export const SqlServerDatabaseBackup: Schema.Schema<SqlServerDatabaseBackup> = Schema.suspend(() => Schema.Struct({
-  database: Schema.optional(Schema.String),
-  encryptionOptions: Schema.optional(SqlServerEncryptionOptions),
-})).annotate({ identifier: "SqlServerDatabaseBackup" }) as any as Schema.Schema<SqlServerDatabaseBackup>;
+export const SqlServerDatabaseBackup: Schema.Schema<SqlServerDatabaseBackup> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      database: Schema.optional(Schema.String),
+      encryptionOptions: Schema.optional(SqlServerEncryptionOptions),
+    }),
+  ).annotate({
+    identifier: "SqlServerDatabaseBackup",
+  }) as any as Schema.Schema<SqlServerDatabaseBackup>;
 
 export interface SqlServerDagConfig {
   /** Required. The name of the source availability group. Only used by DAG migrations. */
@@ -207,10 +276,15 @@ export interface SqlServerDagConfig {
   linkedServer?: string;
 }
 
-export const SqlServerDagConfig: Schema.Schema<SqlServerDagConfig> = Schema.suspend(() => Schema.Struct({
-  sourceAg: Schema.optional(Schema.String),
-  linkedServer: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerDagConfig" }) as any as Schema.Schema<SqlServerDagConfig>;
+export const SqlServerDagConfig: Schema.Schema<SqlServerDagConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceAg: Schema.optional(Schema.String),
+      linkedServer: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlServerDagConfig",
+  }) as any as Schema.Schema<SqlServerDagConfig>;
 
 export interface SqlServerHomogeneousMigrationJobConfig {
   /** Required. Pattern that describes the default backup naming strategy. The specified pattern should ensure lexicographical order of backups. The pattern must define one of the following capture group sets: Capture group set #1 yy/yyyy - year, 2 or 4 digits mm - month number, 1-12 dd - day of month, 1-31 hh - hour of day, 00-23 mi - minutes, 00-59 ss - seconds, 00-59 Example: For backup file TestDB_20230802_155400.trn, use pattern: (?.*)_backup_(?\d{4})(?\d{2})(?\d{2})_(?\d{2})(?\d{2})(?\d{2}).trn Capture group set #2 timestamp - unix timestamp Example: For backup file TestDB.1691448254.trn, use pattern: (?.*)\.(?\d*).trn or (?.*)\.(?\d*).trn */
@@ -225,25 +299,31 @@ export interface SqlServerHomogeneousMigrationJobConfig {
   dagConfig?: SqlServerDagConfig;
 }
 
-export const SqlServerHomogeneousMigrationJobConfig: Schema.Schema<SqlServerHomogeneousMigrationJobConfig> = Schema.suspend(() => Schema.Struct({
-  backupFilePattern: Schema.optional(Schema.String),
-  databaseBackups: Schema.optional(Schema.Array(SqlServerDatabaseBackup)),
-  useDiffBackup: Schema.optional(Schema.Boolean),
-  promoteWhenReady: Schema.optional(Schema.Boolean),
-  dagConfig: Schema.optional(SqlServerDagConfig),
-})).annotate({ identifier: "SqlServerHomogeneousMigrationJobConfig" }) as any as Schema.Schema<SqlServerHomogeneousMigrationJobConfig>;
+export const SqlServerHomogeneousMigrationJobConfig: Schema.Schema<SqlServerHomogeneousMigrationJobConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      backupFilePattern: Schema.optional(Schema.String),
+      databaseBackups: Schema.optional(Schema.Array(SqlServerDatabaseBackup)),
+      useDiffBackup: Schema.optional(Schema.Boolean),
+      promoteWhenReady: Schema.optional(Schema.Boolean),
+      dagConfig: Schema.optional(SqlServerDagConfig),
+    }),
+  ).annotate({
+    identifier: "SqlServerHomogeneousMigrationJobConfig",
+  }) as any as Schema.Schema<SqlServerHomogeneousMigrationJobConfig>;
 
-export interface LogMiner {
-}
+export interface LogMiner {}
 
-export const LogMiner: Schema.Schema<LogMiner> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "LogMiner" }) as any as Schema.Schema<LogMiner>;
+export const LogMiner: Schema.Schema<LogMiner> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "LogMiner" }) as any as Schema.Schema<LogMiner>;
 
-export interface OracleAsmLogFileAccess {
-}
+export interface OracleAsmLogFileAccess {}
 
-export const OracleAsmLogFileAccess: Schema.Schema<OracleAsmLogFileAccess> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "OracleAsmLogFileAccess" }) as any as Schema.Schema<OracleAsmLogFileAccess>;
+export const OracleAsmLogFileAccess: Schema.Schema<OracleAsmLogFileAccess> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "OracleAsmLogFileAccess",
+  }) as any as Schema.Schema<OracleAsmLogFileAccess>;
 
 export interface LogFileDirectories {
   /** Required. Oracle directory for online logs. */
@@ -252,10 +332,15 @@ export interface LogFileDirectories {
   archivedLogDirectory?: string;
 }
 
-export const LogFileDirectories: Schema.Schema<LogFileDirectories> = Schema.suspend(() => Schema.Struct({
-  onlineLogDirectory: Schema.optional(Schema.String),
-  archivedLogDirectory: Schema.optional(Schema.String),
-})).annotate({ identifier: "LogFileDirectories" }) as any as Schema.Schema<LogFileDirectories>;
+export const LogFileDirectories: Schema.Schema<LogFileDirectories> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      onlineLogDirectory: Schema.optional(Schema.String),
+      archivedLogDirectory: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LogFileDirectories",
+  }) as any as Schema.Schema<LogFileDirectories>;
 
 export interface BinaryLogParser {
   /** Use Oracle ASM. */
@@ -264,10 +349,15 @@ export interface BinaryLogParser {
   logFileDirectories?: LogFileDirectories;
 }
 
-export const BinaryLogParser: Schema.Schema<BinaryLogParser> = Schema.suspend(() => Schema.Struct({
-  oracleAsmLogFileAccess: Schema.optional(OracleAsmLogFileAccess),
-  logFileDirectories: Schema.optional(LogFileDirectories),
-})).annotate({ identifier: "BinaryLogParser" }) as any as Schema.Schema<BinaryLogParser>;
+export const BinaryLogParser: Schema.Schema<BinaryLogParser> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      oracleAsmLogFileAccess: Schema.optional(OracleAsmLogFileAccess),
+      logFileDirectories: Schema.optional(LogFileDirectories),
+    }),
+).annotate({
+  identifier: "BinaryLogParser",
+}) as any as Schema.Schema<BinaryLogParser>;
 
 export interface OracleSourceConfig {
   /** Optional. Maximum number of connections Database Migration Service will open to the source for full dump phase. */
@@ -284,14 +374,19 @@ export interface OracleSourceConfig {
   binaryLogParser?: BinaryLogParser;
 }
 
-export const OracleSourceConfig: Schema.Schema<OracleSourceConfig> = Schema.suspend(() => Schema.Struct({
-  maxConcurrentFullDumpConnections: Schema.optional(Schema.Number),
-  maxConcurrentCdcConnections: Schema.optional(Schema.Number),
-  skipFullDump: Schema.optional(Schema.Boolean),
-  cdcStartPosition: Schema.optional(Schema.String),
-  logMiner: Schema.optional(LogMiner),
-  binaryLogParser: Schema.optional(BinaryLogParser),
-})).annotate({ identifier: "OracleSourceConfig" }) as any as Schema.Schema<OracleSourceConfig>;
+export const OracleSourceConfig: Schema.Schema<OracleSourceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maxConcurrentFullDumpConnections: Schema.optional(Schema.Number),
+      maxConcurrentCdcConnections: Schema.optional(Schema.Number),
+      skipFullDump: Schema.optional(Schema.Boolean),
+      cdcStartPosition: Schema.optional(Schema.String),
+      logMiner: Schema.optional(LogMiner),
+      binaryLogParser: Schema.optional(BinaryLogParser),
+    }),
+  ).annotate({
+    identifier: "OracleSourceConfig",
+  }) as any as Schema.Schema<OracleSourceConfig>;
 
 export interface PostgresDestinationConfig {
   /** Optional. Maximum number of connections Database Migration Service will open to the destination for data migration. */
@@ -300,10 +395,15 @@ export interface PostgresDestinationConfig {
   transactionTimeout?: string;
 }
 
-export const PostgresDestinationConfig: Schema.Schema<PostgresDestinationConfig> = Schema.suspend(() => Schema.Struct({
-  maxConcurrentConnections: Schema.optional(Schema.Number),
-  transactionTimeout: Schema.optional(Schema.String),
-})).annotate({ identifier: "PostgresDestinationConfig" }) as any as Schema.Schema<PostgresDestinationConfig>;
+export const PostgresDestinationConfig: Schema.Schema<PostgresDestinationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maxConcurrentConnections: Schema.optional(Schema.Number),
+      transactionTimeout: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PostgresDestinationConfig",
+  }) as any as Schema.Schema<PostgresDestinationConfig>;
 
 export interface OracleToPostgresConfig {
   /** Optional. Configuration for Oracle source. */
@@ -312,10 +412,15 @@ export interface OracleToPostgresConfig {
   postgresDestinationConfig?: PostgresDestinationConfig;
 }
 
-export const OracleToPostgresConfig: Schema.Schema<OracleToPostgresConfig> = Schema.suspend(() => Schema.Struct({
-  oracleSourceConfig: Schema.optional(OracleSourceConfig),
-  postgresDestinationConfig: Schema.optional(PostgresDestinationConfig),
-})).annotate({ identifier: "OracleToPostgresConfig" }) as any as Schema.Schema<OracleToPostgresConfig>;
+export const OracleToPostgresConfig: Schema.Schema<OracleToPostgresConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      oracleSourceConfig: Schema.optional(OracleSourceConfig),
+      postgresDestinationConfig: Schema.optional(PostgresDestinationConfig),
+    }),
+  ).annotate({
+    identifier: "OracleToPostgresConfig",
+  }) as any as Schema.Schema<OracleToPostgresConfig>;
 
 export interface SqlServerSourceConfig {
   /** Optional. Maximum number of connections Database Migration Service will open to the source for full dump phase. */
@@ -328,12 +433,17 @@ export interface SqlServerSourceConfig {
   cdcStartPosition?: string;
 }
 
-export const SqlServerSourceConfig: Schema.Schema<SqlServerSourceConfig> = Schema.suspend(() => Schema.Struct({
-  maxConcurrentFullDumpConnections: Schema.optional(Schema.Number),
-  maxConcurrentCdcConnections: Schema.optional(Schema.Number),
-  skipFullDump: Schema.optional(Schema.Boolean),
-  cdcStartPosition: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerSourceConfig" }) as any as Schema.Schema<SqlServerSourceConfig>;
+export const SqlServerSourceConfig: Schema.Schema<SqlServerSourceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maxConcurrentFullDumpConnections: Schema.optional(Schema.Number),
+      maxConcurrentCdcConnections: Schema.optional(Schema.Number),
+      skipFullDump: Schema.optional(Schema.Boolean),
+      cdcStartPosition: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlServerSourceConfig",
+  }) as any as Schema.Schema<SqlServerSourceConfig>;
 
 export interface SqlServerToPostgresConfig {
   /** Optional. Configuration for SQL Server source. */
@@ -342,19 +452,29 @@ export interface SqlServerToPostgresConfig {
   postgresDestinationConfig?: PostgresDestinationConfig;
 }
 
-export const SqlServerToPostgresConfig: Schema.Schema<SqlServerToPostgresConfig> = Schema.suspend(() => Schema.Struct({
-  sqlserverSourceConfig: Schema.optional(SqlServerSourceConfig),
-  postgresDestinationConfig: Schema.optional(PostgresDestinationConfig),
-})).annotate({ identifier: "SqlServerToPostgresConfig" }) as any as Schema.Schema<SqlServerToPostgresConfig>;
+export const SqlServerToPostgresConfig: Schema.Schema<SqlServerToPostgresConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sqlserverSourceConfig: Schema.optional(SqlServerSourceConfig),
+      postgresDestinationConfig: Schema.optional(PostgresDestinationConfig),
+    }),
+  ).annotate({
+    identifier: "SqlServerToPostgresConfig",
+  }) as any as Schema.Schema<SqlServerToPostgresConfig>;
 
 export interface PostgresSourceConfig {
   /** Optional. Whether to skip full dump or not. */
   skipFullDump?: boolean;
 }
 
-export const PostgresSourceConfig: Schema.Schema<PostgresSourceConfig> = Schema.suspend(() => Schema.Struct({
-  skipFullDump: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "PostgresSourceConfig" }) as any as Schema.Schema<PostgresSourceConfig>;
+export const PostgresSourceConfig: Schema.Schema<PostgresSourceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      skipFullDump: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PostgresSourceConfig",
+  }) as any as Schema.Schema<PostgresSourceConfig>;
 
 export interface SqlServerDestinationConfig {
   /** Optional. Maximum number of connections Database Migration Service will open to the destination for data migration. */
@@ -363,10 +483,15 @@ export interface SqlServerDestinationConfig {
   transactionTimeout?: string;
 }
 
-export const SqlServerDestinationConfig: Schema.Schema<SqlServerDestinationConfig> = Schema.suspend(() => Schema.Struct({
-  maxConcurrentConnections: Schema.optional(Schema.Number),
-  transactionTimeout: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerDestinationConfig" }) as any as Schema.Schema<SqlServerDestinationConfig>;
+export const SqlServerDestinationConfig: Schema.Schema<SqlServerDestinationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      maxConcurrentConnections: Schema.optional(Schema.Number),
+      transactionTimeout: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SqlServerDestinationConfig",
+  }) as any as Schema.Schema<SqlServerDestinationConfig>;
 
 export interface PostgresToSqlServerConfig {
   /** Optional. Configuration for PostgreSQL source. */
@@ -375,10 +500,15 @@ export interface PostgresToSqlServerConfig {
   sqlserverDestinationConfig?: SqlServerDestinationConfig;
 }
 
-export const PostgresToSqlServerConfig: Schema.Schema<PostgresToSqlServerConfig> = Schema.suspend(() => Schema.Struct({
-  postgresSourceConfig: Schema.optional(PostgresSourceConfig),
-  sqlserverDestinationConfig: Schema.optional(SqlServerDestinationConfig),
-})).annotate({ identifier: "PostgresToSqlServerConfig" }) as any as Schema.Schema<PostgresToSqlServerConfig>;
+export const PostgresToSqlServerConfig: Schema.Schema<PostgresToSqlServerConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      postgresSourceConfig: Schema.optional(PostgresSourceConfig),
+      sqlserverDestinationConfig: Schema.optional(SqlServerDestinationConfig),
+    }),
+  ).annotate({
+    identifier: "PostgresToSqlServerConfig",
+  }) as any as Schema.Schema<PostgresToSqlServerConfig>;
 
 export interface SourceObjectIdentifier {
   /** Optional. The database name. This will be required only if the object uses a database name as part of its unique identifier. */
@@ -388,45 +518,74 @@ export interface SourceObjectIdentifier {
   /** Optional. The table name. This will be required only if the object is a level below database or schema. */
   table?: string;
   /** Required. The type of the migration job object. */
-  type?: "MIGRATION_JOB_OBJECT_TYPE_UNSPECIFIED" | "DATABASE" | "SCHEMA" | "TABLE" | (string & {});
+  type?:
+    | "MIGRATION_JOB_OBJECT_TYPE_UNSPECIFIED"
+    | "DATABASE"
+    | "SCHEMA"
+    | "TABLE"
+    | (string & {});
 }
 
-export const SourceObjectIdentifier: Schema.Schema<SourceObjectIdentifier> = Schema.suspend(() => Schema.Struct({
-  database: Schema.optional(Schema.String),
-  schema: Schema.optional(Schema.String),
-  table: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceObjectIdentifier" }) as any as Schema.Schema<SourceObjectIdentifier>;
+export const SourceObjectIdentifier: Schema.Schema<SourceObjectIdentifier> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      database: Schema.optional(Schema.String),
+      schema: Schema.optional(Schema.String),
+      table: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SourceObjectIdentifier",
+  }) as any as Schema.Schema<SourceObjectIdentifier>;
 
 export interface SourceObjectConfig {
   /** Optional. The object identifier. */
   objectIdentifier?: SourceObjectIdentifier;
 }
 
-export const SourceObjectConfig: Schema.Schema<SourceObjectConfig> = Schema.suspend(() => Schema.Struct({
-  objectIdentifier: Schema.optional(SourceObjectIdentifier),
-})).annotate({ identifier: "SourceObjectConfig" }) as any as Schema.Schema<SourceObjectConfig>;
+export const SourceObjectConfig: Schema.Schema<SourceObjectConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectIdentifier: Schema.optional(SourceObjectIdentifier),
+    }),
+  ).annotate({
+    identifier: "SourceObjectConfig",
+  }) as any as Schema.Schema<SourceObjectConfig>;
 
 export interface SourceObjectsConfig {
   /** Optional. The list of the objects to be migrated. */
   objectConfigs?: Array<SourceObjectConfig>;
   /** Optional. The objects selection type of the migration job. */
-  objectsSelectionType?: "OBJECTS_SELECTION_TYPE_UNSPECIFIED" | "ALL_OBJECTS" | "SPECIFIED_OBJECTS" | (string & {});
+  objectsSelectionType?:
+    | "OBJECTS_SELECTION_TYPE_UNSPECIFIED"
+    | "ALL_OBJECTS"
+    | "SPECIFIED_OBJECTS"
+    | (string & {});
 }
 
-export const SourceObjectsConfig: Schema.Schema<SourceObjectsConfig> = Schema.suspend(() => Schema.Struct({
-  objectConfigs: Schema.optional(Schema.Array(SourceObjectConfig)),
-  objectsSelectionType: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceObjectsConfig" }) as any as Schema.Schema<SourceObjectsConfig>;
+export const SourceObjectsConfig: Schema.Schema<SourceObjectsConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectConfigs: Schema.optional(Schema.Array(SourceObjectConfig)),
+      objectsSelectionType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SourceObjectsConfig",
+  }) as any as Schema.Schema<SourceObjectsConfig>;
 
 export interface MigrationJobObjectsConfig {
   /** The list of the migration job objects. */
   sourceObjectsConfig?: SourceObjectsConfig;
 }
 
-export const MigrationJobObjectsConfig: Schema.Schema<MigrationJobObjectsConfig> = Schema.suspend(() => Schema.Struct({
-  sourceObjectsConfig: Schema.optional(SourceObjectsConfig),
-})).annotate({ identifier: "MigrationJobObjectsConfig" }) as any as Schema.Schema<MigrationJobObjectsConfig>;
+export const MigrationJobObjectsConfig: Schema.Schema<MigrationJobObjectsConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceObjectsConfig: Schema.optional(SourceObjectsConfig),
+    }),
+  ).annotate({
+    identifier: "MigrationJobObjectsConfig",
+  }) as any as Schema.Schema<MigrationJobObjectsConfig>;
 
 export interface MigrationJob {
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
@@ -440,9 +599,34 @@ export interface MigrationJob {
   /** The migration job display name. */
   displayName?: string;
   /** The current migration job state. */
-  state?: "STATE_UNSPECIFIED" | "MAINTENANCE" | "DRAFT" | "CREATING" | "NOT_STARTED" | "RUNNING" | "FAILED" | "COMPLETED" | "DELETING" | "STOPPING" | "STOPPED" | "DELETED" | "UPDATING" | "STARTING" | "RESTARTING" | "RESUMING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "MAINTENANCE"
+    | "DRAFT"
+    | "CREATING"
+    | "NOT_STARTED"
+    | "RUNNING"
+    | "FAILED"
+    | "COMPLETED"
+    | "DELETING"
+    | "STOPPING"
+    | "STOPPED"
+    | "DELETED"
+    | "UPDATING"
+    | "STARTING"
+    | "RESTARTING"
+    | "RESUMING"
+    | (string & {});
   /** Output only. The current migration job phase. */
-  phase?: "PHASE_UNSPECIFIED" | "FULL_DUMP" | "CDC" | "PROMOTE_IN_PROGRESS" | "WAITING_FOR_SOURCE_WRITES_TO_STOP" | "PREPARING_THE_DUMP" | "READY_FOR_PROMOTE" | (string & {});
+  phase?:
+    | "PHASE_UNSPECIFIED"
+    | "FULL_DUMP"
+    | "CDC"
+    | "PROMOTE_IN_PROGRESS"
+    | "WAITING_FOR_SOURCE_WRITES_TO_STOP"
+    | "PREPARING_THE_DUMP"
+    | "READY_FOR_PROMOTE"
+    | (string & {});
   /** Required. The migration job type. */
   type?: "TYPE_UNSPECIFIED" | "ONE_TIME" | "CONTINUOUS" | (string & {});
   /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). This field and the "dump_flags" field are mutually exclusive. */
@@ -499,42 +683,48 @@ export interface MigrationJob {
   originalMigrationName?: string;
 }
 
-export const MigrationJob: Schema.Schema<MigrationJob> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  phase: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  dumpPath: Schema.optional(Schema.String),
-  dumpFlags: Schema.optional(DumpFlags),
-  source: Schema.optional(Schema.String),
-  destination: Schema.optional(Schema.String),
-  reverseSshConnectivity: Schema.optional(ReverseSshConnectivity),
-  vpcPeeringConnectivity: Schema.optional(VpcPeeringConnectivity),
-  staticIpConnectivity: Schema.optional(StaticIpConnectivity),
-  duration: Schema.optional(Schema.String),
-  error: Schema.optional(Status),
-  sourceDatabase: Schema.optional(DatabaseType),
-  destinationDatabase: Schema.optional(DatabaseType),
-  endTime: Schema.optional(Schema.String),
-  conversionWorkspace: Schema.optional(ConversionWorkspaceInfo),
-  filter: Schema.optional(Schema.String),
-  cmekKeyName: Schema.optional(Schema.String),
-  performanceConfig: Schema.optional(PerformanceConfig),
-  sqlserverHomogeneousMigrationJobConfig: Schema.optional(SqlServerHomogeneousMigrationJobConfig),
-  dumpType: Schema.optional(Schema.String),
-  oracleToPostgresConfig: Schema.optional(OracleToPostgresConfig),
-  sqlserverToPostgresConfig: Schema.optional(SqlServerToPostgresConfig),
-  postgresToSqlserverConfig: Schema.optional(PostgresToSqlServerConfig),
-  objectsConfig: Schema.optional(MigrationJobObjectsConfig),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-  purpose: Schema.optional(Schema.String),
-  originalMigrationName: Schema.optional(Schema.String),
-})).annotate({ identifier: "MigrationJob" }) as any as Schema.Schema<MigrationJob>;
+export const MigrationJob: Schema.Schema<MigrationJob> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    displayName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    phase: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    dumpPath: Schema.optional(Schema.String),
+    dumpFlags: Schema.optional(DumpFlags),
+    source: Schema.optional(Schema.String),
+    destination: Schema.optional(Schema.String),
+    reverseSshConnectivity: Schema.optional(ReverseSshConnectivity),
+    vpcPeeringConnectivity: Schema.optional(VpcPeeringConnectivity),
+    staticIpConnectivity: Schema.optional(StaticIpConnectivity),
+    duration: Schema.optional(Schema.String),
+    error: Schema.optional(Status),
+    sourceDatabase: Schema.optional(DatabaseType),
+    destinationDatabase: Schema.optional(DatabaseType),
+    endTime: Schema.optional(Schema.String),
+    conversionWorkspace: Schema.optional(ConversionWorkspaceInfo),
+    filter: Schema.optional(Schema.String),
+    cmekKeyName: Schema.optional(Schema.String),
+    performanceConfig: Schema.optional(PerformanceConfig),
+    sqlserverHomogeneousMigrationJobConfig: Schema.optional(
+      SqlServerHomogeneousMigrationJobConfig,
+    ),
+    dumpType: Schema.optional(Schema.String),
+    oracleToPostgresConfig: Schema.optional(OracleToPostgresConfig),
+    sqlserverToPostgresConfig: Schema.optional(SqlServerToPostgresConfig),
+    postgresToSqlserverConfig: Schema.optional(PostgresToSqlServerConfig),
+    objectsConfig: Schema.optional(MigrationJobObjectsConfig),
+    satisfiesPzs: Schema.optional(Schema.Boolean),
+    satisfiesPzi: Schema.optional(Schema.Boolean),
+    purpose: Schema.optional(Schema.String),
+    originalMigrationName: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "MigrationJob",
+}) as any as Schema.Schema<MigrationJob>;
 
 export interface ListMigrationJobsResponse {
   /** The list of migration jobs objects. */
@@ -545,50 +735,72 @@ export interface ListMigrationJobsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListMigrationJobsResponse: Schema.Schema<ListMigrationJobsResponse> = Schema.suspend(() => Schema.Struct({
-  migrationJobs: Schema.optional(Schema.Array(MigrationJob)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListMigrationJobsResponse" }) as any as Schema.Schema<ListMigrationJobsResponse>;
+export const ListMigrationJobsResponse: Schema.Schema<ListMigrationJobsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationJobs: Schema.optional(Schema.Array(MigrationJob)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListMigrationJobsResponse",
+  }) as any as Schema.Schema<ListMigrationJobsResponse>;
 
 export interface StartMigrationJobRequest {
   /** Optional. Start the migration job without running prior configuration verification. Defaults to `false`. */
   skipValidation?: boolean;
 }
 
-export const StartMigrationJobRequest: Schema.Schema<StartMigrationJobRequest> = Schema.suspend(() => Schema.Struct({
-  skipValidation: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "StartMigrationJobRequest" }) as any as Schema.Schema<StartMigrationJobRequest>;
+export const StartMigrationJobRequest: Schema.Schema<StartMigrationJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      skipValidation: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "StartMigrationJobRequest",
+  }) as any as Schema.Schema<StartMigrationJobRequest>;
 
-export interface StopMigrationJobRequest {
-}
+export interface StopMigrationJobRequest {}
 
-export const StopMigrationJobRequest: Schema.Schema<StopMigrationJobRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "StopMigrationJobRequest" }) as any as Schema.Schema<StopMigrationJobRequest>;
+export const StopMigrationJobRequest: Schema.Schema<StopMigrationJobRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "StopMigrationJobRequest",
+  }) as any as Schema.Schema<StopMigrationJobRequest>;
 
 export interface ResumeMigrationJobRequest {
   /** Optional. Resume the migration job without running prior configuration verification. Defaults to `false`. */
   skipValidation?: boolean;
 }
 
-export const ResumeMigrationJobRequest: Schema.Schema<ResumeMigrationJobRequest> = Schema.suspend(() => Schema.Struct({
-  skipValidation: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ResumeMigrationJobRequest" }) as any as Schema.Schema<ResumeMigrationJobRequest>;
+export const ResumeMigrationJobRequest: Schema.Schema<ResumeMigrationJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      skipValidation: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ResumeMigrationJobRequest",
+  }) as any as Schema.Schema<ResumeMigrationJobRequest>;
 
 export interface PromoteMigrationJobRequest {
   /** Optional. The object filter to apply to the migration job. */
   objectsFilter?: MigrationJobObjectsConfig;
 }
 
-export const PromoteMigrationJobRequest: Schema.Schema<PromoteMigrationJobRequest> = Schema.suspend(() => Schema.Struct({
-  objectsFilter: Schema.optional(MigrationJobObjectsConfig),
-})).annotate({ identifier: "PromoteMigrationJobRequest" }) as any as Schema.Schema<PromoteMigrationJobRequest>;
+export const PromoteMigrationJobRequest: Schema.Schema<PromoteMigrationJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectsFilter: Schema.optional(MigrationJobObjectsConfig),
+    }),
+  ).annotate({
+    identifier: "PromoteMigrationJobRequest",
+  }) as any as Schema.Schema<PromoteMigrationJobRequest>;
 
-export interface DemoteDestinationRequest {
-}
+export interface DemoteDestinationRequest {}
 
-export const DemoteDestinationRequest: Schema.Schema<DemoteDestinationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "DemoteDestinationRequest" }) as any as Schema.Schema<DemoteDestinationRequest>;
+export const DemoteDestinationRequest: Schema.Schema<DemoteDestinationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DemoteDestinationRequest",
+  }) as any as Schema.Schema<DemoteDestinationRequest>;
 
 export interface VerifyMigrationJobRequest {
   /** Optional. Field mask is used to specify the changed fields to be verified. It will not update the migration job. */
@@ -597,10 +809,15 @@ export interface VerifyMigrationJobRequest {
   migrationJob?: MigrationJob;
 }
 
-export const VerifyMigrationJobRequest: Schema.Schema<VerifyMigrationJobRequest> = Schema.suspend(() => Schema.Struct({
-  updateMask: Schema.optional(Schema.String),
-  migrationJob: Schema.optional(MigrationJob),
-})).annotate({ identifier: "VerifyMigrationJobRequest" }) as any as Schema.Schema<VerifyMigrationJobRequest>;
+export const VerifyMigrationJobRequest: Schema.Schema<VerifyMigrationJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateMask: Schema.optional(Schema.String),
+      migrationJob: Schema.optional(MigrationJob),
+    }),
+  ).annotate({
+    identifier: "VerifyMigrationJobRequest",
+  }) as any as Schema.Schema<VerifyMigrationJobRequest>;
 
 export interface RestartMigrationJobRequest {
   /** Optional. Restart the migration job without running prior configuration verification. Defaults to `false`. */
@@ -611,11 +828,16 @@ export interface RestartMigrationJobRequest {
   restartFailedObjects?: boolean;
 }
 
-export const RestartMigrationJobRequest: Schema.Schema<RestartMigrationJobRequest> = Schema.suspend(() => Schema.Struct({
-  skipValidation: Schema.optional(Schema.Boolean),
-  objectsFilter: Schema.optional(MigrationJobObjectsConfig),
-  restartFailedObjects: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RestartMigrationJobRequest" }) as any as Schema.Schema<RestartMigrationJobRequest>;
+export const RestartMigrationJobRequest: Schema.Schema<RestartMigrationJobRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      skipValidation: Schema.optional(Schema.Boolean),
+      objectsFilter: Schema.optional(MigrationJobObjectsConfig),
+      restartFailedObjects: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RestartMigrationJobRequest",
+  }) as any as Schema.Schema<RestartMigrationJobRequest>;
 
 export interface VmCreationConfig {
   /** Required. VM instance machine type to create. */
@@ -626,20 +848,30 @@ export interface VmCreationConfig {
   subnet?: string;
 }
 
-export const VmCreationConfig: Schema.Schema<VmCreationConfig> = Schema.suspend(() => Schema.Struct({
-  vmMachineType: Schema.optional(Schema.String),
-  vmZone: Schema.optional(Schema.String),
-  subnet: Schema.optional(Schema.String),
-})).annotate({ identifier: "VmCreationConfig" }) as any as Schema.Schema<VmCreationConfig>;
+export const VmCreationConfig: Schema.Schema<VmCreationConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      vmMachineType: Schema.optional(Schema.String),
+      vmZone: Schema.optional(Schema.String),
+      subnet: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VmCreationConfig",
+}) as any as Schema.Schema<VmCreationConfig>;
 
 export interface VmSelectionConfig {
   /** Required. The Google Cloud Platform zone the VM is located. */
   vmZone?: string;
 }
 
-export const VmSelectionConfig: Schema.Schema<VmSelectionConfig> = Schema.suspend(() => Schema.Struct({
-  vmZone: Schema.optional(Schema.String),
-})).annotate({ identifier: "VmSelectionConfig" }) as any as Schema.Schema<VmSelectionConfig>;
+export const VmSelectionConfig: Schema.Schema<VmSelectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vmZone: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VmSelectionConfig",
+  }) as any as Schema.Schema<VmSelectionConfig>;
 
 export interface GenerateSshScriptRequest {
   /** Required. Bastion VM Instance name to use or to create. */
@@ -652,21 +884,28 @@ export interface GenerateSshScriptRequest {
   vmPort?: number;
 }
 
-export const GenerateSshScriptRequest: Schema.Schema<GenerateSshScriptRequest> = Schema.suspend(() => Schema.Struct({
-  vm: Schema.optional(Schema.String),
-  vmCreationConfig: Schema.optional(VmCreationConfig),
-  vmSelectionConfig: Schema.optional(VmSelectionConfig),
-  vmPort: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GenerateSshScriptRequest" }) as any as Schema.Schema<GenerateSshScriptRequest>;
+export const GenerateSshScriptRequest: Schema.Schema<GenerateSshScriptRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vm: Schema.optional(Schema.String),
+      vmCreationConfig: Schema.optional(VmCreationConfig),
+      vmSelectionConfig: Schema.optional(VmSelectionConfig),
+      vmPort: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GenerateSshScriptRequest",
+  }) as any as Schema.Schema<GenerateSshScriptRequest>;
 
 export interface SshScript {
   /** The ssh configuration script. */
   script?: string;
 }
 
-export const SshScript: Schema.Schema<SshScript> = Schema.suspend(() => Schema.Struct({
-  script: Schema.optional(Schema.String),
-})).annotate({ identifier: "SshScript" }) as any as Schema.Schema<SshScript>;
+export const SshScript: Schema.Schema<SshScript> = Schema.suspend(() =>
+  Schema.Struct({
+    script: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SshScript" }) as any as Schema.Schema<SshScript>;
 
 export interface GenerateTcpProxyScriptRequest {
   /** Required. The name of the Compute instance that will host the proxy. */
@@ -679,25 +918,41 @@ export interface GenerateTcpProxyScriptRequest {
   vmSubnet?: string;
 }
 
-export const GenerateTcpProxyScriptRequest: Schema.Schema<GenerateTcpProxyScriptRequest> = Schema.suspend(() => Schema.Struct({
-  vmName: Schema.optional(Schema.String),
-  vmMachineType: Schema.optional(Schema.String),
-  vmZone: Schema.optional(Schema.String),
-  vmSubnet: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateTcpProxyScriptRequest" }) as any as Schema.Schema<GenerateTcpProxyScriptRequest>;
+export const GenerateTcpProxyScriptRequest: Schema.Schema<GenerateTcpProxyScriptRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vmName: Schema.optional(Schema.String),
+      vmMachineType: Schema.optional(Schema.String),
+      vmZone: Schema.optional(Schema.String),
+      vmSubnet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateTcpProxyScriptRequest",
+  }) as any as Schema.Schema<GenerateTcpProxyScriptRequest>;
 
 export interface TcpProxyScript {
   /** The TCP Proxy configuration script. */
   script?: string;
 }
 
-export const TcpProxyScript: Schema.Schema<TcpProxyScript> = Schema.suspend(() => Schema.Struct({
-  script: Schema.optional(Schema.String),
-})).annotate({ identifier: "TcpProxyScript" }) as any as Schema.Schema<TcpProxyScript>;
+export const TcpProxyScript: Schema.Schema<TcpProxyScript> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      script: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "TcpProxyScript",
+}) as any as Schema.Schema<TcpProxyScript>;
 
 export interface SslConfig {
   /** Optional. The ssl config type according to 'client_key', 'client_certificate' and 'ca_certificate'. */
-  type?: "SSL_TYPE_UNSPECIFIED" | "SERVER_ONLY" | "SERVER_CLIENT" | "REQUIRED" | "NONE" | (string & {});
+  type?:
+    | "SSL_TYPE_UNSPECIFIED"
+    | "SERVER_ONLY"
+    | "SERVER_CLIENT"
+    | "REQUIRED"
+    | "NONE"
+    | (string & {});
   /** Input only. The unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' field is mandatory. */
   clientKey?: string;
   /** Input only. The x509 PEM-encoded certificate that will be used by the replica to authenticate against the source database server.If this field is used then the 'client_key' field is mandatory. */
@@ -708,13 +963,15 @@ export interface SslConfig {
   sslFlags?: Record<string, string>;
 }
 
-export const SslConfig: Schema.Schema<SslConfig> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  clientKey: Schema.optional(Schema.String),
-  clientCertificate: Schema.optional(Schema.String),
-  caCertificate: Schema.optional(Schema.String),
-  sslFlags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "SslConfig" }) as any as Schema.Schema<SslConfig>;
+export const SslConfig: Schema.Schema<SslConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    clientKey: Schema.optional(Schema.String),
+    clientCertificate: Schema.optional(Schema.String),
+    caCertificate: Schema.optional(Schema.String),
+    sslFlags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "SslConfig" }) as any as Schema.Schema<SslConfig>;
 
 export interface MySqlConnectionProfile {
   /** Required. The IP or hostname of the source MySQL database. */
@@ -733,24 +990,34 @@ export interface MySqlConnectionProfile {
   cloudSqlId?: string;
 }
 
-export const MySqlConnectionProfile: Schema.Schema<MySqlConnectionProfile> = Schema.suspend(() => Schema.Struct({
-  host: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  passwordSet: Schema.optional(Schema.Boolean),
-  ssl: Schema.optional(SslConfig),
-  cloudSqlId: Schema.optional(Schema.String),
-})).annotate({ identifier: "MySqlConnectionProfile" }) as any as Schema.Schema<MySqlConnectionProfile>;
+export const MySqlConnectionProfile: Schema.Schema<MySqlConnectionProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      host: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      passwordSet: Schema.optional(Schema.Boolean),
+      ssl: Schema.optional(SslConfig),
+      cloudSqlId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MySqlConnectionProfile",
+  }) as any as Schema.Schema<MySqlConnectionProfile>;
 
 export interface PrivateServiceConnectConnectivity {
   /** Required. A service attachment that exposes a database, and has the following format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment_name} */
   serviceAttachment?: string;
 }
 
-export const PrivateServiceConnectConnectivity: Schema.Schema<PrivateServiceConnectConnectivity> = Schema.suspend(() => Schema.Struct({
-  serviceAttachment: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrivateServiceConnectConnectivity" }) as any as Schema.Schema<PrivateServiceConnectConnectivity>;
+export const PrivateServiceConnectConnectivity: Schema.Schema<PrivateServiceConnectConnectivity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      serviceAttachment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrivateServiceConnectConnectivity",
+  }) as any as Schema.Schema<PrivateServiceConnectConnectivity>;
 
 export interface ForwardSshTunnelConnectivity {
   /** Required. Hostname for the SSH tunnel. */
@@ -765,22 +1032,32 @@ export interface ForwardSshTunnelConnectivity {
   privateKey?: string;
 }
 
-export const ForwardSshTunnelConnectivity: Schema.Schema<ForwardSshTunnelConnectivity> = Schema.suspend(() => Schema.Struct({
-  hostname: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  password: Schema.optional(Schema.String),
-  privateKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "ForwardSshTunnelConnectivity" }) as any as Schema.Schema<ForwardSshTunnelConnectivity>;
+export const ForwardSshTunnelConnectivity: Schema.Schema<ForwardSshTunnelConnectivity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hostname: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+      password: Schema.optional(Schema.String),
+      privateKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ForwardSshTunnelConnectivity",
+  }) as any as Schema.Schema<ForwardSshTunnelConnectivity>;
 
 export interface PrivateConnectivity {
   /** Required. The resource name (URI) of the private connection. */
   privateConnection?: string;
 }
 
-export const PrivateConnectivity: Schema.Schema<PrivateConnectivity> = Schema.suspend(() => Schema.Struct({
-  privateConnection: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrivateConnectivity" }) as any as Schema.Schema<PrivateConnectivity>;
+export const PrivateConnectivity: Schema.Schema<PrivateConnectivity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      privateConnection: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrivateConnectivity",
+  }) as any as Schema.Schema<PrivateConnectivity>;
 
 export interface PostgreSqlConnectionProfile {
   /** Required. The IP or hostname of the source PostgreSQL database. */
@@ -802,7 +1079,11 @@ export interface PostgreSqlConnectionProfile {
   /** Optional. If the destination is an AlloyDB database, use this field to provide the AlloyDB cluster ID. */
   alloydbClusterId?: string;
   /** Output only. If the source is a Cloud SQL database, this field indicates the network architecture it's associated with. */
-  networkArchitecture?: "NETWORK_ARCHITECTURE_UNSPECIFIED" | "NETWORK_ARCHITECTURE_OLD_CSQL_PRODUCER" | "NETWORK_ARCHITECTURE_NEW_CSQL_PRODUCER" | (string & {});
+  networkArchitecture?:
+    | "NETWORK_ARCHITECTURE_UNSPECIFIED"
+    | "NETWORK_ARCHITECTURE_OLD_CSQL_PRODUCER"
+    | "NETWORK_ARCHITECTURE_NEW_CSQL_PRODUCER"
+    | (string & {});
   /** Static ip connectivity data (default, no additional details needed). */
   staticIpConnectivity?: StaticIpConnectivity;
   /** Private service connect connectivity. */
@@ -813,22 +1094,29 @@ export interface PostgreSqlConnectionProfile {
   privateConnectivity?: PrivateConnectivity;
 }
 
-export const PostgreSqlConnectionProfile: Schema.Schema<PostgreSqlConnectionProfile> = Schema.suspend(() => Schema.Struct({
-  host: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  database: Schema.optional(Schema.String),
-  passwordSet: Schema.optional(Schema.Boolean),
-  ssl: Schema.optional(SslConfig),
-  cloudSqlId: Schema.optional(Schema.String),
-  alloydbClusterId: Schema.optional(Schema.String),
-  networkArchitecture: Schema.optional(Schema.String),
-  staticIpConnectivity: Schema.optional(StaticIpConnectivity),
-  privateServiceConnectConnectivity: Schema.optional(PrivateServiceConnectConnectivity),
-  forwardSshConnectivity: Schema.optional(ForwardSshTunnelConnectivity),
-  privateConnectivity: Schema.optional(PrivateConnectivity),
-})).annotate({ identifier: "PostgreSqlConnectionProfile" }) as any as Schema.Schema<PostgreSqlConnectionProfile>;
+export const PostgreSqlConnectionProfile: Schema.Schema<PostgreSqlConnectionProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      host: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      database: Schema.optional(Schema.String),
+      passwordSet: Schema.optional(Schema.Boolean),
+      ssl: Schema.optional(SslConfig),
+      cloudSqlId: Schema.optional(Schema.String),
+      alloydbClusterId: Schema.optional(Schema.String),
+      networkArchitecture: Schema.optional(Schema.String),
+      staticIpConnectivity: Schema.optional(StaticIpConnectivity),
+      privateServiceConnectConnectivity: Schema.optional(
+        PrivateServiceConnectConnectivity,
+      ),
+      forwardSshConnectivity: Schema.optional(ForwardSshTunnelConnectivity),
+      privateConnectivity: Schema.optional(PrivateConnectivity),
+    }),
+  ).annotate({
+    identifier: "PostgreSqlConnectionProfile",
+  }) as any as Schema.Schema<PostgreSqlConnectionProfile>;
 
 export interface SqlServerBackups {
   /** Required. The Cloud Storage bucket that stores backups for all replicated databases. */
@@ -837,10 +1125,15 @@ export interface SqlServerBackups {
   gcsPrefix?: string;
 }
 
-export const SqlServerBackups: Schema.Schema<SqlServerBackups> = Schema.suspend(() => Schema.Struct({
-  gcsBucket: Schema.optional(Schema.String),
-  gcsPrefix: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlServerBackups" }) as any as Schema.Schema<SqlServerBackups>;
+export const SqlServerBackups: Schema.Schema<SqlServerBackups> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      gcsBucket: Schema.optional(Schema.String),
+      gcsPrefix: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SqlServerBackups",
+}) as any as Schema.Schema<SqlServerBackups>;
 
 export interface SqlServerConnectionProfile {
   /** Required. The IP or hostname of the source SQL Server database. */
@@ -875,29 +1168,37 @@ export interface SqlServerConnectionProfile {
   privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity;
 }
 
-export const SqlServerConnectionProfile: Schema.Schema<SqlServerConnectionProfile> = Schema.suspend(() => Schema.Struct({
-  host: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  dbmPort: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  passwordSet: Schema.optional(Schema.Boolean),
-  ssl: Schema.optional(SslConfig),
-  cloudSqlProjectId: Schema.optional(Schema.String),
-  cloudSqlId: Schema.optional(Schema.String),
-  backups: Schema.optional(SqlServerBackups),
-  database: Schema.optional(Schema.String),
-  staticIpConnectivity: Schema.optional(StaticIpConnectivity),
-  forwardSshConnectivity: Schema.optional(ForwardSshTunnelConnectivity),
-  privateConnectivity: Schema.optional(PrivateConnectivity),
-  privateServiceConnectConnectivity: Schema.optional(PrivateServiceConnectConnectivity),
-})).annotate({ identifier: "SqlServerConnectionProfile" }) as any as Schema.Schema<SqlServerConnectionProfile>;
+export const SqlServerConnectionProfile: Schema.Schema<SqlServerConnectionProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      host: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+      dbmPort: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      passwordSet: Schema.optional(Schema.Boolean),
+      ssl: Schema.optional(SslConfig),
+      cloudSqlProjectId: Schema.optional(Schema.String),
+      cloudSqlId: Schema.optional(Schema.String),
+      backups: Schema.optional(SqlServerBackups),
+      database: Schema.optional(Schema.String),
+      staticIpConnectivity: Schema.optional(StaticIpConnectivity),
+      forwardSshConnectivity: Schema.optional(ForwardSshTunnelConnectivity),
+      privateConnectivity: Schema.optional(PrivateConnectivity),
+      privateServiceConnectConnectivity: Schema.optional(
+        PrivateServiceConnectConnectivity,
+      ),
+    }),
+  ).annotate({
+    identifier: "SqlServerConnectionProfile",
+  }) as any as Schema.Schema<SqlServerConnectionProfile>;
 
-export interface StaticServiceIpConnectivity {
-}
+export interface StaticServiceIpConnectivity {}
 
-export const StaticServiceIpConnectivity: Schema.Schema<StaticServiceIpConnectivity> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "StaticServiceIpConnectivity" }) as any as Schema.Schema<StaticServiceIpConnectivity>;
+export const StaticServiceIpConnectivity: Schema.Schema<StaticServiceIpConnectivity> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "StaticServiceIpConnectivity",
+  }) as any as Schema.Schema<StaticServiceIpConnectivity>;
 
 export interface OracleAsmConfig {
   /** Required. Hostname for the Oracle ASM connection. */
@@ -916,15 +1217,20 @@ export interface OracleAsmConfig {
   ssl?: SslConfig;
 }
 
-export const OracleAsmConfig: Schema.Schema<OracleAsmConfig> = Schema.suspend(() => Schema.Struct({
-  hostname: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  passwordSet: Schema.optional(Schema.Boolean),
-  asmService: Schema.optional(Schema.String),
-  ssl: Schema.optional(SslConfig),
-})).annotate({ identifier: "OracleAsmConfig" }) as any as Schema.Schema<OracleAsmConfig>;
+export const OracleAsmConfig: Schema.Schema<OracleAsmConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      hostname: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      passwordSet: Schema.optional(Schema.Boolean),
+      asmService: Schema.optional(Schema.String),
+      ssl: Schema.optional(SslConfig),
+    }),
+).annotate({
+  identifier: "OracleAsmConfig",
+}) as any as Schema.Schema<OracleAsmConfig>;
 
 export interface OracleConnectionProfile {
   /** Required. The IP or hostname of the source Oracle database. */
@@ -951,19 +1257,24 @@ export interface OracleConnectionProfile {
   oracleAsmConfig?: OracleAsmConfig;
 }
 
-export const OracleConnectionProfile: Schema.Schema<OracleConnectionProfile> = Schema.suspend(() => Schema.Struct({
-  host: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  passwordSet: Schema.optional(Schema.Boolean),
-  databaseService: Schema.optional(Schema.String),
-  ssl: Schema.optional(SslConfig),
-  staticServiceIpConnectivity: Schema.optional(StaticServiceIpConnectivity),
-  forwardSshConnectivity: Schema.optional(ForwardSshTunnelConnectivity),
-  privateConnectivity: Schema.optional(PrivateConnectivity),
-  oracleAsmConfig: Schema.optional(OracleAsmConfig),
-})).annotate({ identifier: "OracleConnectionProfile" }) as any as Schema.Schema<OracleConnectionProfile>;
+export const OracleConnectionProfile: Schema.Schema<OracleConnectionProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      host: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      passwordSet: Schema.optional(Schema.Boolean),
+      databaseService: Schema.optional(Schema.String),
+      ssl: Schema.optional(SslConfig),
+      staticServiceIpConnectivity: Schema.optional(StaticServiceIpConnectivity),
+      forwardSshConnectivity: Schema.optional(ForwardSshTunnelConnectivity),
+      privateConnectivity: Schema.optional(PrivateConnectivity),
+      oracleAsmConfig: Schema.optional(OracleAsmConfig),
+    }),
+  ).annotate({
+    identifier: "OracleConnectionProfile",
+  }) as any as Schema.Schema<OracleConnectionProfile>;
 
 export interface SqlAclEntry {
   /** The allowlisted value for the access control list. */
@@ -976,12 +1287,14 @@ export interface SqlAclEntry {
   label?: string;
 }
 
-export const SqlAclEntry: Schema.Schema<SqlAclEntry> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  ttl: Schema.optional(Schema.String),
-  label: Schema.optional(Schema.String),
-})).annotate({ identifier: "SqlAclEntry" }) as any as Schema.Schema<SqlAclEntry>;
+export const SqlAclEntry: Schema.Schema<SqlAclEntry> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    ttl: Schema.optional(Schema.String),
+    label: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SqlAclEntry" }) as any as Schema.Schema<SqlAclEntry>;
 
 export interface SqlIpConfig {
   /** Whether the instance should be assigned an IPv4 address or not. */
@@ -996,26 +1309,59 @@ export interface SqlIpConfig {
   authorizedNetworks?: Array<SqlAclEntry>;
 }
 
-export const SqlIpConfig: Schema.Schema<SqlIpConfig> = Schema.suspend(() => Schema.Struct({
-  enableIpv4: Schema.optional(Schema.Boolean),
-  privateNetwork: Schema.optional(Schema.String),
-  allocatedIpRange: Schema.optional(Schema.String),
-  requireSsl: Schema.optional(Schema.Boolean),
-  authorizedNetworks: Schema.optional(Schema.Array(SqlAclEntry)),
-})).annotate({ identifier: "SqlIpConfig" }) as any as Schema.Schema<SqlIpConfig>;
+export const SqlIpConfig: Schema.Schema<SqlIpConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    enableIpv4: Schema.optional(Schema.Boolean),
+    privateNetwork: Schema.optional(Schema.String),
+    allocatedIpRange: Schema.optional(Schema.String),
+    requireSsl: Schema.optional(Schema.Boolean),
+    authorizedNetworks: Schema.optional(Schema.Array(SqlAclEntry)),
+  }),
+).annotate({ identifier: "SqlIpConfig" }) as any as Schema.Schema<SqlIpConfig>;
 
 export interface DataCacheConfig {
   /** Optional. Whether data cache is enabled for the instance. */
   dataCacheEnabled?: boolean;
 }
 
-export const DataCacheConfig: Schema.Schema<DataCacheConfig> = Schema.suspend(() => Schema.Struct({
-  dataCacheEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DataCacheConfig" }) as any as Schema.Schema<DataCacheConfig>;
+export const DataCacheConfig: Schema.Schema<DataCacheConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      dataCacheEnabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "DataCacheConfig",
+}) as any as Schema.Schema<DataCacheConfig>;
 
 export interface CloudSqlSettings {
   /** The database engine type and version. Deprecated. Use database_version_name instead. */
-  databaseVersion?: "SQL_DATABASE_VERSION_UNSPECIFIED" | "MYSQL_5_6" | "MYSQL_5_7" | "MYSQL_8_0" | "MYSQL_8_0_18" | "MYSQL_8_0_26" | "MYSQL_8_0_27" | "MYSQL_8_0_28" | "MYSQL_8_0_30" | "MYSQL_8_0_31" | "MYSQL_8_0_32" | "MYSQL_8_0_33" | "MYSQL_8_0_34" | "MYSQL_8_0_35" | "MYSQL_8_0_36" | "MYSQL_8_0_37" | "MYSQL_8_4" | "POSTGRES_9_6" | "POSTGRES_11" | "POSTGRES_10" | "POSTGRES_12" | "POSTGRES_13" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | (string & {});
+  databaseVersion?:
+    | "SQL_DATABASE_VERSION_UNSPECIFIED"
+    | "MYSQL_5_6"
+    | "MYSQL_5_7"
+    | "MYSQL_8_0"
+    | "MYSQL_8_0_18"
+    | "MYSQL_8_0_26"
+    | "MYSQL_8_0_27"
+    | "MYSQL_8_0_28"
+    | "MYSQL_8_0_30"
+    | "MYSQL_8_0_31"
+    | "MYSQL_8_0_32"
+    | "MYSQL_8_0_33"
+    | "MYSQL_8_0_34"
+    | "MYSQL_8_0_35"
+    | "MYSQL_8_0_36"
+    | "MYSQL_8_0_37"
+    | "MYSQL_8_4"
+    | "POSTGRES_9_6"
+    | "POSTGRES_11"
+    | "POSTGRES_10"
+    | "POSTGRES_12"
+    | "POSTGRES_13"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | (string & {});
   /** Optional. The database engine type and version name. */
   databaseVersionName?: string;
   /** The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "18kg", "count": "3" }`. */
@@ -1025,7 +1371,11 @@ export interface CloudSqlSettings {
   /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
   storageAutoResizeLimit?: string;
   /** The activation policy specifies when the instance is activated; it is applicable only when the instance state is 'RUNNABLE'. Valid values: 'ALWAYS': The instance is on, and remains so even in the absence of connection requests. `NEVER`: The instance is off; it is not activated, even if a connection request arrives. */
-  activationPolicy?: "SQL_ACTIVATION_POLICY_UNSPECIFIED" | "ALWAYS" | "NEVER" | (string & {});
+  activationPolicy?:
+    | "SQL_ACTIVATION_POLICY_UNSPECIFIED"
+    | "ALWAYS"
+    | "NEVER"
+    | (string & {});
   /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled. */
   ipConfig?: SqlIpConfig;
   /** [default: ON] If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 30 TB. */
@@ -1033,7 +1383,12 @@ export interface CloudSqlSettings {
   /** The database flags passed to the Cloud SQL instance at startup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
   databaseFlags?: Record<string, string>;
   /** The type of storage: `PD_SSD` (default) or `PD_HDD` or `HYPERDISK_BALANCED`. */
-  dataDiskType?: "SQL_DATA_DISK_TYPE_UNSPECIFIED" | "PD_SSD" | "PD_HDD" | "HYPERDISK_BALANCED" | (string & {});
+  dataDiskType?:
+    | "SQL_DATA_DISK_TYPE_UNSPECIFIED"
+    | "PD_SSD"
+    | "PD_HDD"
+    | "HYPERDISK_BALANCED"
+    | (string & {});
   /** The storage capacity available to the database, in GB. The minimum (and default) size is 10GB. */
   dataDiskSizeGb?: string;
   /** The Google Cloud Platform zone where your Cloud SQL database instance is located. */
@@ -1051,9 +1406,17 @@ export interface CloudSqlSettings {
   /** The KMS key name used for the csql instance. */
   cmekKeyName?: string;
   /** Optional. Availability type. Potential values: * `ZONAL`: The instance serves data from only one zone. Outages in that zone affect data availability. * `REGIONAL`: The instance can serve data from more than one zone in a region (it is highly available). */
-  availabilityType?: "SQL_AVAILABILITY_TYPE_UNSPECIFIED" | "ZONAL" | "REGIONAL" | (string & {});
+  availabilityType?:
+    | "SQL_AVAILABILITY_TYPE_UNSPECIFIED"
+    | "ZONAL"
+    | "REGIONAL"
+    | (string & {});
   /** Optional. The edition of the given Cloud SQL instance. */
-  edition?: "EDITION_UNSPECIFIED" | "ENTERPRISE" | "ENTERPRISE_PLUS" | (string & {});
+  edition?:
+    | "EDITION_UNSPECIFIED"
+    | "ENTERPRISE"
+    | "ENTERPRISE_PLUS"
+    | (string & {});
   /** Optional. Data cache is an optional feature available for Cloud SQL for MySQL Enterprise Plus edition only. For more information on data cache, see [Data cache overview](https://cloud.google.com/sql/help/mysql-data-cache) in Cloud SQL documentation. */
   dataCacheConfig?: DataCacheConfig;
   /** Optional. Provisioned number of I/O operations per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
@@ -1062,31 +1425,38 @@ export interface CloudSqlSettings {
   dataDiskProvisionedThroughput?: string;
 }
 
-export const CloudSqlSettings: Schema.Schema<CloudSqlSettings> = Schema.suspend(() => Schema.Struct({
-  databaseVersion: Schema.optional(Schema.String),
-  databaseVersionName: Schema.optional(Schema.String),
-  userLabels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  tier: Schema.optional(Schema.String),
-  storageAutoResizeLimit: Schema.optional(Schema.String),
-  activationPolicy: Schema.optional(Schema.String),
-  ipConfig: Schema.optional(SqlIpConfig),
-  autoStorageIncrease: Schema.optional(Schema.Boolean),
-  databaseFlags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  dataDiskType: Schema.optional(Schema.String),
-  dataDiskSizeGb: Schema.optional(Schema.String),
-  zone: Schema.optional(Schema.String),
-  secondaryZone: Schema.optional(Schema.String),
-  sourceId: Schema.optional(Schema.String),
-  rootPassword: Schema.optional(Schema.String),
-  rootPasswordSet: Schema.optional(Schema.Boolean),
-  collation: Schema.optional(Schema.String),
-  cmekKeyName: Schema.optional(Schema.String),
-  availabilityType: Schema.optional(Schema.String),
-  edition: Schema.optional(Schema.String),
-  dataCacheConfig: Schema.optional(DataCacheConfig),
-  dataDiskProvisionedIops: Schema.optional(Schema.String),
-  dataDiskProvisionedThroughput: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudSqlSettings" }) as any as Schema.Schema<CloudSqlSettings>;
+export const CloudSqlSettings: Schema.Schema<CloudSqlSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      databaseVersion: Schema.optional(Schema.String),
+      databaseVersionName: Schema.optional(Schema.String),
+      userLabels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      tier: Schema.optional(Schema.String),
+      storageAutoResizeLimit: Schema.optional(Schema.String),
+      activationPolicy: Schema.optional(Schema.String),
+      ipConfig: Schema.optional(SqlIpConfig),
+      autoStorageIncrease: Schema.optional(Schema.Boolean),
+      databaseFlags: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      dataDiskType: Schema.optional(Schema.String),
+      dataDiskSizeGb: Schema.optional(Schema.String),
+      zone: Schema.optional(Schema.String),
+      secondaryZone: Schema.optional(Schema.String),
+      sourceId: Schema.optional(Schema.String),
+      rootPassword: Schema.optional(Schema.String),
+      rootPasswordSet: Schema.optional(Schema.Boolean),
+      collation: Schema.optional(Schema.String),
+      cmekKeyName: Schema.optional(Schema.String),
+      availabilityType: Schema.optional(Schema.String),
+      edition: Schema.optional(Schema.String),
+      dataCacheConfig: Schema.optional(DataCacheConfig),
+      dataDiskProvisionedIops: Schema.optional(Schema.String),
+      dataDiskProvisionedThroughput: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CloudSqlSettings",
+}) as any as Schema.Schema<CloudSqlSettings>;
 
 export interface CloudSqlConnectionProfile {
   /** Output only. The Cloud SQL instance ID that this connection profile is associated with. */
@@ -1101,13 +1471,18 @@ export interface CloudSqlConnectionProfile {
   additionalPublicIp?: string;
 }
 
-export const CloudSqlConnectionProfile: Schema.Schema<CloudSqlConnectionProfile> = Schema.suspend(() => Schema.Struct({
-  cloudSqlId: Schema.optional(Schema.String),
-  settings: Schema.optional(CloudSqlSettings),
-  privateIp: Schema.optional(Schema.String),
-  publicIp: Schema.optional(Schema.String),
-  additionalPublicIp: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloudSqlConnectionProfile" }) as any as Schema.Schema<CloudSqlConnectionProfile>;
+export const CloudSqlConnectionProfile: Schema.Schema<CloudSqlConnectionProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudSqlId: Schema.optional(Schema.String),
+      settings: Schema.optional(CloudSqlSettings),
+      privateIp: Schema.optional(Schema.String),
+      publicIp: Schema.optional(Schema.String),
+      additionalPublicIp: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudSqlConnectionProfile",
+  }) as any as Schema.Schema<CloudSqlConnectionProfile>;
 
 export interface UserPassword {
   /** The database username. */
@@ -1118,11 +1493,15 @@ export interface UserPassword {
   passwordSet?: boolean;
 }
 
-export const UserPassword: Schema.Schema<UserPassword> = Schema.suspend(() => Schema.Struct({
-  user: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  passwordSet: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UserPassword" }) as any as Schema.Schema<UserPassword>;
+export const UserPassword: Schema.Schema<UserPassword> = Schema.suspend(() =>
+  Schema.Struct({
+    user: Schema.optional(Schema.String),
+    password: Schema.optional(Schema.String),
+    passwordSet: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "UserPassword",
+}) as any as Schema.Schema<UserPassword>;
 
 export interface MachineConfig {
   /** The number of CPU's in the VM instance. */
@@ -1131,19 +1510,28 @@ export interface MachineConfig {
   machineType?: string;
 }
 
-export const MachineConfig: Schema.Schema<MachineConfig> = Schema.suspend(() => Schema.Struct({
-  cpuCount: Schema.optional(Schema.Number),
-  machineType: Schema.optional(Schema.String),
-})).annotate({ identifier: "MachineConfig" }) as any as Schema.Schema<MachineConfig>;
+export const MachineConfig: Schema.Schema<MachineConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    cpuCount: Schema.optional(Schema.Number),
+    machineType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "MachineConfig",
+}) as any as Schema.Schema<MachineConfig>;
 
 export interface AuthorizedNetwork {
   /** Optional. CIDR range for one authorzied network of the instance. */
   cidrRange?: string;
 }
 
-export const AuthorizedNetwork: Schema.Schema<AuthorizedNetwork> = Schema.suspend(() => Schema.Struct({
-  cidrRange: Schema.optional(Schema.String),
-})).annotate({ identifier: "AuthorizedNetwork" }) as any as Schema.Schema<AuthorizedNetwork>;
+export const AuthorizedNetwork: Schema.Schema<AuthorizedNetwork> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cidrRange: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AuthorizedNetwork",
+  }) as any as Schema.Schema<AuthorizedNetwork>;
 
 export interface InstanceNetworkConfig {
   /** Optional. A list of external network authorized to access this instance. */
@@ -1154,11 +1542,18 @@ export interface InstanceNetworkConfig {
   enableOutboundPublicIp?: boolean;
 }
 
-export const InstanceNetworkConfig: Schema.Schema<InstanceNetworkConfig> = Schema.suspend(() => Schema.Struct({
-  authorizedExternalNetworks: Schema.optional(Schema.Array(AuthorizedNetwork)),
-  enablePublicIp: Schema.optional(Schema.Boolean),
-  enableOutboundPublicIp: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "InstanceNetworkConfig" }) as any as Schema.Schema<InstanceNetworkConfig>;
+export const InstanceNetworkConfig: Schema.Schema<InstanceNetworkConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      authorizedExternalNetworks: Schema.optional(
+        Schema.Array(AuthorizedNetwork),
+      ),
+      enablePublicIp: Schema.optional(Schema.Boolean),
+      enableOutboundPublicIp: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "InstanceNetworkConfig",
+  }) as any as Schema.Schema<InstanceNetworkConfig>;
 
 export interface PrimaryInstanceSettings {
   /** Required. The ID of the AlloyDB primary instance. The ID must satisfy the regex expression "[a-z0-9-]+". */
@@ -1177,24 +1572,36 @@ export interface PrimaryInstanceSettings {
   outboundPublicIpAddresses?: Array<string>;
 }
 
-export const PrimaryInstanceSettings: Schema.Schema<PrimaryInstanceSettings> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  machineConfig: Schema.optional(MachineConfig),
-  databaseFlags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  privateIp: Schema.optional(Schema.String),
-  instanceNetworkConfig: Schema.optional(InstanceNetworkConfig),
-  outboundPublicIpAddresses: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "PrimaryInstanceSettings" }) as any as Schema.Schema<PrimaryInstanceSettings>;
+export const PrimaryInstanceSettings: Schema.Schema<PrimaryInstanceSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      machineConfig: Schema.optional(MachineConfig),
+      databaseFlags: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      privateIp: Schema.optional(Schema.String),
+      instanceNetworkConfig: Schema.optional(InstanceNetworkConfig),
+      outboundPublicIpAddresses: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PrimaryInstanceSettings",
+  }) as any as Schema.Schema<PrimaryInstanceSettings>;
 
 export interface EncryptionConfig {
   /** The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME] */
   kmsKeyName?: string;
 }
 
-export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "EncryptionConfig" }) as any as Schema.Schema<EncryptionConfig>;
+export const EncryptionConfig: Schema.Schema<EncryptionConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EncryptionConfig",
+}) as any as Schema.Schema<EncryptionConfig>;
 
 export interface AlloyDbSettings {
   /** Required. Input only. Initial user to setup during cluster creation. Required. */
@@ -1208,17 +1615,29 @@ export interface AlloyDbSettings {
   /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
   encryptionConfig?: EncryptionConfig;
   /** Optional. The database engine major version. This is an optional field. If a database version is not supplied at cluster creation time, then a default database version will be used. */
-  databaseVersion?: "DATABASE_VERSION_UNSPECIFIED" | "POSTGRES_14" | "POSTGRES_15" | "POSTGRES_16" | "POSTGRES_17" | "POSTGRES_18" | (string & {});
+  databaseVersion?:
+    | "DATABASE_VERSION_UNSPECIFIED"
+    | "POSTGRES_14"
+    | "POSTGRES_15"
+    | "POSTGRES_16"
+    | "POSTGRES_17"
+    | "POSTGRES_18"
+    | (string & {});
 }
 
-export const AlloyDbSettings: Schema.Schema<AlloyDbSettings> = Schema.suspend(() => Schema.Struct({
-  initialUser: Schema.optional(UserPassword),
-  vpcNetwork: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  primaryInstanceSettings: Schema.optional(PrimaryInstanceSettings),
-  encryptionConfig: Schema.optional(EncryptionConfig),
-  databaseVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "AlloyDbSettings" }) as any as Schema.Schema<AlloyDbSettings>;
+export const AlloyDbSettings: Schema.Schema<AlloyDbSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      initialUser: Schema.optional(UserPassword),
+      vpcNetwork: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      primaryInstanceSettings: Schema.optional(PrimaryInstanceSettings),
+      encryptionConfig: Schema.optional(EncryptionConfig),
+      databaseVersion: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AlloyDbSettings",
+}) as any as Schema.Schema<AlloyDbSettings>;
 
 export interface AlloyDbConnectionProfile {
   /** Required. The AlloyDB cluster ID that this connection profile is associated with. */
@@ -1227,10 +1646,15 @@ export interface AlloyDbConnectionProfile {
   settings?: AlloyDbSettings;
 }
 
-export const AlloyDbConnectionProfile: Schema.Schema<AlloyDbConnectionProfile> = Schema.suspend(() => Schema.Struct({
-  clusterId: Schema.optional(Schema.String),
-  settings: Schema.optional(AlloyDbSettings),
-})).annotate({ identifier: "AlloyDbConnectionProfile" }) as any as Schema.Schema<AlloyDbConnectionProfile>;
+export const AlloyDbConnectionProfile: Schema.Schema<AlloyDbConnectionProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      clusterId: Schema.optional(Schema.String),
+      settings: Schema.optional(AlloyDbSettings),
+    }),
+  ).annotate({
+    identifier: "AlloyDbConnectionProfile",
+  }) as any as Schema.Schema<AlloyDbConnectionProfile>;
 
 export interface ConnectionProfile {
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
@@ -1242,7 +1666,16 @@ export interface ConnectionProfile {
   /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
   labels?: Record<string, string>;
   /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
-  state?: "STATE_UNSPECIFIED" | "DRAFT" | "CREATING" | "READY" | "UPDATING" | "DELETING" | "DELETED" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "DRAFT"
+    | "CREATING"
+    | "READY"
+    | "UPDATING"
+    | "DELETING"
+    | "DELETED"
+    | "FAILED"
+    | (string & {});
   /** The connection profile display name. */
   displayName?: string;
   /** Optional. The connection profile role. */
@@ -1262,32 +1695,44 @@ export interface ConnectionProfile {
   /** Output only. The error details in case of state FAILED. */
   error?: Status;
   /** The database provider. */
-  provider?: "DATABASE_PROVIDER_UNSPECIFIED" | "CLOUDSQL" | "RDS" | "AURORA" | "ALLOYDB" | "AZURE_DATABASE" | (string & {});
+  provider?:
+    | "DATABASE_PROVIDER_UNSPECIFIED"
+    | "CLOUDSQL"
+    | "RDS"
+    | "AURORA"
+    | "ALLOYDB"
+    | "AZURE_DATABASE"
+    | (string & {});
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean;
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean;
 }
 
-export const ConnectionProfile: Schema.Schema<ConnectionProfile> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  state: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  mysql: Schema.optional(MySqlConnectionProfile),
-  postgresql: Schema.optional(PostgreSqlConnectionProfile),
-  sqlserver: Schema.optional(SqlServerConnectionProfile),
-  oracle: Schema.optional(OracleConnectionProfile),
-  cloudsql: Schema.optional(CloudSqlConnectionProfile),
-  alloydb: Schema.optional(AlloyDbConnectionProfile),
-  error: Schema.optional(Status),
-  provider: Schema.optional(Schema.String),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ConnectionProfile" }) as any as Schema.Schema<ConnectionProfile>;
+export const ConnectionProfile: Schema.Schema<ConnectionProfile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      state: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      mysql: Schema.optional(MySqlConnectionProfile),
+      postgresql: Schema.optional(PostgreSqlConnectionProfile),
+      sqlserver: Schema.optional(SqlServerConnectionProfile),
+      oracle: Schema.optional(OracleConnectionProfile),
+      cloudsql: Schema.optional(CloudSqlConnectionProfile),
+      alloydb: Schema.optional(AlloyDbConnectionProfile),
+      error: Schema.optional(Status),
+      provider: Schema.optional(Schema.String),
+      satisfiesPzs: Schema.optional(Schema.Boolean),
+      satisfiesPzi: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ConnectionProfile",
+  }) as any as Schema.Schema<ConnectionProfile>;
 
 export interface ListConnectionProfilesResponse {
   /** The response list of connection profiles. */
@@ -1298,11 +1743,16 @@ export interface ListConnectionProfilesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListConnectionProfilesResponse: Schema.Schema<ListConnectionProfilesResponse> = Schema.suspend(() => Schema.Struct({
-  connectionProfiles: Schema.optional(Schema.Array(ConnectionProfile)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListConnectionProfilesResponse" }) as any as Schema.Schema<ListConnectionProfilesResponse>;
+export const ListConnectionProfilesResponse: Schema.Schema<ListConnectionProfilesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      connectionProfiles: Schema.optional(Schema.Array(ConnectionProfile)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListConnectionProfilesResponse",
+  }) as any as Schema.Schema<ListConnectionProfilesResponse>;
 
 export interface VpcPeeringConfig {
   /** Required. Fully qualified name of the VPC that Database Migration Service will peer to. */
@@ -1311,19 +1761,29 @@ export interface VpcPeeringConfig {
   subnet?: string;
 }
 
-export const VpcPeeringConfig: Schema.Schema<VpcPeeringConfig> = Schema.suspend(() => Schema.Struct({
-  vpcName: Schema.optional(Schema.String),
-  subnet: Schema.optional(Schema.String),
-})).annotate({ identifier: "VpcPeeringConfig" }) as any as Schema.Schema<VpcPeeringConfig>;
+export const VpcPeeringConfig: Schema.Schema<VpcPeeringConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      vpcName: Schema.optional(Schema.String),
+      subnet: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "VpcPeeringConfig",
+}) as any as Schema.Schema<VpcPeeringConfig>;
 
 export interface PscInterfaceConfig {
   /** Required. Fully qualified name of the Network Attachment that DMS will connect to. Format: `projects/{{project}}/regions/{{region}}/networkAttachments/{{name}}` */
   networkAttachment?: string;
 }
 
-export const PscInterfaceConfig: Schema.Schema<PscInterfaceConfig> = Schema.suspend(() => Schema.Struct({
-  networkAttachment: Schema.optional(Schema.String),
-})).annotate({ identifier: "PscInterfaceConfig" }) as any as Schema.Schema<PscInterfaceConfig>;
+export const PscInterfaceConfig: Schema.Schema<PscInterfaceConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      networkAttachment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PscInterfaceConfig",
+  }) as any as Schema.Schema<PscInterfaceConfig>;
 
 export interface PrivateConnection {
   /** The name of the resource. */
@@ -1337,7 +1797,15 @@ export interface PrivateConnection {
   /** The private connection display name. */
   displayName?: string;
   /** Output only. The state of the private connection. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "CREATED" | "FAILED" | "DELETING" | "FAILED_TO_DELETE" | "DELETED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "CREATED"
+    | "FAILED"
+    | "DELETING"
+    | "FAILED_TO_DELETE"
+    | "DELETED"
+    | (string & {});
   /** Output only. The error details in case of state FAILED. */
   error?: Status;
   /** Output only. Reserved for future use. */
@@ -1350,19 +1818,24 @@ export interface PrivateConnection {
   pscInterfaceConfig?: PscInterfaceConfig;
 }
 
-export const PrivateConnection: Schema.Schema<PrivateConnection> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  error: Schema.optional(Status),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-  vpcPeeringConfig: Schema.optional(VpcPeeringConfig),
-  pscInterfaceConfig: Schema.optional(PscInterfaceConfig),
-})).annotate({ identifier: "PrivateConnection" }) as any as Schema.Schema<PrivateConnection>;
+export const PrivateConnection: Schema.Schema<PrivateConnection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      displayName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      satisfiesPzs: Schema.optional(Schema.Boolean),
+      satisfiesPzi: Schema.optional(Schema.Boolean),
+      vpcPeeringConfig: Schema.optional(VpcPeeringConfig),
+      pscInterfaceConfig: Schema.optional(PscInterfaceConfig),
+    }),
+  ).annotate({
+    identifier: "PrivateConnection",
+  }) as any as Schema.Schema<PrivateConnection>;
 
 export interface ListPrivateConnectionsResponse {
   /** List of private connections. */
@@ -1373,23 +1846,39 @@ export interface ListPrivateConnectionsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListPrivateConnectionsResponse: Schema.Schema<ListPrivateConnectionsResponse> = Schema.suspend(() => Schema.Struct({
-  privateConnections: Schema.optional(Schema.Array(PrivateConnection)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListPrivateConnectionsResponse" }) as any as Schema.Schema<ListPrivateConnectionsResponse>;
+export const ListPrivateConnectionsResponse: Schema.Schema<ListPrivateConnectionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      privateConnections: Schema.optional(Schema.Array(PrivateConnection)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListPrivateConnectionsResponse",
+  }) as any as Schema.Schema<ListPrivateConnectionsResponse>;
 
 export interface DatabaseEngineInfo {
   /** Required. Engine type. */
-  engine?: "DATABASE_ENGINE_UNSPECIFIED" | "MYSQL" | "POSTGRESQL" | "SQLSERVER" | "ORACLE" | (string & {});
+  engine?:
+    | "DATABASE_ENGINE_UNSPECIFIED"
+    | "MYSQL"
+    | "POSTGRESQL"
+    | "SQLSERVER"
+    | "ORACLE"
+    | (string & {});
   /** Required. Engine version, for example "12.c.1". */
   version?: string;
 }
 
-export const DatabaseEngineInfo: Schema.Schema<DatabaseEngineInfo> = Schema.suspend(() => Schema.Struct({
-  engine: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "DatabaseEngineInfo" }) as any as Schema.Schema<DatabaseEngineInfo>;
+export const DatabaseEngineInfo: Schema.Schema<DatabaseEngineInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      engine: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DatabaseEngineInfo",
+  }) as any as Schema.Schema<DatabaseEngineInfo>;
 
 export interface ConversionWorkspace {
   /** Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
@@ -1413,25 +1902,46 @@ export interface ConversionWorkspace {
   /** Optional. The display name for the workspace. */
   displayName?: string;
   /** Optional. The provider for the destination database. */
-  destinationProvider?: "DATABASE_PROVIDER_UNSPECIFIED" | "CLOUDSQL" | "RDS" | "AURORA" | "ALLOYDB" | "AZURE_DATABASE" | (string & {});
+  destinationProvider?:
+    | "DATABASE_PROVIDER_UNSPECIFIED"
+    | "CLOUDSQL"
+    | "RDS"
+    | "AURORA"
+    | "ALLOYDB"
+    | "AZURE_DATABASE"
+    | (string & {});
   /** Optional. The provider for the source database. */
-  sourceProvider?: "DATABASE_PROVIDER_UNSPECIFIED" | "CLOUDSQL" | "RDS" | "AURORA" | "ALLOYDB" | "AZURE_DATABASE" | (string & {});
+  sourceProvider?:
+    | "DATABASE_PROVIDER_UNSPECIFIED"
+    | "CLOUDSQL"
+    | "RDS"
+    | "AURORA"
+    | "ALLOYDB"
+    | "AZURE_DATABASE"
+    | (string & {});
 }
 
-export const ConversionWorkspace: Schema.Schema<ConversionWorkspace> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  source: Schema.optional(DatabaseEngineInfo),
-  destination: Schema.optional(DatabaseEngineInfo),
-  globalSettings: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  hasUncommittedChanges: Schema.optional(Schema.Boolean),
-  latestCommitId: Schema.optional(Schema.String),
-  latestCommitTime: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  destinationProvider: Schema.optional(Schema.String),
-  sourceProvider: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConversionWorkspace" }) as any as Schema.Schema<ConversionWorkspace>;
+export const ConversionWorkspace: Schema.Schema<ConversionWorkspace> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      source: Schema.optional(DatabaseEngineInfo),
+      destination: Schema.optional(DatabaseEngineInfo),
+      globalSettings: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      hasUncommittedChanges: Schema.optional(Schema.Boolean),
+      latestCommitId: Schema.optional(Schema.String),
+      latestCommitTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      destinationProvider: Schema.optional(Schema.String),
+      sourceProvider: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConversionWorkspace",
+  }) as any as Schema.Schema<ConversionWorkspace>;
 
 export interface ListConversionWorkspacesResponse {
   /** The list of conversion workspace objects. */
@@ -1442,11 +1952,16 @@ export interface ListConversionWorkspacesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListConversionWorkspacesResponse: Schema.Schema<ListConversionWorkspacesResponse> = Schema.suspend(() => Schema.Struct({
-  conversionWorkspaces: Schema.optional(Schema.Array(ConversionWorkspace)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListConversionWorkspacesResponse" }) as any as Schema.Schema<ListConversionWorkspacesResponse>;
+export const ListConversionWorkspacesResponse: Schema.Schema<ListConversionWorkspacesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      conversionWorkspaces: Schema.optional(Schema.Array(ConversionWorkspace)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListConversionWorkspacesResponse",
+  }) as any as Schema.Schema<ListConversionWorkspacesResponse>;
 
 export interface MappingRuleFilter {
   /** Optional. The rule should be applied to entities whose parent entity (fully qualified name) matches the given value. For example, if the rule applies to a table entity, the expected value should be a schema (schema). If the rule applies to a column or index entity, the expected value can be either a schema (schema) or a table (schema.table) */
@@ -1461,43 +1976,66 @@ export interface MappingRuleFilter {
   entities?: Array<string>;
 }
 
-export const MappingRuleFilter: Schema.Schema<MappingRuleFilter> = Schema.suspend(() => Schema.Struct({
-  parentEntity: Schema.optional(Schema.String),
-  entityNamePrefix: Schema.optional(Schema.String),
-  entityNameSuffix: Schema.optional(Schema.String),
-  entityNameContains: Schema.optional(Schema.String),
-  entities: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "MappingRuleFilter" }) as any as Schema.Schema<MappingRuleFilter>;
+export const MappingRuleFilter: Schema.Schema<MappingRuleFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parentEntity: Schema.optional(Schema.String),
+      entityNamePrefix: Schema.optional(Schema.String),
+      entityNameSuffix: Schema.optional(Schema.String),
+      entityNameContains: Schema.optional(Schema.String),
+      entities: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "MappingRuleFilter",
+  }) as any as Schema.Schema<MappingRuleFilter>;
 
 export interface SingleEntityRename {
   /** Required. The new name of the destination entity */
   newName?: string;
 }
 
-export const SingleEntityRename: Schema.Schema<SingleEntityRename> = Schema.suspend(() => Schema.Struct({
-  newName: Schema.optional(Schema.String),
-})).annotate({ identifier: "SingleEntityRename" }) as any as Schema.Schema<SingleEntityRename>;
+export const SingleEntityRename: Schema.Schema<SingleEntityRename> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      newName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SingleEntityRename",
+  }) as any as Schema.Schema<SingleEntityRename>;
 
 export interface MultiEntityRename {
   /** Optional. The pattern used to generate the new entity's name. This pattern must include the characters '{name}', which will be replaced with the name of the original entity. For example, the pattern 't_{name}' for an entity name jobs would be converted to 't_jobs'. If unspecified, the default value for this field is '{name}' */
   newNamePattern?: string;
   /** Optional. Additional transformation that can be done on the source entity name before it is being used by the new_name_pattern, for example lower case. If no transformation is desired, use NO_TRANSFORMATION */
-  sourceNameTransformation?: "ENTITY_NAME_TRANSFORMATION_UNSPECIFIED" | "ENTITY_NAME_TRANSFORMATION_NO_TRANSFORMATION" | "ENTITY_NAME_TRANSFORMATION_LOWER_CASE" | "ENTITY_NAME_TRANSFORMATION_UPPER_CASE" | "ENTITY_NAME_TRANSFORMATION_CAPITALIZED_CASE" | (string & {});
+  sourceNameTransformation?:
+    | "ENTITY_NAME_TRANSFORMATION_UNSPECIFIED"
+    | "ENTITY_NAME_TRANSFORMATION_NO_TRANSFORMATION"
+    | "ENTITY_NAME_TRANSFORMATION_LOWER_CASE"
+    | "ENTITY_NAME_TRANSFORMATION_UPPER_CASE"
+    | "ENTITY_NAME_TRANSFORMATION_CAPITALIZED_CASE"
+    | (string & {});
 }
 
-export const MultiEntityRename: Schema.Schema<MultiEntityRename> = Schema.suspend(() => Schema.Struct({
-  newNamePattern: Schema.optional(Schema.String),
-  sourceNameTransformation: Schema.optional(Schema.String),
-})).annotate({ identifier: "MultiEntityRename" }) as any as Schema.Schema<MultiEntityRename>;
+export const MultiEntityRename: Schema.Schema<MultiEntityRename> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      newNamePattern: Schema.optional(Schema.String),
+      sourceNameTransformation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MultiEntityRename",
+  }) as any as Schema.Schema<MultiEntityRename>;
 
 export interface EntityMove {
   /** Required. The new schema */
   newSchema?: string;
 }
 
-export const EntityMove: Schema.Schema<EntityMove> = Schema.suspend(() => Schema.Struct({
-  newSchema: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntityMove" }) as any as Schema.Schema<EntityMove>;
+export const EntityMove: Schema.Schema<EntityMove> = Schema.suspend(() =>
+  Schema.Struct({
+    newSchema: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EntityMove" }) as any as Schema.Schema<EntityMove>;
 
 export interface SingleColumnChange {
   /** Optional. Column data type name. */
@@ -1532,23 +2070,30 @@ export interface SingleColumnChange {
   comment?: string;
 }
 
-export const SingleColumnChange: Schema.Schema<SingleColumnChange> = Schema.suspend(() => Schema.Struct({
-  dataType: Schema.optional(Schema.String),
-  charset: Schema.optional(Schema.String),
-  collation: Schema.optional(Schema.String),
-  length: Schema.optional(Schema.String),
-  precision: Schema.optional(Schema.Number),
-  scale: Schema.optional(Schema.Number),
-  fractionalSecondsPrecision: Schema.optional(Schema.Number),
-  array: Schema.optional(Schema.Boolean),
-  arrayLength: Schema.optional(Schema.Number),
-  nullable: Schema.optional(Schema.Boolean),
-  autoGenerated: Schema.optional(Schema.Boolean),
-  udt: Schema.optional(Schema.Boolean),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  setValues: Schema.optional(Schema.Array(Schema.String)),
-  comment: Schema.optional(Schema.String),
-})).annotate({ identifier: "SingleColumnChange" }) as any as Schema.Schema<SingleColumnChange>;
+export const SingleColumnChange: Schema.Schema<SingleColumnChange> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataType: Schema.optional(Schema.String),
+      charset: Schema.optional(Schema.String),
+      collation: Schema.optional(Schema.String),
+      length: Schema.optional(Schema.String),
+      precision: Schema.optional(Schema.Number),
+      scale: Schema.optional(Schema.Number),
+      fractionalSecondsPrecision: Schema.optional(Schema.Number),
+      array: Schema.optional(Schema.Boolean),
+      arrayLength: Schema.optional(Schema.Number),
+      nullable: Schema.optional(Schema.Boolean),
+      autoGenerated: Schema.optional(Schema.Boolean),
+      udt: Schema.optional(Schema.Boolean),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      setValues: Schema.optional(Schema.Array(Schema.String)),
+      comment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SingleColumnChange",
+  }) as any as Schema.Schema<SingleColumnChange>;
 
 export interface SourceTextFilter {
   /** Optional. The filter will match columns with length greater than or equal to this number. */
@@ -1557,10 +2102,15 @@ export interface SourceTextFilter {
   sourceMaxLengthFilter?: string;
 }
 
-export const SourceTextFilter: Schema.Schema<SourceTextFilter> = Schema.suspend(() => Schema.Struct({
-  sourceMinLengthFilter: Schema.optional(Schema.String),
-  sourceMaxLengthFilter: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceTextFilter" }) as any as Schema.Schema<SourceTextFilter>;
+export const SourceTextFilter: Schema.Schema<SourceTextFilter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sourceMinLengthFilter: Schema.optional(Schema.String),
+      sourceMaxLengthFilter: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SourceTextFilter",
+}) as any as Schema.Schema<SourceTextFilter>;
 
 export interface SourceNumericFilter {
   /** Optional. The filter will match columns with scale greater than or equal to this number. */
@@ -1572,16 +2122,26 @@ export interface SourceNumericFilter {
   /** Optional. The filter will match columns with precision smaller than or equal to this number. */
   sourceMaxPrecisionFilter?: number;
   /** Required. Enum to set the option defining the datatypes numeric filter has to be applied to */
-  numericFilterOption?: "NUMERIC_FILTER_OPTION_UNSPECIFIED" | "NUMERIC_FILTER_OPTION_ALL" | "NUMERIC_FILTER_OPTION_LIMIT" | "NUMERIC_FILTER_OPTION_LIMITLESS" | (string & {});
+  numericFilterOption?:
+    | "NUMERIC_FILTER_OPTION_UNSPECIFIED"
+    | "NUMERIC_FILTER_OPTION_ALL"
+    | "NUMERIC_FILTER_OPTION_LIMIT"
+    | "NUMERIC_FILTER_OPTION_LIMITLESS"
+    | (string & {});
 }
 
-export const SourceNumericFilter: Schema.Schema<SourceNumericFilter> = Schema.suspend(() => Schema.Struct({
-  sourceMinScaleFilter: Schema.optional(Schema.Number),
-  sourceMaxScaleFilter: Schema.optional(Schema.Number),
-  sourceMinPrecisionFilter: Schema.optional(Schema.Number),
-  sourceMaxPrecisionFilter: Schema.optional(Schema.Number),
-  numericFilterOption: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceNumericFilter" }) as any as Schema.Schema<SourceNumericFilter>;
+export const SourceNumericFilter: Schema.Schema<SourceNumericFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceMinScaleFilter: Schema.optional(Schema.Number),
+      sourceMaxScaleFilter: Schema.optional(Schema.Number),
+      sourceMinPrecisionFilter: Schema.optional(Schema.Number),
+      sourceMaxPrecisionFilter: Schema.optional(Schema.Number),
+      numericFilterOption: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SourceNumericFilter",
+  }) as any as Schema.Schema<SourceNumericFilter>;
 
 export interface MultiColumnDatatypeChange {
   /** Required. Filter on source data type. */
@@ -1604,83 +2164,132 @@ export interface MultiColumnDatatypeChange {
   customFeatures?: Record<string, unknown>;
 }
 
-export const MultiColumnDatatypeChange: Schema.Schema<MultiColumnDatatypeChange> = Schema.suspend(() => Schema.Struct({
-  sourceDataTypeFilter: Schema.optional(Schema.String),
-  sourceTextFilter: Schema.optional(SourceTextFilter),
-  sourceNumericFilter: Schema.optional(SourceNumericFilter),
-  newDataType: Schema.optional(Schema.String),
-  overrideLength: Schema.optional(Schema.String),
-  overrideScale: Schema.optional(Schema.Number),
-  overridePrecision: Schema.optional(Schema.Number),
-  overrideFractionalSecondsPrecision: Schema.optional(Schema.Number),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "MultiColumnDatatypeChange" }) as any as Schema.Schema<MultiColumnDatatypeChange>;
+export const MultiColumnDatatypeChange: Schema.Schema<MultiColumnDatatypeChange> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceDataTypeFilter: Schema.optional(Schema.String),
+      sourceTextFilter: Schema.optional(SourceTextFilter),
+      sourceNumericFilter: Schema.optional(SourceNumericFilter),
+      newDataType: Schema.optional(Schema.String),
+      overrideLength: Schema.optional(Schema.String),
+      overrideScale: Schema.optional(Schema.Number),
+      overridePrecision: Schema.optional(Schema.Number),
+      overrideFractionalSecondsPrecision: Schema.optional(Schema.Number),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+  ).annotate({
+    identifier: "MultiColumnDatatypeChange",
+  }) as any as Schema.Schema<MultiColumnDatatypeChange>;
 
 export interface ValueListFilter {
   /** Required. Indicates whether the filter matches rows with values that are present in the list or those with values not present in it. */
-  valuePresentList?: "VALUE_PRESENT_IN_LIST_UNSPECIFIED" | "VALUE_PRESENT_IN_LIST_IF_VALUE_LIST" | "VALUE_PRESENT_IN_LIST_IF_VALUE_NOT_LIST" | (string & {});
+  valuePresentList?:
+    | "VALUE_PRESENT_IN_LIST_UNSPECIFIED"
+    | "VALUE_PRESENT_IN_LIST_IF_VALUE_LIST"
+    | "VALUE_PRESENT_IN_LIST_IF_VALUE_NOT_LIST"
+    | (string & {});
   /** Required. The list to be used to filter by */
   values?: Array<string>;
   /** Required. Whether to ignore case when filtering by values. Defaults to false */
   ignoreCase?: boolean;
 }
 
-export const ValueListFilter: Schema.Schema<ValueListFilter> = Schema.suspend(() => Schema.Struct({
-  valuePresentList: Schema.optional(Schema.String),
-  values: Schema.optional(Schema.Array(Schema.String)),
-  ignoreCase: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ValueListFilter" }) as any as Schema.Schema<ValueListFilter>;
+export const ValueListFilter: Schema.Schema<ValueListFilter> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      valuePresentList: Schema.optional(Schema.String),
+      values: Schema.optional(Schema.Array(Schema.String)),
+      ignoreCase: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "ValueListFilter",
+}) as any as Schema.Schema<ValueListFilter>;
 
 export interface IntComparisonFilter {
   /** Required. Relation between source value and compare value */
-  valueComparison?: "VALUE_COMPARISON_UNSPECIFIED" | "VALUE_COMPARISON_IF_VALUE_SMALLER_THAN" | "VALUE_COMPARISON_IF_VALUE_SMALLER_EQUAL_THAN" | "VALUE_COMPARISON_IF_VALUE_LARGER_THAN" | "VALUE_COMPARISON_IF_VALUE_LARGER_EQUAL_THAN" | (string & {});
+  valueComparison?:
+    | "VALUE_COMPARISON_UNSPECIFIED"
+    | "VALUE_COMPARISON_IF_VALUE_SMALLER_THAN"
+    | "VALUE_COMPARISON_IF_VALUE_SMALLER_EQUAL_THAN"
+    | "VALUE_COMPARISON_IF_VALUE_LARGER_THAN"
+    | "VALUE_COMPARISON_IF_VALUE_LARGER_EQUAL_THAN"
+    | (string & {});
   /** Required. Integer compare value to be used */
   value?: string;
 }
 
-export const IntComparisonFilter: Schema.Schema<IntComparisonFilter> = Schema.suspend(() => Schema.Struct({
-  valueComparison: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "IntComparisonFilter" }) as any as Schema.Schema<IntComparisonFilter>;
+export const IntComparisonFilter: Schema.Schema<IntComparisonFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      valueComparison: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IntComparisonFilter",
+  }) as any as Schema.Schema<IntComparisonFilter>;
 
 export interface DoubleComparisonFilter {
   /** Required. Relation between source value and compare value */
-  valueComparison?: "VALUE_COMPARISON_UNSPECIFIED" | "VALUE_COMPARISON_IF_VALUE_SMALLER_THAN" | "VALUE_COMPARISON_IF_VALUE_SMALLER_EQUAL_THAN" | "VALUE_COMPARISON_IF_VALUE_LARGER_THAN" | "VALUE_COMPARISON_IF_VALUE_LARGER_EQUAL_THAN" | (string & {});
+  valueComparison?:
+    | "VALUE_COMPARISON_UNSPECIFIED"
+    | "VALUE_COMPARISON_IF_VALUE_SMALLER_THAN"
+    | "VALUE_COMPARISON_IF_VALUE_SMALLER_EQUAL_THAN"
+    | "VALUE_COMPARISON_IF_VALUE_LARGER_THAN"
+    | "VALUE_COMPARISON_IF_VALUE_LARGER_EQUAL_THAN"
+    | (string & {});
   /** Required. Double compare value to be used */
   value?: number;
 }
 
-export const DoubleComparisonFilter: Schema.Schema<DoubleComparisonFilter> = Schema.suspend(() => Schema.Struct({
-  valueComparison: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Number),
-})).annotate({ identifier: "DoubleComparisonFilter" }) as any as Schema.Schema<DoubleComparisonFilter>;
+export const DoubleComparisonFilter: Schema.Schema<DoubleComparisonFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      valueComparison: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "DoubleComparisonFilter",
+  }) as any as Schema.Schema<DoubleComparisonFilter>;
 
 export interface AssignSpecificValue {
   /** Required. Specific value to be assigned */
   value?: string;
 }
 
-export const AssignSpecificValue: Schema.Schema<AssignSpecificValue> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "AssignSpecificValue" }) as any as Schema.Schema<AssignSpecificValue>;
+export const AssignSpecificValue: Schema.Schema<AssignSpecificValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AssignSpecificValue",
+  }) as any as Schema.Schema<AssignSpecificValue>;
 
 export interface RoundToScale {
   /** Required. Scale value to be used */
   scale?: number;
 }
 
-export const RoundToScale: Schema.Schema<RoundToScale> = Schema.suspend(() => Schema.Struct({
-  scale: Schema.optional(Schema.Number),
-})).annotate({ identifier: "RoundToScale" }) as any as Schema.Schema<RoundToScale>;
+export const RoundToScale: Schema.Schema<RoundToScale> = Schema.suspend(() =>
+  Schema.Struct({
+    scale: Schema.optional(Schema.Number),
+  }),
+).annotate({
+  identifier: "RoundToScale",
+}) as any as Schema.Schema<RoundToScale>;
 
 export interface ApplyHash {
   /** Optional. Generate UUID from the data's byte array */
   uuidFromBytes?: Empty;
 }
 
-export const ApplyHash: Schema.Schema<ApplyHash> = Schema.suspend(() => Schema.Struct({
-  uuidFromBytes: Schema.optional(Empty),
-})).annotate({ identifier: "ApplyHash" }) as any as Schema.Schema<ApplyHash>;
+export const ApplyHash: Schema.Schema<ApplyHash> = Schema.suspend(() =>
+  Schema.Struct({
+    uuidFromBytes: Schema.optional(Empty),
+  }),
+).annotate({ identifier: "ApplyHash" }) as any as Schema.Schema<ApplyHash>;
 
 export interface ValueTransformation {
   /** Optional. Value is null */
@@ -1705,18 +2314,23 @@ export interface ValueTransformation {
   applyHash?: ApplyHash;
 }
 
-export const ValueTransformation: Schema.Schema<ValueTransformation> = Schema.suspend(() => Schema.Struct({
-  isNull: Schema.optional(Empty),
-  valueList: Schema.optional(ValueListFilter),
-  intComparison: Schema.optional(IntComparisonFilter),
-  doubleComparison: Schema.optional(DoubleComparisonFilter),
-  assignNull: Schema.optional(Empty),
-  assignSpecificValue: Schema.optional(AssignSpecificValue),
-  assignMinValue: Schema.optional(Empty),
-  assignMaxValue: Schema.optional(Empty),
-  roundScale: Schema.optional(RoundToScale),
-  applyHash: Schema.optional(ApplyHash),
-})).annotate({ identifier: "ValueTransformation" }) as any as Schema.Schema<ValueTransformation>;
+export const ValueTransformation: Schema.Schema<ValueTransformation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      isNull: Schema.optional(Empty),
+      valueList: Schema.optional(ValueListFilter),
+      intComparison: Schema.optional(IntComparisonFilter),
+      doubleComparison: Schema.optional(DoubleComparisonFilter),
+      assignNull: Schema.optional(Empty),
+      assignSpecificValue: Schema.optional(AssignSpecificValue),
+      assignMinValue: Schema.optional(Empty),
+      assignMaxValue: Schema.optional(Empty),
+      roundScale: Schema.optional(RoundToScale),
+      applyHash: Schema.optional(ApplyHash),
+    }),
+  ).annotate({
+    identifier: "ValueTransformation",
+  }) as any as Schema.Schema<ValueTransformation>;
 
 export interface ConditionalColumnSetValue {
   /** Optional. Optional filter on source column length. Used for text based data types like varchar. */
@@ -1729,21 +2343,33 @@ export interface ConditionalColumnSetValue {
   customFeatures?: Record<string, unknown>;
 }
 
-export const ConditionalColumnSetValue: Schema.Schema<ConditionalColumnSetValue> = Schema.suspend(() => Schema.Struct({
-  sourceTextFilter: Schema.optional(SourceTextFilter),
-  sourceNumericFilter: Schema.optional(SourceNumericFilter),
-  valueTransformation: Schema.optional(ValueTransformation),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "ConditionalColumnSetValue" }) as any as Schema.Schema<ConditionalColumnSetValue>;
+export const ConditionalColumnSetValue: Schema.Schema<ConditionalColumnSetValue> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceTextFilter: Schema.optional(SourceTextFilter),
+      sourceNumericFilter: Schema.optional(SourceNumericFilter),
+      valueTransformation: Schema.optional(ValueTransformation),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+  ).annotate({
+    identifier: "ConditionalColumnSetValue",
+  }) as any as Schema.Schema<ConditionalColumnSetValue>;
 
 export interface ConvertRowIdToColumn {
   /** Required. Only work on tables without primary key defined */
   onlyIfNoPrimaryKey?: boolean;
 }
 
-export const ConvertRowIdToColumn: Schema.Schema<ConvertRowIdToColumn> = Schema.suspend(() => Schema.Struct({
-  onlyIfNoPrimaryKey: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ConvertRowIdToColumn" }) as any as Schema.Schema<ConvertRowIdToColumn>;
+export const ConvertRowIdToColumn: Schema.Schema<ConvertRowIdToColumn> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      onlyIfNoPrimaryKey: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ConvertRowIdToColumn",
+  }) as any as Schema.Schema<ConvertRowIdToColumn>;
 
 export interface SetTablePrimaryKey {
   /** Required. List of column names for the primary key */
@@ -1752,10 +2378,15 @@ export interface SetTablePrimaryKey {
   primaryKey?: string;
 }
 
-export const SetTablePrimaryKey: Schema.Schema<SetTablePrimaryKey> = Schema.suspend(() => Schema.Struct({
-  primaryKeyColumns: Schema.optional(Schema.Array(Schema.String)),
-  primaryKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetTablePrimaryKey" }) as any as Schema.Schema<SetTablePrimaryKey>;
+export const SetTablePrimaryKey: Schema.Schema<SetTablePrimaryKey> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      primaryKeyColumns: Schema.optional(Schema.Array(Schema.String)),
+      primaryKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetTablePrimaryKey",
+  }) as any as Schema.Schema<SetTablePrimaryKey>;
 
 export interface SinglePackageChange {
   /** Optional. Sql code for package description */
@@ -1764,19 +2395,29 @@ export interface SinglePackageChange {
   packageBody?: string;
 }
 
-export const SinglePackageChange: Schema.Schema<SinglePackageChange> = Schema.suspend(() => Schema.Struct({
-  packageDescription: Schema.optional(Schema.String),
-  packageBody: Schema.optional(Schema.String),
-})).annotate({ identifier: "SinglePackageChange" }) as any as Schema.Schema<SinglePackageChange>;
+export const SinglePackageChange: Schema.Schema<SinglePackageChange> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      packageDescription: Schema.optional(Schema.String),
+      packageBody: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SinglePackageChange",
+  }) as any as Schema.Schema<SinglePackageChange>;
 
 export interface SourceSqlChange {
   /** Required. Sql code for source (stored procedure, function, trigger or view) */
   sqlCode?: string;
 }
 
-export const SourceSqlChange: Schema.Schema<SourceSqlChange> = Schema.suspend(() => Schema.Struct({
-  sqlCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceSqlChange" }) as any as Schema.Schema<SourceSqlChange>;
+export const SourceSqlChange: Schema.Schema<SourceSqlChange> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sqlCode: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SourceSqlChange",
+}) as any as Schema.Schema<SourceSqlChange>;
 
 export interface FilterTableColumns {
   /** Optional. List of columns to be included for a particular table. */
@@ -1785,10 +2426,15 @@ export interface FilterTableColumns {
   excludeColumns?: Array<string>;
 }
 
-export const FilterTableColumns: Schema.Schema<FilterTableColumns> = Schema.suspend(() => Schema.Struct({
-  includeColumns: Schema.optional(Schema.Array(Schema.String)),
-  excludeColumns: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "FilterTableColumns" }) as any as Schema.Schema<FilterTableColumns>;
+export const FilterTableColumns: Schema.Schema<FilterTableColumns> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      includeColumns: Schema.optional(Schema.Array(Schema.String)),
+      excludeColumns: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "FilterTableColumns",
+  }) as any as Schema.Schema<FilterTableColumns>;
 
 export interface MappingRule {
   /** Full name of the mapping rule resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{set}/mappingRule/{rule}. */
@@ -1796,9 +2442,31 @@ export interface MappingRule {
   /** Optional. A human readable name */
   displayName?: string;
   /** Optional. The mapping rule state */
-  state?: "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DELETED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ENABLED"
+    | "DISABLED"
+    | "DELETED"
+    | (string & {});
   /** Required. The rule scope */
-  ruleScope?: "DATABASE_ENTITY_TYPE_UNSPECIFIED" | "DATABASE_ENTITY_TYPE_SCHEMA" | "DATABASE_ENTITY_TYPE_TABLE" | "DATABASE_ENTITY_TYPE_COLUMN" | "DATABASE_ENTITY_TYPE_CONSTRAINT" | "DATABASE_ENTITY_TYPE_INDEX" | "DATABASE_ENTITY_TYPE_TRIGGER" | "DATABASE_ENTITY_TYPE_VIEW" | "DATABASE_ENTITY_TYPE_SEQUENCE" | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE" | "DATABASE_ENTITY_TYPE_FUNCTION" | "DATABASE_ENTITY_TYPE_SYNONYM" | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE" | "DATABASE_ENTITY_TYPE_UDT" | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW" | "DATABASE_ENTITY_TYPE_DATABASE" | (string & {});
+  ruleScope?:
+    | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+    | "DATABASE_ENTITY_TYPE_SCHEMA"
+    | "DATABASE_ENTITY_TYPE_TABLE"
+    | "DATABASE_ENTITY_TYPE_COLUMN"
+    | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+    | "DATABASE_ENTITY_TYPE_INDEX"
+    | "DATABASE_ENTITY_TYPE_TRIGGER"
+    | "DATABASE_ENTITY_TYPE_VIEW"
+    | "DATABASE_ENTITY_TYPE_SEQUENCE"
+    | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+    | "DATABASE_ENTITY_TYPE_FUNCTION"
+    | "DATABASE_ENTITY_TYPE_SYNONYM"
+    | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+    | "DATABASE_ENTITY_TYPE_UDT"
+    | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+    | "DATABASE_ENTITY_TYPE_DATABASE"
+    | (string & {});
   /** Required. The rule filter */
   filter?: MappingRuleFilter;
   /** Required. The order in which the rule is applied. Lower order rules are applied before higher value rules so they may end up being overridden. */
@@ -1831,27 +2499,29 @@ export interface MappingRule {
   filterTableColumns?: FilterTableColumns;
 }
 
-export const MappingRule: Schema.Schema<MappingRule> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  ruleScope: Schema.optional(Schema.String),
-  filter: Schema.optional(MappingRuleFilter),
-  ruleOrder: Schema.optional(Schema.String),
-  revisionId: Schema.optional(Schema.String),
-  revisionCreateTime: Schema.optional(Schema.String),
-  singleEntityRename: Schema.optional(SingleEntityRename),
-  multiEntityRename: Schema.optional(MultiEntityRename),
-  entityMove: Schema.optional(EntityMove),
-  singleColumnChange: Schema.optional(SingleColumnChange),
-  multiColumnDataTypeChange: Schema.optional(MultiColumnDatatypeChange),
-  conditionalColumnSetValue: Schema.optional(ConditionalColumnSetValue),
-  convertRowidColumn: Schema.optional(ConvertRowIdToColumn),
-  setTablePrimaryKey: Schema.optional(SetTablePrimaryKey),
-  singlePackageChange: Schema.optional(SinglePackageChange),
-  sourceSqlChange: Schema.optional(SourceSqlChange),
-  filterTableColumns: Schema.optional(FilterTableColumns),
-})).annotate({ identifier: "MappingRule" }) as any as Schema.Schema<MappingRule>;
+export const MappingRule: Schema.Schema<MappingRule> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    ruleScope: Schema.optional(Schema.String),
+    filter: Schema.optional(MappingRuleFilter),
+    ruleOrder: Schema.optional(Schema.String),
+    revisionId: Schema.optional(Schema.String),
+    revisionCreateTime: Schema.optional(Schema.String),
+    singleEntityRename: Schema.optional(SingleEntityRename),
+    multiEntityRename: Schema.optional(MultiEntityRename),
+    entityMove: Schema.optional(EntityMove),
+    singleColumnChange: Schema.optional(SingleColumnChange),
+    multiColumnDataTypeChange: Schema.optional(MultiColumnDatatypeChange),
+    conditionalColumnSetValue: Schema.optional(ConditionalColumnSetValue),
+    convertRowidColumn: Schema.optional(ConvertRowIdToColumn),
+    setTablePrimaryKey: Schema.optional(SetTablePrimaryKey),
+    singlePackageChange: Schema.optional(SinglePackageChange),
+    sourceSqlChange: Schema.optional(SourceSqlChange),
+    filterTableColumns: Schema.optional(FilterTableColumns),
+  }),
+).annotate({ identifier: "MappingRule" }) as any as Schema.Schema<MappingRule>;
 
 export interface ListMappingRulesResponse {
   /** The list of conversion workspace mapping rules. */
@@ -1860,10 +2530,15 @@ export interface ListMappingRulesResponse {
   nextPageToken?: string;
 }
 
-export const ListMappingRulesResponse: Schema.Schema<ListMappingRulesResponse> = Schema.suspend(() => Schema.Struct({
-  mappingRules: Schema.optional(Schema.Array(MappingRule)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListMappingRulesResponse" }) as any as Schema.Schema<ListMappingRulesResponse>;
+export const ListMappingRulesResponse: Schema.Schema<ListMappingRulesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      mappingRules: Schema.optional(Schema.Array(MappingRule)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListMappingRulesResponse",
+  }) as any as Schema.Schema<ListMappingRulesResponse>;
 
 export interface SeedConversionWorkspaceRequest {
   /** Should the conversion workspace be committed automatically after the seed operation. */
@@ -1874,11 +2549,16 @@ export interface SeedConversionWorkspaceRequest {
   destinationConnectionProfile?: string;
 }
 
-export const SeedConversionWorkspaceRequest: Schema.Schema<SeedConversionWorkspaceRequest> = Schema.suspend(() => Schema.Struct({
-  autoCommit: Schema.optional(Schema.Boolean),
-  sourceConnectionProfile: Schema.optional(Schema.String),
-  destinationConnectionProfile: Schema.optional(Schema.String),
-})).annotate({ identifier: "SeedConversionWorkspaceRequest" }) as any as Schema.Schema<SeedConversionWorkspaceRequest>;
+export const SeedConversionWorkspaceRequest: Schema.Schema<SeedConversionWorkspaceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoCommit: Schema.optional(Schema.Boolean),
+      sourceConnectionProfile: Schema.optional(Schema.String),
+      destinationConnectionProfile: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SeedConversionWorkspaceRequest",
+  }) as any as Schema.Schema<SeedConversionWorkspaceRequest>;
 
 export interface RulesFile {
   /** Required. The filename of the rules that needs to be converted. The filename is used mainly so that future logs of the import rules job contain it, and can therefore be searched by it. */
@@ -1887,25 +2567,36 @@ export interface RulesFile {
   rulesContent?: string;
 }
 
-export const RulesFile: Schema.Schema<RulesFile> = Schema.suspend(() => Schema.Struct({
-  rulesSourceFilename: Schema.optional(Schema.String),
-  rulesContent: Schema.optional(Schema.String),
-})).annotate({ identifier: "RulesFile" }) as any as Schema.Schema<RulesFile>;
+export const RulesFile: Schema.Schema<RulesFile> = Schema.suspend(() =>
+  Schema.Struct({
+    rulesSourceFilename: Schema.optional(Schema.String),
+    rulesContent: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RulesFile" }) as any as Schema.Schema<RulesFile>;
 
 export interface ImportMappingRulesRequest {
   /** Required. The format of the rules content file. */
-  rulesFormat?: "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED" | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE" | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE" | (string & {});
+  rulesFormat?:
+    | "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED"
+    | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE"
+    | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE"
+    | (string & {});
   /** Required. One or more rules files. */
   rulesFiles?: Array<RulesFile>;
   /** Required. Should the conversion workspace be committed automatically after the import operation. */
   autoCommit?: boolean;
 }
 
-export const ImportMappingRulesRequest: Schema.Schema<ImportMappingRulesRequest> = Schema.suspend(() => Schema.Struct({
-  rulesFormat: Schema.optional(Schema.String),
-  rulesFiles: Schema.optional(Schema.Array(RulesFile)),
-  autoCommit: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ImportMappingRulesRequest" }) as any as Schema.Schema<ImportMappingRulesRequest>;
+export const ImportMappingRulesRequest: Schema.Schema<ImportMappingRulesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rulesFormat: Schema.optional(Schema.String),
+      rulesFiles: Schema.optional(Schema.Array(RulesFile)),
+      autoCommit: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ImportMappingRulesRequest",
+  }) as any as Schema.Schema<ImportMappingRulesRequest>;
 
 export interface ConvertConversionWorkspaceRequest {
   /** Optional. Specifies whether the conversion workspace is to be committed automatically after the conversion. */
@@ -1916,26 +2607,37 @@ export interface ConvertConversionWorkspaceRequest {
   convertFullPath?: boolean;
 }
 
-export const ConvertConversionWorkspaceRequest: Schema.Schema<ConvertConversionWorkspaceRequest> = Schema.suspend(() => Schema.Struct({
-  autoCommit: Schema.optional(Schema.Boolean),
-  filter: Schema.optional(Schema.String),
-  convertFullPath: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ConvertConversionWorkspaceRequest" }) as any as Schema.Schema<ConvertConversionWorkspaceRequest>;
+export const ConvertConversionWorkspaceRequest: Schema.Schema<ConvertConversionWorkspaceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoCommit: Schema.optional(Schema.Boolean),
+      filter: Schema.optional(Schema.String),
+      convertFullPath: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ConvertConversionWorkspaceRequest",
+  }) as any as Schema.Schema<ConvertConversionWorkspaceRequest>;
 
 export interface CommitConversionWorkspaceRequest {
   /** Optional. Optional name of the commit. */
   commitName?: string;
 }
 
-export const CommitConversionWorkspaceRequest: Schema.Schema<CommitConversionWorkspaceRequest> = Schema.suspend(() => Schema.Struct({
-  commitName: Schema.optional(Schema.String),
-})).annotate({ identifier: "CommitConversionWorkspaceRequest" }) as any as Schema.Schema<CommitConversionWorkspaceRequest>;
+export const CommitConversionWorkspaceRequest: Schema.Schema<CommitConversionWorkspaceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      commitName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitConversionWorkspaceRequest",
+  }) as any as Schema.Schema<CommitConversionWorkspaceRequest>;
 
-export interface RollbackConversionWorkspaceRequest {
-}
+export interface RollbackConversionWorkspaceRequest {}
 
-export const RollbackConversionWorkspaceRequest: Schema.Schema<RollbackConversionWorkspaceRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RollbackConversionWorkspaceRequest" }) as any as Schema.Schema<RollbackConversionWorkspaceRequest>;
+export const RollbackConversionWorkspaceRequest: Schema.Schema<RollbackConversionWorkspaceRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RollbackConversionWorkspaceRequest",
+  }) as any as Schema.Schema<RollbackConversionWorkspaceRequest>;
 
 export interface ApplyConversionWorkspaceRequest {
   /** Optional. Filter which entities to apply. Leaving this field empty will apply all of the entities. Supports Google AIP 160 based filtering. */
@@ -1948,12 +2650,17 @@ export interface ApplyConversionWorkspaceRequest {
   connectionProfile?: string;
 }
 
-export const ApplyConversionWorkspaceRequest: Schema.Schema<ApplyConversionWorkspaceRequest> = Schema.suspend(() => Schema.Struct({
-  filter: Schema.optional(Schema.String),
-  dryRun: Schema.optional(Schema.Boolean),
-  autoCommit: Schema.optional(Schema.Boolean),
-  connectionProfile: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApplyConversionWorkspaceRequest" }) as any as Schema.Schema<ApplyConversionWorkspaceRequest>;
+export const ApplyConversionWorkspaceRequest: Schema.Schema<ApplyConversionWorkspaceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filter: Schema.optional(Schema.String),
+      dryRun: Schema.optional(Schema.Boolean),
+      autoCommit: Schema.optional(Schema.Boolean),
+      connectionProfile: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApplyConversionWorkspaceRequest",
+  }) as any as Schema.Schema<ApplyConversionWorkspaceRequest>;
 
 export interface EntityMappingLogEntry {
   /** Which rule caused this log entry. */
@@ -1964,11 +2671,16 @@ export interface EntityMappingLogEntry {
   mappingComment?: string;
 }
 
-export const EntityMappingLogEntry: Schema.Schema<EntityMappingLogEntry> = Schema.suspend(() => Schema.Struct({
-  ruleId: Schema.optional(Schema.String),
-  ruleRevisionId: Schema.optional(Schema.String),
-  mappingComment: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntityMappingLogEntry" }) as any as Schema.Schema<EntityMappingLogEntry>;
+export const EntityMappingLogEntry: Schema.Schema<EntityMappingLogEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      ruleId: Schema.optional(Schema.String),
+      ruleRevisionId: Schema.optional(Schema.String),
+      mappingComment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EntityMappingLogEntry",
+  }) as any as Schema.Schema<EntityMappingLogEntry>;
 
 export interface EntityMapping {
   /** Source entity full name. The source entity can also be a column, index or constraint using the same naming notation schema.table.column. */
@@ -1976,20 +2688,58 @@ export interface EntityMapping {
   /** Target entity full name. The draft entity can also include a column, index or constraint using the same naming notation schema.table.column. */
   draftEntity?: string;
   /** Type of source entity. */
-  sourceType?: "DATABASE_ENTITY_TYPE_UNSPECIFIED" | "DATABASE_ENTITY_TYPE_SCHEMA" | "DATABASE_ENTITY_TYPE_TABLE" | "DATABASE_ENTITY_TYPE_COLUMN" | "DATABASE_ENTITY_TYPE_CONSTRAINT" | "DATABASE_ENTITY_TYPE_INDEX" | "DATABASE_ENTITY_TYPE_TRIGGER" | "DATABASE_ENTITY_TYPE_VIEW" | "DATABASE_ENTITY_TYPE_SEQUENCE" | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE" | "DATABASE_ENTITY_TYPE_FUNCTION" | "DATABASE_ENTITY_TYPE_SYNONYM" | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE" | "DATABASE_ENTITY_TYPE_UDT" | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW" | "DATABASE_ENTITY_TYPE_DATABASE" | (string & {});
+  sourceType?:
+    | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+    | "DATABASE_ENTITY_TYPE_SCHEMA"
+    | "DATABASE_ENTITY_TYPE_TABLE"
+    | "DATABASE_ENTITY_TYPE_COLUMN"
+    | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+    | "DATABASE_ENTITY_TYPE_INDEX"
+    | "DATABASE_ENTITY_TYPE_TRIGGER"
+    | "DATABASE_ENTITY_TYPE_VIEW"
+    | "DATABASE_ENTITY_TYPE_SEQUENCE"
+    | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+    | "DATABASE_ENTITY_TYPE_FUNCTION"
+    | "DATABASE_ENTITY_TYPE_SYNONYM"
+    | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+    | "DATABASE_ENTITY_TYPE_UDT"
+    | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+    | "DATABASE_ENTITY_TYPE_DATABASE"
+    | (string & {});
   /** Type of draft entity. */
-  draftType?: "DATABASE_ENTITY_TYPE_UNSPECIFIED" | "DATABASE_ENTITY_TYPE_SCHEMA" | "DATABASE_ENTITY_TYPE_TABLE" | "DATABASE_ENTITY_TYPE_COLUMN" | "DATABASE_ENTITY_TYPE_CONSTRAINT" | "DATABASE_ENTITY_TYPE_INDEX" | "DATABASE_ENTITY_TYPE_TRIGGER" | "DATABASE_ENTITY_TYPE_VIEW" | "DATABASE_ENTITY_TYPE_SEQUENCE" | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE" | "DATABASE_ENTITY_TYPE_FUNCTION" | "DATABASE_ENTITY_TYPE_SYNONYM" | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE" | "DATABASE_ENTITY_TYPE_UDT" | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW" | "DATABASE_ENTITY_TYPE_DATABASE" | (string & {});
+  draftType?:
+    | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+    | "DATABASE_ENTITY_TYPE_SCHEMA"
+    | "DATABASE_ENTITY_TYPE_TABLE"
+    | "DATABASE_ENTITY_TYPE_COLUMN"
+    | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+    | "DATABASE_ENTITY_TYPE_INDEX"
+    | "DATABASE_ENTITY_TYPE_TRIGGER"
+    | "DATABASE_ENTITY_TYPE_VIEW"
+    | "DATABASE_ENTITY_TYPE_SEQUENCE"
+    | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+    | "DATABASE_ENTITY_TYPE_FUNCTION"
+    | "DATABASE_ENTITY_TYPE_SYNONYM"
+    | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+    | "DATABASE_ENTITY_TYPE_UDT"
+    | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+    | "DATABASE_ENTITY_TYPE_DATABASE"
+    | (string & {});
   /** Entity mapping log entries. Multiple rules can be effective and contribute changes to a converted entity, such as a rule can handle the entity name, another rule can handle an entity type. In addition, rules which did not change the entity are also logged along with the reason preventing them to do so. */
   mappingLog?: Array<EntityMappingLogEntry>;
 }
 
-export const EntityMapping: Schema.Schema<EntityMapping> = Schema.suspend(() => Schema.Struct({
-  sourceEntity: Schema.optional(Schema.String),
-  draftEntity: Schema.optional(Schema.String),
-  sourceType: Schema.optional(Schema.String),
-  draftType: Schema.optional(Schema.String),
-  mappingLog: Schema.optional(Schema.Array(EntityMappingLogEntry)),
-})).annotate({ identifier: "EntityMapping" }) as any as Schema.Schema<EntityMapping>;
+export const EntityMapping: Schema.Schema<EntityMapping> = Schema.suspend(() =>
+  Schema.Struct({
+    sourceEntity: Schema.optional(Schema.String),
+    draftEntity: Schema.optional(Schema.String),
+    sourceType: Schema.optional(Schema.String),
+    draftType: Schema.optional(Schema.String),
+    mappingLog: Schema.optional(Schema.Array(EntityMappingLogEntry)),
+  }),
+).annotate({
+  identifier: "EntityMapping",
+}) as any as Schema.Schema<EntityMapping>;
 
 export interface EntityDdl {
   /** Type of DDL (Create, Alter). */
@@ -1999,24 +2749,55 @@ export interface EntityDdl {
   /** The actual ddl code. */
   ddl?: string;
   /** The entity type (if the DDL is for a sub entity). */
-  entityType?: "DATABASE_ENTITY_TYPE_UNSPECIFIED" | "DATABASE_ENTITY_TYPE_SCHEMA" | "DATABASE_ENTITY_TYPE_TABLE" | "DATABASE_ENTITY_TYPE_COLUMN" | "DATABASE_ENTITY_TYPE_CONSTRAINT" | "DATABASE_ENTITY_TYPE_INDEX" | "DATABASE_ENTITY_TYPE_TRIGGER" | "DATABASE_ENTITY_TYPE_VIEW" | "DATABASE_ENTITY_TYPE_SEQUENCE" | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE" | "DATABASE_ENTITY_TYPE_FUNCTION" | "DATABASE_ENTITY_TYPE_SYNONYM" | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE" | "DATABASE_ENTITY_TYPE_UDT" | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW" | "DATABASE_ENTITY_TYPE_DATABASE" | (string & {});
+  entityType?:
+    | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+    | "DATABASE_ENTITY_TYPE_SCHEMA"
+    | "DATABASE_ENTITY_TYPE_TABLE"
+    | "DATABASE_ENTITY_TYPE_COLUMN"
+    | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+    | "DATABASE_ENTITY_TYPE_INDEX"
+    | "DATABASE_ENTITY_TYPE_TRIGGER"
+    | "DATABASE_ENTITY_TYPE_VIEW"
+    | "DATABASE_ENTITY_TYPE_SEQUENCE"
+    | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+    | "DATABASE_ENTITY_TYPE_FUNCTION"
+    | "DATABASE_ENTITY_TYPE_SYNONYM"
+    | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+    | "DATABASE_ENTITY_TYPE_UDT"
+    | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+    | "DATABASE_ENTITY_TYPE_DATABASE"
+    | (string & {});
   /** The DDL Kind selected for apply, or UNSPECIFIED if the entity wasn't converted yet. */
-  ddlKind?: "DDL_KIND_UNSPECIFIED" | "SOURCE" | "DETERMINISTIC" | "AI" | "USER_EDIT" | (string & {});
+  ddlKind?:
+    | "DDL_KIND_UNSPECIFIED"
+    | "SOURCE"
+    | "DETERMINISTIC"
+    | "AI"
+    | "USER_EDIT"
+    | (string & {});
   /** If ddl_kind is USER_EDIT, this holds the DDL kind of the original content - DETERMINISTIC or AI. Otherwise, this is DDL_KIND_UNSPECIFIED. */
-  editedDdlKind?: "DDL_KIND_UNSPECIFIED" | "SOURCE" | "DETERMINISTIC" | "AI" | "USER_EDIT" | (string & {});
+  editedDdlKind?:
+    | "DDL_KIND_UNSPECIFIED"
+    | "SOURCE"
+    | "DETERMINISTIC"
+    | "AI"
+    | "USER_EDIT"
+    | (string & {});
   /** EntityIssues found for this ddl. */
   issueId?: Array<string>;
 }
 
-export const EntityDdl: Schema.Schema<EntityDdl> = Schema.suspend(() => Schema.Struct({
-  ddlType: Schema.optional(Schema.String),
-  entity: Schema.optional(Schema.String),
-  ddl: Schema.optional(Schema.String),
-  entityType: Schema.optional(Schema.String),
-  ddlKind: Schema.optional(Schema.String),
-  editedDdlKind: Schema.optional(Schema.String),
-  issueId: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "EntityDdl" }) as any as Schema.Schema<EntityDdl>;
+export const EntityDdl: Schema.Schema<EntityDdl> = Schema.suspend(() =>
+  Schema.Struct({
+    ddlType: Schema.optional(Schema.String),
+    entity: Schema.optional(Schema.String),
+    ddl: Schema.optional(Schema.String),
+    entityType: Schema.optional(Schema.String),
+    ddlKind: Schema.optional(Schema.String),
+    editedDdlKind: Schema.optional(Schema.String),
+    issueId: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "EntityDdl" }) as any as Schema.Schema<EntityDdl>;
 
 export interface Position {
   /** Issue line number */
@@ -2029,20 +2810,32 @@ export interface Position {
   length?: number;
 }
 
-export const Position: Schema.Schema<Position> = Schema.suspend(() => Schema.Struct({
-  line: Schema.optional(Schema.Number),
-  column: Schema.optional(Schema.Number),
-  offset: Schema.optional(Schema.Number),
-  length: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Position" }) as any as Schema.Schema<Position>;
+export const Position: Schema.Schema<Position> = Schema.suspend(() =>
+  Schema.Struct({
+    line: Schema.optional(Schema.Number),
+    column: Schema.optional(Schema.Number),
+    offset: Schema.optional(Schema.Number),
+    length: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Position" }) as any as Schema.Schema<Position>;
 
 export interface EntityIssue {
   /** Unique Issue ID. */
   id?: string;
   /** The type of the issue. */
-  type?: "ISSUE_TYPE_UNSPECIFIED" | "ISSUE_TYPE_DDL" | "ISSUE_TYPE_APPLY" | "ISSUE_TYPE_CONVERT" | (string & {});
+  type?:
+    | "ISSUE_TYPE_UNSPECIFIED"
+    | "ISSUE_TYPE_DDL"
+    | "ISSUE_TYPE_APPLY"
+    | "ISSUE_TYPE_CONVERT"
+    | (string & {});
   /** Severity of the issue */
-  severity?: "ISSUE_SEVERITY_UNSPECIFIED" | "ISSUE_SEVERITY_INFO" | "ISSUE_SEVERITY_WARNING" | "ISSUE_SEVERITY_ERROR" | (string & {});
+  severity?:
+    | "ISSUE_SEVERITY_UNSPECIFIED"
+    | "ISSUE_SEVERITY_INFO"
+    | "ISSUE_SEVERITY_WARNING"
+    | "ISSUE_SEVERITY_ERROR"
+    | (string & {});
   /** Issue detailed message */
   message?: string;
   /** Error/Warning code */
@@ -2052,37 +2845,69 @@ export interface EntityIssue {
   /** The position of the issue found, if relevant. */
   position?: Position;
   /** The entity type (if the DDL is for a sub entity). */
-  entityType?: "DATABASE_ENTITY_TYPE_UNSPECIFIED" | "DATABASE_ENTITY_TYPE_SCHEMA" | "DATABASE_ENTITY_TYPE_TABLE" | "DATABASE_ENTITY_TYPE_COLUMN" | "DATABASE_ENTITY_TYPE_CONSTRAINT" | "DATABASE_ENTITY_TYPE_INDEX" | "DATABASE_ENTITY_TYPE_TRIGGER" | "DATABASE_ENTITY_TYPE_VIEW" | "DATABASE_ENTITY_TYPE_SEQUENCE" | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE" | "DATABASE_ENTITY_TYPE_FUNCTION" | "DATABASE_ENTITY_TYPE_SYNONYM" | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE" | "DATABASE_ENTITY_TYPE_UDT" | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW" | "DATABASE_ENTITY_TYPE_DATABASE" | (string & {});
+  entityType?:
+    | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+    | "DATABASE_ENTITY_TYPE_SCHEMA"
+    | "DATABASE_ENTITY_TYPE_TABLE"
+    | "DATABASE_ENTITY_TYPE_COLUMN"
+    | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+    | "DATABASE_ENTITY_TYPE_INDEX"
+    | "DATABASE_ENTITY_TYPE_TRIGGER"
+    | "DATABASE_ENTITY_TYPE_VIEW"
+    | "DATABASE_ENTITY_TYPE_SEQUENCE"
+    | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+    | "DATABASE_ENTITY_TYPE_FUNCTION"
+    | "DATABASE_ENTITY_TYPE_SYNONYM"
+    | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+    | "DATABASE_ENTITY_TYPE_UDT"
+    | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+    | "DATABASE_ENTITY_TYPE_DATABASE"
+    | (string & {});
 }
 
-export const EntityIssue: Schema.Schema<EntityIssue> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  severity: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
-  ddl: Schema.optional(Schema.String),
-  position: Schema.optional(Position),
-  entityType: Schema.optional(Schema.String),
-})).annotate({ identifier: "EntityIssue" }) as any as Schema.Schema<EntityIssue>;
+export const EntityIssue: Schema.Schema<EntityIssue> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+    message: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.String),
+    ddl: Schema.optional(Schema.String),
+    position: Schema.optional(Position),
+    entityType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EntityIssue" }) as any as Schema.Schema<EntityIssue>;
 
 export interface DatabaseInstanceEntity {
   /** Custom engine specific features. */
   customFeatures?: Record<string, unknown>;
 }
 
-export const DatabaseInstanceEntity: Schema.Schema<DatabaseInstanceEntity> = Schema.suspend(() => Schema.Struct({
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "DatabaseInstanceEntity" }) as any as Schema.Schema<DatabaseInstanceEntity>;
+export const DatabaseInstanceEntity: Schema.Schema<DatabaseInstanceEntity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+  ).annotate({
+    identifier: "DatabaseInstanceEntity",
+  }) as any as Schema.Schema<DatabaseInstanceEntity>;
 
 export interface SchemaEntity {
   /** Custom engine specific features. */
   customFeatures?: Record<string, unknown>;
 }
 
-export const SchemaEntity: Schema.Schema<SchemaEntity> = Schema.suspend(() => Schema.Struct({
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "SchemaEntity" }) as any as Schema.Schema<SchemaEntity>;
+export const SchemaEntity: Schema.Schema<SchemaEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({
+  identifier: "SchemaEntity",
+}) as any as Schema.Schema<SchemaEntity>;
 
 export interface ColumnEntity {
   /** Column name. */
@@ -2125,27 +2950,33 @@ export interface ColumnEntity {
   computed?: boolean;
 }
 
-export const ColumnEntity: Schema.Schema<ColumnEntity> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  dataType: Schema.optional(Schema.String),
-  charset: Schema.optional(Schema.String),
-  collation: Schema.optional(Schema.String),
-  length: Schema.optional(Schema.String),
-  precision: Schema.optional(Schema.Number),
-  scale: Schema.optional(Schema.Number),
-  fractionalSecondsPrecision: Schema.optional(Schema.Number),
-  array: Schema.optional(Schema.Boolean),
-  arrayLength: Schema.optional(Schema.Number),
-  nullable: Schema.optional(Schema.Boolean),
-  autoGenerated: Schema.optional(Schema.Boolean),
-  udt: Schema.optional(Schema.Boolean),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  setValues: Schema.optional(Schema.Array(Schema.String)),
-  comment: Schema.optional(Schema.String),
-  ordinalPosition: Schema.optional(Schema.Number),
-  defaultValue: Schema.optional(Schema.String),
-  computed: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ColumnEntity" }) as any as Schema.Schema<ColumnEntity>;
+export const ColumnEntity: Schema.Schema<ColumnEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    dataType: Schema.optional(Schema.String),
+    charset: Schema.optional(Schema.String),
+    collation: Schema.optional(Schema.String),
+    length: Schema.optional(Schema.String),
+    precision: Schema.optional(Schema.Number),
+    scale: Schema.optional(Schema.Number),
+    fractionalSecondsPrecision: Schema.optional(Schema.Number),
+    array: Schema.optional(Schema.Boolean),
+    arrayLength: Schema.optional(Schema.Number),
+    nullable: Schema.optional(Schema.Boolean),
+    autoGenerated: Schema.optional(Schema.Boolean),
+    udt: Schema.optional(Schema.Boolean),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+    setValues: Schema.optional(Schema.Array(Schema.String)),
+    comment: Schema.optional(Schema.String),
+    ordinalPosition: Schema.optional(Schema.Number),
+    defaultValue: Schema.optional(Schema.String),
+    computed: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "ColumnEntity",
+}) as any as Schema.Schema<ColumnEntity>;
 
 export interface ConstraintEntity {
   /** The name of the table constraint. */
@@ -2164,15 +2995,22 @@ export interface ConstraintEntity {
   tableName?: string;
 }
 
-export const ConstraintEntity: Schema.Schema<ConstraintEntity> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  tableColumns: Schema.optional(Schema.Array(Schema.String)),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  referenceColumns: Schema.optional(Schema.Array(Schema.String)),
-  referenceTable: Schema.optional(Schema.String),
-  tableName: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConstraintEntity" }) as any as Schema.Schema<ConstraintEntity>;
+export const ConstraintEntity: Schema.Schema<ConstraintEntity> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      tableColumns: Schema.optional(Schema.Array(Schema.String)),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      referenceColumns: Schema.optional(Schema.Array(Schema.String)),
+      referenceTable: Schema.optional(Schema.String),
+      tableName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ConstraintEntity",
+}) as any as Schema.Schema<ConstraintEntity>;
 
 export interface IndexEntity {
   /** The name of the index. */
@@ -2189,14 +3027,18 @@ export interface IndexEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const IndexEntity: Schema.Schema<IndexEntity> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  tableColumns: Schema.optional(Schema.Array(Schema.String)),
-  tableColumnsDescending: Schema.optional(Schema.Array(Schema.Boolean)),
-  unique: Schema.optional(Schema.Boolean),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "IndexEntity" }) as any as Schema.Schema<IndexEntity>;
+export const IndexEntity: Schema.Schema<IndexEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    tableColumns: Schema.optional(Schema.Array(Schema.String)),
+    tableColumnsDescending: Schema.optional(Schema.Array(Schema.Boolean)),
+    unique: Schema.optional(Schema.Boolean),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({ identifier: "IndexEntity" }) as any as Schema.Schema<IndexEntity>;
 
 export interface TriggerEntity {
   /** The name of the trigger. */
@@ -2211,13 +3053,19 @@ export interface TriggerEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const TriggerEntity: Schema.Schema<TriggerEntity> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  triggeringEvents: Schema.optional(Schema.Array(Schema.String)),
-  triggerType: Schema.optional(Schema.String),
-  sqlCode: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "TriggerEntity" }) as any as Schema.Schema<TriggerEntity>;
+export const TriggerEntity: Schema.Schema<TriggerEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    triggeringEvents: Schema.optional(Schema.Array(Schema.String)),
+    triggerType: Schema.optional(Schema.String),
+    sqlCode: Schema.optional(Schema.String),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({
+  identifier: "TriggerEntity",
+}) as any as Schema.Schema<TriggerEntity>;
 
 export interface TableEntity {
   /** Table columns. */
@@ -2234,14 +3082,18 @@ export interface TableEntity {
   comment?: string;
 }
 
-export const TableEntity: Schema.Schema<TableEntity> = Schema.suspend(() => Schema.Struct({
-  columns: Schema.optional(Schema.Array(ColumnEntity)),
-  constraints: Schema.optional(Schema.Array(ConstraintEntity)),
-  indices: Schema.optional(Schema.Array(IndexEntity)),
-  triggers: Schema.optional(Schema.Array(TriggerEntity)),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  comment: Schema.optional(Schema.String),
-})).annotate({ identifier: "TableEntity" }) as any as Schema.Schema<TableEntity>;
+export const TableEntity: Schema.Schema<TableEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    columns: Schema.optional(Schema.Array(ColumnEntity)),
+    constraints: Schema.optional(Schema.Array(ConstraintEntity)),
+    indices: Schema.optional(Schema.Array(IndexEntity)),
+    triggers: Schema.optional(Schema.Array(TriggerEntity)),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+    comment: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TableEntity" }) as any as Schema.Schema<TableEntity>;
 
 export interface ViewEntity {
   /** The SQL code which creates the view. */
@@ -2252,11 +3104,15 @@ export interface ViewEntity {
   constraints?: Array<ConstraintEntity>;
 }
 
-export const ViewEntity: Schema.Schema<ViewEntity> = Schema.suspend(() => Schema.Struct({
-  sqlCode: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  constraints: Schema.optional(Schema.Array(ConstraintEntity)),
-})).annotate({ identifier: "ViewEntity" }) as any as Schema.Schema<ViewEntity>;
+export const ViewEntity: Schema.Schema<ViewEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    sqlCode: Schema.optional(Schema.String),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+    constraints: Schema.optional(Schema.Array(ConstraintEntity)),
+  }),
+).annotate({ identifier: "ViewEntity" }) as any as Schema.Schema<ViewEntity>;
 
 export interface SequenceEntity {
   /** Increment value for the sequence. */
@@ -2275,15 +3131,22 @@ export interface SequenceEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const SequenceEntity: Schema.Schema<SequenceEntity> = Schema.suspend(() => Schema.Struct({
-  increment: Schema.optional(Schema.String),
-  startValue: Schema.optional(Schema.String),
-  maxValue: Schema.optional(Schema.String),
-  minValue: Schema.optional(Schema.String),
-  cycle: Schema.optional(Schema.Boolean),
-  cache: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "SequenceEntity" }) as any as Schema.Schema<SequenceEntity>;
+export const SequenceEntity: Schema.Schema<SequenceEntity> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      increment: Schema.optional(Schema.String),
+      startValue: Schema.optional(Schema.String),
+      maxValue: Schema.optional(Schema.String),
+      minValue: Schema.optional(Schema.String),
+      cycle: Schema.optional(Schema.Boolean),
+      cache: Schema.optional(Schema.String),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+).annotate({
+  identifier: "SequenceEntity",
+}) as any as Schema.Schema<SequenceEntity>;
 
 export interface StoredProcedureEntity {
   /** The SQL code which creates the stored procedure. */
@@ -2292,10 +3155,17 @@ export interface StoredProcedureEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const StoredProcedureEntity: Schema.Schema<StoredProcedureEntity> = Schema.suspend(() => Schema.Struct({
-  sqlCode: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "StoredProcedureEntity" }) as any as Schema.Schema<StoredProcedureEntity>;
+export const StoredProcedureEntity: Schema.Schema<StoredProcedureEntity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sqlCode: Schema.optional(Schema.String),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+  ).annotate({
+    identifier: "StoredProcedureEntity",
+  }) as any as Schema.Schema<StoredProcedureEntity>;
 
 export interface FunctionEntity {
   /** The SQL code which creates the function. */
@@ -2304,25 +3174,55 @@ export interface FunctionEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const FunctionEntity: Schema.Schema<FunctionEntity> = Schema.suspend(() => Schema.Struct({
-  sqlCode: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "FunctionEntity" }) as any as Schema.Schema<FunctionEntity>;
+export const FunctionEntity: Schema.Schema<FunctionEntity> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      sqlCode: Schema.optional(Schema.String),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+).annotate({
+  identifier: "FunctionEntity",
+}) as any as Schema.Schema<FunctionEntity>;
 
 export interface SynonymEntity {
   /** The name of the entity for which the synonym is being created (the source). */
   sourceEntity?: string;
   /** The type of the entity for which the synonym is being created (usually a table or a sequence). */
-  sourceType?: "DATABASE_ENTITY_TYPE_UNSPECIFIED" | "DATABASE_ENTITY_TYPE_SCHEMA" | "DATABASE_ENTITY_TYPE_TABLE" | "DATABASE_ENTITY_TYPE_COLUMN" | "DATABASE_ENTITY_TYPE_CONSTRAINT" | "DATABASE_ENTITY_TYPE_INDEX" | "DATABASE_ENTITY_TYPE_TRIGGER" | "DATABASE_ENTITY_TYPE_VIEW" | "DATABASE_ENTITY_TYPE_SEQUENCE" | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE" | "DATABASE_ENTITY_TYPE_FUNCTION" | "DATABASE_ENTITY_TYPE_SYNONYM" | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE" | "DATABASE_ENTITY_TYPE_UDT" | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW" | "DATABASE_ENTITY_TYPE_DATABASE" | (string & {});
+  sourceType?:
+    | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+    | "DATABASE_ENTITY_TYPE_SCHEMA"
+    | "DATABASE_ENTITY_TYPE_TABLE"
+    | "DATABASE_ENTITY_TYPE_COLUMN"
+    | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+    | "DATABASE_ENTITY_TYPE_INDEX"
+    | "DATABASE_ENTITY_TYPE_TRIGGER"
+    | "DATABASE_ENTITY_TYPE_VIEW"
+    | "DATABASE_ENTITY_TYPE_SEQUENCE"
+    | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+    | "DATABASE_ENTITY_TYPE_FUNCTION"
+    | "DATABASE_ENTITY_TYPE_SYNONYM"
+    | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+    | "DATABASE_ENTITY_TYPE_UDT"
+    | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+    | "DATABASE_ENTITY_TYPE_DATABASE"
+    | (string & {});
   /** Custom engine specific features. */
   customFeatures?: Record<string, unknown>;
 }
 
-export const SynonymEntity: Schema.Schema<SynonymEntity> = Schema.suspend(() => Schema.Struct({
-  sourceEntity: Schema.optional(Schema.String),
-  sourceType: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "SynonymEntity" }) as any as Schema.Schema<SynonymEntity>;
+export const SynonymEntity: Schema.Schema<SynonymEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    sourceEntity: Schema.optional(Schema.String),
+    sourceType: Schema.optional(Schema.String),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({
+  identifier: "SynonymEntity",
+}) as any as Schema.Schema<SynonymEntity>;
 
 export interface PackageEntity {
   /** The SQL code which creates the package. */
@@ -2333,11 +3233,17 @@ export interface PackageEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const PackageEntity: Schema.Schema<PackageEntity> = Schema.suspend(() => Schema.Struct({
-  packageSqlCode: Schema.optional(Schema.String),
-  packageBody: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "PackageEntity" }) as any as Schema.Schema<PackageEntity>;
+export const PackageEntity: Schema.Schema<PackageEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    packageSqlCode: Schema.optional(Schema.String),
+    packageBody: Schema.optional(Schema.String),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({
+  identifier: "PackageEntity",
+}) as any as Schema.Schema<PackageEntity>;
 
 export interface UDTEntity {
   /** The SQL code which creates the udt. */
@@ -2348,11 +3254,15 @@ export interface UDTEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const UDTEntity: Schema.Schema<UDTEntity> = Schema.suspend(() => Schema.Struct({
-  udtSqlCode: Schema.optional(Schema.String),
-  udtBody: Schema.optional(Schema.String),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "UDTEntity" }) as any as Schema.Schema<UDTEntity>;
+export const UDTEntity: Schema.Schema<UDTEntity> = Schema.suspend(() =>
+  Schema.Struct({
+    udtSqlCode: Schema.optional(Schema.String),
+    udtBody: Schema.optional(Schema.String),
+    customFeatures: Schema.optional(
+      Schema.Record(Schema.String, Schema.Unknown),
+    ),
+  }),
+).annotate({ identifier: "UDTEntity" }) as any as Schema.Schema<UDTEntity>;
 
 export interface MaterializedViewEntity {
   /** The SQL code which creates the view. */
@@ -2363,11 +3273,18 @@ export interface MaterializedViewEntity {
   customFeatures?: Record<string, unknown>;
 }
 
-export const MaterializedViewEntity: Schema.Schema<MaterializedViewEntity> = Schema.suspend(() => Schema.Struct({
-  sqlCode: Schema.optional(Schema.String),
-  indices: Schema.optional(Schema.Array(IndexEntity)),
-  customFeatures: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "MaterializedViewEntity" }) as any as Schema.Schema<MaterializedViewEntity>;
+export const MaterializedViewEntity: Schema.Schema<MaterializedViewEntity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sqlCode: Schema.optional(Schema.String),
+      indices: Schema.optional(Schema.Array(IndexEntity)),
+      customFeatures: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+  ).annotate({
+    identifier: "MaterializedViewEntity",
+  }) as any as Schema.Schema<MaterializedViewEntity>;
 
 export interface DatabaseEntity {
   /** The short name (e.g. table name) of the entity. */
@@ -2375,9 +3292,31 @@ export interface DatabaseEntity {
   /** The full name of the parent entity (e.g. schema name). */
   parentEntity?: string;
   /** The type of tree the entity belongs to. */
-  tree?: "TREE_TYPE_UNSPECIFIED" | "SOURCE" | "DRAFT" | "DESTINATION" | (string & {});
+  tree?:
+    | "TREE_TYPE_UNSPECIFIED"
+    | "SOURCE"
+    | "DRAFT"
+    | "DESTINATION"
+    | (string & {});
   /** The type of the database entity (table, view, index, ...). */
-  entityType?: "DATABASE_ENTITY_TYPE_UNSPECIFIED" | "DATABASE_ENTITY_TYPE_SCHEMA" | "DATABASE_ENTITY_TYPE_TABLE" | "DATABASE_ENTITY_TYPE_COLUMN" | "DATABASE_ENTITY_TYPE_CONSTRAINT" | "DATABASE_ENTITY_TYPE_INDEX" | "DATABASE_ENTITY_TYPE_TRIGGER" | "DATABASE_ENTITY_TYPE_VIEW" | "DATABASE_ENTITY_TYPE_SEQUENCE" | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE" | "DATABASE_ENTITY_TYPE_FUNCTION" | "DATABASE_ENTITY_TYPE_SYNONYM" | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE" | "DATABASE_ENTITY_TYPE_UDT" | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW" | "DATABASE_ENTITY_TYPE_DATABASE" | (string & {});
+  entityType?:
+    | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
+    | "DATABASE_ENTITY_TYPE_SCHEMA"
+    | "DATABASE_ENTITY_TYPE_TABLE"
+    | "DATABASE_ENTITY_TYPE_COLUMN"
+    | "DATABASE_ENTITY_TYPE_CONSTRAINT"
+    | "DATABASE_ENTITY_TYPE_INDEX"
+    | "DATABASE_ENTITY_TYPE_TRIGGER"
+    | "DATABASE_ENTITY_TYPE_VIEW"
+    | "DATABASE_ENTITY_TYPE_SEQUENCE"
+    | "DATABASE_ENTITY_TYPE_STORED_PROCEDURE"
+    | "DATABASE_ENTITY_TYPE_FUNCTION"
+    | "DATABASE_ENTITY_TYPE_SYNONYM"
+    | "DATABASE_ENTITY_TYPE_DATABASE_PACKAGE"
+    | "DATABASE_ENTITY_TYPE_UDT"
+    | "DATABASE_ENTITY_TYPE_MATERIALIZED_VIEW"
+    | "DATABASE_ENTITY_TYPE_DATABASE"
+    | (string & {});
   /** Details about entity mappings. For source tree entities, this holds the draft entities which were generated by the mapping rules. For draft tree entities, this holds the source entities which were converted to form the draft entity. Destination entities will have no mapping details. */
   mappings?: Array<EntityMapping>;
   /** Details about the entity DDL script. Multiple DDL scripts are provided for child entities such as a table entity will have one DDL for the table with additional DDLs for each index, constraint and such. */
@@ -2408,26 +3347,31 @@ export interface DatabaseEntity {
   materializedView?: MaterializedViewEntity;
 }
 
-export const DatabaseEntity: Schema.Schema<DatabaseEntity> = Schema.suspend(() => Schema.Struct({
-  shortName: Schema.optional(Schema.String),
-  parentEntity: Schema.optional(Schema.String),
-  tree: Schema.optional(Schema.String),
-  entityType: Schema.optional(Schema.String),
-  mappings: Schema.optional(Schema.Array(EntityMapping)),
-  entityDdl: Schema.optional(Schema.Array(EntityDdl)),
-  issues: Schema.optional(Schema.Array(EntityIssue)),
-  database: Schema.optional(DatabaseInstanceEntity),
-  schema: Schema.optional(SchemaEntity),
-  table: Schema.optional(TableEntity),
-  view: Schema.optional(ViewEntity),
-  sequence: Schema.optional(SequenceEntity),
-  storedProcedure: Schema.optional(StoredProcedureEntity),
-  databaseFunction: Schema.optional(FunctionEntity),
-  synonym: Schema.optional(SynonymEntity),
-  databasePackage: Schema.optional(PackageEntity),
-  udt: Schema.optional(UDTEntity),
-  materializedView: Schema.optional(MaterializedViewEntity),
-})).annotate({ identifier: "DatabaseEntity" }) as any as Schema.Schema<DatabaseEntity>;
+export const DatabaseEntity: Schema.Schema<DatabaseEntity> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      shortName: Schema.optional(Schema.String),
+      parentEntity: Schema.optional(Schema.String),
+      tree: Schema.optional(Schema.String),
+      entityType: Schema.optional(Schema.String),
+      mappings: Schema.optional(Schema.Array(EntityMapping)),
+      entityDdl: Schema.optional(Schema.Array(EntityDdl)),
+      issues: Schema.optional(Schema.Array(EntityIssue)),
+      database: Schema.optional(DatabaseInstanceEntity),
+      schema: Schema.optional(SchemaEntity),
+      table: Schema.optional(TableEntity),
+      view: Schema.optional(ViewEntity),
+      sequence: Schema.optional(SequenceEntity),
+      storedProcedure: Schema.optional(StoredProcedureEntity),
+      databaseFunction: Schema.optional(FunctionEntity),
+      synonym: Schema.optional(SynonymEntity),
+      databasePackage: Schema.optional(PackageEntity),
+      udt: Schema.optional(UDTEntity),
+      materializedView: Schema.optional(MaterializedViewEntity),
+    }),
+).annotate({
+  identifier: "DatabaseEntity",
+}) as any as Schema.Schema<DatabaseEntity>;
 
 export interface DescribeDatabaseEntitiesResponse {
   /** The list of database entities for the conversion workspace. */
@@ -2436,40 +3380,64 @@ export interface DescribeDatabaseEntitiesResponse {
   nextPageToken?: string;
 }
 
-export const DescribeDatabaseEntitiesResponse: Schema.Schema<DescribeDatabaseEntitiesResponse> = Schema.suspend(() => Schema.Struct({
-  databaseEntities: Schema.optional(Schema.Array(DatabaseEntity)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "DescribeDatabaseEntitiesResponse" }) as any as Schema.Schema<DescribeDatabaseEntitiesResponse>;
+export const DescribeDatabaseEntitiesResponse: Schema.Schema<DescribeDatabaseEntitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      databaseEntities: Schema.optional(Schema.Array(DatabaseEntity)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DescribeDatabaseEntitiesResponse",
+  }) as any as Schema.Schema<DescribeDatabaseEntitiesResponse>;
 
 export interface SeedJobDetails {
   /** Output only. The connection profile which was used for the seed job. */
   connectionProfile?: string;
 }
 
-export const SeedJobDetails: Schema.Schema<SeedJobDetails> = Schema.suspend(() => Schema.Struct({
-  connectionProfile: Schema.optional(Schema.String),
-})).annotate({ identifier: "SeedJobDetails" }) as any as Schema.Schema<SeedJobDetails>;
+export const SeedJobDetails: Schema.Schema<SeedJobDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      connectionProfile: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SeedJobDetails",
+}) as any as Schema.Schema<SeedJobDetails>;
 
 export interface ImportRulesJobDetails {
   /** Output only. File names used for the import rules job. */
   files?: Array<string>;
   /** Output only. The requested file format. */
-  fileFormat?: "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED" | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE" | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE" | (string & {});
+  fileFormat?:
+    | "IMPORT_RULES_FILE_FORMAT_UNSPECIFIED"
+    | "IMPORT_RULES_FILE_FORMAT_HARBOUR_BRIDGE_SESSION_FILE"
+    | "IMPORT_RULES_FILE_FORMAT_ORATOPG_CONFIG_FILE"
+    | (string & {});
 }
 
-export const ImportRulesJobDetails: Schema.Schema<ImportRulesJobDetails> = Schema.suspend(() => Schema.Struct({
-  files: Schema.optional(Schema.Array(Schema.String)),
-  fileFormat: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImportRulesJobDetails" }) as any as Schema.Schema<ImportRulesJobDetails>;
+export const ImportRulesJobDetails: Schema.Schema<ImportRulesJobDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      files: Schema.optional(Schema.Array(Schema.String)),
+      fileFormat: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ImportRulesJobDetails",
+  }) as any as Schema.Schema<ImportRulesJobDetails>;
 
 export interface ConvertJobDetails {
   /** Output only. AIP-160 based filter used to specify the entities to convert */
   filter?: string;
 }
 
-export const ConvertJobDetails: Schema.Schema<ConvertJobDetails> = Schema.suspend(() => Schema.Struct({
-  filter: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConvertJobDetails" }) as any as Schema.Schema<ConvertJobDetails>;
+export const ConvertJobDetails: Schema.Schema<ConvertJobDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filter: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConvertJobDetails",
+  }) as any as Schema.Schema<ConvertJobDetails>;
 
 export interface ApplyJobDetails {
   /** Output only. The connection profile which was used for the apply job. */
@@ -2478,22 +3446,37 @@ export interface ApplyJobDetails {
   filter?: string;
 }
 
-export const ApplyJobDetails: Schema.Schema<ApplyJobDetails> = Schema.suspend(() => Schema.Struct({
-  connectionProfile: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApplyJobDetails" }) as any as Schema.Schema<ApplyJobDetails>;
+export const ApplyJobDetails: Schema.Schema<ApplyJobDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      connectionProfile: Schema.optional(Schema.String),
+      filter: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ApplyJobDetails",
+}) as any as Schema.Schema<ApplyJobDetails>;
 
 export interface BackgroundJobLogEntry {
   /** The background job log entry ID. */
   id?: string;
   /** The type of job that was executed. */
-  jobType?: "BACKGROUND_JOB_TYPE_UNSPECIFIED" | "BACKGROUND_JOB_TYPE_SOURCE_SEED" | "BACKGROUND_JOB_TYPE_CONVERT" | "BACKGROUND_JOB_TYPE_APPLY_DESTINATION" | "BACKGROUND_JOB_TYPE_IMPORT_RULES_FILE" | (string & {});
+  jobType?:
+    | "BACKGROUND_JOB_TYPE_UNSPECIFIED"
+    | "BACKGROUND_JOB_TYPE_SOURCE_SEED"
+    | "BACKGROUND_JOB_TYPE_CONVERT"
+    | "BACKGROUND_JOB_TYPE_APPLY_DESTINATION"
+    | "BACKGROUND_JOB_TYPE_IMPORT_RULES_FILE"
+    | (string & {});
   /** The timestamp when the background job was started. */
   startTime?: string;
   /** The timestamp when the background job was finished. */
   finishTime?: string;
   /** Output only. Job completion state, i.e. the final state after the job completed. */
-  completionState?: "JOB_COMPLETION_STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | (string & {});
+  completionState?:
+    | "JOB_COMPLETION_STATE_UNSPECIFIED"
+    | "SUCCEEDED"
+    | "FAILED"
+    | (string & {});
   /** Output only. Job completion comment, such as how many entities were seeded, how many warnings were found during conversion, and similar information. */
   completionComment?: string;
   /** Output only. Whether the client requested the conversion workspace to be committed after a successful completion of the job. */
@@ -2508,37 +3491,52 @@ export interface BackgroundJobLogEntry {
   applyJobDetails?: ApplyJobDetails;
 }
 
-export const BackgroundJobLogEntry: Schema.Schema<BackgroundJobLogEntry> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  jobType: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  finishTime: Schema.optional(Schema.String),
-  completionState: Schema.optional(Schema.String),
-  completionComment: Schema.optional(Schema.String),
-  requestAutocommit: Schema.optional(Schema.Boolean),
-  seedJobDetails: Schema.optional(SeedJobDetails),
-  importRulesJobDetails: Schema.optional(ImportRulesJobDetails),
-  convertJobDetails: Schema.optional(ConvertJobDetails),
-  applyJobDetails: Schema.optional(ApplyJobDetails),
-})).annotate({ identifier: "BackgroundJobLogEntry" }) as any as Schema.Schema<BackgroundJobLogEntry>;
+export const BackgroundJobLogEntry: Schema.Schema<BackgroundJobLogEntry> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      jobType: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      finishTime: Schema.optional(Schema.String),
+      completionState: Schema.optional(Schema.String),
+      completionComment: Schema.optional(Schema.String),
+      requestAutocommit: Schema.optional(Schema.Boolean),
+      seedJobDetails: Schema.optional(SeedJobDetails),
+      importRulesJobDetails: Schema.optional(ImportRulesJobDetails),
+      convertJobDetails: Schema.optional(ConvertJobDetails),
+      applyJobDetails: Schema.optional(ApplyJobDetails),
+    }),
+  ).annotate({
+    identifier: "BackgroundJobLogEntry",
+  }) as any as Schema.Schema<BackgroundJobLogEntry>;
 
 export interface SearchBackgroundJobsResponse {
   /** The list of conversion workspace mapping rules. */
   jobs?: Array<BackgroundJobLogEntry>;
 }
 
-export const SearchBackgroundJobsResponse: Schema.Schema<SearchBackgroundJobsResponse> = Schema.suspend(() => Schema.Struct({
-  jobs: Schema.optional(Schema.Array(BackgroundJobLogEntry)),
-})).annotate({ identifier: "SearchBackgroundJobsResponse" }) as any as Schema.Schema<SearchBackgroundJobsResponse>;
+export const SearchBackgroundJobsResponse: Schema.Schema<SearchBackgroundJobsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      jobs: Schema.optional(Schema.Array(BackgroundJobLogEntry)),
+    }),
+  ).annotate({
+    identifier: "SearchBackgroundJobsResponse",
+  }) as any as Schema.Schema<SearchBackgroundJobsResponse>;
 
 export interface DescribeConversionWorkspaceRevisionsResponse {
   /** The list of conversion workspace revisions. */
   revisions?: Array<ConversionWorkspace>;
 }
 
-export const DescribeConversionWorkspaceRevisionsResponse: Schema.Schema<DescribeConversionWorkspaceRevisionsResponse> = Schema.suspend(() => Schema.Struct({
-  revisions: Schema.optional(Schema.Array(ConversionWorkspace)),
-})).annotate({ identifier: "DescribeConversionWorkspaceRevisionsResponse" }) as any as Schema.Schema<DescribeConversionWorkspaceRevisionsResponse>;
+export const DescribeConversionWorkspaceRevisionsResponse: Schema.Schema<DescribeConversionWorkspaceRevisionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      revisions: Schema.optional(Schema.Array(ConversionWorkspace)),
+    }),
+  ).annotate({
+    identifier: "DescribeConversionWorkspaceRevisionsResponse",
+  }) as any as Schema.Schema<DescribeConversionWorkspaceRevisionsResponse>;
 
 export interface FetchStaticIpsResponse {
   /** List of static IPs. */
@@ -2547,19 +3545,29 @@ export interface FetchStaticIpsResponse {
   nextPageToken?: string;
 }
 
-export const FetchStaticIpsResponse: Schema.Schema<FetchStaticIpsResponse> = Schema.suspend(() => Schema.Struct({
-  staticIps: Schema.optional(Schema.Array(Schema.String)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "FetchStaticIpsResponse" }) as any as Schema.Schema<FetchStaticIpsResponse>;
+export const FetchStaticIpsResponse: Schema.Schema<FetchStaticIpsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      staticIps: Schema.optional(Schema.Array(Schema.String)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FetchStaticIpsResponse",
+  }) as any as Schema.Schema<FetchStaticIpsResponse>;
 
 export interface HeterogeneousMetadata {
   /** The number of unsupported events. */
   unsupportedEventsCount?: string;
 }
 
-export const HeterogeneousMetadata: Schema.Schema<HeterogeneousMetadata> = Schema.suspend(() => Schema.Struct({
-  unsupportedEventsCount: Schema.optional(Schema.String),
-})).annotate({ identifier: "HeterogeneousMetadata" }) as any as Schema.Schema<HeterogeneousMetadata>;
+export const HeterogeneousMetadata: Schema.Schema<HeterogeneousMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unsupportedEventsCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HeterogeneousMetadata",
+  }) as any as Schema.Schema<HeterogeneousMetadata>;
 
 export interface MigrationJobObject {
   /** The object's name. */
@@ -2569,9 +3577,28 @@ export interface MigrationJobObject {
   /** Output only. The error details in case of failure. */
   error?: Status;
   /** The state of the migration job object. */
-  state?: "STATE_UNSPECIFIED" | "NOT_STARTED" | "RUNNING" | "STOPPING" | "STOPPED" | "RESTARTING" | "FAILED" | "REMOVING" | "NOT_SELECTED" | "COMPLETED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "NOT_STARTED"
+    | "RUNNING"
+    | "STOPPING"
+    | "STOPPED"
+    | "RESTARTING"
+    | "FAILED"
+    | "REMOVING"
+    | "NOT_SELECTED"
+    | "COMPLETED"
+    | (string & {});
   /** Output only. The phase of the migration job object. */
-  phase?: "PHASE_UNSPECIFIED" | "FULL_DUMP" | "CDC" | "READY_FOR_PROMOTE" | "PROMOTE_IN_PROGRESS" | "PROMOTED" | "DIFF_BACKUP" | (string & {});
+  phase?:
+    | "PHASE_UNSPECIFIED"
+    | "FULL_DUMP"
+    | "CDC"
+    | "READY_FOR_PROMOTE"
+    | "PROMOTE_IN_PROGRESS"
+    | "PROMOTED"
+    | "DIFF_BACKUP"
+    | (string & {});
   /** Output only. The creation time of the migration job object. */
   createTime?: string;
   /** Output only. The last update time of the migration job object. */
@@ -2580,25 +3607,35 @@ export interface MigrationJobObject {
   heterogeneousMetadata?: HeterogeneousMetadata;
 }
 
-export const MigrationJobObject: Schema.Schema<MigrationJobObject> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  sourceObject: Schema.optional(SourceObjectIdentifier),
-  error: Schema.optional(Status),
-  state: Schema.optional(Schema.String),
-  phase: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  heterogeneousMetadata: Schema.optional(HeterogeneousMetadata),
-})).annotate({ identifier: "MigrationJobObject" }) as any as Schema.Schema<MigrationJobObject>;
+export const MigrationJobObject: Schema.Schema<MigrationJobObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      sourceObject: Schema.optional(SourceObjectIdentifier),
+      error: Schema.optional(Status),
+      state: Schema.optional(Schema.String),
+      phase: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      heterogeneousMetadata: Schema.optional(HeterogeneousMetadata),
+    }),
+  ).annotate({
+    identifier: "MigrationJobObject",
+  }) as any as Schema.Schema<MigrationJobObject>;
 
 export interface LookupMigrationJobObjectRequest {
   /** Required. The source object identifier which maps to the migration job object. */
   sourceObjectIdentifier?: SourceObjectIdentifier;
 }
 
-export const LookupMigrationJobObjectRequest: Schema.Schema<LookupMigrationJobObjectRequest> = Schema.suspend(() => Schema.Struct({
-  sourceObjectIdentifier: Schema.optional(SourceObjectIdentifier),
-})).annotate({ identifier: "LookupMigrationJobObjectRequest" }) as any as Schema.Schema<LookupMigrationJobObjectRequest>;
+export const LookupMigrationJobObjectRequest: Schema.Schema<LookupMigrationJobObjectRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sourceObjectIdentifier: Schema.optional(SourceObjectIdentifier),
+    }),
+  ).annotate({
+    identifier: "LookupMigrationJobObjectRequest",
+  }) as any as Schema.Schema<LookupMigrationJobObjectRequest>;
 
 export interface ListMigrationJobObjectsResponse {
   /** List of migration job objects. */
@@ -2607,10 +3644,15 @@ export interface ListMigrationJobObjectsResponse {
   nextPageToken?: string;
 }
 
-export const ListMigrationJobObjectsResponse: Schema.Schema<ListMigrationJobObjectsResponse> = Schema.suspend(() => Schema.Struct({
-  migrationJobObjects: Schema.optional(Schema.Array(MigrationJobObject)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListMigrationJobObjectsResponse" }) as any as Schema.Schema<ListMigrationJobObjectsResponse>;
+export const ListMigrationJobObjectsResponse: Schema.Schema<ListMigrationJobObjectsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      migrationJobObjects: Schema.optional(Schema.Array(MigrationJobObject)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListMigrationJobObjectsResponse",
+  }) as any as Schema.Schema<ListMigrationJobObjectsResponse>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -2625,13 +3667,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -2640,10 +3684,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -2656,12 +3705,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -2672,23 +3723,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -2697,10 +3760,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -2713,12 +3778,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -2727,28 +3794,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface GoogleCloudClouddmsV1OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -2769,31 +3851,72 @@ export interface GoogleCloudClouddmsV1OperationMetadata {
   metadata?: Record<string, string>;
 }
 
-export const GoogleCloudClouddmsV1OperationMetadata: Schema.Schema<GoogleCloudClouddmsV1OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "GoogleCloudClouddmsV1OperationMetadata" }) as any as Schema.Schema<GoogleCloudClouddmsV1OperationMetadata>;
+export const GoogleCloudClouddmsV1OperationMetadata: Schema.Schema<GoogleCloudClouddmsV1OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudClouddmsV1OperationMetadata",
+  }) as any as Schema.Schema<GoogleCloudClouddmsV1OperationMetadata>;
 
 export interface MigrationJobVerificationError {
   /** Output only. An instance of ErrorCode specifying the error that occurred. */
-  errorCode?: "ERROR_CODE_UNSPECIFIED" | "CONNECTION_FAILURE" | "AUTHENTICATION_FAILURE" | "INVALID_CONNECTION_PROFILE_CONFIG" | "VERSION_INCOMPATIBILITY" | "CONNECTION_PROFILE_TYPES_INCOMPATIBILITY" | "NO_PGLOGICAL_INSTALLED" | "PGLOGICAL_NODE_ALREADY_EXISTS" | "INVALID_WAL_LEVEL" | "INVALID_SHARED_PRELOAD_LIBRARY" | "INSUFFICIENT_MAX_REPLICATION_SLOTS" | "INSUFFICIENT_MAX_WAL_SENDERS" | "INSUFFICIENT_MAX_WORKER_PROCESSES" | "UNSUPPORTED_EXTENSIONS" | "UNSUPPORTED_MIGRATION_TYPE" | "INVALID_RDS_LOGICAL_REPLICATION" | "UNSUPPORTED_GTID_MODE" | "UNSUPPORTED_TABLE_DEFINITION" | "UNSUPPORTED_DEFINER" | "CANT_RESTART_RUNNING_MIGRATION" | "SOURCE_ALREADY_SETUP" | "TABLES_WITH_LIMITED_SUPPORT" | "UNSUPPORTED_DATABASE_LOCALE" | "UNSUPPORTED_DATABASE_FDW_CONFIG" | "ERROR_RDBMS" | "SOURCE_SIZE_EXCEEDS_THRESHOLD" | "EXISTING_CONFLICTING_DATABASES" | "PARALLEL_IMPORT_INSUFFICIENT_PRIVILEGE" | "EXISTING_DATA" | "SOURCE_MAX_SUBSCRIPTIONS" | (string & {});
+  errorCode?:
+    | "ERROR_CODE_UNSPECIFIED"
+    | "CONNECTION_FAILURE"
+    | "AUTHENTICATION_FAILURE"
+    | "INVALID_CONNECTION_PROFILE_CONFIG"
+    | "VERSION_INCOMPATIBILITY"
+    | "CONNECTION_PROFILE_TYPES_INCOMPATIBILITY"
+    | "NO_PGLOGICAL_INSTALLED"
+    | "PGLOGICAL_NODE_ALREADY_EXISTS"
+    | "INVALID_WAL_LEVEL"
+    | "INVALID_SHARED_PRELOAD_LIBRARY"
+    | "INSUFFICIENT_MAX_REPLICATION_SLOTS"
+    | "INSUFFICIENT_MAX_WAL_SENDERS"
+    | "INSUFFICIENT_MAX_WORKER_PROCESSES"
+    | "UNSUPPORTED_EXTENSIONS"
+    | "UNSUPPORTED_MIGRATION_TYPE"
+    | "INVALID_RDS_LOGICAL_REPLICATION"
+    | "UNSUPPORTED_GTID_MODE"
+    | "UNSUPPORTED_TABLE_DEFINITION"
+    | "UNSUPPORTED_DEFINER"
+    | "CANT_RESTART_RUNNING_MIGRATION"
+    | "SOURCE_ALREADY_SETUP"
+    | "TABLES_WITH_LIMITED_SUPPORT"
+    | "UNSUPPORTED_DATABASE_LOCALE"
+    | "UNSUPPORTED_DATABASE_FDW_CONFIG"
+    | "ERROR_RDBMS"
+    | "SOURCE_SIZE_EXCEEDS_THRESHOLD"
+    | "EXISTING_CONFLICTING_DATABASES"
+    | "PARALLEL_IMPORT_INSUFFICIENT_PRIVILEGE"
+    | "EXISTING_DATA"
+    | "SOURCE_MAX_SUBSCRIPTIONS"
+    | (string & {});
   /** Output only. A formatted message with further details about the error and a CTA. */
   errorMessage?: string;
   /** Output only. A specific detailed error message, if supplied by the engine. */
   errorDetailMessage?: string;
 }
 
-export const MigrationJobVerificationError: Schema.Schema<MigrationJobVerificationError> = Schema.suspend(() => Schema.Struct({
-  errorCode: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-  errorDetailMessage: Schema.optional(Schema.String),
-})).annotate({ identifier: "MigrationJobVerificationError" }) as any as Schema.Schema<MigrationJobVerificationError>;
+export const MigrationJobVerificationError: Schema.Schema<MigrationJobVerificationError> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      errorCode: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+      errorDetailMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MigrationJobVerificationError",
+  }) as any as Schema.Schema<MigrationJobVerificationError>;
 
 export interface LocalizedMessage {
   /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
@@ -2802,10 +3925,15 @@ export interface LocalizedMessage {
   message?: string;
 }
 
-export const LocalizedMessage: Schema.Schema<LocalizedMessage> = Schema.suspend(() => Schema.Struct({
-  locale: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "LocalizedMessage" }) as any as Schema.Schema<LocalizedMessage>;
+export const LocalizedMessage: Schema.Schema<LocalizedMessage> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      locale: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LocalizedMessage",
+}) as any as Schema.Schema<LocalizedMessage>;
 
 export interface FieldViolation {
   /** A path that leads to a field in the request body. The value will be a sequence of dot-separated identifiers that identify a protocol buffer field. Consider the following: message CreateContactRequest { message EmailAddress { enum Type { TYPE_UNSPECIFIED = 0; HOME = 1; WORK = 2; } optional string email = 1; repeated EmailType type = 2; } string full_name = 1; repeated EmailAddress email_addresses = 2; } In this example, in proto `field` could take one of the following values: * `full_name` for a violation in the `full_name` value * `email_addresses[1].email` for a violation in the `email` field of the first `email_addresses` message * `email_addresses[3].type[2]` for a violation in the second `type` value in the third `email_addresses` message. In JSON, the same values are represented as: * `fullName` for a violation in the `fullName` value * `emailAddresses[1].email` for a violation in the `email` field of the first `emailAddresses` message * `emailAddresses[3].type[2]` for a violation in the second `type` value in the third `emailAddresses` message. */
@@ -2818,21 +3946,28 @@ export interface FieldViolation {
   localizedMessage?: LocalizedMessage;
 }
 
-export const FieldViolation: Schema.Schema<FieldViolation> = Schema.suspend(() => Schema.Struct({
-  field: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  reason: Schema.optional(Schema.String),
-  localizedMessage: Schema.optional(LocalizedMessage),
-})).annotate({ identifier: "FieldViolation" }) as any as Schema.Schema<FieldViolation>;
+export const FieldViolation: Schema.Schema<FieldViolation> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      field: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      reason: Schema.optional(Schema.String),
+      localizedMessage: Schema.optional(LocalizedMessage),
+    }),
+).annotate({
+  identifier: "FieldViolation",
+}) as any as Schema.Schema<FieldViolation>;
 
 export interface BadRequest {
   /** Describes all violations in a client request. */
   fieldViolations?: Array<FieldViolation>;
 }
 
-export const BadRequest: Schema.Schema<BadRequest> = Schema.suspend(() => Schema.Struct({
-  fieldViolations: Schema.optional(Schema.Array(FieldViolation)),
-})).annotate({ identifier: "BadRequest" }) as any as Schema.Schema<BadRequest>;
+export const BadRequest: Schema.Schema<BadRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    fieldViolations: Schema.optional(Schema.Array(FieldViolation)),
+  }),
+).annotate({ identifier: "BadRequest" }) as any as Schema.Schema<BadRequest>;
 
 export interface DebugInfo {
   /** The stack trace entries indicating where the error occurred. */
@@ -2841,10 +3976,12 @@ export interface DebugInfo {
   detail?: string;
 }
 
-export const DebugInfo: Schema.Schema<DebugInfo> = Schema.suspend(() => Schema.Struct({
-  stackEntries: Schema.optional(Schema.Array(Schema.String)),
-  detail: Schema.optional(Schema.String),
-})).annotate({ identifier: "DebugInfo" }) as any as Schema.Schema<DebugInfo>;
+export const DebugInfo: Schema.Schema<DebugInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    stackEntries: Schema.optional(Schema.Array(Schema.String)),
+    detail: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DebugInfo" }) as any as Schema.Schema<DebugInfo>;
 
 export interface ErrorInfo {
   /** The reason of the error. This is a constant value that identifies the proximate cause of the error. Error reasons are unique within a particular domain of errors. This should be at most 63 characters and match a regular expression of `A-Z+[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
@@ -2855,11 +3992,13 @@ export interface ErrorInfo {
   metadata?: Record<string, string>;
 }
 
-export const ErrorInfo: Schema.Schema<ErrorInfo> = Schema.suspend(() => Schema.Struct({
-  reason: Schema.optional(Schema.String),
-  domain: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "ErrorInfo" }) as any as Schema.Schema<ErrorInfo>;
+export const ErrorInfo: Schema.Schema<ErrorInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    reason: Schema.optional(Schema.String),
+    domain: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  }),
+).annotate({ identifier: "ErrorInfo" }) as any as Schema.Schema<ErrorInfo>;
 
 export interface Link {
   /** Describes what the link offers. */
@@ -2868,19 +4007,23 @@ export interface Link {
   url?: string;
 }
 
-export const Link: Schema.Schema<Link> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
+export const Link: Schema.Schema<Link> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
 
 export interface Help {
   /** URL(s) pointing to additional information on handling the current error. */
   links?: Array<Link>;
 }
 
-export const Help: Schema.Schema<Help> = Schema.suspend(() => Schema.Struct({
-  links: Schema.optional(Schema.Array(Link)),
-})).annotate({ identifier: "Help" }) as any as Schema.Schema<Help>;
+export const Help: Schema.Schema<Help> = Schema.suspend(() =>
+  Schema.Struct({
+    links: Schema.optional(Schema.Array(Link)),
+  }),
+).annotate({ identifier: "Help" }) as any as Schema.Schema<Help>;
 
 export interface PreconditionFailureViolation {
   /** The type of PreconditionFailure. We recommend using a service-specific enum type to define the supported precondition violation subjects. For example, "TOS" for "Terms of Service violation". */
@@ -2891,20 +4034,30 @@ export interface PreconditionFailureViolation {
   description?: string;
 }
 
-export const PreconditionFailureViolation: Schema.Schema<PreconditionFailureViolation> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  subject: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "PreconditionFailureViolation" }) as any as Schema.Schema<PreconditionFailureViolation>;
+export const PreconditionFailureViolation: Schema.Schema<PreconditionFailureViolation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      subject: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PreconditionFailureViolation",
+  }) as any as Schema.Schema<PreconditionFailureViolation>;
 
 export interface PreconditionFailure {
   /** Describes all precondition violations. */
   violations?: Array<PreconditionFailureViolation>;
 }
 
-export const PreconditionFailure: Schema.Schema<PreconditionFailure> = Schema.suspend(() => Schema.Struct({
-  violations: Schema.optional(Schema.Array(PreconditionFailureViolation)),
-})).annotate({ identifier: "PreconditionFailure" }) as any as Schema.Schema<PreconditionFailure>;
+export const PreconditionFailure: Schema.Schema<PreconditionFailure> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      violations: Schema.optional(Schema.Array(PreconditionFailureViolation)),
+    }),
+  ).annotate({
+    identifier: "PreconditionFailure",
+  }) as any as Schema.Schema<PreconditionFailure>;
 
 export interface QuotaFailureViolation {
   /** The subject on which the quota check failed. For example, "clientip:" or "project:". */
@@ -2925,25 +4078,36 @@ export interface QuotaFailureViolation {
   futureQuotaValue?: string;
 }
 
-export const QuotaFailureViolation: Schema.Schema<QuotaFailureViolation> = Schema.suspend(() => Schema.Struct({
-  subject: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  apiService: Schema.optional(Schema.String),
-  quotaMetric: Schema.optional(Schema.String),
-  quotaId: Schema.optional(Schema.String),
-  quotaDimensions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  quotaValue: Schema.optional(Schema.String),
-  futureQuotaValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "QuotaFailureViolation" }) as any as Schema.Schema<QuotaFailureViolation>;
+export const QuotaFailureViolation: Schema.Schema<QuotaFailureViolation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subject: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      apiService: Schema.optional(Schema.String),
+      quotaMetric: Schema.optional(Schema.String),
+      quotaId: Schema.optional(Schema.String),
+      quotaDimensions: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      quotaValue: Schema.optional(Schema.String),
+      futureQuotaValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QuotaFailureViolation",
+  }) as any as Schema.Schema<QuotaFailureViolation>;
 
 export interface QuotaFailure {
   /** Describes all quota violations. */
   violations?: Array<QuotaFailureViolation>;
 }
 
-export const QuotaFailure: Schema.Schema<QuotaFailure> = Schema.suspend(() => Schema.Struct({
-  violations: Schema.optional(Schema.Array(QuotaFailureViolation)),
-})).annotate({ identifier: "QuotaFailure" }) as any as Schema.Schema<QuotaFailure>;
+export const QuotaFailure: Schema.Schema<QuotaFailure> = Schema.suspend(() =>
+  Schema.Struct({
+    violations: Schema.optional(Schema.Array(QuotaFailureViolation)),
+  }),
+).annotate({
+  identifier: "QuotaFailure",
+}) as any as Schema.Schema<QuotaFailure>;
 
 export interface RequestInfo {
   /** An opaque string that should only be interpreted by the service generating it. For example, it can be used to identify requests in the service's logs. */
@@ -2952,10 +4116,12 @@ export interface RequestInfo {
   servingData?: string;
 }
 
-export const RequestInfo: Schema.Schema<RequestInfo> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  servingData: Schema.optional(Schema.String),
-})).annotate({ identifier: "RequestInfo" }) as any as Schema.Schema<RequestInfo>;
+export const RequestInfo: Schema.Schema<RequestInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    requestId: Schema.optional(Schema.String),
+    servingData: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RequestInfo" }) as any as Schema.Schema<RequestInfo>;
 
 export interface ResourceInfo {
   /** A name for the type of resource being accessed, e.g. "sql table", "cloud storage bucket", "file", "Google calendar"; or the type URL of the resource: e.g. "type.googleapis.com/google.pubsub.v1.Topic". */
@@ -2968,21 +4134,27 @@ export interface ResourceInfo {
   description?: string;
 }
 
-export const ResourceInfo: Schema.Schema<ResourceInfo> = Schema.suspend(() => Schema.Struct({
-  resourceType: Schema.optional(Schema.String),
-  resourceName: Schema.optional(Schema.String),
-  owner: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResourceInfo" }) as any as Schema.Schema<ResourceInfo>;
+export const ResourceInfo: Schema.Schema<ResourceInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    resourceType: Schema.optional(Schema.String),
+    resourceName: Schema.optional(Schema.String),
+    owner: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ResourceInfo",
+}) as any as Schema.Schema<ResourceInfo>;
 
 export interface RetryInfo {
   /** Clients should wait at least this long between retrying the same request. */
   retryDelay?: string;
 }
 
-export const RetryInfo: Schema.Schema<RetryInfo> = Schema.suspend(() => Schema.Struct({
-  retryDelay: Schema.optional(Schema.String),
-})).annotate({ identifier: "RetryInfo" }) as any as Schema.Schema<RetryInfo>;
+export const RetryInfo: Schema.Schema<RetryInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    retryDelay: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RetryInfo" }) as any as Schema.Schema<RetryInfo>;
 
 // ==========================================================================
 // Operations
@@ -3002,7 +4174,10 @@ export const FetchStaticIpsProjectsLocationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}:fetchStaticIps" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:fetchStaticIps",
+  }),
   svc,
 ) as unknown as Schema.Schema<FetchStaticIpsProjectsLocationsRequest>;
 
@@ -3012,7 +4187,12 @@ export const FetchStaticIpsProjectsLocationsResponse = FetchStaticIpsResponse;
 export type FetchStaticIpsProjectsLocationsError = DefaultErrors;
 
 /** Fetches a set of static IP addresses that need to be allowlisted by the customer when using the static-IP connectivity method. */
-export const fetchStaticIpsProjectsLocations: API.PaginatedOperationMethod<FetchStaticIpsProjectsLocationsRequest, FetchStaticIpsProjectsLocationsResponse, FetchStaticIpsProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const fetchStaticIpsProjectsLocations: API.PaginatedOperationMethod<
+  FetchStaticIpsProjectsLocationsRequest,
+  FetchStaticIpsProjectsLocationsResponse,
+  FetchStaticIpsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: FetchStaticIpsProjectsLocationsRequest,
   output: FetchStaticIpsProjectsLocationsResponse,
   errors: [],
@@ -3040,7 +4220,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -3052,7 +4234,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -3070,7 +4257,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -3080,7 +4270,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -3104,9 +4299,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -3116,7 +4316,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -3134,7 +4339,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -3144,7 +4352,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -3158,7 +4371,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -3168,7 +4384,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -3185,7 +4406,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -3195,7 +4420,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -3221,17 +4451,27 @@ export const ListProjectsLocationsMigrationJobsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsMigrationJobsRequest>;
 
-export type ListProjectsLocationsMigrationJobsResponse = ListMigrationJobsResponse;
-export const ListProjectsLocationsMigrationJobsResponse = ListMigrationJobsResponse;
+export type ListProjectsLocationsMigrationJobsResponse =
+  ListMigrationJobsResponse;
+export const ListProjectsLocationsMigrationJobsResponse =
+  ListMigrationJobsResponse;
 
 export type ListProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Lists migration jobs in a given project and location. */
-export const listProjectsLocationsMigrationJobs: API.PaginatedOperationMethod<ListProjectsLocationsMigrationJobsRequest, ListProjectsLocationsMigrationJobsResponse, ListProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsMigrationJobs: API.PaginatedOperationMethod<
+  ListProjectsLocationsMigrationJobsRequest,
+  ListProjectsLocationsMigrationJobsResponse,
+  ListProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsMigrationJobsRequest,
   output: ListProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3249,7 +4489,10 @@ export interface GetProjectsLocationsMigrationJobsRequest {
 export const GetProjectsLocationsMigrationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsMigrationJobsRequest>;
 
@@ -3259,7 +4502,12 @@ export const GetProjectsLocationsMigrationJobsResponse = MigrationJob;
 export type GetProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Gets details of a single migration job. */
-export const getProjectsLocationsMigrationJobs: API.OperationMethod<GetProjectsLocationsMigrationJobsRequest, GetProjectsLocationsMigrationJobsResponse, GetProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsMigrationJobs: API.OperationMethod<
+  GetProjectsLocationsMigrationJobsRequest,
+  GetProjectsLocationsMigrationJobsResponse,
+  GetProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsMigrationJobsRequest,
   output: GetProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3278,11 +4526,17 @@ export interface CreateProjectsLocationsMigrationJobsRequest {
 
 export const CreateProjectsLocationsMigrationJobsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  migrationJobId: Schema.optional(Schema.String).pipe(T.HttpQuery("migrationJobId")),
+  migrationJobId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("migrationJobId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(MigrationJob).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsMigrationJobsRequest>;
 
@@ -3292,7 +4546,12 @@ export const CreateProjectsLocationsMigrationJobsResponse = Operation;
 export type CreateProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Creates a new migration job in a given project and location. */
-export const createProjectsLocationsMigrationJobs: API.OperationMethod<CreateProjectsLocationsMigrationJobsRequest, CreateProjectsLocationsMigrationJobsResponse, CreateProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsMigrationJobs: API.OperationMethod<
+  CreateProjectsLocationsMigrationJobsRequest,
+  CreateProjectsLocationsMigrationJobsResponse,
+  CreateProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsMigrationJobsRequest,
   output: CreateProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3315,7 +4574,11 @@ export const PatchProjectsLocationsMigrationJobsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(MigrationJob).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsMigrationJobsRequest>;
 
@@ -3325,7 +4588,12 @@ export const PatchProjectsLocationsMigrationJobsResponse = Operation;
 export type PatchProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Updates the parameters of a single migration job. */
-export const patchProjectsLocationsMigrationJobs: API.OperationMethod<PatchProjectsLocationsMigrationJobsRequest, PatchProjectsLocationsMigrationJobsResponse, PatchProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsMigrationJobs: API.OperationMethod<
+  PatchProjectsLocationsMigrationJobsRequest,
+  PatchProjectsLocationsMigrationJobsResponse,
+  PatchProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsMigrationJobsRequest,
   output: PatchProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3345,7 +4613,10 @@ export const DeleteProjectsLocationsMigrationJobsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsMigrationJobsRequest>;
 
@@ -3355,7 +4626,12 @@ export const DeleteProjectsLocationsMigrationJobsResponse = Operation;
 export type DeleteProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Deletes a single migration job. */
-export const deleteProjectsLocationsMigrationJobs: API.OperationMethod<DeleteProjectsLocationsMigrationJobsRequest, DeleteProjectsLocationsMigrationJobsResponse, DeleteProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsMigrationJobs: API.OperationMethod<
+  DeleteProjectsLocationsMigrationJobsRequest,
+  DeleteProjectsLocationsMigrationJobsResponse,
+  DeleteProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsMigrationJobsRequest,
   output: DeleteProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3372,7 +4648,11 @@ export const StartProjectsLocationsMigrationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(StartMigrationJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:start", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:start",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StartProjectsLocationsMigrationJobsRequest>;
 
@@ -3382,7 +4662,12 @@ export const StartProjectsLocationsMigrationJobsResponse = Operation;
 export type StartProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Start an already created migration job. */
-export const startProjectsLocationsMigrationJobs: API.OperationMethod<StartProjectsLocationsMigrationJobsRequest, StartProjectsLocationsMigrationJobsResponse, StartProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const startProjectsLocationsMigrationJobs: API.OperationMethod<
+  StartProjectsLocationsMigrationJobsRequest,
+  StartProjectsLocationsMigrationJobsResponse,
+  StartProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StartProjectsLocationsMigrationJobsRequest,
   output: StartProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3399,7 +4684,11 @@ export const StopProjectsLocationsMigrationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(StopMigrationJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:stop", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:stop",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<StopProjectsLocationsMigrationJobsRequest>;
 
@@ -3409,7 +4698,12 @@ export const StopProjectsLocationsMigrationJobsResponse = Operation;
 export type StopProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Stops a running migration job. */
-export const stopProjectsLocationsMigrationJobs: API.OperationMethod<StopProjectsLocationsMigrationJobsRequest, StopProjectsLocationsMigrationJobsResponse, StopProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const stopProjectsLocationsMigrationJobs: API.OperationMethod<
+  StopProjectsLocationsMigrationJobsRequest,
+  StopProjectsLocationsMigrationJobsResponse,
+  StopProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: StopProjectsLocationsMigrationJobsRequest,
   output: StopProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3426,7 +4720,11 @@ export const ResumeProjectsLocationsMigrationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ResumeMigrationJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:resume", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:resume",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResumeProjectsLocationsMigrationJobsRequest>;
 
@@ -3436,7 +4734,12 @@ export const ResumeProjectsLocationsMigrationJobsResponse = Operation;
 export type ResumeProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Resume a migration job that is currently stopped and is resumable (was stopped during CDC phase). */
-export const resumeProjectsLocationsMigrationJobs: API.OperationMethod<ResumeProjectsLocationsMigrationJobsRequest, ResumeProjectsLocationsMigrationJobsResponse, ResumeProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resumeProjectsLocationsMigrationJobs: API.OperationMethod<
+  ResumeProjectsLocationsMigrationJobsRequest,
+  ResumeProjectsLocationsMigrationJobsResponse,
+  ResumeProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResumeProjectsLocationsMigrationJobsRequest,
   output: ResumeProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3453,7 +4756,11 @@ export const PromoteProjectsLocationsMigrationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(PromoteMigrationJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:promote", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:promote",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PromoteProjectsLocationsMigrationJobsRequest>;
 
@@ -3463,7 +4770,12 @@ export const PromoteProjectsLocationsMigrationJobsResponse = Operation;
 export type PromoteProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Promote a migration job, stopping replication to the destination and promoting the destination to be a standalone database. */
-export const promoteProjectsLocationsMigrationJobs: API.OperationMethod<PromoteProjectsLocationsMigrationJobsRequest, PromoteProjectsLocationsMigrationJobsResponse, PromoteProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const promoteProjectsLocationsMigrationJobs: API.OperationMethod<
+  PromoteProjectsLocationsMigrationJobsRequest,
+  PromoteProjectsLocationsMigrationJobsResponse,
+  PromoteProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PromoteProjectsLocationsMigrationJobsRequest,
   output: PromoteProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3476,21 +4788,33 @@ export interface DemoteDestinationProjectsLocationsMigrationJobsRequest {
   body?: DemoteDestinationRequest;
 }
 
-export const DemoteDestinationProjectsLocationsMigrationJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DemoteDestinationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:demoteDestination", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DemoteDestinationProjectsLocationsMigrationJobsRequest>;
+export const DemoteDestinationProjectsLocationsMigrationJobsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DemoteDestinationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:demoteDestination",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DemoteDestinationProjectsLocationsMigrationJobsRequest>;
 
 export type DemoteDestinationProjectsLocationsMigrationJobsResponse = Operation;
-export const DemoteDestinationProjectsLocationsMigrationJobsResponse = Operation;
+export const DemoteDestinationProjectsLocationsMigrationJobsResponse =
+  Operation;
 
-export type DemoteDestinationProjectsLocationsMigrationJobsError = DefaultErrors;
+export type DemoteDestinationProjectsLocationsMigrationJobsError =
+  DefaultErrors;
 
 /** Demotes the destination database to become a read replica of the source. This is applicable for the following migrations: 1. MySQL to Cloud SQL for MySQL 2. PostgreSQL to Cloud SQL for PostgreSQL 3. PostgreSQL to AlloyDB for PostgreSQL. */
-export const demoteDestinationProjectsLocationsMigrationJobs: API.OperationMethod<DemoteDestinationProjectsLocationsMigrationJobsRequest, DemoteDestinationProjectsLocationsMigrationJobsResponse, DemoteDestinationProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const demoteDestinationProjectsLocationsMigrationJobs: API.OperationMethod<
+  DemoteDestinationProjectsLocationsMigrationJobsRequest,
+  DemoteDestinationProjectsLocationsMigrationJobsResponse,
+  DemoteDestinationProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DemoteDestinationProjectsLocationsMigrationJobsRequest,
   output: DemoteDestinationProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3507,7 +4831,11 @@ export const VerifyProjectsLocationsMigrationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(VerifyMigrationJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:verify", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:verify",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<VerifyProjectsLocationsMigrationJobsRequest>;
 
@@ -3517,7 +4845,12 @@ export const VerifyProjectsLocationsMigrationJobsResponse = Operation;
 export type VerifyProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Verify a migration job, making sure the destination can reach the source and that all configuration and prerequisites are met. */
-export const verifyProjectsLocationsMigrationJobs: API.OperationMethod<VerifyProjectsLocationsMigrationJobsRequest, VerifyProjectsLocationsMigrationJobsResponse, VerifyProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyProjectsLocationsMigrationJobs: API.OperationMethod<
+  VerifyProjectsLocationsMigrationJobsRequest,
+  VerifyProjectsLocationsMigrationJobsResponse,
+  VerifyProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyProjectsLocationsMigrationJobsRequest,
   output: VerifyProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3534,7 +4867,11 @@ export const RestartProjectsLocationsMigrationJobsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RestartMigrationJobRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:restart", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:restart",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RestartProjectsLocationsMigrationJobsRequest>;
 
@@ -3544,7 +4881,12 @@ export const RestartProjectsLocationsMigrationJobsResponse = Operation;
 export type RestartProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Restart a stopped or failed migration job, resetting the destination instance to its original state and starting the migration process from scratch. */
-export const restartProjectsLocationsMigrationJobs: API.OperationMethod<RestartProjectsLocationsMigrationJobsRequest, RestartProjectsLocationsMigrationJobsResponse, RestartProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const restartProjectsLocationsMigrationJobs: API.OperationMethod<
+  RestartProjectsLocationsMigrationJobsRequest,
+  RestartProjectsLocationsMigrationJobsResponse,
+  RestartProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RestartProjectsLocationsMigrationJobsRequest,
   output: RestartProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3557,21 +4899,33 @@ export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest {
   body?: GenerateSshScriptRequest;
 }
 
-export const GenerateSshScriptProjectsLocationsMigrationJobsRequest = Schema.Struct({
-  migrationJob: Schema.String.pipe(T.HttpPath("migrationJob")),
-  body: Schema.optional(GenerateSshScriptRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:generateSshScript", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GenerateSshScriptProjectsLocationsMigrationJobsRequest>;
+export const GenerateSshScriptProjectsLocationsMigrationJobsRequest =
+  Schema.Struct({
+    migrationJob: Schema.String.pipe(T.HttpPath("migrationJob")),
+    body: Schema.optional(GenerateSshScriptRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:generateSshScript",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateSshScriptProjectsLocationsMigrationJobsRequest>;
 
 export type GenerateSshScriptProjectsLocationsMigrationJobsResponse = SshScript;
-export const GenerateSshScriptProjectsLocationsMigrationJobsResponse = SshScript;
+export const GenerateSshScriptProjectsLocationsMigrationJobsResponse =
+  SshScript;
 
-export type GenerateSshScriptProjectsLocationsMigrationJobsError = DefaultErrors;
+export type GenerateSshScriptProjectsLocationsMigrationJobsError =
+  DefaultErrors;
 
 /** Generate a SSH configuration script to configure the reverse SSH connectivity. */
-export const generateSshScriptProjectsLocationsMigrationJobs: API.OperationMethod<GenerateSshScriptProjectsLocationsMigrationJobsRequest, GenerateSshScriptProjectsLocationsMigrationJobsResponse, GenerateSshScriptProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateSshScriptProjectsLocationsMigrationJobs: API.OperationMethod<
+  GenerateSshScriptProjectsLocationsMigrationJobsRequest,
+  GenerateSshScriptProjectsLocationsMigrationJobsResponse,
+  GenerateSshScriptProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateSshScriptProjectsLocationsMigrationJobsRequest,
   output: GenerateSshScriptProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3584,21 +4938,34 @@ export interface GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest {
   body?: GenerateTcpProxyScriptRequest;
 }
 
-export const GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest = Schema.Struct({
-  migrationJob: Schema.String.pipe(T.HttpPath("migrationJob")),
-  body: Schema.optional(GenerateTcpProxyScriptRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:generateTcpProxyScript", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest>;
+export const GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest =
+  Schema.Struct({
+    migrationJob: Schema.String.pipe(T.HttpPath("migrationJob")),
+    body: Schema.optional(GenerateTcpProxyScriptRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:generateTcpProxyScript",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest>;
 
-export type GenerateTcpProxyScriptProjectsLocationsMigrationJobsResponse = TcpProxyScript;
-export const GenerateTcpProxyScriptProjectsLocationsMigrationJobsResponse = TcpProxyScript;
+export type GenerateTcpProxyScriptProjectsLocationsMigrationJobsResponse =
+  TcpProxyScript;
+export const GenerateTcpProxyScriptProjectsLocationsMigrationJobsResponse =
+  TcpProxyScript;
 
-export type GenerateTcpProxyScriptProjectsLocationsMigrationJobsError = DefaultErrors;
+export type GenerateTcpProxyScriptProjectsLocationsMigrationJobsError =
+  DefaultErrors;
 
 /** Generate a TCP Proxy configuration script to configure a cloud-hosted VM running a TCP Proxy. */
-export const generateTcpProxyScriptProjectsLocationsMigrationJobs: API.OperationMethod<GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest, GenerateTcpProxyScriptProjectsLocationsMigrationJobsResponse, GenerateTcpProxyScriptProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateTcpProxyScriptProjectsLocationsMigrationJobs: API.OperationMethod<
+  GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest,
+  GenerateTcpProxyScriptProjectsLocationsMigrationJobsResponse,
+  GenerateTcpProxyScriptProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest,
   output: GenerateTcpProxyScriptProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3609,20 +4976,32 @@ export interface FetchSourceObjectsProjectsLocationsMigrationJobsRequest {
   name: string;
 }
 
-export const FetchSourceObjectsProjectsLocationsMigrationJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:fetchSourceObjects" }),
-  svc,
-) as unknown as Schema.Schema<FetchSourceObjectsProjectsLocationsMigrationJobsRequest>;
+export const FetchSourceObjectsProjectsLocationsMigrationJobsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:fetchSourceObjects",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchSourceObjectsProjectsLocationsMigrationJobsRequest>;
 
-export type FetchSourceObjectsProjectsLocationsMigrationJobsResponse = Operation;
-export const FetchSourceObjectsProjectsLocationsMigrationJobsResponse = Operation;
+export type FetchSourceObjectsProjectsLocationsMigrationJobsResponse =
+  Operation;
+export const FetchSourceObjectsProjectsLocationsMigrationJobsResponse =
+  Operation;
 
-export type FetchSourceObjectsProjectsLocationsMigrationJobsError = DefaultErrors;
+export type FetchSourceObjectsProjectsLocationsMigrationJobsError =
+  DefaultErrors;
 
 /** Retrieves objects from the source database that can be selected for data migration. This is applicable for the following migrations: 1. PostgreSQL to Cloud SQL for PostgreSQL 2. PostgreSQL to AlloyDB for PostgreSQL. */
-export const fetchSourceObjectsProjectsLocationsMigrationJobs: API.OperationMethod<FetchSourceObjectsProjectsLocationsMigrationJobsRequest, FetchSourceObjectsProjectsLocationsMigrationJobsResponse, FetchSourceObjectsProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const fetchSourceObjectsProjectsLocationsMigrationJobs: API.OperationMethod<
+  FetchSourceObjectsProjectsLocationsMigrationJobsRequest,
+  FetchSourceObjectsProjectsLocationsMigrationJobsResponse,
+  FetchSourceObjectsProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FetchSourceObjectsProjectsLocationsMigrationJobsRequest,
   output: FetchSourceObjectsProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3639,7 +5018,11 @@ export const SetIamPolicyProjectsLocationsMigrationJobsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsMigrationJobsRequest>;
 
@@ -3649,7 +5032,12 @@ export const SetIamPolicyProjectsLocationsMigrationJobsResponse = Policy;
 export type SetIamPolicyProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsMigrationJobs: API.OperationMethod<SetIamPolicyProjectsLocationsMigrationJobsRequest, SetIamPolicyProjectsLocationsMigrationJobsResponse, SetIamPolicyProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsMigrationJobs: API.OperationMethod<
+  SetIamPolicyProjectsLocationsMigrationJobsRequest,
+  SetIamPolicyProjectsLocationsMigrationJobsResponse,
+  SetIamPolicyProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsMigrationJobsRequest,
   output: SetIamPolicyProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3664,9 +5052,14 @@ export interface GetIamPolicyProjectsLocationsMigrationJobsRequest {
 
 export const GetIamPolicyProjectsLocationsMigrationJobsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsMigrationJobsRequest>;
 
@@ -3676,7 +5069,12 @@ export const GetIamPolicyProjectsLocationsMigrationJobsResponse = Policy;
 export type GetIamPolicyProjectsLocationsMigrationJobsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsMigrationJobs: API.OperationMethod<GetIamPolicyProjectsLocationsMigrationJobsRequest, GetIamPolicyProjectsLocationsMigrationJobsResponse, GetIamPolicyProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsMigrationJobs: API.OperationMethod<
+  GetIamPolicyProjectsLocationsMigrationJobsRequest,
+  GetIamPolicyProjectsLocationsMigrationJobsResponse,
+  GetIamPolicyProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsMigrationJobsRequest,
   output: GetIamPolicyProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3689,21 +5087,34 @@ export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsMigrationJobsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsMigrationJobsRequest>;
+export const TestIamPermissionsProjectsLocationsMigrationJobsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsMigrationJobsRequest>;
 
-export type TestIamPermissionsProjectsLocationsMigrationJobsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsMigrationJobsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsMigrationJobsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsMigrationJobsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsMigrationJobsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsMigrationJobsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsMigrationJobs: API.OperationMethod<TestIamPermissionsProjectsLocationsMigrationJobsRequest, TestIamPermissionsProjectsLocationsMigrationJobsResponse, TestIamPermissionsProjectsLocationsMigrationJobsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsMigrationJobs: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsMigrationJobsRequest,
+  TestIamPermissionsProjectsLocationsMigrationJobsResponse,
+  TestIamPermissionsProjectsLocationsMigrationJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsMigrationJobsRequest,
   output: TestIamPermissionsProjectsLocationsMigrationJobsResponse,
   errors: [],
@@ -3717,17 +5128,27 @@ export interface GetProjectsLocationsMigrationJobsObjectsRequest {
 export const GetProjectsLocationsMigrationJobsObjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsMigrationJobsObjectsRequest>;
 
-export type GetProjectsLocationsMigrationJobsObjectsResponse = MigrationJobObject;
-export const GetProjectsLocationsMigrationJobsObjectsResponse = MigrationJobObject;
+export type GetProjectsLocationsMigrationJobsObjectsResponse =
+  MigrationJobObject;
+export const GetProjectsLocationsMigrationJobsObjectsResponse =
+  MigrationJobObject;
 
 export type GetProjectsLocationsMigrationJobsObjectsError = DefaultErrors;
 
 /** Use this method to get details about a migration job object. */
-export const getProjectsLocationsMigrationJobsObjects: API.OperationMethod<GetProjectsLocationsMigrationJobsObjectsRequest, GetProjectsLocationsMigrationJobsObjectsResponse, GetProjectsLocationsMigrationJobsObjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsMigrationJobsObjects: API.OperationMethod<
+  GetProjectsLocationsMigrationJobsObjectsRequest,
+  GetProjectsLocationsMigrationJobsObjectsResponse,
+  GetProjectsLocationsMigrationJobsObjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsMigrationJobsObjectsRequest,
   output: GetProjectsLocationsMigrationJobsObjectsResponse,
   errors: [],
@@ -3740,21 +5161,34 @@ export interface LookupProjectsLocationsMigrationJobsObjectsRequest {
   body?: LookupMigrationJobObjectRequest;
 }
 
-export const LookupProjectsLocationsMigrationJobsObjectsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(LookupMigrationJobObjectRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects:lookup", hasBody: true }),
+export const LookupProjectsLocationsMigrationJobsObjectsRequest = Schema.Struct(
+  {
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(LookupMigrationJobObjectRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects:lookup",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LookupProjectsLocationsMigrationJobsObjectsRequest>;
 
-export type LookupProjectsLocationsMigrationJobsObjectsResponse = MigrationJobObject;
-export const LookupProjectsLocationsMigrationJobsObjectsResponse = MigrationJobObject;
+export type LookupProjectsLocationsMigrationJobsObjectsResponse =
+  MigrationJobObject;
+export const LookupProjectsLocationsMigrationJobsObjectsResponse =
+  MigrationJobObject;
 
 export type LookupProjectsLocationsMigrationJobsObjectsError = DefaultErrors;
 
 /** Use this method to look up a migration job object by its source object identifier. */
-export const lookupProjectsLocationsMigrationJobsObjects: API.OperationMethod<LookupProjectsLocationsMigrationJobsObjectsRequest, LookupProjectsLocationsMigrationJobsObjectsResponse, LookupProjectsLocationsMigrationJobsObjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const lookupProjectsLocationsMigrationJobsObjects: API.OperationMethod<
+  LookupProjectsLocationsMigrationJobsObjectsRequest,
+  LookupProjectsLocationsMigrationJobsObjectsResponse,
+  LookupProjectsLocationsMigrationJobsObjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LookupProjectsLocationsMigrationJobsObjectsRequest,
   output: LookupProjectsLocationsMigrationJobsObjectsResponse,
   errors: [],
@@ -3774,17 +5208,27 @@ export const ListProjectsLocationsMigrationJobsObjectsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsMigrationJobsObjectsRequest>;
 
-export type ListProjectsLocationsMigrationJobsObjectsResponse = ListMigrationJobObjectsResponse;
-export const ListProjectsLocationsMigrationJobsObjectsResponse = ListMigrationJobObjectsResponse;
+export type ListProjectsLocationsMigrationJobsObjectsResponse =
+  ListMigrationJobObjectsResponse;
+export const ListProjectsLocationsMigrationJobsObjectsResponse =
+  ListMigrationJobObjectsResponse;
 
 export type ListProjectsLocationsMigrationJobsObjectsError = DefaultErrors;
 
 /** Use this method to list the objects of a specific migration job. */
-export const listProjectsLocationsMigrationJobsObjects: API.PaginatedOperationMethod<ListProjectsLocationsMigrationJobsObjectsRequest, ListProjectsLocationsMigrationJobsObjectsResponse, ListProjectsLocationsMigrationJobsObjectsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsMigrationJobsObjects: API.PaginatedOperationMethod<
+  ListProjectsLocationsMigrationJobsObjectsRequest,
+  ListProjectsLocationsMigrationJobsObjectsResponse,
+  ListProjectsLocationsMigrationJobsObjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsMigrationJobsObjectsRequest,
   output: ListProjectsLocationsMigrationJobsObjectsResponse,
   errors: [],
@@ -3801,21 +5245,32 @@ export interface SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest>;
+export const SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest>;
 
 export type SetIamPolicyProjectsLocationsMigrationJobsObjectsResponse = Policy;
 export const SetIamPolicyProjectsLocationsMigrationJobsObjectsResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsMigrationJobsObjectsError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsMigrationJobsObjectsError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsMigrationJobsObjects: API.OperationMethod<SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest, SetIamPolicyProjectsLocationsMigrationJobsObjectsResponse, SetIamPolicyProjectsLocationsMigrationJobsObjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsMigrationJobsObjects: API.OperationMethod<
+  SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest,
+  SetIamPolicyProjectsLocationsMigrationJobsObjectsResponse,
+  SetIamPolicyProjectsLocationsMigrationJobsObjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest,
   output: SetIamPolicyProjectsLocationsMigrationJobsObjectsResponse,
   errors: [],
@@ -3828,21 +5283,33 @@ export interface GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest>;
+export const GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest>;
 
 export type GetIamPolicyProjectsLocationsMigrationJobsObjectsResponse = Policy;
 export const GetIamPolicyProjectsLocationsMigrationJobsObjectsResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsMigrationJobsObjectsError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsMigrationJobsObjectsError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsMigrationJobsObjects: API.OperationMethod<GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest, GetIamPolicyProjectsLocationsMigrationJobsObjectsResponse, GetIamPolicyProjectsLocationsMigrationJobsObjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsMigrationJobsObjects: API.OperationMethod<
+  GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest,
+  GetIamPolicyProjectsLocationsMigrationJobsObjectsResponse,
+  GetIamPolicyProjectsLocationsMigrationJobsObjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest,
   output: GetIamPolicyProjectsLocationsMigrationJobsObjectsResponse,
   errors: [],
@@ -3855,21 +5322,34 @@ export interface TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest 
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest>;
+export const TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/migrationJobs/{migrationJobsId}/objects/{objectsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest>;
 
-export type TestIamPermissionsProjectsLocationsMigrationJobsObjectsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsMigrationJobsObjectsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsMigrationJobsObjectsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsMigrationJobsObjectsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsMigrationJobsObjectsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsMigrationJobsObjectsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsMigrationJobsObjects: API.OperationMethod<TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest, TestIamPermissionsProjectsLocationsMigrationJobsObjectsResponse, TestIamPermissionsProjectsLocationsMigrationJobsObjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsMigrationJobsObjects: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest,
+  TestIamPermissionsProjectsLocationsMigrationJobsObjectsResponse,
+  TestIamPermissionsProjectsLocationsMigrationJobsObjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest,
   output: TestIamPermissionsProjectsLocationsMigrationJobsObjectsResponse,
   errors: [],
@@ -3895,17 +5375,27 @@ export const ListProjectsLocationsConnectionProfilesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsConnectionProfilesRequest>;
 
-export type ListProjectsLocationsConnectionProfilesResponse = ListConnectionProfilesResponse;
-export const ListProjectsLocationsConnectionProfilesResponse = ListConnectionProfilesResponse;
+export type ListProjectsLocationsConnectionProfilesResponse =
+  ListConnectionProfilesResponse;
+export const ListProjectsLocationsConnectionProfilesResponse =
+  ListConnectionProfilesResponse;
 
 export type ListProjectsLocationsConnectionProfilesError = DefaultErrors;
 
 /** Retrieves a list of all connection profiles in a given project and location. */
-export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMethod<ListProjectsLocationsConnectionProfilesRequest, ListProjectsLocationsConnectionProfilesResponse, ListProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMethod<
+  ListProjectsLocationsConnectionProfilesRequest,
+  ListProjectsLocationsConnectionProfilesResponse,
+  ListProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionProfilesRequest,
   output: ListProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -3923,7 +5413,10 @@ export interface GetProjectsLocationsConnectionProfilesRequest {
 export const GetProjectsLocationsConnectionProfilesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsConnectionProfilesRequest>;
 
@@ -3933,7 +5426,12 @@ export const GetProjectsLocationsConnectionProfilesResponse = ConnectionProfile;
 export type GetProjectsLocationsConnectionProfilesError = DefaultErrors;
 
 /** Gets details of a single connection profile. */
-export const getProjectsLocationsConnectionProfiles: API.OperationMethod<GetProjectsLocationsConnectionProfilesRequest, GetProjectsLocationsConnectionProfilesResponse, GetProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsConnectionProfiles: API.OperationMethod<
+  GetProjectsLocationsConnectionProfilesRequest,
+  GetProjectsLocationsConnectionProfilesResponse,
+  GetProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsConnectionProfilesRequest,
   output: GetProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -3956,13 +5454,23 @@ export interface CreateProjectsLocationsConnectionProfilesRequest {
 
 export const CreateProjectsLocationsConnectionProfilesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  connectionProfileId: Schema.optional(Schema.String).pipe(T.HttpQuery("connectionProfileId")),
+  connectionProfileId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("connectionProfileId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
-  skipValidation: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("skipValidation")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
+  skipValidation: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("skipValidation"),
+  ),
   body: Schema.optional(ConnectionProfile).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsConnectionProfilesRequest>;
 
@@ -3972,7 +5480,12 @@ export const CreateProjectsLocationsConnectionProfilesResponse = Operation;
 export type CreateProjectsLocationsConnectionProfilesError = DefaultErrors;
 
 /** Creates a new connection profile in a given project and location. */
-export const createProjectsLocationsConnectionProfiles: API.OperationMethod<CreateProjectsLocationsConnectionProfilesRequest, CreateProjectsLocationsConnectionProfilesResponse, CreateProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsConnectionProfiles: API.OperationMethod<
+  CreateProjectsLocationsConnectionProfilesRequest,
+  CreateProjectsLocationsConnectionProfilesResponse,
+  CreateProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsConnectionProfilesRequest,
   output: CreateProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -3997,11 +5510,19 @@ export const PatchProjectsLocationsConnectionProfilesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
-  skipValidation: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("skipValidation")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
+  skipValidation: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("skipValidation"),
+  ),
   body: Schema.optional(ConnectionProfile).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsConnectionProfilesRequest>;
 
@@ -4011,7 +5532,12 @@ export const PatchProjectsLocationsConnectionProfilesResponse = Operation;
 export type PatchProjectsLocationsConnectionProfilesError = DefaultErrors;
 
 /** Update the configuration of a single connection profile. */
-export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<PatchProjectsLocationsConnectionProfilesRequest, PatchProjectsLocationsConnectionProfilesResponse, PatchProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<
+  PatchProjectsLocationsConnectionProfilesRequest,
+  PatchProjectsLocationsConnectionProfilesResponse,
+  PatchProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsConnectionProfilesRequest,
   output: PatchProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -4031,7 +5557,10 @@ export const DeleteProjectsLocationsConnectionProfilesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsConnectionProfilesRequest>;
 
@@ -4041,7 +5570,12 @@ export const DeleteProjectsLocationsConnectionProfilesResponse = Operation;
 export type DeleteProjectsLocationsConnectionProfilesError = DefaultErrors;
 
 /** Deletes a single Database Migration Service connection profile. A connection profile can only be deleted if it is not in use by any active migration jobs. */
-export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<DeleteProjectsLocationsConnectionProfilesRequest, DeleteProjectsLocationsConnectionProfilesResponse, DeleteProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<
+  DeleteProjectsLocationsConnectionProfilesRequest,
+  DeleteProjectsLocationsConnectionProfilesResponse,
+  DeleteProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionProfilesRequest,
   output: DeleteProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -4054,21 +5588,32 @@ export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsConnectionProfilesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsConnectionProfilesRequest>;
+export const SetIamPolicyProjectsLocationsConnectionProfilesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsConnectionProfilesRequest>;
 
 export type SetIamPolicyProjectsLocationsConnectionProfilesResponse = Policy;
 export const SetIamPolicyProjectsLocationsConnectionProfilesResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsConnectionProfilesError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsConnectionProfilesError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsConnectionProfiles: API.OperationMethod<SetIamPolicyProjectsLocationsConnectionProfilesRequest, SetIamPolicyProjectsLocationsConnectionProfilesResponse, SetIamPolicyProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsConnectionProfiles: API.OperationMethod<
+  SetIamPolicyProjectsLocationsConnectionProfilesRequest,
+  SetIamPolicyProjectsLocationsConnectionProfilesResponse,
+  SetIamPolicyProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsConnectionProfilesRequest,
   output: SetIamPolicyProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -4081,21 +5626,33 @@ export interface GetIamPolicyProjectsLocationsConnectionProfilesRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsConnectionProfilesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsConnectionProfilesRequest>;
+export const GetIamPolicyProjectsLocationsConnectionProfilesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsConnectionProfilesRequest>;
 
 export type GetIamPolicyProjectsLocationsConnectionProfilesResponse = Policy;
 export const GetIamPolicyProjectsLocationsConnectionProfilesResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsConnectionProfilesError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsConnectionProfilesError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsConnectionProfiles: API.OperationMethod<GetIamPolicyProjectsLocationsConnectionProfilesRequest, GetIamPolicyProjectsLocationsConnectionProfilesResponse, GetIamPolicyProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsConnectionProfiles: API.OperationMethod<
+  GetIamPolicyProjectsLocationsConnectionProfilesRequest,
+  GetIamPolicyProjectsLocationsConnectionProfilesResponse,
+  GetIamPolicyProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsConnectionProfilesRequest,
   output: GetIamPolicyProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -4108,21 +5665,34 @@ export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsConnectionProfilesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsConnectionProfilesRequest>;
+export const TestIamPermissionsProjectsLocationsConnectionProfilesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connectionProfiles/{connectionProfilesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsConnectionProfilesRequest>;
 
-export type TestIamPermissionsProjectsLocationsConnectionProfilesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsConnectionProfilesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsConnectionProfilesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsConnectionProfilesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsConnectionProfilesError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsConnectionProfilesError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsConnectionProfiles: API.OperationMethod<TestIamPermissionsProjectsLocationsConnectionProfilesRequest, TestIamPermissionsProjectsLocationsConnectionProfilesResponse, TestIamPermissionsProjectsLocationsConnectionProfilesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsConnectionProfiles: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsConnectionProfilesRequest,
+  TestIamPermissionsProjectsLocationsConnectionProfilesResponse,
+  TestIamPermissionsProjectsLocationsConnectionProfilesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsConnectionProfilesRequest,
   output: TestIamPermissionsProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -4145,13 +5715,23 @@ export interface CreateProjectsLocationsPrivateConnectionsRequest {
 
 export const CreateProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  privateConnectionId: Schema.optional(Schema.String).pipe(T.HttpQuery("privateConnectionId")),
+  privateConnectionId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("privateConnectionId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  skipValidation: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("skipValidation")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  skipValidation: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("skipValidation"),
+  ),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(PrivateConnection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateConnectionsRequest>;
 
@@ -4161,7 +5741,12 @@ export const CreateProjectsLocationsPrivateConnectionsResponse = Operation;
 export type CreateProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Creates a new private connection in a given project and location. */
-export const createProjectsLocationsPrivateConnections: API.OperationMethod<CreateProjectsLocationsPrivateConnectionsRequest, CreateProjectsLocationsPrivateConnectionsResponse, CreateProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateConnections: API.OperationMethod<
+  CreateProjectsLocationsPrivateConnectionsRequest,
+  CreateProjectsLocationsPrivateConnectionsResponse,
+  CreateProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateConnectionsRequest,
   output: CreateProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4175,7 +5760,10 @@ export interface GetProjectsLocationsPrivateConnectionsRequest {
 export const GetProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsPrivateConnectionsRequest>;
 
@@ -4185,7 +5773,12 @@ export const GetProjectsLocationsPrivateConnectionsResponse = PrivateConnection;
 export type GetProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Gets details of a single private connection. */
-export const getProjectsLocationsPrivateConnections: API.OperationMethod<GetProjectsLocationsPrivateConnectionsRequest, GetProjectsLocationsPrivateConnectionsResponse, GetProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateConnections: API.OperationMethod<
+  GetProjectsLocationsPrivateConnectionsRequest,
+  GetProjectsLocationsPrivateConnectionsResponse,
+  GetProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateConnectionsRequest,
   output: GetProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4211,17 +5804,27 @@ export const ListProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsPrivateConnectionsRequest>;
 
-export type ListProjectsLocationsPrivateConnectionsResponse = ListPrivateConnectionsResponse;
-export const ListProjectsLocationsPrivateConnectionsResponse = ListPrivateConnectionsResponse;
+export type ListProjectsLocationsPrivateConnectionsResponse =
+  ListPrivateConnectionsResponse;
+export const ListProjectsLocationsPrivateConnectionsResponse =
+  ListPrivateConnectionsResponse;
 
 export type ListProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Retrieves a list of private connections in a given project and location. */
-export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMethod<ListProjectsLocationsPrivateConnectionsRequest, ListProjectsLocationsPrivateConnectionsResponse, ListProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateConnectionsRequest,
+  ListProjectsLocationsPrivateConnectionsResponse,
+  ListProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateConnectionsRequest,
   output: ListProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4242,7 +5845,10 @@ export const DeleteProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateConnectionsRequest>;
 
@@ -4252,7 +5858,12 @@ export const DeleteProjectsLocationsPrivateConnectionsResponse = Operation;
 export type DeleteProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Deletes a single Database Migration Service private connection. */
-export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<DeleteProjectsLocationsPrivateConnectionsRequest, DeleteProjectsLocationsPrivateConnectionsResponse, DeleteProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
+  DeleteProjectsLocationsPrivateConnectionsRequest,
+  DeleteProjectsLocationsPrivateConnectionsResponse,
+  DeleteProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateConnectionsRequest,
   output: DeleteProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4265,21 +5876,32 @@ export interface SetIamPolicyProjectsLocationsPrivateConnectionsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsPrivateConnectionsRequest>;
+export const SetIamPolicyProjectsLocationsPrivateConnectionsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsPrivateConnectionsRequest>;
 
 export type SetIamPolicyProjectsLocationsPrivateConnectionsResponse = Policy;
 export const SetIamPolicyProjectsLocationsPrivateConnectionsResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsPrivateConnectionsError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsPrivateConnectionsError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsPrivateConnections: API.OperationMethod<SetIamPolicyProjectsLocationsPrivateConnectionsRequest, SetIamPolicyProjectsLocationsPrivateConnectionsResponse, SetIamPolicyProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsPrivateConnections: API.OperationMethod<
+  SetIamPolicyProjectsLocationsPrivateConnectionsRequest,
+  SetIamPolicyProjectsLocationsPrivateConnectionsResponse,
+  SetIamPolicyProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsPrivateConnectionsRequest,
   output: SetIamPolicyProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4292,21 +5914,33 @@ export interface GetIamPolicyProjectsLocationsPrivateConnectionsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsPrivateConnectionsRequest>;
+export const GetIamPolicyProjectsLocationsPrivateConnectionsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsPrivateConnectionsRequest>;
 
 export type GetIamPolicyProjectsLocationsPrivateConnectionsResponse = Policy;
 export const GetIamPolicyProjectsLocationsPrivateConnectionsResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsPrivateConnectionsError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsPrivateConnectionsError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsPrivateConnections: API.OperationMethod<GetIamPolicyProjectsLocationsPrivateConnectionsRequest, GetIamPolicyProjectsLocationsPrivateConnectionsResponse, GetIamPolicyProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsPrivateConnections: API.OperationMethod<
+  GetIamPolicyProjectsLocationsPrivateConnectionsRequest,
+  GetIamPolicyProjectsLocationsPrivateConnectionsResponse,
+  GetIamPolicyProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsPrivateConnectionsRequest,
   output: GetIamPolicyProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4319,21 +5953,34 @@ export interface TestIamPermissionsProjectsLocationsPrivateConnectionsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateConnectionsRequest>;
+export const TestIamPermissionsProjectsLocationsPrivateConnectionsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateConnectionsRequest>;
 
-export type TestIamPermissionsProjectsLocationsPrivateConnectionsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsPrivateConnectionsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsPrivateConnectionsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsPrivateConnectionsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsPrivateConnectionsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsPrivateConnectionsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsPrivateConnections: API.OperationMethod<TestIamPermissionsProjectsLocationsPrivateConnectionsRequest, TestIamPermissionsProjectsLocationsPrivateConnectionsResponse, TestIamPermissionsProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsPrivateConnections: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsPrivateConnectionsRequest,
+  TestIamPermissionsProjectsLocationsPrivateConnectionsResponse,
+  TestIamPermissionsProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsPrivateConnectionsRequest,
   output: TestIamPermissionsProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4347,17 +5994,27 @@ export interface GetProjectsLocationsConversionWorkspacesRequest {
 export const GetProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsConversionWorkspacesRequest>;
 
-export type GetProjectsLocationsConversionWorkspacesResponse = ConversionWorkspace;
-export const GetProjectsLocationsConversionWorkspacesResponse = ConversionWorkspace;
+export type GetProjectsLocationsConversionWorkspacesResponse =
+  ConversionWorkspace;
+export const GetProjectsLocationsConversionWorkspacesResponse =
+  ConversionWorkspace;
 
 export type GetProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Gets details of a single conversion workspace. */
-export const getProjectsLocationsConversionWorkspaces: API.OperationMethod<GetProjectsLocationsConversionWorkspacesRequest, GetProjectsLocationsConversionWorkspacesResponse, GetProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  GetProjectsLocationsConversionWorkspacesRequest,
+  GetProjectsLocationsConversionWorkspacesResponse,
+  GetProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsConversionWorkspacesRequest,
   output: GetProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4380,17 +6037,27 @@ export const ListProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsConversionWorkspacesRequest>;
 
-export type ListProjectsLocationsConversionWorkspacesResponse = ListConversionWorkspacesResponse;
-export const ListProjectsLocationsConversionWorkspacesResponse = ListConversionWorkspacesResponse;
+export type ListProjectsLocationsConversionWorkspacesResponse =
+  ListConversionWorkspacesResponse;
+export const ListProjectsLocationsConversionWorkspacesResponse =
+  ListConversionWorkspacesResponse;
 
 export type ListProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Lists conversion workspaces in a given project and location. */
-export const listProjectsLocationsConversionWorkspaces: API.PaginatedOperationMethod<ListProjectsLocationsConversionWorkspacesRequest, ListProjectsLocationsConversionWorkspacesResponse, ListProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsConversionWorkspaces: API.PaginatedOperationMethod<
+  ListProjectsLocationsConversionWorkspacesRequest,
+  ListProjectsLocationsConversionWorkspacesResponse,
+  ListProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsConversionWorkspacesRequest,
   output: ListProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4411,13 +6078,21 @@ export interface CreateProjectsLocationsConversionWorkspacesRequest {
   body?: ConversionWorkspace;
 }
 
-export const CreateProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  conversionWorkspaceId: Schema.optional(Schema.String).pipe(T.HttpQuery("conversionWorkspaceId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(ConversionWorkspace).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces", hasBody: true }),
+export const CreateProjectsLocationsConversionWorkspacesRequest = Schema.Struct(
+  {
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    conversionWorkspaceId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("conversionWorkspaceId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ConversionWorkspace).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsConversionWorkspacesRequest>;
 
@@ -4427,7 +6102,12 @@ export const CreateProjectsLocationsConversionWorkspacesResponse = Operation;
 export type CreateProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Creates a new conversion workspace in a given project and location. */
-export const createProjectsLocationsConversionWorkspaces: API.OperationMethod<CreateProjectsLocationsConversionWorkspacesRequest, CreateProjectsLocationsConversionWorkspacesResponse, CreateProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  CreateProjectsLocationsConversionWorkspacesRequest,
+  CreateProjectsLocationsConversionWorkspacesResponse,
+  CreateProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsConversionWorkspacesRequest,
   output: CreateProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4450,7 +6130,11 @@ export const PatchProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(ConversionWorkspace).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsConversionWorkspacesRequest>;
 
@@ -4460,7 +6144,12 @@ export const PatchProjectsLocationsConversionWorkspacesResponse = Operation;
 export type PatchProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Updates the parameters of a single conversion workspace. */
-export const patchProjectsLocationsConversionWorkspaces: API.OperationMethod<PatchProjectsLocationsConversionWorkspacesRequest, PatchProjectsLocationsConversionWorkspacesResponse, PatchProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  PatchProjectsLocationsConversionWorkspacesRequest,
+  PatchProjectsLocationsConversionWorkspacesResponse,
+  PatchProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsConversionWorkspacesRequest,
   output: PatchProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4475,12 +6164,17 @@ export interface DeleteProjectsLocationsConversionWorkspacesRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}" }),
+export const DeleteProjectsLocationsConversionWorkspacesRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  },
+).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsConversionWorkspacesRequest>;
 
@@ -4490,7 +6184,12 @@ export const DeleteProjectsLocationsConversionWorkspacesResponse = Operation;
 export type DeleteProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Deletes a single conversion workspace. */
-export const deleteProjectsLocationsConversionWorkspaces: API.OperationMethod<DeleteProjectsLocationsConversionWorkspacesRequest, DeleteProjectsLocationsConversionWorkspacesResponse, DeleteProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  DeleteProjectsLocationsConversionWorkspacesRequest,
+  DeleteProjectsLocationsConversionWorkspacesResponse,
+  DeleteProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsConversionWorkspacesRequest,
   output: DeleteProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4507,7 +6206,11 @@ export const SeedProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SeedConversionWorkspaceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:seed", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:seed",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SeedProjectsLocationsConversionWorkspacesRequest>;
 
@@ -4517,7 +6220,12 @@ export const SeedProjectsLocationsConversionWorkspacesResponse = Operation;
 export type SeedProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Imports a snapshot of the source database into the conversion workspace. */
-export const seedProjectsLocationsConversionWorkspaces: API.OperationMethod<SeedProjectsLocationsConversionWorkspacesRequest, SeedProjectsLocationsConversionWorkspacesResponse, SeedProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const seedProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  SeedProjectsLocationsConversionWorkspacesRequest,
+  SeedProjectsLocationsConversionWorkspacesResponse,
+  SeedProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SeedProjectsLocationsConversionWorkspacesRequest,
   output: SeedProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4530,13 +6238,18 @@ export interface ConvertProjectsLocationsConversionWorkspacesRequest {
   body?: ConvertConversionWorkspaceRequest;
 }
 
-export const ConvertProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ConvertConversionWorkspaceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:convert", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ConvertProjectsLocationsConversionWorkspacesRequest>;
+export const ConvertProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ConvertConversionWorkspaceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:convert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ConvertProjectsLocationsConversionWorkspacesRequest>;
 
 export type ConvertProjectsLocationsConversionWorkspacesResponse = Operation;
 export const ConvertProjectsLocationsConversionWorkspacesResponse = Operation;
@@ -4544,7 +6257,12 @@ export const ConvertProjectsLocationsConversionWorkspacesResponse = Operation;
 export type ConvertProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Creates a draft tree schema for the destination database. */
-export const convertProjectsLocationsConversionWorkspaces: API.OperationMethod<ConvertProjectsLocationsConversionWorkspacesRequest, ConvertProjectsLocationsConversionWorkspacesResponse, ConvertProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const convertProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  ConvertProjectsLocationsConversionWorkspacesRequest,
+  ConvertProjectsLocationsConversionWorkspacesResponse,
+  ConvertProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ConvertProjectsLocationsConversionWorkspacesRequest,
   output: ConvertProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4557,11 +6275,17 @@ export interface CommitProjectsLocationsConversionWorkspacesRequest {
   body?: CommitConversionWorkspaceRequest;
 }
 
-export const CommitProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CommitConversionWorkspaceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:commit", hasBody: true }),
+export const CommitProjectsLocationsConversionWorkspacesRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CommitConversionWorkspaceRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:commit",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CommitProjectsLocationsConversionWorkspacesRequest>;
 
@@ -4571,7 +6295,12 @@ export const CommitProjectsLocationsConversionWorkspacesResponse = Operation;
 export type CommitProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Marks all the data in the conversion workspace as committed. */
-export const commitProjectsLocationsConversionWorkspaces: API.OperationMethod<CommitProjectsLocationsConversionWorkspacesRequest, CommitProjectsLocationsConversionWorkspacesResponse, CommitProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const commitProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  CommitProjectsLocationsConversionWorkspacesRequest,
+  CommitProjectsLocationsConversionWorkspacesResponse,
+  CommitProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CommitProjectsLocationsConversionWorkspacesRequest,
   output: CommitProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4584,13 +6313,20 @@ export interface RollbackProjectsLocationsConversionWorkspacesRequest {
   body?: RollbackConversionWorkspaceRequest;
 }
 
-export const RollbackProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RollbackConversionWorkspaceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:rollback", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RollbackProjectsLocationsConversionWorkspacesRequest>;
+export const RollbackProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RollbackConversionWorkspaceRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:rollback",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RollbackProjectsLocationsConversionWorkspacesRequest>;
 
 export type RollbackProjectsLocationsConversionWorkspacesResponse = Operation;
 export const RollbackProjectsLocationsConversionWorkspacesResponse = Operation;
@@ -4598,7 +6334,12 @@ export const RollbackProjectsLocationsConversionWorkspacesResponse = Operation;
 export type RollbackProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Rolls back a conversion workspace to the last committed snapshot. */
-export const rollbackProjectsLocationsConversionWorkspaces: API.OperationMethod<RollbackProjectsLocationsConversionWorkspacesRequest, RollbackProjectsLocationsConversionWorkspacesResponse, RollbackProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const rollbackProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  RollbackProjectsLocationsConversionWorkspacesRequest,
+  RollbackProjectsLocationsConversionWorkspacesResponse,
+  RollbackProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RollbackProjectsLocationsConversionWorkspacesRequest,
   output: RollbackProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4615,7 +6356,11 @@ export const ApplyProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ApplyConversionWorkspaceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:apply", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:apply",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ApplyProjectsLocationsConversionWorkspacesRequest>;
 
@@ -4625,7 +6370,12 @@ export const ApplyProjectsLocationsConversionWorkspacesResponse = Operation;
 export type ApplyProjectsLocationsConversionWorkspacesError = DefaultErrors;
 
 /** Applies draft tree onto a specific destination database. */
-export const applyProjectsLocationsConversionWorkspaces: API.OperationMethod<ApplyProjectsLocationsConversionWorkspacesRequest, ApplyProjectsLocationsConversionWorkspacesResponse, ApplyProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const applyProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  ApplyProjectsLocationsConversionWorkspacesRequest,
+  ApplyProjectsLocationsConversionWorkspacesResponse,
+  ApplyProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ApplyProjectsLocationsConversionWorkspacesRequest,
   output: ApplyProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4639,7 +6389,12 @@ export interface DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRe
   /** Optional. The nextPageToken value received in the previous call to conversionWorkspace.describeDatabaseEntities, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspace.describeDatabaseEntities must match the call that provided the page token. */
   pageToken?: string;
   /** Required. The tree to fetch. */
-  tree?: "DB_TREE_TYPE_UNSPECIFIED" | "SOURCE_TREE" | "DRAFT_TREE" | "DESTINATION_TREE" | (string & {});
+  tree?:
+    | "DB_TREE_TYPE_UNSPECIFIED"
+    | "SOURCE_TREE"
+    | "DRAFT_TREE"
+    | "DESTINATION_TREE"
+    | (string & {});
   /** Optional. Whether to retrieve the latest committed version of the entities or the latest version. This field is ignored if a specific commit_id is specified. */
   uncommitted?: boolean;
   /** Optional. Request a specific commit ID. If not specified, the entities from the latest commit are returned. */
@@ -4647,30 +6402,50 @@ export interface DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRe
   /** Optional. Filter the returned entities based on AIP-160 standard. */
   filter?: string;
   /** Optional. Results view based on AIP-157 */
-  view?: "DATABASE_ENTITY_VIEW_UNSPECIFIED" | "DATABASE_ENTITY_VIEW_BASIC" | "DATABASE_ENTITY_VIEW_FULL" | "DATABASE_ENTITY_VIEW_ROOT_SUMMARY" | "DATABASE_ENTITY_VIEW_FULL_COMPACT" | (string & {});
+  view?:
+    | "DATABASE_ENTITY_VIEW_UNSPECIFIED"
+    | "DATABASE_ENTITY_VIEW_BASIC"
+    | "DATABASE_ENTITY_VIEW_FULL"
+    | "DATABASE_ENTITY_VIEW_ROOT_SUMMARY"
+    | "DATABASE_ENTITY_VIEW_FULL_COMPACT"
+    | (string & {});
 }
 
-export const DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  conversionWorkspace: Schema.String.pipe(T.HttpPath("conversionWorkspace")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  tree: Schema.optional(Schema.String).pipe(T.HttpQuery("tree")),
-  uncommitted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("uncommitted")),
-  commitId: Schema.optional(Schema.String).pipe(T.HttpQuery("commitId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:describeDatabaseEntities" }),
-  svc,
-) as unknown as Schema.Schema<DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest>;
+export const DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    conversionWorkspace: Schema.String.pipe(T.HttpPath("conversionWorkspace")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    tree: Schema.optional(Schema.String).pipe(T.HttpQuery("tree")),
+    uncommitted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("uncommitted"),
+    ),
+    commitId: Schema.optional(Schema.String).pipe(T.HttpQuery("commitId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:describeDatabaseEntities",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest>;
 
-export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesResponse = DescribeDatabaseEntitiesResponse;
-export const DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesResponse = DescribeDatabaseEntitiesResponse;
+export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesResponse =
+  DescribeDatabaseEntitiesResponse;
+export const DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesResponse =
+  DescribeDatabaseEntitiesResponse;
 
-export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesError = DefaultErrors;
+export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesError =
+  DefaultErrors;
 
 /** Describes the database entities tree for a specific conversion workspace and a specific tree type. Database entities are not resources like conversion workspaces or mapping rules, and they can't be created, updated or deleted. Instead, they are simple data objects describing the structure of the client database. */
-export const describeDatabaseEntitiesProjectsLocationsConversionWorkspaces: API.PaginatedOperationMethod<DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest, DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesResponse, DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const describeDatabaseEntitiesProjectsLocationsConversionWorkspaces: API.PaginatedOperationMethod<
+  DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest,
+  DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesResponse,
+  DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest,
   output: DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4691,23 +6466,39 @@ export interface SearchBackgroundJobsProjectsLocationsConversionWorkspacesReques
   completedUntilTime?: string;
 }
 
-export const SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  conversionWorkspace: Schema.String.pipe(T.HttpPath("conversionWorkspace")),
-  returnMostRecentPerJobType: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnMostRecentPerJobType")),
-  maxSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxSize")),
-  completedUntilTime: Schema.optional(Schema.String).pipe(T.HttpQuery("completedUntilTime")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:searchBackgroundJobs" }),
-  svc,
-) as unknown as Schema.Schema<SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest>;
+export const SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    conversionWorkspace: Schema.String.pipe(T.HttpPath("conversionWorkspace")),
+    returnMostRecentPerJobType: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnMostRecentPerJobType"),
+    ),
+    maxSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxSize")),
+    completedUntilTime: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("completedUntilTime"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:searchBackgroundJobs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest>;
 
-export type SearchBackgroundJobsProjectsLocationsConversionWorkspacesResponse = SearchBackgroundJobsResponse;
-export const SearchBackgroundJobsProjectsLocationsConversionWorkspacesResponse = SearchBackgroundJobsResponse;
+export type SearchBackgroundJobsProjectsLocationsConversionWorkspacesResponse =
+  SearchBackgroundJobsResponse;
+export const SearchBackgroundJobsProjectsLocationsConversionWorkspacesResponse =
+  SearchBackgroundJobsResponse;
 
-export type SearchBackgroundJobsProjectsLocationsConversionWorkspacesError = DefaultErrors;
+export type SearchBackgroundJobsProjectsLocationsConversionWorkspacesError =
+  DefaultErrors;
 
 /** Searches/lists the background jobs for a specific conversion workspace. The background jobs are not resources like conversion workspaces or mapping rules, and they can't be created, updated or deleted. Instead, they are a way to expose the data plane jobs log. */
-export const searchBackgroundJobsProjectsLocationsConversionWorkspaces: API.OperationMethod<SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest, SearchBackgroundJobsProjectsLocationsConversionWorkspacesResponse, SearchBackgroundJobsProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const searchBackgroundJobsProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest,
+  SearchBackgroundJobsProjectsLocationsConversionWorkspacesResponse,
+  SearchBackgroundJobsProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest,
   output: SearchBackgroundJobsProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4720,23 +6511,37 @@ export interface DescribeConversionWorkspaceRevisionsProjectsLocationsConversion
   commitId?: string;
 }
 
-export const DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  conversionWorkspace: Schema.String.pipe(T.HttpPath("conversionWorkspace")),
-  commitId: Schema.optional(Schema.String).pipe(T.HttpQuery("commitId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:describeConversionWorkspaceRevisions" }),
-  svc,
-) as unknown as Schema.Schema<DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest>;
+export const DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    conversionWorkspace: Schema.String.pipe(T.HttpPath("conversionWorkspace")),
+    commitId: Schema.optional(Schema.String).pipe(T.HttpQuery("commitId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:describeConversionWorkspaceRevisions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest>;
 
-export type DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse = DescribeConversionWorkspaceRevisionsResponse;
-export const DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse = DescribeConversionWorkspaceRevisionsResponse;
+export type DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse =
+  DescribeConversionWorkspaceRevisionsResponse;
+export const DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse =
+  DescribeConversionWorkspaceRevisionsResponse;
 
-export type DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesError = DefaultErrors;
+export type DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesError =
+  DefaultErrors;
 
 /** Retrieves a list of committed revisions of a specific conversion workspace. */
-export const describeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspaces: API.OperationMethod<DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest, DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse, DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest,
-  output: DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse,
+export const describeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest,
+  DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse,
+  DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest,
+  output:
+    DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesResponse,
   errors: [],
 }));
 
@@ -4747,21 +6552,32 @@ export interface SetIamPolicyProjectsLocationsConversionWorkspacesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsConversionWorkspacesRequest>;
+export const SetIamPolicyProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsConversionWorkspacesRequest>;
 
 export type SetIamPolicyProjectsLocationsConversionWorkspacesResponse = Policy;
 export const SetIamPolicyProjectsLocationsConversionWorkspacesResponse = Policy;
 
-export type SetIamPolicyProjectsLocationsConversionWorkspacesError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsConversionWorkspacesError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsConversionWorkspaces: API.OperationMethod<SetIamPolicyProjectsLocationsConversionWorkspacesRequest, SetIamPolicyProjectsLocationsConversionWorkspacesResponse, SetIamPolicyProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  SetIamPolicyProjectsLocationsConversionWorkspacesRequest,
+  SetIamPolicyProjectsLocationsConversionWorkspacesResponse,
+  SetIamPolicyProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsConversionWorkspacesRequest,
   output: SetIamPolicyProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4774,21 +6590,33 @@ export interface GetIamPolicyProjectsLocationsConversionWorkspacesRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsConversionWorkspacesRequest>;
+export const GetIamPolicyProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsConversionWorkspacesRequest>;
 
 export type GetIamPolicyProjectsLocationsConversionWorkspacesResponse = Policy;
 export const GetIamPolicyProjectsLocationsConversionWorkspacesResponse = Policy;
 
-export type GetIamPolicyProjectsLocationsConversionWorkspacesError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsConversionWorkspacesError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsConversionWorkspaces: API.OperationMethod<GetIamPolicyProjectsLocationsConversionWorkspacesRequest, GetIamPolicyProjectsLocationsConversionWorkspacesResponse, GetIamPolicyProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  GetIamPolicyProjectsLocationsConversionWorkspacesRequest,
+  GetIamPolicyProjectsLocationsConversionWorkspacesResponse,
+  GetIamPolicyProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsConversionWorkspacesRequest,
   output: GetIamPolicyProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4801,21 +6629,34 @@ export interface TestIamPermissionsProjectsLocationsConversionWorkspacesRequest 
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsConversionWorkspacesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsConversionWorkspacesRequest>;
+export const TestIamPermissionsProjectsLocationsConversionWorkspacesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsConversionWorkspacesRequest>;
 
-export type TestIamPermissionsProjectsLocationsConversionWorkspacesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsConversionWorkspacesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsConversionWorkspacesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsConversionWorkspacesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsConversionWorkspacesError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsConversionWorkspacesError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsConversionWorkspaces: API.OperationMethod<TestIamPermissionsProjectsLocationsConversionWorkspacesRequest, TestIamPermissionsProjectsLocationsConversionWorkspacesResponse, TestIamPermissionsProjectsLocationsConversionWorkspacesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsConversionWorkspaces: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsConversionWorkspacesRequest,
+  TestIamPermissionsProjectsLocationsConversionWorkspacesResponse,
+  TestIamPermissionsProjectsLocationsConversionWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsConversionWorkspacesRequest,
   output: TestIamPermissionsProjectsLocationsConversionWorkspacesResponse,
   errors: [],
@@ -4832,23 +6673,38 @@ export interface CreateProjectsLocationsConversionWorkspacesMappingRulesRequest 
   body?: MappingRule;
 }
 
-export const CreateProjectsLocationsConversionWorkspacesMappingRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  mappingRuleId: Schema.optional(Schema.String).pipe(T.HttpQuery("mappingRuleId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(MappingRule).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsConversionWorkspacesMappingRulesRequest>;
+export const CreateProjectsLocationsConversionWorkspacesMappingRulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    mappingRuleId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("mappingRuleId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(MappingRule).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsConversionWorkspacesMappingRulesRequest>;
 
-export type CreateProjectsLocationsConversionWorkspacesMappingRulesResponse = MappingRule;
-export const CreateProjectsLocationsConversionWorkspacesMappingRulesResponse = MappingRule;
+export type CreateProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  MappingRule;
+export const CreateProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  MappingRule;
 
-export type CreateProjectsLocationsConversionWorkspacesMappingRulesError = DefaultErrors;
+export type CreateProjectsLocationsConversionWorkspacesMappingRulesError =
+  DefaultErrors;
 
 /** Creates a new mapping rule for a given conversion workspace. */
-export const createProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<CreateProjectsLocationsConversionWorkspacesMappingRulesRequest, CreateProjectsLocationsConversionWorkspacesMappingRulesResponse, CreateProjectsLocationsConversionWorkspacesMappingRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<
+  CreateProjectsLocationsConversionWorkspacesMappingRulesRequest,
+  CreateProjectsLocationsConversionWorkspacesMappingRulesResponse,
+  CreateProjectsLocationsConversionWorkspacesMappingRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsConversionWorkspacesMappingRulesRequest,
   output: CreateProjectsLocationsConversionWorkspacesMappingRulesResponse,
   errors: [],
@@ -4861,21 +6717,33 @@ export interface DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest 
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules/{mappingRulesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest>;
+export const DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules/{mappingRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest>;
 
-export type DeleteProjectsLocationsConversionWorkspacesMappingRulesResponse = Empty;
-export const DeleteProjectsLocationsConversionWorkspacesMappingRulesResponse = Empty;
+export type DeleteProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  Empty;
+export const DeleteProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  Empty;
 
-export type DeleteProjectsLocationsConversionWorkspacesMappingRulesError = DefaultErrors;
+export type DeleteProjectsLocationsConversionWorkspacesMappingRulesError =
+  DefaultErrors;
 
 /** Deletes a single mapping rule. */
-export const deleteProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest, DeleteProjectsLocationsConversionWorkspacesMappingRulesResponse, DeleteProjectsLocationsConversionWorkspacesMappingRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<
+  DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest,
+  DeleteProjectsLocationsConversionWorkspacesMappingRulesResponse,
+  DeleteProjectsLocationsConversionWorkspacesMappingRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest,
   output: DeleteProjectsLocationsConversionWorkspacesMappingRulesResponse,
   errors: [],
@@ -4890,22 +6758,34 @@ export interface ListProjectsLocationsConversionWorkspacesMappingRulesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsConversionWorkspacesMappingRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsConversionWorkspacesMappingRulesRequest>;
+export const ListProjectsLocationsConversionWorkspacesMappingRulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsConversionWorkspacesMappingRulesRequest>;
 
-export type ListProjectsLocationsConversionWorkspacesMappingRulesResponse = ListMappingRulesResponse;
-export const ListProjectsLocationsConversionWorkspacesMappingRulesResponse = ListMappingRulesResponse;
+export type ListProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  ListMappingRulesResponse;
+export const ListProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  ListMappingRulesResponse;
 
-export type ListProjectsLocationsConversionWorkspacesMappingRulesError = DefaultErrors;
+export type ListProjectsLocationsConversionWorkspacesMappingRulesError =
+  DefaultErrors;
 
 /** Lists the mapping rules for a specific conversion workspace. */
-export const listProjectsLocationsConversionWorkspacesMappingRules: API.PaginatedOperationMethod<ListProjectsLocationsConversionWorkspacesMappingRulesRequest, ListProjectsLocationsConversionWorkspacesMappingRulesResponse, ListProjectsLocationsConversionWorkspacesMappingRulesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsConversionWorkspacesMappingRules: API.PaginatedOperationMethod<
+  ListProjectsLocationsConversionWorkspacesMappingRulesRequest,
+  ListProjectsLocationsConversionWorkspacesMappingRulesResponse,
+  ListProjectsLocationsConversionWorkspacesMappingRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsConversionWorkspacesMappingRulesRequest,
   output: ListProjectsLocationsConversionWorkspacesMappingRulesResponse,
   errors: [],
@@ -4920,20 +6800,32 @@ export interface GetProjectsLocationsConversionWorkspacesMappingRulesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsConversionWorkspacesMappingRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules/{mappingRulesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsConversionWorkspacesMappingRulesRequest>;
+export const GetProjectsLocationsConversionWorkspacesMappingRulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules/{mappingRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsConversionWorkspacesMappingRulesRequest>;
 
-export type GetProjectsLocationsConversionWorkspacesMappingRulesResponse = MappingRule;
-export const GetProjectsLocationsConversionWorkspacesMappingRulesResponse = MappingRule;
+export type GetProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  MappingRule;
+export const GetProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  MappingRule;
 
-export type GetProjectsLocationsConversionWorkspacesMappingRulesError = DefaultErrors;
+export type GetProjectsLocationsConversionWorkspacesMappingRulesError =
+  DefaultErrors;
 
 /** Gets the details of a mapping rule. */
-export const getProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<GetProjectsLocationsConversionWorkspacesMappingRulesRequest, GetProjectsLocationsConversionWorkspacesMappingRulesResponse, GetProjectsLocationsConversionWorkspacesMappingRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<
+  GetProjectsLocationsConversionWorkspacesMappingRulesRequest,
+  GetProjectsLocationsConversionWorkspacesMappingRulesResponse,
+  GetProjectsLocationsConversionWorkspacesMappingRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsConversionWorkspacesMappingRulesRequest,
   output: GetProjectsLocationsConversionWorkspacesMappingRulesResponse,
   errors: [],
@@ -4946,23 +6838,35 @@ export interface ImportProjectsLocationsConversionWorkspacesMappingRulesRequest 
   body?: ImportMappingRulesRequest;
 }
 
-export const ImportProjectsLocationsConversionWorkspacesMappingRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ImportMappingRulesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules:import", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsConversionWorkspacesMappingRulesRequest>;
+export const ImportProjectsLocationsConversionWorkspacesMappingRulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ImportMappingRulesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversionWorkspaces/{conversionWorkspacesId}/mappingRules:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsConversionWorkspacesMappingRulesRequest>;
 
-export type ImportProjectsLocationsConversionWorkspacesMappingRulesResponse = Operation;
-export const ImportProjectsLocationsConversionWorkspacesMappingRulesResponse = Operation;
+export type ImportProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  Operation;
+export const ImportProjectsLocationsConversionWorkspacesMappingRulesResponse =
+  Operation;
 
-export type ImportProjectsLocationsConversionWorkspacesMappingRulesError = DefaultErrors;
+export type ImportProjectsLocationsConversionWorkspacesMappingRulesError =
+  DefaultErrors;
 
 /** Imports the mapping rules for a given conversion workspace. Supports various formats of external rules files. */
-export const importProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<ImportProjectsLocationsConversionWorkspacesMappingRulesRequest, ImportProjectsLocationsConversionWorkspacesMappingRulesResponse, ImportProjectsLocationsConversionWorkspacesMappingRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const importProjectsLocationsConversionWorkspacesMappingRules: API.OperationMethod<
+  ImportProjectsLocationsConversionWorkspacesMappingRulesRequest,
+  ImportProjectsLocationsConversionWorkspacesMappingRulesResponse,
+  ImportProjectsLocationsConversionWorkspacesMappingRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ImportProjectsLocationsConversionWorkspacesMappingRulesRequest,
   output: ImportProjectsLocationsConversionWorkspacesMappingRulesResponse,
   errors: [],
 }));
-

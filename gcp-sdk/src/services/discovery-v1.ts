@@ -27,16 +27,55 @@ export interface DirectoryList {
   /** Indicate the version of the Discovery API used to generate this doc. */
   discoveryVersion?: string;
   /** The individual directory entries. One entry per api/version pair. */
-  items?: Array<{ description?: string; discoveryLink?: string; discoveryRestUrl?: string; documentationLink?: string; icons?: { x16?: string; x32?: string }; id?: string; kind?: string; labels?: Array<string>; name?: string; preferred?: boolean; title?: string; version?: string }>;
+  items?: Array<{
+    description?: string;
+    discoveryLink?: string;
+    discoveryRestUrl?: string;
+    documentationLink?: string;
+    icons?: { x16?: string; x32?: string };
+    id?: string;
+    kind?: string;
+    labels?: Array<string>;
+    name?: string;
+    preferred?: boolean;
+    title?: string;
+    version?: string;
+  }>;
   /** The kind for this response. */
   kind?: string;
 }
 
-export const DirectoryList: Schema.Schema<DirectoryList> = Schema.suspend(() => Schema.Struct({
-  discoveryVersion: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Schema.Struct({ description: Schema.optional(Schema.String), discoveryLink: Schema.optional(Schema.String), discoveryRestUrl: Schema.optional(Schema.String), documentationLink: Schema.optional(Schema.String), icons: Schema.optional(Schema.Struct({ x16: Schema.optional(Schema.String), x32: Schema.optional(Schema.String) })), id: Schema.optional(Schema.String), kind: Schema.optional(Schema.String), labels: Schema.optional(Schema.Array(Schema.String)), name: Schema.optional(Schema.String), preferred: Schema.optional(Schema.Boolean), title: Schema.optional(Schema.String), version: Schema.optional(Schema.String) }))),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "DirectoryList" }) as any as Schema.Schema<DirectoryList>;
+export const DirectoryList: Schema.Schema<DirectoryList> = Schema.suspend(() =>
+  Schema.Struct({
+    discoveryVersion: Schema.optional(Schema.String),
+    items: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          description: Schema.optional(Schema.String),
+          discoveryLink: Schema.optional(Schema.String),
+          discoveryRestUrl: Schema.optional(Schema.String),
+          documentationLink: Schema.optional(Schema.String),
+          icons: Schema.optional(
+            Schema.Struct({
+              x16: Schema.optional(Schema.String),
+              x32: Schema.optional(Schema.String),
+            }),
+          ),
+          id: Schema.optional(Schema.String),
+          kind: Schema.optional(Schema.String),
+          labels: Schema.optional(Schema.Array(Schema.String)),
+          name: Schema.optional(Schema.String),
+          preferred: Schema.optional(Schema.Boolean),
+          title: Schema.optional(Schema.String),
+          version: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DirectoryList",
+}) as any as Schema.Schema<DirectoryList>;
 
 export interface JsonSchema {
   /** A reference to another schema. The value of this property is the "id" of another schema. */
@@ -82,33 +121,52 @@ export interface JsonSchema {
   /** The value type for this schema. A list of values can be found here: http://tools.ietf.org/html/draft-zyp-json-schema-03#section-5.1 */
   type?: string;
   /** In a variant data type, the value of one property is used to determine how to interpret the entire entity. Its value must exist in a map of descriminant values to schema names. */
-  variant?: { discriminant?: string; map?: Array<{ $ref?: string; type_value?: string }> };
+  variant?: {
+    discriminant?: string;
+    map?: Array<{ $ref?: string; type_value?: string }>;
+  };
 }
 
-export const JsonSchema: Schema.Schema<JsonSchema> = Schema.suspend(() => Schema.Struct({
-  $ref: Schema.optional(Schema.String),
-  additionalProperties: Schema.optional(JsonSchema),
-  annotations: Schema.optional(Schema.Struct({ required: Schema.optional(Schema.Array(Schema.String)) })),
-  default: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  enum: Schema.optional(Schema.Array(Schema.String)),
-  enumDescriptions: Schema.optional(Schema.Array(Schema.String)),
-  enumDeprecated: Schema.optional(Schema.Array(Schema.Boolean)),
-  format: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  items: Schema.optional(JsonSchema),
-  location: Schema.optional(Schema.String),
-  maximum: Schema.optional(Schema.String),
-  minimum: Schema.optional(Schema.String),
-  pattern: Schema.optional(Schema.String),
-  properties: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
-  readOnly: Schema.optional(Schema.Boolean),
-  repeated: Schema.optional(Schema.Boolean),
-  required: Schema.optional(Schema.Boolean),
-  deprecated: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.String),
-  variant: Schema.optional(Schema.Struct({ discriminant: Schema.optional(Schema.String), map: Schema.optional(Schema.Array(Schema.Struct({ $ref: Schema.optional(Schema.String), type_value: Schema.optional(Schema.String) }))) })),
-})).annotate({ identifier: "JsonSchema" }) as any as Schema.Schema<JsonSchema>;
+export const JsonSchema: Schema.Schema<JsonSchema> = Schema.suspend(() =>
+  Schema.Struct({
+    $ref: Schema.optional(Schema.String),
+    additionalProperties: Schema.optional(JsonSchema),
+    annotations: Schema.optional(
+      Schema.Struct({ required: Schema.optional(Schema.Array(Schema.String)) }),
+    ),
+    default: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    enum: Schema.optional(Schema.Array(Schema.String)),
+    enumDescriptions: Schema.optional(Schema.Array(Schema.String)),
+    enumDeprecated: Schema.optional(Schema.Array(Schema.Boolean)),
+    format: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    items: Schema.optional(JsonSchema),
+    location: Schema.optional(Schema.String),
+    maximum: Schema.optional(Schema.String),
+    minimum: Schema.optional(Schema.String),
+    pattern: Schema.optional(Schema.String),
+    properties: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
+    readOnly: Schema.optional(Schema.Boolean),
+    repeated: Schema.optional(Schema.Boolean),
+    required: Schema.optional(Schema.Boolean),
+    deprecated: Schema.optional(Schema.Boolean),
+    type: Schema.optional(Schema.String),
+    variant: Schema.optional(
+      Schema.Struct({
+        discriminant: Schema.optional(Schema.String),
+        map: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              $ref: Schema.optional(Schema.String),
+              type_value: Schema.optional(Schema.String),
+            }),
+          ),
+        ),
+      }),
+    ),
+  }),
+).annotate({ identifier: "JsonSchema" }) as any as Schema.Schema<JsonSchema>;
 
 export interface RestMethod {
   /** Description of this method. */
@@ -122,7 +180,14 @@ export interface RestMethod {
   /** The API Version of this method, as passed in via the `X-Goog-Api-Version` header or `$apiVersion` query parameter. */
   apiVersion?: string;
   /** Media upload parameters. */
-  mediaUpload?: { accept?: Array<string>; maxSize?: string; protocols?: { resumable?: { multipart?: boolean; path?: string }; simple?: { multipart?: boolean; path?: string } } };
+  mediaUpload?: {
+    accept?: Array<string>;
+    maxSize?: string;
+    protocols?: {
+      resumable?: { multipart?: boolean; path?: string };
+      simple?: { multipart?: boolean; path?: string };
+    };
+  };
   /** Ordered list of required parameters, serves as a hint to clients on how to structure their method signatures. The array is ordered such that the "most-significant" parameter appears first. */
   parameterOrder?: Array<string>;
   /** Details for all parameters in this method. */
@@ -149,26 +214,56 @@ export interface RestMethod {
   deprecated?: boolean;
 }
 
-export const RestMethod: Schema.Schema<RestMethod> = Schema.suspend(() => Schema.Struct({
-  description: Schema.optional(Schema.String),
-  etagRequired: Schema.optional(Schema.Boolean),
-  httpMethod: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-  mediaUpload: Schema.optional(Schema.Struct({ accept: Schema.optional(Schema.Array(Schema.String)), maxSize: Schema.optional(Schema.String), protocols: Schema.optional(Schema.Struct({ resumable: Schema.optional(Schema.Struct({ multipart: Schema.optional(Schema.Boolean), path: Schema.optional(Schema.String) })), simple: Schema.optional(Schema.Struct({ multipart: Schema.optional(Schema.Boolean), path: Schema.optional(Schema.String) })) })) })),
-  parameterOrder: Schema.optional(Schema.Array(Schema.String)),
-  parameters: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
-  path: Schema.optional(Schema.String),
-  flatPath: Schema.optional(Schema.String),
-  request: Schema.optional(Schema.Struct({ $ref: Schema.optional(Schema.String), parameterName: Schema.optional(Schema.String) })),
-  response: Schema.optional(Schema.Struct({ $ref: Schema.optional(Schema.String) })),
-  scopes: Schema.optional(Schema.Array(Schema.String)),
-  supportsMediaDownload: Schema.optional(Schema.Boolean),
-  supportsMediaUpload: Schema.optional(Schema.Boolean),
-  supportsSubscription: Schema.optional(Schema.Boolean),
-  useMediaDownloadService: Schema.optional(Schema.Boolean),
-  deprecated: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RestMethod" }) as any as Schema.Schema<RestMethod>;
+export const RestMethod: Schema.Schema<RestMethod> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    etagRequired: Schema.optional(Schema.Boolean),
+    httpMethod: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    apiVersion: Schema.optional(Schema.String),
+    mediaUpload: Schema.optional(
+      Schema.Struct({
+        accept: Schema.optional(Schema.Array(Schema.String)),
+        maxSize: Schema.optional(Schema.String),
+        protocols: Schema.optional(
+          Schema.Struct({
+            resumable: Schema.optional(
+              Schema.Struct({
+                multipart: Schema.optional(Schema.Boolean),
+                path: Schema.optional(Schema.String),
+              }),
+            ),
+            simple: Schema.optional(
+              Schema.Struct({
+                multipart: Schema.optional(Schema.Boolean),
+                path: Schema.optional(Schema.String),
+              }),
+            ),
+          }),
+        ),
+      }),
+    ),
+    parameterOrder: Schema.optional(Schema.Array(Schema.String)),
+    parameters: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
+    path: Schema.optional(Schema.String),
+    flatPath: Schema.optional(Schema.String),
+    request: Schema.optional(
+      Schema.Struct({
+        $ref: Schema.optional(Schema.String),
+        parameterName: Schema.optional(Schema.String),
+      }),
+    ),
+    response: Schema.optional(
+      Schema.Struct({ $ref: Schema.optional(Schema.String) }),
+    ),
+    scopes: Schema.optional(Schema.Array(Schema.String)),
+    supportsMediaDownload: Schema.optional(Schema.Boolean),
+    supportsMediaUpload: Schema.optional(Schema.Boolean),
+    supportsSubscription: Schema.optional(Schema.Boolean),
+    useMediaDownloadService: Schema.optional(Schema.Boolean),
+    deprecated: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "RestMethod" }) as any as Schema.Schema<RestMethod>;
 
 export interface RestResource {
   /** Methods on this resource. */
@@ -179,11 +274,15 @@ export interface RestResource {
   deprecated?: boolean;
 }
 
-export const RestResource: Schema.Schema<RestResource> = Schema.suspend(() => Schema.Struct({
-  methods: Schema.optional(Schema.Record(Schema.String, RestMethod)),
-  resources: Schema.optional(Schema.Record(Schema.String, RestResource)),
-  deprecated: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RestResource" }) as any as Schema.Schema<RestResource>;
+export const RestResource: Schema.Schema<RestResource> = Schema.suspend(() =>
+  Schema.Struct({
+    methods: Schema.optional(Schema.Record(Schema.String, RestMethod)),
+    resources: Schema.optional(Schema.Record(Schema.String, RestResource)),
+    deprecated: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "RestResource",
+}) as any as Schema.Schema<RestResource>;
 
 export interface RestDescription {
   /** Authentication information. */
@@ -246,42 +345,81 @@ export interface RestDescription {
   version?: string;
   version_module?: boolean;
   /** A list of location-based endpoint objects for this API. Each object contains the endpoint URL, location, description and deprecation status. */
-  endpoints?: Array<{ endpointUrl?: string; location?: string; description?: string; deprecated?: boolean }>;
+  endpoints?: Array<{
+    endpointUrl?: string;
+    location?: string;
+    description?: string;
+    deprecated?: boolean;
+  }>;
 }
 
-export const RestDescription: Schema.Schema<RestDescription> = Schema.suspend(() => Schema.Struct({
-  auth: Schema.optional(Schema.Struct({ oauth2: Schema.optional(Schema.Struct({ scopes: Schema.optional(Schema.Record(Schema.String, Schema.Struct({ description: Schema.optional(Schema.String) }))) })) })),
-  basePath: Schema.optional(Schema.String),
-  baseUrl: Schema.optional(Schema.String),
-  batchPath: Schema.optional(Schema.String),
-  canonicalName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  discoveryVersion: Schema.optional(Schema.String),
-  documentationLink: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  exponentialBackoffDefault: Schema.optional(Schema.Boolean),
-  features: Schema.optional(Schema.Array(Schema.String)),
-  icons: Schema.optional(Schema.Struct({ x16: Schema.optional(Schema.String), x32: Schema.optional(Schema.String) })),
-  id: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Array(Schema.String)),
-  methods: Schema.optional(Schema.Record(Schema.String, RestMethod)),
-  name: Schema.optional(Schema.String),
-  ownerDomain: Schema.optional(Schema.String),
-  ownerName: Schema.optional(Schema.String),
-  packagePath: Schema.optional(Schema.String),
-  parameters: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
-  protocol: Schema.optional(Schema.String),
-  resources: Schema.optional(Schema.Record(Schema.String, RestResource)),
-  revision: Schema.optional(Schema.String),
-  rootUrl: Schema.optional(Schema.String),
-  schemas: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
-  servicePath: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  version_module: Schema.optional(Schema.Boolean),
-  endpoints: Schema.optional(Schema.Array(Schema.Struct({ endpointUrl: Schema.optional(Schema.String), location: Schema.optional(Schema.String), description: Schema.optional(Schema.String), deprecated: Schema.optional(Schema.Boolean) }))),
-})).annotate({ identifier: "RestDescription" }) as any as Schema.Schema<RestDescription>;
+export const RestDescription: Schema.Schema<RestDescription> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      auth: Schema.optional(
+        Schema.Struct({
+          oauth2: Schema.optional(
+            Schema.Struct({
+              scopes: Schema.optional(
+                Schema.Record(
+                  Schema.String,
+                  Schema.Struct({
+                    description: Schema.optional(Schema.String),
+                  }),
+                ),
+              ),
+            }),
+          ),
+        }),
+      ),
+      basePath: Schema.optional(Schema.String),
+      baseUrl: Schema.optional(Schema.String),
+      batchPath: Schema.optional(Schema.String),
+      canonicalName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      discoveryVersion: Schema.optional(Schema.String),
+      documentationLink: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      exponentialBackoffDefault: Schema.optional(Schema.Boolean),
+      features: Schema.optional(Schema.Array(Schema.String)),
+      icons: Schema.optional(
+        Schema.Struct({
+          x16: Schema.optional(Schema.String),
+          x32: Schema.optional(Schema.String),
+        }),
+      ),
+      id: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Array(Schema.String)),
+      methods: Schema.optional(Schema.Record(Schema.String, RestMethod)),
+      name: Schema.optional(Schema.String),
+      ownerDomain: Schema.optional(Schema.String),
+      ownerName: Schema.optional(Schema.String),
+      packagePath: Schema.optional(Schema.String),
+      parameters: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
+      protocol: Schema.optional(Schema.String),
+      resources: Schema.optional(Schema.Record(Schema.String, RestResource)),
+      revision: Schema.optional(Schema.String),
+      rootUrl: Schema.optional(Schema.String),
+      schemas: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
+      servicePath: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      version_module: Schema.optional(Schema.Boolean),
+      endpoints: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            endpointUrl: Schema.optional(Schema.String),
+            location: Schema.optional(Schema.String),
+            description: Schema.optional(Schema.String),
+            deprecated: Schema.optional(Schema.Boolean),
+          }),
+        ),
+      ),
+    }),
+).annotate({
+  identifier: "RestDescription",
+}) as any as Schema.Schema<RestDescription>;
 
 // ==========================================================================
 // Operations
@@ -308,7 +446,12 @@ export const GetRestApisResponse = RestDescription;
 export type GetRestApisError = DefaultErrors;
 
 /** Retrieve the description of a particular version of an api. */
-export const getRestApis: API.OperationMethod<GetRestApisRequest, GetRestApisResponse, GetRestApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getRestApis: API.OperationMethod<
+  GetRestApisRequest,
+  GetRestApisResponse,
+  GetRestApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetRestApisRequest,
   output: GetRestApisResponse,
   errors: [],
@@ -335,9 +478,13 @@ export const ListApisResponse = DirectoryList;
 export type ListApisError = DefaultErrors;
 
 /** Retrieve the list of APIs supported at this endpoint. */
-export const listApis: API.OperationMethod<ListApisRequest, ListApisResponse, ListApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listApis: API.OperationMethod<
+  ListApisRequest,
+  ListApisResponse,
+  ListApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListApisRequest,
   output: ListApisResponse,
   errors: [],
 }));
-

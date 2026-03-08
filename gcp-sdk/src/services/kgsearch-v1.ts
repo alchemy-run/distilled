@@ -32,11 +32,16 @@ export interface SearchResponse {
   itemListElement?: Array<unknown>;
 }
 
-export const SearchResponse: Schema.Schema<SearchResponse> = Schema.suspend(() => Schema.Struct({
-  "@context": Schema.optional(Schema.Unknown),
-  "@type": Schema.optional(Schema.Unknown),
-  itemListElement: Schema.optional(Schema.Array(Schema.Unknown)),
-})).annotate({ identifier: "SearchResponse" }) as any as Schema.Schema<SearchResponse>;
+export const SearchResponse: Schema.Schema<SearchResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      "@context": Schema.optional(Schema.Unknown),
+      "@type": Schema.optional(Schema.Unknown),
+      itemListElement: Schema.optional(Schema.Array(Schema.Unknown)),
+    }),
+).annotate({
+  identifier: "SearchResponse",
+}) as any as Schema.Schema<SearchResponse>;
 
 // ==========================================================================
 // Operations
@@ -62,8 +67,12 @@ export interface SearchEntitiesRequest {
 export const SearchEntitiesRequest = Schema.Struct({
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   ids: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("ids")),
-  languages: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("languages")),
-  types: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("types")),
+  languages: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("languages"),
+  ),
+  types: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("types"),
+  ),
   indent: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("indent")),
   prefix: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("prefix")),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
@@ -78,9 +87,13 @@ export const SearchEntitiesResponse = SearchResponse;
 export type SearchEntitiesError = DefaultErrors;
 
 /** Searches Knowledge Graph for entities that match the constraints. A list of matched entities will be returned in response, which will be in JSON-LD format and compatible with http://schema.org */
-export const searchEntities: API.OperationMethod<SearchEntitiesRequest, SearchEntitiesResponse, SearchEntitiesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const searchEntities: API.OperationMethod<
+  SearchEntitiesRequest,
+  SearchEntitiesResponse,
+  SearchEntitiesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SearchEntitiesRequest,
   output: SearchEntitiesResponse,
   errors: [],
 }));
-

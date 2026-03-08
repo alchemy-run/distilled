@@ -32,11 +32,13 @@ export interface Axis {
   end?: number;
 }
 
-export const Axis: Schema.Schema<Axis> = Schema.suspend(() => Schema.Struct({
-  tag: Schema.optional(Schema.String),
-  start: Schema.optional(Schema.Number),
-  end: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Axis" }) as any as Schema.Schema<Axis>;
+export const Axis: Schema.Schema<Axis> = Schema.suspend(() =>
+  Schema.Struct({
+    tag: Schema.optional(Schema.String),
+    start: Schema.optional(Schema.Number),
+    end: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Axis" }) as any as Schema.Schema<Axis>;
 
 export interface Tag {
   /** The name of the tag. */
@@ -45,10 +47,12 @@ export interface Tag {
   weight?: number;
 }
 
-export const Tag: Schema.Schema<Tag> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  weight: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
+export const Tag: Schema.Schema<Tag> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    weight: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
 export interface Webfont {
   /** The name of the font. */
@@ -77,20 +81,22 @@ export interface Webfont {
   tags?: Array<Tag>;
 }
 
-export const Webfont: Schema.Schema<Webfont> = Schema.suspend(() => Schema.Struct({
-  family: Schema.optional(Schema.String),
-  variants: Schema.optional(Schema.Array(Schema.String)),
-  subsets: Schema.optional(Schema.Array(Schema.String)),
-  version: Schema.optional(Schema.String),
-  lastModified: Schema.optional(Schema.String),
-  files: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  category: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  menu: Schema.optional(Schema.String),
-  axes: Schema.optional(Schema.Array(Axis)),
-  colorCapabilities: Schema.optional(Schema.Array(Schema.String)),
-  tags: Schema.optional(Schema.Array(Tag)),
-})).annotate({ identifier: "Webfont" }) as any as Schema.Schema<Webfont>;
+export const Webfont: Schema.Schema<Webfont> = Schema.suspend(() =>
+  Schema.Struct({
+    family: Schema.optional(Schema.String),
+    variants: Schema.optional(Schema.Array(Schema.String)),
+    subsets: Schema.optional(Schema.Array(Schema.String)),
+    version: Schema.optional(Schema.String),
+    lastModified: Schema.optional(Schema.String),
+    files: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    category: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    menu: Schema.optional(Schema.String),
+    axes: Schema.optional(Schema.Array(Axis)),
+    colorCapabilities: Schema.optional(Schema.Array(Schema.String)),
+    tags: Schema.optional(Schema.Array(Tag)),
+  }),
+).annotate({ identifier: "Webfont" }) as any as Schema.Schema<Webfont>;
 
 export interface WebfontList {
   /** This kind represents a list of webfont objects in the webfonts service. */
@@ -99,10 +105,12 @@ export interface WebfontList {
   items?: Array<Webfont>;
 }
 
-export const WebfontList: Schema.Schema<WebfontList> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Webfont)),
-})).annotate({ identifier: "WebfontList" }) as any as Schema.Schema<WebfontList>;
+export const WebfontList: Schema.Schema<WebfontList> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    items: Schema.optional(Schema.Array(Webfont)),
+  }),
+).annotate({ identifier: "WebfontList" }) as any as Schema.Schema<WebfontList>;
 
 // ==========================================================================
 // Operations
@@ -110,9 +118,21 @@ export const WebfontList: Schema.Schema<WebfontList> = Schema.suspend(() => Sche
 
 export interface ListWebfontsRequest {
   /** Enables sorting of the list. */
-  sort?: "SORT_UNDEFINED" | "ALPHA" | "DATE" | "POPULARITY" | "STYLE" | "TRENDING" | (string & {});
+  sort?:
+    | "SORT_UNDEFINED"
+    | "ALPHA"
+    | "DATE"
+    | "POPULARITY"
+    | "STYLE"
+    | "TRENDING"
+    | (string & {});
   /** Controls the font urls in `Webfont.files`, by default, static ttf fonts are sent. */
-  capability?: "CAPABILITY_UNSPECIFIED" | "WOFF2" | "VF" | "FAMILY_TAGS" | (string & {})[];
+  capability?:
+    | "CAPABILITY_UNSPECIFIED"
+    | "WOFF2"
+    | "VF"
+    | "FAMILY_TAGS"
+    | (string & {})[];
   /** Filters by Webfont.family, using literal match. If not set, returns all families */
   family?: string[];
   /** Filters by Webfont.subset, if subset is found in Webfont.subsets. If not set, returns all families. */
@@ -123,8 +143,12 @@ export interface ListWebfontsRequest {
 
 export const ListWebfontsRequest = Schema.Struct({
   sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  capability: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("capability")),
-  family: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("family")),
+  capability: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("capability"),
+  ),
+  family: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("family"),
+  ),
   subset: Schema.optional(Schema.String).pipe(T.HttpQuery("subset")),
   category: Schema.optional(Schema.String).pipe(T.HttpQuery("category")),
 }).pipe(
@@ -138,9 +162,13 @@ export const ListWebfontsResponse = WebfontList;
 export type ListWebfontsError = DefaultErrors;
 
 /** Retrieves the list of fonts currently served by the Google Fonts Developer API. */
-export const listWebfonts: API.OperationMethod<ListWebfontsRequest, ListWebfontsResponse, ListWebfontsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const listWebfonts: API.OperationMethod<
+  ListWebfontsRequest,
+  ListWebfontsResponse,
+  ListWebfontsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ListWebfontsRequest,
   output: ListWebfontsResponse,
   errors: [],
 }));
-

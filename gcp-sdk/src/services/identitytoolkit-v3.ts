@@ -44,26 +44,36 @@ export interface CreateAuthUriResponse {
   signinMethods?: Array<string>;
 }
 
-export const CreateAuthUriResponse: Schema.Schema<CreateAuthUriResponse> = Schema.suspend(() => Schema.Struct({
-  allProviders: Schema.optional(Schema.Array(Schema.String)),
-  authUri: Schema.optional(Schema.String),
-  captchaRequired: Schema.optional(Schema.Boolean),
-  forExistingProvider: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  providerId: Schema.optional(Schema.String),
-  registered: Schema.optional(Schema.Boolean),
-  sessionId: Schema.optional(Schema.String),
-  signinMethods: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "CreateAuthUriResponse" }) as any as Schema.Schema<CreateAuthUriResponse>;
+export const CreateAuthUriResponse: Schema.Schema<CreateAuthUriResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allProviders: Schema.optional(Schema.Array(Schema.String)),
+      authUri: Schema.optional(Schema.String),
+      captchaRequired: Schema.optional(Schema.Boolean),
+      forExistingProvider: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      providerId: Schema.optional(Schema.String),
+      registered: Schema.optional(Schema.Boolean),
+      sessionId: Schema.optional(Schema.String),
+      signinMethods: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CreateAuthUriResponse",
+  }) as any as Schema.Schema<CreateAuthUriResponse>;
 
 export interface DeleteAccountResponse {
   /** The fixed string "identitytoolkit#DeleteAccountResponse". */
   kind?: string;
 }
 
-export const DeleteAccountResponse: Schema.Schema<DeleteAccountResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeleteAccountResponse" }) as any as Schema.Schema<DeleteAccountResponse>;
+export const DeleteAccountResponse: Schema.Schema<DeleteAccountResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeleteAccountResponse",
+  }) as any as Schema.Schema<DeleteAccountResponse>;
 
 export interface UserInfo {
   /** User creation timestamp. */
@@ -93,7 +103,16 @@ export interface UserInfo {
   /** The URL of the user profile photo. */
   photoUrl?: string;
   /** The IDP of the user. */
-  providerUserInfo?: Array<{ displayName?: string; email?: string; federatedId?: string; phoneNumber?: string; photoUrl?: string; providerId?: string; rawId?: string; screenName?: string }>;
+  providerUserInfo?: Array<{
+    displayName?: string;
+    email?: string;
+    federatedId?: string;
+    phoneNumber?: string;
+    photoUrl?: string;
+    providerId?: string;
+    rawId?: string;
+    screenName?: string;
+  }>;
   /** The user's plain text password. */
   rawPassword?: string;
   /** The user's password salt. */
@@ -106,27 +125,42 @@ export interface UserInfo {
   version?: number;
 }
 
-export const UserInfo: Schema.Schema<UserInfo> = Schema.suspend(() => Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
-  customAttributes: Schema.optional(Schema.String),
-  customAuth: Schema.optional(Schema.Boolean),
-  disabled: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  emailVerified: Schema.optional(Schema.Boolean),
-  lastLoginAt: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  passwordHash: Schema.optional(Schema.String),
-  passwordUpdatedAt: Schema.optional(Schema.Number),
-  phoneNumber: Schema.optional(Schema.String),
-  photoUrl: Schema.optional(Schema.String),
-  providerUserInfo: Schema.optional(Schema.Array(Schema.Struct({ displayName: Schema.optional(Schema.String), email: Schema.optional(Schema.String), federatedId: Schema.optional(Schema.String), phoneNumber: Schema.optional(Schema.String), photoUrl: Schema.optional(Schema.String), providerId: Schema.optional(Schema.String), rawId: Schema.optional(Schema.String), screenName: Schema.optional(Schema.String) }))),
-  rawPassword: Schema.optional(Schema.String),
-  salt: Schema.optional(Schema.String),
-  screenName: Schema.optional(Schema.String),
-  validSince: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.Number),
-})).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
+export const UserInfo: Schema.Schema<UserInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    createdAt: Schema.optional(Schema.String),
+    customAttributes: Schema.optional(Schema.String),
+    customAuth: Schema.optional(Schema.Boolean),
+    disabled: Schema.optional(Schema.Boolean),
+    displayName: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    emailVerified: Schema.optional(Schema.Boolean),
+    lastLoginAt: Schema.optional(Schema.String),
+    localId: Schema.optional(Schema.String),
+    passwordHash: Schema.optional(Schema.String),
+    passwordUpdatedAt: Schema.optional(Schema.Number),
+    phoneNumber: Schema.optional(Schema.String),
+    photoUrl: Schema.optional(Schema.String),
+    providerUserInfo: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          displayName: Schema.optional(Schema.String),
+          email: Schema.optional(Schema.String),
+          federatedId: Schema.optional(Schema.String),
+          phoneNumber: Schema.optional(Schema.String),
+          photoUrl: Schema.optional(Schema.String),
+          providerId: Schema.optional(Schema.String),
+          rawId: Schema.optional(Schema.String),
+          screenName: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    rawPassword: Schema.optional(Schema.String),
+    salt: Schema.optional(Schema.String),
+    screenName: Schema.optional(Schema.String),
+    validSince: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
 
 export interface DownloadAccountResponse {
   /** The fixed string "identitytoolkit#DownloadAccountResponse". */
@@ -137,11 +171,16 @@ export interface DownloadAccountResponse {
   users?: Array<UserInfo>;
 }
 
-export const DownloadAccountResponse: Schema.Schema<DownloadAccountResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  users: Schema.optional(Schema.Array(UserInfo)),
-})).annotate({ identifier: "DownloadAccountResponse" }) as any as Schema.Schema<DownloadAccountResponse>;
+export const DownloadAccountResponse: Schema.Schema<DownloadAccountResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      users: Schema.optional(Schema.Array(UserInfo)),
+    }),
+  ).annotate({
+    identifier: "DownloadAccountResponse",
+  }) as any as Schema.Schema<DownloadAccountResponse>;
 
 export interface EmailLinkSigninResponse {
   /** The user's email. */
@@ -160,15 +199,20 @@ export interface EmailLinkSigninResponse {
   refreshToken?: string;
 }
 
-export const EmailLinkSigninResponse: Schema.Schema<EmailLinkSigninResponse> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  expiresIn: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  isNewUser: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  refreshToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "EmailLinkSigninResponse" }) as any as Schema.Schema<EmailLinkSigninResponse>;
+export const EmailLinkSigninResponse: Schema.Schema<EmailLinkSigninResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      expiresIn: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      isNewUser: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      refreshToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EmailLinkSigninResponse",
+  }) as any as Schema.Schema<EmailLinkSigninResponse>;
 
 export interface EmailTemplate {
   /** Email body. */
@@ -185,14 +229,18 @@ export interface EmailTemplate {
   subject?: string;
 }
 
-export const EmailTemplate: Schema.Schema<EmailTemplate> = Schema.suspend(() => Schema.Struct({
-  body: Schema.optional(Schema.String),
-  format: Schema.optional(Schema.String),
-  from: Schema.optional(Schema.String),
-  fromDisplayName: Schema.optional(Schema.String),
-  replyTo: Schema.optional(Schema.String),
-  subject: Schema.optional(Schema.String),
-})).annotate({ identifier: "EmailTemplate" }) as any as Schema.Schema<EmailTemplate>;
+export const EmailTemplate: Schema.Schema<EmailTemplate> = Schema.suspend(() =>
+  Schema.Struct({
+    body: Schema.optional(Schema.String),
+    format: Schema.optional(Schema.String),
+    from: Schema.optional(Schema.String),
+    fromDisplayName: Schema.optional(Schema.String),
+    replyTo: Schema.optional(Schema.String),
+    subject: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EmailTemplate",
+}) as any as Schema.Schema<EmailTemplate>;
 
 export interface GetAccountInfoResponse {
   /** The fixed string "identitytoolkit#GetAccountInfoResponse". */
@@ -201,10 +249,15 @@ export interface GetAccountInfoResponse {
   users?: Array<UserInfo>;
 }
 
-export const GetAccountInfoResponse: Schema.Schema<GetAccountInfoResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  users: Schema.optional(Schema.Array(UserInfo)),
-})).annotate({ identifier: "GetAccountInfoResponse" }) as any as Schema.Schema<GetAccountInfoResponse>;
+export const GetAccountInfoResponse: Schema.Schema<GetAccountInfoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      users: Schema.optional(Schema.Array(UserInfo)),
+    }),
+  ).annotate({
+    identifier: "GetAccountInfoResponse",
+  }) as any as Schema.Schema<GetAccountInfoResponse>;
 
 export interface GetOobConfirmationCodeResponse {
   /** The email address that the email is sent to. */
@@ -215,11 +268,16 @@ export interface GetOobConfirmationCodeResponse {
   oobCode?: string;
 }
 
-export const GetOobConfirmationCodeResponse: Schema.Schema<GetOobConfirmationCodeResponse> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  oobCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GetOobConfirmationCodeResponse" }) as any as Schema.Schema<GetOobConfirmationCodeResponse>;
+export const GetOobConfirmationCodeResponse: Schema.Schema<GetOobConfirmationCodeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      oobCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GetOobConfirmationCodeResponse",
+  }) as any as Schema.Schema<GetOobConfirmationCodeResponse>;
 
 export interface GetRecaptchaParamResponse {
   /** The fixed string "identitytoolkit#GetRecaptchaParamResponse". */
@@ -230,11 +288,16 @@ export interface GetRecaptchaParamResponse {
   recaptchaStoken?: string;
 }
 
-export const GetRecaptchaParamResponse: Schema.Schema<GetRecaptchaParamResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  recaptchaSiteKey: Schema.optional(Schema.String),
-  recaptchaStoken: Schema.optional(Schema.String),
-})).annotate({ identifier: "GetRecaptchaParamResponse" }) as any as Schema.Schema<GetRecaptchaParamResponse>;
+export const GetRecaptchaParamResponse: Schema.Schema<GetRecaptchaParamResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      recaptchaSiteKey: Schema.optional(Schema.String),
+      recaptchaStoken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GetRecaptchaParamResponse",
+  }) as any as Schema.Schema<GetRecaptchaParamResponse>;
 
 export interface IdentitytoolkitRelyingpartyCreateAuthUriRequest {
   /** The app ID of the mobile app, base64(CERT_SHA1):PACKAGE_NAME for Android, BUNDLE_ID for iOS. */
@@ -271,24 +334,31 @@ export interface IdentitytoolkitRelyingpartyCreateAuthUriRequest {
   tenantProjectNumber?: string;
 }
 
-export const IdentitytoolkitRelyingpartyCreateAuthUriRequest: Schema.Schema<IdentitytoolkitRelyingpartyCreateAuthUriRequest> = Schema.suspend(() => Schema.Struct({
-  appId: Schema.optional(Schema.String),
-  authFlowType: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String),
-  context: Schema.optional(Schema.String),
-  continueUri: Schema.optional(Schema.String),
-  customParameter: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  hostedDomain: Schema.optional(Schema.String),
-  identifier: Schema.optional(Schema.String),
-  oauthConsumerKey: Schema.optional(Schema.String),
-  oauthScope: Schema.optional(Schema.String),
-  openidRealm: Schema.optional(Schema.String),
-  otaApp: Schema.optional(Schema.String),
-  providerId: Schema.optional(Schema.String),
-  sessionId: Schema.optional(Schema.String),
-  tenantId: Schema.optional(Schema.String),
-  tenantProjectNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyCreateAuthUriRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyCreateAuthUriRequest>;
+export const IdentitytoolkitRelyingpartyCreateAuthUriRequest: Schema.Schema<IdentitytoolkitRelyingpartyCreateAuthUriRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      appId: Schema.optional(Schema.String),
+      authFlowType: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+      context: Schema.optional(Schema.String),
+      continueUri: Schema.optional(Schema.String),
+      customParameter: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      hostedDomain: Schema.optional(Schema.String),
+      identifier: Schema.optional(Schema.String),
+      oauthConsumerKey: Schema.optional(Schema.String),
+      oauthScope: Schema.optional(Schema.String),
+      openidRealm: Schema.optional(Schema.String),
+      otaApp: Schema.optional(Schema.String),
+      providerId: Schema.optional(Schema.String),
+      sessionId: Schema.optional(Schema.String),
+      tenantId: Schema.optional(Schema.String),
+      tenantProjectNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyCreateAuthUriRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyCreateAuthUriRequest>;
 
 export interface IdentitytoolkitRelyingpartyDeleteAccountRequest {
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
@@ -299,11 +369,16 @@ export interface IdentitytoolkitRelyingpartyDeleteAccountRequest {
   localId?: string;
 }
 
-export const IdentitytoolkitRelyingpartyDeleteAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyDeleteAccountRequest> = Schema.suspend(() => Schema.Struct({
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyDeleteAccountRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyDeleteAccountRequest>;
+export const IdentitytoolkitRelyingpartyDeleteAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyDeleteAccountRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyDeleteAccountRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyDeleteAccountRequest>;
 
 export interface IdentitytoolkitRelyingpartyDownloadAccountRequest {
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
@@ -316,12 +391,17 @@ export interface IdentitytoolkitRelyingpartyDownloadAccountRequest {
   targetProjectId?: string;
 }
 
-export const IdentitytoolkitRelyingpartyDownloadAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyDownloadAccountRequest> = Schema.suspend(() => Schema.Struct({
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  maxResults: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-  targetProjectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyDownloadAccountRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyDownloadAccountRequest>;
+export const IdentitytoolkitRelyingpartyDownloadAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyDownloadAccountRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      maxResults: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+      targetProjectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyDownloadAccountRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyDownloadAccountRequest>;
 
 export interface IdentitytoolkitRelyingpartyEmailLinkSigninRequest {
   /** The email address of the user. */
@@ -332,11 +412,16 @@ export interface IdentitytoolkitRelyingpartyEmailLinkSigninRequest {
   oobCode?: string;
 }
 
-export const IdentitytoolkitRelyingpartyEmailLinkSigninRequest: Schema.Schema<IdentitytoolkitRelyingpartyEmailLinkSigninRequest> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  oobCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyEmailLinkSigninRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyEmailLinkSigninRequest>;
+export const IdentitytoolkitRelyingpartyEmailLinkSigninRequest: Schema.Schema<IdentitytoolkitRelyingpartyEmailLinkSigninRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      oobCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyEmailLinkSigninRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyEmailLinkSigninRequest>;
 
 export interface IdentitytoolkitRelyingpartyGetAccountInfoRequest {
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
@@ -351,13 +436,18 @@ export interface IdentitytoolkitRelyingpartyGetAccountInfoRequest {
   phoneNumber?: Array<string>;
 }
 
-export const IdentitytoolkitRelyingpartyGetAccountInfoRequest: Schema.Schema<IdentitytoolkitRelyingpartyGetAccountInfoRequest> = Schema.suspend(() => Schema.Struct({
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.Array(Schema.String)),
-  idToken: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.Array(Schema.String)),
-  phoneNumber: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyGetAccountInfoRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyGetAccountInfoRequest>;
+export const IdentitytoolkitRelyingpartyGetAccountInfoRequest: Schema.Schema<IdentitytoolkitRelyingpartyGetAccountInfoRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.Array(Schema.String)),
+      idToken: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.Array(Schema.String)),
+      phoneNumber: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyGetAccountInfoRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyGetAccountInfoRequest>;
 
 export interface IdpConfig {
   /** OAuth2 client ID. */
@@ -374,14 +464,16 @@ export interface IdpConfig {
   whitelistedAudiences?: Array<string>;
 }
 
-export const IdpConfig: Schema.Schema<IdpConfig> = Schema.suspend(() => Schema.Struct({
-  clientId: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  experimentPercent: Schema.optional(Schema.Number),
-  provider: Schema.optional(Schema.String),
-  secret: Schema.optional(Schema.String),
-  whitelistedAudiences: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "IdpConfig" }) as any as Schema.Schema<IdpConfig>;
+export const IdpConfig: Schema.Schema<IdpConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    clientId: Schema.optional(Schema.String),
+    enabled: Schema.optional(Schema.Boolean),
+    experimentPercent: Schema.optional(Schema.Number),
+    provider: Schema.optional(Schema.String),
+    secret: Schema.optional(Schema.String),
+    whitelistedAudiences: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "IdpConfig" }) as any as Schema.Schema<IdpConfig>;
 
 export interface IdentitytoolkitRelyingpartyGetProjectConfigResponse {
   /** Whether to allow password user sign in or sign up. */
@@ -409,23 +501,35 @@ export interface IdentitytoolkitRelyingpartyGetProjectConfigResponse {
   verifyEmailTemplate?: EmailTemplate;
 }
 
-export const IdentitytoolkitRelyingpartyGetProjectConfigResponse: Schema.Schema<IdentitytoolkitRelyingpartyGetProjectConfigResponse> = Schema.suspend(() => Schema.Struct({
-  allowPasswordUser: Schema.optional(Schema.Boolean),
-  apiKey: Schema.optional(Schema.String),
-  authorizedDomains: Schema.optional(Schema.Array(Schema.String)),
-  changeEmailTemplate: Schema.optional(EmailTemplate),
-  dynamicLinksDomain: Schema.optional(Schema.String),
-  enableAnonymousUser: Schema.optional(Schema.Boolean),
-  idpConfig: Schema.optional(Schema.Array(IdpConfig)),
-  legacyResetPasswordTemplate: Schema.optional(EmailTemplate),
-  projectId: Schema.optional(Schema.String),
-  resetPasswordTemplate: Schema.optional(EmailTemplate),
-  useEmailSending: Schema.optional(Schema.Boolean),
-  verifyEmailTemplate: Schema.optional(EmailTemplate),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyGetProjectConfigResponse" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyGetProjectConfigResponse>;
+export const IdentitytoolkitRelyingpartyGetProjectConfigResponse: Schema.Schema<IdentitytoolkitRelyingpartyGetProjectConfigResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowPasswordUser: Schema.optional(Schema.Boolean),
+      apiKey: Schema.optional(Schema.String),
+      authorizedDomains: Schema.optional(Schema.Array(Schema.String)),
+      changeEmailTemplate: Schema.optional(EmailTemplate),
+      dynamicLinksDomain: Schema.optional(Schema.String),
+      enableAnonymousUser: Schema.optional(Schema.Boolean),
+      idpConfig: Schema.optional(Schema.Array(IdpConfig)),
+      legacyResetPasswordTemplate: Schema.optional(EmailTemplate),
+      projectId: Schema.optional(Schema.String),
+      resetPasswordTemplate: Schema.optional(EmailTemplate),
+      useEmailSending: Schema.optional(Schema.Boolean),
+      verifyEmailTemplate: Schema.optional(EmailTemplate),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyGetProjectConfigResponse",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyGetProjectConfigResponse>;
 
-export type IdentitytoolkitRelyingpartyGetPublicKeysResponse = Record<string, string>;
-export const IdentitytoolkitRelyingpartyGetPublicKeysResponse: Schema.Schema<IdentitytoolkitRelyingpartyGetPublicKeysResponse> = Schema.Record(Schema.String, Schema.String) as any as Schema.Schema<IdentitytoolkitRelyingpartyGetPublicKeysResponse>;
+export type IdentitytoolkitRelyingpartyGetPublicKeysResponse = Record<
+  string,
+  string
+>;
+export const IdentitytoolkitRelyingpartyGetPublicKeysResponse: Schema.Schema<IdentitytoolkitRelyingpartyGetPublicKeysResponse> =
+  Schema.Record(
+    Schema.String,
+    Schema.String,
+  ) as any as Schema.Schema<IdentitytoolkitRelyingpartyGetPublicKeysResponse>;
 
 export interface IdentitytoolkitRelyingpartyResetPasswordRequest {
   /** The email address of the user. */
@@ -438,12 +542,17 @@ export interface IdentitytoolkitRelyingpartyResetPasswordRequest {
   oobCode?: string;
 }
 
-export const IdentitytoolkitRelyingpartyResetPasswordRequest: Schema.Schema<IdentitytoolkitRelyingpartyResetPasswordRequest> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  newPassword: Schema.optional(Schema.String),
-  oldPassword: Schema.optional(Schema.String),
-  oobCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyResetPasswordRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyResetPasswordRequest>;
+export const IdentitytoolkitRelyingpartyResetPasswordRequest: Schema.Schema<IdentitytoolkitRelyingpartyResetPasswordRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      newPassword: Schema.optional(Schema.String),
+      oldPassword: Schema.optional(Schema.String),
+      oobCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyResetPasswordRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyResetPasswordRequest>;
 
 export interface IdentitytoolkitRelyingpartySendVerificationCodeRequest {
   /** Receipt of successful app token validation with APNS. */
@@ -456,21 +565,31 @@ export interface IdentitytoolkitRelyingpartySendVerificationCodeRequest {
   recaptchaToken?: string;
 }
 
-export const IdentitytoolkitRelyingpartySendVerificationCodeRequest: Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeRequest> = Schema.suspend(() => Schema.Struct({
-  iosReceipt: Schema.optional(Schema.String),
-  iosSecret: Schema.optional(Schema.String),
-  phoneNumber: Schema.optional(Schema.String),
-  recaptchaToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySendVerificationCodeRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeRequest>;
+export const IdentitytoolkitRelyingpartySendVerificationCodeRequest: Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      iosReceipt: Schema.optional(Schema.String),
+      iosSecret: Schema.optional(Schema.String),
+      phoneNumber: Schema.optional(Schema.String),
+      recaptchaToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySendVerificationCodeRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeRequest>;
 
 export interface IdentitytoolkitRelyingpartySendVerificationCodeResponse {
   /** Encrypted session information */
   sessionInfo?: string;
 }
 
-export const IdentitytoolkitRelyingpartySendVerificationCodeResponse: Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeResponse> = Schema.suspend(() => Schema.Struct({
-  sessionInfo: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySendVerificationCodeResponse" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeResponse>;
+export const IdentitytoolkitRelyingpartySendVerificationCodeResponse: Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sessionInfo: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySendVerificationCodeResponse",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeResponse>;
 
 export interface IdentitytoolkitRelyingpartySetAccountInfoRequest {
   /** The captcha challenge. */
@@ -521,31 +640,36 @@ export interface IdentitytoolkitRelyingpartySetAccountInfoRequest {
   validSince?: string;
 }
 
-export const IdentitytoolkitRelyingpartySetAccountInfoRequest: Schema.Schema<IdentitytoolkitRelyingpartySetAccountInfoRequest> = Schema.suspend(() => Schema.Struct({
-  captchaChallenge: Schema.optional(Schema.String),
-  captchaResponse: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  customAttributes: Schema.optional(Schema.String),
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  deleteAttribute: Schema.optional(Schema.Array(Schema.String)),
-  deleteProvider: Schema.optional(Schema.Array(Schema.String)),
-  disableUser: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  emailVerified: Schema.optional(Schema.Boolean),
-  idToken: Schema.optional(Schema.String),
-  instanceId: Schema.optional(Schema.String),
-  lastLoginAt: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  oobCode: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  phoneNumber: Schema.optional(Schema.String),
-  photoUrl: Schema.optional(Schema.String),
-  provider: Schema.optional(Schema.Array(Schema.String)),
-  returnSecureToken: Schema.optional(Schema.Boolean),
-  upgradeToFederatedLogin: Schema.optional(Schema.Boolean),
-  validSince: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySetAccountInfoRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySetAccountInfoRequest>;
+export const IdentitytoolkitRelyingpartySetAccountInfoRequest: Schema.Schema<IdentitytoolkitRelyingpartySetAccountInfoRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      captchaChallenge: Schema.optional(Schema.String),
+      captchaResponse: Schema.optional(Schema.String),
+      createdAt: Schema.optional(Schema.String),
+      customAttributes: Schema.optional(Schema.String),
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      deleteAttribute: Schema.optional(Schema.Array(Schema.String)),
+      deleteProvider: Schema.optional(Schema.Array(Schema.String)),
+      disableUser: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      emailVerified: Schema.optional(Schema.Boolean),
+      idToken: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+      lastLoginAt: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      oobCode: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      phoneNumber: Schema.optional(Schema.String),
+      photoUrl: Schema.optional(Schema.String),
+      provider: Schema.optional(Schema.Array(Schema.String)),
+      returnSecureToken: Schema.optional(Schema.Boolean),
+      upgradeToFederatedLogin: Schema.optional(Schema.Boolean),
+      validSince: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySetAccountInfoRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySetAccountInfoRequest>;
 
 export interface IdentitytoolkitRelyingpartySetProjectConfigRequest {
   /** Whether to allow password user sign in or sign up. */
@@ -572,28 +696,38 @@ export interface IdentitytoolkitRelyingpartySetProjectConfigRequest {
   verifyEmailTemplate?: EmailTemplate;
 }
 
-export const IdentitytoolkitRelyingpartySetProjectConfigRequest: Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigRequest> = Schema.suspend(() => Schema.Struct({
-  allowPasswordUser: Schema.optional(Schema.Boolean),
-  apiKey: Schema.optional(Schema.String),
-  authorizedDomains: Schema.optional(Schema.Array(Schema.String)),
-  changeEmailTemplate: Schema.optional(EmailTemplate),
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  enableAnonymousUser: Schema.optional(Schema.Boolean),
-  idpConfig: Schema.optional(Schema.Array(IdpConfig)),
-  legacyResetPasswordTemplate: Schema.optional(EmailTemplate),
-  resetPasswordTemplate: Schema.optional(EmailTemplate),
-  useEmailSending: Schema.optional(Schema.Boolean),
-  verifyEmailTemplate: Schema.optional(EmailTemplate),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySetProjectConfigRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigRequest>;
+export const IdentitytoolkitRelyingpartySetProjectConfigRequest: Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowPasswordUser: Schema.optional(Schema.Boolean),
+      apiKey: Schema.optional(Schema.String),
+      authorizedDomains: Schema.optional(Schema.Array(Schema.String)),
+      changeEmailTemplate: Schema.optional(EmailTemplate),
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      enableAnonymousUser: Schema.optional(Schema.Boolean),
+      idpConfig: Schema.optional(Schema.Array(IdpConfig)),
+      legacyResetPasswordTemplate: Schema.optional(EmailTemplate),
+      resetPasswordTemplate: Schema.optional(EmailTemplate),
+      useEmailSending: Schema.optional(Schema.Boolean),
+      verifyEmailTemplate: Schema.optional(EmailTemplate),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySetProjectConfigRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigRequest>;
 
 export interface IdentitytoolkitRelyingpartySetProjectConfigResponse {
   /** Project ID of the relying party. */
   projectId?: string;
 }
 
-export const IdentitytoolkitRelyingpartySetProjectConfigResponse: Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigResponse> = Schema.suspend(() => Schema.Struct({
-  projectId: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySetProjectConfigResponse" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigResponse>;
+export const IdentitytoolkitRelyingpartySetProjectConfigResponse: Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      projectId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySetProjectConfigResponse",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigResponse>;
 
 export interface IdentitytoolkitRelyingpartySignOutUserRequest {
   /** Instance id token of the app. */
@@ -602,19 +736,29 @@ export interface IdentitytoolkitRelyingpartySignOutUserRequest {
   localId?: string;
 }
 
-export const IdentitytoolkitRelyingpartySignOutUserRequest: Schema.Schema<IdentitytoolkitRelyingpartySignOutUserRequest> = Schema.suspend(() => Schema.Struct({
-  instanceId: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySignOutUserRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySignOutUserRequest>;
+export const IdentitytoolkitRelyingpartySignOutUserRequest: Schema.Schema<IdentitytoolkitRelyingpartySignOutUserRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instanceId: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySignOutUserRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySignOutUserRequest>;
 
 export interface IdentitytoolkitRelyingpartySignOutUserResponse {
   /** The local ID of the user. */
   localId?: string;
 }
 
-export const IdentitytoolkitRelyingpartySignOutUserResponse: Schema.Schema<IdentitytoolkitRelyingpartySignOutUserResponse> = Schema.suspend(() => Schema.Struct({
-  localId: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySignOutUserResponse" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySignOutUserResponse>;
+export const IdentitytoolkitRelyingpartySignOutUserResponse: Schema.Schema<IdentitytoolkitRelyingpartySignOutUserResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      localId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySignOutUserResponse",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySignOutUserResponse>;
 
 export interface IdentitytoolkitRelyingpartySignupNewUserRequest {
   /** The captcha challenge. */
@@ -647,22 +791,27 @@ export interface IdentitytoolkitRelyingpartySignupNewUserRequest {
   tenantProjectNumber?: string;
 }
 
-export const IdentitytoolkitRelyingpartySignupNewUserRequest: Schema.Schema<IdentitytoolkitRelyingpartySignupNewUserRequest> = Schema.suspend(() => Schema.Struct({
-  captchaChallenge: Schema.optional(Schema.String),
-  captchaResponse: Schema.optional(Schema.String),
-  disabled: Schema.optional(Schema.Boolean),
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  emailVerified: Schema.optional(Schema.Boolean),
-  idToken: Schema.optional(Schema.String),
-  instanceId: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  phoneNumber: Schema.optional(Schema.String),
-  photoUrl: Schema.optional(Schema.String),
-  tenantId: Schema.optional(Schema.String),
-  tenantProjectNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartySignupNewUserRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartySignupNewUserRequest>;
+export const IdentitytoolkitRelyingpartySignupNewUserRequest: Schema.Schema<IdentitytoolkitRelyingpartySignupNewUserRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      captchaChallenge: Schema.optional(Schema.String),
+      captchaResponse: Schema.optional(Schema.String),
+      disabled: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      emailVerified: Schema.optional(Schema.Boolean),
+      idToken: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      phoneNumber: Schema.optional(Schema.String),
+      photoUrl: Schema.optional(Schema.String),
+      tenantId: Schema.optional(Schema.String),
+      tenantProjectNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartySignupNewUserRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartySignupNewUserRequest>;
 
 export interface IdentitytoolkitRelyingpartyUploadAccountRequest {
   /** Whether allow overwrite existing account when user local_id exists. */
@@ -692,22 +841,27 @@ export interface IdentitytoolkitRelyingpartyUploadAccountRequest {
   users?: Array<UserInfo>;
 }
 
-export const IdentitytoolkitRelyingpartyUploadAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyUploadAccountRequest> = Schema.suspend(() => Schema.Struct({
-  allowOverwrite: Schema.optional(Schema.Boolean),
-  blockSize: Schema.optional(Schema.Number),
-  cpuMemCost: Schema.optional(Schema.Number),
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  dkLen: Schema.optional(Schema.Number),
-  hashAlgorithm: Schema.optional(Schema.String),
-  memoryCost: Schema.optional(Schema.Number),
-  parallelization: Schema.optional(Schema.Number),
-  rounds: Schema.optional(Schema.Number),
-  saltSeparator: Schema.optional(Schema.String),
-  sanityCheck: Schema.optional(Schema.Boolean),
-  signerKey: Schema.optional(Schema.String),
-  targetProjectId: Schema.optional(Schema.String),
-  users: Schema.optional(Schema.Array(UserInfo)),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyUploadAccountRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyUploadAccountRequest>;
+export const IdentitytoolkitRelyingpartyUploadAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyUploadAccountRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      allowOverwrite: Schema.optional(Schema.Boolean),
+      blockSize: Schema.optional(Schema.Number),
+      cpuMemCost: Schema.optional(Schema.Number),
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      dkLen: Schema.optional(Schema.Number),
+      hashAlgorithm: Schema.optional(Schema.String),
+      memoryCost: Schema.optional(Schema.Number),
+      parallelization: Schema.optional(Schema.Number),
+      rounds: Schema.optional(Schema.Number),
+      saltSeparator: Schema.optional(Schema.String),
+      sanityCheck: Schema.optional(Schema.Boolean),
+      signerKey: Schema.optional(Schema.String),
+      targetProjectId: Schema.optional(Schema.String),
+      users: Schema.optional(Schema.Array(UserInfo)),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyUploadAccountRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyUploadAccountRequest>;
 
 export interface IdentitytoolkitRelyingpartyVerifyAssertionRequest {
   /** When it's true, automatically creates a new account if the user doesn't exist. When it's false, allows existing user to sign in normally and throws exception if the user doesn't exist. */
@@ -738,21 +892,26 @@ export interface IdentitytoolkitRelyingpartyVerifyAssertionRequest {
   tenantProjectNumber?: string;
 }
 
-export const IdentitytoolkitRelyingpartyVerifyAssertionRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyAssertionRequest> = Schema.suspend(() => Schema.Struct({
-  autoCreate: Schema.optional(Schema.Boolean),
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  instanceId: Schema.optional(Schema.String),
-  pendingIdToken: Schema.optional(Schema.String),
-  postBody: Schema.optional(Schema.String),
-  requestUri: Schema.optional(Schema.String),
-  returnIdpCredential: Schema.optional(Schema.Boolean),
-  returnRefreshToken: Schema.optional(Schema.Boolean),
-  returnSecureToken: Schema.optional(Schema.Boolean),
-  sessionId: Schema.optional(Schema.String),
-  tenantId: Schema.optional(Schema.String),
-  tenantProjectNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyAssertionRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyAssertionRequest>;
+export const IdentitytoolkitRelyingpartyVerifyAssertionRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyAssertionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoCreate: Schema.optional(Schema.Boolean),
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+      pendingIdToken: Schema.optional(Schema.String),
+      postBody: Schema.optional(Schema.String),
+      requestUri: Schema.optional(Schema.String),
+      returnIdpCredential: Schema.optional(Schema.Boolean),
+      returnRefreshToken: Schema.optional(Schema.Boolean),
+      returnSecureToken: Schema.optional(Schema.Boolean),
+      sessionId: Schema.optional(Schema.String),
+      tenantId: Schema.optional(Schema.String),
+      tenantProjectNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyVerifyAssertionRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyAssertionRequest>;
 
 export interface IdentitytoolkitRelyingpartyVerifyCustomTokenRequest {
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
@@ -765,12 +924,17 @@ export interface IdentitytoolkitRelyingpartyVerifyCustomTokenRequest {
   token?: string;
 }
 
-export const IdentitytoolkitRelyingpartyVerifyCustomTokenRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyCustomTokenRequest> = Schema.suspend(() => Schema.Struct({
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  instanceId: Schema.optional(Schema.String),
-  returnSecureToken: Schema.optional(Schema.Boolean),
-  token: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyCustomTokenRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyCustomTokenRequest>;
+export const IdentitytoolkitRelyingpartyVerifyCustomTokenRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyCustomTokenRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+      returnSecureToken: Schema.optional(Schema.Boolean),
+      token: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyVerifyCustomTokenRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyCustomTokenRequest>;
 
 export interface IdentitytoolkitRelyingpartyVerifyPasswordRequest {
   /** The captcha challenge. */
@@ -797,19 +961,24 @@ export interface IdentitytoolkitRelyingpartyVerifyPasswordRequest {
   tenantProjectNumber?: string;
 }
 
-export const IdentitytoolkitRelyingpartyVerifyPasswordRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPasswordRequest> = Schema.suspend(() => Schema.Struct({
-  captchaChallenge: Schema.optional(Schema.String),
-  captchaResponse: Schema.optional(Schema.String),
-  delegatedProjectNumber: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  instanceId: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  pendingIdToken: Schema.optional(Schema.String),
-  returnSecureToken: Schema.optional(Schema.Boolean),
-  tenantId: Schema.optional(Schema.String),
-  tenantProjectNumber: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyPasswordRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyPasswordRequest>;
+export const IdentitytoolkitRelyingpartyVerifyPasswordRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPasswordRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      captchaChallenge: Schema.optional(Schema.String),
+      captchaResponse: Schema.optional(Schema.String),
+      delegatedProjectNumber: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+      pendingIdToken: Schema.optional(Schema.String),
+      returnSecureToken: Schema.optional(Schema.Boolean),
+      tenantId: Schema.optional(Schema.String),
+      tenantProjectNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyVerifyPasswordRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyPasswordRequest>;
 
 export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest {
   code?: string;
@@ -822,15 +991,20 @@ export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest {
   verificationProof?: string;
 }
 
-export const IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  operation: Schema.optional(Schema.String),
-  phoneNumber: Schema.optional(Schema.String),
-  sessionInfo: Schema.optional(Schema.String),
-  temporaryProof: Schema.optional(Schema.String),
-  verificationProof: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest>;
+export const IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      operation: Schema.optional(Schema.String),
+      phoneNumber: Schema.optional(Schema.String),
+      sessionInfo: Schema.optional(Schema.String),
+      temporaryProof: Schema.optional(Schema.String),
+      verificationProof: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest>;
 
 export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse {
   expiresIn?: string;
@@ -845,18 +1019,23 @@ export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse {
   verificationProofExpiresIn?: string;
 }
 
-export const IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse> = Schema.suspend(() => Schema.Struct({
-  expiresIn: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  isNewUser: Schema.optional(Schema.Boolean),
-  localId: Schema.optional(Schema.String),
-  phoneNumber: Schema.optional(Schema.String),
-  refreshToken: Schema.optional(Schema.String),
-  temporaryProof: Schema.optional(Schema.String),
-  temporaryProofExpiresIn: Schema.optional(Schema.String),
-  verificationProof: Schema.optional(Schema.String),
-  verificationProofExpiresIn: Schema.optional(Schema.String),
-})).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse" }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse>;
+export const IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      expiresIn: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      isNewUser: Schema.optional(Schema.Boolean),
+      localId: Schema.optional(Schema.String),
+      phoneNumber: Schema.optional(Schema.String),
+      refreshToken: Schema.optional(Schema.String),
+      temporaryProof: Schema.optional(Schema.String),
+      temporaryProofExpiresIn: Schema.optional(Schema.String),
+      verificationProof: Schema.optional(Schema.String),
+      verificationProofExpiresIn: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse",
+  }) as any as Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse>;
 
 export interface Relyingparty {
   /** whether or not to install the android app on the device where the link is opened */
@@ -891,23 +1070,27 @@ export interface Relyingparty {
   userIp?: string;
 }
 
-export const Relyingparty: Schema.Schema<Relyingparty> = Schema.suspend(() => Schema.Struct({
-  androidInstallApp: Schema.optional(Schema.Boolean),
-  androidMinimumVersion: Schema.optional(Schema.String),
-  androidPackageName: Schema.optional(Schema.String),
-  canHandleCodeInApp: Schema.optional(Schema.Boolean),
-  captchaResp: Schema.optional(Schema.String),
-  challenge: Schema.optional(Schema.String),
-  continueUrl: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  iOSAppStoreId: Schema.optional(Schema.String),
-  iOSBundleId: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  newEmail: Schema.optional(Schema.String),
-  requestType: Schema.optional(Schema.String),
-  userIp: Schema.optional(Schema.String),
-})).annotate({ identifier: "Relyingparty" }) as any as Schema.Schema<Relyingparty>;
+export const Relyingparty: Schema.Schema<Relyingparty> = Schema.suspend(() =>
+  Schema.Struct({
+    androidInstallApp: Schema.optional(Schema.Boolean),
+    androidMinimumVersion: Schema.optional(Schema.String),
+    androidPackageName: Schema.optional(Schema.String),
+    canHandleCodeInApp: Schema.optional(Schema.Boolean),
+    captchaResp: Schema.optional(Schema.String),
+    challenge: Schema.optional(Schema.String),
+    continueUrl: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    iOSAppStoreId: Schema.optional(Schema.String),
+    iOSBundleId: Schema.optional(Schema.String),
+    idToken: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    newEmail: Schema.optional(Schema.String),
+    requestType: Schema.optional(Schema.String),
+    userIp: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Relyingparty",
+}) as any as Schema.Schema<Relyingparty>;
 
 export interface ResetPasswordResponse {
   /** The user's email. If the out-of-band code is for email recovery, the user's original email. */
@@ -920,12 +1103,17 @@ export interface ResetPasswordResponse {
   requestType?: string;
 }
 
-export const ResetPasswordResponse: Schema.Schema<ResetPasswordResponse> = Schema.suspend(() => Schema.Struct({
-  email: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  newEmail: Schema.optional(Schema.String),
-  requestType: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResetPasswordResponse" }) as any as Schema.Schema<ResetPasswordResponse>;
+export const ResetPasswordResponse: Schema.Schema<ResetPasswordResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      newEmail: Schema.optional(Schema.String),
+      requestType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResetPasswordResponse",
+  }) as any as Schema.Schema<ResetPasswordResponse>;
 
 export interface SetAccountInfoResponse {
   /** The name of the user. */
@@ -949,25 +1137,44 @@ export interface SetAccountInfoResponse {
   /** The photo url of the user. */
   photoUrl?: string;
   /** The user's profiles at the associated IdPs. */
-  providerUserInfo?: Array<{ displayName?: string; federatedId?: string; photoUrl?: string; providerId?: string }>;
+  providerUserInfo?: Array<{
+    displayName?: string;
+    federatedId?: string;
+    photoUrl?: string;
+    providerId?: string;
+  }>;
   /** If idToken is STS id token, then this field will be refresh token. */
   refreshToken?: string;
 }
 
-export const SetAccountInfoResponse: Schema.Schema<SetAccountInfoResponse> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  emailVerified: Schema.optional(Schema.Boolean),
-  expiresIn: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  newEmail: Schema.optional(Schema.String),
-  passwordHash: Schema.optional(Schema.String),
-  photoUrl: Schema.optional(Schema.String),
-  providerUserInfo: Schema.optional(Schema.Array(Schema.Struct({ displayName: Schema.optional(Schema.String), federatedId: Schema.optional(Schema.String), photoUrl: Schema.optional(Schema.String), providerId: Schema.optional(Schema.String) }))),
-  refreshToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetAccountInfoResponse" }) as any as Schema.Schema<SetAccountInfoResponse>;
+export const SetAccountInfoResponse: Schema.Schema<SetAccountInfoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      emailVerified: Schema.optional(Schema.Boolean),
+      expiresIn: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      newEmail: Schema.optional(Schema.String),
+      passwordHash: Schema.optional(Schema.String),
+      photoUrl: Schema.optional(Schema.String),
+      providerUserInfo: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            displayName: Schema.optional(Schema.String),
+            federatedId: Schema.optional(Schema.String),
+            photoUrl: Schema.optional(Schema.String),
+            providerId: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      refreshToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetAccountInfoResponse",
+  }) as any as Schema.Schema<SetAccountInfoResponse>;
 
 export interface SignupNewUserResponse {
   /** The name of the user. */
@@ -986,15 +1193,20 @@ export interface SignupNewUserResponse {
   refreshToken?: string;
 }
 
-export const SignupNewUserResponse: Schema.Schema<SignupNewUserResponse> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  expiresIn: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  refreshToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignupNewUserResponse" }) as any as Schema.Schema<SignupNewUserResponse>;
+export const SignupNewUserResponse: Schema.Schema<SignupNewUserResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      expiresIn: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      refreshToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SignupNewUserResponse",
+  }) as any as Schema.Schema<SignupNewUserResponse>;
 
 export interface UploadAccountResponse {
   /** The error encountered while processing the account info. */
@@ -1003,10 +1215,22 @@ export interface UploadAccountResponse {
   kind?: string;
 }
 
-export const UploadAccountResponse: Schema.Schema<UploadAccountResponse> = Schema.suspend(() => Schema.Struct({
-  error: Schema.optional(Schema.Array(Schema.Struct({ index: Schema.optional(Schema.Number), message: Schema.optional(Schema.String) }))),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "UploadAccountResponse" }) as any as Schema.Schema<UploadAccountResponse>;
+export const UploadAccountResponse: Schema.Schema<UploadAccountResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      error: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            index: Schema.optional(Schema.Number),
+            message: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UploadAccountResponse",
+  }) as any as Schema.Schema<UploadAccountResponse>;
 
 export interface VerifyAssertionResponse {
   /** The action code. */
@@ -1089,47 +1313,52 @@ export interface VerifyAssertionResponse {
   verifiedProvider?: Array<string>;
 }
 
-export const VerifyAssertionResponse: Schema.Schema<VerifyAssertionResponse> = Schema.suspend(() => Schema.Struct({
-  action: Schema.optional(Schema.String),
-  appInstallationUrl: Schema.optional(Schema.String),
-  appScheme: Schema.optional(Schema.String),
-  context: Schema.optional(Schema.String),
-  dateOfBirth: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  emailRecycled: Schema.optional(Schema.Boolean),
-  emailVerified: Schema.optional(Schema.Boolean),
-  errorMessage: Schema.optional(Schema.String),
-  expiresIn: Schema.optional(Schema.String),
-  federatedId: Schema.optional(Schema.String),
-  firstName: Schema.optional(Schema.String),
-  fullName: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  inputEmail: Schema.optional(Schema.String),
-  isNewUser: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  language: Schema.optional(Schema.String),
-  lastName: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  needConfirmation: Schema.optional(Schema.Boolean),
-  needEmail: Schema.optional(Schema.Boolean),
-  nickName: Schema.optional(Schema.String),
-  oauthAccessToken: Schema.optional(Schema.String),
-  oauthAuthorizationCode: Schema.optional(Schema.String),
-  oauthExpireIn: Schema.optional(Schema.Number),
-  oauthIdToken: Schema.optional(Schema.String),
-  oauthRequestToken: Schema.optional(Schema.String),
-  oauthScope: Schema.optional(Schema.String),
-  oauthTokenSecret: Schema.optional(Schema.String),
-  originalEmail: Schema.optional(Schema.String),
-  photoUrl: Schema.optional(Schema.String),
-  providerId: Schema.optional(Schema.String),
-  rawUserInfo: Schema.optional(Schema.String),
-  refreshToken: Schema.optional(Schema.String),
-  screenName: Schema.optional(Schema.String),
-  timeZone: Schema.optional(Schema.String),
-  verifiedProvider: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "VerifyAssertionResponse" }) as any as Schema.Schema<VerifyAssertionResponse>;
+export const VerifyAssertionResponse: Schema.Schema<VerifyAssertionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      action: Schema.optional(Schema.String),
+      appInstallationUrl: Schema.optional(Schema.String),
+      appScheme: Schema.optional(Schema.String),
+      context: Schema.optional(Schema.String),
+      dateOfBirth: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      emailRecycled: Schema.optional(Schema.Boolean),
+      emailVerified: Schema.optional(Schema.Boolean),
+      errorMessage: Schema.optional(Schema.String),
+      expiresIn: Schema.optional(Schema.String),
+      federatedId: Schema.optional(Schema.String),
+      firstName: Schema.optional(Schema.String),
+      fullName: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      inputEmail: Schema.optional(Schema.String),
+      isNewUser: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      language: Schema.optional(Schema.String),
+      lastName: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      needConfirmation: Schema.optional(Schema.Boolean),
+      needEmail: Schema.optional(Schema.Boolean),
+      nickName: Schema.optional(Schema.String),
+      oauthAccessToken: Schema.optional(Schema.String),
+      oauthAuthorizationCode: Schema.optional(Schema.String),
+      oauthExpireIn: Schema.optional(Schema.Number),
+      oauthIdToken: Schema.optional(Schema.String),
+      oauthRequestToken: Schema.optional(Schema.String),
+      oauthScope: Schema.optional(Schema.String),
+      oauthTokenSecret: Schema.optional(Schema.String),
+      originalEmail: Schema.optional(Schema.String),
+      photoUrl: Schema.optional(Schema.String),
+      providerId: Schema.optional(Schema.String),
+      rawUserInfo: Schema.optional(Schema.String),
+      refreshToken: Schema.optional(Schema.String),
+      screenName: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+      verifiedProvider: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "VerifyAssertionResponse",
+  }) as any as Schema.Schema<VerifyAssertionResponse>;
 
 export interface VerifyCustomTokenResponse {
   /** If idToken is STS id token, then this field will be expiration time of STS id token in seconds. */
@@ -1144,13 +1373,18 @@ export interface VerifyCustomTokenResponse {
   refreshToken?: string;
 }
 
-export const VerifyCustomTokenResponse: Schema.Schema<VerifyCustomTokenResponse> = Schema.suspend(() => Schema.Struct({
-  expiresIn: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  isNewUser: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-  refreshToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "VerifyCustomTokenResponse" }) as any as Schema.Schema<VerifyCustomTokenResponse>;
+export const VerifyCustomTokenResponse: Schema.Schema<VerifyCustomTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      expiresIn: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      isNewUser: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      refreshToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VerifyCustomTokenResponse",
+  }) as any as Schema.Schema<VerifyCustomTokenResponse>;
 
 export interface VerifyPasswordResponse {
   /** The name of the user. */
@@ -1179,20 +1413,25 @@ export interface VerifyPasswordResponse {
   registered?: boolean;
 }
 
-export const VerifyPasswordResponse: Schema.Schema<VerifyPasswordResponse> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  expiresIn: Schema.optional(Schema.String),
-  idToken: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  localId: Schema.optional(Schema.String),
-  oauthAccessToken: Schema.optional(Schema.String),
-  oauthAuthorizationCode: Schema.optional(Schema.String),
-  oauthExpireIn: Schema.optional(Schema.Number),
-  photoUrl: Schema.optional(Schema.String),
-  refreshToken: Schema.optional(Schema.String),
-  registered: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "VerifyPasswordResponse" }) as any as Schema.Schema<VerifyPasswordResponse>;
+export const VerifyPasswordResponse: Schema.Schema<VerifyPasswordResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      expiresIn: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      oauthAccessToken: Schema.optional(Schema.String),
+      oauthAuthorizationCode: Schema.optional(Schema.String),
+      oauthExpireIn: Schema.optional(Schema.Number),
+      photoUrl: Schema.optional(Schema.String),
+      refreshToken: Schema.optional(Schema.String),
+      registered: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "VerifyPasswordResponse",
+  }) as any as Schema.Schema<VerifyPasswordResponse>;
 
 // ==========================================================================
 // Operations
@@ -1204,7 +1443,9 @@ export interface CreateAuthUriRelyingpartyRequest {
 }
 
 export const CreateAuthUriRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyCreateAuthUriRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyCreateAuthUriRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "createAuthUri", hasBody: true }),
   svc,
@@ -1216,7 +1457,12 @@ export const CreateAuthUriRelyingpartyResponse = CreateAuthUriResponse;
 export type CreateAuthUriRelyingpartyError = DefaultErrors;
 
 /** Creates the URI used by the IdP to authenticate the user. */
-export const createAuthUriRelyingparty: API.OperationMethod<CreateAuthUriRelyingpartyRequest, CreateAuthUriRelyingpartyResponse, CreateAuthUriRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAuthUriRelyingparty: API.OperationMethod<
+  CreateAuthUriRelyingpartyRequest,
+  CreateAuthUriRelyingpartyResponse,
+  CreateAuthUriRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAuthUriRelyingpartyRequest,
   output: CreateAuthUriRelyingpartyResponse,
   errors: [],
@@ -1228,7 +1474,9 @@ export interface DeleteAccountRelyingpartyRequest {
 }
 
 export const DeleteAccountRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyDeleteAccountRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyDeleteAccountRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "deleteAccount", hasBody: true }),
   svc,
@@ -1240,7 +1488,12 @@ export const DeleteAccountRelyingpartyResponse = DeleteAccountResponse;
 export type DeleteAccountRelyingpartyError = DefaultErrors;
 
 /** Delete user account. */
-export const deleteAccountRelyingparty: API.OperationMethod<DeleteAccountRelyingpartyRequest, DeleteAccountRelyingpartyResponse, DeleteAccountRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountRelyingparty: API.OperationMethod<
+  DeleteAccountRelyingpartyRequest,
+  DeleteAccountRelyingpartyResponse,
+  DeleteAccountRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountRelyingpartyRequest,
   output: DeleteAccountRelyingpartyResponse,
   errors: [],
@@ -1252,7 +1505,9 @@ export interface DownloadAccountRelyingpartyRequest {
 }
 
 export const DownloadAccountRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyDownloadAccountRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyDownloadAccountRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "downloadAccount", hasBody: true }),
   svc,
@@ -1264,7 +1519,12 @@ export const DownloadAccountRelyingpartyResponse = DownloadAccountResponse;
 export type DownloadAccountRelyingpartyError = DefaultErrors;
 
 /** Batch download user accounts. */
-export const downloadAccountRelyingparty: API.OperationMethod<DownloadAccountRelyingpartyRequest, DownloadAccountRelyingpartyResponse, DownloadAccountRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const downloadAccountRelyingparty: API.OperationMethod<
+  DownloadAccountRelyingpartyRequest,
+  DownloadAccountRelyingpartyResponse,
+  DownloadAccountRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DownloadAccountRelyingpartyRequest,
   output: DownloadAccountRelyingpartyResponse,
   errors: [],
@@ -1276,7 +1536,9 @@ export interface EmailLinkSigninRelyingpartyRequest {
 }
 
 export const EmailLinkSigninRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyEmailLinkSigninRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyEmailLinkSigninRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "emailLinkSignin", hasBody: true }),
   svc,
@@ -1288,7 +1550,12 @@ export const EmailLinkSigninRelyingpartyResponse = EmailLinkSigninResponse;
 export type EmailLinkSigninRelyingpartyError = DefaultErrors;
 
 /** Reset password for a user. */
-export const emailLinkSigninRelyingparty: API.OperationMethod<EmailLinkSigninRelyingpartyRequest, EmailLinkSigninRelyingpartyResponse, EmailLinkSigninRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const emailLinkSigninRelyingparty: API.OperationMethod<
+  EmailLinkSigninRelyingpartyRequest,
+  EmailLinkSigninRelyingpartyResponse,
+  EmailLinkSigninRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: EmailLinkSigninRelyingpartyRequest,
   output: EmailLinkSigninRelyingpartyResponse,
   errors: [],
@@ -1300,7 +1567,9 @@ export interface GetAccountInfoRelyingpartyRequest {
 }
 
 export const GetAccountInfoRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyGetAccountInfoRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyGetAccountInfoRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "getAccountInfo", hasBody: true }),
   svc,
@@ -1312,7 +1581,12 @@ export const GetAccountInfoRelyingpartyResponse = GetAccountInfoResponse;
 export type GetAccountInfoRelyingpartyError = DefaultErrors;
 
 /** Returns the account info. */
-export const getAccountInfoRelyingparty: API.OperationMethod<GetAccountInfoRelyingpartyRequest, GetAccountInfoRelyingpartyResponse, GetAccountInfoRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountInfoRelyingparty: API.OperationMethod<
+  GetAccountInfoRelyingpartyRequest,
+  GetAccountInfoRelyingpartyResponse,
+  GetAccountInfoRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountInfoRelyingpartyRequest,
   output: GetAccountInfoRelyingpartyResponse,
   errors: [],
@@ -1330,13 +1604,20 @@ export const GetOobConfirmationCodeRelyingpartyRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<GetOobConfirmationCodeRelyingpartyRequest>;
 
-export type GetOobConfirmationCodeRelyingpartyResponse = GetOobConfirmationCodeResponse;
-export const GetOobConfirmationCodeRelyingpartyResponse = GetOobConfirmationCodeResponse;
+export type GetOobConfirmationCodeRelyingpartyResponse =
+  GetOobConfirmationCodeResponse;
+export const GetOobConfirmationCodeRelyingpartyResponse =
+  GetOobConfirmationCodeResponse;
 
 export type GetOobConfirmationCodeRelyingpartyError = DefaultErrors;
 
 /** Get a code for user action confirmation. */
-export const getOobConfirmationCodeRelyingparty: API.OperationMethod<GetOobConfirmationCodeRelyingpartyRequest, GetOobConfirmationCodeRelyingpartyResponse, GetOobConfirmationCodeRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOobConfirmationCodeRelyingparty: API.OperationMethod<
+  GetOobConfirmationCodeRelyingpartyRequest,
+  GetOobConfirmationCodeRelyingpartyResponse,
+  GetOobConfirmationCodeRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOobConfirmationCodeRelyingpartyRequest,
   output: GetOobConfirmationCodeRelyingpartyResponse,
   errors: [],
@@ -1350,51 +1631,65 @@ export interface GetProjectConfigRelyingpartyRequest {
 }
 
 export const GetProjectConfigRelyingpartyRequest = Schema.Struct({
-  delegatedProjectNumber: Schema.optional(Schema.String).pipe(T.HttpQuery("delegatedProjectNumber")),
-  projectNumber: Schema.optional(Schema.String).pipe(T.HttpQuery("projectNumber")),
+  delegatedProjectNumber: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("delegatedProjectNumber"),
+  ),
+  projectNumber: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("projectNumber"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "getProjectConfig" }),
   svc,
 ) as unknown as Schema.Schema<GetProjectConfigRelyingpartyRequest>;
 
-export type GetProjectConfigRelyingpartyResponse = IdentitytoolkitRelyingpartyGetProjectConfigResponse;
-export const GetProjectConfigRelyingpartyResponse = IdentitytoolkitRelyingpartyGetProjectConfigResponse;
+export type GetProjectConfigRelyingpartyResponse =
+  IdentitytoolkitRelyingpartyGetProjectConfigResponse;
+export const GetProjectConfigRelyingpartyResponse =
+  IdentitytoolkitRelyingpartyGetProjectConfigResponse;
 
 export type GetProjectConfigRelyingpartyError = DefaultErrors;
 
 /** Get project configuration. */
-export const getProjectConfigRelyingparty: API.OperationMethod<GetProjectConfigRelyingpartyRequest, GetProjectConfigRelyingpartyResponse, GetProjectConfigRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectConfigRelyingparty: API.OperationMethod<
+  GetProjectConfigRelyingpartyRequest,
+  GetProjectConfigRelyingpartyResponse,
+  GetProjectConfigRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectConfigRelyingpartyRequest,
   output: GetProjectConfigRelyingpartyResponse,
   errors: [],
 }));
 
-export interface GetPublicKeysRelyingpartyRequest {
-}
+export interface GetPublicKeysRelyingpartyRequest {}
 
-export const GetPublicKeysRelyingpartyRequest = Schema.Struct({
-}).pipe(
+export const GetPublicKeysRelyingpartyRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "publicKeys" }),
   svc,
 ) as unknown as Schema.Schema<GetPublicKeysRelyingpartyRequest>;
 
-export type GetPublicKeysRelyingpartyResponse = IdentitytoolkitRelyingpartyGetPublicKeysResponse;
-export const GetPublicKeysRelyingpartyResponse = IdentitytoolkitRelyingpartyGetPublicKeysResponse;
+export type GetPublicKeysRelyingpartyResponse =
+  IdentitytoolkitRelyingpartyGetPublicKeysResponse;
+export const GetPublicKeysRelyingpartyResponse =
+  IdentitytoolkitRelyingpartyGetPublicKeysResponse;
 
 export type GetPublicKeysRelyingpartyError = DefaultErrors;
 
 /** Get token signing public key. */
-export const getPublicKeysRelyingparty: API.OperationMethod<GetPublicKeysRelyingpartyRequest, GetPublicKeysRelyingpartyResponse, GetPublicKeysRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPublicKeysRelyingparty: API.OperationMethod<
+  GetPublicKeysRelyingpartyRequest,
+  GetPublicKeysRelyingpartyResponse,
+  GetPublicKeysRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPublicKeysRelyingpartyRequest,
   output: GetPublicKeysRelyingpartyResponse,
   errors: [],
 }));
 
-export interface GetRecaptchaParamRelyingpartyRequest {
-}
+export interface GetRecaptchaParamRelyingpartyRequest {}
 
-export const GetRecaptchaParamRelyingpartyRequest = Schema.Struct({
-}).pipe(
+export const GetRecaptchaParamRelyingpartyRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "getRecaptchaParam" }),
   svc,
 ) as unknown as Schema.Schema<GetRecaptchaParamRelyingpartyRequest>;
@@ -1405,7 +1700,12 @@ export const GetRecaptchaParamRelyingpartyResponse = GetRecaptchaParamResponse;
 export type GetRecaptchaParamRelyingpartyError = DefaultErrors;
 
 /** Get recaptcha secure param. */
-export const getRecaptchaParamRelyingparty: API.OperationMethod<GetRecaptchaParamRelyingpartyRequest, GetRecaptchaParamRelyingpartyResponse, GetRecaptchaParamRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getRecaptchaParamRelyingparty: API.OperationMethod<
+  GetRecaptchaParamRelyingpartyRequest,
+  GetRecaptchaParamRelyingpartyResponse,
+  GetRecaptchaParamRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetRecaptchaParamRelyingpartyRequest,
   output: GetRecaptchaParamRelyingpartyResponse,
   errors: [],
@@ -1417,7 +1717,9 @@ export interface ResetPasswordRelyingpartyRequest {
 }
 
 export const ResetPasswordRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyResetPasswordRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyResetPasswordRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "resetPassword", hasBody: true }),
   svc,
@@ -1429,7 +1731,12 @@ export const ResetPasswordRelyingpartyResponse = ResetPasswordResponse;
 export type ResetPasswordRelyingpartyError = DefaultErrors;
 
 /** Reset password for a user. */
-export const resetPasswordRelyingparty: API.OperationMethod<ResetPasswordRelyingpartyRequest, ResetPasswordRelyingpartyResponse, ResetPasswordRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resetPasswordRelyingparty: API.OperationMethod<
+  ResetPasswordRelyingpartyRequest,
+  ResetPasswordRelyingpartyResponse,
+  ResetPasswordRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResetPasswordRelyingpartyRequest,
   output: ResetPasswordRelyingpartyResponse,
   errors: [],
@@ -1441,19 +1748,28 @@ export interface SendVerificationCodeRelyingpartyRequest {
 }
 
 export const SendVerificationCodeRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySendVerificationCodeRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    IdentitytoolkitRelyingpartySendVerificationCodeRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "sendVerificationCode", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<SendVerificationCodeRelyingpartyRequest>;
 
-export type SendVerificationCodeRelyingpartyResponse = IdentitytoolkitRelyingpartySendVerificationCodeResponse;
-export const SendVerificationCodeRelyingpartyResponse = IdentitytoolkitRelyingpartySendVerificationCodeResponse;
+export type SendVerificationCodeRelyingpartyResponse =
+  IdentitytoolkitRelyingpartySendVerificationCodeResponse;
+export const SendVerificationCodeRelyingpartyResponse =
+  IdentitytoolkitRelyingpartySendVerificationCodeResponse;
 
 export type SendVerificationCodeRelyingpartyError = DefaultErrors;
 
 /** Send SMS verification code. */
-export const sendVerificationCodeRelyingparty: API.OperationMethod<SendVerificationCodeRelyingpartyRequest, SendVerificationCodeRelyingpartyResponse, SendVerificationCodeRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const sendVerificationCodeRelyingparty: API.OperationMethod<
+  SendVerificationCodeRelyingpartyRequest,
+  SendVerificationCodeRelyingpartyResponse,
+  SendVerificationCodeRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SendVerificationCodeRelyingpartyRequest,
   output: SendVerificationCodeRelyingpartyResponse,
   errors: [],
@@ -1465,7 +1781,9 @@ export interface SetAccountInfoRelyingpartyRequest {
 }
 
 export const SetAccountInfoRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySetAccountInfoRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartySetAccountInfoRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "setAccountInfo", hasBody: true }),
   svc,
@@ -1477,7 +1795,12 @@ export const SetAccountInfoRelyingpartyResponse = SetAccountInfoResponse;
 export type SetAccountInfoRelyingpartyError = DefaultErrors;
 
 /** Set account info for a user. */
-export const setAccountInfoRelyingparty: API.OperationMethod<SetAccountInfoRelyingpartyRequest, SetAccountInfoRelyingpartyResponse, SetAccountInfoRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setAccountInfoRelyingparty: API.OperationMethod<
+  SetAccountInfoRelyingpartyRequest,
+  SetAccountInfoRelyingpartyResponse,
+  SetAccountInfoRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetAccountInfoRelyingpartyRequest,
   output: SetAccountInfoRelyingpartyResponse,
   errors: [],
@@ -1489,19 +1812,28 @@ export interface SetProjectConfigRelyingpartyRequest {
 }
 
 export const SetProjectConfigRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySetProjectConfigRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    IdentitytoolkitRelyingpartySetProjectConfigRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "setProjectConfig", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<SetProjectConfigRelyingpartyRequest>;
 
-export type SetProjectConfigRelyingpartyResponse = IdentitytoolkitRelyingpartySetProjectConfigResponse;
-export const SetProjectConfigRelyingpartyResponse = IdentitytoolkitRelyingpartySetProjectConfigResponse;
+export type SetProjectConfigRelyingpartyResponse =
+  IdentitytoolkitRelyingpartySetProjectConfigResponse;
+export const SetProjectConfigRelyingpartyResponse =
+  IdentitytoolkitRelyingpartySetProjectConfigResponse;
 
 export type SetProjectConfigRelyingpartyError = DefaultErrors;
 
 /** Set project configuration. */
-export const setProjectConfigRelyingparty: API.OperationMethod<SetProjectConfigRelyingpartyRequest, SetProjectConfigRelyingpartyResponse, SetProjectConfigRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setProjectConfigRelyingparty: API.OperationMethod<
+  SetProjectConfigRelyingpartyRequest,
+  SetProjectConfigRelyingpartyResponse,
+  SetProjectConfigRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetProjectConfigRelyingpartyRequest,
   output: SetProjectConfigRelyingpartyResponse,
   errors: [],
@@ -1513,19 +1845,28 @@ export interface SignOutUserRelyingpartyRequest {
 }
 
 export const SignOutUserRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySignOutUserRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartySignOutUserRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "signOutUser", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<SignOutUserRelyingpartyRequest>;
 
-export type SignOutUserRelyingpartyResponse = IdentitytoolkitRelyingpartySignOutUserResponse;
-export const SignOutUserRelyingpartyResponse = IdentitytoolkitRelyingpartySignOutUserResponse;
+export type SignOutUserRelyingpartyResponse =
+  IdentitytoolkitRelyingpartySignOutUserResponse;
+export const SignOutUserRelyingpartyResponse =
+  IdentitytoolkitRelyingpartySignOutUserResponse;
 
 export type SignOutUserRelyingpartyError = DefaultErrors;
 
 /** Sign out user. */
-export const signOutUserRelyingparty: API.OperationMethod<SignOutUserRelyingpartyRequest, SignOutUserRelyingpartyResponse, SignOutUserRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signOutUserRelyingparty: API.OperationMethod<
+  SignOutUserRelyingpartyRequest,
+  SignOutUserRelyingpartyResponse,
+  SignOutUserRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignOutUserRelyingpartyRequest,
   output: SignOutUserRelyingpartyResponse,
   errors: [],
@@ -1537,7 +1878,9 @@ export interface SignupNewUserRelyingpartyRequest {
 }
 
 export const SignupNewUserRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySignupNewUserRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartySignupNewUserRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "signupNewUser", hasBody: true }),
   svc,
@@ -1549,7 +1892,12 @@ export const SignupNewUserRelyingpartyResponse = SignupNewUserResponse;
 export type SignupNewUserRelyingpartyError = DefaultErrors;
 
 /** Signup new user. */
-export const signupNewUserRelyingparty: API.OperationMethod<SignupNewUserRelyingpartyRequest, SignupNewUserRelyingpartyResponse, SignupNewUserRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const signupNewUserRelyingparty: API.OperationMethod<
+  SignupNewUserRelyingpartyRequest,
+  SignupNewUserRelyingpartyResponse,
+  SignupNewUserRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SignupNewUserRelyingpartyRequest,
   output: SignupNewUserRelyingpartyResponse,
   errors: [],
@@ -1561,7 +1909,9 @@ export interface UploadAccountRelyingpartyRequest {
 }
 
 export const UploadAccountRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyUploadAccountRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyUploadAccountRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "uploadAccount", hasBody: true }),
   svc,
@@ -1573,7 +1923,12 @@ export const UploadAccountRelyingpartyResponse = UploadAccountResponse;
 export type UploadAccountRelyingpartyError = DefaultErrors;
 
 /** Batch upload existing user accounts. */
-export const uploadAccountRelyingparty: API.OperationMethod<UploadAccountRelyingpartyRequest, UploadAccountRelyingpartyResponse, UploadAccountRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const uploadAccountRelyingparty: API.OperationMethod<
+  UploadAccountRelyingpartyRequest,
+  UploadAccountRelyingpartyResponse,
+  UploadAccountRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UploadAccountRelyingpartyRequest,
   output: UploadAccountRelyingpartyResponse,
   errors: [],
@@ -1585,7 +1940,9 @@ export interface VerifyAssertionRelyingpartyRequest {
 }
 
 export const VerifyAssertionRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyAssertionRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyAssertionRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "verifyAssertion", hasBody: true }),
   svc,
@@ -1597,7 +1954,12 @@ export const VerifyAssertionRelyingpartyResponse = VerifyAssertionResponse;
 export type VerifyAssertionRelyingpartyError = DefaultErrors;
 
 /** Verifies the assertion returned by the IdP. */
-export const verifyAssertionRelyingparty: API.OperationMethod<VerifyAssertionRelyingpartyRequest, VerifyAssertionRelyingpartyResponse, VerifyAssertionRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyAssertionRelyingparty: API.OperationMethod<
+  VerifyAssertionRelyingpartyRequest,
+  VerifyAssertionRelyingpartyResponse,
+  VerifyAssertionRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyAssertionRelyingpartyRequest,
   output: VerifyAssertionRelyingpartyResponse,
   errors: [],
@@ -1609,7 +1971,9 @@ export interface VerifyCustomTokenRelyingpartyRequest {
 }
 
 export const VerifyCustomTokenRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyCustomTokenRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    IdentitytoolkitRelyingpartyVerifyCustomTokenRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "verifyCustomToken", hasBody: true }),
   svc,
@@ -1621,7 +1985,12 @@ export const VerifyCustomTokenRelyingpartyResponse = VerifyCustomTokenResponse;
 export type VerifyCustomTokenRelyingpartyError = DefaultErrors;
 
 /** Verifies the developer asserted ID token. */
-export const verifyCustomTokenRelyingparty: API.OperationMethod<VerifyCustomTokenRelyingpartyRequest, VerifyCustomTokenRelyingpartyResponse, VerifyCustomTokenRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyCustomTokenRelyingparty: API.OperationMethod<
+  VerifyCustomTokenRelyingpartyRequest,
+  VerifyCustomTokenRelyingpartyResponse,
+  VerifyCustomTokenRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyCustomTokenRelyingpartyRequest,
   output: VerifyCustomTokenRelyingpartyResponse,
   errors: [],
@@ -1633,7 +2002,9 @@ export interface VerifyPasswordRelyingpartyRequest {
 }
 
 export const VerifyPasswordRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyPasswordRequest).pipe(T.HttpBody()),
+  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyPasswordRequest).pipe(
+    T.HttpBody(),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "verifyPassword", hasBody: true }),
   svc,
@@ -1645,7 +2016,12 @@ export const VerifyPasswordRelyingpartyResponse = VerifyPasswordResponse;
 export type VerifyPasswordRelyingpartyError = DefaultErrors;
 
 /** Verifies the user entered password. */
-export const verifyPasswordRelyingparty: API.OperationMethod<VerifyPasswordRelyingpartyRequest, VerifyPasswordRelyingpartyResponse, VerifyPasswordRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyPasswordRelyingparty: API.OperationMethod<
+  VerifyPasswordRelyingpartyRequest,
+  VerifyPasswordRelyingpartyResponse,
+  VerifyPasswordRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyPasswordRelyingpartyRequest,
   output: VerifyPasswordRelyingpartyResponse,
   errors: [],
@@ -1657,21 +2033,29 @@ export interface VerifyPhoneNumberRelyingpartyRequest {
 }
 
 export const VerifyPhoneNumberRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "verifyPhoneNumber", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<VerifyPhoneNumberRelyingpartyRequest>;
 
-export type VerifyPhoneNumberRelyingpartyResponse = IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse;
-export const VerifyPhoneNumberRelyingpartyResponse = IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse;
+export type VerifyPhoneNumberRelyingpartyResponse =
+  IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse;
+export const VerifyPhoneNumberRelyingpartyResponse =
+  IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse;
 
 export type VerifyPhoneNumberRelyingpartyError = DefaultErrors;
 
 /** Verifies ownership of a phone number and creates/updates the user account accordingly. */
-export const verifyPhoneNumberRelyingparty: API.OperationMethod<VerifyPhoneNumberRelyingpartyRequest, VerifyPhoneNumberRelyingpartyResponse, VerifyPhoneNumberRelyingpartyError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyPhoneNumberRelyingparty: API.OperationMethod<
+  VerifyPhoneNumberRelyingpartyRequest,
+  VerifyPhoneNumberRelyingpartyResponse,
+  VerifyPhoneNumberRelyingpartyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyPhoneNumberRelyingpartyRequest,
   output: VerifyPhoneNumberRelyingpartyResponse,
   errors: [],
 }));
-

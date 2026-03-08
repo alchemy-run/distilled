@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,41 +74,56 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface DnsRecord {
   /** Output only. The domain name the record pertains to, e.g. `foo.bar.com.`. */
   domainName?: string;
   /** Output only. The record's type, which determines what data the record contains. */
-  type?: "TYPE_UNSPECIFIED" | "A" | "CNAME" | "TXT" | "AAAA" | "CAA" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "A"
+    | "CNAME"
+    | "TXT"
+    | "AAAA"
+    | "CAA"
+    | (string & {});
   /** Output only. The data of the record. The meaning of the value depends on record type: - A and AAAA: IP addresses for the domain name. - CNAME: Another domain to check for records. - TXT: Arbitrary text strings associated with the domain name. Hosting uses TXT records to determine which Firebase projects have permission to act on the domain name's behalf. - CAA: The record's flags, tag, and value, e.g. `0 issue "pki.goog"`. */
   rdata?: string;
   /** Output only. An enum that indicates the a required action for this record. */
   requiredAction?: "NONE" | "ADD" | "REMOVE" | (string & {});
 }
 
-export const DnsRecord: Schema.Schema<DnsRecord> = Schema.suspend(() => Schema.Struct({
-  domainName: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  rdata: Schema.optional(Schema.String),
-  requiredAction: Schema.optional(Schema.String),
-})).annotate({ identifier: "DnsRecord" }) as any as Schema.Schema<DnsRecord>;
+export const DnsRecord: Schema.Schema<DnsRecord> = Schema.suspend(() =>
+  Schema.Struct({
+    domainName: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    rdata: Schema.optional(Schema.String),
+    requiredAction: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DnsRecord" }) as any as Schema.Schema<DnsRecord>;
 
 export interface DnsRecordSet {
   /** Output only. The domain name the record set pertains to. */
@@ -113,11 +134,15 @@ export interface DnsRecordSet {
   records?: Array<DnsRecord>;
 }
 
-export const DnsRecordSet: Schema.Schema<DnsRecordSet> = Schema.suspend(() => Schema.Struct({
-  domainName: Schema.optional(Schema.String),
-  checkError: Schema.optional(Status),
-  records: Schema.optional(Schema.Array(DnsRecord)),
-})).annotate({ identifier: "DnsRecordSet" }) as any as Schema.Schema<DnsRecordSet>;
+export const DnsRecordSet: Schema.Schema<DnsRecordSet> = Schema.suspend(() =>
+  Schema.Struct({
+    domainName: Schema.optional(Schema.String),
+    checkError: Schema.optional(Status),
+    records: Schema.optional(Schema.Array(DnsRecord)),
+  }),
+).annotate({
+  identifier: "DnsRecordSet",
+}) as any as Schema.Schema<DnsRecordSet>;
 
 export interface DnsUpdates {
   /** The set of DNS records Hosting discovered when inspecting a domain. */
@@ -128,11 +153,13 @@ export interface DnsUpdates {
   checkTime?: string;
 }
 
-export const DnsUpdates: Schema.Schema<DnsUpdates> = Schema.suspend(() => Schema.Struct({
-  discovered: Schema.optional(Schema.Array(DnsRecordSet)),
-  desired: Schema.optional(Schema.Array(DnsRecordSet)),
-  checkTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "DnsUpdates" }) as any as Schema.Schema<DnsUpdates>;
+export const DnsUpdates: Schema.Schema<DnsUpdates> = Schema.suspend(() =>
+  Schema.Struct({
+    discovered: Schema.optional(Schema.Array(DnsRecordSet)),
+    desired: Schema.optional(Schema.Array(DnsRecordSet)),
+    checkTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DnsUpdates" }) as any as Schema.Schema<DnsUpdates>;
 
 export interface HttpUpdate {
   /** Output only. The path to the file. */
@@ -147,13 +174,15 @@ export interface HttpUpdate {
   checkError?: Status;
 }
 
-export const HttpUpdate: Schema.Schema<HttpUpdate> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  desired: Schema.optional(Schema.String),
-  discovered: Schema.optional(Schema.String),
-  lastCheckTime: Schema.optional(Schema.String),
-  checkError: Schema.optional(Status),
-})).annotate({ identifier: "HttpUpdate" }) as any as Schema.Schema<HttpUpdate>;
+export const HttpUpdate: Schema.Schema<HttpUpdate> = Schema.suspend(() =>
+  Schema.Struct({
+    path: Schema.optional(Schema.String),
+    desired: Schema.optional(Schema.String),
+    discovered: Schema.optional(Schema.String),
+    lastCheckTime: Schema.optional(Schema.String),
+    checkError: Schema.optional(Status),
+  }),
+).annotate({ identifier: "HttpUpdate" }) as any as Schema.Schema<HttpUpdate>;
 
 export interface CertVerification {
   /** Output only. A `TXT` record to add to your DNS records that confirms your intent to let Hosting create an SSL cert for your domain name. */
@@ -162,14 +191,26 @@ export interface CertVerification {
   http?: HttpUpdate;
 }
 
-export const CertVerification: Schema.Schema<CertVerification> = Schema.suspend(() => Schema.Struct({
-  dns: Schema.optional(DnsUpdates),
-  http: Schema.optional(HttpUpdate),
-})).annotate({ identifier: "CertVerification" }) as any as Schema.Schema<CertVerification>;
+export const CertVerification: Schema.Schema<CertVerification> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      dns: Schema.optional(DnsUpdates),
+      http: Schema.optional(HttpUpdate),
+    }),
+).annotate({
+  identifier: "CertVerification",
+}) as any as Schema.Schema<CertVerification>;
 
 export interface LiveMigrationStep {
   /** Output only. The state of the live migration step, indicates whether you should work to complete the step now, in the future, or have already completed it. */
-  state?: "STATE_UNSPECIFIED" | "PREPARING" | "PENDING" | "INCOMPLETE" | "PROCESSING" | "COMPLETE" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "PREPARING"
+    | "PENDING"
+    | "INCOMPLETE"
+    | "PROCESSING"
+    | "COMPLETE"
+    | (string & {});
   /** Output only. A pair of ACME challenges that Hosting's Certificate Authority (CA) can use to create an SSL cert for your domain name. Use either the DNS or HTTP challenge; it's not necessary to provide both. */
   certVerification?: CertVerification;
   /** Output only. DNS updates to facilitate your domain's zero-downtime migration to Hosting. */
@@ -178,20 +219,48 @@ export interface LiveMigrationStep {
   issues?: Array<Status>;
 }
 
-export const LiveMigrationStep: Schema.Schema<LiveMigrationStep> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  certVerification: Schema.optional(CertVerification),
-  dnsUpdates: Schema.optional(DnsUpdates),
-  issues: Schema.optional(Schema.Array(Status)),
-})).annotate({ identifier: "LiveMigrationStep" }) as any as Schema.Schema<LiveMigrationStep>;
+export const LiveMigrationStep: Schema.Schema<LiveMigrationStep> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      certVerification: Schema.optional(CertVerification),
+      dnsUpdates: Schema.optional(DnsUpdates),
+      issues: Schema.optional(Schema.Array(Status)),
+    }),
+  ).annotate({
+    identifier: "LiveMigrationStep",
+  }) as any as Schema.Schema<LiveMigrationStep>;
 
 export interface CustomDomainMetadata {
   /** The `HostState` of the domain name this `CustomDomain` refers to. */
-  hostState?: "HOST_STATE_UNSPECIFIED" | "HOST_UNHOSTED" | "HOST_UNREACHABLE" | "HOST_MISMATCH" | "HOST_CONFLICT" | "HOST_ACTIVE" | (string & {});
+  hostState?:
+    | "HOST_STATE_UNSPECIFIED"
+    | "HOST_UNHOSTED"
+    | "HOST_UNREACHABLE"
+    | "HOST_MISMATCH"
+    | "HOST_CONFLICT"
+    | "HOST_ACTIVE"
+    | (string & {});
   /** The `OwnershipState` of the domain name this `CustomDomain` refers to. */
-  ownershipState?: "OWNERSHIP_STATE_UNSPECIFIED" | "OWNERSHIP_MISSING" | "OWNERSHIP_UNREACHABLE" | "OWNERSHIP_MISMATCH" | "OWNERSHIP_CONFLICT" | "OWNERSHIP_PENDING" | "OWNERSHIP_ACTIVE" | (string & {});
+  ownershipState?:
+    | "OWNERSHIP_STATE_UNSPECIFIED"
+    | "OWNERSHIP_MISSING"
+    | "OWNERSHIP_UNREACHABLE"
+    | "OWNERSHIP_MISMATCH"
+    | "OWNERSHIP_CONFLICT"
+    | "OWNERSHIP_PENDING"
+    | "OWNERSHIP_ACTIVE"
+    | (string & {});
   /** The `CertState` of the domain name's SSL certificate. */
-  certState?: "CERT_STATE_UNSPECIFIED" | "CERT_PREPARING" | "CERT_VALIDATING" | "CERT_PROPAGATING" | "CERT_ACTIVE" | "CERT_EXPIRING_SOON" | "CERT_EXPIRED" | (string & {});
+  certState?:
+    | "CERT_STATE_UNSPECIFIED"
+    | "CERT_PREPARING"
+    | "CERT_VALIDATING"
+    | "CERT_PROPAGATING"
+    | "CERT_ACTIVE"
+    | "CERT_EXPIRING_SOON"
+    | "CERT_EXPIRED"
+    | (string & {});
   /** A set of DNS record updates and ACME challenges that allow you to transition domain names to Firebase Hosting with zero downtime. These updates allow Hosting to create an SSL certificate and establish ownership for your custom domain before Hosting begins serving traffic on it. If your domain name is already in active use with another provider, add one of the challenges and make the recommended DNS updates. After adding challenges and adjusting DNS records as necessary, wait for the `ownershipState` to be `OWNERSHIP_ACTIVE` and the `certState` to be `CERT_ACTIVE` before sending traffic to Hosting. */
   liveMigrationSteps?: Array<LiveMigrationStep>;
   /** A set of DNS record updates that allow Hosting to serve secure content on your domain name. The record type determines the update's purpose: - `A` and `AAAA`: Updates your domain name's IP addresses so that they direct traffic to Hosting servers. - `TXT`: Updates ownership permissions on your domain name, letting Hosting know that your custom domain's project has permission to perform actions for that domain name. - `CAA`: Updates your domain name's list of authorized Certificate Authorities (CAs). Only present if you have existing `CAA` records that prohibit Hosting's CA from minting certs for your domain name. These updates include all DNS changes you'll need to get started with Hosting, but, if made all at once, can result in a brief period of downtime for your domain name--while Hosting creates and uploads an SSL cert, for example. If you'd like to add your domain name to Hosting without downtime, complete the `liveMigrationSteps` first, before making the remaining updates in this field. */
@@ -200,14 +269,19 @@ export interface CustomDomainMetadata {
   issues?: Array<Status>;
 }
 
-export const CustomDomainMetadata: Schema.Schema<CustomDomainMetadata> = Schema.suspend(() => Schema.Struct({
-  hostState: Schema.optional(Schema.String),
-  ownershipState: Schema.optional(Schema.String),
-  certState: Schema.optional(Schema.String),
-  liveMigrationSteps: Schema.optional(Schema.Array(LiveMigrationStep)),
-  quickSetupUpdates: Schema.optional(DnsUpdates),
-  issues: Schema.optional(Schema.Array(Status)),
-})).annotate({ identifier: "CustomDomainMetadata" }) as any as Schema.Schema<CustomDomainMetadata>;
+export const CustomDomainMetadata: Schema.Schema<CustomDomainMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hostState: Schema.optional(Schema.String),
+      ownershipState: Schema.optional(Schema.String),
+      certState: Schema.optional(Schema.String),
+      liveMigrationSteps: Schema.optional(Schema.Array(LiveMigrationStep)),
+      quickSetupUpdates: Schema.optional(DnsUpdates),
+      issues: Schema.optional(Schema.Array(Status)),
+    }),
+  ).annotate({
+    identifier: "CustomDomainMetadata",
+  }) as any as Schema.Schema<CustomDomainMetadata>;
 
 // ==========================================================================
 // Operations
@@ -231,7 +305,9 @@ export const ListOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations" }),
   svc,
@@ -243,7 +319,12 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse_Op,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -271,7 +352,12 @@ export const DeleteOperationsResponse = Empty;
 export type DeleteOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteOperations: API.OperationMethod<
+  DeleteOperationsRequest,
+  DeleteOperationsResponse,
+  DeleteOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -288,7 +374,11 @@ export const CancelOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -298,7 +388,12 @@ export const CancelOperationsResponse = Empty;
 export type CancelOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelOperations: API.OperationMethod<
+  CancelOperationsRequest,
+  CancelOperationsResponse,
+  CancelOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -312,7 +407,10 @@ export interface DeleteProjectsSitesCustomDomainsOperationsRequest {
 export const DeleteProjectsSitesCustomDomainsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsSitesCustomDomainsOperationsRequest>;
 
@@ -322,7 +420,12 @@ export const DeleteProjectsSitesCustomDomainsOperationsResponse = Empty;
 export type DeleteProjectsSitesCustomDomainsOperationsError = DefaultErrors;
 
 /** DeleteOperation is a part of the google.longrunning.Operations interface, but is not implemented for CustomDomain resources. */
-export const deleteProjectsSitesCustomDomainsOperations: API.OperationMethod<DeleteProjectsSitesCustomDomainsOperationsRequest, DeleteProjectsSitesCustomDomainsOperationsResponse, DeleteProjectsSitesCustomDomainsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsSitesCustomDomainsOperations: API.OperationMethod<
+  DeleteProjectsSitesCustomDomainsOperationsRequest,
+  DeleteProjectsSitesCustomDomainsOperationsResponse,
+  DeleteProjectsSitesCustomDomainsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsSitesCustomDomainsOperationsRequest,
   output: DeleteProjectsSitesCustomDomainsOperationsResponse,
   errors: [],
@@ -339,7 +442,11 @@ export const CancelProjectsSitesCustomDomainsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/sites/{sitesId}/customDomains/{customDomainsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsSitesCustomDomainsOperationsRequest>;
 
@@ -349,9 +456,13 @@ export const CancelProjectsSitesCustomDomainsOperationsResponse = Empty;
 export type CancelProjectsSitesCustomDomainsOperationsError = DefaultErrors;
 
 /** CancelOperation is a part of the google.longrunning.Operations interface, but is not implemented for CustomDomain resources. */
-export const cancelProjectsSitesCustomDomainsOperations: API.OperationMethod<CancelProjectsSitesCustomDomainsOperationsRequest, CancelProjectsSitesCustomDomainsOperationsResponse, CancelProjectsSitesCustomDomainsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsSitesCustomDomainsOperations: API.OperationMethod<
+  CancelProjectsSitesCustomDomainsOperationsRequest,
+  CancelProjectsSitesCustomDomainsOperationsResponse,
+  CancelProjectsSitesCustomDomainsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsSitesCustomDomainsOperationsRequest,
   output: CancelProjectsSitesCustomDomainsOperationsResponse,
   errors: [],
 }));
-

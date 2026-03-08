@@ -28,9 +28,11 @@ export interface Bucket {
   name?: string;
 }
 
-export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
+export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
 
 export interface ListBucketsResponse {
   /** The list of linked buckets. */
@@ -39,10 +41,15 @@ export interface ListBucketsResponse {
   nextPageToken?: string;
 }
 
-export const ListBucketsResponse: Schema.Schema<ListBucketsResponse> = Schema.suspend(() => Schema.Struct({
-  buckets: Schema.optional(Schema.Array(Bucket)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListBucketsResponse" }) as any as Schema.Schema<ListBucketsResponse>;
+export const ListBucketsResponse: Schema.Schema<ListBucketsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      buckets: Schema.optional(Schema.Array(Bucket)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListBucketsResponse",
+  }) as any as Schema.Schema<ListBucketsResponse>;
 
 export interface DefaultBucket {
   /** Identifier. Resource name of the default bucket. */
@@ -55,30 +62,36 @@ export interface DefaultBucket {
   storageClass?: string;
 }
 
-export const DefaultBucket: Schema.Schema<DefaultBucket> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-  bucket: Schema.optional(Bucket),
-  storageClass: Schema.optional(Schema.String),
-})).annotate({ identifier: "DefaultBucket" }) as any as Schema.Schema<DefaultBucket>;
+export const DefaultBucket: Schema.Schema<DefaultBucket> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+    bucket: Schema.optional(Bucket),
+    storageClass: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "DefaultBucket",
+}) as any as Schema.Schema<DefaultBucket>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface AddFirebaseRequest {
-}
+export interface AddFirebaseRequest {}
 
-export const AddFirebaseRequest: Schema.Schema<AddFirebaseRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AddFirebaseRequest" }) as any as Schema.Schema<AddFirebaseRequest>;
+export const AddFirebaseRequest: Schema.Schema<AddFirebaseRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AddFirebaseRequest",
+  }) as any as Schema.Schema<AddFirebaseRequest>;
 
-export interface RemoveFirebaseRequest {
-}
+export interface RemoveFirebaseRequest {}
 
-export const RemoveFirebaseRequest: Schema.Schema<RemoveFirebaseRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RemoveFirebaseRequest" }) as any as Schema.Schema<RemoveFirebaseRequest>;
+export const RemoveFirebaseRequest: Schema.Schema<RemoveFirebaseRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RemoveFirebaseRequest",
+  }) as any as Schema.Schema<RemoveFirebaseRequest>;
 
 // ==========================================================================
 // Operations
@@ -102,7 +115,12 @@ export const GetDefaultBucketProjectsResponse = DefaultBucket;
 export type GetDefaultBucketProjectsError = DefaultErrors;
 
 /** Gets the default bucket. */
-export const getDefaultBucketProjects: API.OperationMethod<GetDefaultBucketProjectsRequest, GetDefaultBucketProjectsResponse, GetDefaultBucketProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDefaultBucketProjects: API.OperationMethod<
+  GetDefaultBucketProjectsRequest,
+  GetDefaultBucketProjectsResponse,
+  GetDefaultBucketProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDefaultBucketProjectsRequest,
   output: GetDefaultBucketProjectsResponse,
   errors: [],
@@ -116,7 +134,10 @@ export interface DeleteDefaultBucketProjectsRequest {
 export const DeleteDefaultBucketProjectsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta/projects/{projectsId}/defaultBucket" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1beta/projects/{projectsId}/defaultBucket",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteDefaultBucketProjectsRequest>;
 
@@ -126,7 +147,12 @@ export const DeleteDefaultBucketProjectsResponse = Empty;
 export type DeleteDefaultBucketProjectsError = DefaultErrors;
 
 /** Unlinks and deletes the default bucket. */
-export const deleteDefaultBucketProjects: API.OperationMethod<DeleteDefaultBucketProjectsRequest, DeleteDefaultBucketProjectsResponse, DeleteDefaultBucketProjectsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteDefaultBucketProjects: API.OperationMethod<
+  DeleteDefaultBucketProjectsRequest,
+  DeleteDefaultBucketProjectsResponse,
+  DeleteDefaultBucketProjectsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteDefaultBucketProjectsRequest,
   output: DeleteDefaultBucketProjectsResponse,
   errors: [],
@@ -140,7 +166,10 @@ export interface GetProjectsBucketsRequest {
 export const GetProjectsBucketsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/buckets/{bucketsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1beta/projects/{projectsId}/buckets/{bucketsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsBucketsRequest>;
 
@@ -150,7 +179,12 @@ export const GetProjectsBucketsResponse = Bucket;
 export type GetProjectsBucketsError = DefaultErrors;
 
 /** Gets a single linked storage bucket. */
-export const getProjectsBuckets: API.OperationMethod<GetProjectsBucketsRequest, GetProjectsBucketsResponse, GetProjectsBucketsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsBuckets: API.OperationMethod<
+  GetProjectsBucketsRequest,
+  GetProjectsBucketsResponse,
+  GetProjectsBucketsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsBucketsRequest,
   output: GetProjectsBucketsResponse,
   errors: [],
@@ -180,7 +214,12 @@ export const ListProjectsBucketsResponse = ListBucketsResponse;
 export type ListProjectsBucketsError = DefaultErrors;
 
 /** Lists the linked storage buckets for a project. */
-export const listProjectsBuckets: API.PaginatedOperationMethod<ListProjectsBucketsRequest, ListProjectsBucketsResponse, ListProjectsBucketsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsBuckets: API.PaginatedOperationMethod<
+  ListProjectsBucketsRequest,
+  ListProjectsBucketsResponse,
+  ListProjectsBucketsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsBucketsRequest,
   output: ListProjectsBucketsResponse,
   errors: [],
@@ -201,7 +240,11 @@ export const AddFirebaseProjectsBucketsRequest = Schema.Struct({
   bucket: Schema.String.pipe(T.HttpPath("bucket")),
   body: Schema.optional(AddFirebaseRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:addFirebase", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:addFirebase",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<AddFirebaseProjectsBucketsRequest>;
 
@@ -211,7 +254,12 @@ export const AddFirebaseProjectsBucketsResponse = Bucket;
 export type AddFirebaseProjectsBucketsError = DefaultErrors;
 
 /** Links a Google Cloud Storage bucket to a Firebase project. */
-export const addFirebaseProjectsBuckets: API.OperationMethod<AddFirebaseProjectsBucketsRequest, AddFirebaseProjectsBucketsResponse, AddFirebaseProjectsBucketsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const addFirebaseProjectsBuckets: API.OperationMethod<
+  AddFirebaseProjectsBucketsRequest,
+  AddFirebaseProjectsBucketsResponse,
+  AddFirebaseProjectsBucketsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AddFirebaseProjectsBucketsRequest,
   output: AddFirebaseProjectsBucketsResponse,
   errors: [],
@@ -228,7 +276,11 @@ export const RemoveFirebaseProjectsBucketsRequest = Schema.Struct({
   bucket: Schema.String.pipe(T.HttpPath("bucket")),
   body: Schema.optional(RemoveFirebaseRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:removeFirebase", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:removeFirebase",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RemoveFirebaseProjectsBucketsRequest>;
 
@@ -238,7 +290,12 @@ export const RemoveFirebaseProjectsBucketsResponse = Empty;
 export type RemoveFirebaseProjectsBucketsError = DefaultErrors;
 
 /** Unlinks a linked Google Cloud Storage bucket from a Firebase project. */
-export const removeFirebaseProjectsBuckets: API.OperationMethod<RemoveFirebaseProjectsBucketsRequest, RemoveFirebaseProjectsBucketsResponse, RemoveFirebaseProjectsBucketsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const removeFirebaseProjectsBuckets: API.OperationMethod<
+  RemoveFirebaseProjectsBucketsRequest,
+  RemoveFirebaseProjectsBucketsResponse,
+  RemoveFirebaseProjectsBucketsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RemoveFirebaseProjectsBucketsRequest,
   output: RemoveFirebaseProjectsBucketsResponse,
   errors: [],
@@ -255,7 +312,11 @@ export const CreateProjectsDefaultBucketRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(DefaultBucket).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta/projects/{projectsId}/defaultBucket", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1beta/projects/{projectsId}/defaultBucket",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsDefaultBucketRequest>;
 
@@ -265,9 +326,13 @@ export const CreateProjectsDefaultBucketResponse = DefaultBucket;
 export type CreateProjectsDefaultBucketError = DefaultErrors;
 
 /** Creates a Spark tier-eligible Cloud Storage bucket and links it to your Firebase project. If the default bucket already exists, this method will re-link it to your Firebase project. See https://firebase.google.com/pricing for pricing details. */
-export const createProjectsDefaultBucket: API.OperationMethod<CreateProjectsDefaultBucketRequest, CreateProjectsDefaultBucketResponse, CreateProjectsDefaultBucketError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsDefaultBucket: API.OperationMethod<
+  CreateProjectsDefaultBucketRequest,
+  CreateProjectsDefaultBucketResponse,
+  CreateProjectsDefaultBucketError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsDefaultBucketRequest,
   output: CreateProjectsDefaultBucketResponse,
   errors: [],
 }));
-

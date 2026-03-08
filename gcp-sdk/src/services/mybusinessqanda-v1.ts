@@ -27,16 +27,23 @@ export interface Author {
   /** The profile photo URI of the user. */
   profilePhotoUri?: string;
   /** The type of user the author is. */
-  type?: "AUTHOR_TYPE_UNSPECIFIED" | "REGULAR_USER" | "LOCAL_GUIDE" | "MERCHANT" | (string & {});
+  type?:
+    | "AUTHOR_TYPE_UNSPECIFIED"
+    | "REGULAR_USER"
+    | "LOCAL_GUIDE"
+    | "MERCHANT"
+    | (string & {});
   /** The display name of the user */
   displayName?: string;
 }
 
-export const Author: Schema.Schema<Author> = Schema.suspend(() => Schema.Struct({
-  profilePhotoUri: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "Author" }) as any as Schema.Schema<Author>;
+export const Author: Schema.Schema<Author> = Schema.suspend(() =>
+  Schema.Struct({
+    profilePhotoUri: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Author" }) as any as Schema.Schema<Author>;
 
 export interface Answer {
   /** Required. The text of the answer. It should contain at least one non-whitespace character. The maximum length is 4096 characters. */
@@ -53,14 +60,16 @@ export interface Answer {
   author?: Author;
 }
 
-export const Answer: Schema.Schema<Answer> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  upvoteCount: Schema.optional(Schema.Number),
-  author: Schema.optional(Author),
-})).annotate({ identifier: "Answer" }) as any as Schema.Schema<Answer>;
+export const Answer: Schema.Schema<Answer> = Schema.suspend(() =>
+  Schema.Struct({
+    text: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    upvoteCount: Schema.optional(Schema.Number),
+    author: Schema.optional(Author),
+  }),
+).annotate({ identifier: "Answer" }) as any as Schema.Schema<Answer>;
 
 export interface ListAnswersResponse {
   /** The requested answers. */
@@ -71,11 +80,16 @@ export interface ListAnswersResponse {
   nextPageToken?: string;
 }
 
-export const ListAnswersResponse: Schema.Schema<ListAnswersResponse> = Schema.suspend(() => Schema.Struct({
-  answers: Schema.optional(Schema.Array(Answer)),
-  totalSize: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAnswersResponse" }) as any as Schema.Schema<ListAnswersResponse>;
+export const ListAnswersResponse: Schema.Schema<ListAnswersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      answers: Schema.optional(Schema.Array(Answer)),
+      totalSize: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAnswersResponse",
+  }) as any as Schema.Schema<ListAnswersResponse>;
 
 export interface Question {
   /** Required. The text of the question. It should contain at least three words and the total length should be greater than or equal to 10 characters. The maximum length is 4096 characters. */
@@ -96,16 +110,18 @@ export interface Question {
   author?: Author;
 }
 
-export const Question: Schema.Schema<Question> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  totalAnswerCount: Schema.optional(Schema.Number),
-  upvoteCount: Schema.optional(Schema.Number),
-  topAnswers: Schema.optional(Schema.Array(Answer)),
-  author: Schema.optional(Author),
-})).annotate({ identifier: "Question" }) as any as Schema.Schema<Question>;
+export const Question: Schema.Schema<Question> = Schema.suspend(() =>
+  Schema.Struct({
+    text: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    totalAnswerCount: Schema.optional(Schema.Number),
+    upvoteCount: Schema.optional(Schema.Number),
+    topAnswers: Schema.optional(Schema.Array(Answer)),
+    author: Schema.optional(Author),
+  }),
+).annotate({ identifier: "Question" }) as any as Schema.Schema<Question>;
 
 export interface ListQuestionsResponse {
   /** The requested questions, */
@@ -116,26 +132,36 @@ export interface ListQuestionsResponse {
   nextPageToken?: string;
 }
 
-export const ListQuestionsResponse: Schema.Schema<ListQuestionsResponse> = Schema.suspend(() => Schema.Struct({
-  questions: Schema.optional(Schema.Array(Question)),
-  totalSize: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListQuestionsResponse" }) as any as Schema.Schema<ListQuestionsResponse>;
+export const ListQuestionsResponse: Schema.Schema<ListQuestionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      questions: Schema.optional(Schema.Array(Question)),
+      totalSize: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListQuestionsResponse",
+  }) as any as Schema.Schema<ListQuestionsResponse>;
 
 export interface UpsertAnswerRequest {
   /** Required. The new answer. */
   answer?: Answer;
 }
 
-export const UpsertAnswerRequest: Schema.Schema<UpsertAnswerRequest> = Schema.suspend(() => Schema.Struct({
-  answer: Schema.optional(Answer),
-})).annotate({ identifier: "UpsertAnswerRequest" }) as any as Schema.Schema<UpsertAnswerRequest>;
+export const UpsertAnswerRequest: Schema.Schema<UpsertAnswerRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      answer: Schema.optional(Answer),
+    }),
+  ).annotate({
+    identifier: "UpsertAnswerRequest",
+  }) as any as Schema.Schema<UpsertAnswerRequest>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -157,7 +183,9 @@ export interface ListLocationsQuestionsRequest {
 }
 
 export const ListLocationsQuestionsRequest = Schema.Struct({
-  answersPerQuestion: Schema.optional(Schema.Number).pipe(T.HttpQuery("answersPerQuestion")),
+  answersPerQuestion: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("answersPerQuestion"),
+  ),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -174,7 +202,12 @@ export const ListLocationsQuestionsResponse = ListQuestionsResponse;
 export type ListLocationsQuestionsError = DefaultErrors;
 
 /** Returns the paginated list of questions and some of its answers for a specified location. This operation is only valid if the specified location is verified. */
-export const listLocationsQuestions: API.PaginatedOperationMethod<ListLocationsQuestionsRequest, ListLocationsQuestionsResponse, ListLocationsQuestionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listLocationsQuestions: API.PaginatedOperationMethod<
+  ListLocationsQuestionsRequest,
+  ListLocationsQuestionsResponse,
+  ListLocationsQuestionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListLocationsQuestionsRequest,
   output: ListLocationsQuestionsResponse,
   errors: [],
@@ -198,7 +231,11 @@ export const PatchLocationsQuestionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Question).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/locations/{locationsId}/questions/{questionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/locations/{locationsId}/questions/{questionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchLocationsQuestionsRequest>;
 
@@ -208,7 +245,12 @@ export const PatchLocationsQuestionsResponse = Question;
 export type PatchLocationsQuestionsError = DefaultErrors;
 
 /** Updates a specific question written by the current user. */
-export const patchLocationsQuestions: API.OperationMethod<PatchLocationsQuestionsRequest, PatchLocationsQuestionsResponse, PatchLocationsQuestionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchLocationsQuestions: API.OperationMethod<
+  PatchLocationsQuestionsRequest,
+  PatchLocationsQuestionsResponse,
+  PatchLocationsQuestionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchLocationsQuestionsRequest,
   output: PatchLocationsQuestionsResponse,
   errors: [],
@@ -222,7 +264,10 @@ export interface DeleteLocationsQuestionsRequest {
 export const DeleteLocationsQuestionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/locations/{locationsId}/questions/{questionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/locations/{locationsId}/questions/{questionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteLocationsQuestionsRequest>;
 
@@ -232,7 +277,12 @@ export const DeleteLocationsQuestionsResponse = Empty;
 export type DeleteLocationsQuestionsError = DefaultErrors;
 
 /** Deletes a specific question written by the current user. */
-export const deleteLocationsQuestions: API.OperationMethod<DeleteLocationsQuestionsRequest, DeleteLocationsQuestionsResponse, DeleteLocationsQuestionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteLocationsQuestions: API.OperationMethod<
+  DeleteLocationsQuestionsRequest,
+  DeleteLocationsQuestionsResponse,
+  DeleteLocationsQuestionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteLocationsQuestionsRequest,
   output: DeleteLocationsQuestionsResponse,
   errors: [],
@@ -249,7 +299,11 @@ export const CreateLocationsQuestionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Question).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/locations/{locationsId}/questions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/locations/{locationsId}/questions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateLocationsQuestionsRequest>;
 
@@ -259,7 +313,12 @@ export const CreateLocationsQuestionsResponse = Question;
 export type CreateLocationsQuestionsError = DefaultErrors;
 
 /** Adds a question for the specified location. */
-export const createLocationsQuestions: API.OperationMethod<CreateLocationsQuestionsRequest, CreateLocationsQuestionsResponse, CreateLocationsQuestionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createLocationsQuestions: API.OperationMethod<
+  CreateLocationsQuestionsRequest,
+  CreateLocationsQuestionsResponse,
+  CreateLocationsQuestionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateLocationsQuestionsRequest,
   output: CreateLocationsQuestionsResponse,
   errors: [],
@@ -276,7 +335,11 @@ export const UpsertLocationsQuestionsAnswersRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(UpsertAnswerRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/locations/{locationsId}/questions/{questionsId}/answers:upsert", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/locations/{locationsId}/questions/{questionsId}/answers:upsert",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpsertLocationsQuestionsAnswersRequest>;
 
@@ -286,7 +349,12 @@ export const UpsertLocationsQuestionsAnswersResponse = Answer;
 export type UpsertLocationsQuestionsAnswersError = DefaultErrors;
 
 /** Creates an answer or updates the existing answer written by the user for the specified question. A user can only create one answer per question. */
-export const upsertLocationsQuestionsAnswers: API.OperationMethod<UpsertLocationsQuestionsAnswersRequest, UpsertLocationsQuestionsAnswersResponse, UpsertLocationsQuestionsAnswersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const upsertLocationsQuestionsAnswers: API.OperationMethod<
+  UpsertLocationsQuestionsAnswersRequest,
+  UpsertLocationsQuestionsAnswersResponse,
+  UpsertLocationsQuestionsAnswersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpsertLocationsQuestionsAnswersRequest,
   output: UpsertLocationsQuestionsAnswersResponse,
   errors: [],
@@ -300,7 +368,10 @@ export interface DeleteLocationsQuestionsAnswersRequest {
 export const DeleteLocationsQuestionsAnswersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/locations/{locationsId}/questions/{questionsId}/answers:delete" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/locations/{locationsId}/questions/{questionsId}/answers:delete",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteLocationsQuestionsAnswersRequest>;
 
@@ -310,7 +381,12 @@ export const DeleteLocationsQuestionsAnswersResponse = Empty;
 export type DeleteLocationsQuestionsAnswersError = DefaultErrors;
 
 /** Deletes the answer written by the current user to a question. */
-export const deleteLocationsQuestionsAnswers: API.OperationMethod<DeleteLocationsQuestionsAnswersRequest, DeleteLocationsQuestionsAnswersResponse, DeleteLocationsQuestionsAnswersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteLocationsQuestionsAnswers: API.OperationMethod<
+  DeleteLocationsQuestionsAnswersRequest,
+  DeleteLocationsQuestionsAnswersResponse,
+  DeleteLocationsQuestionsAnswersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteLocationsQuestionsAnswersRequest,
   output: DeleteLocationsQuestionsAnswersResponse,
   errors: [],
@@ -333,7 +409,10 @@ export const ListLocationsQuestionsAnswersRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/locations/{locationsId}/questions/{questionsId}/answers" }),
+  T.Http({
+    method: "GET",
+    path: "v1/locations/{locationsId}/questions/{questionsId}/answers",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListLocationsQuestionsAnswersRequest>;
 
@@ -343,7 +422,12 @@ export const ListLocationsQuestionsAnswersResponse = ListAnswersResponse;
 export type ListLocationsQuestionsAnswersError = DefaultErrors;
 
 /** Returns the paginated list of answers for a specified question. */
-export const listLocationsQuestionsAnswers: API.PaginatedOperationMethod<ListLocationsQuestionsAnswersRequest, ListLocationsQuestionsAnswersResponse, ListLocationsQuestionsAnswersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listLocationsQuestionsAnswers: API.PaginatedOperationMethod<
+  ListLocationsQuestionsAnswersRequest,
+  ListLocationsQuestionsAnswersResponse,
+  ListLocationsQuestionsAnswersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListLocationsQuestionsAnswersRequest,
   output: ListLocationsQuestionsAnswersResponse,
   errors: [],
@@ -352,4 +436,3 @@ export const listLocationsQuestionsAnswers: API.PaginatedOperationMethod<ListLoc
     outputToken: "nextPageToken",
   },
 }));
-

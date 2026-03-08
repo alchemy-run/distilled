@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // ConfigAsn
@@ -25,20 +23,23 @@ export interface GetConfigAsnRequest {
 }
 
 export const GetConfigAsnRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/botnet_feed/configs/asn" })) as unknown as Schema.Schema<GetConfigAsnRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/botnet_feed/configs/asn",
+  }),
+) as unknown as Schema.Schema<GetConfigAsnRequest>;
 
 export interface GetConfigAsnResponse {
   asn?: number;
 }
 
 export const GetConfigAsnResponse = Schema.Struct({
-  asn: Schema.optional(Schema.Number)
+  asn: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetConfigAsnResponse>;
 
-export type GetConfigAsnError =
-  | DefaultErrors;
+export type GetConfigAsnError = DefaultErrors;
 
 export const getConfigAsn: API.OperationMethod<
   GetConfigAsnRequest,
@@ -59,20 +60,23 @@ export interface DeleteConfigAsnRequest {
 
 export const DeleteConfigAsnRequest = Schema.Struct({
   asnId: Schema.Number.pipe(T.HttpPath("asnId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/botnet_feed/configs/asn/{asnId}" })) as unknown as Schema.Schema<DeleteConfigAsnRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/botnet_feed/configs/asn/{asnId}",
+  }),
+) as unknown as Schema.Schema<DeleteConfigAsnRequest>;
 
 export interface DeleteConfigAsnResponse {
   asn?: number;
 }
 
 export const DeleteConfigAsnResponse = Schema.Struct({
-  asn: Schema.optional(Schema.Number)
+  asn: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteConfigAsnResponse>;
 
-export type DeleteConfigAsnError =
-  | DefaultErrors;
+export type DeleteConfigAsnError = DefaultErrors;
 
 export const deleteConfigAsn: API.OperationMethod<
   DeleteConfigAsnRequest,
@@ -84,7 +88,6 @@ export const deleteConfigAsn: API.OperationMethod<
   output: DeleteConfigAsnResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // ReportAsn
@@ -101,9 +104,13 @@ export interface DayReportAsnRequest {
 export const DayReportAsnRequest = Schema.Struct({
   asnId: Schema.Number.pipe(T.HttpPath("asnId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  date: Schema.optional(Schema.String).pipe(T.HttpQuery("date"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/botnet_feed/asn/{asnId}/day_report" })) as unknown as Schema.Schema<DayReportAsnRequest>;
+  date: Schema.optional(Schema.String).pipe(T.HttpQuery("date")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/botnet_feed/asn/{asnId}/day_report",
+  }),
+) as unknown as Schema.Schema<DayReportAsnRequest>;
 
 export interface DayReportAsnResponse {
   cidr?: string;
@@ -114,11 +121,16 @@ export interface DayReportAsnResponse {
 export const DayReportAsnResponse = Schema.Struct({
   cidr: Schema.optional(Schema.String),
   date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ cidr: "cidr", date: "date", offenseCount: "offense_count" })) as unknown as Schema.Schema<DayReportAsnResponse>;
+  offenseCount: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    cidr: "cidr",
+    date: "date",
+    offenseCount: "offense_count",
+  }),
+) as unknown as Schema.Schema<DayReportAsnResponse>;
 
-export type DayReportAsnError =
-  | DefaultErrors;
+export type DayReportAsnError = DefaultErrors;
 
 export const dayReportAsn: API.OperationMethod<
   DayReportAsnRequest,
@@ -139,9 +151,13 @@ export interface FullReportAsnRequest {
 
 export const FullReportAsnRequest = Schema.Struct({
   asnId: Schema.Number.pipe(T.HttpPath("asnId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/botnet_feed/asn/{asnId}/full_report" })) as unknown as Schema.Schema<FullReportAsnRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/botnet_feed/asn/{asnId}/full_report",
+  }),
+) as unknown as Schema.Schema<FullReportAsnRequest>;
 
 export interface FullReportAsnResponse {
   cidr?: string;
@@ -152,11 +168,16 @@ export interface FullReportAsnResponse {
 export const FullReportAsnResponse = Schema.Struct({
   cidr: Schema.optional(Schema.String),
   date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ cidr: "cidr", date: "date", offenseCount: "offense_count" })) as unknown as Schema.Schema<FullReportAsnResponse>;
+  offenseCount: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    cidr: "cidr",
+    date: "date",
+    offenseCount: "offense_count",
+  }),
+) as unknown as Schema.Schema<FullReportAsnResponse>;
 
-export type FullReportAsnError =
-  | DefaultErrors;
+export type FullReportAsnError = DefaultErrors;
 
 export const fullReportAsn: API.OperationMethod<
   FullReportAsnRequest,

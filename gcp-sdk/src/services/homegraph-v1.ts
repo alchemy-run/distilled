@@ -30,16 +30,22 @@ export interface RequestSyncDevicesRequest {
   async?: boolean;
 }
 
-export const RequestSyncDevicesRequest: Schema.Schema<RequestSyncDevicesRequest> = Schema.suspend(() => Schema.Struct({
-  agentUserId: Schema.optional(Schema.String),
-  async: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "RequestSyncDevicesRequest" }) as any as Schema.Schema<RequestSyncDevicesRequest>;
+export const RequestSyncDevicesRequest: Schema.Schema<RequestSyncDevicesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      agentUserId: Schema.optional(Schema.String),
+      async: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RequestSyncDevicesRequest",
+  }) as any as Schema.Schema<RequestSyncDevicesRequest>;
 
-export interface RequestSyncDevicesResponse {
-}
+export interface RequestSyncDevicesResponse {}
 
-export const RequestSyncDevicesResponse: Schema.Schema<RequestSyncDevicesResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RequestSyncDevicesResponse" }) as any as Schema.Schema<RequestSyncDevicesResponse>;
+export const RequestSyncDevicesResponse: Schema.Schema<RequestSyncDevicesResponse> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RequestSyncDevicesResponse",
+  }) as any as Schema.Schema<RequestSyncDevicesResponse>;
 
 export interface ReportStateAndNotificationDevice {
   /** States of devices to update. See the **Device STATES** section of the individual trait [reference guides](https://developers.home.google.com/cloud-to-cloud/traits). */
@@ -48,19 +54,31 @@ export interface ReportStateAndNotificationDevice {
   notifications?: Record<string, unknown>;
 }
 
-export const ReportStateAndNotificationDevice: Schema.Schema<ReportStateAndNotificationDevice> = Schema.suspend(() => Schema.Struct({
-  states: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  notifications: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "ReportStateAndNotificationDevice" }) as any as Schema.Schema<ReportStateAndNotificationDevice>;
+export const ReportStateAndNotificationDevice: Schema.Schema<ReportStateAndNotificationDevice> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      states: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      notifications: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+  ).annotate({
+    identifier: "ReportStateAndNotificationDevice",
+  }) as any as Schema.Schema<ReportStateAndNotificationDevice>;
 
 export interface StateAndNotificationPayload {
   /** The devices for updating state and sending notifications. */
   devices?: ReportStateAndNotificationDevice;
 }
 
-export const StateAndNotificationPayload: Schema.Schema<StateAndNotificationPayload> = Schema.suspend(() => Schema.Struct({
-  devices: Schema.optional(ReportStateAndNotificationDevice),
-})).annotate({ identifier: "StateAndNotificationPayload" }) as any as Schema.Schema<StateAndNotificationPayload>;
+export const StateAndNotificationPayload: Schema.Schema<StateAndNotificationPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      devices: Schema.optional(ReportStateAndNotificationDevice),
+    }),
+  ).annotate({
+    identifier: "StateAndNotificationPayload",
+  }) as any as Schema.Schema<StateAndNotificationPayload>;
 
 export interface ReportStateAndNotificationRequest {
   /** Request ID used for debugging. */
@@ -75,55 +93,79 @@ export interface ReportStateAndNotificationRequest {
   payload?: StateAndNotificationPayload;
 }
 
-export const ReportStateAndNotificationRequest: Schema.Schema<ReportStateAndNotificationRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  eventId: Schema.optional(Schema.String),
-  agentUserId: Schema.optional(Schema.String),
-  followUpToken: Schema.optional(Schema.String),
-  payload: Schema.optional(StateAndNotificationPayload),
-})).annotate({ identifier: "ReportStateAndNotificationRequest" }) as any as Schema.Schema<ReportStateAndNotificationRequest>;
+export const ReportStateAndNotificationRequest: Schema.Schema<ReportStateAndNotificationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      eventId: Schema.optional(Schema.String),
+      agentUserId: Schema.optional(Schema.String),
+      followUpToken: Schema.optional(Schema.String),
+      payload: Schema.optional(StateAndNotificationPayload),
+    }),
+  ).annotate({
+    identifier: "ReportStateAndNotificationRequest",
+  }) as any as Schema.Schema<ReportStateAndNotificationRequest>;
 
 export interface ReportStateAndNotificationResponse {
   /** Request ID copied from ReportStateAndNotificationRequest. */
   requestId?: string;
 }
 
-export const ReportStateAndNotificationResponse: Schema.Schema<ReportStateAndNotificationResponse> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ReportStateAndNotificationResponse" }) as any as Schema.Schema<ReportStateAndNotificationResponse>;
+export const ReportStateAndNotificationResponse: Schema.Schema<ReportStateAndNotificationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReportStateAndNotificationResponse",
+  }) as any as Schema.Schema<ReportStateAndNotificationResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface AgentDeviceId {
   /** Third-party device ID. */
   id?: string;
 }
 
-export const AgentDeviceId: Schema.Schema<AgentDeviceId> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "AgentDeviceId" }) as any as Schema.Schema<AgentDeviceId>;
+export const AgentDeviceId: Schema.Schema<AgentDeviceId> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AgentDeviceId",
+}) as any as Schema.Schema<AgentDeviceId>;
 
 export interface QueryRequestPayload {
   /** Third-party device IDs for which to get the device states. */
   devices?: Array<AgentDeviceId>;
 }
 
-export const QueryRequestPayload: Schema.Schema<QueryRequestPayload> = Schema.suspend(() => Schema.Struct({
-  devices: Schema.optional(Schema.Array(AgentDeviceId)),
-})).annotate({ identifier: "QueryRequestPayload" }) as any as Schema.Schema<QueryRequestPayload>;
+export const QueryRequestPayload: Schema.Schema<QueryRequestPayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      devices: Schema.optional(Schema.Array(AgentDeviceId)),
+    }),
+  ).annotate({
+    identifier: "QueryRequestPayload",
+  }) as any as Schema.Schema<QueryRequestPayload>;
 
 export interface QueryRequestInput {
   /** Payload containing third-party device IDs. */
   payload?: QueryRequestPayload;
 }
 
-export const QueryRequestInput: Schema.Schema<QueryRequestInput> = Schema.suspend(() => Schema.Struct({
-  payload: Schema.optional(QueryRequestPayload),
-})).annotate({ identifier: "QueryRequestInput" }) as any as Schema.Schema<QueryRequestInput>;
+export const QueryRequestInput: Schema.Schema<QueryRequestInput> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      payload: Schema.optional(QueryRequestPayload),
+    }),
+  ).annotate({
+    identifier: "QueryRequestInput",
+  }) as any as Schema.Schema<QueryRequestInput>;
 
 export interface QueryRequest {
   /** Request ID used for debugging. */
@@ -134,20 +176,34 @@ export interface QueryRequest {
   inputs?: Array<QueryRequestInput>;
 }
 
-export const QueryRequest: Schema.Schema<QueryRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  agentUserId: Schema.optional(Schema.String),
-  inputs: Schema.optional(Schema.Array(QueryRequestInput)),
-})).annotate({ identifier: "QueryRequest" }) as any as Schema.Schema<QueryRequest>;
+export const QueryRequest: Schema.Schema<QueryRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    requestId: Schema.optional(Schema.String),
+    agentUserId: Schema.optional(Schema.String),
+    inputs: Schema.optional(Schema.Array(QueryRequestInput)),
+  }),
+).annotate({
+  identifier: "QueryRequest",
+}) as any as Schema.Schema<QueryRequest>;
 
 export interface QueryResponsePayload {
   /** States of the devices. Map of third-party device ID to struct of device states. */
   devices?: Record<string, Record<string, unknown>>;
 }
 
-export const QueryResponsePayload: Schema.Schema<QueryResponsePayload> = Schema.suspend(() => Schema.Struct({
-  devices: Schema.optional(Schema.Record(Schema.String, Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "QueryResponsePayload" }) as any as Schema.Schema<QueryResponsePayload>;
+export const QueryResponsePayload: Schema.Schema<QueryResponsePayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      devices: Schema.optional(
+        Schema.Record(
+          Schema.String,
+          Schema.Record(Schema.String, Schema.Unknown),
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "QueryResponsePayload",
+  }) as any as Schema.Schema<QueryResponsePayload>;
 
 export interface QueryResponse {
   /** Request ID used for debugging. Copied from the request. */
@@ -156,10 +212,14 @@ export interface QueryResponse {
   payload?: QueryResponsePayload;
 }
 
-export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  payload: Schema.optional(QueryResponsePayload),
-})).annotate({ identifier: "QueryResponse" }) as any as Schema.Schema<QueryResponse>;
+export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    requestId: Schema.optional(Schema.String),
+    payload: Schema.optional(QueryResponsePayload),
+  }),
+).annotate({
+  identifier: "QueryResponse",
+}) as any as Schema.Schema<QueryResponse>;
 
 export interface SyncRequest {
   /** Request ID used for debugging. */
@@ -168,10 +228,12 @@ export interface SyncRequest {
   agentUserId?: string;
 }
 
-export const SyncRequest: Schema.Schema<SyncRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  agentUserId: Schema.optional(Schema.String),
-})).annotate({ identifier: "SyncRequest" }) as any as Schema.Schema<SyncRequest>;
+export const SyncRequest: Schema.Schema<SyncRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    requestId: Schema.optional(Schema.String),
+    agentUserId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SyncRequest" }) as any as Schema.Schema<SyncRequest>;
 
 export interface DeviceNames {
   /** Primary name of the device, generally provided by the user. Names will be truncated if over the 60 Unicode code point (character) limit and no errors will be thrown. Developers are responsible for handling long names. */
@@ -182,11 +244,13 @@ export interface DeviceNames {
   defaultNames?: Array<string>;
 }
 
-export const DeviceNames: Schema.Schema<DeviceNames> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  nicknames: Schema.optional(Schema.Array(Schema.String)),
-  defaultNames: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "DeviceNames" }) as any as Schema.Schema<DeviceNames>;
+export const DeviceNames: Schema.Schema<DeviceNames> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    nicknames: Schema.optional(Schema.Array(Schema.String)),
+    defaultNames: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "DeviceNames" }) as any as Schema.Schema<DeviceNames>;
 
 export interface DeviceInfo {
   /** Device manufacturer. */
@@ -199,12 +263,14 @@ export interface DeviceInfo {
   swVersion?: string;
 }
 
-export const DeviceInfo: Schema.Schema<DeviceInfo> = Schema.suspend(() => Schema.Struct({
-  manufacturer: Schema.optional(Schema.String),
-  model: Schema.optional(Schema.String),
-  hwVersion: Schema.optional(Schema.String),
-  swVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
+export const DeviceInfo: Schema.Schema<DeviceInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    manufacturer: Schema.optional(Schema.String),
+    model: Schema.optional(Schema.String),
+    hwVersion: Schema.optional(Schema.String),
+    swVersion: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
 
 export interface AgentOtherDeviceId {
   /** Project ID for your smart home Action. */
@@ -213,10 +279,15 @@ export interface AgentOtherDeviceId {
   deviceId?: string;
 }
 
-export const AgentOtherDeviceId: Schema.Schema<AgentOtherDeviceId> = Schema.suspend(() => Schema.Struct({
-  agentId: Schema.optional(Schema.String),
-  deviceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "AgentOtherDeviceId" }) as any as Schema.Schema<AgentOtherDeviceId>;
+export const AgentOtherDeviceId: Schema.Schema<AgentOtherDeviceId> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      agentId: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AgentOtherDeviceId",
+  }) as any as Schema.Schema<AgentOtherDeviceId>;
 
 export interface Device {
   /** Third-party device ID. */
@@ -245,20 +316,22 @@ export interface Device {
   notificationSupportedByAgent?: boolean;
 }
 
-export const Device: Schema.Schema<Device> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  traits: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(DeviceNames),
-  willReportState: Schema.optional(Schema.Boolean),
-  roomHint: Schema.optional(Schema.String),
-  structureHint: Schema.optional(Schema.String),
-  deviceInfo: Schema.optional(DeviceInfo),
-  attributes: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  customData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  otherDeviceIds: Schema.optional(Schema.Array(AgentOtherDeviceId)),
-  notificationSupportedByAgent: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
+export const Device: Schema.Schema<Device> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    traits: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(DeviceNames),
+    willReportState: Schema.optional(Schema.Boolean),
+    roomHint: Schema.optional(Schema.String),
+    structureHint: Schema.optional(Schema.String),
+    deviceInfo: Schema.optional(DeviceInfo),
+    attributes: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    customData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    otherDeviceIds: Schema.optional(Schema.Array(AgentOtherDeviceId)),
+    notificationSupportedByAgent: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
 
 export interface SyncResponsePayload {
   /** Third-party user ID */
@@ -267,10 +340,15 @@ export interface SyncResponsePayload {
   devices?: Array<Device>;
 }
 
-export const SyncResponsePayload: Schema.Schema<SyncResponsePayload> = Schema.suspend(() => Schema.Struct({
-  agentUserId: Schema.optional(Schema.String),
-  devices: Schema.optional(Schema.Array(Device)),
-})).annotate({ identifier: "SyncResponsePayload" }) as any as Schema.Schema<SyncResponsePayload>;
+export const SyncResponsePayload: Schema.Schema<SyncResponsePayload> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      agentUserId: Schema.optional(Schema.String),
+      devices: Schema.optional(Schema.Array(Device)),
+    }),
+  ).annotate({
+    identifier: "SyncResponsePayload",
+  }) as any as Schema.Schema<SyncResponsePayload>;
 
 export interface SyncResponse {
   /** Request ID used for debugging. Copied from the request. */
@@ -279,10 +357,14 @@ export interface SyncResponse {
   payload?: SyncResponsePayload;
 }
 
-export const SyncResponse: Schema.Schema<SyncResponse> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  payload: Schema.optional(SyncResponsePayload),
-})).annotate({ identifier: "SyncResponse" }) as any as Schema.Schema<SyncResponse>;
+export const SyncResponse: Schema.Schema<SyncResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    requestId: Schema.optional(Schema.String),
+    payload: Schema.optional(SyncResponsePayload),
+  }),
+).annotate({
+  identifier: "SyncResponse",
+}) as any as Schema.Schema<SyncResponse>;
 
 // ==========================================================================
 // Operations
@@ -306,7 +388,12 @@ export const RequestSyncDevicesResponse_Op = RequestSyncDevicesResponse;
 export type RequestSyncDevicesError = DefaultErrors;
 
 /** Requests Google to send an `action.devices.SYNC` [intent](https://developers.home.google.com/cloud-to-cloud/intents/sync) to your smart home Action to update device metadata for the given user. The third-party user's identity is passed via the `agent_user_id` (see RequestSyncDevicesRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const requestSyncDevices: API.OperationMethod<RequestSyncDevicesRequest_Op, RequestSyncDevicesResponse_Op, RequestSyncDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const requestSyncDevices: API.OperationMethod<
+  RequestSyncDevicesRequest_Op,
+  RequestSyncDevicesResponse_Op,
+  RequestSyncDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RequestSyncDevicesRequest_Op,
   output: RequestSyncDevicesResponse_Op,
   errors: [],
@@ -320,17 +407,28 @@ export interface ReportStateAndNotificationDevicesRequest {
 export const ReportStateAndNotificationDevicesRequest = Schema.Struct({
   body: Schema.optional(ReportStateAndNotificationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/devices:reportStateAndNotification", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/devices:reportStateAndNotification",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ReportStateAndNotificationDevicesRequest>;
 
-export type ReportStateAndNotificationDevicesResponse = ReportStateAndNotificationResponse;
-export const ReportStateAndNotificationDevicesResponse = ReportStateAndNotificationResponse;
+export type ReportStateAndNotificationDevicesResponse =
+  ReportStateAndNotificationResponse;
+export const ReportStateAndNotificationDevicesResponse =
+  ReportStateAndNotificationResponse;
 
 export type ReportStateAndNotificationDevicesError = DefaultErrors;
 
 /** Reports device state and optionally sends device notifications. Called by your smart home Action when the state of a third-party device changes or you need to send a notification about the device. See [Implement Report State](https://developers.home.google.com/cloud-to-cloud/integration/report-state) for more information. This method updates the device state according to its declared [traits](https://developers.home.google.com/cloud-to-cloud/primer/device-types-and-traits). Publishing a new state value outside of these traits will result in an `INVALID_ARGUMENT` error response. The third-party user's identity is passed in via the `agent_user_id` (see ReportStateAndNotificationRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const reportStateAndNotificationDevices: API.OperationMethod<ReportStateAndNotificationDevicesRequest, ReportStateAndNotificationDevicesResponse, ReportStateAndNotificationDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const reportStateAndNotificationDevices: API.OperationMethod<
+  ReportStateAndNotificationDevicesRequest,
+  ReportStateAndNotificationDevicesResponse,
+  ReportStateAndNotificationDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ReportStateAndNotificationDevicesRequest,
   output: ReportStateAndNotificationDevicesResponse,
   errors: [],
@@ -354,7 +452,12 @@ export const QueryDevicesResponse = QueryResponse;
 export type QueryDevicesError = DefaultErrors;
 
 /** Gets the current states in Home Graph for the given set of the third-party user's devices. The third-party user's identity is passed in via the `agent_user_id` (see QueryRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const queryDevices: API.OperationMethod<QueryDevicesRequest, QueryDevicesResponse, QueryDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const queryDevices: API.OperationMethod<
+  QueryDevicesRequest,
+  QueryDevicesResponse,
+  QueryDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: QueryDevicesRequest,
   output: QueryDevicesResponse,
   errors: [],
@@ -378,7 +481,12 @@ export const SyncDevicesResponse = SyncResponse;
 export type SyncDevicesError = DefaultErrors;
 
 /** Gets all the devices associated with the given third-party user. The third-party user's identity is passed in via the `agent_user_id` (see SyncRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const syncDevices: API.OperationMethod<SyncDevicesRequest, SyncDevicesResponse, SyncDevicesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const syncDevices: API.OperationMethod<
+  SyncDevicesRequest,
+  SyncDevicesResponse,
+  SyncDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SyncDevicesRequest,
   output: SyncDevicesResponse,
   errors: [],
@@ -405,9 +513,13 @@ export const DeleteAgentUsersResponse = Empty;
 export type DeleteAgentUsersError = DefaultErrors;
 
 /** Unlinks the given third-party user from your smart home Action. All data related to this user will be deleted. For more details on how users link their accounts, see [fulfillment and authentication](https://developers.home.google.com/cloud-to-cloud/primer/fulfillment). The third-party user's identity is passed in via the `agent_user_id` (see DeleteAgentUserRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const deleteAgentUsers: API.OperationMethod<DeleteAgentUsersRequest, DeleteAgentUsersResponse, DeleteAgentUsersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAgentUsers: API.OperationMethod<
+  DeleteAgentUsersRequest,
+  DeleteAgentUsersResponse,
+  DeleteAgentUsersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAgentUsersRequest,
   output: DeleteAgentUsersResponse,
   errors: [],
 }));
-

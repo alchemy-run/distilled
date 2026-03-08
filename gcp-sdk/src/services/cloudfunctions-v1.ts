@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,11 +74,16 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
 export interface SourceRepository {
   /** The URL pointing to the hosted repository where the function is defined. There are supported Cloud Source Repository URLs in the following formats: To refer to a specific commit: `https://source.developers.google.com/projects/* /repos/* /revisions/* /paths/*` To refer to a moveable alias (branch): `https://source.developers.google.com/projects/* /repos/* /moveable-aliases/* /paths/*` In particular, to refer to HEAD use `master` moveable alias. To refer to a specific fixed alias (tag): `https://source.developers.google.com/projects/* /repos/* /fixed-aliases/* /paths/*` You may omit `paths/*` if you want to use the main directory. The function response may add an empty `/paths/` to the URL. */
@@ -81,37 +92,54 @@ export interface SourceRepository {
   deployedUrl?: string;
 }
 
-export const SourceRepository: Schema.Schema<SourceRepository> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  deployedUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "SourceRepository" }) as any as Schema.Schema<SourceRepository>;
+export const SourceRepository: Schema.Schema<SourceRepository> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      deployedUrl: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "SourceRepository",
+}) as any as Schema.Schema<SourceRepository>;
 
 export interface HttpsTrigger {
   /** Output only. The deployed url for the function. */
   url?: string;
   /** The security level for the function. */
-  securityLevel?: "SECURITY_LEVEL_UNSPECIFIED" | "SECURE_ALWAYS" | "SECURE_OPTIONAL" | (string & {});
+  securityLevel?:
+    | "SECURITY_LEVEL_UNSPECIFIED"
+    | "SECURE_ALWAYS"
+    | "SECURE_OPTIONAL"
+    | (string & {});
 }
 
-export const HttpsTrigger: Schema.Schema<HttpsTrigger> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-  securityLevel: Schema.optional(Schema.String),
-})).annotate({ identifier: "HttpsTrigger" }) as any as Schema.Schema<HttpsTrigger>;
+export const HttpsTrigger: Schema.Schema<HttpsTrigger> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+    securityLevel: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "HttpsTrigger",
+}) as any as Schema.Schema<HttpsTrigger>;
 
-export interface Retry {
-}
+export interface Retry {}
 
-export const Retry: Schema.Schema<Retry> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Retry" }) as any as Schema.Schema<Retry>;
+export const Retry: Schema.Schema<Retry> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Retry" }) as any as Schema.Schema<Retry>;
 
 export interface FailurePolicy {
   /** If specified, then the function will be retried in case of a failure. */
   retry?: Retry;
 }
 
-export const FailurePolicy: Schema.Schema<FailurePolicy> = Schema.suspend(() => Schema.Struct({
-  retry: Schema.optional(Retry),
-})).annotate({ identifier: "FailurePolicy" }) as any as Schema.Schema<FailurePolicy>;
+export const FailurePolicy: Schema.Schema<FailurePolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    retry: Schema.optional(Retry),
+  }),
+).annotate({
+  identifier: "FailurePolicy",
+}) as any as Schema.Schema<FailurePolicy>;
 
 export interface EventTrigger {
   /** Required. The type of event to observe. For example: `providers/cloud.storage/eventTypes/object.change` and `providers/cloud.pubsub/eventTypes/topic.publish`. Event types match pattern `providers/* /eventTypes/*.*`. The pattern contains: 1. namespace: For example, `cloud.storage` and `google.firebase.analytics`. 2. resource type: The type of resource on which event occurs. For example, the Google Cloud Storage API includes the type `object`. 3. action: The action that generates the event. For example, action for a Google Cloud Storage Object is 'change'. These parts are lower case. */
@@ -124,12 +152,16 @@ export interface EventTrigger {
   failurePolicy?: FailurePolicy;
 }
 
-export const EventTrigger: Schema.Schema<EventTrigger> = Schema.suspend(() => Schema.Struct({
-  eventType: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  service: Schema.optional(Schema.String),
-  failurePolicy: Schema.optional(FailurePolicy),
-})).annotate({ identifier: "EventTrigger" }) as any as Schema.Schema<EventTrigger>;
+export const EventTrigger: Schema.Schema<EventTrigger> = Schema.suspend(() =>
+  Schema.Struct({
+    eventType: Schema.optional(Schema.String),
+    resource: Schema.optional(Schema.String),
+    service: Schema.optional(Schema.String),
+    failurePolicy: Schema.optional(FailurePolicy),
+  }),
+).annotate({
+  identifier: "EventTrigger",
+}) as any as Schema.Schema<EventTrigger>;
 
 export interface SecretEnvVar {
   /** Name of the environment variable. */
@@ -142,12 +174,16 @@ export interface SecretEnvVar {
   version?: string;
 }
 
-export const SecretEnvVar: Schema.Schema<SecretEnvVar> = Schema.suspend(() => Schema.Struct({
-  key: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  secret: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecretEnvVar" }) as any as Schema.Schema<SecretEnvVar>;
+export const SecretEnvVar: Schema.Schema<SecretEnvVar> = Schema.suspend(() =>
+  Schema.Struct({
+    key: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+    secret: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SecretEnvVar",
+}) as any as Schema.Schema<SecretEnvVar>;
 
 export interface SecretVersion {
   /** Version of the secret (version number or the string 'latest'). It is preferable to use `latest` version with secret volumes as secret value changes are reflected immediately. */
@@ -156,10 +192,14 @@ export interface SecretVersion {
   path?: string;
 }
 
-export const SecretVersion: Schema.Schema<SecretVersion> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-})).annotate({ identifier: "SecretVersion" }) as any as Schema.Schema<SecretVersion>;
+export const SecretVersion: Schema.Schema<SecretVersion> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SecretVersion",
+}) as any as Schema.Schema<SecretVersion>;
 
 export interface SecretVolume {
   /** The path within the container to mount the secret volume. For example, setting the mount_path as `/etc/secrets` would mount the secret value files under the `/etc/secrets` directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount paths: /etc/secrets Restricted mount paths: /cloudsql, /dev/log, /pod, /proc, /var/log */
@@ -172,27 +212,37 @@ export interface SecretVolume {
   versions?: Array<SecretVersion>;
 }
 
-export const SecretVolume: Schema.Schema<SecretVolume> = Schema.suspend(() => Schema.Struct({
-  mountPath: Schema.optional(Schema.String),
-  projectId: Schema.optional(Schema.String),
-  secret: Schema.optional(Schema.String),
-  versions: Schema.optional(Schema.Array(SecretVersion)),
-})).annotate({ identifier: "SecretVolume" }) as any as Schema.Schema<SecretVolume>;
+export const SecretVolume: Schema.Schema<SecretVolume> = Schema.suspend(() =>
+  Schema.Struct({
+    mountPath: Schema.optional(Schema.String),
+    projectId: Schema.optional(Schema.String),
+    secret: Schema.optional(Schema.String),
+    versions: Schema.optional(Schema.Array(SecretVersion)),
+  }),
+).annotate({
+  identifier: "SecretVolume",
+}) as any as Schema.Schema<SecretVolume>;
 
-export interface AutomaticUpdatePolicy {
-}
+export interface AutomaticUpdatePolicy {}
 
-export const AutomaticUpdatePolicy: Schema.Schema<AutomaticUpdatePolicy> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "AutomaticUpdatePolicy" }) as any as Schema.Schema<AutomaticUpdatePolicy>;
+export const AutomaticUpdatePolicy: Schema.Schema<AutomaticUpdatePolicy> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AutomaticUpdatePolicy",
+  }) as any as Schema.Schema<AutomaticUpdatePolicy>;
 
 export interface OnDeployUpdatePolicy {
   /** Output only. Contains the runtime version which was used during latest function deployment. */
   runtimeVersion?: string;
 }
 
-export const OnDeployUpdatePolicy: Schema.Schema<OnDeployUpdatePolicy> = Schema.suspend(() => Schema.Struct({
-  runtimeVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OnDeployUpdatePolicy" }) as any as Schema.Schema<OnDeployUpdatePolicy>;
+export const OnDeployUpdatePolicy: Schema.Schema<OnDeployUpdatePolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      runtimeVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OnDeployUpdatePolicy",
+  }) as any as Schema.Schema<OnDeployUpdatePolicy>;
 
 export interface CloudFunction {
   /** A user-defined name of the function. Function names must be unique globally and match pattern `projects/* /locations/* /functions/*` */
@@ -210,7 +260,14 @@ export interface CloudFunction {
   /** A source that fires events in response to a condition in another service. */
   eventTrigger?: EventTrigger;
   /** Output only. Status of the function deployment. */
-  status?: "CLOUD_FUNCTION_STATUS_UNSPECIFIED" | "ACTIVE" | "OFFLINE" | "DEPLOY_IN_PROGRESS" | "DELETE_IN_PROGRESS" | "UNKNOWN" | (string & {});
+  status?:
+    | "CLOUD_FUNCTION_STATUS_UNSPECIFIED"
+    | "ACTIVE"
+    | "OFFLINE"
+    | "DEPLOY_IN_PROGRESS"
+    | "DELETE_IN_PROGRESS"
+    | "UNKNOWN"
+    | (string & {});
   /** The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix (ID of the function), if not specified. */
   entryPoint?: string;
   /** The runtime in which to run the function. Required when deploying a new function, optional when updating an existing function. For a complete list of possible choices, see the [`gcloud` command reference](https://cloud.google.com/sdk/gcloud/reference/functions/deploy#--runtime). */
@@ -240,9 +297,18 @@ export interface CloudFunction {
   /** The VPC Network Connector that this cloud function can connect to. It can be either the fully-qualified URI, or the short name of the network connector resource. The format of this field is `projects/* /locations/* /connectors/*` This field is mutually exclusive with `network` field and will eventually replace it. See [the VPC documentation](https://cloud.google.com/compute/docs/vpc) for more information on connecting Cloud projects. */
   vpcConnector?: string;
   /** The egress settings for the connector, controlling what traffic is diverted through it. */
-  vpcConnectorEgressSettings?: "VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED" | "PRIVATE_RANGES_ONLY" | "ALL_TRAFFIC" | (string & {});
+  vpcConnectorEgressSettings?:
+    | "VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED"
+    | "PRIVATE_RANGES_ONLY"
+    | "ALL_TRAFFIC"
+    | (string & {});
   /** The ingress settings for the function, controlling what traffic can reach it. */
-  ingressSettings?: "INGRESS_SETTINGS_UNSPECIFIED" | "ALLOW_ALL" | "ALLOW_INTERNAL_ONLY" | "ALLOW_INTERNAL_AND_GCLB" | (string & {});
+  ingressSettings?:
+    | "INGRESS_SETTINGS_UNSPECIFIED"
+    | "ALLOW_ALL"
+    | "ALLOW_INTERNAL_ONLY"
+    | "ALLOW_INTERNAL_AND_GCLB"
+    | (string & {});
   /** Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function resources. It must match the pattern `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. If specified, you must also provide an artifact registry repository using the `docker_repository` field that was created with the same KMS crypto key. The following service accounts need to be granted the role 'Cloud KMS CryptoKey Encrypter/Decrypter (roles/cloudkms.cryptoKeyEncrypterDecrypter)' on the Key/KeyRing/Project/Organization (least access preferred). 1. Google Cloud Functions service account (service-{project_number}@gcf-admin-robot.iam.gserviceaccount.com) - Required to protect the function's image. 2. Google Storage service account (service-{project_number}@gs-project-accounts.iam.gserviceaccount.com) - Required to protect the function's source code. If this service account does not exist, deploying a function without a KMS key or retrieving the service agent name provisions it. For more information, see https://cloud.google.com/storage/docs/projects#service-agents and https://cloud.google.com/storage/docs/getting-service-agent#gsutil. Google Cloud Functions delegates access to service agents to protect function resources in internal projects that are not accessible by the end user. */
   kmsKeyName?: string;
   /** Name of the Cloud Build Custom Worker Pool that should be used to build the function. The format of this field is `projects/{project}/locations/{region}/workerPools/{workerPool}` where `{project}` and `{region}` are the project id and region respectively where the worker pool is defined and `{workerPool}` is the short name of the worker pool. If the project id is not the same as the function, then the Cloud Functions Service Agent (`service-@gcf-admin-robot.iam.gserviceaccount.com`) must be granted the role Cloud Build Custom Workers Builder (`roles/cloudbuild.customworkers.builder`) in the project. */
@@ -260,7 +326,11 @@ export interface CloudFunction {
   /** User-managed repository created in Artifact Registry to which the function's Docker image will be pushed after it is built by Cloud Build. May optionally be encrypted with a customer-managed encryption key (CMEK). If unspecified and `docker_registry` is not explicitly set to `CONTAINER_REGISTRY`, GCF will create and use a default Artifact Registry repository named 'gcf-artifacts' in the region. It must match the pattern `projects/{project}/locations/{location}/repositories/{repository}`. Cross-project repositories are not supported. Cross-location repositories are not supported. Repository format must be 'DOCKER'. */
   dockerRepository?: string;
   /** Docker Registry to use for this deployment. Deprecated: as of March 2025, `CONTAINER_REGISTRY` option is no longer available in response to Container Registry's deprecation: https://cloud.google.com/artifact-registry/docs/transition/transition-from-gcr Please use Artifact Registry instead, which is the default choice. If unspecified, it defaults to `ARTIFACT_REGISTRY`. If `docker_repository` field is specified, this field should either be left unspecified or set to `ARTIFACT_REGISTRY`. */
-  dockerRegistry?: "DOCKER_REGISTRY_UNSPECIFIED" | "CONTAINER_REGISTRY" | "ARTIFACT_REGISTRY" | (string & {});
+  dockerRegistry?:
+    | "DOCKER_REGISTRY_UNSPECIFIED"
+    | "CONTAINER_REGISTRY"
+    | "ARTIFACT_REGISTRY"
+    | (string & {});
   automaticUpdatePolicy?: AutomaticUpdatePolicy;
   onDeployUpdatePolicy?: OnDeployUpdatePolicy;
   /** A service account the user provides for use with Cloud Build. The format of this field is `projects/{projectId}/serviceAccounts/{serviceAccountEmail}`. */
@@ -271,46 +341,54 @@ export interface CloudFunction {
   satisfiesPzi?: boolean;
 }
 
-export const CloudFunction: Schema.Schema<CloudFunction> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  sourceArchiveUrl: Schema.optional(Schema.String),
-  sourceRepository: Schema.optional(SourceRepository),
-  sourceUploadUrl: Schema.optional(Schema.String),
-  httpsTrigger: Schema.optional(HttpsTrigger),
-  eventTrigger: Schema.optional(EventTrigger),
-  status: Schema.optional(Schema.String),
-  entryPoint: Schema.optional(Schema.String),
-  runtime: Schema.optional(Schema.String),
-  timeout: Schema.optional(Schema.String),
-  availableMemoryMb: Schema.optional(Schema.Number),
-  serviceAccountEmail: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  versionId: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  environmentVariables: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  buildEnvironmentVariables: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  network: Schema.optional(Schema.String),
-  maxInstances: Schema.optional(Schema.Number),
-  minInstances: Schema.optional(Schema.Number),
-  vpcConnector: Schema.optional(Schema.String),
-  vpcConnectorEgressSettings: Schema.optional(Schema.String),
-  ingressSettings: Schema.optional(Schema.String),
-  kmsKeyName: Schema.optional(Schema.String),
-  buildWorkerPool: Schema.optional(Schema.String),
-  buildId: Schema.optional(Schema.String),
-  buildName: Schema.optional(Schema.String),
-  secretEnvironmentVariables: Schema.optional(Schema.Array(SecretEnvVar)),
-  secretVolumes: Schema.optional(Schema.Array(SecretVolume)),
-  sourceToken: Schema.optional(Schema.String),
-  dockerRepository: Schema.optional(Schema.String),
-  dockerRegistry: Schema.optional(Schema.String),
-  automaticUpdatePolicy: Schema.optional(AutomaticUpdatePolicy),
-  onDeployUpdatePolicy: Schema.optional(OnDeployUpdatePolicy),
-  buildServiceAccount: Schema.optional(Schema.String),
-  satisfiesPzs: Schema.optional(Schema.Boolean),
-  satisfiesPzi: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "CloudFunction" }) as any as Schema.Schema<CloudFunction>;
+export const CloudFunction: Schema.Schema<CloudFunction> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    sourceArchiveUrl: Schema.optional(Schema.String),
+    sourceRepository: Schema.optional(SourceRepository),
+    sourceUploadUrl: Schema.optional(Schema.String),
+    httpsTrigger: Schema.optional(HttpsTrigger),
+    eventTrigger: Schema.optional(EventTrigger),
+    status: Schema.optional(Schema.String),
+    entryPoint: Schema.optional(Schema.String),
+    runtime: Schema.optional(Schema.String),
+    timeout: Schema.optional(Schema.String),
+    availableMemoryMb: Schema.optional(Schema.Number),
+    serviceAccountEmail: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    versionId: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    environmentVariables: Schema.optional(
+      Schema.Record(Schema.String, Schema.String),
+    ),
+    buildEnvironmentVariables: Schema.optional(
+      Schema.Record(Schema.String, Schema.String),
+    ),
+    network: Schema.optional(Schema.String),
+    maxInstances: Schema.optional(Schema.Number),
+    minInstances: Schema.optional(Schema.Number),
+    vpcConnector: Schema.optional(Schema.String),
+    vpcConnectorEgressSettings: Schema.optional(Schema.String),
+    ingressSettings: Schema.optional(Schema.String),
+    kmsKeyName: Schema.optional(Schema.String),
+    buildWorkerPool: Schema.optional(Schema.String),
+    buildId: Schema.optional(Schema.String),
+    buildName: Schema.optional(Schema.String),
+    secretEnvironmentVariables: Schema.optional(Schema.Array(SecretEnvVar)),
+    secretVolumes: Schema.optional(Schema.Array(SecretVolume)),
+    sourceToken: Schema.optional(Schema.String),
+    dockerRepository: Schema.optional(Schema.String),
+    dockerRegistry: Schema.optional(Schema.String),
+    automaticUpdatePolicy: Schema.optional(AutomaticUpdatePolicy),
+    onDeployUpdatePolicy: Schema.optional(OnDeployUpdatePolicy),
+    buildServiceAccount: Schema.optional(Schema.String),
+    satisfiesPzs: Schema.optional(Schema.Boolean),
+    satisfiesPzi: Schema.optional(Schema.Boolean),
+  }),
+).annotate({
+  identifier: "CloudFunction",
+}) as any as Schema.Schema<CloudFunction>;
 
 export interface ListFunctionsResponse {
   /** The functions that match the request. */
@@ -321,20 +399,30 @@ export interface ListFunctionsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListFunctionsResponse: Schema.Schema<ListFunctionsResponse> = Schema.suspend(() => Schema.Struct({
-  functions: Schema.optional(Schema.Array(CloudFunction)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListFunctionsResponse" }) as any as Schema.Schema<ListFunctionsResponse>;
+export const ListFunctionsResponse: Schema.Schema<ListFunctionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      functions: Schema.optional(Schema.Array(CloudFunction)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListFunctionsResponse",
+  }) as any as Schema.Schema<ListFunctionsResponse>;
 
 export interface CallFunctionRequest {
   /** Required. Input to be passed to the function. */
   data?: string;
 }
 
-export const CallFunctionRequest: Schema.Schema<CallFunctionRequest> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-})).annotate({ identifier: "CallFunctionRequest" }) as any as Schema.Schema<CallFunctionRequest>;
+export const CallFunctionRequest: Schema.Schema<CallFunctionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CallFunctionRequest",
+  }) as any as Schema.Schema<CallFunctionRequest>;
 
 export interface CallFunctionResponse {
   /** Execution id of function invocation. */
@@ -345,47 +433,72 @@ export interface CallFunctionResponse {
   error?: string;
 }
 
-export const CallFunctionResponse: Schema.Schema<CallFunctionResponse> = Schema.suspend(() => Schema.Struct({
-  executionId: Schema.optional(Schema.String),
-  result: Schema.optional(Schema.String),
-  error: Schema.optional(Schema.String),
-})).annotate({ identifier: "CallFunctionResponse" }) as any as Schema.Schema<CallFunctionResponse>;
+export const CallFunctionResponse: Schema.Schema<CallFunctionResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      executionId: Schema.optional(Schema.String),
+      result: Schema.optional(Schema.String),
+      error: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CallFunctionResponse",
+  }) as any as Schema.Schema<CallFunctionResponse>;
 
 export interface GenerateUploadUrlRequest {
   /** Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function source code objects in intermediate Cloud Storage buckets. When you generate an upload url and upload your source code, it gets copied to an intermediate Cloud Storage bucket. The source code is then copied to a versioned directory in the sources bucket in the consumer project during the function deployment. It must match the pattern `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. The Google Cloud Functions service account (service-{project_number}@gcf-admin-robot.iam.gserviceaccount.com) must be granted the role 'Cloud KMS CryptoKey Encrypter/Decrypter (roles/cloudkms.cryptoKeyEncrypterDecrypter)' on the Key/KeyRing/Project/Organization (least access preferred). GCF will delegate access to the Google Storage service account in the internal project. */
   kmsKeyName?: string;
 }
 
-export const GenerateUploadUrlRequest: Schema.Schema<GenerateUploadUrlRequest> = Schema.suspend(() => Schema.Struct({
-  kmsKeyName: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateUploadUrlRequest" }) as any as Schema.Schema<GenerateUploadUrlRequest>;
+export const GenerateUploadUrlRequest: Schema.Schema<GenerateUploadUrlRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateUploadUrlRequest",
+  }) as any as Schema.Schema<GenerateUploadUrlRequest>;
 
 export interface GenerateUploadUrlResponse {
   /** The generated Google Cloud Storage signed URL that should be used for a function source code upload. The uploaded file should be a zip archive which contains a function. */
   uploadUrl?: string;
 }
 
-export const GenerateUploadUrlResponse: Schema.Schema<GenerateUploadUrlResponse> = Schema.suspend(() => Schema.Struct({
-  uploadUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateUploadUrlResponse" }) as any as Schema.Schema<GenerateUploadUrlResponse>;
+export const GenerateUploadUrlResponse: Schema.Schema<GenerateUploadUrlResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      uploadUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateUploadUrlResponse",
+  }) as any as Schema.Schema<GenerateUploadUrlResponse>;
 
 export interface GenerateDownloadUrlRequest {
   /** The optional version of function. If not set, default, current version is used. */
   versionId?: string;
 }
 
-export const GenerateDownloadUrlRequest: Schema.Schema<GenerateDownloadUrlRequest> = Schema.suspend(() => Schema.Struct({
-  versionId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateDownloadUrlRequest" }) as any as Schema.Schema<GenerateDownloadUrlRequest>;
+export const GenerateDownloadUrlRequest: Schema.Schema<GenerateDownloadUrlRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      versionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateDownloadUrlRequest",
+  }) as any as Schema.Schema<GenerateDownloadUrlRequest>;
 
 export interface GenerateDownloadUrlResponse {
   /** The generated Google Cloud Storage signed URL that should be used for function source code download. */
   downloadUrl?: string;
 }
 
-export const GenerateDownloadUrlResponse: Schema.Schema<GenerateDownloadUrlResponse> = Schema.suspend(() => Schema.Struct({
-  downloadUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "GenerateDownloadUrlResponse" }) as any as Schema.Schema<GenerateDownloadUrlResponse>;
+export const GenerateDownloadUrlResponse: Schema.Schema<GenerateDownloadUrlResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      downloadUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenerateDownloadUrlResponse",
+  }) as any as Schema.Schema<GenerateDownloadUrlResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -398,12 +511,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -414,23 +529,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -439,10 +566,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -455,12 +584,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -469,28 +600,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -505,13 +651,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -520,16 +668,26 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface OperationMetadataV1 {
   /** Target of the operation - for example `projects/project-1/locations/region-1/functions/function-1` */
   target?: string;
   /** Type of operation. */
-  type?: "OPERATION_UNSPECIFIED" | "CREATE_FUNCTION" | "UPDATE_FUNCTION" | "DELETE_FUNCTION" | (string & {});
+  type?:
+    | "OPERATION_UNSPECIFIED"
+    | "CREATE_FUNCTION"
+    | "UPDATE_FUNCTION"
+    | "DELETE_FUNCTION"
+    | (string & {});
   /** The original request that started the operation. */
   request?: Record<string, unknown>;
   /** Version id of the function created or updated by an API call. This field is only populated for Create and Update operations. */
@@ -544,16 +702,21 @@ export interface OperationMetadataV1 {
   buildName?: string;
 }
 
-export const OperationMetadataV1: Schema.Schema<OperationMetadataV1> = Schema.suspend(() => Schema.Struct({
-  target: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  request: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  versionId: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  buildId: Schema.optional(Schema.String),
-  sourceToken: Schema.optional(Schema.String),
-  buildName: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadataV1" }) as any as Schema.Schema<OperationMetadataV1>;
+export const OperationMetadataV1: Schema.Schema<OperationMetadataV1> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      target: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      request: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      versionId: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      buildId: Schema.optional(Schema.String),
+      sourceToken: Schema.optional(Schema.String),
+      buildName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadataV1",
+  }) as any as Schema.Schema<OperationMetadataV1>;
 
 // ==========================================================================
 // Operations
@@ -577,7 +740,9 @@ export const ListOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations" }),
   svc,
@@ -589,7 +754,12 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 export type ListOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listOperations: API.PaginatedOperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse_Op,
+  ListOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -617,7 +787,12 @@ export const GetOperationsResponse = Operation;
 export type GetOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -641,7 +816,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -653,7 +830,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -677,7 +859,10 @@ export const ListProjectsLocationsFunctionsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/functions" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsFunctionsRequest>;
 
@@ -687,7 +872,12 @@ export const ListProjectsLocationsFunctionsResponse = ListFunctionsResponse;
 export type ListProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Returns a list of functions that belong to the requested project. */
-export const listProjectsLocationsFunctions: API.PaginatedOperationMethod<ListProjectsLocationsFunctionsRequest, ListProjectsLocationsFunctionsResponse, ListProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsFunctions: API.PaginatedOperationMethod<
+  ListProjectsLocationsFunctionsRequest,
+  ListProjectsLocationsFunctionsResponse,
+  ListProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsFunctionsRequest,
   output: ListProjectsLocationsFunctionsResponse,
   errors: [],
@@ -708,7 +898,10 @@ export const GetProjectsLocationsFunctionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   versionId: Schema.optional(Schema.String).pipe(T.HttpQuery("versionId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsFunctionsRequest>;
 
@@ -718,7 +911,12 @@ export const GetProjectsLocationsFunctionsResponse = CloudFunction;
 export type GetProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Returns a function with the given name from the requested project. */
-export const getProjectsLocationsFunctions: API.OperationMethod<GetProjectsLocationsFunctionsRequest, GetProjectsLocationsFunctionsResponse, GetProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsFunctions: API.OperationMethod<
+  GetProjectsLocationsFunctionsRequest,
+  GetProjectsLocationsFunctionsResponse,
+  GetProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsFunctionsRequest,
   output: GetProjectsLocationsFunctionsResponse,
   errors: [],
@@ -735,7 +933,11 @@ export const CreateProjectsLocationsFunctionsRequest = Schema.Struct({
   location: Schema.String.pipe(T.HttpPath("location")),
   body: Schema.optional(CloudFunction).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/functions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsFunctionsRequest>;
 
@@ -745,7 +947,12 @@ export const CreateProjectsLocationsFunctionsResponse = Operation;
 export type CreateProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Creates a new function. If a function with the given name already exists in the specified project, the long running operation will return `ALREADY_EXISTS` error. */
-export const createProjectsLocationsFunctions: API.OperationMethod<CreateProjectsLocationsFunctionsRequest, CreateProjectsLocationsFunctionsResponse, CreateProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsFunctions: API.OperationMethod<
+  CreateProjectsLocationsFunctionsRequest,
+  CreateProjectsLocationsFunctionsResponse,
+  CreateProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsFunctionsRequest,
   output: CreateProjectsLocationsFunctionsResponse,
   errors: [],
@@ -765,7 +972,11 @@ export const PatchProjectsLocationsFunctionsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(CloudFunction).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsFunctionsRequest>;
 
@@ -775,7 +986,12 @@ export const PatchProjectsLocationsFunctionsResponse = Operation;
 export type PatchProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Updates existing function. */
-export const patchProjectsLocationsFunctions: API.OperationMethod<PatchProjectsLocationsFunctionsRequest, PatchProjectsLocationsFunctionsResponse, PatchProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsFunctions: API.OperationMethod<
+  PatchProjectsLocationsFunctionsRequest,
+  PatchProjectsLocationsFunctionsResponse,
+  PatchProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsFunctionsRequest,
   output: PatchProjectsLocationsFunctionsResponse,
   errors: [],
@@ -789,7 +1005,10 @@ export interface DeleteProjectsLocationsFunctionsRequest {
 export const DeleteProjectsLocationsFunctionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsFunctionsRequest>;
 
@@ -799,7 +1018,12 @@ export const DeleteProjectsLocationsFunctionsResponse = Operation;
 export type DeleteProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Deletes a function with the given name from the specified project. If the given function is used by some trigger, the trigger will be updated to remove this function. */
-export const deleteProjectsLocationsFunctions: API.OperationMethod<DeleteProjectsLocationsFunctionsRequest, DeleteProjectsLocationsFunctionsResponse, DeleteProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsFunctions: API.OperationMethod<
+  DeleteProjectsLocationsFunctionsRequest,
+  DeleteProjectsLocationsFunctionsResponse,
+  DeleteProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsFunctionsRequest,
   output: DeleteProjectsLocationsFunctionsResponse,
   errors: [],
@@ -816,7 +1040,11 @@ export const CallProjectsLocationsFunctionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CallFunctionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:call", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:call",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CallProjectsLocationsFunctionsRequest>;
 
@@ -826,7 +1054,12 @@ export const CallProjectsLocationsFunctionsResponse = CallFunctionResponse;
 export type CallProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Synchronously invokes a deployed Cloud Function. To be used for testing purposes as very limited traffic is allowed. For more information on the actual limits, refer to [Rate Limits](https://cloud.google.com/functions/quotas#rate_limits). */
-export const callProjectsLocationsFunctions: API.OperationMethod<CallProjectsLocationsFunctionsRequest, CallProjectsLocationsFunctionsResponse, CallProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const callProjectsLocationsFunctions: API.OperationMethod<
+  CallProjectsLocationsFunctionsRequest,
+  CallProjectsLocationsFunctionsResponse,
+  CallProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CallProjectsLocationsFunctionsRequest,
   output: CallProjectsLocationsFunctionsResponse,
   errors: [],
@@ -839,21 +1072,34 @@ export interface GenerateUploadUrlProjectsLocationsFunctionsRequest {
   body?: GenerateUploadUrlRequest;
 }
 
-export const GenerateUploadUrlProjectsLocationsFunctionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GenerateUploadUrlRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/functions:generateUploadUrl", hasBody: true }),
+export const GenerateUploadUrlProjectsLocationsFunctionsRequest = Schema.Struct(
+  {
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GenerateUploadUrlRequest).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions:generateUploadUrl",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GenerateUploadUrlProjectsLocationsFunctionsRequest>;
 
-export type GenerateUploadUrlProjectsLocationsFunctionsResponse = GenerateUploadUrlResponse;
-export const GenerateUploadUrlProjectsLocationsFunctionsResponse = GenerateUploadUrlResponse;
+export type GenerateUploadUrlProjectsLocationsFunctionsResponse =
+  GenerateUploadUrlResponse;
+export const GenerateUploadUrlProjectsLocationsFunctionsResponse =
+  GenerateUploadUrlResponse;
 
 export type GenerateUploadUrlProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Returns a signed URL for uploading a function source code. For more information about the signed URL usage see: https://cloud.google.com/storage/docs/access-control/signed-urls. Once the function source code upload is complete, the used signed URL should be provided in CreateFunction or UpdateFunction request as a reference to the function source code. When uploading source code to the generated signed URL, please follow these restrictions: * Source file type should be a zip file. * Source file size should not exceed 100MB limit. * No credentials should be attached - the signed URLs provide access to the target bucket using internal service identity; if credentials were attached, the identity from the credentials would be used, but that identity does not have permissions to upload files to the URL. When making a HTTP PUT request, these two headers need to be specified: * `content-type: application/zip` * `x-goog-content-length-range: 0,104857600` And this header SHOULD NOT be specified: * `Authorization: Bearer YOUR_TOKEN` */
-export const generateUploadUrlProjectsLocationsFunctions: API.OperationMethod<GenerateUploadUrlProjectsLocationsFunctionsRequest, GenerateUploadUrlProjectsLocationsFunctionsResponse, GenerateUploadUrlProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateUploadUrlProjectsLocationsFunctions: API.OperationMethod<
+  GenerateUploadUrlProjectsLocationsFunctionsRequest,
+  GenerateUploadUrlProjectsLocationsFunctionsResponse,
+  GenerateUploadUrlProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateUploadUrlProjectsLocationsFunctionsRequest,
   output: GenerateUploadUrlProjectsLocationsFunctionsResponse,
   errors: [],
@@ -866,21 +1112,33 @@ export interface GenerateDownloadUrlProjectsLocationsFunctionsRequest {
   body?: GenerateDownloadUrlRequest;
 }
 
-export const GenerateDownloadUrlProjectsLocationsFunctionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GenerateDownloadUrlRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:generateDownloadUrl", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GenerateDownloadUrlProjectsLocationsFunctionsRequest>;
+export const GenerateDownloadUrlProjectsLocationsFunctionsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GenerateDownloadUrlRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:generateDownloadUrl",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateDownloadUrlProjectsLocationsFunctionsRequest>;
 
-export type GenerateDownloadUrlProjectsLocationsFunctionsResponse = GenerateDownloadUrlResponse;
-export const GenerateDownloadUrlProjectsLocationsFunctionsResponse = GenerateDownloadUrlResponse;
+export type GenerateDownloadUrlProjectsLocationsFunctionsResponse =
+  GenerateDownloadUrlResponse;
+export const GenerateDownloadUrlProjectsLocationsFunctionsResponse =
+  GenerateDownloadUrlResponse;
 
 export type GenerateDownloadUrlProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Returns a signed URL for downloading deployed function source code. The URL is only valid for a limited period and should be used within minutes after generation. For more information about the signed URL usage see: https://cloud.google.com/storage/docs/access-control/signed-urls */
-export const generateDownloadUrlProjectsLocationsFunctions: API.OperationMethod<GenerateDownloadUrlProjectsLocationsFunctionsRequest, GenerateDownloadUrlProjectsLocationsFunctionsResponse, GenerateDownloadUrlProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateDownloadUrlProjectsLocationsFunctions: API.OperationMethod<
+  GenerateDownloadUrlProjectsLocationsFunctionsRequest,
+  GenerateDownloadUrlProjectsLocationsFunctionsResponse,
+  GenerateDownloadUrlProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateDownloadUrlProjectsLocationsFunctionsRequest,
   output: GenerateDownloadUrlProjectsLocationsFunctionsResponse,
   errors: [],
@@ -897,7 +1155,11 @@ export const SetIamPolicyProjectsLocationsFunctionsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsFunctionsRequest>;
 
@@ -907,7 +1169,12 @@ export const SetIamPolicyProjectsLocationsFunctionsResponse = Policy;
 export type SetIamPolicyProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Sets the IAM access control policy on the specified function. Replaces any existing policy. */
-export const setIamPolicyProjectsLocationsFunctions: API.OperationMethod<SetIamPolicyProjectsLocationsFunctionsRequest, SetIamPolicyProjectsLocationsFunctionsResponse, SetIamPolicyProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsFunctions: API.OperationMethod<
+  SetIamPolicyProjectsLocationsFunctionsRequest,
+  SetIamPolicyProjectsLocationsFunctionsResponse,
+  SetIamPolicyProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsFunctionsRequest,
   output: SetIamPolicyProjectsLocationsFunctionsResponse,
   errors: [],
@@ -922,9 +1189,14 @@ export interface GetIamPolicyProjectsLocationsFunctionsRequest {
 
 export const GetIamPolicyProjectsLocationsFunctionsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsFunctionsRequest>;
 
@@ -934,7 +1206,12 @@ export const GetIamPolicyProjectsLocationsFunctionsResponse = Policy;
 export type GetIamPolicyProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Gets the IAM access control policy for a function. Returns an empty policy if the function exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsFunctions: API.OperationMethod<GetIamPolicyProjectsLocationsFunctionsRequest, GetIamPolicyProjectsLocationsFunctionsResponse, GetIamPolicyProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsFunctions: API.OperationMethod<
+  GetIamPolicyProjectsLocationsFunctionsRequest,
+  GetIamPolicyProjectsLocationsFunctionsResponse,
+  GetIamPolicyProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsFunctionsRequest,
   output: GetIamPolicyProjectsLocationsFunctionsResponse,
   errors: [],
@@ -947,23 +1224,34 @@ export interface TestIamPermissionsProjectsLocationsFunctionsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsFunctionsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsFunctionsRequest>;
+export const TestIamPermissionsProjectsLocationsFunctionsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/functions/{functionsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsFunctionsRequest>;
 
-export type TestIamPermissionsProjectsLocationsFunctionsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsFunctionsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsFunctionsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsFunctionsResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsFunctionsError = DefaultErrors;
 
 /** Tests the specified permissions against the IAM access control policy for a function. If the function does not exist, this will return an empty set of permissions, not a NOT_FOUND error. */
-export const testIamPermissionsProjectsLocationsFunctions: API.OperationMethod<TestIamPermissionsProjectsLocationsFunctionsRequest, TestIamPermissionsProjectsLocationsFunctionsResponse, TestIamPermissionsProjectsLocationsFunctionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsFunctions: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsFunctionsRequest,
+  TestIamPermissionsProjectsLocationsFunctionsResponse,
+  TestIamPermissionsProjectsLocationsFunctionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsFunctionsRequest,
   output: TestIamPermissionsProjectsLocationsFunctionsResponse,
   errors: [],
 }));
-

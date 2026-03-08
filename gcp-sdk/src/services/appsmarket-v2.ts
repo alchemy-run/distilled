@@ -32,11 +32,13 @@ export interface Editions {
   assignedSeats?: number;
 }
 
-export const Editions: Schema.Schema<Editions> = Schema.suspend(() => Schema.Struct({
-  editionId: Schema.optional(Schema.String),
-  seatCount: Schema.optional(Schema.Number),
-  assignedSeats: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Editions" }) as any as Schema.Schema<Editions>;
+export const Editions: Schema.Schema<Editions> = Schema.suspend(() =>
+  Schema.Struct({
+    editionId: Schema.optional(Schema.String),
+    seatCount: Schema.optional(Schema.Number),
+    assignedSeats: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Editions" }) as any as Schema.Schema<Editions>;
 
 export interface CustomerLicense {
   /** The type of API resource. This is always `appsmarket#customerLicense`. */
@@ -53,14 +55,19 @@ export interface CustomerLicense {
   customerId?: string;
 }
 
-export const CustomerLicense: Schema.Schema<CustomerLicense> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  applicationId: Schema.optional(Schema.String),
-  editions: Schema.optional(Schema.Array(Editions)),
-  id: Schema.optional(Schema.String),
-  customerId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomerLicense" }) as any as Schema.Schema<CustomerLicense>;
+export const CustomerLicense: Schema.Schema<CustomerLicense> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      applicationId: Schema.optional(Schema.String),
+      editions: Schema.optional(Schema.Array(Editions)),
+      id: Schema.optional(Schema.String),
+      customerId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CustomerLicense",
+}) as any as Schema.Schema<CustomerLicense>;
 
 export interface UserLicense {
   /** The type of API resource. This is always `appsmarket#userLicense`. */
@@ -81,16 +88,18 @@ export interface UserLicense {
   userId?: string;
 }
 
-export const UserLicense: Schema.Schema<UserLicense> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  state: Schema.optional(Schema.String),
-  editionId: Schema.optional(Schema.String),
-  customerId: Schema.optional(Schema.String),
-  applicationId: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  userId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UserLicense" }) as any as Schema.Schema<UserLicense>;
+export const UserLicense: Schema.Schema<UserLicense> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    enabled: Schema.optional(Schema.Boolean),
+    state: Schema.optional(Schema.String),
+    editionId: Schema.optional(Schema.String),
+    customerId: Schema.optional(Schema.String),
+    applicationId: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    userId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "UserLicense" }) as any as Schema.Schema<UserLicense>;
 
 // ==========================================================================
 // Operations
@@ -107,7 +116,10 @@ export const GetCustomerLicenseRequest = Schema.Struct({
   applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
   customerId: Schema.String.pipe(T.HttpPath("customerId")),
 }).pipe(
-  T.Http({ method: "GET", path: "appsmarket/v2/customerLicense/{applicationId}/{customerId}" }),
+  T.Http({
+    method: "GET",
+    path: "appsmarket/v2/customerLicense/{applicationId}/{customerId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetCustomerLicenseRequest>;
 
@@ -117,7 +129,12 @@ export const GetCustomerLicenseResponse = CustomerLicense;
 export type GetCustomerLicenseError = DefaultErrors;
 
 /** Gets the customer's licensing status to determine if they have access to a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
-export const getCustomerLicense: API.OperationMethod<GetCustomerLicenseRequest, GetCustomerLicenseResponse, GetCustomerLicenseError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getCustomerLicense: API.OperationMethod<
+  GetCustomerLicenseRequest,
+  GetCustomerLicenseResponse,
+  GetCustomerLicenseError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetCustomerLicenseRequest,
   output: GetCustomerLicenseResponse,
   errors: [],
@@ -134,7 +151,10 @@ export const GetUserLicenseRequest = Schema.Struct({
   applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "appsmarket/v2/userLicense/{applicationId}/{userId}" }),
+  T.Http({
+    method: "GET",
+    path: "appsmarket/v2/userLicense/{applicationId}/{userId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetUserLicenseRequest>;
 
@@ -144,9 +164,13 @@ export const GetUserLicenseResponse = UserLicense;
 export type GetUserLicenseError = DefaultErrors;
 
 /** Gets the user's licensing status to determine if they have permission to use a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
-export const getUserLicense: API.OperationMethod<GetUserLicenseRequest, GetUserLicenseResponse, GetUserLicenseError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getUserLicense: API.OperationMethod<
+  GetUserLicenseRequest,
+  GetUserLicenseResponse,
+  GetUserLicenseError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetUserLicenseRequest,
   output: GetUserLicenseResponse,
   errors: [],
 }));
-

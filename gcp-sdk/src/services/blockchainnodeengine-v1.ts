@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -66,31 +72,44 @@ export interface ListOperationsResponse {
   nextPageToken?: string;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface GoogleProtobufEmpty {
-}
+export interface GoogleProtobufEmpty {}
 
-export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleProtobufEmpty" }) as any as Schema.Schema<GoogleProtobufEmpty>;
+export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleProtobufEmpty",
+  }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface GethDetails {
   /** Immutable. Blockchain garbage collection mode. */
-  garbageCollectionMode?: "GARBAGE_COLLECTION_MODE_UNSPECIFIED" | "FULL" | "ARCHIVE" | (string & {});
+  garbageCollectionMode?:
+    | "GARBAGE_COLLECTION_MODE_UNSPECIFIED"
+    | "FULL"
+    | "ARCHIVE"
+    | (string & {});
 }
 
-export const GethDetails: Schema.Schema<GethDetails> = Schema.suspend(() => Schema.Struct({
-  garbageCollectionMode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GethDetails" }) as any as Schema.Schema<GethDetails>;
+export const GethDetails: Schema.Schema<GethDetails> = Schema.suspend(() =>
+  Schema.Struct({
+    garbageCollectionMode: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "GethDetails" }) as any as Schema.Schema<GethDetails>;
 
 export interface EthereumEndpoints {
   /** Output only. The assigned URL for the node's Beacon API endpoint. */
@@ -101,11 +120,18 @@ export interface EthereumEndpoints {
   executionClientPrometheusMetricsApiEndpoint?: string;
 }
 
-export const EthereumEndpoints: Schema.Schema<EthereumEndpoints> = Schema.suspend(() => Schema.Struct({
-  beaconApiEndpoint: Schema.optional(Schema.String),
-  beaconPrometheusMetricsApiEndpoint: Schema.optional(Schema.String),
-  executionClientPrometheusMetricsApiEndpoint: Schema.optional(Schema.String),
-})).annotate({ identifier: "EthereumEndpoints" }) as any as Schema.Schema<EthereumEndpoints>;
+export const EthereumEndpoints: Schema.Schema<EthereumEndpoints> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      beaconApiEndpoint: Schema.optional(Schema.String),
+      beaconPrometheusMetricsApiEndpoint: Schema.optional(Schema.String),
+      executionClientPrometheusMetricsApiEndpoint: Schema.optional(
+        Schema.String,
+      ),
+    }),
+  ).annotate({
+    identifier: "EthereumEndpoints",
+  }) as any as Schema.Schema<EthereumEndpoints>;
 
 export interface ValidatorConfig {
   /** URLs for MEV-relay services to use for block building. When set, a GCP-managed MEV-boost service is configured on the beacon client. */
@@ -116,23 +142,47 @@ export interface ValidatorConfig {
   beaconFeeRecipient?: string;
 }
 
-export const ValidatorConfig: Schema.Schema<ValidatorConfig> = Schema.suspend(() => Schema.Struct({
-  mevRelayUrls: Schema.optional(Schema.Array(Schema.String)),
-  managedValidatorClient: Schema.optional(Schema.Boolean),
-  beaconFeeRecipient: Schema.optional(Schema.String),
-})).annotate({ identifier: "ValidatorConfig" }) as any as Schema.Schema<ValidatorConfig>;
+export const ValidatorConfig: Schema.Schema<ValidatorConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      mevRelayUrls: Schema.optional(Schema.Array(Schema.String)),
+      managedValidatorClient: Schema.optional(Schema.Boolean),
+      beaconFeeRecipient: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ValidatorConfig",
+}) as any as Schema.Schema<ValidatorConfig>;
 
 export interface EthereumDetails {
   /** Details for the Geth execution client. */
   gethDetails?: GethDetails;
   /** Immutable. The Ethereum environment being accessed. */
-  network?: "NETWORK_UNSPECIFIED" | "MAINNET" | "TESTNET_GOERLI_PRATER" | "TESTNET_SEPOLIA" | "TESTNET_HOLESKY" | (string & {});
+  network?:
+    | "NETWORK_UNSPECIFIED"
+    | "MAINNET"
+    | "TESTNET_GOERLI_PRATER"
+    | "TESTNET_SEPOLIA"
+    | "TESTNET_HOLESKY"
+    | (string & {});
   /** Immutable. The type of Ethereum node. */
-  nodeType?: "NODE_TYPE_UNSPECIFIED" | "LIGHT" | "FULL" | "ARCHIVE" | (string & {});
+  nodeType?:
+    | "NODE_TYPE_UNSPECIFIED"
+    | "LIGHT"
+    | "FULL"
+    | "ARCHIVE"
+    | (string & {});
   /** Immutable. The execution client */
-  executionClient?: "EXECUTION_CLIENT_UNSPECIFIED" | "GETH" | "ERIGON" | (string & {});
+  executionClient?:
+    | "EXECUTION_CLIENT_UNSPECIFIED"
+    | "GETH"
+    | "ERIGON"
+    | (string & {});
   /** Immutable. The consensus client. */
-  consensusClient?: "CONSENSUS_CLIENT_UNSPECIFIED" | "LIGHTHOUSE" | "ERIGON_EMBEDDED_CONSENSUS_LAYER" | (string & {});
+  consensusClient?:
+    | "CONSENSUS_CLIENT_UNSPECIFIED"
+    | "LIGHTHOUSE"
+    | "ERIGON_EMBEDDED_CONSENSUS_LAYER"
+    | (string & {});
   /** Immutable. Enables JSON-RPC access to functions in the `admin` namespace. Defaults to `false`. */
   apiEnableAdmin?: boolean;
   /** Immutable. Enables JSON-RPC access to functions in the `debug` namespace. Defaults to `false`. */
@@ -143,17 +193,22 @@ export interface EthereumDetails {
   validatorConfig?: ValidatorConfig;
 }
 
-export const EthereumDetails: Schema.Schema<EthereumDetails> = Schema.suspend(() => Schema.Struct({
-  gethDetails: Schema.optional(GethDetails),
-  network: Schema.optional(Schema.String),
-  nodeType: Schema.optional(Schema.String),
-  executionClient: Schema.optional(Schema.String),
-  consensusClient: Schema.optional(Schema.String),
-  apiEnableAdmin: Schema.optional(Schema.Boolean),
-  apiEnableDebug: Schema.optional(Schema.Boolean),
-  additionalEndpoints: Schema.optional(EthereumEndpoints),
-  validatorConfig: Schema.optional(ValidatorConfig),
-})).annotate({ identifier: "EthereumDetails" }) as any as Schema.Schema<EthereumDetails>;
+export const EthereumDetails: Schema.Schema<EthereumDetails> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      gethDetails: Schema.optional(GethDetails),
+      network: Schema.optional(Schema.String),
+      nodeType: Schema.optional(Schema.String),
+      executionClient: Schema.optional(Schema.String),
+      consensusClient: Schema.optional(Schema.String),
+      apiEnableAdmin: Schema.optional(Schema.Boolean),
+      apiEnableDebug: Schema.optional(Schema.Boolean),
+      additionalEndpoints: Schema.optional(EthereumEndpoints),
+      validatorConfig: Schema.optional(ValidatorConfig),
+    }),
+).annotate({
+  identifier: "EthereumDetails",
+}) as any as Schema.Schema<EthereumDetails>;
 
 export interface EndpointInfo {
   /** Output only. The assigned URL for the node JSON-RPC API endpoint. */
@@ -162,10 +217,14 @@ export interface EndpointInfo {
   websocketsApiEndpoint?: string;
 }
 
-export const EndpointInfo: Schema.Schema<EndpointInfo> = Schema.suspend(() => Schema.Struct({
-  jsonRpcApiEndpoint: Schema.optional(Schema.String),
-  websocketsApiEndpoint: Schema.optional(Schema.String),
-})).annotate({ identifier: "EndpointInfo" }) as any as Schema.Schema<EndpointInfo>;
+export const EndpointInfo: Schema.Schema<EndpointInfo> = Schema.suspend(() =>
+  Schema.Struct({
+    jsonRpcApiEndpoint: Schema.optional(Schema.String),
+    websocketsApiEndpoint: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "EndpointInfo",
+}) as any as Schema.Schema<EndpointInfo>;
 
 export interface ConnectionInfo {
   /** Output only. The endpoint information through which to interact with a blockchain node. */
@@ -174,10 +233,15 @@ export interface ConnectionInfo {
   serviceAttachment?: string;
 }
 
-export const ConnectionInfo: Schema.Schema<ConnectionInfo> = Schema.suspend(() => Schema.Struct({
-  endpointInfo: Schema.optional(EndpointInfo),
-  serviceAttachment: Schema.optional(Schema.String),
-})).annotate({ identifier: "ConnectionInfo" }) as any as Schema.Schema<ConnectionInfo>;
+export const ConnectionInfo: Schema.Schema<ConnectionInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      endpointInfo: Schema.optional(EndpointInfo),
+      serviceAttachment: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ConnectionInfo",
+}) as any as Schema.Schema<ConnectionInfo>;
 
 export interface BlockchainNode {
   /** Ethereum-specific blockchain node details. */
@@ -195,22 +259,37 @@ export interface BlockchainNode {
   /** Output only. The connection information used to interact with a blockchain node. */
   connectionInfo?: ConnectionInfo;
   /** Output only. A status representing the state of the node. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "DELETING" | "RUNNING" | "ERROR" | "UPDATING" | "REPAIRING" | "RECONCILING" | "SYNCING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "DELETING"
+    | "RUNNING"
+    | "ERROR"
+    | "UPDATING"
+    | "REPAIRING"
+    | "RECONCILING"
+    | "SYNCING"
+    | (string & {});
   /** Optional. When true, the node is only accessible via Private Service Connect; no public endpoints are exposed. Otherwise, the node is only accessible via public endpoints. Warning: These nodes are deprecated, please use public endpoints instead. */
   privateServiceConnectEnabled?: boolean;
 }
 
-export const BlockchainNode: Schema.Schema<BlockchainNode> = Schema.suspend(() => Schema.Struct({
-  ethereumDetails: Schema.optional(EthereumDetails),
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  blockchainType: Schema.optional(Schema.String),
-  connectionInfo: Schema.optional(ConnectionInfo),
-  state: Schema.optional(Schema.String),
-  privateServiceConnectEnabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "BlockchainNode" }) as any as Schema.Schema<BlockchainNode>;
+export const BlockchainNode: Schema.Schema<BlockchainNode> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      ethereumDetails: Schema.optional(EthereumDetails),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      blockchainType: Schema.optional(Schema.String),
+      connectionInfo: Schema.optional(ConnectionInfo),
+      state: Schema.optional(Schema.String),
+      privateServiceConnectEnabled: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "BlockchainNode",
+}) as any as Schema.Schema<BlockchainNode>;
 
 export interface ListBlockchainNodesResponse {
   /** The list of nodes */
@@ -221,11 +300,16 @@ export interface ListBlockchainNodesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListBlockchainNodesResponse: Schema.Schema<ListBlockchainNodesResponse> = Schema.suspend(() => Schema.Struct({
-  blockchainNodes: Schema.optional(Schema.Array(BlockchainNode)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListBlockchainNodesResponse" }) as any as Schema.Schema<ListBlockchainNodesResponse>;
+export const ListBlockchainNodesResponse: Schema.Schema<ListBlockchainNodesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      blockchainNodes: Schema.optional(Schema.Array(BlockchainNode)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListBlockchainNodesResponse",
+  }) as any as Schema.Schema<ListBlockchainNodesResponse>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -240,13 +324,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -255,10 +341,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -277,15 +368,20 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -309,7 +405,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -321,7 +419,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -339,7 +442,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -349,7 +455,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -372,7 +483,10 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -382,7 +496,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -400,7 +519,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -410,7 +532,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -424,7 +551,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -434,7 +564,12 @@ export const DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -451,7 +586,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -461,7 +600,12 @@ export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -487,17 +631,27 @@ export const ListProjectsLocationsBlockchainNodesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsBlockchainNodesRequest>;
 
-export type ListProjectsLocationsBlockchainNodesResponse = ListBlockchainNodesResponse;
-export const ListProjectsLocationsBlockchainNodesResponse = ListBlockchainNodesResponse;
+export type ListProjectsLocationsBlockchainNodesResponse =
+  ListBlockchainNodesResponse;
+export const ListProjectsLocationsBlockchainNodesResponse =
+  ListBlockchainNodesResponse;
 
 export type ListProjectsLocationsBlockchainNodesError = DefaultErrors;
 
 /** Lists blockchain nodes in a given project and location. */
-export const listProjectsLocationsBlockchainNodes: API.PaginatedOperationMethod<ListProjectsLocationsBlockchainNodesRequest, ListProjectsLocationsBlockchainNodesResponse, ListProjectsLocationsBlockchainNodesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsBlockchainNodes: API.PaginatedOperationMethod<
+  ListProjectsLocationsBlockchainNodesRequest,
+  ListProjectsLocationsBlockchainNodesResponse,
+  ListProjectsLocationsBlockchainNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsBlockchainNodesRequest,
   output: ListProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -515,7 +669,10 @@ export interface GetProjectsLocationsBlockchainNodesRequest {
 export const GetProjectsLocationsBlockchainNodesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsBlockchainNodesRequest>;
 
@@ -525,7 +682,12 @@ export const GetProjectsLocationsBlockchainNodesResponse = BlockchainNode;
 export type GetProjectsLocationsBlockchainNodesError = DefaultErrors;
 
 /** Gets details of a single blockchain node. */
-export const getProjectsLocationsBlockchainNodes: API.OperationMethod<GetProjectsLocationsBlockchainNodesRequest, GetProjectsLocationsBlockchainNodesResponse, GetProjectsLocationsBlockchainNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsBlockchainNodes: API.OperationMethod<
+  GetProjectsLocationsBlockchainNodesRequest,
+  GetProjectsLocationsBlockchainNodesResponse,
+  GetProjectsLocationsBlockchainNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsBlockchainNodesRequest,
   output: GetProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -544,11 +706,17 @@ export interface CreateProjectsLocationsBlockchainNodesRequest {
 
 export const CreateProjectsLocationsBlockchainNodesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  blockchainNodeId: Schema.optional(Schema.String).pipe(T.HttpQuery("blockchainNodeId")),
+  blockchainNodeId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("blockchainNodeId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(BlockchainNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsBlockchainNodesRequest>;
 
@@ -558,7 +726,12 @@ export const CreateProjectsLocationsBlockchainNodesResponse = Operation;
 export type CreateProjectsLocationsBlockchainNodesError = DefaultErrors;
 
 /** Creates a new blockchain node in a given project and location. */
-export const createProjectsLocationsBlockchainNodes: API.OperationMethod<CreateProjectsLocationsBlockchainNodesRequest, CreateProjectsLocationsBlockchainNodesResponse, CreateProjectsLocationsBlockchainNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsBlockchainNodes: API.OperationMethod<
+  CreateProjectsLocationsBlockchainNodesRequest,
+  CreateProjectsLocationsBlockchainNodesResponse,
+  CreateProjectsLocationsBlockchainNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsBlockchainNodesRequest,
   output: CreateProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -581,7 +754,11 @@ export const PatchProjectsLocationsBlockchainNodesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(BlockchainNode).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsBlockchainNodesRequest>;
 
@@ -591,7 +768,12 @@ export const PatchProjectsLocationsBlockchainNodesResponse = Operation;
 export type PatchProjectsLocationsBlockchainNodesError = DefaultErrors;
 
 /** Updates the parameters of a single blockchain node. */
-export const patchProjectsLocationsBlockchainNodes: API.OperationMethod<PatchProjectsLocationsBlockchainNodesRequest, PatchProjectsLocationsBlockchainNodesResponse, PatchProjectsLocationsBlockchainNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsBlockchainNodes: API.OperationMethod<
+  PatchProjectsLocationsBlockchainNodesRequest,
+  PatchProjectsLocationsBlockchainNodesResponse,
+  PatchProjectsLocationsBlockchainNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsBlockchainNodesRequest,
   output: PatchProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -608,7 +790,10 @@ export const DeleteProjectsLocationsBlockchainNodesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsBlockchainNodesRequest>;
 
@@ -618,9 +803,13 @@ export const DeleteProjectsLocationsBlockchainNodesResponse = Operation;
 export type DeleteProjectsLocationsBlockchainNodesError = DefaultErrors;
 
 /** Deletes a single blockchain node. */
-export const deleteProjectsLocationsBlockchainNodes: API.OperationMethod<DeleteProjectsLocationsBlockchainNodesRequest, DeleteProjectsLocationsBlockchainNodesResponse, DeleteProjectsLocationsBlockchainNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsBlockchainNodes: API.OperationMethod<
+  DeleteProjectsLocationsBlockchainNodesRequest,
+  DeleteProjectsLocationsBlockchainNodesResponse,
+  DeleteProjectsLocationsBlockchainNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsBlockchainNodesRequest,
   output: DeleteProjectsLocationsBlockchainNodesResponse,
   errors: [],
 }));
-

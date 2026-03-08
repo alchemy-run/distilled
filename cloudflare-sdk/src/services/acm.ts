@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Errors
@@ -23,25 +21,25 @@ export class AdvancedCertificateManagerRequired extends Schema.TaggedErrorClass<
   "AdvancedCertificateManagerRequired",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(AdvancedCertificateManagerRequired, [{"code":1450}]);
+T.applyErrorMatchers(AdvancedCertificateManagerRequired, [{ code: 1450 }]);
 
 export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
   "InvalidObjectIdentifier",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidObjectIdentifier, [{"code":7003}]);
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
 
 export class NoStateChange extends Schema.TaggedErrorClass<NoStateChange>()(
   "NoStateChange",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(NoStateChange, [{"code":1467}]);
+T.applyErrorMatchers(NoStateChange, [{ code: 1467 }]);
 
 export class PreviousJobInProgress extends Schema.TaggedErrorClass<PreviousJobInProgress>()(
   "PreviousJobInProgress",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(PreviousJobInProgress, [{"code":1482}]);
+T.applyErrorMatchers(PreviousJobInProgress, [{ code: 1482 }]);
 
 // =============================================================================
 // TotalTl
@@ -53,9 +51,10 @@ export interface GetTotalTlRequest {
 }
 
 export const GetTotalTlRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/acm/total_tls" })) as unknown as Schema.Schema<GetTotalTlRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/acm/total_tls" }),
+) as unknown as Schema.Schema<GetTotalTlRequest>;
 
 export interface GetTotalTlResponse {
   /** The Certificate Authority that Total TLS certificates will be issued through. */
@@ -67,10 +66,18 @@ export interface GetTotalTlResponse {
 }
 
 export const GetTotalTlResponse = Schema.Struct({
-  certificateAuthority: Schema.optional(Schema.Literals(["google", "lets_encrypt", "ssl_com"])),
+  certificateAuthority: Schema.optional(
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+  ),
   enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ certificateAuthority: "certificate_authority", enabled: "enabled", validityPeriod: "validity_period" })) as unknown as Schema.Schema<GetTotalTlResponse>;
+  validityPeriod: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    certificateAuthority: "certificate_authority",
+    enabled: "enabled",
+    validityPeriod: "validity_period",
+  }),
+) as unknown as Schema.Schema<GetTotalTlResponse>;
 
 export type GetTotalTlError =
   | DefaultErrors
@@ -100,9 +107,16 @@ export interface CreateTotalTlRequest {
 export const CreateTotalTlRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.Boolean,
-  certificateAuthority: Schema.optional(Schema.Literals(["google", "lets_encrypt", "ssl_com"]))
-})
-  .pipe(Schema.encodeKeys({ enabled: "enabled", certificateAuthority: "certificate_authority" }), T.Http({ method: "POST", path: "/zones/{zone_id}/acm/total_tls" })) as unknown as Schema.Schema<CreateTotalTlRequest>;
+  certificateAuthority: Schema.optional(
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    enabled: "enabled",
+    certificateAuthority: "certificate_authority",
+  }),
+  T.Http({ method: "POST", path: "/zones/{zone_id}/acm/total_tls" }),
+) as unknown as Schema.Schema<CreateTotalTlRequest>;
 
 export interface CreateTotalTlResponse {
   /** The Certificate Authority that Total TLS certificates will be issued through. */
@@ -114,10 +128,18 @@ export interface CreateTotalTlResponse {
 }
 
 export const CreateTotalTlResponse = Schema.Struct({
-  certificateAuthority: Schema.optional(Schema.Literals(["google", "lets_encrypt", "ssl_com"])),
+  certificateAuthority: Schema.optional(
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+  ),
   enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ certificateAuthority: "certificate_authority", enabled: "enabled", validityPeriod: "validity_period" })) as unknown as Schema.Schema<CreateTotalTlResponse>;
+  validityPeriod: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    certificateAuthority: "certificate_authority",
+    enabled: "enabled",
+    validityPeriod: "validity_period",
+  }),
+) as unknown as Schema.Schema<CreateTotalTlResponse>;
 
 export type CreateTotalTlError =
   | DefaultErrors
@@ -134,5 +156,10 @@ export const createTotalTl: API.OperationMethod<
 > = API.make(() => ({
   input: CreateTotalTlRequest,
   output: CreateTotalTlResponse,
-  errors: [InvalidObjectIdentifier, AdvancedCertificateManagerRequired, NoStateChange, PreviousJobInProgress],
+  errors: [
+    InvalidObjectIdentifier,
+    AdvancedCertificateManagerRequired,
+    NoStateChange,
+    PreviousJobInProgress,
+  ],
 }));

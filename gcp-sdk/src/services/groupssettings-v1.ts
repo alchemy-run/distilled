@@ -150,70 +150,72 @@ export interface Groups {
   whoCanUnassignTopic?: string;
 }
 
-export const Groups: Schema.Schema<Groups> = Schema.suspend(() => Schema.Struct({
-  whoCanJoin: Schema.optional(Schema.String),
-  whoCanModifyMembers: Schema.optional(Schema.String),
-  whoCanMarkNoResponseNeeded: Schema.optional(Schema.String),
-  archiveOnly: Schema.optional(Schema.String),
-  includeInGlobalAddressList: Schema.optional(Schema.String),
-  spamModerationLevel: Schema.optional(Schema.String),
-  whoCanMoveTopicsOut: Schema.optional(Schema.String),
-  whoCanLeaveGroup: Schema.optional(Schema.String),
-  includeCustomFooter: Schema.optional(Schema.String),
-  defaultMessageDenyNotificationText: Schema.optional(Schema.String),
-  whoCanMakeTopicsSticky: Schema.optional(Schema.String),
-  whoCanDeleteTopics: Schema.optional(Schema.String),
-  whoCanViewMembership: Schema.optional(Schema.String),
-  messageDisplayFont: Schema.optional(Schema.String),
-  whoCanContactOwner: Schema.optional(Schema.String),
-  allowExternalMembers: Schema.optional(Schema.String),
-  whoCanModerateContent: Schema.optional(Schema.String),
-  default_sender: Schema.optional(Schema.String),
-  whoCanApproveMembers: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  whoCanTakeTopics: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  whoCanViewGroup: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  customFooterText: Schema.optional(Schema.String),
-  whoCanEnterFreeFormTags: Schema.optional(Schema.String),
-  whoCanMoveTopicsIn: Schema.optional(Schema.String),
-  whoCanPostAnnouncements: Schema.optional(Schema.String),
-  customReplyTo: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  whoCanModerateMembers: Schema.optional(Schema.String),
-  whoCanPostMessage: Schema.optional(Schema.String),
-  isArchived: Schema.optional(Schema.String),
-  favoriteRepliesOnTop: Schema.optional(Schema.String),
-  whoCanLockTopics: Schema.optional(Schema.String),
-  customRolesEnabledForSettingsToBeMerged: Schema.optional(Schema.String),
-  sendMessageDenyNotification: Schema.optional(Schema.String),
-  membersCanPostAsTheGroup: Schema.optional(Schema.String),
-  showInGroupDirectory: Schema.optional(Schema.String),
-  whoCanUnmarkFavoriteReplyOnAnyTopic: Schema.optional(Schema.String),
-  allowGoogleCommunication: Schema.optional(Schema.String),
-  whoCanHideAbuse: Schema.optional(Schema.String),
-  whoCanAddReferences: Schema.optional(Schema.String),
-  whoCanDeleteAnyPost: Schema.optional(Schema.String),
-  whoCanModifyTagsAndCategories: Schema.optional(Schema.String),
-  allowWebPosting: Schema.optional(Schema.String),
-  whoCanMarkDuplicate: Schema.optional(Schema.String),
-  whoCanMarkFavoriteReplyOnOwnTopic: Schema.optional(Schema.String),
-  whoCanMarkFavoriteReplyOnAnyTopic: Schema.optional(Schema.String),
-  whoCanDiscoverGroup: Schema.optional(Schema.String),
-  enableCollaborativeInbox: Schema.optional(Schema.String),
-  whoCanAssignTopics: Schema.optional(Schema.String),
-  replyTo: Schema.optional(Schema.String),
-  whoCanAdd: Schema.optional(Schema.String),
-  whoCanApproveMessages: Schema.optional(Schema.String),
-  whoCanBanUsers: Schema.optional(Schema.String),
-  maxMessageBytes: Schema.optional(Schema.Number),
-  messageModerationLevel: Schema.optional(Schema.String),
-  whoCanAssistContent: Schema.optional(Schema.String),
-  whoCanInvite: Schema.optional(Schema.String),
-  primaryLanguage: Schema.optional(Schema.String),
-  whoCanUnassignTopic: Schema.optional(Schema.String),
-})).annotate({ identifier: "Groups" }) as any as Schema.Schema<Groups>;
+export const Groups: Schema.Schema<Groups> = Schema.suspend(() =>
+  Schema.Struct({
+    whoCanJoin: Schema.optional(Schema.String),
+    whoCanModifyMembers: Schema.optional(Schema.String),
+    whoCanMarkNoResponseNeeded: Schema.optional(Schema.String),
+    archiveOnly: Schema.optional(Schema.String),
+    includeInGlobalAddressList: Schema.optional(Schema.String),
+    spamModerationLevel: Schema.optional(Schema.String),
+    whoCanMoveTopicsOut: Schema.optional(Schema.String),
+    whoCanLeaveGroup: Schema.optional(Schema.String),
+    includeCustomFooter: Schema.optional(Schema.String),
+    defaultMessageDenyNotificationText: Schema.optional(Schema.String),
+    whoCanMakeTopicsSticky: Schema.optional(Schema.String),
+    whoCanDeleteTopics: Schema.optional(Schema.String),
+    whoCanViewMembership: Schema.optional(Schema.String),
+    messageDisplayFont: Schema.optional(Schema.String),
+    whoCanContactOwner: Schema.optional(Schema.String),
+    allowExternalMembers: Schema.optional(Schema.String),
+    whoCanModerateContent: Schema.optional(Schema.String),
+    default_sender: Schema.optional(Schema.String),
+    whoCanApproveMembers: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    whoCanTakeTopics: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    whoCanViewGroup: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    customFooterText: Schema.optional(Schema.String),
+    whoCanEnterFreeFormTags: Schema.optional(Schema.String),
+    whoCanMoveTopicsIn: Schema.optional(Schema.String),
+    whoCanPostAnnouncements: Schema.optional(Schema.String),
+    customReplyTo: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    whoCanModerateMembers: Schema.optional(Schema.String),
+    whoCanPostMessage: Schema.optional(Schema.String),
+    isArchived: Schema.optional(Schema.String),
+    favoriteRepliesOnTop: Schema.optional(Schema.String),
+    whoCanLockTopics: Schema.optional(Schema.String),
+    customRolesEnabledForSettingsToBeMerged: Schema.optional(Schema.String),
+    sendMessageDenyNotification: Schema.optional(Schema.String),
+    membersCanPostAsTheGroup: Schema.optional(Schema.String),
+    showInGroupDirectory: Schema.optional(Schema.String),
+    whoCanUnmarkFavoriteReplyOnAnyTopic: Schema.optional(Schema.String),
+    allowGoogleCommunication: Schema.optional(Schema.String),
+    whoCanHideAbuse: Schema.optional(Schema.String),
+    whoCanAddReferences: Schema.optional(Schema.String),
+    whoCanDeleteAnyPost: Schema.optional(Schema.String),
+    whoCanModifyTagsAndCategories: Schema.optional(Schema.String),
+    allowWebPosting: Schema.optional(Schema.String),
+    whoCanMarkDuplicate: Schema.optional(Schema.String),
+    whoCanMarkFavoriteReplyOnOwnTopic: Schema.optional(Schema.String),
+    whoCanMarkFavoriteReplyOnAnyTopic: Schema.optional(Schema.String),
+    whoCanDiscoverGroup: Schema.optional(Schema.String),
+    enableCollaborativeInbox: Schema.optional(Schema.String),
+    whoCanAssignTopics: Schema.optional(Schema.String),
+    replyTo: Schema.optional(Schema.String),
+    whoCanAdd: Schema.optional(Schema.String),
+    whoCanApproveMessages: Schema.optional(Schema.String),
+    whoCanBanUsers: Schema.optional(Schema.String),
+    maxMessageBytes: Schema.optional(Schema.Number),
+    messageModerationLevel: Schema.optional(Schema.String),
+    whoCanAssistContent: Schema.optional(Schema.String),
+    whoCanInvite: Schema.optional(Schema.String),
+    primaryLanguage: Schema.optional(Schema.String),
+    whoCanUnassignTopic: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Groups" }) as any as Schema.Schema<Groups>;
 
 // ==========================================================================
 // Operations
@@ -237,7 +239,12 @@ export const GetGroupsResponse = Groups;
 export type GetGroupsError = DefaultErrors;
 
 /** Gets one resource by id. */
-export const getGroups: API.OperationMethod<GetGroupsRequest, GetGroupsResponse, GetGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getGroups: API.OperationMethod<
+  GetGroupsRequest,
+  GetGroupsResponse,
+  GetGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetGroupsRequest,
   output: GetGroupsResponse,
   errors: [],
@@ -264,7 +271,12 @@ export const UpdateGroupsResponse = Groups;
 export type UpdateGroupsError = DefaultErrors;
 
 /** Updates an existing resource. */
-export const updateGroups: API.OperationMethod<UpdateGroupsRequest, UpdateGroupsResponse, UpdateGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateGroups: API.OperationMethod<
+  UpdateGroupsRequest,
+  UpdateGroupsResponse,
+  UpdateGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateGroupsRequest,
   output: UpdateGroupsResponse,
   errors: [],
@@ -291,9 +303,13 @@ export const PatchGroupsResponse = Groups;
 export type PatchGroupsError = DefaultErrors;
 
 /** Updates an existing resource. This method supports patch semantics. */
-export const patchGroups: API.OperationMethod<PatchGroupsRequest, PatchGroupsResponse, PatchGroupsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchGroups: API.OperationMethod<
+  PatchGroupsRequest,
+  PatchGroupsResponse,
+  PatchGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchGroupsRequest,
   output: PatchGroupsResponse,
   errors: [],
 }));
-

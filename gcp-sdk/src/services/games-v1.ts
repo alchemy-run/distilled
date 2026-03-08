@@ -52,21 +52,26 @@ export interface AchievementDefinition {
   experiencePoints?: string;
 }
 
-export const AchievementDefinition: Schema.Schema<AchievementDefinition> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  achievementType: Schema.optional(Schema.String),
-  totalSteps: Schema.optional(Schema.Number),
-  formattedTotalSteps: Schema.optional(Schema.String),
-  revealedIconUrl: Schema.optional(Schema.String),
-  isRevealedIconUrlDefault: Schema.optional(Schema.Boolean),
-  unlockedIconUrl: Schema.optional(Schema.String),
-  isUnlockedIconUrlDefault: Schema.optional(Schema.Boolean),
-  initialState: Schema.optional(Schema.String),
-  experiencePoints: Schema.optional(Schema.String),
-})).annotate({ identifier: "AchievementDefinition" }) as any as Schema.Schema<AchievementDefinition>;
+export const AchievementDefinition: Schema.Schema<AchievementDefinition> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      achievementType: Schema.optional(Schema.String),
+      totalSteps: Schema.optional(Schema.Number),
+      formattedTotalSteps: Schema.optional(Schema.String),
+      revealedIconUrl: Schema.optional(Schema.String),
+      isRevealedIconUrlDefault: Schema.optional(Schema.Boolean),
+      unlockedIconUrl: Schema.optional(Schema.String),
+      isUnlockedIconUrlDefault: Schema.optional(Schema.Boolean),
+      initialState: Schema.optional(Schema.String),
+      experiencePoints: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AchievementDefinition",
+  }) as any as Schema.Schema<AchievementDefinition>;
 
 export interface AchievementDefinitionsListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementDefinitionsListResponse`. */
@@ -77,11 +82,16 @@ export interface AchievementDefinitionsListResponse {
   items?: Array<AchievementDefinition>;
 }
 
-export const AchievementDefinitionsListResponse: Schema.Schema<AchievementDefinitionsListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(AchievementDefinition)),
-})).annotate({ identifier: "AchievementDefinitionsListResponse" }) as any as Schema.Schema<AchievementDefinitionsListResponse>;
+export const AchievementDefinitionsListResponse: Schema.Schema<AchievementDefinitionsListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(AchievementDefinition)),
+    }),
+  ).annotate({
+    identifier: "AchievementDefinitionsListResponse",
+  }) as any as Schema.Schema<AchievementDefinitionsListResponse>;
 
 export interface AchievementIncrementResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementIncrementResponse`. */
@@ -92,11 +102,16 @@ export interface AchievementIncrementResponse {
   newlyUnlocked?: boolean;
 }
 
-export const AchievementIncrementResponse: Schema.Schema<AchievementIncrementResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  currentSteps: Schema.optional(Schema.Number),
-  newlyUnlocked: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AchievementIncrementResponse" }) as any as Schema.Schema<AchievementIncrementResponse>;
+export const AchievementIncrementResponse: Schema.Schema<AchievementIncrementResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      currentSteps: Schema.optional(Schema.Number),
+      newlyUnlocked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AchievementIncrementResponse",
+  }) as any as Schema.Schema<AchievementIncrementResponse>;
 
 export interface PlayerAchievement {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerAchievement`. */
@@ -115,15 +130,20 @@ export interface PlayerAchievement {
   experiencePoints?: string;
 }
 
-export const PlayerAchievement: Schema.Schema<PlayerAchievement> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  currentSteps: Schema.optional(Schema.Number),
-  formattedCurrentStepsString: Schema.optional(Schema.String),
-  achievementState: Schema.optional(Schema.String),
-  lastUpdatedTimestamp: Schema.optional(Schema.String),
-  experiencePoints: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlayerAchievement" }) as any as Schema.Schema<PlayerAchievement>;
+export const PlayerAchievement: Schema.Schema<PlayerAchievement> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      currentSteps: Schema.optional(Schema.Number),
+      formattedCurrentStepsString: Schema.optional(Schema.String),
+      achievementState: Schema.optional(Schema.String),
+      lastUpdatedTimestamp: Schema.optional(Schema.String),
+      experiencePoints: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PlayerAchievement",
+  }) as any as Schema.Schema<PlayerAchievement>;
 
 export interface PlayerAchievementListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerAchievementListResponse`. */
@@ -134,11 +154,16 @@ export interface PlayerAchievementListResponse {
   items?: Array<PlayerAchievement>;
 }
 
-export const PlayerAchievementListResponse: Schema.Schema<PlayerAchievementListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(PlayerAchievement)),
-})).annotate({ identifier: "PlayerAchievementListResponse" }) as any as Schema.Schema<PlayerAchievementListResponse>;
+export const PlayerAchievementListResponse: Schema.Schema<PlayerAchievementListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(PlayerAchievement)),
+    }),
+  ).annotate({
+    identifier: "PlayerAchievementListResponse",
+  }) as any as Schema.Schema<PlayerAchievementListResponse>;
 
 export interface AchievementRevealResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementRevealResponse`. */
@@ -147,10 +172,15 @@ export interface AchievementRevealResponse {
   currentState?: "REVEALED" | "UNLOCKED" | (string & {});
 }
 
-export const AchievementRevealResponse: Schema.Schema<AchievementRevealResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  currentState: Schema.optional(Schema.String),
-})).annotate({ identifier: "AchievementRevealResponse" }) as any as Schema.Schema<AchievementRevealResponse>;
+export const AchievementRevealResponse: Schema.Schema<AchievementRevealResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      currentState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AchievementRevealResponse",
+  }) as any as Schema.Schema<AchievementRevealResponse>;
 
 export interface AchievementSetStepsAtLeastResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementSetStepsAtLeastResponse`. */
@@ -161,11 +191,16 @@ export interface AchievementSetStepsAtLeastResponse {
   newlyUnlocked?: boolean;
 }
 
-export const AchievementSetStepsAtLeastResponse: Schema.Schema<AchievementSetStepsAtLeastResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  currentSteps: Schema.optional(Schema.Number),
-  newlyUnlocked: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AchievementSetStepsAtLeastResponse" }) as any as Schema.Schema<AchievementSetStepsAtLeastResponse>;
+export const AchievementSetStepsAtLeastResponse: Schema.Schema<AchievementSetStepsAtLeastResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      currentSteps: Schema.optional(Schema.Number),
+      newlyUnlocked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AchievementSetStepsAtLeastResponse",
+  }) as any as Schema.Schema<AchievementSetStepsAtLeastResponse>;
 
 export interface AchievementUnlockResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementUnlockResponse`. */
@@ -174,10 +209,15 @@ export interface AchievementUnlockResponse {
   newlyUnlocked?: boolean;
 }
 
-export const AchievementUnlockResponse: Schema.Schema<AchievementUnlockResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  newlyUnlocked: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AchievementUnlockResponse" }) as any as Schema.Schema<AchievementUnlockResponse>;
+export const AchievementUnlockResponse: Schema.Schema<AchievementUnlockResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      newlyUnlocked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AchievementUnlockResponse",
+  }) as any as Schema.Schema<AchievementUnlockResponse>;
 
 export interface GamesAchievementIncrement {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#GamesAchievementIncrement`. */
@@ -188,11 +228,16 @@ export interface GamesAchievementIncrement {
   requestId?: string;
 }
 
-export const GamesAchievementIncrement: Schema.Schema<GamesAchievementIncrement> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  steps: Schema.optional(Schema.Number),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GamesAchievementIncrement" }) as any as Schema.Schema<GamesAchievementIncrement>;
+export const GamesAchievementIncrement: Schema.Schema<GamesAchievementIncrement> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      steps: Schema.optional(Schema.Number),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GamesAchievementIncrement",
+  }) as any as Schema.Schema<GamesAchievementIncrement>;
 
 export interface GamesAchievementSetStepsAtLeast {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#GamesAchievementSetStepsAtLeast`. */
@@ -201,10 +246,15 @@ export interface GamesAchievementSetStepsAtLeast {
   steps?: number;
 }
 
-export const GamesAchievementSetStepsAtLeast: Schema.Schema<GamesAchievementSetStepsAtLeast> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  steps: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GamesAchievementSetStepsAtLeast" }) as any as Schema.Schema<GamesAchievementSetStepsAtLeast>;
+export const GamesAchievementSetStepsAtLeast: Schema.Schema<GamesAchievementSetStepsAtLeast> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      steps: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GamesAchievementSetStepsAtLeast",
+  }) as any as Schema.Schema<GamesAchievementSetStepsAtLeast>;
 
 export interface AchievementUpdateRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementUpdateRequest`. */
@@ -212,20 +262,30 @@ export interface AchievementUpdateRequest {
   /** The achievement this update is being applied to. */
   achievementId?: string;
   /** The type of update being applied. */
-  updateType?: "REVEAL" | "UNLOCK" | "INCREMENT" | "SET_STEPS_AT_LEAST" | (string & {});
+  updateType?:
+    | "REVEAL"
+    | "UNLOCK"
+    | "INCREMENT"
+    | "SET_STEPS_AT_LEAST"
+    | (string & {});
   /** The payload if an update of type `INCREMENT` was requested for the achievement. */
   incrementPayload?: GamesAchievementIncrement;
   /** The payload if an update of type `SET_STEPS_AT_LEAST` was requested for the achievement. */
   setStepsAtLeastPayload?: GamesAchievementSetStepsAtLeast;
 }
 
-export const AchievementUpdateRequest: Schema.Schema<AchievementUpdateRequest> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  achievementId: Schema.optional(Schema.String),
-  updateType: Schema.optional(Schema.String),
-  incrementPayload: Schema.optional(GamesAchievementIncrement),
-  setStepsAtLeastPayload: Schema.optional(GamesAchievementSetStepsAtLeast),
-})).annotate({ identifier: "AchievementUpdateRequest" }) as any as Schema.Schema<AchievementUpdateRequest>;
+export const AchievementUpdateRequest: Schema.Schema<AchievementUpdateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      achievementId: Schema.optional(Schema.String),
+      updateType: Schema.optional(Schema.String),
+      incrementPayload: Schema.optional(GamesAchievementIncrement),
+      setStepsAtLeastPayload: Schema.optional(GamesAchievementSetStepsAtLeast),
+    }),
+  ).annotate({
+    identifier: "AchievementUpdateRequest",
+  }) as any as Schema.Schema<AchievementUpdateRequest>;
 
 export interface AchievementUpdateMultipleRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementUpdateMultipleRequest`. */
@@ -234,10 +294,15 @@ export interface AchievementUpdateMultipleRequest {
   updates?: Array<AchievementUpdateRequest>;
 }
 
-export const AchievementUpdateMultipleRequest: Schema.Schema<AchievementUpdateMultipleRequest> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  updates: Schema.optional(Schema.Array(AchievementUpdateRequest)),
-})).annotate({ identifier: "AchievementUpdateMultipleRequest" }) as any as Schema.Schema<AchievementUpdateMultipleRequest>;
+export const AchievementUpdateMultipleRequest: Schema.Schema<AchievementUpdateMultipleRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      updates: Schema.optional(Schema.Array(AchievementUpdateRequest)),
+    }),
+  ).annotate({
+    identifier: "AchievementUpdateMultipleRequest",
+  }) as any as Schema.Schema<AchievementUpdateMultipleRequest>;
 
 export interface AchievementUpdateResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementUpdateResponse`. */
@@ -254,14 +319,19 @@ export interface AchievementUpdateResponse {
   newlyUnlocked?: boolean;
 }
 
-export const AchievementUpdateResponse: Schema.Schema<AchievementUpdateResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  achievementId: Schema.optional(Schema.String),
-  updateOccurred: Schema.optional(Schema.Boolean),
-  currentState: Schema.optional(Schema.String),
-  currentSteps: Schema.optional(Schema.Number),
-  newlyUnlocked: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "AchievementUpdateResponse" }) as any as Schema.Schema<AchievementUpdateResponse>;
+export const AchievementUpdateResponse: Schema.Schema<AchievementUpdateResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      achievementId: Schema.optional(Schema.String),
+      updateOccurred: Schema.optional(Schema.Boolean),
+      currentState: Schema.optional(Schema.String),
+      currentSteps: Schema.optional(Schema.Number),
+      newlyUnlocked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AchievementUpdateResponse",
+  }) as any as Schema.Schema<AchievementUpdateResponse>;
 
 export interface AchievementUpdateMultipleResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementUpdateMultipleResponse`. */
@@ -270,10 +340,17 @@ export interface AchievementUpdateMultipleResponse {
   updatedAchievements?: Array<AchievementUpdateResponse>;
 }
 
-export const AchievementUpdateMultipleResponse: Schema.Schema<AchievementUpdateMultipleResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  updatedAchievements: Schema.optional(Schema.Array(AchievementUpdateResponse)),
-})).annotate({ identifier: "AchievementUpdateMultipleResponse" }) as any as Schema.Schema<AchievementUpdateMultipleResponse>;
+export const AchievementUpdateMultipleResponse: Schema.Schema<AchievementUpdateMultipleResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      updatedAchievements: Schema.optional(
+        Schema.Array(AchievementUpdateResponse),
+      ),
+    }),
+  ).annotate({
+    identifier: "AchievementUpdateMultipleResponse",
+  }) as any as Schema.Schema<AchievementUpdateMultipleResponse>;
 
 export interface ApplicationCategory {
   /** The primary category. */
@@ -284,11 +361,16 @@ export interface ApplicationCategory {
   kind?: string;
 }
 
-export const ApplicationCategory: Schema.Schema<ApplicationCategory> = Schema.suspend(() => Schema.Struct({
-  primary: Schema.optional(Schema.String),
-  secondary: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApplicationCategory" }) as any as Schema.Schema<ApplicationCategory>;
+export const ApplicationCategory: Schema.Schema<ApplicationCategory> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      primary: Schema.optional(Schema.String),
+      secondary: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApplicationCategory",
+  }) as any as Schema.Schema<ApplicationCategory>;
 
 export interface ImageAsset {
   /** The name of the asset. */
@@ -303,13 +385,15 @@ export interface ImageAsset {
   kind?: string;
 }
 
-export const ImageAsset: Schema.Schema<ImageAsset> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number),
-  height: Schema.optional(Schema.Number),
-  url: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "ImageAsset" }) as any as Schema.Schema<ImageAsset>;
+export const ImageAsset: Schema.Schema<ImageAsset> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    width: Schema.optional(Schema.Number),
+    height: Schema.optional(Schema.Number),
+    url: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "ImageAsset" }) as any as Schema.Schema<ImageAsset>;
 
 export interface InstanceAndroidDetails {
   /** Android package name which maps to Google Play URL. */
@@ -322,12 +406,17 @@ export interface InstanceAndroidDetails {
   preferred?: boolean;
 }
 
-export const InstanceAndroidDetails: Schema.Schema<InstanceAndroidDetails> = Schema.suspend(() => Schema.Struct({
-  packageName: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  enablePiracyCheck: Schema.optional(Schema.Boolean),
-  preferred: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "InstanceAndroidDetails" }) as any as Schema.Schema<InstanceAndroidDetails>;
+export const InstanceAndroidDetails: Schema.Schema<InstanceAndroidDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      packageName: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      enablePiracyCheck: Schema.optional(Schema.Boolean),
+      preferred: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "InstanceAndroidDetails",
+  }) as any as Schema.Schema<InstanceAndroidDetails>;
 
 export interface InstanceIosDetails {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#instanceIosDetails`. */
@@ -346,15 +435,20 @@ export interface InstanceIosDetails {
   preferredForIpad?: boolean;
 }
 
-export const InstanceIosDetails: Schema.Schema<InstanceIosDetails> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  bundleIdentifier: Schema.optional(Schema.String),
-  itunesAppId: Schema.optional(Schema.String),
-  supportIphone: Schema.optional(Schema.Boolean),
-  supportIpad: Schema.optional(Schema.Boolean),
-  preferredForIphone: Schema.optional(Schema.Boolean),
-  preferredForIpad: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "InstanceIosDetails" }) as any as Schema.Schema<InstanceIosDetails>;
+export const InstanceIosDetails: Schema.Schema<InstanceIosDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      bundleIdentifier: Schema.optional(Schema.String),
+      itunesAppId: Schema.optional(Schema.String),
+      supportIphone: Schema.optional(Schema.Boolean),
+      supportIpad: Schema.optional(Schema.Boolean),
+      preferredForIphone: Schema.optional(Schema.Boolean),
+      preferredForIpad: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "InstanceIosDetails",
+  }) as any as Schema.Schema<InstanceIosDetails>;
 
 export interface InstanceWebDetails {
   /** Launch URL for the game. */
@@ -365,11 +459,16 @@ export interface InstanceWebDetails {
   preferred?: boolean;
 }
 
-export const InstanceWebDetails: Schema.Schema<InstanceWebDetails> = Schema.suspend(() => Schema.Struct({
-  launchUrl: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  preferred: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "InstanceWebDetails" }) as any as Schema.Schema<InstanceWebDetails>;
+export const InstanceWebDetails: Schema.Schema<InstanceWebDetails> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      launchUrl: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      preferred: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "InstanceWebDetails",
+  }) as any as Schema.Schema<InstanceWebDetails>;
 
 export interface Instance {
   /** The platform type. */
@@ -392,17 +491,19 @@ export interface Instance {
   kind?: string;
 }
 
-export const Instance: Schema.Schema<Instance> = Schema.suspend(() => Schema.Struct({
-  platformType: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  turnBasedPlay: Schema.optional(Schema.Boolean),
-  realtimePlay: Schema.optional(Schema.Boolean),
-  androidInstance: Schema.optional(InstanceAndroidDetails),
-  iosInstance: Schema.optional(InstanceIosDetails),
-  webInstance: Schema.optional(InstanceWebDetails),
-  acquisitionUri: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
+export const Instance: Schema.Schema<Instance> = Schema.suspend(() =>
+  Schema.Struct({
+    platformType: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    turnBasedPlay: Schema.optional(Schema.Boolean),
+    realtimePlay: Schema.optional(Schema.Boolean),
+    androidInstance: Schema.optional(InstanceAndroidDetails),
+    iosInstance: Schema.optional(InstanceIosDetails),
+    webInstance: Schema.optional(InstanceWebDetails),
+    acquisitionUri: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
 
 export interface Application {
   /** The ID of the application. */
@@ -433,21 +534,23 @@ export interface Application {
   themeColor?: string;
 }
 
-export const Application: Schema.Schema<Application> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  author: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  category: Schema.optional(ApplicationCategory),
-  assets: Schema.optional(Schema.Array(ImageAsset)),
-  instances: Schema.optional(Schema.Array(Instance)),
-  kind: Schema.optional(Schema.String),
-  lastUpdatedTimestamp: Schema.optional(Schema.String),
-  achievement_count: Schema.optional(Schema.Number),
-  leaderboard_count: Schema.optional(Schema.Number),
-  enabledFeatures: Schema.optional(Schema.Array(Schema.String)),
-  themeColor: Schema.optional(Schema.String),
-})).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
+export const Application: Schema.Schema<Application> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    author: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    category: Schema.optional(ApplicationCategory),
+    assets: Schema.optional(Schema.Array(ImageAsset)),
+    instances: Schema.optional(Schema.Array(Instance)),
+    kind: Schema.optional(Schema.String),
+    lastUpdatedTimestamp: Schema.optional(Schema.String),
+    achievement_count: Schema.optional(Schema.Number),
+    leaderboard_count: Schema.optional(Schema.Number),
+    enabledFeatures: Schema.optional(Schema.Array(Schema.String)),
+    themeColor: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
 
 export interface ApplicationVerifyResponse {
   /** The ID of the player that was issued the auth token used in this request. */
@@ -458,20 +561,27 @@ export interface ApplicationVerifyResponse {
   kind?: string;
 }
 
-export const ApplicationVerifyResponse: Schema.Schema<ApplicationVerifyResponse> = Schema.suspend(() => Schema.Struct({
-  player_id: Schema.optional(Schema.String),
-  alternate_player_id: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApplicationVerifyResponse" }) as any as Schema.Schema<ApplicationVerifyResponse>;
+export const ApplicationVerifyResponse: Schema.Schema<ApplicationVerifyResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      player_id: Schema.optional(Schema.String),
+      alternate_player_id: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApplicationVerifyResponse",
+  }) as any as Schema.Schema<ApplicationVerifyResponse>;
 
 export interface EndPoint {
   /** A URL suitable for loading in a web browser for the requested endpoint. */
   url?: string;
 }
 
-export const EndPoint: Schema.Schema<EndPoint> = Schema.suspend(() => Schema.Struct({
-  url: Schema.optional(Schema.String),
-})).annotate({ identifier: "EndPoint" }) as any as Schema.Schema<EndPoint>;
+export const EndPoint: Schema.Schema<EndPoint> = Schema.suspend(() =>
+  Schema.Struct({
+    url: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EndPoint" }) as any as Schema.Schema<EndPoint>;
 
 export interface PlayerEvent {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerEvent`. */
@@ -486,13 +596,15 @@ export interface PlayerEvent {
   formattedNumEvents?: string;
 }
 
-export const PlayerEvent: Schema.Schema<PlayerEvent> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  definitionId: Schema.optional(Schema.String),
-  playerId: Schema.optional(Schema.String),
-  numEvents: Schema.optional(Schema.String),
-  formattedNumEvents: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlayerEvent" }) as any as Schema.Schema<PlayerEvent>;
+export const PlayerEvent: Schema.Schema<PlayerEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    definitionId: Schema.optional(Schema.String),
+    playerId: Schema.optional(Schema.String),
+    numEvents: Schema.optional(Schema.String),
+    formattedNumEvents: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PlayerEvent" }) as any as Schema.Schema<PlayerEvent>;
 
 export interface PlayerEventListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerEventListResponse`. */
@@ -503,11 +615,16 @@ export interface PlayerEventListResponse {
   items?: Array<PlayerEvent>;
 }
 
-export const PlayerEventListResponse: Schema.Schema<PlayerEventListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(PlayerEvent)),
-})).annotate({ identifier: "PlayerEventListResponse" }) as any as Schema.Schema<PlayerEventListResponse>;
+export const PlayerEventListResponse: Schema.Schema<PlayerEventListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(PlayerEvent)),
+    }),
+  ).annotate({
+    identifier: "PlayerEventListResponse",
+  }) as any as Schema.Schema<PlayerEventListResponse>;
 
 export interface EventChild {
   /** The ID of the child event. */
@@ -516,10 +633,12 @@ export interface EventChild {
   kind?: string;
 }
 
-export const EventChild: Schema.Schema<EventChild> = Schema.suspend(() => Schema.Struct({
-  childId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventChild" }) as any as Schema.Schema<EventChild>;
+export const EventChild: Schema.Schema<EventChild> = Schema.suspend(() =>
+  Schema.Struct({
+    childId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "EventChild" }) as any as Schema.Schema<EventChild>;
 
 export interface EventDefinition {
   /** The ID of the event. */
@@ -540,16 +659,21 @@ export interface EventDefinition {
   kind?: string;
 }
 
-export const EventDefinition: Schema.Schema<EventDefinition> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  visibility: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  imageUrl: Schema.optional(Schema.String),
-  childEvents: Schema.optional(Schema.Array(EventChild)),
-  description: Schema.optional(Schema.String),
-  isDefaultImageUrl: Schema.optional(Schema.Boolean),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventDefinition" }) as any as Schema.Schema<EventDefinition>;
+export const EventDefinition: Schema.Schema<EventDefinition> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      visibility: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      imageUrl: Schema.optional(Schema.String),
+      childEvents: Schema.optional(Schema.Array(EventChild)),
+      description: Schema.optional(Schema.String),
+      isDefaultImageUrl: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EventDefinition",
+}) as any as Schema.Schema<EventDefinition>;
 
 export interface EventDefinitionListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#eventDefinitionListResponse`. */
@@ -560,11 +684,16 @@ export interface EventDefinitionListResponse {
   items?: Array<EventDefinition>;
 }
 
-export const EventDefinitionListResponse: Schema.Schema<EventDefinitionListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(EventDefinition)),
-})).annotate({ identifier: "EventDefinitionListResponse" }) as any as Schema.Schema<EventDefinitionListResponse>;
+export const EventDefinitionListResponse: Schema.Schema<EventDefinitionListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(EventDefinition)),
+    }),
+  ).annotate({
+    identifier: "EventDefinitionListResponse",
+  }) as any as Schema.Schema<EventDefinitionListResponse>;
 
 export interface EventPeriodRange {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#eventPeriodRange`. */
@@ -575,11 +704,16 @@ export interface EventPeriodRange {
   periodEndMillis?: string;
 }
 
-export const EventPeriodRange: Schema.Schema<EventPeriodRange> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  periodStartMillis: Schema.optional(Schema.String),
-  periodEndMillis: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventPeriodRange" }) as any as Schema.Schema<EventPeriodRange>;
+export const EventPeriodRange: Schema.Schema<EventPeriodRange> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      periodStartMillis: Schema.optional(Schema.String),
+      periodEndMillis: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "EventPeriodRange",
+}) as any as Schema.Schema<EventPeriodRange>;
 
 export interface EventUpdateRequest {
   /** The ID of the event being modified in this update. */
@@ -590,11 +724,16 @@ export interface EventUpdateRequest {
   kind?: string;
 }
 
-export const EventUpdateRequest: Schema.Schema<EventUpdateRequest> = Schema.suspend(() => Schema.Struct({
-  definitionId: Schema.optional(Schema.String),
-  updateCount: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventUpdateRequest" }) as any as Schema.Schema<EventUpdateRequest>;
+export const EventUpdateRequest: Schema.Schema<EventUpdateRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      definitionId: Schema.optional(Schema.String),
+      updateCount: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventUpdateRequest",
+  }) as any as Schema.Schema<EventUpdateRequest>;
 
 export interface EventPeriodUpdate {
   /** The time period being covered by this update. */
@@ -605,11 +744,16 @@ export interface EventPeriodUpdate {
   kind?: string;
 }
 
-export const EventPeriodUpdate: Schema.Schema<EventPeriodUpdate> = Schema.suspend(() => Schema.Struct({
-  timePeriod: Schema.optional(EventPeriodRange),
-  updates: Schema.optional(Schema.Array(EventUpdateRequest)),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventPeriodUpdate" }) as any as Schema.Schema<EventPeriodUpdate>;
+export const EventPeriodUpdate: Schema.Schema<EventPeriodUpdate> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timePeriod: Schema.optional(EventPeriodRange),
+      updates: Schema.optional(Schema.Array(EventUpdateRequest)),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventPeriodUpdate",
+  }) as any as Schema.Schema<EventPeriodUpdate>;
 
 export interface EventRecordRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#eventRecordRequest`. */
@@ -622,27 +766,44 @@ export interface EventRecordRequest {
   timePeriods?: Array<EventPeriodUpdate>;
 }
 
-export const EventRecordRequest: Schema.Schema<EventRecordRequest> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  requestId: Schema.optional(Schema.String),
-  currentTimeMillis: Schema.optional(Schema.String),
-  timePeriods: Schema.optional(Schema.Array(EventPeriodUpdate)),
-})).annotate({ identifier: "EventRecordRequest" }) as any as Schema.Schema<EventRecordRequest>;
+export const EventRecordRequest: Schema.Schema<EventRecordRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      requestId: Schema.optional(Schema.String),
+      currentTimeMillis: Schema.optional(Schema.String),
+      timePeriods: Schema.optional(Schema.Array(EventPeriodUpdate)),
+    }),
+  ).annotate({
+    identifier: "EventRecordRequest",
+  }) as any as Schema.Schema<EventRecordRequest>;
 
 export interface EventBatchRecordFailure {
   /** The time range which was rejected; empty for a request-wide failure. */
   range?: EventPeriodRange;
   /** The cause for the update failure. */
-  failureCause?: "TOO_LARGE" | "TIME_PERIOD_EXPIRED" | "TIME_PERIOD_SHORT" | "TIME_PERIOD_LONG" | "ALREADY_UPDATED" | "RECORD_RATE_HIGH" | (string & {});
+  failureCause?:
+    | "TOO_LARGE"
+    | "TIME_PERIOD_EXPIRED"
+    | "TIME_PERIOD_SHORT"
+    | "TIME_PERIOD_LONG"
+    | "ALREADY_UPDATED"
+    | "RECORD_RATE_HIGH"
+    | (string & {});
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#eventBatchRecordFailure`. */
   kind?: string;
 }
 
-export const EventBatchRecordFailure: Schema.Schema<EventBatchRecordFailure> = Schema.suspend(() => Schema.Struct({
-  range: Schema.optional(EventPeriodRange),
-  failureCause: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventBatchRecordFailure" }) as any as Schema.Schema<EventBatchRecordFailure>;
+export const EventBatchRecordFailure: Schema.Schema<EventBatchRecordFailure> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      range: Schema.optional(EventPeriodRange),
+      failureCause: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventBatchRecordFailure",
+  }) as any as Schema.Schema<EventBatchRecordFailure>;
 
 export interface EventRecordFailure {
   /** The ID of the event that was not updated. */
@@ -653,11 +814,16 @@ export interface EventRecordFailure {
   kind?: string;
 }
 
-export const EventRecordFailure: Schema.Schema<EventRecordFailure> = Schema.suspend(() => Schema.Struct({
-  eventId: Schema.optional(Schema.String),
-  failureCause: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "EventRecordFailure" }) as any as Schema.Schema<EventRecordFailure>;
+export const EventRecordFailure: Schema.Schema<EventRecordFailure> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      eventId: Schema.optional(Schema.String),
+      failureCause: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventRecordFailure",
+  }) as any as Schema.Schema<EventRecordFailure>;
 
 export interface EventUpdateResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#eventUpdateResponse`. */
@@ -670,12 +836,17 @@ export interface EventUpdateResponse {
   playerEvents?: Array<PlayerEvent>;
 }
 
-export const EventUpdateResponse: Schema.Schema<EventUpdateResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  batchFailures: Schema.optional(Schema.Array(EventBatchRecordFailure)),
-  eventFailures: Schema.optional(Schema.Array(EventRecordFailure)),
-  playerEvents: Schema.optional(Schema.Array(PlayerEvent)),
-})).annotate({ identifier: "EventUpdateResponse" }) as any as Schema.Schema<EventUpdateResponse>;
+export const EventUpdateResponse: Schema.Schema<EventUpdateResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      batchFailures: Schema.optional(Schema.Array(EventBatchRecordFailure)),
+      eventFailures: Schema.optional(Schema.Array(EventRecordFailure)),
+      playerEvents: Schema.optional(Schema.Array(PlayerEvent)),
+    }),
+  ).annotate({
+    identifier: "EventUpdateResponse",
+  }) as any as Schema.Schema<EventUpdateResponse>;
 
 export interface Leaderboard {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#leaderboard`. */
@@ -692,14 +863,16 @@ export interface Leaderboard {
   order?: "LARGER_IS_BETTER" | "SMALLER_IS_BETTER" | (string & {});
 }
 
-export const Leaderboard: Schema.Schema<Leaderboard> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  iconUrl: Schema.optional(Schema.String),
-  isIconUrlDefault: Schema.optional(Schema.Boolean),
-  order: Schema.optional(Schema.String),
-})).annotate({ identifier: "Leaderboard" }) as any as Schema.Schema<Leaderboard>;
+export const Leaderboard: Schema.Schema<Leaderboard> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    iconUrl: Schema.optional(Schema.String),
+    isIconUrlDefault: Schema.optional(Schema.Boolean),
+    order: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Leaderboard" }) as any as Schema.Schema<Leaderboard>;
 
 export interface LeaderboardListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#leaderboardListResponse`. */
@@ -710,11 +883,16 @@ export interface LeaderboardListResponse {
   items?: Array<Leaderboard>;
 }
 
-export const LeaderboardListResponse: Schema.Schema<LeaderboardListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Leaderboard)),
-})).annotate({ identifier: "LeaderboardListResponse" }) as any as Schema.Schema<LeaderboardListResponse>;
+export const LeaderboardListResponse: Schema.Schema<LeaderboardListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Leaderboard)),
+    }),
+  ).annotate({
+    identifier: "LeaderboardListResponse",
+  }) as any as Schema.Schema<LeaderboardListResponse>;
 
 export interface PlayerLevel {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerLevel`. */
@@ -727,12 +905,14 @@ export interface PlayerLevel {
   maxExperiencePoints?: string;
 }
 
-export const PlayerLevel: Schema.Schema<PlayerLevel> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  level: Schema.optional(Schema.Number),
-  minExperiencePoints: Schema.optional(Schema.String),
-  maxExperiencePoints: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlayerLevel" }) as any as Schema.Schema<PlayerLevel>;
+export const PlayerLevel: Schema.Schema<PlayerLevel> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    level: Schema.optional(Schema.Number),
+    minExperiencePoints: Schema.optional(Schema.String),
+    maxExperiencePoints: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PlayerLevel" }) as any as Schema.Schema<PlayerLevel>;
 
 export interface MetagameConfig {
   /** Current version of the metagame configuration data. When this data is updated, the version number will be increased by one. */
@@ -743,11 +923,16 @@ export interface MetagameConfig {
   kind?: string;
 }
 
-export const MetagameConfig: Schema.Schema<MetagameConfig> = Schema.suspend(() => Schema.Struct({
-  currentVersion: Schema.optional(Schema.Number),
-  playerLevels: Schema.optional(Schema.Array(PlayerLevel)),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "MetagameConfig" }) as any as Schema.Schema<MetagameConfig>;
+export const MetagameConfig: Schema.Schema<MetagameConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      currentVersion: Schema.optional(Schema.Number),
+      playerLevels: Schema.optional(Schema.Array(PlayerLevel)),
+      kind: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "MetagameConfig",
+}) as any as Schema.Schema<MetagameConfig>;
 
 export interface Category {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#category`. */
@@ -758,11 +943,13 @@ export interface Category {
   experiencePoints?: string;
 }
 
-export const Category: Schema.Schema<Category> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  category: Schema.optional(Schema.String),
-  experiencePoints: Schema.optional(Schema.String),
-})).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
+export const Category: Schema.Schema<Category> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    category: Schema.optional(Schema.String),
+    experiencePoints: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
 
 export interface CategoryListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#categoryListResponse`. */
@@ -773,25 +960,39 @@ export interface CategoryListResponse {
   items?: Array<Category>;
 }
 
-export const CategoryListResponse: Schema.Schema<CategoryListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Category)),
-})).annotate({ identifier: "CategoryListResponse" }) as any as Schema.Schema<CategoryListResponse>;
+export const CategoryListResponse: Schema.Schema<CategoryListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Category)),
+    }),
+  ).annotate({
+    identifier: "CategoryListResponse",
+  }) as any as Schema.Schema<CategoryListResponse>;
 
 export interface ProfileSettings {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#profileSettings`. */
   kind?: string;
   /** Whether the player's profile is visible to the currently signed in player. */
   profileVisible?: boolean;
-  friendsListVisibility?: "VISIBLE" | "REQUEST_REQUIRED" | "UNAVAILABLE" | (string & {});
+  friendsListVisibility?:
+    | "VISIBLE"
+    | "REQUEST_REQUIRED"
+    | "UNAVAILABLE"
+    | (string & {});
 }
 
-export const ProfileSettings: Schema.Schema<ProfileSettings> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  profileVisible: Schema.optional(Schema.Boolean),
-  friendsListVisibility: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProfileSettings" }) as any as Schema.Schema<ProfileSettings>;
+export const ProfileSettings: Schema.Schema<ProfileSettings> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      profileVisible: Schema.optional(Schema.Boolean),
+      friendsListVisibility: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ProfileSettings",
+}) as any as Schema.Schema<ProfileSettings>;
 
 export interface PlayerExperienceInfo {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerExperienceInfo`. */
@@ -806,13 +1007,18 @@ export interface PlayerExperienceInfo {
   nextLevel?: PlayerLevel;
 }
 
-export const PlayerExperienceInfo: Schema.Schema<PlayerExperienceInfo> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  currentExperiencePoints: Schema.optional(Schema.String),
-  lastLevelUpTimestampMillis: Schema.optional(Schema.String),
-  currentLevel: Schema.optional(PlayerLevel),
-  nextLevel: Schema.optional(PlayerLevel),
-})).annotate({ identifier: "PlayerExperienceInfo" }) as any as Schema.Schema<PlayerExperienceInfo>;
+export const PlayerExperienceInfo: Schema.Schema<PlayerExperienceInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      currentExperiencePoints: Schema.optional(Schema.String),
+      lastLevelUpTimestampMillis: Schema.optional(Schema.String),
+      currentLevel: Schema.optional(PlayerLevel),
+      nextLevel: Schema.optional(PlayerLevel),
+    }),
+  ).annotate({
+    identifier: "PlayerExperienceInfo",
+  }) as any as Schema.Schema<PlayerExperienceInfo>;
 
 export interface Player {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#player` */
@@ -843,21 +1049,28 @@ export interface Player {
   gamePlayerId?: string;
 }
 
-export const Player: Schema.Schema<Player> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  playerId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  avatarImageUrl: Schema.optional(Schema.String),
-  bannerUrlPortrait: Schema.optional(Schema.String),
-  bannerUrlLandscape: Schema.optional(Schema.String),
-  originalPlayerId: Schema.optional(Schema.String),
-  profileSettings: Schema.optional(ProfileSettings),
-  name: Schema.optional(Schema.Struct({ familyName: Schema.optional(Schema.String), givenName: Schema.optional(Schema.String) })),
-  experienceInfo: Schema.optional(PlayerExperienceInfo),
-  title: Schema.optional(Schema.String),
-  friendStatus: Schema.optional(Schema.String),
-  gamePlayerId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Player" }) as any as Schema.Schema<Player>;
+export const Player: Schema.Schema<Player> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    playerId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    avatarImageUrl: Schema.optional(Schema.String),
+    bannerUrlPortrait: Schema.optional(Schema.String),
+    bannerUrlLandscape: Schema.optional(Schema.String),
+    originalPlayerId: Schema.optional(Schema.String),
+    profileSettings: Schema.optional(ProfileSettings),
+    name: Schema.optional(
+      Schema.Struct({
+        familyName: Schema.optional(Schema.String),
+        givenName: Schema.optional(Schema.String),
+      }),
+    ),
+    experienceInfo: Schema.optional(PlayerExperienceInfo),
+    title: Schema.optional(Schema.String),
+    friendStatus: Schema.optional(Schema.String),
+    gamePlayerId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Player" }) as any as Schema.Schema<Player>;
 
 export interface ScopedPlayerIds {
   /** Game-scoped player identifier. This is the same id that is returned in GetPlayer game_player_id field. */
@@ -866,10 +1079,15 @@ export interface ScopedPlayerIds {
   developerPlayerKey?: string;
 }
 
-export const ScopedPlayerIds: Schema.Schema<ScopedPlayerIds> = Schema.suspend(() => Schema.Struct({
-  gamePlayerId: Schema.optional(Schema.String),
-  developerPlayerKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "ScopedPlayerIds" }) as any as Schema.Schema<ScopedPlayerIds>;
+export const ScopedPlayerIds: Schema.Schema<ScopedPlayerIds> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      gamePlayerId: Schema.optional(Schema.String),
+      developerPlayerKey: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ScopedPlayerIds",
+}) as any as Schema.Schema<ScopedPlayerIds>;
 
 export interface ApplicationPlayerId {
   /** The application that this player identifier is for. */
@@ -878,19 +1096,29 @@ export interface ApplicationPlayerId {
   playerId?: string;
 }
 
-export const ApplicationPlayerId: Schema.Schema<ApplicationPlayerId> = Schema.suspend(() => Schema.Struct({
-  applicationId: Schema.optional(Schema.String),
-  playerId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApplicationPlayerId" }) as any as Schema.Schema<ApplicationPlayerId>;
+export const ApplicationPlayerId: Schema.Schema<ApplicationPlayerId> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      applicationId: Schema.optional(Schema.String),
+      playerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApplicationPlayerId",
+  }) as any as Schema.Schema<ApplicationPlayerId>;
 
 export interface GetMultipleApplicationPlayerIdsResponse {
   /** Output only. The requested applications along with the scoped ids for tha player, if that player has an id for the application. If not, the application is not included in the response. */
   playerIds?: Array<ApplicationPlayerId>;
 }
 
-export const GetMultipleApplicationPlayerIdsResponse: Schema.Schema<GetMultipleApplicationPlayerIdsResponse> = Schema.suspend(() => Schema.Struct({
-  playerIds: Schema.optional(Schema.Array(ApplicationPlayerId)),
-})).annotate({ identifier: "GetMultipleApplicationPlayerIdsResponse" }) as any as Schema.Schema<GetMultipleApplicationPlayerIdsResponse>;
+export const GetMultipleApplicationPlayerIdsResponse: Schema.Schema<GetMultipleApplicationPlayerIdsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      playerIds: Schema.optional(Schema.Array(ApplicationPlayerId)),
+    }),
+  ).annotate({
+    identifier: "GetMultipleApplicationPlayerIdsResponse",
+  }) as any as Schema.Schema<GetMultipleApplicationPlayerIdsResponse>;
 
 export interface PlayerListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerListResponse`. */
@@ -901,11 +1129,16 @@ export interface PlayerListResponse {
   items?: Array<Player>;
 }
 
-export const PlayerListResponse: Schema.Schema<PlayerListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Player)),
-})).annotate({ identifier: "PlayerListResponse" }) as any as Schema.Schema<PlayerListResponse>;
+export const PlayerListResponse: Schema.Schema<PlayerListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Player)),
+    }),
+  ).annotate({
+    identifier: "PlayerListResponse",
+  }) as any as Schema.Schema<PlayerListResponse>;
 
 export interface RevisionCheckResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#revisionCheckResponse`. */
@@ -916,11 +1149,16 @@ export interface RevisionCheckResponse {
   apiVersion?: string;
 }
 
-export const RevisionCheckResponse: Schema.Schema<RevisionCheckResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  revisionStatus: Schema.optional(Schema.String),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "RevisionCheckResponse" }) as any as Schema.Schema<RevisionCheckResponse>;
+export const RevisionCheckResponse: Schema.Schema<RevisionCheckResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      revisionStatus: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RevisionCheckResponse",
+  }) as any as Schema.Schema<RevisionCheckResponse>;
 
 export interface LeaderboardScoreRank {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#leaderboardScoreRank`. */
@@ -935,13 +1173,18 @@ export interface LeaderboardScoreRank {
   formattedNumScores?: string;
 }
 
-export const LeaderboardScoreRank: Schema.Schema<LeaderboardScoreRank> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  rank: Schema.optional(Schema.String),
-  formattedRank: Schema.optional(Schema.String),
-  numScores: Schema.optional(Schema.String),
-  formattedNumScores: Schema.optional(Schema.String),
-})).annotate({ identifier: "LeaderboardScoreRank" }) as any as Schema.Schema<LeaderboardScoreRank>;
+export const LeaderboardScoreRank: Schema.Schema<LeaderboardScoreRank> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      rank: Schema.optional(Schema.String),
+      formattedRank: Schema.optional(Schema.String),
+      numScores: Schema.optional(Schema.String),
+      formattedNumScores: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LeaderboardScoreRank",
+  }) as any as Schema.Schema<LeaderboardScoreRank>;
 
 export interface PlayerLeaderboardScore {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerLeaderboardScore`. */
@@ -966,18 +1209,23 @@ export interface PlayerLeaderboardScore {
   scoreTag?: string;
 }
 
-export const PlayerLeaderboardScore: Schema.Schema<PlayerLeaderboardScore> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  leaderboard_id: Schema.optional(Schema.String),
-  scoreValue: Schema.optional(Schema.String),
-  scoreString: Schema.optional(Schema.String),
-  publicRank: Schema.optional(LeaderboardScoreRank),
-  socialRank: Schema.optional(LeaderboardScoreRank),
-  friendsRank: Schema.optional(LeaderboardScoreRank),
-  timeSpan: Schema.optional(Schema.String),
-  writeTimestamp: Schema.optional(Schema.String),
-  scoreTag: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlayerLeaderboardScore" }) as any as Schema.Schema<PlayerLeaderboardScore>;
+export const PlayerLeaderboardScore: Schema.Schema<PlayerLeaderboardScore> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      leaderboard_id: Schema.optional(Schema.String),
+      scoreValue: Schema.optional(Schema.String),
+      scoreString: Schema.optional(Schema.String),
+      publicRank: Schema.optional(LeaderboardScoreRank),
+      socialRank: Schema.optional(LeaderboardScoreRank),
+      friendsRank: Schema.optional(LeaderboardScoreRank),
+      timeSpan: Schema.optional(Schema.String),
+      writeTimestamp: Schema.optional(Schema.String),
+      scoreTag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PlayerLeaderboardScore",
+  }) as any as Schema.Schema<PlayerLeaderboardScore>;
 
 export interface PlayerLeaderboardScoreListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerLeaderboardScoreListResponse`. */
@@ -990,12 +1238,17 @@ export interface PlayerLeaderboardScoreListResponse {
   items?: Array<PlayerLeaderboardScore>;
 }
 
-export const PlayerLeaderboardScoreListResponse: Schema.Schema<PlayerLeaderboardScoreListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  player: Schema.optional(Player),
-  items: Schema.optional(Schema.Array(PlayerLeaderboardScore)),
-})).annotate({ identifier: "PlayerLeaderboardScoreListResponse" }) as any as Schema.Schema<PlayerLeaderboardScoreListResponse>;
+export const PlayerLeaderboardScoreListResponse: Schema.Schema<PlayerLeaderboardScoreListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      player: Schema.optional(Player),
+      items: Schema.optional(Schema.Array(PlayerLeaderboardScore)),
+    }),
+  ).annotate({
+    identifier: "PlayerLeaderboardScoreListResponse",
+  }) as any as Schema.Schema<PlayerLeaderboardScoreListResponse>;
 
 export interface LeaderboardEntry {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#leaderboardEntry`. */
@@ -1018,17 +1271,22 @@ export interface LeaderboardEntry {
   scoreTag?: string;
 }
 
-export const LeaderboardEntry: Schema.Schema<LeaderboardEntry> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  player: Schema.optional(Player),
-  scoreRank: Schema.optional(Schema.String),
-  formattedScoreRank: Schema.optional(Schema.String),
-  scoreValue: Schema.optional(Schema.String),
-  formattedScore: Schema.optional(Schema.String),
-  timeSpan: Schema.optional(Schema.String),
-  writeTimestampMillis: Schema.optional(Schema.String),
-  scoreTag: Schema.optional(Schema.String),
-})).annotate({ identifier: "LeaderboardEntry" }) as any as Schema.Schema<LeaderboardEntry>;
+export const LeaderboardEntry: Schema.Schema<LeaderboardEntry> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      player: Schema.optional(Player),
+      scoreRank: Schema.optional(Schema.String),
+      formattedScoreRank: Schema.optional(Schema.String),
+      scoreValue: Schema.optional(Schema.String),
+      formattedScore: Schema.optional(Schema.String),
+      timeSpan: Schema.optional(Schema.String),
+      writeTimestampMillis: Schema.optional(Schema.String),
+      scoreTag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "LeaderboardEntry",
+}) as any as Schema.Schema<LeaderboardEntry>;
 
 export interface LeaderboardScores {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#leaderboardScores`. */
@@ -1045,14 +1303,19 @@ export interface LeaderboardScores {
   items?: Array<LeaderboardEntry>;
 }
 
-export const LeaderboardScores: Schema.Schema<LeaderboardScores> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  prevPageToken: Schema.optional(Schema.String),
-  numScores: Schema.optional(Schema.String),
-  playerScore: Schema.optional(LeaderboardEntry),
-  items: Schema.optional(Schema.Array(LeaderboardEntry)),
-})).annotate({ identifier: "LeaderboardScores" }) as any as Schema.Schema<LeaderboardScores>;
+export const LeaderboardScores: Schema.Schema<LeaderboardScores> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      prevPageToken: Schema.optional(Schema.String),
+      numScores: Schema.optional(Schema.String),
+      playerScore: Schema.optional(LeaderboardEntry),
+      items: Schema.optional(Schema.Array(LeaderboardEntry)),
+    }),
+  ).annotate({
+    identifier: "LeaderboardScores",
+  }) as any as Schema.Schema<LeaderboardScores>;
 
 export interface PlayerScore {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerScore`. */
@@ -1067,13 +1330,15 @@ export interface PlayerScore {
   scoreTag?: string;
 }
 
-export const PlayerScore: Schema.Schema<PlayerScore> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  timeSpan: Schema.optional(Schema.String),
-  score: Schema.optional(Schema.String),
-  formattedScore: Schema.optional(Schema.String),
-  scoreTag: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlayerScore" }) as any as Schema.Schema<PlayerScore>;
+export const PlayerScore: Schema.Schema<PlayerScore> = Schema.suspend(() =>
+  Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    timeSpan: Schema.optional(Schema.String),
+    score: Schema.optional(Schema.String),
+    formattedScore: Schema.optional(Schema.String),
+    scoreTag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PlayerScore" }) as any as Schema.Schema<PlayerScore>;
 
 export interface PlayerScoreResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerScoreResponse`. */
@@ -1090,14 +1355,19 @@ export interface PlayerScoreResponse {
   scoreTag?: string;
 }
 
-export const PlayerScoreResponse: Schema.Schema<PlayerScoreResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  beatenScoreTimeSpans: Schema.optional(Schema.Array(Schema.String)),
-  unbeatenScores: Schema.optional(Schema.Array(PlayerScore)),
-  formattedScore: Schema.optional(Schema.String),
-  leaderboardId: Schema.optional(Schema.String),
-  scoreTag: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlayerScoreResponse" }) as any as Schema.Schema<PlayerScoreResponse>;
+export const PlayerScoreResponse: Schema.Schema<PlayerScoreResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      beatenScoreTimeSpans: Schema.optional(Schema.Array(Schema.String)),
+      unbeatenScores: Schema.optional(Schema.Array(PlayerScore)),
+      formattedScore: Schema.optional(Schema.String),
+      leaderboardId: Schema.optional(Schema.String),
+      scoreTag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PlayerScoreResponse",
+  }) as any as Schema.Schema<PlayerScoreResponse>;
 
 export interface ScoreSubmission {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#scoreSubmission`. */
@@ -1112,13 +1382,18 @@ export interface ScoreSubmission {
   signature?: string;
 }
 
-export const ScoreSubmission: Schema.Schema<ScoreSubmission> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  leaderboardId: Schema.optional(Schema.String),
-  score: Schema.optional(Schema.String),
-  scoreTag: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-})).annotate({ identifier: "ScoreSubmission" }) as any as Schema.Schema<ScoreSubmission>;
+export const ScoreSubmission: Schema.Schema<ScoreSubmission> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      leaderboardId: Schema.optional(Schema.String),
+      score: Schema.optional(Schema.String),
+      scoreTag: Schema.optional(Schema.String),
+      signature: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ScoreSubmission",
+}) as any as Schema.Schema<ScoreSubmission>;
 
 export interface PlayerScoreSubmissionList {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerScoreSubmissionList`. */
@@ -1127,10 +1402,15 @@ export interface PlayerScoreSubmissionList {
   scores?: Array<ScoreSubmission>;
 }
 
-export const PlayerScoreSubmissionList: Schema.Schema<PlayerScoreSubmissionList> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  scores: Schema.optional(Schema.Array(ScoreSubmission)),
-})).annotate({ identifier: "PlayerScoreSubmissionList" }) as any as Schema.Schema<PlayerScoreSubmissionList>;
+export const PlayerScoreSubmissionList: Schema.Schema<PlayerScoreSubmissionList> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      scores: Schema.optional(Schema.Array(ScoreSubmission)),
+    }),
+  ).annotate({
+    identifier: "PlayerScoreSubmissionList",
+  }) as any as Schema.Schema<PlayerScoreSubmissionList>;
 
 export interface PlayerScoreListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerScoreListResponse`. */
@@ -1139,10 +1419,15 @@ export interface PlayerScoreListResponse {
   submittedScores?: Array<PlayerScoreResponse>;
 }
 
-export const PlayerScoreListResponse: Schema.Schema<PlayerScoreListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  submittedScores: Schema.optional(Schema.Array(PlayerScoreResponse)),
-})).annotate({ identifier: "PlayerScoreListResponse" }) as any as Schema.Schema<PlayerScoreListResponse>;
+export const PlayerScoreListResponse: Schema.Schema<PlayerScoreListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      submittedScores: Schema.optional(Schema.Array(PlayerScoreResponse)),
+    }),
+  ).annotate({
+    identifier: "PlayerScoreListResponse",
+  }) as any as Schema.Schema<PlayerScoreListResponse>;
 
 export interface SnapshotImage {
   /** The width of the image. */
@@ -1157,13 +1442,17 @@ export interface SnapshotImage {
   kind?: string;
 }
 
-export const SnapshotImage: Schema.Schema<SnapshotImage> = Schema.suspend(() => Schema.Struct({
-  width: Schema.optional(Schema.Number),
-  height: Schema.optional(Schema.Number),
-  mime_type: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "SnapshotImage" }) as any as Schema.Schema<SnapshotImage>;
+export const SnapshotImage: Schema.Schema<SnapshotImage> = Schema.suspend(() =>
+  Schema.Struct({
+    width: Schema.optional(Schema.Number),
+    height: Schema.optional(Schema.Number),
+    mime_type: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "SnapshotImage",
+}) as any as Schema.Schema<SnapshotImage>;
 
 export interface Snapshot {
   /** The ID of the snapshot. */
@@ -1190,19 +1479,21 @@ export interface Snapshot {
   progressValue?: string;
 }
 
-export const Snapshot: Schema.Schema<Snapshot> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
-  driveId: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  lastModifiedMillis: Schema.optional(Schema.String),
-  durationMillis: Schema.optional(Schema.String),
-  coverImage: Schema.optional(SnapshotImage),
-  uniqueName: Schema.optional(Schema.String),
-  progressValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "Snapshot" }) as any as Schema.Schema<Snapshot>;
+export const Snapshot: Schema.Schema<Snapshot> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    driveId: Schema.optional(Schema.String),
+    kind: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    lastModifiedMillis: Schema.optional(Schema.String),
+    durationMillis: Schema.optional(Schema.String),
+    coverImage: Schema.optional(SnapshotImage),
+    uniqueName: Schema.optional(Schema.String),
+    progressValue: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Snapshot" }) as any as Schema.Schema<Snapshot>;
 
 export interface SnapshotListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#snapshotListResponse`. */
@@ -1213,11 +1504,16 @@ export interface SnapshotListResponse {
   items?: Array<Snapshot>;
 }
 
-export const SnapshotListResponse: Schema.Schema<SnapshotListResponse> = Schema.suspend(() => Schema.Struct({
-  kind: Schema.optional(Schema.String),
-  nextPageToken: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(Snapshot)),
-})).annotate({ identifier: "SnapshotListResponse" }) as any as Schema.Schema<SnapshotListResponse>;
+export const SnapshotListResponse: Schema.Schema<SnapshotListResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Snapshot)),
+    }),
+  ).annotate({
+    identifier: "SnapshotListResponse",
+  }) as any as Schema.Schema<SnapshotListResponse>;
 
 export interface StatsResponse {
   /** The probability of the player not returning to play the game in the next day. E.g., 0, 0.1, 0.5, ..., 1.0. Not populated if there is not enough information. */
@@ -1244,19 +1540,23 @@ export interface StatsResponse {
   kind?: string;
 }
 
-export const StatsResponse: Schema.Schema<StatsResponse> = Schema.suspend(() => Schema.Struct({
-  churn_probability: Schema.optional(Schema.Number),
-  num_purchases: Schema.optional(Schema.Number),
-  spend_percentile: Schema.optional(Schema.Number),
-  days_since_last_played: Schema.optional(Schema.Number),
-  num_sessions: Schema.optional(Schema.Number),
-  num_sessions_percentile: Schema.optional(Schema.Number),
-  avg_session_length_minutes: Schema.optional(Schema.Number),
-  spend_probability: Schema.optional(Schema.Number),
-  high_spender_probability: Schema.optional(Schema.Number),
-  total_spend_next_28_days: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.String),
-})).annotate({ identifier: "StatsResponse" }) as any as Schema.Schema<StatsResponse>;
+export const StatsResponse: Schema.Schema<StatsResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    churn_probability: Schema.optional(Schema.Number),
+    num_purchases: Schema.optional(Schema.Number),
+    spend_percentile: Schema.optional(Schema.Number),
+    days_since_last_played: Schema.optional(Schema.Number),
+    num_sessions: Schema.optional(Schema.Number),
+    num_sessions_percentile: Schema.optional(Schema.Number),
+    avg_session_length_minutes: Schema.optional(Schema.Number),
+    spend_probability: Schema.optional(Schema.Number),
+    high_spender_probability: Schema.optional(Schema.Number),
+    total_spend_next_28_days: Schema.optional(Schema.Number),
+    kind: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "StatsResponse",
+}) as any as Schema.Schema<StatsResponse>;
 
 export interface LinkPersonaRequest {
   /** Required. Opaque server-generated string that encodes all the necessary information to identify the PGS player / Google user and application. */
@@ -1268,31 +1568,44 @@ export interface LinkPersonaRequest {
   /** Required. Cardinality constraint to observe when linking a persona to a player in the scope of a game. */
   cardinalityConstraint?: "ONE_PERSONA_TO_ONE_PLAYER" | (string & {});
   /** Required. Resolution policy to apply when the linking of a persona to a player would result in violating the specified cardinality constraint. */
-  conflictingLinksResolutionPolicy?: "KEEP_EXISTING_LINKS" | "CREATE_NEW_LINK" | (string & {});
+  conflictingLinksResolutionPolicy?:
+    | "KEEP_EXISTING_LINKS"
+    | "CREATE_NEW_LINK"
+    | (string & {});
   /** Input only. Optional expiration time. */
   expireTime?: string;
   /** Input only. Optional time-to-live. */
   ttl?: string;
 }
 
-export const LinkPersonaRequest: Schema.Schema<LinkPersonaRequest> = Schema.suspend(() => Schema.Struct({
-  sessionId: Schema.optional(Schema.String),
-  persona: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  cardinalityConstraint: Schema.optional(Schema.String),
-  conflictingLinksResolutionPolicy: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  ttl: Schema.optional(Schema.String),
-})).annotate({ identifier: "LinkPersonaRequest" }) as any as Schema.Schema<LinkPersonaRequest>;
+export const LinkPersonaRequest: Schema.Schema<LinkPersonaRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sessionId: Schema.optional(Schema.String),
+      persona: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      cardinalityConstraint: Schema.optional(Schema.String),
+      conflictingLinksResolutionPolicy: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      ttl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LinkPersonaRequest",
+  }) as any as Schema.Schema<LinkPersonaRequest>;
 
 export interface LinkPersonaResponse {
   /** Output only. State of a persona linking attempt. */
   state?: "LINK_CREATED" | "PERSONA_OR_PLAYER_ALREADY_LINKED" | (string & {});
 }
 
-export const LinkPersonaResponse: Schema.Schema<LinkPersonaResponse> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "LinkPersonaResponse" }) as any as Schema.Schema<LinkPersonaResponse>;
+export const LinkPersonaResponse: Schema.Schema<LinkPersonaResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LinkPersonaResponse",
+  }) as any as Schema.Schema<LinkPersonaResponse>;
 
 export interface RecallToken {
   /** Required. Value of the Recall token as it is provided by the client via LinkPersona RPC */
@@ -1303,20 +1616,27 @@ export interface RecallToken {
   expireTime?: string;
 }
 
-export const RecallToken: Schema.Schema<RecallToken> = Schema.suspend(() => Schema.Struct({
-  token: Schema.optional(Schema.String),
-  multiPlayerPersona: Schema.optional(Schema.Boolean),
-  expireTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "RecallToken" }) as any as Schema.Schema<RecallToken>;
+export const RecallToken: Schema.Schema<RecallToken> = Schema.suspend(() =>
+  Schema.Struct({
+    token: Schema.optional(Schema.String),
+    multiPlayerPersona: Schema.optional(Schema.Boolean),
+    expireTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "RecallToken" }) as any as Schema.Schema<RecallToken>;
 
 export interface RetrievePlayerTokensResponse {
   /** Required. Recall tokens associated with the requested PGS Player principal */
   tokens?: Array<RecallToken>;
 }
 
-export const RetrievePlayerTokensResponse: Schema.Schema<RetrievePlayerTokensResponse> = Schema.suspend(() => Schema.Struct({
-  tokens: Schema.optional(Schema.Array(RecallToken)),
-})).annotate({ identifier: "RetrievePlayerTokensResponse" }) as any as Schema.Schema<RetrievePlayerTokensResponse>;
+export const RetrievePlayerTokensResponse: Schema.Schema<RetrievePlayerTokensResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tokens: Schema.optional(Schema.Array(RecallToken)),
+    }),
+  ).annotate({
+    identifier: "RetrievePlayerTokensResponse",
+  }) as any as Schema.Schema<RetrievePlayerTokensResponse>;
 
 export interface GamePlayerToken {
   /** The application that this player identifier is for. */
@@ -1325,28 +1645,43 @@ export interface GamePlayerToken {
   recallToken?: RecallToken;
 }
 
-export const GamePlayerToken: Schema.Schema<GamePlayerToken> = Schema.suspend(() => Schema.Struct({
-  applicationId: Schema.optional(Schema.String),
-  recallToken: Schema.optional(RecallToken),
-})).annotate({ identifier: "GamePlayerToken" }) as any as Schema.Schema<GamePlayerToken>;
+export const GamePlayerToken: Schema.Schema<GamePlayerToken> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      applicationId: Schema.optional(Schema.String),
+      recallToken: Schema.optional(RecallToken),
+    }),
+).annotate({
+  identifier: "GamePlayerToken",
+}) as any as Schema.Schema<GamePlayerToken>;
 
 export interface RetrieveDeveloperGamesLastPlayerTokenResponse {
   /** The recall token associated with the requested PGS Player principal. It can be unset if there is no recall token associated with the requested principal. */
   gamePlayerToken?: GamePlayerToken;
 }
 
-export const RetrieveDeveloperGamesLastPlayerTokenResponse: Schema.Schema<RetrieveDeveloperGamesLastPlayerTokenResponse> = Schema.suspend(() => Schema.Struct({
-  gamePlayerToken: Schema.optional(GamePlayerToken),
-})).annotate({ identifier: "RetrieveDeveloperGamesLastPlayerTokenResponse" }) as any as Schema.Schema<RetrieveDeveloperGamesLastPlayerTokenResponse>;
+export const RetrieveDeveloperGamesLastPlayerTokenResponse: Schema.Schema<RetrieveDeveloperGamesLastPlayerTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gamePlayerToken: Schema.optional(GamePlayerToken),
+    }),
+  ).annotate({
+    identifier: "RetrieveDeveloperGamesLastPlayerTokenResponse",
+  }) as any as Schema.Schema<RetrieveDeveloperGamesLastPlayerTokenResponse>;
 
 export interface RetrieveGamesPlayerTokensResponse {
   /** The requested applications along with the recall tokens for the player. If the player does not have recall tokens for an application, that application is not included in the response. */
   gamePlayerTokens?: Array<GamePlayerToken>;
 }
 
-export const RetrieveGamesPlayerTokensResponse: Schema.Schema<RetrieveGamesPlayerTokensResponse> = Schema.suspend(() => Schema.Struct({
-  gamePlayerTokens: Schema.optional(Schema.Array(GamePlayerToken)),
-})).annotate({ identifier: "RetrieveGamesPlayerTokensResponse" }) as any as Schema.Schema<RetrieveGamesPlayerTokensResponse>;
+export const RetrieveGamesPlayerTokensResponse: Schema.Schema<RetrieveGamesPlayerTokensResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gamePlayerTokens: Schema.optional(Schema.Array(GamePlayerToken)),
+    }),
+  ).annotate({
+    identifier: "RetrieveGamesPlayerTokensResponse",
+  }) as any as Schema.Schema<RetrieveGamesPlayerTokensResponse>;
 
 export interface UnlinkPersonaRequest {
   /** Required. Opaque server-generated string that encodes all the necessary information to identify the PGS player / Google user and application. */
@@ -1357,65 +1692,100 @@ export interface UnlinkPersonaRequest {
   persona?: string;
 }
 
-export const UnlinkPersonaRequest: Schema.Schema<UnlinkPersonaRequest> = Schema.suspend(() => Schema.Struct({
-  sessionId: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  persona: Schema.optional(Schema.String),
-})).annotate({ identifier: "UnlinkPersonaRequest" }) as any as Schema.Schema<UnlinkPersonaRequest>;
+export const UnlinkPersonaRequest: Schema.Schema<UnlinkPersonaRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sessionId: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      persona: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UnlinkPersonaRequest",
+  }) as any as Schema.Schema<UnlinkPersonaRequest>;
 
 export interface UnlinkPersonaResponse {
   /** Required. Whether a Recall token specified by the request was deleted. Can be 'false' when there were no Recall tokens satisfied the criteria from the request. */
   unlinked?: boolean;
 }
 
-export const UnlinkPersonaResponse: Schema.Schema<UnlinkPersonaResponse> = Schema.suspend(() => Schema.Struct({
-  unlinked: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UnlinkPersonaResponse" }) as any as Schema.Schema<UnlinkPersonaResponse>;
+export const UnlinkPersonaResponse: Schema.Schema<UnlinkPersonaResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unlinked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UnlinkPersonaResponse",
+  }) as any as Schema.Schema<UnlinkPersonaResponse>;
 
 export interface ResetPersonaRequest {
   /** Value of the 'persona' field as it was provided by the client in LinkPersona RPC */
   persona?: string;
 }
 
-export const ResetPersonaRequest: Schema.Schema<ResetPersonaRequest> = Schema.suspend(() => Schema.Struct({
-  persona: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResetPersonaRequest" }) as any as Schema.Schema<ResetPersonaRequest>;
+export const ResetPersonaRequest: Schema.Schema<ResetPersonaRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      persona: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResetPersonaRequest",
+  }) as any as Schema.Schema<ResetPersonaRequest>;
 
 export interface ResetPersonaResponse {
   /** Required. Whether any tokens were unlinked as a result of this request. */
   unlinked?: boolean;
 }
 
-export const ResetPersonaResponse: Schema.Schema<ResetPersonaResponse> = Schema.suspend(() => Schema.Struct({
-  unlinked: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ResetPersonaResponse" }) as any as Schema.Schema<ResetPersonaResponse>;
+export const ResetPersonaResponse: Schema.Schema<ResetPersonaResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      unlinked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ResetPersonaResponse",
+  }) as any as Schema.Schema<ResetPersonaResponse>;
 
 export interface PlayGroupingApiToken {
   /** Value of the token. */
   tokenValue?: string;
 }
 
-export const PlayGroupingApiToken: Schema.Schema<PlayGroupingApiToken> = Schema.suspend(() => Schema.Struct({
-  tokenValue: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlayGroupingApiToken" }) as any as Schema.Schema<PlayGroupingApiToken>;
+export const PlayGroupingApiToken: Schema.Schema<PlayGroupingApiToken> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tokenValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PlayGroupingApiToken",
+  }) as any as Schema.Schema<PlayGroupingApiToken>;
 
 export interface GeneratePlayGroupingApiTokenResponse {
   /** Token for accessing the Play Grouping API. */
   token?: PlayGroupingApiToken;
 }
 
-export const GeneratePlayGroupingApiTokenResponse: Schema.Schema<GeneratePlayGroupingApiTokenResponse> = Schema.suspend(() => Schema.Struct({
-  token: Schema.optional(PlayGroupingApiToken),
-})).annotate({ identifier: "GeneratePlayGroupingApiTokenResponse" }) as any as Schema.Schema<GeneratePlayGroupingApiTokenResponse>;
+export const GeneratePlayGroupingApiTokenResponse: Schema.Schema<GeneratePlayGroupingApiTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      token: Schema.optional(PlayGroupingApiToken),
+    }),
+  ).annotate({
+    identifier: "GeneratePlayGroupingApiTokenResponse",
+  }) as any as Schema.Schema<GeneratePlayGroupingApiTokenResponse>;
 
 export interface GenerateRecallPlayGroupingApiTokenResponse {
   /** Token for accessing the Play Grouping API. */
   token?: PlayGroupingApiToken;
 }
 
-export const GenerateRecallPlayGroupingApiTokenResponse: Schema.Schema<GenerateRecallPlayGroupingApiTokenResponse> = Schema.suspend(() => Schema.Struct({
-  token: Schema.optional(PlayGroupingApiToken),
-})).annotate({ identifier: "GenerateRecallPlayGroupingApiTokenResponse" }) as any as Schema.Schema<GenerateRecallPlayGroupingApiTokenResponse>;
+export const GenerateRecallPlayGroupingApiTokenResponse: Schema.Schema<GenerateRecallPlayGroupingApiTokenResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      token: Schema.optional(PlayGroupingApiToken),
+    }),
+  ).annotate({
+    identifier: "GenerateRecallPlayGroupingApiTokenResponse",
+  }) as any as Schema.Schema<GenerateRecallPlayGroupingApiTokenResponse>;
 
 // ==========================================================================
 // Operations
@@ -1439,13 +1809,20 @@ export const ListAchievementDefinitionsRequest = Schema.Struct({
   svc,
 ) as unknown as Schema.Schema<ListAchievementDefinitionsRequest>;
 
-export type ListAchievementDefinitionsResponse = AchievementDefinitionsListResponse;
-export const ListAchievementDefinitionsResponse = AchievementDefinitionsListResponse;
+export type ListAchievementDefinitionsResponse =
+  AchievementDefinitionsListResponse;
+export const ListAchievementDefinitionsResponse =
+  AchievementDefinitionsListResponse;
 
 export type ListAchievementDefinitionsError = DefaultErrors;
 
 /** Lists all the achievement definitions for your application. */
-export const listAchievementDefinitions: API.PaginatedOperationMethod<ListAchievementDefinitionsRequest, ListAchievementDefinitionsResponse, ListAchievementDefinitionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAchievementDefinitions: API.PaginatedOperationMethod<
+  ListAchievementDefinitionsRequest,
+  ListAchievementDefinitionsResponse,
+  ListAchievementDefinitionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAchievementDefinitionsRequest,
   output: ListAchievementDefinitionsResponse,
   errors: [],
@@ -1470,7 +1847,11 @@ export const IncrementAchievementsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   stepsToIncrement: Schema.Number.pipe(T.HttpQuery("stepsToIncrement")),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/achievements/{achievementId}/increment", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/achievements/{achievementId}/increment",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<IncrementAchievementsRequest>;
 
@@ -1480,7 +1861,12 @@ export const IncrementAchievementsResponse = AchievementIncrementResponse;
 export type IncrementAchievementsError = DefaultErrors;
 
 /** Increments the steps of the achievement with the given ID for the currently authenticated player. */
-export const incrementAchievements: API.OperationMethod<IncrementAchievementsRequest, IncrementAchievementsResponse, IncrementAchievementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const incrementAchievements: API.OperationMethod<
+  IncrementAchievementsRequest,
+  IncrementAchievementsResponse,
+  IncrementAchievementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: IncrementAchievementsRequest,
   output: IncrementAchievementsResponse,
   errors: [],
@@ -1516,7 +1902,12 @@ export const ListAchievementsResponse = PlayerAchievementListResponse;
 export type ListAchievementsError = DefaultErrors;
 
 /** Lists the progress for all your application's achievements for the currently authenticated player. */
-export const listAchievements: API.PaginatedOperationMethod<ListAchievementsRequest, ListAchievementsResponse, ListAchievementsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAchievements: API.PaginatedOperationMethod<
+  ListAchievementsRequest,
+  ListAchievementsResponse,
+  ListAchievementsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAchievementsRequest,
   output: ListAchievementsResponse,
   errors: [],
@@ -1535,7 +1926,11 @@ export interface RevealAchievementsRequest {
 export const RevealAchievementsRequest = Schema.Struct({
   achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/achievements/{achievementId}/reveal", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/achievements/{achievementId}/reveal",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RevealAchievementsRequest>;
 
@@ -1545,7 +1940,12 @@ export const RevealAchievementsResponse = AchievementRevealResponse;
 export type RevealAchievementsError = DefaultErrors;
 
 /** Sets the state of the achievement with the given ID to `REVEALED` for the currently authenticated player. */
-export const revealAchievements: API.OperationMethod<RevealAchievementsRequest, RevealAchievementsResponse, RevealAchievementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const revealAchievements: API.OperationMethod<
+  RevealAchievementsRequest,
+  RevealAchievementsResponse,
+  RevealAchievementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RevealAchievementsRequest,
   output: RevealAchievementsResponse,
   errors: [],
@@ -1562,17 +1962,28 @@ export const SetStepsAtLeastAchievementsRequest = Schema.Struct({
   achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
   steps: Schema.Number.pipe(T.HttpQuery("steps")),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/achievements/{achievementId}/setStepsAtLeast", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/achievements/{achievementId}/setStepsAtLeast",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetStepsAtLeastAchievementsRequest>;
 
-export type SetStepsAtLeastAchievementsResponse = AchievementSetStepsAtLeastResponse;
-export const SetStepsAtLeastAchievementsResponse = AchievementSetStepsAtLeastResponse;
+export type SetStepsAtLeastAchievementsResponse =
+  AchievementSetStepsAtLeastResponse;
+export const SetStepsAtLeastAchievementsResponse =
+  AchievementSetStepsAtLeastResponse;
 
 export type SetStepsAtLeastAchievementsError = DefaultErrors;
 
 /** Sets the steps for the currently authenticated player towards unlocking an achievement. If the steps parameter is less than the current number of steps that the player already gained for the achievement, the achievement is not modified. */
-export const setStepsAtLeastAchievements: API.OperationMethod<SetStepsAtLeastAchievementsRequest, SetStepsAtLeastAchievementsResponse, SetStepsAtLeastAchievementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setStepsAtLeastAchievements: API.OperationMethod<
+  SetStepsAtLeastAchievementsRequest,
+  SetStepsAtLeastAchievementsResponse,
+  SetStepsAtLeastAchievementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetStepsAtLeastAchievementsRequest,
   output: SetStepsAtLeastAchievementsResponse,
   errors: [],
@@ -1586,7 +1997,11 @@ export interface UnlockAchievementsRequest {
 export const UnlockAchievementsRequest = Schema.Struct({
   achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/achievements/{achievementId}/unlock", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/achievements/{achievementId}/unlock",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UnlockAchievementsRequest>;
 
@@ -1596,7 +2011,12 @@ export const UnlockAchievementsResponse = AchievementUnlockResponse;
 export type UnlockAchievementsError = DefaultErrors;
 
 /** Unlocks this achievement for the currently authenticated player. */
-export const unlockAchievements: API.OperationMethod<UnlockAchievementsRequest, UnlockAchievementsResponse, UnlockAchievementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const unlockAchievements: API.OperationMethod<
+  UnlockAchievementsRequest,
+  UnlockAchievementsResponse,
+  UnlockAchievementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UnlockAchievementsRequest,
   output: UnlockAchievementsResponse,
   errors: [],
@@ -1610,17 +2030,28 @@ export interface UpdateMultipleAchievementsRequest {
 export const UpdateMultipleAchievementsRequest = Schema.Struct({
   body: Schema.optional(AchievementUpdateMultipleRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/achievements/updateMultiple", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/achievements/updateMultiple",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UpdateMultipleAchievementsRequest>;
 
-export type UpdateMultipleAchievementsResponse = AchievementUpdateMultipleResponse;
-export const UpdateMultipleAchievementsResponse = AchievementUpdateMultipleResponse;
+export type UpdateMultipleAchievementsResponse =
+  AchievementUpdateMultipleResponse;
+export const UpdateMultipleAchievementsResponse =
+  AchievementUpdateMultipleResponse;
 
 export type UpdateMultipleAchievementsError = DefaultErrors;
 
 /** Updates multiple achievements for the currently authenticated player. */
-export const updateMultipleAchievements: API.OperationMethod<UpdateMultipleAchievementsRequest, UpdateMultipleAchievementsResponse, UpdateMultipleAchievementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateMultipleAchievements: API.OperationMethod<
+  UpdateMultipleAchievementsRequest,
+  UpdateMultipleAchievementsResponse,
+  UpdateMultipleAchievementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateMultipleAchievementsRequest,
   output: UpdateMultipleAchievementsResponse,
   errors: [],
@@ -1638,7 +2069,9 @@ export interface GetApplicationsRequest {
 export const GetApplicationsRequest = Schema.Struct({
   applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
   language: Schema.optional(Schema.String).pipe(T.HttpQuery("language")),
-  platformType: Schema.optional(Schema.String).pipe(T.HttpQuery("platformType")),
+  platformType: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("platformType"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "games/v1/applications/{applicationId}" }),
   svc,
@@ -1650,28 +2083,41 @@ export const GetApplicationsResponse = Application;
 export type GetApplicationsError = DefaultErrors;
 
 /** Retrieves the metadata of the application with the given ID. If the requested application is not available for the specified `platformType`, the returned response will not include any instance data. */
-export const getApplications: API.OperationMethod<GetApplicationsRequest, GetApplicationsResponse, GetApplicationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getApplications: API.OperationMethod<
+  GetApplicationsRequest,
+  GetApplicationsResponse,
+  GetApplicationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetApplicationsRequest,
   output: GetApplicationsResponse,
   errors: [],
 }));
 
-export interface PlayedApplicationsRequest {
-}
+export interface PlayedApplicationsRequest {}
 
-export const PlayedApplicationsRequest = Schema.Struct({
-}).pipe(
-  T.Http({ method: "POST", path: "games/v1/applications/played", hasBody: true }),
+export const PlayedApplicationsRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "POST",
+    path: "games/v1/applications/played",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PlayedApplicationsRequest>;
 
 export interface PlayedApplicationsResponse {}
-export const PlayedApplicationsResponse: Schema.Schema<PlayedApplicationsResponse> = Schema.Struct({}) as any as Schema.Schema<PlayedApplicationsResponse>;
+export const PlayedApplicationsResponse: Schema.Schema<PlayedApplicationsResponse> =
+  Schema.Struct({}) as any as Schema.Schema<PlayedApplicationsResponse>;
 
 export type PlayedApplicationsError = DefaultErrors;
 
 /** Indicate that the currently authenticated user is playing your application. */
-export const playedApplications: API.OperationMethod<PlayedApplicationsRequest, PlayedApplicationsResponse, PlayedApplicationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const playedApplications: API.OperationMethod<
+  PlayedApplicationsRequest,
+  PlayedApplicationsResponse,
+  PlayedApplicationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PlayedApplicationsRequest,
   output: PlayedApplicationsResponse,
   errors: [],
@@ -1685,7 +2131,10 @@ export interface VerifyApplicationsRequest {
 export const VerifyApplicationsRequest = Schema.Struct({
   applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/applications/{applicationId}/verify" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/applications/{applicationId}/verify",
+  }),
   svc,
 ) as unknown as Schema.Schema<VerifyApplicationsRequest>;
 
@@ -1695,7 +2144,12 @@ export const VerifyApplicationsResponse = ApplicationVerifyResponse;
 export type VerifyApplicationsError = DefaultErrors;
 
 /** Verifies the auth token provided with this request is for the application with the specified ID, and returns the ID of the player it was granted for. */
-export const verifyApplications: API.OperationMethod<VerifyApplicationsRequest, VerifyApplicationsResponse, VerifyApplicationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyApplications: API.OperationMethod<
+  VerifyApplicationsRequest,
+  VerifyApplicationsResponse,
+  VerifyApplicationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyApplicationsRequest,
   output: VerifyApplicationsResponse,
   errors: [],
@@ -1709,10 +2163,18 @@ export interface GetEndPointApplicationsRequest {
 }
 
 export const GetEndPointApplicationsRequest = Schema.Struct({
-  applicationId: Schema.optional(Schema.String).pipe(T.HttpQuery("applicationId")),
-  endPointType: Schema.optional(Schema.String).pipe(T.HttpQuery("endPointType")),
+  applicationId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("applicationId"),
+  ),
+  endPointType: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("endPointType"),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/applications/getEndPoint", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/applications/getEndPoint",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetEndPointApplicationsRequest>;
 
@@ -1722,7 +2184,12 @@ export const GetEndPointApplicationsResponse = EndPoint;
 export type GetEndPointApplicationsError = DefaultErrors;
 
 /** Returns a URL for the requested end point type. */
-export const getEndPointApplications: API.OperationMethod<GetEndPointApplicationsRequest, GetEndPointApplicationsResponse, GetEndPointApplicationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getEndPointApplications: API.OperationMethod<
+  GetEndPointApplicationsRequest,
+  GetEndPointApplicationsResponse,
+  GetEndPointApplicationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetEndPointApplicationsRequest,
   output: GetEndPointApplicationsResponse,
   errors: [],
@@ -1752,7 +2219,12 @@ export const ListByPlayerEventsResponse = PlayerEventListResponse;
 export type ListByPlayerEventsError = DefaultErrors;
 
 /** Returns a list showing the current progress on events in this application for the currently authenticated user. */
-export const listByPlayerEvents: API.PaginatedOperationMethod<ListByPlayerEventsRequest, ListByPlayerEventsResponse, ListByPlayerEventsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listByPlayerEvents: API.PaginatedOperationMethod<
+  ListByPlayerEventsRequest,
+  ListByPlayerEventsResponse,
+  ListByPlayerEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListByPlayerEventsRequest,
   output: ListByPlayerEventsResponse,
   errors: [],
@@ -1787,7 +2259,12 @@ export const ListDefinitionsEventsResponse = EventDefinitionListResponse;
 export type ListDefinitionsEventsError = DefaultErrors;
 
 /** Returns a list of the event definitions in this application. */
-export const listDefinitionsEvents: API.PaginatedOperationMethod<ListDefinitionsEventsRequest, ListDefinitionsEventsResponse, ListDefinitionsEventsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listDefinitionsEvents: API.PaginatedOperationMethod<
+  ListDefinitionsEventsRequest,
+  ListDefinitionsEventsResponse,
+  ListDefinitionsEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListDefinitionsEventsRequest,
   output: ListDefinitionsEventsResponse,
   errors: [],
@@ -1819,7 +2296,12 @@ export const RecordEventsResponse = EventUpdateResponse;
 export type RecordEventsError = DefaultErrors;
 
 /** Records a batch of changes to the number of times events have occurred for the currently authenticated user of this application. */
-export const recordEvents: API.OperationMethod<RecordEventsRequest, RecordEventsResponse, RecordEventsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const recordEvents: API.OperationMethod<
+  RecordEventsRequest,
+  RecordEventsResponse,
+  RecordEventsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RecordEventsRequest,
   output: RecordEventsResponse,
   errors: [],
@@ -1846,7 +2328,12 @@ export const GetLeaderboardsResponse = Leaderboard;
 export type GetLeaderboardsError = DefaultErrors;
 
 /** Retrieves the metadata of the leaderboard with the given ID. */
-export const getLeaderboards: API.OperationMethod<GetLeaderboardsRequest, GetLeaderboardsResponse, GetLeaderboardsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getLeaderboards: API.OperationMethod<
+  GetLeaderboardsRequest,
+  GetLeaderboardsResponse,
+  GetLeaderboardsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetLeaderboardsRequest,
   output: GetLeaderboardsResponse,
   errors: [],
@@ -1876,7 +2363,12 @@ export const ListLeaderboardsResponse = LeaderboardListResponse;
 export type ListLeaderboardsError = DefaultErrors;
 
 /** Lists all the leaderboard metadata for your application. */
-export const listLeaderboards: API.PaginatedOperationMethod<ListLeaderboardsRequest, ListLeaderboardsResponse, ListLeaderboardsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listLeaderboards: API.PaginatedOperationMethod<
+  ListLeaderboardsRequest,
+  ListLeaderboardsResponse,
+  ListLeaderboardsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListLeaderboardsRequest,
   output: ListLeaderboardsResponse,
   errors: [],
@@ -1887,11 +2379,9 @@ export const listLeaderboards: API.PaginatedOperationMethod<ListLeaderboardsRequ
   },
 }));
 
-export interface GetMetagameConfigMetagameRequest {
-}
+export interface GetMetagameConfigMetagameRequest {}
 
-export const GetMetagameConfigMetagameRequest = Schema.Struct({
-}).pipe(
+export const GetMetagameConfigMetagameRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "games/v1/metagameConfig" }),
   svc,
 ) as unknown as Schema.Schema<GetMetagameConfigMetagameRequest>;
@@ -1902,7 +2392,12 @@ export const GetMetagameConfigMetagameResponse = MetagameConfig;
 export type GetMetagameConfigMetagameError = DefaultErrors;
 
 /** Return the metagame configuration data for the calling application. */
-export const getMetagameConfigMetagame: API.OperationMethod<GetMetagameConfigMetagameRequest, GetMetagameConfigMetagameResponse, GetMetagameConfigMetagameError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getMetagameConfigMetagame: API.OperationMethod<
+  GetMetagameConfigMetagameRequest,
+  GetMetagameConfigMetagameResponse,
+  GetMetagameConfigMetagameError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetMetagameConfigMetagameRequest,
   output: GetMetagameConfigMetagameResponse,
   errors: [],
@@ -1928,7 +2423,10 @@ export const ListCategoriesByPlayerMetagameRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/players/{playerId}/categories/{collection}" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/players/{playerId}/categories/{collection}",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListCategoriesByPlayerMetagameRequest>;
 
@@ -1938,7 +2436,12 @@ export const ListCategoriesByPlayerMetagameResponse = CategoryListResponse;
 export type ListCategoriesByPlayerMetagameError = DefaultErrors;
 
 /** List play data aggregated per category for the player corresponding to `playerId`. */
-export const listCategoriesByPlayerMetagame: API.PaginatedOperationMethod<ListCategoriesByPlayerMetagameRequest, ListCategoriesByPlayerMetagameResponse, ListCategoriesByPlayerMetagameError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listCategoriesByPlayerMetagame: API.PaginatedOperationMethod<
+  ListCategoriesByPlayerMetagameRequest,
+  ListCategoriesByPlayerMetagameResponse,
+  ListCategoriesByPlayerMetagameError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListCategoriesByPlayerMetagameRequest,
   output: ListCategoriesByPlayerMetagameResponse,
   errors: [],
@@ -1961,7 +2464,9 @@ export interface GetPlayersRequest {
 export const GetPlayersRequest = Schema.Struct({
   playerId: Schema.String.pipe(T.HttpPath("playerId")),
   language: Schema.optional(Schema.String).pipe(T.HttpQuery("language")),
-  playerIdConsistencyToken: Schema.optional(Schema.String).pipe(T.HttpQuery("playerIdConsistencyToken")),
+  playerIdConsistencyToken: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("playerIdConsistencyToken"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "games/v1/players/{playerId}" }),
   svc,
@@ -1973,17 +2478,20 @@ export const GetPlayersResponse = Player;
 export type GetPlayersError = DefaultErrors;
 
 /** Retrieves the Player resource with the given ID. To retrieve the player for the currently authenticated user, set `playerId` to `me`. */
-export const getPlayers: API.OperationMethod<GetPlayersRequest, GetPlayersResponse, GetPlayersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getPlayers: API.OperationMethod<
+  GetPlayersRequest,
+  GetPlayersResponse,
+  GetPlayersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetPlayersRequest,
   output: GetPlayersResponse,
   errors: [],
 }));
 
-export interface GetScopedPlayerIdsPlayersRequest {
-}
+export interface GetScopedPlayerIdsPlayersRequest {}
 
-export const GetScopedPlayerIdsPlayersRequest = Schema.Struct({
-}).pipe(
+export const GetScopedPlayerIdsPlayersRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "games/v1/players/me/scopedIds" }),
   svc,
 ) as unknown as Schema.Schema<GetScopedPlayerIdsPlayersRequest>;
@@ -1994,7 +2502,12 @@ export const GetScopedPlayerIdsPlayersResponse = ScopedPlayerIds;
 export type GetScopedPlayerIdsPlayersError = DefaultErrors;
 
 /** Retrieves scoped player identifiers for currently authenticated user. */
-export const getScopedPlayerIdsPlayers: API.OperationMethod<GetScopedPlayerIdsPlayersRequest, GetScopedPlayerIdsPlayersResponse, GetScopedPlayerIdsPlayersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getScopedPlayerIdsPlayers: API.OperationMethod<
+  GetScopedPlayerIdsPlayersRequest,
+  GetScopedPlayerIdsPlayersResponse,
+  GetScopedPlayerIdsPlayersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetScopedPlayerIdsPlayersRequest,
   output: GetScopedPlayerIdsPlayersResponse,
   errors: [],
@@ -2006,19 +2519,31 @@ export interface GetMultipleApplicationPlayerIdsPlayersRequest {
 }
 
 export const GetMultipleApplicationPlayerIdsPlayersRequest = Schema.Struct({
-  applicationIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("applicationIds")),
+  applicationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("applicationIds"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/players/me/multipleApplicationPlayerIds" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/players/me/multipleApplicationPlayerIds",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetMultipleApplicationPlayerIdsPlayersRequest>;
 
-export type GetMultipleApplicationPlayerIdsPlayersResponse = GetMultipleApplicationPlayerIdsResponse;
-export const GetMultipleApplicationPlayerIdsPlayersResponse = GetMultipleApplicationPlayerIdsResponse;
+export type GetMultipleApplicationPlayerIdsPlayersResponse =
+  GetMultipleApplicationPlayerIdsResponse;
+export const GetMultipleApplicationPlayerIdsPlayersResponse =
+  GetMultipleApplicationPlayerIdsResponse;
 
 export type GetMultipleApplicationPlayerIdsPlayersError = DefaultErrors;
 
 /** Get the application player ids for the currently authenticated player across all requested games by the same developer as the calling application. This will only return ids for players that actually have an id (scoped or otherwise) with that game. */
-export const getMultipleApplicationPlayerIdsPlayers: API.OperationMethod<GetMultipleApplicationPlayerIdsPlayersRequest, GetMultipleApplicationPlayerIdsPlayersResponse, GetMultipleApplicationPlayerIdsPlayersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getMultipleApplicationPlayerIdsPlayers: API.OperationMethod<
+  GetMultipleApplicationPlayerIdsPlayersRequest,
+  GetMultipleApplicationPlayerIdsPlayersResponse,
+  GetMultipleApplicationPlayerIdsPlayersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetMultipleApplicationPlayerIdsPlayersRequest,
   output: GetMultipleApplicationPlayerIdsPlayersResponse,
   errors: [],
@@ -2051,7 +2576,12 @@ export const ListPlayersResponse = PlayerListResponse;
 export type ListPlayersError = DefaultErrors;
 
 /** Get the collection of players for the currently authenticated user. */
-export const listPlayers: API.PaginatedOperationMethod<ListPlayersRequest, ListPlayersResponse, ListPlayersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listPlayers: API.PaginatedOperationMethod<
+  ListPlayersRequest,
+  ListPlayersResponse,
+  ListPlayersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListPlayersRequest,
   output: ListPlayersResponse,
   errors: [],
@@ -2080,7 +2610,12 @@ export const CheckRevisionsResponse = RevisionCheckResponse;
 export type CheckRevisionsError = DefaultErrors;
 
 /** Checks whether the games client is out of date. */
-export const checkRevisions: API.OperationMethod<CheckRevisionsRequest, CheckRevisionsResponse, CheckRevisionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const checkRevisions: API.OperationMethod<
+  CheckRevisionsRequest,
+  CheckRevisionsResponse,
+  CheckRevisionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CheckRevisionsRequest,
   output: CheckRevisionsResponse,
   errors: [],
@@ -2108,11 +2643,16 @@ export const GetScoresRequest = Schema.Struct({
   leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
   timeSpan: Schema.String.pipe(T.HttpPath("timeSpan")),
   language: Schema.optional(Schema.String).pipe(T.HttpQuery("language")),
-  includeRankType: Schema.optional(Schema.String).pipe(T.HttpQuery("includeRankType")),
+  includeRankType: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("includeRankType"),
+  ),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/players/{playerId}/leaderboards/{leaderboardId}/scores/{timeSpan}" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/players/{playerId}/leaderboards/{leaderboardId}/scores/{timeSpan}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetScoresRequest>;
 
@@ -2122,7 +2662,12 @@ export const GetScoresResponse = PlayerLeaderboardScoreListResponse;
 export type GetScoresError = DefaultErrors;
 
 /** Get high scores, and optionally ranks, in leaderboards for the currently authenticated player. For a specific time span, `leaderboardId` can be set to `ALL` to retrieve data for all leaderboards in a given time span. `NOTE: You cannot ask for 'ALL' leaderboards and 'ALL' timeSpans in the same request; only one parameter may be set to 'ALL'. */
-export const getScores: API.PaginatedOperationMethod<GetScoresRequest, GetScoresResponse, GetScoresError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const getScores: API.PaginatedOperationMethod<
+  GetScoresRequest,
+  GetScoresResponse,
+  GetScoresError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: GetScoresRequest,
   output: GetScoresResponse,
   errors: [],
@@ -2156,7 +2701,10 @@ export const ListScoresRequest = Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/leaderboards/{leaderboardId}/scores/{collection}" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/leaderboards/{leaderboardId}/scores/{collection}",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListScoresRequest>;
 
@@ -2166,7 +2714,12 @@ export const ListScoresResponse = LeaderboardScores;
 export type ListScoresError = DefaultErrors;
 
 /** Lists the scores in a leaderboard, starting from the top. */
-export const listScores: API.PaginatedOperationMethod<ListScoresRequest, ListScoresResponse, ListScoresError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listScores: API.PaginatedOperationMethod<
+  ListScoresRequest,
+  ListScoresResponse,
+  ListScoresError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListScoresRequest,
   output: ListScoresResponse,
   errors: [],
@@ -2202,11 +2755,18 @@ export const ListWindowScoresRequest = Schema.Struct({
   language: Schema.optional(Schema.String).pipe(T.HttpQuery("language")),
   timeSpan: Schema.String.pipe(T.HttpQuery("timeSpan")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  resultsAbove: Schema.optional(Schema.Number).pipe(T.HttpQuery("resultsAbove")),
-  returnTopIfAbsent: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnTopIfAbsent")),
+  resultsAbove: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("resultsAbove"),
+  ),
+  returnTopIfAbsent: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnTopIfAbsent"),
+  ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/leaderboards/{leaderboardId}/window/{collection}" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/leaderboards/{leaderboardId}/window/{collection}",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListWindowScoresRequest>;
 
@@ -2216,7 +2776,12 @@ export const ListWindowScoresResponse = LeaderboardScores;
 export type ListWindowScoresError = DefaultErrors;
 
 /** Lists the scores in a leaderboard around (and including) a player's score. */
-export const listWindowScores: API.PaginatedOperationMethod<ListWindowScoresRequest, ListWindowScoresResponse, ListWindowScoresError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listWindowScores: API.PaginatedOperationMethod<
+  ListWindowScoresRequest,
+  ListWindowScoresResponse,
+  ListWindowScoresError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListWindowScoresRequest,
   output: ListWindowScoresResponse,
   errors: [],
@@ -2244,7 +2809,11 @@ export const SubmitScoresRequest = Schema.Struct({
   score: Schema.String.pipe(T.HttpQuery("score")),
   scoreTag: Schema.optional(Schema.String).pipe(T.HttpQuery("scoreTag")),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/leaderboards/{leaderboardId}/scores", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/leaderboards/{leaderboardId}/scores",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SubmitScoresRequest>;
 
@@ -2254,7 +2823,12 @@ export const SubmitScoresResponse = PlayerScoreResponse;
 export type SubmitScoresError = DefaultErrors;
 
 /** Submits a score to the specified leaderboard. */
-export const submitScores: API.OperationMethod<SubmitScoresRequest, SubmitScoresResponse, SubmitScoresError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const submitScores: API.OperationMethod<
+  SubmitScoresRequest,
+  SubmitScoresResponse,
+  SubmitScoresError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SubmitScoresRequest,
   output: SubmitScoresResponse,
   errors: [],
@@ -2271,7 +2845,11 @@ export const SubmitMultipleScoresRequest = Schema.Struct({
   language: Schema.optional(Schema.String).pipe(T.HttpQuery("language")),
   body: Schema.optional(PlayerScoreSubmissionList).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/leaderboards/scores", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/leaderboards/scores",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SubmitMultipleScoresRequest>;
 
@@ -2281,7 +2859,12 @@ export const SubmitMultipleScoresResponse = PlayerScoreListResponse;
 export type SubmitMultipleScoresError = DefaultErrors;
 
 /** Submits multiple scores to leaderboards. */
-export const submitMultipleScores: API.OperationMethod<SubmitMultipleScoresRequest, SubmitMultipleScoresResponse, SubmitMultipleScoresError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const submitMultipleScores: API.OperationMethod<
+  SubmitMultipleScoresRequest,
+  SubmitMultipleScoresResponse,
+  SubmitMultipleScoresError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SubmitMultipleScoresRequest,
   output: SubmitMultipleScoresResponse,
   errors: [],
@@ -2308,7 +2891,12 @@ export const GetSnapshotsResponse = Snapshot;
 export type GetSnapshotsError = DefaultErrors;
 
 /** Retrieves the metadata for a given snapshot ID. */
-export const getSnapshots: API.OperationMethod<GetSnapshotsRequest, GetSnapshotsResponse, GetSnapshotsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getSnapshots: API.OperationMethod<
+  GetSnapshotsRequest,
+  GetSnapshotsResponse,
+  GetSnapshotsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetSnapshotsRequest,
   output: GetSnapshotsResponse,
   errors: [],
@@ -2341,7 +2929,12 @@ export const ListSnapshotsResponse = SnapshotListResponse;
 export type ListSnapshotsError = DefaultErrors;
 
 /** Retrieves a list of snapshots created by your application for the player corresponding to the player ID. */
-export const listSnapshots: API.PaginatedOperationMethod<ListSnapshotsRequest, ListSnapshotsResponse, ListSnapshotsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listSnapshots: API.PaginatedOperationMethod<
+  ListSnapshotsRequest,
+  ListSnapshotsResponse,
+  ListSnapshotsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListSnapshotsRequest,
   output: ListSnapshotsResponse,
   errors: [],
@@ -2352,11 +2945,9 @@ export const listSnapshots: API.PaginatedOperationMethod<ListSnapshotsRequest, L
   },
 }));
 
-export interface GetStatsRequest {
-}
+export interface GetStatsRequest {}
 
-export const GetStatsRequest = Schema.Struct({
-}).pipe(
+export const GetStatsRequest = Schema.Struct({}).pipe(
   T.Http({ method: "GET", path: "games/v1/stats" }),
   svc,
 ) as unknown as Schema.Schema<GetStatsRequest>;
@@ -2367,7 +2958,12 @@ export const GetStatsResponse = StatsResponse;
 export type GetStatsError = DefaultErrors;
 
 /** Returns engagement and spend statistics in this application for the currently authenticated user. */
-export const getStats: API.OperationMethod<GetStatsRequest, GetStatsResponse, GetStatsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getStats: API.OperationMethod<
+  GetStatsRequest,
+  GetStatsResponse,
+  GetStatsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetStatsRequest,
   output: GetStatsResponse,
   errors: [],
@@ -2381,7 +2977,11 @@ export interface LinkPersonaRecallRequest {
 export const LinkPersonaRecallRequest = Schema.Struct({
   body: Schema.optional(LinkPersonaRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/recall:linkPersona", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/recall:linkPersona",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<LinkPersonaRecallRequest>;
 
@@ -2391,7 +2991,12 @@ export const LinkPersonaRecallResponse = LinkPersonaResponse;
 export type LinkPersonaRecallError = DefaultErrors;
 
 /** Associate the PGS Player principal encoded in the provided recall session id with an in-game account */
-export const linkPersonaRecall: API.OperationMethod<LinkPersonaRecallRequest, LinkPersonaRecallResponse, LinkPersonaRecallError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const linkPersonaRecall: API.OperationMethod<
+  LinkPersonaRecallRequest,
+  LinkPersonaRecallResponse,
+  LinkPersonaRecallError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LinkPersonaRecallRequest,
   output: LinkPersonaRecallResponse,
   errors: [],
@@ -2415,7 +3020,12 @@ export const RetrieveTokensRecallResponse = RetrievePlayerTokensResponse;
 export type RetrieveTokensRecallError = DefaultErrors;
 
 /** Retrieve all Recall tokens associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have active PGS Player profile. */
-export const retrieveTokensRecall: API.OperationMethod<RetrieveTokensRecallRequest, RetrieveTokensRecallResponse, RetrieveTokensRecallError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const retrieveTokensRecall: API.OperationMethod<
+  RetrieveTokensRecallRequest,
+  RetrieveTokensRecallResponse,
+  RetrieveTokensRecallError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RetrieveTokensRecallRequest,
   output: RetrieveTokensRecallResponse,
   errors: [],
@@ -2429,17 +3039,27 @@ export interface LastTokenFromAllDeveloperGamesRecallRequest {
 export const LastTokenFromAllDeveloperGamesRecallRequest = Schema.Struct({
   sessionId: Schema.String.pipe(T.HttpPath("sessionId")),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/recall/developerGamesLastPlayerToken/{sessionId}" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/recall/developerGamesLastPlayerToken/{sessionId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<LastTokenFromAllDeveloperGamesRecallRequest>;
 
-export type LastTokenFromAllDeveloperGamesRecallResponse = RetrieveDeveloperGamesLastPlayerTokenResponse;
-export const LastTokenFromAllDeveloperGamesRecallResponse = RetrieveDeveloperGamesLastPlayerTokenResponse;
+export type LastTokenFromAllDeveloperGamesRecallResponse =
+  RetrieveDeveloperGamesLastPlayerTokenResponse;
+export const LastTokenFromAllDeveloperGamesRecallResponse =
+  RetrieveDeveloperGamesLastPlayerTokenResponse;
 
 export type LastTokenFromAllDeveloperGamesRecallError = DefaultErrors;
 
 /** Retrieve the last Recall token from all developer games that is associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have active PGS Player profile. */
-export const lastTokenFromAllDeveloperGamesRecall: API.OperationMethod<LastTokenFromAllDeveloperGamesRecallRequest, LastTokenFromAllDeveloperGamesRecallResponse, LastTokenFromAllDeveloperGamesRecallError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const lastTokenFromAllDeveloperGamesRecall: API.OperationMethod<
+  LastTokenFromAllDeveloperGamesRecallRequest,
+  LastTokenFromAllDeveloperGamesRecallResponse,
+  LastTokenFromAllDeveloperGamesRecallError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: LastTokenFromAllDeveloperGamesRecallRequest,
   output: LastTokenFromAllDeveloperGamesRecallResponse,
   errors: [],
@@ -2454,19 +3074,30 @@ export interface GamesPlayerTokensRecallRequest {
 
 export const GamesPlayerTokensRecallRequest = Schema.Struct({
   sessionId: Schema.String.pipe(T.HttpPath("sessionId")),
-  applicationIds: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("applicationIds")),
+  applicationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("applicationIds"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "games/v1/recall/gamesPlayerTokens/{sessionId}" }),
+  T.Http({
+    method: "GET",
+    path: "games/v1/recall/gamesPlayerTokens/{sessionId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GamesPlayerTokensRecallRequest>;
 
 export type GamesPlayerTokensRecallResponse = RetrieveGamesPlayerTokensResponse;
-export const GamesPlayerTokensRecallResponse = RetrieveGamesPlayerTokensResponse;
+export const GamesPlayerTokensRecallResponse =
+  RetrieveGamesPlayerTokensResponse;
 
 export type GamesPlayerTokensRecallError = DefaultErrors;
 
 /** Retrieve the Recall tokens from all requested games that is associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have an active PGS Player profile. */
-export const gamesPlayerTokensRecall: API.OperationMethod<GamesPlayerTokensRecallRequest, GamesPlayerTokensRecallResponse, GamesPlayerTokensRecallError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const gamesPlayerTokensRecall: API.OperationMethod<
+  GamesPlayerTokensRecallRequest,
+  GamesPlayerTokensRecallResponse,
+  GamesPlayerTokensRecallError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GamesPlayerTokensRecallRequest,
   output: GamesPlayerTokensRecallResponse,
   errors: [],
@@ -2480,7 +3111,11 @@ export interface UnlinkPersonaRecallRequest {
 export const UnlinkPersonaRecallRequest = Schema.Struct({
   body: Schema.optional(UnlinkPersonaRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/recall:unlinkPersona", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/recall:unlinkPersona",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UnlinkPersonaRecallRequest>;
 
@@ -2490,7 +3125,12 @@ export const UnlinkPersonaRecallResponse = UnlinkPersonaResponse;
 export type UnlinkPersonaRecallError = DefaultErrors;
 
 /** Delete a Recall token linking the PGS Player principal identified by the Recall session and an in-game account identified either by the 'persona' or by the token value. */
-export const unlinkPersonaRecall: API.OperationMethod<UnlinkPersonaRecallRequest, UnlinkPersonaRecallResponse, UnlinkPersonaRecallError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const unlinkPersonaRecall: API.OperationMethod<
+  UnlinkPersonaRecallRequest,
+  UnlinkPersonaRecallResponse,
+  UnlinkPersonaRecallError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UnlinkPersonaRecallRequest,
   output: UnlinkPersonaRecallResponse,
   errors: [],
@@ -2504,7 +3144,11 @@ export interface ResetPersonaRecallRequest {
 export const ResetPersonaRecallRequest = Schema.Struct({
   body: Schema.optional(ResetPersonaRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/recall:resetPersona", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/recall:resetPersona",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<ResetPersonaRecallRequest>;
 
@@ -2514,7 +3158,12 @@ export const ResetPersonaRecallResponse = ResetPersonaResponse;
 export type ResetPersonaRecallError = DefaultErrors;
 
 /** Delete all Recall tokens linking the given persona to any player (with or without a profile). */
-export const resetPersonaRecall: API.OperationMethod<ResetPersonaRecallRequest, ResetPersonaRecallResponse, ResetPersonaRecallError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resetPersonaRecall: API.OperationMethod<
+  ResetPersonaRecallRequest,
+  ResetPersonaRecallResponse,
+  ResetPersonaRecallError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResetPersonaRecallRequest,
   output: ResetPersonaRecallResponse,
   errors: [],
@@ -2531,17 +3180,28 @@ export const GeneratePlayGroupingApiTokenAccesstokensRequest = Schema.Struct({
   packageName: Schema.optional(Schema.String).pipe(T.HttpQuery("packageName")),
   persona: Schema.optional(Schema.String).pipe(T.HttpQuery("persona")),
 }).pipe(
-  T.Http({ method: "POST", path: "games/v1/accesstokens/generatePlayGroupingApiToken", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "games/v1/accesstokens/generatePlayGroupingApiToken",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GeneratePlayGroupingApiTokenAccesstokensRequest>;
 
-export type GeneratePlayGroupingApiTokenAccesstokensResponse = GeneratePlayGroupingApiTokenResponse;
-export const GeneratePlayGroupingApiTokenAccesstokensResponse = GeneratePlayGroupingApiTokenResponse;
+export type GeneratePlayGroupingApiTokenAccesstokensResponse =
+  GeneratePlayGroupingApiTokenResponse;
+export const GeneratePlayGroupingApiTokenAccesstokensResponse =
+  GeneratePlayGroupingApiTokenResponse;
 
 export type GeneratePlayGroupingApiTokenAccesstokensError = DefaultErrors;
 
 /** Generates a Play Grouping API token for the PGS user identified by the attached credential. */
-export const generatePlayGroupingApiTokenAccesstokens: API.OperationMethod<GeneratePlayGroupingApiTokenAccesstokensRequest, GeneratePlayGroupingApiTokenAccesstokensResponse, GeneratePlayGroupingApiTokenAccesstokensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generatePlayGroupingApiTokenAccesstokens: API.OperationMethod<
+  GeneratePlayGroupingApiTokenAccesstokensRequest,
+  GeneratePlayGroupingApiTokenAccesstokensResponse,
+  GeneratePlayGroupingApiTokenAccesstokensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GeneratePlayGroupingApiTokenAccesstokensRequest,
   output: GeneratePlayGroupingApiTokenAccesstokensResponse,
   errors: [],
@@ -2556,24 +3216,39 @@ export interface GenerateRecallPlayGroupingApiTokenAccesstokensRequest {
   recallSessionId?: string;
 }
 
-export const GenerateRecallPlayGroupingApiTokenAccesstokensRequest = Schema.Struct({
-  packageName: Schema.optional(Schema.String).pipe(T.HttpQuery("packageName")),
-  persona: Schema.optional(Schema.String).pipe(T.HttpQuery("persona")),
-  recallSessionId: Schema.optional(Schema.String).pipe(T.HttpQuery("recallSessionId")),
-}).pipe(
-  T.Http({ method: "POST", path: "games/v1/accesstokens/generateRecallPlayGroupingApiToken", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GenerateRecallPlayGroupingApiTokenAccesstokensRequest>;
+export const GenerateRecallPlayGroupingApiTokenAccesstokensRequest =
+  Schema.Struct({
+    packageName: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("packageName"),
+    ),
+    persona: Schema.optional(Schema.String).pipe(T.HttpQuery("persona")),
+    recallSessionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("recallSessionId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1/accesstokens/generateRecallPlayGroupingApiToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateRecallPlayGroupingApiTokenAccesstokensRequest>;
 
-export type GenerateRecallPlayGroupingApiTokenAccesstokensResponse = GenerateRecallPlayGroupingApiTokenResponse;
-export const GenerateRecallPlayGroupingApiTokenAccesstokensResponse = GenerateRecallPlayGroupingApiTokenResponse;
+export type GenerateRecallPlayGroupingApiTokenAccesstokensResponse =
+  GenerateRecallPlayGroupingApiTokenResponse;
+export const GenerateRecallPlayGroupingApiTokenAccesstokensResponse =
+  GenerateRecallPlayGroupingApiTokenResponse;
 
 export type GenerateRecallPlayGroupingApiTokenAccesstokensError = DefaultErrors;
 
 /** Generates a Play Grouping API token for the PGS user identified by the Recall session ID provided in the request. */
-export const generateRecallPlayGroupingApiTokenAccesstokens: API.OperationMethod<GenerateRecallPlayGroupingApiTokenAccesstokensRequest, GenerateRecallPlayGroupingApiTokenAccesstokensResponse, GenerateRecallPlayGroupingApiTokenAccesstokensError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const generateRecallPlayGroupingApiTokenAccesstokens: API.OperationMethod<
+  GenerateRecallPlayGroupingApiTokenAccesstokensRequest,
+  GenerateRecallPlayGroupingApiTokenAccesstokensResponse,
+  GenerateRecallPlayGroupingApiTokenAccesstokensError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GenerateRecallPlayGroupingApiTokenAccesstokensRequest,
   output: GenerateRecallPlayGroupingApiTokenAccesstokensResponse,
   errors: [],
 }));
-

@@ -29,20 +29,28 @@ export interface NotificationSubscription {
   /** If this value is true, the requesting account is notified of the specified event for all managed accounts (can be subaccounts or other linked accounts) including newly added accounts on a daily basis. */
   allManagedAccounts?: boolean;
   /** The event that the merchant wants to be notified about. */
-  registeredEvent?: "NOTIFICATION_EVENT_TYPE_UNSPECIFIED" | "PRODUCT_STATUS_CHANGE" | (string & {});
+  registeredEvent?:
+    | "NOTIFICATION_EVENT_TYPE_UNSPECIFIED"
+    | "PRODUCT_STATUS_CHANGE"
+    | (string & {});
   /** The `name` of the account you want to receive notifications for. Format: `accounts/{account}` */
   targetAccount?: string;
   /** URL to be used to push the notification to the merchant. */
   callBackUri?: string;
 }
 
-export const NotificationSubscription: Schema.Schema<NotificationSubscription> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  allManagedAccounts: Schema.optional(Schema.Boolean),
-  registeredEvent: Schema.optional(Schema.String),
-  targetAccount: Schema.optional(Schema.String),
-  callBackUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "NotificationSubscription" }) as any as Schema.Schema<NotificationSubscription>;
+export const NotificationSubscription: Schema.Schema<NotificationSubscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      allManagedAccounts: Schema.optional(Schema.Boolean),
+      registeredEvent: Schema.optional(Schema.String),
+      targetAccount: Schema.optional(Schema.String),
+      callBackUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NotificationSubscription",
+  }) as any as Schema.Schema<NotificationSubscription>;
 
 export interface ListNotificationSubscriptionsResponse {
   /** The list of notification subscriptions requested by the merchant. */
@@ -51,10 +59,17 @@ export interface ListNotificationSubscriptionsResponse {
   nextPageToken?: string;
 }
 
-export const ListNotificationSubscriptionsResponse: Schema.Schema<ListNotificationSubscriptionsResponse> = Schema.suspend(() => Schema.Struct({
-  notificationSubscriptions: Schema.optional(Schema.Array(NotificationSubscription)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListNotificationSubscriptionsResponse" }) as any as Schema.Schema<ListNotificationSubscriptionsResponse>;
+export const ListNotificationSubscriptionsResponse: Schema.Schema<ListNotificationSubscriptionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      notificationSubscriptions: Schema.optional(
+        Schema.Array(NotificationSubscription),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListNotificationSubscriptionsResponse",
+  }) as any as Schema.Schema<ListNotificationSubscriptionsResponse>;
 
 export interface ProductChange {
   /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
@@ -64,21 +79,46 @@ export interface ProductChange {
   /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
   regionCode?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() => Schema.Struct({
-  newValue: Schema.optional(Schema.String),
-  oldValue: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  reportingContext: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductChange" }) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
+  Schema.Struct({
+    newValue: Schema.optional(Schema.String),
+    oldValue: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    reportingContext: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductChange",
+}) as any as Schema.Schema<ProductChange>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ProductStatusChangeMessage {
   /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
@@ -101,17 +141,22 @@ export interface ProductStatusChangeMessage {
   changes?: Array<ProductChange>;
 }
 
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> = Schema.suspend(() => Schema.Struct({
-  expirationTime: Schema.optional(Schema.String),
-  eventTime: Schema.optional(Schema.String),
-  account: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-  managingAccount: Schema.optional(Schema.String),
-  resourceType: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  changes: Schema.optional(Schema.Array(ProductChange)),
-})).annotate({ identifier: "ProductStatusChangeMessage" }) as any as Schema.Schema<ProductStatusChangeMessage>;
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      expirationTime: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      managingAccount: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 // ==========================================================================
 // Operations
@@ -125,7 +170,10 @@ export interface DeleteAccountsNotificationsubscriptionsRequest {
 export const DeleteAccountsNotificationsubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAccountsNotificationsubscriptionsRequest>;
 
@@ -135,7 +183,12 @@ export const DeleteAccountsNotificationsubscriptionsResponse = Empty;
 export type DeleteAccountsNotificationsubscriptionsError = DefaultErrors;
 
 /** Deletes a notification subscription for a merchant. */
-export const deleteAccountsNotificationsubscriptions: API.OperationMethod<DeleteAccountsNotificationsubscriptionsRequest, DeleteAccountsNotificationsubscriptionsResponse, DeleteAccountsNotificationsubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAccountsNotificationsubscriptions: API.OperationMethod<
+  DeleteAccountsNotificationsubscriptionsRequest,
+  DeleteAccountsNotificationsubscriptionsResponse,
+  DeleteAccountsNotificationsubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAccountsNotificationsubscriptionsRequest,
   output: DeleteAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -149,17 +202,27 @@ export interface GetAccountsNotificationsubscriptionsRequest {
 export const GetAccountsNotificationsubscriptionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsNotificationsubscriptionsRequest>;
 
-export type GetAccountsNotificationsubscriptionsResponse = NotificationSubscription;
-export const GetAccountsNotificationsubscriptionsResponse = NotificationSubscription;
+export type GetAccountsNotificationsubscriptionsResponse =
+  NotificationSubscription;
+export const GetAccountsNotificationsubscriptionsResponse =
+  NotificationSubscription;
 
 export type GetAccountsNotificationsubscriptionsError = DefaultErrors;
 
 /** Gets notification subscriptions for an account. */
-export const getAccountsNotificationsubscriptions: API.OperationMethod<GetAccountsNotificationsubscriptionsRequest, GetAccountsNotificationsubscriptionsResponse, GetAccountsNotificationsubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsNotificationsubscriptions: API.OperationMethod<
+  GetAccountsNotificationsubscriptionsRequest,
+  GetAccountsNotificationsubscriptionsResponse,
+  GetAccountsNotificationsubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsNotificationsubscriptionsRequest,
   output: GetAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -179,17 +242,27 @@ export const ListAccountsNotificationsubscriptionsRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions" }),
+  T.Http({
+    method: "GET",
+    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsNotificationsubscriptionsRequest>;
 
-export type ListAccountsNotificationsubscriptionsResponse = ListNotificationSubscriptionsResponse;
-export const ListAccountsNotificationsubscriptionsResponse = ListNotificationSubscriptionsResponse;
+export type ListAccountsNotificationsubscriptionsResponse =
+  ListNotificationSubscriptionsResponse;
+export const ListAccountsNotificationsubscriptionsResponse =
+  ListNotificationSubscriptionsResponse;
 
 export type ListAccountsNotificationsubscriptionsError = DefaultErrors;
 
 /** Gets all the notification subscriptions for a merchant. */
-export const listAccountsNotificationsubscriptions: API.PaginatedOperationMethod<ListAccountsNotificationsubscriptionsRequest, ListAccountsNotificationsubscriptionsResponse, ListAccountsNotificationsubscriptionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsNotificationsubscriptions: API.PaginatedOperationMethod<
+  ListAccountsNotificationsubscriptionsRequest,
+  ListAccountsNotificationsubscriptionsResponse,
+  ListAccountsNotificationsubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsNotificationsubscriptionsRequest,
   output: ListAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -213,17 +286,28 @@ export const PatchAccountsNotificationsubscriptionsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(NotificationSubscription).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAccountsNotificationsubscriptionsRequest>;
 
-export type PatchAccountsNotificationsubscriptionsResponse = NotificationSubscription;
-export const PatchAccountsNotificationsubscriptionsResponse = NotificationSubscription;
+export type PatchAccountsNotificationsubscriptionsResponse =
+  NotificationSubscription;
+export const PatchAccountsNotificationsubscriptionsResponse =
+  NotificationSubscription;
 
 export type PatchAccountsNotificationsubscriptionsError = DefaultErrors;
 
 /** Updates an existing notification subscription for a merchant. */
-export const patchAccountsNotificationsubscriptions: API.OperationMethod<PatchAccountsNotificationsubscriptionsRequest, PatchAccountsNotificationsubscriptionsResponse, PatchAccountsNotificationsubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAccountsNotificationsubscriptions: API.OperationMethod<
+  PatchAccountsNotificationsubscriptionsRequest,
+  PatchAccountsNotificationsubscriptionsResponse,
+  PatchAccountsNotificationsubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAccountsNotificationsubscriptionsRequest,
   output: PatchAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -240,19 +324,29 @@ export const CreateAccountsNotificationsubscriptionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(NotificationSubscription).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsNotificationsubscriptionsRequest>;
 
-export type CreateAccountsNotificationsubscriptionsResponse = NotificationSubscription;
-export const CreateAccountsNotificationsubscriptionsResponse = NotificationSubscription;
+export type CreateAccountsNotificationsubscriptionsResponse =
+  NotificationSubscription;
+export const CreateAccountsNotificationsubscriptionsResponse =
+  NotificationSubscription;
 
 export type CreateAccountsNotificationsubscriptionsError = DefaultErrors;
 
 /** Creates a notification subscription for a business. For standalone or subaccounts accounts, the business can create a subscription for self. For MCAs, the business can create a subscription for all managed accounts or for a specific subaccount. See [Decode notifications](/merchant/api/guides/accounts/notifications#decode_notifications) for information on how to decode the notification payload and how to interpret its contents. We will allow the following types of notification subscriptions to exist together (per business as a subscriber per event type): 1. Subscription for all managed accounts + subscription for self. 2. Multiple "partial" subscriptions for managed accounts + subscription for self. we will not allow (per business as a subscriber per event type): 1. Multiple self subscriptions. 2. Multiple "all managed accounts" subscriptions. 3. "All managed accounts" subscription and partial subscriptions at the same time. 4. Multiple partial subscriptions for the same target account. */
-export const createAccountsNotificationsubscriptions: API.OperationMethod<CreateAccountsNotificationsubscriptionsRequest, CreateAccountsNotificationsubscriptionsResponse, CreateAccountsNotificationsubscriptionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsNotificationsubscriptions: API.OperationMethod<
+  CreateAccountsNotificationsubscriptionsRequest,
+  CreateAccountsNotificationsubscriptionsResponse,
+  CreateAccountsNotificationsubscriptionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsNotificationsubscriptionsRequest,
   output: CreateAccountsNotificationsubscriptionsResponse,
   errors: [],
 }));
-

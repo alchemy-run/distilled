@@ -32,11 +32,18 @@ export interface ApigatewayStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const ApigatewayStatus: Schema.Schema<ApigatewayStatus> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "ApigatewayStatus" }) as any as Schema.Schema<ApigatewayStatus>;
+export const ApigatewayStatus: Schema.Schema<ApigatewayStatus> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+).annotate({
+  identifier: "ApigatewayStatus",
+}) as any as Schema.Schema<ApigatewayStatus>;
 
 export interface ApigatewayOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +58,18 @@ export interface ApigatewayOperation {
   response?: Record<string, unknown>;
 }
 
-export const ApigatewayOperation: Schema.Schema<ApigatewayOperation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(ApigatewayStatus),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "ApigatewayOperation" }) as any as Schema.Schema<ApigatewayOperation>;
+export const ApigatewayOperation: Schema.Schema<ApigatewayOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(ApigatewayStatus),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayOperation",
+  }) as any as Schema.Schema<ApigatewayOperation>;
 
 export interface ApigatewayListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,23 +80,29 @@ export interface ApigatewayListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ApigatewayListOperationsResponse: Schema.Schema<ApigatewayListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(ApigatewayOperation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ApigatewayListOperationsResponse" }) as any as Schema.Schema<ApigatewayListOperationsResponse>;
+export const ApigatewayListOperationsResponse: Schema.Schema<ApigatewayListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(ApigatewayOperation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayListOperationsResponse",
+  }) as any as Schema.Schema<ApigatewayListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface ApigatewayCancelOperationRequest {
-}
+export interface ApigatewayCancelOperationRequest {}
 
-export const ApigatewayCancelOperationRequest: Schema.Schema<ApigatewayCancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ApigatewayCancelOperationRequest" }) as any as Schema.Schema<ApigatewayCancelOperationRequest>;
+export const ApigatewayCancelOperationRequest: Schema.Schema<ApigatewayCancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ApigatewayCancelOperationRequest",
+  }) as any as Schema.Schema<ApigatewayCancelOperationRequest>;
 
 export interface ApigatewayGateway {
   /** Output only. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
@@ -100,21 +118,33 @@ export interface ApigatewayGateway {
   /** Required. Resource name of the API Config for this Gateway. Format: projects/{project}/locations/global/apis/{api}/configs/{apiConfig} */
   apiConfig?: string;
   /** Output only. The current state of the Gateway. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "FAILED"
+    | "DELETING"
+    | "UPDATING"
+    | (string & {});
   /** Output only. The default API Gateway host name of the form `{gateway_id}-{hash}.{region_code}.gateway.dev`. */
   defaultHostname?: string;
 }
 
-export const ApigatewayGateway: Schema.Schema<ApigatewayGateway> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  displayName: Schema.optional(Schema.String),
-  apiConfig: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  defaultHostname: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewayGateway" }) as any as Schema.Schema<ApigatewayGateway>;
+export const ApigatewayGateway: Schema.Schema<ApigatewayGateway> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      displayName: Schema.optional(Schema.String),
+      apiConfig: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      defaultHostname: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApigatewayGateway",
+  }) as any as Schema.Schema<ApigatewayGateway>;
 
 export interface ApigatewayListGatewaysResponse {
   /** Gateways. */
@@ -125,11 +155,16 @@ export interface ApigatewayListGatewaysResponse {
   unreachableLocations?: Array<string>;
 }
 
-export const ApigatewayListGatewaysResponse: Schema.Schema<ApigatewayListGatewaysResponse> = Schema.suspend(() => Schema.Struct({
-  gateways: Schema.optional(Schema.Array(ApigatewayGateway)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachableLocations: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ApigatewayListGatewaysResponse" }) as any as Schema.Schema<ApigatewayListGatewaysResponse>;
+export const ApigatewayListGatewaysResponse: Schema.Schema<ApigatewayListGatewaysResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      gateways: Schema.optional(Schema.Array(ApigatewayGateway)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachableLocations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayListGatewaysResponse",
+  }) as any as Schema.Schema<ApigatewayListGatewaysResponse>;
 
 export interface ApigatewayApi {
   /** Output only. Resource name of the API. Format: projects/{project}/locations/global/apis/{api} */
@@ -145,18 +180,29 @@ export interface ApigatewayApi {
   /** Optional. Immutable. The name of a Google Managed Service ( https://cloud.google.com/service-infrastructure/docs/glossary#managed). If not specified, a new Service will automatically be created in the same project as this API. */
   managedService?: string;
   /** Output only. State of the API. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "FAILED"
+    | "DELETING"
+    | "UPDATING"
+    | (string & {});
 }
 
-export const ApigatewayApi: Schema.Schema<ApigatewayApi> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  displayName: Schema.optional(Schema.String),
-  managedService: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewayApi" }) as any as Schema.Schema<ApigatewayApi>;
+export const ApigatewayApi: Schema.Schema<ApigatewayApi> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    displayName: Schema.optional(Schema.String),
+    managedService: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ApigatewayApi",
+}) as any as Schema.Schema<ApigatewayApi>;
 
 export interface ApigatewayListApisResponse {
   /** APIs. */
@@ -167,11 +213,16 @@ export interface ApigatewayListApisResponse {
   unreachableLocations?: Array<string>;
 }
 
-export const ApigatewayListApisResponse: Schema.Schema<ApigatewayListApisResponse> = Schema.suspend(() => Schema.Struct({
-  apis: Schema.optional(Schema.Array(ApigatewayApi)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachableLocations: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ApigatewayListApisResponse" }) as any as Schema.Schema<ApigatewayListApisResponse>;
+export const ApigatewayListApisResponse: Schema.Schema<ApigatewayListApisResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      apis: Schema.optional(Schema.Array(ApigatewayApi)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachableLocations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayListApisResponse",
+  }) as any as Schema.Schema<ApigatewayListApisResponse>;
 
 export interface ApigatewayApiConfigFile {
   /** The file path (full or relative path). This is typically the path of the file when it is uploaded. */
@@ -180,19 +231,29 @@ export interface ApigatewayApiConfigFile {
   contents?: string;
 }
 
-export const ApigatewayApiConfigFile: Schema.Schema<ApigatewayApiConfigFile> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  contents: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewayApiConfigFile" }) as any as Schema.Schema<ApigatewayApiConfigFile>;
+export const ApigatewayApiConfigFile: Schema.Schema<ApigatewayApiConfigFile> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      contents: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApigatewayApiConfigFile",
+  }) as any as Schema.Schema<ApigatewayApiConfigFile>;
 
 export interface ApigatewayApiConfigOpenApiDocument {
   /** The OpenAPI Specification document file. */
   document?: ApigatewayApiConfigFile;
 }
 
-export const ApigatewayApiConfigOpenApiDocument: Schema.Schema<ApigatewayApiConfigOpenApiDocument> = Schema.suspend(() => Schema.Struct({
-  document: Schema.optional(ApigatewayApiConfigFile),
-})).annotate({ identifier: "ApigatewayApiConfigOpenApiDocument" }) as any as Schema.Schema<ApigatewayApiConfigOpenApiDocument>;
+export const ApigatewayApiConfigOpenApiDocument: Schema.Schema<ApigatewayApiConfigOpenApiDocument> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      document: Schema.optional(ApigatewayApiConfigFile),
+    }),
+  ).annotate({
+    identifier: "ApigatewayApiConfigOpenApiDocument",
+  }) as any as Schema.Schema<ApigatewayApiConfigOpenApiDocument>;
 
 export interface ApigatewayApiConfigGrpcServiceDefinition {
   /** Input only. File descriptor set, generated by protoc. To generate, use protoc with imports and source info included. For an example test.proto file, the following command would put the value in a new file named out.pb. $ protoc --include_imports --include_source_info test.proto -o out.pb */
@@ -201,10 +262,15 @@ export interface ApigatewayApiConfigGrpcServiceDefinition {
   source?: Array<ApigatewayApiConfigFile>;
 }
 
-export const ApigatewayApiConfigGrpcServiceDefinition: Schema.Schema<ApigatewayApiConfigGrpcServiceDefinition> = Schema.suspend(() => Schema.Struct({
-  fileDescriptorSet: Schema.optional(ApigatewayApiConfigFile),
-  source: Schema.optional(Schema.Array(ApigatewayApiConfigFile)),
-})).annotate({ identifier: "ApigatewayApiConfigGrpcServiceDefinition" }) as any as Schema.Schema<ApigatewayApiConfigGrpcServiceDefinition>;
+export const ApigatewayApiConfigGrpcServiceDefinition: Schema.Schema<ApigatewayApiConfigGrpcServiceDefinition> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fileDescriptorSet: Schema.optional(ApigatewayApiConfigFile),
+      source: Schema.optional(Schema.Array(ApigatewayApiConfigFile)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayApiConfigGrpcServiceDefinition",
+  }) as any as Schema.Schema<ApigatewayApiConfigGrpcServiceDefinition>;
 
 export interface ApigatewayApiConfig {
   /** Output only. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
@@ -222,7 +288,15 @@ export interface ApigatewayApiConfig {
   /** Output only. The ID of the associated Service Config ( https://cloud.google.com/service-infrastructure/docs/glossary#config). */
   serviceConfigId?: string;
   /** Output only. State of the API Config. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING" | "ACTIVATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "FAILED"
+    | "DELETING"
+    | "UPDATING"
+    | "ACTIVATING"
+    | (string & {});
   /** Optional. OpenAPI specification documents. If specified, grpc_services and managed_service_configs must not be included. */
   openapiDocuments?: Array<ApigatewayApiConfigOpenApiDocument>;
   /** Optional. gRPC service definition files. If specified, openapi_documents must not be included. */
@@ -231,19 +305,30 @@ export interface ApigatewayApiConfig {
   managedServiceConfigs?: Array<ApigatewayApiConfigFile>;
 }
 
-export const ApigatewayApiConfig: Schema.Schema<ApigatewayApiConfig> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  displayName: Schema.optional(Schema.String),
-  gatewayServiceAccount: Schema.optional(Schema.String),
-  serviceConfigId: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  openapiDocuments: Schema.optional(Schema.Array(ApigatewayApiConfigOpenApiDocument)),
-  grpcServices: Schema.optional(Schema.Array(ApigatewayApiConfigGrpcServiceDefinition)),
-  managedServiceConfigs: Schema.optional(Schema.Array(ApigatewayApiConfigFile)),
-})).annotate({ identifier: "ApigatewayApiConfig" }) as any as Schema.Schema<ApigatewayApiConfig>;
+export const ApigatewayApiConfig: Schema.Schema<ApigatewayApiConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      displayName: Schema.optional(Schema.String),
+      gatewayServiceAccount: Schema.optional(Schema.String),
+      serviceConfigId: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      openapiDocuments: Schema.optional(
+        Schema.Array(ApigatewayApiConfigOpenApiDocument),
+      ),
+      grpcServices: Schema.optional(
+        Schema.Array(ApigatewayApiConfigGrpcServiceDefinition),
+      ),
+      managedServiceConfigs: Schema.optional(
+        Schema.Array(ApigatewayApiConfigFile),
+      ),
+    }),
+  ).annotate({
+    identifier: "ApigatewayApiConfig",
+  }) as any as Schema.Schema<ApigatewayApiConfig>;
 
 export interface ApigatewayListApiConfigsResponse {
   /** API Configs. */
@@ -254,11 +339,16 @@ export interface ApigatewayListApiConfigsResponse {
   unreachableLocations?: Array<string>;
 }
 
-export const ApigatewayListApiConfigsResponse: Schema.Schema<ApigatewayListApiConfigsResponse> = Schema.suspend(() => Schema.Struct({
-  apiConfigs: Schema.optional(Schema.Array(ApigatewayApiConfig)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachableLocations: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ApigatewayListApiConfigsResponse" }) as any as Schema.Schema<ApigatewayListApiConfigsResponse>;
+export const ApigatewayListApiConfigsResponse: Schema.Schema<ApigatewayListApiConfigsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      apiConfigs: Schema.optional(Schema.Array(ApigatewayApiConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachableLocations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayListApiConfigsResponse",
+  }) as any as Schema.Schema<ApigatewayListApiConfigsResponse>;
 
 export interface ApigatewayLocation {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -273,13 +363,18 @@ export interface ApigatewayLocation {
   metadata?: Record<string, unknown>;
 }
 
-export const ApigatewayLocation: Schema.Schema<ApigatewayLocation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "ApigatewayLocation" }) as any as Schema.Schema<ApigatewayLocation>;
+export const ApigatewayLocation: Schema.Schema<ApigatewayLocation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayLocation",
+  }) as any as Schema.Schema<ApigatewayLocation>;
 
 export interface ApigatewayListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -288,10 +383,15 @@ export interface ApigatewayListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ApigatewayListLocationsResponse: Schema.Schema<ApigatewayListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(ApigatewayLocation)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewayListLocationsResponse" }) as any as Schema.Schema<ApigatewayListLocationsResponse>;
+export const ApigatewayListLocationsResponse: Schema.Schema<ApigatewayListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(ApigatewayLocation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApigatewayListLocationsResponse",
+  }) as any as Schema.Schema<ApigatewayListLocationsResponse>;
 
 export interface ApigatewayExpr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -304,12 +404,17 @@ export interface ApigatewayExpr {
   location?: string;
 }
 
-export const ApigatewayExpr: Schema.Schema<ApigatewayExpr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewayExpr" }) as any as Schema.Schema<ApigatewayExpr>;
+export const ApigatewayExpr: Schema.Schema<ApigatewayExpr> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ApigatewayExpr",
+}) as any as Schema.Schema<ApigatewayExpr>;
 
 export interface ApigatewayBinding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -320,23 +425,38 @@ export interface ApigatewayBinding {
   condition?: ApigatewayExpr;
 }
 
-export const ApigatewayBinding: Schema.Schema<ApigatewayBinding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(ApigatewayExpr),
-})).annotate({ identifier: "ApigatewayBinding" }) as any as Schema.Schema<ApigatewayBinding>;
+export const ApigatewayBinding: Schema.Schema<ApigatewayBinding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(ApigatewayExpr),
+    }),
+  ).annotate({
+    identifier: "ApigatewayBinding",
+  }) as any as Schema.Schema<ApigatewayBinding>;
 
 export interface ApigatewayAuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const ApigatewayAuditLogConfig: Schema.Schema<ApigatewayAuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ApigatewayAuditLogConfig" }) as any as Schema.Schema<ApigatewayAuditLogConfig>;
+export const ApigatewayAuditLogConfig: Schema.Schema<ApigatewayAuditLogConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayAuditLogConfig",
+  }) as any as Schema.Schema<ApigatewayAuditLogConfig>;
 
 export interface ApigatewayAuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -345,10 +465,15 @@ export interface ApigatewayAuditConfig {
   auditLogConfigs?: Array<ApigatewayAuditLogConfig>;
 }
 
-export const ApigatewayAuditConfig: Schema.Schema<ApigatewayAuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(ApigatewayAuditLogConfig)),
-})).annotate({ identifier: "ApigatewayAuditConfig" }) as any as Schema.Schema<ApigatewayAuditConfig>;
+export const ApigatewayAuditConfig: Schema.Schema<ApigatewayAuditConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      auditLogConfigs: Schema.optional(Schema.Array(ApigatewayAuditLogConfig)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayAuditConfig",
+  }) as any as Schema.Schema<ApigatewayAuditConfig>;
 
 export interface ApigatewayPolicy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -361,12 +486,17 @@ export interface ApigatewayPolicy {
   etag?: string;
 }
 
-export const ApigatewayPolicy: Schema.Schema<ApigatewayPolicy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(ApigatewayBinding)),
-  auditConfigs: Schema.optional(Schema.Array(ApigatewayAuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewayPolicy" }) as any as Schema.Schema<ApigatewayPolicy>;
+export const ApigatewayPolicy: Schema.Schema<ApigatewayPolicy> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(ApigatewayBinding)),
+      auditConfigs: Schema.optional(Schema.Array(ApigatewayAuditConfig)),
+      etag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ApigatewayPolicy",
+}) as any as Schema.Schema<ApigatewayPolicy>;
 
 export interface ApigatewaySetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -375,28 +505,43 @@ export interface ApigatewaySetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const ApigatewaySetIamPolicyRequest: Schema.Schema<ApigatewaySetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(ApigatewayPolicy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewaySetIamPolicyRequest" }) as any as Schema.Schema<ApigatewaySetIamPolicyRequest>;
+export const ApigatewaySetIamPolicyRequest: Schema.Schema<ApigatewaySetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(ApigatewayPolicy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApigatewaySetIamPolicyRequest",
+  }) as any as Schema.Schema<ApigatewaySetIamPolicyRequest>;
 
 export interface ApigatewayTestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const ApigatewayTestIamPermissionsRequest: Schema.Schema<ApigatewayTestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ApigatewayTestIamPermissionsRequest" }) as any as Schema.Schema<ApigatewayTestIamPermissionsRequest>;
+export const ApigatewayTestIamPermissionsRequest: Schema.Schema<ApigatewayTestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayTestIamPermissionsRequest",
+  }) as any as Schema.Schema<ApigatewayTestIamPermissionsRequest>;
 
 export interface ApigatewayTestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const ApigatewayTestIamPermissionsResponse: Schema.Schema<ApigatewayTestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ApigatewayTestIamPermissionsResponse" }) as any as Schema.Schema<ApigatewayTestIamPermissionsResponse>;
+export const ApigatewayTestIamPermissionsResponse: Schema.Schema<ApigatewayTestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ApigatewayTestIamPermissionsResponse",
+  }) as any as Schema.Schema<ApigatewayTestIamPermissionsResponse>;
 
 export interface ApigatewayOperationMetadataDiagnostic {
   /** Location of the diagnostic. */
@@ -405,10 +550,15 @@ export interface ApigatewayOperationMetadataDiagnostic {
   message?: string;
 }
 
-export const ApigatewayOperationMetadataDiagnostic: Schema.Schema<ApigatewayOperationMetadataDiagnostic> = Schema.suspend(() => Schema.Struct({
-  location: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "ApigatewayOperationMetadataDiagnostic" }) as any as Schema.Schema<ApigatewayOperationMetadataDiagnostic>;
+export const ApigatewayOperationMetadataDiagnostic: Schema.Schema<ApigatewayOperationMetadataDiagnostic> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      location: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApigatewayOperationMetadataDiagnostic",
+  }) as any as Schema.Schema<ApigatewayOperationMetadataDiagnostic>;
 
 export interface ApigatewayOperationMetadata {
   /** Output only. The time the operation was created. */
@@ -429,16 +579,23 @@ export interface ApigatewayOperationMetadata {
   diagnostics?: Array<ApigatewayOperationMetadataDiagnostic>;
 }
 
-export const ApigatewayOperationMetadata: Schema.Schema<ApigatewayOperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-  diagnostics: Schema.optional(Schema.Array(ApigatewayOperationMetadataDiagnostic)),
-})).annotate({ identifier: "ApigatewayOperationMetadata" }) as any as Schema.Schema<ApigatewayOperationMetadata>;
+export const ApigatewayOperationMetadata: Schema.Schema<ApigatewayOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+      diagnostics: Schema.optional(
+        Schema.Array(ApigatewayOperationMetadataDiagnostic),
+      ),
+    }),
+  ).annotate({
+    identifier: "ApigatewayOperationMetadata",
+  }) as any as Schema.Schema<ApigatewayOperationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -462,7 +619,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -474,7 +633,12 @@ export const ListProjectsLocationsResponse = ApigatewayListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -492,7 +656,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -502,7 +669,12 @@ export const GetProjectsLocationsResponse = ApigatewayLocation;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -526,19 +698,31 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
-export type ListProjectsLocationsOperationsResponse = ApigatewayListOperationsResponse;
-export const ListProjectsLocationsOperationsResponse = ApigatewayListOperationsResponse;
+export type ListProjectsLocationsOperationsResponse =
+  ApigatewayListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  ApigatewayListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -556,7 +740,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -566,7 +753,12 @@ export const GetProjectsLocationsOperationsResponse = ApigatewayOperation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -580,7 +772,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -590,7 +785,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -607,7 +807,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ApigatewayCancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -617,7 +821,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -643,17 +852,27 @@ export const ListProjectsLocationsGatewaysRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsGatewaysRequest>;
 
-export type ListProjectsLocationsGatewaysResponse = ApigatewayListGatewaysResponse;
-export const ListProjectsLocationsGatewaysResponse = ApigatewayListGatewaysResponse;
+export type ListProjectsLocationsGatewaysResponse =
+  ApigatewayListGatewaysResponse;
+export const ListProjectsLocationsGatewaysResponse =
+  ApigatewayListGatewaysResponse;
 
 export type ListProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Lists Gateways in a given project and location. */
-export const listProjectsLocationsGateways: API.PaginatedOperationMethod<ListProjectsLocationsGatewaysRequest, ListProjectsLocationsGatewaysResponse, ListProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsGateways: API.PaginatedOperationMethod<
+  ListProjectsLocationsGatewaysRequest,
+  ListProjectsLocationsGatewaysResponse,
+  ListProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsGatewaysRequest,
   output: ListProjectsLocationsGatewaysResponse,
   errors: [],
@@ -671,7 +890,10 @@ export interface GetProjectsLocationsGatewaysRequest {
 export const GetProjectsLocationsGatewaysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsGatewaysRequest>;
 
@@ -681,7 +903,12 @@ export const GetProjectsLocationsGatewaysResponse = ApigatewayGateway;
 export type GetProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Gets details of a single Gateway. */
-export const getProjectsLocationsGateways: API.OperationMethod<GetProjectsLocationsGatewaysRequest, GetProjectsLocationsGatewaysResponse, GetProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsGateways: API.OperationMethod<
+  GetProjectsLocationsGatewaysRequest,
+  GetProjectsLocationsGatewaysResponse,
+  GetProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsGatewaysRequest,
   output: GetProjectsLocationsGatewaysResponse,
   errors: [],
@@ -701,7 +928,11 @@ export const CreateProjectsLocationsGatewaysRequest = Schema.Struct({
   gatewayId: Schema.optional(Schema.String).pipe(T.HttpQuery("gatewayId")),
   body: Schema.optional(ApigatewayGateway).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsGatewaysRequest>;
 
@@ -711,7 +942,12 @@ export const CreateProjectsLocationsGatewaysResponse = ApigatewayOperation;
 export type CreateProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Creates a new Gateway in a given project and location. */
-export const createProjectsLocationsGateways: API.OperationMethod<CreateProjectsLocationsGatewaysRequest, CreateProjectsLocationsGatewaysResponse, CreateProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsGateways: API.OperationMethod<
+  CreateProjectsLocationsGatewaysRequest,
+  CreateProjectsLocationsGatewaysResponse,
+  CreateProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsGatewaysRequest,
   output: CreateProjectsLocationsGatewaysResponse,
   errors: [],
@@ -731,7 +967,11 @@ export const PatchProjectsLocationsGatewaysRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(ApigatewayGateway).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsGatewaysRequest>;
 
@@ -741,7 +981,12 @@ export const PatchProjectsLocationsGatewaysResponse = ApigatewayOperation;
 export type PatchProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Updates the parameters of a single Gateway. */
-export const patchProjectsLocationsGateways: API.OperationMethod<PatchProjectsLocationsGatewaysRequest, PatchProjectsLocationsGatewaysResponse, PatchProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsGateways: API.OperationMethod<
+  PatchProjectsLocationsGatewaysRequest,
+  PatchProjectsLocationsGatewaysResponse,
+  PatchProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsGatewaysRequest,
   output: PatchProjectsLocationsGatewaysResponse,
   errors: [],
@@ -755,7 +1000,10 @@ export interface DeleteProjectsLocationsGatewaysRequest {
 export const DeleteProjectsLocationsGatewaysRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsGatewaysRequest>;
 
@@ -765,7 +1013,12 @@ export const DeleteProjectsLocationsGatewaysResponse = ApigatewayOperation;
 export type DeleteProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Deletes a single Gateway. */
-export const deleteProjectsLocationsGateways: API.OperationMethod<DeleteProjectsLocationsGatewaysRequest, DeleteProjectsLocationsGatewaysResponse, DeleteProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsGateways: API.OperationMethod<
+  DeleteProjectsLocationsGatewaysRequest,
+  DeleteProjectsLocationsGatewaysResponse,
+  DeleteProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsGatewaysRequest,
   output: DeleteProjectsLocationsGatewaysResponse,
   errors: [],
@@ -782,7 +1035,11 @@ export const SetIamPolicyProjectsLocationsGatewaysRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(ApigatewaySetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsGatewaysRequest>;
 
@@ -792,7 +1049,12 @@ export const SetIamPolicyProjectsLocationsGatewaysResponse = ApigatewayPolicy;
 export type SetIamPolicyProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsGateways: API.OperationMethod<SetIamPolicyProjectsLocationsGatewaysRequest, SetIamPolicyProjectsLocationsGatewaysResponse, SetIamPolicyProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsGateways: API.OperationMethod<
+  SetIamPolicyProjectsLocationsGatewaysRequest,
+  SetIamPolicyProjectsLocationsGatewaysResponse,
+  SetIamPolicyProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsGatewaysRequest,
   output: SetIamPolicyProjectsLocationsGatewaysResponse,
   errors: [],
@@ -807,9 +1069,14 @@ export interface GetIamPolicyProjectsLocationsGatewaysRequest {
 
 export const GetIamPolicyProjectsLocationsGatewaysRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsGatewaysRequest>;
 
@@ -819,7 +1086,12 @@ export const GetIamPolicyProjectsLocationsGatewaysResponse = ApigatewayPolicy;
 export type GetIamPolicyProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsGateways: API.OperationMethod<GetIamPolicyProjectsLocationsGatewaysRequest, GetIamPolicyProjectsLocationsGatewaysResponse, GetIamPolicyProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsGateways: API.OperationMethod<
+  GetIamPolicyProjectsLocationsGatewaysRequest,
+  GetIamPolicyProjectsLocationsGatewaysResponse,
+  GetIamPolicyProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsGatewaysRequest,
   output: GetIamPolicyProjectsLocationsGatewaysResponse,
   errors: [],
@@ -832,21 +1104,36 @@ export interface TestIamPermissionsProjectsLocationsGatewaysRequest {
   body?: ApigatewayTestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsGatewaysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(ApigatewayTestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}:testIamPermissions", hasBody: true }),
+export const TestIamPermissionsProjectsLocationsGatewaysRequest = Schema.Struct(
+  {
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(ApigatewayTestIamPermissionsRequest).pipe(
+      T.HttpBody(),
+    ),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/gateways/{gatewaysId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsGatewaysRequest>;
 
-export type TestIamPermissionsProjectsLocationsGatewaysResponse = ApigatewayTestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsGatewaysResponse = ApigatewayTestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsGatewaysResponse =
+  ApigatewayTestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsGatewaysResponse =
+  ApigatewayTestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsGatewaysError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsGateways: API.OperationMethod<TestIamPermissionsProjectsLocationsGatewaysRequest, TestIamPermissionsProjectsLocationsGatewaysResponse, TestIamPermissionsProjectsLocationsGatewaysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsGateways: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsGatewaysRequest,
+  TestIamPermissionsProjectsLocationsGatewaysResponse,
+  TestIamPermissionsProjectsLocationsGatewaysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsGatewaysRequest,
   output: TestIamPermissionsProjectsLocationsGatewaysResponse,
   errors: [],
@@ -872,7 +1159,10 @@ export const ListProjectsLocationsApisRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/apis" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsApisRequest>;
 
@@ -882,7 +1172,12 @@ export const ListProjectsLocationsApisResponse = ApigatewayListApisResponse;
 export type ListProjectsLocationsApisError = DefaultErrors;
 
 /** Lists Apis in a given project and location. */
-export const listProjectsLocationsApis: API.PaginatedOperationMethod<ListProjectsLocationsApisRequest, ListProjectsLocationsApisResponse, ListProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsApis: API.PaginatedOperationMethod<
+  ListProjectsLocationsApisRequest,
+  ListProjectsLocationsApisResponse,
+  ListProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisRequest,
   output: ListProjectsLocationsApisResponse,
   errors: [],
@@ -900,7 +1195,10 @@ export interface GetProjectsLocationsApisRequest {
 export const GetProjectsLocationsApisRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsApisRequest>;
 
@@ -910,7 +1208,12 @@ export const GetProjectsLocationsApisResponse = ApigatewayApi;
 export type GetProjectsLocationsApisError = DefaultErrors;
 
 /** Gets details of a single Api. */
-export const getProjectsLocationsApis: API.OperationMethod<GetProjectsLocationsApisRequest, GetProjectsLocationsApisResponse, GetProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsApis: API.OperationMethod<
+  GetProjectsLocationsApisRequest,
+  GetProjectsLocationsApisResponse,
+  GetProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsApisRequest,
   output: GetProjectsLocationsApisResponse,
   errors: [],
@@ -930,7 +1233,11 @@ export const CreateProjectsLocationsApisRequest = Schema.Struct({
   apiId: Schema.optional(Schema.String).pipe(T.HttpQuery("apiId")),
   body: Schema.optional(ApigatewayApi).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/apis", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsApisRequest>;
 
@@ -940,7 +1247,12 @@ export const CreateProjectsLocationsApisResponse = ApigatewayOperation;
 export type CreateProjectsLocationsApisError = DefaultErrors;
 
 /** Creates a new Api in a given project and location. */
-export const createProjectsLocationsApis: API.OperationMethod<CreateProjectsLocationsApisRequest, CreateProjectsLocationsApisResponse, CreateProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsApis: API.OperationMethod<
+  CreateProjectsLocationsApisRequest,
+  CreateProjectsLocationsApisResponse,
+  CreateProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsApisRequest,
   output: CreateProjectsLocationsApisResponse,
   errors: [],
@@ -960,7 +1272,11 @@ export const PatchProjectsLocationsApisRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(ApigatewayApi).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsApisRequest>;
 
@@ -970,7 +1286,12 @@ export const PatchProjectsLocationsApisResponse = ApigatewayOperation;
 export type PatchProjectsLocationsApisError = DefaultErrors;
 
 /** Updates the parameters of a single Api. */
-export const patchProjectsLocationsApis: API.OperationMethod<PatchProjectsLocationsApisRequest, PatchProjectsLocationsApisResponse, PatchProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsApis: API.OperationMethod<
+  PatchProjectsLocationsApisRequest,
+  PatchProjectsLocationsApisResponse,
+  PatchProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsApisRequest,
   output: PatchProjectsLocationsApisResponse,
   errors: [],
@@ -984,7 +1305,10 @@ export interface DeleteProjectsLocationsApisRequest {
 export const DeleteProjectsLocationsApisRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsApisRequest>;
 
@@ -994,7 +1318,12 @@ export const DeleteProjectsLocationsApisResponse = ApigatewayOperation;
 export type DeleteProjectsLocationsApisError = DefaultErrors;
 
 /** Deletes a single Api. */
-export const deleteProjectsLocationsApis: API.OperationMethod<DeleteProjectsLocationsApisRequest, DeleteProjectsLocationsApisResponse, DeleteProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsApis: API.OperationMethod<
+  DeleteProjectsLocationsApisRequest,
+  DeleteProjectsLocationsApisResponse,
+  DeleteProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsApisRequest,
   output: DeleteProjectsLocationsApisResponse,
   errors: [],
@@ -1011,7 +1340,11 @@ export const SetIamPolicyProjectsLocationsApisRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(ApigatewaySetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsApisRequest>;
 
@@ -1021,7 +1354,12 @@ export const SetIamPolicyProjectsLocationsApisResponse = ApigatewayPolicy;
 export type SetIamPolicyProjectsLocationsApisError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsApis: API.OperationMethod<SetIamPolicyProjectsLocationsApisRequest, SetIamPolicyProjectsLocationsApisResponse, SetIamPolicyProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsApis: API.OperationMethod<
+  SetIamPolicyProjectsLocationsApisRequest,
+  SetIamPolicyProjectsLocationsApisResponse,
+  SetIamPolicyProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisRequest,
   output: SetIamPolicyProjectsLocationsApisResponse,
   errors: [],
@@ -1036,9 +1374,14 @@ export interface GetIamPolicyProjectsLocationsApisRequest {
 
 export const GetIamPolicyProjectsLocationsApisRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsApisRequest>;
 
@@ -1048,7 +1391,12 @@ export const GetIamPolicyProjectsLocationsApisResponse = ApigatewayPolicy;
 export type GetIamPolicyProjectsLocationsApisError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsApis: API.OperationMethod<GetIamPolicyProjectsLocationsApisRequest, GetIamPolicyProjectsLocationsApisResponse, GetIamPolicyProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsApis: API.OperationMethod<
+  GetIamPolicyProjectsLocationsApisRequest,
+  GetIamPolicyProjectsLocationsApisResponse,
+  GetIamPolicyProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisRequest,
   output: GetIamPolicyProjectsLocationsApisResponse,
   errors: [],
@@ -1065,17 +1413,28 @@ export const TestIamPermissionsProjectsLocationsApisRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(ApigatewayTestIamPermissionsRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}:testIamPermissions", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}:testIamPermissions",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsApisRequest>;
 
-export type TestIamPermissionsProjectsLocationsApisResponse = ApigatewayTestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsApisResponse = ApigatewayTestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsApisResponse =
+  ApigatewayTestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsApisResponse =
+  ApigatewayTestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsApisError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsApis: API.OperationMethod<TestIamPermissionsProjectsLocationsApisRequest, TestIamPermissionsProjectsLocationsApisResponse, TestIamPermissionsProjectsLocationsApisError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsApis: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsApisRequest,
+  TestIamPermissionsProjectsLocationsApisResponse,
+  TestIamPermissionsProjectsLocationsApisError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisRequest,
   output: TestIamPermissionsProjectsLocationsApisResponse,
   errors: [],
@@ -1101,17 +1460,27 @@ export const ListProjectsLocationsApisConfigsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsApisConfigsRequest>;
 
-export type ListProjectsLocationsApisConfigsResponse = ApigatewayListApiConfigsResponse;
-export const ListProjectsLocationsApisConfigsResponse = ApigatewayListApiConfigsResponse;
+export type ListProjectsLocationsApisConfigsResponse =
+  ApigatewayListApiConfigsResponse;
+export const ListProjectsLocationsApisConfigsResponse =
+  ApigatewayListApiConfigsResponse;
 
 export type ListProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Lists ApiConfigs in a given project and location. */
-export const listProjectsLocationsApisConfigs: API.PaginatedOperationMethod<ListProjectsLocationsApisConfigsRequest, ListProjectsLocationsApisConfigsResponse, ListProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsApisConfigs: API.PaginatedOperationMethod<
+  ListProjectsLocationsApisConfigsRequest,
+  ListProjectsLocationsApisConfigsResponse,
+  ListProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisConfigsRequest,
   output: ListProjectsLocationsApisConfigsResponse,
   errors: [],
@@ -1132,7 +1501,10 @@ export const GetProjectsLocationsApisConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsApisConfigsRequest>;
 
@@ -1142,7 +1514,12 @@ export const GetProjectsLocationsApisConfigsResponse = ApigatewayApiConfig;
 export type GetProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Gets details of a single ApiConfig. */
-export const getProjectsLocationsApisConfigs: API.OperationMethod<GetProjectsLocationsApisConfigsRequest, GetProjectsLocationsApisConfigsResponse, GetProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsApisConfigs: API.OperationMethod<
+  GetProjectsLocationsApisConfigsRequest,
+  GetProjectsLocationsApisConfigsResponse,
+  GetProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsApisConfigsRequest,
   output: GetProjectsLocationsApisConfigsResponse,
   errors: [],
@@ -1162,7 +1539,11 @@ export const CreateProjectsLocationsApisConfigsRequest = Schema.Struct({
   apiConfigId: Schema.optional(Schema.String).pipe(T.HttpQuery("apiConfigId")),
   body: Schema.optional(ApigatewayApiConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsApisConfigsRequest>;
 
@@ -1172,7 +1553,12 @@ export const CreateProjectsLocationsApisConfigsResponse = ApigatewayOperation;
 export type CreateProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Creates a new ApiConfig in a given project and location. */
-export const createProjectsLocationsApisConfigs: API.OperationMethod<CreateProjectsLocationsApisConfigsRequest, CreateProjectsLocationsApisConfigsResponse, CreateProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsApisConfigs: API.OperationMethod<
+  CreateProjectsLocationsApisConfigsRequest,
+  CreateProjectsLocationsApisConfigsResponse,
+  CreateProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsApisConfigsRequest,
   output: CreateProjectsLocationsApisConfigsResponse,
   errors: [],
@@ -1192,7 +1578,11 @@ export const PatchProjectsLocationsApisConfigsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(ApigatewayApiConfig).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsApisConfigsRequest>;
 
@@ -1202,7 +1592,12 @@ export const PatchProjectsLocationsApisConfigsResponse = ApigatewayOperation;
 export type PatchProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Updates the parameters of a single ApiConfig. */
-export const patchProjectsLocationsApisConfigs: API.OperationMethod<PatchProjectsLocationsApisConfigsRequest, PatchProjectsLocationsApisConfigsResponse, PatchProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsApisConfigs: API.OperationMethod<
+  PatchProjectsLocationsApisConfigsRequest,
+  PatchProjectsLocationsApisConfigsResponse,
+  PatchProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsApisConfigsRequest,
   output: PatchProjectsLocationsApisConfigsResponse,
   errors: [],
@@ -1216,7 +1611,10 @@ export interface DeleteProjectsLocationsApisConfigsRequest {
 export const DeleteProjectsLocationsApisConfigsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsApisConfigsRequest>;
 
@@ -1226,7 +1624,12 @@ export const DeleteProjectsLocationsApisConfigsResponse = ApigatewayOperation;
 export type DeleteProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Deletes a single ApiConfig. */
-export const deleteProjectsLocationsApisConfigs: API.OperationMethod<DeleteProjectsLocationsApisConfigsRequest, DeleteProjectsLocationsApisConfigsResponse, DeleteProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsApisConfigs: API.OperationMethod<
+  DeleteProjectsLocationsApisConfigsRequest,
+  DeleteProjectsLocationsApisConfigsResponse,
+  DeleteProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsApisConfigsRequest,
   output: DeleteProjectsLocationsApisConfigsResponse,
   errors: [],
@@ -1243,17 +1646,27 @@ export const SetIamPolicyProjectsLocationsApisConfigsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(ApigatewaySetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsApisConfigsRequest>;
 
 export type SetIamPolicyProjectsLocationsApisConfigsResponse = ApigatewayPolicy;
-export const SetIamPolicyProjectsLocationsApisConfigsResponse = ApigatewayPolicy;
+export const SetIamPolicyProjectsLocationsApisConfigsResponse =
+  ApigatewayPolicy;
 
 export type SetIamPolicyProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsApisConfigs: API.OperationMethod<SetIamPolicyProjectsLocationsApisConfigsRequest, SetIamPolicyProjectsLocationsApisConfigsResponse, SetIamPolicyProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsApisConfigs: API.OperationMethod<
+  SetIamPolicyProjectsLocationsApisConfigsRequest,
+  SetIamPolicyProjectsLocationsApisConfigsResponse,
+  SetIamPolicyProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisConfigsRequest,
   output: SetIamPolicyProjectsLocationsApisConfigsResponse,
   errors: [],
@@ -1268,19 +1681,30 @@ export interface GetIamPolicyProjectsLocationsApisConfigsRequest {
 
 export const GetIamPolicyProjectsLocationsApisConfigsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsApisConfigsRequest>;
 
 export type GetIamPolicyProjectsLocationsApisConfigsResponse = ApigatewayPolicy;
-export const GetIamPolicyProjectsLocationsApisConfigsResponse = ApigatewayPolicy;
+export const GetIamPolicyProjectsLocationsApisConfigsResponse =
+  ApigatewayPolicy;
 
 export type GetIamPolicyProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsApisConfigs: API.OperationMethod<GetIamPolicyProjectsLocationsApisConfigsRequest, GetIamPolicyProjectsLocationsApisConfigsResponse, GetIamPolicyProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsApisConfigs: API.OperationMethod<
+  GetIamPolicyProjectsLocationsApisConfigsRequest,
+  GetIamPolicyProjectsLocationsApisConfigsResponse,
+  GetIamPolicyProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisConfigsRequest,
   output: GetIamPolicyProjectsLocationsApisConfigsResponse,
   errors: [],
@@ -1293,23 +1717,36 @@ export interface TestIamPermissionsProjectsLocationsApisConfigsRequest {
   body?: ApigatewayTestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsApisConfigsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(ApigatewayTestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsApisConfigsRequest>;
+export const TestIamPermissionsProjectsLocationsApisConfigsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(ApigatewayTestIamPermissionsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apis/{apisId}/configs/{configsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsApisConfigsRequest>;
 
-export type TestIamPermissionsProjectsLocationsApisConfigsResponse = ApigatewayTestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsApisConfigsResponse = ApigatewayTestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsApisConfigsResponse =
+  ApigatewayTestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsApisConfigsResponse =
+  ApigatewayTestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsApisConfigsError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsApisConfigs: API.OperationMethod<TestIamPermissionsProjectsLocationsApisConfigsRequest, TestIamPermissionsProjectsLocationsApisConfigsResponse, TestIamPermissionsProjectsLocationsApisConfigsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsApisConfigs: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsApisConfigsRequest,
+  TestIamPermissionsProjectsLocationsApisConfigsResponse,
+  TestIamPermissionsProjectsLocationsApisConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisConfigsRequest,
   output: TestIamPermissionsProjectsLocationsApisConfigsResponse,
   errors: [],
 }));
-

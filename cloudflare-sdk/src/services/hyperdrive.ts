@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Errors
@@ -23,31 +21,34 @@ export class HyperdriveConfigNotFound extends Schema.TaggedErrorClass<Hyperdrive
   "HyperdriveConfigNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(HyperdriveConfigNotFound, [{"code":2006}]);
+T.applyErrorMatchers(HyperdriveConfigNotFound, [{ code: 2006 }]);
 
 export class InvalidHyperdriveConfig extends Schema.TaggedErrorClass<InvalidHyperdriveConfig>()(
   "InvalidHyperdriveConfig",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidHyperdriveConfig, [{"code":2007}]);
+T.applyErrorMatchers(InvalidHyperdriveConfig, [{ code: 2007 }]);
 
 export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
   "InvalidObjectIdentifier",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidObjectIdentifier, [{"code":7003}]);
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
 
 export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
   "MethodNotAllowed",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(MethodNotAllowed, [{"code":10000,"message":{"includes":"method not allowed"}},{"code":10405,"message":{"includes":"Method not allowed"}}]);
+T.applyErrorMatchers(MethodNotAllowed, [
+  { code: 10000, message: { includes: "method not allowed" } },
+  { code: 10405, message: { includes: "Method not allowed" } },
+]);
 
 export class PrivateHostNotAllowed extends Schema.TaggedErrorClass<PrivateHostNotAllowed>()(
   "PrivateHostNotAllowed",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(PrivateHostNotAllowed, [{"code":2009}]);
+T.applyErrorMatchers(PrivateHostNotAllowed, [{ code: 2009 }]);
 
 // =============================================================================
 // Config
@@ -61,13 +62,18 @@ export interface GetConfigRequest {
 
 export const GetConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" })) as unknown as Schema.Schema<GetConfigRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
+) as unknown as Schema.Schema<GetConfigRequest>;
 
 export type GetConfigResponse = unknown;
 
-export const GetConfigResponse = Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
+export const GetConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
 
 export type GetConfigError =
   | DefaultErrors
@@ -83,7 +89,11 @@ export const getConfig: API.OperationMethod<
 > = API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
-  errors: [PrivateHostNotAllowed, HyperdriveConfigNotFound, InvalidObjectIdentifier],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+  ],
 }));
 
 export interface ListConfigsRequest {
@@ -92,13 +102,15 @@ export interface ListConfigsRequest {
 }
 
 export const ListConfigsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/hyperdrive/configs" })) as unknown as Schema.Schema<ListConfigsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/hyperdrive/configs" }),
+) as unknown as Schema.Schema<ListConfigsRequest>;
 
 export type ListConfigsResponse = unknown;
 
-export const ListConfigsResponse = Schema.Unknown as unknown as Schema.Schema<ListConfigsResponse>;
+export const ListConfigsResponse =
+  Schema.Unknown as unknown as Schema.Schema<ListConfigsResponse>;
 
 export type ListConfigsError =
   | DefaultErrors
@@ -122,11 +134,34 @@ export interface CreateConfigRequest {
   /** Body param: The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. */
   name: string;
   /** Body param: */
-  origin: { database: string; host: string; password: string; port: number; scheme: "postgres" | "postgresql" | "mysql"; user: string } | { accessClientId: string; accessClientSecret: string; database: string; host: string; password: string; scheme: "postgres" | "postgresql" | "mysql"; user: string };
+  origin:
+    | {
+        database: string;
+        host: string;
+        password: string;
+        port: number;
+        scheme: "postgres" | "postgresql" | "mysql";
+        user: string;
+      }
+    | {
+        accessClientId: string;
+        accessClientSecret: string;
+        database: string;
+        host: string;
+        password: string;
+        scheme: "postgres" | "postgresql" | "mysql";
+        user: string;
+      };
   /** Body param: */
-  caching?: { disabled?: boolean } | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
+  caching?:
+    | { disabled?: boolean }
+    | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
   /** Body param: */
-  mtls?: { caCertificateId?: string; mtlsCertificateId?: string; sslmode?: string };
+  mtls?: {
+    caCertificateId?: string;
+    mtlsCertificateId?: string;
+    sslmode?: string;
+  };
   /** Body param: The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number;
 }
@@ -134,41 +169,82 @@ export interface CreateConfigRequest {
 export const CreateConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  origin: Schema.Union([Schema.Struct({
-  database: Schema.String,
-  host: Schema.String,
-  password: Schema.String,
-  port: Schema.Number,
-  scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
-  user: Schema.String
-}), Schema.Struct({
-  accessClientId: Schema.String,
-  accessClientSecret: Schema.String,
-  database: Schema.String,
-  host: Schema.String,
-  password: Schema.String,
-  scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
-  user: Schema.String
-}).pipe(Schema.encodeKeys({ accessClientId: "access_client_id", accessClientSecret: "access_client_secret", database: "database", host: "host", password: "password", scheme: "scheme", user: "user" }))]),
-  caching: Schema.optional(Schema.Union([Schema.Struct({
-  disabled: Schema.optional(Schema.Boolean)
-}), Schema.Struct({
-  disabled: Schema.optional(Schema.Boolean),
-  maxAge: Schema.optional(Schema.Number),
-  staleWhileRevalidate: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ disabled: "disabled", maxAge: "max_age", staleWhileRevalidate: "stale_while_revalidate" }))])),
-  mtls: Schema.optional(Schema.Struct({
-  caCertificateId: Schema.optional(Schema.String),
-  mtlsCertificateId: Schema.optional(Schema.String),
-  sslmode: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ caCertificateId: "ca_certificate_id", mtlsCertificateId: "mtls_certificate_id", sslmode: "sslmode" }))),
-  originConnectionLimit: Schema.optional(Schema.Number)
-})
-  .pipe(Schema.encodeKeys({ name: "name", origin: "origin", caching: "caching", mtls: "mtls", originConnectionLimit: "origin_connection_limit" }), T.Http({ method: "POST", path: "/accounts/{account_id}/hyperdrive/configs" })) as unknown as Schema.Schema<CreateConfigRequest>;
+  origin: Schema.Union([
+    Schema.Struct({
+      database: Schema.String,
+      host: Schema.String,
+      password: Schema.String,
+      port: Schema.Number,
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
+      user: Schema.String,
+    }),
+    Schema.Struct({
+      accessClientId: Schema.String,
+      accessClientSecret: Schema.String,
+      database: Schema.String,
+      host: Schema.String,
+      password: Schema.String,
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
+      user: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        accessClientId: "access_client_id",
+        accessClientSecret: "access_client_secret",
+        database: "database",
+        host: "host",
+        password: "password",
+        scheme: "scheme",
+        user: "user",
+      }),
+    ),
+  ]),
+  caching: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        disabled: Schema.optional(Schema.Boolean),
+      }),
+      Schema.Struct({
+        disabled: Schema.optional(Schema.Boolean),
+        maxAge: Schema.optional(Schema.Number),
+        staleWhileRevalidate: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          disabled: "disabled",
+          maxAge: "max_age",
+          staleWhileRevalidate: "stale_while_revalidate",
+        }),
+      ),
+    ]),
+  ),
+  mtls: Schema.optional(
+    Schema.Struct({
+      caCertificateId: Schema.optional(Schema.String),
+      mtlsCertificateId: Schema.optional(Schema.String),
+      sslmode: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        caCertificateId: "ca_certificate_id",
+        mtlsCertificateId: "mtls_certificate_id",
+        sslmode: "sslmode",
+      }),
+    ),
+  ),
+  originConnectionLimit: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    name: "name",
+    origin: "origin",
+    caching: "caching",
+    mtls: "mtls",
+    originConnectionLimit: "origin_connection_limit",
+  }),
+  T.Http({ method: "POST", path: "/accounts/{account_id}/hyperdrive/configs" }),
+) as unknown as Schema.Schema<CreateConfigRequest>;
 
 export type CreateConfigResponse = unknown;
 
-export const CreateConfigResponse = Schema.Unknown as unknown as Schema.Schema<CreateConfigResponse>;
+export const CreateConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateConfigResponse>;
 
 export type CreateConfigError =
   | DefaultErrors
@@ -184,7 +260,11 @@ export const createConfig: API.OperationMethod<
 > = API.make(() => ({
   input: CreateConfigRequest,
   output: CreateConfigResponse,
-  errors: [PrivateHostNotAllowed, InvalidHyperdriveConfig, InvalidObjectIdentifier],
+  errors: [
+    PrivateHostNotAllowed,
+    InvalidHyperdriveConfig,
+    InvalidObjectIdentifier,
+  ],
 }));
 
 export interface UpdateConfigRequest {
@@ -194,11 +274,34 @@ export interface UpdateConfigRequest {
   /** Body param: The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. */
   name: string;
   /** Body param: */
-  origin: { database: string; host: string; password: string; port: number; scheme: "postgres" | "postgresql" | "mysql"; user: string } | { accessClientId: string; accessClientSecret: string; database: string; host: string; password: string; scheme: "postgres" | "postgresql" | "mysql"; user: string };
+  origin:
+    | {
+        database: string;
+        host: string;
+        password: string;
+        port: number;
+        scheme: "postgres" | "postgresql" | "mysql";
+        user: string;
+      }
+    | {
+        accessClientId: string;
+        accessClientSecret: string;
+        database: string;
+        host: string;
+        password: string;
+        scheme: "postgres" | "postgresql" | "mysql";
+        user: string;
+      };
   /** Body param: */
-  caching?: { disabled?: boolean } | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
+  caching?:
+    | { disabled?: boolean }
+    | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
   /** Body param: */
-  mtls?: { caCertificateId?: string; mtlsCertificateId?: string; sslmode?: string };
+  mtls?: {
+    caCertificateId?: string;
+    mtlsCertificateId?: string;
+    sslmode?: string;
+  };
   /** Body param: The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number;
 }
@@ -207,41 +310,85 @@ export const UpdateConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  origin: Schema.Union([Schema.Struct({
-  database: Schema.String,
-  host: Schema.String,
-  password: Schema.String,
-  port: Schema.Number,
-  scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
-  user: Schema.String
-}), Schema.Struct({
-  accessClientId: Schema.String,
-  accessClientSecret: Schema.String,
-  database: Schema.String,
-  host: Schema.String,
-  password: Schema.String,
-  scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
-  user: Schema.String
-}).pipe(Schema.encodeKeys({ accessClientId: "access_client_id", accessClientSecret: "access_client_secret", database: "database", host: "host", password: "password", scheme: "scheme", user: "user" }))]),
-  caching: Schema.optional(Schema.Union([Schema.Struct({
-  disabled: Schema.optional(Schema.Boolean)
-}), Schema.Struct({
-  disabled: Schema.optional(Schema.Boolean),
-  maxAge: Schema.optional(Schema.Number),
-  staleWhileRevalidate: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ disabled: "disabled", maxAge: "max_age", staleWhileRevalidate: "stale_while_revalidate" }))])),
-  mtls: Schema.optional(Schema.Struct({
-  caCertificateId: Schema.optional(Schema.String),
-  mtlsCertificateId: Schema.optional(Schema.String),
-  sslmode: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ caCertificateId: "ca_certificate_id", mtlsCertificateId: "mtls_certificate_id", sslmode: "sslmode" }))),
-  originConnectionLimit: Schema.optional(Schema.Number)
-})
-  .pipe(Schema.encodeKeys({ name: "name", origin: "origin", caching: "caching", mtls: "mtls", originConnectionLimit: "origin_connection_limit" }), T.Http({ method: "PUT", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" })) as unknown as Schema.Schema<UpdateConfigRequest>;
+  origin: Schema.Union([
+    Schema.Struct({
+      database: Schema.String,
+      host: Schema.String,
+      password: Schema.String,
+      port: Schema.Number,
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
+      user: Schema.String,
+    }),
+    Schema.Struct({
+      accessClientId: Schema.String,
+      accessClientSecret: Schema.String,
+      database: Schema.String,
+      host: Schema.String,
+      password: Schema.String,
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
+      user: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        accessClientId: "access_client_id",
+        accessClientSecret: "access_client_secret",
+        database: "database",
+        host: "host",
+        password: "password",
+        scheme: "scheme",
+        user: "user",
+      }),
+    ),
+  ]),
+  caching: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        disabled: Schema.optional(Schema.Boolean),
+      }),
+      Schema.Struct({
+        disabled: Schema.optional(Schema.Boolean),
+        maxAge: Schema.optional(Schema.Number),
+        staleWhileRevalidate: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          disabled: "disabled",
+          maxAge: "max_age",
+          staleWhileRevalidate: "stale_while_revalidate",
+        }),
+      ),
+    ]),
+  ),
+  mtls: Schema.optional(
+    Schema.Struct({
+      caCertificateId: Schema.optional(Schema.String),
+      mtlsCertificateId: Schema.optional(Schema.String),
+      sslmode: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        caCertificateId: "ca_certificate_id",
+        mtlsCertificateId: "mtls_certificate_id",
+        sslmode: "sslmode",
+      }),
+    ),
+  ),
+  originConnectionLimit: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    name: "name",
+    origin: "origin",
+    caching: "caching",
+    mtls: "mtls",
+    originConnectionLimit: "origin_connection_limit",
+  }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
+) as unknown as Schema.Schema<UpdateConfigRequest>;
 
 export type UpdateConfigResponse = unknown;
 
-export const UpdateConfigResponse = Schema.Unknown as unknown as Schema.Schema<UpdateConfigResponse>;
+export const UpdateConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<UpdateConfigResponse>;
 
 export type UpdateConfigError =
   | DefaultErrors
@@ -258,7 +405,12 @@ export const updateConfig: API.OperationMethod<
 > = API.make(() => ({
   input: UpdateConfigRequest,
   output: UpdateConfigResponse,
-  errors: [PrivateHostNotAllowed, HyperdriveConfigNotFound, InvalidObjectIdentifier, MethodNotAllowed],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+    MethodNotAllowed,
+  ],
 }));
 
 export interface PatchConfigRequest {
@@ -266,13 +418,27 @@ export interface PatchConfigRequest {
   /** Path param: Define configurations using a unique string identifier. */
   accountId: string;
   /** Body param: */
-  caching?: { disabled?: boolean } | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
+  caching?:
+    | { disabled?: boolean }
+    | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
   /** Body param: */
-  mtls?: { caCertificateId?: string; mtlsCertificateId?: string; sslmode?: string };
+  mtls?: {
+    caCertificateId?: string;
+    mtlsCertificateId?: string;
+    sslmode?: string;
+  };
   /** Body param: The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. */
   name?: string;
   /** Body param: */
-  origin?: { database?: string; password?: string; scheme?: "postgres" | "postgresql" | "mysql"; user?: string } | { host: string; port: number } | { accessClientId: string; accessClientSecret: string; host: string };
+  origin?:
+    | {
+        database?: string;
+        password?: string;
+        scheme?: "postgres" | "postgresql" | "mysql";
+        user?: string;
+      }
+    | { host: string; port: number }
+    | { accessClientId: string; accessClientSecret: string; host: string };
   /** Body param: The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number;
 }
@@ -280,39 +446,84 @@ export interface PatchConfigRequest {
 export const PatchConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  caching: Schema.optional(Schema.Union([Schema.Struct({
-  disabled: Schema.optional(Schema.Boolean)
-}), Schema.Struct({
-  disabled: Schema.optional(Schema.Boolean),
-  maxAge: Schema.optional(Schema.Number),
-  staleWhileRevalidate: Schema.optional(Schema.Number)
-}).pipe(Schema.encodeKeys({ disabled: "disabled", maxAge: "max_age", staleWhileRevalidate: "stale_while_revalidate" }))])),
-  mtls: Schema.optional(Schema.Struct({
-  caCertificateId: Schema.optional(Schema.String),
-  mtlsCertificateId: Schema.optional(Schema.String),
-  sslmode: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ caCertificateId: "ca_certificate_id", mtlsCertificateId: "mtls_certificate_id", sslmode: "sslmode" }))),
+  caching: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        disabled: Schema.optional(Schema.Boolean),
+      }),
+      Schema.Struct({
+        disabled: Schema.optional(Schema.Boolean),
+        maxAge: Schema.optional(Schema.Number),
+        staleWhileRevalidate: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          disabled: "disabled",
+          maxAge: "max_age",
+          staleWhileRevalidate: "stale_while_revalidate",
+        }),
+      ),
+    ]),
+  ),
+  mtls: Schema.optional(
+    Schema.Struct({
+      caCertificateId: Schema.optional(Schema.String),
+      mtlsCertificateId: Schema.optional(Schema.String),
+      sslmode: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        caCertificateId: "ca_certificate_id",
+        mtlsCertificateId: "mtls_certificate_id",
+        sslmode: "sslmode",
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
-  origin: Schema.optional(Schema.Union([Schema.Struct({
-  database: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  scheme: Schema.optional(Schema.Literals(["postgres", "postgresql", "mysql"])),
-  user: Schema.optional(Schema.String)
-}), Schema.Struct({
-  host: Schema.String,
-  port: Schema.Number
-}), Schema.Struct({
-  accessClientId: Schema.String,
-  accessClientSecret: Schema.String,
-  host: Schema.String
-}).pipe(Schema.encodeKeys({ accessClientId: "access_client_id", accessClientSecret: "access_client_secret", host: "host" }))])),
-  originConnectionLimit: Schema.optional(Schema.Number)
-})
-  .pipe(Schema.encodeKeys({ caching: "caching", mtls: "mtls", name: "name", origin: "origin", originConnectionLimit: "origin_connection_limit" }), T.Http({ method: "PATCH", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" })) as unknown as Schema.Schema<PatchConfigRequest>;
+  origin: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        database: Schema.optional(Schema.String),
+        password: Schema.optional(Schema.String),
+        scheme: Schema.optional(
+          Schema.Literals(["postgres", "postgresql", "mysql"]),
+        ),
+        user: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        host: Schema.String,
+        port: Schema.Number,
+      }),
+      Schema.Struct({
+        accessClientId: Schema.String,
+        accessClientSecret: Schema.String,
+        host: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          accessClientId: "access_client_id",
+          accessClientSecret: "access_client_secret",
+          host: "host",
+        }),
+      ),
+    ]),
+  ),
+  originConnectionLimit: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    caching: "caching",
+    mtls: "mtls",
+    name: "name",
+    origin: "origin",
+    originConnectionLimit: "origin_connection_limit",
+  }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
+) as unknown as Schema.Schema<PatchConfigRequest>;
 
 export type PatchConfigResponse = unknown;
 
-export const PatchConfigResponse = Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
+export const PatchConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
 
 export type PatchConfigError =
   | DefaultErrors
@@ -329,7 +540,12 @@ export const patchConfig: API.OperationMethod<
 > = API.make(() => ({
   input: PatchConfigRequest,
   output: PatchConfigResponse,
-  errors: [PrivateHostNotAllowed, HyperdriveConfigNotFound, InvalidObjectIdentifier, MethodNotAllowed],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+    MethodNotAllowed,
+  ],
 }));
 
 export interface DeleteConfigRequest {
@@ -340,13 +556,18 @@ export interface DeleteConfigRequest {
 
 export const DeleteConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" })) as unknown as Schema.Schema<DeleteConfigRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
+) as unknown as Schema.Schema<DeleteConfigRequest>;
 
 export type DeleteConfigResponse = unknown;
 
-export const DeleteConfigResponse = Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
+export const DeleteConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
 
 export type DeleteConfigError =
   | DefaultErrors
@@ -363,5 +584,10 @@ export const deleteConfig: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteConfigRequest,
   output: DeleteConfigResponse,
-  errors: [PrivateHostNotAllowed, HyperdriveConfigNotFound, InvalidObjectIdentifier, MethodNotAllowed],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+    MethodNotAllowed,
+  ],
 }));

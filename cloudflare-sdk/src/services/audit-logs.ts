@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // AuditLog
@@ -45,30 +43,41 @@ export interface ListAuditLogsRequest {
 export const ListAuditLogsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
-  action: Schema.optional(Schema.Struct({
-  type: Schema.optional(Schema.String)
-})).pipe(T.HttpQuery("action")),
-  actor: Schema.optional(Schema.Struct({
-  email: Schema.optional(Schema.String),
-  ip: Schema.optional(Schema.String)
-})).pipe(T.HttpQuery("actor")),
+  action: Schema.optional(
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).pipe(T.HttpQuery("action")),
+  actor: Schema.optional(
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      ip: Schema.optional(Schema.String),
+    }),
+  ).pipe(T.HttpQuery("actor")),
   before: Schema.optional(Schema.Unknown).pipe(T.HttpQuery("before")),
-  direction: Schema.optional(Schema.Literals(["desc", "asc"])).pipe(T.HttpQuery("direction")),
+  direction: Schema.optional(Schema.Literals(["desc", "asc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
   export: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("export")),
-  hideUserLogs: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("hide_user_logs")),
+  hideUserLogs: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("hide_user_logs"),
+  ),
   since: Schema.optional(Schema.Unknown).pipe(T.HttpQuery("since")),
-  zone: Schema.optional(Schema.Struct({
-  name: Schema.optional(Schema.String)
-})).pipe(T.HttpQuery("zone"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/audit_logs" })) as unknown as Schema.Schema<ListAuditLogsRequest>;
+  zone: Schema.optional(
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).pipe(T.HttpQuery("zone")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/audit_logs" }),
+) as unknown as Schema.Schema<ListAuditLogsRequest>;
 
 export type ListAuditLogsResponse = unknown;
 
-export const ListAuditLogsResponse = Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
+export const ListAuditLogsResponse =
+  Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
 
-export type ListAuditLogsError =
-  | DefaultErrors;
+export type ListAuditLogsError = DefaultErrors;
 
 export const listAuditLogs: API.OperationMethod<
   ListAuditLogsRequest,

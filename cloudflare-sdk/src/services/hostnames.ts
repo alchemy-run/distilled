@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // SettingTl
@@ -26,23 +24,46 @@ export interface GetSettingTlsRequest {
 }
 
 export const GetSettingTlsRequest = Schema.Struct({
-  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(T.HttpPath("settingId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/hostnames/settings/{settingId}" })) as unknown as Schema.Schema<GetSettingTlsRequest>;
+  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(
+    T.HttpPath("settingId"),
+  ),
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/hostnames/settings/{settingId}",
+  }),
+) as unknown as Schema.Schema<GetSettingTlsRequest>;
 
-export type GetSettingTlsResponse = ({ createdAt?: string; hostname?: string; status?: string; updatedAt?: string; value?: string | number | unknown })[];
+export type GetSettingTlsResponse = {
+  createdAt?: string;
+  hostname?: string;
+  status?: string;
+  updatedAt?: string;
+  value?: string | number | unknown;
+}[];
 
-export const GetSettingTlsResponse = Schema.Array(Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
-  hostname: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Union([Schema.String, Schema.Number, Schema.Unknown]))
-}).pipe(Schema.encodeKeys({ createdAt: "created_at", hostname: "hostname", status: "status", updatedAt: "updated_at", value: "value" }))) as unknown as Schema.Schema<GetSettingTlsResponse>;
+export const GetSettingTlsResponse = Schema.Array(
+  Schema.Struct({
+    createdAt: Schema.optional(Schema.String),
+    hostname: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String),
+    value: Schema.optional(
+      Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      hostname: "hostname",
+      status: "status",
+      updatedAt: "updated_at",
+      value: "value",
+    }),
+  ),
+) as unknown as Schema.Schema<GetSettingTlsResponse>;
 
-export type GetSettingTlsError =
-  | DefaultErrors;
+export type GetSettingTlsError = DefaultErrors;
 
 export const getSettingTls: API.OperationMethod<
   GetSettingTlsRequest,
@@ -65,12 +86,18 @@ export interface PutSettingTlsRequest {
 }
 
 export const PutSettingTlsRequest = Schema.Struct({
-  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(T.HttpPath("settingId")),
+  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(
+    T.HttpPath("settingId"),
+  ),
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Union([Schema.String, Schema.Number, Schema.Unknown])
-})
-  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}" })) as unknown as Schema.Schema<PutSettingTlsRequest>;
+  value: Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}",
+  }),
+) as unknown as Schema.Schema<PutSettingTlsRequest>;
 
 export interface PutSettingTlsResponse {
   /** This is the time the tls setting was originally created for this hostname. */
@@ -90,11 +117,20 @@ export const PutSettingTlsResponse = Schema.Struct({
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Union([Schema.String, Schema.Number, Schema.Unknown]))
-}).pipe(Schema.encodeKeys({ createdAt: "created_at", hostname: "hostname", status: "status", updatedAt: "updated_at", value: "value" })) as unknown as Schema.Schema<PutSettingTlsResponse>;
+  value: Schema.optional(
+    Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    hostname: "hostname",
+    status: "status",
+    updatedAt: "updated_at",
+    value: "value",
+  }),
+) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
-export type PutSettingTlsError =
-  | DefaultErrors;
+export type PutSettingTlsError = DefaultErrors;
 
 export const putSettingTls: API.OperationMethod<
   PutSettingTlsRequest,
@@ -115,11 +151,17 @@ export interface DeleteSettingTlsRequest {
 }
 
 export const DeleteSettingTlsRequest = Schema.Struct({
-  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(T.HttpPath("settingId")),
+  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(
+    T.HttpPath("settingId"),
+  ),
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}" })) as unknown as Schema.Schema<DeleteSettingTlsRequest>;
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}",
+  }),
+) as unknown as Schema.Schema<DeleteSettingTlsRequest>;
 
 export interface DeleteSettingTlsResponse {
   /** This is the time the tls setting was originally created for this hostname. */
@@ -139,11 +181,20 @@ export const DeleteSettingTlsResponse = Schema.Struct({
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.Union([Schema.String, Schema.Number, Schema.Unknown]))
-}).pipe(Schema.encodeKeys({ createdAt: "created_at", hostname: "hostname", status: "status", updatedAt: "updated_at", value: "value" })) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
+  value: Schema.optional(
+    Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    hostname: "hostname",
+    status: "status",
+    updatedAt: "updated_at",
+    value: "value",
+  }),
+) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 
-export type DeleteSettingTlsError =
-  | DefaultErrors;
+export type DeleteSettingTlsError = DefaultErrors;
 
 export const deleteSettingTls: API.OperationMethod<
   DeleteSettingTlsRequest,

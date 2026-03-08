@@ -10,40 +10,63 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "Kendra Ranking", serviceShapeName: "AWSKendraRerankingFrontendService" });
+const svc = T.AwsApiService({
+  sdkId: "Kendra Ranking",
+  serviceShapeName: "AWSKendraRerankingFrontendService",
+});
 const auth = T.AwsAuthSigv4({ name: "kendra-ranking" });
 const ver = T.ServiceVersion("2022-10-19");
 const proto = T.AwsProtocolsAwsJson1_0();
 const rules = T.EndpointResolver((p, _) => {
   const { Region, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });
-  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });
-  if ((Endpoint != null)) {
-    if ((UseFIPS === true)) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+    type: "endpoint" as const,
+    endpoint: { url: u as string, properties: p, headers: h },
+  });
+  const err = (m: unknown): T.EndpointResolverResult => ({
+    type: "error" as const,
+    message: m as string,
+  });
+  if (Endpoint != null) {
+    if (UseFIPS === true) {
+      return err(
+        "Invalid Configuration: FIPS and custom endpoint are not supported",
+      );
     }
     return e(Endpoint);
   }
-  if ((Region != null)) {
+  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if ((true === _.getAttr(PartitionResult, "supportsDualStack"))) {
-          if ((UseFIPS === true)) {
-            if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-              return e(`https://kendra-ranking-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+        if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://kendra-ranking-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
             }
-            return err("FIPS is enabled but this partition does not support FIPS");
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
           }
-          return e(`https://kendra-ranking.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
+          return e(
+            `https://kendra-ranking.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
         }
-        if ((UseFIPS === true)) {
-          if ((_.getAttr(PartitionResult, "supportsFIPS") === true)) {
-            return e(`https://kendra-ranking-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://kendra-ranking-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
           }
-          return err("FIPS is enabled but this partition does not support FIPS");
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
         }
-        return e(`https://kendra-ranking.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        return e(
+          `https://kendra-ranking.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
       }
     }
   }
@@ -72,22 +95,99 @@ export type Tokens = string;
 export type RescoreId = string;
 
 //# Schemas
-export interface CapacityUnitsConfiguration { RescoreCapacityUnits: number }
-export const CapacityUnitsConfiguration = S.suspend(() => S.Struct({RescoreCapacityUnits: S.Number})).annotate({ identifier: "CapacityUnitsConfiguration" }) as any as S.Schema<CapacityUnitsConfiguration>;
-export interface Tag { Key: string; Value: string }
-export const Tag = S.suspend(() => S.Struct({Key: S.String, Value: S.String})).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export interface CapacityUnitsConfiguration {
+  RescoreCapacityUnits: number;
+}
+export const CapacityUnitsConfiguration = S.suspend(() =>
+  S.Struct({ RescoreCapacityUnits: S.Number }),
+).annotate({
+  identifier: "CapacityUnitsConfiguration",
+}) as any as S.Schema<CapacityUnitsConfiguration>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export interface CreateRescoreExecutionPlanRequest { Name: string; Description?: string; CapacityUnits?: CapacityUnitsConfiguration; Tags?: Tag[]; ClientToken?: string }
-export const CreateRescoreExecutionPlanRequest = S.suspend(() => S.Struct({Name: S.String, Description: S.optional(S.String), CapacityUnits: S.optional(CapacityUnitsConfiguration), Tags: S.optional(TagList), ClientToken: S.optional(S.String).pipe(T.IdempotencyToken())}).pipe(T.all(T.Http({ method: "POST", uri: "/rescore-execution-plans" }), svc, auth, proto, ver, rules))).annotate({ identifier: "CreateRescoreExecutionPlanRequest" }) as any as S.Schema<CreateRescoreExecutionPlanRequest>;
-export interface CreateRescoreExecutionPlanResponse { Id: string; Arn: string }
-export const CreateRescoreExecutionPlanResponse = S.suspend(() => S.Struct({Id: S.String, Arn: S.String})).annotate({ identifier: "CreateRescoreExecutionPlanResponse" }) as any as S.Schema<CreateRescoreExecutionPlanResponse>;
-export interface DeleteRescoreExecutionPlanRequest { Id: string }
-export const DeleteRescoreExecutionPlanRequest = S.suspend(() => S.Struct({Id: S.String.pipe(T.HttpLabel("Id"))}).pipe(T.all(T.Http({ method: "DELETE", uri: "/rescore-execution-plans/{Id}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DeleteRescoreExecutionPlanRequest" }) as any as S.Schema<DeleteRescoreExecutionPlanRequest>;
+export interface CreateRescoreExecutionPlanRequest {
+  Name: string;
+  Description?: string;
+  CapacityUnits?: CapacityUnitsConfiguration;
+  Tags?: Tag[];
+  ClientToken?: string;
+}
+export const CreateRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    CapacityUnits: S.optional(CapacityUnitsConfiguration),
+    Tags: S.optional(TagList),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rescore-execution-plans" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateRescoreExecutionPlanRequest",
+}) as any as S.Schema<CreateRescoreExecutionPlanRequest>;
+export interface CreateRescoreExecutionPlanResponse {
+  Id: string;
+  Arn: string;
+}
+export const CreateRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({ Id: S.String, Arn: S.String }),
+).annotate({
+  identifier: "CreateRescoreExecutionPlanResponse",
+}) as any as S.Schema<CreateRescoreExecutionPlanResponse>;
+export interface DeleteRescoreExecutionPlanRequest {
+  Id: string;
+}
+export const DeleteRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/rescore-execution-plans/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteRescoreExecutionPlanRequest",
+}) as any as S.Schema<DeleteRescoreExecutionPlanRequest>;
 export interface DeleteRescoreExecutionPlanResponse {}
-export const DeleteRescoreExecutionPlanResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteRescoreExecutionPlanResponse" }) as any as S.Schema<DeleteRescoreExecutionPlanResponse>;
-export interface DescribeRescoreExecutionPlanRequest { Id: string }
-export const DescribeRescoreExecutionPlanRequest = S.suspend(() => S.Struct({Id: S.String.pipe(T.HttpLabel("Id"))}).pipe(T.all(T.Http({ method: "GET", uri: "/rescore-execution-plans/{Id}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "DescribeRescoreExecutionPlanRequest" }) as any as S.Schema<DescribeRescoreExecutionPlanRequest>;
+export const DeleteRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteRescoreExecutionPlanResponse",
+}) as any as S.Schema<DeleteRescoreExecutionPlanResponse>;
+export interface DescribeRescoreExecutionPlanRequest {
+  Id: string;
+}
+export const DescribeRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rescore-execution-plans/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeRescoreExecutionPlanRequest",
+}) as any as S.Schema<DescribeRescoreExecutionPlanRequest>;
 export type RescoreExecutionPlanStatus =
   | "CREATING"
   | "UPDATING"
@@ -96,60 +196,275 @@ export type RescoreExecutionPlanStatus =
   | "FAILED"
   | (string & {});
 export const RescoreExecutionPlanStatus = S.String;
-export interface DescribeRescoreExecutionPlanResponse { Id?: string; Arn?: string; Name?: string; Description?: string; CapacityUnits?: CapacityUnitsConfiguration; CreatedAt?: Date; UpdatedAt?: Date; Status?: RescoreExecutionPlanStatus; ErrorMessage?: string }
-export const DescribeRescoreExecutionPlanResponse = S.suspend(() => S.Struct({Id: S.optional(S.String), Arn: S.optional(S.String), Name: S.optional(S.String), Description: S.optional(S.String), CapacityUnits: S.optional(CapacityUnitsConfiguration), CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), Status: S.optional(RescoreExecutionPlanStatus), ErrorMessage: S.optional(S.String)})).annotate({ identifier: "DescribeRescoreExecutionPlanResponse" }) as any as S.Schema<DescribeRescoreExecutionPlanResponse>;
-export interface ListRescoreExecutionPlansRequest { NextToken?: string; MaxResults?: number }
-export const ListRescoreExecutionPlansRequest = S.suspend(() => S.Struct({NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")), MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults"))}).pipe(T.all(T.Http({ method: "GET", uri: "/rescore-execution-plans" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListRescoreExecutionPlansRequest" }) as any as S.Schema<ListRescoreExecutionPlansRequest>;
-export interface RescoreExecutionPlanSummary { Name?: string; Id?: string; CreatedAt?: Date; UpdatedAt?: Date; Status?: RescoreExecutionPlanStatus }
-export const RescoreExecutionPlanSummary = S.suspend(() => S.Struct({Name: S.optional(S.String), Id: S.optional(S.String), CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))), Status: S.optional(RescoreExecutionPlanStatus)})).annotate({ identifier: "RescoreExecutionPlanSummary" }) as any as S.Schema<RescoreExecutionPlanSummary>;
+export interface DescribeRescoreExecutionPlanResponse {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  CapacityUnits?: CapacityUnitsConfiguration;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Status?: RescoreExecutionPlanStatus;
+  ErrorMessage?: string;
+}
+export const DescribeRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CapacityUnits: S.optional(CapacityUnitsConfiguration),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(RescoreExecutionPlanStatus),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeRescoreExecutionPlanResponse",
+}) as any as S.Schema<DescribeRescoreExecutionPlanResponse>;
+export interface ListRescoreExecutionPlansRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRescoreExecutionPlansRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rescore-execution-plans" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRescoreExecutionPlansRequest",
+}) as any as S.Schema<ListRescoreExecutionPlansRequest>;
+export interface RescoreExecutionPlanSummary {
+  Name?: string;
+  Id?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Status?: RescoreExecutionPlanStatus;
+}
+export const RescoreExecutionPlanSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(RescoreExecutionPlanStatus),
+  }),
+).annotate({
+  identifier: "RescoreExecutionPlanSummary",
+}) as any as S.Schema<RescoreExecutionPlanSummary>;
 export type RescoreExecutionPlanSummaryList = RescoreExecutionPlanSummary[];
-export const RescoreExecutionPlanSummaryList = S.Array(RescoreExecutionPlanSummary);
-export interface ListRescoreExecutionPlansResponse { SummaryItems?: RescoreExecutionPlanSummary[]; NextToken?: string }
-export const ListRescoreExecutionPlansResponse = S.suspend(() => S.Struct({SummaryItems: S.optional(RescoreExecutionPlanSummaryList), NextToken: S.optional(S.String)})).annotate({ identifier: "ListRescoreExecutionPlansResponse" }) as any as S.Schema<ListRescoreExecutionPlansResponse>;
-export interface ListTagsForResourceRequest { ResourceARN: string }
-export const ListTagsForResourceRequest = S.suspend(() => S.Struct({ResourceARN: S.String}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "ListTagsForResourceRequest" }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ListTagsForResourceResponse { Tags?: Tag[] }
-export const ListTagsForResourceResponse = S.suspend(() => S.Struct({Tags: S.optional(TagList)})).annotate({ identifier: "ListTagsForResourceResponse" }) as any as S.Schema<ListTagsForResourceResponse>;
+export const RescoreExecutionPlanSummaryList = S.Array(
+  RescoreExecutionPlanSummary,
+);
+export interface ListRescoreExecutionPlansResponse {
+  SummaryItems?: RescoreExecutionPlanSummary[];
+  NextToken?: string;
+}
+export const ListRescoreExecutionPlansResponse = S.suspend(() =>
+  S.Struct({
+    SummaryItems: S.optional(RescoreExecutionPlanSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRescoreExecutionPlansResponse",
+}) as any as S.Schema<ListRescoreExecutionPlansResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
 export type TitleTokensList = string[];
 export const TitleTokensList = S.Array(S.String);
 export type BodyTokensList = string[];
 export const BodyTokensList = S.Array(S.String);
-export interface Document { Id: string; GroupId?: string; Title?: string; Body?: string; TokenizedTitle?: string[]; TokenizedBody?: string[]; OriginalScore: number }
-export const Document = S.suspend(() => S.Struct({Id: S.String, GroupId: S.optional(S.String), Title: S.optional(S.String), Body: S.optional(S.String), TokenizedTitle: S.optional(TitleTokensList), TokenizedBody: S.optional(BodyTokensList), OriginalScore: S.Number})).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
+export interface Document {
+  Id: string;
+  GroupId?: string;
+  Title?: string;
+  Body?: string;
+  TokenizedTitle?: string[];
+  TokenizedBody?: string[];
+  OriginalScore: number;
+}
+export const Document = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    GroupId: S.optional(S.String),
+    Title: S.optional(S.String),
+    Body: S.optional(S.String),
+    TokenizedTitle: S.optional(TitleTokensList),
+    TokenizedBody: S.optional(BodyTokensList),
+    OriginalScore: S.Number,
+  }),
+).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
 export type DocumentList = Document[];
 export const DocumentList = S.Array(Document);
-export interface RescoreRequest { RescoreExecutionPlanId: string; SearchQuery: string; Documents: Document[] }
-export const RescoreRequest = S.suspend(() => S.Struct({RescoreExecutionPlanId: S.String.pipe(T.HttpLabel("RescoreExecutionPlanId")), SearchQuery: S.String, Documents: DocumentList}).pipe(T.all(T.Http({ method: "POST", uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore" }), svc, auth, proto, ver, rules))).annotate({ identifier: "RescoreRequest" }) as any as S.Schema<RescoreRequest>;
-export interface RescoreResultItem { DocumentId?: string; Score?: number }
-export const RescoreResultItem = S.suspend(() => S.Struct({DocumentId: S.optional(S.String), Score: S.optional(S.Number)})).annotate({ identifier: "RescoreResultItem" }) as any as S.Schema<RescoreResultItem>;
+export interface RescoreRequest {
+  RescoreExecutionPlanId: string;
+  SearchQuery: string;
+  Documents: Document[];
+}
+export const RescoreRequest = S.suspend(() =>
+  S.Struct({
+    RescoreExecutionPlanId: S.String.pipe(
+      T.HttpLabel("RescoreExecutionPlanId"),
+    ),
+    SearchQuery: S.String,
+    Documents: DocumentList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "RescoreRequest" }) as any as S.Schema<RescoreRequest>;
+export interface RescoreResultItem {
+  DocumentId?: string;
+  Score?: number;
+}
+export const RescoreResultItem = S.suspend(() =>
+  S.Struct({ DocumentId: S.optional(S.String), Score: S.optional(S.Number) }),
+).annotate({
+  identifier: "RescoreResultItem",
+}) as any as S.Schema<RescoreResultItem>;
 export type RescoreResultItemList = RescoreResultItem[];
 export const RescoreResultItemList = S.Array(RescoreResultItem);
-export interface RescoreResult { RescoreId?: string; ResultItems?: RescoreResultItem[] }
-export const RescoreResult = S.suspend(() => S.Struct({RescoreId: S.optional(S.String), ResultItems: S.optional(RescoreResultItemList)})).annotate({ identifier: "RescoreResult" }) as any as S.Schema<RescoreResult>;
-export interface TagResourceRequest { ResourceARN: string; Tags: Tag[] }
-export const TagResourceRequest = S.suspend(() => S.Struct({ResourceARN: S.String, Tags: TagList}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {  }
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" }) as any as S.Schema<TagResourceResponse>;
+export interface RescoreResult {
+  RescoreId?: string;
+  ResultItems?: RescoreResultItem[];
+}
+export const RescoreResult = S.suspend(() =>
+  S.Struct({
+    RescoreId: S.optional(S.String),
+    ResultItems: S.optional(RescoreResultItemList),
+  }),
+).annotate({ identifier: "RescoreResult" }) as any as S.Schema<RescoreResult>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export interface UntagResourceRequest { ResourceARN: string; TagKeys: string[] }
-export const UntagResourceRequest = S.suspend(() => S.Struct({ResourceARN: S.String, TagKeys: TagKeyList}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {  }
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UntagResourceResponse" }) as any as S.Schema<UntagResourceResponse>;
-export interface UpdateRescoreExecutionPlanRequest { Id: string; Name?: string; Description?: string; CapacityUnits?: CapacityUnitsConfiguration }
-export const UpdateRescoreExecutionPlanRequest = S.suspend(() => S.Struct({Id: S.String.pipe(T.HttpLabel("Id")), Name: S.optional(S.String), Description: S.optional(S.String), CapacityUnits: S.optional(CapacityUnitsConfiguration)}).pipe(T.all(T.Http({ method: "PUT", uri: "/rescore-execution-plans/{Id}" }), svc, auth, proto, ver, rules))).annotate({ identifier: "UpdateRescoreExecutionPlanRequest" }) as any as S.Schema<UpdateRescoreExecutionPlanRequest>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateRescoreExecutionPlanRequest {
+  Id: string;
+  Name?: string;
+  Description?: string;
+  CapacityUnits?: CapacityUnitsConfiguration;
+}
+export const UpdateRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CapacityUnits: S.optional(CapacityUnitsConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/rescore-execution-plans/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateRescoreExecutionPlanRequest",
+}) as any as S.Schema<UpdateRescoreExecutionPlanRequest>;
 export interface UpdateRescoreExecutionPlanResponse {}
-export const UpdateRescoreExecutionPlanResponse = S.suspend(() => S.Struct({})).annotate({ identifier: "UpdateRescoreExecutionPlanResponse" }) as any as S.Schema<UpdateRescoreExecutionPlanResponse>;
+export const UpdateRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateRescoreExecutionPlanResponse",
+}) as any as S.Schema<UpdateRescoreExecutionPlanResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()("AccessDeniedException", {Message: S.optional(S.String)}).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedErrorClass<ConflictException>()("ConflictException", {Message: S.optional(S.String)}).pipe(C.withConflictError) {}
-export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()("InternalServerException", {Message: S.optional(S.String)}).pipe(C.withServerError) {}
-export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()("ServiceQuotaExceededException", {Message: S.optional(S.String)}).pipe(C.withQuotaError) {}
-export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()("ThrottlingException", {Message: S.optional(S.String)}).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedErrorClass<ValidationException>()("ValidationException", {Message: S.optional(S.String)}).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()("ResourceNotFoundException", {Message: S.optional(S.String)}).pipe(C.withBadRequestError) {}
-export class ResourceUnavailableException extends S.TaggedErrorClass<ResourceUnavailableException>()("ResourceUnavailableException", {Message: S.optional(S.String)}).pipe(C.withBadRequestError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
+).pipe(C.withServerError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { Message: S.optional(S.String) },
+).pipe(C.withQuotaError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ResourceUnavailableException extends S.TaggedErrorClass<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 export type CreateRescoreExecutionPlanError =
@@ -167,13 +482,29 @@ export type CreateRescoreExecutionPlanError =
  * the number of capacity units that you require for
  * Amazon Kendra Intelligent Ranking to rescore or re-rank
  * a search service's results.
- * 
+ *
  * For an example of using the
  * `CreateRescoreExecutionPlan` API, including using
  * the Python and Java SDKs, see Semantically
  * ranking a search service's results.
  */
-export const createRescoreExecutionPlan: API.OperationMethod<CreateRescoreExecutionPlanRequest, CreateRescoreExecutionPlanResponse, CreateRescoreExecutionPlanError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: CreateRescoreExecutionPlanRequest, output: CreateRescoreExecutionPlanResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const createRescoreExecutionPlan: API.OperationMethod<
+  CreateRescoreExecutionPlanRequest,
+  CreateRescoreExecutionPlanResponse,
+  CreateRescoreExecutionPlanError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRescoreExecutionPlanRequest,
+  output: CreateRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteRescoreExecutionPlanError =
   | AccessDeniedException
   | ConflictException
@@ -187,7 +518,23 @@ export type DeleteRescoreExecutionPlanError =
  * plan is an Amazon Kendra Intelligent Ranking resource
  * used for provisioning the `Rescore` API.
  */
-export const deleteRescoreExecutionPlan: API.OperationMethod<DeleteRescoreExecutionPlanRequest, DeleteRescoreExecutionPlanResponse, DeleteRescoreExecutionPlanError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DeleteRescoreExecutionPlanRequest, output: DeleteRescoreExecutionPlanResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const deleteRescoreExecutionPlan: API.OperationMethod<
+  DeleteRescoreExecutionPlanRequest,
+  DeleteRescoreExecutionPlanResponse,
+  DeleteRescoreExecutionPlanError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRescoreExecutionPlanRequest,
+  output: DeleteRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DescribeRescoreExecutionPlanError =
   | AccessDeniedException
   | InternalServerException
@@ -200,7 +547,22 @@ export type DescribeRescoreExecutionPlanError =
  * execution plan is an Amazon Kendra Intelligent Ranking
  * resource used for provisioning the `Rescore` API.
  */
-export const describeRescoreExecutionPlan: API.OperationMethod<DescribeRescoreExecutionPlanRequest, DescribeRescoreExecutionPlanResponse, DescribeRescoreExecutionPlanError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: DescribeRescoreExecutionPlanRequest, output: DescribeRescoreExecutionPlanResponse, errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const describeRescoreExecutionPlan: API.OperationMethod<
+  DescribeRescoreExecutionPlanRequest,
+  DescribeRescoreExecutionPlanResponse,
+  DescribeRescoreExecutionPlanError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRescoreExecutionPlanRequest,
+  output: DescribeRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type ListRescoreExecutionPlansError =
   | AccessDeniedException
   | InternalServerException
@@ -212,10 +574,41 @@ export type ListRescoreExecutionPlansError =
  * is an Amazon Kendra Intelligent Ranking resource used for
  * provisioning the `Rescore` API.
  */
-export const listRescoreExecutionPlans: API.OperationMethod<ListRescoreExecutionPlansRequest, ListRescoreExecutionPlansResponse, ListRescoreExecutionPlansError, Credentials | Region | HttpClient.HttpClient> & {
-  pages: (input: ListRescoreExecutionPlansRequest) => stream.Stream<ListRescoreExecutionPlansResponse, ListRescoreExecutionPlansError, Credentials | Region | HttpClient.HttpClient>;
-  items: (input: ListRescoreExecutionPlansRequest) => stream.Stream<unknown, ListRescoreExecutionPlansError, Credentials | Region | HttpClient.HttpClient>;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({ input: ListRescoreExecutionPlansRequest, output: ListRescoreExecutionPlansResponse, errors: [AccessDeniedException, InternalServerException, ThrottlingException, ValidationException], pagination: {"inputToken":"NextToken","outputToken":"NextToken","pageSize":"MaxResults"} as const }));
+export const listRescoreExecutionPlans: API.OperationMethod<
+  ListRescoreExecutionPlansRequest,
+  ListRescoreExecutionPlansResponse,
+  ListRescoreExecutionPlansError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListRescoreExecutionPlansRequest,
+  ) => stream.Stream<
+    ListRescoreExecutionPlansResponse,
+    ListRescoreExecutionPlansError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRescoreExecutionPlansRequest,
+  ) => stream.Stream<
+    unknown,
+    ListRescoreExecutionPlansError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRescoreExecutionPlansRequest,
+  output: ListRescoreExecutionPlansResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -228,7 +621,22 @@ export type ListTagsForResourceError =
  * A rescore execution plan is an example of a resource that
  * can have tags associated with it.
  */
-export const listTagsForResource: API.OperationMethod<ListTagsForResourceRequest, ListTagsForResourceResponse, ListTagsForResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: ListTagsForResourceRequest, output: ListTagsForResourceResponse, errors: [AccessDeniedException, InternalServerException, ResourceUnavailableException, ThrottlingException, ValidationException] }));
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  ListTagsForResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type RescoreError =
   | AccessDeniedException
   | ConflictException
@@ -243,7 +651,23 @@ export type RescoreError =
  * capabilities of Amazon Kendra Intelligent Ranking to
  * improve the search service's results.
  */
-export const rescore: API.OperationMethod<RescoreRequest, RescoreResult, RescoreError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: RescoreRequest, output: RescoreResult, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ThrottlingException, ValidationException] }));
+export const rescore: API.OperationMethod<
+  RescoreRequest,
+  RescoreResult,
+  RescoreError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RescoreRequest,
+  output: RescoreResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -258,7 +682,22 @@ export type TagResourceError =
  * `Rescore` API. If the tag already exists,
  * the existing value is replaced with the new value.
  */
-export const tagResource: API.OperationMethod<TagResourceRequest, TagResourceResponse, TagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: TagResourceRequest, output: TagResourceResponse, errors: [AccessDeniedException, InternalServerException, ResourceUnavailableException, ThrottlingException, ValidationException] }));
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
+  TagResourceResponse,
+  TagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UntagResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -272,7 +711,22 @@ export type UntagResourceError =
  * Ranking resource used for provisioning the
  * `Rescore` operation.
  */
-export const untagResource: API.OperationMethod<UntagResourceRequest, UntagResourceResponse, UntagResourceError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UntagResourceRequest, output: UntagResourceResponse, errors: [AccessDeniedException, InternalServerException, ResourceUnavailableException, ThrottlingException, ValidationException] }));
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
+  UntagResourceResponse,
+  UntagResourceError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type UpdateRescoreExecutionPlanError =
   | AccessDeniedException
   | ConflictException
@@ -290,4 +744,21 @@ export type UpdateRescoreExecutionPlanError =
  * Intelligent Ranking to rescore or re-rank a search service's
  * results.
  */
-export const updateRescoreExecutionPlan: API.OperationMethod<UpdateRescoreExecutionPlanRequest, UpdateRescoreExecutionPlanResponse, UpdateRescoreExecutionPlanError, Credentials | Region | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({ input: UpdateRescoreExecutionPlanRequest, output: UpdateRescoreExecutionPlanResponse, errors: [AccessDeniedException, ConflictException, InternalServerException, ResourceNotFoundException, ServiceQuotaExceededException, ThrottlingException, ValidationException] }));
+export const updateRescoreExecutionPlan: API.OperationMethod<
+  UpdateRescoreExecutionPlanRequest,
+  UpdateRescoreExecutionPlanResponse,
+  UpdateRescoreExecutionPlanError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRescoreExecutionPlanRequest,
+  output: UpdateRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

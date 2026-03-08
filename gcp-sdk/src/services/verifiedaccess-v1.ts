@@ -23,11 +23,11 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface SignedData {
   /** The data to be signed. */
@@ -36,10 +36,12 @@ export interface SignedData {
   signature?: string;
 }
 
-export const SignedData: Schema.Schema<SignedData> = Schema.suspend(() => Schema.Struct({
-  data: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-})).annotate({ identifier: "SignedData" }) as any as Schema.Schema<SignedData>;
+export const SignedData: Schema.Schema<SignedData> = Schema.suspend(() =>
+  Schema.Struct({
+    data: Schema.optional(Schema.String),
+    signature: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SignedData" }) as any as Schema.Schema<SignedData>;
 
 export interface Challenge {
   /** Generated challenge */
@@ -48,10 +50,12 @@ export interface Challenge {
   alternativeChallenge?: SignedData;
 }
 
-export const Challenge: Schema.Schema<Challenge> = Schema.suspend(() => Schema.Struct({
-  challenge: Schema.optional(SignedData),
-  alternativeChallenge: Schema.optional(SignedData),
-})).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
+export const Challenge: Schema.Schema<Challenge> = Schema.suspend(() =>
+  Schema.Struct({
+    challenge: Schema.optional(SignedData),
+    alternativeChallenge: Schema.optional(SignedData),
+  }),
+).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
 
 export interface VerifyChallengeResponseRequest {
   /** The generated response to the challenge */
@@ -60,10 +64,15 @@ export interface VerifyChallengeResponseRequest {
   expectedIdentity?: string;
 }
 
-export const VerifyChallengeResponseRequest: Schema.Schema<VerifyChallengeResponseRequest> = Schema.suspend(() => Schema.Struct({
-  challengeResponse: Schema.optional(SignedData),
-  expectedIdentity: Schema.optional(Schema.String),
-})).annotate({ identifier: "VerifyChallengeResponseRequest" }) as any as Schema.Schema<VerifyChallengeResponseRequest>;
+export const VerifyChallengeResponseRequest: Schema.Schema<VerifyChallengeResponseRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      challengeResponse: Schema.optional(SignedData),
+      expectedIdentity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VerifyChallengeResponseRequest",
+  }) as any as Schema.Schema<VerifyChallengeResponseRequest>;
 
 export interface VerifyChallengeResponseResult {
   /** For EMCert check, device permanent id is returned here. For EUCert check, signed_public_key_and_challenge [base64 encoded] is returned if present, otherwise empty string is returned. This field is deprecated, please use device_permanent_id or signed_public_key_and_challenge fields. */
@@ -78,13 +87,18 @@ export interface VerifyChallengeResponseResult {
   attestedDeviceId?: string;
 }
 
-export const VerifyChallengeResponseResult: Schema.Schema<VerifyChallengeResponseResult> = Schema.suspend(() => Schema.Struct({
-  verificationOutput: Schema.optional(Schema.String),
-  devicePermanentId: Schema.optional(Schema.String),
-  signedPublicKeyAndChallenge: Schema.optional(Schema.String),
-  deviceEnrollmentId: Schema.optional(Schema.String),
-  attestedDeviceId: Schema.optional(Schema.String),
-})).annotate({ identifier: "VerifyChallengeResponseResult" }) as any as Schema.Schema<VerifyChallengeResponseResult>;
+export const VerifyChallengeResponseResult: Schema.Schema<VerifyChallengeResponseResult> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      verificationOutput: Schema.optional(Schema.String),
+      devicePermanentId: Schema.optional(Schema.String),
+      signedPublicKeyAndChallenge: Schema.optional(Schema.String),
+      deviceEnrollmentId: Schema.optional(Schema.String),
+      attestedDeviceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VerifyChallengeResponseResult",
+  }) as any as Schema.Schema<VerifyChallengeResponseResult>;
 
 // ==========================================================================
 // Operations
@@ -108,7 +122,12 @@ export const CreateChallengeResponse = Challenge;
 export type CreateChallengeError = DefaultErrors;
 
 /** CreateChallenge API */
-export const createChallenge: API.OperationMethod<CreateChallengeRequest, CreateChallengeResponse, CreateChallengeError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createChallenge: API.OperationMethod<
+  CreateChallengeRequest,
+  CreateChallengeResponse,
+  CreateChallengeError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateChallengeRequest,
   output: CreateChallengeResponse,
   errors: [],
@@ -132,9 +151,13 @@ export const VerifyChallengeResponse = VerifyChallengeResponseResult;
 export type VerifyChallengeError = DefaultErrors;
 
 /** VerifyChallengeResponse API */
-export const verifyChallenge: API.OperationMethod<VerifyChallengeRequest, VerifyChallengeResponse, VerifyChallengeError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const verifyChallenge: API.OperationMethod<
+  VerifyChallengeRequest,
+  VerifyChallengeResponse,
+  VerifyChallengeError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: VerifyChallengeRequest,
   output: VerifyChallengeResponse,
   errors: [],
 }));
-

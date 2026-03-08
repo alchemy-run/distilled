@@ -36,13 +36,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -51,10 +53,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -67,12 +74,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -83,23 +92,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -108,10 +129,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -124,12 +147,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -138,28 +163,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -170,11 +210,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -189,13 +233,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -206,23 +252,29 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
-export interface CancelOperationRequest {
-}
+export interface CancelOperationRequest {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelOperationRequest" }) as any as Schema.Schema<CancelOperationRequest>;
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface CustomHostConfig {
   /** Required. The custom UI hostname for the instance, e.g., "git.source.internal.mycompany.com" */
@@ -235,12 +287,17 @@ export interface CustomHostConfig {
   gitHttp?: string;
 }
 
-export const CustomHostConfig: Schema.Schema<CustomHostConfig> = Schema.suspend(() => Schema.Struct({
-  html: Schema.optional(Schema.String),
-  api: Schema.optional(Schema.String),
-  gitSsh: Schema.optional(Schema.String),
-  gitHttp: Schema.optional(Schema.String),
-})).annotate({ identifier: "CustomHostConfig" }) as any as Schema.Schema<CustomHostConfig>;
+export const CustomHostConfig: Schema.Schema<CustomHostConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      html: Schema.optional(Schema.String),
+      api: Schema.optional(Schema.String),
+      gitSsh: Schema.optional(Schema.String),
+      gitHttp: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "CustomHostConfig",
+}) as any as Schema.Schema<CustomHostConfig>;
 
 export interface PrivateConfig {
   /** Required. Immutable. Indicate if it's private instance. */
@@ -257,14 +314,18 @@ export interface PrivateConfig {
   customHostConfig?: CustomHostConfig;
 }
 
-export const PrivateConfig: Schema.Schema<PrivateConfig> = Schema.suspend(() => Schema.Struct({
-  isPrivate: Schema.optional(Schema.Boolean),
-  caPool: Schema.optional(Schema.String),
-  httpServiceAttachment: Schema.optional(Schema.String),
-  sshServiceAttachment: Schema.optional(Schema.String),
-  pscAllowedProjects: Schema.optional(Schema.Array(Schema.String)),
-  customHostConfig: Schema.optional(CustomHostConfig),
-})).annotate({ identifier: "PrivateConfig" }) as any as Schema.Schema<PrivateConfig>;
+export const PrivateConfig: Schema.Schema<PrivateConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    isPrivate: Schema.optional(Schema.Boolean),
+    caPool: Schema.optional(Schema.String),
+    httpServiceAttachment: Schema.optional(Schema.String),
+    sshServiceAttachment: Schema.optional(Schema.String),
+    pscAllowedProjects: Schema.optional(Schema.Array(Schema.String)),
+    customHostConfig: Schema.optional(CustomHostConfig),
+  }),
+).annotate({
+  identifier: "PrivateConfig",
+}) as any as Schema.Schema<PrivateConfig>;
 
 export interface HostConfig {
   /** Output only. HTML hostname. */
@@ -277,21 +338,28 @@ export interface HostConfig {
   gitSsh?: string;
 }
 
-export const HostConfig: Schema.Schema<HostConfig> = Schema.suspend(() => Schema.Struct({
-  html: Schema.optional(Schema.String),
-  api: Schema.optional(Schema.String),
-  gitHttp: Schema.optional(Schema.String),
-  gitSsh: Schema.optional(Schema.String),
-})).annotate({ identifier: "HostConfig" }) as any as Schema.Schema<HostConfig>;
+export const HostConfig: Schema.Schema<HostConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    html: Schema.optional(Schema.String),
+    api: Schema.optional(Schema.String),
+    gitHttp: Schema.optional(Schema.String),
+    gitSsh: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "HostConfig" }) as any as Schema.Schema<HostConfig>;
 
 export interface WorkforceIdentityFederationConfig {
   /** Optional. Immutable. Whether Workforce Identity Federation is enabled. */
   enabled?: boolean;
 }
 
-export const WorkforceIdentityFederationConfig: Schema.Schema<WorkforceIdentityFederationConfig> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "WorkforceIdentityFederationConfig" }) as any as Schema.Schema<WorkforceIdentityFederationConfig>;
+export const WorkforceIdentityFederationConfig: Schema.Schema<WorkforceIdentityFederationConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "WorkforceIdentityFederationConfig",
+  }) as any as Schema.Schema<WorkforceIdentityFederationConfig>;
 
 export interface Instance {
   /** Identifier. A unique identifier for an instance. The name should be of the format: `projects/{project_number}/locations/{location_id}/instances/{instance_id}` `project_number`: Maps to a unique int64 id assigned to each project. `location_id`: Refers to the region where the instance will be deployed. Since Secure Source Manager is a regional service, it must be one of the valid GCP regions. `instance_id`: User provided name for the instance, must be unique for a project_number and location_id combination. */
@@ -305,9 +373,20 @@ export interface Instance {
   /** Optional. Private settings for private instance. */
   privateConfig?: PrivateConfig;
   /** Output only. Current state of the instance. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING" | "PAUSED" | "UNKNOWN" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "DELETING"
+    | "PAUSED"
+    | "UNKNOWN"
+    | (string & {});
   /** Output only. An optional field providing information about the current instance state. */
-  stateNote?: "STATE_NOTE_UNSPECIFIED" | "PAUSED_CMEK_UNAVAILABLE" | "INSTANCE_RESUMING" | (string & {});
+  stateNote?:
+    | "STATE_NOTE_UNSPECIFIED"
+    | "PAUSED_CMEK_UNAVAILABLE"
+    | "INSTANCE_RESUMING"
+    | (string & {});
   /** Optional. Immutable. Customer-managed encryption key name, in the format projects/* /locations/* /keyRings/* /cryptoKeys/*. */
   kmsKey?: string;
   /** Output only. A list of hostnames for this instance. */
@@ -316,18 +395,22 @@ export interface Instance {
   workforceIdentityFederationConfig?: WorkforceIdentityFederationConfig;
 }
 
-export const Instance: Schema.Schema<Instance> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  privateConfig: Schema.optional(PrivateConfig),
-  state: Schema.optional(Schema.String),
-  stateNote: Schema.optional(Schema.String),
-  kmsKey: Schema.optional(Schema.String),
-  hostConfig: Schema.optional(HostConfig),
-  workforceIdentityFederationConfig: Schema.optional(WorkforceIdentityFederationConfig),
-})).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
+export const Instance: Schema.Schema<Instance> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    privateConfig: Schema.optional(PrivateConfig),
+    state: Schema.optional(Schema.String),
+    stateNote: Schema.optional(Schema.String),
+    kmsKey: Schema.optional(Schema.String),
+    hostConfig: Schema.optional(HostConfig),
+    workforceIdentityFederationConfig: Schema.optional(
+      WorkforceIdentityFederationConfig,
+    ),
+  }),
+).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
 
 export interface ListInstancesResponse {
   /** The list of instances. */
@@ -338,11 +421,16 @@ export interface ListInstancesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListInstancesResponse: Schema.Schema<ListInstancesResponse> = Schema.suspend(() => Schema.Struct({
-  instances: Schema.optional(Schema.Array(Instance)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListInstancesResponse" }) as any as Schema.Schema<ListInstancesResponse>;
+export const ListInstancesResponse: Schema.Schema<ListInstancesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      instances: Schema.optional(Schema.Array(Instance)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListInstancesResponse",
+  }) as any as Schema.Schema<ListInstancesResponse>;
 
 export interface URIs {
   /** Output only. HTML is the URI for user to view the repository in a browser. */
@@ -353,11 +441,13 @@ export interface URIs {
   api?: string;
 }
 
-export const URIs: Schema.Schema<URIs> = Schema.suspend(() => Schema.Struct({
-  html: Schema.optional(Schema.String),
-  gitHttps: Schema.optional(Schema.String),
-  api: Schema.optional(Schema.String),
-})).annotate({ identifier: "URIs" }) as any as Schema.Schema<URIs>;
+export const URIs: Schema.Schema<URIs> = Schema.suspend(() =>
+  Schema.Struct({
+    html: Schema.optional(Schema.String),
+    gitHttps: Schema.optional(Schema.String),
+    api: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "URIs" }) as any as Schema.Schema<URIs>;
 
 export interface InitialConfig {
   /** Default branch name of the repository. */
@@ -370,12 +460,16 @@ export interface InitialConfig {
   readme?: string;
 }
 
-export const InitialConfig: Schema.Schema<InitialConfig> = Schema.suspend(() => Schema.Struct({
-  defaultBranch: Schema.optional(Schema.String),
-  gitignores: Schema.optional(Schema.Array(Schema.String)),
-  license: Schema.optional(Schema.String),
-  readme: Schema.optional(Schema.String),
-})).annotate({ identifier: "InitialConfig" }) as any as Schema.Schema<InitialConfig>;
+export const InitialConfig: Schema.Schema<InitialConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    defaultBranch: Schema.optional(Schema.String),
+    gitignores: Schema.optional(Schema.Array(Schema.String)),
+    license: Schema.optional(Schema.String),
+    readme: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "InitialConfig",
+}) as any as Schema.Schema<InitialConfig>;
 
 export interface Repository {
   /** Identifier. A unique identifier for a repository. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}` */
@@ -398,17 +492,19 @@ export interface Repository {
   initialConfig?: InitialConfig;
 }
 
-export const Repository: Schema.Schema<Repository> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  instance: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  uris: Schema.optional(URIs),
-  initialConfig: Schema.optional(InitialConfig),
-})).annotate({ identifier: "Repository" }) as any as Schema.Schema<Repository>;
+export const Repository: Schema.Schema<Repository> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    instance: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    uris: Schema.optional(URIs),
+    initialConfig: Schema.optional(InitialConfig),
+  }),
+).annotate({ identifier: "Repository" }) as any as Schema.Schema<Repository>;
 
 export interface ListRepositoriesResponse {
   /** The list of repositories. */
@@ -417,19 +513,26 @@ export interface ListRepositoriesResponse {
   nextPageToken?: string;
 }
 
-export const ListRepositoriesResponse: Schema.Schema<ListRepositoriesResponse> = Schema.suspend(() => Schema.Struct({
-  repositories: Schema.optional(Schema.Array(Repository)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListRepositoriesResponse" }) as any as Schema.Schema<ListRepositoriesResponse>;
+export const ListRepositoriesResponse: Schema.Schema<ListRepositoriesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      repositories: Schema.optional(Schema.Array(Repository)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListRepositoriesResponse",
+  }) as any as Schema.Schema<ListRepositoriesResponse>;
 
 export interface PushOption {
   /** Optional. Trigger hook for matching branches only. Specified as glob pattern. If empty or *, events for all branches are reported. Examples: main, {main,release*}. See https://pkg.go.dev/github.com/gobwas/glob documentation. */
   branchFilter?: string;
 }
 
-export const PushOption: Schema.Schema<PushOption> = Schema.suspend(() => Schema.Struct({
-  branchFilter: Schema.optional(Schema.String),
-})).annotate({ identifier: "PushOption" }) as any as Schema.Schema<PushOption>;
+export const PushOption: Schema.Schema<PushOption> = Schema.suspend(() =>
+  Schema.Struct({
+    branchFilter: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PushOption" }) as any as Schema.Schema<PushOption>;
 
 export interface Hook {
   /** Identifier. A unique identifier for a Hook. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}` */
@@ -452,17 +555,19 @@ export interface Hook {
   sensitiveQueryString?: string;
 }
 
-export const Hook: Schema.Schema<Hook> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  targetUri: Schema.optional(Schema.String),
-  disabled: Schema.optional(Schema.Boolean),
-  events: Schema.optional(Schema.Array(Schema.String)),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  pushOption: Schema.optional(PushOption),
-  sensitiveQueryString: Schema.optional(Schema.String),
-})).annotate({ identifier: "Hook" }) as any as Schema.Schema<Hook>;
+export const Hook: Schema.Schema<Hook> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    targetUri: Schema.optional(Schema.String),
+    disabled: Schema.optional(Schema.Boolean),
+    events: Schema.optional(Schema.Array(Schema.String)),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    pushOption: Schema.optional(PushOption),
+    sensitiveQueryString: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Hook" }) as any as Schema.Schema<Hook>;
 
 export interface ListHooksResponse {
   /** The list of hooks. */
@@ -471,19 +576,26 @@ export interface ListHooksResponse {
   nextPageToken?: string;
 }
 
-export const ListHooksResponse: Schema.Schema<ListHooksResponse> = Schema.suspend(() => Schema.Struct({
-  hooks: Schema.optional(Schema.Array(Hook)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListHooksResponse" }) as any as Schema.Schema<ListHooksResponse>;
+export const ListHooksResponse: Schema.Schema<ListHooksResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hooks: Schema.optional(Schema.Array(Hook)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListHooksResponse",
+  }) as any as Schema.Schema<ListHooksResponse>;
 
 export interface Check {
   /** Required. The context of the check. */
   context?: string;
 }
 
-export const Check: Schema.Schema<Check> = Schema.suspend(() => Schema.Struct({
-  context: Schema.optional(Schema.String),
-})).annotate({ identifier: "Check" }) as any as Schema.Schema<Check>;
+export const Check: Schema.Schema<Check> = Schema.suspend(() =>
+  Schema.Struct({
+    context: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Check" }) as any as Schema.Schema<Check>;
 
 export interface BranchRule {
   /** Identifier. A unique identifier for a BranchRule. The name should be of the format: `projects/{project}/locations/{location}/repositories/{repository}/branchRules/{branch_rule}` */
@@ -520,24 +632,26 @@ export interface BranchRule {
   requiredStatusChecks?: Array<Check>;
 }
 
-export const BranchRule: Schema.Schema<BranchRule> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  etag: Schema.optional(Schema.String),
-  includePattern: Schema.optional(Schema.String),
-  disabled: Schema.optional(Schema.Boolean),
-  requirePullRequest: Schema.optional(Schema.Boolean),
-  minimumReviewsCount: Schema.optional(Schema.Number),
-  minimumApprovalsCount: Schema.optional(Schema.Number),
-  requireCodeOwnerApproval: Schema.optional(Schema.Boolean),
-  requireCommentsResolved: Schema.optional(Schema.Boolean),
-  allowStaleReviews: Schema.optional(Schema.Boolean),
-  requireLinearHistory: Schema.optional(Schema.Boolean),
-  requiredStatusChecks: Schema.optional(Schema.Array(Check)),
-})).annotate({ identifier: "BranchRule" }) as any as Schema.Schema<BranchRule>;
+export const BranchRule: Schema.Schema<BranchRule> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    etag: Schema.optional(Schema.String),
+    includePattern: Schema.optional(Schema.String),
+    disabled: Schema.optional(Schema.Boolean),
+    requirePullRequest: Schema.optional(Schema.Boolean),
+    minimumReviewsCount: Schema.optional(Schema.Number),
+    minimumApprovalsCount: Schema.optional(Schema.Number),
+    requireCodeOwnerApproval: Schema.optional(Schema.Boolean),
+    requireCommentsResolved: Schema.optional(Schema.Boolean),
+    allowStaleReviews: Schema.optional(Schema.Boolean),
+    requireLinearHistory: Schema.optional(Schema.Boolean),
+    requiredStatusChecks: Schema.optional(Schema.Array(Check)),
+  }),
+).annotate({ identifier: "BranchRule" }) as any as Schema.Schema<BranchRule>;
 
 export interface ListBranchRulesResponse {
   /** The list of branch rules. */
@@ -546,10 +660,15 @@ export interface ListBranchRulesResponse {
   nextPageToken?: string;
 }
 
-export const ListBranchRulesResponse: Schema.Schema<ListBranchRulesResponse> = Schema.suspend(() => Schema.Struct({
-  branchRules: Schema.optional(Schema.Array(BranchRule)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListBranchRulesResponse" }) as any as Schema.Schema<ListBranchRulesResponse>;
+export const ListBranchRulesResponse: Schema.Schema<ListBranchRulesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      branchRules: Schema.optional(Schema.Array(BranchRule)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListBranchRulesResponse",
+  }) as any as Schema.Schema<ListBranchRulesResponse>;
 
 export interface Branch {
   /** Required. Name of the branch. */
@@ -558,10 +677,12 @@ export interface Branch {
   sha?: string;
 }
 
-export const Branch: Schema.Schema<Branch> = Schema.suspend(() => Schema.Struct({
-  ref: Schema.optional(Schema.String),
-  sha: Schema.optional(Schema.String),
-})).annotate({ identifier: "Branch" }) as any as Schema.Schema<Branch>;
+export const Branch: Schema.Schema<Branch> = Schema.suspend(() =>
+  Schema.Struct({
+    ref: Schema.optional(Schema.String),
+    sha: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Branch" }) as any as Schema.Schema<Branch>;
 
 export interface PullRequest {
   /** Output only. Identifier. A unique identifier for a PullRequest. The number appended at the end is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request_id}` */
@@ -584,17 +705,19 @@ export interface PullRequest {
   closeTime?: string;
 }
 
-export const PullRequest: Schema.Schema<PullRequest> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  base: Schema.optional(Branch),
-  head: Schema.optional(Branch),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  closeTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "PullRequest" }) as any as Schema.Schema<PullRequest>;
+export const PullRequest: Schema.Schema<PullRequest> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.String),
+    base: Schema.optional(Branch),
+    head: Schema.optional(Branch),
+    state: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    closeTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "PullRequest" }) as any as Schema.Schema<PullRequest>;
 
 export interface ListPullRequestsResponse {
   /** The list of pull requests. */
@@ -603,46 +726,61 @@ export interface ListPullRequestsResponse {
   nextPageToken?: string;
 }
 
-export const ListPullRequestsResponse: Schema.Schema<ListPullRequestsResponse> = Schema.suspend(() => Schema.Struct({
-  pullRequests: Schema.optional(Schema.Array(PullRequest)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPullRequestsResponse" }) as any as Schema.Schema<ListPullRequestsResponse>;
+export const ListPullRequestsResponse: Schema.Schema<ListPullRequestsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pullRequests: Schema.optional(Schema.Array(PullRequest)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPullRequestsResponse",
+  }) as any as Schema.Schema<ListPullRequestsResponse>;
 
-export interface MergePullRequestRequest {
-}
+export interface MergePullRequestRequest {}
 
-export const MergePullRequestRequest: Schema.Schema<MergePullRequestRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "MergePullRequestRequest" }) as any as Schema.Schema<MergePullRequestRequest>;
+export const MergePullRequestRequest: Schema.Schema<MergePullRequestRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MergePullRequestRequest",
+  }) as any as Schema.Schema<MergePullRequestRequest>;
 
-export interface OpenPullRequestRequest {
-}
+export interface OpenPullRequestRequest {}
 
-export const OpenPullRequestRequest: Schema.Schema<OpenPullRequestRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "OpenPullRequestRequest" }) as any as Schema.Schema<OpenPullRequestRequest>;
+export const OpenPullRequestRequest: Schema.Schema<OpenPullRequestRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "OpenPullRequestRequest",
+  }) as any as Schema.Schema<OpenPullRequestRequest>;
 
-export interface ClosePullRequestRequest {
-}
+export interface ClosePullRequestRequest {}
 
-export const ClosePullRequestRequest: Schema.Schema<ClosePullRequestRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ClosePullRequestRequest" }) as any as Schema.Schema<ClosePullRequestRequest>;
+export const ClosePullRequestRequest: Schema.Schema<ClosePullRequestRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ClosePullRequestRequest",
+  }) as any as Schema.Schema<ClosePullRequestRequest>;
 
 export interface FileDiff {
   /** Output only. The name of the file. */
   name?: string;
   /** Output only. The action taken on the file (eg. added, modified, deleted). */
-  action?: "ACTION_UNSPECIFIED" | "ADDED" | "MODIFIED" | "DELETED" | (string & {});
+  action?:
+    | "ACTION_UNSPECIFIED"
+    | "ADDED"
+    | "MODIFIED"
+    | "DELETED"
+    | (string & {});
   /** Output only. The commit pointing to the file changes. */
   sha?: string;
   /** Output only. The git patch containing the file changes. */
   patch?: string;
 }
 
-export const FileDiff: Schema.Schema<FileDiff> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  action: Schema.optional(Schema.String),
-  sha: Schema.optional(Schema.String),
-  patch: Schema.optional(Schema.String),
-})).annotate({ identifier: "FileDiff" }) as any as Schema.Schema<FileDiff>;
+export const FileDiff: Schema.Schema<FileDiff> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    action: Schema.optional(Schema.String),
+    sha: Schema.optional(Schema.String),
+    patch: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "FileDiff" }) as any as Schema.Schema<FileDiff>;
 
 export interface ListPullRequestFileDiffsResponse {
   /** The list of pull request file diffs. */
@@ -651,10 +789,15 @@ export interface ListPullRequestFileDiffsResponse {
   nextPageToken?: string;
 }
 
-export const ListPullRequestFileDiffsResponse: Schema.Schema<ListPullRequestFileDiffsResponse> = Schema.suspend(() => Schema.Struct({
-  fileDiffs: Schema.optional(Schema.Array(FileDiff)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPullRequestFileDiffsResponse" }) as any as Schema.Schema<ListPullRequestFileDiffsResponse>;
+export const ListPullRequestFileDiffsResponse: Schema.Schema<ListPullRequestFileDiffsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fileDiffs: Schema.optional(Schema.Array(FileDiff)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPullRequestFileDiffsResponse",
+  }) as any as Schema.Schema<ListPullRequestFileDiffsResponse>;
 
 export interface TreeEntry {
   /** Output only. The type of the object (TREE, BLOB, COMMIT). Output-only. */
@@ -669,13 +812,15 @@ export interface TreeEntry {
   size?: string;
 }
 
-export const TreeEntry: Schema.Schema<TreeEntry> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  sha: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.String),
-})).annotate({ identifier: "TreeEntry" }) as any as Schema.Schema<TreeEntry>;
+export const TreeEntry: Schema.Schema<TreeEntry> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    sha: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+    mode: Schema.optional(Schema.String),
+    size: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TreeEntry" }) as any as Schema.Schema<TreeEntry>;
 
 export interface FetchTreeResponse {
   /** The list of TreeEntry objects. */
@@ -684,10 +829,15 @@ export interface FetchTreeResponse {
   nextPageToken?: string;
 }
 
-export const FetchTreeResponse: Schema.Schema<FetchTreeResponse> = Schema.suspend(() => Schema.Struct({
-  treeEntries: Schema.optional(Schema.Array(TreeEntry)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "FetchTreeResponse" }) as any as Schema.Schema<FetchTreeResponse>;
+export const FetchTreeResponse: Schema.Schema<FetchTreeResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      treeEntries: Schema.optional(Schema.Array(TreeEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FetchTreeResponse",
+  }) as any as Schema.Schema<FetchTreeResponse>;
 
 export interface FetchBlobResponse {
   /** The SHA-1 hash of the blob. */
@@ -696,10 +846,15 @@ export interface FetchBlobResponse {
   content?: string;
 }
 
-export const FetchBlobResponse: Schema.Schema<FetchBlobResponse> = Schema.suspend(() => Schema.Struct({
-  sha: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-})).annotate({ identifier: "FetchBlobResponse" }) as any as Schema.Schema<FetchBlobResponse>;
+export const FetchBlobResponse: Schema.Schema<FetchBlobResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sha: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FetchBlobResponse",
+  }) as any as Schema.Schema<FetchBlobResponse>;
 
 export interface Issue {
   /** Identifier. Unique identifier for an issue. The issue id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}` */
@@ -720,16 +875,18 @@ export interface Issue {
   etag?: string;
 }
 
-export const Issue: Schema.Schema<Issue> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  closeTime: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
+export const Issue: Schema.Schema<Issue> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    closeTime: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
 
 export interface ListIssuesResponse {
   /** The list of issues. */
@@ -738,52 +895,76 @@ export interface ListIssuesResponse {
   nextPageToken?: string;
 }
 
-export const ListIssuesResponse: Schema.Schema<ListIssuesResponse> = Schema.suspend(() => Schema.Struct({
-  issues: Schema.optional(Schema.Array(Issue)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListIssuesResponse" }) as any as Schema.Schema<ListIssuesResponse>;
+export const ListIssuesResponse: Schema.Schema<ListIssuesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      issues: Schema.optional(Schema.Array(Issue)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListIssuesResponse",
+  }) as any as Schema.Schema<ListIssuesResponse>;
 
 export interface OpenIssueRequest {
   /** Optional. The current etag of the issue. If the etag is provided and does not match the current etag of the issue, opening will be blocked and an ABORTED error will be returned. */
   etag?: string;
 }
 
-export const OpenIssueRequest: Schema.Schema<OpenIssueRequest> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "OpenIssueRequest" }) as any as Schema.Schema<OpenIssueRequest>;
+export const OpenIssueRequest: Schema.Schema<OpenIssueRequest> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "OpenIssueRequest",
+}) as any as Schema.Schema<OpenIssueRequest>;
 
 export interface CloseIssueRequest {
   /** Optional. The current etag of the issue. If the etag is provided and does not match the current etag of the issue, closing will be blocked and an ABORTED error will be returned. */
   etag?: string;
 }
 
-export const CloseIssueRequest: Schema.Schema<CloseIssueRequest> = Schema.suspend(() => Schema.Struct({
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "CloseIssueRequest" }) as any as Schema.Schema<CloseIssueRequest>;
+export const CloseIssueRequest: Schema.Schema<CloseIssueRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloseIssueRequest",
+  }) as any as Schema.Schema<CloseIssueRequest>;
 
 export interface Review {
   /** Required. The review action type. */
-  actionType?: "ACTION_TYPE_UNSPECIFIED" | "COMMENT" | "CHANGE_REQUESTED" | "APPROVED" | (string & {});
+  actionType?:
+    | "ACTION_TYPE_UNSPECIFIED"
+    | "COMMENT"
+    | "CHANGE_REQUESTED"
+    | "APPROVED"
+    | (string & {});
   /** Optional. The comment body. */
   body?: string;
   /** Output only. The effective commit sha this review is pointing to. */
   effectiveCommitSha?: string;
 }
 
-export const Review: Schema.Schema<Review> = Schema.suspend(() => Schema.Struct({
-  actionType: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  effectiveCommitSha: Schema.optional(Schema.String),
-})).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
+export const Review: Schema.Schema<Review> = Schema.suspend(() =>
+  Schema.Struct({
+    actionType: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.String),
+    effectiveCommitSha: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
 
 export interface Comment {
   /** Required. The comment body. */
   body?: string;
 }
 
-export const Comment: Schema.Schema<Comment> = Schema.suspend(() => Schema.Struct({
-  body: Schema.optional(Schema.String),
-})).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
+export const Comment: Schema.Schema<Comment> = Schema.suspend(() =>
+  Schema.Struct({
+    body: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
 
 export interface Position {
   /** Required. The path of the file. */
@@ -792,10 +973,12 @@ export interface Position {
   line?: string;
 }
 
-export const Position: Schema.Schema<Position> = Schema.suspend(() => Schema.Struct({
-  path: Schema.optional(Schema.String),
-  line: Schema.optional(Schema.String),
-})).annotate({ identifier: "Position" }) as any as Schema.Schema<Position>;
+export const Position: Schema.Schema<Position> = Schema.suspend(() =>
+  Schema.Struct({
+    path: Schema.optional(Schema.String),
+    line: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Position" }) as any as Schema.Schema<Position>;
 
 export interface Code {
   /** Required. The comment body. */
@@ -812,14 +995,16 @@ export interface Code {
   effectiveCommitSha?: string;
 }
 
-export const Code: Schema.Schema<Code> = Schema.suspend(() => Schema.Struct({
-  body: Schema.optional(Schema.String),
-  reply: Schema.optional(Schema.String),
-  position: Schema.optional(Position),
-  effectiveRootComment: Schema.optional(Schema.String),
-  resolved: Schema.optional(Schema.Boolean),
-  effectiveCommitSha: Schema.optional(Schema.String),
-})).annotate({ identifier: "Code" }) as any as Schema.Schema<Code>;
+export const Code: Schema.Schema<Code> = Schema.suspend(() =>
+  Schema.Struct({
+    body: Schema.optional(Schema.String),
+    reply: Schema.optional(Schema.String),
+    position: Schema.optional(Position),
+    effectiveRootComment: Schema.optional(Schema.String),
+    resolved: Schema.optional(Schema.Boolean),
+    effectiveCommitSha: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Code" }) as any as Schema.Schema<Code>;
 
 export interface PullRequestComment {
   /** Identifier. Unique identifier for the pull request comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request}/pullRequestComments/{comment_id}` */
@@ -836,14 +1021,19 @@ export interface PullRequestComment {
   code?: Code;
 }
 
-export const PullRequestComment: Schema.Schema<PullRequestComment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  review: Schema.optional(Review),
-  comment: Schema.optional(Comment),
-  code: Schema.optional(Code),
-})).annotate({ identifier: "PullRequestComment" }) as any as Schema.Schema<PullRequestComment>;
+export const PullRequestComment: Schema.Schema<PullRequestComment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      review: Schema.optional(Review),
+      comment: Schema.optional(Comment),
+      code: Schema.optional(Code),
+    }),
+  ).annotate({
+    identifier: "PullRequestComment",
+  }) as any as Schema.Schema<PullRequestComment>;
 
 export interface ListPullRequestCommentsResponse {
   /** The list of pull request comments. */
@@ -852,10 +1042,15 @@ export interface ListPullRequestCommentsResponse {
   nextPageToken?: string;
 }
 
-export const ListPullRequestCommentsResponse: Schema.Schema<ListPullRequestCommentsResponse> = Schema.suspend(() => Schema.Struct({
-  pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPullRequestCommentsResponse" }) as any as Schema.Schema<ListPullRequestCommentsResponse>;
+export const ListPullRequestCommentsResponse: Schema.Schema<ListPullRequestCommentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPullRequestCommentsResponse",
+  }) as any as Schema.Schema<ListPullRequestCommentsResponse>;
 
 export interface CreatePullRequestCommentRequest {
   /** Required. The pull request in which to create the pull request comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
@@ -864,19 +1059,29 @@ export interface CreatePullRequestCommentRequest {
   pullRequestComment?: PullRequestComment;
 }
 
-export const CreatePullRequestCommentRequest: Schema.Schema<CreatePullRequestCommentRequest> = Schema.suspend(() => Schema.Struct({
-  parent: Schema.optional(Schema.String),
-  pullRequestComment: Schema.optional(PullRequestComment),
-})).annotate({ identifier: "CreatePullRequestCommentRequest" }) as any as Schema.Schema<CreatePullRequestCommentRequest>;
+export const CreatePullRequestCommentRequest: Schema.Schema<CreatePullRequestCommentRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      parent: Schema.optional(Schema.String),
+      pullRequestComment: Schema.optional(PullRequestComment),
+    }),
+  ).annotate({
+    identifier: "CreatePullRequestCommentRequest",
+  }) as any as Schema.Schema<CreatePullRequestCommentRequest>;
 
 export interface BatchCreatePullRequestCommentsRequest {
   /** Required. The request message specifying the resources to create. There should be exactly one CreatePullRequestCommentRequest with CommentDetail being REVIEW in the list, and no more than 100 CreatePullRequestCommentRequests with CommentDetail being CODE in the list */
   requests?: Array<CreatePullRequestCommentRequest>;
 }
 
-export const BatchCreatePullRequestCommentsRequest: Schema.Schema<BatchCreatePullRequestCommentsRequest> = Schema.suspend(() => Schema.Struct({
-  requests: Schema.optional(Schema.Array(CreatePullRequestCommentRequest)),
-})).annotate({ identifier: "BatchCreatePullRequestCommentsRequest" }) as any as Schema.Schema<BatchCreatePullRequestCommentsRequest>;
+export const BatchCreatePullRequestCommentsRequest: Schema.Schema<BatchCreatePullRequestCommentsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requests: Schema.optional(Schema.Array(CreatePullRequestCommentRequest)),
+    }),
+  ).annotate({
+    identifier: "BatchCreatePullRequestCommentsRequest",
+  }) as any as Schema.Schema<BatchCreatePullRequestCommentsRequest>;
 
 export interface ResolvePullRequestCommentsRequest {
   /** Required. The names of the pull request comments to resolve. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}/pullRequestComments/{comment_id}` Only comments from the same threads are allowed in the same request. */
@@ -885,10 +1090,15 @@ export interface ResolvePullRequestCommentsRequest {
   autoFill?: boolean;
 }
 
-export const ResolvePullRequestCommentsRequest: Schema.Schema<ResolvePullRequestCommentsRequest> = Schema.suspend(() => Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)),
-  autoFill: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ResolvePullRequestCommentsRequest" }) as any as Schema.Schema<ResolvePullRequestCommentsRequest>;
+export const ResolvePullRequestCommentsRequest: Schema.Schema<ResolvePullRequestCommentsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      names: Schema.optional(Schema.Array(Schema.String)),
+      autoFill: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ResolvePullRequestCommentsRequest",
+  }) as any as Schema.Schema<ResolvePullRequestCommentsRequest>;
 
 export interface UnresolvePullRequestCommentsRequest {
   /** Required. The names of the pull request comments to unresolve. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}/pullRequestComments/{comment_id}` Only comments from the same threads are allowed in the same request. */
@@ -897,10 +1107,15 @@ export interface UnresolvePullRequestCommentsRequest {
   autoFill?: boolean;
 }
 
-export const UnresolvePullRequestCommentsRequest: Schema.Schema<UnresolvePullRequestCommentsRequest> = Schema.suspend(() => Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)),
-  autoFill: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "UnresolvePullRequestCommentsRequest" }) as any as Schema.Schema<UnresolvePullRequestCommentsRequest>;
+export const UnresolvePullRequestCommentsRequest: Schema.Schema<UnresolvePullRequestCommentsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      names: Schema.optional(Schema.Array(Schema.String)),
+      autoFill: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "UnresolvePullRequestCommentsRequest",
+  }) as any as Schema.Schema<UnresolvePullRequestCommentsRequest>;
 
 export interface IssueComment {
   /** Identifier. Unique identifier for an issue comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue}/issueComments/{comment_id}` */
@@ -913,12 +1128,16 @@ export interface IssueComment {
   updateTime?: string;
 }
 
-export const IssueComment: Schema.Schema<IssueComment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  body: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "IssueComment" }) as any as Schema.Schema<IssueComment>;
+export const IssueComment: Schema.Schema<IssueComment> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "IssueComment",
+}) as any as Schema.Schema<IssueComment>;
 
 export interface ListIssueCommentsResponse {
   /** The list of issue comments. */
@@ -927,10 +1146,15 @@ export interface ListIssueCommentsResponse {
   nextPageToken?: string;
 }
 
-export const ListIssueCommentsResponse: Schema.Schema<ListIssueCommentsResponse> = Schema.suspend(() => Schema.Struct({
-  issueComments: Schema.optional(Schema.Array(IssueComment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListIssueCommentsResponse" }) as any as Schema.Schema<ListIssueCommentsResponse>;
+export const ListIssueCommentsResponse: Schema.Schema<ListIssueCommentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      issueComments: Schema.optional(Schema.Array(IssueComment)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListIssueCommentsResponse",
+  }) as any as Schema.Schema<ListIssueCommentsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -949,42 +1173,62 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 export interface BatchCreatePullRequestCommentsResponse {
   /** The list of pull request comments created. */
   pullRequestComments?: Array<PullRequestComment>;
 }
 
-export const BatchCreatePullRequestCommentsResponse: Schema.Schema<BatchCreatePullRequestCommentsResponse> = Schema.suspend(() => Schema.Struct({
-  pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
-})).annotate({ identifier: "BatchCreatePullRequestCommentsResponse" }) as any as Schema.Schema<BatchCreatePullRequestCommentsResponse>;
+export const BatchCreatePullRequestCommentsResponse: Schema.Schema<BatchCreatePullRequestCommentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
+    }),
+  ).annotate({
+    identifier: "BatchCreatePullRequestCommentsResponse",
+  }) as any as Schema.Schema<BatchCreatePullRequestCommentsResponse>;
 
 export interface ResolvePullRequestCommentsResponse {
   /** The list of pull request comments resolved. */
   pullRequestComments?: Array<PullRequestComment>;
 }
 
-export const ResolvePullRequestCommentsResponse: Schema.Schema<ResolvePullRequestCommentsResponse> = Schema.suspend(() => Schema.Struct({
-  pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
-})).annotate({ identifier: "ResolvePullRequestCommentsResponse" }) as any as Schema.Schema<ResolvePullRequestCommentsResponse>;
+export const ResolvePullRequestCommentsResponse: Schema.Schema<ResolvePullRequestCommentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
+    }),
+  ).annotate({
+    identifier: "ResolvePullRequestCommentsResponse",
+  }) as any as Schema.Schema<ResolvePullRequestCommentsResponse>;
 
 export interface UnresolvePullRequestCommentsResponse {
   /** The list of pull request comments unresolved. */
   pullRequestComments?: Array<PullRequestComment>;
 }
 
-export const UnresolvePullRequestCommentsResponse: Schema.Schema<UnresolvePullRequestCommentsResponse> = Schema.suspend(() => Schema.Struct({
-  pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
-})).annotate({ identifier: "UnresolvePullRequestCommentsResponse" }) as any as Schema.Schema<UnresolvePullRequestCommentsResponse>;
+export const UnresolvePullRequestCommentsResponse: Schema.Schema<UnresolvePullRequestCommentsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pullRequestComments: Schema.optional(Schema.Array(PullRequestComment)),
+    }),
+  ).annotate({
+    identifier: "UnresolvePullRequestCommentsResponse",
+  }) as any as Schema.Schema<UnresolvePullRequestCommentsResponse>;
 
 // ==========================================================================
 // Operations
@@ -1008,7 +1252,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -1020,7 +1266,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1038,7 +1289,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1048,7 +1302,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1065,7 +1324,11 @@ export const SetIamPolicyProjectsLocationsInstancesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsInstancesRequest>;
 
@@ -1075,7 +1338,12 @@ export const SetIamPolicyProjectsLocationsInstancesResponse = Policy;
 export type SetIamPolicyProjectsLocationsInstancesError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<SetIamPolicyProjectsLocationsInstancesRequest, SetIamPolicyProjectsLocationsInstancesResponse, SetIamPolicyProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<
+  SetIamPolicyProjectsLocationsInstancesRequest,
+  SetIamPolicyProjectsLocationsInstancesResponse,
+  SetIamPolicyProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsInstancesRequest,
   output: SetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
@@ -1090,9 +1358,14 @@ export interface GetIamPolicyProjectsLocationsInstancesRequest {
 
 export const GetIamPolicyProjectsLocationsInstancesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsInstancesRequest>;
 
@@ -1102,7 +1375,12 @@ export const GetIamPolicyProjectsLocationsInstancesResponse = Policy;
 export type GetIamPolicyProjectsLocationsInstancesError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<GetIamPolicyProjectsLocationsInstancesRequest, GetIamPolicyProjectsLocationsInstancesResponse, GetIamPolicyProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<
+  GetIamPolicyProjectsLocationsInstancesRequest,
+  GetIamPolicyProjectsLocationsInstancesResponse,
+  GetIamPolicyProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsInstancesRequest,
   output: GetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
@@ -1115,21 +1393,33 @@ export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsInstancesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>;
+export const TestIamPermissionsProjectsLocationsInstancesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>;
 
-export type TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsInstancesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsInstancesResponse =
+  TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsInstancesError = DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<TestIamPermissionsProjectsLocationsInstancesRequest, TestIamPermissionsProjectsLocationsInstancesResponse, TestIamPermissionsProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsInstancesRequest,
+  TestIamPermissionsProjectsLocationsInstancesResponse,
+  TestIamPermissionsProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsInstancesRequest,
   output: TestIamPermissionsProjectsLocationsInstancesResponse,
   errors: [],
@@ -1155,7 +1445,10 @@ export const ListProjectsLocationsInstancesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
 
@@ -1165,7 +1458,12 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 export type ListProjectsLocationsInstancesError = DefaultErrors;
 
 /** Lists Instances in a given project and location. */
-export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
+  ListProjectsLocationsInstancesRequest,
+  ListProjectsLocationsInstancesResponse,
+  ListProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -1183,7 +1481,10 @@ export interface GetProjectsLocationsInstancesRequest {
 export const GetProjectsLocationsInstancesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
 
@@ -1193,7 +1494,12 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 export type GetProjectsLocationsInstancesError = DefaultErrors;
 
 /** Gets details of a single instance. */
-export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsInstances: API.OperationMethod<
+  GetProjectsLocationsInstancesRequest,
+  GetProjectsLocationsInstancesResponse,
+  GetProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
@@ -1216,7 +1522,11 @@ export const CreateProjectsLocationsInstancesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Instance).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/instances", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
 
@@ -1226,7 +1536,12 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 export type CreateProjectsLocationsInstancesError = DefaultErrors;
 
 /** Creates a new instance in a given project and location. */
-export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsInstances: API.OperationMethod<
+  CreateProjectsLocationsInstancesRequest,
+  CreateProjectsLocationsInstancesResponse,
+  CreateProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
@@ -1246,7 +1561,10 @@ export const DeleteProjectsLocationsInstancesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsInstancesRequest>;
 
@@ -1256,7 +1574,12 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 export type DeleteProjectsLocationsInstancesError = DefaultErrors;
 
 /** Deletes a single instance. */
-export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsInstances: API.OperationMethod<
+  DeleteProjectsLocationsInstancesRequest,
+  DeleteProjectsLocationsInstancesResponse,
+  DeleteProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
@@ -1280,9 +1603,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1292,7 +1620,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1310,7 +1643,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1320,7 +1656,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1334,7 +1675,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1344,7 +1688,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1361,7 +1710,11 @@ export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -1371,7 +1724,12 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -1397,17 +1755,27 @@ export const ListProjectsLocationsRepositoriesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   instance: Schema.optional(Schema.String).pipe(T.HttpQuery("instance")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesRequest>;
 
-export type ListProjectsLocationsRepositoriesResponse = ListRepositoriesResponse;
-export const ListProjectsLocationsRepositoriesResponse = ListRepositoriesResponse;
+export type ListProjectsLocationsRepositoriesResponse =
+  ListRepositoriesResponse;
+export const ListProjectsLocationsRepositoriesResponse =
+  ListRepositoriesResponse;
 
 export type ListProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Lists Repositories in a given project and location. The instance field is required in the query parameter for requests using the securesourcemanager.googleapis.com endpoint. */
-export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesRequest, ListProjectsLocationsRepositoriesResponse, ListProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesRequest,
+  ListProjectsLocationsRepositoriesResponse,
+  ListProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesRequest,
   output: ListProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1425,7 +1793,10 @@ export interface GetProjectsLocationsRepositoriesRequest {
 export const GetProjectsLocationsRepositoriesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesRequest>;
 
@@ -1435,7 +1806,12 @@ export const GetProjectsLocationsRepositoriesResponse = Repository;
 export type GetProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Gets metadata of a repository. */
-export const getProjectsLocationsRepositories: API.OperationMethod<GetProjectsLocationsRepositoriesRequest, GetProjectsLocationsRepositoriesResponse, GetProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRepositories: API.OperationMethod<
+  GetProjectsLocationsRepositoriesRequest,
+  GetProjectsLocationsRepositoriesResponse,
+  GetProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesRequest,
   output: GetProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1452,10 +1828,16 @@ export interface CreateProjectsLocationsRepositoriesRequest {
 
 export const CreateProjectsLocationsRepositoriesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  repositoryId: Schema.optional(Schema.String).pipe(T.HttpQuery("repositoryId")),
+  repositoryId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("repositoryId"),
+  ),
   body: Schema.optional(Repository).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesRequest>;
 
@@ -1465,7 +1847,12 @@ export const CreateProjectsLocationsRepositoriesResponse = Operation;
 export type CreateProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Creates a new repository in a given project and location. The Repository.Instance field is required in the request body for requests using the securesourcemanager.googleapis.com endpoint. */
-export const createProjectsLocationsRepositories: API.OperationMethod<CreateProjectsLocationsRepositoriesRequest, CreateProjectsLocationsRepositoriesResponse, CreateProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsRepositories: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesRequest,
+  CreateProjectsLocationsRepositoriesResponse,
+  CreateProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesRequest,
   output: CreateProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1485,10 +1872,16 @@ export interface PatchProjectsLocationsRepositoriesRequest {
 export const PatchProjectsLocationsRepositoriesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(Repository).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesRequest>;
 
@@ -1498,7 +1891,12 @@ export const PatchProjectsLocationsRepositoriesResponse = Operation;
 export type PatchProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Updates the metadata of a repository. */
-export const patchProjectsLocationsRepositories: API.OperationMethod<PatchProjectsLocationsRepositoriesRequest, PatchProjectsLocationsRepositoriesResponse, PatchProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsRepositories: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesRequest,
+  PatchProjectsLocationsRepositoriesResponse,
+  PatchProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesRequest,
   output: PatchProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1513,9 +1911,14 @@ export interface DeleteProjectsLocationsRepositoriesRequest {
 
 export const DeleteProjectsLocationsRepositoriesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
+  allowMissing: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("allowMissing"),
+  ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesRequest>;
 
@@ -1525,7 +1928,12 @@ export const DeleteProjectsLocationsRepositoriesResponse = Operation;
 export type DeleteProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Deletes a Repository. */
-export const deleteProjectsLocationsRepositories: API.OperationMethod<DeleteProjectsLocationsRepositoriesRequest, DeleteProjectsLocationsRepositoriesResponse, DeleteProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsRepositories: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesRequest,
+  DeleteProjectsLocationsRepositoriesResponse,
+  DeleteProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesRequest,
   output: DeleteProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1540,9 +1948,14 @@ export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
 
 export const GetIamPolicyProjectsLocationsRepositoriesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsRepositoriesRequest>;
 
@@ -1552,7 +1965,12 @@ export const GetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 export type GetIamPolicyProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Get IAM policy for a repository. */
-export const getIamPolicyProjectsLocationsRepositories: API.OperationMethod<GetIamPolicyProjectsLocationsRepositoriesRequest, GetIamPolicyProjectsLocationsRepositoriesResponse, GetIamPolicyProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsRepositories: API.OperationMethod<
+  GetIamPolicyProjectsLocationsRepositoriesRequest,
+  GetIamPolicyProjectsLocationsRepositoriesResponse,
+  GetIamPolicyProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRepositoriesRequest,
   output: GetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1569,7 +1987,11 @@ export const SetIamPolicyProjectsLocationsRepositoriesRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsRepositoriesRequest>;
 
@@ -1579,7 +2001,12 @@ export const SetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 export type SetIamPolicyProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Set IAM policy on a repository. */
-export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<SetIamPolicyProjectsLocationsRepositoriesRequest, SetIamPolicyProjectsLocationsRepositoriesResponse, SetIamPolicyProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<
+  SetIamPolicyProjectsLocationsRepositoriesRequest,
+  SetIamPolicyProjectsLocationsRepositoriesResponse,
+  SetIamPolicyProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRepositoriesRequest,
   output: SetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1592,21 +2019,34 @@ export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsRepositoriesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsRepositoriesRequest>;
+export const TestIamPermissionsProjectsLocationsRepositoriesRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsRepositoriesRequest>;
 
-export type TestIamPermissionsProjectsLocationsRepositoriesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsRepositoriesResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsRepositoriesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsRepositoriesResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsRepositoriesError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsRepositoriesError =
+  DefaultErrors;
 
 /** Test IAM permissions on a repository. IAM permission checks are not required on this method. */
-export const testIamPermissionsProjectsLocationsRepositories: API.OperationMethod<TestIamPermissionsProjectsLocationsRepositoriesRequest, TestIamPermissionsProjectsLocationsRepositoriesResponse, TestIamPermissionsProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsRepositories: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsRepositoriesRequest,
+  TestIamPermissionsProjectsLocationsRepositoriesResponse,
+  TestIamPermissionsProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRepositoriesRequest,
   output: TestIamPermissionsProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1632,7 +2072,10 @@ export const FetchTreeProjectsLocationsRepositoriesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:fetchTree" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:fetchTree",
+  }),
   svc,
 ) as unknown as Schema.Schema<FetchTreeProjectsLocationsRepositoriesRequest>;
 
@@ -1642,7 +2085,12 @@ export const FetchTreeProjectsLocationsRepositoriesResponse = FetchTreeResponse;
 export type FetchTreeProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Fetches a tree from a repository. */
-export const fetchTreeProjectsLocationsRepositories: API.PaginatedOperationMethod<FetchTreeProjectsLocationsRepositoriesRequest, FetchTreeProjectsLocationsRepositoriesResponse, FetchTreeProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const fetchTreeProjectsLocationsRepositories: API.PaginatedOperationMethod<
+  FetchTreeProjectsLocationsRepositoriesRequest,
+  FetchTreeProjectsLocationsRepositoriesResponse,
+  FetchTreeProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: FetchTreeProjectsLocationsRepositoriesRequest,
   output: FetchTreeProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1663,7 +2111,10 @@ export const FetchBlobProjectsLocationsRepositoriesRequest = Schema.Struct({
   repository: Schema.String.pipe(T.HttpPath("repository")),
   sha: Schema.optional(Schema.String).pipe(T.HttpQuery("sha")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:fetchBlob" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:fetchBlob",
+  }),
   svc,
 ) as unknown as Schema.Schema<FetchBlobProjectsLocationsRepositoriesRequest>;
 
@@ -1673,7 +2124,12 @@ export const FetchBlobProjectsLocationsRepositoriesResponse = FetchBlobResponse;
 export type FetchBlobProjectsLocationsRepositoriesError = DefaultErrors;
 
 /** Fetches a blob from a repository. */
-export const fetchBlobProjectsLocationsRepositories: API.OperationMethod<FetchBlobProjectsLocationsRepositoriesRequest, FetchBlobProjectsLocationsRepositoriesResponse, FetchBlobProjectsLocationsRepositoriesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const fetchBlobProjectsLocationsRepositories: API.OperationMethod<
+  FetchBlobProjectsLocationsRepositoriesRequest,
+  FetchBlobProjectsLocationsRepositoriesResponse,
+  FetchBlobProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: FetchBlobProjectsLocationsRepositoriesRequest,
   output: FetchBlobProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1693,7 +2149,10 @@ export const ListProjectsLocationsRepositoriesHooksRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesHooksRequest>;
 
@@ -1703,7 +2162,12 @@ export const ListProjectsLocationsRepositoriesHooksResponse = ListHooksResponse;
 export type ListProjectsLocationsRepositoriesHooksError = DefaultErrors;
 
 /** Lists hooks in a given repository. */
-export const listProjectsLocationsRepositoriesHooks: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesHooksRequest, ListProjectsLocationsRepositoriesHooksResponse, ListProjectsLocationsRepositoriesHooksError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRepositoriesHooks: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesHooksRequest,
+  ListProjectsLocationsRepositoriesHooksResponse,
+  ListProjectsLocationsRepositoriesHooksError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesHooksRequest,
   output: ListProjectsLocationsRepositoriesHooksResponse,
   errors: [],
@@ -1721,7 +2185,10 @@ export interface GetProjectsLocationsRepositoriesHooksRequest {
 export const GetProjectsLocationsRepositoriesHooksRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks/{hooksId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks/{hooksId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesHooksRequest>;
 
@@ -1731,7 +2198,12 @@ export const GetProjectsLocationsRepositoriesHooksResponse = Hook;
 export type GetProjectsLocationsRepositoriesHooksError = DefaultErrors;
 
 /** Gets metadata of a hook. */
-export const getProjectsLocationsRepositoriesHooks: API.OperationMethod<GetProjectsLocationsRepositoriesHooksRequest, GetProjectsLocationsRepositoriesHooksResponse, GetProjectsLocationsRepositoriesHooksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRepositoriesHooks: API.OperationMethod<
+  GetProjectsLocationsRepositoriesHooksRequest,
+  GetProjectsLocationsRepositoriesHooksResponse,
+  GetProjectsLocationsRepositoriesHooksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesHooksRequest,
   output: GetProjectsLocationsRepositoriesHooksResponse,
   errors: [],
@@ -1751,7 +2223,11 @@ export const CreateProjectsLocationsRepositoriesHooksRequest = Schema.Struct({
   hookId: Schema.optional(Schema.String).pipe(T.HttpQuery("hookId")),
   body: Schema.optional(Hook).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesHooksRequest>;
 
@@ -1761,7 +2237,12 @@ export const CreateProjectsLocationsRepositoriesHooksResponse = Operation;
 export type CreateProjectsLocationsRepositoriesHooksError = DefaultErrors;
 
 /** Creates a new hook in a given repository. */
-export const createProjectsLocationsRepositoriesHooks: API.OperationMethod<CreateProjectsLocationsRepositoriesHooksRequest, CreateProjectsLocationsRepositoriesHooksResponse, CreateProjectsLocationsRepositoriesHooksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsRepositoriesHooks: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesHooksRequest,
+  CreateProjectsLocationsRepositoriesHooksResponse,
+  CreateProjectsLocationsRepositoriesHooksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesHooksRequest,
   output: CreateProjectsLocationsRepositoriesHooksResponse,
   errors: [],
@@ -1781,7 +2262,11 @@ export const PatchProjectsLocationsRepositoriesHooksRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Hook).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks/{hooksId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks/{hooksId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesHooksRequest>;
 
@@ -1791,7 +2276,12 @@ export const PatchProjectsLocationsRepositoriesHooksResponse = Operation;
 export type PatchProjectsLocationsRepositoriesHooksError = DefaultErrors;
 
 /** Updates the metadata of a hook. */
-export const patchProjectsLocationsRepositoriesHooks: API.OperationMethod<PatchProjectsLocationsRepositoriesHooksRequest, PatchProjectsLocationsRepositoriesHooksResponse, PatchProjectsLocationsRepositoriesHooksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsRepositoriesHooks: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesHooksRequest,
+  PatchProjectsLocationsRepositoriesHooksResponse,
+  PatchProjectsLocationsRepositoriesHooksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesHooksRequest,
   output: PatchProjectsLocationsRepositoriesHooksResponse,
   errors: [],
@@ -1805,7 +2295,10 @@ export interface DeleteProjectsLocationsRepositoriesHooksRequest {
 export const DeleteProjectsLocationsRepositoriesHooksRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks/{hooksId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/hooks/{hooksId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesHooksRequest>;
 
@@ -1815,7 +2308,12 @@ export const DeleteProjectsLocationsRepositoriesHooksResponse = Operation;
 export type DeleteProjectsLocationsRepositoriesHooksError = DefaultErrors;
 
 /** Deletes a Hook. */
-export const deleteProjectsLocationsRepositoriesHooks: API.OperationMethod<DeleteProjectsLocationsRepositoriesHooksRequest, DeleteProjectsLocationsRepositoriesHooksResponse, DeleteProjectsLocationsRepositoriesHooksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsRepositoriesHooks: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesHooksRequest,
+  DeleteProjectsLocationsRepositoriesHooksResponse,
+  DeleteProjectsLocationsRepositoriesHooksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesHooksRequest,
   output: DeleteProjectsLocationsRepositoriesHooksResponse,
   errors: [],
@@ -1828,14 +2326,21 @@ export interface CreateProjectsLocationsRepositoriesBranchRulesRequest {
   body?: BranchRule;
 }
 
-export const CreateProjectsLocationsRepositoriesBranchRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  branchRuleId: Schema.optional(Schema.String).pipe(T.HttpQuery("branchRuleId")),
-  body: Schema.optional(BranchRule).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesBranchRulesRequest>;
+export const CreateProjectsLocationsRepositoriesBranchRulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    branchRuleId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("branchRuleId"),
+    ),
+    body: Schema.optional(BranchRule).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesBranchRulesRequest>;
 
 export type CreateProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 export const CreateProjectsLocationsRepositoriesBranchRulesResponse = Operation;
@@ -1843,7 +2348,12 @@ export const CreateProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 export type CreateProjectsLocationsRepositoriesBranchRulesError = DefaultErrors;
 
 /** CreateBranchRule creates a branch rule in a given repository. */
-export const createProjectsLocationsRepositoriesBranchRules: API.OperationMethod<CreateProjectsLocationsRepositoriesBranchRulesRequest, CreateProjectsLocationsRepositoriesBranchRulesResponse, CreateProjectsLocationsRepositoriesBranchRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsRepositoriesBranchRules: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesBranchRulesRequest,
+  CreateProjectsLocationsRepositoriesBranchRulesResponse,
+  CreateProjectsLocationsRepositoriesBranchRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesBranchRulesRequest,
   output: CreateProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
@@ -1857,22 +2367,33 @@ export interface ListProjectsLocationsRepositoriesBranchRulesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsRepositoriesBranchRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesBranchRulesRequest>;
+export const ListProjectsLocationsRepositoriesBranchRulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesBranchRulesRequest>;
 
-export type ListProjectsLocationsRepositoriesBranchRulesResponse = ListBranchRulesResponse;
-export const ListProjectsLocationsRepositoriesBranchRulesResponse = ListBranchRulesResponse;
+export type ListProjectsLocationsRepositoriesBranchRulesResponse =
+  ListBranchRulesResponse;
+export const ListProjectsLocationsRepositoriesBranchRulesResponse =
+  ListBranchRulesResponse;
 
 export type ListProjectsLocationsRepositoriesBranchRulesError = DefaultErrors;
 
 /** ListBranchRules lists branch rules in a given repository. */
-export const listProjectsLocationsRepositoriesBranchRules: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesBranchRulesRequest, ListProjectsLocationsRepositoriesBranchRulesResponse, ListProjectsLocationsRepositoriesBranchRulesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRepositoriesBranchRules: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesBranchRulesRequest,
+  ListProjectsLocationsRepositoriesBranchRulesResponse,
+  ListProjectsLocationsRepositoriesBranchRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesBranchRulesRequest,
   output: ListProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
@@ -1887,10 +2408,15 @@ export interface GetProjectsLocationsRepositoriesBranchRulesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRepositoriesBranchRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules/{branchRulesId}" }),
+export const GetProjectsLocationsRepositoriesBranchRulesRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules/{branchRulesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesBranchRulesRequest>;
 
@@ -1900,7 +2426,12 @@ export const GetProjectsLocationsRepositoriesBranchRulesResponse = BranchRule;
 export type GetProjectsLocationsRepositoriesBranchRulesError = DefaultErrors;
 
 /** GetBranchRule gets a branch rule. */
-export const getProjectsLocationsRepositoriesBranchRules: API.OperationMethod<GetProjectsLocationsRepositoriesBranchRulesRequest, GetProjectsLocationsRepositoriesBranchRulesResponse, GetProjectsLocationsRepositoriesBranchRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRepositoriesBranchRules: API.OperationMethod<
+  GetProjectsLocationsRepositoriesBranchRulesRequest,
+  GetProjectsLocationsRepositoriesBranchRulesResponse,
+  GetProjectsLocationsRepositoriesBranchRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesBranchRulesRequest,
   output: GetProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
@@ -1917,15 +2448,22 @@ export interface PatchProjectsLocationsRepositoriesBranchRulesRequest {
   body?: BranchRule;
 }
 
-export const PatchProjectsLocationsRepositoriesBranchRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(BranchRule).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules/{branchRulesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesBranchRulesRequest>;
+export const PatchProjectsLocationsRepositoriesBranchRulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(BranchRule).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules/{branchRulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesBranchRulesRequest>;
 
 export type PatchProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 export const PatchProjectsLocationsRepositoriesBranchRulesResponse = Operation;
@@ -1933,7 +2471,12 @@ export const PatchProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 export type PatchProjectsLocationsRepositoriesBranchRulesError = DefaultErrors;
 
 /** UpdateBranchRule updates a branch rule. */
-export const patchProjectsLocationsRepositoriesBranchRules: API.OperationMethod<PatchProjectsLocationsRepositoriesBranchRulesRequest, PatchProjectsLocationsRepositoriesBranchRulesResponse, PatchProjectsLocationsRepositoriesBranchRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsRepositoriesBranchRules: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesBranchRulesRequest,
+  PatchProjectsLocationsRepositoriesBranchRulesResponse,
+  PatchProjectsLocationsRepositoriesBranchRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesBranchRulesRequest,
   output: PatchProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
@@ -1945,13 +2488,19 @@ export interface DeleteProjectsLocationsRepositoriesBranchRulesRequest {
   allowMissing?: boolean;
 }
 
-export const DeleteProjectsLocationsRepositoriesBranchRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("allowMissing")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules/{branchRulesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesBranchRulesRequest>;
+export const DeleteProjectsLocationsRepositoriesBranchRulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/branchRules/{branchRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesBranchRulesRequest>;
 
 export type DeleteProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 export const DeleteProjectsLocationsRepositoriesBranchRulesResponse = Operation;
@@ -1959,7 +2508,12 @@ export const DeleteProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 export type DeleteProjectsLocationsRepositoriesBranchRulesError = DefaultErrors;
 
 /** DeleteBranchRule deletes a branch rule. */
-export const deleteProjectsLocationsRepositoriesBranchRules: API.OperationMethod<DeleteProjectsLocationsRepositoriesBranchRulesRequest, DeleteProjectsLocationsRepositoriesBranchRulesResponse, DeleteProjectsLocationsRepositoriesBranchRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsRepositoriesBranchRules: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesBranchRulesRequest,
+  DeleteProjectsLocationsRepositoriesBranchRulesResponse,
+  DeleteProjectsLocationsRepositoriesBranchRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesBranchRulesRequest,
   output: DeleteProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
@@ -1972,21 +2526,33 @@ export interface CreateProjectsLocationsRepositoriesPullRequestsRequest {
   body?: PullRequest;
 }
 
-export const CreateProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(PullRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesPullRequestsRequest>;
+export const CreateProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(PullRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesPullRequestsRequest>;
 
 export type CreateProjectsLocationsRepositoriesPullRequestsResponse = Operation;
-export const CreateProjectsLocationsRepositoriesPullRequestsResponse = Operation;
+export const CreateProjectsLocationsRepositoriesPullRequestsResponse =
+  Operation;
 
-export type CreateProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
+export type CreateProjectsLocationsRepositoriesPullRequestsError =
+  DefaultErrors;
 
 /** Creates a pull request. */
-export const createProjectsLocationsRepositoriesPullRequests: API.OperationMethod<CreateProjectsLocationsRepositoriesPullRequestsRequest, CreateProjectsLocationsRepositoriesPullRequestsResponse, CreateProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesPullRequestsRequest,
+  CreateProjectsLocationsRepositoriesPullRequestsResponse,
+  CreateProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesPullRequestsRequest,
   output: CreateProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -1997,12 +2563,16 @@ export interface GetProjectsLocationsRepositoriesPullRequestsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesPullRequestsRequest>;
+export const GetProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesPullRequestsRequest>;
 
 export type GetProjectsLocationsRepositoriesPullRequestsResponse = PullRequest;
 export const GetProjectsLocationsRepositoriesPullRequestsResponse = PullRequest;
@@ -2010,7 +2580,12 @@ export const GetProjectsLocationsRepositoriesPullRequestsResponse = PullRequest;
 export type GetProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
 
 /** Gets a pull request. */
-export const getProjectsLocationsRepositoriesPullRequests: API.OperationMethod<GetProjectsLocationsRepositoriesPullRequestsRequest, GetProjectsLocationsRepositoriesPullRequestsResponse, GetProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
+  GetProjectsLocationsRepositoriesPullRequestsRequest,
+  GetProjectsLocationsRepositoriesPullRequestsResponse,
+  GetProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPullRequestsRequest,
   output: GetProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2025,22 +2600,33 @@ export interface ListProjectsLocationsRepositoriesPullRequestsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesPullRequestsRequest>;
+export const ListProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesPullRequestsRequest>;
 
-export type ListProjectsLocationsRepositoriesPullRequestsResponse = ListPullRequestsResponse;
-export const ListProjectsLocationsRepositoriesPullRequestsResponse = ListPullRequestsResponse;
+export type ListProjectsLocationsRepositoriesPullRequestsResponse =
+  ListPullRequestsResponse;
+export const ListProjectsLocationsRepositoriesPullRequestsResponse =
+  ListPullRequestsResponse;
 
 export type ListProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
 
 /** Lists pull requests in a repository. */
-export const listProjectsLocationsRepositoriesPullRequests: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPullRequestsRequest, ListProjectsLocationsRepositoriesPullRequestsResponse, ListProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRepositoriesPullRequests: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesPullRequestsRequest,
+  ListProjectsLocationsRepositoriesPullRequestsResponse,
+  ListProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesPullRequestsRequest,
   output: ListProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2059,14 +2645,19 @@ export interface PatchProjectsLocationsRepositoriesPullRequestsRequest {
   body?: PullRequest;
 }
 
-export const PatchProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(PullRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesPullRequestsRequest>;
+export const PatchProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(PullRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesPullRequestsRequest>;
 
 export type PatchProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export const PatchProjectsLocationsRepositoriesPullRequestsResponse = Operation;
@@ -2074,7 +2665,12 @@ export const PatchProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export type PatchProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
 
 /** Updates a pull request. */
-export const patchProjectsLocationsRepositoriesPullRequests: API.OperationMethod<PatchProjectsLocationsRepositoriesPullRequestsRequest, PatchProjectsLocationsRepositoriesPullRequestsResponse, PatchProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesPullRequestsRequest,
+  PatchProjectsLocationsRepositoriesPullRequestsResponse,
+  PatchProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesPullRequestsRequest,
   output: PatchProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2087,13 +2683,18 @@ export interface MergeProjectsLocationsRepositoriesPullRequestsRequest {
   body?: MergePullRequestRequest;
 }
 
-export const MergeProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MergePullRequestRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:merge", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<MergeProjectsLocationsRepositoriesPullRequestsRequest>;
+export const MergeProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MergePullRequestRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:merge",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MergeProjectsLocationsRepositoriesPullRequestsRequest>;
 
 export type MergeProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export const MergeProjectsLocationsRepositoriesPullRequestsResponse = Operation;
@@ -2101,7 +2702,12 @@ export const MergeProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export type MergeProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
 
 /** Merges a pull request. */
-export const mergeProjectsLocationsRepositoriesPullRequests: API.OperationMethod<MergeProjectsLocationsRepositoriesPullRequestsRequest, MergeProjectsLocationsRepositoriesPullRequestsResponse, MergeProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const mergeProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
+  MergeProjectsLocationsRepositoriesPullRequestsRequest,
+  MergeProjectsLocationsRepositoriesPullRequestsResponse,
+  MergeProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MergeProjectsLocationsRepositoriesPullRequestsRequest,
   output: MergeProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2114,13 +2720,18 @@ export interface OpenProjectsLocationsRepositoriesPullRequestsRequest {
   body?: OpenPullRequestRequest;
 }
 
-export const OpenProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(OpenPullRequestRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:open", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<OpenProjectsLocationsRepositoriesPullRequestsRequest>;
+export const OpenProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(OpenPullRequestRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:open",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<OpenProjectsLocationsRepositoriesPullRequestsRequest>;
 
 export type OpenProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export const OpenProjectsLocationsRepositoriesPullRequestsResponse = Operation;
@@ -2128,7 +2739,12 @@ export const OpenProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export type OpenProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
 
 /** Opens a pull request. */
-export const openProjectsLocationsRepositoriesPullRequests: API.OperationMethod<OpenProjectsLocationsRepositoriesPullRequestsRequest, OpenProjectsLocationsRepositoriesPullRequestsResponse, OpenProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const openProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
+  OpenProjectsLocationsRepositoriesPullRequestsRequest,
+  OpenProjectsLocationsRepositoriesPullRequestsResponse,
+  OpenProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: OpenProjectsLocationsRepositoriesPullRequestsRequest,
   output: OpenProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2141,13 +2757,18 @@ export interface CloseProjectsLocationsRepositoriesPullRequestsRequest {
   body?: ClosePullRequestRequest;
 }
 
-export const CloseProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ClosePullRequestRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:close", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CloseProjectsLocationsRepositoriesPullRequestsRequest>;
+export const CloseProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ClosePullRequestRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:close",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CloseProjectsLocationsRepositoriesPullRequestsRequest>;
 
 export type CloseProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export const CloseProjectsLocationsRepositoriesPullRequestsResponse = Operation;
@@ -2155,7 +2776,12 @@ export const CloseProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 export type CloseProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
 
 /** Closes a pull request without merging. */
-export const closeProjectsLocationsRepositoriesPullRequests: API.OperationMethod<CloseProjectsLocationsRepositoriesPullRequestsRequest, CloseProjectsLocationsRepositoriesPullRequestsResponse, CloseProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const closeProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
+  CloseProjectsLocationsRepositoriesPullRequestsRequest,
+  CloseProjectsLocationsRepositoriesPullRequestsResponse,
+  CloseProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CloseProjectsLocationsRepositoriesPullRequestsRequest,
   output: CloseProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2170,22 +2796,34 @@ export interface ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest {
   pageToken?: string;
 }
 
-export const ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:listFileDiffs" }),
-  svc,
-) as unknown as Schema.Schema<ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest>;
+export const ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}:listFileDiffs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest>;
 
-export type ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse = ListPullRequestFileDiffsResponse;
-export const ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse = ListPullRequestFileDiffsResponse;
+export type ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse =
+  ListPullRequestFileDiffsResponse;
+export const ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse =
+  ListPullRequestFileDiffsResponse;
 
-export type ListFileDiffsProjectsLocationsRepositoriesPullRequestsError = DefaultErrors;
+export type ListFileDiffsProjectsLocationsRepositoriesPullRequestsError =
+  DefaultErrors;
 
 /** Lists a pull request's file diffs. */
-export const listFileDiffsProjectsLocationsRepositoriesPullRequests: API.PaginatedOperationMethod<ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest, ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse, ListFileDiffsProjectsLocationsRepositoriesPullRequestsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listFileDiffsProjectsLocationsRepositoriesPullRequests: API.PaginatedOperationMethod<
+  ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest,
+  ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse,
+  ListFileDiffsProjectsLocationsRepositoriesPullRequestsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest,
   output: ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2200,22 +2838,35 @@ export interface GetProjectsLocationsRepositoriesPullRequestsPullRequestComments
   name: string;
 }
 
-export const GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments/{pullRequestCommentsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments/{pullRequestCommentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = PullRequestComment;
-export const GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = PullRequestComment;
+export type GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  PullRequestComment;
+export const GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  PullRequestComment;
 
-export type GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Gets a pull request comment. */
-export const getProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<
+  GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  output:
+    GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
@@ -2228,24 +2879,38 @@ export interface ListProjectsLocationsRepositoriesPullRequestsPullRequestComment
   pageToken?: string;
 }
 
-export const ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = ListPullRequestCommentsResponse;
-export const ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = ListPullRequestCommentsResponse;
+export type ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  ListPullRequestCommentsResponse;
+export const ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  ListPullRequestCommentsResponse;
 
-export type ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Lists pull request comments. */
-export const listProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
-  input: ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+export const listProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input:
+    ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  output:
+    ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -2260,23 +2925,38 @@ export interface CreateProjectsLocationsRepositoriesPullRequestsPullRequestComme
   body?: PullRequestComment;
 }
 
-export const CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(PullRequestComment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(PullRequestComment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
-export const CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
+export type CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
+export const CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
 
-export type CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Creates a pull request comment. This function is used to create a single PullRequestComment of type Comment, or a single PullRequestComment of type Code that's replying to another PullRequestComment of type Code. Use BatchCreatePullRequestComments to create multiple PullRequestComments for code reviews. */
-export const createProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+export const createProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  output:
+    CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
@@ -2289,24 +2969,39 @@ export interface PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommen
   body?: PullRequestComment;
 }
 
-export const PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(PullRequestComment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments/{pullRequestCommentsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(PullRequestComment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments/{pullRequestCommentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
-export const PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
+export type PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
+export const PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
 
-export type PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Updates a pull request comment. */
-export const patchProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+export const patchProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  output:
+    PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
@@ -2315,22 +3010,36 @@ export interface DeleteProjectsLocationsRepositoriesPullRequestsPullRequestComme
   name: string;
 }
 
-export const DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments/{pullRequestCommentsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments/{pullRequestCommentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
-export const DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
+export type DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
+export const DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
 
-export type DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Deletes a pull request comment. */
-export const deleteProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+export const deleteProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  output:
+    DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
@@ -2341,23 +3050,40 @@ export interface BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequest
   body?: BatchCreatePullRequestCommentsRequest;
 }
 
-export const BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchCreatePullRequestCommentsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments:batchCreate", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchCreatePullRequestCommentsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments:batchCreate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
-export const BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
+export type BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
+export const BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
 
-export type BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Batch creates pull request comments. This function is used to create multiple PullRequestComments for code review. There needs to be exactly one PullRequestComment of type Review, and at most 100 PullRequestComments of type Code per request. The Position of the code comments must be unique within the request. */
-export const batchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+export const batchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<
+  BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  output:
+    BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
@@ -2368,23 +3094,38 @@ export interface ResolveProjectsLocationsRepositoriesPullRequestsPullRequestComm
   body?: ResolvePullRequestCommentsRequest;
 }
 
-export const ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ResolvePullRequestCommentsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments:resolve", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ResolvePullRequestCommentsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments:resolve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
-export const ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
+export type ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
+export const ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
 
-export type ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Resolves pull request comments. A list of PullRequestComment names must be provided. The PullRequestComment names must be in the same conversation thread. If auto_fill is set, all comments in the conversation thread will be resolved. */
-export const resolveProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+export const resolveProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<
+  ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  output:
+    ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
@@ -2395,23 +3136,40 @@ export interface UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCo
   body?: UnresolvePullRequestCommentsRequest;
 }
 
-export const UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(UnresolvePullRequestCommentsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments:unresolve", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
+export const UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(UnresolvePullRequestCommentsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/pullRequests/{pullRequestsId}/pullRequestComments:unresolve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
-export type UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
-export const UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse = Operation;
+export type UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
+export const UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse =
+  Operation;
 
-export type UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = DefaultErrors;
+export type UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
+  DefaultErrors;
 
 /** Unresolves pull request comments. A list of PullRequestComment names must be provided. The PullRequestComment names must be in the same conversation thread. If auto_fill is set, all comments in the conversation thread will be unresolved. */
-export const unresolveProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
-  output: UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+export const unresolveProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<
+  UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
+  UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
+  output:
+    UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
@@ -2426,7 +3184,11 @@ export const CreateProjectsLocationsRepositoriesIssuesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(Issue).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -2436,7 +3198,12 @@ export const CreateProjectsLocationsRepositoriesIssuesResponse = Operation;
 export type CreateProjectsLocationsRepositoriesIssuesError = DefaultErrors;
 
 /** Creates an issue. */
-export const createProjectsLocationsRepositoriesIssues: API.OperationMethod<CreateProjectsLocationsRepositoriesIssuesRequest, CreateProjectsLocationsRepositoriesIssuesResponse, CreateProjectsLocationsRepositoriesIssuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsRepositoriesIssues: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesIssuesRequest,
+  CreateProjectsLocationsRepositoriesIssuesResponse,
+  CreateProjectsLocationsRepositoriesIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesIssuesRequest,
   output: CreateProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2450,7 +3217,10 @@ export interface GetProjectsLocationsRepositoriesIssuesRequest {
 export const GetProjectsLocationsRepositoriesIssuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -2460,7 +3230,12 @@ export const GetProjectsLocationsRepositoriesIssuesResponse = Issue;
 export type GetProjectsLocationsRepositoriesIssuesError = DefaultErrors;
 
 /** Gets an issue. */
-export const getProjectsLocationsRepositoriesIssues: API.OperationMethod<GetProjectsLocationsRepositoriesIssuesRequest, GetProjectsLocationsRepositoriesIssuesResponse, GetProjectsLocationsRepositoriesIssuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRepositoriesIssues: API.OperationMethod<
+  GetProjectsLocationsRepositoriesIssuesRequest,
+  GetProjectsLocationsRepositoriesIssuesResponse,
+  GetProjectsLocationsRepositoriesIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesIssuesRequest,
   output: GetProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2483,17 +3258,27 @@ export const ListProjectsLocationsRepositoriesIssuesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesIssuesRequest>;
 
-export type ListProjectsLocationsRepositoriesIssuesResponse = ListIssuesResponse;
-export const ListProjectsLocationsRepositoriesIssuesResponse = ListIssuesResponse;
+export type ListProjectsLocationsRepositoriesIssuesResponse =
+  ListIssuesResponse;
+export const ListProjectsLocationsRepositoriesIssuesResponse =
+  ListIssuesResponse;
 
 export type ListProjectsLocationsRepositoriesIssuesError = DefaultErrors;
 
 /** Lists issues in a repository. */
-export const listProjectsLocationsRepositoriesIssues: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesIssuesRequest, ListProjectsLocationsRepositoriesIssuesResponse, ListProjectsLocationsRepositoriesIssuesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRepositoriesIssues: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesIssuesRequest,
+  ListProjectsLocationsRepositoriesIssuesResponse,
+  ListProjectsLocationsRepositoriesIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesIssuesRequest,
   output: ListProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2517,7 +3302,11 @@ export const PatchProjectsLocationsRepositoriesIssuesRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Issue).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -2527,7 +3316,12 @@ export const PatchProjectsLocationsRepositoriesIssuesResponse = Operation;
 export type PatchProjectsLocationsRepositoriesIssuesError = DefaultErrors;
 
 /** Updates a issue. */
-export const patchProjectsLocationsRepositoriesIssues: API.OperationMethod<PatchProjectsLocationsRepositoriesIssuesRequest, PatchProjectsLocationsRepositoriesIssuesResponse, PatchProjectsLocationsRepositoriesIssuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsRepositoriesIssues: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesIssuesRequest,
+  PatchProjectsLocationsRepositoriesIssuesResponse,
+  PatchProjectsLocationsRepositoriesIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesIssuesRequest,
   output: PatchProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2544,7 +3338,10 @@ export const DeleteProjectsLocationsRepositoriesIssuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -2554,7 +3351,12 @@ export const DeleteProjectsLocationsRepositoriesIssuesResponse = Operation;
 export type DeleteProjectsLocationsRepositoriesIssuesError = DefaultErrors;
 
 /** Deletes an issue. */
-export const deleteProjectsLocationsRepositoriesIssues: API.OperationMethod<DeleteProjectsLocationsRepositoriesIssuesRequest, DeleteProjectsLocationsRepositoriesIssuesResponse, DeleteProjectsLocationsRepositoriesIssuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsRepositoriesIssues: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesIssuesRequest,
+  DeleteProjectsLocationsRepositoriesIssuesResponse,
+  DeleteProjectsLocationsRepositoriesIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesIssuesRequest,
   output: DeleteProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2571,7 +3373,11 @@ export const OpenProjectsLocationsRepositoriesIssuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(OpenIssueRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}:open", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}:open",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<OpenProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -2581,7 +3387,12 @@ export const OpenProjectsLocationsRepositoriesIssuesResponse = Operation;
 export type OpenProjectsLocationsRepositoriesIssuesError = DefaultErrors;
 
 /** Opens an issue. */
-export const openProjectsLocationsRepositoriesIssues: API.OperationMethod<OpenProjectsLocationsRepositoriesIssuesRequest, OpenProjectsLocationsRepositoriesIssuesResponse, OpenProjectsLocationsRepositoriesIssuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const openProjectsLocationsRepositoriesIssues: API.OperationMethod<
+  OpenProjectsLocationsRepositoriesIssuesRequest,
+  OpenProjectsLocationsRepositoriesIssuesResponse,
+  OpenProjectsLocationsRepositoriesIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: OpenProjectsLocationsRepositoriesIssuesRequest,
   output: OpenProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2598,7 +3409,11 @@ export const CloseProjectsLocationsRepositoriesIssuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CloseIssueRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}:close", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}:close",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CloseProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -2608,7 +3423,12 @@ export const CloseProjectsLocationsRepositoriesIssuesResponse = Operation;
 export type CloseProjectsLocationsRepositoriesIssuesError = DefaultErrors;
 
 /** Closes an issue. */
-export const closeProjectsLocationsRepositoriesIssues: API.OperationMethod<CloseProjectsLocationsRepositoriesIssuesRequest, CloseProjectsLocationsRepositoriesIssuesResponse, CloseProjectsLocationsRepositoriesIssuesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const closeProjectsLocationsRepositoriesIssues: API.OperationMethod<
+  CloseProjectsLocationsRepositoriesIssuesRequest,
+  CloseProjectsLocationsRepositoriesIssuesResponse,
+  CloseProjectsLocationsRepositoriesIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CloseProjectsLocationsRepositoriesIssuesRequest,
   output: CloseProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2621,21 +3441,34 @@ export interface CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   body?: IssueComment;
 }
 
-export const CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(IssueComment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
+export const CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(IssueComment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
-export type CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Operation;
-export const CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Operation;
+export type CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  Operation;
+export const CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  Operation;
 
-export type CreateProjectsLocationsRepositoriesIssuesIssueCommentsError = DefaultErrors;
+export type CreateProjectsLocationsRepositoriesIssuesIssueCommentsError =
+  DefaultErrors;
 
 /** Creates an issue comment. */
-export const createProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest, CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse, CreateProjectsLocationsRepositoriesIssuesIssueCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
+  CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
+  CreateProjectsLocationsRepositoriesIssuesIssueCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
@@ -2646,20 +3479,32 @@ export interface GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments/{issueCommentsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
+export const GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments/{issueCommentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
-export type GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse = IssueComment;
-export const GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse = IssueComment;
+export type GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  IssueComment;
+export const GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  IssueComment;
 
-export type GetProjectsLocationsRepositoriesIssuesIssueCommentsError = DefaultErrors;
+export type GetProjectsLocationsRepositoriesIssuesIssueCommentsError =
+  DefaultErrors;
 
 /** Gets an issue comment. */
-export const getProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest, GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse, GetProjectsLocationsRepositoriesIssuesIssueCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<
+  GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
+  GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
+  GetProjectsLocationsRepositoriesIssuesIssueCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
@@ -2674,22 +3519,34 @@ export interface ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
+export const ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
-export type ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse = ListIssueCommentsResponse;
-export const ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse = ListIssueCommentsResponse;
+export type ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  ListIssueCommentsResponse;
+export const ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  ListIssueCommentsResponse;
 
-export type ListProjectsLocationsRepositoriesIssuesIssueCommentsError = DefaultErrors;
+export type ListProjectsLocationsRepositoriesIssuesIssueCommentsError =
+  DefaultErrors;
 
 /** Lists comments in an issue. */
-export const listProjectsLocationsRepositoriesIssuesIssueComments: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest, ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse, ListProjectsLocationsRepositoriesIssuesIssueCommentsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsRepositoriesIssuesIssueComments: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
+  ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
+  ListProjectsLocationsRepositoriesIssuesIssueCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
@@ -2708,22 +3565,35 @@ export interface PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   body?: IssueComment;
 }
 
-export const PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(IssueComment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments/{issueCommentsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
+export const PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(IssueComment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments/{issueCommentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
-export type PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Operation;
-export const PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Operation;
+export type PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  Operation;
+export const PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  Operation;
 
-export type PatchProjectsLocationsRepositoriesIssuesIssueCommentsError = DefaultErrors;
+export type PatchProjectsLocationsRepositoriesIssuesIssueCommentsError =
+  DefaultErrors;
 
 /** Updates an issue comment. */
-export const patchProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest, PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse, PatchProjectsLocationsRepositoriesIssuesIssueCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
+  PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
+  PatchProjectsLocationsRepositoriesIssuesIssueCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
@@ -2734,22 +3604,33 @@ export interface DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments/{issueCommentsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
+export const DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/issues/{issuesId}/issueComments/{issueCommentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
-export type DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Operation;
-export const DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Operation;
+export type DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  Operation;
+export const DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse =
+  Operation;
 
-export type DeleteProjectsLocationsRepositoriesIssuesIssueCommentsError = DefaultErrors;
+export type DeleteProjectsLocationsRepositoriesIssuesIssueCommentsError =
+  DefaultErrors;
 
 /** Deletes an issue comment. */
-export const deleteProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest, DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse, DeleteProjectsLocationsRepositoriesIssuesIssueCommentsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
+  DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
+  DeleteProjectsLocationsRepositoriesIssuesIssueCommentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
 }));
-

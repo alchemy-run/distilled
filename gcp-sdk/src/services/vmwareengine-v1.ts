@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,17 +74,22 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface NetworkConfig {
   /** Required. Management CIDR used by VMware management appliances. */
@@ -93,13 +104,17 @@ export interface NetworkConfig {
   dnsServerIp?: string;
 }
 
-export const NetworkConfig: Schema.Schema<NetworkConfig> = Schema.suspend(() => Schema.Struct({
-  managementCidr: Schema.optional(Schema.String),
-  vmwareEngineNetwork: Schema.optional(Schema.String),
-  vmwareEngineNetworkCanonical: Schema.optional(Schema.String),
-  managementIpAddressLayoutVersion: Schema.optional(Schema.Number),
-  dnsServerIp: Schema.optional(Schema.String),
-})).annotate({ identifier: "NetworkConfig" }) as any as Schema.Schema<NetworkConfig>;
+export const NetworkConfig: Schema.Schema<NetworkConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    managementCidr: Schema.optional(Schema.String),
+    vmwareEngineNetwork: Schema.optional(Schema.String),
+    vmwareEngineNetworkCanonical: Schema.optional(Schema.String),
+    managementIpAddressLayoutVersion: Schema.optional(Schema.Number),
+    dnsServerIp: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "NetworkConfig",
+}) as any as Schema.Schema<NetworkConfig>;
 
 export interface NodeTypeConfig {
   /** Required. The number of nodes of this type in the cluster */
@@ -108,10 +123,15 @@ export interface NodeTypeConfig {
   customCoreCount?: number;
 }
 
-export const NodeTypeConfig: Schema.Schema<NodeTypeConfig> = Schema.suspend(() => Schema.Struct({
-  nodeCount: Schema.optional(Schema.Number),
-  customCoreCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "NodeTypeConfig" }) as any as Schema.Schema<NodeTypeConfig>;
+export const NodeTypeConfig: Schema.Schema<NodeTypeConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      nodeCount: Schema.optional(Schema.Number),
+      customCoreCount: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "NodeTypeConfig",
+}) as any as Schema.Schema<NodeTypeConfig>;
 
 export interface StretchedClusterConfig {
   /** Required. Zone that will remain operational when connection between the two zones is lost. Specify the resource name of a zone that belongs to the region of the private cloud. For example: `projects/{project}/locations/europe-west3-a` where `{project}` can either be a project number or a project ID. */
@@ -120,10 +140,15 @@ export interface StretchedClusterConfig {
   secondaryLocation?: string;
 }
 
-export const StretchedClusterConfig: Schema.Schema<StretchedClusterConfig> = Schema.suspend(() => Schema.Struct({
-  preferredLocation: Schema.optional(Schema.String),
-  secondaryLocation: Schema.optional(Schema.String),
-})).annotate({ identifier: "StretchedClusterConfig" }) as any as Schema.Schema<StretchedClusterConfig>;
+export const StretchedClusterConfig: Schema.Schema<StretchedClusterConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      preferredLocation: Schema.optional(Schema.String),
+      secondaryLocation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StretchedClusterConfig",
+  }) as any as Schema.Schema<StretchedClusterConfig>;
 
 export interface ManagementCluster {
   /** Required. The user-provided identifier of the new `Cluster`. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
@@ -134,11 +159,18 @@ export interface ManagementCluster {
   stretchedClusterConfig?: StretchedClusterConfig;
 }
 
-export const ManagementCluster: Schema.Schema<ManagementCluster> = Schema.suspend(() => Schema.Struct({
-  clusterId: Schema.optional(Schema.String),
-  nodeTypeConfigs: Schema.optional(Schema.Record(Schema.String, NodeTypeConfig)),
-  stretchedClusterConfig: Schema.optional(StretchedClusterConfig),
-})).annotate({ identifier: "ManagementCluster" }) as any as Schema.Schema<ManagementCluster>;
+export const ManagementCluster: Schema.Schema<ManagementCluster> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      clusterId: Schema.optional(Schema.String),
+      nodeTypeConfigs: Schema.optional(
+        Schema.Record(Schema.String, NodeTypeConfig),
+      ),
+      stretchedClusterConfig: Schema.optional(StretchedClusterConfig),
+    }),
+  ).annotate({
+    identifier: "ManagementCluster",
+  }) as any as Schema.Schema<ManagementCluster>;
 
 export interface Hcx {
   /** Internal IP address of the appliance. */
@@ -146,17 +178,24 @@ export interface Hcx {
   /** Version of the appliance. */
   version?: string;
   /** Output only. The state of the appliance. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "ACTIVATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "ACTIVATING"
+    | (string & {});
   /** Fully qualified domain name of the appliance. */
   fqdn?: string;
 }
 
-export const Hcx: Schema.Schema<Hcx> = Schema.suspend(() => Schema.Struct({
-  internalIp: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  fqdn: Schema.optional(Schema.String),
-})).annotate({ identifier: "Hcx" }) as any as Schema.Schema<Hcx>;
+export const Hcx: Schema.Schema<Hcx> = Schema.suspend(() =>
+  Schema.Struct({
+    internalIp: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    fqdn: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Hcx" }) as any as Schema.Schema<Hcx>;
 
 export interface Nsx {
   /** Internal IP address of the appliance. */
@@ -169,12 +208,14 @@ export interface Nsx {
   fqdn?: string;
 }
 
-export const Nsx: Schema.Schema<Nsx> = Schema.suspend(() => Schema.Struct({
-  internalIp: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  fqdn: Schema.optional(Schema.String),
-})).annotate({ identifier: "Nsx" }) as any as Schema.Schema<Nsx>;
+export const Nsx: Schema.Schema<Nsx> = Schema.suspend(() =>
+  Schema.Struct({
+    internalIp: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    fqdn: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Nsx" }) as any as Schema.Schema<Nsx>;
 
 export interface Vcenter {
   /** Internal IP address of the appliance. */
@@ -187,12 +228,14 @@ export interface Vcenter {
   fqdn?: string;
 }
 
-export const Vcenter: Schema.Schema<Vcenter> = Schema.suspend(() => Schema.Struct({
-  internalIp: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  fqdn: Schema.optional(Schema.String),
-})).annotate({ identifier: "Vcenter" }) as any as Schema.Schema<Vcenter>;
+export const Vcenter: Schema.Schema<Vcenter> = Schema.suspend(() =>
+  Schema.Struct({
+    internalIp: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    fqdn: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Vcenter" }) as any as Schema.Schema<Vcenter>;
 
 export interface PrivateCloud {
   /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
@@ -206,7 +249,15 @@ export interface PrivateCloud {
   /** Output only. Time when the resource will be irreversibly deleted. */
   expireTime?: string;
   /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "UPDATING" | "FAILED" | "DELETED" | "PURGING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "UPDATING"
+    | "FAILED"
+    | "DELETED"
+    | "PURGING"
+    | (string & {});
   /** Required. Network configuration of the private cloud. */
   networkConfig?: NetworkConfig;
   /** Required. Input only. The management cluster for this private cloud. This field is required during creation of the private cloud to provide details for the default cluster. The following fields can't be changed after private cloud creation: `ManagementCluster.clusterId`, `ManagementCluster.nodeTypeId`. */
@@ -225,22 +276,26 @@ export interface PrivateCloud {
   type?: "STANDARD" | "TIME_LIMITED" | "STRETCHED" | (string & {});
 }
 
-export const PrivateCloud: Schema.Schema<PrivateCloud> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  deleteTime: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  networkConfig: Schema.optional(NetworkConfig),
-  managementCluster: Schema.optional(ManagementCluster),
-  description: Schema.optional(Schema.String),
-  hcx: Schema.optional(Hcx),
-  nsx: Schema.optional(Nsx),
-  vcenter: Schema.optional(Vcenter),
-  uid: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrivateCloud" }) as any as Schema.Schema<PrivateCloud>;
+export const PrivateCloud: Schema.Schema<PrivateCloud> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    deleteTime: Schema.optional(Schema.String),
+    expireTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    networkConfig: Schema.optional(NetworkConfig),
+    managementCluster: Schema.optional(ManagementCluster),
+    description: Schema.optional(Schema.String),
+    hcx: Schema.optional(Hcx),
+    nsx: Schema.optional(Nsx),
+    vcenter: Schema.optional(Vcenter),
+    uid: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PrivateCloud",
+}) as any as Schema.Schema<PrivateCloud>;
 
 export interface ListPrivateCloudsResponse {
   /** A list of private clouds. */
@@ -251,11 +306,16 @@ export interface ListPrivateCloudsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListPrivateCloudsResponse: Schema.Schema<ListPrivateCloudsResponse> = Schema.suspend(() => Schema.Struct({
-  privateClouds: Schema.optional(Schema.Array(PrivateCloud)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListPrivateCloudsResponse" }) as any as Schema.Schema<ListPrivateCloudsResponse>;
+export const ListPrivateCloudsResponse: Schema.Schema<ListPrivateCloudsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      privateClouds: Schema.optional(Schema.Array(PrivateCloud)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListPrivateCloudsResponse",
+  }) as any as Schema.Schema<ListPrivateCloudsResponse>;
 
 export interface AcceleratePrivateCloudDeletionRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -264,19 +324,29 @@ export interface AcceleratePrivateCloudDeletionRequest {
   etag?: string;
 }
 
-export const AcceleratePrivateCloudDeletionRequest: Schema.Schema<AcceleratePrivateCloudDeletionRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "AcceleratePrivateCloudDeletionRequest" }) as any as Schema.Schema<AcceleratePrivateCloudDeletionRequest>;
+export const AcceleratePrivateCloudDeletionRequest: Schema.Schema<AcceleratePrivateCloudDeletionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AcceleratePrivateCloudDeletionRequest",
+  }) as any as Schema.Schema<AcceleratePrivateCloudDeletionRequest>;
 
 export interface UndeletePrivateCloudRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 
-export const UndeletePrivateCloudRequest: Schema.Schema<UndeletePrivateCloudRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UndeletePrivateCloudRequest" }) as any as Schema.Schema<UndeletePrivateCloudRequest>;
+export const UndeletePrivateCloudRequest: Schema.Schema<UndeletePrivateCloudRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UndeletePrivateCloudRequest",
+  }) as any as Schema.Schema<UndeletePrivateCloudRequest>;
 
 export interface Thresholds {
   /** Required. The utilization triggering the scale-out operation in percent. */
@@ -285,10 +355,12 @@ export interface Thresholds {
   scaleIn?: number;
 }
 
-export const Thresholds: Schema.Schema<Thresholds> = Schema.suspend(() => Schema.Struct({
-  scaleOut: Schema.optional(Schema.Number),
-  scaleIn: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Thresholds" }) as any as Schema.Schema<Thresholds>;
+export const Thresholds: Schema.Schema<Thresholds> = Schema.suspend(() =>
+  Schema.Struct({
+    scaleOut: Schema.optional(Schema.Number),
+    scaleIn: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Thresholds" }) as any as Schema.Schema<Thresholds>;
 
 export interface AutoscalingPolicy {
   /** Required. The canonical identifier of the node type to add or remove. Corresponds to the `NodeType`. */
@@ -305,14 +377,19 @@ export interface AutoscalingPolicy {
   storageThresholds?: Thresholds;
 }
 
-export const AutoscalingPolicy: Schema.Schema<AutoscalingPolicy> = Schema.suspend(() => Schema.Struct({
-  nodeTypeId: Schema.optional(Schema.String),
-  scaleOutSize: Schema.optional(Schema.Number),
-  cpuThresholds: Schema.optional(Thresholds),
-  grantedMemoryThresholds: Schema.optional(Thresholds),
-  consumedMemoryThresholds: Schema.optional(Thresholds),
-  storageThresholds: Schema.optional(Thresholds),
-})).annotate({ identifier: "AutoscalingPolicy" }) as any as Schema.Schema<AutoscalingPolicy>;
+export const AutoscalingPolicy: Schema.Schema<AutoscalingPolicy> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nodeTypeId: Schema.optional(Schema.String),
+      scaleOutSize: Schema.optional(Schema.Number),
+      cpuThresholds: Schema.optional(Thresholds),
+      grantedMemoryThresholds: Schema.optional(Thresholds),
+      consumedMemoryThresholds: Schema.optional(Thresholds),
+      storageThresholds: Schema.optional(Thresholds),
+    }),
+  ).annotate({
+    identifier: "AutoscalingPolicy",
+  }) as any as Schema.Schema<AutoscalingPolicy>;
 
 export interface AutoscalingSettings {
   /** Required. The map with autoscaling policies applied to the cluster. The key is the identifier of the policy. It must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) Currently there map must contain only one element that describes the autoscaling policy for compute nodes. */
@@ -325,12 +402,19 @@ export interface AutoscalingSettings {
   coolDownPeriod?: string;
 }
 
-export const AutoscalingSettings: Schema.Schema<AutoscalingSettings> = Schema.suspend(() => Schema.Struct({
-  autoscalingPolicies: Schema.optional(Schema.Record(Schema.String, AutoscalingPolicy)),
-  minClusterNodeCount: Schema.optional(Schema.Number),
-  maxClusterNodeCount: Schema.optional(Schema.Number),
-  coolDownPeriod: Schema.optional(Schema.String),
-})).annotate({ identifier: "AutoscalingSettings" }) as any as Schema.Schema<AutoscalingSettings>;
+export const AutoscalingSettings: Schema.Schema<AutoscalingSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      autoscalingPolicies: Schema.optional(
+        Schema.Record(Schema.String, AutoscalingPolicy),
+      ),
+      minClusterNodeCount: Schema.optional(Schema.Number),
+      maxClusterNodeCount: Schema.optional(Schema.Number),
+      coolDownPeriod: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AutoscalingSettings",
+  }) as any as Schema.Schema<AutoscalingSettings>;
 
 export interface DatastoreNetwork {
   /** Required. The resource name of the subnet Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. e.g. projects/my-project/locations/us-central1/subnets/my-subnet */
@@ -343,12 +427,17 @@ export interface DatastoreNetwork {
   connectionCount?: number;
 }
 
-export const DatastoreNetwork: Schema.Schema<DatastoreNetwork> = Schema.suspend(() => Schema.Struct({
-  subnet: Schema.optional(Schema.String),
-  mtu: Schema.optional(Schema.Number),
-  networkPeering: Schema.optional(Schema.String),
-  connectionCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "DatastoreNetwork" }) as any as Schema.Schema<DatastoreNetwork>;
+export const DatastoreNetwork: Schema.Schema<DatastoreNetwork> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      subnet: Schema.optional(Schema.String),
+      mtu: Schema.optional(Schema.Number),
+      networkPeering: Schema.optional(Schema.String),
+      connectionCount: Schema.optional(Schema.Number),
+    }),
+).annotate({
+  identifier: "DatastoreNetwork",
+}) as any as Schema.Schema<DatastoreNetwork>;
 
 export interface DatastoreMountConfig {
   /** Output only. File share name. */
@@ -358,21 +447,30 @@ export interface DatastoreMountConfig {
   /** Required. The network configuration for the datastore. */
   datastoreNetwork?: DatastoreNetwork;
   /** Optional. The access mode of the NFS volume. Optional. Default value used will be READ_WRITE */
-  accessMode?: "ACCESS_MODE_UNSPECIFIED" | "READ_ONLY" | "READ_WRITE" | (string & {});
+  accessMode?:
+    | "ACCESS_MODE_UNSPECIFIED"
+    | "READ_ONLY"
+    | "READ_WRITE"
+    | (string & {});
   /** Optional. The NFS protocol supported by the NFS volume. Default value used will be NFS_V3 */
   nfsVersion?: "NFS_VERSION_UNSPECIFIED" | "NFS_V3" | (string & {});
   /** Output only. Server IP addresses of the NFS volume. For NFS 3, you can only provide a single server IP address or DNS names. */
   servers?: Array<string>;
 }
 
-export const DatastoreMountConfig: Schema.Schema<DatastoreMountConfig> = Schema.suspend(() => Schema.Struct({
-  fileShare: Schema.optional(Schema.String),
-  datastore: Schema.optional(Schema.String),
-  datastoreNetwork: Schema.optional(DatastoreNetwork),
-  accessMode: Schema.optional(Schema.String),
-  nfsVersion: Schema.optional(Schema.String),
-  servers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "DatastoreMountConfig" }) as any as Schema.Schema<DatastoreMountConfig>;
+export const DatastoreMountConfig: Schema.Schema<DatastoreMountConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      fileShare: Schema.optional(Schema.String),
+      datastore: Schema.optional(Schema.String),
+      datastoreNetwork: Schema.optional(DatastoreNetwork),
+      accessMode: Schema.optional(Schema.String),
+      nfsVersion: Schema.optional(Schema.String),
+      servers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DatastoreMountConfig",
+  }) as any as Schema.Schema<DatastoreMountConfig>;
 
 export interface Cluster {
   /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
@@ -382,7 +480,14 @@ export interface Cluster {
   /** Output only. Last update time of this resource. */
   updateTime?: string;
   /** Output only. State of the resource. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "UPDATING" | "DELETING" | "REPAIRING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "UPDATING"
+    | "DELETING"
+    | "REPAIRING"
+    | (string & {});
   /** Output only. True if the cluster is a management cluster; false otherwise. There can only be one management cluster in a private cloud and it has to be the first one. */
   management?: boolean;
   /** Optional. Configuration of the autoscaling applied to this cluster. */
@@ -397,18 +502,22 @@ export interface Cluster {
   datastoreMountConfig?: Array<DatastoreMountConfig>;
 }
 
-export const Cluster: Schema.Schema<Cluster> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  management: Schema.optional(Schema.Boolean),
-  autoscalingSettings: Schema.optional(AutoscalingSettings),
-  uid: Schema.optional(Schema.String),
-  nodeTypeConfigs: Schema.optional(Schema.Record(Schema.String, NodeTypeConfig)),
-  stretchedClusterConfig: Schema.optional(StretchedClusterConfig),
-  datastoreMountConfig: Schema.optional(Schema.Array(DatastoreMountConfig)),
-})).annotate({ identifier: "Cluster" }) as any as Schema.Schema<Cluster>;
+export const Cluster: Schema.Schema<Cluster> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    management: Schema.optional(Schema.Boolean),
+    autoscalingSettings: Schema.optional(AutoscalingSettings),
+    uid: Schema.optional(Schema.String),
+    nodeTypeConfigs: Schema.optional(
+      Schema.Record(Schema.String, NodeTypeConfig),
+    ),
+    stretchedClusterConfig: Schema.optional(StretchedClusterConfig),
+    datastoreMountConfig: Schema.optional(Schema.Array(DatastoreMountConfig)),
+  }),
+).annotate({ identifier: "Cluster" }) as any as Schema.Schema<Cluster>;
 
 export interface ListClustersResponse {
   /** A list of private cloud clusters. */
@@ -419,11 +528,16 @@ export interface ListClustersResponse {
   unreachable?: Array<string>;
 }
 
-export const ListClustersResponse: Schema.Schema<ListClustersResponse> = Schema.suspend(() => Schema.Struct({
-  clusters: Schema.optional(Schema.Array(Cluster)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListClustersResponse" }) as any as Schema.Schema<ListClustersResponse>;
+export const ListClustersResponse: Schema.Schema<ListClustersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      clusters: Schema.optional(Schema.Array(Cluster)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListClustersResponse",
+  }) as any as Schema.Schema<ListClustersResponse>;
 
 export interface Node {
   /** Output only. The resource name of this node. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster/nodes/my-node */
@@ -439,18 +553,26 @@ export interface Node {
   /** Output only. Customized number of cores */
   customCoreCount?: string;
   /** Output only. The state of the appliance. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "FAILED" | "UPGRADING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "FAILED"
+    | "UPGRADING"
+    | (string & {});
 }
 
-export const Node: Schema.Schema<Node> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  fqdn: Schema.optional(Schema.String),
-  internalIp: Schema.optional(Schema.String),
-  nodeTypeId: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  customCoreCount: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "Node" }) as any as Schema.Schema<Node>;
+export const Node: Schema.Schema<Node> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    fqdn: Schema.optional(Schema.String),
+    internalIp: Schema.optional(Schema.String),
+    nodeTypeId: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    customCoreCount: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Node" }) as any as Schema.Schema<Node>;
 
 export interface ListNodesResponse {
   /** The nodes. */
@@ -459,10 +581,15 @@ export interface ListNodesResponse {
   nextPageToken?: string;
 }
 
-export const ListNodesResponse: Schema.Schema<ListNodesResponse> = Schema.suspend(() => Schema.Struct({
-  nodes: Schema.optional(Schema.Array(Node)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListNodesResponse" }) as any as Schema.Schema<ListNodesResponse>;
+export const ListNodesResponse: Schema.Schema<ListNodesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nodes: Schema.optional(Schema.Array(Node)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListNodesResponse",
+  }) as any as Schema.Schema<ListNodesResponse>;
 
 export interface ExternalAddress {
   /** Output only. Identifier. The resource name of this external IP address. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address` */
@@ -476,23 +603,34 @@ export interface ExternalAddress {
   /** Output only. The external IP address of a workload VM. */
   externalIp?: string;
   /** Output only. The state of the resource. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "UPDATING" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "UPDATING"
+    | "DELETING"
+    | (string & {});
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
   /** User-provided description for this resource. */
   description?: string;
 }
 
-export const ExternalAddress: Schema.Schema<ExternalAddress> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  internalIp: Schema.optional(Schema.String),
-  externalIp: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExternalAddress" }) as any as Schema.Schema<ExternalAddress>;
+export const ExternalAddress: Schema.Schema<ExternalAddress> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      internalIp: Schema.optional(Schema.String),
+      externalIp: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ExternalAddress",
+}) as any as Schema.Schema<ExternalAddress>;
 
 export interface ListExternalAddressesResponse {
   /** A list of external IP addresses. */
@@ -503,11 +641,16 @@ export interface ListExternalAddressesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListExternalAddressesResponse: Schema.Schema<ListExternalAddressesResponse> = Schema.suspend(() => Schema.Struct({
-  externalAddresses: Schema.optional(Schema.Array(ExternalAddress)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListExternalAddressesResponse" }) as any as Schema.Schema<ListExternalAddressesResponse>;
+export const ListExternalAddressesResponse: Schema.Schema<ListExternalAddressesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      externalAddresses: Schema.optional(Schema.Array(ExternalAddress)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListExternalAddressesResponse",
+  }) as any as Schema.Schema<ListExternalAddressesResponse>;
 
 export interface FetchNetworkPolicyExternalAddressesResponse {
   /** A list of external IP addresses assigned to VMware workload VMs within the scope of the given network policy. */
@@ -516,10 +659,15 @@ export interface FetchNetworkPolicyExternalAddressesResponse {
   nextPageToken?: string;
 }
 
-export const FetchNetworkPolicyExternalAddressesResponse: Schema.Schema<FetchNetworkPolicyExternalAddressesResponse> = Schema.suspend(() => Schema.Struct({
-  externalAddresses: Schema.optional(Schema.Array(ExternalAddress)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "FetchNetworkPolicyExternalAddressesResponse" }) as any as Schema.Schema<FetchNetworkPolicyExternalAddressesResponse>;
+export const FetchNetworkPolicyExternalAddressesResponse: Schema.Schema<FetchNetworkPolicyExternalAddressesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      externalAddresses: Schema.optional(Schema.Array(ExternalAddress)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FetchNetworkPolicyExternalAddressesResponse",
+  }) as any as Schema.Schema<FetchNetworkPolicyExternalAddressesResponse>;
 
 export interface Subnet {
   /** Output only. Identifier. The resource name of this subnet. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
@@ -531,19 +679,29 @@ export interface Subnet {
   /** Output only. The type of the subnet. For example "management" or "userDefined". */
   type?: string;
   /** Output only. The state of the resource. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "UPDATING" | "DELETING" | "RECONCILING" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "UPDATING"
+    | "DELETING"
+    | "RECONCILING"
+    | "FAILED"
+    | (string & {});
   /** Output only. VLAN ID of the VLAN on which the subnet is configured */
   vlanId?: number;
 }
 
-export const Subnet: Schema.Schema<Subnet> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  ipCidrRange: Schema.optional(Schema.String),
-  gatewayIp: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  vlanId: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Subnet" }) as any as Schema.Schema<Subnet>;
+export const Subnet: Schema.Schema<Subnet> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    ipCidrRange: Schema.optional(Schema.String),
+    gatewayIp: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    vlanId: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Subnet" }) as any as Schema.Schema<Subnet>;
 
 export interface ListSubnetsResponse {
   /** A list of subnets. */
@@ -554,11 +712,16 @@ export interface ListSubnetsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListSubnetsResponse: Schema.Schema<ListSubnetsResponse> = Schema.suspend(() => Schema.Struct({
-  subnets: Schema.optional(Schema.Array(Subnet)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListSubnetsResponse" }) as any as Schema.Schema<ListSubnetsResponse>;
+export const ListSubnetsResponse: Schema.Schema<ListSubnetsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      subnets: Schema.optional(Schema.Array(Subnet)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListSubnetsResponse",
+  }) as any as Schema.Schema<ListSubnetsResponse>;
 
 export interface IpRange {
   /** A single IP address. For example: `10.0.0.5`. */
@@ -569,11 +732,13 @@ export interface IpRange {
   externalAddress?: string;
 }
 
-export const IpRange: Schema.Schema<IpRange> = Schema.suspend(() => Schema.Struct({
-  ipAddress: Schema.optional(Schema.String),
-  ipAddressRange: Schema.optional(Schema.String),
-  externalAddress: Schema.optional(Schema.String),
-})).annotate({ identifier: "IpRange" }) as any as Schema.Schema<IpRange>;
+export const IpRange: Schema.Schema<IpRange> = Schema.suspend(() =>
+  Schema.Struct({
+    ipAddress: Schema.optional(Schema.String),
+    ipAddressRange: Schema.optional(Schema.String),
+    externalAddress: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "IpRange" }) as any as Schema.Schema<IpRange>;
 
 export interface ExternalAccessRule {
   /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
@@ -599,26 +764,37 @@ export interface ExternalAccessRule {
   /** A list of destination ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all destination ports, specify `["0-65535"]`. */
   destinationPorts?: Array<string>;
   /** Output only. The state of the resource. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "UPDATING" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "UPDATING"
+    | "DELETING"
+    | (string & {});
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
 }
 
-export const ExternalAccessRule: Schema.Schema<ExternalAccessRule> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  action: Schema.optional(Schema.String),
-  ipProtocol: Schema.optional(Schema.String),
-  sourceIpRanges: Schema.optional(Schema.Array(IpRange)),
-  sourcePorts: Schema.optional(Schema.Array(Schema.String)),
-  destinationIpRanges: Schema.optional(Schema.Array(IpRange)),
-  destinationPorts: Schema.optional(Schema.Array(Schema.String)),
-  state: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-})).annotate({ identifier: "ExternalAccessRule" }) as any as Schema.Schema<ExternalAccessRule>;
+export const ExternalAccessRule: Schema.Schema<ExternalAccessRule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      priority: Schema.optional(Schema.Number),
+      action: Schema.optional(Schema.String),
+      ipProtocol: Schema.optional(Schema.String),
+      sourceIpRanges: Schema.optional(Schema.Array(IpRange)),
+      sourcePorts: Schema.optional(Schema.Array(Schema.String)),
+      destinationIpRanges: Schema.optional(Schema.Array(IpRange)),
+      destinationPorts: Schema.optional(Schema.Array(Schema.String)),
+      state: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExternalAccessRule",
+  }) as any as Schema.Schema<ExternalAccessRule>;
 
 export interface ListExternalAccessRulesResponse {
   /** A list of external access firewall rules. */
@@ -629,11 +805,16 @@ export interface ListExternalAccessRulesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListExternalAccessRulesResponse: Schema.Schema<ListExternalAccessRulesResponse> = Schema.suspend(() => Schema.Struct({
-  externalAccessRules: Schema.optional(Schema.Array(ExternalAccessRule)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListExternalAccessRulesResponse" }) as any as Schema.Schema<ListExternalAccessRulesResponse>;
+export const ListExternalAccessRulesResponse: Schema.Schema<ListExternalAccessRulesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      externalAccessRules: Schema.optional(Schema.Array(ExternalAccessRule)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListExternalAccessRulesResponse",
+  }) as any as Schema.Schema<ListExternalAccessRulesResponse>;
 
 export interface LoggingServer {
   /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
@@ -647,23 +828,34 @@ export interface LoggingServer {
   /** Required. Port number at which the logging server receives logs. */
   port?: number;
   /** Required. Protocol used by vCenter to send logs to a logging server. */
-  protocol?: "PROTOCOL_UNSPECIFIED" | "UDP" | "TCP" | "TLS" | "SSL" | "RELP" | (string & {});
+  protocol?:
+    | "PROTOCOL_UNSPECIFIED"
+    | "UDP"
+    | "TCP"
+    | "TLS"
+    | "SSL"
+    | "RELP"
+    | (string & {});
   /** Required. The type of component that produces logs that will be forwarded to this logging server. */
   sourceType?: "SOURCE_TYPE_UNSPECIFIED" | "ESXI" | "VCSA" | (string & {});
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
 }
 
-export const LoggingServer: Schema.Schema<LoggingServer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  hostname: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
-  protocol: Schema.optional(Schema.String),
-  sourceType: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-})).annotate({ identifier: "LoggingServer" }) as any as Schema.Schema<LoggingServer>;
+export const LoggingServer: Schema.Schema<LoggingServer> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    hostname: Schema.optional(Schema.String),
+    port: Schema.optional(Schema.Number),
+    protocol: Schema.optional(Schema.String),
+    sourceType: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "LoggingServer",
+}) as any as Schema.Schema<LoggingServer>;
 
 export interface ListLoggingServersResponse {
   /** A list of Logging Servers. */
@@ -674,11 +866,16 @@ export interface ListLoggingServersResponse {
   unreachable?: Array<string>;
 }
 
-export const ListLoggingServersResponse: Schema.Schema<ListLoggingServersResponse> = Schema.suspend(() => Schema.Struct({
-  loggingServers: Schema.optional(Schema.Array(LoggingServer)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListLoggingServersResponse" }) as any as Schema.Schema<ListLoggingServersResponse>;
+export const ListLoggingServersResponse: Schema.Schema<ListLoggingServersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      loggingServers: Schema.optional(Schema.Array(LoggingServer)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListLoggingServersResponse",
+  }) as any as Schema.Schema<ListLoggingServersResponse>;
 
 export interface NodeType {
   /** Output only. The resource name of this node type. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-proj/locations/us-central1-a/nodeTypes/standard-72` */
@@ -702,22 +899,26 @@ export interface NodeType {
   /** Output only. Families of the node type. For node types to be in the same cluster they must share at least one element in the `families`. */
   families?: Array<string>;
   /** Output only. Capabilities of this node type. */
-  capabilities?: Array<"CAPABILITY_UNSPECIFIED" | "STRETCHED_CLUSTERS" | (string & {})>;
+  capabilities?: Array<
+    "CAPABILITY_UNSPECIFIED" | "STRETCHED_CLUSTERS" | (string & {})
+  >;
 }
 
-export const NodeType: Schema.Schema<NodeType> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  nodeTypeId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  virtualCpuCount: Schema.optional(Schema.Number),
-  totalCoreCount: Schema.optional(Schema.Number),
-  memoryGb: Schema.optional(Schema.Number),
-  diskSizeGb: Schema.optional(Schema.Number),
-  availableCustomCoreCounts: Schema.optional(Schema.Array(Schema.Number)),
-  kind: Schema.optional(Schema.String),
-  families: Schema.optional(Schema.Array(Schema.String)),
-  capabilities: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "NodeType" }) as any as Schema.Schema<NodeType>;
+export const NodeType: Schema.Schema<NodeType> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    nodeTypeId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    virtualCpuCount: Schema.optional(Schema.Number),
+    totalCoreCount: Schema.optional(Schema.Number),
+    memoryGb: Schema.optional(Schema.Number),
+    diskSizeGb: Schema.optional(Schema.Number),
+    availableCustomCoreCounts: Schema.optional(Schema.Array(Schema.Number)),
+    kind: Schema.optional(Schema.String),
+    families: Schema.optional(Schema.Array(Schema.String)),
+    capabilities: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "NodeType" }) as any as Schema.Schema<NodeType>;
 
 export interface ListNodeTypesResponse {
   /** A list of Node Types. */
@@ -728,11 +929,16 @@ export interface ListNodeTypesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListNodeTypesResponse: Schema.Schema<ListNodeTypesResponse> = Schema.suspend(() => Schema.Struct({
-  nodeTypes: Schema.optional(Schema.Array(NodeType)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListNodeTypesResponse" }) as any as Schema.Schema<ListNodeTypesResponse>;
+export const ListNodeTypesResponse: Schema.Schema<ListNodeTypesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nodeTypes: Schema.optional(Schema.Array(NodeType)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListNodeTypesResponse",
+  }) as any as Schema.Schema<ListNodeTypesResponse>;
 
 export interface Vmwareengine_Credentials {
   /** Initial username. */
@@ -741,19 +947,29 @@ export interface Vmwareengine_Credentials {
   password?: string;
 }
 
-export const Vmwareengine_Credentials: Schema.Schema<Vmwareengine_Credentials> = Schema.suspend(() => Schema.Struct({
-  username: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-})).annotate({ identifier: "Vmwareengine_Credentials" }) as any as Schema.Schema<Vmwareengine_Credentials>;
+export const Vmwareengine_Credentials: Schema.Schema<Vmwareengine_Credentials> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Vmwareengine_Credentials",
+  }) as any as Schema.Schema<Vmwareengine_Credentials>;
 
 export interface ResetNsxCredentialsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 
-export const ResetNsxCredentialsRequest: Schema.Schema<ResetNsxCredentialsRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResetNsxCredentialsRequest" }) as any as Schema.Schema<ResetNsxCredentialsRequest>;
+export const ResetNsxCredentialsRequest: Schema.Schema<ResetNsxCredentialsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResetNsxCredentialsRequest",
+  }) as any as Schema.Schema<ResetNsxCredentialsRequest>;
 
 export interface ResetVcenterCredentialsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -762,10 +978,15 @@ export interface ResetVcenterCredentialsRequest {
   username?: string;
 }
 
-export const ResetVcenterCredentialsRequest: Schema.Schema<ResetVcenterCredentialsRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResetVcenterCredentialsRequest" }) as any as Schema.Schema<ResetVcenterCredentialsRequest>;
+export const ResetVcenterCredentialsRequest: Schema.Schema<ResetVcenterCredentialsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResetVcenterCredentialsRequest",
+  }) as any as Schema.Schema<ResetVcenterCredentialsRequest>;
 
 export interface ForwardingRule {
   /** Required. Domain used to resolve a `name_servers` list. */
@@ -774,10 +995,15 @@ export interface ForwardingRule {
   nameServers?: Array<string>;
 }
 
-export const ForwardingRule: Schema.Schema<ForwardingRule> = Schema.suspend(() => Schema.Struct({
-  domain: Schema.optional(Schema.String),
-  nameServers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ForwardingRule" }) as any as Schema.Schema<ForwardingRule>;
+export const ForwardingRule: Schema.Schema<ForwardingRule> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      domain: Schema.optional(Schema.String),
+      nameServers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "ForwardingRule",
+}) as any as Schema.Schema<ForwardingRule>;
 
 export interface DnsForwarding {
   /** Output only. Identifier. The resource name of this DNS profile. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
@@ -790,12 +1016,16 @@ export interface DnsForwarding {
   forwardingRules?: Array<ForwardingRule>;
 }
 
-export const DnsForwarding: Schema.Schema<DnsForwarding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  forwardingRules: Schema.optional(Schema.Array(ForwardingRule)),
-})).annotate({ identifier: "DnsForwarding" }) as any as Schema.Schema<DnsForwarding>;
+export const DnsForwarding: Schema.Schema<DnsForwarding> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    forwardingRules: Schema.optional(Schema.Array(ForwardingRule)),
+  }),
+).annotate({
+  identifier: "DnsForwarding",
+}) as any as Schema.Schema<DnsForwarding>;
 
 export interface NetworkPeering {
   /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
@@ -817,13 +1047,29 @@ export interface NetworkPeering {
   /** Optional. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always imported to peers and are not controlled by this field. */
   importCustomRoutesWithPublicIp?: boolean;
   /** Output only. State of the network peering. This field has a value of 'ACTIVE' when there's a matching configuration in the peer network. New values may be added to this enum when appropriate. */
-  state?: "STATE_UNSPECIFIED" | "INACTIVE" | "ACTIVE" | "CREATING" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "INACTIVE"
+    | "ACTIVE"
+    | "CREATING"
+    | "DELETING"
+    | (string & {});
   /** Output only. Output Only. Details about the current state of the network peering. */
   stateDetails?: string;
   /** Optional. Maximum transmission unit (MTU) in bytes. The default value is `1500`. If a value of `0` is provided for this field, VMware Engine uses the default value instead. */
   peerMtu?: number;
   /** Required. The type of the network to peer with the VMware Engine network. */
-  peerNetworkType?: "PEER_NETWORK_TYPE_UNSPECIFIED" | "STANDARD" | "VMWARE_ENGINE_NETWORK" | "PRIVATE_SERVICES_ACCESS" | "NETAPP_CLOUD_VOLUMES" | "THIRD_PARTY_SERVICE" | "DELL_POWERSCALE" | "GOOGLE_CLOUD_NETAPP_VOLUMES" | "GOOGLE_CLOUD_FILESTORE_INSTANCES" | (string & {});
+  peerNetworkType?:
+    | "PEER_NETWORK_TYPE_UNSPECIFIED"
+    | "STANDARD"
+    | "VMWARE_ENGINE_NETWORK"
+    | "PRIVATE_SERVICES_ACCESS"
+    | "NETAPP_CLOUD_VOLUMES"
+    | "THIRD_PARTY_SERVICE"
+    | "DELL_POWERSCALE"
+    | "GOOGLE_CLOUD_NETAPP_VOLUMES"
+    | "GOOGLE_CLOUD_FILESTORE_INSTANCES"
+    | (string & {});
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
   /** Required. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
@@ -832,24 +1078,29 @@ export interface NetworkPeering {
   description?: string;
 }
 
-export const NetworkPeering: Schema.Schema<NetworkPeering> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  peerNetwork: Schema.optional(Schema.String),
-  exportCustomRoutes: Schema.optional(Schema.Boolean),
-  importCustomRoutes: Schema.optional(Schema.Boolean),
-  exchangeSubnetRoutes: Schema.optional(Schema.Boolean),
-  exportCustomRoutesWithPublicIp: Schema.optional(Schema.Boolean),
-  importCustomRoutesWithPublicIp: Schema.optional(Schema.Boolean),
-  state: Schema.optional(Schema.String),
-  stateDetails: Schema.optional(Schema.String),
-  peerMtu: Schema.optional(Schema.Number),
-  peerNetworkType: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  vmwareEngineNetwork: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "NetworkPeering" }) as any as Schema.Schema<NetworkPeering>;
+export const NetworkPeering: Schema.Schema<NetworkPeering> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      peerNetwork: Schema.optional(Schema.String),
+      exportCustomRoutes: Schema.optional(Schema.Boolean),
+      importCustomRoutes: Schema.optional(Schema.Boolean),
+      exchangeSubnetRoutes: Schema.optional(Schema.Boolean),
+      exportCustomRoutesWithPublicIp: Schema.optional(Schema.Boolean),
+      importCustomRoutesWithPublicIp: Schema.optional(Schema.Boolean),
+      state: Schema.optional(Schema.String),
+      stateDetails: Schema.optional(Schema.String),
+      peerMtu: Schema.optional(Schema.Number),
+      peerNetworkType: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      vmwareEngineNetwork: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "NetworkPeering",
+}) as any as Schema.Schema<NetworkPeering>;
 
 export interface ListNetworkPeeringsResponse {
   /** A list of network peerings. */
@@ -860,17 +1111,27 @@ export interface ListNetworkPeeringsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListNetworkPeeringsResponse: Schema.Schema<ListNetworkPeeringsResponse> = Schema.suspend(() => Schema.Struct({
-  networkPeerings: Schema.optional(Schema.Array(NetworkPeering)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListNetworkPeeringsResponse" }) as any as Schema.Schema<ListNetworkPeeringsResponse>;
+export const ListNetworkPeeringsResponse: Schema.Schema<ListNetworkPeeringsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      networkPeerings: Schema.optional(Schema.Array(NetworkPeering)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListNetworkPeeringsResponse",
+  }) as any as Schema.Schema<ListNetworkPeeringsResponse>;
 
 export interface PeeringRoute {
   /** Output only. Destination range of the peering route in CIDR notation. */
   destRange?: string;
   /** Output only. Type of the route in the peer VPC network. */
-  type?: "TYPE_UNSPECIFIED" | "DYNAMIC_PEERING_ROUTE" | "STATIC_PEERING_ROUTE" | "SUBNET_PEERING_ROUTE" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "DYNAMIC_PEERING_ROUTE"
+    | "STATIC_PEERING_ROUTE"
+    | "SUBNET_PEERING_ROUTE"
+    | (string & {});
   /** Output only. Region containing the next hop of the peering route. This field only applies to dynamic routes in the peer VPC network. */
   nextHopRegion?: string;
   /** Output only. The priority of the peering route. */
@@ -881,14 +1142,18 @@ export interface PeeringRoute {
   direction?: "DIRECTION_UNSPECIFIED" | "INCOMING" | "OUTGOING" | (string & {});
 }
 
-export const PeeringRoute: Schema.Schema<PeeringRoute> = Schema.suspend(() => Schema.Struct({
-  destRange: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  nextHopRegion: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.String),
-  imported: Schema.optional(Schema.Boolean),
-  direction: Schema.optional(Schema.String),
-})).annotate({ identifier: "PeeringRoute" }) as any as Schema.Schema<PeeringRoute>;
+export const PeeringRoute: Schema.Schema<PeeringRoute> = Schema.suspend(() =>
+  Schema.Struct({
+    destRange: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    nextHopRegion: Schema.optional(Schema.String),
+    priority: Schema.optional(Schema.String),
+    imported: Schema.optional(Schema.Boolean),
+    direction: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "PeeringRoute",
+}) as any as Schema.Schema<PeeringRoute>;
 
 export interface ListPeeringRoutesResponse {
   /** A list of peering routes. */
@@ -897,10 +1162,15 @@ export interface ListPeeringRoutesResponse {
   nextPageToken?: string;
 }
 
-export const ListPeeringRoutesResponse: Schema.Schema<ListPeeringRoutesResponse> = Schema.suspend(() => Schema.Struct({
-  peeringRoutes: Schema.optional(Schema.Array(PeeringRoute)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPeeringRoutesResponse" }) as any as Schema.Schema<ListPeeringRoutesResponse>;
+export const ListPeeringRoutesResponse: Schema.Schema<ListPeeringRoutesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      peeringRoutes: Schema.optional(Schema.Array(PeeringRoute)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPeeringRoutesResponse",
+  }) as any as Schema.Schema<ListPeeringRoutesResponse>;
 
 export interface HcxActivationKey {
   /** Output only. The resource name of this HcxActivationKey. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud/hcxActivationKeys/my-key` */
@@ -908,20 +1178,30 @@ export interface HcxActivationKey {
   /** Output only. Creation time of HCX activation key. */
   createTime?: string;
   /** Output only. State of HCX activation key. */
-  state?: "STATE_UNSPECIFIED" | "AVAILABLE" | "CONSUMED" | "CREATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "AVAILABLE"
+    | "CONSUMED"
+    | "CREATING"
+    | (string & {});
   /** Output only. HCX activation key. */
   activationKey?: string;
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
 }
 
-export const HcxActivationKey: Schema.Schema<HcxActivationKey> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  activationKey: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-})).annotate({ identifier: "HcxActivationKey" }) as any as Schema.Schema<HcxActivationKey>;
+export const HcxActivationKey: Schema.Schema<HcxActivationKey> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      activationKey: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "HcxActivationKey",
+}) as any as Schema.Schema<HcxActivationKey>;
 
 export interface ListHcxActivationKeysResponse {
   /** List of HCX activation keys. */
@@ -932,23 +1212,38 @@ export interface ListHcxActivationKeysResponse {
   unreachable?: Array<string>;
 }
 
-export const ListHcxActivationKeysResponse: Schema.Schema<ListHcxActivationKeysResponse> = Schema.suspend(() => Schema.Struct({
-  hcxActivationKeys: Schema.optional(Schema.Array(HcxActivationKey)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListHcxActivationKeysResponse" }) as any as Schema.Schema<ListHcxActivationKeysResponse>;
+export const ListHcxActivationKeysResponse: Schema.Schema<ListHcxActivationKeysResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      hcxActivationKeys: Schema.optional(Schema.Array(HcxActivationKey)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListHcxActivationKeysResponse",
+  }) as any as Schema.Schema<ListHcxActivationKeysResponse>;
 
 export interface NetworkService {
   /** True if the service is enabled; false otherwise. */
   enabled?: boolean;
   /** Output only. State of the service. New values may be added to this enum when appropriate. */
-  state?: "STATE_UNSPECIFIED" | "UNPROVISIONED" | "RECONCILING" | "ACTIVE" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "UNPROVISIONED"
+    | "RECONCILING"
+    | "ACTIVE"
+    | (string & {});
 }
 
-export const NetworkService: Schema.Schema<NetworkService> = Schema.suspend(() => Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "NetworkService" }) as any as Schema.Schema<NetworkService>;
+export const NetworkService: Schema.Schema<NetworkService> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean),
+      state: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "NetworkService",
+}) as any as Schema.Schema<NetworkService>;
 
 export interface NetworkPolicy {
   /** Output only. Identifier. The resource name of this network policy. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
@@ -973,18 +1268,22 @@ export interface NetworkPolicy {
   vmwareEngineNetworkCanonical?: string;
 }
 
-export const NetworkPolicy: Schema.Schema<NetworkPolicy> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  internetAccess: Schema.optional(NetworkService),
-  externalIp: Schema.optional(NetworkService),
-  edgeServicesCidr: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  vmwareEngineNetwork: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  vmwareEngineNetworkCanonical: Schema.optional(Schema.String),
-})).annotate({ identifier: "NetworkPolicy" }) as any as Schema.Schema<NetworkPolicy>;
+export const NetworkPolicy: Schema.Schema<NetworkPolicy> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    internetAccess: Schema.optional(NetworkService),
+    externalIp: Schema.optional(NetworkService),
+    edgeServicesCidr: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    vmwareEngineNetwork: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    vmwareEngineNetworkCanonical: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "NetworkPolicy",
+}) as any as Schema.Schema<NetworkPolicy>;
 
 export interface ListNetworkPoliciesResponse {
   /** A list of network policies. */
@@ -995,11 +1294,16 @@ export interface ListNetworkPoliciesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListNetworkPoliciesResponse: Schema.Schema<ListNetworkPoliciesResponse> = Schema.suspend(() => Schema.Struct({
-  networkPolicies: Schema.optional(Schema.Array(NetworkPolicy)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListNetworkPoliciesResponse" }) as any as Schema.Schema<ListNetworkPoliciesResponse>;
+export const ListNetworkPoliciesResponse: Schema.Schema<ListNetworkPoliciesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      networkPolicies: Schema.optional(Schema.Array(NetworkPolicy)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListNetworkPoliciesResponse",
+  }) as any as Schema.Schema<ListNetworkPoliciesResponse>;
 
 export interface ManagementDnsZoneBinding {
   /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
@@ -1009,7 +1313,14 @@ export interface ManagementDnsZoneBinding {
   /** Output only. Last update time of this resource. */
   updateTime?: string;
   /** Output only. The state of the resource. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "UPDATING" | "DELETING" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "CREATING"
+    | "UPDATING"
+    | "DELETING"
+    | "FAILED"
+    | (string & {});
   /** User-provided description for this resource. */
   description?: string;
   /** Network to bind is a standard consumer VPC. Specify the name in the following form for consumer VPC network: `projects/{project}/global/networks/{network_id}`. `{project}` can either be a project number or a project ID. */
@@ -1020,16 +1331,21 @@ export interface ManagementDnsZoneBinding {
   uid?: string;
 }
 
-export const ManagementDnsZoneBinding: Schema.Schema<ManagementDnsZoneBinding> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  vpcNetwork: Schema.optional(Schema.String),
-  vmwareEngineNetwork: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-})).annotate({ identifier: "ManagementDnsZoneBinding" }) as any as Schema.Schema<ManagementDnsZoneBinding>;
+export const ManagementDnsZoneBinding: Schema.Schema<ManagementDnsZoneBinding> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      vpcNetwork: Schema.optional(Schema.String),
+      vmwareEngineNetwork: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ManagementDnsZoneBinding",
+  }) as any as Schema.Schema<ManagementDnsZoneBinding>;
 
 export interface ListManagementDnsZoneBindingsResponse {
   /** A list of management DNS zone bindings. */
@@ -1040,32 +1356,51 @@ export interface ListManagementDnsZoneBindingsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListManagementDnsZoneBindingsResponse: Schema.Schema<ListManagementDnsZoneBindingsResponse> = Schema.suspend(() => Schema.Struct({
-  managementDnsZoneBindings: Schema.optional(Schema.Array(ManagementDnsZoneBinding)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListManagementDnsZoneBindingsResponse" }) as any as Schema.Schema<ListManagementDnsZoneBindingsResponse>;
+export const ListManagementDnsZoneBindingsResponse: Schema.Schema<ListManagementDnsZoneBindingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      managementDnsZoneBindings: Schema.optional(
+        Schema.Array(ManagementDnsZoneBinding),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListManagementDnsZoneBindingsResponse",
+  }) as any as Schema.Schema<ListManagementDnsZoneBindingsResponse>;
 
 export interface RepairManagementDnsZoneBindingRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 
-export const RepairManagementDnsZoneBindingRequest: Schema.Schema<RepairManagementDnsZoneBindingRequest> = Schema.suspend(() => Schema.Struct({
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RepairManagementDnsZoneBindingRequest" }) as any as Schema.Schema<RepairManagementDnsZoneBindingRequest>;
+export const RepairManagementDnsZoneBindingRequest: Schema.Schema<RepairManagementDnsZoneBindingRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RepairManagementDnsZoneBindingRequest",
+  }) as any as Schema.Schema<RepairManagementDnsZoneBindingRequest>;
 
 export interface VpcNetwork {
   /** Output only. Type of VPC network (INTRANET, INTERNET, or GOOGLE_CLOUD) */
-  type?: "TYPE_UNSPECIFIED" | "INTRANET" | "INTERNET" | "GOOGLE_CLOUD" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "INTRANET"
+    | "INTERNET"
+    | "GOOGLE_CLOUD"
+    | (string & {});
   /** Output only. The relative resource name of the service VPC network this VMware Engine network is attached to. For example: `projects/123123/global/networks/my-network` */
   network?: string;
 }
 
-export const VpcNetwork: Schema.Schema<VpcNetwork> = Schema.suspend(() => Schema.Struct({
-  type: Schema.optional(Schema.String),
-  network: Schema.optional(Schema.String),
-})).annotate({ identifier: "VpcNetwork" }) as any as Schema.Schema<VpcNetwork>;
+export const VpcNetwork: Schema.Schema<VpcNetwork> = Schema.suspend(() =>
+  Schema.Struct({
+    type: Schema.optional(Schema.String),
+    network: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "VpcNetwork" }) as any as Schema.Schema<VpcNetwork>;
 
 export interface VmwareEngineNetwork {
   /** Output only. Identifier. The resource name of the VMware Engine network. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
@@ -1079,7 +1414,13 @@ export interface VmwareEngineNetwork {
   /** Output only. VMware Engine service VPC networks that provide connectivity from a private cloud to customer projects, the internet, and other Google Cloud services. */
   vpcNetworks?: Array<VpcNetwork>;
   /** Output only. State of the VMware Engine network. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "UPDATING"
+    | "DELETING"
+    | (string & {});
   /** Required. VMware Engine network type. */
   type?: "TYPE_UNSPECIFIED" | "LEGACY" | "STANDARD" | (string & {});
   /** Output only. System-generated unique identifier for the resource. */
@@ -1088,17 +1429,22 @@ export interface VmwareEngineNetwork {
   etag?: string;
 }
 
-export const VmwareEngineNetwork: Schema.Schema<VmwareEngineNetwork> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  vpcNetworks: Schema.optional(Schema.Array(VpcNetwork)),
-  state: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "VmwareEngineNetwork" }) as any as Schema.Schema<VmwareEngineNetwork>;
+export const VmwareEngineNetwork: Schema.Schema<VmwareEngineNetwork> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      vpcNetworks: Schema.optional(Schema.Array(VpcNetwork)),
+      state: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VmwareEngineNetwork",
+  }) as any as Schema.Schema<VmwareEngineNetwork>;
 
 export interface ListVmwareEngineNetworksResponse {
   /** A list of VMware Engine networks. */
@@ -1109,11 +1455,16 @@ export interface ListVmwareEngineNetworksResponse {
   unreachable?: Array<string>;
 }
 
-export const ListVmwareEngineNetworksResponse: Schema.Schema<ListVmwareEngineNetworksResponse> = Schema.suspend(() => Schema.Struct({
-  vmwareEngineNetworks: Schema.optional(Schema.Array(VmwareEngineNetwork)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListVmwareEngineNetworksResponse" }) as any as Schema.Schema<ListVmwareEngineNetworksResponse>;
+export const ListVmwareEngineNetworksResponse: Schema.Schema<ListVmwareEngineNetworksResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vmwareEngineNetworks: Schema.optional(Schema.Array(VmwareEngineNetwork)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListVmwareEngineNetworksResponse",
+  }) as any as Schema.Schema<ListVmwareEngineNetworksResponse>;
 
 export interface PrivateConnection {
   /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
@@ -1125,40 +1476,67 @@ export interface PrivateConnection {
   /** Optional. User-provided description for this private connection. */
   description?: string;
   /** Output only. State of the private connection. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "UNPROVISIONED" | "FAILED" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "UPDATING"
+    | "DELETING"
+    | "UNPROVISIONED"
+    | "FAILED"
+    | (string & {});
   /** Required. The relative resource name of Legacy VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}`, `{location}` will be same as specified in private connection resource name and `{vmware_engine_network_id}` will be in the form of `{location}`-default e.g. projects/project/locations/us-central1/vmwareEngineNetworks/us-central1-default. */
   vmwareEngineNetwork?: string;
   /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
   vmwareEngineNetworkCanonical?: string;
   /** Required. Private connection type. */
-  type?: "TYPE_UNSPECIFIED" | "PRIVATE_SERVICE_ACCESS" | "NETAPP_CLOUD_VOLUMES" | "DELL_POWERSCALE" | "THIRD_PARTY_SERVICE" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "PRIVATE_SERVICE_ACCESS"
+    | "NETAPP_CLOUD_VOLUMES"
+    | "DELL_POWERSCALE"
+    | "THIRD_PARTY_SERVICE"
+    | (string & {});
   /** Output only. VPC network peering id between given network VPC and VMwareEngineNetwork. */
   peeringId?: string;
   /** Optional. Routing Mode. Default value is set to GLOBAL. For type = PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. */
-  routingMode?: "ROUTING_MODE_UNSPECIFIED" | "GLOBAL" | "REGIONAL" | (string & {});
+  routingMode?:
+    | "ROUTING_MODE_UNSPECIFIED"
+    | "GLOBAL"
+    | "REGIONAL"
+    | (string & {});
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
   /** Required. Service network to create private connection. Specify the name in the following form: `projects/{project}/global/networks/{network_id}` For type = PRIVATE_SERVICE_ACCESS, this field represents servicenetworking VPC, e.g. projects/project-tp/global/networks/servicenetworking. For type = NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC, e.g. projects/project-tp/global/networks/netapp-tenant-vpc. For type = DELL_POWERSCALE, this field represent Dell service VPC, e.g. projects/project-tp/global/networks/dell-tenant-vpc. For type= THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected, e.g. projects/project/global/networks/vpc. */
   serviceNetwork?: string;
   /** Output only. Peering state between service network and VMware Engine network. */
-  peeringState?: "PEERING_STATE_UNSPECIFIED" | "PEERING_ACTIVE" | "PEERING_INACTIVE" | (string & {});
+  peeringState?:
+    | "PEERING_STATE_UNSPECIFIED"
+    | "PEERING_ACTIVE"
+    | "PEERING_INACTIVE"
+    | (string & {});
 }
 
-export const PrivateConnection: Schema.Schema<PrivateConnection> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  vmwareEngineNetwork: Schema.optional(Schema.String),
-  vmwareEngineNetworkCanonical: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  peeringId: Schema.optional(Schema.String),
-  routingMode: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  serviceNetwork: Schema.optional(Schema.String),
-  peeringState: Schema.optional(Schema.String),
-})).annotate({ identifier: "PrivateConnection" }) as any as Schema.Schema<PrivateConnection>;
+export const PrivateConnection: Schema.Schema<PrivateConnection> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      vmwareEngineNetwork: Schema.optional(Schema.String),
+      vmwareEngineNetworkCanonical: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      peeringId: Schema.optional(Schema.String),
+      routingMode: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      serviceNetwork: Schema.optional(Schema.String),
+      peeringState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrivateConnection",
+  }) as any as Schema.Schema<PrivateConnection>;
 
 export interface ListPrivateConnectionsResponse {
   /** A list of private connections. */
@@ -1169,11 +1547,16 @@ export interface ListPrivateConnectionsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListPrivateConnectionsResponse: Schema.Schema<ListPrivateConnectionsResponse> = Schema.suspend(() => Schema.Struct({
-  privateConnections: Schema.optional(Schema.Array(PrivateConnection)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListPrivateConnectionsResponse" }) as any as Schema.Schema<ListPrivateConnectionsResponse>;
+export const ListPrivateConnectionsResponse: Schema.Schema<ListPrivateConnectionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      privateConnections: Schema.optional(Schema.Array(PrivateConnection)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListPrivateConnectionsResponse",
+  }) as any as Schema.Schema<ListPrivateConnectionsResponse>;
 
 export interface ListPrivateConnectionPeeringRoutesResponse {
   /** A list of peering routes. */
@@ -1182,10 +1565,15 @@ export interface ListPrivateConnectionPeeringRoutesResponse {
   nextPageToken?: string;
 }
 
-export const ListPrivateConnectionPeeringRoutesResponse: Schema.Schema<ListPrivateConnectionPeeringRoutesResponse> = Schema.suspend(() => Schema.Struct({
-  peeringRoutes: Schema.optional(Schema.Array(PeeringRoute)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListPrivateConnectionPeeringRoutesResponse" }) as any as Schema.Schema<ListPrivateConnectionPeeringRoutesResponse>;
+export const ListPrivateConnectionPeeringRoutesResponse: Schema.Schema<ListPrivateConnectionPeeringRoutesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      peeringRoutes: Schema.optional(Schema.Array(PeeringRoute)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPrivateConnectionPeeringRoutesResponse",
+  }) as any as Schema.Schema<ListPrivateConnectionPeeringRoutesResponse>;
 
 export interface Principal {
   /** The user who needs to be granted permission. */
@@ -1194,10 +1582,12 @@ export interface Principal {
   serviceAccount?: string;
 }
 
-export const Principal: Schema.Schema<Principal> = Schema.suspend(() => Schema.Struct({
-  user: Schema.optional(Schema.String),
-  serviceAccount: Schema.optional(Schema.String),
-})).annotate({ identifier: "Principal" }) as any as Schema.Schema<Principal>;
+export const Principal: Schema.Schema<Principal> = Schema.suspend(() =>
+  Schema.Struct({
+    user: Schema.optional(Schema.String),
+    serviceAccount: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Principal" }) as any as Schema.Schema<Principal>;
 
 export interface GrantDnsBindPermissionRequest {
   /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. */
@@ -1206,10 +1596,15 @@ export interface GrantDnsBindPermissionRequest {
   requestId?: string;
 }
 
-export const GrantDnsBindPermissionRequest: Schema.Schema<GrantDnsBindPermissionRequest> = Schema.suspend(() => Schema.Struct({
-  principal: Schema.optional(Principal),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "GrantDnsBindPermissionRequest" }) as any as Schema.Schema<GrantDnsBindPermissionRequest>;
+export const GrantDnsBindPermissionRequest: Schema.Schema<GrantDnsBindPermissionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      principal: Schema.optional(Principal),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GrantDnsBindPermissionRequest",
+  }) as any as Schema.Schema<GrantDnsBindPermissionRequest>;
 
 export interface DnsBindPermission {
   /** Required. Output only. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource and location can only be global. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
@@ -1218,10 +1613,15 @@ export interface DnsBindPermission {
   principals?: Array<Principal>;
 }
 
-export const DnsBindPermission: Schema.Schema<DnsBindPermission> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  principals: Schema.optional(Schema.Array(Principal)),
-})).annotate({ identifier: "DnsBindPermission" }) as any as Schema.Schema<DnsBindPermission>;
+export const DnsBindPermission: Schema.Schema<DnsBindPermission> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      principals: Schema.optional(Schema.Array(Principal)),
+    }),
+  ).annotate({
+    identifier: "DnsBindPermission",
+  }) as any as Schema.Schema<DnsBindPermission>;
 
 export interface RevokeDnsBindPermissionRequest {
   /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. */
@@ -1230,10 +1630,15 @@ export interface RevokeDnsBindPermissionRequest {
   requestId?: string;
 }
 
-export const RevokeDnsBindPermissionRequest: Schema.Schema<RevokeDnsBindPermissionRequest> = Schema.suspend(() => Schema.Struct({
-  principal: Schema.optional(Principal),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RevokeDnsBindPermissionRequest" }) as any as Schema.Schema<RevokeDnsBindPermissionRequest>;
+export const RevokeDnsBindPermissionRequest: Schema.Schema<RevokeDnsBindPermissionRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      principal: Schema.optional(Principal),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RevokeDnsBindPermissionRequest",
+  }) as any as Schema.Schema<RevokeDnsBindPermissionRequest>;
 
 export interface Announcement {
   /** Output only. The resource name of the announcement. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/announcements/my-announcement-id` */
@@ -1247,7 +1652,13 @@ export interface Announcement {
   /** Output only. Description of the announcement. */
   description?: string;
   /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "DELETING" | "CREATING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ACTIVE"
+    | "INACTIVE"
+    | "DELETING"
+    | "CREATING"
+    | (string & {});
   /** A Private Cloud resource name. */
   privateCloud?: string;
   /** A Cluster resource name. */
@@ -1260,19 +1671,23 @@ export interface Announcement {
   activityType?: string;
 }
 
-export const Announcement: Schema.Schema<Announcement> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  privateCloud: Schema.optional(Schema.String),
-  cluster: Schema.optional(Schema.String),
-  targetResourceType: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  activityType: Schema.optional(Schema.String),
-})).annotate({ identifier: "Announcement" }) as any as Schema.Schema<Announcement>;
+export const Announcement: Schema.Schema<Announcement> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    privateCloud: Schema.optional(Schema.String),
+    cluster: Schema.optional(Schema.String),
+    targetResourceType: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    activityType: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Announcement",
+}) as any as Schema.Schema<Announcement>;
 
 export interface ListAnnouncementsResponse {
   /** A list of announcement runs. */
@@ -1283,11 +1698,16 @@ export interface ListAnnouncementsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListAnnouncementsResponse: Schema.Schema<ListAnnouncementsResponse> = Schema.suspend(() => Schema.Struct({
-  announcements: Schema.optional(Schema.Array(Announcement)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListAnnouncementsResponse" }) as any as Schema.Schema<ListAnnouncementsResponse>;
+export const ListAnnouncementsResponse: Schema.Schema<ListAnnouncementsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      announcements: Schema.optional(Schema.Array(Announcement)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListAnnouncementsResponse",
+  }) as any as Schema.Schema<ListAnnouncementsResponse>;
 
 export interface TimeOfDay {
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
@@ -1300,27 +1720,40 @@ export interface TimeOfDay {
   nanos?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() => Schema.Struct({
-  hours: Schema.optional(Schema.Number),
-  minutes: Schema.optional(Schema.Number),
-  seconds: Schema.optional(Schema.Number),
-  nanos: Schema.optional(Schema.Number),
-})).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
+  Schema.Struct({
+    hours: Schema.optional(Schema.Number),
+    minutes: Schema.optional(Schema.Number),
+    seconds: Schema.optional(Schema.Number),
+    nanos: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface TimeWindow {
   /** Required. Day of the week for this window. */
-  dayOfWeek?: "DAY_OF_WEEK_UNSPECIFIED" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | (string & {});
+  dayOfWeek?:
+    | "DAY_OF_WEEK_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {});
   /** Required. Time in UTC when the window starts. */
   startTime?: TimeOfDay;
   /** Required. The duration of the window. The max allowed duration for any window is 24 hours. */
   duration?: string;
 }
 
-export const TimeWindow: Schema.Schema<TimeWindow> = Schema.suspend(() => Schema.Struct({
-  dayOfWeek: Schema.optional(Schema.String),
-  startTime: Schema.optional(TimeOfDay),
-  duration: Schema.optional(Schema.String),
-})).annotate({ identifier: "TimeWindow" }) as any as Schema.Schema<TimeWindow>;
+export const TimeWindow: Schema.Schema<TimeWindow> = Schema.suspend(() =>
+  Schema.Struct({
+    dayOfWeek: Schema.optional(Schema.String),
+    startTime: Schema.optional(TimeOfDay),
+    duration: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeWindow" }) as any as Schema.Schema<TimeWindow>;
 
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -1329,28 +1762,53 @@ export interface Interval {
   endTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface WeeklyTimeInterval {
   /** Output only. The day on which the interval starts. */
-  startDay?: "DAY_OF_WEEK_UNSPECIFIED" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | (string & {});
+  startDay?:
+    | "DAY_OF_WEEK_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {});
   /** Output only. The time on the start day at which the interval starts. */
   startTime?: TimeOfDay;
   /** Output only. The day on which the interval ends. Can be same as start day. */
-  endDay?: "DAY_OF_WEEK_UNSPECIFIED" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | (string & {});
+  endDay?:
+    | "DAY_OF_WEEK_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {});
   /** Output only. The time on the end day at which the interval ends. */
   endTime?: TimeOfDay;
 }
 
-export const WeeklyTimeInterval: Schema.Schema<WeeklyTimeInterval> = Schema.suspend(() => Schema.Struct({
-  startDay: Schema.optional(Schema.String),
-  startTime: Schema.optional(TimeOfDay),
-  endDay: Schema.optional(Schema.String),
-  endTime: Schema.optional(TimeOfDay),
-})).annotate({ identifier: "WeeklyTimeInterval" }) as any as Schema.Schema<WeeklyTimeInterval>;
+export const WeeklyTimeInterval: Schema.Schema<WeeklyTimeInterval> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startDay: Schema.optional(Schema.String),
+      startTime: Schema.optional(TimeOfDay),
+      endDay: Schema.optional(Schema.String),
+      endTime: Schema.optional(TimeOfDay),
+    }),
+  ).annotate({
+    identifier: "WeeklyTimeInterval",
+  }) as any as Schema.Schema<WeeklyTimeInterval>;
 
 export interface Constraints {
   /** Output only. Minimum number of hours must be allotted for the upgrade activities for each selected day. This is a minimum; the upgrade schedule can allot more hours for the given day. */
@@ -1363,12 +1821,14 @@ export interface Constraints {
   disallowedIntervals?: Array<WeeklyTimeInterval>;
 }
 
-export const Constraints: Schema.Schema<Constraints> = Schema.suspend(() => Schema.Struct({
-  minHoursDay: Schema.optional(Schema.Number),
-  minHoursWeek: Schema.optional(Schema.Number),
-  rescheduleDateRange: Schema.optional(Interval),
-  disallowedIntervals: Schema.optional(Schema.Array(WeeklyTimeInterval)),
-})).annotate({ identifier: "Constraints" }) as any as Schema.Schema<Constraints>;
+export const Constraints: Schema.Schema<Constraints> = Schema.suspend(() =>
+  Schema.Struct({
+    minHoursDay: Schema.optional(Schema.Number),
+    minHoursWeek: Schema.optional(Schema.Number),
+    rescheduleDateRange: Schema.optional(Interval),
+    disallowedIntervals: Schema.optional(Schema.Array(WeeklyTimeInterval)),
+  }),
+).annotate({ identifier: "Constraints" }) as any as Schema.Schema<Constraints>;
 
 export interface Schedule {
   /** Required. The scheduled start time for the upgrade. */
@@ -1383,25 +1843,56 @@ export interface Schedule {
   lastEditor?: "EDITOR_UNSPECIFIED" | "SYSTEM" | "USER" | (string & {});
 }
 
-export const Schedule: Schema.Schema<Schedule> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  weeklyWindows: Schema.optional(Schema.Array(TimeWindow)),
-  constraints: Schema.optional(Constraints),
-  editWindow: Schema.optional(Interval),
-  lastEditor: Schema.optional(Schema.String),
-})).annotate({ identifier: "Schedule" }) as any as Schema.Schema<Schedule>;
+export const Schedule: Schema.Schema<Schedule> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    weeklyWindows: Schema.optional(Schema.Array(TimeWindow)),
+    constraints: Schema.optional(Constraints),
+    editWindow: Schema.optional(Interval),
+    lastEditor: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Schedule" }) as any as Schema.Schema<Schedule>;
 
 export interface VmwareUpgradeComponent {
   /** Output only. Type of component */
-  componentType?: "VMWARE_COMPONENT_TYPE_UNSPECIFIED" | "VCENTER" | "ESXI" | "NSXT_UC" | "NSXT_EDGE" | "NSXT_MGR" | "HCX" | "VSAN" | "DVS" | "NAMESERVER_VM" | "KMS_VM" | "WITNESS_VM" | "NSXT" | "CLUSTER" | "VM_TOOLS" | (string & {});
+  componentType?:
+    | "VMWARE_COMPONENT_TYPE_UNSPECIFIED"
+    | "VCENTER"
+    | "ESXI"
+    | "NSXT_UC"
+    | "NSXT_EDGE"
+    | "NSXT_MGR"
+    | "HCX"
+    | "VSAN"
+    | "DVS"
+    | "NAMESERVER_VM"
+    | "KMS_VM"
+    | "WITNESS_VM"
+    | "NSXT"
+    | "CLUSTER"
+    | "VM_TOOLS"
+    | (string & {});
   /** Output only. Component's upgrade state. */
-  state?: "STATE_UNSPECIFIED" | "RUNNING" | "PAUSED" | "SUCCEEDED" | "FAILED" | "NOT_STARTED" | "NOT_APPLICABLE" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "PAUSED"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "NOT_STARTED"
+    | "NOT_APPLICABLE"
+    | (string & {});
 }
 
-export const VmwareUpgradeComponent: Schema.Schema<VmwareUpgradeComponent> = Schema.suspend(() => Schema.Struct({
-  componentType: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "VmwareUpgradeComponent" }) as any as Schema.Schema<VmwareUpgradeComponent>;
+export const VmwareUpgradeComponent: Schema.Schema<VmwareUpgradeComponent> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      componentType: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VmwareUpgradeComponent",
+  }) as any as Schema.Schema<VmwareUpgradeComponent>;
 
 export interface Upgrade {
   /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
@@ -1413,9 +1904,28 @@ export interface Upgrade {
   /** Output only. Output Only. End time of the upgrade. */
   endTime?: string;
   /** Output only. The current state of the upgrade. */
-  state?: "STATE_UNSPECIFIED" | "SCHEDULED" | "ONGOING" | "SUCCEEDED" | "PAUSED" | "FAILED" | "CANCELLING" | "CANCELLED" | "RESCHEDULING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "SCHEDULED"
+    | "ONGOING"
+    | "SUCCEEDED"
+    | "PAUSED"
+    | "FAILED"
+    | "CANCELLING"
+    | "CANCELLED"
+    | "RESCHEDULING"
+    | (string & {});
   /** Output only. Output Only. The type of upgrade. */
-  type?: "TYPE_UNSPECIFIED" | "VSPHERE_UPGRADE" | "VSPHERE_PATCH" | "WORKAROUND" | "FIRMWARE_UPGRADE" | "SWITCH_UPGRADE" | "OTHER" | "INFRASTRUCTURE_UPGRADE" | (string & {});
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "VSPHERE_UPGRADE"
+    | "VSPHERE_PATCH"
+    | "WORKAROUND"
+    | "FIRMWARE_UPGRADE"
+    | "SWITCH_UPGRADE"
+    | "OTHER"
+    | "INFRASTRUCTURE_UPGRADE"
+    | (string & {});
   /** Output only. Output Only. The description of the upgrade. This is used to provide additional information about the private cloud upgrade, such as the upgrade's purpose, the changes included in the upgrade, or any other relevant information about the upgrade. */
   description?: string;
   /** Output only. Output Only. The estimated total duration of the upgrade. This information can be used to plan or schedule upgrades to minimize disruptions. Please note that the estimated duration is only an estimate. The actual upgrade duration may vary. */
@@ -1436,23 +1946,25 @@ export interface Upgrade {
   targetVersion?: string;
 }
 
-export const Upgrade: Schema.Schema<Upgrade> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  estimatedDuration: Schema.optional(Schema.String),
-  schedule: Schema.optional(Schedule),
-  version: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  componentUpgrades: Schema.optional(Schema.Array(VmwareUpgradeComponent)),
-  startVersion: Schema.optional(Schema.String),
-  targetVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "Upgrade" }) as any as Schema.Schema<Upgrade>;
+export const Upgrade: Schema.Schema<Upgrade> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    estimatedDuration: Schema.optional(Schema.String),
+    schedule: Schema.optional(Schedule),
+    version: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    componentUpgrades: Schema.optional(Schema.Array(VmwareUpgradeComponent)),
+    startVersion: Schema.optional(Schema.String),
+    targetVersion: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Upgrade" }) as any as Schema.Schema<Upgrade>;
 
 export interface ListUpgradesResponse {
   /** A list of `Upgrades`. */
@@ -1463,11 +1975,16 @@ export interface ListUpgradesResponse {
   unreachable?: Array<string>;
 }
 
-export const ListUpgradesResponse: Schema.Schema<ListUpgradesResponse> = Schema.suspend(() => Schema.Struct({
-  upgrades: Schema.optional(Schema.Array(Upgrade)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListUpgradesResponse" }) as any as Schema.Schema<ListUpgradesResponse>;
+export const ListUpgradesResponse: Schema.Schema<ListUpgradesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      upgrades: Schema.optional(Schema.Array(Upgrade)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListUpgradesResponse",
+  }) as any as Schema.Schema<ListUpgradesResponse>;
 
 export interface GoogleFileService {
   /** Google netapp volume resource name e.g. projects/my-project/locations/me-west1-b/volumes/my-volume */
@@ -1476,10 +1993,15 @@ export interface GoogleFileService {
   filestoreInstance?: string;
 }
 
-export const GoogleFileService: Schema.Schema<GoogleFileService> = Schema.suspend(() => Schema.Struct({
-  netappVolume: Schema.optional(Schema.String),
-  filestoreInstance: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleFileService" }) as any as Schema.Schema<GoogleFileService>;
+export const GoogleFileService: Schema.Schema<GoogleFileService> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      netappVolume: Schema.optional(Schema.String),
+      filestoreInstance: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleFileService",
+  }) as any as Schema.Schema<GoogleFileService>;
 
 export interface ThirdPartyFileService {
   /** Required. Server IP addresses of the NFS file service. NFS v3, provide a single IP address or DNS name. Multiple servers can be supported in future when NFS 4.1 protocol support is enabled. */
@@ -1490,17 +2012,23 @@ export interface ThirdPartyFileService {
   network?: string;
 }
 
-export const ThirdPartyFileService: Schema.Schema<ThirdPartyFileService> = Schema.suspend(() => Schema.Struct({
-  servers: Schema.optional(Schema.Array(Schema.String)),
-  fileShare: Schema.optional(Schema.String),
-  network: Schema.optional(Schema.String),
-})).annotate({ identifier: "ThirdPartyFileService" }) as any as Schema.Schema<ThirdPartyFileService>;
+export const ThirdPartyFileService: Schema.Schema<ThirdPartyFileService> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      servers: Schema.optional(Schema.Array(Schema.String)),
+      fileShare: Schema.optional(Schema.String),
+      network: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ThirdPartyFileService",
+  }) as any as Schema.Schema<ThirdPartyFileService>;
 
-export interface GoogleVmwareFileService {
-}
+export interface GoogleVmwareFileService {}
 
-export const GoogleVmwareFileService: Schema.Schema<GoogleVmwareFileService> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "GoogleVmwareFileService" }) as any as Schema.Schema<GoogleVmwareFileService>;
+export const GoogleVmwareFileService: Schema.Schema<GoogleVmwareFileService> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleVmwareFileService",
+  }) as any as Schema.Schema<GoogleVmwareFileService>;
 
 export interface NfsDatastore {
   /** Google file service configuration */
@@ -1511,11 +2039,15 @@ export interface NfsDatastore {
   googleVmwareFileService?: GoogleVmwareFileService;
 }
 
-export const NfsDatastore: Schema.Schema<NfsDatastore> = Schema.suspend(() => Schema.Struct({
-  googleFileService: Schema.optional(GoogleFileService),
-  thirdPartyFileService: Schema.optional(ThirdPartyFileService),
-  googleVmwareFileService: Schema.optional(GoogleVmwareFileService),
-})).annotate({ identifier: "NfsDatastore" }) as any as Schema.Schema<NfsDatastore>;
+export const NfsDatastore: Schema.Schema<NfsDatastore> = Schema.suspend(() =>
+  Schema.Struct({
+    googleFileService: Schema.optional(GoogleFileService),
+    thirdPartyFileService: Schema.optional(ThirdPartyFileService),
+    googleVmwareFileService: Schema.optional(GoogleVmwareFileService),
+  }),
+).annotate({
+  identifier: "NfsDatastore",
+}) as any as Schema.Schema<NfsDatastore>;
 
 export interface Datastore {
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
@@ -1531,24 +2063,32 @@ export interface Datastore {
   /** Required. Settings for the NFS datastore. */
   nfsDatastore?: NfsDatastore;
   /** Output only. The state of the Datastore. */
-  state?: "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | (string & {});
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ACTIVE"
+    | "UPDATING"
+    | "DELETING"
+    | (string & {});
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
   /** Optional. Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
   etag?: string;
 }
 
-export const Datastore: Schema.Schema<Datastore> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  clusters: Schema.optional(Schema.Array(Schema.String)),
-  nfsDatastore: Schema.optional(NfsDatastore),
-  state: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Datastore" }) as any as Schema.Schema<Datastore>;
+export const Datastore: Schema.Schema<Datastore> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    createTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    clusters: Schema.optional(Schema.Array(Schema.String)),
+    nfsDatastore: Schema.optional(NfsDatastore),
+    state: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Datastore" }) as any as Schema.Schema<Datastore>;
 
 export interface ListDatastoresResponse {
   /** A list of Datastores. */
@@ -1559,11 +2099,16 @@ export interface ListDatastoresResponse {
   unreachable?: Array<string>;
 }
 
-export const ListDatastoresResponse: Schema.Schema<ListDatastoresResponse> = Schema.suspend(() => Schema.Struct({
-  datastores: Schema.optional(Schema.Array(Datastore)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListDatastoresResponse" }) as any as Schema.Schema<ListDatastoresResponse>;
+export const ListDatastoresResponse: Schema.Schema<ListDatastoresResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datastores: Schema.optional(Schema.Array(Datastore)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListDatastoresResponse",
+  }) as any as Schema.Schema<ListDatastoresResponse>;
 
 export interface MountDatastoreRequest {
   /** Required. The datastore mount configuration. */
@@ -1574,11 +2119,16 @@ export interface MountDatastoreRequest {
   ignoreColocation?: boolean;
 }
 
-export const MountDatastoreRequest: Schema.Schema<MountDatastoreRequest> = Schema.suspend(() => Schema.Struct({
-  datastoreMountConfig: Schema.optional(DatastoreMountConfig),
-  requestId: Schema.optional(Schema.String),
-  ignoreColocation: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "MountDatastoreRequest" }) as any as Schema.Schema<MountDatastoreRequest>;
+export const MountDatastoreRequest: Schema.Schema<MountDatastoreRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datastoreMountConfig: Schema.optional(DatastoreMountConfig),
+      requestId: Schema.optional(Schema.String),
+      ignoreColocation: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "MountDatastoreRequest",
+  }) as any as Schema.Schema<MountDatastoreRequest>;
 
 export interface UnmountDatastoreRequest {
   /** Required. The resource name of the datastore to unmount. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
@@ -1587,10 +2137,15 @@ export interface UnmountDatastoreRequest {
   requestId?: string;
 }
 
-export const UnmountDatastoreRequest: Schema.Schema<UnmountDatastoreRequest> = Schema.suspend(() => Schema.Struct({
-  datastore: Schema.optional(Schema.String),
-  requestId: Schema.optional(Schema.String),
-})).annotate({ identifier: "UnmountDatastoreRequest" }) as any as Schema.Schema<UnmountDatastoreRequest>;
+export const UnmountDatastoreRequest: Schema.Schema<UnmountDatastoreRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      datastore: Schema.optional(Schema.String),
+      requestId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UnmountDatastoreRequest",
+  }) as any as Schema.Schema<UnmountDatastoreRequest>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
@@ -1605,13 +2160,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -1620,10 +2177,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -1636,12 +2198,14 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() => Schema.Struct({
-  expression: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  location: Schema.optional(Schema.String),
-})).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
+  Schema.Struct({
+    expression: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -1652,23 +2216,35 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() => Schema.Struct({
-  role: Schema.optional(Schema.String),
-  members: Schema.optional(Schema.Array(Schema.String)),
-  condition: Schema.optional(Expr),
-})).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
+  Schema.Struct({
+    role: Schema.optional(Schema.String),
+    members: Schema.optional(Schema.Array(Schema.String)),
+    condition: Schema.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: "LOG_TYPE_UNSPECIFIED" | "ADMIN_READ" | "DATA_WRITE" | "DATA_READ" | (string & {});
+  logType?:
+    | "LOG_TYPE_UNSPECIFIED"
+    | "ADMIN_READ"
+    | "DATA_WRITE"
+    | "DATA_READ"
+    | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(() => Schema.Struct({
-  logType: Schema.optional(Schema.String),
-  exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "AuditLogConfig" }) as any as Schema.Schema<AuditLogConfig>;
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      logType: Schema.optional(Schema.String),
+      exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "AuditLogConfig",
+}) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -1677,10 +2253,12 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() => Schema.Struct({
-  service: Schema.optional(Schema.String),
-  auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-})).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1693,12 +2271,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.Number),
-  bindings: Schema.optional(Schema.Array(Binding)),
-  auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-  etag: Schema.optional(Schema.String),
-})).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
+  Schema.Struct({
+    version: Schema.optional(Schema.Number),
+    bindings: Schema.optional(Schema.Array(Binding)),
+    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+    etag: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -1707,28 +2287,43 @@ export interface SetIamPolicyRequest {
   updateMask?: string;
 }
 
-export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.suspend(() => Schema.Struct({
-  policy: Schema.optional(Policy),
-  updateMask: Schema.optional(Schema.String),
-})).annotate({ identifier: "SetIamPolicyRequest" }) as any as Schema.Schema<SetIamPolicyRequest>;
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+      updateMask: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
 
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsRequest" }) as any as Schema.Schema<TestIamPermissionsRequest>;
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
 }
 
-export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> = Schema.suspend(() => Schema.Struct({
-  permissions: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TestIamPermissionsResponse" }) as any as Schema.Schema<TestIamPermissionsResponse>;
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
 export interface OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -1747,24 +2342,36 @@ export interface OperationMetadata {
   apiVersion?: string;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
-  createTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  verb: Schema.optional(Schema.String),
-  statusMessage: Schema.optional(Schema.String),
-  requestedCancellation: Schema.optional(Schema.Boolean),
-  apiVersion: Schema.optional(Schema.String),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 export interface LocationMetadata {
   /** Output only. Capabilities of this location. */
-  capabilities?: Array<"CAPABILITY_UNSPECIFIED" | "STRETCHED_CLUSTERS" | (string & {})>;
+  capabilities?: Array<
+    "CAPABILITY_UNSPECIFIED" | "STRETCHED_CLUSTERS" | (string & {})
+  >;
 }
 
-export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(() => Schema.Struct({
-  capabilities: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "LocationMetadata" }) as any as Schema.Schema<LocationMetadata>;
+export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      capabilities: Schema.optional(Schema.Array(Schema.String)),
+    }),
+).annotate({
+  identifier: "LocationMetadata",
+}) as any as Schema.Schema<LocationMetadata>;
 
 // ==========================================================================
 // Operations
@@ -1778,7 +2385,10 @@ export interface GetDnsBindPermissionProjectsLocationsRequest {
 export const GetDnsBindPermissionProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/dnsBindPermission" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsBindPermission",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDnsBindPermissionProjectsLocationsRequest>;
 
@@ -1788,7 +2398,12 @@ export const GetDnsBindPermissionProjectsLocationsResponse = DnsBindPermission;
 export type GetDnsBindPermissionProjectsLocationsError = DefaultErrors;
 
 /** Gets all the principals having bind permission on the intranet VPC associated with the consumer project granted by the Grant API. DnsBindPermission is a global resource and location can only be global. */
-export const getDnsBindPermissionProjectsLocations: API.OperationMethod<GetDnsBindPermissionProjectsLocationsRequest, GetDnsBindPermissionProjectsLocationsResponse, GetDnsBindPermissionProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDnsBindPermissionProjectsLocations: API.OperationMethod<
+  GetDnsBindPermissionProjectsLocationsRequest,
+  GetDnsBindPermissionProjectsLocationsResponse,
+  GetDnsBindPermissionProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDnsBindPermissionProjectsLocationsRequest,
   output: GetDnsBindPermissionProjectsLocationsResponse,
   errors: [],
@@ -1812,7 +2427,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -1824,7 +2441,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1842,7 +2464,10 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1852,7 +2477,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1876,9 +2506,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1888,7 +2523,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1906,7 +2546,10 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1916,7 +2559,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1930,7 +2578,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1940,7 +2591,12 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1966,17 +2622,27 @@ export const ListProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsRequest>;
 
-export type ListProjectsLocationsPrivateCloudsResponse = ListPrivateCloudsResponse;
-export const ListProjectsLocationsPrivateCloudsResponse = ListPrivateCloudsResponse;
+export type ListProjectsLocationsPrivateCloudsResponse =
+  ListPrivateCloudsResponse;
+export const ListProjectsLocationsPrivateCloudsResponse =
+  ListPrivateCloudsResponse;
 
 export type ListProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Lists `PrivateCloud` resources in a given project and location. */
-export const listProjectsLocationsPrivateClouds: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsRequest, ListProjectsLocationsPrivateCloudsResponse, ListProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateClouds: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsRequest,
+  ListProjectsLocationsPrivateCloudsResponse,
+  ListProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsRequest,
   output: ListProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -1994,7 +2660,10 @@ export interface GetProjectsLocationsPrivateCloudsRequest {
 export const GetProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsRequest>;
 
@@ -2004,7 +2673,12 @@ export const GetProjectsLocationsPrivateCloudsResponse = PrivateCloud;
 export type GetProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Retrieves a `PrivateCloud` resource by its resource name. */
-export const getProjectsLocationsPrivateClouds: API.OperationMethod<GetProjectsLocationsPrivateCloudsRequest, GetProjectsLocationsPrivateCloudsResponse, GetProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateClouds: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsRequest,
+  GetProjectsLocationsPrivateCloudsResponse,
+  GetProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsRequest,
   output: GetProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2025,12 +2699,20 @@ export interface CreateProjectsLocationsPrivateCloudsRequest {
 
 export const CreateProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  privateCloudId: Schema.optional(Schema.String).pipe(T.HttpQuery("privateCloudId")),
+  privateCloudId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("privateCloudId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
+  validateOnly: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("validateOnly"),
+  ),
   body: Schema.optional(PrivateCloud).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsRequest>;
 
@@ -2040,7 +2722,12 @@ export const CreateProjectsLocationsPrivateCloudsResponse = Operation;
 export type CreateProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Creates a new `PrivateCloud` resource in a given project and location. Private clouds of type `STANDARD` and `TIME_LIMITED` are zonal resources, `STRETCHED` private clouds are regional. Creating a private cloud also creates a [management cluster](https://cloud.google.com/vmware-engine/docs/concepts-vmware-components) for that private cloud. */
-export const createProjectsLocationsPrivateClouds: API.OperationMethod<CreateProjectsLocationsPrivateCloudsRequest, CreateProjectsLocationsPrivateCloudsResponse, CreateProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateClouds: API.OperationMethod<
+  CreateProjectsLocationsPrivateCloudsRequest,
+  CreateProjectsLocationsPrivateCloudsResponse,
+  CreateProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsRequest,
   output: CreateProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2063,7 +2750,11 @@ export const PatchProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(PrivateCloud).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsRequest>;
 
@@ -2073,7 +2764,12 @@ export const PatchProjectsLocationsPrivateCloudsResponse = Operation;
 export type PatchProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Modifies a `PrivateCloud` resource. Only the following fields can be updated: `description`. Only fields specified in `updateMask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
-export const patchProjectsLocationsPrivateClouds: API.OperationMethod<PatchProjectsLocationsPrivateCloudsRequest, PatchProjectsLocationsPrivateCloudsResponse, PatchProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateClouds: API.OperationMethod<
+  PatchProjectsLocationsPrivateCloudsRequest,
+  PatchProjectsLocationsPrivateCloudsResponse,
+  PatchProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsRequest,
   output: PatchProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2096,7 +2792,10 @@ export const DeleteProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   delayHours: Schema.optional(Schema.Number).pipe(T.HttpQuery("delayHours")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsRequest>;
 
@@ -2106,7 +2805,12 @@ export const DeleteProjectsLocationsPrivateCloudsResponse = Operation;
 export type DeleteProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Schedules a `PrivateCloud` resource for deletion. A `PrivateCloud` resource scheduled for deletion has `PrivateCloud.state` set to `DELETED` and `expireTime` set to the time when deletion is final and can no longer be reversed. The delete operation is marked as done as soon as the `PrivateCloud` is successfully scheduled for deletion (this also applies when `delayHours` is set to zero), and the operation is not kept in pending state until `PrivateCloud` is purged. `PrivateCloud` can be restored using `UndeletePrivateCloud` method before the `expireTime` elapses. When `expireTime` is reached, deletion is final and all private cloud resources are irreversibly removed and billing stops. During the final removal process, `PrivateCloud.state` is set to `PURGING`. `PrivateCloud` can be polled using standard `GET` method for the whole period of deletion and purging. It will not be returned only when it is completely purged. */
-export const deleteProjectsLocationsPrivateClouds: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsRequest, DeleteProjectsLocationsPrivateCloudsResponse, DeleteProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPrivateClouds: API.OperationMethod<
+  DeleteProjectsLocationsPrivateCloudsRequest,
+  DeleteProjectsLocationsPrivateCloudsResponse,
+  DeleteProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsRequest,
   output: DeleteProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2119,21 +2823,36 @@ export interface PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest {
   body?: AcceleratePrivateCloudDeletionRequest;
 }
 
-export const PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AcceleratePrivateCloudDeletionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:privateCloudDeletionNow", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest>;
+export const PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AcceleratePrivateCloudDeletionRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:privateCloudDeletionNow",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest>;
 
-export type PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse = Operation;
-export const PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse = Operation;
+export type PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse =
+  Operation;
+export const PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse =
+  Operation;
 
-export type PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError = DefaultErrors;
+export type PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError =
+  DefaultErrors;
 
 /** Accelerates the deletion of a private cloud that is currently in soft deletion A `PrivateCloud` resource in soft deletion has `PrivateCloud.state` set to `SOFT_DELETED` and `PrivateCloud.expireTime` set to the time when deletion can no longer be reversed. */
-export const privateCloudDeletionNowProjectsLocationsPrivateClouds: API.OperationMethod<PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest, PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse, PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const privateCloudDeletionNowProjectsLocationsPrivateClouds: API.OperationMethod<
+  PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest,
+  PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse,
+  PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest,
   output: PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2150,7 +2869,11 @@ export const UndeleteProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UndeletePrivateCloudRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:undelete", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:undelete",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<UndeleteProjectsLocationsPrivateCloudsRequest>;
 
@@ -2160,7 +2883,12 @@ export const UndeleteProjectsLocationsPrivateCloudsResponse = Operation;
 export type UndeleteProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Restores a private cloud that was previously scheduled for deletion by `DeletePrivateCloud`. A `PrivateCloud` resource scheduled for deletion has `PrivateCloud.state` set to `DELETED` and `PrivateCloud.expireTime` set to the time when deletion can no longer be reversed. */
-export const undeleteProjectsLocationsPrivateClouds: API.OperationMethod<UndeleteProjectsLocationsPrivateCloudsRequest, UndeleteProjectsLocationsPrivateCloudsResponse, UndeleteProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const undeleteProjectsLocationsPrivateClouds: API.OperationMethod<
+  UndeleteProjectsLocationsPrivateCloudsRequest,
+  UndeleteProjectsLocationsPrivateCloudsResponse,
+  UndeleteProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UndeleteProjectsLocationsPrivateCloudsRequest,
   output: UndeleteProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2171,20 +2899,32 @@ export interface ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest {
   privateCloud: string;
 }
 
-export const ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:showNsxCredentials" }),
-  svc,
-) as unknown as Schema.Schema<ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest>;
+export const ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:showNsxCredentials",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest>;
 
-export type ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse = Vmwareengine_Credentials;
-export const ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse = Vmwareengine_Credentials;
+export type ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse =
+  Vmwareengine_Credentials;
+export const ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse =
+  Vmwareengine_Credentials;
 
-export type ShowNsxCredentialsProjectsLocationsPrivateCloudsError = DefaultErrors;
+export type ShowNsxCredentialsProjectsLocationsPrivateCloudsError =
+  DefaultErrors;
 
 /** Gets details of credentials for NSX appliance. */
-export const showNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest, ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse, ShowNsxCredentialsProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const showNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<
+  ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest,
+  ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse,
+  ShowNsxCredentialsProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2197,21 +2937,33 @@ export interface ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   username?: string;
 }
 
-export const ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
-  username: Schema.optional(Schema.String).pipe(T.HttpQuery("username")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:showVcenterCredentials" }),
-  svc,
-) as unknown as Schema.Schema<ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest>;
+export const ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
+    username: Schema.optional(Schema.String).pipe(T.HttpQuery("username")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:showVcenterCredentials",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest>;
 
-export type ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse = Vmwareengine_Credentials;
-export const ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse = Vmwareengine_Credentials;
+export type ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse =
+  Vmwareengine_Credentials;
+export const ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse =
+  Vmwareengine_Credentials;
 
-export type ShowVcenterCredentialsProjectsLocationsPrivateCloudsError = DefaultErrors;
+export type ShowVcenterCredentialsProjectsLocationsPrivateCloudsError =
+  DefaultErrors;
 
 /** Gets details of credentials for Vcenter appliance. */
-export const showVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest, ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse, ShowVcenterCredentialsProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const showVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<
+  ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest,
+  ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse,
+  ShowVcenterCredentialsProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2224,21 +2976,34 @@ export interface ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest {
   body?: ResetNsxCredentialsRequest;
 }
 
-export const ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
-  body: Schema.optional(ResetNsxCredentialsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:resetNsxCredentials", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest>;
+export const ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
+    body: Schema.optional(ResetNsxCredentialsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:resetNsxCredentials",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest>;
 
-export type ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse = Operation;
-export const ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse = Operation;
+export type ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse =
+  Operation;
+export const ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse =
+  Operation;
 
-export type ResetNsxCredentialsProjectsLocationsPrivateCloudsError = DefaultErrors;
+export type ResetNsxCredentialsProjectsLocationsPrivateCloudsError =
+  DefaultErrors;
 
 /** Resets credentials of the NSX appliance. */
-export const resetNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest, ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse, ResetNsxCredentialsProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resetNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<
+  ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest,
+  ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse,
+  ResetNsxCredentialsProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2251,21 +3016,34 @@ export interface ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   body?: ResetVcenterCredentialsRequest;
 }
 
-export const ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
-  body: Schema.optional(ResetVcenterCredentialsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:resetVcenterCredentials", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest>;
+export const ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    privateCloud: Schema.String.pipe(T.HttpPath("privateCloud")),
+    body: Schema.optional(ResetVcenterCredentialsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:resetVcenterCredentials",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest>;
 
-export type ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse = Operation;
-export const ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse = Operation;
+export type ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse =
+  Operation;
+export const ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse =
+  Operation;
 
-export type ResetVcenterCredentialsProjectsLocationsPrivateCloudsError = DefaultErrors;
+export type ResetVcenterCredentialsProjectsLocationsPrivateCloudsError =
+  DefaultErrors;
 
 /** Resets credentials of the Vcenter appliance. */
-export const resetVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest, ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse, ResetVcenterCredentialsProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const resetVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<
+  ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest,
+  ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse,
+  ResetVcenterCredentialsProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2276,20 +3054,31 @@ export interface GetDnsForwardingProjectsLocationsPrivateCloudsRequest {
   name: string;
 }
 
-export const GetDnsForwardingProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/dnsForwarding" }),
-  svc,
-) as unknown as Schema.Schema<GetDnsForwardingProjectsLocationsPrivateCloudsRequest>;
+export const GetDnsForwardingProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/dnsForwarding",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDnsForwardingProjectsLocationsPrivateCloudsRequest>;
 
-export type GetDnsForwardingProjectsLocationsPrivateCloudsResponse = DnsForwarding;
-export const GetDnsForwardingProjectsLocationsPrivateCloudsResponse = DnsForwarding;
+export type GetDnsForwardingProjectsLocationsPrivateCloudsResponse =
+  DnsForwarding;
+export const GetDnsForwardingProjectsLocationsPrivateCloudsResponse =
+  DnsForwarding;
 
 export type GetDnsForwardingProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Gets details of the `DnsForwarding` config. */
-export const getDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod<GetDnsForwardingProjectsLocationsPrivateCloudsRequest, GetDnsForwardingProjectsLocationsPrivateCloudsResponse, GetDnsForwardingProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod<
+  GetDnsForwardingProjectsLocationsPrivateCloudsRequest,
+  GetDnsForwardingProjectsLocationsPrivateCloudsResponse,
+  GetDnsForwardingProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetDnsForwardingProjectsLocationsPrivateCloudsRequest,
   output: GetDnsForwardingProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2306,23 +3095,36 @@ export interface UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest {
   body?: DnsForwarding;
 }
 
-export const UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(DnsForwarding).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/dnsForwarding", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest>;
+export const UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(DnsForwarding).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/dnsForwarding",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest>;
 
-export type UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse = Operation;
-export const UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse = Operation;
+export type UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse =
+  Operation;
+export const UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse =
+  Operation;
 
-export type UpdateDnsForwardingProjectsLocationsPrivateCloudsError = DefaultErrors;
+export type UpdateDnsForwardingProjectsLocationsPrivateCloudsError =
+  DefaultErrors;
 
 /** Updates the parameters of the `DnsForwarding` config, like associated domains. Only fields specified in `update_mask` are applied. */
-export const updateDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod<UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest, UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse, UpdateDnsForwardingProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const updateDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod<
+  UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest,
+  UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse,
+  UpdateDnsForwardingProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest,
   output: UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2339,7 +3141,11 @@ export const SetIamPolicyProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsPrivateCloudsRequest>;
 
@@ -2349,7 +3155,12 @@ export const SetIamPolicyProjectsLocationsPrivateCloudsResponse = Policy;
 export type SetIamPolicyProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<SetIamPolicyProjectsLocationsPrivateCloudsRequest, SetIamPolicyProjectsLocationsPrivateCloudsResponse, SetIamPolicyProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<
+  SetIamPolicyProjectsLocationsPrivateCloudsRequest,
+  SetIamPolicyProjectsLocationsPrivateCloudsResponse,
+  SetIamPolicyProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsPrivateCloudsRequest,
   output: SetIamPolicyProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2364,9 +3175,14 @@ export interface GetIamPolicyProjectsLocationsPrivateCloudsRequest {
 
 export const GetIamPolicyProjectsLocationsPrivateCloudsRequest = Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
+  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("options.requestedPolicyVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:getIamPolicy" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:getIamPolicy",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsPrivateCloudsRequest>;
 
@@ -2376,7 +3192,12 @@ export const GetIamPolicyProjectsLocationsPrivateCloudsResponse = Policy;
 export type GetIamPolicyProjectsLocationsPrivateCloudsError = DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<GetIamPolicyProjectsLocationsPrivateCloudsRequest, GetIamPolicyProjectsLocationsPrivateCloudsResponse, GetIamPolicyProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<
+  GetIamPolicyProjectsLocationsPrivateCloudsRequest,
+  GetIamPolicyProjectsLocationsPrivateCloudsResponse,
+  GetIamPolicyProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsPrivateCloudsRequest,
   output: GetIamPolicyProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2389,21 +3210,34 @@ export interface TestIamPermissionsProjectsLocationsPrivateCloudsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsPrivateCloudsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsRequest>;
+export const TestIamPermissionsProjectsLocationsPrivateCloudsRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsRequest>;
 
-export type TestIamPermissionsProjectsLocationsPrivateCloudsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsPrivateCloudsResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsPrivateCloudsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsPrivateCloudsResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsPrivateCloudsError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsPrivateCloudsError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsPrivateClouds: API.OperationMethod<TestIamPermissionsProjectsLocationsPrivateCloudsRequest, TestIamPermissionsProjectsLocationsPrivateCloudsResponse, TestIamPermissionsProjectsLocationsPrivateCloudsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsPrivateClouds: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsPrivateCloudsRequest,
+  TestIamPermissionsProjectsLocationsPrivateCloudsResponse,
+  TestIamPermissionsProjectsLocationsPrivateCloudsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsPrivateCloudsRequest,
   output: TestIamPermissionsProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2429,17 +3263,27 @@ export const ListProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsClustersRequest>;
 
-export type ListProjectsLocationsPrivateCloudsClustersResponse = ListClustersResponse;
-export const ListProjectsLocationsPrivateCloudsClustersResponse = ListClustersResponse;
+export type ListProjectsLocationsPrivateCloudsClustersResponse =
+  ListClustersResponse;
+export const ListProjectsLocationsPrivateCloudsClustersResponse =
+  ListClustersResponse;
 
 export type ListProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
 
 /** Lists `Cluster` resources in a given private cloud. */
-export const listProjectsLocationsPrivateCloudsClusters: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsClustersRequest, ListProjectsLocationsPrivateCloudsClustersResponse, ListProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsClusters: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsClustersRequest,
+  ListProjectsLocationsPrivateCloudsClustersResponse,
+  ListProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsClustersRequest,
   output: ListProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2457,7 +3301,10 @@ export interface GetProjectsLocationsPrivateCloudsClustersRequest {
 export const GetProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsClustersRequest>;
 
@@ -2467,7 +3314,12 @@ export const GetProjectsLocationsPrivateCloudsClustersResponse = Cluster;
 export type GetProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
 
 /** Retrieves a `Cluster` resource by its resource name. */
-export const getProjectsLocationsPrivateCloudsClusters: API.OperationMethod<GetProjectsLocationsPrivateCloudsClustersRequest, GetProjectsLocationsPrivateCloudsClustersResponse, GetProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsClustersRequest,
+  GetProjectsLocationsPrivateCloudsClustersResponse,
+  GetProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsClustersRequest,
   output: GetProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2486,16 +3338,23 @@ export interface CreateProjectsLocationsPrivateCloudsClustersRequest {
   body?: Cluster;
 }
 
-export const CreateProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  clusterId: Schema.optional(Schema.String).pipe(T.HttpQuery("clusterId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
-  body: Schema.optional(Cluster).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsClustersRequest>;
+export const CreateProjectsLocationsPrivateCloudsClustersRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    clusterId: Schema.optional(Schema.String).pipe(T.HttpQuery("clusterId")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(Cluster).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsClustersRequest>;
 
 export type CreateProjectsLocationsPrivateCloudsClustersResponse = Operation;
 export const CreateProjectsLocationsPrivateCloudsClustersResponse = Operation;
@@ -2503,7 +3362,12 @@ export const CreateProjectsLocationsPrivateCloudsClustersResponse = Operation;
 export type CreateProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
 
 /** Creates a new cluster in a given private cloud. Creating a new cluster provides additional nodes for use in the parent private cloud and requires sufficient [node quota](https://cloud.google.com/vmware-engine/quotas). */
-export const createProjectsLocationsPrivateCloudsClusters: API.OperationMethod<CreateProjectsLocationsPrivateCloudsClustersRequest, CreateProjectsLocationsPrivateCloudsClustersResponse, CreateProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  CreateProjectsLocationsPrivateCloudsClustersRequest,
+  CreateProjectsLocationsPrivateCloudsClustersResponse,
+  CreateProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsClustersRequest,
   output: CreateProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2522,14 +3386,22 @@ export interface PatchProjectsLocationsPrivateCloudsClustersRequest {
   body?: Cluster;
 }
 
-export const PatchProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("validateOnly")),
-  body: Schema.optional(Cluster).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}", hasBody: true }),
+export const PatchProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(Cluster).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsClustersRequest>;
 
@@ -2539,7 +3411,12 @@ export const PatchProjectsLocationsPrivateCloudsClustersResponse = Operation;
 export type PatchProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
 
 /** Modifies a `Cluster` resource. Only fields specified in `updateMask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
-export const patchProjectsLocationsPrivateCloudsClusters: API.OperationMethod<PatchProjectsLocationsPrivateCloudsClustersRequest, PatchProjectsLocationsPrivateCloudsClustersResponse, PatchProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  PatchProjectsLocationsPrivateCloudsClustersRequest,
+  PatchProjectsLocationsPrivateCloudsClustersResponse,
+  PatchProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsClustersRequest,
   output: PatchProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2552,13 +3429,17 @@ export interface DeleteProjectsLocationsPrivateCloudsClustersRequest {
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsClustersRequest>;
+export const DeleteProjectsLocationsPrivateCloudsClustersRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsClustersRequest>;
 
 export type DeleteProjectsLocationsPrivateCloudsClustersResponse = Operation;
 export const DeleteProjectsLocationsPrivateCloudsClustersResponse = Operation;
@@ -2566,7 +3447,12 @@ export const DeleteProjectsLocationsPrivateCloudsClustersResponse = Operation;
 export type DeleteProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
 
 /** Deletes a `Cluster` resource. To avoid unintended data loss, migrate or gracefully shut down any workloads running on the cluster before deletion. You cannot delete the management cluster of a private cloud using this method. */
-export const deleteProjectsLocationsPrivateCloudsClusters: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsClustersRequest, DeleteProjectsLocationsPrivateCloudsClustersResponse, DeleteProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  DeleteProjectsLocationsPrivateCloudsClustersRequest,
+  DeleteProjectsLocationsPrivateCloudsClustersResponse,
+  DeleteProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsClustersRequest,
   output: DeleteProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2579,21 +3465,34 @@ export interface MountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   body?: MountDatastoreRequest;
 }
 
-export const MountDatastoreProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MountDatastoreRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:mountDatastore", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<MountDatastoreProjectsLocationsPrivateCloudsClustersRequest>;
+export const MountDatastoreProjectsLocationsPrivateCloudsClustersRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MountDatastoreRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:mountDatastore",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MountDatastoreProjectsLocationsPrivateCloudsClustersRequest>;
 
-export type MountDatastoreProjectsLocationsPrivateCloudsClustersResponse = Operation;
-export const MountDatastoreProjectsLocationsPrivateCloudsClustersResponse = Operation;
+export type MountDatastoreProjectsLocationsPrivateCloudsClustersResponse =
+  Operation;
+export const MountDatastoreProjectsLocationsPrivateCloudsClustersResponse =
+  Operation;
 
-export type MountDatastoreProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
+export type MountDatastoreProjectsLocationsPrivateCloudsClustersError =
+  DefaultErrors;
 
 /** Mounts a `Datastore` on a cluster resource */
-export const mountDatastoreProjectsLocationsPrivateCloudsClusters: API.OperationMethod<MountDatastoreProjectsLocationsPrivateCloudsClustersRequest, MountDatastoreProjectsLocationsPrivateCloudsClustersResponse, MountDatastoreProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const mountDatastoreProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  MountDatastoreProjectsLocationsPrivateCloudsClustersRequest,
+  MountDatastoreProjectsLocationsPrivateCloudsClustersResponse,
+  MountDatastoreProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: MountDatastoreProjectsLocationsPrivateCloudsClustersRequest,
   output: MountDatastoreProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2606,21 +3505,34 @@ export interface UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   body?: UnmountDatastoreRequest;
 }
 
-export const UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UnmountDatastoreRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:unmountDatastore", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest>;
+export const UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UnmountDatastoreRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:unmountDatastore",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest>;
 
-export type UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse = Operation;
-export const UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse = Operation;
+export type UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse =
+  Operation;
+export const UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse =
+  Operation;
 
-export type UnmountDatastoreProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
+export type UnmountDatastoreProjectsLocationsPrivateCloudsClustersError =
+  DefaultErrors;
 
 /** Unmounts a `Datastore` on a cluster resource */
-export const unmountDatastoreProjectsLocationsPrivateCloudsClusters: API.OperationMethod<UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest, UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse, UnmountDatastoreProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const unmountDatastoreProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest,
+  UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse,
+  UnmountDatastoreProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest,
   output: UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2633,21 +3545,33 @@ export interface SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest>;
+export const SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest>;
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse = Policy;
-export const SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse = Policy;
+export const SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse =
+  Policy;
 
-export type SetIamPolicyProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsPrivateCloudsClustersError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMethod<SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest, SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse, SetIamPolicyProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest,
+  SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse,
+  SetIamPolicyProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest,
   output: SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2660,21 +3584,34 @@ export interface GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest>;
+export const GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest>;
 
 export type GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse = Policy;
-export const GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse = Policy;
+export const GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse =
+  Policy;
 
-export type GetIamPolicyProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsPrivateCloudsClustersError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMethod<GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest, GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse, GetIamPolicyProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest,
+  GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse,
+  GetIamPolicyProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest,
   output: GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2687,21 +3624,34 @@ export interface TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest>;
+export const TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest>;
 
-export type TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsPrivateCloudsClustersError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsPrivateCloudsClustersError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsPrivateCloudsClusters: API.OperationMethod<TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest, TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse, TestIamPermissionsProjectsLocationsPrivateCloudsClustersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const testIamPermissionsProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest,
+  TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse,
+  TestIamPermissionsProjectsLocationsPrivateCloudsClustersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest,
   output: TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2716,22 +3666,34 @@ export interface ListProjectsLocationsPrivateCloudsClustersNodesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsPrivateCloudsClustersNodesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}/nodes" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsClustersNodesRequest>;
+export const ListProjectsLocationsPrivateCloudsClustersNodesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}/nodes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsClustersNodesRequest>;
 
-export type ListProjectsLocationsPrivateCloudsClustersNodesResponse = ListNodesResponse;
-export const ListProjectsLocationsPrivateCloudsClustersNodesResponse = ListNodesResponse;
+export type ListProjectsLocationsPrivateCloudsClustersNodesResponse =
+  ListNodesResponse;
+export const ListProjectsLocationsPrivateCloudsClustersNodesResponse =
+  ListNodesResponse;
 
-export type ListProjectsLocationsPrivateCloudsClustersNodesError = DefaultErrors;
+export type ListProjectsLocationsPrivateCloudsClustersNodesError =
+  DefaultErrors;
 
 /** Lists nodes in a given cluster. */
-export const listProjectsLocationsPrivateCloudsClustersNodes: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsClustersNodesRequest, ListProjectsLocationsPrivateCloudsClustersNodesResponse, ListProjectsLocationsPrivateCloudsClustersNodesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsClustersNodes: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsClustersNodesRequest,
+  ListProjectsLocationsPrivateCloudsClustersNodesResponse,
+  ListProjectsLocationsPrivateCloudsClustersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsClustersNodesRequest,
   output: ListProjectsLocationsPrivateCloudsClustersNodesResponse,
   errors: [],
@@ -2746,12 +3708,16 @@ export interface GetProjectsLocationsPrivateCloudsClustersNodesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPrivateCloudsClustersNodesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}/nodes/{nodesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsClustersNodesRequest>;
+export const GetProjectsLocationsPrivateCloudsClustersNodesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/clusters/{clustersId}/nodes/{nodesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsClustersNodesRequest>;
 
 export type GetProjectsLocationsPrivateCloudsClustersNodesResponse = Node;
 export const GetProjectsLocationsPrivateCloudsClustersNodesResponse = Node;
@@ -2759,7 +3725,12 @@ export const GetProjectsLocationsPrivateCloudsClustersNodesResponse = Node;
 export type GetProjectsLocationsPrivateCloudsClustersNodesError = DefaultErrors;
 
 /** Gets details of a single node. */
-export const getProjectsLocationsPrivateCloudsClustersNodes: API.OperationMethod<GetProjectsLocationsPrivateCloudsClustersNodesRequest, GetProjectsLocationsPrivateCloudsClustersNodesResponse, GetProjectsLocationsPrivateCloudsClustersNodesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsClustersNodes: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsClustersNodesRequest,
+  GetProjectsLocationsPrivateCloudsClustersNodesResponse,
+  GetProjectsLocationsPrivateCloudsClustersNodesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsClustersNodesRequest,
   output: GetProjectsLocationsPrivateCloudsClustersNodesResponse,
   errors: [],
@@ -2778,24 +3749,36 @@ export interface ListProjectsLocationsPrivateCloudsExternalAddressesRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsPrivateCloudsExternalAddressesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsExternalAddressesRequest>;
+export const ListProjectsLocationsPrivateCloudsExternalAddressesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsExternalAddressesRequest>;
 
-export type ListProjectsLocationsPrivateCloudsExternalAddressesResponse = ListExternalAddressesResponse;
-export const ListProjectsLocationsPrivateCloudsExternalAddressesResponse = ListExternalAddressesResponse;
+export type ListProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  ListExternalAddressesResponse;
+export const ListProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  ListExternalAddressesResponse;
 
-export type ListProjectsLocationsPrivateCloudsExternalAddressesError = DefaultErrors;
+export type ListProjectsLocationsPrivateCloudsExternalAddressesError =
+  DefaultErrors;
 
 /** Lists external IP addresses assigned to VMware workload VMs in a given private cloud. */
-export const listProjectsLocationsPrivateCloudsExternalAddresses: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsExternalAddressesRequest, ListProjectsLocationsPrivateCloudsExternalAddressesResponse, ListProjectsLocationsPrivateCloudsExternalAddressesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsExternalAddresses: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsExternalAddressesRequest,
+  ListProjectsLocationsPrivateCloudsExternalAddressesResponse,
+  ListProjectsLocationsPrivateCloudsExternalAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: ListProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
@@ -2810,20 +3793,32 @@ export interface GetProjectsLocationsPrivateCloudsExternalAddressesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPrivateCloudsExternalAddressesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses/{externalAddressesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsExternalAddressesRequest>;
+export const GetProjectsLocationsPrivateCloudsExternalAddressesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses/{externalAddressesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsExternalAddressesRequest>;
 
-export type GetProjectsLocationsPrivateCloudsExternalAddressesResponse = ExternalAddress;
-export const GetProjectsLocationsPrivateCloudsExternalAddressesResponse = ExternalAddress;
+export type GetProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  ExternalAddress;
+export const GetProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  ExternalAddress;
 
-export type GetProjectsLocationsPrivateCloudsExternalAddressesError = DefaultErrors;
+export type GetProjectsLocationsPrivateCloudsExternalAddressesError =
+  DefaultErrors;
 
 /** Gets details of a single external IP address. */
-export const getProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<GetProjectsLocationsPrivateCloudsExternalAddressesRequest, GetProjectsLocationsPrivateCloudsExternalAddressesResponse, GetProjectsLocationsPrivateCloudsExternalAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsExternalAddressesRequest,
+  GetProjectsLocationsPrivateCloudsExternalAddressesResponse,
+  GetProjectsLocationsPrivateCloudsExternalAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: GetProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
@@ -2840,23 +3835,38 @@ export interface CreateProjectsLocationsPrivateCloudsExternalAddressesRequest {
   body?: ExternalAddress;
 }
 
-export const CreateProjectsLocationsPrivateCloudsExternalAddressesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  externalAddressId: Schema.optional(Schema.String).pipe(T.HttpQuery("externalAddressId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(ExternalAddress).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsExternalAddressesRequest>;
+export const CreateProjectsLocationsPrivateCloudsExternalAddressesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    externalAddressId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("externalAddressId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ExternalAddress).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsExternalAddressesRequest>;
 
-export type CreateProjectsLocationsPrivateCloudsExternalAddressesResponse = Operation;
-export const CreateProjectsLocationsPrivateCloudsExternalAddressesResponse = Operation;
+export type CreateProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  Operation;
+export const CreateProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  Operation;
 
-export type CreateProjectsLocationsPrivateCloudsExternalAddressesError = DefaultErrors;
+export type CreateProjectsLocationsPrivateCloudsExternalAddressesError =
+  DefaultErrors;
 
 /** Creates a new `ExternalAddress` resource in a given private cloud. The network policy that corresponds to the private cloud must have the external IP address network service enabled (`NetworkPolicy.external_ip`). */
-export const createProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<CreateProjectsLocationsPrivateCloudsExternalAddressesRequest, CreateProjectsLocationsPrivateCloudsExternalAddressesResponse, CreateProjectsLocationsPrivateCloudsExternalAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<
+  CreateProjectsLocationsPrivateCloudsExternalAddressesRequest,
+  CreateProjectsLocationsPrivateCloudsExternalAddressesResponse,
+  CreateProjectsLocationsPrivateCloudsExternalAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: CreateProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
@@ -2873,23 +3883,36 @@ export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest {
   body?: ExternalAddress;
 }
 
-export const PatchProjectsLocationsPrivateCloudsExternalAddressesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(ExternalAddress).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses/{externalAddressesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsExternalAddressesRequest>;
+export const PatchProjectsLocationsPrivateCloudsExternalAddressesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ExternalAddress).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses/{externalAddressesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsExternalAddressesRequest>;
 
-export type PatchProjectsLocationsPrivateCloudsExternalAddressesResponse = Operation;
-export const PatchProjectsLocationsPrivateCloudsExternalAddressesResponse = Operation;
+export type PatchProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  Operation;
+export const PatchProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  Operation;
 
-export type PatchProjectsLocationsPrivateCloudsExternalAddressesError = DefaultErrors;
+export type PatchProjectsLocationsPrivateCloudsExternalAddressesError =
+  DefaultErrors;
 
 /** Updates the parameters of a single external IP address. Only fields specified in `update_mask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
-export const patchProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<PatchProjectsLocationsPrivateCloudsExternalAddressesRequest, PatchProjectsLocationsPrivateCloudsExternalAddressesResponse, PatchProjectsLocationsPrivateCloudsExternalAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<
+  PatchProjectsLocationsPrivateCloudsExternalAddressesRequest,
+  PatchProjectsLocationsPrivateCloudsExternalAddressesResponse,
+  PatchProjectsLocationsPrivateCloudsExternalAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: PatchProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
@@ -2902,21 +3925,33 @@ export interface DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest {
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses/{externalAddressesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest>;
+export const DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/externalAddresses/{externalAddressesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest>;
 
-export type DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse = Operation;
-export const DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse = Operation;
+export type DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  Operation;
+export const DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse =
+  Operation;
 
-export type DeleteProjectsLocationsPrivateCloudsExternalAddressesError = DefaultErrors;
+export type DeleteProjectsLocationsPrivateCloudsExternalAddressesError =
+  DefaultErrors;
 
 /** Deletes a single external IP address. When you delete an external IP address, connectivity between the external IP address and the corresponding internal IP address is lost. */
-export const deleteProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest, DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse, DeleteProjectsLocationsPrivateCloudsExternalAddressesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<
+  DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest,
+  DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse,
+  DeleteProjectsLocationsPrivateCloudsExternalAddressesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
@@ -2936,17 +3971,27 @@ export const ListProjectsLocationsPrivateCloudsSubnetsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/subnets" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/subnets",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsSubnetsRequest>;
 
-export type ListProjectsLocationsPrivateCloudsSubnetsResponse = ListSubnetsResponse;
-export const ListProjectsLocationsPrivateCloudsSubnetsResponse = ListSubnetsResponse;
+export type ListProjectsLocationsPrivateCloudsSubnetsResponse =
+  ListSubnetsResponse;
+export const ListProjectsLocationsPrivateCloudsSubnetsResponse =
+  ListSubnetsResponse;
 
 export type ListProjectsLocationsPrivateCloudsSubnetsError = DefaultErrors;
 
 /** Lists subnets in a given private cloud. */
-export const listProjectsLocationsPrivateCloudsSubnets: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsSubnetsRequest, ListProjectsLocationsPrivateCloudsSubnetsResponse, ListProjectsLocationsPrivateCloudsSubnetsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsSubnets: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsSubnetsRequest,
+  ListProjectsLocationsPrivateCloudsSubnetsResponse,
+  ListProjectsLocationsPrivateCloudsSubnetsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsSubnetsRequest,
   output: ListProjectsLocationsPrivateCloudsSubnetsResponse,
   errors: [],
@@ -2964,7 +4009,10 @@ export interface GetProjectsLocationsPrivateCloudsSubnetsRequest {
 export const GetProjectsLocationsPrivateCloudsSubnetsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/subnets/{subnetsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/subnets/{subnetsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsSubnetsRequest>;
 
@@ -2974,7 +4022,12 @@ export const GetProjectsLocationsPrivateCloudsSubnetsResponse = Subnet;
 export type GetProjectsLocationsPrivateCloudsSubnetsError = DefaultErrors;
 
 /** Gets details of a single subnet. */
-export const getProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<GetProjectsLocationsPrivateCloudsSubnetsRequest, GetProjectsLocationsPrivateCloudsSubnetsResponse, GetProjectsLocationsPrivateCloudsSubnetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsSubnetsRequest,
+  GetProjectsLocationsPrivateCloudsSubnetsResponse,
+  GetProjectsLocationsPrivateCloudsSubnetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsSubnetsRequest,
   output: GetProjectsLocationsPrivateCloudsSubnetsResponse,
   errors: [],
@@ -2994,7 +4047,11 @@ export const PatchProjectsLocationsPrivateCloudsSubnetsRequest = Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Subnet).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/subnets/{subnetsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/subnets/{subnetsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsSubnetsRequest>;
 
@@ -3004,7 +4061,12 @@ export const PatchProjectsLocationsPrivateCloudsSubnetsResponse = Operation;
 export type PatchProjectsLocationsPrivateCloudsSubnetsError = DefaultErrors;
 
 /** Updates the parameters of a single subnet. Only fields specified in `update_mask` are applied. *Note*: This API is synchronous and always returns a successful `google.longrunning.Operation` (LRO). The returned LRO will only have `done` and `response` fields. */
-export const patchProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<PatchProjectsLocationsPrivateCloudsSubnetsRequest, PatchProjectsLocationsPrivateCloudsSubnetsResponse, PatchProjectsLocationsPrivateCloudsSubnetsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<
+  PatchProjectsLocationsPrivateCloudsSubnetsRequest,
+  PatchProjectsLocationsPrivateCloudsSubnetsResponse,
+  PatchProjectsLocationsPrivateCloudsSubnetsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsSubnetsRequest,
   output: PatchProjectsLocationsPrivateCloudsSubnetsResponse,
   errors: [],
@@ -3023,24 +4085,36 @@ export interface ListProjectsLocationsPrivateCloudsLoggingServersRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsPrivateCloudsLoggingServersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsLoggingServersRequest>;
+export const ListProjectsLocationsPrivateCloudsLoggingServersRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsLoggingServersRequest>;
 
-export type ListProjectsLocationsPrivateCloudsLoggingServersResponse = ListLoggingServersResponse;
-export const ListProjectsLocationsPrivateCloudsLoggingServersResponse = ListLoggingServersResponse;
+export type ListProjectsLocationsPrivateCloudsLoggingServersResponse =
+  ListLoggingServersResponse;
+export const ListProjectsLocationsPrivateCloudsLoggingServersResponse =
+  ListLoggingServersResponse;
 
-export type ListProjectsLocationsPrivateCloudsLoggingServersError = DefaultErrors;
+export type ListProjectsLocationsPrivateCloudsLoggingServersError =
+  DefaultErrors;
 
 /** Lists logging servers configured for a given private cloud. */
-export const listProjectsLocationsPrivateCloudsLoggingServers: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsLoggingServersRequest, ListProjectsLocationsPrivateCloudsLoggingServersResponse, ListProjectsLocationsPrivateCloudsLoggingServersError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsLoggingServers: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsLoggingServersRequest,
+  ListProjectsLocationsPrivateCloudsLoggingServersResponse,
+  ListProjectsLocationsPrivateCloudsLoggingServersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: ListProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
@@ -3055,20 +4129,32 @@ export interface GetProjectsLocationsPrivateCloudsLoggingServersRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPrivateCloudsLoggingServersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers/{loggingServersId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsLoggingServersRequest>;
+export const GetProjectsLocationsPrivateCloudsLoggingServersRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers/{loggingServersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsLoggingServersRequest>;
 
-export type GetProjectsLocationsPrivateCloudsLoggingServersResponse = LoggingServer;
-export const GetProjectsLocationsPrivateCloudsLoggingServersResponse = LoggingServer;
+export type GetProjectsLocationsPrivateCloudsLoggingServersResponse =
+  LoggingServer;
+export const GetProjectsLocationsPrivateCloudsLoggingServersResponse =
+  LoggingServer;
 
-export type GetProjectsLocationsPrivateCloudsLoggingServersError = DefaultErrors;
+export type GetProjectsLocationsPrivateCloudsLoggingServersError =
+  DefaultErrors;
 
 /** Gets details of a logging server. */
-export const getProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<GetProjectsLocationsPrivateCloudsLoggingServersRequest, GetProjectsLocationsPrivateCloudsLoggingServersResponse, GetProjectsLocationsPrivateCloudsLoggingServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsLoggingServersRequest,
+  GetProjectsLocationsPrivateCloudsLoggingServersResponse,
+  GetProjectsLocationsPrivateCloudsLoggingServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: GetProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
@@ -3085,23 +4171,38 @@ export interface CreateProjectsLocationsPrivateCloudsLoggingServersRequest {
   body?: LoggingServer;
 }
 
-export const CreateProjectsLocationsPrivateCloudsLoggingServersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  loggingServerId: Schema.optional(Schema.String).pipe(T.HttpQuery("loggingServerId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(LoggingServer).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsLoggingServersRequest>;
+export const CreateProjectsLocationsPrivateCloudsLoggingServersRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    loggingServerId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("loggingServerId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(LoggingServer).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsLoggingServersRequest>;
 
-export type CreateProjectsLocationsPrivateCloudsLoggingServersResponse = Operation;
-export const CreateProjectsLocationsPrivateCloudsLoggingServersResponse = Operation;
+export type CreateProjectsLocationsPrivateCloudsLoggingServersResponse =
+  Operation;
+export const CreateProjectsLocationsPrivateCloudsLoggingServersResponse =
+  Operation;
 
-export type CreateProjectsLocationsPrivateCloudsLoggingServersError = DefaultErrors;
+export type CreateProjectsLocationsPrivateCloudsLoggingServersError =
+  DefaultErrors;
 
 /** Create a new logging server for a given private cloud. */
-export const createProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<CreateProjectsLocationsPrivateCloudsLoggingServersRequest, CreateProjectsLocationsPrivateCloudsLoggingServersResponse, CreateProjectsLocationsPrivateCloudsLoggingServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<
+  CreateProjectsLocationsPrivateCloudsLoggingServersRequest,
+  CreateProjectsLocationsPrivateCloudsLoggingServersResponse,
+  CreateProjectsLocationsPrivateCloudsLoggingServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: CreateProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
@@ -3118,23 +4219,36 @@ export interface PatchProjectsLocationsPrivateCloudsLoggingServersRequest {
   body?: LoggingServer;
 }
 
-export const PatchProjectsLocationsPrivateCloudsLoggingServersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(LoggingServer).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers/{loggingServersId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsLoggingServersRequest>;
+export const PatchProjectsLocationsPrivateCloudsLoggingServersRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(LoggingServer).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers/{loggingServersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsLoggingServersRequest>;
 
-export type PatchProjectsLocationsPrivateCloudsLoggingServersResponse = Operation;
-export const PatchProjectsLocationsPrivateCloudsLoggingServersResponse = Operation;
+export type PatchProjectsLocationsPrivateCloudsLoggingServersResponse =
+  Operation;
+export const PatchProjectsLocationsPrivateCloudsLoggingServersResponse =
+  Operation;
 
-export type PatchProjectsLocationsPrivateCloudsLoggingServersError = DefaultErrors;
+export type PatchProjectsLocationsPrivateCloudsLoggingServersError =
+  DefaultErrors;
 
 /** Updates the parameters of a single logging server. Only fields specified in `update_mask` are applied. */
-export const patchProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<PatchProjectsLocationsPrivateCloudsLoggingServersRequest, PatchProjectsLocationsPrivateCloudsLoggingServersResponse, PatchProjectsLocationsPrivateCloudsLoggingServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<
+  PatchProjectsLocationsPrivateCloudsLoggingServersRequest,
+  PatchProjectsLocationsPrivateCloudsLoggingServersResponse,
+  PatchProjectsLocationsPrivateCloudsLoggingServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: PatchProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
@@ -3147,21 +4261,33 @@ export interface DeleteProjectsLocationsPrivateCloudsLoggingServersRequest {
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsPrivateCloudsLoggingServersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers/{loggingServersId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsLoggingServersRequest>;
+export const DeleteProjectsLocationsPrivateCloudsLoggingServersRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/loggingServers/{loggingServersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsLoggingServersRequest>;
 
-export type DeleteProjectsLocationsPrivateCloudsLoggingServersResponse = Operation;
-export const DeleteProjectsLocationsPrivateCloudsLoggingServersResponse = Operation;
+export type DeleteProjectsLocationsPrivateCloudsLoggingServersResponse =
+  Operation;
+export const DeleteProjectsLocationsPrivateCloudsLoggingServersResponse =
+  Operation;
 
-export type DeleteProjectsLocationsPrivateCloudsLoggingServersError = DefaultErrors;
+export type DeleteProjectsLocationsPrivateCloudsLoggingServersError =
+  DefaultErrors;
 
 /** Deletes a single logging server. */
-export const deleteProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsLoggingServersRequest, DeleteProjectsLocationsPrivateCloudsLoggingServersResponse, DeleteProjectsLocationsPrivateCloudsLoggingServersError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<
+  DeleteProjectsLocationsPrivateCloudsLoggingServersRequest,
+  DeleteProjectsLocationsPrivateCloudsLoggingServersResponse,
+  DeleteProjectsLocationsPrivateCloudsLoggingServersError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: DeleteProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
@@ -3178,23 +4304,38 @@ export interface CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   body?: HcxActivationKey;
 }
 
-export const CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  hcxActivationKeyId: Schema.optional(Schema.String).pipe(T.HttpQuery("hcxActivationKeyId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(HcxActivationKey).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
+export const CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    hcxActivationKeyId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("hcxActivationKeyId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(HcxActivationKey).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
 
-export type CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse = Operation;
-export const CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse = Operation;
+export type CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  Operation;
+export const CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  Operation;
 
-export type CreateProjectsLocationsPrivateCloudsHcxActivationKeysError = DefaultErrors;
+export type CreateProjectsLocationsPrivateCloudsHcxActivationKeysError =
+  DefaultErrors;
 
 /** Creates a new HCX activation key in a given private cloud. */
-export const createProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest, CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse, CreateProjectsLocationsPrivateCloudsHcxActivationKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<
+  CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
+  CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
+  CreateProjectsLocationsPrivateCloudsHcxActivationKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
@@ -3209,22 +4350,34 @@ export interface ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
+export const ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
 
-export type ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse = ListHcxActivationKeysResponse;
-export const ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse = ListHcxActivationKeysResponse;
+export type ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  ListHcxActivationKeysResponse;
+export const ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  ListHcxActivationKeysResponse;
 
-export type ListProjectsLocationsPrivateCloudsHcxActivationKeysError = DefaultErrors;
+export type ListProjectsLocationsPrivateCloudsHcxActivationKeysError =
+  DefaultErrors;
 
 /** Lists `HcxActivationKey` resources in a given private cloud. */
-export const listProjectsLocationsPrivateCloudsHcxActivationKeys: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest, ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse, ListProjectsLocationsPrivateCloudsHcxActivationKeysError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsHcxActivationKeys: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
+  ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
+  ListProjectsLocationsPrivateCloudsHcxActivationKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
@@ -3239,20 +4392,32 @@ export interface GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
+export const GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
 
-export type GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse = HcxActivationKey;
-export const GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse = HcxActivationKey;
+export type GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  HcxActivationKey;
+export const GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  HcxActivationKey;
 
-export type GetProjectsLocationsPrivateCloudsHcxActivationKeysError = DefaultErrors;
+export type GetProjectsLocationsPrivateCloudsHcxActivationKeysError =
+  DefaultErrors;
 
 /** Retrieves a `HcxActivationKey` resource by its resource name. */
-export const getProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest, GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse, GetProjectsLocationsPrivateCloudsHcxActivationKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
+  GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
+  GetProjectsLocationsPrivateCloudsHcxActivationKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
@@ -3265,21 +4430,34 @@ export interface SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequ
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}:setIamPolicy", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
+export const SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
 
-export type SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse = Policy;
-export const SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse = Policy;
+export type SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  Policy;
+export const SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  Policy;
 
-export type SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError =
+  DefaultErrors;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest, SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse, SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const setIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<
+  SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
+  SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
+  SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
@@ -3292,21 +4470,35 @@ export interface GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequ
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(T.HttpQuery("options.requestedPolicyVersion")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}:getIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
+export const GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
 
-export type GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse = Policy;
-export const GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse = Policy;
+export type GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  Policy;
+export const GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  Policy;
 
-export type GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError = DefaultErrors;
+export type GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError =
+  DefaultErrors;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
-export const getIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest, GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse, GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<
+  GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
+  GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
+  GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
@@ -3319,23 +4511,38 @@ export interface TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKe
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}:testIamPermissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
+export const TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest =
+  Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/hcxActivationKeys/{hcxActivationKeysId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest>;
 
-export type TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse = TestIamPermissionsResponse;
+export type TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse =
+  TestIamPermissionsResponse;
 
-export type TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysError = DefaultErrors;
+export type TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysError =
+  DefaultErrors;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest, TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse, TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysError, Credentials | HttpClient.HttpClient> = API.make(() => ({
-  input: TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
-  output: TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
+export const testIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
+  TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
+  TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input:
+    TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
+  output:
+    TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
 }));
 
@@ -3352,24 +4559,36 @@ export interface ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequ
   orderBy?: string;
 }
 
-export const ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
+export const ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
-export type ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = ListManagementDnsZoneBindingsResponse;
-export const ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = ListManagementDnsZoneBindingsResponse;
+export type ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  ListManagementDnsZoneBindingsResponse;
+export const ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  ListManagementDnsZoneBindingsResponse;
 
-export type ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = DefaultErrors;
+export type ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
+  DefaultErrors;
 
 /** Lists Consumer VPCs bound to Management DNS Zone of a given private cloud. */
-export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
+  ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
+  ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
@@ -3384,20 +4603,32 @@ export interface GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsReque
   name: string;
 }
 
-export const GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
+export const GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
-export type GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = ManagementDnsZoneBinding;
-export const GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = ManagementDnsZoneBinding;
+export type GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  ManagementDnsZoneBinding;
+export const GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  ManagementDnsZoneBinding;
 
-export type GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = DefaultErrors;
+export type GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
+  DefaultErrors;
 
 /** Retrieves a 'ManagementDnsZoneBinding' resource by its resource name. */
-export const getProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
+  GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
+  GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
@@ -3414,23 +4645,38 @@ export interface CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRe
   body?: ManagementDnsZoneBinding;
 }
 
-export const CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  managementDnsZoneBindingId: Schema.optional(Schema.String).pipe(T.HttpQuery("managementDnsZoneBindingId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(ManagementDnsZoneBinding).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
+export const CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    managementDnsZoneBindingId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("managementDnsZoneBindingId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ManagementDnsZoneBinding).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
-export type CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
-export const CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
+export type CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
+export const CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
 
-export type CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = DefaultErrors;
+export type CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
+  DefaultErrors;
 
 /** Creates a new `ManagementDnsZoneBinding` resource in a private cloud. This RPC creates the DNS binding and the resource that represents the DNS binding of the consumer VPC network to the management DNS zone. A management DNS zone is the Cloud DNS cross-project binding zone that VMware Engine creates for each private cloud. It contains FQDNs and corresponding IP addresses for the private cloud's ESXi hosts and management VM appliances like vCenter and NSX Manager. */
-export const createProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<
+  CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
+  CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
+  CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
@@ -3447,23 +4693,36 @@ export interface PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsReq
   body?: ManagementDnsZoneBinding;
 }
 
-export const PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(ManagementDnsZoneBinding).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
+export const PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ManagementDnsZoneBinding).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
-export type PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
-export const PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
+export type PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
+export const PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
 
-export type PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = DefaultErrors;
+export type PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
+  DefaultErrors;
 
 /** Updates a `ManagementDnsZoneBinding` resource. Only fields specified in `update_mask` are applied. */
-export const patchProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<
+  PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
+  PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
+  PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
@@ -3476,21 +4735,33 @@ export interface DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRe
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
+export const DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
-export type DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
-export const DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
+export type DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
+export const DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
 
-export type DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = DefaultErrors;
+export type DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
+  DefaultErrors;
 
 /** Deletes a `ManagementDnsZoneBinding` resource. When a management DNS zone binding is deleted, the corresponding consumer VPC network is no longer bound to the management DNS zone. */
-export const deleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<
+  DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
+  DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
+  DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
@@ -3503,21 +4774,36 @@ export interface RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRe
   body?: RepairManagementDnsZoneBindingRequest;
 }
 
-export const RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RepairManagementDnsZoneBindingRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}:repair", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
+export const RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RepairManagementDnsZoneBindingRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/managementDnsZoneBindings/{managementDnsZoneBindingsId}:repair",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
-export type RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
-export const RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse = Operation;
+export type RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
+export const RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse =
+  Operation;
 
-export type RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = DefaultErrors;
+export type RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
+  DefaultErrors;
 
 /** Retries to create a `ManagementDnsZoneBinding` resource that is in failed state. */
-export const repairProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const repairProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<
+  RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
+  RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
+  RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
@@ -3543,17 +4829,27 @@ export const ListProjectsLocationsPrivateCloudsUpgradesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/upgrades" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/upgrades",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsPrivateCloudsUpgradesRequest>;
 
-export type ListProjectsLocationsPrivateCloudsUpgradesResponse = ListUpgradesResponse;
-export const ListProjectsLocationsPrivateCloudsUpgradesResponse = ListUpgradesResponse;
+export type ListProjectsLocationsPrivateCloudsUpgradesResponse =
+  ListUpgradesResponse;
+export const ListProjectsLocationsPrivateCloudsUpgradesResponse =
+  ListUpgradesResponse;
 
 export type ListProjectsLocationsPrivateCloudsUpgradesError = DefaultErrors;
 
 /** Lists past, ongoing and upcoming `Upgrades` for the given private cloud. */
-export const listProjectsLocationsPrivateCloudsUpgrades: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsUpgradesRequest, ListProjectsLocationsPrivateCloudsUpgradesResponse, ListProjectsLocationsPrivateCloudsUpgradesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateCloudsUpgrades: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateCloudsUpgradesRequest,
+  ListProjectsLocationsPrivateCloudsUpgradesResponse,
+  ListProjectsLocationsPrivateCloudsUpgradesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsUpgradesRequest,
   output: ListProjectsLocationsPrivateCloudsUpgradesResponse,
   errors: [],
@@ -3571,7 +4867,10 @@ export interface GetProjectsLocationsPrivateCloudsUpgradesRequest {
 export const GetProjectsLocationsPrivateCloudsUpgradesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/upgrades/{upgradesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/upgrades/{upgradesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsPrivateCloudsUpgradesRequest>;
 
@@ -3581,7 +4880,12 @@ export const GetProjectsLocationsPrivateCloudsUpgradesResponse = Upgrade;
 export type GetProjectsLocationsPrivateCloudsUpgradesError = DefaultErrors;
 
 /** Retrieves a private cloud `Upgrade` resource by its resource name. */
-export const getProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<GetProjectsLocationsPrivateCloudsUpgradesRequest, GetProjectsLocationsPrivateCloudsUpgradesResponse, GetProjectsLocationsPrivateCloudsUpgradesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<
+  GetProjectsLocationsPrivateCloudsUpgradesRequest,
+  GetProjectsLocationsPrivateCloudsUpgradesResponse,
+  GetProjectsLocationsPrivateCloudsUpgradesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsUpgradesRequest,
   output: GetProjectsLocationsPrivateCloudsUpgradesResponse,
   errors: [],
@@ -3598,13 +4902,19 @@ export interface PatchProjectsLocationsPrivateCloudsUpgradesRequest {
   body?: Upgrade;
 }
 
-export const PatchProjectsLocationsPrivateCloudsUpgradesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(Upgrade).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/upgrades/{upgradesId}", hasBody: true }),
+export const PatchProjectsLocationsPrivateCloudsUpgradesRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(Upgrade).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateClouds/{privateCloudsId}/upgrades/{upgradesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateCloudsUpgradesRequest>;
 
@@ -3614,7 +4924,12 @@ export const PatchProjectsLocationsPrivateCloudsUpgradesResponse = Operation;
 export type PatchProjectsLocationsPrivateCloudsUpgradesError = DefaultErrors;
 
 /** Update the private cloud `Upgrade` resource. Only `schedule` field can updated. The schedule can only be updated when the upgrade has not started and schedule edit window is open. Only fields specified in `update_mask` are considered. */
-export const patchProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<PatchProjectsLocationsPrivateCloudsUpgradesRequest, PatchProjectsLocationsPrivateCloudsUpgradesResponse, PatchProjectsLocationsPrivateCloudsUpgradesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<
+  PatchProjectsLocationsPrivateCloudsUpgradesRequest,
+  PatchProjectsLocationsPrivateCloudsUpgradesResponse,
+  PatchProjectsLocationsPrivateCloudsUpgradesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsUpgradesRequest,
   output: PatchProjectsLocationsPrivateCloudsUpgradesResponse,
   errors: [],
@@ -3629,22 +4944,34 @@ export interface FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest {
   pageToken?: string;
 }
 
-export const FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest = Schema.Struct({
-  networkPolicy: Schema.String.pipe(T.HttpPath("networkPolicy")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}:fetchExternalAddresses" }),
-  svc,
-) as unknown as Schema.Schema<FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest>;
+export const FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest =
+  Schema.Struct({
+    networkPolicy: Schema.String.pipe(T.HttpPath("networkPolicy")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}:fetchExternalAddresses",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest>;
 
-export type FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse = FetchNetworkPolicyExternalAddressesResponse;
-export const FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse = FetchNetworkPolicyExternalAddressesResponse;
+export type FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse =
+  FetchNetworkPolicyExternalAddressesResponse;
+export const FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse =
+  FetchNetworkPolicyExternalAddressesResponse;
 
-export type FetchExternalAddressesProjectsLocationsNetworkPoliciesError = DefaultErrors;
+export type FetchExternalAddressesProjectsLocationsNetworkPoliciesError =
+  DefaultErrors;
 
 /** Lists external IP addresses assigned to VMware workload VMs within the scope of the given network policy. */
-export const fetchExternalAddressesProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest, FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse, FetchExternalAddressesProjectsLocationsNetworkPoliciesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const fetchExternalAddressesProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<
+  FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest,
+  FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse,
+  FetchExternalAddressesProjectsLocationsNetworkPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest,
   output: FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -3662,7 +4989,10 @@ export interface GetProjectsLocationsNetworkPoliciesRequest {
 export const GetProjectsLocationsNetworkPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsNetworkPoliciesRequest>;
 
@@ -3672,7 +5002,12 @@ export const GetProjectsLocationsNetworkPoliciesResponse = NetworkPolicy;
 export type GetProjectsLocationsNetworkPoliciesError = DefaultErrors;
 
 /** Retrieves a `NetworkPolicy` resource by its resource name. */
-export const getProjectsLocationsNetworkPolicies: API.OperationMethod<GetProjectsLocationsNetworkPoliciesRequest, GetProjectsLocationsNetworkPoliciesResponse, GetProjectsLocationsNetworkPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsNetworkPolicies: API.OperationMethod<
+  GetProjectsLocationsNetworkPoliciesRequest,
+  GetProjectsLocationsNetworkPoliciesResponse,
+  GetProjectsLocationsNetworkPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsNetworkPoliciesRequest,
   output: GetProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -3698,17 +5033,27 @@ export const ListProjectsLocationsNetworkPoliciesRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsNetworkPoliciesRequest>;
 
-export type ListProjectsLocationsNetworkPoliciesResponse = ListNetworkPoliciesResponse;
-export const ListProjectsLocationsNetworkPoliciesResponse = ListNetworkPoliciesResponse;
+export type ListProjectsLocationsNetworkPoliciesResponse =
+  ListNetworkPoliciesResponse;
+export const ListProjectsLocationsNetworkPoliciesResponse =
+  ListNetworkPoliciesResponse;
 
 export type ListProjectsLocationsNetworkPoliciesError = DefaultErrors;
 
 /** Lists `NetworkPolicy` resources in a specified project and location. */
-export const listProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPoliciesRequest, ListProjectsLocationsNetworkPoliciesResponse, ListProjectsLocationsNetworkPoliciesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<
+  ListProjectsLocationsNetworkPoliciesRequest,
+  ListProjectsLocationsNetworkPoliciesResponse,
+  ListProjectsLocationsNetworkPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPoliciesRequest,
   output: ListProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -3731,11 +5076,17 @@ export interface CreateProjectsLocationsNetworkPoliciesRequest {
 
 export const CreateProjectsLocationsNetworkPoliciesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  networkPolicyId: Schema.optional(Schema.String).pipe(T.HttpQuery("networkPolicyId")),
+  networkPolicyId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("networkPolicyId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(NetworkPolicy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsNetworkPoliciesRequest>;
 
@@ -3745,7 +5096,12 @@ export const CreateProjectsLocationsNetworkPoliciesResponse = Operation;
 export type CreateProjectsLocationsNetworkPoliciesError = DefaultErrors;
 
 /** Creates a new network policy in a given VMware Engine network of a project and location (region). A new network policy cannot be created if another network policy already exists in the same scope. */
-export const createProjectsLocationsNetworkPolicies: API.OperationMethod<CreateProjectsLocationsNetworkPoliciesRequest, CreateProjectsLocationsNetworkPoliciesResponse, CreateProjectsLocationsNetworkPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsNetworkPolicies: API.OperationMethod<
+  CreateProjectsLocationsNetworkPoliciesRequest,
+  CreateProjectsLocationsNetworkPoliciesResponse,
+  CreateProjectsLocationsNetworkPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsNetworkPoliciesRequest,
   output: CreateProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -3768,7 +5124,11 @@ export const PatchProjectsLocationsNetworkPoliciesRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(NetworkPolicy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsNetworkPoliciesRequest>;
 
@@ -3778,7 +5138,12 @@ export const PatchProjectsLocationsNetworkPoliciesResponse = Operation;
 export type PatchProjectsLocationsNetworkPoliciesError = DefaultErrors;
 
 /** Modifies a `NetworkPolicy` resource. Only the following fields can be updated: `internet_access`, `external_ip`, `edge_services_cidr`. Only fields specified in `updateMask` are applied. When updating a network policy, the external IP network service can only be disabled if there are no external IP addresses present in the scope of the policy. Also, a `NetworkService` cannot be updated when `NetworkService.state` is set to `RECONCILING`. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
-export const patchProjectsLocationsNetworkPolicies: API.OperationMethod<PatchProjectsLocationsNetworkPoliciesRequest, PatchProjectsLocationsNetworkPoliciesResponse, PatchProjectsLocationsNetworkPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsNetworkPolicies: API.OperationMethod<
+  PatchProjectsLocationsNetworkPoliciesRequest,
+  PatchProjectsLocationsNetworkPoliciesResponse,
+  PatchProjectsLocationsNetworkPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsNetworkPoliciesRequest,
   output: PatchProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -3795,7 +5160,10 @@ export const DeleteProjectsLocationsNetworkPoliciesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsNetworkPoliciesRequest>;
 
@@ -3805,7 +5173,12 @@ export const DeleteProjectsLocationsNetworkPoliciesResponse = Operation;
 export type DeleteProjectsLocationsNetworkPoliciesError = DefaultErrors;
 
 /** Deletes a `NetworkPolicy` resource. A network policy cannot be deleted when `NetworkService.state` is set to `RECONCILING` for either its external IP or internet access service. */
-export const deleteProjectsLocationsNetworkPolicies: API.OperationMethod<DeleteProjectsLocationsNetworkPoliciesRequest, DeleteProjectsLocationsNetworkPoliciesResponse, DeleteProjectsLocationsNetworkPoliciesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsNetworkPolicies: API.OperationMethod<
+  DeleteProjectsLocationsNetworkPoliciesRequest,
+  DeleteProjectsLocationsNetworkPoliciesResponse,
+  DeleteProjectsLocationsNetworkPoliciesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsNetworkPoliciesRequest,
   output: DeleteProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -3824,24 +5197,36 @@ export interface ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest 
   orderBy?: string;
 }
 
-export const ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
+export const ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
 
-export type ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = ListExternalAccessRulesResponse;
-export const ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = ListExternalAccessRulesResponse;
+export type ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  ListExternalAccessRulesResponse;
+export const ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  ListExternalAccessRulesResponse;
 
-export type ListProjectsLocationsNetworkPoliciesExternalAccessRulesError = DefaultErrors;
+export type ListProjectsLocationsNetworkPoliciesExternalAccessRulesError =
+  DefaultErrors;
 
 /** Lists `ExternalAccessRule` resources in the specified network policy. */
-export const listProjectsLocationsNetworkPoliciesExternalAccessRules: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, ListProjectsLocationsNetworkPoliciesExternalAccessRulesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNetworkPoliciesExternalAccessRules: API.PaginatedOperationMethod<
+  ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
+  ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
+  ListProjectsLocationsNetworkPoliciesExternalAccessRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
@@ -3856,20 +5241,32 @@ export interface GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules/{externalAccessRulesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
+export const GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules/{externalAccessRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
 
-export type GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = ExternalAccessRule;
-export const GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = ExternalAccessRule;
+export type GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  ExternalAccessRule;
+export const GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  ExternalAccessRule;
 
-export type GetProjectsLocationsNetworkPoliciesExternalAccessRulesError = DefaultErrors;
+export type GetProjectsLocationsNetworkPoliciesExternalAccessRulesError =
+  DefaultErrors;
 
 /** Gets details of a single external access rule. */
-export const getProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, GetProjectsLocationsNetworkPoliciesExternalAccessRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<
+  GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
+  GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
+  GetProjectsLocationsNetworkPoliciesExternalAccessRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
@@ -3886,23 +5283,38 @@ export interface CreateProjectsLocationsNetworkPoliciesExternalAccessRulesReques
   body?: ExternalAccessRule;
 }
 
-export const CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  externalAccessRuleId: Schema.optional(Schema.String).pipe(T.HttpQuery("externalAccessRuleId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(ExternalAccessRule).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
+export const CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    externalAccessRuleId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("externalAccessRuleId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ExternalAccessRule).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
 
-export type CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = Operation;
-export const CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = Operation;
+export type CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  Operation;
+export const CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  Operation;
 
-export type CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError = DefaultErrors;
+export type CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError =
+  DefaultErrors;
 
 /** Creates a new external access rule in a given network policy. */
-export const createProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<
+  CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
+  CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
+  CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
@@ -3919,23 +5331,36 @@ export interface PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest
   body?: ExternalAccessRule;
 }
 
-export const PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(ExternalAccessRule).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules/{externalAccessRulesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
+export const PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ExternalAccessRule).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules/{externalAccessRulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
 
-export type PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = Operation;
-export const PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = Operation;
+export type PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  Operation;
+export const PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  Operation;
 
-export type PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError = DefaultErrors;
+export type PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError =
+  DefaultErrors;
 
 /** Updates the parameters of a single external access rule. Only fields specified in `update_mask` are applied. */
-export const patchProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<
+  PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
+  PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
+  PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
@@ -3948,21 +5373,33 @@ export interface DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesReques
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules/{externalAccessRulesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
+export const DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
+  Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/networkPolicies/{networkPoliciesId}/externalAccessRules/{externalAccessRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
 
-export type DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = Operation;
-export const DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = Operation;
+export type DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  Operation;
+export const DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
+  Operation;
 
-export type DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError = DefaultErrors;
+export type DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError =
+  DefaultErrors;
 
 /** Deletes a single external access rule. */
-export const deleteProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<
+  DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
+  DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
+  DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
@@ -3985,7 +5422,10 @@ export const ListProjectsLocationsNodeTypesRequest = Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/nodeTypes" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/nodeTypes",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsNodeTypesRequest>;
 
@@ -3995,7 +5435,12 @@ export const ListProjectsLocationsNodeTypesResponse = ListNodeTypesResponse;
 export type ListProjectsLocationsNodeTypesError = DefaultErrors;
 
 /** Lists node types */
-export const listProjectsLocationsNodeTypes: API.PaginatedOperationMethod<ListProjectsLocationsNodeTypesRequest, ListProjectsLocationsNodeTypesResponse, ListProjectsLocationsNodeTypesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNodeTypes: API.PaginatedOperationMethod<
+  ListProjectsLocationsNodeTypesRequest,
+  ListProjectsLocationsNodeTypesResponse,
+  ListProjectsLocationsNodeTypesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNodeTypesRequest,
   output: ListProjectsLocationsNodeTypesResponse,
   errors: [],
@@ -4013,7 +5458,10 @@ export interface GetProjectsLocationsNodeTypesRequest {
 export const GetProjectsLocationsNodeTypesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/nodeTypes/{nodeTypesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/nodeTypes/{nodeTypesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsNodeTypesRequest>;
 
@@ -4023,7 +5471,12 @@ export const GetProjectsLocationsNodeTypesResponse = NodeType;
 export type GetProjectsLocationsNodeTypesError = DefaultErrors;
 
 /** Gets details of a single `NodeType`. */
-export const getProjectsLocationsNodeTypes: API.OperationMethod<GetProjectsLocationsNodeTypesRequest, GetProjectsLocationsNodeTypesResponse, GetProjectsLocationsNodeTypesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsNodeTypes: API.OperationMethod<
+  GetProjectsLocationsNodeTypesRequest,
+  GetProjectsLocationsNodeTypesResponse,
+  GetProjectsLocationsNodeTypesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsNodeTypesRequest,
   output: GetProjectsLocationsNodeTypesResponse,
   errors: [],
@@ -4037,7 +5490,10 @@ export interface GetProjectsLocationsNetworkPeeringsRequest {
 export const GetProjectsLocationsNetworkPeeringsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsNetworkPeeringsRequest>;
 
@@ -4047,7 +5503,12 @@ export const GetProjectsLocationsNetworkPeeringsResponse = NetworkPeering;
 export type GetProjectsLocationsNetworkPeeringsError = DefaultErrors;
 
 /** Retrieves a `NetworkPeering` resource by its resource name. The resource contains details of the network peering, such as peered networks, import and export custom route configurations, and peering state. NetworkPeering is a global resource and location can only be global. */
-export const getProjectsLocationsNetworkPeerings: API.OperationMethod<GetProjectsLocationsNetworkPeeringsRequest, GetProjectsLocationsNetworkPeeringsResponse, GetProjectsLocationsNetworkPeeringsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsNetworkPeerings: API.OperationMethod<
+  GetProjectsLocationsNetworkPeeringsRequest,
+  GetProjectsLocationsNetworkPeeringsResponse,
+  GetProjectsLocationsNetworkPeeringsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsNetworkPeeringsRequest,
   output: GetProjectsLocationsNetworkPeeringsResponse,
   errors: [],
@@ -4073,17 +5534,27 @@ export const ListProjectsLocationsNetworkPeeringsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsNetworkPeeringsRequest>;
 
-export type ListProjectsLocationsNetworkPeeringsResponse = ListNetworkPeeringsResponse;
-export const ListProjectsLocationsNetworkPeeringsResponse = ListNetworkPeeringsResponse;
+export type ListProjectsLocationsNetworkPeeringsResponse =
+  ListNetworkPeeringsResponse;
+export const ListProjectsLocationsNetworkPeeringsResponse =
+  ListNetworkPeeringsResponse;
 
 export type ListProjectsLocationsNetworkPeeringsError = DefaultErrors;
 
 /** Lists `NetworkPeering` resources in a given project. NetworkPeering is a global resource and location can only be global. */
-export const listProjectsLocationsNetworkPeerings: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPeeringsRequest, ListProjectsLocationsNetworkPeeringsResponse, ListProjectsLocationsNetworkPeeringsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNetworkPeerings: API.PaginatedOperationMethod<
+  ListProjectsLocationsNetworkPeeringsRequest,
+  ListProjectsLocationsNetworkPeeringsResponse,
+  ListProjectsLocationsNetworkPeeringsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPeeringsRequest,
   output: ListProjectsLocationsNetworkPeeringsResponse,
   errors: [],
@@ -4106,11 +5577,17 @@ export interface CreateProjectsLocationsNetworkPeeringsRequest {
 
 export const CreateProjectsLocationsNetworkPeeringsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  networkPeeringId: Schema.optional(Schema.String).pipe(T.HttpQuery("networkPeeringId")),
+  networkPeeringId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("networkPeeringId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(NetworkPeering).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsNetworkPeeringsRequest>;
 
@@ -4120,7 +5597,12 @@ export const CreateProjectsLocationsNetworkPeeringsResponse = Operation;
 export type CreateProjectsLocationsNetworkPeeringsError = DefaultErrors;
 
 /** Creates a new network peering between the peer network and VMware Engine network provided in a `NetworkPeering` resource. NetworkPeering is a global resource and location can only be global. */
-export const createProjectsLocationsNetworkPeerings: API.OperationMethod<CreateProjectsLocationsNetworkPeeringsRequest, CreateProjectsLocationsNetworkPeeringsResponse, CreateProjectsLocationsNetworkPeeringsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsNetworkPeerings: API.OperationMethod<
+  CreateProjectsLocationsNetworkPeeringsRequest,
+  CreateProjectsLocationsNetworkPeeringsResponse,
+  CreateProjectsLocationsNetworkPeeringsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsNetworkPeeringsRequest,
   output: CreateProjectsLocationsNetworkPeeringsResponse,
   errors: [],
@@ -4137,7 +5619,10 @@ export const DeleteProjectsLocationsNetworkPeeringsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsNetworkPeeringsRequest>;
 
@@ -4147,7 +5632,12 @@ export const DeleteProjectsLocationsNetworkPeeringsResponse = Operation;
 export type DeleteProjectsLocationsNetworkPeeringsError = DefaultErrors;
 
 /** Deletes a `NetworkPeering` resource. When a network peering is deleted for a VMware Engine network, the peer network becomes inaccessible to that VMware Engine network. NetworkPeering is a global resource and location can only be global. */
-export const deleteProjectsLocationsNetworkPeerings: API.OperationMethod<DeleteProjectsLocationsNetworkPeeringsRequest, DeleteProjectsLocationsNetworkPeeringsResponse, DeleteProjectsLocationsNetworkPeeringsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsNetworkPeerings: API.OperationMethod<
+  DeleteProjectsLocationsNetworkPeeringsRequest,
+  DeleteProjectsLocationsNetworkPeeringsResponse,
+  DeleteProjectsLocationsNetworkPeeringsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsNetworkPeeringsRequest,
   output: DeleteProjectsLocationsNetworkPeeringsResponse,
   errors: [],
@@ -4170,7 +5660,11 @@ export const PatchProjectsLocationsNetworkPeeringsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(NetworkPeering).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsNetworkPeeringsRequest>;
 
@@ -4180,7 +5674,12 @@ export const PatchProjectsLocationsNetworkPeeringsResponse = Operation;
 export type PatchProjectsLocationsNetworkPeeringsError = DefaultErrors;
 
 /** Modifies a `NetworkPeering` resource. Only the `description` field can be updated. Only fields specified in `updateMask` are applied. NetworkPeering is a global resource and location can only be global. */
-export const patchProjectsLocationsNetworkPeerings: API.OperationMethod<PatchProjectsLocationsNetworkPeeringsRequest, PatchProjectsLocationsNetworkPeeringsResponse, PatchProjectsLocationsNetworkPeeringsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsNetworkPeerings: API.OperationMethod<
+  PatchProjectsLocationsNetworkPeeringsRequest,
+  PatchProjectsLocationsNetworkPeeringsResponse,
+  PatchProjectsLocationsNetworkPeeringsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsNetworkPeeringsRequest,
   output: PatchProjectsLocationsNetworkPeeringsResponse,
   errors: [],
@@ -4197,23 +5696,35 @@ export interface ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}/peeringRoutes" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest>;
+export const ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/networkPeerings/{networkPeeringsId}/peeringRoutes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest>;
 
-export type ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse = ListPeeringRoutesResponse;
-export const ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse = ListPeeringRoutesResponse;
+export type ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse =
+  ListPeeringRoutesResponse;
+export const ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse =
+  ListPeeringRoutesResponse;
 
-export type ListProjectsLocationsNetworkPeeringsPeeringRoutesError = DefaultErrors;
+export type ListProjectsLocationsNetworkPeeringsPeeringRoutesError =
+  DefaultErrors;
 
 /** Lists the network peering routes exchanged over a peering connection. NetworkPeering is a global resource and location can only be global. */
-export const listProjectsLocationsNetworkPeeringsPeeringRoutes: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest, ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse, ListProjectsLocationsNetworkPeeringsPeeringRoutesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsNetworkPeeringsPeeringRoutes: API.PaginatedOperationMethod<
+  ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest,
+  ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse,
+  ListProjectsLocationsNetworkPeeringsPeeringRoutesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest,
   output: ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse,
   errors: [],
@@ -4234,13 +5745,21 @@ export interface CreateProjectsLocationsVmwareEngineNetworksRequest {
   body?: VmwareEngineNetwork;
 }
 
-export const CreateProjectsLocationsVmwareEngineNetworksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  vmwareEngineNetworkId: Schema.optional(Schema.String).pipe(T.HttpQuery("vmwareEngineNetworkId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(VmwareEngineNetwork).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks", hasBody: true }),
+export const CreateProjectsLocationsVmwareEngineNetworksRequest = Schema.Struct(
+  {
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    vmwareEngineNetworkId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("vmwareEngineNetworkId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(VmwareEngineNetwork).pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsVmwareEngineNetworksRequest>;
 
@@ -4250,7 +5769,12 @@ export const CreateProjectsLocationsVmwareEngineNetworksResponse = Operation;
 export type CreateProjectsLocationsVmwareEngineNetworksError = DefaultErrors;
 
 /** Creates a new VMware Engine network that can be used by a private cloud. */
-export const createProjectsLocationsVmwareEngineNetworks: API.OperationMethod<CreateProjectsLocationsVmwareEngineNetworksRequest, CreateProjectsLocationsVmwareEngineNetworksResponse, CreateProjectsLocationsVmwareEngineNetworksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
+  CreateProjectsLocationsVmwareEngineNetworksRequest,
+  CreateProjectsLocationsVmwareEngineNetworksResponse,
+  CreateProjectsLocationsVmwareEngineNetworksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsVmwareEngineNetworksRequest,
   output: CreateProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
@@ -4273,7 +5797,11 @@ export const PatchProjectsLocationsVmwareEngineNetworksRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(VmwareEngineNetwork).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks/{vmwareEngineNetworksId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks/{vmwareEngineNetworksId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsVmwareEngineNetworksRequest>;
 
@@ -4283,7 +5811,12 @@ export const PatchProjectsLocationsVmwareEngineNetworksResponse = Operation;
 export type PatchProjectsLocationsVmwareEngineNetworksError = DefaultErrors;
 
 /** Modifies a VMware Engine network resource. Only the following fields can be updated: `description`. Only fields specified in `updateMask` are applied. */
-export const patchProjectsLocationsVmwareEngineNetworks: API.OperationMethod<PatchProjectsLocationsVmwareEngineNetworksRequest, PatchProjectsLocationsVmwareEngineNetworksResponse, PatchProjectsLocationsVmwareEngineNetworksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
+  PatchProjectsLocationsVmwareEngineNetworksRequest,
+  PatchProjectsLocationsVmwareEngineNetworksResponse,
+  PatchProjectsLocationsVmwareEngineNetworksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsVmwareEngineNetworksRequest,
   output: PatchProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
@@ -4298,12 +5831,17 @@ export interface DeleteProjectsLocationsVmwareEngineNetworksRequest {
   etag?: string;
 }
 
-export const DeleteProjectsLocationsVmwareEngineNetworksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks/{vmwareEngineNetworksId}" }),
+export const DeleteProjectsLocationsVmwareEngineNetworksRequest = Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  },
+).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks/{vmwareEngineNetworksId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsVmwareEngineNetworksRequest>;
 
@@ -4313,7 +5851,12 @@ export const DeleteProjectsLocationsVmwareEngineNetworksResponse = Operation;
 export type DeleteProjectsLocationsVmwareEngineNetworksError = DefaultErrors;
 
 /** Deletes a `VmwareEngineNetwork` resource. You can only delete a VMware Engine network after all resources that refer to it are deleted. For example, a private cloud, a network peering, and a network policy can all refer to the same VMware Engine network. */
-export const deleteProjectsLocationsVmwareEngineNetworks: API.OperationMethod<DeleteProjectsLocationsVmwareEngineNetworksRequest, DeleteProjectsLocationsVmwareEngineNetworksResponse, DeleteProjectsLocationsVmwareEngineNetworksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
+  DeleteProjectsLocationsVmwareEngineNetworksRequest,
+  DeleteProjectsLocationsVmwareEngineNetworksResponse,
+  DeleteProjectsLocationsVmwareEngineNetworksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsVmwareEngineNetworksRequest,
   output: DeleteProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
@@ -4327,17 +5870,27 @@ export interface GetProjectsLocationsVmwareEngineNetworksRequest {
 export const GetProjectsLocationsVmwareEngineNetworksRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks/{vmwareEngineNetworksId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks/{vmwareEngineNetworksId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsVmwareEngineNetworksRequest>;
 
-export type GetProjectsLocationsVmwareEngineNetworksResponse = VmwareEngineNetwork;
-export const GetProjectsLocationsVmwareEngineNetworksResponse = VmwareEngineNetwork;
+export type GetProjectsLocationsVmwareEngineNetworksResponse =
+  VmwareEngineNetwork;
+export const GetProjectsLocationsVmwareEngineNetworksResponse =
+  VmwareEngineNetwork;
 
 export type GetProjectsLocationsVmwareEngineNetworksError = DefaultErrors;
 
 /** Retrieves a `VmwareEngineNetwork` resource by its resource name. The resource contains details of the VMware Engine network, such as its VMware Engine network type, peered networks in a service project, and state (for example, `CREATING`, `ACTIVE`, `DELETING`). */
-export const getProjectsLocationsVmwareEngineNetworks: API.OperationMethod<GetProjectsLocationsVmwareEngineNetworksRequest, GetProjectsLocationsVmwareEngineNetworksResponse, GetProjectsLocationsVmwareEngineNetworksError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
+  GetProjectsLocationsVmwareEngineNetworksRequest,
+  GetProjectsLocationsVmwareEngineNetworksResponse,
+  GetProjectsLocationsVmwareEngineNetworksError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsVmwareEngineNetworksRequest,
   output: GetProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
@@ -4363,17 +5916,27 @@ export const ListProjectsLocationsVmwareEngineNetworksRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/vmwareEngineNetworks",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsVmwareEngineNetworksRequest>;
 
-export type ListProjectsLocationsVmwareEngineNetworksResponse = ListVmwareEngineNetworksResponse;
-export const ListProjectsLocationsVmwareEngineNetworksResponse = ListVmwareEngineNetworksResponse;
+export type ListProjectsLocationsVmwareEngineNetworksResponse =
+  ListVmwareEngineNetworksResponse;
+export const ListProjectsLocationsVmwareEngineNetworksResponse =
+  ListVmwareEngineNetworksResponse;
 
 export type ListProjectsLocationsVmwareEngineNetworksError = DefaultErrors;
 
 /** Lists `VmwareEngineNetwork` resources in a given project and location. */
-export const listProjectsLocationsVmwareEngineNetworks: API.PaginatedOperationMethod<ListProjectsLocationsVmwareEngineNetworksRequest, ListProjectsLocationsVmwareEngineNetworksResponse, ListProjectsLocationsVmwareEngineNetworksError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsVmwareEngineNetworks: API.PaginatedOperationMethod<
+  ListProjectsLocationsVmwareEngineNetworksRequest,
+  ListProjectsLocationsVmwareEngineNetworksResponse,
+  ListProjectsLocationsVmwareEngineNetworksError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareEngineNetworksRequest,
   output: ListProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
@@ -4396,11 +5959,17 @@ export interface CreateProjectsLocationsPrivateConnectionsRequest {
 
 export const CreateProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  privateConnectionId: Schema.optional(Schema.String).pipe(T.HttpQuery("privateConnectionId")),
+  privateConnectionId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("privateConnectionId"),
+  ),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(PrivateConnection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsPrivateConnectionsRequest>;
 
@@ -4410,7 +5979,12 @@ export const CreateProjectsLocationsPrivateConnectionsResponse = Operation;
 export type CreateProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Creates a new private connection that can be used for accessing private Clouds. */
-export const createProjectsLocationsPrivateConnections: API.OperationMethod<CreateProjectsLocationsPrivateConnectionsRequest, CreateProjectsLocationsPrivateConnectionsResponse, CreateProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsPrivateConnections: API.OperationMethod<
+  CreateProjectsLocationsPrivateConnectionsRequest,
+  CreateProjectsLocationsPrivateConnectionsResponse,
+  CreateProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsPrivateConnectionsRequest,
   output: CreateProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4424,7 +5998,10 @@ export interface GetProjectsLocationsPrivateConnectionsRequest {
 export const GetProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsPrivateConnectionsRequest>;
 
@@ -4434,7 +6011,12 @@ export const GetProjectsLocationsPrivateConnectionsResponse = PrivateConnection;
 export type GetProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Retrieves a `PrivateConnection` resource by its resource name. The resource contains details of the private connection, such as connected network, routing mode and state. */
-export const getProjectsLocationsPrivateConnections: API.OperationMethod<GetProjectsLocationsPrivateConnectionsRequest, GetProjectsLocationsPrivateConnectionsResponse, GetProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsPrivateConnections: API.OperationMethod<
+  GetProjectsLocationsPrivateConnectionsRequest,
+  GetProjectsLocationsPrivateConnectionsResponse,
+  GetProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsPrivateConnectionsRequest,
   output: GetProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4460,17 +6042,27 @@ export const ListProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsPrivateConnectionsRequest>;
 
-export type ListProjectsLocationsPrivateConnectionsResponse = ListPrivateConnectionsResponse;
-export const ListProjectsLocationsPrivateConnectionsResponse = ListPrivateConnectionsResponse;
+export type ListProjectsLocationsPrivateConnectionsResponse =
+  ListPrivateConnectionsResponse;
+export const ListProjectsLocationsPrivateConnectionsResponse =
+  ListPrivateConnectionsResponse;
 
 export type ListProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Lists `PrivateConnection` resources in a given project and location. */
-export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMethod<ListProjectsLocationsPrivateConnectionsRequest, ListProjectsLocationsPrivateConnectionsResponse, ListProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateConnectionsRequest,
+  ListProjectsLocationsPrivateConnectionsResponse,
+  ListProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateConnectionsRequest,
   output: ListProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4497,7 +6089,11 @@ export const PatchProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(PrivateConnection).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsPrivateConnectionsRequest>;
 
@@ -4507,7 +6103,12 @@ export const PatchProjectsLocationsPrivateConnectionsResponse = Operation;
 export type PatchProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Modifies a `PrivateConnection` resource. Only `description` and `routing_mode` fields can be updated. Only fields specified in `updateMask` are applied. */
-export const patchProjectsLocationsPrivateConnections: API.OperationMethod<PatchProjectsLocationsPrivateConnectionsRequest, PatchProjectsLocationsPrivateConnectionsResponse, PatchProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsPrivateConnections: API.OperationMethod<
+  PatchProjectsLocationsPrivateConnectionsRequest,
+  PatchProjectsLocationsPrivateConnectionsResponse,
+  PatchProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsPrivateConnectionsRequest,
   output: PatchProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4524,7 +6125,10 @@ export const DeleteProjectsLocationsPrivateConnectionsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsPrivateConnectionsRequest>;
 
@@ -4534,7 +6138,12 @@ export const DeleteProjectsLocationsPrivateConnectionsResponse = Operation;
 export type DeleteProjectsLocationsPrivateConnectionsError = DefaultErrors;
 
 /** Deletes a `PrivateConnection` resource. When a private connection is deleted for a VMware Engine network, the connected network becomes inaccessible to that VMware Engine network. */
-export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<DeleteProjectsLocationsPrivateConnectionsRequest, DeleteProjectsLocationsPrivateConnectionsResponse, DeleteProjectsLocationsPrivateConnectionsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
+  DeleteProjectsLocationsPrivateConnectionsRequest,
+  DeleteProjectsLocationsPrivateConnectionsResponse,
+  DeleteProjectsLocationsPrivateConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateConnectionsRequest,
   output: DeleteProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4549,22 +6158,34 @@ export interface ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}/peeringRoutes" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest>;
+export const ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest =
+  Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/privateConnections/{privateConnectionsId}/peeringRoutes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest>;
 
-export type ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse = ListPrivateConnectionPeeringRoutesResponse;
-export const ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse = ListPrivateConnectionPeeringRoutesResponse;
+export type ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse =
+  ListPrivateConnectionPeeringRoutesResponse;
+export const ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse =
+  ListPrivateConnectionPeeringRoutesResponse;
 
-export type ListProjectsLocationsPrivateConnectionsPeeringRoutesError = DefaultErrors;
+export type ListProjectsLocationsPrivateConnectionsPeeringRoutesError =
+  DefaultErrors;
 
 /** Lists the private connection routes exchanged over a peering connection. */
-export const listProjectsLocationsPrivateConnectionsPeeringRoutes: API.PaginatedOperationMethod<ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest, ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse, ListProjectsLocationsPrivateConnectionsPeeringRoutesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsPrivateConnectionsPeeringRoutes: API.PaginatedOperationMethod<
+  ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest,
+  ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse,
+  ListProjectsLocationsPrivateConnectionsPeeringRoutesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest,
   output: ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse,
   errors: [],
@@ -4585,7 +6206,11 @@ export const GrantProjectsLocationsDnsBindPermissionRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(GrantDnsBindPermissionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/dnsBindPermission:grant", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsBindPermission:grant",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GrantProjectsLocationsDnsBindPermissionRequest>;
 
@@ -4595,7 +6220,12 @@ export const GrantProjectsLocationsDnsBindPermissionResponse = Operation;
 export type GrantProjectsLocationsDnsBindPermissionError = DefaultErrors;
 
 /** Grants the bind permission to the customer provided principal(user / service account) to bind their DNS zone with the intranet VPC associated with the project. DnsBindPermission is a global resource and location can only be global. */
-export const grantProjectsLocationsDnsBindPermission: API.OperationMethod<GrantProjectsLocationsDnsBindPermissionRequest, GrantProjectsLocationsDnsBindPermissionResponse, GrantProjectsLocationsDnsBindPermissionError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const grantProjectsLocationsDnsBindPermission: API.OperationMethod<
+  GrantProjectsLocationsDnsBindPermissionRequest,
+  GrantProjectsLocationsDnsBindPermissionResponse,
+  GrantProjectsLocationsDnsBindPermissionError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GrantProjectsLocationsDnsBindPermissionRequest,
   output: GrantProjectsLocationsDnsBindPermissionResponse,
   errors: [],
@@ -4612,7 +6242,11 @@ export const RevokeProjectsLocationsDnsBindPermissionRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(RevokeDnsBindPermissionRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/dnsBindPermission:revoke", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsBindPermission:revoke",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<RevokeProjectsLocationsDnsBindPermissionRequest>;
 
@@ -4622,7 +6256,12 @@ export const RevokeProjectsLocationsDnsBindPermissionResponse = Operation;
 export type RevokeProjectsLocationsDnsBindPermissionError = DefaultErrors;
 
 /** Revokes the bind permission from the customer provided principal(user / service account) on the intranet VPC associated with the consumer project. DnsBindPermission is a global resource and location can only be global. */
-export const revokeProjectsLocationsDnsBindPermission: API.OperationMethod<RevokeProjectsLocationsDnsBindPermissionRequest, RevokeProjectsLocationsDnsBindPermissionResponse, RevokeProjectsLocationsDnsBindPermissionError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const revokeProjectsLocationsDnsBindPermission: API.OperationMethod<
+  RevokeProjectsLocationsDnsBindPermissionRequest,
+  RevokeProjectsLocationsDnsBindPermissionResponse,
+  RevokeProjectsLocationsDnsBindPermissionError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: RevokeProjectsLocationsDnsBindPermissionRequest,
   output: RevokeProjectsLocationsDnsBindPermissionResponse,
   errors: [],
@@ -4648,17 +6287,27 @@ export const ListProjectsLocationsAnnouncementsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/announcements" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/announcements",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsAnnouncementsRequest>;
 
-export type ListProjectsLocationsAnnouncementsResponse = ListAnnouncementsResponse;
-export const ListProjectsLocationsAnnouncementsResponse = ListAnnouncementsResponse;
+export type ListProjectsLocationsAnnouncementsResponse =
+  ListAnnouncementsResponse;
+export const ListProjectsLocationsAnnouncementsResponse =
+  ListAnnouncementsResponse;
 
 export type ListProjectsLocationsAnnouncementsError = DefaultErrors;
 
 /** Lists `Announcements` for a given region and project */
-export const listProjectsLocationsAnnouncements: API.PaginatedOperationMethod<ListProjectsLocationsAnnouncementsRequest, ListProjectsLocationsAnnouncementsResponse, ListProjectsLocationsAnnouncementsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsAnnouncements: API.PaginatedOperationMethod<
+  ListProjectsLocationsAnnouncementsRequest,
+  ListProjectsLocationsAnnouncementsResponse,
+  ListProjectsLocationsAnnouncementsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsAnnouncementsRequest,
   output: ListProjectsLocationsAnnouncementsResponse,
   errors: [],
@@ -4676,7 +6325,10 @@ export interface GetProjectsLocationsAnnouncementsRequest {
 export const GetProjectsLocationsAnnouncementsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/announcements/{announcementsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/announcements/{announcementsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsAnnouncementsRequest>;
 
@@ -4686,7 +6338,12 @@ export const GetProjectsLocationsAnnouncementsResponse = Announcement;
 export type GetProjectsLocationsAnnouncementsError = DefaultErrors;
 
 /** Retrieves a `Announcement` by its resource name. */
-export const getProjectsLocationsAnnouncements: API.OperationMethod<GetProjectsLocationsAnnouncementsRequest, GetProjectsLocationsAnnouncementsResponse, GetProjectsLocationsAnnouncementsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsAnnouncements: API.OperationMethod<
+  GetProjectsLocationsAnnouncementsRequest,
+  GetProjectsLocationsAnnouncementsResponse,
+  GetProjectsLocationsAnnouncementsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsAnnouncementsRequest,
   output: GetProjectsLocationsAnnouncementsResponse,
   errors: [],
@@ -4709,7 +6366,11 @@ export const CreateProjectsLocationsDatastoresRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Datastore).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/projects/{projectsId}/locations/{locationsId}/datastores", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/datastores",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateProjectsLocationsDatastoresRequest>;
 
@@ -4719,7 +6380,12 @@ export const CreateProjectsLocationsDatastoresResponse = Operation;
 export type CreateProjectsLocationsDatastoresError = DefaultErrors;
 
 /** Creates a new `Datastore` resource in a given project and location. */
-export const createProjectsLocationsDatastores: API.OperationMethod<CreateProjectsLocationsDatastoresRequest, CreateProjectsLocationsDatastoresResponse, CreateProjectsLocationsDatastoresError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsDatastores: API.OperationMethod<
+  CreateProjectsLocationsDatastoresRequest,
+  CreateProjectsLocationsDatastoresResponse,
+  CreateProjectsLocationsDatastoresError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsDatastoresRequest,
   output: CreateProjectsLocationsDatastoresResponse,
   errors: [],
@@ -4742,7 +6408,11 @@ export const PatchProjectsLocationsDatastoresRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Datastore).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1/projects/{projectsId}/locations/{locationsId}/datastores/{datastoresId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/datastores/{datastoresId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchProjectsLocationsDatastoresRequest>;
 
@@ -4752,7 +6422,12 @@ export const PatchProjectsLocationsDatastoresResponse = Operation;
 export type PatchProjectsLocationsDatastoresError = DefaultErrors;
 
 /** Modifies a Datastore resource. Only fields specified in `updateMask` are applied. */
-export const patchProjectsLocationsDatastores: API.OperationMethod<PatchProjectsLocationsDatastoresRequest, PatchProjectsLocationsDatastoresResponse, PatchProjectsLocationsDatastoresError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsDatastores: API.OperationMethod<
+  PatchProjectsLocationsDatastoresRequest,
+  PatchProjectsLocationsDatastoresResponse,
+  PatchProjectsLocationsDatastoresError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsDatastoresRequest,
   output: PatchProjectsLocationsDatastoresResponse,
   errors: [],
@@ -4772,7 +6447,10 @@ export const DeleteProjectsLocationsDatastoresRequest = Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/locations/{locationsId}/datastores/{datastoresId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/datastores/{datastoresId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteProjectsLocationsDatastoresRequest>;
 
@@ -4782,7 +6460,12 @@ export const DeleteProjectsLocationsDatastoresResponse = Operation;
 export type DeleteProjectsLocationsDatastoresError = DefaultErrors;
 
 /** Deletes a `Datastore` resource. You can only delete a Datastore after all resources that refer to it are deleted. For example, multiple clusters of the same private cloud or different private clouds can refer to the same datastore. */
-export const deleteProjectsLocationsDatastores: API.OperationMethod<DeleteProjectsLocationsDatastoresRequest, DeleteProjectsLocationsDatastoresResponse, DeleteProjectsLocationsDatastoresError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsDatastores: API.OperationMethod<
+  DeleteProjectsLocationsDatastoresRequest,
+  DeleteProjectsLocationsDatastoresResponse,
+  DeleteProjectsLocationsDatastoresError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsDatastoresRequest,
   output: DeleteProjectsLocationsDatastoresResponse,
   errors: [],
@@ -4796,7 +6479,10 @@ export interface GetProjectsLocationsDatastoresRequest {
 export const GetProjectsLocationsDatastoresRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/datastores/{datastoresId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/datastores/{datastoresId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsDatastoresRequest>;
 
@@ -4806,7 +6492,12 @@ export const GetProjectsLocationsDatastoresResponse = Datastore;
 export type GetProjectsLocationsDatastoresError = DefaultErrors;
 
 /** Retrieves a `Datastore` resource by its resource name. The resource contains details of the Datastore, such as its description, subnets, type, and more. */
-export const getProjectsLocationsDatastores: API.OperationMethod<GetProjectsLocationsDatastoresRequest, GetProjectsLocationsDatastoresResponse, GetProjectsLocationsDatastoresError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsDatastores: API.OperationMethod<
+  GetProjectsLocationsDatastoresRequest,
+  GetProjectsLocationsDatastoresResponse,
+  GetProjectsLocationsDatastoresError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsDatastoresRequest,
   output: GetProjectsLocationsDatastoresResponse,
   errors: [],
@@ -4835,7 +6526,10 @@ export const ListProjectsLocationsDatastoresRequest = Schema.Struct({
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations/{locationsId}/datastores" }),
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/datastores",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsDatastoresRequest>;
 
@@ -4845,7 +6539,12 @@ export const ListProjectsLocationsDatastoresResponse = ListDatastoresResponse;
 export type ListProjectsLocationsDatastoresError = DefaultErrors;
 
 /** Lists `Datastore` resources in a given project and location. */
-export const listProjectsLocationsDatastores: API.PaginatedOperationMethod<ListProjectsLocationsDatastoresRequest, ListProjectsLocationsDatastoresResponse, ListProjectsLocationsDatastoresError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsDatastores: API.PaginatedOperationMethod<
+  ListProjectsLocationsDatastoresRequest,
+  ListProjectsLocationsDatastoresResponse,
+  ListProjectsLocationsDatastoresError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatastoresRequest,
   output: ListProjectsLocationsDatastoresResponse,
   errors: [],
@@ -4854,4 +6553,3 @@ export const listProjectsLocationsDatastores: API.PaginatedOperationMethod<ListP
     outputToken: "nextPageToken",
   },
 }));
-

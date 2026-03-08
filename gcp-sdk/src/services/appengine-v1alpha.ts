@@ -32,11 +32,15 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct({
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-})).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
@@ -51,13 +55,15 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    done: Schema.optional(Schema.Boolean),
+    error: Schema.optional(Status),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -68,11 +74,16 @@ export interface ListOperationsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Schema.suspend(() => Schema.Struct({
-  operations: Schema.optional(Schema.Array(Operation)),
-  nextPageToken: Schema.optional(Schema.String),
-  unreachable: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "ListOperationsResponse" }) as any as Schema.Schema<ListOperationsResponse>;
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
 
 export interface AuthorizedDomain {
   /** Full path to the AuthorizedDomain resource in the API. Example: apps/myapp/authorizedDomains/example.com.@OutputOnly */
@@ -81,10 +92,15 @@ export interface AuthorizedDomain {
   id?: string;
 }
 
-export const AuthorizedDomain: Schema.Schema<AuthorizedDomain> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-})).annotate({ identifier: "AuthorizedDomain" }) as any as Schema.Schema<AuthorizedDomain>;
+export const AuthorizedDomain: Schema.Schema<AuthorizedDomain> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AuthorizedDomain",
+}) as any as Schema.Schema<AuthorizedDomain>;
 
 export interface ListAuthorizedDomainsResponse {
   /** The authorized domains belonging to the user. */
@@ -93,10 +109,15 @@ export interface ListAuthorizedDomainsResponse {
   nextPageToken?: string;
 }
 
-export const ListAuthorizedDomainsResponse: Schema.Schema<ListAuthorizedDomainsResponse> = Schema.suspend(() => Schema.Struct({
-  domains: Schema.optional(Schema.Array(AuthorizedDomain)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAuthorizedDomainsResponse" }) as any as Schema.Schema<ListAuthorizedDomainsResponse>;
+export const ListAuthorizedDomainsResponse: Schema.Schema<ListAuthorizedDomainsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      domains: Schema.optional(Schema.Array(AuthorizedDomain)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAuthorizedDomainsResponse",
+  }) as any as Schema.Schema<ListAuthorizedDomainsResponse>;
 
 export interface CertificateRawData {
   /** PEM encoded x.509 public key certificate. This field is set once on certificate creation. Must include the header and footer. Example: -----BEGIN CERTIFICATE----- -----END CERTIFICATE----- */
@@ -105,22 +126,41 @@ export interface CertificateRawData {
   privateKey?: string;
 }
 
-export const CertificateRawData: Schema.Schema<CertificateRawData> = Schema.suspend(() => Schema.Struct({
-  publicCertificate: Schema.optional(Schema.String),
-  privateKey: Schema.optional(Schema.String),
-})).annotate({ identifier: "CertificateRawData" }) as any as Schema.Schema<CertificateRawData>;
+export const CertificateRawData: Schema.Schema<CertificateRawData> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      publicCertificate: Schema.optional(Schema.String),
+      privateKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CertificateRawData",
+  }) as any as Schema.Schema<CertificateRawData>;
 
 export interface ManagedCertificate {
   /** Time at which the certificate was last renewed. The renewal process is fully managed. Certificate renewal will automatically occur before the certificate expires. Renewal errors can be tracked via ManagementStatus.@OutputOnly */
   lastRenewalTime?: string;
   /** Status of certificate management. Refers to the most recent certificate acquisition or renewal attempt.@OutputOnly */
-  status?: "UNSPECIFIED_STATUS" | "OK" | "PENDING" | "FAILED_RETRYING_INTERNAL" | "FAILED_RETRYING_NOT_VISIBLE" | "FAILED_PERMANENTLY_NOT_VISIBLE" | "FAILED_RETRYING_CAA_FORBIDDEN" | "FAILED_RETRYING_CAA_CHECKING" | (string & {});
+  status?:
+    | "UNSPECIFIED_STATUS"
+    | "OK"
+    | "PENDING"
+    | "FAILED_RETRYING_INTERNAL"
+    | "FAILED_RETRYING_NOT_VISIBLE"
+    | "FAILED_PERMANENTLY_NOT_VISIBLE"
+    | "FAILED_RETRYING_CAA_FORBIDDEN"
+    | "FAILED_RETRYING_CAA_CHECKING"
+    | (string & {});
 }
 
-export const ManagedCertificate: Schema.Schema<ManagedCertificate> = Schema.suspend(() => Schema.Struct({
-  lastRenewalTime: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-})).annotate({ identifier: "ManagedCertificate" }) as any as Schema.Schema<ManagedCertificate>;
+export const ManagedCertificate: Schema.Schema<ManagedCertificate> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      lastRenewalTime: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ManagedCertificate",
+  }) as any as Schema.Schema<ManagedCertificate>;
 
 export interface AuthorizedCertificate {
   /** Output only. Full path to the AuthorizedCertificate resource in the API. Example: apps/myapp/authorizedCertificates/12345.@OutputOnly */
@@ -143,17 +183,22 @@ export interface AuthorizedCertificate {
   domainMappingsCount?: number;
 }
 
-export const AuthorizedCertificate: Schema.Schema<AuthorizedCertificate> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  domainNames: Schema.optional(Schema.Array(Schema.String)),
-  expireTime: Schema.optional(Schema.String),
-  certificateRawData: Schema.optional(CertificateRawData),
-  managedCertificate: Schema.optional(ManagedCertificate),
-  visibleDomainMappings: Schema.optional(Schema.Array(Schema.String)),
-  domainMappingsCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "AuthorizedCertificate" }) as any as Schema.Schema<AuthorizedCertificate>;
+export const AuthorizedCertificate: Schema.Schema<AuthorizedCertificate> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      domainNames: Schema.optional(Schema.Array(Schema.String)),
+      expireTime: Schema.optional(Schema.String),
+      certificateRawData: Schema.optional(CertificateRawData),
+      managedCertificate: Schema.optional(ManagedCertificate),
+      visibleDomainMappings: Schema.optional(Schema.Array(Schema.String)),
+      domainMappingsCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AuthorizedCertificate",
+  }) as any as Schema.Schema<AuthorizedCertificate>;
 
 export interface ListAuthorizedCertificatesResponse {
   /** The SSL certificates the user is authorized to administer. */
@@ -162,16 +207,21 @@ export interface ListAuthorizedCertificatesResponse {
   nextPageToken?: string;
 }
 
-export const ListAuthorizedCertificatesResponse: Schema.Schema<ListAuthorizedCertificatesResponse> = Schema.suspend(() => Schema.Struct({
-  certificates: Schema.optional(Schema.Array(AuthorizedCertificate)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAuthorizedCertificatesResponse" }) as any as Schema.Schema<ListAuthorizedCertificatesResponse>;
+export const ListAuthorizedCertificatesResponse: Schema.Schema<ListAuthorizedCertificatesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      certificates: Schema.optional(Schema.Array(AuthorizedCertificate)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAuthorizedCertificatesResponse",
+  }) as any as Schema.Schema<ListAuthorizedCertificatesResponse>;
 
-export interface Empty {
-}
+export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface SslSettings {
   /** ID of the AuthorizedCertificate resource configuring SSL for the application. Clearing this field will remove SSL support.By default, a managed certificate is automatically created for every domain mapping. To omit SSL support or to configure SSL manually, specify no_managed_certificate on a CREATE or UPDATE request. You must be authorized to administer the AuthorizedCertificate resource to manually map it to a DomainMapping resource. Example: 12345. */
@@ -180,10 +230,12 @@ export interface SslSettings {
   isManagedCertificate?: boolean;
 }
 
-export const SslSettings: Schema.Schema<SslSettings> = Schema.suspend(() => Schema.Struct({
-  certificateId: Schema.optional(Schema.String),
-  isManagedCertificate: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "SslSettings" }) as any as Schema.Schema<SslSettings>;
+export const SslSettings: Schema.Schema<SslSettings> = Schema.suspend(() =>
+  Schema.Struct({
+    certificateId: Schema.optional(Schema.String),
+    isManagedCertificate: Schema.optional(Schema.Boolean),
+  }),
+).annotate({ identifier: "SslSettings" }) as any as Schema.Schema<SslSettings>;
 
 export interface ResourceRecord {
   /** Relative name of the object affected by this record. Only applicable for CNAME records. Example: 'www'. */
@@ -194,11 +246,16 @@ export interface ResourceRecord {
   type?: "A" | "AAAA" | "CNAME" | (string & {});
 }
 
-export const ResourceRecord: Schema.Schema<ResourceRecord> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  rrdata: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
-})).annotate({ identifier: "ResourceRecord" }) as any as Schema.Schema<ResourceRecord>;
+export const ResourceRecord: Schema.Schema<ResourceRecord> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      rrdata: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ResourceRecord",
+}) as any as Schema.Schema<ResourceRecord>;
 
 export interface DomainMapping {
   /** Output only. Full path to the DomainMapping resource in the API. Example: apps/myapp/domainMapping/example.com.@OutputOnly */
@@ -211,12 +268,16 @@ export interface DomainMapping {
   resourceRecords?: Array<ResourceRecord>;
 }
 
-export const DomainMapping: Schema.Schema<DomainMapping> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  id: Schema.optional(Schema.String),
-  sslSettings: Schema.optional(SslSettings),
-  resourceRecords: Schema.optional(Schema.Array(ResourceRecord)),
-})).annotate({ identifier: "DomainMapping" }) as any as Schema.Schema<DomainMapping>;
+export const DomainMapping: Schema.Schema<DomainMapping> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
+    sslSettings: Schema.optional(SslSettings),
+    resourceRecords: Schema.optional(Schema.Array(ResourceRecord)),
+  }),
+).annotate({
+  identifier: "DomainMapping",
+}) as any as Schema.Schema<DomainMapping>;
 
 export interface ListDomainMappingsResponse {
   /** The domain mappings for the application. */
@@ -225,10 +286,15 @@ export interface ListDomainMappingsResponse {
   nextPageToken?: string;
 }
 
-export const ListDomainMappingsResponse: Schema.Schema<ListDomainMappingsResponse> = Schema.suspend(() => Schema.Struct({
-  domainMappings: Schema.optional(Schema.Array(DomainMapping)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListDomainMappingsResponse" }) as any as Schema.Schema<ListDomainMappingsResponse>;
+export const ListDomainMappingsResponse: Schema.Schema<ListDomainMappingsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      domainMappings: Schema.optional(Schema.Array(DomainMapping)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDomainMappingsResponse",
+  }) as any as Schema.Schema<ListDomainMappingsResponse>;
 
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: "projects/example-project/locations/us-east1" */
@@ -243,13 +309,15 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -258,10 +326,15 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schema.suspend(() => Schema.Struct({
-  locations: Schema.optional(Schema.Array(Location)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 export interface LocationMetadata {
   /** App Engine standard environment is available in the given location.@OutputOnly */
@@ -272,20 +345,30 @@ export interface LocationMetadata {
   searchApiAvailable?: boolean;
 }
 
-export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(() => Schema.Struct({
-  standardEnvironmentAvailable: Schema.optional(Schema.Boolean),
-  flexibleEnvironmentAvailable: Schema.optional(Schema.Boolean),
-  searchApiAvailable: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "LocationMetadata" }) as any as Schema.Schema<LocationMetadata>;
+export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      standardEnvironmentAvailable: Schema.optional(Schema.Boolean),
+      flexibleEnvironmentAvailable: Schema.optional(Schema.Boolean),
+      searchApiAvailable: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "LocationMetadata",
+}) as any as Schema.Schema<LocationMetadata>;
 
 export interface CreateVersionMetadataV1 {
   /** The Cloud Build ID if one was created as part of the version create. @OutputOnly */
   cloudBuildId?: string;
 }
 
-export const CreateVersionMetadataV1: Schema.Schema<CreateVersionMetadataV1> = Schema.suspend(() => Schema.Struct({
-  cloudBuildId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateVersionMetadataV1" }) as any as Schema.Schema<CreateVersionMetadataV1>;
+export const CreateVersionMetadataV1: Schema.Schema<CreateVersionMetadataV1> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudBuildId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateVersionMetadataV1",
+  }) as any as Schema.Schema<CreateVersionMetadataV1>;
 
 export interface OperationMetadataV1 {
   /** API method that initiated this operation. Example: google.appengine.v1.Versions.CreateVersion.@OutputOnly */
@@ -305,25 +388,35 @@ export interface OperationMetadataV1 {
   createVersionMetadata?: CreateVersionMetadataV1;
 }
 
-export const OperationMetadataV1: Schema.Schema<OperationMetadataV1> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  insertTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  user: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  ephemeralMessage: Schema.optional(Schema.String),
-  warning: Schema.optional(Schema.Array(Schema.String)),
-  createVersionMetadata: Schema.optional(CreateVersionMetadataV1),
-})).annotate({ identifier: "OperationMetadataV1" }) as any as Schema.Schema<OperationMetadataV1>;
+export const OperationMetadataV1: Schema.Schema<OperationMetadataV1> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      insertTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      user: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      ephemeralMessage: Schema.optional(Schema.String),
+      warning: Schema.optional(Schema.Array(Schema.String)),
+      createVersionMetadata: Schema.optional(CreateVersionMetadataV1),
+    }),
+  ).annotate({
+    identifier: "OperationMetadataV1",
+  }) as any as Schema.Schema<OperationMetadataV1>;
 
 export interface CreateVersionMetadataV1Alpha {
   /** The Cloud Build ID if one was created as part of the version create. @OutputOnly */
   cloudBuildId?: string;
 }
 
-export const CreateVersionMetadataV1Alpha: Schema.Schema<CreateVersionMetadataV1Alpha> = Schema.suspend(() => Schema.Struct({
-  cloudBuildId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateVersionMetadataV1Alpha" }) as any as Schema.Schema<CreateVersionMetadataV1Alpha>;
+export const CreateVersionMetadataV1Alpha: Schema.Schema<CreateVersionMetadataV1Alpha> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudBuildId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateVersionMetadataV1Alpha",
+  }) as any as Schema.Schema<CreateVersionMetadataV1Alpha>;
 
 export interface OperationMetadataV1Alpha {
   /** API method that initiated this operation. Example: google.appengine.v1alpha.Versions.CreateVersion.@OutputOnly */
@@ -343,16 +436,21 @@ export interface OperationMetadataV1Alpha {
   createVersionMetadata?: CreateVersionMetadataV1Alpha;
 }
 
-export const OperationMetadataV1Alpha: Schema.Schema<OperationMetadataV1Alpha> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  insertTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  user: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  ephemeralMessage: Schema.optional(Schema.String),
-  warning: Schema.optional(Schema.Array(Schema.String)),
-  createVersionMetadata: Schema.optional(CreateVersionMetadataV1Alpha),
-})).annotate({ identifier: "OperationMetadataV1Alpha" }) as any as Schema.Schema<OperationMetadataV1Alpha>;
+export const OperationMetadataV1Alpha: Schema.Schema<OperationMetadataV1Alpha> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      insertTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      user: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      ephemeralMessage: Schema.optional(Schema.String),
+      warning: Schema.optional(Schema.Array(Schema.String)),
+      createVersionMetadata: Schema.optional(CreateVersionMetadataV1Alpha),
+    }),
+  ).annotate({
+    identifier: "OperationMetadataV1Alpha",
+  }) as any as Schema.Schema<OperationMetadataV1Alpha>;
 
 export interface GoogleAppengineV1betaLocationMetadata {
   /** App Engine standard environment is available in the given location.@OutputOnly */
@@ -363,20 +461,30 @@ export interface GoogleAppengineV1betaLocationMetadata {
   searchApiAvailable?: boolean;
 }
 
-export const GoogleAppengineV1betaLocationMetadata: Schema.Schema<GoogleAppengineV1betaLocationMetadata> = Schema.suspend(() => Schema.Struct({
-  standardEnvironmentAvailable: Schema.optional(Schema.Boolean),
-  flexibleEnvironmentAvailable: Schema.optional(Schema.Boolean),
-  searchApiAvailable: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleAppengineV1betaLocationMetadata" }) as any as Schema.Schema<GoogleAppengineV1betaLocationMetadata>;
+export const GoogleAppengineV1betaLocationMetadata: Schema.Schema<GoogleAppengineV1betaLocationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      standardEnvironmentAvailable: Schema.optional(Schema.Boolean),
+      flexibleEnvironmentAvailable: Schema.optional(Schema.Boolean),
+      searchApiAvailable: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleAppengineV1betaLocationMetadata",
+  }) as any as Schema.Schema<GoogleAppengineV1betaLocationMetadata>;
 
 export interface CreateVersionMetadataV1Beta {
   /** The Cloud Build ID if one was created as part of the version create. @OutputOnly */
   cloudBuildId?: string;
 }
 
-export const CreateVersionMetadataV1Beta: Schema.Schema<CreateVersionMetadataV1Beta> = Schema.suspend(() => Schema.Struct({
-  cloudBuildId: Schema.optional(Schema.String),
-})).annotate({ identifier: "CreateVersionMetadataV1Beta" }) as any as Schema.Schema<CreateVersionMetadataV1Beta>;
+export const CreateVersionMetadataV1Beta: Schema.Schema<CreateVersionMetadataV1Beta> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      cloudBuildId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateVersionMetadataV1Beta",
+  }) as any as Schema.Schema<CreateVersionMetadataV1Beta>;
 
 export interface OperationMetadataV1Beta {
   /** API method that initiated this operation. Example: google.appengine.v1beta.Versions.CreateVersion.@OutputOnly */
@@ -396,16 +504,21 @@ export interface OperationMetadataV1Beta {
   createVersionMetadata?: CreateVersionMetadataV1Beta;
 }
 
-export const OperationMetadataV1Beta: Schema.Schema<OperationMetadataV1Beta> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  insertTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  user: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
-  ephemeralMessage: Schema.optional(Schema.String),
-  warning: Schema.optional(Schema.Array(Schema.String)),
-  createVersionMetadata: Schema.optional(CreateVersionMetadataV1Beta),
-})).annotate({ identifier: "OperationMetadataV1Beta" }) as any as Schema.Schema<OperationMetadataV1Beta>;
+export const OperationMetadataV1Beta: Schema.Schema<OperationMetadataV1Beta> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      insertTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      user: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      ephemeralMessage: Schema.optional(Schema.String),
+      warning: Schema.optional(Schema.Array(Schema.String)),
+      createVersionMetadata: Schema.optional(CreateVersionMetadataV1Beta),
+    }),
+  ).annotate({
+    identifier: "OperationMetadataV1Beta",
+  }) as any as Schema.Schema<OperationMetadataV1Beta>;
 
 export interface GceTag {
   /** The administrative_tag name. */
@@ -414,10 +527,12 @@ export interface GceTag {
   parent?: Array<string>;
 }
 
-export const GceTag: Schema.Schema<GceTag> = Schema.suspend(() => Schema.Struct({
-  tag: Schema.optional(Schema.String),
-  parent: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GceTag" }) as any as Schema.Schema<GceTag>;
+export const GceTag: Schema.Schema<GceTag> = Schema.suspend(() =>
+  Schema.Struct({
+    tag: Schema.optional(Schema.String),
+    parent: Schema.optional(Schema.Array(Schema.String)),
+  }),
+).annotate({ identifier: "GceTag" }) as any as Schema.Schema<GceTag>;
 
 export interface ProjectsMetadata {
   /** The tenant project number. */
@@ -435,42 +550,84 @@ export interface ProjectsMetadata {
   /** The consumer project number. */
   consumerProjectNumber?: string;
   /** The CCFE state of the consumer project. It is the same state that is communicated to the CLH during project events. Notice that this field is not set in the DB, it is only set in this proto when communicated to CLH in the side channel. */
-  consumerProjectState?: "UNKNOWN_STATE" | "ON" | "OFF" | "DELETED" | (string & {});
+  consumerProjectState?:
+    | "UNKNOWN_STATE"
+    | "ON"
+    | "OFF"
+    | "DELETED"
+    | (string & {});
   /** The GCE tags associated with the consumer project and those inherited due to their ancestry, if any. Not supported by CCFE. */
   gceTag?: Array<GceTag>;
   /** DEPRECATED: Indicates whether the GCE project is in the DEPROVISIONING state. This field is a temporary workaround (see b/475310865) to allow GCE extensions to bypass certain checks during deprovisioning. It will be replaced by a permanent solution in the future. */
   isGceProjectDeprovisioning?: boolean;
 }
 
-export const ProjectsMetadata: Schema.Schema<ProjectsMetadata> = Schema.suspend(() => Schema.Struct({
-  tenantProjectNumber: Schema.optional(Schema.String),
-  tenantProjectId: Schema.optional(Schema.String),
-  p4ServiceAccount: Schema.optional(Schema.String),
-  producerProjectId: Schema.optional(Schema.String),
-  producerProjectNumber: Schema.optional(Schema.String),
-  consumerProjectId: Schema.optional(Schema.String),
-  consumerProjectNumber: Schema.optional(Schema.String),
-  consumerProjectState: Schema.optional(Schema.String),
-  gceTag: Schema.optional(Schema.Array(GceTag)),
-  isGceProjectDeprovisioning: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "ProjectsMetadata" }) as any as Schema.Schema<ProjectsMetadata>;
+export const ProjectsMetadata: Schema.Schema<ProjectsMetadata> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      tenantProjectNumber: Schema.optional(Schema.String),
+      tenantProjectId: Schema.optional(Schema.String),
+      p4ServiceAccount: Schema.optional(Schema.String),
+      producerProjectId: Schema.optional(Schema.String),
+      producerProjectNumber: Schema.optional(Schema.String),
+      consumerProjectId: Schema.optional(Schema.String),
+      consumerProjectNumber: Schema.optional(Schema.String),
+      consumerProjectState: Schema.optional(Schema.String),
+      gceTag: Schema.optional(Schema.Array(GceTag)),
+      isGceProjectDeprovisioning: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "ProjectsMetadata",
+}) as any as Schema.Schema<ProjectsMetadata>;
 
 export interface Reasons {
-  serviceManagement?: "SERVICE_MANAGEMENT_UNKNOWN_REASON" | "SERVICE_MANAGEMENT_CONTROL_PLANE_SYNC" | "ACTIVATION" | "PREPARE_DEACTIVATION" | "ABORT_DEACTIVATION" | "COMMIT_DEACTIVATION" | (string & {});
-  dataGovernance?: "DATA_GOVERNANCE_UNKNOWN_REASON" | "DATA_GOVERNANCE_CONTROL_PLANE_SYNC" | "HIDE" | "UNHIDE" | "PURGE" | (string & {});
-  abuse?: "ABUSE_UNKNOWN_REASON" | "ABUSE_CONTROL_PLANE_SYNC" | "SUSPEND" | "REINSTATE" | (string & {});
-  billing?: "BILLING_UNKNOWN_REASON" | "BILLING_CONTROL_PLANE_SYNC" | "PROBATION" | "CLOSE" | "OPEN" | (string & {});
+  serviceManagement?:
+    | "SERVICE_MANAGEMENT_UNKNOWN_REASON"
+    | "SERVICE_MANAGEMENT_CONTROL_PLANE_SYNC"
+    | "ACTIVATION"
+    | "PREPARE_DEACTIVATION"
+    | "ABORT_DEACTIVATION"
+    | "COMMIT_DEACTIVATION"
+    | (string & {});
+  dataGovernance?:
+    | "DATA_GOVERNANCE_UNKNOWN_REASON"
+    | "DATA_GOVERNANCE_CONTROL_PLANE_SYNC"
+    | "HIDE"
+    | "UNHIDE"
+    | "PURGE"
+    | (string & {});
+  abuse?:
+    | "ABUSE_UNKNOWN_REASON"
+    | "ABUSE_CONTROL_PLANE_SYNC"
+    | "SUSPEND"
+    | "REINSTATE"
+    | (string & {});
+  billing?:
+    | "BILLING_UNKNOWN_REASON"
+    | "BILLING_CONTROL_PLANE_SYNC"
+    | "PROBATION"
+    | "CLOSE"
+    | "OPEN"
+    | (string & {});
   /** Consumer Container denotes if the service is active within a project or not. This information could be used to clean up resources in case service in DISABLED_FULL i.e. Service is inactive > 30 days. */
-  serviceActivation?: "SERVICE_ACTIVATION_STATUS_UNSPECIFIED" | "SERVICE_ACTIVATION_ENABLED" | "SERVICE_ACTIVATION_DISABLED" | "SERVICE_ACTIVATION_DISABLED_FULL" | "SERVICE_ACTIVATION_UNKNOWN_REASON" | (string & {});
+  serviceActivation?:
+    | "SERVICE_ACTIVATION_STATUS_UNSPECIFIED"
+    | "SERVICE_ACTIVATION_ENABLED"
+    | "SERVICE_ACTIVATION_DISABLED"
+    | "SERVICE_ACTIVATION_DISABLED_FULL"
+    | "SERVICE_ACTIVATION_UNKNOWN_REASON"
+    | (string & {});
 }
 
-export const Reasons: Schema.Schema<Reasons> = Schema.suspend(() => Schema.Struct({
-  serviceManagement: Schema.optional(Schema.String),
-  dataGovernance: Schema.optional(Schema.String),
-  abuse: Schema.optional(Schema.String),
-  billing: Schema.optional(Schema.String),
-  serviceActivation: Schema.optional(Schema.String),
-})).annotate({ identifier: "Reasons" }) as any as Schema.Schema<Reasons>;
+export const Reasons: Schema.Schema<Reasons> = Schema.suspend(() =>
+  Schema.Struct({
+    serviceManagement: Schema.optional(Schema.String),
+    dataGovernance: Schema.optional(Schema.String),
+    abuse: Schema.optional(Schema.String),
+    billing: Schema.optional(Schema.String),
+    serviceActivation: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Reasons" }) as any as Schema.Schema<Reasons>;
 
 export interface ContainerState {
   /** The current state of the container. This state is the culmination of all of the opinions from external systems that CCFE knows about of the container. */
@@ -480,11 +637,16 @@ export interface ContainerState {
   currentReasons?: Reasons;
 }
 
-export const ContainerState: Schema.Schema<ContainerState> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  previousReasons: Schema.optional(Reasons),
-  currentReasons: Schema.optional(Reasons),
-})).annotate({ identifier: "ContainerState" }) as any as Schema.Schema<ContainerState>;
+export const ContainerState: Schema.Schema<ContainerState> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      previousReasons: Schema.optional(Reasons),
+      currentReasons: Schema.optional(Reasons),
+    }),
+).annotate({
+  identifier: "ContainerState",
+}) as any as Schema.Schema<ContainerState>;
 
 export interface ProjectEvent {
   /** The unique ID for this project event. CLHs can use this value to dedup repeated calls. required */
@@ -492,17 +654,25 @@ export interface ProjectEvent {
   /** The projects metadata for this project. required */
   projectMetadata?: ProjectsMetadata;
   /** Phase indicates when in the container event propagation this event is being communicated. Events are sent before and after the per-resource events are propagated. required */
-  phase?: "CONTAINER_EVENT_PHASE_UNSPECIFIED" | "BEFORE_RESOURCE_HANDLING" | "AFTER_RESOURCE_HANDLING" | (string & {});
+  phase?:
+    | "CONTAINER_EVENT_PHASE_UNSPECIFIED"
+    | "BEFORE_RESOURCE_HANDLING"
+    | "AFTER_RESOURCE_HANDLING"
+    | (string & {});
   /** The state of the organization that led to this event. */
   state?: ContainerState;
 }
 
-export const ProjectEvent: Schema.Schema<ProjectEvent> = Schema.suspend(() => Schema.Struct({
-  eventId: Schema.optional(Schema.String),
-  projectMetadata: Schema.optional(ProjectsMetadata),
-  phase: Schema.optional(Schema.String),
-  state: Schema.optional(ContainerState),
-})).annotate({ identifier: "ProjectEvent" }) as any as Schema.Schema<ProjectEvent>;
+export const ProjectEvent: Schema.Schema<ProjectEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    eventId: Schema.optional(Schema.String),
+    projectMetadata: Schema.optional(ProjectsMetadata),
+    phase: Schema.optional(Schema.String),
+    state: Schema.optional(ContainerState),
+  }),
+).annotate({
+  identifier: "ProjectEvent",
+}) as any as Schema.Schema<ProjectEvent>;
 
 export interface ResourceEvent {
   /** The name of the resource for which this event is. required */
@@ -513,11 +683,15 @@ export interface ResourceEvent {
   state?: ContainerState;
 }
 
-export const ResourceEvent: Schema.Schema<ResourceEvent> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  eventId: Schema.optional(Schema.String),
-  state: Schema.optional(ContainerState),
-})).annotate({ identifier: "ResourceEvent" }) as any as Schema.Schema<ResourceEvent>;
+export const ResourceEvent: Schema.Schema<ResourceEvent> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    eventId: Schema.optional(Schema.String),
+    state: Schema.optional(ContainerState),
+  }),
+).annotate({
+  identifier: "ResourceEvent",
+}) as any as Schema.Schema<ResourceEvent>;
 
 // ==========================================================================
 // Operations
@@ -541,7 +715,9 @@ export const ListAppsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/apps/{appsId}/operations" }),
   svc,
@@ -553,7 +729,12 @@ export const ListAppsOperationsResponse = ListOperationsResponse;
 export type ListAppsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
-export const listAppsOperations: API.PaginatedOperationMethod<ListAppsOperationsRequest, ListAppsOperationsResponse, ListAppsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAppsOperations: API.PaginatedOperationMethod<
+  ListAppsOperationsRequest,
+  ListAppsOperationsResponse,
+  ListAppsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAppsOperationsRequest,
   output: ListAppsOperationsResponse,
   errors: [],
@@ -574,7 +755,10 @@ export const GetAppsOperationsRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
   operationsId: Schema.String.pipe(T.HttpPath("operationsId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/apps/{appsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/apps/{appsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAppsOperationsRequest>;
 
@@ -584,7 +768,12 @@ export const GetAppsOperationsResponse = Operation;
 export type GetAppsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getAppsOperations: API.OperationMethod<GetAppsOperationsRequest, GetAppsOperationsResponse, GetAppsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAppsOperations: API.OperationMethod<
+  GetAppsOperationsRequest,
+  GetAppsOperationsResponse,
+  GetAppsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAppsOperationsRequest,
   output: GetAppsOperationsResponse,
   errors: [],
@@ -614,7 +803,12 @@ export const ListAppsAuthorizedDomainsResponse = ListAuthorizedDomainsResponse;
 export type ListAppsAuthorizedDomainsError = DefaultErrors;
 
 /** Lists all domains the user is authorized to administer. */
-export const listAppsAuthorizedDomains: API.PaginatedOperationMethod<ListAppsAuthorizedDomainsRequest, ListAppsAuthorizedDomainsResponse, ListAppsAuthorizedDomainsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAppsAuthorizedDomains: API.PaginatedOperationMethod<
+  ListAppsAuthorizedDomainsRequest,
+  ListAppsAuthorizedDomainsResponse,
+  ListAppsAuthorizedDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAppsAuthorizedDomainsRequest,
   output: ListAppsAuthorizedDomainsResponse,
   errors: [],
@@ -641,17 +835,27 @@ export const ListAppsAuthorizedCertificatesRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/apps/{appsId}/authorizedCertificates" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/apps/{appsId}/authorizedCertificates",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListAppsAuthorizedCertificatesRequest>;
 
-export type ListAppsAuthorizedCertificatesResponse = ListAuthorizedCertificatesResponse;
-export const ListAppsAuthorizedCertificatesResponse = ListAuthorizedCertificatesResponse;
+export type ListAppsAuthorizedCertificatesResponse =
+  ListAuthorizedCertificatesResponse;
+export const ListAppsAuthorizedCertificatesResponse =
+  ListAuthorizedCertificatesResponse;
 
 export type ListAppsAuthorizedCertificatesError = DefaultErrors;
 
 /** Lists all SSL certificates the user is authorized to administer. */
-export const listAppsAuthorizedCertificates: API.PaginatedOperationMethod<ListAppsAuthorizedCertificatesRequest, ListAppsAuthorizedCertificatesResponse, ListAppsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAppsAuthorizedCertificates: API.PaginatedOperationMethod<
+  ListAppsAuthorizedCertificatesRequest,
+  ListAppsAuthorizedCertificatesResponse,
+  ListAppsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAppsAuthorizedCertificatesRequest,
   output: ListAppsAuthorizedCertificatesResponse,
   errors: [],
@@ -672,10 +876,15 @@ export interface GetAppsAuthorizedCertificatesRequest {
 
 export const GetAppsAuthorizedCertificatesRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
-  authorizedCertificatesId: Schema.String.pipe(T.HttpPath("authorizedCertificatesId")),
+  authorizedCertificatesId: Schema.String.pipe(
+    T.HttpPath("authorizedCertificatesId"),
+  ),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAppsAuthorizedCertificatesRequest>;
 
@@ -685,7 +894,12 @@ export const GetAppsAuthorizedCertificatesResponse = AuthorizedCertificate;
 export type GetAppsAuthorizedCertificatesError = DefaultErrors;
 
 /** Gets the specified SSL certificate. */
-export const getAppsAuthorizedCertificates: API.OperationMethod<GetAppsAuthorizedCertificatesRequest, GetAppsAuthorizedCertificatesResponse, GetAppsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAppsAuthorizedCertificates: API.OperationMethod<
+  GetAppsAuthorizedCertificatesRequest,
+  GetAppsAuthorizedCertificatesResponse,
+  GetAppsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAppsAuthorizedCertificatesRequest,
   output: GetAppsAuthorizedCertificatesResponse,
   errors: [],
@@ -702,7 +916,11 @@ export const CreateAppsAuthorizedCertificatesRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
   body: Schema.optional(AuthorizedCertificate).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha/apps/{appsId}/authorizedCertificates", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha/apps/{appsId}/authorizedCertificates",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAppsAuthorizedCertificatesRequest>;
 
@@ -712,7 +930,12 @@ export const CreateAppsAuthorizedCertificatesResponse = AuthorizedCertificate;
 export type CreateAppsAuthorizedCertificatesError = DefaultErrors;
 
 /** Uploads the specified SSL certificate. */
-export const createAppsAuthorizedCertificates: API.OperationMethod<CreateAppsAuthorizedCertificatesRequest, CreateAppsAuthorizedCertificatesResponse, CreateAppsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAppsAuthorizedCertificates: API.OperationMethod<
+  CreateAppsAuthorizedCertificatesRequest,
+  CreateAppsAuthorizedCertificatesResponse,
+  CreateAppsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAppsAuthorizedCertificatesRequest,
   output: CreateAppsAuthorizedCertificatesResponse,
   errors: [],
@@ -731,11 +954,17 @@ export interface PatchAppsAuthorizedCertificatesRequest {
 
 export const PatchAppsAuthorizedCertificatesRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
-  authorizedCertificatesId: Schema.String.pipe(T.HttpPath("authorizedCertificatesId")),
+  authorizedCertificatesId: Schema.String.pipe(
+    T.HttpPath("authorizedCertificatesId"),
+  ),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(AuthorizedCertificate).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAppsAuthorizedCertificatesRequest>;
 
@@ -745,7 +974,12 @@ export const PatchAppsAuthorizedCertificatesResponse = AuthorizedCertificate;
 export type PatchAppsAuthorizedCertificatesError = DefaultErrors;
 
 /** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
-export const patchAppsAuthorizedCertificates: API.OperationMethod<PatchAppsAuthorizedCertificatesRequest, PatchAppsAuthorizedCertificatesResponse, PatchAppsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAppsAuthorizedCertificates: API.OperationMethod<
+  PatchAppsAuthorizedCertificatesRequest,
+  PatchAppsAuthorizedCertificatesResponse,
+  PatchAppsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAppsAuthorizedCertificatesRequest,
   output: PatchAppsAuthorizedCertificatesResponse,
   errors: [],
@@ -760,9 +994,14 @@ export interface DeleteAppsAuthorizedCertificatesRequest {
 
 export const DeleteAppsAuthorizedCertificatesRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
-  authorizedCertificatesId: Schema.String.pipe(T.HttpPath("authorizedCertificatesId")),
+  authorizedCertificatesId: Schema.String.pipe(
+    T.HttpPath("authorizedCertificatesId"),
+  ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAppsAuthorizedCertificatesRequest>;
 
@@ -772,7 +1011,12 @@ export const DeleteAppsAuthorizedCertificatesResponse = Empty;
 export type DeleteAppsAuthorizedCertificatesError = DefaultErrors;
 
 /** Deletes the specified SSL certificate. */
-export const deleteAppsAuthorizedCertificates: API.OperationMethod<DeleteAppsAuthorizedCertificatesRequest, DeleteAppsAuthorizedCertificatesResponse, DeleteAppsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAppsAuthorizedCertificates: API.OperationMethod<
+  DeleteAppsAuthorizedCertificatesRequest,
+  DeleteAppsAuthorizedCertificatesResponse,
+  DeleteAppsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAppsAuthorizedCertificatesRequest,
   output: DeleteAppsAuthorizedCertificatesResponse,
   errors: [],
@@ -802,7 +1046,12 @@ export const ListAppsDomainMappingsResponse = ListDomainMappingsResponse;
 export type ListAppsDomainMappingsError = DefaultErrors;
 
 /** Lists the domain mappings on an application. */
-export const listAppsDomainMappings: API.PaginatedOperationMethod<ListAppsDomainMappingsRequest, ListAppsDomainMappingsResponse, ListAppsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAppsDomainMappings: API.PaginatedOperationMethod<
+  ListAppsDomainMappingsRequest,
+  ListAppsDomainMappingsResponse,
+  ListAppsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAppsDomainMappingsRequest,
   output: ListAppsDomainMappingsResponse,
   errors: [],
@@ -823,7 +1072,10 @@ export const GetAppsDomainMappingsRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
   domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/apps/{appsId}/domainMappings/{domainMappingsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/apps/{appsId}/domainMappings/{domainMappingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAppsDomainMappingsRequest>;
 
@@ -833,7 +1085,12 @@ export const GetAppsDomainMappingsResponse = DomainMapping;
 export type GetAppsDomainMappingsError = DefaultErrors;
 
 /** Gets the specified domain mapping. */
-export const getAppsDomainMappings: API.OperationMethod<GetAppsDomainMappingsRequest, GetAppsDomainMappingsResponse, GetAppsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAppsDomainMappings: API.OperationMethod<
+  GetAppsDomainMappingsRequest,
+  GetAppsDomainMappingsResponse,
+  GetAppsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAppsDomainMappingsRequest,
   output: GetAppsDomainMappingsResponse,
   errors: [],
@@ -845,18 +1102,30 @@ export interface CreateAppsDomainMappingsRequest {
   /** Whether a managed certificate should be provided by App Engine. If true, a certificate ID must be manaually set in the DomainMapping resource to configure SSL for this domain. If false, a managed certificate will be provisioned and a certificate ID will be automatically populated. */
   noManagedCertificate?: boolean;
   /** Whether the domain creation should override any existing mappings for this domain. By default, overrides are rejected. */
-  overrideStrategy?: "UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY" | "STRICT" | "OVERRIDE" | (string & {});
+  overrideStrategy?:
+    | "UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY"
+    | "STRICT"
+    | "OVERRIDE"
+    | (string & {});
   /** Request body */
   body?: DomainMapping;
 }
 
 export const CreateAppsDomainMappingsRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
-  noManagedCertificate: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("noManagedCertificate")),
-  overrideStrategy: Schema.optional(Schema.String).pipe(T.HttpQuery("overrideStrategy")),
+  noManagedCertificate: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("noManagedCertificate"),
+  ),
+  overrideStrategy: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("overrideStrategy"),
+  ),
   body: Schema.optional(DomainMapping).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha/apps/{appsId}/domainMappings", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1alpha/apps/{appsId}/domainMappings",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAppsDomainMappingsRequest>;
 
@@ -866,7 +1135,12 @@ export const CreateAppsDomainMappingsResponse = Operation;
 export type CreateAppsDomainMappingsError = DefaultErrors;
 
 /** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
-export const createAppsDomainMappings: API.OperationMethod<CreateAppsDomainMappingsRequest, CreateAppsDomainMappingsResponse, CreateAppsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAppsDomainMappings: API.OperationMethod<
+  CreateAppsDomainMappingsRequest,
+  CreateAppsDomainMappingsResponse,
+  CreateAppsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAppsDomainMappingsRequest,
   output: CreateAppsDomainMappingsResponse,
   errors: [],
@@ -889,10 +1163,16 @@ export const PatchAppsDomainMappingsRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
   domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  noManagedCertificate: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("noManagedCertificate")),
+  noManagedCertificate: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("noManagedCertificate"),
+  ),
   body: Schema.optional(DomainMapping).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha/apps/{appsId}/domainMappings/{domainMappingsId}", hasBody: true }),
+  T.Http({
+    method: "PATCH",
+    path: "v1alpha/apps/{appsId}/domainMappings/{domainMappingsId}",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<PatchAppsDomainMappingsRequest>;
 
@@ -902,7 +1182,12 @@ export const PatchAppsDomainMappingsResponse = Operation;
 export type PatchAppsDomainMappingsError = DefaultErrors;
 
 /** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
-export const patchAppsDomainMappings: API.OperationMethod<PatchAppsDomainMappingsRequest, PatchAppsDomainMappingsResponse, PatchAppsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchAppsDomainMappings: API.OperationMethod<
+  PatchAppsDomainMappingsRequest,
+  PatchAppsDomainMappingsResponse,
+  PatchAppsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchAppsDomainMappingsRequest,
   output: PatchAppsDomainMappingsResponse,
   errors: [],
@@ -919,7 +1204,10 @@ export const DeleteAppsDomainMappingsRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
   domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha/apps/{appsId}/domainMappings/{domainMappingsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "v1alpha/apps/{appsId}/domainMappings/{domainMappingsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteAppsDomainMappingsRequest>;
 
@@ -929,7 +1217,12 @@ export const DeleteAppsDomainMappingsResponse = Operation;
 export type DeleteAppsDomainMappingsError = DefaultErrors;
 
 /** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
-export const deleteAppsDomainMappings: API.OperationMethod<DeleteAppsDomainMappingsRequest, DeleteAppsDomainMappingsResponse, DeleteAppsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteAppsDomainMappings: API.OperationMethod<
+  DeleteAppsDomainMappingsRequest,
+  DeleteAppsDomainMappingsResponse,
+  DeleteAppsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteAppsDomainMappingsRequest,
   output: DeleteAppsDomainMappingsResponse,
   errors: [],
@@ -953,7 +1246,9 @@ export const ListAppsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/apps/{appsId}/locations" }),
   svc,
@@ -965,7 +1260,12 @@ export const ListAppsLocationsResponse = ListLocationsResponse;
 export type ListAppsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listAppsLocations: API.PaginatedOperationMethod<ListAppsLocationsRequest, ListAppsLocationsResponse, ListAppsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAppsLocations: API.PaginatedOperationMethod<
+  ListAppsLocationsRequest,
+  ListAppsLocationsResponse,
+  ListAppsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAppsLocationsRequest,
   output: ListAppsLocationsResponse,
   errors: [],
@@ -986,7 +1286,10 @@ export const GetAppsLocationsRequest = Schema.Struct({
   appsId: Schema.String.pipe(T.HttpPath("appsId")),
   locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/apps/{appsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/apps/{appsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAppsLocationsRequest>;
 
@@ -996,7 +1299,12 @@ export const GetAppsLocationsResponse = Location;
 export type GetAppsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getAppsLocations: API.OperationMethod<GetAppsLocationsRequest, GetAppsLocationsResponse, GetAppsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAppsLocations: API.OperationMethod<
+  GetAppsLocationsRequest,
+  GetAppsLocationsResponse,
+  GetAppsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAppsLocationsRequest,
   output: GetAppsLocationsResponse,
   errors: [],
@@ -1020,7 +1328,9 @@ export const ListProjectsLocationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("extraLocationTypes")),
+  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("extraLocationTypes"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations" }),
   svc,
@@ -1032,7 +1342,12 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 export type ListProjectsLocationsError = DefaultErrors;
 
 /** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1053,7 +1368,10 @@ export const GetProjectsLocationsRequest = Schema.Struct({
   projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
   locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/projects/{projectsId}/locations/{locationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1063,7 +1381,12 @@ export const GetProjectsLocationsResponse = Location;
 export type GetProjectsLocationsError = DefaultErrors;
 
 /** Gets information about a location. */
-export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1090,9 +1413,14 @@ export const ListProjectsLocationsOperationsRequest = Schema.Struct({
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("returnPartialSuccess")),
+  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("returnPartialSuccess"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/operations" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/projects/{projectsId}/locations/{locationsId}/operations",
+  }),
   svc,
 ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1102,7 +1430,12 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1126,7 +1459,10 @@ export const GetProjectsLocationsOperationsRequest = Schema.Struct({
   locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
   operationsId: Schema.String.pipe(T.HttpPath("operationsId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1alpha/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1136,7 +1472,12 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1155,24 +1496,36 @@ export interface ListProjectsLocationsApplicationsAuthorizedDomainsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsApplicationsAuthorizedDomainsRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedDomains" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsApplicationsAuthorizedDomainsRequest>;
+export const ListProjectsLocationsApplicationsAuthorizedDomainsRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedDomains",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsApplicationsAuthorizedDomainsRequest>;
 
-export type ListProjectsLocationsApplicationsAuthorizedDomainsResponse = ListAuthorizedDomainsResponse;
-export const ListProjectsLocationsApplicationsAuthorizedDomainsResponse = ListAuthorizedDomainsResponse;
+export type ListProjectsLocationsApplicationsAuthorizedDomainsResponse =
+  ListAuthorizedDomainsResponse;
+export const ListProjectsLocationsApplicationsAuthorizedDomainsResponse =
+  ListAuthorizedDomainsResponse;
 
-export type ListProjectsLocationsApplicationsAuthorizedDomainsError = DefaultErrors;
+export type ListProjectsLocationsApplicationsAuthorizedDomainsError =
+  DefaultErrors;
 
 /** Lists all domains the user is authorized to administer. */
-export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOperationMethod<ListProjectsLocationsApplicationsAuthorizedDomainsRequest, ListProjectsLocationsApplicationsAuthorizedDomainsResponse, ListProjectsLocationsApplicationsAuthorizedDomainsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOperationMethod<
+  ListProjectsLocationsApplicationsAuthorizedDomainsRequest,
+  ListProjectsLocationsApplicationsAuthorizedDomainsResponse,
+  ListProjectsLocationsApplicationsAuthorizedDomainsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsAuthorizedDomainsRequest,
   output: ListProjectsLocationsApplicationsAuthorizedDomainsResponse,
   errors: [],
@@ -1197,25 +1550,37 @@ export interface ListProjectsLocationsApplicationsAuthorizedCertificatesRequest 
   pageToken?: string;
 }
 
-export const ListProjectsLocationsApplicationsAuthorizedCertificatesRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
+export const ListProjectsLocationsApplicationsAuthorizedCertificatesRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
 
-export type ListProjectsLocationsApplicationsAuthorizedCertificatesResponse = ListAuthorizedCertificatesResponse;
-export const ListProjectsLocationsApplicationsAuthorizedCertificatesResponse = ListAuthorizedCertificatesResponse;
+export type ListProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  ListAuthorizedCertificatesResponse;
+export const ListProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  ListAuthorizedCertificatesResponse;
 
-export type ListProjectsLocationsApplicationsAuthorizedCertificatesError = DefaultErrors;
+export type ListProjectsLocationsApplicationsAuthorizedCertificatesError =
+  DefaultErrors;
 
 /** Lists all SSL certificates the user is authorized to administer. */
-export const listProjectsLocationsApplicationsAuthorizedCertificates: API.PaginatedOperationMethod<ListProjectsLocationsApplicationsAuthorizedCertificatesRequest, ListProjectsLocationsApplicationsAuthorizedCertificatesResponse, ListProjectsLocationsApplicationsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsApplicationsAuthorizedCertificates: API.PaginatedOperationMethod<
+  ListProjectsLocationsApplicationsAuthorizedCertificatesRequest,
+  ListProjectsLocationsApplicationsAuthorizedCertificatesResponse,
+  ListProjectsLocationsApplicationsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: ListProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
@@ -1238,24 +1603,38 @@ export interface GetProjectsLocationsApplicationsAuthorizedCertificatesRequest {
   view?: "BASIC_CERTIFICATE" | "FULL_CERTIFICATE" | (string & {});
 }
 
-export const GetProjectsLocationsApplicationsAuthorizedCertificatesRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  authorizedCertificatesId: Schema.String.pipe(T.HttpPath("authorizedCertificatesId")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates/{authorizedCertificatesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
+export const GetProjectsLocationsApplicationsAuthorizedCertificatesRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    authorizedCertificatesId: Schema.String.pipe(
+      T.HttpPath("authorizedCertificatesId"),
+    ),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates/{authorizedCertificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
 
-export type GetProjectsLocationsApplicationsAuthorizedCertificatesResponse = AuthorizedCertificate;
-export const GetProjectsLocationsApplicationsAuthorizedCertificatesResponse = AuthorizedCertificate;
+export type GetProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  AuthorizedCertificate;
+export const GetProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  AuthorizedCertificate;
 
-export type GetProjectsLocationsApplicationsAuthorizedCertificatesError = DefaultErrors;
+export type GetProjectsLocationsApplicationsAuthorizedCertificatesError =
+  DefaultErrors;
 
 /** Gets the specified SSL certificate. */
-export const getProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<GetProjectsLocationsApplicationsAuthorizedCertificatesRequest, GetProjectsLocationsApplicationsAuthorizedCertificatesResponse, GetProjectsLocationsApplicationsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
+  GetProjectsLocationsApplicationsAuthorizedCertificatesRequest,
+  GetProjectsLocationsApplicationsAuthorizedCertificatesResponse,
+  GetProjectsLocationsApplicationsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: GetProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
@@ -1272,23 +1651,36 @@ export interface CreateProjectsLocationsApplicationsAuthorizedCertificatesReques
   body?: AuthorizedCertificate;
 }
 
-export const CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  body: Schema.optional(AuthorizedCertificate).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
+export const CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    body: Schema.optional(AuthorizedCertificate).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
 
-export type CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse = AuthorizedCertificate;
-export const CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse = AuthorizedCertificate;
+export type CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  AuthorizedCertificate;
+export const CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  AuthorizedCertificate;
 
-export type CreateProjectsLocationsApplicationsAuthorizedCertificatesError = DefaultErrors;
+export type CreateProjectsLocationsApplicationsAuthorizedCertificatesError =
+  DefaultErrors;
 
 /** Uploads the specified SSL certificate. */
-export const createProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest, CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse, CreateProjectsLocationsApplicationsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
+  CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest,
+  CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse,
+  CreateProjectsLocationsApplicationsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
@@ -1309,25 +1701,40 @@ export interface PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest
   body?: AuthorizedCertificate;
 }
 
-export const PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  authorizedCertificatesId: Schema.String.pipe(T.HttpPath("authorizedCertificatesId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(AuthorizedCertificate).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates/{authorizedCertificatesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
+export const PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    authorizedCertificatesId: Schema.String.pipe(
+      T.HttpPath("authorizedCertificatesId"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(AuthorizedCertificate).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates/{authorizedCertificatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
 
-export type PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse = AuthorizedCertificate;
-export const PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse = AuthorizedCertificate;
+export type PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  AuthorizedCertificate;
+export const PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  AuthorizedCertificate;
 
-export type PatchProjectsLocationsApplicationsAuthorizedCertificatesError = DefaultErrors;
+export type PatchProjectsLocationsApplicationsAuthorizedCertificatesError =
+  DefaultErrors;
 
 /** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
-export const patchProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest, PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse, PatchProjectsLocationsApplicationsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
+  PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest,
+  PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse,
+  PatchProjectsLocationsApplicationsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
@@ -1344,23 +1751,37 @@ export interface DeleteProjectsLocationsApplicationsAuthorizedCertificatesReques
   authorizedCertificatesId: string;
 }
 
-export const DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  authorizedCertificatesId: Schema.String.pipe(T.HttpPath("authorizedCertificatesId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates/{authorizedCertificatesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
+export const DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    authorizedCertificatesId: Schema.String.pipe(
+      T.HttpPath("authorizedCertificatesId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates/{authorizedCertificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest>;
 
-export type DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse = Empty;
-export const DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse = Empty;
+export type DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  Empty;
+export const DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse =
+  Empty;
 
-export type DeleteProjectsLocationsApplicationsAuthorizedCertificatesError = DefaultErrors;
+export type DeleteProjectsLocationsApplicationsAuthorizedCertificatesError =
+  DefaultErrors;
 
 /** Deletes the specified SSL certificate. */
-export const deleteProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest, DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse, DeleteProjectsLocationsApplicationsAuthorizedCertificatesError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
+  DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest,
+  DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse,
+  DeleteProjectsLocationsApplicationsAuthorizedCertificatesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
@@ -1379,24 +1800,36 @@ export interface ListProjectsLocationsApplicationsDomainMappingsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsApplicationsDomainMappingsRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsApplicationsDomainMappingsRequest>;
+export const ListProjectsLocationsApplicationsDomainMappingsRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsApplicationsDomainMappingsRequest>;
 
-export type ListProjectsLocationsApplicationsDomainMappingsResponse = ListDomainMappingsResponse;
-export const ListProjectsLocationsApplicationsDomainMappingsResponse = ListDomainMappingsResponse;
+export type ListProjectsLocationsApplicationsDomainMappingsResponse =
+  ListDomainMappingsResponse;
+export const ListProjectsLocationsApplicationsDomainMappingsResponse =
+  ListDomainMappingsResponse;
 
-export type ListProjectsLocationsApplicationsDomainMappingsError = DefaultErrors;
+export type ListProjectsLocationsApplicationsDomainMappingsError =
+  DefaultErrors;
 
 /** Lists the domain mappings on an application. */
-export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOperationMethod<ListProjectsLocationsApplicationsDomainMappingsRequest, ListProjectsLocationsApplicationsDomainMappingsResponse, ListProjectsLocationsApplicationsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOperationMethod<
+  ListProjectsLocationsApplicationsDomainMappingsRequest,
+  ListProjectsLocationsApplicationsDomainMappingsResponse,
+  ListProjectsLocationsApplicationsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsDomainMappingsRequest,
   output: ListProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
@@ -1417,23 +1850,34 @@ export interface GetProjectsLocationsApplicationsDomainMappingsRequest {
   domainMappingsId: string;
 }
 
-export const GetProjectsLocationsApplicationsDomainMappingsRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings/{domainMappingsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsApplicationsDomainMappingsRequest>;
+export const GetProjectsLocationsApplicationsDomainMappingsRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings/{domainMappingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsApplicationsDomainMappingsRequest>;
 
-export type GetProjectsLocationsApplicationsDomainMappingsResponse = DomainMapping;
-export const GetProjectsLocationsApplicationsDomainMappingsResponse = DomainMapping;
+export type GetProjectsLocationsApplicationsDomainMappingsResponse =
+  DomainMapping;
+export const GetProjectsLocationsApplicationsDomainMappingsResponse =
+  DomainMapping;
 
 export type GetProjectsLocationsApplicationsDomainMappingsError = DefaultErrors;
 
 /** Gets the specified domain mapping. */
-export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod<GetProjectsLocationsApplicationsDomainMappingsRequest, GetProjectsLocationsApplicationsDomainMappingsResponse, GetProjectsLocationsApplicationsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
+  GetProjectsLocationsApplicationsDomainMappingsRequest,
+  GetProjectsLocationsApplicationsDomainMappingsResponse,
+  GetProjectsLocationsApplicationsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetProjectsLocationsApplicationsDomainMappingsRequest,
   output: GetProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
@@ -1449,30 +1893,51 @@ export interface CreateProjectsLocationsApplicationsDomainMappingsRequest {
   /** Whether a managed certificate should be provided by App Engine. If true, a certificate ID must be manaually set in the DomainMapping resource to configure SSL for this domain. If false, a managed certificate will be provisioned and a certificate ID will be automatically populated. */
   noManagedCertificate?: boolean;
   /** Whether the domain creation should override any existing mappings for this domain. By default, overrides are rejected. */
-  overrideStrategy?: "UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY" | "STRICT" | "OVERRIDE" | (string & {});
+  overrideStrategy?:
+    | "UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY"
+    | "STRICT"
+    | "OVERRIDE"
+    | (string & {});
   /** Request body */
   body?: DomainMapping;
 }
 
-export const CreateProjectsLocationsApplicationsDomainMappingsRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  noManagedCertificate: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("noManagedCertificate")),
-  overrideStrategy: Schema.optional(Schema.String).pipe(T.HttpQuery("overrideStrategy")),
-  body: Schema.optional(DomainMapping).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsApplicationsDomainMappingsRequest>;
+export const CreateProjectsLocationsApplicationsDomainMappingsRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    noManagedCertificate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("noManagedCertificate"),
+    ),
+    overrideStrategy: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("overrideStrategy"),
+    ),
+    body: Schema.optional(DomainMapping).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsApplicationsDomainMappingsRequest>;
 
-export type CreateProjectsLocationsApplicationsDomainMappingsResponse = Operation;
-export const CreateProjectsLocationsApplicationsDomainMappingsResponse = Operation;
+export type CreateProjectsLocationsApplicationsDomainMappingsResponse =
+  Operation;
+export const CreateProjectsLocationsApplicationsDomainMappingsResponse =
+  Operation;
 
-export type CreateProjectsLocationsApplicationsDomainMappingsError = DefaultErrors;
+export type CreateProjectsLocationsApplicationsDomainMappingsError =
+  DefaultErrors;
 
 /** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
-export const createProjectsLocationsApplicationsDomainMappings: API.OperationMethod<CreateProjectsLocationsApplicationsDomainMappingsRequest, CreateProjectsLocationsApplicationsDomainMappingsResponse, CreateProjectsLocationsApplicationsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
+  CreateProjectsLocationsApplicationsDomainMappingsRequest,
+  CreateProjectsLocationsApplicationsDomainMappingsResponse,
+  CreateProjectsLocationsApplicationsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateProjectsLocationsApplicationsDomainMappingsRequest,
   output: CreateProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
@@ -1495,26 +1960,41 @@ export interface PatchProjectsLocationsApplicationsDomainMappingsRequest {
   body?: DomainMapping;
 }
 
-export const PatchProjectsLocationsApplicationsDomainMappingsRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  noManagedCertificate: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("noManagedCertificate")),
-  body: Schema.optional(DomainMapping).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings/{domainMappingsId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsApplicationsDomainMappingsRequest>;
+export const PatchProjectsLocationsApplicationsDomainMappingsRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    noManagedCertificate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("noManagedCertificate"),
+    ),
+    body: Schema.optional(DomainMapping).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings/{domainMappingsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsApplicationsDomainMappingsRequest>;
 
-export type PatchProjectsLocationsApplicationsDomainMappingsResponse = Operation;
-export const PatchProjectsLocationsApplicationsDomainMappingsResponse = Operation;
+export type PatchProjectsLocationsApplicationsDomainMappingsResponse =
+  Operation;
+export const PatchProjectsLocationsApplicationsDomainMappingsResponse =
+  Operation;
 
-export type PatchProjectsLocationsApplicationsDomainMappingsError = DefaultErrors;
+export type PatchProjectsLocationsApplicationsDomainMappingsError =
+  DefaultErrors;
 
 /** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
-export const patchProjectsLocationsApplicationsDomainMappings: API.OperationMethod<PatchProjectsLocationsApplicationsDomainMappingsRequest, PatchProjectsLocationsApplicationsDomainMappingsResponse, PatchProjectsLocationsApplicationsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const patchProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
+  PatchProjectsLocationsApplicationsDomainMappingsRequest,
+  PatchProjectsLocationsApplicationsDomainMappingsResponse,
+  PatchProjectsLocationsApplicationsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: PatchProjectsLocationsApplicationsDomainMappingsRequest,
   output: PatchProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
@@ -1531,25 +2011,36 @@ export interface DeleteProjectsLocationsApplicationsDomainMappingsRequest {
   domainMappingsId: string;
 }
 
-export const DeleteProjectsLocationsApplicationsDomainMappingsRequest = Schema.Struct({
-  projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
-  locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
-  applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
-  domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings/{domainMappingsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsApplicationsDomainMappingsRequest>;
+export const DeleteProjectsLocationsApplicationsDomainMappingsRequest =
+  Schema.Struct({
+    projectsId: Schema.String.pipe(T.HttpPath("projectsId")),
+    locationsId: Schema.String.pipe(T.HttpPath("locationsId")),
+    applicationsId: Schema.String.pipe(T.HttpPath("applicationsId")),
+    domainMappingsId: Schema.String.pipe(T.HttpPath("domainMappingsId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings/{domainMappingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsApplicationsDomainMappingsRequest>;
 
-export type DeleteProjectsLocationsApplicationsDomainMappingsResponse = Operation;
-export const DeleteProjectsLocationsApplicationsDomainMappingsResponse = Operation;
+export type DeleteProjectsLocationsApplicationsDomainMappingsResponse =
+  Operation;
+export const DeleteProjectsLocationsApplicationsDomainMappingsResponse =
+  Operation;
 
-export type DeleteProjectsLocationsApplicationsDomainMappingsError = DefaultErrors;
+export type DeleteProjectsLocationsApplicationsDomainMappingsError =
+  DefaultErrors;
 
 /** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
-export const deleteProjectsLocationsApplicationsDomainMappings: API.OperationMethod<DeleteProjectsLocationsApplicationsDomainMappingsRequest, DeleteProjectsLocationsApplicationsDomainMappingsResponse, DeleteProjectsLocationsApplicationsDomainMappingsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const deleteProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
+  DeleteProjectsLocationsApplicationsDomainMappingsRequest,
+  DeleteProjectsLocationsApplicationsDomainMappingsResponse,
+  DeleteProjectsLocationsApplicationsDomainMappingsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: DeleteProjectsLocationsApplicationsDomainMappingsRequest,
   output: DeleteProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
 }));
-

@@ -30,10 +30,14 @@ export interface Organization {
   organizationId?: string;
 }
 
-export const Organization: Schema.Schema<Organization> = Schema.suspend(() => Schema.Struct({
-  organizationName: Schema.optional(Schema.String),
-  organizationId: Schema.optional(Schema.String),
-})).annotate({ identifier: "Organization" }) as any as Schema.Schema<Organization>;
+export const Organization: Schema.Schema<Organization> = Schema.suspend(() =>
+  Schema.Struct({
+    organizationName: Schema.optional(Schema.String),
+    organizationId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "Organization",
+}) as any as Schema.Schema<Organization>;
 
 export interface CustomApp {
   /** Default listing language in BCP 47 format. */
@@ -46,12 +50,14 @@ export interface CustomApp {
   organizations?: Array<Organization>;
 }
 
-export const CustomApp: Schema.Schema<CustomApp> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  packageName: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  organizations: Schema.optional(Schema.Array(Organization)),
-})).annotate({ identifier: "CustomApp" }) as any as Schema.Schema<CustomApp>;
+export const CustomApp: Schema.Schema<CustomApp> = Schema.suspend(() =>
+  Schema.Struct({
+    languageCode: Schema.optional(Schema.String),
+    packageName: Schema.optional(Schema.String),
+    title: Schema.optional(Schema.String),
+    organizations: Schema.optional(Schema.Array(Organization)),
+  }),
+).annotate({ identifier: "CustomApp" }) as any as Schema.Schema<CustomApp>;
 
 // ==========================================================================
 // Operations
@@ -68,7 +74,11 @@ export const CreateAccountsCustomAppsRequest = Schema.Struct({
   account: Schema.String.pipe(T.HttpPath("account")),
   body: Schema.optional(CustomApp).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "playcustomapp/v1/accounts/{account}/customApps", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "playcustomapp/v1/accounts/{account}/customApps",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<CreateAccountsCustomAppsRequest>;
 
@@ -78,9 +88,13 @@ export const CreateAccountsCustomAppsResponse = CustomApp;
 export type CreateAccountsCustomAppsError = DefaultErrors;
 
 /** Creates a new custom app. */
-export const createAccountsCustomApps: API.OperationMethod<CreateAccountsCustomAppsRequest, CreateAccountsCustomAppsResponse, CreateAccountsCustomAppsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const createAccountsCustomApps: API.OperationMethod<
+  CreateAccountsCustomAppsRequest,
+  CreateAccountsCustomAppsResponse,
+  CreateAccountsCustomAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: CreateAccountsCustomAppsRequest,
   output: CreateAccountsCustomAppsResponse,
   errors: [],
 }));
-

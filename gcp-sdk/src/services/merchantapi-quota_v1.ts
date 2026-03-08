@@ -30,10 +30,14 @@ export interface ProductLimit {
   limit?: string;
 }
 
-export const ProductLimit: Schema.Schema<ProductLimit> = Schema.suspend(() => Schema.Struct({
-  scope: Schema.optional(Schema.String),
-  limit: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductLimit" }) as any as Schema.Schema<ProductLimit>;
+export const ProductLimit: Schema.Schema<ProductLimit> = Schema.suspend(() =>
+  Schema.Struct({
+    scope: Schema.optional(Schema.String),
+    limit: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductLimit",
+}) as any as Schema.Schema<ProductLimit>;
 
 export interface AccountLimit {
   /** Identifier. The limit part of the name will be a combination of the type and the scope. For example: `accounts/123/limits/products~ADS_NON_EEA` Format: `accounts/{account}/limits/{limit}` */
@@ -42,10 +46,14 @@ export interface AccountLimit {
   products?: ProductLimit;
 }
 
-export const AccountLimit: Schema.Schema<AccountLimit> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  products: Schema.optional(ProductLimit),
-})).annotate({ identifier: "AccountLimit" }) as any as Schema.Schema<AccountLimit>;
+export const AccountLimit: Schema.Schema<AccountLimit> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    products: Schema.optional(ProductLimit),
+  }),
+).annotate({
+  identifier: "AccountLimit",
+}) as any as Schema.Schema<AccountLimit>;
 
 export interface MethodDetails {
   /** Output only. The name of the method for example `products.list`. */
@@ -58,12 +66,16 @@ export interface MethodDetails {
   path?: string;
 }
 
-export const MethodDetails: Schema.Schema<MethodDetails> = Schema.suspend(() => Schema.Struct({
-  method: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  subapi: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-})).annotate({ identifier: "MethodDetails" }) as any as Schema.Schema<MethodDetails>;
+export const MethodDetails: Schema.Schema<MethodDetails> = Schema.suspend(() =>
+  Schema.Struct({
+    method: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+    subapi: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "MethodDetails",
+}) as any as Schema.Schema<MethodDetails>;
 
 export interface QuotaGroup {
   /** Output only. List of all methods group quota applies to. */
@@ -78,13 +90,15 @@ export interface QuotaGroup {
   name?: string;
 }
 
-export const QuotaGroup: Schema.Schema<QuotaGroup> = Schema.suspend(() => Schema.Struct({
-  methodDetails: Schema.optional(Schema.Array(MethodDetails)),
-  quotaUsage: Schema.optional(Schema.String),
-  quotaLimit: Schema.optional(Schema.String),
-  quotaMinuteLimit: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-})).annotate({ identifier: "QuotaGroup" }) as any as Schema.Schema<QuotaGroup>;
+export const QuotaGroup: Schema.Schema<QuotaGroup> = Schema.suspend(() =>
+  Schema.Struct({
+    methodDetails: Schema.optional(Schema.Array(MethodDetails)),
+    quotaUsage: Schema.optional(Schema.String),
+    quotaLimit: Schema.optional(Schema.String),
+    quotaMinuteLimit: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "QuotaGroup" }) as any as Schema.Schema<QuotaGroup>;
 
 export interface ListQuotaGroupsResponse {
   /** The methods, current quota usage and limits per each group. The quota is shared between all methods in the group. The groups are sorted in descending order based on quota_usage. */
@@ -93,10 +107,15 @@ export interface ListQuotaGroupsResponse {
   nextPageToken?: string;
 }
 
-export const ListQuotaGroupsResponse: Schema.Schema<ListQuotaGroupsResponse> = Schema.suspend(() => Schema.Struct({
-  quotaGroups: Schema.optional(Schema.Array(QuotaGroup)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListQuotaGroupsResponse" }) as any as Schema.Schema<ListQuotaGroupsResponse>;
+export const ListQuotaGroupsResponse: Schema.Schema<ListQuotaGroupsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      quotaGroups: Schema.optional(Schema.Array(QuotaGroup)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListQuotaGroupsResponse",
+  }) as any as Schema.Schema<ListQuotaGroupsResponse>;
 
 export interface ListAccountLimitsResponse {
   /** The limits for the given account. */
@@ -105,10 +124,15 @@ export interface ListAccountLimitsResponse {
   nextPageToken?: string;
 }
 
-export const ListAccountLimitsResponse: Schema.Schema<ListAccountLimitsResponse> = Schema.suspend(() => Schema.Struct({
-  accountLimits: Schema.optional(Schema.Array(AccountLimit)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAccountLimitsResponse" }) as any as Schema.Schema<ListAccountLimitsResponse>;
+export const ListAccountLimitsResponse: Schema.Schema<ListAccountLimitsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      accountLimits: Schema.optional(Schema.Array(AccountLimit)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAccountLimitsResponse",
+  }) as any as Schema.Schema<ListAccountLimitsResponse>;
 
 export interface ProductChange {
   /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
@@ -118,15 +142,40 @@ export interface ProductChange {
   /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
   regionCode?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
-  reportingContext?: "REPORTING_CONTEXT_ENUM_UNSPECIFIED" | "SHOPPING_ADS" | "DISCOVERY_ADS" | "DEMAND_GEN_ADS" | "DEMAND_GEN_ADS_DISCOVER_SURFACE" | "VIDEO_ADS" | "DISPLAY_ADS" | "LOCAL_INVENTORY_ADS" | "VEHICLE_INVENTORY_ADS" | "FREE_LISTINGS" | "FREE_LISTINGS_UCP_CHECKOUT" | "FREE_LOCAL_LISTINGS" | "FREE_LOCAL_VEHICLE_LISTINGS" | "YOUTUBE_AFFILIATE" | "YOUTUBE_SHOPPING" | "CLOUD_RETAIL" | "LOCAL_CLOUD_RETAIL" | "PRODUCT_REVIEWS" | "MERCHANT_REVIEWS" | "YOUTUBE_CHECKOUT" | (string & {});
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() => Schema.Struct({
-  oldValue: Schema.optional(Schema.String),
-  newValue: Schema.optional(Schema.String),
-  regionCode: Schema.optional(Schema.String),
-  reportingContext: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductChange" }) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
+  Schema.Struct({
+    oldValue: Schema.optional(Schema.String),
+    newValue: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    reportingContext: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ProductChange",
+}) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** The resource that changed, in this case it will always be `Product`. */
@@ -149,17 +198,22 @@ export interface ProductStatusChangeMessage {
   resource?: string;
 }
 
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> = Schema.suspend(() => Schema.Struct({
-  resourceType: Schema.optional(Schema.String),
-  expirationTime: Schema.optional(Schema.String),
-  changes: Schema.optional(Schema.Array(ProductChange)),
-  eventTime: Schema.optional(Schema.String),
-  account: Schema.optional(Schema.String),
-  managingAccount: Schema.optional(Schema.String),
-  resourceId: Schema.optional(Schema.String),
-  attribute: Schema.optional(Schema.String),
-  resource: Schema.optional(Schema.String),
-})).annotate({ identifier: "ProductStatusChangeMessage" }) as any as Schema.Schema<ProductStatusChangeMessage>;
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      resourceType: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+      eventTime: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      managingAccount: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 // ==========================================================================
 // Operations
@@ -173,7 +227,10 @@ export interface GetAccountsLimitsRequest {
 export const GetAccountsLimitsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "quota/v1/accounts/{accountsId}/limits/{limitsId}" }),
+  T.Http({
+    method: "GET",
+    path: "quota/v1/accounts/{accountsId}/limits/{limitsId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsLimitsRequest>;
 
@@ -183,7 +240,12 @@ export const GetAccountsLimitsResponse = AccountLimit;
 export type GetAccountsLimitsError = DefaultErrors;
 
 /** Retrieves an account limit. */
-export const getAccountsLimits: API.OperationMethod<GetAccountsLimitsRequest, GetAccountsLimitsResponse, GetAccountsLimitsError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const getAccountsLimits: API.OperationMethod<
+  GetAccountsLimitsRequest,
+  GetAccountsLimitsResponse,
+  GetAccountsLimitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: GetAccountsLimitsRequest,
   output: GetAccountsLimitsResponse,
   errors: [],
@@ -216,7 +278,12 @@ export const ListAccountsLimitsResponse = ListAccountLimitsResponse;
 export type ListAccountsLimitsError = DefaultErrors;
 
 /** Lists the limits of an account. */
-export const listAccountsLimits: API.PaginatedOperationMethod<ListAccountsLimitsRequest, ListAccountsLimitsResponse, ListAccountsLimitsError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsLimits: API.PaginatedOperationMethod<
+  ListAccountsLimitsRequest,
+  ListAccountsLimitsResponse,
+  ListAccountsLimitsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsLimitsRequest,
   output: ListAccountsLimitsResponse,
   errors: [],
@@ -250,7 +317,12 @@ export const ListAccountsQuotasResponse = ListQuotaGroupsResponse;
 export type ListAccountsQuotasError = DefaultErrors;
 
 /** Lists the daily call quota and usage per group for your Merchant Center account. */
-export const listAccountsQuotas: API.PaginatedOperationMethod<ListAccountsQuotasRequest, ListAccountsQuotasResponse, ListAccountsQuotasError, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({
+export const listAccountsQuotas: API.PaginatedOperationMethod<
+  ListAccountsQuotasRequest,
+  ListAccountsQuotasResponse,
+  ListAccountsQuotasError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
   input: ListAccountsQuotasRequest,
   output: ListAccountsQuotasResponse,
   errors: [],
@@ -259,4 +331,3 @@ export const listAccountsQuotas: API.PaginatedOperationMethod<ListAccountsQuotas
     outputToken: "nextPageToken",
   },
 }));
-

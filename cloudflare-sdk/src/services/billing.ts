@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Profile
@@ -25,9 +23,10 @@ export interface GetProfileRequest {
 }
 
 export const GetProfileRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/billing/profile" })) as unknown as Schema.Schema<GetProfileRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/billing/profile" }),
+) as unknown as Schema.Schema<GetProfileRequest>;
 
 export interface GetProfileResponse {
   /** Billing item identifier tag. */
@@ -111,11 +110,52 @@ export const GetProfileResponse = Schema.Struct({
   useLegacy: Schema.optional(Schema.Boolean),
   validationCode: Schema.optional(Schema.String),
   vat: Schema.optional(Schema.String),
-  zipcode: Schema.optional(Schema.String)
-}).pipe(Schema.encodeKeys({ id: "id", accountType: "account_type", address: "address", address2: "address2", balance: "balance", cardExpiryMonth: "card_expiry_month", cardExpiryYear: "card_expiry_year", cardNumber: "card_number", city: "city", company: "company", country: "country", createdOn: "created_on", deviceData: "device_data", editedOn: "edited_on", enterpriseBillingEmail: "enterprise_billing_email", enterprisePrimaryEmail: "enterprise_primary_email", firstName: "first_name", isPartner: "is_partner", lastName: "last_name", nextBillDate: "next_bill_date", paymentAddress: "payment_address", paymentAddress2: "payment_address2", paymentCity: "payment_city", paymentCountry: "payment_country", paymentEmail: "payment_email", paymentFirstName: "payment_first_name", paymentGateway: "payment_gateway", paymentLastName: "payment_last_name", paymentNonce: "payment_nonce", paymentState: "payment_state", paymentZipcode: "payment_zipcode", primaryEmail: "primary_email", state: "state", taxIdType: "tax_id_type", telephone: "telephone", useLegacy: "use_legacy", validationCode: "validation_code", vat: "vat", zipcode: "zipcode" })) as unknown as Schema.Schema<GetProfileResponse>;
+  zipcode: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountType: "account_type",
+    address: "address",
+    address2: "address2",
+    balance: "balance",
+    cardExpiryMonth: "card_expiry_month",
+    cardExpiryYear: "card_expiry_year",
+    cardNumber: "card_number",
+    city: "city",
+    company: "company",
+    country: "country",
+    createdOn: "created_on",
+    deviceData: "device_data",
+    editedOn: "edited_on",
+    enterpriseBillingEmail: "enterprise_billing_email",
+    enterprisePrimaryEmail: "enterprise_primary_email",
+    firstName: "first_name",
+    isPartner: "is_partner",
+    lastName: "last_name",
+    nextBillDate: "next_bill_date",
+    paymentAddress: "payment_address",
+    paymentAddress2: "payment_address2",
+    paymentCity: "payment_city",
+    paymentCountry: "payment_country",
+    paymentEmail: "payment_email",
+    paymentFirstName: "payment_first_name",
+    paymentGateway: "payment_gateway",
+    paymentLastName: "payment_last_name",
+    paymentNonce: "payment_nonce",
+    paymentState: "payment_state",
+    paymentZipcode: "payment_zipcode",
+    primaryEmail: "primary_email",
+    state: "state",
+    taxIdType: "tax_id_type",
+    telephone: "telephone",
+    useLegacy: "use_legacy",
+    validationCode: "validation_code",
+    vat: "vat",
+    zipcode: "zipcode",
+  }),
+) as unknown as Schema.Schema<GetProfileResponse>;
 
-export type GetProfileError =
-  | DefaultErrors;
+export type GetProfileError = DefaultErrors;
 
 export const getProfile: API.OperationMethod<
   GetProfileRequest,

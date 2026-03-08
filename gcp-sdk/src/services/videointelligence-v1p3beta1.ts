@@ -30,10 +30,15 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoSegment {
   endTimeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoSegment> = Schema.suspend(() => Schema.Struct({
-  startTimeOffset: Schema.optional(Schema.String),
-  endTimeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoSegment>;
+export const GoogleCloudVideointelligenceV1p3beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTimeOffset: Schema.optional(Schema.String),
+      endTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoSegment>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_LabelSegment {
   /** Confidence that the label is accurate. Range: [0, 1]. */
@@ -42,10 +47,17 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LabelSegment {
   segment?: GoogleCloudVideointelligenceV1p3beta1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelSegment> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelSegment>;
+export const GoogleCloudVideointelligenceV1p3beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelSegment>;
 
 export interface GoogleCloudVideointelligenceV1_NormalizedBoundingBox {
   /** Top Y coordinate. */
@@ -58,12 +70,17 @@ export interface GoogleCloudVideointelligenceV1_NormalizedBoundingBox {
   left?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingBox> = Schema.suspend(() => Schema.Struct({
-  top: Schema.optional(Schema.Number),
-  right: Schema.optional(Schema.Number),
-  bottom: Schema.optional(Schema.Number),
-  left: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_NormalizedBoundingBox" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingBox>;
+export const GoogleCloudVideointelligenceV1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingBox> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      top: Schema.optional(Schema.Number),
+      right: Schema.optional(Schema.Number),
+      bottom: Schema.optional(Schema.Number),
+      left: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_NormalizedBoundingBox",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingBox>;
 
 export interface GoogleCloudVideointelligenceV1_DetectedAttribute {
   /** Text value of the detection result. For example, the value for "HairColor" can be "black", "blonde", etc. */
@@ -74,11 +91,16 @@ export interface GoogleCloudVideointelligenceV1_DetectedAttribute {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1_DetectedAttribute> = Schema.suspend(() => Schema.Struct({
-  value: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_DetectedAttribute" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_DetectedAttribute>;
+export const GoogleCloudVideointelligenceV1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1_DetectedAttribute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_DetectedAttribute",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_DetectedAttribute>;
 
 export interface GoogleCloudVideointelligenceV1_NormalizedVertex {
   /** Y coordinate. */
@@ -87,10 +109,15 @@ export interface GoogleCloudVideointelligenceV1_NormalizedVertex {
   x?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedVertex> = Schema.suspend(() => Schema.Struct({
-  y: Schema.optional(Schema.Number),
-  x: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_NormalizedVertex" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedVertex>;
+export const GoogleCloudVideointelligenceV1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedVertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      y: Schema.optional(Schema.Number),
+      x: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_NormalizedVertex",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedVertex>;
 
 export interface GoogleCloudVideointelligenceV1_DetectedLandmark {
   /** The 2D point of the detected landmark using the normalized image coordinate system. The normalized coordinates have the range from 0 to 1. */
@@ -101,11 +128,16 @@ export interface GoogleCloudVideointelligenceV1_DetectedLandmark {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1_DetectedLandmark> = Schema.suspend(() => Schema.Struct({
-  point: Schema.optional(GoogleCloudVideointelligenceV1_NormalizedVertex),
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_DetectedLandmark" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_DetectedLandmark>;
+export const GoogleCloudVideointelligenceV1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1_DetectedLandmark> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      point: Schema.optional(GoogleCloudVideointelligenceV1_NormalizedVertex),
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_DetectedLandmark",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_DetectedLandmark>;
 
 export interface GoogleCloudVideointelligenceV1_TimestampedObject {
   /** Normalized Bounding box in a frame, where the object is located. */
@@ -118,12 +150,23 @@ export interface GoogleCloudVideointelligenceV1_TimestampedObject {
   landmarks?: Array<GoogleCloudVideointelligenceV1_DetectedLandmark>;
 }
 
-export const GoogleCloudVideointelligenceV1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1_TimestampedObject> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1_NormalizedBoundingBox),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_DetectedAttribute)),
-  timeOffset: Schema.optional(Schema.String),
-  landmarks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_DetectedLandmark)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_TimestampedObject" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TimestampedObject>;
+export const GoogleCloudVideointelligenceV1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1_TimestampedObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1_NormalizedBoundingBox,
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_DetectedAttribute),
+      ),
+      timeOffset: Schema.optional(Schema.String),
+      landmarks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_DetectedLandmark),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_TimestampedObject",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TimestampedObject>;
 
 export interface GoogleCloudVideointelligenceV1_VideoSegment {
   /** Time-offset, relative to the beginning of the video, corresponding to the start of the segment (inclusive). */
@@ -132,10 +175,15 @@ export interface GoogleCloudVideointelligenceV1_VideoSegment {
   endTimeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1_VideoSegment> = Schema.suspend(() => Schema.Struct({
-  startTimeOffset: Schema.optional(Schema.String),
-  endTimeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_VideoSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_VideoSegment>;
+export const GoogleCloudVideointelligenceV1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1_VideoSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTimeOffset: Schema.optional(Schema.String),
+      endTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_VideoSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_VideoSegment>;
 
 export interface GoogleCloudVideointelligenceV1_Track {
   /** The object with timestamp and attributes per frame in the track. */
@@ -148,21 +196,37 @@ export interface GoogleCloudVideointelligenceV1_Track {
   segment?: GoogleCloudVideointelligenceV1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1_Track: Schema.Schema<GoogleCloudVideointelligenceV1_Track> = Schema.suspend(() => Schema.Struct({
-  timestampedObjects: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_TimestampedObject)),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_DetectedAttribute)),
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_Track" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_Track>;
+export const GoogleCloudVideointelligenceV1_Track: Schema.Schema<GoogleCloudVideointelligenceV1_Track> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timestampedObjects: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_TimestampedObject),
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_DetectedAttribute),
+      ),
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_Track",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_Track>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_FaceSegment {
   /** Video segment where a face was detected. */
   segment?: GoogleCloudVideointelligenceV1p3beta1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceSegment>;
+export const GoogleCloudVideointelligenceV1p3beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceSegment>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox {
   /** Left X coordinate. */
@@ -175,12 +239,17 @@ export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox {
   right?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox> = Schema.suspend(() => Schema.Struct({
-  left: Schema.optional(Schema.Number),
-  bottom: Schema.optional(Schema.Number),
-  top: Schema.optional(Schema.Number),
-  right: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox>;
+export const GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      left: Schema.optional(Schema.Number),
+      bottom: Schema.optional(Schema.Number),
+      top: Schema.optional(Schema.Number),
+      right: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_FaceFrame {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
@@ -189,10 +258,19 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceFrame {
   normalizedBoundingBoxes?: Array<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  normalizedBoundingBoxes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceFrame>;
+export const GoogleCloudVideointelligenceV1p3beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      normalizedBoundingBoxes: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceFrame>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation {
   /** All video segments where a face was detected. */
@@ -203,11 +281,20 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation {
   frames?: Array<GoogleCloudVideointelligenceV1p3beta1_FaceFrame>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation> = Schema.suspend(() => Schema.Struct({
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceSegment)),
-  thumbnail: Schema.optional(Schema.String),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceFrame)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceSegment),
+      ),
+      thumbnail: Schema.optional(Schema.String),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceFrame),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1beta2_NormalizedVertex {
   /** X coordinate. */
@@ -216,10 +303,15 @@ export interface GoogleCloudVideointelligenceV1beta2_NormalizedVertex {
   y?: number;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedVertex> = Schema.suspend(() => Schema.Struct({
-  x: Schema.optional(Schema.Number),
-  y: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_NormalizedVertex" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedVertex>;
+export const GoogleCloudVideointelligenceV1beta2_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedVertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      x: Schema.optional(Schema.Number),
+      y: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_NormalizedVertex",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedVertex>;
 
 export interface GoogleCloudVideointelligenceV1beta2_DetectedLandmark {
   /** The name of this landmark, for example, left_hand, right_shoulder. */
@@ -230,29 +322,47 @@ export interface GoogleCloudVideointelligenceV1beta2_DetectedLandmark {
   point?: GoogleCloudVideointelligenceV1beta2_NormalizedVertex;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedLandmark> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  point: Schema.optional(GoogleCloudVideointelligenceV1beta2_NormalizedVertex),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_DetectedLandmark" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedLandmark>;
+export const GoogleCloudVideointelligenceV1beta2_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedLandmark> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      point: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_NormalizedVertex,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_DetectedLandmark",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedLandmark>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig {
   /** Model to use for object tracking. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
   model?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig> = Schema.suspend(() => Schema.Struct({
-  model: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      model: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig {
   /** Model to use for shot change detection. Supported values: "builtin/stable" (the default if unset), "builtin/latest", and "builtin/legacy". */
   model?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig> = Schema.suspend(() => Schema.Struct({
-  model: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      model: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig {
   /** The confidence threshold we perform filtering on the labels from video-level and shot-level detections. If not set, it's set to 0.3 by default. The valid range for this threshold is [0.1, 0.9]. Any value set outside of this range will be clipped. Note: For best results, follow the default threshold. We will update the default threshold everytime when we release a new model. */
@@ -262,27 +372,42 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig {
   /** The confidence threshold we perform filtering on the labels from frame-level detection. If not set, it is set to 0.4 by default. The valid range for this threshold is [0.1, 0.9]. Any value set outside of this range will be clipped. Note: For best results, follow the default threshold. We will update the default threshold everytime when we release a new model. */
   frameConfidenceThreshold?: number;
   /** What labels should be detected with LABEL_DETECTION, in addition to video-level labels or segment-level labels. If unspecified, defaults to `SHOT_MODE`. */
-  labelDetectionMode?: "LABEL_DETECTION_MODE_UNSPECIFIED" | "SHOT_MODE" | "FRAME_MODE" | "SHOT_AND_FRAME_MODE" | (string & {});
+  labelDetectionMode?:
+    | "LABEL_DETECTION_MODE_UNSPECIFIED"
+    | "SHOT_MODE"
+    | "FRAME_MODE"
+    | "SHOT_AND_FRAME_MODE"
+    | (string & {});
   /** Model to use for label detection. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
   model?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig> = Schema.suspend(() => Schema.Struct({
-  videoConfidenceThreshold: Schema.optional(Schema.Number),
-  stationaryCamera: Schema.optional(Schema.Boolean),
-  frameConfidenceThreshold: Schema.optional(Schema.Number),
-  labelDetectionMode: Schema.optional(Schema.String),
-  model: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      videoConfidenceThreshold: Schema.optional(Schema.Number),
+      stationaryCamera: Schema.optional(Schema.Boolean),
+      frameConfidenceThreshold: Schema.optional(Schema.Number),
+      labelDetectionMode: Schema.optional(Schema.String),
+      model: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_SpeechContext {
   /** Optional. A list of strings containing words and phrases "hints" so that the speech recognition is more likely to recognize them. This can be used to improve the accuracy for specific words and phrases, for example, if specific commands are typically spoken by the user. This can also be used to add additional words to the vocabulary of the recognizer. See [usage limits](https://cloud.google.com/speech/limits#content). */
   phrases?: Array<string>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_SpeechContext: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechContext> = Schema.suspend(() => Schema.Struct({
-  phrases: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_SpeechContext" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechContext>;
+export const GoogleCloudVideointelligenceV1p3beta1_SpeechContext: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      phrases: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_SpeechContext",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechContext>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig {
   /** Optional. If set to `true`, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. "f***". If set to `false` or omitted, profanities won't be filtered out. */
@@ -307,27 +432,41 @@ export interface GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig
   diarizationSpeakerCount?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig> = Schema.suspend(() => Schema.Struct({
-  filterProfanity: Schema.optional(Schema.Boolean),
-  enableAutomaticPunctuation: Schema.optional(Schema.Boolean),
-  enableSpeakerDiarization: Schema.optional(Schema.Boolean),
-  speechContexts: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_SpeechContext)),
-  maxAlternatives: Schema.optional(Schema.Number),
-  languageCode: Schema.optional(Schema.String),
-  audioTracks: Schema.optional(Schema.Array(Schema.Number)),
-  enableWordConfidence: Schema.optional(Schema.Boolean),
-  audioOutputUriPrefix: Schema.optional(Schema.String),
-  diarizationSpeakerCount: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      filterProfanity: Schema.optional(Schema.Boolean),
+      enableAutomaticPunctuation: Schema.optional(Schema.Boolean),
+      enableSpeakerDiarization: Schema.optional(Schema.Boolean),
+      speechContexts: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_SpeechContext),
+      ),
+      maxAlternatives: Schema.optional(Schema.Number),
+      languageCode: Schema.optional(Schema.String),
+      audioTracks: Schema.optional(Schema.Array(Schema.Number)),
+      enableWordConfidence: Schema.optional(Schema.Boolean),
+      audioOutputUriPrefix: Schema.optional(Schema.String),
+      diarizationSpeakerCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig {
   /** Model to use for explicit content detection. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
   model?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig> = Schema.suspend(() => Schema.Struct({
-  model: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      model: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig {
   /** Whether to enable face attributes detection, such as glasses, dark_glasses, mouth_open etc. Ignored if 'include_bounding_boxes' is set to false. */
@@ -338,11 +477,16 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig {
   includeBoundingBoxes?: boolean;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig> = Schema.suspend(() => Schema.Struct({
-  includeAttributes: Schema.optional(Schema.Boolean),
-  model: Schema.optional(Schema.String),
-  includeBoundingBoxes: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      includeAttributes: Schema.optional(Schema.Boolean),
+      model: Schema.optional(Schema.String),
+      includeBoundingBoxes: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig {
   /** Language hint can be specified if the language to be detected is known a priori. It can increase the accuracy of the detection. Language hint must be language code in BCP-47 format. Automatic language detection is performed if no hint is provided. */
@@ -351,10 +495,15 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig {
   model?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig> = Schema.suspend(() => Schema.Struct({
-  languageHints: Schema.optional(Schema.Array(Schema.String)),
-  model: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languageHints: Schema.optional(Schema.Array(Schema.String)),
+      model: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig {
   /** Whether to enable person attributes detection, such as cloth color (black, blue, etc), type (coat, dress, etc), pattern (plain, floral, etc), hair, etc. Ignored if 'include_bounding_boxes' is set to false. */
@@ -365,11 +514,16 @@ export interface GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig {
   includePoseLandmarks?: boolean;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig> = Schema.suspend(() => Schema.Struct({
-  includeAttributes: Schema.optional(Schema.Boolean),
-  includeBoundingBoxes: Schema.optional(Schema.Boolean),
-  includePoseLandmarks: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig>;
+export const GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      includeAttributes: Schema.optional(Schema.Boolean),
+      includeBoundingBoxes: Schema.optional(Schema.Boolean),
+      includePoseLandmarks: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_VideoContext {
   /** Config for OBJECT_TRACKING. */
@@ -392,17 +546,40 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoContext {
   personDetectionConfig?: GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_VideoContext: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoContext> = Schema.suspend(() => Schema.Struct({
-  objectTrackingConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig),
-  shotChangeDetectionConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig),
-  labelDetectionConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig),
-  speechTranscriptionConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig),
-  explicitContentDetectionConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment)),
-  faceDetectionConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig),
-  textDetectionConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig),
-  personDetectionConfig: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoContext" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoContext>;
+export const GoogleCloudVideointelligenceV1p3beta1_VideoContext: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoContext> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      objectTrackingConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingConfig,
+      ),
+      shotChangeDetectionConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig,
+      ),
+      labelDetectionConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_LabelDetectionConfig,
+      ),
+      speechTranscriptionConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_SpeechTranscriptionConfig,
+      ),
+      explicitContentDetectionConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_ExplicitContentDetectionConfig,
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
+      ),
+      faceDetectionConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_FaceDetectionConfig,
+      ),
+      textDetectionConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_TextDetectionConfig,
+      ),
+      personDetectionConfig: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_PersonDetectionConfig,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoContext",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoContext>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest {
   /** The video data bytes. If unset, the input video(s) should be specified via the `input_uri`. If set, `input_uri` must be unset. */
@@ -414,19 +591,39 @@ export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest {
   /** Additional video context and/or feature-specific parameters. */
   videoContext?: GoogleCloudVideointelligenceV1p3beta1_VideoContext;
   /** Required. Requested video annotation features. */
-  features?: Array<"FEATURE_UNSPECIFIED" | "LABEL_DETECTION" | "SHOT_CHANGE_DETECTION" | "EXPLICIT_CONTENT_DETECTION" | "FACE_DETECTION" | "SPEECH_TRANSCRIPTION" | "TEXT_DETECTION" | "OBJECT_TRACKING" | "LOGO_RECOGNITION" | "CELEBRITY_RECOGNITION" | "PERSON_DETECTION" | (string & {})>;
+  features?: Array<
+    | "FEATURE_UNSPECIFIED"
+    | "LABEL_DETECTION"
+    | "SHOT_CHANGE_DETECTION"
+    | "EXPLICIT_CONTENT_DETECTION"
+    | "FACE_DETECTION"
+    | "SPEECH_TRANSCRIPTION"
+    | "TEXT_DETECTION"
+    | "OBJECT_TRACKING"
+    | "LOGO_RECOGNITION"
+    | "CELEBRITY_RECOGNITION"
+    | "PERSON_DETECTION"
+    | (string & {})
+  >;
   /** Optional. Location where the output (in JSON format) should be stored. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. These must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). */
   outputUri?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest> = Schema.suspend(() => Schema.Struct({
-  inputContent: Schema.optional(Schema.String),
-  locationId: Schema.optional(Schema.String),
-  inputUri: Schema.optional(Schema.String),
-  videoContext: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoContext),
-  features: Schema.optional(Schema.Array(Schema.String)),
-  outputUri: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest>;
+export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputContent: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      inputUri: Schema.optional(Schema.String),
+      videoContext: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoContext,
+      ),
+      features: Schema.optional(Schema.Array(Schema.String)),
+      outputUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest>;
 
 export interface GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox {
   /** Top Y coordinate. */
@@ -439,12 +636,17 @@ export interface GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox {
   left?: number;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox> = Schema.suspend(() => Schema.Struct({
-  top: Schema.optional(Schema.Number),
-  right: Schema.optional(Schema.Number),
-  bottom: Schema.optional(Schema.Number),
-  left: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox>;
+export const GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      top: Schema.optional(Schema.Number),
+      right: Schema.optional(Schema.Number),
+      bottom: Schema.optional(Schema.Number),
+      left: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox>;
 
 export interface GoogleCloudVideointelligenceV1beta2_FaceFrame {
   /** Normalized Bounding boxes in a frame. There can be more than one boxes if the same face is detected in multiple locations within the current frame. */
@@ -453,10 +655,17 @@ export interface GoogleCloudVideointelligenceV1beta2_FaceFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBoxes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox)),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_FaceFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceFrame>;
+export const GoogleCloudVideointelligenceV1beta2_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBoxes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox),
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_FaceFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceFrame>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex {
   /** Y coordinate. */
@@ -465,19 +674,31 @@ export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex {
   x?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex> = Schema.suspend(() => Schema.Struct({
-  y: Schema.optional(Schema.Number),
-  x: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex>;
+export const GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      y: Schema.optional(Schema.Number),
+      x: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly {
   /** Normalized vertices of the bounding polygon. */
   vertices?: Array<GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly>;
+export const GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_TextFrame {
   /** Timestamp of this frame. */
@@ -486,10 +707,17 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TextFrame {
   rotatedBoundingBox?: GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  rotatedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_TextFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextFrame>;
+export const GoogleCloudVideointelligenceV1p3beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      rotatedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_TextFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextFrame>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_TextSegment {
   /** Confidence for the track of detected text. It is calculated as the highest over all frames where OCR detected text appears. */
@@ -500,11 +728,20 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TextSegment {
   frames?: Array<GoogleCloudVideointelligenceV1p3beta1_TextFrame>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextSegment> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TextFrame)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_TextSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextSegment>;
+export const GoogleCloudVideointelligenceV1p3beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TextFrame),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_TextSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextSegment>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_TextAnnotation {
   /** Feature version. */
@@ -515,11 +752,18 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TextAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1p3beta1_TextSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  text: Schema.optional(Schema.String),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TextSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_TextAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      text: Schema.optional(Schema.String),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TextSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_TextAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute {
   /** The name of the attribute, for example, glasses, dark_glasses, mouth_open. A full list of supported type names will be provided in the document. */
@@ -530,11 +774,16 @@ export interface GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute {
   value?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute>;
+export const GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute>;
 
 export interface GoogleCloudVideointelligenceV1_FaceFrame {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
@@ -543,10 +792,17 @@ export interface GoogleCloudVideointelligenceV1_FaceFrame {
   normalizedBoundingBoxes?: Array<GoogleCloudVideointelligenceV1_NormalizedBoundingBox>;
 }
 
-export const GoogleCloudVideointelligenceV1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1_FaceFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  normalizedBoundingBoxes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_NormalizedBoundingBox)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_FaceFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceFrame>;
+export const GoogleCloudVideointelligenceV1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1_FaceFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      normalizedBoundingBoxes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_NormalizedBoundingBox),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_FaceFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceFrame>;
 
 export interface GoogleCloudVideointelligenceV1beta2_VideoSegment {
   /** Time-offset, relative to the beginning of the video, corresponding to the start of the segment (inclusive). */
@@ -555,19 +811,31 @@ export interface GoogleCloudVideointelligenceV1beta2_VideoSegment {
   endTimeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegment> = Schema.suspend(() => Schema.Struct({
-  startTimeOffset: Schema.optional(Schema.String),
-  endTimeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_VideoSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegment>;
+export const GoogleCloudVideointelligenceV1beta2_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTimeOffset: Schema.optional(Schema.String),
+      endTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_VideoSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegment>;
 
 export interface GoogleCloudVideointelligenceV1beta2_FaceSegment {
   /** Video segment where a face was detected. */
   segment?: GoogleCloudVideointelligenceV1beta2_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1beta2_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_FaceSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceSegment>;
+export const GoogleCloudVideointelligenceV1beta2_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_FaceSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceSegment>;
 
 export interface GoogleCloudVideointelligenceV1beta2_FaceAnnotation {
   /** Thumbnail of a representative face view (in JPEG format). */
@@ -578,11 +846,20 @@ export interface GoogleCloudVideointelligenceV1beta2_FaceAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1beta2_FaceSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceAnnotation> = Schema.suspend(() => Schema.Struct({
-  thumbnail: Schema.optional(Schema.String),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceFrame)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_FaceAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thumbnail: Schema.optional(Schema.String),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceFrame),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_FaceAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark {
   /** The name of this landmark, for example, left_hand, right_shoulder. */
@@ -593,11 +870,18 @@ export interface GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark {
   point?: GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  point: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark>;
+export const GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      point: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_TimestampedObject {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this object. */
@@ -610,12 +894,23 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TimestampedObject {
   attributes?: Array<GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TimestampedObject> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  landmarks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark)),
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_TimestampedObject" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TimestampedObject>;
+export const GoogleCloudVideointelligenceV1p3beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TimestampedObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      landmarks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark),
+      ),
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox,
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_TimestampedObject",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TimestampedObject>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_Track {
   /** The object with timestamp and attributes per frame in the track. */
@@ -628,21 +923,39 @@ export interface GoogleCloudVideointelligenceV1p3beta1_Track {
   segment?: GoogleCloudVideointelligenceV1p3beta1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Track> = Schema.suspend(() => Schema.Struct({
-  timestampedObjects: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TimestampedObject)),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute)),
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_Track" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Track>;
+export const GoogleCloudVideointelligenceV1p3beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Track> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timestampedObjects: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TimestampedObject),
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute),
+      ),
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_Track",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Track>;
 
 export interface GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly {
   /** Normalized vertices of the bounding polygon. */
   vertices?: Array<GoogleCloudVideointelligenceV1beta2_NormalizedVertex>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly>;
+export const GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly>;
 
 export interface GoogleCloudVideointelligenceV1beta2_TextFrame {
   /** Bounding polygon of the detected text for this frame. */
@@ -651,10 +964,17 @@ export interface GoogleCloudVideointelligenceV1beta2_TextFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextFrame> = Schema.suspend(() => Schema.Struct({
-  rotatedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_TextFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextFrame>;
+export const GoogleCloudVideointelligenceV1beta2_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rotatedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_TextFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextFrame>;
 
 export interface GoogleCloudVideointelligenceV1beta2_TextSegment {
   /** Video segment where a text snippet was detected. */
@@ -665,11 +985,20 @@ export interface GoogleCloudVideointelligenceV1beta2_TextSegment {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1beta2_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_TextFrame)),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_TextSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextSegment>;
+export const GoogleCloudVideointelligenceV1beta2_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_TextFrame),
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_TextSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextSegment>;
 
 export interface GoogleRpc_Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
@@ -680,11 +1009,18 @@ export interface GoogleRpc_Status {
   message?: string;
 }
 
-export const GoogleRpc_Status: Schema.Schema<GoogleRpc_Status> = Schema.suspend(() => Schema.Struct({
-  details: Schema.optional(Schema.Array(Schema.Record(Schema.String, Schema.Unknown))),
-  code: Schema.optional(Schema.Number),
-  message: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleRpc_Status" }) as any as Schema.Schema<GoogleRpc_Status>;
+export const GoogleRpc_Status: Schema.Schema<GoogleRpc_Status> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "GoogleRpc_Status",
+}) as any as Schema.Schema<GoogleRpc_Status>;
 
 export interface GoogleCloudVideointelligenceV1_ExportToOutputUriStatus {
   /** Output only. State of the `output_uri` export. */
@@ -693,10 +1029,15 @@ export interface GoogleCloudVideointelligenceV1_ExportToOutputUriStatus {
   status?: GoogleRpc_Status;
 }
 
-export const GoogleCloudVideointelligenceV1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1_ExportToOutputUriStatus> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  status: Schema.optional(GoogleRpc_Status),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_ExportToOutputUriStatus" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ExportToOutputUriStatus>;
+export const GoogleCloudVideointelligenceV1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1_ExportToOutputUriStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      status: Schema.optional(GoogleRpc_Status),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_ExportToOutputUriStatus",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ExportToOutputUriStatus>;
 
 export interface GoogleCloudVideointelligenceV1beta2_WordInfo {
   /** Output only. The confidence estimate between 0.0 and 1.0. A higher number indicates an estimated greater likelihood that the recognized words are correct. This field is set only for the top alternative. This field is not guaranteed to be accurate and users should not rely on it to be always provided. The default of 0.0 is a sentinel value indicating `confidence` was not set. */
@@ -713,14 +1054,19 @@ export interface GoogleCloudVideointelligenceV1beta2_WordInfo {
   speakerTag?: number;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1beta2_WordInfo> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  startTime: Schema.optional(Schema.String),
-  word: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  speakerLabel: Schema.optional(Schema.String),
-  speakerTag: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_WordInfo" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_WordInfo>;
+export const GoogleCloudVideointelligenceV1beta2_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1beta2_WordInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      startTime: Schema.optional(Schema.String),
+      word: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      speakerLabel: Schema.optional(Schema.String),
+      speakerTag: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_WordInfo",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_WordInfo>;
 
 export interface GoogleCloudVideointelligenceV1beta2_TextAnnotation {
   /** The detected text. */
@@ -731,11 +1077,18 @@ export interface GoogleCloudVideointelligenceV1beta2_TextAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1beta2_TextSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextAnnotation> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_TextSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_TextAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_TextSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_TextAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_VideoSegment {
   /** Time-offset, relative to the beginning of the video, corresponding to the start of the segment (inclusive). */
@@ -744,28 +1097,47 @@ export interface GoogleCloudVideointelligenceV1p1beta1_VideoSegment {
   endTimeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoSegment> = Schema.suspend(() => Schema.Struct({
-  startTimeOffset: Schema.optional(Schema.String),
-  endTimeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_VideoSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoSegment>;
+export const GoogleCloudVideointelligenceV1p1beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTimeOffset: Schema.optional(Schema.String),
+      endTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_VideoSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoSegment>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_FaceSegment {
   /** Video segment where a face was detected. */
   segment?: GoogleCloudVideointelligenceV1p1beta1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceSegment>;
+export const GoogleCloudVideointelligenceV1p1beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceSegment>;
 
 export interface GoogleCloudVideointelligenceV1_NormalizedBoundingPoly {
   /** Normalized vertices of the bounding polygon. */
   vertices?: Array<GoogleCloudVideointelligenceV1_NormalizedVertex>;
 }
 
-export const GoogleCloudVideointelligenceV1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingPoly> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_NormalizedBoundingPoly" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingPoly>;
+export const GoogleCloudVideointelligenceV1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_NormalizedBoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingPoly>;
 
 export interface GoogleCloudVideointelligenceV1_TextFrame {
   /** Bounding polygon of the detected text for this frame. */
@@ -774,10 +1146,17 @@ export interface GoogleCloudVideointelligenceV1_TextFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1_TextFrame> = Schema.suspend(() => Schema.Struct({
-  rotatedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1_NormalizedBoundingPoly),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_TextFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TextFrame>;
+export const GoogleCloudVideointelligenceV1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1_TextFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rotatedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1_NormalizedBoundingPoly,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_TextFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TextFrame>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox {
   /** Top Y coordinate. */
@@ -790,12 +1169,17 @@ export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox {
   left?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox> = Schema.suspend(() => Schema.Struct({
-  top: Schema.optional(Schema.Number),
-  right: Schema.optional(Schema.Number),
-  bottom: Schema.optional(Schema.Number),
-  left: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox>;
+export const GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      top: Schema.optional(Schema.Number),
+      right: Schema.optional(Schema.Number),
+      bottom: Schema.optional(Schema.Number),
+      left: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_FaceFrame {
   /** Normalized Bounding boxes in a frame. There can be more than one boxes if the same face is detected in multiple locations within the current frame. */
@@ -804,10 +1188,19 @@ export interface GoogleCloudVideointelligenceV1p1beta1_FaceFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBoxes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox)),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceFrame>;
+export const GoogleCloudVideointelligenceV1p1beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBoxes: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox,
+        ),
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceFrame>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus {
   /** Output only. Only set if state is FAILED. */
@@ -816,22 +1209,39 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus {
   state?: "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(GoogleRpc_Status),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus>;
+export const GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(GoogleRpc_Status),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame {
   /** Likelihood of the pornography content.. */
-  pornographyLikelihood?: "LIKELIHOOD_UNSPECIFIED" | "VERY_UNLIKELY" | "UNLIKELY" | "POSSIBLE" | "LIKELY" | "VERY_LIKELY" | (string & {});
+  pornographyLikelihood?:
+    | "LIKELIHOOD_UNSPECIFIED"
+    | "VERY_UNLIKELY"
+    | "UNLIKELY"
+    | "POSSIBLE"
+    | "LIKELY"
+    | "VERY_LIKELY"
+    | (string & {});
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame> = Schema.suspend(() => Schema.Struct({
-  pornographyLikelihood: Schema.optional(Schema.String),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame>;
+export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pornographyLikelihood: Schema.optional(Schema.String),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation {
   /** Thumbnail of a representative face view (in JPEG format). */
@@ -842,11 +1252,20 @@ export interface GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1p1beta1_FaceSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation> = Schema.suspend(() => Schema.Struct({
-  thumbnail: Schema.optional(Schema.String),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceFrame)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thumbnail: Schema.optional(Schema.String),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceFrame),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1beta2_LabelFrame {
   /** Confidence that the label is accurate. Range: [0, 1]. */
@@ -855,10 +1274,15 @@ export interface GoogleCloudVideointelligenceV1beta2_LabelFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelFrame> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_LabelFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelFrame>;
+export const GoogleCloudVideointelligenceV1beta2_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_LabelFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelFrame>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_VideoSegment {
   /** Time-offset, relative to the beginning of the video, corresponding to the start of the segment (inclusive). */
@@ -867,10 +1291,15 @@ export interface GoogleCloudVideointelligenceV1p2beta1_VideoSegment {
   endTimeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoSegment> = Schema.suspend(() => Schema.Struct({
-  startTimeOffset: Schema.optional(Schema.String),
-  endTimeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_VideoSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoSegment>;
+export const GoogleCloudVideointelligenceV1p2beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTimeOffset: Schema.optional(Schema.String),
+      endTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_VideoSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoSegment>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox {
   /** Left X coordinate. */
@@ -883,12 +1312,17 @@ export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox {
   right?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox> = Schema.suspend(() => Schema.Struct({
-  left: Schema.optional(Schema.Number),
-  bottom: Schema.optional(Schema.Number),
-  top: Schema.optional(Schema.Number),
-  right: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox>;
+export const GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      left: Schema.optional(Schema.Number),
+      bottom: Schema.optional(Schema.Number),
+      top: Schema.optional(Schema.Number),
+      right: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute {
   /** The name of the attribute, for example, glasses, dark_glasses, mouth_open. A full list of supported type names will be provided in the document. */
@@ -899,11 +1333,16 @@ export interface GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute {
   value?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute>;
+export const GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex {
   /** X coordinate. */
@@ -912,10 +1351,15 @@ export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex {
   y?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex> = Schema.suspend(() => Schema.Struct({
-  x: Schema.optional(Schema.Number),
-  y: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex>;
+export const GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      x: Schema.optional(Schema.Number),
+      y: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark {
   /** The name of this landmark, for example, left_hand, right_shoulder. */
@@ -926,11 +1370,18 @@ export interface GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark {
   point?: GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  point: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark>;
+export const GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      point: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_TimestampedObject {
   /** Normalized Bounding box in a frame, where the object is located. */
@@ -943,12 +1394,23 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TimestampedObject {
   landmarks?: Array<GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TimestampedObject> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute)),
-  timeOffset: Schema.optional(Schema.String),
-  landmarks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_TimestampedObject" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TimestampedObject>;
+export const GoogleCloudVideointelligenceV1p2beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TimestampedObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox,
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute),
+      ),
+      timeOffset: Schema.optional(Schema.String),
+      landmarks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_TimestampedObject",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TimestampedObject>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_Track {
   /** Video segment of a track. */
@@ -961,12 +1423,23 @@ export interface GoogleCloudVideointelligenceV1p2beta1_Track {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Track> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
-  timestampedObjects: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TimestampedObject)),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute)),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_Track" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Track>;
+export const GoogleCloudVideointelligenceV1p2beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Track> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
+      ),
+      timestampedObjects: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TimestampedObject),
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute),
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_Track",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Track>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame {
   /** The normalized bounding box location of this object track for the frame. */
@@ -975,10 +1448,17 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame>;
+export const GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_Entity {
   /** Opaque entity ID. Some IDs may be available in [Google Knowledge Graph Search API](https://developers.google.com/knowledge-graph/). */
@@ -989,11 +1469,16 @@ export interface GoogleCloudVideointelligenceV1p1beta1_Entity {
   languageCode?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Entity> = Schema.suspend(() => Schema.Struct({
-  entityId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_Entity" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Entity>;
+export const GoogleCloudVideointelligenceV1p1beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Entity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entityId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_Entity",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Entity>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation {
   /** Feature version. */
@@ -1010,14 +1495,24 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation 
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  trackId: Schema.optional(Schema.String),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_Entity),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      trackId: Schema.optional(Schema.String),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_Entity),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_LabelFrame {
   /** Confidence that the label is accurate. Range: [0, 1]. */
@@ -1026,10 +1521,15 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LabelFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelFrame> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_LabelFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelFrame>;
+export const GoogleCloudVideointelligenceV1p1beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_LabelFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelFrame>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_LabelSegment {
   /** Video segment where a label was detected. */
@@ -1038,10 +1538,17 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LabelSegment {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_LabelSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelSegment>;
+export const GoogleCloudVideointelligenceV1p1beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_LabelSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelSegment>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation {
   /** Feature version. */
@@ -1056,13 +1563,24 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1p1beta1_LabelSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_Entity),
-  categoryEntities: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Entity)),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelFrame)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_Entity),
+      categoryEntities: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Entity),
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelFrame),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex {
   /** X coordinate. */
@@ -1071,10 +1589,15 @@ export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex {
   y?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex> = Schema.suspend(() => Schema.Struct({
-  x: Schema.optional(Schema.Number),
-  y: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex>;
+export const GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      x: Schema.optional(Schema.Number),
+      y: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark {
   /** The 2D point of the detected landmark using the normalized image coordinate system. The normalized coordinates have the range from 0 to 1. */
@@ -1085,11 +1608,18 @@ export interface GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark> = Schema.suspend(() => Schema.Struct({
-  point: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex),
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark>;
+export const GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      point: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex,
+      ),
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute {
   /** The name of the attribute, for example, glasses, dark_glasses, mouth_open. A full list of supported type names will be provided in the document. */
@@ -1100,11 +1630,16 @@ export interface GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute {
   value?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute>;
+export const GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_TimestampedObject {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this object. */
@@ -1117,12 +1652,23 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TimestampedObject {
   attributes?: Array<GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TimestampedObject> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  landmarks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark)),
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_TimestampedObject" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TimestampedObject>;
+export const GoogleCloudVideointelligenceV1p1beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TimestampedObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      landmarks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark),
+      ),
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox,
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_TimestampedObject",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TimestampedObject>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_Track {
   /** Video segment of a track. */
@@ -1135,12 +1681,23 @@ export interface GoogleCloudVideointelligenceV1p1beta1_Track {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Track> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
-  timestampedObjects: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TimestampedObject)),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute)),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_Track" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Track>;
+export const GoogleCloudVideointelligenceV1p1beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Track> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
+      ),
+      timestampedObjects: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TimestampedObject),
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute),
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_Track",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Track>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation {
   /** The detected tracks of a person. */
@@ -1149,22 +1706,42 @@ export interface GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame {
   /** Likelihood of the pornography content.. */
-  pornographyLikelihood?: "LIKELIHOOD_UNSPECIFIED" | "VERY_UNLIKELY" | "UNLIKELY" | "POSSIBLE" | "LIKELY" | "VERY_LIKELY" | (string & {});
+  pornographyLikelihood?:
+    | "LIKELIHOOD_UNSPECIFIED"
+    | "VERY_UNLIKELY"
+    | "UNLIKELY"
+    | "POSSIBLE"
+    | "LIKELY"
+    | "VERY_LIKELY"
+    | (string & {});
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame> = Schema.suspend(() => Schema.Struct({
-  pornographyLikelihood: Schema.optional(Schema.String),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame>;
+export const GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pornographyLikelihood: Schema.optional(Schema.String),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation {
   /** All video frames where explicit content was detected. */
@@ -1173,10 +1750,20 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation> = Schema.suspend(() => Schema.Struct({
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frames: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame,
+        ),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation {
   /** Entity category information to specify the logo class that all the logo tracks within this LogoRecognitionAnnotation are recognized as. */
@@ -1187,11 +1774,21 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation
   segments?: Array<GoogleCloudVideointelligenceV1p1beta1_VideoSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation> = Schema.suspend(() => Schema.Struct({
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_Entity),
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_VideoSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_Entity),
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_WordInfo {
   /** Output only. The confidence estimate between 0.0 and 1.0. A higher number indicates an estimated greater likelihood that the recognized words are correct. This field is set only for the top alternative. This field is not guaranteed to be accurate and users should not rely on it to be always provided. The default of 0.0 is a sentinel value indicating `confidence` was not set. */
@@ -1208,14 +1805,19 @@ export interface GoogleCloudVideointelligenceV1p1beta1_WordInfo {
   speakerTag?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_WordInfo> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  startTime: Schema.optional(Schema.String),
-  word: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  speakerLabel: Schema.optional(Schema.String),
-  speakerTag: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_WordInfo" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_WordInfo>;
+export const GoogleCloudVideointelligenceV1p1beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_WordInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      startTime: Schema.optional(Schema.String),
+      word: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      speakerLabel: Schema.optional(Schema.String),
+      speakerTag: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_WordInfo",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_WordInfo>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative {
   /** Transcript text representing the words that the user spoke. */
@@ -1226,11 +1828,19 @@ export interface GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternat
   words?: Array<GoogleCloudVideointelligenceV1p1beta1_WordInfo>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative> = Schema.suspend(() => Schema.Struct({
-  transcript: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  words: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_WordInfo)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative>;
+export const GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transcript: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      words: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_WordInfo),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription {
   /** May contain one or more recognition hypotheses (up to the maximum specified in `max_alternatives`). These alternatives are ordered in terms of accuracy, with the top (first) alternative being the most probable, as ranked by the recognizer. */
@@ -1239,10 +1849,19 @@ export interface GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription {
   languageCode?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription> = Schema.suspend(() => Schema.Struct({
-  alternatives: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative)),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription>;
+export const GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alternatives: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative,
+        ),
+      ),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation {
   /** The face tracks with attributes. */
@@ -1253,20 +1872,34 @@ export interface GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track)),
-  thumbnail: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track),
+      ),
+      thumbnail: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly {
   /** Normalized vertices of the bounding polygon. */
   vertices?: Array<GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly>;
+export const GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_TextFrame {
   /** Bounding polygon of the detected text for this frame. */
@@ -1275,10 +1908,17 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TextFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextFrame> = Schema.suspend(() => Schema.Struct({
-  rotatedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_TextFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextFrame>;
+export const GoogleCloudVideointelligenceV1p1beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      rotatedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_TextFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextFrame>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_TextSegment {
   /** Confidence for the track of detected text. It is calculated as the highest over all frames where OCR detected text appears. */
@@ -1289,11 +1929,20 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TextSegment {
   frames?: Array<GoogleCloudVideointelligenceV1p1beta1_TextFrame>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextSegment> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TextFrame)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_TextSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextSegment>;
+export const GoogleCloudVideointelligenceV1p1beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TextFrame),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_TextSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextSegment>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_TextAnnotation {
   /** The detected text. */
@@ -1304,11 +1953,18 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TextAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1p1beta1_TextSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextAnnotation> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TextSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_TextAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextAnnotation>;
+export const GoogleCloudVideointelligenceV1p1beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TextSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_TextAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults {
   /** Label annotations on frame level. There is exactly one element for each unique label. */
@@ -1347,25 +2003,68 @@ export interface GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults {
   textAnnotations?: Array<GoogleCloudVideointelligenceV1p1beta1_TextAnnotation>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults> = Schema.suspend(() => Schema.Struct({
-  frameLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation)),
-  inputUri: Schema.optional(Schema.String),
-  shotAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_VideoSegment)),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
-  segmentPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation)),
-  personDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation)),
-  faceAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation)),
-  explicitAnnotation: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation),
-  segmentLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation)),
-  logoRecognitionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation)),
-  speechTranscriptions: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription)),
-  objectAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation)),
-  error: Schema.optional(GoogleRpc_Status),
-  faceDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation)),
-  shotLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation)),
-  shotPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation)),
-  textAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TextAnnotation)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults>;
+export const GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frameLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation),
+      ),
+      inputUri: Schema.optional(Schema.String),
+      shotAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
+      ),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
+      ),
+      segmentPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation),
+      ),
+      personDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation,
+        ),
+      ),
+      faceAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation),
+      ),
+      explicitAnnotation: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation,
+      ),
+      segmentLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation),
+      ),
+      logoRecognitionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation,
+        ),
+      ),
+      speechTranscriptions: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription),
+      ),
+      objectAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation,
+        ),
+      ),
+      error: Schema.optional(GoogleRpc_Status),
+      faceDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation,
+        ),
+      ),
+      shotLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation),
+      ),
+      shotPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation),
+      ),
+      textAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TextAnnotation),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults>;
 
 export interface GoogleCloudVideointelligenceV1beta2_DetectedAttribute {
   /** The name of the attribute, for example, glasses, dark_glasses, mouth_open. A full list of supported type names will be provided in the document. */
@@ -1376,11 +2075,16 @@ export interface GoogleCloudVideointelligenceV1beta2_DetectedAttribute {
   value?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedAttribute> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  value: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_DetectedAttribute" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedAttribute>;
+export const GoogleCloudVideointelligenceV1beta2_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedAttribute> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_DetectedAttribute",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedAttribute>;
 
 export interface GoogleCloudVideointelligenceV1beta2_TimestampedObject {
   /** Optional. The attributes of the object in the bounding box. */
@@ -1393,12 +2097,23 @@ export interface GoogleCloudVideointelligenceV1beta2_TimestampedObject {
   landmarks?: Array<GoogleCloudVideointelligenceV1beta2_DetectedLandmark>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TimestampedObject> = Schema.suspend(() => Schema.Struct({
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_DetectedAttribute)),
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox),
-  timeOffset: Schema.optional(Schema.String),
-  landmarks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_DetectedLandmark)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_TimestampedObject" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TimestampedObject>;
+export const GoogleCloudVideointelligenceV1beta2_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TimestampedObject> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_DetectedAttribute),
+      ),
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+      landmarks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_DetectedLandmark),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_TimestampedObject",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_TimestampedObject>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_LabelSegment {
   /** Video segment where a label was detected. */
@@ -1407,10 +2122,17 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LabelSegment {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_LabelSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelSegment>;
+export const GoogleCloudVideointelligenceV1p2beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_LabelSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelSegment>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_LabelFrame {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
@@ -1419,10 +2141,15 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LabelFrame {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_LabelFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelFrame>;
+export const GoogleCloudVideointelligenceV1p2beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_LabelFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelFrame>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_Entity {
   /** Language code for `description` in BCP-47 format. */
@@ -1433,11 +2160,16 @@ export interface GoogleCloudVideointelligenceV1p2beta1_Entity {
   description?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Entity> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  entityId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_Entity" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Entity>;
+export const GoogleCloudVideointelligenceV1p2beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Entity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languageCode: Schema.optional(Schema.String),
+      entityId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_Entity",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Entity>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation {
   /** Feature version. */
@@ -1452,22 +2184,38 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation {
   categoryEntities?: Array<GoogleCloudVideointelligenceV1p2beta1_Entity>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelSegment)),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelFrame)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_Entity),
-  categoryEntities: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Entity)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelSegment),
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelFrame),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_Entity),
+      categoryEntities: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Entity),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1_FaceSegment {
   /** Video segment where a face was detected. */
   segment?: GoogleCloudVideointelligenceV1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1_FaceSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_FaceSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceSegment>;
+export const GoogleCloudVideointelligenceV1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1_FaceSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_FaceSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceSegment>;
 
 export interface GoogleCloudVideointelligenceV1_VideoAnnotationProgress {
   /** Time of the most recent update. */
@@ -1483,30 +2231,60 @@ export interface GoogleCloudVideointelligenceV1_VideoAnnotationProgress {
   /** Specifies which segment is being tracked if the request contains more than one segment. */
   segment?: GoogleCloudVideointelligenceV1_VideoSegment;
   /** Specifies which feature is being tracked if the request contains more than one feature. */
-  feature?: "FEATURE_UNSPECIFIED" | "LABEL_DETECTION" | "SHOT_CHANGE_DETECTION" | "EXPLICIT_CONTENT_DETECTION" | "FACE_DETECTION" | "SPEECH_TRANSCRIPTION" | "TEXT_DETECTION" | "OBJECT_TRACKING" | "LOGO_RECOGNITION" | "PERSON_DETECTION" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "LABEL_DETECTION"
+    | "SHOT_CHANGE_DETECTION"
+    | "EXPLICIT_CONTENT_DETECTION"
+    | "FACE_DETECTION"
+    | "SPEECH_TRANSCRIPTION"
+    | "TEXT_DETECTION"
+    | "OBJECT_TRACKING"
+    | "LOGO_RECOGNITION"
+    | "PERSON_DETECTION"
+    | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationProgress> = Schema.suspend(() => Schema.Struct({
-  updateTime: Schema.optional(Schema.String),
-  progressPercent: Schema.optional(Schema.Number),
-  exportStatus: Schema.optional(GoogleCloudVideointelligenceV1_ExportToOutputUriStatus),
-  inputUri: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
-  feature: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_VideoAnnotationProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationProgress>;
+export const GoogleCloudVideointelligenceV1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      progressPercent: Schema.optional(Schema.Number),
+      exportStatus: Schema.optional(
+        GoogleCloudVideointelligenceV1_ExportToOutputUriStatus,
+      ),
+      inputUri: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
+      feature: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_VideoAnnotationProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationProgress>;
 
 export interface GoogleCloudVideointelligenceV1_ExplicitContentFrame {
   /** Likelihood of the pornography content.. */
-  pornographyLikelihood?: "LIKELIHOOD_UNSPECIFIED" | "VERY_UNLIKELY" | "UNLIKELY" | "POSSIBLE" | "LIKELY" | "VERY_LIKELY" | (string & {});
+  pornographyLikelihood?:
+    | "LIKELIHOOD_UNSPECIFIED"
+    | "VERY_UNLIKELY"
+    | "UNLIKELY"
+    | "POSSIBLE"
+    | "LIKELY"
+    | "VERY_LIKELY"
+    | (string & {});
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentFrame> = Schema.suspend(() => Schema.Struct({
-  pornographyLikelihood: Schema.optional(Schema.String),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_ExplicitContentFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentFrame>;
+export const GoogleCloudVideointelligenceV1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pornographyLikelihood: Schema.optional(Schema.String),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_ExplicitContentFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentFrame>;
 
 export interface GoogleCloudVideointelligenceV1_ExplicitContentAnnotation {
   /** All video frames where explicit content was detected. */
@@ -1515,10 +2293,17 @@ export interface GoogleCloudVideointelligenceV1_ExplicitContentAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentAnnotation> = Schema.suspend(() => Schema.Struct({
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_ExplicitContentFrame)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_ExplicitContentAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentAnnotation>;
+export const GoogleCloudVideointelligenceV1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_ExplicitContentFrame),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_ExplicitContentAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus {
   /** Output only. Only set if state is FAILED. */
@@ -1527,10 +2312,15 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus {
   state?: "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(GoogleRpc_Status),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus>;
+export const GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(GoogleRpc_Status),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress {
   /** Status of exporting annotation response to user specified `output_uri`. Only set if `output_uri` is set in the request. */
@@ -1540,7 +2330,19 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress {
   /** Approximate percentage processed thus far. Guaranteed to be 100 when fully processed. */
   progressPercent?: number;
   /** Specifies which feature is being tracked if the request contains more than one feature. */
-  feature?: "FEATURE_UNSPECIFIED" | "LABEL_DETECTION" | "SHOT_CHANGE_DETECTION" | "EXPLICIT_CONTENT_DETECTION" | "FACE_DETECTION" | "SPEECH_TRANSCRIPTION" | "TEXT_DETECTION" | "OBJECT_TRACKING" | "LOGO_RECOGNITION" | "CELEBRITY_RECOGNITION" | "PERSON_DETECTION" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "LABEL_DETECTION"
+    | "SHOT_CHANGE_DETECTION"
+    | "EXPLICIT_CONTENT_DETECTION"
+    | "FACE_DETECTION"
+    | "SPEECH_TRANSCRIPTION"
+    | "TEXT_DETECTION"
+    | "OBJECT_TRACKING"
+    | "LOGO_RECOGNITION"
+    | "CELEBRITY_RECOGNITION"
+    | "PERSON_DETECTION"
+    | (string & {});
   /** Video file location in [Cloud Storage](https://cloud.google.com/storage/). */
   inputUri?: string;
   /** Time when the request was received. */
@@ -1549,24 +2351,42 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress {
   segment?: GoogleCloudVideointelligenceV1p3beta1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress> = Schema.suspend(() => Schema.Struct({
-  exportStatus: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus),
-  updateTime: Schema.optional(Schema.String),
-  progressPercent: Schema.optional(Schema.Number),
-  feature: Schema.optional(Schema.String),
-  inputUri: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress>;
+export const GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exportStatus: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus,
+      ),
+      updateTime: Schema.optional(Schema.String),
+      progressPercent: Schema.optional(Schema.Number),
+      feature: Schema.optional(Schema.String),
+      inputUri: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress {
   /** Progress metadata for all videos specified in `AnnotateVideoRequest`. */
   annotationProgress?: Array<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress> = Schema.suspend(() => Schema.Struct({
-  annotationProgress: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress>;
+export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationProgress: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress>;
 
 export interface GoogleCloudVideointelligenceV1_Entity {
   /** Language code for `description` in BCP-47 format. */
@@ -1577,11 +2397,16 @@ export interface GoogleCloudVideointelligenceV1_Entity {
   description?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1_Entity> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  entityId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_Entity" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_Entity>;
+export const GoogleCloudVideointelligenceV1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1_Entity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languageCode: Schema.optional(Schema.String),
+      entityId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_Entity",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_Entity>;
 
 export interface GoogleCloudVideointelligenceV1_ObjectTrackingFrame {
   /** The normalized bounding box location of this object track for the frame. */
@@ -1590,10 +2415,17 @@ export interface GoogleCloudVideointelligenceV1_ObjectTrackingFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1_NormalizedBoundingBox),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_ObjectTrackingFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingFrame>;
+export const GoogleCloudVideointelligenceV1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1_NormalizedBoundingBox,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_ObjectTrackingFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingFrame>;
 
 export interface GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation {
   /** Entity to specify the object category that this track is labeled as. */
@@ -1610,14 +2442,21 @@ export interface GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation> = Schema.suspend(() => Schema.Struct({
-  entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_ObjectTrackingFrame)),
-  trackId: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation>;
+export const GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_ObjectTrackingFrame),
+      ),
+      trackId: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_WordInfo {
   /** Time offset relative to the beginning of the audio, and corresponding to the start of the spoken word. This field is only set if `enable_word_time_offsets=true` and only in the top hypothesis. This is an experimental feature and the accuracy of the time offset can vary. */
@@ -1634,14 +2473,19 @@ export interface GoogleCloudVideointelligenceV1p2beta1_WordInfo {
   speakerTag?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_WordInfo> = Schema.suspend(() => Schema.Struct({
-  startTime: Schema.optional(Schema.String),
-  word: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-  speakerLabel: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  speakerTag: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_WordInfo" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_WordInfo>;
+export const GoogleCloudVideointelligenceV1p2beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_WordInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      word: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      speakerLabel: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      speakerTag: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_WordInfo",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_WordInfo>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative {
   /** Output only. The confidence estimate between 0.0 and 1.0. A higher number indicates an estimated greater likelihood that the recognized words are correct. This field is set only for the top alternative. This field is not guaranteed to be accurate and users should not rely on it to be always provided. The default of 0.0 is a sentinel value indicating `confidence` was not set. */
@@ -1652,11 +2496,19 @@ export interface GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternat
   transcript?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  words: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_WordInfo)),
-  transcript: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative>;
+export const GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      words: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_WordInfo),
+      ),
+      transcript: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription {
   /** May contain one or more recognition hypotheses (up to the maximum specified in `max_alternatives`). These alternatives are ordered in terms of accuracy, with the top (first) alternative being the most probable, as ranked by the recognizer. */
@@ -1665,10 +2517,19 @@ export interface GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription {
   languageCode?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription> = Schema.suspend(() => Schema.Struct({
-  alternatives: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative)),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription>;
+export const GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alternatives: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative,
+        ),
+      ),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation {
   /** All video frames where explicit content was detected. */
@@ -1677,10 +2538,20 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation> = Schema.suspend(() => Schema.Struct({
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frames: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame,
+        ),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_LabelFrame {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
@@ -1689,10 +2560,15 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LabelFrame {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelFrame>;
+export const GoogleCloudVideointelligenceV1p3beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelFrame>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_Entity {
   /** Language code for `description` in BCP-47 format. */
@@ -1703,11 +2579,16 @@ export interface GoogleCloudVideointelligenceV1p3beta1_Entity {
   description?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Entity> = Schema.suspend(() => Schema.Struct({
-  languageCode: Schema.optional(Schema.String),
-  entityId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_Entity" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Entity>;
+export const GoogleCloudVideointelligenceV1p3beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Entity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      languageCode: Schema.optional(Schema.String),
+      entityId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_Entity",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Entity>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation {
   /** All video frames where a label was detected. */
@@ -1722,13 +2603,24 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation> = Schema.suspend(() => Schema.Struct({
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelFrame)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
-  categoryEntities: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Entity)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelSegment)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelFrame),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
+      categoryEntities: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Entity),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelSegment),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame {
   /** The normalized bounding box location of this object track for the frame. */
@@ -1737,10 +2629,17 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame>;
+export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation {
   /** Non-streaming batch mode ONLY. Each object track corresponds to one video segment where it appears. */
@@ -1757,14 +2656,24 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation 
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
-  confidence: Schema.optional(Schema.Number),
-  trackId: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
+      confidence: Schema.optional(Schema.Number),
+      trackId: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults {
   /** Explicit content annotation results. */
@@ -1779,13 +2688,29 @@ export interface GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationR
   objectAnnotations?: Array<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults> = Schema.suspend(() => Schema.Struct({
-  explicitAnnotation: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation),
-  frameTimestamp: Schema.optional(Schema.String),
-  labelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation)),
-  shotAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment)),
-  objectAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults>;
+export const GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      explicitAnnotation: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation,
+      ),
+      frameTimestamp: Schema.optional(Schema.String),
+      labelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation),
+      ),
+      shotAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
+      ),
+      objectAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_FaceFrame {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
@@ -1794,22 +2719,43 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceFrame {
   normalizedBoundingBoxes?: Array<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  normalizedBoundingBoxes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceFrame>;
+export const GoogleCloudVideointelligenceV1p2beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      normalizedBoundingBoxes: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceFrame>;
 
 export interface GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame {
   /** Likelihood of the pornography content.. */
-  pornographyLikelihood?: "LIKELIHOOD_UNSPECIFIED" | "VERY_UNLIKELY" | "UNLIKELY" | "POSSIBLE" | "LIKELY" | "VERY_LIKELY" | (string & {});
+  pornographyLikelihood?:
+    | "LIKELIHOOD_UNSPECIFIED"
+    | "VERY_UNLIKELY"
+    | "UNLIKELY"
+    | "POSSIBLE"
+    | "LIKELY"
+    | "VERY_LIKELY"
+    | (string & {});
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame> = Schema.suspend(() => Schema.Struct({
-  pornographyLikelihood: Schema.optional(Schema.String),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame>;
+export const GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pornographyLikelihood: Schema.optional(Schema.String),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame>;
 
 export interface GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative {
   /** Transcript text representing the words that the user spoke. */
@@ -1820,11 +2766,19 @@ export interface GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternativ
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative> = Schema.suspend(() => Schema.Struct({
-  transcript: Schema.optional(Schema.String),
-  words: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_WordInfo)),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative>;
+export const GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      transcript: Schema.optional(Schema.String),
+      words: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_WordInfo),
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative>;
 
 export interface GoogleCloudVideointelligenceV1beta2_SpeechTranscription {
   /** May contain one or more recognition hypotheses (up to the maximum specified in `max_alternatives`). These alternatives are ordered in terms of accuracy, with the top (first) alternative being the most probable, as ranked by the recognizer. */
@@ -1833,10 +2787,19 @@ export interface GoogleCloudVideointelligenceV1beta2_SpeechTranscription {
   languageCode?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechTranscription> = Schema.suspend(() => Schema.Struct({
-  alternatives: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative)),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_SpeechTranscription" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechTranscription>;
+export const GoogleCloudVideointelligenceV1beta2_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechTranscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alternatives: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative,
+        ),
+      ),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_SpeechTranscription",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechTranscription>;
 
 export interface GoogleCloudVideointelligenceV1_WordInfo {
   /** Output only. The confidence estimate between 0.0 and 1.0. A higher number indicates an estimated greater likelihood that the recognized words are correct. This field is set only for the top alternative. This field is not guaranteed to be accurate and users should not rely on it to be always provided. The default of 0.0 is a sentinel value indicating `confidence` was not set. */
@@ -1853,14 +2816,19 @@ export interface GoogleCloudVideointelligenceV1_WordInfo {
   speakerTag?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1_WordInfo> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  startTime: Schema.optional(Schema.String),
-  word: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  speakerLabel: Schema.optional(Schema.String),
-  speakerTag: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_WordInfo" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_WordInfo>;
+export const GoogleCloudVideointelligenceV1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1_WordInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      startTime: Schema.optional(Schema.String),
+      word: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      speakerLabel: Schema.optional(Schema.String),
+      speakerTag: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_WordInfo",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_WordInfo>;
 
 export interface GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation {
   /** Entity category information to specify the logo class that all the logo tracks within this LogoRecognitionAnnotation are recognized as. */
@@ -1871,11 +2839,20 @@ export interface GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1_VideoSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation> = Schema.suspend(() => Schema.Struct({
-  entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_Track)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_VideoSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation>;
+export const GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_Track),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_VideoSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_WordInfo {
   /** Output only. The confidence estimate between 0.0 and 1.0. A higher number indicates an estimated greater likelihood that the recognized words are correct. This field is set only for the top alternative. This field is not guaranteed to be accurate and users should not rely on it to be always provided. The default of 0.0 is a sentinel value indicating `confidence` was not set. */
@@ -1892,23 +2869,35 @@ export interface GoogleCloudVideointelligenceV1p3beta1_WordInfo {
   speakerTag?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_WordInfo> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  startTime: Schema.optional(Schema.String),
-  word: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  speakerLabel: Schema.optional(Schema.String),
-  speakerTag: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_WordInfo" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_WordInfo>;
+export const GoogleCloudVideointelligenceV1p3beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_WordInfo> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      startTime: Schema.optional(Schema.String),
+      word: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      speakerLabel: Schema.optional(Schema.String),
+      speakerTag: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_WordInfo",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_WordInfo>;
 
 export interface GoogleCloudVideointelligenceV1_AnnotateVideoProgress {
   /** Progress metadata for all videos specified in `AnnotateVideoRequest`. */
   annotationProgress?: Array<GoogleCloudVideointelligenceV1_VideoAnnotationProgress>;
 }
 
-export const GoogleCloudVideointelligenceV1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoProgress> = Schema.suspend(() => Schema.Struct({
-  annotationProgress: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_VideoAnnotationProgress)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_AnnotateVideoProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoProgress>;
+export const GoogleCloudVideointelligenceV1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationProgress: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_VideoAnnotationProgress),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_AnnotateVideoProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoProgress>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame {
   /** The normalized bounding box location of this object track for the frame. */
@@ -1917,19 +2906,33 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame>;
+export const GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_FaceSegment {
   /** Video segment where a face was detected. */
   segment?: GoogleCloudVideointelligenceV1p2beta1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceSegment>;
+export const GoogleCloudVideointelligenceV1p2beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceSegment>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation {
   /** Thumbnail of a representative face view (in JPEG format). */
@@ -1940,23 +2943,44 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1p2beta1_FaceSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation> = Schema.suspend(() => Schema.Struct({
-  thumbnail: Schema.optional(Schema.String),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceFrame)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thumbnail: Schema.optional(Schema.String),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceFrame),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
   timeOffset?: string;
   /** Likelihood of the pornography content.. */
-  pornographyLikelihood?: "LIKELIHOOD_UNSPECIFIED" | "VERY_UNLIKELY" | "UNLIKELY" | "POSSIBLE" | "LIKELY" | "VERY_LIKELY" | (string & {});
+  pornographyLikelihood?:
+    | "LIKELIHOOD_UNSPECIFIED"
+    | "VERY_UNLIKELY"
+    | "UNLIKELY"
+    | "POSSIBLE"
+    | "LIKELY"
+    | "VERY_LIKELY"
+    | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  pornographyLikelihood: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame>;
+export const GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      pornographyLikelihood: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation {
   /** All video frames where explicit content was detected. */
@@ -1965,10 +2989,20 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation> = Schema.suspend(() => Schema.Struct({
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frames: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame,
+        ),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation {
   /** The detected tracks of a person. */
@@ -1977,10 +3011,18 @@ export interface GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Track)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Track),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation {
   /** All logo tracks where the recognized logo appears. Each track corresponds to one logo instance appearing in consecutive frames. */
@@ -1991,11 +3033,21 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation
   entity?: GoogleCloudVideointelligenceV1p2beta1_Entity;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Track)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_VideoSegment)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_Entity),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Track),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_Entity),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation {
   /** The face tracks with attributes. */
@@ -2006,11 +3058,18 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Track)),
-  thumbnail: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Track),
+      ),
+      thumbnail: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation {
   /** Non-streaming batch mode ONLY. Each object track corresponds to one video segment where it appears. */
@@ -2027,23 +3086,40 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation 
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_Entity),
-  confidence: Schema.optional(Schema.Number),
-  trackId: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_Entity),
+      confidence: Schema.optional(Schema.Number),
+      trackId: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly {
   /** Normalized vertices of the bounding polygon. */
   vertices?: Array<GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly> = Schema.suspend(() => Schema.Struct({
-  vertices: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly>;
+export const GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vertices: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_TextFrame {
   /** Timestamp of this frame. */
@@ -2052,10 +3128,17 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TextFrame {
   rotatedBoundingBox?: GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  rotatedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_TextFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextFrame>;
+export const GoogleCloudVideointelligenceV1p2beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      rotatedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_TextFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextFrame>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_TextSegment {
   /** Confidence for the track of detected text. It is calculated as the highest over all frames where OCR detected text appears. */
@@ -2066,11 +3149,20 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TextSegment {
   frames?: Array<GoogleCloudVideointelligenceV1p2beta1_TextFrame>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextSegment> = Schema.suspend(() => Schema.Struct({
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TextFrame)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_TextSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextSegment>;
+export const GoogleCloudVideointelligenceV1p2beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TextFrame),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_TextSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextSegment>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_TextAnnotation {
   /** The detected text. */
@@ -2081,11 +3173,18 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TextAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1p2beta1_TextSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextAnnotation> = Schema.suspend(() => Schema.Struct({
-  text: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TextSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_TextAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextAnnotation>;
+export const GoogleCloudVideointelligenceV1p2beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TextSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_TextAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults {
   /** Topical label annotations on video level or user-specified segment level. There is exactly one element for each unique label. */
@@ -2124,34 +3223,86 @@ export interface GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults {
   shotPresenceLabelAnnotations?: Array<GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults> = Schema.suspend(() => Schema.Struct({
-  segmentLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation)),
-  faceAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation)),
-  explicitAnnotation: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation),
-  inputUri: Schema.optional(Schema.String),
-  shotAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_VideoSegment)),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
-  segmentPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation)),
-  personDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation)),
-  frameLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation)),
-  logoRecognitionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation)),
-  speechTranscriptions: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription)),
-  faceDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation)),
-  objectAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation)),
-  error: Schema.optional(GoogleRpc_Status),
-  textAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TextAnnotation)),
-  shotLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation)),
-  shotPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults>;
+export const GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segmentLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation),
+      ),
+      faceAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation),
+      ),
+      explicitAnnotation: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation,
+      ),
+      inputUri: Schema.optional(Schema.String),
+      shotAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
+      ),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
+      ),
+      segmentPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation),
+      ),
+      personDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation,
+        ),
+      ),
+      frameLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation),
+      ),
+      logoRecognitionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation,
+        ),
+      ),
+      speechTranscriptions: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription),
+      ),
+      faceDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation,
+        ),
+      ),
+      objectAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation,
+        ),
+      ),
+      error: Schema.optional(GoogleRpc_Status),
+      textAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_TextAnnotation),
+      ),
+      shotLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation),
+      ),
+      shotPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse {
   /** Annotation results for all videos specified in `AnnotateVideoRequest`. */
   annotationResults?: Array<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse> = Schema.suspend(() => Schema.Struct({
-  annotationResults: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse>;
+export const GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationResults: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse>;
 
 export interface GoogleCloudVideointelligenceV1_LabelFrame {
   /** Time-offset, relative to the beginning of the video, corresponding to the video frame for this location. */
@@ -2160,10 +3311,15 @@ export interface GoogleCloudVideointelligenceV1_LabelFrame {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1_LabelFrame> = Schema.suspend(() => Schema.Struct({
-  timeOffset: Schema.optional(Schema.String),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_LabelFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LabelFrame>;
+export const GoogleCloudVideointelligenceV1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1_LabelFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeOffset: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_LabelFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LabelFrame>;
 
 export interface GoogleCloudVideointelligenceV1beta2_Track {
   /** Video segment of a track. */
@@ -2176,12 +3332,23 @@ export interface GoogleCloudVideointelligenceV1beta2_Track {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_Track: Schema.Schema<GoogleCloudVideointelligenceV1beta2_Track> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1beta2_VideoSegment),
-  timestampedObjects: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_TimestampedObject)),
-  attributes: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_DetectedAttribute)),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_Track" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_Track>;
+export const GoogleCloudVideointelligenceV1beta2_Track: Schema.Schema<GoogleCloudVideointelligenceV1beta2_Track> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegment,
+      ),
+      timestampedObjects: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_TimestampedObject),
+      ),
+      attributes: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_DetectedAttribute),
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_Track",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_Track>;
 
 export interface GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation {
   /** The thumbnail of a person's face. */
@@ -2192,11 +3359,18 @@ export interface GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation {
   tracks?: Array<GoogleCloudVideointelligenceV1beta2_Track>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  thumbnail: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_Track)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thumbnail: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_Track),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation>;
 
 export interface GoogleLongrunning_Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -2211,13 +3385,18 @@ export interface GoogleLongrunning_Operation {
   response?: Record<string, unknown>;
 }
 
-export const GoogleLongrunning_Operation: Schema.Schema<GoogleLongrunning_Operation> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  done: Schema.optional(Schema.Boolean),
-  error: Schema.optional(GoogleRpc_Status),
-  response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-})).annotate({ identifier: "GoogleLongrunning_Operation" }) as any as Schema.Schema<GoogleLongrunning_Operation>;
+export const GoogleLongrunning_Operation: Schema.Schema<GoogleLongrunning_Operation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(GoogleRpc_Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunning_Operation",
+  }) as any as Schema.Schema<GoogleLongrunning_Operation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation {
   /** The face tracks with attributes. */
@@ -2228,11 +3407,18 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Track)),
-  thumbnail: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Track),
+      ),
+      thumbnail: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_Celebrity {
   /** The resource name of the celebrity. Have the format `video-intelligence/kg-mid` indicates a celebrity from preloaded gallery. kg-mid is the id in Google knowledge graph, which is unique for the celebrity. */
@@ -2243,11 +3429,16 @@ export interface GoogleCloudVideointelligenceV1p3beta1_Celebrity {
   description?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_Celebrity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Celebrity> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_Celebrity" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Celebrity>;
+export const GoogleCloudVideointelligenceV1p3beta1_Celebrity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Celebrity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_Celebrity",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Celebrity>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity {
   /** The recognized celebrity. */
@@ -2256,10 +3447,17 @@ export interface GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity> = Schema.suspend(() => Schema.Struct({
-  celebrity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Celebrity),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity>;
+export const GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      celebrity: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_Celebrity,
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack {
   /** Top N match of the celebrities for the face in this track. */
@@ -2268,10 +3466,17 @@ export interface GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack {
   faceTrack?: GoogleCloudVideointelligenceV1p3beta1_Track;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack> = Schema.suspend(() => Schema.Struct({
-  celebrities: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity)),
-  faceTrack: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Track),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack>;
+export const GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      celebrities: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity),
+      ),
+      faceTrack: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Track),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation {
   /** Feature version. */
@@ -2280,10 +3485,18 @@ export interface GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnot
   celebrityTracks?: Array<GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  celebrityTracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      celebrityTracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation {
   /** Entity category information to specify the logo class that all the logo tracks within this LogoRecognitionAnnotation are recognized as. */
@@ -2294,11 +3507,21 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation
   segments?: Array<GoogleCloudVideointelligenceV1p3beta1_VideoSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation> = Schema.suspend(() => Schema.Struct({
-  entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Track)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Track),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative {
   /** Output only. A list of word-specific information for each recognized word. Note: When `enable_speaker_diarization` is set to true, you will see all the words from the beginning of the audio. */
@@ -2309,11 +3532,19 @@ export interface GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternat
   transcript?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative> = Schema.suspend(() => Schema.Struct({
-  words: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_WordInfo)),
-  confidence: Schema.optional(Schema.Number),
-  transcript: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative>;
+export const GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      words: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_WordInfo),
+      ),
+      confidence: Schema.optional(Schema.Number),
+      transcript: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription {
   /** May contain one or more recognition hypotheses (up to the maximum specified in `max_alternatives`). These alternatives are ordered in terms of accuracy, with the top (first) alternative being the most probable, as ranked by the recognizer. */
@@ -2322,10 +3553,19 @@ export interface GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription {
   languageCode?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription> = Schema.suspend(() => Schema.Struct({
-  alternatives: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative)),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription>;
+export const GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alternatives: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative,
+        ),
+      ),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation {
   /** The detected tracks of a person. */
@@ -2334,10 +3574,18 @@ export interface GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Track)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Track),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults {
   /** Annotations for list of logos detected, tracked and recognized in video. */
@@ -2378,35 +3626,89 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults {
   faceDetectionAnnotations?: Array<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults> = Schema.suspend(() => Schema.Struct({
-  logoRecognitionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation)),
-  celebrityRecognitionAnnotations: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation),
-  speechTranscriptions: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription)),
-  frameLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation)),
-  inputUri: Schema.optional(Schema.String),
-  shotAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment)),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
-  segmentPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation)),
-  personDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation)),
-  faceAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation)),
-  explicitAnnotation: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation),
-  segmentLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation)),
-  shotLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation)),
-  shotPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation)),
-  textAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TextAnnotation)),
-  objectAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation)),
-  error: Schema.optional(GoogleRpc_Status),
-  faceDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults>;
+export const GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      logoRecognitionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation,
+        ),
+      ),
+      celebrityRecognitionAnnotations: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation,
+      ),
+      speechTranscriptions: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription),
+      ),
+      frameLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation),
+      ),
+      inputUri: Schema.optional(Schema.String),
+      shotAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoSegment),
+      ),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
+      ),
+      segmentPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation),
+      ),
+      personDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation,
+        ),
+      ),
+      faceAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation),
+      ),
+      explicitAnnotation: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation,
+      ),
+      segmentLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation),
+      ),
+      shotLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation),
+      ),
+      shotPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation),
+      ),
+      textAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TextAnnotation),
+      ),
+      objectAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation,
+        ),
+      ),
+      error: Schema.optional(GoogleRpc_Status),
+      faceDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse {
   /** Annotation results for all videos specified in `AnnotateVideoRequest`. */
   annotationResults?: Array<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults>;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse> = Schema.suspend(() => Schema.Struct({
-  annotationResults: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse>;
+export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationResults: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse>;
 
 export interface GoogleCloudVideointelligenceV1_FaceAnnotation {
   /** Thumbnail of a representative face view (in JPEG format). */
@@ -2417,11 +3719,20 @@ export interface GoogleCloudVideointelligenceV1_FaceAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1_FaceSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_FaceAnnotation> = Schema.suspend(() => Schema.Struct({
-  thumbnail: Schema.optional(Schema.String),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_FaceFrame)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_FaceSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_FaceAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceAnnotation>;
+export const GoogleCloudVideointelligenceV1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_FaceAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      thumbnail: Schema.optional(Schema.String),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_FaceFrame),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_FaceSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_FaceAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1_TextSegment {
   /** Video segment where a text snippet was detected. */
@@ -2432,11 +3743,18 @@ export interface GoogleCloudVideointelligenceV1_TextSegment {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1_TextSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_TextFrame)),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_TextSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TextSegment>;
+export const GoogleCloudVideointelligenceV1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1_TextSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_TextFrame),
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_TextSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TextSegment>;
 
 export interface GoogleCloudVideointelligenceV1_TextAnnotation {
   /** Feature version. */
@@ -2447,11 +3765,18 @@ export interface GoogleCloudVideointelligenceV1_TextAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1_TextSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_TextAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  text: Schema.optional(Schema.String),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_TextSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_TextAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TextAnnotation>;
+export const GoogleCloudVideointelligenceV1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_TextAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      text: Schema.optional(Schema.String),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_TextSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_TextAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_TextAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus {
   /** Output only. Only set if state is FAILED. */
@@ -2460,10 +3785,15 @@ export interface GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus {
   state?: "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(GoogleRpc_Status),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus>;
+export const GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(GoogleRpc_Status),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus>;
 
 export interface GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress {
   /** Time of the most recent update. */
@@ -2479,27 +3809,56 @@ export interface GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress {
   /** Specifies which segment is being tracked if the request contains more than one segment. */
   segment?: GoogleCloudVideointelligenceV1beta2_VideoSegment;
   /** Specifies which feature is being tracked if the request contains more than one feature. */
-  feature?: "FEATURE_UNSPECIFIED" | "LABEL_DETECTION" | "SHOT_CHANGE_DETECTION" | "EXPLICIT_CONTENT_DETECTION" | "FACE_DETECTION" | "SPEECH_TRANSCRIPTION" | "TEXT_DETECTION" | "OBJECT_TRACKING" | "LOGO_RECOGNITION" | "PERSON_DETECTION" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "LABEL_DETECTION"
+    | "SHOT_CHANGE_DETECTION"
+    | "EXPLICIT_CONTENT_DETECTION"
+    | "FACE_DETECTION"
+    | "SPEECH_TRANSCRIPTION"
+    | "TEXT_DETECTION"
+    | "OBJECT_TRACKING"
+    | "LOGO_RECOGNITION"
+    | "PERSON_DETECTION"
+    | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress> = Schema.suspend(() => Schema.Struct({
-  updateTime: Schema.optional(Schema.String),
-  progressPercent: Schema.optional(Schema.Number),
-  exportStatus: Schema.optional(GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus),
-  inputUri: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1beta2_VideoSegment),
-  feature: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress>;
+export const GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      progressPercent: Schema.optional(Schema.Number),
+      exportStatus: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus,
+      ),
+      inputUri: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegment,
+      ),
+      feature: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress>;
 
 export interface GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress {
   /** Progress metadata for all videos specified in `AnnotateVideoRequest`. */
   annotationProgress?: Array<GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress> = Schema.suspend(() => Schema.Struct({
-  annotationProgress: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress>;
+export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationProgress: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress>;
 
 export interface GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative {
   /** Output only. A list of word-specific information for each recognized word. Note: When `enable_speaker_diarization` is set to true, you will see all the words from the beginning of the audio. */
@@ -2510,11 +3869,18 @@ export interface GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative {
   transcript?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative> = Schema.suspend(() => Schema.Struct({
-  words: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_WordInfo)),
-  confidence: Schema.optional(Schema.Number),
-  transcript: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative>;
+export const GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      words: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_WordInfo),
+      ),
+      confidence: Schema.optional(Schema.Number),
+      transcript: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative>;
 
 export interface GoogleCloudVideointelligenceV1_SpeechTranscription {
   /** May contain one or more recognition hypotheses (up to the maximum specified in `max_alternatives`). These alternatives are ordered in terms of accuracy, with the top (first) alternative being the most probable, as ranked by the recognizer. */
@@ -2523,10 +3889,19 @@ export interface GoogleCloudVideointelligenceV1_SpeechTranscription {
   languageCode?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1_SpeechTranscription> = Schema.suspend(() => Schema.Struct({
-  alternatives: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative)),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_SpeechTranscription" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_SpeechTranscription>;
+export const GoogleCloudVideointelligenceV1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1_SpeechTranscription> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alternatives: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative,
+        ),
+      ),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_SpeechTranscription",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_SpeechTranscription>;
 
 export interface GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse {
   /** Google Cloud Storage URI that stores annotation results of one streaming session in JSON format. It is the annotation_result_storage_directory from the request followed by '/cloud_project_number-session_id'. */
@@ -2537,11 +3912,19 @@ export interface GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoRes
   annotationResults?: GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults;
 }
 
-export const GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse> = Schema.suspend(() => Schema.Struct({
-  annotationResultsUri: Schema.optional(Schema.String),
-  error: Schema.optional(GoogleRpc_Status),
-  annotationResults: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse>;
+export const GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationResultsUri: Schema.optional(Schema.String),
+      error: Schema.optional(GoogleRpc_Status),
+      annotationResults: Schema.optional(
+        GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse>;
 
 export interface GoogleCloudVideointelligenceV1_LabelSegment {
   /** Video segment where a label was detected. */
@@ -2550,10 +3933,15 @@ export interface GoogleCloudVideointelligenceV1_LabelSegment {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1_LabelSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_LabelSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LabelSegment>;
+export const GoogleCloudVideointelligenceV1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1_LabelSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_LabelSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LabelSegment>;
 
 export interface GoogleCloudVideointelligenceV1_LabelAnnotation {
   /** Feature version. */
@@ -2568,13 +3956,24 @@ export interface GoogleCloudVideointelligenceV1_LabelAnnotation {
   frames?: Array<GoogleCloudVideointelligenceV1_LabelFrame>;
 }
 
-export const GoogleCloudVideointelligenceV1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_LabelAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LabelSegment)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
-  categoryEntities: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_Entity)),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LabelFrame)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_LabelAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LabelAnnotation>;
+export const GoogleCloudVideointelligenceV1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_LabelAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LabelSegment),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
+      categoryEntities: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_Entity),
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LabelFrame),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_LabelAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_LabelAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1_FaceDetectionAnnotation {
   /** The face tracks with attributes. */
@@ -2585,11 +3984,18 @@ export interface GoogleCloudVideointelligenceV1_FaceDetectionAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_FaceDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_Track)),
-  thumbnail: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_FaceDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_FaceDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_Track),
+      ),
+      thumbnail: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_FaceDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_FaceDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1_PersonDetectionAnnotation {
   /** The detected tracks of a person. */
@@ -2598,10 +4004,17 @@ export interface GoogleCloudVideointelligenceV1_PersonDetectionAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_PersonDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_Track)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_PersonDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_PersonDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_PersonDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_Track),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_PersonDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_PersonDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1_VideoAnnotationResults {
   /** Topical label annotations on shot level. There is exactly one element for each unique label. */
@@ -2640,25 +4053,58 @@ export interface GoogleCloudVideointelligenceV1_VideoAnnotationResults {
   segmentLabelAnnotations?: Array<GoogleCloudVideointelligenceV1_LabelAnnotation>;
 }
 
-export const GoogleCloudVideointelligenceV1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationResults> = Schema.suspend(() => Schema.Struct({
-  shotLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation)),
-  shotPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation)),
-  textAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_TextAnnotation)),
-  objectAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation)),
-  error: Schema.optional(GoogleRpc_Status),
-  faceDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_FaceDetectionAnnotation)),
-  logoRecognitionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation)),
-  speechTranscriptions: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_SpeechTranscription)),
-  frameLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation)),
-  inputUri: Schema.optional(Schema.String),
-  shotAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_VideoSegment)),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
-  segmentPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation)),
-  personDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_PersonDetectionAnnotation)),
-  faceAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_FaceAnnotation)),
-  explicitAnnotation: Schema.optional(GoogleCloudVideointelligenceV1_ExplicitContentAnnotation),
-  segmentLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_VideoAnnotationResults" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationResults>;
+export const GoogleCloudVideointelligenceV1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationResults> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      shotLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation),
+      ),
+      shotPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation),
+      ),
+      textAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_TextAnnotation),
+      ),
+      objectAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation),
+      ),
+      error: Schema.optional(GoogleRpc_Status),
+      faceDetectionAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_FaceDetectionAnnotation),
+      ),
+      logoRecognitionAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation),
+      ),
+      speechTranscriptions: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_SpeechTranscription),
+      ),
+      frameLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation),
+      ),
+      inputUri: Schema.optional(Schema.String),
+      shotAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_VideoSegment),
+      ),
+      segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
+      segmentPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation),
+      ),
+      personDetectionAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_PersonDetectionAnnotation),
+      ),
+      faceAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_FaceAnnotation),
+      ),
+      explicitAnnotation: Schema.optional(
+        GoogleCloudVideointelligenceV1_ExplicitContentAnnotation,
+      ),
+      segmentLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_VideoAnnotationResults",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationResults>;
 
 export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame {
   /** The normalized bounding box location of this object track for the frame. */
@@ -2667,10 +4113,17 @@ export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame {
   timeOffset?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame> = Schema.suspend(() => Schema.Struct({
-  normalizedBoundingBox: Schema.optional(GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox),
-  timeOffset: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame>;
+export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      normalizedBoundingBox: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox,
+      ),
+      timeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress {
   /** Time of the most recent update. */
@@ -2686,18 +4139,38 @@ export interface GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress {
   /** Specifies which segment is being tracked if the request contains more than one segment. */
   segment?: GoogleCloudVideointelligenceV1p2beta1_VideoSegment;
   /** Specifies which feature is being tracked if the request contains more than one feature. */
-  feature?: "FEATURE_UNSPECIFIED" | "LABEL_DETECTION" | "SHOT_CHANGE_DETECTION" | "EXPLICIT_CONTENT_DETECTION" | "FACE_DETECTION" | "SPEECH_TRANSCRIPTION" | "TEXT_DETECTION" | "OBJECT_TRACKING" | "LOGO_RECOGNITION" | "PERSON_DETECTION" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "LABEL_DETECTION"
+    | "SHOT_CHANGE_DETECTION"
+    | "EXPLICIT_CONTENT_DETECTION"
+    | "FACE_DETECTION"
+    | "SPEECH_TRANSCRIPTION"
+    | "TEXT_DETECTION"
+    | "OBJECT_TRACKING"
+    | "LOGO_RECOGNITION"
+    | "PERSON_DETECTION"
+    | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress> = Schema.suspend(() => Schema.Struct({
-  updateTime: Schema.optional(Schema.String),
-  progressPercent: Schema.optional(Schema.Number),
-  exportStatus: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus),
-  inputUri: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_VideoSegment),
-  feature: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress>;
+export const GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      progressPercent: Schema.optional(Schema.Number),
+      exportStatus: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus,
+      ),
+      inputUri: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
+      ),
+      feature: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress>;
 
 export interface GoogleCloudVideointelligenceV1beta2_LabelSegment {
   /** Video segment where a label was detected. */
@@ -2706,10 +4179,17 @@ export interface GoogleCloudVideointelligenceV1beta2_LabelSegment {
   confidence?: number;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelSegment> = Schema.suspend(() => Schema.Struct({
-  segment: Schema.optional(GoogleCloudVideointelligenceV1beta2_VideoSegment),
-  confidence: Schema.optional(Schema.Number),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_LabelSegment" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelSegment>;
+export const GoogleCloudVideointelligenceV1beta2_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelSegment> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegment,
+      ),
+      confidence: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_LabelSegment",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelSegment>;
 
 export interface GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation {
   /** The detected tracks of a person. */
@@ -2718,10 +4198,17 @@ export interface GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_Track)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_Track),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1beta2_Entity {
   /** Opaque entity ID. Some IDs may be available in [Google Knowledge Graph Search API](https://developers.google.com/knowledge-graph/). */
@@ -2732,11 +4219,16 @@ export interface GoogleCloudVideointelligenceV1beta2_Entity {
   languageCode?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_Entity: Schema.Schema<GoogleCloudVideointelligenceV1beta2_Entity> = Schema.suspend(() => Schema.Struct({
-  entityId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  languageCode: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_Entity" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_Entity>;
+export const GoogleCloudVideointelligenceV1beta2_Entity: Schema.Schema<GoogleCloudVideointelligenceV1beta2_Entity> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entityId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_Entity",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_Entity>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus {
   /** Output only. Only set if state is FAILED. */
@@ -2745,10 +4237,15 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus {
   state?: "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED" | (string & {});
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus> = Schema.suspend(() => Schema.Struct({
-  status: Schema.optional(GoogleRpc_Status),
-  state: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus>;
+export const GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(GoogleRpc_Status),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress {
   /** Status of exporting annotation response to user specified `output_uri`. Only set if `output_uri` is set in the request. */
@@ -2758,7 +4255,18 @@ export interface GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress {
   /** Approximate percentage processed thus far. Guaranteed to be 100 when fully processed. */
   progressPercent?: number;
   /** Specifies which feature is being tracked if the request contains more than one feature. */
-  feature?: "FEATURE_UNSPECIFIED" | "LABEL_DETECTION" | "SHOT_CHANGE_DETECTION" | "EXPLICIT_CONTENT_DETECTION" | "FACE_DETECTION" | "SPEECH_TRANSCRIPTION" | "TEXT_DETECTION" | "OBJECT_TRACKING" | "LOGO_RECOGNITION" | "PERSON_DETECTION" | (string & {});
+  feature?:
+    | "FEATURE_UNSPECIFIED"
+    | "LABEL_DETECTION"
+    | "SHOT_CHANGE_DETECTION"
+    | "EXPLICIT_CONTENT_DETECTION"
+    | "FACE_DETECTION"
+    | "SPEECH_TRANSCRIPTION"
+    | "TEXT_DETECTION"
+    | "OBJECT_TRACKING"
+    | "LOGO_RECOGNITION"
+    | "PERSON_DETECTION"
+    | (string & {});
   /** Video file location in [Cloud Storage](https://cloud.google.com/storage/). */
   inputUri?: string;
   /** Time when the request was received. */
@@ -2767,24 +4275,42 @@ export interface GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress {
   segment?: GoogleCloudVideointelligenceV1p1beta1_VideoSegment;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress> = Schema.suspend(() => Schema.Struct({
-  exportStatus: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus),
-  updateTime: Schema.optional(Schema.String),
-  progressPercent: Schema.optional(Schema.Number),
-  feature: Schema.optional(Schema.String),
-  inputUri: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1p1beta1_VideoSegment),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress>;
+export const GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      exportStatus: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus,
+      ),
+      updateTime: Schema.optional(Schema.String),
+      progressPercent: Schema.optional(Schema.Number),
+      feature: Schema.optional(Schema.String),
+      inputUri: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress {
   /** Progress metadata for all videos specified in `AnnotateVideoRequest`. */
   annotationProgress?: Array<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress> = Schema.suspend(() => Schema.Struct({
-  annotationProgress: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress>;
+export const GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationProgress: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress>;
 
 export interface GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation {
   /** All video frames where explicit content was detected. */
@@ -2793,19 +4319,35 @@ export interface GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation> = Schema.suspend(() => Schema.Struct({
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame)),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame),
+      ),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse {
   /** Annotation results for all videos specified in `AnnotateVideoRequest`. */
   annotationResults?: Array<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults>;
 }
 
-export const GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse> = Schema.suspend(() => Schema.Struct({
-  annotationResults: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse>;
+export const GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationResults: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse>;
 
 export interface GoogleCloudVideointelligenceV1beta2_LabelAnnotation {
   /** Feature version. */
@@ -2820,13 +4362,24 @@ export interface GoogleCloudVideointelligenceV1beta2_LabelAnnotation {
   segments?: Array<GoogleCloudVideointelligenceV1beta2_LabelSegment>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelAnnotation> = Schema.suspend(() => Schema.Struct({
-  version: Schema.optional(Schema.String),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelFrame)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
-  categoryEntities: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_Entity)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelSegment)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_LabelAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelFrame),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
+      categoryEntities: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_Entity),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelSegment),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_LabelAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation {
   /** All logo tracks where the recognized logo appears. Each track corresponds to one logo instance appearing in consecutive frames. */
@@ -2837,11 +4390,20 @@ export interface GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation {
   entity?: GoogleCloudVideointelligenceV1beta2_Entity;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation> = Schema.suspend(() => Schema.Struct({
-  tracks: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_Track)),
-  segments: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_VideoSegment)),
-  entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      tracks: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_Track),
+      ),
+      segments: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_VideoSegment),
+      ),
+      entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation {
   /** Entity to specify the object category that this track is labeled as. */
@@ -2858,14 +4420,23 @@ export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation {
   version?: string;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation> = Schema.suspend(() => Schema.Struct({
-  entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
-  confidence: Schema.optional(Schema.Number),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1beta2_VideoSegment),
-  frames: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame)),
-  trackId: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation>;
+export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
+      confidence: Schema.optional(Schema.Number),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegment,
+      ),
+      frames: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame),
+      ),
+      trackId: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation>;
 
 export interface GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults {
   /** Topical label annotations on video level or user-specified segment level. There is exactly one element for each unique label. */
@@ -2904,52 +4475,120 @@ export interface GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults {
   shotPresenceLabelAnnotations?: Array<GoogleCloudVideointelligenceV1beta2_LabelAnnotation>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults> = Schema.suspend(() => Schema.Struct({
-  segmentLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation)),
-  faceAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceAnnotation)),
-  explicitAnnotation: Schema.optional(GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation),
-  segment: Schema.optional(GoogleCloudVideointelligenceV1beta2_VideoSegment),
-  segmentPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation)),
-  personDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation)),
-  inputUri: Schema.optional(Schema.String),
-  shotAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_VideoSegment)),
-  frameLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation)),
-  speechTranscriptions: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_SpeechTranscription)),
-  logoRecognitionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation)),
-  faceDetectionAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation)),
-  error: Schema.optional(GoogleRpc_Status),
-  objectAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation)),
-  textAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_TextAnnotation)),
-  shotLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation)),
-  shotPresenceLabelAnnotations: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults>;
+export const GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      segmentLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation),
+      ),
+      faceAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceAnnotation),
+      ),
+      explicitAnnotation: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation,
+      ),
+      segment: Schema.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegment,
+      ),
+      segmentPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation),
+      ),
+      personDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation,
+        ),
+      ),
+      inputUri: Schema.optional(Schema.String),
+      shotAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_VideoSegment),
+      ),
+      frameLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation),
+      ),
+      speechTranscriptions: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_SpeechTranscription),
+      ),
+      logoRecognitionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation,
+        ),
+      ),
+      faceDetectionAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation,
+        ),
+      ),
+      error: Schema.optional(GoogleRpc_Status),
+      objectAnnotations: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation,
+        ),
+      ),
+      textAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_TextAnnotation),
+      ),
+      shotLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation),
+      ),
+      shotPresenceLabelAnnotations: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1beta2_LabelAnnotation),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults>;
 
 export interface GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse {
   /** Annotation results for all videos specified in `AnnotateVideoRequest`. */
   annotationResults?: Array<GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults>;
 }
 
-export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse> = Schema.suspend(() => Schema.Struct({
-  annotationResults: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse>;
+export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationResults: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse>;
 
 export interface GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress {
   /** Progress metadata for all videos specified in `AnnotateVideoRequest`. */
   annotationProgress?: Array<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress>;
 }
 
-export const GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress> = Schema.suspend(() => Schema.Struct({
-  annotationProgress: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress>;
+export const GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationProgress: Schema.optional(
+        Schema.Array(
+          GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress>;
 
 export interface GoogleCloudVideointelligenceV1_AnnotateVideoResponse {
   /** Annotation results for all videos specified in `AnnotateVideoRequest`. */
   annotationResults?: Array<GoogleCloudVideointelligenceV1_VideoAnnotationResults>;
 }
 
-export const GoogleCloudVideointelligenceV1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoResponse> = Schema.suspend(() => Schema.Struct({
-  annotationResults: Schema.optional(Schema.Array(GoogleCloudVideointelligenceV1_VideoAnnotationResults)),
-})).annotate({ identifier: "GoogleCloudVideointelligenceV1_AnnotateVideoResponse" }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoResponse>;
+export const GoogleCloudVideointelligenceV1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      annotationResults: Schema.optional(
+        Schema.Array(GoogleCloudVideointelligenceV1_VideoAnnotationResults),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1_AnnotateVideoResponse",
+  }) as any as Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoResponse>;
 
 // ==========================================================================
 // Operations
@@ -2961,7 +4600,9 @@ export interface AnnotateVideosRequest {
 }
 
 export const AnnotateVideosRequest = Schema.Struct({
-  body: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest).pipe(T.HttpBody()),
+  body: Schema.optional(
+    GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest,
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1p3beta1/videos:annotate", hasBody: true }),
   svc,
@@ -2973,9 +4614,13 @@ export const AnnotateVideosResponse = GoogleLongrunning_Operation;
 export type AnnotateVideosError = DefaultErrors;
 
 /** Performs asynchronous video annotation. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `AnnotateVideoProgress` (progress). `Operation.response` contains `AnnotateVideoResponse` (results). */
-export const annotateVideos: API.OperationMethod<AnnotateVideosRequest, AnnotateVideosResponse, AnnotateVideosError, Credentials | HttpClient.HttpClient> = API.make(() => ({
+export const annotateVideos: API.OperationMethod<
+  AnnotateVideosRequest,
+  AnnotateVideosResponse,
+  AnnotateVideosError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
   input: AnnotateVideosRequest,
   output: AnnotateVideosResponse,
   errors: [],
 }));
-

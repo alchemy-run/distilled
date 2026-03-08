@@ -11,9 +11,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // Config
@@ -24,9 +22,10 @@ export interface GetConfigRequest {
 }
 
 export const GetConfigRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/config" })) as unknown as Schema.Schema<GetConfigRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/config" }),
+) as unknown as Schema.Schema<GetConfigRequest>;
 
 export interface GetConfigResponse {
   /** Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router. */
@@ -41,15 +40,25 @@ export const GetConfigResponse = Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
-  warpDevices: Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" })))
-}).pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" })) as unknown as Schema.Schema<GetConfigResponse>;
+  warpDevices: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      routerIp: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<GetConfigResponse>;
 
-export type GetConfigError =
-  | DefaultErrors;
+export type GetConfigError = DefaultErrors;
 
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
@@ -80,13 +89,26 @@ export const CreateConfigRequest = Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.optional(Schema.Array(Schema.String)),
-  warpDevices: Schema.optional(Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }))))
-})
-  .pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" }), T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/config" })) as unknown as Schema.Schema<CreateConfigRequest>;
+  warpDevices: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+        routerIp: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+      ),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+  T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/config" }),
+) as unknown as Schema.Schema<CreateConfigRequest>;
 
 export interface CreateConfigResponse {
   /** Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router. */
@@ -101,15 +123,25 @@ export const CreateConfigResponse = Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
-  warpDevices: Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" })))
-}).pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" })) as unknown as Schema.Schema<CreateConfigResponse>;
+  warpDevices: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      routerIp: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<CreateConfigResponse>;
 
-export type CreateConfigError =
-  | DefaultErrors;
+export type CreateConfigError = DefaultErrors;
 
 export const createConfig: API.OperationMethod<
   CreateConfigRequest,
@@ -140,13 +172,26 @@ export const UpdateConfigRequest = Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.optional(Schema.Array(Schema.String)),
-  warpDevices: Schema.optional(Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }))))
-})
-  .pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" }), T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/config" })) as unknown as Schema.Schema<UpdateConfigRequest>;
+  warpDevices: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+        routerIp: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+      ),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+  T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/config" }),
+) as unknown as Schema.Schema<UpdateConfigRequest>;
 
 export interface UpdateConfigResponse {
   /** Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router. */
@@ -161,15 +206,25 @@ export const UpdateConfigResponse = Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
-  warpDevices: Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" })))
-}).pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" })) as unknown as Schema.Schema<UpdateConfigResponse>;
+  warpDevices: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      routerIp: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<UpdateConfigResponse>;
 
-export type UpdateConfigError =
-  | DefaultErrors;
+export type UpdateConfigError = DefaultErrors;
 
 export const updateConfig: API.OperationMethod<
   UpdateConfigRequest,
@@ -200,13 +255,26 @@ export const PatchConfigRequest = Schema.Struct({
   defaultSampling: Schema.optional(Schema.Number),
   name: Schema.optional(Schema.String),
   routerIps: Schema.optional(Schema.Array(Schema.String)),
-  warpDevices: Schema.optional(Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }))))
-})
-  .pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" }), T.Http({ method: "PATCH", path: "/accounts/{account_id}/mnm/config" })) as unknown as Schema.Schema<PatchConfigRequest>;
+  warpDevices: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+        routerIp: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+      ),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+  T.Http({ method: "PATCH", path: "/accounts/{account_id}/mnm/config" }),
+) as unknown as Schema.Schema<PatchConfigRequest>;
 
 export interface PatchConfigResponse {
   /** Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router. */
@@ -221,15 +289,25 @@ export const PatchConfigResponse = Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
-  warpDevices: Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" })))
-}).pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" })) as unknown as Schema.Schema<PatchConfigResponse>;
+  warpDevices: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      routerIp: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<PatchConfigResponse>;
 
-export type PatchConfigError =
-  | DefaultErrors;
+export type PatchConfigError = DefaultErrors;
 
 export const patchConfig: API.OperationMethod<
   PatchConfigRequest,
@@ -247,9 +325,10 @@ export interface DeleteConfigRequest {
 }
 
 export const DeleteConfigRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/mnm/config" })) as unknown as Schema.Schema<DeleteConfigRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "DELETE", path: "/accounts/{account_id}/mnm/config" }),
+) as unknown as Schema.Schema<DeleteConfigRequest>;
 
 export interface DeleteConfigResponse {
   /** Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router. */
@@ -264,15 +343,25 @@ export const DeleteConfigResponse = Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
-  warpDevices: Schema.Array(Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  routerIp: Schema.String
-}).pipe(Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" })))
-}).pipe(Schema.encodeKeys({ defaultSampling: "default_sampling", name: "name", routerIps: "router_ips", warpDevices: "warp_devices" })) as unknown as Schema.Schema<DeleteConfigResponse>;
+  warpDevices: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      routerIp: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    name: "name",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<DeleteConfigResponse>;
 
-export type DeleteConfigError =
-  | DefaultErrors;
+export type DeleteConfigError = DefaultErrors;
 
 export const deleteConfig: API.OperationMethod<
   DeleteConfigRequest,
@@ -285,7 +374,6 @@ export const deleteConfig: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // ConfigFull
 // =============================================================================
@@ -295,16 +383,17 @@ export interface GetConfigFullRequest {
 }
 
 export const GetConfigFullRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/config/full" })) as unknown as Schema.Schema<GetConfigFullRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/config/full" }),
+) as unknown as Schema.Schema<GetConfigFullRequest>;
 
 export type GetConfigFullResponse = unknown;
 
-export const GetConfigFullResponse = Schema.Unknown as unknown as Schema.Schema<GetConfigFullResponse>;
+export const GetConfigFullResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetConfigFullResponse>;
 
-export type GetConfigFullError =
-  | DefaultErrors;
+export type GetConfigFullError = DefaultErrors;
 
 export const getConfigFull: API.OperationMethod<
   GetConfigFullRequest,
@@ -317,7 +406,6 @@ export const getConfigFull: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Rule
 // =============================================================================
@@ -329,9 +417,10 @@ export interface GetRuleRequest {
 
 export const GetRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/rules/{ruleId}" })) as unknown as Schema.Schema<GetRuleRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/rules/{ruleId}" }),
+) as unknown as Schema.Schema<GetRuleRequest>;
 
 export interface GetRuleResponse {
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
@@ -364,15 +453,50 @@ export const GetRuleResponse = Schema.Struct({
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"])),
+  duration: Schema.optional(
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  ),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixMatch: Schema.optional(Schema.Union([Schema.Literal("exact"), Schema.Literal("subnet"), Schema.Literal("supernet"), Schema.Null])),
-  zscoreSensitivity: Schema.optional(Schema.Union([Schema.Literal("low"), Schema.Literal("medium"), Schema.Literal("high"), Schema.Null])),
-  zscoreTarget: Schema.optional(Schema.Union([Schema.Literal("bits"), Schema.Literal("packets"), Schema.Null]))
-}).pipe(Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement", name: "name", prefixes: "prefixes", type: "type", id: "id", bandwidthThreshold: "bandwidth_threshold", duration: "duration", packetThreshold: "packet_threshold", prefixMatch: "prefix_match", zscoreSensitivity: "zscore_sensitivity", zscoreTarget: "zscore_target" })) as unknown as Schema.Schema<GetRuleResponse>;
+  prefixMatch: Schema.optional(
+    Schema.Union([
+      Schema.Literal("exact"),
+      Schema.Literal("subnet"),
+      Schema.Literal("supernet"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreSensitivity: Schema.optional(
+    Schema.Union([
+      Schema.Literal("low"),
+      Schema.Literal("medium"),
+      Schema.Literal("high"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreTarget: Schema.optional(
+    Schema.Union([
+      Schema.Literal("bits"),
+      Schema.Literal("packets"),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
+    bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
+    packetThreshold: "packet_threshold",
+    prefixMatch: "prefix_match",
+    zscoreSensitivity: "zscore_sensitivity",
+    zscoreTarget: "zscore_target",
+  }),
+) as unknown as Schema.Schema<GetRuleResponse>;
 
-export type GetRuleError =
-  | DefaultErrors;
+export type GetRuleError = DefaultErrors;
 
 export const getRule: API.OperationMethod<
   GetRuleRequest,
@@ -390,16 +514,17 @@ export interface ListRulesRequest {
 }
 
 export const ListRulesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/rules" })) as unknown as Schema.Schema<ListRulesRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/rules" }),
+) as unknown as Schema.Schema<ListRulesRequest>;
 
 export type ListRulesResponse = unknown;
 
-export const ListRulesResponse = Schema.Unknown as unknown as Schema.Schema<ListRulesResponse>;
+export const ListRulesResponse =
+  Schema.Unknown as unknown as Schema.Schema<ListRulesResponse>;
 
-export type ListRulesError =
-  | DefaultErrors;
+export type ListRulesError = DefaultErrors;
 
 export const listRules: API.OperationMethod<
   ListRulesRequest,
@@ -431,14 +556,34 @@ export interface CreateRuleRequest {
 
 export const CreateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  duration: Schema.Literals([
+    "1m",
+    "5m",
+    "10m",
+    "15m",
+    "20m",
+    "30m",
+    "45m",
+    "60m",
+  ]),
   name: Schema.String,
-  automaticAdvertisement: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  automaticAdvertisement: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   bandwidth: Schema.optional(Schema.Number),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixes: Schema.optional(Schema.Array(Schema.String))
-})
-  .pipe(Schema.encodeKeys({ duration: "duration", name: "name", automaticAdvertisement: "automatic_advertisement", bandwidth: "bandwidth", packetThreshold: "packet_threshold", prefixes: "prefixes" }), T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/rules" })) as unknown as Schema.Schema<CreateRuleRequest>;
+  prefixes: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    duration: "duration",
+    name: "name",
+    automaticAdvertisement: "automatic_advertisement",
+    bandwidth: "bandwidth",
+    packetThreshold: "packet_threshold",
+    prefixes: "prefixes",
+  }),
+  T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/rules" }),
+) as unknown as Schema.Schema<CreateRuleRequest>;
 
 export interface CreateRuleResponse {
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
@@ -471,15 +616,50 @@ export const CreateRuleResponse = Schema.Struct({
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"])),
+  duration: Schema.optional(
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  ),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixMatch: Schema.optional(Schema.Union([Schema.Literal("exact"), Schema.Literal("subnet"), Schema.Literal("supernet"), Schema.Null])),
-  zscoreSensitivity: Schema.optional(Schema.Union([Schema.Literal("low"), Schema.Literal("medium"), Schema.Literal("high"), Schema.Null])),
-  zscoreTarget: Schema.optional(Schema.Union([Schema.Literal("bits"), Schema.Literal("packets"), Schema.Null]))
-}).pipe(Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement", name: "name", prefixes: "prefixes", type: "type", id: "id", bandwidthThreshold: "bandwidth_threshold", duration: "duration", packetThreshold: "packet_threshold", prefixMatch: "prefix_match", zscoreSensitivity: "zscore_sensitivity", zscoreTarget: "zscore_target" })) as unknown as Schema.Schema<CreateRuleResponse>;
+  prefixMatch: Schema.optional(
+    Schema.Union([
+      Schema.Literal("exact"),
+      Schema.Literal("subnet"),
+      Schema.Literal("supernet"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreSensitivity: Schema.optional(
+    Schema.Union([
+      Schema.Literal("low"),
+      Schema.Literal("medium"),
+      Schema.Literal("high"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreTarget: Schema.optional(
+    Schema.Union([
+      Schema.Literal("bits"),
+      Schema.Literal("packets"),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
+    bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
+    packetThreshold: "packet_threshold",
+    prefixMatch: "prefix_match",
+    zscoreSensitivity: "zscore_sensitivity",
+    zscoreTarget: "zscore_target",
+  }),
+) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export type CreateRuleError =
-  | DefaultErrors;
+export type CreateRuleError = DefaultErrors;
 
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
@@ -513,15 +693,36 @@ export interface UpdateRuleRequest {
 
 export const UpdateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  duration: Schema.Literals([
+    "1m",
+    "5m",
+    "10m",
+    "15m",
+    "20m",
+    "30m",
+    "45m",
+    "60m",
+  ]),
   name: Schema.String,
   id: Schema.optional(Schema.String),
-  automaticAdvertisement: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  automaticAdvertisement: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   bandwidth: Schema.optional(Schema.Number),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixes: Schema.optional(Schema.Array(Schema.String))
-})
-  .pipe(Schema.encodeKeys({ duration: "duration", name: "name", id: "id", automaticAdvertisement: "automatic_advertisement", bandwidth: "bandwidth", packetThreshold: "packet_threshold", prefixes: "prefixes" }), T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/rules" })) as unknown as Schema.Schema<UpdateRuleRequest>;
+  prefixes: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    duration: "duration",
+    name: "name",
+    id: "id",
+    automaticAdvertisement: "automatic_advertisement",
+    bandwidth: "bandwidth",
+    packetThreshold: "packet_threshold",
+    prefixes: "prefixes",
+  }),
+  T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/rules" }),
+) as unknown as Schema.Schema<UpdateRuleRequest>;
 
 export interface UpdateRuleResponse {
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
@@ -554,15 +755,50 @@ export const UpdateRuleResponse = Schema.Struct({
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"])),
+  duration: Schema.optional(
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  ),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixMatch: Schema.optional(Schema.Union([Schema.Literal("exact"), Schema.Literal("subnet"), Schema.Literal("supernet"), Schema.Null])),
-  zscoreSensitivity: Schema.optional(Schema.Union([Schema.Literal("low"), Schema.Literal("medium"), Schema.Literal("high"), Schema.Null])),
-  zscoreTarget: Schema.optional(Schema.Union([Schema.Literal("bits"), Schema.Literal("packets"), Schema.Null]))
-}).pipe(Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement", name: "name", prefixes: "prefixes", type: "type", id: "id", bandwidthThreshold: "bandwidth_threshold", duration: "duration", packetThreshold: "packet_threshold", prefixMatch: "prefix_match", zscoreSensitivity: "zscore_sensitivity", zscoreTarget: "zscore_target" })) as unknown as Schema.Schema<UpdateRuleResponse>;
+  prefixMatch: Schema.optional(
+    Schema.Union([
+      Schema.Literal("exact"),
+      Schema.Literal("subnet"),
+      Schema.Literal("supernet"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreSensitivity: Schema.optional(
+    Schema.Union([
+      Schema.Literal("low"),
+      Schema.Literal("medium"),
+      Schema.Literal("high"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreTarget: Schema.optional(
+    Schema.Union([
+      Schema.Literal("bits"),
+      Schema.Literal("packets"),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
+    bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
+    packetThreshold: "packet_threshold",
+    prefixMatch: "prefix_match",
+    zscoreSensitivity: "zscore_sensitivity",
+    zscoreTarget: "zscore_target",
+  }),
+) as unknown as Schema.Schema<UpdateRuleResponse>;
 
-export type UpdateRuleError =
-  | DefaultErrors;
+export type UpdateRuleError = DefaultErrors;
 
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
@@ -596,14 +832,30 @@ export interface PatchRuleRequest {
 export const PatchRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  automaticAdvertisement: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  automaticAdvertisement: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   bandwidth: Schema.optional(Schema.Number),
-  duration: Schema.optional(Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"])),
+  duration: Schema.optional(
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  ),
   name: Schema.optional(Schema.String),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixes: Schema.optional(Schema.Array(Schema.String))
-})
-  .pipe(Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement", bandwidth: "bandwidth", duration: "duration", name: "name", packetThreshold: "packet_threshold", prefixes: "prefixes" }), T.Http({ method: "PATCH", path: "/accounts/{account_id}/mnm/rules/{ruleId}" })) as unknown as Schema.Schema<PatchRuleRequest>;
+  prefixes: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    bandwidth: "bandwidth",
+    duration: "duration",
+    name: "name",
+    packetThreshold: "packet_threshold",
+    prefixes: "prefixes",
+  }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/mnm/rules/{ruleId}",
+  }),
+) as unknown as Schema.Schema<PatchRuleRequest>;
 
 export interface PatchRuleResponse {
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
@@ -636,15 +888,50 @@ export const PatchRuleResponse = Schema.Struct({
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"])),
+  duration: Schema.optional(
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  ),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixMatch: Schema.optional(Schema.Union([Schema.Literal("exact"), Schema.Literal("subnet"), Schema.Literal("supernet"), Schema.Null])),
-  zscoreSensitivity: Schema.optional(Schema.Union([Schema.Literal("low"), Schema.Literal("medium"), Schema.Literal("high"), Schema.Null])),
-  zscoreTarget: Schema.optional(Schema.Union([Schema.Literal("bits"), Schema.Literal("packets"), Schema.Null]))
-}).pipe(Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement", name: "name", prefixes: "prefixes", type: "type", id: "id", bandwidthThreshold: "bandwidth_threshold", duration: "duration", packetThreshold: "packet_threshold", prefixMatch: "prefix_match", zscoreSensitivity: "zscore_sensitivity", zscoreTarget: "zscore_target" })) as unknown as Schema.Schema<PatchRuleResponse>;
+  prefixMatch: Schema.optional(
+    Schema.Union([
+      Schema.Literal("exact"),
+      Schema.Literal("subnet"),
+      Schema.Literal("supernet"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreSensitivity: Schema.optional(
+    Schema.Union([
+      Schema.Literal("low"),
+      Schema.Literal("medium"),
+      Schema.Literal("high"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreTarget: Schema.optional(
+    Schema.Union([
+      Schema.Literal("bits"),
+      Schema.Literal("packets"),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
+    bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
+    packetThreshold: "packet_threshold",
+    prefixMatch: "prefix_match",
+    zscoreSensitivity: "zscore_sensitivity",
+    zscoreTarget: "zscore_target",
+  }),
+) as unknown as Schema.Schema<PatchRuleResponse>;
 
-export type PatchRuleError =
-  | DefaultErrors;
+export type PatchRuleError = DefaultErrors;
 
 export const patchRule: API.OperationMethod<
   PatchRuleRequest,
@@ -664,9 +951,13 @@ export interface DeleteRuleRequest {
 
 export const DeleteRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/mnm/rules/{ruleId}" })) as unknown as Schema.Schema<DeleteRuleRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/mnm/rules/{ruleId}",
+  }),
+) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
@@ -699,15 +990,50 @@ export const DeleteRuleResponse = Schema.Struct({
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"])),
+  duration: Schema.optional(
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  ),
   packetThreshold: Schema.optional(Schema.Number),
-  prefixMatch: Schema.optional(Schema.Union([Schema.Literal("exact"), Schema.Literal("subnet"), Schema.Literal("supernet"), Schema.Null])),
-  zscoreSensitivity: Schema.optional(Schema.Union([Schema.Literal("low"), Schema.Literal("medium"), Schema.Literal("high"), Schema.Null])),
-  zscoreTarget: Schema.optional(Schema.Union([Schema.Literal("bits"), Schema.Literal("packets"), Schema.Null]))
-}).pipe(Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement", name: "name", prefixes: "prefixes", type: "type", id: "id", bandwidthThreshold: "bandwidth_threshold", duration: "duration", packetThreshold: "packet_threshold", prefixMatch: "prefix_match", zscoreSensitivity: "zscore_sensitivity", zscoreTarget: "zscore_target" })) as unknown as Schema.Schema<DeleteRuleResponse>;
+  prefixMatch: Schema.optional(
+    Schema.Union([
+      Schema.Literal("exact"),
+      Schema.Literal("subnet"),
+      Schema.Literal("supernet"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreSensitivity: Schema.optional(
+    Schema.Union([
+      Schema.Literal("low"),
+      Schema.Literal("medium"),
+      Schema.Literal("high"),
+      Schema.Null,
+    ]),
+  ),
+  zscoreTarget: Schema.optional(
+    Schema.Union([
+      Schema.Literal("bits"),
+      Schema.Literal("packets"),
+      Schema.Null,
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
+    bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
+    packetThreshold: "packet_threshold",
+    prefixMatch: "prefix_match",
+    zscoreSensitivity: "zscore_sensitivity",
+    zscoreTarget: "zscore_target",
+  }),
+) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export type DeleteRuleError =
-  | DefaultErrors;
+export type DeleteRuleError = DefaultErrors;
 
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
@@ -719,7 +1045,6 @@ export const deleteRule: API.OperationMethod<
   output: DeleteRuleResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // RuleAdvertisement
@@ -736,9 +1061,13 @@ export interface PatchRuleAdvertisementRequest {
 export const PatchRuleAdvertisementRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/mnm/rules/{ruleId}/advertisement" })) as unknown as Schema.Schema<PatchRuleAdvertisementRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/mnm/rules/{ruleId}/advertisement",
+  }),
+) as unknown as Schema.Schema<PatchRuleAdvertisementRequest>;
 
 export interface PatchRuleAdvertisementResponse {
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
@@ -746,11 +1075,12 @@ export interface PatchRuleAdvertisementResponse {
 }
 
 export const PatchRuleAdvertisementResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null])
-}).pipe(Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" })) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
+  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
+}).pipe(
+  Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" }),
+) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
 
-export type PatchRuleAdvertisementError =
-  | DefaultErrors;
+export type PatchRuleAdvertisementError = DefaultErrors;
 
 export const patchRuleAdvertisement: API.OperationMethod<
   PatchRuleAdvertisementRequest,
@@ -763,7 +1093,6 @@ export const patchRuleAdvertisement: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // VpcFlowToken
 // =============================================================================
@@ -773,16 +1102,20 @@ export interface CreateVpcFlowTokenRequest {
 }
 
 export const CreateVpcFlowTokenRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/vpc-flows/token" })) as unknown as Schema.Schema<CreateVpcFlowTokenRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/mnm/vpc-flows/token",
+  }),
+) as unknown as Schema.Schema<CreateVpcFlowTokenRequest>;
 
 export type CreateVpcFlowTokenResponse = string;
 
-export const CreateVpcFlowTokenResponse = Schema.String as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
+export const CreateVpcFlowTokenResponse =
+  Schema.String as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
 
-export type CreateVpcFlowTokenError =
-  | DefaultErrors;
+export type CreateVpcFlowTokenError = DefaultErrors;
 
 export const createVpcFlowToken: API.OperationMethod<
   CreateVpcFlowTokenRequest,
